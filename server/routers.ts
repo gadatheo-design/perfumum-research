@@ -2,10 +2,11 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
+import * as db from "./db";
 
 export const appRouter = router({
-    // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
+  
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
@@ -17,12 +18,154 @@ export const appRouter = router({
     }),
   }),
 
-  // TODO: add feature routers here, e.g.
-  // todo: router({
-  //   list: protectedProcedure.query(({ ctx }) =>
-  //     db.getUserTodos(ctx.user.id)
-  //   ),
-  // }),
+  // Prototypes
+  prototypes: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllPrototypes();
+    }),
+    getByCode: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "string") throw new Error("Expected string");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getPrototypeByCode(input);
+      }),
+  }),
+
+  // Families
+  families: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllFamilies();
+    }),
+    getById: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getFamilyById(input);
+      }),
+  }),
+
+  // Laboratoire (Matières Premières)
+  laboratoire: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllMatieres();
+    }),
+    getById: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getMatiereById(input);
+      }),
+  }),
+
+  // Molecules
+  molecules: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllMolecules();
+    }),
+    getById: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getMoleculeById(input);
+      }),
+  }),
+
+  // Accords
+  accords: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllAccords();
+    }),
+    getById: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getAccordById(input);
+      }),
+  }),
+
+  // Recettes
+  recettes: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllRecettes();
+    }),
+    getById: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getRecetteById(input);
+      }),
+  }),
+
+  // Civilisations
+  civilisations: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllCivilisations();
+    }),
+    getById: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getCivilisationById(input);
+      }),
+  }),
+
+  // Installations
+  installations: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllInstallations();
+    }),
+    getById: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getInstallationById(input);
+      }),
+  }),
+
+  // Petrichor
+  petrichor: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllPetrichor();
+    }),
+  }),
+
+  // Volcanique
+  volcanique: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllVolcanique();
+    }),
+  }),
+
+  // Tabacs
+  tabacs: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllTabacs();
+    }),
+    getById: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getTabacById(input);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

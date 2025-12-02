@@ -1,6 +1,31 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { 
+  InsertUser, 
+  users, 
+  prototypes,
+  families,
+  tabacs,
+  molecules,
+  accords,
+  recettes,
+  civilisations,
+  petrichor,
+  volcanique,
+  installations,
+  laboratoire,
+  Prototype,
+  Family,
+  Tabac,
+  Molecule,
+  Accord,
+  Recette,
+  Civilisation,
+  Petrichor,
+  Volcanique,
+  Installation,
+  Laboratoire,
+} from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +114,175 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// ============================================================================
+// PROTOTYPES
+// ============================================================================
+
+export async function getAllPrototypes(): Promise<Prototype[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(prototypes);
+}
+
+export async function getPrototypeByCode(code: string): Promise<Prototype | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(prototypes).where(eq(prototypes.code, code)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// FAMILIES
+// ============================================================================
+
+export async function getAllFamilies(): Promise<Family[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(families);
+}
+
+export async function getFamilyById(id: number): Promise<Family | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(families).where(eq(families.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// LABORATOIRE (Matières Premières)
+// ============================================================================
+
+export async function getAllMatieres(): Promise<Laboratoire[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(laboratoire);
+}
+
+export async function getMatiereById(id: number): Promise<Laboratoire | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(laboratoire).where(eq(laboratoire.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// MOLECULES
+// ============================================================================
+
+export async function getAllMolecules(): Promise<Molecule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(molecules);
+}
+
+export async function getMoleculeById(id: number): Promise<Molecule | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(molecules).where(eq(molecules.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// ACCORDS
+// ============================================================================
+
+export async function getAllAccords(): Promise<Accord[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(accords);
+}
+
+export async function getAccordById(id: number): Promise<Accord | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(accords).where(eq(accords.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// RECETTES
+// ============================================================================
+
+export async function getAllRecettes(): Promise<Recette[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(recettes);
+}
+
+export async function getRecetteById(id: number): Promise<Recette | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(recettes).where(eq(recettes.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// CIVILISATIONS
+// ============================================================================
+
+export async function getAllCivilisations(): Promise<Civilisation[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(civilisations);
+}
+
+export async function getCivilisationById(id: number): Promise<Civilisation | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(civilisations).where(eq(civilisations.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// INSTALLATIONS
+// ============================================================================
+
+export async function getAllInstallations(): Promise<Installation[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(installations);
+}
+
+export async function getInstallationById(id: number): Promise<Installation | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(installations).where(eq(installations.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// PETRICHOR
+// ============================================================================
+
+export async function getAllPetrichor(): Promise<Petrichor[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(petrichor);
+}
+
+// ============================================================================
+// VOLCANIQUE
+// ============================================================================
+
+export async function getAllVolcanique(): Promise<Volcanique[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(volcanique);
+}
+
+// ============================================================================
+// TABACS
+// ============================================================================
+
+export async function getAllTabacs(): Promise<Tabac[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(tabacs);
+}
+
+export async function getTabacById(id: number): Promise<Tabac | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(tabacs).where(eq(tabacs.id, id)).limit(1);
+  return result[0];
+}

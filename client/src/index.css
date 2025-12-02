@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -43,39 +44,60 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
+  /* PERFUMUM Color System - Lavender theme */
+  --primary: oklch(0.65 0.08 290);
+  --primary-foreground: oklch(1 0 0);
+  --sidebar-primary: oklch(0.65 0.08 290);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --chart-1: oklch(0.65 0.12 290);
+  --chart-2: oklch(0.60 0.15 160);
+  --chart-3: oklch(0.65 0.12 35);
+  --chart-4: oklch(0.60 0.12 210);
+  --chart-5: oklch(0.65 0.12 340);
+  --radius: 0.5rem;
+  /* Base - Lavande claire #E8E4F3 */
+  --background: oklch(0.94 0.02 290);
+  --foreground: oklch(0.25 0.01 290);
+  /* Card - Blanc pur */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
+  --card-foreground: oklch(0.25 0.01 290);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  --popover-foreground: oklch(0.25 0.01 290);
+  /* Secondary */
+  --secondary: oklch(0.92 0.01 290);
+  --secondary-foreground: oklch(0.25 0.01 290);
+  /* Muted */
+  --muted: oklch(0.90 0.015 290);
+  --muted-foreground: oklch(0.50 0.01 290);
+  /* Accent */
+  --accent: oklch(0.90 0.02 290);
+  --accent-foreground: oklch(0.25 0.01 290);
+  /* Destructive */
+  --destructive: oklch(0.60 0.20 25);
+  --destructive-foreground: oklch(1 0 0);
+  /* Border */
+  --border: oklch(0.85 0.015 290);
+  --input: oklch(0.85 0.015 290);
+  --ring: oklch(0.65 0.08 290);
+  /* Sidebar */
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.25 0.01 290);
+  --sidebar-accent: oklch(0.90 0.02 290);
+  --sidebar-accent-foreground: oklch(0.25 0.01 290);
+  --sidebar-border: oklch(0.85 0.015 290);
+  --sidebar-ring: oklch(0.65 0.08 290);
+  
+  /* PERFUMUM Prototype Colors */
+  --c1-fermentum: oklch(0.35 0.03 35);
+  --c2-clarus-verde: oklch(0.70 0.04 130);
+  --c3-lacta-solis: oklch(0.90 0.04 55);
+  --c4-terra-ambra: oklch(0.68 0.08 50);
+  
+  /* PERFUMUM Family Colors */
+  --bio-mineralis: oklch(0.72 0.01 60);
+  --petrichor: oklch(0.62 0.06 220);
+  --volcanique: oklch(0.52 0.09 20);
+  --solar-mineralis: oklch(0.75 0.12 70);
 }
 
 .dark {
@@ -119,6 +141,28 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Typography scale */
+  h1 {
+    @apply text-5xl font-bold tracking-tight;
+  }
+  h2 {
+    @apply text-4xl font-semibold tracking-tight;
+  }
+  h3 {
+    @apply text-3xl font-semibold tracking-tight;
+  }
+  h4 {
+    @apply text-2xl font-medium tracking-tight;
+  }
+  h5 {
+    @apply text-xl font-medium;
+  }
+  h6 {
+    @apply text-lg font-medium;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -158,6 +202,41 @@
   .flex {
     min-height: 0;
     min-width: 0;
+  }
+  
+  /* Prototype color utilities */
+  .bg-c1 { background-color: oklch(var(--c1-fermentum)); }
+  .bg-c2 { background-color: oklch(var(--c2-clarus-verde)); }
+  .bg-c3 { background-color: oklch(var(--c3-lacta-solis)); }
+  .bg-c4 { background-color: oklch(var(--c4-terra-ambra)); }
+  .text-c1 { color: oklch(var(--c1-fermentum)); }
+  .text-c2 { color: oklch(var(--c2-clarus-verde)); }
+  .text-c3 { color: oklch(var(--c3-lacta-solis)); }
+  .text-c4 { color: oklch(var(--c4-terra-ambra)); }
+  
+  /* Family color utilities */
+  .bg-bio-mineralis { background-color: oklch(var(--bio-mineralis)); }
+  .bg-petrichor { background-color: oklch(var(--petrichor)); }
+  .bg-volcanique { background-color: oklch(var(--volcanique)); }
+  .bg-solar-mineralis { background-color: oklch(var(--solar-mineralis)); }
+  
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-card/80 backdrop-blur-md border border-border/50;
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  /* Swiss modern spacing */
+  .section-spacing {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+  
+  .content-spacing {
+    @apply space-y-8 md:space-y-12;
   }
 
   @media (min-width: 640px) {

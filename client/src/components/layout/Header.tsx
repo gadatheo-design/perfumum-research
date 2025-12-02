@@ -1,0 +1,73 @@
+import { Link } from "wouter";
+import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+export function Header() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        {/* Logo */}
+        <Link href="/">
+          <a className="flex items-center space-x-2 transition-opacity hover:opacity-80">
+            <span className="text-2xl font-bold tracking-tight">PERFUMUM</span>
+          </a>
+        </Link>
+
+        {/* Navigation */}
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <Link href="/">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Accueil
+            </a>
+          </Link>
+          <Link href="/projet">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Le Projet
+            </a>
+          </Link>
+          <Link href="/prototypes">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Prototypes
+            </a>
+          </Link>
+          <Link href="/familles">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Familles
+            </a>
+          </Link>
+          <Link href="/laboratoire">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Laboratoire
+            </a>
+          </Link>
+          <Link href="/civilisations">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Civilisations
+            </a>
+          </Link>
+          <Link href="/installations">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Installations
+            </a>
+          </Link>
+        </nav>
+
+        {/* Search */}
+        <div className="flex items-center space-x-2">
+          <div className="relative hidden lg:block">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Rechercher..."
+              className="w-64 pl-8"
+            />
+          </div>
+          <Button variant="ghost" size="icon" className="lg:hidden">
+            <Search className="h-5 w-5" />
+          </Button>
+        </div>
+      </div>
+    </header>
+  );
+}
