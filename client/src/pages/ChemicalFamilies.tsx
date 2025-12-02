@@ -3,6 +3,7 @@ import { trpc } from "../lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Atom, Beaker, ChevronRight } from "lucide-react";
+import { Link } from "wouter";
 
 export function ChemicalFamilies() {
   const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
@@ -174,7 +175,8 @@ export function ChemicalFamilies() {
                 <h3 className="text-xl font-semibold mb-4">Molécules de cette famille</h3>
                 <div className="grid grid-cols-1 gap-3">
                   {molecules.map((molecule) => (
-                    <Card key={molecule.id} className="hover:shadow-md transition-shadow">
+                    <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
+                      <Card className="hover:shadow-md transition-shadow cursor-pointer">
                       <CardHeader className="pb-3">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1">
@@ -226,6 +228,7 @@ export function ChemicalFamilies() {
                         </div>
                       </CardContent>
                     </Card>
+                    </Link>
                   ))}
                 </div>
               </div>

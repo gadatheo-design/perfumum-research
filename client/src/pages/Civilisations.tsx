@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Globe, MapPin, Calendar, Scroll } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { Link } from "wouter";
 
 function CivilisationsDatabase() {
   const { data: civilisations, isLoading } = trpc.civilisations.list.useQuery();
@@ -31,7 +32,8 @@ function CivilisationsDatabase() {
           </p>
           <div className="grid md:grid-cols-2 gap-6">
             {civilisations?.map((civ) => (
-              <Card key={civ.id} className="hover:shadow-md transition-shadow">
+              <Link key={civ.id} href={`/civilisation/${civ.id}`}>
+                <Card className="hover:shadow-md transition-shadow cursor-pointer">
                 <CardHeader>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
@@ -80,6 +82,7 @@ function CivilisationsDatabase() {
                   )}
                 </CardContent>
               </Card>
+              </Link>
             ))}
           </div>
         </div>

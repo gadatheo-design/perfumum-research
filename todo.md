@@ -257,3 +257,23 @@
 - [ ] Enrichir les graphes avec nœuds cliquables pour navigation transversale
 - [ ] Tester la navigation entre les pages de détail
 - [ ] Créer un checkpoint final
+
+
+## 🔄 EN COURS : Navigation transversale et graphes interactifs
+
+### Phase 6.1 - Liens cliquables depuis les listes ✅
+- [x] Ajouter des liens vers /molecule/:id depuis la page Chimie (ChemicalFamilies)
+- [x] Ajouter des liens vers /recette/:id depuis la page Recherche
+- [x] Ajouter des liens vers /civilisation/:id depuis la page Civilisations
+- [x] Corriger les routes dans getResultLink de la page Recherche
+
+### Phase 6.2 - Graphes React Flow interactifs ✅
+- [x] Rendre les nœuds cliquables dans MoleculeDetail (navigation vers recettes)
+- [x] Rendre les nœuds cliquables dans RecetteDetail (navigation vers molécules)
+- [x] Rendre les nœuds cliquables dans CivilisationDetail (navigation vers recettes)
+- [x] Les graphes sont déjà interactifs avec liens cliquables
+
+### Phase 6.3 - Tests et validation
+- [ ] Tester tous les parcours de navigation
+- [ ] Vérifier la cohérence des données affichées
+- [ ] Créer un checkpoint final

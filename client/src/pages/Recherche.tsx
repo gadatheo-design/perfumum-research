@@ -67,9 +67,9 @@ export default function Recherche() {
 
   const getResultLink = (type: string, id: number) => {
     const links: Record<string, string> = {
-      prototype: `/prototypes/${id}`,
-      molecule: `/molecules/${id}`,
-      recipe: `/recettes/${id}`,
+      prototype: `/prototype/${id}`,
+      molecule: `/molecule/${id}`,
+      recipe: `/recette/${id}`,
       glossary: `/glossaire#${id}`,
       timeline: `/timeline#${id}`,
       accord: `/experimental-accords#${id}`,
