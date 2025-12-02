@@ -276,9 +276,18 @@ export const appRouter = router({
   // Global Search
   search: router({
     global: publicProcedure
-      .input(z.object({ query: z.string().min(1) }))
+      .input(z.object({ query: z.string() }))
       .query(async ({ input }) => {
         return await db.globalSearch(input.query);
+      }),
+  }),
+
+  // Molecule details
+  molecule: router({
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getMoleculeWithRelations(input.id);
       }),
   }),
 });

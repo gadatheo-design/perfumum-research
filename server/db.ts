@@ -18,6 +18,7 @@ import {
   absorbeProfiles,
   researchTimeline,
   experimentalAccords,
+  moleculeRecettes,
   Prototype,
   Family,
   Tabac,
@@ -633,3 +634,35 @@ export async function globalSearch(query: string) {
 }
 
 
+
+
+// ============================================================================
+// MOLECULE DETAILS WITH RELATIONS
+// ============================================================================
+
+export async function getMoleculeWithRelations(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get molecule
+  const moleculesList = await db.select().from(molecules).where(eq(molecules.id, id));
+  if (moleculesList.length === 0) return null;
+  
+  const mol = moleculesList[0];
+  
+  // Get related recettes via molecule_recettes
+  const relatedRecettes = await db
+    .select({
+      id: recettes.id,
+      name: recettes.name,
+      formula: recettes.formula,
+    })
+    .from(moleculeRecettes)
+    .innerJoin(recettes, eq(moleculeRecettes.recetteId, recettes.id))
+    .where(eq(moleculeRecettes.moleculeId, id));
+  
+  return {
+    molecule: mol,
+    recettes: relatedRecettes,
+  };
+}

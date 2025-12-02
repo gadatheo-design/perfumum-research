@@ -215,3 +215,46 @@
 - [x] Afficher les 10 civilisations avec pratiques olfactives, matériaux symboliques et temporalités
 - [x] Créer des cartes structurées avec badges colorés
 - [x] Tester et valider la page Civilisations
+
+
+## 🔄 EN COURS : Pages de détail avec graphes de relations
+
+### Phase 1 - Analyse et structure ✅
+- [x] Analyser les entités existantes (molécules, recettes, civilisations, prototypes)
+- [x] Définir la structure commune des pages de détail
+- [x] Identifier les relations à afficher pour chaque type d'entité - 4 tables de jonction
+- [x] Choisir une bibliothèque de graphes - React Flow
+
+### Phase 2 - Page détail Molécule ✅
+- [x] Créer la route dynamique `/molecule/:id`
+- [x] Créer les procédures tRPC pour récupérer une molécule avec ses relations
+- [x] Afficher les informations de base (nom, formule, famille, profil olfactif)
+- [x] Créer le graphe de relations avec React Flow (famille chimique, molécule, recettes)
+- [x] Tester et valider la page - Fonctionne parfaitement
+
+### Phase 3 - Page détail Recette
+- [ ] Créer la route dynamique `/recette/:id`
+- [ ] Créer les procédures tRPC pour récupérer une recette avec ses relations
+- [ ] Afficher les informations de base (nom, formule, famille, accord)
+- [ ] Créer le graphe de relations (molécules, accords, famille)
+- [ ] Tester et valider la page
+
+### Phase 4 - Page détail Civilisation
+- [ ] Créer la route dynamique `/civilisation/:id`
+- [ ] Créer les procédures tRPC pour récupérer une civilisation avec ses relations
+- [ ] Afficher les informations de base (nom, région, temporalité, description)
+- [ ] Créer le graphe de relations (accords signature, matériaux symboliques)
+- [ ] Tester et valider la page
+
+### Phase 5 - Page détail Prototype
+- [ ] Créer la route dynamique `/prototype/:id`
+- [ ] Créer les procédures tRPC pour récupérer un prototype avec ses relations
+- [ ] Afficher les informations de base (nom, formule, profil ABSORBE)
+- [ ] Créer le graphe de relations (familles chimiques, variations, civilisations)
+- [ ] Tester et valider la page
+
+### Phase 6 - Finalisation
+- [ ] Ajouter des liens vers les pages de détail depuis les listes
+- [ ] Tester la navigation entre les pages de détail
+- [ ] Optimiser les performances des graphes
+- [ ] Créer un checkpoint final
