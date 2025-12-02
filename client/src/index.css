@@ -44,41 +44,41 @@
 }
 
 :root {
-  /* PERFUMUM Color System - Lavender theme */
-  --primary: oklch(0.65 0.08 290);
-  --primary-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.65 0.08 290);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --chart-1: oklch(0.65 0.12 290);
-  --chart-2: oklch(0.60 0.15 160);
-  --chart-3: oklch(0.65 0.12 35);
-  --chart-4: oklch(0.60 0.12 210);
-  --chart-5: oklch(0.65 0.12 340);
-  --radius: 0.5rem;
-  /* Base - Lavande claire #E8E4F3 */
-  --background: oklch(0.94 0.02 290);
-  --foreground: oklch(0.25 0.01 290);
-  /* Card - Blanc pur */
+  /* PERFUMUM Swiss Psychedelic - Saturated & Brutal */
+  --primary: oklch(0.55 0.25 290); /* Electric violet */
+  --primary-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.55 0.25 290);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --chart-1: oklch(0.60 0.28 330); /* Hot magenta */
+  --chart-2: oklch(0.65 0.25 140); /* Acid green */
+  --chart-3: oklch(0.70 0.22 60); /* Electric yellow */
+  --chart-4: oklch(0.55 0.26 220); /* Cyber blue */
+  --chart-5: oklch(0.60 0.24 20); /* Neon orange */
+  --radius: 0rem; /* Brutal sharp corners */
+  /* Base - Pure white with subtle tint */
+  --background: oklch(0.99 0.005 290);
+  --foreground: oklch(0.10 0.02 290); /* Deep black */
+  /* Card - Stark white */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.01 290);
+  --card-foreground: oklch(0.10 0.02 290);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0.01 290);
-  /* Secondary */
-  --secondary: oklch(0.92 0.01 290);
-  --secondary-foreground: oklch(0.25 0.01 290);
-  /* Muted */
-  --muted: oklch(0.90 0.015 290);
-  --muted-foreground: oklch(0.50 0.01 290);
-  /* Accent */
-  --accent: oklch(0.90 0.02 290);
-  --accent-foreground: oklch(0.25 0.01 290);
+  --popover-foreground: oklch(0.10 0.02 290);
+  /* Secondary - High contrast */
+  --secondary: oklch(0.15 0.02 290);
+  --secondary-foreground: oklch(0.98 0 0);
+  /* Muted - Still punchy */
+  --muted: oklch(0.92 0.03 290);
+  --muted-foreground: oklch(0.35 0.05 290);
+  /* Accent - Psychedelic pink */
+  --accent: oklch(0.65 0.28 340);
+  --accent-foreground: oklch(0.98 0 0);
   /* Destructive */
   --destructive: oklch(0.60 0.20 25);
   --destructive-foreground: oklch(1 0 0);
-  /* Border */
-  --border: oklch(0.85 0.015 290);
-  --input: oklch(0.85 0.015 290);
-  --ring: oklch(0.65 0.08 290);
+  /* Border - Sharp black */
+  --border: oklch(0.15 0.02 290);
+  --input: oklch(0.92 0.03 290);
+  --ring: oklch(0.55 0.25 290);
   /* Sidebar */
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.25 0.01 290);
@@ -141,28 +141,41 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+    letter-spacing: -0.02em; /* Tight Swiss spacing */
   }
   
-  /* Typography scale */
+  /* Typography scale - Brutal Swiss */
   h1 {
-    @apply text-5xl font-bold tracking-tight;
+    @apply text-5xl font-bold;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
   }
   h2 {
-    @apply text-4xl font-semibold tracking-tight;
+    @apply text-4xl font-bold;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
   }
   h3 {
-    @apply text-3xl font-semibold tracking-tight;
+    @apply text-3xl font-semibold;
+    letter-spacing: -0.02em;
   }
   h4 {
-    @apply text-2xl font-medium tracking-tight;
+    @apply text-2xl font-medium;
+    letter-spacing: -0.01em;
   }
   h5 {
     @apply text-xl font-medium;
   }
   h6 {
     @apply text-lg font-medium;
+  }
+  
+  /* Monospace for technical content */
+  code, pre, .mono {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    letter-spacing: 0;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -437,6 +450,179 @@
     100% {
       left: 100%;
     }
+  }
+  
+  /* Scroll progress indicator */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, oklch(var(--primary)), oklch(var(--accent)));
+    transform-origin: left;
+    z-index: 100;
+  }
+  
+  /* Particle effects */
+  @keyframes particle-float {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tx), var(--ty)) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: oklch(var(--primary) / 0.6);
+    pointer-events: none;
+    animation: particle-float 4s ease-in-out infinite;
+  }
+  
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Parallax effect */
+  .parallax {
+    transition: transform 0.1s ease-out;
+  }
+  
+  /* Swiss Psychedelic Effects */
+  @keyframes glitch {
+    0%, 100% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+  }
+  
+  @keyframes chromatic {
+    0%, 100% {
+      text-shadow: 
+        -2px 0 oklch(var(--chart-2)),
+        2px 0 oklch(var(--chart-1));
+    }
+    50% {
+      text-shadow: 
+        2px 0 oklch(var(--chart-2)),
+        -2px 0 oklch(var(--chart-1));
+    }
+  }
+  
+  @keyframes moire {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+  
+  .glitch {
+    animation: glitch 0.3s infinite;
+  }
+  
+  .chromatic {
+    animation: chromatic 2s ease-in-out infinite;
+  }
+  
+  /* Brutal grid overlay */
+  .grid-overlay {
+    background-image: 
+      linear-gradient(oklch(var(--border) / 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(var(--border) / 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  /* Psychedelic gradient */
+  .psychedelic-gradient {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--chart-1)) 0%,
+      oklch(var(--chart-2)) 25%,
+      oklch(var(--chart-3)) 50%,
+      oklch(var(--chart-4)) 75%,
+      oklch(var(--chart-5)) 100%
+    );
+    background-size: 400% 400%;
+    animation: moire 10s ease infinite;
+  }
+  
+  /* Optical moiré pattern */
+  .moire-pattern {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .moire-pattern::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      oklch(var(--primary) / 0.05) 2px,
+      oklch(var(--primary) / 0.05) 4px
+    );
+    pointer-events: none;
+  }
+  
+  .moire-pattern::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 2px,
+      oklch(var(--accent) / 0.05) 2px,
+      oklch(var(--accent) / 0.05) 4px
+    );
+    pointer-events: none;
+  }
+  
+  /* Brutal border */
+  .brutal-border {
+    border: 3px solid oklch(var(--foreground));
+    box-shadow: 6px 6px 0 oklch(var(--primary));
+  }
+  
+  .brutal-border:hover {
+    box-shadow: 8px 8px 0 oklch(var(--accent));
+    transform: translate(-2px, -2px);
   }
   
   /* Swiss modern spacing */
