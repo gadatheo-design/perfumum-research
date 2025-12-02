@@ -173,3 +173,27 @@
 - [x] Navigation enrichie dans le Header
 - [x] Amélioration de la navigation entre entités
 - [x] Statistiques contextuelles ajoutées
+
+
+## 🔄 EN COURS : Finalisation Phase 5
+
+### Étape 1 - Données ABSORBE réelles ✅
+- [x] Analyser les fichiers de recherche pour extraire les profils ABSORBE
+- [x] Créer une table `absorbe_profiles` dans la base de données
+- [x] Importer les profils réels pour les 4 prototypes C1-C4
+- [x] Mettre à jour la page AbsorbeScale pour utiliser les données DB
+
+### Étape 2 - Enrichissement glossaire ✅
+- [x] Extraire 50+ termes supplémentaires du manuel technique - 51 termes créés
+- [x] Catégoriser les nouveaux termes - 15 catégories
+- [x] Importer les nouveaux termes - 32 nouveaux + 19 existants = 63 total
+- [ ] Créer une table `glossary_relations` pour les termes connexes (optionnel)
+- [ ] Ajouter les liens "Voir aussi" dans la page Glossaire (optionnel)
+
+### Étape 3 - Page Laboratoire ✅
+- [x] Enrichir la page Laboratoire existante avec section Protocoles & Méthodologie
+- [x] Ajouter les méthodes d'extraction - 4 méthodes (Hydrodistillation, CO₂, Enfleurage, Fractionnement)
+- [x] Ajouter les réactions thermiques - 3 paliers de température (50-90°C, 120-160°C, >180°C)
+- [x] Ajouter les dispositifs de diffusion - 4 dispositifs (Résine CBD, Patch, Spatial, Spray)
+- [x] Ajouter les protocoles de formulation - 4 protocoles (Macération, Maturation, Test mouillette, Test peau)
+- [x] Tester et valider la page Laboratoire

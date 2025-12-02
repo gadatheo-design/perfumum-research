@@ -8,6 +8,7 @@ import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, 
 export function AbsorbeScale() {
   const [selectedPrototypes, setSelectedPrototypes] = useState<string[]>([]);
   const { data: prototypes = [], isLoading } = trpc.prototypes.list.useQuery();
+  const { data: absorbeProfiles = [] } = trpc.absorbeProfiles.list.useQuery();
 
   // ABSORBE axes definition
   const absorbeAxes = [
@@ -21,15 +22,24 @@ export function AbsorbeScale() {
     { key: "terre", label: "Terreux", description: "Notes de terre, minéral, pétrichor" },
   ];
 
-  // Mock ABSORBE data for prototypes (in real app, this would come from database)
-  const getAbsorbeProfile = (code: string) => {
-    const profiles: Record<string, Record<string, number>> = {
-      "C1": { animalite: 8, boise: 3, soufre: 2, oxyde: 4, resineux: 5, balsamique: 6, epice: 4, terre: 7 },
-      "C2": { animalite: 2, boise: 7, soufre: 1, oxyde: 2, resineux: 8, balsamique: 5, epice: 3, terre: 4 },
-      "C3": { animalite: 1, boise: 4, soufre: 0, oxyde: 1, resineux: 3, balsamique: 9, epice: 2, terre: 2 },
-      "C4": { animalite: 6, boise: 8, soufre: 3, oxyde: 5, resineux: 7, balsamique: 4, epice: 6, terre: 9 },
+  // Get ABSORBE profile from database
+  const getAbsorbeProfile = (code: string): Record<string, number> => {
+    const proto = prototypes.find(p => p.code === code);
+    if (!proto) return {};
+    
+    const profile = absorbeProfiles.find(p => p.prototypeId === proto.id);
+    if (!profile) return {};
+    
+    return {
+      animalite: profile.animalite,
+      boise: profile.boise,
+      soufre: profile.soufre,
+      oxyde: profile.oxyde,
+      resineux: profile.resineux,
+      balsamique: profile.balsamique,
+      epice: profile.epice,
+      terreux: profile.terreux,
     };
-    return profiles[code] || {};
   };
 
   // Prepare radar chart data

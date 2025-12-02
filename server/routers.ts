@@ -1,4 +1,5 @@
 import { COOKIE_NAME } from "@shared/const";
+import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
@@ -247,6 +248,17 @@ export const appRouter = router({
   }),
 
   // Experimental Accords
+  absorbeProfiles: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAbsorbeProfiles();
+    }),
+    getByPrototypeId: publicProcedure
+      .input(z.object({ prototypeId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getAbsorbeProfileByPrototypeId(input.prototypeId);
+      }),
+  }),
+
   experimentalAccords: router({
     list: publicProcedure.query(async () => {
       return await db.getAllExperimentalAccords();

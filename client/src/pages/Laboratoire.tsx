@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Beaker, Droplet, Layers, BookOpen, ArrowRight } from "lucide-react";
+import { Beaker, Droplet, Layers, BookOpen, ArrowRight, Thermometer, Wind, TestTube } from "lucide-react";
 
 export default function Laboratoire() {
   const sections = [
@@ -156,6 +156,150 @@ export default function Laboratoire() {
                     L'interface web permet un <strong>accès rapide et structuré</strong> à l'ensemble des données. Filtres, recherche et navigation intuitive facilitent l'exploration et la consultation quotidienne. La base de données devient un outil de travail fluide et efficace.
                   </CardContent>
                 </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Protocols & Methodology */}
+        <section className="py-16 bg-muted/30">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8 text-center">
+                Protocoles & Méthodologie
+              </h2>
+              <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+                Méthodes d'extraction, techniques de formulation et dispositifs de diffusion utilisés dans la recherche PERFUMUM
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                {/* Extraction Methods */}
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                        <Beaker className="h-5 w-5 text-blue-600" />
+                      </div>
+                      <CardTitle className="text-xl">Méthodes d'Extraction</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Hydrodistillation</h4>
+                      <p className="text-sm text-muted-foreground">Extraction par vapeur d'eau (100-120°C) pour plantes aromatiques délicates</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">CO₂ Supercritique</h4>
+                      <p className="text-sm text-muted-foreground">Extraction moderne sans résidus ({'>'}73 bar, {'>'}31°C) préservant l'intégrité moléculaire</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Enfleurage</h4>
+                      <p className="text-sm text-muted-foreground">Technique traditionnelle à froid pour fleurs fragiles (jasmin, tubéreuse)</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Fractionnement</h4>
+                      <p className="text-sm text-muted-foreground">Séparation en fractions distinctes selon volatilité et polarité</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Thermal Reactions */}
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center">
+                        <Thermometer className="h-5 w-5 text-orange-600" />
+                      </div>
+                      <CardTitle className="text-xl">Réactions Thermiques</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">50-90°C : Transformations réversibles</h4>
+                      <p className="text-sm text-muted-foreground">Oxydation légère, évaporation sélective des notes volatiles</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">120-160°C : Polymérisation partielle</h4>
+                      <p className="text-sm text-muted-foreground">Décarboxylation, condensation, formation de nouvelles molécules</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">{'>'}180°C : Destruction olfactive</h4>
+                      <p className="text-sm text-muted-foreground">Carbonisation, perte irréversible des profils olfactifs</p>
+                    </div>
+                    <div className="pt-2 border-t">
+                      <p className="text-xs text-muted-foreground italic">Paliers critiques pour la combustion contrôlée et la diffusion thermique</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Diffusion Devices */}
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
+                        <Wind className="h-5 w-5 text-green-600" />
+                      </div>
+                      <CardTitle className="text-xl">Dispositifs de Diffusion</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Résine CBD</h4>
+                      <p className="text-sm text-muted-foreground">Support cannabinoïde (0.5-1 ml/5g), maturation 48-72h</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Patch olfactif</h4>
+                      <p className="text-sm text-muted-foreground">Textile/papier imprégné, diffusion lente et contrôlée sur plusieurs jours</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Diffusion spatiale</h4>
+                      <p className="text-sm text-muted-foreground">Installations immersives, calcul de charge olfactive (0.1 ml/m³)</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Spray alcoolique</h4>
+                      <p className="text-sm text-muted-foreground">Éthanol 95°, volatilité élevée, macération minimum 48h</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Formulation Protocols */}
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
+                        <TestTube className="h-5 w-5 text-purple-600" />
+                      </div>
+                      <CardTitle className="text-xl">Protocoles de Formulation</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Macération</h4>
+                      <p className="text-sm text-muted-foreground">Repos 48h (alcool), 5-7 jours (huile), 72h (résine) pour harmonisation</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Maturation</h4>
+                      <p className="text-sm text-muted-foreground">Évolution lente (1 mois à plusieurs années), oxydation contrôlée</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Test mouillette</h4>
+                      <p className="text-sm text-muted-foreground">Tremper 1cm, sécher 30s, évaluer à 5min/30min/2h/6h/24h</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-sm">Test peau</h4>
+                      <p className="text-sm text-muted-foreground">1 goutte sans frotter, évaluer à 15min/1h/4h/8h pour pH et chaleur corporelle</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="text-center">
+                <Link href="/glossaire">
+                  <Button variant="outline" size="lg" className="gap-2">
+                    <BookOpen className="h-4 w-4" />
+                    Consulter le glossaire complet
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

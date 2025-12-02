@@ -15,6 +15,7 @@ import {
   installations,
   laboratoire,
   glossary,
+  absorbeProfiles,
   researchTimeline,
   experimentalAccords,
   Prototype,
@@ -497,4 +498,24 @@ export async function getAllExperimentalAccords() {
     .select()
     .from(experimentalAccords)
     .orderBy(experimentalAccords.isExtreme, experimentalAccords.number);
+}
+
+
+// ABSORBE profiles
+export async function getAbsorbeProfiles() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(absorbeProfiles);
+}
+
+export async function getAbsorbeProfileByPrototypeId(prototypeId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const results = await db
+    .select()
+    .from(absorbeProfiles)
+    .where(eq(absorbeProfiles.prototypeId, prototypeId));
+  return results[0] || null;
 }

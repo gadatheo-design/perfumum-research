@@ -583,7 +583,12 @@ export const glossary = mysqlTable("glossary", {
     "concept",
     "propriete",
     "methodologie",
-    "formulation"
+    "formulation",
+    "protocole",
+    "dispositif",
+    "support",
+    "application",
+    "structure"
   ]).notNull(),
   context: text("context"), // Where this term appears in the manual
   examples: text("examples"), // Practical examples
@@ -642,3 +647,21 @@ export const researchTimeline = mysqlTable("research_timeline", {
 
 export type ResearchMilestone = typeof researchTimeline.$inferSelect;
 export type InsertResearchMilestone = typeof researchTimeline.$inferInsert;
+
+
+// ABSORBE profiles for prototypes
+export const absorbeProfiles = mysqlTable("absorbe_profiles", {
+  id: int("id").primaryKey().autoincrement(),
+  prototypeId: int("prototype_id").notNull(),
+  // 8 ABSORBE axes (0-10 scale)
+  animalite: int("animalite").notNull().default(0), // Animalité
+  boise: int("boise").notNull().default(0), // Boisé
+  soufre: int("soufre").notNull().default(0), // Soufré
+  oxyde: int("oxyde").notNull().default(0), // Oxydé
+  resineux: int("resineux").notNull().default(0), // Résineux
+  balsamique: int("balsamique").notNull().default(0), // Balsamique
+  epice: int("epice").notNull().default(0), // Épicé
+  terreux: int("terreux").notNull().default(0), // Terreux
+  notes: text("notes"), // Additional notes about the profile
+  createdAt: varchar("created_at", { length: 255 }).notNull(),
+});
