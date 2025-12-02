@@ -136,3 +136,13 @@
 - [x] Créer la page Glossaire avec recherche
 - [x] Ajouter les filtres par catégorie - 10 catégories
 - [x] Tester et valider le glossaire
+
+
+## ✅ TERMINÉ : Phase 4.2 - Calendrier de recherche progressif
+
+- [x] Créer la table `research_timeline` dans le schéma
+- [x] Définir les jalons pour les 18 premiers mois (6 trimestres) - 15 jalons
+- [x] Importer les jalons dans la base de données
+- [x] Créer la page Timeline avec visualisation interactive
+- [x] Ajouter la navigation vers Timeline dans le Header
+- [x] Tester et valider le calendrier

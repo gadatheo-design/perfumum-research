@@ -15,6 +15,7 @@ import {
   installations,
   laboratoire,
   glossary,
+  researchTimeline,
   Prototype,
   Family,
   Tabac,
@@ -27,6 +28,7 @@ import {
   Installation,
   Laboratoire,
   GlossaryTerm,
+  ResearchMilestone,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -371,4 +373,67 @@ export async function getGlossaryTermsByCategory(category: string): Promise<Glos
     .from(glossary)
     .where(eq(glossary.category, category as any))
     .orderBy(glossary.term);
+}
+
+
+// ============================================================================
+// RESEARCH TIMELINE
+// ============================================================================
+
+export async function getAllMilestones(): Promise<ResearchMilestone[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(researchTimeline)
+    .orderBy(researchTimeline.year, researchTimeline.quarterNumber);
+}
+
+export async function getMilestonesByPhase(phase: string): Promise<ResearchMilestone[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(researchTimeline)
+    .where(eq(researchTimeline.phase, phase as any))
+    .orderBy(researchTimeline.year, researchTimeline.quarterNumber);
+}
+
+export async function getMilestonesByYear(year: number): Promise<ResearchMilestone[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(researchTimeline)
+    .where(eq(researchTimeline.year, year))
+    .orderBy(researchTimeline.quarterNumber);
+}
+
+export async function getTimelineStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byPhase: {}, byCategory: {}, byStatus: {} };
+  
+  const milestones = await db.select().from(researchTimeline);
+  
+  const byPhase = milestones.reduce((acc, m) => {
+    acc[m.phase] = (acc[m.phase] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  const byCategory = milestones.reduce((acc, m) => {
+    acc[m.category] = (acc[m.category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  const byStatus = milestones.reduce((acc, m) => {
+    acc[m.status] = (acc[m.status] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  return {
+    total: milestones.length,
+    byPhase,
+    byCategory,
+    byStatus,
+  };
 }

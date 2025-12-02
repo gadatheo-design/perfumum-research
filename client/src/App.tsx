@@ -18,6 +18,7 @@ import Molecules from "./pages/Molecules";
 import FamillesList from "./pages/FamillesList";
 import Accords from "./pages/Accords";
 import { Glossaire } from "./pages/Glossaire";
+import { Timeline } from "./pages/Timeline";
 
 function Router() {
   return (
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/molecules" component={Molecules} />
       <Route path="/accords" component={Accords} />
       <Route path="/glossaire" component={Glossaire} />
+      <Route path="/timeline" component={Timeline} />
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />

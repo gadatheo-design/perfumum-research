@@ -46,6 +46,11 @@ export function Header() {
               Glossaire
             </a>
           </Link>
+          <Link href="/timeline">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Timeline
+            </a>
+          </Link>
           <Link href="/civilisations">
             <a className="transition-colors hover:text-foreground/80 text-foreground/60">
               Civilisations

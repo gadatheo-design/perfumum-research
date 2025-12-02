@@ -594,3 +594,51 @@ export const glossary = mysqlTable("glossary", {
 
 export type GlossaryTerm = typeof glossary.$inferSelect;
 export type InsertGlossaryTerm = typeof glossary.$inferInsert;
+
+
+// ============================================================================
+// RESEARCH TIMELINE - Progressive research calendar
+// ============================================================================
+
+export const researchTimeline = mysqlTable("research_timeline", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  quarter: varchar("quarter", { length: 10 }).notNull(), // Format: "2025-Q1", "2025-Q2", etc.
+  year: int("year").notNull(),
+  quarterNumber: int("quarterNumber").notNull(), // 1, 2, 3, 4
+  phase: mysqlEnum("phase", [
+    "foundation",      // Fondation (premiers 6 mois)
+    "development",     // Développement (6-12 mois)
+    "expansion",       // Expansion (12-18 mois)
+    "consolidation",   // Consolidation (18-24 mois)
+    "innovation",      // Innovation (24-36 mois)
+  ]).notNull(),
+  category: mysqlEnum("category", [
+    "research",        // Recherche scientifique
+    "formulation",     // Développement de formules
+    "testing",         // Tests et validation
+    "documentation",   // Documentation et publication
+    "infrastructure",  // Infrastructure et outils
+    "collaboration",   // Collaborations et partenariats
+  ]).notNull(),
+  status: mysqlEnum("status", [
+    "planned",         // Planifié
+    "in_progress",     // En cours
+    "completed",       // Terminé
+    "delayed",         // Retardé
+  ]).default("planned").notNull(),
+  priority: mysqlEnum("priority", ["low", "medium", "high", "critical"]).default("medium").notNull(),
+  deliverables: text("deliverables"), // JSON array of expected deliverables
+  dependencies: text("dependencies"), // JSON array of milestone IDs this depends on
+  progress: int("progress").default(0).notNull(), // 0-100
+  startDate: varchar("startDate", { length: 10 }), // Format: YYYY-MM-DD
+  endDate: varchar("endDate", { length: 10 }), // Format: YYYY-MM-DD
+  completedDate: varchar("completedDate", { length: 10 }), // Format: YYYY-MM-DD
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ResearchMilestone = typeof researchTimeline.$inferSelect;
+export type InsertResearchMilestone = typeof researchTimeline.$inferInsert;

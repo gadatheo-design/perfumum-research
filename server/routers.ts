@@ -204,6 +204,32 @@ export const appRouter = router({
         return await db.getGlossaryTermsByCategory(input);
       }),
   }),
+
+  // Timeline
+  timeline: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllMilestones();
+    }),
+    getByPhase: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "string") throw new Error("Expected string");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getMilestonesByPhase(input);
+      }),
+    getByYear: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getMilestonesByYear(input);
+      }),
+    stats: publicProcedure.query(async () => {
+      return await db.getTimelineStats();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
