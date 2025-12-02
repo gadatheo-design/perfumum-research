@@ -64,3 +64,22 @@
 - [ ] Créer les pages de détail pour toutes les entités
 - [ ] Compléter les formulaires d'administration
 - [ ] Ajouter le système d'export
+
+
+## 🔄 Phase actuelle: Import des variations Pétrichor et Volcanique
+
+### Variations Pétrichor (60 variations)
+- [x] Analyser arch_2.txt pour identifier toutes les variations Pétrichor
+- [x] Créer le script d'import pour les variations Pétrichor
+- [x] Importer les 60 variations Pétrichor - 100% réussi (60/60)
+- [x] Valider les données Pétrichor
+
+### Variations Volcanique (36 variations)
+- [x] Analyser arch_2.txt pour identifier toutes les variations Volcanique
+- [x] Créer le script d'import pour les variations Volcanique
+- [x] Importer les 36 variations Volcanique - 100% réussi (36/36)
+- [x] Valider les données Volcanique
+
+### Finalisation
+- [x] Vérifier l'intégrité complète de la base de données - 277 entrées validées
+- [ ] Créer le checkpoint final avec toutes les données
