@@ -1,85 +1,74 @@
-# PERFUMUM Research - Todo List
+# PERFUMUM Research - Intégration Manuel Technique
+## Plan d'intégration en 5 phases
 
-## ✅ Phase 1-3: Structure de base (TERMINÉ)
-- [x] Créer le schéma de base de données complet (31 tables)
-- [x] Créer le système de design (couleurs lavande, typographie Inter)
-- [x] Créer les composants UI réutilisables
-- [x] Créer les pages principales et navigation
-- [x] Importer les prototypes C1-C4
-- [x] Importer 9 molécules, 10 familles, 19 accords
-- [x] Importer 86 recettes et 18 matières premières
-- [x] Créer l'interface d'administration avec dashboard
-- [x] Créer le formulaire d'ajout de molécules
+---
 
-## 🔄 Phase actuelle: Import complet des données restantes
+## 🔄 PHASE 1: Intégration des données fondamentales
+- [x] Créer/mettre à jour le schéma de base de données
+- [x] Ajouter les 19 molécules des 4 familles chimiques
+- [x] Créer la table des tabacs alchimiques
+- [x] Importer les 5 fiches techniques de tabacs
+- [ ] Créer la table des accords expérimentaux
+- [ ] Importer les 20 accords (10 standards + 10 extrêmes)
+- [ ] Créer la table de l'échelle sensorielle ABSORBE
+- [ ] Valider l'intégrité des données importées
 
-### Civilisations
-- [x] Parser les données des civilisations depuis arch_2.txt
-- [x] Importer toutes les civilisations (Shuruppak, Akhet, Meroe, Lyonesse, Atlantide, Mu, Lemuria, etc.) - 26 civilisations importées
-- [ ] Lier les civilisations à leurs accords signature
-- [x] Valider les données des civilisations
+## PHASE 2: Création des tables de relations
+- [ ] Créer la table `chemical_families` (4 familles)
+- [ ] Créer la table `thermal_reactions` (réactions thermiques)
+- [ ] Créer la table `molecular_interactions` (synergies)
+- [ ] Lier molécules ↔ familles chimiques
+- [ ] Lier molécules ↔ réactions thermiques
+- [ ] Lier molécules ↔ interactions
+- [ ] Valider les relations
 
-### Installations olfactives
-- [x] Identifier les installations dans les fichiers sources
-- [x] Créer le script d'import pour les installations
-- [x] Importer toutes les installations (Sanctum, Zone Organique, Tour Verte, Chambre Solaire, etc.) - 7 installations importées
-- [x] Valider les données des installations
+## PHASE 3: Connexion avec données existantes
+- [ ] Lier molécules ↔ prototypes C1-C4
+- [ ] Lier molécules ↔ familles Pétrichor
+- [ ] Lier molécules ↔ familles Volcanique
+- [ ] Lier accords ↔ civilisations
+- [ ] Lier tabacs ↔ installations
+- [ ] Valider les connexions
 
-### Variations Pétrichor (60 variations)
-- [ ] Parser toutes les variations Pétrichor depuis arch_2.txt
-- [ ] Importer les 60 variations complètes
-- [ ] Valider les données Pétrichor
+## PHASE 4: Création des contenus manquants
+- [ ] Lacune 1: Créer section correspondance Prototypes ↔ Familles chimiques
+- [ ] Lacune 2: Créer section Pétrichor/Volcanique ↔ Profils terpéniques
+- [ ] Lacune 3: Créer cartographie interactive réseaux moléculaires
+- [ ] Lacune 4: Créer section Accords Civilisationnels
+- [ ] Lacune 5: Créer section Diffusion Spatiale
+- [ ] Lacune 6: Créer glossaire unifié PERFUMUM
+- [ ] Lacune 7: Créer section Sécurité & Bonnes Pratiques
+- [ ] Lacune 8: Créer plan de recherche décennal
 
-### Variations Volcanique (36 variations)
-- [ ] Parser toutes les variations Volcanique depuis arch_2.txt
-- [ ] Importer les 36 variations complètes
-- [ ] Valider les données Volcanique
+## PHASE 5: Adaptation UX/UI et checkpoint final
+- [ ] Créer page "Fondements Théoriques" (13 tomes)
+- [ ] Créer page "Chimie Olfactive" (4 familles + interactions)
+- [ ] Créer page "Tabacs Alchimiques" (5 fiches)
+- [ ] Créer page "Accords Expérimentaux" (20 accords)
+- [ ] Créer page "Échelle Sensorielle" (outil interactif)
+- [ ] Créer page "Glossaire" (termes techniques)
+- [ ] Créer page "Méthodologie" (protocoles)
+- [ ] Tester toutes les fonctionnalités
+- [ ] Créer le checkpoint final
 
-### Série Perfumeum 12
-- [ ] Identifier les 12 compositions atmosphériques
-- [ ] Créer le script d'import pour Perfumeum 12
-- [ ] Importer les 12 compositions
-- [ ] Valider les données Perfumeum 12
+---
 
-### Tabacs
-- [ ] Parser les données des tabacs depuis arch_2.txt
-- [ ] Importer tous les tabacs (variétés, résines CBD/CBN)
-- [ ] Valider les données des tabacs
+## Données actuelles (277 entrées)
+- 4 prototypes C1-C4
+- 9 molécules
+- 10 familles olfactives
+- 19 accords
+- 86 recettes
+- 18 matières premières
+- 26 civilisations
+- 7 installations
+- 60 variations Pétrichor
+- 36 variations Volcanique
 
-### Données arch_1.txt
-- [ ] Analyser les analyses moléculaires détaillées
-- [ ] Parser le système Royal Mossi
-- [ ] Parser la famille Bio-Mineralis étendue
-- [ ] Importer les données complémentaires d'arch_1.txt
+## Données à ajouter (Phase 1)
+- +20 molécules (4 familles chimiques)
+- +5 tabacs alchimiques
+- +20 accords expérimentaux
+- Échelle sensorielle ABSORBE
 
-### Validation finale
-- [ ] Vérifier l'intégrité de toutes les données importées
-- [ ] Vérifier les relations many-to-many
-- [ ] Générer un rapport complet des données
-- [ ] Créer le checkpoint avec données complètes
-
-## 📋 Prochaines phases (après import complet)
-- [ ] Revoir l'UX/UI en fonction de la structure complète des données
-- [ ] Ajuster la navigation en fonction du volume réel de données
-- [ ] Créer les pages de détail pour toutes les entités
-- [ ] Compléter les formulaires d'administration
-- [ ] Ajouter le système d'export
-
-
-## 🔄 Phase actuelle: Import des variations Pétrichor et Volcanique
-
-### Variations Pétrichor (60 variations)
-- [x] Analyser arch_2.txt pour identifier toutes les variations Pétrichor
-- [x] Créer le script d'import pour les variations Pétrichor
-- [x] Importer les 60 variations Pétrichor - 100% réussi (60/60)
-- [x] Valider les données Pétrichor
-
-### Variations Volcanique (36 variations)
-- [x] Analyser arch_2.txt pour identifier toutes les variations Volcanique
-- [x] Créer le script d'import pour les variations Volcanique
-- [x] Importer les 36 variations Volcanique - 100% réussi (36/36)
-- [x] Valider les données Volcanique
-
-### Finalisation
-- [x] Vérifier l'intégrité complète de la base de données - 277 entrées validées
-- [ ] Créer le checkpoint final avec toutes les données
+**Total après Phase 1: ~322 entrées**

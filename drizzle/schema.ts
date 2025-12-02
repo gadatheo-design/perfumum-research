@@ -441,3 +441,107 @@ export const laboratoireRecettes = mysqlTable("laboratoire_recettes", {
   laboratoireId: int("laboratoireId").notNull().references(() => laboratoire.id),
   recetteId: int("recetteId").notNull().references(() => recettes.id),
 });
+
+
+// ============================================================================
+// MANUEL TECHNIQUE - CHEMICAL FAMILIES
+// ============================================================================
+
+export const chemicalFamilies = mysqlTable("chemical_families", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  type: mysqlEnum("type", ["acides_gras", "acides_aromatiques", "esters", "indoles"]).notNull(),
+  description: text("description"),
+  olfactiveRole: text("olfactiveRole"), // Rôle olfactif (rondeur, balsamique, etc.)
+  volatility: varchar("volatility", { length: 50 }), // Faible, Moyenne, Forte
+  polarity: varchar("polarity", { length: 50 }), // Faible, Moyenne, Élevée
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ChemicalFamily = typeof chemicalFamilies.$inferSelect;
+export type InsertChemicalFamily = typeof chemicalFamilies.$inferInsert;
+
+// ============================================================================
+// MANUEL TECHNIQUE - TOBACCO FORMULAS (Tabacs Alchimiques)
+// ============================================================================
+
+export const tobaccoFormulas = mysqlTable("tobacco_formulas", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 20 }).notNull().unique(), // 🜂, 🜃, 🜄, 🪻, 🜔
+  name: varchar("name", { length: 255 }).notNull(),
+  olfactiveFamily: varchar("olfactiveFamily", { length: 255 }),
+  inspiration: text("inspiration"),
+  composition: text("composition"), // JSON: {element, matiere, ratio}
+  procedure: text("procedure"), // Procédé technique
+  cureConditions: text("cureConditions"), // JSON: {temperature, humidity, duration}
+  observations: text("observations"),
+  suggestedUse: text("suggestedUse"),
+  effect: text("effect"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type TobaccoFormula = typeof tobaccoFormulas.$inferSelect;
+export type InsertTobaccoFormula = typeof tobaccoFormulas.$inferInsert;
+
+// ============================================================================
+// MANUEL TECHNIQUE - EXPERIMENTAL ACCORDS
+// ============================================================================
+
+export const experimentalAccords = mysqlTable("experimental_accords", {
+  id: int("id").autoincrement().primaryKey(),
+  number: int("number").notNull(), // 1-20
+  olfactiveAxis: varchar("olfactiveAxis", { length: 255 }).notNull(),
+  intention: varchar("intention", { length: 255 }).notNull(), // "Cendres de mer", "Peau d'encre", etc.
+  baseTabac: text("baseTabac"),
+  resinExtract: text("resinExtract"),
+  sensoryModifier: text("sensoryModifier"),
+  conceptualNote: text("conceptualNote"),
+  isExtreme: int("isExtreme").default(0).notNull(), // 0 = standard, 1 = extrême
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ExperimentalAccord = typeof experimentalAccords.$inferSelect;
+export type InsertExperimentalAccord = typeof experimentalAccords.$inferInsert;
+
+// ============================================================================
+// MANUEL TECHNIQUE - SENSORY SCALES (Échelle ABSORBE)
+// ============================================================================
+
+export const sensoryScales = mysqlTable("sensory_scales", {
+  id: int("id").autoincrement().primaryKey(),
+  type: mysqlEnum("type", ["axis", "family"]).notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  scale: varchar("scale", { length: 50 }), // "0-10" ou "0-5"
+  order: int("order").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SensoryScale = typeof sensoryScales.$inferSelect;
+export type InsertSensoryScale = typeof sensoryScales.$inferInsert;
+
+// ============================================================================
+// RELATIONS - Chemical Families
+// ============================================================================
+
+// Molecules <-> Chemical Families
+export const moleculeChemicalFamilies = mysqlTable("molecule_chemical_families", {
+  moleculeId: int("moleculeId").notNull().references(() => molecules.id),
+  chemicalFamilyId: int("chemicalFamilyId").notNull().references(() => chemicalFamilies.id),
+});
+
+// Tobacco Formulas <-> Installations
+export const tobaccoFormulaInstallations = mysqlTable("tobacco_formula_installations", {
+  tobaccoFormulaId: int("tobaccoFormulaId").notNull().references(() => tobaccoFormulas.id),
+  installationId: int("installationId").notNull().references(() => installations.id),
+});
+
+// Experimental Accords <-> Civilisations
+export const experimentalAccordCivilisations = mysqlTable("experimental_accord_civilisations", {
+  experimentalAccordId: int("experimentalAccordId").notNull().references(() => experimentalAccords.id),
+  civilisationId: int("civilisationId").notNull().references(() => civilisations.id),
+});
