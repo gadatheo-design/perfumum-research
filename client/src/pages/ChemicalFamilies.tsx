@@ -2,6 +2,7 @@ import { useState } from "react";
 import { trpc } from "../lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import { Skeleton } from "../components/ui/skeleton";
 import { Atom, Beaker, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
 
@@ -64,9 +65,26 @@ export function ChemicalFamilies() {
   if (isLoading) {
     return (
       <div className="container py-8">
-        <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <Skeleton className="h-10 w-64" />
+            <Skeleton className="h-6 w-96" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Skeleton className="h-24" />
+            <Skeleton className="h-24" />
+            <Skeleton className="h-24" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+            <div className="space-y-3">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Skeleton key={i} className="h-20" />
+              ))}
+            </div>
+            <div className="lg:col-span-2">
+              <Skeleton className="h-96" />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -111,7 +129,7 @@ export function ChemicalFamilies() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         {/* Families list */}
         <div className="lg:col-span-1 space-y-3">
           <h2 className="text-xl font-semibold mb-4">Sélectionner une famille</h2>

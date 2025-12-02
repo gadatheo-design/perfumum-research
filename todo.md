@@ -404,3 +404,37 @@
 - [x] Menu slide-in depuis la droite avec overlay backdrop-blur
 - [x] Navigation organisée par sections (Données, Visualisations, Méthodologie)
 - [x] Fermeture automatique au clic sur un lien
+
+
+## ✅ TERMINÉ : Optimisation Mobile & Page Le Projet
+
+### Phase 1 - Optimisation mobile des pages existantes ✅
+- [x] Optimiser les grids de cartes sur Home (responsive breakpoints)
+- [x] Optimiser ChemicalFamilies pour mobile (gap-4 lg:gap-6)
+- [x] Optimiser Civilisations pour mobile (grid-cols-1 sm:grid-cols-2)
+- [x] Réduire les espacements sur petits écrans (gap-4 md:gap-6)
+- [x] Graphes React Flow déjà optimisés (nœuds agrandis p-5/p-6)
+- [x] Tailles de texte adaptées pour lisibilité mobile
+
+### Phase 2 - États de chargement élégants ✅
+- [x] Composant Skeleton déjà existant (ui/skeleton.tsx)
+- [x] Créer CardSkeleton, MoleculeCardSkeleton, CivilisationCardSkeleton
+- [x] Ajouter skeletons pour ChemicalFamilies (5 cartes + layout)
+- [x] Ajouter skeletons pour Civilisations (6 cartes)
+- [x] Remplacer spinners génériques par skeletons
+- [x] Transitions loading → content fluides
+
+### Phase 3 - Page Le Projet complète ✅
+- [x] Créer la structure de la page /le-projet
+- [x] Intégrer le manifeste PERFUMUM (citation + vision)
+- [x] Présenter les 4 prototypes C1-C4 avec cartes colorées
+- [x] Ajouter section "L'Odeur comme Médium" (air, corps, matière)
+- [x] Ajouter section Positionnement (ce que c'est / ce que ce n'est pas)
+- [x] Ajouter section Ambitions (court terme / moyen terme)
+- [x] Créer mise en page élégante avec hero, badges, CTAs
+- [x] Route /le-projet ajoutée dans App.tsx
+
+### Phase 4 - Tests et livraison ✅
+- [x] Tester sur desktop
+- [x] Vérifier la cohérence globale
+- [x] Créer un checkpoint final

@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { CivilisationCardSkeleton } from "@/components/ui/card-skeleton";
 import { Globe, MapPin, Calendar, Scroll } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
@@ -12,8 +13,12 @@ function CivilisationsDatabase() {
     return (
       <section className="py-16 bg-muted/30">
         <div className="container">
-          <div className="text-center">
-            <p className="text-muted-foreground">Chargement des civilisations...</p>
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <CivilisationCardSkeleton key={i} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -30,7 +35,7 @@ function CivilisationsDatabase() {
           <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
             {civilisations?.length || 0} civilisations documentées avec leurs pratiques olfactives, matériaux symboliques et contextes culturels
           </p>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             {civilisations?.map((civ) => (
               <Link key={civ.id} href={`/civilisation/${civ.id}`}>
                 <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer">

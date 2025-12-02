@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import Projet from "./pages/Projet";
+import LeProjet from "./pages/LeProjet";
 import Prototypes from "./pages/Prototypes";
 import Familles from "./pages/Familles";
 import Laboratoire from "./pages/Laboratoire";
@@ -32,8 +33,8 @@ function Router() {
     <Switch>      <Route path={"/"} component={Home} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/admin/molecules/new"} component={AdminMoleculeNew} />
-      <Route path={"/404"} component={NotFound} />     <Route path="/prototypes" component={Prototypes} />
-      <Route path="/prototypes/:code" component={PrototypeDetail} />
+      <Route path={"/404"} component={NotFound} />      <Route path="/le-projet" component={LeProjet} />
+      <Route path="/prototypes" component={Prototypes} />      <Route path="/prototypes/:code" component={PrototypeDetail} />
       <Route path="/familles" component={Familles} />
       <Route path="/familles/list" component={FamillesList} />
       <Route path="/molecules" component={Molecules} />
