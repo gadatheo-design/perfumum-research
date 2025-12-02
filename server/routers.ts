@@ -181,6 +181,29 @@ export const appRouter = router({
       return await db.getAdminStats();
     }),
   }),
+
+  // Glossary
+  glossary: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllGlossaryTerms();
+    }),
+    search: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "string") throw new Error("Expected string");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.searchGlossaryTerms(input);
+      }),
+    getByCategory: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "string") throw new Error("Expected string");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getGlossaryTermsByCategory(input);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

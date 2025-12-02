@@ -41,6 +41,11 @@ export function Header() {
               Laboratoire
             </a>
           </Link>
+          <Link href="/glossaire">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Glossaire
+            </a>
+          </Link>
           <Link href="/civilisations">
             <a className="transition-colors hover:text-foreground/80 text-foreground/60">
               Civilisations

@@ -17,6 +17,7 @@ import PrototypeDetail from "./pages/PrototypeDetail";
 import Molecules from "./pages/Molecules";
 import FamillesList from "./pages/FamillesList";
 import Accords from "./pages/Accords";
+import { Glossaire } from "./pages/Glossaire";
 
 function Router() {
   return (
@@ -29,6 +30,7 @@ function Router() {
       <Route path="/familles/list" component={FamillesList} />
       <Route path="/molecules" component={Molecules} />
       <Route path="/accords" component={Accords} />
+      <Route path="/glossaire" component={Glossaire} />
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />

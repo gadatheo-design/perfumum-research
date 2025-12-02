@@ -14,6 +14,7 @@ import {
   volcanique,
   installations,
   laboratoire,
+  glossary,
   Prototype,
   Family,
   Tabac,
@@ -25,6 +26,7 @@ import {
   Volcanique,
   Installation,
   Laboratoire,
+  GlossaryTerm,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -333,4 +335,40 @@ export async function createMolecule(data: any) {
   });
   
   return result;
+}
+
+
+// ============================================================================
+// GLOSSARY
+// ============================================================================
+
+export async function getAllGlossaryTerms(): Promise<GlossaryTerm[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(glossary).orderBy(glossary.term);
+}
+
+export async function searchGlossaryTerms(query: string): Promise<GlossaryTerm[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Search in term, definition, and examples
+  const searchPattern = `%${query}%`;
+  return await db
+    .select()
+    .from(glossary)
+    .where(
+      eq(glossary.term, query) // Exact match first
+    )
+    .orderBy(glossary.term);
+}
+
+export async function getGlossaryTermsByCategory(category: string): Promise<GlossaryTerm[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(glossary)
+    .where(eq(glossary.category, category as any))
+    .orderBy(glossary.term);
 }

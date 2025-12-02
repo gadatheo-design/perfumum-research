@@ -563,3 +563,34 @@ export const volcaniqueExperimentalAccords = mysqlTable("volcanique_experimental
   volcaniqueId: int("volcaniqueId").notNull().references(() => volcanique.id),
   experimentalAccordId: int("experimentalAccordId").notNull().references(() => experimentalAccords.id),
 });
+
+
+// ============================================================================
+// GLOSSARY - Unified terminology
+// ============================================================================
+
+export const glossary = mysqlTable("glossary", {
+  id: int("id").autoincrement().primaryKey(),
+  term: varchar("term", { length: 255 }).notNull().unique(),
+  definition: text("definition").notNull(),
+  category: mysqlEnum("category", [
+    "chimie",
+    "interaction",
+    "reaction",
+    "extraction",
+    "technique",
+    "molecule",
+    "concept",
+    "propriete",
+    "methodologie",
+    "formulation"
+  ]).notNull(),
+  context: text("context"), // Where this term appears in the manual
+  examples: text("examples"), // Practical examples
+  relatedTerms: text("relatedTerms"), // JSON array of related term IDs
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GlossaryTerm = typeof glossary.$inferSelect;
+export type InsertGlossaryTerm = typeof glossary.$inferInsert;

@@ -126,3 +126,13 @@
 **État actuel**: 393 entrées + 275 relations = Base de données complète et interconnectée
 
 **Phase 3 COMPLÈTE** : 203 nouvelles relations créées (11 prototypes-familles + 120 pétrichor-accords + 72 volcanique-accords)
+
+
+## ✅ TERMINÉ : Phase 4.1 - Glossaire unifié
+
+- [x] Analyser le manuel technique pour extraire les termes
+- [x] Créer la table `glossary` dans le schéma
+- [x] Importer les termes avec définitions et catégories - 31 termes
+- [x] Créer la page Glossaire avec recherche
+- [x] Ajouter les filtres par catégorie - 10 catégories
+- [x] Tester et valider le glossaire
