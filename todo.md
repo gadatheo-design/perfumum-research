@@ -277,3 +277,30 @@
 - [ ] Tester tous les parcours de navigation
 - [ ] Vérifier la cohérence des données affichées
 - [ ] Créer un checkpoint final
+
+
+## 🔄 EN COURS : Audit Design UX/UI
+
+### Phase 1 - Audit des pages principales
+- [ ] Auditer la page Home (navigation, hiérarchie visuelle, CTAs)
+- [ ] Auditer les pages de listes (Chimie, Familles, Civilisations, etc.)
+- [ ] Auditer les pages de détail (Molécule, Recette, Civilisation, Prototype)
+- [ ] Auditer les pages de visualisation (ABSORBE, Timeline, Glossaire)
+- [ ] Vérifier la cohérence des composants (cartes, badges, boutons)
+
+### Phase 2 - Identification des problèmes
+- [ ] Documenter les problèmes de navigation
+- [ ] Documenter les incohérences visuelles
+- [ ] Documenter les problèmes d'accessibilité
+- [ ] Prioriser les corrections
+
+### Phase 3 - Implémentation des corrections
+- [ ] Corriger les problèmes de navigation
+- [ ] Harmoniser les styles et composants
+- [ ] Améliorer l'accessibilité
+- [ ] Optimiser la responsive
+
+### Phase 4 - Tests et validation
+- [ ] Tester sur desktop et mobile
+- [ ] Vérifier la cohérence globale
+- [ ] Créer un checkpoint final
