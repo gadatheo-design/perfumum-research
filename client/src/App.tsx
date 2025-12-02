@@ -5,6 +5,8 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import Admin from "./pages/Admin";
+import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import Projet from "./pages/Projet";
 import Prototypes from "./pages/Prototypes";
 import Familles from "./pages/Familles";
@@ -18,10 +20,10 @@ import Accords from "./pages/Accords";
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/projet" component={Projet} />
-      <Route path="/prototypes" component={Prototypes} />
+    <Switch>      <Route path={"/"} component={Home} />
+      <Route path={"/admin"} component={Admin} />
+      <Route path={"/admin/molecules/new"} component={AdminMoleculeNew} />
+      <Route path={"/404"} component={NotFound} />     <Route path="/prototypes" component={Prototypes} />
       <Route path="/prototypes/:code" component={PrototypeDetail} />
       <Route path="/familles" component={Familles} />
       <Route path="/familles/list" component={FamillesList} />

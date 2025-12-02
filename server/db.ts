@@ -286,3 +286,51 @@ export async function getTabacById(id: number): Promise<Tabac | undefined> {
   const result = await db.select().from(tabacs).where(eq(tabacs.id, id)).limit(1);
   return result[0];
 }
+
+
+// ============================================================================
+// ADMIN FUNCTIONS
+// ============================================================================
+
+export async function getAdminStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const { sql } = await import("drizzle-orm");
+  
+  const [prototypesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(prototypes);
+  const [moleculesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(molecules);
+  const [accordsCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(accords);
+  const [familiesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(families);
+  const [recettesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(recettes);
+  const [matieresCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(laboratoire);
+  
+  return {
+    prototypes: Number(prototypesCount?.count || 0),
+    molecules: Number(moleculesCount?.count || 0),
+    accords: Number(accordsCount?.count || 0),
+    families: Number(familiesCount?.count || 0),
+    recettes: Number(recettesCount?.count || 0),
+    matieres: Number(matieresCount?.count || 0),
+  };
+}
+
+
+export async function createMolecule(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(molecules).values({
+    name: data.name,
+    chemicalFormula: data.chemicalFormula || null,
+    family: data.chemicalFamily || null,
+    functionalEffect: data.functionalEffect || null,
+    olfactiveProfile: data.olfactiveProfile || null,
+    emotionalResonance: data.emotionalResonance || null,
+    sourceOrigin: data.source || null,
+    concentration: data.concentration || null,
+    notes: data.notes || null,
+  });
+  
+  return result;
+}

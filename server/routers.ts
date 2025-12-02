@@ -76,6 +76,14 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getMoleculeById(input);
       }),
+    create: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "object" || val === null) throw new Error("Expected object");
+        return val as any;
+      })
+      .mutation(async ({ input }) => {
+        return await db.createMolecule(input);
+      }),
   }),
 
   // Accords
@@ -165,6 +173,13 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getTabacById(input);
       }),
+  }),
+
+  // Admin
+  admin: router({
+    getStats: publicProcedure.query(async () => {
+      return await db.getAdminStats();
+    }),
   }),
 });
 

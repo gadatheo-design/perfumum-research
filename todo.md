@@ -104,3 +104,27 @@
 - [x] Ajouter les composants de filtres interactifs (SearchBar, FilterSelect)
 - [x] Tester toutes les pages et fonctionnalités
 - [ ] Créer le checkpoint final
+
+
+## 🔄 Phase actuelle: Import des données restantes et création de l'interface d'administration
+
+### Import des données restantes
+- [ ] Analyser les fichiers arch_1.txt et arch_2.txt pour extraire les données manquantes
+- [x] Créer un script d'import pour les matières premières (huiles essentielles, absolus, résinoïdes) - 18 matières importées
+- [x] Créer un script d'import pour les recettes complètes avec formulations - 86 recettes importées
+- [ ] Créer un script d'import pour les civilisations
+- [ ] Créer un script d'import pour les installations olfactives
+- [x] Valider l'import de toutes les données
+
+### Interface d'administration
+- [x] Créer la page d'administration principale avec dashboard
+- [x] Créer le formulaire d'ajout de molécules
+- [ ] Créer le formulaire d'ajout d'accords
+- [ ] Créer le formulaire d'ajout de familles
+- [ ] Créer le formulaire d'ajout de matières premières
+- [ ] Créer le formulaire d'ajout de recettes
+- [ ] Créer le formulaire d'ajout de civilisations
+- [ ] Ajouter la gestion des relations (many-to-many)
+- [ ] Ajouter la validation des formulaires
+- [x] Tester toutes les fonctionnalités d'administration
+- [ ] Créer le checkpoint final
