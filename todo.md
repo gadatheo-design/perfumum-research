@@ -88,3 +88,19 @@
 - [ ] Documenter comment ajouter de nouvelles données
 - [ ] Préparer le guide d'utilisation
 - [ ] Livrer le site à l'utilisateur
+
+
+## 🔄 Phase actuelle: Ajustement du schéma et import des données
+- [x] Ajuster le schéma molecules pour plus de flexibilité (text au lieu d'enum)
+- [x] Migrer la base de données avec le nouveau schéma
+- [x] Importer les molécules (CSV + données curées) - 9 molécules importées
+- [x] Importer les familles olfactives depuis arch_2.txt - 10 familles importées (181 variations)
+- [x] Importer les accords depuis les fichiers sources - 19 accords importés
+- [ ] Importer les recettes depuis les fichiers markdown
+- [x] Créer la page de détail des familles olfactives avec filtres
+- [x] Créer la page de détail des molécules avec filtres
+- [x] Créer la page de détail des accords avec filtres
+- [ ] Créer la page liste des recettes avec filtres
+- [x] Ajouter les composants de filtres interactifs (SearchBar, FilterSelect)
+- [x] Tester toutes les pages et fonctionnalités
+- [ ] Créer le checkpoint final

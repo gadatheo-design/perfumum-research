@@ -1,6 +1,8 @@
+import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export default function Familles() {
   const families = [
@@ -66,9 +68,14 @@ export default function Familles() {
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
                 Familles Olfactives
               </h1>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
                 Systèmes de classification et d'exploration des qualités sensibles
               </p>
+              <Link href="/familles/list">
+                <Button size="lg" className="mt-4">
+                  Voir toutes les familles
+                </Button>
+              </Link>
             </div>
           </div>
         </section>

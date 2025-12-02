@@ -12,6 +12,9 @@ import Laboratoire from "./pages/Laboratoire";
 import Civilisations from "./pages/Civilisations";
 import Installations from "./pages/Installations";
 import PrototypeDetail from "./pages/PrototypeDetail";
+import Molecules from "./pages/Molecules";
+import FamillesList from "./pages/FamillesList";
+import Accords from "./pages/Accords";
 
 function Router() {
   return (
@@ -21,6 +24,9 @@ function Router() {
       <Route path="/prototypes" component={Prototypes} />
       <Route path="/prototypes/:code" component={PrototypeDetail} />
       <Route path="/familles" component={Familles} />
+      <Route path="/familles/list" component={FamillesList} />
+      <Route path="/molecules" component={Molecules} />
+      <Route path="/accords" component={Accords} />
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />

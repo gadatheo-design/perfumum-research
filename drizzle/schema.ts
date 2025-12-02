@@ -134,9 +134,9 @@ export const accords = mysqlTable("accords", {
   id: int("id").autoincrement().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   familyId: int("familyId").references(() => families.id),
-  aromaticProfile: text("aromaticProfile"), // JSON array
+  olfactiveProfile: text("olfactiveProfile"),
+  emotionalResonance: text("emotionalResonance"),
   texture: mysqlEnum("texture", ["sec", "humide", "lactone", "resine", "pierre", "air"]),
-  description: text("description"),
   notes: text("notes"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
