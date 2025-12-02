@@ -29,9 +29,9 @@ export default function MoleculeDetail() {
       position: { x: 400, y: 200 },
       data: {
         label: (
-          <div className="text-center p-4 bg-purple-100 rounded-lg border-2 border-purple-500">
-            <div className="font-bold text-lg">{data.molecule.name}</div>
-            <div className="text-sm text-gray-600">{data.molecule.chemicalFormula}</div>
+          <div className="text-center p-6 bg-purple-100 rounded-lg border-2 border-purple-500 shadow-lg">
+            <div className="font-bold text-xl">{data.molecule.name}</div>
+            <div className="text-base text-gray-600 font-mono">{data.molecule.chemicalFormula}</div>
           </div>
         ),
       },
@@ -46,9 +46,9 @@ export default function MoleculeDetail() {
         position: { x: 100, y: 200 },
         data: {
           label: (
-            <div className="text-center p-3 bg-blue-100 rounded-lg border border-blue-400">
-              <div className="font-semibold text-sm">{data.molecule.family}</div>
-              <div className="text-xs text-gray-500">Famille</div>
+            <div className="text-center p-5 bg-blue-100 rounded-lg border-2 border-blue-400 shadow-md">
+              <div className="font-semibold text-base">{data.molecule.family}</div>
+              <div className="text-sm text-gray-500">Famille</div>
             </div>
           ),
         },
@@ -74,9 +74,9 @@ export default function MoleculeDetail() {
         data: {
           label: (
             <Link href={`/recette/${recette.id}`}>
-              <div className="text-center p-3 bg-green-100 rounded-lg border border-green-400 cursor-pointer hover:bg-green-200 transition">
-                <div className="font-semibold text-sm">{recette.name}</div>
-                <div className="text-xs text-gray-500">Recette</div>
+              <div className="text-center p-5 bg-green-100 rounded-lg border-2 border-green-400 cursor-pointer hover:bg-green-200 transition shadow-md hover:shadow-lg">
+                <div className="font-semibold text-base">{recette.name}</div>
+                <div className="text-sm text-gray-500">Recette</div>
               </div>
             </Link>
           ),

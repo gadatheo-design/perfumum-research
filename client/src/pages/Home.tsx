@@ -11,22 +11,27 @@ export default function Home() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="section-spacing bg-gradient-to-b from-background to-muted/30">
+        <section className="section-spacing bg-gradient-to-b from-background via-muted/20 to-background relative overflow-hidden">
+          {/* Animated background elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float"></div>
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
+          </div>
           <div className="container">
-            <div className="max-w-4xl mx-auto text-center content-spacing">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance mb-6">
+            <div className="max-w-4xl mx-auto text-center content-spacing relative z-10">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance mb-6 animate-fadeInUp">
                 PERFUMUM
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground text-balance mb-4">
+              <p className="text-xl md:text-2xl text-muted-foreground text-balance mb-4 animate-fadeInUp" style={{animationDelay: '0.1s'}}>
                 Recherche Olfactive
               </p>
-              <blockquote className="text-lg md:text-xl italic text-foreground/80 border-l-4 border-primary pl-6 py-4 my-8 text-left max-w-2xl mx-auto">
+              <blockquote className="text-lg md:text-xl italic text-foreground/80 border-l-4 border-primary pl-6 py-4 my-8 text-left max-w-2xl mx-auto animate-fadeInUp" style={{animationDelay: '0.2s'}}>
                 "Perfumum n'est pas un projet d'art qui utilise l'odeur : Perfumum est une pensée artistique dont l'odeur est le médium."
               </blockquote>
-              <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+              <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-8 animate-fadeInUp" style={{animationDelay: '0.3s'}}>
                 Un atelier de recherche olfactive, artistique et anthropologique consacré à l'étude des odeurs comme formes sensibles, matières conceptuelles et dispositifs d'expérience.
               </p>
-              <div className="flex flex-wrap gap-4 justify-center">
+              <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.4s'}}>
                 <Link href="/prototypes">
                   <Button size="lg" className="gap-2">
                     Explorer les Prototypes
@@ -44,13 +49,13 @@ export default function Home() {
         </section>
 
         {/* Main Sections Grid */}
-        <section className="section-spacing">
+        <section className="section-spacing molecular-bg">
           <div className="container">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Prototypes */}
               <Link href="/prototypes">
                 <a className="block h-full">
-                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer group">
+                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer group animate-fadeInUp" style={{animationDelay: '0.1s'}}>
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                         <Palette className="h-6 w-6 text-primary" />
@@ -74,7 +79,7 @@ export default function Home() {
               {/* Familles */}
               <Link href="/familles">
                 <a className="block h-full">
-                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer group">
+                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer group animate-fadeInUp" style={{animationDelay: '0.2s'}}>
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-petrichor/10 flex items-center justify-center mb-4 group-hover:bg-petrichor/20 transition-colors">
                         <Flower2 className="h-6 w-6 text-petrichor" />
@@ -98,7 +103,7 @@ export default function Home() {
               {/* Laboratoire */}
               <Link href="/laboratoire">
                 <a className="block h-full">
-                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer group">
+                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer group animate-fadeInUp" style={{animationDelay: '0.3s'}}>
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-volcanique/10 flex items-center justify-center mb-4 group-hover:bg-volcanique/20 transition-colors">
                         <Beaker className="h-6 w-6 text-volcanique" />
@@ -122,7 +127,7 @@ export default function Home() {
               {/* Civilisations */}
               <Link href="/civilisations">
                 <a className="block h-full">
-                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer group">
+                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer group animate-fadeInUp" style={{animationDelay: '0.4s'}}>
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-solar-mineralis/10 flex items-center justify-center mb-4 group-hover:bg-solar-mineralis/20 transition-colors">
                         <Globe className="h-6 w-6 text-solar-mineralis" />

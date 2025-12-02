@@ -29,9 +29,9 @@ export default function RecetteDetail() {
       position: { x: 400, y: 250 },
       data: {
         label: (
-          <div className="text-center p-4 bg-green-100 rounded-lg border-2 border-green-600">
-            <div className="font-bold text-lg">{data.recette.name}</div>
-            <div className="text-xs text-gray-600">Recette</div>
+          <div className="text-center p-6 bg-green-100 rounded-lg border-2 border-green-600 shadow-lg">
+            <div className="font-bold text-xl">{data.recette.name}</div>
+            <div className="text-sm text-gray-600">Recette</div>
           </div>
         ),
       },
@@ -46,9 +46,9 @@ export default function RecetteDetail() {
         position: { x: 100, y: 100 },
         data: {
           label: (
-            <div className="text-center p-3 bg-blue-100 rounded-lg border border-blue-400">
-              <div className="font-semibold text-sm">{data.family.name}</div>
-              <div className="text-xs text-gray-500">Famille</div>
+            <div className="text-center p-5 bg-blue-100 rounded-lg border-2 border-blue-400 shadow-md">
+              <div className="font-semibold text-base">{data.family.name}</div>
+              <div className="text-sm text-gray-500">Famille</div>
             </div>
           ),
         },
@@ -72,9 +72,9 @@ export default function RecetteDetail() {
         position: { x: 100, y: 400 },
         data: {
           label: (
-            <div className="text-center p-3 bg-orange-100 rounded-lg border border-orange-400">
-              <div className="font-semibold text-sm">{data.accord.name}</div>
-              <div className="text-xs text-gray-500">Accord</div>
+            <div className="text-center p-5 bg-orange-100 rounded-lg border-2 border-orange-400 shadow-md">
+              <div className="font-semibold text-base">{data.accord.name}</div>
+              <div className="text-sm text-gray-500">Accord</div>
             </div>
           ),
         },
@@ -100,9 +100,9 @@ export default function RecetteDetail() {
         data: {
           label: (
             <Link href={`/molecule/${molecule.id}`}>
-              <div className="text-center p-3 bg-purple-100 rounded-lg border border-purple-400 cursor-pointer hover:bg-purple-200 transition">
-                <div className="font-semibold text-sm">{molecule.name}</div>
-                <div className="text-xs text-gray-500">{molecule.chemicalFormula}</div>
+              <div className="text-center p-5 bg-purple-100 rounded-lg border-2 border-purple-400 cursor-pointer hover:bg-purple-200 transition shadow-md hover:shadow-lg">
+                <div className="font-semibold text-base">{molecule.name}</div>
+                <div className="text-sm text-gray-500 font-mono">{molecule.chemicalFormula}</div>
               </div>
             </Link>
           ),

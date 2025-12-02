@@ -10,7 +10,7 @@ import {
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 transition-all duration-300 shadow-sm">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/">
@@ -34,7 +34,7 @@ export function Header() {
               Données
               <ChevronDown className="h-3 w-3" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
+            <DropdownMenuContent className="animate-scaleIn" align="start">
               <DropdownMenuItem asChild>
                 <Link href="/prototypes">
                   <a className="w-full cursor-pointer">Prototypes</a>
@@ -74,7 +74,7 @@ export function Header() {
               Visualisations
               <ChevronDown className="h-3 w-3" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
+            <DropdownMenuContent className="animate-scaleIn" align="start">
               <DropdownMenuItem asChild>
                 <Link href="/absorbe-scale">
                   <a className="w-full cursor-pointer">Échelle ABSORBE</a>
@@ -99,7 +99,7 @@ export function Header() {
               Méthodologie
               <ChevronDown className="h-3 w-3" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
+            <DropdownMenuContent className="animate-scaleIn" align="start">
               <DropdownMenuItem asChild>
                 <Link href="/laboratoire">
                   <a className="w-full cursor-pointer">Laboratoire</a>

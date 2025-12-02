@@ -29,9 +29,9 @@ export default function CivilisationDetail() {
       position: { x: 400, y: 250 },
       data: {
         label: (
-          <div className="text-center p-4 bg-amber-100 rounded-lg border-2 border-amber-600">
-            <div className="font-bold text-lg">{data.civilisation.name}</div>
-            <div className="text-xs text-gray-600">Civilisation</div>
+          <div className="text-center p-6 bg-amber-100 rounded-lg border-2 border-amber-600 shadow-lg">
+            <div className="font-bold text-xl">{data.civilisation.name}</div>
+            <div className="text-sm text-gray-600">Civilisation</div>
           </div>
         ),
       },
@@ -52,9 +52,9 @@ export default function CivilisationDetail() {
         data: {
           label: (
             <Link href={`/recette/${recette.id}`}>
-              <div className="text-center p-3 bg-green-100 rounded-lg border border-green-400 cursor-pointer hover:bg-green-200 transition">
-                <div className="font-semibold text-sm">{recette.name}</div>
-                <div className="text-xs text-gray-500">{recette.category}</div>
+              <div className="text-center p-5 bg-green-100 rounded-lg border-2 border-green-400 cursor-pointer hover:bg-green-200 transition shadow-md hover:shadow-lg">
+                <div className="font-semibold text-base">{recette.name}</div>
+                <div className="text-sm text-gray-500">Recette</div>
               </div>
             </Link>
           ),
