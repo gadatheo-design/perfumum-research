@@ -391,3 +391,16 @@
 - [x] Coins ultra-sharp (radius: 0)
 - [x] Bordures noires partout (high contrast)
 - [x] Créer un checkpoint final
+
+
+## ✅ TERMINÉ : Navigation Mobile Améliorée
+
+- [x] Créer un menu burger responsive pour mobile
+- [x] Remplacer les menus déroulants desktop par menu burger sur mobile
+- [x] Augmenter les zones de touch (min 48x48px)
+- [x] Améliorer l'espacement et la lisibilité sur petits écrans
+- [x] Ajouter des animations fluides pour ouverture/fermeture menu (300ms slide-in)
+- [x] Tester sur différentes tailles d'écran
+- [x] Menu slide-in depuis la droite avec overlay backdrop-blur
+- [x] Navigation organisée par sections (Données, Visualisations, Méthodologie)
+- [x] Fermeture automatique au clic sur un lien
