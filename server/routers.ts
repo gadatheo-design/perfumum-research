@@ -290,6 +290,33 @@ export const appRouter = router({
         return await db.getMoleculeWithRelations(input.id);
       }),
   }),
+
+  // Recette details
+  recette: router({
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getRecetteWithRelations(input.id);
+      }),
+  }),
+
+  // Civilisation details
+  civilisation: router({
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getCivilisationDetailsWithRelations(input.id);
+      }),
+  }),
+
+  // Prototype details
+  prototype: router({
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getPrototypeWithRelations(input.id);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

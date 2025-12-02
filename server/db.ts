@@ -16,6 +16,8 @@ import {
   laboratoire,
   glossary,
   absorbeProfiles,
+  prototypeChemicalFamilies,
+  chemicalFamilies,
   researchTimeline,
   experimentalAccords,
   moleculeRecettes,
@@ -664,5 +666,126 @@ export async function getMoleculeWithRelations(id: number) {
   return {
     molecule: mol,
     recettes: relatedRecettes,
+  };
+}
+
+
+// ============================================================================
+// RECETTE DETAILS WITH RELATIONS
+// ============================================================================
+
+export async function getRecetteWithRelations(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get recette
+  const recettesList = await db.select().from(recettes).where(eq(recettes.id, id));
+  if (recettesList.length === 0) return null;
+  
+  const recette = recettesList[0];
+  
+  // Get related molecules via molecule_recettes
+  const relatedMolecules = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      chemicalFormula: molecules.chemicalFormula,
+      family: molecules.family,
+    })
+    .from(moleculeRecettes)
+    .innerJoin(molecules, eq(moleculeRecettes.moleculeId, molecules.id))
+    .where(eq(moleculeRecettes.recetteId, id));
+  
+  // Get family if familyId exists
+  let family = null;
+  if (recette.familyId) {
+    const familiesList = await db.select().from(families).where(eq(families.id, recette.familyId));
+    if (familiesList.length > 0) {
+      family = familiesList[0];
+    }
+  }
+  
+  // Get accord if accordId exists
+  let accord = null;
+  if (recette.accordId) {
+    const accordsList = await db.select().from(accords).where(eq(accords.id, recette.accordId));
+    if (accordsList.length > 0) {
+      accord = accordsList[0];
+    }
+  }
+  
+  return {
+    recette,
+    molecules: relatedMolecules,
+    family,
+    accord,
+  };
+}
+
+
+// ============================================================================
+// CIVILISATION DETAILS WITH RELATIONS
+// ============================================================================
+
+export async function getCivilisationDetailsWithRelations(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get civilisation
+  const civilisationsList = await db.select().from(civilisations).where(eq(civilisations.id, id));
+  if (civilisationsList.length === 0) return null;
+  
+  const civilisation = civilisationsList[0];
+  
+  // Get related recettes
+  const relatedRecettes = await db
+    .select()
+    .from(recettes)
+    .where(eq(recettes.civilisationId, id));
+  
+  return {
+    civilisation,
+    recettes: relatedRecettes,
+  };
+}
+
+
+// ============================================================================
+// PROTOTYPE DETAILS WITH RELATIONS
+// ============================================================================
+
+export async function getPrototypeWithRelations(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get prototype
+  const prototypesList = await db.select().from(prototypes).where(eq(prototypes.id, id));
+  if (prototypesList.length === 0) return null;
+  
+  const prototype = prototypesList[0];
+  
+  // Get ABSORBE profile
+  const absorbeProfilesList = await db
+    .select()
+    .from(absorbeProfiles)
+    .where(eq(absorbeProfiles.prototypeId, id));
+  
+  const absorbeProfile = absorbeProfilesList.length > 0 ? absorbeProfilesList[0] : null;
+  
+  // Get related chemical families via prototype_chemical_families
+  const relatedFamilies = await db
+    .select({
+      id: chemicalFamilies.id,
+      name: chemicalFamilies.name,
+      description: chemicalFamilies.description,
+    })
+    .from(prototypeChemicalFamilies)
+    .innerJoin(chemicalFamilies, eq(prototypeChemicalFamilies.chemicalFamilyId, chemicalFamilies.id))
+    .where(eq(prototypeChemicalFamilies.prototypeId, id));
+  
+  return {
+    prototype,
+    absorbeProfile,
+    chemicalFamilies: relatedFamilies,
   };
 }

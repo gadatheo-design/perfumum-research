@@ -24,6 +24,8 @@ import { ExperimentalAccords } from "./pages/ExperimentalAccords";
 import { AbsorbeScale } from "@/pages/AbsorbeScale";
 import Recherche from "./pages/Recherche";
 import MoleculeDetail from "./pages/MoleculeDetail";
+import RecetteDetail from "./pages/RecetteDetail";
+import CivilisationDetail from "./pages/CivilisationDetail";
 
 function Router() {
   return (
@@ -43,6 +45,8 @@ function Router() {
         <Route path="/absorbe-scale" component={AbsorbeScale} />
           <Route path="/recherche" component={Recherche} />
           <Route path="/molecule/:id" component={MoleculeDetail} />
+          <Route path="/recette/:id" component={RecetteDetail} />
+          <Route path="/civilisation/:id" component={CivilisationDetail} />
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />
