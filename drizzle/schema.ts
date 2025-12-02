@@ -264,13 +264,7 @@ export const installations = mysqlTable("installations", {
   title: varchar("title", { length: 255 }).notNull(),
   concept: text("concept"),
   materials: text("materials"),
-  diffusionMode: mysqlEnum("diffusionMode", [
-    "cones",
-    "brume",
-    "plaque_chauffee",
-    "eau",
-    "friction"
-  ]),
+  diffusionMode: text("diffusionMode"), // Flexible: description du mode de diffusion
   location: varchar("location", { length: 255 }),
   date: timestamp("date"),
   documentation: text("documentation"), // JSON: photos, videos, schemas URLs
