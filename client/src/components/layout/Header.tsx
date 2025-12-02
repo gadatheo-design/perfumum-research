@@ -16,12 +16,7 @@ export function Header() {
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <Link href="/">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Accueil
-            </a>
-          </Link>
-          <Link href="/projet">
+          <Link href="/le-projet">
             <a className="transition-colors hover:text-foreground/80 text-foreground/60">
               Le Projet
             </a>
@@ -34,6 +29,21 @@ export function Header() {
           <Link href="/familles">
             <a className="transition-colors hover:text-foreground/80 text-foreground/60">
               Familles
+            </a>
+          </Link>
+          <Link href="/chemical-families">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Chimie
+            </a>
+          </Link>
+          <Link href="/accords">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Accords
+            </a>
+          </Link>
+          <Link href="/experimental-accords">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Expérimental
             </a>
           </Link>
           <Link href="/laboratoire">
@@ -49,6 +59,11 @@ export function Header() {
           <Link href="/timeline">
             <a className="transition-colors hover:text-foreground/80 text-foreground/60">
               Timeline
+            </a>
+          </Link>
+          <Link href="/absorbe-scale">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              ABSORBE
             </a>
           </Link>
           <Link href="/civilisations">

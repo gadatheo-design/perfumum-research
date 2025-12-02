@@ -19,6 +19,9 @@ import FamillesList from "./pages/FamillesList";
 import Accords from "./pages/Accords";
 import { Glossaire } from "./pages/Glossaire";
 import { Timeline } from "./pages/Timeline";
+import { ChemicalFamilies } from "./pages/ChemicalFamilies";
+import { ExperimentalAccords } from "./pages/ExperimentalAccords";
+import { AbsorbeScale } from "./pages/AbsorbeScale";
 
 function Router() {
   return (
@@ -33,6 +36,9 @@ function Router() {
       <Route path="/accords" component={Accords} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/timeline" component={Timeline} />
+      <Route path="/chemical-families" component={ChemicalFamilies} />
+      <Route path="/experimental-accords" component={ExperimentalAccords} />
+      <Route path="/absorbe-scale" component={AbsorbeScale} />
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />

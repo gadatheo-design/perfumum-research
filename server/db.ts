@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -16,6 +16,7 @@ import {
   laboratoire,
   glossary,
   researchTimeline,
+  experimentalAccords,
   Prototype,
   Family,
   Tabac,
@@ -29,6 +30,7 @@ import {
   Laboratoire,
   GlossaryTerm,
   ResearchMilestone,
+  ExperimentalAccord,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -436,4 +438,63 @@ export async function getTimelineStats() {
     byCategory,
     byStatus,
   };
+}
+
+
+// ============================================================================
+// CHEMICAL FAMILIES
+// ============================================================================
+
+export async function getChemicalFamilies() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select({
+      family: molecules.family,
+      count: sql<number>`count(*)`.as('count'),
+    })
+    .from(molecules)
+    .where(sql`${molecules.family} IS NOT NULL`)
+    .groupBy(molecules.family)
+    .orderBy(molecules.family);
+  
+  return result;
+}
+
+export async function getMoleculesByFamily(family: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(molecules)
+    .where(eq(molecules.family, family))
+    .orderBy(molecules.name);
+}
+
+
+// ============================================================================
+// EXPERIMENTAL ACCORDS
+// ============================================================================
+
+export async function getExperimentalAccordsByType(isExtreme: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(experimentalAccords)
+    .where(eq(experimentalAccords.isExtreme, isExtreme))
+    .orderBy(experimentalAccords.number);
+}
+
+export async function getAllExperimentalAccords() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(experimentalAccords)
+    .orderBy(experimentalAccords.isExtreme, experimentalAccords.number);
 }

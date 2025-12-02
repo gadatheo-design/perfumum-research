@@ -230,6 +230,36 @@ export const appRouter = router({
       return await db.getTimelineStats();
     }),
   }),
+
+  // Chemical Families
+  chemicalFamilies: router({
+    list: publicProcedure.query(async () => {
+      return await db.getChemicalFamilies();
+    }),
+    getMolecules: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "string") throw new Error("Expected string");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getMoleculesByFamily(input);
+      }),
+  }),
+
+  // Experimental Accords
+  experimentalAccords: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllExperimentalAccords();
+    }),
+    getByType: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getExperimentalAccordsByType(input);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

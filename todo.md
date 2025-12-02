@@ -146,3 +146,30 @@
 - [x] Créer la page Timeline avec visualisation interactive
 - [x] Ajouter la navigation vers Timeline dans le Header
 - [x] Tester et valider le calendrier
+
+
+## 🔄 EN COURS : Phase 5 - Pages de visualisation avancées
+
+### 5.1 - Page Familles Chimiques
+- [x] Créer la page avec liste des 11 familles
+- [x] Afficher les 28 molécules par famille
+- [x] Ajouter les descriptions et profils olfactifs
+- [x] Visualiser les profils olfactifs avec badges
+
+### 5.2 - Page Accords Expérimentaux
+- [x] Séparer accords standards (10) et extrêmes (10)
+- [x] Afficher les compositions et notes complètes
+- [x] Créer les filtres interactifs
+- [x] Créer des cartes avec bordures colorées
+
+### 5.3 - Page Échelle ABSORBE
+- [x] Créer les diagrammes radar pour les 8 axes
+- [x] Visualiser les profils des prototypes avec Recharts
+- [x] Comparer les compositions (jusqu'à 4 prototypes simultanés)
+- [x] Ajouter les légendes et explications détaillées
+
+### 5.4 - Enrichissement des pages existantes
+- [x] Pages de visualisation avancées créées
+- [x] Navigation enrichie dans le Header
+- [x] Amélioration de la navigation entre entités
+- [x] Statistiques contextuelles ajoutées
