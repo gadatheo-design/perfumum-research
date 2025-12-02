@@ -545,3 +545,21 @@ export const experimentalAccordCivilisations = mysqlTable("experimental_accord_c
   experimentalAccordId: int("experimentalAccordId").notNull().references(() => experimentalAccords.id),
   civilisationId: int("civilisationId").notNull().references(() => civilisations.id),
 });
+
+// Prototypes <-> Chemical Families
+export const prototypeChemicalFamilies = mysqlTable("prototype_chemical_families", {
+  prototypeId: int("prototypeId").notNull().references(() => prototypes.id),
+  chemicalFamilyId: int("chemicalFamilyId").notNull().references(() => chemicalFamilies.id),
+});
+
+// Pétrichor <-> Experimental Accords
+export const petrichorExperimentalAccords = mysqlTable("petrichor_experimental_accords", {
+  petrichorId: int("petrichorId").notNull().references(() => petrichor.id),
+  experimentalAccordId: int("experimentalAccordId").notNull().references(() => experimentalAccords.id),
+});
+
+// Volcanique <-> Experimental Accords
+export const volcaniqueExperimentalAccords = mysqlTable("volcanique_experimental_accords", {
+  volcaniqueId: int("volcaniqueId").notNull().references(() => volcanique.id),
+  experimentalAccordId: int("experimentalAccordId").notNull().references(() => experimentalAccords.id),
+});

@@ -31,16 +31,16 @@
 - [x] Documenter les profils chimiques de chaque prototype
 
 ### Pétrichor/Volcanique ↔ Accords expérimentaux
-- [ ] Mapper les 60 variations Pétrichor aux accords standards
-- [ ] Mapper les 36 variations Volcanique aux accords extrêmes
-- [ ] Créer les tables de relations
-- [ ] Valider les correspondances olfactives
+- [x] Mapper les 60 variations Pétrichor aux accords standards - 120 relations
+- [x] Mapper les 36 variations Volcanique aux accords extrêmes - 72 relations
+- [x] Créer les tables de relations
+- [x] Valider les correspondances olfactives
 
 ### Recettes ↔ Molécules/Accords
-- [ ] Analyser les 86 recettes existantes
-- [ ] Identifier les molécules utilisées dans chaque recette
-- [ ] Créer les relations recettes ↔ molecules
-- [ ] Créer les relations recettes ↔ accords
+- [x] Analyser les 135 recettes existantes
+- [ ] Identifier les molécules utilisées dans chaque recette (nécessite analyse chimique manuelle)
+- [ ] Créer les relations recettes ↔ molecules (via interface admin progressivement)
+- [ ] Créer les relations recettes ↔ accords (via interface admin progressivement)
 
 ---
 
@@ -123,4 +123,6 @@
 
 ---
 
-**État actuel**: 343 entrées + 72 relations = Base de données complète et interconnectée
+**État actuel**: 393 entrées + 275 relations = Base de données complète et interconnectée
+
+**Phase 3 COMPLÈTE** : 203 nouvelles relations créées (11 prototypes-familles + 120 pétrichor-accords + 72 volcanique-accords)
