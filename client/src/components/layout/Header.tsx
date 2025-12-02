@@ -66,6 +66,11 @@ export function Header() {
               ABSORBE
             </a>
           </Link>
+          <Link href="/recherche">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Recherche
+            </a>
+          </Link>
           <Link href="/civilisations">
             <a className="transition-colors hover:text-foreground/80 text-foreground/60">
               Civilisations
@@ -80,17 +85,11 @@ export function Header() {
 
         {/* Search */}
         <div className="flex items-center space-x-2">
-          <div className="relative hidden lg:block">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Rechercher..."
-              className="w-64 pl-8"
-            />
-          </div>
-          <Button variant="ghost" size="icon" className="lg:hidden">
-            <Search className="h-5 w-5" />
-          </Button>
+          <Link href="/recherche">
+            <Button variant="ghost" size="icon">
+              <Search className="h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </header>

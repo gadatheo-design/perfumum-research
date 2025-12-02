@@ -197,3 +197,21 @@
 - [x] Ajouter les dispositifs de diffusion - 4 dispositifs (Résine CBD, Patch, Spatial, Spray)
 - [x] Ajouter les protocoles de formulation - 4 protocoles (Macération, Maturation, Test mouillette, Test peau)
 - [x] Tester et valider la page Laboratoire
+
+
+## 🔄 EN COURS : Finalisation Phase 5 - Recherche & Civilisations
+
+### Étape 4 - Page Recherche globale ✅
+- [x] Créer les procédures tRPC pour recherche unifiée
+- [x] Implémenter la recherche dans prototypes, molécules, recettes, glossaire, timeline, accords - 6 types
+- [x] Créer la page Recherche avec barre de recherche et debounce
+- [x] Afficher les résultats groupés par type avec badges colorés
+- [x] Tester et valider la recherche globale
+
+### Étape 5 - Page Civilisations ✅
+- [x] Vérifier les données civilisations dans la base de données - 10 civilisations
+- [x] Utiliser les procédures tRPC existantes pour les civilisations
+- [x] Enrichir la page Civilisations avec section Base de Données
+- [x] Afficher les 10 civilisations avec pratiques olfactives, matériaux symboliques et temporalités
+- [x] Créer des cartes structurées avec badges colorés
+- [x] Tester et valider la page Civilisations

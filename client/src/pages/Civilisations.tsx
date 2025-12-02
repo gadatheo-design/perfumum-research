@@ -1,7 +1,92 @@
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe } from "lucide-react";
+import { Globe, MapPin, Calendar, Scroll } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+
+function CivilisationsDatabase() {
+  const { data: civilisations, isLoading } = trpc.civilisations.list.useQuery();
+
+  if (isLoading) {
+    return (
+      <section className="py-16 bg-muted/30">
+        <div className="container">
+          <div className="text-center">
+            <p className="text-muted-foreground">Chargement des civilisations...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="py-16 bg-muted/30">
+      <div className="container">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            Base de Données Civilisations
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            {civilisations?.length || 0} civilisations documentées avec leurs pratiques olfactives, matériaux symboliques et contextes culturels
+          </p>
+          <div className="grid md:grid-cols-2 gap-6">
+            {civilisations?.map((civ) => (
+              <Card key={civ.id} className="hover:shadow-md transition-shadow">
+                <CardHeader>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <CardTitle className="text-xl mb-2">{civ.name}</CardTitle>
+                      <CardDescription className="flex items-center gap-2">
+                        <MapPin className="h-3 w-3" />
+                        {civ.region}
+                      </CardDescription>
+                    </div>
+                    {civ.temporality && (
+                      <Badge variant="outline">
+                        <Calendar className="h-3 w-3 mr-1" />
+                        {civ.temporality}
+                      </Badge>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {civ.longDescription && (
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                      {civ.longDescription}
+                    </p>
+                  )}
+                  {civ.temporality && (
+                    <div>
+                      <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                        <Scroll className="h-4 w-4" />
+                        Temporalité
+                      </h4>
+                      <p className="text-sm text-muted-foreground capitalize">
+                        {civ.temporality}
+                      </p>
+                    </div>
+                  )}
+                  {civ.symbolicMaterials && (
+                    <div>
+                      <h4 className="text-sm font-semibold mb-2">Matériaux Symboliques</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {civ.symbolicMaterials.split(',').map((material, idx) => (
+                          <span key={idx} className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
+                            {material.trim()}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function Civilisations() {
   return (
@@ -176,6 +261,9 @@ export default function Civilisations() {
             </div>
           </div>
         </section>
+
+        {/* Database Civilisations */}
+        <CivilisationsDatabase />
 
         {/* Statistics */}
         <section className="py-16">

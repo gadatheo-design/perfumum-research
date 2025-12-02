@@ -519,3 +519,117 @@ export async function getAbsorbeProfileByPrototypeId(prototypeId: number) {
     .where(eq(absorbeProfiles.prototypeId, prototypeId));
   return results[0] || null;
 }
+
+
+// ============================================================================
+// GLOBAL SEARCH
+// ============================================================================
+
+export async function globalSearch(query: string) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  const searchTerm = `%${query}%`;
+  
+  // Search in prototypes
+  const prototypeResults = await db
+    .select({
+      id: prototypes.id,
+      type: sql<string>`'prototype'`,
+      title: prototypes.name,
+      subtitle: prototypes.code,
+      description: prototypes.conceptualAxis,
+    })
+    .from(prototypes)
+    .where(
+      sql`${prototypes.name} LIKE ${searchTerm} OR ${prototypes.code} LIKE ${searchTerm} OR ${prototypes.conceptualAxis} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in molecules
+  const moleculeResults = await db
+    .select({
+      id: molecules.id,
+      type: sql<string>`'molecule'`,
+      title: molecules.name,
+      subtitle: molecules.family,
+      description: molecules.olfactiveProfile,
+    })
+    .from(molecules)
+    .where(
+      sql`${molecules.name} LIKE ${searchTerm} OR ${molecules.family} LIKE ${searchTerm} OR ${molecules.olfactiveProfile} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in recipes
+  const recipeResults = await db
+    .select({
+      id: recettes.id,
+      type: sql<string>`'recipe'`,
+      title: recettes.name,
+      subtitle: recettes.category,
+      description: sql<string | null>`${recettes.formula}`,
+    })
+    .from(recettes)
+    .where(
+      sql`${recettes.name} LIKE ${searchTerm} OR ${recettes.category} LIKE ${searchTerm} OR ${recettes.formula} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in glossary
+  const glossaryResults = await db
+    .select({
+      id: glossary.id,
+      type: sql<string>`'glossary'`,
+      title: glossary.term,
+      subtitle: glossary.category,
+      description: glossary.definition,
+    })
+    .from(glossary)
+    .where(
+      sql`${glossary.term} LIKE ${searchTerm} OR ${glossary.definition} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in timeline
+  const timelineResults = await db
+    .select({
+      id: researchTimeline.id,
+      type: sql<string>`'timeline'`,
+      title: researchTimeline.title,
+      subtitle: researchTimeline.category,
+      description: researchTimeline.description,
+    })
+    .from(researchTimeline)
+    .where(
+      sql`${researchTimeline.title} LIKE ${searchTerm} OR ${researchTimeline.description} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in experimental accords
+  const accordResults = await db
+    .select({
+      id: experimentalAccords.id,
+      type: sql<string>`'accord'`,
+      title: experimentalAccords.intention,
+      subtitle: sql<string>`CASE WHEN ${experimentalAccords.isExtreme} = 1 THEN 'Extrême' ELSE 'Standard' END`,
+      description: experimentalAccords.baseTabac,
+    })
+    .from(experimentalAccords)
+    .where(
+      sql`${experimentalAccords.intention} LIKE ${searchTerm} OR ${experimentalAccords.baseTabac} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  return {
+    prototypes: prototypeResults,
+    molecules: moleculeResults,
+    recipes: recipeResults,
+    glossary: glossaryResults,
+    timeline: timelineResults,
+    accords: accordResults,
+    total: prototypeResults.length + moleculeResults.length + recipeResults.length + 
+           glossaryResults.length + timelineResults.length + accordResults.length,
+  };
+}
+
+

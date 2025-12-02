@@ -272,6 +272,15 @@ export const appRouter = router({
         return await db.getExperimentalAccordsByType(input);
       }),
   }),
+
+  // Global Search
+  search: router({
+    global: publicProcedure
+      .input(z.object({ query: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.globalSearch(input.query);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
