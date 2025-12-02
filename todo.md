@@ -279,28 +279,36 @@
 - [ ] Créer un checkpoint final
 
 
-## 🔄 EN COURS : Audit Design UX/UI
+## ✅ TERMINÉ : Audit Design UX/UI
 
-### Phase 1 - Audit des pages principales
-- [ ] Auditer la page Home (navigation, hiérarchie visuelle, CTAs)
-- [ ] Auditer les pages de listes (Chimie, Familles, Civilisations, etc.)
-- [ ] Auditer les pages de détail (Molécule, Recette, Civilisation, Prototype)
-- [ ] Auditer les pages de visualisation (ABSORBE, Timeline, Glossaire)
-- [ ] Vérifier la cohérence des composants (cartes, badges, boutons)
+### Phase 1 - Audit des pages principales ✅
+- [x] Auditer la page Home (navigation, hiérarchie visuelle, CTAs)
+- [x] Auditer les pages de listes (Chimie, Familles, Civilisations, etc.)
+- [x] Auditer les pages de détail (Molécule, Recette, Civilisation, Prototype)
+- [x] Auditer les pages de visualisation (ABSORBE, Timeline, Glossaire)
+- [x] Vérifier la cohérence des composants (cartes, badges, boutons)
 
-### Phase 2 - Identification des problèmes
-- [ ] Documenter les problèmes de navigation
-- [ ] Documenter les incohérences visuelles
-- [ ] Documenter les problèmes d'accessibilité
-- [ ] Prioriser les corrections
+### Phase 2 - Identification des problèmes ✅
+- [x] Documenter les problèmes de navigation - 10 problèmes identifiés
+- [x] Documenter les incohérences visuelles - AUDIT_UX_UI.md créé
+- [x] Documenter les problèmes d'accessibilité - PLAN_CORRECTIONS_UX_UI.md créé
+- [x] Prioriser les corrections - 4 haute priorité, 4 moyenne, 2 basse
 
-### Phase 3 - Implémentation des corrections
-- [ ] Corriger les problèmes de navigation
-- [ ] Harmoniser les styles et composants
-- [ ] Améliorer l'accessibilité
-- [ ] Optimiser la responsive
+### Phase 3 - Implémentation des corrections haute priorité ✅
+- [x] Simplifier la navigation (13 liens → 5 avec menus déroulants)
+- [x] Harmoniser les styles de cartes (shadow-sm + hover effects cohérents)
+- [x] Améliorer les hover effects sur tous les éléments cliquables
+- [x] Ajouter des breadcrumbs sur les pages de détail
 
-### Phase 4 - Tests et validation
-- [ ] Tester sur desktop et mobile
-- [ ] Vérifier la cohérence globale
-- [ ] Créer un checkpoint final
+### Phase 4 - Tests et validation ✅
+- [x] Tester sur desktop
+- [x] Vérifier la cohérence globale
+- [x] Créer un checkpoint final
+
+### Corrections restantes (backlog)
+- [ ] Augmenter la taille des nœuds React Flow
+- [ ] Ajouter des états vides avec messages explicites
+- [ ] Améliorer le contraste de texte
+- [ ] Ajouter des placeholders descriptifs
+- [ ] Tester responsive mobile/tablette
+- [ ] Améliorer l'accessibilité (alt text, ARIA labels, focus states)

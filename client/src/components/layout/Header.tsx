@@ -1,7 +1,12 @@
 import { Link } from "wouter";
-import { Search } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Header() {
   return (
@@ -16,74 +21,107 @@ export function Header() {
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          {/* Le Projet - standalone */}
           <Link href="/le-projet">
             <a className="transition-colors hover:text-foreground/80 text-foreground/60">
               Le Projet
             </a>
           </Link>
-          <Link href="/prototypes">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Prototypes
-            </a>
-          </Link>
-          <Link href="/familles">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Familles
-            </a>
-          </Link>
-          <Link href="/chemical-families">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Chimie
-            </a>
-          </Link>
-          <Link href="/accords">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Accords
-            </a>
-          </Link>
-          <Link href="/experimental-accords">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Expérimental
-            </a>
-          </Link>
-          <Link href="/laboratoire">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Laboratoire
-            </a>
-          </Link>
-          <Link href="/glossaire">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Glossaire
-            </a>
-          </Link>
-          <Link href="/timeline">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Timeline
-            </a>
-          </Link>
-          <Link href="/absorbe-scale">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              ABSORBE
-            </a>
-          </Link>
+
+          {/* Données dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60">
+              Données
+              <ChevronDown className="h-3 w-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem asChild>
+                <Link href="/prototypes">
+                  <a className="w-full cursor-pointer">Prototypes</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/familles">
+                  <a className="w-full cursor-pointer">Familles Olfactives</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/chemical-families">
+                  <a className="w-full cursor-pointer">Familles Chimiques</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/accords">
+                  <a className="w-full cursor-pointer">Accords</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/experimental-accords">
+                  <a className="w-full cursor-pointer">Accords Expérimentaux</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/civilisations">
+                  <a className="w-full cursor-pointer">Civilisations</a>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Visualisations dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60">
+              Visualisations
+              <ChevronDown className="h-3 w-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem asChild>
+                <Link href="/absorbe-scale">
+                  <a className="w-full cursor-pointer">Échelle ABSORBE</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/timeline">
+                  <a className="w-full cursor-pointer">Timeline</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/installations">
+                  <a className="w-full cursor-pointer">Installations</a>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Méthodologie dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60">
+              Méthodologie
+              <ChevronDown className="h-3 w-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem asChild>
+                <Link href="/laboratoire">
+                  <a className="w-full cursor-pointer">Laboratoire</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/glossaire">
+                  <a className="w-full cursor-pointer">Glossaire</a>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Recherche - standalone */}
           <Link href="/recherche">
             <a className="transition-colors hover:text-foreground/80 text-foreground/60">
               Recherche
             </a>
           </Link>
-          <Link href="/civilisations">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Civilisations
-            </a>
-          </Link>
-          <Link href="/installations">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Installations
-            </a>
-          </Link>
         </nav>
 
-        {/* Search */}
+        {/* Search Icon */}
         <div className="flex items-center space-x-2">
           <Link href="/recherche">
             <Button variant="ghost" size="icon">

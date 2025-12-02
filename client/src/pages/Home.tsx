@@ -50,7 +50,7 @@ export default function Home() {
               {/* Prototypes */}
               <Link href="/prototypes">
                 <a className="block h-full">
-                  <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1 duration-300 group">
+                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer group">
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                         <Palette className="h-6 w-6 text-primary" />
@@ -74,7 +74,7 @@ export default function Home() {
               {/* Familles */}
               <Link href="/familles">
                 <a className="block h-full">
-                  <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1 duration-300 group">
+                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer group">
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-petrichor/10 flex items-center justify-center mb-4 group-hover:bg-petrichor/20 transition-colors">
                         <Flower2 className="h-6 w-6 text-petrichor" />
@@ -98,7 +98,7 @@ export default function Home() {
               {/* Laboratoire */}
               <Link href="/laboratoire">
                 <a className="block h-full">
-                  <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1 duration-300 group">
+                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer group">
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-volcanique/10 flex items-center justify-center mb-4 group-hover:bg-volcanique/20 transition-colors">
                         <Beaker className="h-6 w-6 text-volcanique" />
@@ -122,7 +122,7 @@ export default function Home() {
               {/* Civilisations */}
               <Link href="/civilisations">
                 <a className="block h-full">
-                  <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1 duration-300 group">
+                  <Card className="h-full shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer group">
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-solar-mineralis/10 flex items-center justify-center mb-4 group-hover:bg-solar-mineralis/20 transition-colors">
                         <Globe className="h-6 w-6 text-solar-mineralis" />

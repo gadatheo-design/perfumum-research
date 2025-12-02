@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FlaskConical, Beaker } from "lucide-react";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
 import { useMemo } from "react";
@@ -151,6 +152,15 @@ export default function RecetteDetail() {
 
   return (
     <div className="container mx-auto py-8 space-y-6">
+      {/* Breadcrumb */}
+      <Breadcrumb
+        items={[
+          { label: "Familles", href: "/familles" },
+          { label: family?.name || "Famille", href: "/familles" },
+          { label: recette.name },
+        ]}
+      />
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <Link href="/familles">
@@ -284,7 +294,7 @@ export default function RecetteDetail() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {molecules.map((molecule) => (
                 <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
-                  <Card className="cursor-pointer hover:shadow-lg transition">
+                  <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer">
                     <CardHeader>
                       <CardTitle className="text-lg">{molecule.name}</CardTitle>
                     </CardHeader>

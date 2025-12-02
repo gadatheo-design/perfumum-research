@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Globe, FlaskConical } from "lucide-react";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
 import { useMemo } from "react";
@@ -103,6 +104,15 @@ export default function CivilisationDetail() {
 
   return (
     <div className="container mx-auto py-8 space-y-6">
+      {/* Breadcrumb */}
+      <Breadcrumb
+        items={[
+          { label: "Civilisations", href: "/civilisations" },
+          { label: civilisation.region || "Région", href: "/civilisations" },
+          { label: civilisation.name },
+        ]}
+      />
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <Link href="/civilisations">
@@ -212,7 +222,7 @@ export default function CivilisationDetail() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {recettes.map((recette) => (
                 <Link key={recette.id} href={`/recette/${recette.id}`}>
-                  <Card className="cursor-pointer hover:shadow-lg transition">
+                  <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer">
                     <CardHeader>
                       <CardTitle className="text-lg">{recette.name}</CardTitle>
                     </CardHeader>

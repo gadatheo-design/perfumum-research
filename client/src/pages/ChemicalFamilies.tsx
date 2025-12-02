@@ -123,7 +123,7 @@ export function ChemicalFamilies() {
             return (
               <Card
                 key={family.family}
-                className={`cursor-pointer transition-all hover:shadow-md ${
+                className={`shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer ${
                   selectedFamily === family.family ? "ring-2 ring-primary" : ""
                 }`}
                 onClick={() => setSelectedFamily(family.family || null)}
@@ -176,7 +176,7 @@ export function ChemicalFamilies() {
                 <div className="grid grid-cols-1 gap-3">
                   {molecules.map((molecule) => (
                     <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
-                      <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer">
                       <CardHeader className="pb-3">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1">

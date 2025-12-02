@@ -33,7 +33,7 @@ function CivilisationsDatabase() {
           <div className="grid md:grid-cols-2 gap-6">
             {civilisations?.map((civ) => (
               <Link key={civ.id} href={`/civilisation/${civ.id}`}>
-                <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer">
                 <CardHeader>
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
