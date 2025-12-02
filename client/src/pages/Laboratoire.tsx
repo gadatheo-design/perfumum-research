@@ -37,7 +37,7 @@ export default function Laboratoire() {
       title: "Recettes",
       description: "Formulations complètes avec protocoles de fabrication et notes de développement",
       icon: BookOpen,
-      href: "/laboratoire/recettes",
+      href: "/recettes",
       stats: "160+ recettes",
       color: "text-orange-600",
       bgColor: "bg-orange-50",

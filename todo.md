@@ -438,3 +438,32 @@
 - [x] Tester sur desktop
 - [x] Vérifier la cohérence globale
 - [x] Créer un checkpoint final
+
+
+## ✅ TERMINÉ : Restructuration Navigation Recettes & Protocoles
+
+### Phase 1 - Page Recettes complète ✅
+- [x] Créer la page Recettes avec liste des recettes
+- [x] Ajouter filtres par catégorie (tabac, résine, cone, parfum, encens, extrait)
+- [x] Ajouter filtres par prototype (C1-C4)
+- [x] Ajouter recherche par nom
+- [x] Créer cartes cliquables vers RecetteDetail
+- [x] États de chargement élégants (skeletons)
+- [x] État vide avec message explicite
+
+### Phase 2 - Navigation principale ✅
+- [x] Ajouter "Recettes" dans le menu Données (desktop dropdown)
+- [x] Ajouter "Recettes" dans le menu burger (mobile)
+- [x] Mettre à jour le lien dans Laboratoire vers /recettes
+- [x] Vérifier la cohérence de la navigation
+
+### Phase 3 - Amélioration Protocoles ✅
+- [x] Section Protocoles & Méthodologie déjà présente dans Laboratoire
+- [x] Méthodes d'extraction documentées (Hydrodistillation, CO₂, Enfleurage)
+- [x] Techniques de formulation incluses
+- [x] Dispositifs de diffusion décrits
+
+### Phase 4 - Tests et livraison ✅
+- [x] Tester la navigation vers Recettes
+- [x] Vérifier sur desktop et mobile
+- [x] Créer un checkpoint final

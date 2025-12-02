@@ -26,6 +26,7 @@ import { AbsorbeScale } from "@/pages/AbsorbeScale";
 import Recherche from "./pages/Recherche";
 import MoleculeDetail from "./pages/MoleculeDetail";
 import RecetteDetail from "./pages/RecetteDetail";
+import Recettes from "./pages/Recettes";
 import CivilisationDetail from "./pages/CivilisationDetail";
 
 function Router() {
@@ -39,6 +40,7 @@ function Router() {
       <Route path="/familles/list" component={FamillesList} />
       <Route path="/molecules" component={Molecules} />
       <Route path="/accords" component={Accords} />
+      <Route path="/recettes" component={Recettes} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/chemical-families" component={ChemicalFamilies} />

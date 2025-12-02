@@ -59,6 +59,11 @@ export function Header() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
+                <Link href="/recettes">
+                  <a className="w-full cursor-pointer">Recettes</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/experimental-accords">
                   <a className="w-full cursor-pointer">Accords Expérimentaux</a>
                 </Link>
@@ -234,6 +239,14 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Civilisations
+                </a>
+              </Link>
+              <Link href="/recettes">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Recettes
                 </a>
               </Link>
             </div>
