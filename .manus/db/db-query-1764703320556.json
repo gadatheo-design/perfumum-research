@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS molecule_chemical_families (\n  moleculeId INT NOT NULL,\n  chemicalFamilyId INT NOT NULL,\n  PRIMARY KEY (moleculeId, chemicalFamilyId),\n  FOREIGN KEY (moleculeId) REFERENCES molecules(id) ON DELETE CASCADE,\n  FOREIGN KEY (chemicalFamilyId) REFERENCES chemical_families(id) ON DELETE CASCADE\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS molecule_chemical_families (\n  moleculeId INT NOT NULL,\n  chemicalFamilyId INT NOT NULL,\n  PRIMARY KEY (moleculeId, chemicalFamilyId),\n  FOREIGN KEY (moleculeId) REFERENCES molecules(id) ON DELETE CASCADE,\n  FOREIGN KEY (chemicalFamilyId) REFERENCES chemical_families(id) ON DELETE CASCADE\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 260
+}

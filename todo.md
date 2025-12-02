@@ -1,74 +1,120 @@
-# PERFUMUM Research - Intégration Manuel Technique
-## Plan d'intégration en 5 phases
+# PERFUMUM Research - Intégration Manuel Technique (Phases 2-5)
+
+## ✅ PHASE 1: Intégration des données fondamentales (TERMINÉE)
+- [x] 4 familles chimiques
+- [x] 19 molécules
+- [x] 5 tabacs alchimiques
+- [x] 20 accords expérimentaux
+- [x] 18 échelles sensorielles ABSORBE
 
 ---
 
-## 🔄 PHASE 1: Intégration des données fondamentales
-- [x] Créer/mettre à jour le schéma de base de données
-- [x] Ajouter les 19 molécules des 4 familles chimiques
-- [x] Créer la table des tabacs alchimiques
-- [x] Importer les 5 fiches techniques de tabacs
-- [x] Créer la table des accords expérimentaux
-- [x] Importer les 20 accords (10 standards + 10 extrêmes)
-- [x] Créer la table de l'échelle sensorielle ABSORBE
-- [x] Valider l'intégrité des données importées
+## 🔄 PHASE 2: Tables de relations entre entités
 
-## PHASE 2: Création des tables de relations
-- [ ] Créer la table `chemical_families` (4 familles)
-- [ ] Créer la table `thermal_reactions` (réactions thermiques)
-- [ ] Créer la table `molecular_interactions` (synergies)
-- [ ] Lier molécules ↔ familles chimiques
-- [ ] Lier molécules ↔ réactions thermiques
-- [ ] Lier molécules ↔ interactions
-- [ ] Valider les relations
+### Relations molécules ↔ familles chimiques
+- [x] Créer les relations entre les 19 nouvelles molécules et leurs familles chimiques
+- [x] Valider les associations
+
+### Relations tabacs ↔ installations
+- [x] Associer les 5 tabacs alchimiques aux installations correspondantes
+- [x] Créer les liens dans la table `tobacco_formula_installations` - 9 relations créées
+
+### Relations accords expérimentaux ↔ civilisations
+- [x] Identifier les correspondances entre accords et civilisations
+- [x] Créer les liens dans la table `experimental_accord_civilisations` - 44 relations créées
+
+### Validation
+- [x] Vérifier l'intégrité de toutes les relations créées - 72 relations totales
+- [ ] Créer un checkpoint de sécuritélles olfactives dominantes
+- [ ] Documenter les profils sensoriels
+
+---
 
 ## PHASE 3: Connexion avec données existantes
-- [ ] Lier molécules ↔ prototypes C1-C4
-- [ ] Lier molécules ↔ familles Pétrichor
-- [ ] Lier molécules ↔ familles Volcanique
-- [ ] Lier accords ↔ civilisations
-- [ ] Lier tabacs ↔ installations
-- [ ] Valider les connexions
 
-## PHASE 4: Création des contenus manquants
-- [ ] Lacune 1: Créer section correspondance Prototypes ↔ Familles chimiques
-- [ ] Lacune 2: Créer section Pétrichor/Volcanique ↔ Profils terpéniques
-- [ ] Lacune 3: Créer cartographie interactive réseaux moléculaires
-- [ ] Lacune 4: Créer section Accords Civilisationnels
-- [ ] Lacune 5: Créer section Diffusion Spatiale
-- [ ] Lacune 6: Créer glossaire unifié PERFUMUM
-- [ ] Lacune 7: Créer section Sécurité & Bonnes Pratiques
-- [ ] Lacune 8: Créer plan de recherche décennal
+### Prototypes C1-C4 ↔ Familles chimiques
+- [ ] Analyser la composition chimique de chaque prototype
+- [ ] Créer les liens avec les familles chimiques pertinentes
 
-## PHASE 5: Adaptation UX/UI et checkpoint final
-- [ ] Créer page "Fondements Théoriques" (13 tomes)
-- [ ] Créer page "Chimie Olfactive" (4 familles + interactions)
-- [ ] Créer page "Tabacs Alchimiques" (5 fiches)
-- [ ] Créer page "Accords Expérimentaux" (20 accords)
-- [ ] Créer page "Échelle Sensorielle" (outil interactif)
-- [ ] Créer page "Glossaire" (termes techniques)
-- [ ] Créer page "Méthodologie" (protocoles)
-- [ ] Tester toutes les fonctionnalités
-- [ ] Créer le checkpoint final
+### Prototypes C1-C4 ↔ Tabacs alchimiques
+- [ ] Identifier quels tabacs alchimiques sont utilisés dans quels prototypes
+- [ ] Documenter les applications pratiques
+
+### Accords existants ↔ Accords expérimentaux
+- [ ] Comparer les 19 accords existants avec les 20 accords expérimentaux
+- [ ] Identifier les similitudes et différences
+- [ ] Fusionner ou distinguer selon pertinence
+
+### Pétrichor/Volcanique ↔ Accords expérimentaux
+- [ ] Relier les variations Pétrichor aux accords "Terre & Minéral"
+- [ ] Relier les variations Volcanique aux accords "Soufré & Volcanique"
 
 ---
 
-## Données actuelles (277 entrées)
-- 4 prototypes C1-C4
-- 9 molécules
-- 10 familles olfactives
-- 19 accords
-- 86 recettes
-- 18 matières premières
-- 26 civilisations
-- 7 installations
-- 60 variations Pétrichor
-- 36 variations Volcanique
+## PHASE 4: Combler les 8 lacunes identifiées
 
-## Données à ajouter (Phase 1)
-- +20 molécules (4 familles chimiques)
-- +5 tabacs alchimiques
-- +20 accords expérimentaux
-- Échelle sensorielle ABSORBE
+### 1. Glossaire unifié
+- [ ] Créer une table `glossary` avec tous les termes techniques
+- [ ] Importer les définitions depuis le manuel et arch_2.txt
+- [ ] Ajouter les termes manquants
 
-**Total après Phase 1: ~322 entrées**
+### 2. Protocoles de sécurité
+- [ ] Créer une table `safety_protocols`
+- [ ] Documenter les précautions pour chaque famille chimique
+- [ ] Ajouter les fiches de sécurité des molécules
+
+### 3. Calendrier de recherche décennal
+- [ ] Créer une table `research_timeline`
+- [ ] Définir les jalons 2025-2035
+- [ ] Planifier les phases de développement
+
+### 4. Visualisations de réseaux moléculaires
+- [ ] Préparer les données pour graphes de relations
+- [ ] Documenter les interactions moléculaires
+
+### 5. Protocoles pour civilisations
+- [ ] Créer des protocoles de reconstitution olfactive
+- [ ] Lier aux accords signature de chaque civilisation
+
+### 6. Liens installations ↔ prototypes
+- [ ] Documenter quels prototypes sont utilisés dans quelles installations
+- [ ] Créer les relations manquantes
+
+### 7. Documentation des réactions thermiques
+- [ ] Créer une table `thermal_reactions`
+- [ ] Documenter fermentation, pyrolyse, oxydation
+- [ ] Lier aux molécules et familles chimiques
+
+### 8. Système d'appellation interne
+- [ ] Documenter le système Climat/Texture/Âme
+- [ ] Créer une table `naming_system`
+- [ ] Appliquer aux entités existantes
+
+---
+
+## PHASE 5: Adaptation UX/UI et finalisation
+
+### Pages de visualisation
+- [ ] Page Familles Chimiques avec molécules associées
+- [ ] Page Tabacs Alchimiques avec compositions interactives
+- [ ] Page Accords Expérimentaux (standards vs extrêmes)
+- [ ] Page Échelle Sensorielle ABSORBE avec visualisations
+
+### Navigation et recherche
+- [ ] Intégrer les nouvelles entités dans la recherche globale
+- [ ] Ajouter les filtres appropriés
+- [ ] Créer les liens de navigation entre entités
+
+### Interface d'administration
+- [ ] Formulaires pour tabacs alchimiques
+- [ ] Formulaires pour accords expérimentaux
+- [ ] Formulaires pour familles chimiques
+
+### Tests et validation
+- [ ] Tester toutes les relations
+- [ ] Vérifier l'intégrité des données
+- [ ] Valider les performances
+
+### Checkpoint final
+- [ ] Créer le checkpoint complet
+- [ ] Documenter l'architecture finale
