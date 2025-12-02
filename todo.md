@@ -8,10 +8,10 @@
 - [x] Ajouter les 19 molécules des 4 familles chimiques
 - [x] Créer la table des tabacs alchimiques
 - [x] Importer les 5 fiches techniques de tabacs
-- [ ] Créer la table des accords expérimentaux
-- [ ] Importer les 20 accords (10 standards + 10 extrêmes)
-- [ ] Créer la table de l'échelle sensorielle ABSORBE
-- [ ] Valider l'intégrité des données importées
+- [x] Créer la table des accords expérimentaux
+- [x] Importer les 20 accords (10 standards + 10 extrêmes)
+- [x] Créer la table de l'échelle sensorielle ABSORBE
+- [x] Valider l'intégrité des données importées
 
 ## PHASE 2: Création des tables de relations
 - [ ] Créer la table `chemical_families` (4 familles)
