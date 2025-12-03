@@ -27,6 +27,10 @@ import Recherche from "./pages/Recherche";
 import MoleculeDetail from "./pages/MoleculeDetail";
 import RecetteDetail from "./pages/RecetteDetail";
 import Recettes from "./pages/Recettes";
+import Gammes from "./pages/Gammes";
+import GammesPetrichor from "./pages/GammesPetrichor";
+import GammesVolcanique from "./pages/GammesVolcanique";
+import GammesMossi from "./pages/GammesMossi";
 import CivilisationDetail from "./pages/CivilisationDetail";
 
 function Router() {
@@ -41,6 +45,10 @@ function Router() {
       <Route path="/molecules" component={Molecules} />
       <Route path="/accords" component={Accords} />
       <Route path="/recettes" component={Recettes} />
+      <Route path="/gammes" component={Gammes} />
+      <Route path="/gammes/petrichor" component={GammesPetrichor} />
+      <Route path="/gammes/volcanique" component={GammesVolcanique} />
+      <Route path="/gammes/mossi" component={GammesMossi} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/chemical-families" component={ChemicalFamilies} />

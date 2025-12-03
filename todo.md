@@ -467,3 +467,40 @@
 - [x] Tester la navigation vers Recettes
 - [x] Vérifier sur desktop et mobile
 - [x] Créer un checkpoint final
+
+
+## ✅ TERMINÉ : Pages Gammes & Recherche Avancée
+
+### Phase 1 - Structure Gammes ✅
+- [x] Créer page principale /gammes avec présentation des 3 gammes
+- [x] Définir structure de données pour Pétrichor (60 variations)
+- [x] Définir structure de données pour Volcanique (36 variations)
+- [x] Définir structure de données pour Royal Mossi (12 variations)
+- [x] Ajouter Gammes au menu navigation (Données > Gammes)
+
+### Phase 2 - Pages détail Gammes ✅
+- [x] Créer page Pétrichor avec 6 accords maîtres + 5 accords radicaux
+- [x] Documenter formules, variations, effets, usages pour chaque accord
+- [x] Créer pages Volcanique et Mossi (en développement)
+- [x] Ajouter méthodologie de recherche (variations systématiques, dimension artistique)
+- [x] Routes /gammes, /gammes/petrichor, /gammes/volcanique, /gammes/mossi
+
+### Phase 3 - Recherche Avancée Multi-critères ✅
+- [x] Implémenter filtres multi-critères (Prototypes, Molécules, Recettes, Glossaire, Timeline, Accords, Civilisations)
+- [x] Grouper résultats par type avec compteurs
+- [x] Améliorer UI avec sidebar filtres responsive
+- [x] Ajouter "Tout sélectionner" pour filtres
+- [x] Afficher message si aucun résultat
+
+### Phase 4 - Auto-complétion & Historique ✅
+- [x] Créer système d'historique de recherches (localStorage, 10 dernières)
+- [x] Afficher historique dans sidebar filtres
+- [x] Suggestions cliquables depuis l'historique
+- [x] Bouton "Effacer l'historique"
+- [x] Afficher recherches récentes quand champ vide
+
+### Phase 5 - Tests et livraison ✅
+- [x] Tester pages Gammes (navigation, contenu, liens)
+- [x] Tester recherche avancée (filtres, historique)
+- [x] Vérifier responsive mobile
+- [x] Créer un checkpoint final
