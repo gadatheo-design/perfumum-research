@@ -338,6 +338,30 @@ export const appRouter = router({
       return await db.getNetworkRelationships();
     }),
   }),
+  // Dashboard statistics
+  dashboard: router({
+    getStats: publicProcedure.query(async () => {
+      return await db.getDashboardStats();
+    }),
+    
+    getRecipesByStatus: publicProcedure.query(async () => {
+      return await db.getRecipesByStatus();
+    }),
+    
+    getRecipesByCategory: publicProcedure.query(async () => {
+      return await db.getRecipesByCategory();
+    }),
+    
+    getMoleculesByFamily: publicProcedure.query(async () => {
+      return await db.getMoleculesFamilyStats();
+    }),
+    
+    getRecentActivity: publicProcedure
+      .input(z.object({ limit: z.number().optional() }).optional())
+      .query(async ({ input }) => {
+        return await db.getRecentActivity(input?.limit);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

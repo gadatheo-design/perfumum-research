@@ -923,3 +923,87 @@ export async function getNetworkRelationships() {
 // TABACS & SYNERGIES
 // ============================================================
 
+
+
+// ============================================
+// DASHBOARD STATISTICS
+// ============================================
+
+export async function getDashboardStats() {
+  const db = await getDb();
+  if (!db) return { molecules: 0, recettes: 0, accords: 0, prototypes: 0, civilisations: 0 };
+  
+  const [moleculesCount] = await db.select({ count: sql<number>`count(*)` }).from(molecules);
+  const [recettesCount] = await db.select({ count: sql<number>`count(*)` }).from(recettes);
+  const [accordsCount] = await db.select({ count: sql<number>`count(*)` }).from(accords);
+  const [prototypesCount] = await db.select({ count: sql<number>`count(*)` }).from(prototypes);
+  const [civilisationsCount] = await db.select({ count: sql<number>`count(*)` }).from(civilisations);
+  
+  return {
+    molecules: moleculesCount?.count || 0,
+    recettes: recettesCount?.count || 0,
+    accords: accordsCount?.count || 0,
+    prototypes: prototypesCount?.count || 0,
+    civilisations: civilisationsCount?.count || 0,
+  };
+}
+
+export async function getRecipesByStatus() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const statusCounts = await db
+    .select({
+      status: recettes.status,
+      count: sql<number>`count(*)`,
+    })
+    .from(recettes)
+    .groupBy(recettes.status);
+  
+  return statusCounts;
+}
+
+export async function getRecipesByCategory() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const categoryCounts = await db
+    .select({
+      category: recettes.category,
+      count: sql<number>`count(*)`,
+    })
+    .from(recettes)
+    .where(sql`${recettes.category} IS NOT NULL`)
+    .groupBy(recettes.category);
+  
+  return categoryCounts;
+}
+
+export async function getMoleculesFamilyStats() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const familyCounts = await db
+    .select({
+      family: molecules.family,
+      count: sql<number>`count(*)`,
+    })
+    .from(molecules)
+    .where(sql`${molecules.family} IS NOT NULL`)
+    .groupBy(molecules.family);
+  
+  return familyCounts;
+}
+
+export async function getRecentActivity(limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const recentRecettes = await db
+    .select()
+    .from(recettes)
+    .orderBy(sql`${recettes.createdAt} DESC`)
+    .limit(limit);
+  
+  return recentRecettes;
+}

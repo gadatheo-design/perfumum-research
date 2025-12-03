@@ -104,6 +104,11 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="animate-scaleIn" align="start">
               <DropdownMenuItem asChild>
+                <Link href="/dashboard">
+                  <a className="w-full cursor-pointer">Dashboard</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/absorbe-scale">
                   <a className="w-full cursor-pointer">Échelle ABSORBE</a>
                 </Link>
@@ -345,6 +350,14 @@ export function Header() {
               Visualisations
             </h3>
             <div className="space-y-1">
+              <Link href="/dashboard">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Dashboard
+                </a>
+              </Link>
               <Link href="/absorbe-scale">
                 <a
                   className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"

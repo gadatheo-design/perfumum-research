@@ -936,3 +936,63 @@
 - [ ] Tester navigation breadcrumbs sur toutes les pages
 - [ ] Créer checkpointVérifier labels et chemins
 - [ ] Créer checkpoint
+
+
+## 🔄 EN COURS : Dashboard Analytics
+
+### Phase 1 - Procédures tRPC statistiques ✅
+- [x] Créer procedure `dashboard.getStats` (totaux molécules, recettes, accords, prototypes)
+- [x] Créer procedure `dashboard.getRecipesByStatus` (répartition expérimental/testing/validé/production)
+- [x] Créer procedure `dashboard.getRecentActivity` (dernières modifications)
+- [x] Créer procedure `dashboard.getCategoryBreakdown` (recettes par catégorie, molécules par famille)
+- [x] Fonctions db.ts créées (getDashboardStats, getRecipesByStatus, etc.)
+
+### Phase 2 - Page Dashboard avec cartes & graphiques ✅
+- [x] Créer page `/dashboard` avec layout responsive
+- [x] Cartes overview (5 totaux avec icônes: molécules, recettes, accords, prototypes, civilisations)
+- [x] Graphiques répartition (statuts, catégories) avec barres de progression
+- [x] Design cohérent avec thème site (purple-600, cards, breadcrumbs)
+
+### Phase 3 - Timeline activité & métriques qualité ✅
+- [x] Section activité récente (8 dernières recettes avec statut)
+- [x] Métriques progression R&D (graphique statuts avec pourcentages)
+- [x] Indicateurs qualité intégrés (statuts colorés, badges)
+
+### Phase 4 - Intégration navigation & tests
+- [ ] Ajouter Dashboard au menu principal
+- [ ] Ajouter Breadcrumbs
+- [ ] Tester affichage données réelles
+- [ ] Créer checkpoint
+
+
+## ✅ TERMINÉ : Dashboard Analytics
+
+### Phase 1 - Procédures tRPC ✅
+- [x] Créer procedure `dashboard.getOverview` (totaux molécules, recettes, accords, prototypes, civilisations)
+- [x] Créer procedure `dashboard.getRecipesByStatus` (répartition expérimental/testing/validé/production)
+- [x] Créer procedure `dashboard.getMoleculesByFamily` (répartition par famille chimique)
+- [x] Créer procedure `dashboard.getRecentActivity` (dernières modifications)
+- [x] Fonctions db.ts créées (getDashboardStats, getRecipesByStatus, etc.)
+
+### Phase 2 - Page Dashboard avec cartes & graphiques ✅
+- [x] Créer page `/dashboard` avec layout responsive
+- [x] Cartes overview (5 totaux avec icônes: molécules, recettes, accords, prototypes, civilisations)
+- [x] Graphiques répartition (statuts, catégories) avec barres de progression
+- [x] Design cohérent avec thème site (purple-600, cards, breadcrumbs)
+
+### Phase 3 - Timeline activité & métriques qualité ✅
+- [x] Section activité récente (8 dernières recettes avec statut)
+- [x] Métriques progression R&D (graphique statuts avec pourcentages)
+- [x] Indicateurs qualité intégrés (statuts colorés, badges)
+
+### Phase 4 - Intégration navigation & tests ✅
+- [x] Ajouter Dashboard au menu principal (Visualisations > Dashboard)
+- [x] Ajouter route /dashboard dans App.tsx
+- [x] Ajouter Dashboard desktop (dropdown Visualisations)
+- [x] Ajouter Dashboard mobile (section Visualisations)
+- [x] Breadcrumbs déjà intégrés dans Dashboard.tsx
+
+### Phase 5 - Checkpoint final
+- [ ] Tester le Dashboard sur desktop et mobile
+- [ ] Vérifier le chargement des données
+- [ ] Créer le checkpoint final
