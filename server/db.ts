@@ -18,6 +18,8 @@ import {
   absorbeProfiles,
   prototypeChemicalFamilies,
   chemicalFamilies,
+  moleculeChemicalFamilies,
+  accordCivilisations,
   researchTimeline,
   experimentalAccords,
   moleculeRecettes,
@@ -787,5 +789,114 @@ export async function getPrototypeWithRelations(id: number) {
     prototype,
     absorbeProfile,
     chemicalFamilies: relatedFamilies,
+  };
+}
+
+
+// ============================================================================
+// NETWORK VISUALIZATION - ALL RELATIONSHIPS
+// ============================================================================
+
+export async function getNetworkRelationships() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get all entities
+  const allPrototypes = await db.select().from(prototypes);
+  const allMolecules = await db.select().from(molecules);
+  const allRecettes = await db.select().from(recettes);
+  const allCivilisations = await db.select().from(civilisations);
+  const allAccords = await db.select().from(accords);
+  
+  // Get all relationships
+  // 1. Molecules → Chemical Families (via molecule_chemical_families junction table)
+  const moleculeFamilyRelations = await db
+    .select({
+      moleculeId: molecules.id,
+      moleculeName: molecules.name,
+      familyId: chemicalFamilies.id,
+      familyName: chemicalFamilies.name,
+    })
+    .from(moleculeChemicalFamilies)
+    .innerJoin(molecules, eq(moleculeChemicalFamilies.moleculeId, molecules.id))
+    .innerJoin(chemicalFamilies, eq(moleculeChemicalFamilies.chemicalFamilyId, chemicalFamilies.id));
+  
+  // 2. Prototypes → Chemical Families
+  const prototypeChemicalFamilyRelations = await db
+    .select({
+      prototypeId: prototypes.id,
+      prototypeName: prototypes.name,
+      prototypeCode: prototypes.code,
+      familyId: chemicalFamilies.id,
+      familyName: chemicalFamilies.name,
+    })
+    .from(prototypeChemicalFamilies)
+    .innerJoin(prototypes, eq(prototypeChemicalFamilies.prototypeId, prototypes.id))
+    .innerJoin(chemicalFamilies, eq(prototypeChemicalFamilies.chemicalFamilyId, chemicalFamilies.id));
+  
+  // 3. Recettes → Families (via familyId)
+  const recetteFamilyRelations = await db
+    .select({
+      recetteId: recettes.id,
+      recetteName: recettes.name,
+      familyId: families.id,
+      familyName: families.name,
+    })
+    .from(recettes)
+    .innerJoin(families, eq(recettes.familyId, families.id))
+    .where(sql`${recettes.familyId} IS NOT NULL`);
+  
+  // 4. Recettes → Accords (via accordId)
+  const recetteAccordRelations = await db
+    .select({
+      recetteId: recettes.id,
+      recetteName: recettes.name,
+      accordId: accords.id,
+      accordName: accords.name,
+    })
+    .from(recettes)
+    .innerJoin(accords, eq(recettes.accordId, accords.id))
+    .where(sql`${recettes.accordId} IS NOT NULL`);
+  
+  // 5. Civilisations → Accords (via accord_civilisations)
+  const civilisationAccordRelations = await db
+    .select({
+      civilisationId: civilisations.id,
+      civilisationName: civilisations.name,
+      accordId: accords.id,
+      accordName: accords.name,
+    })
+    .from(accordCivilisations)
+    .innerJoin(civilisations, eq(accordCivilisations.civilisationId, civilisations.id))
+    .innerJoin(accords, eq(accordCivilisations.accordId, accords.id));
+  
+  // 6. Recettes → Civilisations (via civilisationId)
+  const recetteCivilisationRelations = await db
+    .select({
+      recetteId: recettes.id,
+      recetteName: recettes.name,
+      civilisationId: civilisations.id,
+      civilisationName: civilisations.name,
+    })
+    .from(recettes)
+    .innerJoin(civilisations, eq(recettes.civilisationId, civilisations.id))
+    .where(sql`${recettes.civilisationId} IS NOT NULL`);
+  
+  return {
+    entities: {
+      prototypes: allPrototypes,
+      molecules: allMolecules,
+      recettes: allRecettes,
+      civilisations: allCivilisations,
+      accords: allAccords,
+    },
+    relationships: {
+      moleculeFamilies: moleculeFamilyRelations,
+      prototypeChemicalFamilies: prototypeChemicalFamilyRelations,
+      recetteFamilies: recetteFamilyRelations,
+      recetteAccords: recetteAccordRelations,
+      civilisationAccords: civilisationAccordRelations,
+      recetteCivilisations: recetteCivilisationRelations,
+    },
   };
 }

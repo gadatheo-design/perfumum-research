@@ -576,3 +576,36 @@
 - [x] Tester visualisation réseau (filtres, recherche, clics)
 - [x] Vérifier navigation globale
 - [x] Créer un checkpoint final
+
+
+## ✅ TERMINÉ : Enrichissement Réseau avec Connexions Réelles
+
+### Phase 1 - Procédures tRPC pour relations ✅
+- [x] Créer procédure getNetworkRelationships pour récupérer toutes les relations
+- [x] Récupérer relations molécules ↔ familles chimiques (via molecule_chemical_families)
+- [x] Récupérer relations prototypes ↔ familles chimiques (via prototype_chemical_families)
+- [x] Récupérer relations civilisations ↔ accords (via accord_civilisations)
+- [x] Récupérer relations recettes ↔ accords (via accordId)
+- [x] Récupérer relations recettes ↔ civilisations (via civilisationId)
+- [x] Récupérer relations recettes ↔ familles (via familyId)
+
+### Phase 2 - Mise à jour page Réseau ✅
+- [x] Utiliser trpc.network.getRelationships.useQuery() pour données réelles
+- [x] Afficher toutes les entités (prototypes, accords, molécules, recettes, civilisations)
+- [x] Créer les edges basés sur les relations DB (recette-accord, civilisation-accord, recette-civilisation)
+- [x] Optimiser la disposition du graphe (layout hiérarchique par type)
+- [x] Nœuds cliquables avec navigation vers pages de détail
+
+### Phase 3 - Amélioration visuelle ✅
+- [x] Hiérarchie visuelle : prototypes (haut) → accords → molécules → recettes → civilisations (bas)
+- [x] Couleurs distinctes par type (violet/bleu/vert/jaune/orange)
+- [x] Labels lisibles avec padding et font-size adaptés
+- [x] Statistiques affichées (nœuds, connexions, compteurs par type)
+- [x] Légende interactive dans Panel React Flow
+- [x] Filtres par type avec boutons toggle
+- [x] Recherche dans le réseau
+
+### Phase 4 - Tests et livraison ✅
+- [x] Tester le graphe avec données réelles (4 prototypes, 20 accords, 30 molécules, 30 recettes, 10 civilisations)
+- [x] Vérifier les performances (limité à 30 molécules/recettes pour fluidité)
+- [x] Créer un checkpoint final

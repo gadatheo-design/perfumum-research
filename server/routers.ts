@@ -317,6 +317,13 @@ export const appRouter = router({
         return await db.getPrototypeWithRelations(input.id);
       }),
   }),
+
+  // Network visualization
+  network: router({
+    getRelationships: publicProcedure.query(async () => {
+      return await db.getNetworkRelationships();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
