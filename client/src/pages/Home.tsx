@@ -22,13 +22,10 @@ export default function Home() {
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance mb-6 animate-fadeInUp">
                 PERFUMUM
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground text-balance mb-4 animate-fadeInUp" style={{animationDelay: '0.1s'}}>
+              <p className="text-xl md:text-2xl text-muted-foreground text-balance mb-12 animate-fadeInUp" style={{animationDelay: '0.1s'}}>
                 Recherche Olfactive
               </p>
-              <blockquote className="text-lg md:text-xl italic text-foreground/80 border-l-4 border-primary pl-6 py-4 my-8 text-left max-w-2xl mx-auto animate-fadeInUp" style={{animationDelay: '0.2s'}}>
-                "Perfumum n'est pas un projet d'art qui utilise l'odeur : Perfumum est une pensée artistique dont l'odeur est le médium."
-              </blockquote>
-              <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.4s'}}>
+              <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.2s'}}>
                 <Link href="/prototypes">
                   <Button size="lg" className="gap-2">
                     Explorer les Prototypes
