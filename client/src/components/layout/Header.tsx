@@ -54,6 +54,16 @@ export function Header() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
+                <Link href="/molecules">
+                  <a className="w-full cursor-pointer">Molécules</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/bio-mineralis">
+                  <a className="w-full cursor-pointer">BIO-MINERALIS</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/accords">
                   <a className="w-full cursor-pointer">Accords</a>
                 </Link>
@@ -225,6 +235,22 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Familles Chimiques
+                </a>
+              </Link>
+              <Link href="/molecules">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Molécules
+                </a>
+              </Link>
+              <Link href="/bio-mineralis">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  BIO-MINERALIS
                 </a>
               </Link>
               <Link href="/accords">

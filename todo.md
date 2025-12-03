@@ -609,3 +609,54 @@
 - [x] Tester le graphe avec données réelles (4 prototypes, 20 accords, 30 molécules, 30 recettes, 10 civilisations)
 - [x] Vérifier les performances (limité à 30 molécules/recettes pour fluidité)
 - [x] Créer un checkpoint final
+
+
+## ✅ TERMINÉ : Création pages web Molécules & BIO-MINERALIS
+
+### Phase 1 - Page Molécules ✅
+- [x] Créer page /molecules avec liste des 111 molécules (existait déjà)
+- [x] Ajouter filtres par groupe (Terre, Fumée, Botanique, Lactones)
+- [x] Ajouter recherche par nom
+- [x] Afficher formules chimiques, profils olfactifs, concentrations
+- [x] Ajouter au menu navigation (Données > Molécules)
+
+### Phase 2 - Page BIO-MINERALIS ✅
+- [x] Créer page /bio-mineralis avec les 9 accords (6 révolutionnaires + 3 existants)
+- [x] Afficher protocoles de pyrolyse et macération
+- [x] Visualiser les 12 molécules-piliers
+- [x] Hero section avec manifesto et méthodologie
+- [x] Ajouter au menu navigation (Données > BIO-MINERALIS)
+
+### Phase 3 - Tests et validation ✅
+- [x] Tester navigation et filtres
+- [x] Vérifier affichage des données (9 accords affichés)
+- [ ] Créer checkpoint
+
+
+## ⏳ À FAIRE : Import Royal Mossi complet
+
+- [ ] Analyser arch_1.txt pour extraire Royal Mossi
+- [ ] Créer script SQL pour 6 familles moléculaires
+- [ ] Importer les données dans la base
+- [ ] Créer page /gammes/mossi avec détails complets
+- [ ] Créer checkpoint
+
+
+## ⏳ À FAIRE : Import recettes supplémentaires
+
+- [ ] Analyser arch_1.txt et arch_2.txt pour recettes
+- [ ] Identifier 20-50 recettes manquantes
+- [ ] Créer script SQL d'import
+- [ ] Importer dans la base de données
+- [ ] Vérifier intégrité des données
+- [ ] Créer checkpoint
+
+
+## ⏳ À FAIRE : Intégration manuel CBD & Terpènes
+
+- [ ] Analyser manuel_resines_terpenes_V2.pdf
+- [ ] Extraire données pertinentes
+- [ ] Créer structures de données si nécessaire
+- [ ] Importer dans la base
+- [ ] Créer page dédiée si applicable
+- [ ] Créer checkpoint final

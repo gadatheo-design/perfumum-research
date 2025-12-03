@@ -37,6 +37,7 @@ import C2ClarusVerde from "./pages/prototypes/C2";
 import C3LactaSolis from "./pages/prototypes/C3";
 import C4TerraAmbra from "./pages/prototypes/C4";
 import Reseau from "./pages/Reseau";
+import BioMineralis from "./pages/BioMineralis";
 
 function Router() {
   return (
@@ -66,6 +67,7 @@ function Router() {
         <Route path="/absorbe-scale" component={AbsorbeScale} />
           <Route path="/recherche" component={Recherche} />
       <Route path="/reseau" component={Reseau} />
+      <Route path="/bio-mineralis" component={BioMineralis} />
           <Route path="/molecule/:id" component={MoleculeDetail} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />
