@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CivilisationCardSkeleton } from "@/components/ui/card-skeleton";
@@ -99,6 +100,7 @@ function CivilisationsDatabase() {
 export default function Civilisations() {
   return (
     <div className="min-h-screen flex flex-col">
+      <Breadcrumbs />
       <Header />
       
       <main className="flex-1">

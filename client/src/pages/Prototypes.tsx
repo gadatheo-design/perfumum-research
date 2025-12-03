@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PrototypeCard } from "@/components/cards/PrototypeCard";
 import { trpc } from "@/lib/trpc";
 import { Loader2 } from "lucide-react";
@@ -18,6 +19,7 @@ export default function Prototypes() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Breadcrumbs />
       <Header />
       
       <main className="flex-1">

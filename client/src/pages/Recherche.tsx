@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -151,6 +152,7 @@ export default function Recherche() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Breadcrumbs />
       <Header />
       
       <main className="container py-16">

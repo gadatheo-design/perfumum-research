@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { trpc } from "../lib/trpc";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SearchBar } from "../components/filters/SearchBar";
 import { FilterSelect } from "../components/filters/FilterSelect";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
@@ -95,6 +96,7 @@ export function Glossaire() {
 
   return (
     <div className="container py-8">
+      <Breadcrumbs />
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">Glossaire</h1>

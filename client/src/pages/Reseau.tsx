@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
 import { useState, useCallback, useMemo } from "react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import ReactFlow, {
   Node,
   Edge,
@@ -306,6 +307,7 @@ export default function Reseau() {
 
   return (
     <div className="container mx-auto py-8 space-y-6">
+      <Breadcrumbs />
       {/* Header */}
       <div className="space-y-4">
         <div className="flex items-center gap-3">

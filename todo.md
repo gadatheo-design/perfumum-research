@@ -919,13 +919,20 @@
 - [x] Laboratoire Recettes
 - [ ] Glossaire (optionnel)
 
-### Phase 3 - Pages restantes
-- [ ] Prototypes
-- [ ] Familles
-- [ ] Gammes Mossi
-- [ ] Chemical Families
+### Phase 3 - Pages restantes ✅
+- [x] Recettes
+- [x] Prototypes
+- [x] Familles
+- [x] Gammes (hub)
+- [x] GammesMossi
+- [x] Glossaire
+- [x] Laboratoire
+- [x] Recherche
+- [x] Civilisations
+- [x] Installations
+- [x] Réseau
 
 ### Phase 4 - Tests et validation
-- [ ] Tester navigation breadcrumbs
-- [ ] Vérifier labels et chemins
+- [ ] Tester navigation breadcrumbs sur toutes les pages
+- [ ] Créer checkpointVérifier labels et chemins
 - [ ] Créer checkpoint
