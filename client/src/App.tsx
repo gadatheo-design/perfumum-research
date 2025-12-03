@@ -32,6 +32,11 @@ import GammesPetrichor from "./pages/GammesPetrichor";
 import GammesVolcanique from "./pages/GammesVolcanique";
 import GammesMossi from "./pages/GammesMossi";
 import CivilisationDetail from "./pages/CivilisationDetail";
+import C1Fermentum from "./pages/prototypes/C1";
+import C2ClarusVerde from "./pages/prototypes/C2";
+import C3LactaSolis from "./pages/prototypes/C3";
+import C4TerraAmbra from "./pages/prototypes/C4";
+import Reseau from "./pages/Reseau";
 
 function Router() {
   return (
@@ -39,7 +44,12 @@ function Router() {
       <Route path={"/admin"} component={Admin} />
       <Route path={"/admin/molecules/new"} component={AdminMoleculeNew} />
       <Route path={"/404"} component={NotFound} />      <Route path="/le-projet" component={LeProjet} />
-      <Route path="/prototypes" component={Prototypes} />      <Route path="/prototypes/:code" component={PrototypeDetail} />
+      <Route path="/prototypes" component={Prototypes} />
+      <Route path="/prototypes/c1" component={C1Fermentum} />
+      <Route path="/prototypes/c2" component={C2ClarusVerde} />
+      <Route path="/prototypes/c3" component={C3LactaSolis} />
+      <Route path="/prototypes/c4" component={C4TerraAmbra} />
+      <Route path="/prototypes/:code" component={PrototypeDetail} />
       <Route path="/familles" component={Familles} />
       <Route path="/familles/list" component={FamillesList} />
       <Route path="/molecules" component={Molecules} />
@@ -55,6 +65,7 @@ function Router() {
       <Route path="/experimental-accords" component={ExperimentalAccords} />
         <Route path="/absorbe-scale" component={AbsorbeScale} />
           <Route path="/recherche" component={Recherche} />
+      <Route path="/reseau" component={Reseau} />
           <Route path="/molecule/:id" component={MoleculeDetail} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />

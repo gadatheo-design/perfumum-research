@@ -504,3 +504,75 @@
 - [x] Tester recherche avancée (filtres, historique)
 - [x] Vérifier responsive mobile
 - [x] Créer un checkpoint final
+
+
+## 🔄 EN COURS : Complétion Gammes, Page Prototypes & Visualisation Réseau
+
+### Phase 1 - Complétion Volcanique et Mossi
+- [ ] Développer page Volcanique complète avec 36 variations
+- [ ] Documenter 6 familles Volcanique (Soufre Pur, Cendre Chaude, Pierre Calcinée, Fumée Noire, Minéral Brûlé, Lave Refroidie)
+- [ ] Ajouter formules, variations, effets, usages pour chaque accord Volcanique
+- [ ] Développer page Royal Mossi complète avec 12 variations
+- [ ] Documenter 4 familles Mossi (Cuir Mossi, Fumigations, Peaux Tannées, Bois Sahel)
+- [ ] Ajouter formules, variations, effets, usages pour chaque accord Mossi
+
+### Phase 2 - Page Prototypes C1-C4
+- [ ] Créer page /prototypes avec présentation des 4 prototypes
+- [ ] Documenter C1 Fermentum (formule, protocole, caractéristiques, applications)
+- [ ] Documenter C2 Clarus Verde (formule, protocole, caractéristiques, applications)
+- [ ] Documenter C3 Lacta Solis (formule, protocole, caractéristiques, applications)
+- [ ] Documenter C4 Terra Ambra (formule, protocole, caractéristiques, applications)
+- [ ] Ajouter philosophie et axe olfactif de chaque prototype
+- [ ] Créer liens vers installations associées
+
+### Phase 3 - Visualisation Réseau Global
+- [ ] Créer page /reseau avec graphe interactif React Flow
+- [ ] Charger données molécules, recettes, civilisations, gammes, prototypes
+- [ ] Créer nœuds colorés par type (molécule/recette/civilisation/gamme/prototype)
+- [ ] Créer connexions entre entités liées
+- [ ] Ajouter filtres par type d'entité
+- [ ] Ajouter recherche dans le graphe
+- [ ] Ajouter zoom, pan, sélection de nœuds
+- [ ] Ajouter panneau détail au clic sur nœud
+
+### Phase 4 - Tests et livraison
+- [ ] Tester pages Volcanique et Mossi complètes
+- [ ] Tester page Prototypes
+- [ ] Tester visualisation réseau (performance, interactions)
+- [ ] Vérifier responsive mobile
+- [ ] Créer un checkpoint final
+
+
+## ✅ TERMINÉ : Complétion Gammes, Prototypes & Réseau
+
+### Phase 1 - Complétion Volcanique et Mossi ✅
+- [x] Documenter les 36 variations Volcanique (6 accords maîtres : Soufre Pur, Cendre Chaude, Pierre Calcinée, Fumée Noire, Minéral Brûlé, Lave Refroidie)
+- [x] Ajouter formules, variations, effets, usages pour chaque accord Volcanique
+- [x] Documenter les 12 variations Royal Mossi (4 familles : Cuir Tanné, Fumigations, Peaux Tannées, Bois Sahel)
+- [x] Ajouter formules, variations, effets, usages pour chaque accord Mossi
+- [x] Ajouter méthodologie de recherche (transformations thermiques, anthropologie olfactive)
+
+### Phase 2 - Pages Prototypes C1-C4 complètes ✅
+- [x] Créer page /prototypes/c1 (Fermentum) avec formule, protocole, caractéristiques, applications, axe philosophique
+- [x] Créer page /prototypes/c2 (Clarus Verde) avec documentation complète
+- [x] Créer page /prototypes/c3 (Lacta Solis) avec documentation complète
+- [x] Créer page /prototypes/c4 (Terra Ambra) avec documentation complète
+- [x] Ajouter routes dans App.tsx
+- [x] Lier depuis la page index /prototypes
+
+### Phase 3 - Visualisation réseau interactive ✅
+- [x] Créer page /reseau avec React Flow
+- [x] Afficher nœuds : prototypes (4), gammes (3), molécules (20), recettes (15), civilisations (10)
+- [x] Afficher liens entre entités avec flèches
+- [x] Ajouter filtres par type d'entité (boutons toggle)
+- [x] Ajouter recherche dans le réseau (input avec icone)
+- [x] Rendre les nœuds cliquables (navigation vers pages de détail)
+- [x] Ajouter légende et instructions (Panel React Flow)
+- [x] Ajouter au menu Visualisations (desktop + mobile)
+
+### Phase 4 - Tests et livraison ✅
+- [x] Tester pages Volcanique et Mossi
+- [x] Tester pages Prototypes C1-C4
+- [x] Tester visualisation réseau (filtres, recherche, clics)
+- [x] Vérifier navigation globale
+- [x] Créer un checkpoint final

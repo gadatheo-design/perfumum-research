@@ -103,6 +103,11 @@ export function Header() {
                   <a className="w-full cursor-pointer">Installations</a>
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/reseau">
+                  <a className="w-full cursor-pointer">Réseau de Relations</a>
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -293,6 +298,14 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Installations
+                </a>
+              </Link>
+              <Link href="/reseau">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Réseau de Relations
                 </a>
               </Link>
             </div>
