@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ResponsiveTable } from "@/components/ui/responsive-table";
 
 export function ModelesAnalytiquesGCMS() {
   // Spectres de référence monoterpènes
@@ -299,7 +300,8 @@ export function ModelesAnalytiquesGCMS() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Table>
+                <ResponsiveTable>
+                  <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Molécule</TableHead>
@@ -320,7 +322,8 @@ export function ModelesAnalytiquesGCMS() {
                       </TableRow>
                     ))}
                   </TableBody>
-                </Table>
+                  </Table>
+                </ResponsiveTable>
               </CardContent>
             </Card>
 
@@ -332,7 +335,8 @@ export function ModelesAnalytiquesGCMS() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Table>
+                <ResponsiveTable>
+                  <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Molécule</TableHead>
@@ -353,7 +357,8 @@ export function ModelesAnalytiquesGCMS() {
                       </TableRow>
                     ))}
                   </TableBody>
-                </Table>
+                  </Table>
+                </ResponsiveTable>
               </CardContent>
             </Card>
 
@@ -370,7 +375,8 @@ export function ModelesAnalytiquesGCMS() {
                     <Badge className="bg-amber-500">Burley</Badge>
                     <span className="text-sm text-muted-foreground">Profil dominant : Sesquiterpènes (13.7%), Aldéhydes (4.2%)</span>
                   </div>
-                  <Table>
+                  <ResponsiveTable>
+                    <Table>
                     <TableHeader>
                       <TableRow>
                         <TableHead>TR (min)</TableHead>
@@ -389,7 +395,8 @@ export function ModelesAnalytiquesGCMS() {
                         </TableRow>
                       ))}
                     </TableBody>
-                  </Table>
+                    </Table>
+                  </ResponsiveTable>
                 </div>
 
                 <div>
@@ -397,7 +404,8 @@ export function ModelesAnalytiquesGCMS() {
                     <Badge className="bg-yellow-500">Virginia Gold</Badge>
                     <span className="text-sm text-muted-foreground">Profil dominant : Monoterpènes (23.8%), Aldéhydes (3.8%)</span>
                   </div>
-                  <Table>
+                  <ResponsiveTable>
+                    <Table>
                     <TableHeader>
                       <TableRow>
                         <TableHead>TR (min)</TableHead>
@@ -416,7 +424,8 @@ export function ModelesAnalytiquesGCMS() {
                         </TableRow>
                       ))}
                     </TableBody>
-                  </Table>
+                    </Table>
+                  </ResponsiveTable>
                 </div>
               </CardContent>
             </Card>
@@ -492,7 +501,8 @@ export function ModelesAnalytiquesGCMS() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Table>
+                <ResponsiveTable>
+                  <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Molécule</TableHead>
@@ -513,7 +523,8 @@ export function ModelesAnalytiquesGCMS() {
                       </TableRow>
                     ))}
                   </TableBody>
-                </Table>
+                  </Table>
+                </ResponsiveTable>
                 <div className="mt-4 p-4 rounded-lg bg-muted/50">
                   <div className="font-semibold text-sm mb-2">Définitions</div>
                   <div className="text-sm text-muted-foreground space-y-1">

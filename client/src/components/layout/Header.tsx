@@ -179,12 +179,45 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Recherche Scientifique - standalone */}
-          <Link href="/recherche-scientifique">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+          {/* Recherche Scientifique dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60">
               Recherche Scientifique
-            </a>
-          </Link>
+              <ChevronDown className="h-3 w-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="animate-scaleIn" align="start">
+              <DropdownMenuItem asChild>
+                <Link href="/recherche-scientifique">
+                  <a className="w-full cursor-pointer">Vue d'ensemble</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/recherche-scientifique/synergies-moleculaires">
+                  <a className="w-full cursor-pointer">Synergies Moléculaires</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/recherche-scientifique/pyrolyse-combustion">
+                  <a className="w-full cursor-pointer">Pyrolyse & Combustion</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/recherche-scientifique/courbes-volatilite">
+                  <a className="w-full cursor-pointer">Courbes de Volatilité</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/recherche-scientifique/degradation-terpenes">
+                  <a className="w-full cursor-pointer">Dégradation des Terpènes</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/recherche-scientifique/modeles-analytiques-gcms">
+                  <a className="w-full cursor-pointer">Modèles Analytiques GC-MS</a>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {/* Outils dropdown */}
           <DropdownMenu>
