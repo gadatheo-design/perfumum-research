@@ -146,6 +146,36 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
+          {/* Outils dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60">
+              Outils
+              <ChevronDown className="h-3 w-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="animate-scaleIn" align="start">
+              <DropdownMenuItem asChild>
+                <Link href="/laboratoire/recettes">
+                  <a className="w-full cursor-pointer">Calculateur de Dosages</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/molecules">
+                  <a className="w-full cursor-pointer">Molécules</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/laboratoire/recettes">
+                  <a className="w-full cursor-pointer">R&D Recettes</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/laboratoire">
+                  <a className="w-full cursor-pointer">Laboratoire</a>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* Recherche - standalone */}
           <Link href="/recherche">
             <a className="transition-colors hover:text-foreground/80 text-foreground/60">
@@ -370,6 +400,47 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Glossaire
+                </a>
+              </Link>
+            </div>
+          </div>
+
+          {/* Outils Section */}
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+              Outils
+            </h3>
+            <div className="space-y-1">
+              <Link href="/laboratoire/recettes">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Calculateur de Dosages
+                </a>
+              </Link>
+              <Link href="/molecules">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Molécules
+                </a>
+              </Link>
+              <Link href="/laboratoire/recettes">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  R&D Recettes
+                </a>
+              </Link>
+              <Link href="/laboratoire">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Laboratoire
                 </a>
               </Link>
             </div>

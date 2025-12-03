@@ -890,3 +890,17 @@
 - [ ] Tester navigation sur toutes les pages
 - [ ] Vérifier breadcrumbs et recherche
 - [ ] Créer checkpoint
+
+
+## 🔄 EN COURS : Menu Outils dans header
+
+### Phase 1 - Création menu Outils ✅
+- [x] Ajouter dropdown "Outils" dans Header (desktop)
+- [x] Liens : Calculateur dosages, Molécules, R&D Recettes, Laboratoire
+- [x] Design cohérent avec navigation existante (ChevronDown, DropdownMenu)
+- [x] Responsive mobile (section Outils avec 4 liens)
+
+### Phase 2 - Tests et validation ✅
+- [x] Tester sur desktop (dropdown fonctionne, 4 liens affichés)
+- [ ] Tester sur mobile (menu hamburger)
+- [x] Créer checkpoint
