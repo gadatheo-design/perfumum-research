@@ -1,5 +1,21 @@
-import { Link } from "wouter";
-import { Search, ChevronDown, Menu } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { 
+  Search, 
+  ChevronDown, 
+  Menu, 
+  Home,
+  Database,
+  BarChart3,
+  BookOpen,
+  Microscope,
+  Wrench,
+  Beaker,
+  Flame,
+  Wind,
+  TestTube,
+  Zap,
+  X
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,11 +29,16 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSearch, setMobileSearch] = useState("");
+  const [location] = useLocation();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 transition-all duration-300 shadow-sm">
@@ -178,38 +199,16 @@ export function Header() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/molecules">
-                  <a className="w-full cursor-pointer">Molécules</a>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/laboratoire/recettes">
-                  <a className="w-full cursor-pointer">R&D Recettes</a>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/laboratoire">
-                  <a className="w-full cursor-pointer">Laboratoire</a>
+                <Link href="/recherche">
+                  <a className="w-full cursor-pointer">Recherche</a>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          {/* Recherche - standalone */}
-          <Link href="/recherche">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
-              Recherche
-            </a>
-          </Link>
         </nav>
 
-        {/* Mobile Menu Button + Search */}
+        {/* Mobile Menu Button */}
         <div className="flex items-center gap-2 md:hidden">
-          <Link href="/recherche">
-            <Button variant="ghost" size="icon">
-              <Search className="h-5 w-5" />
-            </Button>
-          </Link>
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
@@ -221,31 +220,80 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-80 overflow-y-auto">
-              <SheetHeader>
+              <SheetHeader className="flex flex-row items-center justify-between">
                 <SheetTitle className="text-2xl font-bold">PERFUMUM</SheetTitle>
+                <SheetClose asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <X className="h-5 w-5" />
+                    <span className="sr-only">Fermer</span>
+                  </Button>
+                </SheetClose>
               </SheetHeader>
-              <nav className="flex flex-col mt-6 space-y-6">
-                {/* Le Projet */}
-                <div>
-                  <Link href="/le-projet">
-                    <a
-                      className="block text-lg font-medium py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Le Projet
-                    </a>
-                  </Link>
+
+              {/* Mobile Search */}
+              <div className="mt-4 px-2">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="search"
+                    placeholder="Rechercher..."
+                    className="pl-9"
+                    value={mobileSearch}
+                    onChange={(e) => setMobileSearch(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && mobileSearch.trim()) {
+                        setMobileMenuOpen(false);
+                        window.location.href = `/recherche?q=${encodeURIComponent(mobileSearch)}`;
+                      }
+                    }}
+                  />
                 </div>
+              </div>
+
+              <nav className="flex flex-col mt-6 space-y-6">
+                {/* Accueil */}
+                <Link href="/">
+                  <a
+                    className={cn(
+                      "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
+                      location === "/" && "bg-accent text-accent-foreground font-medium"
+                    )}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Home className="h-5 w-5 flex-shrink-0" />
+                    <span>Accueil</span>
+                  </a>
+                </Link>
+
+                {/* Le Projet */}
+                <Link href="/le-projet">
+                  <a
+                    className={cn(
+                      "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
+                      location === "/le-projet" && "bg-accent text-accent-foreground font-medium"
+                    )}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <BookOpen className="h-5 w-5 flex-shrink-0" />
+                    <span>Le Projet</span>
+                  </a>
+                </Link>
 
                 {/* Données Section */}
                 <div className="space-y-2">
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-                    Données
-                  </h3>
+                  <div className="flex items-center gap-2 px-4">
+                    <Database className="h-4 w-4 text-muted-foreground" />
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                      Données
+                    </h3>
+                  </div>
                   <div className="space-y-1">
                     <Link href="/prototypes">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/prototypes" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Prototypes
@@ -253,7 +301,10 @@ export function Header() {
                     </Link>
                     <Link href="/familles">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/familles" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Familles Olfactives
@@ -261,7 +312,10 @@ export function Header() {
                     </Link>
                     <Link href="/chemical-families">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/chemical-families" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Familles Chimiques
@@ -269,7 +323,10 @@ export function Header() {
                     </Link>
                     <Link href="/molecules">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/molecules" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Molécules
@@ -277,7 +334,10 @@ export function Header() {
                     </Link>
                     <Link href="/bio-mineralis">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/bio-mineralis" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         BIO-MINERALIS
@@ -285,7 +345,10 @@ export function Header() {
                     </Link>
                     <Link href="/resines-cbd">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/resines-cbd" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Résines CBD
@@ -293,7 +356,10 @@ export function Header() {
                     </Link>
                     <Link href="/accords">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/accords" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Accords
@@ -301,7 +367,10 @@ export function Header() {
                     </Link>
                     <Link href="/experimental-accords">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/experimental-accords" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Accords Expérimentaux
@@ -309,7 +378,10 @@ export function Header() {
                     </Link>
                     <Link href="/civilisations">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/civilisations" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Civilisations
@@ -317,7 +389,10 @@ export function Header() {
                     </Link>
                     <Link href="/recettes">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/recettes" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Recettes
@@ -325,7 +400,10 @@ export function Header() {
                     </Link>
                     <Link href="/gammes">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/gammes" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Gammes
@@ -336,13 +414,19 @@ export function Header() {
 
                 {/* Visualisations Section */}
                 <div className="space-y-2">
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-                    Visualisations
-                  </h3>
+                  <div className="flex items-center gap-2 px-4">
+                    <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                      Visualisations
+                    </h3>
+                  </div>
                   <div className="space-y-1">
                     <Link href="/dashboard">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/dashboard" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Dashboard
@@ -350,7 +434,10 @@ export function Header() {
                     </Link>
                     <Link href="/absorbe-scale">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/absorbe-scale" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Échelle ABSORBE
@@ -358,7 +445,10 @@ export function Header() {
                     </Link>
                     <Link href="/timeline">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/timeline" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Timeline
@@ -366,7 +456,10 @@ export function Header() {
                     </Link>
                     <Link href="/installations">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/installations" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Installations
@@ -374,7 +467,10 @@ export function Header() {
                     </Link>
                     <Link href="/reseau">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/reseau" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Réseau de Relations
@@ -385,13 +481,19 @@ export function Header() {
 
                 {/* Méthodologie Section */}
                 <div className="space-y-2">
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-                    Méthodologie
-                  </h3>
+                  <div className="flex items-center gap-2 px-4">
+                    <Beaker className="h-4 w-4 text-muted-foreground" />
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                      Méthodologie
+                    </h3>
+                  </div>
                   <div className="space-y-1">
                     <Link href="/laboratoire">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/laboratoire" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Laboratoire
@@ -399,7 +501,10 @@ export function Header() {
                     </Link>
                     <Link href="/glossaire">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/glossaire" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Glossaire
@@ -410,16 +515,82 @@ export function Header() {
 
                 {/* Recherche Scientifique Section */}
                 <div className="space-y-2">
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-                    Recherche Scientifique
-                  </h3>
+                  <div className="flex items-center gap-2 px-4">
+                    <Microscope className="h-4 w-4 text-muted-foreground" />
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                      Recherche Scientifique
+                    </h3>
+                  </div>
                   <div className="space-y-1">
                     <Link href="/recherche-scientifique">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/recherche-scientifique" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
-                        Modules de Recherche
+                        Vue d'ensemble
+                      </a>
+                    </Link>
+                    <Link href="/recherche-scientifique/synergies-moleculaires">
+                      <a
+                        className={cn(
+                          "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
+                          location === "/recherche-scientifique/synergies-moleculaires" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Zap className="h-4 w-4 flex-shrink-0 text-violet-500" />
+                        <span>Synergies Moléculaires</span>
+                      </a>
+                    </Link>
+                    <Link href="/recherche-scientifique/pyrolyse-combustion">
+                      <a
+                        className={cn(
+                          "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
+                          location === "/recherche-scientifique/pyrolyse-combustion" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Flame className="h-4 w-4 flex-shrink-0 text-red-500" />
+                        <span>Pyrolyse & Combustion</span>
+                      </a>
+                    </Link>
+                    <Link href="/recherche-scientifique/courbes-volatilite">
+                      <a
+                        className={cn(
+                          "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
+                          location === "/recherche-scientifique/courbes-volatilite" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Wind className="h-4 w-4 flex-shrink-0 text-cyan-500" />
+                        <span>Courbes de Volatilité</span>
+                      </a>
+                    </Link>
+                    <Link href="/recherche-scientifique/degradation-terpenes">
+                      <a
+                        className={cn(
+                          "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
+                          location === "/recherche-scientifique/degradation-terpenes" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Flame className="h-4 w-4 flex-shrink-0 text-orange-500" />
+                        <span>Dégradation des Terpènes</span>
+                      </a>
+                    </Link>
+                    <Link href="/recherche-scientifique/modeles-analytiques-gcms">
+                      <a
+                        className={cn(
+                          "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
+                          location === "/recherche-scientifique/modeles-analytiques-gcms" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <TestTube className="h-4 w-4 flex-shrink-0 text-purple-500" />
+                        <span>Modèles Analytiques GC-MS</span>
                       </a>
                     </Link>
                   </div>
@@ -427,13 +598,19 @@ export function Header() {
 
                 {/* Outils Section */}
                 <div className="space-y-2">
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-                    Outils
-                  </h3>
+                  <div className="flex items-center gap-2 px-4">
+                    <Wrench className="h-4 w-4 text-muted-foreground" />
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                      Outils
+                    </h3>
+                  </div>
                   <div className="space-y-1">
                     <Link href="/laboratoire/recettes">
                       <a
-                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/laboratoire/recettes" && "bg-accent text-accent-foreground font-medium"
+                        )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Calculateur de Dosages
