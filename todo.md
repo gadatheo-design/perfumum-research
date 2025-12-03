@@ -1099,3 +1099,34 @@
 - [x] Tester module Pyrolyse & Combustion (3 onglets, 8 profils, zones température, 3 protocoles)
 - [x] Vérifier navigation entre modules (breadcrumbs, tabs)
 - [x] Créer checkpoint final
+
+
+## 🔄 EN COURS : Module Courbes de Volatilité
+
+### Phase 1 - Conception structure données et visualisation ✅
+- [x] Définir structure données courbes de volatilité par tabac (6 températures x 5 familles)
+- [x] Choisir approche visualisation (graphiques ligne avec Recharts)
+- [x] Mapper températures → composés volatils pour les 8 tabacs (80-180°C)
+- [x] Créer données exemple réalistes basées sur profils pyrolyse (volatility_curves_data.md)
+
+### Phase 2 - Création page CourbesVolatilite ✅
+- [x] Créer la page CourbesVolatilite.tsx avec Recharts
+- [x] Design hero section avec icône Wind cyan
+- [x] Ajouter breadcrumbs et navigation
+- [x] Intégrer sélecteur de tabac (dropdown Select avec 8 variétés)
+
+### Phase 3 - Graphiques interactifs ✅
+- [x] Implémenter graphiques température vs volatilité (LineChart responsive 500px)
+- [x] Ajouter courbes par famille de composés (5 lignes: terpènes, aldéhydes, lactones, pyrazines, phénols)
+- [x] Créer visualisations zones critiques (3 cartes: basse/moyenne/haute avec températures et applications)
+- [x] Ajouter légendes et annotations (légende 5 familles avec descriptions)
+
+### Phase 4 - Tests et intégration ✅
+- [x] Tester affichage graphiques pour les 8 tabacs (Burley → Virginia Gold testé, graphique dynamique)
+- [x] Vérifier navigation depuis page Recherche Scientifique (breadcrumbs corrects)
+- [x] Valider responsive design (ResponsiveContainer 500px, légende grid responsive)
+- [x] Ajouter route dans App.tsx (/recherche-scientifique/courbes-volatilite)
+
+### Phase 5 - Checkpoint final
+- [ ] Valider toutes les fonctionnalités
+- [ ] Créer checkpoint avec module Courbes de Volatilité
