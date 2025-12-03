@@ -190,8 +190,12 @@ export const recettes = mysqlTable("recettes", {
   accordId: int("accordId").references(() => accords.id),
   tabacId: int("tabacId").references(() => tabacs.id),
   civilisationId: int("civilisationId").references(() => civilisations.id),
+  description: text("description"), // Short description
+  ingredients: text("ingredients"), // Key ingredients list
   formula: text("formula"), // Detailed proportions
   protocol: text("protocol"), // Fabrication instructions
+  notes: text("notes"), // Additional notes (profile, rarity, cost)
+  texture: varchar("texture", { length: 100 }), // sec, humide, résine, etc.
   intensity: int("intensity"), // 1-10
   stability: mysqlEnum("stability", ["low", "medium", "high"]),
   combustionTemperature: int("combustionTemperature"),

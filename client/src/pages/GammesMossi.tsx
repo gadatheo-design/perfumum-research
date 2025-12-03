@@ -135,6 +135,256 @@ export default function GammesMossi() {
           </div>
         </section>
 
+        {/* 6 Molecular Families */}
+        <section className="py-16 bg-gradient-to-b from-background to-amber-50/30">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8">
+                6 Familles Moléculaires Royal Mossi
+              </h2>
+              <p className="text-muted-foreground mb-12 max-w-3xl">
+                L'analyse moléculaire de la gamme Royal Mossi révèle <strong>6 familles chimiques</strong> qui structurent l'identité olfactive sahélienne : sesquiterpènes racinaires (terre, humidité sèche), phénols fumés (bois brûlé), aldéhydes secs (poussière chaude), résines orientales (encens rituel), composés ferriques (terre rouge), et molécules de cuir (animalité noble). Ces <strong>20 molécules-clés</strong> constituent l'architecture olfactive du Sahel.
+              </p>
+              
+              <div className="grid gap-6">
+                {/* Famille 1: Sesquiterpènes racinaires */}
+                <Card className="border-amber-200 bg-gradient-to-br from-amber-50/50 to-white">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center">
+                        <span className="text-2xl font-bold text-amber-700">1</span>
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">Sesquiterpènes racinaires</CardTitle>
+                        <CardDescription>Terre, humidité sèche, racines profondes</CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div className="bg-white/60 rounded-lg p-3 border border-amber-100">
+                        <div className="font-semibold text-sm mb-1">Vétivénol (C15H26O)</div>
+                        <div className="text-xs text-muted-foreground">racine, terre, humidité sèche</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-amber-100">
+                        <div className="font-semibold text-sm mb-1">Vétivone (C15H22O)</div>
+                        <div className="text-xs text-muted-foreground">racine sombre, terre humide</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-amber-100">
+                        <div className="font-semibold text-sm mb-1">Khusimol (C15H26O)</div>
+                        <div className="text-xs text-muted-foreground">boisé, racinaire, velouté</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-amber-100">
+                        <div className="font-semibold text-sm mb-1">β-guaïène (C15H24)</div>
+                        <div className="text-xs text-muted-foreground">boisé, épicé, terreux</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-amber-100">
+                        <div className="font-semibold text-sm mb-1">α-humulène (C15H24)</div>
+                        <div className="text-xs text-muted-foreground">houblon, boisé, terreux</div>
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground italic mt-3">
+                      <strong>Synergie clé :</strong> Vétiver + Terre rouge ferrique → sol Sahélien sous soleil brûlant
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Famille 2: Phénols & fumées sèches */}
+                <Card className="border-orange-200 bg-gradient-to-br from-orange-50/50 to-white">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">
+                        <span className="text-2xl font-bold text-orange-700">2</span>
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">Phénols & fumées sèches</CardTitle>
+                        <CardDescription>Bois brûlé, fumée douce, médicinal</CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div className="bg-white/60 rounded-lg p-3 border border-orange-100">
+                        <div className="font-semibold text-sm mb-1">4-methyl-guaiacol (C8H10O2)</div>
+                        <div className="text-xs text-muted-foreground">fumée douce, vanillé fumé</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-orange-100">
+                        <div className="font-semibold text-sm mb-1">Phénol boisé (C6H6O)</div>
+                        <div className="text-xs text-muted-foreground">fumée, bois brûlé, médicinal</div>
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground italic mt-3">
+                      <strong>Synergie clé :</strong> Guaiacol + Vétiver → tambour brûlé après cérémonie
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Famille 3: Aldéhydes secs */}
+                <Card className="border-yellow-200 bg-gradient-to-br from-yellow-50/50 to-white">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
+                        <span className="text-2xl font-bold text-yellow-700">3</span>
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">Aldéhydes secs</CardTitle>
+                        <CardDescription>Poussière chaude, métallique, minéral</CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div className="bg-white/60 rounded-lg p-3 border border-yellow-100">
+                        <div className="font-semibold text-sm mb-1">Aldéhyde C-10 (C10H20O)</div>
+                        <div className="text-xs text-muted-foreground">métallique, poussière chaude</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-yellow-100">
+                        <div className="font-semibold text-sm mb-1">Aldéhyde C-11 (C11H22O)</div>
+                        <div className="text-xs text-muted-foreground">aldéhydique, poudré, chaud</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-yellow-100">
+                        <div className="font-semibold text-sm mb-1">Aldéhyde C-12 (C12H24O)</div>
+                        <div className="text-xs text-muted-foreground">aldéhydique, métallique, sec</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-yellow-100">
+                        <div className="font-semibold text-sm mb-1">Aldéhyde métallique</div>
+                        <div className="text-xs text-muted-foreground">métallique, froid, minéral</div>
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground italic mt-3">
+                      <strong>Synergie clé :</strong> Aldéhydes + poussière ferrique → vent rouge chaud Sahel
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Famille 4: Résines orientales Mandé */}
+                <Card className="border-rose-200 bg-gradient-to-br from-rose-50/50 to-white">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-lg bg-rose-100 flex items-center justify-center">
+                        <span className="text-2xl font-bold text-rose-700">4</span>
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">Résines orientales Mandé</CardTitle>
+                        <CardDescription>Encens rituel, balsamique, sacré</CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div className="bg-white/60 rounded-lg p-3 border border-rose-100">
+                        <div className="font-semibold text-sm mb-1">Furanosesquiterpènes (C15H20O)</div>
+                        <div className="text-xs text-muted-foreground">résine, épicé, balsamique</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-rose-100">
+                        <div className="font-semibold text-sm mb-1">Furanoeudesmanes (C15H22O)</div>
+                        <div className="text-xs text-muted-foreground">résine, boisé, balsamique</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-rose-100">
+                        <div className="font-semibold text-sm mb-1">Incensol (C20H34O)</div>
+                        <div className="text-xs text-muted-foreground">encens, résine, balsamique</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-rose-100">
+                        <div className="font-semibold text-sm mb-1">Incensol acetate (C22H36O2)</div>
+                        <div className="text-xs text-muted-foreground">encens, résine douce</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-rose-100">
+                        <div className="font-semibold text-sm mb-1">Mechoulim</div>
+                        <div className="text-xs text-muted-foreground">résine, balsamique, sacré</div>
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground italic mt-3">
+                      <strong>Synergie clé :</strong> Myrrhe + Encens + Terre rouge → liturgie ancestrale Mandé/Mossi
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Famille 5: Composés ferriques & terre rouge */}
+                <Card className="border-red-200 bg-gradient-to-br from-red-50/50 to-white">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center">
+                        <span className="text-2xl font-bold text-red-700">5</span>
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">Composés ferriques & terre rouge</CardTitle>
+                        <CardDescription>Métal, poussière rouge, chaleur</CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div className="bg-white/60 rounded-lg p-3 border border-red-100">
+                        <div className="font-semibold text-sm mb-1">Oxydes de fer volatils</div>
+                        <div className="text-xs text-muted-foreground">métal, poussière rouge, chaleur</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-red-100">
+                        <div className="font-semibold text-sm mb-1">Complexes terre minérale</div>
+                        <div className="text-xs text-muted-foreground">terre rouge, poussière chaude</div>
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground italic mt-3">
+                      <strong>Signature unique :</strong> Terre rouge sahélienne sous soleil brûlant
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Famille 6: Molécules de cuir */}
+                <Card className="border-stone-200 bg-gradient-to-br from-stone-50/50 to-white">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-lg bg-stone-100 flex items-center justify-center">
+                        <span className="text-2xl font-bold text-stone-700">6</span>
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">Molécules de cuir</CardTitle>
+                        <CardDescription>Animal, fumé, ambre noir</CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div className="bg-white/60 rounded-lg p-3 border border-stone-100">
+                        <div className="font-semibold text-sm mb-1">Quinoléine (C9H7N)</div>
+                        <div className="text-xs text-muted-foreground">cuir, animal, fumé</div>
+                      </div>
+                      <div className="bg-white/60 rounded-lg p-3 border border-stone-100">
+                        <div className="font-semibold text-sm mb-1">Labdanum diterpenes (C20H32)</div>
+                        <div className="text-xs text-muted-foreground">ambre noir, cuir végétal</div>
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground italic mt-3">
+                      <strong>Synergie clé :</strong> Cuir Mossi + Myrrhe → accord sacré-roi
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Architecture Moléculaire */}
+              <div className="mt-12 bg-gradient-to-br from-amber-100/50 to-orange-100/50 rounded-xl p-8 border border-amber-200">
+                <h3 className="text-2xl font-bold mb-6 text-center">Architecture Moléculaire Royal Mossi</h3>
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="bg-white/80 rounded-lg p-6 border border-amber-200">
+                    <div className="text-3xl font-bold text-amber-700 mb-2">60%</div>
+                    <div className="font-semibold mb-2">Base (immobile, sacrée)</div>
+                    <div className="text-sm text-muted-foreground">Racines + Cuir + Résine</div>
+                  </div>
+                  <div className="bg-white/80 rounded-lg p-6 border border-orange-200">
+                    <div className="text-3xl font-bold text-orange-700 mb-2">30%</div>
+                    <div className="font-semibold mb-2">Cœur (soleil, poussière)</div>
+                    <div className="text-sm text-muted-foreground">Terre rouge + Aldéhydes chauds</div>
+                  </div>
+                  <div className="bg-white/80 rounded-lg p-6 border border-yellow-200">
+                    <div className="text-3xl font-bold text-yellow-700 mb-2">10%</div>
+                    <div className="font-semibold mb-2">Tête (brillance)</div>
+                    <div className="text-sm text-muted-foreground">Minéral + Vent + Lumière sèche</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Methodology */}
         <section className="py-16 bg-muted/30">
           <div className="container">

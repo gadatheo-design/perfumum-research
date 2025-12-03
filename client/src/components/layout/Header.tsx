@@ -64,6 +64,11 @@ export function Header() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
+                <Link href="/resines-cbd">
+                  <a className="w-full cursor-pointer">Résines CBD</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/accords">
                   <a className="w-full cursor-pointer">Accords</a>
                 </Link>
@@ -251,6 +256,14 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   BIO-MINERALIS
+                </a>
+              </Link>
+              <Link href="/resines-cbd">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Résines CBD
                 </a>
               </Link>
               <Link href="/accords">

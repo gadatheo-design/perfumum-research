@@ -659,3 +659,42 @@
 - [x] Importer 7 recettes CBD dans la base (7/7 importées)
 - [ ] Créer page /resines-cbd dédiée (optionnel)
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Création pages CBD & Royal Mossi
+
+### Phase 1 - Page Résines CBD
+- [ ] Créer page /resines-cbd avec 7 profils premium
+- [ ] Afficher protocoles détaillés (température, maturation, dosages)
+- [ ] Lister terpènes et synergies aromatiques
+- [ ] Ajouter informations rareté et coûts
+- [ ] Ajouter au menu navigation (Données > Résines CBD)
+
+### Phase 2 - Enrichir page Royal Mossi
+- [ ] Lire page /gammes/mossi existante
+- [ ] Ajouter section "6 Familles Moléculaires"
+- [ ] Afficher les 20 molécules avec profils olfactifs
+- [ ] Créer visualisation des synergies clés
+- [ ] Documenter architecture moléculaire (Base 60%, Cœur 30%, Tête 10%)
+
+### Phase 3 - Tests et validation ✅
+- [x] Tester navigation vers les nouvelles pages (/resines-cbd, /gammes/mossi)
+- [x] Vérifier affichage des données (7 profils CBD + 6 familles moléculaires)
+- [x] Créer checkpoint final
+
+
+## ✅ MISE À JOUR : Statut Phase 1 & 2
+
+### Phase 1 - Page Résines CBD ✅
+- [x] Créer page /resines-cbd avec 7 profils premium
+- [x] Afficher protocoles détaillés (température, maturation, dosages)
+- [x] Lister terpènes et synergies aromatiques
+- [x] Ajouter informations rareté et coûts
+- [x] Ajouter au menu navigation (Données > Résines CBD)
+
+### Phase 2 - Enrichir page Royal Mossi ✅
+- [x] Lire page /gammes/mossi existante
+- [x] Ajouter section "6 Familles Moléculaires"
+- [x] Afficher les 20 molécules avec profils olfactifs
+- [x] Créer visualisation des synergies clés
+- [x] Documenter architecture moléculaire (Base 60%, Cœur 30%, Tête 10%)

@@ -228,6 +228,12 @@ export async function getRecetteById(id: number): Promise<Recette | undefined> {
   return result[0];
 }
 
+export async function getRecettesByCategory(category: "tabac" | "resine" | "cone" | "parfum" | "encens" | "extrait"): Promise<Recette[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(recettes).where(eq(recettes.category, category));
+}
+
 // ============================================================================
 // CIVILISATIONS
 // ============================================================================

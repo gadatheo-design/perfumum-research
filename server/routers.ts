@@ -104,9 +104,16 @@ export const appRouter = router({
 
   // Recettes
   recettes: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllRecettes();
-    }),
+    list: publicProcedure
+      .input(z.object({
+        category: z.enum(["tabac", "resine", "cone", "parfum", "encens", "extrait"]).optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        if (input?.category) {
+          return await db.getRecettesByCategory(input.category);
+        }
+        return await db.getAllRecettes();
+      }),
     getById: publicProcedure
       .input((val: unknown) => {
         if (typeof val !== "number") throw new Error("Expected number");
