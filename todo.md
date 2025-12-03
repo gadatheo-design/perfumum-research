@@ -1063,6 +1063,39 @@
 - [x] Valider les filtres et interactions (dropdown type de synergie fonctionnel)
 - [x] Tester les breadcrumbs et liens de retour (Accueil > Recherche-scientifique > Synergies-moleculaires)
 
-### Phase 5 - Checkpoint final
-- [ ] Valider toutes les fonctionnalités
-- [ ] Créer le checkpoint avec section Recherche Scientifique
+### Phase 5 - Checkpoint final ✅
+- [x] Valider toutes les fonctionnalités (navigation, cartes, module Synergies)
+- [x] Créer le checkpoint avec section Recherche Scientifique (version eff080cc)
+
+
+## 🔄 EN COURS : Synergies + Module Pyrolyse & Combustion
+
+### Phase 1 - Création données synergies ✅
+- [x] Analyser les molécules existantes dans la base
+- [x] Créer 15 synergies réalistes basées sur tabacs enrichis
+- [x] Mapper les types (6 potentialisation, 4 stabilisation, 4 transformation, 1 masquage)
+- [x] Rédiger descriptions effet + notes techniques détaillées
+
+### Phase 2 - Insertion et vérification synergies ✅
+- [x] Insérer les 15 synergies dans la base de données (seed_synergies.sql)
+- [x] Vérifier l'affichage dans le module Synergies Moléculaires (15 synergies affichées)
+- [x] Tester les filtres par type (Potentialisation: 5 résultats)
+- [x] Valider les statistiques (15 total, 5 potentialisation, 4 stabilisation, 4 transformation, 2 masquage)
+
+### Phase 3 - Page Pyrolyse & Combustion ✅
+- [x] Créer la page PyrolyseCombustion.tsx avec 3 onglets
+- [x] Design hero section avec icône Flame rouge vif
+- [x] Ajouter breadcrumbs et navigation
+- [x] Créer la structure de contenu (intro, tabs, footer)
+
+### Phase 4 - Courbes et visualisations ✅
+- [x] Ajouter profils de pyrolyse pour les 8 tabacs (températures, produits, notes)
+- [x] Créer tableau zones de température critiques (basse/moyenne/haute)
+- [x] Intégrer 3 protocoles d'analyse standardisés (GC-MS, TGA-FTIR, sensoriel)
+- [x] Ajouter recommandations pratiques par type de composition
+
+### Phase 5 - Tests et checkpoint ✅
+- [x] Tester module Synergies avec données réelles (15 synergies, filtres fonctionnels)
+- [x] Tester module Pyrolyse & Combustion (3 onglets, 8 profils, zones température, 3 protocoles)
+- [x] Vérifier navigation entre modules (breadcrumbs, tabs)
+- [x] Créer checkpoint final

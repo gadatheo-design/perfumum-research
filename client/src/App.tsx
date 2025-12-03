@@ -43,6 +43,7 @@ import LaboratoireRecettes from "./pages/LaboratoireRecettes";
 import { Dashboard } from "./pages/Dashboard";
 import { RechercheScientifique } from "./pages/RechercheScientifique";
 import { SynergiesMoleculaires } from "./pages/SynergiesMoleculaires";
+import { PyrolyseCombustion } from "./pages/PyrolyseCombustion";
 
 function Router() {
   return (
@@ -82,6 +83,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/recherche-scientifique" component={RechercheScientifique} />
       <Route path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />
+      <Route path="/recherche-scientifique/pyrolyse-combustion" component={PyrolyseCombustion} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />
       <Route path="/404" component={NotFound} />
