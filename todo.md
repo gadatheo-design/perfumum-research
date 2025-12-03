@@ -992,7 +992,77 @@
 - [x] Ajouter Dashboard mobile (section Visualisations)
 - [x] Breadcrumbs déjà intégrés dans Dashboard.tsx
 
+### Phase 5 - Checkpoint final ✅
+- [x] Tester le Dashboard sur desktop et mobile
+- [x] Vérifier le chargement des données (131 molécules, 142 recettes, 25 accords, 4 prototypes, 26 civilisations)
+- [x] Créer le checkpoint final (version 7613862e)
+
+
+## 🔄 EN COURS : Enrichissement métadonnées tabacs
+
+### Phase 1 - Analyse des données existantes ✅
+- [x] Lire les 8 variétés de tabacs dans la base de données
+- [x] Analyser les profils moléculaires existants
+- [x] Identifier les familles Perfumeum compatibles
+- [x] Extraire les caractéristiques olfactives de chaque variété
+
+### Phase 2 - Définition des mots-clés olfactifs ✅
+- [x] Mapper chaque tabac aux 8 profils olfactifs (terreux, fumé, résine, floral, boisé, animalité, métallique, lactone)
+- [x] Créer des descriptions enrichies pour internalNotes (tobacco_enrichment_mapping.md)
+- [x] Valider la cohérence avec les molécules dominantes - Tous les 8 profils couverts
+
+### Phase 3 - Mise à jour base de données ✅
+- [x] Créer le script de mise à jour des internalNotes
+- [x] Exécuter les UPDATE SQL pour les 8 variétés (Burley, Krumovgrad, Samsoun, Virginia Bright/Deutscher/Gold/Italia/Orange)
+- [x] Vérifier les données mises à jour - 8 tabacs enrichis avec succès
+
+### Phase 4 - Tests calculateur
+- [ ] Tester les suggestions avec profil "fumé"
+- [ ] Tester les suggestions avec profil "terreux"
+- [ ] Tester les suggestions avec profil "boisé"
+- [ ] Vérifier la pertinence des recommandations
+
 ### Phase 5 - Checkpoint final
-- [ ] Tester le Dashboard sur desktop et mobile
-- [ ] Vérifier le chargement des données
-- [ ] Créer le checkpoint final
+- [ ] Valider toutes les mises à jour
+- [ ] Créer le checkpoint avec métadonnées enrichies
+
+
+## 🔄 EN COURS : Section Recherche Scientifique (9 modules)
+
+### Phase 1 - Structure de navigation et page d'accueil ✅
+- [x] Créer la route /recherche-scientifique dans App.tsx
+- [x] Ajouter "Recherche Scientifique" au menu principal (Header desktop + mobile)
+- [x] Créer la page d'accueil RecherchScientifique.tsx avec breadcrumbs
+- [x] Design hero section avec titre et description
+
+### Phase 2 - Cartes des 9 modules ✅
+- [x] Créer le composant ModuleCard réutilisable (intégré dans la page)
+- [x] Implémenter les 9 cartes avec icônes et descriptions :
+  - [x] Dégradation des Terpènes (Flame icon, orange)
+  - [x] Pyrolyse & Combustion (Flame icon, rouge vif)
+  - [x] Courbes de Volatilité (Wind icon, cyan)
+  - [x] Modèles Analytiques GC-MS (TestTube icon, purple)
+  - [x] Toxicologie (AlertTriangle icon, yellow)
+  - [x] Neuro-Olfaction (Brain icon, pink)
+  - [x] SOP Protocoles (ClipboardList icon, slate)
+  - [x] Muséologie Olfactive (Building2 icon, amber)
+  - [x] Synergies Moléculaires (Zap icon, violet, badge NEW)
+- [x] Ajouter les routes pour chaque module (9 routes prêtes)
+
+### Phase 3 - Module Synergies Moléculaires (pilote) ✅
+- [x] Créer la page SynergiesMoleculaires.tsx
+- [x] Créer les procédures tRPC pour récupérer les synergies (list, getByType, getStats)
+- [x] Afficher les synergies tabacs ↔ molécules ↔ familles avec badges colorés
+- [x] Créer un tableau interactif avec filtres par type (potentialisation, stabilisation, transformation, masquage)
+- [x] Ajouter les cartes statistiques (total + par type)
+- [x] Intégrer les données existantes de la table synergies avec jointures
+
+### Phase 4 - Tests et validation ✅
+- [x] Tester la navigation desktop et mobile (menu + cartes cliquables)
+- [x] Vérifier l'affichage des données synergies (0 synergies, message approprié)
+- [x] Valider les filtres et interactions (dropdown type de synergie fonctionnel)
+- [x] Tester les breadcrumbs et liens de retour (Accueil > Recherche-scientifique > Synergies-moleculaires)
+
+### Phase 5 - Checkpoint final
+- [ ] Valider toutes les fonctionnalités
+- [ ] Créer le checkpoint avec section Recherche Scientifique

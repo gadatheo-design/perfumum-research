@@ -37,6 +37,8 @@ import {
   GlossaryTerm,
   ResearchMilestone,
   ExperimentalAccord,
+  synergies,
+  Synergie,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -1006,4 +1008,85 @@ export async function getRecentActivity(limit: number = 10) {
     .limit(limit);
   
   return recentRecettes;
+}
+
+// ============================================================================
+// SYNERGIES QUERIES
+// ============================================================================
+
+export async function getAllSynergies() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const allSynergies = await db
+    .select({
+      id: synergies.id,
+      name: synergies.name,
+      type: synergies.type,
+      effet: synergies.effet,
+      notes: synergies.notes,
+      tabacId: synergies.tabacId,
+      tabacName: tabacs.name,
+      moleculeId: synergies.moleculeId,
+      moleculeName: molecules.name,
+      familleId: synergies.familleId,
+      familleName: families.name,
+      createdAt: synergies.createdAt,
+    })
+    .from(synergies)
+    .leftJoin(tabacs, eq(synergies.tabacId, tabacs.id))
+    .leftJoin(molecules, eq(synergies.moleculeId, molecules.id))
+    .leftJoin(families, eq(synergies.familleId, families.id))
+    .orderBy(sql`${synergies.createdAt} DESC`);
+  
+  return allSynergies;
+}
+
+export async function getSynergiesByType(type: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const synergiesByType = await db
+    .select({
+      id: synergies.id,
+      name: synergies.name,
+      type: synergies.type,
+      effet: synergies.effet,
+      notes: synergies.notes,
+      tabacId: synergies.tabacId,
+      tabacName: tabacs.name,
+      moleculeId: synergies.moleculeId,
+      moleculeName: molecules.name,
+      familleId: synergies.familleId,
+      familleName: families.name,
+    })
+    .from(synergies)
+    .leftJoin(tabacs, eq(synergies.tabacId, tabacs.id))
+    .leftJoin(molecules, eq(synergies.moleculeId, molecules.id))
+    .leftJoin(families, eq(synergies.familleId, families.id))
+    .where(eq(synergies.type, type as any));
+  
+  return synergiesByType;
+}
+
+export async function getSynergiesStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byType: [] };
+  
+  const total = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(synergies);
+  
+  const byType = await db
+    .select({
+      type: synergies.type,
+      count: sql<number>`count(*)`,
+    })
+    .from(synergies)
+    .groupBy(synergies.type);
+  
+  return {
+    total: total[0]?.count || 0,
+    byType,
+  };
 }

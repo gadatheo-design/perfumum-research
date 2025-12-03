@@ -151,6 +151,13 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
+          {/* Recherche Scientifique - standalone */}
+          <Link href="/recherche-scientifique">
+            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+              Recherche Scientifique
+            </a>
+          </Link>
+
           {/* Outils dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60">
@@ -413,6 +420,23 @@ export function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Glossaire
+                </a>
+              </Link>
+            </div>
+          </div>
+
+          {/* Recherche Scientifique Section */}
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+              Recherche Scientifique
+            </h3>
+            <div className="space-y-1">
+              <Link href="/recherche-scientifique">
+                <a
+                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Modules de Recherche
                 </a>
               </Link>
             </div>

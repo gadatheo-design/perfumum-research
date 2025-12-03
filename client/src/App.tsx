@@ -41,6 +41,8 @@ import BioMineralis from "./pages/BioMineralis";
 import ResinesCBD from "./pages/ResinesCBD";
 import LaboratoireRecettes from "./pages/LaboratoireRecettes";
 import { Dashboard } from "./pages/Dashboard";
+import { RechercheScientifique } from "./pages/RechercheScientifique";
+import { SynergiesMoleculaires } from "./pages/SynergiesMoleculaires";
 
 function Router() {
   return (
@@ -78,6 +80,8 @@ function Router() {
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/laboratoire/recettes" component={LaboratoireRecettes} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/recherche-scientifique" component={RechercheScientifique} />
+      <Route path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />
       <Route path="/404" component={NotFound} />

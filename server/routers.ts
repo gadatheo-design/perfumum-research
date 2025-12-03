@@ -362,6 +362,23 @@ export const appRouter = router({
         return await db.getRecentActivity(input?.limit);
       }),
   }),
+
+  // Synergies Moléculaires
+  synergies: router({    
+    list: publicProcedure.query(async () => {
+      return await db.getAllSynergies();
+    }),
+    
+    getByType: publicProcedure
+      .input(z.object({ type: z.string() }))
+      .query(async ({ input }) => {
+        return await db.getSynergiesByType(input.type);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return await db.getSynergiesStats();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
