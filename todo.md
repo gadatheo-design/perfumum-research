@@ -865,3 +865,28 @@
 ### Phase 2 - Tests et validation ✅
 - [x] Vérifier affichage page d'accueil (hero épuré, citation mise en avant)
 - [x] Créer checkpoint
+
+
+## 🔄 EN COURS : Navigation dynamique pour équipe recherche
+
+### Phase 1 - Breadcrumbs (fil d'Ariane) ✅
+- [x] Créer composant Breadcrumbs réutilisable
+- [x] Ajouter breadcrumbs à page Molecules
+- [x] Gérer navigation hiérarchique automatique (Home icon + segments)
+- [ ] Intégrer aux autres pages (BioMineralis, ResinesCBD, Laboratoire, etc.)
+
+### Phase 2 - Recherche globale
+- [ ] Créer composant GlobalSearch
+- [ ] Recherche unifiée molécules/recettes/accords/tabacs
+- [ ] Raccourci clavier (Cmd+K / Ctrl+K)
+- [ ] Affichage résultats avec catégories
+
+### Phase 3 - Accès rapides header
+- [ ] Ajouter menu "Outils" avec raccourcis
+- [ ] Liens directs : Calculateur, Molécules, Recettes, Laboratoire
+- [ ] Indicateurs visuels contexte actuel
+
+### Phase 4 - Tests et validation
+- [ ] Tester navigation sur toutes les pages
+- [ ] Vérifier breadcrumbs et recherche
+- [ ] Créer checkpoint
