@@ -852,3 +852,16 @@
 - [x] Constat: Aucun tabac trouvé car internalNotes ne contiennent pas "terreux"
 - [x] Amélioration future: Enrichir internalNotes avec mots-clés profils
 - [ ] Créer checkpoint
+
+
+## 🔄 EN COURS : Redesign page d'accueil
+
+### Phase 1 - Suppression phrase & hero plus fort ✅
+- [x] Supprimer phrase descriptive longue
+- [x] Hero section plus épuré et percutant
+- [x] Citation mise en avant
+- [x] Boutons CTA mieux positionnés
+
+### Phase 2 - Tests et validation ✅
+- [x] Vérifier affichage page d'accueil (hero épuré, citation mise en avant)
+- [x] Créer checkpoint
