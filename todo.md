@@ -823,3 +823,32 @@
 - [x] Tester calculateur (interface fonctionnelle)
 - [x] Vérifier navigation onglets (Liste/Calculateur)
 - [x] Créer checkpoint
+
+
+## 🔄 EN COURS : Suggestions intelligentes calculateur
+
+### Phase 1 - Procédures tRPC tabacs & synergies ✅
+- [x] Procedure `tabacs.list` existe déjà
+- [x] Créer procedure `tabacs.getSuggestions` avec filtres profil olfactif
+- [x] Fonction `getTabacsByProfile` ajoutée à db.ts
+- [ ] Tester procedures avec vitest (optionnel)
+
+### Phase 2 - Moteur de suggestions ✅
+- [x] tRPC query `tabacs.getSuggestions` intégrée au calculateur
+- [x] Mapper profils olfactifs → tabacs compatibles (via internalNotes)
+- [x] Fonction `addSuggestedIngredient` pour ajout rapide
+- [x] State `selectedProfile` et `showSuggestions` ajoutés
+
+### Phase 3 - UI suggestions ✅
+- [x] Section "Suggestions intelligentes" ajoutée avec toggle
+- [x] 8 filtres profils olfactifs (terreux, fumé, résine, floral, boisé, animalité, métallique, lactone)
+- [x] Affichage tabacs recommandés (nom, type, intensité)
+- [x] Bouton "Ajouter" pour chaque tabac (ajout automatique à 5%)
+- [x] Design cohérent (purple-600, badges cliquables)
+
+### Phase 4 - Tests et validation ✅
+- [x] Tester suggestions pour différents profils (terreux testé)
+- [x] Vérifier toggle et affichage UI (fonctionnel)
+- [x] Constat: Aucun tabac trouvé car internalNotes ne contiennent pas "terreux"
+- [x] Amélioration future: Enrichir internalNotes avec mots-clés profils
+- [ ] Créer checkpoint

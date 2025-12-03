@@ -181,6 +181,13 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getTabacById(input);
       }),
+    getSuggestions: publicProcedure
+      .input(z.object({
+        olfactiveProfile: z.string(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getTabacsByProfile(input.olfactiveProfile);
+      }),
   }),
 
   // Admin

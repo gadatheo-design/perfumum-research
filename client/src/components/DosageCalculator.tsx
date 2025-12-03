@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Calculator, Plus, Trash2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Calculator, Plus, Trash2, AlertCircle, CheckCircle2, Lightbulb, ChevronDown, ChevronUp } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 interface Ingredient {
   id: string;
@@ -18,6 +19,13 @@ export function DosageCalculator() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([
     { id: "1", name: "", grams: 0, percentage: 0 }
   ]);
+  const [selectedProfile, setSelectedProfile] = useState<string>("");
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+
+  const { data: suggestions, isLoading: loadingSuggestions } = trpc.tabacs.getSuggestions.useQuery(
+    { olfactiveProfile: selectedProfile },
+    { enabled: selectedProfile.length > 0 }
+  );
 
   const totalGrams = useMemo(() => {
     return ingredients.reduce((sum, ing) => sum + ing.grams, 0);
@@ -66,6 +74,14 @@ export function DosageCalculator() {
     setIngredients(ingredients.map(ing => 
       ing.id === id ? { ...ing, name } : ing
     ));
+  };
+
+  const addSuggestedIngredient = (name: string, suggestedPercentage: number = 5) => {
+    const grams = (suggestedPercentage / 100) * totalBatch;
+    setIngredients([
+      ...ingredients,
+      { id: Date.now().toString(), name, grams, percentage: suggestedPercentage }
+    ]);
   };
 
   const normalizeToTotal = () => {
@@ -183,6 +199,70 @@ export function DosageCalculator() {
         <Plus className="w-4 h-4 mr-2" />
         Ajouter un ingrédient
       </Button>
+
+      {/* Suggestions Section */}
+      <div className="mt-8 mb-6">
+        <button
+          onClick={() => setShowSuggestions(!showSuggestions)}
+          className="flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium mb-4"
+        >
+          <Lightbulb className="w-5 h-5" />
+          Suggestions intelligentes
+          {showSuggestions ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        </button>
+
+        {showSuggestions && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              {["terreux", "fumé", "résine", "floral", "boisé", "animalité", "métallique", "lactone"].map(profile => (
+                <button
+                  key={profile}
+                  onClick={() => setSelectedProfile(profile)}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    selectedProfile === profile
+                      ? "bg-purple-600 text-white"
+                      : "bg-stone-100 text-stone-700 hover:bg-stone-200"
+                  }`}
+                >
+                  {profile.charAt(0).toUpperCase() + profile.slice(1)}
+                </button>
+              ))}
+            </div>
+
+            {selectedProfile && (
+              <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                <div className="text-sm font-medium text-purple-900 mb-3">
+                  Tabacs recommandés pour profil "{selectedProfile}" :
+                </div>
+                {loadingSuggestions ? (
+                  <div className="text-sm text-purple-600">Chargement...</div>
+                ) : suggestions && suggestions.length > 0 ? (
+                  <div className="space-y-2">
+                    {suggestions.map((tabac) => (
+                      <div key={tabac.id} className="flex items-center justify-between bg-white rounded-lg p-3 border border-purple-100">
+                        <div className="flex-1">
+                          <div className="font-medium text-stone-900">{tabac.name}</div>
+                          <div className="text-xs text-stone-600">{tabac.type} • Intensité: {tabac.intensity}/10</div>
+                        </div>
+                        <Button
+                          size="sm"
+                          onClick={() => addSuggestedIngredient(tabac.name, 5)}
+                          className="bg-purple-600 hover:bg-purple-700"
+                        >
+                          <Plus className="w-4 h-4 mr-1" />
+                          Ajouter
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-sm text-purple-600">Aucun tabac trouvé pour ce profil.</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Summary */}
       <div className="border-t pt-6 space-y-4">

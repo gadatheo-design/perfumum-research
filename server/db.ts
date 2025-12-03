@@ -305,6 +305,17 @@ export async function getTabacById(id: number): Promise<Tabac | undefined> {
   return result[0];
 }
 
+export async function getTabacsByProfile(olfactiveProfile: string): Promise<Tabac[]> {
+  const db = await getDb();
+  if (!db) return [];
+  const allTabacs = await db.select().from(tabacs);
+  
+  // Filter tabacs that match the olfactive profile in their internalNotes
+  return allTabacs.filter(tabac => 
+    tabac.internalNotes?.toLowerCase().includes(olfactiveProfile.toLowerCase())
+  );
+}
+
 
 // ============================================================================
 // ADMIN FUNCTIONS
@@ -906,3 +917,9 @@ export async function getNetworkRelationships() {
     },
   };
 }
+
+
+// ============================================================
+// TABACS & SYNERGIES
+// ============================================================
+
