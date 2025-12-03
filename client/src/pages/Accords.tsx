@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { Header } from "@/components/layout/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
@@ -52,6 +53,7 @@ export default function Accords() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
+      <Breadcrumbs />
       
       <main className="flex-1">
         {/* Hero */}

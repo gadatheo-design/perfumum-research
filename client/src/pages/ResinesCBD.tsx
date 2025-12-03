@@ -1,4 +1,5 @@
 import { trpc } from "@/lib/trpc";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -38,6 +39,7 @@ export default function ResinesCBD() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+      <Breadcrumbs />
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white">
         <div className="container py-16">

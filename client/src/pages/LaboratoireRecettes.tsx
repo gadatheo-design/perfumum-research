@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -79,6 +80,7 @@ export default function LaboratoireRecettes() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white">
+      <Breadcrumbs />
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 text-white py-16">
         <div className="container max-w-7xl mx-auto px-4">

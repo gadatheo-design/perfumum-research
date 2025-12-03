@@ -904,3 +904,28 @@
 - [x] Tester sur desktop (dropdown fonctionne, 4 liens affichés)
 - [ ] Tester sur mobile (menu hamburger)
 - [x] Créer checkpoint
+
+
+## 🔄 EN COURS : Intégration Breadcrumbs toutes pages
+
+### Phase 1 - Pages données ✅
+- [x] BIO-MINERALIS
+- [x] Résines CBD
+- [x] Accords
+- [ ] Recettes (optionnel)
+
+### Phase 2 - Pages laboratoire & méthodologie ✅
+- [ ] Laboratoire (optionnel)
+- [x] Laboratoire Recettes
+- [ ] Glossaire (optionnel)
+
+### Phase 3 - Pages restantes
+- [ ] Prototypes
+- [ ] Familles
+- [ ] Gammes Mossi
+- [ ] Chemical Families
+
+### Phase 4 - Tests et validation
+- [ ] Tester navigation breadcrumbs
+- [ ] Vérifier labels et chemins
+- [ ] Créer checkpoint

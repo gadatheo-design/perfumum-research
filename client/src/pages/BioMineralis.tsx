@@ -1,5 +1,6 @@
 import { trpc } from "@/lib/trpc";
 import { Loader2 } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { MolecularGraph, MoleculeNode, MoleculeSynergy } from "@/components/MolecularGraph";
 
 // BIO-MINERALIS Molecular Graph Component
@@ -104,6 +105,7 @@ export default function BioMineralis() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Breadcrumbs />
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white py-24 px-4">
         <div className="absolute inset-0 opacity-20">
