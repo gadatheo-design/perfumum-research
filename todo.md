@@ -791,3 +791,35 @@
 - [ ] Tester versioning et notes
 - [ ] Vérifier calculs dosages
 - [ ] Créer checkpoint
+
+
+## 🔄 EN COURS : Intégration pasted_content_2.txt + Calculateur dosages
+
+### Phase 1 - Schéma BDD tabacs & synergies ✅
+- [x] Table `tabacs` existe déjà (nom, type, profil, molécules, intensité)
+- [x] Créer table `synergies` (tabac, molécule, famille, effet)
+- [x] Migrer la base de données (SQL direct)
+
+### Phase 2 - Import tabacs ✅
+- [x] Importer 8 variétés de tabacs (Krumovgrad, Virginia Orange/Deutscher/Gold/Bright/Italia, Burley, Samsoun)
+- [x] Lier tabacs aux molécules dominantes (dans internalNotes)
+- [ ] Créer page `/tabacs` pour visualisation (optionnel)
+
+### Phase 3 - Import recettes 61-96 ✅
+- [x] Analyser pasted_content_2.txt (708 lignes)
+- [x] Constat: Analyses moléculaires conceptuelles, pas de dosages quantitatifs
+- [x] Données conservées comme référence pour suggestions calculateur
+- [x] Import manuel via calculateur recommandé
+
+### Phase 4 - Calculateur dosages intelligent ✅
+- [x] Interface calculateur (g ↔ %, ratios automatiques)
+- [x] Composant DosageCalculator réutilisable créé
+- [x] Conversion bidirectionnelle grammes/pourcentages
+- [x] Validation formules (total 100%, dépassement batch)
+- [x] Fonction "Normaliser à 100%" automatique
+- [x] Intégrer dans page `/laboratoire/recettes` (onglet dédié)
+
+### Phase 5 - Tests et validation ✅
+- [x] Tester calculateur (interface fonctionnelle)
+- [x] Vérifier navigation onglets (Liste/Calculateur)
+- [x] Créer checkpoint

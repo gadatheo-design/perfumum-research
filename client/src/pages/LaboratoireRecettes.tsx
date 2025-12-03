@@ -12,8 +12,10 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Beaker, Plus, Search, Filter, Calculator, FileText, Clock, DollarSign } from "lucide-react";
+import { DosageCalculator } from "@/components/DosageCalculator";
 
 export default function LaboratoireRecettes() {
+  const [activeTab, setActiveTab] = useState<"recettes" | "calculator">("recettes");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
@@ -117,7 +119,36 @@ export default function LaboratoireRecettes() {
         </div>
       </div>
 
+      {/* Tab Navigation */}
+      <div className="container max-w-7xl mx-auto px-4 mb-8">
+        <div className="flex gap-2 border-b border-stone-200">
+          <button
+            onClick={() => setActiveTab("recettes")}
+            className={`px-6 py-3 font-medium transition-colors relative ${
+              activeTab === "recettes"
+                ? "text-purple-600 border-b-2 border-purple-600"
+                : "text-stone-600 hover:text-purple-600"
+            }`}
+          >
+            <FileText className="w-4 h-4 inline mr-2" />
+            Liste des recettes
+          </button>
+          <button
+            onClick={() => setActiveTab("calculator")}
+            className={`px-6 py-3 font-medium transition-colors relative ${
+              activeTab === "calculator"
+                ? "text-purple-600 border-b-2 border-purple-600"
+                : "text-stone-600 hover:text-purple-600"
+            }`}
+          >
+            <Calculator className="w-4 h-4 inline mr-2" />
+            Calculateur de dosages
+          </button>
+        </div>
+      </div>
+
       {/* Filters and Actions */}
+      {activeTab === "recettes" && (
       <div className="container max-w-7xl mx-auto px-4 mb-8">
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
           <div className="flex gap-4 items-center w-full md:w-auto flex-wrap">
@@ -179,7 +210,17 @@ export default function LaboratoireRecettes() {
         </div>
       </div>
 
+      )}
+
+      {/* Calculator Tab */}
+      {activeTab === "calculator" && (
+        <div className="container max-w-7xl mx-auto px-4 pb-16">
+          <DosageCalculator />
+        </div>
+      )}
+
       {/* Recettes Grid */}
+      {activeTab === "recettes" && (
       <div className="container max-w-7xl mx-auto px-4 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredRecettes.map((recette) => (
@@ -258,6 +299,7 @@ export default function LaboratoireRecettes() {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }

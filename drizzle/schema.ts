@@ -728,3 +728,23 @@ export const tastingNotes = mysqlTable("tasting_notes", {
 
 export type TastingNote = typeof tastingNotes.$inferSelect;
 export type InsertTastingNote = typeof tastingNotes.$inferInsert;
+
+// ============================================================================
+// MOLECULAR SYNERGIES
+// ============================================================================
+
+// Molecular synergies between tobacco, molecules, and olfactive families
+export const synergies = mysqlTable("synergies", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(), // Nom de la synergie
+  tabacId: int("tabac_id").references(() => tabacs.id),
+  moleculeId: int("molecule_id").references(() => molecules.id),
+  familleId: int("famille_id").references(() => families.id),
+  type: mysqlEnum("type", ["potentialisation", "stabilisation", "transformation", "masquage"]).notNull(),
+  effet: text("effet"), // Description de l'effet
+  notes: text("notes"), // Notes techniques
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Synergie = typeof synergies.$inferSelect;
+export type InsertSynergie = typeof synergies.$inferInsert;
