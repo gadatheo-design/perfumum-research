@@ -756,3 +756,38 @@
 - [x] Vérifier performance avec 131 molécules (filtrage client instantané)
 - [x] Tester bouton Réinitialiser (retour à 131 molécules)
 - [ ] Créer checkpoint
+
+
+## 🔄 EN COURS : Module Laboratoire R&D
+
+### Phase 1 - Schéma BDD versioning & notes ✅
+- [x] Créer table `recipe_versions` (version, date, changements, auteur)
+- [x] Créer table `tasting_notes` (recette, date, notes sensorielles, scores)
+- [x] Ajouter champs `costEstimate`, `productionTime`, `status` à recettes
+- [x] Migrer la base de données (SQL direct)
+
+### Phase 2 - Page Laboratoire & calculateur ✅
+- [x] Créer page `/laboratoire/recettes` avec liste recettes filtrée
+- [x] Interface affichage recettes avec stats (intensité, maturation, coût, temps)
+- [x] Filtres dynamiques (statut, catégorie, recherche)
+- [x] Système de tags/statuts (expérimental, testing, validé, production)
+- [x] Ajouter lien depuis page Laboratoire principale
+- [ ] Calculateur dosages (g → %, % → g, ratios) - à implémenter
+
+### Phase 3 - Système notes de dégustation
+- [ ] Formulaire notes sensorielles (profil olfactif, texture, intensité)
+- [ ] Échelles d'évaluation (1-10) : fraîcheur, profondeur, complexité
+- [ ] Historique des dégustations par recette
+- [ ] Comparaison versions (v1 vs v2 vs v3)
+
+### Phase 4 - Export PDF fiches techniques
+- [ ] Template PDF professionnel (logo, infos recette, dosages)
+- [ ] Inclure graphiques (pyramide olfactive, scores)
+- [ ] QR code vers page web de la recette
+- [ ] Bouton export sur chaque recette
+
+### Phase 5 - Tests et validation
+- [ ] Tester création recette complète
+- [ ] Tester versioning et notes
+- [ ] Vérifier calculs dosages
+- [ ] Créer checkpoint

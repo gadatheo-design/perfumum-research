@@ -200,6 +200,9 @@ export const recettes = mysqlTable("recettes", {
   stability: mysqlEnum("stability", ["low", "medium", "high"]),
   combustionTemperature: int("combustionTemperature"),
   maturationTime: int("maturationTime"), // in days
+  costEstimate: int("costEstimate"), // Estimated cost in cents (CHF)
+  productionTime: int("productionTime"), // Production time in minutes
+  status: mysqlEnum("status", ["experimental", "testing", "validated", "production"]).default("experimental"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -669,3 +672,59 @@ export const absorbeProfiles = mysqlTable("absorbe_profiles", {
   notes: text("notes"), // Additional notes about the profile
   createdAt: varchar("created_at", { length: 255 }).notNull(),
 });
+
+
+// ============================================================================
+// RECIPE VERSIONING & R&D LABORATORY
+// ============================================================================
+
+// Recipe versions for R&D tracking
+export const recipeVersions = mysqlTable("recipe_versions", {
+  id: int("id").autoincrement().primaryKey(),
+  recetteId: int("recette_id").notNull().references(() => recettes.id),
+  version: varchar("version", { length: 50 }).notNull(), // v1.0, v1.1, v2.0, etc.
+  changes: text("changes"), // Description of changes from previous version
+  formula: text("formula"), // Snapshot of formula at this version
+  protocol: text("protocol"), // Snapshot of protocol at this version
+  author: varchar("author", { length: 255 }), // Who made this version
+  status: mysqlEnum("status", ["draft", "testing", "validated", "production", "archived"]).default("draft"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type RecipeVersion = typeof recipeVersions.$inferSelect;
+export type InsertRecipeVersion = typeof recipeVersions.$inferInsert;
+
+// Tasting notes for sensory evaluation
+export const tastingNotes = mysqlTable("tasting_notes", {
+  id: int("id").autoincrement().primaryKey(),
+  recetteId: int("recette_id").notNull().references(() => recettes.id),
+  versionId: int("version_id").references(() => recipeVersions.id),
+  taster: varchar("taster", { length: 255 }), // Who tasted
+  date: timestamp("date").defaultNow().notNull(),
+  
+  // Sensory evaluation scales (1-10)
+  freshness: int("freshness"), // Fraîcheur
+  depth: int("depth"), // Profondeur
+  complexity: int("complexity"), // Complexité
+  balance: int("balance"), // Équilibre
+  persistence: int("persistence"), // Persistance
+  originality: int("originality"), // Originalité
+  
+  // Olfactive profile notes
+  topNotes: text("top_notes"), // Notes de tête
+  heartNotes: text("heart_notes"), // Notes de cœur
+  baseNotes: text("base_notes"), // Notes de fond
+  
+  // Texture and combustion (for tabacs/encens)
+  texture: varchar("texture", { length: 100 }), // sec, humide, résine, etc.
+  combustionQuality: int("combustion_quality"), // 1-10
+  
+  // General notes
+  impressions: text("impressions"), // Impressions générales
+  improvements: text("improvements"), // Suggestions d'amélioration
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type TastingNote = typeof tastingNotes.$inferSelect;
+export type InsertTastingNote = typeof tastingNotes.$inferInsert;

@@ -39,6 +39,7 @@ import C4TerraAmbra from "./pages/prototypes/C4";
 import Reseau from "./pages/Reseau";
 import BioMineralis from "./pages/BioMineralis";
 import ResinesCBD from "./pages/ResinesCBD";
+import LaboratoireRecettes from "./pages/LaboratoireRecettes";
 
 function Router() {
   return (
@@ -74,6 +75,7 @@ function Router() {
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />
       <Route path="/laboratoire" component={Laboratoire} />
+      <Route path="/laboratoire/recettes" component={LaboratoireRecettes} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />
       <Route path="/404" component={NotFound} />

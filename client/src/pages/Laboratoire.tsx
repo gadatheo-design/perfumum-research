@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Beaker, Droplet, Layers, BookOpen, ArrowRight, Thermometer, Wind, TestTube } from "lucide-react";
+import { Beaker, Droplet, Layers, BookOpen, ArrowRight, Thermometer, Wind, TestTube, FlaskConical } from "lucide-react";
 
 export default function Laboratoire() {
   const sections = [
@@ -41,6 +41,15 @@ export default function Laboratoire() {
       stats: "160+ recettes",
       color: "text-orange-600",
       bgColor: "bg-orange-50",
+    },
+    {
+      title: "R&D Recettes",
+      description: "Espace de recherche avec versioning, notes de dégustation, calculateur de dosages et export PDF",
+      icon: FlaskConical,
+      href: "/laboratoire/recettes",
+      stats: "Outils R&D",
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
     },
   ];
 
