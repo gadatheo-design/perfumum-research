@@ -1,5 +1,93 @@
 import { trpc } from "@/lib/trpc";
 import { Loader2 } from "lucide-react";
+import { MolecularGraph, MoleculeNode, MoleculeSynergy } from "@/components/MolecularGraph";
+
+// BIO-MINERALIS Molecular Graph Component
+function BioMineralisGraph() {
+  const molecules: MoleculeNode[] = [
+    // 6 Accords
+    { id: 'os-pluie', label: 'Os + Pluie', type: 'accord', description: 'Calcaire mouillé', color: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)' },
+    { id: 'cuir-fossilise', label: 'Cuir Fossillisé', type: 'accord', description: 'Cuir pétrifié', color: 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%)' },
+    { id: 'os-carbonise', label: 'Os Carbonisé', type: 'accord', description: 'Bouillon brûlé', color: 'linear-gradient(135deg, #f87171 0%, #ef4444 100%)' },
+    { id: 'petrichor', label: 'Pétrichor Anthropique', type: 'accord', description: 'Terre + Pluie + Corps', color: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)' },
+    { id: 'seve-chair', label: 'Sève/Chair/Roche', type: 'accord', description: 'Fusion organique-minéral', color: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' },
+    { id: 'necro-geo', label: 'Nécro-Géo Sacré', type: 'accord', description: 'Mort + Terre + Encens', color: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)' },
+    
+    // 4 Processes
+    { id: 'pyrolyse', label: 'Pyrolyse', type: 'process', description: '180-220°C', color: 'linear-gradient(135deg, #fca5a5 0%, #ef4444 100%)' },
+    { id: 'maceration', label: 'Macération', type: 'process', description: '72h-6 mois', color: 'linear-gradient(135deg, #93c5fd 0%, #3b82f6 100%)' },
+    { id: 'fusion', label: 'Fusion à froid', type: 'process', description: '80°C', color: 'linear-gradient(135deg, #fde047 0%, #facc15 100%)' },
+    { id: 'oxydation', label: 'Oxydation', type: 'process', description: '120°C', color: 'linear-gradient(135deg, #fb923c 0%, #f97316 100%)' },
+    
+    // 12 Pillar Molecules
+    { id: 'geosmine', label: 'Géosmine', formula: 'C12H22O', description: 'Terre humide' },
+    { id: 'hydroxyproline', label: 'Hydroxyproline pyrolysée', formula: 'C5H9NO3', description: 'Os blanchis' },
+    { id: 'glycine', label: 'Glycine pyrolysée', formula: 'C2H5NO2', description: 'Os carbonisé' },
+    { id: 'skatole', label: 'Skatole', formula: 'C9H9N', description: 'Animalité profonde' },
+    { id: 'indole', label: 'Indole', formula: 'C8H7N', description: 'Fleur pourrie' },
+    { id: 'ibq', label: 'IBQ', formula: 'C13H15N', description: 'Cuir sombre' },
+    { id: 'calcite', label: 'Calcite', formula: 'CaCO3', description: 'Pierre froide' },
+    { id: 'ozone', label: 'Ozone', formula: 'O3', description: 'Pluie électrique' },
+    { id: 'olibanum', label: 'Olibanum', formula: 'C20H32O2', description: 'Encens clair' },
+    { id: 'myrrhe', label: 'Myrrhe noire', formula: 'C15H20O', description: 'Résine sombre' },
+    { id: 'bitume', label: 'Bitume light', formula: 'Complex', description: 'Matière antique' },
+    { id: 'fossile', label: 'Fossile absolute', formula: 'Complex', description: 'Os ancien' },
+  ];
+
+  const synergies: MoleculeSynergy[] = [
+    // Os + Pluie synergies
+    { source: 'calcite', target: 'os-pluie', label: 'calcaire', type: 'composition', strength: 'strong' },
+    { source: 'ozone', target: 'os-pluie', label: 'pluie', type: 'composition', strength: 'strong' },
+    { source: 'geosmine', target: 'os-pluie', label: 'terre', type: 'composition', strength: 'medium' },
+    { source: 'maceration', target: 'os-pluie', type: 'transformation', strength: 'medium' },
+    
+    // Cuir Fossillisé synergies
+    { source: 'ibq', target: 'cuir-fossilise', label: 'cuir', type: 'composition', strength: 'strong' },
+    { source: 'fossile', target: 'cuir-fossilise', label: 'fossile', type: 'composition', strength: 'strong' },
+    { source: 'bitume', target: 'cuir-fossilise', label: 'antique', type: 'composition', strength: 'medium' },
+    { source: 'oxydation', target: 'cuir-fossilise', type: 'transformation', strength: 'strong' },
+    
+    // Os Carbonisé synergies
+    { source: 'hydroxyproline', target: 'os-carbonise', label: 'colllagène', type: 'composition', strength: 'strong' },
+    { source: 'glycine', target: 'os-carbonise', label: 'os', type: 'composition', strength: 'strong' },
+    { source: 'pyrolyse', target: 'os-carbonise', type: 'transformation', strength: 'strong' },
+    
+    // Pétrichor Anthropique synergies
+    { source: 'geosmine', target: 'petrichor', label: 'terre', type: 'composition', strength: 'strong' },
+    { source: 'ozone', target: 'petrichor', label: 'pluie', type: 'composition', strength: 'strong' },
+    { source: 'skatole', target: 'petrichor', label: 'corps', type: 'composition', strength: 'medium' },
+    { source: 'maceration', target: 'petrichor', type: 'transformation', strength: 'medium' },
+    
+    // Sève/Chair/Roche synergies
+    { source: 'olibanum', target: 'seve-chair', label: 'sève', type: 'composition', strength: 'strong' },
+    { source: 'indole', target: 'seve-chair', label: 'chair', type: 'composition', strength: 'medium' },
+    { source: 'calcite', target: 'seve-chair', label: 'roche', type: 'composition', strength: 'medium' },
+    { source: 'fusion', target: 'seve-chair', type: 'transformation', strength: 'strong' },
+    
+    // Nécro-Géo Sacré synergies
+    { source: 'skatole', target: 'necro-geo', label: 'mort', type: 'composition', strength: 'strong' },
+    { source: 'geosmine', target: 'necro-geo', label: 'terre', type: 'composition', strength: 'strong' },
+    { source: 'myrrhe', target: 'necro-geo', label: 'encens', type: 'composition', strength: 'strong' },
+    { source: 'olibanum', target: 'necro-geo', label: 'sacré', type: 'composition', strength: 'medium' },
+    { source: 'maceration', target: 'necro-geo', type: 'transformation', strength: 'medium' },
+    { source: 'oxydation', target: 'necro-geo', type: 'transformation', strength: 'medium' },
+    
+    // Cross-molecule synergies
+    { source: 'geosmine', target: 'ozone', label: 'pétrichor naturel', type: 'synergy', strength: 'strong' },
+    { source: 'skatole', target: 'indole', label: 'animalité', type: 'synergy', strength: 'medium' },
+    { source: 'olibanum', target: 'myrrhe', label: 'encens rituel', type: 'synergy', strength: 'strong' },
+    { source: 'hydroxyproline', target: 'glycine', label: 'colllagène', type: 'synergy', strength: 'strong' },
+  ];
+
+  return (
+    <MolecularGraph
+      molecules={molecules}
+      synergies={synergies}
+      height="700px"
+      title="Réseau BIO-MINERALIS : 12 Molécules + 6 Accords + 4 Processus"
+    />
+  );
+}
 
 export default function BioMineralis() {
   const { data: accords, isLoading } = trpc.accords.list.useQuery();
@@ -240,11 +328,21 @@ export default function BioMineralis() {
               </div>
             </div>
           </div>
+
+          {/* Molecular Graph Visualization */}
+          <div className="mt-16">
+            <h3 className="text-3xl font-bold uppercase tracking-tight mb-6">
+              Graphe de Relations Moléculaires
+            </h3>
+            <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+              Visualisation interactive des synergies entre les 12 molécules-piliers, les 6 accords révolutionnaires, et les processus de transformation (pyrolyse, macération, fusion, oxydation).
+            </p>
+            <BioMineralisGraph />
+          </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="border-t-3 border-black py-8">
+      {/* Footer Section */}  <footer className="border-t-3 border-black py-8">
         <div className="container mx-auto px-4">
           <div className="text-center text-sm text-gray-600">
             <p>© 2025 PERFUMUM — Recherche Olfactive</p>

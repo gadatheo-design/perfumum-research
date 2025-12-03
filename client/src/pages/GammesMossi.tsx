@@ -1,8 +1,102 @@
 import { Header } from "@/components/layout/Header";
+import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Crown, Beaker } from "lucide-react";
 import { Link } from "wouter";
+import { MolecularGraph, MoleculeNode, MoleculeSynergy } from "@/components/MolecularGraph";
+
+// Royal Mossi Molecular Graph Component
+function RoyalMossiGraph() {
+  const molecules: MoleculeNode[] = [
+    // 6 Chemical Families
+    { id: 'sesquiterpenes', label: 'Sesquiterpènes racinaires', type: 'family', description: 'Terre, humidité sèche', color: 'linear-gradient(135deg, #92400e 0%, #78350f 100%)' },
+    { id: 'phenols', label: 'Phénols & fumées', type: 'family', description: 'Bois brûlé, fumée douce', color: 'linear-gradient(135deg, #b45309 0%, #92400e 100%)' },
+    { id: 'aldehydes', label: 'Aldéhydes secs', type: 'family', description: 'Poussière chaude, métallique', color: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' },
+    { id: 'resines', label: 'Résines orientales', type: 'family', description: 'Encens rituel, balsamique', color: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' },
+    { id: 'ferriques', label: 'Composés ferriques', type: 'family', description: 'Métal, terre rouge', color: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' },
+    { id: 'cuir', label: 'Molécules de cuir', type: 'family', description: 'Animal, fumé, ambre noir', color: 'linear-gradient(135deg, #7c2d12 0%, #57534e 100%)' },
+    
+    // 20 Key Molecules
+    // Sesquiterpènes
+    { id: 'vetivenol', label: 'Vétivénol', formula: 'C15H26O', description: 'racine, terre' },
+    { id: 'vetivone', label: 'Vétivone', formula: 'C15H22O', description: 'racine sombre' },
+    { id: 'khusimol', label: 'Khusimol', formula: 'C15H26O', description: 'boisé, veloueté' },
+    { id: 'guaiene', label: 'β-guaïène', formula: 'C15H24', description: 'épicé, terreux' },
+    { id: 'humulene', label: 'α-humulène', formula: 'C15H24', description: 'houblon, boisé' },
+    
+    // Phénols
+    { id: 'guaiacol', label: '4-methyl-guaiacol', formula: 'C8H10O2', description: 'fumée douce' },
+    { id: 'phenol', label: 'Phénol boisé', formula: 'C6H6O', description: 'fumée, bois brûlé' },
+    
+    // Aldéhydes
+    { id: 'c10', label: 'Aldéhyde C-10', formula: 'C10H20O', description: 'métallique' },
+    { id: 'c11', label: 'Aldéhyde C-11', formula: 'C11H22O', description: 'poudré, chaud' },
+    { id: 'c12', label: 'Aldéhyde C-12', formula: 'C12H24O', description: 'sec, métallique' },
+    { id: 'metallic', label: 'Aldéhyde métallique', description: 'froid, minéral' },
+    
+    // Résines
+    { id: 'furano', label: 'Furanosesquiterpènes', formula: 'C15H20O', description: 'résine, épicé' },
+    { id: 'incensol', label: 'Incensol', formula: 'C20H34O', description: 'encens, résine' },
+    { id: 'mechoulim', label: 'Mechoulim', description: 'résine, sacré' },
+    
+    // Ferriques
+    { id: 'fer', label: 'Oxydes de fer volatils', description: 'métal, poussière rouge' },
+    
+    // Cuir
+    { id: 'quinoleine', label: 'Quinoléine', formula: 'C9H7N', description: 'cuir, animal' },
+    { id: 'labdanum', label: 'Labdanum diterpènes', formula: 'C20H32', description: 'ambre noir, cuir' },
+  ];
+
+  const synergies: MoleculeSynergy[] = [
+    // Family connections to molecules
+    { source: 'vetivenol', target: 'sesquiterpenes', type: 'composition', strength: 'strong' },
+    { source: 'vetivone', target: 'sesquiterpenes', type: 'composition', strength: 'strong' },
+    { source: 'khusimol', target: 'sesquiterpenes', type: 'composition', strength: 'medium' },
+    { source: 'guaiene', target: 'sesquiterpenes', type: 'composition', strength: 'medium' },
+    { source: 'humulene', target: 'sesquiterpenes', type: 'composition', strength: 'medium' },
+    
+    { source: 'guaiacol', target: 'phenols', type: 'composition', strength: 'strong' },
+    { source: 'phenol', target: 'phenols', type: 'composition', strength: 'strong' },
+    
+    { source: 'c10', target: 'aldehydes', type: 'composition', strength: 'medium' },
+    { source: 'c11', target: 'aldehydes', type: 'composition', strength: 'medium' },
+    { source: 'c12', target: 'aldehydes', type: 'composition', strength: 'medium' },
+    { source: 'metallic', target: 'aldehydes', type: 'composition', strength: 'medium' },
+    
+    { source: 'furano', target: 'resines', type: 'composition', strength: 'strong' },
+    { source: 'incensol', target: 'resines', type: 'composition', strength: 'strong' },
+    { source: 'mechoulim', target: 'resines', type: 'composition', strength: 'medium' },
+    
+    { source: 'fer', target: 'ferriques', type: 'composition', strength: 'strong' },
+    
+    { source: 'quinoleine', target: 'cuir', type: 'composition', strength: 'strong' },
+    { source: 'labdanum', target: 'cuir', type: 'composition', strength: 'strong' },
+    
+    // Key synergies (from arch_1.txt)
+    { source: 'vetivenol', target: 'fer', label: 'sol Sahélien', type: 'synergy', strength: 'strong' },
+    { source: 'guaiacol', target: 'vetivenol', label: 'tambour brûlé', type: 'synergy', strength: 'strong' },
+    { source: 'c10', target: 'fer', label: 'vent rouge chaud', type: 'synergy', strength: 'strong' },
+    { source: 'mechoulim', target: 'fer', label: 'liturgie Mandé/Mossi', type: 'synergy', strength: 'strong' },
+    { source: 'incensol', target: 'fer', label: 'liturgie Mandé/Mossi', type: 'synergy', strength: 'medium' },
+    { source: 'quinoleine', target: 'mechoulim', label: 'accord sacré-roi', type: 'synergy', strength: 'strong' },
+    
+    // Cross-family synergies
+    { source: 'sesquiterpenes', target: 'ferriques', label: 'Base sahélienne', type: 'synergy', strength: 'strong' },
+    { source: 'phenols', target: 'sesquiterpenes', label: 'Fumée rituelle', type: 'synergy', strength: 'medium' },
+    { source: 'aldehydes', target: 'ferriques', label: 'Poussière chaude', type: 'synergy', strength: 'strong' },
+    { source: 'resines', target: 'cuir', label: 'Sacré royal', type: 'synergy', strength: 'strong' },
+  ];
+
+  return (
+    <MolecularGraph
+      molecules={molecules}
+      synergies={synergies}
+      height="800px"
+      title="Réseau Royal Mossi : 6 Familles Chimiques + 20 Molécules-Clés"
+    />
+  );
+}
 
 export default function GammesMossi() {
   const accords = [
@@ -380,6 +474,17 @@ export default function GammesMossi() {
                     <div className="text-sm text-muted-foreground">Minéral + Vent + Lumière sèche</div>
                   </div>
                 </div>
+              </div>
+
+              {/* Molecular Graph Visualization */}
+              <div className="mt-16">
+                <h3 className="text-3xl font-bold mb-6">
+                  Graphe de Relations Moléculaires
+                </h3>
+                <p className="text-muted-foreground mb-8 max-w-3xl">
+                  Visualisation interactive des 6 familles chimiques Royal Mossi, leurs 20 molécules-clés, et les synergies qui structurent l'identité olfactive sahélienne.
+                </p>
+                <RoyalMossiGraph />
               </div>
             </div>
           </div>

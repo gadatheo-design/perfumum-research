@@ -698,3 +698,30 @@
 - [x] Afficher les 20 molécules avec profils olfactifs
 - [x] Créer visualisation des synergies clés
 - [x] Documenter architecture moléculaire (Base 60%, Cœur 30%, Tête 10%)
+
+
+## ✅ TERMINÉ : Visualisations React Flow
+
+### Phase 1 - Installation & composant réutilisable ✅
+- [x] Installer React Flow (reactflow v11.11.4)
+- [x] Créer composant MolecularGraph réutilisable
+- [x] Définir styles de nœuds (molécules, familles, accords, processus)
+- [x] Créer types d'arêtes (synergies, transformations, compositions)
+- [x] Ajouter légende interactive
+
+### Phase 2 - Graphe BIO-MINERALIS ✅
+- [x] Créer graphe 12 molécules-piliers + 6 accords + 4 processus
+- [x] Ajouter nœuds pyrolyse/macération/fusion/oxydation
+- [x] Visualiser synergies clés (Os+Pluie, Cuir Fossillisé, etc.)
+- [x] Intégrer dans page /bio-mineralis (après section 12 molécules)
+
+### Phase 3 - Graphe Royal Mossi ✅
+- [x] Créer graphe 6 familles moléculaires
+- [x] Visualiser 20 molécules avec groupes chimiques
+- [x] Ajouter synergies clés (Vétiver+Terre, Guaiacol+Vétiver, Mechoulim+Fer, etc.)
+- [x] Intégrer dans page /gammes/mossi (après architecture moléculaire)
+
+### Phase 4 - Tests et validation ✅
+- [x] Tester interactivité (zoom, pan, sélection nœuds)
+- [x] Vérifier affichage graphes (BIO-MINERALIS 22 nœuds, Royal Mossi 26 nœuds)
+- [ ] Créer checkpoint final
