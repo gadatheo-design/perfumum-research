@@ -1156,6 +1156,37 @@
 - [x] Valider responsive design (desktop + mobile, breakpoint md:hidden)
 - [x] Vérifier implémentation Sheet (side="left", w-80, overflow-y-auto)
 
+### Phase 5 - Checkpoint final ✅
+- [x] Valider toutes les fonctionnalités (Sheet drawer, navigation complète)
+- [x] Créer checkpoint avec navigation mobile améliorée (version 32f94eb7)
+
+
+## 🔄 EN COURS : Module Dégradation des Terpènes
+
+### Phase 1 - Conception structure données et contenu ✅
+- [x] Définir voies de dégradation thermique (pyrolyse, isomérisation, cyclisation)
+- [x] Définir voies de dégradation oxydative (auto-oxydation, photo-oxydation, enzymatique)
+- [x] Mapper terpènes → produits de transformation (Limonène, α-Pinène, Linalool, Myrcène, β-Caryophyllène)
+- [x] Créer données courbes de dégradation (3 courbes cinétiques avec température, temps, rendement)
+
+### Phase 2 - Création page DegradationTerpenes ✅
+- [x] Créer la page DegradationTerpenes.tsx avec Recharts
+- [x] Design hero section avec icône Flame orange (gradient orange/10)
+- [x] Ajouter breadcrumbs et navigation
+- [x] Intégrer 3 onglets (Voies Thermiques, Voies Oxydatives, Courbes Cinétiques)
+
+### Phase 3 - Courbes et tableaux de transformation ✅
+- [x] Implémenter visualisations voies de dégradation (3 cartes: Pyrolyse, Isomérisation, Cyclisation)
+- [x] Ajouter tableaux produits de transformation par terpène (Limonène, α-Pinène, Myrcène, Linalool, β-Caryophyllène)
+- [x] Créer 3 courbes cinétiques (Limonène pyrolyse, α-Pinène isomérisation, Linalool auto-oxydation)
+- [x] Ajouter facteurs influents (température, oxygène) et applications pratiques PERFUMUM
+
+### Phase 4 - Tests et intégration ✅
+- [x] Tester affichage des 3 onglets (Voies Thermiques, Voies Oxydatives, Courbes Cinétiques)
+- [x] Vérifier navigation depuis page Recherche Scientifique (breadcrumbs corrects)
+- [x] Valider responsive design (ResponsiveContainer 400px, grids responsive)
+- [x] Ajouter route dans App.tsx (/recherche-scientifique/degradation-terpenes)
+
 ### Phase 5 - Checkpoint final
 - [ ] Valider toutes les fonctionnalités
-- [ ] Créer checkpoint avec navigation mobile améliorée
+- [ ] Créer checkpoint avec module Dégradation des Terpènes
