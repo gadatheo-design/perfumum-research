@@ -1130,3 +1130,32 @@
 ### Phase 5 - Checkpoint final
 - [ ] Valider toutes les fonctionnalités
 - [ ] Créer checkpoint avec module Courbes de Volatilité
+
+
+## 🔄 EN COURS : Navigation Mobile Slider Latéral
+
+### Phase 1 - Analyse navigation mobile actuelle ✅
+- [x] Lire Header.tsx pour comprendre structure menu burger (ligne 231-250, slide depuis droite)
+- [x] Identifier les sections à afficher dans le slider (Le Projet, Données, Visualisations, Méthodologie, Recherche Scientifique, Outils)
+- [x] Vérifier composants shadcn/ui disponibles (Sheet déjà installé)
+
+### Phase 2 - Implémentation Sheet component ✅
+- [x] Installer/vérifier composant Sheet de shadcn/ui (déjà disponible)
+- [x] Créer structure drawer latéral avec trigger (SheetTrigger + SheetContent)
+- [x] Configurer animation slide-in depuis la gauche (side="left")
+
+### Phase 3 - Redesign navigation mobile ✅
+- [x] Remplacer menu burger par icône Menu pour ouvrir drawer (Sheet avec Menu icon)
+- [x] Afficher toutes les sections dans le drawer (Le Projet, Données, Visualisations, Méthodologie, Recherche Scientifique, Outils)
+- [x] Ajouter sections organisées avec titres (h3 uppercase tracking-wider)
+- [x] Design cohérent avec identité visuelle PERFUMUM (PERFUMUM en SheetTitle)
+
+### Phase 4 - Tests mobile ✅
+- [x] Tester ouverture/fermeture drawer (bouton Menu présent avec aria-label)
+- [x] Vérifier navigation vers toutes les pages (toutes sections dans drawer)
+- [x] Valider responsive design (desktop + mobile, breakpoint md:hidden)
+- [x] Vérifier implémentation Sheet (side="left", w-80, overflow-y-auto)
+
+### Phase 5 - Checkpoint final
+- [ ] Valider toutes les fonctionnalités
+- [ ] Créer checkpoint avec navigation mobile améliorée

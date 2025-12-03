@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Search, ChevronDown, Menu, X } from "lucide-react";
+import { Search, ChevronDown, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,6 +7,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useState } from "react";
 
 export function Header() {
@@ -203,18 +210,240 @@ export function Header() {
               <Search className="h-5 w-5" />
             </Button>
           </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </Button>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Toggle menu"
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-80 overflow-y-auto">
+              <SheetHeader>
+                <SheetTitle className="text-2xl font-bold">PERFUMUM</SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col mt-6 space-y-6">
+                {/* Le Projet */}
+                <div>
+                  <Link href="/le-projet">
+                    <a
+                      className="block text-lg font-medium py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Le Projet
+                    </a>
+                  </Link>
+                </div>
+
+                {/* Données Section */}
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+                    Données
+                  </h3>
+                  <div className="space-y-1">
+                    <Link href="/prototypes">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Prototypes
+                      </a>
+                    </Link>
+                    <Link href="/familles">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Familles Olfactives
+                      </a>
+                    </Link>
+                    <Link href="/chemical-families">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Familles Chimiques
+                      </a>
+                    </Link>
+                    <Link href="/molecules">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Molécules
+                      </a>
+                    </Link>
+                    <Link href="/bio-mineralis">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        BIO-MINERALIS
+                      </a>
+                    </Link>
+                    <Link href="/resines-cbd">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Résines CBD
+                      </a>
+                    </Link>
+                    <Link href="/accords">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Accords
+                      </a>
+                    </Link>
+                    <Link href="/experimental-accords">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Accords Expérimentaux
+                      </a>
+                    </Link>
+                    <Link href="/civilisations">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Civilisations
+                      </a>
+                    </Link>
+                    <Link href="/recettes">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Recettes
+                      </a>
+                    </Link>
+                    <Link href="/gammes">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Gammes
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Visualisations Section */}
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+                    Visualisations
+                  </h3>
+                  <div className="space-y-1">
+                    <Link href="/dashboard">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Dashboard
+                      </a>
+                    </Link>
+                    <Link href="/absorbe-scale">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Échelle ABSORBE
+                      </a>
+                    </Link>
+                    <Link href="/timeline">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Timeline
+                      </a>
+                    </Link>
+                    <Link href="/installations">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Installations
+                      </a>
+                    </Link>
+                    <Link href="/reseau">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Réseau de Relations
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Méthodologie Section */}
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+                    Méthodologie
+                  </h3>
+                  <div className="space-y-1">
+                    <Link href="/laboratoire">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Laboratoire
+                      </a>
+                    </Link>
+                    <Link href="/glossaire">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Glossaire
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Recherche Scientifique Section */}
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+                    Recherche Scientifique
+                  </h3>
+                  <div className="space-y-1">
+                    <Link href="/recherche-scientifique">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Modules de Recherche
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Outils Section */}
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
+                    Outils
+                  </h3>
+                  <div className="space-y-1">
+                    <Link href="/laboratoire/recettes">
+                      <a
+                        className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Calculateur de Dosages
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
 
         {/* Desktop Search Icon */}
@@ -225,276 +454,6 @@ export function Header() {
             </Button>
           </Link>
         </div>
-      </div>
-
-      {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 top-16 bg-black/20 backdrop-blur-sm z-40 md:hidden"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
-
-      {/* Mobile Menu Panel */}
-      <div
-        className={`fixed top-16 right-0 bottom-0 w-80 max-w-[85vw] bg-background border-l border-border shadow-2xl z-50 md:hidden transform transition-transform duration-300 ease-out ${
-          mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <nav className="flex flex-col h-full overflow-y-auto p-6 space-y-6">
-          {/* Le Projet */}
-          <div>
-            <Link href="/le-projet">
-              <a
-                className="block text-lg font-medium py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Le Projet
-              </a>
-            </Link>
-          </div>
-
-          {/* Données Section */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-              Données
-            </h3>
-            <div className="space-y-1">
-              <Link href="/prototypes">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Prototypes
-                </a>
-              </Link>
-              <Link href="/familles">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Familles Olfactives
-                </a>
-              </Link>
-              <Link href="/chemical-families">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Familles Chimiques
-                </a>
-              </Link>
-              <Link href="/molecules">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Molécules
-                </a>
-              </Link>
-              <Link href="/bio-mineralis">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  BIO-MINERALIS
-                </a>
-              </Link>
-              <Link href="/resines-cbd">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Résines CBD
-                </a>
-              </Link>
-              <Link href="/accords">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Accords
-                </a>
-              </Link>
-              <Link href="/experimental-accords">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Accords Expérimentaux
-                </a>
-              </Link>
-              <Link href="/civilisations">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Civilisations
-                </a>
-              </Link>
-              <Link href="/recettes">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Recettes
-                </a>
-              </Link>
-              <Link href="/gammes">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Gammes
-                </a>
-              </Link>
-            </div>
-          </div>
-
-          {/* Visualisations Section */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-              Visualisations
-            </h3>
-            <div className="space-y-1">
-              <Link href="/dashboard">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Dashboard
-                </a>
-              </Link>
-              <Link href="/absorbe-scale">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Échelle ABSORBE
-                </a>
-              </Link>
-              <Link href="/timeline">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Timeline
-                </a>
-              </Link>
-              <Link href="/installations">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Installations
-                </a>
-              </Link>
-              <Link href="/reseau">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Réseau de Relations
-                </a>
-              </Link>
-            </div>
-          </div>
-
-          {/* Méthodologie Section */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-              Méthodologie
-            </h3>
-            <div className="space-y-1">
-              <Link href="/laboratoire">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Laboratoire
-                </a>
-              </Link>
-              <Link href="/glossaire">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Glossaire
-                </a>
-              </Link>
-            </div>
-          </div>
-
-          {/* Recherche Scientifique Section */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-              Recherche Scientifique
-            </h3>
-            <div className="space-y-1">
-              <Link href="/recherche-scientifique">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Modules de Recherche
-                </a>
-              </Link>
-            </div>
-          </div>
-
-          {/* Outils Section */}
-          <div className="space-y-2">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider px-4">
-              Outils
-            </h3>
-            <div className="space-y-1">
-              <Link href="/laboratoire/recettes">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Calculateur de Dosages
-                </a>
-              </Link>
-              <Link href="/molecules">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Molécules
-                </a>
-              </Link>
-              <Link href="/laboratoire/recettes">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  R&D Recettes
-                </a>
-              </Link>
-              <Link href="/laboratoire">
-                <a
-                  className="block py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Laboratoire
-                </a>
-              </Link>
-            </div>
-          </div>
-
-          {/* Recherche */}
-          <div className="pt-4 border-t border-border">
-            <Link href="/recherche">
-              <a
-                className="block text-lg font-medium py-4 px-4 rounded-lg hover:bg-accent transition-colors min-h-[48px] flex items-center"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Recherche
-              </a>
-            </Link>
-          </div>
-        </nav>
       </div>
     </header>
   );
