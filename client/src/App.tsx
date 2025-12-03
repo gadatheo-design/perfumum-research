@@ -46,6 +46,7 @@ import { SynergiesMoleculaires } from "./pages/SynergiesMoleculaires";
 import { PyrolyseCombustion } from "./pages/PyrolyseCombustion";
 import { CourbesVolatilite } from "@/pages/CourbesVolatilite";
 import { DegradationTerpenes } from "@/pages/DegradationTerpenes";
+import { ModelesAnalytiquesGCMS } from "@/pages/ModelesAnalytiquesGCMS";
 
 function Router() {
   return (
@@ -88,6 +89,7 @@ function Router() {
       <Route path="/recherche-scientifique/pyrolyse-combustion" component={PyrolyseCombustion} />
         <Route path="/recherche-scientifique/courbes-volatilite" component={CourbesVolatilite} />
         <Route path="/recherche-scientifique/degradation-terpenes" component={DegradationTerpenes} />
+        <Route path="/recherche-scientifique/modeles-analytiques-gcms" component={ModelesAnalytiquesGCMS} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />
       <Route path="/404" component={NotFound} />

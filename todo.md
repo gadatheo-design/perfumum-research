@@ -1187,6 +1187,37 @@
 - [x] Valider responsive design (ResponsiveContainer 400px, grids responsive)
 - [x] Ajouter route dans App.tsx (/recherche-scientifique/degradation-terpenes)
 
+### Phase 5 - Checkpoint final ✅
+- [x] Valider toutes les fonctionnalités (3 onglets, graphiques, applications pratiques)
+- [x] Créer checkpoint avec module Dégradation des Terpènes (version 5c35d105)
+
+
+## 🔄 EN COURS : Module Modèles Analytiques GC-MS
+
+### Phase 1 - Conception protocoles et données de référence ✅
+- [x] Définir protocoles GC-MS standard (préparation échantillon, paramètres GC/MS complets)
+- [x] Créer spectres de référence pour 18 terpènes majeurs (monoterpènes, sesquiterpènes, aldéhydes, pyrazines)
+- [x] Mapper temps de rétention pour les 8 tabacs avec profils chromatographiques (Burley, Virginia Gold, Krumovgrad)
+- [x] Définir méthodes de quantification (étalonnage externe, interne, LOD/LOQ, contrôle qualité)
+
+### Phase 2 - Création page ModelesAnalytiquesGCMS ✅
+- [x] Créer la page ModelesAnalytiquesGCMS.tsx avec tableaux
+- [x] Design hero section avec icône TestTube purple (gradient purple/10)
+- [x] Ajouter breadcrumbs et navigation
+- [x] Intégrer 3 onglets (Protocoles, Spectres de Référence, Quantification)
+
+### Phase 3 - Spectres et méthodes de quantification ✅
+- [x] Implémenter visualisations protocoles (préparation, paramètres GC/MS)
+- [x] Ajouter tableaux temps de rétention (8 monoterpènes, 3 sesquiterpènes)
+- [x] Créer profils chromatographiques tabacs (Burley, Virginia Gold avec % aire)
+- [x] Ajouter méthodes de calibration (étalonnage externe/interne) et limites LOD/LOQ
+
+### Phase 4 - Tests et intégration ✅
+- [x] Tester affichage des 3 onglets (Protocoles, Spectres de Référence, Quantification)
+- [x] Vérifier navigation depuis page Recherche Scientifique (breadcrumbs corrects)
+- [x] Valider responsive design (tableaux responsive, grids 2 colonnes)
+- [x] Ajouter route dans App.tsx (/recherche-scientifique/modeles-analytiques-gcms)
+
 ### Phase 5 - Checkpoint final
 - [ ] Valider toutes les fonctionnalités
-- [ ] Créer checkpoint avec module Dégradation des Terpènes
+- [ ] Créer checkpoint avec module Modèles Analytiques GC-MS
