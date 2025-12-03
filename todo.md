@@ -725,3 +725,34 @@
 - [x] Tester interactivité (zoom, pan, sélection nœuds)
 - [x] Vérifier affichage graphes (BIO-MINERALIS 22 nœuds, Royal Mossi 26 nœuds)
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Filtres dynamiques page Molécules
+
+### Phase 1 - Analyse des données ✅
+- [x] Analyser les 131 molécules pour extraire familles chimiques (30 familles)
+- [x] Identifier profils olfactifs récurrents (250+ profils)
+- [x] Déterminer plages de concentration min/max (0.0001% - 0.1%)
+
+### Phase 2 - Mise à jour schéma BDD ✅
+- [x] Champs `family` et `olfactiveProfile` déjà présents dans le schéma
+- [x] Données déjà importées avec familles et profils
+- [x] Aucune migration nécessaire
+
+### Phase 3 - Composants UI filtres ✅
+- [x] Utiliser FilterSelect existant pour familles chimiques
+- [x] Créer système de badges cliquables pour profils olfactifs (50 affichés)
+- [x] Créer RangeSlider pour concentration (0.0001% - 0.1%)
+- [x] Ajouter bouton "Réinitialiser filtres" + toggle afficher/masquer
+
+### Phase 4 - Logique de filtrage ✅
+- [x] Filtrage côté client (useMemo) pour performance optimale
+- [x] Filtres combinés: recherche + famille + profils + concentration
+- [x] State React connecté (searchQuery, familyFilter, selectedProfiles, concentrationRange)
+- [x] Afficher nombre de résultats filtrés + total
+
+### Phase 5 - Tests et validation ✅
+- [x] Tester combinaisons de filtres (Terreux: 3/131 molécules)
+- [x] Vérifier performance avec 131 molécules (filtrage client instantané)
+- [x] Tester bouton Réinitialiser (retour à 131 molécules)
+- [ ] Créer checkpoint

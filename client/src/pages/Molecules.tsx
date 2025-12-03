@@ -2,40 +2,115 @@ import { useState, useMemo } from "react";
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Atom } from "lucide-react";
+import { Loader2, Atom, X, Filter } from "lucide-react";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Molecules() {
   const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
   
   const [searchQuery, setSearchQuery] = useState("");
   const [familyFilter, setFamilyFilter] = useState("all");
+  const [selectedProfiles, setSelectedProfiles] = useState<string[]>([]);
+  const [concentrationRange, setConcentrationRange] = useState<[number, number]>([0.0001, 0.1]);
+  const [showFilters, setShowFilters] = useState(true);
 
   // Extract unique families for filter
   const families = useMemo(() => {
     if (!molecules) return [];
     const uniqueFamilies = new Set(molecules.map(m => m.family).filter(Boolean));
-    return Array.from(uniqueFamilies).map(f => ({ value: f!, label: f! }));
+    return Array.from(uniqueFamilies).sort().map(f => ({ value: f!, label: f! }));
   }, [molecules]);
+
+  // Extract unique olfactive profiles
+  const olfactiveProfiles = useMemo(() => {
+    if (!molecules) return [];
+    const profileSet = new Set<string>();
+    molecules.forEach(m => {
+      if (m.olfactiveProfile) {
+        // Split by comma, semicolon, or newline
+        m.olfactiveProfile.split(/[,;\n]/).forEach(p => {
+          const trimmed = p.trim();
+          if (trimmed) profileSet.add(trimmed);
+        });
+      }
+    });
+    return Array.from(profileSet).sort();
+  }, [molecules]);
+
+  // Parse concentration from string (e.g., "0.05%" -> 0.05)
+  const parseConcentration = (concStr: string | null): number | null => {
+    if (!concStr) return null;
+    const match = concStr.match(/([\d.]+)/);
+    return match ? parseFloat(match[1]) : null;
+  };
 
   // Filter molecules
   const filteredMolecules = useMemo(() => {
     if (!molecules) return [];
     
     return molecules.filter(molecule => {
+      // Search filter
       const matchesSearch = 
         molecule.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         molecule.olfactiveProfile?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         molecule.emotionalResonance?.toLowerCase().includes(searchQuery.toLowerCase());
       
+      // Family filter
       const matchesFamily = 
         familyFilter === "all" || molecule.family === familyFilter;
       
-      return matchesSearch && matchesFamily;
+      // Olfactive profile filter
+      const matchesProfile = 
+        selectedProfiles.length === 0 ||
+        (molecule.olfactiveProfile && selectedProfiles.some(profile => 
+          molecule.olfactiveProfile!.toLowerCase().includes(profile.toLowerCase())
+        ));
+      
+      // Concentration filter
+      const conc = parseConcentration(molecule.concentration);
+      const matchesConcentration = 
+        conc === null || 
+        (conc >= concentrationRange[0] && conc <= concentrationRange[1]);
+      
+      return matchesSearch && matchesFamily && matchesProfile && matchesConcentration;
     });
-  }, [molecules, searchQuery, familyFilter]);
+  }, [molecules, searchQuery, familyFilter, selectedProfiles, concentrationRange]);
+
+  // Reset all filters
+  const resetFilters = () => {
+    setSearchQuery("");
+    setFamilyFilter("all");
+    setSelectedProfiles([]);
+    setConcentrationRange([0.0001, 0.1]);
+  };
+
+  // Toggle profile selection
+  const toggleProfile = (profile: string) => {
+    setSelectedProfiles(prev => 
+      prev.includes(profile) 
+        ? prev.filter(p => p !== profile)
+        : [...prev, profile]
+    );
+  };
+
+  // Check if any filter is active
+  const hasActiveFilters = 
+    searchQuery !== "" || 
+    familyFilter !== "all" || 
+    selectedProfiles.length > 0 || 
+    concentrationRange[0] !== 0.0001 || 
+    concentrationRange[1] !== 0.1;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -63,25 +138,102 @@ export default function Molecules() {
         <section className="py-8 border-b border-border/40">
           <div className="container">
             <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="md:col-span-2">
-                  <SearchBar
-                    value={searchQuery}
-                    onChange={setSearchQuery}
-                    placeholder="Rechercher une molécule..."
-                  />
-                </div>
-                <FilterSelect
-                  value={familyFilter}
-                  onChange={setFamilyFilter}
-                  options={families}
-                  placeholder="Famille chimique"
-                />
+              {/* Filter toggle & reset */}
+              <div className="flex items-center justify-between mb-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowFilters(!showFilters)}
+                >
+                  <Filter className="h-4 w-4 mr-2" />
+                  {showFilters ? "Masquer les filtres" : "Afficher les filtres"}
+                </Button>
+                
+                {hasActiveFilters && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={resetFilters}
+                  >
+                    <X className="h-4 w-4 mr-2" />
+                    Réinitialiser
+                  </Button>
+                )}
               </div>
+
+              {showFilters && (
+                <div className="space-y-6 p-6 border border-border/40 rounded-lg bg-muted/20">
+                  {/* Search & Family */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="md:col-span-2">
+                      <SearchBar
+                        value={searchQuery}
+                        onChange={setSearchQuery}
+                        placeholder="Rechercher une molécule..."
+                      />
+                    </div>
+                    <FilterSelect
+                      value={familyFilter}
+                      onChange={setFamilyFilter}
+                      options={families}
+                      placeholder="Famille chimique"
+                    />
+                  </div>
+
+                  {/* Olfactive Profiles */}
+                  <div>
+                    <label className="text-sm font-semibold mb-3 block">
+                      Profils Olfactifs ({selectedProfiles.length} sélectionné{selectedProfiles.length > 1 ? "s" : ""})
+                    </label>
+                    <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-4 border border-border/40 rounded-md bg-background">
+                      {olfactiveProfiles.slice(0, 50).map(profile => (
+                        <Badge
+                          key={profile}
+                          variant={selectedProfiles.includes(profile) ? "default" : "outline"}
+                          className="cursor-pointer hover:bg-primary/20 transition-colors"
+                          onClick={() => toggleProfile(profile)}
+                        >
+                          {profile}
+                          {selectedProfiles.includes(profile) && (
+                            <X className="ml-1 h-3 w-3" />
+                          )}
+                        </Badge>
+                      ))}
+                      {olfactiveProfiles.length > 50 && (
+                        <span className="text-xs text-muted-foreground self-center">
+                          +{olfactiveProfiles.length - 50} profils supplémentaires...
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Concentration Range */}
+                  <div>
+                    <label className="text-sm font-semibold mb-3 block">
+                      Concentration ({concentrationRange[0].toFixed(4)}% - {concentrationRange[1].toFixed(4)}%)
+                    </label>
+                    <div className="px-4">
+                      <Slider
+                        min={0.0001}
+                        max={0.1}
+                        step={0.0001}
+                        value={concentrationRange}
+                        onValueChange={(value) => setConcentrationRange(value as [number, number])}
+                        className="w-full"
+                      />
+                      <div className="flex justify-between text-xs text-muted-foreground mt-2">
+                        <span>0.0001%</span>
+                        <span>0.1%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               
               {/* Results count */}
               <div className="mt-4 text-sm text-muted-foreground">
                 {filteredMolecules.length} molécule{filteredMolecules.length > 1 ? "s" : ""} trouvée{filteredMolecules.length > 1 ? "s" : ""}
+                {hasActiveFilters && ` sur ${molecules?.length || 0}`}
               </div>
             </div>
           </div>
@@ -97,7 +249,12 @@ export default function Molecules() {
                 </div>
               ) : filteredMolecules.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-muted-foreground">Aucune molécule trouvée</p>
+                  <p className="text-muted-foreground mb-4">Aucune molécule trouvée</p>
+                  {hasActiveFilters && (
+                    <Button variant="outline" onClick={resetFilters}>
+                      Réinitialiser les filtres
+                    </Button>
+                  )}
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -115,6 +272,11 @@ export default function Molecules() {
                         {molecule.chemicalFormula && (
                           <p className="text-sm font-mono text-muted-foreground">
                             {molecule.chemicalFormula}
+                          </p>
+                        )}
+                        {molecule.concentration && (
+                          <p className="text-xs text-muted-foreground">
+                            Concentration recommandée : {molecule.concentration}
                           </p>
                         )}
                       </CardHeader>
