@@ -9,7 +9,7 @@ import { trpc } from "@/lib/trpc";
 import { Loader2, Atom, X, Filter } from "lucide-react";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
-import { GammeBadge } from "@/components/GammeBadge";
+import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
 import {
   Select,
@@ -27,6 +27,7 @@ export default function Molecules() {
   const [selectedProfiles, setSelectedProfiles] = useState<string[]>([]);
   const [concentrationRange, setConcentrationRange] = useState<[number, number]>([0.0001, 0.1]);
   const [showFilters, setShowFilters] = useState(true);
+  const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
 
   // Extract unique families for filter
   const families = useMemo(() => {
@@ -86,7 +87,11 @@ export default function Molecules() {
         conc === null || 
         (conc >= concentrationRange[0] && conc <= concentrationRange[1]);
       
-      return matchesSearch && matchesFamily && matchesProfile && matchesConcentration;
+      // Gamme filter
+      const matchesGamme = 
+        !selectedGamme || getGammeFromOlfactiveProfile(molecule.olfactiveProfile) === selectedGamme;
+      
+      return matchesSearch && matchesFamily && matchesProfile && matchesConcentration && matchesGamme;
     });
   }, [molecules, searchQuery, familyFilter, selectedProfiles, concentrationRange]);
 
@@ -96,6 +101,7 @@ export default function Molecules() {
     setFamilyFilter("all");
     setSelectedProfiles([]);
     setConcentrationRange([0.0001, 0.1]);
+    setSelectedGamme(null);
   };
 
   // Toggle profile selection
@@ -113,7 +119,8 @@ export default function Molecules() {
     familyFilter !== "all" || 
     selectedProfiles.length > 0 || 
     concentrationRange[0] !== 0.0001 || 
-    concentrationRange[1] !== 0.1;
+    concentrationRange[1] !== 0.1 ||
+    selectedGamme !== null;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -170,11 +177,47 @@ export default function Molecules() {
                   {/* Search & Family */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="md:col-span-2">
-                      <SearchBar
-                        value={searchQuery}
-                        onChange={setSearchQuery}
-                        placeholder="Rechercher une molécule..."
-                      />
+                     {/* Search Bar */}
+              <SearchBar
+                value={searchQuery}
+                onChange={setSearchQuery}
+                placeholder="Rechercher une molécule..."
+              />
+
+              {/* Gamme Filters */}
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="text-sm font-medium text-muted-foreground">Gammes :</span>
+                <GammeBadge 
+                  gamme="petrichor" 
+                  size="sm" 
+                  className={selectedGamme === 'petrichor' ? 'ring-2 ring-offset-2 ring-gamme-petrichor' : 'opacity-60 hover:opacity-100'}
+                  onClick={() => setSelectedGamme(selectedGamme === 'petrichor' ? null : 'petrichor')}
+                />
+                <GammeBadge 
+                  gamme="volcanique" 
+                  size="sm" 
+                  className={selectedGamme === 'volcanique' ? 'ring-2 ring-offset-2 ring-gamme-volcanique' : 'opacity-60 hover:opacity-100'}
+                  onClick={() => setSelectedGamme(selectedGamme === 'volcanique' ? null : 'volcanique')}
+                />
+                <GammeBadge 
+                  gamme="civilisations" 
+                  size="sm" 
+                  className={selectedGamme === 'civilisations' ? 'ring-2 ring-offset-2 ring-gamme-civilisations' : 'opacity-60 hover:opacity-100'}
+                  onClick={() => setSelectedGamme(selectedGamme === 'civilisations' ? null : 'civilisations')}
+                />
+                <GammeBadge 
+                  gamme="glaciaire" 
+                  size="sm" 
+                  className={selectedGamme === 'glaciaire' ? 'ring-2 ring-offset-2 ring-gamme-glaciaire' : 'opacity-60 hover:opacity-100'}
+                  onClick={() => setSelectedGamme(selectedGamme === 'glaciaire' ? null : 'glaciaire')}
+                />
+                <GammeBadge 
+                  gamme="biolab" 
+                  size="sm" 
+                  className={selectedGamme === 'biolab' ? 'ring-2 ring-offset-2 ring-gamme-biolab' : 'opacity-60 hover:opacity-100'}
+                  onClick={() => setSelectedGamme(selectedGamme === 'biolab' ? null : 'biolab')}
+                />
+              </div>
                     </div>
                     <FilterSelect
                       value={familyFilter}

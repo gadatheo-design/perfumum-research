@@ -1380,3 +1380,63 @@
 - [x] Tester visualisation heatmap
 - [x] Valider responsive design
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Filtres gamme + Pages Gammes + Enrichissement synergies
+
+### Amélioration 1 - Filtres par gamme cliquables
+- [ ] Ajouter filtres GammeBadge cliquables sur page Recettes
+- [ ] Ajouter filtres GammeBadge cliquables sur page Molécules
+- [ ] Ajouter filtres GammeBadge cliquables sur page Prototypes
+- [ ] Implémenter logique de filtrage par gamme sélectionnée
+- [ ] Tester filtres sur les 3 pages
+
+### Amélioration 2 - Pages Gammes détaillées
+- [ ] Créer page /gammes/glaciaire avec compositions et recettes
+- [ ] Créer page /gammes/biolab avec compositions et recettes
+- [ ] Ajouter routes dans App.tsx
+- [ ] Ajouter liens dans menu Données
+- [ ] Tester navigation vers nouvelles pages
+
+### Amélioration 3 - Enrichir base de données synergies
+- [ ] Analyser données existantes (8 tabacs × 131 molécules)
+- [ ] Créer 20+ nouvelles synergies Tabacs × Molécules
+- [ ] Importer synergies dans la base de données
+- [ ] Vérifier affichage dans Matrice Interactive
+- [ ] Tester Heatmap avec données enrichies
+
+### Tests et validation
+- [ ] Vérifier filtres gamme fonctionnels
+- [ ] Tester pages Glaciaire et Bio-Lab
+- [ ] Valider heatmap avec plus de synergies
+- [ ] Créer checkpoint final
+
+
+## ✅ TERMINÉ : Refonte Complète Homepage + Identité Visuelle + Matrice Interactive
+
+### Amélioration 1 - Filtres par gamme sur pages principales ✅
+- [x] Ajouter boutons GammeBadge cliquables sur page Recettes
+- [x] Ajouter boutons GammeBadge cliquables sur page Molécules
+- [x] Ajouter boutons GammeBadge cliquables sur page Prototypes
+- [x] Implémenter logique de filtrage par gamme (toggle on/off)
+- [x] Tester filtres sur desktop et mobile
+
+### Amélioration 2 - Créer pages Gammes manquantes ✅
+- [x] Créer page /gammes/glaciaire (4 accords + 3 radicaux)
+- [x] Créer page /gammes/biolab (4 accords + 3 radicaux)
+- [x] Ajouter routes dans App.tsx
+- [x] Ajouter liens dans navigation
+- [x] Tester pages Glaciaire et Bio-Lab
+
+### Amélioration 3 - Enrichir base de données synergies ✅
+- [x] Ajouter 26 nouvelles relations Tabacs × Molécules (15 → 41 total)
+- [x] Couvrir les 8 tabacs avec synergies variées
+- [x] Utiliser les 4 types (potentialisation, stabilisation, transformation, masquage)
+- [x] Tester heatmap avec données enrichies
+- [x] Vérifier affichage synergies dans matrice interactive
+
+### Tests et validation ✅
+- [x] Vérifier badges gamme sur toutes les pages
+- [x] Tester visualisation heatmap avec 41 synergies
+- [x] Valider responsive design
+- [x] Créer checkpoint final

@@ -28,8 +28,10 @@ import MoleculeDetail from "./pages/MoleculeDetail";
 import RecetteDetail from "./pages/RecetteDetail";
 import Recettes from "./pages/Recettes";
 import Gammes from "./pages/Gammes";
-import GammesPetrichor from "./pages/GammesPetrichor";
-import GammesVolcanique from "./pages/GammesVolcanique";
+import GammesPetrichor from "@/pages/GammesPetrichor";
+import GammesVolcanique from "@/pages/GammesVolcanique";
+import GammesGlaciaire from "@/pages/GammesGlaciaire";
+import GammesBioLab from "@/pages/GammesBioLab";
 import GammesMossi from "./pages/GammesMossi";
 import CivilisationDetail from "./pages/CivilisationDetail";
 import C1Fermentum from "./pages/prototypes/C1";
@@ -69,8 +71,10 @@ function Router() {
       <Route path="/accords" component={Accords} />
       <Route path="/recettes" component={Recettes} />
       <Route path="/gammes" component={Gammes} />
-      <Route path="/gammes/petrichor" component={GammesPetrichor} />
-      <Route path="/gammes/volcanique" component={GammesVolcanique} />
+        <Route path="/gammes/petrichor" component={GammesPetrichor} />
+        <Route path="/gammes/volcanique" component={GammesVolcanique} />
+        <Route path="/gammes/glaciaire" component={GammesGlaciaire} />
+        <Route path="/gammes/biolab" component={GammesBioLab} />
       <Route path="/gammes/mossi" component={GammesMossi} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/timeline" component={Timeline} />

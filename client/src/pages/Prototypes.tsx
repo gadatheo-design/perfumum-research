@@ -3,9 +3,13 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PrototypeCard } from "@/components/cards/PrototypeCard";
 import { trpc } from "@/lib/trpc";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { GammeBadge, type GammeType } from "@/components/GammeBadge";
+import { getGammeFromPrototype } from "@/lib/gammeMapping";
 
 export default function Prototypes() {
   const { data: prototypes, isLoading } = trpc.prototypes.list.useQuery();
+  const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
 
   const getColorFromCode = (code: string): "c1" | "c2" | "c3" | "c4" => {
     const colorMap: Record<string, "c1" | "c2" | "c3" | "c4"> = {
@@ -40,10 +44,45 @@ export default function Prototypes() {
         {/* Introduction */}
         <section className="py-16">
           <div className="container">
-            <div className="max-w-3xl mx-auto text-center mb-16">
+            <div className="max-w-3xl mx-auto text-center mb-8">
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Les prototypes C1 à C4 constituent les <strong>compositions fondamentales</strong> du projet Perfumum. Chacun explore un axe conceptuel spécifique à travers une forme sensible distincte, articulant recherche théorique, pratique de laboratoire et expérimentation artistique.
               </p>
+            </div>
+
+            {/* Gamme Filters */}
+            <div className="flex flex-wrap gap-2 items-center justify-center mb-12">
+              <span className="text-sm font-medium text-muted-foreground">Filtrer par gamme :</span>
+              <GammeBadge 
+                gamme="petrichor" 
+                size="sm" 
+                className={selectedGamme === 'petrichor' ? 'ring-2 ring-offset-2 ring-gamme-petrichor' : 'opacity-60 hover:opacity-100'}
+                onClick={() => setSelectedGamme(selectedGamme === 'petrichor' ? null : 'petrichor')}
+              />
+              <GammeBadge 
+                gamme="volcanique" 
+                size="sm" 
+                className={selectedGamme === 'volcanique' ? 'ring-2 ring-offset-2 ring-gamme-volcanique' : 'opacity-60 hover:opacity-100'}
+                onClick={() => setSelectedGamme(selectedGamme === 'volcanique' ? null : 'volcanique')}
+              />
+              <GammeBadge 
+                gamme="civilisations" 
+                size="sm" 
+                className={selectedGamme === 'civilisations' ? 'ring-2 ring-offset-2 ring-gamme-civilisations' : 'opacity-60 hover:opacity-100'}
+                onClick={() => setSelectedGamme(selectedGamme === 'civilisations' ? null : 'civilisations')}
+              />
+              <GammeBadge 
+                gamme="glaciaire" 
+                size="sm" 
+                className={selectedGamme === 'glaciaire' ? 'ring-2 ring-offset-2 ring-gamme-glaciaire' : 'opacity-60 hover:opacity-100'}
+                onClick={() => setSelectedGamme(selectedGamme === 'glaciaire' ? null : 'glaciaire')}
+              />
+              <GammeBadge 
+                gamme="biolab" 
+                size="sm" 
+                className={selectedGamme === 'biolab' ? 'ring-2 ring-offset-2 ring-gamme-biolab' : 'opacity-60 hover:opacity-100'}
+                onClick={() => setSelectedGamme(selectedGamme === 'biolab' ? null : 'biolab')}
+              />
             </div>
 
             {/* Prototypes Grid */}
@@ -53,7 +92,9 @@ export default function Prototypes() {
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               ) : (
-                prototypes?.map((prototype) => (
+                prototypes
+                  ?.filter(prototype => !selectedGamme || getGammeFromPrototype(prototype.code) === selectedGamme)
+                  .map((prototype) => (
                   <PrototypeCard
                     key={prototype.code}
                     code={prototype.code}

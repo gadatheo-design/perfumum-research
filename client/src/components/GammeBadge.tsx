@@ -9,6 +9,7 @@ interface GammeBadgeProps {
   size?: "sm" | "md" | "lg";
   showIcon?: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 const gammeConfig = {
@@ -56,7 +57,7 @@ const iconSizes = {
   lg: "h-5 w-5"
 };
 
-export function GammeBadge({ gamme, size = "md", showIcon = true, className }: GammeBadgeProps) {
+export function GammeBadge({ gamme, size = "md", showIcon = true, className, onClick }: GammeBadgeProps) {
   const config = gammeConfig[gamme];
   const Icon = config.icon;
 
@@ -67,8 +68,10 @@ export function GammeBadge({ gamme, size = "md", showIcon = true, className }: G
         config.colorClass,
         sizeClasses[size],
         "font-medium transition-colors duration-200",
+        onClick && "cursor-pointer",
         className
       )}
+      onClick={onClick}
     >
       {showIcon && <Icon className={cn(iconSizes[size], "mr-1.5")} />}
       {config.label}

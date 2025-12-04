@@ -9,13 +9,14 @@ import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { Search, Beaker, Filter, X } from "lucide-react";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
-import { GammeBadge } from "@/components/GammeBadge";
+import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
 
 export default function Recettes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
   const [selectedPrototype, setSelectedPrototype] = useState<string | null>(null);
+  const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
 
   const { data: recettes = [], isLoading } = trpc.recettes.list.useQuery();
 
@@ -24,7 +25,8 @@ export default function Recettes() {
     const matchesSearch = recette.name?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFamily = !selectedFamily || recette.category === selectedFamily;
     const matchesPrototype = !selectedPrototype || recette.formula?.includes(selectedPrototype);
-    return matchesSearch && matchesFamily && matchesPrototype;
+    const matchesGamme = !selectedGamme || getGammeFromCategory(recette.category) === selectedGamme;
+    return matchesSearch && matchesFamily && matchesPrototype && matchesGamme;
   });
 
   // Extract unique families and prototypes for filters
@@ -35,9 +37,10 @@ export default function Recettes() {
     setSearchTerm("");
     setSelectedFamily(null);
     setSelectedPrototype(null);
+    setSelectedGamme(null);
   };
 
-  const hasActiveFilters = searchTerm || selectedFamily || selectedPrototype;
+  const hasActiveFilters = searchTerm || selectedFamily || selectedPrototype || selectedGamme;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -72,6 +75,41 @@ export default function Recettes() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
+                />
+              </div>
+
+              {/* Gamme Filters */}
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="text-sm font-medium text-muted-foreground">Gammes :</span>
+                <GammeBadge 
+                  gamme="petrichor" 
+                  size="sm" 
+                  className={`cursor-pointer ${selectedGamme === 'petrichor' ? 'ring-2 ring-offset-2 ring-gamme-petrichor' : 'opacity-60 hover:opacity-100'}`}
+                  onClick={() => setSelectedGamme(selectedGamme === 'petrichor' ? null : 'petrichor')}
+                />
+                <GammeBadge 
+                  gamme="volcanique" 
+                  size="sm" 
+                  className={`cursor-pointer ${selectedGamme === 'volcanique' ? 'ring-2 ring-offset-2 ring-gamme-volcanique' : 'opacity-60 hover:opacity-100'}`}
+                  onClick={() => setSelectedGamme(selectedGamme === 'volcanique' ? null : 'volcanique')}
+                />
+                <GammeBadge 
+                  gamme="civilisations" 
+                  size="sm" 
+                  className={`cursor-pointer ${selectedGamme === 'civilisations' ? 'ring-2 ring-offset-2 ring-gamme-civilisations' : 'opacity-60 hover:opacity-100'}`}
+                  onClick={() => setSelectedGamme(selectedGamme === 'civilisations' ? null : 'civilisations')}
+                />
+                <GammeBadge 
+                  gamme="glaciaire" 
+                  size="sm" 
+                  className={`cursor-pointer ${selectedGamme === 'glaciaire' ? 'ring-2 ring-offset-2 ring-gamme-glaciaire' : 'opacity-60 hover:opacity-100'}`}
+                  onClick={() => setSelectedGamme(selectedGamme === 'glaciaire' ? null : 'glaciaire')}
+                />
+                <GammeBadge 
+                  gamme="biolab" 
+                  size="sm" 
+                  className={`cursor-pointer ${selectedGamme === 'biolab' ? 'ring-2 ring-offset-2 ring-gamme-biolab' : 'opacity-60 hover:opacity-100'}`}
+                  onClick={() => setSelectedGamme(selectedGamme === 'biolab' ? null : 'biolab')}
                 />
               </div>
 
