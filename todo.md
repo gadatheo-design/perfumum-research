@@ -1221,3 +1221,43 @@
 ### Phase 5 - Checkpoint final
 - [ ] Valider toutes les fonctionnalités
 - [ ] Créer checkpoint avec module Modèles Analytiques GC-MS
+
+
+## 🔄 EN COURS : Section Programmes de Recherche
+
+### Phase 1 - Hub page et navigation
+- [ ] Créer page ProgrammesRecherche.tsx (hub avec 2 cartes programmes)
+- [ ] Ajouter "Programmes de Recherche" au menu principal (Header desktop + mobile)
+- [ ] Créer dropdown desktop avec 3 items (Vue d'ensemble, Résines CBD, Tabacs Niche)
+- [ ] Ajouter section mobile dans drawer avec icône Flask
+
+### Phase 2 - Programme Résines CBD
+- [ ] Créer page ResinesCBD.tsx avec 6 sections
+- [ ] Section 1: Intention du projet
+- [ ] Section 2: 4 axes génétiques (Pétrichor, Résine Sacrée, Glaciaire, Lactone)
+- [ ] Section 3: Méthodes extraction (Frenchy Cannoli)
+- [ ] Section 4: Intégration gammes Perfumeum (4 sous-sections)
+- [ ] Section 5: Rôle des tabacs & matrices combustibles
+- [ ] Section 6: Positionnement & avertissement
+- [ ] Ajouter route /programmes-recherche/resines-cbd
+
+### Phase 3 - Tabacs Niche
+- [ ] Créer page TabacsNiche.tsx avec 8 catégories
+- [ ] Catégorie A: Tabacs Sacrés & Ancestraux (5 variétés)
+- [ ] Catégorie B: Tabacs Pétrichor & Minéraux (5 variétés)
+- [ ] Catégorie C: Tabacs Lactone / Cheese (3 variétés)
+- [ ] Catégorie D: Tabacs Glaciaires & Ozone (3 variétés)
+- [ ] Catégorie E: Tabacs Umami / Bouillon (3 variétés)
+- [ ] Catégorie F: Tabacs Cuir / Sang / Archives (3 variétés)
+- [ ] Catégorie G: Tabacs Volcaniques (2 variétés)
+- [ ] Catégorie H: Tabacs pour Résines Cannoli & Hash Design (6 variétés)
+- [ ] Ajouter route /programmes-recherche/tabacs-niche
+
+### Phase 4 - Tests
+- [ ] Tester navigation desktop (dropdown)
+- [ ] Tester navigation mobile (drawer)
+- [ ] Vérifier affichage des 3 pages
+- [ ] Valider liens croisés vers Molécules, Tabacs, Civilisations
+
+### Phase 5 - Checkpoint
+- [ ] Créer checkpoint avec section Programmes de Recherche complète

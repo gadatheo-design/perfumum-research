@@ -14,7 +14,9 @@ import {
   Wind,
   TestTube,
   Zap,
-  X
+  X,
+  Leaf,
+  Cigarette
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -214,6 +216,31 @@ export function Header() {
               <DropdownMenuItem asChild>
                 <Link href="/recherche-scientifique/modeles-analytiques-gcms">
                   <a className="w-full cursor-pointer">Modèles Analytiques GC-MS</a>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Programmes de Recherche dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60">
+              Programmes de Recherche
+              <ChevronDown className="h-3 w-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="animate-scaleIn" align="start">
+              <DropdownMenuItem asChild>
+                <Link href="/programmes-recherche">
+                  <a className="w-full cursor-pointer">Vue d'ensemble</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/programmes-recherche/resines-cbd">
+                  <a className="w-full cursor-pointer">Résines CBD & Terpenic Design</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/programmes-recherche/tabacs-niche">
+                  <a className="w-full cursor-pointer">Tabacs Niche</a>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -624,6 +651,53 @@ export function Header() {
                       >
                         <TestTube className="h-4 w-4 flex-shrink-0 text-purple-500" />
                         <span>Modèles Analytiques GC-MS</span>
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Programmes de Recherche Section */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 px-4">
+                    <Leaf className="h-4 w-4 text-muted-foreground" />
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                      Programmes de Recherche
+                    </h3>
+                  </div>
+                  <div className="space-y-1">
+                    <Link href="/programmes-recherche">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/programmes-recherche" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Vue d'ensemble
+                      </a>
+                    </Link>
+                    <Link href="/programmes-recherche/resines-cbd">
+                      <a
+                        className={cn(
+                          "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
+                          location === "/programmes-recherche/resines-cbd" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Leaf className="h-4 w-4 flex-shrink-0 text-green-500" />
+                        <span>Résines CBD & Terpenic Design</span>
+                      </a>
+                    </Link>
+                    <Link href="/programmes-recherche/tabacs-niche">
+                      <a
+                        className={cn(
+                          "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
+                          location === "/programmes-recherche/tabacs-niche" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Cigarette className="h-4 w-4 flex-shrink-0 text-amber-500" />
+                        <span>Tabacs Niche</span>
                       </a>
                     </Link>
                   </div>

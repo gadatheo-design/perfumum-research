@@ -38,7 +38,9 @@ import C3LactaSolis from "./pages/prototypes/C3";
 import C4TerraAmbra from "./pages/prototypes/C4";
 import Reseau from "./pages/Reseau";
 import BioMineralis from "./pages/BioMineralis";
-import ResinesCBD from "./pages/ResinesCBD";
+import ResinesCBD from "@/pages/ResinesCBD";
+import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
+import TabacsNiche from "@/pages/TabacsNiche";
 import LaboratoireRecettes from "./pages/LaboratoireRecettes";
 import { Dashboard } from "./pages/Dashboard";
 import { RechercheScientifique } from "./pages/RechercheScientifique";
@@ -90,6 +92,11 @@ function Router() {
         <Route path="/recherche-scientifique/courbes-volatilite" component={CourbesVolatilite} />
         <Route path="/recherche-scientifique/degradation-terpenes" component={DegradationTerpenes} />
         <Route path="/recherche-scientifique/modeles-analytiques-gcms" component={ModelesAnalytiquesGCMS} />
+
+        {/* Programmes de Recherche */}
+        <Route path="/programmes-recherche" component={ProgrammesRecherche} />
+        <Route path="/programmes-recherche/resines-cbd" component={ResinesCBD} />
+        <Route path="/programmes-recherche/tabacs-niche" component={TabacsNiche} />
       <Route path="/civilisations" component={Civilisations} />
       <Route path="/installations" component={Installations} />
       <Route path="/404" component={NotFound} />
