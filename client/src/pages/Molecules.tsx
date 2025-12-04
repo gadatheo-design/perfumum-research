@@ -11,6 +11,7 @@ import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
+import { FavoriteButton } from "@/components/FavoriteButton";
 import {
   Select,
   SelectContent,
@@ -311,6 +312,7 @@ export default function Molecules() {
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <CardTitle className="text-xl flex-1">{molecule.name}</CardTitle>
                           <div className="flex items-center gap-2 shrink-0">
+                            <FavoriteButton moleculeId={molecule.id} variant="icon" />
                             {getGammeFromOlfactiveProfile(molecule.olfactiveProfile) && (
                               <GammeBadge 
                                 gamme={getGammeFromOlfactiveProfile(molecule.olfactiveProfile)!} 

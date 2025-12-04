@@ -123,8 +123,9 @@ export default function MethodeAbsorbe() {
                   </CardHeader>
                   <CardContent>
                     <img 
-                      src="/absorbe-processus.png" 
+                      src="/absorbe-processus.webp" 
                       alt="Diagramme processus ABSORBE" 
+                      loading="lazy"
                       className="w-full h-auto rounded-lg border border-border"
                     />
                   </CardContent>
@@ -213,8 +214,9 @@ export default function MethodeAbsorbe() {
                 </CardHeader>
                 <CardContent>
                   <img 
-                    src="/absorbe-gammes.png" 
+                    src="/absorbe-gammes.webp" 
                     alt="Diagramme relations gammes ABSORBE" 
+                    loading="lazy"
                     className="w-full h-auto rounded-lg border border-border"
                   />
                 </CardContent>

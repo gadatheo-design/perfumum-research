@@ -321,6 +321,11 @@ export function Header() {
                   <a className="w-full cursor-pointer">Recherche</a>
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/favoris">
+                  <a className="w-full cursor-pointer">Favoris</a>
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </nav>
@@ -865,6 +870,17 @@ export function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Calculateur de Dosages
+                      </a>
+                    </Link>
+                    <Link href="/favoris">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/favoris" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Favoris
                       </a>
                     </Link>
                   </div>

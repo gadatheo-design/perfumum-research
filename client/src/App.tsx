@@ -61,6 +61,7 @@ import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
 import Collaborations from "./pages/Collaborations";
 import TabacsResines from "./pages/TabacsResines";
+import Favoris from "./pages/Favoris";
 
 function Router() {
   return (
@@ -110,6 +111,7 @@ function Router() {
         <Route path="/terrains" component={Terrains} />
         <Route path="/collaborations" component={Collaborations} />
         <Route path="/tabacs-resines" component={TabacsResines} />
+        <Route path="/favoris" component={Favoris} />
       <Route path="/recherche-scientifique" component={RechercheScientifique} />
       <Route path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />
       <Route path="/recherche-scientifique/pyrolyse-combustion" component={PyrolyseCombustion} />
