@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ChevronRight, Leaf, AlertTriangle, Beaker, Palette, Cigarette, Info, Sparkles, FlaskConical, Timer, DollarSign } from "lucide-react";
+import { ChevronRight, Leaf, AlertTriangle, Beaker, Palette, Cigarette, Info, Sparkles, FlaskConical, Timer, DollarSign, ExternalLink } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +31,9 @@ export default function ResinesCBD() {
       terpenes: ["Myrcène (terre, humus)", "Facettes racinaires / vetiver-like"],
       notes: ["Terre humide", "Cave", "Rhizomes / racines"],
       gammes: ["Terre Humide", "Terre Noire", "Bacillus", "Sundarban Soil", "Shuruppak"],
-      associations: ["Mitti attar (petrichor)", "Vétiver Assam et Haïti", "Accords soil wet, humus deep"]
+      associations: ["Mitti attar (petrichor)", "Vétiver Assam et Haïti", "Accords soil wet, humus deep"],
+      relatedFamilyLink: "/chimie",
+      relatedFamilyName: "Familles Chimiques (Terpènes & Aldéhydes)"
     },
     {
       title: "Résine Sacrée / Encens Antique",
@@ -40,7 +42,9 @@ export default function ResinesCBD() {
       terpenes: ["α- et β-pinène", "β-caryophyllène, α-humulène"],
       notes: ["Bois résineux", "Fumée d'encens", "Poivre, épices sèches"],
       gammes: ["Kyfi Akhet", "Kyphi", "Tell Halaf Smoke", "Akrotiri Ash", "Thebaïd Noire"],
-      associations: ["Myrrhe somalienne", "Encens noir d'Oman", "Labdanum antique", "Pine tar, benjoin"]
+      associations: ["Myrrhe somalienne", "Encens noir d'Oman", "Labdanum antique", "Pine tar, benjoin"],
+      relatedFamilyLink: "/chimie",
+      relatedFamilyName: "Familles Chimiques (Terpènes & Phénols)"
     },
     {
       title: "Glaciaire / Minéral / Ozone",
@@ -49,7 +53,9 @@ export default function ResinesCBD() {
       terpenes: ["Terpinolène", "Ocimène", "Pinènes"],
       notes: ["Profils clairs, ozonés", "Atmosphère arctique", "Peu de myrcène"],
       gammes: ["Longyear Ice", "Europa Ocean", "Aurora Ionique", "Hash Glacier", "Silence Profond"],
-      associations: ["Aldéhydes glacés", "Mineral water/dust", "Juniper ice, eucalyptus", "Ambergris blanc"]
+      associations: ["Aldéhydes glacés", "Mineral water/dust", "Juniper ice, eucalyptus", "Ambergris blanc"],
+      relatedFamilyLink: "/chimie",
+      relatedFamilyName: "Familles Chimiques (Monoterpènes)"
     },
     {
       title: "Lactone / Floral / Étrange",
@@ -58,7 +64,9 @@ export default function ResinesCBD() {
       terpenes: ["Notes mangue, pêche, fruits lactoniques", "Floraux doux (linalol, géraniol, nérol)"],
       notes: ["Peau, monoï, lait solaire", "Fermentations douces", "Champignon blanc"],
       gammes: ["Post-Humain", "Sang Lactonique", "Lactone Vert", "Mycélium-Parlement"],
-      associations: ["Frangipani, néroli", "Monoï artisanal", "Ambrettolide, muscs propres"]
+      associations: ["Frangipani, néroli", "Monoï artisanal", "Ambrettolide, muscs propres"],
+      relatedFamilyLink: "/chimie",
+      relatedFamilyName: "Familles Chimiques (Lactones)"
     }
   ];
 
@@ -285,6 +293,17 @@ export default function ResinesCBD() {
                         {axe.associations.join(" · ")}
                       </div>
                     </div>
+
+                    {axe.relatedFamilyLink && (
+                      <div className="pt-2 border-t">
+                        <Link href={axe.relatedFamilyLink}>
+                          <Badge variant="outline" className="bg-purple-50 text-purple-700 hover:bg-purple-100 transition-colors cursor-pointer">
+                            <ExternalLink className="w-3 h-3 mr-1" />
+                            {axe.relatedFamilyName}
+                          </Badge>
+                        </Link>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))}

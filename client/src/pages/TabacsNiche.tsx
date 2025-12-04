@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ChevronRight, Cigarette } from "lucide-react";
+import { ChevronRight, Cigarette, ExternalLink } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -39,7 +39,7 @@ export default function TabacsNiche() {
       icon: "🧈",
       color: "border-l-4 border-l-yellow-500",
       varieties: [
-        { name: "Burley Blanc Lactone", origin: "USA", notes: "beurre blanc, lait fermenté", usage: "Lacta Solis, Sang Lactonique" },
+        { name: "Burley Blanc Lactone", origin: "USA", notes: "beurre blanc, lait fermenté", usage: "Lacta Solis, Sang Lactonique", relatedTabacId: 1, relatedTabacName: "Burley" },
         { name: "Katerini Cream Cut", origin: "Grèce", notes: "crème aigre, sésame", usage: "Clausura Blanc, Collagène" },
         { name: "Malawi Silk", origin: "Malawi", notes: "beurre fumé, karité", usage: "Solar Lactone, Bio-Lab" }
       ]
@@ -50,7 +50,7 @@ export default function TabacsNiche() {
       icon: "❄️",
       color: "border-l-4 border-l-cyan-500",
       varieties: [
-        { name: "Virginia Ionique", origin: "USA", notes: "ozone, eau distillée", usage: "Longyear Ice, Glace Liquide" },
+        { name: "Virginia Ionique", origin: "USA", notes: "ozone, eau distillée", usage: "Longyear Ice, Glace Liquide", relatedTabacId: 2, relatedTabacName: "Virginia Bright" },
         { name: "Blue Ridge Arctic", origin: "USA", notes: "menthol naturel, pin froid", usage: "Aurora Ionique, Cryo-poussière" },
         { name: "Siberian Ghost", origin: "Russie", notes: "métal froid, neige", usage: "Archive Polaire, Crypte Blanche" }
       ]
@@ -61,7 +61,7 @@ export default function TabacsNiche() {
       icon: "🍲",
       color: "border-l-4 border-l-orange-500",
       varieties: [
-        { name: "Burley Umami", origin: "USA", notes: "bouillon clair, colle animale", usage: "Clausura Bouillon" },
+        { name: "Burley Umami", origin: "USA", notes: "bouillon clair, colle animale", usage: "Clausura Bouillon", relatedTabacId: 1, relatedTabacName: "Burley" },
         { name: "Rustica d'Éthiopie", origin: "Éthiopie", notes: "viande séchée, bouillon noir", usage: "Ossuaire, Bouillon Noir" },
         { name: "Izmir \"Taverna Cut\"", origin: "Turquie", notes: "figue sèche, caramel noir", usage: "Kyphi, Cuisine Engloutie" }
       ]
@@ -94,10 +94,10 @@ export default function TabacsNiche() {
       color: "border-l-4 border-l-green-500",
       varieties: [
         { name: "Brightleaf Ancien", origin: "USA", notes: "lumineux, contrastes", usage: "contrastes lumineux pour hash sombres" },
-        { name: "Virginia Gold \"Honey Cut\"", origin: "USA", notes: "miel, floral", usage: "lactones & fleurs solaires" },
-        { name: "Krumovgrad Noir", origin: "Bulgarie", notes: "sombre, Maillard", usage: "Civilisations, Ossuaire, Maillard" },
-        { name: "Burley Fermentum", origin: "USA", notes: "fermenté, collagène", usage: "module Collagène / Pétrichor" },
-        { name: "Samsoun Antique", origin: "Turquie", notes: "épices, encens chaud", usage: "épices, encens chaud" },
+        { name: "Virginia Gold \"Honey Cut\"", origin: "USA", notes: "miel, floral", usage: "lactones & fleurs solaires", relatedTabacId: 5, relatedTabacName: "Virginia Gold" },
+        { name: "Krumovgrad Noir", origin: "Bulgarie", notes: "sombre, Maillard", usage: "Civilisations, Ossuaire, Maillard", relatedTabacId: 3, relatedTabacName: "Krumovgrad" },
+        { name: "Burley Fermentum", origin: "USA", notes: "fermenté, collagène", usage: "module Collagène / Pétrichor", relatedTabacId: 1, relatedTabacName: "Burley" },
+        { name: "Samsoun Antique", origin: "Turquie", notes: "épices, encens chaud", usage: "épices, encens chaud", relatedTabacId: 4, relatedTabacName: "Samsoun" },
         { name: "Latakia Clair", origin: "Syrie/Chypre", notes: "fumée aristocratique", usage: "noblesse, fumée aristocratique" }
       ]
     }
@@ -220,6 +220,17 @@ export default function TabacsNiche() {
                           {variety.usage}
                         </p>
                       </div>
+
+                      {variety.relatedTabacId && (
+                        <div className="pt-2 border-t">
+                          <Link href={`/tabac/${variety.relatedTabacId}`}>
+                            <Badge variant="outline" className="bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors cursor-pointer">
+                              <ExternalLink className="w-3 h-3 mr-1" />
+                              Voir aussi : {variety.relatedTabacName}
+                            </Badge>
+                          </Link>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 ))}

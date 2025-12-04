@@ -1261,3 +1261,33 @@
 
 ### Phase 5 - Checkpoint
 - [ ] Créer checkpoint avec section Programmes de Recherche complète
+
+
+## 🔄 EN COURS : Liens Croisés Intelligents
+
+### Phase 1 - Analyse structure données existantes
+- [ ] Lister routes existantes (Tabacs, Molécules, Recettes, Civilisations)
+- [ ] Identifier opportunités de liens croisés
+- [ ] Mapper correspondances Tabacs Niche ↔ Tabacs standards
+- [ ] Mapper axes génétiques ↔ familles moléculaires
+
+### Phase 2 - Liens Tabacs Niche → Tabacs existants
+- [ ] Ajouter liens vers pages détaillées des 8 tabacs standards
+- [ ] Créer composant Link réutilisable avec icône
+- [ ] Intégrer dans cartes Tabacs Niche
+
+### Phase 3 - Liens Résines CBD → Molécules
+- [ ] Lier axe Pétrichor aux terpènes correspondants
+- [ ] Lier axe Lactone aux lactones/aldéhydes
+- [ ] Lier axe Glaciaire aux monoterpènes frais
+- [ ] Lier axe Résine Sacrée aux résines/encens
+
+### Phase 4 - Liens Profils Premium → Recettes/Civilisations
+- [ ] Connecter profils CBD aux recettes similaires
+- [ ] Lier tabacs sacrés (Mapacho, Hopi) aux civilisations
+- [ ] Ajouter badges "Voir aussi" avec liens
+
+### Phase 5 - Tests et checkpoint
+- [ ] Tester tous les liens croisés
+- [ ] Vérifier navigation bidirectionnelle
+- [ ] Créer checkpoint final
