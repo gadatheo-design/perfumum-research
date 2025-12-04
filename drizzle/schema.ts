@@ -119,6 +119,13 @@ export const molecules = mysqlTable("molecules", {
   sourceOrigin: text("sourceOrigin"), // Where it comes from
   concentration: varchar("concentration", { length: 100 }), // e.g., "0.0001%"
   notes: text("notes"), // Internal research notes
+  // Scientific properties
+  molecularWeight: int("molecularWeight"), // g/mol (e.g., 154 for pinene)
+  boilingPoint: int("boilingPoint"), // °C (e.g., 155 for pinene)
+  logP: int("logP"), // Partition coefficient × 100 (e.g., 450 for logP 4.5)
+  volatility: int("volatility"), // 0-100 scale (calculated from boiling point)
+  intensity: int("intensity"), // 0-100 scale (olfactive intensity)
+  complexity: int("complexity"), // 0-100 scale (molecular complexity)
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

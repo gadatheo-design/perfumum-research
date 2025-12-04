@@ -1495,3 +1495,74 @@
 - [x] Tester module Comparaison avec 2-4 molécules
 - [x] Vérifier navigation Mossi → gammes connexes
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Dashboard Recherche + Timeline + Données Molécules
+
+### Amélioration 1 - Tableau de bord recherche personnel
+- [ ] Créer page /dashboard/recherche
+- [ ] Ajouter widget "Dernières Recettes" (5 plus récentes)
+- [ ] Ajouter widget "Molécules Favorites" (système favoris)
+- [ ] Ajouter widget "Synergies Récentes" (dernières ajoutées)
+- [ ] Ajouter widget "Statistiques Projet" (totaux, progression)
+- [ ] Créer système notes/annotations (CRUD)
+- [ ] Ajouter route dans App.tsx et lien dans Header
+
+### Amélioration 2 - Timeline chronologique 2025-2035
+- [ ] Créer page /projet/timeline
+- [ ] Créer composant frise interactive (Recharts Timeline ou custom)
+- [ ] Ajouter jalons recherche (par année)
+- [ ] Ajouter prototypes développés (C1-C4 + futurs)
+- [ ] Ajouter gammes explorées (5 gammes + dates)
+- [ ] Ajouter découvertes moléculaires (synergies clés)
+- [ ] Implémenter filtres par année/gamme
+- [ ] Ajouter route dans App.tsx et lien dans Header
+
+### Amélioration 3 - Enrichir données molécules
+- [ ] Ajouter colonnes scientifiques à table molecules (molecularWeight, boilingPoint, logP)
+- [ ] Créer script migration pour ajouter données réelles
+- [ ] Peupler 20-30 molécules clés avec données scientifiques
+- [ ] Mettre à jour ComparaisonMolecules pour utiliser données réelles
+- [ ] Remplacer placeholders Radar par calculs basés sur données réelles
+- [ ] Tester diagramme Radar avec nouvelles données
+
+### Tests et validation
+- [ ] Tester dashboard avec widgets et notes
+- [ ] Tester timeline avec filtres
+- [ ] Vérifier données molécules enrichies dans Comparaison
+- [ ] Créer checkpoint final
+
+
+## ✅ TERMINÉ : Dashboard + Timeline + Données Scientifiques
+
+### Amélioration 1 - Dashboard Recherche Personnel
+- [x] Créer page /dashboard/recherche
+- [x] Ajouter widgets statistiques (recettes, molécules, synergies, prototypes)
+- [x] Ajouter widget "Dernières Recettes" (5 plus récentes)
+- [x] Ajouter widget "Molécules Favorites" (5 molécules clés)
+- [x] Ajouter widget "Synergies Récentes" (5 dernières)
+- [x] Implémenter système notes/annotations (CRUD)
+- [x] Ajouter progression projet (barre 10% année 1/10)
+- [x] Ajouter route et lien dans menu "Le Projet"
+
+### Amélioration 2 - Timeline Chronologique 2025-2035
+- [x] Créer page /projet/timeline
+- [x] Ajouter 15+ événements chronologiques (gammes, prototypes, synergies, jalons)
+- [x] Implémenter filtres (année, gamme, catégorie)
+- [x] Créer frise visuelle avec ligne verticale + marqueurs année
+- [x] Ajouter cartes événements avec badges gamme + statut
+- [x] Ajouter statistiques timeline (gammes, prototypes, jalons)
+- [x] Ajouter route et lien dans menu "Le Projet"
+
+### Amélioration 3 - Enrichir données molécules
+- [x] Ajouter colonnes scientifiques à table molecules (molecularWeight, boilingPoint, logP, volatility, intensity, complexity)
+- [x] Peupler 9 molécules avec données réelles
+- [x] Mettre à jour diagramme Radar dans ComparaisonMolecules
+- [x] Ajouter 6 lignes scientifiques dans tableau comparatif
+- [x] Tester comparaison avec données enrichies
+
+### Tests et validation
+- [x] Tester Dashboard Recherche (widgets, notes, progression)
+- [x] Tester Timeline 2025-2035 (filtres, frise, statistiques)
+- [x] Tester Comparaison Molécules avec données scientifiques
+- [ ] Créer checkpoint final

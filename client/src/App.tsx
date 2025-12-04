@@ -54,6 +54,8 @@ import { ModelesAnalytiquesGCMS } from "@/pages/ModelesAnalytiquesGCMS";
 import MatriceInteractive from "@/pages/MatriceInteractive";
 import Statistiques from "@/pages/Statistiques";
 import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
+import DashboardRecherche from "@/pages/DashboardRecherche";
+import TimelinePerfumum from "@/pages/TimelinePerfumum";
 
 function Router() {
   return (
@@ -96,6 +98,8 @@ function Router() {
           <Route path="/laboratoire/statistiques" component={Statistiques} />
           <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
       <Route path="/dashboard" component={Dashboard} />
+          <Route path="/dashboard/recherche" component={DashboardRecherche} />
+          <Route path="/projet/timeline" component={TimelinePerfumum} />
       <Route path="/recherche-scientifique" component={RechercheScientifique} />
       <Route path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />
       <Route path="/recherche-scientifique/pyrolyse-combustion" component={PyrolyseCombustion} />

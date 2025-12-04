@@ -54,12 +54,30 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          {/* Le Projet - standalone */}
-          <Link href="/le-projet">
-            <a className="transition-colors hover:text-foreground/80 text-foreground/60">
+          {/* Le Projet dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60">
               Le Projet
-            </a>
-          </Link>
+              <ChevronDown className="h-3 w-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="animate-scaleIn" align="start">
+              <DropdownMenuItem asChild>
+                <Link href="/le-projet">
+                  <a className="w-full cursor-pointer">Présentation</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/recherche">
+                  <a className="w-full cursor-pointer">Dashboard Recherche</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/projet/timeline">
+                  <a className="w-full cursor-pointer">Timeline 2025-2035</a>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {/* Données dropdown */}
           <DropdownMenu>
@@ -340,19 +358,50 @@ export function Header() {
                   </a>
                 </Link>
 
-                {/* Le Projet */}
-                <Link href="/le-projet">
-                  <a
-                    className={cn(
-                      "flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px]",
-                      location === "/le-projet" && "bg-accent text-accent-foreground font-medium"
-                    )}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <BookOpen className="h-5 w-5 flex-shrink-0" />
-                    <span>Le Projet</span>
-                  </a>
-                </Link>
+                {/* Le Projet Section */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 px-4">
+                    <BookOpen className="h-4 w-4 text-muted-foreground" />
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                      Le Projet
+                    </h3>
+                  </div>
+                  <div className="space-y-1">
+                    <Link href="/le-projet">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/le-projet" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Présentation
+                      </a>
+                    </Link>
+                    <Link href="/dashboard/recherche">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/dashboard/recherche" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Dashboard Recherche
+                      </a>
+                    </Link>
+                    <Link href="/projet/timeline">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/projet/timeline" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Timeline 2025-2035
+                      </a>
+                    </Link>
+                  </div>
+                </div>
 
                 {/* Données Section */}
                 <div className="space-y-2">
