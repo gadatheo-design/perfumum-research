@@ -1440,3 +1440,28 @@
 - [x] Tester visualisation heatmap avec 41 synergies
 - [x] Valider responsive design
 - [x] Créer checkpoint final
+
+
+## 🔄 EN COURS : Export PDF/CSV + Navigation Gammes
+
+### Amélioration 1 - Export PDF/CSV des synergies
+- [x] Ajouter boutons Export CSV et Export PDF dans MatriceInteractive
+- [x] Implémenter fonction exportToCSV (données filtrées)
+- [x] Implémenter fonction exportToPDF (heatmap + statistiques)
+- [x] Tester exports avec différents filtres actifs
+- [x] Vérifier format et lisibilité des fichiers exportés
+
+### Amélioration 3 - Liens navigation gammes connexes
+- [x] Créer section "Gammes Connexes" sur page Pétrichor
+- [x] Créer section "Gammes Connexes" sur page Volcanique
+- [ ] Créer section "Gammes Connexes" sur page Civilisations (Mossi)
+- [x] Créer section "Gammes Connexes" sur page Glaciaire
+- [x] Créer section "Gammes Connexes" sur page Bio-Lab
+- [x] Définir les relations intelligentes entre gammes
+- [x] Tester navigation transversale
+
+### Tests et validation
+- [x] Tester export CSV avec 41 synergies
+- [x] Tester export PDF avec heatmap
+- [x] Vérifier liens "Voir aussi" sur toutes les pages gammes
+- [ ] Créer checkpoint final

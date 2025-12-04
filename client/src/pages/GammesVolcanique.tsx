@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Mountain, Beaker, Flame } from "lucide-react";
+import { GammesConnexes } from "@/components/GammesConnexes";
 import { Link } from "wouter";
 
 export default function GammesVolcanique() {
@@ -151,8 +152,13 @@ export default function GammesVolcanique() {
           </div>
         </section>
 
+        <GammesConnexes 
+          currentGamme="volcanique" 
+          relatedGammes={["petrichor", "civilisations", "biolab"]} 
+        />
+
         {/* Methodology */}
-        <section className="py-16 bg-muted/30">
+        <section className="py-16">
           <div className="container">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold mb-8 text-center">

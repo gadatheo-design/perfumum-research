@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Droplets, Beaker, Flame, Wind } from "lucide-react";
+import { GammesConnexes } from "@/components/GammesConnexes";
 import { Link } from "wouter";
 
 export default function GammesPetrichor() {
@@ -239,6 +240,11 @@ export default function GammesPetrichor() {
             </div>
           </div>
         </section>
+
+        <GammesConnexes 
+          currentGamme="petrichor" 
+          relatedGammes={["glaciaire", "volcanique", "biolab"]} 
+        />
 
         {/* Methodology */}
         <section className="py-16">

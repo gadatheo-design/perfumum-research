@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FlaskConical, Dna, Microscope, Beaker } from "lucide-react";
+import { GammesConnexes } from "@/components/GammesConnexes";
 import { Link } from "wouter";
 import { GammeBadge } from "@/components/GammeBadge";
 
@@ -207,6 +208,11 @@ export default function GammesBioLab() {
             </div>
           </div>
         </section>
+
+        <GammesConnexes 
+          currentGamme="biolab" 
+          relatedGammes={["petrichor", "volcanique", "glaciaire"]} 
+        />
 
         {/* Méthodologie */}
         <section className="py-16">

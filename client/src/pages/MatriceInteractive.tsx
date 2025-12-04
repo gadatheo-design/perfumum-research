@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,11 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trpc } from "@/lib/trpc";
-import { Search, X, Filter, Grid3x3, Network } from "lucide-react";
+import { Search, X, Filter, Grid3x3, Network, Download, FileText } from "lucide-react";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { SynergiesHeatmap } from "@/components/SynergiesHeatmap";
 
 export default function MatriceInteractive() {
+  const contentRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTabac, setSelectedTabac] = useState<string>("all");
   const [selectedFamily, setSelectedFamily] = useState<string>("all");
@@ -93,6 +94,112 @@ export default function MatriceInteractive() {
     setSelectedGamme("all");
   };
 
+  const exportToCSV = () => {
+    // Prepare CSV data from filtered molecules and synergies
+    const csvRows = [];
+    
+    // Header
+    csvRows.push(["Molécule", "Famille Chimique", "Profil Olfactif", "Tabac", "Type Synergie", "Effet", "Notes"].join(","));
+    
+    // Data rows
+    if (selectedTabac === "all") {
+      // Export all molecules with their data
+      moleculesWithSynergies.forEach(molecule => {
+        const row = [
+          `"${molecule.name}"`,
+          `"${molecule.family || 'N/A'}"`,
+          `"${molecule.olfactiveProfile || 'N/A'}"`,
+          "Tous",
+          "",
+          "",
+          ""
+        ];
+        csvRows.push(row.join(","));
+      });
+    } else {
+      // Export molecules with synergies for selected tabac
+      moleculesWithSynergies.forEach(molecule => {
+        const synergy = tabacSynergies.find(s => s.moleculeId === molecule.id);
+        const row = [
+          `"${molecule.name}"`,
+          `"${molecule.family || 'N/A'}"`,
+          `"${molecule.olfactiveProfile || 'N/A'}"`,
+          `"${selectedTabac}"`,
+          synergy ? `"${synergy.type}"` : "",
+          synergy ? `"${synergy.effet || ''}"` : "",
+          synergy ? `"${synergy.notes || ''}"` : ""
+        ];
+        csvRows.push(row.join(","));
+      });
+    }
+    
+    // Create CSV blob and download
+    const csvContent = csvRows.join("\n");
+    const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    
+    const filename = `perfumum-matrice-${selectedTabac !== "all" ? selectedTabac : "complete"}-${new Date().toISOString().split('T')[0]}.csv`;
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportToPDF = async () => {
+    if (!contentRef.current) return;
+    
+    try {
+      // Dynamically import libraries
+      const html2canvas = (await import('html2canvas')).default;
+      const { jsPDF } = await import('jspdf');
+      
+      // Capture the content
+      const canvas = await html2canvas(contentRef.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      });
+      
+      // Create PDF
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4'
+      });
+      
+      const imgWidth = 297; // A4 landscape width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      // Add title page
+      pdf.setFontSize(20);
+      pdf.text('PERFUMUM - Matrice Interactive', 148.5, 20, { align: 'center' });
+      pdf.setFontSize(12);
+      pdf.text(`Export du ${new Date().toLocaleDateString('fr-FR')}`, 148.5, 30, { align: 'center' });
+      
+      if (selectedTabac !== "all") {
+        pdf.text(`Tabac: ${selectedTabac}`, 148.5, 40, { align: 'center' });
+      }
+      
+      pdf.text(`${moleculesWithSynergies.length} molécules | ${tabacSynergies.length} synergies`, 148.5, 50, { align: 'center' });
+      
+      // Add visualization on new page
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      
+      // Save PDF
+      const filename = `perfumum-matrice-${selectedTabac !== "all" ? selectedTabac : "complete"}-${new Date().toISOString().split('T')[0]}.pdf`;
+      pdf.save(filename);
+    } catch (error) {
+      console.error('Erreur lors de l\'export PDF:', error);
+      alert('Erreur lors de l\'export PDF. Veuillez réessayer.');
+    }
+  };
+
   const activeFiltersCount = [
     searchQuery !== "",
     selectedTabac !== "all",
@@ -118,7 +225,7 @@ export default function MatriceInteractive() {
       <Header />
       
       <main className="flex-1 section-spacing">
-        <div className="container">
+        <div className="container" ref={contentRef}>
           <Breadcrumbs />
           
           {/* Header */}
@@ -185,6 +292,24 @@ export default function MatriceInteractive() {
                   >
                     <Network className="h-4 w-4 mr-2" />
                     Heatmap
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => exportToCSV()}
+                    title="Exporter les données en CSV"
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    CSV
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => exportToPDF()}
+                    title="Exporter en PDF"
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    PDF
                   </Button>
                   {activeFiltersCount > 0 && (
                     <Button variant="outline" size="sm" onClick={resetFilters}>
