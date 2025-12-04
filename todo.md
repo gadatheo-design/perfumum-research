@@ -1789,3 +1789,36 @@
 - [x] Ajouter FloatingCompareBar sur page Favoris
 - [x] Workflow sélection favoris → comparaison fonctionnel
 - [x] Checkpoint final créé
+
+
+---
+
+## ✅ Graphiques Comparatifs (Chart.js) - Terminé
+
+### Phase 1 - Bar Chart Concentrations
+- [x] Installer Chart.js et react-chartjs-2
+- [x] Créer composant ConcentrationBarChart
+- [x] Parser concentrations molécules (%, ppm, formats variés)
+- [x] Échelle logarithmique automatique si écarts >100×
+- [x] Couleurs par gamme Perfumum (mapping gammeColors)
+
+### Phase 2 - Pie Chart Familles
+- [x] Créer composant FamilyPieChart
+- [x] Calculer répartition familles chimiques
+- [x] Légende interactive avec pourcentages
+- [x] Palette couleurs cohérente (8 couleurs)
+
+### Phase 3 - Intégration Compare
+- [x] Ajouter section graphiques sur page Compare
+- [x] Layout responsive (grid 2 colonnes desktop, stack mobile)
+- [x] Affichage conditionnel (message si données manquantes)
+
+### Phase 4 - Export PDF
+- [x] Installer html2canvas
+- [x] Capturer canvas graphiques (scale 2x)
+- [x] Intégrer images dans PDF avant tableau
+- [x] Préserver qualité et aspect ratio
+
+### Phase 5 - Tests
+- [x] Workflow complet : sélection → comparaison → graphiques → export PDF
+- [x] Checkpoint final créé

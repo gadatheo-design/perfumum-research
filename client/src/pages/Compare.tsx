@@ -9,6 +9,8 @@ import { ArrowLeft, Download, GitCompare, Star } from "lucide-react";
 import { GammeBadge } from "@/components/GammeBadge";
 import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
 import { useMemo } from "react";
+import { ConcentrationBarChart } from "@/components/charts/ConcentrationBarChart";
+import { FamilyPieChart } from "@/components/charts/FamilyPieChart";
 
 export default function Compare() {
   const [location, setLocation] = useLocation();
@@ -65,9 +67,10 @@ export default function Compare() {
   ];
 
   const exportToPDF = async () => {
-    // Import jsPDF dynamically
+    // Import dependencies
     const { default: jsPDF } = await import('jspdf');
     await import('jspdf-autotable');
+    const html2canvas = (await import('html2canvas')).default;
     
     const doc = new jsPDF();
     
@@ -78,6 +81,33 @@ export default function Compare() {
     doc.setFontSize(10);
     doc.text(`${selectedMolecules.length} molécules comparées`, 14, 28);
     doc.text(`Date: ${new Date().toLocaleDateString('fr-FR')}`, 14, 34);
+    
+    let currentY = 40;
+    
+    // Capture and add charts if they exist
+    const chartsSection = document.getElementById('charts-section');
+    if (chartsSection) {
+      try {
+        const canvas = await html2canvas(chartsSection, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+        });
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = 180;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        doc.addImage(imgData, 'PNG', 15, currentY, imgWidth, imgHeight);
+        currentY += imgHeight + 10;
+        
+        // Add new page if needed
+        if (currentY > 250) {
+          doc.addPage();
+          currentY = 20;
+        }
+      } catch (error) {
+        console.error('Failed to capture charts:', error);
+      }
+    }
     
     // Prepare table data
     const headers = ['Critère', ...selectedMolecules.map(m => m.name)];
@@ -98,13 +128,13 @@ export default function Compare() {
     (doc as any).autoTable({
       head: [headers],
       body: rows,
-      startY: 40,
+      startY: currentY,
       styles: { fontSize: 9, cellPadding: 3 },
       headStyles: { fillColor: [139, 92, 246], fontStyle: 'bold' },
       columnStyles: {
         0: { fontStyle: 'bold', fillColor: [243, 244, 246] }
       },
-      margin: { top: 40 }
+      margin: { top: currentY }
     });
     
     // Save
@@ -159,6 +189,35 @@ export default function Compare() {
                   Copier le lien
                 </Button>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Charts Section */}
+        <section className="py-16 bg-muted/20">
+          <div className="container">
+            <div className="max-w-6xl mx-auto" id="charts-section">
+              <h2 className="text-2xl font-bold mb-8">Visualisations Comparatives</h2>
+              
+              {isLoading ? (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground">Chargement...</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Concentration Bar Chart */}
+                  <div className="bg-background rounded-lg p-6 border border-border">
+                    <h3 className="text-lg font-semibold mb-4">Concentrations Recommandées</h3>
+                    <ConcentrationBarChart molecules={selectedMolecules} />
+                  </div>
+                  
+                  {/* Family Pie Chart */}
+                  <div className="bg-background rounded-lg p-6 border border-border">
+                    <h3 className="text-lg font-semibold mb-4">Répartition Familles Chimiques</h3>
+                    <FamilyPieChart molecules={selectedMolecules} />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
