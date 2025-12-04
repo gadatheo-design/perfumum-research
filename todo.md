@@ -1635,3 +1635,35 @@
 - [x] Vérifier cohérence visuelle ABSORBE × PERFUMUM
 - [x] Tester navigation (Méthode ABSORBE, Projets, Terrains)
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Enrichissement ABSORBE (images + pages gammes + collaborations)
+
+### Phase 1 - Images atmosphériques Pétrichor
+- [x] Générer image "sol fracturé" pour S.1 Souterrain
+- [x] Générer image "bitume mouillé" pour U.1 Urbain
+- [x] Générer image "mur poreux" pour F.1 Fantôme
+- [x] Intégrer images dans page GammesPetrichor.tsx
+
+### Phase 2 - Page Volcanique version ABSORBE
+- [x] Définir 3 axes Volcanique (ex: V.1 Cendres, V.2 Résine Brûlée, V.3 Fumée Spectrale)
+- [x] Créer structure artistique (atmosphère, notes, image, sensation)
+- [x] Ajouter structure temporelle et applications
+- [x] Remplacer contenu GammesVolcanique.tsx
+
+### Phase 3 - Page Civilisations Mossi version ABSORBE
+- [x] Définir 3 axes Civilisations (ex: C.1 Encens Sacré, C.2 Rituel Fumé, C.3 Mémoire Olfactive)
+- [x] Créer structure artistique (atmosphère, notes, image, sensation)
+- [x] Ajouter structure temporelle et applications
+- [x] Remplacer contenu GammesMossi.tsx
+
+### Phase 4 - Section Collaborations sur Projets
+- [x] Ajouter section "Collaborations Artistiques" (Bambino47 détaillé)
+- [x] Ajouter section "Partenaires Institutionnels" (universités, laboratoires)
+- [x] Enrichir descriptions avec livrables et objectifsà projets)
+
+### Phase 5 - Tests et validation
+- [x] Tester affichage images Pétrichor
+- [x] Vérifier cohérence Volcanique et Civilisations ABSORBE
+- [x] Tester navigation Projets avec Collaborations
+- [ ] Créer checkpoint final
