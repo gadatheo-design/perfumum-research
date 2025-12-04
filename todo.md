@@ -1778,3 +1778,14 @@
 - [x] Workflow complet sélection → comparaison → export
 - [x] Limite max 4 molécules respectée
 - [x] Checkpoint final créé
+
+
+---
+
+## ✅ Mode Comparaison sur Favoris (Terminé)
+
+- [x] Ajouter state management sélection sur page Favoris (max 4)
+- [x] Intégrer checkboxes sur cartes favoris avec feedback visuel
+- [x] Ajouter FloatingCompareBar sur page Favoris
+- [x] Workflow sélection favoris → comparaison fonctionnel
+- [x] Checkpoint final créé
