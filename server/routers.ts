@@ -72,6 +72,9 @@ export const appRouter = router({
     getGlobalStats: publicProcedure.query(async () => {
       return await db.getGlobalMoleculeStats();
     }),
+    getTimelineData: publicProcedure.query(async () => {
+      return await db.getMoleculeTimelineData();
+    }),
     getById: publicProcedure
       .input((val: unknown) => {
         if (typeof val !== "number") throw new Error("Expected number");

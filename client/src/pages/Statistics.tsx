@@ -3,11 +3,13 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { StatCard } from "@/components/StatCard";
 import { GammeDistributionChart } from "@/components/charts/GammeDistributionChart";
 import { FamilyRankingChart } from "@/components/charts/FamilyRankingChart";
+import { ResearchTimelineChart } from "@/components/charts/ResearchTimelineChart";
 import { trpc } from "@/lib/trpc";
 import { Loader2, Beaker, FlaskConical, Layers, Users } from "lucide-react";
 
 export default function Statistics() {
   const { data: stats, isLoading } = trpc.molecules.getGlobalStats.useQuery();
+  const { data: timelineData, isLoading: timelineLoading } = trpc.molecules.getTimelineData.useQuery();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -82,6 +84,28 @@ export default function Statistics() {
                     <h2 className="text-xl font-bold mb-6">Top 10 Familles Chimiques</h2>
                     <FamilyRankingChart data={stats.familyDistribution} topN={10} />
                   </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Timeline Section */}
+            <section className="py-8">
+              <div className="container">
+                <div className="bg-background rounded-lg p-6 border border-border shadow-sm">
+                  <h2 className="text-2xl font-bold mb-6">Évolution de la Recherche</h2>
+                  {timelineLoading ? (
+                    <div className="flex items-center justify-center h-64">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                    </div>
+                  ) : timelineData && timelineData.length > 0 ? (
+                    <ResearchTimelineChart data={timelineData} />
+                  ) : (
+                    <div className="flex items-center justify-center h-64 bg-muted/20 rounded-lg border border-border">
+                      <p className="text-muted-foreground text-sm">
+                        Aucune donnée temporelle disponible
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </section>

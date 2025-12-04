@@ -1067,6 +1067,59 @@ export async function getGlobalMoleculeStats() {
   };
 }
 
+export async function getMoleculeTimelineData() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Get all molecules with creation dates
+  const allMolecules = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      createdAt: molecules.createdAt,
+      olfactiveProfile: molecules.olfactiveProfile,
+      family: molecules.family,
+    })
+    .from(molecules)
+    .orderBy(molecules.createdAt);
+  
+  // Group by month
+  const monthlyData: Record<string, { count: number; cumulative: number; molecules: any[] }> = {};
+  let cumulative = 0;
+  
+  allMolecules.forEach(molecule => {
+    if (!molecule.createdAt) return;
+    
+    const date = new Date(molecule.createdAt);
+    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    
+    if (!monthlyData[monthKey]) {
+      monthlyData[monthKey] = { count: 0, cumulative: 0, molecules: [] };
+    }
+    
+    monthlyData[monthKey].count++;
+    cumulative++;
+    monthlyData[monthKey].cumulative = cumulative;
+    monthlyData[monthKey].molecules.push({
+      id: molecule.id,
+      name: molecule.name,
+      family: molecule.family,
+    });
+  });
+  
+  // Convert to array and sort by date
+  const timelineData = Object.entries(monthlyData)
+    .map(([month, data]) => ({
+      month,
+      count: data.count,
+      cumulative: data.cumulative,
+      molecules: data.molecules,
+    }))
+    .sort((a, b) => a.month.localeCompare(b.month));
+  
+  return timelineData;
+}
+
 export async function getRecentActivity(limit: number = 10) {
   const db = await getDb();
   if (!db) return [];

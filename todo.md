@@ -1877,3 +1877,30 @@
 - [x] Workflow complet : navigation → statistiques → graphiques
 - [x] Calculs statistiques vérifiés (getGlobalMoleculeStats)
 - [x] Checkpoint final créé
+
+
+---
+
+## ✅ Timeline Interactive Évolution Recherche - Terminé
+
+### Phase 1 - Données temporelles
+- [x] Vérifier champ createdAt dans table molecules (déjà présent)
+- [x] Créer fonction agrégation temporelle par mois (getMoleculeTimelineData)
+- [x] tRPC procedure getTimelineData (molecules.getTimelineData)
+- [x] Calculer ajouts cumulatifs + nouveaux par période
+
+### Phase 2 - Composant TimelineChart
+- [x] Line chart Chart.js évolution temporelle (ResearchTimelineChart)
+- [x] Toggle vue cumulatif vs nouveaux ajouts (boutons switch)
+- [x] Courbe lissée avec fill gradient (tension 0.4)
+- [x] 4 stats résumé (total, mois actifs, moyenne/mois, record mensuel)
+
+### Phase 3 - Milestones & Interactivité
+- [x] Hover détails (nombre molécules + 3 premiers noms)
+- [x] Tooltips interactifs avec afterLabel (noms molécules)
+- [x] Points hover avec radius augmenté
+
+### Phase 4 - Intégration & Tests
+- [x] Ajouter section Timeline page Statistiques (après graphiques)
+- [x] Loading states et empty states
+- [x] Checkpoint final créé
