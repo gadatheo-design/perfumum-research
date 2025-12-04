@@ -233,24 +233,24 @@ export default function Home() {
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <Link href="/molecules">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → 131 Molécules
-                      </Button>
+                      </a>
                     </Link>
                     <Link href="/recettes">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → 142 Recettes
-                      </Button>
+                      </a>
                     </Link>
                     <Link href="/accords">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → 25 Accords
-                      </Button>
+                      </a>
                     </Link>
                     <Link href="/prototypes">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → 4 Prototypes
-                      </Button>
+                      </a>
                     </Link>
                   </CardContent>
                 </Card>
@@ -265,24 +265,24 @@ export default function Home() {
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <Link href="/recherche-scientifique/synergies">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → Synergies Moléculaires
-                      </Button>
+                      </a>
                     </Link>
                     <Link href="/recherche-scientifique/pyrolyse">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → Pyrolyse & Combustion
-                      </Button>
+                      </a>
                     </Link>
                     <Link href="/recherche-scientifique/volatilite">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → Courbes de Volatilité
-                      </Button>
+                      </a>
                     </Link>
                     <Link href="/recherche-scientifique/degradation">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → Dégradation Terpènes
-                      </Button>
+                      </a>
                     </Link>
                   </CardContent>
                 </Card>
@@ -297,19 +297,19 @@ export default function Home() {
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <Link href="/programmes-recherche/resines-cbd">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → Résines CBD & Design Terpénique
-                      </Button>
+                      </a>
                     </Link>
                     <Link href="/programmes-recherche/tabacs-niche">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → Tabacs Niche (30+ variétés)
-                      </Button>
+                      </a>
                     </Link>
                     <Link href="/dashboard">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                         → Dashboard Analytics
-                      </Button>
+                      </a>
                     </Link>
                   </CardContent>
                 </Card>

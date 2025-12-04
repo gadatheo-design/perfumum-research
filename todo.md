@@ -1566,3 +1566,11 @@
 - [x] Tester Timeline 2025-2035 (filtres, frise, statistiques)
 - [x] Tester Comparaison Molécules avec données scientifiques
 - [ ] Créer checkpoint final
+
+
+## 🐛 BUG FIX : Nested anchor tags on homepage
+
+- [x] Identify nested `<a>` tags in Home.tsx
+- [x] Fix gammes section with nested Link components
+- [x] Test homepage and verify error is resolved
+- [ ] Save checkpoint
