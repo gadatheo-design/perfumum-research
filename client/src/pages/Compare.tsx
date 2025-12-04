@@ -11,6 +11,7 @@ import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
 import { useMemo } from "react";
 import { ConcentrationBarChart } from "@/components/charts/ConcentrationBarChart";
 import { FamilyPieChart } from "@/components/charts/FamilyPieChart";
+import { OlfactiveRadarChart } from "@/components/charts/OlfactiveRadarChart";
 
 export default function Compare() {
   const [location, setLocation] = useLocation();
@@ -204,7 +205,7 @@ export default function Compare() {
                   <p className="text-muted-foreground">Chargement...</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
                   {/* Concentration Bar Chart */}
                   <div className="bg-background rounded-lg p-6 border border-border">
                     <h3 className="text-lg font-semibold mb-4">Concentrations Recommandées</h3>
@@ -215,6 +216,12 @@ export default function Compare() {
                   <div className="bg-background rounded-lg p-6 border border-border">
                     <h3 className="text-lg font-semibold mb-4">Répartition Familles Chimiques</h3>
                     <FamilyPieChart molecules={selectedMolecules} />
+                  </div>
+                  
+                  {/* Olfactive Radar Chart */}
+                  <div className="bg-background rounded-lg p-6 border border-border lg:col-span-2 xl:col-span-1">
+                    <h3 className="text-lg font-semibold mb-4">Profils Olfactifs</h3>
+                    <OlfactiveRadarChart molecules={selectedMolecules} />
                   </div>
                 </div>
               )}

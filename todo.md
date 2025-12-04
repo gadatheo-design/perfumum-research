@@ -1822,3 +1822,30 @@
 ### Phase 5 - Tests
 - [x] Workflow complet : sélection → comparaison → graphiques → export PDF
 - [x] Checkpoint final créé
+
+
+---
+
+## ✅ Graphique Radar Profils Olfactifs - Terminé
+
+### Phase 1 - Parser profils olfactifs
+- [x] Définir 8 dimensions sensorielles (terreux, fruité, floral, épicé, boisé, animal, chimique, aquatique)
+- [x] Créer fonction extraction keywords depuis profils textuels (olfactiveParser.ts)
+- [x] Scoring basé sur présence/intensité descripteurs (0-5)
+- [x] Gérer profils manquants/incomplets (score 0 par défaut)
+
+### Phase 2 - Composant RadarChart
+- [x] Créer OlfactiveRadarChart avec Chart.js
+- [x] Superposition molécules avec couleurs gamme Perfumum
+- [x] Légende interactive pour isoler molécules
+- [x] Responsive et aspect ratio préservé (max-w-lg)
+
+### Phase 3 - Intégration Compare
+- [x] Ajouter radar à section graphiques
+- [x] Layout 3 graphiques (grid 2 cols lg, 3 cols xl)
+- [x] Responsive mobile (stack vertical)
+
+### Phase 4 - Tests et export
+- [x] Workflow complet : sélection → comparaison → radar profils
+- [x] Capture PDF radar incluse (html2canvas)
+- [x] Checkpoint final créé
