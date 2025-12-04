@@ -98,6 +98,13 @@
   --petrichor: oklch(0.62 0.06 220);
   --volcanique: oklch(0.52 0.09 20);
   --solar-mineralis: oklch(0.75 0.12 70);
+  
+  /* PERFUMUM 5 Gammes Colors */
+  --gamme-petrichor: oklch(0.55 0.12 160); /* Vert terreux/minéral */
+  --gamme-volcanique: oklch(0.50 0.18 25); /* Rouge fumé/pyrolysé */
+  --gamme-civilisations: oklch(0.65 0.15 60); /* Ambre sacré/culturel */
+  --gamme-glaciaire: oklch(0.70 0.14 220); /* Cyan frais/ozone */
+  --gamme-biolab: oklch(0.68 0.20 330); /* Rose expérimental */
 }
 
 .dark {
@@ -232,6 +239,18 @@
   .bg-petrichor { background-color: oklch(var(--petrichor)); }
   .bg-volcanique { background-color: oklch(var(--volcanique)); }
   .bg-solar-mineralis { background-color: oklch(var(--solar-mineralis)); }
+  
+  /* Gamme color utilities */
+  .bg-gamme-petrichor { background-color: oklch(var(--gamme-petrichor)); }
+  .bg-gamme-volcanique { background-color: oklch(var(--gamme-volcanique)); }
+  .bg-gamme-civilisations { background-color: oklch(var(--gamme-civilisations)); }
+  .bg-gamme-glaciaire { background-color: oklch(var(--gamme-glaciaire)); }
+  .bg-gamme-biolab { background-color: oklch(var(--gamme-biolab)); }
+  .text-gamme-petrichor { color: oklch(var(--gamme-petrichor)); }
+  .text-gamme-volcanique { color: oklch(var(--gamme-volcanique)); }
+  .text-gamme-civilisations { color: oklch(var(--gamme-civilisations)); }
+  .text-gamme-glaciaire { color: oklch(var(--gamme-glaciaire)); }
+  .text-gamme-biolab { color: oklch(var(--gamme-biolab)); }
   
   /* Glass morphism effect */
   .glass {

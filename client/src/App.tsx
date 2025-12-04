@@ -49,6 +49,7 @@ import { PyrolyseCombustion } from "./pages/PyrolyseCombustion";
 import { CourbesVolatilite } from "@/pages/CourbesVolatilite";
 import { DegradationTerpenes } from "@/pages/DegradationTerpenes";
 import { ModelesAnalytiquesGCMS } from "@/pages/ModelesAnalytiquesGCMS";
+import MatriceInteractive from "./pages/MatriceInteractive";
 
 function Router() {
   return (
@@ -85,6 +86,7 @@ function Router() {
           <Route path="/civilisation/:id" component={CivilisationDetail} />
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/laboratoire/recettes" component={LaboratoireRecettes} />
+      <Route path="/laboratoire/matrice-interactive" component={MatriceInteractive} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/recherche-scientifique" component={RechercheScientifique} />
       <Route path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />

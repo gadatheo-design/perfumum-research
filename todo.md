@@ -1291,3 +1291,69 @@
 - [ ] Tester tous les liens croisés
 - [ ] Vérifier navigation bidirectionnelle
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Refonte Complète Homepage + Identité Visuelle + Matrice Interactive
+
+### Phase 1 - Redesign page d'accueil
+- [ ] Créer section Hero avec titre PERFUMUM + baseline claire
+- [ ] Section Vision (Qu'est-ce que Perfumum ? Objectifs 2025-2035)
+- [ ] Section 5 Gammes Perfumeum (Pétrichor, Volcanique, Civilisations, Glaciaire, Bio-Lab)
+- [ ] Section Exploration (liens vers Données, Recherche, Programmes)
+- [ ] Remplacer page Home.tsx actuelle
+
+### Phase 2 - Charte graphique Perfumum
+- [ ] Définir palette couleurs par gamme (Pétrichor vert, Volcanique rouge, etc.)
+- [ ] Créer système typographique (titres, body, code)
+- [ ] Designer icônes/symboles pour chaque gamme
+- [ ] Créer composant Badge gamme réutilisable
+- [ ] Appliquer identité visuelle aux pages existantes
+
+### Phase 3 - Matrice interactive Tabacs × Molécules
+- [ ] Créer page /laboratoire/matrice-interactive
+- [ ] Implémenter filtres dynamiques (tabacs, familles, molécules)
+- [ ] Afficher relations 8 tabacs × 131 molécules × 28 familles
+- [ ] Ajouter visualisation graphique (heatmap ou réseau)
+- [ ] Intégrer dans menu Laboratoire
+
+### Phase 4 - Tests et validation
+- [ ] Tester navigation homepage → sections
+- [ ] Vérifier cohérence visuelle sur toutes les pages
+- [ ] Tester matrice interactive (filtres, affichage)
+- [ ] Valider responsive design
+
+### Phase 5 - Checkpoint final
+- [ ] Créer checkpoint avec refonte complète
+
+
+## ✅ TERMINÉ : Refonte Complète Homepage + Identité Visuelle + Matrice Interactive
+
+### Phase 1 - Redesign page d'accueil ✅
+- [x] Créer section Hero avec titre PERFUMUM + baseline claire
+- [x] Section Vision (Qu'est-ce que Perfumum ? Objectifs 2025-2035)
+- [x] Section 5 Gammes Perfumeum (Pétrichor, Volcanique, Civilisations, Glaciaire, Bio-Lab)
+- [x] Section Exploration (liens vers Données, Recherche, Programmes)
+- [x] Remplacer page Home.tsx actuelle
+
+### Phase 2 - Charte graphique Perfumum ✅
+- [x] Définir palette couleurs par gamme (Pétrichor vert, Volcanique rouge, Civilisations ambre, Glaciaire cyan, Bio-Lab rose)
+- [x] Créer système typographique (Space Grotesk, JetBrains Mono)
+- [x] Designer icônes/symboles pour chaque gamme (Droplets, Flame, Globe2, Snowflake, FlaskConical)
+- [x] Créer composant GammeBadge réutilisable avec 3 tailles (sm/md/lg)
+- [ ] Appliquer identité visuelle aux pages existantes (à faire progressivement)
+
+### Phase 3 - Matrice interactive Tabacs × Molécules ✅
+- [x] Créer page /laboratoire/matrice-interactive
+- [x] Implémenter filtres dynamiques (tabacs, familles, molécules, gammes)
+- [x] Afficher relations 8 tabacs × 131 molécules × 28 familles
+- [x] Ajouter visualisation avec synergies mises en évidence
+- [x] Intégrer dans menu Outils (desktop + mobile)
+
+### Phase 4 - Tests et validation ✅
+- [x] Tester navigation homepage → sections
+- [x] Vérifier cohérence visuelle sur homepage
+- [x] Tester matrice interactive (filtres, affichage)
+- [x] Valider responsive design
+
+### Phase 5 - Checkpoint final
+- [ ] Créer checkpoint avec refonte complète

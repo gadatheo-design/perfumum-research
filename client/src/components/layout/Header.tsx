@@ -254,6 +254,11 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="animate-scaleIn" align="start">
               <DropdownMenuItem asChild>
+                <Link href="/laboratoire/matrice-interactive">
+                  <a className="w-full cursor-pointer">Matrice Interactive</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/laboratoire/recettes">
                   <a className="w-full cursor-pointer">Calculateur de Dosages</a>
                 </Link>
@@ -712,6 +717,17 @@ export function Header() {
                     </h3>
                   </div>
                   <div className="space-y-1">
+                    <Link href="/laboratoire/matrice-interactive">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/laboratoire/matrice-interactive" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Matrice Interactive
+                      </a>
+                    </Link>
                     <Link href="/laboratoire/recettes">
                       <a
                         className={cn(

@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Beaker, Flower2, Globe, Palette } from "lucide-react";
+import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope } from "lucide-react";
 
 export default function Home() {
   return (
@@ -12,23 +12,25 @@ export default function Home() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="section-spacing psychedelic-gradient moire-pattern relative overflow-hidden">
-          {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float"></div>
             <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
           </div>
           <div className="container">
             <div className="max-w-4xl mx-auto text-center content-spacing relative z-10">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance mb-6 animate-fadeInUp">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance mb-8 animate-fadeInUp">
                 PERFUMUM
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground text-balance mb-12 animate-fadeInUp" style={{animationDelay: '0.1s'}}>
-                Recherche Olfactive
+              <p className="text-2xl md:text-3xl text-muted-foreground text-balance mb-4 animate-fadeInUp font-medium" style={{animationDelay: '0.1s'}}>
+                Plateforme de Recherche & Développement
               </p>
-              <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.2s'}}>
-                <Link href="/prototypes">
+              <p className="text-lg md:text-xl text-muted-foreground/80 text-balance mb-12 animate-fadeInUp max-w-2xl mx-auto" style={{animationDelay: '0.2s'}}>
+                Design terpénique, résines CBD et variétés de tabacs rares
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.3s'}}>
+                <Link href="/dashboard">
                   <Button size="lg" className="gap-2">
-                    Explorer les Prototypes
+                    Accéder au Dashboard
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
@@ -42,166 +44,303 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Main Sections Grid */}
+        {/* Vision Section */}
+        <section className="section-spacing bg-muted/30">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Qu'est-ce que Perfumum ?</h2>
+              <div className="grid md:grid-cols-2 gap-8">
+                <Card className="brutal-border bg-card">
+                  <CardHeader>
+                    <CardTitle>Vision</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-muted-foreground">
+                      Perfumum est une <strong>plateforme de recherche-création sur 10 ans (2025-2035)</strong> dédiée à l'exploration olfactive expérimentale. Le projet articule design terpénique, résines CBD, et variétés de tabacs rares dans une approche scientifique et artistique.
+                    </p>
+                    <p className="text-muted-foreground">
+                      Cette recherche s'inscrit à la croisée de la parfumerie d'auteur, de l'anthropologie du sensible, et de la chimie organique.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="brutal-border bg-card">
+                  <CardHeader>
+                    <CardTitle>Objectifs</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3 text-muted-foreground">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Développer <strong>5 gammes olfactives</strong> conceptuelles (Pétrichor, Volcanique, Civilisations, Glaciaire, Bio-Lab)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Documenter <strong>131 molécules</strong> et leurs synergies</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Créer <strong>142 recettes</strong> expérimentales (parfums, résines, tabacs)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary mt-1">•</span>
+                        <span>Explorer les <strong>pratiques olfactives</strong> de 26 civilisations</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 5 Gammes Perfumeum Section */}
         <section className="section-spacing molecular-bg">
           <div className="container">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {/* Prototypes */}
-              <Link href="/prototypes">
-                <a className="block h-full">
-                  <Card className="h-full brutal-border transition-all duration-300 cursor-pointer group animate-fadeInUp bg-card" style={{animationDelay: '0.1s'}}>
-                    <CardHeader>
-                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                        <Palette className="h-6 w-6 text-primary" />
-                      </div>
-                      <CardTitle className="group-hover:text-primary transition-colors">
-                        Prototypes C1-C4
-                      </CardTitle>
-                      <CardDescription>
-                        4 compositions fondamentales
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        Chapitres atmosphériques explorant des axes existentiels et phénoménologiques
-                      </p>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Les 5 Gammes Perfumeum</h2>
+              <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+                Cinq univers olfactifs conceptuels structurant la recherche PERFUMUM, chacun explorant des territoires sensoriels distincts.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Pétrichor */}
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-petrichor/10 flex items-center justify-center mb-4 group-hover:bg-petrichor/20 transition-colors">
+                      <Droplets className="h-6 w-6 text-petrichor" />
+                    </div>
+                    <CardTitle className="group-hover:text-petrichor transition-colors">Pétrichor</CardTitle>
+                    <CardDescription>Terre • Minéral • Pluie</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Odeur de la terre après la pluie. 60 variations explorant géosmine, argile, pierre mouillée, humus.
+                    </p>
+                    <Link href="/gammes/petrichor">
+                      <Button variant="outline" size="sm" className="w-full group-hover:border-petrichor">
+                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
 
-              {/* Familles */}
-              <Link href="/familles">
-                <a className="block h-full">
-                  <Card className="h-full brutal-border transition-all duration-300 cursor-pointer group animate-fadeInUp bg-card" style={{animationDelay: '0.2s'}}>
-                    <CardHeader>
-                      <div className="w-12 h-12 rounded-lg bg-petrichor/10 flex items-center justify-center mb-4 group-hover:bg-petrichor/20 transition-colors">
-                        <Flower2 className="h-6 w-6 text-petrichor" />
-                      </div>
-                      <CardTitle className="group-hover:text-petrichor transition-colors">
-                        Familles Olfactives
-                      </CardTitle>
-                      <CardDescription>
-                        6+ familles étendues
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        Bio-Mineralis, Pétrichor (60 variations), Volcanique (36 variations), Solar-Mineralis
-                      </p>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
+                {/* Volcanique */}
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-volcanique/10 flex items-center justify-center mb-4 group-hover:bg-volcanique/20 transition-colors">
+                      <Flame className="h-6 w-6 text-volcanique" />
+                    </div>
+                    <CardTitle className="group-hover:text-volcanique transition-colors">Volcanique</CardTitle>
+                    <CardDescription>Fumée • Pyrolyse • Intensité</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Matières pyrolysées et fumées. 36 variations explorant cendres, résines brûlées, bois carbonisé.
+                    </p>
+                    <Link href="/gammes/volcanique">
+                      <Button variant="outline" size="sm" className="w-full group-hover:border-volcanique">
+                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
 
-              {/* Laboratoire */}
-              <Link href="/laboratoire">
-                <a className="block h-full">
-                  <Card className="h-full brutal-border transition-all duration-300 cursor-pointer group animate-fadeInUp bg-card" style={{animationDelay: '0.3s'}}>
-                    <CardHeader>
-                      <div className="w-12 h-12 rounded-lg bg-volcanique/10 flex items-center justify-center mb-4 group-hover:bg-volcanique/20 transition-colors">
-                        <Beaker className="h-6 w-6 text-volcanique" />
-                      </div>
-                      <CardTitle className="group-hover:text-volcanique transition-colors">
-                        Laboratoire
-                      </CardTitle>
-                      <CardDescription>
-                        100+ molécules, 120+ accords
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        Base de données complète de matières premières, molécules, accords et recettes
-                      </p>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
+                {/* Civilisations */}
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-solar-mineralis/10 flex items-center justify-center mb-4 group-hover:bg-solar-mineralis/20 transition-colors">
+                      <Globe2 className="h-6 w-6 text-solar-mineralis" />
+                    </div>
+                    <CardTitle className="group-hover:text-solar-mineralis transition-colors">Civilisations</CardTitle>
+                    <CardDescription>Sacré • Culturel • Rituel</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Pratiques olfactives rituelles. 26 civilisations documentées (encens, tabacs sacrés, onguents).
+                    </p>
+                    <Link href="/civilisations">
+                      <Button variant="outline" size="sm" className="w-full group-hover:border-solar-mineralis">
+                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
 
-              {/* Civilisations */}
-              <Link href="/civilisations">
-                <a className="block h-full">
-                  <Card className="h-full brutal-border transition-all duration-300 cursor-pointer group animate-fadeInUp bg-card" style={{animationDelay: '0.4s'}}>
-                    <CardHeader>
-                      <div className="w-12 h-12 rounded-lg bg-solar-mineralis/10 flex items-center justify-center mb-4 group-hover:bg-solar-mineralis/20 transition-colors">
-                        <Globe className="h-6 w-6 text-solar-mineralis" />
-                      </div>
-                      <CardTitle className="group-hover:text-solar-mineralis transition-colors">
-                        Civilisations
-                      </CardTitle>
-                      <CardDescription>
-                        25+ cultures olfactives
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        Approche anthropologique des cultures olfactives à travers l'histoire
-                      </p>
-                    </CardContent>
-                  </Card>
-                </a>
-              </Link>
+                {/* Glaciaire */}
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors">
+                      <Snowflake className="h-6 w-6 text-blue-500" />
+                    </div>
+                    <CardTitle className="group-hover:text-blue-500 transition-colors">Glaciaire</CardTitle>
+                    <CardDescription>Fraîcheur • Ozone • Altitude</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Notes fraîches et ozonnées. Air pur, glace, altitude, notes métalliques et minérales froides.
+                    </p>
+                    <Link href="/gammes">
+                      <Button variant="outline" size="sm" className="w-full group-hover:border-blue-500">
+                        En développement <ArrowRight className="h-3 w-3 ml-2" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+
+                {/* Bio-Lab */}
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group md:col-span-2 lg:col-span-1">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-pink-500/10 flex items-center justify-center mb-4 group-hover:bg-pink-500/20 transition-colors">
+                      <FlaskConical className="h-6 w-6 text-pink-500" />
+                    </div>
+                    <CardTitle className="group-hover:text-pink-500 transition-colors">Bio-Lab</CardTitle>
+                    <CardDescription>Expérimental • Biotechnologie • Avant-garde</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Recherche expérimentale. BIO-MINERALIS (os, cuir fossilisé), résines CBD, design moléculaire.
+                    </p>
+                    <Link href="/bio-mineralis">
+                      <Button variant="outline" size="sm" className="w-full group-hover:border-pink-500">
+                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Exploration Section */}
+        <section className="section-spacing bg-muted/30">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Explorer les Données</h2>
+              <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+                Accédez aux bases de données, visualisations scientifiques et programmes de recherche.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Données */}
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                      <Database className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle className="group-hover:text-primary transition-colors">Base de Données</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Link href="/molecules">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → 131 Molécules
+                      </Button>
+                    </Link>
+                    <Link href="/recettes">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → 142 Recettes
+                      </Button>
+                    </Link>
+                    <Link href="/accords">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → 25 Accords
+                      </Button>
+                    </Link>
+                    <Link href="/prototypes">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → 4 Prototypes
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+
+                {/* Recherche Scientifique */}
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition-colors">
+                      <Microscope className="h-6 w-6 text-purple-500" />
+                    </div>
+                    <CardTitle className="group-hover:text-purple-500 transition-colors">Recherche Scientifique</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Link href="/recherche-scientifique/synergies">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → Synergies Moléculaires
+                      </Button>
+                    </Link>
+                    <Link href="/recherche-scientifique/pyrolyse">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → Pyrolyse & Combustion
+                      </Button>
+                    </Link>
+                    <Link href="/recherche-scientifique/volatilite">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → Courbes de Volatilité
+                      </Button>
+                    </Link>
+                    <Link href="/recherche-scientifique/degradation">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → Dégradation Terpènes
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+
+                {/* Programmes de Recherche */}
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4 group-hover:bg-green-500/20 transition-colors">
+                      <BarChart3 className="h-6 w-6 text-green-500" />
+                    </div>
+                    <CardTitle className="group-hover:text-green-500 transition-colors">Programmes R&D</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Link href="/programmes-recherche/resines-cbd">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → Résines CBD & Design Terpénique
+                      </Button>
+                    </Link>
+                    <Link href="/programmes-recherche/tabacs-niche">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → Tabacs Niche (30+ variétés)
+                      </Button>
+                    </Link>
+                    <Link href="/dashboard">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        → Dashboard Analytics
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Statistics */}
-        <section className="py-16 bg-muted/30">
+        <section className="py-16 molecular-bg">
           <div className="container">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-8 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 text-center">
+              <div>
+                <div className="text-4xl font-bold text-primary mb-2">131</div>
+                <div className="text-sm text-muted-foreground">Molécules</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold text-primary mb-2">142</div>
+                <div className="text-sm text-muted-foreground">Recettes</div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold text-primary mb-2">25</div>
+                <div className="text-sm text-muted-foreground">Accords</div>
+              </div>
               <div>
                 <div className="text-4xl font-bold text-primary mb-2">4</div>
                 <div className="text-sm text-muted-foreground">Prototypes</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-primary mb-2">6+</div>
-                <div className="text-sm text-muted-foreground">Familles</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">120+</div>
-                <div className="text-sm text-muted-foreground">Accords</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">100+</div>
-                <div className="text-sm text-muted-foreground">Molécules</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">160+</div>
-                <div className="text-sm text-muted-foreground">Recettes</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">25+</div>
+                <div className="text-4xl font-bold text-primary mb-2">26</div>
                 <div className="text-sm text-muted-foreground">Civilisations</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">12+</div>
-                <div className="text-sm text-muted-foreground">Installations</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* About Section */}
-        <section className="section-spacing">
-          <div className="container">
-            <div className="max-w-3xl mx-auto text-center content-spacing">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                L'odeur comme médium
-              </h2>
-              <div className="prose prose-lg mx-auto text-left">
-                <p className="text-muted-foreground">
-                  Perfumum explore <strong>l'air comme espace</strong>, <strong>le corps comme archive</strong>, et <strong>la matière comme pensée</strong>. Le projet s'inscrit dans une pratique expérimentale inspirée par l'art contemporain, les études olfactives, la muséologie sensorielle, la parfumerie d'auteur et l'anthropologie du sensible.
-                </p>
-                <p className="text-muted-foreground">
-                  Cette recherche-création articule pratique de laboratoire, documentation systématique, recherche théorique et expérimentation artistique pour développer un langage atmosphérique original.
-                </p>
-              </div>
-              <div className="mt-8">
-                <Link href="/projet">
-                  <Button variant="outline" size="lg">
-                    En savoir plus sur le projet
-                  </Button>
-                </Link>
               </div>
             </div>
           </div>
@@ -220,8 +359,8 @@ export default function Home() {
               <Link href="/laboratoire">
                 <a className="hover:text-foreground transition-colors">Laboratoire</a>
               </Link>
-              <Link href="/installations">
-                <a className="hover:text-foreground transition-colors">Installations</a>
+              <Link href="/dashboard">
+                <a className="hover:text-foreground transition-colors">Dashboard</a>
               </Link>
             </nav>
           </div>
