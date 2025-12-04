@@ -4,6 +4,7 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Crown, Beaker } from "lucide-react";
+import { GammesConnexes } from "@/components/GammesConnexes";
 import { Link } from "wouter";
 import { MolecularGraph, MoleculeNode, MoleculeSynergy } from "@/components/MolecularGraph";
 
@@ -491,6 +492,11 @@ export default function GammesMossi() {
             </div>
           </div>
         </section>
+
+        <GammesConnexes 
+          currentGamme="civilisations" 
+          relatedGammes={["petrichor", "volcanique", "biolab"]} 
+        />
 
         {/* Methodology */}
         <section className="py-16 bg-muted/30">

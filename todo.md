@@ -1465,3 +1465,33 @@
 - [x] Tester export PDF avec heatmap
 - [x] Vérifier liens "Voir aussi" sur toutes les pages gammes
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Statistiques + Comparaison + Navigation Mossi
+
+### Amélioration 1 - Page Statistiques avancées
+- [x] Créer page /laboratoire/statistiques
+- [x] Ajouter graphique distribution synergies par type (Recharts PieChart)
+- [x] Ajouter graphique familles chimiques les plus représentées (BarChart)
+- [x] Ajouter analyse corrélations Tabacs × Molécules (heatmap simplifiée)
+- [x] Ajouter statistiques globales (totaux, moyennes, top 5)
+- [x] Ajouter route dans App.tsx et lien dans Header
+
+### Amélioration 2 - Module comparaison molécules
+- [x] Créer page /chimie/comparaison
+- [x] Implémenter sélection 2-4 molécules (multi-select)
+- [x] Créer tableau comparatif (famille, profil, synergies, recettes)
+- [x] Ajouter diagrammes radar des caractéristiques
+- [x] Ajouter route dans App.tsx et lien dans Header
+- [x] Tester comparaison avec différentes molécules
+
+### Amélioration 3 - GammesConnexes sur Mossi
+- [x] Ajouter GammesConnexes à page GammesMossi
+- [x] Définir relations : Pétrichor (encens/terre), Volcanique (fumée), Bio-Lab (extractions)
+- [x] Tester navigation depuis Mossi vers autres gammes
+
+### Tests et validation
+- [x] Tester page Statistiques avec données réelles
+- [x] Tester module Comparaison avec 2-4 molécules
+- [x] Vérifier navigation Mossi → gammes connexes
+- [ ] Créer checkpoint final

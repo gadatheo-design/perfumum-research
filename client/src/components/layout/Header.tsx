@@ -259,6 +259,16 @@ export function Header() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
+                <Link href="/laboratoire/statistiques">
+                  <a className="w-full cursor-pointer">Statistiques Avancées</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/chimie/comparaison">
+                  <a className="w-full cursor-pointer">Comparaison Molécules</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/laboratoire/recettes">
                   <a className="w-full cursor-pointer">Calculateur de Dosages</a>
                 </Link>
@@ -726,6 +736,28 @@ export function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Matrice Interactive
+                      </a>
+                    </Link>
+                    <Link href="/laboratoire/statistiques">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/laboratoire/statistiques" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Statistiques Avancées
+                      </a>
+                    </Link>
+                    <Link href="/chimie/comparaison">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/chimie/comparaison" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Comparaison Molécules
                       </a>
                     </Link>
                     <Link href="/laboratoire/recettes">
