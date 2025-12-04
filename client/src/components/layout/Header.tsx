@@ -91,6 +91,11 @@ export function Header() {
                   <a className="w-full cursor-pointer">Terrains</a>
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/collaborations">
+                  <a className="w-full cursor-pointer">Collaborations</a>
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -154,6 +159,11 @@ export function Header() {
               <DropdownMenuItem asChild>
                 <Link href="/civilisations">
                   <a className="w-full cursor-pointer">Civilisations</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/tabacs-resines">
+                  <a className="w-full cursor-pointer">Tabacs & Résines</a>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -415,6 +425,17 @@ export function Header() {
                         Timeline 2025-2035
                       </a>
                     </Link>
+                    <Link href="/collaborations">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/collaborations" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Collaborations
+                      </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -546,6 +567,17 @@ export function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         Gammes
+                      </a>
+                    </Link>
+                    <Link href="/tabacs-resines">
+                      <a
+                        className={cn(
+                          "block py-3 px-4 rounded-lg hover:bg-accent transition-colors min-h-[44px] flex items-center",
+                          location === "/tabacs-resines" && "bg-accent text-accent-foreground font-medium"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Tabacs & Résines
                       </a>
                     </Link>
                   </div>
