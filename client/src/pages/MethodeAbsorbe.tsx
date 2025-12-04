@@ -111,6 +111,25 @@ export default function MethodeAbsorbe() {
                 Processus de Recherche
               </h2>
               
+              {/* Diagramme Processus */}
+              <div className="mb-12">
+                <Card className="overflow-hidden">
+                  <CardHeader>
+                    <CardTitle>Cycle de Recherche ABSORBE</CardTitle>
+                    <CardDescription>
+                      Méthodologie itérative : Terrain → Captation → Analyse → Accord → Installation
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <img 
+                      src="/absorbe-processus.png" 
+                      alt="Diagramme processus ABSORBE" 
+                      className="w-full h-auto rounded-lg border border-border"
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+
               <div className="space-y-6">
                 <Card className="border-l-4 border-l-primary">
                   <CardHeader>
@@ -176,8 +195,46 @@ export default function MethodeAbsorbe() {
           </div>
         </section>
 
-        {/* Applications */}
+        {/* Relations Gammes */}
         <section className="py-16 bg-muted/30">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8">
+                Relations entre Gammes Atmosphériques
+              </h2>
+              
+              <Card className="overflow-hidden mb-12">
+                <CardHeader>
+                  <CardTitle>Cartographie Olfactive ABSORBE</CardTitle>
+                  <CardDescription>
+                    5 gammes atmosphériques interconnectées : Pétrichor, Volcanique, Civilisations, Glaciaire, Bio-Lab
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <img 
+                    src="/absorbe-gammes.png" 
+                    alt="Diagramme relations gammes ABSORBE" 
+                    className="w-full h-auto rounded-lg border border-border"
+                  />
+                </CardContent>
+              </Card>
+
+              <div className="prose prose-lg max-w-none mb-12">
+                <p className="text-base text-muted-foreground leading-relaxed">
+                  Les <strong>5 gammes atmosphériques</strong> d'ABSORBE ne sont pas des catégories isolées mais un <strong>réseau de relations</strong> : 
+                  Pétrichor (terre/pluie) se connecte à Glaciaire (humidité froide) et Volcanique (terre fumée). 
+                  Volcanique (cendre/résine) dialogue avec Civilisations (fumée rituelle). 
+                  Civilisations (encens/sacré) rejoint Bio-Lab (extraction traditionnelle). 
+                  Bio-Lab (molécule/biotechnologie) boucle vers Glaciaire (pureté moléculaire). 
+                  Cette <strong>circularité</strong> permet des transitions fluides entre atmosphères.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Applications */}
+        <section className="py-16">
           <div className="container">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold mb-6">

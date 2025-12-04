@@ -1667,3 +1667,26 @@
 - [x] Vérifier cohérence Volcanique et Civilisations ABSORBE
 - [x] Tester navigation Projets avec Collaborations
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Page Terrains + Diagrammes Méthode ABSORBE
+
+### Phase 1 - Page Terrains détaillée
+- [x] Créer structure 3 terrains (Forêt, Ville, Musée)
+- [x] Ajouter descriptions atmosphériques pour chaque terrain
+- [x] Documenter méthodologies de captation
+- [x] Ajouter exemples d'accords créés sur site
+- [x] Intégrer dans navigation existante
+
+### Phase 2 - Diagramme processus recherche
+- [x] Générer schéma visuel "Terrain → Captation → Analyse → Accord"
+- [x] Intégrer dans page MethodeAbsorbe.tsx
+
+### Phase 3 - Diagramme relations gammes
+- [x] Générer schéma relations entre 5 gammes atmosphériques
+- [x] Intégrer dans page MethodeAbsorbe.tsx
+
+### Phase 4 - Tests et validation
+- [x] Tester page Terrains complète
+- [x] Vérifier affichage diagrammes Méthode ABSORBE
+- [ ] Créer checkpoint final
