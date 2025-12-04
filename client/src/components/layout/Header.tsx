@@ -76,6 +76,21 @@ export function Header() {
                   <a className="w-full cursor-pointer">Timeline 2025-2035</a>
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/methode-absorbe">
+                  <a className="w-full cursor-pointer">Méthode ABSORBE</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/projets">
+                  <a className="w-full cursor-pointer">Projets</a>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/terrains">
+                  <a className="w-full cursor-pointer">Terrains</a>
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 

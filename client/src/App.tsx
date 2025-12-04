@@ -55,7 +55,10 @@ import MatriceInteractive from "@/pages/MatriceInteractive";
 import Statistiques from "@/pages/Statistiques";
 import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
 import DashboardRecherche from "@/pages/DashboardRecherche";
-import TimelinePerfumum from "@/pages/TimelinePerfumum";
+import TimelinePerfumum from "./pages/TimelinePerfumum";
+import MethodeAbsorbe from "./pages/MethodeAbsorbe";
+import Projets from "./pages/Projets";
+import Terrains from "./pages/Terrains";
 
 function Router() {
   return (
@@ -100,6 +103,9 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
           <Route path="/dashboard/recherche" component={DashboardRecherche} />
           <Route path="/projet/timeline" component={TimelinePerfumum} />
+        <Route path="/methode-absorbe" component={MethodeAbsorbe} />
+        <Route path="/projets" component={Projets} />
+        <Route path="/terrains" component={Terrains} />
       <Route path="/recherche-scientifique" component={RechercheScientifique} />
       <Route path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />
       <Route path="/recherche-scientifique/pyrolyse-combustion" component={PyrolyseCombustion} />

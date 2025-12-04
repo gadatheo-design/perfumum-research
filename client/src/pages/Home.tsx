@@ -21,6 +21,9 @@ export default function Home() {
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance mb-8 animate-fadeInUp">
                 PERFUMUM
               </h1>
+              <p className="text-xl md:text-2xl text-muted-foreground/90 text-balance mb-2 animate-fadeInUp font-light tracking-wide" style={{animationDelay: '0.05s'}}>
+                ABSORBE — laboratoire atmosphérique olfactif basé à Berne
+              </p>
               <p className="text-2xl md:text-3xl text-muted-foreground text-balance mb-4 animate-fadeInUp font-medium" style={{animationDelay: '0.1s'}}>
                 Plateforme de Recherche & Développement
               </p>
@@ -28,15 +31,15 @@ export default function Home() {
                 Design terpénique, résines CBD et variétés de tabacs rares
               </p>
               <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.3s'}}>
-                <Link href="/dashboard">
+                <Link href="/gammes">
                   <Button size="lg" className="gap-2">
-                    Accéder au Dashboard
+                    Explorer les atmosphères
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href="/projet">
+                <Link href="/dashboard">
                   <Button size="lg" variant="outline">
-                    Découvrir le Projet
+                    Accéder au Dashboard
                   </Button>
                 </Link>
               </div>

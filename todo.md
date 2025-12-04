@@ -1605,3 +1605,33 @@
 - [x] Vérifier persistance données
 - [x] Tester Dashboard avec favoris réels
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Intégration ABSORBE (approche hybride artistique × scientifique)
+
+### Phase 1 - Page Pétrichor artistique ABSORBE
+- [x] Remplacer contenu GammesPetrichor.tsx par version ABSORBE
+- [x] Ajouter section S.1 — PÉTRICHOR SOUTERRAIN (géosmine, vétiver, bois mouillé)
+- [x] Ajouter section U.1 — PÉTRICHOR URBAIN (aldéhydes, ozone, bitume)
+- [x] Ajouter section F.1 — PÉTRICHOR FANTÔME (violette poussière, encens éteint)
+- [x] Intégrer images atmosphériques (sol fracturé, bitume mouillé, mur poreux)
+- [x] Ajouter structure temporelle (Souterrain → Urbain → Fantôme)
+- [x] Ajouter section Applications (accord olfactif, fumée, installation)
+
+### Phase 2 - Homepage manifeste ABSORBE
+- [x] Ajouter manifeste "ABSORBE — laboratoire atmosphérique olfactif basé à Berne"
+- [x] Créer bouton CTA "Explorer les atmosphères"
+- [x] Garder statistiques PERFUMUM existantes (131 molécules, 142 recettes, etc.)
+- [x] Harmoniser identité visuelle ABSORBE minimaliste + PERFUMUM scientifique
+
+### Phase 3 - Navigation enrichie
+- [x] Ajouter page "Méthode ABSORBE" dans menu Le Projet
+- [x] Créer page "Projets" (collaborations Bambino47, etc.)
+- [x] Créer page "Terrains" (forêt, ville, musée)
+- [x] Ajouter routes dans App.tsx et liens dans Headers
+
+### Phase 4 - Tests et validation
+- [x] Tester page Pétrichor redesignée
+- [x] Vérifier cohérence visuelle ABSORBE × PERFUMUM
+- [x] Tester navigation (Méthode ABSORBE, Projets, Terrains)
+- [ ] Créer checkpoint final
