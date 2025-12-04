@@ -1717,3 +1717,32 @@
 - [x] Vérifier SEO avec outils (meta tags, alt-text)
 - [x] Tester navigation interne fluide
 - [ ] Créer checkpoint final
+
+
+---
+
+## 🔄 EN COURS : Phase 1 - Améliorations UX Critiques (Audit Décembre 2025)
+
+### Problèmes identifiés par l'audit UX/UI
+
+- [ ] Refonte dropdown 203 profils olfactifs → Autocomplete avec recherche
+- [ ] Chips filtres actifs visuels avec bouton × individuel
+- [ ] Bouton "Réinitialiser tous les filtres"
+- [ ] Toast notification ajout/retrait favori
+- [ ] Rendre noms molécules cliquables (pages gammes)
+- [ ] Rendre noms molécules cliquables (pages recettes)
+- [ ] Normaliser cartes molécules (formule chimique toujours visible)
+- [ ] Améliorer hover states cartes molécules (cursor pointer + effet)
+- [ ] Ajouter bouton "Masquer filtres" sur Matrice Interactive
+
+
+### ✅ Améliorations UX Phase 1 terminées (Session actuelle)
+
+- [x] Refonte dropdown 203 profils olfactifs → Autocomplete avec recherche et catégories
+- [x] Chips filtres actifs visuels avec bouton × individuel
+- [x] Bouton "Réinitialiser tous les filtres"
+- [x] Toast notification ajout/retrait favori (déjà implémenté)
+- [x] Rendre noms molécules cliquables (pages gammes Pétrichor et Volcanique)
+- [x] Normaliser cartes molécules (formule chimique toujours visible)
+- [x] Améliorer hover states cartes molécules (cursor pointer + scale + shadow)
+- [x] Cartes molécules cliquables vers page détail

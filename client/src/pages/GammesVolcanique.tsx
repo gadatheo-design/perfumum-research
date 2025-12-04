@@ -4,8 +4,12 @@ import { Badge } from "@/components/ui/badge";
 import { Flame, Skull, Zap } from "lucide-react";
 import { GammesConnexes } from "@/components/GammesConnexes";
 import { Link } from "wouter";
+import { trpc } from "@/lib/trpc";
+import { linkifyMoleculeNames } from "@/lib/linkifyMolecules";
 
 export default function GammesVolcanique() {
+  const { data: molecules } = trpc.molecules.list.useQuery();
+
   const axes = [
     {
       code: "V.1",
@@ -129,7 +133,7 @@ export default function GammesVolcanique() {
                             Notes
                           </h4>
                           <p className="text-sm font-mono text-muted-foreground leading-relaxed">
-                            {axe.notes}
+                            {linkifyMoleculeNames(axe.notes, molecules)}
                           </p>
                         </div>
 

@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +13,8 @@ import { FilterSelect } from "@/components/filters/FilterSelect";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { ProfileAutocomplete } from "@/components/filters/ProfileAutocomplete";
+import { ActiveFiltersChips } from "@/components/filters/ActiveFiltersChips";
 import {
   Select,
   SelectContent,
@@ -150,7 +153,7 @@ export default function Molecules() {
         <section className="py-8 border-b border-border/40">
           <div className="container">
             <div className="max-w-5xl mx-auto">
-              {/* Filter toggle & reset */}
+              {/* Filter toggle */}
               <div className="flex items-center justify-between mb-4">
                 <Button
                   variant="outline"
@@ -160,18 +163,44 @@ export default function Molecules() {
                   <Filter className="h-4 w-4 mr-2" />
                   {showFilters ? "Masquer les filtres" : "Afficher les filtres"}
                 </Button>
-                
-                {hasActiveFilters && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={resetFilters}
-                  >
-                    <X className="h-4 w-4 mr-2" />
-                    Réinitialiser
-                  </Button>
-                )}
               </div>
+
+              {/* Active Filters Chips */}
+              <ActiveFiltersChips
+                filters={[
+                  ...(searchQuery ? [{
+                    type: "search" as const,
+                    label: "Recherche",
+                    value: searchQuery,
+                    onRemove: () => setSearchQuery("")
+                  }] : []),
+                  ...(familyFilter !== "all" ? [{
+                    type: "family" as const,
+                    label: "Famille",
+                    value: familyFilter,
+                    onRemove: () => setFamilyFilter("all")
+                  }] : []),
+                  ...selectedProfiles.map(profile => ({
+                    type: "profile" as const,
+                    label: "Profil",
+                    value: profile,
+                    onRemove: () => toggleProfile(profile)
+                  })),
+                  ...((concentrationRange[0] !== 0.0001 || concentrationRange[1] !== 0.1) ? [{
+                    type: "concentration" as const,
+                    label: "Concentration",
+                    value: `${concentrationRange[0].toFixed(4)}% - ${concentrationRange[1].toFixed(4)}%`,
+                    onRemove: () => setConcentrationRange([0.0001, 0.1])
+                  }] : []),
+                  ...(selectedGamme ? [{
+                    type: "gamme" as const,
+                    label: "Gamme",
+                    value: selectedGamme,
+                    onRemove: () => setSelectedGamme(null)
+                  }] : [])
+                ]}
+                onResetAll={resetFilters}
+              />
 
               {showFilters && (
                 <div className="space-y-6 p-6 border border-border/40 rounded-lg bg-muted/20">
@@ -228,32 +257,13 @@ export default function Molecules() {
                     />
                   </div>
 
-                  {/* Olfactive Profiles */}
-                  <div>
-                    <label className="text-sm font-semibold mb-3 block">
-                      Profils Olfactifs ({selectedProfiles.length} sélectionné{selectedProfiles.length > 1 ? "s" : ""})
-                    </label>
-                    <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-4 border border-border/40 rounded-md bg-background">
-                      {olfactiveProfiles.slice(0, 50).map(profile => (
-                        <Badge
-                          key={profile}
-                          variant={selectedProfiles.includes(profile) ? "default" : "outline"}
-                          className="cursor-pointer hover:bg-primary/20 transition-colors"
-                          onClick={() => toggleProfile(profile)}
-                        >
-                          {profile}
-                          {selectedProfiles.includes(profile) && (
-                            <X className="ml-1 h-3 w-3" />
-                          )}
-                        </Badge>
-                      ))}
-                      {olfactiveProfiles.length > 50 && (
-                        <span className="text-xs text-muted-foreground self-center">
-                          +{olfactiveProfiles.length - 50} profils supplémentaires...
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  {/* Olfactive Profiles - Autocomplete */}
+                  <ProfileAutocomplete
+                    profiles={olfactiveProfiles}
+                    selectedProfiles={selectedProfiles}
+                    onToggleProfile={toggleProfile}
+                    onClearAll={() => setSelectedProfiles([])}
+                  />
 
                   {/* Concentration Range */}
                   <div>
@@ -307,37 +317,41 @@ export default function Molecules() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredMolecules.map((molecule) => (
-                    <Card key={molecule.id} className="hover:shadow-md transition-shadow">
-                      <CardHeader>
-                        <div className="flex items-start justify-between gap-2 mb-2">
-                          <CardTitle className="text-xl flex-1">{molecule.name}</CardTitle>
-                          <div className="flex items-center gap-2 shrink-0">
-                            <FavoriteButton moleculeId={molecule.id} variant="icon" />
-                            {getGammeFromOlfactiveProfile(molecule.olfactiveProfile) && (
-                              <GammeBadge 
-                                gamme={getGammeFromOlfactiveProfile(molecule.olfactiveProfile)!} 
-                                size="sm" 
-                                showIcon={false}
-                              />
-                            )}
-                            {molecule.family && (
-                              <Badge variant="outline">
-                                {molecule.family}
-                              </Badge>
-                            )}
+                    <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
+                      <Card className="hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full">
+                        <CardHeader>
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <CardTitle className="text-xl flex-1 hover:text-primary transition-colors">
+                              {molecule.name}
+                            </CardTitle>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <div onClick={(e) => e.preventDefault()}>
+                                <FavoriteButton moleculeId={molecule.id} moleculeName={molecule.name} variant="icon" />
+                              </div>
+                              {getGammeFromOlfactiveProfile(molecule.olfactiveProfile) && (
+                                <GammeBadge 
+                                  gamme={getGammeFromOlfactiveProfile(molecule.olfactiveProfile)!} 
+                                  size="sm" 
+                                  showIcon={false}
+                                />
+                              )}
+                              {molecule.family && (
+                                <Badge variant="outline">
+                                  {molecule.family}
+                                </Badge>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                        {molecule.chemicalFormula && (
+                          {/* Always show chemical formula */}
                           <p className="text-sm font-mono text-muted-foreground">
-                            {molecule.chemicalFormula}
+                            {molecule.chemicalFormula || "Formule non disponible"}
                           </p>
-                        )}
-                        {molecule.concentration && (
-                          <p className="text-xs text-muted-foreground">
-                            Concentration recommandée : {molecule.concentration}
-                          </p>
-                        )}
-                      </CardHeader>
+                          {molecule.concentration && (
+                            <p className="text-xs text-muted-foreground">
+                              Concentration : {molecule.concentration}
+                            </p>
+                          )}
+                        </CardHeader>
                       <CardContent className="space-y-4">
                         {molecule.olfactiveProfile && (
                           <div>
@@ -376,6 +390,7 @@ export default function Molecules() {
                         )}
                       </CardContent>
                     </Card>
+                    </Link>
                   ))}
                 </div>
               )}
