@@ -10,13 +10,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { trpc } from "@/lib/trpc";
 import { Search, X, Filter, Grid3x3, Network } from "lucide-react";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
+import { SynergiesHeatmap } from "@/components/SynergiesHeatmap";
 
 export default function MatriceInteractive() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTabac, setSelectedTabac] = useState<string>("all");
   const [selectedFamily, setSelectedFamily] = useState<string>("all");
   const [selectedGamme, setSelectedGamme] = useState<GammeType | "all">("all");
-  const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
+  const [viewMode, setViewMode] = useState<"grid" | "heatmap">("grid");
 
   // Fetch data
   const { data: tabacs, isLoading: loadingTabacs } = trpc.tabacs.list.useQuery();
@@ -170,11 +171,20 @@ export default function MatriceInteractive() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Button
-                    variant="ghost"
+                    variant={viewMode === "grid" ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setViewMode(viewMode === "grid" ? "table" : "grid")}
+                    onClick={() => setViewMode("grid")}
                   >
-                    {viewMode === "grid" ? <Grid3x3 className="h-4 w-4" /> : <Network className="h-4 w-4" />}
+                    <Grid3x3 className="h-4 w-4 mr-2" />
+                    Grille
+                  </Button>
+                  <Button
+                    variant={viewMode === "heatmap" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setViewMode("heatmap")}
+                  >
+                    <Network className="h-4 w-4 mr-2" />
+                    Heatmap
                   </Button>
                   {activeFiltersCount > 0 && (
                     <Button variant="outline" size="sm" onClick={resetFilters}>
@@ -269,8 +279,16 @@ export default function MatriceInteractive() {
             </p>
           </div>
 
-          {/* Molecules Grid */}
-          {moleculesWithSynergies.length === 0 ? (
+          {/* View Mode: Heatmap or Grid */}
+          {viewMode === "heatmap" ? (
+            <SynergiesHeatmap
+              molecules={molecules || []}
+              tabacs={tabacs || []}
+              synergies={synergies || []}
+              selectedTabac={selectedTabac}
+              selectedFamily={selectedFamily}
+            />
+          ) : moleculesWithSynergies.length === 0 ? (
             <Card className="brutal-border">
               <CardContent className="py-12 text-center">
                 <p className="text-muted-foreground">Aucune molécule trouvée avec ces filtres.</p>

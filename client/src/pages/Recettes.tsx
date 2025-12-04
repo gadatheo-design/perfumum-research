@@ -9,6 +9,8 @@ import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { Search, Beaker, Filter, X } from "lucide-react";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
+import { GammeBadge } from "@/components/GammeBadge";
+import { getGammeFromCategory } from "@/lib/gammeMapping";
 
 export default function Recettes() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -160,7 +162,16 @@ export default function Recettes() {
                     <Link key={recette.id} href={`/recette/${recette.id}`}>
                       <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer h-full">
                         <CardHeader>
-                          <CardTitle className="text-lg line-clamp-2">{recette.name}</CardTitle>
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <CardTitle className="text-lg line-clamp-2 flex-1">{recette.name}</CardTitle>
+                            {getGammeFromCategory(recette.category) && (
+                              <GammeBadge 
+                                gamme={getGammeFromCategory(recette.category)!} 
+                                size="sm" 
+                                showIcon={false}
+                              />
+                            )}
+                          </div>
                           {recette.category && (
                             <CardDescription className="flex items-center gap-2">
                               <Badge variant="outline">{recette.category}</Badge>

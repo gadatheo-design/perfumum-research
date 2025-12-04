@@ -2,6 +2,8 @@ import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CustomBadge } from "@/components/ui/badge-custom";
 import { cn } from "@/lib/utils";
+import { GammeBadge } from "@/components/GammeBadge";
+import { getGammeFromPrototype } from "@/lib/gammeMapping";
 
 interface PrototypeCardProps {
   code: string;
@@ -42,6 +44,13 @@ export function PrototypeCard({
                   {name}
                 </CardTitle>
               </div>
+              {getGammeFromPrototype(code) && (
+                <GammeBadge 
+                  gamme={getGammeFromPrototype(code)!} 
+                  size="sm" 
+                  showIcon={false}
+                />
+              )}
             </div>
             {conceptualAxis && (
               <CardDescription className="text-sm italic">

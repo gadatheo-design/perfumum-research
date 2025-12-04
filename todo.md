@@ -1357,3 +1357,26 @@
 
 ### Phase 5 - Checkpoint final
 - [ ] Créer checkpoint avec refonte complète
+
+
+## 🔄 EN COURS : Application identité visuelle + Enrichissement matrice interactive
+
+### Amélioration 1 - Appliquer identité visuelle aux pages existantes
+- [x] Intégrer GammeBadge dans page Recettes (badges gamme sur cartes)
+- [x] Intégrer GammeBadge dans page Molécules (badges gamme selon profil)
+- [x] Intégrer GammeBadge dans page Prototypes (badges gamme C1-C4)
+- [x] Ajouter couleurs gamme aux cartes existantes
+- [x] Tester cohérence visuelle globale
+
+### Amélioration 2 - Enrichir matrice interactive avec visualisation
+- [x] Créer composant Heatmap pour synergies Tabacs × Molécules
+- [x] Ajouter mode visualisation heatmap (alternative au grid)
+- [x] Implémenter switch entre modes Grid/Heatmap
+- [x] Ajouter légende interactive pour heatmap
+- [x] Tester performances avec 131 molécules × 8 tabacs
+
+### Tests et validation
+- [x] Vérifier badges gamme sur toutes les pages
+- [x] Tester visualisation heatmap
+- [x] Valider responsive design
+- [ ] Créer checkpoint final

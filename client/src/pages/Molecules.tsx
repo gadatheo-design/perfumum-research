@@ -9,6 +9,8 @@ import { trpc } from "@/lib/trpc";
 import { Loader2, Atom, X, Filter } from "lucide-react";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
+import { GammeBadge } from "@/components/GammeBadge";
+import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
 import {
   Select,
   SelectContent,
@@ -263,13 +265,22 @@ export default function Molecules() {
                   {filteredMolecules.map((molecule) => (
                     <Card key={molecule.id} className="hover:shadow-md transition-shadow">
                       <CardHeader>
-                        <div className="flex items-start justify-between gap-4">
-                          <CardTitle className="text-xl">{molecule.name}</CardTitle>
-                          {molecule.family && (
-                            <Badge variant="outline" className="shrink-0">
-                              {molecule.family}
-                            </Badge>
-                          )}
+                        <div className="flex items-start justify-between gap-2 mb-2">
+                          <CardTitle className="text-xl flex-1">{molecule.name}</CardTitle>
+                          <div className="flex items-center gap-2 shrink-0">
+                            {getGammeFromOlfactiveProfile(molecule.olfactiveProfile) && (
+                              <GammeBadge 
+                                gamme={getGammeFromOlfactiveProfile(molecule.olfactiveProfile)!} 
+                                size="sm" 
+                                showIcon={false}
+                              />
+                            )}
+                            {molecule.family && (
+                              <Badge variant="outline">
+                                {molecule.family}
+                              </Badge>
+                            )}
+                          </div>
                         </div>
                         {molecule.chemicalFormula && (
                           <p className="text-sm font-mono text-muted-foreground">
