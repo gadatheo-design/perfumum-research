@@ -1,8 +1,9 @@
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, and, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
   users, 
+  userFavorites,
   prototypes,
   families,
   tabacs,
@@ -1089,4 +1090,69 @@ export async function getSynergiesStats() {
     total: total[0]?.count || 0,
     byType,
   };
+}
+
+
+// ============================================================================
+// USER FAVORITES
+// ============================================================================
+
+export async function addFavorite(userId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(userFavorites).values({
+    userId,
+    moleculeId,
+  }).onDuplicateKeyUpdate({ set: { userId } }); // Ignore if already exists (unique constraint)
+  
+  return { success: true, favoriteId: result[0].insertId };
+}
+
+export async function removeFavorite(userId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(userFavorites)
+    .where(and(
+      eq(userFavorites.userId, userId),
+      eq(userFavorites.moleculeId, moleculeId)
+    ));
+  
+  return { success: true };
+}
+
+export async function getUserFavorites(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const favorites = await db
+    .select({
+      id: userFavorites.id,
+      moleculeId: userFavorites.moleculeId,
+      createdAt: userFavorites.createdAt,
+      molecule: molecules,
+    })
+    .from(userFavorites)
+    .leftJoin(molecules, eq(userFavorites.moleculeId, molecules.id))
+    .where(eq(userFavorites.userId, userId))
+    .orderBy(desc(userFavorites.createdAt));
+  
+  return favorites;
+}
+
+export async function isFavorite(userId: number, moleculeId: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  const result = await db
+    .select({ id: userFavorites.id })
+    .from(userFavorites)
+    .where(and(
+      eq(userFavorites.userId, userId),
+      eq(userFavorites.moleculeId, moleculeId)
+    ))
+    .limit(1);
+  
+  return result.length > 0;
 }

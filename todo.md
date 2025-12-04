@@ -1574,3 +1574,34 @@
 - [x] Fix gammes section with nested Link components
 - [x] Test homepage and verify error is resolved
 - [ ] Save checkpoint
+
+
+## 🔄 EN COURS : Système Favoris Molécules
+
+### Phase 1 - Table user_favorites
+- [x] Créer table `user_favorites` dans schema.ts
+- [x] Ajouter colonnes (userId, moleculeId, createdAt)
+- [x] Pusher le schéma vers la base de données
+
+### Phase 2 - Procédures tRPC
+- [x] Créer procédure `favorites.add` (ajouter favori)
+- [x] Créer procédure `favorites.remove` (supprimer favori)
+- [x] Créer procédure `favorites.list` (lister favoris user)
+- [x] Créer procédure `favorites.isFavorite` (vérifier statut)
+
+### Phase 3 - Composant FavoriteButton
+- [x] Créer composant FavoriteButton réutilisable
+- [x] Ajouter états (loading, favorited)
+- [x] Intégrer sur page MoleculeDetail
+- [ ] Intégrer sur page Molecules (liste)
+
+### Phase 4 - Dashboard mis à jour
+- [x] Remplacer données mockées par `favorites.list`
+- [x] Afficher molécules favorites réelles
+- [x] Ajouter message si aucun favori
+
+### Phase 5 - Tests et validation
+- [x] Tester ajout/suppression favoris
+- [x] Vérifier persistance données
+- [x] Tester Dashboard avec favoris réels
+- [ ] Créer checkpoint final

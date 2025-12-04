@@ -39,8 +39,8 @@ export default function DashboardRecherche() {
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
 
-  // Favorites system (local state for now)
-  const [favoriteMolecules] = useState<number[]>([1, 5, 12, 23, 45]); // Sample favorites
+  // Favorites system (real data)
+  const { data: userFavorites } = trpc.favorites.list.useQuery();
 
   const addNote = () => {
     if (newNoteTitle.trim() && newNoteContent.trim()) {
@@ -88,7 +88,6 @@ export default function DashboardRecherche() {
   // Recent data
   const recentRecettes = recettes?.slice(0, 5) || [];
   const recentSynergies = synergies?.slice(0, 5) || [];
-  const favoriteMoleculesData = molecules?.filter(m => favoriteMolecules.includes(m.id)) || [];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -194,19 +193,33 @@ export default function DashboardRecherche() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {favoriteMoleculesData.slice(0, 5).map((molecule) => (
-                    <div key={molecule.id} className="p-3 rounded-lg border border-border">
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1">
-                          <p className="font-medium">{molecule.name}</p>
-                          <p className="text-sm text-muted-foreground">{molecule.family}</p>
-                        </div>
-                        <Badge variant="outline" className="shrink-0">
-                          {synergies?.filter(s => s.moleculeId === molecule.id).length || 0} synergies
-                        </Badge>
-                      </div>
+                  {!userFavorites || userFavorites.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Star className="h-12 w-12 mx-auto mb-2 opacity-20" />
+                      <p className="text-sm">Aucune molécule favorite</p>
+                      <p className="text-xs mt-1">Ajoutez des favoris depuis les pages molécules</p>
                     </div>
-                  ))}
+                  ) : (
+                    userFavorites.slice(0, 5).map((favorite) => {
+                      const molecule = favorite.molecule;
+                      if (!molecule) return null;
+                      return (
+                        <Link key={favorite.id} href={`/molecule/${molecule.id}`}>
+                          <div className="p-3 rounded-lg border border-border hover:bg-accent transition-colors cursor-pointer">
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="flex-1">
+                                <p className="font-medium">{molecule.name}</p>
+                                <p className="text-sm text-muted-foreground">{molecule.family}</p>
+                              </div>
+                              <Badge variant="outline" className="shrink-0">
+                                {synergies?.filter(s => s.moleculeId === molecule.id).length || 0} synergies
+                              </Badge>
+                            </div>
+                          </div>
+                        </Link>
+                      );
+                    })
+                  )}
                 </div>
               </CardContent>
             </Card>

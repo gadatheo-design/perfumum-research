@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Beaker, FlaskConical } from "lucide-react";
+import { FavoriteButton } from "@/components/FavoriteButton";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
@@ -143,10 +144,13 @@ export default function MoleculeDetail() {
             Retour
           </Button>
         </Link>
-        <Badge variant="secondary" className="text-lg px-4 py-2">
-          <Beaker className="mr-2 h-5 w-5" />
-          Molécule
-        </Badge>
+        <div className="flex items-center gap-3">
+          <FavoriteButton moleculeId={molecule.id} moleculeName={molecule.name} />
+          <Badge variant="secondary" className="text-lg px-4 py-2">
+            <Beaker className="mr-2 h-5 w-5" />
+            Molécule
+          </Badge>
+        </div>
       </div>
 
       {/* Main Info */}
