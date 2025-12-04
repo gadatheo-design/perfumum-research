@@ -1690,3 +1690,30 @@
 - [x] Tester page Terrains complète
 - [x] Vérifier affichage diagrammes Méthode ABSORBE
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Optimisations Techniques PERFUMUM/ABSORBE
+
+### Phase 1 - Images WEBP
+- [x] Convertir images Pétrichor (souterrain/urbain/fantôme) en WEBP
+- [x] Optimiser poids images (max 1200px, compression 80%)
+- [x] Ajouter lazy-loading sur images atmosphériques
+- [x] Mettre à jour références images dans pages
+
+### Phase 2 - SEO
+- [x] Ajouter meta descriptions sur toutes les pages
+- [x] Ajouter alt-text atmosphériques sur images
+- [x] Configurer Open Graph tags (og:title, og:description, og:image)
+- [x] Ajouter balises H1/H2 structurées
+
+### Phase 3 - Maillage interne
+- [x] Créer liens Pétrichor ↔ Méthode ABSORBE
+- [x] Créer liens Terrains ↔ Gammes connexes
+- [x] Créer liens Projets ↔ Méthode
+- [x] Ajouter navigation breadcrumb sur pages gammes
+
+### Phase 4 - Tests et validation
+- [x] Tester performance images WEBP
+- [x] Vérifier SEO avec outils (meta tags, alt-text)
+- [x] Tester navigation interne fluide
+- [ ] Créer checkpoint final

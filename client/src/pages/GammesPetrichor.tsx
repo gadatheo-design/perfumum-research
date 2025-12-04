@@ -13,7 +13,7 @@ export default function GammesPetrichor() {
       icon: Mountain,
       atmosphere: "Humus. Racines. Terre noire gorgée d'eau.",
       notes: "géosmine, spikenard, vétiver humide, bois mouillé, angélique, mitti attar",
-      imageUrl: "/petrichor-souterrain.jpg",
+      imageUrl: "/petrichor-souterrain.webp",
       image: "sol fracturé, condensation basse",
       sensation: "profonde, lente, organique",
       color: "from-amber-900/20 to-stone-900/20",
@@ -25,7 +25,7 @@ export default function GammesPetrichor() {
       icon: Building2,
       atmosphere: "Asphalte sous la pluie, pierre froide, tension électrique.",
       notes: "aldéhydes froids, ozone, bitume propre, pierre humide, encens froid",
-      imageUrl: "/petrichor-urbain.jpg",
+      imageUrl: "/petrichor-urbain.webp",
       image: "bitume mouillé, halo bleu",
       sensation: "électrique, nette, rapide",
       color: "from-slate-500/20 to-blue-900/20",
@@ -37,7 +37,7 @@ export default function GammesPetrichor() {
       icon: Ghost,
       atmosphere: "Papier humide, poussière en suspension, silence après la pluie.",
       notes: "violette poussière, encens éteint, pierre poreuse",
-      imageUrl: "/petrichor-fantome.jpg",
+      imageUrl: "/petrichor-fantome.webp",
       image: "mur poreux, lumière pâle",
       sensation: "spectrale, résiduelle",
       color: "from-violet-300/20 to-gray-400/20",
@@ -122,8 +122,9 @@ export default function GammesPetrichor() {
                           <div className="w-full h-64 rounded-lg overflow-hidden">
                             <img 
                               src={axe.imageUrl} 
-                              alt={axe.name}
+                              alt={`${axe.name} - ${axe.atmosphere}`}
                               className="w-full h-full object-cover"
+                              loading="lazy"
                             />
                           </div>
                         )}

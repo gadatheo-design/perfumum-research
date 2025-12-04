@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Beaker, Wind, Eye, Layers } from "lucide-react";
+import { Link } from "wouter";
 
 export default function MethodeAbsorbe() {
   const principes = [
@@ -228,6 +229,98 @@ export default function MethodeAbsorbe() {
                   Bio-Lab (molécule/biotechnologie) boucle vers Glaciaire (pureté moléculaire). 
                   Cette <strong>circularité</strong> permet des transitions fluides entre atmosphères.
                 </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Exemples Concrets */}
+        <section className="py-16 bg-muted/20">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8">
+                Exemples Concrets
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="hover:shadow-md transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Badge variant="outline" className="font-mono">S.1</Badge>
+                      Pétrichor Souterrain
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Atmosphère : Humus, racines, terre noire gorgée d'eau. 
+                      Notes : géosmine, vétiver humide, bois mouillé.
+                    </p>
+                    <Link href="/gammes/petrichor">
+                      <a className="text-sm text-primary hover:underline">
+                        Voir l'étude complète →
+                      </a>
+                    </Link>
+                  </CardContent>
+                </Card>
+
+                <Card className="hover:shadow-md transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Badge variant="outline" className="font-mono">V.1</Badge>
+                      Volcanique Cendres
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Atmosphère : Terre brûlée, minéralité volcanique. 
+                      Notes : cade, birch tar, vétiver fumé.
+                    </p>
+                    <Link href="/gammes/volcanique">
+                      <a className="text-sm text-primary hover:underline">
+                        Voir l'étude complète →
+                      </a>
+                    </Link>
+                  </CardContent>
+                </Card>
+
+                <Card className="hover:shadow-md transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Badge variant="outline" className="font-mono">T.1</Badge>
+                      Terrain Forêt
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Environnement : Forêt mixte, sol humide, sous-bois. 
+                      Captation : Mousse, écorce, humus.
+                    </p>
+                    <Link href="/terrains">
+                      <a className="text-sm text-primary hover:underline">
+                        Voir les terrains d'étude →
+                      </a>
+                    </Link>
+                  </CardContent>
+                </Card>
+
+                <Card className="hover:shadow-md transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Badge variant="outline" className="font-mono">P.1</Badge>
+                      Projet Bambino47
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Collaboration artistique : Installation olfactive immersive. 
+                      Atmosphères : Pétrichor urbain + Volcanique.
+                    </p>
+                    <Link href="/projets">
+                      <a className="text-sm text-primary hover:underline">
+                        Voir les projets →
+                      </a>
+                    </Link>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
