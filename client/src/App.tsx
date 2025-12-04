@@ -16,6 +16,7 @@ import Civilisations from "./pages/Civilisations";
 import Installations from "./pages/Installations";
 import PrototypeDetail from "./pages/PrototypeDetail";
 import Molecules from "./pages/Molecules";
+import Compare from "./pages/Compare";
 import FamillesList from "./pages/FamillesList";
 import Accords from "./pages/Accords";
 import { Glossaire } from "./pages/Glossaire";
@@ -78,6 +79,7 @@ function Router() {
       <Route path="/familles" component={Familles} />
       <Route path="/familles/list" component={FamillesList} />
       <Route path="/molecules" component={Molecules} />
+      <Route path="/compare" component={Compare} />
       <Route path="/accords" component={Accords} />
       <Route path="/recettes" component={Recettes} />
       <Route path="/gammes" component={Gammes} />

@@ -1746,3 +1746,35 @@
 - [x] Normaliser cartes molécules (formule chimique toujours visible)
 - [x] Améliorer hover states cartes molécules (cursor pointer + scale + shadow)
 - [x] Cartes molécules cliquables vers page détail
+
+
+---
+
+## ✅ Mode Comparaison Molécules (Terminé)
+
+### Phase 1 - Sélection et état
+- [x] Ajouter state management pour sélection molécules (max 4)
+- [x] Ajouter checkbox sur cartes molécules (page Molécules)
+- [x] Gérer sélection/désélection avec feedback visuel (ring primary)
+
+### Phase 2 - Barre d'action flottante
+- [x] Créer composant FloatingCompareBar
+- [x] Afficher nombre molécules sélectionnées
+- [x] Bouton "Comparer" (désactivé si <2 molécules)
+- [x] Bouton "Tout désélectionner" (icône X)
+
+### Phase 3 - Page de comparaison
+- [x] Créer route /compare avec parsing URL query
+- [x] Tableau côte-à-côte avec colonnes fixes
+- [x] Highlighting similarités (fond vert si valeurs identiques)
+- [x] Responsive design (overflow-x-auto)
+
+### Phase 4 - Export et partage
+- [x] Export PDF du tableau comparatif (jsPDF + autotable)
+- [x] Partage URL avec IDs molécules (copie clipboard)
+- [x] Navigation retour molécules
+
+### Phase 5 - Tests et validation
+- [x] Workflow complet sélection → comparaison → export
+- [x] Limite max 4 molécules respectée
+- [x] Checkpoint final créé

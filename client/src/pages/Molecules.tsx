@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Atom, X, Filter } from "lucide-react";
+import { Loader2, Atom, X, Filter, Check } from "lucide-react";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
@@ -15,6 +15,8 @@ import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { ProfileAutocomplete } from "@/components/filters/ProfileAutocomplete";
 import { ActiveFiltersChips } from "@/components/filters/ActiveFiltersChips";
+import { FloatingCompareBar } from "@/components/FloatingCompareBar";
+import { useLocation } from "wouter";
 import {
   Select,
   SelectContent,
@@ -25,6 +27,7 @@ import {
 
 export default function Molecules() {
   const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
+  const [, setLocation] = useLocation();
   
   const [searchQuery, setSearchQuery] = useState("");
   const [familyFilter, setFamilyFilter] = useState("all");
@@ -32,6 +35,24 @@ export default function Molecules() {
   const [concentrationRange, setConcentrationRange] = useState<[number, number]>([0.0001, 0.1]);
   const [showFilters, setShowFilters] = useState(true);
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
+  
+  // Comparison mode state
+  const [selectedMolecules, setSelectedMolecules] = useState<number[]>([]);
+  const MAX_COMPARISON = 4;
+  
+  const toggleMoleculeSelection = (moleculeId: number) => {
+    setSelectedMolecules(prev => {
+      if (prev.includes(moleculeId)) {
+        return prev.filter(id => id !== moleculeId);
+      }
+      if (prev.length >= MAX_COMPARISON) {
+        return prev; // Don't add if already at max
+      }
+      return [...prev, moleculeId];
+    });
+  };
+  
+  const clearSelection = () => setSelectedMolecules([]);
 
   // Extract unique families for filter
   const families = useMemo(() => {
@@ -318,12 +339,33 @@ export default function Molecules() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredMolecules.map((molecule) => (
                     <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
-                      <Card className="hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full">
+                      <Card className={`hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full ${
+                        selectedMolecules.includes(molecule.id) ? 'ring-2 ring-primary' : ''
+                      }`}>
                         <CardHeader>
                           <div className="flex items-start justify-between gap-2 mb-2">
-                            <CardTitle className="text-xl flex-1 hover:text-primary transition-colors">
-                              {molecule.name}
-                            </CardTitle>
+                            <div className="flex items-center gap-2 flex-1">
+                              {/* Selection checkbox */}
+                              <div 
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  toggleMoleculeSelection(molecule.id);
+                                }}
+                                className={`w-5 h-5 rounded border-2 flex items-center justify-center cursor-pointer transition-colors ${
+                                  selectedMolecules.includes(molecule.id)
+                                    ? 'bg-primary border-primary'
+                                    : 'border-muted-foreground/40 hover:border-primary'
+                                }`}
+                              >
+                                {selectedMolecules.includes(molecule.id) && (
+                                  <Check className="h-3 w-3 text-primary-foreground" />
+                                )}
+                              </div>
+                              <CardTitle className="text-xl hover:text-primary transition-colors">
+                                {molecule.name}
+                              </CardTitle>
+                            </div>
                             <div className="flex items-center gap-2 shrink-0">
                               <div onClick={(e) => e.preventDefault()}>
                                 <FavoriteButton moleculeId={molecule.id} moleculeName={molecule.name} variant="icon" />
@@ -407,6 +449,17 @@ export default function Molecules() {
           </div>
         </div>
       </footer>
+
+      {/* Floating Compare Bar */}
+      <FloatingCompareBar
+        selectedCount={selectedMolecules.length}
+        maxCount={MAX_COMPARISON}
+        onClear={clearSelection}
+        onCompare={() => {
+          const ids = selectedMolecules.join(',');
+          setLocation(`/compare?ids=${ids}`);
+        }}
+      />
     </div>
   );
 }
