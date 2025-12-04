@@ -48,6 +48,7 @@ import LaboratoireRecettes from "./pages/LaboratoireRecettes";
 import { Dashboard } from "./pages/Dashboard";
 import { RechercheScientifique } from "./pages/RechercheScientifique";
 import { SynergiesMoleculaires } from "./pages/SynergiesMoleculaires";
+import Statistics from "./pages/Statistics";
 import { PyrolyseCombustion } from "./pages/PyrolyseCombustion";
 import { CourbesVolatilite } from "@/pages/CourbesVolatilite";
 import { DegradationTerpenes } from "@/pages/DegradationTerpenes";
@@ -106,6 +107,7 @@ function Router() {
           <Route path="/laboratoire/statistiques" component={Statistiques} />
           <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/statistiques" component={Statistics} />
           <Route path="/dashboard/recherche" component={DashboardRecherche} />
           <Route path="/projet/timeline" component={TimelinePerfumum} />
         <Route path="/methode-absorbe" component={MethodeAbsorbe} />

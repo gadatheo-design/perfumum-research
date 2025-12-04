@@ -1849,3 +1849,31 @@
 - [x] Workflow complet : sélection → comparaison → radar profils
 - [x] Capture PDF radar incluse (html2canvas)
 - [x] Checkpoint final créé
+
+
+---
+
+## ✅ Dashboard Statistiques Globales - Terminé
+
+### Phase 1 - KPI Cards & Données
+- [x] Créer tRPC procedure getGlobalStats (molecules.getGlobalStats)
+- [x] Calculer métriques : total molécules, recettes, familles, prototypes
+- [x] Créer composant StatCard avec icônes et animations (hover shadow)
+- [x] Layout grid KPI cards responsive (4 cols lg, 2 cols md, 1 col mobile)
+
+### Phase 2 - Graphiques Dashboard
+- [x] Pie chart répartition gammes Perfumum (GammeDistributionChart)
+- [x] Bar chart top 10 familles chimiques (FamilyRankingChart)
+- [x] Réutiliser Chart.js composants existants
+- [x] Couleurs gammes Perfumum cohérentes
+
+### Phase 3 - Page Statistics
+- [x] Créer route /statistiques (Statistics.tsx)
+- [x] Layout responsive (grid 2 cols lg, stack mobile)
+- [x] Ajouter lien navigation Header (dropdown Outils + mobile)
+- [x] Section Insights Clés (gamme dominante, famille représentée, ratio)
+
+### Phase 4 - Tests
+- [x] Workflow complet : navigation → statistiques → graphiques
+- [x] Calculs statistiques vérifiés (getGlobalMoleculeStats)
+- [x] Checkpoint final créé

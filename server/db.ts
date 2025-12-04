@@ -998,6 +998,75 @@ export async function getMoleculesFamilyStats() {
   return familyCounts;
 }
 
+export async function getGlobalMoleculeStats() {
+  const db = await getDb();
+  if (!db) return {
+    totalMolecules: 0,
+    totalRecettes: 0,
+    totalFamilies: 0,
+    totalPrototypes: 0,
+    familyDistribution: [],
+    gammeDistribution: [],
+  };
+  
+  // Get total counts
+  const [moleculesCount] = await db.select({ count: sql<number>`count(*)` }).from(molecules);
+  const [recettesCount] = await db.select({ count: sql<number>`count(*)` }).from(recettes);
+  const [prototypesCount] = await db.select({ count: sql<number>`count(*)` }).from(prototypes);
+  
+  // Get unique families count
+  const uniqueFamilies = await db
+    .select({ family: molecules.family })
+    .from(molecules)
+    .where(sql`${molecules.family} IS NOT NULL`)
+    .groupBy(molecules.family);
+  
+  // Get family distribution
+  const familyDistribution = await db
+    .select({
+      family: molecules.family,
+      count: sql<number>`count(*)`,
+    })
+    .from(molecules)
+    .where(sql`${molecules.family} IS NOT NULL`)
+    .groupBy(molecules.family);
+  
+  // Get gamme distribution (based on olfactive profile keywords)
+  const allMolecules = await db.select().from(molecules);
+  const gammeDistribution: { gamme: string; count: number }[] = [];
+  const gammeCounts: Record<string, number> = {};
+  
+  allMolecules.forEach(m => {
+    if (m.olfactiveProfile) {
+      const profile = m.olfactiveProfile.toLowerCase();
+      if (profile.includes('pétrichor') || profile.includes('terreux') || profile.includes('géosmine')) {
+        gammeCounts['pétrichor'] = (gammeCounts['pétrichor'] || 0) + 1;
+      } else if (profile.includes('volcanique') || profile.includes('soufré') || profile.includes('fumé')) {
+        gammeCounts['volcanique'] = (gammeCounts['volcanique'] || 0) + 1;
+      } else if (profile.includes('glaciaire') || profile.includes('glacé') || profile.includes('frais')) {
+        gammeCounts['glaciaire'] = (gammeCounts['glaciaire'] || 0) + 1;
+      } else if (profile.includes('bio') || profile.includes('laboratoire')) {
+        gammeCounts['bio-lab'] = (gammeCounts['bio-lab'] || 0) + 1;
+      } else if (profile.includes('mossi')) {
+        gammeCounts['mossi'] = (gammeCounts['mossi'] || 0) + 1;
+      }
+    }
+  });
+  
+  Object.entries(gammeCounts).forEach(([gamme, count]) => {
+    gammeDistribution.push({ gamme, count });
+  });
+  
+  return {
+    totalMolecules: moleculesCount.count,
+    totalRecettes: recettesCount.count,
+    totalFamilies: uniqueFamilies.length,
+    totalPrototypes: prototypesCount.count,
+    familyDistribution,
+    gammeDistribution,
+  };
+}
+
 export async function getRecentActivity(limit: number = 10) {
   const db = await getDb();
   if (!db) return [];
