@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Star, ArrowUpDown } from "lucide-react";
+import { Loader2, Star, ArrowUpDown, Download, FileText, Table } from "lucide-react";
 import { Link } from "wouter";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
@@ -17,6 +17,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { exportToCSV, exportToPDF, type MoleculeExportData } from "@/lib/exportUtils";
 
 type SortOption = "name-asc" | "name-desc" | "family-asc" | "recent";
 
@@ -97,6 +104,47 @@ export default function Favoris() {
 
   const hasActiveFilters = familyFilter !== "all" || gammeFilter !== "all" || sortBy !== "recent";
 
+  // Prepare export data
+  const prepareExportData = (): MoleculeExportData[] => {
+    return filteredFavorites.map(fav => ({
+      name: fav.molecule!.name,
+      family: fav.molecule!.family,
+      chemicalFormula: fav.molecule!.chemicalFormula,
+      olfactiveProfile: fav.molecule!.olfactiveProfile,
+      emotionalResonance: fav.molecule!.emotionalResonance,
+      functionalEffect: fav.molecule!.functionalEffect,
+      sourceOrigin: fav.molecule!.sourceOrigin,
+      concentration: fav.molecule!.concentration,
+      addedDate: new Date(fav.createdAt).toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      })
+    }));
+  };
+
+  const handleExportPDF = () => {
+    try {
+      const data = prepareExportData();
+      exportToPDF(data);
+      console.log(`Export PDF réussi: ${data.length} molécule(s)`);
+    } catch (error) {
+      console.error("Erreur d'export PDF:", error);
+      alert("Erreur lors de l'export PDF");
+    }
+  };
+
+  const handleExportCSV = () => {
+    try {
+      const data = prepareExportData();
+      exportToCSV(data);
+      console.log(`Export CSV réussi: ${data.length} molécule(s)`);
+    } catch (error) {
+      console.error("Erreur d'export CSV:", error);
+      alert("Erreur lors de l'export CSV");
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -176,9 +224,32 @@ export default function Favoris() {
                   )}
                 </div>
 
-                <div className="text-sm text-muted-foreground">
-                  {filteredFavorites.length} favorite{filteredFavorites.length > 1 ? "s" : ""}
-                  {hasActiveFilters && ` sur ${favorites?.length || 0}`}
+                <div className="flex items-center gap-3">
+                  <div className="text-sm text-muted-foreground">
+                    {filteredFavorites.length} favorite{filteredFavorites.length > 1 ? "s" : ""}
+                    {hasActiveFilters && ` sur ${favorites?.length || 0}`}
+                  </div>
+                  
+                  {filteredFavorites.length > 0 && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm">
+                          <Download className="h-4 w-4 mr-2" />
+                          Exporter
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={handleExportPDF}>
+                          <FileText className="h-4 w-4 mr-2" />
+                          Exporter en PDF
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={handleExportCSV}>
+                          <Table className="h-4 w-4 mr-2" />
+                          Exporter en CSV
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
                 </div>
               </div>
             </div>
