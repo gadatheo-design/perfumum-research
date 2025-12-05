@@ -2124,3 +2124,41 @@
 - [x] Générer icône 512x512px appropriée - TERMINÉ (icônes présentes dans /icons/)
 - [x] Mettre à jour références dans manifest - TERMINÉ (section screenshots supprimée)
 - [x] Tester installation PWA - TERMINÉ (manifestParsed: true, iconsValid: true, installable: true)
+
+
+## 🔄 EN COURS : Enrichissement PERFUMEUM (Session actuelle)
+
+### Phase 1 - Nouvelles pages et navigation
+- [x] Créer page MÉTHODE ABSORBE (protocoles détaillés, axes sensoriels) - TERMINÉ (7 sections)
+- [x] Créer page PROJETS / TERRAINS (sites, installations, documentation terrain) - TERMINÉ (3 cas)
+- [x] Créer page À PROPOS / STATEMENT (vision, démarche artistique, biographie) - TERMINÉ
+- [x] Refondre navigation : Accueil / Études / Pétrichor / Méthode / Projets / À propos / Contact - TERMINÉ
+- [x] Mettre à jour Header avec nouvelle structure de menu - TERMINÉ (920→113 lignes)
+- [x] Créer page Contact - TERMINÉ
+- [x] Créer page Études - TERMINÉ (5 gammes)
+
+#### Phase 2 - Enrichissement page Pétrichor
+- [x] Générer 3 images atmosphériques (Souterrain / Urbain / Fantôme) - TERMINÉ
+- [x] Ajouter 1 image par axe Pétrichor - TERMINÉ (images déjà intégrées dans page)
+- [x] Ajouter lien vers Méthode ABSORBE - TERMINÉORBE
+- [ ] Restructurer la page avec sections visuelles
+### Phase 3 - Uniformisation page Études
+- [x] Uniformiser les sections (même structure pour chaque entrée) - TERMINÉ (déjà uniforme)
+- [x] Ajouter 2-3 textures atmosphériques - TERMINÉ (3 textures générées)
+- [x] Ajouter lien vers Méthode ABSORBE - TERMINÉ (déjà présent)ion des études
+
+### Phase 4 - Images et textures globales
+- [x] Générer image sol humide (souterrain) - TERMINÉ
+- [x] Générer image bitume mouillé (urbain) - TERMINÉ
+- [x] Générer image pierre froide / mur poreux (archive / fantôme) - TERMINÉ
+- [x] Optimiser toutes images (1200px max, WebP, lazy-load) - TERMINÉ
+
+### Phase 5 - Optimisations techniques
+- [x] Convertir images en WebP avec compression - TERMINÉ (cwebp -q 85)
+- [x] Implémenter lazy-loading sur toutes images - TERMINÉ (déjà présent)
+- [x] Optimiser responsive mobile (marges 18-24px) - TERMINÉ (Tailwind container)
+- [ ] Ajouter meta-descriptions SEO sur toutes pages - Backlog (nécessite index.html global)
+- [x] Ajouter alt-text atmosphériques sur toutes images - TERMINÉ
+- [x] Vérifier cohérence hiérarchie H1/H2/H3 - TERMINÉ
+- [ ] Tester performances (Lighthouse) - En cours
+- [ ] Créer checkpoint final - En cours

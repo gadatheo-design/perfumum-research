@@ -222,6 +222,25 @@ export default function GammesPetrichor() {
           </div>
         </section>
 
+        {/* Méthode ABSORBE */}
+        <section className="py-16 bg-muted/30">
+          <div className="container">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="text-2xl font-bold mb-4">
+                Méthodologie de Recherche
+              </h2>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                Cette étude suit le protocole ABSORBE : captation d'air, documentation du lieu, évaluation sensorielle, pyrolyse, enregistrement sonore et visuel, rédaction de notes.
+              </p>
+              <Link href="/methode">
+                <a className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
+                  Découvrir la méthode ABSORBE →
+                </a>
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* Gammes Connexes */}
         <section className="py-16 bg-muted/20">
           <div className="container">

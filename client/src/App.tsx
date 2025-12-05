@@ -66,6 +66,9 @@ import Collaborations from "./pages/Collaborations";
 import TabacsResines from "./pages/TabacsResines";
 import Favoris from "./pages/Favoris";
 import MethodologieAbsorbe from "./pages/methodologie/MethodologieAbsorbe";
+import APropos from "./pages/APropos";
+import Contact from "./pages/Contact";
+import Etudes from "./pages/Etudes";
 
 function Router() {
   return (
@@ -114,6 +117,10 @@ function Router() {
           <Route path="/dashboard/recherche" component={DashboardRecherche} />
           <Route path="/projet/timeline" component={TimelinePerfumum} />
         <Route path="/methode-absorbe" component={MethodeAbsorbe} />
+        <Route path="/methode" component={MethodeAbsorbe} />
+        <Route path="/a-propos" component={APropos} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/etudes" component={Etudes} />
         <Route path="/projets" component={Projets} />
         <Route path="/terrains" component={Terrains} />
         <Route path="/collaborations" component={Collaborations} />

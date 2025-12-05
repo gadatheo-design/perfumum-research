@@ -1,56 +1,37 @@
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, FileText, Palette } from "lucide-react";
+import { MapPin, Calendar } from "lucide-react";
 
 export default function Projets() {
-  const collaborations = [
+  const terrains = [
     {
-      title: "Bambino47",
-      type: "Artiste visuel",
+      title: "Forêt Alpine",
+      location: "Oberland Bernois, Suisse",
+      period: "2023-2024",
       status: "En cours",
-      description: "Collaboration olfactive avec l'artiste Bambino47. Création d'atmosphères pour installations et performances. Recherche sur les liens entre odeur, mémoire et espace urbain.",
-      year: "2024-2025",
-      deliverables: ["Installations immersives", "Performances olfactives", "Atlas atmosphérique Berne"],
+      description: "Captation olfactive en forêt mixte (épicéa, hêtre, mousses). Étude des variations saisonnières de l'atmosphère forestière. Prélèvements d'humus, écorces, résines.",
+      atmospheres: ["Pétrichor Souterrain", "Résine Froide", "Bois Humide"],
+      molecules: ["α-Pinène", "Géosmine", "Vétiver"]
     },
     {
-      title: "Laboratoire ABSORBE",
-      type: "Espace de recherche",
-      status: "Actif",
-      description: "Laboratoire atmosphérique olfactif basé à Berne. Espace de recherche, d'expérimentation et de création d'atmosphères olfactives.",
-      year: "2024-2035",
-      deliverables: ["Accords atmosphériques", "Installations", "Recherche scientifique"],
-    },
-  ];
-
-  const partenaires = [
-    {
-      title: "Universités partenaires",
-      type: "Académique",
-      description: "Collaborations avec universités européennes pour recherche en anthropologie du sensible, chimie olfactive et design atmosphérique.",
-    },
-    {
-      title: "Laboratoires de recherche",
-      type: "Scientifique",
-      description: "Partenariats avec laboratoires de chimie analytique pour étude moléculaire, analyse terpénique et caractérisation olfactive.",
-    },
-  ];
-
-  const projets = [
-    {
-      title: "Master Recherche",
-      type: "Académique",
+      title: "Musée / Salle Blanche",
+      location: "Berne, Suisse",
+      period: "2024",
       status: "Planifié",
-      description: "Recherche académique sur les pratiques olfactives contemporaines et design terpénique.",
-      year: "2026-2028",
+      description: "Installation olfactive dans un espace muséal neutre. Diffusion contrôlée d'atmosphères Pétrichor et Volcanique. Protocole de restitution sensorielle en environnement aseptisé.",
+      atmospheres: ["Pétrichor Urbain", "Volcanique Cendres", "Glaciaire Minéral"],
+      molecules: ["Calone", "Cade", "Ambroxan"]
     },
     {
-      title: "Doctorat",
-      type: "Académique",
+      title: "Ville / Friche Industrielle",
+      location: "Zone urbaine, Suisse",
+      period: "2025",
       status: "Planifié",
-      description: "Thèse sur l'anthropologie du sensible et les atmosphères olfactives expérimentales.",
-      year: "2028-2032",
-    },
+      description: "Exploration olfactive de friches industrielles et espaces urbains abandonnés. Captation des odeurs de béton mouillé, rouille, végétation sauvage. Pyrolyse de matériaux urbains.",
+      atmospheres: ["Pétrichor Urbain", "Volcanique Bitume", "Fantôme Industriel"],
+      molecules: ["Géosmine", "Birch Tar", "Iso E Super"]
+    }
   ];
 
   return (
@@ -59,157 +40,96 @@ export default function Projets() {
       
       <main className="flex-1">
         {/* Hero */}
-        <section className="section-spacing bg-gradient-to-b from-muted/30 to-background">
+        <section className="py-16 bg-gradient-to-b from-muted/30 to-background">
           <div className="container">
             <div className="max-w-4xl mx-auto">
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
-                Projets
+                Projets & Terrains
               </h1>
-              <p className="text-xl text-muted-foreground mb-8">
-                Collaborations artistiques et recherches académiques en cours
+              <p className="text-xl text-muted-foreground">
+                Recherche olfactive in situ. Captation, analyse et restitution d'atmosphères sensorielles dans des environnements naturels et urbains.
               </p>
-              <div className="flex gap-2 mb-6">
-                <Badge variant="secondary">3 projets actifs</Badge>
-                <Badge variant="outline">2024-2035</Badge>
-              </div>
             </div>
           </div>
         </section>
 
-        {/* Collaborations Artistiques */}
+        {/* Terrains */}
         <section className="py-16">
           <div className="container">
-            <div className="max-w-5xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8">Collaborations Artistiques</h2>
-              <div className="grid grid-cols-1 gap-6">
-                {collaborations.map((collab, index) => (
-                  <Card key={index} className="shadow-sm hover:shadow-md transition-shadow">
-                    <CardHeader>
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <CardTitle className="text-2xl">{collab.title}</CardTitle>
-                            <Badge variant={collab.status === "En cours" || collab.status === "Actif" ? "default" : "outline"}>
-                              {collab.status}
+            <div className="max-w-5xl mx-auto space-y-8">
+              {terrains.map((terrain, index) => (
+                <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+                  <CardHeader>
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <div>
+                        <CardTitle className="text-2xl mb-2">{terrain.title}</CardTitle>
+                        <CardDescription className="flex items-center gap-4 text-base">
+                          <span className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4" />
+                            {terrain.location}
+                          </span>
+                          <span className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4" />
+                            {terrain.period}
+                          </span>
+                        </CardDescription>
+                      </div>
+                      <Badge variant={terrain.status === "En cours" ? "default" : "outline"}>
+                        {terrain.status}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground leading-relaxed mb-6">
+                      {terrain.description}
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="text-sm font-semibold mb-2">Atmosphères étudiées</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {terrain.atmospheres.map((atm, i) => (
+                            <Badge key={i} variant="secondary" className="text-xs">
+                              {atm}
                             </Badge>
-                          </div>
-                          <CardDescription className="text-base">
-                            {collab.type} • {collab.year}
-                          </CardDescription>
+                          ))}
                         </div>
-                        <Users className="h-6 w-6 text-primary flex-shrink-0" />
                       </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <p className="text-muted-foreground leading-relaxed">
-                        {collab.description}
-                      </p>
-                      {collab.deliverables && (
-                        <div>
-                          <h4 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
-                            Livrables
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {collab.deliverables.map((deliverable, idx) => (
-                              <Badge key={idx} variant="outline">{deliverable}</Badge>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Partenaires Institutionnels */}
-        <section className="py-16 bg-muted/30">
-          <div className="container">
-            <div className="max-w-5xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8">Partenaires Institutionnels</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {partenaires.map((partenaire, index) => (
-                  <Card key={index} className="shadow-sm">
-                    <CardHeader>
-                      <div className="flex items-center gap-3">
-                        <FileText className="h-5 w-5 text-primary" />
-                        <CardTitle className="text-xl">{partenaire.title}</CardTitle>
-                      </div>
-                      <CardDescription>{partenaire.type}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        {partenaire.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Projets Académiques */}
-        <section className="py-16">
-          <div className="container">
-            <div className="max-w-5xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8">Projets Académiques</h2>
-              <div className="grid grid-cols-1 gap-6">
-                {projets.map((projet, index) => (
-                  <Card key={index} className="shadow-sm hover:shadow-md transition-shadow">
-                    <CardHeader>
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <CardTitle className="text-2xl">{projet.title}</CardTitle>
-                            <Badge variant={projet.status === "En cours" ? "default" : "outline"}>
-                              {projet.status}
+                      
+                      <div>
+                        <h4 className="text-sm font-semibold mb-2">Molécules-clés</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {terrain.molecules.map((mol, i) => (
+                            <Badge key={i} variant="outline" className="text-xs font-mono">
+                              {mol}
                             </Badge>
-                          </div>
-                          <CardDescription className="text-base">
-                            {projet.type} • {projet.year}
-                          </CardDescription>
+                          ))}
                         </div>
-                        {projet.type === "Collaboration artistique" ? (
-                          <Users className="h-6 w-6 text-primary flex-shrink-0" />
-                        ) : (
-                          <FileText className="h-6 w-6 text-primary flex-shrink-0" />
-                        )}
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {projet.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Note */}
-        <section className="py-16 bg-muted/30">
+        {/* CTA */}
+        <section className="py-16 bg-muted/20">
           <div className="container">
-            <div className="max-w-4xl mx-auto">
-              <Card className="border-l-4 border-l-primary">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <Palette className="h-6 w-6 text-primary" />
-                    <CardTitle>Collaborations Ouvertes</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    ABSORBE / PERFUMUM est ouvert aux collaborations artistiques, scientifiques et institutionnelles. 
-                    Les projets peuvent prendre la forme d'installations, de performances, de recherches académiques, 
-                    ou de créations olfactives sur mesure.
-                  </p>
-                </CardContent>
-              </Card>
+            <div className="max-w-2xl mx-auto text-center">
+              <h2 className="text-2xl font-bold mb-4">
+                Méthodologie de Terrain
+              </h2>
+              <p className="text-muted-foreground mb-6">
+                Chaque projet suit le protocole ABSORBE : captation d'air, documentation du lieu, évaluation sensorielle, pyrolyse, enregistrement sonore et visuel, rédaction de notes.
+              </p>
+              <a
+                href="/methode"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
+              >
+                Découvrir la méthode ABSORBE →
+              </a>
             </div>
           </div>
         </section>
