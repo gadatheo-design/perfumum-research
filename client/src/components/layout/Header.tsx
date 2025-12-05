@@ -52,8 +52,8 @@ export function Header() {
           </a>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+        {/* Desktop Navigation - Hidden on mobile, visible on large screens */}
+        <nav className="hidden lg:flex items-center space-x-6 text-sm font-medium">
           {/* Le Projet dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60">

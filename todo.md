@@ -1904,3 +1904,89 @@
 - [x] Ajouter section Timeline page Statistiques (après graphiques)
 - [x] Loading states et empty states
 - [x] Checkpoint final créé
+
+
+---
+
+## 🔄 EN COURS : Phase 1 - Optimisation Mobile
+
+### Audit Mobile UX
+- [x] Tester navigation mobile (dropdowns, menu hamburger, breadcrumbs)
+- [x] Vérifier formulaires et inputs (autocomplete, selects, checkboxes)
+- [ ] Analyser graphiques Chart.js responsive (timeline, comparaisons, stats)
+- [x] Mesurer zones touch (minimum 44×44px)
+- [ ] Tester performance mobile (Core Web Vitals, temps chargement)
+- [x] Identifier points de friction (scroll horizontal, overlaps, textes tronqués)
+
+**3 Problèmes Critiques Identifiés** :
+1. Navigation desktop visible sur mobile (labels tronqués, espace gaspillé)
+2. Zones touch insuffisantes (<44×44px) : checkboxes, favoris, sliders
+3. Filtres ouverts par défaut mobile (prend 30% largeur, scroll horizontal)
+
+### Optimisations Touch
+- [x] Améliorer zones touch boutons/liens (padding, min-height 44px)
+- [x] Créer mobile-touch.css avec zones touch 44×44px
+- [x] Checkboxes min 20×20px + padding invisible 44×44px
+- [x] Boutons favoris min 44×44px
+- [x] Sliders thumbs 24×24px pour meilleur drag
+- [x] Labels clickables avec padding étendu
+- [x] Grid 1 colonne sur écrans <375px
+- [x] Prevent iOS zoom (font-size 16px inputs)
+- [x] Tap highlight color (webkit)
+- [x] Safe area inset pour floating bar
+- [ ] Implémenter swipe cards molécules (navigation gauche/droite)
+- [ ] Ajouter pinch-to-zoom graphiques Chart.js
+- [ ] Optimiser modals/dialogs mobile (plein écran, fermeture swipe-down)
+
+### Fixes Navigation & Filtres
+- [x] Masquer navigation desktop mobile (md:flex → lg:flex dans Header.tsx)
+- [x] Masquer filtres par défaut mobile (useState window.innerWidth >= 1024)
+- [x] Importer mobile-touch.css dans main.tsx
+- [x] Fix erreur Link Favoris.tsx (indentation)
+
+### Progressive Web App
+- [ ] Créer manifest.json (nom, icônes, couleurs, display)
+- [ ] Générer icônes PWA (192×192, 512×512, maskable)
+- [ ] Implémenter service worker basique (cache assets statiques)
+- [ ] Ajouter prompt installation (bouton "Installer l'app")
+- [ ] Tester installation iOS/Android
+
+---
+
+## 📄 Phase 2 - Export Rapports Recherche
+
+### Génération PDF Rapports
+- [ ] Créer bouton "Générer Rapport" page Statistiques
+- [ ] Template PDF professionnel (en-tête PERFUMUM, footer pagination)
+- [ ] Intégrer KPI cards dans PDF (4 métriques avec icônes)
+- [ ] Capturer graphiques haute qualité (timeline, distributions, familles)
+- [ ] Ajouter section métadonnées (période, auteur, date génération)
+- [ ] Implémenter export sélectif (checkboxes sections à inclure)
+
+### Enrichissement Contenu
+- [ ] Ajouter insights textuels (gamme dominante, tendances, observations)
+- [ ] Inclure top 10 molécules récentes (tableau avec détails)
+- [ ] Générer résumé exécutif (1 page synthèse)
+- [ ] Footer avec logo PERFUMUM et coordonnées
+
+---
+
+## 🎯 Phase 3 - Milestones Timeline
+
+### Système Annotations
+- [ ] Créer table milestones (id, date, title, description, type, icon)
+- [ ] tRPC procedures CRUD milestones (create, list, update, delete)
+- [ ] Types milestones (prototype, découverte, collaboration, publication)
+- [ ] Icônes différenciés par type (Zap, Beaker, Users, BookOpen)
+
+### Intégration Timeline
+- [ ] Ajouter marqueurs visuels sur ResearchTimelineChart
+- [ ] Tooltips descriptifs milestones (titre, description, date)
+- [ ] Ligne verticale pointillée depuis marqueur vers axe X
+- [ ] Filtrage timeline par type milestone (toggle buttons)
+
+### Interface Admin
+- [ ] Formulaire ajout milestone (date picker, input titre/description, select type)
+- [ ] Modal édition milestone (inline ou page dédiée)
+- [ ] Liste milestones existants avec actions (éditer, supprimer)
+- [ ] Validation dates (pas dans futur, cohérence chronologique)

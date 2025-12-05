@@ -33,7 +33,13 @@ export default function Molecules() {
   const [familyFilter, setFamilyFilter] = useState("all");
   const [selectedProfiles, setSelectedProfiles] = useState<string[]>([]);
   const [concentrationRange, setConcentrationRange] = useState<[number, number]>([0.0001, 0.1]);
-  const [showFilters, setShowFilters] = useState(true);
+  // Hide filters by default on mobile (<1024px), show on desktop
+  const [showFilters, setShowFilters] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 1024;
+    }
+    return true;
+  });
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
   
   // Comparison mode state

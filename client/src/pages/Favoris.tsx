@@ -400,7 +400,7 @@ export default function Favoris() {
                               </div>
                             </CardContent>
                           </Card>
-                      </Link>
+                        </Link>
                     );
                   })}
                 </div>
