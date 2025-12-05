@@ -114,8 +114,126 @@ export default function Projets() {
           </div>
         </section>
 
-        {/* CTA */}
+        {/* Galerie Photos Terrain */}
         <section className="py-16 bg-muted/20">
+          <div className="container">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8 text-center">
+                Galerie Terrain
+              </h2>
+              <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+                Documentation visuelle des sites de captation ABSORBE. Chaque image témoigne de l'atmosphère sensorielle et des matériaux prélevés sur le terrain.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Forêt Alpine 1 */}
+                <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
+                  <img
+                    src="/terrain-foret-alpine-1.webp"
+                    alt="Forêt alpine - Sol forestier avec mousse, racines et brume matinale. Carnet de terrain et équipement de prélèvement."
+                    loading="lazy"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="p-4 bg-background">
+                    <h3 className="font-semibold text-sm mb-1">Forêt Alpine — Sol Forestier</h3>
+                    <p className="text-xs text-muted-foreground">Oberland Bernois, 2023</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Prélèvement humus, mousses, racines. Notes : géosmine, α-pinène, vétiver.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Forêt Alpine 2 */}
+                <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
+                  <img
+                    src="/terrain-foret-alpine-2.webp"
+                    alt="Forêt alpine - Écorce de pin avec gouttes de résine ambre et lichen. Macro détail."
+                    loading="lazy"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="p-4 bg-background">
+                    <h3 className="font-semibold text-sm mb-1">Forêt Alpine — Résine & Lichen</h3>
+                    <p className="text-xs text-muted-foreground">Oberland Bernois, 2023</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Écorce Pinus cembra. Exsudation résineuse. Notes : pin, térébenthine, bois.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Musée 1 */}
+                <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
+                  <img
+                    src="/terrain-musee-1.webp"
+                    alt="Musée - Galerie blanche minimaliste avec béton ciré. Atmosphère stérile et neutre."
+                    loading="lazy"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="p-4 bg-background">
+                    <h3 className="font-semibold text-sm mb-1">Musée — Salle Blanche</h3>
+                    <p className="text-xs text-muted-foreground">Berne, 2024</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Espace aseptisé. Diffusion contrôlée Pétrichor Urbain. Notes : calone, béton, ozone.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Musée 2 */}
+                <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
+                  <img
+                    src="/terrain-musee-2.webp"
+                    alt="Musée - Archives avec documents anciens, étagères en bois, poussière en suspension."
+                    loading="lazy"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="p-4 bg-background">
+                    <h3 className="font-semibold text-sm mb-1">Musée — Archives</h3>
+                    <p className="text-xs text-muted-foreground">Berne, 2024</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Documents 1880-1910. Papier jauni, bois vieilli. Notes : vanilline, lignine, poussière.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Friche 1 */}
+                <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
+                  <img
+                    src="/terrain-friche-1.webp"
+                    alt="Friche industrielle - Site abandonné avec structures métalliques rouillées et végétation envahissante."
+                    loading="lazy"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="p-4 bg-background">
+                    <h3 className="font-semibold text-sm mb-1">Friche Industrielle — Site Abandonné</h3>
+                    <p className="text-xs text-muted-foreground">Zone urbaine, 2025</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Acier rouillé, béton mouillé, végétation. Notes : birch tar, géosmine, métal.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Friche 2 */}
+                <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
+                  <img
+                    src="/terrain-friche-2.webp"
+                    alt="Friche industrielle - Mur en béton avec peinture écaillée, traces de rouille et mousse verte."
+                    loading="lazy"
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="p-4 bg-background">
+                    <h3 className="font-semibold text-sm mb-1">Friche Industrielle — Mur Dégradé</h3>
+                    <p className="text-xs text-muted-foreground">Zone urbaine, 2025</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Peinture écaillée, oxydation, colonisation végétale. Notes : rouille, mousse, bitume.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-16">
           <div className="container">
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-2xl font-bold mb-4">

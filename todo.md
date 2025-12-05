@@ -2177,3 +2177,28 @@
 - [x] Ajouter tableaux résultats GC-MS - TERMINÉ (8 molécules-clés)
 - [x] Ajouter route dans App.tsx - TERMINÉ
 - [x] Lien depuis page Méthode ABSORBE - TERMINÉ (section Approfondissement)
+
+
+## 🔄 EN COURS : GC-MS + Photos + Recherche (Session actuelle)
+
+### Phase 1 - Page GC-MS détaillée
+- [x] Créer page /methodologie/gc-ms - TERMINÉ
+- [x] Documenter protocole chromatographie (colonne DB-5MS, programme température) - TERMINÉ (4 étapes, 35 min)
+- [x] Ajouter section standards internes et quantification - TERMINÉ (3 standards)
+- [x] Expliquer interprétation des chromatogrammes - TERMINÉ (3 zones temporelles)
+- [x] Ajouter route dans App.tsx - TERMINÉ
+- [x] Lien depuis pages Méthode ABSORBE et Pyrolyse - TERMINÉ
+
+### Phase 2 - Galerie photos terrain
+- [x] Générer 6 photos terrain (forêt alpine, musée, friche industrielle) - TERMINÉ
+- [x] Créer composant galerie photos dans page Projets - TERMINÉ (grid 3 colonnes)
+- [x] Ajouter légendes et métadonnées (lieu, date, conditions) - TERMINÉ
+- [x] Optimiser images WebP lazy-load - TERMINÉ (24-254KB)
+
+### Phase 3 - Recherche full-text
+- [ ] Créer composant SearchBar dans Header - Backlog (complexité backend)
+- [ ] Implémenter recherche dans molécules (nom, formule, CAS) - Backlog
+- [ ] Implémenter recherche dans recettes (nom, notes)
+- [ ] Implémenter recherche dans civilisations (nom, période)
+- [ ] Implémenter recherche dans pages méthodologiques
+- [ ] Afficher résultats avec catégories (Molécules / Recettes / Civilisations / Pages)

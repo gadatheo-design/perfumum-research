@@ -80,17 +80,29 @@ export default function MethodeAbsorbe() {
         <section className="py-16">
           <div className="container">
             <div className="max-w-4xl mx-auto">
-              <div className="border border-primary/30 rounded-lg p-8 bg-primary/5">
-                <h3 className="text-xl font-bold mb-3">Approfondissement : Pyrolyse Contrôlée</h3>
-                <p className="text-muted-foreground mb-4">
-                  L'axe <strong>Fumé</strong> de la méthode ABSORBE repose sur des protocoles de pyrolyse à 3 températures (120°C, 160°C, 200°C). 
-                  Découvrez les résultats GC-MS et les profils de dégradation thermique.
-                </p>
-                <Link href="/methodologie/pyrolyse">
-                  <a className="inline-flex items-center gap-2 text-primary hover:underline font-semibold">
-                    Lire le protocole Pyrolyse complet →
-                  </a>
-                </Link>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="border border-primary/30 rounded-lg p-6 bg-primary/5">
+                  <h3 className="text-lg font-bold mb-2">Pyrolyse Contrôlée</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Protocoles de pyrolyse à 3 températures (120°C, 160°C, 200°C) et profils de dégradation thermique.
+                  </p>
+                  <Link href="/methodologie/pyrolyse">
+                    <a className="inline-flex items-center gap-2 text-primary hover:underline font-semibold text-sm">
+                      Lire le protocole →
+                    </a>
+                  </Link>
+                </div>
+                <div className="border border-blue-500/30 rounded-lg p-6 bg-blue-500/5">
+                  <h3 className="text-lg font-bold mb-2">Chromatographie GC-MS</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Analyse chromatographique, standards internes, et interprétation des chromatogrammes.
+                  </p>
+                  <Link href="/methodologie/gc-ms">
+                    <a className="inline-flex items-center gap-2 text-blue-600 hover:underline font-semibold text-sm">
+                      Lire le protocole →
+                    </a>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

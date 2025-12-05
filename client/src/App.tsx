@@ -67,6 +67,7 @@ import TabacsResines from "./pages/TabacsResines";
 import Favoris from "./pages/Favoris";
 import MethodologieAbsorbe from "./pages/methodologie/MethodologieAbsorbe";
 import Pyrolyse from "./pages/methodologie/Pyrolyse";
+import GCMS from "./pages/methodologie/GCMS";
 import APropos from "./pages/APropos";
 import Contact from "./pages/Contact";
 import Etudes from "./pages/Etudes";
@@ -111,6 +112,7 @@ function Router() {
       <Route path="/laboratoire/recettes" component={LaboratoireRecettes} />
       <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
           <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
+          <Route path="/methodologie/gc-ms" component={GCMS} />
           <Route path="/laboratoire/matrice-interactive" component={MatriceInteractive} />
           <Route path="/laboratoire/statistiques" component={Statistiques} />
           <Route path="/chimie/comparaison" component={ComparaisonMolecules} />

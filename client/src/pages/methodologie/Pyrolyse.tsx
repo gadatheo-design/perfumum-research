@@ -274,11 +274,18 @@ export default function Pyrolyse() {
               <p className="text-muted-foreground mb-6">
                 La pyrolyse est l'un des 7 axes de la méthode ABSORBE. Découvrez le protocole complet de recherche olfactive.
               </p>
-              <Link href="/methode">
-                <a className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
-                  Découvrir la méthode ABSORBE →
-                </a>
-              </Link>
+              <div className="flex gap-4 justify-center">
+                <Link href="/methode">
+                  <a className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
+                    Méthode ABSORBE →
+                  </a>
+                </Link>
+                <Link href="/methodologie/gc-ms">
+                  <a className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
+                    Analyse GC-MS →
+                  </a>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
