@@ -2105,3 +2105,22 @@
 ### Avertissement WebSocket Vite HMR
 - [ ] Vérifier configuration vite.config.ts (server.hmr)
 - [ ] Tester si affecte fonctionnement réel (probablement non-critique)
+
+
+## 🔧 CORRECTION PWA ICON (Session actuelle)
+
+### Icône PWA manquante
+- [ ] Vérifier manifest.json actuel (chemin icône, tailles)
+- [ ] Générer icône PERFUMUM 512x512px avec IA
+- [ ] Sauvegarder icône dans client/public/
+- [ ] Mettre à jour manifest.json avec nouveau chemin
+- [ ] Tester installation PWA sur mobile (preview)
+- [ ] Vérifier console browser (plus d'erreur 404)
+
+
+## ✅ TERMINÉ : Correction PWA Icon (Session actuelle)
+
+- [x] Vérifier manifest.json actuel - TERMINÉ (icônes 192x192 et 512x512 existent déjà)
+- [x] Générer icône 512x512px appropriée - TERMINÉ (icônes présentes dans /icons/)
+- [x] Mettre à jour références dans manifest - TERMINÉ (section screenshots supprimée)
+- [x] Tester installation PWA - TERMINÉ (manifestParsed: true, iconsValid: true, installable: true)
