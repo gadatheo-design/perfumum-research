@@ -1,7 +1,13 @@
 import { Header } from "@/components/layout/Header";
 import { Link } from "wouter";
+import { Download } from "lucide-react";
+import { exportMethodologyPDF } from "@/lib/pdfExport";
 
 export default function MethodeAbsorbe() {
+  const handleExportPDF = () => {
+    exportMethodologyPDF("absorbe");
+  };
+
   const sections = [
     {
       title: "Air",
@@ -45,9 +51,16 @@ export default function MethodeAbsorbe() {
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
                 Méthode ABSORBE
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-xl text-muted-foreground mb-8">
                 Protocole de recherche olfactive développé par PERFUMUM pour la captation, l'analyse et la restitution des atmosphères sensorielles d'un lieu.
               </p>
+              <button
+                onClick={handleExportPDF}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
+              >
+                <Download className="w-5 h-5" />
+                Exporter en PDF
+              </button>
             </div>
           </div>
         </section>

@@ -2202,3 +2202,24 @@
 - [ ] Implémenter recherche dans civilisations (nom, période)
 - [ ] Implémenter recherche dans pages méthodologiques
 - [ ] Afficher résultats avec catégories (Molécules / Recettes / Civilisations / Pages)
+
+
+## 🔄 EN COURS : Export PDF Méthodologies (Session actuelle)
+
+### Phase 1 - Backend PDF
+- [x] Installer dépendance jsPDF ou Puppeteer - TERMINÉ (jsPDF déjà installé)
+- [x] Créer fonction generateMethodologyPDF dans server/db.ts - TERMINÉ (client-side lib/pdfExport.ts)
+- [x] Créer procédure tRPC methodology.exportPDF - N/A (client-side generation)
+- [x] Gérer templates PDF pour ABSORBE, Pyrolyse, GC-MS - TERMINÉ (3 templates complets)
+
+### Phase 2 - Frontend Export
+- [x] Ajouter bouton "Exporter PDF" sur page Méthode ABSORBE - TERMINÉ
+- [x] Ajouter bouton "Exporter PDF" sur page Pyrolyse - TERMINÉ
+- [x] Ajouter bouton "Exporter PDF" sur page GC-MS - TERMINÉ
+- [x] Gérer états de chargement pendant génération PDF - N/A (génération instantanée client-side)
+
+### Phase 3 - Tests et validation
+- [x] Tester export PDF ABSORBE - TERMINÉ (9.7KB, contenu complet)
+- [x] Tester export PDF Pyrolyse - TERMINÉ (fonctionnel)
+- [x] Tester export PDF GC-MS - TERMINÉ (fonctionnel)
+- [ ] Créer checkpoint final - En cours

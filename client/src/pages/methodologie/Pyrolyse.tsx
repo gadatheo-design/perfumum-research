@@ -1,10 +1,15 @@
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Flame, Thermometer, FlaskConical, LineChart } from "lucide-react";
+import { Flame, Thermometer, FlaskConical, LineChart, Download } from "lucide-react";
 import { Link } from "wouter";
+import { exportMethodologyPDF } from "@/lib/pdfExport";
 
 export default function Pyrolyse() {
+  const handleExportPDF = () => {
+    exportMethodologyPDF("pyrolyse");
+  };
+
   const protocoles = [
     {
       temperature: "120°C",
@@ -73,9 +78,18 @@ export default function Pyrolyse() {
                   </p>
                 </div>
               </div>
-              <div className="flex gap-2 mb-6">
-                <Badge variant="secondary">3 températures</Badge>
-                <Badge variant="outline">Protocole ABSORBE</Badge>
+              <div className="flex gap-4 mb-6 items-center">
+                <div className="flex gap-2">
+                  <Badge variant="secondary">3 températures</Badge>
+                  <Badge variant="outline">Protocole ABSORBE</Badge>
+                </div>
+                <button
+                  onClick={handleExportPDF}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
+                >
+                  <Download className="w-4 h-4" />
+                  Exporter PDF
+                </button>
               </div>
               <div className="prose prose-lg max-w-none">
                 <p className="text-lg text-foreground leading-relaxed">

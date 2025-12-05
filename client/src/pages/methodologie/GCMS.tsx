@@ -1,10 +1,15 @@
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FlaskConical, LineChart, Thermometer, Target } from "lucide-react";
+import { FlaskConical, LineChart, Thermometer, Target, Download } from "lucide-react";
 import { Link } from "wouter";
+import { exportMethodologyPDF } from "@/lib/pdfExport";
 
 export default function GCMS() {
+  const handleExportPDF = () => {
+    exportMethodologyPDF("gcms");
+  };
+
   const programmeTemperature = [
     { etape: "Initial", temperature: "40°C", duree: "2 min", rampe: "-" },
     { etape: "Rampe 1", temperature: "40°C → 150°C", duree: "-", rampe: "5°C/min" },
@@ -66,9 +71,18 @@ export default function GCMS() {
                   </p>
                 </div>
               </div>
-              <div className="flex gap-2 mb-6">
-                <Badge variant="secondary">Agilent 7890B / 5977B</Badge>
-                <Badge variant="outline">DB-5MS</Badge>
+              <div className="flex gap-4 mb-6 items-center">
+                <div className="flex gap-2">
+                  <Badge variant="secondary">Agilent 7890B / 5977B</Badge>
+                  <Badge variant="outline">DB-5MS</Badge>
+                </div>
+                <button
+                  onClick={handleExportPDF}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity text-sm"
+                >
+                  <Download className="w-4 h-4" />
+                  Exporter PDF
+                </button>
               </div>
               <div className="prose prose-lg max-w-none">
                 <p className="text-lg text-foreground leading-relaxed">
