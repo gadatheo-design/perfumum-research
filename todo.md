@@ -1945,11 +1945,19 @@
 - [x] Fix erreur Link Favoris.tsx (indentation)
 
 ### Progressive Web App
-- [ ] Créer manifest.json (nom, icônes, couleurs, display)
-- [ ] Générer icônes PWA (192×192, 512×512, maskable)
-- [ ] Implémenter service worker basique (cache assets statiques)
-- [ ] Ajouter prompt installation (bouton "Installer l'app")
-- [ ] Tester installation iOS/Android
+- [x] Créer manifest.json (nom, icônes, couleurs, display standalone)
+- [x] Générer icônes PWA (192×192, 512×512, maskable) avec ImageMagick
+- [x] Créer service worker (sw.js) avec cache strategies
+- [x] Implémenter cache-first pour assets statiques
+- [x] Implémenter network-first pour API avec fallback cache
+- [x] Créer page offline fallback (offline.html) avec auto-retry
+- [x] Ajouter PWAInstallPrompt component (non-intrusif, 30s délai)
+- [x] Enregistrer service worker dans main.tsx
+- [x] Ajouter manifest link et meta tags dans index.html
+- [x] Implémenter beforeinstallprompt event handler
+- [x] LocalStorage dismissal (7 jours)
+- [ ] Tester installation iOS Safari (besoin device réel)
+- [ ] Tester installation Android Chrome (besoin device réel)
 
 ---
 
