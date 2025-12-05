@@ -76,6 +76,26 @@ export default function MethodeAbsorbe() {
           </div>
         </section>
 
+        {/* Approfondissement */}
+        <section className="py-16">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <div className="border border-primary/30 rounded-lg p-8 bg-primary/5">
+                <h3 className="text-xl font-bold mb-3">Approfondissement : Pyrolyse Contrôlée</h3>
+                <p className="text-muted-foreground mb-4">
+                  L'axe <strong>Fumé</strong> de la méthode ABSORBE repose sur des protocoles de pyrolyse à 3 températures (120°C, 160°C, 200°C). 
+                  Découvrez les résultats GC-MS et les profils de dégradation thermique.
+                </p>
+                <Link href="/methodologie/pyrolyse">
+                  <a className="inline-flex items-center gap-2 text-primary hover:underline font-semibold">
+                    Lire le protocole Pyrolyse complet →
+                  </a>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Footer CTA */}
         <section className="py-16 bg-muted/20">
           <div className="container">

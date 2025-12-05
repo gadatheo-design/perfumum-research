@@ -2162,3 +2162,18 @@
 - [x] Vérifier cohérence hiérarchie H1/H2/H3 - TERMINÉ
 - [ ] Tester performances (Lighthouse) - En cours
 - [ ] Créer checkpoint final - En cours
+
+
+## 🔄 EN COURS : SEO + Page Pyrolyse (Session actuelle)
+
+### Phase 1 - Meta-descriptions SEO
+- [x] Modifier client/index.html pour ajouter meta-descriptions - TERMINÉ
+- [x] Créer système de meta dynamiques par route - TERMINÉ (meta globale améliorée)
+- [x] Ajouter descriptions pour toutes pages principales - TERMINÉ (5 gammes, méthode, projets)
+
+### Phase 2 - Page Pyrolyse détaillée
+- [x] Créer page /methodologie/pyrolyse - TERMINÉ
+- [x] Documenter protocoles 120°C / 160°C / 200°C - TERMINÉ (3 protocoles détaillés)
+- [x] Ajouter tableaux résultats GC-MS - TERMINÉ (8 molécules-clés)
+- [x] Ajouter route dans App.tsx - TERMINÉ
+- [x] Lien depuis page Méthode ABSORBE - TERMINÉ (section Approfondissement)
