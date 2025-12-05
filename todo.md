@@ -2060,9 +2060,9 @@
 
 
 ### Pages Méthodologie Détaillées
-- [ ] Créer page /methodologie/absorbe (méthode ABSORBE complète)
-- [ ] Créer page /methodologie/pyrolyse (processus pyrolyse détaillé)
-- [ ] Créer page /methodologie/gc-ms (chromatographie en phase gazeuse)
+- [x] Créer page /methodologie/absorbe (méthode ABSORBE complète) - TERMINÉ
+- [ ] Créer page /methodologie/pyrolyse (processus pyrolyse détaillé) - Contenu intégré dans ABSORBE
+- [ ] Créer page /methodologie/gc-ms (chromatographie en phase gazeuse) - Contenu intégré dans ABSORBE
 - [ ] Créer page /methodologie/extraction (techniques extraction résines/tabacs)
 - [ ] Diagrammes processus interactifs (Mermaid/D2)
 - [ ] Schémas équipements laboratoire
@@ -2077,10 +2077,10 @@
 - [ ] Format citation automatique (APA, MLA, Chicago)
 
 ### Système Citations
-- [ ] Composant CitationButton sur pages molécules/recettes
-- [ ] Modal citations avec formats multiples
-- [ ] Copie clipboard citation formatée
-- [ ] Export collection citations en .bib
+- [x] Composant CitationButton sur pages molécules/recettes - TERMINÉ (bouton Citer sur MoleculeDetail)
+- [x] Modal citations avec formats multiples - TERMINÉ (dropdown 4 formats)
+- [x] Copie clipboard citation formatée - TERMINÉ (APA, MLA, Chicago, BibTeX)
+- [ ] Export collection citations en .bib - Backlog
 - [ ] Numérotation automatique références dans textes
 - [ ] Index références par page
 

@@ -65,6 +65,7 @@ import Terrains from "./pages/Terrains";
 import Collaborations from "./pages/Collaborations";
 import TabacsResines from "./pages/TabacsResines";
 import Favoris from "./pages/Favoris";
+import MethodologieAbsorbe from "./pages/methodologie/MethodologieAbsorbe";
 
 function Router() {
   return (
@@ -104,6 +105,7 @@ function Router() {
           <Route path="/civilisation/:id" component={CivilisationDetail} />
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/laboratoire/recettes" component={LaboratoireRecettes} />
+      <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
           <Route path="/laboratoire/matrice-interactive" component={MatriceInteractive} />
           <Route path="/laboratoire/statistiques" component={Statistiques} />
           <Route path="/chimie/comparaison" component={ComparaisonMolecules} />

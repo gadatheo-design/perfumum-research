@@ -414,6 +414,172 @@ export const appRouter = router({
         return await db.isFavorite(ctx.user.id, input.moleculeId);
       }),
   }),
+
+  // Milestones
+  milestones: router({
+    list: publicProcedure.query(async () => {
+      return await db.getMilestones();
+    }),
+    
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getMilestoneById(input);
+      }),
+    
+    create: publicProcedure
+      .input(z.object({
+        date: z.date(),
+        title: z.string().min(1).max(255),
+        description: z.string().optional(),
+        type: z.enum(["prototype", "discovery", "collaboration", "publication", "other"]),
+        moleculeId: z.number().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (!ctx.user) throw new Error("Not authenticated");
+        return await db.createMilestone({
+          ...input,
+          userId: ctx.user.id,
+        });
+      }),
+    
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        date: z.date().optional(),
+        title: z.string().min(1).max(255).optional(),
+        description: z.string().optional(),
+        type: z.enum(["prototype", "discovery", "collaboration", "publication", "other"]).optional(),
+        moleculeId: z.number().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (!ctx.user) throw new Error("Not authenticated");
+        const { id, ...data } = input;
+        return await db.updateMilestone(id, data);
+      }),
+    
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input, ctx }) => {
+        if (!ctx.user) throw new Error("Not authenticated");
+        return await db.deleteMilestone(input);
+      }),
+  }),
+
+  // ============================================================================
+  // PHASE 4: COLLABORATION & PARTAGE - tRPC Procedures
+  // ============================================================================
+
+  // Shared Collections
+  sharedCollections: router({
+    create: publicProcedure
+      .input(z.object({
+        title: z.string(),
+        description: z.string().optional(),
+        moleculeIds: z.array(z.number()),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (!ctx.user) throw new Error("Not authenticated");
+        
+        // Generate unique token
+        const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        
+        // Expires in 24 hours
+        const expiresAt = new Date();
+        expiresAt.setHours(expiresAt.getHours() + 24);
+        
+        return await db.createSharedCollection({
+          token,
+          title: input.title,
+          description: input.description,
+          moleculeIds: input.moleculeIds,
+          creatorId: ctx.user.id,
+          expiresAt,
+        });
+      }),
+    
+    getByToken: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getSharedCollectionByToken(input);
+      }),
+    
+    listMine: publicProcedure
+      .query(async ({ ctx }) => {
+        if (!ctx.user) throw new Error("Not authenticated");
+        return await db.getUserSharedCollections(ctx.user.id);
+      }),
+  }),
+
+  // Molecule Notes
+  moleculeNotes: router({
+    get: publicProcedure
+      .input(z.number()) // moleculeId
+      .query(async ({ input, ctx }) => {
+        if (!ctx.user) throw new Error("Not authenticated");
+        return await db.getMoleculeNote(ctx.user.id, input);
+      }),
+    
+    upsert: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        note: z.string(),
+        tags: z.array(z.string()).optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (!ctx.user) throw new Error("Not authenticated");
+        return await db.upsertMoleculeNote({
+          userId: ctx.user.id,
+          moleculeId: input.moleculeId,
+          note: input.note,
+          tags: input.tags,
+        });
+      }),
+    
+    listMine: publicProcedure
+      .query(async ({ ctx }) => {
+        if (!ctx.user) throw new Error("Not authenticated");
+        return await db.getUserMoleculeNotes(ctx.user.id);
+      }),
+    
+    delete: publicProcedure
+      .input(z.number()) // moleculeId
+      .mutation(async ({ input, ctx }) => {
+        if (!ctx.user) throw new Error("Not authenticated");
+        return await db.deleteMoleculeNote(ctx.user.id, input);
+      }),
+  }),
+
+  // Citations
+  citations: router({
+    generate: publicProcedure
+      .input(z.object({
+        entityType: z.enum(["molecule", "recipe", "prototype", "accord"]),
+        entityId: z.number(),
+        format: z.enum(["apa", "mla", "chicago", "bibtex"]).default("apa"),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.generateCitation(
+          input.entityType,
+          input.entityId,
+          input.format
+        );
+      }),
+    
+    get: publicProcedure
+      .input(z.object({
+        entityType: z.string(),
+        entityId: z.number(),
+        format: z.string().default("apa"),
+      }))
+      .query(async ({ input }) => {
+        return await db.getCitation(
+          input.entityType,
+          input.entityId,
+          input.format
+        );
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

@@ -4,6 +4,7 @@ import { StatCard } from "@/components/StatCard";
 import { GammeDistributionChart } from "@/components/charts/GammeDistributionChart";
 import { FamilyRankingChart } from "@/components/charts/FamilyRankingChart";
 import { ResearchTimelineChart } from "@/components/charts/ResearchTimelineChart";
+import { AddMilestoneDialog } from "@/components/milestones/AddMilestoneDialog";
 import { trpc } from "@/lib/trpc";
 import { Loader2, Beaker, FlaskConical, Layers, Users, FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -45,9 +46,11 @@ export default function Statistics() {
               <p className="text-lg text-muted-foreground mb-6">
                 Vue d'ensemble analytique du projet PERFUMUM
               </p>
-              <Button
-                onClick={handleExportPDF}
-                disabled={isExporting || isLoading}
+              <div className="flex gap-3 justify-center">
+                <AddMilestoneDialog />
+                <Button
+                  onClick={handleExportPDF}
+                  disabled={isExporting || isLoading}
                 size="lg"
                 className="gap-2"
               >
@@ -63,6 +66,7 @@ export default function Statistics() {
                   </>
                 )}
               </Button>
+              </div>
             </div>
           </div>
         </section>

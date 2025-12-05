@@ -41,6 +41,9 @@ import {
   ExperimentalAccord,
   synergies,
   Synergie,
+  sharedCollections,
+  moleculeNotes,
+  citations,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -1321,4 +1324,263 @@ export async function deleteMilestone(id: number) {
   
   await db.delete(milestones).where(eq(milestones.id, id));
   return { success: true };
+}
+
+
+// ============================================================================
+// PHASE 4: COLLABORATION & PARTAGE - Database Functions
+// ============================================================================
+
+// Shared Collections
+export async function createSharedCollection(data: {
+  token: string;
+  title: string;
+  description?: string;
+  moleculeIds: number[];
+  creatorId: number;
+  expiresAt: Date;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(sharedCollections).values({
+    token: data.token,
+    title: data.title,
+    description: data.description,
+    moleculeIds: JSON.stringify(data.moleculeIds),
+    creatorId: data.creatorId,
+    expiresAt: data.expiresAt,
+    viewCount: 0,
+  }).$returningId();
+  
+  return result;
+}
+
+export async function getSharedCollectionByToken(token: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [collection] = await db
+    .select()
+    .from(sharedCollections)
+    .where(eq(sharedCollections.token, token));
+  
+  if (!collection) return null;
+  
+  // Check if expired
+  if (new Date() > new Date(collection.expiresAt)) {
+    return null;
+  }
+  
+  // Increment view count
+  await db
+    .update(sharedCollections)
+    .set({ viewCount: collection.viewCount + 1 })
+    .where(eq(sharedCollections.id, collection.id));
+  
+  return {
+    ...collection,
+    viewCount: collection.viewCount + 1, // Return incremented value
+    moleculeIds: JSON.parse(collection.moleculeIds) as number[],
+  };
+}
+
+export async function getUserSharedCollections(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const collections = await db
+    .select()
+    .from(sharedCollections)
+    .where(eq(sharedCollections.creatorId, userId))
+    .orderBy(desc(sharedCollections.createdAt));
+  
+  return collections.map(c => ({
+    ...c,
+    moleculeIds: JSON.parse(c.moleculeIds) as number[],
+  }));
+}
+
+// Molecule Notes
+export async function getMoleculeNote(userId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [note] = await db
+    .select()
+    .from(moleculeNotes)
+    .where(
+      and(
+        eq(moleculeNotes.userId, userId),
+        eq(moleculeNotes.moleculeId, moleculeId)
+      )
+    );
+  
+  if (!note) return null;
+  
+  return {
+    ...note,
+    tags: note.tags ? JSON.parse(note.tags) as string[] : [],
+  };
+}
+
+export async function upsertMoleculeNote(data: {
+  userId: number;
+  moleculeId: number;
+  note: string;
+  tags?: string[];
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const existing = await getMoleculeNote(data.userId, data.moleculeId);
+  
+  if (existing) {
+    // Update
+    await db
+      .update(moleculeNotes)
+      .set({
+        note: data.note,
+        tags: data.tags ? JSON.stringify(data.tags) : null,
+      })
+      .where(eq(moleculeNotes.id, existing.id));
+    
+    return getMoleculeNote(data.userId, data.moleculeId);
+  } else {
+    // Insert
+    const [result] = await db.insert(moleculeNotes).values({
+      userId: data.userId,
+      moleculeId: data.moleculeId,
+      note: data.note,
+      tags: data.tags ? JSON.stringify(data.tags) : null,
+    }).$returningId();
+    
+    return getMoleculeNote(data.userId, data.moleculeId);
+  }
+}
+
+export async function getUserMoleculeNotes(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const notes = await db
+    .select()
+    .from(moleculeNotes)
+    .where(eq(moleculeNotes.userId, userId))
+    .orderBy(desc(moleculeNotes.updatedAt));
+  
+  return notes.map(n => ({
+    ...n,
+    tags: n.tags ? JSON.parse(n.tags) as string[] : [],
+  }));
+}
+
+export async function deleteMoleculeNote(userId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .delete(moleculeNotes)
+    .where(
+      and(
+        eq(moleculeNotes.userId, userId),
+        eq(moleculeNotes.moleculeId, moleculeId)
+      )
+    );
+  
+  return { success: true };
+}
+
+// Citations
+export async function generateCitation(
+  entityType: 'molecule' | 'recipe' | 'prototype' | 'accord',
+  entityId: number,
+  format: 'apa' | 'mla' | 'chicago' | 'bibtex' = 'apa'
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Get entity data
+  let entityData: any = null;
+  let citationText = '';
+  
+  if (entityType === 'molecule') {
+    const [molecule] = await db.select().from(molecules).where(eq(molecules.id, entityId));
+    if (!molecule) throw new Error("Molecule not found");
+    entityData = molecule;
+    
+    // Generate citation based on format
+    const year = new Date(molecule.createdAt).getFullYear();
+    
+    if (format === 'apa') {
+      citationText = `PERFUMUM Research. (${year}). ${molecule.name}${molecule.chemicalFormula ? ` [${molecule.chemicalFormula}]` : ''}. PERFUMUM Molecular Database. https://perfumum.manus.space/molecule/${entityId}`;
+    } else if (format === 'mla') {
+      citationText = `"${molecule.name}." PERFUMUM Molecular Database, PERFUMUM Research, ${year}, perfumum.manus.space/molecule/${entityId}.`;
+    } else if (format === 'chicago') {
+      citationText = `PERFUMUM Research. "${molecule.name}." PERFUMUM Molecular Database. Accessed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. https://perfumum.manus.space/molecule/${entityId}.`;
+    } else if (format === 'bibtex') {
+      citationText = `@misc{perfumum_molecule_${entityId},
+  title={${molecule.name}${molecule.chemicalFormula ? ` [${molecule.chemicalFormula}]` : ''}},
+  author={PERFUMUM Research},
+  year={${year}},
+  howpublished={\\url{https://perfumum.manus.space/molecule/${entityId}}},
+  note={PERFUMUM Molecular Database}
+}`;
+    }
+  } else if (entityType === 'recipe') {
+    const [recipe] = await db.select().from(recettes).where(eq(recettes.id, entityId));
+    if (!recipe) throw new Error("Recipe not found");
+    entityData = recipe;
+    
+    const year = new Date(recipe.createdAt).getFullYear();
+    
+    if (format === 'apa') {
+      citationText = `PERFUMUM Research. (${year}). ${recipe.name}. PERFUMUM Recipe Database. https://perfumum.manus.space/recette/${entityId}`;
+    } else if (format === 'mla') {
+      citationText = `"${recipe.name}." PERFUMUM Recipe Database, PERFUMUM Research, ${year}, perfumum.manus.space/recette/${entityId}.`;
+    } else if (format === 'chicago') {
+      citationText = `PERFUMUM Research. "${recipe.name}." PERFUMUM Recipe Database. Accessed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. https://perfumum.manus.space/recette/${entityId}.`;
+    } else if (format === 'bibtex') {
+      citationText = `@misc{perfumum_recipe_${entityId},
+  title={${recipe.name}},
+  author={PERFUMUM Research},
+  year={${year}},
+  howpublished={\\url{https://perfumum.manus.space/recette/${entityId}}},
+  note={PERFUMUM Recipe Database}
+}`;
+    }
+  }
+  
+  // Save citation
+  const [result] = await db.insert(citations).values({
+    entityType,
+    entityId,
+    format,
+    citationText,
+    url: `https://perfumum.manus.space/${entityType}/${entityId}`,
+  }).$returningId();
+  
+  return {
+    id: result.id,
+    citationText,
+    format,
+  };
+}
+
+export async function getCitation(entityType: string, entityId: number, format: string = 'apa') {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [citation] = await db
+    .select()
+    .from(citations)
+    .where(
+      and(
+        eq(citations.entityType, entityType as any),
+        eq(citations.entityId, entityId),
+        eq(citations.format, format as any)
+      )
+    );
+  
+  return citation;
 }

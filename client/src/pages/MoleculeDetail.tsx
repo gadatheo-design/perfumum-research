@@ -3,7 +3,14 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Beaker, FlaskConical } from "lucide-react";
+import { ArrowLeft, Beaker, FlaskConical, FileText, Copy, Check } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
@@ -13,8 +20,28 @@ import { useMemo } from "react";
 export default function MoleculeDetail() {
   const params = useParams();
   const id = parseInt(params.id || "0");
+  const [copiedFormat, setCopiedFormat] = useState<string | null>(null);
 
   const { data, isLoading } = trpc.molecule.getById.useQuery({ id });
+  const generateCitation = trpc.citations.generate.useMutation();
+
+  const handleCopyCitation = async (format: "apa" | "mla" | "chicago" | "bibtex") => {
+    try {
+      const result = await generateCitation.mutateAsync({
+        entityType: "molecule",
+        entityId: id,
+        format,
+      });
+      
+      await navigator.clipboard.writeText(result.citationText);
+      setCopiedFormat(format);
+      setTimeout(() => setCopiedFormat(null), 2000);
+      
+      alert(`Citation ${format.toUpperCase()} copiée dans le presse-papier !`);
+    } catch (error) {
+      alert("Erreur : Impossible de générer la citation");
+    }
+  };
 
   // Create nodes and edges for the relation graph
   const { nodes, edges } = useMemo(() => {
@@ -146,6 +173,51 @@ export default function MoleculeDetail() {
         </Link>
         <div className="flex items-center gap-3">
           <FavoriteButton moleculeId={molecule.id} moleculeName={molecule.name} />
+          
+          {/* Citation Export */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="default">
+                <FileText className="mr-2 h-4 w-4" />
+                Citer
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={() => handleCopyCitation("apa")}>
+                {copiedFormat === "apa" ? (
+                  <Check className="mr-2 h-4 w-4 text-green-600" />
+                ) : (
+                  <Copy className="mr-2 h-4 w-4" />
+                )}
+                Format APA
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleCopyCitation("mla")}>
+                {copiedFormat === "mla" ? (
+                  <Check className="mr-2 h-4 w-4 text-green-600" />
+                ) : (
+                  <Copy className="mr-2 h-4 w-4" />
+                )}
+                Format MLA
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleCopyCitation("chicago")}>
+                {copiedFormat === "chicago" ? (
+                  <Check className="mr-2 h-4 w-4 text-green-600" />
+                ) : (
+                  <Copy className="mr-2 h-4 w-4" />
+                )}
+                Format Chicago
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleCopyCitation("bibtex")}>
+                {copiedFormat === "bibtex" ? (
+                  <Check className="mr-2 h-4 w-4 text-green-600" />
+                ) : (
+                  <Copy className="mr-2 h-4 w-4" />
+                )}
+                BibTeX
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
           <Badge variant="secondary" className="text-lg px-4 py-2">
             <Beaker className="mr-2 h-5 w-5" />
             Molécule

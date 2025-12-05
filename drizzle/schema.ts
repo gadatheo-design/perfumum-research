@@ -791,3 +791,57 @@ export const synergies = mysqlTable("synergies", {
 
 export type Synergie = typeof synergies.$inferSelect;
 export type InsertSynergie = typeof synergies.$inferInsert;
+
+
+// ============================================================================
+// PHASE 4: COLLABORATION & PARTAGE
+// ============================================================================
+
+// Shared collections for temporary molecule sharing (24h expiration)
+export const sharedCollections = mysqlTable("shared_collections", {
+  id: int("id").autoincrement().primaryKey(),
+  token: varchar("token", { length: 64 }).notNull().unique(), // UUID for sharing
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  moleculeIds: text("molecule_ids").notNull(), // JSON array of molecule IDs
+  creatorId: int("creator_id").notNull().references(() => users.id),
+  expiresAt: timestamp("expires_at").notNull(), // 24h from creation
+  viewCount: int("view_count").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type SharedCollection = typeof sharedCollections.$inferSelect;
+export type InsertSharedCollection = typeof sharedCollections.$inferInsert;
+
+// Private annotations on molecules
+export const moleculeNotes = mysqlTable("molecule_notes", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull().references(() => users.id),
+  moleculeId: int("molecule_id").notNull().references(() => molecules.id),
+  note: text("note").notNull(), // Private note content
+  tags: text("tags"), // JSON array of tags
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  // One note per user per molecule
+  uniqueUserMolecule: uniqueIndex("unique_user_molecule_note").on(table.userId, table.moleculeId),
+}));
+
+export type MoleculeNote = typeof moleculeNotes.$inferSelect;
+export type InsertMoleculeNote = typeof moleculeNotes.$inferInsert;
+
+// Academic citations for molecules and recipes
+export const citations = mysqlTable("citations", {
+  id: int("id").autoincrement().primaryKey(),
+  entityType: mysqlEnum("entity_type", ["molecule", "recipe", "prototype", "accord"]).notNull(),
+  entityId: int("entity_id").notNull(),
+  format: mysqlEnum("format", ["apa", "mla", "chicago", "bibtex"]).default("apa").notNull(),
+  citationText: text("citation_text").notNull(), // Pre-formatted citation
+  doi: varchar("doi", { length: 255 }), // Optional DOI
+  url: varchar("url", { length: 512 }), // Optional URL
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Citation = typeof citations.$inferSelect;
+export type InsertCitation = typeof citations.$inferInsert;
