@@ -2092,3 +2092,16 @@
 - [ ] Audit accessibilité (WCAG 2.1 AA)
 - [ ] Documentation utilisateur (guide PDF)
 - [ ] Créer checkpoint final avec toutes phases
+
+
+## 🐛 BUGS À CORRIGER (Session actuelle)
+
+### Erreur balises <a> imbriquées
+- [x] Identifier les composants avec <a> imbriqués sur page Home - TERMINÉ (16 liens)
+- [x] Corriger en utilisant div/span au lieu de Link pour conteneurs - TERMINÉ (classes déplacées vers Link)
+- [x] Tester navigation après correction - TERMINÉ (navigation fonctionne)
+- [x] Vérifier console browser pour confirmer disparition erreur - TERMINÉ (plus d'erreur <a> imbriqué)
+
+### Avertissement WebSocket Vite HMR
+- [ ] Vérifier configuration vite.config.ts (server.hmr)
+- [ ] Tester si affecte fonctionnement réel (probablement non-critique)

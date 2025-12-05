@@ -235,25 +235,17 @@ export default function Home() {
                     <CardTitle className="group-hover:text-primary transition-colors">Base de Données</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <Link href="/molecules">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → 131 Molécules
-                      </a>
+                    <Link href="/molecules" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → 131 Molécules
                     </Link>
-                    <Link href="/recettes">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → 142 Recettes
-                      </a>
+                    <Link href="/recettes" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → 142 Recettes
                     </Link>
-                    <Link href="/accords">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → 25 Accords
-                      </a>
+                    <Link href="/accords" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → 25 Accords
                     </Link>
-                    <Link href="/prototypes">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → 4 Prototypes
-                      </a>
+                    <Link href="/prototypes" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → 4 Prototypes
                     </Link>
                   </CardContent>
                 </Card>
@@ -267,25 +259,17 @@ export default function Home() {
                     <CardTitle className="group-hover:text-purple-500 transition-colors">Recherche Scientifique</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <Link href="/recherche-scientifique/synergies">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → Synergies Moléculaires
-                      </a>
+                    <Link href="/recherche-scientifique/synergies" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Synergies Moléculaires
                     </Link>
-                    <Link href="/recherche-scientifique/pyrolyse">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → Pyrolyse & Combustion
-                      </a>
+                    <Link href="/recherche-scientifique/pyrolyse" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Pyrolyse & Combustion
                     </Link>
-                    <Link href="/recherche-scientifique/volatilite">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → Courbes de Volatilité
-                      </a>
+                    <Link href="/recherche-scientifique/volatilite" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Courbes de Volatilité
                     </Link>
-                    <Link href="/recherche-scientifique/degradation">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → Dégradation Terpènes
-                      </a>
+                    <Link href="/recherche-scientifique/degradation" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Dégradation Terpènes
                     </Link>
                   </CardContent>
                 </Card>
@@ -299,20 +283,14 @@ export default function Home() {
                     <CardTitle className="group-hover:text-green-500 transition-colors">Programmes R&D</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <Link href="/programmes-recherche/resines-cbd">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → Résines CBD & Design Terpénique
-                      </a>
+                    <Link href="/programmes-recherche/resines-cbd" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Résines CBD & Design Terpénique
                     </Link>
-                    <Link href="/programmes-recherche/tabacs-niche">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → Tabacs Niche (30+ variétés)
-                      </a>
+                    <Link href="/programmes-recherche/tabacs-niche" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Tabacs Niche (30+ variétés)
                     </Link>
-                    <Link href="/dashboard">
-                      <a className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                        → Dashboard Analytics
-                      </a>
+                    <Link href="/dashboard" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Dashboard Analytics
                     </Link>
                   </CardContent>
                 </Card>
@@ -356,14 +334,14 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
             <p>© 2025 PERFUMUM — Recherche Olfactive</p>
             <nav className="flex gap-6">
-              <Link href="/projet">
-                <a className="hover:text-foreground transition-colors">Le Projet</a>
+              <Link href="/projet" className="hover:text-foreground transition-colors">
+                Le Projet
               </Link>
-              <Link href="/laboratoire">
-                <a className="hover:text-foreground transition-colors">Laboratoire</a>
+              <Link href="/laboratoire" className="hover:text-foreground transition-colors">
+                Laboratoire
               </Link>
-              <Link href="/dashboard">
-                <a className="hover:text-foreground transition-colors">Dashboard</a>
+              <Link href="/dashboard" className="hover:text-foreground transition-colors">
+                Dashboard
               </Link>
             </nav>
           </div>
