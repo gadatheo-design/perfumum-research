@@ -5,11 +5,29 @@ import { GammeDistributionChart } from "@/components/charts/GammeDistributionCha
 import { FamilyRankingChart } from "@/components/charts/FamilyRankingChart";
 import { ResearchTimelineChart } from "@/components/charts/ResearchTimelineChart";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Beaker, FlaskConical, Layers, Users } from "lucide-react";
+import { Loader2, Beaker, FlaskConical, Layers, Users, FileDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { exportStatisticsToPDF } from "@/lib/exportStatisticsPDF";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Statistics() {
   const { data: stats, isLoading } = trpc.molecules.getGlobalStats.useQuery();
   const { data: timelineData, isLoading: timelineLoading } = trpc.molecules.getTimelineData.useQuery();
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    try {
+      const filename = await exportStatisticsToPDF();
+      toast.success(`Rapport généré : ${filename}`);
+    } catch (error) {
+      console.error('[PDF Export] Error:', error);
+      toast.error('Erreur lors de la génération du rapport');
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -24,9 +42,27 @@ export default function Statistics() {
               <h1 className="text-4xl md:text-5xl font-bold mb-4">
                 Statistiques Globales
               </h1>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-muted-foreground mb-6">
                 Vue d'ensemble analytique du projet PERFUMUM
               </p>
+              <Button
+                onClick={handleExportPDF}
+                disabled={isExporting || isLoading}
+                size="lg"
+                className="gap-2"
+              >
+                {isExporting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Génération en cours...
+                  </>
+                ) : (
+                  <>
+                    <FileDown className="h-4 w-4" />
+                    Télécharger le Rapport PDF
+                  </>
+                )}
+              </Button>
             </div>
           </div>
         </section>
@@ -40,7 +76,7 @@ export default function Statistics() {
             {/* KPI Cards */}
             <section className="py-8">
               <div className="container">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-export="kpi-cards">
                   <StatCard
                     title="Molécules"
                     value={stats.totalMolecules}
@@ -72,7 +108,7 @@ export default function Statistics() {
             {/* Charts Section */}
             <section className="py-8">
               <div className="container">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" data-export="charts">
                   {/* Gamme Distribution */}
                   <div className="bg-background rounded-lg p-6 border border-border shadow-sm">
                     <h2 className="text-xl font-bold mb-6">Répartition par Gamme</h2>
@@ -91,7 +127,7 @@ export default function Statistics() {
             {/* Timeline Section */}
             <section className="py-8">
               <div className="container">
-                <div className="bg-background rounded-lg p-6 border border-border shadow-sm">
+                <div className="bg-background rounded-lg p-6 border border-border shadow-sm" data-export="timeline">
                   <h2 className="text-2xl font-bold mb-6">Évolution de la Recherche</h2>
                   {timelineLoading ? (
                     <div className="flex items-center justify-center h-64">
@@ -111,7 +147,7 @@ export default function Statistics() {
             </section>
 
             {/* Insights Section */}
-            <section className="py-8">
+            <section className="py-8" data-export="insights">
               <div className="container">
                 <div className="max-w-4xl mx-auto bg-muted/30 rounded-lg p-8 border border-border">
                   <h2 className="text-2xl font-bold mb-4">Insights Clés</h2>

@@ -1961,7 +1961,66 @@
 
 ---
 
-## 📄 Phase 2 - Export Rapports Recherche
+## ✅ Phase 2 - Export Rapports Recherche (Terminé)
+
+### Système Export PDF Statistiques
+- [x] Créer bouton "Télécharger le Rapport PDF" sur page Statistiques
+- [x] Implémenter fonction exportStatisticsToPDF avec html2canvas
+- [x] Capturer KPI cards (4 métriques) via data-export="kpi-cards"
+- [x] Capturer graphiques (pie gammes, bar familles) via data-export="charts"
+- [x] Capturer timeline via data-export="timeline"
+- [x] Ajouter section Insights Clés au PDF via data-export="insights"
+- [x] Ajouter métadonnées projet (date génération, pagination)
+- [x] Template professionnel avec en-tête PERFUMUM violet
+- [x] Optimiser qualité graphiques (scale 2x html2canvas)
+- [x] Gestion pagination automatique (new page si overflow)
+- [x] Footer avec numérotation pages
+- [x] Toast notifications succès/erreur
+- [x] Loading state pendant génération
+- [ ] Export sélectif (checkboxes sections à inclure) - optionnel
+
+---
+
+## 📍 Phase 3 - Milestones Timeline
+
+### Système Annotations Timeline
+- [ ] Créer table milestones (date, titre, description, type, molécule_id)
+- [ ] tRPC procedures (getMilestones, createMilestone, updateMilestone, deleteMilestone)
+- [ ] Composant MilestoneMarker pour timeline
+- [ ] Icônes différenciés (prototype, découverte, collaboration, publication)
+- [ ] Tooltips descriptifs avec contexte et impact
+- [ ] Interface ajout milestone (modal formulaire)
+- [ ] Interface édition/suppression milestones
+- [ ] Filtrage timeline par type milestone
+- [ ] Intégration graphique timeline existant
+
+---
+
+## 🤝 Phase 4 - Collaboration & Partage
+
+### Partage Collections
+- [ ] Créer table shared_collections (token, molécule_ids, expires_at)
+- [ ] tRPC procedure createShareLink (génère token 24h)
+- [ ] Page publique /share/:token (read-only)
+- [ ] Bouton "Partager collection" sur Favoris
+- [ ] Modal partage avec lien copiable et expiration
+
+### Annotations Privées
+- [ ] Créer table molecule_notes (user_id, molecule_id, note, tags, created_at)
+- [ ] tRPC procedures (getNotes, createNote, updateNote, deleteNote)
+- [ ] Composant NoteEditor (textarea + tags input)
+- [ ] Affichage notes sur page MoleculeDetail
+- [ ] Recherche full-text annotations
+- [ ] Tags personnalisés avec autocomplete
+
+### Export Citations Académiques
+- [ ] Format APA pour comparaisons molécules
+- [ ] Format BibTeX pour intégration LaTeX
+- [ ] Bouton "Citer" sur pages molécules/recettes
+
+---
+
+## 📚 Phase 5 - Documentation Scientifique
 
 ### Génération PDF Rapports
 - [ ] Créer bouton "Générer Rapport" page Statistiques
@@ -1998,3 +2057,38 @@
 - [ ] Modal édition milestone (inline ou page dédiée)
 - [ ] Liste milestones existants avec actions (éditer, supprimer)
 - [ ] Validation dates (pas dans futur, cohérence chronologique)
+
+
+### Pages Méthodologie Détaillées
+- [ ] Créer page /methodologie/absorbe (méthode ABSORBE complète)
+- [ ] Créer page /methodologie/pyrolyse (processus pyrolyse détaillé)
+- [ ] Créer page /methodologie/gc-ms (chromatographie en phase gazeuse)
+- [ ] Créer page /methodologie/extraction (techniques extraction résines/tabacs)
+- [ ] Diagrammes processus interactifs (Mermaid/D2)
+- [ ] Schémas équipements laboratoire
+- [ ] Protocoles étape par étape avec photos
+
+### Bibliographie & Références
+- [ ] Créer table references (titre, auteurs, année, journal, doi, url, type)
+- [ ] tRPC procedures (getReferences, createReference, updateReference, deleteReference)
+- [ ] Page /bibliographie avec filtres (année, type, sujet)
+- [ ] Import BibTeX automatique
+- [ ] Liens références ↔ molécules/recettes
+- [ ] Format citation automatique (APA, MLA, Chicago)
+
+### Système Citations
+- [ ] Composant CitationButton sur pages molécules/recettes
+- [ ] Modal citations avec formats multiples
+- [ ] Copie clipboard citation formatée
+- [ ] Export collection citations en .bib
+- [ ] Numérotation automatique références dans textes
+- [ ] Index références par page
+
+---
+
+## ✅ Checkpoint Final
+- [ ] Tests end-to-end toutes fonctionnalités
+- [ ] Vérification performance (Core Web Vitals)
+- [ ] Audit accessibilité (WCAG 2.1 AA)
+- [ ] Documentation utilisateur (guide PDF)
+- [ ] Créer checkpoint final avec toutes phases

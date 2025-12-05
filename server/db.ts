@@ -4,6 +4,7 @@ import {
   InsertUser, 
   users, 
   userFavorites,
+  milestones,
   prototypes,
   families,
   tabacs,
@@ -1277,4 +1278,47 @@ export async function isFavorite(userId: number, moleculeId: number): Promise<bo
     .limit(1);
   
   return result.length > 0;
+}
+
+// ============================================================================
+// MILESTONES
+// ============================================================================
+
+export async function getMilestones() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(milestones).orderBy(desc(milestones.date));
+}
+
+export async function getMilestoneById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [milestone] = await db.select().from(milestones).where(eq(milestones.id, id));
+  return milestone || null;
+}
+
+export async function createMilestone(data: typeof milestones.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(milestones).values(data).$returningId();
+  return result;
+}
+
+export async function updateMilestone(id: number, data: Partial<typeof milestones.$inferInsert>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(milestones).set(data).where(eq(milestones.id, id));
+  return getMilestoneById(id);
+}
+
+export async function deleteMilestone(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(milestones).where(eq(milestones.id, id));
+  return { success: true };
 }

@@ -49,6 +49,25 @@ export type UserFavorite = typeof userFavorites.$inferSelect;
 export type InsertUserFavorite = typeof userFavorites.$inferInsert;
 
 // ============================================================================
+// RESEARCH MILESTONES
+// ============================================================================
+
+export const milestones = mysqlTable("milestones", {
+  id: int("id").autoincrement().primaryKey(),
+  date: timestamp("date").notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  type: mysqlEnum("type", ["prototype", "discovery", "collaboration", "publication", "other"]).default("other").notNull(),
+  moleculeId: int("molecule_id"), // Optional: link to a specific molecule
+  userId: int("user_id").notNull(), // Creator of the milestone
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Milestone = typeof milestones.$inferSelect;
+export type InsertMilestone = typeof milestones.$inferInsert;
+
+// ============================================================================
 // PROTOTYPES (C1-C4)
 // ============================================================================
 
