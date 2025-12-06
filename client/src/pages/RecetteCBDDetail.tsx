@@ -17,6 +17,11 @@ export default function RecetteCBDDetail() {
     { enabled: !!recetteId }
   );
 
+  const { data: molecules, isLoading: moleculesLoading } = trpc.recettes.getMolecules.useQuery(
+    recetteId!,
+    { enabled: !!recetteId }
+  );
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -201,6 +206,45 @@ export default function RecetteCBDDetail() {
             )}
           </CardContent>
         </Card>
+
+        {/* Composition moléculaire */}
+        {molecules && molecules.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Composition Moléculaire</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {moleculesLoading ? (
+                <div className="text-muted-foreground">Chargement des molécules...</div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {molecules.map((item: any) => (
+                    <Link key={item.molecule.id} href={`/molecule/${item.molecule.id}`}>
+                      <Card className="hover:border-primary transition-colors cursor-pointer">
+                        <CardContent className="p-4">
+                          <div className="flex items-start justify-between mb-2">
+                            <h4 className="font-semibold">{item.molecule.name}</h4>
+                            <Badge variant="outline">{item.proportion}%</Badge>
+                          </div>
+                          <div className="text-sm text-muted-foreground mb-2">
+                            Rôle : <span className="font-medium">
+                              {item.role === 'base' ? 'Base' : item.role === 'accent' ? 'Accent' : 'Fixatif'}
+                            </span>
+                          </div>
+                          {item.molecule.formula && (
+                            <div className="text-xs font-mono text-muted-foreground">
+                              {item.molecule.formula}
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Procédé Technique */}
         <Card>

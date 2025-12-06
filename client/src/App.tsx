@@ -44,6 +44,7 @@ import Reseau from "./pages/Reseau";
 import BioMineralis from "./pages/BioMineralis";
 import ResinesCBD from "@/pages/ResinesCBD";
 import RecetteCBDDetail from "@/pages/RecetteCBDDetail";
+import GrapheMoleculesRecettes from "@/pages/GrapheMoleculesRecettes";
 import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
 import TabacsNiche from "@/pages/TabacsNiche";
 import LaboratoireRecettes from "./pages/LaboratoireRecettes";
@@ -107,6 +108,7 @@ function Router() {
       <Route path="/bio-mineralis" component={BioMineralis} />
       <Route path="/resines-cbd" component={ResinesCBD} />
       <Route path="/resine-cbd/:id" component={RecetteCBDDetail} />
+      <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
           <Route path="/molecule/:id" component={MoleculeDetail} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />

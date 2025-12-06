@@ -2491,3 +2491,35 @@
 - [ ] Tester affichage graphe pour chaque recette CBD
 - [ ] Vérifier liens vers pages molécules
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Phase 11 - Graphe moléculaire + Enrichissement terpènes + Visualisation globale
+
+### Affichage graphe moléculaire RecetteCBDDetail
+- [x] Ajouter query trpc.recettes.getMolecules dans RecetteCBDDetail.tsx
+- [x] Créer section "Composition moléculaire" avec liste molécules
+- [x] Afficher proportion et rôle (base/accent/fixative) pour chaque molécule
+- [x] Ajouter liens cliquables vers pages molécules (/molecule/:id)
+- [ ] Créer graphe visuel avec D3.js ou vis.js (optionnel - phase 3)
+
+### Enrichissement base molécules
+- [x] Ajouter terpènes réels : Myrcène, Limonène, α-Pinène, β-Pinène, β-Caryophyllène, Linalool, Humulène (7 terpènes)
+- [x] Créer fiches complètes (formule, famille, notes olfactives, propriétés, point ébullition)
+- [x] Mettre à jour liaisons recette_molecules avec profils terpéniques réalistes (31 liaisons)
+- [x] Supprimer anciennes liaisons avec molécules génériques
+
+### Page visualisation globale
+- [x] Créer page /graphe-molecules-recettes
+- [x] Implémenter graphe interactif D3.js force-directed
+- [x] Afficher nœuds recettes (violet) + nœuds molécules (vert)
+- [x] Liens pondérés par proportion (largeur)
+- [x] Filtres par collection (Toutes/Classique/Expérimentale)
+- [x] Drag & drop interactif pour explorer
+- [x] Ajouter route dans App.tsx
+- [ ] Ajouter lien dans navigation (optionnel)
+
+### Tests et validation
+- [ ] Tester affichage molécules dans RecetteCBDDetail
+- [ ] Vérifier liens vers pages molécules
+- [ ] Tester graphe interactif
+- [ ] Créer checkpoint final
