@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Droplets, Mountain, Building2, Ghost } from "lucide-react";
@@ -251,6 +252,8 @@ export default function GammesPetrichor() {
           </div>
         </section>
       </main>
+    <Footer />
+
     </div>
   );
 }

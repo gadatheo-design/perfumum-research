@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef } from "react";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -474,6 +475,8 @@ export default function MatriceInteractive() {
           )}
         </div>
       </main>
+    <Footer />
+
     </div>
   );
 }

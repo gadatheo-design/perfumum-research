@@ -2223,3 +2223,19 @@
 - [x] Tester export PDF Pyrolyse - TERMINÉ (fonctionnel)
 - [x] Tester export PDF GC-MS - TERMINÉ (fonctionnel)
 - [ ] Créer checkpoint final - En cours
+
+
+## 🔄 EN COURS : Footer Copyright (Session actuelle)
+
+### Phase 1 - Composant Footer
+- [x] Créer composant Footer.tsx avec copyright - TERMINÉ
+- [x] Ajouter mentions légales (Jean-Alphonse Bastos, ABSORBE™, Godinje Montenegro, UNLMTD™) - TERMINÉ
+- [x] Styling professionnel (petit texte, discret) - TERMINÉ (text-xs, muted-foreground)
+
+### Phase 2 - Intégration
+- [x] Ajouter Footer dans toutes les pages du site - TERMINÉ (42 pages)
+- [x] Vérifier responsive mobile - TERMINÉ (Tailwind responsive par défaut)
+
+### Phase 3 - Tests et checkpoint
+- [x] Tester affichage footer sur plusieurs pages - TERMINÉ (Home testé, footer visible)
+- [ ] Créer checkpoint final - En cours

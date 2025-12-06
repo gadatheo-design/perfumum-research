@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -215,6 +216,8 @@ export default function Familles() {
           </div>
         </div>
       </footer>
+    <Footer />
+
     </div>
   );
 }

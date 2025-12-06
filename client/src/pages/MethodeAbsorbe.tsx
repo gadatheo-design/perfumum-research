@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Link } from "wouter";
 import { Download } from "lucide-react";
 import { exportMethodologyPDF } from "@/lib/pdfExport";
@@ -137,6 +138,8 @@ export default function MethodeAbsorbe() {
           </div>
         </section>
       </main>
+    <Footer />
+
     </div>
   );
 }

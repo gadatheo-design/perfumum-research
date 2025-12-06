@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -412,6 +413,8 @@ export default function Recherche() {
           </div>
         </div>
       </main>
+    <Footer />
+
     </div>
   );
 }

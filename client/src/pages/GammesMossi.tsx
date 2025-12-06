@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Crown, Flame, Sparkles } from "lucide-react";
@@ -215,6 +216,8 @@ export default function GammesMossi() {
           </div>
         </section>
       </main>
+    <Footer />
+
     </div>
   );
 }

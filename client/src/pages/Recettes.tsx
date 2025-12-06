@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -246,6 +247,8 @@ export default function Recettes() {
           </div>
         </section>
       </main>
+    <Footer />
+
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope } from "lucide-react";
@@ -328,25 +329,8 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border/40 py-8 mt-16">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <p>© 2025 PERFUMUM — Recherche Olfactive</p>
-            <nav className="flex gap-6">
-              <Link href="/projet" className="hover:text-foreground transition-colors">
-                Le Projet
-              </Link>
-              <Link href="/laboratoire" className="hover:text-foreground transition-colors">
-                Laboratoire
-              </Link>
-              <Link href="/dashboard" className="hover:text-foreground transition-colors">
-                Dashboard
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </footer>
+    <Footer />
+
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PrototypeCard } from "@/components/cards/PrototypeCard";
 import { trpc } from "@/lib/trpc";
@@ -174,6 +175,8 @@ export default function Prototypes() {
           </div>
         </div>
       </footer>
+    <Footer />
+
     </div>
   );
 }

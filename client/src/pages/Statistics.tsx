@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { StatCard } from "@/components/StatCard";
 import { GammeDistributionChart } from "@/components/charts/GammeDistributionChart";
@@ -206,6 +207,8 @@ export default function Statistics() {
           </div>
         </div>
       </footer>
+    <Footer />
+
     </div>
   );
 }

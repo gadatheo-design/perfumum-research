@@ -1,5 +1,6 @@
 import { useLocation } from "wouter";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -328,6 +329,8 @@ export default function Compare() {
           </div>
         </section>
       </main>
+    <Footer />
+
     </div>
   );
 }

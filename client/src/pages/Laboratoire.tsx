@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Beaker, Droplet, Layers, BookOpen, ArrowRight, Thermometer, Wind, TestTube, FlaskConical } from "lucide-react";
@@ -362,6 +363,8 @@ export default function Laboratoire() {
           </div>
         </div>
       </footer>
+    <Footer />
+
     </div>
   );
 }
