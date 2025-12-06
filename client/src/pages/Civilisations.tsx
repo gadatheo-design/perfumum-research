@@ -32,10 +32,10 @@ function CivilisationsDatabase() {
       <div className="container">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">
-            Base de Données Civilisations
+            Base de Données Traditions Olfactives
           </h2>
           <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            {civilisations?.length || 0} civilisations documentées avec leurs pratiques olfactives, matériaux symboliques et contextes culturels
+            {civilisations?.length || 0} traditions olfactives documentées avec leurs pratiques, matériaux symboliques et contextes culturels
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             {civilisations?.map((civ) => (
@@ -113,7 +113,7 @@ export default function Civilisations() {
                 <Globe className="h-8 w-8 text-solar-mineralis" />
               </div>
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
-                Civilisations
+                Traditions Olfactives
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                 Approche anthropologique des cultures olfactives à travers l'histoire
@@ -127,7 +127,7 @@ export default function Civilisations() {
           <div className="container">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                L'axe <strong>Civilisations</strong> du projet Perfumum explore comment différentes cultures ont construit des <strong>univers olfactifs</strong> spécifiques, articulant matières symboliques, pratiques rituelles et cosmologies sensibles. Cette approche anthropologique permet de comprendre l'odeur comme fait culturel et vecteur de sens collectif.
+                L'axe <strong>Traditions olfactives</strong> du projet Perfumum explore comment différentes cultures ont construit des <strong>univers olfactifs</strong> spécifiques, articulant matières symboliques, pratiques rituelles et cosmologies sensibles. Cette approche anthropologique permet de comprendre l'odeur comme fait culturel et vecteur de sens collectif.
               </p>
             </div>
 
@@ -193,10 +193,10 @@ export default function Civilisations() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Antique</CardTitle>
-                    <CardDescription>Civilisations anciennes (Égypte, Mésopotamie, Grèce, Rome)</CardDescription>
+                    <CardDescription>Cultures anciennes (Égypte, Mésopotamie, Grèce, Rome)</CardDescription>
                   </CardHeader>
                   <CardContent className="text-muted-foreground">
-                    Étude des systèmes olfactifs élaborés des grandes civilisations antiques : parfumerie égyptienne, encens mésopotamiens, aromates grecs, onguents romains. L'odeur comme marqueur social, médium religieux et technologie du corps.
+                    Étude des systèmes olfactifs élaborés des grandes cultures antiques : parfumerie égyptienne, encens mésopotamiens, aromates grecs, onguents romains. L'odeur comme marqueur social, médium religieux et technologie du corps.
                   </CardContent>
                 </Card>
 

@@ -31,7 +31,7 @@ export default function CivilisationDetail() {
         label: (
           <div className="text-center p-6 bg-amber-100 rounded-lg border-2 border-amber-600 shadow-lg">
             <div className="font-bold text-xl">{data.civilisation.name}</div>
-            <div className="text-sm text-gray-600">Civilisation</div>
+            <div className="text-sm text-gray-600">Tradition Olfactive</div>
           </div>
         ),
       },
@@ -87,11 +87,11 @@ export default function CivilisationDetail() {
       <div className="container mx-auto py-8">
         <Card>
           <CardContent className="p-8 text-center">
-            <p className="text-gray-600">Civilisation non trouvée</p>
+            <p className="text-gray-600">Tradition olfactive non trouvée</p>
             <Link href="/civilisations">
               <Button variant="outline" className="mt-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Retour aux Civilisations
+                Retour aux Traditions Olfactives
               </Button>
             </Link>
           </CardContent>
@@ -107,7 +107,7 @@ export default function CivilisationDetail() {
       {/* Breadcrumb */}
       <Breadcrumb
         items={[
-          { label: "Civilisations", href: "/civilisations" },
+          { label: "Traditions Olfactives", href: "/civilisations" },
           { label: civilisation.region || "Région", href: "/civilisations" },
           { label: civilisation.name },
         ]}
@@ -123,7 +123,7 @@ export default function CivilisationDetail() {
         </Link>
         <Badge variant="secondary" className="text-lg px-4 py-2">
           <Globe className="mr-2 h-5 w-5" />
-          Civilisation
+          Tradition Olfactive
         </Badge>
       </div>
 
@@ -202,7 +202,7 @@ export default function CivilisationDetail() {
           <div className="mt-4 flex gap-4 text-sm text-gray-600">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-amber-100 border-2 border-amber-600 rounded"></div>
-              <span>Civilisation</span>
+              <span>Tradition Olfactive</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-green-100 border border-green-400 rounded"></div>

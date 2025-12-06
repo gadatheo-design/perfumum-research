@@ -2406,3 +2406,34 @@
 - Données vérifiées en base (10 recettes category='resine_cbd')
 - Tab "Collections (10)" ajouté avec defaultValue="collections"
 - Solution : Hard refresh navigateur (Ctrl+Shift+R) ou navigation privée recommandée
+
+
+## 🔄 EN COURS : Phase 8 - Remplacement complet "Civilisation" → "Tradition olfactive"
+
+### Audit des occurrences
+- [x] Chercher toutes les occurrences de "civilisation" dans le code frontend (59 trouvées)
+- [x] Chercher toutes les occurrences de "civilisation" dans le code backend (27 trouvées)
+- [x] Identifier les fichiers à modifier (Civilisations.tsx, CivilisationDetail.tsx, Etudes.tsx, APropos.tsx, Dashboard.tsx)
+- [x] Lister les textes UI à mettre à jour
+
+### Remplacement frontend
+- [x] Remplacer textes UI dans Civilisations.tsx (titre, introduction, base de données)
+- [x] Remplacer textes UI dans CivilisationDetail.tsx (breadcrumbs, badges, graphe)
+- [x] Remplacer textes UI dans Etudes.tsx (titre carte)
+- [x] Remplacer textes UI dans APropos.tsx (statistiques, gammes)
+- [x] Remplacer textes UI dans Dashboard.tsx (titre carte)
+
+### Remplacement backend
+- [ ] Mettre à jour procédures tRPC (civilisations.* → traditionsOlfactives.*)
+- [ ] Mettre à jour server/db.ts
+- [ ] Vérifier cohérence avec schéma DB (table traditions_olfactives)
+
+### Routes et navigation
+- [ ] Mettre à jour routes App.tsx (/civilisation → /tradition-olfactive)
+- [ ] Mettre à jour navigation Header
+- [ ] Mettre à jour breadcrumbs et liens internes
+
+### Tests et validation
+- [ ] Tester toutes les pages modifiées
+- [ ] Vérifier navigation et liens
+- [ ] Créer checkpoint final

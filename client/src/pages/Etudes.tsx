@@ -39,9 +39,9 @@ export default function Etudes() {
       molecules: ["Ambroxan", "Hedione", "Iso E Super"]
     },
     {
-      title: "Civilisations",
+      title: "Traditions Olfactives",
       subtitle: "Encens, Rituel, Mémoire",
-      description: "Étude des pratiques olfactives traditionnelles à travers 26 civilisations. Documentation des résines sacrées, fumigations rituelles, et parfums ancestraux.",
+      description: "Étude des pratiques olfactives traditionnelles à travers 26 traditions culturelles. Documentation des résines sacrées, fumigations rituelles, et parfums ancestraux.",
       href: "/civilisations",
       status: "En cours",
       molecules: ["Olibanum", "Myrrhe", "Benjoin"]

@@ -112,7 +112,7 @@ export function Dashboard() {
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <Globe className="h-4 w-4" />
-              Civilisations
+              Traditions Olfactives
             </CardTitle>
           </CardHeader>
           <CardContent>

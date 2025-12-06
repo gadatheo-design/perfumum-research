@@ -56,12 +56,12 @@ export default function APropos() {
                 <CardContent className="space-y-4">
                   <p className="text-muted-foreground leading-relaxed">
                     <strong>PERFUMUM</strong> est la plateforme de recherche décennale (2025-2035) développée par ABSORBE. 
-                    Elle structure l'exploration olfactive autour de 5 gammes atmosphériques : Pétrichor, Volcanique, Civilisations, 
+                    Elle structure l'exploration olfactive autour de 5 gammes atmosphériques : Pétrichor, Volcanique, Traditions Olfactives, 
                     Glaciaire, Bio-Lab.
                   </p>
                   <p className="text-muted-foreground leading-relaxed">
-                    Le projet documente 131 molécules olfactives, 142 recettes expérimentales, 26 civilisations et leurs pratiques 
-                    olfactives, ainsi que 4 prototypes atmosphériques. Cette base de données constitue un outil de recherche 
+                    Le projet documente 131 molécules olfactives, 142 recettes expérimentales, 26 traditions olfactives et leurs pratiques 
+                    culturelles, ainsi que 4 prototypes atmosphériques. Cette base de données constitue un outil de recherche 
                     scientifique et artistique unique.
                   </p>
                   <p className="text-muted-foreground leading-relaxed">
