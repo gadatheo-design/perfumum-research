@@ -2546,3 +2546,16 @@
 - [x] Lister recettes contenant le terpène (avec liens cliquables)
 - [x] Ajouter route /terpene/:id dans App.tsx
 - [x] Mettre à jour liens dans RecetteCBDDetail (/molecule/ → /terpene/)
+
+
+## 🔄 EN COURS : Phase 13 - Enrichissement terpènes + Graphe réel
+
+### Enrichissement données terpènes
+- [x] Ajouter colonnes botaniques dans table molecules (botanicalSources, extractionMethod, therapeuticProperties)
+- [x] Enrichir les 7 terpènes avec données botaniques complètes
+- [x] Mettre à jour page TerpeneDetail pour afficher nouvelles informations
+
+### Graphe D3.js avec données réelles
+- [x] Remplacer données de démonstration par appel tRPC getAllWithMolecules
+- [x] Tester affichage graphe avec 10 recettes CBD + 7 terpènes
+- [x] Vérifier interactions (drag, zoom, filtres)

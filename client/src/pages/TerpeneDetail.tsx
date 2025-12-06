@@ -140,40 +140,75 @@ export default function TerpeneDetail() {
             </div>
             
             {/* Informations Botaniques & Propriétés */}
-            <Card className="mb-12">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Leaf className="w-5 h-5" />
-                  Origine & Propriétés
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {molecule.sourceOrigin && (
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-2">Origine</p>
-                    <p className="leading-relaxed">{molecule.sourceOrigin}</p>
-                  </div>
-                )}
-                {molecule.emotionalResonance && (
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-2">Résonance émotionnelle</p>
-                    <p className="leading-relaxed">{molecule.emotionalResonance}</p>
-                  </div>
-                )}
-                {molecule.functionalEffect && (
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-2">Effet fonctionnel</p>
-                    <p className="leading-relaxed">{molecule.functionalEffect}</p>
-                  </div>
-                )}
-                {molecule.notes && (
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-2">Notes de recherche</p>
-                    <p className="leading-relaxed text-sm">{molecule.notes}</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Leaf className="w-5 h-5" />
+                    Sources Botaniques
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {molecule.botanicalSources ? (
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">Plantes sources</p>
+                      <p className="leading-relaxed">{molecule.botanicalSources}</p>
+                    </div>
+                  ) : molecule.sourceOrigin && (
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">Origine</p>
+                      <p className="leading-relaxed">{molecule.sourceOrigin}</p>
+                    </div>
+                  )}
+                  {molecule.extractionMethod && (
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">Méthodes d'extraction</p>
+                      <p className="leading-relaxed">{molecule.extractionMethod}</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BookOpen className="w-5 h-5" />
+                    Propriétés & Effets
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {molecule.therapeuticProperties && (
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">Propriétés thérapeutiques</p>
+                      <p className="leading-relaxed">{molecule.therapeuticProperties}</p>
+                    </div>
+                  )}
+                  {molecule.emotionalResonance && (
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">Résonance émotionnelle</p>
+                      <p className="leading-relaxed">{molecule.emotionalResonance}</p>
+                    </div>
+                  )}
+                  {molecule.functionalEffect && (
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">Effet fonctionnel</p>
+                      <p className="leading-relaxed">{molecule.functionalEffect}</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+            
+            {molecule.notes && (
+              <Card className="mb-12">
+                <CardHeader>
+                  <CardTitle>Notes de recherche</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="leading-relaxed text-sm text-muted-foreground">{molecule.notes}</p>
+                </CardContent>
+              </Card>
+            )}
             
             {/* Recettes contenant ce terpène */}
             <div>

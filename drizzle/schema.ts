@@ -162,6 +162,10 @@ export const molecules = mysqlTable("molecules", {
   volatility: int("volatility"), // 0-100 scale (calculated from boiling point)
   intensity: int("intensity"), // 0-100 scale (olfactive intensity)
   complexity: int("complexity"), // 0-100 scale (molecular complexity)
+  // Botanical and extraction properties
+  botanicalSources: text("botanicalSources"), // Plant sources (e.g., "Lavande, Menthe, Eucalyptus")
+  extractionMethod: text("extractionMethod"), // Extraction method (e.g., "Hydrodistillation, CO₂ supercritique")
+  therapeuticProperties: text("therapeuticProperties"), // Therapeutic properties (e.g., "Calmant, Anti-inflammatoire")
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

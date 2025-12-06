@@ -12,20 +12,11 @@ export default function GrapheMoleculesRecettes() {
   const svgRef = useRef<SVGSVGElement>(null);
   const [filter, setFilter] = useState<"all" | "classique" | "experimentale">("all");
   
-  const { data: recettes, isLoading: recettesLoading } = trpc.recettes.list.useQuery({ category: "resine_cbd" as any });
-  const recettesCBD = recettes || [];
+  // Charger les données réelles via tRPC
+  const { data: recettesData, isLoading: recettesLoading } = trpc.recettes.getAllWithMolecules.useQuery();
   
   useEffect(() => {
-    if (!svgRef.current || recettesCBD.length === 0) return;
-    
-    // Récupérer toutes les molécules liées
-    const moleculesMap = new Map();
-    const links: any[] = [];
-    
-    recettesCBD.forEach((recette: any) => {
-      // Note: Dans une vraie implémentation, il faudrait charger les molécules via tRPC
-      // Pour l'instant, on crée un graphe simplifié
-    });
+    if (!svgRef.current || !recettesData || recettesData.length === 0) return;
     
     const width = 1200;
     const height = 800;
@@ -38,32 +29,50 @@ export default function GrapheMoleculesRecettes() {
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height]);
     
-    // Créer données de démonstration
+    // Construire les nœuds et liens à partir des données réelles
+    const moleculesMap = new Map();
+    const links: any[] = [];
+    
+    // Filtrer les recettes selon le filtre actif
+    const filteredRecettes = recettesData.filter((r: any) => {
+      if (filter === "all") return true;
+      const isClassique = r.name.includes("Mastiha") || r.name.includes("Vétiver") || r.name.includes("Figue") || r.name.includes("Noir") || r.name.includes("Cuir");
+      return filter === "classique" ? isClassique : !isClassique;
+    });
+    
+    // Extraire toutes les molécules uniques et créer les liens
+    filteredRecettes.forEach((recette: any) => {
+      recette.molecules?.forEach((rm: any) => {
+        const mol = rm.molecule;
+        if (!moleculesMap.has(mol.id)) {
+          moleculesMap.set(mol.id, {
+            id: `mol-${mol.id}`,
+            name: mol.name,
+            type: "molecule",
+          });
+        }
+        links.push({
+          source: `recette-${recette.id}`,
+          target: `mol-${mol.id}`,
+          value: parseFloat(rm.proportion) || 30,
+        });
+      });
+    });
+    
+    // Créer les nœuds
     const nodes = [
-      ...recettesCBD.map((r: any, i: number) => ({
+      ...filteredRecettes.map((r: any) => ({
         id: `recette-${r.id}`,
         name: r.name,
         type: "recette",
         collection: r.name.includes("Mastiha") || r.name.includes("Vétiver") || r.name.includes("Figue") || r.name.includes("Noir") || r.name.includes("Cuir") ? "classique" : "experimentale",
-        x: Math.random() * width,
-        y: Math.random() * height,
       })),
-      { id: "mol-myrcene", name: "Myrcène", type: "molecule", x: width / 2, y: height / 2 },
-      { id: "mol-limonene", name: "Limonène", type: "molecule", x: width / 2 + 100, y: height / 2 },
-      { id: "mol-pinene", name: "α-Pinène", type: "molecule", x: width / 2 - 100, y: height / 2 },
-      { id: "mol-caryo", name: "β-Caryophyllène", type: "molecule", x: width / 2, y: height / 2 + 100 },
-      { id: "mol-linalool", name: "Linalool", type: "molecule", x: width / 2, y: height / 2 - 100 },
+      ...Array.from(moleculesMap.values()),
     ];
-    
-    const demoLinks = recettesCBD.flatMap((r: any, i: number) => [
-      { source: `recette-${r.id}`, target: "mol-myrcene", value: 30 },
-      { source: `recette-${r.id}`, target: "mol-limonene", value: 25 },
-      { source: `recette-${r.id}`, target: "mol-pinene", value: 20 },
-    ]);
     
     // Simulation de force
     const simulation = d3.forceSimulation(nodes as any)
-      .force("link", d3.forceLink(demoLinks).id((d: any) => d.id).distance(150))
+      .force("link", d3.forceLink(links).id((d: any) => d.id).distance(150))
       .force("charge", d3.forceManyBody().strength(-300))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide().radius(50));
@@ -71,7 +80,7 @@ export default function GrapheMoleculesRecettes() {
     // Liens
     const link = svg.append("g")
       .selectAll("line")
-      .data(demoLinks)
+      .data(links)
       .join("line")
       .attr("stroke", "#999")
       .attr("stroke-opacity", 0.6)
@@ -130,7 +139,7 @@ export default function GrapheMoleculesRecettes() {
     return () => {
       simulation.stop();
     };
-  }, [recettesCBD, filter]);
+  }, [recettesData, filter]);
   
   return (
     <div className="min-h-screen flex flex-col">
