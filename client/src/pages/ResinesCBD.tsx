@@ -7,6 +7,11 @@ import { Separator } from "@/components/ui/separator";
 import { trpc } from "@/lib/trpc";
 
 export default function ResinesCBD() {
+  // Fetch CBD collections from database
+  const { data: collectionsCBD, isLoading: loadingCollections } = trpc.recettes.list.useQuery({
+    category: 'resine_cbd' as any
+  });
+
   // Fetch existing premium profiles from database
   const { data: recettes, isLoading } = trpc.recettes.list.useQuery({
     category: 'resine'
@@ -182,8 +187,9 @@ export default function ResinesCBD() {
 
       {/* Tabs */}
       <div className="container py-8">
-        <Tabs defaultValue="intention" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7">
+        <Tabs defaultValue="collections" className="space-y-8">
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-8">
+            <TabsTrigger value="collections">Collections ({collectionsCBD?.length || 0})</TabsTrigger>
             <TabsTrigger value="intention">Intention</TabsTrigger>
             <TabsTrigger value="axes">Axes Génétiques</TabsTrigger>
             <TabsTrigger value="methodes">Méthodes</TabsTrigger>
@@ -192,6 +198,74 @@ export default function ResinesCBD() {
             <TabsTrigger value="tabacs">Tabacs</TabsTrigger>
             <TabsTrigger value="positionnement">Positionnement</TabsTrigger>
           </TabsList>
+
+          {/* Section Collections ABSORBE */}
+          <TabsContent value="collections" className="space-y-6">
+            <div className="mb-6">
+              <h3 className="text-2xl font-bold mb-2">Collections Résines CBD ABSORBE</h3>
+              <p className="text-muted-foreground">
+                Dix formules artisanales combinant résines naturelles, terpènes et matières botaniques rares. 
+                Procédé hybride d'extraction (Éthanol → MCT).
+              </p>
+            </div>
+
+            {loadingCollections ? (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">Chargement des recettes...</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {collectionsCBD?.map((recette) => (
+                  <Card key={recette.id} className="hover:shadow-lg transition-shadow">
+                    <CardHeader>
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <CardTitle className="text-lg">{recette.name}</CardTitle>
+                        <Badge variant="secondary" className="shrink-0">
+                          {(recette.intensity || 0) / 10}%
+                        </Badge>
+                      </div>
+                      <CardDescription className="line-clamp-2">
+                        {recette.description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {recette.formula && (
+                        <div>
+                          <h4 className="text-sm font-medium mb-1">Composition</h4>
+                          <p className="text-xs text-muted-foreground line-clamp-3">
+                            {recette.formula}
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="flex flex-wrap gap-2 text-xs">
+                        {recette.texture && (
+                          <Badge variant="outline">{recette.texture}</Badge>
+                        )}
+                        {recette.maturationTime && (
+                          <Badge variant="outline">{recette.maturationTime}j cure</Badge>
+                        )}
+                        {recette.stability && (
+                          <Badge variant="outline">Stabilité {recette.stability}</Badge>
+                        )}
+                      </div>
+
+                      {recette.protocol && (
+                        <details className="text-sm">
+                          <summary className="cursor-pointer font-medium text-primary hover:underline">
+                            Procédé de fabrication
+                          </summary>
+                          <p className="mt-2 text-xs text-muted-foreground">
+                            {recette.protocol}
+                          </p>
+                        </details>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </TabsContent>
 
           {/* Section 1: Intention */}
           <TabsContent value="intention" className="space-y-6">

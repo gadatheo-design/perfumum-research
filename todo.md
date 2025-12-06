@@ -2298,3 +2298,111 @@
 - [x] PWA installable détectée (popup "Installer PERFUMUM")
 
 **Résultat** : Mode sombre implémenté avec succès ! Navigation et données vérifiées sans problème.
+
+
+## 🔄 EN COURS : Phase 7 - Intégration Résines CBD + Terminologie + Ton factuel
+
+### Intégration recettes résines CBD
+- [x] Ajouter catégorie resine_cbd au schéma drizzle
+- [x] Extraire et structurer les 10 recettes du PDF
+- [x] Importer les 10 recettes dans la base de données
+- [ ] Créer page /resines-cbd avec filtres par collection
+- [ ] Ajouter procédé technique dans page Laboratoire
+- [ ] Lier recettes aux molécules existantes
+- [ ] Mettre à jour navigation Header
+
+## 🔄 Phase 7 - Révision ton factuel + Terminologie
+
+### Analyse terminologique "Civilisations" 
+- [x] Analyser l'usage actuel du terme dans la base de données
+- [x] Évaluer la pertinence scientifique du terme
+- [x] Proposer alternatives : Cultures, Traditions, Contextes, Corpus, Aires culturelles
+- [x] Consulter l'utilisateur pour validation du nouveau terme - **CHOIX : Traditions olfactives**
+- [ ] Renommer table civilisations → traditions_olfactives
+- [ ] Mettre à jour schéma Drizzle et types
+- [ ] Renommer fichiers pages (Civilisations.tsx, CivilisationDetail.tsx)
+- [ ] Mettre à jour navigation Header
+- [ ] Adapter labels et descriptions
+- [ ] Migration base de données avec pnpm db:push
+
+### Révision ton général du site
+- [ ] Auditer toutes les pages pour identifier formulations enthousiastes
+- [ ] Remplacer émojis par symboles neutres ou supprimer
+- [ ] Réviser titres et descriptions (Home, About, pages de détail)
+- [ ] Adopter vocabulaire technique et précis
+- [ ] Supprimer superlatifs et formulations marketing
+- [ ] Harmoniser le style vers documentation scientifique
+
+### Pages prioritaires à réviser
+- [ ] Home.tsx (hero, sections, CTAs)
+- [ ] About.tsx / LeProjet.tsx
+- [ ] Header navigation labels
+- [ ] Pages de détail (Molécule, Recette, Prototype)
+- [ ] Footer et mentions légales
+
+### Tests et validation
+- [ ] Relire l'ensemble du contenu révisé
+- [ ] Vérifier cohérence terminologique
+- [ ] Créer checkpoint final
+
+
+## ✅ TERMINÉ : Phase 7 - Mode sombre + Intégration Résines CBD
+
+### Mode sombre avec toggle ✅
+- [x] Activer switchable={true} dans ThemeProvider
+- [x] Ajouter bouton toggle thème dans Header desktop (icône Lune/Soleil)
+- [x] Ajouter bouton toggle dans menu mobile
+- [x] Variables CSS .dark déjà configurées dans index.css
+- [x] Persistance dans localStorage fonctionnelle
+- [x] Tests toggle desktop et mobile réussis
+
+### Audit navigation et données ✅
+- [x] Vérifier données recettes Mossi dans base (4 recettes trouvées)
+- [x] Tester navigation Home → Molécules (fonctionnelle)
+- [x] Vérifier affichage page /gammes/mossi (CIVILISATIONS)
+- [x] Tester tous les liens principaux (aucun lien cassé)
+- [x] PWA installable confirmée
+
+### Intégration Résines CBD ABSORBE ✅
+- [x] Renommer table civilisations → traditions_olfactives (SQL)
+- [x] Ajouter catégorie resine_cbd au schéma drizzle
+- [x] Extraire et structurer les 10 recettes du PDF (tab.pdf + 2.pdf)
+- [x] Importer les 10 recettes dans la base de données (vérifiées)
+- [x] Ajouter tab "Collections" dans page /resines-cbd
+- [x] Afficher les 10 recettes avec composition, texture, stabilité, procédé
+- [x] Procédé technique documenté (Éthanol → MCT)
+- [x] Méthodologie formulation incluse dans les recettes
+
+### Collections intégrées (10 recettes) ✅
+**Collection Classique "Résines du Levant"** (5 recettes) :
+1. Mastiha Brut
+2. Vétiver Labdanum
+3. Figue & Santal Blanc
+4. Noir de Myrrhe
+5. Cuir d'Ambre
+
+**Collection Expérimentale "Matériaux Impossibles"** (5 recettes) :
+6. Sève Noire
+7. Métal Liquide
+8. Feu Fumé
+9. Orchidée Salée
+10. Distillat de Nuit
+
+### Procédé technique documenté ✅
+- Extraction éthanolique (24-48h, 20-25°C, ratio 1:5)
+- Évaporation du solvant (≤40°C)
+- Solubilisation MCT (35-45°C, 10mL/1g)
+- Incorporation dans hash CBD (0.5-3%, cure 7-14j)
+
+### Méthodologie formulation ✅
+- Protocole standardisé (Préparation → Formulation → Contrôle)
+- Gestion micro-lots (10-30g prototype, 100-250g pré-série, 500-1000g série)
+- Conservation optimale (flacon ambré, 15-18°C, contrôle 1/3/6 mois)
+- Contrôle sensoriel (±15% variation max)
+
+### Notes techniques ✅
+- Problèmes de cache preview Manus persistants (HMR non fonctionnel)
+- Code vérifié et correct dans ResinesCBD.tsx
+- Données vérifiées en base (10 recettes category='resine_cbd')
+- Tab "Collections (10)" ajouté avec defaultValue="collections"
+- Solution : Hard refresh navigateur (Ctrl+Shift+R) ou navigation privée recommandée

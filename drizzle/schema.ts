@@ -189,10 +189,10 @@ export type Accord = typeof accords.$inferSelect;
 export type InsertAccord = typeof accords.$inferInsert;
 
 // ============================================================================
-// CIVILISATIONS
+// TRADITIONS OLFACTIVES
 // ============================================================================
 
-export const civilisations = mysqlTable("civilisations", {
+export const traditionsOlfactives = mysqlTable("traditions_olfactives", {
   id: int("id").autoincrement().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   region: varchar("region", { length: 255 }),
@@ -211,8 +211,13 @@ export const civilisations = mysqlTable("civilisations", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
-export type Civilisation = typeof civilisations.$inferSelect;
-export type InsertCivilisation = typeof civilisations.$inferInsert;
+export type TraditionOlfactive = typeof traditionsOlfactives.$inferSelect;
+export type InsertTraditionOlfactive = typeof traditionsOlfactives.$inferInsert;
+
+// Legacy exports for backward compatibility during migration
+export const civilisations = traditionsOlfactives;
+export type Civilisation = TraditionOlfactive;
+export type InsertCivilisation = InsertTraditionOlfactive;
 
 // ============================================================================
 // RECETTES (Recipes: 160+)
@@ -224,6 +229,7 @@ export const recettes = mysqlTable("recettes", {
   category: mysqlEnum("category", [
     "tabac",
     "resine",
+    "resine_cbd",
     "cone",
     "parfum",
     "encens",
@@ -232,7 +238,7 @@ export const recettes = mysqlTable("recettes", {
   familyId: int("familyId").references(() => families.id),
   accordId: int("accordId").references(() => accords.id),
   tabacId: int("tabacId").references(() => tabacs.id),
-  civilisationId: int("civilisationId").references(() => civilisations.id),
+  civilisationId: int("civilisationId").references(() => traditionsOlfactives.id),
   description: text("description"), // Short description
   ingredients: text("ingredients"), // Key ingredients list
   formula: text("formula"), // Detailed proportions
@@ -402,10 +408,10 @@ export const tabacAccords = mysqlTable("tabac_accords", {
   accordId: int("accordId").notNull().references(() => accords.id),
 });
 
-// Tabacs <-> Civilisations
+// Tabacs <-> Traditions Olfactives
 export const tabacCivilisations = mysqlTable("tabac_civilisations", {
   tabacId: int("tabacId").notNull().references(() => tabacs.id),
-  civilisationId: int("civilisationId").notNull().references(() => civilisations.id),
+  civilisationId: int("civilisationId").notNull().references(() => traditionsOlfactives.id),
 });
 
 // Molecules <-> Accords
@@ -426,10 +432,10 @@ export const moleculeRecettes = mysqlTable("molecule_recettes", {
   recetteId: int("recetteId").notNull().references(() => recettes.id),
 });
 
-// Accords <-> Civilisations
+// Accords <-> Traditions Olfactives
 export const accordCivilisations = mysqlTable("accord_civilisations", {
   accordId: int("accordId").notNull().references(() => accords.id),
-  civilisationId: int("civilisationId").notNull().references(() => civilisations.id),
+  civilisationId: int("civilisationId").notNull().references(() => traditionsOlfactives.id),
 });
 
 // Petrichor <-> Molecules
@@ -590,10 +596,10 @@ export const tobaccoFormulaInstallations = mysqlTable("tobacco_formula_installat
   installationId: int("installationId").notNull().references(() => installations.id),
 });
 
-// Experimental Accords <-> Civilisations
+// Experimental Accords <-> Traditions Olfactives
 export const experimentalAccordCivilisations = mysqlTable("experimental_accord_civilisations", {
   experimentalAccordId: int("experimentalAccordId").notNull().references(() => experimentalAccords.id),
-  civilisationId: int("civilisationId").notNull().references(() => civilisations.id),
+  civilisationId: int("civilisationId").notNull().references(() => traditionsOlfactives.id),
 });
 
 // Prototypes <-> Chemical Families
