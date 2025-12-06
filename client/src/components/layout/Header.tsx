@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, X } from "lucide-react";
+import { Search, Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -11,10 +11,13 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/contexts/ThemeContext";
 
+// Updated: 2025-12-06 05:48 - Added theme toggle
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   const navItems = [
     { href: "/", label: "Accueil" },
@@ -54,13 +57,26 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Search Icon */}
-        <div className="hidden lg:flex items-center">
+        {/* Search Icon & Theme Toggle */}
+        <div className="hidden lg:flex items-center gap-4">
           <Link href="/recherche">
             <a className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <Search className="h-5 w-5" />
             </a>
           </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="h-9 w-9"
+          >
+            {theme === 'dark' ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+            <span className="sr-only">Basculer le thème</span>
+          </Button>
         </div>
 
         {/* Mobile Menu */}
@@ -101,6 +117,23 @@ export function Header() {
                     </a>
                   </Link>
                 </SheetClose>
+                {/* Theme Toggle Mobile */}
+                <button
+                  onClick={toggleTheme}
+                  className="flex items-center gap-2 text-lg text-foreground/60 hover:text-foreground/80 transition-colors text-left"
+                >
+                  {theme === 'dark' ? (
+                    <>
+                      <Sun className="h-5 w-5" />
+                      Mode clair
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="h-5 w-5" />
+                      Mode sombre
+                    </>
+                  )}
+                </button>
               </nav>
             </SheetContent>
           </Sheet>

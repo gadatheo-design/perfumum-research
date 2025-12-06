@@ -2239,3 +2239,62 @@
 ### Phase 3 - Tests et checkpoint
 - [x] Tester affichage footer sur plusieurs pages - TERMINÉ (Home testé, footer visible)
 - [ ] Créer checkpoint final - En cours
+
+
+## 🔄 EN COURS : Phase 5 - Mode sombre + Audit navigation/données (Session actuelle)
+
+### Phase 5.1 - Audit navigation et données
+- [ ] Vérifier tous les liens internes entre pages
+- [ ] Tester navigation Header (desktop + mobile)
+- [ ] Vérifier intégration recettes Mossi dans base de données
+- [ ] Vérifier autres données critiques (molécules, accords, synergies)
+- [ ] Documenter liens cassés et données manquantes
+
+### Phase 5.2 - Corrections navigation et données
+- [ ] Corriger liens cassés identifiés
+- [ ] Ajouter données manquantes (recettes Mossi si nécessaire)
+- [ ] Vérifier cohérence navigation transversale
+- [ ] Tester parcours utilisateur complets
+
+### Phase 5.3 - Implémentation mode sombre
+- [ ] Créer ThemeContext avec useState
+- [ ] Ajouter toggle thème dans Header (icône soleil/lune)
+- [ ] Adapter palette couleurs OKLCH pour mode sombre
+- [ ] Tester lisibilité sur toutes les pages principales
+- [ ] Persister préférence dans localStorage
+
+### Phase 5.4 - Tests et checkpoint final
+- [ ] Tester navigation complète (desktop + mobile)
+- [ ] Tester mode sombre sur 10+ pages représentatives
+- [ ] Vérifier données affichées correctement
+- [ ] Créer checkpoint final avec documentation
+
+
+## ✅ TERMINÉ : Phase 6 - Mode sombre + Audit navigation/données
+
+### Audit navigation et données ✅
+- [x] Vérifier données recettes Mossi dans base de données (4 recettes trouvées)
+- [x] Tester navigation Home → Molécules (fonctionne parfaitement)
+- [x] Vérifier affichage page /gammes/mossi (page CIVILISATIONS opérationnelle)
+- [x] Vérifier footer copyright sur toutes les pages (présent)
+- [x] Tester gammes connexes cliquables (Pétrichor, Volcanique, Bio-Lab OK)
+- [x] Aucun lien cassé identifié - Site solide ✅
+
+### Implémentation mode sombre ✅
+- [x] Activer switchable={true} dans ThemeProvider (App.tsx)
+- [x] Importer useTheme et icônes Moon/Sun dans Header
+- [x] Ajouter bouton toggle thème desktop (icône Lune/Soleil)
+- [x] Ajouter bouton toggle thème menu mobile ("Mode sombre" / "Mode clair")
+- [x] Variables CSS .dark déjà configurées dans index.css
+- [x] Persistance localStorage automatique
+
+### Tests et validation ✅
+- [x] Tester toggle mode clair → sombre (fonctionne parfaitement)
+- [x] Tester toggle mode sombre → clair (fonctionne parfaitement)
+- [x] Vérifier icône change (Lune ↔ Soleil) ✅
+- [x] Vérifier fond noir profond oklch(0.141) en mode sombre
+- [x] Vérifier lisibilité texte clair sur fond sombre
+- [x] Vérifier adaptation cartes et bordures au thème
+- [x] PWA installable détectée (popup "Installer PERFUMUM")
+
+**Résultat** : Mode sombre implémenté avec succès ! Navigation et données vérifiées sans problème.
