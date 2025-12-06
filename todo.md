@@ -2559,3 +2559,25 @@
 - [x] Remplacer données de démonstration par appel tRPC getAllWithMolecules
 - [x] Tester affichage graphe avec 10 recettes CBD + 7 terpènes
 - [x] Vérifier interactions (drag, zoom, filtres)
+
+
+## 🔄 EN COURS : Phase 14 - Images botaniques + Comparaison terpènes + Graphe enrichi
+
+### Images botaniques terpènes
+- [x] Générer 7 images botaniques (plantes sources pour chaque terpène)
+- [x] Créer mapping terpène-image dans code
+- [x] Intégrer images dans pages TerpeneDetail
+
+### Page comparaison terpènes
+- [x] Créer composant CompareTerpenes.tsx
+- [x] Sélection multi-terpènes (2-4 max)
+- [x] Tableau comparatif (sources, extraction, propriétés, profil olfactif)
+- [ ] Diagramme radar profils olfactifs (optionnel)
+- [ ] Export PDF comparaison (optionnel)
+- [x] Ajouter route /compare-terpenes
+
+### Graphe D3.js enrichi
+- [x] Ajouter tooltips au survol des nœuds (formule, proportion, propriétés)
+- [x] Rendre nœuds cliquables (navigation vers pages détail)
+- [x] Améliorer visibilité labels
+- [x] Ajouter légende interactive

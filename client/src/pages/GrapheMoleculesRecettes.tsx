@@ -7,13 +7,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import * as d3 from "d3";
+import { useLocation } from "wouter";
 
 export default function GrapheMoleculesRecettes() {
   const svgRef = useRef<SVGSVGElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<"all" | "classique" | "experimentale">("all");
+  const [, setLocation] = useLocation();
   
   // Charger les données réelles via tRPC
   const { data: recettesData, isLoading: recettesLoading } = trpc.recettes.getAllWithMolecules.useQuery();
+  const { data: allMolecules } = trpc.molecules.list.useQuery();
+  const terpenes = allMolecules?.filter((m: any) => [1, 2, 3, 4, 5, 6, 7].includes(m.id)) || [];
   
   useEffect(() => {
     if (!svgRef.current || !recettesData || recettesData.length === 0) return;
@@ -100,14 +105,81 @@ export default function GrapheMoleculesRecettes() {
       .attr("r", (d: any) => d.type === "recette" ? 20 : 15)
       .attr("fill", (d: any) => d.type === "recette" ? "#8b5cf6" : "#10b981")
       .attr("stroke", "#fff")
-      .attr("stroke-width", 2);
+      .attr("stroke-width", 2)
+      .attr("cursor", "pointer")
+      .on("mouseover", function(event: any, d: any) {
+        // Afficher tooltip
+        if (tooltipRef.current) {
+          const tooltip = d3.select(tooltipRef.current);
+          
+          if (d.type === "recette") {
+            const recette = filteredRecettes.find((r: any) => `recette-${r.id}` === d.id);
+            tooltip.html(`
+              <div class="font-semibold mb-1">${d.name}</div>
+              <div class="text-xs text-muted-foreground">
+                ${recette?.recette?.description || "Recette CBD"}
+              </div>
+              <div class="text-xs mt-1">
+                <strong>Collection:</strong> ${d.collection}
+              </div>
+            `);
+          } else {
+            const molId = parseInt(d.id.replace("mol-", ""));
+            const mol = terpenes.find((t: any) => t.id === molId);
+            tooltip.html(`
+              <div class="font-semibold mb-1">${d.name}</div>
+              <div class="text-xs text-muted-foreground">
+                ${mol?.olfactiveProfile || "Terpène"}
+              </div>
+              ${mol?.chemicalFormula ? `<div class="text-xs mt-1"><strong>Formule:</strong> ${mol.chemicalFormula}</div>` : ""}
+              ${mol?.therapeuticProperties ? `<div class="text-xs mt-1"><strong>Propriétés:</strong> ${mol.therapeuticProperties.split(",").slice(0, 3).join(", ")}...</div>` : ""}
+            `);
+          }
+          
+          tooltip
+            .style("opacity", 1)
+            .style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY - 10) + "px");
+        }
+        
+        // Highlight
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .attr("r", (d: any) => d.type === "recette" ? 25 : 20)
+          .attr("stroke-width", 3);
+      })
+      .on("mouseout", function() {
+        // Cacher tooltip
+        if (tooltipRef.current) {
+          d3.select(tooltipRef.current).style("opacity", 0);
+        }
+        
+        // Remove highlight
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .attr("r", (d: any) => d.type === "recette" ? 20 : 15)
+          .attr("stroke-width", 2);
+      })
+      .on("click", function(event: any, d: any) {
+        event.stopPropagation();
+        if (d.type === "recette") {
+          const recetteId = d.id.replace("recette-", "");
+          setLocation(`/resine-cbd/${recetteId}`);
+        } else {
+          const molId = d.id.replace("mol-", "");
+          setLocation(`/terpene/${molId}`);
+        }
+      });
     
     node.append("text")
       .text((d: any) => d.name)
       .attr("x", 25)
       .attr("y", 5)
       .attr("font-size", 12)
-      .attr("fill", "#333");
+      .attr("fill", "currentColor")
+      .attr("pointer-events", "none");
     
     simulation.on("tick", () => {
       link
@@ -144,6 +216,13 @@ export default function GrapheMoleculesRecettes() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
+      
+      {/* Tooltip */}
+      <div
+        ref={tooltipRef}
+        className="fixed pointer-events-none z-50 bg-popover text-popover-foreground border border-border rounded-lg shadow-lg p-3 max-w-xs"
+        style={{ opacity: 0 }}
+      />
       
       <main className="flex-1 container mx-auto py-8 space-y-6">
         <div className="flex items-center justify-between">
@@ -209,7 +288,9 @@ export default function GrapheMoleculesRecettes() {
             <CardTitle>Légende</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>• Cliquez et glissez les nœuds pour explorer le graphe</p>
+            <p>• <strong>Glissez</strong> les nœuds pour réorganiser le graphe</p>
+            <p>• <strong>Survolez</strong> un nœud pour voir ses détails</p>
+            <p>• <strong>Cliquez</strong> sur un nœud pour accéder à sa fiche détaillée</p>
             <p>• L'épaisseur des liens représente la proportion de terpène dans la recette</p>
             <p>• Les nœuds violets représentent les recettes CBD</p>
             <p>• Les nœuds verts représentent les molécules terpéniques</p>

@@ -29,6 +29,7 @@ import Recherche from "./pages/Recherche";
 import MoleculeDetail from "./pages/MoleculeDetail";
 import RecetteDetail from "./pages/RecetteDetail";
 import TerpeneDetail from "./pages/TerpeneDetail";
+import CompareTerpenes from "./pages/CompareTerpenes";
 import Recettes from "./pages/Recettes";
 import Gammes from "./pages/Gammes";
 import GammesPetrichor from "@/pages/GammesPetrichor";
@@ -112,6 +113,7 @@ function Router() {
       <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
           <Route path="/molecule/:id" component={MoleculeDetail} />
           <Route path="/terpene/:id" component={TerpeneDetail} />
+          <Route path="/compare-terpenes" component={CompareTerpenes} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />
       <Route path="/laboratoire" component={Laboratoire} />

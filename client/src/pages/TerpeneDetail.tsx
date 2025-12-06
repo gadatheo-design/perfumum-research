@@ -7,6 +7,17 @@ import { Separator } from "@/components/ui/separator";
 import { trpc } from "@/lib/trpc";
 import { Leaf, Beaker, Droplet, ThermometerSun, FlaskConical, BookOpen } from "lucide-react";
 
+// Mapping terpène -> image botanique
+const TERPENE_IMAGES: Record<string, string> = {
+  "Myrcène": "/images/terpenes/myrcene-botanical.png",
+  "Limonène": "/images/terpenes/limonene-botanical.png",
+  "α-Pinène": "/images/terpenes/pinene-botanical.png",
+  "β-Pinène": "/images/terpenes/beta-pinene-botanical.png",
+  "β-Caryophyllène": "/images/terpenes/caryophyllene-botanical.png",
+  "Linalool": "/images/terpenes/linalool-botanical.png",
+  "Humulène": "/images/terpenes/humulene-botanical.png",
+};
+
 export default function TerpeneDetail() {
   const params = useParams();
   const id = parseInt(params.id || "0");
@@ -56,8 +67,8 @@ export default function TerpeneDetail() {
               <span className="text-foreground">{molecule.name}</span>
             </div>
             
-            <div className="flex items-start justify-between gap-6">
-              <div>
+            <div className="flex items-start justify-between gap-8">
+              <div className="flex-1">
                 <h1 className="text-4xl font-bold mb-4">{molecule.name}</h1>
                 <p className="text-xl text-muted-foreground mb-6">
                   {molecule.olfactiveProfile || "Terpène aromatique naturel"}
@@ -75,6 +86,17 @@ export default function TerpeneDetail() {
                   )}
                 </div>
               </div>
+              
+              {/* Image botanique */}
+              {TERPENE_IMAGES[molecule.name] && (
+                <div className="hidden md:block">
+                  <img
+                    src={TERPENE_IMAGES[molecule.name]}
+                    alt={`Illustration botanique - ${molecule.name}`}
+                    className="w-64 h-64 object-cover rounded-2xl shadow-lg border-4 border-white dark:border-gray-800"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </section>
