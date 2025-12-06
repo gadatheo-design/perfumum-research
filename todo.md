@@ -2437,3 +2437,34 @@
 - [ ] Tester toutes les pages modifiées
 - [ ] Vérifier navigation et liens
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Phase 9 - Révision ton factuel + Pages détail résines CBD
+
+### Révision ton général
+- [ ] Auditer pages principales pour identifier formulations enthousiastes
+- [ ] Supprimer émojis et ponctuation excessive (!, ?, emojis)
+- [ ] Remplacer formulations subjectives par descriptions factuelles
+- [ ] Réviser Home.tsx
+- [ ] Réviser APropos.tsx
+- [ ] Réviser Etudes.tsx
+- [ ] Réviser pages gammes (Pétrichor, Volcanique, etc.)
+- [ ] Réviser Civilisations.tsx (Traditions Olfactives)
+
+### Pages détail résines CBD
+- [x] Créer composant RecetteCBDDetail.tsx
+- [x] Ajouter route /resine-cbd/:id dans App.tsx
+- [x] Utiliser procédure tRPC recettes.getById existante
+- [x] Afficher composition complète (ingredients, formula, protocol)
+- [x] Afficher texture, stabilité, intensité
+- [x] Ajouter section procédé technique (Extraction Éthanol → MCT)
+- [x] Afficher détails techniques (maturation, production, combustion, coût)
+- [x] Mettre à jour page ResinesCBD.tsx avec liens vers détails
+- [ ] Lier aux molécules existantes (phase ultérieure)
+- [ ] Ajouter navigation entre recettes (précédent/suivant) (optionnel)
+
+### Tests et validation
+- [ ] Tester toutes les pages modifiées
+- [ ] Vérifier cohérence ton général
+- [ ] Tester navigation recettes CBD
+- [ ] Créer checkpoint final

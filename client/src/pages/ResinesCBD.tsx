@@ -216,7 +216,8 @@ export default function ResinesCBD() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {collectionsCBD?.map((recette) => (
-                  <Card key={recette.id} className="hover:shadow-lg transition-shadow">
+                  <Link key={recette.id} href={`/resine-cbd/${recette.id}`}>
+                  <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
                     <CardHeader>
                       <div className="flex items-start justify-between gap-2 mb-2">
                         <CardTitle className="text-lg">{recette.name}</CardTitle>
@@ -262,6 +263,7 @@ export default function ResinesCBD() {
                       )}
                     </CardContent>
                   </Card>
+                  </Link>
                 ))}
               </div>
             )}

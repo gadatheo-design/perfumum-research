@@ -43,6 +43,7 @@ import C4TerraAmbra from "./pages/prototypes/C4";
 import Reseau from "./pages/Reseau";
 import BioMineralis from "./pages/BioMineralis";
 import ResinesCBD from "@/pages/ResinesCBD";
+import RecetteCBDDetail from "@/pages/RecetteCBDDetail";
 import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
 import TabacsNiche from "@/pages/TabacsNiche";
 import LaboratoireRecettes from "./pages/LaboratoireRecettes";
@@ -105,6 +106,7 @@ function Router() {
       <Route path="/reseau" component={Reseau} />
       <Route path="/bio-mineralis" component={BioMineralis} />
       <Route path="/resines-cbd" component={ResinesCBD} />
+      <Route path="/resine-cbd/:id" component={RecetteCBDDetail} />
           <Route path="/molecule/:id" component={MoleculeDetail} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />

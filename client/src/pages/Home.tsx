@@ -34,7 +34,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.3s'}}>
                 <Link href="/gammes">
                   <Button size="lg" className="gap-2">
-                    Explorer les atmosphères
+                    Consulter les gammes
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
@@ -52,7 +52,7 @@ export default function Home() {
         <section className="section-spacing bg-muted/30">
           <div className="container">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Qu'est-ce que Perfumum ?</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Présentation du projet</h2>
               <div className="grid md:grid-cols-2 gap-8">
                 <Card className="brutal-border bg-card">
                   <CardHeader>
@@ -76,7 +76,7 @@ export default function Home() {
                     <ul className="space-y-3 text-muted-foreground">
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
-                        <span>Développer <strong>5 gammes olfactives</strong> conceptuelles (Pétrichor, Volcanique, Civilisations, Glaciaire, Bio-Lab)</span>
+                        <span>Développer <strong>5 gammes olfactives</strong> conceptuelles (Pétrichor, Volcanique, Traditions Olfactives, Glaciaire, Bio-Lab)</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
@@ -88,7 +88,7 @@ export default function Home() {
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
-                        <span>Explorer les <strong>pratiques olfactives</strong> de 26 civilisations</span>
+                        <span>Documenter les <strong>pratiques olfactives</strong> de 26 traditions culturelles</span>
                       </li>
                     </ul>
                   </CardContent>
@@ -123,7 +123,7 @@ export default function Home() {
                     </p>
                     <Link href="/gammes/petrichor">
                       <Button variant="outline" size="sm" className="w-full group-hover:border-petrichor">
-                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                        Consulter <ArrowRight className="h-3 w-3 ml-2" />
                       </Button>
                     </Link>
                   </CardContent>
@@ -144,7 +144,7 @@ export default function Home() {
                     </p>
                     <Link href="/gammes/volcanique">
                       <Button variant="outline" size="sm" className="w-full group-hover:border-volcanique">
-                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                        Consulter <ArrowRight className="h-3 w-3 ml-2" />
                       </Button>
                     </Link>
                   </CardContent>
@@ -156,16 +156,16 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-lg bg-solar-mineralis/10 flex items-center justify-center mb-4 group-hover:bg-solar-mineralis/20 transition-colors">
                       <Globe2 className="h-6 w-6 text-solar-mineralis" />
                     </div>
-                    <CardTitle className="group-hover:text-solar-mineralis transition-colors">Civilisations</CardTitle>
+                    <CardTitle className="group-hover:text-solar-mineralis transition-colors">Traditions Olfactives</CardTitle>
                     <CardDescription>Sacré • Culturel • Rituel</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Pratiques olfactives rituelles. 26 civilisations documentées (encens, tabacs sacrés, onguents).
+                      Pratiques olfactives rituelles. 26 traditions culturelles documentées (encens, tabacs sacrés, onguents).
                     </p>
                     <Link href="/civilisations">
                       <Button variant="outline" size="sm" className="w-full group-hover:border-solar-mineralis">
-                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                        Consulter <ArrowRight className="h-3 w-3 ml-2" />
                       </Button>
                     </Link>
                   </CardContent>
@@ -207,7 +207,7 @@ export default function Home() {
                     </p>
                     <Link href="/bio-mineralis">
                       <Button variant="outline" size="sm" className="w-full group-hover:border-pink-500">
-                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                        Consulter <ArrowRight className="h-3 w-3 ml-2" />
                       </Button>
                     </Link>
                   </CardContent>
@@ -221,9 +221,9 @@ export default function Home() {
         <section className="section-spacing bg-muted/30">
           <div className="container">
             <div className="max-w-5xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Explorer les Données</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Accès aux données</h2>
               <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-                Accédez aux bases de données, visualisations scientifiques et programmes de recherche.
+                Bases de données, visualisations scientifiques et programmes de recherche.
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
