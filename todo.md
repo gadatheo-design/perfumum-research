@@ -2523,3 +2523,26 @@
 - [ ] Vérifier liens vers pages molécules
 - [ ] Tester graphe interactif
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Phase 12 - Graphe réel + Navigation + Pages terpènes
+
+### Chargement données réelles graphe
+- [ ] Créer procédure tRPC pour récupérer toutes les liaisons recette-molécules
+- [ ] Modifier GrapheMoleculesRecettes.tsx pour charger données via tRPC
+- [ ] Remplacer données de démonstration par données réelles
+- [ ] Afficher vrais liens pondérés par proportion
+
+### Ajout lien navigation
+- [x] Ajouter bouton "Visualiser le graphe" dans page ResinesCBD.tsx
+- [x] Ajouter lien dans section Collections (avec icône ExternalLink)
+- [ ] Optionnel : Ajouter dans Header navigation (non nécessaire)
+
+### Pages détail terpènes
+- [x] Créer page TerpeneDetail.tsx
+- [x] Afficher propriétés chimiques (formule, point ébullition, famille)
+- [x] Afficher profil olfactif et intensité
+- [x] Afficher origine, résonance émotionnelle, effet fonctionnel
+- [x] Lister recettes contenant le terpène (avec liens cliquables)
+- [x] Ajouter route /terpene/:id dans App.tsx
+- [x] Mettre à jour liens dans RecetteCBDDetail (/molecule/ → /terpene/)

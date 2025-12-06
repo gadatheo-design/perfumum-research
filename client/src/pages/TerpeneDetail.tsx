@@ -1,0 +1,213 @@
+import { useParams, Link } from "wouter";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { trpc } from "@/lib/trpc";
+import { Leaf, Beaker, Droplet, ThermometerSun, FlaskConical, BookOpen } from "lucide-react";
+
+export default function TerpeneDetail() {
+  const params = useParams();
+  const id = parseInt(params.id || "0");
+  
+  const { data: molecule, isLoading } = trpc.molecules.getById.useQuery(id);
+  
+  // Récupérer les recettes contenant ce terpène
+  const { data: recettesData } = trpc.recettes.list.useQuery({ category: "resine_cbd" as any });
+  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container py-12">
+          <p className="text-center text-muted-foreground">Chargement...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+  
+  if (!molecule) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container py-12">
+          <p className="text-center text-destructive">Terpène introuvable</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+  
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-950 dark:to-emerald-900 py-16">
+          <div className="container">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+              <Link href="/">Accueil</Link>
+              <span>/</span>
+              <Link href="/resines-cbd">Résines CBD</Link>
+              <span>/</span>
+              <span className="text-foreground">{molecule.name}</span>
+            </div>
+            
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <h1 className="text-4xl font-bold mb-4">{molecule.name}</h1>
+                <p className="text-xl text-muted-foreground mb-6">
+                  {molecule.olfactiveProfile || "Terpène aromatique naturel"}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="secondary">
+                    <Leaf className="w-3 h-3 mr-1" />
+                    {molecule.family || "Terpène"}
+                  </Badge>
+                  {molecule.chemicalFormula && (
+                    <Badge variant="outline">
+                      <Beaker className="w-3 h-3 mr-1" />
+                      {molecule.chemicalFormula}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* Détails Techniques */}
+        <section className="py-12 bg-background">
+          <div className="container">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FlaskConical className="w-5 h-5" />
+                    Propriétés Chimiques
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {molecule.chemicalFormula && (
+                    <div>
+                      <p className="text-sm text-muted-foreground">Formule moléculaire</p>
+                      <p className="font-mono text-lg">{molecule.chemicalFormula}</p>
+                    </div>
+                  )}
+                  {molecule.boilingPoint && (
+                    <div>
+                      <p className="text-sm text-muted-foreground flex items-center gap-2">
+                        <ThermometerSun className="w-4 h-4" />
+                        Point d'ébullition
+                      </p>
+                      <p className="font-semibold">{molecule.boilingPoint}°C</p>
+                    </div>
+                  )}
+                  {molecule.family && (
+                    <div>
+                      <p className="text-sm text-muted-foreground">Famille chimique</p>
+                      <p className="font-semibold">{molecule.family}</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Droplet className="w-5 h-5" />
+                    Profil Olfactif
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {molecule.olfactiveProfile && (
+                    <div>
+                      <p className="text-sm text-muted-foreground">Profil olfactif</p>
+                      <p className="font-semibold">{molecule.olfactiveProfile}</p>
+                    </div>
+                  )}
+                  {molecule.olfactiveProfile && (
+                    <div>
+                      <p className="text-sm text-muted-foreground">Intensité</p>
+                      <p>{molecule.intensity ? `${molecule.intensity}/100` : "Non spécifiée"}</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+            
+            {/* Informations Botaniques & Propriétés */}
+            <Card className="mb-12">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Leaf className="w-5 h-5" />
+                  Origine & Propriétés
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {molecule.sourceOrigin && (
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Origine</p>
+                    <p className="leading-relaxed">{molecule.sourceOrigin}</p>
+                  </div>
+                )}
+                {molecule.emotionalResonance && (
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Résonance émotionnelle</p>
+                    <p className="leading-relaxed">{molecule.emotionalResonance}</p>
+                  </div>
+                )}
+                {molecule.functionalEffect && (
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Effet fonctionnel</p>
+                    <p className="leading-relaxed">{molecule.functionalEffect}</p>
+                  </div>
+                )}
+                {molecule.notes && (
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-2">Notes de recherche</p>
+                    <p className="leading-relaxed text-sm">{molecule.notes}</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+            
+            {/* Recettes contenant ce terpène */}
+            <div>
+              <h2 className="text-2xl font-bold mb-6">Recettes contenant {molecule.name}</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {recettesData?.map((recette) => (
+                  <Link key={recette.id} href={`/resine-cbd/${recette.id}`}>
+                    <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+                      <CardHeader>
+                        <CardTitle className="text-lg">{recette.name}</CardTitle>
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {recette.description}
+                        </p>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex flex-wrap gap-2">
+                          {recette.texture && (
+                            <Badge variant="secondary">{recette.texture}</Badge>
+                          )}
+                          {recette.stability && (
+                            <Badge variant="outline">Stabilité: {recette.stability}</Badge>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+}

@@ -1602,3 +1602,35 @@ export async function getRecetteMolecules(recetteId: number) {
   
   return results;
 }
+
+
+export async function getAllRecettesWithMolecules() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const recettesCBD = await db
+    .select()
+    .from(recettes)
+    .where(eq(recettes.category, "resine_cbd" as any));
+  
+  const result = await Promise.all(
+    recettesCBD.map(async (recette: any) => {
+      const mols = await db
+        .select({
+          molecule: molecules,
+          proportion: recetteMolecules.proportion,
+          role: recetteMolecules.role,
+        })
+        .from(recetteMolecules)
+        .innerJoin(molecules, eq(recetteMolecules.moleculeId, molecules.id))
+        .where(eq(recetteMolecules.recetteId, recette.id));
+      
+      return {
+        recette,
+        molecules: mols,
+      };
+    })
+  );
+  
+  return result;
+}

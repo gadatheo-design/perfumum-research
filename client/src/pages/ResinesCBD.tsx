@@ -3,6 +3,7 @@ import { ChevronRight, Leaf, AlertTriangle, Beaker, Palette, Cigarette, Info, Sp
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { trpc } from "@/lib/trpc";
 
@@ -202,11 +203,21 @@ export default function ResinesCBD() {
           {/* Section Collections ABSORBE */}
           <TabsContent value="collections" className="space-y-6">
             <div className="mb-6">
-              <h3 className="text-2xl font-bold mb-2">Collections Résines CBD ABSORBE</h3>
-              <p className="text-muted-foreground">
-                Dix formules artisanales combinant résines naturelles, terpènes et matières botaniques rares. 
-                Procédé hybride d'extraction (Éthanol → MCT).
-              </p>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">Collections Résines CBD ABSORBE</h3>
+                  <p className="text-muted-foreground">
+                    Dix formules artisanales combinant résines naturelles, terpènes et matières botaniques rares. 
+                    Procédé hybride d'extraction (Éthanol → MCT).
+                  </p>
+                </div>
+                <Link href="/graphe-molecules-recettes">
+                  <Button variant="outline" className="shrink-0">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Visualiser le graphe
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             {loadingCollections ? (

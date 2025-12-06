@@ -136,6 +136,10 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getRecetteMolecules(input);
       }),
+    getAllWithMolecules: publicProcedure
+      .query(async () => {
+        return await db.getAllRecettesWithMolecules();
+      }),
   }),
 
   // Civilisations

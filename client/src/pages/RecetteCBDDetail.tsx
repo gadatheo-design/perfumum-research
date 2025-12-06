@@ -219,7 +219,7 @@ export default function RecetteCBDDetail() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {molecules.map((item: any) => (
-                    <Link key={item.molecule.id} href={`/molecule/${item.molecule.id}`}>
+                    <Link key={item.molecule.id} href={`/terpene/${item.molecule.id}`}>
                       <Card className="hover:border-primary transition-colors cursor-pointer">
                         <CardContent className="p-4">
                           <div className="flex items-start justify-between mb-2">
