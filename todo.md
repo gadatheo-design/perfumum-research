@@ -2468,3 +2468,26 @@
 - [ ] Vérifier cohérence ton général
 - [ ] Tester navigation recettes CBD
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Phase 10 - Liaison recettes CBD → molécules + Graphes
+
+### Création table jonction
+- [x] Créer table recette_molecules (many-to-many)
+- [x] Ajouter relations dans drizzle/schema.ts
+- [x] Migrer schéma via SQL direct
+
+### Import données liaison
+- [x] Identifier molécules présentes dans chaque recette CBD
+- [x] Créer script d'import des liaisons (dynamique)
+- [x] Importer données dans recette_molecules (30 liaisons### Affichage graphe moléculaire
+- [x] Créer procédure tRPC recettes.getMolecules
+- [x] Créer fonction getRecetteMolecules dans db.ts
+- [ ] Afficher graphe moléculaire dans RecetteCBDDetail.tsx
+- [ ] Afficher section "Molécules présentes" avec liens
+- [ ] Ajouter graphe de relations moléculairestrations si disponibles
+
+### Tests et validation
+- [ ] Tester affichage graphe pour chaque recette CBD
+- [ ] Vérifier liens vers pages molécules
+- [ ] Créer checkpoint final

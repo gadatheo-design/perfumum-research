@@ -44,6 +44,7 @@ import {
   sharedCollections,
   moleculeNotes,
   citations,
+  recetteMolecules,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -1583,4 +1584,21 @@ export async function getCitation(entityType: string, entityId: number, format: 
     );
   
   return citation;
+}
+
+export async function getRecetteMolecules(recetteId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const results = await db
+    .select({
+      molecule: molecules,
+      proportion: recetteMolecules.proportion,
+      role: recetteMolecules.role,
+    })
+    .from(recetteMolecules)
+    .innerJoin(molecules, eq(recetteMolecules.moleculeId, molecules.id))
+    .where(eq(recetteMolecules.recetteId, recetteId));
+  
+  return results;
 }

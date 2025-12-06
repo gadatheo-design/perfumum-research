@@ -260,6 +260,25 @@ export type Recette = typeof recettes.$inferSelect;
 export type InsertRecette = typeof recettes.$inferInsert;
 
 // ============================================================================
+// RECETTE_MOLECULES (Many-to-Many Junction Table)
+// ============================================================================
+
+export const recetteMolecules = mysqlTable("recette_molecules", {
+  id: int("id").autoincrement().primaryKey(),
+  recetteId: int("recette_id").notNull().references(() => recettes.id),
+  moleculeId: int("molecule_id").notNull().references(() => molecules.id),
+  proportion: int("proportion"), // Optional: percentage or concentration
+  role: varchar("role", { length: 100 }), // Optional: "base", "accent", "fixative", etc.
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  // Unique constraint: one molecule can appear only once per recipe
+  uniqueRecetteMolecule: uniqueIndex("unique_recette_molecule").on(table.recetteId, table.moleculeId),
+}));
+
+export type RecetteMolecule = typeof recetteMolecules.$inferSelect;
+export type InsertRecetteMolecule = typeof recetteMolecules.$inferInsert;
+
+// ============================================================================
 // PETRICHOR (60 variations)
 // ============================================================================
 

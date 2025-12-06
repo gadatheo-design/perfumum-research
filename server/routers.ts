@@ -128,6 +128,14 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getRecetteById(input);
       }),
+    getMolecules: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getRecetteMolecules(input);
+      }),
   }),
 
   // Civilisations

@@ -1,0 +1,70 @@
+{
+  "query": "SELECT id, name, ingredients, formula FROM recettes WHERE category = 'resine_cbd' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, ingredients, formula FROM recettes WHERE category = 'resine_cbd' ORDER BY id;",
+  "rows": [
+    {
+      "id": "60001",
+      "name": "Mastiha Brut",
+      "ingredients": "Mastiha, citron vert, laurier, cardamome, santal, benjoin",
+      "formula": "Tête: Zeste citron vert 0.2%, Laurier séché 0.1% | Cœur: Mastiha fondue 0.8%, Cardamome verte 0.2% | Fond: Santal 0.5%, Benjoin 0.2%"
+    },
+    {
+      "id": "60002",
+      "name": "Vétiver Labdanum",
+      "ingredients": "Labdanum, vétiver, patchouli, orange amère, poivre rose, vanille",
+      "formula": "Tête: Orange amère (zeste) 0.3%, Poivre rose 0.1% | Cœur: Labdanum 0.8%, Patchouli 0.2% | Fond: Vétiver 0.5%, Vanille 0.3%"
+    },
+    {
+      "id": "60003",
+      "name": "Figue & Santal Blanc",
+      "ingredients": "Santal blanc, feuille de figuier, bergamote, mastiha, vanille, labdanum",
+      "formula": "Tête: Bergamote (zeste) 0.3%, Feuille de figuier séchée 0.1% | Cœur: Santal blanc 0.6%, Mastiha 0.2% | Fond: Vanille 0.4%, Labdanum 0.3%"
+    },
+    {
+      "id": "60004",
+      "name": "Noir de Myrrhe",
+      "ingredients": "Myrrhe, benjoin, labdanum, cèdre atlas, cardamome noire, citron confit",
+      "formula": "Tête: Cardamome noire 0.1%, Citron confit (écorce) 0.2% | Cœur: Myrrhe 0.8%, Benjoin 0.3% | Fond: Labdanum 0.4%, Cèdre atlas 0.2%"
+    },
+    {
+      "id": "60005",
+      "name": "Cuir d'Ambre",
+      "ingredients": "Labdanum, benjoin, vanille, tonka, mandarine, tabac",
+      "formula": "Tête: Mandarine rouge 0.3%, Feuille de tabac 0.2% | Cœur: Labdanum 0.7%, Benjoin 0.5% | Fond: Vanille 0.3%, Tonka râpée 0.2%"
+    },
+    {
+      "id": "60006",
+      "name": "Sève Noire / Feuillage Mort",
+      "ingredients": "Vétiver, labdanum, cypriol, angélique, cacao, noisetier, sauge, goudron bouleau",
+      "formula": "Tête: Feuille de noisetier + sauge (infusion) 0.3%, Cacao brut 0.2% | Cœur: Racine d'angélique 0.4%, Cypriol 0.3% | Fond: Vétiver + Labdanum + trace goudron bouleau 0.8%"
+    },
+    {
+      "id": "60007",
+      "name": "Métal Liquide",
+      "ingredients": "Galbanum, pamplemousse, iris, violette, ambrette, poivre blanc, girofle",
+      "formula": "Tête: Galbanum + pamplemousse 0.4%, Poivre blanc 0.1% | Cœur: Iris + violette (infusion) 0.4% | Fond: Ambrette 0.3%, Clou de girofle (trace) 0.1%"
+    },
+    {
+      "id": "60008",
+      "name": "Feu Fumé / Soufre Doux",
+      "ingredients": "Encens oliban, myrrhe, ambre, miel, mandarine, piment, charbon",
+      "formula": "Tête: Mandarine verte 0.3%, Piment doux (trace) 0.05% | Cœur: Encens oliban 0.6%, Miel 0.3% | Fond: Myrrhe + ambre + charbon fin 0.8%"
+    },
+    {
+      "id": "60009",
+      "name": "Orchidée Salée",
+      "ingredients": "Yuzu, fleur de sel, menthe bergamote, ylang-ylang, vanille, santal, mousse de chêne, labdanum",
+      "formula": "Tête: Yuzu (zeste) + fleur de sel 0.3%, Menthe bergamote 0.2% | Cœur: Ylang-ylang + Vanille 0.4% | Fond: Santal + mousse de chêne + labdanum clair 0.6%"
+    },
+    {
+      "id": "60010",
+      "name": "Distillat de Nuit / Morphée",
+      "ingredients": "Jasmin, damiana, mélisse, labdanum, santal, benjoin, vanille, cardamome, bergamote",
+      "formula": "Tête: Cardamome + bergamote 0.3% | Cœur: Jasmin + Damiana + Mélisse (infusion) 0.8% | Fond: Labdanum + Santal + Benjoin + Vanille 1.2%"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tingredients\tformula\n60001\tMastiha Brut\tMastiha, citron vert, laurier, cardamome, santal, benjoin\tTête: Zeste citron vert 0.2%, Laurier séché 0.1% | Cœur: Mastiha fondue 0.8%, Cardamome verte 0.2% | Fond: Santal 0.5%, Benjoin 0.2%\n60002\tVétiver Labdanum\tLabdanum, vétiver, patchouli, orange amère, poivre rose, vanille\tTête: Orange amère (zeste) 0.3%, Poivre rose 0.1% | Cœur: Labdanum 0.8%, Patchouli 0.2% | Fond: Vétiver 0.5%, Vanille 0.3%\n60003\tFigue & Santal Blanc\tSantal blanc, feuille de figuier, bergamote, mastiha, vanille, labdanum\tTête: Bergamote (zeste) 0.3%, Feuille de figuier séchée 0.1% | Cœur: Santal blanc 0.6%, Mastiha 0.2% | Fond: Vanille 0.4%, Labdanum 0.3%\n60004\tNoir de Myrrhe\tMyrrhe, benjoin, labdanum, cèdre atlas, cardamome noire, citron confit\tTête: Cardamome noire 0.1%, Citron confit (écorce) 0.2% | Cœur: Myrrhe 0.8%, Benjoin 0.3% | Fond: Labdanum 0.4%, Cèdre atlas 0.2%\n60005\tCuir d'Ambre\tLabdanum, benjoin, vanille, tonka, mandarine, tabac\tTête: Mandarine rouge 0.3%, Feuille de tabac 0.2% | Cœur: Labdanum 0.7%, Benjoin 0.5% | Fond: Vanille 0.3%, Tonka râpée 0.2%\n60006\tSève Noire / Feuillage Mort\tVétiver, labdanum, cypriol, angélique, cacao, noisetier, sauge, goudron bouleau\tTête: Feuille de noisetier + sauge (infusion) 0.3%, Cacao brut 0.2% | Cœur: Racine d'angélique 0.4%, Cypriol 0.3% | Fond: Vétiver + Labdanum + trace goudron bouleau 0.8%\n60007\tMétal Liquide\tGalbanum, pamplemousse, iris, violette, ambrette, poivre blanc, girofle\tTête: Galbanum + pamplemousse 0.4%, Poivre blanc 0.1% | Cœur: Iris + violette (infusion) 0.4% | Fond: Ambrette 0.3%, Clou de girofle (trace) 0.1%\n60008\tFeu Fumé / Soufre Doux\tEncens oliban, myrrhe, ambre, miel, mandarine, piment, charbon\tTête: Mandarine verte 0.3%, Piment doux (trace) 0.05% | Cœur: Encens oliban 0.6%, Miel 0.3% | Fond: Myrrhe + ambre + charbon fin 0.8%\n60009\tOrchidée Salée\tYuzu, fleur de sel, menthe bergamote, ylang-ylang, vanille, santal, mousse de chêne, labdanum\tTête: Yuzu (zeste) + fleur de sel 0.3%, Menthe bergamote 0.2% | Cœur: Ylang-ylang + Vanille 0.4% | Fond: Santal + mousse de chêne + labdanum clair 0.6%\n60010\tDistillat de Nuit / Morphée\tJasmin, damiana, mélisse, labdanum, santal, benjoin, vanille, cardamome, bergamote\tTête: Cardamome + bergamote 0.3% | Cœur: Jasmin + Damiana + Mélisse (infusion) 0.8% | Fond: Labdanum + Santal + Benjoin + Vanille 1.2%\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}
