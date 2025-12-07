@@ -23,7 +23,11 @@ const TERPENE_IMAGES: Record<string, string> = {
 const TERPENE_IDS = [1, 2, 3, 4, 5, 6, 7]; // IDs des 7 terpènes principaux
 
 export default function CompareTerpenes() {
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectedIds, setSelectedIds] = useState<number[]>(() => {
+    // Charger la sélection depuis localStorage au montage
+    const stored = localStorage.getItem("compare-terpenes");
+    return stored ? JSON.parse(stored) : [];
+  });
   
   // Charger tous les terpènes
   const { data: allMolecules, isLoading } = trpc.molecules.list.useQuery();
@@ -32,16 +36,24 @@ export default function CompareTerpenes() {
   const selectedTerpenes = terpenes.filter(t => selectedIds.includes(t.id));
   
   const toggleSelection = (id: number) => {
+    let newSelection: number[];
     if (selectedIds.includes(id)) {
-      setSelectedIds(selectedIds.filter(sid => sid !== id));
+      newSelection = selectedIds.filter(sid => sid !== id);
     } else {
       if (selectedIds.length < 4) {
-        setSelectedIds([...selectedIds, id]);
+        newSelection = [...selectedIds, id];
+      } else {
+        return; // Max 4 atteint
       }
     }
+    setSelectedIds(newSelection);
+    localStorage.setItem("compare-terpenes", JSON.stringify(newSelection));
   };
   
-  const clearSelection = () => setSelectedIds([]);
+  const clearSelection = () => {
+    setSelectedIds([]);
+    localStorage.removeItem("compare-terpenes");
+  };
   
   return (
     <div className="min-h-screen flex flex-col">

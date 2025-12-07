@@ -13,6 +13,7 @@ export default function GrapheMoleculesRecettes() {
   const svgRef = useRef<SVGSVGElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<"all" | "classique" | "experimentale">("all");
+  const [focusedNode, setFocusedNode] = useState<string | null>(null);
   const [, setLocation] = useLocation();
   
   // Charger les données réelles via tRPC
@@ -87,16 +88,18 @@ export default function GrapheMoleculesRecettes() {
       .selectAll("line")
       .data(links)
       .join("line")
+      .attr("class", "link")
       .attr("stroke", "#999")
       .attr("stroke-opacity", 0.6)
-      .attr("stroke-width", (d: any) => Math.sqrt(d.value) / 2);
+      .attr("stroke-width", (d: any) => Math.sqrt(d.value) * 2);
     
     // Nœuds
     const node = svg.append("g")
       .selectAll("g")
       .data(nodes)
       .join("g")
-      .call(d3.drag<any, any>()
+      .attr("class", "node")
+      .call(d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended) as any);
@@ -164,13 +167,26 @@ export default function GrapheMoleculesRecettes() {
       })
       .on("click", function(event: any, d: any) {
         event.stopPropagation();
-        if (d.type === "recette") {
-          const recetteId = d.id.replace("recette-", "");
-          setLocation(`/resine-cbd/${recetteId}`);
+        
+        // Simple clic : activer mode Focus
+        if (focusedNode === d.id) {
+          // Déjà focusé, naviguer vers la page
+          if (d.type === "recette") {
+            const recetteId = d.id.replace("recette-", "");
+            setLocation(`/resine-cbd/${recetteId}`);
+          } else {
+            const molId = d.id.replace("mol-", "");
+            setLocation(`/terpene/${molId}`);
+          }
         } else {
-          const molId = d.id.replace("mol-", "");
-          setLocation(`/terpene/${molId}`);
+          // Activer mode Focus
+          setFocusedNode(d.id);
         }
+      })
+      .on("dblclick", function(event: any) {
+        event.stopPropagation();
+        // Double-clic : réinitialiser Focus
+        setFocusedNode(null);
       });
     
     node.append("text")
@@ -211,7 +227,51 @@ export default function GrapheMoleculesRecettes() {
     return () => {
       simulation.stop();
     };
-  }, [recettesData, filter]);
+  }, [recettesData, filter, focusedNode]);
+  
+  // Effet pour appliquer le mode Focus
+  useEffect(() => {
+    if (!svgRef.current) return;
+    
+    const svg = d3.select(svgRef.current);
+    
+    if (focusedNode) {
+      // Trouver les nœuds connectés
+      const connectedNodes = new Set<string>([focusedNode]);
+      
+      svg.selectAll(".link").each(function(this: any, d: any) {
+        if (d.source.id === focusedNode) connectedNodes.add(d.target.id);
+        if (d.target.id === focusedNode) connectedNodes.add(d.source.id);
+      });
+      
+      // Fade out les nœuds non connectés
+      svg.selectAll(".node")
+        .transition()
+        .duration(300)
+        .style("opacity", function(this: any, d: any) {
+          return connectedNodes.has(d.id) ? 1 : 0.15;
+        });
+      
+      // Fade out les liens non connectés
+      svg.selectAll(".link")
+        .transition()
+        .duration(300)
+        .style("opacity", function(this: any, d: any) {
+          return d.source.id === focusedNode || d.target.id === focusedNode ? 0.6 : 0.05;
+        });
+    } else {
+      // Réinitialiser l'opacité
+      svg.selectAll(".node")
+        .transition()
+        .duration(300)
+        .style("opacity", 1);
+      
+      svg.selectAll(".link")
+        .transition()
+        .duration(300)
+        .style("opacity", 0.6);
+    }
+  }, [focusedNode]);
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -257,7 +317,14 @@ export default function GrapheMoleculesRecettes() {
         
         <Card>
           <CardHeader>
-            <CardTitle>Graphe Interactif</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle>Graphe Interactif</CardTitle>
+              {focusedNode && (
+                <Badge variant="secondary" className="animate-pulse">
+                  Mode Focus actif - Double-clic pour réinitialiser
+                </Badge>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
             {recettesLoading ? (
@@ -290,7 +357,9 @@ export default function GrapheMoleculesRecettes() {
           <CardContent className="space-y-2 text-sm text-muted-foreground">
             <p>• <strong>Glissez</strong> les nœuds pour réorganiser le graphe</p>
             <p>• <strong>Survolez</strong> un nœud pour voir ses détails</p>
-            <p>• <strong>Cliquez</strong> sur un nœud pour accéder à sa fiche détaillée</p>
+            <p>• <strong>Cliquez</strong> sur un nœud pour activer le <strong>mode Focus</strong> (isole ses connexions)</p>
+            <p>• <strong>Cliquez à nouveau</strong> sur le nœud focusé pour naviguer vers sa fiche détaillée</p>
+            <p>• <strong>Double-cliquez</strong> n'importe où pour réinitialiser le mode Focus</p>
             <p>• L'épaisseur des liens représente la proportion de terpène dans la recette</p>
             <p>• Les nœuds violets représentent les recettes CBD</p>
             <p>• Les nœuds verts représentent les molécules terpéniques</p>

@@ -2581,3 +2581,26 @@
 - [x] Rendre nœuds cliquables (navigation vers pages détail)
 - [x] Améliorer visibilité labels
 - [x] Ajouter légende interactive
+
+
+## 🔄 EN COURS : Phase 15 - Bouton Comparer + Galerie botaniques + Mode Focus graphe
+
+### Bouton Comparer dans pages détail
+- [x] Ajouter bouton "Comparer ce terpène" dans TerpeneDetail
+- [x] Stocker sélection dans localStorage
+- [x] Rediriger vers /compare-terpenes avec pré-sélection
+- [ ] Badge compteur sélection dans header (optionnel)
+
+### Galerie d'images botaniques
+- [x] Créer page GalerieBotaniques.tsx
+- [x] Grid 7 images avec noms latins
+- [x] Descriptions botaniques courtes
+- [x] Bouton téléchargement haute résolution
+- [x] Lightbox zoom sur clic
+- [x] Ajouter route /galerie-botaniques
+
+### Mode Focus graphe D3.js
+- [x] Clic sur terpène → isoler connexions (fade out autres)
+- [x] Double-clic → réinitialiser vue
+- [x] Indicateur visuel mode Focus actif
+- [x] Animation transition smooth

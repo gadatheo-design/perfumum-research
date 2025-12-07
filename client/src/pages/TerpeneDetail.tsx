@@ -5,7 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { trpc } from "@/lib/trpc";
-import { Leaf, Beaker, Droplet, ThermometerSun, FlaskConical, BookOpen } from "lucide-react";
+import { Leaf, Beaker, Droplet, ThermometerSun, FlaskConical, BookOpen, GitCompare } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
 
 // Mapping terpène -> image botanique
 const TERPENE_IMAGES: Record<string, string> = {
@@ -21,8 +23,24 @@ const TERPENE_IMAGES: Record<string, string> = {
 export default function TerpeneDetail() {
   const params = useParams();
   const id = parseInt(params.id || "0");
+  const [, setLocation] = useLocation();
   
   const { data: molecule, isLoading } = trpc.molecules.getById.useQuery(id);
+  
+  const handleCompare = () => {
+    // Récupérer la sélection actuelle depuis localStorage
+    const stored = localStorage.getItem("compare-terpenes");
+    const currentSelection = stored ? JSON.parse(stored) : [];
+    
+    // Ajouter le terpène actuel s'il n'est pas déjà sélectionné
+    if (!currentSelection.includes(id)) {
+      const newSelection = [...currentSelection, id].slice(0, 4); // Max 4
+      localStorage.setItem("compare-terpenes", JSON.stringify(newSelection));
+    }
+    
+    // Rediriger vers la page de comparaison
+    setLocation("/compare-terpenes");
+  };
   
   // Récupérer les recettes contenant ce terpène
   const { data: recettesData } = trpc.recettes.list.useQuery({ category: "resine_cbd" as any });
@@ -84,6 +102,14 @@ export default function TerpeneDetail() {
                       {molecule.chemicalFormula}
                     </Badge>
                   )}
+                </div>
+                
+                {/* Bouton Comparer */}
+                <div className="mt-6">
+                  <Button onClick={handleCompare} variant="outline" size="lg">
+                    <GitCompare className="w-4 h-4 mr-2" />
+                    Comparer ce terpène
+                  </Button>
                 </div>
               </div>
               
