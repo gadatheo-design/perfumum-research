@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
 import { ArrowLeft, Beaker, Droplets, Flame, Clock, DollarSign, Activity } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { TimelineAromatic } from "@/components/TimelineAromatic";
@@ -65,12 +65,7 @@ export default function RecetteCBDDetail() {
       
       <main className="flex-1 container mx-auto py-8 space-y-6">
         {/* Breadcrumb */}
-        <Breadcrumb
-          items={[
-            { label: "Résines CBD", href: "/resines-cbd" },
-            { label: recette.name },
-          ]}
-        />
+        <DynamicBreadcrumb />
 
         {/* Header */}
         <div className="flex items-center gap-4">

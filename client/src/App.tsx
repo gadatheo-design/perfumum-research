@@ -1,5 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
+import { useNavigationHistory } from "@/hooks/useNavigationHistory";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -167,6 +169,12 @@ function Router() {
 }
 
 function App() {
+  // Activer navigation clavier globale
+  useKeyboardNavigation();
+  
+  // Activer historique navigation
+  useNavigationHistory();
+  
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light" switchable={true}>

@@ -2650,3 +2650,58 @@
 - [ ] Confirmation import avec compteurs (X ajoutés, Y mis à jour)
 - [ ] Logs import (succès/erreurs)
 - [x] Ajouter route /admin/import-export
+
+
+## 🔄 EN COURS : Phase 17 - Navigation Enrichie & UX Avancée
+
+### Étape 1 : Fondations Navigation
+- [x] Créer composant Breadcrumb dynamique avec dropdown
+- [x] Implémenter navigation clavier globale (G+T, G+R, G+G, G+M, /)
+- [x] Ajouter breadcrumbs sur pages principales (TerpeneDetail, RecetteDetail)
+- [x] Créer hook useKeyboardNavigation pour gestion raccourcis
+- [x] Créer hook useNavigationHistory pour historique pages
+
+### Étape 2 : Sidebar Contextuelle
+- [x] Créer composant DetailSidebar.tsx
+- [x] Navigation séquentielle Précédent/Suivant (terpènes, recettes)
+- [x] Section "Liens rapides" (Voir dans graphe, Comparer, Synergies)
+- [x] Section "Statistiques" (Utilisé dans X recettes, Y accords)
+- [x] Bouton collapse/expand sidebar
+- [x] Intégrer sidebar dans TerpeneDetail
+- [x] Helpers getTerpeneQuickLinks et getRecetteQuickLinks
+
+### Étape 3 : Recherche Globale
+- [ ] Créer composant GlobalSearch.tsx avec overlay
+- [ ] Implémenter recherche instantanée (debounce 300ms)
+- [ ] Grouper résultats par type (molécules/recettes/accords/civilisations)
+- [ ] Afficher historique recherches récentes (localStorage)
+- [ ] Raccourci ⌘K / Ctrl+K pour ouvrir
+- [ ] Échap pour fermer overlay
+
+### Étape 4 : Historique & Liens Contextuels
+- [ ] Créer hook useNavigationHistory (localStorage)
+- [ ] Bouton "Historique" dans Header (10 dernières pages)
+- [ ] Liens contextuels "Vous pourriez aimer" (algorithme similarité)
+- [ ] Section "Utilisé dans" avec compteurs
+- [ ] Section "Synergies excellentes" (score > 70)
+
+### Étape 5 : Mega Menu & Sitemap
+- [ ] Créer composant MegaMenu.tsx (3 colonnes)
+- [ ] Sous-menus contextuels (Études, Résines CBD, Pétrichor, Admin)
+- [ ] Créer page Sitemap.tsx (/sitemap)
+- [ ] Visualisation arborescente cliquable
+- [ ] Compteurs dynamiques par section
+
+### Étape 6 : Mobile & Footer
+- [ ] Bottom navigation bar mobile (5 icônes)
+- [ ] Footer enrichi avec 3 colonnes (Outils/Visualisations/Accès rapide)
+- [ ] Responsive mega menu (hamburger mobile)
+- [ ] Animations transitions fluides
+- [ ] Tests navigation tactile
+
+### Tests & Validation
+- [ ] Tester tous les raccourcis clavier
+- [ ] Vérifier breadcrumbs sur 10+ pages
+- [ ] Valider recherche globale (performance)
+- [ ] Tester navigation mobile (iOS/Android)
+- [ ] Checkpoint final

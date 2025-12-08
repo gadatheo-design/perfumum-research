@@ -9,6 +9,8 @@ import { Leaf, Beaker, Droplet, ThermometerSun, FlaskConical, BookOpen, GitCompa
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { RadarChart } from "@/components/RadarChart";
+import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
+import { DetailSidebar, getTerpeneQuickLinks } from "@/components/DetailSidebar";
 
 // Mapping terpène -> image botanique
 const TERPENE_IMAGES: Record<string, string> = {
@@ -46,6 +48,17 @@ export default function TerpeneDetail() {
   // Récupérer les recettes contenant ce terpène
   const { data: recettesData } = trpc.recettes.list.useQuery({ category: "resine_cbd" as any });
   
+  // Liste des 7 terpènes pour navigation séquentielle
+  const terpenes = [
+    { id: 1, label: "Myrcène", path: "/terpene/1" },
+    { id: 2, label: "Limonène", path: "/terpene/2" },
+    { id: 3, label: "β-Pinène", path: "/terpene/3" },
+    { id: 4, label: "β-Caryophyllène", path: "/terpene/4" },
+    { id: 5, label: "Linalool", path: "/terpene/5" },
+    { id: 6, label: "α-Pinène", path: "/terpene/6" },
+    { id: 7, label: "Humulène", path: "/terpene/7" },
+  ];
+  
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -75,6 +88,11 @@ export default function TerpeneDetail() {
       <Header />
       
       <main className="flex-1">
+        {/* Breadcrumb */}
+        <div className="container py-4">
+          <DynamicBreadcrumb />
+        </div>
+        
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-950 dark:to-emerald-900 py-16">
           <div className="container">
@@ -345,6 +363,30 @@ export default function TerpeneDetail() {
           </div>
         </section>
       </main>
+      
+      {/* Sidebar Contextuelle */}
+      <DetailSidebar
+        currentId={id}
+        items={terpenes}
+        basePath="/terpene"
+        quickLinks={getTerpeneQuickLinks(id)}
+        statistics={[
+          {
+            label: "Utilisé dans",
+            value: `${recettesData?.length || 0} recettes`,
+            path: "/resines-cbd",
+          },
+          {
+            label: "Famille",
+            value: molecule?.family || "N/A",
+          },
+          {
+            label: "Poids moléculaire",
+            value: molecule?.molecularWeight ? `${molecule.molecularWeight} g/mol` : "N/A",
+          },
+        ]}
+        className="hidden lg:block"
+      />
       
       <Footer />
     </div>
