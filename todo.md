@@ -2867,3 +2867,18 @@
 - [x] Tester affichage page Résines CBD (Collections 20 affichées)
 - [ ] Tester page RecetteCBDDetail avec composition enrichie (données en base, affichage à finaliser)
 - [ ] Vérifier Analyses de Corrélations avec vraies données
+
+
+---
+
+## Phase 22 - Correction Erreurs React & Vite
+
+### Erreur 1 - Nested Anchor Tags
+- [x] Identifier composants avec `<a>` imbriqués (MegaMenu lignes 63-87)
+- [x] Remplacer structure invalide par Link direct sans <a> interne
+- [x] Vérifier que tous les liens fonctionnent après correction (testé avec Calculateur)
+
+### Erreur 2 - WebSocket Vite HMR
+- [x] Corriger configuration WebSocket dans vite.config.ts
+- [x] Ajouter configuration HMR pour domaine Manus (protocol: wss, clientPort: 443)
+- [x] Tester rechargement à chaud après correction (serveur redémarré avec succès)

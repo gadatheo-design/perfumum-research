@@ -60,30 +60,30 @@ function MegaMenuDropdown({ trigger, sections }: MegaMenuProps) {
                   </h3>
                   <div className="space-y-1">
                     {section.items.map((item) => (
-                      <Link key={item.path} href={item.path}>
-                        <a
-                          onClick={() => setIsOpen(false)}
-                          className="flex items-start gap-3 px-3 py-2 rounded-md hover:bg-muted transition-colors group"
-                        >
-                          {item.icon && (
-                            <div className="text-muted-foreground group-hover:text-foreground transition-colors mt-0.5">
-                              {item.icon}
-                            </div>
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium">{item.label}</span>
-                              {item.count !== undefined && (
-                                <span className="text-xs text-muted-foreground">({item.count})</span>
-                              )}
-                            </div>
-                            {item.description && (
-                              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-                                {item.description}
-                              </p>
+                      <Link
+                        key={item.path}
+                        href={item.path}
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-start gap-3 px-3 py-2 rounded-md hover:bg-muted transition-colors group"
+                      >
+                        {item.icon && (
+                          <div className="text-muted-foreground group-hover:text-foreground transition-colors mt-0.5">
+                            {item.icon}
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">{item.label}</span>
+                            {item.count !== undefined && (
+                              <span className="text-xs text-muted-foreground">({item.count})</span>
                             )}
                           </div>
-                        </a>
+                          {item.description && (
+                            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
                       </Link>
                     ))}
                   </div>
