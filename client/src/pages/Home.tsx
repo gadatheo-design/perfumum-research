@@ -32,17 +32,17 @@ export default function Home() {
                 Design terpénique, résines CBD et variétés de tabacs rares
               </p>
               <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.3s'}}>
-                <Link href="/gammes">
-                  <Button size="lg" className="gap-2">
+                <Button size="lg" className="gap-2" asChild>
+                  <Link href="/gammes">
                     Consulter les gammes
                     <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
-                <Link href="/dashboard">
-                  <Button size="lg" variant="outline">
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="/dashboard">
                     Accéder au Dashboard
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -121,11 +121,11 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground mb-4">
                       Odeur de la terre après la pluie. 60 variations explorant géosmine, argile, pierre mouillée, humus.
                     </p>
-                    <Link href="/gammes/petrichor">
-                      <Button variant="outline" size="sm" className="w-full group-hover:border-petrichor">
+                    <Button variant="outline" size="sm" className="w-full group-hover:border-petrichor" asChild>
+                      <Link href="/gammes/petrichor">
                         Consulter <ArrowRight className="h-3 w-3 ml-2" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
 
@@ -142,11 +142,11 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground mb-4">
                       Matières pyrolysées et fumées. 36 variations explorant cendres, résines brûlées, bois carbonisé.
                     </p>
-                    <Link href="/gammes/volcanique">
-                      <Button variant="outline" size="sm" className="w-full group-hover:border-volcanique">
+                    <Button variant="outline" size="sm" className="w-full group-hover:border-volcanique" asChild>
+                      <Link href="/gammes/volcanique">
                         Consulter <ArrowRight className="h-3 w-3 ml-2" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
 
@@ -163,11 +163,11 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground mb-4">
                       Pratiques olfactives rituelles. 26 traditions culturelles documentées (encens, tabacs sacrés, onguents).
                     </p>
-                    <Link href="/civilisations">
-                      <Button variant="outline" size="sm" className="w-full group-hover:border-solar-mineralis">
+                    <Button variant="outline" size="sm" className="w-full group-hover:border-solar-mineralis" asChild>
+                      <Link href="/civilisations">
                         Consulter <ArrowRight className="h-3 w-3 ml-2" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
 
@@ -184,11 +184,11 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground mb-4">
                       Notes fraîches et ozonnées. Air pur, glace, altitude, notes métalliques et minérales froides.
                     </p>
-                    <Link href="/gammes">
-                      <Button variant="outline" size="sm" className="w-full group-hover:border-blue-500">
+                    <Button variant="outline" size="sm" className="w-full group-hover:border-blue-500" asChild>
+                      <Link href="/gammes">
                         En développement <ArrowRight className="h-3 w-3 ml-2" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
 
@@ -205,11 +205,11 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground mb-4">
                       Recherche expérimentale. BIO-MINERALIS (os, cuir fossilisé), résines CBD, design moléculaire.
                     </p>
-                    <Link href="/bio-mineralis">
-                      <Button variant="outline" size="sm" className="w-full group-hover:border-pink-500">
+                    <Button variant="outline" size="sm" className="w-full group-hover:border-pink-500" asChild>
+                      <Link href="/bio-mineralis">
                         Consulter <ArrowRight className="h-3 w-3 ml-2" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
               </div>

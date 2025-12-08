@@ -2909,3 +2909,27 @@
 - [x] Vérifier Top 5 combinaisons affichées (Myrcène+β-Pinène 8 recettes en tête)
 - [x] Vérifier statistiques correctes (21 paires, 8 max, 60 total, 2.9 moyenne)
 - [x] Tester export CSV (bouton disponible)
+
+
+## Phase 24 - Correction Erreurs Critiques (2025-12-08)
+
+### Étape 1 - Corriger balises <a> imbriquées
+- [x] Identifier toutes les balises <a> imbriquées dans Home.tsx (7 occurrences)
+- [x] Utiliser prop asChild sur Button pour fusionner avec Link
+- [x] Corriger 2 boutons CTA hero (lignes 35-45)
+- [x] Corriger 5 boutons cartes gammes (lignes 124-212)
+- [x] Vérifier MegaMenu.tsx (déjà correct)
+- [x] Corriger logo Header.tsx (ligne 37-41) - balise <a> explicite supprimée
+
+### Étape 2 - Corriger WebSocket Vite HMR
+- [x] Vérifier configuration vite.config.ts (déjà correcte)
+- [x] Configuration server.hmr déjà présente (protocol: wss, clientPort: 443)
+- [x] Redémarrer serveur dev
+- [ ] Tester hot reload (en attente confirmation utilisateur)
+
+### Étape 3 - Tests finaux
+- [x] Ouvrir page d'accueil (affichage correct)
+- [x] Corrections appliquées (8 balises <a> imbriquées corrigées)
+- [x] Tester navigation (tous liens fonctionnels)
+- [x] Vérifier HMR fonctionne (logs montrent hmr update)
+- [x] Configuration WebSocket Vite déjà correcte (wss, port 443)

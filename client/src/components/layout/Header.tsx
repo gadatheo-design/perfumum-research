@@ -34,10 +34,8 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 transition-all duration-300 shadow-sm">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link href="/">
-          <a className="flex items-center space-x-2 transition-opacity hover:opacity-80">
-            <span className="text-2xl font-bold tracking-tight">PERFUMUM</span>
-          </a>
+        <Link href="/" className="flex items-center space-x-2 transition-opacity hover:opacity-80">
+          <span className="text-2xl font-bold tracking-tight">PERFUMUM</span>
         </Link>
 
         {/* Desktop Navigation - Mega Menu */}
