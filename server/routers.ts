@@ -351,6 +351,10 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getMoleculeWithRelations(input.id);
       }),
+    getAllRelationships: publicProcedure
+      .query(async () => {
+        return await db.getAllMoleculeRecetteRelationships();
+      }),
   }),
 
   // Recette details

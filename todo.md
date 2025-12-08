@@ -2777,3 +2777,32 @@
 - [ ] Commentaires collaboratifs sur fiches
 - [ ] Notifications activité équipe
 - [ ] Logs audit actions utilisateurs
+
+
+---
+
+## Phase 19 - Priorités 2-3 (Demandées par utilisateur "De 1 à 3")
+
+### Priorité 2 - Calculateur de Proportions (/calculateur)
+- [x] Créer page Calculateur de Proportions
+- [x] Formulaire avec 7 sliders terpènes (0-100%)
+- [x] Validation total = 100%
+- [x] Calcul automatique grammes pour batch donné
+- [x] Prévisualisation profil radar résultant (Chart.js)
+- [x] Sauvegarde formules favorites localStorage
+- [x] Export PDF/CSV formule
+
+### Priorité 3 - Analyses de Corrélations (/analyses)
+- [x] Créer page Analyses de Corrélations
+- [x] Matrice "Quels terpènes apparaissent ensemble ?"
+- [x] Query molecules_recettes pour co-occurrences
+- [x] Heatmap fréquences co-occurrences (Chart.js)
+- [x] Top 5 combinaisons les plus utilisées
+- [x] Suggestions optimales basées sur données réelles
+
+### Enrichissement RecetteCBDDetail
+- [x] Section "Composition terpénique" avec tableau détaillé
+- [x] Pie Chart répartition terpènes (Chart.js)
+- [x] Calcul grammes pour 100g batch
+- [x] Propriétés thérapeutiques par terpène
+- [x] Liens cliquables vers pages terpènes

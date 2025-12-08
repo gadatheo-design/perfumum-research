@@ -9,6 +9,10 @@ import { ArrowLeft, Beaker, Droplets, Flame, Clock, DollarSign, Activity } from 
 import { trpc } from "@/lib/trpc";
 import { TimelineAromatic } from "@/components/TimelineAromatic";
 import { NotesEditor } from "@/components/NotesEditor";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function RecetteCBDDetail() {
   const params = useParams();
@@ -267,35 +271,137 @@ export default function RecetteCBDDetail() {
         {molecules && molecules.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Composition Moléculaire</CardTitle>
+              <CardTitle>Composition Terpénique</CardTitle>
             </CardHeader>
             <CardContent>
               {moleculesLoading ? (
-                <div className="text-muted-foreground">Chargement des molécules...</div>
+                <div className="text-muted-foreground">Chargement des terpènes...</div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {molecules.map((item: any) => (
-                    <Link key={item.molecule.id} href={`/terpene/${item.molecule.id}`}>
-                      <Card className="hover:border-primary transition-colors cursor-pointer">
-                        <CardContent className="p-4">
-                          <div className="flex items-start justify-between mb-2">
-                            <h4 className="font-semibold">{item.molecule.name}</h4>
-                            <Badge variant="outline">{item.proportion}%</Badge>
-                          </div>
-                          <div className="text-sm text-muted-foreground mb-2">
-                            Rôle : <span className="font-medium">
-                              {item.role === 'base' ? 'Base' : item.role === 'accent' ? 'Accent' : 'Fixatif'}
+                <div className="grid lg:grid-cols-2 gap-6">
+                  {/* Tableau détaillé */}
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-lg">Détails par Terpène</h3>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left py-2 px-3">Terpène</th>
+                            <th className="text-right py-2 px-3">%</th>
+                            <th className="text-right py-2 px-3">g/100g</th>
+                            <th className="text-left py-2 px-3">Rôle</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {molecules.map((item: any) => {
+                            const proportion = parseFloat(item.proportion) || 0;
+                            const gramsFor100g = (proportion).toFixed(2);
+                            return (
+                              <tr key={item.molecule.id} className="border-b hover:bg-accent/50">
+                                <td className="py-3 px-3">
+                                  <Link href={`/terpene/${item.molecule.id}`} className="hover:text-primary font-medium">
+                                    {item.molecule.name}
+                                  </Link>
+                                </td>
+                                <td className="text-right py-3 px-3 font-semibold">{proportion.toFixed(1)}%</td>
+                                <td className="text-right py-3 px-3 text-muted-foreground">{gramsFor100g}g</td>
+                                <td className="py-3 px-3">
+                                  <Badge variant="outline" className="text-xs">
+                                    {item.role === 'base' ? 'Base' : item.role === 'accent' ? 'Accent' : 'Fixatif'}
+                                  </Badge>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                        <tfoot>
+                          <tr className="font-semibold">
+                            <td className="py-3 px-3">Total</td>
+                            <td className="text-right py-3 px-3">
+                              {molecules.reduce((sum: number, item: any) => sum + (parseFloat(item.proportion) || 0), 0).toFixed(1)}%
+                            </td>
+                            <td className="text-right py-3 px-3">
+                              {molecules.reduce((sum: number, item: any) => sum + (parseFloat(item.proportion) || 0), 0).toFixed(2)}g
+                            </td>
+                            <td></td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+
+                    {/* Propriétés thérapeutiques */}
+                    <div className="mt-4 space-y-2">
+                      <h4 className="font-semibold">Propriétés Thérapeutiques</h4>
+                      <div className="grid grid-cols-1 gap-2">
+                        {molecules.map((item: any) => (
+                          <div key={item.molecule.id} className="text-sm">
+                            <span className="font-medium">{item.molecule.name}:</span>{" "}
+                            <span className="text-muted-foreground">
+                              {item.molecule.therapeuticProperties || "Propriétés non documentées"}
                             </span>
                           </div>
-                          {item.molecule.formula && (
-                            <div className="text-xs font-mono text-muted-foreground">
-                              {item.molecule.formula}
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  ))}
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Pie Chart */}
+                  <div className="flex flex-col items-center justify-center">
+                    <h3 className="font-semibold text-lg mb-4">Répartition</h3>
+                    <div className="w-full max-w-[300px]">
+                      <Pie
+                        data={{
+                          labels: molecules.map((item: any) => item.molecule.name),
+                          datasets: [
+                            {
+                              data: molecules.map((item: any) => parseFloat(item.proportion) || 0),
+                              backgroundColor: [
+                                "rgba(139, 92, 246, 0.6)",
+                                "rgba(16, 185, 129, 0.6)",
+                                "rgba(251, 146, 60, 0.6)",
+                                "rgba(59, 130, 246, 0.6)",
+                                "rgba(236, 72, 153, 0.6)",
+                                "rgba(234, 179, 8, 0.6)",
+                                "rgba(239, 68, 68, 0.6)",
+                              ],
+                              borderColor: [
+                                "rgba(139, 92, 246, 1)",
+                                "rgba(16, 185, 129, 1)",
+                                "rgba(251, 146, 60, 1)",
+                                "rgba(59, 130, 246, 1)",
+                                "rgba(236, 72, 153, 1)",
+                                "rgba(234, 179, 8, 1)",
+                                "rgba(239, 68, 68, 1)",
+                              ],
+                              borderWidth: 2,
+                            },
+                          ],
+                        }}
+                        options={{
+                          responsive: true,
+                          plugins: {
+                            legend: {
+                              position: "bottom",
+                              labels: {
+                                padding: 15,
+                                font: {
+                                  size: 12,
+                                },
+                              },
+                            },
+                            tooltip: {
+                              callbacks: {
+                                label: (context) => {
+                                  const label = context.label || "";
+                                  const value = context.parsed || 0;
+                                  return `${label}: ${value.toFixed(1)}%`;
+                                },
+                              },
+                            },
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
             </CardContent>

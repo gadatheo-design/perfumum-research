@@ -83,6 +83,8 @@ import GCMS from "./pages/methodologie/GCMS";
 import APropos from "./pages/APropos";
 import Contact from "./pages/Contact";
 import Etudes from "./pages/Etudes";
+import ProportionsCalculator from "./pages/ProportionsCalculator";
+import CorrelationAnalysis from "./pages/CorrelationAnalysis";
 
 function Router() {
   return (
@@ -125,6 +127,8 @@ function Router() {
           <Route path="/compare-terpenes" component={CompareTerpenes} />
           <Route path="/compare-radar" component={CompareRadar} />
           <Route path="/matrice-synergies" component={MatriceSynergies} />
+          <Route path="/calculateur" component={ProportionsCalculator} />
+          <Route path="/analyses" component={CorrelationAnalysis} />
           <Route path="/galerie-botaniques" component={GalerieBotaniques} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />
