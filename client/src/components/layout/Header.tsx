@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Search, Menu, X, Sun, Moon } from "lucide-react";
+import { MegaMenu } from "@/components/MegaMenu";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -39,31 +40,22 @@ export function Header() {
           </a>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-6 text-sm font-medium">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href}>
-              <a
-                className={cn(
-                  "transition-colors hover:text-foreground/80",
-                  location === item.href
-                    ? "text-foreground font-semibold"
-                    : "text-foreground/60"
-                )}
-              >
-                {item.label}
-              </a>
-            </Link>
-          ))}
-        </nav>
+        {/* Desktop Navigation - Mega Menu */}
+        <MegaMenu />
 
         {/* Search Icon & Theme Toggle */}
         <div className="hidden lg:flex items-center gap-4">
-          <Link href="/recherche">
-            <a className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <Search className="h-5 w-5" />
-            </a>
-          </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              const event = new CustomEvent("open-global-search");
+              window.dispatchEvent(event);
+            }}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            <Search className="h-5 w-5" />
+          </Button>
           <Button
             variant="ghost"
             size="icon"

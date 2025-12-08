@@ -2,6 +2,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
 import { useNavigationHistory } from "@/hooks/useNavigationHistory";
+import { GlobalSearch } from "@/components/GlobalSearch";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -180,7 +182,9 @@ function App() {
       <ThemeProvider defaultTheme="light" switchable={true}>
         <TooltipProvider>
           <Toaster />
+          <GlobalSearch />
           <Router />
+          <MobileBottomNav />
           <PWAInstallPrompt />
         </TooltipProvider>
       </ThemeProvider>

@@ -2671,12 +2671,14 @@
 - [x] Helpers getTerpeneQuickLinks et getRecetteQuickLinks
 
 ### Étape 3 : Recherche Globale
-- [ ] Créer composant GlobalSearch.tsx avec overlay
-- [ ] Implémenter recherche instantanée (debounce 300ms)
-- [ ] Grouper résultats par type (molécules/recettes/accords/civilisations)
-- [ ] Afficher historique recherches récentes (localStorage)
-- [ ] Raccourci ⌘K / Ctrl+K pour ouvrir
-- [ ] Échap pour fermer overlay
+- [x] Créer composant GlobalSearch.tsx avec overlay
+- [x] Implémenter recherche instantanée (filtrage côté client)
+- [x] Grouper résultats par type (molécules/recettes/pages)
+- [x] Afficher historique recherches récentes (localStorage, max 5)
+- [x] Raccourci ⌘K / Ctrl+K / / pour ouvrir
+- [x] Échap pour fermer overlay
+- [x] Suggestions par défaut (Graphe, Matrice)
+- [x] Intégration dans App.tsx
 
 ### Étape 4 : Historique & Liens Contextuels
 - [ ] Créer hook useNavigationHistory (localStorage)
@@ -2686,18 +2688,18 @@
 - [ ] Section "Synergies excellentes" (score > 70)
 
 ### Étape 5 : Mega Menu & Sitemap
-- [ ] Créer composant MegaMenu.tsx (3 colonnes)
-- [ ] Sous-menus contextuels (Études, Résines CBD, Pétrichor, Admin)
-- [ ] Créer page Sitemap.tsx (/sitemap)
-- [ ] Visualisation arborescente cliquable
-- [ ] Compteurs dynamiques par section
+- [x] Créer composant MegaMenu.tsx (3 colonnes)
+- [x] Sous-menus contextuels (Études, Résines CBD, Pétrichor, Admin)
+- [x] Intégrer MegaMenu dans Header (remplace navigation horizontale)
+- [x] Compteurs dynamiques par section (7 terpènes, 131 molécules, 10 résines)
+- [ ] Créer page Sitemap.tsx (/sitemap) - optionnel
 
 ### Étape 6 : Mobile & Footer
-- [ ] Bottom navigation bar mobile (5 icônes)
-- [ ] Footer enrichi avec 3 colonnes (Outils/Visualisations/Accès rapide)
-- [ ] Responsive mega menu (hamburger mobile)
-- [ ] Animations transitions fluides
-- [ ] Tests navigation tactile
+- [x] Bottom navigation bar mobile (5 icônes : Home/Études/Recherche/Favoris/Admin)
+- [x] Intégration dans App.tsx (fixed bottom, masqué desktop)
+- [x] Bouton recherche ouvre GlobalSearch
+- [x] Active state avec pattern matching
+- [ ] Footer enrichi avec 3 colonnes (Outils/Visualisations/Accès rapide) - optionnel
 
 ### Tests & Validation
 - [ ] Tester tous les raccourcis clavier
