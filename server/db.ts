@@ -47,7 +47,6 @@ import {
   sharedCollections,
   moleculeNotes,
   citations,
-  moleculesRecettes,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 

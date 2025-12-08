@@ -2882,3 +2882,30 @@
 - [x] Corriger configuration WebSocket dans vite.config.ts
 - [x] Ajouter configuration HMR pour domaine Manus (protocol: wss, clientPort: 443)
 - [x] Tester rechargement à chaud après correction (serveur redémarré avec succès)
+
+
+---
+
+## Phase 23 - Finalisation Complète
+
+### Étape 1 - Compositions Terpéniques RecetteCBDDetail
+- [x] Diagnostiquer pourquoi trpc.recettes.getMolecules ne retourne pas de données (redémarrage serveur)
+- [x] Vérifier que les relations molecules_recettes sont bien en base (43 relations)
+- [x] Corriger la requête getRecetteMolecules dans db.ts (recetteMolecules → moleculesRecettes)
+- [x] Tester affichage tableau + pie chart sur Northern Lights CBD (parfait)
+- [x] Vérifier que les propriétés thérapeutiques s'affichent (4 terpènes avec descriptions)
+
+### Étape 2 - Corriger Erreurs TypeScript (88 erreurs)
+- [x] Corriger molecularWeight manquant dans TerpeneDetail.tsx (déstructuration data.molecule)
+- [x] Résoudre duplicata moleculesRecettes dans db.ts (supprimé ligne 50)
+- [x] Résoudre duplicata getMoleculeWithRelations dans db.ts (pas de duplicata réel)
+- [x] Résoudre duplicata getRecetteWithRelations dans db.ts (pas de duplicata réel)
+- [x] Vérifier compilation TypeScript sans erreur (0 erreurs !)
+
+### Étape 3 - Tester Analyses de Corrélations
+- [x] Ouvrir page /analyses
+- [x] Vérifier matrice 7×7 avec données réelles (43 relations, parfait)
+- [x] Vérifier heatmap coloré selon fréquences (violet clair/moyen/foncé)
+- [x] Vérifier Top 5 combinaisons affichées (Myrcène+β-Pinène 8 recettes en tête)
+- [x] Vérifier statistiques correctes (21 paires, 8 max, 60 total, 2.9 moyenne)
+- [x] Tester export CSV (bouton disponible)

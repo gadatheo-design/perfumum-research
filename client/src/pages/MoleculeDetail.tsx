@@ -23,6 +23,7 @@ export default function MoleculeDetail() {
   const [copiedFormat, setCopiedFormat] = useState<string | null>(null);
 
   const { data, isLoading } = trpc.molecule.getById.useQuery({ id });
+  const molecule = data?.molecule;
   const generateCitation = trpc.citations.generate.useMutation();
 
   const handleCopyCitation = async (format: "apa" | "mla" | "chicago" | "bibtex") => {
@@ -45,21 +46,23 @@ export default function MoleculeDetail() {
 
   // Create nodes and edges for the relation graph
   const { nodes, edges } = useMemo(() => {
-    if (!data) return { nodes: [], edges: [] };
+    if (!data || !data.molecule) return { nodes: [], edges: [] };
+    
+    const mol = data.molecule;
 
     const nodes: Node[] = [];
     const edges: Edge[] = [];
 
     // Central molecule node
     nodes.push({
-      id: `molecule-${data.id}`,
+      id: `molecule-${mol.id}`,
       type: "default",
       position: { x: 400, y: 200 },
       data: {
         label: (
           <div className="text-center p-6 bg-purple-100 rounded-lg border-2 border-purple-500 shadow-lg">
-            <div className="font-bold text-xl">{data.name}</div>
-            <div className="text-base text-gray-600 font-mono">{data.chemicalFormula}</div>
+            <div className="font-bold text-xl">{mol.name}</div>
+            <div className="text-base text-gray-600 font-mono">{mol.chemicalFormula}</div>
           </div>
         ),
       },
@@ -67,15 +70,15 @@ export default function MoleculeDetail() {
     });
 
     // Family node
-    if (data.family) {
+    if (mol.family) {
       nodes.push({
-        id: `family-${data.family}`,
+        id: `family-${mol.family}`,
         type: "default",
         position: { x: 100, y: 200 },
         data: {
           label: (
             <div className="text-center p-5 bg-blue-100 rounded-lg border-2 border-blue-400 shadow-md">
-              <div className="font-semibold text-base">{data.family}</div>
+              <div className="font-semibold text-base">{mol.family}</div>
               <div className="text-sm text-gray-500">Famille</div>
             </div>
           ),
@@ -85,8 +88,8 @@ export default function MoleculeDetail() {
 
       edges.push({
         id: `e-family-molecule`,
-        source: `family-${data.family}`,
-        target: `molecule-${data.id}`,
+        source: `family-${mol.family}`,
+        target: `molecule-${mol.id}`,
         animated: true,
         style: { stroke: "#60a5fa" },
       });
@@ -96,14 +99,14 @@ export default function MoleculeDetail() {
     data.recettes.forEach((recette, index) => {
       const yOffset = (index - data.recettes.length / 2) * 120;
       nodes.push({
-        id: `recette-${recette.recetteId}`,
+        id: `recette-${recette.id}`,
         type: "default",
         position: { x: 700, y: 200 + yOffset },
         data: {
           label: (
-            <Link href={`/recette/${recette.recetteId}`}>
+            <Link href={`/recette/${recette.id}`}>
               <div className="text-center p-5 bg-green-100 rounded-lg border-2 border-green-400 cursor-pointer hover:bg-green-200 transition shadow-md hover:shadow-lg">
-                <div className="font-semibold text-base">{recette.recetteName}</div>
+                <div className="font-semibold text-base">{recette.name}</div>
                 <div className="text-sm text-gray-500">Recette</div>
               </div>
             </Link>
@@ -113,9 +116,9 @@ export default function MoleculeDetail() {
       });
 
       edges.push({
-        id: `e-molecule-recette-${recette.recetteId}`,
-        source: `molecule-${data.id}`,
-        target: `recette-${recette.recetteId}`,
+        id: `e-molecule-recette-${recette.id}`,
+        source: `molecule-${mol.id}`,
+        target: `recette-${recette.id}`,
         animated: true,
         style: { stroke: "#34d399" },
       });
@@ -150,9 +153,26 @@ export default function MoleculeDetail() {
     );
   }
 
-  // data contient directement les propriétés de molecule + recettes
-  const molecule = data;
-  const recettes = data.recettes || [];
+  // data contient { molecule: {...}, recettes: [...] }
+  if (!molecule) {
+    return (
+      <div className="container mx-auto py-8">
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <p className="text-gray-600">Molécule non trouvée</p>
+            <Link href="/chimie">
+              <Button variant="outline" className="mt-4">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Retour aux Molécules
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+  
+  const recettes = data?.recettes || [];
 
   return (
     <div className="container mx-auto py-8 space-y-6">
@@ -322,10 +342,10 @@ export default function MoleculeDetail() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {recettes.map((recette) => (
-                <Link key={recette.recetteId} href={`/recette/${recette.recetteId}`}>
+                <Link key={recette.id} href={`/recette/${recette.id}`}>
                   <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer">
                     <CardHeader>
-                      <CardTitle className="text-lg">{recette.recetteName}</CardTitle>
+                      <CardTitle className="text-lg">{recette.name}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-gray-600 line-clamp-2">

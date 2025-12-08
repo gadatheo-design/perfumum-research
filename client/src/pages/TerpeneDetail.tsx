@@ -29,7 +29,8 @@ export default function TerpeneDetail() {
   const id = parseInt(params.id || "0");
   const [, setLocation] = useLocation();
   
-  const { data: molecule, isLoading } = trpc.molecule.getById.useQuery({ id });
+  const { data, isLoading } = trpc.molecule.getById.useQuery({ id });
+  const molecule = data?.molecule;
   
   const handleCompare = () => {
     // Récupérer la sélection actuelle depuis localStorage
@@ -388,13 +389,13 @@ export default function TerpeneDetail() {
             )}
 
             {/* Recettes contenant ce terpène avec proportions */}
-            {molecule.recettes && molecule.recettes.length > 0 && (
+            {data?.recettes && data.recettes.length > 0 && (
               <div>
                 <h2 className="text-2xl font-bold mb-6">
-                  Utilisé dans {molecule.recettes.length} recette{molecule.recettes.length > 1 ? 's' : ''}
+                  Utilisé dans {data.recettes.length} recette{data.recettes.length > 1 ? 's' : ''}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {molecule.recettes.map((recette: any) => (
+                  {data.recettes.map((recette: any) => (
                     <Link key={recette.recetteId} href={`/resine-cbd/${recette.recetteId}`}>
                       <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
                         <CardHeader>
