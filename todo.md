@@ -2604,3 +2604,48 @@
 - [x] Double-clic → réinitialiser vue
 - [x] Indicateur visuel mode Focus actif
 - [x] Animation transition smooth
+
+
+## 🔄 EN COURS : Phase 16 - Radar olfactif + Matrice synergies + Timeline + Import/Export
+
+### Schéma base de données
+- [x] Ajouter colonnes profil radar (intensité, fraîcheur, chaleur, douceur, piquant, terreux) dans molecules
+- [x] Créer table synergies (terpene1_id, terpene2_id, compatibility_score, notes)
+- [x] Ajouter colonnes évolution aromatique (notes_tete, notes_coeur, notes_fond, duree_tete_min, duree_coeur_min, duree_fond_min) dans recettes
+- [x] Peupler données radar pour 7 terpènes
+- [x] Peupler matrice synergies (21 combinaisons possibles)
+- [ ] Peupler évolution aromatique pour 10 recettes CBD (optionnel, sera fait via UI)
+
+### Diagrammes radar olfactifs
+- [x] Créer composant RadarChart.tsx avec Chart.js
+- [x] Intégrer radar dans TerpeneDetail (profil individuel)
+- [x] Créer page CompareRadar.tsx (superposition 2-4 terpènes)
+- [x] Ajouter sélecteur terpènes pour comparaison
+- [x] Tableau comparatif valeurs numériques
+- [ ] Export PNG diagramme radar (optionnel)
+
+### Matrice synergies terpéniques
+- [ ] Créer page MatriceSynergies.tsx
+- [ ] Tableau 7x7 interactif avec code couleur (vert/jaune/rouge)
+- [ ] Tooltips détails synergies au survol
+- [ ] Modal détails combinaison au clic
+- [ ] Filtres par niveau compatibilité
+- [ ] Ajouter route /matrice-synergies
+
+### Timeline évolution aromatique
+- [ ] Créer composant TimelineAromatic.tsx
+- [ ] Courbes empilées tête/cœur/fond avec Chart.js
+- [ ] Intégrer timeline dans RecetteCBDDetail
+- [ ] Légende interactive (clic pour masquer/afficher notes)
+- [ ] Marqueurs temporels (0-15min tête, 15-60min cœur, 60min+ fond)
+
+### Import/Export CSV
+- [ ] Créer page AdminImportExport.tsx
+- [ ] Bouton export CSV molécules (toutes colonnes)
+- [ ] Bouton export CSV recettes (avec relations)
+- [ ] Upload CSV + parsing avec papaparse
+- [ ] Validation données avant import
+- [ ] Preview données importées (tableau 10 premières lignes)
+- [ ] Confirmation import avec compteurs (X ajoutés, Y mis à jour)
+- [ ] Logs import (succès/erreurs)
+- [ ] Ajouter route /admin/import-export

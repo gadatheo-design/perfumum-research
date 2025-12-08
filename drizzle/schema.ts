@@ -166,12 +166,38 @@ export const molecules = mysqlTable("molecules", {
   botanicalSources: text("botanicalSources"), // Plant sources (e.g., "Lavande, Menthe, Eucalyptus")
   extractionMethod: text("extractionMethod"), // Extraction method (e.g., "Hydrodistillation, CO₂ supercritique")
   therapeuticProperties: text("therapeuticProperties"), // Therapeutic properties (e.g., "Calmant, Anti-inflammatoire")
+  // Radar olfactive profile (0-100 scale)
+  radarIntensity: int("radar_intensity").default(50), // Olfactive intensity
+  radarFreshness: int("radar_freshness").default(50), // Freshness (citrus, mint)
+  radarWarmth: int("radar_warmth").default(50), // Warmth (spicy, woody)
+  radarSweetness: int("radar_sweetness").default(50), // Sweetness (floral, fruity)
+  radarSpiciness: int("radar_spiciness").default(50), // Spiciness (pepper, ginger)
+  radarEarthiness: int("radar_earthiness").default(50), // Earthiness (moss, soil, wood)
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
 export type Molecule = typeof molecules.$inferSelect;
 export type InsertMolecule = typeof molecules.$inferInsert;
+
+// ============================================================================
+// TERPENE SYNERGIES
+// ============================================================================
+
+export const terpeneSynergies = mysqlTable("terpene_synergies", {
+  id: int("id").autoincrement().primaryKey(),
+  terpene1Id: int("terpene1_id").notNull().references(() => molecules.id, { onDelete: "cascade" }),
+  terpene2Id: int("terpene2_id").notNull().references(() => molecules.id, { onDelete: "cascade" }),
+  compatibilityScore: int("compatibility_score").notNull().default(50), // 0-30=rouge, 31-70=jaune, 71-100=vert
+  synergyNotes: text("synergy_notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniquePair: uniqueIndex("unique_pair").on(table.terpene1Id, table.terpene2Id),
+}));
+
+export type TerpeneSynergy = typeof terpeneSynergies.$inferSelect;
+export type InsertTerpeneSynergy = typeof terpeneSynergies.$inferInsert;
 
 // ============================================================================
 // ACCORDS (Olfactive accords: 120+)

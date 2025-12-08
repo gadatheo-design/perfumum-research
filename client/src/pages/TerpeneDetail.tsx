@@ -5,9 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { trpc } from "@/lib/trpc";
-import { Leaf, Beaker, Droplet, ThermometerSun, FlaskConical, BookOpen, GitCompare } from "lucide-react";
+import { Leaf, Beaker, Droplet, ThermometerSun, FlaskConical, BookOpen, GitCompare, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
+import { RadarChart } from "@/components/RadarChart";
 
 // Mapping terpène -> image botanique
 const TERPENE_IMAGES: Record<string, string> = {
@@ -246,6 +247,61 @@ export default function TerpeneDetail() {
                 </CardContent>
               </Card>
             </div>
+            
+            {/* Profil Radar Olfactif */}
+            {(molecule.radarIntensity || molecule.radarFreshness || molecule.radarWarmth) && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Activity className="w-5 h-5" />
+                    Profil Olfactif Radar
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <RadarChart
+                    profiles={[
+                      {
+                        label: molecule.name,
+                        intensity: molecule.radarIntensity || 50,
+                        freshness: molecule.radarFreshness || 50,
+                        warmth: molecule.radarWarmth || 50,
+                        sweetness: molecule.radarSweetness || 50,
+                        spiciness: molecule.radarSpiciness || 50,
+                        earthiness: molecule.radarEarthiness || 50,
+                        color: "rgba(16, 185, 129, 0.6)"
+                      }
+                    ]}
+                    height={400}
+                  />
+                  <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                    <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                      <span className="text-muted-foreground">Intensité</span>
+                      <span className="font-semibold">{molecule.radarIntensity || 50}/100</span>
+                    </div>
+                    <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                      <span className="text-muted-foreground">Fraîcheur</span>
+                      <span className="font-semibold">{molecule.radarFreshness || 50}/100</span>
+                    </div>
+                    <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                      <span className="text-muted-foreground">Chaleur</span>
+                      <span className="font-semibold">{molecule.radarWarmth || 50}/100</span>
+                    </div>
+                    <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                      <span className="text-muted-foreground">Douceur</span>
+                      <span className="font-semibold">{molecule.radarSweetness || 50}/100</span>
+                    </div>
+                    <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                      <span className="text-muted-foreground">Piquant</span>
+                      <span className="font-semibold">{molecule.radarSpiciness || 50}/100</span>
+                    </div>
+                    <div className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                      <span className="text-muted-foreground">Terreux</span>
+                      <span className="font-semibold">{molecule.radarEarthiness || 50}/100</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
             
             {molecule.notes && (
               <Card className="mb-12">

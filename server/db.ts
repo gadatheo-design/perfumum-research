@@ -1,4 +1,4 @@
-import { eq, sql, and, desc } from "drizzle-orm";
+import { eq, sql, and, or, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -41,6 +41,8 @@ import {
   ExperimentalAccord,
   synergies,
   Synergie,
+  terpeneSynergies,
+  TerpeneSynergy,
   sharedCollections,
   moleculeNotes,
   citations,
@@ -1633,4 +1635,43 @@ export async function getAllRecettesWithMolecules() {
   );
   
   return result;
+}
+
+
+// ============================================================================
+// TERPENE SYNERGIES
+// ============================================================================
+
+export async function getAllTerpeneSynergies(): Promise<TerpeneSynergy[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(terpeneSynergies)
+    .orderBy(terpeneSynergies.terpene1Id, terpeneSynergies.terpene2Id);
+}
+
+export async function getTerpeneSynergyByPair(terpene1Id: number, terpene2Id: number): Promise<TerpeneSynergy | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Essayer dans les deux sens (t1-t2 ou t2-t1)
+  const result = await db
+    .select()
+    .from(terpeneSynergies)
+    .where(
+      or(
+        and(
+          eq(terpeneSynergies.terpene1Id, terpene1Id),
+          eq(terpeneSynergies.terpene2Id, terpene2Id)
+        ),
+        and(
+          eq(terpeneSynergies.terpene1Id, terpene2Id),
+          eq(terpeneSynergies.terpene2Id, terpene1Id)
+        )
+      )
+    )
+    .limit(1);
+  
+  return result[0] || null;
 }

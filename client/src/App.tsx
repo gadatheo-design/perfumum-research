@@ -30,6 +30,7 @@ import MoleculeDetail from "./pages/MoleculeDetail";
 import RecetteDetail from "./pages/RecetteDetail";
 import TerpeneDetail from "./pages/TerpeneDetail";
 import CompareTerpenes from "./pages/CompareTerpenes";
+import CompareRadar from "./pages/CompareRadar";
 import GalerieBotaniques from "./pages/GalerieBotaniques";
 import Recettes from "./pages/Recettes";
 import Gammes from "./pages/Gammes";
@@ -115,6 +116,7 @@ function Router() {
           <Route path="/molecule/:id" component={MoleculeDetail} />
           <Route path="/terpene/:id" component={TerpeneDetail} />
           <Route path="/compare-terpenes" component={CompareTerpenes} />
+          <Route path="/compare-radar" component={CompareRadar} />
           <Route path="/galerie-botaniques" component={GalerieBotaniques} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />

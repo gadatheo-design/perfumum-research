@@ -93,6 +93,21 @@ export const appRouter = router({
       }),
   }),
 
+  // Terpene Synergies
+  terpeneSynergies: router({
+    listAll: publicProcedure.query(async () => {
+      return await db.getAllTerpeneSynergies();
+    }),
+    getByPair: publicProcedure
+      .input(z.object({
+        terpene1Id: z.number(),
+        terpene2Id: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getTerpeneSynergyByPair(input.terpene1Id, input.terpene2Id);
+      }),
+  }),
+
   // Accords
   accords: router({
     list: publicProcedure.query(async () => {
