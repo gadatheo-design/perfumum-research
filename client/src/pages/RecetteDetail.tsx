@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FlaskConical, Beaker } from "lucide-react";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { SEOHead } from "@/components/SEOHead";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
 import { useMemo } from "react";
@@ -14,6 +15,12 @@ export default function RecetteDetail() {
   const id = parseInt(params.id || "0");
 
   const { data, isLoading } = trpc.recette.getById.useQuery({ id });
+
+  // SEO metadata
+  const seoTitle = data?.recette ? `${data.recette.name}` : "Recette";
+  const seoDescription = data?.recette
+    ? `Recette ${data.recette.name} - Catégorie: ${data.recette.category || "N/A"}. Intensité: ${data.recette.intensity || "N/A"}/10. ${data.recette.notes || ""}`
+    : "Détails de la recette PERFUMUM";
 
   // Create nodes and edges for the relation graph
   const { nodes, edges } = useMemo(() => {
@@ -151,9 +158,15 @@ export default function RecetteDetail() {
   const { recette, molecules, family, accord } = data;
 
   return (
-    <div className="container mx-auto py-8 space-y-6">
-      {/* Breadcrumb */}
-      <Breadcrumb
+    <>
+      <SEOHead 
+        title={seoTitle}
+        description={seoDescription}
+        type="article"
+      />
+      <div className="container mx-auto py-8 space-y-6">
+        {/* Breadcrumb */}
+        <Breadcrumb
         items={[
           { label: "Familles", href: "/familles" },
           { label: family?.name || "Famille", href: "/familles" },
@@ -315,6 +328,7 @@ export default function RecetteDetail() {
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </>
   );
 }
