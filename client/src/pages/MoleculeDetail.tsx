@@ -52,14 +52,14 @@ export default function MoleculeDetail() {
 
     // Central molecule node
     nodes.push({
-      id: `molecule-${data.molecule.id}`,
+      id: `molecule-${data.id}`,
       type: "default",
       position: { x: 400, y: 200 },
       data: {
         label: (
           <div className="text-center p-6 bg-purple-100 rounded-lg border-2 border-purple-500 shadow-lg">
-            <div className="font-bold text-xl">{data.molecule.name}</div>
-            <div className="text-base text-gray-600 font-mono">{data.molecule.chemicalFormula}</div>
+            <div className="font-bold text-xl">{data.name}</div>
+            <div className="text-base text-gray-600 font-mono">{data.chemicalFormula}</div>
           </div>
         ),
       },
@@ -67,15 +67,15 @@ export default function MoleculeDetail() {
     });
 
     // Family node
-    if (data.molecule.family) {
+    if (data.family) {
       nodes.push({
-        id: `family-${data.molecule.family}`,
+        id: `family-${data.family}`,
         type: "default",
         position: { x: 100, y: 200 },
         data: {
           label: (
             <div className="text-center p-5 bg-blue-100 rounded-lg border-2 border-blue-400 shadow-md">
-              <div className="font-semibold text-base">{data.molecule.family}</div>
+              <div className="font-semibold text-base">{data.family}</div>
               <div className="text-sm text-gray-500">Famille</div>
             </div>
           ),
@@ -85,8 +85,8 @@ export default function MoleculeDetail() {
 
       edges.push({
         id: `e-family-molecule`,
-        source: `family-${data.molecule.family}`,
-        target: `molecule-${data.molecule.id}`,
+        source: `family-${data.family}`,
+        target: `molecule-${data.id}`,
         animated: true,
         style: { stroke: "#60a5fa" },
       });
@@ -96,14 +96,14 @@ export default function MoleculeDetail() {
     data.recettes.forEach((recette, index) => {
       const yOffset = (index - data.recettes.length / 2) * 120;
       nodes.push({
-        id: `recette-${recette.id}`,
+        id: `recette-${recette.recetteId}`,
         type: "default",
         position: { x: 700, y: 200 + yOffset },
         data: {
           label: (
-            <Link href={`/recette/${recette.id}`}>
+            <Link href={`/recette/${recette.recetteId}`}>
               <div className="text-center p-5 bg-green-100 rounded-lg border-2 border-green-400 cursor-pointer hover:bg-green-200 transition shadow-md hover:shadow-lg">
-                <div className="font-semibold text-base">{recette.name}</div>
+                <div className="font-semibold text-base">{recette.recetteName}</div>
                 <div className="text-sm text-gray-500">Recette</div>
               </div>
             </Link>
@@ -113,9 +113,9 @@ export default function MoleculeDetail() {
       });
 
       edges.push({
-        id: `e-molecule-recette-${recette.id}`,
-        source: `molecule-${data.molecule.id}`,
-        target: `recette-${recette.id}`,
+        id: `e-molecule-recette-${recette.recetteId}`,
+        source: `molecule-${data.id}`,
+        target: `recette-${recette.recetteId}`,
         animated: true,
         style: { stroke: "#34d399" },
       });
@@ -150,7 +150,9 @@ export default function MoleculeDetail() {
     );
   }
 
-  const { molecule, recettes } = data;
+  // data contient directement les propriétés de molecule + recettes
+  const molecule = data;
+  const recettes = data.recettes || [];
 
   return (
     <div className="container mx-auto py-8 space-y-6">
@@ -320,10 +322,10 @@ export default function MoleculeDetail() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {recettes.map((recette) => (
-                <Link key={recette.id} href={`/recette/${recette.id}`}>
+                <Link key={recette.recetteId} href={`/recette/${recette.recetteId}`}>
                   <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer">
                     <CardHeader>
-                      <CardTitle className="text-lg">{recette.name}</CardTitle>
+                      <CardTitle className="text-lg">{recette.recetteName}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm text-gray-600 line-clamp-2">

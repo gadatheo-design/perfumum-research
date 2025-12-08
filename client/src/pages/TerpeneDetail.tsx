@@ -29,7 +29,7 @@ export default function TerpeneDetail() {
   const id = parseInt(params.id || "0");
   const [, setLocation] = useLocation();
   
-  const { data: molecule, isLoading } = trpc.molecules.getById.useQuery(id);
+  const { data: molecule, isLoading } = trpc.molecule.getById.useQuery({ id });
   
   const handleCompare = () => {
     // Récupérer la sélection actuelle depuis localStorage
@@ -387,34 +387,37 @@ export default function TerpeneDetail() {
               </div>
             )}
 
-            {/* Recettes contenant ce terpène */}
-            <div>
-              <h2 className="text-2xl font-bold mb-6">Recettes contenant {molecule.name}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {recettesData?.map((recette) => (
-                  <Link key={recette.id} href={`/resine-cbd/${recette.id}`}>
-                    <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
-                      <CardHeader>
-                        <CardTitle className="text-lg">{recette.name}</CardTitle>
-                        <p className="text-sm text-muted-foreground line-clamp-2">
-                          {recette.description}
-                        </p>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex flex-wrap gap-2">
-                          {recette.texture && (
-                            <Badge variant="secondary">{recette.texture}</Badge>
-                          )}
-                          {recette.stability && (
-                            <Badge variant="outline">Stabilité: {recette.stability}</Badge>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
+            {/* Recettes contenant ce terpène avec proportions */}
+            {molecule.recettes && molecule.recettes.length > 0 && (
+              <div>
+                <h2 className="text-2xl font-bold mb-6">
+                  Utilisé dans {molecule.recettes.length} recette{molecule.recettes.length > 1 ? 's' : ''}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {molecule.recettes.map((recette: any) => (
+                    <Link key={recette.recetteId} href={`/resine-cbd/${recette.recetteId}`}>
+                      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+                        <CardHeader>
+                          <div className="flex items-start justify-between">
+                            <CardTitle className="text-lg flex-1">{recette.recetteName}</CardTitle>
+                            <Badge variant="default" className="ml-2 shrink-0">
+                              {recette.proportion}%
+                            </Badge>
+                          </div>
+                        </CardHeader>
+                        {recette.notes && (
+                          <CardContent>
+                            <p className="text-sm text-muted-foreground italic">
+                              {recette.notes}
+                            </p>
+                          </CardContent>
+                        )}
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
       </main>

@@ -683,19 +683,22 @@ export async function getMoleculeWithRelations(id: number) {
   
   const mol = moleculesList[0];
   
-  // Get related recettes via molecule_recettes
+  // Get related recettes via molecule_recettes avec proportions
   const relatedRecettes = await db
     .select({
-      id: recettes.id,
-      name: recettes.name,
+      recetteId: recettes.id,
+      recetteName: recettes.name,
       formula: recettes.formula,
+      proportion: moleculesRecettes.proportion,
+      notes: moleculesRecettes.notes,
     })
     .from(moleculesRecettes)
     .innerJoin(recettes, eq(moleculesRecettes.recetteId, recettes.id))
-    .where(eq(moleculesRecettes.moleculeId, id));
+    .where(eq(moleculesRecettes.moleculeId, id))
+    .orderBy(desc(moleculesRecettes.proportion));
   
   return {
-    molecule: mol,
+    ...mol,
     recettes: relatedRecettes,
   };
 }

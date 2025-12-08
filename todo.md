@@ -2741,12 +2741,13 @@
 ## 🔄 EN COURS : Phase 19 - Priorités structurelles (ligne après ligne)
 
 ### Priorité 1 : Table liaison molecules_recettes
-- [ ] Créer table molecules_recettes (moleculeId, recetteId, proportion, notes)
-- [ ] Ajouter index pour performance (moleculeId, recetteId)
-- [ ] Script migration données existantes (parser recettes.formula)
-- [ ] Mettre à jour getMoleculeUsageStats pour utiliser vraie table
-- [ ] Ajouter section "Utilisé dans X recettes" dans TerpeneDetail
-- [ ] Procédure tRPC recettes.getMoleculeUsage(moleculeId)
+- [x] Créer table molecules_recettes (moleculeId, recetteId, proportion, notes)
+- [x] Ajouter index pour performance (moleculeId, recetteId)
+- [x] Script seed données réalistes (40 relations, 10 recettes × 4 terpènes)
+- [x] Mettre à jour getMoleculeUsageStats pour utiliser vraie table
+- [x] Ajouter section "Utilisé dans X recettes" dans TerpeneDetail avec proportions
+- [x] Mise à jour getMoleculeWithRelations pour inclure proportions
+- [x] Corrections MoleculeDetail.tsx pour nouvelle structure données
 
 ### Priorité 2 : Calculateur proportions interactif
 - [ ] Créer page Calculateur.tsx (/calculateur)
