@@ -49,6 +49,9 @@ export default function TerpeneDetail() {
   // Récupérer les recettes contenant ce terpène
   const { data: recettesData } = trpc.recettes.list.useQuery({ category: "resine_cbd" as any });
   
+  // Récupérer molécules similaires
+  const { data: similarMolecules } = trpc.molecules.getSimilar.useQuery({ id, limit: 3 });
+  
   // Liste des 7 terpènes pour navigation séquentielle
   const terpenes = [
     { id: 1, label: "Myrcène", path: "/terpene/1" },
@@ -342,6 +345,47 @@ export default function TerpeneDetail() {
                 placeholder="Ajoutez vos observations, résultats d'expériences, idées de combinaisons..."
               />
             </div>
+
+            {/* Vous pourriez aimer */}
+            {similarMolecules && similarMolecules.length > 0 && (
+              <div className="mb-12">
+                <h2 className="text-2xl font-bold mb-2">Vous pourriez aimer</h2>
+                <p className="text-muted-foreground mb-6">
+                  Terpènes avec profils olfactifs similaires (algorithme de distance euclidienne)
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {similarMolecules.map((mol) => (
+                    <Link key={mol.id} href={`/terpene/${mol.id}`}>
+                      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
+                        <CardHeader>
+                          <div className="flex items-center justify-between mb-2">
+                            <CardTitle className="text-lg">{mol.name}</CardTitle>
+                            <Badge variant="secondary">
+                              {Math.round(mol.similarityScore)}% similaire
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {mol.olfactiveProfile}
+                          </p>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex flex-wrap gap-2">
+                            {mol.family && (
+                              <Badge variant="outline">{mol.family}</Badge>
+                            )}
+                            {mol.therapeuticProperties && (
+                              <Badge variant="secondary" className="line-clamp-1">
+                                {mol.therapeuticProperties.split(',')[0]}
+                              </Badge>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Recettes contenant ce terpène */}
             <div>

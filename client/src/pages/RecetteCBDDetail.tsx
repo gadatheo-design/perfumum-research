@@ -8,6 +8,7 @@ import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
 import { ArrowLeft, Beaker, Droplets, Flame, Clock, DollarSign, Activity } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { TimelineAromatic } from "@/components/TimelineAromatic";
+import { NotesEditor } from "@/components/NotesEditor";
 
 export default function RecetteCBDDetail() {
   const params = useParams();
@@ -300,6 +301,16 @@ export default function RecetteCBDDetail() {
             </CardContent>
           </Card>
         )}
+
+        {/* Notes personnelles */}
+        <div className="mb-8">
+          <NotesEditor
+            entityType="recette"
+            entityId={recetteId!}
+            title="Notes de dégustation & observations"
+            placeholder="Notez vos impressions : combustion, arômes, effets, temps de maturation optimal, idées d'amélioration..."
+          />
+        </div>
 
         {/* Procédé Technique */}
         <Card>

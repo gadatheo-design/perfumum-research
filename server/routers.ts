@@ -69,6 +69,21 @@ export const appRouter = router({
     list: publicProcedure.query(async () => {
       return await db.getAllMolecules();
     }),
+    
+    getSimilar: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        limit: z.number().default(3),
+      }))
+      .query(async ({ input }) => {
+        return await db.getSimilarMolecules(input.id, input.limit);
+      }),
+    
+    getUsageStats: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getMoleculeUsageStats(input);
+      }),
     getGlobalStats: publicProcedure.query(async () => {
       return await db.getGlobalMoleculeStats();
     }),

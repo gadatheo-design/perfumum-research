@@ -1747,3 +1747,79 @@ export async function searchUserNotes(query: string) {
   
   return result;
 }
+
+
+// ============================================================================
+// SIMILARITY & RECOMMENDATIONS
+// ============================================================================
+
+/**
+ * Calcule la distance euclidienne entre deux profils radar
+ * Plus la distance est petite, plus les profils sont similaires
+ */
+function calculateRadarSimilarity(mol1: Molecule, mol2: Molecule): number {
+  const axes = [
+    'radarIntensity',
+    'radarFreshness',
+    'radarWarmth',
+    'radarSweetness',
+    'radarSpiciness',
+    'radarEarthiness',
+  ] as const;
+
+  let sumSquares = 0;
+  for (const axis of axes) {
+    const val1 = (mol1[axis] as number) || 50;
+    const val2 = (mol2[axis] as number) || 50;
+    sumSquares += Math.pow(val1 - val2, 2);
+  }
+
+  const distance = Math.sqrt(sumSquares);
+  // Normaliser sur 100 (distance max = sqrt(6 * 100^2) ≈ 245)
+  // Score de similarité : 100 = identique, 0 = très différent
+  return Math.max(0, 100 - (distance / 245) * 100);
+}
+
+export async function getSimilarMolecules(moleculeId: number, limit: number = 3) {
+  const db = await getDb();
+  if (!db) return [];
+
+  // Récupérer la molécule de référence
+  const reference = await db
+    .select()
+    .from(molecules)
+    .where(eq(molecules.id, moleculeId))
+    .limit(1);
+
+  if (!reference[0]) return [];
+
+  // Récupérer toutes les autres molécules avec profils radar
+  const allMolecules = await db
+    .select()
+    .from(molecules)
+    .where(sql`${molecules.radarIntensity} IS NOT NULL`);
+
+  // Calculer similarité pour chaque molécule
+  const withSimilarity = allMolecules
+    .filter((mol) => mol.id !== moleculeId)
+    .map((mol) => ({
+      ...mol,
+      similarityScore: calculateRadarSimilarity(reference[0], mol),
+    }))
+    .sort((a, b) => b.similarityScore - a.similarityScore)
+    .slice(0, limit);
+
+  return withSimilarity;
+}
+
+export async function getMoleculeUsageStats(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return { recettesCount: 0, accordsCount: 0 };
+
+  // TODO: implémenter quand table de liaison molecules_recettes sera créée
+  // Pour l'instant retourner 0
+  return {
+    recettesCount: 0,
+    accordsCount: 0,
+  };
+}

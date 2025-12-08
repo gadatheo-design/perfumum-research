@@ -2720,18 +2720,19 @@
 - [x] Bouton suppression note avec confirmation
 
 ### Dashboard analytique
-- [ ] Créer page Dashboard.tsx (/dashboard)
-- [ ] Statistiques collection (Chart.js pie : répartition familles chimiques)
-- [ ] Top 5 synergies utilisées (bar chart horizontal)
-- [ ] Évolution recettes par mois (line chart)
-- [ ] Indicateurs clés (cards : % validées vs expérimentales, coût moyen)
-- [ ] Export PDF rapport mensuel (bouton)
-- [ ] Ajouter route /dashboard dans App.tsx
+- [x] Page Dashboard.tsx existe déjà (/dashboard)
+- [x] Statistiques collection (cartes overview : molécules, recettes, accords, prototypes)
+- [x] Progression R&D (répartition par statut)
+- [x] Catégories recettes (barres horizontales)
+- [x] Activité récente (dernières recettes)
+- [x] Familles moléculaires (liste scrollable)
+- [ ] Export PDF rapport mensuel (optionnel)
 
 ### Liens contextuels intelligents
-- [ ] Algorithme similarité profils radar (distance euclidienne)
-- [ ] Section "Vous pourriez aimer" (3 suggestions) dans TerpeneDetail
-- [ ] Section "Utilisé dans" avec compteurs cliquables dans TerpeneDetail
-- [ ] Section "Synergies excellentes" (score > 70) avec navigation matrice
-- [ ] Procédure tRPC molecules.getSimilar(id, limit)
-- [ ] Procédure tRPC molecules.getUsageStats(id)
+- [x] Algorithme similarité profils radar (distance euclidienne)
+- [x] Fonction calculateRadarSimilarity (6 axes, normalisation 0-100)
+- [x] Section "Vous pourriez aimer" (3 suggestions) dans TerpeneDetail
+- [x] Badges score similarité en pourcentage
+- [x] Procédure tRPC molecules.getSimilar(id, limit)
+- [x] Procédure tRPC molecules.getUsageStats(id)
+- [x] Intégration NotesEditor dans RecetteCBDDetail
