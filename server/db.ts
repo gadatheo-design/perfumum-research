@@ -1,4 +1,4 @@
-import { eq, and, or, isNull, desc, asc, sql, like } from "drizzle-orm";
+import { eq, and, or, isNull, desc, asc, sql, like, gte, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -47,6 +47,7 @@ import {
   sharedCollections,
   moleculeNotes,
   citations,
+  analyticsEvents,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -1841,3 +1842,228 @@ export async function getAllMoleculeRecetteRelationships() {
   return relationships;
 }
 
+
+
+// ============================================================================
+// ANALYTICS & STATISTICS
+// ============================================================================
+
+/**
+ * Track an analytics event
+ */
+export async function trackEvent(
+  eventType: 'molecule_view' | 'recipe_view' | 'terpene_view' | 'pdf_export' | 'favorite_add' | 'favorite_remove' | 'search_query',
+  entityType?: string,
+  entityId?: number,
+  userId?: number,
+  metadata?: Record<string, any>
+) {
+  const db = await getDb();
+  if (!db) return;
+
+  await db.insert(analyticsEvents).values({
+    eventType,
+    entityType: entityType || null,
+    entityId: entityId || null,
+    userId: userId || null,
+    metadata: metadata ? JSON.stringify(metadata) : null,
+  });
+}
+
+/**
+ * Get most viewed molecules in the last N days
+ */
+export async function getMostViewedMolecules(days: number = 30, limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const views = await db
+    .select({
+      entityId: analyticsEvents.entityId,
+      viewCount: sql<number>`COUNT(*)`.as('view_count'),
+    })
+    .from(analyticsEvents)
+    .where(
+      and(
+        eq(analyticsEvents.eventType, 'molecule_view'),
+        gte(analyticsEvents.createdAt, cutoffDate)
+      )
+    )
+    .groupBy(analyticsEvents.entityId)
+    .orderBy(desc(sql`view_count`))
+    .limit(limit);
+
+  // Fetch molecule details
+  const moleculeIds = views.map(v => v.entityId).filter((id): id is number => id !== null);
+  if (moleculeIds.length === 0) return [];
+
+  const moleculeDetails = await db
+    .select()
+    .from(molecules)
+    .where(inArray(molecules.id, moleculeIds));
+
+  return views.map(v => ({
+    ...moleculeDetails.find(m => m.id === v.entityId),
+    viewCount: v.viewCount,
+  })).filter(m => m.id !== undefined);
+}
+
+/**
+ * Get most viewed recipes in the last N days
+ */
+export async function getMostViewedRecipes(days: number = 30, limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const views = await db
+    .select({
+      entityId: analyticsEvents.entityId,
+      viewCount: sql<number>`COUNT(*)`.as('view_count'),
+    })
+    .from(analyticsEvents)
+    .where(
+      and(
+        eq(analyticsEvents.eventType, 'recipe_view'),
+        gte(analyticsEvents.createdAt, cutoffDate)
+      )
+    )
+    .groupBy(analyticsEvents.entityId)
+    .orderBy(desc(sql`view_count`))
+    .limit(limit);
+
+  const recipeIds = views.map(v => v.entityId).filter((id): id is number => id !== null);
+  if (recipeIds.length === 0) return [];
+
+  const recipeDetails = await db
+    .select()
+    .from(recettes)
+    .where(inArray(recettes.id, recipeIds));
+
+  return views.map(v => ({
+    ...recipeDetails.find(r => r.id === v.entityId),
+    viewCount: v.viewCount,
+  })).filter(r => r.id !== undefined);
+}
+
+/**
+ * Get activity timeline (events per day for the last N days)
+ */
+export async function getActivityTimeline(days: number = 30) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const timeline = await db
+    .select({
+      date: sql<string>`DATE(created_at)`.as('date'),
+      eventCount: sql<number>`COUNT(*)`.as('event_count'),
+    })
+    .from(analyticsEvents)
+    .where(gte(analyticsEvents.createdAt, cutoffDate))
+    .groupBy(sql`DATE(created_at)`)
+    .orderBy(sql`DATE(created_at)`);
+
+  return timeline;
+}
+
+/**
+ * Get popular search queries
+ */
+export async function getPopularSearches(days: number = 30, limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const searches = await db
+    .select({
+      query: analyticsEvents.metadata,
+      searchCount: sql<number>`COUNT(*)`.as('search_count'),
+    })
+    .from(analyticsEvents)
+    .where(
+      and(
+        eq(analyticsEvents.eventType, 'search_query'),
+        gte(analyticsEvents.createdAt, cutoffDate)
+      )
+    )
+    .groupBy(analyticsEvents.metadata)
+    .orderBy(desc(sql`search_count`))
+    .limit(limit);
+
+  return searches.map(s => ({
+    query: s.query ? JSON.parse(s.query).query : 'Unknown',
+    count: s.searchCount,
+  }));
+}
+
+/**
+ * Get analytics dashboard statistics
+ */
+export async function getAnalyticsDashboardStats(days: number = 30) {
+  const db = await getDb();
+  if (!db) return {
+    totalViews: 0,
+    totalExports: 0,
+    totalSearches: 0,
+    totalFavorites: 0,
+  };
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const [views, exports, searches, favorites] = await Promise.all([
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(analyticsEvents)
+      .where(
+        and(
+          inArray(analyticsEvents.eventType, ['molecule_view', 'recipe_view', 'terpene_view']),
+          gte(analyticsEvents.createdAt, cutoffDate)
+        )
+      ),
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(analyticsEvents)
+      .where(
+        and(
+          eq(analyticsEvents.eventType, 'pdf_export'),
+          gte(analyticsEvents.createdAt, cutoffDate)
+        )
+      ),
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(analyticsEvents)
+      .where(
+        and(
+          eq(analyticsEvents.eventType, 'search_query'),
+          gte(analyticsEvents.createdAt, cutoffDate)
+        )
+      ),
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(analyticsEvents)
+      .where(
+        and(
+          eq(analyticsEvents.eventType, 'favorite_add'),
+          gte(analyticsEvents.createdAt, cutoffDate)
+        )
+      ),
+  ]);
+
+  return {
+    totalViews: views[0]?.count || 0,
+    totalExports: exports[0]?.count || 0,
+    totalSearches: searches[0]?.count || 0,
+    totalFavorites: favorites[0]?.count || 0,
+  };
+}

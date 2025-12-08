@@ -937,3 +937,34 @@ export const citations = mysqlTable("citations", {
 
 export type Citation = typeof citations.$inferSelect;
 export type InsertCitation = typeof citations.$inferInsert;
+
+// ============================================================================
+// ANALYTICS & TRACKING
+// ============================================================================
+
+// Analytics events for tracking page views and user interactions
+export const analyticsEvents = mysqlTable("analytics_events", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id"), // Nullable: can track anonymous users
+  eventType: mysqlEnum("event_type", [
+    "molecule_view",
+    "recipe_view", 
+    "terpene_view",
+    "pdf_export",
+    "favorite_add",
+    "favorite_remove",
+    "search_query"
+  ]).notNull(),
+  entityType: varchar("entity_type", { length: 50 }), // molecule, recipe, terpene, etc.
+  entityId: int("entity_id"), // ID of the viewed entity
+  metadata: text("metadata"), // JSON: additional data (search query, export format, etc.)
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  // Index for fast queries by event type and date
+  eventTypeIdx: index("event_type_idx").on(table.eventType),
+  entityTypeIdx: index("entity_type_idx").on(table.entityType),
+  createdAtIdx: index("created_at_idx").on(table.createdAt),
+}));
+
+export type AnalyticsEvent = typeof analyticsEvents.$inferSelect;
+export type InsertAnalyticsEvent = typeof analyticsEvents.$inferInsert;

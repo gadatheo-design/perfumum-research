@@ -669,6 +669,69 @@ export const appRouter = router({
         );
       }),
   }),
+
+  // Analytics
+  analytics: router({    trackEvent: publicProcedure
+      .input(z.object({
+        eventType: z.enum(['molecule_view', 'recipe_view', 'terpene_view', 'pdf_export', 'favorite_add', 'favorite_remove', 'search_query']),
+        entityType: z.string().optional(),
+        entityId: z.number().optional(),
+        metadata: z.any().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        await db.trackEvent(
+          input.eventType,
+          input.entityType,
+          input.entityId,
+          ctx.user?.id,
+          input.metadata
+        );
+        return { success: true };
+      }),
+
+    getMostViewedMolecules: publicProcedure
+      .input(z.object({
+        days: z.number().default(30),
+        limit: z.number().default(10),
+      }))
+      .query(async ({ input }) => {
+        return await db.getMostViewedMolecules(input.days, input.limit);
+      }),
+
+    getMostViewedRecipes: publicProcedure
+      .input(z.object({
+        days: z.number().default(30),
+        limit: z.number().default(10),
+      }))
+      .query(async ({ input }) => {
+        return await db.getMostViewedRecipes(input.days, input.limit);
+      }),
+
+    getActivityTimeline: publicProcedure
+      .input(z.object({
+        days: z.number().default(30),
+      }))
+      .query(async ({ input }) => {
+        return await db.getActivityTimeline(input.days);
+      }),
+
+    getPopularSearches: publicProcedure
+      .input(z.object({
+        days: z.number().default(30),
+        limit: z.number().default(10),
+      }))
+      .query(async ({ input }) => {
+        return await db.getPopularSearches(input.days, input.limit);
+      }),
+
+    getDashboardStats: publicProcedure
+      .input(z.object({
+        days: z.number().default(30),
+      }))
+      .query(async ({ input }) => {
+        return await db.getAnalyticsDashboardStats(input.days);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
