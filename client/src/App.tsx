@@ -6,14 +6,13 @@ import { GlobalSearch } from "@/components/GlobalSearch";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
-import { lazy, Suspense } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import Home from "./pages/Home";
-const Admin = lazy(() => import("./pages/Admin"));
-const AdminMoleculeNew = lazy(() => import("./pages/AdminMoleculeNew"));
-const AdminImportExport = lazy(() => import("./pages/AdminImportExport"));
+import Admin from "./pages/Admin";
+import AdminMoleculeNew from "./pages/AdminMoleculeNew";
+import AdminImportExport from "./pages/AdminImportExport";
 import Projet from "./pages/Projet";
 import LeProjet from "./pages/LeProjet";
 import Prototypes from "./pages/Prototypes";
@@ -56,18 +55,17 @@ import BioMineralis from "./pages/BioMineralis";
 import ResinesCBD from "@/pages/ResinesCBD";
 import RecetteCBDDetail from "@/pages/RecetteCBDDetail";
 import GrapheMoleculesRecettes from "@/pages/GrapheMoleculesRecettes";
-const ProgrammesRecherche = lazy(() => import("@/pages/ProgrammesRecherche"));
-const TabacsNiche = lazy(() => import("@/pages/TabacsNiche"));
+import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
+import TabacsNiche from "@/pages/TabacsNiche";
 import LaboratoireRecettes from "./pages/LaboratoireRecettes";
 import { Dashboard } from "./pages/Dashboard";
-// Lazy load heavy pages for better performance
-const RechercheScientifique = lazy(() => import("./pages/RechercheScientifique").then(m => ({ default: m.RechercheScientifique })));
-const SynergiesMoleculaires = lazy(() => import("./pages/SynergiesMoleculaires").then(m => ({ default: m.SynergiesMoleculaires })));
-const Statistics = lazy(() => import("./pages/Statistics"));
-const PyrolyseCombustion = lazy(() => import("./pages/PyrolyseCombustion").then(m => ({ default: m.PyrolyseCombustion })));
-const CourbesVolatilite = lazy(() => import("@/pages/CourbesVolatilite").then(m => ({ default: m.CourbesVolatilite })));
-const DegradationTerpenes = lazy(() => import("@/pages/DegradationTerpenes").then(m => ({ default: m.DegradationTerpenes })));
-const ModelesAnalytiquesGCMS = lazy(() => import("@/pages/ModelesAnalytiquesGCMS").then(m => ({ default: m.ModelesAnalytiquesGCMS })));
+import { RechercheScientifique } from "./pages/RechercheScientifique";
+import { SynergiesMoleculaires } from "./pages/SynergiesMoleculaires";
+import Statistics from "./pages/Statistics";
+import { PyrolyseCombustion } from "./pages/PyrolyseCombustion";
+import { CourbesVolatilite } from "@/pages/CourbesVolatilite";
+import { DegradationTerpenes } from "@/pages/DegradationTerpenes";
+import { ModelesAnalytiquesGCMS } from "@/pages/ModelesAnalytiquesGCMS";
 import MatriceInteractive from "@/pages/MatriceInteractive";
 import Statistiques from "@/pages/Statistiques";
 import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
@@ -191,13 +189,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <GlobalSearch />
-          <Suspense fallback={
-            <div className="min-h-screen flex items-center justify-center">
-              <div className="animate-pulse text-muted-foreground">Chargement...</div>
-            </div>
-          }>
-            <Router />
-          </Suspense>
+          <Router />
           <MobileBottomNav />
           <PWAInstallPrompt />
         </TooltipProvider>

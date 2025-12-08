@@ -13,7 +13,6 @@ import {
 import { useState } from "react";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { SEOHead } from "@/components/SEOHead";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
 import { useMemo } from "react";
@@ -25,12 +24,6 @@ export default function MoleculeDetail() {
 
   const { data, isLoading } = trpc.molecule.getById.useQuery({ id });
   const molecule = data?.molecule;
-
-  // SEO metadata
-  const seoTitle = molecule ? `${molecule.name} (${molecule.chemicalFormula || ""})` : "Molécule";
-  const seoDescription = molecule 
-    ? `${molecule.name} - Formule: ${molecule.chemicalFormula || "N/A"}. Famille: ${molecule.family || "N/A"}. ${molecule.olfactiveProfile || ""}`
-    : "Détails de la molécule PERFUMUM";
   const generateCitation = trpc.citations.generate.useMutation();
 
   const handleCopyCitation = async (format: "apa" | "mla" | "chicago" | "bibtex") => {
@@ -182,15 +175,9 @@ export default function MoleculeDetail() {
   const recettes = data?.recettes || [];
 
   return (
-    <>
-      <SEOHead 
-        title={seoTitle}
-        description={seoDescription}
-        type="article"
-      />
-      <div className="container mx-auto py-8 space-y-6">
-        {/* Breadcrumb */}
-        <Breadcrumb
+    <div className="container mx-auto py-8 space-y-6">
+      {/* Breadcrumb */}
+      <Breadcrumb
         items={[
           { label: "Chimie", href: "/chemical-families" },
           { label: molecule.family || "Famille", href: "/chemical-families" },
@@ -372,7 +359,6 @@ export default function MoleculeDetail() {
           </CardContent>
         </Card>
       )}
-      </div>
-    </>
+    </div>
   );
 }

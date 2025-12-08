@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Globe, FlaskConical } from "lucide-react";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { SEOHead } from "@/components/SEOHead";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
 import { useMemo } from "react";
@@ -15,12 +14,6 @@ export default function CivilisationDetail() {
   const id = parseInt(params.id || "0");
 
   const { data, isLoading } = trpc.civilisation.getById.useQuery({ id });
-
-  // SEO metadata
-  const seoTitle = data?.civilisation ? `${data.civilisation.name}` : "Civilisation";
-  const seoDescription = data?.civilisation
-    ? `${data.civilisation.name} - Région: ${data.civilisation.region || "N/A"}. Temporalité: ${data.civilisation.temporality || "N/A"}. ${data.civilisation.longDescription?.substring(0, 150) || ""}`
-    : "Détails de la civilisation PERFUMUM";
 
   // Create nodes and edges for the relation graph
   const { nodes, edges } = useMemo(() => {
@@ -110,15 +103,9 @@ export default function CivilisationDetail() {
   const { civilisation, recettes } = data;
 
   return (
-    <>
-      <SEOHead 
-        title={seoTitle}
-        description={seoDescription}
-        type="article"
-      />
-      <div className="container mx-auto py-8 space-y-6">
-        {/* Breadcrumb */}
-        <Breadcrumb
+    <div className="container mx-auto py-8 space-y-6">
+      {/* Breadcrumb */}
+      <Breadcrumb
         items={[
           { label: "Traditions Olfactives", href: "/civilisations" },
           { label: civilisation.region || "Région", href: "/civilisations" },
@@ -254,7 +241,6 @@ export default function CivilisationDetail() {
           </CardContent>
         </Card>
       )}
-      </div>
-    </>
+    </div>
   );
 }
