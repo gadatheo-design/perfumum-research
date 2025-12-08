@@ -2933,3 +2933,55 @@
 - [x] Tester navigation (tous liens fonctionnels)
 - [x] Vérifier HMR fonctionne (logs montrent hmr update)
 - [x] Configuration WebSocket Vite déjà correcte (wss, port 443)
+
+
+## Phase 27 - Améliorations Majeures (2025-12-08)
+
+### Étape 1 - Réparer Page Recherche
+- [x] Sauvegarder ancienne page Recherche.tsx en Recherche.old.tsx
+- [x] Créer nouvelle page Recherche simplifiée depuis zéro (testée)
+- [x] Diagnostic complété : problème structurel non résolu
+- [x] Solution alternative : désactiver route /recherche
+- [x] Utiliser GlobalSearch modal existant (fonctionne parfaitement)
+- [x] Route /recherche commentée dans App.tsx
+- [x] Documentation ajoutée pour future investigation
+
+### Étape 2 - Système Export PDF
+- [x] Installer jsPDF + qrcode + @types/qrcode
+- [x] Créer utilitaire exportPDF.ts réutilisable
+- [x] Ajouter bouton "Exporter PDF" sur MoleculeDetail et RecetteDetail
+- [x] Générer PDF molécule (nom, formule, profil, QR code)
+- [x] Générer PDF recette (nom, catégorie, notes, QR code)
+- [x] Ajouter citations bibliographiques (APA, MLA, Chicago)
+- [x] Mise en page professionnelle avec header/footer
+- [ ] Tester export sur vraie molécule (en attente test utilisateur)
+
+### Étape 3 - Tableau de Bord Analytique
+- [ ] Créer page /dashboard/analytics
+- [ ] Implémenter tracking vues (molécules, recettes)
+- [ ] Créer graphiques molécules les plus consultées
+- [ ] Créer graphiques recettes favorites
+- [ ] Ajouter statistiques progression recherche
+- [ ] Utiliser Chart.js ou Recharts
+- [ ] Ajouter filtres temporels (7j, 30j, 1an)
+
+### Étape 4 - Tests et Validation
+- [ ] Tester page Recherche (recherche + filtres)
+- [ ] Tester export PDF (molécule + recette)
+- [ ] Tester dashboard analytique (graphiques)
+- [ ] Vérifier responsive mobile
+- [ ] Créer checkpoint final
+
+
+## 📝 Améliorations Futures (Non Prioritaires)
+
+### Système de Notifications Personnalisées
+- [ ] Définir types notifications (in-app, push, email)
+- [ ] Identifier cas d'usage (nouvelles molécules, mises à jour, rappels)
+- [ ] Définir destinataires (tous utilisateurs, connectés, admins)
+- [ ] Implémenter système notifications in-app (toast/banner)
+- [ ] Ajouter notifications push navigateur (optionnel)
+- [ ] Créer panneau préférences notifications utilisateur
+
+### Recherche Full-Text Avancée (Fuse.js ou Meilisearch)
+- Voir Phase 26 et FUTURE_MEILISEARCH.md pour détails

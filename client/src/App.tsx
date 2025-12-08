@@ -30,7 +30,7 @@ import { Timeline } from "./pages/Timeline";
 import { ChemicalFamilies } from "./pages/ChemicalFamilies";
 import { ExperimentalAccords } from "./pages/ExperimentalAccords";
 import { AbsorbeScale } from "@/pages/AbsorbeScale";
-import Recherche from "./pages/Recherche";
+// import Recherche from "./pages/Recherche"; // Route désactivée - utiliser GlobalSearch modal à la place
 import MoleculeDetail from "./pages/MoleculeDetail";
 import RecetteDetail from "./pages/RecetteDetail";
 import TerpeneDetail from "./pages/TerpeneDetail";
@@ -117,7 +117,7 @@ function Router() {
       <Route path="/chemical-families" component={ChemicalFamilies} />
       <Route path="/experimental-accords" component={ExperimentalAccords} />
         <Route path="/absorbe-scale" component={AbsorbeScale} />
-          <Route path="/recherche" component={Recherche} />
+          {/* <Route path="/recherche" component={Recherche} /> */} {/* Route désactivée - page cassée, utiliser GlobalSearch modal */}
       <Route path="/reseau" component={Reseau} />
       <Route path="/bio-mineralis" component={BioMineralis} />
       <Route path="/resines-cbd" component={ResinesCBD} />

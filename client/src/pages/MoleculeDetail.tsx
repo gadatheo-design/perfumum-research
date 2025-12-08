@@ -3,7 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Beaker, FlaskConical, FileText, Copy, Check } from "lucide-react";
+import { ArrowLeft, Beaker, FlaskConical, FileText, Copy, Check, Download } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { exportMoleculePDF } from "@/lib/exportPDF";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
@@ -195,6 +196,22 @@ export default function MoleculeDetail() {
         </Link>
         <div className="flex items-center gap-3">
           <FavoriteButton moleculeId={molecule.id} moleculeName={molecule.name} />
+          
+          {/* PDF Export */}
+          <Button
+            variant="outline"
+            size="default"
+            onClick={() => exportMoleculePDF({
+              name: molecule.name,
+              chemicalFormula: molecule.chemicalFormula || undefined,
+              olfactiveProfile: molecule.olfactiveProfile || undefined,
+              family: molecule.family || undefined,
+              id: molecule.id,
+            })}
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Exporter PDF
+          </Button>
           
           {/* Citation Export */}
           <DropdownMenu>

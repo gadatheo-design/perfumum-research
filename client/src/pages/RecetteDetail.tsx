@@ -3,8 +3,9 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FlaskConical, Beaker } from "lucide-react";
+import { ArrowLeft, FlaskConical, Beaker, Download } from "lucide-react";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { exportRecipePDF } from "@/lib/exportPDF";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
 import { useMemo } from "react";
@@ -169,10 +170,25 @@ export default function RecetteDetail() {
             Retour
           </Button>
         </Link>
-        <Badge variant="secondary" className="text-lg px-4 py-2">
-          <FlaskConical className="mr-2 h-5 w-5" />
-          Recette
-        </Badge>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="default"
+            onClick={() => exportRecipePDF({
+              name: data.recette.name,
+              category: data.family?.name || undefined,
+              notes: data.recette.notes || undefined,
+              id: data.recette.id,
+            })}
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Exporter PDF
+          </Button>
+          <Badge variant="secondary" className="text-lg px-4 py-2">
+            <FlaskConical className="mr-2 h-5 w-5" />
+            Recette
+          </Badge>
+        </div>
       </div>
 
       {/* Main Info */}
