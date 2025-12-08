@@ -157,6 +157,24 @@ export function MegaMenu() {
       title: "Outils",
       items: [
         {
+          label: "Outils de formulation",
+          path: "/outils-formulation",
+          icon: <FlaskConical className="h-4 w-4" />,
+          description: "Suite complète d'outils",
+        },
+        {
+          label: "Calculateur de proportions",
+          path: "/calculateur",
+          icon: <Beaker className="h-4 w-4" />,
+          description: "Créer formules terpéniques",
+        },
+        {
+          label: "Analyses de corrélations",
+          path: "/analyses",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Co-occurrences terpènes",
+        },
+        {
           label: "Comparateur terpènes",
           path: "/compare-terpenes",
           icon: <BarChart3 className="h-4 w-4" />,

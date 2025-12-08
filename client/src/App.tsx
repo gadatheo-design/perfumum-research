@@ -85,6 +85,7 @@ import Contact from "./pages/Contact";
 import Etudes from "./pages/Etudes";
 import ProportionsCalculator from "./pages/ProportionsCalculator";
 import CorrelationAnalysis from "./pages/CorrelationAnalysis";
+import OutilsFormulation from "./pages/OutilsFormulation";
 
 function Router() {
   return (
@@ -129,6 +130,7 @@ function Router() {
           <Route path="/matrice-synergies" component={MatriceSynergies} />
           <Route path="/calculateur" component={ProportionsCalculator} />
           <Route path="/analyses" component={CorrelationAnalysis} />
+          <Route path="/outils-formulation" component={OutilsFormulation} />
           <Route path="/galerie-botaniques" component={GalerieBotaniques} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />

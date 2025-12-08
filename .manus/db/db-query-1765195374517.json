@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules \nSET therapeuticProperties = 'Sédatif, relaxant musculaire, anti-inflammatoire, analgésique. Favorise le sommeil et réduit l''anxiété. Potentialise les effets du CBD.'\nWHERE id = 1 AND name LIKE '%Myrc%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules \nSET therapeuticProperties = 'Sédatif, relaxant musculaire, anti-inflammatoire, analgésique. Favorise le sommeil et réduit l''anxiété. Potentialise les effets du CBD.'\nWHERE id = 1 AND name LIKE '%Myrc%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1065
+}

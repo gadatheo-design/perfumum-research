@@ -2806,3 +2806,35 @@
 - [x] Calcul grammes pour 100g batch
 - [x] Propriétés thérapeutiques par terpène
 - [x] Liens cliquables vers pages terpènes
+
+
+---
+
+## Phase 20 - Améliorations UX & Enrichissement Données (Continue 1-3)
+
+### Étape 1 - Navigation améliorée
+- [x] Ajouter lien "Calculateur" dans menu Études du Header
+- [x] Ajouter lien "Analyses" dans menu Études du Header
+- [x] Vérifier responsive mobile des nouveaux liens
+
+### Étape 2 - Page Outils de Formulation
+- [x] Créer page `/outils-formulation`
+- [x] Section 1 : Calculateur de Proportions (avec lien)
+- [x] Section 2 : Analyses de Corrélations (avec lien)
+- [x] Section 3 : Matrice de Synergies (avec lien)
+- [x] Section 4 : Comparateur Radar (avec lien)
+- [x] Design cards avec icônes et descriptions
+- [x] Ajouter route dans App.tsx
+- [x] Ajouter lien dans Header navigation
+
+### Étape 3 - Enrichissement propriétés thérapeutiques
+- [x] Créer script d'enrichissement des 7 terpènes principaux
+- [x] Myrcène : propriétés sédatives, anti-inflammatoires
+- [x] Limonène : propriétés anxiolytiques, antidépressives
+- [x] α-Pinène : propriétés bronchodilatatrices, anti-inflammatoires
+- [x] β-Pinène : propriétés anti-inflammatoires, expectorantes
+- [x] β-Caryophyllène : propriétés analgésiques, anti-inflammatoires
+- [x] Linalool : propriétés anxiolytiques, sédatives
+- [x] Humulène : propriétés anti-inflammatoires, antibactériennes
+- [x] Exécuter script d'update SQL
+- [x] Vérifier affichage dans RecetteCBDDetail
