@@ -184,6 +184,15 @@ export type InsertMolecule = typeof molecules.$inferInsert;
 // TERPENE SYNERGIES
 // ============================================================================
 
+export const userNotes = mysqlTable("user_notes", {
+  id: int("id").primaryKey().autoincrement(),
+  entityType: varchar("entity_type", { length: 50 }).notNull(), // 'molecule', 'recette', 'accord', 'civilisation'
+  entityId: int("entity_id").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
+});
+
 export const terpeneSynergies = mysqlTable("terpene_synergies", {
   id: int("id").autoincrement().primaryKey(),
   terpene1Id: int("terpene1_id").notNull().references(() => molecules.id, { onDelete: "cascade" }),

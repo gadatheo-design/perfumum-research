@@ -1,4 +1,4 @@
-import { eq, sql, and, or, desc } from "drizzle-orm";
+import { eq, and, or, isNull, desc, asc, sql, like } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -42,6 +42,7 @@ import {
   synergies,
   Synergie,
   terpeneSynergies,
+  userNotes,
   TerpeneSynergy,
   sharedCollections,
   moleculeNotes,
@@ -1674,4 +1675,75 @@ export async function getTerpeneSynergyByPair(terpene1Id: number, terpene2Id: nu
     .limit(1);
   
   return result[0] || null;
+}
+
+
+// ============================================================================
+// USER NOTES
+// ============================================================================
+
+export async function createUserNote(entityType: string, entityId: number, content: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(userNotes).values({
+    entityType,
+    entityId,
+    content,
+  });
+  
+  return { id: Number((result as any).insertId) };
+}
+
+export async function updateUserNote(id: number, content: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(userNotes)
+    .set({ content, updatedAt: new Date() })
+    .where(eq(userNotes.id, id));
+  
+  return { success: true };
+}
+
+export async function deleteUserNote(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(userNotes).where(eq(userNotes.id, id));
+  
+  return { success: true };
+}
+
+export async function getUserNoteByEntity(entityType: string, entityId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(userNotes)
+    .where(
+      and(
+        eq(userNotes.entityType, entityType),
+        eq(userNotes.entityId, entityId)
+      )
+    )
+    .limit(1);
+  
+  return result[0] || null;
+}
+
+export async function searchUserNotes(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select()
+    .from(userNotes)
+    .where(like(userNotes.content, `%${query}%`))
+    .orderBy(desc(userNotes.updatedAt))
+    .limit(20);
+  
+  return result;
 }

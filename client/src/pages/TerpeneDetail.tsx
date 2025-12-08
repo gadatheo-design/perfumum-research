@@ -11,6 +11,7 @@ import { useLocation } from "wouter";
 import { RadarChart } from "@/components/RadarChart";
 import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
 import { DetailSidebar, getTerpeneQuickLinks } from "@/components/DetailSidebar";
+import { NotesEditor } from "@/components/NotesEditor";
 
 // Mapping terpène -> image botanique
 const TERPENE_IMAGES: Record<string, string> = {
@@ -332,6 +333,16 @@ export default function TerpeneDetail() {
               </Card>
             )}
             
+            {/* Notes personnelles */}
+            <div className="mb-12">
+              <NotesEditor
+                entityType="molecule"
+                entityId={id}
+                title="Notes personnelles"
+                placeholder="Ajoutez vos observations, résultats d'expériences, idées de combinaisons..."
+              />
+            </div>
+
             {/* Recettes contenant ce terpène */}
             <div>
               <h2 className="text-2xl font-bold mb-6">Recettes contenant {molecule.name}</h2>

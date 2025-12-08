@@ -2707,3 +2707,31 @@
 - [ ] Valider recherche globale (performance)
 - [ ] Tester navigation mobile (iOS/Android)
 - [ ] Checkpoint final
+
+
+## 🔄 EN COURS : Phase 18 - Notes, Dashboard & Liens Contextuels
+
+### Système de notes personnelles
+- [x] Créer table user_notes (entityType, entityId, content, createdAt, updatedAt)
+- [x] Procédures tRPC (notes.create, notes.update, notes.delete, notes.getByEntity, notes.search)
+- [x] Composant NotesEditor.tsx (textarea, autosave 1.5s, compteur caractères, max 5000)
+- [x] Intégrer NotesEditor dans TerpeneDetail
+- [x] Badges status (Sauvegarde/Sauvegardé/Erreur)
+- [x] Bouton suppression note avec confirmation
+
+### Dashboard analytique
+- [ ] Créer page Dashboard.tsx (/dashboard)
+- [ ] Statistiques collection (Chart.js pie : répartition familles chimiques)
+- [ ] Top 5 synergies utilisées (bar chart horizontal)
+- [ ] Évolution recettes par mois (line chart)
+- [ ] Indicateurs clés (cards : % validées vs expérimentales, coût moyen)
+- [ ] Export PDF rapport mensuel (bouton)
+- [ ] Ajouter route /dashboard dans App.tsx
+
+### Liens contextuels intelligents
+- [ ] Algorithme similarité profils radar (distance euclidienne)
+- [ ] Section "Vous pourriez aimer" (3 suggestions) dans TerpeneDetail
+- [ ] Section "Utilisé dans" avec compteurs cliquables dans TerpeneDetail
+- [ ] Section "Synergies excellentes" (score > 70) avec navigation matrice
+- [ ] Procédure tRPC molecules.getSimilar(id, limit)
+- [ ] Procédure tRPC molecules.getUsageStats(id)
