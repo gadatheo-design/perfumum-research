@@ -2838,3 +2838,32 @@
 - [x] Humulène : propriétés anti-inflammatoires, antibactériennes
 - [x] Exécuter script d'update SQL
 - [x] Vérifier affichage dans RecetteCBDDetail
+
+
+---
+
+## Phase 21 - Corrections & Implémentation Recettes CBD
+
+### Étape 1 - Corriger page Molécules
+- [x] Diagnostiquer pourquoi page Molécules affiche "0 molécule trouvée"
+- [x] Vérifier requête tRPC molecule.getAll
+- [x] Vérifier fonction getAllMolecules dans db.ts
+- [x] Tester requête SQL directe pour vérifier données
+- [x] Corriger le problème identifié (db.ts vidé, restauré depuis commit 915ef5b)
+- [x] Vérifier affichage page Molécules (138 molécules affichées)### Étape 2 - Compléter propriétés thérapeutiques
+- [x] Identifier IDs réels des 7 terpènes principaux dans la base (14 trouvés avec variantes)
+- [x] Mettre à jour α-Pinène avec propriétés thérapeutiques
+- [x] Mettre à jour β-Pinène avec propriétés thérapeutiques
+- [x] Mettre à jour Linalool avec propriétés thérapeutiques
+- [x] Mettre à jour Humulène avec propriétés thérapeutiques
+- [x] Vérifier que tous les 7 terpènes ont leurs propriétés (12 terpènes avec propriétés)mplètes
+
+### Ét### Étape 3 - Implémenter recettes CBD
+- [x] Créer script d'import recettes CBD (10 recettes minimum)
+- [x] Définir compositions terpéniques pour chaque recette (43 relations)
+- [x] Insérer recettes dans table recettes (category='resine_cbd')
+- [x] Insérer relations molecules_recettes avec proportions
+- [x] Vérifier que les recettes sont accessibles via tRPC
+- [x] Tester affichage page Résines CBD (Collections 20 affichées)
+- [ ] Tester page RecetteCBDDetail avec composition enrichie (données en base, affichage à finaliser)
+- [ ] Vérifier Analyses de Corrélations avec vraies données

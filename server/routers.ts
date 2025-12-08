@@ -142,7 +142,7 @@ export const appRouter = router({
   recettes: router({
     list: publicProcedure
       .input(z.object({
-        category: z.enum(["tabac", "resine", "cone", "parfum", "encens", "extrait"]).optional(),
+        category: z.enum(["tabac", "resine", "resine_cbd", "cone", "parfum", "encens", "extrait"]).optional(),
       }).optional())
       .query(async ({ input }) => {
         if (input?.category) {

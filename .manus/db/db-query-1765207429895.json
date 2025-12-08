@@ -1,0 +1,25 @@
+{
+  "query": "SELECT id, name, category FROM recettes WHERE name LIKE '%Northern Lights%' OR name LIKE '%Harlequin%' OR name LIKE '%ACDC%' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category FROM recettes WHERE name LIKE '%Northern Lights%' OR name LIKE '%Harlequin%' OR name LIKE '%ACDC%' ORDER BY id;",
+  "rows": [
+    {
+      "id": "90001",
+      "name": "Northern Lights CBD",
+      "category": "resine_cbd"
+    },
+    {
+      "id": "90002",
+      "name": "Harlequin CBD",
+      "category": "resine_cbd"
+    },
+    {
+      "id": "90003",
+      "name": "ACDC CBD",
+      "category": "resine_cbd"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n90001\tNorthern Lights CBD\tresine_cbd\n90002\tHarlequin CBD\tresine_cbd\n90003\tACDC CBD\tresine_cbd\n",
+  "stderr": "",
+  "execution_time_ms": 84
+}

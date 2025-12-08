@@ -1,0 +1,58 @@
+{
+  "query": "SELECT name, LEFT(therapeuticProperties, 80) as properties FROM molecules WHERE (name LIKE '%Pinène%' OR name LIKE '%Linalool%' OR name LIKE '%Humulène%' OR name LIKE '%Myrcène%' OR name LIKE '%Limonène%' OR name LIKE '%Caryophyllène%') AND therapeuticProperties IS NOT NULL ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT name, LEFT(therapeuticProperties, 80) as properties FROM molecules WHERE (name LIKE '%Pinène%' OR name LIKE '%Linalool%' OR name LIKE '%Humulène%' OR name LIKE '%Myrcène%' OR name LIKE '%Limonène%' OR name LIKE '%Caryophyllène%') AND therapeuticProperties IS NOT NULL ORDER BY name;",
+  "rows": [
+    {
+      "name": "Humulène",
+      "properties": "Anti-inflammatoire puissant, efficace contre l'inflammation chronique. Antibacté"
+    },
+    {
+      "name": "Humulène",
+      "properties": "Anti-inflammatoire puissant, efficace contre l'inflammation chronique. Antibacté"
+    },
+    {
+      "name": "Limonène",
+      "properties": "Antidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, F"
+    },
+    {
+      "name": "Limonène",
+      "properties": "Antidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, F"
+    },
+    {
+      "name": "Limonène",
+      "properties": "Antidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, F"
+    },
+    {
+      "name": "Linalool",
+      "properties": "Anxiolytique puissant, réduit significativement l'anxiété et le stress. Sédatif "
+    },
+    {
+      "name": "Linalool",
+      "properties": "Anxiolytique puissant, réduit significativement l'anxiété et le stress. Sédatif "
+    },
+    {
+      "name": "Myrcène",
+      "properties": "Analgésique, Anti-inflammatoire, Sédatif, Relaxant musculaire, Anxiolytique, Pot"
+    },
+    {
+      "name": "Myrcène",
+      "properties": "Analgésique, Anti-inflammatoire, Sédatif, Relaxant musculaire, Anxiolytique, Pot"
+    },
+    {
+      "name": "α-Pinène",
+      "properties": "Bronchodilatateur puissant, améliore la fonction respiratoire. Anti-inflammatoir"
+    },
+    {
+      "name": "β-Caryophyllène",
+      "properties": "Anti-inflammatoire puissant (agoniste CB2), Analgésique, Gastroprotecteur, Neuro"
+    },
+    {
+      "name": "β-Pinène",
+      "properties": "Anti-inflammatoire puissant, similaire à l'α-pinène. Expectorant naturel, facili"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tproperties\nHumulène\tAnti-inflammatoire puissant, efficace contre l'inflammation chronique. Antibacté\nHumulène\tAnti-inflammatoire puissant, efficace contre l'inflammation chronique. Antibacté\nLimonène\tAntidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, F\nLimonène\tAntidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, F\nLimonène\tAntidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, F\nLinalool\tAnxiolytique puissant, réduit significativement l'anxiété et le stress. Sédatif \nLinalool\tAnxiolytique puissant, réduit significativement l'anxiété et le stress. Sédatif \nMyrcène\tAnalgésique, Anti-inflammatoire, Sédatif, Relaxant musculaire, Anxiolytique, Pot\nMyrcène\tAnalgésique, Anti-inflammatoire, Sédatif, Relaxant musculaire, Anxiolytique, Pot\nα-Pinène\tBronchodilatateur puissant, améliore la fonction respiratoire. Anti-inflammatoir\nβ-Caryophyllène\tAnti-inflammatoire puissant (agoniste CB2), Analgésique, Gastroprotecteur, Neuro\nβ-Pinène\tAnti-inflammatoire puissant, similaire à l'α-pinène. Expectorant naturel, facili\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}
