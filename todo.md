@@ -2736,3 +2736,43 @@
 - [x] Procédure tRPC molecules.getSimilar(id, limit)
 - [x] Procédure tRPC molecules.getUsageStats(id)
 - [x] Intégration NotesEditor dans RecetteCBDDetail
+
+
+## 🔄 EN COURS : Phase 19 - Priorités structurelles (ligne après ligne)
+
+### Priorité 1 : Table liaison molecules_recettes
+- [ ] Créer table molecules_recettes (moleculeId, recetteId, proportion, notes)
+- [ ] Ajouter index pour performance (moleculeId, recetteId)
+- [ ] Script migration données existantes (parser recettes.formula)
+- [ ] Mettre à jour getMoleculeUsageStats pour utiliser vraie table
+- [ ] Ajouter section "Utilisé dans X recettes" dans TerpeneDetail
+- [ ] Procédure tRPC recettes.getMoleculeUsage(moleculeId)
+
+### Priorité 2 : Calculateur proportions interactif
+- [ ] Créer page Calculateur.tsx (/calculateur)
+- [ ] Formulaire saisie composition (% par terpène)
+- [ ] Calcul automatique grammes/ml pour batch donné
+- [ ] Prévisualisation profil radar résultant
+- [ ] Sauvegarde formules favorites (localStorage ou DB)
+- [ ] Export PDF formule avec protocole
+
+### Priorité 3 : Analyses croisées avancées
+- [ ] Créer page Analyses.tsx (/analyses)
+- [ ] Corrélations terpènes (quels terpènes ensemble ?)
+- [ ] Tendances temporelles (évolution recettes)
+- [ ] Clustering recettes par similarité olfactive
+- [ ] Export rapports PDF mensuels
+
+### Priorité 4 : Système tags + collections
+- [ ] Ajouter colonne tags (JSON) dans molecules et recettes
+- [ ] Composant TagEditor avec autocomplete
+- [ ] Filtres par tags dans pages listes
+- [ ] Collections personnalisées (table user_collections)
+- [ ] Page /collections avec gestion CRUD
+
+### Priorité 5 : Mode multi-utilisateurs
+- [ ] Système de rôles (admin, chercheur, assistant, consultant)
+- [ ] Permissions granulaires par section
+- [ ] Commentaires collaboratifs sur fiches
+- [ ] Notifications activité équipe
+- [ ] Logs audit actions utilisateurs

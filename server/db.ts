@@ -1,4 +1,4 @@
-import { eq, and, or, isNull, desc, asc, sql, like } from "drizzle-orm";
+import { eq, and, or, like, isNull, sql, desc, asc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -24,7 +24,7 @@ import {
   accordCivilisations,
   researchTimeline,
   experimentalAccords,
-  moleculeRecettes,
+  // moleculeRecettes supprimé (doublon, voir moleculesRecettes ligne 45),
   Prototype,
   Family,
   Tabac,
@@ -42,6 +42,7 @@ import {
   synergies,
   Synergie,
   terpeneSynergies,
+  moleculesRecettes,
   userNotes,
   TerpeneSynergy,
   sharedCollections,
@@ -689,9 +690,9 @@ export async function getMoleculeWithRelations(id: number) {
       name: recettes.name,
       formula: recettes.formula,
     })
-    .from(moleculeRecettes)
-    .innerJoin(recettes, eq(moleculeRecettes.recetteId, recettes.id))
-    .where(eq(moleculeRecettes.moleculeId, id));
+    .from(moleculesRecettes)
+    .innerJoin(recettes, eq(moleculesRecettes.recetteId, recettes.id))
+    .where(eq(moleculesRecettes.moleculeId, id));
   
   return {
     molecule: mol,
@@ -722,9 +723,9 @@ export async function getRecetteWithRelations(id: number) {
       chemicalFormula: molecules.chemicalFormula,
       family: molecules.family,
     })
-    .from(moleculeRecettes)
-    .innerJoin(molecules, eq(moleculeRecettes.moleculeId, molecules.id))
-    .where(eq(moleculeRecettes.recetteId, id));
+    .from(moleculesRecettes)
+    .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
+    .where(eq(moleculesRecettes.recetteId, id));
   
   // Get family if familyId exists
   let family = null;
@@ -1814,12 +1815,30 @@ export async function getSimilarMolecules(moleculeId: number, limit: number = 3)
 
 export async function getMoleculeUsageStats(moleculeId: number) {
   const db = await getDb();
-  if (!db) return { recettesCount: 0, accordsCount: 0 };
+  if (!db) return { recettesCount: 0, accordsCount: 0, recettes: [] };
 
-  // TODO: implémenter quand table de liaison molecules_recettes sera créée
-  // Pour l'instant retourner 0
+  // Compter recettes utilisant cette molécule
+  const recettesCount = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(moleculesRecettes)
+    .where(eq(moleculesRecettes.moleculeId, moleculeId));
+
+  // Récupérer détails recettes avec proportions
+  const recettesDetails = await db
+    .select({
+      recetteId: moleculesRecettes.recetteId,
+      recetteName: recettes.name,
+      proportion: moleculesRecettes.proportion,
+      notes: moleculesRecettes.notes,
+    })
+    .from(moleculesRecettes)
+    .innerJoin(recettes, eq(moleculesRecettes.recetteId, recettes.id))
+    .where(eq(moleculesRecettes.moleculeId, moleculeId))
+    .orderBy(desc(moleculesRecettes.proportion));
+
   return {
-    recettesCount: 0,
-    accordsCount: 0,
+    recettesCount: Number(recettesCount[0]?.count || 0),
+    accordsCount: 0, // TODO: implémenter quand table accords sera disponible
+    recettes: recettesDetails,
   };
 }

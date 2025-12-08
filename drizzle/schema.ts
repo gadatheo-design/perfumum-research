@@ -1,4 +1,4 @@
-import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex } from "drizzle-orm/mysql-core";
+import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex, decimal, unique, index } from "drizzle-orm/mysql-core";
 import { relations } from "drizzle-orm";
 
 /**
@@ -192,6 +192,31 @@ export const userNotes = mysqlTable("user_notes", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
 });
+
+// ============================================================================
+// MOLECULES_RECETTES (Many-to-Many Relationship)
+// ============================================================================
+
+export const moleculesRecettes = mysqlTable("molecules_recettes", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull(),
+  recetteId: int("recette_id").notNull(),
+  proportion: decimal("proportion", { precision: 5, scale: 2 }), // 0-100%
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
+}, (table) => ({
+  uniqueMoleculeRecette: unique("unique_molecule_recette").on(table.moleculeId, table.recetteId),
+  moleculeIdx: index("idx_molecule").on(table.moleculeId),
+  recetteIdx: index("idx_recette").on(table.recetteId),
+}));
+
+export type MoleculeRecette = typeof moleculesRecettes.$inferSelect;
+export type NewMoleculeRecette = typeof moleculesRecettes.$inferInsert;
+
+// ============================================================================
+// TERPENE SYNERGIES
+// ============================================================================
 
 export const terpeneSynergies = mysqlTable("terpene_synergies", {
   id: int("id").autoincrement().primaryKey(),
@@ -491,11 +516,7 @@ export const moleculeFamilies = mysqlTable("molecule_families", {
   familyId: int("familyId").notNull().references(() => families.id),
 });
 
-// Molecules <-> Recettes
-export const moleculeRecettes = mysqlTable("molecule_recettes", {
-  moleculeId: int("moleculeId").notNull().references(() => molecules.id),
-  recetteId: int("recetteId").notNull().references(() => recettes.id),
-});
+/// Molecule <-> Recettes (voir moleculesRecettes ligne 200)
 
 // Accords <-> Traditions Olfactives
 export const accordCivilisations = mysqlTable("accord_civilisations", {
