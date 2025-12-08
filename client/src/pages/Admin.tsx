@@ -11,13 +11,22 @@ import {
   BookOpen, 
   Palette,
   Database,
-  BarChart3
+  BarChart3,
+  Eye,
+  FileDown,
+  Search,
+  Star
 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 
 export default function Admin() {
   // Charger les statistiques
   const { data: stats } = trpc.admin.getStats.useQuery();
+  
+  // Charger les analytics (30 derniers jours)
+  const { data: analyticsStats } = trpc.analytics.getDashboardStats.useQuery({ days: 30 });
+  const { data: topMolecules } = trpc.analytics.getMostViewedMolecules.useQuery({ days: 30, limit: 5 });
+  const { data: topRecipes } = trpc.analytics.getMostViewedRecipes.useQuery({ days: 30, limit: 5 });
 
   const adminSections = [
     {
@@ -147,6 +156,116 @@ export default function Admin() {
             </div>
           </section>
         )}
+
+        {/* Analytics Section */}
+        <section className="py-16 bg-muted/30">
+          <div className="container">
+            <div className="max-w-6xl mx-auto">
+              <div className="flex items-center gap-3 mb-8">
+                <BarChart3 className="h-8 w-8 text-primary" />
+                <h2 className="text-3xl font-bold">Analytics (30 derniers jours)</h2>
+              </div>
+              
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Vues Totales</CardTitle>
+                    <Eye className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{analyticsStats?.totalViews || 0}</div>
+                    <p className="text-xs text-muted-foreground">Consultations</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Exports PDF</CardTitle>
+                    <FileDown className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{analyticsStats?.totalExports || 0}</div>
+                    <p className="text-xs text-muted-foreground">Téléchargements</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Recherches</CardTitle>
+                    <Search className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{analyticsStats?.totalSearches || 0}</div>
+                    <p className="text-xs text-muted-foreground">Requêtes</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Favoris</CardTitle>
+                    <Star className="h-4 w-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{analyticsStats?.totalFavorites || 0}</div>
+                    <p className="text-xs text-muted-foreground">Ajouts</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Top Content */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Top 5 Molécules</CardTitle>
+                    <CardDescription>Les plus consultées</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {topMolecules && topMolecules.length > 0 ? (
+                      <div className="space-y-2">
+                        {topMolecules.map((mol, idx) => (
+                          <div key={mol.id} className="flex items-center justify-between p-2 hover:bg-muted rounded">
+                            <div className="flex items-center gap-3">
+                              <span className="text-sm font-bold text-muted-foreground w-6">#{idx + 1}</span>
+                              <span className="font-medium">{mol.name}</span>
+                            </div>
+                            <span className="text-sm text-muted-foreground">{mol.viewCount} vues</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">Aucune donnée disponible</p>
+                    )}
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Top 5 Recettes</CardTitle>
+                    <CardDescription>Les plus consultées</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {topRecipes && topRecipes.length > 0 ? (
+                      <div className="space-y-2">
+                        {topRecipes.map((recipe, idx) => (
+                          <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-muted rounded">
+                            <div className="flex items-center gap-3">
+                              <span className="text-sm font-bold text-muted-foreground w-6">#{idx + 1}</span>
+                              <span className="font-medium">{recipe.name}</span>
+                            </div>
+                            <span className="text-sm text-muted-foreground">{recipe.viewCount} vues</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">Aucune donnée disponible</p>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Admin Sections */}
         <section className="py-16">

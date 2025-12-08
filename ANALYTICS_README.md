@@ -182,11 +182,17 @@ function AnalyticsDashboard() {
 
 **État actuel** : ⚠️ La page nécessite encore du débogage pour s'afficher correctement.
 
+## ⚠️ Problème de Routage Connu
+
+Un bug de routage empêche actuellement l'affichage de la page `/analytics`. Voir `ROUTING_ISSUE.md` pour les détails.
+
+**Workaround** : L'API analytics fonctionne parfaitement et peut être utilisée dans n'importe quelle page existante.
+
 ## Prochaines étapes
 
-1. **Déboguer la page Analytics Dashboard** : Identifier pourquoi certaines routes affichent une page blanche
+1. **Résoudre le problème de routage** : Voir `ROUTING_ISSUE.md` pour investigation
 2. **Intégrer le tracking** : Ajouter `trackEvent` dans les pages de détail (molécules, recettes, terpènes)
-3. **Ajouter des graphiques** : Implémenter Chart.js pour visualiser l'activité
+3. **Ajouter des visualisations** : Intégrer les stats analytics dans une page existante
 4. **Tests** : Créer des tests vitest pour les procédures analytics
 5. **Optimisation** : Ajouter du caching pour les requêtes fréquentes
 
