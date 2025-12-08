@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { ArrowLeft, Beaker, Droplets, Flame, Clock, DollarSign } from "lucide-react";
+import { ArrowLeft, Beaker, Droplets, Flame, Clock, DollarSign, Activity } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { TimelineAromatic } from "@/components/TimelineAromatic";
 
 export default function RecetteCBDDetail() {
   const params = useParams();
@@ -193,6 +194,65 @@ export default function RecetteCBDDetail() {
               <div className="pt-4 border-t">
                 <h3 className="font-semibold mb-2">Notes</h3>
                 <p className="text-muted-foreground whitespace-pre-wrap">{recette.notes}</p>
+              </div>
+            )}
+
+            {/* Timeline Aromatique */}
+            {(recette.notesTete || recette.notesCoeur || recette.notesFond) && (
+              <div className="pt-6 border-t">
+                <h3 className="font-semibold mb-4 flex items-center gap-2">
+                  <Activity className="h-5 w-5" />
+                  Évolution Aromatique
+                </h3>
+                <TimelineAromatic
+                  data={{
+                    notesTete: recette.notesTete || undefined,
+                    notesCoeur: recette.notesCoeur || undefined,
+                    notesFond: recette.notesFond || undefined,
+                    dureeTeteMin: recette.dureeTeteMin || undefined,
+                    dureeCoeurMin: recette.dureeCoeurMin || undefined,
+                    dureeFondMin: recette.dureeFondMin || undefined,
+                  }}
+                  height={350}
+                />
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {recette.notesTete && (
+                    <div className="p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                        <span className="font-semibold text-sm">Notes de tête</span>
+                        <span className="text-xs text-muted-foreground ml-auto">
+                          0-{recette.dureeTeteMin || 15}min
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{recette.notesTete}</p>
+                    </div>
+                  )}
+                  {recette.notesCoeur && (
+                    <div className="p-3 bg-violet-500/10 rounded-lg border border-violet-500/20">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 rounded-full bg-violet-500"></div>
+                        <span className="font-semibold text-sm">Notes de cœur</span>
+                        <span className="text-xs text-muted-foreground ml-auto">
+                          {recette.dureeTeteMin || 15}-{(recette.dureeTeteMin || 15) + (recette.dureeCoeurMin || 45)}min
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{recette.notesCoeur}</p>
+                    </div>
+                  )}
+                  {recette.notesFond && (
+                    <div className="p-3 bg-orange-500/10 rounded-lg border border-orange-500/20">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                        <span className="font-semibold text-sm">Notes de fond</span>
+                        <span className="text-xs text-muted-foreground ml-auto">
+                          {(recette.dureeTeteMin || 15) + (recette.dureeCoeurMin || 45)}min+
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{recette.notesFond}</p>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 

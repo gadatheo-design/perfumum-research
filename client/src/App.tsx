@@ -8,6 +8,7 @@ import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
+import AdminImportExport from "./pages/AdminImportExport";
 import Projet from "./pages/Projet";
 import LeProjet from "./pages/LeProjet";
 import Prototypes from "./pages/Prototypes";
@@ -31,6 +32,7 @@ import RecetteDetail from "./pages/RecetteDetail";
 import TerpeneDetail from "./pages/TerpeneDetail";
 import CompareTerpenes from "./pages/CompareTerpenes";
 import CompareRadar from "./pages/CompareRadar";
+import MatriceSynergies from "./pages/MatriceSynergies";
 import GalerieBotaniques from "./pages/GalerieBotaniques";
 import Recettes from "./pages/Recettes";
 import Gammes from "./pages/Gammes";
@@ -81,8 +83,9 @@ import Etudes from "./pages/Etudes";
 function Router() {
   return (
     <Switch>      <Route path={"/"} component={Home} />
-      <Route path={"/admin"} component={Admin} />
-      <Route path={"/admin/molecules/new"} component={AdminMoleculeNew} />
+         <Route path="/admin" component={Admin} />
+      <Route path="/admin/molecule/new" component={AdminMoleculeNew} />
+      <Route path="/admin/import-export" component={AdminImportExport} />
       <Route path={"/404"} component={NotFound} />      <Route path="/le-projet" component={LeProjet} />
       <Route path="/prototypes" component={Prototypes} />
       <Route path="/prototypes/c1" component={C1Fermentum} />
@@ -117,6 +120,7 @@ function Router() {
           <Route path="/terpene/:id" component={TerpeneDetail} />
           <Route path="/compare-terpenes" component={CompareTerpenes} />
           <Route path="/compare-radar" component={CompareRadar} />
+          <Route path="/matrice-synergies" component={MatriceSynergies} />
           <Route path="/galerie-botaniques" component={GalerieBotaniques} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />

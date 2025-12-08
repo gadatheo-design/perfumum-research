@@ -282,6 +282,13 @@ export const recettes = mysqlTable("recettes", {
   costEstimate: int("costEstimate"), // Estimated cost in cents (CHF)
   productionTime: int("productionTime"), // Production time in minutes
   status: mysqlEnum("status", ["experimental", "testing", "validated", "production"]).default("experimental"),
+  // Évolution aromatique
+  notesTete: text("notes_tete"), // Notes de tête (description)
+  notesCoeur: text("notes_coeur"), // Notes de cœur (description)
+  notesFond: text("notes_fond"), // Notes de fond (description)
+  dureeTeteMin: int("duree_tete_min").default(15), // Durée notes de tête en minutes
+  dureeCoeurMin: int("duree_coeur_min").default(45), // Durée notes de cœur en minutes
+  dureeFondMin: int("duree_fond_min").default(120), // Durée notes de fond en minutes
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

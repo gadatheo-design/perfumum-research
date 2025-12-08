@@ -2625,27 +2625,28 @@
 - [ ] Export PNG diagramme radar (optionnel)
 
 ### Matrice synergies terpéniques
-- [ ] Créer page MatriceSynergies.tsx
-- [ ] Tableau 7x7 interactif avec code couleur (vert/jaune/rouge)
-- [ ] Tooltips détails synergies au survol
-- [ ] Modal détails combinaison au clic
-- [ ] Filtres par niveau compatibilité
-- [ ] Ajouter route /matrice-synergies
+- [x] Créer page MatriceSynergies.tsx
+- [x] Tableau 7x7 interactif avec code couleur (vert/jaune/rouge)
+- [x] Statistiques synergies par niveau
+- [x] Modal détails combinaison au clic
+- [x] Filtres par niveau compatibilité
+- [x] Ajouter route /matrice-synergies
 
 ### Timeline évolution aromatique
-- [ ] Créer composant TimelineAromatic.tsx
-- [ ] Courbes empilées tête/cœur/fond avec Chart.js
-- [ ] Intégrer timeline dans RecetteCBDDetail
-- [ ] Légende interactive (clic pour masquer/afficher notes)
-- [ ] Marqueurs temporels (0-15min tête, 15-60min cœur, 60min+ fond)
+- [x] Créer composant TimelineAromatic.tsx
+- [x] Courbes empilées tête/cœur/fond avec Chart.js
+- [x] Intégrer timeline dans RecetteCBDDetail
+- [x] Cartes détails notes (tête/cœur/fond) avec durées
+- [x] Marqueurs temporels (0-15min tête, 15-60min cœur, 60min+ fond)
 
 ### Import/Export CSV
-- [ ] Créer page AdminImportExport.tsx
-- [ ] Bouton export CSV molécules (toutes colonnes)
-- [ ] Bouton export CSV recettes (avec relations)
-- [ ] Upload CSV + parsing avec papaparse
-- [ ] Validation données avant import
-- [ ] Preview données importées (tableau 10 premières lignes)
+- [x] Créer page AdminImportExport.tsx
+- [x] Bouton export CSV molécules (toutes colonnes)
+- [x] Bouton export CSV recettes (avec relations)
+- [x] Upload CSV + parsing avec papaparse
+- [x] Validation données avant import (colonnes requises)
+- [x] Messages status (succès/erreur/info)
+- [x] Documentation format CSV avec exemples
 - [ ] Confirmation import avec compteurs (X ajoutés, Y mis à jour)
 - [ ] Logs import (succès/erreurs)
-- [ ] Ajouter route /admin/import-export
+- [x] Ajouter route /admin/import-export
