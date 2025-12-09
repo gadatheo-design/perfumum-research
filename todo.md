@@ -3018,3 +3018,27 @@
 - [ ] Tester page recette avec ID=1
 - [ ] Vérifier navigation depuis listes
 - [ ] Créer checkpoint final
+
+
+## 🔄 EN COURS : Enrichissement des cartes de liste
+
+### Objectif
+Afficher plus d'informations directement dans les cartes Molécules et Recettes pour réduire les clics nécessaires et améliorer l'expérience utilisateur.
+
+### Cartes Molécules (/molecules)
+- [x] Ajouter mini profil radar (6 axes) dans chaque carte
+- [x] Afficher propriétés clés (poids moléculaire, volatilité, intensité)
+- [ ] Afficher nombre de recettes utilisant cette molécule
+- [x] Optimiser layout pour mobile (responsive)
+
+### Cartes Recettes (/recettes)
+- [ ] Afficher évolution aromatique (notes tête/cœur/fond en badges)
+- [ ] Afficher propriétés techniques (intensité, stabilité en barres de progression)
+- [ ] Afficher nombre de molécules dans la composition
+- [ ] Optimiser layout pour mobile (responsive)
+
+### Tests et validation
+- [ ] Tester affichage desktop (1920px, 1440px, 1024px)
+- [ ] Tester affichage mobile (375px, 414px)
+- [ ] Vérifier performances (temps de chargement)
+- [ ] Créer checkpoint après validation

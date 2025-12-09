@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
-import { Search, Beaker, Filter, X } from "lucide-react";
+import { Search, Beaker, Filter, X, Wind, Droplets, Flame, Zap, Package } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
@@ -234,6 +235,62 @@ export default function Recettes() {
                           )}
                         </CardHeader>
                         <CardContent className="space-y-3">
+                          {/* Évolution Aromatique - Notes */}
+                          {(recette.notesTete || recette.notesCoeur || recette.notesFond) && (
+                            <div className="space-y-2">
+                              <h4 className="text-xs font-semibold text-muted-foreground">Évolution Aromatique</h4>
+                              <div className="flex flex-wrap gap-1.5">
+                                {recette.notesTete && (
+                                  <Badge variant="secondary" className="text-xs gap-1">
+                                    <Wind className="h-3 w-3" />
+                                    Tête
+                                  </Badge>
+                                )}
+                                {recette.notesCoeur && (
+                                  <Badge variant="secondary" className="text-xs gap-1">
+                                    <Droplets className="h-3 w-3" />
+                                    Cœur
+                                  </Badge>
+                                )}
+                                {recette.notesFond && (
+                                  <Badge variant="secondary" className="text-xs gap-1">
+                                    <Flame className="h-3 w-3" />
+                                    Fond
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Propriétés Techniques - Barres de progression */}
+                          {(recette.intensity !== null || recette.stability !== null) && (
+                            <div className="space-y-2">
+                              {recette.intensity !== null && recette.intensity !== undefined && (
+                                <div className="space-y-1">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                                      <Zap className="h-3 w-3" />
+                                      <span>Intensité</span>
+                                    </div>
+                                    <span className="font-medium">{recette.intensity}/10</span>
+                                  </div>
+                                  <Progress value={recette.intensity * 10} className="h-1.5" />
+                                </div>
+                              )}
+                              {recette.stability !== null && recette.stability !== undefined && (
+                                <div className="space-y-1">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                                      <Package className="h-3 w-3" />
+                                      <span>Stabilité</span>
+                                    </div>
+                                    <span className="font-medium">{recette.stability}/10</span>
+                                  </div>
+                                  <Progress value={recette.stability * 10} className="h-1.5" />
+                                </div>
+                              )}
+                            </div>
+                          )}
                           {recette.formula && (
                             <p className="text-sm text-muted-foreground line-clamp-3">
                               {recette.formula}

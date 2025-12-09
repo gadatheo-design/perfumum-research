@@ -18,6 +18,8 @@ import { ProfileAutocomplete } from "@/components/filters/ProfileAutocomplete";
 import { ActiveFiltersChips } from "@/components/filters/ActiveFiltersChips";
 import { FloatingCompareBar } from "@/components/FloatingCompareBar";
 import { useLocation } from "wouter";
+import { MiniRadarChart } from "@/components/MiniRadarChart";
+import { Beaker, Droplets, Zap, FlaskConical } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -418,6 +420,55 @@ export default function Molecules() {
                           )}
                         </CardHeader>
                       <CardContent className="space-y-4">
+                        {/* Mini Radar Chart + Properties */}
+                        <div className="flex items-start gap-4">
+                          {/* Mini Radar */}
+                          {(molecule.radarIntensity || molecule.radarFreshness || molecule.radarWarmth || 
+                            molecule.radarSweetness || molecule.radarSpiciness || molecule.radarEarthiness) && (
+                            <div className="shrink-0">
+                              <MiniRadarChart 
+                                data={{
+                                  intensity: molecule.radarIntensity,
+                                  freshness: molecule.radarFreshness,
+                                  warmth: molecule.radarWarmth,
+                                  sweetness: molecule.radarSweetness,
+                                  spiciness: molecule.radarSpiciness,
+                                  earthiness: molecule.radarEarthiness,
+                                }}
+                                size={80}
+                                className="text-primary"
+                              />
+                            </div>
+                          )}
+                          
+                          {/* Key Properties */}
+                          <div className="flex-1 grid grid-cols-2 gap-2 text-xs">
+                            {molecule.molecularWeight && (
+                              <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <Beaker className="h-3.5 w-3.5 shrink-0" />
+                                <span className="truncate">{molecule.molecularWeight} g/mol</span>
+                              </div>
+                            )}
+                            {molecule.volatility && (
+                              <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <Droplets className="h-3.5 w-3.5 shrink-0" />
+                                <span className="truncate">{molecule.volatility}</span>
+                              </div>
+                            )}
+                            {molecule.intensity !== null && molecule.intensity !== undefined && (
+                              <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <Zap className="h-3.5 w-3.5 shrink-0" />
+                                <span className="truncate">Intensité {molecule.intensity}/10</span>
+                              </div>
+                            )}
+                            {molecule.boilingPoint && (
+                              <div className="flex items-center gap-1.5 text-muted-foreground">
+                                <FlaskConical className="h-3.5 w-3.5 shrink-0" />
+                                <span className="truncate">{molecule.boilingPoint}°C</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                         {molecule.olfactiveProfile && (
                           <div>
                             <h4 className="text-sm font-semibold mb-2">Profil Olfactif</h4>
