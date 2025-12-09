@@ -170,6 +170,72 @@ export const appRouter = router({
       .query(async () => {
         return await db.getAllRecettesWithMolecules();
       }),
+    
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(1),
+        category: z.enum(["tabac", "resine", "resine_cbd", "cone", "parfum", "encens", "extrait"]),
+        familyId: z.number().optional(),
+        accordId: z.number().optional(),
+        tabacId: z.number().optional(),
+        civilisationId: z.number().optional(),
+        description: z.string().optional(),
+        ingredients: z.string().optional(),
+        formula: z.string().optional(),
+        protocol: z.string().optional(),
+        notes: z.string().optional(),
+        texture: z.string().optional(),
+        intensity: z.number().min(1).max(10).optional(),
+        stability: z.enum(["low", "medium", "high"]).optional(),
+        combustionTemperature: z.number().optional(),
+        maturationTime: z.number().optional(),
+        costEstimate: z.number().optional(),
+        productionTime: z.number().optional(),
+        status: z.enum(["experimental", "testing", "validated", "production"]).optional(),
+        notesTete: z.string().optional(),
+        notesCoeur: z.string().optional(),
+        notesFond: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createRecette(input);
+      }),
+    
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().min(1).optional(),
+        category: z.enum(["tabac", "resine", "resine_cbd", "cone", "parfum", "encens", "extrait"]).optional(),
+        familyId: z.number().optional().nullable(),
+        accordId: z.number().optional().nullable(),
+        tabacId: z.number().optional().nullable(),
+        civilisationId: z.number().optional().nullable(),
+        description: z.string().optional().nullable(),
+        ingredients: z.string().optional().nullable(),
+        formula: z.string().optional().nullable(),
+        protocol: z.string().optional().nullable(),
+        notes: z.string().optional().nullable(),
+        texture: z.string().optional().nullable(),
+        intensity: z.number().min(1).max(10).optional().nullable(),
+        stability: z.enum(["low", "medium", "high"]).optional().nullable(),
+        combustionTemperature: z.number().optional().nullable(),
+        maturationTime: z.number().optional().nullable(),
+        costEstimate: z.number().optional().nullable(),
+        productionTime: z.number().optional().nullable(),
+        status: z.enum(["experimental", "testing", "validated", "production"]).optional(),
+        notesTete: z.string().optional().nullable(),
+        notesCoeur: z.string().optional().nullable(),
+        notesFond: z.string().optional().nullable(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateRecette(id, data);
+      }),
+    
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return await db.deleteRecette(input);
+      }),
   }),
 
   // Civilisations

@@ -13,6 +13,7 @@ import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminImportExport from "./pages/AdminImportExport";
+import AdminRecettes from "./pages/AdminRecettes";
 import Projet from "./pages/Projet";
 import LeProjet from "./pages/LeProjet";
 import Prototypes from "./pages/Prototypes";
@@ -97,6 +98,7 @@ function Router() {
          <Route path="/admin" component={Admin} />
       <Route path="/admin/molecule/new" component={AdminMoleculeNew} />
       <Route path="/admin/import-export" component={AdminImportExport} />
+      <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path={"/404"} component={NotFound} />      <Route path="/le-projet" component={LeProjet} />
       <Route path="/prototypes" component={Prototypes} />
       <Route path="/prototypes/c1" component={C1Fermentum} />

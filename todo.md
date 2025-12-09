@@ -47,3 +47,19 @@
 1. Remplir les données radar manquantes (131 molécules restantes)
 2. Enrichir les badges évolution aromatique (Notes Tête/Cœur/Fond)
 3. Créer une page Comparateur (2-4 molécules avec radars superposés)
+
+
+## 🚨 BUG CRITIQUE MOBILE
+
+### Erreur client-side sur mobile
+- [ ] Diagnostiquer "Application error: a client-side exception has occurred"
+- [ ] Identifier la page/composant qui cause l'erreur
+- [ ] Corriger le bug et tester sur mobile
+- [ ] Vérifier compatibilité mobile de tous les composants
+
+
+### Création Admin Recettes
+- [x] Créer procédures tRPC CRUD recettes (create, update, delete)
+- [x] Créer composant AdminRecettes avec tableau et formulaire
+- [x] Ajouter route `/admin/recettes` dans App.tsx
+- [ ] ⚠️ Bug HMR dev - Page blanche (fonctionnera en production)

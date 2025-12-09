@@ -2067,3 +2067,45 @@ export async function getAnalyticsDashboardStats(days: number = 30) {
     totalFavorites: favorites[0]?.count || 0,
   };
 }
+
+// ============================================================================
+// RECETTES CRUD OPERATIONS
+// ============================================================================
+
+export async function createRecette(data: InsertRecette): Promise<Recette> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  const result = await db.insert(recettes).values(data);
+  const insertedId = Number(result.insertId);
+  
+  const created = await getRecetteById(insertedId);
+  if (!created) throw new Error('Failed to retrieve created recette');
+  
+  return created;
+}
+
+export async function updateRecette(id: number, data: Partial<InsertRecette>): Promise<Recette> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  await db.update(recettes).set(data).where(eq(recettes.id, id));
+  
+  const updated = await getRecetteById(id);
+  if (!updated) throw new Error('Recette not found after update');
+  
+  return updated;
+}
+
+export async function deleteRecette(id: number): Promise<{ success: boolean }> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Delete related records first (moleculesRecettes junction table)
+  await db.delete(moleculesRecettes).where(eq(moleculesRecettes.recetteId, id));
+  
+  // Delete the recette
+  await db.delete(recettes).where(eq(recettes.id, id));
+  
+  return { success: true };
+}

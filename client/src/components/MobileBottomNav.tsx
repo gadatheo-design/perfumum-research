@@ -80,9 +80,9 @@ export function MobileBottomNav() {
 
           return (
             <Link key={item.label} href={item.path}>
-              <a
+              <div
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all duration-200",
+                  "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer",
                   "hover:bg-muted/80 active:scale-95 hover:-translate-y-0.5",
                   isActive && "bg-primary/10 shadow-lg shadow-primary/20"
                 )}
@@ -103,7 +103,7 @@ export function MobileBottomNav() {
                 >
                   {item.label}
                 </span>
-              </a>
+              </div>
             </Link>
           );
         })}
