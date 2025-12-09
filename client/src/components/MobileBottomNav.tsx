@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Beaker, Search, Heart, User } from "lucide-react";
+import { Home, Beaker, Search, Heart, FlaskConical } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -21,9 +21,9 @@ export function MobileBottomNav() {
     },
     {
       icon: <Beaker className="h-5 w-5" />,
-      label: "Études",
-      path: "/terpenes",
-      activePattern: /^\/(terpenes|terpene|molecules|molecule|resines-cbd|recette|graphe|matrice|compare)/,
+      label: "Molécules",
+      path: "/molecules",
+      activePattern: /^\/(molecules|molecule|terpenes|terpene)/,
     },
     {
       icon: <Search className="h-5 w-5" />,
@@ -38,10 +38,10 @@ export function MobileBottomNav() {
       activePattern: /^\/favoris/,
     },
     {
-      icon: <User className="h-5 w-5" />,
-      label: "Admin",
-      path: "/admin",
-      activePattern: /^\/admin/,
+      icon: <FlaskConical className="h-5 w-5" />,
+      label: "Recettes",
+      path: "/recettes",
+      activePattern: /^\/(recettes|recette)/,
     },
   ];
 
@@ -52,7 +52,7 @@ export function MobileBottomNav() {
   };
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background border-t shadow-lg">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-t shadow-2xl transition-all duration-300">
       <div className="flex items-center justify-around h-16 px-2">
         {navItems.map((item) => {
           const isActive = item.activePattern?.test(location) || false;
@@ -64,8 +64,8 @@ export function MobileBottomNav() {
                 key={item.label}
                 onClick={handleSearchClick}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-colors",
-                  "hover:bg-muted active:scale-95"
+                  "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all duration-200",
+                  "hover:bg-muted/80 active:scale-95 hover:-translate-y-0.5"
                 )}
               >
                 <div className={cn("transition-colors", "text-muted-foreground")}>
@@ -82,9 +82,9 @@ export function MobileBottomNav() {
             <Link key={item.label} href={item.path}>
               <a
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-colors",
-                  "hover:bg-muted active:scale-95",
-                  isActive && "bg-primary/10"
+                  "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all duration-200",
+                  "hover:bg-muted/80 active:scale-95 hover:-translate-y-0.5",
+                  isActive && "bg-primary/10 shadow-lg shadow-primary/20"
                 )}
               >
                 <div
