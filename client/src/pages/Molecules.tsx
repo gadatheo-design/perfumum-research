@@ -364,7 +364,7 @@ export default function Molecules() {
                         });
                       }}
                     >
-                      <Card className={`hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full ${
+                      <Card className={`card-hover cursor-pointer h-full ${
                         selectedMolecules.includes(molecule.id) ? 'ring-2 ring-primary' : ''
                       }`}>
                         <CardHeader>

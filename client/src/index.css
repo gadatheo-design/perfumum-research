@@ -668,3 +668,170 @@
     }
   }
 }
+  /* ========================================
+     PERFUMUM - Micro-interactions enrichies
+     ======================================== */
+  
+  /* Card hover effects - Plus sophistiqués */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .card-hover:hover {
+    @apply -translate-y-2 shadow-2xl;
+    box-shadow: 0 20px 60px oklch(var(--primary) / 0.15),
+                0 8px 16px oklch(var(--foreground) / 0.1);
+  }
+  
+  /* Badge glow effect on hover */
+  .badge-glow {
+    @apply transition-all duration-300;
+  }
+  
+  .badge-glow:hover {
+    box-shadow: 0 0 20px currentColor,
+                0 0 40px oklch(var(--primary) / 0.3);
+    transform: scale(1.05);
+  }
+  
+  /* Button enhanced interactions */
+  .btn-enhanced {
+    @apply transition-all duration-200;
+    transform-origin: center;
+  }
+  
+  .btn-enhanced:hover:not(:disabled) {
+    @apply scale-105;
+    box-shadow: 0 4px 12px oklch(var(--primary) / 0.3),
+                0 2px 6px oklch(var(--foreground) / 0.1);
+  }
+  
+  .btn-enhanced:active:not(:disabled) {
+    @apply scale-95;
+    box-shadow: 0 2px 6px oklch(var(--primary) / 0.2);
+  }
+  
+  /* Focus states - Accessibilité renforcée */
+  *:focus-visible {
+    @apply outline-none ring-4 ring-primary/30 ring-offset-2 ring-offset-background;
+    transition: box-shadow 0.2s ease;
+  }
+  
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible {
+    @apply ring-4 ring-primary ring-offset-2;
+  }
+  
+  /* ========================================
+     PERFUMUM - Thèmes visuels par gamme
+     ======================================== */
+  
+  /* Pétrichor - Terre/Minéral/Pluie */
+  .theme-petrichor {
+    --theme-primary: oklch(0.55 0.12 160);
+    --theme-accent: oklch(0.45 0.10 180);
+    --theme-bg: oklch(0.95 0.02 160);
+  }
+  
+  .theme-petrichor .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.92 0.03 160) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-petrichor .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Volcanique - Fumée/Pyrolyse/Intensité */
+  .theme-volcanique {
+    --theme-primary: oklch(0.50 0.18 25);
+    --theme-accent: oklch(0.60 0.20 15);
+    --theme-bg: oklch(0.94 0.04 25);
+  }
+  
+  .theme-volcanique .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.90 0.06 25) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-volcanique .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Traditions Olfactives - Sacré/Culturel/Rituel */
+  .theme-traditions {
+    --theme-primary: oklch(0.65 0.15 60);
+    --theme-accent: oklch(0.55 0.18 50);
+    --theme-bg: oklch(0.96 0.03 60);
+  }
+  
+  .theme-traditions .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.92 0.05 60) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-traditions .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Glaciaire - Fraîcheur/Ozone/Altitude */
+  .theme-glaciaire {
+    --theme-primary: oklch(0.70 0.14 220);
+    --theme-accent: oklch(0.60 0.16 210);
+    --theme-bg: oklch(0.97 0.02 220);
+  }
+  
+  .theme-glaciaire .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.93 0.04 220) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-glaciaire .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Bio-Lab - Expérimental/Biotechnologie/Avant-garde */
+  .theme-biolab {
+    --theme-primary: oklch(0.68 0.20 330);
+    --theme-accent: oklch(0.65 0.25 140);
+    --theme-bg: oklch(0.96 0.04 330);
+  }
+  
+  .theme-biolab .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.92 0.06 330) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-biolab .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Utility classes for themed elements */
+  .themed-glow {
+    box-shadow: 0 0 30px oklch(var(--theme-primary) / 0.2),
+                0 0 60px oklch(var(--theme-primary) / 0.1);
+  }
+  
+  .themed-border {
+    border: 2px solid oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .themed-text {
+    color: oklch(var(--theme-primary));
+  }

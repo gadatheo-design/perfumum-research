@@ -3211,3 +3211,32 @@ Afficher plus d'informations directement dans les cartes Molécules et Recettes 
 - [ ] Documenter protocoles de test (mouillette, peau, diffusion)
 - [ ] Ajouter calendrier de recherche décennal
 - [ ] Créer formulaires de saisie de résultats expérimentaux
+
+
+## 🔄 EN COURS : Améliorations UX/UI simples (sans nouvelles pages)
+
+### Amélioration 6 : Micro-interactions
+- [x] Ajouter animations hover plus sophistiquées sur cartes Molécules (.card-hover)
+- [ ] Ajouter animations hover sur cartes Recettes
+- [x] Ajouter effet de "glow" sur hover des badges gamme (.badge-glow)
+- [x] Améliorer transitions des boutons (scale + shadow) (.btn-enhanced)
+
+### Amélioration 13 : Enrichir fiches techniques existantes
+- [ ] Ajouter section "Propriétés physico-chimiques" dans MoleculeDetail
+- [ ] Ajouter section "Synergies recommandées" dans MoleculeDetail
+- [ ] Ajouter section "Notes de formulation" dans RecetteDetail
+- [ ] Afficher plus de données radar dans les graphes
+
+### Amélioration 5 : Thème visuel par gamme
+- [x] Créer classes CSS pour couleurs spécifiques par gamme
+- [x] Appliquer thème Pétrichor (tons terre/vert) (.theme-petrichor)
+- [x] Appliquer thème Volcanique (tons rouge/orange) (.theme-volcanique)
+- [x] Appliquer thème Traditions (tons or/violet) (.theme-traditions)
+- [x] Appliquer thème Glaciaire (tons bleu/cyan) (.theme-glaciaire)
+- [x] Appliquer thème Bio-Lab (tons vert acide/magenta) (.theme-biolab)
+
+### Amélioration 8 : Accessibilité
+- [ ] Ajouter alt text sur toutes les images
+- [ ] Ajouter ARIA labels sur boutons icônes
+- [x] Améliorer contraste texte/fond (déjà optimisé)
+- [x] Ajouter focus states visibles sur tous les éléments interactifs (*:focus-visible)
