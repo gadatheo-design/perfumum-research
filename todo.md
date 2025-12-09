@@ -2985,3 +2985,36 @@
 
 ### Recherche Full-Text Avancée (Fuse.js ou Meilisearch)
 - Voir Phase 26 et FUTURE_MEILISEARCH.md pour détails
+
+
+## 🔄 EN COURS : Pages de détail molécules et recettes complètes
+
+### Phase 1 - Analyse et préparation
+- [ ] Analyser schema DB pour identifier tous les champs disponibles
+- [ ] Vérifier les données existantes pour molécules et recettes
+
+### Phase 2 - Page MoleculeDetail complète
+- [x] Créer page MoleculeDetail.tsx avec toutes les informations disponibles
+- [x] Afficher profil olfactif, résonance émotionnelle, effet fonctionnel, origine
+- [x] Afficher concentration, famille chimique, propriétés scientifiques (masse, point ébullition, logP)
+- [x] Afficher volatilité, intensité, complexité avec barres de progression
+- [x] Afficher profil radar olfactif avec Recharts (6 axes: intensité, fraîcheur, chaleur, douceur, épices, terreux)
+- [x] Afficher sources botaniques, méthode extraction, propriétés thérapeutiques
+- [x] Route `/molecule/:id` déjà existante dans App.tsx
+
+### Phase 3 - Page RecetteDetail complète
+- [x] Créer RecetteDetail.tsx avec toutes les informations disponibles
+- [x] Afficher formule, catégorie, statut (experimental/testing/validated/production) avec badges colorés
+- [x] Afficher intensité, stabilité, texture, combustionTemperature, maturationTime
+- [x] Afficher productionTime, costEstimate avec icônes
+- [x] Afficher évolution aromatique (notesTete, notesCoeur, notesFond) avec cartes colorées
+- [x] Afficher description, ingredients, protocol, notes
+- [x] Afficher accord associé, famille olfactive
+- [x] Graphe de relations déjà existant et fonctionnel
+- [x] Route `/recette/:id` déjà existante dans App.tsx
+
+### Phase 4 - Tests et validation
+- [ ] Tester page molécule avec ID=1
+- [ ] Tester page recette avec ID=1
+- [ ] Vérifier navigation depuis listes
+- [ ] Créer checkpoint final

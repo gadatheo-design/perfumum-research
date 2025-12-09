@@ -32,6 +32,8 @@ import { ExperimentalAccords } from "./pages/ExperimentalAccords";
 import { AbsorbeScale } from "@/pages/AbsorbeScale";
 // import Recherche from "./pages/Recherche"; // Route désactivée - utiliser GlobalSearch modal à la place
 import MoleculeDetail from "./pages/MoleculeDetail";
+import MoleculeDetailFull from "./pages/MoleculeDetailFull";
+import RecetteDetailFull from "./pages/RecetteDetailFull";
 import RecetteDetail from "./pages/RecetteDetail";
 import TerpeneDetail from "./pages/TerpeneDetail";
 import CompareTerpenes from "./pages/CompareTerpenes";
@@ -126,6 +128,7 @@ function Router() {
       <Route path="/resines-cbd" component={ResinesCBD} />
       <Route path="/resine-cbd/:id" component={RecetteCBDDetail} />
       <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
+          <Route path="/molecule/:id/full" component={MoleculeDetailFull} />
           <Route path="/molecule/:id" component={MoleculeDetail} />
           <Route path="/terpene/:id" component={TerpeneDetail} />
           <Route path="/compare-terpenes" component={CompareTerpenes} />
@@ -135,6 +138,7 @@ function Router() {
           <Route path="/analyses" component={CorrelationAnalysis} />
           <Route path="/outils-formulation" component={OutilsFormulation} />
           <Route path="/galerie-botaniques" component={GalerieBotaniques} />
+          <Route path="/recette/:id/full" component={RecetteDetailFull} />
           <Route path="/recette/:id" component={RecetteDetail} />
           <Route path="/civilisation/:id" component={CivilisationDetail} />
       <Route path="/laboratoire" component={Laboratoire} />
