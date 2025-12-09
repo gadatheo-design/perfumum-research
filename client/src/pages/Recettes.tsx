@@ -130,6 +130,7 @@ export default function Recettes() {
                       key={family}
                       variant={selectedFamily === family ? "default" : "outline"}
                       size="sm"
+                      className="btn-enhanced"
                       onClick={() => setSelectedFamily(selectedFamily === family ? null : family)}
                     >
                       {family}
@@ -144,6 +145,7 @@ export default function Recettes() {
                       key={proto}
                       variant={selectedPrototype === proto ? "default" : "outline"}
                       size="sm"
+                      className="btn-enhanced"
                       onClick={() => setSelectedPrototype(selectedPrototype === proto ? null : proto)}
                     >
                       {proto}
@@ -157,7 +159,7 @@ export default function Recettes() {
                     variant="ghost"
                     size="sm"
                     onClick={clearFilters}
-                    className="gap-2"
+                    className="gap-2 btn-enhanced"
                   >
                     <X className="h-3 w-3" />
                     Effacer
@@ -192,7 +194,7 @@ export default function Recettes() {
                     Essayez de modifier vos filtres ou votre recherche
                   </p>
                   {hasActiveFilters && (
-                    <Button onClick={clearFilters} variant="outline">
+                    <Button onClick={clearFilters} variant="outline" className="btn-enhanced">
                       Effacer les filtres
                     </Button>
                   )}

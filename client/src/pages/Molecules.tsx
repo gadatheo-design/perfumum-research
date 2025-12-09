@@ -189,6 +189,7 @@ export default function Molecules() {
                 <Button
                   variant="outline"
                   size="sm"
+                  className="btn-enhanced"
                   onClick={() => setShowFilters(!showFilters)}
                 >
                   <Filter className="h-4 w-4 mr-2" />
@@ -340,7 +341,7 @@ export default function Molecules() {
                 <div className="text-center py-12">
                   <p className="text-muted-foreground mb-4">Aucune molécule trouvée</p>
                   {hasActiveFilters && (
-                    <Button variant="outline" onClick={resetFilters}>
+                    <Button variant="outline" className="btn-enhanced" onClick={resetFilters}>
                       Réinitialiser les filtres
                     </Button>
                   )}

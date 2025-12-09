@@ -79,3 +79,13 @@
 - [x] Toast notifications CSS avec animations
 - [x] Indicateur scroll-to-top avec animation
 - [x] États empty améliorés avec icônes
+
+
+## 🎨 BTN-ENHANCED GLOBAL
+
+### Application de la classe btn-enhanced
+- [x] Page Molécules - 2 boutons (filtres, réinitialiser)
+- [x] Page Recettes - 4 boutons (famille, prototypes, effacer)
+- [x] Page Admin - 6 boutons (gérer, actions rapides, retour)
+- [x] Page Home - 2 boutons CTA (gammes, dashboard)
+- [x] Pages Études/Gammes - Utilisent Link sans Button

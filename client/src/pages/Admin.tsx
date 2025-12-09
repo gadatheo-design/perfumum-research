@@ -178,7 +178,7 @@ export default function Admin() {
                       </CardHeader>
                       <CardContent>
                         <Link href={section.href}>
-                          <Button className="w-full" variant="outline">
+                          <Button className="w-full btn-enhanced" variant="outline">
                             <Plus className="w-4 h-4 mr-2" />
                             Gérer
                           </Button>
@@ -199,25 +199,25 @@ export default function Admin() {
               <h2 className="text-2xl font-bold mb-6 text-center">Actions rapides</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Link href="/admin/molecules/new">
-                  <Button className="w-full" size="lg">
+                  <Button className="w-full btn-enhanced" size="lg">
                     <Plus className="w-5 h-5 mr-2" />
                     Nouvelle Molécule
                   </Button>
                 </Link>
                 <Link href="/admin/accords/new">
-                  <Button className="w-full" size="lg" variant="outline">
+                  <Button className="w-full btn-enhanced" size="lg" variant="outline">
                     <Plus className="w-5 h-5 mr-2" />
                     Nouvel Accord
                   </Button>
                 </Link>
                 <Link href="/admin/matieres/new">
-                  <Button className="w-full" size="lg" variant="outline">
+                  <Button className="w-full btn-enhanced" size="lg" variant="outline">
                     <Plus className="w-5 h-5 mr-2" />
                     Nouvelle Matière
                   </Button>
                 </Link>
                 <Link href="/admin/recettes/new">
-                  <Button className="w-full" size="lg" variant="outline">
+                  <Button className="w-full btn-enhanced" size="lg" variant="outline">
                     <Plus className="w-5 h-5 mr-2" />
                     Nouvelle Recette
                   </Button>
@@ -234,7 +234,7 @@ export default function Admin() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
             <p>© 2025 PERFUMUM — Recherche Olfactive</p>
             <Link href="/">
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="btn-enhanced">
                 Retour au site
               </Button>
             </Link>
