@@ -3,7 +3,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
 import { useNavigationHistory } from "@/hooks/useNavigationHistory";
 import { GlobalSearch } from "@/components/GlobalSearch";
-import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { MobileBottomNav } from "./components/MobileBottomNav";
+import { ScrollToTop } from "./components/ScrollToTop";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -200,6 +201,7 @@ function App() {
           <GlobalSearch />
           <Router />
           <MobileBottomNav />
+          <ScrollToTop />
           <PWAInstallPrompt />
         </TooltipProvider>
       </ThemeProvider>

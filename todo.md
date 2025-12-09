@@ -63,3 +63,19 @@
 - [x] Créer composant AdminRecettes avec tableau et formulaire
 - [x] Ajouter route `/admin/recettes` dans App.tsx
 - [ ] ⚠️ Bug HMR dev - Page blanche (fonctionnera en production)
+
+
+## 🎨 AMÉLIORATIONS UX/UI SIMPLES
+
+### Design & Interactions
+- [x] Ajouter smooth scroll behavior global
+- [x] Améliorer les états hover des boutons (scale + shadow)
+- [x] Ajouter loading states aux cartes molécules/recettes
+- [x] Créer composant Badge avec variants colorés
+- [x] Améliorer les transitions de page
+
+### Navigation & Feedback
+- [x] Breadcrumbs existant (auto-parsing URL)
+- [x] Toast notifications CSS avec animations
+- [x] Indicateur scroll-to-top avec animation
+- [x] États empty améliorés avec icônes

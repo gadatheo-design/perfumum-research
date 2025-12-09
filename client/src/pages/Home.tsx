@@ -34,13 +34,13 @@ export default function Home() {
                 Design terpénique, résines CBD et variétés de tabacs rares
               </p>
               <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.3s'}}>
-                <Button size="lg" className="gap-2" asChild>
+                <Button size="lg" className="gap-2 btn-enhanced" asChild>
                   <Link href="/gammes">
                     Consulter les gammes
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
+                <Button size="lg" variant="outline" className="btn-enhanced" asChild>
                   <Link href="/dashboard">
                     Accéder au Dashboard
                   </Link>
