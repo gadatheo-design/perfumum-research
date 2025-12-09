@@ -20,6 +20,7 @@ export default function Recettes() {
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
 
   const { data: recettes = [], isLoading } = trpc.recettes.list.useQuery();
+  const trackEvent = trpc.analytics.trackEvent.useMutation();
 
   // Filter recettes
   const filteredRecettes = recettes.filter((recette) => {
@@ -198,7 +199,22 @@ export default function Recettes() {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                   {filteredRecettes.map((recette) => (
-                    <Link key={recette.id} href={`/recette/${recette.id}`}>
+                    <Link 
+                      key={recette.id} 
+                      href={`/recette/${recette.id}`}
+                      onClick={() => {
+                        trackEvent.mutate({
+                          eventType: "recipe_view",
+                          entityId: recette.id,
+                          entityType: "recipe",
+                          metadata: JSON.stringify({
+                            recipeName: recette.name,
+                            category: recette.category,
+                            source: "recettes_list"
+                          }),
+                        });
+                      }}
+                    >
                       <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer h-full">
                         <CardHeader>
                           <div className="flex items-start justify-between gap-2 mb-2">

@@ -8,13 +8,30 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { exportRecipePDF } from "@/lib/exportPDF";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 
 export default function RecetteDetail() {
   const params = useParams();
   const id = parseInt(params.id || "0");
 
   const { data, isLoading } = trpc.recette.getById.useQuery({ id });
+  const trackEvent = trpc.analytics.trackEvent.useMutation();
+
+  // Track page view
+  useEffect(() => {
+    if (data?.recette) {
+      trackEvent.mutate({
+        eventType: "recipe_view",
+        entityId: data.recette.id,
+        entityType: "recipe",
+        metadata: JSON.stringify({
+          recipeName: data.recette.name,
+          category: data.family?.name,
+          source: "recipe_detail",
+        }),
+      });
+    }
+  }, [data?.recette.id]);
 
   // Create nodes and edges for the relation graph
   const { nodes, edges } = useMemo(() => {

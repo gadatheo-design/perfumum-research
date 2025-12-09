@@ -28,6 +28,7 @@ import {
 
 export default function Molecules() {
   const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
+  const trackEvent = trpc.analytics.trackEvent.useMutation();
   const [, setLocation] = useLocation();
   
   const [searchQuery, setSearchQuery] = useState("");
@@ -345,7 +346,22 @@ export default function Molecules() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredMolecules.map((molecule) => (
-                    <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
+                    <Link 
+                      key={molecule.id} 
+                      href={`/molecule/${molecule.id}`}
+                      onClick={() => {
+                        trackEvent.mutate({
+                          eventType: "molecule_view",
+                          entityId: molecule.id,
+                          entityType: "molecule",
+                          metadata: JSON.stringify({
+                            moleculeName: molecule.name,
+                            family: molecule.family,
+                            source: "molecules_list"
+                          }),
+                        });
+                      }}
+                    >
                       <Card className={`hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer h-full ${
                         selectedMolecules.includes(molecule.id) ? 'ring-2 ring-primary' : ''
                       }`}>

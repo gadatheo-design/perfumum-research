@@ -58,7 +58,8 @@ import GrapheMoleculesRecettes from "@/pages/GrapheMoleculesRecettes";
 import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
 import TabacsNiche from "@/pages/TabacsNiche";
 import LaboratoireRecettes from "./pages/LaboratoireRecettes";
-import { Dashboard } from "./pages/Dashboard";
+// import { Dashboard } from "./pages/Dashboard";
+import { DashboardMinimal } from "./pages/DashboardMinimal";
 import { RechercheScientifique } from "./pages/RechercheScientifique";
 import { SynergiesMoleculaires } from "./pages/SynergiesMoleculaires";
 import Statistics from "./pages/Statistics";
@@ -87,6 +88,7 @@ import ProportionsCalculator from "./pages/ProportionsCalculator";
 import CorrelationAnalysis from "./pages/CorrelationAnalysis";
 import OutilsFormulation from "./pages/OutilsFormulation";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import TestMinimal from "./pages/TestMinimal";
 
 function Router() {
   return (
@@ -144,7 +146,8 @@ function Router() {
           <Route path="/laboratoire/statistiques" component={Statistiques} />
           <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
       <Route path="/analytics" component={AnalyticsDashboard} />
-      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/test-minimal" component={TestMinimal} />
+      <Route path="/dashboard" component={DashboardMinimal} />
       <Route path="/statistiques" component={Statistics} />
           <Route path="/dashboard/recherche" component={DashboardRecherche} />
           <Route path="/projet/timeline" component={TimelinePerfumum} />

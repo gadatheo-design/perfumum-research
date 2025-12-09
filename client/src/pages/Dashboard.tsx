@@ -1,4 +1,4 @@
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+// import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { BarChart3, Beaker, BookOpen, FlaskConical, Globe, Layers } from "lucide-react";
@@ -41,7 +41,7 @@ export function Dashboard() {
 
   return (
     <div className="container py-8 space-y-8">
-      <Breadcrumbs />
+      {/* <Breadcrumbs /> */}
       
       {/* Header */}
       <div className="space-y-2">
