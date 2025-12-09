@@ -216,7 +216,7 @@ export default function Recettes() {
                         });
                       }}
                     >
-                      <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer h-full">
+                      <Card className="card-hover cursor-pointer h-full">
                         <CardHeader>
                           <div className="flex items-start justify-between gap-2 mb-2">
                             <CardTitle className="text-lg line-clamp-2 flex-1">{recette.name}</CardTitle>

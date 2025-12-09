@@ -68,7 +68,7 @@ export default function GammesGlaciaire() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col theme-glaciaire">
       <Header />
       
       <main className="flex-1">

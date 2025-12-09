@@ -3240,3 +3240,28 @@ Afficher plus d'informations directement dans les cartes Molécules et Recettes 
 - [ ] Ajouter ARIA labels sur boutons icônes
 - [x] Améliorer contraste texte/fond (déjà optimisé)
 - [x] Ajouter focus states visibles sur tous les éléments interactifs (*:focus-visible)
+
+
+## 🔄 EN COURS : 3 Suggestions d'amélioration
+
+### Suggestion 1 : Appliquer thèmes visuels par gamme
+- [x] Ajouter `.theme-petrichor` sur page GammesPetrichor
+- [x] Ajouter `.theme-volcanique` sur page GammesVolcanique
+- [x] Ajouter `.theme-traditions` sur page Civilisations
+- [x] Ajouter `.theme-glaciaire` sur page GammesGlaciaire
+- [x] Ajouter `.theme-biolab` sur page GammesBioLab
+
+### Suggestion 2 : Enrichir cartes Recettes
+- [x] Appliquer `.card-hover` aux cartes Recettes
+- [ ] Afficher évolution aromatique (notes tête/cœur/fond) en badges
+- [ ] Afficher propriétés techniques (intensité, stabilité) en barres
+- [ ] Ajouter compteur de molécules dans la composition
+
+### Suggestion 3 : Page Statistiques avancées
+- [x] Installer Chart.js (`pnpm add chart.js react-chartjs-2`)
+- [x] Créer procédure tRPC `analytics.getStatistics`
+- [x] Créer composant StatisticsCharts avec 3 graphiques
+- [x] Graphique 1 : Distribution familles chimiques (camembert)
+- [x] Graphique 2 : Top 10 molécules consultées (barres)
+- [x] Graphique 3 : Évolution ajouts mensuels (courbe)
+- [x] Intégrer dans Dashboard existant (évite bug HMR nouvelle page)

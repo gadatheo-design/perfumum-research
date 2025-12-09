@@ -2,6 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { BarChart3, Beaker, BookOpen, FlaskConical, Globe, Layers } from "lucide-react";
+import { StatisticsCharts } from "@/components/StatisticsCharts";
 
 export function Dashboard() {
   const { data: stats, isLoading: statsLoading } = trpc.dashboard.getStats.useQuery();
@@ -287,6 +288,15 @@ export function Dashboard() {
             )}
           </CardContent>
         </Card>
+      </div>
+
+      {/* Advanced Statistics Section */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <BarChart3 className="h-6 w-6 text-primary" />
+          <h2 className="text-2xl font-bold">Statistiques Avancées</h2>
+        </div>
+        <StatisticsCharts />
       </div>
     </div>
   );

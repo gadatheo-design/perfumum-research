@@ -68,7 +68,7 @@ export default function GammesBioLab() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col theme-biolab">
       <Header />
       
       <main className="flex-1">

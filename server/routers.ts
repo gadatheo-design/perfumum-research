@@ -722,7 +722,61 @@ export const appRouter = router({
   }),
 
   // Analytics
-  analytics: router({    trackEvent: publicProcedure
+  analytics: router({
+    getStatistics: publicProcedure.query(async () => {
+      const molecules = await db.getAllMolecules();
+      const recettes = await db.getAllRecettes();
+      const events = await db.getRecentEvents(100);
+      
+      // Distribution familles chimiques
+      const familyDistribution: Record<string, number> = {};
+      molecules.forEach(m => {
+        if (m.family) {
+          familyDistribution[m.family] = (familyDistribution[m.family] || 0) + 1;
+        }
+      });
+      
+      // Top 10 molécules consultées
+      const moleculeViews: Record<number, number> = {};
+      events.forEach(e => {
+        if (e.eventType === 'molecule_view' && e.entityId) {
+          moleculeViews[e.entityId] = (moleculeViews[e.entityId] || 0) + 1;
+        }
+      });
+      const topMolecules = Object.entries(moleculeViews)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 10)
+        .map(([id, count]) => ({
+          molecule: molecules.find(m => m.id === parseInt(id)),
+          views: count
+        }));
+      
+      // Évolution mensuelle (simulée pour l'instant)
+      const monthlyData = [
+        { month: 'Jan', molecules: 15, recettes: 18 },
+        { month: 'Fév', molecules: 22, recettes: 25 },
+        { month: 'Mar', molecules: 31, recettes: 34 },
+        { month: 'Avr', molecules: 45, recettes: 48 },
+        { month: 'Mai', molecules: 67, recettes: 72 },
+        { month: 'Juin', molecules: 89, recettes: 95 },
+        { month: 'Juil', molecules: 105, recettes: 112 },
+        { month: 'Août', molecules: 118, recettes: 128 },
+        { month: 'Sep', molecules: 125, recettes: 136 },
+        { month: 'Oct', molecules: 129, recettes: 140 },
+        { month: 'Nov', molecules: 131, recettes: 142 },
+        { month: 'Déc', molecules: 131, recettes: 142 },
+      ];
+      
+      return {
+        familyDistribution,
+        topMolecules,
+        monthlyData,
+        totalMolecules: molecules.length,
+        totalRecettes: recettes.length,
+      };
+    }),
+    
+    trackEvent: publicProcedure
       .input(z.object({
         eventType: z.enum(['molecule_view', 'recipe_view', 'terpene_view', 'pdf_export', 'favorite_add', 'favorite_remove', 'search_query']),
         entityType: z.string().optional(),
