@@ -87,7 +87,6 @@ import ProportionsCalculator from "./pages/ProportionsCalculator";
 import CorrelationAnalysis from "./pages/CorrelationAnalysis";
 import OutilsFormulation from "./pages/OutilsFormulation";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
-import Stats from "./pages/Stats";
 
 function Router() {
   return (
@@ -144,7 +143,6 @@ function Router() {
           <Route path="/laboratoire/matrice-interactive" component={MatriceInteractive} />
           <Route path="/laboratoire/statistiques" component={Statistiques} />
           <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
-      <Route path="/stats" component={Stats} />
       <Route path="/analytics" component={AnalyticsDashboard} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/statistiques" component={Statistics} />
