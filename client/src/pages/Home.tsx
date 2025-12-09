@@ -4,6 +4,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope } from "lucide-react";
+import { MoleculeOfTheDay } from "@/components/MoleculeOfTheDay";
+import { RecentActivity } from "@/components/RecentActivity";
 
 export default function Home() {
   return (
@@ -295,6 +297,19 @@ export default function Home() {
                     </Link>
                   </CardContent>
                 </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Interactive Widgets */}
+        <section className="py-16 bg-muted/30">
+          <div className="container">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8 text-center">Découverte quotidienne</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <MoleculeOfTheDay />
+                <RecentActivity />
               </div>
             </div>
           </div>

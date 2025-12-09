@@ -238,6 +238,57 @@ export const appRouter = router({
       }),
   }),
 
+  // Formulation
+  formulation: router({
+    calculateDilution: publicProcedure
+      .input(z.object({
+        moleculeName: z.string(),
+        targetConcentration: z.number(), // %
+        finalVolume: z.number(), // mL
+        stockConcentration: z.number().optional(), // % (default 100%)
+      }))
+      .mutation(async ({ input }) => {
+        const stockConc = input.stockConcentration || 100;
+        const volumeStock = (input.targetConcentration / stockConc) * input.finalVolume;
+        const volumeSolvent = input.finalVolume - volumeStock;
+        
+        return {
+          moleculeName: input.moleculeName,
+          targetConcentration: input.targetConcentration,
+          finalVolume: input.finalVolume,
+          stockConcentration: stockConc,
+          volumeStock: Math.round(volumeStock * 100) / 100,
+          volumeSolvent: Math.round(volumeSolvent * 100) / 100,
+          formula: `${Math.round(volumeStock * 100) / 100} mL stock + ${Math.round(volumeSolvent * 100) / 100} mL solvant = ${input.finalVolume} mL à ${input.targetConcentration}%`,
+        };
+      }),
+  }),
+
+  // Home
+  home: router({
+    getMoleculeOfTheDay: publicProcedure.query(async () => {
+      // Sélection aléatoire basée sur la date du jour
+      const today = new Date().toISOString().split('T')[0];
+      const seed = today.split('-').join(''); // YYYYMMDD
+      const molecules = await db.getAllMolecules();
+      if (molecules.length === 0) return null;
+      const index = parseInt(seed) % molecules.length;
+      return molecules[index];
+    }),
+    getRecentActivity: publicProcedure.query(async () => {
+      // Récupérer les 10 derniers ajouts (molécules, recettes, prototypes)
+      const molecules = await db.getAllMolecules();
+      const recettes = await db.getAllRecettes();
+      
+      const activity = [
+        ...molecules.slice(0, 5).map(m => ({ type: 'molecule' as const, item: m, date: new Date() })),
+        ...recettes.slice(0, 5).map(r => ({ type: 'recette' as const, item: r, date: new Date() })),
+      ];
+      
+      return activity.slice(0, 10);
+    }),
+  }),
+
   // Admin
   admin: router({
     getStats: publicProcedure.query(async () => {

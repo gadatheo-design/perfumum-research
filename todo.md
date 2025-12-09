@@ -3169,3 +3169,45 @@ Afficher plus d'informations directement dans les cartes Molécules et Recettes 
 - [x] Créer checkpoint avec modifications
 
 **Note** : Bug HMR mineur sur statistiques Home.tsx (code source correct, rendu incorrect en dev - sera corrigé au build production)
+
+
+## ⚠️ EN PAUSE : Amélioration 1 - Page d'accueil interactive (bug HMR)
+
+- [x] Créer procédure tRPC `home.getMoleculeOfTheDay` (sélection aléatoire basée sur date)
+- [x] Créer procédure tRPC `home.getRecentActivity` (10 derniers ajouts)
+- [x] Créer composant `MoleculeOfTheDay` avec profil radar
+- [x] Créer composant `RecentActivity` avec timeline
+- [x] Intégrer les widgets dans Home.tsx
+- [ ] Tester et créer checkpoint - BUG: Section non visible (HMR ne recharge pas Home.tsx)
+
+
+## 🔄 EN COURS : Outils de formulation avancés
+
+### Calculateur de dilution amélioré
+- [x] Créer procédure tRPC `formulation.calculateDilution` avec paramètres avancés
+- [x] Ajouter historique des calculs (localStorage)
+- [x] Interface avec presets de concentration (1%, 5%, 10%, 20%)
+- [x] Export texte des formules
+- [x] Créer page dédiée `/outils/dilution`
+- [ ] Tester - BUG: Page blanche (même problème routage HMR)
+
+### Assistant de formulation IA
+- [ ] Créer procédure tRPC `formulation.getSuggestions` avec LLM
+- [ ] Analyser profil ABSORBE cible et suggérer molécules
+- [ ] Détecter conflits moléculaires (incompatibilités chimiques)
+- [ ] Proposer optimisations d'équilibre olfactif
+- [ ] Créer page dédiée `/outils/assistant-formulation`
+
+### Documentation études enrichie
+- [ ] Enrichir page Études avec sections scientifiques détaillées
+- [ ] Ajouter protocoles expérimentaux (extraction, pyrolyse, maturation)
+- [ ] Documenter résultats de recherche avec graphiques
+- [ ] Créer bibliographie et références scientifiques
+- [ ] Ajouter galerie d'images (structures moléculaires, installations)
+
+### Page Protocoles de recherche
+- [ ] Créer page `/protocoles` avec méthodologie complète
+- [ ] Documenter protocoles d'extraction (4 méthodes)
+- [ ] Documenter protocoles de test (mouillette, peau, diffusion)
+- [ ] Ajouter calendrier de recherche décennal
+- [ ] Créer formulaires de saisie de résultats expérimentaux

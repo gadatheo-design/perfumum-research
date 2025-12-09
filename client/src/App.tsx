@@ -26,6 +26,7 @@ import Compare from "./pages/Compare";
 import FamillesList from "./pages/FamillesList";
 import Accords from "./pages/Accords";
 import { Glossaire } from "./pages/Glossaire";
+import DilutionCalculator from "./pages/DilutionCalculator";
 import { Timeline } from "./pages/Timeline";
 import { ChemicalFamilies } from "./pages/ChemicalFamilies";
 import { ExperimentalAccords } from "./pages/ExperimentalAccords";
@@ -115,7 +116,8 @@ function Router() {
         <Route path="/gammes/glaciaire" component={GammesGlaciaire} />
         <Route path="/gammes/biolab" component={GammesBioLab} />
       <Route path="/gammes/mossi" component={GammesMossi} />
-      <Route path="/glossaire" component={Glossaire} />
+          <Route path="/glossaire" component={Glossaire} />
+          <Route path="/outils/dilution" component={DilutionCalculator} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/chemical-families" component={ChemicalFamilies} />
       <Route path="/experimental-accords" component={ExperimentalAccords} />
