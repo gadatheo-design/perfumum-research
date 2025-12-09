@@ -190,7 +190,7 @@ function generateSegmentsFromPath(path: string): BreadcrumbSegment[] {
       path: "/traditions-olfactives",
     });
     segments.push({
-      label: "Détail Civilisation",
+      label: "Détail Tradition Olfactive",
       path,
     });
   } else {

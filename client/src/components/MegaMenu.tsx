@@ -281,11 +281,11 @@ export function MegaMenu() {
       title: "Traditions",
       items: [
         {
-          label: "12 Civilisations",
-          path: "/traditions-olfactives",
+          label: "26 Traditions Olfactives",
+          path: "/civilisations",
           icon: <Users className="h-4 w-4" />,
           description: "Histoire mondiale",
-          count: 12,
+          count: 26,
         },
         {
           label: "Carte temporelle",

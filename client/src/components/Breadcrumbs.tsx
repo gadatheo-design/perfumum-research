@@ -19,7 +19,7 @@ export function Breadcrumbs() {
     "molecules": "Molécules",
     "accords": "Accords",
     "tabacs": "Tabacs",
-    "civilisations": "Civilisations",
+    "civilisations": "Traditions Olfactives",
     "projet": "Le Projet",
     "recherche": "Recherche",
     "bio-mineralis": "BIO-MINERALIS",

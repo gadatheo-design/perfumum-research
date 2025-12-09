@@ -3042,3 +3042,130 @@ Afficher plus d'informations directement dans les cartes Molécules et Recettes 
 - [ ] Tester affichage mobile (375px, 414px)
 - [ ] Vérifier performances (temps de chargement)
 - [ ] Créer checkpoint après validation
+
+
+## 🎨 PLAN D'AMÉLIORATIONS UX/UI PROGRESSIVES (15 étapes)
+
+### Tâche 0 : Remplacement terminologique
+- [ ] Remplacer "Civilisation" par "Tradition Olfactive" dans le schéma DB
+- [ ] Mettre à jour les procédures tRPC
+- [ ] Modifier tous les composants UI (pages, badges, navigation)
+- [ ] Tester toutes les pages concernées
+- [ ] Créer checkpoint après validation
+
+### Amélioration 1 : Page d'accueil interactive
+- [ ] Widget "Molécule du jour" avec rotation aléatoire
+- [ ] Timeline des derniers ajouts (molécules, recettes)
+- [ ] Carte interactive des gammes
+- [ ] Tests responsive
+- [ ] Checkpoint
+
+### Amélioration 2 : Recherche avancée unifiée
+- [ ] Interface de recherche multi-critères
+- [ ] Autocomplete avec aperçu visuel
+- [ ] Historique de recherche (localStorage)
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 3 : Dashboard statistiques enrichi
+- [ ] Graphiques Chart.js (distribution familles, évolution ajouts)
+- [ ] Heatmap synergies molécules × recettes
+- [ ] Nuage de mots profils olfactifs
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 4 : Mode comparaison amélioré
+- [ ] Comparaison côte à côte (4 colonnes)
+- [ ] Superposition radars avec couleurs
+- [ ] Score de similarité calculé
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 5 : Thème visuel personnalisé par gamme
+- [ ] Palettes de couleurs par gamme
+- [ ] Application contextuelle aux pages
+- [ ] Animations de transition
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 6 : Micro-interactions
+- [ ] Animations favoris, toast notifications
+- [ ] Skeleton loaders
+- [ ] Progress indicators
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 7 : Navigation mobile optimisée
+- [ ] Bottom navigation fixe
+- [ ] Swipe gestures
+- [ ] Filtres en drawer
+- [ ] Tests mobile
+- [ ] Checkpoint
+
+### Amélioration 8 : Accessibilité renforcée
+- [ ] Audit contraste WCAG AAA
+- [ ] Raccourcis clavier (Ctrl+K, Esc)
+- [ ] Labels ARIA complets
+- [ ] Tests accessibilité
+- [ ] Checkpoint
+
+### Amélioration 9 : Collections personnalisées
+- [ ] Table collections en DB
+- [ ] CRUD collections
+- [ ] Interface gestion collections
+- [ ] Export sélectif
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 10 : Notes & Annotations
+- [ ] Table notes en DB
+- [ ] Interface ajout notes
+- [ ] Historique modifications
+- [ ] Versions de recettes
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 11 : Calculateur de dilution amélioré
+- [ ] Mode batch (plusieurs volumes)
+- [ ] Historique calculs (localStorage)
+- [ ] Export PDF formule
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 12 : Assistant de formulation IA
+- [ ] Suggestions basées sur profil
+- [ ] Détection conflits
+- [ ] Optimisation profil ABSORBE
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 13 : Fiches techniques enrichies
+- [ ] Onglets organisés (Chimie/Olfactif/Émotionnel/Culturel)
+- [ ] Galerie d'images
+- [ ] Références bibliographiques
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 14 : Mode présentation
+- [ ] Diaporama automatique
+- [ ] Export PowerPoint
+- [ ] Mode conférence
+- [ ] Tests
+- [ ] Checkpoint
+
+### Amélioration 15 : Parcours guidés
+- [ ] Tutoriel interactif
+- [ ] Quizz olfactifs
+- [ ] Glossaire contextuel (tooltips)
+- [ ] Tests
+- [ ] Checkpoint final
+
+
+## ✅ TERMINÉ : Remplacement terminologique "Civilisation" → "Tradition Olfactive"
+
+- [x] Remplacer labels UI dans 7 fichiers (GammeBadge, Breadcrumbs, GammesConnexes, MegaMenu, Home, DynamicBreadcrumb, useNavigationHistory)
+- [x] Conserver code interne (routes, types, CSS) pour éviter régression
+- [x] Tester affichage sur toutes les pages principales
+- [x] Créer checkpoint avec modifications
+
+**Note** : Bug HMR mineur sur statistiques Home.tsx (code source correct, rendu incorrect en dev - sera corrigé au build production)

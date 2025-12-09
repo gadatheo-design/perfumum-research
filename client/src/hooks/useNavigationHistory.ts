@@ -72,7 +72,7 @@ function getPageTitle(path: string): string {
   if (path.startsWith("/terpene/")) return "Détail Terpène";
   if (path.startsWith("/recette/")) return "Détail Recette";
   if (path.startsWith("/molecule/")) return "Détail Molécule";
-  if (path.startsWith("/civilisation/")) return "Détail Civilisation";
+  if (path.startsWith("/civilisation/")) return "Détail Tradition Olfactive";
   
   // Fallback : capitaliser le path
   return path

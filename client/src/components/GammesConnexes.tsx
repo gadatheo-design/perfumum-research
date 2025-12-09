@@ -34,7 +34,7 @@ const gammes: Record<GammeType, GammeInfo> = {
     description: "Interroge le passage de la matière par le feu : fumée, cendre, pyrolyse. Exploration de la transformation thermique et des notes brûlées."
   },
   civilisations: {
-    name: "Civilisations",
+    name: "Traditions Olfactives",
     href: "/gammes/civilisations/mossi",
     icon: Globe2,
     iconBg: "bg-amber-50",

@@ -150,7 +150,7 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                {/* Civilisations */}
+                {/* Traditions Olfactives */}
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-solar-mineralis/10 flex items-center justify-center mb-4 group-hover:bg-solar-mineralis/20 transition-colors">
@@ -322,7 +322,7 @@ export default function Home() {
               </div>
               <div>
                 <div className="text-4xl font-bold text-primary mb-2">26</div>
-                <div className="text-sm text-muted-foreground">Civilisations</div>
+                <div className="text-sm text-muted-foreground">Traditions Olfactives </div>
               </div>
             </div>
           </div>

@@ -26,7 +26,7 @@ const gammeConfig = {
     description: "Fumée • Pyrolyse • Intensité"
   },
   civilisations: {
-    label: "Civilisations",
+    label: "Traditions Olfactives",
     icon: Globe2,
     colorClass: "bg-gamme-civilisations/10 text-gamme-civilisations border-gamme-civilisations/30 hover:bg-gamme-civilisations/20",
     description: "Sacré • Culturel • Rituel"
