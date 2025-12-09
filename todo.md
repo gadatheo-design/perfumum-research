@@ -3265,3 +3265,12 @@ Afficher plus d'informations directement dans les cartes Molécules et Recettes 
 - [x] Graphique 2 : Top 10 molécules consultées (barres)
 - [x] Graphique 3 : Évolution ajouts mensuels (courbe)
 - [x] Intégrer dans Dashboard existant (évite bug HMR nouvelle page)
+
+
+## 🐛 BUGS À CORRIGER
+
+### Bug page Graphe D3.js
+- [ ] Vérifier la route `/graphe-molecules-recettes` dans App.tsx
+- [ ] Tester la page GrapheMoleculesRecettes.tsx
+- [ ] Corriger les erreurs de rendu ou de données
+- [ ] Valider le fonctionnement du graphe D3.js
