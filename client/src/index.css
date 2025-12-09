@@ -1509,3 +1509,198 @@ select:focus {
   border-radius: 50%;
   animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+
+/* ============================================
+   MOBILE OPTIMIZATIONS
+   ============================================ */
+
+/* Améliorer espacement tactile mobile */
+@media (max-width: 768px) {
+  /* Boutons tactiles minimum 44px */
+  button, 
+  a[role="button"],
+  .btn-enhanced {
+    min-height: 44px;
+    padding: 0.75rem 1.25rem;
+  }
+
+  /* Optimiser taille police mobile */
+  html {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  /* Améliorer padding containers mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Optimiser cartes pour mobile */
+  .card {
+    padding: 1rem;
+  }
+
+  /* Améliorer espacement sections mobile */
+  section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  /* Optimiser navigation Header mobile */
+  header nav {
+    gap: 0.5rem;
+  }
+
+  header nav button,
+  header nav a {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Améliorer filtres mobile */
+  .filters-container {
+    gap: 0.5rem;
+  }
+
+  .filters-container button {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Optimiser grilles mobile */
+  .grid {
+    gap: 1rem;
+  }
+
+  /* Améliorer bottom nav spacing */
+  .mobile-bottom-nav {
+    padding: 0.75rem 0.5rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  /* Optimiser modals mobile */
+  [role="dialog"],
+  .dialog-content,
+  .sheet-content {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  /* Améliorer scroll-to-top position mobile */
+  .scroll-to-top {
+    bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Optimiser inputs mobile */
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    font-size: 16px; /* Éviter zoom iOS */
+    min-height: 44px;
+  }
+
+  /* Améliorer badges mobile */
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* Optimiser tables mobile */
+  table {
+    font-size: 0.875rem;
+  }
+
+  /* Améliorer mega menu mobile */
+  .mega-menu {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  /* Optimiser espacement cartes molécules/recettes */
+  .molecule-card,
+  .recipe-card {
+    padding: 1rem;
+  }
+
+  .molecule-card h3,
+  .recipe-card h3 {
+    font-size: 1.125rem;
+  }
+
+  /* Améliorer touch targets pour icônes */
+  .icon-button {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Très petits écrans (< 375px) */
+@media (max-width: 374px) {
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  button,
+  .btn-enhanced {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobile-bottom-nav {
+    padding: 0.5rem;
+  }
+
+  .scroll-to-top {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  header {
+    padding: 0.5rem 0;
+  }
+}
+
+/* Safe area insets pour notch/dynamic island */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .mobile-bottom-nav {
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

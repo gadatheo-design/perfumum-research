@@ -89,3 +89,17 @@
 - [x] Page Admin - 6 boutons (gérer, actions rapides, retour)
 - [x] Page Home - 2 boutons CTA (gammes, dashboard)
 - [x] Pages Études/Gammes - Utilisent Link sans Button
+
+
+## 📱 AMÉLIORATIONS MOBILE FINALES
+
+### Optimisations mobile prioritaires
+- [x] Améliorer espacement tactile des boutons (min 44px)
+- [x] Optimiser taille police mobile (15px base, headers adaptés)
+- [x] Améliorer padding containers mobile (1rem)
+- [x] Optimiser cartes molécules/recettes pour mobile (padding 1rem)
+- [x] Améliorer navigation Header mobile (font-size 0.875rem)
+- [x] Inputs 16px pour éviter zoom iOS
+- [x] Safe area insets pour notch/dynamic island
+- [x] Landscape mobile optimisé
+- [x] Très petits écrans (< 375px) supporté
