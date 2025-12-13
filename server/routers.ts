@@ -106,6 +106,19 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return await db.createMolecule(input);
       }),
+    updateRadar: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        radarIntensity: z.number().min(0).max(100),
+        radarFreshness: z.number().min(0).max(100),
+        radarWarmth: z.number().min(0).max(100),
+        radarSweetness: z.number().min(0).max(100),
+        radarSpiciness: z.number().min(0).max(100),
+        radarEarthiness: z.number().min(0).max(100),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.updateMoleculeRadar(input);
+      }),
   }),
 
   // Terpene Synergies

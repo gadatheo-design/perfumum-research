@@ -2109,3 +2109,35 @@ export async function deleteRecette(id: number): Promise<{ success: boolean }> {
   
   return { success: true };
 }
+
+
+// ============================================================================
+// MOLECULES RADAR UPDATE
+// ============================================================================
+
+export async function updateMoleculeRadar(data: {
+  id: number;
+  radarIntensity: number;
+  radarFreshness: number;
+  radarWarmth: number;
+  radarSweetness: number;
+  radarSpiciness: number;
+  radarEarthiness: number;
+}): Promise<Molecule> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  await db.update(molecules).set({
+    radarIntensity: data.radarIntensity,
+    radarFreshness: data.radarFreshness,
+    radarWarmth: data.radarWarmth,
+    radarSweetness: data.radarSweetness,
+    radarSpiciness: data.radarSpiciness,
+    radarEarthiness: data.radarEarthiness,
+  }).where(eq(molecules.id, data.id));
+  
+  const updated = await getMoleculeById(data.id);
+  if (!updated) throw new Error('Molecule not found after update');
+  
+  return updated;
+}

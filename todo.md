@@ -103,3 +103,15 @@
 - [x] Safe area insets pour notch/dynamic island
 - [x] Landscape mobile optimisé
 - [x] Très petits écrans (< 375px) supporté
+
+
+## 🎯 ADMIN MOLÉCULES - VALEURS RADAR
+
+### Interface d'administration pour radar molécules
+- [x] Vérifier schéma DB pour champs radar (6 champs existants)
+- [x] Créer procédures tRPC pour mise à jour radar molécules
+- [x] Créer page Admin Molécules avec tableau et formulaire
+- [x] Formulaire radar avec sliders 0-100 pour les 6 valeurs
+- [x] Prévisualisation radar avec couleurs OKLCH
+- [x] Route /admin/molecules ajoutée dans App.tsx
+- [ ] Tester mise à jour radar sur plusieurs molécules
