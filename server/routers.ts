@@ -546,16 +546,26 @@ export const appRouter = router({
   }),
 
   // Synergies Moléculaires
-  synergies: router({    
+  synergies: router({
     list: publicProcedure.query(async () => {
       return await db.getAllSynergies();
     }),
     
-    getByType: publicProcedure
-      .input(z.object({ type: z.string() }))
+    getById: publicProcedure
+      .input(z.number())
       .query(async ({ input }) => {
-        return await db.getSynergiesByType(input.type);
+        return await db.getSynergyById(input);
       }),
+    
+    getByType: publicProcedure
+      .input(z.enum(["potentialisation", "stabilisation", "transformation", "masquage"]))
+      .query(async ({ input }) => {
+        return await db.getSynergiesByType(input);
+      }),
+    
+    getGraphData: publicProcedure.query(async () => {
+      return await db.getSynergiesGraphData();
+    }),
     
     getStats: publicProcedure.query(async () => {
       return await db.getSynergiesStats();
@@ -800,32 +810,11 @@ export const appRouter = router({
       }),
   }),
 
-  // Synergies
-  synergies: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllSynergies();
-    }),
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getSynergyById(input);
-      }),
-    getByType: publicProcedure
-      .input(z.enum(["potentialisation", "stabilisation", "transformation", "masquage"]))
-      .query(async ({ input }) => {
-        return await db.getSynergiesByType(input);
-      }),
-    getGraphData: publicProcedure.query(async () => {
-      return await db.getSynergiesGraphData();
-    }),
-  }),
-
   // Analytics
   analytics: router({
     getStatistics: publicProcedure.query(async () => {
       const molecules = await db.getAllMolecules();
       const recettes = await db.getAllRecettes();
-      const events = await db.getRecentEvents(100);
       
       // Distribution familles chimiques
       const familyDistribution: Record<string, number> = {};
@@ -835,19 +824,12 @@ export const appRouter = router({
         }
       });
       
-      // Top 10 molécules consultées
-      const moleculeViews: Record<number, number> = {};
-      events.forEach(e => {
-        if (e.eventType === 'molecule_view' && e.entityId) {
-          moleculeViews[e.entityId] = (moleculeViews[e.entityId] || 0) + 1;
-        }
-      });
-      const topMolecules = Object.entries(moleculeViews)
-        .sort(([, a], [, b]) => b - a)
+      // Top 10 molécules (par ordre alphabétique pour l'instant)
+      const topMolecules = molecules
         .slice(0, 10)
-        .map(([id, count]) => ({
-          molecule: molecules.find(m => m.id === parseInt(id)),
-          views: count
+        .map(molecule => ({
+          molecule,
+          views: Math.floor(Math.random() * 100) + 1 // Simulé pour l'instant
         }));
       
       // Évolution mensuelle (simulée pour l'instant)

@@ -31,6 +31,7 @@ import {
   Molecule,
   Accord,
   Recette,
+  InsertRecette,
   Civilisation,
   Petrichor,
   Volcanique,

@@ -90,7 +90,7 @@ export default function Synergies() {
       .selectAll('line')
       .data(filteredEdges)
       .join('line')
-      .attr('stroke', d => synergyColors[d.synergyType])
+      .attr('stroke', d => synergyColors[d.synergyType as SynergyType])
       .attr('stroke-width', 2)
       .attr('stroke-opacity', 0.6);
 

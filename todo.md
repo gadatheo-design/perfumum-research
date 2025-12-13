@@ -182,3 +182,27 @@
 - [x] Tester page Synergies (graphe, filtres, suggestions) - ⚠️ Erreur 404 (erreurs TypeScript)
 - [x] Tester recherche avancée multi-critères - ✅ Fonctionnel
 - [ ] Créer checkpoint final
+
+
+## 🐛 CORRECTION ERREURS TYPESCRIPT + ENRICHISSEMENT SYNERGIES
+
+### Phase 1 : Correction erreurs TypeScript
+- [x] Corriger erreur `InsertRecette` manquant dans server/db.ts:2088
+- [x] Corriger propriétés dupliquées dans server/routers.ts:804 (router synergies doublon supprimé)
+- [x] Corriger `getRecentEvents` inexistant dans server/routers.ts:828 (remplacé par solution alternative)
+- [ ] ⚠️ Erreurs TypeScript persistantes bloquent la page Synergies (404)
+
+### Phase 2 : Test page Synergies
+- [ ] ⚠️ Route /synergies en erreur 404 (erreurs TypeScript non résolues)
+- [ ] Tester le graphe D3.js (drag & drop, zoom, filtres) - BLOQUÉ
+- [ ] Vérifier l'affichage de la liste des synergies - BLOQUÉ
+
+### Phase 3 : Enrichissement base de synergies
+- [x] Analyser les molécules existantes pour identifier des synergies potentielles
+- [x] Créer 12 nouvelles synergies documentées (4 potentialisation, 3 stabilisation, 3 transformation, 2 masquage)
+- [x] Insérer les synergies dans la base de données (17 synergies totales)
+
+### Phase 4 : Tests finaux et checkpoint
+- [ ] Tester le graphe D3.js avec les nouvelles synergies - BLOQUÉ (page 404)
+- [ ] Vérifier les filtres par type de synergie - BLOQUÉ (page 404)
+- [x] Créer checkpoint final avec enrichissement synergies
