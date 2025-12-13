@@ -800,6 +800,26 @@ export const appRouter = router({
       }),
   }),
 
+  // Synergies
+  synergies: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllSynergies();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getSynergyById(input);
+      }),
+    getByType: publicProcedure
+      .input(z.enum(["potentialisation", "stabilisation", "transformation", "masquage"]))
+      .query(async ({ input }) => {
+        return await db.getSynergiesByType(input);
+      }),
+    getGraphData: publicProcedure.query(async () => {
+      return await db.getSynergiesGraphData();
+    }),
+  }),
+
   // Analytics
   analytics: router({
     getStatistics: publicProcedure.query(async () => {

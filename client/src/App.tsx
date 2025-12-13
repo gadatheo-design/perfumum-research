@@ -74,7 +74,8 @@ import { ModelesAnalytiquesGCMS } from "@/pages/ModelesAnalytiquesGCMS";
 import MatriceInteractive from "@/pages/MatriceInteractive";
 import Statistiques from "@/pages/Statistiques";
 import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
-import CompareMoleculesAdvanced from "@/pages/CompareMoleculesAdvanced";
+import CompareMoleculesAdvanced from "./pages/CompareMoleculesAdvanced";
+import Synergies from "./pages/Synergies";
 import DashboardRecherche from "@/pages/DashboardRecherche";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
 import MethodeAbsorbe from "./pages/MethodeAbsorbe";
@@ -154,6 +155,7 @@ function Router() {
           <Route path="/laboratoire/statistiques" component={Statistiques} />
           <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
           <Route path="/compare-molecules-advanced" component={CompareMoleculesAdvanced} />
+          <Route path="/synergies" component={Synergies} />
       <Route path="/analytics" component={AnalyticsDashboard} />
       <Route path="/test-minimal" component={TestMinimal} />
       <Route path="/dashboard" component={DashboardMinimal} />

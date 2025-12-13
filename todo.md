@@ -154,3 +154,31 @@
 - [x] ⚠️ BLOQUÉ - Nécessite investigation approfondie du cache/build Vite (reporté)
 
 **Note** : Fonctionnalité bonus, priorité basse. À corriger ultérieurement.
+
+
+## 🔗 PAGE SYNERGIES MOLÉCULAIRES + RECHERCHE AVANCÉE
+
+### Phase 1 : Analyse données et procédures tRPC
+- [x] Analyser la table synergies (5 synergies trouvées)
+- [x] Créer procédures tRPC pour récupérer synergies (getAllSynergies, getSynergyById, getByType, getGraphData)
+- [ ] Créer procédure pour suggestions automatiques basées sur profils radar (bonus)
+
+### Phase 2 : Page Synergies avec graphe D3.js
+- [x] Installer D3.js (pnpm add d3 @types/d3)
+- [x] Créer composant GrapheSynergies avec D3.js
+- [x] Nœuds = molécules/tabacs/familles, arêtes = synergies
+- [x] Filtres par type d'effet (potentialisation, stabilisation, transformation, masquage)
+- [x] Drag & drop, zoom/pan interactif
+- [x] Légende et liste détaillée des synergies
+- [x] Route /synergies dans App.tsx
+
+### Phase 3 : Recherche avancée multi-critères
+- [x] Ajouter section "Propriétés Chimiques" sur page Molécules
+- [x] Filtres combinés : profil olfactif + 6 axes radar + propriétés chimiques (13 critères)
+- [x] Sliders pour point d'ébullition (0-500°C) et masse moléculaire (0-500 g/mol)
+- [x] Affichage résultats en temps réel avec compteur
+
+### Phase 4 : Tests et checkpoint
+- [x] Tester page Synergies (graphe, filtres, suggestions) - ⚠️ Erreur 404 (erreurs TypeScript)
+- [x] Tester recherche avancée multi-critères - ✅ Fonctionnel
+- [ ] Créer checkpoint final

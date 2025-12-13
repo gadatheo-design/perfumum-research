@@ -48,6 +48,10 @@ export default function Molecules() {
   
   // Radar filters
   const [radarIntensityRange, setRadarIntensityRange] = useState<[number, number]>([0, 100]);
+  
+  // Chemical properties filters
+  const [boilingPointRange, setBoilingPointRange] = useState<[number, number]>([0, 500]);
+  const [molecularWeightRange, setMolecularWeightRange] = useState<[number, number]>([0, 500]);
   const [radarFreshnessRange, setRadarFreshnessRange] = useState<[number, number]>([0, 100]);
   const [radarWarmthRange, setRadarWarmthRange] = useState<[number, number]>([0, 100]);
   const [radarSweetnessRange, setRadarSweetnessRange] = useState<[number, number]>([0, 100]);
@@ -154,13 +158,26 @@ export default function Molecules() {
         (molecule.radarEarthiness || 50) >= radarEarthinessRange[0] && 
         (molecule.radarEarthiness || 50) <= radarEarthinessRange[1];
       
+      // Chemical properties filters
+      const bp = molecule.boilingPoint;
+      const matchesBoilingPoint = 
+        bp === null || bp === undefined ||
+        (bp >= boilingPointRange[0] && bp <= boilingPointRange[1]);
+      
+      const mw = molecule.molecularWeight;
+      const matchesMolecularWeight = 
+        mw === null || mw === undefined ||
+        (mw >= molecularWeightRange[0] && mw <= molecularWeightRange[1]);
+      
       return matchesSearch && matchesFamily && matchesProfile && matchesConcentration && matchesGamme &&
         matchesRadarIntensity && matchesRadarFreshness && matchesRadarWarmth && 
-        matchesRadarSweetness && matchesRadarSpiciness && matchesRadarEarthiness;
+        matchesRadarSweetness && matchesRadarSpiciness && matchesRadarEarthiness &&
+        matchesBoilingPoint && matchesMolecularWeight;
     });
   }, [molecules, searchQuery, familyFilter, selectedProfiles, concentrationRange, selectedGamme,
       radarIntensityRange, radarFreshnessRange, radarWarmthRange, 
-      radarSweetnessRange, radarSpicinessRange, radarEarthinessRange]);
+      radarSweetnessRange, radarSpicinessRange, radarEarthinessRange,
+      boilingPointRange, molecularWeightRange]);
 
   // Reset all filters
   const resetFilters = () => {
@@ -175,6 +192,8 @@ export default function Molecules() {
     setRadarSweetnessRange([0, 100]);
     setRadarSpicinessRange([0, 100]);
     setRadarEarthinessRange([0, 100]);
+    setBoilingPointRange([0, 500]);
+    setMolecularWeightRange([0, 500]);
   };
 
   // Toggle profile selection
@@ -199,7 +218,9 @@ export default function Molecules() {
     radarWarmthRange[0] !== 0 || radarWarmthRange[1] !== 100 ||
     radarSweetnessRange[0] !== 0 || radarSweetnessRange[1] !== 100 ||
     radarSpicinessRange[0] !== 0 || radarSpicinessRange[1] !== 100 ||
-    radarEarthinessRange[0] !== 0 || radarEarthinessRange[1] !== 100;
+    radarEarthinessRange[0] !== 0 || radarEarthinessRange[1] !== 100 ||
+    boilingPointRange[0] !== 0 || boilingPointRange[1] !== 500 ||
+    molecularWeightRange[0] !== 0 || molecularWeightRange[1] !== 500;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -456,6 +477,46 @@ export default function Molecules() {
                           step={5}
                           value={radarEarthinessRange}
                           onValueChange={(value) => setRadarEarthinessRange(value as [number, number])}
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Propriétés Chimiques */}
+                    <div className="border-t border-border/50 pt-4 mt-4">
+                      <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                        <FlaskConical className="w-5 h-5" />
+                        Propriétés Chimiques
+                      </h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Point d'ébullition */}
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">
+                          Point d'ébullition ({boilingPointRange[0]}°C - {boilingPointRange[1]}°C)
+                        </label>
+                        <Slider
+                          min={0}
+                          max={500}
+                          step={10}
+                          value={boilingPointRange}
+                          onValueChange={(value) => setBoilingPointRange(value as [number, number])}
+                          className="w-full"
+                        />
+                      </div>
+
+                      {/* Masse moléculaire */}
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">
+                          Masse moléculaire ({molecularWeightRange[0]} g/mol - {molecularWeightRange[1]} g/mol)
+                        </label>
+                        <Slider
+                          min={0}
+                          max={500}
+                          step={10}
+                          value={molecularWeightRange}
+                          onValueChange={(value) => setMolecularWeightRange(value as [number, number])}
                           className="w-full"
                         />
                       </div>

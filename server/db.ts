@@ -2141,3 +2141,112 @@ export async function updateMoleculeRadar(data: {
   
   return updated;
 }
+
+
+// ============================================================================
+// SYNERGIES GRAPH DATA
+// ============================================================================
+
+export async function getSynergyById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select({
+      id: synergies.id,
+      name: synergies.name,
+      type: synergies.type,
+      effet: synergies.effet,
+      notes: synergies.notes,
+      tabacId: synergies.tabacId,
+      tabacName: tabacs.name,
+      moleculeId: synergies.moleculeId,
+      moleculeName: molecules.name,
+      familleId: synergies.familleId,
+      familleName: families.name,
+      createdAt: synergies.createdAt,
+    })
+    .from(synergies)
+    .leftJoin(tabacs, eq(synergies.tabacId, tabacs.id))
+    .leftJoin(molecules, eq(synergies.moleculeId, molecules.id))
+    .leftJoin(families, eq(synergies.familleId, families.id))
+    .where(eq(synergies.id, id))
+    .limit(1);
+  
+  return result[0];
+}
+
+export async function getSynergiesGraphData() {
+  const db = await getDb();
+  if (!db) return { nodes: [], edges: [] };
+  
+  // Récupérer toutes les synergies avec leurs relations
+  const allSynergies = await getAllSynergies();
+  
+  // Créer les nœuds et arêtes pour le graphe
+  const nodesMap = new Map<string, { id: string; name: string; type: 'molecule' | 'tabac' | 'famille' }>();
+  const edges: Array<{ source: string; target: string; synergyType: string; synergyName: string; effet: string | null }> = [];
+  
+  for (const synergy of allSynergies) {
+    // Ajouter les nœuds (molécule, tabac, famille)
+    if (synergy.moleculeId && synergy.moleculeName) {
+      nodesMap.set(`mol-${synergy.moleculeId}`, { 
+        id: `mol-${synergy.moleculeId}`, 
+        name: synergy.moleculeName, 
+        type: 'molecule' 
+      });
+    }
+    
+    if (synergy.tabacId && synergy.tabacName) {
+      nodesMap.set(`tab-${synergy.tabacId}`, { 
+        id: `tab-${synergy.tabacId}`, 
+        name: synergy.tabacName, 
+        type: 'tabac' 
+      });
+    }
+    
+    if (synergy.familleId && synergy.familleName) {
+      nodesMap.set(`fam-${synergy.familleId}`, { 
+        id: `fam-${synergy.familleId}`, 
+        name: synergy.familleName, 
+        type: 'famille' 
+      });
+    }
+    
+    // Créer les arêtes entre les nœuds
+    if (synergy.moleculeId && synergy.tabacId) {
+      edges.push({
+        source: `mol-${synergy.moleculeId}`,
+        target: `tab-${synergy.tabacId}`,
+        synergyType: synergy.type,
+        synergyName: synergy.name,
+        effet: synergy.effet
+      });
+    }
+    
+    if (synergy.moleculeId && synergy.familleId) {
+      edges.push({
+        source: `mol-${synergy.moleculeId}`,
+        target: `fam-${synergy.familleId}`,
+        synergyType: synergy.type,
+        synergyName: synergy.name,
+        effet: synergy.effet
+      });
+    }
+    
+    if (synergy.tabacId && synergy.familleId) {
+      edges.push({
+        source: `tab-${synergy.tabacId}`,
+        target: `fam-${synergy.familleId}`,
+        synergyType: synergy.type,
+        synergyName: synergy.name,
+        effet: synergy.effet
+      });
+    }
+  }
+  
+  return {
+    nodes: Array.from(nodesMap.values()),
+    edges
+  };
+}
