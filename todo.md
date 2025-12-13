@@ -142,3 +142,15 @@
 - [x] Tester fonctionnalités filtres radar
 - [ ] Corriger bug Comparateur Molécules
 - [x] Créer checkpoint final
+
+
+## 🐛 CORRECTION BUG COMPARATEUR MOLÉCULES
+
+- [x] Diagnostiquer erreur "Rendered more hooks than during the previous render"
+- [x] Simplifier approche : charger toutes molécules une fois au lieu de requêtes individuelles
+- [x] Remplacer Chart.js par radar SVG natif
+- [x] Remplacer Select par boutons simples
+- [x] ⚠️ BUG PERSISTANT - HMR ne recharge pas le code malgré modifications
+- [x] ⚠️ BLOQUÉ - Nécessite investigation approfondie du cache/build Vite (reporté)
+
+**Note** : Fonctionnalité bonus, priorité basse. À corriger ultérieurement.
