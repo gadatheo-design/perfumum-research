@@ -46,6 +46,14 @@ export default function Molecules() {
   });
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
   
+  // Radar filters
+  const [radarIntensityRange, setRadarIntensityRange] = useState<[number, number]>([0, 100]);
+  const [radarFreshnessRange, setRadarFreshnessRange] = useState<[number, number]>([0, 100]);
+  const [radarWarmthRange, setRadarWarmthRange] = useState<[number, number]>([0, 100]);
+  const [radarSweetnessRange, setRadarSweetnessRange] = useState<[number, number]>([0, 100]);
+  const [radarSpicinessRange, setRadarSpicinessRange] = useState<[number, number]>([0, 100]);
+  const [radarEarthinessRange, setRadarEarthinessRange] = useState<[number, number]>([0, 100]);
+  
   // Comparison mode state
   const [selectedMolecules, setSelectedMolecules] = useState<number[]>([]);
   const MAX_COMPARISON = 4;
@@ -126,9 +134,33 @@ export default function Molecules() {
       const matchesGamme = 
         !selectedGamme || getGammeFromOlfactiveProfile(molecule.olfactiveProfile) === selectedGamme;
       
-      return matchesSearch && matchesFamily && matchesProfile && matchesConcentration && matchesGamme;
+      // Radar filters
+      const matchesRadarIntensity = 
+        (molecule.radarIntensity || 50) >= radarIntensityRange[0] && 
+        (molecule.radarIntensity || 50) <= radarIntensityRange[1];
+      const matchesRadarFreshness = 
+        (molecule.radarFreshness || 50) >= radarFreshnessRange[0] && 
+        (molecule.radarFreshness || 50) <= radarFreshnessRange[1];
+      const matchesRadarWarmth = 
+        (molecule.radarWarmth || 50) >= radarWarmthRange[0] && 
+        (molecule.radarWarmth || 50) <= radarWarmthRange[1];
+      const matchesRadarSweetness = 
+        (molecule.radarSweetness || 50) >= radarSweetnessRange[0] && 
+        (molecule.radarSweetness || 50) <= radarSweetnessRange[1];
+      const matchesRadarSpiciness = 
+        (molecule.radarSpiciness || 50) >= radarSpicinessRange[0] && 
+        (molecule.radarSpiciness || 50) <= radarSpicinessRange[1];
+      const matchesRadarEarthiness = 
+        (molecule.radarEarthiness || 50) >= radarEarthinessRange[0] && 
+        (molecule.radarEarthiness || 50) <= radarEarthinessRange[1];
+      
+      return matchesSearch && matchesFamily && matchesProfile && matchesConcentration && matchesGamme &&
+        matchesRadarIntensity && matchesRadarFreshness && matchesRadarWarmth && 
+        matchesRadarSweetness && matchesRadarSpiciness && matchesRadarEarthiness;
     });
-  }, [molecules, searchQuery, familyFilter, selectedProfiles, concentrationRange]);
+  }, [molecules, searchQuery, familyFilter, selectedProfiles, concentrationRange, selectedGamme,
+      radarIntensityRange, radarFreshnessRange, radarWarmthRange, 
+      radarSweetnessRange, radarSpicinessRange, radarEarthinessRange]);
 
   // Reset all filters
   const resetFilters = () => {
@@ -137,6 +169,12 @@ export default function Molecules() {
     setSelectedProfiles([]);
     setConcentrationRange([0.0001, 0.1]);
     setSelectedGamme(null);
+    setRadarIntensityRange([0, 100]);
+    setRadarFreshnessRange([0, 100]);
+    setRadarWarmthRange([0, 100]);
+    setRadarSweetnessRange([0, 100]);
+    setRadarSpicinessRange([0, 100]);
+    setRadarEarthinessRange([0, 100]);
   };
 
   // Toggle profile selection
@@ -155,7 +193,13 @@ export default function Molecules() {
     selectedProfiles.length > 0 || 
     concentrationRange[0] !== 0.0001 || 
     concentrationRange[1] !== 0.1 ||
-    selectedGamme !== null;
+    selectedGamme !== null ||
+    radarIntensityRange[0] !== 0 || radarIntensityRange[1] !== 100 ||
+    radarFreshnessRange[0] !== 0 || radarFreshnessRange[1] !== 100 ||
+    radarWarmthRange[0] !== 0 || radarWarmthRange[1] !== 100 ||
+    radarSweetnessRange[0] !== 0 || radarSweetnessRange[1] !== 100 ||
+    radarSpicinessRange[0] !== 0 || radarSpicinessRange[1] !== 100 ||
+    radarEarthinessRange[0] !== 0 || radarEarthinessRange[1] !== 100;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -314,6 +358,106 @@ export default function Molecules() {
                       <div className="flex justify-between text-xs text-muted-foreground mt-2">
                         <span>0.0001%</span>
                         <span>0.1%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Radar Filters */}
+                  <div className="border-t border-border/40 pt-6 mt-6">
+                    <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
+                      <Atom className="w-4 h-4" />
+                      Filtres Profil Radar Olfactif
+                    </h3>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Intensité */}
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">
+                          Intensité ({radarIntensityRange[0]} - {radarIntensityRange[1]})
+                        </label>
+                        <Slider
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={radarIntensityRange}
+                          onValueChange={(value) => setRadarIntensityRange(value as [number, number])}
+                          className="w-full"
+                        />
+                      </div>
+
+                      {/* Fraîcheur */}
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">
+                          Fraîcheur ({radarFreshnessRange[0]} - {radarFreshnessRange[1]})
+                        </label>
+                        <Slider
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={radarFreshnessRange}
+                          onValueChange={(value) => setRadarFreshnessRange(value as [number, number])}
+                          className="w-full"
+                        />
+                      </div>
+
+                      {/* Chaleur */}
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">
+                          Chaleur ({radarWarmthRange[0]} - {radarWarmthRange[1]})
+                        </label>
+                        <Slider
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={radarWarmthRange}
+                          onValueChange={(value) => setRadarWarmthRange(value as [number, number])}
+                          className="w-full"
+                        />
+                      </div>
+
+                      {/* Douceur */}
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">
+                          Douceur ({radarSweetnessRange[0]} - {radarSweetnessRange[1]})
+                        </label>
+                        <Slider
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={radarSweetnessRange}
+                          onValueChange={(value) => setRadarSweetnessRange(value as [number, number])}
+                          className="w-full"
+                        />
+                      </div>
+
+                      {/* Épices */}
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">
+                          Épices ({radarSpicinessRange[0]} - {radarSpicinessRange[1]})
+                        </label>
+                        <Slider
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={radarSpicinessRange}
+                          onValueChange={(value) => setRadarSpicinessRange(value as [number, number])}
+                          className="w-full"
+                        />
+                      </div>
+
+                      {/* Terreux */}
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">
+                          Terreux ({radarEarthinessRange[0]} - {radarEarthinessRange[1]})
+                        </label>
+                        <Slider
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={radarEarthinessRange}
+                          onValueChange={(value) => setRadarEarthinessRange(value as [number, number])}
+                          className="w-full"
+                        />
                       </div>
                     </div>
                   </div>

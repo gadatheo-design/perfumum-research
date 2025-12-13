@@ -115,3 +115,30 @@
 - [x] Prévisualisation radar avec couleurs OKLCH
 - [x] Route /admin/molecules ajoutée dans App.tsx
 - [ ] Tester mise à jour radar sur plusieurs molécules
+
+
+## 🎯 AMÉLIORATIONS PROFILS RADAR (NOUVELLES)
+
+### Phase 1 : Interface d'ajustement manuel
+- [x] Vérifier interface Admin Molécules (/admin/molecules) - Fonctionnelle
+- [ ] Améliorer UX formulaire radar (validation, feedback)
+- [ ] Ajouter bouton "Réinitialiser aux valeurs par défaut"
+
+### Phase 2 : Comparateur Molécules avancé
+- [x] Créer page /compare-molecules-advanced avec sélection 2-4 molécules
+- [x] Afficher radars superposés avec Chart.js
+- [x] Tableau comparatif détaillé (propriétés chimiques, synergies, recettes)
+- [x] Calculer similarité olfactive (distance euclidienne)
+- [ ] ⚠️ Bug React Hooks à corriger (erreur "Rendered more hooks")
+- [ ] Export PDF du comparatif
+
+### Phase 3 : Filtres par valeurs radar
+- [x] Ajouter 6 sliders de filtrage sur page Molécules (Intensité, Fraîcheur, Chaleur, Douceur, Épices, Terreux)
+- [x] Filtrer par plages de valeurs (ex: Fraîcheur 70-100)
+- [x] Afficher nombre de résultats en temps réel
+- [x] Bouton "Réinitialiser filtres radar" global
+
+### Phase 4 : Tests et validation
+- [x] Tester fonctionnalités filtres radar
+- [ ] Corriger bug Comparateur Molécules
+- [x] Créer checkpoint final
