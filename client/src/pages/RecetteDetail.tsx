@@ -7,6 +7,7 @@ import { ArrowLeft, FlaskConical, Beaker, Download, Clock, DollarSign, Flame, Dr
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { exportRecipePDF } from "@/lib/exportPDF";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
+import { MoleculeListLinks } from "@/components/MoleculeLink";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
 import { GitBranch, ArrowUpRight } from "lucide-react";
@@ -357,21 +358,27 @@ export default function RecetteDetail() {
               <h3 className="text-lg font-semibold mb-4">Évolution Aromatique</h3>
               <div className="grid md:grid-cols-3 gap-4">
                 {recette.notesTete && (
-                  <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                    <p className="text-sm font-semibold text-yellow-800 mb-2">Notes de Tête</p>
-                    <p className="text-sm text-gray-700">{recette.notesTete}</p>
+                  <div className="bg-yellow-50 dark:bg-yellow-950/30 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                    <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-2">Notes de Tête</p>
+                    <div className="text-sm text-gray-700 dark:text-gray-300">
+                      <MoleculeListLinks text={recette.notesTete} variant="inline" />
+                    </div>
                   </div>
                 )}
                 {recette.notesCoeur && (
-                  <div className="bg-pink-50 p-4 rounded-lg border border-pink-200">
-                    <p className="text-sm font-semibold text-pink-800 mb-2">Notes de Cœur</p>
-                    <p className="text-sm text-gray-700">{recette.notesCoeur}</p>
+                  <div className="bg-pink-50 dark:bg-pink-950/30 p-4 rounded-lg border border-pink-200 dark:border-pink-800">
+                    <p className="text-sm font-semibold text-pink-800 dark:text-pink-300 mb-2">Notes de Cœur</p>
+                    <div className="text-sm text-gray-700 dark:text-gray-300">
+                      <MoleculeListLinks text={recette.notesCoeur} variant="inline" />
+                    </div>
                   </div>
                 )}
                 {recette.notesFond && (
-                  <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
-                    <p className="text-sm font-semibold text-amber-800 mb-2">Notes de Fond</p>
-                    <p className="text-sm text-gray-700">{recette.notesFond}</p>
+                  <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+                    <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-2">Notes de Fond</p>
+                    <div className="text-sm text-gray-700 dark:text-gray-300">
+                      <MoleculeListLinks text={recette.notesFond} variant="inline" />
+                    </div>
                   </div>
                 )}
               </div>

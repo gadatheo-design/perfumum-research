@@ -4,6 +4,7 @@ import { GammeBadge } from "@/components/GammeBadge";
 import { VoirAussi } from "@/components/VoirAussi";
 import { trpc } from "@/lib/trpc";
 import { Crown, Gem, Sparkles, Droplets, Waves, TreePine, Heart, Star, ExternalLink, FlaskConical, DollarSign, MapPin } from "lucide-react";
+import { MoleculeListLinks } from "@/components/MoleculeLink";
 
 export default function GammeRaretes() {
   // Récupérer les molécules de la gamme Raretés
@@ -266,17 +267,17 @@ export default function GammeRaretes() {
                     <div>
                       <h4 className="font-semibold mb-2 text-sm uppercase tracking-wide">Pyramide Olfactive</h4>
                       <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Tête</span>
-                          <span>{accord.notes.tete}</span>
+                        <div className="flex justify-between items-start gap-2">
+                          <span className="text-muted-foreground shrink-0">Tête</span>
+                          <span className="text-right"><MoleculeListLinks text={accord.notes.tete} variant="inline" /></span>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Cœur</span>
-                          <span>{accord.notes.coeur}</span>
+                        <div className="flex justify-between items-start gap-2">
+                          <span className="text-muted-foreground shrink-0">Cœur</span>
+                          <span className="text-right"><MoleculeListLinks text={accord.notes.coeur} variant="inline" /></span>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">Fond</span>
-                          <span>{accord.notes.fond}</span>
+                        <div className="flex justify-between items-start gap-2">
+                          <span className="text-muted-foreground shrink-0">Fond</span>
+                          <span className="text-right"><MoleculeListLinks text={accord.notes.fond} variant="inline" /></span>
                         </div>
                       </div>
                     </div>

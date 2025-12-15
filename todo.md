@@ -1149,3 +1149,10 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Créer la page /fournisseurs avec fiches détaillées et liens directs - FAIT (19 fournisseurs enrichis)
 - [x] Intégrer le calculateur de coût de formulation basé sur les prix des molécules - FAIT (/outils/calculateur-cout)
 - [x] Ajouter les routes et liens de navigation - FAIT
+
+
+### Étape 13 : Liens cliquables molécules dans les recettes (16 déc 2025)
+- [x] Créer un composant MoleculeLink réutilisable - FAIT (MoleculeLink.tsx + MoleculeListLinks)
+- [x] Intégrer les liens dans la page RecetteDetail - FAIT (notes de tête/cœur/fond)
+- [x] Intégrer les liens dans la page GammeRaretes (accords maîtres) - FAIT (pyramides olfactives)
+- [x] Tester la navigation entre recettes et molécules - FAIT (TypeScript OK)

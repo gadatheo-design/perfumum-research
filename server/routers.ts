@@ -151,6 +151,22 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return await db.updateMoleculeRadar(input);
       }),
+    // Recherche de molécules par nom
+    search: publicProcedure
+      .input(z.object({
+        query: z.string(),
+        limit: z.number().default(10),
+      }))
+      .query(async ({ input }) => {
+        const allMolecules = await db.getAllMolecules();
+        const queryLower = input.query.toLowerCase();
+        // Recherche par nom (correspondance partielle)
+        const matches = allMolecules.filter(m => 
+          m.name.toLowerCase().includes(queryLower) ||
+          (m.chemicalFormula && m.chemicalFormula.toLowerCase().includes(queryLower))
+        ).slice(0, input.limit);
+        return { molecules: matches, total: matches.length };
+      }),
   }),
 
   // Terpene Synergies
