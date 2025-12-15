@@ -383,3 +383,27 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Analyser compatibilité avec molécules existantes
 - [x] Suggérer paires prometteuses (5 synergies clés documentées)
 - [x] Vérifier affichage dans le catalogue (155 molécules)
+
+
+## 📝 CRÉATION RECETTES ET DOCUMENTATION
+
+### Phase 1 : Créer les recettes dans la base de données
+- [x] Forêt Méditerranéenne (C2) - Wild Juniper, Bergamot, Vetiver
+- [x] Jardin Japonais (C2) - Miyazaki Citrus, Oud Tea, Spikenard
+- [x] Fleur d'Oranger Tropicale (C3) - Neroli, Plumeria, Gris d'Ambre
+- [x] Soleil de Sicile (C3) - Bergamot, Tangerine, Neroli
+- [x] Pétrichor Sacré (C4) - Mitti Attar, Frankincense, Palo Santo
+- [x] Ambre Océanique (C4) - Gris d'Ambre, Frankincense, Vetiver
+- [x] Rituel d'Assam (Exp.) - Oud Tea, Black Emerald, Spikenard
+- [x] Fraîcheur Mentholée (Exp.) - Peppermint, Bergamot, Lime
+
+### Phase 2 : Tester les synergies IA
+- [x] Rechercher synergies avec Mitti Attar
+- [x] Rechercher synergies avec Gris d'Ambre
+- [x] Rechercher synergies avec nouveaux vétivers
+- [x] Documenter les paires prometteuses dans docs/synergies-hermitage-oils.md
+
+### Phase 3 : Documenter les observations
+- [x] Ajouter notes de composition aux 17 ingrédients
+- [x] Documenter molécules-clés de chaque ingrédient (17/17)
+- [x] Créer liens entre ingrédients et recettes (8 recettes)
