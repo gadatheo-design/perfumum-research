@@ -402,6 +402,150 @@ export default function GammeRaretes() {
                   <td className="p-3">Givaudan (captive), Pell Wall</td>
                   <td className="p-3 text-muted-foreground">Synthèse</td>
                 </tr>
+                {/* === PHASE 2 : MUSCS PRÉCIEUX === */}
+                <tr className="border-b bg-muted/30">
+                  <td colSpan={4} className="p-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Muscs Précieux</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Muscone</td>
+                  <td className="p-3 text-amber-400">$8,000-15,000/kg</td>
+                  <td className="p-3">Firmenich, Givaudan, Symrise</td>
+                  <td className="p-3 text-muted-foreground">Cerf porte-musc / Synthèse</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Civettone</td>
+                  <td className="p-3 text-amber-400">$5,000-12,000/kg</td>
+                  <td className="p-3">Robertet, Hermitage Oils</td>
+                  <td className="p-3 text-muted-foreground">Civette / Synthèse éthique</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Ethylene Brassylate</td>
+                  <td className="p-3 text-green-400">$80-200/kg</td>
+                  <td className="p-3">Firmenich, Pell Wall, Vigon</td>
+                  <td className="p-3 text-muted-foreground">Synthèse</td>
+                </tr>
+                {/* === PHASE 2 : BOIS PRÉCIEUX === */}
+                <tr className="border-b bg-muted/30">
+                  <td colSpan={4} className="p-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Bois Précieux</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Santal Mysore (α-Santalol)</td>
+                  <td className="p-3 text-amber-400">$2,500-5,000/kg</td>
+                  <td className="p-3">Robertet, Albert Vieille, Hermitage</td>
+                  <td className="p-3 text-muted-foreground">Inde (CITES)</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Cèdre Atlas (Cedrene)</td>
+                  <td className="p-3 text-green-400">$30-80/kg</td>
+                  <td className="p-3">Robertet, Pell Wall, Vigon</td>
+                  <td className="p-3 text-muted-foreground">Maroc, Algérie</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Gaïac (Guaiol)</td>
+                  <td className="p-3 text-yellow-400">$200-500/kg</td>
+                  <td className="p-3">Robertet, Firmenich</td>
+                  <td className="p-3 text-muted-foreground">Argentine, Paraguay</td>
+                </tr>
+                {/* === PHASE 2 : FLORAUX PRÉCIEUX === */}
+                <tr className="border-b bg-muted/30">
+                  <td colSpan={4} className="p-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Floraux Précieux</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Absolue de Rose</td>
+                  <td className="p-3 text-amber-400">$6,000-12,000/kg</td>
+                  <td className="p-3">Robertet, Firmenich, Biolandes</td>
+                  <td className="p-3 text-muted-foreground">Bulgarie, Turquie, Maroc</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Absolue de Jasmin</td>
+                  <td className="p-3 text-amber-400">$5,000-10,000/kg</td>
+                  <td className="p-3">Robertet, Firmenich, Albert Vieille</td>
+                  <td className="p-3 text-muted-foreground">Grasse, Égypte, Inde</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Tubéreuse Absolue</td>
+                  <td className="p-3 text-amber-400">$8,000-18,000/kg</td>
+                  <td className="p-3">Robertet, Firmenich</td>
+                  <td className="p-3 text-muted-foreground">Inde, Égypte</td>
+                </tr>
+                {/* === PHASE 2 : ÉPICES & RÉSINES === */}
+                <tr className="border-b bg-muted/30">
+                  <td colSpan={4} className="p-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Épices & Résines</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Safranal</td>
+                  <td className="p-3 text-amber-400">$3,000-8,000/kg</td>
+                  <td className="p-3">Robertet, Firmenich, Sigma-Aldrich</td>
+                  <td className="p-3 text-muted-foreground">Iran, Cachemire, Espagne</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Cardamome</td>
+                  <td className="p-3 text-green-400">$80-200/kg</td>
+                  <td className="p-3">Robertet, Pell Wall, Vigon</td>
+                  <td className="p-3 text-muted-foreground">Guatemala, Inde</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Encens Oliban</td>
+                  <td className="p-3 text-yellow-400">$300-800/kg</td>
+                  <td className="p-3">Hermitage Oils, Ensar Oud, Robertet</td>
+                  <td className="p-3 text-muted-foreground">Oman, Yémen, Somalie</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Myrrhe</td>
+                  <td className="p-3 text-yellow-400">$200-600/kg</td>
+                  <td className="p-3">Hermitage Oils, Robertet</td>
+                  <td className="p-3 text-muted-foreground">Somalie, Éthiopie, Yémen</td>
+                </tr>
+                {/* === PHASE 2 : AGRUMES RARES === */}
+                <tr className="border-b bg-muted/30">
+                  <td colSpan={4} className="p-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Agrumes Rares</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Bergamote Calabre</td>
+                  <td className="p-3 text-green-400">$100-250/kg</td>
+                  <td className="p-3">Robertet, Capua 1880, Simone Gatto</td>
+                  <td className="p-3 text-muted-foreground">Calabre, Italie</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Yuzu</td>
+                  <td className="p-3 text-yellow-400">$400-900/kg</td>
+                  <td className="p-3">Takasago, Robertet, Pell Wall</td>
+                  <td className="p-3 text-muted-foreground">Japon, Corée</td>
+                </tr>
+                {/* === PHASE 2 : MOLÉCULES SIGNATURE === */}
+                <tr className="border-b bg-muted/30">
+                  <td colSpan={4} className="p-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Molécules Signature</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Hedione</td>
+                  <td className="p-3 text-green-400">$60-150/kg</td>
+                  <td className="p-3">Firmenich, Pell Wall, Vigon</td>
+                  <td className="p-3 text-muted-foreground">Synthèse</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Ambroxan (Cetalox)</td>
+                  <td className="p-3 text-green-400">$150-400/kg</td>
+                  <td className="p-3">Firmenich, Pell Wall, Vigon</td>
+                  <td className="p-3 text-muted-foreground">Synthèse</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Norlimbanol</td>
+                  <td className="p-3 text-yellow-400">$300-700/kg</td>
+                  <td className="p-3">Firmenich (captive)</td>
+                  <td className="p-3 text-muted-foreground">Synthèse</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Clearwood</td>
+                  <td className="p-3 text-yellow-400">$400-900/kg</td>
+                  <td className="p-3">Firmenich (captive)</td>
+                  <td className="p-3 text-muted-foreground">Synthèse</td>
+                </tr>
+                <tr className="border-b hover:bg-accent/50">
+                  <td className="p-3 font-medium">Paradisone</td>
+                  <td className="p-3 text-yellow-400">$350-800/kg</td>
+                  <td className="p-3">Firmenich (captive)</td>
+                  <td className="p-3 text-muted-foreground">Synthèse</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -411,13 +555,15 @@ export default function GammeRaretes() {
               <MapPin className="w-4 h-4" />
               Fournisseurs Recommandés
             </h4>
-            <div className="grid md:grid-cols-3 gap-4 text-sm">
+            <div className="grid md:grid-cols-4 gap-4 text-sm">
               <div>
                 <strong>Naturels Rares</strong>
                 <ul className="text-muted-foreground mt-1 space-y-1">
                   <li>• Hermitage Oils (UK)</li>
                   <li>• Ensar Oud (USA)</li>
                   <li>• Robertet (France)</li>
+                  <li>• Albert Vieille (France)</li>
+                  <li>• Biolandes (France)</li>
                 </ul>
               </div>
               <div>
@@ -426,14 +572,26 @@ export default function GammeRaretes() {
                   <li>• Pell Wall Perfumes (UK)</li>
                   <li>• Vigon International (USA)</li>
                   <li>• Perfumer's Apprentice (USA)</li>
+                  <li>• Creating Perfume (USA)</li>
                 </ul>
               </div>
               <div>
-                <strong>Laboratoire</strong>
+                <strong>Grandes Maisons</strong>
+                <ul className="text-muted-foreground mt-1 space-y-1">
+                  <li>• Firmenich (Suisse)</li>
+                  <li>• Givaudan (Suisse)</li>
+                  <li>• Symrise (Allemagne)</li>
+                  <li>• IFF (USA)</li>
+                  <li>• Takasago (Japon)</li>
+                </ul>
+              </div>
+              <div>
+                <strong>Laboratoire & Agrumes</strong>
                 <ul className="text-muted-foreground mt-1 space-y-1">
                   <li>• Sigma-Aldrich (Global)</li>
                   <li>• TCI Chemicals (Japon)</li>
-                  <li>• Alfa Aesar (Global)</li>
+                  <li>• Capua 1880 (Italie)</li>
+                  <li>• Simone Gatto (Italie)</li>
                 </ul>
               </div>
             </div>
@@ -443,7 +601,7 @@ export default function GammeRaretes() {
         {/* Voir Aussi */}
         <VoirAussi 
           items={[
-            { href: "/molecules", title: "Toutes les Molécules", description: "186 molécules dans la base" },
+            { href: "/molecules", title: "Toutes les Molécules", description: "206 molécules dans la base" },
             { href: "/gammes/pheromones", title: "Gamme Phéromones", description: "Molécules de communication" },
             { href: "/gammes/signatures", title: "Gamme Signatures", description: "Profils d'exception" },
             { href: "/fournisseurs", title: "Fournisseurs", description: "Sources d'approvisionnement" }

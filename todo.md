@@ -1136,3 +1136,10 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Créer la gamme "Raretés" avec page dédiée /gammes/raretes - FAIT
 - [x] Créer les 5 accords maîtres (Trésor d'Orient, Iris Royal, Santal Sacré, Musc Précieux, Océan Profond) - FAIT
 - [x] Ajouter les informations de prix et sources d'approvisionnement pour chaque molécule - FAIT (tableau complet)
+
+### Étape 11 : Molécules Phase 2 et mise à jour fournisseurs (16 déc 2025)
+- [x] Identifier les 20 molécules restantes de la Phase 2 - FAIT
+- [x] Créer le script d'import pour les molécules Phase 2 - FAIT
+- [x] Insérer les 20 molécules dans la base de données - FAIT (206 total)
+- [x] Mettre à jour le tableau des prix sur la page Raretés - FAIT (30 molécules)
+- [x] Enrichir la liste des fournisseurs recommandés - FAIT (4 catégories, 18 fournisseurs)
