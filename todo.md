@@ -917,3 +917,88 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Masquer texte sur très petits écrans (<400px)
 - [x] Ajouter touch-pan pour interactions tactiles
 
+
+
+## 🔬 COMPARATEUR AVANCÉ (Session 15 déc 2025)
+
+### 1. Composant de sélection multi-entités
+- [ ] Créer sélecteur avec recherche pour molécules
+- [ ] Créer sélecteur avec recherche pour recettes
+- [ ] Limiter la sélection à 2-4 éléments maximum
+- [ ] Afficher badges des éléments sélectionnés
+
+### 2. Graphique radar superposé
+- [ ] Implémenter Chart.js Radar avec multi-datasets
+- [ ] Couleurs distinctives par entité (palette OKLCH)
+- [ ] Légende interactive
+- [ ] Tooltips détaillés au survol
+
+### 3. Tableau comparatif détaillé
+- [ ] Colonnes dynamiques selon sélection
+- [ ] Lignes : propriétés chimiques, profil olfactif, etc.
+- [ ] Highlight des différences significatives
+- [ ] Export PDF du comparatif
+
+### 4. Navigation et intégration
+- [ ] Route /comparateur-avance
+- [ ] Lien dans menu Outils
+- [ ] Breadcrumbs et navigation retour
+
+
+## 📚 DOCUMENTATION PROJET (Session 2025-12-15)
+
+### Fichiers créés
+- [x] `KNOWN_ISSUES.md` — Problèmes techniques récurrents et solutions
+- [x] `DEVELOPMENT_GUIDE.md` — Guide de développement pour futures sessions
+- [x] `PROJECT_INSTRUCTIONS.md` — Instructions à copier dans Manus project_instructions
+- [x] `CHANGELOG.md` — Journal des modifications du projet
+
+### Actions utilisateur requises
+- [ ] Copier le contenu de `PROJECT_INSTRUCTIONS.md` dans les project_instructions Manus
+- [ ] Vérifier que les fichiers de documentation sont accessibles
+
+## 🔴 BUGS CRITIQUES NON RÉSOLUS
+
+### Bug Vite - Écran blanc (Priorité HAUTE)
+- **Erreur** : `@vitejs/plugin-react can't detect preamble`
+- **Pages affectées** :
+  - [ ] `/compare-terpenes`
+  - [ ] `/compare-molecules-advanced`
+  - [ ] `/compare-radar`
+  - [ ] `/comparateur-avance` (nouvelle page abandonnée)
+- **Solutions tentées (inefficaces)** :
+  - Nettoyage cache Vite
+  - Réinstallation dépendances
+  - Rollback checkpoint
+  - Recréation des fichiers
+- **Prochaines pistes à explorer** :
+  - [ ] Mettre à jour @vitejs/plugin-react
+  - [ ] Vérifier la configuration vite.config.ts
+  - [ ] Tester en mode production (pnpm build)
+  - [ ] Créer un projet test minimal pour isoler le problème
+
+## 📅 ROADMAP LONG TERME (2025-2035)
+
+### Phase 1 : Fondations (2025) — EN COURS
+- [x] Structure de base du site
+- [x] Base de données molécules/recettes/accords
+- [x] Navigation et gammes olfactives
+- [x] Système d'authentification
+- [x] Documentation technique
+- [ ] Résolution bug Vite (bloquant)
+- [ ] Comparateur avancé fonctionnel
+
+### Phase 2 : Enrichissement (2026)
+- [ ] Compléter les 131 molécules avec données radar
+- [ ] Visualisations avancées (graphes, matrices)
+- [ ] Intégration données de recherche
+
+### Phase 3 : Expansion (2027-2030)
+- [ ] Documentation complète des 26 traditions
+- [ ] Outils de formulation avancés
+- [ ] API publique pour chercheurs
+
+### Phase 4 : Consolidation (2031-2035)
+- [ ] Publication des résultats de recherche
+- [ ] Archive pérenne
+- [ ] Transfert de connaissances

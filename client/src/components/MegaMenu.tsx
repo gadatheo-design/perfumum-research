@@ -318,6 +318,12 @@ export function MegaMenu() {
           description: "Comparer 2-4 terpènes",
         },
         {
+          label: "Comparateur avancé",
+          path: "/comparateur-avance",
+          icon: <Network className="h-4 w-4" />,
+          description: "Molécules & recettes avec radar",
+        },
+        {
           label: "Glossaire",
           path: "/glossaire",
           icon: <FileText className="h-4 w-4" />,

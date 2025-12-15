@@ -74,6 +74,7 @@ import CompareTerpenes from "./pages/CompareTerpenes";
 import CompareRadar from "./pages/CompareRadar";
 import CompareMoleculesAdvanced from "./pages/CompareMoleculesAdvanced";
 import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
+import ComparateurAvance from "@/pages/ComparateurAvance";
 import MatriceSynergies from "./pages/MatriceSynergies";
 import GrapheMoleculesRecettes from "@/pages/GrapheMoleculesRecettes";
 import SynergiesPage from "./pages/SynergiesPage";
@@ -210,6 +211,7 @@ function Router() {
       <Route path="/compare-radar" component={CompareRadar} />
       <Route path="/compare-molecules-advanced" component={CompareMoleculesAdvanced} />
       <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
+      <Route path="/comparateur-avance" component={ComparateurAvance} />
       <Route path="/matrice-synergies" component={MatriceSynergies} />
       <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
       <Route path="/graphe-synergies" component={SynergiesPage} />
