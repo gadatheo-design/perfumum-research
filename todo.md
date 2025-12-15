@@ -1143,3 +1143,9 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Insérer les 20 molécules dans la base de données - FAIT (206 total)
 - [x] Mettre à jour le tableau des prix sur la page Raretés - FAIT (30 molécules)
 - [x] Enrichir la liste des fournisseurs recommandés - FAIT (4 catégories, 18 fournisseurs)
+
+### Étape 12 : Recettes, Fournisseurs et Calculateur de Coût (16 déc 2025)
+- [x] Créer 5 recettes utilisant les nouvelles molécules Phase 2 (Hedione, Ambroxan, floraux précieux) - FAIT (Aura Radieuse, Nuit de Tubéreuse, Santal Éternel, Rose Impériale, Paradis Fruité)
+- [x] Créer la page /fournisseurs avec fiches détaillées et liens directs - FAIT (19 fournisseurs enrichis)
+- [x] Intégrer le calculateur de coût de formulation basé sur les prix des molécules - FAIT (/outils/calculateur-cout)
+- [x] Ajouter les routes et liens de navigation - FAIT

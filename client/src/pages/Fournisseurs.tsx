@@ -27,10 +27,224 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Données des fournisseurs
+// Données des fournisseurs enrichies (Phase 2)
 const fournisseurs = [
+  // === NATURELS RARES ===
   {
     id: 1,
+    name: "Hermitage Oils",
+    type: "Naturels rares",
+    specialty: "Huiles essentielles rares, ouds, attars et résines précieuses",
+    description: "Spécialiste des matières premières naturelles d'exception. Reconnu pour la qualité exceptionnelle de ses ouds, attars et résines précieuses. Service client réactif.",
+    products: ["Oud Cambodi", "Mitti Attar", "Black Frankincense", "Ambergris Tincture", "Palo Santo"],
+    website: "https://hermitageoils.com",
+    country: "Royaume-Uni",
+    priceRange: "€€€€",
+    rating: 5,
+    tags: ["Naturel", "Artisanal", "Rare", "Oud", "Attars"],
+    moq: "Pas de MOQ, vente au détail",
+    delai: "5-10 jours (UK), 10-20 jours (international)"
+  },
+  {
+    id: 2,
+    name: "Ensar Oud",
+    type: "Naturels rares",
+    specialty: "Ouds de collection et huiles essentielles rares artisanales",
+    description: "Artisan distillateur spécialisé dans les ouds de collection. Chaque lot est unique et documenté avec son origine précise. Prix élevés mais qualité muséale.",
+    products: ["Oud Yusuf", "Kyara LTD", "Hindi Oud", "Borneo 3000"],
+    website: "https://ensaroud.com",
+    country: "USA",
+    priceRange: "€€€€",
+    rating: 5,
+    tags: ["Oud", "Collection", "Artisanal", "Rare"],
+    moq: "Vente au détail, éditions limitées",
+    delai: "7-14 jours (USA), 14-28 jours (international)"
+  },
+  {
+    id: 3,
+    name: "Robertet",
+    type: "Naturels premium",
+    specialty: "Leader mondial des matières premières naturelles depuis 1850",
+    description: "Fondée en 1850 à Grasse, la maison propose une gamme complète d'absolues, concrètes et huiles essentielles. Référence absolue pour les naturels. Traçabilité exemplaire.",
+    products: ["Rose de Mai", "Jasmin Grasse", "Tubéreuse", "Iris", "Narcisse", "Absolue de Rose"],
+    website: "https://robertet.com",
+    country: "France",
+    priceRange: "€€€",
+    rating: 5,
+    tags: ["Naturel", "Grasse", "Absolues", "Traçabilité"],
+    moq: "MOQ variable (1-5 kg)",
+    delai: "10-20 jours"
+  },
+  {
+    id: 4,
+    name: "Albert Vieille",
+    type: "Naturels premium",
+    specialty: "Matières premières naturelles bio et équitables",
+    description: "Maison grassoise spécialisée dans les matières premières naturelles bio et conventionnelles. Engagement fort dans le développement durable et les filières équitables.",
+    products: ["Lavande Bio", "Rose Centifolia", "Jasmin Sambac", "Vétiver Haïti"],
+    website: "https://albertvieille.com",
+    country: "France",
+    priceRange: "€€€",
+    rating: 5,
+    tags: ["Bio", "Équitable", "Naturel", "Durable"],
+    moq: "MOQ 500g-1kg",
+    delai: "10-15 jours"
+  },
+  {
+    id: 5,
+    name: "Biolandes",
+    type: "Naturels premium",
+    specialty: "Pins, cyprès et plantes méditerranéennes",
+    description: "Producteur et distillateur français spécialisé dans les matières premières naturelles. Forte présence dans les pins, cyprès et plantes aromatiques méditerranéennes.",
+    products: ["Pin Maritime", "Cyprès", "Ciste", "Immortelle"],
+    website: "https://biolandes.com",
+    country: "France",
+    priceRange: "€€",
+    rating: 4,
+    tags: ["Naturel", "Méditerranéen", "France"],
+    moq: "MOQ 1-5 kg",
+    delai: "7-14 jours"
+  },
+  // === SYNTHÉTIQUES PREMIUM ===
+  {
+    id: 6,
+    name: "Pell Wall Perfumes",
+    type: "Synthétiques premium",
+    specialty: "Référence UK pour parfumeurs indépendants",
+    description: "Fournisseur britannique de référence pour les parfumeurs indépendants. Large gamme de molécules synthétiques, captives et naturels à prix accessibles. Excellent service et documentation.",
+    products: ["Iso E Super", "Ambroxan", "Hedione", "Javanol", "Cashmeran", "Clearwood"],
+    website: "https://pellwall.com",
+    country: "Royaume-Uni",
+    priceRange: "€€",
+    rating: 5,
+    tags: ["Synthétique", "Captives", "Formation", "UK"],
+    moq: "Vente au détail dès 10ml",
+    delai: "3-7 jours (UK), 7-14 jours (EU)"
+  },
+  {
+    id: 7,
+    name: "Vigon International",
+    type: "Synthétiques premium",
+    specialty: "Distributeur majeur USA, large inventaire",
+    description: "Distributeur américain majeur de matières premières pour la parfumerie et l'aromatique. Large inventaire et livraison rapide. Bon choix pour les volumes moyens.",
+    products: ["Muscs", "Boisés", "Floraux", "Agrumes synthétiques", "Indole naturel"],
+    website: "https://vigon.com",
+    country: "USA",
+    priceRange: "€€",
+    rating: 4,
+    tags: ["Synthétique", "Naturel", "Arômes", "Volumes"],
+    moq: "MOQ variable, généralement 1 lb",
+    delai: "5-10 jours (USA)"
+  },
+  {
+    id: 8,
+    name: "Perfumer's Apprentice",
+    type: "Accessible",
+    specialty: "Prix compétitifs pour débutants et amateurs",
+    description: "Boutique en ligne populaire pour les parfumeurs amateurs et professionnels. Prix compétitifs et large sélection de molécules courantes. Qualité variable selon les lots.",
+    products: ["Calone", "Galaxolide", "Coumarine", "Vanilline", "Bases"],
+    website: "https://shop.perfumersapprentice.com",
+    country: "USA",
+    priceRange: "€",
+    rating: 3,
+    tags: ["Accessible", "Débutant", "Large choix"],
+    moq: "Vente au détail dès 4ml",
+    delai: "7-14 jours (USA), 14-28 jours (international)"
+  },
+  {
+    id: 9,
+    name: "Creating Perfume",
+    type: "Synthétiques premium",
+    specialty: "Captives rares et molécules signature",
+    description: "Fournisseur spécialisé dans les molécules de parfumerie fine. Sélection curatée de captives et molécules signature. Bonne source pour les captives difficiles à trouver.",
+    products: ["Clearwood", "Paradisone", "Norlimbanol", "Sylvamber", "Ambroxan"],
+    website: "https://creatingperfume.com",
+    country: "USA",
+    priceRange: "€€€",
+    rating: 4,
+    tags: ["Captives", "Signature", "Raretés"],
+    moq: "Vente au détail disponible",
+    delai: "5-10 jours (USA)"
+  },
+  // === GRANDES MAISONS ===
+  {
+    id: 10,
+    name: "Firmenich",
+    type: "Industrie",
+    specialty: "Inventeur de l'Hedione, Clearwood, Ambroxan",
+    description: "L'une des plus grandes maisons de création de parfums et d'arômes au monde. Inventeur de nombreuses molécules signature. Accès limité aux indépendants.",
+    products: ["Hedione", "Clearwood", "Ambroxan", "Paradisone", "Norlimbanol"],
+    website: "https://firmenich.com",
+    country: "Suisse",
+    priceRange: "€€€€",
+    rating: 5,
+    tags: ["Industrie", "Captives", "Innovation"],
+    moq: "MOQ élevé (25-100 kg)",
+    delai: "Variable selon contrat"
+  },
+  {
+    id: 11,
+    name: "Givaudan",
+    type: "Industrie",
+    specialty: "Leader mondial, inventeur du Javanol",
+    description: "Leader mondial de la création de parfums et d'arômes. Portefeuille impressionnant de captives et technologies innovantes. Accès limité aux professionnels.",
+    products: ["Javanol", "Akigalawood", "Cashmeran", "Safraleine"],
+    website: "https://givaudan.com",
+    country: "Suisse",
+    priceRange: "€€€€",
+    rating: 5,
+    tags: ["Industrie", "Leader", "Captives"],
+    moq: "MOQ professionnel",
+    delai: "Variable selon contrat"
+  },
+  {
+    id: 12,
+    name: "Symrise",
+    type: "Industrie",
+    specialty: "Spécialiste muscs et boisés modernes",
+    description: "Maison allemande majeure, forte en innovation et développement durable. Spécialiste des muscs et molécules boisées. Bon pour les muscs modernes.",
+    products: ["Muscenone", "Sylvamber", "Georgywood"],
+    website: "https://symrise.com",
+    country: "Allemagne",
+    priceRange: "€€€€",
+    rating: 5,
+    tags: ["Industrie", "Muscs", "Durabilité"],
+    moq: "MOQ professionnel",
+    delai: "Variable"
+  },
+  {
+    id: 13,
+    name: "IFF",
+    type: "Industrie",
+    specialty: "Créateur de l'Iso E Super et Galaxolide",
+    description: "Géant américain de la parfumerie, créateur de l'Iso E Super et du Galaxolide. Certaines molécules disponibles via distributeurs (Pell Wall, Vigon).",
+    products: ["Iso E Super", "Galaxolide", "Cashmeran", "Habanolide"],
+    website: "https://iff.com",
+    country: "USA",
+    priceRange: "€€€€",
+    rating: 5,
+    tags: ["Industrie", "Signature", "Muscs"],
+    moq: "MOQ professionnel",
+    delai: "Variable"
+  },
+  {
+    id: 14,
+    name: "Takasago",
+    type: "Industrie",
+    specialty: "Leader agrumes japonais et menthol",
+    description: "Maison japonaise centenaire, spécialiste des agrumes et des technologies de synthèse asymétrique. Référence pour les agrumes japonais authentiques.",
+    products: ["Yuzu", "Menthol L", "Agrumes japonais"],
+    website: "https://takasago.com",
+    country: "Japon",
+    priceRange: "€€€",
+    rating: 5,
+    tags: ["Agrumes", "Japon", "Menthol"],
+    moq: "MOQ professionnel",
+    delai: "Variable"
+  },
+  // === LABORATOIRE & AGRUMES ===
+  {
+    id: 15,
     name: "Sigma-Aldrich / Merck",
     type: "Laboratoire",
     specialty: "Molécules pures haute pureté (>98%)",
@@ -190,16 +404,12 @@ const fournisseurs = [
 // Types de fournisseurs pour le filtre
 const typesFournisseurs = [
   "Tous",
-  "Laboratoire",
   "Naturels rares",
-  "Arômes naturels",
-  "Parfumerie artisanale",
-  "Large catalogue",
-  "UK professionnel",
-  "Absolus & Bio",
-  "Huiles essentielles",
-  "Industrie",
   "Naturels premium",
+  "Synthétiques premium",
+  "Industrie",
+  "Laboratoire",
+  "Agrumes",
   "Accessible"
 ];
 
@@ -210,12 +420,13 @@ function getTypeIcon(type: string) {
       return <Beaker className="h-5 w-5" />;
     case "Naturels rares":
     case "Naturels premium":
-    case "Absolus & Bio":
       return <Leaf className="h-5 w-5" />;
     case "Industrie":
       return <Building2 className="h-5 w-5" />;
-    case "Huiles essentielles":
+    case "Synthétiques premium":
       return <FlaskConical className="h-5 w-5" />;
+    case "Agrumes":
+      return <Package className="h-5 w-5" />;
     default:
       return <Package className="h-5 w-5" />;
   }
@@ -228,13 +439,15 @@ function getTypeColor(type: string) {
       return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
     case "Naturels rares":
     case "Naturels premium":
-    case "Absolus & Bio":
       return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
     case "Industrie":
       return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
-    case "Accessible":
-    case "Large catalogue":
+    case "Synthétiques premium":
+      return "bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200";
+    case "Agrumes":
       return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
+    case "Accessible":
+      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
     default:
       return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
   }
@@ -451,18 +664,28 @@ export default function Fournisseurs() {
             description: "Temps de cure et conditions optimales",
             href: "/protocoles-maturation",
           },
-          {
-            title: "Molécules",
-            description: "Base de données des 155 molécules",
-            href: "/molecules",
-            badge: "155",
-          },
-          {
-            title: "Recettes",
-            description: "150 recettes expérimentales",
-            href: "/recettes",
-            badge: "150",
-          },
+{
+    title: "Molécules",
+    description: "Base de données des 206 molécules",
+    href: "/molecules",
+    badge: "206",
+  },
+  {
+    title: "Recettes",
+    description: "210 recettes expérimentales",
+    href: "/recettes",
+    badge: "210",
+  },
+  {
+    title: "Gamme Raretés",
+    description: "30 molécules précieuses avec prix",
+    href: "/gammes/raretes",
+  },
+  {
+    title: "Calculateur de Coût",
+    description: "Estimer le prix d'une formulation",
+    href: "/outils/calculateur-cout",
+  },
         ]}
       />
     </div>

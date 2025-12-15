@@ -128,6 +128,7 @@ import Installations from "./pages/Installations";
 import TabacsResines from "./pages/TabacsResines";
 import Associations from "./pages/Associations";
 import Fournisseurs from "./pages/Fournisseurs";
+import CalculateurCout from "./pages/CalculateurCout";
 
 // === DASHBOARDS ===
 import { DashboardMinimal } from "./pages/DashboardMinimal";
@@ -225,6 +226,7 @@ function Router() {
       <Route path="/outils-formulation" component={OutilsFormulation} />
       <Route path="/calculateur" component={ProportionsCalculator} />
       <Route path="/outils/dilution" component={DilutionCalculator} />
+      <Route path="/outils/calculateur-cout" component={CalculateurCout} />
       <Route path="/analyses" component={CorrelationAnalysis} />
       <Route path="/absorbe-scale" component={AbsorbeScale} />
       
