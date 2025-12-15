@@ -299,6 +299,21 @@ export async function getRecettesByCategory(category: "tabac" | "resine" | "resi
   return await db.select().from(recettes).where(eq(recettes.category, category));
 }
 
+export async function getRecetteVariations(parentId: number): Promise<Recette[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(recettes).where(eq(recettes.parentRecetteId, parentId));
+}
+
+export async function getRecetteParent(recetteId: number): Promise<Recette | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const recette = await db.select().from(recettes).where(eq(recettes.id, recetteId)).limit(1);
+  if (!recette[0]?.parentRecetteId) return undefined;
+  const parent = await db.select().from(recettes).where(eq(recettes.id, recette[0].parentRecetteId)).limit(1);
+  return parent[0];
+}
+
 // ============================================================================
 // CIVILISATIONS
 // ============================================================================

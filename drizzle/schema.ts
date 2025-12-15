@@ -323,6 +323,7 @@ export const recettes = mysqlTable("recettes", {
   dureeTeteMin: int("duree_tete_min").default(15), // Durée notes de tête en minutes
   dureeCoeurMin: int("duree_coeur_min").default(45), // Durée notes de cœur en minutes
   dureeFondMin: int("duree_fond_min").default(120), // Durée notes de fond en minutes
+  parentRecetteId: int("parent_recette_id"), // ID de la recette parente (pour les variations)
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

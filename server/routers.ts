@@ -215,6 +215,22 @@ export const appRouter = router({
       .query(async () => {
         return await db.getAllRecettesWithMolecules();
       }),
+    getVariations: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getRecetteVariations(input);
+      }),
+    getParent: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getRecetteParent(input);
+      }),
     
     create: publicProcedure
       .input(z.object({

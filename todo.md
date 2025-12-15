@@ -1120,3 +1120,9 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Documenter protocole de dilution 0.0008% (Androsténone) - FAIT
 - [x] Documenter protocole de dilution 0.0003-0.0005% (Androsténol) - FAIT
 - [x] Ajouter section Protocoles à la page Phéromones - FAIT
+
+### Étape 8 : Liaison recettes principales ↔ variations (16 déc 2025)
+- [x] Identifier les IDs des recettes Pheromona principales et variations - FAIT
+- [x] Ajouter champ parent_id ou relation variations dans le schéma - FAIT (parent_recette_id)
+- [x] Modifier la page de détail recette pour afficher les variations liées - FAIT
+- [x] Tester la navigation bidirectionnelle - VALIDÉ (API fonctionne, variations et parent récupérés)

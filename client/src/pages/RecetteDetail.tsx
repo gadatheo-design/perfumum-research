@@ -9,12 +9,15 @@ import { exportRecipePDF } from "@/lib/exportPDF";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
+import { GitBranch, ArrowUpRight } from "lucide-react";
 
 export default function RecetteDetail() {
   const params = useParams();
   const id = parseInt(params.id || "0");
 
   const { data, isLoading } = trpc.recette.getById.useQuery({ id });
+  const { data: variations } = trpc.recettes.getVariations.useQuery(id);
+  const { data: parentRecette } = trpc.recettes.getParent.useQuery(id);
   const trackEvent = trpc.analytics.trackEvent.useMutation();
 
   // Track page view
@@ -456,6 +459,85 @@ export default function RecetteDetail() {
                         <Badge variant="outline" className="mt-2">
                           {molecule.family}
                         </Badge>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Recette Parente */}
+      {parentRecette && (
+        <Card className="shadow-sm border-rose-200">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <ArrowUpRight className="h-5 w-5 text-rose-600" />
+              Recette Principale
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Cette recette est une variation de :
+            </p>
+            <Link href={`/recette/${parentRecette.id}`}>
+              <Card className="hover:shadow-md transition-shadow cursor-pointer border-rose-200 hover:border-rose-400">
+                <CardContent className="p-4 flex items-center justify-between">
+                  <div>
+                    <h4 className="font-semibold text-lg">{parentRecette.name}</h4>
+                    {parentRecette.description && (
+                      <p className="text-sm text-muted-foreground line-clamp-1">
+                        {parentRecette.description}
+                      </p>
+                    )}
+                  </div>
+                  <Badge variant="outline" className="border-rose-300">
+                    Voir la recette principale
+                  </Badge>
+                </CardContent>
+              </Card>
+            </Link>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Variations */}
+      {variations && variations.length > 0 && (
+        <Card className="shadow-sm border-amber-200">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <GitBranch className="h-5 w-5 text-amber-600" />
+              Variations ({variations.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Explorez les déclinaisons de cette recette :
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {variations.map((variation) => (
+                <Link key={variation.id} href={`/recette/${variation.id}`}>
+                  <Card className="hover:shadow-md transition-shadow cursor-pointer border-amber-200 hover:border-amber-400">
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h4 className="font-semibold">{variation.name}</h4>
+                          {variation.description && (
+                            <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+                              {variation.description}
+                            </p>
+                          )}
+                        </div>
+                        <Badge variant="outline" className="border-amber-300 shrink-0">
+                          {variation.status || 'experimental'}
+                        </Badge>
+                      </div>
+                      {variation.formula && (
+                        <p className="text-xs font-mono text-muted-foreground mt-2 line-clamp-1">
+                          {variation.formula}
+                        </p>
                       )}
                     </CardContent>
                   </Card>
