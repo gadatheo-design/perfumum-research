@@ -323,3 +323,21 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 ### Phase 4 : Tests et checkpoint
 - [x] Tester toutes les fonctionnalités
 - [x] Créer checkpoint final
+
+
+## 🎯 FINALISATION ET TESTS (Session actuelle)
+
+### Phase 1 : Enrichir la dernière molécule
+- [x] Identifier la molécule avec profil radar par défaut
+- [x] Mettre à jour son profil radar avec des valeurs personnalisées (65/45/55/40/35/70)
+- [x] Vérifier que 138/138 molécules ont des profils diversifiés (100%)
+
+### Phase 2 : Tester l'export PDF
+- [x] Ouvrir une fiche molécule (HEXANOIC ACID)
+- [x] Bouton "Exporter PDF" visible et fonctionnel
+- [x] Contenu complet : nom, famille, profil olfactif, propriétés scientifiques, radar
+
+### Phase 3 : Explorer les suggestions de synergies
+- [x] Accéder à /suggestions-synergies - Page fonctionnelle
+- [x] Sliders interactifs : similarité minimum (70%) et nombre de suggestions (10)
+- [x] 10 suggestions pertinentes affichées (98.8% à 99.3% similarité)
