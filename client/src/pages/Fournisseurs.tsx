@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { VoirAussi, VoirAussiItem } from "@/components/VoirAussi";
 import { 
   Building2, 
   Globe, 
@@ -434,6 +435,36 @@ export default function Fournisseurs() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Voir aussi */}
+      <VoirAussi 
+        title="Ressources connexes"
+        variant="compact"
+        items={[
+          {
+            title: "Résines CBD",
+            description: "Programme de recherche principal",
+            href: "/resines-cbd",
+          },
+          {
+            title: "Protocoles maturation",
+            description: "Temps de cure et conditions optimales",
+            href: "/protocoles-maturation",
+          },
+          {
+            title: "Molécules",
+            description: "Base de données des 155 molécules",
+            href: "/molecules",
+            badge: "155",
+          },
+          {
+            title: "Recettes",
+            description: "150 recettes expérimentales",
+            href: "/recettes",
+            badge: "150",
+          },
+        ]}
+      />
     </div>
   );
 }

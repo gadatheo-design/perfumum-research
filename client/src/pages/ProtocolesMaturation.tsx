@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { VoirAussi } from "@/components/VoirAussi";
 import { 
   Clock, 
   Thermometer, 
@@ -395,6 +396,36 @@ export default function ProtocolesMaturation() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Voir aussi */}
+      <VoirAussi 
+        title="Ressources connexes"
+        variant="compact"
+        items={[
+          {
+            title: "Chimie du tabac",
+            description: "Esters aromatiques et acides gras",
+            href: "/chimie-tabac",
+          },
+          {
+            title: "Synergies terpènes-niches",
+            description: "Combinaisons terpéniques avancées",
+            href: "/synergies-terpenes-niches",
+          },
+          {
+            title: "Fournisseurs",
+            description: "12 fournisseurs référencés",
+            href: "/fournisseurs",
+            badge: "12",
+          },
+          {
+            title: "Gammes olfactives",
+            description: "Les 5 gammes du projet",
+            href: "/gammes",
+            badge: "5",
+          },
+        ]}
+      />
     </div>
   );
 }

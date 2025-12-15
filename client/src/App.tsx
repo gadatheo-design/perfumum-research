@@ -131,6 +131,7 @@ import { DashboardMinimal } from "./pages/DashboardMinimal";
 import DashboardRecherche from "@/pages/DashboardRecherche";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import Statistics from "./pages/Statistics";
+import Recherche from "./pages/Recherche";
 
 // === UTILISATEUR ===
 import Favoris from "./pages/Favoris";
@@ -267,6 +268,7 @@ function Router() {
       <Route path="/dashboard/recherche" component={DashboardRecherche} />
       <Route path="/analytics" component={AnalyticsDashboard} />
       <Route path="/statistiques" component={Statistics} />
+      <Route path="/recherche" component={Recherche} />
       
       {/* === UTILISATEUR === */}
       <Route path="/favoris" component={Favoris} />

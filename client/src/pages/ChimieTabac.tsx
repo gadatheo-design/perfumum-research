@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { VoirAussi } from "@/components/VoirAussi";
 import { 
   FlaskConical, 
   Flame, 
@@ -528,6 +529,36 @@ export default function ChimieTabac() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Voir aussi */}
+      <VoirAussi 
+        title="Explorer davantage"
+        variant="compact"
+        items={[
+          {
+            title: "Synergies terpènes-niches",
+            description: "Combinaisons terpéniques avancées",
+            href: "/synergies-terpenes-niches",
+          },
+          {
+            title: "Protocoles maturation",
+            description: "Temps de cure et conditions optimales",
+            href: "/protocoles-maturation",
+          },
+          {
+            title: "Familles chimiques",
+            description: "11 familles olfactives",
+            href: "/chemical-families",
+            badge: "11",
+          },
+          {
+            title: "Molécules",
+            description: "Base de données complète",
+            href: "/molecules",
+            badge: "155",
+          },
+        ]}
+      />
     </div>
   );
 }
