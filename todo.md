@@ -810,3 +810,23 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Ajouter route /recherche dans App.tsx
 
 **Note**: Les pages /recherche et /analytics affichent une page blanche lors de l'accès direct par URL (problème de cache/HMR Vite en développement). La page d'accueil et les autres pages fonctionnent correctement. Ce problème disparaîtra en production.
+
+
+## ✅ SESSION : 3 AMÉLIORATIONS COMPLÉTÉES (15/12/2025)
+
+### Amélioration 1 : Recherche globale fonctionnelle
+- [x] Utiliser procédure tRPC search.global existante
+- [x] Implémenter filtres par type (Molécules, Recettes, Accords, Prototypes, Glossaire, Timeline)
+- [x] Ajouter compteurs de résultats par catégorie
+- [x] Tester la recherche avec "linalol" - 2 résultats trouvés (recettes)
+
+### Amélioration 2 : Enrichissement des profils radar
+- [x] Vérifier les profils radar existants - 176/176 molécules ont des profils personnalisés
+- [x] 0 profils par défaut détectés - Tous les profils sont uniques
+- [x] Taux de complétion : 100%
+
+### Amélioration 3 : Liens MegaMenu
+- [x] Ajouter lien "Recherche globale" dans MegaMenu Études > Outils
+- [x] Ajouter lien "Analytics" dans MegaMenu Admin > Intelligence IA
+- [x] Tester la navigation - Analytics accessible via Admin > Intelligence IA > Analytics
+

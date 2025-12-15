@@ -21,6 +21,8 @@ import {
   Zap,
   Clock,
   Bell,
+  Search,
+  LineChart,
 } from "lucide-react";
 
 interface MenuItem {
@@ -163,6 +165,12 @@ export function MegaMenu() {
     {
       title: "Outils",
       items: [
+        {
+          label: "Recherche globale",
+          path: "/recherche",
+          icon: <Search className="h-4 w-4" />,
+          description: "Rechercher dans toutes les données",
+        },
         {
           label: "Outils de formulation",
           path: "/outils-formulation",
@@ -373,6 +381,12 @@ export function MegaMenu() {
     {
       title: "Intelligence IA",
       items: [
+        {
+          label: "Analytics",
+          path: "/analytics",
+          icon: <LineChart className="h-4 w-4" />,
+          description: "Statistiques et tendances",
+        },
         {
           label: "Suggestions Synergies",
           path: "/suggestions-synergies",
