@@ -968,3 +968,28 @@ export const analyticsEvents = mysqlTable("analytics_events", {
 
 export type AnalyticsEvent = typeof analyticsEvents.$inferSelect;
 export type InsertAnalyticsEvent = typeof analyticsEvents.$inferInsert;
+
+
+// ============================================================================
+// RECETTES <-> TABACS ASSOCIATIONS
+// ============================================================================
+
+// Many-to-many relationship between recipes (hash/resine) and tobacco varieties
+export const recetteTabacAssociations = mysqlTable("recette_tabac_associations", {
+  id: int("id").autoincrement().primaryKey(),
+  recetteId: int("recette_id").notNull().references(() => recettes.id),
+  tabacId: int("tabac_id").notNull().references(() => tabacs.id),
+  compatibility: int("compatibility").notNull(), // 1-5 stars
+  proportion: varchar("proportion", { length: 50 }), // e.g., "60/40", "70/30"
+  synergies: text("synergies"), // JSON: notes amplifiées, effets
+  notes: text("notes"), // Observations et recommandations
+  recommended: int("recommended").default(0).notNull(), // 0 = optional, 1 = recommended
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  // Unique constraint: one association per recette-tabac pair
+  uniqueRecetteTabac: uniqueIndex("unique_recette_tabac").on(table.recetteId, table.tabacId),
+}));
+
+export type RecetteTabacAssociation = typeof recetteTabacAssociations.$inferSelect;
+export type InsertRecetteTabacAssociation = typeof recetteTabacAssociations.$inferInsert;

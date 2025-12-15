@@ -53,6 +53,15 @@ export default function Laboratoire() {
       color: "text-purple-600",
       bgColor: "bg-purple-50",
     },
+    {
+      title: "Inventaire",
+      description: "Gestion du stock de matières premières : huiles essentielles, absolus, résinoïdes et molécules",
+      icon: Thermometer,
+      href: "/inventaire",
+      stats: "Stock & Commandes",
+      color: "text-amber-600",
+      bgColor: "bg-amber-50",
+    },
   ];
 
   return (

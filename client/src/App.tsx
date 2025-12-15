@@ -95,6 +95,7 @@ import ProportionsCalculator from "./pages/ProportionsCalculator";
 import CorrelationAnalysis from "./pages/CorrelationAnalysis";
 import OutilsFormulation from "./pages/OutilsFormulation";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import Inventaire from "./pages/Inventaire";
 import TestMinimal from "./pages/TestMinimal";
 
 function Router() {
@@ -151,6 +152,8 @@ function Router() {
           <Route path="/civilisation/:id" component={CivilisationDetail} />
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/laboratoire/recettes" component={LaboratoireRecettes} />
+      <Route path="/inventaire" component={Inventaire} />
+      <Route path="/laboratoire/inventaire" component={Inventaire} />
       <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
           <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
           <Route path="/methodologie/gc-ms" component={GCMS} />

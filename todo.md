@@ -440,3 +440,42 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 ### Phase 4 : Intégration base de données
 - [x] Insérer les 5 nouvelles recettes dans la base
 - [ ] Créer checkpoint final
+
+
+## 📦 PAGE INVENTAIRE + RELATIONS HASH/TABACS
+
+### Phase 1 : Analyse des tabacs existants
+- [ ] Récupérer la liste des tabacs dans la base de données
+- [ ] Identifier les profils aromatiques compatibles avec les recettes pétrichor
+
+### Phase 2 : Création page Inventaire
+- [ ] Créer le schéma de table pour l'inventaire des matières premières
+- [ ] Créer les procédures tRPC CRUD pour l'inventaire
+- [ ] Créer la page /inventaire avec tableau et formulaire
+- [ ] Ajouter la route dans App.tsx et le menu Admin
+
+### Phase 3 : Relations Hash/Tabacs
+- [ ] Créer les associations entre les 5 recettes hash et les tabacs compatibles
+- [ ] Documenter les synergies hash+tabac recommandées
+- [ ] Insérer les relations dans la base de données
+
+### Phase 4 : Finalisation
+- [ ] Tester la page Inventaire
+- [ ] Créer checkpoint final
+
+
+## 📦 PAGE INVENTAIRE + ASSOCIATIONS HASH-TABACS
+
+### Page Inventaire
+- [x] Créer la page Inventaire des matières premières (/inventaire)
+- [x] Statistiques: total, en stock, à commander, épuisé, valeur totale
+- [x] Filtres: recherche, statut, type de matière
+- [x] Tableau triable avec toutes les informations
+- [x] Ajouter lien dans page Laboratoire
+
+### Associations Hash/Résine × Tabacs
+- [x] Analyser les 8 tabacs existants dans la base
+- [x] Créer table de relation recette_tabac_associations
+- [x] Insérer 15 associations (5 recettes × 3 tabacs chacune)
+- [x] Documenter synergies et proportions recommandées
+- [x] Créer matrice de compatibilité complète
