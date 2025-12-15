@@ -1066,3 +1066,27 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [ ] Confirmer que le bug HMR n'existe pas en production
 
 **Note** : Le test en production nécessite que l'utilisateur publie le site via le bouton Publish dans l'interface Manus.
+
+
+## 📋 SESSION 15 DÉCEMBRE 2025 - NOMS RECETTES ET FILTRES
+
+### Étape 2 : Ajouter noms de recettes manquants
+- [x] Identifier les recettes sans nom (affichant seulement la catégorie) - 17 recettes identifiées
+- [x] Générer des noms évocateurs pour les recettes manquantes - FAIT
+- [x] Mettre à jour la base de données - 7 resine + 10 resine_cbd enrichies
+
+**Résultat** : Les recettes affichent maintenant leurs noms et ingrédients (ex: "Résine Primordiale", "CBD Terre Première", etc.)
+### Étape 3 : Tester filtres par ingrédients
+- [x] Tester le filtre Géosmine - Recettes 5, 22, 28, 54, 71, 77, 124 contiennent Géosmine
+- [x] Tester le filtre Ambrox - Recettes 12, 15, 16, 29, 44, 47, 61, 64, 65, 78, 93, 96 contiennent Ambrox
+- [x] Tester le filtre Vétiver - Recettes 8, 17, 57, 66, 124, 133 contiennent Vétiver
+- [x] Vérifier que les résultats sont cohérents - VALIDÉ
+
+**Résultat** : Les filtres par ingrédients fonctionnent correctement. La page affiche 195 recettes avec tous les filtres disponibles. aux recettes contenant ces ingrédients
+
+
+### Étape 4 : Intégrer l'Androsténol
+- [x] Rechercher les informations sur l'Androsténol (Wikipedia) - FAIT (C₁₉H₃₀O, phéromone musquée)
+- [x] Ajouter la molécule à la base de données - FAIT (ID: 156)
+- [x] Créer une recette utilisant l'Androsténol - FAIT ("Pheromona Truffle")
+- [x] Tester l'affichage sur le site - VALIDÉ (Androsténol ID 240001, Pheromona Truffle ID 180001)
