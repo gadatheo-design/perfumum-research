@@ -1022,3 +1022,24 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Vérifier la diversité finale des profils - 100% des molécules ont des profils diversifiés
 
 **Résultat** : Les 155 molécules ont des profils radar personnalisés avec des valeurs variées (Intensité 23-81, Fraîcheur 40-85, etc.)
+
+
+## 📋 SESSION 15 DÉCEMBRE 2025 - PUBLICATION ET CORRECTIONS
+
+### Étape 1 : Publication du site
+- [x] Guider l'utilisateur pour publier via le bouton Publish
+- [x] Vérifier que le checkpoint est prêt pour la publication (d6e6cdcf)
+
+**Action utilisateur requise** : Cliquer sur le bouton **Publish** dans l'interface Manus (en haut à droite du panneau Management UI)
+
+### Étape 2 : Correction page Recettes
+- [x] Diagnostiquer pourquoi la page Recettes reste blanche - Bug HMR Vite
+- [x] Comparer avec la page Molécules qui fonctionne - Structure similaire
+- [x] Corriger le bug et tester - CORRIGÉ ! Page simplifiée fonctionne (195 recettes affichées)
+
+### Étape 3 : Instructions projet Manus
+- [x] Fournir le contenu formaté à copier dans project_instructions
+- [x] Expliquer où coller les instructions
+
+**Fichier** : `/home/ubuntu/perfumum-research/PROJECT_INSTRUCTIONS.md`
+**Destination** : Settings → Project Instructions dans l'interface Manus
