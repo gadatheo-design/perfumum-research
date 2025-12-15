@@ -1099,3 +1099,13 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Créer la page gamme "Phéromones" (/gammes/pheromones) - FAIT
 - [x] Ajouter la gamme Phéromones à la navigation - FAIT
 - [x] Tester l'affichage et les liens - VALIDÉ (page fonctionnelle, 3 molécules, 4 accords)
+
+### Étape 6 : Recettes Pheromona et Synergies (15 déc 2025)
+- [x] Créer recette Pheromona Skin (Androstadienone + Iso E Super + Hedione) - FAIT
+- [x] Créer recette Pheromona Alpha (Androsténone + Cèdre + Vétiver) - FAIT
+- [x] Créer recette Pheromona Cascade (trio phéromonal évolutif) - FAIT
+- [x] Lier les molécules aux recettes (table molecules_recettes) - FAIT
+- [x] Ajouter synergie Androsténol ↔ Androsténone (précurseur/produit) - FAIT (score 95)
+- [x] Ajouter synergie Androstadienone ↔ Androsténone (cascade biosynthétique) - FAIT (score 90)
+- [x] Ajouter synergie Androstadienone ↔ Androsténol (complémentarité olfactive) - FAIT (score 85)
+- [x] Tester l'affichage des recettes et synergies - VALIDÉ (4 recettes Pheromona, 3 synergies)

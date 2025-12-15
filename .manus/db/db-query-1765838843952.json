@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO recette_molecules (recette_id, molecule_id, proportion, role) VALUES\n(210001, 270002, 1, 'phéromone principale'),\n(210001, 240001, 0, 'trace subliminal')",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO recette_molecules (recette_id, molecule_id, proportion, role) VALUES\n(210001, 270002, 1, 'phéromone principale'),\n(210001, 240001, 0, 'trace subliminal')",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 60
+}
