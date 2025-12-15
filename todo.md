@@ -607,3 +607,26 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Afficher les esters aromatiques du tabac (13 molécules)
 - [x] Afficher les acides gras aromatiques (7 molécules)
 - [x] Documenter les applications CBD et synergies
+
+
+
+## 🔗 NAVIGATION + SYNERGIES TERPÈNES + GAMME SIGNATURES
+
+### Phase 1 : Lien Chimie du Tabac
+- [x] Ajouter lien /chimie-tabac dans RechercheScientifique.tsx
+- [x] Vérifier la navigation depuis le menu
+
+### Phase 2 : Page Synergies Terpènes × Molécules Niches
+- [x] Créer composant SynergiesTerpenesNiches.tsx
+- [x] Documenter les principes de synergie (fixation, harmonisation, longévité)
+- [x] Afficher les interactions Skatole/Indole × Terpènes
+- [x] Afficher les interactions Ambroxan × Terpènes
+- [x] Afficher les interactions Styrax/Labdanum × Terpènes
+- [x] Ajouter route /synergies-terpenes-niches dans App.tsx
+
+### Phase 3 : Gamme Signatures
+- [x] Créer composant GammesSignatures.tsx
+- [x] Intégrer les 3 profils d'exception (Cuir Marin, Forêt de Cacao, Fleur Fantôme)
+- [x] Design visuel premium pour cette gamme
+- [x] Ajouter route /gammes/signatures dans App.tsx
+- [x] Ajouter lien dans la page Gammes principale

@@ -110,10 +110,20 @@ const modules: ResearchModule[] = [
     description: "Interactions et effets synergiques entre terpènes",
     icon: <Zap className="h-8 w-8" />,
     route: "/recherche-scientifique/synergies-moleculaires",
-    isNew: true,
     color: "text-violet-600",
     bgColor: "bg-violet-50",
     borderColor: "border-violet-200"
+  },
+  {
+    id: "chimie-tabac",
+    title: "Chimie du Tabac",
+    description: "Esters aromatiques et acides gras pour la formulation CBD",
+    icon: <Flame className="h-8 w-8" />,
+    route: "/chimie-tabac",
+    isNew: true,
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+    borderColor: "border-amber-200"
   }
 ];
 

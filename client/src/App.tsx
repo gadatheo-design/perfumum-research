@@ -100,6 +100,8 @@ import Associations from "./pages/Associations";
 import TestMinimal from "./pages/TestMinimal";
 import Fournisseurs from "./pages/Fournisseurs";
 import ChimieTabac from "./pages/ChimieTabac";
+import SynergiesTerpenesNiches from "./pages/SynergiesTerpenesNiches";
+import GammeSignatures from "./pages/GammeSignatures";
 
 function Router() {
   return (
@@ -161,6 +163,8 @@ function Router() {
       <Route path="/associations-hash-tabacs" component={Associations} />
       <Route path="/fournisseurs" component={Fournisseurs} />
       <Route path="/chimie-tabac" component={ChimieTabac} />
+      <Route path="/synergies-terpenes-niches" component={SynergiesTerpenesNiches} />
+      <Route path="/gammes/signatures" component={GammeSignatures} />
       <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
           <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
           <Route path="/methodologie/gc-ms" component={GCMS} />

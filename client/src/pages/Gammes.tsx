@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Droplets, Mountain, Crown, ArrowRight } from "lucide-react";
+import { Droplets, Mountain, Crown, ArrowRight, Sparkles } from "lucide-react";
 
 export default function Gammes() {
   const gammes = [
@@ -41,6 +41,17 @@ export default function Gammes() {
       variations: 12,
       families: ["Cuir Mossi", "Fumigations", "Peaux Tannées", "Bois Sahel"],
       href: "/gammes/mossi",
+    },
+    {
+      name: "Signatures",
+      subtitle: "Profils d'exception",
+      description: "Collection premium de 3 profils d'exception qui repoussent les limites de la formulation olfactive : Cuir Marin (océan × cuir × minéral), Forêt de Cacao (jungle tropicale), Fleur Fantôme (floral éthéré).",
+      icon: Sparkles,
+      color: "text-violet-600",
+      bgColor: "bg-violet-50",
+      variations: 3,
+      families: ["Cuir Marin", "Forêt de Cacao", "Fleur Fantôme"],
+      href: "/gammes/signatures",
     },
   ];
 
