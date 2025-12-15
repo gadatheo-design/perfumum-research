@@ -649,3 +649,17 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Extraire les ingrédients uniques de toutes les recettes
 - [x] Créer un composant de recherche/filtre multi-critères
 - [x] Permettre la recherche par nom d'ingrédient
+
+
+## 🔗 LIEN PROTOCOLES + AUDIT COMPLET
+
+### Phase 1 : Lien Protocoles de Maturation
+- [x] Ajouter lien /protocoles-maturation dans la page Laboratoire
+
+### Phase 2 : Audit complet du site
+- [x] Analyser la navigation et structure
+- [x] Évaluer le design et la cohérence visuelle
+- [x] Vérifier l'UI/UX et l'ergonomie
+- [x] Auditer le contenu et les données
+- [x] Identifier les forces et lacunes
+- [x] Rédiger le rapport d'audit

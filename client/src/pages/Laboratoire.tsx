@@ -4,7 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Beaker, Droplet, Layers, BookOpen, ArrowRight, Thermometer, Wind, TestTube, FlaskConical } from "lucide-react";
+import { Beaker, Droplet, Layers, BookOpen, ArrowRight, Thermometer, Wind, TestTube, FlaskConical, Clock } from "lucide-react";
 
 export default function Laboratoire() {
   const sections = [
@@ -61,6 +61,15 @@ export default function Laboratoire() {
       stats: "Stock & Commandes",
       color: "text-amber-600",
       bgColor: "bg-amber-50",
+    },
+    {
+      title: "Protocoles de Maturation",
+      description: "Temps de cure, conditions optimales et étapes de maturation par type de résine CBD",
+      icon: Clock,
+      href: "/protocoles-maturation",
+      stats: "5 protocoles",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
     },
   ];
 
