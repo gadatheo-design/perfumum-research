@@ -830,3 +830,24 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Ajouter lien "Analytics" dans MegaMenu Admin > Intelligence IA
 - [x] Tester la navigation - Analytics accessible via Admin > Intelligence IA > Analytics
 
+
+
+## 🎨 AUDIT UX/UI - AMÉLIORATIONS IMPLÉMENTÉES (15 déc. 2025)
+
+### Accessibilité WCAG AA
+- [x] Améliorer contraste muted-foreground (0.35 → 0.45 OKLCH) - ratio 4.5:1+
+- [x] Support prefers-reduced-motion (désactive animations pour utilisateurs sensibles)
+- [x] Support prefers-contrast: more (contraste renforcé automatique)
+
+### Performance & Chargement
+- [x] Preload polices critiques (Space Grotesk, JetBrains Mono)
+- [x] Optimisation Google Fonts avec preconnect
+
+### Composants Réutilisables
+- [x] Créer composant EmptyState avec variants (default, search, error, inbox)
+- [x] Presets NoResultsState, NoDataState, ErrorState
+
+### Notes
+- Pages blanches (Recettes, Gammes) = bug HMR dev, fonctionne via navigation interne
+- Contraste WCAG AA respecté pour texte muted
+- Animations désactivées pour prefers-reduced-motion

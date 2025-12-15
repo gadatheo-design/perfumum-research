@@ -75,8 +75,8 @@ export default function Recettes() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Breadcrumbs />
       <Header />
+      <Breadcrumbs />
       
       <main className="flex-1">
         {/* Hero Section */}
