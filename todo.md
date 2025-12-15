@@ -1043,3 +1043,26 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 
 **Fichier** : `/home/ubuntu/perfumum-research/PROJECT_INSTRUCTIONS.md`
 **Destination** : Settings → Project Instructions dans l'interface Manus
+
+
+## 📋 SESSION 15 DÉCEMBRE 2025 - AMÉLIORATION FILTRES ET PAGES
+
+### Étape 1 : Restaurer filtres avancés Recettes
+- [x] Réintégrer filtres par famille (parfum, resine, resine_cbd) - FAIT
+- [x] Réintégrer filtres par prototype (C1, C2, C3, C4) - FAIT
+- [x] Réintégrer filtre par ingrédients - FAIT (10 ingrédients populaires)
+- [x] Tester que la page fonctionne toujours - 195 recettes affichées avec tous les filtres
+
+### Étape 2 : Corriger pages blanches
+- [x] Identifier les pages avec bug HMR (Dashboard, Graphe) - TESTÉ
+- [x] Simplifier les composants problématiques - NON NÉCESSAIRE
+- [x] Tester chaque page corrigée - Dashboard et Graphe fonctionnent correctement
+
+**Résultat** : Les pages Dashboard et Graphe s'affichent correctement après redémarrage du serveur. Le bug HMR semble être intermittent et se résout avec un redémarrage.
+
+### Étape 3 : Test production
+- [ ] Vérifier que le site est publié - EN ATTENTE (utilisateur doit cliquer Publish)
+- [ ] Tester toutes les pages en production
+- [ ] Confirmer que le bug HMR n'existe pas en production
+
+**Note** : Le test en production nécessite que l'utilisateur publie le site via le bouton Publish dans l'interface Manus.

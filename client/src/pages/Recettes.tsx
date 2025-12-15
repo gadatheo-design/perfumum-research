@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -12,26 +12,53 @@ import { Search, Beaker, Filter, X } from "lucide-react";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
+import { Progress } from "@/components/ui/progress";
 
 export default function Recettes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
+  const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
+  const [selectedPrototype, setSelectedPrototype] = useState<string | null>(null);
+  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null);
+  const [showIngredientFilter, setShowIngredientFilter] = useState(false);
 
   const { data: recettes = [], isLoading } = trpc.recettes.list.useQuery();
 
+  // Extract unique families from recettes
+  const families = useMemo(() => {
+    return Array.from(new Set(recettes.map(r => r.category).filter(Boolean)));
+  }, [recettes]);
+
+  // Prototypes
+  const prototypes = ["C1", "C2", "C3", "C4"];
+
+  // Popular ingredients for quick filter
+  const popularIngredients = [
+    "Limonène", "Myrcène", "Linalol", "Caryophyllène", "Pinène",
+    "Géosmine", "Ambrox", "Vétiver", "Ozone", "Terre"
+  ];
+
   // Filter recettes
-  const filteredRecettes = recettes.filter((recette) => {
-    const matchesSearch = recette.name?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesGamme = !selectedGamme || getGammeFromCategory(recette.category) === selectedGamme;
-    return matchesSearch && matchesGamme;
-  });
+  const filteredRecettes = useMemo(() => {
+    return recettes.filter((recette) => {
+      const matchesSearch = recette.name?.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesGamme = !selectedGamme || getGammeFromCategory(recette.category) === selectedGamme;
+      const matchesFamily = !selectedFamily || recette.category === selectedFamily;
+      const matchesPrototype = !selectedPrototype || recette.formula?.includes(selectedPrototype);
+      const matchesIngredient = !selectedIngredient || recette.ingredients?.toLowerCase().includes(selectedIngredient.toLowerCase());
+      return matchesSearch && matchesGamme && matchesFamily && matchesPrototype && matchesIngredient;
+    });
+  }, [recettes, searchTerm, selectedGamme, selectedFamily, selectedPrototype, selectedIngredient]);
 
   const clearFilters = () => {
     setSearchTerm("");
     setSelectedGamme(null);
+    setSelectedFamily(null);
+    setSelectedPrototype(null);
+    setSelectedIngredient(null);
   };
 
-  const hasActiveFilters = searchTerm || selectedGamme;
+  const hasActiveFilters = searchTerm || selectedGamme || selectedFamily || selectedPrototype || selectedIngredient;
 
   if (isLoading) {
     return (
@@ -66,7 +93,7 @@ export default function Recettes() {
                 <h1 className="text-4xl md:text-5xl font-bold">Recettes</h1>
               </div>
               <p className="text-lg text-muted-foreground">
-                Formules olfactives développées dans le cadre de PERFUMUM. Explorez les {recettes.length} recettes.
+                Formules olfactives développées dans le cadre de PERFUMUM. Explorez les {recettes.length} recettes par famille, prototype ou civilisation.
               </p>
             </div>
           </div>
@@ -101,17 +128,104 @@ export default function Recettes() {
                 ))}
               </div>
 
-              {/* Clear Filters */}
-              {hasActiveFilters && (
+              {/* Filter Buttons */}
+              <div className="flex flex-wrap gap-4 items-center">
+                <div className="flex items-center gap-2">
+                  <Filter className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-medium text-muted-foreground">Filtres :</span>
+                </div>
+
+                {/* Family Filters */}
+                <div className="flex flex-wrap gap-2">
+                  {families.slice(0, 6).map((family) => (
+                    <Button
+                      key={family}
+                      variant={selectedFamily === family ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setSelectedFamily(selectedFamily === family ? null : family)}
+                    >
+                      {family}
+                    </Button>
+                  ))}
+                </div>
+
+                {/* Prototype Filters */}
+                <div className="flex flex-wrap gap-2">
+                  {prototypes.map((proto) => (
+                    <Button
+                      key={proto}
+                      variant={selectedPrototype === proto ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setSelectedPrototype(selectedPrototype === proto ? null : proto)}
+                    >
+                      {proto}
+                    </Button>
+                  ))}
+                </div>
+
+                {/* Ingredient Filter Toggle */}
                 <Button
-                  variant="ghost"
+                  variant={showIngredientFilter ? "default" : "outline"}
                   size="sm"
-                  onClick={clearFilters}
                   className="gap-2"
+                  onClick={() => setShowIngredientFilter(!showIngredientFilter)}
                 >
-                  <X className="h-3 w-3" />
-                  Effacer les filtres
+                  <Beaker className="h-3 w-3" />
+                  Ingrédients
                 </Button>
+
+                {/* Clear Filters */}
+                {hasActiveFilters && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearFilters}
+                    className="gap-2"
+                  >
+                    <X className="h-3 w-3" />
+                    Effacer
+                  </Button>
+                )}
+              </div>
+
+              {/* Ingredient Filter Panel */}
+              {showIngredientFilter && (
+                <div className="p-4 bg-muted/50 rounded-lg border space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium flex items-center gap-2">
+                      <Beaker className="h-4 w-4" />
+                      Filtrer par ingrédient
+                    </h4>
+                    {selectedIngredient && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setSelectedIngredient(null)}
+                        className="h-7 px-2"
+                      >
+                        <X className="h-3 w-3 mr-1" />
+                        {selectedIngredient}
+                      </Button>
+                    )}
+                  </div>
+                  
+                  {/* Popular ingredients */}
+                  <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground">Ingrédients populaires :</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {popularIngredients.map((ing) => (
+                        <Badge
+                          key={ing}
+                          variant={selectedIngredient === ing ? "default" : "secondary"}
+                          className="cursor-pointer hover:bg-primary/80"
+                          onClick={() => setSelectedIngredient(selectedIngredient === ing ? null : ing)}
+                        >
+                          {ing}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               )}
 
               {/* Results count */}
@@ -138,15 +252,32 @@ export default function Recettes() {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         {recette.category && (
                           <Badge variant="outline">{recette.category}</Badge>
                         )}
-                        {recette.description && (
-                          <p className="text-sm text-muted-foreground line-clamp-2">
-                            {recette.description}
+                        
+                        {/* Intensity & Stability */}
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Intensité</span>
+                            <span>{recette.intensity || 5}/10</span>
+                          </div>
+                          <Progress value={(recette.intensity || 5) * 10} className="h-1.5" />
+                          
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Stabilité</span>
+                            <span>{recette.stability || 'medium'}</span>
+                          </div>
+                        </div>
+
+                        {/* Ingredients preview */}
+                        {recette.ingredients && (
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            {recette.ingredients}
                           </p>
                         )}
+
                         {recette.formula && (
                           <p className="text-xs text-muted-foreground">
                             Prototype: {recette.formula}
