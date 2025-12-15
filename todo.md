@@ -531,3 +531,37 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [ ] 5 recettes Gamme Cheese Terpenic Line
 - [ ] 6 recettes Gamme Ester Lab
 - [ ] 3 profils d'exception (Cuir Marin, Forêt de Cacao, Fleur Fantôme)
+
+
+
+## 🧪 INTÉGRATION GAMMES CHEESE + ESTER LAB + MOLÉCULES NICHES + FOURNISSEURS
+
+### Phase 1 : Recettes Cheese Terpenic Line (5 recettes)
+- [x] Classic Cheese - Base fromagère authentique
+- [x] Tropical Cheese - Fusion exotique
+- [x] Blue Cheese - Élégance inattendue
+- [x] Smoky Cheese - Profondeur terreuse
+- [x] Sweet Cheese - Chaleur complexe
+
+### Phase 2 : Recettes Ester Lab (6 recettes)
+- [x] Velvet Fruit - Base fruitée
+- [x] Cassis Blanc - Notes florales soufrées
+- [x] Butter Flower - Accords lactés-floraux
+- [x] Rhum & Pêche - Fruité-alcoolique
+- [x] Nectar Noir - Floral-balsamique
+- [x] Cuir Poire - Fruité-cuiré
+
+### Phase 3 : Molécules niches
+- [x] Indole - Note florale/animale
+- [x] Skatole - Note animale/fécale
+- [x] Acide hexanoïque (C6) - Note fromagère
+- [x] Acide octanoïque (C8) - Note grasse/cireuse
+- [x] Acide décanoïque (C10) - Note cireuse/savonneuse
+- [x] Acide butyrique (C4) - Note rance/fromagère
+- [x] Acide isovalérique (C5) - Note transpiration/fromage
+- [x] δ-Décalactone - Note pêche/crème
+
+### Phase 4 : Page Fournisseurs
+- [x] Créer composant Fournisseurs.tsx
+- [x] Ajouter route /fournisseurs dans App.tsx
+- [x] Intégrer les 12 fournisseurs identifiés avec spécialités et liens

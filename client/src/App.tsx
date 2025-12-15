@@ -98,6 +98,7 @@ import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import Inventaire from "./pages/Inventaire";
 import Associations from "./pages/Associations";
 import TestMinimal from "./pages/TestMinimal";
+import Fournisseurs from "./pages/Fournisseurs";
 
 function Router() {
   return (
@@ -157,6 +158,7 @@ function Router() {
       <Route path="/laboratoire/inventaire" component={Inventaire} />
       <Route path="/associations" component={Associations} />
       <Route path="/associations-hash-tabacs" component={Associations} />
+      <Route path="/fournisseurs" component={Fournisseurs} />
       <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
           <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
           <Route path="/methodologie/gc-ms" component={GCMS} />
