@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Heart, Dna, Brain, Sparkles } from "lucide-react";
 import { GammesConnexes } from "@/components/GammesConnexes";
+import { CascadeBiosynthetique } from "@/components/CascadeBiosynthetique";
+import { ProtocolesDilution } from "@/components/ProtocolesDilution";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 
@@ -127,11 +129,16 @@ export default function GammePheromones() {
                 <Dna className="h-8 w-8 text-rose-600" />
                 Les 3 Phéromones Stéroïdiennes
               </h2>
-              <p className="text-muted-foreground mb-12 max-w-3xl">
+              <p className="text-muted-foreground mb-8 max-w-3xl">
                 Ces trois molécules forment une cascade biosynthétique : l'Androstadienone est le précurseur 
                 de l'Androsténone, qui peut être convertie en Androsténol. Chacune possède un profil olfactif 
                 et des effets psychophysiologiques distincts.
               </p>
+              
+              {/* Graphique de la cascade biosynthétique */}
+              <div className="mb-12">
+                <CascadeBiosynthetique />
+              </div>
               
               {isLoading ? (
                 <div className="text-center py-12 text-muted-foreground">Chargement des molécules...</div>
@@ -267,6 +274,15 @@ export default function GammePheromones() {
                   </Card>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Protocoles de Dilution */}
+        <section className="py-16">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <ProtocolesDilution />
             </div>
           </div>
         </section>

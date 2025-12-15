@@ -1109,3 +1109,14 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Ajouter synergie Androstadienone ↔ Androsténone (cascade biosynthétique) - FAIT (score 90)
 - [x] Ajouter synergie Androstadienone ↔ Androsténol (complémentarité olfactive) - FAIT (score 85)
 - [x] Tester l'affichage des recettes et synergies - VALIDÉ (4 recettes Pheromona, 3 synergies)
+
+### Étape 7 : Graphique, Variations et Protocoles (16 déc 2025)
+- [x] Créer composant CascadeBiosynthetique (graphique SVG interactif) - FAIT
+- [x] Intégrer le graphique dans la page /gammes/pheromones - FAIT
+- [x] Créer variations Pheromona Skin (Skin-Clean, Skin-Warm) - FAIT
+- [x] Créer variations Pheromona Alpha (Alpha-Boisé, Alpha-Cuiré) - FAIT
+- [x] Créer variations Pheromona Cascade (Cascade-Rapide, Cascade-Lente) - FAIT
+- [x] Documenter protocole de dilution 0.001% (Androstadienone) - FAIT
+- [x] Documenter protocole de dilution 0.0008% (Androsténone) - FAIT
+- [x] Documenter protocole de dilution 0.0003-0.0005% (Androsténol) - FAIT
+- [x] Ajouter section Protocoles à la page Phéromones - FAIT
