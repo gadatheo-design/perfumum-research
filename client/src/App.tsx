@@ -42,6 +42,7 @@ import GammesBioLab from "@/pages/GammesBioLab";
 import GammesMossi from "./pages/GammesMossi";
 import GammeSignatures from "./pages/GammeSignatures";
 import GammePheromones from "./pages/GammePheromones";
+import GammeRaretes from "./pages/GammeRaretes";
 
 // === LABORATOIRE ===
 import Laboratoire from "./pages/Laboratoire";
@@ -180,6 +181,7 @@ function Router() {
       <Route path="/gammes/mossi" component={GammesMossi} />
       <Route path="/gammes/signatures" component={GammeSignatures} />
       <Route path="/gammes/pheromones" component={GammePheromones} />
+      <Route path="/gammes/raretes" component={GammeRaretes} />
       
       {/* === LABORATOIRE === */}
       <Route path="/laboratoire" component={Laboratoire} />

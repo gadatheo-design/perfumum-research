@@ -1130,3 +1130,9 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 ### Étape 9 : Badge Variation + Molécules Rares (16 déc 2025)
 - [x] Ajouter badge "Variation" dans la liste des recettes (/recettes) - FAIT
 - [x] Rechercher et proposer une liste de molécules rares à intégrer - FAIT (30 molécules)
+
+### Étape 10 : Gamme Raretés et Molécules Essentielles (16 déc 2025)
+- [x] Intégrer les 10 molécules essentielles Phase 1 (Oud, Iris, Ambre Gris, Iso E Super, Ambrox, Coumarine, Calone, Galaxolide, Cashmeran, Javanol) - FAIT (7 nouvelles + 3 existantes)
+- [x] Créer la gamme "Raretés" avec page dédiée /gammes/raretes - FAIT
+- [x] Créer les 5 accords maîtres (Trésor d'Orient, Iris Royal, Santal Sacré, Musc Précieux, Océan Profond) - FAIT
+- [x] Ajouter les informations de prix et sources d'approvisionnement pour chaque molécule - FAIT (tableau complet)

@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Droplets, Mountain, Crown, ArrowRight, Sparkles, Heart } from "lucide-react";
+import { Droplets, Mountain, Crown, ArrowRight, Sparkles, Heart, Gem } from "lucide-react";
 import { VoirAussi, suggestionsGammes } from "@/components/VoirAussi";
 
 export default function Gammes() {
@@ -57,13 +57,24 @@ export default function Gammes() {
     {
       name: "Phéromones",
       subtitle: "Communication chimique humaine",
-      description: "Exploration des molécules de communication chimique : Androsténol (truffe, musc), Androsténone (boisé/urineux selon génotype), Androstadienone (musqué subtil). Doses infinitésimales pour effets subliminaux.",
+      description: "Exploration des molécules de communication chimique : Androsténol (truffe, musc), Androsténone (boisé/urineux selon génotype), Androstadiénone (musqué subtil). Doses infinitésimales pour effets subliminaux.",
       icon: Heart,
       color: "text-rose-600",
       bgColor: "bg-rose-50",
       variations: 4,
       families: ["Pheromona Truffle", "Pheromona Skin", "Pheromona Alpha", "Pheromona Cascade"],
       href: "/gammes/pheromones",
+    },
+    {
+      name: "Raretés",
+      subtitle: "Molécules précieuses de la parfumerie",
+      description: "Les 10 molécules essentielles qui définissent l'excellence : Oud, Iris, Ambre Gris, Iso E Super, Ambrox, Coumarine, Calone, Galaxolide, Cashmeran, Javanol. 5 accords maîtres pour la haute parfumerie.",
+      icon: Gem,
+      color: "text-amber-500",
+      bgColor: "bg-amber-50",
+      variations: 10,
+      families: ["Trésor d'Orient", "Iris Royal", "Santal Sacré", "Musc Précieux", "Océan Profond"],
+      href: "/gammes/raretes",
     },
   ];
 
