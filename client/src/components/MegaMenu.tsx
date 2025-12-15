@@ -16,6 +16,11 @@ import {
   Settings,
   Lightbulb,
   Database,
+  Truck,
+  Flame,
+  Zap,
+  Clock,
+  Bell,
 } from "lucide-react";
 
 interface MenuItem {
@@ -188,6 +193,13 @@ export function MegaMenu() {
           icon: <FileText className="h-4 w-4" />,
           description: "Termes techniques",
         },
+        {
+          label: "Fournisseurs",
+          path: "/fournisseurs",
+          icon: <Truck className="h-4 w-4" />,
+          description: "12 fournisseurs référencés",
+          count: 12,
+        },
       ],
     },
   ];
@@ -244,6 +256,24 @@ export function MegaMenu() {
           path: "/methode",
           icon: <FileText className="h-4 w-4" />,
           description: "Protocoles de recherche",
+        },
+        {
+          label: "Protocoles maturation",
+          path: "/protocoles-maturation",
+          icon: <Clock className="h-4 w-4" />,
+          description: "Temps de cure et conditions",
+        },
+        {
+          label: "Chimie du Tabac",
+          path: "/chimie-tabac",
+          icon: <Flame className="h-4 w-4" />,
+          description: "Esters et acides gras",
+        },
+        {
+          label: "Synergies Terpènes",
+          path: "/synergies-terpenes-niches",
+          icon: <Zap className="h-4 w-4" />,
+          description: "Interactions moléculaires",
         },
       ],
     },
@@ -371,6 +401,12 @@ export function MegaMenu() {
           path: "/contact",
           icon: <Users className="h-4 w-4" />,
           description: "Nous contacter",
+        },
+        {
+          label: "Nouveautés",
+          path: "/nouveautes",
+          icon: <Bell className="h-4 w-4" />,
+          description: "Dernières mises à jour",
         },
       ],
     },

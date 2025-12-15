@@ -663,3 +663,23 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Auditer le contenu et les données
 - [x] Identifier les forces et lacunes
 - [x] Rédiger le rapport d'audit
+
+
+## 🔗 MENUS + PROFILS RADAR + PAGE NOUVEAUTÉS
+
+### Phase 1 : Ajouter pages aux menus
+- [x] Ajouter Fournisseurs au MegaMenu (section Études/Outils)
+- [x] Ajouter Chimie du Tabac au MegaMenu (section Résines CBD/Documentation)
+- [x] Ajouter Synergies Terpènes × Niches au MegaMenu
+- [x] Ajouter Protocoles de Maturation au MegaMenu
+
+### Phase 2 : Compléter profils radar molécules
+- [x] Identifier les molécules sans profil radar complet
+- [x] Vérification : 176/176 molécules ont des profils radar complets
+- [x] Aucune mise à jour nécessaire
+
+### Phase 3 : Page Nouveautés
+- [x] Créer composant Nouveautes.tsx
+- [x] Documenter les mises à jour récentes (décembre 2025)
+- [x] Ajouter route /nouveautes dans App.tsx
+- [x] Ajouter lien dans le MegaMenu (section Admin/Informations)

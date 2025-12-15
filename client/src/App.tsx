@@ -103,6 +103,7 @@ import ChimieTabac from "./pages/ChimieTabac";
 import SynergiesTerpenesNiches from "./pages/SynergiesTerpenesNiches";
 import GammeSignatures from "./pages/GammeSignatures";
 import ProtocolesMaturation from "./pages/ProtocolesMaturation";
+import Nouveautes from "./pages/Nouveautes";
 
 function Router() {
   return (
@@ -167,6 +168,7 @@ function Router() {
       <Route path="/synergies-terpenes-niches" component={SynergiesTerpenesNiches} />
       <Route path="/gammes/signatures" component={GammeSignatures} />
       <Route path="/protocoles-maturation" component={ProtocolesMaturation} />
+      <Route path="/nouveautes" component={Nouveautes} />
       <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
           <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
           <Route path="/methodologie/gc-ms" component={GCMS} />
