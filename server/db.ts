@@ -189,6 +189,59 @@ export async function getMatiereById(id: number): Promise<Laboratoire | undefine
   return result[0];
 }
 
+export async function createMatiere(data: {
+  name: string;
+  botanicalName?: string;
+  type: "huile_essentielle" | "absolu" | "resinoid" | "concrete" | "co2" | "teinture" | "poudre" | "alcoolat" | "autre";
+  olfactiveFamily?: string;
+  note?: "tete" | "coeur" | "fond" | "tete_coeur" | "coeur_fond";
+  origin?: string;
+  extractionMethod?: "distillation" | "extraction_solvant" | "co2_supercritique" | "expression" | "teinture" | "autre";
+  olfactiveProfile?: string;
+  character?: string;
+  supplier?: string;
+  pricePerMl?: number;
+  stock?: number;
+  status?: "en_stock" | "a_commander" | "epuise";
+  technicalNotes?: string;
+  manipulationNotes?: string;
+  maxTemperature?: number;
+}): Promise<{ id: number }> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(laboratoire).values({
+    name: data.name,
+    botanicalName: data.botanicalName || null,
+    type: data.type,
+    olfactiveFamily: data.olfactiveFamily || null,
+    note: data.note || null,
+    origin: data.origin || null,
+    extractionMethod: data.extractionMethod || null,
+    olfactiveProfile: data.olfactiveProfile || null,
+    character: data.character || null,
+    supplier: data.supplier || null,
+    pricePerMl: data.pricePerMl || null,
+    stock: data.stock || null,
+    status: data.status || "a_commander",
+    technicalNotes: data.technicalNotes || null,
+    manipulationNotes: data.manipulationNotes || null,
+    maxTemperature: data.maxTemperature || null,
+  });
+  
+  return { id: Number(result[0].insertId) };
+}
+
+export async function updateMatiereStock(id: number, stock: number, status?: "en_stock" | "a_commander" | "epuise"): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  
+  const updateData: any = { stock };
+  if (status) updateData.status = status;
+  
+  await db.update(laboratoire).set(updateData).where(eq(laboratoire.id, id));
+}
+
 // ============================================================================
 // MOLECULES
 // ============================================================================

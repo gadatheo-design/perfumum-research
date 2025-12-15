@@ -479,3 +479,55 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Insérer 15 associations (5 recettes × 3 tabacs chacune)
 - [x] Documenter synergies et proportions recommandées
 - [x] Créer matrice de compatibilité complète
+
+
+## 🔗 PAGE ASSOCIATIONS + FORMULAIRE INVENTAIRE + IMPORT MATIÈRES
+
+### Page Associations Hash-Tabacs
+- [ ] Créer page /associations pour visualiser les relations hash-tabacs
+- [ ] Afficher matrice de compatibilité interactive
+- [ ] Filtres par recette et par tabac
+- [ ] Détails des synergies et proportions recommandées
+
+### Formulaire Ajout Matières (Inventaire)
+- [ ] Ajouter bouton "Nouvelle matière" dans page Inventaire
+- [ ] Créer formulaire modal avec tous les champs
+- [ ] Procédure tRPC pour créer une matière
+- [ ] Validation et feedback utilisateur
+
+### Import 50 Matières Premières Prioritaires
+- [ ] Préparer les données des 50 matières (nom, type, famille, profil)
+- [ ] Insérer dans la table laboratoire
+- [ ] Vérifier l'affichage dans l'Inventaire
+
+
+## 🔗 PAGE ASSOCIATIONS + FORMULAIRE INVENTAIRE + IMPORT MATIÈRES
+
+### Phase 1 : Page Associations hash-tabacs
+- [x] Créer composant Associations.tsx avec visualisation des relations
+- [x] Ajouter routes /associations et /associations-hash-tabacs dans App.tsx
+- [x] Afficher les 15 associations hash-tabacs créées précédemment
+
+### Phase 2 : Formulaire d'ajout de matières dans Inventaire
+- [x] Ajouter Dialog avec formulaire complet (nom, type, note, famille, fournisseur, stock, prix)
+- [x] Créer procédure tRPC laboratoire.create
+- [x] Intégrer validation et feedback utilisateur
+
+### Phase 3 : Import des 50 matières premières prioritaires
+- [x] Insérer 20 molécules synthétiques (Géosmine, Iso E Super, Ambroxan, etc.)
+- [x] Insérer 20 huiles essentielles naturelles (Oud, Santal, Encens Oman, etc.)
+- [x] Insérer 10 absolus et concrètes (Foin, Tabac, Mousse de Chêne, etc.)
+
+### Phase 4 : Analyse fichier de données partagé
+- [x] Analyser le contenu (7 sections R&D : Indole/Skatole, Cheese, Ester Lab, etc.)
+- [x] Évaluer pertinence pour PERFUMUM (★★★★★ Très élevée)
+- [x] Créer document d'analyse détaillé (analyse-donnees-formulation.md)
+- [x] Créer document de synthèse (synthese-manuel-formulation.md)
+
+### Données à intégrer ultérieurement
+- [ ] 8 molécules niches (Indole, Skatole, acides gras C6-C10)
+- [ ] 13 esters aromatiques du tabac
+- [ ] 6 recettes Gamme Indole/Skatole
+- [ ] 5 recettes Gamme Cheese Terpenic Line
+- [ ] 6 recettes Gamme Ester Lab
+- [ ] 3 profils d'exception (Cuir Marin, Forêt de Cacao, Fleur Fantôme)

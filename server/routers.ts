@@ -62,6 +62,38 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getMatiereById(input);
       }),
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(1),
+        botanicalName: z.string().optional(),
+        type: z.enum(["huile_essentielle", "absolu", "resinoid", "concrete", "co2", "teinture", "poudre", "alcoolat", "autre"]),
+        olfactiveFamily: z.string().optional(),
+        note: z.enum(["tete", "coeur", "fond", "tete_coeur", "coeur_fond"]).optional(),
+        origin: z.string().optional(),
+        extractionMethod: z.enum(["distillation", "extraction_solvant", "co2_supercritique", "expression", "teinture", "autre"]).optional(),
+        olfactiveProfile: z.string().optional(),
+        character: z.string().optional(),
+        supplier: z.string().optional(),
+        pricePerMl: z.number().optional(),
+        stock: z.number().optional(),
+        status: z.enum(["en_stock", "a_commander", "epuise"]).optional(),
+        technicalNotes: z.string().optional(),
+        manipulationNotes: z.string().optional(),
+        maxTemperature: z.number().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createMatiere(input);
+      }),
+    updateStock: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        stock: z.number(),
+        status: z.enum(["en_stock", "a_commander", "epuise"]).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.updateMatiereStock(input.id, input.stock, input.status);
+        return { success: true };
+      }),
   }),
 
   // Molecules

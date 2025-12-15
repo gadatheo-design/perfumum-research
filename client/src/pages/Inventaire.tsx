@@ -7,7 +7,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { 
   Package, 
   Search, 
@@ -20,12 +23,57 @@ import {
   Filter,
   Droplet,
   FlaskConical,
-  Beaker
+  Beaker,
+  Loader2
 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
 type SortField = "name" | "stock" | "status" | "type";
 type SortOrder = "asc" | "desc";
+
+type MatiereType = "huile_essentielle" | "absolu" | "resinoid" | "concrete" | "co2" | "teinture" | "poudre" | "alcoolat" | "autre";
+type MatiereNote = "tete" | "coeur" | "fond" | "tete_coeur" | "coeur_fond";
+type MatiereStatus = "en_stock" | "a_commander" | "epuise";
+type ExtractionMethod = "distillation" | "extraction_solvant" | "co2_supercritique" | "expression" | "teinture" | "autre";
+
+interface NewMatiereForm {
+  name: string;
+  botanicalName: string;
+  type: MatiereType;
+  olfactiveFamily: string;
+  note: MatiereNote | "";
+  origin: string;
+  extractionMethod: ExtractionMethod | "";
+  olfactiveProfile: string;
+  character: string;
+  supplier: string;
+  pricePerMl: string;
+  stock: string;
+  status: MatiereStatus;
+  technicalNotes: string;
+  manipulationNotes: string;
+  maxTemperature: string;
+}
+
+const defaultFormState: NewMatiereForm = {
+  name: "",
+  botanicalName: "",
+  type: "huile_essentielle",
+  olfactiveFamily: "",
+  note: "",
+  origin: "",
+  extractionMethod: "",
+  olfactiveProfile: "",
+  character: "",
+  supplier: "",
+  pricePerMl: "",
+  stock: "",
+  status: "a_commander",
+  technicalNotes: "",
+  manipulationNotes: "",
+  maxTemperature: "",
+};
 
 export default function Inventaire() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,8 +81,49 @@ export default function Inventaire() {
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [sortField, setSortField] = useState<SortField>("name");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [formData, setFormData] = useState<NewMatiereForm>(defaultFormState);
 
+  const utils = trpc.useUtils();
   const { data: matieres, isLoading } = trpc.laboratoire.list.useQuery();
+  
+  const createMutation = trpc.laboratoire.create.useMutation({
+    onSuccess: () => {
+      toast.success("Matière ajoutée avec succès");
+      utils.laboratoire.list.invalidate();
+      setIsDialogOpen(false);
+      setFormData(defaultFormState);
+    },
+    onError: (error) => {
+      toast.error("Erreur lors de l'ajout: " + error.message);
+    },
+  });
+
+  const handleSubmit = () => {
+    if (!formData.name.trim()) {
+      toast.error("Le nom est requis");
+      return;
+    }
+    
+    createMutation.mutate({
+      name: formData.name,
+      botanicalName: formData.botanicalName || undefined,
+      type: formData.type,
+      olfactiveFamily: formData.olfactiveFamily || undefined,
+      note: formData.note || undefined,
+      origin: formData.origin || undefined,
+      extractionMethod: formData.extractionMethod || undefined,
+      olfactiveProfile: formData.olfactiveProfile || undefined,
+      character: formData.character || undefined,
+      supplier: formData.supplier || undefined,
+      pricePerMl: formData.pricePerMl ? parseFloat(formData.pricePerMl) : undefined,
+      stock: formData.stock ? parseFloat(formData.stock) : undefined,
+      status: formData.status,
+      technicalNotes: formData.technicalNotes || undefined,
+      manipulationNotes: formData.manipulationNotes || undefined,
+      maxTemperature: formData.maxTemperature ? parseFloat(formData.maxTemperature) : undefined,
+    });
+  };
 
   // Compute statistics
   const stats = useMemo(() => {
@@ -266,12 +355,205 @@ export default function Inventaire() {
                   <Download className="h-4 w-4 mr-2" />
                   Exporter
                 </Button>
-                <Link href="/admin/matieres">
-                  <Button size="sm">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Ajouter
-                  </Button>
-                </Link>
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="sm">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Ajouter
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>Nouvelle Matière Première</DialogTitle>
+                      <DialogDescription>
+                        Ajoutez une nouvelle matière première à l'inventaire du laboratoire
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      {/* Informations de base */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="name">Nom *</Label>
+                          <Input
+                            id="name"
+                            value={formData.name}
+                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                            placeholder="Ex: Lavande Fine"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="botanicalName">Nom botanique</Label>
+                          <Input
+                            id="botanicalName"
+                            value={formData.botanicalName}
+                            onChange={(e) => setFormData({...formData, botanicalName: e.target.value})}
+                            placeholder="Ex: Lavandula angustifolia"
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Type et Note */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>Type *</Label>
+                          <Select value={formData.type} onValueChange={(v: MatiereType) => setFormData({...formData, type: v})}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="huile_essentielle">Huile Essentielle</SelectItem>
+                              <SelectItem value="absolu">Absolu</SelectItem>
+                              <SelectItem value="resinoid">Résinoïde</SelectItem>
+                              <SelectItem value="concrete">Concrète</SelectItem>
+                              <SelectItem value="co2">CO₂</SelectItem>
+                              <SelectItem value="teinture">Teinture</SelectItem>
+                              <SelectItem value="poudre">Poudre</SelectItem>
+                              <SelectItem value="alcoolat">Alcoolat</SelectItem>
+                              <SelectItem value="autre">Autre</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Note olfactive</Label>
+                          <Select value={formData.note} onValueChange={(v: MatiereNote | "") => setFormData({...formData, note: v})}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Sélectionner" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="tete">Tête</SelectItem>
+                              <SelectItem value="coeur">Cœur</SelectItem>
+                              <SelectItem value="fond">Fond</SelectItem>
+                              <SelectItem value="tete_coeur">Tête-Cœur</SelectItem>
+                              <SelectItem value="coeur_fond">Cœur-Fond</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      
+                      {/* Famille et Origine */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="olfactiveFamily">Famille olfactive</Label>
+                          <Input
+                            id="olfactiveFamily"
+                            value={formData.olfactiveFamily}
+                            onChange={(e) => setFormData({...formData, olfactiveFamily: e.target.value})}
+                            placeholder="Ex: Floral, Boisé, Epicé"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="origin">Origine</Label>
+                          <Input
+                            id="origin"
+                            value={formData.origin}
+                            onChange={(e) => setFormData({...formData, origin: e.target.value})}
+                            placeholder="Ex: France, Madagascar"
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Extraction et Fournisseur */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>Méthode d'extraction</Label>
+                          <Select value={formData.extractionMethod} onValueChange={(v: ExtractionMethod | "") => setFormData({...formData, extractionMethod: v})}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Sélectionner" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="distillation">Distillation</SelectItem>
+                              <SelectItem value="extraction_solvant">Extraction solvant</SelectItem>
+                              <SelectItem value="co2_supercritique">CO₂ supercritique</SelectItem>
+                              <SelectItem value="expression">Expression</SelectItem>
+                              <SelectItem value="teinture">Teinture</SelectItem>
+                              <SelectItem value="autre">Autre</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="supplier">Fournisseur</Label>
+                          <Input
+                            id="supplier"
+                            value={formData.supplier}
+                            onChange={(e) => setFormData({...formData, supplier: e.target.value})}
+                            placeholder="Ex: Hermitage Oils"
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Profil olfactif */}
+                      <div className="space-y-2">
+                        <Label htmlFor="olfactiveProfile">Profil olfactif</Label>
+                        <Textarea
+                          id="olfactiveProfile"
+                          value={formData.olfactiveProfile}
+                          onChange={(e) => setFormData({...formData, olfactiveProfile: e.target.value})}
+                          placeholder="Décrivez les notes olfactives..."
+                          rows={2}
+                        />
+                      </div>
+                      
+                      {/* Stock et Prix */}
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="stock">Stock (ml)</Label>
+                          <Input
+                            id="stock"
+                            type="number"
+                            value={formData.stock}
+                            onChange={(e) => setFormData({...formData, stock: e.target.value})}
+                            placeholder="0"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="pricePerMl">Prix/ml (CHF)</Label>
+                          <Input
+                            id="pricePerMl"
+                            type="number"
+                            step="0.01"
+                            value={formData.pricePerMl}
+                            onChange={(e) => setFormData({...formData, pricePerMl: e.target.value})}
+                            placeholder="0.00"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Statut</Label>
+                          <Select value={formData.status} onValueChange={(v: MatiereStatus) => setFormData({...formData, status: v})}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="en_stock">En stock</SelectItem>
+                              <SelectItem value="a_commander">À commander</SelectItem>
+                              <SelectItem value="epuise">Épuisé</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      
+                      {/* Notes techniques */}
+                      <div className="space-y-2">
+                        <Label htmlFor="technicalNotes">Notes techniques</Label>
+                        <Textarea
+                          id="technicalNotes"
+                          value={formData.technicalNotes}
+                          onChange={(e) => setFormData({...formData, technicalNotes: e.target.value})}
+                          placeholder="Notes sur la conservation, manipulation..."
+                          rows={2}
+                        />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                        Annuler
+                      </Button>
+                      <Button onClick={handleSubmit} disabled={createMutation.isPending}>
+                        {createMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                        Ajouter
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           </div>
