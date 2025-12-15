@@ -407,3 +407,36 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Ajouter notes de composition aux 17 ingrédients
 - [x] Documenter molécules-clés de chaque ingrédient (17/17)
 - [x] Créer liens entre ingrédients et recettes (8 recettes)
+
+
+## 🧪 PROTOCOLE TEST LABORATOIRE - PÉTRICHOR SACRÉ
+
+### Phase 1 : Préparation du protocole
+- [x] Créer fiche technique complète avec proportions exactes
+- [x] Documenter les étapes de préparation
+- [x] Définir les paramètres de contrôle (température, temps, maturation)
+
+### Phase 2 : Démonstration interface édition
+- [x] Montrer comment modifier les proportions d'une recette
+- [x] Expliquer le système de notes et observations
+
+
+## 🌧️ RECETTES RÉSINE/HASH/CBD PÉTRICHOR + MATIÈRES PREMIÈRES
+
+### Phase 1 : Analyse des matières premières disponibles
+- [x] Lister les molécules et ingrédients disponibles dans la base
+- [x] Identifier les matières premières adaptées au thème pétrichor
+
+### Phase 2 : Développement des recettes
+- [x] Créer 5 variations de recettes résine/hash/CBD pétrichor
+- [x] Documenter les formules avec proportions exactes
+- [x] Définir les profils olfactifs et évolutions aromatiques
+
+### Phase 3 : Proposition de matières premières
+- [x] Rechercher 50 matières premières prioritaires (synthétiques + naturelles)
+- [x] Catégoriser par famille olfactive et usage
+- [x] Justifier chaque recommandation
+
+### Phase 4 : Intégration base de données
+- [x] Insérer les 5 nouvelles recettes dans la base
+- [ ] Créer checkpoint final
