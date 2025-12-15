@@ -12,10 +12,29 @@ import { useLocation } from "wouter";
 
 export default function GrapheMoleculesRecettes() {
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<"all" | "classique" | "experimentale">("all");
   const [focusedNode, setFocusedNode] = useState<string | null>(null);
   const [, setLocation] = useLocation();
+  const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
+  
+  // Observer les changements de taille du conteneur
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const { width } = containerRef.current.getBoundingClientRect();
+        // Adapter la hauteur selon la largeur (ratio 3:2 pour mobile, 3:2 pour desktop)
+        const isMobile = width < 768;
+        const height = isMobile ? Math.min(width * 1.2, 600) : Math.min(width * 0.67, 800);
+        setDimensions({ width: Math.max(width, 300), height: Math.max(height, 400) });
+      }
+    };
+    
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, []);
   
   // Charger les données réelles via tRPC
   const { data: recettesData, isLoading: recettesLoading } = trpc.recettes.getAllWithMolecules.useQuery();
@@ -25,8 +44,8 @@ export default function GrapheMoleculesRecettes() {
   useEffect(() => {
     if (!svgRef.current || !recettesData || recettesData.length === 0) return;
     
-    const width = 1200;
-    const height = 800;
+    const { width, height } = dimensions;
+    const isMobile = width < 768;
     
     // Clear previous content
     d3.select(svgRef.current).selectAll("*").remove();
@@ -77,12 +96,16 @@ export default function GrapheMoleculesRecettes() {
       ...Array.from(moleculesMap.values()),
     ];
     
-    // Simulation de force
+    // Simulation de force - adaptée pour mobile
+    const linkDistance = isMobile ? 80 : 150;
+    const chargeStrength = isMobile ? -150 : -300;
+    const collisionRadius = isMobile ? 30 : 50;
+    
     const simulation = d3.forceSimulation(nodes as any)
-      .force("link", d3.forceLink(links).id((d: any) => d.id).distance(150))
-      .force("charge", d3.forceManyBody().strength(-300))
+      .force("link", d3.forceLink(links).id((d: any) => d.id).distance(linkDistance))
+      .force("charge", d3.forceManyBody().strength(chargeStrength))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(50));
+      .force("collision", d3.forceCollide().radius(collisionRadius));
     
     // Liens
     const link = svg.append("g")
@@ -105,8 +128,12 @@ export default function GrapheMoleculesRecettes() {
         .on("drag", dragged)
         .on("end", dragended) as any);
     
+    // Taille des nœuds adaptée pour mobile
+    const nodeRadiusRecette = isMobile ? 14 : 20;
+    const nodeRadiusMolecule = isMobile ? 10 : 15;
+    
     node.append("circle")
-      .attr("r", (d: any) => d.type === "recette" ? 20 : 15)
+      .attr("r", (d: any) => d.type === "recette" ? nodeRadiusRecette : nodeRadiusMolecule)
       .attr("fill", (d: any) => d.type === "recette" ? "#8b5cf6" : "#10b981")
       .attr("stroke", "#fff")
       .attr("stroke-width", 2)
@@ -190,13 +217,15 @@ export default function GrapheMoleculesRecettes() {
         setFocusedNode(null);
       });
     
+    // Texte adapté pour mobile (masqué sur très petits écrans)
     node.append("text")
-      .text((d: any) => d.name)
-      .attr("x", 25)
+      .text((d: any) => isMobile && d.name.length > 12 ? d.name.substring(0, 10) + "..." : d.name)
+      .attr("x", isMobile ? 15 : 25)
       .attr("y", 5)
-      .attr("font-size", 12)
+      .attr("font-size", isMobile ? 10 : 12)
       .attr("fill", "currentColor")
-      .attr("pointer-events", "none");
+      .attr("pointer-events", "none")
+      .style("display", width < 400 ? "none" : "block");
     
     simulation.on("tick", () => {
       link
@@ -228,7 +257,7 @@ export default function GrapheMoleculesRecettes() {
     return () => {
       simulation.stop();
     };
-  }, [recettesData, filter, focusedNode]);
+  }, [recettesData, filter, focusedNode, dimensions]);
   
   // Effet pour appliquer le mode Focus
   useEffect(() => {
@@ -334,8 +363,16 @@ export default function GrapheMoleculesRecettes() {
                 Chargement du graphe...
               </div>
             ) : (
-              <div className="bg-muted/20 rounded-lg p-4">
-                <svg ref={svgRef} className="w-full" style={{ minHeight: "600px" }} />
+              <div ref={containerRef} className="bg-muted/20 rounded-lg p-2 sm:p-4 overflow-hidden touch-pan-x touch-pan-y">
+                <svg 
+                  ref={svgRef} 
+                  className="w-full transition-all duration-300" 
+                  style={{ 
+                    height: `${dimensions.height}px`,
+                    minHeight: "400px",
+                    maxHeight: "800px"
+                  }} 
+                />
               </div>
             )}
             

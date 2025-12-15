@@ -893,3 +893,27 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [ ] Fonctionne via navigation interne
 - [ ] Disparaîtra en production (build)
 
+
+
+## 🔧 AMÉLIORATIONS UX (Session 15 déc 2025 - Suite)
+
+### 1. Correction bug HMR (pages blanches)
+- [x] Diagnostiquer cause des pages blanches en accès direct URL
+- [x] Tester en mode production (pnpm build && pnpm preview) - FONCTIONNE
+- [ ] Bug spécifique au mode développement (HMR Vite), disparaît en production
+
+### 2. Autocomplete recherche globale
+- [x] Améliorer composant GlobalSearch avec debounce (150ms)
+- [x] Intégrer recherche dans molécules, recettes, accords
+- [x] Ajouter navigation clavier (flèches haut/bas, Enter, Escape)
+- [x] Ajouter highlight du texte recherché dans les résultats
+- [x] Ajouter styles de sélection clavier (ring primary)
+
+### 3. Graphes D3.js responsive mobile
+- [x] Adapter taille SVG aux écrans mobiles (dimensions dynamiques)
+- [x] Réduire densité des nœuds sur petits écrans (force réduite)
+- [x] Adapter taille des nœuds (14/10px mobile vs 20/15px desktop)
+- [x] Tronquer texte long sur mobile (10 caractères max)
+- [x] Masquer texte sur très petits écrans (<400px)
+- [x] Ajouter touch-pan pour interactions tactiles
+

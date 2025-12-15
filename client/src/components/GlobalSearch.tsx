@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link, useLocation } from "wouter";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -29,12 +29,47 @@ interface SearchResult {
 const STORAGE_KEY = "perfumum_search_history";
 const MAX_HISTORY = 5;
 
+// Fonction pour mettre en surbrillance le texte recherché
+function HighlightText({ text, query }: { text: string; query: string }) {
+  if (!query.trim()) return <>{text}</>;
+  
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+  
+  return (
+    <>
+      {parts.map((part, i) => 
+        regex.test(part) ? (
+          <mark key={i} className="bg-primary/20 text-primary rounded px-0.5">{part}</mark>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
 export function GlobalSearch() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [, setLocation] = useLocation();
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  
+  // Debounce la recherche pour éviter trop de requêtes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [query]);
+  
+  // Reset l'index sélectionné quand la query change
+  useEffect(() => {
+    setSelectedIndex(-1);
+  }, [query]);
 
   // Charger l'historique depuis localStorage
   useEffect(() => {
@@ -78,13 +113,19 @@ export function GlobalSearch() {
   // Recherche dans les molécules
   const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery(
     undefined,
-    { enabled: query.length > 0 }
+    { enabled: debouncedQuery.length > 0 }
   );
 
-  // Recherche dans les recettes
+  // Recherche dans les recettes (toutes les catégories)
   const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery(
-    { category: "resine_cbd" as any },
-    { enabled: query.length > 0 }
+    {},
+    { enabled: debouncedQuery.length > 0 }
+  );
+  
+  // Recherche dans les accords
+  const { data: accords, isLoading: loadingAccords } = trpc.accords.list.useQuery(
+    undefined,
+    { enabled: debouncedQuery.length > 0 }
   );
 
   // Filtrer les résultats selon la query
@@ -152,7 +193,40 @@ export function GlobalSearch() {
     });
   }
 
-  const isLoading = loadingMolecules || loadingRecettes;
+  const isLoading = loadingMolecules || loadingRecettes || loadingAccords;
+  
+  // Liste plate de tous les résultats pour la navigation clavier
+  const allResults = useMemo(() => results, [results]);
+  
+  // Gestion de la navigation clavier
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (allResults.length === 0) return;
+    
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setSelectedIndex(prev => 
+          prev < allResults.length - 1 ? prev + 1 : 0
+        );
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setSelectedIndex(prev => 
+          prev > 0 ? prev - 1 : allResults.length - 1
+        );
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (selectedIndex >= 0 && selectedIndex < allResults.length) {
+          handleSelect(allResults[selectedIndex]);
+        }
+        break;
+      case 'Escape':
+        setIsOpen(false);
+        setQuery("");
+        break;
+    }
+  }, [allResults, selectedIndex]);
 
   const handleSelect = (result: SearchResult) => {
     // Ajouter à l'historique
@@ -193,6 +267,7 @@ export function GlobalSearch() {
             placeholder="Rechercher molécules, recettes, pages..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
             className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
           {isLoading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
@@ -277,16 +352,20 @@ export function GlobalSearch() {
                       Molécules ({groupedResults.molecules.length})
                     </div>
                     <div className="space-y-1">
-                      {groupedResults.molecules.map((result) => (
+                      {groupedResults.molecules.map((result, idx) => {
+                        const globalIndex = idx;
+                        return (
                         <button
                           key={`${result.type}-${result.id}`}
                           onClick={() => handleSelect(result)}
-                          className="w-full flex items-center justify-between gap-3 px-2 py-2 rounded hover:bg-muted transition-colors text-left group"
+                          className={`w-full flex items-center justify-between gap-3 px-2 py-2 rounded transition-colors text-left group ${selectedIndex === globalIndex ? 'bg-primary/10 ring-1 ring-primary/30' : 'hover:bg-muted'}`}
                         >
                           <div className="flex items-center gap-3 flex-1 min-w-0">
                             {result.icon}
                             <div className="flex-1 min-w-0">
-                              <div className="text-sm font-medium truncate">{result.title}</div>
+                              <div className="text-sm font-medium truncate">
+                                              <HighlightText text={result.title} query={query} />
+                                            </div>
                               {result.subtitle && (
                                 <div className="text-xs text-muted-foreground truncate">{result.subtitle}</div>
                               )}
@@ -294,7 +373,8 @@ export function GlobalSearch() {
                           </div>
                           <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                         </button>
-                      ))}
+                      );
+                      })}
                     </div>
                   </div>
                 )}
@@ -316,7 +396,9 @@ export function GlobalSearch() {
                           <div className="flex items-center gap-3 flex-1 min-w-0">
                             {result.icon}
                             <div className="flex-1 min-w-0">
-                              <div className="text-sm font-medium truncate">{result.title}</div>
+                              <div className="text-sm font-medium truncate">
+                                              <HighlightText text={result.title} query={query} />
+                                            </div>
                               {result.subtitle && (
                                 <Badge variant="secondary" className="text-xs">{result.subtitle}</Badge>
                               )}
