@@ -50,8 +50,7 @@ export default function AdminMolecules() {
   });
 
   const filteredMolecules = molecules?.filter((m) =>
-    m.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    m.iupacName?.toLowerCase().includes(searchTerm.toLowerCase())
+    m.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleEditRadar = (molecule: any) => {
@@ -153,11 +152,6 @@ export default function AdminMolecules() {
                     <Beaker className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="font-medium">{molecule.name}</p>
-                      {molecule.iupacName && (
-                        <p className="text-sm text-muted-foreground">
-                          {molecule.iupacName}
-                        </p>
-                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">

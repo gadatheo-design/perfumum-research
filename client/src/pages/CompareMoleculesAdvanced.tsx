@@ -283,12 +283,6 @@ export default function CompareMoleculesAdvanced() {
                   </thead>
                   <tbody>
                     <tr className="border-b border-border/50">
-                      <td className="p-3 font-medium">Formule</td>
-                      {selectedMolecules.map(mol => (
-                        <td key={mol.id} className="p-3">{mol.formula || 'N/A'}</td>
-                      ))}
-                    </tr>
-                    <tr className="border-b border-border/50">
                       <td className="p-3 font-medium">Profil Olfactif</td>
                       {selectedMolecules.map(mol => (
                         <td key={mol.id} className="p-3 text-sm">{mol.olfactiveProfile || 'N/A'}</td>

@@ -206,3 +206,31 @@
 - [ ] Tester le graphe D3.js avec les nouvelles synergies - BLOQUÉ (page 404)
 - [ ] Vérifier les filtres par type de synergie - BLOQUÉ (page 404)
 - [x] Créer checkpoint final avec enrichissement synergies
+
+
+## 🔓 DÉBLOCAGE PAGE SYNERGIES + SUGGESTIONS AUTO
+
+### Phase 1 : Correction erreurs TypeScript
+- [x] Corriger erreur `iupacName` manquant dans AdminMolecules.tsx:158
+- [x] Corriger erreur `formula` manquant dans CompareMoleculesAdvanced.tsx:288
+- [x] Corriger erreur arithmétique dans Recettes.tsx:291 (stability enum → nombre)
+- [x] Corriger erreur `insertId` dans server/db.ts:2081
+- [ ] ⚠️ Page /synergies reste en 404 (problème routing wouter non résolu)
+
+### Phase 2 : Test page Synergies D3.js
+- [ ] ⚠️ BLOQUÉ - Page /synergies en erreur 404
+- [ ] Tester le graphe D3.js (drag & drop, zoom, pan) - BLOQUÉ
+- [ ] Tester les filtres par type de synergie (4 types) - BLOQUÉ
+- [ ] Vérifier l'affichage des 17 synergies dans la liste - BLOQUÉ
+
+### Phase 3 : Suggestions automatiques de synergies
+- [x] Créer algorithme de calcul de similarité radar (distance euclidienne sur 6 axes)
+- [x] Créer procédure tRPC `synergies.getSuggestions` avec paramètres (minSimilarity, limit)
+- [x] Créer page /suggestions-synergies avec interface interactive (sliders, cartes)
+- [x] Afficher paires de molécules avec score de similarité (100% pour identiques)
+- [x] Identifier axes similaires automatiquement (différence < 20)
+
+### Phase 4 : Tests et checkpoint
+- [x] Tester les suggestions avec différents seuils de similarité (50-95%)
+- [x] Vérifier la pertinence des suggestions (10 suggestions affichées)
+- [x] Créer checkpoint final

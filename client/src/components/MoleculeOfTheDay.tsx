@@ -28,14 +28,14 @@ export function MoleculeOfTheDay() {
     return null;
   }
 
-  const radarData = molecule.intensite || molecule.fraicheur || molecule.chaleur || molecule.douceur || molecule.epice || molecule.terreux
+  const radarData = molecule.radarIntensity || molecule.radarFreshness || molecule.radarWarmth || molecule.radarSweetness || molecule.radarSpiciness || molecule.radarEarthiness
     ? {
-        intensite: molecule.intensite || 0,
-        fraicheur: molecule.fraicheur || 0,
-        chaleur: molecule.chaleur || 0,
-        douceur: molecule.douceur || 0,
-        epice: molecule.epice || 0,
-        terreux: molecule.terreux || 0,
+        intensity: molecule.radarIntensity || 0,
+        freshness: molecule.radarFreshness || 0,
+        warmth: molecule.radarWarmth || 0,
+        sweetness: molecule.radarSweetness || 0,
+        spiciness: molecule.radarSpiciness || 0,
+        earthiness: molecule.radarEarthiness || 0,
       }
     : null;
 
@@ -50,7 +50,7 @@ export function MoleculeOfTheDay() {
             </div>
             <Badge variant="outline" className="bg-primary/10">
               <Beaker className="h-3 w-3 mr-1" />
-              {molecule.familleChimique || "Molécule"}
+              Molécule
             </Badge>
           </div>
           <CardDescription>Découvrez une molécule chaque jour</CardDescription>
@@ -58,9 +58,7 @@ export function MoleculeOfTheDay() {
         <CardContent className="space-y-4">
           <div>
             <h3 className="text-2xl font-bold mb-1">{molecule.name}</h3>
-            {molecule.formuleChimique && (
-              <p className="text-sm text-muted-foreground font-mono">{molecule.formuleChimique}</p>
-            )}
+
           </div>
 
           {radarData && (
@@ -69,17 +67,10 @@ export function MoleculeOfTheDay() {
             </div>
           )}
 
-          {molecule.profilOlfactif && (
+          {molecule.olfactiveProfile && (
             <div>
               <p className="text-sm font-semibold mb-1">Profil olfactif</p>
-              <p className="text-sm text-muted-foreground line-clamp-2">{molecule.profilOlfactif}</p>
-            </div>
-          )}
-
-          {molecule.resonanceEmotionnelle && (
-            <div>
-              <p className="text-sm font-semibold mb-1">Résonance émotionnelle</p>
-              <p className="text-sm text-muted-foreground line-clamp-2">{molecule.resonanceEmotionnelle}</p>
+              <p className="text-sm text-muted-foreground line-clamp-2">{molecule.olfactiveProfile}</p>
             </div>
           )}
 

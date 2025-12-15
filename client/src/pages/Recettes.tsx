@@ -281,14 +281,14 @@ export default function Recettes() {
                               )}
                               {recette.stability !== null && recette.stability !== undefined && (
                                 <div className="space-y-1">
-                                  <div className="flex items-center justify-between text-xs">
-                                    <div className="flex items-center gap-1.5 text-muted-foreground">
-                                      <Package className="h-3 w-3" />
+                                   <div className="flex items-center justify-between text-sm mb-1">
+                                    <div className="flex items-center gap-1.5">
+                                      <Zap className="h-3.5 w-3.5 text-yellow-500" />
                                       <span>Stabilité</span>
                                     </div>
-                                    <span className="font-medium">{recette.stability}/10</span>
+                                    <span className="font-medium">{recette.stability}</span>
                                   </div>
-                                  <Progress value={recette.stability * 10} className="h-1.5" />
+                                  <Progress value={recette.stability === 'low' ? 33 : recette.stability === 'medium' ? 66 : 100} className="h-1.5" />
                                 </div>
                               )}
                             </div>

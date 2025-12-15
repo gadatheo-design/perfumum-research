@@ -570,6 +570,15 @@ export const appRouter = router({
     getStats: publicProcedure.query(async () => {
       return await db.getSynergiesStats();
     }),
+    
+    getSuggestions: publicProcedure
+      .input(z.object({
+        minSimilarity: z.number().min(0).max(100).optional(),
+        limit: z.number().min(1).max(50).optional()
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.getSynergySuggestions(input?.minSimilarity, input?.limit);
+      }),
   }),
 
   // Favorites
