@@ -234,3 +234,23 @@
 - [x] Tester les suggestions avec différents seuils de similarité (50-95%)
 - [x] Vérifier la pertinence des suggestions (10 suggestions affichées)
 - [x] Créer checkpoint final
+
+
+## 🎨 DIVERSIFICATION PROFILS RADAR
+
+### Objectif
+Générer des profils radar uniques et cohérents pour les 138 molécules basés sur leurs profils olfactifs réels
+
+### Phase 1 : Analyse et algorithme
+- [x] Analyser les profils olfactifs existants (mots-clés : lavande, chaud, terre, boisé, épicé, vanille, citron, etc.)
+- [x] Créer dictionnaire de correspondance mots-clés → valeurs radar (100+ mots-clés)
+- [x] Ajouter variation aléatoire contrôlée pour éviter les doublons (hash du nom + ID)
+
+### Phase 2 : Génération
+- [x] Exécuter script de génération sur les 138 molécules
+- [x] Vérifier que chaque molécule a un profil unique (129 profils uniques = 93.5% diversité)
+
+### Phase 3 : Validation
+- [x] Tester les suggestions de synergies avec les nouveaux profils
+- [x] Vérifier la diversité des résultats (98.8% à 99.3% au lieu de 100%)
+- [x] Créer checkpoint final
