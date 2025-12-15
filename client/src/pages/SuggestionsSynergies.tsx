@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { trpc } from '../lib/trpc';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
@@ -25,6 +26,7 @@ export default function SuggestionsSynergies() {
 
   return (
     <div className="container mx-auto py-8 space-y-6">
+      <Breadcrumbs />
       <div>
         <h1 className="text-3xl font-bold mb-2">Suggestions de Synergies Moléculaires</h1>
         <p className="text-muted-foreground">

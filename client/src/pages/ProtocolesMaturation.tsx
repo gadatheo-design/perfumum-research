@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { 
   Clock, 
   Thermometer, 
@@ -178,14 +179,7 @@ const erreursCourantes = [
 export default function ProtocolesMaturation() {
   return (
     <div className="container py-8">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-        <Link href="/" className="hover:text-foreground">Accueil</Link>
-        <span>/</span>
-        <Link href="/laboratoire" className="hover:text-foreground">Laboratoire</Link>
-        <span>/</span>
-        <span className="text-foreground">Protocoles de Maturation</span>
-      </nav>
+      <Breadcrumbs />
 
       {/* Header */}
       <div className="mb-8">

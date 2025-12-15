@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -198,6 +199,7 @@ export default function ProportionsCalculator() {
   return (
     <div className="min-h-screen bg-background py-12">
       <div className="container max-w-7xl mx-auto px-4">
+        <Breadcrumbs />
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">

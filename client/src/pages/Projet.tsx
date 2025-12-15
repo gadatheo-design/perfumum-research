@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -9,6 +10,7 @@ export default function Projet() {
       <Header />
       
       <main className="flex-1">
+        <div className="container"><Breadcrumbs /></div>
         {/* Hero */}
         <section className="section-spacing bg-gradient-to-b from-background to-muted/30">
           <div className="container">

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { 
   Zap, 
   FlaskConical, 
@@ -160,14 +161,7 @@ function SynergieCard({ synergie }: { synergie: typeof synergiesIndole[0] }) {
 export default function SynergiesTerpenesNiches() {
   return (
     <div className="container py-8">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-        <Link href="/" className="hover:text-foreground">Accueil</Link>
-        <span>/</span>
-        <Link href="/recherche-scientifique" className="hover:text-foreground">Recherche</Link>
-        <span>/</span>
-        <span className="text-foreground">Synergies Terpènes × Niches</span>
-      </nav>
+      <Breadcrumbs />
 
       {/* Header */}
       <div className="mb-8">

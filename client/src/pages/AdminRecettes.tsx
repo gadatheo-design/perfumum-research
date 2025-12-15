@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import {
@@ -168,6 +169,7 @@ export default function AdminRecettes() {
 
   return (
     <div className="container mx-auto py-8">
+      <Breadcrumbs />
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold">Gestion des Recettes</h1>

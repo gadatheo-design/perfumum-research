@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FlaskConical, Beaker, Download, Clock, DollarSign, Flame, Droplets, CheckCircle2, AlertCircle, TestTube } from "lucide-react";
-import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { exportRecipePDF } from "@/lib/exportPDF";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
@@ -185,14 +185,7 @@ export default function RecetteDetail() {
 
   return (
     <div className="container mx-auto py-8 space-y-6">
-      {/* Breadcrumb */}
-      <Breadcrumb
-        items={[
-          { label: "Familles", href: "/familles" },
-          { label: family?.name || "Famille", href: "/familles" },
-          { label: recette.name },
-        ]}
-      />
+      <Breadcrumbs />
 
       {/* Header */}
       <div className="flex items-center justify-between">

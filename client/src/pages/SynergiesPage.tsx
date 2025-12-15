@@ -1,4 +1,5 @@
 import { trpc } from '../lib/trpc';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
 
 export default function Synergies() {
@@ -26,6 +27,7 @@ export default function Synergies() {
 
   return (
     <div className="container mx-auto py-8">
+      <Breadcrumbs />
       <Card>
         <CardHeader>
           <CardTitle>Synergies Moléculaires</CardTitle>

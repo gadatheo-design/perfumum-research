@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { trpc } from '../lib/trpc';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
@@ -190,6 +191,7 @@ export default function CompareMoleculesAdvanced() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto py-8 px-4">
+        <Breadcrumbs />
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">

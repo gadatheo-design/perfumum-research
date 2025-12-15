@@ -739,3 +739,49 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Mettre à jour README.md avec statistiques actuelles (176 molécules, 195 recettes, 7 gammes)
 - [x] Documentation structure du projet existante
 - [x] Version mise à jour à 2.8.0
+
+
+## 🔧 SESSION VÉRIFICATION AUDIT COMPLÈTE (15 décembre 2025)
+
+### Pages sans Breadcrumbs (28 pages identifiées)
+- [x] AbsorbeScale.tsx - Ajouter breadcrumbs
+- [x] AdminMolecules.tsx - Ajouter breadcrumbs
+- [x] AdminRecettes.tsx - Ajouter breadcrumbs
+- [x] AnalyticsDashboard.tsx - Ajouter breadcrumbs
+- [x] ChemicalFamilies.tsx - Ajouter breadcrumbs
+- [x] ChimieTabac.tsx - Ajouter breadcrumbs
+- [x] CivilisationDetail.tsx - Ajouter breadcrumbs
+- [x] CompareMoleculesAdvanced.tsx - Ajouter breadcrumbs
+- [x] ComponentShowcase.tsx - Page technique, pas besoin
+- [x] CorrelationAnalysis.tsx - Ajouter breadcrumbs
+- [x] DashboardMinimal.tsx - Ajouter breadcrumbs
+- [x] ExperimentalAccords.tsx - Ajouter breadcrumbs
+- [x] Fournisseurs.tsx - Ajouter breadcrumbs
+- [x] GammeSignatures.tsx - Ajouter breadcrumbs
+- [x] Home.tsx - Page d'accueil, pas besoin
+- [x] MoleculeDetail.tsx - Ajouter breadcrumbs
+- [x] NotFound.tsx - Page 404, pas besoin
+- [x] OutilsFormulation.tsx - Ajouter breadcrumbs
+- [x] Projet.tsx - Ajouter breadcrumbs
+- [x] ProportionsCalculator.tsx - Ajouter breadcrumbs
+- [x] ProtocolesMaturation.tsx - Ajouter breadcrumbs
+- [x] RecetteDetail.tsx - Ajouter breadcrumbs
+- [x] Recherche.tsx - Ajouter breadcrumbs
+- [x] SuggestionsSynergies.tsx - Ajouter breadcrumbs
+- [x] SynergiesPage.tsx - Ajouter breadcrumbs
+- [x] SynergiesTerpenesNiches.tsx - Ajouter breadcrumbs
+- [x] TestMinimal.tsx - Page technique, pas besoin
+- [x] Timeline.tsx - Ajouter breadcrumbs
+
+### Vérification Navigation Menus
+- [x] Vérifier /fournisseurs dans MegaMenu (ligne 198)
+- [x] Vérifier /chimie-tabac dans MegaMenu (ligne 268)
+- [x] Vérifier /synergies-terpenes-niches dans MegaMenu (ligne 274)
+- [x] Vérifier /protocoles-maturation dans MegaMenu (ligne 262)
+- [x] Vérifier /nouveautes dans MegaMenu (ligne 407)
+- [x] Vérifier toutes les pages accessibles via navigation mobile (Header.tsx)
+
+### Contenu à compléter
+- [x] Vérifier contenu gamme Glaciaire (7 variations, 12 molécules clés, méthodologie, VoirAussi)
+- [x] Vérifier contenu gamme BioLab (7 variations, 15 molécules clés, méthodologie, VoirAussi)
+- [x] Vérifier suggestions "Voir aussi" sur pages principales (6 pages: Gammes, BioLab, Glaciaire, Molecules, Recettes, RechercheScientifique)

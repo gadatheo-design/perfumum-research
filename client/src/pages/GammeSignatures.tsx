@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { 
   Crown, 
   Waves, 
@@ -111,14 +112,7 @@ export default function GammeSignatures() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-muted/20 to-background">
       <div className="container py-8">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <Link href="/" className="hover:text-foreground">Accueil</Link>
-          <span>/</span>
-          <Link href="/gammes" className="hover:text-foreground">Gammes</Link>
-          <span>/</span>
-          <span className="text-foreground">Signatures</span>
-        </nav>
+        <Breadcrumbs />
 
         {/* Header Premium */}
         <div className="relative mb-12 p-8 rounded-2xl bg-gradient-to-r from-amber-100 via-yellow-50 to-amber-100 dark:from-amber-950 dark:via-yellow-950 dark:to-amber-950 border-2 border-amber-300 dark:border-amber-700 overflow-hidden">

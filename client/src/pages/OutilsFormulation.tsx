@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -166,6 +167,7 @@ export default function OutilsFormulation() {
   return (
     <div className="min-h-screen bg-background py-12">
       <div className="container max-w-7xl mx-auto px-4">
+        <Breadcrumbs />
         {/* Header */}
         <div className="mb-12 text-center">
           <div className="inline-flex items-center gap-3 mb-4">

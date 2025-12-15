@@ -1,4 +1,5 @@
 import { Link, useParams } from "wouter";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
 import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown } from "lucide-react";
@@ -193,6 +194,7 @@ export default function MoleculeDetail() {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="container max-w-6xl">
+        <Breadcrumbs />
         <div className="flex items-center justify-between mb-6">
           <Link href="/molecules" className="inline-flex items-center gap-2 text-primary hover:underline">
             <ArrowLeft className="h-4 w-4" />

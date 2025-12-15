@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { trpc } from "../lib/trpc";
 import { Button } from "../components/ui/button";
 import {
@@ -95,6 +96,7 @@ export default function AdminMolecules() {
 
   return (
     <div className="container py-8">
+      <Breadcrumbs />
       {/* Toast Message */}
       {toastMessage && (
         <div className="fixed top-4 right-4 z-50 bg-card border border-border rounded-lg shadow-lg p-4 animate-fadeInUp">

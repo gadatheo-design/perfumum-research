@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { trpc } from "../lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -78,6 +79,7 @@ export function AbsorbeScale() {
 
   return (
     <div className="container py-8">
+      <Breadcrumbs />
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
