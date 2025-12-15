@@ -1090,3 +1090,12 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Ajouter la molécule à la base de données - FAIT (ID: 156)
 - [x] Créer une recette utilisant l'Androsténol - FAIT ("Pheromona Truffle")
 - [x] Tester l'affichage sur le site - VALIDÉ (Androsténol ID 240001, Pheromona Truffle ID 180001)
+
+
+### Étape 5 : Enrichissement Phéromones (15 déc 2025)
+- [x] Lier l'Androsténol à la recette Pheromona Truffle (table recette_molecules) - FAIT
+- [x] Ajouter l'Androsténone (C19H28O, note urinaire/boisée) - FAIT
+- [x] Ajouter l'Androstadienone (C19H26O, note musquée/sucrée) - FAIT
+- [x] Créer la page gamme "Phéromones" (/gammes/pheromones) - FAIT
+- [x] Ajouter la gamme Phéromones à la navigation - FAIT
+- [x] Tester l'affichage et les liens - VALIDÉ (page fonctionnelle, 3 molécules, 4 accords)

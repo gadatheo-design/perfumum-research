@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Droplets, Mountain, Crown, ArrowRight, Sparkles } from "lucide-react";
+import { Droplets, Mountain, Crown, ArrowRight, Sparkles, Heart } from "lucide-react";
 import { VoirAussi, suggestionsGammes } from "@/components/VoirAussi";
 
 export default function Gammes() {
@@ -53,6 +53,17 @@ export default function Gammes() {
       variations: 3,
       families: ["Cuir Marin", "Forêt de Cacao", "Fleur Fantôme"],
       href: "/gammes/signatures",
+    },
+    {
+      name: "Phéromones",
+      subtitle: "Communication chimique humaine",
+      description: "Exploration des molécules de communication chimique : Androsténol (truffe, musc), Androsténone (boisé/urineux selon génotype), Androstadienone (musqué subtil). Doses infinitésimales pour effets subliminaux.",
+      icon: Heart,
+      color: "text-rose-600",
+      bgColor: "bg-rose-50",
+      variations: 4,
+      families: ["Pheromona Truffle", "Pheromona Skin", "Pheromona Alpha", "Pheromona Cascade"],
+      href: "/gammes/pheromones",
     },
   ];
 
