@@ -565,3 +565,30 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Créer composant Fournisseurs.tsx
 - [x] Ajouter route /fournisseurs dans App.tsx
 - [x] Intégrer les 12 fournisseurs identifiés avec spécialités et liens
+
+
+
+## 🧪 GAMME INDOLE/SKATOLE + ESTERS AROMATIQUES DU TABAC
+
+### Phase 1 : Recettes Gamme Indole/Skatole (6 recettes)
+- [x] Black Oud Skin - Animal-boisé
+- [x] Noir Tabac - Tabac cuiré
+- [x] White Jasmine Absolute - Floral-blanc
+- [x] Gardenia Night - Floral-crémeux
+- [x] Ash & Honey - Animal-balsamique
+- [x] Neon Flesh - Futuriste-animal
+
+### Phase 2 : Esters aromatiques du tabac (13 molécules)
+- [x] Éthyl butyrate - Ananas, pomme, cassis
+- [x] Isoamyl acetate - Banane, poire
+- [x] Benzyl acetate - Jasmin, ylang, miel
+- [x] Ethyl lactate - Lait, crème, yaourt
+- [x] Methyl anthranilate - Raisin, fleur d'oranger
+- [x] Ethyl cinnamate - Cannelle, baume
+- [x] Ethyl decanoate - Rhum, fruité
+- [x] Ethyl phenylacetate - Miel, floral
+- [x] Methyl salicylate - Wintergreen, balsamique
+- [x] Butyl butyrate - Beurré, fruité
+- [x] Ethyl 3-methylthiopropionate - Cassis, soufré
+- [x] Ethyl furan-2-carboxylate - Cuir, caramel
+- [x] Gamma-decalactone - Pêche, abricot
