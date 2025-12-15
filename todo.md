@@ -851,3 +851,45 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - Pages blanches (Recettes, Gammes) = bug HMR dev, fonctionne via navigation interne
 - Contraste WCAG AA respecté pour texte muted
 - Animations désactivées pour prefers-reduced-motion
+
+
+## 🎯 ACCESSIBILITÉ MEGAMENU + BREADCRUMBS DYNAMIQUES
+
+### MegaMenu accessible au clavier
+- [x] Ajouter navigation Tab entre les items du menu
+- [x] Ajouter ouverture/fermeture avec Enter/Space
+- [x] Ajouter fermeture avec Escape
+- [x] Ajouter navigation flèches (haut/bas) dans les sous-menus
+- [x] Focus trap dans le menu ouvert
+
+### Breadcrumbs dynamiques
+- [x] Créer composant Breadcrumbs amélioré avec support des pages de détails
+- [x] Ajouter breadcrumbs sur page détail molécule (/molecules/:id)
+- [x] Ajouter breadcrumbs sur page détail recette (/recettes/:id)
+- [x] Ajouter breadcrumbs sur page détail résine CBD (/resine-cbd/:id)
+
+
+## 🎨 AUDIT UX/UI - AMÉLIORATIONS (15 déc 2025)
+
+### Contraste et Accessibilité
+- [x] Améliorer contraste WCAG AA (muted-foreground 0.35 → 0.50)
+- [x] Implémenter prefers-reduced-motion (désactive animations)
+- [x] Implémenter prefers-contrast: more (contraste renforcé)
+- [x] Preload polices critiques (Space Grotesk, JetBrains Mono)
+
+### Composants
+- [x] Créer composant EmptyState réutilisable (5 variantes)
+- [x] MegaMenu accessible au clavier (Tab, Enter, Escape, flèches)
+
+### Breadcrumbs dynamiques
+- [x] Modifier composant Breadcrumbs avec support customItems
+- [x] Ajouter breadcrumbs sur MoleculeDetail (code modifié)
+- [x] Ajouter breadcrumbs sur RecetteDetail (code modifié)
+- [x] Ajouter breadcrumbs sur RecetteCBDDetail (code modifié)
+- [ ] ⚠️ HMR ne recharge pas les modifications (nécessite build production)
+
+### Bug HMR identifié
+- [ ] Pages blanches en accès direct URL (développement uniquement)
+- [ ] Fonctionne via navigation interne
+- [ ] Disparaîtra en production (build)
+

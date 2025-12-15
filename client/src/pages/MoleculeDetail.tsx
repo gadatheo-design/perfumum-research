@@ -194,7 +194,12 @@ export default function MoleculeDetail() {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="container max-w-6xl">
-        <Breadcrumbs />
+        <Breadcrumbs 
+          customItems={[
+            { label: "Molécules", path: "/molecules" },
+            { label: molecule.name }
+          ]} 
+        />
         <div className="flex items-center justify-between mb-6">
           <Link href="/molecules" className="inline-flex items-center gap-2 text-primary hover:underline">
             <ArrowLeft className="h-4 w-4" />

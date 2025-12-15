@@ -185,7 +185,12 @@ export default function RecetteDetail() {
 
   return (
     <div className="container mx-auto py-8 space-y-6">
-      <Breadcrumbs />
+      <Breadcrumbs 
+          customItems={[
+            { label: "Recettes", path: "/recettes" },
+            { label: data.recette.name }
+          ]} 
+        />
 
       {/* Header */}
       <div className="flex items-center justify-between">

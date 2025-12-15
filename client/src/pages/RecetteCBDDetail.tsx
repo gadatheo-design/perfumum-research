@@ -72,7 +72,12 @@ export default function RecetteCBDDetail() {
       
       <main className="flex-1 container mx-auto py-8 space-y-6">
         {/* Breadcrumb */}
-        <DynamicBreadcrumb />
+        <Breadcrumbs 
+          customItems={[
+            { label: "Résines CBD", path: "/resines-cbd" },
+            { label: recette.name }
+          ]} 
+        />
 
         {/* Header */}
         <div className="flex items-center gap-4">

@@ -130,7 +130,14 @@ const labelMap: Record<string, string> = {
   "projet": "Projet",
 };
 
-export function Breadcrumbs() {
+interface BreadcrumbsProps {
+  /** Custom label for the current page (useful for dynamic pages like /molecules/:id) */
+  currentLabel?: string;
+  /** Custom breadcrumb items to override automatic parsing */
+  customItems?: Array<{ label: string; path?: string }>;
+}
+
+export function Breadcrumbs({ currentLabel, customItems }: BreadcrumbsProps = {}) {
   const [location] = useLocation();
   
   // Parse location into breadcrumb segments
@@ -158,6 +165,55 @@ export function Breadcrumbs() {
       .join(" ");
   };
   
+  // If custom items are provided, use them instead
+  if (customItems && customItems.length > 0) {
+    return (
+      <nav 
+        className="container py-4" 
+        aria-label="Fil d'Ariane"
+        role="navigation"
+      >
+        <ol className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
+          <li>
+            <Link href="/">
+              <a 
+                className="hover:text-foreground transition-colors flex items-center gap-1"
+                aria-label="Retour à l'accueil"
+              >
+                <Home className="h-4 w-4" aria-hidden="true" />
+                <span className="sr-only">Accueil</span>
+              </a>
+            </Link>
+          </li>
+          
+          {customItems.map((item, index) => {
+            const isLast = index === customItems.length - 1;
+            
+            return (
+              <li key={index} className="flex items-center gap-2">
+                <ChevronRight className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                {isLast || !item.path ? (
+                  <span 
+                    className="text-foreground font-medium"
+                    aria-current={isLast ? "page" : undefined}
+                  >
+                    {item.label}
+                  </span>
+                ) : (
+                  <Link href={item.path}>
+                    <a className="hover:text-foreground transition-colors hover:underline">
+                      {item.label}
+                    </a>
+                  </Link>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
+    );
+  }
+
   return (
     <nav 
       className="container py-4" 
@@ -180,7 +236,8 @@ export function Breadcrumbs() {
         {segments.map((segment, index) => {
           const path = "/" + segments.slice(0, index + 1).join("/");
           const isLast = index === segments.length - 1;
-          const label = getLabel(segment);
+          // Use currentLabel for the last segment if provided
+          const label = isLast && currentLabel ? currentLabel : getLabel(segment);
           
           return (
             <li key={path} className="flex items-center gap-2">
