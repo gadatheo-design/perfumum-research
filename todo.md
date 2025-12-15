@@ -592,3 +592,18 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Ethyl 3-methylthiopropionate - Cassis, soufré
 - [x] Ethyl furan-2-carboxylate - Cuir, caramel
 - [x] Gamma-decalactone - Pêche, abricot
+
+
+## 🎨 PROFILS D'EXCEPTION + PAGE CHIMIE DU TABAC
+
+### Phase 1 : Profils d'exception (3 recettes)
+- [x] Cuir Marin - Fraîcheur marine + cuir souple + minéral
+- [x] Forêt de Cacao - Terreux vert + cacao épicé + mousse humide
+- [x] Fleur Fantôme - Floral éthéré + aldéhydé + musqué
+
+### Phase 2 : Page Chimie du Tabac
+- [x] Créer composant ChimieTabac.tsx
+- [x] Ajouter route /chimie-tabac dans App.tsx
+- [x] Afficher les esters aromatiques du tabac (13 molécules)
+- [x] Afficher les acides gras aromatiques (7 molécules)
+- [x] Documenter les applications CBD et synergies
