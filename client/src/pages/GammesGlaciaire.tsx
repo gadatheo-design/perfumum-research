@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +7,7 @@ import { Snowflake, Wind, Mountain, Droplets } from "lucide-react";
 import { GammesConnexes } from "@/components/GammesConnexes";
 import { Link } from "wouter";
 import { GammeBadge } from "@/components/GammeBadge";
+import { VoirAussi } from "@/components/VoirAussi";
 
 export default function GammesGlaciaire() {
   const accords = [
@@ -69,6 +71,7 @@ export default function GammesGlaciaire() {
 
   return (
     <div className="min-h-screen flex flex-col theme-glaciaire">
+      <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
@@ -96,7 +99,8 @@ export default function GammesGlaciaire() {
               </div>
               <div className="flex gap-2 mb-6">
                 <GammeBadge gamme="glaciaire" size="md" />
-                <Badge variant="secondary">7 variations</Badge>
+<Badge variant="secondary">7 variations</Badge>
+                <Badge variant="outline" className="bg-cyan-50">12 molécules clés</Badge>
                 <Badge variant="outline">Recherche 2023-2025</Badge>
               </div>
               <p className="text-lg text-muted-foreground leading-relaxed">
@@ -215,8 +219,41 @@ export default function GammesGlaciaire() {
           relatedGammes={["petrichor", "biolab"]} 
         />
 
-        {/* Méthodologie */}
+        {/* Molécules Clés */}
         <section className="py-16">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8">12 Molécules Clés</h2>
+              <p className="text-muted-foreground mb-8">
+                La gamme Glaciaire s'appuie sur des molécules à forte fraîcheur et des notes ozonées pour créer ses accords.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { name: "Menthe Poivrée", role: "Fraîcheur intense", color: "bg-cyan-100" },
+                  { name: "Menthe Verte", role: "Fraîcheur douce", color: "bg-green-100" },
+                  { name: "Eucalyptus", role: "Ozone camphre", color: "bg-teal-100" },
+                  { name: "Juniper", role: "Minéral froid", color: "bg-slate-100" },
+                  { name: "Pin Sylvestre", role: "Conifère alpin", color: "bg-emerald-100" },
+                  { name: "Makrut", role: "Citrus froid", color: "bg-lime-100" },
+                  { name: "Ambergris", role: "Fixateur minéral", color: "bg-gray-100" },
+                  { name: "Calone", role: "Ozone marin", color: "bg-blue-100" },
+                  { name: "Iso E Super", role: "Bois froid", color: "bg-amber-100" },
+                  { name: "Hedione", role: "Floral transparent", color: "bg-pink-100" },
+                  { name: "Dihydromyrcénol", role: "Fraîcheur métallique", color: "bg-zinc-100" },
+                  { name: "Ambroxan", role: "Ambre froid", color: "bg-orange-100" },
+                ].map((mol, i) => (
+                  <div key={i} className={`p-4 rounded-lg ${mol.color}`}>
+                    <p className="font-medium text-sm">{mol.name}</p>
+                    <p className="text-xs text-muted-foreground">{mol.role}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Méthodologie */}
+        <section className="py-16 bg-muted/30">
           <div className="container">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold mb-8">Méthodologie</h2>
@@ -266,9 +303,17 @@ export default function GammesGlaciaire() {
             </div>
           </div>
         </section>
+        {/* Voir aussi */}
+        <VoirAussi 
+          items={[
+            { title: "Gamme Pétrichor", description: "Terre humide et minéral", href: "/gammes/petrichor", badge: "60 variations" },
+            { title: "Gamme BioLab", description: "Biotechnologie olfactive", href: "/gammes/biolab", badge: "En développement" },
+            { title: "Protocoles maturation", description: "Temps de cure pour résines fraîches", href: "/protocoles-maturation" },
+            { title: "Toutes les molécules", description: "Base de données complète", href: "/molecules", badge: "176" },
+          ]} 
+        />
       </main>
-    <Footer />
-
+      <Footer />
     </div>
   );
 }

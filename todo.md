@@ -683,3 +683,59 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Documenter les mises à jour récentes (décembre 2025)
 - [x] Ajouter route /nouveautes dans App.tsx
 - [x] Ajouter lien dans le MegaMenu (section Admin/Informations)
+
+
+## 🔧 SESSION AMÉLIORATIONS AUDIT (5h+)
+
+### Phase 1 : Nettoyage architecture
+- [x] Supprimer routes dupliquées (/inventaire et /laboratoire/inventaire)
+- [x] Uniformiser l'indentation des routes dans App.tsx
+- [x] Réorganiser les imports par catégorie
+- [x] Ajouter commentaires de section pour navigation
+
+### Phase 2 : Breadcrumbs unifiés
+- [x] Vérifier présence breadcrumbs sur toutes les pages (90 pages auditées)
+- [x] Ajouter breadcrumbs manquants (24 pages modifiées)
+- [x] Améliorer composant Breadcrumbs avec mapping complet (100+ routes)
+- [x] Ajouter labels ARIA pour accessibilité
+
+### Phase 3 : Suggestions "Voir aussi"
+- [x] Créer composant VoirAussi réutilisable (3 variantes: default, compact, cards)
+- [x] Ajouter suggestions sur pages Molécules
+- [x] Ajouter suggestions sur pages Recettes
+- [x] Ajouter suggestions sur pages Gammes
+- [x] Ajouter suggestions sur page Recherche Scientifique
+
+### Phase 4 : Contenu Glaciaire et BioLab
+- [x] Enrichir page GammesGlaciaire avec 12 molécules clés et VoirAussi
+- [x] Enrichir page GammesBioLab avec 15 molécules clés et VoirAussi
+- [ ] Ajouter descriptions détaillées des concepts
+
+### Phase 5 : Hiérarchie visuelle et badges
+- [x] Créer composant StatusBadge réutilisable (NEW, BETA, STABLE, etc.)
+- [x] Créer composant CountBadge pour affichage des compteurs
+- [x] Créer composant GammeStatusBadge avec couleurs par gamme
+
+### Phase 6 : Menu mobile amélioré
+- [x] Restructurer menu mobile avec 8 sections (Gammes, Molécules, Recettes, Labo, Recherche, Doc, Projet)
+- [x] Ajouter sous-menus accordions avec badges
+- [x] Ajouter bouton recherche mobile
+- [x] Ajouter stats rapides en bas du menu
+- [x] Améliorer accessibilité avec aria-labels
+
+### Phase 7 : Labels ARIA accessibilité
+- [x] Auditer les composants sans labels ARIA (45 inputs vérifiés)
+- [x] La plupart des inputs ont des labels associés via htmlFor/id
+- [x] Boutons icônes du Header ont des aria-labels
+- [x] Breadcrumbs améliorés avec aria-label et aria-current
+
+### Phase 8 : Protocoles recettes manquants
+- [x] Audit des protocoles effectué (195 recettes)
+- [x] Les recettes récentes (Cheese, Ester Lab, Indole/Skatole, Signatures) ont des protocoles détaillés
+- [x] Page Protocoles de Maturation créée avec 5 protocoles types
+- [ ] Ajouter notes olfactives manquantes
+
+### Phase 9 : Documentation développeur
+- [x] Mettre à jour README.md avec statistiques actuelles (176 molécules, 195 recettes, 7 gammes)
+- [x] Documentation structure du projet existante
+- [x] Version mise à jour à 2.8.0

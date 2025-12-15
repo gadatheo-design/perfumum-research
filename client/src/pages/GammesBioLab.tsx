@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +7,7 @@ import { FlaskConical, Dna, Microscope, Beaker } from "lucide-react";
 import { GammesConnexes } from "@/components/GammesConnexes";
 import { Link } from "wouter";
 import { GammeBadge } from "@/components/GammeBadge";
+import { VoirAussi } from "@/components/VoirAussi";
 
 export default function GammesBioLab() {
   const accords = [
@@ -69,6 +71,7 @@ export default function GammesBioLab() {
 
   return (
     <div className="min-h-screen flex flex-col theme-biolab">
+      <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
@@ -96,7 +99,8 @@ export default function GammesBioLab() {
               </div>
               <div className="flex gap-2 mb-6">
                 <GammeBadge gamme="biolab" size="md" />
-                <Badge variant="secondary">7 variations</Badge>
+<Badge variant="secondary">7 variations</Badge>
+                <Badge variant="outline" className="bg-pink-50">15 molécules clés</Badge>
                 <Badge variant="outline">Recherche 2024-2025</Badge>
               </div>
               <p className="text-lg text-muted-foreground leading-relaxed">
@@ -215,8 +219,44 @@ export default function GammesBioLab() {
           relatedGammes={["petrichor", "volcanique", "glaciaire"]} 
         />
 
-        {/* Méthodologie */}
+        {/* Molécules Clés */}
         <section className="py-16">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8">15 Molécules Clés</h2>
+              <p className="text-muted-foreground mb-8">
+                La gamme Bio-Lab combine molécules naturelles et synthétiques pour créer des profils olfactifs post-naturels.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {[
+                  { name: "CBD Isolate", role: "Base résineuse", color: "bg-green-100" },
+                  { name: "Pinène", role: "Fraîcheur conifère", color: "bg-emerald-100" },
+                  { name: "Limonène", role: "Citrus vif", color: "bg-yellow-100" },
+                  { name: "Myrcène", role: "Terré herbacé", color: "bg-lime-100" },
+                  { name: "Linalool", role: "Floral doux", color: "bg-purple-100" },
+                  { name: "Caryophyllène", role: "Épicé boisé", color: "bg-amber-100" },
+                  { name: "Humulène", role: "Houblon terré", color: "bg-orange-100" },
+                  { name: "Iso E Super", role: "Bois velouté", color: "bg-stone-100" },
+                  { name: "Calone", role: "Ozone marin", color: "bg-cyan-100" },
+                  { name: "Aldéhyde C12", role: "Métallique propre", color: "bg-slate-100" },
+                  { name: "Ambroxan", role: "Ambre synthétique", color: "bg-rose-100" },
+                  { name: "Hedione", role: "Jasmin transparent", color: "bg-pink-100" },
+                  { name: "Spikenard", role: "Fermenté terreux", color: "bg-brown-100" },
+                  { name: "Oud Tea", role: "Bois fermenté", color: "bg-red-100" },
+                  { name: "Vetiver", role: "Racine terreuse", color: "bg-teal-100" },
+                ].map((mol, i) => (
+                  <div key={i} className={`p-3 rounded-lg ${mol.color}`}>
+                    <p className="font-medium text-sm">{mol.name}</p>
+                    <p className="text-xs text-muted-foreground">{mol.role}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Méthodologie */}
+        <section className="py-16 bg-muted/30">
           <div className="container">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold mb-8">Méthodologie</h2>
@@ -266,9 +306,17 @@ export default function GammesBioLab() {
             </div>
           </div>
         </section>
+        {/* Voir aussi */}
+        <VoirAussi 
+          items={[
+            { title: "Gamme Glaciaire", description: "Fraîcheur et ozone", href: "/gammes/glaciaire", badge: "7 variations" },
+            { title: "Gamme Volcanique", description: "Géologie incandescente", href: "/gammes/volcanique", badge: "36 variations" },
+            { title: "Chimie du Tabac", description: "Esters aromatiques", href: "/chimie-tabac", badge: "13 molécules" },
+            { title: "Synergies moléculaires", description: "Interactions terpènes-niches", href: "/synergies-terpenes-niches" },
+          ]} 
+        />
       </main>
-    <Footer />
-
+      <Footer />
     </div>
   );
 }

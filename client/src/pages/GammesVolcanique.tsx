@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -49,6 +50,7 @@ export default function GammesVolcanique() {
 
   return (
     <div className="min-h-screen flex flex-col theme-volcanique">
+      <Breadcrumbs />
       <Header />
       
       <main className="flex-1">

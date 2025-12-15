@@ -10,204 +10,274 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
+
+// === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
-import Admin from "./pages/Admin";
-import AdminMoleculeNew from "./pages/AdminMoleculeNew";
-import AdminImportExport from "./pages/AdminImportExport";
-import AdminRecettes from "./pages/AdminRecettes";
-import AdminMolecules from "./pages/AdminMolecules";
-import Projet from "./pages/Projet";
+import APropos from "./pages/APropos";
+import Contact from "./pages/Contact";
+import Nouveautes from "./pages/Nouveautes";
 import LeProjet from "./pages/LeProjet";
+
+// === ADMINISTRATION ===
+import Admin from "./pages/Admin";
+import AdminMolecules from "./pages/AdminMolecules";
+import AdminMoleculeNew from "./pages/AdminMoleculeNew";
+import AdminRecettes from "./pages/AdminRecettes";
+import AdminImportExport from "./pages/AdminImportExport";
+
+// === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
-import Familles from "./pages/Familles";
-import Laboratoire from "./pages/Laboratoire";
-import Civilisations from "./pages/Civilisations";
-import Installations from "./pages/Installations";
 import PrototypeDetail from "./pages/PrototypeDetail";
-import Molecules from "./pages/Molecules";
-import Compare from "./pages/Compare";
-import FamillesList from "./pages/FamillesList";
-import Accords from "./pages/Accords";
-import { Glossaire } from "./pages/Glossaire";
-import DilutionCalculator from "./pages/DilutionCalculator";
-import { Timeline } from "./pages/Timeline";
-import { ChemicalFamilies } from "./pages/ChemicalFamilies";
-import { ExperimentalAccords } from "./pages/ExperimentalAccords";
-import { AbsorbeScale } from "@/pages/AbsorbeScale";
-// import Recherche from "./pages/Recherche"; // Route désactivée - utiliser GlobalSearch modal à la place
-import MoleculeDetail from "./pages/MoleculeDetail";
-import RecetteDetail from "./pages/RecetteDetail";
-import TerpeneDetail from "./pages/TerpeneDetail";
-import CompareTerpenes from "./pages/CompareTerpenes";
-import CompareRadar from "./pages/CompareRadar";
-import MatriceSynergies from "./pages/MatriceSynergies";
-import GalerieBotaniques from "./pages/GalerieBotaniques";
-import Recettes from "./pages/Recettes";
+import C1Fermentum from "./pages/prototypes/C1";
+import C2ClarusVerde from "./pages/prototypes/C2";
+import C3LactaSolis from "./pages/prototypes/C3";
+import C4TerraAmbra from "./pages/prototypes/C4";
+
+// === GAMMES ===
 import Gammes from "./pages/Gammes";
 import GammesPetrichor from "@/pages/GammesPetrichor";
 import GammesVolcanique from "@/pages/GammesVolcanique";
 import GammesGlaciaire from "@/pages/GammesGlaciaire";
 import GammesBioLab from "@/pages/GammesBioLab";
 import GammesMossi from "./pages/GammesMossi";
-import CivilisationDetail from "./pages/CivilisationDetail";
-import C1Fermentum from "./pages/prototypes/C1";
-import C2ClarusVerde from "./pages/prototypes/C2";
-import C3LactaSolis from "./pages/prototypes/C3";
-import C4TerraAmbra from "./pages/prototypes/C4";
-import Reseau from "./pages/Reseau";
-import BioMineralis from "./pages/BioMineralis";
+import GammeSignatures from "./pages/GammeSignatures";
+
+// === LABORATOIRE ===
+import Laboratoire from "./pages/Laboratoire";
+import LaboratoireRecettes from "./pages/LaboratoireRecettes";
+import MatriceInteractive from "@/pages/MatriceInteractive";
+import Statistiques from "@/pages/Statistiques";
+import Inventaire from "./pages/Inventaire";
+
+// === MOLÉCULES ===
+import Molecules from "./pages/Molecules";
+import MoleculeDetail from "./pages/MoleculeDetail";
+import TerpeneDetail from "./pages/TerpeneDetail";
+import Familles from "./pages/Familles";
+import FamillesList from "./pages/FamillesList";
+import { ChemicalFamilies } from "./pages/ChemicalFamilies";
+
+// === RECETTES ===
+import Recettes from "./pages/Recettes";
+import RecetteDetail from "./pages/RecetteDetail";
+import Accords from "./pages/Accords";
+import { ExperimentalAccords } from "./pages/ExperimentalAccords";
+
+// === RÉSINES CBD ===
 import ResinesCBD from "@/pages/ResinesCBD";
 import RecetteCBDDetail from "@/pages/RecetteCBDDetail";
+import ProtocolesMaturation from "./pages/ProtocolesMaturation";
+
+// === COMPARAISON & VISUALISATION ===
+import Compare from "./pages/Compare";
+import CompareTerpenes from "./pages/CompareTerpenes";
+import CompareRadar from "./pages/CompareRadar";
+import CompareMoleculesAdvanced from "./pages/CompareMoleculesAdvanced";
+import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
+import MatriceSynergies from "./pages/MatriceSynergies";
 import GrapheMoleculesRecettes from "@/pages/GrapheMoleculesRecettes";
-import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
-import TabacsNiche from "@/pages/TabacsNiche";
-import LaboratoireRecettes from "./pages/LaboratoireRecettes";
-// import { Dashboard } from "./pages/Dashboard";
-import { DashboardMinimal } from "./pages/DashboardMinimal";
+import SynergiesPage from "./pages/SynergiesPage";
+import SuggestionsSynergies from "./pages/SuggestionsSynergies";
+
+// === OUTILS ===
+import OutilsFormulation from "./pages/OutilsFormulation";
+import ProportionsCalculator from "./pages/ProportionsCalculator";
+import DilutionCalculator from "./pages/DilutionCalculator";
+import CorrelationAnalysis from "./pages/CorrelationAnalysis";
+import { AbsorbeScale } from "@/pages/AbsorbeScale";
+
+// === RECHERCHE SCIENTIFIQUE ===
 import { RechercheScientifique } from "./pages/RechercheScientifique";
 import { SynergiesMoleculaires } from "./pages/SynergiesMoleculaires";
-import Statistics from "./pages/Statistics";
 import { PyrolyseCombustion } from "./pages/PyrolyseCombustion";
 import { CourbesVolatilite } from "@/pages/CourbesVolatilite";
 import { DegradationTerpenes } from "@/pages/DegradationTerpenes";
 import { ModelesAnalytiquesGCMS } from "@/pages/ModelesAnalytiquesGCMS";
-import MatriceInteractive from "@/pages/MatriceInteractive";
-import Statistiques from "@/pages/Statistiques";
-import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
-import CompareMoleculesAdvanced from "./pages/CompareMoleculesAdvanced";
-import SynergiesPage from "./pages/SynergiesPage";
-import SuggestionsSynergies from "./pages/SuggestionsSynergies";
-import DashboardRecherche from "@/pages/DashboardRecherche";
-import TimelinePerfumum from "./pages/TimelinePerfumum";
+import SynergiesTerpenesNiches from "./pages/SynergiesTerpenesNiches";
+import ChimieTabac from "./pages/ChimieTabac";
+
+// === PROGRAMMES DE RECHERCHE ===
+import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
+import TabacsNiche from "@/pages/TabacsNiche";
+
+// === MÉTHODOLOGIE ===
 import MethodeAbsorbe from "./pages/MethodeAbsorbe";
-import Projets from "./pages/Projets";
-import Terrains from "./pages/Terrains";
-import Collaborations from "./pages/Collaborations";
-import TabacsResines from "./pages/TabacsResines";
-import Favoris from "./pages/Favoris";
 import MethodologieAbsorbe from "./pages/methodologie/MethodologieAbsorbe";
 import Pyrolyse from "./pages/methodologie/Pyrolyse";
 import GCMS from "./pages/methodologie/GCMS";
-import APropos from "./pages/APropos";
-import Contact from "./pages/Contact";
+
+// === CONTENU ÉDITORIAL ===
 import Etudes from "./pages/Etudes";
-import ProportionsCalculator from "./pages/ProportionsCalculator";
-import CorrelationAnalysis from "./pages/CorrelationAnalysis";
-import OutilsFormulation from "./pages/OutilsFormulation";
-import AnalyticsDashboard from "./pages/AnalyticsDashboard";
-import Inventaire from "./pages/Inventaire";
+import Projets from "./pages/Projets";
+import Terrains from "./pages/Terrains";
+import Collaborations from "./pages/Collaborations";
+import { Glossaire } from "./pages/Glossaire";
+import { Timeline } from "./pages/Timeline";
+import TimelinePerfumum from "./pages/TimelinePerfumum";
+import GalerieBotaniques from "./pages/GalerieBotaniques";
+
+// === CIVILISATIONS & TRADITIONS ===
+import Civilisations from "./pages/Civilisations";
+import CivilisationDetail from "./pages/CivilisationDetail";
+import Installations from "./pages/Installations";
+
+// === TABACS & ASSOCIATIONS ===
+import TabacsResines from "./pages/TabacsResines";
 import Associations from "./pages/Associations";
-import TestMinimal from "./pages/TestMinimal";
 import Fournisseurs from "./pages/Fournisseurs";
-import ChimieTabac from "./pages/ChimieTabac";
-import SynergiesTerpenesNiches from "./pages/SynergiesTerpenesNiches";
-import GammeSignatures from "./pages/GammeSignatures";
-import ProtocolesMaturation from "./pages/ProtocolesMaturation";
-import Nouveautes from "./pages/Nouveautes";
+
+// === DASHBOARDS ===
+import { DashboardMinimal } from "./pages/DashboardMinimal";
+import DashboardRecherche from "@/pages/DashboardRecherche";
+import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import Statistics from "./pages/Statistics";
+
+// === UTILISATEUR ===
+import Favoris from "./pages/Favoris";
+import Reseau from "./pages/Reseau";
+import BioMineralis from "./pages/BioMineralis";
+
+// === PAGES TECHNIQUES ===
+import TestMinimal from "./pages/TestMinimal";
 
 function Router() {
   return (
-    <Switch>      <Route path={"/"} component={Home} />
-         <Route path="/admin" component={Admin} />
-      <Route path="/admin/molecule/new" component={AdminMoleculeNew} />
-      <Route path="/admin/import-export" component={AdminImportExport} />
-      <Route path="/admin/recettes" component={AdminRecettes} />
+    <Switch>
+      {/* === ACCUEIL === */}
+      <Route path="/" component={Home} />
+      
+      {/* === ADMINISTRATION === */}
+      <Route path="/admin" component={Admin} />
       <Route path="/admin/molecules" component={AdminMolecules} />
-      <Route path="/graphe-synergies" component={SynergiesPage} />
-      <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
-      <Route path={"/404"} component={NotFound} />      <Route path="/le-projet" component={LeProjet} />
+      <Route path="/admin/molecule/new" component={AdminMoleculeNew} />
+      <Route path="/admin/recettes" component={AdminRecettes} />
+      <Route path="/admin/import-export" component={AdminImportExport} />
+      
+      {/* === PROJET === */}
+      <Route path="/le-projet" component={LeProjet} />
+      <Route path="/a-propos" component={APropos} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/nouveautes" component={Nouveautes} />
+      <Route path="/projet/timeline" component={TimelinePerfumum} />
+      
+      {/* === PROTOTYPES === */}
       <Route path="/prototypes" component={Prototypes} />
       <Route path="/prototypes/c1" component={C1Fermentum} />
       <Route path="/prototypes/c2" component={C2ClarusVerde} />
       <Route path="/prototypes/c3" component={C3LactaSolis} />
       <Route path="/prototypes/c4" component={C4TerraAmbra} />
       <Route path="/prototypes/:code" component={PrototypeDetail} />
-      <Route path="/familles" component={Familles} />
-      <Route path="/familles/list" component={FamillesList} />
-      <Route path="/molecules" component={Molecules} />
-      <Route path="/compare" component={Compare} />
-      <Route path="/accords" component={Accords} />
-      <Route path="/recettes" component={Recettes} />
+      
+      {/* === GAMMES === */}
       <Route path="/gammes" component={Gammes} />
-        <Route path="/gammes/petrichor" component={GammesPetrichor} />
-        <Route path="/gammes/volcanique" component={GammesVolcanique} />
-        <Route path="/gammes/glaciaire" component={GammesGlaciaire} />
-        <Route path="/gammes/biolab" component={GammesBioLab} />
+      <Route path="/gammes/petrichor" component={GammesPetrichor} />
+      <Route path="/gammes/volcanique" component={GammesVolcanique} />
+      <Route path="/gammes/glaciaire" component={GammesGlaciaire} />
+      <Route path="/gammes/biolab" component={GammesBioLab} />
       <Route path="/gammes/mossi" component={GammesMossi} />
-          <Route path="/glossaire" component={Glossaire} />
-          <Route path="/outils/dilution" component={DilutionCalculator} />
-      <Route path="/timeline" component={Timeline} />
-      <Route path="/chemical-families" component={ChemicalFamilies} />
-      <Route path="/experimental-accords" component={ExperimentalAccords} />
-        <Route path="/absorbe-scale" component={AbsorbeScale} />
-          {/* <Route path="/recherche" component={Recherche} /> */} {/* Route désactivée - page cassée, utiliser GlobalSearch modal */}
-      <Route path="/reseau" component={Reseau} />
-      <Route path="/bio-mineralis" component={BioMineralis} />
-      <Route path="/resines-cbd" component={ResinesCBD} />
-      <Route path="/resine-cbd/:id" component={RecetteCBDDetail} />
-      <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
-          <Route path="/molecule/:id" component={MoleculeDetail} />
-          <Route path="/terpene/:id" component={TerpeneDetail} />
-          <Route path="/compare-terpenes" component={CompareTerpenes} />
-          <Route path="/compare-radar" component={CompareRadar} />
-          <Route path="/matrice-synergies" component={MatriceSynergies} />
-          <Route path="/calculateur" component={ProportionsCalculator} />
-          <Route path="/analyses" component={CorrelationAnalysis} />
-          <Route path="/outils-formulation" component={OutilsFormulation} />
-          <Route path="/galerie-botaniques" component={GalerieBotaniques} />
-          <Route path="/recette/:id" component={RecetteDetail} />
-          <Route path="/civilisation/:id" component={CivilisationDetail} />
+      <Route path="/gammes/signatures" component={GammeSignatures} />
+      
+      {/* === LABORATOIRE === */}
       <Route path="/laboratoire" component={Laboratoire} />
       <Route path="/laboratoire/recettes" component={LaboratoireRecettes} />
+      <Route path="/laboratoire/matrice-interactive" component={MatriceInteractive} />
+      <Route path="/laboratoire/statistiques" component={Statistiques} />
       <Route path="/inventaire" component={Inventaire} />
-      <Route path="/laboratoire/inventaire" component={Inventaire} />
-      <Route path="/associations" component={Associations} />
-      <Route path="/associations-hash-tabacs" component={Associations} />
-      <Route path="/fournisseurs" component={Fournisseurs} />
-      <Route path="/chimie-tabac" component={ChimieTabac} />
-      <Route path="/synergies-terpenes-niches" component={SynergiesTerpenesNiches} />
-      <Route path="/gammes/signatures" component={GammeSignatures} />
+      
+      {/* === MOLÉCULES === */}
+      <Route path="/molecules" component={Molecules} />
+      <Route path="/molecule/:id" component={MoleculeDetail} />
+      <Route path="/terpene/:id" component={TerpeneDetail} />
+      <Route path="/familles" component={Familles} />
+      <Route path="/familles/list" component={FamillesList} />
+      <Route path="/chemical-families" component={ChemicalFamilies} />
+      
+      {/* === RECETTES === */}
+      <Route path="/recettes" component={Recettes} />
+      <Route path="/recette/:id" component={RecetteDetail} />
+      <Route path="/accords" component={Accords} />
+      <Route path="/experimental-accords" component={ExperimentalAccords} />
+      
+      {/* === RÉSINES CBD === */}
+      <Route path="/resines-cbd" component={ResinesCBD} />
+      <Route path="/resine-cbd/:id" component={RecetteCBDDetail} />
       <Route path="/protocoles-maturation" component={ProtocolesMaturation} />
-      <Route path="/nouveautes" component={Nouveautes} />
-      <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
-          <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
-          <Route path="/methodologie/gc-ms" component={GCMS} />
-          <Route path="/laboratoire/matrice-interactive" component={MatriceInteractive} />
-          <Route path="/laboratoire/statistiques" component={Statistiques} />
-          <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
-          <Route path="/compare-molecules-advanced" component={CompareMoleculesAdvanced} />
-
-      <Route path="/analytics" component={AnalyticsDashboard} />
-      <Route path="/test-minimal" component={TestMinimal} />
-      <Route path="/dashboard" component={DashboardMinimal} />
-      <Route path="/statistiques" component={Statistics} />
-          <Route path="/dashboard/recherche" component={DashboardRecherche} />
-          <Route path="/projet/timeline" component={TimelinePerfumum} />
-        <Route path="/methode-absorbe" component={MethodeAbsorbe} />
-        <Route path="/methode" component={MethodeAbsorbe} />
-        <Route path="/a-propos" component={APropos} />
-        <Route path="/contact" component={Contact} />
-        <Route path="/etudes" component={Etudes} />
-        <Route path="/projets" component={Projets} />
-        <Route path="/terrains" component={Terrains} />
-        <Route path="/collaborations" component={Collaborations} />
-        <Route path="/tabacs-resines" component={TabacsResines} />
-        <Route path="/favoris" component={Favoris} />
+      
+      {/* === COMPARAISON & VISUALISATION === */}
+      <Route path="/compare" component={Compare} />
+      <Route path="/compare-terpenes" component={CompareTerpenes} />
+      <Route path="/compare-radar" component={CompareRadar} />
+      <Route path="/compare-molecules-advanced" component={CompareMoleculesAdvanced} />
+      <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
+      <Route path="/matrice-synergies" component={MatriceSynergies} />
+      <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
+      <Route path="/graphe-synergies" component={SynergiesPage} />
+      <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
+      
+      {/* === OUTILS === */}
+      <Route path="/outils-formulation" component={OutilsFormulation} />
+      <Route path="/calculateur" component={ProportionsCalculator} />
+      <Route path="/outils/dilution" component={DilutionCalculator} />
+      <Route path="/analyses" component={CorrelationAnalysis} />
+      <Route path="/absorbe-scale" component={AbsorbeScale} />
+      
+      {/* === RECHERCHE SCIENTIFIQUE === */}
       <Route path="/recherche-scientifique" component={RechercheScientifique} />
       <Route path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />
       <Route path="/recherche-scientifique/pyrolyse-combustion" component={PyrolyseCombustion} />
-        <Route path="/recherche-scientifique/courbes-volatilite" component={CourbesVolatilite} />
-        <Route path="/recherche-scientifique/degradation-terpenes" component={DegradationTerpenes} />
-        <Route path="/recherche-scientifique/modeles-analytiques-gcms" component={ModelesAnalytiquesGCMS} />
-
-        {/* Programmes de Recherche */}
-        <Route path="/programmes-recherche" component={ProgrammesRecherche} />
-        <Route path="/programmes-recherche/resines-cbd" component={ResinesCBD} />
-        <Route path="/programmes-recherche/tabacs-niche" component={TabacsNiche} />
+      <Route path="/recherche-scientifique/courbes-volatilite" component={CourbesVolatilite} />
+      <Route path="/recherche-scientifique/degradation-terpenes" component={DegradationTerpenes} />
+      <Route path="/recherche-scientifique/modeles-analytiques-gcms" component={ModelesAnalytiquesGCMS} />
+      <Route path="/synergies-terpenes-niches" component={SynergiesTerpenesNiches} />
+      <Route path="/chimie-tabac" component={ChimieTabac} />
+      
+      {/* === PROGRAMMES DE RECHERCHE === */}
+      <Route path="/programmes-recherche" component={ProgrammesRecherche} />
+      <Route path="/programmes-recherche/resines-cbd" component={ResinesCBD} />
+      <Route path="/programmes-recherche/tabacs-niche" component={TabacsNiche} />
+      
+      {/* === MÉTHODOLOGIE === */}
+      <Route path="/methode" component={MethodeAbsorbe} />
+      <Route path="/methode-absorbe" component={MethodeAbsorbe} />
+      <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
+      <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
+      <Route path="/methodologie/gc-ms" component={GCMS} />
+      
+      {/* === CONTENU ÉDITORIAL === */}
+      <Route path="/etudes" component={Etudes} />
+      <Route path="/projets" component={Projets} />
+      <Route path="/terrains" component={Terrains} />
+      <Route path="/collaborations" component={Collaborations} />
+      <Route path="/glossaire" component={Glossaire} />
+      <Route path="/timeline" component={Timeline} />
+      <Route path="/galerie-botaniques" component={GalerieBotaniques} />
+      
+      {/* === CIVILISATIONS & TRADITIONS === */}
       <Route path="/civilisations" component={Civilisations} />
+      <Route path="/civilisation/:id" component={CivilisationDetail} />
       <Route path="/installations" component={Installations} />
+      
+      {/* === TABACS & ASSOCIATIONS === */}
+      <Route path="/tabacs-resines" component={TabacsResines} />
+      <Route path="/associations" component={Associations} />
+      <Route path="/fournisseurs" component={Fournisseurs} />
+      
+      {/* === DASHBOARDS === */}
+      <Route path="/dashboard" component={DashboardMinimal} />
+      <Route path="/dashboard/recherche" component={DashboardRecherche} />
+      <Route path="/analytics" component={AnalyticsDashboard} />
+      <Route path="/statistiques" component={Statistics} />
+      
+      {/* === UTILISATEUR === */}
+      <Route path="/favoris" component={Favoris} />
+      <Route path="/reseau" component={Reseau} />
+      <Route path="/bio-mineralis" component={BioMineralis} />
+      
+      {/* === PAGES TECHNIQUES === */}
+      <Route path="/test-minimal" component={TestMinimal} />
+      
+      {/* === ERREURS === */}
       <Route path="/404" component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );

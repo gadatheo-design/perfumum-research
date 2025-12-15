@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -92,6 +93,7 @@ export default function DilutionCalculator() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Breadcrumbs />
       <Header />
       
       <main className="flex-1 section-spacing">

@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { VoirAussi, suggestionsRecherche } from "@/components/VoirAussi";
 import { 
   Flame, 
   Wind, 
@@ -223,6 +224,11 @@ export function RechercheScientifique() {
               </p>
             </div>
           </div>
+        </div>
+        
+        {/* Voir aussi */}
+        <div className="mt-12">
+          <VoirAussi items={suggestionsRecherche} variant="compact" />
         </div>
       </div>
     </div>

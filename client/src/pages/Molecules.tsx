@@ -14,6 +14,7 @@ import { FilterSelect } from "@/components/filters/FilterSelect";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { VoirAussi, suggestionsMolecules } from "@/components/VoirAussi";
 import { ProfileAutocomplete } from "@/components/filters/ProfileAutocomplete";
 import { ActiveFiltersChips } from "@/components/filters/ActiveFiltersChips";
 import { FloatingCompareBar } from "@/components/FloatingCompareBar";
@@ -721,14 +722,8 @@ export default function Molecules() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border/40 py-8 mt-16">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <p>© 2025 PERFUMUM — Recherche Olfactive</p>
-          </div>
-        </div>
-      </footer>
+      {/* Voir aussi */}
+      <VoirAussi items={suggestionsMolecules} />
 
       {/* Floating Compare Bar */}
       <FloatingCompareBar

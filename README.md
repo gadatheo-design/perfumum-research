@@ -14,13 +14,13 @@ PERFUMUM est une plateforme web complète de gestion et documentation d'un proje
 
 | Catégorie | Quantité | Description |
 |-----------|----------|-------------|
-| **Molécules** | 138 | Molécules aromatiques avec profils olfactifs complets |
-| **Recettes** | 162 | Formulations expérimentales (parfums, résines, tabacs) |
+| **Molécules** | 176 | Molécules aromatiques avec profils olfactifs complets |
+| **Recettes** | 195 | Formulations expérimentales (parfums, résines, tabacs) |
 | **Accords** | 25 | Accords olfactifs conceptuels |
 | **Prototypes** | 4 | Prototypes fondamentaux C1-C4 |
 | **Traditions** | 26 | Traditions olfactives culturelles documentées |
 | **Installations** | 7 | Installations artistiques olfactives |
-| **Gammes** | 5 | Univers olfactifs (Pétrichor, Volcanique, Civilisations, Glaciaire, Bio-Lab) |
+| **Gammes** | 7 | Univers olfactifs (Pétrichor, Volcanique, Glaciaire, Bio-Lab, Royal Mossi, Signatures) |
 
 ---
 
@@ -76,8 +76,8 @@ perfumum-research/
 Le projet utilise **31 tables interconnectées** avec **275 relations structurelles** :
 
 **Tables principales** :
-- `molecules` : 138 molécules avec profils olfactifs, propriétés chimiques, profils radar
-- `recettes` : 162 recettes avec formulations, protocoles, évolution aromatique
+- `molecules` : 176 molécules avec profils olfactifs, propriétés chimiques, profils radar
+- `recettes` : 195 recettes avec formulations, protocoles, évolution aromatique
 - `prototypes` : 4 prototypes fondamentaux (C1-C4)
 - `olfactive_families` : 10 familles olfactives avec 181 variations
 - `accords` : 25 accords avec textures et résonances émotionnelles
@@ -328,6 +328,6 @@ Ce projet est propriétaire et confidentiel. Toute reproduction, distribution ou
 
 ---
 
-**Version** : 1.0.0  
-**Dernière mise à jour** : 9 janvier 2025  
-**Checkpoint stable** : `3b58d71d`
+**Version** : 2.8.0  
+**Dernière mise à jour** : 15 décembre 2025  
+**Checkpoint stable** : `e940d397`

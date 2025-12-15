@@ -1,0 +1,15 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN protocol IS NULL OR protocol = '' THEN 1 ELSE 0 END) as sans_protocole,\n  SUM(CASE WHEN protocol IS NOT NULL AND protocol != '' THEN 1 ELSE 0 END) as avec_protocole\nFROM recettes",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN protocol IS NULL OR protocol = '' THEN 1 ELSE 0 END) as sans_protocole,\n  SUM(CASE WHEN protocol IS NOT NULL AND protocol != '' THEN 1 ELSE 0 END) as avec_protocole\nFROM recettes",
+  "rows": [
+    {
+      "total": "195",
+      "sans_protocole": "145",
+      "avec_protocole": "50"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tsans_protocole\tavec_protocole\n195\t145\t50\n",
+  "stderr": "",
+  "execution_time_ms": 106
+}

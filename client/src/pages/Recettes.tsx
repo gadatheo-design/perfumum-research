@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
+import { VoirAussi, suggestionsRecettes } from "@/components/VoirAussi";
 
 export default function Recettes() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -428,8 +429,11 @@ export default function Recettes() {
           </div>
         </section>
       </main>
-    <Footer />
-
+      
+      {/* Voir aussi */}
+      <VoirAussi items={suggestionsRecettes} />
+      
+      <Footer />
     </div>
   );
 }

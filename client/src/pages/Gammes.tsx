@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Droplets, Mountain, Crown, ArrowRight, Sparkles } from "lucide-react";
+import { VoirAussi, suggestionsGammes } from "@/components/VoirAussi";
 
 export default function Gammes() {
   const gammes = [
@@ -169,8 +170,11 @@ export default function Gammes() {
           </div>
         </section>
       </main>
-    <Footer />
-
+      
+      {/* Voir aussi */}
+      <VoirAussi items={suggestionsGammes} />
+      
+      <Footer />
     </div>
   );
 }

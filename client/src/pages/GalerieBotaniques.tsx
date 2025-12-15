@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -98,6 +99,7 @@ export default function GalerieBotaniques() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Breadcrumbs />
       <Header />
       
       <main className="flex-1 container py-8 space-y-6">
