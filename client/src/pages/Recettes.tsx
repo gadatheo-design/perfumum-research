@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
-import { Search, Beaker, Filter, X } from "lucide-react";
+import { Search, Beaker, Filter, X, GitBranch } from "lucide-react";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
@@ -245,7 +245,15 @@ export default function Recettes() {
                   <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
                     <CardHeader>
                       <div className="flex items-start justify-between gap-2">
-                        <CardTitle className="text-lg">{recette.name}</CardTitle>
+                        <div className="flex items-center gap-2">
+                          <CardTitle className="text-lg">{recette.name}</CardTitle>
+                          {recette.parentRecetteId && (
+                            <Badge variant="outline" className="border-amber-400 text-amber-600 text-xs flex items-center gap-1">
+                              <GitBranch className="h-3 w-3" />
+                              Variation
+                            </Badge>
+                          )}
+                        </div>
                         {recette.category && getGammeFromCategory(recette.category) && (
                           <GammeBadge gamme={getGammeFromCategory(recette.category)!} size="sm" />
                         )}

@@ -1126,3 +1126,7 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Ajouter champ parent_id ou relation variations dans le schéma - FAIT (parent_recette_id)
 - [x] Modifier la page de détail recette pour afficher les variations liées - FAIT
 - [x] Tester la navigation bidirectionnelle - VALIDÉ (API fonctionne, variations et parent récupérés)
+
+### Étape 9 : Badge Variation + Molécules Rares (16 déc 2025)
+- [x] Ajouter badge "Variation" dans la liste des recettes (/recettes) - FAIT
+- [x] Rechercher et proposer une liste de molécules rares à intégrer - FAIT (30 molécules)
