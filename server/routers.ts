@@ -373,6 +373,9 @@ export const appRouter = router({
     getStats: publicProcedure.query(async () => {
       return await db.getAdminStats();
     }),
+    enrichMoleculeData: publicProcedure.mutation(async () => {
+      return await db.enrichMoleculeData();
+    }),
   }),
 
   // Glossary

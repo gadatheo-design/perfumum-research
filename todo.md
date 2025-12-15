@@ -275,3 +275,29 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - ✅ ALTERNATIVE FONCTIONNELLE : /suggestions-synergies
 - 📝 Problème probablement lié au HMR/cache Vite ou conflit interne React
 - 📝 Priorité basse - La fonctionnalité est couverte par /suggestions-synergies
+
+
+## 🔗 NAVIGATION + EXPORT PDF + ENRICHISSEMENT DONNÉES
+
+### Phase 1 : Lien navigation vers Suggestions IA
+- [x] Ajouter entrée "Suggestions IA" dans le menu Admin (section Intelligence IA)
+- [x] Ajouter lien dans le Header principal (section Admin)
+- [x] Vérifier accessibilité sur mobile
+
+### Phase 2 : Page Export PDF molécules
+- [x] Créer fonction exportPDF dans MoleculeDetail.tsx
+- [x] Générer PDF avec radar tableau, propriétés chimiques, profil olfactif
+- [x] Ajouter bouton sur chaque fiche molécule (code présent)
+- [ ] ⚠️ Bouton non visible sur l'interface (problème CSS/layout à investiguer)
+
+### Phase 3 : Enrichissement données molécules
+- [x] Analyser les champs manquants (point d'ébullition, masse moléculaire, famille chimique)
+- [x] Créer procédure tRPC enrichMoleculeData avec algorithme IA
+- [x] Ajouter bouton "Enrichir les molécules" dans Admin
+- [ ] Tester l'enrichissement sur les molécules avec données manquantes
+
+### Phase 4 : Tests et checkpoint
+- [x] Tester navigation vers Suggestions IA - Fonctionnel
+- [ ] Tester export PDF sur plusieurs molécules - Bouton non visible
+- [x] Vérifier les filtres de recherche avancée - 13 critères fonctionnels
+- [x] Créer checkpoint final

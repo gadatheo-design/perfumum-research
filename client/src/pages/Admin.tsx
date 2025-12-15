@@ -11,13 +11,35 @@ import {
   BookOpen, 
   Palette,
   Database,
-  BarChart3
+  BarChart3,
+  Sparkles,
+  Lightbulb,
+  Loader2
 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 
 export default function Admin() {
   // Charger les statistiques
   const { data: stats } = trpc.admin.getStats.useQuery();
+  const [isEnriching, setIsEnriching] = useState(false);
+  
+  const enrichMutation = trpc.admin.enrichMoleculeData.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.updated} molécules enrichies avec succès !`);
+      setIsEnriching(false);
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+      setIsEnriching(false);
+    },
+  });
+  
+  const handleEnrichData = () => {
+    setIsEnriching(true);
+    enrichMutation.mutate();
+  };
 
   const adminSections = [
     {
@@ -187,6 +209,71 @@ export default function Admin() {
                     </Card>
                   );
                 })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Outils IA */}
+        <section className="py-16 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-950/20 dark:to-indigo-950/20">
+          <div className="container">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center gap-3 mb-6">
+                <Sparkles className="w-6 h-6 text-purple-600" />
+                <h2 className="text-2xl font-bold">Outils Intelligence Artificielle</h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Card className="border-purple-200 dark:border-purple-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Database className="w-5 h-5 text-purple-600" />
+                      Enrichir les données
+                    </CardTitle>
+                    <CardDescription>
+                      Génère automatiquement les propriétés manquantes (masse moléculaire, point d'ébullition, famille chimique) basées sur les profils olfactifs
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button 
+                      onClick={handleEnrichData}
+                      disabled={isEnriching}
+                      className="w-full bg-purple-600 hover:bg-purple-700"
+                    >
+                      {isEnriching ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Enrichissement en cours...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4 mr-2" />
+                          Enrichir les molécules
+                        </>
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
+                
+                <Card className="border-indigo-200 dark:border-indigo-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Lightbulb className="w-5 h-5 text-indigo-600" />
+                      Suggestions de synergies
+                    </CardTitle>
+                    <CardDescription>
+                      Découvrez des paires de molécules prometteuses basées sur la similarité de leurs profils radar olfactifs
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Link href="/suggestions-synergies">
+                      <Button variant="outline" className="w-full border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-950">
+                        <Lightbulb className="w-4 h-4 mr-2" />
+                        Voir les suggestions
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>

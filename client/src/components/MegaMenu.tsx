@@ -14,6 +14,8 @@ import {
   Map,
   FileText,
   Settings,
+  Lightbulb,
+  Database,
 } from "lucide-react";
 
 interface MenuItem {
@@ -319,6 +321,12 @@ export function MegaMenu() {
           description: "Administration",
         },
         {
+          label: "Molécules",
+          path: "/admin/molecules",
+          icon: <Database className="h-4 w-4" />,
+          description: "Gérer les profils radar",
+        },
+        {
           label: "Nouvelle molécule",
           path: "/admin/molecule/new",
           icon: <Beaker className="h-4 w-4" />,
@@ -333,8 +341,14 @@ export function MegaMenu() {
       ],
     },
     {
-      title: "Favoris",
+      title: "Intelligence IA",
       items: [
+        {
+          label: "Suggestions Synergies",
+          path: "/suggestions-synergies",
+          icon: <Lightbulb className="h-4 w-4" />,
+          description: "Paires moléculaires similaires",
+        },
         {
           label: "Mes favoris",
           path: "/favoris",

@@ -1,7 +1,9 @@
 import { Link, useParams } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { useEffect } from "react";
-import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf } from "lucide-react";
+import { useEffect, useCallback } from "react";
+import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from "recharts";
 
 export default function MoleculeDetail() {
@@ -10,6 +12,130 @@ export default function MoleculeDetail() {
 
   const { data: molecule, isLoading } = trpc.molecules.getById.useQuery(id);
   const trackEvent = trpc.analytics.trackEvent.useMutation();
+  const [isExporting, setIsExporting] = useState(false);
+
+  // Export PDF function
+  const exportPDF = useCallback(async () => {
+    if (!molecule) return;
+    setIsExporting(true);
+    
+    try {
+      // Create a new window for printing
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        alert('Veuillez autoriser les pop-ups pour exporter le PDF');
+        return;
+      }
+
+      // Generate HTML content for PDF
+      const radarValues = [
+        { axis: 'Intensité', value: molecule.radarIntensity || 50 },
+        { axis: 'Fraîcheur', value: molecule.radarFreshness || 50 },
+        { axis: 'Chaleur', value: molecule.radarWarmth || 50 },
+        { axis: 'Douceur', value: molecule.radarSweetness || 50 },
+        { axis: 'Épices', value: molecule.radarSpiciness || 50 },
+        { axis: 'Terreux', value: molecule.radarEarthiness || 50 },
+      ];
+
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${molecule.name} - Fiche Molécule PERFUMUM</title>
+          <style>
+            body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; color: #333; }
+            h1 { color: #7c3aed; margin-bottom: 5px; }
+            h2 { color: #5b21b6; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; margin-top: 30px; }
+            .formula { font-family: monospace; font-size: 1.2em; color: #666; margin-bottom: 20px; }
+            .badge { display: inline-block; background: #f3e8ff; color: #7c3aed; padding: 6px 16px; border-radius: 20px; font-weight: 600; }
+            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px; }
+            .card { background: #f9fafb; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb; }
+            .card-title { font-weight: 600; color: #374151; margin-bottom: 8px; }
+            .card-value { font-size: 1.5em; font-weight: bold; color: #7c3aed; }
+            .card-unit { font-size: 0.8em; font-weight: normal; color: #666; }
+            .radar-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            .radar-table th, .radar-table td { padding: 10px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+            .radar-table th { background: #f3f4f6; font-weight: 600; }
+            .progress-bar { background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden; }
+            .progress-fill { background: #7c3aed; height: 100%; }
+            .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #666; font-size: 0.9em; }
+            @media print { body { padding: 20px; } }
+          </style>
+        </head>
+        <body>
+          <h1>${molecule.name}</h1>
+          ${molecule.chemicalFormula ? `<p class="formula">${molecule.chemicalFormula}</p>` : ''}
+          ${molecule.family ? `<span class="badge">${molecule.family}</span>` : ''}
+          
+          ${molecule.olfactiveProfile ? `
+            <h2>🌿 Profil Olfactif</h2>
+            <p>${molecule.olfactiveProfile}</p>
+          ` : ''}
+          
+          ${molecule.emotionalResonance ? `
+            <h2>⚡ Résonance Émotionnelle</h2>
+            <p>${molecule.emotionalResonance}</p>
+          ` : ''}
+          
+          <h2>📊 Propriétés Scientifiques</h2>
+          <div class="grid">
+            ${molecule.molecularWeight ? `<div class="card"><div class="card-title">Masse Moléculaire</div><div class="card-value">${molecule.molecularWeight} <span class="card-unit">g/mol</span></div></div>` : ''}
+            ${molecule.boilingPoint ? `<div class="card"><div class="card-title">Point d'Ébullition</div><div class="card-value">${molecule.boilingPoint} <span class="card-unit">°C</span></div></div>` : ''}
+            ${molecule.intensity ? `<div class="card"><div class="card-title">Intensité Olfactive</div><div class="card-value">${molecule.intensity}%</div></div>` : ''}
+            ${molecule.volatility ? `<div class="card"><div class="card-title">Volatilité</div><div class="card-value">${molecule.volatility}%</div></div>` : ''}
+          </div>
+          
+          <h2>🎯 Profil Radar Olfactif</h2>
+          <table class="radar-table">
+            <thead><tr><th>Axe</th><th>Valeur</th><th>Visualisation</th></tr></thead>
+            <tbody>
+              ${radarValues.map(r => `
+                <tr>
+                  <td>${r.axis}</td>
+                  <td><strong>${r.value}</strong>/100</td>
+                  <td><div class="progress-bar"><div class="progress-fill" style="width: ${r.value}%"></div></div></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          
+          ${molecule.sourceOrigin ? `
+            <h2>🌱 Origine</h2>
+            <p>${molecule.sourceOrigin}</p>
+          ` : ''}
+          
+          ${molecule.concentration ? `
+            <h2>💧 Concentration Recommandée</h2>
+            <p style="font-size: 1.3em; font-weight: bold; color: #7c3aed;">${molecule.concentration}</p>
+          ` : ''}
+          
+          ${molecule.notes ? `
+            <h2>📝 Notes de Recherche</h2>
+            <p>${molecule.notes}</p>
+          ` : ''}
+          
+          <div class="footer">
+            <p>PERFUMUM — Recherche Olfactive | Exporté le ${new Date().toLocaleDateString('fr-FR')}</p>
+            <p>Document généré automatiquement à partir de la base de données PERFUMUM</p>
+          </div>
+        </body>
+        </html>
+      `;
+
+      printWindow.document.write(htmlContent);
+      printWindow.document.close();
+      
+      // Wait for content to load then print
+      printWindow.onload = () => {
+        printWindow.print();
+      };
+    } catch (error) {
+      console.error('Erreur export PDF:', error);
+      alert('Erreur lors de l\'export PDF');
+    } finally {
+      setIsExporting(false);
+    }
+  }, [molecule]);
 
   // Track page view
   useEffect(() => {
@@ -69,12 +195,27 @@ export default function MoleculeDetail() {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="container max-w-6xl">
-        <Link href="/molecules">
-          <a className="inline-flex items-center gap-2 text-primary hover:underline mb-6">
-            <ArrowLeft className="h-4 w-4" />
-            Retour aux molécules
-          </a>
-        </Link>
+        <div className="flex items-center justify-between mb-6">
+          <Link href="/molecules">
+            <a className="inline-flex items-center gap-2 text-primary hover:underline">
+              <ArrowLeft className="h-4 w-4" />
+              Retour aux molécules
+            </a>
+          </Link>
+          <Button
+            onClick={exportPDF}
+            disabled={isExporting}
+            variant="outline"
+            className="gap-2"
+          >
+            {isExporting ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <FileDown className="h-4 w-4" />
+            )}
+            Exporter PDF
+          </Button>
+        </div>
 
         <div className="space-y-8">
           {/* Header */}
