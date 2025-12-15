@@ -2,12 +2,24 @@ import { trpc } from '../lib/trpc';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
 
 export default function Synergies() {
-  const { data: synergies, isLoading } = trpc.synergies.list.useQuery();
+  const { data: synergies, isLoading, error } = trpc.synergies.list.useQuery();
+
+  if (error) {
+    return (
+      <div className="container mx-auto py-8">
+        <p className="text-red-500">Erreur: {error.message}</p>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
       <div className="container mx-auto py-8">
-        <p>Chargement des synergies...</p>
+        <p className="text-lg">Chargement des synergies...</p>
+        <div className="animate-pulse mt-4 space-y-2">
+          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+        </div>
       </div>
     );
   }

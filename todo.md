@@ -254,3 +254,24 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Tester les suggestions de synergies avec les nouveaux profils
 - [x] Vérifier la diversité des résultats (98.8% à 99.3% au lieu de 100%)
 - [x] Créer checkpoint final
+
+
+## 🔓 DÉBLOCAGE PAGE SYNERGIES D3.JS (TENTATIVE 2)
+
+### Phase 1 : Diagnostic
+- [x] Vérifier si Synergies.tsx compile sans erreur - 0 erreurs TypeScript
+- [x] Tester avec composant minimal - Page blanche persistante
+- [x] Vérifier les erreurs console côté client - Aucune erreur visible
+- [x] Comparer avec d'autres routes qui fonctionnent - /suggestions-synergies fonctionne parfaitement
+
+### Phase 2 : Corrections tentées
+- [x] Renommer fichier (Synergies.tsx → SynergiesPage.tsx)
+- [x] Changer chemin route (/synergies → /graphe-synergies)
+- [x] Ajouter gestion d'erreur et état de chargement visible
+- [x] Redémarrer serveur et nettoyer cache Vite
+
+### Résultat
+- ⚠️ BUG NON RÉSOLU - Page blanche sans erreur ni chargement
+- ✅ ALTERNATIVE FONCTIONNELLE : /suggestions-synergies
+- 📝 Problème probablement lié au HMR/cache Vite ou conflit interne React
+- 📝 Priorité basse - La fonctionnalité est couverte par /suggestions-synergies

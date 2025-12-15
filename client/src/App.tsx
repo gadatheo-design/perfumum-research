@@ -75,7 +75,7 @@ import MatriceInteractive from "@/pages/MatriceInteractive";
 import Statistiques from "@/pages/Statistiques";
 import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
 import CompareMoleculesAdvanced from "./pages/CompareMoleculesAdvanced";
-import Synergies from "./pages/Synergies";
+import SynergiesPage from "./pages/SynergiesPage";
 import SuggestionsSynergies from "./pages/SuggestionsSynergies";
 import DashboardRecherche from "@/pages/DashboardRecherche";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
@@ -105,6 +105,8 @@ function Router() {
       <Route path="/admin/import-export" component={AdminImportExport} />
       <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path="/admin/molecules" component={AdminMolecules} />
+      <Route path="/graphe-synergies" component={SynergiesPage} />
+      <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
       <Route path={"/404"} component={NotFound} />      <Route path="/le-projet" component={LeProjet} />
       <Route path="/prototypes" component={Prototypes} />
       <Route path="/prototypes/c1" component={C1Fermentum} />
@@ -156,8 +158,7 @@ function Router() {
           <Route path="/laboratoire/statistiques" component={Statistiques} />
           <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
           <Route path="/compare-molecules-advanced" component={CompareMoleculesAdvanced} />
-          <Route path="/synergies" component={Synergies} />
-          <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
+
       <Route path="/analytics" component={AnalyticsDashboard} />
       <Route path="/test-minimal" component={TestMinimal} />
       <Route path="/dashboard" component={DashboardMinimal} />
