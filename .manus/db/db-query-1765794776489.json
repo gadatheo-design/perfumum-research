@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Gris d''Ambre', 'C30H52O', 'Ambre / Animalique', 'ambré, marin, boisé, sensuel, profond, mystérieux', 'luxe, sensualité, profondeur océanique, intemporalité', 432, 350, 15, 92, 92, 25, 85, 55, 35, 65, 'Ambre gris vieilli en huile de santal vintage. 0.25ml. CHF 25.00. Hermitage Oils.');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Gris d''Ambre', 'C30H52O', 'Ambre / Animalique', 'ambré, marin, boisé, sensuel, profond, mystérieux', 'luxe, sensualité, profondeur océanique, intemporalité', 432, 350, 15, 92, 92, 25, 85, 55, 35, 65, 'Ambre gris vieilli en huile de santal vintage. 0.25ml. CHF 25.00. Hermitage Oils.');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 52
+}

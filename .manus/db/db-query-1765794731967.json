@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Palo Santo', 'C15H24O', 'Bois / Résine', 'boisé, résineux, sacré, fumé, légèrement sucré, balsamique', 'spiritualité, purification, méditation, ancrage', 220, 280, 35, 72, 72, 35, 78, 55, 45, 82, 'Distillation artisanale de bois de cœur naturellement tombé. 1.5ml sample. CHF 16.00. Hermitage Oils.');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Palo Santo', 'C15H24O', 'Bois / Résine', 'boisé, résineux, sacré, fumé, légèrement sucré, balsamique', 'spiritualité, purification, méditation, ancrage', 220, 280, 35, 72, 72, 35, 78, 55, 45, 82, 'Distillation artisanale de bois de cœur naturellement tombé. 1.5ml sample. CHF 16.00. Hermitage Oils.');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 60
+}

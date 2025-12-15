@@ -341,3 +341,45 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Accéder à /suggestions-synergies - Page fonctionnelle
 - [x] Sliders interactifs : similarité minimum (70%) et nombre de suggestions (10)
 - [x] 10 suggestions pertinentes affichées (98.8% à 99.3% similarité)
+
+
+## 🧪 INTÉGRATION NOUVELLES MATIÈRES PREMIÈRES (17 ingrédients)
+
+### Phase 1 : Analyser et préparer les données
+- [x] Palo Santo - Distillation artisanale de bois de cœur
+- [x] Italian Bergamot Oil - Classique intemporel
+- [x] Artisan Peppermint Oil - Notes florales, France, Bio
+- [x] Wild Juniper - Sud de la France
+- [x] Mitti Attar - Origine du Pétrichor
+- [x] Gris d'Ambre - Ambre gris vieilli en bois de santal
+- [x] Crème de Citronnelle - Profond comme un rhum vieilli
+- [x] Oud Tea - Feuilles d'Aquilaria Malaccensis
+- [x] Miyazaki Citrus - Agrume japonais rare
+- [x] Tangerine Dream - Petit-grain de mandarine méditerranéen
+- [x] Plumeria Light - Frangipanier dilué en jojoba
+- [x] Omani Black Frankincense - Boswellia Sacra noire
+- [x] Neroli Bouquetier Reserve - Quintessence de fleur d'oranger
+- [x] Makrut Lime - Agrume star d'Asie du Sud
+- [x] Spikenard - Nard divin / Jatamansi
+- [x] Haitian Vetiver - Vétiver bio riche en notes de tête
+- [x] Black Emerald - Vétiver sauvage d'Assam vintage
+
+### Phase 2 : Insérer dans la base de données
+- [x] Créer entrées dans table molecules (17/17 insérées)
+- [x] Profils radar complets pour chaque ingrédient
+- [x] Définir catégories et familles olfactives
+
+### Phase 3 : Générer profils radar et moléculaires
+- [x] Analyser composition moléculaire de chaque ingrédient
+- [x] Générer profils radar (6 axes) - 17/17 complets
+- [x] Documenter notes de tête/cœur/fond dans profils olfactifs
+
+### Phase 4 : Proposer développements de recettes
+- [x] Créer 8 recettes utilisant les nouveaux ingrédients
+- [x] Associer aux prototypes C2, C3, C4
+- [x] Documenter accords potentiels dans docs/recettes-hermitage-oils.md
+
+### Phase 5 : Identifier synergies potentielles
+- [x] Analyser compatibilité avec molécules existantes
+- [x] Suggérer paires prometteuses (5 synergies clés documentées)
+- [x] Vérifier affichage dans le catalogue (155 molécules)
