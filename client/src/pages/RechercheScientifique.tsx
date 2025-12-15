@@ -124,6 +124,17 @@ const modules: ResearchModule[] = [
     color: "text-amber-600",
     bgColor: "bg-amber-50",
     borderColor: "border-amber-200"
+  },
+  {
+    id: "synergies-terpenes-niches",
+    title: "Synergies Terpènes × Niches",
+    description: "Interactions et effets synergiques entre terpènes et molécules de niche",
+    icon: <Zap className="h-8 w-8" />,
+    route: "/synergies-terpenes-niches",
+    isNew: true,
+    color: "text-violet-600",
+    bgColor: "bg-violet-50",
+    borderColor: "border-violet-200"
   }
 ];
 

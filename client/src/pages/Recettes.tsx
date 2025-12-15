@@ -19,9 +19,27 @@ export default function Recettes() {
   const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
   const [selectedPrototype, setSelectedPrototype] = useState<string | null>(null);
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
+  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null);
+  const [showIngredientFilter, setShowIngredientFilter] = useState(false);
 
   const { data: recettes = [], isLoading } = trpc.recettes.list.useQuery();
   const trackEvent = trpc.analytics.trackEvent.useMutation();
+
+  // Extract unique ingredients from all recipes
+  const allIngredients = Array.from(
+    new Set(
+      recettes
+        .flatMap(r => {
+          if (!r.ingredients) return [];
+          // Parse ingredients string to extract individual ingredients
+          return r.ingredients.split(/[,;]/).map(i => {
+            // Remove percentages and clean up
+            const cleaned = i.trim().replace(/\s*\d+(\.\d+)?%?\s*$/g, '').trim();
+            return cleaned;
+          }).filter(i => i.length > 2);
+        })
+    )
+  ).sort();
 
   // Filter recettes
   const filteredRecettes = recettes.filter((recette) => {
@@ -29,7 +47,8 @@ export default function Recettes() {
     const matchesFamily = !selectedFamily || recette.category === selectedFamily;
     const matchesPrototype = !selectedPrototype || recette.formula?.includes(selectedPrototype);
     const matchesGamme = !selectedGamme || getGammeFromCategory(recette.category) === selectedGamme;
-    return matchesSearch && matchesFamily && matchesPrototype && matchesGamme;
+    const matchesIngredient = !selectedIngredient || recette.ingredients?.toLowerCase().includes(selectedIngredient.toLowerCase());
+    return matchesSearch && matchesFamily && matchesPrototype && matchesGamme && matchesIngredient;
   });
 
   // Extract unique families and prototypes for filters
@@ -41,9 +60,17 @@ export default function Recettes() {
     setSelectedFamily(null);
     setSelectedPrototype(null);
     setSelectedGamme(null);
+    setSelectedIngredient(null);
   };
 
-  const hasActiveFilters = searchTerm || selectedFamily || selectedPrototype || selectedGamme;
+  const hasActiveFilters = searchTerm || selectedFamily || selectedPrototype || selectedGamme || selectedIngredient;
+
+  // Popular ingredients for quick filter
+  const popularIngredients = [
+    "Limonène", "Myrcène", "Linalol", "β-Caryophyllène", "α-Pinène",
+    "Humulène", "Terpinolène", "Géraniol", "CBD Isolate", "Vanilline",
+    "Indole", "Skatole", "Ambroxan", "Patchouli", "Cèdre"
+  ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -153,6 +180,17 @@ export default function Recettes() {
                   ))}
                 </div>
 
+                {/* Ingredient Filter Toggle */}
+                <Button
+                  variant={showIngredientFilter ? "default" : "outline"}
+                  size="sm"
+                  className="btn-enhanced gap-2"
+                  onClick={() => setShowIngredientFilter(!showIngredientFilter)}
+                >
+                  <Beaker className="h-3 w-3" />
+                  Ingrédients
+                </Button>
+
                 {/* Clear Filters */}
                 {hasActiveFilters && (
                   <Button
@@ -167,10 +205,78 @@ export default function Recettes() {
                 )}
               </div>
 
+              {/* Ingredient Filter Panel */}
+              {showIngredientFilter && (
+                <div className="p-4 bg-muted/50 rounded-lg border space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium flex items-center gap-2">
+                      <Beaker className="h-4 w-4" />
+                      Filtrer par ingrédient
+                    </h4>
+                    {selectedIngredient && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setSelectedIngredient(null)}
+                        className="h-7 px-2"
+                      >
+                        <X className="h-3 w-3 mr-1" />
+                        {selectedIngredient}
+                      </Button>
+                    )}
+                  </div>
+                  
+                  {/* Popular ingredients */}
+                  <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground">Ingrédients populaires :</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {popularIngredients.map((ing) => (
+                        <Badge
+                          key={ing}
+                          variant={selectedIngredient === ing ? "default" : "secondary"}
+                          className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
+                          onClick={() => setSelectedIngredient(selectedIngredient === ing ? null : ing)}
+                        >
+                          {ing}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Search all ingredients */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                    <Input
+                      placeholder="Rechercher un ingrédient..."
+                      className="pl-8 h-8 text-sm"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value.length >= 2) {
+                          const found = allIngredients.find(i => 
+                            i.toLowerCase().includes(value.toLowerCase())
+                          );
+                          if (found) setSelectedIngredient(found);
+                        }
+                      }}
+                    />
+                  </div>
+
+                  {/* All ingredients count */}
+                  <p className="text-xs text-muted-foreground">
+                    {allIngredients.length} ingrédients uniques dans la base de données
+                  </p>
+                </div>
+              )}
+
               {/* Results Count */}
               <div className="text-sm text-muted-foreground">
                 {filteredRecettes.length} recette{filteredRecettes.length !== 1 ? 's' : ''} trouvée{filteredRecettes.length !== 1 ? 's' : ''}
                 {hasActiveFilters && ` sur ${recettes.length} au total`}
+                {selectedIngredient && (
+                  <span className="ml-2">
+                    • contenant <Badge variant="outline" className="ml-1">{selectedIngredient}</Badge>
+                  </span>
+                )}
               </div>
             </div>
           </div>

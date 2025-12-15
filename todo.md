@@ -630,3 +630,22 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Design visuel premium pour cette gamme
 - [x] Ajouter route /gammes/signatures dans App.tsx
 - [x] Ajouter lien dans la page Gammes principale
+
+
+## 🔧 NAVIGATION SYNERGIES + PROTOCOLES MATURATION + FILTRES RECETTES
+
+### Phase 1 : Lien Synergies Terpènes
+- [x] Ajouter lien /synergies-terpenes-niches dans RechercheScientifique.tsx
+
+### Phase 2 : Page Protocoles de Maturation
+- [x] Créer composant ProtocolesMaturation.tsx
+- [x] Documenter les temps de cure par type de résine
+- [x] Documenter les conditions optimales (température, humidité, lumière)
+- [x] Ajouter les étapes de maturation détaillées
+- [x] Ajouter route /protocoles-maturation dans App.tsx
+
+### Phase 3 : Système de filtres par ingrédient
+- [x] Modifier la page Recettes pour ajouter un filtre par ingrédient
+- [x] Extraire les ingrédients uniques de toutes les recettes
+- [x] Créer un composant de recherche/filtre multi-critères
+- [x] Permettre la recherche par nom d'ingrédient
