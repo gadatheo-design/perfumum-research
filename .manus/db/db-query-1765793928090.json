@@ -1,0 +1,30 @@
+{
+  "query": "SELECT id, name FROM molecules LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Hexanoic acid"
+    },
+    {
+      "id": "2",
+      "name": "Linalol"
+    },
+    {
+      "id": "3",
+      "name": "Ambroxan"
+    },
+    {
+      "id": "30001",
+      "name": "Hexanoic acid"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1\tHexanoic acid\n2\tLinalol\n3\tAmbroxan\n30001\tHexanoic acid\n30002\tLinalol\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}
