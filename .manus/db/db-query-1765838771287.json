@@ -1,0 +1,25 @@
+{
+  "query": "SELECT id, name, chemicalFormula FROM molecules WHERE family = 'Phéromone' OR name LIKE '%Androst%'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, chemicalFormula FROM molecules WHERE family = 'Phéromone' OR name LIKE '%Androst%'",
+  "rows": [
+    {
+      "id": "240001",
+      "name": "Androsténol",
+      "chemicalFormula": "C19H30O"
+    },
+    {
+      "id": "270001",
+      "name": "Androsténone",
+      "chemicalFormula": "C19H28O"
+    },
+    {
+      "id": "270002",
+      "name": "Androstadienone",
+      "chemicalFormula": "C19H26O"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tchemicalFormula\n240001\tAndrosténol\tC19H30O\n270001\tAndrosténone\tC19H28O\n270002\tAndrostadienone\tC19H26O\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

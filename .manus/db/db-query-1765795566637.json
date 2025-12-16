@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Citral, Geraniol, Citronellal, Limonene') WHERE name = 'Crème de Citronnelle';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Agarospirol, Jinkoh-eremol, Kusunol') WHERE name = 'Oud Tea';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Limonene, γ-Terpinene, Linalool, Myrcene') WHERE name = 'Miyazaki Citrus';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Limonene, γ-Terpinene, Linalyl acetate, Methyl N-methylanthranilate') WHERE name = 'Tangerine Dream';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Citral, Geraniol, Citronellal, Limonene') WHERE name = 'Crème de Citronnelle';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Agarospirol, Jinkoh-eremol, Kusunol') WHERE name = 'Oud Tea';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Limonene, γ-Terpinene, Linalool, Myrcene') WHERE name = 'Miyazaki Citrus';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Limonene, γ-Terpinene, Linalyl acetate, Methyl N-methylanthranilate') WHERE name = 'Tangerine Dream';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 86
+}

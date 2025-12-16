@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS terpene_synergies (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  terpene1_id INT NOT NULL,\n  terpene2_id INT NOT NULL,\n  compatibility_score INT NOT NULL DEFAULT 50 COMMENT '0-100: 0-30=rouge, 31-70=jaune, 71-100=vert',\n  synergy_notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_pair (terpene1_id, terpene2_id),\n  FOREIGN KEY (terpene1_id) REFERENCES molecules(id) ON DELETE CASCADE,\n  FOREIGN KEY (terpene2_id) REFERENCES molecules(id) ON DELETE CASCADE\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS terpene_synergies (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  terpene1_id INT NOT NULL,\n  terpene2_id INT NOT NULL,\n  compatibility_score INT NOT NULL DEFAULT 50 COMMENT '0-100: 0-30=rouge, 31-70=jaune, 71-100=vert',\n  synergy_notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_pair (terpene1_id, terpene2_id),\n  FOREIGN KEY (terpene1_id) REFERENCES molecules(id) ON DELETE CASCADE,\n  FOREIGN KEY (terpene2_id) REFERENCES molecules(id) ON DELETE CASCADE\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 412
+}

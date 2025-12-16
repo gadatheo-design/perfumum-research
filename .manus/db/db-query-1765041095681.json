@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE molecules \nADD COLUMN botanicalSources TEXT,\nADD COLUMN extractionMethod TEXT,\nADD COLUMN therapeuticProperties TEXT;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE molecules \nADD COLUMN botanicalSources TEXT,\nADD COLUMN extractionMethod TEXT,\nADD COLUMN therapeuticProperties TEXT;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1201
+}

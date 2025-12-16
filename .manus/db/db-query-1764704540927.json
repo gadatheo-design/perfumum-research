@@ -1,0 +1,28 @@
+{
+  "query": "SHOW TABLES LIKE '%recette%'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW TABLES LIKE '%recette%'",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)": "installation_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)": "laboratoire_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)": "molecule_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)": "petrichor_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)": "recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)": "volcanique_recettes"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)\ninstallation_recettes\nlaboratoire_recettes\nmolecule_recettes\npetrichor_recettes\nrecettes\nvolcanique_recettes\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

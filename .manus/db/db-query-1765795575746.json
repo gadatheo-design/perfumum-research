@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Benzyl salicylate, Linalool, Geraniol, Benzyl benzoate') WHERE name = 'Plumeria Light';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: α-Pinene, Incensole, Boswellic acids, Limonene') WHERE name = 'Omani Black Frankincense';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Linalool, Linalyl acetate, Nerolidol, Geraniol') WHERE name = 'Neroli Bouquetier Reserve';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Citronellal, β-Pinene, Limonene, Sabinene') WHERE name = 'Makrut Lime';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Benzyl salicylate, Linalool, Geraniol, Benzyl benzoate') WHERE name = 'Plumeria Light';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: α-Pinene, Incensole, Boswellic acids, Limonene') WHERE name = 'Omani Black Frankincense';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Linalool, Linalyl acetate, Nerolidol, Geraniol') WHERE name = 'Neroli Bouquetier Reserve';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Citronellal, β-Pinene, Limonene, Sabinene') WHERE name = 'Makrut Lime';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 82
+}

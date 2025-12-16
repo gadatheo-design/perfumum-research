@@ -1,0 +1,80 @@
+{
+  "query": "SELECT id, name, category, intensity, maturationTime FROM recettes WHERE category = 'resine_cbd' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category, intensity, maturationTime FROM recettes WHERE category = 'resine_cbd' ORDER BY id;",
+  "rows": [
+    {
+      "id": "60001",
+      "name": "Mastiha Brut",
+      "category": "resine_cbd",
+      "intensity": "20",
+      "maturationTime": "8"
+    },
+    {
+      "id": "60002",
+      "name": "Vétiver Labdanum",
+      "category": "resine_cbd",
+      "intensity": "22",
+      "maturationTime": "10"
+    },
+    {
+      "id": "60003",
+      "name": "Figue & Santal Blanc",
+      "category": "resine_cbd",
+      "intensity": "19",
+      "maturationTime": "7"
+    },
+    {
+      "id": "60004",
+      "name": "Noir de Myrrhe",
+      "category": "resine_cbd",
+      "intensity": "20",
+      "maturationTime": "9"
+    },
+    {
+      "id": "60005",
+      "name": "Cuir d'Ambre",
+      "category": "resine_cbd",
+      "intensity": "22",
+      "maturationTime": "10"
+    },
+    {
+      "id": "60006",
+      "name": "Sève Noire / Feuillage Mort",
+      "category": "resine_cbd",
+      "intensity": "20",
+      "maturationTime": "14"
+    },
+    {
+      "id": "60007",
+      "name": "Métal Liquide",
+      "category": "resine_cbd",
+      "intensity": "13",
+      "maturationTime": "6"
+    },
+    {
+      "id": "60008",
+      "name": "Feu Fumé / Soufre Doux",
+      "category": "resine_cbd",
+      "intensity": "21",
+      "maturationTime": "8"
+    },
+    {
+      "id": "60009",
+      "name": "Orchidée Salée",
+      "category": "resine_cbd",
+      "intensity": "15",
+      "maturationTime": "7"
+    },
+    {
+      "id": "60010",
+      "name": "Distillat de Nuit / Morphée",
+      "category": "resine_cbd",
+      "intensity": "23",
+      "maturationTime": "10"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tintensity\tmaturationTime\n60001\tMastiha Brut\tresine_cbd\t20\t8\n60002\tVétiver Labdanum\tresine_cbd\t22\t10\n60003\tFigue & Santal Blanc\tresine_cbd\t19\t7\n60004\tNoir de Myrrhe\tresine_cbd\t20\t9\n60005\tCuir d'Ambre\tresine_cbd\t22\t10\n60006\tSève Noire / Feuillage Mort\tresine_cbd\t20\t14\n60007\tMétal Liquide\tresine_cbd\t13\t6\n60008\tFeu Fumé / Soufre Doux\tresine_cbd\t21\t8\n60009\tOrchidée Salée\tresine_cbd\t15\t7\n60010\tDistillat de Nuit / Morphée\tresine_cbd\t23\t10\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

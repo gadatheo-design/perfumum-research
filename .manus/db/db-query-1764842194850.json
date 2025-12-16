@@ -1,0 +1,42 @@
+{
+  "query": "SELECT id, name FROM tabacs ORDER BY name LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM tabacs ORDER BY name LIMIT 10",
+  "rows": [
+    {
+      "id": "5",
+      "name": "Burley"
+    },
+    {
+      "id": "1",
+      "name": "Krumovgrad"
+    },
+    {
+      "id": "6",
+      "name": "Samsoun"
+    },
+    {
+      "id": "7",
+      "name": "Virginia Bright"
+    },
+    {
+      "id": "3",
+      "name": "Virginia Deutscher"
+    },
+    {
+      "id": "4",
+      "name": "Virginia Gold"
+    },
+    {
+      "id": "8",
+      "name": "Virginia Italia"
+    },
+    {
+      "id": "2",
+      "name": "Virginia Orange"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n5\tBurley\n1\tKrumovgrad\n6\tSamsoun\n7\tVirginia Bright\n3\tVirginia Deutscher\n4\tVirginia Gold\n8\tVirginia Italia\n2\tVirginia Orange\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

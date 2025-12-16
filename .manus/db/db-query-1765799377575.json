@@ -1,0 +1,154 @@
+{
+  "query": "SELECT id, name, type, stock, status, supplier FROM laboratoire ORDER BY name LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, type, stock, status, supplier FROM laboratoire ORDER BY name LIMIT 20;",
+  "rows": [
+    {
+      "id": "7",
+      "name": "Absolu de Foin",
+      "type": "absolu",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "8",
+      "name": "Absolu de Mousse de Chêne",
+      "type": "absolu",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "6",
+      "name": "Absolu de Tabac",
+      "type": "absolu",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "17",
+      "name": "Ciste Labdanum (Cistus ladaniferus)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "18",
+      "name": "Cyprès (Cupressus sempervirens)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "3",
+      "name": "Cèdre Atlas (Cedrus atlantica)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "4",
+      "name": "Encens / Oliban (Boswellia carterii)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "13",
+      "name": "Géosmine (synthétique)",
+      "type": "autre",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "2",
+      "name": "Géranium Bourbon (Pelargonium graveolens)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "11",
+      "name": "Kaolin (Argile blanche)",
+      "type": "poudre",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "12",
+      "name": "Mitti Attar (Terre distillée)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "5",
+      "name": "Myrrhe (Commiphora myrrha)",
+      "type": "resinoid",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "15",
+      "name": "Patchouli (Pogostemon cablin)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "14",
+      "name": "Pin Sylvestre (Pinus sylvestris)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "10",
+      "name": "Résinoïde de Benjoin",
+      "type": "resinoid",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "9",
+      "name": "Résinoïde de Labdanum",
+      "type": "resinoid",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "16",
+      "name": "Santal Blanc (Santalum album)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    },
+    {
+      "id": "1",
+      "name": "Vétiver (Vetiveria zizanioides)",
+      "type": "huile_essentielle",
+      "stock": "NULL",
+      "status": "en_stock",
+      "supplier": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttype\tstock\tstatus\tsupplier\n7\tAbsolu de Foin\tabsolu\tNULL\ten_stock\tNULL\n8\tAbsolu de Mousse de Chêne\tabsolu\tNULL\ten_stock\tNULL\n6\tAbsolu de Tabac\tabsolu\tNULL\ten_stock\tNULL\n17\tCiste Labdanum (Cistus ladaniferus)\thuile_essentielle\tNULL\ten_stock\tNULL\n18\tCyprès (Cupressus sempervirens)\thuile_essentielle\tNULL\ten_stock\tNULL\n3\tCèdre Atlas (Cedrus atlantica)\thuile_essentielle\tNULL\ten_stock\tNULL\n4\tEncens / Oliban (Boswellia carterii)\thuile_essentielle\tNULL\ten_stock\tNULL\n13\tGéosmine (synthétique)\tautre\tNULL\ten_stock\tNULL\n2\tGéranium Bourbon (Pelargonium graveolens)\thuile_essentielle\tNULL\ten_stock\tNULL\n11\tKaolin (Argile blanche)\tpoudre\tNULL\ten_stock\tNULL\n12\tMitti Attar (Terre distillée)\thuile_essentielle\tNULL\ten_stock\tNULL\n5\tMyrrhe (Commiphora myrrha)\tresinoid\tNULL\ten_stock\tNULL\n15\tPatchouli (Pogostemon cablin)\thuile_essentielle\tNULL\ten_stock\tNULL\n14\tPin Sylvestre (Pinus sylvestris)\thuile_essentielle\tNULL\ten_stock\tNULL\n10\tRésinoïde de Benjoin\tresinoid\tNULL\ten_stock\tNULL\n9\tRésinoïde de Labdanum\tresinoid\tNULL\ten_stock\tNULL\n16\tSantal Blanc (Santalum album)\thuile_essentielle\tNULL\ten_stock\tNULL\n1\tVétiver (Vetiveria zizanioides)\thuile_essentielle\tNULL\ten_stock\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

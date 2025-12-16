@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO synergies (name, type, effet, notes, tabacName, moleculeId, createdAt) VALUES\n('Burley × α-Pinène', 'potentialisation', 'Amplifie notes boisées et résineuses', 'Synergie forte avec profil terreux du Burley', 'Burley', 1, NOW()),\n('Burley × Linalool', 'stabilisation', 'Stabilise notes florales douces', 'Adoucit le profil terreux', 'Burley', 5, NOW()),\n('Burley × Caryophyllène', 'potentialisation', 'Renforce notes épicées et boisées', 'Synergie naturelle avec tabac brun', 'Burley', 3, NOW())",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO synergies (name, type, effet, notes, tabacName, moleculeId, createdAt) VALUES\n('Burley × α-Pinène', 'potentialisation', 'Amplifie notes boisées et résineuses', 'Synergie forte avec profil terreux du Burley', 'Burley', 1, NOW()),\n('Burley × Linalool', 'stabilisation', 'Stabilise notes florales douces', 'Adoucit le profil terreux', 'Burley', 5, NOW()),\n('Burley × Caryophyllène', 'potentialisation', 'Renforce notes épicées et boisées', 'Synergie naturelle avec tabac brun', 'Burley', 3, NOW())",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'tabacName' in 'field list'"
+  ]
+}
