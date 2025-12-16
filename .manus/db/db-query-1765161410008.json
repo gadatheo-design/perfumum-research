@@ -1,9 +1,0 @@
-{
-  "query": "ALTER TABLE recettes \nADD COLUMN notes_tete TEXT COMMENT 'Notes de tête (0-15min)',\nADD COLUMN notes_coeur TEXT COMMENT 'Notes de cœur (15-60min)',\nADD COLUMN notes_fond TEXT COMMENT 'Notes de fond (60min+)',\nADD COLUMN duree_tete_min INT DEFAULT 15 COMMENT 'Durée notes de tête en minutes',\nADD COLUMN duree_coeur_min INT DEFAULT 45 COMMENT 'Durée notes de cœur en minutes',\nADD COLUMN duree_fond_min INT DEFAULT 120 COMMENT 'Durée notes de fond en minutes';",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE recettes \nADD COLUMN notes_tete TEXT COMMENT 'Notes de tête (0-15min)',\nADD COLUMN notes_coeur TEXT COMMENT 'Notes de cœur (15-60min)',\nADD COLUMN notes_fond TEXT COMMENT 'Notes de fond (60min+)',\nADD COLUMN duree_tete_min INT DEFAULT 15 COMMENT 'Durée notes de tête en minutes',\nADD COLUMN duree_coeur_min INT DEFAULT 45 COMMENT 'Durée notes de cœur en minutes',\nADD COLUMN duree_fond_min INT DEFAULT 120 COMMENT 'Durée notes de fond en minutes';",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 1825
-}

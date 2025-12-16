@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE molecules \nSET therapeuticProperties = CASE\n  WHEN id = 5 THEN 'Analgésique puissant, anti-inflammatoire, gastroprotecteur. Se lie aux récepteurs CB2. Réduit la douleur chronique et l''inflammation.'\n  WHEN id = 6 THEN 'Anxiolytique, sédatif, analgésique, anti-convulsivant. Réduit l''anxiété et favorise la relaxation. Propriétés neuroprotectrices.'\n  WHEN id = 7 THEN 'Anti-inflammatoire, antibactérien, coupe-faim. Propriétés anticancéreuses potentielles. Réduit les inflammations et les douleurs.'\n  ELSE therapeuticProperties\nEND\nWHERE id IN (5, 6, 7);",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules \nSET therapeuticProperties = CASE\n  WHEN id = 5 THEN 'Analgésique puissant, anti-inflammatoire, gastroprotecteur. Se lie aux récepteurs CB2. Réduit la douleur chronique et l''inflammation.'\n  WHEN id = 6 THEN 'Anxiolytique, sédatif, analgésique, anti-convulsivant. Réduit l''anxiété et favorise la relaxation. Propriétés neuroprotectrices.'\n  WHEN id = 7 THEN 'Anti-inflammatoire, antibactérien, coupe-faim. Propriétés anticancéreuses potentielles. Réduit les inflammations et les douleurs.'\n  ELSE therapeuticProperties\nEND\nWHERE id IN (5, 6, 7);",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 58
-}

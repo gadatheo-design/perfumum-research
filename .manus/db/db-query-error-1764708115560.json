@@ -1,8 +1,0 @@
-{
-  "query": "ALTER TABLE glossary MODIFY COLUMN category ENUM('Chimie', 'Interaction', 'Réaction', 'Extraction', 'Technique', 'Molécule', 'Concept', 'Propriété', 'Méthodologie', 'Formulation', 'Protocole', 'Dispositif', 'Support', 'Application', 'Structure') NOT NULL",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE glossary MODIFY COLUMN category ENUM('Chimie', 'Interaction', 'Réaction', 'Extraction', 'Technique', 'Molécule', 'Concept', 'Propriété', 'Méthodologie', 'Formulation', 'Protocole', 'Dispositif', 'Support', 'Application', 'Structure') NOT NULL",
-  "returncode": 1,
-  "logs": [
-    "ERROR 1265 (01000) at line 1: Data truncated for column 'category', value is 'chimie'"
-  ]
-}

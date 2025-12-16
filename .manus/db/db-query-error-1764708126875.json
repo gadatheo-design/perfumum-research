@@ -1,8 +1,0 @@
-{
-  "query": "UPDATE glossary SET category = CONCAT(UPPER(SUBSTRING(category, 1, 1)), SUBSTRING(category, 2))",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE glossary SET category = CONCAT(UPPER(SUBSTRING(category, 1, 1)), SUBSTRING(category, 2))",
-  "returncode": 1,
-  "logs": [
-    "ERROR 1265 (01000) at line 1: Data truncated for column '%s' at row %d"
-  ]
-}

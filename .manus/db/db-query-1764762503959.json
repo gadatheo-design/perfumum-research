@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE tabacs SET internalNotes = 'Tabac blond italien ensoleillé. Profil herbacé et floral avec notes de foin méditerranéen. Riche en aldéhydes (foin chaud) et terpènes (herbes aromatiques). Caractère solaire et lumineux. Excellente base pour accords floraux et herbacés. Apporte chaleur et vivacité. Compatible avec compositions méditerranéennes. Température optimale: 85-105°C. Profils olfactifs: floral, boisé, terreux, lactone.' WHERE name = 'Virginia Italia'",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE tabacs SET internalNotes = 'Tabac blond italien ensoleillé. Profil herbacé et floral avec notes de foin méditerranéen. Riche en aldéhydes (foin chaud) et terpènes (herbes aromatiques). Caractère solaire et lumineux. Excellente base pour accords floraux et herbacés. Apporte chaleur et vivacité. Compatible avec compositions méditerranéennes. Température optimale: 85-105°C. Profils olfactifs: floral, boisé, terreux, lactone.' WHERE name = 'Virginia Italia'",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 63
-}

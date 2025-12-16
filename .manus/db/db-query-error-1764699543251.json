@@ -1,8 +1,0 @@
-{
-  "query": "ALTER TABLE `molecules`\nADD COLUMN `family` text AFTER `name`,\nADD COLUMN `chemicalFormula` varchar(100) AFTER `family`,\nADD COLUMN `emotionalResonance` text AFTER `olfactiveProfile`,\nADD COLUMN `sourceOrigin` text AFTER `functionalEffect`,\nADD COLUMN `concentration` varchar(100) AFTER `sourceOrigin`,\nADD COLUMN `notes` text AFTER `concentration`;",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE `molecules`\nADD COLUMN `family` text AFTER `name`,\nADD COLUMN `chemicalFormula` varchar(100) AFTER `family`,\nADD COLUMN `emotionalResonance` text AFTER `olfactiveProfile`,\nADD COLUMN `sourceOrigin` text AFTER `functionalEffect`,\nADD COLUMN `concentration` varchar(100) AFTER `sourceOrigin`,\nADD COLUMN `notes` text AFTER `concentration`;",
-  "returncode": 1,
-  "logs": [
-    "ERROR 1054 (42S22) at line 1: Unknown column 'family' in 'molecules'"
-  ]
-}

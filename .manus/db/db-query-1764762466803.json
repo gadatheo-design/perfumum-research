@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE tabacs SET internalNotes = 'Tabac oriental bulgare de haute qualité. Profil floral et miellé avec notes d''épices douces. Riche en ionones (violet, iris) et lactones (miel, cire). Excellente base pour accords floraux et résineux. Apporte rondeur et douceur lactée. Compatible avec compositions solaires et ambrées. Température optimale: 90-110°C. Profils olfactifs: floral, résine, lactone, boisé.' WHERE name = 'Krumovgrad'",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE tabacs SET internalNotes = 'Tabac oriental bulgare de haute qualité. Profil floral et miellé avec notes d''épices douces. Riche en ionones (violet, iris) et lactones (miel, cire). Excellente base pour accords floraux et résineux. Apporte rondeur et douceur lactée. Compatible avec compositions solaires et ambrées. Température optimale: 90-110°C. Profils olfactifs: floral, résine, lactone, boisé.' WHERE name = 'Krumovgrad'",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 85
-}

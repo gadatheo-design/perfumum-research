@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire puissant, similaire à l''α-pinène. Expectorant naturel, facilite l''élimination du mucus. Bronchodilatateur, améliore la respiration. Antibactérien et antifongique. Effet tonifiant et rafraîchissant.' WHERE name LIKE '%β-Pinène%' OR name LIKE '%beta-Pinène%';",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire puissant, similaire à l''α-pinène. Expectorant naturel, facilite l''élimination du mucus. Bronchodilatateur, améliore la respiration. Antibactérien et antifongique. Effet tonifiant et rafraîchissant.' WHERE name LIKE '%β-Pinène%' OR name LIKE '%beta-Pinène%';",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 74
-}

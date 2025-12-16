@@ -1,9 +1,0 @@
-{
-  "query": "INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Italian Bergamot Oil', 'C10H14O', 'Agrumes / Hespéridé', 'frais, pétillant, floral, légèrement amer, zesté, lumineux', 'joie, légèreté, élégance, fraîcheur méditerranéenne', 150, 176, 85, 68, 68, 92, 25, 45, 20, 15, 'Le classique intemporel. 1.3ml sample. CHF 6.00. Hermitage Oils.');",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Italian Bergamot Oil', 'C10H14O', 'Agrumes / Hespéridé', 'frais, pétillant, floral, légèrement amer, zesté, lumineux', 'joie, légèreté, élégance, fraîcheur méditerranéenne', 150, 176, 85, 68, 68, 92, 25, 45, 20, 15, 'Le classique intemporel. 1.3ml sample. CHF 6.00. Hermitage Oils.');",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 63
-}
