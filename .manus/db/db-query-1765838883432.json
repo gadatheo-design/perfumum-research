@@ -1,9 +1,0 @@
-{
-  "query": "INSERT INTO terpene_synergies (terpene1_id, terpene2_id, compatibility_score, synergy_notes) VALUES\n(270002, 270001, 90, 'Cascade biosynthétique: Androstadienone → Androsténone via 5α-réductase. Relation précurseur/produit. Complémentarité olfactive: musqué subtil (Androstadienone) → boisé/urineux variable (Androsténone). Effets psychophysiologiques complémentaires documentés dans la littérature scientifique.')",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO terpene_synergies (terpene1_id, terpene2_id, compatibility_score, synergy_notes) VALUES\n(270002, 270001, 90, 'Cascade biosynthétique: Androstadienone → Androsténone via 5α-réductase. Relation précurseur/produit. Complémentarité olfactive: musqué subtil (Androstadienone) → boisé/urineux variable (Androsténone). Effets psychophysiologiques complémentaires documentés dans la littérature scientifique.')",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 67
-}

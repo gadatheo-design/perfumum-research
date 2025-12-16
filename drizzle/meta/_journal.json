@@ -1,20 +1,5 @@
 {
   "version": "7",
   "dialect": "mysql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "5",
-      "when": 1764696231251,
-      "tag": "0000_famous_adam_destine",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1764696345084,
-      "tag": "0001_petite_gertrude_yorkes",
-      "breakpoints": true
-    }
-  ]
+  "entries": []
 }

@@ -1,9 +1,0 @@
-{
-  "query": "INSERT INTO recette_molecules (recette_id, molecule_id, proportion, role) VALUES\n(210003, 270002, 1, 'note de tête - libération immédiate'),\n(210003, 270001, 1, 'note de cœur - libération retardée'),\n(210003, 240001, 0, 'note de fond - libération prolongée')",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO recette_molecules (recette_id, molecule_id, proportion, role) VALUES\n(210003, 270002, 1, 'note de tête - libération immédiate'),\n(210003, 270001, 1, 'note de cœur - libération retardée'),\n(210003, 240001, 0, 'note de fond - libération prolongée')",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 65
-}

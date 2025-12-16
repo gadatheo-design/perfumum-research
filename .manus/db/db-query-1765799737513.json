@@ -1,9 +1,0 @@
-{
-  "query": "CREATE TABLE IF NOT EXISTS recette_tabac_associations (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  recette_id INT NOT NULL,\n  tabac_id INT NOT NULL,\n  compatibility INT NOT NULL,\n  proportion VARCHAR(50),\n  synergies TEXT,\n  notes TEXT,\n  recommended INT DEFAULT 0 NOT NULL,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  UNIQUE KEY unique_recette_tabac (recette_id, tabac_id),\n  FOREIGN KEY (recette_id) REFERENCES recettes(id),\n  FOREIGN KEY (tabac_id) REFERENCES tabacs(id)\n);",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS recette_tabac_associations (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  recette_id INT NOT NULL,\n  tabac_id INT NOT NULL,\n  compatibility INT NOT NULL,\n  proportion VARCHAR(50),\n  synergies TEXT,\n  notes TEXT,\n  recommended INT DEFAULT 0 NOT NULL,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  UNIQUE KEY unique_recette_tabac (recette_id, tabac_id),\n  FOREIGN KEY (recette_id) REFERENCES recettes(id),\n  FOREIGN KEY (tabac_id) REFERENCES tabacs(id)\n);",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 291
-}

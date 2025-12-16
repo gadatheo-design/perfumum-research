@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE tabacs SET internalNotes = 'Tabac blond américain à séchage au feu (flue-cured). Profil doux et sucré avec notes de foin, miel et agrumes. Riche en aldéhydes (foin coupé) et lactones (miel, crème). Base lumineuse pour accords floraux et solaires. Apporte clarté et fraîcheur. Compatible avec compositions lactées et herbacées. Température optimale: 80-100°C. Profils olfactifs: floral, lactone, boisé, terreux.' WHERE name = 'Virginia Bright'",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE tabacs SET internalNotes = 'Tabac blond américain à séchage au feu (flue-cured). Profil doux et sucré avec notes de foin, miel et agrumes. Riche en aldéhydes (foin coupé) et lactones (miel, crème). Base lumineuse pour accords floraux et solaires. Apporte clarté et fraîcheur. Compatible avec compositions lactées et herbacées. Température optimale: 80-100°C. Profils olfactifs: floral, lactone, boisé, terreux.' WHERE name = 'Virginia Bright'",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 59
-}
