@@ -15,6 +15,34 @@
       "when": 1764696345084,
       "tag": "0001_petite_gertrude_yorkes",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1765878473793,
+      "tag": "0002_minor_norman_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1765878498159,
+      "tag": "0003_daffy_tigra",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1765878967604,
+      "tag": "0004_black_dark_beast",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1765878997937,
+      "tag": "0005_narrow_randall",
+      "breakpoints": true
     }
   ]
 }

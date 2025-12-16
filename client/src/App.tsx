@@ -74,6 +74,7 @@ import ProtocolesMaturation from "./pages/ProtocolesMaturation";
 import Compare from "./pages/Compare";
 import CompareTerpenes from "./pages/CompareTerpenes";
 import CompareRadar from "./pages/CompareRadar";
+import CompareRecettes from "./pages/CompareRecettes";
 import CompareMoleculesAdvanced from "./pages/CompareMoleculesAdvanced";
 import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
 import ComparateurAvance from "@/pages/ComparateurAvance";
@@ -214,6 +215,7 @@ function Router() {
       <Route path="/compare" component={Compare} />
       <Route path="/compare-terpenes" component={CompareTerpenes} />
       <Route path="/compare-radar" component={CompareRadar} />
+      <Route path="/compare-recettes" component={CompareRecettes} />
       <Route path="/compare-molecules-advanced" component={CompareMoleculesAdvanced} />
       <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
       <Route path="/comparateur-avance" component={ComparateurAvance} />

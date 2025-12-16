@@ -1184,3 +1184,27 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Intégrer le graphique radar dans RecetteDetail
 - [x] Intégrer le graphique radar dans RecetteCBDDetail
 - [x] Tester l'affichage sur différentes recettes
+
+
+## 🔬 COMPARATEUR DE RECETTES
+
+### Phase 1 : Création du comparateur
+- [x] Créer composant SVGRadarChart pour graphiques superposés
+- [x] Créer page CompareRecettes avec sélection multiple (jusqu'à 4)
+- [x] Ajouter procédure tRPC getWithMoleculesForCompare
+- [x] Ajouter route /compare-recettes dans App.tsx
+- [x] Ajouter lien dans la navigation (menu Recettes)
+
+### Phase 2 : Fonctionnalités
+- [x] Recherche et filtrage des recettes
+- [x] Sélection multiple avec badges colorés
+- [x] Graphique radar SVG avec superposition
+- [x] Tableau comparatif des valeurs
+- [x] Analyse comparative avec légende
+
+### Phase 3 : Tests et validation
+- [x] Tester sélection de recettes
+- [x] Tester affichage du graphique radar
+- [ ] Vérifier calcul des profils radar (valeurs par défaut si pas de molécules)
+- [ ] Créer checkpoint final
+

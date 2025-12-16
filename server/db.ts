@@ -2613,3 +2613,41 @@ export async function enrichMoleculeData() {
   
   return { updated, results };
 }
+
+
+// ============================================================================
+// COMPARE RECETTES - TOUTES LES RECETTES AVEC MOLÉCULES
+// ============================================================================
+
+export async function getAllRecettesWithMoleculesForCompare(recetteIds: number[]) {
+  const db = await getDb();
+  if (!db || recetteIds.length === 0) return [];
+  
+  const result = await Promise.all(
+    recetteIds.map(async (recetteId) => {
+      const recette = await db
+        .select()
+        .from(recettes)
+        .where(eq(recettes.id, recetteId))
+        .limit(1);
+      
+      if (recette.length === 0) return null;
+      
+      const mols = await db
+        .select({
+          molecule: molecules,
+          proportion: moleculesRecettes.proportion,
+        })
+        .from(moleculesRecettes)
+        .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
+        .where(eq(moleculesRecettes.recetteId, recetteId));
+      
+      return {
+        recette: recette[0],
+        molecules: mols,
+      };
+    })
+  );
+  
+  return result.filter(r => r !== null);
+}

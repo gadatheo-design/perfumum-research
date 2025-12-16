@@ -231,6 +231,11 @@ export const appRouter = router({
       .query(async () => {
         return await db.getAllRecettesWithMolecules();
       }),
+    getWithMoleculesForCompare: publicProcedure
+      .input(z.object({ recetteIds: z.array(z.number()) }))
+      .query(async ({ input }) => {
+        return await db.getAllRecettesWithMoleculesForCompare(input.recetteIds);
+      }),
     getVariations: publicProcedure
       .input((val: unknown) => {
         if (typeof val !== "number") throw new Error("Expected number");
