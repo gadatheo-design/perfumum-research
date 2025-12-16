@@ -1232,3 +1232,54 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Vérifier les 6 sliders fonctionnels
 - [x] Créer checkpoint final
 
+
+
+## 🎯 ENRICHISSEMENT GAMMES + AFFICHAGE RADAR CARTES (16/12/2024)
+
+### Phase 1 : Associations molécules-recettes autres gammes
+- [ ] Analyser les recettes Volcanique et identifier les molécules
+- [ ] Analyser les recettes Glaciaire et identifier les molécules
+- [ ] Analyser les recettes Bio-Lab et identifier les molécules
+- [ ] Créer les associations molécules-recettes pour Volcanique
+- [ ] Créer les associations molécules-recettes pour Glaciaire
+- [ ] Créer les associations molécules-recettes pour Bio-Lab
+
+### Phase 2 : Affichage profil radar sur cartes recettes
+- [ ] Créer composant MiniRadarRecette pour afficher le profil radar
+- [ ] Intégrer le composant dans les cartes de la page Recettes
+- [ ] Calculer et afficher le profil radar moyen de chaque recette
+- [ ] Ajouter un indicateur visuel si la recette n'a pas de molécules associées
+
+### Phase 3 : Tests et validation
+- [ ] Tester l'affichage des mini radars sur les cartes
+- [ ] Vérifier les associations pour toutes les gammes
+- [ ] Créer checkpoint final
+
+
+## 🎯 ENRICHISSEMENT GAMMES + MINI RADAR RECETTES (16 Déc 2025)
+
+### Phase 1 : Analyse des recettes par gamme
+- [x] Identifier les recettes sans associations molécules-recettes (178 recettes)
+- [x] Analyser les gammes Volcanique, Glaciaire, Bio-Lab et Pétrichor
+
+### Phase 2 : Création des associations molécules-recettes
+- [x] Créer script d'enrichissement automatique (enrich-v2.mjs)
+- [x] Associer 283 molécules à 77 recettes
+- [x] Couvrir les gammes : Pétrichor, Glaciaire, Bio-Lab, Traditions Olfactives
+
+### Phase 3 : Affichage mini radar sur cartes recettes
+- [x] Vérifier composant MiniRadar existant dans Recettes.tsx
+- [x] Confirmer affichage conditionnel (moleculeCount > 0)
+- [x] Valider calcul profil radar moyen (db-recettes-radar.ts)
+
+### Phase 4 : Tests et validation
+- [x] Tester page /recettes avec mini radars visibles
+- [x] Vérifier badge "X mol." sur chaque carte
+- [x] Confirmer valeurs radar (Intensité, Fraîcheur, Terreux)
+
+### Résultat
+- 283 associations molécules-recettes créées
+- 77 recettes enrichies avec profil radar
+- Mini radar hexagonal visible sur chaque carte recette
+- Valeurs radar calculées automatiquement (moyenne pondérée)
+

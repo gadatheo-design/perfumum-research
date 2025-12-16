@@ -320,6 +320,41 @@ export const appRouter = router({
         return await db.deleteRecette(input);
       }),
     
+    // Enrichir les associations molécules-recettes pour une gamme
+    enrichGamme: publicProcedure
+      .input(z.object({
+        gamme: z.enum(['volcanique', 'glaciaire', 'biolab', 'petrichor']),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.enrichGammeAssociations(input.gamme);
+      }),
+    
+    // Ajouter une association molécule-recette
+    addMoleculeAssociation: publicProcedure
+      .input(z.object({
+        recetteId: z.number(),
+        moleculeId: z.number(),
+        proportion: z.number().min(0).max(100),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.insertMoleculeRecetteAssociation(
+          input.recetteId,
+          input.moleculeId,
+          input.proportion,
+          input.notes
+        );
+      }),
+    
+    // Récupérer les recettes sans associations pour une gamme
+    getWithoutMolecules: publicProcedure
+      .input(z.object({
+        gamme: z.enum(['volcanique', 'glaciaire', 'biolab', 'petrichor']),
+      }))
+      .query(async ({ input }) => {
+        return await db.getRecettesWithoutMoleculesByGamme(input.gamme);
+      }),
+    
     // Liste des recettes avec profil radar moyen calculé
     listWithRadar: publicProcedure
       .input(z.object({

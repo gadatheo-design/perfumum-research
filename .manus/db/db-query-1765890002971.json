@@ -1,0 +1,20 @@
+{
+  "query": "SELECT r.id, r.name, r.category\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nWHERE (r.name LIKE '%Volcanique%' OR r.name LIKE '%Fumé%' OR r.name LIKE '%Pyrolyse%' OR r.category = 'tabac')\nGROUP BY r.id\nHAVING COUNT(mr.molecule_id) = 0\nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT r.id, r.name, r.category\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nWHERE (r.name LIKE '%Volcanique%' OR r.name LIKE '%Fumé%' OR r.name LIKE '%Pyrolyse%' OR r.category = 'tabac')\nGROUP BY r.id\nHAVING COUNT(mr.molecule_id) = 0\nLIMIT 50;",
+  "rows": [
+    {
+      "id": "77",
+      "name": "PÉTRICHOR DE TEMPÊTE (Volcanique)",
+      "category": "parfum"
+    },
+    {
+      "id": "28",
+      "name": "PÉTRICHOR DE TEMPÊTE (Volcanique)",
+      "category": "parfum"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n77\tPÉTRICHOR DE TEMPÊTE (Volcanique)\tparfum\n28\tPÉTRICHOR DE TEMPÊTE (Volcanique)\tparfum\n",
+  "stderr": "",
+  "execution_time_ms": 104
+}
