@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Leaf, Beaker, ArrowLeft } from "lucide-react";
+import { MoleculeLink } from "@/components/MoleculeLink";
 import { Link } from "wouter";
 
 export default function C2ClarusVerde() {
@@ -57,11 +58,23 @@ export default function C2ClarusVerde() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 font-mono text-sm text-muted-foreground">
-                    <li>• Juniper : 0.15 ml</li>
-                    <li>• Makrut Lime : 0.10 ml</li>
-                    <li>• Haitian Vetiver : 0.20 ml</li>
-                    <li>• Éthanol 95° : qsp 5 ml</li>
+                  <ul className="space-y-3 text-sm">
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Juniper" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.15 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Makrut" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.10 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Vetiver" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.20 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
+                      <span className="text-muted-foreground">Éthanol 95°</span>
+                      <span className="font-mono text-muted-foreground">qsp 5 ml</span>
+                    </li>
                   </ul>
                 </CardContent>
               </Card>

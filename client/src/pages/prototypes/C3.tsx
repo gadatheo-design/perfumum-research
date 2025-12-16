@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sun, Beaker, ArrowLeft } from "lucide-react";
+import { MoleculeLink } from "@/components/MoleculeLink";
 import { Link } from "wouter";
 
 export default function C3LactaSolis() {
@@ -57,10 +58,19 @@ export default function C3LactaSolis() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 font-mono text-sm text-muted-foreground">
-                    <li>• Plumeria (Frangipani) : 0.6 ml</li>
-                    <li>• Neroli Bouquetier : 0.08 ml</li>
-                    <li>• Base MCT : qsp 10 ml</li>
+                  <ul className="space-y-3 text-sm">
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Frangipani" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.6 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Neroli" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.08 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
+                      <span className="text-muted-foreground">Base MCT</span>
+                      <span className="font-mono text-muted-foreground">qsp 10 ml</span>
+                    </li>
                   </ul>
                 </CardContent>
               </Card>

@@ -1156,3 +1156,10 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Intégrer les liens dans la page RecetteDetail - FAIT (notes de tête/cœur/fond)
 - [x] Intégrer les liens dans la page GammeRaretes (accords maîtres) - FAIT (pyramides olfactives)
 - [x] Tester la navigation entre recettes et molécules - FAIT (TypeScript OK)
+
+
+### Étape 14 : Liens molécules dans les prototypes C1-C4 (16 déc 2025)
+- [x] Intégrer MoleculeListLinks dans C1 (Fermentum) - FAIT
+- [x] Intégrer MoleculeListLinks dans C2 (Clarus Verde) - FAIT
+- [x] Intégrer MoleculeListLinks dans C3 (Lacta Solis) - FAIT
+- [x] Intégrer MoleculeListLinks dans C4 (Terra Ambra) - FAIT
