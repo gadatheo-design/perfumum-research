@@ -1,0 +1,21 @@
+{
+  "query": "SELECT mr.*, m.name as molecule_name, r.name as recette_name \nFROM molecules_recettes mr \nJOIN molecules m ON mr.molecule_id = m.id \nJOIN recettes r ON mr.recette_id = r.id \nWHERE m.name LIKE '%Androst%'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT mr.*, m.name as molecule_name, r.name as recette_name \nFROM molecules_recettes mr \nJOIN molecules m ON mr.molecule_id = m.id \nJOIN recettes r ON mr.recette_id = r.id \nWHERE m.name LIKE '%Androst%'",
+  "rows": [
+    {
+      "id": "60001",
+      "molecule_id": "240001",
+      "recette_id": "180001",
+      "proportion": "0.05",
+      "notes": "Pheromone steroidienne - dose infinitesimale pour effet subliminal",
+      "created_at": "2025-12-15 22:35:15",
+      "updated_at": "2025-12-15 22:35:15",
+      "molecule_name": "Androsténol",
+      "recette_name": "Pheromona Truffle"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tmolecule_id\trecette_id\tproportion\tnotes\tcreated_at\tupdated_at\tmolecule_name\trecette_name\n60001\t240001\t180001\t0.05\tPheromone steroidienne - dose infinitesimale pour effet subliminal\t2025-12-15 22:35:15\t2025-12-15 22:35:15\tAndrosténol\tPheromona Truffle\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

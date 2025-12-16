@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET therapeuticProperties = 'Anxiolytique puissant, réduit significativement l''anxiété et le stress. Sédatif naturel, améliore la qualité du sommeil. Analgésique, soulage les douleurs légères à modérées. Anti-inflammatoire et anticonvulsivant. Effet calmant sur le système nerveux, favorise la relaxation profonde.' WHERE name LIKE '%Linalool%' OR name LIKE '%Linalol%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET therapeuticProperties = 'Anxiolytique puissant, réduit significativement l''anxiété et le stress. Sédatif naturel, améliore la qualité du sommeil. Analgésique, soulage les douleurs légères à modérées. Anti-inflammatoire et anticonvulsivant. Effet calmant sur le système nerveux, favorise la relaxation profonde.' WHERE name LIKE '%Linalool%' OR name LIKE '%Linalol%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 55
+}

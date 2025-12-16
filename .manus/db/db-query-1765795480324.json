@@ -1,0 +1,110 @@
+{
+  "query": "SELECT \n  m1.name as molecule1, \n  m2.name as molecule2,\n  ROUND(SQRT(\n    POW(m1.radar_intensity - m2.radar_intensity, 2) +\n    POW(m1.radar_freshness - m2.radar_freshness, 2) +\n    POW(m1.radar_warmth - m2.radar_warmth, 2) +\n    POW(m1.radar_sweetness - m2.radar_sweetness, 2) +\n    POW(m1.radar_spiciness - m2.radar_spiciness, 2) +\n    POW(m1.radar_earthiness - m2.radar_earthiness, 2)\n  ), 2) as distance\nFROM molecules m1\nJOIN molecules m2 ON m1.id < m2.id\nWHERE m1.notes LIKE '%Hermitage%' OR m2.notes LIKE '%Hermitage%'\nORDER BY distance ASC\nLIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  m1.name as molecule1, \n  m2.name as molecule2,\n  ROUND(SQRT(\n    POW(m1.radar_intensity - m2.radar_intensity, 2) +\n    POW(m1.radar_freshness - m2.radar_freshness, 2) +\n    POW(m1.radar_warmth - m2.radar_warmth, 2) +\n    POW(m1.radar_sweetness - m2.radar_sweetness, 2) +\n    POW(m1.radar_spiciness - m2.radar_spiciness, 2) +\n    POW(m1.radar_earthiness - m2.radar_earthiness, 2)\n  ), 2) as distance\nFROM molecules m1\nJOIN molecules m2 ON m1.id < m2.id\nWHERE m1.notes LIKE '%Hermitage%' OR m2.notes LIKE '%Hermitage%'\nORDER BY distance ASC\nLIMIT 20;",
+  "rows": [
+    {
+      "molecule1": "Oud Tea",
+      "molecule2": "Omani Black Frankincense",
+      "distance": "11.18"
+    },
+    {
+      "molecule1": "Mitti Attar",
+      "molecule2": "Haitian Vetiver",
+      "distance": "14.93"
+    },
+    {
+      "molecule1": "Miyazaki Citrus",
+      "molecule2": "Tangerine Dream",
+      "distance": "16.82"
+    },
+    {
+      "molecule1": "Haitian Vetiver",
+      "molecule2": "Black Emerald",
+      "distance": "19.34"
+    },
+    {
+      "molecule1": "Artisan Peppermint Oil",
+      "molecule2": "Makrut Lime",
+      "distance": "19.34"
+    },
+    {
+      "molecule1": "Jasmonal",
+      "molecule2": "Crème de Citronnelle",
+      "distance": "20.05"
+    },
+    {
+      "molecule1": "Palo Santo",
+      "molecule2": "Omani Black Frankincense",
+      "distance": "22.96"
+    },
+    {
+      "molecule1": "Cashmeran",
+      "molecule2": "Crème de Citronnelle",
+      "distance": "23.39"
+    },
+    {
+      "molecule1": "Mitti Attar",
+      "molecule2": "Black Emerald",
+      "distance": "23.98"
+    },
+    {
+      "molecule1": "Skatole",
+      "molecule2": "Palo Santo",
+      "distance": "24.04"
+    },
+    {
+      "molecule1": "Linalol",
+      "molecule2": "Crème de Citronnelle",
+      "distance": "24.06"
+    },
+    {
+      "molecule1": "Palo Santo",
+      "molecule2": "Oud Tea",
+      "distance": "24.54"
+    },
+    {
+      "molecule1": "Iso E Super",
+      "molecule2": "Crème de Citronnelle",
+      "distance": "25.02"
+    },
+    {
+      "molecule1": "Tangerinol",
+      "molecule2": "Crème de Citronnelle",
+      "distance": "25.55"
+    },
+    {
+      "molecule1": "Limonène",
+      "molecule2": "Crème de Citronnelle",
+      "distance": "25.69"
+    },
+    {
+      "molecule1": "Italian Bergamot Oil",
+      "molecule2": "Miyazaki Citrus",
+      "distance": "25.69"
+    },
+    {
+      "molecule1": "Oud Tea",
+      "molecule2": "Spikenard",
+      "distance": "26.15"
+    },
+    {
+      "molecule1": "Kaolin accord",
+      "molecule2": "Omani Black Frankincense",
+      "distance": "26.46"
+    },
+    {
+      "molecule1": "Spikenard",
+      "molecule2": "Black Emerald",
+      "distance": "26.76"
+    },
+    {
+      "molecule1": "Nerol",
+      "molecule2": "Crème de Citronnelle",
+      "distance": "27"
+    }
+  ],
+  "messages": [],
+  "stdout": "molecule1\tmolecule2\tdistance\nOud Tea\tOmani Black Frankincense\t11.18\nMitti Attar\tHaitian Vetiver\t14.93\nMiyazaki Citrus\tTangerine Dream\t16.82\nHaitian Vetiver\tBlack Emerald\t19.34\nArtisan Peppermint Oil\tMakrut Lime\t19.34\nJasmonal\tCrème de Citronnelle\t20.05\nPalo Santo\tOmani Black Frankincense\t22.96\nCashmeran\tCrème de Citronnelle\t23.39\nMitti Attar\tBlack Emerald\t23.98\nSkatole\tPalo Santo\t24.04\nLinalol\tCrème de Citronnelle\t24.06\nPalo Santo\tOud Tea\t24.54\nIso E Super\tCrème de Citronnelle\t25.02\nTangerinol\tCrème de Citronnelle\t25.55\nLimonène\tCrème de Citronnelle\t25.69\nItalian Bergamot Oil\tMiyazaki Citrus\t25.69\nOud Tea\tSpikenard\t26.15\nKaolin accord\tOmani Black Frankincense\t26.46\nSpikenard\tBlack Emerald\t26.76\nNerol\tCrème de Citronnelle\t27\n",
+  "stderr": "",
+  "execution_time_ms": 87
+}

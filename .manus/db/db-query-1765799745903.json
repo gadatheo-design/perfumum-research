@@ -1,0 +1,34 @@
+{
+  "query": "SELECT r.id, r.name FROM recettes r WHERE r.name LIKE 'Pétrichor%' ORDER BY r.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT r.id, r.name FROM recettes r WHERE r.name LIKE 'Pétrichor%' ORDER BY r.name;",
+  "rows": [
+    {
+      "id": "150001",
+      "name": "Pétrichor Ancestral"
+    },
+    {
+      "id": "150002",
+      "name": "Pétrichor Forestier"
+    },
+    {
+      "id": "150003",
+      "name": "Pétrichor Minéral"
+    },
+    {
+      "id": "150005",
+      "name": "Pétrichor Nocturne"
+    },
+    {
+      "id": "120005",
+      "name": "Pétrichor Sacré"
+    },
+    {
+      "id": "150004",
+      "name": "Pétrichor Tropical"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n150001\tPétrichor Ancestral\n150002\tPétrichor Forestier\n150003\tPétrichor Minéral\n150005\tPétrichor Nocturne\n120005\tPétrichor Sacré\n150004\tPétrichor Tropical\n",
+  "stderr": "",
+  "execution_time_ms": 70
+}

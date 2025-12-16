@@ -1,0 +1,110 @@
+{
+  "query": "SELECT id, name, family FROM molecules LIMIT 20",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, family FROM molecules LIMIT 20",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Hexanoic acid",
+      "family": "NULL"
+    },
+    {
+      "id": "2",
+      "name": "Linalol",
+      "family": "NULL"
+    },
+    {
+      "id": "3",
+      "name": "Ambroxan",
+      "family": "NULL"
+    },
+    {
+      "id": "30001",
+      "name": "Hexanoic acid",
+      "family": "Organique / Cheese"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol",
+      "family": "Florale"
+    },
+    {
+      "id": "30003",
+      "name": "Ambroxan",
+      "family": "Ambrée / Boisée"
+    },
+    {
+      "id": "30004",
+      "name": "Géosmine",
+      "family": "Terpène / Terre"
+    },
+    {
+      "id": "30005",
+      "name": "Caryophyllène",
+      "family": "Sesquiterpène"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène",
+      "family": "Monoterpène"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène",
+      "family": "Monoterpène"
+    },
+    {
+      "id": "30008",
+      "name": "Pinène (α et β)",
+      "family": "Monoterpène"
+    },
+    {
+      "id": "30009",
+      "name": "Linalool",
+      "family": "Monoterpène alcool"
+    },
+    {
+      "id": "60001",
+      "name": "Acide Hexanoïque (C6)",
+      "family": "acides_gras"
+    },
+    {
+      "id": "60002",
+      "name": "Acide Octanoïque (C8)",
+      "family": "acides_gras"
+    },
+    {
+      "id": "60003",
+      "name": "Acide Décanoïque (C10)",
+      "family": "acides_gras"
+    },
+    {
+      "id": "60004",
+      "name": "Acide Linoléique",
+      "family": "acides_gras"
+    },
+    {
+      "id": "60005",
+      "name": "Acide Oléique",
+      "family": "acides_gras"
+    },
+    {
+      "id": "60006",
+      "name": "Acide Benzoïque",
+      "family": "acides_aromatiques"
+    },
+    {
+      "id": "60007",
+      "name": "Acide Cinnamique",
+      "family": "acides_aromatiques"
+    },
+    {
+      "id": "60008",
+      "name": "Acide Caféique",
+      "family": "acides_aromatiques"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\n1\tHexanoic acid\tNULL\n2\tLinalol\tNULL\n3\tAmbroxan\tNULL\n30001\tHexanoic acid\tOrganique / Cheese\n30002\tLinalol\tFlorale\n30003\tAmbroxan\tAmbrée / Boisée\n30004\tGéosmine\tTerpène / Terre\n30005\tCaryophyllène\tSesquiterpène\n30006\tMyrcène\tMonoterpène\n30007\tLimonène\tMonoterpène\n30008\tPinène (α et β)\tMonoterpène\n30009\tLinalool\tMonoterpène alcool\n60001\tAcide Hexanoïque (C6)\tacides_gras\n60002\tAcide Octanoïque (C8)\tacides_gras\n60003\tAcide Décanoïque (C10)\tacides_gras\n60004\tAcide Linoléique\tacides_gras\n60005\tAcide Oléique\tacides_gras\n60006\tAcide Benzoïque\tacides_aromatiques\n60007\tAcide Cinnamique\tacides_aromatiques\n60008\tAcide Caféique\tacides_aromatiques\n",
+  "stderr": "",
+  "execution_time_ms": 661
+}

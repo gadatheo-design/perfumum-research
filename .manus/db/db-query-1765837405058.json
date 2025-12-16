@@ -1,0 +1,50 @@
+{
+  "query": "SELECT id, name, category FROM recettes WHERE category = 'resine' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category FROM recettes WHERE category = 'resine' ORDER BY id;",
+  "rows": [
+    {
+      "id": "30001",
+      "name": "VANILLE NOIRE & ENCENS BLANC",
+      "category": "resine"
+    },
+    {
+      "id": "30002",
+      "name": "THÉ FUMÉ & LABDANUM",
+      "category": "resine"
+    },
+    {
+      "id": "30003",
+      "name": "ROSE DES SABLES",
+      "category": "resine"
+    },
+    {
+      "id": "30004",
+      "name": "CUIR, CACAO, TABAC",
+      "category": "resine"
+    },
+    {
+      "id": "30005",
+      "name": "MENTHE SAUVAGE & MOUSSE DE CHÊNE",
+      "category": "resine"
+    },
+    {
+      "id": "30006",
+      "name": "SÉSAME GRILLÉ & AMBRE GRISE",
+      "category": "resine"
+    },
+    {
+      "id": "30007",
+      "name": "FIGUIER & CUIVRE VÉGÉTAL",
+      "category": "resine"
+    },
+    {
+      "id": "150002",
+      "name": "Pétrichor Forestier",
+      "category": "resine"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n30001\tVANILLE NOIRE & ENCENS BLANC\tresine\n30002\tTHÉ FUMÉ & LABDANUM\tresine\n30003\tROSE DES SABLES\tresine\n30004\tCUIR, CACAO, TABAC\tresine\n30005\tMENTHE SAUVAGE & MOUSSE DE CHÊNE\tresine\n30006\tSÉSAME GRILLÉ & AMBRE GRISE\tresine\n30007\tFIGUIER & CUIVRE VÉGÉTAL\tresine\n150002\tPétrichor Forestier\tresine\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

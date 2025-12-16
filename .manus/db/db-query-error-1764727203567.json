@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO accords (name, description, category, notes) VALUES\n('BIO-MINERALIS I: Os + Pluie', 'Fusion archéologique entre collagène fossile et géosmine. Protocole: Hydroxyproline pyrolysée (0.04%) + Géosmine (0.003%) + Ozone (0.01%) + Calcite (0.03%). Effet: Squelette mouillé, mémoire osseuse sous pluie. Laboratoire: Pyrolyse 180°C + macération 72h. Artisanal: Infusion os broyés + terre humide. Rituel: Autel pierre + eau pluie.', 'BIO-MINERALIS', 'Terre humide, os ancien, pluie minérale, archéologie olfactive');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO accords (name, description, category, notes) VALUES\n('BIO-MINERALIS I: Os + Pluie', 'Fusion archéologique entre collagène fossile et géosmine. Protocole: Hydroxyproline pyrolysée (0.04%) + Géosmine (0.003%) + Ozone (0.01%) + Calcite (0.03%). Effet: Squelette mouillé, mémoire osseuse sous pluie. Laboratoire: Pyrolyse 180°C + macération 72h. Artisanal: Infusion os broyés + terre humide. Rituel: Autel pierre + eau pluie.', 'BIO-MINERALIS', 'Terre humide, os ancien, pluie minérale, archéologie olfactive');",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'category' in 'field list'"
+  ]
+}
