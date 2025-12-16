@@ -1208,3 +1208,27 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [ ] Vérifier calcul des profils radar (valeurs par défaut si pas de molécules)
 - [ ] Créer checkpoint final
 
+
+
+## 🎯 ENRICHISSEMENT RECETTES PÉTRICHOR + FILTRES RADAR (16/12/2024)
+
+### Phase 1 : Associations molécules-recettes Pétrichor
+- [x] Analyser les 49 recettes Pétrichor existantes
+- [x] Identifier les molécules correspondantes (Géosmine, Ambrox, Vétiver, Ozone, etc.)
+- [x] Créer 196 associations molécules-recettes (4 molécules par recette en moyenne)
+- [x] Vérifier les associations dans la base de données
+
+### Phase 2 : Filtres par profil radar sur page Recettes
+- [x] Créer procédure tRPC `recettes.listWithRadar` avec calcul profil radar moyen
+- [x] Ajouter bouton "Profil Radar" sur page Recettes
+- [x] Créer panneau de filtres avec 6 sliders (Intensité, Fraîcheur, Chaleur, Douceur, Épicé, Terreux)
+- [x] Filtrer les recettes par plages de valeurs radar
+- [x] Afficher badge "Actif" quand filtres radar appliqués
+- [x] Bouton "Réinitialiser" pour effacer tous les filtres
+
+### Phase 3 : Tests et validation
+- [x] Vider le cache Service Worker (bug affichage bouton)
+- [x] Tester le bouton Profil Radar (panneau s'affiche correctement)
+- [x] Vérifier les 6 sliders fonctionnels
+- [x] Créer checkpoint final
+

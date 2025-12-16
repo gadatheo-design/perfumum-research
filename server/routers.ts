@@ -4,6 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import * as db from "./db";
+import { getAllRecettesWithRadar, filterRecettesByRadar, type RadarFilters } from "./db-recettes-radar";
 
 export const appRouter = router({
   system: systemRouter,
@@ -317,6 +318,30 @@ export const appRouter = router({
       .input(z.number())
       .mutation(async ({ input }) => {
         return await db.deleteRecette(input);
+      }),
+    
+    // Liste des recettes avec profil radar moyen calculé
+    listWithRadar: publicProcedure
+      .input(z.object({
+        intensityMin: z.number().optional(),
+        intensityMax: z.number().optional(),
+        freshnessMin: z.number().optional(),
+        freshnessMax: z.number().optional(),
+        warmthMin: z.number().optional(),
+        warmthMax: z.number().optional(),
+        sweetnessMin: z.number().optional(),
+        sweetnessMax: z.number().optional(),
+        spicinessMin: z.number().optional(),
+        spicinessMax: z.number().optional(),
+        earthinessMin: z.number().optional(),
+        earthinessMax: z.number().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        const recettes = await getAllRecettesWithRadar();
+        if (input) {
+          return filterRecettesByRadar(recettes, input);
+        }
+        return recettes;
       }),
   }),
 

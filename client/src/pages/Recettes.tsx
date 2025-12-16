@@ -6,13 +6,66 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
-import { Search, Beaker, Filter, X, GitBranch } from "lucide-react";
+import { Search, Beaker, Filter, X, GitBranch, Radar, ChevronDown, ChevronUp, FlaskConical } from "lucide-react";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
 import { Progress } from "@/components/ui/progress";
+
+// Composant mini radar hexagonal
+function MiniRadar({ values }: { values: { i: number; f: number; w: number; s: number; sp: number; e: number } }) {
+  const size = 50;
+  const center = size / 2;
+  const radius = size * 0.4;
+  
+  // 6 axes à 60° d'intervalle
+  const angles = [0, 60, 120, 180, 240, 300].map(a => (a - 90) * Math.PI / 180);
+  const vals = [values.i, values.f, values.w, values.s, values.sp, values.e];
+  
+  // Points du polygone
+  const points = angles.map((angle, i) => {
+    const r = (vals[i] / 100) * radius;
+    return `${center + r * Math.cos(angle)},${center + r * Math.sin(angle)}`;
+  }).join(' ');
+  
+  // Points du cadre hexagonal
+  const framePoints = angles.map((angle) => {
+    return `${center + radius * Math.cos(angle)},${center + radius * Math.sin(angle)}`;
+  }).join(' ');
+  
+  return (
+    <svg width={size} height={size} className="flex-shrink-0">
+      {/* Cadre hexagonal */}
+      <polygon
+        points={framePoints}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="0.5"
+        className="text-muted-foreground/30"
+      />
+      {/* Valeurs */}
+      <polygon
+        points={points}
+        fill="oklch(0.7 0.15 200 / 0.3)"
+        stroke="oklch(0.7 0.15 200)"
+        strokeWidth="1"
+      />
+    </svg>
+  );
+}
+
+// Labels des axes radar
+const RADAR_LABELS = {
+  intensity: { label: "Intensité", short: "I", color: "oklch(0.7 0.2 30)" },
+  freshness: { label: "Fraîcheur", short: "F", color: "oklch(0.7 0.2 180)" },
+  warmth: { label: "Chaleur", short: "W", color: "oklch(0.7 0.2 60)" },
+  sweetness: { label: "Douceur", short: "S", color: "oklch(0.7 0.2 330)" },
+  spiciness: { label: "Épicé", short: "Sp", color: "oklch(0.7 0.2 90)" },
+  earthiness: { label: "Terreux", short: "E", color: "oklch(0.7 0.2 120)" },
+};
 
 export default function Recettes() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,8 +74,33 @@ export default function Recettes() {
   const [selectedPrototype, setSelectedPrototype] = useState<string | null>(null);
   const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null);
   const [showIngredientFilter, setShowIngredientFilter] = useState(false);
+  const [showRadarFilter, setShowRadarFilter] = useState(false);
+  
+  // Filtres radar (plages min-max)
+  const [radarFilters, setRadarFilters] = useState({
+    intensity: [0, 100] as [number, number],
+    freshness: [0, 100] as [number, number],
+    warmth: [0, 100] as [number, number],
+    sweetness: [0, 100] as [number, number],
+    spiciness: [0, 100] as [number, number],
+    earthiness: [0, 100] as [number, number],
+  });
 
-  const { data: recettes = [], isLoading } = trpc.recettes.list.useQuery();
+  // Utiliser la nouvelle procédure avec radar
+  const { data: recettes = [], isLoading } = trpc.recettes.listWithRadar.useQuery({
+    intensityMin: radarFilters.intensity[0] > 0 ? radarFilters.intensity[0] : undefined,
+    intensityMax: radarFilters.intensity[1] < 100 ? radarFilters.intensity[1] : undefined,
+    freshnessMin: radarFilters.freshness[0] > 0 ? radarFilters.freshness[0] : undefined,
+    freshnessMax: radarFilters.freshness[1] < 100 ? radarFilters.freshness[1] : undefined,
+    warmthMin: radarFilters.warmth[0] > 0 ? radarFilters.warmth[0] : undefined,
+    warmthMax: radarFilters.warmth[1] < 100 ? radarFilters.warmth[1] : undefined,
+    sweetnessMin: radarFilters.sweetness[0] > 0 ? radarFilters.sweetness[0] : undefined,
+    sweetnessMax: radarFilters.sweetness[1] < 100 ? radarFilters.sweetness[1] : undefined,
+    spicinessMin: radarFilters.spiciness[0] > 0 ? radarFilters.spiciness[0] : undefined,
+    spicinessMax: radarFilters.spiciness[1] < 100 ? radarFilters.spiciness[1] : undefined,
+    earthinessMin: radarFilters.earthiness[0] > 0 ? radarFilters.earthiness[0] : undefined,
+    earthinessMax: radarFilters.earthiness[1] < 100 ? radarFilters.earthiness[1] : undefined,
+  });
 
   // Extract unique families from recettes
   const families = useMemo(() => {
@@ -38,7 +116,7 @@ export default function Recettes() {
     "Géosmine", "Ambrox", "Vétiver", "Ozone", "Terre"
   ];
 
-  // Filter recettes
+  // Filter recettes (filtres locaux en plus des filtres radar côté serveur)
   const filteredRecettes = useMemo(() => {
     return recettes.filter((recette) => {
       const matchesSearch = recette.name?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -58,7 +136,22 @@ export default function Recettes() {
     setSelectedIngredient(null);
   };
 
+  const clearRadarFilters = () => {
+    setRadarFilters({
+      intensity: [0, 100],
+      freshness: [0, 100],
+      warmth: [0, 100],
+      sweetness: [0, 100],
+      spiciness: [0, 100],
+      earthiness: [0, 100],
+    });
+  };
+
   const hasActiveFilters = searchTerm || selectedGamme || selectedFamily || selectedPrototype || selectedIngredient;
+  
+  const hasActiveRadarFilters = Object.values(radarFilters).some(
+    ([min, max]) => min > 0 || max < 100
+  );
 
   if (isLoading) {
     return (
@@ -93,7 +186,7 @@ export default function Recettes() {
                 <h1 className="text-4xl md:text-5xl font-bold">Recettes</h1>
               </div>
               <p className="text-lg text-muted-foreground">
-                Formules olfactives développées dans le cadre de PERFUMUM. Explorez les {recettes.length} recettes par famille, prototype ou civilisation.
+                Formules olfactives développées dans le cadre de PERFUMUM. Explorez les {recettes.length} recettes par famille, prototype ou profil radar.
               </p>
             </div>
           </div>
@@ -174,6 +267,23 @@ export default function Recettes() {
                   Ingrédients
                 </Button>
 
+                {/* Radar Filter Toggle */}
+                <Button
+                  variant={showRadarFilter ? "default" : "outline"}
+                  size="sm"
+                  className="gap-2"
+                  onClick={() => setShowRadarFilter(!showRadarFilter)}
+                >
+                  <Radar className="h-3 w-3" />
+                  Profil Radar
+                  {hasActiveRadarFilters && (
+                    <Badge variant="secondary" className="ml-1 h-5 px-1.5 text-xs">
+                      Actif
+                    </Badge>
+                  )}
+                  {showRadarFilter ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                </Button>
+
                 {/* Clear Filters */}
                 {hasActiveFilters && (
                   <Button
@@ -187,6 +297,57 @@ export default function Recettes() {
                   </Button>
                 )}
               </div>
+
+              {/* Radar Filter Panel */}
+              {showRadarFilter && (
+                <div className="p-4 bg-muted/50 rounded-lg border space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium flex items-center gap-2">
+                      <Radar className="h-4 w-4" />
+                      Filtrer par profil radar
+                    </h4>
+                    {hasActiveRadarFilters && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={clearRadarFilters}
+                        className="h-7 px-2"
+                      >
+                        <X className="h-3 w-3 mr-1" />
+                        Réinitialiser
+                      </Button>
+                    )}
+                  </div>
+                  
+                  <p className="text-xs text-muted-foreground">
+                    Ajustez les plages de valeurs pour filtrer les recettes selon leur profil olfactif moyen (calculé à partir des molécules associées).
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {(Object.entries(RADAR_LABELS) as [keyof typeof radarFilters, typeof RADAR_LABELS.intensity][]).map(([key, { label, color }]) => (
+                      <div key={key} className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium" style={{ color }}>{label}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {radarFilters[key][0]} - {radarFilters[key][1]}
+                          </span>
+                        </div>
+                        <Slider
+                          value={radarFilters[key]}
+                          onValueChange={(value) => setRadarFilters(prev => ({
+                            ...prev,
+                            [key]: value as [number, number]
+                          }))}
+                          min={0}
+                          max={100}
+                          step={5}
+                          className="w-full"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Ingredient Filter Panel */}
               {showIngredientFilter && (
@@ -229,9 +390,17 @@ export default function Recettes() {
               )}
 
               {/* Results count */}
-              <p className="text-sm text-muted-foreground">
-                {filteredRecettes.length} recette{filteredRecettes.length > 1 ? 's' : ''} trouvée{filteredRecettes.length > 1 ? 's' : ''}
-              </p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-muted-foreground">
+                  {filteredRecettes.length} recette{filteredRecettes.length > 1 ? 's' : ''} trouvée{filteredRecettes.length > 1 ? 's' : ''}
+                </p>
+                {hasActiveRadarFilters && (
+                  <Badge variant="outline" className="text-xs">
+                    <FlaskConical className="h-3 w-3 mr-1" />
+                    {filteredRecettes.filter(r => r.moleculeCount > 0).length} avec molécules
+                  </Badge>
+                )}
+              </div>
             </div>
           </div>
         </section>
@@ -245,7 +414,7 @@ export default function Recettes() {
                   <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
                     <CardHeader>
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-1">
                           <CardTitle className="text-lg">{recette.name}</CardTitle>
                           {recette.parentRecetteId && (
                             <Badge variant="outline" className="border-amber-400 text-amber-600 text-xs flex items-center gap-1">
@@ -254,16 +423,35 @@ export default function Recettes() {
                             </Badge>
                           )}
                         </div>
-                        {recette.category && getGammeFromCategory(recette.category) && (
-                          <GammeBadge gamme={getGammeFromCategory(recette.category)!} size="sm" />
+                        {/* Mini radar si molécules associées */}
+                        {recette.moleculeCount > 0 && (
+                          <MiniRadar values={{
+                            i: recette.avgIntensity,
+                            f: recette.avgFreshness,
+                            w: recette.avgWarmth,
+                            s: recette.avgSweetness,
+                            sp: recette.avgSpiciness,
+                            e: recette.avgEarthiness,
+                          }} />
                         )}
                       </div>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
-                        {recette.category && (
-                          <Badge variant="outline">{recette.category}</Badge>
-                        )}
+                        <div className="flex items-center gap-2 flex-wrap">
+                          {recette.category && getGammeFromCategory(recette.category) && (
+                            <GammeBadge gamme={getGammeFromCategory(recette.category)!} size="sm" />
+                          )}
+                          {recette.category && (
+                            <Badge variant="outline">{recette.category}</Badge>
+                          )}
+                          {recette.moleculeCount > 0 && (
+                            <Badge variant="secondary" className="text-xs">
+                              <FlaskConical className="h-3 w-3 mr-1" />
+                              {recette.moleculeCount} mol.
+                            </Badge>
+                          )}
+                        </div>
                         
                         {/* Intensity & Stability */}
                         <div className="space-y-2">
@@ -278,6 +466,24 @@ export default function Recettes() {
                             <span>{recette.stability || 'medium'}</span>
                           </div>
                         </div>
+
+                        {/* Radar values preview (si molécules) */}
+                        {recette.moleculeCount > 0 && (
+                          <div className="grid grid-cols-3 gap-1 text-xs">
+                            <div className="text-center p-1 rounded bg-muted/50">
+                              <div className="font-medium">{recette.avgIntensity}</div>
+                              <div className="text-muted-foreground text-[10px]">Intens.</div>
+                            </div>
+                            <div className="text-center p-1 rounded bg-muted/50">
+                              <div className="font-medium">{recette.avgFreshness}</div>
+                              <div className="text-muted-foreground text-[10px]">Fraîch.</div>
+                            </div>
+                            <div className="text-center p-1 rounded bg-muted/50">
+                              <div className="font-medium">{recette.avgEarthiness}</div>
+                              <div className="text-muted-foreground text-[10px]">Terreux</div>
+                            </div>
+                          </div>
+                        )}
 
                         {/* Ingredients preview */}
                         {recette.ingredients && (
@@ -303,6 +509,16 @@ export default function Recettes() {
                 <Beaker className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                 <h3 className="text-lg font-medium">Aucune recette trouvée</h3>
                 <p className="text-muted-foreground">Essayez de modifier vos filtres de recherche.</p>
+                {hasActiveRadarFilters && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={clearRadarFilters}
+                    className="mt-4"
+                  >
+                    Réinitialiser les filtres radar
+                  </Button>
+                )}
               </div>
             )}
           </div>
