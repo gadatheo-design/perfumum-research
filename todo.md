@@ -1283,3 +1283,22 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - Mini radar hexagonal visible sur chaque carte recette
 - Valeurs radar calculées automatiquement (moyenne pondérée)
 
+
+
+## 🎯 ENRICHISSEMENT COMPLET + ADMIN + FILTRES RADAR (16 Déc 2025)
+
+### Phase 1 : Enrichir les recettes restantes
+- [x] Identifier les 133 recettes sans associations (RÉSULTAT: 0 recettes sans associations - toutes les 210 recettes ont déjà des molécules associées)
+- [x] Vérification complète effectuée
+- [x] Toutes les 210 recettes ont des associations molécules
+
+### Phase 2 : Boutons d'enrichissement Admin
+- [x] Ajouter section "Enrichissement par gamme" dans Admin (code présent lignes 303-366)
+- [x] Créer boutons pour chaque gamme (Volcanique, Glaciaire, Bio-Lab, Pétrichor)
+- [x] Procédure tRPC enrichGamme implémentée
+
+### Phase 3 : Filtrage recettes par profil radar
+- [x] Ajouter sliders de filtrage (Intensité, Fraîcheur, Chaleur, Douceur, Épicé, Terreux)
+- [x] Filtrer en temps réel les recettes via trpc.recettes.listWithRadar
+- [x] Afficher nombre de résultats (210 recettes trouvées)
+
