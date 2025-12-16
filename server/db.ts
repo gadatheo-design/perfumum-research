@@ -783,13 +783,19 @@ export async function getRecetteWithRelations(id: number) {
   
   const recette = recettesList[0];
   
-  // Get related molecules via molecule_recettes
+  // Get related molecules via molecule_recettes with radar data
   const relatedMolecules = await db
     .select({
       id: molecules.id,
       name: molecules.name,
       chemicalFormula: molecules.chemicalFormula,
       family: molecules.family,
+      radarIntensity: molecules.radarIntensity,
+      radarFreshness: molecules.radarFreshness,
+      radarWarmth: molecules.radarWarmth,
+      radarSweetness: molecules.radarSweetness,
+      radarSpiciness: molecules.radarSpiciness,
+      radarEarthiness: molecules.radarEarthiness,
     })
     .from(moleculesRecettes)
     .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))

@@ -8,6 +8,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { exportRecipePDF } from "@/lib/exportPDF";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import { MoleculeListLinks } from "@/components/MoleculeLink";
+import { RecipeOlfactiveProfile } from "@/components/RecipeRadarChart";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
 import { GitBranch, ArrowUpRight } from "lucide-react";
@@ -443,6 +444,25 @@ export default function RecetteDetail() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Profil Olfactif Radar */}
+      {molecules.length > 0 && (
+        <RecipeOlfactiveProfile 
+          molecules={molecules.map(m => ({
+            id: m.id,
+            name: m.name,
+            chemicalFormula: m.chemicalFormula,
+            radarIntensity: m.radarIntensity,
+            radarFreshness: m.radarFreshness,
+            radarWarmth: m.radarWarmth,
+            radarSweetness: m.radarSweetness,
+            radarSpiciness: m.radarSpiciness,
+            radarEarthiness: m.radarEarthiness,
+          }))}
+          recipeName={recette.name}
+          color="#22c55e"
+        />
+      )}
 
       {/* Related Molecules */}
       {molecules.length > 0 && (

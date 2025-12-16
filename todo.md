@@ -1175,3 +1175,12 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Intégrer la vue Composition complète dans C2 - FAIT
 - [x] Intégrer la vue Composition complète dans C3 - FAIT
 - [x] Intégrer la vue Composition complète dans C4 - FAIT
+
+
+### Étape 16 : Graphiques radar dans les fiches de recettes (16 déc 2025)
+- [x] Analyser la structure des pages RecetteDetail et RecetteCBDDetail
+- [x] Créer un composant RecipeRadarChart adapté aux recettes
+- [x] Calculer le profil radar basé sur les molécules de la recette
+- [x] Intégrer le graphique radar dans RecetteDetail
+- [x] Intégrer le graphique radar dans RecetteCBDDetail
+- [x] Tester l'affichage sur différentes recettes
