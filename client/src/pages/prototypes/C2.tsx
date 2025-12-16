@@ -5,7 +5,19 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Leaf, Beaker, ArrowLeft } from "lucide-react";
 import { MoleculeLink } from "@/components/MoleculeLink";
+import { CompositionComplete, PrototypeComposition } from "@/components/PrototypeRadarChart";
 import { Link } from "wouter";
+
+// Composition du prototype C2
+const c2Composition: PrototypeComposition = {
+  name: "C2 — CLARUS VERDE",
+  color: "#16a34a", // green-600
+  molecules: [
+    { name: "Juniper", quantity: "0.15 ml", radarIntensity: 60, radarFreshness: 85, radarWarmth: 25, radarSweetness: 20, radarSpiciness: 45, radarEarthiness: 35 },
+    { name: "Makrut", quantity: "0.10 ml", radarIntensity: 70, radarFreshness: 95, radarWarmth: 15, radarSweetness: 20, radarSpiciness: 25, radarEarthiness: 10 },
+    { name: "Vetiver", quantity: "0.20 ml", radarIntensity: 75, radarFreshness: 35, radarWarmth: 55, radarSweetness: 20, radarSpiciness: 30, radarEarthiness: 85 },
+  ]
+};
 
 export default function C2ClarusVerde() {
   return (
@@ -137,6 +149,18 @@ export default function C2ClarusVerde() {
                     <Badge variant="outline">Parfum d'atmosphère</Badge>
                     <Badge variant="outline">Installation paysage</Badge>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Composition Complète & Profil Olfactif</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CompositionComplete 
+                    composition={c2Composition}
+                    description="Profil vert-frais avec une base terreuse"
+                  />
                 </CardContent>
               </Card>
 

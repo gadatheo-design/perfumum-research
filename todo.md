@@ -1163,3 +1163,15 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Intégrer MoleculeListLinks dans C2 (Clarus Verde) - FAIT
 - [x] Intégrer MoleculeListLinks dans C3 (Lacta Solis) - FAIT
 - [x] Intégrer MoleculeListLinks dans C4 (Terra Ambra) - FAIT
+
+### Étape 15 : Molécules manquantes et vue Composition complète (16 déc 2025)
+- [x] Ajouter Makrut à la base de données - FAIT (ID: 360001)
+- [x] Ajouter Mitti Attar à la base de données - DÉJÀ EXISTANT (ID: 180005)
+- [x] Ajouter Palo Santo à la base de données - DÉJÀ EXISTANT (ID: 180001)
+- [x] Ajouter Frangipani à la base de données - FAIT (ID: 360002)
+- [x] Ajouter Juniper à la base de données - FAIT (ID: 360003)
+- [x] Créer le composant RadarChart pour les caractéristiques olfactives - FAIT (PrototypeRadarChart.tsx)
+- [x] Intégrer la vue Composition complète dans C1 - FAIT
+- [x] Intégrer la vue Composition complète dans C2 - FAIT
+- [x] Intégrer la vue Composition complète dans C3 - FAIT
+- [x] Intégrer la vue Composition complète dans C4 - FAIT

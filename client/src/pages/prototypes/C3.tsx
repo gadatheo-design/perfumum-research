@@ -5,7 +5,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sun, Beaker, ArrowLeft } from "lucide-react";
 import { MoleculeLink } from "@/components/MoleculeLink";
+import { CompositionComplete, PrototypeComposition } from "@/components/PrototypeRadarChart";
 import { Link } from "wouter";
+
+// Composition du prototype C3
+const c3Composition: PrototypeComposition = {
+  name: "C3 — LACTA SOLIS",
+  color: "#ca8a04", // yellow-600
+  molecules: [
+    { name: "Frangipani", quantity: "0.6 ml", radarIntensity: 80, radarFreshness: 45, radarWarmth: 60, radarSweetness: 85, radarSpiciness: 10, radarEarthiness: 15 },
+    { name: "Neroli", quantity: "0.08 ml", radarIntensity: 70, radarFreshness: 75, radarWarmth: 40, radarSweetness: 65, radarSpiciness: 5, radarEarthiness: 10 },
+  ]
+};
 
 export default function C3LactaSolis() {
   return (
@@ -133,6 +144,18 @@ export default function C3LactaSolis() {
                     <Badge variant="outline">Parfum de peau</Badge>
                     <Badge variant="outline">Installation textile olfactive</Badge>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Composition Complète & Profil Olfactif</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CompositionComplete 
+                    composition={c3Composition}
+                    description="Profil floral-lactonique doux et solaire"
+                  />
                 </CardContent>
               </Card>
 

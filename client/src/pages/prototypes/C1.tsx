@@ -5,7 +5,20 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Droplets, Beaker, ArrowLeft } from "lucide-react";
 import { MoleculeLink } from "@/components/MoleculeLink";
+import { CompositionComplete, PrototypeComposition } from "@/components/PrototypeRadarChart";
 import { Link } from "wouter";
+
+// Composition du prototype C1
+const c1Composition: PrototypeComposition = {
+  name: "C1 — FERMENTUM",
+  color: "#9333ea", // purple-600
+  molecules: [
+    { name: "Vetiver", quantity: "0.10 ml", radarIntensity: 75, radarFreshness: 35, radarWarmth: 55, radarSweetness: 20, radarSpiciness: 30, radarEarthiness: 85 },
+    { name: "Ambre Gris", quantity: "0.05 ml", radarIntensity: 80, radarFreshness: 25, radarWarmth: 70, radarSweetness: 45, radarSpiciness: 15, radarEarthiness: 60 },
+    { name: "Makrut", quantity: "0.08 ml", radarIntensity: 70, radarFreshness: 95, radarWarmth: 15, radarSweetness: 20, radarSpiciness: 25, radarEarthiness: 10 },
+    { name: "Mitti Attar", quantity: "0.05 ml", radarIntensity: 60, radarFreshness: 40, radarWarmth: 45, radarSweetness: 15, radarSpiciness: 10, radarEarthiness: 100 },
+  ]
+};
 
 export default function C1Fermentum() {
   return (
@@ -141,6 +154,18 @@ export default function C1Fermentum() {
                     <Badge variant="outline">Installation immersive</Badge>
                     <Badge variant="outline">Accord cœur pour compositions complexes</Badge>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Composition Complète & Profil Olfactif</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CompositionComplete 
+                    composition={c1Composition}
+                    description="Profil terreux-animal avec une fraîcheur acidulée"
+                  />
                 </CardContent>
               </Card>
 
