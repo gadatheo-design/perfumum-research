@@ -1453,3 +1453,44 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Afficher résultats en temps réel avec compteur
 - [ ] Intégrer GlobalSearchAdvanced dans App.tsx (non fait)
 - [ ] Tester avec différentes combinaisons de filtres (non testé)
+
+
+## 🔧 SESSION DE DÉBOGAGE - 17 DEC 2025
+
+### Corrections effectuées
+- [x] Corriger liens imbriqués dans AccordCard.tsx (Link wrappant <a>)
+- [x] Corriger liens imbriqués dans MatiereCard.tsx (Link wrappant <a>)
+- [x] Corriger liens imbriqués dans PrototypeCard.tsx (Link wrappant <a>)
+- [x] Ajouter import useState manquant dans AdminImportExport.tsx
+- [x] Ajouter import useState manquant dans AdminHistorique.tsx
+- [x] Corriger ordre des providers dans main.tsx (QueryClientProvider avant trpc.Provider)
+
+### Bugs persistants (nécessitent investigation approfondie)
+- [ ] **BUG CRITIQUE**: "Invalid hook call" dans plusieurs pages (Import/Export, Historique, Molécules)
+- [ ] Pages blanches multiples malgré corrections
+- [ ] Problème potentiel avec configuration tRPC/React/Vite
+
+### Diagnostic effectué
+1. ✅ Nettoyage complet node_modules et réinstallation dépendances
+2. ✅ Vérification versions React (19.2.3) et tRPC (11.8.0) - compatibles
+3. ✅ Vérification absence de duplications React dans node_modules
+4. ✅ Correction ordre providers (QueryClientProvider > trpc.Provider)
+5. ✅ Ajout imports React manquants
+6. ❌ Bug persiste - nécessite investigation plus approfondie
+
+### Recommandations pour résolution future
+- Investiguer configuration Vite/HMR (erreurs WebSocket dans console)
+- Vérifier compatibilité React 19 avec tRPC 11.8
+- Considérer downgrade React à version 18.x (plus stable avec tRPC)
+- Tester en mode production (build) pour éliminer bugs HMR dev
+
+### Pages fonctionnelles confirmées
+- ✅ Page d'accueil (/)
+- ✅ Navigation header
+- ✅ Thème clair/sombre
+
+### Pages non fonctionnelles
+- ❌ /admin/import-export (page blanche)
+- ❌ /admin/historique (page blanche)
+- ❌ /molecules (page blanche)
+- ❌ Autres pages non testées

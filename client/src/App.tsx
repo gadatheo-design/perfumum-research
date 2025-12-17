@@ -20,6 +20,8 @@ import LeProjet from "./pages/LeProjet";
 
 // === ADMINISTRATION ===
 import Admin from "./pages/Admin";
+import TestTRPC from "./pages/TestTRPC";
+import TestSimple from "./pages/TestSimple";
 import AdminMolecules from "./pages/AdminMolecules";
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminRecettes from "./pages/AdminRecettes";
@@ -150,9 +152,12 @@ import TestMinimal from "./pages/TestMinimal";
 function Router() {
   return (
     <Switch>
-      {/* === ACCUEIL === */}
-      <Route path="/" component={Home} />
+      {/* === TEST === */}
+      <Route path="/test-trpc" component={TestTRPC} />
+      <Route path="/test-simple" component={TestSimple} />
       
+      {/* === PAGES PRINCIPALES === */}
+      <Route path="/" component={Home} /> 
       {/* === ADMINISTRATION === */}
       <Route path="/admin" component={Admin} />
       <Route path="/admin/molecules" component={AdminMolecules} />

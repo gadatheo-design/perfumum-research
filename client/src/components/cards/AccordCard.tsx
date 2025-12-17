@@ -31,9 +31,8 @@ export function AccordCard({
   const profiles = aromaticProfile ? JSON.parse(aromaticProfile as any) : [];
 
   return (
-    <Link href={`/laboratoire/accords/${id}`}>
-      <a className="block h-full">
-        <Card className="h-full transition-all hover:shadow-md hover:-translate-y-0.5 duration-200">
+    <Link href={`/laboratoire/accords/${id}`} className="block h-full">
+      <Card className="h-full transition-all hover:shadow-md hover:-translate-y-0.5 duration-200">
           <CardHeader>
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
@@ -77,8 +76,7 @@ export function AccordCard({
               </p>
             )}
           </CardContent>
-        </Card>
-      </a>
+      </Card>
     </Link>
   );
 }
