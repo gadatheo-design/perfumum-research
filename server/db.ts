@@ -2944,3 +2944,70 @@ export async function updateMatiere(id: number, data: any) {
     })
     .where(eq(laboratoire.id, id));
 }
+
+
+// ============================================================================
+// HISTORIQUE DES MODIFICATIONS
+// ============================================================================
+
+export async function getModificationHistory(
+  entityType: string,
+  entityId: number,
+  limit: number = 50
+) {
+  return await drizzle
+    .select()
+    .from(schema.modificationHistory)
+    .where(
+      and(
+        eq(schema.modificationHistory.entityType, entityType),
+        eq(schema.modificationHistory.entityId, entityId)
+      )
+    )
+    .orderBy(desc(schema.modificationHistory.createdAt))
+    .limit(limit);
+}
+
+export async function getRecentModifications(limit: number = 100) {
+  return await drizzle
+    .select()
+    .from(schema.modificationHistory)
+    .orderBy(desc(schema.modificationHistory.createdAt))
+    .limit(limit);
+}
+
+export async function getModificationById(id: number) {
+  const results = await drizzle
+    .select()
+    .from(schema.modificationHistory)
+    .where(eq(schema.modificationHistory.id, id))
+    .limit(1);
+  
+  return results[0] || null;
+}
+
+export async function markModificationAsUndone(id: number) {
+  await drizzle
+    .update(schema.modificationHistory)
+    .set({ 
+      undoneAt: new Date(),
+    })
+    .where(eq(schema.modificationHistory.id, id));
+}
+
+export async function recordModification(
+  entityType: string,
+  entityId: number,
+  action: "create" | "update" | "delete",
+  oldData: any,
+  newData: any
+) {
+  await drizzle.insert(schema.modificationHistory).values({
+    entityType,
+    entityId,
+    action,
+    oldData: JSON.stringify(oldData),
+    newData: JSON.stringify(newData),
+    createdAt: new Date(),
+  });
+}

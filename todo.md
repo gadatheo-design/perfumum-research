@@ -1424,3 +1424,32 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 ### Documentation
 - ✅ BUGS_TECHNIQUES.md créé avec diagnostic complet
 - ✅ Script fix_nested_links.py pour correction automatique
+
+
+## 🔧 SESSION ACTUELLE - RÉSOLUTION BUGS + FONCTIONNALITÉS PRIORITAIRES
+
+### 1. Résoudre bug "Invalid hook call" (NON RÉSOLU - bug profond)
+- [x] Vérifier les versions React/React-DOM/tRPC (versions cohérentes)
+- [ ] Nettoyer node_modules et réinstaller les dépendances (non tenté)
+- [ ] Tester si le bug persiste après réinstallation
+- [x] Créer une version simplifiée de la page import/export sans composants séparés (toujours bug)
+- [ ] Tester l'export CSV depuis la page simplifiée (page blanche)
+- [ ] **BUG CRITIQUE NON RÉSOLU**: Toutes les nouvelles pages utilisant tRPC ont erreur "Invalid hook call"
+
+### 2. Implémenter historique des modifications (backend terminé, UI bloquée)
+- [x] Créer procédures tRPC pour enregistrer les modifications (create, update, delete)
+- [x] Créer procédure tRPC pour récupérer l'historique d'une entité
+- [x] Créer procédure tRPC pour annuler une modification
+- [x] Créer page /admin/historique avec liste des modifications (page blanche)
+- [x] Ajouter bouton "Annuler" sur chaque modification (code prêt)
+- [ ] Tester l'annulation sur molécules, recettes, accords (UI bloquée par bug)
+
+### 3. Améliorer recherche globale (composant créé, non intégré)
+- [x] Analyser le composant GlobalSearch existant
+- [x] Ajouter filtres par gamme olfactive (Volcanique, Glaciaire, Bio-Lab, Pétrichor)
+- [x] Ajouter filtres par famille chimique (Terpènes, Aldéhydes, etc.)
+- [x] Ajouter filtres par type (molécule, recette, accord)
+- [x] Créer composant GlobalSearchAdvanced avec tous les filtres
+- [x] Afficher résultats en temps réel avec compteur
+- [ ] Intégrer GlobalSearchAdvanced dans App.tsx (non fait)
+- [ ] Tester avec différentes combinaisons de filtres (non testé)

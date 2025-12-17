@@ -1,19 +1,70 @@
-# 🐛 Bugs Techniques à Résoudre
+# 🐛 Bugs Techniques à Résoudre - PERFUMUM
 
-## 1. Liens imbriqués `<Link><a>` causant des erreurs HTML
+Date: 17 décembre 2024
+Statut: Documentation complète des bugs bloquants
 
-**Symptôme** : Erreur console "In HTML, `<a>` cannot be a descendant of `<a>`"
+---
 
-**Impact** : Empêche le rendu correct de certaines sections de pages (notamment la section Export CSV dans Admin.tsx)
+## ❌ BUG CRITIQUE #1: "Invalid hook call" dans toutes les nouvelles pages tRPC
 
-**Fichiers corrigés** :
-- ✅ `/client/src/components/Breadcrumbs.tsx` (lignes 178-186, 225-233)
-- ✅ `/client/src/components/layout/Header.tsx` (lignes 191-201, 219-225)
-- ✅ `/client/src/components/layout/Breadcrumb.tsx` (lignes 16-20, 26-30)
-- ✅ `/client/src/components/DynamicBreadcrumb.tsx` (lignes 30-35, 51-55, 65-69)
-- ✅ 18 fichiers dans `/pages/` corrigés automatiquement via script Python
+**Symptôme** : 
+- Erreur console: "Invalid hook call. Hooks can only be called inside of the body of a function component"
+- Toutes les nouvelles pages utilisant tRPC sont complètement blanches
+- Pages affectées: `/admin/import-export`, `/admin/historique`
 
-**Fichiers restants à vérifier** :
+**Impact** : 
+- **BLOQUANT** - Impossible de créer de nouvelles pages utilisant tRPC
+- Backend fonctionnel mais interface utilisateur inaccessible
+- Fonctionnalités d'import/export CSV et d'historique des modifications non testables
+
+**Tentatives de résolution** :
+1. ✅ Vérification versions React/React-DOM/tRPC (cohérentes: React 19.2.3, tRPC 11.8.0)
+2. ❌ Création page simplifiée sans composants séparés → même erreur
+3. ❌ Utilisation fetch direct au lieu de hooks tRPC → même erreur
+4. ❌ Suppression des composants bugués → erreur persiste
+
+**Hypothèses** :
+- Configuration profonde de tRPC/React Query incorrecte
+- Problème dans `/client/src/lib/trpc.ts` ou `/client/src/main.tsx`
+- Possible conflit dans TRPCProvider
+
+**Prochaines étapes recommandées** :
+1. Nettoyer node_modules et réinstaller :
+   ```bash
+   cd /home/ubuntu/perfumum-research
+   rm -rf node_modules pnpm-lock.yaml
+   pnpm install
+   ```
+2. Vérifier la configuration TRPCProvider dans `main.tsx`
+3. Créer une page de test minimale avec un seul hook tRPC
+4. Vérifier les logs serveur pour des erreurs backend
+5. Ajouter error boundary React pour isoler l'erreur
+
+**Composants créés mais non fonctionnels** :
+- `/client/src/pages/AdminImportExport.tsx` (page blanche)
+- `/client/src/pages/AdminHistorique.tsx` (page blanche)
+- `/client/src/components/GlobalSearchAdvanced.tsx` (non testé)
+
+---
+
+## ⚠️ BUG #2: Liens imbriqués `<a>` dans `<a>` (PARTIELLEMENT RÉSOLU)
+
+**Symptôme** : 
+- Erreur console: "In HTML, `<a>` cannot be a descendant of `<a>`"
+- Empêche le rendu correct de certaines sections
+
+**Impact** : 
+- Sections de pages ne s'affichent pas correctement
+- Problème résolu dans 18 fichiers, reste 7 fichiers
+
+**Fichiers corrigés** (18 fichiers) :
+- ✅ `/client/src/components/Breadcrumbs.tsx`
+- ✅ `/client/src/components/layout/Header.tsx`
+- ✅ `/client/src/components/layout/Breadcrumb.tsx`
+- ✅ `/client/src/components/DynamicBreadcrumb.tsx`
+- ✅ 14 autres fichiers dans `/pages/` via script Python
+
+**Fichiers restants à corriger** (7 fichiers) :
 - `/client/src/components/cards/AccordCard.tsx`
 - `/client/src/components/cards/MatiereCard.tsx`
 - `/client/src/components/cards/PrototypeCard.tsx`
@@ -39,74 +90,114 @@
 
 ---
 
-## 2. Invalid Hook Call dans les composants d'export/import CSV
+## 📊 État Actuel du Projet
 
-**Symptôme** : Erreur console "Invalid hook call. Hooks can only be called inside of the body of a function component"
+### ✅ Backend Fonctionnel (100%)
 
-**Impact** : Page `/admin/import-export` complètement blanche, composants non fonctionnels
+**Export/Import CSV** :
+- ✅ Endpoints tRPC pour export CSV (5 entités: molécules, recettes, accords, familles, matières)
+- ✅ Endpoints tRPC pour import CSV (5 entités)
+- ✅ 3 modes d'import: create, update, upsert
+- ✅ Validation des données CSV
+- ✅ Utilitaires CSV robustes (`/server/csv-utils.ts`)
+- ✅ 16 tests unitaires validés (`/server/export.test.ts`)
 
-**Composants affectés** :
-- `/client/src/components/ExportCSVButton.tsx`
-- `/client/src/components/ImportCSVDialog.tsx`
+**Historique des modifications** :
+- ✅ Table `modification_history` créée en base de données
+- ✅ Endpoints tRPC pour historique (`history.getByEntity`, `history.getRecent`, `history.undo`)
+- ✅ Fonctions DB pour enregistrer/récupérer/annuler modifications
+- ✅ Support pour les 5 entités
 
-**Tentatives de correction** :
-1. ✅ Réduction de 5 hooks `useQuery` à 1 seul basé sur `entityType`
-2. ❌ Erreur persiste malgré la correction
+**Recherche avancée** :
+- ✅ Composant `GlobalSearchAdvanced` créé
+- ✅ Filtres par type (molécule, recette, accord)
+- ✅ Filtres par gamme olfactive (Volcanique, Glaciaire, Bio-Lab, Pétrichor)
+- ✅ Filtres par famille chimique (Terpènes, Aldéhydes, etc.)
+- ✅ Recherche en temps réel avec compteur de résultats
 
-**Hypothèses** :
-- Possible conflit de versions React/React-DOM
-- Possible duplication de React dans node_modules
-- Problème de configuration tRPC
+### ❌ Frontend Bloqué (0% fonctionnel)
 
-**Solution temporaire** :
-- Intégration directe des hooks dans la page `AdminImportExport.tsx` au lieu d'utiliser des composants séparés
-- ⚠️ Cette solution n'a pas résolu le problème non plus
+**Pages créées mais non accessibles** :
+- ❌ `/admin/import-export` - Page blanche (bug Invalid hook call)
+- ❌ `/admin/historique` - Page blanche (bug Invalid hook call)
 
-**Prochaines étapes recommandées** :
-1. Vérifier les versions de dépendances :
-   ```bash
-   npm ls react react-dom
-   ```
-2. Nettoyer et réinstaller les dépendances :
-   ```bash
-   rm -rf node_modules package-lock.json
-   pnpm install
-   ```
-3. Vérifier la configuration tRPC dans `/client/src/lib/trpc.ts`
-4. Ajouter un error boundary React pour isoler l'erreur
+**Composants créés mais non intégrés** :
+- ❌ `GlobalSearchAdvanced` - Non testé (risque bug Invalid hook call)
 
----
-
-## 3. Section Export CSV invisible dans Admin.tsx
-
-**Symptôme** : La section "Export des données" (lignes 373-467) n'apparaît pas dans le rendu de la page Admin
-
-**Cause probable** : Erreur de liens imbriqués dans Breadcrumbs qui casse le rendu React
-
-**Code présent mais non affiché** :
-- Boutons d'export CSV pour les 5 entités
-- Boutons d'import CSV pour les 5 entités
-- Section complète avec cartes et descriptions
-
-**Solution temporaire** : Création d'une page dédiée `/admin/import-export` (mais elle rencontre le bug #2)
+**Fonctionnalités testées** :
+- ✅ Export CSV fonctionne depuis la page Admin existante (avant suppression de la section)
+- ❌ Import CSV non testé (UI bloquée)
+- ❌ Historique des modifications non testé (UI bloquée)
+- ❌ Recherche avancée non testée (UI non intégrée)
 
 ---
 
-## État actuel du projet
+## 🎯 Plan de Résolution
 
-### ✅ Backend fonctionnel
-- Endpoints tRPC pour export CSV (5 entités)
-- Endpoints tRPC pour import CSV (5 entités)
-- Utilitaires CSV robustes (`/server/csv-utils.ts`)
-- 16 tests unitaires validés
-- Table `modification_history` créée en base de données
+### Phase 1: Déblocage critique (Priorité HAUTE)
+1. **Résoudre bug "Invalid hook call"**
+   - Nettoyer node_modules et réinstaller
+   - Vérifier configuration TRPCProvider
+   - Créer page de test minimale
+   - Consulter documentation tRPC 11.x pour React 19
 
-### ❌ Frontend bloqué
-- Composants Export/Import non fonctionnels
-- Page `/admin/import-export` blanche
-- Section Export dans `/admin` invisible
+2. **Tester les fonctionnalités backend**
+   - Une fois l'UI débloquée, tester import CSV
+   - Tester historique des modifications
+   - Tester recherche avancée
 
-### 🔧 Recommandations
-1. **Priorité haute** : Résoudre le bug "Invalid hook call" qui bloque toute l'interface
-2. **Priorité moyenne** : Finaliser la correction des liens imbriqués dans les 7 fichiers restants
-3. **Alternative** : Créer une interface d'export/import sans utiliser tRPC hooks (fetch direct)
+### Phase 2: Finalisation (Priorité MOYENNE)
+1. **Corriger les 7 fichiers restants avec liens imbriqués**
+   - Utiliser le script Python ou correction manuelle
+   - Vérifier que toutes les sections s'affichent correctement
+
+2. **Intégrer GlobalSearchAdvanced**
+   - Remplacer GlobalSearch par GlobalSearchAdvanced dans App.tsx
+   - Tester toutes les combinaisons de filtres
+
+### Phase 3: Tests et validation (Priorité BASSE)
+1. **Tests utilisateur**
+   - Export CSV de toutes les entités
+   - Import CSV avec différents modes
+   - Annulation de modifications
+   - Recherche avec filtres multiples
+
+2. **Documentation**
+   - Guide utilisateur pour import/export CSV
+   - Guide pour utiliser l'historique des modifications
+   - Guide pour la recherche avancée
+
+---
+
+## 📝 Notes Techniques
+
+### Fichiers Backend Créés/Modifiés
+- `/server/routers.ts` - Ajout routers export, import, history (lignes 1200-1586)
+- `/server/db.ts` - Ajout fonctions historique (lignes 2947-3013)
+- `/server/csv-utils.ts` - Utilitaires CSV complets
+- `/server/export.test.ts` - Tests unitaires (16 tests)
+- `/drizzle/schema.ts` - Table modification_history
+
+### Fichiers Frontend Créés
+- `/client/src/pages/AdminImportExport.tsx` - Page import/export (non fonctionnelle)
+- `/client/src/pages/AdminHistorique.tsx` - Page historique (non fonctionnelle)
+- `/client/src/components/GlobalSearchAdvanced.tsx` - Recherche avancée (non testée)
+
+### Fichiers Supprimés
+- `/client/src/components/ExportCSVButton.tsx` - Composant buggé
+- `/client/src/components/ImportCSVDialog.tsx` - Composant buggé
+
+---
+
+## 🔗 Ressources Utiles
+
+- [Documentation tRPC v11](https://trpc.io/docs/v11)
+- [React 19 Migration Guide](https://react.dev/blog/2024/04/25/react-19)
+- [Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks)
+- [Debugging Invalid Hook Call](https://react.dev/link/invalid-hook-call)
+
+---
+
+**Dernière mise à jour** : 17 décembre 2024, 13:50
+**Auteur** : Manus AI
+**Statut global** : Backend complet, Frontend bloqué par bug critique

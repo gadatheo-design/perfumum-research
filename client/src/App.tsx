@@ -24,6 +24,7 @@ import AdminMolecules from "./pages/AdminMolecules";
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminRecettes from "./pages/AdminRecettes";
 import AdminImportExport from "./pages/AdminImportExport";
+import AdminHistorique from "./pages/AdminHistorique";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -158,6 +159,7 @@ function Router() {
       <Route path="/admin/molecule/new" component={AdminMoleculeNew} />
       <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path="/admin/import-export" component={AdminImportExport} />
+      <Route path="/admin/historique" component={AdminHistorique} />
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />
