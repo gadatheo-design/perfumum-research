@@ -1340,3 +1340,41 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [ ] Écrire tests unitaires pour historique et annulation
 - [ ] Écrire tests unitaires pour recherche globale
 - [ ] Créer checkpoint final avec les 3 fonctionnalités
+
+
+## 🚀 PHASE 2 - FONCTIONNALITÉS EN COURS
+
+### 1. Import CSV (terminé - UI masquée par bug liens imbriqués)
+- [x] Créer endpoint tRPC `import.validateCSV` pour prévisualisation
+- [x] Créer endpoint tRPC `import.molecules` avec validation des données
+- [x] Créer endpoint tRPC `import.recettes` avec validation des données
+- [x] Créer endpoint tRPC `import.accords` avec validation des données
+- [x] Créer endpoint tRPC `import.familles` avec validation des données
+- [x] Créer endpoint tRPC `import.matieres` avec validation des données
+- [x] Créer composant `ImportCSVDialog` avec upload de fichier
+- [x] Ajouter prévisualisation des données avant import
+- [x] Gérer les erreurs de validation (format, données manquantes, doublons)
+- [x] Ajouter option de mise à jour vs création
+- [ ] Tester import avec fichiers CSV réels (UI masquée)
+- [ ] **BUG À CORRIGER**: Erreur liens imbriqués empêche affichage section Export/Import
+
+### 2. Historique des modifications
+- [ ] Créer middleware tRPC pour enregistrer automatiquement les modifications
+- [ ] Créer endpoint `history.list` pour afficher l'historique
+- [ ] Créer endpoint `history.undo` pour annuler une modification
+- [ ] Créer page `/admin/history` pour visualiser l'historique
+- [ ] Ajouter filtres par entité, action, date
+- [ ] Ajouter bouton "Annuler" pour chaque modification
+- [ ] Gérer les dépendances (ex: annuler suppression de molécule utilisée dans recette)
+- [ ] Tester annulation de différents types de modifications
+
+### 3. Recherche avancée
+- [ ] Améliorer le composant `GlobalSearch` existant
+- [ ] Ajouter filtres par gamme olfactive (Volcanique, Glaciaire, Bio-Lab, Pétrichor)
+- [ ] Ajouter filtres par famille olfactive
+- [ ] Ajouter filtres par notes (tête, cœur, fond)
+- [ ] Ajouter recherche par propriétés chimiques (formule, masse moléculaire)
+- [ ] Ajouter tri des résultats (pertinence, date, nom)
+- [ ] Améliorer l'affichage des résultats avec highlights
+- [ ] Ajouter recherche fulltext dans les descriptions
+- [ ] Tester performance avec 200+ molécules

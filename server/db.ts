@@ -2840,3 +2840,107 @@ export async function enrichGammeAssociations(gamme: 'volcanique' | 'glaciaire' 
     moleculesUsed: Array.from(moleculesUsed),
   };
 }
+
+
+// ============================================================================
+// IMPORT CSV - Helper functions
+// ============================================================================
+
+export async function getMoleculeByName(name: string): Promise<Molecule | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(molecules).where(eq(molecules.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateMolecule(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(molecules)
+    .set({
+      name: data.nom || undefined,
+      chemicalFormula: data.formule || undefined,
+      family: data.familleChimique || undefined,
+      olfactiveProfile: data.noteOlfactive || undefined,
+      notes: data.description || undefined,
+    })
+    .where(eq(molecules.id, id));
+}
+
+export async function getRecetteByName(name: string): Promise<Recette | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(recettes).where(eq(recettes.name, name)).limit(1);
+  return result[0];
+}
+
+export async function getAccordByName(name: string): Promise<Accord | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(accords).where(eq(accords.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateAccord(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(accords)
+    .set({
+      name: data.nom || undefined,
+      description: data.description || undefined,
+      familyId: data.familleId || undefined,
+    })
+    .where(eq(accords.id, id));
+}
+
+export async function getFamilyByName(name: string): Promise<Family | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(families).where(eq(families.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateFamily(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(families)
+    .set({
+      name: data.nom || undefined,
+      description: data.description || undefined,
+    })
+    .where(eq(families.id, id));
+}
+
+export async function getMatiereByName(name: string): Promise<Laboratoire | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(laboratoire).where(eq(laboratoire.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateMatiere(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(laboratoire)
+    .set({
+      name: data.nom || undefined,
+      type: data.type || undefined,
+      origin: data.origine || undefined,
+      supplier: data.fournisseur || undefined,
+      quantity: data.quantite || undefined,
+      unit: data.unite || undefined,
+      unitPrice: data.prixUnitaire || undefined,
+      purchaseDate: data.dateAchat || undefined,
+      notes: data.notes || undefined,
+    })
+    .where(eq(laboratoire.id, id));
+}

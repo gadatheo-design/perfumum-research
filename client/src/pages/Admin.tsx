@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { ExportCSVButton } from "@/components/ExportCSVButton";
+import { ImportCSVDialog } from "@/components/ImportCSVDialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -389,11 +390,16 @@ export default function Admin() {
                       Exporter le catalogue complet des molécules olfactives
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="space-y-2">
                     <ExportCSVButton 
                       entityType="molecules" 
                       variant="outline"
                       className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                    <ImportCSVDialog 
+                      entityType="molecules" 
+                      variant="outline"
+                      className="w-full border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950"
                     />
                   </CardContent>
                 </Card>
@@ -405,11 +411,16 @@ export default function Admin() {
                       Exporter toutes les formulations complètes
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="space-y-2">
                     <ExportCSVButton 
                       entityType="recettes" 
                       variant="outline"
                       className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                    <ImportCSVDialog 
+                      entityType="recettes" 
+                      variant="outline"
+                      className="w-full border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950"
                     />
                   </CardContent>
                 </Card>
@@ -421,11 +432,16 @@ export default function Admin() {
                       Exporter les accords olfactifs créés
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="space-y-2">
                     <ExportCSVButton 
                       entityType="accords" 
                       variant="outline"
                       className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                    <ImportCSVDialog 
+                      entityType="accords" 
+                      variant="outline"
+                      className="w-full border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950"
                     />
                   </CardContent>
                 </Card>
@@ -437,11 +453,16 @@ export default function Admin() {
                       Exporter les familles olfactives
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="space-y-2">
                     <ExportCSVButton 
                       entityType="familles" 
                       variant="outline"
                       className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                    <ImportCSVDialog 
+                      entityType="familles" 
+                      variant="outline"
+                      className="w-full border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950"
                     />
                   </CardContent>
                 </Card>
@@ -453,11 +474,16 @@ export default function Admin() {
                       Exporter l'inventaire complet du laboratoire
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="space-y-2">
                     <ExportCSVButton 
                       entityType="matieres" 
                       variant="outline"
                       className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                    <ImportCSVDialog 
+                      entityType="matieres" 
+                      variant="outline"
+                      className="w-full border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950"
                     />
                   </CardContent>
                 </Card>
