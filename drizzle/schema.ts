@@ -1,4 +1,4 @@
-import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex, decimal, unique, index } from "drizzle-orm/mysql-core";
+import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex, index, json, decimal, unique } from "drizzle-orm/mysql-core";
 import { relations } from "drizzle-orm";
 
 /**
@@ -994,3 +994,64 @@ export const recetteTabacAssociations = mysqlTable("recette_tabac_associations",
 
 export type RecetteTabacAssociation = typeof recetteTabacAssociations.$inferSelect;
 export type InsertRecetteTabacAssociation = typeof recetteTabacAssociations.$inferInsert;
+
+
+// ============================================================================
+// MODIFICATION HISTORY
+// ============================================================================
+
+/**
+ * Tracks all modifications made to entities in the system for audit and undo functionality.
+ * Stores the complete state before and after each modification.
+ */
+export const modificationHistory = mysqlTable("modification_history", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // User who made the modification
+  userId: int("user_id").notNull(),
+  
+  // Type of entity modified
+  entityType: mysqlEnum("entity_type", [
+    "molecule",
+    "recette",
+    "accord",
+    "famille",
+    "matiere",
+    "prototype",
+    "synergie",
+    "tradition"
+  ]).notNull(),
+  
+  // ID of the entity that was modified
+  entityId: int("entity_id").notNull(),
+  
+  // Type of operation
+  operation: mysqlEnum("operation", ["create", "update", "delete"]).notNull(),
+  
+  // State before modification (JSON) - null for create operations
+  stateBefore: json("state_before"),
+  
+  // State after modification (JSON) - null for delete operations
+  stateAfter: json("state_after"),
+  
+  // Optional description of the change
+  description: text("description"),
+  
+  // Whether this modification has been undone
+  isUndone: int("is_undone").default(0).notNull(), // 0 = not undone, 1 = undone
+  
+  // Timestamp when the modification was made
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  
+  // Timestamp when the modification was undone (if applicable)
+  undoneAt: timestamp("undone_at"),
+}, (table) => ({
+  // Indexes for fast queries
+  userIdIdx: index("user_id_idx").on(table.userId),
+  entityTypeIdx: index("entity_type_idx").on(table.entityType),
+  entityIdIdx: index("entity_id_idx").on(table.entityId),
+  createdAtIdx: index("created_at_idx").on(table.createdAt),
+}));
+
+export type ModificationHistory = typeof modificationHistory.$inferSelect;
+export type InsertModificationHistory = typeof modificationHistory.$inferInsert;

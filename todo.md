@@ -1302,3 +1302,41 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Filtrer en temps réel les recettes via trpc.recettes.listWithRadar
 - [x] Afficher nombre de résultats (210 recettes trouvées)
 
+
+
+## 🚀 FONCTIONNALITÉS PRIORITAIRES - PHASE 1
+
+### Priorité 1 : Fondations essentielles
+- [ ] Système d'import/export CSV pour toutes les entités
+  - [x] Créer schéma de base de données pour l'historique des modifications
+  - [x] Créer procédures tRPC pour export CSV (molécules, recettes, accords, familles, matières)
+  - [ ] Créer procédures tRPC pour import CSV avec validation
+  - [x] Créer interface utilisateur pour export CSV (boutons dans pages Admin)
+  - [ ] Créer interface utilisateur pour import CSV (upload + prévisualisation)
+  - [ ] Gérer les erreurs d'import (format invalide, données manquantes)
+  - [x] Tester export CSV avec fichiers réels
+
+- [ ] Historique des modifications avec annulation
+  - [ ] Créer table `modification_history` dans le schéma DB
+  - [ ] Créer procédures tRPC pour enregistrer les modifications (create, update, delete)
+  - [ ] Créer procédure tRPC pour récupérer l'historique
+  - [ ] Créer procédure tRPC pour annuler une modification
+  - [ ] Créer interface utilisateur pour visualiser l'historique
+  - [ ] Créer interface utilisateur pour annuler des modifications
+  - [ ] Tester annulation sur différents types d'entités
+
+- [ ] Recherche globale améliorée avec filtres avancés
+  - [ ] Créer procédure tRPC pour recherche multi-entités
+  - [ ] Ajouter filtres par gamme olfactive
+  - [ ] Ajouter filtres par famille chimique
+  - [ ] Ajouter filtres par notes olfactives (tête/cœur/fond)
+  - [ ] Créer interface de recherche globale dans Header
+  - [ ] Afficher résultats groupés par type d'entité
+  - [ ] Ajouter pagination et tri des résultats
+  - [ ] Tester recherche avec différents critères
+
+### Tests et validation
+- [ ] Écrire tests unitaires pour import/export CSV
+- [ ] Écrire tests unitaires pour historique et annulation
+- [ ] Écrire tests unitaires pour recherche globale
+- [ ] Créer checkpoint final avec les 3 fonctionnalités

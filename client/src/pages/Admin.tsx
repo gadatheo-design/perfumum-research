@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
+import { ExportCSVButton } from "@/components/ExportCSVButton";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -363,6 +364,103 @@ export default function Admin() {
                     Pétrichor
                   </Button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Export CSV */}
+        <section className="py-16 bg-muted/30">
+          <div className="container">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center gap-3 mb-6">
+                <Database className="w-6 h-6 text-emerald-600" />
+                <h2 className="text-2xl font-bold">Export des données</h2>
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Exportez vos données de recherche au format CSV pour les sauvegarder, les analyser ou les partager.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Card className="border-emerald-200 dark:border-emerald-800">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Molécules</CardTitle>
+                    <CardDescription>
+                      Exporter le catalogue complet des molécules olfactives
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ExportCSVButton 
+                      entityType="molecules" 
+                      variant="outline"
+                      className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                  </CardContent>
+                </Card>
+                
+                <Card className="border-emerald-200 dark:border-emerald-800">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Recettes</CardTitle>
+                    <CardDescription>
+                      Exporter toutes les formulations complètes
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ExportCSVButton 
+                      entityType="recettes" 
+                      variant="outline"
+                      className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                  </CardContent>
+                </Card>
+                
+                <Card className="border-emerald-200 dark:border-emerald-800">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Accords</CardTitle>
+                    <CardDescription>
+                      Exporter les accords olfactifs créés
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ExportCSVButton 
+                      entityType="accords" 
+                      variant="outline"
+                      className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                  </CardContent>
+                </Card>
+                
+                <Card className="border-emerald-200 dark:border-emerald-800">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Familles</CardTitle>
+                    <CardDescription>
+                      Exporter les familles olfactives
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ExportCSVButton 
+                      entityType="familles" 
+                      variant="outline"
+                      className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                  </CardContent>
+                </Card>
+                
+                <Card className="border-emerald-200 dark:border-emerald-800 md:col-span-2">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Matières Premières</CardTitle>
+                    <CardDescription>
+                      Exporter l'inventaire complet du laboratoire
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ExportCSVButton 
+                      entityType="matieres" 
+                      variant="outline"
+                      className="w-full border-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950"
+                    />
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>

@@ -43,6 +43,13 @@
       "when": 1765878997937,
       "tag": "0005_narrow_randall",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1765994736898,
+      "tag": "0006_wide_fabian_cortez",
+      "breakpoints": true
     }
   ]
 }

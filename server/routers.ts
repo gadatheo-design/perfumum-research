@@ -1059,6 +1059,39 @@ export const appRouter = router({
         return await db.getAnalyticsDashboardStats(input.days);
       }),
   }),
+
+  // Export CSV
+  export: router({
+    molecules: publicProcedure.query(async () => {
+      const molecules = await db.getAllMolecules();
+      const { objectsToCSV } = await import('./csv-utils');
+      return objectsToCSV(molecules);
+    }),
+
+    recettes: publicProcedure.query(async () => {
+      const recettes = await db.getAllRecettes();
+      const { objectsToCSV } = await import('./csv-utils');
+      return objectsToCSV(recettes);
+    }),
+
+    accords: publicProcedure.query(async () => {
+      const accords = await db.getAllAccords();
+      const { objectsToCSV } = await import('./csv-utils');
+      return objectsToCSV(accords);
+    }),
+
+    familles: publicProcedure.query(async () => {
+      const familles = await db.getAllFamilies();
+      const { objectsToCSV } = await import('./csv-utils');
+      return objectsToCSV(familles);
+    }),
+
+    matieres: publicProcedure.query(async () => {
+      const matieres = await db.getAllMatieres();
+      const { objectsToCSV } = await import('./csv-utils');
+      return objectsToCSV(matieres);
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
