@@ -1378,3 +1378,49 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [ ] Améliorer l'affichage des résultats avec highlights
 - [ ] Ajouter recherche fulltext dans les descriptions
 - [ ] Tester performance avec 200+ molécules
+
+
+## 🚀 FONCTIONNALITÉS PRIORITAIRES (Session actuelle)
+
+### 1. Import CSV (backend terminé - UI bloquée par bugs techniques)
+- [x] Créer schéma de base de données pour l'historique des modifications
+- [x] Créer procédures tRPC pour export CSV (molécules, recettes, accords, familles, matières)
+- [x] Créer procédures tRPC pour import CSV avec validation
+- [x] Créer interface utilisateur pour export CSV (boutons dans pages Admin)
+- [ ] Créer interface utilisateur pour import CSV (upload + prévisualisation)
+- [ ] Tester import avec fichiers CSV réels (UI bloquée)
+- [ ] **BUG CRITIQUE**: Invalid hook call dans ExportCSVButton/ImportCSVDialog
+- [ ] **BUG**: Erreur liens imbriqués dans 7 fichiers restants
+- [ ] **BUG**: Section Export CSV invisible dans Admin.tsx
+- [ ] **BUG**: Page /admin/import-export complètement blanche
+
+### 2. Historique des modifications (non commencé)
+- [ ] Créer procédures tRPC pour enregistrer les modifications
+- [ ] Créer procédures tRPC pour récupérer l'historique
+- [ ] Créer procédure tRPC pour annuler une modification
+- [ ] Créer interface utilisateur pour visualiser l'historique
+- [ ] Ajouter bouton "Annuler" sur chaque modification
+- [ ] Tester l'annulation sur différentes entités
+
+### 3. Recherche avancée (non commencé)
+- [ ] Améliorer le composant GlobalSearch existant
+- [ ] Ajouter filtres par gamme olfactive
+- [ ] Ajouter filtres par famille chimique
+- [ ] Ajouter filtres par propriétés chimiques (point d'ébullition, masse moléculaire)
+- [ ] Ajouter recherche par notes olfactives (tête, cœur, fond)
+- [ ] Afficher résultats en temps réel avec compteur
+- [ ] Créer page dédiée /recherche-avancee
+
+### État actuel
+- ✅ Export CSV backend complet et testé (16 tests unitaires)
+- ✅ Import CSV backend complet avec validation
+- ✅ Utilitaires CSV robustes (csv-utils.ts)
+- ✅ Table modification_history créée
+- ✅ Script de correction des liens imbriqués (18 fichiers corrigés)
+- ❌ Interface utilisateur bloquée par bugs techniques
+- ❌ Historique des modifications non commencé
+- ❌ Recherche avancée non commencée
+
+### Documentation
+- ✅ BUGS_TECHNIQUES.md créé avec diagnostic complet
+- ✅ Script fix_nested_links.py pour correction automatique

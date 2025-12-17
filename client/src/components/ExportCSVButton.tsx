@@ -28,42 +28,13 @@ export function ExportCSVButton({
   size = "default",
   className = ""
 }: ExportCSVButtonProps) {
-  // Use tRPC queries for each entity type
-  const moleculesQuery = trpc.export.molecules.useQuery(undefined, { enabled: false });
-  const recettesQuery = trpc.export.recettes.useQuery(undefined, { enabled: false });
-  const accordsQuery = trpc.export.accords.useQuery(undefined, { enabled: false });
-  const famillesQuery = trpc.export.familles.useQuery(undefined, { enabled: false });
-  const matieresQuery = trpc.export.matieres.useQuery(undefined, { enabled: false });
+  // Use a single query based on entityType
+  const query = trpc.export[entityType].useQuery(undefined, { enabled: false });
   
   const handleExport = async () => {
     try {
-      let csvData: string | undefined;
-      
-      // Trigger the appropriate query based on entity type
-      switch (entityType) {
-        case "molecules":
-          const moleculesResult = await moleculesQuery.refetch();
-          csvData = moleculesResult.data;
-          break;
-        case "recettes":
-          const recettesResult = await recettesQuery.refetch();
-          csvData = recettesResult.data;
-          break;
-        case "accords":
-          const accordsResult = await accordsQuery.refetch();
-          csvData = accordsResult.data;
-          break;
-        case "familles":
-          const famillesResult = await famillesQuery.refetch();
-          csvData = famillesResult.data;
-          break;
-        case "matieres":
-          const matieresResult = await matieresQuery.refetch();
-          csvData = matieresResult.data;
-          break;
-        default:
-          throw new Error(`Unknown entity type: ${entityType}`);
-      }
+      const result = await query.refetch();
+      const csvData = result.data;
       
       if (!csvData) {
         throw new Error("No data received from server");
@@ -87,23 +58,15 @@ export function ExportCSVButton({
     }
   };
   
-  // Determine if any query is loading
-  const isLoading = 
-    moleculesQuery.isFetching || 
-    recettesQuery.isFetching || 
-    accordsQuery.isFetching || 
-    famillesQuery.isFetching || 
-    matieresQuery.isFetching;
-  
   return (
     <Button
       onClick={handleExport}
-      disabled={isLoading}
+      disabled={query.isFetching}
       variant={variant}
       size={size}
       className={className}
     >
-      {isLoading ? (
+      {query.isFetching ? (
         <>
           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
           Export en cours...

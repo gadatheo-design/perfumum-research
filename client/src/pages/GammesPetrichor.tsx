@@ -62,11 +62,9 @@ export default function GammesPetrichor() {
         <section className="section-spacing bg-gradient-to-b from-blue-50/30 to-background">
           <div className="container">
             <div className="max-w-4xl mx-auto">
-              <Link href="/gammes">
-                <a className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
+              <Link href="/gammes" className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
                   ← Retour aux Gammes
-                </a>
-              </Link>
+                </Link>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-lg bg-blue-50 flex items-center justify-center">
                   <Droplets className="h-8 w-8 text-blue-600" />
@@ -235,11 +233,9 @@ export default function GammesPetrichor() {
               <p className="text-muted-foreground mb-6 leading-relaxed">
                 Cette étude suit le protocole ABSORBE : captation d'air, documentation du lieu, évaluation sensorielle, pyrolyse, enregistrement sonore et visuel, rédaction de notes.
               </p>
-              <Link href="/methode">
-                <a className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
+              <Link href="/methode" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
                   Découvrir la méthode ABSORBE →
-                </a>
-              </Link>
+                </Link>
             </div>
           </div>
         </section>

@@ -85,11 +85,9 @@ export default function GammePheromones() {
         <section className="section-spacing bg-gradient-to-b from-rose-50/50 to-background">
           <div className="container">
             <div className="max-w-4xl mx-auto">
-              <Link href="/gammes">
-                <a className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
+              <Link href="/gammes" className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
                   ← Retour aux Gammes
-                </a>
-              </Link>
+                </Link>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-lg bg-rose-50 flex items-center justify-center">
                   <Heart className="h-8 w-8 text-rose-600" />

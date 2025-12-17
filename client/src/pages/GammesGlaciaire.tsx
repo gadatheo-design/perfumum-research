@@ -79,11 +79,9 @@ export default function GammesGlaciaire() {
         <section className="section-spacing bg-gradient-to-b from-cyan-50/50 to-background">
           <div className="container">
             <div className="max-w-4xl mx-auto">
-              <Link href="/gammes">
-                <a className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
+              <Link href="/gammes" className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
                   ← Retour aux Gammes
-                </a>
-              </Link>
+                </Link>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-lg bg-cyan-50 flex items-center justify-center">
                   <Snowflake className="h-8 w-8 text-cyan-600" />

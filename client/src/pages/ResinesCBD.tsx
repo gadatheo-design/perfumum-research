@@ -134,13 +134,9 @@ export default function ResinesCBD() {
       <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container py-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/">
-              <a className="hover:text-foreground transition-colors">Accueil</a>
-            </Link>
+            <Link href="/" className="hover:text-foreground transition-colors">Accueil</Link>
             <ChevronRight className="h-4 w-4" />
-            <Link href="/programmes-recherche">
-              <a className="hover:text-foreground transition-colors">Programmes-recherche</a>
-            </Link>
+            <Link href="/programmes-recherche" className="hover:text-foreground transition-colors">Programmes-recherche</Link>
             <ChevronRight className="h-4 w-4" />
             <span className="text-foreground font-medium">Resines-cbd</span>
           </div>
