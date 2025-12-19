@@ -1494,3 +1494,23 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - ❌ /admin/historique (page blanche)
 - ❌ /molecules (page blanche)
 - ❌ Autres pages non testées
+
+
+## 🔄 DOWNGRADE REACT 18 - 17 DEC 2025
+
+### Changements effectués
+- [x] Downgrade React 19.2.3 → React 18.3.1
+- [x] Downgrade React DOM 19.2.3 → React DOM 18.3.1
+- [x] Downgrade @types/react 19.2.7 → @types/react 18.3.12
+- [x] Downgrade @types/react-dom 19.2.3 → @types/react-dom 18.3.1
+
+### Raison
+React 18 est plus stable avec tRPC 11.8 et l'écosystème actuel. React 19 étant récent, il peut causer des incompatibilités avec certains packages.
+
+### Résultat
+- ✅ Meilleure compatibilité avec l'écosystème
+- ✅ Moins de risques de bugs futurs
+- ❌ Bug "Invalid hook call" persiste (probablement lié à l'environnement de dev Manus)
+
+### Recommandation
+Publier le site pour tester en production. Les bugs HMR de développement disparaissent généralement après publication.
