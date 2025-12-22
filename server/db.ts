@@ -3203,3 +3203,35 @@ export async function addSupplierMaterial(data: {
   });
   return result;
 }
+
+
+// ============================================================================
+// FONCTIONS CREATE MANQUANTES (pour undo history)
+// ============================================================================
+
+export async function createAccord(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(accords).values({
+    name: data.nom || data.name,
+    familyId: data.familleId || data.familyId || null,
+    olfactiveProfile: data.olfactiveProfile || data.description || null,
+    notes: data.notes || null,
+  });
+  
+  return result;
+}
+
+export async function createFamily(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(families).values({
+    name: data.nom || data.name,
+    type: data.type || "other",
+    description: data.description || null,
+  });
+  
+  return result;
+}

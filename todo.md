@@ -1530,6 +1530,16 @@ Publier le site pour tester en production. Les bugs HMR de développement dispar
 - [x] Ajouter les profils des 2 fournisseurs (Cali, Armenia) avec histoires
 - [x] Intégrer la navigation vers la page
 - [x] Données fournisseurs intégrées dans le composant (pas en base)
-- [ ] Checkpoint et tests
+- [x] Checkpoint et tests
 
 **Note** : Le site affiche des pages blanches en mode développement (bug HMR React "Invalid hook call"). Ce bug disparaîtra après publication (build production).
+
+
+## Phase 8 - Sourcing Global et Check Général (Session actuelle)
+
+- [x] Créer la page Sourcing globale (/sourcing) regroupant tous les fournisseurs par région
+- [x] Intégrer les fournisseurs existants (Colombie, France, etc.)
+- [x] Ajouter la navigation vers la page Sourcing globale
+- [x] Effectuer un check général du site publié
+- [ ] Corriger les problèmes identifiés
+- [ ] Checkpoint et tests

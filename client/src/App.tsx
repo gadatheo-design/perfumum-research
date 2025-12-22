@@ -49,6 +49,7 @@ import GammeRaretes from "./pages/GammeRaretes";
 import ColombieLine from '@/pages/ColombieLine';
 import RecetteColombie from '@/pages/RecetteColombie';
 import SourcingColombie from '@/pages/SourcingColombie';
+import Sourcing from '@/pages/Sourcing';
 
 // === LABORATOIRE ===
 import Laboratoire from "./pages/Laboratoire";
@@ -188,6 +189,7 @@ function Router() {
       <Route path="/gammes" component={Gammes} />
       <Route path="/colombie" component={ColombieLine} />
       <Route path="/recette/colombie/:id" component={RecetteColombie} />
+      <Route path="/sourcing" component={Sourcing} />
       <Route path="/sourcing/colombie" component={SourcingColombie} />
       <Route path="/gammes/petrichor" component={GammesPetrichor} />
       <Route path="/gammes/volcanique" component={GammesVolcanique} />
