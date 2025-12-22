@@ -1294,8 +1294,16 @@ export const appRouter = router({
               continue;
             }
             
+            // Mapper les données CSV vers le format attendu par createRecette
+            const recetteData = {
+              name: item.nom,
+              category: "tabac" as const,
+              description: item.description || undefined,
+              notes: item.notes || undefined,
+            };
+            
             if (input.mode === "create") {
-              await db.createRecette(item);
+              await db.createRecette(recetteData);
               created++;
             } else if (input.mode === "update" || input.mode === "upsert") {
               const existing = await db.getRecetteByName(item.nom);
@@ -1304,12 +1312,11 @@ export const appRouter = router({
                 await db.updateRecette(existing.id, {
                   name: item.nom,
                   description: item.description,
-                  gamme: item.gamme,
                   notes: item.notes,
                 });
                 updated++;
               } else if (input.mode === "upsert") {
-                await db.createRecette(item);
+                await db.createRecette(recetteData);
                 created++;
               } else {
                 errors.push(`Recette "${item.nom}" introuvable pour mise à jour`);
@@ -1469,8 +1476,18 @@ export const appRouter = router({
               continue;
             }
             
+            // Mapper les données CSV vers le format attendu par createMatiere
+            const matiereData = {
+              name: item.nom,
+              type: (item.type as "huile_essentielle" | "absolu" | "resinoid" | "concrete" | "co2" | "teinture" | "poudre" | "alcoolat" | "autre") || "autre",
+              origin: item.origine || undefined,
+              supplier: item.fournisseur || undefined,
+              stock: item.quantite || undefined,
+              technicalNotes: item.notes || undefined,
+            };
+            
             if (input.mode === "create") {
-              await db.createMatiere(item);
+              await db.createMatiere(matiereData);
               created++;
             } else if (input.mode === "update" || input.mode === "upsert") {
               const existing = await db.getMatiereByName(item.nom);
@@ -1479,7 +1496,7 @@ export const appRouter = router({
                 await db.updateMatiere(existing.id, item);
                 updated++;
               } else if (input.mode === "upsert") {
-                await db.createMatiere(item);
+                await db.createMatiere(matiereData);
                 created++;
               } else {
                 errors.push(`Matière "${item.nom}" introuvable pour mise à jour`);

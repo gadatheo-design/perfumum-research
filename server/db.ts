@@ -49,6 +49,12 @@ import {
   moleculeNotes,
   citations,
   analyticsEvents,
+  suppliers,
+  supplierMaterials,
+  Supplier,
+  InsertSupplier,
+  SupplierMaterial,
+  InsertSupplierMaterial,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -3010,4 +3016,222 @@ export async function recordModification(
     newData: JSON.stringify(newData),
     createdAt: new Date(),
   });
+}
+
+
+// ============================================================================
+// SUPPLIERS (Fournisseurs)
+// ============================================================================
+
+/**
+ * Get all suppliers
+ */
+export async function getAllSuppliers() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.suppliers.findMany();
+}
+
+/**
+ * Get supplier by ID
+ */
+export async function getSupplierById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return await db.query.suppliers.findFirst({
+    where: (suppliers, { eq }) => eq(suppliers.id, id),
+    with: {
+      materials: true,
+    },
+  });
+}
+
+/**
+ * Get suppliers by country
+ */
+export async function getSuppliersByCountry(country: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.suppliers.findMany({
+    where: (suppliers, { eq }) => eq(suppliers.country, country),
+  });
+}
+
+/**
+ * Get suppliers by region
+ */
+export async function getSuppliersByRegion(region: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.suppliers.findMany({
+    where: (suppliers, { eq }) => eq(suppliers.region, region),
+  });
+}
+
+/**
+ * Create a new supplier
+ */
+export async function createSupplier(data: {
+  name: string;
+  companyName?: string;
+  country: string;
+  region?: string;
+  email?: string;
+  phone?: string;
+  website?: string;
+  specialties?: string[];
+  description?: string;
+  rating?: number;
+  certifications?: string[];
+  isPreferred?: boolean;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(suppliers).values({
+    name: data.name,
+    companyName: data.companyName,
+    country: data.country,
+    region: data.region,
+    email: data.email,
+    phone: data.phone,
+    website: data.website,
+    specialties: data.specialties ? JSON.stringify(data.specialties) : null,
+    description: data.description,
+    rating: data.rating,
+    certifications: data.certifications ? JSON.stringify(data.certifications) : null,
+    isPreferred: data.isPreferred ? 1 : 0,
+    notes: data.notes,
+  });
+  return result;
+}
+
+/**
+ * Update a supplier
+ */
+export async function updateSupplier(id: number, data: Partial<{
+  name: string;
+  companyName: string;
+  country: string;
+  region: string;
+  email: string;
+  phone: string;
+  website: string;
+  specialties: string[];
+  description: string;
+  rating: number;
+  certifications: string[];
+  isPreferred: boolean;
+  notes: string;
+}>) {
+  const updateData: any = {};
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.companyName !== undefined) updateData.companyName = data.companyName;
+  if (data.country !== undefined) updateData.country = data.country;
+  if (data.region !== undefined) updateData.region = data.region;
+  if (data.email !== undefined) updateData.email = data.email;
+  if (data.phone !== undefined) updateData.phone = data.phone;
+  if (data.website !== undefined) updateData.website = data.website;
+  if (data.specialties !== undefined) updateData.specialties = JSON.stringify(data.specialties);
+  if (data.description !== undefined) updateData.description = data.description;
+  if (data.rating !== undefined) updateData.rating = data.rating;
+  if (data.certifications !== undefined) updateData.certifications = JSON.stringify(data.certifications);
+  if (data.isPreferred !== undefined) updateData.isPreferred = data.isPreferred ? 1 : 0;
+  if (data.notes !== undefined) updateData.notes = data.notes;
+
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db
+    .update(suppliers)
+    .set(updateData)
+    .where(eq(suppliers.id, id));
+}
+
+/**
+ * Delete a supplier
+ */
+export async function deleteSupplier(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db
+    .delete(suppliers)
+    .where(eq(suppliers.id, id));
+}
+
+/**
+ * Get supplier materials (link between supplier and molecules)
+ */
+export async function getSupplierMaterials(supplierId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.supplierMaterials.findMany({
+    where: (materials, { eq }) => eq(materials.supplierId, supplierId),
+    with: {
+      molecule: true,
+    },
+  });
+}
+
+/**
+ * Add a material to a supplier
+ */
+export async function addSupplierMaterial(data: {
+  supplierId: number;
+  moleculeId: number;
+  pricePerUnit?: number;
+  currency?: string;
+  minimumOrderQuantity?: number;
+  unit?: string;
+  leadTimeDays?: number;
+  qualityGrade?: "standard" | "premium" | "extra_premium";
+  isAvailable?: boolean;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(supplierMaterials).values({
+    supplierId: data.supplierId,
+    moleculeId: data.moleculeId,
+    pricePerUnit: data.pricePerUnit ? String(data.pricePerUnit) : null,
+    currency: data.currency || "USD",
+    minimumOrderQuantity: data.minimumOrderQuantity,
+    unit: data.unit,
+    leadTimeDays: data.leadTimeDays,
+    qualityGrade: data.qualityGrade || "standard",
+    isAvailable: data.isAvailable !== false ? 1 : 0,
+    notes: data.notes,
+  });
+  return result;
+}
+
+
+// ============================================================================
+// FONCTIONS CREATE MANQUANTES (pour undo history)
+// ============================================================================
+
+export async function createAccord(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(accords).values({
+    name: data.nom || data.name,
+    familyId: data.familleId || data.familyId || null,
+    olfactiveProfile: data.olfactiveProfile || data.description || null,
+    notes: data.notes || null,
+  });
+  
+  return result;
+}
+
+export async function createFamily(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(families).values({
+    name: data.nom || data.name,
+    type: data.type || "other",
+    description: data.description || null,
+  });
+  
+  return result;
 }
