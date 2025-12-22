@@ -1043,3 +1043,31 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 
 **Fichier** : `/home/ubuntu/perfumum-research/PROJECT_INSTRUCTIONS.md`
 **Destination** : Settings → Project Instructions dans l'interface Manus
+
+
+## 🌍 PAGES SOURCING RÉGIONALES
+
+### Phase 1 : Création des pages détaillées par région
+- [x] Créer page Sourcing Global avec carte SVG interactive et statistiques
+- [x] Créer page SourcingFrance (3 fournisseurs, 12 molécules, 3 régions)
+- [x] Créer page SourcingInde (4 fournisseurs, 8 molécules, 3 régions - attars)
+- [x] Créer page SourcingMadagascar (2 fournisseurs, 8 molécules, 3 régions - vanille)
+- [x] Créer page SourcingJapon (2 fournisseurs, 10 molécules, 3 régions - kōdō)
+- [x] Créer page SourcingMaroc (2 fournisseurs, 8 molécules, 3 régions)
+- [x] Créer page SourcingSuisse (2 fournisseurs, 8 molécules, 3 centres - Firmenich/Givaudan)
+- [x] Créer page SourcingUK (2 fournisseurs, 8 molécules, 3 régions)
+- [x] Créer page SourcingColombie (2 fournisseurs, 8 molécules, 3 régions - café)
+
+### Phase 2 : Carte interactive et navigation
+- [x] Créer carte SVG mondiale avec points interactifs par région
+- [x] Ajouter navigation par drapeaux (8 régions)
+- [x] Intégrer liens vers pages détaillées depuis la carte
+- [x] Ajouter routes dans App.tsx pour toutes les pages régionales
+- [x] Tester navigation entre toutes les pages
+
+### Statistiques Sourcing
+- 8 régions de sourcing documentées
+- 18 fournisseurs référencés
+- 89 molécules emblématiques
+- Contexte historique et culturel pour chaque région
+

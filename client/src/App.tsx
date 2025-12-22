@@ -126,6 +126,15 @@ import Installations from "./pages/Installations";
 import TabacsResines from "./pages/TabacsResines";
 import Associations from "./pages/Associations";
 import Fournisseurs from "./pages/Fournisseurs";
+import Sourcing from "./pages/Sourcing";
+import SourcingFrance from "./pages/SourcingFrance";
+import SourcingInde from "./pages/SourcingInde";
+import SourcingMadagascar from "./pages/SourcingMadagascar";
+import SourcingJapon from "./pages/SourcingJapon";
+import SourcingMaroc from "./pages/SourcingMaroc";
+import SourcingSuisse from "./pages/SourcingSuisse";
+import SourcingUK from "./pages/SourcingUK";
+import SourcingColombie from "./pages/SourcingColombie";
 
 // === DASHBOARDS ===
 import { DashboardMinimal } from "./pages/DashboardMinimal";
@@ -264,6 +273,15 @@ function Router() {
       <Route path="/tabacs-resines" component={TabacsResines} />
       <Route path="/associations" component={Associations} />
       <Route path="/fournisseurs" component={Fournisseurs} />
+      <Route path="/sourcing" component={Sourcing} />
+      <Route path="/sourcing/france" component={SourcingFrance} />
+      <Route path="/sourcing/inde" component={SourcingInde} />
+      <Route path="/sourcing/madagascar" component={SourcingMadagascar} />
+      <Route path="/sourcing/japon" component={SourcingJapon} />
+      <Route path="/sourcing/maroc" component={SourcingMaroc} />
+      <Route path="/sourcing/suisse" component={SourcingSuisse} />
+      <Route path="/sourcing/uk" component={SourcingUK} />
+      <Route path="/sourcing/colombie" component={SourcingColombie} />
       
       {/* === DASHBOARDS === */}
       <Route path="/dashboard" component={DashboardMinimal} />
