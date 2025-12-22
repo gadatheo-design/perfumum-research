@@ -4,8 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Heart, MapPin, Leaf, Coffee, Droplet, ExternalLink, ArrowRight } from 'lucide-react';
-import { Link } from 'wouter';
+import { Heart, MapPin, Leaf, Coffee, Droplet, ExternalLink } from 'lucide-react';
 
 const moleculeImages: Record<string, string> = {
   'Lippia Origanoides': '/colombian-botanicals/lippia-origanoides.svg',
@@ -417,20 +416,11 @@ export default function ColombieLine() {
         </div>
 
         {/* Fournisseurs Section */}
-        <div className="mt-16 rounded-lg bg-white dark:bg-slate-800 p-8 shadow-sm">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Fournisseurs partenaires</h2>
-            <Link href="/sourcing/colombie">
-              <Button variant="outline" className="btn-enhanced flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                Découvrir le Sourcing
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
+        <div className="mt-16 rounded-lg bg-white p-8 shadow-sm">
+          <h2 className="mb-6 text-2xl font-bold text-slate-900">Fournisseurs partenaires</h2>
           <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-6">
-              <h3 className="mb-2 flex items-center gap-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
+            <div className="rounded-lg border border-slate-200 p-6">
+              <h3 className="mb-2 flex items-center gap-2 text-lg font-semibold text-slate-900">
                 <MapPin className="h-5 w-5 text-amber-600" />
                 Cali, Vallée du Cauca
               </h3>
