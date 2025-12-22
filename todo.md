@@ -1514,3 +1514,11 @@ React 18 est plus stable avec tRPC 11.8 et l'écosystème actuel. React 19 étan
 
 ### Recommandation
 Publier le site pour tester en production. Les bugs HMR de développement disparaissent généralement après publication.
+
+
+## Phase 6 - Enrichissement Gamme Colombie (Session actuelle)
+
+- [x] Étape 1 : Ajouter images botaniques placeholders pour les 9 molécules colombiennes
+- [x] Étape 2 : Créer pages complètes pour les 8 recettes Colombie (I-VIII) avec protocoles
+- [x] Étape 3 : Créer table suppliers avec relations et importer fournisseurs colombiens
+- [ ] Checkpoint et publication

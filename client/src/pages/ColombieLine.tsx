@@ -1,11 +1,24 @@
 import { useState } from 'react';
+import { useLocation } from 'wouter';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Heart, MapPin, Leaf, Coffee, Droplet } from 'lucide-react';
+import { Heart, MapPin, Leaf, Coffee, Droplet, ExternalLink } from 'lucide-react';
+
+const moleculeImages: Record<string, string> = {
+  'Lippia Origanoides': '/colombian-botanicals/lippia-origanoides.svg',
+  'Turnera Diffusa': '/colombian-botanicals/turnera-diffusa.svg',
+  'Calycolpus Moritzianus': '/colombian-botanicals/calycolpus-moritzianus.svg',
+  'Piper Aduncum': '/colombian-botanicals/piper-aduncum.svg',
+  'Steiractinia Aspera': '/colombian-botanicals/steiractinia-aspera.svg',
+  'Coffea arabica var. Geisha': '/colombian-botanicals/cafe-geisha.svg',
+  'Coffea arabica flowers': '/colombian-botanicals/fleur-cafe.svg',
+  'Theobroma cacao': '/colombian-botanicals/cacao-colombien.svg',
+};
 
 export default function ColombieLine() {
+  const [, navigate] = useLocation();
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
 
   const toggleFavorite = (id: number) => {
@@ -232,6 +245,15 @@ export default function ColombieLine() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {molecules.map((mol) => (
                 <Card key={mol.id} className="overflow-hidden transition-all hover:shadow-lg">
+                  {moleculeImages[mol.name] && (
+                    <div className="relative h-48 overflow-hidden bg-slate-100">
+                      <img
+                        src={moleculeImages[mol.name]}
+                        alt={mol.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  )}
                   <CardHeader className={`bg-gradient-to-r ${mol.color} text-white pb-4`}>
                     <div className="flex items-start justify-between">
                       <div>
@@ -333,6 +355,13 @@ export default function ColombieLine() {
                           ))}
                         </div>
                       </div>
+                      <Button
+                        onClick={() => navigate(`/recette/colombie-${recipe.id}`)}
+                        className="mt-4 w-full bg-amber-600 hover:bg-amber-700"
+                      >
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Voir les détails
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
