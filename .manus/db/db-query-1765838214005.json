@@ -1,9 +1,0 @@
-{
-  "query": "INSERT INTO molecules (name, chemicalFormula, molecularWeight, family, olfactiveProfile, notes, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, sourceOrigin, extractionMethod)\nVALUES (\n  'Androsténone',\n  'C19H28O',\n  272,\n  'Phéromone',\n  'Variable selon génotype - urineux/sudoral ou boisé/floral/vanillé. Première phéromone mammifère identifiée. Présente dans la truffe et le céleri.',\n  'CAS: 18339-16-7. Stéroïde 16-androstène. Récepteur OR7D4 polymorphique. Seuil de détection très variable (0.2 ppb à 0.2 ppm).',\n  75,\n  25,\n  60,\n  35,\n  20,\n  70,\n  'Endogène humain/animal, truffe, céleri',\n  'Biosynthèse à partir de Androstadienone par 5α-réductase'\n)",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, chemicalFormula, molecularWeight, family, olfactiveProfile, notes, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, sourceOrigin, extractionMethod)\nVALUES (\n  'Androsténone',\n  'C19H28O',\n  272,\n  'Phéromone',\n  'Variable selon génotype - urineux/sudoral ou boisé/floral/vanillé. Première phéromone mammifère identifiée. Présente dans la truffe et le céleri.',\n  'CAS: 18339-16-7. Stéroïde 16-androstène. Récepteur OR7D4 polymorphique. Seuil de détection très variable (0.2 ppb à 0.2 ppm).',\n  75,\n  25,\n  60,\n  35,\n  20,\n  70,\n  'Endogène humain/animal, truffe, céleri',\n  'Biosynthèse à partir de Androstadienone par 5α-réductase'\n)",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 69
-}

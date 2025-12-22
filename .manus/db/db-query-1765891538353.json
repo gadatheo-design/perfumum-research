@@ -1,9 +1,0 @@
-{
-  "query": "SELECT r.id, r.name, r.category\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nWHERE mr.id IS NULL\nORDER BY r.category, r.name\nLIMIT 50;",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT r.id, r.name, r.category\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nWHERE mr.id IS NULL\nORDER BY r.category, r.name\nLIMIT 50;",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 55
-}

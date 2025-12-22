@@ -1,9 +1,0 @@
-{
-  "query": "INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Artisan Peppermint Oil', 'C10H20O', 'Aromatique / Menthé', 'mentholé, frais, floral, rond, équilibré, herbacé', 'clarté mentale, vivacité, respiration profonde', 156, 212, 78, 82, 82, 95, 15, 30, 55, 25, 'Notes florales, France, Bio. 3ml glass attar bottle. CHF 8.00. Hermitage Oils.');",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Artisan Peppermint Oil', 'C10H20O', 'Aromatique / Menthé', 'mentholé, frais, floral, rond, équilibré, herbacé', 'clarté mentale, vivacité, respiration profonde', 156, 212, 78, 82, 82, 95, 15, 30, 55, 25, 'Notes florales, France, Bio. 3ml glass attar bottle. CHF 8.00. Hermitage Oils.');",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 55
-}
