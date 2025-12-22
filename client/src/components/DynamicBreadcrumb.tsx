@@ -27,9 +27,11 @@ export function DynamicBreadcrumb({ segments, className = "" }: DynamicBreadcrum
   return (
     <nav className={`flex items-center gap-2 text-sm text-muted-foreground ${className}`}>
       {/* Home */}
-      <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1">
-        <Home className="w-4 h-4" />
-        <span className="hidden sm:inline">Accueil</span>
+      <Link href="/">
+        <a className="hover:text-foreground transition-colors flex items-center gap-1">
+          <Home className="w-4 h-4" />
+          <span className="hidden sm:inline">Accueil</span>
+        </a>
       </Link>
 
       {breadcrumbSegments.map((segment, index) => {
@@ -48,8 +50,8 @@ export function DynamicBreadcrumb({ segments, className = "" }: DynamicBreadcrum
                 <DropdownMenuContent align="start">
                   {segment.dropdown.map((item) => (
                     <DropdownMenuItem key={item.path} asChild>
-                      <Link href={item.path} className="w-full cursor-pointer">
-                        {item.label}
+                      <Link href={item.path}>
+                        <a className="w-full cursor-pointer">{item.label}</a>
                       </Link>
                     </DropdownMenuItem>
                   ))}
@@ -60,8 +62,10 @@ export function DynamicBreadcrumb({ segments, className = "" }: DynamicBreadcrum
               <span className="font-medium text-foreground">{segment.label}</span>
             ) : (
               // Segment intermédiaire cliquable
-              <Link href={segment.path} className="hover:text-foreground transition-colors font-medium">
-                {segment.label}
+              <Link href={segment.path}>
+                <a className="hover:text-foreground transition-colors font-medium">
+                  {segment.label}
+                </a>
               </Link>
             )}
           </div>

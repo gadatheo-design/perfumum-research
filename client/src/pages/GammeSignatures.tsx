@@ -240,18 +240,24 @@ export default function GammeSignatures() {
         <div className="mt-12 p-6 rounded-xl bg-muted/50 border">
           <h3 className="font-semibold mb-4">Explorer d'autres gammes</h3>
           <div className="flex flex-wrap gap-3">
-            <Link href="/gammes" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+            <Link href="/gammes">
+              <a className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
                 Toutes les gammes
                 <ArrowRight className="h-4 w-4" />
-              </Link>
-            <Link href="/resines-cbd" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
+              </a>
+            </Link>
+            <Link href="/resines-cbd">
+              <a className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
                 Résines CBD
                 <ArrowRight className="h-4 w-4" />
-              </Link>
-            <Link href="/synergies-terpenes-niches" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
+              </a>
+            </Link>
+            <Link href="/synergies-terpenes-niches">
+              <a className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
                 Synergies Terpènes
                 <ArrowRight className="h-4 w-4" />
-              </Link>
+              </a>
+            </Link>
           </div>
         </div>
       </div>

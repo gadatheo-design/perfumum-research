@@ -79,9 +79,11 @@ export default function GammesBioLab() {
         <section className="section-spacing bg-gradient-to-b from-pink-50/50 to-background">
           <div className="container">
             <div className="max-w-4xl mx-auto">
-              <Link href="/gammes" className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
+              <Link href="/gammes">
+                <a className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
                   ← Retour aux Gammes
-                </Link>
+                </a>
+              </Link>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-lg bg-pink-50 flex items-center justify-center">
                   <FlaskConical className="h-8 w-8 text-pink-600" />

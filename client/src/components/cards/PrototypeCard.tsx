@@ -25,8 +25,9 @@ export function PrototypeCard({
   href,
 }: PrototypeCardProps) {
   return (
-    <Link href={href} className="block h-full">
-      <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1 duration-300 overflow-hidden group">
+    <Link href={href}>
+      <a className="block h-full">
+        <Card className="h-full transition-all hover:shadow-lg hover:-translate-y-1 duration-300 overflow-hidden group">
           {/* Color accent bar */}
           <div className={cn("h-2", color && `bg-${color}`)} />
           
@@ -65,7 +66,8 @@ export function PrototypeCard({
               </p>
             )}
           </CardContent>
-      </Card>
+        </Card>
+      </a>
     </Link>
   );
 }

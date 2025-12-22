@@ -377,16 +377,22 @@ export default function ProtocolesMaturation() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Link href="/resines-cbd" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+            <Link href="/resines-cbd">
+              <a className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
                 <Beaker className="h-4 w-4" />
                 Résines CBD
-              </Link>
-            <Link href="/recettes" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
+              </a>
+            </Link>
+            <Link href="/recettes">
+              <a className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
                 Toutes les recettes
-              </Link>
-            <Link href="/gammes/signatures" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
+              </a>
+            </Link>
+            <Link href="/gammes/signatures">
+              <a className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
                 Gamme Signatures
-              </Link>
+              </a>
+            </Link>
           </div>
         </CardContent>
       </Card>

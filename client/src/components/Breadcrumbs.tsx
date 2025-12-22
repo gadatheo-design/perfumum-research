@@ -175,9 +175,14 @@ export function Breadcrumbs({ currentLabel, customItems }: BreadcrumbsProps = {}
       >
         <ol className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
           <li>
-            <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1" aria-label="Retour à l'accueil">
-              <Home className="h-4 w-4" aria-hidden="true" />
-              <span className="sr-only">Accueil</span>
+            <Link href="/">
+              <a 
+                className="hover:text-foreground transition-colors flex items-center gap-1"
+                aria-label="Retour à l'accueil"
+              >
+                <Home className="h-4 w-4" aria-hidden="true" />
+                <span className="sr-only">Accueil</span>
+              </a>
             </Link>
           </li>
           
@@ -195,8 +200,10 @@ export function Breadcrumbs({ currentLabel, customItems }: BreadcrumbsProps = {}
                     {item.label}
                   </span>
                 ) : (
-                  <Link href={item.path} className="hover:text-foreground transition-colors hover:underline">
-                    {item.label}
+                  <Link href={item.path}>
+                    <a className="hover:text-foreground transition-colors hover:underline">
+                      {item.label}
+                    </a>
                   </Link>
                 )}
               </li>
@@ -215,9 +222,14 @@ export function Breadcrumbs({ currentLabel, customItems }: BreadcrumbsProps = {}
     >
       <ol className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
         <li>
-          <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1" aria-label="Retour à l'accueil">
-            <Home className="h-4 w-4" aria-hidden="true" />
-            <span className="sr-only">Accueil</span>
+          <Link href="/">
+            <a 
+              className="hover:text-foreground transition-colors flex items-center gap-1"
+              aria-label="Retour à l'accueil"
+            >
+              <Home className="h-4 w-4" aria-hidden="true" />
+              <span className="sr-only">Accueil</span>
+            </a>
           </Link>
         </li>
         
@@ -238,8 +250,10 @@ export function Breadcrumbs({ currentLabel, customItems }: BreadcrumbsProps = {}
                   {label}
                 </span>
               ) : (
-                <Link href={path} className="hover:text-foreground transition-colors hover:underline">
-                  {label}
+                <Link href={path}>
+                  <a className="hover:text-foreground transition-colors hover:underline">
+                    {label}
+                  </a>
                 </Link>
               )}
             </li>

@@ -4,20 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Leaf, Beaker, ArrowLeft } from "lucide-react";
-import { MoleculeLink } from "@/components/MoleculeLink";
-import { CompositionComplete, PrototypeComposition } from "@/components/PrototypeRadarChart";
 import { Link } from "wouter";
-
-// Composition du prototype C2
-const c2Composition: PrototypeComposition = {
-  name: "C2 — CLARUS VERDE",
-  color: "#16a34a", // green-600
-  molecules: [
-    { name: "Juniper", quantity: "0.15 ml", radarIntensity: 60, radarFreshness: 85, radarWarmth: 25, radarSweetness: 20, radarSpiciness: 45, radarEarthiness: 35 },
-    { name: "Makrut", quantity: "0.10 ml", radarIntensity: 70, radarFreshness: 95, radarWarmth: 15, radarSweetness: 20, radarSpiciness: 25, radarEarthiness: 10 },
-    { name: "Vetiver", quantity: "0.20 ml", radarIntensity: 75, radarFreshness: 35, radarWarmth: 55, radarSweetness: 20, radarSpiciness: 30, radarEarthiness: 85 },
-  ]
-};
 
 export default function C2ClarusVerde() {
   return (
@@ -70,23 +57,11 @@ export default function C2ClarusVerde() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-3 text-sm">
-                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
-                      <MoleculeLink name="Juniper" variant="badge" showHoverCard={true} />
-                      <span className="font-mono text-muted-foreground">0.15 ml</span>
-                    </li>
-                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
-                      <MoleculeLink name="Makrut" variant="badge" showHoverCard={true} />
-                      <span className="font-mono text-muted-foreground">0.10 ml</span>
-                    </li>
-                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
-                      <MoleculeLink name="Vetiver" variant="badge" showHoverCard={true} />
-                      <span className="font-mono text-muted-foreground">0.20 ml</span>
-                    </li>
-                    <li className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
-                      <span className="text-muted-foreground">Éthanol 95°</span>
-                      <span className="font-mono text-muted-foreground">qsp 5 ml</span>
-                    </li>
+                  <ul className="space-y-2 font-mono text-sm text-muted-foreground">
+                    <li>• Juniper : 0.15 ml</li>
+                    <li>• Makrut Lime : 0.10 ml</li>
+                    <li>• Haitian Vetiver : 0.20 ml</li>
+                    <li>• Éthanol 95° : qsp 5 ml</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -149,18 +124,6 @@ export default function C2ClarusVerde() {
                     <Badge variant="outline">Parfum d'atmosphère</Badge>
                     <Badge variant="outline">Installation paysage</Badge>
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Composition Complète & Profil Olfactif</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CompositionComplete 
-                    composition={c2Composition}
-                    description="Profil vert-frais avec une base terreuse"
-                  />
                 </CardContent>
               </Card>
 

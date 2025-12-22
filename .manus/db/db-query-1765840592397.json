@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE recettes SET parent_recette_id = 210001 WHERE id IN (240001, 240002)",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE recettes SET parent_recette_id = 210001 WHERE id IN (240001, 240002)",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 59
-}

@@ -61,9 +61,11 @@ export default function Pyrolyse() {
         <section className="py-16 bg-gradient-to-b from-orange-50/30 to-background">
           <div className="container">
             <div className="max-w-4xl mx-auto">
-              <Link href="/methode" className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
+              <Link href="/methode">
+                <a className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
                   ← Retour à la Méthode ABSORBE
-                </Link>
+                </a>
+              </Link>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-16 h-16 rounded-lg bg-orange-50 flex items-center justify-center">
                   <Flame className="h-8 w-8 text-orange-600" />
@@ -288,12 +290,16 @@ export default function Pyrolyse() {
                 La pyrolyse est l'un des 7 axes de la méthode ABSORBE. Découvrez le protocole complet de recherche olfactive.
               </p>
               <div className="flex gap-4 justify-center">
-                <Link href="/methode" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
+                <Link href="/methode">
+                  <a className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
                     Méthode ABSORBE →
-                  </Link>
-                <Link href="/methodologie/gc-ms" className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
+                  </a>
+                </Link>
+                <Link href="/methodologie/gc-ms">
+                  <a className="inline-flex items-center gap-2 px-6 py-3 border border-border rounded-lg hover:bg-muted/50 transition-colors">
                     Analyse GC-MS →
-                  </Link>
+                  </a>
+                </Link>
               </div>
             </div>
           </div>

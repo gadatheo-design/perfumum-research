@@ -9,7 +9,6 @@ import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
 import { ArrowLeft, Beaker, Droplets, Flame, Clock, DollarSign, Activity } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { TimelineAromatic } from "@/components/TimelineAromatic";
-import { RecipeOlfactiveProfile } from "@/components/RecipeRadarChart";
 import { NotesEditor } from "@/components/NotesEditor";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -274,26 +273,6 @@ export default function RecetteCBDDetail() {
             )}
           </CardContent>
         </Card>
-
-        {/* Profil Olfactif Radar */}
-        {molecules && molecules.length > 0 && (
-          <RecipeOlfactiveProfile 
-            molecules={molecules.map((item: any) => ({
-              id: item.molecule.id,
-              name: item.molecule.name,
-              chemicalFormula: item.molecule.chemicalFormula,
-              radarIntensity: item.molecule.radarIntensity,
-              radarFreshness: item.molecule.radarFreshness,
-              radarWarmth: item.molecule.radarWarmth,
-              radarSweetness: item.molecule.radarSweetness,
-              radarSpiciness: item.molecule.radarSpiciness,
-              radarEarthiness: item.molecule.radarEarthiness,
-              proportion: parseFloat(item.proportion) || 1,
-            }))}
-            recipeName={recette.name}
-            color="#10b981"
-          />
-        )}
 
         {/* Composition moléculaire */}
         {molecules && molecules.length > 0 && (

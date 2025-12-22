@@ -320,19 +320,25 @@ export default function SynergiesTerpenesNiches() {
 
       {/* Liens connexes */}
       <div className="mt-8 flex flex-wrap gap-3">
-        <Link href="/molecules" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+        <Link href="/molecules">
+          <a className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
             <FlaskConical className="h-4 w-4" />
             Voir toutes les molécules
             <ArrowRight className="h-4 w-4" />
-          </Link>
-        <Link href="/chimie-tabac" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
+          </a>
+        </Link>
+        <Link href="/chimie-tabac">
+          <a className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
             Chimie du Tabac
             <ArrowRight className="h-4 w-4" />
-          </Link>
-        <Link href="/suggestions-synergies" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
+          </a>
+        </Link>
+        <Link href="/suggestions-synergies">
+          <a className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-muted transition-colors">
             Suggestions IA
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </a>
+        </Link>
       </div>
     </div>
   );
