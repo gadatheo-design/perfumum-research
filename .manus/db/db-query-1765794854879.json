@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Spikenard', 'C15H24O', 'Racine / Terreux', 'terreux, racine, animal, musqué, médicinal, sacré', 'spiritualité ancienne, onction, Himalaya, profondeur', 220, 270, 25, 78, 78, 20, 65, 30, 55, 95, 'Nard divin / Jatamansi pur de l''Himalaya. 1.3ml. CHF 15.00. Hermitage Oils.');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Spikenard', 'C15H24O', 'Racine / Terreux', 'terreux, racine, animal, musqué, médicinal, sacré', 'spiritualité ancienne, onction, Himalaya, profondeur', 220, 270, 25, 78, 78, 20, 65, 30, 55, 95, 'Nard divin / Jatamansi pur de l''Himalaya. 1.3ml. CHF 15.00. Hermitage Oils.');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 55
+}

@@ -1,0 +1,70 @@
+{
+  "query": "SELECT id, name, type FROM chemical_families ORDER BY type, id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, type FROM chemical_families ORDER BY type, id;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Acides Gras",
+      "type": "acides_gras"
+    },
+    {
+      "id": "5",
+      "name": "Acides Gras",
+      "type": "acides_gras"
+    },
+    {
+      "id": "9",
+      "name": "Acides Gras",
+      "type": "acides_gras"
+    },
+    {
+      "id": "2",
+      "name": "Acides Aromatiques",
+      "type": "acides_aromatiques"
+    },
+    {
+      "id": "6",
+      "name": "Acides Aromatiques",
+      "type": "acides_aromatiques"
+    },
+    {
+      "id": "10",
+      "name": "Acides Aromatiques",
+      "type": "acides_aromatiques"
+    },
+    {
+      "id": "3",
+      "name": "Esters",
+      "type": "esters"
+    },
+    {
+      "id": "7",
+      "name": "Esters",
+      "type": "esters"
+    },
+    {
+      "id": "11",
+      "name": "Esters",
+      "type": "esters"
+    },
+    {
+      "id": "4",
+      "name": "Indoles",
+      "type": "indoles"
+    },
+    {
+      "id": "8",
+      "name": "Indoles",
+      "type": "indoles"
+    },
+    {
+      "id": "12",
+      "name": "Indoles",
+      "type": "indoles"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttype\n1\tAcides Gras\tacides_gras\n5\tAcides Gras\tacides_gras\n9\tAcides Gras\tacides_gras\n2\tAcides Aromatiques\tacides_aromatiques\n6\tAcides Aromatiques\tacides_aromatiques\n10\tAcides Aromatiques\tacides_aromatiques\n3\tEsters\testers\n7\tEsters\testers\n11\tEsters\testers\n4\tIndoles\tindoles\n8\tIndoles\tindoles\n12\tIndoles\tindoles\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

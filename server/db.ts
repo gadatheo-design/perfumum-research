@@ -1,6 +1,61 @@
-import { eq } from "drizzle-orm";
+import { eq, and, or, isNull, not, desc, asc, sql, like, gte, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { 
+  InsertUser, 
+  users, 
+  userFavorites,
+  milestones,
+  prototypes,
+  families,
+  tabacs,
+  molecules,
+  accords,
+  recettes,
+  civilisations,
+  petrichor,
+  volcanique,
+  installations,
+  laboratoire,
+  glossary,
+  absorbeProfiles,
+  prototypeChemicalFamilies,
+  chemicalFamilies,
+  moleculeChemicalFamilies,
+  accordCivilisations,
+  researchTimeline,
+  experimentalAccords,
+  moleculesRecettes,
+  Prototype,
+  Family,
+  Tabac,
+  Molecule,
+  Accord,
+  Recette,
+  InsertRecette,
+  Civilisation,
+  Petrichor,
+  Volcanique,
+  Installation,
+  Laboratoire,
+  GlossaryTerm,
+  ResearchMilestone,
+  ExperimentalAccord,
+  synergies,
+  Synergie,
+  terpeneSynergies,
+  userNotes,
+  TerpeneSynergy,
+  sharedCollections,
+  moleculeNotes,
+  citations,
+  analyticsEvents,
+  suppliers,
+  supplierMaterials,
+  Supplier,
+  InsertSupplier,
+  SupplierMaterial,
+  InsertSupplierMaterial,
+} from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +144,3094 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// ============================================================================
+// PROTOTYPES
+// ============================================================================
+
+export async function getAllPrototypes(): Promise<Prototype[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(prototypes);
+}
+
+export async function getPrototypeByCode(code: string): Promise<Prototype | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(prototypes).where(eq(prototypes.code, code)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// FAMILIES
+// ============================================================================
+
+export async function getAllFamilies(): Promise<Family[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(families);
+}
+
+export async function getFamilyById(id: number): Promise<Family | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(families).where(eq(families.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// LABORATOIRE (Matières Premières)
+// ============================================================================
+
+export async function getAllMatieres(): Promise<Laboratoire[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(laboratoire);
+}
+
+export async function getMatiereById(id: number): Promise<Laboratoire | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(laboratoire).where(eq(laboratoire.id, id)).limit(1);
+  return result[0];
+}
+
+export async function createMatiere(data: {
+  name: string;
+  botanicalName?: string;
+  type: "huile_essentielle" | "absolu" | "resinoid" | "concrete" | "co2" | "teinture" | "poudre" | "alcoolat" | "autre";
+  olfactiveFamily?: string;
+  note?: "tete" | "coeur" | "fond" | "tete_coeur" | "coeur_fond";
+  origin?: string;
+  extractionMethod?: "distillation" | "extraction_solvant" | "co2_supercritique" | "expression" | "teinture" | "autre";
+  olfactiveProfile?: string;
+  character?: string;
+  supplier?: string;
+  pricePerMl?: number;
+  stock?: number;
+  status?: "en_stock" | "a_commander" | "epuise";
+  technicalNotes?: string;
+  manipulationNotes?: string;
+  maxTemperature?: number;
+}): Promise<{ id: number }> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(laboratoire).values({
+    name: data.name,
+    botanicalName: data.botanicalName || null,
+    type: data.type,
+    olfactiveFamily: data.olfactiveFamily || null,
+    note: data.note || null,
+    origin: data.origin || null,
+    extractionMethod: data.extractionMethod || null,
+    olfactiveProfile: data.olfactiveProfile || null,
+    character: data.character || null,
+    supplier: data.supplier || null,
+    pricePerMl: data.pricePerMl || null,
+    stock: data.stock || null,
+    status: data.status || "a_commander",
+    technicalNotes: data.technicalNotes || null,
+    manipulationNotes: data.manipulationNotes || null,
+    maxTemperature: data.maxTemperature || null,
+  });
+  
+  return { id: Number(result[0].insertId) };
+}
+
+export async function updateMatiereStock(id: number, stock: number, status?: "en_stock" | "a_commander" | "epuise"): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  
+  const updateData: any = { stock };
+  if (status) updateData.status = status;
+  
+  await db.update(laboratoire).set(updateData).where(eq(laboratoire.id, id));
+}
+
+// ============================================================================
+// MOLECULES
+// ============================================================================
+
+export async function getAllMolecules(): Promise<Molecule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(molecules);
+}
+
+export async function getMoleculeById(id: number): Promise<Molecule | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(molecules).where(eq(molecules.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// ACCORDS
+// ============================================================================
+
+export async function getAllAccords(): Promise<Accord[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(accords);
+}
+
+export async function getAccordById(id: number): Promise<Accord | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(accords).where(eq(accords.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// RECETTES
+// ============================================================================
+
+export async function getAllRecettes(): Promise<Recette[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(recettes);
+}
+
+export async function getRecetteById(id: number): Promise<Recette | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(recettes).where(eq(recettes.id, id)).limit(1);
+  return result[0];
+}
+
+export async function getRecettesByCategory(category: "tabac" | "resine" | "resine_cbd" | "cone" | "parfum" | "encens" | "extrait"): Promise<Recette[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(recettes).where(eq(recettes.category, category));
+}
+
+export async function getRecetteVariations(parentId: number): Promise<Recette[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(recettes).where(eq(recettes.parentRecetteId, parentId));
+}
+
+export async function getRecetteParent(recetteId: number): Promise<Recette | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const recette = await db.select().from(recettes).where(eq(recettes.id, recetteId)).limit(1);
+  if (!recette[0]?.parentRecetteId) return undefined;
+  const parent = await db.select().from(recettes).where(eq(recettes.id, recette[0].parentRecetteId)).limit(1);
+  return parent[0];
+}
+
+// ============================================================================
+// CIVILISATIONS
+// ============================================================================
+
+export async function getAllCivilisations(): Promise<Civilisation[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(civilisations);
+}
+
+export async function getCivilisationById(id: number): Promise<Civilisation | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(civilisations).where(eq(civilisations.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// INSTALLATIONS
+// ============================================================================
+
+export async function getAllInstallations(): Promise<Installation[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(installations);
+}
+
+export async function getInstallationById(id: number): Promise<Installation | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(installations).where(eq(installations.id, id)).limit(1);
+  return result[0];
+}
+
+// ============================================================================
+// PETRICHOR
+// ============================================================================
+
+export async function getAllPetrichor(): Promise<Petrichor[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(petrichor);
+}
+
+// ============================================================================
+// VOLCANIQUE
+// ============================================================================
+
+export async function getAllVolcanique(): Promise<Volcanique[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(volcanique);
+}
+
+// ============================================================================
+// TABACS
+// ============================================================================
+
+export async function getAllTabacs(): Promise<Tabac[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(tabacs);
+}
+
+export async function getTabacById(id: number): Promise<Tabac | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(tabacs).where(eq(tabacs.id, id)).limit(1);
+  return result[0];
+}
+
+export async function getTabacsByProfile(olfactiveProfile: string): Promise<Tabac[]> {
+  const db = await getDb();
+  if (!db) return [];
+  const allTabacs = await db.select().from(tabacs);
+  
+  // Filter tabacs that match the olfactive profile in their internalNotes
+  return allTabacs.filter(tabac => 
+    tabac.internalNotes?.toLowerCase().includes(olfactiveProfile.toLowerCase())
+  );
+}
+
+
+// ============================================================================
+// ADMIN FUNCTIONS
+// ============================================================================
+
+export async function getAdminStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const { sql } = await import("drizzle-orm");
+  
+  const [prototypesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(prototypes);
+  const [moleculesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(molecules);
+  const [accordsCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(accords);
+  const [familiesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(families);
+  const [recettesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(recettes);
+  const [matieresCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(laboratoire);
+  
+  return {
+    prototypes: Number(prototypesCount?.count || 0),
+    molecules: Number(moleculesCount?.count || 0),
+    accords: Number(accordsCount?.count || 0),
+    families: Number(familiesCount?.count || 0),
+    recettes: Number(recettesCount?.count || 0),
+    matieres: Number(matieresCount?.count || 0),
+  };
+}
+
+
+export async function createMolecule(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(molecules).values({
+    name: data.name,
+    chemicalFormula: data.chemicalFormula || null,
+    family: data.chemicalFamily || null,
+    functionalEffect: data.functionalEffect || null,
+    olfactiveProfile: data.olfactiveProfile || null,
+    emotionalResonance: data.emotionalResonance || null,
+    sourceOrigin: data.source || null,
+    concentration: data.concentration || null,
+    notes: data.notes || null,
+  });
+  
+  return result;
+}
+
+
+// ============================================================================
+// GLOSSARY
+// ============================================================================
+
+export async function getAllGlossaryTerms(): Promise<GlossaryTerm[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(glossary).orderBy(glossary.term);
+}
+
+export async function searchGlossaryTerms(query: string): Promise<GlossaryTerm[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Search in term, definition, and examples
+  const searchPattern = `%${query}%`;
+  return await db
+    .select()
+    .from(glossary)
+    .where(
+      eq(glossary.term, query) // Exact match first
+    )
+    .orderBy(glossary.term);
+}
+
+export async function getGlossaryTermsByCategory(category: string): Promise<GlossaryTerm[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(glossary)
+    .where(eq(glossary.category, category as any))
+    .orderBy(glossary.term);
+}
+
+
+// ============================================================================
+// RESEARCH TIMELINE
+// ============================================================================
+
+export async function getAllMilestones(): Promise<ResearchMilestone[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(researchTimeline)
+    .orderBy(researchTimeline.year, researchTimeline.quarterNumber);
+}
+
+export async function getMilestonesByPhase(phase: string): Promise<ResearchMilestone[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(researchTimeline)
+    .where(eq(researchTimeline.phase, phase as any))
+    .orderBy(researchTimeline.year, researchTimeline.quarterNumber);
+}
+
+export async function getMilestonesByYear(year: number): Promise<ResearchMilestone[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(researchTimeline)
+    .where(eq(researchTimeline.year, year))
+    .orderBy(researchTimeline.quarterNumber);
+}
+
+export async function getTimelineStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byPhase: {}, byCategory: {}, byStatus: {} };
+  
+  const milestones = await db.select().from(researchTimeline);
+  
+  const byPhase = milestones.reduce((acc, m) => {
+    acc[m.phase] = (acc[m.phase] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  const byCategory = milestones.reduce((acc, m) => {
+    acc[m.category] = (acc[m.category] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  const byStatus = milestones.reduce((acc, m) => {
+    acc[m.status] = (acc[m.status] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  return {
+    total: milestones.length,
+    byPhase,
+    byCategory,
+    byStatus,
+  };
+}
+
+
+// ============================================================================
+// CHEMICAL FAMILIES
+// ============================================================================
+
+export async function getChemicalFamilies() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select({
+      family: molecules.family,
+      count: sql<number>`count(*)`.as('count'),
+    })
+    .from(molecules)
+    .where(sql`${molecules.family} IS NOT NULL`)
+    .groupBy(molecules.family)
+    .orderBy(molecules.family);
+  
+  return result;
+}
+
+export async function getMoleculesByFamily(family: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(molecules)
+    .where(eq(molecules.family, family))
+    .orderBy(molecules.name);
+}
+
+
+// ============================================================================
+// EXPERIMENTAL ACCORDS
+// ============================================================================
+
+export async function getExperimentalAccordsByType(isExtreme: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(experimentalAccords)
+    .where(eq(experimentalAccords.isExtreme, isExtreme))
+    .orderBy(experimentalAccords.number);
+}
+
+export async function getAllExperimentalAccords() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(experimentalAccords)
+    .orderBy(experimentalAccords.isExtreme, experimentalAccords.number);
+}
+
+
+// ABSORBE profiles
+export async function getAbsorbeProfiles() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(absorbeProfiles);
+}
+
+export async function getAbsorbeProfileByPrototypeId(prototypeId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const results = await db
+    .select()
+    .from(absorbeProfiles)
+    .where(eq(absorbeProfiles.prototypeId, prototypeId));
+  return results[0] || null;
+}
+
+
+// ============================================================================
+// GLOBAL SEARCH
+// ============================================================================
+
+export async function globalSearch(query: string) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  const searchTerm = `%${query}%`;
+  
+  // Search in prototypes
+  const prototypeResults = await db
+    .select({
+      id: prototypes.id,
+      type: sql<string>`'prototype'`,
+      title: prototypes.name,
+      subtitle: prototypes.code,
+      description: prototypes.conceptualAxis,
+    })
+    .from(prototypes)
+    .where(
+      sql`${prototypes.name} LIKE ${searchTerm} OR ${prototypes.code} LIKE ${searchTerm} OR ${prototypes.conceptualAxis} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in molecules
+  const moleculeResults = await db
+    .select({
+      id: molecules.id,
+      type: sql<string>`'molecule'`,
+      title: molecules.name,
+      subtitle: molecules.family,
+      description: molecules.olfactiveProfile,
+    })
+    .from(molecules)
+    .where(
+      sql`${molecules.name} LIKE ${searchTerm} OR ${molecules.family} LIKE ${searchTerm} OR ${molecules.olfactiveProfile} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in recipes
+  const recipeResults = await db
+    .select({
+      id: recettes.id,
+      type: sql<string>`'recipe'`,
+      title: recettes.name,
+      subtitle: recettes.category,
+      description: sql<string | null>`${recettes.formula}`,
+    })
+    .from(recettes)
+    .where(
+      sql`${recettes.name} LIKE ${searchTerm} OR ${recettes.category} LIKE ${searchTerm} OR ${recettes.formula} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in glossary
+  const glossaryResults = await db
+    .select({
+      id: glossary.id,
+      type: sql<string>`'glossary'`,
+      title: glossary.term,
+      subtitle: glossary.category,
+      description: glossary.definition,
+    })
+    .from(glossary)
+    .where(
+      sql`${glossary.term} LIKE ${searchTerm} OR ${glossary.definition} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in timeline
+  const timelineResults = await db
+    .select({
+      id: researchTimeline.id,
+      type: sql<string>`'timeline'`,
+      title: researchTimeline.title,
+      subtitle: researchTimeline.category,
+      description: researchTimeline.description,
+    })
+    .from(researchTimeline)
+    .where(
+      sql`${researchTimeline.title} LIKE ${searchTerm} OR ${researchTimeline.description} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  // Search in experimental accords
+  const accordResults = await db
+    .select({
+      id: experimentalAccords.id,
+      type: sql<string>`'accord'`,
+      title: experimentalAccords.intention,
+      subtitle: sql<string>`CASE WHEN ${experimentalAccords.isExtreme} = 1 THEN 'Extrême' ELSE 'Standard' END`,
+      description: experimentalAccords.baseTabac,
+    })
+    .from(experimentalAccords)
+    .where(
+      sql`${experimentalAccords.intention} LIKE ${searchTerm} OR ${experimentalAccords.baseTabac} LIKE ${searchTerm}`
+    )
+    .limit(10);
+
+  return {
+    prototypes: prototypeResults,
+    molecules: moleculeResults,
+    recipes: recipeResults,
+    glossary: glossaryResults,
+    timeline: timelineResults,
+    accords: accordResults,
+    total: prototypeResults.length + moleculeResults.length + recipeResults.length + 
+           glossaryResults.length + timelineResults.length + accordResults.length,
+  };
+}
+
+
+
+
+// ============================================================================
+// MOLECULE DETAILS WITH RELATIONS
+// ============================================================================
+
+export async function getMoleculeWithRelations(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get molecule
+  const moleculesList = await db.select().from(molecules).where(eq(molecules.id, id));
+  if (moleculesList.length === 0) return null;
+  
+  const mol = moleculesList[0];
+  
+  // Get related recettes via molecule_recettes
+  const relatedRecettes = await db
+    .select({
+      id: recettes.id,
+      name: recettes.name,
+      formula: recettes.formula,
+    })
+    .from(moleculesRecettes)
+    .innerJoin(recettes, eq(moleculesRecettes.recetteId, recettes.id))
+    .where(eq(moleculesRecettes.moleculeId, id));
+  
+  return {
+    molecule: mol,
+    recettes: relatedRecettes,
+  };
+}
+
+
+// ============================================================================
+// RECETTE DETAILS WITH RELATIONS
+// ============================================================================
+
+export async function getRecetteWithRelations(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get recette
+  const recettesList = await db.select().from(recettes).where(eq(recettes.id, id));
+  if (recettesList.length === 0) return null;
+  
+  const recette = recettesList[0];
+  
+  // Get related molecules via molecule_recettes with radar data
+  const relatedMolecules = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      chemicalFormula: molecules.chemicalFormula,
+      family: molecules.family,
+      radarIntensity: molecules.radarIntensity,
+      radarFreshness: molecules.radarFreshness,
+      radarWarmth: molecules.radarWarmth,
+      radarSweetness: molecules.radarSweetness,
+      radarSpiciness: molecules.radarSpiciness,
+      radarEarthiness: molecules.radarEarthiness,
+    })
+    .from(moleculesRecettes)
+    .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
+    .where(eq(moleculesRecettes.recetteId, id));
+  
+  // Get family if familyId exists
+  let family = null;
+  if (recette.familyId) {
+    const familiesList = await db.select().from(families).where(eq(families.id, recette.familyId));
+    if (familiesList.length > 0) {
+      family = familiesList[0];
+    }
+  }
+  
+  // Get accord if accordId exists
+  let accord = null;
+  if (recette.accordId) {
+    const accordsList = await db.select().from(accords).where(eq(accords.id, recette.accordId));
+    if (accordsList.length > 0) {
+      accord = accordsList[0];
+    }
+  }
+  
+  return {
+    recette,
+    molecules: relatedMolecules,
+    family,
+    accord,
+  };
+}
+
+
+// ============================================================================
+// CIVILISATION DETAILS WITH RELATIONS
+// ============================================================================
+
+export async function getCivilisationDetailsWithRelations(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get civilisation
+  const civilisationsList = await db.select().from(civilisations).where(eq(civilisations.id, id));
+  if (civilisationsList.length === 0) return null;
+  
+  const civilisation = civilisationsList[0];
+  
+  // Get related recettes
+  const relatedRecettes = await db
+    .select()
+    .from(recettes)
+    .where(eq(recettes.civilisationId, id));
+  
+  return {
+    civilisation,
+    recettes: relatedRecettes,
+  };
+}
+
+
+// ============================================================================
+// PROTOTYPE DETAILS WITH RELATIONS
+// ============================================================================
+
+export async function getPrototypeWithRelations(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get prototype
+  const prototypesList = await db.select().from(prototypes).where(eq(prototypes.id, id));
+  if (prototypesList.length === 0) return null;
+  
+  const prototype = prototypesList[0];
+  
+  // Get ABSORBE profile
+  const absorbeProfilesList = await db
+    .select()
+    .from(absorbeProfiles)
+    .where(eq(absorbeProfiles.prototypeId, id));
+  
+  const absorbeProfile = absorbeProfilesList.length > 0 ? absorbeProfilesList[0] : null;
+  
+  // Get related chemical families via prototype_chemical_families
+  const relatedFamilies = await db
+    .select({
+      id: chemicalFamilies.id,
+      name: chemicalFamilies.name,
+      description: chemicalFamilies.description,
+    })
+    .from(prototypeChemicalFamilies)
+    .innerJoin(chemicalFamilies, eq(prototypeChemicalFamilies.chemicalFamilyId, chemicalFamilies.id))
+    .where(eq(prototypeChemicalFamilies.prototypeId, id));
+  
+  return {
+    prototype,
+    absorbeProfile,
+    chemicalFamilies: relatedFamilies,
+  };
+}
+
+
+// ============================================================================
+// NETWORK VISUALIZATION - ALL RELATIONSHIPS
+// ============================================================================
+
+export async function getNetworkRelationships() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Get all entities
+  const allPrototypes = await db.select().from(prototypes);
+  const allMolecules = await db.select().from(molecules);
+  const allRecettes = await db.select().from(recettes);
+  const allCivilisations = await db.select().from(civilisations);
+  const allAccords = await db.select().from(accords);
+  
+  // Get all relationships
+  // 1. Molecules → Chemical Families (via molecule_chemical_families junction table)
+  const moleculeFamilyRelations = await db
+    .select({
+      moleculeId: molecules.id,
+      moleculeName: molecules.name,
+      familyId: chemicalFamilies.id,
+      familyName: chemicalFamilies.name,
+    })
+    .from(moleculeChemicalFamilies)
+    .innerJoin(molecules, eq(moleculeChemicalFamilies.moleculeId, molecules.id))
+    .innerJoin(chemicalFamilies, eq(moleculeChemicalFamilies.chemicalFamilyId, chemicalFamilies.id));
+  
+  // 2. Prototypes → Chemical Families
+  const prototypeChemicalFamilyRelations = await db
+    .select({
+      prototypeId: prototypes.id,
+      prototypeName: prototypes.name,
+      prototypeCode: prototypes.code,
+      familyId: chemicalFamilies.id,
+      familyName: chemicalFamilies.name,
+    })
+    .from(prototypeChemicalFamilies)
+    .innerJoin(prototypes, eq(prototypeChemicalFamilies.prototypeId, prototypes.id))
+    .innerJoin(chemicalFamilies, eq(prototypeChemicalFamilies.chemicalFamilyId, chemicalFamilies.id));
+  
+  // 3. Recettes → Families (via familyId)
+  const recetteFamilyRelations = await db
+    .select({
+      recetteId: recettes.id,
+      recetteName: recettes.name,
+      familyId: families.id,
+      familyName: families.name,
+    })
+    .from(recettes)
+    .innerJoin(families, eq(recettes.familyId, families.id))
+    .where(sql`${recettes.familyId} IS NOT NULL`);
+  
+  // 4. Recettes → Accords (via accordId)
+  const recetteAccordRelations = await db
+    .select({
+      recetteId: recettes.id,
+      recetteName: recettes.name,
+      accordId: accords.id,
+      accordName: accords.name,
+    })
+    .from(recettes)
+    .innerJoin(accords, eq(recettes.accordId, accords.id))
+    .where(sql`${recettes.accordId} IS NOT NULL`);
+  
+  // 5. Civilisations → Accords (via accord_civilisations)
+  const civilisationAccordRelations = await db
+    .select({
+      civilisationId: civilisations.id,
+      civilisationName: civilisations.name,
+      accordId: accords.id,
+      accordName: accords.name,
+    })
+    .from(accordCivilisations)
+    .innerJoin(civilisations, eq(accordCivilisations.civilisationId, civilisations.id))
+    .innerJoin(accords, eq(accordCivilisations.accordId, accords.id));
+  
+  // 6. Recettes → Civilisations (via civilisationId)
+  const recetteCivilisationRelations = await db
+    .select({
+      recetteId: recettes.id,
+      recetteName: recettes.name,
+      civilisationId: civilisations.id,
+      civilisationName: civilisations.name,
+    })
+    .from(recettes)
+    .innerJoin(civilisations, eq(recettes.civilisationId, civilisations.id))
+    .where(sql`${recettes.civilisationId} IS NOT NULL`);
+  
+  return {
+    entities: {
+      prototypes: allPrototypes,
+      molecules: allMolecules,
+      recettes: allRecettes,
+      civilisations: allCivilisations,
+      accords: allAccords,
+    },
+    relationships: {
+      moleculeFamilies: moleculeFamilyRelations,
+      prototypeChemicalFamilies: prototypeChemicalFamilyRelations,
+      recetteFamilies: recetteFamilyRelations,
+      recetteAccords: recetteAccordRelations,
+      civilisationAccords: civilisationAccordRelations,
+      recetteCivilisations: recetteCivilisationRelations,
+    },
+  };
+}
+
+
+// ============================================================
+// TABACS & SYNERGIES
+// ============================================================
+
+
+
+// ============================================
+// DASHBOARD STATISTICS
+// ============================================
+
+export async function getDashboardStats() {
+  const db = await getDb();
+  if (!db) return { molecules: 0, recettes: 0, accords: 0, prototypes: 0, civilisations: 0 };
+  
+  const [moleculesCount] = await db.select({ count: sql<number>`count(*)` }).from(molecules);
+  const [recettesCount] = await db.select({ count: sql<number>`count(*)` }).from(recettes);
+  const [accordsCount] = await db.select({ count: sql<number>`count(*)` }).from(accords);
+  const [prototypesCount] = await db.select({ count: sql<number>`count(*)` }).from(prototypes);
+  const [civilisationsCount] = await db.select({ count: sql<number>`count(*)` }).from(civilisations);
+  
+  return {
+    molecules: moleculesCount?.count || 0,
+    recettes: recettesCount?.count || 0,
+    accords: accordsCount?.count || 0,
+    prototypes: prototypesCount?.count || 0,
+    civilisations: civilisationsCount?.count || 0,
+  };
+}
+
+export async function getRecipesByStatus() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const statusCounts = await db
+    .select({
+      status: recettes.status,
+      count: sql<number>`count(*)`,
+    })
+    .from(recettes)
+    .groupBy(recettes.status);
+  
+  return statusCounts;
+}
+
+export async function getRecipesByCategory() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const categoryCounts = await db
+    .select({
+      category: recettes.category,
+      count: sql<number>`count(*)`,
+    })
+    .from(recettes)
+    .where(sql`${recettes.category} IS NOT NULL`)
+    .groupBy(recettes.category);
+  
+  return categoryCounts;
+}
+
+export async function getMoleculesFamilyStats() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const familyCounts = await db
+    .select({
+      family: molecules.family,
+      count: sql<number>`count(*)`,
+    })
+    .from(molecules)
+    .where(sql`${molecules.family} IS NOT NULL`)
+    .groupBy(molecules.family);
+  
+  return familyCounts;
+}
+
+export async function getGlobalMoleculeStats() {
+  const db = await getDb();
+  if (!db) return {
+    totalMolecules: 0,
+    totalRecettes: 0,
+    totalFamilies: 0,
+    totalPrototypes: 0,
+    familyDistribution: [],
+    gammeDistribution: [],
+  };
+  
+  // Get total counts
+  const [moleculesCount] = await db.select({ count: sql<number>`count(*)` }).from(molecules);
+  const [recettesCount] = await db.select({ count: sql<number>`count(*)` }).from(recettes);
+  const [prototypesCount] = await db.select({ count: sql<number>`count(*)` }).from(prototypes);
+  
+  // Get unique families count
+  const uniqueFamilies = await db
+    .select({ family: molecules.family })
+    .from(molecules)
+    .where(sql`${molecules.family} IS NOT NULL`)
+    .groupBy(molecules.family);
+  
+  // Get family distribution
+  const familyDistribution = await db
+    .select({
+      family: molecules.family,
+      count: sql<number>`count(*)`,
+    })
+    .from(molecules)
+    .where(sql`${molecules.family} IS NOT NULL`)
+    .groupBy(molecules.family);
+  
+  // Get gamme distribution (based on olfactive profile keywords)
+  const allMolecules = await db.select().from(molecules);
+  const gammeDistribution: { gamme: string; count: number }[] = [];
+  const gammeCounts: Record<string, number> = {};
+  
+  allMolecules.forEach(m => {
+    if (m.olfactiveProfile) {
+      const profile = m.olfactiveProfile.toLowerCase();
+      if (profile.includes('pétrichor') || profile.includes('terreux') || profile.includes('géosmine')) {
+        gammeCounts['pétrichor'] = (gammeCounts['pétrichor'] || 0) + 1;
+      } else if (profile.includes('volcanique') || profile.includes('soufré') || profile.includes('fumé')) {
+        gammeCounts['volcanique'] = (gammeCounts['volcanique'] || 0) + 1;
+      } else if (profile.includes('glaciaire') || profile.includes('glacé') || profile.includes('frais')) {
+        gammeCounts['glaciaire'] = (gammeCounts['glaciaire'] || 0) + 1;
+      } else if (profile.includes('bio') || profile.includes('laboratoire')) {
+        gammeCounts['bio-lab'] = (gammeCounts['bio-lab'] || 0) + 1;
+      } else if (profile.includes('mossi')) {
+        gammeCounts['mossi'] = (gammeCounts['mossi'] || 0) + 1;
+      }
+    }
+  });
+  
+  Object.entries(gammeCounts).forEach(([gamme, count]) => {
+    gammeDistribution.push({ gamme, count });
+  });
+  
+  return {
+    totalMolecules: moleculesCount.count,
+    totalRecettes: recettesCount.count,
+    totalFamilies: uniqueFamilies.length,
+    totalPrototypes: prototypesCount.count,
+    familyDistribution,
+    gammeDistribution,
+  };
+}
+
+export async function getMoleculeTimelineData() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Get all molecules with creation dates
+  const allMolecules = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      createdAt: molecules.createdAt,
+      olfactiveProfile: molecules.olfactiveProfile,
+      family: molecules.family,
+    })
+    .from(molecules)
+    .orderBy(molecules.createdAt);
+  
+  // Group by month
+  const monthlyData: Record<string, { count: number; cumulative: number; molecules: any[] }> = {};
+  let cumulative = 0;
+  
+  allMolecules.forEach(molecule => {
+    if (!molecule.createdAt) return;
+    
+    const date = new Date(molecule.createdAt);
+    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    
+    if (!monthlyData[monthKey]) {
+      monthlyData[monthKey] = { count: 0, cumulative: 0, molecules: [] };
+    }
+    
+    monthlyData[monthKey].count++;
+    cumulative++;
+    monthlyData[monthKey].cumulative = cumulative;
+    monthlyData[monthKey].molecules.push({
+      id: molecule.id,
+      name: molecule.name,
+      family: molecule.family,
+    });
+  });
+  
+  // Convert to array and sort by date
+  const timelineData = Object.entries(monthlyData)
+    .map(([month, data]) => ({
+      month,
+      count: data.count,
+      cumulative: data.cumulative,
+      molecules: data.molecules,
+    }))
+    .sort((a, b) => a.month.localeCompare(b.month));
+  
+  return timelineData;
+}
+
+export async function getRecentActivity(limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const recentRecettes = await db
+    .select()
+    .from(recettes)
+    .orderBy(sql`${recettes.createdAt} DESC`)
+    .limit(limit);
+  
+  return recentRecettes;
+}
+
+// ============================================================================
+// SYNERGIES QUERIES
+// ============================================================================
+
+export async function getAllSynergies() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const allSynergies = await db
+    .select({
+      id: synergies.id,
+      name: synergies.name,
+      type: synergies.type,
+      effet: synergies.effet,
+      notes: synergies.notes,
+      tabacId: synergies.tabacId,
+      tabacName: tabacs.name,
+      moleculeId: synergies.moleculeId,
+      moleculeName: molecules.name,
+      familleId: synergies.familleId,
+      familleName: families.name,
+      createdAt: synergies.createdAt,
+    })
+    .from(synergies)
+    .leftJoin(tabacs, eq(synergies.tabacId, tabacs.id))
+    .leftJoin(molecules, eq(synergies.moleculeId, molecules.id))
+    .leftJoin(families, eq(synergies.familleId, families.id))
+    .orderBy(sql`${synergies.createdAt} DESC`);
+  
+  return allSynergies;
+}
+
+export async function getSynergiesByType(type: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const synergiesByType = await db
+    .select({
+      id: synergies.id,
+      name: synergies.name,
+      type: synergies.type,
+      effet: synergies.effet,
+      notes: synergies.notes,
+      tabacId: synergies.tabacId,
+      tabacName: tabacs.name,
+      moleculeId: synergies.moleculeId,
+      moleculeName: molecules.name,
+      familleId: synergies.familleId,
+      familleName: families.name,
+    })
+    .from(synergies)
+    .leftJoin(tabacs, eq(synergies.tabacId, tabacs.id))
+    .leftJoin(molecules, eq(synergies.moleculeId, molecules.id))
+    .leftJoin(families, eq(synergies.familleId, families.id))
+    .where(eq(synergies.type, type as any));
+  
+  return synergiesByType;
+}
+
+export async function getSynergiesStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byType: [] };
+  
+  const total = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(synergies);
+  
+  const byType = await db
+    .select({
+      type: synergies.type,
+      count: sql<number>`count(*)`,
+    })
+    .from(synergies)
+    .groupBy(synergies.type);
+  
+  return {
+    total: total[0]?.count || 0,
+    byType,
+  };
+}
+
+
+// ============================================================================
+// USER FAVORITES
+// ============================================================================
+
+export async function addFavorite(userId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(userFavorites).values({
+    userId,
+    moleculeId,
+  }).onDuplicateKeyUpdate({ set: { userId } }); // Ignore if already exists (unique constraint)
+  
+  return { success: true, favoriteId: result[0].insertId };
+}
+
+export async function removeFavorite(userId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(userFavorites)
+    .where(and(
+      eq(userFavorites.userId, userId),
+      eq(userFavorites.moleculeId, moleculeId)
+    ));
+  
+  return { success: true };
+}
+
+export async function getUserFavorites(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const favorites = await db
+    .select({
+      id: userFavorites.id,
+      moleculeId: userFavorites.moleculeId,
+      createdAt: userFavorites.createdAt,
+      molecule: molecules,
+    })
+    .from(userFavorites)
+    .leftJoin(molecules, eq(userFavorites.moleculeId, molecules.id))
+    .where(eq(userFavorites.userId, userId))
+    .orderBy(desc(userFavorites.createdAt));
+  
+  return favorites;
+}
+
+export async function isFavorite(userId: number, moleculeId: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  const result = await db
+    .select({ id: userFavorites.id })
+    .from(userFavorites)
+    .where(and(
+      eq(userFavorites.userId, userId),
+      eq(userFavorites.moleculeId, moleculeId)
+    ))
+    .limit(1);
+  
+  return result.length > 0;
+}
+
+// ============================================================================
+// MILESTONES
+// ============================================================================
+
+export async function getMilestones() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(milestones).orderBy(desc(milestones.date));
+}
+
+export async function getMilestoneById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [milestone] = await db.select().from(milestones).where(eq(milestones.id, id));
+  return milestone || null;
+}
+
+export async function createMilestone(data: typeof milestones.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(milestones).values(data).$returningId();
+  return result;
+}
+
+export async function updateMilestone(id: number, data: Partial<typeof milestones.$inferInsert>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(milestones).set(data).where(eq(milestones.id, id));
+  return getMilestoneById(id);
+}
+
+export async function deleteMilestone(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(milestones).where(eq(milestones.id, id));
+  return { success: true };
+}
+
+
+// ============================================================================
+// PHASE 4: COLLABORATION & PARTAGE - Database Functions
+// ============================================================================
+
+// Shared Collections
+export async function createSharedCollection(data: {
+  token: string;
+  title: string;
+  description?: string;
+  moleculeIds: number[];
+  creatorId: number;
+  expiresAt: Date;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const [result] = await db.insert(sharedCollections).values({
+    token: data.token,
+    title: data.title,
+    description: data.description,
+    moleculeIds: JSON.stringify(data.moleculeIds),
+    creatorId: data.creatorId,
+    expiresAt: data.expiresAt,
+    viewCount: 0,
+  }).$returningId();
+  
+  return result;
+}
+
+export async function getSharedCollectionByToken(token: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [collection] = await db
+    .select()
+    .from(sharedCollections)
+    .where(eq(sharedCollections.token, token));
+  
+  if (!collection) return null;
+  
+  // Check if expired
+  if (new Date() > new Date(collection.expiresAt)) {
+    return null;
+  }
+  
+  // Increment view count
+  await db
+    .update(sharedCollections)
+    .set({ viewCount: collection.viewCount + 1 })
+    .where(eq(sharedCollections.id, collection.id));
+  
+  return {
+    ...collection,
+    viewCount: collection.viewCount + 1, // Return incremented value
+    moleculeIds: JSON.parse(collection.moleculeIds) as number[],
+  };
+}
+
+export async function getUserSharedCollections(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const collections = await db
+    .select()
+    .from(sharedCollections)
+    .where(eq(sharedCollections.creatorId, userId))
+    .orderBy(desc(sharedCollections.createdAt));
+  
+  return collections.map(c => ({
+    ...c,
+    moleculeIds: JSON.parse(c.moleculeIds) as number[],
+  }));
+}
+
+// Molecule Notes
+export async function getMoleculeNote(userId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [note] = await db
+    .select()
+    .from(moleculeNotes)
+    .where(
+      and(
+        eq(moleculeNotes.userId, userId),
+        eq(moleculeNotes.moleculeId, moleculeId)
+      )
+    );
+  
+  if (!note) return null;
+  
+  return {
+    ...note,
+    tags: note.tags ? JSON.parse(note.tags) as string[] : [],
+  };
+}
+
+export async function upsertMoleculeNote(data: {
+  userId: number;
+  moleculeId: number;
+  note: string;
+  tags?: string[];
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const existing = await getMoleculeNote(data.userId, data.moleculeId);
+  
+  if (existing) {
+    // Update
+    await db
+      .update(moleculeNotes)
+      .set({
+        note: data.note,
+        tags: data.tags ? JSON.stringify(data.tags) : null,
+      })
+      .where(eq(moleculeNotes.id, existing.id));
+    
+    return getMoleculeNote(data.userId, data.moleculeId);
+  } else {
+    // Insert
+    const [result] = await db.insert(moleculeNotes).values({
+      userId: data.userId,
+      moleculeId: data.moleculeId,
+      note: data.note,
+      tags: data.tags ? JSON.stringify(data.tags) : null,
+    }).$returningId();
+    
+    return getMoleculeNote(data.userId, data.moleculeId);
+  }
+}
+
+export async function getUserMoleculeNotes(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const notes = await db
+    .select()
+    .from(moleculeNotes)
+    .where(eq(moleculeNotes.userId, userId))
+    .orderBy(desc(moleculeNotes.updatedAt));
+  
+  return notes.map(n => ({
+    ...n,
+    tags: n.tags ? JSON.parse(n.tags) as string[] : [],
+  }));
+}
+
+export async function deleteMoleculeNote(userId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .delete(moleculeNotes)
+    .where(
+      and(
+        eq(moleculeNotes.userId, userId),
+        eq(moleculeNotes.moleculeId, moleculeId)
+      )
+    );
+  
+  return { success: true };
+}
+
+// Citations
+export async function generateCitation(
+  entityType: 'molecule' | 'recipe' | 'prototype' | 'accord',
+  entityId: number,
+  format: 'apa' | 'mla' | 'chicago' | 'bibtex' = 'apa'
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Get entity data
+  let entityData: any = null;
+  let citationText = '';
+  
+  if (entityType === 'molecule') {
+    const [molecule] = await db.select().from(molecules).where(eq(molecules.id, entityId));
+    if (!molecule) throw new Error("Molecule not found");
+    entityData = molecule;
+    
+    // Generate citation based on format
+    const year = new Date(molecule.createdAt).getFullYear();
+    
+    if (format === 'apa') {
+      citationText = `PERFUMUM Research. (${year}). ${molecule.name}${molecule.chemicalFormula ? ` [${molecule.chemicalFormula}]` : ''}. PERFUMUM Molecular Database. https://perfumum.manus.space/molecule/${entityId}`;
+    } else if (format === 'mla') {
+      citationText = `"${molecule.name}." PERFUMUM Molecular Database, PERFUMUM Research, ${year}, perfumum.manus.space/molecule/${entityId}.`;
+    } else if (format === 'chicago') {
+      citationText = `PERFUMUM Research. "${molecule.name}." PERFUMUM Molecular Database. Accessed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. https://perfumum.manus.space/molecule/${entityId}.`;
+    } else if (format === 'bibtex') {
+      citationText = `@misc{perfumum_molecule_${entityId},
+  title={${molecule.name}${molecule.chemicalFormula ? ` [${molecule.chemicalFormula}]` : ''}},
+  author={PERFUMUM Research},
+  year={${year}},
+  howpublished={\\url{https://perfumum.manus.space/molecule/${entityId}}},
+  note={PERFUMUM Molecular Database}
+}`;
+    }
+  } else if (entityType === 'recipe') {
+    const [recipe] = await db.select().from(recettes).where(eq(recettes.id, entityId));
+    if (!recipe) throw new Error("Recipe not found");
+    entityData = recipe;
+    
+    const year = new Date(recipe.createdAt).getFullYear();
+    
+    if (format === 'apa') {
+      citationText = `PERFUMUM Research. (${year}). ${recipe.name}. PERFUMUM Recipe Database. https://perfumum.manus.space/recette/${entityId}`;
+    } else if (format === 'mla') {
+      citationText = `"${recipe.name}." PERFUMUM Recipe Database, PERFUMUM Research, ${year}, perfumum.manus.space/recette/${entityId}.`;
+    } else if (format === 'chicago') {
+      citationText = `PERFUMUM Research. "${recipe.name}." PERFUMUM Recipe Database. Accessed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. https://perfumum.manus.space/recette/${entityId}.`;
+    } else if (format === 'bibtex') {
+      citationText = `@misc{perfumum_recipe_${entityId},
+  title={${recipe.name}},
+  author={PERFUMUM Research},
+  year={${year}},
+  howpublished={\\url{https://perfumum.manus.space/recette/${entityId}}},
+  note={PERFUMUM Recipe Database}
+}`;
+    }
+  }
+  
+  // Save citation
+  const [result] = await db.insert(citations).values({
+    entityType,
+    entityId,
+    format,
+    citationText,
+    url: `https://perfumum.manus.space/${entityType}/${entityId}`,
+  }).$returningId();
+  
+  return {
+    id: result.id,
+    citationText,
+    format,
+  };
+}
+
+export async function getCitation(entityType: string, entityId: number, format: string = 'apa') {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [citation] = await db
+    .select()
+    .from(citations)
+    .where(
+      and(
+        eq(citations.entityType, entityType as any),
+        eq(citations.entityId, entityId),
+        eq(citations.format, format as any)
+      )
+    );
+  
+  return citation;
+}
+
+export async function getRecetteMolecules(recetteId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const results = await db
+    .select({
+      molecule: molecules,
+      proportion: moleculesRecettes.proportion,
+    })
+    .from(moleculesRecettes)
+    .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
+    .where(eq(moleculesRecettes.recetteId, recetteId));
+  
+  return results;
+}
+
+
+export async function getAllRecettesWithMolecules() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const recettesCBD = await db
+    .select()
+    .from(recettes)
+    .where(eq(recettes.category, "resine_cbd" as any));
+  
+  const result = await Promise.all(
+    recettesCBD.map(async (recette: any) => {
+      const mols = await db
+        .select({
+          molecule: molecules,
+          proportion: moleculesRecettes.proportion,
+        })
+        .from(moleculesRecettes)
+        .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
+        .where(eq(moleculesRecettes.recetteId, recette.id));
+      
+      return {
+        recette,
+        molecules: mols,
+      };
+    })
+  );
+  
+  return result;
+}
+
+
+// ============================================================================
+// TERPENE SYNERGIES
+// ============================================================================
+
+export async function getAllTerpeneSynergies(): Promise<TerpeneSynergy[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(terpeneSynergies)
+    .orderBy(terpeneSynergies.terpene1Id, terpeneSynergies.terpene2Id);
+}
+
+export async function getTerpeneSynergyByPair(terpene1Id: number, terpene2Id: number): Promise<TerpeneSynergy | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Essayer dans les deux sens (t1-t2 ou t2-t1)
+  const result = await db
+    .select()
+    .from(terpeneSynergies)
+    .where(
+      or(
+        and(
+          eq(terpeneSynergies.terpene1Id, terpene1Id),
+          eq(terpeneSynergies.terpene2Id, terpene2Id)
+        ),
+        and(
+          eq(terpeneSynergies.terpene1Id, terpene2Id),
+          eq(terpeneSynergies.terpene2Id, terpene1Id)
+        )
+      )
+    )
+    .limit(1);
+  
+  return result[0] || null;
+}
+
+
+// ============================================================================
+// USER NOTES
+// ============================================================================
+
+export async function createUserNote(entityType: string, entityId: number, content: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(userNotes).values({
+    entityType,
+    entityId,
+    content,
+  });
+  
+  return { id: Number((result as any).insertId) };
+}
+
+export async function updateUserNote(id: number, content: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db
+    .update(userNotes)
+    .set({ content, updatedAt: new Date() })
+    .where(eq(userNotes.id, id));
+  
+  return { success: true };
+}
+
+export async function deleteUserNote(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.delete(userNotes).where(eq(userNotes.id, id));
+  
+  return { success: true };
+}
+
+export async function getUserNoteByEntity(entityType: string, entityId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(userNotes)
+    .where(
+      and(
+        eq(userNotes.entityType, entityType),
+        eq(userNotes.entityId, entityId)
+      )
+    )
+    .limit(1);
+  
+  return result[0] || null;
+}
+
+export async function searchUserNotes(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select()
+    .from(userNotes)
+    .where(like(userNotes.content, `%${query}%`))
+    .orderBy(desc(userNotes.updatedAt))
+    .limit(20);
+  
+  return result;
+}
+
+
+// ============================================================================
+// SIMILARITY & RECOMMENDATIONS
+// ============================================================================
+
+/**
+ * Calcule la distance euclidienne entre deux profils radar
+ * Plus la distance est petite, plus les profils sont similaires
+ */
+function calculateRadarSimilarity(mol1: Molecule, mol2: Molecule): number {
+  const axes = [
+    'radarIntensity',
+    'radarFreshness',
+    'radarWarmth',
+    'radarSweetness',
+    'radarSpiciness',
+    'radarEarthiness',
+  ] as const;
+
+  let sumSquares = 0;
+  for (const axis of axes) {
+    const val1 = (mol1[axis] as number) || 50;
+    const val2 = (mol2[axis] as number) || 50;
+    sumSquares += Math.pow(val1 - val2, 2);
+  }
+
+  const distance = Math.sqrt(sumSquares);
+  // Normaliser sur 100 (distance max = sqrt(6 * 100^2) ≈ 245)
+  // Score de similarité : 100 = identique, 0 = très différent
+  return Math.max(0, 100 - (distance / 245) * 100);
+}
+
+export async function getSimilarMolecules(moleculeId: number, limit: number = 3) {
+  const db = await getDb();
+  if (!db) return [];
+
+  // Récupérer la molécule de référence
+  const reference = await db
+    .select()
+    .from(molecules)
+    .where(eq(molecules.id, moleculeId))
+    .limit(1);
+
+  if (!reference[0]) return [];
+
+  // Récupérer toutes les autres molécules avec profils radar
+  const allMolecules = await db
+    .select()
+    .from(molecules)
+    .where(sql`${molecules.radarIntensity} IS NOT NULL`);
+
+  // Calculer similarité pour chaque molécule
+  const withSimilarity = allMolecules
+    .filter((mol) => mol.id !== moleculeId)
+    .map((mol) => ({
+      ...mol,
+      similarityScore: calculateRadarSimilarity(reference[0], mol),
+    }))
+    .sort((a, b) => b.similarityScore - a.similarityScore)
+    .slice(0, limit);
+
+  return withSimilarity;
+}
+
+export async function getMoleculeUsageStats(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return { recettesCount: 0, accordsCount: 0 };
+
+  // TODO: implémenter quand table de liaison molecules_recettes sera créée
+  // Pour l'instant retourner 0
+  return {
+    recettesCount: 0,
+    accordsCount: 0,
+  };
+}
+
+
+// ============================================================================
+// GET ALL MOLECULE-RECETTE RELATIONSHIPS FOR CORRELATION ANALYSIS
+// ============================================================================
+
+export async function getAllMoleculeRecetteRelationships() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  const relationships = await db
+    .select({
+      moleculeId: moleculesRecettes.moleculeId,
+      recetteId: moleculesRecettes.recetteId,
+      proportion: moleculesRecettes.proportion,
+    })
+    .from(moleculesRecettes);
+  
+  return relationships;
+}
+
+
+
+// ============================================================================
+// ANALYTICS & STATISTICS
+// ============================================================================
+
+/**
+ * Track an analytics event
+ */
+export async function trackEvent(
+  eventType: 'molecule_view' | 'recipe_view' | 'terpene_view' | 'pdf_export' | 'favorite_add' | 'favorite_remove' | 'search_query',
+  entityType?: string,
+  entityId?: number,
+  userId?: number,
+  metadata?: Record<string, any>
+) {
+  const db = await getDb();
+  if (!db) return;
+
+  await db.insert(analyticsEvents).values({
+    eventType,
+    entityType: entityType || null,
+    entityId: entityId || null,
+    userId: userId || null,
+    metadata: metadata ? JSON.stringify(metadata) : null,
+  });
+}
+
+/**
+ * Get most viewed molecules in the last N days
+ */
+export async function getMostViewedMolecules(days: number = 30, limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const views = await db
+    .select({
+      entityId: analyticsEvents.entityId,
+      viewCount: sql<number>`COUNT(*)`.as('view_count'),
+    })
+    .from(analyticsEvents)
+    .where(
+      and(
+        eq(analyticsEvents.eventType, 'molecule_view'),
+        gte(analyticsEvents.createdAt, cutoffDate)
+      )
+    )
+    .groupBy(analyticsEvents.entityId)
+    .orderBy(desc(sql`view_count`))
+    .limit(limit);
+
+  // Fetch molecule details
+  const moleculeIds = views.map(v => v.entityId).filter((id): id is number => id !== null);
+  if (moleculeIds.length === 0) return [];
+
+  const moleculeDetails = await db
+    .select()
+    .from(molecules)
+    .where(inArray(molecules.id, moleculeIds));
+
+  return views.map(v => ({
+    ...moleculeDetails.find(m => m.id === v.entityId),
+    viewCount: v.viewCount,
+  })).filter(m => m.id !== undefined);
+}
+
+/**
+ * Get most viewed recipes in the last N days
+ */
+export async function getMostViewedRecipes(days: number = 30, limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const views = await db
+    .select({
+      entityId: analyticsEvents.entityId,
+      viewCount: sql<number>`COUNT(*)`.as('view_count'),
+    })
+    .from(analyticsEvents)
+    .where(
+      and(
+        eq(analyticsEvents.eventType, 'recipe_view'),
+        gte(analyticsEvents.createdAt, cutoffDate)
+      )
+    )
+    .groupBy(analyticsEvents.entityId)
+    .orderBy(desc(sql`view_count`))
+    .limit(limit);
+
+  const recipeIds = views.map(v => v.entityId).filter((id): id is number => id !== null);
+  if (recipeIds.length === 0) return [];
+
+  const recipeDetails = await db
+    .select()
+    .from(recettes)
+    .where(inArray(recettes.id, recipeIds));
+
+  return views.map(v => ({
+    ...recipeDetails.find(r => r.id === v.entityId),
+    viewCount: v.viewCount,
+  })).filter(r => r.id !== undefined);
+}
+
+/**
+ * Get activity timeline (events per day for the last N days)
+ */
+export async function getActivityTimeline(days: number = 30) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const timeline = await db
+    .select({
+      date: sql<string>`DATE(created_at)`.as('date'),
+      eventCount: sql<number>`COUNT(*)`.as('event_count'),
+    })
+    .from(analyticsEvents)
+    .where(gte(analyticsEvents.createdAt, cutoffDate))
+    .groupBy(sql`DATE(created_at)`)
+    .orderBy(sql`DATE(created_at)`);
+
+  return timeline;
+}
+
+/**
+ * Get popular search queries
+ */
+export async function getPopularSearches(days: number = 30, limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const searches = await db
+    .select({
+      query: analyticsEvents.metadata,
+      searchCount: sql<number>`COUNT(*)`.as('search_count'),
+    })
+    .from(analyticsEvents)
+    .where(
+      and(
+        eq(analyticsEvents.eventType, 'search_query'),
+        gte(analyticsEvents.createdAt, cutoffDate)
+      )
+    )
+    .groupBy(analyticsEvents.metadata)
+    .orderBy(desc(sql`search_count`))
+    .limit(limit);
+
+  return searches.map(s => ({
+    query: s.query ? JSON.parse(s.query).query : 'Unknown',
+    count: s.searchCount,
+  }));
+}
+
+/**
+ * Get analytics dashboard statistics
+ */
+export async function getAnalyticsDashboardStats(days: number = 30) {
+  const db = await getDb();
+  if (!db) return {
+    totalViews: 0,
+    totalExports: 0,
+    totalSearches: 0,
+    totalFavorites: 0,
+  };
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - days);
+
+  const [views, exports, searches, favorites] = await Promise.all([
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(analyticsEvents)
+      .where(
+        and(
+          inArray(analyticsEvents.eventType, ['molecule_view', 'recipe_view', 'terpene_view']),
+          gte(analyticsEvents.createdAt, cutoffDate)
+        )
+      ),
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(analyticsEvents)
+      .where(
+        and(
+          eq(analyticsEvents.eventType, 'pdf_export'),
+          gte(analyticsEvents.createdAt, cutoffDate)
+        )
+      ),
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(analyticsEvents)
+      .where(
+        and(
+          eq(analyticsEvents.eventType, 'search_query'),
+          gte(analyticsEvents.createdAt, cutoffDate)
+        )
+      ),
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(analyticsEvents)
+      .where(
+        and(
+          eq(analyticsEvents.eventType, 'favorite_add'),
+          gte(analyticsEvents.createdAt, cutoffDate)
+        )
+      ),
+  ]);
+
+  return {
+    totalViews: views[0]?.count || 0,
+    totalExports: exports[0]?.count || 0,
+    totalSearches: searches[0]?.count || 0,
+    totalFavorites: favorites[0]?.count || 0,
+  };
+}
+
+// ============================================================================
+// RECETTES CRUD OPERATIONS
+// ============================================================================
+
+export async function createRecette(data: InsertRecette): Promise<Recette> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  const result = await db.insert(recettes).values(data);
+  const insertedId = Number((result as any)[0]?.insertId || 0);
+  
+  const created = await getRecetteById(insertedId);
+  if (!created) throw new Error('Failed to retrieve created recette');
+  
+  return created;
+}
+
+export async function updateRecette(id: number, data: Partial<InsertRecette>): Promise<Recette> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  await db.update(recettes).set(data).where(eq(recettes.id, id));
+  
+  const updated = await getRecetteById(id);
+  if (!updated) throw new Error('Recette not found after update');
+  
+  return updated;
+}
+
+export async function deleteRecette(id: number): Promise<{ success: boolean }> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Delete related records first (moleculesRecettes junction table)
+  await db.delete(moleculesRecettes).where(eq(moleculesRecettes.recetteId, id));
+  
+  // Delete the recette
+  await db.delete(recettes).where(eq(recettes.id, id));
+  
+  return { success: true };
+}
+
+
+// ============================================================================
+// MOLECULES RADAR UPDATE
+// ============================================================================
+
+export async function updateMoleculeRadar(data: {
+  id: number;
+  radarIntensity: number;
+  radarFreshness: number;
+  radarWarmth: number;
+  radarSweetness: number;
+  radarSpiciness: number;
+  radarEarthiness: number;
+}): Promise<Molecule> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  await db.update(molecules).set({
+    radarIntensity: data.radarIntensity,
+    radarFreshness: data.radarFreshness,
+    radarWarmth: data.radarWarmth,
+    radarSweetness: data.radarSweetness,
+    radarSpiciness: data.radarSpiciness,
+    radarEarthiness: data.radarEarthiness,
+  }).where(eq(molecules.id, data.id));
+  
+  const updated = await getMoleculeById(data.id);
+  if (!updated) throw new Error('Molecule not found after update');
+  
+  return updated;
+}
+
+
+// ============================================================================
+// SYNERGIES GRAPH DATA
+// ============================================================================
+
+export async function getSynergyById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select({
+      id: synergies.id,
+      name: synergies.name,
+      type: synergies.type,
+      effet: synergies.effet,
+      notes: synergies.notes,
+      tabacId: synergies.tabacId,
+      tabacName: tabacs.name,
+      moleculeId: synergies.moleculeId,
+      moleculeName: molecules.name,
+      familleId: synergies.familleId,
+      familleName: families.name,
+      createdAt: synergies.createdAt,
+    })
+    .from(synergies)
+    .leftJoin(tabacs, eq(synergies.tabacId, tabacs.id))
+    .leftJoin(molecules, eq(synergies.moleculeId, molecules.id))
+    .leftJoin(families, eq(synergies.familleId, families.id))
+    .where(eq(synergies.id, id))
+    .limit(1);
+  
+  return result[0];
+}
+
+export async function getSynergiesGraphData() {
+  const db = await getDb();
+  if (!db) return { nodes: [], edges: [] };
+  
+  // Récupérer toutes les synergies avec leurs relations
+  const allSynergies = await getAllSynergies();
+  
+  // Créer les nœuds et arêtes pour le graphe
+  const nodesMap = new Map<string, { id: string; name: string; type: 'molecule' | 'tabac' | 'famille' }>();
+  const edges: Array<{ source: string; target: string; synergyType: string; synergyName: string; effet: string | null }> = [];
+  
+  for (const synergy of allSynergies) {
+    // Ajouter les nœuds (molécule, tabac, famille)
+    if (synergy.moleculeId && synergy.moleculeName) {
+      nodesMap.set(`mol-${synergy.moleculeId}`, { 
+        id: `mol-${synergy.moleculeId}`, 
+        name: synergy.moleculeName, 
+        type: 'molecule' 
+      });
+    }
+    
+    if (synergy.tabacId && synergy.tabacName) {
+      nodesMap.set(`tab-${synergy.tabacId}`, { 
+        id: `tab-${synergy.tabacId}`, 
+        name: synergy.tabacName, 
+        type: 'tabac' 
+      });
+    }
+    
+    if (synergy.familleId && synergy.familleName) {
+      nodesMap.set(`fam-${synergy.familleId}`, { 
+        id: `fam-${synergy.familleId}`, 
+        name: synergy.familleName, 
+        type: 'famille' 
+      });
+    }
+    
+    // Créer les arêtes entre les nœuds
+    if (synergy.moleculeId && synergy.tabacId) {
+      edges.push({
+        source: `mol-${synergy.moleculeId}`,
+        target: `tab-${synergy.tabacId}`,
+        synergyType: synergy.type,
+        synergyName: synergy.name,
+        effet: synergy.effet
+      });
+    }
+    
+    if (synergy.moleculeId && synergy.familleId) {
+      edges.push({
+        source: `mol-${synergy.moleculeId}`,
+        target: `fam-${synergy.familleId}`,
+        synergyType: synergy.type,
+        synergyName: synergy.name,
+        effet: synergy.effet
+      });
+    }
+    
+    if (synergy.tabacId && synergy.familleId) {
+      edges.push({
+        source: `tab-${synergy.tabacId}`,
+        target: `fam-${synergy.familleId}`,
+        synergyType: synergy.type,
+        synergyName: synergy.name,
+        effet: synergy.effet
+      });
+    }
+  }
+  
+  return {
+    nodes: Array.from(nodesMap.values()),
+    edges
+  };
+}
+
+
+// ============================================================================
+// SUGGESTIONS AUTOMATIQUES DE SYNERGIES
+// ============================================================================
+
+/**
+ * Calcule la distance euclidienne entre deux profils radar (6 dimensions)
+ * Retourne une valeur entre 0 (identiques) et ~245 (opposés complets)
+ */
+function calculateRadarDistance(mol1: Record<string, any>, mol2: Record<string, any>): number {
+  const sumSquares = 
+    Math.pow((mol1.radarIntensity || 0) - (mol2.radarIntensity || 0), 2) +
+    Math.pow((mol1.radarFreshness || 0) - (mol2.radarFreshness || 0), 2) +
+    Math.pow((mol1.radarWarmth || 0) - (mol2.radarWarmth || 0), 2) +
+    Math.pow((mol1.radarSweetness || 0) - (mol2.radarSweetness || 0), 2) +
+    Math.pow((mol1.radarSpiciness || 0) - (mol2.radarSpiciness || 0), 2) +
+    Math.pow((mol1.radarEarthiness || 0) - (mol2.radarEarthiness || 0), 2);
+  
+  return Math.sqrt(sumSquares);
+}
+
+/**
+ * Convertit la distance euclidienne en score de similarité (0-100%)
+ * Distance 0 = 100% similaire
+ * Distance 245 (max théorique) = 0% similaire
+ */
+function distanceToSimilarity(distance: number): number {
+  const maxDistance = Math.sqrt(6 * Math.pow(100, 2)); // ~245
+  return Math.max(0, Math.min(100, 100 * (1 - distance / maxDistance)));
+}
+
+/**
+ * Génère des suggestions de synergies potentielles basées sur la similarité des profils radar
+ * @param minSimilarity Seuil minimum de similarité (0-100), défaut 70%
+ * @param limit Nombre maximum de suggestions, défaut 10
+ */
+export async function getSynergySuggestions(minSimilarity: number = 70, limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Récupérer toutes les molécules avec profils radar complets
+  const allMolecules = await db
+    .select()
+    .from(molecules)
+    .where(
+      and(
+        not(isNull(molecules.radarIntensity)),
+        not(isNull(molecules.radarFreshness)),
+        not(isNull(molecules.radarWarmth)),
+        not(isNull(molecules.radarSweetness)),
+        not(isNull(molecules.radarSpiciness)),
+        not(isNull(molecules.radarEarthiness))
+      )
+    );
+  
+  if (allMolecules.length < 2) return [];
+  
+  // Calculer toutes les paires possibles avec leur similarité
+  const suggestions: Array<{
+    molecule1Id: number;
+    molecule1Name: string;
+    molecule2Id: number;
+    molecule2Name: string;
+    similarity: number;
+    distance: number;
+    radarProfile1: any;
+    radarProfile2: any;
+    explanation: string;
+  }> = [];
+  
+  for (let i = 0; i < allMolecules.length; i++) {
+    for (let j = i + 1; j < allMolecules.length; j++) {
+      const mol1 = allMolecules[i];
+      const mol2 = allMolecules[j];
+      
+      const distance = calculateRadarDistance(mol1, mol2);
+      const similarity = distanceToSimilarity(distance);
+      
+      if (similarity >= minSimilarity) {
+        // Identifier les axes similaires (différence < 20)
+        const similarAxes: string[] = [];
+        // Vérifier chaque axe individuellement
+        if (Math.abs((mol1.radarIntensity || 0) - (mol2.radarIntensity || 0)) < 20) similarAxes.push('Intensité');
+        if (Math.abs((mol1.radarFreshness || 0) - (mol2.radarFreshness || 0)) < 20) similarAxes.push('Fraîcheur');
+        if (Math.abs((mol1.radarWarmth || 0) - (mol2.radarWarmth || 0)) < 20) similarAxes.push('Chaleur');
+        if (Math.abs((mol1.radarSweetness || 0) - (mol2.radarSweetness || 0)) < 20) similarAxes.push('Douceur');
+        if (Math.abs((mol1.radarSpiciness || 0) - (mol2.radarSpiciness || 0)) < 20) similarAxes.push('Épices');
+        if (Math.abs((mol1.radarEarthiness || 0) - (mol2.radarEarthiness || 0)) < 20) similarAxes.push('Terreux');
+        
+        const explanation = similarAxes.length > 0
+          ? `Profils similaires sur ${similarAxes.join(', ')}`
+          : 'Profils complémentaires';
+        
+        suggestions.push({
+          molecule1Id: mol1.id,
+          molecule1Name: mol1.name,
+          molecule2Id: mol2.id,
+          molecule2Name: mol2.name,
+          similarity: Math.round(similarity * 10) / 10,
+          distance: Math.round(distance * 10) / 10,
+          radarProfile1: {
+            intensity: mol1.radarIntensity,
+            freshness: mol1.radarFreshness,
+            warmth: mol1.radarWarmth,
+            sweetness: mol1.radarSweetness,
+            spiciness: mol1.radarSpiciness,
+            earthiness: mol1.radarEarthiness
+          },
+          radarProfile2: {
+            intensity: mol2.radarIntensity,
+            freshness: mol2.radarFreshness,
+            warmth: mol2.radarWarmth,
+            sweetness: mol2.radarSweetness,
+            spiciness: mol2.radarSpiciness,
+            earthiness: mol2.radarEarthiness
+          },
+          explanation
+        });
+      }
+    }
+  }
+  
+  // Trier par similarité décroissante et limiter
+  return suggestions
+    .sort((a, b) => b.similarity - a.similarity)
+    .slice(0, limit);
+}
+
+
+// ============================================================================
+// ENRICHISSEMENT DES DONNÉES MOLÉCULES
+// ============================================================================
+
+// Dictionnaire de données scientifiques connues
+const knownMoleculeData: Record<string, { molecularWeight?: number; boilingPoint?: number; family?: string }> = {
+  'limonène': { molecularWeight: 136, boilingPoint: 176, family: 'Monoterpène' },
+  'limonene': { molecularWeight: 136, boilingPoint: 176, family: 'Monoterpène' },
+  'α-pinène': { molecularWeight: 136, boilingPoint: 155, family: 'Monoterpène' },
+  'pinène': { molecularWeight: 136, boilingPoint: 155, family: 'Monoterpène' },
+  'β-pinène': { molecularWeight: 136, boilingPoint: 166, family: 'Monoterpène' },
+  'myrcène': { molecularWeight: 136, boilingPoint: 167, family: 'Monoterpène' },
+  'linalol': { molecularWeight: 154, boilingPoint: 198, family: 'Monoterpénol' },
+  'linalool': { molecularWeight: 154, boilingPoint: 198, family: 'Monoterpénol' },
+  'géraniol': { molecularWeight: 154, boilingPoint: 230, family: 'Monoterpénol' },
+  'terpinéol': { molecularWeight: 154, boilingPoint: 219, family: 'Monoterpénol' },
+  'menthol': { molecularWeight: 156, boilingPoint: 212, family: 'Monoterpénol' },
+  'eucalyptol': { molecularWeight: 154, boilingPoint: 176, family: 'Oxyde terpénique' },
+  'camphre': { molecularWeight: 152, boilingPoint: 204, family: 'Cétone terpénique' },
+  'caryophyllène': { molecularWeight: 204, boilingPoint: 262, family: 'Sesquiterpène' },
+  'β-caryophyllène': { molecularWeight: 204, boilingPoint: 262, family: 'Sesquiterpène' },
+  'humulène': { molecularWeight: 204, boilingPoint: 166, family: 'Sesquiterpène' },
+  'bisabolol': { molecularWeight: 222, boilingPoint: 153, family: 'Sesquiterpénol' },
+  'farnesol': { molecularWeight: 222, boilingPoint: 283, family: 'Sesquiterpénol' },
+  'vétiver': { molecularWeight: 218, boilingPoint: 290, family: 'Sesquiterpène' },
+  'patchouli': { molecularWeight: 222, boilingPoint: 287, family: 'Sesquiterpénol' },
+  'citral': { molecularWeight: 152, boilingPoint: 229, family: 'Aldéhyde terpénique' },
+  'vanilline': { molecularWeight: 152, boilingPoint: 285, family: 'Aldéhyde aromatique' },
+  'cinnamaldéhyde': { molecularWeight: 132, boilingPoint: 248, family: 'Aldéhyde aromatique' },
+  'eugénol': { molecularWeight: 164, boilingPoint: 254, family: 'Phénol' },
+  'thymol': { molecularWeight: 150, boilingPoint: 232, family: 'Phénol' },
+  'coumarine': { molecularWeight: 146, boilingPoint: 301, family: 'Lactone' },
+  'géosmine': { molecularWeight: 182, boilingPoint: 270, family: 'Alcool bicyclique' },
+  'ambroxan': { molecularWeight: 236, boilingPoint: 320, family: 'Ambre synthétique' },
+  'indole': { molecularWeight: 117, boilingPoint: 254, family: 'Hétérocycle azoté' },
+  'skatole': { molecularWeight: 131, boilingPoint: 265, family: 'Hétérocycle azoté' },
+  'acide hexanoïque': { molecularWeight: 116, boilingPoint: 205, family: 'Acide gras' },
+  'acide butyrique': { molecularWeight: 88, boilingPoint: 164, family: 'Acide gras' },
+  'pyrazine': { molecularWeight: 80, boilingPoint: 115, family: 'Pyrazine' },
+  'furfural': { molecularWeight: 96, boilingPoint: 162, family: 'Furane' },
+};
+
+function estimatePropertiesFromProfile(name: string, profile: string | null): { molecularWeight: number; boilingPoint: number; family: string } {
+  const nameLower = name.toLowerCase();
+  const profileLower = (profile || '').toLowerCase();
+  
+  // Chercher dans le dictionnaire
+  for (const [key, data] of Object.entries(knownMoleculeData)) {
+    if (nameLower.includes(key) || key.includes(nameLower)) {
+      return {
+        molecularWeight: data.molecularWeight || 150,
+        boilingPoint: data.boilingPoint || 200,
+        family: data.family || 'Non classé',
+      };
+    }
+  }
+  
+  // Estimation basée sur les mots-clés
+  let molecularWeight = 150;
+  let boilingPoint = 200;
+  let family = 'Non classé';
+  
+  if (profileLower.includes('citron') || profileLower.includes('agrume')) {
+    molecularWeight = 136; boilingPoint = 176; family = 'Monoterpène';
+  } else if (profileLower.includes('bois') || profileLower.includes('cèdre')) {
+    molecularWeight = 204; boilingPoint = 260; family = 'Sesquiterpène';
+  } else if (profileLower.includes('floral') || profileLower.includes('rose')) {
+    molecularWeight = 154; boilingPoint = 220; family = 'Monoterpénol';
+  } else if (profileLower.includes('vanille') || profileLower.includes('sucré')) {
+    molecularWeight = 152; boilingPoint = 250; family = 'Aldéhyde';
+  } else if (profileLower.includes('épic') || profileLower.includes('clou')) {
+    molecularWeight = 164; boilingPoint = 245; family = 'Phénol';
+  } else if (profileLower.includes('terre') || profileLower.includes('mousse')) {
+    molecularWeight = 182; boilingPoint = 270; family = 'Alcool bicyclique';
+  } else if (profileLower.includes('musc') || profileLower.includes('ambre')) {
+    molecularWeight = 250; boilingPoint = 310; family = 'Musc synthétique';
+  } else if (profileLower.includes('menthe') || profileLower.includes('frais')) {
+    molecularWeight = 156; boilingPoint = 212; family = 'Monoterpénol';
+  }
+  
+  // Variation basée sur le nom
+  const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  molecularWeight += (hash % 30) - 15;
+  boilingPoint += (hash % 40) - 20;
+  
+  return { molecularWeight, boilingPoint, family };
+}
+
+export async function enrichMoleculeData() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Récupérer les molécules avec données manquantes
+  const moleculesWithMissingData = await db.select().from(molecules).where(
+    or(
+      eq(molecules.molecularWeight, 0),
+      isNull(molecules.molecularWeight),
+      eq(molecules.boilingPoint, 0),
+      isNull(molecules.boilingPoint),
+      eq(molecules.family, ''),
+      isNull(molecules.family)
+    )
+  );
+  
+  let updated = 0;
+  const results: { name: string; molecularWeight: number; boilingPoint: number; family: string }[] = [];
+  
+  for (const mol of moleculesWithMissingData) {
+    const estimated = estimatePropertiesFromProfile(mol.name, mol.olfactiveProfile);
+    
+    const updateData: Partial<typeof molecules.$inferInsert> = {};
+    
+    if (!mol.molecularWeight || mol.molecularWeight === 0) {
+      updateData.molecularWeight = estimated.molecularWeight;
+    }
+    
+    if (!mol.boilingPoint || mol.boilingPoint === 0) {
+      updateData.boilingPoint = estimated.boilingPoint;
+    }
+    
+    if (!mol.family || mol.family === '') {
+      updateData.family = estimated.family;
+    }
+    
+    // Calculer volatilité
+    if (!mol.volatility || mol.volatility === 0) {
+      const bp = mol.boilingPoint || estimated.boilingPoint;
+      updateData.volatility = Math.round(Math.max(20, Math.min(95, 100 - (bp - 100) * 0.35)));
+    }
+    
+    // Calculer intensité
+    if (!mol.intensity || mol.intensity === 0) {
+      let intensity = 50;
+      const family = (mol.family || estimated.family).toLowerCase();
+      if (family.includes('aldéhyde') || family.includes('phénol')) intensity = 75;
+      else if (family.includes('musc') || family.includes('ambre')) intensity = 85;
+      else if (family.includes('monoterpène')) intensity = 55;
+      else if (family.includes('sesquiterpène')) intensity = 65;
+      
+      const hash = mol.name.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+      intensity += (hash % 20) - 10;
+      updateData.intensity = Math.round(Math.max(30, Math.min(95, intensity)));
+    }
+    
+    if (Object.keys(updateData).length > 0) {
+      await db.update(molecules).set(updateData).where(eq(molecules.id, mol.id));
+      updated++;
+      results.push({
+        name: mol.name,
+        molecularWeight: updateData.molecularWeight || mol.molecularWeight || 0,
+        boilingPoint: updateData.boilingPoint || mol.boilingPoint || 0,
+        family: updateData.family || mol.family || 'Non classé',
+      });
+    }
+  }
+  
+  return { updated, results };
+}
+
+
+// ============================================================================
+// COMPARE RECETTES - TOUTES LES RECETTES AVEC MOLÉCULES
+// ============================================================================
+
+export async function getAllRecettesWithMoleculesForCompare(recetteIds: number[]) {
+  const db = await getDb();
+  if (!db || recetteIds.length === 0) return [];
+  
+  const result = await Promise.all(
+    recetteIds.map(async (recetteId) => {
+      const recette = await db
+        .select()
+        .from(recettes)
+        .where(eq(recettes.id, recetteId))
+        .limit(1);
+      
+      if (recette.length === 0) return null;
+      
+      const mols = await db
+        .select({
+          molecule: molecules,
+          proportion: moleculesRecettes.proportion,
+        })
+        .from(moleculesRecettes)
+        .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
+        .where(eq(moleculesRecettes.recetteId, recetteId));
+      
+      return {
+        recette: recette[0],
+        molecules: mols,
+      };
+    })
+  );
+  
+  return result.filter(r => r !== null);
+}
+
+
+// ============================================================================
+// BATCH INSERT MOLECULES-RECETTES ASSOCIATIONS
+// ============================================================================
+
+export async function insertMoleculeRecetteAssociation(
+  recetteId: number,
+  moleculeId: number,
+  proportion: number,
+  notes?: string
+): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  try {
+    await db.insert(moleculesRecettes).values({
+      recetteId,
+      moleculeId,
+      proportion: proportion.toString(),
+      notes: notes || 'Auto-généré',
+    }).onDuplicateKeyUpdate({
+      set: {
+        proportion: proportion.toString(),
+        notes: notes || 'Auto-généré',
+      }
+    });
+    return true;
+  } catch (error) {
+    console.error(`Error inserting association ${recetteId}-${moleculeId}:`, error);
+    return false;
+  }
+}
+
+export async function batchInsertMoleculeRecetteAssociations(
+  associations: Array<{ recetteId: number; moleculeId: number; proportion: number; notes?: string }>
+): Promise<{ success: number; failed: number }> {
+  const db = await getDb();
+  if (!db) return { success: 0, failed: associations.length };
+  
+  let success = 0;
+  let failed = 0;
+  
+  for (const assoc of associations) {
+    const result = await insertMoleculeRecetteAssociation(
+      assoc.recetteId,
+      assoc.moleculeId,
+      assoc.proportion,
+      assoc.notes
+    );
+    if (result) success++;
+    else failed++;
+  }
+  
+  return { success, failed };
+}
+
+// Récupérer les recettes sans associations pour une gamme
+export async function getRecettesWithoutMoleculesByGamme(gamme: 'volcanique' | 'glaciaire' | 'biolab' | 'petrichor'): Promise<Recette[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Conditions par gamme
+  const conditions: Record<string, ReturnType<typeof or>> = {
+    volcanique: or(
+      like(recettes.name, '%Volcanique%'),
+      like(recettes.name, '%Fumé%'),
+      like(recettes.name, '%Pyrolyse%'),
+      eq(recettes.category, 'tabac')
+    ),
+    glaciaire: or(
+      like(recettes.name, '%Glaciaire%'),
+      like(recettes.name, '%Frais%'),
+      like(recettes.name, '%Ozone%'),
+      like(recettes.name, '%Menthe%')
+    ),
+    biolab: or(
+      like(recettes.name, '%Bio%'),
+      like(recettes.name, '%CBD%'),
+      like(recettes.name, '%Résine%'),
+      eq(recettes.category, 'resine_cbd')
+    ),
+    petrichor: or(
+      like(recettes.name, '%Pétrichor%'),
+      like(recettes.name, '%Terre%'),
+      like(recettes.name, '%Minéral%')
+    ),
+  };
+  
+  const condition = conditions[gamme];
+  if (!condition) return [];
+  
+  // Récupérer les recettes qui n'ont pas d'associations
+  const allRecettes = await db.select().from(recettes).where(condition);
+  
+  const recettesWithoutMolecules: Recette[] = [];
+  
+  for (const recette of allRecettes) {
+    const associations = await db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(moleculesRecettes)
+      .where(eq(moleculesRecettes.recetteId, recette.id));
+    
+    if (associations[0]?.count === 0) {
+      recettesWithoutMolecules.push(recette);
+    }
+  }
+  
+  return recettesWithoutMolecules;
+}
+
+// Récupérer les molécules par profil olfactif pour une gamme
+export async function getMoleculesForGamme(gamme: 'volcanique' | 'glaciaire' | 'biolab' | 'petrichor'): Promise<Molecule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Mots-clés par gamme
+  const keywords: Record<string, string[]> = {
+    volcanique: ['fumé', 'boisé', 'torréfié', 'grillé', 'cuir', 'goudron', 'brûlé', 'caramel'],
+    glaciaire: ['frais', 'marin', 'ozone', 'menthe', 'agrume', 'citron', 'pin', 'conifère'],
+    biolab: ['herbacé', 'terreux', 'houblon', 'épicé', 'poivre', 'boisé', 'lavande', 'floral'],
+    petrichor: ['terre', 'pluie', 'minéral', 'racine', 'ambre', 'cèdre', 'mousse', 'humide'],
+  };
+  
+  const gammeKeywords = keywords[gamme] || [];
+  if (gammeKeywords.length === 0) return [];
+  
+  // Construire les conditions LIKE pour chaque mot-clé
+  const allMolecules = await db.select().from(molecules);
+  
+  return allMolecules.filter(mol => {
+    const profile = (mol.olfactiveProfile || '').toLowerCase();
+    const name = mol.name.toLowerCase();
+    return gammeKeywords.some(kw => profile.includes(kw) || name.includes(kw));
+  });
+}
+
+// Enrichir automatiquement les associations pour une gamme
+export async function enrichGammeAssociations(gamme: 'volcanique' | 'glaciaire' | 'biolab' | 'petrichor'): Promise<{
+  recettesProcessed: number;
+  associationsCreated: number;
+  moleculesUsed: string[];
+}> {
+  const db = await getDb();
+  if (!db) return { recettesProcessed: 0, associationsCreated: 0, moleculesUsed: [] };
+  
+  // Récupérer les recettes sans associations
+  const recettesToEnrich = await getRecettesWithoutMoleculesByGamme(gamme);
+  
+  // Récupérer les molécules appropriées pour cette gamme
+  const gammeMolecules = await getMoleculesForGamme(gamme);
+  
+  if (gammeMolecules.length === 0) {
+    console.log(`Aucune molécule trouvée pour la gamme ${gamme}`);
+    return { recettesProcessed: 0, associationsCreated: 0, moleculesUsed: [] };
+  }
+  
+  let associationsCreated = 0;
+  const moleculesUsed = new Set<string>();
+  
+  for (const recette of recettesToEnrich) {
+    // Sélectionner 3-5 molécules aléatoires pour cette recette
+    const shuffled = [...gammeMolecules].sort(() => Math.random() - 0.5);
+    const numMolecules = Math.min(shuffled.length, 3 + Math.floor(Math.random() * 3));
+    
+    for (let i = 0; i < numMolecules; i++) {
+      const mol = shuffled[i];
+      const proportion = 15 + Math.floor(Math.random() * 30); // 15-45%
+      
+      const success = await insertMoleculeRecetteAssociation(
+        recette.id,
+        mol.id,
+        proportion,
+        `Association ${gamme} auto-générée`
+      );
+      
+      if (success) {
+        associationsCreated++;
+        moleculesUsed.add(mol.name);
+      }
+    }
+  }
+  
+  return {
+    recettesProcessed: recettesToEnrich.length,
+    associationsCreated,
+    moleculesUsed: Array.from(moleculesUsed),
+  };
+}
+
+
+// ============================================================================
+// IMPORT CSV - Helper functions
+// ============================================================================
+
+export async function getMoleculeByName(name: string): Promise<Molecule | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(molecules).where(eq(molecules.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateMolecule(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(molecules)
+    .set({
+      name: data.nom || undefined,
+      chemicalFormula: data.formule || undefined,
+      family: data.familleChimique || undefined,
+      olfactiveProfile: data.noteOlfactive || undefined,
+      notes: data.description || undefined,
+    })
+    .where(eq(molecules.id, id));
+}
+
+export async function getRecetteByName(name: string): Promise<Recette | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(recettes).where(eq(recettes.name, name)).limit(1);
+  return result[0];
+}
+
+export async function getAccordByName(name: string): Promise<Accord | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(accords).where(eq(accords.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateAccord(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(accords)
+    .set({
+      name: data.nom || undefined,
+      description: data.description || undefined,
+      familyId: data.familleId || undefined,
+    })
+    .where(eq(accords.id, id));
+}
+
+export async function getFamilyByName(name: string): Promise<Family | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(families).where(eq(families.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateFamily(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(families)
+    .set({
+      name: data.nom || undefined,
+      description: data.description || undefined,
+    })
+    .where(eq(families.id, id));
+}
+
+export async function getMatiereByName(name: string): Promise<Laboratoire | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(laboratoire).where(eq(laboratoire.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateMatiere(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(laboratoire)
+    .set({
+      name: data.nom || undefined,
+      type: data.type || undefined,
+      origin: data.origine || undefined,
+      supplier: data.fournisseur || undefined,
+      quantity: data.quantite || undefined,
+      unit: data.unite || undefined,
+      unitPrice: data.prixUnitaire || undefined,
+      purchaseDate: data.dateAchat || undefined,
+      notes: data.notes || undefined,
+    })
+    .where(eq(laboratoire.id, id));
+}
+
+
+// ============================================================================
+// HISTORIQUE DES MODIFICATIONS
+// ============================================================================
+
+export async function getModificationHistory(
+  entityType: string,
+  entityId: number,
+  limit: number = 50
+) {
+  return await drizzle
+    .select()
+    .from(schema.modificationHistory)
+    .where(
+      and(
+        eq(schema.modificationHistory.entityType, entityType),
+        eq(schema.modificationHistory.entityId, entityId)
+      )
+    )
+    .orderBy(desc(schema.modificationHistory.createdAt))
+    .limit(limit);
+}
+
+export async function getRecentModifications(limit: number = 100) {
+  return await drizzle
+    .select()
+    .from(schema.modificationHistory)
+    .orderBy(desc(schema.modificationHistory.createdAt))
+    .limit(limit);
+}
+
+export async function getModificationById(id: number) {
+  const results = await drizzle
+    .select()
+    .from(schema.modificationHistory)
+    .where(eq(schema.modificationHistory.id, id))
+    .limit(1);
+  
+  return results[0] || null;
+}
+
+export async function markModificationAsUndone(id: number) {
+  await drizzle
+    .update(schema.modificationHistory)
+    .set({ 
+      undoneAt: new Date(),
+    })
+    .where(eq(schema.modificationHistory.id, id));
+}
+
+export async function recordModification(
+  entityType: string,
+  entityId: number,
+  action: "create" | "update" | "delete",
+  oldData: any,
+  newData: any
+) {
+  await drizzle.insert(schema.modificationHistory).values({
+    entityType,
+    entityId,
+    action,
+    oldData: JSON.stringify(oldData),
+    newData: JSON.stringify(newData),
+    createdAt: new Date(),
+  });
+}
+
+
+// ============================================================================
+// SUPPLIERS (Fournisseurs)
+// ============================================================================
+
+/**
+ * Get all suppliers
+ */
+export async function getAllSuppliers() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.suppliers.findMany();
+}
+
+/**
+ * Get supplier by ID
+ */
+export async function getSupplierById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return await db.query.suppliers.findFirst({
+    where: (suppliers, { eq }) => eq(suppliers.id, id),
+    with: {
+      materials: true,
+    },
+  });
+}
+
+/**
+ * Get suppliers by country
+ */
+export async function getSuppliersByCountry(country: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.suppliers.findMany({
+    where: (suppliers, { eq }) => eq(suppliers.country, country),
+  });
+}
+
+/**
+ * Get suppliers by region
+ */
+export async function getSuppliersByRegion(region: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.suppliers.findMany({
+    where: (suppliers, { eq }) => eq(suppliers.region, region),
+  });
+}
+
+/**
+ * Create a new supplier
+ */
+export async function createSupplier(data: {
+  name: string;
+  companyName?: string;
+  country: string;
+  region?: string;
+  email?: string;
+  phone?: string;
+  website?: string;
+  specialties?: string[];
+  description?: string;
+  rating?: number;
+  certifications?: string[];
+  isPreferred?: boolean;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(suppliers).values({
+    name: data.name,
+    companyName: data.companyName,
+    country: data.country,
+    region: data.region,
+    email: data.email,
+    phone: data.phone,
+    website: data.website,
+    specialties: data.specialties ? JSON.stringify(data.specialties) : null,
+    description: data.description,
+    rating: data.rating,
+    certifications: data.certifications ? JSON.stringify(data.certifications) : null,
+    isPreferred: data.isPreferred ? 1 : 0,
+    notes: data.notes,
+  });
+  return result;
+}
+
+/**
+ * Update a supplier
+ */
+export async function updateSupplier(id: number, data: Partial<{
+  name: string;
+  companyName: string;
+  country: string;
+  region: string;
+  email: string;
+  phone: string;
+  website: string;
+  specialties: string[];
+  description: string;
+  rating: number;
+  certifications: string[];
+  isPreferred: boolean;
+  notes: string;
+}>) {
+  const updateData: any = {};
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.companyName !== undefined) updateData.companyName = data.companyName;
+  if (data.country !== undefined) updateData.country = data.country;
+  if (data.region !== undefined) updateData.region = data.region;
+  if (data.email !== undefined) updateData.email = data.email;
+  if (data.phone !== undefined) updateData.phone = data.phone;
+  if (data.website !== undefined) updateData.website = data.website;
+  if (data.specialties !== undefined) updateData.specialties = JSON.stringify(data.specialties);
+  if (data.description !== undefined) updateData.description = data.description;
+  if (data.rating !== undefined) updateData.rating = data.rating;
+  if (data.certifications !== undefined) updateData.certifications = JSON.stringify(data.certifications);
+  if (data.isPreferred !== undefined) updateData.isPreferred = data.isPreferred ? 1 : 0;
+  if (data.notes !== undefined) updateData.notes = data.notes;
+
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db
+    .update(suppliers)
+    .set(updateData)
+    .where(eq(suppliers.id, id));
+}
+
+/**
+ * Delete a supplier
+ */
+export async function deleteSupplier(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db
+    .delete(suppliers)
+    .where(eq(suppliers.id, id));
+}
+
+/**
+ * Get supplier materials (link between supplier and molecules)
+ */
+export async function getSupplierMaterials(supplierId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.supplierMaterials.findMany({
+    where: (materials, { eq }) => eq(materials.supplierId, supplierId),
+    with: {
+      molecule: true,
+    },
+  });
+}
+
+/**
+ * Add a material to a supplier
+ */
+export async function addSupplierMaterial(data: {
+  supplierId: number;
+  moleculeId: number;
+  pricePerUnit?: number;
+  currency?: string;
+  minimumOrderQuantity?: number;
+  unit?: string;
+  leadTimeDays?: number;
+  qualityGrade?: "standard" | "premium" | "extra_premium";
+  isAvailable?: boolean;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(supplierMaterials).values({
+    supplierId: data.supplierId,
+    moleculeId: data.moleculeId,
+    pricePerUnit: data.pricePerUnit ? String(data.pricePerUnit) : null,
+    currency: data.currency || "USD",
+    minimumOrderQuantity: data.minimumOrderQuantity,
+    unit: data.unit,
+    leadTimeDays: data.leadTimeDays,
+    qualityGrade: data.qualityGrade || "standard",
+    isAvailable: data.isAvailable !== false ? 1 : 0,
+    notes: data.notes,
+  });
+  return result;
+}
+
+
+// ============================================================================
+// FONCTIONS CREATE MANQUANTES (pour undo history)
+// ============================================================================
+
+export async function createAccord(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(accords).values({
+    name: data.nom || data.name,
+    familyId: data.familleId || data.familyId || null,
+    olfactiveProfile: data.olfactiveProfile || data.description || null,
+    notes: data.notes || null,
+  });
+  
+  return result;
+}
+
+export async function createFamily(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(families).values({
+    name: data.nom || data.name,
+    type: data.type || "other",
+    description: data.description || null,
+  });
+  
+  return result;
+}

@@ -1,0 +1,359 @@
+[
+  {
+    "term": "Hydrodistillation",
+    "category": "extraction",
+    "definition": "Méthode d'extraction utilisant la vapeur d'eau pour séparer les composés volatils des matières végétales.",
+    "examples": "Extraction d'huiles essentielles de lavande, menthe, eucalyptus",
+    "context": "Technique privilégiée pour les plantes aromatiques délicates. Température contrôlée entre 100-120°C."
+  },
+  {
+    "term": "CO₂ supercritique",
+    "category": "extraction",
+    "definition": "Extraction utilisant du dioxyde de carbone à l'état supercritique (au-delà du point critique) comme solvant.",
+    "examples": "Extraction de résines, absolus de haute qualité",
+    "context": "Méthode moderne sans résidus chimiques, préservant l'intégrité moléculaire. Pression >73 bar, température >31°C."
+  },
+  {
+    "term": "Enfleurage",
+    "category": "extraction",
+    "definition": "Technique traditionnelle d'extraction à froid utilisant des graisses pour absorber les parfums de fleurs délicates.",
+    "examples": "Jasmin, tubéreuse, fleur d'oranger",
+    "context": "Méthode historique aujourd'hui rare, utilisée pour les fleurs fragiles ne supportant pas la chaleur."
+  },
+  {
+    "term": "Fractionnement",
+    "category": "extraction",
+    "definition": "Séparation d'un extrait complexe en fractions distinctes selon leur volatilité ou polarité.",
+    "examples": "Séparation des notes de tête, cœur et fond d'une huile essentielle",
+    "context": "Permet d'isoler des molécules spécifiques ou de créer des profils olfactifs ciblés."
+  },
+  {
+    "term": "Synergie",
+    "category": "interaction",
+    "definition": "Interaction entre molécules où l'effet combiné est supérieur à la somme des effets individuels.",
+    "examples": "Terpènes + Esters (coefficient 0.6), Acides gras + Indoles",
+    "context": "Phénomène clé en formulation olfactive. Permet de créer des profils complexes avec peu de matières."
+  },
+  {
+    "term": "Antagonisme",
+    "category": "interaction",
+    "definition": "Interaction où deux molécules s'annulent ou diminuent mutuellement leur effet olfactif.",
+    "examples": "Certains aldéhydes vs indoles, notes métalliques vs florales",
+    "context": "À éviter en formulation, sauf pour atténuer volontairement une note trop dominante."
+  },
+  {
+    "term": "Émergence",
+    "category": "interaction",
+    "definition": "Apparition d'une note olfactive nouvelle, absente des composants initiaux, par interaction moléculaire.",
+    "examples": "Note cuir émergeant de la combinaison bois + fumée + animal",
+    "context": "Phénomène recherché pour créer des accords originaux et complexes."
+  },
+  {
+    "term": "Oxydation",
+    "category": "reaction",
+    "definition": "Réaction chimique avec l'oxygène modifiant le profil olfactif, généralement vers des notes métalliques ou rances.",
+    "examples": "Huiles essentielles d'agrumes devenant amères, bois devenant poussiéreux",
+    "context": "Processus naturel accéléré par la chaleur, la lumière et l'air. Peut être désirable (maturation) ou indésirable (dégradation)."
+  },
+  {
+    "term": "Décarboxylation",
+    "category": "reaction",
+    "definition": "Perte d'un groupe carboxyle (CO₂) sous l'effet de la chaleur, transformant les acides en composés plus volatils.",
+    "examples": "Acides gras → aldéhydes, cannabinoïdes THCA → THC",
+    "context": "Réaction thermique entre 120-160°C. Modifie radicalement le profil olfactif et l'activité biologique."
+  },
+  {
+    "term": "Condensation",
+    "category": "reaction",
+    "definition": "Réaction chimique où deux molécules se combinent en perdant une petite molécule (souvent H₂O).",
+    "examples": "Formation de résines, polymérisation de terpènes",
+    "context": "Réaction à haute température (>180°C). Crée des molécules complexes et fixatrices."
+  },
+  {
+    "term": "Polarité",
+    "category": "chimie",
+    "definition": "Propriété moléculaire déterminant la solubilité et l'affinité avec d'autres substances (polaires vs apolaires).",
+    "examples": "Eau (polaire), huiles (apolaires), alcool (intermédiaire)",
+    "context": "Détermine le choix du solvant d'extraction et la compatibilité des mélanges."
+  },
+  {
+    "term": "Volatilité",
+    "category": "chimie",
+    "definition": "Capacité d'une molécule à s'évaporer rapidement. Détermine si une note est de tête, cœur ou fond.",
+    "examples": "Haute volatilité : agrumes, menthe. Faible volatilité : bois, résines",
+    "context": "Inversement proportionnelle au poids moléculaire. Clé pour structurer une composition olfactive."
+  },
+  {
+    "term": "Fixateur",
+    "category": "concept",
+    "definition": "Substance peu volatile qui ralentit l'évaporation des notes plus légères, prolongeant la tenue d'une composition.",
+    "examples": "Ambergris, santal, vétiver, muscs",
+    "context": "Généralement des molécules lourdes (>200 g/mol). Indispensables pour la durabilité d'un parfum."
+  },
+  {
+    "term": "Sillage",
+    "category": "concept",
+    "definition": "Trace olfactive laissée par un parfum dans l'air après le passage de la personne qui le porte.",
+    "examples": "Sillage léger : agrumes. Sillage puissant : oud, ambre",
+    "context": "Dépend de la volatilité, de la concentration et de la diffusivité des molécules."
+  },
+  {
+    "term": "Macération",
+    "category": "protocole",
+    "definition": "Période de repos d'une composition olfactive permettant aux molécules de s'harmoniser et de développer leur plein potentiel.",
+    "examples": "48h minimum pour alcool, 5-7 jours pour huile, 72h pour résine",
+    "context": "Étape cruciale souvent négligée. Transforme radicalement le profil olfactif."
+  },
+  {
+    "term": "Maturation",
+    "category": "protocole",
+    "definition": "Évolution lente d'une composition sur plusieurs semaines/mois, développant complexité et rondeur.",
+    "examples": "Vins, whiskies, parfums d'exception",
+    "context": "Processus d'oxydation contrôlée et de polymérisation partielle. Peut durer de 1 mois à plusieurs années."
+  },
+  {
+    "term": "Stabilisation",
+    "category": "protocole",
+    "definition": "Ensemble de techniques pour préserver un extrait ou une composition de la dégradation.",
+    "examples": "Ajout d'antioxydants, stockage hermétique, filtration",
+    "context": "Essentiel pour les compositions commerciales. Prolonge la durée de vie de 6 mois à 2 ans."
+  },
+  {
+    "term": "Diffusion spatiale",
+    "category": "application",
+    "definition": "Dispersion d'une composition olfactive dans un espace architectural ou artistique.",
+    "examples": "Installations immersives, parfums d'ambiance, scénographie olfactive",
+    "context": "Nécessite des compositions volatiles et diffusives. Calcul de la charge olfactive par m³."
+  },
+  {
+    "term": "Patch olfactif",
+    "category": "dispositif",
+    "definition": "Support textile ou papier imprégné d'une composition olfactive, permettant une diffusion lente et contrôlée.",
+    "examples": "Cartes parfumées, textiles olfactifs, installations tactiles",
+    "context": "Idéal pour les compositions huileuses. Diffusion passive sur plusieurs jours."
+  },
+  {
+    "term": "Résine CBD",
+    "category": "support",
+    "definition": "Support cannabinoïde utilisé comme vecteur olfactif, combinant effets thérapeutiques et sensoriels.",
+    "examples": "Hash parfumé, pollen aromatisé, résines grasses",
+    "context": "Concentration recommandée : 0.5-1 ml de concentré pour 5g de résine. Maturation 48-72h."
+  },
+  {
+    "term": "MCT",
+    "category": "support",
+    "definition": "Huile de triglycérides à chaîne moyenne, solvant neutre et stable pour compositions huileuses.",
+    "examples": "Huiles corporelles, sérums olfactifs, bases de dilution",
+    "context": "Inodore, non-oxydante, excellente pénétration cutanée. Base idéale pour parfums de peau."
+  },
+  {
+    "term": "Éthanol 95°",
+    "category": "support",
+    "definition": "Alcool éthylique à 95% de concentration, solvant universel pour compositions alcooliques.",
+    "examples": "Eaux de parfum, sprays d'ambiance, teintures",
+    "context": "Volatilité élevée, diffusion rapide. Nécessite macération minimum 48h."
+  },
+  {
+    "term": "Mouillette",
+    "category": "dispositif",
+    "definition": "Bandelette de papier absorbant utilisée pour tester et évaluer les compositions olfactives.",
+    "examples": "Test de développement, comparaison de formules, présentation client",
+    "context": "Protocole : tremper 1cm, sécher 30s, évaluer à 5min/30min/2h/6h/24h."
+  },
+  {
+    "term": "Test peau",
+    "category": "protocole",
+    "definition": "Évaluation d'une composition directement sur la peau pour observer l'interaction avec le pH et la chaleur corporelle.",
+    "examples": "Test poignet, test cou, test avant-bras",
+    "context": "1 goutte, ne pas frotter. Évaluer à 15min/1h/4h/8h. Révèle le vrai caractère d'un parfum."
+  },
+  {
+    "term": "Charge olfactive",
+    "category": "methodologie",
+    "definition": "Quantité de matière odorante nécessaire pour parfumer un espace ou un support donné.",
+    "examples": "0.5-1 ml/5g pour résine, 2-3 gouttes/m² pour textile, 0.1 ml/m³ pour diffusion spatiale",
+    "context": "Dépend de la volatilité, de la puissance olfactive et du support. Toujours commencer bas et ajuster."
+  },
+  {
+    "term": "Profil sensoriel",
+    "category": "methodologie",
+    "definition": "Description structurée des caractéristiques olfactives d'une composition selon plusieurs axes (ABSORBE, notes, intensité).",
+    "examples": "Profil ABSORBE, roue des arômes, diagramme radar",
+    "context": "Outil de communication et de documentation. Permet la reproductibilité et la comparaison."
+  },
+  {
+    "term": "Note de tête",
+    "category": "concept",
+    "definition": "Premières notes perçues d'une composition, très volatiles, s'évaporant en 5-30 minutes.",
+    "examples": "Agrumes, menthe, notes vertes",
+    "context": "Créent la première impression. Molécules légères (<150 g/mol)."
+  },
+  {
+    "term": "Note de cœur",
+    "category": "concept",
+    "definition": "Notes centrales d'une composition, apparaissant après 30 min et persistant 2-6 heures.",
+    "examples": "Floraux, épices, fruits",
+    "context": "Constituent le caractère principal du parfum. Molécules moyennes (150-250 g/mol)."
+  },
+  {
+    "term": "Note de fond",
+    "category": "concept",
+    "definition": "Notes finales d'une composition, peu volatiles, persistant plusieurs heures à plusieurs jours.",
+    "examples": "Bois, résines, muscs, ambre",
+    "context": "Assurent la tenue et la profondeur. Molécules lourdes (>250 g/mol)."
+  },
+  {
+    "term": "Accord",
+    "category": "concept",
+    "definition": "Combinaison harmonieuse de plusieurs matières créant une unité olfactive cohérente et reconnaissable.",
+    "examples": "Accord fougère, accord chypre, accord oriental",
+    "context": "Brique de base de la parfumerie. Un accord peut contenir 3 à 20+ matières."
+  },
+  {
+    "term": "Pyramide olfactive",
+    "category": "structure",
+    "definition": "Représentation schématique d'une composition en trois niveaux : tête, cœur, fond.",
+    "examples": "Tête : bergamote / Cœur : rose / Fond : santal",
+    "context": "Modèle classique de la parfumerie. Simplifie la compréhension mais ne capture pas toute la complexité."
+  },
+  {
+    "term": "Facette",
+    "category": "concept",
+    "definition": "Aspect secondaire d'une note olfactive, nuance subtile qui enrichit le profil global.",
+    "examples": "Facette verte du jasmin, facette cuir du santal, facette miel de la cire d'abeille",
+    "context": "Les facettes créent la complexité et la profondeur d'une composition."
+  },
+  {
+    "term": "Résonance émotionnelle",
+    "category": "concept",
+    "definition": "Effet psychologique et émotionnel d'une composition olfactive sur le sujet qui la perçoit.",
+    "examples": "Apaisante, stimulante, méditative, troublante, enveloppante",
+    "context": "Dimension centrale de PERFUMUM. L'odeur comme médium émotionnel et artistique."
+  },
+  {
+    "term": "Effet tactile",
+    "category": "concept",
+    "definition": "Sensation quasi-physique évoquée par une composition olfactive (texture, température, densité).",
+    "examples": "Lactonique (crémeux), cristallin (tranchant), charnel (humide), lent (chaud)",
+    "context": "Synesthésie olfactive. Enrichit l'expérience sensorielle au-delà du simple odorat."
+  },
+  {
+    "term": "Sillage olfactif",
+    "category": "concept",
+    "definition": "Trace laissée dans l'espace par une composition, sa capacité à se projeter et à persister.",
+    "examples": "Sillage discret : musc blanc. Sillage puissant : oud, tubéreuse",
+    "context": "Dépend de la diffusivité, de la concentration et de la volatilité des molécules."
+  },
+  {
+    "term": "Diffusivité",
+    "category": "chimie",
+    "definition": "Capacité d'une molécule à se disperser dans l'air, indépendamment de sa volatilité.",
+    "examples": "Haute diffusivité : aldéhydes, cétones. Faible diffusivité : muscs macrocycliques",
+    "context": "Molécules petites et légères diffusent mieux. Clé pour le sillage et la projection."
+  },
+  {
+    "term": "Ténacité",
+    "category": "concept",
+    "definition": "Capacité d'une composition à persister dans le temps sur un support (peau, textile, papier).",
+    "examples": "Haute ténacité : ambre, santal, oud. Faible ténacité : agrumes, menthe",
+    "context": "Différente de la volatilité. Une note peut être volatile mais tenace (ex: certains muscs)."
+  },
+  {
+    "term": "Substantivité",
+    "category": "chimie",
+    "definition": "Affinité d'une molécule pour un support (peau, textile), sa capacité à s'y fixer durablement.",
+    "examples": "Haute substantivité : molécules lipophiles sur peau grasse",
+    "context": "Varie selon le support et le pH. Explique pourquoi un parfum sent différent sur chaque personne."
+  },
+  {
+    "term": "Headspace",
+    "category": "methodologie",
+    "definition": "Technique d'analyse capturant les molécules volatiles émises par une source naturelle (fleur, fruit, lieu).",
+    "examples": "Headspace de rose, de forêt après la pluie, de pierre chaude",
+    "context": "Permet de recréer des odeurs impossibles à extraire. Base de la parfumerie moderne."
+  },
+  {
+    "term": "Chromatographie",
+    "category": "methodologie",
+    "definition": "Technique analytique séparant les composants d'un mélange pour identifier et quantifier les molécules.",
+    "examples": "GC-MS (chromatographie en phase gazeuse couplée à la spectrométrie de masse)",
+    "context": "Outil de contrôle qualité et de recherche. Révèle la composition moléculaire exacte."
+  },
+  {
+    "term": "Olfactométrie",
+    "category": "methodologie",
+    "definition": "Mesure scientifique de la perception olfactive humaine, combinant analyse chimique et évaluation sensorielle.",
+    "examples": "Seuil de détection, intensité perçue, qualité hédonique",
+    "context": "Pont entre chimie et perception. Essentiel pour la formulation ciblée."
+  },
+  {
+    "term": "Pétrichor",
+    "category": "concept",
+    "definition": "Odeur caractéristique de la terre après la pluie, causée par la géosmine et d'autres composés volatils.",
+    "examples": "Terre argileuse mouillée, sous-bois humide, pierre chaude après l'orage",
+    "context": "Concept central de PERFUMUM. Évoque la matière vivante, l'organicité du monde."
+  },
+  {
+    "term": "Géosmine",
+    "category": "chimie",
+    "definition": "Molécule volatile produite par des bactéries du sol (Streptomyces), responsable de l'odeur de terre humide.",
+    "examples": "Betterave, terre après la pluie, cave humide",
+    "context": "Seuil de détection extrêmement bas (5 ppt). Une des odeurs les plus reconnaissables."
+  },
+  {
+    "term": "Pyrazine",
+    "category": "chimie",
+    "definition": "Famille de molécules hétérocycliques azotées, caractérisées par des notes grillées, torréfiées, terreuses.",
+    "examples": "Café, cacao, poivron vert, terre",
+    "context": "Présentes dans le tabac fermenté et le cannabis. Clés pour les profils fermentaires."
+  },
+  {
+    "term": "Lactone",
+    "category": "chimie",
+    "definition": "Ester cyclique caractérisé par des notes crémeuses, lactées, fruitées ou coco.",
+    "examples": "Pêche (γ-décalactone), coco (γ-nonalactone), beurre (δ-décalactone)",
+    "context": "Apportent rondeur et douceur. Essentielles pour les profils gourmands et solaires."
+  },
+  {
+    "term": "Ionone",
+    "category": "chimie",
+    "definition": "Famille de cétones caractérisées par des notes violette, iris, boisé-poudré.",
+    "examples": "α-ionone (violette), β-ionone (iris), γ-ionone (framboise)",
+    "context": "Molécules clés de la parfumerie fine. Seuil de détection très bas."
+  },
+  {
+    "term": "Terpène",
+    "category": "chimie",
+    "definition": "Vaste famille d'hydrocarbures naturels, constituants principaux des huiles essentielles.",
+    "examples": "Limonène (agrumes), pinène (pin), linalol (lavande), myrcène (houblon)",
+    "context": "Base de la chimie végétale. Monoterpènes (C10), sesquiterpènes (C15), diterpènes (C20)."
+  },
+  {
+    "term": "Cétone",
+    "category": "chimie",
+    "definition": "Fonction chimique caractérisée par un groupe carbonyle, souvent associée à des notes camphrées, mentholées ou fruitées.",
+    "examples": "Camphre, menthone, carvone, ionones",
+    "context": "Molécules puissantes et diffusives. Certaines sont neurotoxiques à haute dose."
+  },
+  {
+    "term": "Aldéhyde",
+    "category": "chimie",
+    "definition": "Fonction chimique caractérisée par un groupe carbonyle terminal, notes métalliques, cireuses ou florales.",
+    "examples": "Vanilline, citral, benzaldéhyde (amande), aldéhydes gras (savon)",
+    "context": "Révolutionnèrent la parfumerie au XXe siècle (Chanel N°5). Très diffusifs."
+  },
+  {
+    "term": "Phénol",
+    "category": "chimie",
+    "definition": "Composé aromatique avec un groupe hydroxyle, caractérisé par des notes fumées, médicinales, cuir.",
+    "examples": "Eugénol (clou de girofle), gaïacol (fumée), crésol (cuir)",
+    "context": "Molécules puissantes et tenaces. Présentes dans les bois fumés et les résines."
+  },
+  {
+    "term": "Ester",
+    "category": "chimie",
+    "definition": "Fonction chimique résultant de la réaction entre un acide et un alcool, notes fruitées et florales.",
+    "examples": "Acétate de benzyle (jasmin), butyrate d'éthyle (ananas), salicylate de méthyle (wintergreen)",
+    "context": "Apportent fraîcheur et vivacité. Volatilité moyenne à élevée."
+  }
+]

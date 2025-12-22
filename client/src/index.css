@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -43,61 +44,91 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
+  /* PERFUMUM Swiss Psychedelic - Saturated & Brutal */
+  --primary: oklch(0.55 0.25 290); /* Electric violet */
+  --primary-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.55 0.25 290);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --chart-1: oklch(0.60 0.28 330); /* Hot magenta */
+  --chart-2: oklch(0.65 0.25 140); /* Acid green */
+  --chart-3: oklch(0.70 0.22 60); /* Electric yellow */
+  --chart-4: oklch(0.55 0.26 220); /* Cyber blue */
+  --chart-5: oklch(0.60 0.24 20); /* Neon orange */
+  --radius: 0rem; /* Brutal sharp corners */
+  /* Base - Pure white with subtle tint */
+  --background: oklch(0.99 0.005 290);
+  --foreground: oklch(0.10 0.02 290); /* Deep black */
+  /* Card - Stark white */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
+  --card-foreground: oklch(0.10 0.02 290);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
+  --popover-foreground: oklch(0.10 0.02 290);
+  /* Secondary - High contrast */
+  --secondary: oklch(0.15 0.02 290);
+  --secondary-foreground: oklch(0.98 0 0);
+  /* Muted - Still punchy */
+  --muted: oklch(0.92 0.03 290);
+  --muted-foreground: oklch(0.45 0.05 290); /* WCAG AA compliant - ratio 4.5:1+ */
+  /* Accent - Psychedelic pink */
+  --accent: oklch(0.65 0.28 340);
+  --accent-foreground: oklch(0.98 0 0);
+  /* Destructive */
+  --destructive: oklch(0.60 0.20 25);
+  --destructive-foreground: oklch(1 0 0);
+  /* Border - Sharp black */
+  --border: oklch(0.15 0.02 290);
+  --input: oklch(0.92 0.03 290);
+  --ring: oklch(0.55 0.25 290);
+  /* Sidebar */
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.25 0.01 290);
+  --sidebar-accent: oklch(0.90 0.02 290);
+  --sidebar-accent-foreground: oklch(0.25 0.01 290);
+  --sidebar-border: oklch(0.85 0.015 290);
+  --sidebar-ring: oklch(0.65 0.08 290);
+  
+  /* PERFUMUM Prototype Colors */
+  --c1-fermentum: oklch(0.35 0.03 35);
+  --c2-clarus-verde: oklch(0.70 0.04 130);
+  --c3-lacta-solis: oklch(0.90 0.04 55);
+  --c4-terra-ambra: oklch(0.68 0.08 50);
+  
+  /* PERFUMUM Family Colors */
+  --bio-mineralis: oklch(0.72 0.01 60);
+  --petrichor: oklch(0.62 0.06 220);
+  --volcanique: oklch(0.52 0.09 20);
+  --solar-mineralis: oklch(0.75 0.12 70);
+  
+  /* PERFUMUM 5 Gammes Colors */
+  --gamme-petrichor: oklch(0.55 0.12 160); /* Vert terreux/minéral */
+  --gamme-volcanique: oklch(0.50 0.18 25); /* Rouge fumé/pyrolysé */
+  --gamme-civilisations: oklch(0.65 0.15 60); /* Ambre sacré/culturel */
+  --gamme-glaciaire: oklch(0.70 0.14 220); /* Cyan frais/ozone */
+  --gamme-biolab: oklch(0.68 0.20 330); /* Rose expérimental */
 }
 
 .dark {
-  --primary: var(--color-blue-700);
+  /* Mode sombre optimisé - Contraste amélioré */
+  --primary: oklch(0.65 0.25 290); /* Violet plus clair pour meilleur contraste */
   --primary-foreground: var(--color-blue-50);
   --sidebar-primary: var(--color-blue-500);
   --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
+  --background: oklch(0.12 0.008 285); /* Fond plus sombre pour contraste */
+  --foreground: oklch(0.95 0.005 65); /* Texte plus clair */
+
+  --card: oklch(0.18 0.008 285); /* Cartes plus contrastées */
+  --card-foreground: oklch(0.95 0.005 65);
   --popover: oklch(0.21 0.006 285.885);
   --popover-foreground: oklch(0.85 0.005 65);
   --secondary: oklch(0.24 0.006 286.033);
   --secondary-foreground: oklch(0.7 0.005 65);
   --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
+  --muted-foreground: oklch(0.75 0.015 286); /* Texte muted plus lisible */
   --accent: oklch(0.274 0.006 286.033);
   --accent-foreground:  oklch(0.92 0.005 65);
   --destructive: oklch(0.704 0.191 22.216);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(1 0 0 / 15%); /* Bordures plus visibles */
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.488 0.243 264.376);
   --chart-1: var(--color-blue-300);
@@ -119,6 +150,41 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    letter-spacing: -0.02em; /* Tight Swiss spacing */
+  }
+  
+  /* Typography scale - Brutal Swiss */
+  h1 {
+    @apply text-5xl font-bold;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+  h2 {
+    @apply text-4xl font-bold;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  h3 {
+    @apply text-3xl font-semibold;
+    letter-spacing: -0.02em;
+  }
+  h4 {
+    @apply text-2xl font-medium;
+    letter-spacing: -0.01em;
+  }
+  h5 {
+    @apply text-xl font-medium;
+  }
+  h6 {
+    @apply text-lg font-medium;
+  }
+  
+  /* Monospace for technical content */
+  code, pre, .mono {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    letter-spacing: 0;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -159,6 +225,435 @@
     min-height: 0;
     min-width: 0;
   }
+  
+  /* Prototype color utilities */
+  .bg-c1 { background-color: oklch(var(--c1-fermentum)); }
+  .bg-c2 { background-color: oklch(var(--c2-clarus-verde)); }
+  .bg-c3 { background-color: oklch(var(--c3-lacta-solis)); }
+  .bg-c4 { background-color: oklch(var(--c4-terra-ambra)); }
+  .text-c1 { color: oklch(var(--c1-fermentum)); }
+  .text-c2 { color: oklch(var(--c2-clarus-verde)); }
+  .text-c3 { color: oklch(var(--c3-lacta-solis)); }
+  .text-c4 { color: oklch(var(--c4-terra-ambra)); }
+  
+  /* Family color utilities */
+  .bg-bio-mineralis { background-color: oklch(var(--bio-mineralis)); }
+  .bg-petrichor { background-color: oklch(var(--petrichor)); }
+  .bg-volcanique { background-color: oklch(var(--volcanique)); }
+  .bg-solar-mineralis { background-color: oklch(var(--solar-mineralis)); }
+  
+  /* Gamme color utilities */
+  .bg-gamme-petrichor { background-color: oklch(var(--gamme-petrichor)); }
+  .bg-gamme-volcanique { background-color: oklch(var(--gamme-volcanique)); }
+  .bg-gamme-civilisations { background-color: oklch(var(--gamme-civilisations)); }
+  .bg-gamme-glaciaire { background-color: oklch(var(--gamme-glaciaire)); }
+  .bg-gamme-biolab { background-color: oklch(var(--gamme-biolab)); }
+  .text-gamme-petrichor { color: oklch(var(--gamme-petrichor)); }
+  .text-gamme-volcanique { color: oklch(var(--gamme-volcanique)); }
+  .text-gamme-civilisations { color: oklch(var(--gamme-civilisations)); }
+  .text-gamme-glaciaire { color: oklch(var(--gamme-glaciaire)); }
+  .text-gamme-biolab { color: oklch(var(--gamme-biolab)); }
+  
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-card/80 backdrop-blur-md border border-border/50;
+  }
+  
+  /* Enhanced glass with gradient border */
+  .glass-gradient {
+    @apply bg-card/70 backdrop-blur-xl;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+  
+  .glass-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, oklch(var(--primary) / 0.3), oklch(var(--accent) / 0.3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  /* Modern animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px oklch(var(--primary) / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px oklch(var(--primary) / 0.5);
+    }
+  }
+  
+  .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  .animate-scaleIn {
+    animation: scaleIn 0.4s ease-out;
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  
+  /* Gradient text effect */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent;
+  }
+  
+  /* Shimmer effect for loading states */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      oklch(var(--muted)) 0%,
+      oklch(var(--muted-foreground) / 0.1) 50%,
+      oklch(var(--muted)) 100%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  /* Hover lift effect */
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-lift:hover {
+    @apply -translate-y-1 shadow-lg;
+  }
+  
+  /* Glow effect */
+  .glow {
+    box-shadow: 0 0 20px oklch(var(--primary) / 0.3),
+                0 0 40px oklch(var(--primary) / 0.2),
+                0 0 60px oklch(var(--primary) / 0.1);
+  }
+  
+  /* Frosted glass effect */
+  .frosted-glass {
+    @apply bg-card/60 backdrop-blur-xl border border-border/30 shadow-xl;
+    backdrop-filter: blur(20px) saturate(180%);
+  }
+  
+  /* Olfactory-inspired effects */
+  @keyframes diffuse {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+      filter: blur(10px);
+    }
+    50% {
+      opacity: 0.6;
+      filter: blur(5px);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.5);
+      filter: blur(15px);
+    }
+  }
+  
+  @keyframes molecular-orbit {
+    0% {
+      transform: rotate(0deg) translateX(30px) rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg) translateX(30px) rotate(-360deg);
+    }
+  }
+  
+  @keyframes scent-wave {
+    0%, 100% {
+      transform: translateX(0) scale(1);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translateX(10px) scale(1.05);
+      opacity: 0.6;
+    }
+  }
+  
+  .animate-diffuse {
+    animation: diffuse 4s ease-out infinite;
+  }
+  
+  .animate-molecular-orbit {
+    animation: molecular-orbit 20s linear infinite;
+  }
+  
+  .animate-scent-wave {
+    animation: scent-wave 3s ease-in-out infinite;
+  }
+  
+  /* Molecular pattern background */
+  .molecular-bg {
+    background-image: radial-gradient(circle at 20% 50%, oklch(var(--primary) / 0.03) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, oklch(var(--accent) / 0.03) 0%, transparent 50%),
+                      radial-gradient(circle at 40% 20%, oklch(var(--muted) / 0.05) 0%, transparent 50%);
+  }
+  
+  /* Scent trail effect */
+  .scent-trail {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .scent-trail::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, oklch(var(--primary) / 0.1), transparent);
+    animation: scent-trail-move 3s ease-in-out infinite;
+  }
+  
+  @keyframes scent-trail-move {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+  
+  /* Scroll progress indicator */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, oklch(var(--primary)), oklch(var(--accent)));
+    transform-origin: left;
+    z-index: 100;
+  }
+  
+  /* Particle effects */
+  @keyframes particle-float {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tx), var(--ty)) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: oklch(var(--primary) / 0.6);
+    pointer-events: none;
+    animation: particle-float 4s ease-in-out infinite;
+  }
+  
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Parallax effect */
+  .parallax {
+    transition: transform 0.1s ease-out;
+  }
+  
+  /* Swiss Psychedelic Effects */
+  @keyframes glitch {
+    0%, 100% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+  }
+  
+  @keyframes chromatic {
+    0%, 100% {
+      text-shadow: 
+        -2px 0 oklch(var(--chart-2)),
+        2px 0 oklch(var(--chart-1));
+    }
+    50% {
+      text-shadow: 
+        2px 0 oklch(var(--chart-2)),
+        -2px 0 oklch(var(--chart-1));
+    }
+  }
+  
+  @keyframes moire {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+  
+  .glitch {
+    animation: glitch 0.3s infinite;
+  }
+  
+  .chromatic {
+    animation: chromatic 2s ease-in-out infinite;
+  }
+  
+  /* Brutal grid overlay */
+  .grid-overlay {
+    background-image: 
+      linear-gradient(oklch(var(--border) / 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(var(--border) / 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  /* Psychedelic gradient */
+  .psychedelic-gradient {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--chart-1)) 0%,
+      oklch(var(--chart-2)) 25%,
+      oklch(var(--chart-3)) 50%,
+      oklch(var(--chart-4)) 75%,
+      oklch(var(--chart-5)) 100%
+    );
+    background-size: 400% 400%;
+    animation: moire 10s ease infinite;
+  }
+  
+  /* Optical moiré pattern */
+  .moire-pattern {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .moire-pattern::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      oklch(var(--primary) / 0.05) 2px,
+      oklch(var(--primary) / 0.05) 4px
+    );
+    pointer-events: none;
+  }
+  
+  .moire-pattern::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 2px,
+      oklch(var(--accent) / 0.05) 2px,
+      oklch(var(--accent) / 0.05) 4px
+    );
+    pointer-events: none;
+  }
+  
+  /* Brutal border */
+  .brutal-border {
+    border: 3px solid oklch(var(--foreground));
+    box-shadow: 6px 6px 0 oklch(var(--primary));
+  }
+  
+  .brutal-border:hover {
+    box-shadow: 8px 8px 0 oklch(var(--accent));
+    transform: translate(-2px, -2px);
+  }
+  
+  /* Swiss modern spacing */
+  .section-spacing {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+  
+  .content-spacing {
+    @apply space-y-8 md:space-y-12;
+  }
 
   @media (min-width: 640px) {
     .container {
@@ -173,5 +668,1123 @@
       padding-right: 2rem;
       max-width: 1280px; /* Standard content width */
     }
+  }
+}
+  /* ========================================
+     PERFUMUM - Micro-interactions enrichies
+     ======================================== */
+  
+  /* Card hover effects - Plus sophistiqués */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .card-hover:hover {
+    @apply -translate-y-2 shadow-2xl;
+    box-shadow: 0 20px 60px oklch(var(--primary) / 0.15),
+                0 8px 16px oklch(var(--foreground) / 0.1);
+  }
+  
+  /* Badge glow effect on hover */
+  .badge-glow {
+    @apply transition-all duration-300;
+  }
+  
+  .badge-glow:hover {
+    box-shadow: 0 0 20px currentColor,
+                0 0 40px oklch(var(--primary) / 0.3);
+    transform: scale(1.05);
+  }
+  
+  /* Button enhanced interactions */
+  .btn-enhanced {
+    @apply transition-all duration-200;
+    transform-origin: center;
+  }
+  
+  .btn-enhanced:hover:not(:disabled) {
+    @apply scale-105;
+    box-shadow: 0 4px 12px oklch(var(--primary) / 0.3),
+                0 2px 6px oklch(var(--foreground) / 0.1);
+  }
+  
+  .btn-enhanced:active:not(:disabled) {
+    @apply scale-95;
+    box-shadow: 0 2px 6px oklch(var(--primary) / 0.2);
+  }
+  
+  /* Focus states - Accessibilité renforcée */
+  *:focus-visible {
+    @apply outline-none ring-4 ring-primary/30 ring-offset-2 ring-offset-background;
+    transition: box-shadow 0.2s ease;
+  }
+  
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible {
+    @apply ring-4 ring-primary ring-offset-2;
+  }
+  
+  /* ========================================
+     PERFUMUM - Thèmes visuels par gamme
+     ======================================== */
+  
+  /* Pétrichor - Terre/Minéral/Pluie */
+  .theme-petrichor {
+    --theme-primary: oklch(0.55 0.12 160);
+    --theme-accent: oklch(0.45 0.10 180);
+    --theme-bg: oklch(0.95 0.02 160);
+  }
+  
+  .theme-petrichor .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.92 0.03 160) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-petrichor .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Volcanique - Fumée/Pyrolyse/Intensité */
+  .theme-volcanique {
+    --theme-primary: oklch(0.50 0.18 25);
+    --theme-accent: oklch(0.60 0.20 15);
+    --theme-bg: oklch(0.94 0.04 25);
+  }
+  
+  .theme-volcanique .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.90 0.06 25) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-volcanique .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Traditions Olfactives - Sacré/Culturel/Rituel */
+  .theme-traditions {
+    --theme-primary: oklch(0.65 0.15 60);
+    --theme-accent: oklch(0.55 0.18 50);
+    --theme-bg: oklch(0.96 0.03 60);
+  }
+  
+  .theme-traditions .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.92 0.05 60) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-traditions .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Glaciaire - Fraîcheur/Ozone/Altitude */
+  .theme-glaciaire {
+    --theme-primary: oklch(0.70 0.14 220);
+    --theme-accent: oklch(0.60 0.16 210);
+    --theme-bg: oklch(0.97 0.02 220);
+  }
+  
+  .theme-glaciaire .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.93 0.04 220) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-glaciaire .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Bio-Lab - Expérimental/Biotechnologie/Avant-garde */
+  .theme-biolab {
+    --theme-primary: oklch(0.68 0.20 330);
+    --theme-accent: oklch(0.65 0.25 140);
+    --theme-bg: oklch(0.96 0.04 330);
+  }
+  
+  .theme-biolab .themed-card {
+    background: linear-gradient(135deg, 
+      oklch(var(--theme-bg)) 0%, 
+      oklch(0.92 0.06 330) 100%);
+    border-color: oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .theme-biolab .themed-badge {
+    background-color: oklch(var(--theme-primary));
+    color: white;
+  }
+  
+  /* Utility classes for themed elements */
+  .themed-glow {
+    box-shadow: 0 0 30px oklch(var(--theme-primary) / 0.2),
+                0 0 60px oklch(var(--theme-primary) / 0.1);
+  }
+  
+  .themed-border {
+    border: 2px solid oklch(var(--theme-primary) / 0.3);
+  }
+  
+  .themed-text {
+    color: oklch(var(--theme-primary));
+  }
+
+/* ========================================
+   PERFUMUM - Animations subtiles globales
+   ======================================== */
+
+/* Page transitions - Fade in au chargement */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: pageEnter 0.4s ease-out;
+}
+
+/* Scroll reveal - Fade in au scroll */
+@keyframes scrollReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  animation: scrollReveal 0.6s ease-out forwards;
+}
+
+.scroll-reveal-delay-1 {
+  animation-delay: 0.1s;
+}
+
+.scroll-reveal-delay-2 {
+  animation-delay: 0.2s;
+}
+
+.scroll-reveal-delay-3 {
+  animation-delay: 0.3s;
+}
+
+/* Smooth hover transitions pour tous les éléments interactifs */
+a, button, [role="button"], .interactive {
+  @apply transition-all duration-200 ease-out;
+}
+
+a:hover, button:hover:not(:disabled), [role="button"]:hover {
+  @apply opacity-90;
+}
+
+/* Card interactions - Subtle lift */
+.card-subtle {
+  @apply transition-all duration-300 ease-out;
+}
+
+.card-subtle:hover {
+  @apply -translate-y-1;
+  box-shadow: 0 8px 24px oklch(var(--foreground) / 0.08),
+              0 4px 8px oklch(var(--foreground) / 0.04);
+}
+
+/* Image hover zoom */
+.img-zoom {
+  @apply overflow-hidden;
+}
+
+.img-zoom img {
+  @apply transition-transform duration-500 ease-out;
+}
+
+.img-zoom:hover img {
+  @apply scale-105;
+}
+
+/* Text gradient animation on hover */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-gradient-animated {
+  background: linear-gradient(
+    90deg,
+    oklch(var(--primary)),
+    oklch(var(--accent)),
+    oklch(var(--primary))
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* ========================================
+   PERFUMUM - Skeleton Loaders
+   ======================================== */
+
+/* Base skeleton */
+.skeleton {
+  background: oklch(var(--muted));
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--muted)) 0%,
+    oklch(var(--muted-foreground) / 0.1) 50%,
+    oklch(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Skeleton variants */
+.skeleton-text {
+  height: 1rem;
+  width: 100%;
+  background: oklch(var(--muted));
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--muted)) 0%,
+    oklch(var(--muted-foreground) / 0.1) 50%,
+    oklch(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-title {
+  height: 2rem;
+  width: 75%;
+  background: oklch(var(--muted));
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--muted)) 0%,
+    oklch(var(--muted-foreground) / 0.1) 50%,
+    oklch(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--muted)) 0%,
+    oklch(var(--muted-foreground) / 0.1) 50%,
+    oklch(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-card {
+  min-height: 200px;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--muted)) 0%,
+    oklch(var(--muted-foreground) / 0.1) 50%,
+    oklch(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-button {
+  height: 2.5rem;
+  width: 6rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--muted)) 0%,
+    oklch(var(--muted-foreground) / 0.1) 50%,
+    oklch(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+/* Skeleton card layout */
+.skeleton-card-layout {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeleton-card-layout .skeleton-header {
+  @apply flex items-center gap-4;
+}
+
+.skeleton-card-layout .skeleton-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Skeleton grid */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Skeleton list */
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeleton-list-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--muted)) 0%,
+    oklch(var(--muted-foreground) / 0.1) 50%,
+    oklch(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+/* ========================================
+   PERFUMUM - Progress Indicators
+   ======================================== */
+
+/* Linear progress bar */
+.progress-bar {
+  @apply relative h-2 w-full bg-muted rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full bg-primary transition-all duration-300 ease-out;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--primary)),
+    oklch(var(--accent))
+  );
+}
+
+/* Indeterminate progress */
+@keyframes indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+.progress-indeterminate {
+  @apply relative h-1 w-full bg-muted rounded-full overflow-hidden;
+}
+
+.progress-indeterminate::after {
+  content: '';
+  @apply absolute inset-y-0 w-1/4 bg-primary;
+  animation: indeterminate 1.5s ease-in-out infinite;
+}
+
+/* Circular progress */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  @apply inline-block border-4 border-muted border-t-primary rounded-full;
+  width: 24px;
+  height: 24px;
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner-lg {
+  width: 48px;
+  height: 48px;
+}
+
+.spinner-sm {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+/* ========================================
+   PERFUMUM - Toast Notifications
+   ======================================== */
+
+/* Toast animation */
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.toast-enter {
+  animation: toastSlideIn 0.3s ease-out;
+}
+
+.toast-exit {
+  animation: toastSlideOut 0.2s ease-in;
+}
+
+/* Toast variants */
+.toast-success {
+  @apply bg-green-500 text-white;
+}
+
+.toast-error {
+  @apply bg-destructive text-destructive-foreground;
+}
+
+.toast-info {
+  @apply bg-primary text-primary-foreground;
+}
+
+.toast-warning {
+  @apply bg-yellow-500 text-black;
+}
+
+
+/* ========================================
+   PERFUMUM - UX/UI Improvements
+   ======================================== */
+
+/* Smooth scroll global */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Amélioration des boutons */
+.btn-enhanced {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-enhanced:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 8px 16px -4px oklch(var(--primary) / 0.3);
+}
+
+.btn-enhanced:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Scroll to top button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  z-index: 40;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: oklch(var(--primary));
+  color: oklch(var(--primary-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px -2px oklch(var(--primary) / 0.4);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 8px 20px -4px oklch(var(--primary) / 0.5);
+}
+
+@media (max-width: 1024px) {
+  .scroll-to-top {
+    bottom: 6rem; /* Au-dessus du bottom nav mobile */
+  }
+}
+
+/* Empty states améliorés */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  min-height: 400px;
+}
+
+.empty-state-icon {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.5rem;
+  color: oklch(var(--muted-foreground));
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: oklch(var(--foreground));
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-description {
+  color: oklch(var(--muted-foreground));
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: oklch(var(--muted-foreground));
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s;
+}
+
+.breadcrumb-item a {
+  color: oklch(var(--muted-foreground));
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb-item a:hover {
+  color: oklch(var(--primary));
+}
+
+.breadcrumb-separator {
+  color: oklch(var(--muted-foreground) / 0.5);
+}
+
+.breadcrumb-current {
+  color: oklch(var(--foreground));
+  font-weight: 500;
+}
+
+/* Loading card state */
+.card-loading {
+  position: relative;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.card-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(var(--background) / 0.5),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Badge variants colorés */
+.badge-success {
+  background: oklch(0.7 0.15 145 / 0.15);
+  color: oklch(0.5 0.15 145);
+  border: 1px solid oklch(0.5 0.15 145 / 0.2);
+}
+
+.badge-warning {
+  background: oklch(0.8 0.15 85 / 0.15);
+  color: oklch(0.5 0.15 85);
+  border: 1px solid oklch(0.5 0.15 85 / 0.2);
+}
+
+.badge-error {
+  background: oklch(0.7 0.2 25 / 0.15);
+  color: oklch(0.5 0.2 25);
+  border: 1px solid oklch(0.5 0.2 25 / 0.2);
+}
+
+.badge-info {
+  background: oklch(0.7 0.15 240 / 0.15);
+  color: oklch(0.5 0.15 240);
+  border: 1px solid oklch(0.5 0.15 240 / 0.2);
+}
+
+/* Amélioration transitions de page */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease-out;
+}
+
+/* Hover effect pour cartes avec image */
+.card-image-zoom {
+  overflow: hidden;
+}
+
+.card-image-zoom img {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-image-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* Focus visible amélioré */
+*:focus-visible {
+  outline: 2px solid oklch(var(--primary));
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Amélioration des inputs */
+input:focus,
+textarea:focus,
+select:focus {
+  box-shadow: 0 0 0 3px oklch(var(--primary) / 0.1);
+}
+
+/* Tooltip amélioré */
+[data-tooltip] {
+  position: relative;
+  cursor: help;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  padding: 0.5rem 0.75rem;
+  background: oklch(var(--popover));
+  color: oklch(var(--popover-foreground));
+  border: 1px solid oklch(var(--border));
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+  pointer-events: none;
+  z-index: 50;
+  box-shadow: 0 4px 12px -2px oklch(0 0 0 / 0.1);
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* Pulse animation pour notifications */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.pulse-notification {
+  position: relative;
+}
+
+.pulse-notification::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background: oklch(var(--destructive));
+  border-radius: 50%;
+  animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+
+/* ============================================
+   MOBILE OPTIMIZATIONS
+   ============================================ */
+
+/* Améliorer espacement tactile mobile */
+@media (max-width: 768px) {
+  /* Boutons tactiles minimum 44px */
+  button, 
+  a[role="button"],
+  .btn-enhanced {
+    min-height: 44px;
+    padding: 0.75rem 1.25rem;
+  }
+
+  /* Optimiser taille police mobile */
+  html {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  /* Améliorer padding containers mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Optimiser cartes pour mobile */
+  .card {
+    padding: 1rem;
+  }
+
+  /* Améliorer espacement sections mobile */
+  section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  /* Optimiser navigation Header mobile */
+  header nav {
+    gap: 0.5rem;
+  }
+
+  header nav button,
+  header nav a {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  /* Améliorer filtres mobile */
+  .filters-container {
+    gap: 0.5rem;
+  }
+
+  .filters-container button {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Optimiser grilles mobile */
+  .grid {
+    gap: 1rem;
+  }
+
+  /* Améliorer bottom nav spacing */
+  .mobile-bottom-nav {
+    padding: 0.75rem 0.5rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  /* Optimiser modals mobile */
+  [role="dialog"],
+  .dialog-content,
+  .sheet-content {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  /* Améliorer scroll-to-top position mobile */
+  .scroll-to-top {
+    bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Optimiser inputs mobile */
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    font-size: 16px; /* Éviter zoom iOS */
+    min-height: 44px;
+  }
+
+  /* Améliorer badges mobile */
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* Optimiser tables mobile */
+  table {
+    font-size: 0.875rem;
+  }
+
+  /* Améliorer mega menu mobile */
+  .mega-menu {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  /* Optimiser espacement cartes molécules/recettes */
+  .molecule-card,
+  .recipe-card {
+    padding: 1rem;
+  }
+
+  .molecule-card h3,
+  .recipe-card h3 {
+    font-size: 1.125rem;
+  }
+
+  /* Améliorer touch targets pour icônes */
+  .icon-button {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Très petits écrans (< 375px) */
+@media (max-width: 374px) {
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  button,
+  .btn-enhanced {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobile-bottom-nav {
+    padding: 0.5rem;
+  }
+
+  .scroll-to-top {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  header {
+    padding: 0.5rem 0;
+  }
+}
+
+/* Safe area insets pour notch/dynamic island */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .mobile-bottom-nav {
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+  }
+
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+
+/* ========================================
+   PERFUMUM - Accessibility: Reduced Motion
+   ======================================== */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Disable specific animations */
+  .animate-fadeInUp,
+  .animate-scaleIn,
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-diffuse,
+  .animate-molecular-orbit,
+  .animate-scent-wave,
+  .shimmer,
+  .skeleton,
+  .skeleton-text,
+  .skeleton-title,
+  .skeleton-avatar,
+  .skeleton-card,
+  .skeleton-button,
+  .skeleton-list-item,
+  .glitch,
+  .chromatic,
+  .psychedelic-gradient,
+  .text-gradient-animated,
+  .spinner,
+  .progress-indeterminate::after {
+    animation: none !important;
+  }
+  
+  /* Keep essential visual feedback but remove motion */
+  .hover-lift:hover,
+  .card-subtle:hover,
+  .brutal-border:hover,
+  .btn-enhanced:hover:not(:disabled),
+  .btn-enhanced:active:not(:disabled) {
+    transform: none !important;
+  }
+  
+  /* Maintain color changes for feedback */
+  .btn-enhanced:hover:not(:disabled) {
+    box-shadow: 0 0 0 2px oklch(var(--primary) / 0.5);
+  }
+  
+  /* Static skeleton placeholder */
+  .skeleton,
+  .skeleton-text,
+  .skeleton-title,
+  .skeleton-avatar,
+  .skeleton-card,
+  .skeleton-button,
+  .skeleton-list-item {
+    background: oklch(var(--muted)) !important;
+    background-size: 100% 100% !important;
+  }
+}
+
+/* ========================================
+   PERFUMUM - High Contrast Mode Support
+   ======================================== */
+
+@media (prefers-contrast: more) {
+  :root {
+    --muted-foreground: oklch(0.30 0.05 290);
+    --border: oklch(0.10 0.02 290);
+  }
+  
+  .dark {
+    --muted-foreground: oklch(0.85 0.015 286);
+    --border: oklch(1 0 0 / 30%);
   }
 }

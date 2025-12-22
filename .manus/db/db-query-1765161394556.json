@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE molecules \nADD COLUMN radar_intensity INT DEFAULT 50,\nADD COLUMN radar_freshness INT DEFAULT 50,\nADD COLUMN radar_warmth INT DEFAULT 50,\nADD COLUMN radar_sweetness INT DEFAULT 50,\nADD COLUMN radar_spiciness INT DEFAULT 50,\nADD COLUMN radar_earthiness INT DEFAULT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE molecules \nADD COLUMN radar_intensity INT DEFAULT 50,\nADD COLUMN radar_freshness INT DEFAULT 50,\nADD COLUMN radar_warmth INT DEFAULT 50,\nADD COLUMN radar_sweetness INT DEFAULT 50,\nADD COLUMN radar_spiciness INT DEFAULT 50,\nADD COLUMN radar_earthiness INT DEFAULT 50;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 3112
+}

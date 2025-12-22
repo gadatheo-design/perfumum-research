@@ -1,0 +1,160 @@
+{
+  "query": "SELECT id, name, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness \nFROM molecules \nORDER BY RAND() \nLIMIT 15",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness \nFROM molecules \nORDER BY RAND() \nLIMIT 15",
+  "rows": [
+    {
+      "id": "120012",
+      "name": "Furanosesquiterpenes",
+      "radar_intensity": "55",
+      "radar_freshness": "63",
+      "radar_warmth": "66",
+      "radar_sweetness": "51",
+      "radar_spiciness": "55",
+      "radar_earthiness": "56"
+    },
+    {
+      "id": "210019",
+      "name": "Ethyl 3-methylthiopropionate",
+      "radar_intensity": "85",
+      "radar_freshness": "55",
+      "radar_warmth": "40",
+      "radar_sweetness": "50",
+      "radar_spiciness": "30",
+      "radar_earthiness": "45"
+    },
+    {
+      "id": "90014",
+      "name": "Silicate aldehyde",
+      "radar_intensity": "60",
+      "radar_freshness": "62",
+      "radar_warmth": "39",
+      "radar_sweetness": "53",
+      "radar_spiciness": "43",
+      "radar_earthiness": "70"
+    },
+    {
+      "id": "90034",
+      "name": "Skatole",
+      "radar_intensity": "50",
+      "radar_freshness": "39",
+      "radar_warmth": "74",
+      "radar_sweetness": "50",
+      "radar_spiciness": "46",
+      "radar_earthiness": "76"
+    },
+    {
+      "id": "180006",
+      "name": "Gris d'Ambre",
+      "radar_intensity": "92",
+      "radar_freshness": "25",
+      "radar_warmth": "85",
+      "radar_sweetness": "55",
+      "radar_spiciness": "35",
+      "radar_earthiness": "65"
+    },
+    {
+      "id": "210012",
+      "name": "Ethyl lactate",
+      "radar_intensity": "50",
+      "radar_freshness": "55",
+      "radar_warmth": "40",
+      "radar_sweetness": "65",
+      "radar_spiciness": "5",
+      "radar_earthiness": "25"
+    },
+    {
+      "id": "60004",
+      "name": "Acide Linoléique",
+      "radar_intensity": "38",
+      "radar_freshness": "48",
+      "radar_warmth": "56",
+      "radar_sweetness": "40",
+      "radar_spiciness": "54",
+      "radar_earthiness": "43"
+    },
+    {
+      "id": "120018",
+      "name": "Complexes terre minérale",
+      "radar_intensity": "62",
+      "radar_freshness": "37",
+      "radar_warmth": "49",
+      "radar_sweetness": "54",
+      "radar_spiciness": "42",
+      "radar_earthiness": "81"
+    },
+    {
+      "id": "90032",
+      "name": "Decanoic acid",
+      "radar_intensity": "53",
+      "radar_freshness": "52",
+      "radar_warmth": "49",
+      "radar_sweetness": "51",
+      "radar_spiciness": "48",
+      "radar_earthiness": "52"
+    },
+    {
+      "id": "90010",
+      "name": "Myrrhone",
+      "radar_intensity": "55",
+      "radar_freshness": "47",
+      "radar_warmth": "61",
+      "radar_sweetness": "52",
+      "radar_spiciness": "47",
+      "radar_earthiness": "63"
+    },
+    {
+      "id": "60017",
+      "name": "Skatole",
+      "radar_intensity": "53",
+      "radar_freshness": "52",
+      "radar_warmth": "78",
+      "radar_sweetness": "51",
+      "radar_spiciness": "47",
+      "radar_earthiness": "73"
+    },
+    {
+      "id": "90070",
+      "name": "Ethyl vanilline",
+      "radar_intensity": "75",
+      "radar_freshness": "54",
+      "radar_warmth": "53",
+      "radar_sweetness": "84",
+      "radar_spiciness": "22",
+      "radar_earthiness": "53"
+    },
+    {
+      "id": "90038",
+      "name": "Marrow accord",
+      "radar_intensity": "60",
+      "radar_freshness": "58",
+      "radar_warmth": "45",
+      "radar_sweetness": "53",
+      "radar_spiciness": "43",
+      "radar_earthiness": "56"
+    },
+    {
+      "id": "60010",
+      "name": "Acide Coumarique",
+      "radar_intensity": "51",
+      "radar_freshness": "60",
+      "radar_warmth": "62",
+      "radar_sweetness": "46",
+      "radar_spiciness": "41",
+      "radar_earthiness": "64"
+    },
+    {
+      "id": "90028",
+      "name": "IBQ (Isobutyl quinoléine)",
+      "radar_intensity": "48",
+      "radar_freshness": "48",
+      "radar_warmth": "68",
+      "radar_sweetness": "49",
+      "radar_spiciness": "53",
+      "radar_earthiness": "57"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tradar_intensity\tradar_freshness\tradar_warmth\tradar_sweetness\tradar_spiciness\tradar_earthiness\n120012\tFuranosesquiterpenes\t55\t63\t66\t51\t55\t56\n210019\tEthyl 3-methylthiopropionate\t85\t55\t40\t50\t30\t45\n90014\tSilicate aldehyde\t60\t62\t39\t53\t43\t70\n90034\tSkatole\t50\t39\t74\t50\t46\t76\n180006\tGris d'Ambre\t92\t25\t85\t55\t35\t65\n210012\tEthyl lactate\t50\t55\t40\t65\t5\t25\n60004\tAcide Linoléique\t38\t48\t56\t40\t54\t43\n120018\tComplexes terre minérale\t62\t37\t49\t54\t42\t81\n90032\tDecanoic acid\t53\t52\t49\t51\t48\t52\n90010\tMyrrhone\t55\t47\t61\t52\t47\t63\n60017\tSkatole\t53\t52\t78\t51\t47\t73\n90070\tEthyl vanilline\t75\t54\t53\t84\t22\t53\n90038\tMarrow accord\t60\t58\t45\t53\t43\t56\n60010\tAcide Coumarique\t51\t60\t62\t46\t41\t64\n90028\tIBQ (Isobutyl quinoléine)\t48\t48\t68\t49\t53\t57\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

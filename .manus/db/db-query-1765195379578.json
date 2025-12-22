@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules \nSET therapeuticProperties = 'Anxiolytique, antidépresseur, stimulant immunitaire, anti-inflammatoire. Améliore l''humeur et réduit le stress. Propriétés anticancéreuses potentielles.'\nWHERE id = 2 AND name LIKE '%Limon%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules \nSET therapeuticProperties = 'Anxiolytique, antidépresseur, stimulant immunitaire, anti-inflammatoire. Améliore l''humeur et réduit le stress. Propriétés anticancéreuses potentielles.'\nWHERE id = 2 AND name LIKE '%Limon%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 221
+}

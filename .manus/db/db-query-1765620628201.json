@@ -1,0 +1,65 @@
+{
+  "query": "SELECT * FROM synergies LIMIT 5",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT * FROM synergies LIMIT 5",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Burley × Pyrazines : Amplification Chocolat Fumé",
+      "tabac_id": "1",
+      "molecule_id": "NULL",
+      "famille_id": "NULL",
+      "type": "potentialisation",
+      "effet": "Les pyrazines naturelles du Burley sont amplifiées par chauffage, créant une synergie puissante entre notes chocolatées et fumées. L'effet est multiplicatif plutôt qu'additif.",
+      "notes": "Température optimale: 120-140°C. La synergie atteint son maximum à 130°C. Compatible avec accords minéraux et résineux.",
+      "createdAt": "2025-12-03 12:40:37"
+    },
+    {
+      "id": "2",
+      "name": "Virginia Gold × Lactones : Stabilisation Miellée",
+      "tabac_id": "6",
+      "molecule_id": "NULL",
+      "famille_id": "NULL",
+      "type": "stabilisation",
+      "effet": "Les lactones du Virginia Gold prolongent la durée des notes miellées et caramélisées. La synergie crée une rondeur stable qui persiste 30-40% plus longtemps.",
+      "notes": "Base luxueuse pour compositions solaires. Les lactones (miel, caramel, coco) forment un complexe stable avec les aldéhydes doux.",
+      "createdAt": "2025-12-03 12:40:37"
+    },
+    {
+      "id": "3",
+      "name": "Samsoun × Sesquiterpènes : Transformation Balsamique",
+      "tabac_id": "3",
+      "molecule_id": "NULL",
+      "famille_id": "NULL",
+      "type": "transformation",
+      "effet": "Les sesquiterpènes du Samsoun se transforment en notes d'encens et de baume sacré. Création de nouvelles facettes mystiques absentes des composants individuels.",
+      "notes": "Riche en cèdre et santal. Notes métalliques subtiles. Idéal pour compositions rituelles à 110-130°C.",
+      "createdAt": "2025-12-03 12:40:37"
+    },
+    {
+      "id": "4",
+      "name": "Krumovgrad × Ionones : Potentialisation Florale",
+      "tabac_id": "2",
+      "molecule_id": "NULL",
+      "famille_id": "NULL",
+      "type": "potentialisation",
+      "effet": "Les ionones (violet, iris) du tabac oriental bulgare sont amplifiées, créant un bouquet floral complexe. Synergie avec les lactones miellées pour une rondeur exceptionnelle.",
+      "notes": "Profil floral et miellé. Excellente base pour accords floraux et résineux. Température: 90-110°C.",
+      "createdAt": "2025-12-03 12:40:37"
+    },
+    {
+      "id": "5",
+      "name": "Virginia Bright × Aldéhydes : Masquage Herbacé",
+      "tabac_id": "4",
+      "molecule_id": "NULL",
+      "famille_id": "NULL",
+      "type": "masquage",
+      "effet": "Les aldéhydes (foin coupé) masquent les notes vertes trop agressives tout en préservant la fraîcheur. Équilibre entre douceur sucrée et clarté herbacée.",
+      "notes": "Base lumineuse. Apporte clarté sans amertume. Compatible avec compositions lactées et florales à 80-100°C.",
+      "createdAt": "2025-12-03 12:40:37"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttabac_id\tmolecule_id\tfamille_id\ttype\teffet\tnotes\tcreatedAt\n1\tBurley × Pyrazines : Amplification Chocolat Fumé\t1\tNULL\tNULL\tpotentialisation\tLes pyrazines naturelles du Burley sont amplifiées par chauffage, créant une synergie puissante entre notes chocolatées et fumées. L'effet est multiplicatif plutôt qu'additif.\tTempérature optimale: 120-140°C. La synergie atteint son maximum à 130°C. Compatible avec accords minéraux et résineux.\t2025-12-03 12:40:37\n2\tVirginia Gold × Lactones : Stabilisation Miellée\t6\tNULL\tNULL\tstabilisation\tLes lactones du Virginia Gold prolongent la durée des notes miellées et caramélisées. La synergie crée une rondeur stable qui persiste 30-40% plus longtemps.\tBase luxueuse pour compositions solaires. Les lactones (miel, caramel, coco) forment un complexe stable avec les aldéhydes doux.\t2025-12-03 12:40:37\n3\tSamsoun × Sesquiterpènes : Transformation Balsamique\t3\tNULL\tNULL\ttransformation\tLes sesquiterpènes du Samsoun se transforment en notes d'encens et de baume sacré. Création de nouvelles facettes mystiques absentes des composants individuels.\tRiche en cèdre et santal. Notes métalliques subtiles. Idéal pour compositions rituelles à 110-130°C.\t2025-12-03 12:40:37\n4\tKrumovgrad × Ionones : Potentialisation Florale\t2\tNULL\tNULL\tpotentialisation\tLes ionones (violet, iris) du tabac oriental bulgare sont amplifiées, créant un bouquet floral complexe. Synergie avec les lactones miellées pour une rondeur exceptionnelle.\tProfil floral et miellé. Excellente base pour accords floraux et résineux. Température: 90-110°C.\t2025-12-03 12:40:37\n5\tVirginia Bright × Aldéhydes : Masquage Herbacé\t4\tNULL\tNULL\tmasquage\tLes aldéhydes (foin coupé) masquent les notes vertes trop agressives tout en préservant la fraîcheur. Équilibre entre douceur sucrée et clarté herbacée.\tBase lumineuse. Apporte clarté sans amertume. Compatible avec compositions lactées et florales à 80-100°C.\t2025-12-03 12:40:37\n",
+  "stderr": "",
+  "execution_time_ms": 730
+}

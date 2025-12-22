@@ -1,0 +1,40 @@
+{
+  "query": "SELECT * FROM recettes WHERE id = 120001 LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT * FROM recettes WHERE id = 120001 LIMIT 1;",
+  "rows": [
+    {
+      "id": "120001",
+      "name": "Forêt Méditerranéenne",
+      "category": "parfum",
+      "familyId": "NULL",
+      "accordId": "NULL",
+      "tabacId": "NULL",
+      "civilisationId": "NULL",
+      "formula": "{\"Wild Juniper\": \"25%\", \"Italian Bergamot Oil\": \"15%\", \"Artisan Peppermint Oil\": \"8%\", \"Haitian Vetiver\": \"20%\", \"Mitti Attar\": \"5%\", \"Alcool parfumeur\": \"27%\"}",
+      "protocol": "1. Mélanger les huiles essentielles dans l'ordre: Vetiver, Juniper, Bergamot, Peppermint, Mitti Attar. 2. Ajouter l'alcool parfumeur progressivement. 3. Laisser maturer 2-4 semaines.",
+      "intensity": "7",
+      "stability": "medium",
+      "combustionTemperature": "NULL",
+      "maturationTime": "21",
+      "createdAt": "2025-12-15 10:42:35",
+      "updatedAt": "2025-12-15 10:42:35",
+      "description": "Évocation d'une forêt de pins et de genévriers après la pluie. Prototype C2 - CLARUS VERDE.",
+      "ingredients": "Wild Juniper, Italian Bergamot Oil, Artisan Peppermint Oil, Haitian Vetiver, Mitti Attar",
+      "notes": "Profil: Frais → Résineux → Terreux. Résonance: Nature sauvage, liberté, après la pluie. Ingrédients Hermitage Oils.",
+      "texture": "NULL",
+      "costEstimate": "NULL",
+      "productionTime": "NULL",
+      "status": "experimental",
+      "notes_tete": "Italian Bergamot Oil - fraîcheur pétillante, Artisan Peppermint Oil - accent mentholé",
+      "notes_coeur": "Wild Juniper - cœur résineux et balsamique",
+      "notes_fond": "Haitian Vetiver - ancrage terreux, Mitti Attar - pétrichor subtil",
+      "duree_tete_min": "15",
+      "duree_coeur_min": "45",
+      "duree_fond_min": "120"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tfamilyId\taccordId\ttabacId\tcivilisationId\tformula\tprotocol\tintensity\tstability\tcombustionTemperature\tmaturationTime\tcreatedAt\tupdatedAt\tdescription\tingredients\tnotes\ttexture\tcostEstimate\tproductionTime\tstatus\tnotes_tete\tnotes_coeur\tnotes_fond\tduree_tete_min\tduree_coeur_min\tduree_fond_min\n120001\tForêt Méditerranéenne\tparfum\tNULL\tNULL\tNULL\tNULL\t{\"Wild Juniper\": \"25%\", \"Italian Bergamot Oil\": \"15%\", \"Artisan Peppermint Oil\": \"8%\", \"Haitian Vetiver\": \"20%\", \"Mitti Attar\": \"5%\", \"Alcool parfumeur\": \"27%\"}\t1. Mélanger les huiles essentielles dans l'ordre: Vetiver, Juniper, Bergamot, Peppermint, Mitti Attar. 2. Ajouter l'alcool parfumeur progressivement. 3. Laisser maturer 2-4 semaines.\t7\tmedium\tNULL\t21\t2025-12-15 10:42:35\t2025-12-15 10:42:35\tÉvocation d'une forêt de pins et de genévriers après la pluie. Prototype C2 - CLARUS VERDE.\tWild Juniper, Italian Bergamot Oil, Artisan Peppermint Oil, Haitian Vetiver, Mitti Attar\tProfil: Frais → Résineux → Terreux. Résonance: Nature sauvage, liberté, après la pluie. Ingrédients Hermitage Oils.\tNULL\tNULL\tNULL\texperimental\tItalian Bergamot Oil - fraîcheur pétillante, Artisan Peppermint Oil - accent mentholé\tWild Juniper - cœur résineux et balsamique\tHaitian Vetiver - ancrage terreux, Mitti Attar - pétrichor subtil\t15\t45\t120\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

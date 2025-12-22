@@ -1,0 +1,18 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN boilingPoint IS NULL OR boilingPoint = 0 THEN 1 ELSE 0 END) as missing_boiling_point,\n  SUM(CASE WHEN molecularWeight IS NULL OR molecularWeight = 0 THEN 1 ELSE 0 END) as missing_molecular_weight,\n  SUM(CASE WHEN family IS NULL OR family = '' THEN 1 ELSE 0 END) as missing_family,\n  SUM(CASE WHEN intensity IS NULL OR intensity = 0 THEN 1 ELSE 0 END) as missing_intensity,\n  SUM(CASE WHEN volatility IS NULL OR volatility = 0 THEN 1 ELSE 0 END) as missing_volatility\nFROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN boilingPoint IS NULL OR boilingPoint = 0 THEN 1 ELSE 0 END) as missing_boiling_point,\n  SUM(CASE WHEN molecularWeight IS NULL OR molecularWeight = 0 THEN 1 ELSE 0 END) as missing_molecular_weight,\n  SUM(CASE WHEN family IS NULL OR family = '' THEN 1 ELSE 0 END) as missing_family,\n  SUM(CASE WHEN intensity IS NULL OR intensity = 0 THEN 1 ELSE 0 END) as missing_intensity,\n  SUM(CASE WHEN volatility IS NULL OR volatility = 0 THEN 1 ELSE 0 END) as missing_volatility\nFROM molecules;",
+  "rows": [
+    {
+      "total": "138",
+      "missing_boiling_point": "129",
+      "missing_molecular_weight": "129",
+      "missing_family": "3",
+      "missing_intensity": "129",
+      "missing_volatility": "129"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tmissing_boiling_point\tmissing_molecular_weight\tmissing_family\tmissing_intensity\tmissing_volatility\n138\t129\t129\t3\t129\t129\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

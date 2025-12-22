@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hors ligne — PERFUMUM</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 500px;
+    }
+
+    .icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 32px;
+      background: #8b5cf6;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #a0a0a0;
+      margin-bottom: 32px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 32px;
+      background: #8b5cf6;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+    }
+
+    .button:hover {
+      background: #7c3aed;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(139, 92, 246, 0.4);
+    }
+
+    .features {
+      margin-top: 48px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .features h2 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      color: #8b5cf6;
+    }
+
+    .features ul {
+      list-style: none;
+    }
+
+    .features li {
+      padding: 8px 0;
+      color: #c0c0c0;
+      font-size: 14px;
+    }
+
+    .features li:before {
+      content: "✓";
+      color: #8b5cf6;
+      font-weight: bold;
+      margin-right: 12px;
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .icon {
+        width: 96px;
+        height: 96px;
+        font-size: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">P</div>
+    <h1>Vous êtes hors ligne</h1>
+    <p>
+      PERFUMUM nécessite une connexion internet pour fonctionner. 
+      Veuillez vérifier votre connexion et réessayer.
+    </p>
+    <a href="/" class="button" onclick="window.location.reload(); return false;">
+      Réessayer
+    </a>
+
+    <div class="features">
+      <h2>Fonctionnalités disponibles hors ligne :</h2>
+      <ul>
+        <li>Consultation des molécules en cache</li>
+        <li>Visualisation des graphiques sauvegardés</li>
+        <li>Accès aux favoris récents</li>
+        <li>Navigation dans les pages visitées</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Auto-retry connection every 5 seconds
+    let retryCount = 0;
+    const maxRetries = 12; // 1 minute total
+
+    function checkConnection() {
+      if (navigator.onLine && retryCount < maxRetries) {
+        retryCount++;
+        console.log(`[Offline] Checking connection... (${retryCount}/${maxRetries})`);
+        
+        fetch('/', { method: 'HEAD', cache: 'no-cache' })
+          .then(() => {
+            console.log('[Offline] Connection restored, reloading...');
+            window.location.href = '/';
+          })
+          .catch(() => {
+            console.log('[Offline] Still offline, retrying in 5s...');
+            setTimeout(checkConnection, 5000);
+          });
+      }
+    }
+
+    // Start checking after 5 seconds
+    setTimeout(checkConnection, 5000);
+
+    // Listen for online event
+    window.addEventListener('online', () => {
+      console.log('[Offline] Online event detected, reloading...');
+      window.location.href = '/';
+    });
+  </script>
+</body>
+</html>
