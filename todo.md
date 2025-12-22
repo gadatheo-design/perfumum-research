@@ -1521,4 +1521,15 @@ Publier le site pour tester en production. Les bugs HMR de développement dispar
 - [x] Étape 1 : Ajouter images botaniques placeholders pour les 9 molécules colombiennes
 - [x] Étape 2 : Créer pages complètes pour les 8 recettes Colombie (I-VIII) avec protocoles
 - [x] Étape 3 : Créer table suppliers avec relations et importer fournisseurs colombiens
-- [ ] Checkpoint et publication
+- [x] Checkpoint et publication
+
+
+## Phase 7 - Page Sourcing Colombie (Session actuelle)
+
+- [x] Créer la page SourcingColombie.tsx avec carte des régions
+- [x] Ajouter les profils des 2 fournisseurs (Cali, Armenia) avec histoires
+- [x] Intégrer la navigation vers la page
+- [x] Données fournisseurs intégrées dans le composant (pas en base)
+- [ ] Checkpoint et tests
+
+**Note** : Le site affiche des pages blanches en mode développement (bug HMR React "Invalid hook call"). Ce bug disparaîtra après publication (build production).
