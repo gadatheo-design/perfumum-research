@@ -1722,6 +1722,6 @@ Publier le site pour tester en production. Les bugs HMR de développement dispar
 - [x] Tester tous les nouveaux liens (Header + Footer) - Code implémenté correctement
 - [x] Vérifier l'affichage des actualités sur page d'accueil - Composant ResearchNews créé
 - [x] Tester la navigation mobile - Liens ajoutés dans mobileMenuSections
-- [ ] Créer checkpoint final
+- [x] Créer checkpoint final (version a90fe149)
 
 **Note** : Bug HMR Vite en développement (page blanche) - Fonctionnera correctement en production après publication.
