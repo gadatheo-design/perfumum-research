@@ -1,0 +1,50 @@
+{
+  "query": "SELECT id, name FROM recettes WHERE name LIKE 'Pheromona%' ORDER BY name",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM recettes WHERE name LIKE 'Pheromona%' ORDER BY name",
+  "rows": [
+    {
+      "id": "210002",
+      "name": "Pheromona Alpha"
+    },
+    {
+      "id": "240003",
+      "name": "Pheromona Alpha-Boisé"
+    },
+    {
+      "id": "240004",
+      "name": "Pheromona Alpha-Cuiré"
+    },
+    {
+      "id": "210003",
+      "name": "Pheromona Cascade"
+    },
+    {
+      "id": "240006",
+      "name": "Pheromona Cascade-Lente"
+    },
+    {
+      "id": "240005",
+      "name": "Pheromona Cascade-Rapide"
+    },
+    {
+      "id": "210001",
+      "name": "Pheromona Skin"
+    },
+    {
+      "id": "240001",
+      "name": "Pheromona Skin-Clean"
+    },
+    {
+      "id": "240002",
+      "name": "Pheromona Skin-Warm"
+    },
+    {
+      "id": "180001",
+      "name": "Pheromona Truffle"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n210002\tPheromona Alpha\n240003\tPheromona Alpha-Boisé\n240004\tPheromona Alpha-Cuiré\n210003\tPheromona Cascade\n240006\tPheromona Cascade-Lente\n240005\tPheromona Cascade-Rapide\n210001\tPheromona Skin\n240001\tPheromona Skin-Clean\n240002\tPheromona Skin-Warm\n180001\tPheromona Truffle\n",
+  "stderr": "",
+  "execution_time_ms": 90
+}

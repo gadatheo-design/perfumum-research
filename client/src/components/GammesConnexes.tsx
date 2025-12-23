@@ -1,8 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Droplets, Flame, Globe2, Snowflake, FlaskConical } from "lucide-react";
+import { Droplets, Flame, Globe2, Snowflake, FlaskConical, Heart } from "lucide-react";
 import { Link } from "wouter";
 
-type GammeType = "petrichor" | "volcanique" | "civilisations" | "glaciaire" | "biolab";
+type GammeType = "petrichor" | "volcanique" | "civilisations" | "glaciaire" | "biolab" | "pheromones" | "signatures" | "traditions";
 
 interface GammeInfo {
   name: string;
@@ -59,6 +59,33 @@ const gammes: Record<GammeType, GammeInfo> = {
     iconColor: "text-pink-600",
     affinites: "Approche expérimentale, protocoles rigoureux, design moléculaire",
     description: "Méthodologie rigoureuse : variations systématiques, documentation précise, approche scientifique. Expérimentation contrôlée et biotechnologie olfactive."
+  },
+  pheromones: {
+    name: "Phéromones",
+    href: "/gammes/pheromones",
+    icon: Heart,
+    iconBg: "bg-rose-50",
+    iconColor: "text-rose-600",
+    affinites: "Communication chimique, attraction, biosynthèse stéroïdienne",
+    description: "Explore les molécules de communication chimique humaine : Androsténol, Androsténone, Androstadienone. Doses infinitésimales pour effets subliminaux."
+  },
+  signatures: {
+    name: "Signatures",
+    href: "/gammes/signatures",
+    icon: FlaskConical,
+    iconBg: "bg-purple-50",
+    iconColor: "text-purple-600",
+    affinites: "Molécules signature, identité olfactive, caractère unique",
+    description: "Molécules emblématiques qui définissent une identité olfactive unique et reconnaissable."
+  },
+  traditions: {
+    name: "Traditions",
+    href: "/gammes/civilisations/mossi",
+    icon: Globe2,
+    iconBg: "bg-amber-50",
+    iconColor: "text-amber-600",
+    affinites: "Pratiques ancestrales, rituels, patrimoine olfactif",
+    description: "Explore les traditions olfactives des civilisations : encens, rituels sacrés, pratiques ancestrales."
   }
 };
 

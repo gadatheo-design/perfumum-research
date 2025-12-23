@@ -1,0 +1,82 @@
+{
+  "query": "SELECT id, name FROM molecules \nWHERE name LIKE '%Guaiacol%' \n   OR name LIKE '%Pyrazine%' \n   OR name LIKE '%Furfural%' \n   OR name LIKE '%Cresol%' \n   OR name LIKE '%Skatole%'\n   OR name LIKE '%Calone%'\n   OR name LIKE '%Linalool%'\n   OR name LIKE '%Limonene%'\n   OR name LIKE '%Pinene%'\n   OR name LIKE '%Menthol%'\n   OR name LIKE '%Myrcene%'\n   OR name LIKE '%Caryophyllene%'\n   OR name LIKE '%Humulene%'\n   OR name LIKE '%Geosmin%'\n   OR name LIKE '%Vetiver%'\n   OR name LIKE '%Ambrox%'\n   OR name LIKE '%Iso E Super%'\nORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules \nWHERE name LIKE '%Guaiacol%' \n   OR name LIKE '%Pyrazine%' \n   OR name LIKE '%Furfural%' \n   OR name LIKE '%Cresol%' \n   OR name LIKE '%Skatole%'\n   OR name LIKE '%Calone%'\n   OR name LIKE '%Linalool%'\n   OR name LIKE '%Limonene%'\n   OR name LIKE '%Pinene%'\n   OR name LIKE '%Menthol%'\n   OR name LIKE '%Myrcene%'\n   OR name LIKE '%Caryophyllene%'\n   OR name LIKE '%Humulene%'\n   OR name LIKE '%Geosmin%'\n   OR name LIKE '%Vetiver%'\n   OR name LIKE '%Ambrox%'\n   OR name LIKE '%Iso E Super%'\nORDER BY name;",
+  "rows": [
+    {
+      "id": "300004",
+      "name": "Ambrox Super"
+    },
+    {
+      "id": "3",
+      "name": "Ambroxan"
+    },
+    {
+      "id": "30003",
+      "name": "Ambroxan"
+    },
+    {
+      "id": "90015",
+      "name": "Ambroxan"
+    },
+    {
+      "id": "330017",
+      "name": "Ambroxan (Cetalox)"
+    },
+    {
+      "id": "300006",
+      "name": "Calone 1951"
+    },
+    {
+      "id": "90021",
+      "name": "Guaiacol"
+    },
+    {
+      "id": "180016",
+      "name": "Haitian Vetiver"
+    },
+    {
+      "id": "90078",
+      "name": "Iso E Super"
+    },
+    {
+      "id": "150006",
+      "name": "Linalool"
+    },
+    {
+      "id": "30009",
+      "name": "Linalool"
+    },
+    {
+      "id": "90024",
+      "name": "Pyrazines"
+    },
+    {
+      "id": "90034",
+      "name": "Skatole"
+    },
+    {
+      "id": "210002",
+      "name": "Skatole"
+    },
+    {
+      "id": "60017",
+      "name": "Skatole"
+    },
+    {
+      "id": "90050",
+      "name": "Vetiverol"
+    },
+    {
+      "id": "90051",
+      "name": "Vetiveryl acetate"
+    },
+    {
+      "id": "330015",
+      "name": "Yuzu (Limonene + Linalool)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n300004\tAmbrox Super\n3\tAmbroxan\n30003\tAmbroxan\n90015\tAmbroxan\n330017\tAmbroxan (Cetalox)\n300006\tCalone 1951\n90021\tGuaiacol\n180016\tHaitian Vetiver\n90078\tIso E Super\n150006\tLinalool\n30009\tLinalool\n90024\tPyrazines\n90034\tSkatole\n210002\tSkatole\n60017\tSkatole\n90050\tVetiverol\n90051\tVetiveryl acetate\n330015\tYuzu (Limonene + Linalool)\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

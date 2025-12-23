@@ -122,11 +122,9 @@ export default function Etudes() {
               <p className="text-muted-foreground mb-6">
                 Chaque étude suit le protocole ABSORBE : captation d'air, documentation du lieu, évaluation sensorielle, pyrolyse, enregistrement sonore et visuel, rédaction de notes.
               </p>
-              <Link href="/methode">
-                <a className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
+              <Link href="/methode" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
                   Découvrir la méthode ABSORBE →
-                </a>
-              </Link>
+                </Link>
             </div>
           </div>
         </section>

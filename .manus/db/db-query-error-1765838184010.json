@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO molecules (name, chemical_formula, molecular_weight, family, olfactory_profile, cas_number, intensity, freshness, warmth, sweetness, spiciness, earthiness, notes, category, origin, extraction_method, is_natural)\nVALUES (\n  'Androsténone',\n  'C19H28O',\n  272.43,\n  'Phéromone',\n  'Variable selon génotype - urineux/sudoral ou boisé/floral/vanillé. Première phéromone mammifère identifiée. Présente dans la truffe et le céleri.',\n  '18339-16-7',\n  75,\n  25,\n  60,\n  35,\n  20,\n  70,\n  'Stéroïde 16-androstène. Récepteur OR7D4 polymorphique. Seuil de détection très variable (0.2 ppb à 0.2 ppm).',\n  'Phéromone',\n  'Endogène humain/animal',\n  'Biosynthèse',\n  1\n)",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, chemical_formula, molecular_weight, family, olfactory_profile, cas_number, intensity, freshness, warmth, sweetness, spiciness, earthiness, notes, category, origin, extraction_method, is_natural)\nVALUES (\n  'Androsténone',\n  'C19H28O',\n  272.43,\n  'Phéromone',\n  'Variable selon génotype - urineux/sudoral ou boisé/floral/vanillé. Première phéromone mammifère identifiée. Présente dans la truffe et le céleri.',\n  '18339-16-7',\n  75,\n  25,\n  60,\n  35,\n  20,\n  70,\n  'Stéroïde 16-androstène. Récepteur OR7D4 polymorphique. Seuil de détection très variable (0.2 ppb à 0.2 ppm).',\n  'Phéromone',\n  'Endogène humain/animal',\n  'Biosynthèse',\n  1\n)",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'chemical_formula' in 'field list'"
+  ]
+}

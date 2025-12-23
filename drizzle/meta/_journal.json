@@ -57,41 +57,6 @@
       "when": 1766410953587,
       "tag": "0007_nifty_supernaut",
       "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "5",
-      "when": 1766430753608,
-      "tag": "0008_nifty_paibok",
-      "breakpoints": true
-    },
-    {
-      "idx": 9,
-      "version": "5",
-      "when": 1766431132156,
-      "tag": "0009_melted_vapor",
-      "breakpoints": true
-    },
-    {
-      "idx": 10,
-      "version": "5",
-      "when": 1766433478250,
-      "tag": "0010_black_morgan_stark",
-      "breakpoints": true
-    },
-    {
-      "idx": 11,
-      "version": "5",
-      "when": 1766434814854,
-      "tag": "0011_remarkable_firestar",
-      "breakpoints": true
-    },
-    {
-      "idx": 12,
-      "version": "5",
-      "when": 1766435117644,
-      "tag": "0012_stormy_machine_man",
-      "breakpoints": true
     }
   ]
 }

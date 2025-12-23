@@ -4,7 +4,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Droplets, Beaker, ArrowLeft } from "lucide-react";
+import { MoleculeLink } from "@/components/MoleculeLink";
+import { CompositionComplete, PrototypeComposition } from "@/components/PrototypeRadarChart";
 import { Link } from "wouter";
+
+// Composition du prototype C1
+const c1Composition: PrototypeComposition = {
+  name: "C1 — FERMENTUM",
+  color: "#9333ea", // purple-600
+  molecules: [
+    { name: "Vetiver", quantity: "0.10 ml", radarIntensity: 75, radarFreshness: 35, radarWarmth: 55, radarSweetness: 20, radarSpiciness: 30, radarEarthiness: 85 },
+    { name: "Ambre Gris", quantity: "0.05 ml", radarIntensity: 80, radarFreshness: 25, radarWarmth: 70, radarSweetness: 45, radarSpiciness: 15, radarEarthiness: 60 },
+    { name: "Makrut", quantity: "0.08 ml", radarIntensity: 70, radarFreshness: 95, radarWarmth: 15, radarSweetness: 20, radarSpiciness: 25, radarEarthiness: 10 },
+    { name: "Mitti Attar", quantity: "0.05 ml", radarIntensity: 60, radarFreshness: 40, radarWarmth: 45, radarSweetness: 15, radarSpiciness: 10, radarEarthiness: 100 },
+  ]
+};
 
 export default function C1Fermentum() {
   return (
@@ -57,12 +71,27 @@ export default function C1Fermentum() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 font-mono text-sm text-muted-foreground">
-                    <li>• Vetiver Assam : 0.10 ml</li>
-                    <li>• Ambergris : 0.05 ml</li>
-                    <li>• Makrut : 0.08 ml</li>
-                    <li>• Mitti Attar : 0.05 ml</li>
-                    <li>• Éthanol 95° : qsp 5 ml</li>
+                  <ul className="space-y-3 text-sm">
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Vetiver" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.10 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Ambre Gris" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.05 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Makrut" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.08 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Mitti Attar" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.05 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
+                      <span className="text-muted-foreground">Éthanol 95°</span>
+                      <span className="font-mono text-muted-foreground">qsp 5 ml</span>
+                    </li>
                   </ul>
                 </CardContent>
               </Card>
@@ -125,6 +154,18 @@ export default function C1Fermentum() {
                     <Badge variant="outline">Installation immersive</Badge>
                     <Badge variant="outline">Accord cœur pour compositions complexes</Badge>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Composition Complète & Profil Olfactif</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CompositionComplete 
+                    composition={c1Composition}
+                    description="Profil terreux-animal avec une fraîcheur acidulée"
+                  />
                 </CardContent>
               </Card>
 

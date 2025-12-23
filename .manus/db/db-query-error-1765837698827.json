@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO recettes (\n  name,\n  category,\n  prototype,\n  ingredients,\n  intensity,\n  stability\n) VALUES (\n  'Pheromona Truffle',\n  'parfum',\n  'Tête: Bergamote 0.3%, Poivre rose 0.1% | Cœur: Androsténol 0.0005%, Truffe noire 0.2%, Iris 0.4% | Fond: Ambrox 0.3%, Mousse de chêne 0.2%, Musc blanc 0.5%',\n  'Androsténol, Truffe noire, Bergamote, Poivre rose, Iris, Ambrox, Mousse de chêne, Musc blanc',\n  7,\n  'high'\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO recettes (\n  name,\n  category,\n  prototype,\n  ingredients,\n  intensity,\n  stability\n) VALUES (\n  'Pheromona Truffle',\n  'parfum',\n  'Tête: Bergamote 0.3%, Poivre rose 0.1% | Cœur: Androsténol 0.0005%, Truffe noire 0.2%, Iris 0.4% | Fond: Ambrox 0.3%, Mousse de chêne 0.2%, Musc blanc 0.5%',\n  'Androsténol, Truffe noire, Bergamote, Poivre rose, Iris, Ambrox, Mousse de chêne, Musc blanc',\n  7,\n  'high'\n);",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'prototype' in 'field list'"
+  ]
+}

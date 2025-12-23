@@ -49,6 +49,12 @@ import {
   moleculeNotes,
   citations,
   analyticsEvents,
+  suppliers,
+  supplierMaterials,
+  Supplier,
+  InsertSupplier,
+  SupplierMaterial,
+  InsertSupplierMaterial,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -297,6 +303,21 @@ export async function getRecettesByCategory(category: "tabac" | "resine" | "resi
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(recettes).where(eq(recettes.category, category));
+}
+
+export async function getRecetteVariations(parentId: number): Promise<Recette[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(recettes).where(eq(recettes.parentRecetteId, parentId));
+}
+
+export async function getRecetteParent(recetteId: number): Promise<Recette | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  const recette = await db.select().from(recettes).where(eq(recettes.id, recetteId)).limit(1);
+  if (!recette[0]?.parentRecetteId) return undefined;
+  const parent = await db.select().from(recettes).where(eq(recettes.id, recette[0].parentRecetteId)).limit(1);
+  return parent[0];
 }
 
 // ============================================================================
@@ -768,13 +789,19 @@ export async function getRecetteWithRelations(id: number) {
   
   const recette = recettesList[0];
   
-  // Get related molecules via molecule_recettes
+  // Get related molecules via molecule_recettes with radar data
   const relatedMolecules = await db
     .select({
       id: molecules.id,
       name: molecules.name,
       chemicalFormula: molecules.chemicalFormula,
       family: molecules.family,
+      radarIntensity: molecules.radarIntensity,
+      radarFreshness: molecules.radarFreshness,
+      radarWarmth: molecules.radarWarmth,
+      radarSweetness: molecules.radarSweetness,
+      radarSpiciness: molecules.radarSpiciness,
+      radarEarthiness: molecules.radarEarthiness,
     })
     .from(moleculesRecettes)
     .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
@@ -2591,4 +2618,620 @@ export async function enrichMoleculeData() {
   }
   
   return { updated, results };
+}
+
+
+// ============================================================================
+// COMPARE RECETTES - TOUTES LES RECETTES AVEC MOLÉCULES
+// ============================================================================
+
+export async function getAllRecettesWithMoleculesForCompare(recetteIds: number[]) {
+  const db = await getDb();
+  if (!db || recetteIds.length === 0) return [];
+  
+  const result = await Promise.all(
+    recetteIds.map(async (recetteId) => {
+      const recette = await db
+        .select()
+        .from(recettes)
+        .where(eq(recettes.id, recetteId))
+        .limit(1);
+      
+      if (recette.length === 0) return null;
+      
+      const mols = await db
+        .select({
+          molecule: molecules,
+          proportion: moleculesRecettes.proportion,
+        })
+        .from(moleculesRecettes)
+        .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
+        .where(eq(moleculesRecettes.recetteId, recetteId));
+      
+      return {
+        recette: recette[0],
+        molecules: mols,
+      };
+    })
+  );
+  
+  return result.filter(r => r !== null);
+}
+
+
+// ============================================================================
+// BATCH INSERT MOLECULES-RECETTES ASSOCIATIONS
+// ============================================================================
+
+export async function insertMoleculeRecetteAssociation(
+  recetteId: number,
+  moleculeId: number,
+  proportion: number,
+  notes?: string
+): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  try {
+    await db.insert(moleculesRecettes).values({
+      recetteId,
+      moleculeId,
+      proportion: proportion.toString(),
+      notes: notes || 'Auto-généré',
+    }).onDuplicateKeyUpdate({
+      set: {
+        proportion: proportion.toString(),
+        notes: notes || 'Auto-généré',
+      }
+    });
+    return true;
+  } catch (error) {
+    console.error(`Error inserting association ${recetteId}-${moleculeId}:`, error);
+    return false;
+  }
+}
+
+export async function batchInsertMoleculeRecetteAssociations(
+  associations: Array<{ recetteId: number; moleculeId: number; proportion: number; notes?: string }>
+): Promise<{ success: number; failed: number }> {
+  const db = await getDb();
+  if (!db) return { success: 0, failed: associations.length };
+  
+  let success = 0;
+  let failed = 0;
+  
+  for (const assoc of associations) {
+    const result = await insertMoleculeRecetteAssociation(
+      assoc.recetteId,
+      assoc.moleculeId,
+      assoc.proportion,
+      assoc.notes
+    );
+    if (result) success++;
+    else failed++;
+  }
+  
+  return { success, failed };
+}
+
+// Récupérer les recettes sans associations pour une gamme
+export async function getRecettesWithoutMoleculesByGamme(gamme: 'volcanique' | 'glaciaire' | 'biolab' | 'petrichor'): Promise<Recette[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Conditions par gamme
+  const conditions: Record<string, ReturnType<typeof or>> = {
+    volcanique: or(
+      like(recettes.name, '%Volcanique%'),
+      like(recettes.name, '%Fumé%'),
+      like(recettes.name, '%Pyrolyse%'),
+      eq(recettes.category, 'tabac')
+    ),
+    glaciaire: or(
+      like(recettes.name, '%Glaciaire%'),
+      like(recettes.name, '%Frais%'),
+      like(recettes.name, '%Ozone%'),
+      like(recettes.name, '%Menthe%')
+    ),
+    biolab: or(
+      like(recettes.name, '%Bio%'),
+      like(recettes.name, '%CBD%'),
+      like(recettes.name, '%Résine%'),
+      eq(recettes.category, 'resine_cbd')
+    ),
+    petrichor: or(
+      like(recettes.name, '%Pétrichor%'),
+      like(recettes.name, '%Terre%'),
+      like(recettes.name, '%Minéral%')
+    ),
+  };
+  
+  const condition = conditions[gamme];
+  if (!condition) return [];
+  
+  // Récupérer les recettes qui n'ont pas d'associations
+  const allRecettes = await db.select().from(recettes).where(condition);
+  
+  const recettesWithoutMolecules: Recette[] = [];
+  
+  for (const recette of allRecettes) {
+    const associations = await db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(moleculesRecettes)
+      .where(eq(moleculesRecettes.recetteId, recette.id));
+    
+    if (associations[0]?.count === 0) {
+      recettesWithoutMolecules.push(recette);
+    }
+  }
+  
+  return recettesWithoutMolecules;
+}
+
+// Récupérer les molécules par profil olfactif pour une gamme
+export async function getMoleculesForGamme(gamme: 'volcanique' | 'glaciaire' | 'biolab' | 'petrichor'): Promise<Molecule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Mots-clés par gamme
+  const keywords: Record<string, string[]> = {
+    volcanique: ['fumé', 'boisé', 'torréfié', 'grillé', 'cuir', 'goudron', 'brûlé', 'caramel'],
+    glaciaire: ['frais', 'marin', 'ozone', 'menthe', 'agrume', 'citron', 'pin', 'conifère'],
+    biolab: ['herbacé', 'terreux', 'houblon', 'épicé', 'poivre', 'boisé', 'lavande', 'floral'],
+    petrichor: ['terre', 'pluie', 'minéral', 'racine', 'ambre', 'cèdre', 'mousse', 'humide'],
+  };
+  
+  const gammeKeywords = keywords[gamme] || [];
+  if (gammeKeywords.length === 0) return [];
+  
+  // Construire les conditions LIKE pour chaque mot-clé
+  const allMolecules = await db.select().from(molecules);
+  
+  return allMolecules.filter(mol => {
+    const profile = (mol.olfactiveProfile || '').toLowerCase();
+    const name = mol.name.toLowerCase();
+    return gammeKeywords.some(kw => profile.includes(kw) || name.includes(kw));
+  });
+}
+
+// Enrichir automatiquement les associations pour une gamme
+export async function enrichGammeAssociations(gamme: 'volcanique' | 'glaciaire' | 'biolab' | 'petrichor'): Promise<{
+  recettesProcessed: number;
+  associationsCreated: number;
+  moleculesUsed: string[];
+}> {
+  const db = await getDb();
+  if (!db) return { recettesProcessed: 0, associationsCreated: 0, moleculesUsed: [] };
+  
+  // Récupérer les recettes sans associations
+  const recettesToEnrich = await getRecettesWithoutMoleculesByGamme(gamme);
+  
+  // Récupérer les molécules appropriées pour cette gamme
+  const gammeMolecules = await getMoleculesForGamme(gamme);
+  
+  if (gammeMolecules.length === 0) {
+    console.log(`Aucune molécule trouvée pour la gamme ${gamme}`);
+    return { recettesProcessed: 0, associationsCreated: 0, moleculesUsed: [] };
+  }
+  
+  let associationsCreated = 0;
+  const moleculesUsed = new Set<string>();
+  
+  for (const recette of recettesToEnrich) {
+    // Sélectionner 3-5 molécules aléatoires pour cette recette
+    const shuffled = [...gammeMolecules].sort(() => Math.random() - 0.5);
+    const numMolecules = Math.min(shuffled.length, 3 + Math.floor(Math.random() * 3));
+    
+    for (let i = 0; i < numMolecules; i++) {
+      const mol = shuffled[i];
+      const proportion = 15 + Math.floor(Math.random() * 30); // 15-45%
+      
+      const success = await insertMoleculeRecetteAssociation(
+        recette.id,
+        mol.id,
+        proportion,
+        `Association ${gamme} auto-générée`
+      );
+      
+      if (success) {
+        associationsCreated++;
+        moleculesUsed.add(mol.name);
+      }
+    }
+  }
+  
+  return {
+    recettesProcessed: recettesToEnrich.length,
+    associationsCreated,
+    moleculesUsed: Array.from(moleculesUsed),
+  };
+}
+
+
+// ============================================================================
+// IMPORT CSV - Helper functions
+// ============================================================================
+
+export async function getMoleculeByName(name: string): Promise<Molecule | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(molecules).where(eq(molecules.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateMolecule(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(molecules)
+    .set({
+      name: data.nom || undefined,
+      chemicalFormula: data.formule || undefined,
+      family: data.familleChimique || undefined,
+      olfactiveProfile: data.noteOlfactive || undefined,
+      notes: data.description || undefined,
+    })
+    .where(eq(molecules.id, id));
+}
+
+export async function getRecetteByName(name: string): Promise<Recette | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(recettes).where(eq(recettes.name, name)).limit(1);
+  return result[0];
+}
+
+export async function getAccordByName(name: string): Promise<Accord | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(accords).where(eq(accords.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateAccord(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(accords)
+    .set({
+      name: data.nom || undefined,
+      description: data.description || undefined,
+      familyId: data.familleId || undefined,
+    })
+    .where(eq(accords.id, id));
+}
+
+export async function getFamilyByName(name: string): Promise<Family | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(families).where(eq(families.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateFamily(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(families)
+    .set({
+      name: data.nom || undefined,
+      description: data.description || undefined,
+    })
+    .where(eq(families.id, id));
+}
+
+export async function getMatiereByName(name: string): Promise<Laboratoire | undefined> {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(laboratoire).where(eq(laboratoire.name, name)).limit(1);
+  return result[0];
+}
+
+export async function updateMatiere(id: number, data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(laboratoire)
+    .set({
+      name: data.nom || undefined,
+      type: data.type || undefined,
+      origin: data.origine || undefined,
+      supplier: data.fournisseur || undefined,
+      quantity: data.quantite || undefined,
+      unit: data.unite || undefined,
+      unitPrice: data.prixUnitaire || undefined,
+      purchaseDate: data.dateAchat || undefined,
+      notes: data.notes || undefined,
+    })
+    .where(eq(laboratoire.id, id));
+}
+
+
+// ============================================================================
+// HISTORIQUE DES MODIFICATIONS
+// ============================================================================
+
+export async function getModificationHistory(
+  entityType: string,
+  entityId: number,
+  limit: number = 50
+) {
+  return await drizzle
+    .select()
+    .from(schema.modificationHistory)
+    .where(
+      and(
+        eq(schema.modificationHistory.entityType, entityType),
+        eq(schema.modificationHistory.entityId, entityId)
+      )
+    )
+    .orderBy(desc(schema.modificationHistory.createdAt))
+    .limit(limit);
+}
+
+export async function getRecentModifications(limit: number = 100) {
+  return await drizzle
+    .select()
+    .from(schema.modificationHistory)
+    .orderBy(desc(schema.modificationHistory.createdAt))
+    .limit(limit);
+}
+
+export async function getModificationById(id: number) {
+  const results = await drizzle
+    .select()
+    .from(schema.modificationHistory)
+    .where(eq(schema.modificationHistory.id, id))
+    .limit(1);
+  
+  return results[0] || null;
+}
+
+export async function markModificationAsUndone(id: number) {
+  await drizzle
+    .update(schema.modificationHistory)
+    .set({ 
+      undoneAt: new Date(),
+    })
+    .where(eq(schema.modificationHistory.id, id));
+}
+
+export async function recordModification(
+  entityType: string,
+  entityId: number,
+  action: "create" | "update" | "delete",
+  oldData: any,
+  newData: any
+) {
+  await drizzle.insert(schema.modificationHistory).values({
+    entityType,
+    entityId,
+    action,
+    oldData: JSON.stringify(oldData),
+    newData: JSON.stringify(newData),
+    createdAt: new Date(),
+  });
+}
+
+
+// ============================================================================
+// SUPPLIERS (Fournisseurs)
+// ============================================================================
+
+/**
+ * Get all suppliers
+ */
+export async function getAllSuppliers() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.suppliers.findMany();
+}
+
+/**
+ * Get supplier by ID
+ */
+export async function getSupplierById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return await db.query.suppliers.findFirst({
+    where: (suppliers, { eq }) => eq(suppliers.id, id),
+    with: {
+      materials: true,
+    },
+  });
+}
+
+/**
+ * Get suppliers by country
+ */
+export async function getSuppliersByCountry(country: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.suppliers.findMany({
+    where: (suppliers, { eq }) => eq(suppliers.country, country),
+  });
+}
+
+/**
+ * Get suppliers by region
+ */
+export async function getSuppliersByRegion(region: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.suppliers.findMany({
+    where: (suppliers, { eq }) => eq(suppliers.region, region),
+  });
+}
+
+/**
+ * Create a new supplier
+ */
+export async function createSupplier(data: {
+  name: string;
+  companyName?: string;
+  country: string;
+  region?: string;
+  email?: string;
+  phone?: string;
+  website?: string;
+  specialties?: string[];
+  description?: string;
+  rating?: number;
+  certifications?: string[];
+  isPreferred?: boolean;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(suppliers).values({
+    name: data.name,
+    companyName: data.companyName,
+    country: data.country,
+    region: data.region,
+    email: data.email,
+    phone: data.phone,
+    website: data.website,
+    specialties: data.specialties ? JSON.stringify(data.specialties) : null,
+    description: data.description,
+    rating: data.rating,
+    certifications: data.certifications ? JSON.stringify(data.certifications) : null,
+    isPreferred: data.isPreferred ? 1 : 0,
+    notes: data.notes,
+  });
+  return result;
+}
+
+/**
+ * Update a supplier
+ */
+export async function updateSupplier(id: number, data: Partial<{
+  name: string;
+  companyName: string;
+  country: string;
+  region: string;
+  email: string;
+  phone: string;
+  website: string;
+  specialties: string[];
+  description: string;
+  rating: number;
+  certifications: string[];
+  isPreferred: boolean;
+  notes: string;
+}>) {
+  const updateData: any = {};
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.companyName !== undefined) updateData.companyName = data.companyName;
+  if (data.country !== undefined) updateData.country = data.country;
+  if (data.region !== undefined) updateData.region = data.region;
+  if (data.email !== undefined) updateData.email = data.email;
+  if (data.phone !== undefined) updateData.phone = data.phone;
+  if (data.website !== undefined) updateData.website = data.website;
+  if (data.specialties !== undefined) updateData.specialties = JSON.stringify(data.specialties);
+  if (data.description !== undefined) updateData.description = data.description;
+  if (data.rating !== undefined) updateData.rating = data.rating;
+  if (data.certifications !== undefined) updateData.certifications = JSON.stringify(data.certifications);
+  if (data.isPreferred !== undefined) updateData.isPreferred = data.isPreferred ? 1 : 0;
+  if (data.notes !== undefined) updateData.notes = data.notes;
+
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db
+    .update(suppliers)
+    .set(updateData)
+    .where(eq(suppliers.id, id));
+}
+
+/**
+ * Delete a supplier
+ */
+export async function deleteSupplier(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db
+    .delete(suppliers)
+    .where(eq(suppliers.id, id));
+}
+
+/**
+ * Get supplier materials (link between supplier and molecules)
+ */
+export async function getSupplierMaterials(supplierId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.supplierMaterials.findMany({
+    where: (materials, { eq }) => eq(materials.supplierId, supplierId),
+    with: {
+      molecule: true,
+    },
+  });
+}
+
+/**
+ * Add a material to a supplier
+ */
+export async function addSupplierMaterial(data: {
+  supplierId: number;
+  moleculeId: number;
+  pricePerUnit?: number;
+  currency?: string;
+  minimumOrderQuantity?: number;
+  unit?: string;
+  leadTimeDays?: number;
+  qualityGrade?: "standard" | "premium" | "extra_premium";
+  isAvailable?: boolean;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(supplierMaterials).values({
+    supplierId: data.supplierId,
+    moleculeId: data.moleculeId,
+    pricePerUnit: data.pricePerUnit ? String(data.pricePerUnit) : null,
+    currency: data.currency || "USD",
+    minimumOrderQuantity: data.minimumOrderQuantity,
+    unit: data.unit,
+    leadTimeDays: data.leadTimeDays,
+    qualityGrade: data.qualityGrade || "standard",
+    isAvailable: data.isAvailable !== false ? 1 : 0,
+    notes: data.notes,
+  });
+  return result;
+}
+
+
+// ============================================================================
+// FONCTIONS CREATE MANQUANTES (pour undo history)
+// ============================================================================
+
+export async function createAccord(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(accords).values({
+    name: data.nom || data.name,
+    familyId: data.familleId || data.familyId || null,
+    olfactiveProfile: data.olfactiveProfile || data.description || null,
+    notes: data.notes || null,
+  });
+  
+  return result;
+}
+
+export async function createFamily(data: any) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(families).values({
+    name: data.nom || data.name,
+    type: data.type || "other",
+    description: data.description || null,
+  });
+  
+  return result;
 }

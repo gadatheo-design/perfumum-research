@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -15,7 +16,11 @@ import {
   BarChart3,
   Sparkles,
   Lightbulb,
-  Loader2
+  Loader2,
+  Flame,
+  Snowflake,
+  Leaf,
+  Droplets
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -25,6 +30,24 @@ export default function Admin() {
   // Charger les statistiques
   const { data: stats } = trpc.admin.getStats.useQuery();
   const [isEnriching, setIsEnriching] = useState(false);
+  
+  const [enrichingGamme, setEnrichingGamme] = useState<string | null>(null);
+  
+  const enrichGammeMutation = trpc.recettes.enrichGamme.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.recettesProcessed} recettes enrichies avec ${data.associationsCreated} associations !`);
+      setEnrichingGamme(null);
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+      setEnrichingGamme(null);
+    },
+  });
+  
+  const handleEnrichGamme = (gamme: 'volcanique' | 'glaciaire' | 'biolab' | 'petrichor') => {
+    setEnrichingGamme(gamme);
+    enrichGammeMutation.mutate({ gamme });
+  };
   
   const enrichMutation = trpc.admin.enrichMoleculeData.useMutation({
     onSuccess: (data) => {
@@ -277,9 +300,75 @@ export default function Admin() {
                   </CardContent>
                 </Card>
               </div>
+              
+              {/* Section Enrichissement des Gammes */}
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Layers className="w-5 h-5 text-orange-600" />
+                  Enrichir les associations molécules-recettes par gamme
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Génère automatiquement des associations entre les recettes et les molécules correspondantes pour chaque gamme olfactive.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <Button
+                    onClick={() => handleEnrichGamme('volcanique')}
+                    disabled={enrichingGamme !== null}
+                    variant="outline"
+                    className="border-orange-300 hover:bg-orange-50 dark:hover:bg-orange-950"
+                  >
+                    {enrichingGamme === 'volcanique' ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <Flame className="w-4 h-4 mr-2 text-orange-600" />
+                    )}
+                    Volcanique
+                  </Button>
+                  <Button
+                    onClick={() => handleEnrichGamme('glaciaire')}
+                    disabled={enrichingGamme !== null}
+                    variant="outline"
+                    className="border-cyan-300 hover:bg-cyan-50 dark:hover:bg-cyan-950"
+                  >
+                    {enrichingGamme === 'glaciaire' ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <Snowflake className="w-4 h-4 mr-2 text-cyan-600" />
+                    )}
+                    Glaciaire
+                  </Button>
+                  <Button
+                    onClick={() => handleEnrichGamme('biolab')}
+                    disabled={enrichingGamme !== null}
+                    variant="outline"
+                    className="border-green-300 hover:bg-green-50 dark:hover:bg-green-950"
+                  >
+                    {enrichingGamme === 'biolab' ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <Leaf className="w-4 h-4 mr-2 text-green-600" />
+                    )}
+                    Bio-Lab
+                  </Button>
+                  <Button
+                    onClick={() => handleEnrichGamme('petrichor')}
+                    disabled={enrichingGamme !== null}
+                    variant="outline"
+                    className="border-stone-400 hover:bg-stone-50 dark:hover:bg-stone-950"
+                  >
+                    {enrichingGamme === 'petrichor' ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <Droplets className="w-4 h-4 mr-2 text-stone-600" />
+                    )}
+                    Pétrichor
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
+
 
         {/* Quick Actions */}
         <section className="py-16 bg-muted/30">

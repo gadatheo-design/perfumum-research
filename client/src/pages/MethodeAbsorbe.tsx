@@ -102,22 +102,18 @@ export default function MethodeAbsorbe() {
                   <p className="text-sm text-muted-foreground mb-3">
                     Protocoles de pyrolyse à 3 températures (120°C, 160°C, 200°C) et profils de dégradation thermique.
                   </p>
-                  <Link href="/methodologie/pyrolyse">
-                    <a className="inline-flex items-center gap-2 text-primary hover:underline font-semibold text-sm">
+                  <Link href="/methodologie/pyrolyse" className="inline-flex items-center gap-2 text-primary hover:underline font-semibold text-sm">
                       Lire le protocole →
-                    </a>
-                  </Link>
+                    </Link>
                 </div>
                 <div className="border border-blue-500/30 rounded-lg p-6 bg-blue-500/5">
                   <h3 className="text-lg font-bold mb-2">Chromatographie GC-MS</h3>
                   <p className="text-sm text-muted-foreground mb-3">
                     Analyse chromatographique, standards internes, et interprétation des chromatogrammes.
                   </p>
-                  <Link href="/methodologie/gc-ms">
-                    <a className="inline-flex items-center gap-2 text-blue-600 hover:underline font-semibold text-sm">
+                  <Link href="/methodologie/gc-ms" className="inline-flex items-center gap-2 text-blue-600 hover:underline font-semibold text-sm">
                       Lire le protocole →
-                    </a>
-                  </Link>
+                    </Link>
                 </div>
               </div>
             </div>
@@ -131,11 +127,9 @@ export default function MethodeAbsorbe() {
               <p className="text-muted-foreground mb-6">
                 Cette méthodologie est appliquée sur l'ensemble des terrains de recherche PERFUMUM.
               </p>
-              <Link href="/projets">
-                <a className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
+              <Link href="/projets" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity">
                   Découvrir les projets terrain →
-                </a>
-              </Link>
+                </Link>
             </div>
           </div>
         </section>

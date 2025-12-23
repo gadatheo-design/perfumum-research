@@ -1,0 +1,710 @@
+{
+  "query": "SELECT \n  r.id, \n  r.name, \n  r.category,\n  CASE \n    WHEN r.name LIKE '%Volcanique%' OR r.name LIKE '%Fumé%' OR r.name LIKE '%Pyrolyse%' OR r.category = 'tabac' THEN 'Volcanique'\n    WHEN r.name LIKE '%Glaciaire%' OR r.name LIKE '%Frais%' OR r.name LIKE '%Ozone%' OR r.name LIKE '%Menthe%' THEN 'Glaciaire'\n    WHEN r.name LIKE '%Bio%' OR r.name LIKE '%CBD%' OR r.name LIKE '%Résine%' OR r.category = 'resine_cbd' THEN 'Bio-Lab'\n    WHEN r.name LIKE '%Pétrichor%' OR r.name LIKE '%Terre%' OR r.name LIKE '%Minéral%' THEN 'Pétrichor'\n    ELSE 'Autre'\n  END as gamme,\n  COUNT(mr.molecule_id) as nb_molecules\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nGROUP BY r.id, r.name, r.category\nORDER BY gamme, nb_molecules ASC\nLIMIT 100;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  r.id, \n  r.name, \n  r.category,\n  CASE \n    WHEN r.name LIKE '%Volcanique%' OR r.name LIKE '%Fumé%' OR r.name LIKE '%Pyrolyse%' OR r.category = 'tabac' THEN 'Volcanique'\n    WHEN r.name LIKE '%Glaciaire%' OR r.name LIKE '%Frais%' OR r.name LIKE '%Ozone%' OR r.name LIKE '%Menthe%' THEN 'Glaciaire'\n    WHEN r.name LIKE '%Bio%' OR r.name LIKE '%CBD%' OR r.name LIKE '%Résine%' OR r.category = 'resine_cbd' THEN 'Bio-Lab'\n    WHEN r.name LIKE '%Pétrichor%' OR r.name LIKE '%Terre%' OR r.name LIKE '%Minéral%' THEN 'Pétrichor'\n    ELSE 'Autre'\n  END as gamme,\n  COUNT(mr.molecule_id) as nb_molecules\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nGROUP BY r.id, r.name, r.category\nORDER BY gamme, nb_molecules ASC\nLIMIT 100;",
+  "rows": [
+    {
+      "id": "82",
+      "name": "PÉTRICHOR SUR BOIS MOISI",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "106",
+      "name": "PANGAEA",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "46",
+      "name": "LEMURIA ROOT",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "59",
+      "name": "TEMPLE DE TERRE BLANCHE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "78",
+      "name": "PÉTRICHOR MARIN / ATLANTIDE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "124",
+      "name": "TABAC PÉTRICHOR ABSOLU",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "30005",
+      "name": "Myrrhe Ancestrale",
+      "category": "resine",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "42",
+      "name": "MEROE : RÉSINE NOIRE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "15",
+      "name": "SÉDIMENT ARCHÉOLOGIQUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "39",
+      "name": "PÉTRICHOR DE L’ORDRE BLANC",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "38",
+      "name": "PÉTRICHOR SANCTUAIRE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "1",
+      "name": "OS PLUVIEUX",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "129",
+      "name": "TABAC DES FOSSILES",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "17",
+      "name": "SOL NOIR VIVANT",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "32",
+      "name": "PÉTRICHOR DE TEMPLES (Égypte)",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "116",
+      "name": "TEMPLE SUBTERRAIN",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "72",
+      "name": "PÉTRICHOR TROPICAL FOSSILISÉ (Monoï)",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "114",
+      "name": "CHAIR CÉRÉMONIELLE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "102",
+      "name": "SHA’RA CITÉ SABLE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "110",
+      "name": "RITUEL DE ROCHE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "16",
+      "name": "FOSSILE BLANC MINÉRAL",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "123",
+      "name": "ENCENS GLACÉ",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "90",
+      "name": "AKHET : PIERRE BLANCHE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "113",
+      "name": "ENCENS D’OS",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "18",
+      "name": "PLUIE SUR BITUME SACRÉ",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "25",
+      "name": "PÉTRICHOR ARCHIVE HUMIDE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "118",
+      "name": "ENCRE SACRÉE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "87",
+      "name": "PÉTRICHOR SANCTUAIRE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "92",
+      "name": "LYONESSE : PLUIE BLANCHE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "103",
+      "name": "KER YS",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "30007",
+      "name": "Styrax Profond",
+      "category": "resine",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "4",
+      "name": "ARGILE HUMIDE SACRÉE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "8",
+      "name": "FOUILLE HUMIDE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "30002",
+      "name": "Ambre Fossile",
+      "category": "resine",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "88",
+      "name": "PÉTRICHOR DE L’ORDRE BLANC",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "120",
+      "name": "CHEMIN DES ANCÊTRES",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "7",
+      "name": "PIERRE NOIRE FENDUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "37",
+      "name": "PÉTRICHOR CUIRANT",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "35",
+      "name": "PÉTRICHOR CUIVRÉ",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "23",
+      "name": "PÉTRICHOR TROPICAL FOSSILISÉ (Monoï)",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "68",
+      "name": "ARGILE LUMINEUSE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "93",
+      "name": "ATLANTIDE LUMINEUSE : OCÉAN CLAIR",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "240002",
+      "name": "Pheromona Skin-Warm",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "5",
+      "name": "PÉTRICHOR SÉPULCRAL",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "54",
+      "name": "PÉTRICHOR SÉPULCRAL",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "115",
+      "name": "LITURGIE MINÉRALE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "43",
+      "name": "LYONESSE : PLUIE BLANCHE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "117",
+      "name": "GROUPEMENT OSSUAIRE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "14",
+      "name": "PLUIE SULFURÉE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "210002",
+      "name": "Pheromona Alpha",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "94",
+      "name": "LYONESSE SINKING",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "64",
+      "name": "SÉDIMENT ARCHÉOLOGIQUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "52",
+      "name": "ARCHÉOLOGIE BRÛLÉE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "55",
+      "name": "BIBLIOTHÈQUE HUMIDE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "69",
+      "name": "OS ROUGE (Mossi)",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "120007",
+      "name": "Rituel d'Assam",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "41",
+      "name": "AKHET : PIERRE BLANCHE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "47",
+      "name": "MU : SOUFFLE ANCESTRAL",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "36",
+      "name": "PÉTRICHOR ARCHÉOLOGIQUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "240003",
+      "name": "Pheromona Alpha-Boisé",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "56",
+      "name": "PIERRE NOIRE FENDUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "134",
+      "name": "TABAC ASKJA",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "27",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "44",
+      "name": "ATLANTIDE LUMINEUSE : OCÉAN CLAIR",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "240001",
+      "name": "Pheromona Skin-Clean",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "98",
+      "name": "ATLANTIS BLACK LIBRARY",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "29",
+      "name": "PÉTRICHOR MARIN / ATLANTIDE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "71",
+      "name": "PÉTRICHOR SOMBRE / HUMIDE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "79",
+      "name": "PÉTRICHOR DÉSERTIQUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "30",
+      "name": "PÉTRICHOR DÉSERTIQUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "51",
+      "name": "FOSSE ANTIQUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "240006",
+      "name": "Pheromona Cascade-Lente",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "120002",
+      "name": "Jardin Japonais",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "119",
+      "name": "RITUEL SEPTENTRIONAL",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "96",
+      "name": "MU : SOUFFLE ANCESTRAL",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "131",
+      "name": "TABAC DES CIVILISATIONS PERDUES",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "6",
+      "name": "BIBLIOTHÈQUE HUMIDE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "30006",
+      "name": "Oliban Sacré",
+      "category": "resine",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "104",
+      "name": "AGARTHA",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "120003",
+      "name": "Fleur d'Oranger Tropicale",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "120004",
+      "name": "Soleil de Sicile",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "91",
+      "name": "MEROE : RÉSINE NOIRE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "128",
+      "name": "TABAC RITUEL MONTAGNARD",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "100",
+      "name": "HYPERBOREA",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "126",
+      "name": "TABAC GLACIAIRE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "133",
+      "name": "TABAC UMBRIA",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "2",
+      "name": "FOSSE ANTIQUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "48",
+      "name": "ATLANTIS LIGHT COLUMN",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "112",
+      "name": "KYFI NOIR",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "67",
+      "name": "PLUIE SUR BITUME SACRÉ",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "107",
+      "name": "BELIZE CAVERN",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "109",
+      "name": "ENCENS VIVANT",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "86",
+      "name": "PÉTRICHOR CUIRANT",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "62",
+      "name": "TERRE HUMIDE SACRÉE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "10",
+      "name": "TEMPLE DE TERRE BLANCHE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "26",
+      "name": "PLUIE SUR CENDRE FROIDE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "70",
+      "name": "PÉTRICHOR CLAIR / GLACIAIRE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "21",
+      "name": "PÉTRICHOR CLAIR / GLACIAIRE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "30004",
+      "name": "Labdanum Nocturne",
+      "category": "resine",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    },
+    {
+      "id": "127",
+      "name": "TABAC VOLCANIQUE",
+      "category": "parfum",
+      "gamme": "Autre",
+      "nb_molecules": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tgamme\tnb_molecules\n82\tPÉTRICHOR SUR BOIS MOISI\tparfum\tAutre\t0\n106\tPANGAEA\tparfum\tAutre\t0\n46\tLEMURIA ROOT\tparfum\tAutre\t0\n59\tTEMPLE DE TERRE BLANCHE\tparfum\tAutre\t0\n78\tPÉTRICHOR MARIN / ATLANTIDE\tparfum\tAutre\t0\n124\tTABAC PÉTRICHOR ABSOLU\tparfum\tAutre\t0\n30005\tMyrrhe Ancestrale\tresine\tAutre\t0\n42\tMEROE : RÉSINE NOIRE\tparfum\tAutre\t0\n15\tSÉDIMENT ARCHÉOLOGIQUE\tparfum\tAutre\t0\n39\tPÉTRICHOR DE L’ORDRE BLANC\tparfum\tAutre\t0\n38\tPÉTRICHOR SANCTUAIRE\tparfum\tAutre\t0\n1\tOS PLUVIEUX\tparfum\tAutre\t0\n129\tTABAC DES FOSSILES\tparfum\tAutre\t0\n17\tSOL NOIR VIVANT\tparfum\tAutre\t0\n32\tPÉTRICHOR DE TEMPLES (Égypte)\tparfum\tAutre\t0\n116\tTEMPLE SUBTERRAIN\tparfum\tAutre\t0\n72\tPÉTRICHOR TROPICAL FOSSILISÉ (Monoï)\tparfum\tAutre\t0\n114\tCHAIR CÉRÉMONIELLE\tparfum\tAutre\t0\n102\tSHA’RA CITÉ SABLE\tparfum\tAutre\t0\n110\tRITUEL DE ROCHE\tparfum\tAutre\t0\n16\tFOSSILE BLANC MINÉRAL\tparfum\tAutre\t0\n123\tENCENS GLACÉ\tparfum\tAutre\t0\n90\tAKHET : PIERRE BLANCHE\tparfum\tAutre\t0\n113\tENCENS D’OS\tparfum\tAutre\t0\n18\tPLUIE SUR BITUME SACRÉ\tparfum\tAutre\t0\n25\tPÉTRICHOR ARCHIVE HUMIDE\tparfum\tAutre\t0\n118\tENCRE SACRÉE\tparfum\tAutre\t0\n87\tPÉTRICHOR SANCTUAIRE\tparfum\tAutre\t0\n92\tLYONESSE : PLUIE BLANCHE\tparfum\tAutre\t0\n103\tKER YS\tparfum\tAutre\t0\n30007\tStyrax Profond\tresine\tAutre\t0\n4\tARGILE HUMIDE SACRÉE\tparfum\tAutre\t0\n8\tFOUILLE HUMIDE\tparfum\tAutre\t0\n30002\tAmbre Fossile\tresine\tAutre\t0\n88\tPÉTRICHOR DE L’ORDRE BLANC\tparfum\tAutre\t0\n120\tCHEMIN DES ANCÊTRES\tparfum\tAutre\t0\n7\tPIERRE NOIRE FENDUE\tparfum\tAutre\t0\n37\tPÉTRICHOR CUIRANT\tparfum\tAutre\t0\n35\tPÉTRICHOR CUIVRÉ\tparfum\tAutre\t0\n23\tPÉTRICHOR TROPICAL FOSSILISÉ (Monoï)\tparfum\tAutre\t0\n68\tARGILE LUMINEUSE\tparfum\tAutre\t0\n93\tATLANTIDE LUMINEUSE : OCÉAN CLAIR\tparfum\tAutre\t0\n240002\tPheromona Skin-Warm\tparfum\tAutre\t0\n5\tPÉTRICHOR SÉPULCRAL\tparfum\tAutre\t0\n54\tPÉTRICHOR SÉPULCRAL\tparfum\tAutre\t0\n115\tLITURGIE MINÉRALE\tparfum\tAutre\t0\n43\tLYONESSE : PLUIE BLANCHE\tparfum\tAutre\t0\n117\tGROUPEMENT OSSUAIRE\tparfum\tAutre\t0\n14\tPLUIE SULFURÉE\tparfum\tAutre\t0\n210002\tPheromona Alpha\tparfum\tAutre\t0\n94\tLYONESSE SINKING\tparfum\tAutre\t0\n64\tSÉDIMENT ARCHÉOLOGIQUE\tparfum\tAutre\t0\n52\tARCHÉOLOGIE BRÛLÉE\tparfum\tAutre\t0\n55\tBIBLIOTHÈQUE HUMIDE\tparfum\tAutre\t0\n69\tOS ROUGE (Mossi)\tparfum\tAutre\t0\n120007\tRituel d'Assam\tparfum\tAutre\t0\n41\tAKHET : PIERRE BLANCHE\tparfum\tAutre\t0\n47\tMU : SOUFFLE ANCESTRAL\tparfum\tAutre\t0\n36\tPÉTRICHOR ARCHÉOLOGIQUE\tparfum\tAutre\t0\n240003\tPheromona Alpha-Boisé\tparfum\tAutre\t0\n56\tPIERRE NOIRE FENDUE\tparfum\tAutre\t0\n134\tTABAC ASKJA\tparfum\tAutre\t0\n27\tPÉTRICHOR DE SAVANE (Mossi)\tparfum\tAutre\t0\n44\tATLANTIDE LUMINEUSE : OCÉAN CLAIR\tparfum\tAutre\t0\n240001\tPheromona Skin-Clean\tparfum\tAutre\t0\n98\tATLANTIS BLACK LIBRARY\tparfum\tAutre\t0\n29\tPÉTRICHOR MARIN / ATLANTIDE\tparfum\tAutre\t0\n71\tPÉTRICHOR SOMBRE / HUMIDE\tparfum\tAutre\t0\n79\tPÉTRICHOR DÉSERTIQUE\tparfum\tAutre\t0\n30\tPÉTRICHOR DÉSERTIQUE\tparfum\tAutre\t0\n51\tFOSSE ANTIQUE\tparfum\tAutre\t0\n240006\tPheromona Cascade-Lente\tparfum\tAutre\t0\n120002\tJardin Japonais\tparfum\tAutre\t0\n119\tRITUEL SEPTENTRIONAL\tparfum\tAutre\t0\n96\tMU : SOUFFLE ANCESTRAL\tparfum\tAutre\t0\n131\tTABAC DES CIVILISATIONS PERDUES\tparfum\tAutre\t0\n6\tBIBLIOTHÈQUE HUMIDE\tparfum\tAutre\t0\n30006\tOliban Sacré\tresine\tAutre\t0\n104\tAGARTHA\tparfum\tAutre\t0\n120003\tFleur d'Oranger Tropicale\tparfum\tAutre\t0\n120004\tSoleil de Sicile\tparfum\tAutre\t0\n91\tMEROE : RÉSINE NOIRE\tparfum\tAutre\t0\n128\tTABAC RITUEL MONTAGNARD\tparfum\tAutre\t0\n100\tHYPERBOREA\tparfum\tAutre\t0\n126\tTABAC GLACIAIRE\tparfum\tAutre\t0\n133\tTABAC UMBRIA\tparfum\tAutre\t0\n2\tFOSSE ANTIQUE\tparfum\tAutre\t0\n48\tATLANTIS LIGHT COLUMN\tparfum\tAutre\t0\n112\tKYFI NOIR\tparfum\tAutre\t0\n67\tPLUIE SUR BITUME SACRÉ\tparfum\tAutre\t0\n107\tBELIZE CAVERN\tparfum\tAutre\t0\n109\tENCENS VIVANT\tparfum\tAutre\t0\n86\tPÉTRICHOR CUIRANT\tparfum\tAutre\t0\n62\tTERRE HUMIDE SACRÉE\tparfum\tAutre\t0\n10\tTEMPLE DE TERRE BLANCHE\tparfum\tAutre\t0\n26\tPLUIE SUR CENDRE FROIDE\tparfum\tAutre\t0\n70\tPÉTRICHOR CLAIR / GLACIAIRE\tparfum\tAutre\t0\n21\tPÉTRICHOR CLAIR / GLACIAIRE\tparfum\tAutre\t0\n30004\tLabdanum Nocturne\tresine\tAutre\t0\n127\tTABAC VOLCANIQUE\tparfum\tAutre\t0\n",
+  "stderr": "",
+  "execution_time_ms": 669
+}

@@ -4,7 +4,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sun, Beaker, ArrowLeft } from "lucide-react";
+import { MoleculeLink } from "@/components/MoleculeLink";
+import { CompositionComplete, PrototypeComposition } from "@/components/PrototypeRadarChart";
 import { Link } from "wouter";
+
+// Composition du prototype C3
+const c3Composition: PrototypeComposition = {
+  name: "C3 — LACTA SOLIS",
+  color: "#ca8a04", // yellow-600
+  molecules: [
+    { name: "Frangipani", quantity: "0.6 ml", radarIntensity: 80, radarFreshness: 45, radarWarmth: 60, radarSweetness: 85, radarSpiciness: 10, radarEarthiness: 15 },
+    { name: "Neroli", quantity: "0.08 ml", radarIntensity: 70, radarFreshness: 75, radarWarmth: 40, radarSweetness: 65, radarSpiciness: 5, radarEarthiness: 10 },
+  ]
+};
 
 export default function C3LactaSolis() {
   return (
@@ -57,10 +69,19 @@ export default function C3LactaSolis() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 font-mono text-sm text-muted-foreground">
-                    <li>• Plumeria (Frangipani) : 0.6 ml</li>
-                    <li>• Neroli Bouquetier : 0.08 ml</li>
-                    <li>• Base MCT : qsp 10 ml</li>
+                  <ul className="space-y-3 text-sm">
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Frangipani" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.6 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Neroli" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.08 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
+                      <span className="text-muted-foreground">Base MCT</span>
+                      <span className="font-mono text-muted-foreground">qsp 10 ml</span>
+                    </li>
                   </ul>
                 </CardContent>
               </Card>
@@ -123,6 +144,18 @@ export default function C3LactaSolis() {
                     <Badge variant="outline">Parfum de peau</Badge>
                     <Badge variant="outline">Installation textile olfactive</Badge>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Composition Complète & Profil Olfactif</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CompositionComplete 
+                    composition={c3Composition}
+                    description="Profil floral-lactonique doux et solaire"
+                  />
                 </CardContent>
               </Card>
 

@@ -20,10 +20,13 @@ import LeProjet from "./pages/LeProjet";
 
 // === ADMINISTRATION ===
 import Admin from "./pages/Admin";
+import TestTRPC from "./pages/TestTRPC";
+import TestSimple from "./pages/TestSimple";
 import AdminMolecules from "./pages/AdminMolecules";
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminRecettes from "./pages/AdminRecettes";
 import AdminImportExport from "./pages/AdminImportExport";
+import AdminHistorique from "./pages/AdminHistorique";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -41,6 +44,15 @@ import GammesGlaciaire from "@/pages/GammesGlaciaire";
 import GammesBioLab from "@/pages/GammesBioLab";
 import GammesMossi from "./pages/GammesMossi";
 import GammeSignatures from "./pages/GammeSignatures";
+import GammePheromones from "./pages/GammePheromones";
+import GammeRaretes from "./pages/GammeRaretes";
+import ColombieLine from '@/pages/ColombieLine';
+import RecetteColombie from '@/pages/RecetteColombie';
+import SourcingColombie from '@/pages/SourcingColombie';
+import Sourcing from '@/pages/Sourcing';
+import SourcingFrance from '@/pages/SourcingFrance';
+import SourcingInde from '@/pages/SourcingInde';
+import SourcingMadagascar from '@/pages/SourcingMadagascar';
 
 // === LABORATOIRE ===
 import Laboratoire from "./pages/Laboratoire";
@@ -72,6 +84,7 @@ import ProtocolesMaturation from "./pages/ProtocolesMaturation";
 import Compare from "./pages/Compare";
 import CompareTerpenes from "./pages/CompareTerpenes";
 import CompareRadar from "./pages/CompareRadar";
+import CompareRecettes from "./pages/CompareRecettes";
 import CompareMoleculesAdvanced from "./pages/CompareMoleculesAdvanced";
 import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
 import ComparateurAvance from "@/pages/ComparateurAvance";
@@ -126,15 +139,7 @@ import Installations from "./pages/Installations";
 import TabacsResines from "./pages/TabacsResines";
 import Associations from "./pages/Associations";
 import Fournisseurs from "./pages/Fournisseurs";
-import Sourcing from "./pages/Sourcing";
-import SourcingFrance from "./pages/SourcingFrance";
-import SourcingInde from "./pages/SourcingInde";
-import SourcingMadagascar from "./pages/SourcingMadagascar";
-import SourcingJapon from "./pages/SourcingJapon";
-import SourcingMaroc from "./pages/SourcingMaroc";
-import SourcingSuisse from "./pages/SourcingSuisse";
-import SourcingUK from "./pages/SourcingUK";
-import SourcingColombie from "./pages/SourcingColombie";
+import CalculateurCout from "./pages/CalculateurCout";
 
 // === DASHBOARDS ===
 import { DashboardMinimal } from "./pages/DashboardMinimal";
@@ -154,15 +159,19 @@ import TestMinimal from "./pages/TestMinimal";
 function Router() {
   return (
     <Switch>
-      {/* === ACCUEIL === */}
-      <Route path="/" component={Home} />
+      {/* === TEST === */}
+      <Route path="/test-trpc" component={TestTRPC} />
+      <Route path="/test-simple" component={TestSimple} />
       
+      {/* === PAGES PRINCIPALES === */}
+      <Route path="/" component={Home} /> 
       {/* === ADMINISTRATION === */}
       <Route path="/admin" component={Admin} />
       <Route path="/admin/molecules" component={AdminMolecules} />
       <Route path="/admin/molecule/new" component={AdminMoleculeNew} />
       <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path="/admin/import-export" component={AdminImportExport} />
+      <Route path="/admin/historique" component={AdminHistorique} />
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />
@@ -181,12 +190,21 @@ function Router() {
       
       {/* === GAMMES === */}
       <Route path="/gammes" component={Gammes} />
+      <Route path="/colombie" component={ColombieLine} />
+      <Route path="/recette/colombie/:id" component={RecetteColombie} />
+      <Route path="/sourcing" component={Sourcing} />
+      <Route path="/sourcing/colombie" component={SourcingColombie} />
+      <Route path="/sourcing/france" component={SourcingFrance} />
+      <Route path="/sourcing/inde" component={SourcingInde} />
+      <Route path="/sourcing/madagascar" component={SourcingMadagascar} />
       <Route path="/gammes/petrichor" component={GammesPetrichor} />
       <Route path="/gammes/volcanique" component={GammesVolcanique} />
       <Route path="/gammes/glaciaire" component={GammesGlaciaire} />
       <Route path="/gammes/biolab" component={GammesBioLab} />
       <Route path="/gammes/mossi" component={GammesMossi} />
       <Route path="/gammes/signatures" component={GammeSignatures} />
+      <Route path="/gammes/pheromones" component={GammePheromones} />
+      <Route path="/gammes/raretes" component={GammeRaretes} />
       
       {/* === LABORATOIRE === */}
       <Route path="/laboratoire" component={Laboratoire} />
@@ -218,6 +236,7 @@ function Router() {
       <Route path="/compare" component={Compare} />
       <Route path="/compare-terpenes" component={CompareTerpenes} />
       <Route path="/compare-radar" component={CompareRadar} />
+      <Route path="/compare-recettes" component={CompareRecettes} />
       <Route path="/compare-molecules-advanced" component={CompareMoleculesAdvanced} />
       <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
       <Route path="/comparateur-avance" component={ComparateurAvance} />
@@ -230,6 +249,7 @@ function Router() {
       <Route path="/outils-formulation" component={OutilsFormulation} />
       <Route path="/calculateur" component={ProportionsCalculator} />
       <Route path="/outils/dilution" component={DilutionCalculator} />
+      <Route path="/outils/calculateur-cout" component={CalculateurCout} />
       <Route path="/analyses" component={CorrelationAnalysis} />
       <Route path="/absorbe-scale" component={AbsorbeScale} />
       
@@ -273,15 +293,6 @@ function Router() {
       <Route path="/tabacs-resines" component={TabacsResines} />
       <Route path="/associations" component={Associations} />
       <Route path="/fournisseurs" component={Fournisseurs} />
-      <Route path="/sourcing" component={Sourcing} />
-      <Route path="/sourcing/france" component={SourcingFrance} />
-      <Route path="/sourcing/inde" component={SourcingInde} />
-      <Route path="/sourcing/madagascar" component={SourcingMadagascar} />
-      <Route path="/sourcing/japon" component={SourcingJapon} />
-      <Route path="/sourcing/maroc" component={SourcingMaroc} />
-      <Route path="/sourcing/suisse" component={SourcingSuisse} />
-      <Route path="/sourcing/uk" component={SourcingUK} />
-      <Route path="/sourcing/colombie" component={SourcingColombie} />
       
       {/* === DASHBOARDS === */}
       <Route path="/dashboard" component={DashboardMinimal} />

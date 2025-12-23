@@ -1,4 +1,4 @@
-import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex, decimal, unique, index } from "drizzle-orm/mysql-core";
+import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex, index, json, decimal, unique, foreignKey } from "drizzle-orm/mysql-core";
 import { relations } from "drizzle-orm";
 
 /**
@@ -323,6 +323,7 @@ export const recettes = mysqlTable("recettes", {
   dureeTeteMin: int("duree_tete_min").default(15), // Durée notes de tête en minutes
   dureeCoeurMin: int("duree_coeur_min").default(45), // Durée notes de cœur en minutes
   dureeFondMin: int("duree_fond_min").default(120), // Durée notes de fond en minutes
+  parentRecetteId: int("parent_recette_id"), // ID de la recette parente (pour les variations)
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -993,3 +994,202 @@ export const recetteTabacAssociations = mysqlTable("recette_tabac_associations",
 
 export type RecetteTabacAssociation = typeof recetteTabacAssociations.$inferSelect;
 export type InsertRecetteTabacAssociation = typeof recetteTabacAssociations.$inferInsert;
+
+
+// ============================================================================
+// MODIFICATION HISTORY
+// ============================================================================
+
+/**
+ * Tracks all modifications made to entities in the system for audit and undo functionality.
+ * Stores the complete state before and after each modification.
+ */
+export const modificationHistory = mysqlTable("modification_history", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // User who made the modification
+  userId: int("user_id").notNull(),
+  
+  // Type of entity modified
+  entityType: mysqlEnum("entity_type", [
+    "molecule",
+    "recette",
+    "accord",
+    "famille",
+    "matiere",
+    "prototype",
+    "synergie",
+    "tradition"
+  ]).notNull(),
+  
+  // ID of the entity that was modified
+  entityId: int("entity_id").notNull(),
+  
+  // Type of operation
+  operation: mysqlEnum("operation", ["create", "update", "delete"]).notNull(),
+  
+  // State before modification (JSON) - null for create operations
+  stateBefore: json("state_before"),
+  
+  // State after modification (JSON) - null for delete operations
+  stateAfter: json("state_after"),
+  
+  // Optional description of the change
+  description: text("description"),
+  
+  // Whether this modification has been undone
+  isUndone: int("is_undone").default(0).notNull(), // 0 = not undone, 1 = undone
+  
+  // Timestamp when the modification was made
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  
+  // Timestamp when the modification was undone (if applicable)
+  undoneAt: timestamp("undone_at"),
+}, (table) => ({
+  // Indexes for fast queries
+  userIdIdx: index("user_id_idx").on(table.userId),
+  entityTypeIdx: index("entity_type_idx").on(table.entityType),
+  entityIdIdx: index("entity_id_idx").on(table.entityId),
+  createdAtIdx: index("created_at_idx").on(table.createdAt),
+}));
+
+export type ModificationHistory = typeof modificationHistory.$inferSelect;
+export type InsertModificationHistory = typeof modificationHistory.$inferInsert;
+
+
+// ============================================================================
+// SUPPLIERS (Fournisseurs de matières premières)
+// ============================================================================
+
+/**
+ * Manages suppliers of raw materials (essential oils, absolutes, extracts, etc.)
+ * Tracks supplier information, location, specialties, and contact details.
+ */
+export const suppliers = mysqlTable("suppliers", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Supplier name
+  name: varchar("name", { length: 255 }).notNull(),
+  
+  // Company name (if different from supplier name)
+  companyName: varchar("company_name", { length: 255 }),
+  
+  // Country and region
+  country: varchar("country", { length: 100 }).notNull(),
+  region: varchar("region", { length: 100 }),
+  
+  // Contact information
+  email: varchar("email", { length: 320 }),
+  phone: varchar("phone", { length: 20 }),
+  website: varchar("website", { length: 255 }),
+  
+  // Supplier specialties (JSON array of material types)
+  specialties: json("specialties"), // e.g., ["essential_oils", "absolutes", "extracts"]
+  
+  // Description of the supplier
+  description: text("description"),
+  
+  // Supplier rating (1-5 stars)
+  rating: int("rating"), // 1-5
+  
+  // Quality certification (ISO, organic, etc.)
+  certifications: json("certifications"), // e.g., ["ISO9001", "ORGANIC", "FAIR_TRADE"]
+  
+  // Whether this is a preferred supplier
+  isPreferred: int("is_preferred").default(0).notNull(),
+  
+  // Notes about the supplier
+  notes: text("notes"),
+  
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  // Indexes for fast queries
+  nameIdx: index("supplier_name_idx").on(table.name),
+  countryIdx: index("supplier_country_idx").on(table.country),
+  regionIdx: index("supplier_region_idx").on(table.region),
+}));
+
+export type Supplier = typeof suppliers.$inferSelect;
+export type InsertSupplier = typeof suppliers.$inferInsert;
+
+// ============================================================================
+// SUPPLIER MATERIALS (Liaison entre fournisseurs et matières premières)
+// ============================================================================
+
+/**
+ * Junction table linking suppliers to the materials they provide.
+ * Tracks pricing, availability, and lead times.
+ */
+export const supplierMaterials = mysqlTable("supplier_materials", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Foreign keys
+  supplierId: int("supplier_id").notNull(),
+  moleculeId: int("molecule_id").notNull(),
+  
+  // Pricing information
+  pricePerUnit: decimal("price_per_unit", { precision: 10, scale: 2 }),
+  currency: varchar("currency", { length: 3 }).default("USD").notNull(), // USD, EUR, etc.
+  
+  // Availability
+  minimumOrderQuantity: int("minimum_order_quantity"),
+  unit: varchar("unit", { length: 50 }), // kg, L, ml, g, etc.
+  
+  // Lead time in days
+  leadTimeDays: int("lead_time_days"),
+  
+  // Quality grade
+  qualityGrade: mysqlEnum("quality_grade", ["standard", "premium", "extra_premium"]).default("standard").notNull(),
+  
+  // Whether this material is currently available
+  isAvailable: int("is_available").default(1).notNull(),
+  
+  // Last order date
+  lastOrderDate: timestamp("last_order_date"),
+  
+  // Notes specific to this supplier-material relationship
+  notes: text("notes"),
+  
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  // Foreign key constraints
+  supplierIdFk: foreignKey({
+    columns: [table.supplierId],
+    foreignColumns: [suppliers.id],
+  }),
+  moleculeIdFk: foreignKey({
+    columns: [table.moleculeId],
+    foreignColumns: [molecules.id],
+  }),
+  // Unique constraint: one supplier can supply a material only once
+  uniqueSupplierMaterial: uniqueIndex("unique_supplier_material").on(table.supplierId, table.moleculeId),
+  // Indexes
+  supplierIdIdx: index("supplier_material_supplier_idx").on(table.supplierId),
+  moleculeIdIdx: index("supplier_material_molecule_idx").on(table.moleculeId),
+}));
+
+export type SupplierMaterial = typeof supplierMaterials.$inferSelect;
+export type InsertSupplierMaterial = typeof supplierMaterials.$inferInsert;
+
+// ============================================================================
+// RELATIONS FOR SUPPLIERS
+// ============================================================================
+
+export const suppliersRelations = relations(suppliers, ({ many }) => ({
+  materials: many(supplierMaterials),
+}));
+
+export const supplierMaterialsRelations = relations(supplierMaterials, ({ one }) => ({
+  supplier: one(suppliers, {
+    fields: [supplierMaterials.supplierId],
+    references: [suppliers.id],
+  }),
+  molecule: one(molecules, {
+    fields: [supplierMaterials.moleculeId],
+    references: [molecules.id],
+  }),
+}));

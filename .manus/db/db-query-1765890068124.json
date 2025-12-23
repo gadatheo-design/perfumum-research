@@ -1,0 +1,90 @@
+{
+  "query": "SELECT r.id, r.name\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nWHERE r.category = 'resine_cbd' OR r.name LIKE '%CBD%'\nGROUP BY r.id\nHAVING COUNT(mr.molecule_id) = 0\nLIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT r.id, r.name\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nWHERE r.category = 'resine_cbd' OR r.name LIKE '%CBD%'\nGROUP BY r.id\nHAVING COUNT(mr.molecule_id) = 0\nLIMIT 30;",
+  "rows": [
+    {
+      "id": "150006",
+      "name": "Classic Cheese"
+    },
+    {
+      "id": "150007",
+      "name": "Tropical Cheese"
+    },
+    {
+      "id": "150008",
+      "name": "Blue Cheese"
+    },
+    {
+      "id": "150009",
+      "name": "Smoky Cheese"
+    },
+    {
+      "id": "150010",
+      "name": "Sweet Cheese"
+    },
+    {
+      "id": "150011",
+      "name": "Velvet Fruit"
+    },
+    {
+      "id": "150012",
+      "name": "Cassis Blanc"
+    },
+    {
+      "id": "150013",
+      "name": "Butter Flower"
+    },
+    {
+      "id": "150014",
+      "name": "Rhum & Pêche"
+    },
+    {
+      "id": "150015",
+      "name": "Nectar Noir"
+    },
+    {
+      "id": "150016",
+      "name": "Cuir Poire"
+    },
+    {
+      "id": "150017",
+      "name": "Black Oud Skin"
+    },
+    {
+      "id": "150018",
+      "name": "Noir Tabac"
+    },
+    {
+      "id": "150019",
+      "name": "White Jasmine Absolute"
+    },
+    {
+      "id": "150020",
+      "name": "Gardenia Night"
+    },
+    {
+      "id": "150021",
+      "name": "Ash & Honey"
+    },
+    {
+      "id": "150022",
+      "name": "Neon Flesh"
+    },
+    {
+      "id": "150023",
+      "name": "Cuir Marin"
+    },
+    {
+      "id": "150024",
+      "name": "Forêt de Cacao"
+    },
+    {
+      "id": "150025",
+      "name": "Fleur Fantôme"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n150006\tClassic Cheese\n150007\tTropical Cheese\n150008\tBlue Cheese\n150009\tSmoky Cheese\n150010\tSweet Cheese\n150011\tVelvet Fruit\n150012\tCassis Blanc\n150013\tButter Flower\n150014\tRhum & Pêche\n150015\tNectar Noir\n150016\tCuir Poire\n150017\tBlack Oud Skin\n150018\tNoir Tabac\n150019\tWhite Jasmine Absolute\n150020\tGardenia Night\n150021\tAsh & Honey\n150022\tNeon Flesh\n150023\tCuir Marin\n150024\tForêt de Cacao\n150025\tFleur Fantôme\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

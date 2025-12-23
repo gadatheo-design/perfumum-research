@@ -57,6 +57,7 @@ const mobileMenuSections = [
     icon: Beaker,
     items: [
       { href: "/recettes", label: "Toutes les recettes", badge: "195" },
+      { href: "/compare-recettes", label: "Comparer les recettes", badge: "NEW" },
       { href: "/accords", label: "Accords olfactifs" },
       { href: "/prototypes", label: "Prototypes CBD", badge: "4" },
       { href: "/protocoles-maturation", label: "Protocoles maturation" },
@@ -187,16 +188,14 @@ export function Header() {
                       if (!section.items) {
                         return (
                           <SheetClose key={index} asChild>
-                            <Link href={section.href!}>
-                              <a className={cn(
-                                "flex items-center gap-3 py-3 px-2 rounded-lg transition-colors",
-                                location === section.href
-                                  ? "bg-primary/10 text-primary font-medium"
-                                  : "hover:bg-muted"
-                              )}>
-                                <Icon className="h-5 w-5" />
-                                {section.title}
-                              </a>
+                            <Link href={section.href!} className={cn(
+                              "flex items-center gap-3 py-3 px-2 rounded-lg transition-colors",
+                              location === section.href
+                                ? "bg-primary/10 text-primary font-medium"
+                                : "hover:bg-muted"
+                            )}>
+                              <Icon className="h-5 w-5" />
+                              {section.title}
                             </Link>
                           </SheetClose>
                         );
@@ -215,14 +214,13 @@ export function Header() {
                             <div className="pl-8 space-y-1">
                               {section.items.map((item, itemIndex) => (
                                 <SheetClose key={itemIndex} asChild>
-                                  <Link href={item.href}>
-                                    <a className={cn(
-                                      "flex items-center justify-between py-2 px-3 rounded-lg transition-colors text-sm",
-                                      location === item.href
-                                        ? "bg-primary/10 text-primary font-medium"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                                    )}>
-                                      <span>{item.label}</span>
+                                  <Link href={item.href} className={cn(
+                                    "flex items-center justify-between py-2 px-3 rounded-lg transition-colors text-sm",
+                                    location === item.href
+                                      ? "bg-primary/10 text-primary font-medium"
+                                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                                  )}>
+                                    <span>{item.label}</span>
                                       {item.badge && (
                                         <Badge 
                                           variant={item.badge === "NEW" ? "default" : "secondary"}
@@ -234,7 +232,6 @@ export function Header() {
                                           {item.badge}
                                         </Badge>
                                       )}
-                                    </a>
                                   </Link>
                                 </SheetClose>
                               ))}

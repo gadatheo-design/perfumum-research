@@ -4,7 +4,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Mountain, Beaker, ArrowLeft } from "lucide-react";
+import { MoleculeLink } from "@/components/MoleculeLink";
+import { CompositionComplete, PrototypeComposition } from "@/components/PrototypeRadarChart";
 import { Link } from "wouter";
+
+// Composition du prototype C4
+const c4Composition: PrototypeComposition = {
+  name: "C4 — TERRA AMBRA",
+  color: "#d97706", // amber-600
+  molecules: [
+    { name: "Encens", quantity: "0.2 ml", radarIntensity: 75, radarFreshness: 30, radarWarmth: 80, radarSweetness: 35, radarSpiciness: 55, radarEarthiness: 70 },
+    { name: "Palo Santo", quantity: "0.15 ml", radarIntensity: 70, radarFreshness: 50, radarWarmth: 65, radarSweetness: 40, radarSpiciness: 30, radarEarthiness: 55 },
+    { name: "Santal", quantity: "0.10 ml", radarIntensity: 65, radarFreshness: 25, radarWarmth: 75, radarSweetness: 55, radarSpiciness: 15, radarEarthiness: 60 },
+  ]
+};
 
 export default function C4TerraAmbra() {
   return (
@@ -57,11 +70,23 @@ export default function C4TerraAmbra() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 font-mono text-sm text-muted-foreground">
-                    <li>• Omani Frankincense : 0.2 ml</li>
-                    <li>• Palo Santo : 0.15 ml</li>
-                    <li>• Sandalwood : 0.10 ml</li>
-                    <li>• MCT : 0.55 ml</li>
+                  <ul className="space-y-3 text-sm">
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Encens" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.2 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Palo Santo" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.15 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                      <MoleculeLink name="Santal" variant="badge" showHoverCard={true} />
+                      <span className="font-mono text-muted-foreground">0.10 ml</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg bg-muted/30">
+                      <span className="text-muted-foreground">MCT</span>
+                      <span className="font-mono text-muted-foreground">0.55 ml</span>
+                    </li>
                   </ul>
                 </CardContent>
               </Card>
@@ -128,6 +153,18 @@ export default function C4TerraAmbra() {
                     <Badge variant="outline">Installation sonore-olfactive</Badge>
                     <Badge variant="outline">Autel olfactif</Badge>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Composition Complète & Profil Olfactif</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CompositionComplete 
+                    composition={c4Composition}
+                    description="Profil boisé-résineux sacré et méditatif"
+                  />
                 </CardContent>
               </Card>
 
