@@ -60,9 +60,61 @@ export default function CompareRadar() {
       <main className="flex-1 container mx-auto py-8 space-y-6">
         <div>
           <h1 className="text-4xl font-bold mb-2">Comparaison Radar Olfactif</h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground mb-6">
             Superposez jusqu'à 4 profils olfactifs pour comparer les terpènes
           </p>
+          
+          {/* Cadrage méthodologique */}
+          <Card className="bg-muted/30 border-primary/20">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Activity className="h-5 w-5 text-primary" />
+                Méthodologie
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-sm">
+              <p className="text-muted-foreground">
+                Le <strong>radar olfactif</strong> est un outil analytique permettant de visualiser 
+                les caractéristiques sensorielles d'une molécule sur 6 axes perceptifs. 
+                Cette représentation facilite la comparaison entre terpènes et l'identification de synergies potentielles.
+              </p>
+              
+              <div className="grid md:grid-cols-2 gap-3">
+                <div className="bg-background/50 p-3 rounded-lg">
+                  <div className="font-semibold text-primary mb-1">Intensité</div>
+                  <div className="text-muted-foreground text-xs">Puissance olfactive globale (seuil de perception)</div>
+                </div>
+                <div className="bg-background/50 p-3 rounded-lg">
+                  <div className="font-semibold text-primary mb-1">Fraîcheur</div>
+                  <div className="text-muted-foreground text-xs">Notes mentholeés, agrumes, ozone</div>
+                </div>
+                <div className="bg-background/50 p-3 rounded-lg">
+                  <div className="font-semibold text-primary mb-1">Chaleur</div>
+                  <div className="text-muted-foreground text-xs">Notes boisées, résineuses, balsamiques</div>
+                </div>
+                <div className="bg-background/50 p-3 rounded-lg">
+                  <div className="font-semibold text-primary mb-1">Douceur</div>
+                  <div className="text-muted-foreground text-xs">Notes sucrées, vanillées, lactiques</div>
+                </div>
+                <div className="bg-background/50 p-3 rounded-lg">
+                  <div className="font-semibold text-primary mb-1">Épicé</div>
+                  <div className="text-muted-foreground text-xs">Notes poivrées, clou de girofle, cannelle</div>
+                </div>
+                <div className="bg-background/50 p-3 rounded-lg">
+                  <div className="font-semibold text-primary mb-1">Terreux</div>
+                  <div className="text-muted-foreground text-xs">Notes humus, champignon, géosmine</div>
+                </div>
+              </div>
+              
+              <p className="text-muted-foreground text-xs">
+                <strong>Calcul de similarité :</strong> La distance euclidienne entre profils permet d'identifier 
+                les molécules aux caractéristiques proches. Voir aussi : 
+                <Link href="/etudes" className="text-primary hover:underline ml-1">Études</Link>,
+                <Link href="/gammes/petrichor" className="text-primary hover:underline ml-1">Pétrichor</Link>,
+                <Link href="/methodologie/absorbe" className="text-primary hover:underline ml-1">Méthode ABSORBE</Link>
+              </p>
+            </CardContent>
+          </Card>
         </div>
         
         {/* Sélection des terpènes */}

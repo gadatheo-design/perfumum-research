@@ -8,6 +8,7 @@ import { GammesConnexes } from "@/components/GammesConnexes";
 import { Link } from "wouter";
 import { GammeBadge } from "@/components/GammeBadge";
 import { VoirAussi } from "@/components/VoirAussi";
+import { AtmosphericTexture } from "@/components/AtmosphericTexture";
 
 export default function GammesBioLab() {
   const accords = [
@@ -74,7 +75,8 @@ export default function GammesBioLab() {
       <Breadcrumbs />
       <Header />
       
-      <main className="flex-1">
+      <main className="flex-1 relative">
+        <AtmosphericTexture type="biolab" />
         {/* Hero */}
         <section className="section-spacing bg-gradient-to-b from-pink-50/50 to-background">
           <div className="container">

@@ -13,6 +13,7 @@ import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
+import SystemePerfumum from "./pages/SystemePerfumum";
 import APropos from "./pages/APropos";
 import Contact from "./pages/Contact";
 import Nouveautes from "./pages/Nouveautes";
@@ -165,7 +166,8 @@ function Router() {
       <Route path="/test-simple" component={TestSimple} />
       
       {/* === PAGES PRINCIPALES === */}
-      <Route path="/" component={Home} /> 
+      <Route path="/" component={Home} />
+      <Route path="/systeme" component={SystemePerfumum} /> 
       {/* === ADMINISTRATION === */}
       <Route path="/admin" component={Admin} />
       <Route path="/admin/molecules" component={AdminMolecules} />

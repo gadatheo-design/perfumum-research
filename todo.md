@@ -1608,3 +1608,42 @@ Publier le site pour tester en production. Les bugs HMR de développement dispar
 - [x] Ajouter fournisseurs spécialisés bois et conifères
 - [x] Intégrer dans navigation et page Sourcing Global
 
+
+
+## 🎨 AUDIT PERFUMUM - AMÉLIORATIONS STRUCTURELLES (23 Dec 2025)
+
+### Phase 1 : Page Système PERFUMUM
+- [x] Créer page /systeme avec cartographie visuelle interactive
+- [x] Graphe React Flow montrant relations entre pages
+- [x] Légende explicative du système global
+- [x] Texte d'introduction sur la logique Air/Lieu/Odeur/Fumé/Son/Image/Texte
+
+### Phase 2 : Renforcement ABSORBE
+- [x] Enrichir manifeste ABSORBE sur page d'accueil
+- [x] Clarifier relation PERFUMUM ⊂ ABSORBE dans navigation
+- [x] Ajouter section ABSORBE visible dans Header
+- [x] Créer lien vers page Méthode ABSORBE depuis accueil
+
+### Phase 3 : Cadrage méthodologique Compare-Radar
+- [x] Ajouter texte d'introduction méthodologique
+- [x] Définir explicitement les 6 axes radar (Intensité, Fraîcheur, Chaleur, Douceur, Épicé, Terreux)
+- [x] Ajouter liens vers Études, Pétrichor, Méthode
+- [x] Expliquer le calcul de similarité (distance euclidienne)
+
+### Phase 4 : Uniformisation études
+- [x] Standardiser format : titre / court texte / texture atmosphérique
+- [x] Ajouter 2-3 textures atmosphériques globales (SVG ou images optimisées)
+- [x] Vérifier cohérence vocabulaire sur toutes les pages d'études
+- [x] Uniformiser les pages Pétrichor, Volcanique, Glaciaire, Bio-Lab
+
+### Phase 5 : Améliorations techniques
+- [x] Vérifier responsive (marges 18-24px mobile)
+- [x] Vérifier structure H1/H2/H3 sur toutes les pages
+- [x] Optimiser meta-descriptions (max 160 caractères)
+- [x] Vérifier alt-text images (descriptions minimalistes)
+- [x] Optimiser images (1200px max, WebP, lazy-loading)
+
+### Phase 6 : Checkpoint final
+- [x] Tester toutes les nouvelles fonctionnalités
+- [x] Vérifier navigation complète
+- [x] Créer checkpoint avec description complète

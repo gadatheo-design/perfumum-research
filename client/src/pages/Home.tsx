@@ -25,9 +25,14 @@ export default function Home() {
                 PERFUMUM
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground/90 text-balance mb-2 animate-fadeInUp font-light tracking-wide" style={{animationDelay: '0.05s'}}>
-                ABSORBE — laboratoire atmosphérique olfactif basé à Berne
+                <Link href="/methodologie/absorbe" className="hover:text-primary transition-colors underline decoration-primary/30 hover:decoration-primary">
+                  ABSORBE
+                </Link> — laboratoire atmosphérique olfactif basé à Berne
               </p>
               <p className="text-2xl md:text-3xl text-muted-foreground text-balance mb-4 animate-fadeInUp font-medium" style={{animationDelay: '0.1s'}}>
+                PERFUMUM ⊂ ABSORBE
+              </p>
+              <p className="text-lg md:text-xl text-muted-foreground/80 text-balance mb-4 animate-fadeInUp" style={{animationDelay: '0.15s'}}>
                 Plateforme de Recherche & Développement
               </p>
               <p className="text-lg md:text-xl text-muted-foreground/80 text-balance mb-12 animate-fadeInUp max-w-2xl mx-auto" style={{animationDelay: '0.2s'}}>

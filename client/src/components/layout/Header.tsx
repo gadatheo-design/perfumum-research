@@ -30,8 +30,18 @@ const mobileMenuSections = [
     icon: Home,
   },
   {
-    title: "Gammes",
+    title: "Système PERFUMUM",
+    href: "/systeme",
     icon: Layers,
+  },
+  {
+    title: "Méthode ABSORBE",
+    href: "/methodologie/absorbe",
+    icon: BookOpen,
+  },
+  {
+    title: "Gammes",
+    icon: Sparkles,
     items: [
       { href: "/gammes", label: "Vue d'ensemble", badge: "7 gammes" },
       { href: "/gammes/petrichor", label: "Pétrichor", badge: "60" },
