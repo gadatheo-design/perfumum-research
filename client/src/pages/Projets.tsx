@@ -49,9 +49,17 @@ export default function Projets() {
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
                 Projets & Terrains
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-xl text-muted-foreground mb-4">
                 Recherche olfactive in situ. Captation, analyse et restitution d'atmosphères sensorielles dans des environnements naturels et urbains.
               </p>
+              <div className="prose prose-lg max-w-none">
+                <p className="text-muted-foreground">
+                  Chaque terrain de recherche applique la <Link href="/methodologie/absorbe" className="text-primary hover:underline">méthodologie ABSORBE</Link> (Air, Lieu, Odeur, Fumé, Son, Image, Texte) pour documenter l'identité olfactive d'un territoire. Ces études de cas alimentent les <Link href="/gammes" className="text-primary hover:underline">5 gammes olfactives</Link> de Perfumum et servent de base à la création d'accords expérimentaux.
+                </p>
+                <p className="text-muted-foreground">
+                  Les molécules identifiées sur le terrain sont ensuite analysées via <Link href="/compare-radar" className="text-primary hover:underline">profils radar</Link> et intégrées dans la <Link href="/molecules" className="text-primary hover:underline">base de données moléculaire</Link> de Perfumum.
+                </p>
+              </div>
             </div>
           </div>
         </section>

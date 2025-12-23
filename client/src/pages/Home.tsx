@@ -67,10 +67,10 @@ export default function Home() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <p className="text-muted-foreground">
-                      Perfumum est une <strong>plateforme de recherche-création sur 10 ans (2025-2035)</strong> dédiée à l'exploration olfactive expérimentale. Le projet articule design terpénique, résines CBD, et variétés de tabacs rares dans une approche scientifique et artistique.
+                      <strong>Perfumum est un laboratoire de recherche</strong>, pas une marque commerciale. C'est une plateforme de recherche-création sur 10 ans (2025-2035) dédiée à l'exploration olfactive expérimentale. Le projet articule design terpénique, résines CBD, et variétés de tabacs rares dans une approche scientifique et artistique.
                     </p>
                     <p className="text-muted-foreground">
-                      Cette recherche s'inscrit à la croisée de la parfumerie d'auteur, de l'anthropologie du sensible, et de la chimie organique.
+                      Cette recherche s'inscrit à la croisée de la parfumerie d'auteur, de l'anthropologie du sensible, et de la chimie organique. Les accords créés sont documentés selon la méthodologie ABSORBE et archivés pour usage scientifique et artistique.
                     </p>
                   </CardContent>
                 </Card>

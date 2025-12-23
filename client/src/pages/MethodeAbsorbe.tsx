@@ -54,9 +54,17 @@ export default function MethodeAbsorbe() {
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
                 Méthode ABSORBE
               </h1>
-              <p className="text-xl text-muted-foreground mb-8">
+              <p className="text-xl text-muted-foreground mb-4">
                 Protocole de recherche olfactive développé par PERFUMUM pour la captation, l'analyse et la restitution des atmosphères sensorielles d'un lieu.
               </p>
+              <div className="prose prose-lg max-w-none mb-8">
+                <p className="text-muted-foreground">
+                  ABSORBE est une méthodologie de recherche-création qui articule sept dimensions complémentaires (Air, Lieu, Odeur, Fumé, Son, Image, Texte) pour documenter et analyser l'identité olfactive d'un territoire. Cette approche transdisciplinaire combine chimie analytique, géographie sensorielle et pratiques artistiques pour produire des accords olfactifs fidèles aux atmosphères captées.
+                </p>
+                <p className="text-muted-foreground">
+                  PERFUMUM applique cette méthodologie sur l'ensemble de ses terrains de recherche (forêts, musées, friches industrielles) pour créer une archive olfactive documentée et reproductible.
+                </p>
+              </div>
               <button
                 onClick={handleExportPDF}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"

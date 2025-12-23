@@ -2,6 +2,8 @@ import { Users, Microscope, Palette, FlaskConical, Building2, Globe2 } from "luc
 import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export default function Collaborations() {
+  // Cette page est conçue pour être extensible : ajoutez de nouveaux types de collaborations
+  // en ajoutant des entrées dans le tableau collaborationTypes ci-dessous
   const collaborationTypes = [
     {
       icon: Microscope,

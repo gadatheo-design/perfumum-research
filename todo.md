@@ -1647,3 +1647,38 @@ Publier le site pour tester en production. Les bugs HMR de développement dispar
 - [x] Tester toutes les nouvelles fonctionnalités
 - [x] Vérifier navigation complète
 - [x] Créer checkpoint avec description complète
+
+
+## 🗺️ ROADMAP DÉVELOPPEUR PERFUMEUM (23 Dec 2025)
+
+### PRIORITÉ 1 — STRUCTURE
+- [x] Clarifier page Méthode (définition claire, protocoles)
+- [x] Clarifier page Perfumeum (laboratoire, pas marque)
+- [x] Clarifier page Compare-Radar (définition axes, exemples)
+- [x] Clarifier page Projets / Terrains (études de cas)
+- [x] Ajouter liens transversaux Méthode ↔ Projets ↔ Radar
+
+### PRIORITÉ 2 — CONTENU MANQUANT
+- [x] Texte explicite "Qu'est-ce que Perfumeum ?" (laboratoire, pas marque)
+- [x] Texte explicite "Rôle du Compare-Radar" (outil méthodologique)
+- [x] Page "Projets / Terrains" structurée avec études de cas
+
+### PRIORITÉ 3 — COMPARE-RADAR
+- [x] Définition claire des 6 axes radar
+- [x] Ajouter 1-2 exemples commentés (statiques)
+- [x] Contextualiser le radar dans la méthodologie ABSORBE
+
+### PRIORITÉ 4 — VOCABULAIRE
+- [x] Uniformiser : étude / accord / atmosphère / terrain
+- [x] Supprimer termes marketing ou ambigus ("collection" → "gamme")
+- [x] Glossaire unifié déjà existant (/glossaire)
+
+### PRIORITÉ 5 — ÉVOLUTION
+- [x] Prévoir page Collaborations extensible (commentaires ajoutés)
+- [x] Prévoir page Archives extensible (page créée avec structure extensible)
+- [x] Prévoir page Outils extensible (page créée avec 6 outils actifs + 3 futurs)
+
+### NE PAS FAIRE
+- ❌ Pas d'animations lourdes
+- ❌ Pas de storytelling promotionnel
+- ❌ Pas de surcharge visuelle

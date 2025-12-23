@@ -127,6 +127,8 @@ import Etudes from "./pages/Etudes";
 import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
 import Collaborations from "./pages/Collaborations";
+import Archives from "./pages/Archives";
+import Outils from "./pages/Outils";
 import { Glossaire } from "./pages/Glossaire";
 import { Timeline } from "./pages/Timeline";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
@@ -284,6 +286,8 @@ function Router() {
       <Route path="/projets" component={Projets} />
       <Route path="/terrains" component={Terrains} />
       <Route path="/collaborations" component={Collaborations} />
+      <Route path="/archives" component={Archives} />
+      <Route path="/outils" component={Outils} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/galerie-botaniques" component={GalerieBotaniques} />

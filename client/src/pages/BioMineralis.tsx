@@ -151,7 +151,7 @@ export default function BioMineralis() {
         <div className="max-w-4xl mx-auto">
           <div className="border-l-4 border-black pl-8 mb-16">
             <p className="text-xl leading-relaxed mb-4">
-              <strong>BIO-MINERALIS</strong> n'est pas une simple collection de molécules. C'est une <em>pensée olfactive</em> qui interroge la transformation de la matière vivante en matière minérale, la mémoire chimique du vivant dans la pierre, l'odeur de la fossilisation.
+              <strong>BIO-MINERALIS</strong> n'est pas une simple gamme de molécules. C'est une <em>pensée olfactive</em> qui interroge la transformation de la matière vivante en matière minérale, la mémoire chimique du vivant dans la pierre, l'odeur de la fossilisation.
             </p>
             <p className="text-lg text-gray-700 leading-relaxed">
               Chaque accord est une <strong>hypothèse olfactive</strong> : que sent un os mouillé par la pluie ? Comment formuler l'odeur d'un cuir pétrifié ? Quelle est la signature moléculaire de la décomposition sacrée ?

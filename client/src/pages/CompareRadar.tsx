@@ -113,6 +113,18 @@ export default function CompareRadar() {
                 <Link href="/gammes/petrichor" className="text-primary hover:underline ml-1">Pétrichor</Link>,
                 <Link href="/methodologie/absorbe" className="text-primary hover:underline ml-1">Méthode ABSORBE</Link>
               </p>
+              
+              <div className="border-t border-border pt-4 mt-4">
+                <h4 className="font-semibold mb-2 text-sm">Exemples de comparaisons</h4>
+                <div className="space-y-2 text-xs text-muted-foreground">
+                  <div className="bg-background/50 p-2 rounded">
+                    <strong className="text-foreground">Limonene vs Pinene :</strong> Deux terpènes de la famille des monoterpènes. Le limonène présente une fraîcheur agrume élevée (90+), tandis que le pinène affiche une chaleur boisée marquée (80+). Leur superposition révèle des profils complémentaires pour créer des accords forêt-agrume.
+                  </div>
+                  <div className="bg-background/50 p-2 rounded">
+                    <strong className="text-foreground">Geosmin vs Petrichor :</strong> Deux molécules du sol. La géosmine montre un terreux maximal (95+), tandis que le pétrichor combine terreux (70) et fraîcheur ozonée (65). Cette comparaison illustre la différence entre « terre sèche » et « terre mouillée ».
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
