@@ -100,6 +100,7 @@ const mobileMenuSections = [
     icon: BookOpen,
     items: [
       { href: "/glossaire", label: "Glossaire" },
+      { href: "/glossaire-visuel-radar", label: "Glossaire Visuel Radar", badge: "NEW" },
       { href: "/methode-absorbe", label: "Méthode ABSORBE" },
       { href: "/civilisations", label: "Traditions olfactives" },
       { href: "/galerie-botaniques", label: "Galerie botaniques" },
@@ -111,6 +112,7 @@ const mobileMenuSections = [
     items: [
       { href: "/le-projet", label: "Le Projet PERFUMUM" },
       { href: "/a-propos", label: "À propos" },
+      { href: "/contribuer", label: "Comment Contribuer", badge: "NEW" },
       { href: "/nouveautes", label: "Nouveautés", badge: "NEW" },
       { href: "/timeline", label: "Timeline" },
       { href: "/contact", label: "Contact" },

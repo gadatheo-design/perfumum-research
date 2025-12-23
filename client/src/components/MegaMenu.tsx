@@ -330,6 +330,12 @@ export function MegaMenu() {
           description: "Termes techniques",
         },
         {
+          label: "Glossaire Visuel Radar",
+          path: "/glossaire-visuel-radar",
+          icon: <BarChart3 className="h-4 w-4" />,
+          description: "Comprendre les profils radar",
+        },
+        {
           label: "Fournisseurs",
           path: "/fournisseurs",
           icon: <Truck className="h-4 w-4" />,
@@ -549,6 +555,12 @@ export function MegaMenu() {
           path: "/nouveautes",
           icon: <Bell className="h-4 w-4" />,
           description: "Dernières mises à jour",
+        },
+        {
+          label: "Comment Contribuer",
+          path: "/contribuer",
+          icon: <Users className="h-4 w-4" />,
+          description: "Rejoindre le projet",
         },
       ],
     },

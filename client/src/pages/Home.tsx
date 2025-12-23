@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope } from "lucide-react";
 import { MoleculeOfTheDay } from "@/components/MoleculeOfTheDay";
 import { RecentActivity } from "@/components/RecentActivity";
+import { ResearchNews } from "@/components/ResearchNews";
 
 export default function Home() {
   return (
@@ -307,12 +308,13 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Interactive Widgets */}
+        {/* Research News & Discovery Section */}
         <section className="py-16 bg-muted/30">
           <div className="container">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8 text-center">Découverte quotidienne</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <h2 className="text-3xl font-bold mb-8 text-center">Actualités de la recherche</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <ResearchNews />
                 <MoleculeOfTheDay />
                 <RecentActivity />
               </div>

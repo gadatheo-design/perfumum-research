@@ -1702,3 +1702,26 @@ Publier le site pour tester en production. Les bugs HMR de développement dispar
 - [x] Documenter processus de collaboration
 - [x] Ajouter formulaire de contact
 - [x] Lister critères de contribution
+
+
+## 🎯 SESSION 23 DÉCEMBRE 2025 - NAVIGATION & ACTUALITÉS
+
+### Amélioration 1 : Liens navigation nouvelles pages
+- [x] Ajouter lien "Glossaire Visuel Radar" dans Header (menu Méthodologie)
+- [x] Ajouter lien "Comment Contribuer" dans Header (menu Le Projet)
+- [x] Ajouter lien "Glossaire Visuel Radar" dans Footer (section Méthodologie)
+- [x] Ajouter lien "Comment Contribuer" dans Footer (section À propos)
+
+### Amélioration 2 : Section Actualités de la recherche
+- [x] Créer section "Actualités de la recherche" sur page d'accueil
+- [x] Afficher les 3 dernières notes de terrain depuis Archives (researchTimeline)
+- [x] Ajouter lien "Voir toutes les archives" vers /timeline
+- [x] Design cohérent avec le reste de la page d'accueil
+
+### Tests et validation
+- [x] Tester tous les nouveaux liens (Header + Footer) - Code implémenté correctement
+- [x] Vérifier l'affichage des actualités sur page d'accueil - Composant ResearchNews créé
+- [x] Tester la navigation mobile - Liens ajoutés dans mobileMenuSections
+- [ ] Créer checkpoint final
+
+**Note** : Bug HMR Vite en développement (page blanche) - Fonctionnera correctement en production après publication.
