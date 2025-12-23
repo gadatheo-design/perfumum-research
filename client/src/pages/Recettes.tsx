@@ -1,61 +1,19 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { trpc } from "@/lib/trpc";
-import { Link } from "wouter";
-import { Search, Beaker, Filter, X, GitBranch, Radar, ChevronDown, ChevronUp, FlaskConical } from "lucide-react";
+import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp } from "lucide-react";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
-import { Progress } from "@/components/ui/progress";
+import { RecetteCard } from "@/components/RecetteCard";
+import { useToast } from "@/hooks/use-toast";
 
-// Composant mini radar hexagonal
-function MiniRadar({ values }: { values: { i: number; f: number; w: number; s: number; sp: number; e: number } }) {
-  const size = 50;
-  const center = size / 2;
-  const radius = size * 0.4;
-  
-  // 6 axes à 60° d'intervalle
-  const angles = [0, 60, 120, 180, 240, 300].map(a => (a - 90) * Math.PI / 180);
-  const vals = [values.i, values.f, values.w, values.s, values.sp, values.e];
-  
-  // Points du polygone
-  const points = angles.map((angle, i) => {
-    const r = (vals[i] / 100) * radius;
-    return `${center + r * Math.cos(angle)},${center + r * Math.sin(angle)}`;
-  }).join(' ');
-  
-  // Points du cadre hexagonal
-  const framePoints = angles.map((angle) => {
-    return `${center + radius * Math.cos(angle)},${center + radius * Math.sin(angle)}`;
-  }).join(' ');
-  
-  return (
-    <svg width={size} height={size} className="flex-shrink-0">
-      {/* Cadre hexagonal */}
-      <polygon
-        points={framePoints}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="0.5"
-        className="text-muted-foreground/30"
-      />
-      {/* Valeurs */}
-      <polygon
-        points={points}
-        fill="oklch(0.7 0.15 200 / 0.3)"
-        stroke="oklch(0.7 0.15 200)"
-        strokeWidth="1"
-      />
-    </svg>
-  );
-}
+// Mini radar supprimé - désormais dans RecetteCard
 
 // Labels des axes radar
 const RADAR_LABELS = {
@@ -68,6 +26,7 @@ const RADAR_LABELS = {
 };
 
 export default function Recettes() {
+  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
   const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
@@ -75,6 +34,7 @@ export default function Recettes() {
   const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null);
   const [showIngredientFilter, setShowIngredientFilter] = useState(false);
   const [showRadarFilter, setShowRadarFilter] = useState(false);
+  const [selectedForComparison, setSelectedForComparison] = useState<number[]>([]);
   
   // Filtres radar (plages min-max)
   const [radarFilters, setRadarFilters] = useState({
@@ -410,97 +370,28 @@ export default function Recettes() {
           <div className="container">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredRecettes.map((recette) => (
-                <Link key={recette.id} href={`/recette/${recette.id}`}>
-                  <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
-                    <CardHeader>
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-2 flex-1">
-                          <CardTitle className="text-lg">{recette.name}</CardTitle>
-                          {recette.parentRecetteId && (
-                            <Badge variant="outline" className="border-amber-400 text-amber-600 text-xs flex items-center gap-1">
-                              <GitBranch className="h-3 w-3" />
-                              Variation
-                            </Badge>
-                          )}
-                        </div>
-                        {/* Mini radar si molécules associées */}
-                        {recette.moleculeCount > 0 && (
-                          <MiniRadar values={{
-                            i: recette.avgIntensity,
-                            f: recette.avgFreshness,
-                            w: recette.avgWarmth,
-                            s: recette.avgSweetness,
-                            sp: recette.avgSpiciness,
-                            e: recette.avgEarthiness,
-                          }} />
-                        )}
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          {recette.category && getGammeFromCategory(recette.category) && (
-                            <GammeBadge gamme={getGammeFromCategory(recette.category)!} size="sm" />
-                          )}
-                          {recette.category && (
-                            <Badge variant="outline">{recette.category}</Badge>
-                          )}
-                          {recette.moleculeCount > 0 && (
-                            <Badge variant="secondary" className="text-xs">
-                              <FlaskConical className="h-3 w-3 mr-1" />
-                              {recette.moleculeCount} mol.
-                            </Badge>
-                          )}
-                        </div>
-                        
-                        {/* Intensity & Stability */}
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-muted-foreground">Intensité</span>
-                            <span>{recette.intensity || 5}/10</span>
-                          </div>
-                          <Progress value={(recette.intensity || 5) * 10} className="h-1.5" />
-                          
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-muted-foreground">Stabilité</span>
-                            <span>{recette.stability || 'medium'}</span>
-                          </div>
-                        </div>
-
-                        {/* Radar values preview (si molécules) */}
-                        {recette.moleculeCount > 0 && (
-                          <div className="grid grid-cols-3 gap-1 text-xs">
-                            <div className="text-center p-1 rounded bg-muted/50">
-                              <div className="font-medium">{recette.avgIntensity}</div>
-                              <div className="text-muted-foreground text-[10px]">Intens.</div>
-                            </div>
-                            <div className="text-center p-1 rounded bg-muted/50">
-                              <div className="font-medium">{recette.avgFreshness}</div>
-                              <div className="text-muted-foreground text-[10px]">Fraîch.</div>
-                            </div>
-                            <div className="text-center p-1 rounded bg-muted/50">
-                              <div className="font-medium">{recette.avgEarthiness}</div>
-                              <div className="text-muted-foreground text-[10px]">Terreux</div>
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Ingredients preview */}
-                        {recette.ingredients && (
-                          <p className="text-xs text-muted-foreground line-clamp-2">
-                            {recette.ingredients}
-                          </p>
-                        )}
-
-                        {recette.formula && (
-                          <p className="text-xs text-muted-foreground">
-                            Prototype: {recette.formula}
-                          </p>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                <RecetteCard
+                  key={recette.id}
+                  recette={recette}
+                  isSelected={selectedForComparison.includes(recette.id)}
+                  onCompare={(id) => {
+                    if (selectedForComparison.includes(id)) {
+                      setSelectedForComparison(prev => prev.filter(i => i !== id));
+                      toast({ title: "Recette retirée de la comparaison" });
+                    } else if (selectedForComparison.length >= 4) {
+                      toast({ title: "Maximum 4 recettes", description: "Vous pouvez comparer jusqu'à 4 recettes à la fois.", variant: "destructive" });
+                    } else {
+                      setSelectedForComparison(prev => [...prev, id]);
+                      toast({ title: "Recette ajoutée à la comparaison" });
+                    }
+                  }}
+                  onExport={(id) => {
+                    toast({ title: "Export PDF", description: "Fonctionnalité à venir" });
+                  }}
+                  onFavorite={(id) => {
+                    toast({ title: "Favoris", description: "Fonctionnalité à venir" });
+                  }}
+                />
               ))}
             </div>
 

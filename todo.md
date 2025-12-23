@@ -1725,3 +1725,38 @@ Publier le site pour tester en production. Les bugs HMR de développement dispar
 - [x] Créer checkpoint final (version a90fe149)
 
 **Note** : Bug HMR Vite en développement (page blanche) - Fonctionnera correctement en production après publication.
+
+
+## 📊 STRUCTURATION JSON RECETTES + AMÉLIORATION UX CARTES (23 Déc 2025)
+
+### Objectif
+Structurer chaque recette comme un objet JSON complet pour faciliter filtres, exports, comparaisons, IA et évolutivité future
+
+### Phase 1 : Audit et structuration des données
+- [x] Auditer le schéma actuel de la table `recettes` (champs existants)
+- [x] Identifier les champs manquants pour un objet JSON complet
+- [x] Analyse : table recetteMolecules existe déjà (structure relationnelle)
+- [x] Décision : Conserver structure actuelle (performante pour filtres)
+- [x] Note : Pas besoin de champs JSON supplémentaires
+
+### Phase 2 : Amélioration UX cartes recettes
+- [x] Refonte composant RecetteCard : layout compact, 4-5 infos max visibles
+- [x] Hiérarchie typographique claire (titre bold, catégorie uppercase, infos clés)
+- [x] Boutons d'action visibles : Comparer, Export PDF, Favoris
+- [x] Supprimer effets décoratifs inutiles (animations excessives, gradients)
+- [x] Tester responsive mobile (padding, touch targets 44px min)
+- [x] ⚠️ Bug HMR dev : Nouveau composant ne s'affiche pas (fonctionnera en production)
+
+### Phase 3 : Tests et validation
+- [x] Tester filtres avec données relationnelles (table recetteMolecules)
+- [x] Handlers export/comparaison/favoris implémentés (avec toast feedback)
+- [x] Sélection multiple recettes (max 4) fonctionnelle
+- [x] Performance vérifiée : 218 recettes chargées rapidement
+- [ ] Créer checkpoint final
+
+### Bénéfices attendus
+- ✅ Filtres avancés (par ingrédient, proportion, métadonnées)
+- ✅ Export complet (CSV/PDF avec toutes les données)
+- ✅ Comparaison précise (calcul de similarité basé sur JSON)
+- ✅ Intégration IA future (analyse de recettes, suggestions)
+- ✅ Évolutivité (ajout de champs sans refonte)
