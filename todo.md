@@ -181,7 +181,7 @@
 ### Phase 4 : Tests et checkpoint
 - [x] Tester page Synergies (graphe, filtres, suggestions) - ⚠️ Erreur 404 (erreurs TypeScript)
 - [x] Tester recherche avancée multi-critères - ✅ Fonctionnel
-- [ ] Créer checkpoint final
+- [x] Créer checkpoint final
 
 
 ## 🐛 CORRECTION ERREURS TYPESCRIPT + ENRICHISSEMENT SYNERGIES
@@ -439,7 +439,7 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 
 ### Phase 4 : Intégration base de données
 - [x] Insérer les 5 nouvelles recettes dans la base
-- [ ] Créer checkpoint final
+- [x] Créer checkpoint final
 
 
 ## 📦 PAGE INVENTAIRE + RELATIONS HASH/TABACS
@@ -461,7 +461,7 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 
 ### Phase 4 : Finalisation
 - [ ] Tester la page Inventaire
-- [ ] Créer checkpoint final
+- [x] Créer checkpoint final
 
 
 ## 📦 PAGE INVENTAIRE + ASSOCIATIONS HASH-TABACS
@@ -1206,7 +1206,7 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [x] Tester sélection de recettes
 - [x] Tester affichage du graphique radar
 - [ ] Vérifier calcul des profils radar (valeurs par défaut si pas de molécules)
-- [ ] Créer checkpoint final
+- [x] Créer checkpoint final
 
 
 
@@ -1253,7 +1253,7 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 ### Phase 3 : Tests et validation
 - [ ] Tester l'affichage des mini radars sur les cartes
 - [ ] Vérifier les associations pour toutes les gammes
-- [ ] Créer checkpoint final
+- [x] Créer checkpoint final
 
 
 ## 🎯 ENRICHISSEMENT GAMMES + MINI RADAR RECETTES (16 Déc 2025)
@@ -1339,7 +1339,7 @@ Générer des profils radar uniques et cohérents pour les 138 molécules basés
 - [ ] Écrire tests unitaires pour import/export CSV
 - [ ] Écrire tests unitaires pour historique et annulation
 - [ ] Écrire tests unitaires pour recherche globale
-- [ ] Créer checkpoint final avec les 3 fonctionnalités
+- [x] Créer checkpoint final avec les 3 fonctionnalités
 
 
 ## 🚀 PHASE 2 - FONCTIONNALITÉS EN COURS
@@ -1752,7 +1752,7 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [x] Handlers export/comparaison/favoris implémentés (avec toast feedback)
 - [x] Sélection multiple recettes (max 4) fonctionnelle
 - [x] Performance vérifiée : 218 recettes chargées rapidement
-- [ ] Créer checkpoint final
+- [x] Créer checkpoint final
 
 ### Bénéfices attendus
 - ✅ Filtres avancés (par ingrédient, proportion, métadonnées)

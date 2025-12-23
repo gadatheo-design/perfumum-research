@@ -23,6 +23,7 @@ import LeProjet from "./pages/LeProjet";
 import Admin from "./pages/Admin";
 import TestTRPC from "./pages/TestTRPC";
 import TestSimple from "./pages/TestSimple";
+import TestRecetteCard from "./pages/TestRecetteCard";
 import AdminMolecules from "./pages/AdminMolecules";
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminRecettes from "./pages/AdminRecettes";
@@ -174,8 +175,10 @@ function Router() {
       <Route path="/systeme" component={SystemePerfumum} /> 
       {/* === ADMINISTRATION === */}
       <Route path="/admin" component={Admin} />
-      <Route path="/admin/molecules" component={AdminMolecules} />
-      <Route path="/admin/molecule/new" component={AdminMoleculeNew} />
+      <Route path="/admin/test-trpc" component={TestTRPC} />
+      <Route path="/admin/test-simple" component={TestSimple} />
+      <Route path="/test-recette-card" component={TestRecetteCard} />
+      <Route path="/admin/molecules/new" component={AdminMoleculeNew} />
       <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path="/admin/import-export" component={AdminImportExport} />
       <Route path="/admin/historique" component={AdminHistorique} />
