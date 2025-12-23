@@ -1682,3 +1682,23 @@ Publier le site pour tester en production. Les bugs HMR de développement dispar
 - ❌ Pas d'animations lourdes
 - ❌ Pas de storytelling promotionnel
 - ❌ Pas de surcharge visuelle
+
+
+## 🎯 Session 23 Décembre 2025 - Améliorations finales
+
+### AMÉLIORATION 1 — ARCHIVES ENRICHIES
+- [x] Ajouter notes de terrain (forêt, musée, friche)
+- [x] Ajouter photographies des captations ABSORBE
+- [x] Structurer par chronologie (2024-2025)
+
+### AMÉLIORATION 2 — GLOSSAIRE VISUEL
+- [x] Créer page /glossaire-visuel-radar
+- [x] Illustrer les 6 axes radar (Intensité, Fraîcheur, Chaleur, Douceur, Épicé, Terreux)
+- [x] Ajouter molécules représentatives pour chaque axe
+- [x] Ajouter exemples visuels et comparaisons
+
+### AMÉLIORATION 3 — COMMENT CONTRIBUER
+- [x] Créer page /contribuer
+- [x] Documenter processus de collaboration
+- [x] Ajouter formulaire de contact
+- [x] Lister critères de contribution

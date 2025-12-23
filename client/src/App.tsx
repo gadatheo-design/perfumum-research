@@ -130,6 +130,8 @@ import Collaborations from "./pages/Collaborations";
 import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
 import { Glossaire } from "./pages/Glossaire";
+import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
+import Contribuer from "./pages/Contribuer";
 import { Timeline } from "./pages/Timeline";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
 import GalerieBotaniques from "./pages/GalerieBotaniques";
@@ -289,6 +291,8 @@ function Router() {
       <Route path="/archives" component={Archives} />
       <Route path="/outils" component={Outils} />
       <Route path="/glossaire" component={Glossaire} />
+      <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
+      <Route path="/contribuer" component={Contribuer} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/galerie-botaniques" component={GalerieBotaniques} />
       

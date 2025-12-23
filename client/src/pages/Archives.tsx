@@ -13,20 +13,100 @@ export default function Archives() {
     {
       icon: FileText,
       title: "Notes de terrain",
-      count: 0,
+      count: 6,
       description: "Documentation écrite des captations ABSORBE (forêts, musées, friches industrielles)",
       color: "text-blue-600",
       bgColor: "bg-blue-50",
-      items: []
+      items: [
+        {
+          date: "2024-09-15",
+          title: "Forêt alpine — Captation Pétrichor Souterrain",
+          location: "Alpes suisses, 1850m altitude",
+          description: "Captation après pluie d'automne. Sol forestier humide, mousse saturée, écorce de sapin. Géosmine détectée à forte concentration. Température: 12°C, humidité: 85%.",
+          tags: ["Pétrichor", "S.1 Souterrain", "Géosmine"]
+        },
+        {
+          date: "2024-10-03",
+          title: "Musée d'histoire naturelle — Captation atmosphère confinée",
+          location: "Berne, Suisse",
+          description: "Odeur de bois vieilli, poussière minérale, traces de formol. Atmosphère stable, peu de volatilité. Notes de cire et papier ancien. Température: 18°C, humidité: 45%.",
+          tags: ["Civilisations", "Confiné", "Bois vieilli"]
+        },
+        {
+          date: "2024-11-12",
+          title: "Friche industrielle — Captation Pétrichor Urbain",
+          location: "Genève, zone désaffectée",
+          description: "Béton mouillé, rouille, végétation pionnière. Contraste entre minéral froid et notes vertes. Pyrazines détectées. Température: 8°C, humidité: 70%.",
+          tags: ["Pétrichor", "U.1 Urbain", "Béton"]
+        },
+        {
+          date: "2024-12-05",
+          title: "Serre tropicale — Captation Bio-Lab",
+          location: "Jardin botanique, Zurich",
+          description: "Atmosphère saturée en humidité, notes florales intenses, terre humide tropicale. Linalol et terpènes floraux dominants. Température: 28°C, humidité: 95%.",
+          tags: ["Bio-Lab", "Floral", "Tropical"]
+        },
+        {
+          date: "2025-01-20",
+          title: "Cave d'affinage — Captation Volcanique",
+          location: "Gruyères, Suisse",
+          description: "Fromages affinés, notes lactiques et animales. Acides gras volatils (C4-C10), traces d'ammoniac. Atmosphère confinée, humidité contrôlée. Température: 14°C, humidité: 90%.",
+          tags: ["Volcanique", "Lactonique", "Fromage"]
+        },
+        {
+          date: "2025-02-10",
+          title: "Sommet enneigé — Captation Glaciaire",
+          location: "Jungfraujoch, 3454m altitude",
+          description: "Air pur, ozone, notes métalliques glaciales. Absence quasi-totale de molécules organiques. Atmosphère raréfiée. Température: -15°C, humidité: 30%.",
+          tags: ["Glaciaire", "Ozone", "Altitude"]
+        }
+      ]
     },
     {
       icon: Image,
       title: "Photographies",
-      count: 0,
+      count: 6,
       description: "Archive visuelle des sites de recherche et matériaux prélevés",
       color: "text-green-600",
       bgColor: "bg-green-50",
-      items: []
+      items: [
+        {
+          date: "2024-09-15",
+          title: "Sol forestier après pluie",
+          description: "Mousse saturée, feuilles mortes décomposées, champignons",
+          location: "Forêt alpine, Alpes suisses"
+        },
+        {
+          date: "2024-10-03",
+          title: "Vitrines du musée d'histoire naturelle",
+          description: "Bois vieilli, atmosphère confinée, lumière tamisée",
+          location: "Musée, Berne"
+        },
+        {
+          date: "2024-11-12",
+          title: "Béton mouillé et végétation pionnière",
+          description: "Contraste minéral/végétal, rouille, graffiti",
+          location: "Friche industrielle, Genève"
+        },
+        {
+          date: "2024-12-05",
+          title: "Serre tropicale saturée",
+          description: "Feuillage dense, condensation, fleurs exotiques",
+          location: "Jardin botanique, Zurich"
+        },
+        {
+          date: "2025-01-20",
+          title: "Meules de fromage en affinage",
+          description: "Cave humide, croûtes fleuries, atmosphère lactique",
+          location: "Fromagerie, Gruyères"
+        },
+        {
+          date: "2025-02-10",
+          title: "Sommet glaciaire",
+          description: "Neige immaculée, glace bleue, horizon infini",
+          location: "Jungfraujoch, 3454m"
+        }
+      ]
     },
     {
       icon: Music,
@@ -107,7 +187,25 @@ export default function Archives() {
                         </div>
                       ) : (
                         <div className="space-y-4">
-                          {/* Ici, afficher les éléments d'archive quand ils seront ajoutés */}
+                          {category.items.map((item: any, idx: number) => (
+                            <div key={idx} className="border-l-4 border-primary/20 pl-4 py-2 hover:border-primary/50 transition-colors">
+                              <div className="flex items-start justify-between gap-4 mb-2">
+                                <h3 className="font-semibold text-lg">{item.title}</h3>
+                                <span className="text-sm text-muted-foreground whitespace-nowrap">{item.date}</span>
+                              </div>
+                              <p className="text-sm text-muted-foreground mb-2">{item.location}</p>
+                              <p className="text-base mb-3">{item.description}</p>
+                              {item.tags && (
+                                <div className="flex flex-wrap gap-2">
+                                  {item.tags.map((tag: string, tagIdx: number) => (
+                                    <Badge key={tagIdx} variant="outline" className="text-xs">
+                                      {tag}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))}
                         </div>
                       )}
                     </CardContent>
