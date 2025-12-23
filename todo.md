@@ -1591,3 +1591,20 @@ Publier le site pour tester en production. Les bugs HMR de développement dispar
 - [x] Ajouter liens vers fiches molécules sur page SourcingColombie
 - [x] Ajouter liens vers fiches molécules sur page SourcingEgypte
 
+
+
+## 🏷️ FILTRE PAR CERTIFICATION + SOURCING AMÉRIQUE DU NORD
+
+### Phase 1 : Filtre par certification
+- [x] Créer composant CertificationFilter avec badges AOC, Bio, UEBT
+- [x] Ajouter champ certification aux données fournisseurs
+- [x] Intégrer filtre sur page Sourcing Global
+- [x] Permettre filtrage multi-critères (plusieurs certifications)
+
+### Phase 2 : Page Sourcing Amérique du Nord
+- [x] Créer page SourcingNorthAmerica avec carte USA/Canada
+- [x] Documenter régions : Oregon, Vermont, Colombie-Britannique, Québec
+- [x] Ajouter molécules emblématiques : Cèdre, Pin, Sapin baumier, Douglas
+- [x] Ajouter fournisseurs spécialisés bois et conifères
+- [x] Intégrer dans navigation et page Sourcing Global
+

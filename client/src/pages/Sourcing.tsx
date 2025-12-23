@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { CertificationFilter, CertificationBadge, type CertificationType } from "@/components/CertificationFilter";
 import { 
   Globe, 
   MapPin, 
@@ -12,11 +13,14 @@ import {
   Star,
   Package,
   Users,
-  Heart
+  Heart,
+  Filter,
+  Search
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { WorldSourcingMap } from "@/components/WorldSourcingMap";
 
 // Régions de sourcing avec leurs fournisseurs
@@ -31,14 +35,14 @@ const regions = [
         name: "Cooperativa Valle del Cauca",
         location: "Cali, Valle del Cauca",
         specialty: "Lippia, Turnera, Piper",
-        certifications: ["Bio", "Commerce Équitable"],
+        certifications: ["Bio", "Commerce Équitable"] as CertificationType[],
         story: "Fondée en 2018 par des agriculteurs locaux, cette coopérative cultive des plantes aromatiques endémiques des Andes colombiennes."
       },
       {
         name: "Finca Aromática Armenia",
         location: "Armenia, Quindío",
         specialty: "Café Geisha, Fleur de Café, Cacao",
-        certifications: ["Rainforest Alliance", "Bio"],
+        certifications: ["Rainforest Alliance", "Bio"] as CertificationType[],
         story: "Exploitation familiale de 3ème génération, spécialisée dans les sous-produits aromatiques du café et du cacao."
       }
     ],
@@ -56,21 +60,21 @@ const regions = [
         name: "Robertet",
         location: "Grasse, Provence-Alpes-Côte d'Azur",
         specialty: "Rose de Mai, Jasmin, Tubéreuse",
-        certifications: ["ISO 9001", "UEBT"],
+        certifications: ["ISO 9001", "UEBT"] as CertificationType[],
         story: "Fondée en 1850, la maison Robertet est une référence mondiale pour les absolues et concrètes de Grasse."
       },
       {
         name: "Albert Vieille",
         location: "Grasse, Provence-Alpes-Côte d'Azur",
         specialty: "Lavande Bio, Rose Centifolia",
-        certifications: ["Bio", "Équitable"],
+        certifications: ["Bio", "Commerce Équitable"] as CertificationType[],
         story: "Maison grassoise engagée dans le développement durable et les filières équitables depuis plus de 100 ans."
       },
       {
         name: "Biolandes",
         location: "Le Sen, Landes",
         specialty: "Pin Maritime, Cyprès, Immortelle",
-        certifications: ["Bio", "COSMOS"],
+        certifications: ["Bio", "COSMOS"] as CertificationType[],
         story: "Producteur et distillateur français spécialisé dans les plantes aromatiques méditerranéennes."
       }
     ],
@@ -88,20 +92,20 @@ const regions = [
         name: "Hermitage Oils",
         location: "Londres",
         specialty: "Ouds, Attars, Résines précieuses",
-        certifications: ["Artisanal"],
+        certifications: ["Artisanal"] as CertificationType[],
         story: "Spécialiste des matières premières naturelles d'exception, reconnu pour la qualité de ses ouds et attars."
       },
       {
         name: "Pell Wall Perfumes",
         location: "Staffordshire",
         specialty: "Captives, Synthétiques premium",
-        certifications: ["IFRA"],
+        certifications: ["IFRA"] as CertificationType[],
         story: "Référence britannique pour les parfumeurs indépendants, offrant une large gamme de molécules synthétiques."
       }
     ],
     molecules: ["Oud", "Mitti Attar", "Ambroxan", "Iso E Super", "Hedione"],
     color: "bg-red-500",
-    link: null
+    link: "/sourcing/uk"
   },
   {
     id: "usa",
@@ -113,27 +117,27 @@ const regions = [
         name: "Ensar Oud",
         location: "Californie",
         specialty: "Ouds de collection",
-        certifications: ["Artisanal"],
+        certifications: ["Artisanal"] as CertificationType[],
         story: "Artisan distillateur spécialisé dans les ouds de collection, chaque lot est unique et documenté."
       },
       {
         name: "Vigon International",
         location: "New Jersey",
         specialty: "Synthétiques, Naturels",
-        certifications: ["ISO 9001"],
+        certifications: ["ISO 9001"] as CertificationType[],
         story: "Distributeur majeur de matières premières pour la parfumerie et l'aromatique."
       },
       {
         name: "Perfumer's Apprentice",
         location: "Californie",
         specialty: "Molécules courantes",
-        certifications: [],
+        certifications: [] as CertificationType[],
         story: "Boutique en ligne populaire pour les parfumeurs amateurs et professionnels."
       }
     ],
     molecules: ["Galaxolide", "Calone", "Vanilline", "Coumarine"],
     color: "bg-indigo-500",
-    link: null
+    link: "/sourcing/north-america"
   },
   {
     id: "suisse",
@@ -145,38 +149,45 @@ const regions = [
         name: "Firmenich",
         location: "Genève",
         specialty: "Hedione, Clearwood, Ambroxan",
-        certifications: ["B Corp", "ISO 14001"],
+        certifications: ["B Corp", "ISO 9001"] as CertificationType[],
         story: "L'une des plus grandes maisons de création de parfums au monde, inventeur de nombreuses molécules signature."
       },
       {
         name: "Givaudan",
         location: "Vernier",
         specialty: "Javanol, Akigalawood, Cashmeran",
-        certifications: ["B Corp", "UEBT"],
+        certifications: ["B Corp", "UEBT"] as CertificationType[],
         story: "Leader mondial de la création de parfums et d'arômes, portefeuille impressionnant de captives."
       }
     ],
     molecules: ["Hedione", "Javanol", "Clearwood", "Ambroxan", "Cashmeran"],
     color: "bg-amber-500",
-    link: null
+    link: "/sourcing/suisse"
   },
   {
-    id: "oman",
-    name: "Oman",
-    flag: "🇴🇲",
-    description: "Terre sacrée de l'encens. Le Dhofar produit le meilleur Boswellia Sacra au monde.",
+    id: "egypte",
+    name: "Égypte & Moyen-Orient",
+    flag: "🇪🇬",
+    description: "Berceau historique de l'encens et des résines sacrées. Route de l'Encens millénaire.",
     suppliers: [
       {
         name: "Dhofar Frankincense",
-        location: "Salalah, Dhofar",
+        location: "Salalah, Oman",
         specialty: "Encens Boswellia Sacra",
-        certifications: ["Origine contrôlée"],
+        certifications: ["Origine contrôlée"] as CertificationType[],
         story: "Récolte traditionnelle de l'encens dans les montagnes du Dhofar, pratiquée depuis des millénaires."
+      },
+      {
+        name: "Abdul Samad Al Qurashi",
+        location: "Arabie Saoudite",
+        specialty: "Oud, Musc, Ambre",
+        certifications: ["Artisanal"] as CertificationType[],
+        story: "Maison de parfumerie orientale fondée en 1852, spécialisée dans les matières premières précieuses."
       }
     ],
-    molecules: ["Encens Oliban", "Boswellia Sacra"],
+    molecules: ["Encens Oliban", "Boswellia Sacra", "Myrrhe", "Oud", "Ambre Gris"],
     color: "bg-yellow-600",
-    link: null
+    link: "/sourcing/egypte"
   },
   {
     id: "haiti",
@@ -188,7 +199,7 @@ const regions = [
         name: "Coopérative Vétiver Haïti",
         location: "Les Cayes",
         specialty: "Vétiver Bio",
-        certifications: ["Bio", "Commerce Équitable"],
+        certifications: ["Bio", "Commerce Équitable"] as CertificationType[],
         story: "Coopérative regroupant plus de 3000 agriculteurs, produisant le meilleur vétiver au monde."
       }
     ],
@@ -206,11 +217,18 @@ const regions = [
         name: "Kannauj Attar Distillers",
         location: "Kannauj, Uttar Pradesh",
         specialty: "Attars traditionnels",
-        certifications: ["Artisanal"],
+        certifications: ["Artisanal"] as CertificationType[],
         story: "Capitale mondiale des attars, Kannauj perpétue une tradition de distillation vieille de 400 ans."
+      },
+      {
+        name: "Mysore Sandalwood",
+        location: "Mysore, Karnataka",
+        specialty: "Santal de Mysore",
+        certifications: ["Origine contrôlée"] as CertificationType[],
+        story: "Le santal de Mysore est considéré comme le plus fin au monde, protégé par le gouvernement indien."
       }
     ],
-    molecules: ["Santal Mysore", "Mitti Attar", "Spikenard"],
+    molecules: ["Santal Mysore", "Mitti Attar", "Spikenard", "Jasmin Sambac"],
     color: "bg-orange-500",
     link: "/sourcing/inde"
   },
@@ -224,33 +242,117 @@ const regions = [
         name: "Coopérative Vanille SAVA",
         location: "Antalaha, SAVA",
         specialty: "Vanille Bourbon, Gousses Extra",
-        certifications: ["Bio", "Commerce Équitable"],
+        certifications: ["Bio", "Commerce Équitable"] as CertificationType[],
         story: "2000 familles perpétuent les méthodes traditionnelles de culture de la vanille Bourbon."
       },
       {
         name: "Ylang Nosy Be",
         location: "Nosy Be, Diana",
         specialty: "Ylang-Ylang Extra, Fractions",
-        certifications: ["Bio", "UEBT"],
+        certifications: ["Bio", "UEBT"] as CertificationType[],
         story: "L'île aux parfums produit l'ylang-ylang le plus réputé au monde."
       }
     ],
     molecules: ["Vanille Bourbon", "Ylang-Ylang", "Girofle", "Ravintsara"],
-    color: "bg-teal-500",
+    color: "bg-pink-500",
     link: "/sourcing/madagascar"
+  },
+  {
+    id: "japon",
+    name: "Japon",
+    flag: "🇯🇵",
+    description: "Art du Kōdō et bois précieux. Hinoki, Yuzu et traditions millénaires.",
+    suppliers: [
+      {
+        name: "Kiso Valley Forestry",
+        location: "Nagano",
+        specialty: "Hinoki, Cyprès japonais",
+        certifications: ["Bio"] as CertificationType[],
+        story: "Forêts ancestrales de la vallée de Kiso, source du meilleur hinoki au monde."
+      }
+    ],
+    molecules: ["Hinoki", "Yuzu", "Shiso", "Matcha"],
+    color: "bg-rose-500",
+    link: "/sourcing/japon"
+  },
+  {
+    id: "maroc",
+    name: "Maroc",
+    flag: "🇲🇦",
+    description: "Carrefour des épices et des roses. Rose de Damas et argan précieux.",
+    suppliers: [
+      {
+        name: "Coopérative Rose Kelaat M'Gouna",
+        location: "Kelaat M'Gouna, Drâa-Tafilalet",
+        specialty: "Rose de Damas, Eau de rose",
+        certifications: ["Bio", "Commerce Équitable"] as CertificationType[],
+        story: "La vallée des roses produit chaque année 3000 tonnes de pétales pour l'industrie cosmétique mondiale."
+      }
+    ],
+    molecules: ["Rose de Damas", "Argan", "Cèdre de l'Atlas", "Néroli"],
+    color: "bg-red-600",
+    link: "/sourcing/maroc"
   }
 ];
+
+// Extraire toutes les certifications uniques
+const allCertifications = Array.from(new Set(
+  regions.flatMap(r => r.suppliers.flatMap(s => s.certifications))
+)) as CertificationType[];
 
 // Statistiques globales
 const stats = {
   regions: regions.length,
   suppliers: regions.reduce((acc, r) => acc + r.suppliers.length, 0),
   molecules: new Set(regions.flatMap(r => r.molecules)).size,
-  certifications: ["Bio", "Commerce Équitable", "Rainforest Alliance", "B Corp", "UEBT", "ISO 9001", "COSMOS"]
+  certifications: allCertifications
 };
 
 export default function Sourcing() {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [selectedCertifications, setSelectedCertifications] = useState<CertificationType[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Filtrer les régions en fonction des certifications sélectionnées et de la recherche
+  const filteredRegions = useMemo(() => {
+    return regions.filter(region => {
+      // Filtre par recherche
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesName = region.name.toLowerCase().includes(query);
+        const matchesMolecules = region.molecules.some(m => m.toLowerCase().includes(query));
+        const matchesSuppliers = region.suppliers.some(s => 
+          s.name.toLowerCase().includes(query) || 
+          s.specialty.toLowerCase().includes(query)
+        );
+        if (!matchesName && !matchesMolecules && !matchesSuppliers) {
+          return false;
+        }
+      }
+
+      // Filtre par certifications
+      if (selectedCertifications.length > 0) {
+        const regionCertifications = region.suppliers.flatMap(s => s.certifications);
+        return selectedCertifications.some(cert => regionCertifications.includes(cert));
+      }
+
+      return true;
+    });
+  }, [selectedCertifications, searchQuery]);
+
+  // Compter les fournisseurs filtrés
+  const filteredSupplierCount = useMemo(() => {
+    if (selectedCertifications.length === 0) {
+      return stats.suppliers;
+    }
+    return filteredRegions.reduce((acc, region) => {
+      const matchingSuppliers = region.suppliers.filter(s => 
+        selectedCertifications.some(cert => s.certifications.includes(cert))
+      );
+      return acc + matchingSuppliers.length;
+    }, 0);
+  }, [filteredRegions, selectedCertifications]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -270,18 +372,18 @@ export default function Sourcing() {
         </div>
 
         {/* Statistiques */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Card className="text-center">
             <CardContent className="pt-6">
               <MapPin className="h-8 w-8 mx-auto mb-2 text-primary" />
-              <div className="text-3xl font-bold">{stats.regions}</div>
+              <div className="text-3xl font-bold">{filteredRegions.length}</div>
               <div className="text-sm text-muted-foreground">Régions</div>
             </CardContent>
           </Card>
           <Card className="text-center">
             <CardContent className="pt-6">
               <Users className="h-8 w-8 mx-auto mb-2 text-emerald-500" />
-              <div className="text-3xl font-bold">{stats.suppliers}</div>
+              <div className="text-3xl font-bold">{filteredSupplierCount}</div>
               <div className="text-sm text-muted-foreground">Fournisseurs</div>
             </CardContent>
           </Card>
@@ -300,6 +402,58 @@ export default function Sourcing() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Barre de recherche et filtres */}
+        <Card className="mb-8">
+          <CardContent className="pt-6">
+            <div className="flex flex-col md:flex-row gap-4 mb-4">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Rechercher une région, un fournisseur ou une molécule..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+              <Button
+                variant={showFilters ? "default" : "outline"}
+                onClick={() => setShowFilters(!showFilters)}
+                className="gap-2"
+              >
+                <Filter className="h-4 w-4" />
+                Filtres par certification
+                {selectedCertifications.length > 0 && (
+                  <Badge variant="secondary" className="ml-1">
+                    {selectedCertifications.length}
+                  </Badge>
+                )}
+              </Button>
+            </div>
+
+            {showFilters && (
+              <div className="pt-4 border-t animate-in fade-in slide-in-from-top-2 duration-200">
+                <CertificationFilter
+                  selectedCertifications={selectedCertifications}
+                  onCertificationChange={setSelectedCertifications}
+                  availableCertifications={allCertifications}
+                  showAllCertifications={true}
+                />
+              </div>
+            )}
+
+            {(selectedCertifications.length > 0 || searchQuery) && (
+              <div className="mt-4 pt-4 border-t">
+                <p className="text-sm text-muted-foreground">
+                  {filteredRegions.length} région{filteredRegions.length > 1 ? 's' : ''} • {filteredSupplierCount} fournisseur{filteredSupplierCount > 1 ? 's' : ''}
+                  {selectedCertifications.length > 0 && (
+                    <span> avec certification{selectedCertifications.length > 1 ? 's' : ''} : {selectedCertifications.join(', ')}</span>
+                  )}
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Carte interactive du monde */}
         <div className="mb-12">
@@ -322,7 +476,7 @@ export default function Sourcing() {
           </CardHeader>
           <CardContent className="p-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {regions.map((region) => (
+              {filteredRegions.map((region) => (
                 <button
                   key={region.id}
                   onClick={() => setSelectedRegion(selectedRegion === region.id ? null : region.id)}
@@ -347,7 +501,7 @@ export default function Sourcing() {
         {/* Détail de la région sélectionnée */}
         {selectedRegion && (
           <div className="mb-12 animate-in fade-in slide-in-from-top-4 duration-300">
-            {regions.filter(r => r.id === selectedRegion).map((region) => (
+            {filteredRegions.filter(r => r.id === selectedRegion).map((region) => (
               <Card key={region.id} className="overflow-hidden">
                 <CardHeader className={`${region.color} text-white`}>
                   <div className="flex items-center justify-between">
@@ -382,11 +536,9 @@ export default function Sourcing() {
                         <CardContent className="p-4">
                           <div className="flex items-start justify-between mb-2">
                             <h4 className="font-semibold">{supplier.name}</h4>
-                            <div className="flex gap-1">
+                            <div className="flex flex-wrap gap-1 justify-end">
                               {supplier.certifications.map((cert, i) => (
-                                <Badge key={i} variant="secondary" className="text-xs">
-                                  {cert}
-                                </Badge>
+                                <CertificationBadge key={i} certification={cert} />
                               ))}
                             </div>
                           </div>
@@ -412,9 +564,11 @@ export default function Sourcing() {
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {region.molecules.map((mol, idx) => (
-                      <Badge key={idx} variant="outline" className="px-3 py-1">
-                        {mol}
-                      </Badge>
+                      <Link key={idx} href={`/molecules?search=${encodeURIComponent(mol)}`}>
+                        <Badge variant="outline" className="px-3 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
+                          {mol}
+                        </Badge>
+                      </Link>
                     ))}
                   </div>
                 </CardContent>
@@ -426,7 +580,7 @@ export default function Sourcing() {
         {/* Liste complète des régions */}
         <h2 className="text-2xl font-bold mb-6">Toutes les Régions</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {regions.map((region) => (
+          {filteredRegions.map((region) => (
             <Card 
               key={region.id} 
               className="hover:shadow-lg transition-all duration-300 cursor-pointer group"
@@ -449,7 +603,7 @@ export default function Sourcing() {
                 <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                   {region.description}
                 </p>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1 mb-3">
                   {region.suppliers.slice(0, 2).map((s, i) => (
                     <Badge key={i} variant="secondary" className="text-xs">
                       {s.name}
@@ -460,6 +614,12 @@ export default function Sourcing() {
                       +{region.suppliers.length - 2}
                     </Badge>
                   )}
+                </div>
+                {/* Certifications de la région */}
+                <div className="flex flex-wrap gap-1">
+                  {Array.from(new Set(region.suppliers.flatMap(s => s.certifications))).slice(0, 3).map((cert, i) => (
+                    <CertificationBadge key={i} certification={cert} />
+                  ))}
                 </div>
                 {region.link && (
                   <Link href={region.link}>
@@ -473,6 +633,28 @@ export default function Sourcing() {
             </Card>
           ))}
         </div>
+
+        {/* Message si aucun résultat */}
+        {filteredRegions.length === 0 && (
+          <Card className="mb-12">
+            <CardContent className="py-12 text-center">
+              <Search className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-lg font-semibold mb-2">Aucune région trouvée</h3>
+              <p className="text-muted-foreground mb-4">
+                Aucune région ne correspond à vos critères de recherche.
+              </p>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setSelectedCertifications([]);
+                  setSearchQuery("");
+                }}
+              >
+                Réinitialiser les filtres
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Engagement éthique */}
         <Card className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/20 dark:to-teal-950/20 border-emerald-200 dark:border-emerald-800">

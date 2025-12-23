@@ -53,6 +53,7 @@ import Sourcing from '@/pages/Sourcing';
 import SourcingFrance from '@/pages/SourcingFrance';
 import SourcingInde from '@/pages/SourcingInde';
 import SourcingMadagascar from '@/pages/SourcingMadagascar';
+import SourcingNorthAmerica from '@/pages/SourcingNorthAmerica';
 
 // === LABORATOIRE ===
 import Laboratoire from "./pages/Laboratoire";
@@ -197,6 +198,7 @@ function Router() {
       <Route path="/sourcing/france" component={SourcingFrance} />
       <Route path="/sourcing/inde" component={SourcingInde} />
       <Route path="/sourcing/madagascar" component={SourcingMadagascar} />
+      <Route path="/sourcing/north-america" component={SourcingNorthAmerica} />
       <Route path="/gammes/petrichor" component={GammesPetrichor} />
       <Route path="/gammes/volcanique" component={GammesVolcanique} />
       <Route path="/gammes/glaciaire" component={GammesGlaciaire} />
