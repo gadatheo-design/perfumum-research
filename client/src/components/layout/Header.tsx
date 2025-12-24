@@ -100,6 +100,7 @@ const mobileMenuSections = [
     items: [
       { href: "/recherche-scientifique", label: "Modules scientifiques" },
       { href: "/recherche-radicale", label: "Recherche Radicale", badge: "NEW" },
+      { href: "/recherche/fondements-theoriques", label: "Fondements Philosophiques", badge: "NEW" },
       { href: "/chimie-tabac", label: "Chimie du tabac", badge: "NEW" },
       { href: "/synergies-terpenes-niches", label: "Synergies terpènes", badge: "NEW" },
       { href: "/recherche-scientifique/pyrolyse-combustion", label: "Pyrolyse & combustion" },

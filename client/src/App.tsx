@@ -77,7 +77,8 @@ import Recettes from "./pages/Recettes";
 import RecetteDetail from "./pages/RecetteDetail";
 import Accords from "./pages/Accords";
 import { ExperimentalAccords } from "./pages/ExperimentalAccords";
-import RechercheRadicale from "./pages/RechercheRadicale";
+import RechercheRadicale from "@/pages/RechercheRadicale";
+import FondementsPhilosophiques from "@/pages/FondementsPhilosophiques";
 
 // === RÉSINES CBD ===
 import ResinesCBD from "@/pages/ResinesCBD";
@@ -242,7 +243,8 @@ function Router() {
       <Route path="/recette/:id" component={RecetteDetail} />
       <Route path="/accords" component={Accords} />
       <Route path="/experimental-accords" component={ExperimentalAccords} />
-      <Route path="/recherche-radicale" component={RechercheRadicale} />
+        <Route path="/recherche-radicale" component={RechercheRadicale} />
+        <Route path="/recherche/fondements-theoriques" component={FondementsPhilosophiques} />
       
       {/* === RÉSINES CBD === */}
       <Route path="/resines-cbd" component={ResinesCBD} />

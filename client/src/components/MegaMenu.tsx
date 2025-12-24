@@ -490,6 +490,12 @@ export function MegaMenu() {
           icon: <Flame className="h-4 w-4" />,
           description: "Série Pétrichor Radicalis Extremis",
         },
+        {
+          label: "Fondements Philosophiques",
+          path: "/recherche/fondements-theoriques",
+          icon: <FileText className="h-4 w-4" />,
+          description: "Phénoménologie, Atmosphères & Archive",
+        },
       ],
     },
   ];

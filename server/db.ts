@@ -56,6 +56,7 @@ import {
   SupplierMaterial,
   InsertSupplierMaterial,
   rechercheRadicale,
+  modificationHistory,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -65,7 +66,44 @@ let _db: ReturnType<typeof drizzle> | null = null;
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      _db = drizzle(process.env.DATABASE_URL, {
+        schema: {
+          users,
+          userFavorites,
+          milestones,
+          prototypes,
+          families,
+          tabacs,
+          molecules,
+          accords,
+          recettes,
+          civilisations,
+          petrichor,
+          volcanique,
+          installations,
+          laboratoire,
+          glossary,
+          absorbeProfiles,
+          prototypeChemicalFamilies,
+          chemicalFamilies,
+          moleculeChemicalFamilies,
+          accordCivilisations,
+          researchTimeline,
+          experimentalAccords,
+          moleculesRecettes,
+          synergies,
+          terpeneSynergies,
+          userNotes,
+          sharedCollections,
+          moleculeNotes,
+          citations,
+          analyticsEvents,
+          suppliers,
+          supplierMaterials,
+          rechercheRadicale,
+          modificationHistory,
+        },
+      });
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -2962,44 +3000,43 @@ export async function getModificationHistory(
   entityId: number,
   limit: number = 50
 ) {
-  return await drizzle
-    .select()
-    .from(schema.modificationHistory)
-    .where(
-      and(
-        eq(schema.modificationHistory.entityType, entityType),
-        eq(schema.modificationHistory.entityId, entityId)
-      )
-    )
-    .orderBy(desc(schema.modificationHistory.createdAt))
-    .limit(limit);
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.modificationHistory.findMany({
+    where: (history, { eq, and }) => and(
+      eq(history.entityType, entityType),
+      eq(history.entityId, entityId)
+    ),
+    orderBy: (history, { desc }) => [desc(history.createdAt)],
+    limit,
+  });
 }
 
 export async function getRecentModifications(limit: number = 100) {
-  return await drizzle
-    .select()
-    .from(schema.modificationHistory)
-    .orderBy(desc(schema.modificationHistory.createdAt))
-    .limit(limit);
+  const db = await getDb();
+  if (!db) return [];
+  return await db.query.modificationHistory.findMany({
+    orderBy: (history, { desc }) => [desc(history.createdAt)],
+    limit,
+  });
 }
 
 export async function getModificationById(id: number) {
-  const results = await drizzle
-    .select()
-    .from(schema.modificationHistory)
-    .where(eq(schema.modificationHistory.id, id))
-    .limit(1);
-  
-  return results[0] || null;
+  const db = await getDb();
+  if (!db) return null;
+  return await db.query.modificationHistory.findFirst({
+    where: (history, { eq }) => eq(history.id, id),
+  });
 }
 
 export async function markModificationAsUndone(id: number) {
-  await drizzle
-    .update(schema.modificationHistory)
+  const db = await getDb();
+  if (!db) return;
+  await db.update(modificationHistory)
     .set({ 
       undoneAt: new Date(),
     })
-    .where(eq(schema.modificationHistory.id, id));
+    .where(eq(modificationHistory.id, id));
 }
 
 export async function recordModification(
@@ -3009,7 +3046,9 @@ export async function recordModification(
   oldData: any,
   newData: any
 ) {
-  await drizzle.insert(schema.modificationHistory).values({
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(modificationHistory).values({
     entityType,
     entityId,
     action,
