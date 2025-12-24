@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Flame, Droplets, Sun, Trees, Moon, Sparkles, MapPin, BookOpen } from 'lucide-react';
+import { HexagonalRadar } from '@/components/HexagonalRadar';
+import { Link } from 'wouter';
 
 export default function GammesMossi() {
   const [selectedAccord, setSelectedAccord] = useState<string | null>(null);
@@ -15,6 +17,8 @@ export default function GammesMossi() {
     {
       id: 'mossi_clair',
       nom: 'Mossi Clair',
+      radarData: { intensity: 60, freshness: 80, warmth: 40, sweetness: 50, spiciness: 30, earthiness: 70 },
+      culturalBadges: ['Nyinsi', 'Wende'],
       concept: "Accord lumineux, minéral, aérien, évoquant la première lumière du Sahel",
       profil: "poussière claire, encens blanc, lumière",
       famille: "Minéral / Encens",
@@ -35,6 +39,8 @@ export default function GammesMossi() {
     {
       id: 'mossi_sombre',
       nom: 'Mossi Sombre',
+      radarData: { intensity: 95, freshness: 20, warmth: 90, sweetness: 40, spiciness: 60, earthiness: 95 },
+      culturalBadges: ['Nyinsi', 'Roaga'],
       concept: "Accord nocturne, rituel, profond. Terre noire + myrrhe + bois",
       profil: "ombre chaude, résine sacrée, terre humide",
       famille: "Terre / Résine",
@@ -56,6 +62,8 @@ export default function GammesMossi() {
     {
       id: 'mossi_du_feu',
       nom: 'Mossi du Feu',
+      radarData: { intensity: 100, freshness: 10, warmth: 100, sweetness: 20, spiciness: 80, earthiness: 85 },
+      culturalBadges: ['Roaga', 'Wende'],
       concept: "Accord métallique, incandescent. Fer chaud + acacia brûlé",
       profil: "incandescent, métallique, boisé-brûlé",
       famille: "Métal / Résine",
@@ -77,6 +85,8 @@ export default function GammesMossi() {
     {
       id: 'mossi_verger_sacre',
       nom: 'Mossi Verger Sacré',
+      radarData: { intensity: 70, freshness: 75, warmth: 50, sweetness: 60, spiciness: 40, earthiness: 55 },
+      culturalBadges: ['Nyinsi'],
       concept: "Accord végétal sacré. Neem + karité vert + herbes sèches",
       profil: "ombre fraîche, bois sacré, herbes sèches",
       famille: "Vert / Herbacé",
@@ -97,6 +107,8 @@ export default function GammesMossi() {
     {
       id: 'mossi_solaire',
       nom: 'Mossi Solaire',
+      radarData: { intensity: 85, freshness: 30, warmth: 95, sweetness: 70, spiciness: 75, earthiness: 60 },
+      culturalBadges: ['Wende', 'Roaga'],
       concept: "Accord lumineux, chaud, glorieux. Encens doré + millet chaud",
       profil: "solaire, noble, céréale sacrée",
       famille: "Epicé / Céréales",
@@ -218,7 +230,7 @@ export default function GammesMossi() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="pt-6">
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <div>
                         <p className="text-sm font-medium text-stone-500 mb-1">Profil olfactif</p>
                         <p className="text-stone-900 italic">"{accord.profil}"</p>
@@ -227,6 +239,13 @@ export default function GammesMossi() {
                         <Badge variant="outline">Intensité: {'★'.repeat(accord.intensite)}</Badge>
                         <Badge variant="outline">{accord.chaleur}</Badge>
                         <Badge variant="outline">{accord.humidite}</Badge>
+                      </div>
+                      <div className="flex gap-2 flex-wrap">
+                        {accord.culturalBadges.map((badge) => (
+                          <Badge key={badge} className="bg-amber-100 text-amber-900 border-amber-300">
+                            {badge}
+                          </Badge>
+                        ))}
                       </div>
                     </div>
                   </CardContent>
@@ -247,12 +266,31 @@ export default function GammesMossi() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-6">
-                <Tabs defaultValue="formule" className="w-full">
-                  <TabsList className="grid w-full grid-cols-3">
+                <Tabs defaultValue="radar" className="w-full">
+                  <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="radar">Radar</TabsTrigger>
                     <TabsTrigger value="formule">Formule</TabsTrigger>
                     <TabsTrigger value="interpretation">Interprétation</TabsTrigger>
-                    <TabsTrigger value="effet">Effet sensoriel</TabsTrigger>
+                    <TabsTrigger value="effet">Effet</TabsTrigger>
                   </TabsList>
+                  
+                  <TabsContent value="radar" className="mt-6">
+                    <div className="flex flex-col items-center gap-6">
+                      <HexagonalRadar 
+                        data={accords.find(a => a.id === selectedAccord)!.radarData}
+                        size={300}
+                        color="#f59e0b"
+                        fillOpacity={0.4}
+                      />
+                      <div className="flex gap-2 flex-wrap justify-center">
+                        {accords.find(a => a.id === selectedAccord)?.culturalBadges.map((badge) => (
+                          <Badge key={badge} className="bg-amber-100 text-amber-900 border-amber-300 text-base px-4 py-1">
+                            {badge}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </TabsContent>
                   
                   <TabsContent value="formule" className="space-y-4 mt-6">
                     {accords.find(a => a.id === selectedAccord)?.ingredients.map((phase, idx) => (

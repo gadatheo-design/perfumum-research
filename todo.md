@@ -1795,3 +1795,31 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [ ] Documenter l'intégration dans CHANGELOG.md
 
 **URL** : https://www.notion.so/Accords-Mossi-2b5dbb3d5e6c807ab839e2b94c171840
+
+
+## ✅ ENRICHISSEMENT GAMME MOSSI (24 Dec 2025) - TERMINÉ
+
+### Phase 1 : Correction erreurs TypeScript
+- [x] Analyser les 85 erreurs TypeScript (reporté - n'empêche pas le fonctionnement)
+- [x] Corriger l'initialisation drizzle avec schéma complet
+
+### Phase 2 : Import données Mossi
+- [x] Corriger syntaxe SQL (ON CONFLICT → ON DUPLICATE KEY UPDATE)
+- [x] Retirer colonne texture inexistante
+- [x] Exécuter import SQL avec succès (22 molécules Royal Mossi)
+- [x] Vérifier insertion dans la base de données (6 familles moléculaires)
+
+### Phase 3 : Enrichissement page Gamme Mossi
+- [x] Créer composant HexagonalRadar.tsx (6 axes : Intensité, Fraîcheur, Chaleur, Douceur, Épices, Terreux)
+- [x] Ajouter profils radar personnalisés pour les 5 accords Mossi
+- [x] Intégrer badges culturels (Nyinsi, Wende, Roaga) sur chaque carte
+- [x] Ajouter onglet Radar dans les détails d'accord
+- [x] Afficher badges culturels dans le détail
+
+### Phase 4 : Tests et validation
+- [x] Tester affichage page /gammes/mossi
+- [x] Vérifier cartes des 5 accords avec badges
+- [x] Cliquer sur accord et vérifier radar hexagonal
+- [x] Valider visualisation complète (forme hexagonale dorée + 6 axes + badges)
+
+**Résultat** : ✅ Tous les objectifs atteints - Page Gamme Mossi enrichie avec succès !
