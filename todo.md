@@ -1841,3 +1841,16 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [x] Ajouter tableau comparatif des valeurs radar
 - [x] Intégrer le comparateur dans la page Gamme Mossi
 - [x] Tester les comparaisons entre accords
+
+
+## 🎯 ENRICHISSEMENT MOLÉCULES MOSSI - PHASE 3 (24 Dec 2025) - EN COURS
+
+### Objectif : Rendre tous les liens des formules Mossi cliquables
+
+- [x] Identifier toutes les molécules manquantes dans les 5 formules Mossi
+- [x] Créer les fiches molécules avec profils olfactifs et propriétés
+- [x] Importer les molécules dans la base de données
+- [x] Vérifier que tous les liens sont maintenant actifs
+- [x] Tester la navigation et les hover cards
+- [ ] Créer checkpoint final
+- [ ] Publier le site via le bouton Publish dans l'interface Manus
