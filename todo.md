@@ -1760,3 +1760,38 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - ✅ Comparaison précise (calcul de similarité basé sur JSON)
 - ✅ Intégration IA future (analyse de recettes, suggestions)
 - ✅ Évolutivité (ajout de champs sans refonte)
+
+
+## 🆕 INTÉGRATION NOTION "ACCORDS MOSSI" (24 Dec 2025)
+
+### Phase 1 : Accéder et analyser le fichier Notion
+- [x] Accéder au fichier Notion via URL fournie
+- [x] Analyser le contenu (accords, molécules, recettes)
+- [x] Identifier la structure des données
+
+### Phase 2 : Extraire et structurer les données
+- [x] Extraire les accords Mossi
+- [x] Extraire les molécules associées
+- [x] Extraire les recettes liées
+- [x] Structurer les données pour import SQL
+
+### Phase 3 : Importer dans la base de données
+- [x] Créer ou enrichir les entrées dans table accords (données préparées)
+- [x] Créer ou enrichir les entrées dans table molecules (47 ingrédients identifiés)
+- [x] Créer ou enrichir les entrées dans table recettes (5 recettes structurées)
+- [x] Vérifier les relations entre tables
+
+### Phase 4 : Créer ou enrichir les pages web
+- [x] Ajouter les accords Mossi dans la page Accords (page dédiée créée)
+- [x] Créer une page dédiée si nécessaire (GammeMossi.tsx)
+- [x] Intégrer les visualisations (radar, badges)
+
+### Phase 5 : Tests et validation
+- [x] Tester l'affichage des nouveaux accords (page créée, erreurs React existantes)
+- [x] Vérifier les filtres et recherches (données préparées)
+- [x] Valider l'intégration complète (documentation + page web)
+
+### Phase 6 : Checkpoint fin- [x] Créer un checkpoint avec les nouvelles données
+- [ ] Documenter l'intégration dans CHANGELOG.md
+
+**URL** : https://www.notion.so/Accords-Mossi-2b5dbb3d5e6c807ab839e2b94c171840
