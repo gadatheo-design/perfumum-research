@@ -208,8 +208,8 @@ export function GlobalSearchAdvanced() {
     if (selectedTypes.length === 0 || selectedTypes.includes("accord")) {
       const filteredAccords = accords?.filter((a) => {
         const matchQuery = query.length === 0 ||
-          a.nom.toLowerCase().includes(query.toLowerCase()) ||
-          a.description?.toLowerCase().includes(query.toLowerCase());
+          a.name.toLowerCase().includes(query.toLowerCase()) ||
+          a.notes?.toLowerCase().includes(query.toLowerCase());
         
         return matchQuery;
       }) || [];
@@ -218,8 +218,8 @@ export function GlobalSearchAdvanced() {
         results.push({
           id: a.id,
           type: "accord",
-          title: a.nom,
-          subtitle: a.description || undefined,
+          title: a.name,
+          subtitle: a.notes || undefined,
           path: `/accord/${a.id}`,
           icon: <Droplets className="h-4 w-4" />,
         });

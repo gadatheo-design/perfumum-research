@@ -1,6 +1,9 @@
 import { Link } from "wouter";
 import { Book, Quote, Network, Droplets, Flame, Archive } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { TriangleConceptuel } from "@/components/TriangleConceptuel";
+import { TimelinePhilosophique } from "@/components/TimelinePhilosophique";
+import { AtmospheresBohme } from "@/components/AtmospheresBohme";
 
 export default function FondementsPhilosophiques() {
   return (
@@ -144,6 +147,13 @@ export default function FondementsPhilosophiques() {
               <p>→ Le petrichor est un <strong>matériau sculptural atmosphérique</strong>.</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Visualisation D3.js : Atmosphères de Böhme */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-muted/10">
+        <div className="max-w-5xl mx-auto">
+          <AtmospheresBohme />
         </div>
       </section>
 
@@ -303,6 +313,13 @@ export default function FondementsPhilosophiques() {
         </div>
       </section>
 
+      {/* Visualisation SVG : Triangle Conceptuel */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-500/5 via-green-500/5 to-blue-500/5">
+        <div className="max-w-5xl mx-auto">
+          <TriangleConceptuel />
+        </div>
+      </section>
+
       {/* Section 6 : Dispositif Philosophique */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
@@ -337,6 +354,13 @@ export default function FondementsPhilosophiques() {
               Les séries radicales sont des <strong>textes théoriques en odeur</strong>.
             </blockquote>
           </div>
+        </div>
+      </section>
+
+      {/* Timeline Philosophique */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/5 via-green-500/5 to-amber-500/5">
+        <div className="max-w-5xl mx-auto">
+          <TimelinePhilosophique />
         </div>
       </section>
 
@@ -390,7 +414,9 @@ export default function FondementsPhilosophiques() {
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold mb-6">Pour Aller Plus Loin</h2>
-          <div className="grid md:grid-cols-3 gap-4">
+          
+          {/* Liens principaux */}
+          <div className="grid md:grid-cols-3 gap-4 mb-8">
             <Link href="/recherche-radicale" className="block p-6 rounded-lg bg-card hover:bg-accent/50 transition-colors border border-border">
               <h3 className="font-semibold mb-2">Recherche Radicale</h3>
               <p className="text-sm text-muted-foreground">Série Pétrichor Radicalis Extremis : 5 accords conceptuels</p>
@@ -403,6 +429,53 @@ export default function FondementsPhilosophiques() {
               <h3 className="font-semibold mb-2">Gamme Pétrichor</h3>
               <p className="text-sm text-muted-foreground">7 sous-familles d'accords pétrichor</p>
             </Link>
+          </div>
+
+          {/* Molécules Clés */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold mb-4">Molécules Clés du Cadre Philosophique</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="p-5 rounded-lg bg-gradient-to-br from-amber-500/10 to-green-500/10 border border-amber-500/30">
+                <h4 className="font-semibold mb-2 text-amber-600 dark:text-amber-400">Géosmine</h4>
+                <p className="text-sm text-muted-foreground mb-3">
+                  La molécule de l'<strong>archive terrestre</strong>. Libérée par les actinomycètes du sol, 
+                  elle incarne la mémoire minérale et la trace du vivant dans la matière humide.
+                </p>
+                <Link href="/molecules" className="text-sm font-medium text-amber-600 dark:text-amber-400 hover:underline">
+                  Explorer les molécules →
+                </Link>
+              </div>
+              
+              <div className="p-5 rounded-lg bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/30">
+                <h4 className="font-semibold mb-2 text-blue-600 dark:text-blue-400">Ozone (O₃)</h4>
+                <p className="text-sm text-muted-foreground mb-3">
+                  La molécule de l'<strong>atmosphère aérienne</strong>. Présente avant et après la pluie, 
+                  elle crée une qualité sensible qui transforme la perception de l'espace.
+                </p>
+                <Link href="/molecules" className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                  Explorer les molécules →
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Gammes & Recettes */}
+          <div>
+            <h3 className="text-xl font-bold mb-4">Applications Olfactives</h3>
+            <div className="grid md:grid-cols-3 gap-4">
+              <Link href="/gammes/volcanique" className="block p-5 rounded-lg bg-card hover:bg-accent/50 transition-colors border border-border">
+                <h4 className="font-semibold mb-2">Gamme Volcanique</h4>
+                <p className="text-sm text-muted-foreground">Matière minérale et transformation par le feu</p>
+              </Link>
+              <Link href="/recettes" className="block p-5 rounded-lg bg-card hover:bg-accent/50 transition-colors border border-border">
+                <h4 className="font-semibold mb-2">Recettes & Formules</h4>
+                <p className="text-sm text-muted-foreground">142 accords atmosphériques documentés</p>
+              </Link>
+              <Link href="/suggestions-synergies" className="block p-5 rounded-lg bg-card hover:bg-accent/50 transition-colors border border-border">
+                <h4 className="font-semibold mb-2">Suggestions IA</h4>
+                <p className="text-sm text-muted-foreground">Synergies moléculaires calculées</p>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

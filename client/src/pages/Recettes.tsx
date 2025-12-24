@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp, FlaskConical } from "lucide-react";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";

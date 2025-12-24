@@ -95,7 +95,7 @@ export default function AdminHistorique() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">
-                {modifications?.filter(m => m.action === "create").length || 0}
+                {modifications?.filter((m: any) => m.action === "create").length || 0}
               </div>
             </CardContent>
           </Card>
@@ -108,7 +108,7 @@ export default function AdminHistorique() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">
-                {modifications?.filter(m => m.action === "delete").length || 0}
+                {modifications?.filter((m: any) => m.action === "delete").length || 0}
               </div>
             </CardContent>
           </Card>
@@ -167,7 +167,7 @@ export default function AdminHistorique() {
           </Card>
         ) : (
           <div className="space-y-3">
-            {modifications.map((modification) => (
+            {modifications.map((modification: any) => (
               <Card key={modification.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="py-4">
                   <div className="flex items-start justify-between gap-4">

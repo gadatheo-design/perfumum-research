@@ -67,6 +67,7 @@ export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
       _db = drizzle(process.env.DATABASE_URL, {
+        mode: "default",
         schema: {
           users,
           userFavorites,

@@ -1993,3 +1993,23 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - server/db.ts : 2-3 erreurs mineures (description, quantity, supplierMaterials)
 
 **Note** : Ces erreurs sont non bloquantes pour la production. Le site fonctionne correctement.
+
+
+## 🎨 SESSION 24 DÉC 2025 (SUITE) - EN COURS
+
+### Phase 2 : Enrichir Fondements Philosophiques
+- [x] Créer diagramme interactif Triangle Conceptuel (Sol/Végétal/Pluie) avec SVG
+- [x] Ajouter visualisation D3.js pour concepts de Böhme (atmosphères)
+- [x] Créer timeline philosophique interactive (Merleau-Ponty → Böhme → Derrida)
+
+### Phase 3 : Liens Transversaux Molécules
+- [x] Ajouter section "Molécules Clés" dans Fondements (Géosmine, Ozone)
+- [x] Créer section "Applications Olfactives" avec 8 liens transversaux
+- [x] Créer liens bidirectionnels Fondements ↔ Gammes/Recettes/Suggestions
+
+### Phase 1 : Corrections TypeScript (82 → 58 erreurs, -29%)
+- [x] Corriger imports React manquants (Badge, Link, useMemo, FlaskConical)
+- [x] Corriger pages Recettes, CompareRadar
+- [x] Typer paramètres any dans AdminHistorique
+- [x] Corriger propriétés nom/description → name/notes dans GlobalSearchAdvanced
+- [ ] 58 erreurs restantes (15 Drizzle ORM non bloquantes + 43 composants avancés)
