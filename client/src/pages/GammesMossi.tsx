@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Flame, Droplets, Sun, Trees, Moon, Sparkles, MapPin, BookOpen } from 'lucide-react';
 import { HexagonalRadar } from '@/components/HexagonalRadar';
+import { MoleculeLink } from '@/components/MoleculeLink';
+import { ComparateurAccordsMossi } from '@/components/ComparateurAccordsMossi';
 import { Link } from 'wouter';
 
 export default function GammesMossi() {
@@ -254,6 +256,11 @@ export default function GammesMossi() {
             })}
           </div>
 
+          {/* Comparateur d'accords */}
+          <div className="mb-12">
+            <ComparateurAccordsMossi accords={accords} maxSelection={3} />
+          </div>
+
           {/* Détails de l'accord sélectionné */}
           {selectedAccord && (
             <Card className="border-2 border-amber-400 shadow-xl">
@@ -296,10 +303,25 @@ export default function GammesMossi() {
                     {accords.find(a => a.id === selectedAccord)?.ingredients.map((phase, idx) => (
                       <div key={idx}>
                         <h4 className="font-semibold text-lg text-amber-900 mb-2">{phase.phase}</h4>
-                        <ul className="space-y-1 ml-4">
-                          {phase.items.map((item, i) => (
-                            <li key={i} className="text-stone-700">• {item}</li>
-                          ))}
+                        <ul className="space-y-2 ml-4">
+                          {phase.items.map((item, i) => {
+                            // Parser le nom de la molécule et le pourcentage
+                            const match = item.match(/^(.+?)\s+(\d+(?:\.\d+)?%?)$/);
+                            const moleculeName = match ? match[1].trim() : item;
+                            const percentage = match ? match[2] : '';
+                            
+                            return (
+                              <li key={i} className="text-stone-700 flex items-center gap-2">
+                                <span>•</span>
+                                <MoleculeLink 
+                                  name={moleculeName}
+                                  proportion={percentage ? parseFloat(percentage.replace('%', '')) : undefined}
+                                  variant="link"
+                                  showHoverCard={true}
+                                />
+                              </li>
+                            );
+                          })}
                         </ul>
                         {idx < 2 && <Separator className="my-4" />}
                       </div>

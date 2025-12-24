@@ -1823,3 +1823,21 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [x] Valider visualisation complète (forme hexagonale dorée + 6 axes + badges)
 
 **Résultat** : ✅ Tous les objectifs atteints - Page Gamme Mossi enrichie avec succès !
+
+
+## 🎯 AMÉLIORATIONS GAMME MOSSI - PHASE 2 (24 Dec 2025) - ✅ COMPLÉTÉ
+
+### Fonctionnalité 1 : Liens cliquables dans les formules
+- [x] Analyser la structure actuelle de GammesMossi.tsx
+- [x] Créer un composant pour parser les noms de molécules dans les formules (MoleculeLink existe déjà)
+- [x] Intégrer les liens dans les sections Tête/Cœur/Fond de chaque accord
+- [x] Ajouter hover cards avec aperçu de la molécule
+- [x] Tester la navigation vers les fiches molécules (fonctionne pour molécules en base)
+
+### Fonctionnalité 2 : Comparateur d'accords Mossi
+- [x] Créer composant ComparateurAccordsMossi.tsx
+- [x] Implémenter sélection multiple (2-3 accords max)
+- [x] Créer radar hexagonal superposé avec couleurs distinctes
+- [x] Ajouter tableau comparatif des valeurs radar
+- [x] Intégrer le comparateur dans la page Gamme Mossi
+- [x] Tester les comparaisons entre accords
