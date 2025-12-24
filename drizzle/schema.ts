@@ -1176,6 +1176,46 @@ export type SupplierMaterial = typeof supplierMaterials.$inferSelect;
 export type InsertSupplierMaterial = typeof supplierMaterials.$inferInsert;
 
 // ============================================================================
+// RECHERCHE RADICALE (Experimental radical accords - Art pieces)
+// ============================================================================
+
+/**
+ * Radical experimental accords from the PERFUMUM research.
+ * These are conceptual art pieces, not commercial perfumes.
+ * Each accord explores extreme olfactive territories.
+ */
+export const rechercheRadicale = mysqlTable("recherche_radicale", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Core identification
+  nom: varchar("nom", { length: 255 }).notNull(),
+  symbole: varchar("symbole", { length: 10 }), // 🜁, 🜄, 🜃, etc.
+  serie: varchar("serie", { length: 255 }).notNull(), // "SÉRIE PETRICHOR — RADICALIS EXTREMIS"
+  
+  // Conceptual framework
+  concept: text("concept").notNull(), // Main concept description
+  noteSpeciale: text("note_speciale"), // Special notes about the accord
+  
+  // Composition (stored as JSON)
+  architecture: text("architecture").notNull(), // JSON: [{ingredient, note, concentration}]
+  
+  // Sensory and artistic aspects
+  effet: text("effet").notNull(), // Sensory effect description
+  usageArtistique: text("usage_artistique").notNull(), // Artistic usage and context
+  
+  // Metadata
+  themesConceptuels: text("themes_conceptuels"), // JSON array of conceptual themes
+  avertissement: text("avertissement"), // Warning about non-commercial nature
+  
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type RechercheRadicale = typeof rechercheRadicale.$inferSelect;
+export type InsertRechercheRadicale = typeof rechercheRadicale.$inferInsert;
+
+// ============================================================================
 // RELATIONS FOR SUPPLIERS
 // ============================================================================
 

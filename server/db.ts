@@ -55,6 +55,7 @@ import {
   InsertSupplier,
   SupplierMaterial,
   InsertSupplierMaterial,
+  rechercheRadicale,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -3234,4 +3235,28 @@ export async function createFamily(data: any) {
   });
   
   return result;
+}
+
+
+// ============================================================================
+// RECHERCHE RADICALE
+// ============================================================================
+
+export async function getAllRechercheRadicale() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(rechercheRadicale);
+}
+
+export async function getRechercheRadicaleById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(rechercheRadicale).where(eq(rechercheRadicale.id, id)).limit(1);
+  return result[0] || null;
+}
+
+export async function getRechercheRadicaleBySerie(serie: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(rechercheRadicale).where(eq(rechercheRadicale.serie, serie));
 }

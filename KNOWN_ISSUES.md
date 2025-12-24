@@ -19,6 +19,7 @@ Certaines pages affichent un écran blanc au lieu du contenu. L'erreur dans la c
 - `/compare-molecules-advanced`
 - `/comparateur-avance`
 - `/compare-radar`
+- `/recherche-radicale` (24 déc 2025 - Série Pétrichor Radicalis Extremis)
 - Potentiellement toute nouvelle page de comparaison
 
 ### Causes identifiées

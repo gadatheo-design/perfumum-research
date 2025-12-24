@@ -1601,6 +1601,23 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // Recherche Radicale
+  rechercheRadicale: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllRechercheRadicale();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getRechercheRadicaleById(input);
+      }),
+    getBySerie: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getRechercheRadicaleBySerie(input);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

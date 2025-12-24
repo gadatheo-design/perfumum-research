@@ -1908,3 +1908,33 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 ### Phase 4 : Molécules rares et phéromones
 - [ ] Intégrer molécules rares (Oud, Iris, Ambre Gris, etc.)
 - [ ] Intégrer phéromones (Androsténone, Androstadienone)
+
+
+## 🧪 INTÉGRATION SÉRIE RADICALE PÉTRICHOR (Notion)
+
+### Phase 1 : Structuration base de données
+- [x] Créer table `recherche_radicale` (id, nom, serie, concept, architecture, effet, usage_artistique, avertissement)
+- [x] Migrer schéma avec `pnpm db:push`
+- [x] Créer fonctions db.ts (getAllRechercheRadicale, getById, getBySerie)
+
+### Phase 2 : Import des 5 accords radicaux
+- [x] 🜁 Pétrichor Radioactif (7 ingrédients)
+- [x] 🜄 Pétrichor sur Béton Humain (6 ingrédients)
+- [x] 🜃 Pétrichor sur Cendres Humaines (6 ingrédients)
+- [x] 🜔 Pétrichor sur Fer Rouge (6 ingrédients)
+- [x] 🜕 Pétrichor Sépulcral (6 ingrédients)
+
+### Phase 3 : Interface utilisateur
+- [x] Créer page `/recherche-radicale` avec avertissement
+- [x] Design sombre/conceptuel adapté au contenu
+- [x] Cartes avec architecture, effet, usage artistique
+- [x] Badge "Œuvre Olfactive - Non Commercial"
+- [x] Ajouter route dans App.tsx
+- [x] Créer procédures tRPC
+
+### Phase 4 : Tests et documentation
+- [x] Tester l'affichage des 5 accords (données en base confirmées)
+- [x] Bug HMR Vite documenté dans KNOWN_ISSUES.md
+- [ ] Ajouter lien dans navigation (optionnel)
+- [ ] Documenter dans GUIDE_UTILISATION.md
+- [ ] Créer checkpoint
