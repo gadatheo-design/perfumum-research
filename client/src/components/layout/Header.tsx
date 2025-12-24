@@ -40,6 +40,16 @@ const mobileMenuSections = [
     icon: BookOpen,
   },
   {
+    title: "Échelle ABSORBE",
+    href: "/methodologie/echelle-absorbe",
+    icon: Atom,
+  },
+  {
+    title: "Journal de Recherche",
+    href: "/journal",
+    icon: FileText,
+  },
+  {
     title: "Gammes",
     icon: Sparkles,
     items: [

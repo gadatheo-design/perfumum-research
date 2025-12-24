@@ -159,9 +159,29 @@ export default function Prototypes() {
               <h2 className="text-3xl font-bold mb-6">
                 Un Système Interconnecté
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
                 Les quatre prototypes ne sont pas des compositions isolées mais forment un <strong>système atmosphérique cohérent</strong>. Ils partagent des molécules communes, dialoguent entre eux et peuvent être combinés pour créer des compositions hybrides. Cette approche systémique permet d'explorer les relations entre différentes qualités sensibles et de construire progressivement un vocabulaire olfactif original.
               </p>
+              
+              {/* Liens vers les pages détaillées */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <a href="/prototypes/c1" className="block p-4 bg-card border border-border rounded-lg hover:shadow-md hover:scale-[1.02] transition-all">
+                  <h3 className="text-lg font-semibold mb-2">C1 — FERMENTUM</h3>
+                  <p className="text-sm text-muted-foreground">Organique, intime, vivant</p>
+                </a>
+                <a href="/prototypes/c2" className="block p-4 bg-card border border-border rounded-lg hover:shadow-md hover:scale-[1.02] transition-all">
+                  <h3 className="text-lg font-semibold mb-2">C2 — CLARUS VERDE</h3>
+                  <p className="text-sm text-muted-foreground">Verticalité, transparence, lumière verte</p>
+                </a>
+                <a href="/prototypes/c3" className="block p-4 bg-card border border-border rounded-lg hover:shadow-md hover:scale-[1.02] transition-all">
+                  <h3 className="text-lg font-semibold mb-2">C3 — LACTA SOLIS</h3>
+                  <p className="text-sm text-muted-foreground">Douceur solaire, peau, tendresse</p>
+                </a>
+                <a href="/prototypes/c4" className="block p-4 bg-card border border-border rounded-lg hover:shadow-md hover:scale-[1.02] transition-all">
+                  <h3 className="text-lg font-semibold mb-2">C4 — TERRA AMBRA</h3>
+                  <p className="text-sm text-muted-foreground">Terre, résine, profondeur</p>
+                </a>
+              </div>
             </div>
           </div>
         </section>

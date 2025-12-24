@@ -17,34 +17,92 @@ export default function GammesVolcanique() {
       code: "V.1",
       name: "VOLCANIQUE CENDRES",
       icon: Skull,
-      atmosphere: "Cendre tiède. Poussière volcanique. Fumée noire résiduelle.",
-      notes: "frankincense noir, vétiver haiti, palo santo, oud tea, spikenard, mitti attar",
-      image: "cendre volcanique, poussière suspendue",
-      sensation: "poussiéreuse, sombre, résiduelle",
+      atmosphere: "Cendre tiède. Poussière volcanique. Fumée noire résiduelle. Mémoire de combustion.",
+      notes: "frankincense noir, vétiver haiti, palo santo, oud tea, spikenard, mitti attar, cade, bouleau goudron",
+      image: "cendre volcanique, poussière suspendue, texture granuleuse",
+      sensation: "poussiéreuse, sombre, résiduelle, minérale",
       color: "from-stone-700/20 to-slate-900/20",
       borderColor: "border-l-stone-600",
+      molecules: "Frankincense noir, Vétiver Haïti, Palo Santo, Oud Tea, Spikenard",
+      accords: "Cendre + Poussière + Fumée noire",
     },
     {
       code: "V.2",
       name: "VOLCANIQUE RÉSINE BRÛLÉE",
       icon: Flame,
-      atmosphere: "Résine pyrolysée, fumée épaisse, chaleur intense.",
-      notes: "frankincense noir, oud tea, palo santo, vétiver assam, makrut, ambergris",
-      image: "résine incandescente, fumée dense",
-      sensation: "chaude, épaisse, pyrolysée",
+      atmosphere: "Résine pyrolysée, fumée épaisse, chaleur intense. Incandescence.",
+      notes: "frankincense noir, oud tea, palo santo, vétiver assam, makrut, ambergris, benjoin, styrax",
+      image: "résine incandescente, fumée dense, braises rouges",
+      sensation: "chaude, épaisse, pyrolysée, visqueuse",
       color: "from-orange-800/20 to-red-900/20",
       borderColor: "border-l-orange-700",
+      molecules: "Frankincense noir, Oud Tea, Palo Santo, Vétiver Assam, Benjoin, Styrax",
+      accords: "Résine pyrolysée + Fumée épaisse + Chaleur",
     },
     {
       code: "V.3",
       name: "VOLCANIQUE FUMÉE SPECTRALE",
       icon: Zap,
-      atmosphere: "Fumée froide, soufre léger, vapeur acide fantôme.",
-      notes: "juniper, makrut, spikenard, frankincense, vétiver, ambergris",
-      image: "vapeur acide, fumée pâle",
-      sensation: "spectrale, acide, volatile",
+      atmosphere: "Fumée froide, soufre léger, vapeur acide fantôme. Volatilité évanescente.",
+      notes: "juniper, makrut, spikenard, frankincense, vétiver, ambergris, encens froid, cade",
+      image: "vapeur acide, fumée pâle, volutes fantomatiques",
+      sensation: "spectrale, acide, volatile, évanescente",
       color: "from-cyan-500/20 to-blue-700/20",
       borderColor: "border-l-cyan-600",
+      molecules: "Juniper, Makrut Lime, Spikenard, Frankincense, Vétiver, Ambergris",
+      accords: "Fumée froide + Soufre + Vapeur acide",
+    },
+    {
+      code: "V.4",
+      name: "VOLCANIQUE LAVE NOIRE",
+      icon: Flame,
+      atmosphere: "Lave refroidie, basalte noir, chaleur résiduelle. Minéralité brûlée.",
+      notes: "vétiver assam, oud tea, cade, bouleau goudron, frankincense noir, ambrox, patchouli",
+      image: "basalte noir, texture rugueuse, chaleur latente",
+      sensation: "dense, minérale, brûlée, profonde",
+      color: "from-zinc-900/20 to-black/20",
+      borderColor: "border-l-zinc-800",
+      molecules: "Vétiver Assam, Oud Tea, Cade, Bouleau goudron, Frankincense noir",
+      accords: "Lave + Basalte + Chaleur résiduelle",
+    },
+    {
+      code: "V.5",
+      name: "VOLCANIQUE SOUFRE",
+      icon: Zap,
+      atmosphere: "Soufre pur, vapeur acide, fumerolles. Toxicité minérale.",
+      notes: "makrut lime, juniper, frankincense, cade, encens froid, ambrox, vétiver sec",
+      image: "fumerolles jaunes, vapeur acide, cristaux de soufre",
+      sensation: "acide, pénétrante, toxique, minérale",
+      color: "from-yellow-600/20 to-amber-800/20",
+      borderColor: "border-l-yellow-700",
+      molecules: "Makrut Lime, Juniper, Frankincense, Cade, Encens froid",
+      accords: "Soufre + Vapeur acide + Fumerolles",
+    },
+    {
+      code: "V.6",
+      name: "VOLCANIQUE OBSIDIENNE",
+      icon: Skull,
+      atmosphere: "Verre volcanique, noir absolu, froid minéral. Silence vitrifié.",
+      notes: "ambrox, vétiver assam, encens froid, frankincense noir, cade, patchouli, iris",
+      image: "obsidienne polie, reflets noirs, surface lisse",
+      sensation: "froide, vitreuse, tranchante, silencieuse",
+      color: "from-gray-900/20 to-black/20",
+      borderColor: "border-l-gray-800",
+      molecules: "Ambrox, Vétiver Assam, Encens froid, Frankincense noir, Iris",
+      accords: "Obsidienne + Verre volcanique + Froid minéral",
+    },
+    {
+      code: "V.7",
+      name: "VOLCANIQUE MAGMA",
+      icon: Flame,
+      atmosphere: "Magma incandescent, chaleur extrême, fusion totale. Énergie primordiale.",
+      notes: "oud tea, frankincense noir, palo santo, benjoin, styrax, ambergris, vétiver assam, patchouli",
+      image: "magma rouge, incandescence, chaleur extrême",
+      sensation: "incandescente, visqueuse, extrême, primordiale",
+      color: "from-red-900/20 to-orange-600/20",
+      borderColor: "border-l-red-800",
+      molecules: "Oud Tea, Frankincense noir, Palo Santo, Benjoin, Styrax, Ambergris",
+      accords: "Magma + Incandescence + Chaleur extrême",
     },
   ];
 
@@ -75,7 +133,7 @@ export default function GammesVolcanique() {
                 </div>
               </div>
               <div className="flex gap-2 mb-6">
-                <Badge variant="secondary">3 axes</Badge>
+                <Badge variant="secondary">7 sous-familles</Badge>
                 <Badge variant="outline">Recherche 2023-2025</Badge>
               </div>
               <div className="prose prose-lg max-w-none">
@@ -96,7 +154,7 @@ export default function GammesVolcanique() {
           <div className="container">
             <div className="max-w-5xl mx-auto">
               <h2 className="text-3xl font-bold mb-8">
-                Trois Axes Atmosphériques
+                Sept Sous-Familles Atmosphériques
               </h2>
               
               <div className="grid grid-cols-1 gap-8">
@@ -157,6 +215,28 @@ export default function GammesVolcanique() {
                             </p>
                           </div>
                         </div>
+
+                        {axe.molecules && (
+                          <div>
+                            <h4 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                              Molécules Clés
+                            </h4>
+                            <p className="text-sm text-muted-foreground">
+                              {axe.molecules}
+                            </p>
+                          </div>
+                        )}
+
+                        {axe.accords && (
+                          <div>
+                            <h4 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                              Accords Principaux
+                            </h4>
+                            <p className="text-sm font-mono text-muted-foreground">
+                              {axe.accords}
+                            </p>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   );

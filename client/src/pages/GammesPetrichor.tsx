@@ -15,40 +15,102 @@ export default function GammesPetrichor() {
 
   const axes = [
     {
-      code: "S.1",
+      code: "P.1",
       name: "PÉTRICHOR SOUTERRAIN",
       icon: Mountain,
-      atmosphere: "Humus. Racines. Terre noire gorgée d'eau.",
-      notes: "géosmine, spikenard, vétiver humide, bois mouillé, angélique, mitti attar",
+      atmosphere: "Humus. Racines. Terre noire gorgée d'eau. Profondeur tellurique.",
+      notes: "géosmine, spikenard, vétiver humide, bois mouillé, angélique, mitti attar, patchouli terre, mousse chêne",
       imageUrl: "/petrichor-souterrain.webp",
-      image: "sol fracturé, condensation basse",
-      sensation: "profonde, lente, organique",
+      image: "sol fracturé, condensation basse, racines exposées",
+      sensation: "profonde, lente, organique, enveloppante",
       color: "from-amber-900/20 to-stone-900/20",
       borderColor: "border-l-amber-700",
+      molecules: "Géosmine (marqueur principal), Spikenard, Vétiver, Patchouli, Angélique racine",
+      accords: "Terre humide + Bois mouillé + Racines",
     },
     {
-      code: "U.1",
+      code: "P.2",
       name: "PÉTRICHOR URBAIN",
       icon: Building2,
-      atmosphere: "Asphalte sous la pluie, pierre froide, tension électrique.",
-      notes: "aldéhydes froids, ozone, bitume propre, pierre humide, encens froid",
+      atmosphere: "Asphalte sous la pluie, pierre froide, tension électrique. Ozone métallique.",
+      notes: "aldéhydes froids, ozone, bitume propre, pierre humide, encens froid, cèdre Atlas, calone",
       imageUrl: "/petrichor-urbain.webp",
-      image: "bitume mouillé, halo bleu",
-      sensation: "électrique, nette, rapide",
+      image: "bitume mouillé, halo bleu, reflets métalliques",
+      sensation: "électrique, nette, rapide, minrale",
       color: "from-slate-500/20 to-blue-900/20",
       borderColor: "border-l-slate-600",
+      molecules: "Calone (note ozone), Aldéhydes C10-C12, Encens, Cèdre Atlas, Galbanum",
+      accords: "Ozone + Pierre humide + Métal froid",
     },
     {
-      code: "F.1",
+      code: "P.3",
       name: "PÉTRICHOR FANTÔME",
       icon: Ghost,
-      atmosphere: "Papier humide, poussière en suspension, silence après la pluie.",
-      notes: "violette poussière, encens éteint, pierre poreuse",
+      atmosphere: "Papier humide, poussière en suspension, silence après la pluie. Mémoire résiduelle.",
+      notes: "violette poussière, encens éteint, pierre poreuse, iris poudre, héliotropine, muscs blancs",
       imageUrl: "/petrichor-fantome.webp",
-      image: "mur poreux, lumière pâle",
-      sensation: "spectrale, résiduelle",
+      image: "mur poreux, lumière pâle, ombre diffuse",
+      sensation: "spectrale, résiduelle, évanescente",
       color: "from-violet-300/20 to-gray-400/20",
       borderColor: "border-l-violet-400",
+      molecules: "Ionones (violette), Iris, Héliotropine, Muscs blancs, Encens Oliban",
+      accords: "Violette poudre + Papier ancien + Silence",
+    },
+    {
+      code: "P.4",
+      name: "PÉTRICHOR FORESTIER",
+      icon: Droplets,
+      atmosphere: "Forêt après l'orage. Feuilles mouillées, écorce gorgée, champignons.",
+      notes: "cis-3-hexénol, feuille violette, mousse chêne, cèdre, pin humide, champignon, sous-bois",
+      imageUrl: "/petrichor-forestier.webp",
+      image: "sous-bois dense, vapeur montante, lumière filtrée",
+      sensation: "vivante, fraîche, verte, humide",
+      color: "from-green-800/20 to-emerald-900/20",
+      borderColor: "border-l-green-700",
+      molecules: "Cis-3-Hexénol (feuille coupée), Pin, Cèdre, Mousse chêne, Vétiver",
+      accords: "Feuille mouillée + Écorce + Champignon",
+    },
+    {
+      code: "P.5",
+      name: "PÉTRICHOR MINÉRAL",
+      icon: Mountain,
+      atmosphere: "Pierre calcaire, craie mouillée, carrière après la pluie. Silence minéral.",
+      notes: "pierre humide, craie, silex, encens froid, ambrox, cèdre Atlas, vétiver sec",
+      imageUrl: "/petrichor-mineral.webp",
+      image: "roche calcaire, gouttes suspendues, texture poreuse",
+      sensation: "froide, dure, cristalline, austere",
+      color: "from-gray-400/20 to-stone-600/20",
+      borderColor: "border-l-gray-500",
+      molecules: "Ambrox (note minérale), Encens, Cèdre Atlas, Vétiver, Galbanum",
+      accords: "Pierre + Craie + Silex",
+    },
+    {
+      code: "P.6",
+      name: "PÉTRICHOR AQUATIQUE",
+      icon: Droplets,
+      atmosphere: "Rivière après l'orage. Galets mouillés, algues, eau trouble.",
+      notes: "calone, algues, galets humides, cis-3-hexénol, vétiver eau, encens aquatique",
+      imageUrl: "/petrichor-aquatique.webp",
+      image: "rivière trouble, galets lisses, vapeur d'eau",
+      sensation: "fluide, fraîche, mouvante, transparente",
+      color: "from-cyan-400/20 to-blue-600/20",
+      borderColor: "border-l-cyan-500",
+      molecules: "Calone, Cis-3-Hexénol, Vétiver, Encens, Ambrox",
+      accords: "Eau trouble + Galets + Algues",
+    },
+    {
+      code: "P.7",
+      name: "PÉTRICHOR NOCTURNE",
+      icon: Ghost,
+      atmosphere: "Nuit après la pluie. Silence humide, brume basse, lune voilée.",
+      notes: "encens froid, vétiver nuit, muscs blancs, iris, violette, ambrox, mousse",
+      imageUrl: "/petrichor-nocturne.webp",
+      image: "brume nocturne, reflets lunaires, silence profond",
+      sensation: "sombre, calme, enveloppante, mystérieuse",
+      color: "from-indigo-900/20 to-slate-800/20",
+      borderColor: "border-l-indigo-700",
+      molecules: "Encens, Vétiver, Iris, Muscs blancs, Ambrox",
+      accords: "Nuit + Brume + Silence",
     },
   ];
 
@@ -79,7 +141,7 @@ export default function GammesPetrichor() {
                 </div>
               </div>
               <div className="flex gap-2 mb-6">
-                <Badge variant="secondary">3 axes</Badge>
+                <Badge variant="secondary">7 sous-familles</Badge>
                 <Badge variant="outline">Recherche 2020-2025</Badge>
               </div>
               <div className="prose prose-lg max-w-none">
@@ -100,7 +162,7 @@ export default function GammesPetrichor() {
           <div className="container">
             <div className="max-w-5xl mx-auto">
               <h2 className="text-3xl font-bold mb-8">
-                Trois Axes Atmosphériques
+                Sept Sous-Familles Atmosphériques
               </h2>
               
               <div className="grid grid-cols-1 gap-8">
@@ -171,6 +233,28 @@ export default function GammesPetrichor() {
                             </p>
                           </div>
                         </div>
+
+                        {axe.molecules && (
+                          <div>
+                            <h4 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                              Molécules Clés
+                            </h4>
+                            <p className="text-sm text-muted-foreground">
+                              {axe.molecules}
+                            </p>
+                          </div>
+                        )}
+
+                        {axe.accords && (
+                          <div>
+                            <h4 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                              Accords Principaux
+                            </h4>
+                            <p className="text-sm font-mono text-muted-foreground">
+                              {axe.accords}
+                            </p>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   );

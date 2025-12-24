@@ -400,6 +400,12 @@ export function MegaMenu() {
           description: "Protocoles de recherche",
         },
         {
+          label: "Échelle ABSORBE",
+          path: "/methodologie/echelle-absorbe",
+          icon: <BarChart3 className="h-4 w-4" />,
+          description: "7 catégories olfactives",
+        },
+        {
           label: "Protocoles maturation",
           path: "/protocoles-maturation",
           icon: <Clock className="h-4 w-4" />,

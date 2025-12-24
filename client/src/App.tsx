@@ -117,6 +117,9 @@ import ChimieTabac from "./pages/ChimieTabac";
 import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
 import TabacsNiche from "@/pages/TabacsNiche";
 
+// === JOURNAL & MÉTHODOLOGIE ===
+import Journal from "./pages/Journal";
+
 // === MÉTHODOLOGIE ===
 import MethodeAbsorbe from "./pages/MethodeAbsorbe";
 import MethodologieAbsorbe from "./pages/methodologie/MethodologieAbsorbe";
@@ -280,7 +283,8 @@ function Router() {
       <Route path="/programmes-recherche/resines-cbd" component={ResinesCBD} />
       <Route path="/programmes-recherche/tabacs-niche" component={TabacsNiche} />
       
-      {/* === MÉTHODOLOGIE === */}
+      {/* === JOURNAL & MÉTHODOLOGIE === */}
+      <Route path="/journal" component={Journal} />
       <Route path="/methode" component={MethodeAbsorbe} />
       <Route path="/methode-absorbe" component={MethodeAbsorbe} />
       <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />

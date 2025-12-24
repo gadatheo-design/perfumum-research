@@ -1892,13 +1892,14 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 
 #### Navigation
 - [x] Ajouter routes dans App.tsx
-- [ ] Intégrer liens dans navigation principale (Phase 2)
-- [ ] Tester navigation entre les 4 prototypes (Phase 2)
+- [x] Ajouter liens vers C1, C2, C3 dans la page Prototypes
+- [x] Ajouter lien vers Échelle ABSORBE dans le menu principal
+- [x] Tester tous les liens de navigation
 
 ### Phase 2 : Journal de recherche et enrichissement Pétrichor/Volcanique
-- [ ] Créer page /journal (carnet de recherche)
-- [ ] Enrichir Pétrichor (7 sous-familles)
-- [ ] Enrichir Volcanique (7 sous-familles)
+- [x] Créer page /journal (carnet de recherche)
+- [x] Enrichir Pétrichor (7 sous-familles)
+- [x] Enrichir Volcanique (7 sous-familles)
 
 ### Phase 3 : Atlas Civilisations et Installations
 - [ ] Créer page /atlas-civilisations
