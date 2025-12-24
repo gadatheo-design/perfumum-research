@@ -1,4 +1,5 @@
 import { Header } from "@/components/layout/Header";
+import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

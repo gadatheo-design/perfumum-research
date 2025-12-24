@@ -2938,7 +2938,7 @@ export async function updateAccord(id: number, data: any) {
   await db.update(accords)
     .set({
       name: data.nom || undefined,
-      description: data.description || undefined,
+      notes: data.description || undefined,
       familyId: data.familleId || undefined,
     })
     .where(eq(accords.id, id));
@@ -2982,7 +2982,6 @@ export async function updateMatiere(id: number, data: any) {
       type: data.type || undefined,
       origin: data.origine || undefined,
       supplier: data.fournisseur || undefined,
-      quantity: data.quantite || undefined,
       unit: data.unite || undefined,
       unitPrice: data.prixUnitaire || undefined,
       purchaseDate: data.dateAchat || undefined,
@@ -3041,7 +3040,7 @@ export async function markModificationAsUndone(id: number) {
 }
 
 export async function recordModification(
-  entityType: string,
+  entityType: "prototype" | "molecule" | "accord" | "recette" | "famille" | "matiere" | "synergie" | "tradition",
   entityId: number,
   action: "create" | "update" | "delete",
   oldData: any,
