@@ -120,6 +120,7 @@ import TabacsNiche from "@/pages/TabacsNiche";
 // === MÉTHODOLOGIE ===
 import MethodeAbsorbe from "./pages/MethodeAbsorbe";
 import MethodologieAbsorbe from "./pages/methodologie/MethodologieAbsorbe";
+import EchelleAbsorbe from "./pages/methodologie/EchelleAbsorbe";
 import Pyrolyse from "./pages/methodologie/Pyrolyse";
 import GCMS from "./pages/methodologie/GCMS";
 
@@ -283,6 +284,7 @@ function Router() {
       <Route path="/methode" component={MethodeAbsorbe} />
       <Route path="/methode-absorbe" component={MethodeAbsorbe} />
       <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
+      <Route path="/methodologie/echelle-absorbe" component={EchelleAbsorbe} />
       <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
       <Route path="/methodologie/gc-ms" component={GCMS} />
       

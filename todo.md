@@ -1843,7 +1843,7 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [x] Tester les comparaisons entre accords
 
 
-## 🎯 ENRICHISSEMENT MOLÉCULES MOSSI - PHASE 3 (24 Dec 2025) - EN COURS
+## 🎯 ENRICHISSEMENT MOLÉCULES MOSSI - PHASE 3 (24 Dec 2025) - ✅ COMPLÉTÉ
 
 ### Objectif : Rendre tous les liens des formules Mossi cliquables
 
@@ -1852,5 +1852,58 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [x] Importer les molécules dans la base de données
 - [x] Vérifier que tous les liens sont maintenant actifs
 - [x] Tester la navigation et les hover cards
-- [ ] Créer checkpoint final
+- [x] Créer checkpoint final
 - [ ] Publier le site via le bouton Publish dans l'interface Manus
+
+
+## 🚀 INTÉGRATION CONTENUS DOSSIER PARTAGÉ (Session 24 Déc 2025)
+
+### Phase 1 : Prototypes C1, C2, C3 et Manuel ABSORBE (EN COURS)
+
+#### Prototypes
+- [x] Créer page C1 — FERMENTUM (/prototypes/c1-fermentum)
+  - [x] Concept "Organique, intime, vivant"
+  - [x] Formule détaillée avec liens molécules cliquables
+  - [x] Profil radar olfactif
+  - [x] Installation conceptuelle "Chambre de Fermentation"
+  - [x] Résonance émotionnelle et applications
+  
+- [x] Créer page C2 — CLARUS VERDE (/prototypes/c2-clarus-verde)
+  - [x] Concept "Verticalité, transparence, lumière verte"
+  - [x] Étude molécules vertes (galbanum, violet leaf, fig)
+  - [x] Profil radar olfactif
+  - [x] Installation conceptuelle "Colonne de Lumière"
+  - [x] Résonance émotionnelle et applications
+  
+- [x] Créer page C3 — LACTA SOLIS (/prototypes/c3-lacta-solis)
+  - [x] Concept "Douceur solaire, peau, tendresse"
+  - [x] Recherche lactones
+  - [x] Profil radar olfactif
+  - [x] Installation conceptuelle "Peau de Lumière"
+  - [x] Résonance émotionnelle et applications
+
+#### Manuel ABSORBE
+- [x] Créer page /methodologie/echelle-absorbe
+- [x] Définir 7 catégories ABSORBE (Atmosphérique, Brut, Solaire, Organique, Résineux, Balsamique, Épicé)
+- [x] Ajouter exemples de molécules prototypiques pour chaque catégorie
+- [x] Créer grille d'évaluation (échelle 0-10)
+- [x] Ajouter radar charts ABSORBE
+- [ ] Enrichir base de données avec champs ABSORBE (Phase 2)
+
+#### Navigation
+- [x] Ajouter routes dans App.tsx
+- [ ] Intégrer liens dans navigation principale (Phase 2)
+- [ ] Tester navigation entre les 4 prototypes (Phase 2)
+
+### Phase 2 : Journal de recherche et enrichissement Pétrichor/Volcanique
+- [ ] Créer page /journal (carnet de recherche)
+- [ ] Enrichir Pétrichor (7 sous-familles)
+- [ ] Enrichir Volcanique (7 sous-familles)
+
+### Phase 3 : Atlas Civilisations et Installations
+- [ ] Créer page /atlas-civilisations
+- [ ] Documenter 4 installations conceptuelles
+
+### Phase 4 : Molécules rares et phéromones
+- [ ] Intégrer molécules rares (Oud, Iris, Ambre Gris, etc.)
+- [ ] Intégrer phéromones (Androsténone, Androstadienone)
