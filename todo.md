@@ -1938,3 +1938,19 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [ ] Ajouter lien dans navigation (optionnel)
 - [ ] Documenter dans GUIDE_UTILISATION.md
 - [ ] Créer checkpoint
+
+
+## 🔗 NAVIGATION RECHERCHE RADICALE
+
+### Ajout liens navigation
+- [x] Ajouter lien "Recherche Radicale" dans menu mobile (section Recherche)
+- [x] Ajouter lien "Recherche Radicale" dans MegaMenu desktop (section Pétrichor > Projets)
+- [x] Badge "NEW" ajouté pour visibilité
+
+## 📚 ANALYSE DONNÉES NOTION
+
+### Inventaire et recommandations
+- [x] Analyser fichier Notion "Recettes & Formules"
+- [x] Identifier contenu théorique non intégré (chapitre philosophique)
+- [x] Créer rapport complet avec recommandations d'intégration
+- [ ] Intégrer chapitre théorique "Fondements Philosophiques" (priorité future)

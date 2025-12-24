@@ -484,6 +484,12 @@ export function MegaMenu() {
           icon: <FlaskConical className="h-4 w-4" />,
           description: "Dispositifs olfactifs",
         },
+        {
+          label: "Recherche Radicale",
+          path: "/recherche-radicale",
+          icon: <Flame className="h-4 w-4" />,
+          description: "Série Pétrichor Radicalis Extremis",
+        },
       ],
     },
   ];
