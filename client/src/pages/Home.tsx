@@ -22,7 +22,7 @@ export default function Home() {
           </div>
           <div className="container">
             <div className="max-w-4xl mx-auto text-center content-spacing relative z-10">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance mb-8 animate-fadeInUp">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance mb-6 animate-fadeInUp">
                 PERFUMUM
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground/90 text-balance mb-2 animate-fadeInUp font-light tracking-wide" style={{animationDelay: '0.05s'}}>
@@ -30,23 +30,27 @@ export default function Home() {
                   ABSORBE
                 </Link> — laboratoire atmosphérique olfactif basé à Berne
               </p>
-              <p className="text-2xl md:text-3xl text-muted-foreground text-balance mb-4 animate-fadeInUp font-medium" style={{animationDelay: '0.1s'}}>
-                PERFUMUM ⊂ ABSORBE
+              <p className="text-xl md:text-2xl text-muted-foreground/80 text-balance mb-8 animate-fadeInUp font-light italic" style={{animationDelay: '0.1s'}}>
+                Laboratoire de recherche olfactive expérimentale — 10 ans d'exploration moléculaire et artistique
               </p>
-              <p className="text-lg md:text-xl text-muted-foreground/80 text-balance mb-4 animate-fadeInUp" style={{animationDelay: '0.15s'}}>
-                Plateforme de Recherche & Développement
-              </p>
-              <p className="text-lg md:text-xl text-muted-foreground/80 text-balance mb-12 animate-fadeInUp max-w-2xl mx-auto" style={{animationDelay: '0.2s'}}>
-                Design terpénique, résines CBD et variétés de tabacs rares
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.3s'}}>
-                <Button size="lg" className="gap-2 btn-enhanced" asChild>
+              
+              {/* Texte de contexte explicatif */}
+              <div className="max-w-3xl mx-auto mb-12 animate-fadeInUp" style={{animationDelay: '0.15s'}}>
+                <p className="text-base md:text-lg text-muted-foreground/90 leading-relaxed text-balance">
+                  PERFUMUM est une plateforme de recherche olfactive expérimentale développée sur 10 ans (2025-2035). 
+                  Explorez <strong>176 molécules documentées</strong>, <strong>195 recettes olfactives</strong> et des méthodologies scientifiques 
+                  (GC-MS, synergies moléculaires). Les accords créés sont utilisés dans des projets artistiques site-specific 
+                  et archivés selon la méthodologie ABSORBE.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.25s'}}>
+                <Button size="lg" className="gap-2 btn-enhanced bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg" asChild>
                   <Link href="/gammes">
                     Consulter les gammes
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="btn-enhanced" asChild>
+                <Button size="lg" variant="outline" className="btn-enhanced border-2" asChild>
                   <Link href="/dashboard">
                     Accéder au Dashboard
                   </Link>

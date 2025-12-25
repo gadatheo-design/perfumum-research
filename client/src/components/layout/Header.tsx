@@ -154,8 +154,9 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 transition-all duration-300 shadow-sm">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2 transition-opacity hover:opacity-80">
+        <Link href="/" className="flex flex-col transition-opacity hover:opacity-80">
           <span className="text-2xl font-bold tracking-tight">PERFUMUM</span>
+          <span className="hidden md:block text-[10px] text-muted-foreground/70 tracking-wide font-light -mt-1">Recherche olfactive expérimentale</span>
         </Link>
 
         {/* Desktop Navigation - Mega Menu */}
