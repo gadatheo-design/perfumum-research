@@ -2019,3 +2019,33 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [x] Corriger les erreurs d'imports React manquants
 - [x] Corriger les paramètres non typés dans les callbacks
 - [x] Atteindre 0 erreur TypeScript
+
+## Modification des gammes - 24 Déc 2025
+
+- [ ] Renommer "Civilisation Mossi" en "Mossi"
+- [ ] Créer nouvelle gamme "Colombie" avec 23 molécules
+- [ ] Vérifier l'affichage dans l'interface
+- [ ] Créer checkpoint final
+
+
+## ✅ ENRICHISSEMENT DONNÉES COLOMBIENNES - 24 DÉC 2025
+
+### Analyse et ajouts
+- [x] Analyser les molécules colombiennes existantes (12 trouvées)
+- [x] Identifier les profils radar incomplets (20 molécules)
+- [x] Ajouter 10 nouvelles molécules colombiennes (Borrachero, Yagé, Coca, Lulo, Guanábana, Uchuva, Cedro, Nogal, Copal, Baume de Tolú)
+- [x] Compléter tous les profils radar manquants (20 molécules)
+- [x] Vérifier l'intégrité des données (299 molécules, 100% radar)
+
+### Gammes et traditions
+- [x] Vérifier existence "Civilisation Mossi" (n'existait pas)
+- [x] Créer nouvelle gamme "Colombie" avec accord signature
+- [x] Vérifier l'affichage dans l'interface (27 traditions totales)
+- [ ] Créer checkpoint final
+
+### Résultats
+- **23 molécules colombiennes** (dont 10 nouvelles)
+- **299 molécules** avec profils radar personnalisés (100%)
+- **27 traditions olfactives** (dont nouvelle gamme Colombie)
+- **218 recettes** documentées
+- **26 accords** olfactifs (dont Accord Colombien)
