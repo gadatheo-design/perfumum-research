@@ -115,6 +115,50 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 
 ---
 
+### Amélioration Navigation (25 Déc 2025)
+
+**Objectif** : Améliorer la découvrabilité des visualisations avancées
+
+- [x] Ajouter section "Visualisations" dans MegaMenu
+- [x] Ajouter section "Visualisations" dans menu mobile
+- [x] Regrouper les 4 pages : Sankey, Radar Enrichi, Heatmap, Réseau
+- [x] Ajouter descriptions courtes pour chaque visualisation
+
+---
+
+### Itération 7 : Polish & UX (25 Déc 2025)
+
+**Objectif** : Améliorer l'expérience utilisateur globale avec animations, cohérence visuelle, accessibilité et performance mobile
+
+#### 1. Transitions et animations
+- [x] 7.1.1 Animations de page à page (fade, slide)
+- [x] 7.1.2 Micro-interactions sur cartes et boutons
+- [x] 7.1.3 Loading states plus élégants
+- [x] 7.1.4 Scroll animations (reveal on scroll)
+
+#### 2. Cohérence visuelle
+- [x] 7.2.1 Harmoniser les espacements
+- [x] 7.2.2 Unifier les styles de cartes
+- [x] 7.2.3 Améliorer la hiérarchie typographique
+- [x] 7.2.4 Renforcer l'identité visuelle PERFUMUM
+
+#### 3. Accessibilité
+- [x] 7.3.1 Contraste des couleurs
+- [x] 7.3.2 Navigation au clavier
+- [x] 7.3.3 ARIA labels
+- [x] 7.3.4 Focus states visibles
+
+#### 4. Performance & UX mobile
+- [x] 7.4.1 Optimiser les images lazy-load
+- [x] 7.4.2 Améliorer les touch targets
+- [x] 7.4.3 Réduire le bundle size
+- [x] 7.4.4 Tester sur petits écrans
+
+### Durée estimée
+8-12 heures
+
+---
+
 ## 🔮 BACKLOG LONG TERME
 
 ### Fonctionnalités futures

@@ -1817,3 +1817,559 @@ select:focus {
     --border: oklch(1 0 0 / 30%);
   }
 }
+
+/* ========================================
+   PERFUMUM - Cohérence visuelle
+   ======================================== */
+
+/* Système d'espacement cohérent */
+.spacing-section {
+  @apply py-16 md:py-24 lg:py-32;
+}
+
+.spacing-content {
+  @apply space-y-8 md:space-y-12 lg:space-y-16;
+}
+
+.spacing-items {
+  @apply space-y-4 md:space-y-6;
+}
+
+.spacing-tight {
+  @apply space-y-2 md:space-y-3;
+}
+
+/* Grille responsive unifiée */
+.grid-cards {
+  @apply grid gap-6 md:gap-8;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.grid-cards-2 {
+  @apply grid gap-6 md:gap-8 grid-cols-1 md:grid-cols-2;
+}
+
+.grid-cards-3 {
+  @apply grid gap-6 md:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.grid-cards-4 {
+  @apply grid gap-6 md:gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4;
+}
+
+/* Styles de cartes unifiés */
+.card-standard {
+  @apply bg-card border border-border rounded-lg p-6 transition-all duration-300;
+}
+
+.card-elevated {
+  @apply bg-card border border-border rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300;
+}
+
+.card-interactive {
+  @apply bg-card border border-border rounded-lg p-6 cursor-pointer;
+  @apply hover:-translate-y-1 hover:shadow-xl transition-all duration-300;
+  @apply focus-visible:ring-4 focus-visible:ring-primary/30;
+}
+
+/* Hiérarchie typographique renforcée */
+.text-display {
+  @apply text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight;
+  letter-spacing: -0.04em;
+}
+
+.text-heading-1 {
+  @apply text-4xl md:text-5xl font-bold tracking-tight;
+  letter-spacing: -0.03em;
+}
+
+.text-heading-2 {
+  @apply text-3xl md:text-4xl font-bold tracking-tight;
+  letter-spacing: -0.02em;
+}
+
+.text-heading-3 {
+  @apply text-2xl md:text-3xl font-semibold;
+  letter-spacing: -0.01em;
+}
+
+.text-body-large {
+  @apply text-lg md:text-xl leading-relaxed;
+}
+
+.text-body {
+  @apply text-base leading-relaxed;
+}
+
+.text-body-small {
+  @apply text-sm leading-relaxed;
+}
+
+.text-caption {
+  @apply text-xs text-muted-foreground;
+}
+
+/* Conteneurs de contenu standardisés */
+.content-wrapper {
+  @apply container mx-auto px-4 md:px-6 lg:px-8;
+}
+
+.content-narrow {
+  @apply max-w-3xl mx-auto px-4 md:px-6;
+}
+
+.content-wide {
+  @apply max-w-7xl mx-auto px-4 md:px-6 lg:px-8;
+}
+
+/* Séparateurs visuels */
+.divider {
+  @apply border-t border-border my-8 md:my-12;
+}
+
+.divider-thick {
+  @apply border-t-2 border-border my-12 md:my-16;
+}
+
+/* Badges cohérents */
+.badge-primary {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  @apply bg-primary/10 text-primary border border-primary/20;
+}
+
+.badge-secondary {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  @apply bg-secondary/10 text-secondary-foreground border border-secondary/20;
+}
+
+.badge-accent {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  @apply bg-accent/10 text-accent-foreground border border-accent/20;
+}
+
+/* États visuels cohérents */
+.state-success {
+  @apply bg-green-500/10 text-green-700 dark:text-green-400 border border-green-500/20;
+}
+
+.state-warning {
+  @apply bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/20;
+}
+
+.state-error {
+  @apply bg-destructive/10 text-destructive border border-destructive/20;
+}
+
+.state-info {
+  @apply bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/20;
+}
+
+/* Identité visuelle PERFUMUM renforcée */
+.perfumum-accent {
+  @apply relative;
+}
+
+.perfumum-accent::before {
+  content: '';
+  @apply absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-accent to-primary;
+  @apply rounded-full;
+}
+
+.perfumum-highlight {
+  @apply relative inline-block;
+  background: linear-gradient(120deg, oklch(var(--primary) / 0.1) 0%, oklch(var(--accent) / 0.1) 100%);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* Ombres cohérentes */
+.shadow-soft {
+  box-shadow: 0 2px 8px oklch(var(--foreground) / 0.05);
+}
+
+.shadow-medium {
+  box-shadow: 0 4px 16px oklch(var(--foreground) / 0.08);
+}
+
+.shadow-strong {
+  box-shadow: 0 8px 32px oklch(var(--foreground) / 0.12);
+}
+
+.shadow-primary {
+  box-shadow: 0 4px 16px oklch(var(--primary) / 0.2);
+}
+
+/* ========================================
+   PERFUMUM - Accessibilité renforcée
+   ======================================== */
+
+/* Screen reader only - Visible uniquement pour les lecteurs d'écran */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Rendre visible au focus (pour skip links) */
+.sr-only:focus,
+.sr-only:active {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Focus states ultra-visibles pour l'accessibilité */
+*:focus-visible {
+  outline: 3px solid oklch(var(--primary));
+  outline-offset: 2px;
+  transition: outline-offset 0.2s ease;
+}
+
+/* Focus states spécifiques pour les éléments interactifs */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+[role="link"]:focus-visible {
+  outline: 3px solid oklch(var(--primary));
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px oklch(var(--primary) / 0.2);
+}
+
+/* Focus states pour les inputs */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid oklch(var(--primary));
+  outline-offset: 0;
+  border-color: oklch(var(--primary));
+  box-shadow: 0 0 0 3px oklch(var(--primary) / 0.1);
+}
+
+/* Amélioration du contraste pour le texte muted */
+.text-muted-foreground {
+  /* WCAG AA compliant - ratio 4.5:1+ */
+  color: oklch(0.45 0.05 290);
+}
+
+.dark .text-muted-foreground {
+  /* WCAG AA compliant pour le mode sombre */
+  color: oklch(0.75 0.015 286);
+}
+
+/* États disabled accessibles */
+button:disabled,
+[role="button"][aria-disabled="true"],
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Indicateur visuel pour les éléments interactifs */
+[role="button"],
+button,
+a[href] {
+  position: relative;
+}
+
+/* Animation de focus pour meilleure visibilité */
+@keyframes focus-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px oklch(var(--primary) / 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 5px oklch(var(--primary) / 0.3);
+  }
+}
+
+*:focus-visible {
+  animation: focus-pulse 1.5s ease-in-out;
+}
+
+/* Amélioration de la lisibilité */
+p, li, td, th {
+  line-height: 1.6;
+}
+
+/* Espacement minimum pour la lisibilité */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+  margin-top: 0;
+}
+
+/* Amélioration des liens */
+a {
+  text-decoration-skip-ink: auto;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+/* Indicateur de focus pour les cartes interactives */
+.card-interactive:focus-visible {
+  outline: 3px solid oklch(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Amélioration des tooltips pour l'accessibilité */
+[role="tooltip"] {
+  background-color: oklch(var(--popover));
+  color: oklch(var(--popover-foreground));
+  border: 1px solid oklch(var(--border));
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 12px oklch(var(--foreground) / 0.1);
+}
+
+/* Amélioration du contraste des badges */
+.badge-primary,
+.badge-secondary,
+.badge-accent {
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+/* Mode high contrast (préférence système) */
+@media (prefers-contrast: high) {
+  * {
+    border-width: 2px !important;
+  }
+  
+  .text-muted-foreground {
+    color: oklch(0.35 0.05 290);
+  }
+  
+  .dark .text-muted-foreground {
+    color: oklch(0.85 0.015 286);
+  }
+  
+  button, a, [role="button"] {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+/* Réduction des animations (préférence système) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================
+   PERFUMUM - Optimisations mobile
+   ======================================== */
+
+/* Touch targets optimisés (minimum 44x44px iOS, 48x48px Android) */
+@media (hover: none) and (pointer: coarse) {
+  /* Tous les éléments interactifs */
+  button,
+  [role="button"],
+  a[href],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  select {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Checkboxes et radios plus grands */
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 28px;
+    min-width: 28px;
+  }
+  
+  /* Espacement augmenté sur mobile */
+  .spacing-section {
+    @apply py-12 md:py-24;
+  }
+  
+  .spacing-content {
+    @apply space-y-6 md:space-y-12;
+  }
+  
+  /* Texte plus grand sur mobile pour lisibilité */
+  body {
+    font-size: 16px; /* Évite le zoom automatique sur iOS */
+  }
+  
+  input,
+  textarea,
+  select {
+    font-size: 16px; /* Évite le zoom automatique sur iOS */
+  }
+  
+  /* Scroll horizontal pour les tableaux */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Optimisation des images sur mobile */
+@media (max-width: 768px) {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Grilles adaptatives */
+  .grid-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid-cards-2,
+  .grid-cards-3,
+  .grid-cards-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Optimisation pour petits écrans (iPhone SE, etc.) */
+@media (max-width: 375px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  h1 {
+    @apply text-3xl;
+  }
+  
+  h2 {
+    @apply text-2xl;
+  }
+  
+  h3 {
+    @apply text-xl;
+  }
+  
+  /* Réduire les espacements */
+  .spacing-section {
+    @apply py-8;
+  }
+  
+  .spacing-content {
+    @apply space-y-4;
+  }
+}
+
+/* Optimisation du scroll sur mobile */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Désactiver le tap highlight sur mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Amélioration des zones de scroll */
+.scroll-container {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Pull-to-refresh natif désactivé pour éviter les conflits */
+body {
+  overscroll-behavior-y: contain;
+}
+
+/* Optimisation des animations sur mobile */
+@media (max-width: 768px) {
+  /* Réduire la complexité des animations */
+  .animate-float,
+  .animate-molecular-orbit,
+  .animate-scent-wave {
+    animation: none;
+  }
+  
+  /* Simplifier les transitions */
+  * {
+    transition-duration: 150ms !important;
+  }
+}
+
+/* Safe area pour les écrans avec encoche (iPhone X+) */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+  
+  .container {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Optimisation du rendu sur mobile */
+@media (max-width: 768px) {
+  /* Utiliser transform au lieu de position pour les animations */
+  .hover-lift:hover {
+    transform: translateY(-2px) translateZ(0);
+    will-change: transform;
+  }
+  
+  /* Optimiser les ombres */
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: 0 4px 12px oklch(var(--foreground) / 0.1);
+  }
+}
+
+/* Amélioration de la performance de scroll */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Optimisation du rendu des cartes */
+.card-standard,
+.card-elevated,
+.card-interactive {
+  contain: layout style paint;
+  will-change: transform;
+}
+
+/* Lazy loading natif pour les images */
+img[loading="lazy"] {
+  content-visibility: auto;
+}

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, Sun, Moon, ChevronDown, Beaker, FlaskConical, BookOpen, Atom, Mountain, Snowflake, Crown, Sparkles, Home, Info, Mail, FileText, Database, TestTube, Layers } from "lucide-react";
+import { Search, Menu, Sun, Moon, ChevronDown, Beaker, FlaskConical, BookOpen, Atom, Mountain, Snowflake, Crown, Sparkles, Home, Info, Mail, FileText, Database, TestTube, Layers, BarChart3, GitBranch, Activity } from "lucide-react";
 import { MegaMenu } from "@/components/MegaMenu";
 import { Button } from "@/components/ui/button";
 import {
@@ -105,6 +105,16 @@ const mobileMenuSections = [
     items: [
       { href: "/outils/generateur-formules", label: "Générateur de Formules", badge: "NEW" },
       { href: "/suggestions-synergies", label: "Suggestions Synergies" },
+    ],
+  },
+  {
+    title: "Visualisations",
+    icon: BarChart3,
+    items: [
+      { href: "/sankey-flow", label: "Diagramme Sankey" },
+      { href: "/enhanced-radar", label: "Radar Enrichi" },
+      { href: "/synergies-heatmap", label: "Heatmap Synergies" },
+      { href: "/recipe-network", label: "Graphe Réseau" },
     ],
   },
   {

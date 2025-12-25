@@ -12,6 +12,10 @@ import {
   Leaf,
   Settings,
   Microscope,
+  BarChart3,
+  GitBranch,
+  Layers,
+  Activity,
 } from "lucide-react";
 
 interface MenuItem {
@@ -265,6 +269,35 @@ export function MegaMenu() {
           path: "/calculateur",
           icon: <FlaskConical className="h-4 w-4" />,
           description: "Formulation terpénique",
+        },
+      ],
+    },
+    {
+      title: "Visualisations",
+      items: [
+        {
+          label: "Diagramme Sankey",
+          path: "/sankey-flow",
+          icon: <Layers className="h-4 w-4" />,
+          description: "Flux catégories vers recettes",
+        },
+        {
+          label: "Radar Enrichi",
+          path: "/enhanced-radar",
+          icon: <Activity className="h-4 w-4" />,
+          description: "Profils avec moyennes et zones",
+        },
+        {
+          label: "Heatmap Synergies",
+          path: "/synergies-heatmap",
+          icon: <BarChart3 className="h-4 w-4" />,
+          description: "Matrice moléculaire 2D",
+        },
+        {
+          label: "Graphe Réseau",
+          path: "/recipe-network",
+          icon: <GitBranch className="h-4 w-4" />,
+          description: "Connexions moléculaires",
         },
       ],
     },
