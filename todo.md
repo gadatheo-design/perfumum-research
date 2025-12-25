@@ -159,6 +159,49 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 
 ---
 
+### Itération 8 : Découvrabilité & Fonctionnalités Avancées (25 Déc 2025)
+
+**Objectif** : Améliorer la découvrabilité des données, ajouter des fonctionnalités avancées et optimiser les performances
+
+#### 1. Recherche Avancée & Filtres Intelligents
+- [x] 8.1.1 Créer page dédiée /recherche-avancee avec tous les critères
+- [x] 8.1.2 Recherche full-text sur molécules/recettes/accords
+- [x] 8.1.3 Filtres par plage de valeurs radar (6 axes)
+- [x] 8.1.4 Historique de recherche avec localStorage
+- [x] 8.1.5 Suggestions de recherche intelligentes
+
+#### 2. Système de Recommandations IA
+- [x] 8.2.1 Algorithme de recommandation basé sur similarité radar
+- [x] 8.2.2 Section "Molécules similaires" sur pages détail
+- [x] 8.2.3 "Recettes recommandées" basées sur préférences
+- [x] 8.2.4 Endpoint tRPC pour recommandations
+- [x] 8.2.5 Système de scoring de pertinence (0-100%)
+
+#### 3. Optimisation Performances Avancée
+- [x] 8.3.1 Code splitting par route avec React.lazy (déjà fait Itération 4)
+- [x] 8.3.2 Lazy loading pour composants lourds (D3, recharts) (déjà fait Itération 4)
+- [x] 8.3.3 Optimiser bundle size avec tree shaking (déjà fait Itération 4)
+- [x] 8.3.4 Pagination virtuelle pour grandes listes (>100 items) (déjà fait Itération 4)
+- [x] 8.3.5 Service worker pour cache intelligent (déjà fait Itération 4)
+
+#### 4. Visualisations Avancées
+- [x] 8.4.1 Timeline interactive d'évolution des recettes
+- [x] 8.4.2 Heatmap de corrélations entre axes radar
+- [x] 8.4.3 Visualisation réseau de synergies moléculaires (déjà fait Itération 6)
+- [ ] 8.4.4 Export SVG/PNG pour tous les graphiques (fonctionnalité future)
+
+#### 5. Tests & Validation
+- [x] 8.5.1 Tester recherche avancée avec différents critères
+- [x] 8.5.2 Valider recommandations IA avec cas réels (10 tests passés)
+- [x] 8.5.3 Mesurer performances (Lighthouse, bundle size)
+- [x] 8.5.4 Tester visualisations sur différents écrans
+- [x] 8.5.5 Vérifier accessibilité des nouvelles fonctionnalités
+
+### Durée estimée
+12-16 heures
+
+---
+
 ## 🔮 BACKLOG LONG TERME
 
 ### Fonctionnalités futures

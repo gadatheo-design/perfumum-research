@@ -5,6 +5,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import * as db from "./db";
 import { getAllRecettesWithRadar, filterRecettesByRadar, type RadarFilters } from "./db-recettes-radar";
+import { getSimilarRecettes, getSimilarMolecules, getRecommendedRecettesFromFavorites } from "./db-recommendations";
 
 export const appRouter = router({
   system: systemRouter,
@@ -435,6 +436,34 @@ export const appRouter = router({
           return filterRecettesByRadar(recettes, input);
         }
         return recettes;
+      }),
+  }),
+
+  // Recommandations
+  recommendations: router({
+    similarRecettes: publicProcedure
+      .input(z.object({
+        recetteId: z.number(),
+        limit: z.number().optional().default(5),
+      }))
+      .query(async ({ input }) => {
+        return await getSimilarRecettes(input.recetteId, input.limit);
+      }),
+    similarMolecules: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        limit: z.number().optional().default(5),
+      }))
+      .query(async ({ input }) => {
+        return await getSimilarMolecules(input.moleculeId, input.limit);
+      }),
+    fromFavorites: publicProcedure
+      .input(z.object({
+        favoriteMoleculeIds: z.array(z.number()),
+        limit: z.number().optional().default(10),
+      }))
+      .query(async ({ input }) => {
+        return await getRecommendedRecettesFromFavorites(input.favoriteMoleculeIds, input.limit);
       }),
   }),
 

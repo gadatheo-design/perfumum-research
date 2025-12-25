@@ -102,6 +102,9 @@ import { SynergiesHeatmap } from "./pages/SynergiesHeatmap";
 import { RecipeNetworkPage } from "./pages/RecipeNetworkPage";
 import SankeyFlow from "./pages/SankeyFlow";
 import EnhancedRadarDemo from "./pages/EnhancedRadarDemo";
+import AdvancedSearch from "./pages/AdvancedSearch";
+import RecipeTimeline from "./pages/RecipeTimeline";
+import RadarCorrelationHeatmap from "./pages/RadarCorrelationHeatmap";
 
 // === OUTILS ===
 import OutilsFormulation from "./pages/OutilsFormulation";
@@ -343,6 +346,9 @@ function Router() {
       <Route path="/analytics" component={AnalyticsDashboard} />
       <Route path="/statistiques" component={Statistics} />
       <Route path="/recherche" component={Recherche} />
+      <Route path="/recherche-avancee" component={AdvancedSearch} />
+      <Route path="/timeline-recettes" component={RecipeTimeline} />
+      <Route path="/radar-correlation" component={RadarCorrelationHeatmap} />
       
       {/* === UTILISATEUR === */}
       <Route path="/favoris" component={Favoris} />
