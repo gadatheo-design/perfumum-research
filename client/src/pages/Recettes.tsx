@@ -19,6 +19,8 @@ import { FloatingCompareBar } from "@/components/FloatingCompareBar";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useToast } from "@/hooks/use-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { usePullToRefresh } from "@/hooks/usePullToRefresh";
+import { RefreshCw } from "lucide-react";
 
 // Mini radar supprimé - désormais dans RecetteCard
 
@@ -65,6 +67,7 @@ const RADAR_LABELS = {
 export default function Recettes() {
   const { toast } = useToast();
   const { toggleFavorite, isFavorite } = useFavorites();
+  const utils = trpc.useUtils();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
   const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
@@ -84,6 +87,17 @@ export default function Recettes() {
     sweetness: [0, 100] as [number, number],
     spiciness: [0, 100] as [number, number],
     earthiness: [0, 100] as [number, number],
+  });
+
+  // Pull-to-refresh
+  const [pullRef, pullState] = usePullToRefresh<HTMLDivElement>({
+    onRefresh: async () => {
+      await utils.recettes.listWithRadar.invalidate();
+      toast({
+        title: "Recettes actualisées",
+        description: "La liste des recettes a été mise à jour.",
+      });
+    },
   });
 
   // Utiliser la nouvelle procédure avec radar
@@ -204,7 +218,20 @@ export default function Recettes() {
       <Header />
       <Breadcrumbs />
       
-      <main className="flex-1">
+      {/* Pull-to-refresh indicator */}
+      <div 
+        className="fixed top-16 left-1/2 -translate-x-1/2 z-50 transition-all duration-300"
+        style={{
+          opacity: pullState.isPulling || pullState.isRefreshing ? 1 : 0,
+          transform: `translateX(-50%) translateY(${pullState.isPulling || pullState.isRefreshing ? '0' : '-100%'})`,
+        }}
+      >
+        <div className="bg-primary text-primary-foreground rounded-full p-3 shadow-lg">
+          <RefreshCw className={`h-5 w-5 ${pullState.isRefreshing ? 'animate-spin' : ''}`} />
+        </div>
+      </div>
+      
+      <main ref={pullRef} className="flex-1 overflow-y-auto">
         {/* Hero Section */}
         <section className="py-12 bg-gradient-to-br from-background via-muted/20 to-background">
           <div className="container">

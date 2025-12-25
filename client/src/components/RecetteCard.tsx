@@ -6,6 +6,7 @@ import { Link } from "wouter";
 import { FlaskConical, FileDown, GitCompare, Star, GitBranch, Heart } from "lucide-react";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
+import { useSwipeGesture } from "@/hooks/useSwipeGesture";
 
 // Types
 interface RecetteCardProps {
@@ -75,8 +76,40 @@ export function RecetteCard({ recette, onCompare, onExport, onFavorite, isSelect
   const gamme = getGammeFromCategory(recette.category);
   const hasRadar = recette.moleculeCount && recette.moleculeCount > 0;
 
+  // Swipe gestures for mobile
+  const [swipeRef, swipeState] = useSwipeGesture<HTMLDivElement>({
+    onSwipeLeft: () => {
+      if (onFavorite) {
+        onFavorite(recette.id);
+      }
+    },
+    onSwipeRight: () => {
+      if (onCompare) {
+        onCompare(recette.id);
+      }
+    },
+    threshold: 60,
+  });
+
   return (
-    <Card className={`h-full transition-all hover:shadow-md hover:scale-[1.01] relative ${isSelected ? 'ring-2 ring-primary' : ''} ${isSelectedForComparison ? 'ring-2 ring-primary shadow-lg' : ''}`}>
+    <div ref={swipeRef} className="relative">
+      {/* Swipe indicators (visible during swipe) */}
+      {swipeState.isSwiping && (
+        <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-between px-4">
+          {swipeState.direction === 'right' && (
+            <div className="bg-primary/90 text-primary-foreground rounded-full p-3 shadow-lg">
+              <GitCompare className="h-6 w-6" />
+            </div>
+          )}
+          {swipeState.direction === 'left' && (
+            <div className="ml-auto bg-red-500/90 text-white rounded-full p-3 shadow-lg">
+              <Heart className="h-6 w-6" />
+            </div>
+          )}
+        </div>
+      )}
+      
+      <Card className={`h-full transition-all hover:shadow-md hover:scale-[1.01] relative ${isSelected ? 'ring-2 ring-primary' : ''} ${isSelectedForComparison ? 'ring-2 ring-primary shadow-lg' : ''} ${swipeState.isSwiping ? 'shadow-xl' : ''}`}>
       {/* Checkbox de sélection (top-right) */}
       {showCheckbox && onSelect && (
         <div className="absolute top-3 right-3 z-10">
@@ -194,5 +227,6 @@ export function RecetteCard({ recette, onCompare, onExport, onFavorite, isSelect
         </div>
       </CardContent>
     </Card>
+    </div>
   );
 }
