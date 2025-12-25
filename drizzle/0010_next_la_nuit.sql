@@ -1,0 +1,1 @@
+ALTER TABLE `recettes` ADD `gamme` varchar(100);

@@ -324,6 +324,7 @@ export const recettes = mysqlTable("recettes", {
   dureeCoeurMin: int("duree_coeur_min").default(45), // Durée notes de cœur en minutes
   dureeFondMin: int("duree_fond_min").default(120), // Durée notes de fond en minutes
   parentRecetteId: int("parent_recette_id"), // ID de la recette parente (pour les variations)
+  gamme: varchar("gamme", { length: 100 }), // Gamme olfactive (Pétrichor, Volcanique, Colombie, etc.)
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -884,6 +885,23 @@ export const synergies = mysqlTable("synergies", {
 
 export type Synergie = typeof synergies.$inferSelect;
 export type InsertSynergie = typeof synergies.$inferInsert;
+
+// Molecular synergies between two molecules
+export const moleculeSynergies = mysqlTable("molecule_synergies", {
+  id: int("id").autoincrement().primaryKey(),
+  molecule1Id: int("molecule1_id").notNull().references(() => molecules.id),
+  molecule2Id: int("molecule2_id").notNull().references(() => molecules.id),
+  type: mysqlEnum("type", ["potentialisation", "stabilisation", "transformation", "masquage"]).notNull(),
+  description: text("description").notNull(), // Description détaillée de la synergie
+  applications: text("applications"), // Applications pratiques
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  // Unique constraint: one synergy per molecule pair (bidirectional)
+  uniqueMoleculePair: uniqueIndex("unique_molecule_pair").on(table.molecule1Id, table.molecule2Id),
+}));
+
+export type MoleculeSynergie = typeof moleculeSynergies.$inferSelect;
+export type InsertMoleculeSynergie = typeof moleculeSynergies.$inferInsert;
 
 
 // ============================================================================

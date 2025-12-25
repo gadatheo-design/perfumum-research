@@ -2049,3 +2049,39 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - **27 traditions olfactives** (dont nouvelle gamme Colombie)
 - **218 recettes** documentées
 - **26 accords** olfactifs (dont Accord Colombien)
+
+
+## 🇨🇴 RECETTES COLOMBIENNES + SYNERGIES - 24 DÉC 2025 ✅ COMPLÉTÉ
+
+### Phase 1 : Conception des recettes
+- [x] Analyser les 23 molécules colombiennes disponibles
+- [x] Concevoir 8 recettes utilisant les nouvelles molécules
+- [x] Définir les profils olfactifs et proportions
+- [x] Documenter les protocoles de formulation
+
+### Phase 2 : Import des recettes
+- [x] Créer 19 nouvelles molécules colombiennes (10 + 9 manquantes)
+- [x] Créer script d'import pour les recettes colombiennes
+- [x] Insérer 8 recettes dans la base de données
+- [x] Créer 52 associations molécules-recettes
+- [x] Vérifier l'intégrité des données
+
+### Phase 3 : Synergies moléculaires
+- [x] Identifier 10 synergies intra-colombiennes
+- [x] Identifier 15 synergies colombiennes × autres gammes
+- [x] Documenter les effets (potentialisation, stabilisation, transformation, masquage)
+- [x] Créer script d'import pour les synergies
+
+### Phase 4 : Intégration et tests
+- [x] Créer table molecule_synergies dans le schéma
+- [x] Insérer 12 synergies dans la base de données (13 ignorées - molécules manquantes)
+- [x] Tester l'affichage des recettes colombiennes
+- [x] Tester l'affichage des synergies dans le graphe
+- [x] Créer checkpoint final
+
+**📊 STATISTIQUES FINALES :**
+- 19 nouvelles molécules colombiennes
+- 8 recettes colombiennes complètes
+- 52 associations molécules-recettes
+- 12 synergies moléculaires actives
+- 275 molécules totales dans la base
