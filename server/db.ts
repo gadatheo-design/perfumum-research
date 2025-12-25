@@ -59,6 +59,9 @@ import {
   modificationHistory,
   moleculeSynergies,
   MoleculeSynergie,
+  savedFormulas,
+  SavedFormula,
+  InsertSavedFormula,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -98,6 +101,7 @@ export async function getDb() {
           terpeneSynergies,
           userNotes,
           sharedCollections,
+          savedFormulas,
           moleculeNotes,
           citations,
           analyticsEvents,
@@ -2265,6 +2269,27 @@ export async function updateMoleculeRadar(data: {
   return updated;
 }
 
+// ============================================================================
+// MOLECULES REFERENCES UPDATE
+// ============================================================================
+
+export async function updateMoleculeReferences(id: number, referencesJson: string): Promise<Molecule> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Parse JSON string to array
+  const referencesArray = JSON.parse(referencesJson);
+  
+  await db.update(molecules).set({
+    references: referencesArray,
+  }).where(eq(molecules.id, id));
+  
+  const updated = await getMoleculeById(id);
+  if (!updated) throw new Error('Molecule not found after update');
+  
+  return updated;
+}
+
 
 // ============================================================================
 // SYNERGIES GRAPH DATA
@@ -3350,4 +3375,63 @@ export async function getMoleculeSynergiesGraphData() {
     applications: s.applications,
     intensity: 70, // Valeur par défaut pour l'épaisseur des liens
   }));
+}
+
+
+// ============================================================================
+// SAVED FORMULAS (Historique des formules générées)
+// ============================================================================
+
+export async function saveFormula(data: InsertSavedFormula): Promise<SavedFormula> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  const result = await db.insert(savedFormulas).values(data);
+  const insertedId = Number(result[0].insertId);
+  
+  const saved = await getFormulaById(insertedId);
+  
+  if (!saved) throw new Error('Failed to retrieve saved formula');
+  return saved;
+}
+
+export async function getFormulaHistory(userId: number): Promise<SavedFormula[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const formulas = await db.select().from(savedFormulas)
+    .where(eq(savedFormulas.userId, userId))
+    .orderBy(desc(savedFormulas.createdAt));
+  
+  return formulas;
+}
+
+export async function getFormulaById(id: number): Promise<SavedFormula | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const formulas = await db.select().from(savedFormulas)
+    .where(eq(savedFormulas.id, id))
+    .limit(1);
+  
+  return formulas[0] || null;
+}
+
+export async function deleteFormula(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  await db.delete(savedFormulas).where(eq(savedFormulas.id, id));
+}
+
+export async function updateFormulaNotes(id: number, notes: string): Promise<SavedFormula> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  await db.update(savedFormulas).set({ notes }).where(eq(savedFormulas.id, id));
+  
+  const updated = await getFormulaById(id);
+  if (!updated) throw new Error('Formula not found after update');
+  
+  return updated;
 }

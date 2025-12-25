@@ -111,6 +111,15 @@ export default function Admin() {
       color: "text-rose-600",
       bgColor: "bg-rose-50",
     },
+    {
+      title: "Références",
+      description: "Gérer les références bibliographiques",
+      icon: Database,
+      href: "/admin/references",
+      count: 0,
+      color: "text-indigo-600",
+      bgColor: "bg-indigo-50",
+    },
   ];
 
   return (

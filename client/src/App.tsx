@@ -29,6 +29,7 @@ import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminRecettes from "./pages/AdminRecettes";
 import AdminImportExport from "./pages/AdminImportExport";
 import AdminHistorique from "./pages/AdminHistorique";
+import AdminReferences from "./pages/AdminReferences";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -126,7 +127,8 @@ import Journal from "./pages/Journal";
 import MethodeAbsorbe from "./pages/MethodeAbsorbe";
 import MethodologieAbsorbe from "@/pages/methodologie/MethodologieAbsorbe";
 import { MethodologieRecherche } from "@/pages/MethodologieRecherche";
-import GenerateurFormules from "@/pages/GenerateurFormules";
+import GenerateurFormules from "./pages/GenerateurFormules";
+import HistoriqueFormules from "./pages/HistoriqueFormules";
 import EchelleAbsorbe from "./pages/methodologie/EchelleAbsorbe";
 import Pyrolyse from "./pages/methodologie/Pyrolyse";
 import GCMS from "./pages/methodologie/GCMS";
@@ -191,6 +193,7 @@ function Router() {
       <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path="/admin/import-export" component={AdminImportExport} />
       <Route path="/admin/historique" component={AdminHistorique} />
+      <Route path="/admin/references" component={AdminReferences} />
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />
@@ -298,6 +301,7 @@ function Router() {
           <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
           <Route path="/methodologie/recherche" component={MethodologieRecherche} />
           <Route path="/outils/generateur-formules" component={GenerateurFormules} />
+      <Route path="/historique-formules" component={HistoriqueFormules} />
       <Route path="/methodologie/echelle-absorbe" component={EchelleAbsorbe} />
       <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
       <Route path="/methodologie/gc-ms" component={GCMS} />

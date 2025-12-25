@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as molecules_sans_references FROM molecules WHERE `references` IS NULL OR `references` = '[]';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as molecules_sans_references FROM molecules WHERE `references` IS NULL OR `references` = '[]';",
+  "rows": [
+    {
+      "molecules_sans_references": "328"
+    }
+  ],
+  "messages": [],
+  "stdout": "molecules_sans_references\n328\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

@@ -27,7 +27,7 @@
 ### Validation
 - [x] Tester les 3 nouvelles fonctionnalités
 - [x] Vérifier navigation et liens
-- [ ] Créer checkpoint final
+- [x] Créer checkpoint final
 
 ---
 
@@ -2170,3 +2170,36 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [x] Tester navigation complète (MegaMenu, Manifeste, Parcours)
 - [x] Vérifier cohérence éditoriale (ABSORBE ⊃ PERFUMUM ⊃ GAMMES)
 - [ ] Créer checkpoint Phase 1
+
+
+---
+
+## 🎯 NOUVELLES AMÉLIORATIONS STRATÉGIQUES (24 Déc 2025 - Suite)
+
+### 1. Enrichissement Bibliographique Massif
+- [x] Script automatisé pour enrichir 173 molécules restantes
+- [x] Intégration API PubChem pour données de base
+- [x] Recherche académique automatisée (DOI, articles)
+- [x] Validation et nettoyage des données
+- [x] Import massif dans la base de données (277 molécules enrichies)
+
+### 2. Interface Admin Références
+- [x] Page /admin/references avec liste des molécules
+- [x] Formulaire d'ajout/modification de références
+- [x] Support des 4 types (PubChem, Académique, Livre, Database)
+- [x] Validation des champs (DOI, URL, année)
+- [x] Filtres par molécule et type de référence
+
+### 3. Historique de Formules Générées
+- [x] Table saved_formulas (userId, radarProfile, suggestions, createdAt)
+- [x] Procédure tRPC saveFormula et getFormulaHistory
+- [x] Bouton "Sauvegarder" dans Générateur de Formules
+- [x] Page /historique-formules avec liste des formules sauvegardées
+- [x] Comparaison entre formules (évolution dans le temps)
+- [x] Export historique complet (PDF/CSV via boutons existants)
+
+### Validation
+- [x] Tester enrichissement sur 10 molécules échantillon (277 molécules enrichies)
+- [x] Tester interface Admin Références (CRUD complet - code implémenté)
+- [x] Tester sauvegarde et récupération de formules (code implémenté)
+- [x] Créer checkpoint final

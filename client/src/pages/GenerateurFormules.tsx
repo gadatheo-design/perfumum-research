@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { trpc } from "@/lib/trpc";
-import { Sparkles, Download, RefreshCw, Loader2 } from "lucide-react";
+import { Sparkles, Download, RefreshCw, Loader2, Save } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Link } from "wouter";
@@ -16,6 +17,15 @@ export default function GenerateurFormules() {
   const [earthiness, setEarthiness] = useState(50);
 
   const [limit, setLimit] = useState(10);
+  const { toast } = useToast();
+  const saveFormula = trpc.formulas.save.useMutation({
+    onSuccess: () => {
+      toast({ title: "✅ Formule sauvegardée", description: "Vous pouvez la retrouver dans l'historique", variant: "default" });
+    },
+    onError: (error) => {
+      toast({ title: "❌ Erreur", description: error.message, variant: "destructive" });
+    }
+  });
 
   // Appel tRPC pour obtenir les suggestions
   const { data: suggestions, isLoading, refetch } = trpc.molecules.getSuggestionsByRadar.useQuery({
@@ -251,6 +261,35 @@ export default function GenerateurFormules() {
             <h2 className="text-2xl font-semibold">Molécules Suggérées</h2>
             {suggestions && suggestions.length > 0 && (
               <div className="flex gap-2">
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  onClick={() => saveFormula.mutate({
+                    radarProfile: {
+                      intensity,
+                      freshness,
+                      warmth,
+                      sweetness,
+                      spiciness,
+                      earthiness,
+                    },
+                    suggestions: suggestions.map(s => ({
+                      id: s.id,
+                      name: s.name,
+                      compatibilityScore: s.compatibilityScore,
+                      radarIntensity: s.radarIntensity ?? undefined,
+                      radarFreshness: s.radarFreshness ?? undefined,
+                      radarWarmth: s.radarWarmth ?? undefined,
+                      radarSweetness: s.radarSweetness ?? undefined,
+                      radarSpiciness: s.radarSpiciness ?? undefined,
+                      radarEarthiness: s.radarEarthiness ?? undefined,
+                    })),
+                  })}
+                  disabled={saveFormula.isPending}
+                >
+                  {saveFormula.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                  Sauvegarder
+                </Button>
                 <Button variant="outline" size="sm" onClick={handleExportCSV}>
                   <Download className="w-4 h-4 mr-2" />
                   CSV

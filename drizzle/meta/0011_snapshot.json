@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "06540b57-9734-4eec-9dd6-510a49dd9a7f",
-  "prevId": "3f9b0979-216c-41b5-82f9-e04c0deb2e02",
+  "id": "7e270173-1dc1-4e8f-a6cc-f25e04d4d843",
+  "prevId": "06540b57-9734-4eec-9dd6-510a49dd9a7f",
   "tables": {
     "absorbe_profiles": {
       "name": "absorbe_profiles",
@@ -3720,6 +3720,83 @@
       "compositePrimaryKeys": {
         "research_timeline_id": {
           "name": "research_timeline_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "saved_formulas": {
+      "name": "saved_formulas",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "radar_profile": {
+          "name": "radar_profile",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "suggestions": {
+          "name": "suggestions",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        }
+      },
+      "indexes": {
+        "saved_formulas_user_idx": {
+          "name": "saved_formulas_user_idx",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "saved_formulas_id": {
+          "name": "saved_formulas_id",
           "columns": [
             "id"
           ]
