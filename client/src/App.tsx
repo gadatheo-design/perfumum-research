@@ -139,6 +139,7 @@ import Outils from "./pages/Outils";
 import { Glossaire } from "./pages/Glossaire";
 import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
 import Contribuer from "./pages/Contribuer";
+import Manifeste from "./pages/Manifeste";
 import { Timeline } from "./pages/Timeline";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
 import GalerieBotaniques from "./pages/GalerieBotaniques";
@@ -191,6 +192,7 @@ function Router() {
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />
+      <Route path="/manifeste" component={Manifeste} />
       <Route path="/a-propos" component={APropos} />
       <Route path="/contact" component={Contact} />
       <Route path="/nouveautes" component={Nouveautes} />

@@ -56,6 +56,128 @@ export default function Home() {
           </div>
         </section>
 
+        {/* 3 Parcours Utilisateur */}
+        <section className="section-spacing bg-gradient-to-b from-background to-muted/20">
+          <div className="container">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Trois parcours pour explorer PERFUMUM</h2>
+              <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+                Choisissez votre point d'entrée selon votre profil : chercheur scientifique, créateur parfumeur ou curieux explorateur.
+              </p>
+              
+              <div className="grid md:grid-cols-3 gap-8">
+                {/* Parcours Chercheur */}
+                <Card className="brutal-border bg-card hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+                  <CardHeader className="relative z-10">
+                    <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                      <Microscope className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="text-2xl group-hover:text-primary transition-colors">Chercheur</CardTitle>
+                    <CardDescription className="text-base">Approche scientifique et méthodologique</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4 relative z-10">
+                    <p className="text-sm text-muted-foreground">
+                      Accédez aux données moléculaires, méthodologies GC-MS, synergies chimiques et protocoles de recherche validés.
+                    </p>
+                    <div className="space-y-2">
+                      <Link href="/molecules" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → 288 Molécules documentées
+                      </Link>
+                      <Link href="/suggestions-synergies" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → Synergies moléculaires
+                      </Link>
+                      <Link href="/methodologie/absorbe" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → Méthodologie ABSORBE
+                      </Link>
+                      <Link href="/methodologie/gcms" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → Protocoles GC-MS
+                      </Link>
+                    </div>
+                    <Button variant="outline" size="sm" className="w-full mt-4 group-hover:border-primary" asChild>
+                      <Link href="/molecules">
+                        Commencer l'exploration <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Parcours Créateur */}
+                <Card className="brutal-border bg-card hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl group-hover:bg-purple-500/10 transition-colors"></div>
+                  <CardHeader className="relative z-10">
+                    <div className="w-16 h-16 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition-colors">
+                      <FlaskConical className="h-8 w-8 text-purple-500" />
+                    </div>
+                    <CardTitle className="text-2xl group-hover:text-purple-500 transition-colors">Créateur</CardTitle>
+                    <CardDescription className="text-base">Outils de formulation et création</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4 relative z-10">
+                    <p className="text-sm text-muted-foreground">
+                      Explorez les recettes, utilisez les calculateurs de proportions et découvrez les fournisseurs de matières premières.
+                    </p>
+                    <div className="space-y-2">
+                      <Link href="/recettes" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → 234 Recettes olfactives
+                      </Link>
+                      <Link href="/calculateur" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → Calculateur de proportions
+                      </Link>
+                      <Link href="/sourcing" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → Fournisseurs internationaux
+                      </Link>
+                      <Link href="/outils-formulation" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → Suite d'outils complète
+                      </Link>
+                    </div>
+                    <Button variant="outline" size="sm" className="w-full mt-4 group-hover:border-purple-500" asChild>
+                      <Link href="/recettes">
+                        Explorer les recettes <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Parcours Curieux */}
+                <Card className="brutal-border bg-card hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl group-hover:bg-amber-500/10 transition-colors"></div>
+                  <CardHeader className="relative z-10">
+                    <div className="w-16 h-16 rounded-xl bg-amber-500/10 flex items-center justify-center mb-4 group-hover:bg-amber-500/20 transition-colors">
+                      <Globe2 className="h-8 w-8 text-amber-500" />
+                    </div>
+                    <CardTitle className="text-2xl group-hover:text-amber-500 transition-colors">Curieux</CardTitle>
+                    <CardDescription className="text-base">Découverte et exploration libre</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4 relative z-10">
+                    <p className="text-sm text-muted-foreground">
+                      Découvrez les gammes thématiques, l'histoire du Pétrichor et les traditions olfactives du monde entier.
+                    </p>
+                    <div className="space-y-2">
+                      <Link href="/gammes" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → 8 Gammes thématiques
+                      </Link>
+                      <Link href="/gammes/petrichor" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → Pétrichor (terre & pluie)
+                      </Link>
+                      <Link href="/civilisations" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → Traditions olfactives
+                      </Link>
+                      <Link href="/recherche/fondements-theoriques" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                        → Philosophie olfactive
+                      </Link>
+                    </div>
+                    <Button variant="outline" size="sm" className="w-full mt-4 group-hover:border-amber-500" asChild>
+                      <Link href="/gammes">
+                        Découvrir les gammes <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Vision Section */}
         <section className="section-spacing bg-muted/30">
           <div className="container">

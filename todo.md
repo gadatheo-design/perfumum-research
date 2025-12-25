@@ -2109,6 +2109,33 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [x] Vérifier les données en base
 
 ### Étape 5 : Publication
-- [ ] Créer checkpoint final
-- [ ] Publier le site
-- [ ] Livrer au client
+- [x] Créer checkpoint final
+- [x] Publier le site
+- [x] Livrer au client
+
+
+## 🚀 PHASE 1 : CLARTÉ ET COHÉRENCE (ROADMAP 2025)
+
+### Action 1 : Page Manifeste
+- [x] Créer page /manifeste avec route dans App.tsx
+- [x] Rédiger section "ABSORBE ⊃ PERFUMUM" (hiérarchie conceptuelle)
+- [x] Ajouter timeline 2025-2035 avec jalons clés
+- [x] Intégrer dans navigation (Header + MegaMenu)
+
+### Action 2 : Simplification MegaMenu
+- [x] Analyser les 47 liens actuels du MegaMenu
+- [x] Réduire à 15 liens essentiels (3 menus × 5 liens)
+- [x] Regrouper en 3 catégories : Recherche, Méthodologie, Communauté
+- [x] Tester navigation desktop + mobile
+
+### Action 3 : Parcours utilisateur page d'accueil
+- [x] Créer section "3 Parcours" sur Home.tsx
+- [x] Parcours Chercheur (Molécules, Synergies, Méthodologie)
+- [x] Parcours Créateur (Recettes, Calculateur, Fournisseurs)
+- [x] Parcours Curieux (Gammes, Pétrichor, Philosophie)
+- [x] Design avec icônes et descriptions claires
+
+### Validation Phase 1
+- [x] Tester navigation complète (MegaMenu, Manifeste, Parcours)
+- [x] Vérifier cohérence éditoriale (ABSORBE ⊃ PERFUMUM ⊃ GAMMES)
+- [ ] Créer checkpoint Phase 1
