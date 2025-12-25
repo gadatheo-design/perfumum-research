@@ -696,7 +696,7 @@ export const appRouter = router({
       }),
     
     getGraphData: publicProcedure.query(async () => {
-      return await db.getSynergiesGraphData();
+      return await db.getMoleculeSynergiesGraphData();
     }),
     
     getStats: publicProcedure.query(async () => {

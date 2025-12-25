@@ -57,7 +57,8 @@ export default function MatriceInteractive() {
           volcanique: ["fumé", "pyrolysé", "cendre", "brûlé", "carbonisé", "résine brûlée"],
           civilisations: ["encens", "sacré", "rituel", "myrrhe", "oliban", "bois sacré"],
           glaciaire: ["frais", "ozone", "métallique", "altitude", "menthe", "eucalyptus"],
-          biolab: ["expérimental", "synthétique", "biotechnologie", "design moléculaire"]
+          biolab: ["expérimental", "synthétique", "biotechnologie", "design moléculaire"],
+          colombie: ["café", "cacao", "andes", "colombie", "colombian", "chocolate", "coffee"]
         };
         
         const keywords = gammeKeywords[selectedGamme as GammeType];

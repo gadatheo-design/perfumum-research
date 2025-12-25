@@ -107,7 +107,7 @@ import { AbsorbeScale } from "@/pages/AbsorbeScale";
 
 // === RECHERCHE SCIENTIFIQUE ===
 import { RechercheScientifique } from "./pages/RechercheScientifique";
-import { SynergiesMoleculaires } from "./pages/SynergiesMoleculaires";
+import SynergiesMoleculaires from "./pages/SynergiesMoleculaires";
 import { PyrolyseCombustion } from "./pages/PyrolyseCombustion";
 import { CourbesVolatilite } from "@/pages/CourbesVolatilite";
 import { DegradationTerpenes } from "@/pages/DegradationTerpenes";

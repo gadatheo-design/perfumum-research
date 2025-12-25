@@ -38,6 +38,12 @@ export function getGammeFromCategory(category: string | null): GammeType | null 
     return 'biolab';
   }
   
+  // Colombie: café, cacao, andes
+  if (cat.includes('colombie') || cat.includes('café') || cat.includes('cacao') || 
+      cat.includes('andes') || cat.includes('colombian')) {
+    return 'colombie';
+  }
+  
   return null;
 }
 
@@ -77,6 +83,12 @@ export function getGammeFromOlfactiveProfile(profile: string | null): GammeType 
   const biolabKeywords = ['expérimental', 'synthétique', 'biotechnologie', 'design moléculaire', 'os', 'fossilisé'];
   if (biolabKeywords.some(kw => prof.includes(kw))) {
     return 'biolab';
+  }
+  
+  // Colombie keywords
+  const colombieKeywords = ['café', 'cacao', 'andes', 'colombie', 'colombian', 'chocolate', 'coffee'];
+  if (colombieKeywords.some(kw => prof.includes(kw))) {
+    return 'colombie';
   }
   
   return null;

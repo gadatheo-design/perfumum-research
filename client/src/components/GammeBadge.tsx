@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge";
-import { Droplets, Flame, Globe2, Snowflake, FlaskConical } from "lucide-react";
+import { Droplets, Flame, Globe2, Snowflake, FlaskConical, Coffee } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type GammeType = "petrichor" | "volcanique" | "civilisations" | "glaciaire" | "biolab";
+export type GammeType = "petrichor" | "volcanique" | "civilisations" | "glaciaire" | "biolab" | "colombie";
 
 interface GammeBadgeProps {
   gamme: GammeType;
@@ -42,6 +42,12 @@ const gammeConfig = {
     icon: FlaskConical,
     colorClass: "bg-gamme-biolab/10 text-gamme-biolab border-gamme-biolab/30 hover:bg-gamme-biolab/20",
     description: "Expérimental • Biotechnologie"
+  },
+  colombie: {
+    label: "Colombie",
+    icon: Coffee,
+    colorClass: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30 hover:bg-amber-500/20",
+    description: "Café • Cacao • Andes"
   }
 };
 

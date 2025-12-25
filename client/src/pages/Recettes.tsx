@@ -172,7 +172,7 @@ export default function Recettes() {
               {/* Gamme Filters */}
               <div className="flex flex-wrap gap-2 items-center">
                 <span className="text-sm font-medium text-muted-foreground">Gammes :</span>
-                {(['petrichor', 'volcanique', 'civilisations', 'glaciaire', 'biolab'] as GammeType[]).map((gamme) => (
+                {(['petrichor', 'volcanique', 'civilisations', 'glaciaire', 'biolab', 'colombie'] as GammeType[]).map((gamme) => (
                   <GammeBadge 
                     key={gamme}
                     gamme={gamme} 

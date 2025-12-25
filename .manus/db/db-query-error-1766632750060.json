@@ -1,0 +1,8 @@
+{
+  "query": "SELECT \n  ms.id,\n  m1.name AS molecule1_name,\n  m2.name AS molecule2_name,\n  ms.effect_type,\n  ms.description,\n  ms.intensity\nFROM molecule_synergies ms\nLEFT JOIN molecules m1 ON ms.molecule1_id = m1.id\nLEFT JOIN molecules m2 ON ms.molecule2_id = m2.id\nLIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  ms.id,\n  m1.name AS molecule1_name,\n  m2.name AS molecule2_name,\n  ms.effect_type,\n  ms.description,\n  ms.intensity\nFROM molecule_synergies ms\nLEFT JOIN molecules m1 ON ms.molecule1_id = m1.id\nLEFT JOIN molecules m2 ON ms.molecule2_id = m2.id\nLIMIT 15;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'ms.effect_type' in 'field list'"
+  ]
+}

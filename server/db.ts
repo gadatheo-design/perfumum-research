@@ -57,6 +57,8 @@ import {
   InsertSupplierMaterial,
   rechercheRadicale,
   modificationHistory,
+  moleculeSynergies,
+  MoleculeSynergie,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -3297,4 +3299,55 @@ export async function getRechercheRadicaleBySerie(serie: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(rechercheRadicale).where(eq(rechercheRadicale.serie, serie));
+}
+
+
+// ============================================================================
+// SYNERGIES MOLÉCULAIRES (molecule_synergies)
+// ============================================================================
+
+/**
+ * Récupère toutes les synergies moléculaires avec les noms des molécules
+ */
+export async function getAllMoleculeSynergies() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select({
+      id: moleculeSynergies.id,
+      molecule1Id: moleculeSynergies.molecule1Id,
+      molecule2Id: moleculeSynergies.molecule2Id,
+      type: moleculeSynergies.type,
+      description: moleculeSynergies.description,
+      applications: moleculeSynergies.applications,
+      molecule1Name: molecules.name,
+      molecule2Name: sql<string>`m2.name`,
+    })
+    .from(moleculeSynergies)
+    .leftJoin(molecules, eq(moleculeSynergies.molecule1Id, molecules.id))
+    .leftJoin(sql`molecules m2`, sql`${moleculeSynergies.molecule2Id} = m2.id`)
+    .orderBy(desc(moleculeSynergies.id));
+  
+  return result;
+}
+
+/**
+ * Récupère les données pour le graphe D3.js des synergies moléculaires
+ */
+export async function getMoleculeSynergiesGraphData() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const synergies = await getAllMoleculeSynergies();
+  
+  return synergies.map((s) => ({
+    id: s.id,
+    molecule1Name: s.molecule1Name || `Molécule ${s.molecule1Id}`,
+    molecule2Name: s.molecule2Name || `Molécule ${s.molecule2Id}`,
+    effectType: s.type,
+    description: s.description,
+    applications: s.applications,
+    intensity: 70, // Valeur par défaut pour l'épaisseur des liens
+  }));
 }

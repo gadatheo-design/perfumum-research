@@ -2085,3 +2085,30 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - 52 associations molécules-recettes
 - 12 synergies moléculaires actives
 - 275 molécules totales dans la base
+
+
+## Phase 6 : Finalisation et Publication (24 Décembre 2025)
+
+### Étape 1 : Filtre Colombie
+- [x] Ajouter filtre "Colombie" dans la page Recettes
+- [x] Tester l'affichage des 8 recettes colombiennes
+
+### Étape 2 : Page Synergies Moléculaires
+- [x] Créer page /synergies-moleculaires avec graphe D3.js
+- [x] Afficher les 12 synergies actives
+- [x] Ajouter navigation vers la page
+
+### Étape 3 : Compléter synergies manquantes
+- [x] Ajouter 13 molécules manquantes (GEOSMIN, JASMINE ABSOLUTE, etc.)
+- [x] Créer les 13 synergies restantes (13 ajoutées, 25 totales)
+- [x] Tester l'affichage dans le graphe
+
+### Étape 4 : Check-up complet
+- [x] Vérifier toutes les pages principales
+- [x] Tester la navigation
+- [x] Vérifier les données en base
+
+### Étape 5 : Publication
+- [ ] Créer checkpoint final
+- [ ] Publier le site
+- [ ] Livrer au client
