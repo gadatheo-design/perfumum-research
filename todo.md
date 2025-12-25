@@ -100,3 +100,54 @@ Lire obligatoirement :
 - Documentation obligatoire pour chaque modification
 - Checkpoints fréquents pour sauvegarder l'état
 - Tester avant et après chaque modification
+
+
+---
+
+## 🌍 AXES RÉGIONAUX : COLOMBIE & BURKINA FASO (À intégrer)
+
+### Contexte
+Deux axes de recherche olfactive majeurs à structurer dans le site :
+- **Colombie** : Humidité, fermentation, stratification (pôle HUMIDE/FERMENTÉ/INSTABLE)
+- **Burkina Faso / Mossi** : Sécheresse, autorité, combustion (pôle SEC/RITUEL/ÉPURÉ)
+
+### Tâches d'intégration
+
+#### Phase 1 : Structure de base
+- [ ] Créer page `/axes-regionaux` (vue d'ensemble)
+- [ ] Créer page `/axes-regionaux/colombie` avec sections :
+  - [ ] Positionnement conceptuel
+  - [ ] Axes moléculaires dominants (Humidité/sol, Fermentation, Air tropical)
+  - [ ] Contextes d'usage site-specific
+  - [ ] 10 typologies de recettes
+  - [ ] Contraintes techniques
+- [ ] Créer page `/axes-regionaux/burkina-faso` avec sections :
+  - [ ] Positionnement conceptuel
+  - [ ] Axes moléculaires dominants (Sec/minéral, Animalité, Bois/pouvoir)
+  - [ ] Contextes d'usage
+  - [ ] 10 typologies de recettes
+  - [ ] Dimension éthique
+
+#### Phase 2 : Données et relations
+- [ ] Ajouter champ `axe_regional` dans table `recettes` (enum: 'colombie', 'burkina_faso', null)
+- [ ] Créer 10 recettes colombiennes (Pétrichor équatorial, Fermentation tropicale, etc.)
+- [ ] Créer 10 recettes burkinabées (Terre sahélienne, Fumée des ancêtres, etc.)
+- [ ] Lier molécules spécifiques à chaque axe (Géosmin pour Colombie, Phénols secs pour Burkina)
+
+#### Phase 3 : Filtres et comparaisons
+- [ ] Ajouter filtre "Axe régional" sur page `/recettes`
+- [ ] Créer page `/compare-axes` (Colombie ↔ Burkina Faso)
+- [ ] Tableau comparatif : Humidité vs Sécheresse, Fermentation vs Combustion, etc.
+- [ ] Visualisation radar superposée (profils olfactifs opposés)
+
+#### Phase 4 : Navigation et exports
+- [ ] Ajouter "Axes Régionaux" dans le menu principal
+- [ ] Créer liens croisés : depuis `/gammes` vers `/axes-regionaux`
+- [ ] Export Markdown par recette avec mention de l'axe régional
+- [ ] Export JSON avec métadonnées d'axe
+
+### Priorité
+**Moyenne** — À intégrer après l'Itération 3 (Exports & Favoris)
+
+### Fichier source
+`/home/ubuntu/upload/Pasted_content_14.txt` — Document de référence complet
