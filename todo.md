@@ -27,9 +27,11 @@ Améliorer la compréhension immédiate du site pour qu'un visiteur comprenne en
 
 **Statut** : ✅ Terminée le 25 décembre 2025
 
+**Statut Itération 2** : ✅ Terminée le 25 décembre 2025
+
 ---
 
-## 🎨 ITÉRATION 2 : COMPARAISON & FILTRES (En cours)
+## 🎨 ITÉRATION 2 : COMPARAISON & FILTRES (Terminée)
 
 ### Objectif
 Améliorer l'expérience de navigation et de comparaison des recettes
@@ -76,14 +78,55 @@ Améliorer l'expérience de navigation et de comparaison des recettes
 
 ---
 
-## 📦 ITÉRATION 3 : EXPORTS & FAVORIS (À venir)
+## 📦 ITÉRATION 3 : EXPORTS & FAVORIS (En cours)
 
-- [ ] 3.1 Implémenter système de favoris (localStorage)
-- [ ] 3.2 Créer export Markdown (Notion-ready)
-- [ ] 3.3 Créer export JSON structuré
-- [ ] 3.4 Ajouter breadcrumbs (fil d'Ariane)
-- [ ] 3.5 Ajouter skeleton loaders
-- [ ] 3.6 Réduire la section actualités sur la home
+### Objectif
+Améliorer l'expérience utilisateur avec favoris, exports et navigation
+
+### Tâches
+
+#### 0. Système de sélection de recettes (Suggestion 2)
+- [x] 3.0.1 Ajouter checkboxes sur RecetteCard (max 4 sélections)
+- [x] 3.0.2 Créer composant FloatingCompareBar
+- [x] 3.0.3 Afficher compteur et bouton "Comparer"
+- [x] 3.0.4 Redirection vers /compare-recettes?ids=1,2,3
+- [x] 3.0.5 Feedback visuel sur cartes sélectionnées (ring primary)
+
+#### 1. Système de favoris
+- [x] 3.1.1 Créer hook useFavorites avec localStorage
+- [x] 3.1.2 Ajouter bouton cœur sur RecetteCard
+- [x] 3.1.3 Toggle favori avec animation
+- [x] 3.1.4 Toast de confirmation
+- [ ] 3.1.5 Créer page /favoris avec liste filtrée (page existante pour molécules)
+- [ ] 3.1.6 Badge compteur dans navigation (non prioritaire)
+
+#### 2. Exports Markdown & JSON
+- [x] 3.2.1 Créer utilitaire exportToMarkdown (format Notion-ready)
+- [x] 3.2.2 Créer utilitaire exportToJSON (structure complète)
+- [x] 3.2.3 Ajouter bouton "Exporter" dans RecetteDetail
+- [x] 3.2.4 Dropdown avec 2 options (Markdown / JSON)
+- [x] 3.2.5 Téléchargement automatique du fichier
+- [x] 3.2.6 Toast de confirmation
+
+#### 3. Breadcrumbs de navigation
+- [x] 3.3.1 Créer composant Breadcrumbs réutilisable (déjà existant)
+- [x] 3.3.2 Intégrer dans RecetteDetail (déjà présent)
+- [x] 3.3.3 Intégrer dans MoleculeDetail (déjà présent)
+- [x] 3.3.4 Intégrer dans pages gammes (déjà présent)
+- [x] 3.3.5 Génération automatique depuis URL (déjà implémenté)
+
+#### 4. Skeleton loaders
+- [x] 3.4.1 Créer composant RecetteCardSkeleton
+- [x] 3.4.2 Créer composant RecetteDetailSkeleton
+- [x] 3.4.3 Afficher pendant chargement tRPC
+- [x] 3.4.4 Animation shimmer effect (via composant Skeleton de shadcn)
+- [ ] 3.4.5 Tester avec throttling réseau (test manuel utilisateur)
+
+### Durée estimée
+7-10 heures
+
+### Priorité
+**Haute** — Amélioration UX demandée par l'utilisateur
 
 ---
 

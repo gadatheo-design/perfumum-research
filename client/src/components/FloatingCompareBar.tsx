@@ -25,7 +25,7 @@ export function FloatingCompareBar({
             {selectedCount}
           </div>
           <span className="font-semibold">
-            {selectedCount} molécule{selectedCount > 1 ? "s" : ""} sélectionnée{selectedCount > 1 ? "s" : ""}
+            {selectedCount} recette{selectedCount > 1 ? "s" : ""} sélectionnée{selectedCount > 1 ? "s" : ""}
           </span>
           {selectedCount >= maxCount && (
             <span className="text-xs opacity-80">(max atteint)</span>

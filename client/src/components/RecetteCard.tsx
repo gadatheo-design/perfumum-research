@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Link } from "wouter";
-import { FlaskConical, FileDown, GitCompare, Star, GitBranch } from "lucide-react";
+import { FlaskConical, FileDown, GitCompare, Star, GitBranch, Heart } from "lucide-react";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
 
@@ -28,6 +29,10 @@ interface RecetteCardProps {
   onExport?: (id: number) => void;
   onFavorite?: (id: number) => void;
   isSelected?: boolean;
+  onSelect?: (id: number, checked: boolean) => void;
+  showCheckbox?: boolean;
+  isSelectedForComparison?: boolean;
+  isFavorite?: boolean;
 }
 
 // Mini radar hexagonal (compact, 40px)
@@ -66,12 +71,23 @@ function MiniRadar({ values }: { values: { i: number; f: number; w: number; s: n
  * - Nombre de molécules
  * - Actions : Comparer, Export, Favoris
  */
-export function RecetteCard({ recette, onCompare, onExport, onFavorite, isSelected }: RecetteCardProps) {
+export function RecetteCard({ recette, onCompare, onExport, onFavorite, isSelected, onSelect, showCheckbox, isSelectedForComparison, isFavorite }: RecetteCardProps) {
   const gamme = getGammeFromCategory(recette.category);
   const hasRadar = recette.moleculeCount && recette.moleculeCount > 0;
 
   return (
-    <Card className={`h-full transition-all hover:shadow-md hover:scale-[1.01] ${isSelected ? 'ring-2 ring-primary' : ''}`}>
+    <Card className={`h-full transition-all hover:shadow-md hover:scale-[1.01] relative ${isSelected ? 'ring-2 ring-primary' : ''} ${isSelectedForComparison ? 'ring-2 ring-primary shadow-lg' : ''}`}>
+      {/* Checkbox de sélection (top-right) */}
+      {showCheckbox && onSelect && (
+        <div className="absolute top-3 right-3 z-10">
+          <Checkbox
+            checked={isSelectedForComparison}
+            onCheckedChange={(checked) => onSelect(recette.id, checked as boolean)}
+            className="h-5 w-5 border-2 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+          />
+        </div>
+      )}
+      
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
@@ -162,13 +178,17 @@ export function RecetteCard({ recette, onCompare, onExport, onFavorite, isSelect
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 px-2"
+              className={`h-8 px-2 transition-colors ${
+                isFavorite ? 'text-red-500 hover:text-red-600' : 'hover:text-red-500'
+              }`}
               onClick={(e) => {
                 e.preventDefault();
                 onFavorite(recette.id);
               }}
             >
-              <Star className="h-3.5 w-3.5" />
+              <Heart className={`h-3.5 w-3.5 transition-all ${
+                isFavorite ? 'fill-current scale-110' : ''
+              }`} />
             </Button>
           )}
         </div>

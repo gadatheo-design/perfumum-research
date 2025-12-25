@@ -3,17 +3,24 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FlaskConical, Beaker, Download, Clock, DollarSign, Flame, Droplets, CheckCircle2, AlertCircle, TestTube } from "lucide-react";
+import { ArrowLeft, FlaskConical, Beaker, Download, Clock, DollarSign, Flame, Droplets, CheckCircle2, AlertCircle, TestTube, FileText, FileJson } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { exportRecipePDF } from "@/lib/exportPDF";
+import { exportRecetteToMarkdown, exportRecetteToJSON } from "@/lib/recetteExportUtils";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import { MoleculeListLinks } from "@/components/MoleculeLink";
 import { RecipeOlfactiveProfile } from "@/components/RecipeRadarChart";
+import { RecetteDetailSkeleton } from "@/components/RecetteDetailSkeleton";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
 import { GitBranch, ArrowUpRight } from "lucide-react";
 
 export default function RecetteDetail() {
+  const { toast } = useToast();
   const params = useParams();
   const id = parseInt(params.id || "0");
 
@@ -147,8 +154,11 @@ export default function RecetteDetail() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-8">
-        <div className="text-center">Chargement...</div>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <Breadcrumbs />
+        <RecetteDetailSkeleton />
+        <Footer />
       </div>
     );
   }
@@ -206,19 +216,90 @@ export default function RecetteDetail() {
           </Button>
         </Link>
         <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            size="default"
-            onClick={() => exportRecipePDF({
-              name: data.recette.name,
-              category: data.family?.name || undefined,
-              notes: data.recette.notes || undefined,
-              id: data.recette.id,
-            })}
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Exporter PDF
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="default">
+                <Download className="mr-2 h-4 w-4" />
+                Exporter
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => {
+                // Calculer les moyennes radar depuis les molécules
+                const mols = data.molecules || [];
+                const avgIntensity = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarIntensity || 50), 0) / mols.length) : undefined;
+                const avgFreshness = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarFreshness || 50), 0) / mols.length) : undefined;
+                const avgWarmth = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarWarmth || 50), 0) / mols.length) : undefined;
+                const avgSweetness = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarSweetness || 50), 0) / mols.length) : undefined;
+                const avgSpiciness = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarSpiciness || 50), 0) / mols.length) : undefined;
+                const avgEarthiness = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarEarthiness || 50), 0) / mols.length) : undefined;
+                
+                exportRecetteToMarkdown({
+                  id: data.recette.id,
+                  name: data.recette.name,
+                  category: data.recette.category,
+                  family: data.family?.name || null,
+                  intensity: data.recette.intensity,
+                  stability: data.recette.stability,
+                  moleculeCount: data.molecules?.length,
+                  ingredients: data.recette.ingredients,
+                  avgIntensity,
+                  avgFreshness,
+                  avgWarmth,
+                  avgSweetness,
+                  avgSpiciness,
+                  avgEarthiness,
+                });
+                toast({ title: "Export Markdown réussi", description: "Le fichier a été téléchargé" });
+              }}>
+                <FileText className="h-4 w-4 mr-2" />
+                Markdown (Notion)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => {
+                // Calculer les moyennes radar depuis les molécules
+                const mols = data.molecules || [];
+                const avgIntensity = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarIntensity || 50), 0) / mols.length) : undefined;
+                const avgFreshness = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarFreshness || 50), 0) / mols.length) : undefined;
+                const avgWarmth = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarWarmth || 50), 0) / mols.length) : undefined;
+                const avgSweetness = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarSweetness || 50), 0) / mols.length) : undefined;
+                const avgSpiciness = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarSpiciness || 50), 0) / mols.length) : undefined;
+                const avgEarthiness = mols.length > 0 ? Math.round(mols.reduce((sum, m) => sum + (m.radarEarthiness || 50), 0) / mols.length) : undefined;
+                
+                exportRecetteToJSON({
+                  id: data.recette.id,
+                  name: data.recette.name,
+                  category: data.recette.category,
+                  family: data.family?.name || null,
+                  intensity: data.recette.intensity,
+                  stability: data.recette.stability,
+                  moleculeCount: data.molecules?.length,
+                  ingredients: data.recette.ingredients,
+                  avgIntensity,
+                  avgFreshness,
+                  avgWarmth,
+                  avgSweetness,
+                  avgSpiciness,
+                  avgEarthiness,
+                });
+                toast({ title: "Export JSON réussi", description: "Le fichier a été téléchargé" });
+              }}>
+                <FileJson className="h-4 w-4 mr-2" />
+                JSON
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => {
+                exportRecipePDF({
+                  name: data.recette.name,
+                  category: data.family?.name || undefined,
+                  notes: data.recette.notes || undefined,
+                  id: data.recette.id,
+                });
+                toast({ title: "Export PDF réussi", description: "Le fichier a été téléchargé" });
+              }}>
+                <Download className="h-4 w-4 mr-2" />
+                PDF
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           {recette.status && (
             <Badge className={`${statusColors[recette.status]} border px-3 py-1.5 flex items-center gap-2`}>
               {statusIcons[recette.status]}

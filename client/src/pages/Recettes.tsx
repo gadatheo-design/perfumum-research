@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -14,6 +14,9 @@ import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
 import { RecetteCard } from "@/components/RecetteCard";
+import { RecetteCardSkeletonGrid } from "@/components/RecetteCardSkeleton";
+import { FloatingCompareBar } from "@/components/FloatingCompareBar";
+import { useFavorites } from "@/hooks/useFavorites";
 import { useToast } from "@/hooks/use-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -61,6 +64,7 @@ const RADAR_LABELS = {
 
 export default function Recettes() {
   const { toast } = useToast();
+  const { toggleFavorite, isFavorite } = useFavorites();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
   const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
@@ -70,6 +74,7 @@ export default function Recettes() {
   const [showRadarFilter, setShowRadarFilter] = useState(false);
   const [selectedForComparison, setSelectedForComparison] = useState<number[]>([]);
   const [sortBy, setSortBy] = useState<string>("recent");
+  const [location, setLocation] = useLocation();
   
   // Filtres radar (plages min-max)
   const [radarFilters, setRadarFilters] = useState({
@@ -517,34 +522,9 @@ export default function Recettes() {
         {/* Results Grid */}
         <section className="py-8">
           <div className="container">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredRecettes.map((recette) => (
-                <RecetteCard
-                  key={recette.id}
-                  recette={recette}
-                  isSelected={selectedForComparison.includes(recette.id)}
-                  onCompare={(id) => {
-                    if (selectedForComparison.includes(id)) {
-                      setSelectedForComparison(prev => prev.filter(i => i !== id));
-                      toast({ title: "Recette retirée de la comparaison" });
-                    } else if (selectedForComparison.length >= 4) {
-                      toast({ title: "Maximum 4 recettes", description: "Vous pouvez comparer jusqu'à 4 recettes à la fois.", variant: "destructive" });
-                    } else {
-                      setSelectedForComparison(prev => [...prev, id]);
-                      toast({ title: "Recette ajoutée à la comparaison" });
-                    }
-                  }}
-                  onExport={(id) => {
-                    toast({ title: "Export PDF", description: "Fonctionnalité à venir" });
-                  }}
-                  onFavorite={(id) => {
-                    toast({ title: "Favoris", description: "Fonctionnalité à venir" });
-                  }}
-                />
-              ))}
-            </div>
-
-            {filteredRecettes.length === 0 && (
+            {isLoading ? (
+              <RecetteCardSkeletonGrid count={9} />
+            ) : filteredRecettes.length === 0 ? (
               <div className="text-center py-12">
                 <Beaker className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                 <h3 className="text-lg font-medium">Aucune recette trouvée</h3>
@@ -560,12 +540,72 @@ export default function Recettes() {
                   </Button>
                 )}
               </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredRecettes.map((recette) => (
+                <RecetteCard
+                  key={recette.id}
+                  recette={recette}
+                  showCheckbox={true}
+                  isSelectedForComparison={selectedForComparison.includes(recette.id)}
+                  onSelect={(id, checked) => {
+                    if (checked) {
+                      if (selectedForComparison.length >= 4) {
+                        toast({ title: "Maximum 4 recettes", description: "Vous pouvez comparer jusqu'à 4 recettes à la fois.", variant: "destructive" });
+                      } else {
+                        setSelectedForComparison(prev => [...prev, id]);
+                      }
+                    } else {
+                      setSelectedForComparison(prev => prev.filter(i => i !== id));
+                    }
+                  }}
+                  onCompare={(id) => {
+                    if (selectedForComparison.includes(id)) {
+                      setSelectedForComparison(prev => prev.filter(i => i !== id));
+                      toast({ title: "Recette retirée de la comparaison" });
+                    } else if (selectedForComparison.length >= 4) {
+                      toast({ title: "Maximum 4 recettes", description: "Vous pouvez comparer jusqu'à 4 recettes à la fois.", variant: "destructive" });
+                    } else {
+                      setSelectedForComparison(prev => [...prev, id]);
+                      toast({ title: "Recette ajoutée à la comparaison" });
+                    }
+                  }}
+                  onExport={(id) => {
+                    toast({ title: "Export PDF", description: "Fonctionnalité à venir" });
+                  }}
+                  isFavorite={isFavorite(recette.id)}
+                  onFavorite={(id) => {
+                    toggleFavorite(id);
+                    toast({ 
+                      title: isFavorite(id) ? "Retiré des favoris" : "Ajouté aux favoris",
+                      description: isFavorite(id) 
+                        ? "La recette a été retirée de vos favoris" 
+                        : "La recette a été ajoutée à vos favoris"
+                    });
+                  }}
+                />
+                ))}
+              </div>
             )}
           </div>
         </section>
       </main>
 
       <Footer />
+      
+      {/* Barre flottante de comparaison */}
+      <FloatingCompareBar
+        selectedCount={selectedForComparison.length}
+        maxCount={4}
+        onClear={() => {
+          setSelectedForComparison([]);
+          toast({ title: "Sélection effacée" });
+        }}
+        onCompare={() => {
+          const ids = selectedForComparison.join(',');
+          setLocation(`/compare-recettes?ids=${ids}`);
+        }}
+      />
     </div>
   );
 }
