@@ -13,6 +13,7 @@ export interface RecetteWithRadar {
   intensity: number | null;
   stability: string | null;
   parentRecetteId: number | null;
+  createdAt: Date | null;
   // Profil radar moyen calculé
   avgIntensity: number;
   avgFreshness: number;
@@ -87,6 +88,7 @@ export async function getAllRecettesWithRadar(): Promise<RecetteWithRadar[]> {
         intensity: recette.intensity,
         stability: recette.stability,
         parentRecetteId: recette.parentRecetteId,
+        createdAt: recette.createdAt,
         avgIntensity,
         avgFreshness,
         avgWarmth,

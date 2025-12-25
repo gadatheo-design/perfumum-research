@@ -81,7 +81,7 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 #### 3. Historique de navigation
 - [x] 5.3.1 Tracker dernières recettes consultées (localStorage)
 - [x] 5.3.2 Section "Récemment consultées" sur page Recettes
-- [ ] 5.3.3 Badge "Nouveau" sur recettes ajoutées <7 jours
+- [x] 5.3.3 Badge "Nouveau" sur recettes ajoutées <30 jours
 
 ### Durée estimée
 10-14 heures

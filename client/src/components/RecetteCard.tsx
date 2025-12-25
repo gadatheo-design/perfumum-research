@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Link } from "wouter";
-import { FlaskConical, FileDown, GitCompare, Star, GitBranch, Heart } from "lucide-react";
+import { FlaskConical, FileDown, GitCompare, Star, GitBranch, Heart, Sparkles } from "lucide-react";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
 import { useSwipeGesture } from "@/hooks/useSwipeGesture";
@@ -19,6 +19,7 @@ interface RecetteCardProps {
     moleculeCount?: number;
     parentRecetteId?: number | null;
     ingredients?: string | null;
+    createdAt?: string | Date | null;
     avgIntensity?: number;
     avgFreshness?: number;
     avgWarmth?: number;
@@ -75,6 +76,14 @@ function MiniRadar({ values }: { values: { i: number; f: number; w: number; s: n
 export function RecetteCard({ recette, onCompare, onExport, onFavorite, isSelected, onSelect, showCheckbox, isSelectedForComparison, isFavorite }: RecetteCardProps) {
   const gamme = getGammeFromCategory(recette.category);
   const hasRadar = recette.moleculeCount && recette.moleculeCount > 0;
+  
+  // Vérifier si la recette est récente (créée dans les 30 derniers jours)
+  const isNew = recette.createdAt ? (() => {
+    const createdDate = new Date(recette.createdAt);
+    const now = new Date();
+    const diffInDays = (now.getTime() - createdDate.getTime()) / (1000 * 60 * 60 * 24);
+    return diffInDays <= 30;
+  })() : false;
 
   // Swipe gestures for mobile
   const [swipeRef, swipeState] = useSwipeGesture<HTMLDivElement>({
@@ -144,7 +153,7 @@ export function RecetteCard({ recette, onCompare, onExport, onFavorite, isSelect
       </CardHeader>
 
       <CardContent className="space-y-3">
-        {/* Badges : Gamme + Catégorie + Variation */}
+        {/* Badges : Gamme + Catégorie + Variation + Nouveau */}
         <div className="flex items-center gap-1.5 flex-wrap">
           {gamme && <GammeBadge gamme={gamme} size="sm" />}
           <Badge variant="outline" className="text-xs uppercase tracking-wide">{recette.category}</Badge>
@@ -152,6 +161,12 @@ export function RecetteCard({ recette, onCompare, onExport, onFavorite, isSelect
             <Badge variant="outline" className="border-amber-400 text-amber-600 text-xs">
               <GitBranch className="h-3 w-3 mr-1" />
               Variation
+            </Badge>
+          )}
+          {isNew && (
+            <Badge className="bg-gradient-to-r from-violet-500 to-purple-500 text-white text-xs border-0 animate-pulse">
+              <Sparkles className="h-3 w-3 mr-1" />
+              Nouveau
             </Badge>
           )}
         </div>
