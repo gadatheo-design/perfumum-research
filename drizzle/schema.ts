@@ -173,6 +173,16 @@ export const molecules = mysqlTable("molecules", {
   radarSweetness: int("radar_sweetness").default(50), // Sweetness (floral, fruity)
   radarSpiciness: int("radar_spiciness").default(50), // Spiciness (pepper, ginger)
   radarEarthiness: int("radar_earthiness").default(50), // Earthiness (moss, soil, wood)
+  // Bibliographic references (JSON array)
+  references: json("references").$type<{
+    author?: string;
+    year?: number;
+    title: string;
+    journal?: string;
+    doi?: string;
+    url?: string;
+    type: 'pubchem' | 'academic' | 'book' | 'database' | 'other';
+  }[]>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

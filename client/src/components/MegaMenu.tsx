@@ -11,6 +11,7 @@ import {
   Users,
   Leaf,
   Settings,
+  Microscope,
 } from "lucide-react";
 
 interface MenuItem {
@@ -248,6 +249,12 @@ export function MegaMenu() {
       title: "Outils",
       items: [
         {
+          label: "Générateur Formules",
+          path: "/outils/generateur-formules",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Création formules par IA",
+        },
+        {
           label: "Synergies",
           path: "/suggestions-synergies",
           icon: <Network className="h-4 w-4" />,
@@ -313,6 +320,12 @@ export function MegaMenu() {
     {
       title: "Recherche",
       items: [
+        {
+          label: "Méthodologie",
+          path: "/methodologie/recherche",
+          icon: <Microscope className="h-4 w-4" />,
+          description: "Protocoles scientifiques",
+        },
         {
           label: "Fondements",
           path: "/recherche/fondements-theoriques",

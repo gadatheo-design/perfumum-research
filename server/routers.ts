@@ -168,6 +168,56 @@ export const appRouter = router({
         ).slice(0, input.limit);
         return { molecules: matches, total: matches.length };
       }),
+    // Suggestions par profil radar
+    getSuggestionsByRadar: publicProcedure
+      .input(z.object({
+        radarIntensity: z.number().min(0).max(100),
+        radarFreshness: z.number().min(0).max(100),
+        radarWarmth: z.number().min(0).max(100),
+        radarSweetness: z.number().min(0).max(100),
+        radarSpiciness: z.number().min(0).max(100),
+        radarEarthiness: z.number().min(0).max(100),
+        limit: z.number().min(1).max(50).default(10),
+      }))
+      .query(async ({ input }) => {
+        const allMolecules = await db.getAllMolecules();
+        
+        // Calculer la distance euclidienne pour chaque molécule
+        const moleculesWithScore = allMolecules.map(m => {
+          const diff1 = (m.radarIntensity || 50) - input.radarIntensity;
+          const diff2 = (m.radarFreshness || 50) - input.radarFreshness;
+          const diff3 = (m.radarWarmth || 50) - input.radarWarmth;
+          const diff4 = (m.radarSweetness || 50) - input.radarSweetness;
+          const diff5 = (m.radarSpiciness || 50) - input.radarSpiciness;
+          const diff6 = (m.radarEarthiness || 50) - input.radarEarthiness;
+          
+          const distance = Math.sqrt(
+            diff1 * diff1 +
+            diff2 * diff2 +
+            diff3 * diff3 +
+            diff4 * diff4 +
+            diff5 * diff5 +
+            diff6 * diff6
+          );
+          
+          // Distance maximale théorique : sqrt(6 * 100^2) = ~244.95
+          // Score de compatibilité : 100% si distance = 0, 0% si distance = 244.95
+          const maxDistance = Math.sqrt(6 * 100 * 100);
+          const compatibilityScore = Math.round((1 - distance / maxDistance) * 100);
+          
+          return {
+            ...m,
+            compatibilityScore,
+          };
+        });
+        
+        // Trier par score décroissant et limiter
+        const sorted = moleculesWithScore
+          .sort((a, b) => b.compatibilityScore - a.compatibilityScore)
+          .slice(0, input.limit);
+        
+        return sorted;
+      }),
   }),
 
   // Terpene Synergies

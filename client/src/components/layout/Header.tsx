@@ -40,6 +40,11 @@ const mobileMenuSections = [
     icon: BookOpen,
   },
   {
+    title: "Méthodologie de Recherche",
+    href: "/methodologie/recherche",
+    icon: TestTube,
+  },
+  {
     title: "Échelle ABSORBE",
     href: "/methodologie/echelle-absorbe",
     icon: Atom,
@@ -92,6 +97,14 @@ const mobileMenuSections = [
       { href: "/matrice-interactive", label: "Matrice interactive" },
       { href: "/statistiques", label: "Statistiques" },
       { href: "/fournisseurs", label: "Fournisseurs", badge: "12" },
+    ],
+  },
+  {
+    title: "Outils IA",
+    icon: Sparkles,
+    items: [
+      { href: "/outils/generateur-formules", label: "Générateur de Formules", badge: "NEW" },
+      { href: "/suggestions-synergies", label: "Suggestions Synergies" },
     ],
   },
   {

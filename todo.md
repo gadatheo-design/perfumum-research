@@ -1,5 +1,36 @@
 # PERFUMUM Research - TODO
 
+## 📋 Session 24 Décembre 2025 - Améliorations Stratégiques Post-Phase 1
+
+### Tâche 1 : Page Méthodologie de Recherche
+- [x] Créer page /methodologie/recherche avec sections complètes
+- [x] Protocoles GC-MS détaillés (préparation échantillon, paramètres, interprétation)
+- [x] Validation profils radar (critères, processus, exemples)
+- [x] Documentation terrain (équipement, conditions, observations)
+- [x] Intégrer dans navigation (MegaMenu Méthodologie)
+
+### Tâche 2 : Références Bibliographiques
+- [x] Ajouter champ references (JSON) dans table molecules
+- [x] Créer composant ReferencesList.tsx
+- [x] Intégrer 2-3 sources par molécule (PubChem, études académiques)
+- [x] Afficher dans MoleculeDetail avec liens cliquables
+- [x] Format : Auteur, Année, Titre, Journal, DOI
+
+### Tâche 3 : Générateur de Formules IA
+- [x] Créer page /outils/generateur-formules
+- [x] Interface avec 6 sliders radar (Intensité, Fraîcheur, Chaleur, Douceur, Épicé, Terreux)
+- [x] Algorithme de suggestions basé sur similarité existante
+- [x] Affichage top 10 molécules compatibles avec scores
+- [x] Export formule suggérée (PDF + CSV)
+- [x] Intégrer dans menu Outils
+
+### Validation
+- [x] Tester les 3 nouvelles fonctionnalités
+- [x] Vérifier navigation et liens
+- [ ] Créer checkpoint final
+
+---
+
 ## ✅ AMÉLIORATIONS UX/UI COMPLÉTÉES
 
 ### Design & Expérience

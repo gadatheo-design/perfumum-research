@@ -1,5 +1,6 @@
 import { Link, useParams } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { ReferencesList } from "@/components/ReferencesList";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
 import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown } from "lucide-react";
@@ -407,6 +408,12 @@ export default function MoleculeDetail() {
               <p className="whitespace-pre-wrap text-muted-foreground">{molecule.notes}</p>
             </div>
           )}
+
+          {/* Références Bibliographiques */}
+          <div className="bg-card p-6 rounded-lg border shadow-sm">
+            <h2 className="text-lg font-semibold mb-4">Références Bibliographiques</h2>
+            <ReferencesList references={molecule.references as any} />
+          </div>
         </div>
       </div>
     </div>
