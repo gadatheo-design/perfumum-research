@@ -6,7 +6,7 @@
 
 ---
 
-## 🚀 ITÉRATION 1 : QUICK WINS (Compréhension immédiate)
+## ✅ ITÉRATION 1 : QUICK WINS (Terminée)
 
 ### Objectif
 Améliorer la compréhension immédiate du site pour qu'un visiteur comprenne en 10 secondes ce qu'est PERFUMUM et où trouver les données.
@@ -20,21 +20,59 @@ Améliorer la compréhension immédiate du site pour qu'un visiteur comprenne en
 - [x] 1.5 Simplifier le footer (réduire de 12 à 6 liens essentiels)
 
 ### Critères "done"
-- [ ] Un visiteur comprend en 10 secondes ce qu'est PERFUMUM
-- [ ] Les 3 parcours sont visuellement différenciés
-- [ ] Le CTA principal est clairement identifié
-- [ ] Le footer est lisible et non surchargé
+- [x] Un visiteur comprend en 10 secondes ce qu'est PERFUMUM
+- [x] Les 3 parcours sont visuellement différenciés
+- [x] Le CTA principal est clairement identifié
+- [x] Le footer est lisible et non surchargé
+
+**Statut** : ✅ Terminée le 25 décembre 2025
 
 ---
 
-## 📋 ITÉRATION 2 : COMPARAISON & FILTRES (À venir)
+## 🎨 ITÉRATION 2 : COMPARAISON & FILTRES (En cours)
 
-- [ ] 2.1 Ajouter un dropdown "Trier par" sur /recettes
-- [ ] 2.2 Ajouter un bouton "Réinitialiser les filtres"
-- [ ] 2.3 Améliorer le placeholder de recherche
-- [ ] 2.4 Ajouter des tooltips sur les filtres avancés
-- [ ] 2.5 Créer une page /compare-recettes MVP
-- [ ] 2.6 Améliorer les labels des actions sur les cartes
+### Objectif
+Améliorer l'expérience de navigation et de comparaison des recettes
+
+### Tâches
+
+#### 1. Dropdown de tri sur /recettes
+- [x] 2.1.1 Ajouter un Select "Trier par" avec 5 options :
+  - Plus récentes (défaut)
+  - Nom A-Z
+  - Nom Z-A
+  - Intensité croissante
+  - Intensité décroissante
+- [x] 2.1.2 Positionner le dropdown à droite des filtres
+- [x] 2.1.3 Appliquer le tri en temps réel
+
+#### 2. Page de comparaison de recettes MVP
+- [x] 2.2.1 Créer route `/compare-recettes` (déjà existante)
+- [x] 2.2.2 Système de sélection : checkboxes sur cartes recettes (max 4)
+- [x] 2.2.3 Barre flottante affichant nombre de recettes sélectionnées
+- [x] 2.2.4 Bouton "Comparer" (désactivé si < 2 recettes)
+- [x] 2.2.5 Page comparaison avec tableau côte-à-côte (9 critères)
+- [x] 2.2.6 Graphiques radar superposés
+- [x] 2.2.7 Highlighting automatique des valeurs identiques
+- [x] 2.2.8 Bouton "Partager" (copie URL avec IDs)
+
+#### 3. Bouton "Réinitialiser filtres"
+- [x] 2.3.1 Ajouter bouton "Réinitialiser" visible uniquement si filtres actifs
+- [x] 2.3.2 Réinitialiser tous les filtres (gamme, famille, prototype, ingrédients, recherche, radar)
+- [x] 2.3.3 Toast de confirmation
+
+#### 4. Tooltips des filtres avancés
+- [x] 2.4.1 Ajouter tooltips sur les 6 sliders radar avec définitions
+- [x] 2.4.2 Tooltip "Gamme" : explication des 5 gammes
+- [x] 2.4.3 Tooltip "Famille" : différence parfum/résine/résine_cbd
+- [x] 2.4.4 Tooltip "Prototype" : explication C1-C4
+- [x] 2.4.5 Utiliser composant Tooltip de shadcn/ui
+
+### Durée estimée
+3-5 jours
+
+### Priorité
+**Haute** — Amélioration UX critique
 
 ---
 

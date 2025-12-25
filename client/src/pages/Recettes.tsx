@@ -8,23 +8,55 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp, FlaskConical } from "lucide-react";
+import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp, FlaskConical, ArrowUpDown, Info } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
 import { RecetteCard } from "@/components/RecetteCard";
 import { useToast } from "@/hooks/use-toast";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Mini radar supprimé - désormais dans RecetteCard
 
-// Labels des axes radar
+// Labels des axes radar avec descriptions
 const RADAR_LABELS = {
-  intensity: { label: "Intensité", short: "I", color: "oklch(0.7 0.2 30)" },
-  freshness: { label: "Fraîcheur", short: "F", color: "oklch(0.7 0.2 180)" },
-  warmth: { label: "Chaleur", short: "W", color: "oklch(0.7 0.2 60)" },
-  sweetness: { label: "Douceur", short: "S", color: "oklch(0.7 0.2 330)" },
-  spiciness: { label: "Épicé", short: "Sp", color: "oklch(0.7 0.2 90)" },
-  earthiness: { label: "Terreux", short: "E", color: "oklch(0.7 0.2 120)" },
+  intensity: { 
+    label: "Intensité", 
+    short: "I", 
+    color: "oklch(0.7 0.2 30)",
+    tooltip: "Force olfactive globale : de subtile (0) à puissante (100). Mesure la présence et la persistance du parfum."
+  },
+  freshness: { 
+    label: "Fraîcheur", 
+    short: "F", 
+    color: "oklch(0.7 0.2 180)",
+    tooltip: "Caractère vivifiant et aérien : notes d'agrumes, mentholées, aqueuses ou ozonées."
+  },
+  warmth: { 
+    label: "Chaleur", 
+    short: "W", 
+    color: "oklch(0.7 0.2 60)",
+    tooltip: "Sensation de chaleur : notes boisées, ambreées, résineuses ou balsamées."
+  },
+  sweetness: { 
+    label: "Douceur", 
+    short: "S", 
+    color: "oklch(0.7 0.2 330)",
+    tooltip: "Caractère sucré ou gourmand : notes vanillées, mielées, lactonées ou florales douces."
+  },
+  spiciness: { 
+    label: "Épicé", 
+    short: "Sp", 
+    color: "oklch(0.7 0.2 90)",
+    tooltip: "Caractère épicé et stimulant : notes de poivre, gingembre, clou de girofle ou cannelle."
+  },
+  earthiness: { 
+    label: "Terreux", 
+    short: "E", 
+    color: "oklch(0.7 0.2 120)",
+    tooltip: "Caractère minéral et tellurique : notes de terre, mousse, pierre mouillée, géosmine ou vétiver."
+  },
 };
 
 export default function Recettes() {
@@ -37,6 +69,7 @@ export default function Recettes() {
   const [showIngredientFilter, setShowIngredientFilter] = useState(false);
   const [showRadarFilter, setShowRadarFilter] = useState(false);
   const [selectedForComparison, setSelectedForComparison] = useState<number[]>([]);
+  const [sortBy, setSortBy] = useState<string>("recent");
   
   // Filtres radar (plages min-max)
   const [radarFilters, setRadarFilters] = useState({
@@ -78,9 +111,10 @@ export default function Recettes() {
     "Géosmine", "Ambrox", "Vétiver", "Ozone", "Terre"
   ];
 
-  // Filter recettes (filtres locaux en plus des filtres radar côté serveur)
+  // Filter and sort recettes
   const filteredRecettes = useMemo(() => {
-    return recettes.filter((recette) => {
+    // Filtrer d'abord
+    let filtered = recettes.filter((recette) => {
       const matchesSearch = recette.name?.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesGamme = !selectedGamme || getGammeFromCategory(recette.category) === selectedGamme;
       const matchesFamily = !selectedFamily || recette.category === selectedFamily;
@@ -88,7 +122,23 @@ export default function Recettes() {
       const matchesIngredient = !selectedIngredient || recette.ingredients?.toLowerCase().includes(selectedIngredient.toLowerCase());
       return matchesSearch && matchesGamme && matchesFamily && matchesPrototype && matchesIngredient;
     });
-  }, [recettes, searchTerm, selectedGamme, selectedFamily, selectedPrototype, selectedIngredient]);
+
+    // Trier ensuite
+    switch (sortBy) {
+      case "name-asc":
+        return filtered.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+      case "name-desc":
+        return filtered.sort((a, b) => (b.name || "").localeCompare(a.name || ""));
+      case "intensity-asc":
+        return filtered.sort((a, b) => (a.intensity || 0) - (b.intensity || 0));
+      case "intensity-desc":
+        return filtered.sort((a, b) => (b.intensity || 0) - (a.intensity || 0));
+      case "recent":
+      default:
+        // Tri par ID décroissant (les plus récentes en premier)
+        return filtered.sort((a, b) => b.id - a.id);
+    }
+  }, [recettes, searchTerm, selectedGamme, selectedFamily, selectedPrototype, selectedIngredient, sortBy]);
 
   const clearFilters = () => {
     setSearchTerm("");
@@ -96,6 +146,15 @@ export default function Recettes() {
     setSelectedFamily(null);
     setSelectedPrototype(null);
     setSelectedIngredient(null);
+  };
+
+  const clearAllFilters = () => {
+    clearFilters();
+    clearRadarFilters();
+    toast({
+      title: "Filtres réinitialisés",
+      description: "Tous les filtres ont été réinitialisés.",
+    });
   };
 
   const clearRadarFilters = () => {
@@ -114,6 +173,8 @@ export default function Recettes() {
   const hasActiveRadarFilters = Object.values(radarFilters).some(
     ([min, max]) => min > 0 || max < 100
   );
+  
+  const hasAnyActiveFilters = hasActiveFilters || hasActiveRadarFilters;
 
   if (isLoading) {
     return (
@@ -171,7 +232,26 @@ export default function Recettes() {
 
               {/* Gamme Filters */}
               <div className="flex flex-wrap gap-2 items-center">
-                <span className="text-sm font-medium text-muted-foreground">Gammes :</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm font-medium text-muted-foreground">Gammes :</span>
+                  <TooltipProvider delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p className="text-xs font-semibold mb-1">Les 5 gammes olfactives de PERFUMUM :</p>
+                        <ul className="text-xs space-y-0.5">
+                          <li>• <strong>Pétrichor</strong> : Terre mouillée, minéral, géosmine</li>
+                          <li>• <strong>Volcanique</strong> : Soufre, pierre chaude, fumée</li>
+                          <li>• <strong>Civilisations</strong> : Résines sacrées, traditions</li>
+                          <li>• <strong>Glaciaire</strong> : Fraîcheur polaire, ozone, glace</li>
+                          <li>• <strong>Biolab</strong> : Synthèse moléculaire, expérimental</li>
+                        </ul>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 {(['petrichor', 'volcanique', 'civilisations', 'glaciaire', 'biolab', 'colombie'] as GammeType[]).map((gamme) => (
                   <GammeBadge 
                     key={gamme}
@@ -191,7 +271,26 @@ export default function Recettes() {
                 </div>
 
                 {/* Family Filters */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                  <TooltipProvider delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p className="text-xs font-semibold mb-1">Familles de recettes :</p>
+                        <ul className="text-xs space-y-0.5">
+                          <li>• <strong>Parfum</strong> : Compositions pour diffusion atmosphérique</li>
+                          <li>• <strong>Résine</strong> : Encens traditionnels à base de résines</li>
+                          <li>• <strong>Résine CBD</strong> : Formules enrichies au cannabidiol</li>
+                          <li>• <strong>Tabac</strong> : Mélanges pour fumigation</li>
+                          <li>• <strong>Cône</strong> : Encens en forme de cône</li>
+                          <li>• <strong>Extrait</strong> : Concentrés olfactifs</li>
+                        </ul>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <div className="flex flex-wrap gap-2">
                   {families.slice(0, 6).map((family) => (
                     <Button
                       key={family}
@@ -202,10 +301,28 @@ export default function Recettes() {
                       {family}
                     </Button>
                   ))}
+                  </div>
                 </div>
 
                 {/* Prototype Filters */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                  <TooltipProvider delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p className="text-xs font-semibold mb-1">Les 4 prototypes fondamentaux :</p>
+                        <ul className="text-xs space-y-0.5">
+                          <li>• <strong>C1 — Clarus Albus</strong> : Pureté, lactone, blanc</li>
+                          <li>• <strong>C2 — Clarus Verde</strong> : Végétal, chlorophylle, vert</li>
+                          <li>• <strong>C3 — Lacta Solis</strong> : Chaleur, miel, doré</li>
+                          <li>• <strong>C4 — Terra Ambra</strong> : Terre, ambre, brun</li>
+                        </ul>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <div className="flex flex-wrap gap-2">
                   {prototypes.map((proto) => (
                     <Button
                       key={proto}
@@ -216,6 +333,7 @@ export default function Recettes() {
                       {proto}
                     </Button>
                   ))}
+                  </div>
                 </div>
 
                 {/* Ingredient Filter Toggle */}
@@ -246,16 +364,33 @@ export default function Recettes() {
                   {showRadarFilter ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
                 </Button>
 
-                {/* Clear Filters */}
-                {hasActiveFilters && (
+                {/* Sort Dropdown */}
+                <div className="flex items-center gap-2 ml-auto">
+                  <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
+                  <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Trier par" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="recent">Plus récentes</SelectItem>
+                      <SelectItem value="name-asc">Nom A-Z</SelectItem>
+                      <SelectItem value="name-desc">Nom Z-A</SelectItem>
+                      <SelectItem value="intensity-asc">Intensité ↑</SelectItem>
+                      <SelectItem value="intensity-desc">Intensité ↓</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Clear All Filters */}
+                {hasAnyActiveFilters && (
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={clearFilters}
-                    className="gap-2"
+                    onClick={clearAllFilters}
+                    className="gap-2 text-destructive hover:text-destructive"
                   >
-                    <X className="h-3 w-3" />
-                    Effacer
+                    <X className="h-4 w-4" />
+                    Réinitialiser tous les filtres
                   </Button>
                 )}
               </div>
@@ -286,10 +421,22 @@ export default function Recettes() {
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {(Object.entries(RADAR_LABELS) as [keyof typeof radarFilters, typeof RADAR_LABELS.intensity][]).map(([key, { label, color }]) => (
+                    {(Object.entries(RADAR_LABELS) as [keyof typeof radarFilters, typeof RADAR_LABELS.intensity][]).map(([key, { label, color, tooltip }]) => (
                       <div key={key} className="space-y-2">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium" style={{ color }}>{label}</span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-sm font-medium" style={{ color }}>{label}</span>
+                            <TooltipProvider delayDuration={200}>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Info className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
+                                </TooltipTrigger>
+                                <TooltipContent className="max-w-xs">
+                                  <p className="text-xs">{tooltip}</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
                           <span className="text-xs text-muted-foreground">
                             {radarFilters[key][0]} - {radarFilters[key][1]}
                           </span>
