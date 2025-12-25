@@ -100,6 +100,8 @@ import SynergiesPage from "./pages/SynergiesPage";
 import SuggestionsSynergies from "./pages/SuggestionsSynergies";
 import { SynergiesHeatmap } from "./pages/SynergiesHeatmap";
 import { RecipeNetworkPage } from "./pages/RecipeNetworkPage";
+import SankeyFlow from "./pages/SankeyFlow";
+import EnhancedRadarDemo from "./pages/EnhancedRadarDemo";
 
 // === OUTILS ===
 import OutilsFormulation from "./pages/OutilsFormulation";
@@ -274,6 +276,8 @@ function Router() {
       <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
       <Route path="/synergies-heatmap" component={SynergiesHeatmap} />
       <Route path="/recipe-network" component={RecipeNetworkPage} />
+      <Route path="/sankey-flow" component={SankeyFlow} />
+      <Route path="/enhanced-radar" component={EnhancedRadarDemo} />
       
       {/* === OUTILS === */}
       <Route path="/outils-formulation" component={OutilsFormulation} />

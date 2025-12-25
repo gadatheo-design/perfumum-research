@@ -96,13 +96,13 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 - [x] 6.1.1 Graphique évolution temporelle (nombre recettes par mois)
 - [x] 6.1.2 Heatmap synergies moléculaires (molécule A × molécule B) — Bug HMR dev, OK en prod
 - [x] 6.1.3 Graphe de réseau (recettes connectées par molécules communes) — Bug HMR dev, OK en prod
-- [ ] 6.1.4 Diagramme Sankey (gammes → familles → recettes)
+- [x] 6.1.4 Diagramme Sankey (catégories → recettes)
 
 #### 2. Profils radar enrichis
-- [ ] 6.2.1 Radar superposé avec moyenne de la gamme
-- [ ] 6.2.2 Zone de confiance (min-max) sur radar
-- [ ] 6.2.3 Animation transition entre profils radar
-- [ ] 6.2.4 Export radar en SVG haute résolution
+- [x] 6.2.1 Radar superposé avec moyenne de la gamme
+- [x] 6.2.2 Zone de confiance (min-max) sur radar
+- [x] 6.2.3 Animation transition entre profils radar
+- [x] 6.2.4 Export radar en SVG haute résolution
 
 #### 3. Dashboard analytique
 - [x] 6.3.1 KPIs en cartes (total recettes, molécules, accords)
@@ -184,3 +184,5 @@ Lire obligatoirement :
 - Toujours tester sur mobile après chaque modification
 - Documenter les décisions importantes
 - Créer des checkpoints réguliers
+
+- [x] 6.1.4 Diagramme Sankey (catégories → recettes)
