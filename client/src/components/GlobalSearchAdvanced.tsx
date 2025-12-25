@@ -155,8 +155,7 @@ export function GlobalSearchAdvanced() {
           m.name.toLowerCase().includes(query.toLowerCase()) ||
           m.family?.toLowerCase().includes(query.toLowerCase());
         
-        const matchGamme = selectedGammes.length === 0 || 
-          (m.gamme && selectedGammes.includes(m.gamme));
+        const matchGamme = selectedGammes.length === 0; // Champ gamme supprimé
         
         const matchFamille = selectedFamilles.length === 0 || 
           (m.family && selectedFamilles.some(f => m.family?.toLowerCase().includes(f.toLowerCase())));
@@ -172,7 +171,7 @@ export function GlobalSearchAdvanced() {
           subtitle: m.family || undefined,
           path: `/molecule/${m.id}`,
           icon: <Beaker className="h-4 w-4" />,
-          gamme: m.gamme || undefined,
+          // gamme supprimé du schéma
           famille: m.family || undefined,
         });
       });
@@ -185,8 +184,7 @@ export function GlobalSearchAdvanced() {
           r.name.toLowerCase().includes(query.toLowerCase()) ||
           r.description?.toLowerCase().includes(query.toLowerCase());
         
-        const matchGamme = selectedGammes.length === 0 || 
-          (r.gamme && selectedGammes.includes(r.gamme));
+        const matchGamme = selectedGammes.length === 0; // Champ gamme supprimé
         
         return matchQuery && matchGamme;
       }) || [];
@@ -199,7 +197,7 @@ export function GlobalSearchAdvanced() {
           subtitle: r.category || undefined,
           path: `/recette/${r.id}`,
           icon: <Droplets className="h-4 w-4" />,
-          gamme: r.gamme || undefined,
+          // gamme supprimé du schéma
         });
       });
     }

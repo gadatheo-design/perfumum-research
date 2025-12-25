@@ -1550,42 +1550,42 @@ export const appRouter = router({
         }
 
         // Récupérer les anciennes valeurs
-        const oldData = typeof modification.oldData === 'string' 
-          ? JSON.parse(modification.oldData) 
-          : modification.oldData;
+        const oldData = typeof modification.stateBefore === 'string' 
+          ? JSON.parse(modification.stateBefore) 
+          : modification.stateBefore;
 
         // Restaurer selon le type d'entité
         switch (modification.entityType) {
           case "molecule":
-            if (modification.action === "delete") {
+            if (modification.operation === "delete") {
               await db.createMolecule(oldData);
             } else {
               await db.updateMolecule(modification.entityId, oldData);
             }
             break;
           case "recette":
-            if (modification.action === "delete") {
+            if (modification.operation === "delete") {
               await db.createRecette(oldData);
             } else {
               await db.updateRecette(modification.entityId, oldData);
             }
             break;
           case "accord":
-            if (modification.action === "delete") {
+            if (modification.operation === "delete") {
               await db.createAccord(oldData);
             } else {
               await db.updateAccord(modification.entityId, oldData);
             }
             break;
           case "famille":
-            if (modification.action === "delete") {
+            if (modification.operation === "delete") {
               await db.createFamily(oldData);
             } else {
               await db.updateFamily(modification.entityId, oldData);
             }
             break;
           case "matiere":
-            if (modification.action === "delete") {
+            if (modification.operation === "delete") {
               await db.createMatiere(oldData);
             } else {
               await db.updateMatiere(modification.entityId, oldData);

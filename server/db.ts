@@ -2982,10 +2982,9 @@ export async function updateMatiere(id: number, data: any) {
       type: data.type || undefined,
       origin: data.origine || undefined,
       supplier: data.fournisseur || undefined,
-      unit: data.unite || undefined,
-      unitPrice: data.prixUnitaire || undefined,
+      pricePerMl: data.prixUnitaire || undefined,
       purchaseDate: data.dateAchat || undefined,
-      notes: data.notes || undefined,
+      technicalNotes: data.notes || undefined,
     })
     .where(eq(laboratoire.id, id));
 }
@@ -2996,37 +2995,39 @@ export async function updateMatiere(id: number, data: any) {
 // ============================================================================
 
 export async function getModificationHistory(
-  entityType: string,
+  entityType: "prototype" | "molecule" | "accord" | "recette" | "famille" | "matiere" | "synergie" | "tradition",
   entityId: number,
   limit: number = 50
 ) {
   const db = await getDb();
   if (!db) return [];
-  return await db.query.modificationHistory.findMany({
-    where: (history, { eq, and }) => and(
-      eq(history.entityType, entityType),
-      eq(history.entityId, entityId)
-    ),
-    orderBy: (history, { desc }) => [desc(history.createdAt)],
-    limit,
-  });
+  return await db.select()
+    .from(modificationHistory)
+    .where(and(
+      eq(modificationHistory.entityType, entityType),
+      eq(modificationHistory.entityId, entityId)
+    ))
+    .orderBy(desc(modificationHistory.createdAt))
+    .limit(limit);
 }
 
 export async function getRecentModifications(limit: number = 100) {
   const db = await getDb();
   if (!db) return [];
-  return await db.query.modificationHistory.findMany({
-    orderBy: (history, { desc }) => [desc(history.createdAt)],
-    limit,
-  });
+  return await db.select()
+    .from(modificationHistory)
+    .orderBy(desc(modificationHistory.createdAt))
+    .limit(limit);
 }
 
 export async function getModificationById(id: number) {
   const db = await getDb();
   if (!db) return null;
-  return await db.query.modificationHistory.findFirst({
-    where: (history, { eq }) => eq(history.id, id),
-  });
+  const results = await db.select()
+    .from(modificationHistory)
+    .where(eq(modificationHistory.id, id))
+    .limit(1);
+  return results[0] || null;
 }
 
 export async function markModificationAsUndone(id: number) {
@@ -3042,18 +3043,20 @@ export async function markModificationAsUndone(id: number) {
 export async function recordModification(
   entityType: "prototype" | "molecule" | "accord" | "recette" | "famille" | "matiere" | "synergie" | "tradition",
   entityId: number,
-  action: "create" | "update" | "delete",
-  oldData: any,
-  newData: any
+  operation: "create" | "update" | "delete",
+  stateBefore: any,
+  stateAfter: any,
+  userId: number = 1
 ) {
   const db = await getDb();
   if (!db) return;
   await db.insert(modificationHistory).values({
+    userId,
     entityType,
     entityId,
-    action,
-    oldData: JSON.stringify(oldData),
-    newData: JSON.stringify(newData),
+    operation,
+    stateBefore: stateBefore ? JSON.stringify(stateBefore) : null,
+    stateAfter: stateAfter ? JSON.stringify(stateAfter) : null,
     createdAt: new Date(),
   });
 }
@@ -3069,7 +3072,7 @@ export async function recordModification(
 export async function getAllSuppliers() {
   const db = await getDb();
   if (!db) return [];
-  return await db.query.suppliers.findMany();
+  return await db.select().from(suppliers);
 }
 
 /**
@@ -3078,12 +3081,11 @@ export async function getAllSuppliers() {
 export async function getSupplierById(id: number) {
   const db = await getDb();
   if (!db) return null;
-  return await db.query.suppliers.findFirst({
-    where: (suppliers, { eq }) => eq(suppliers.id, id),
-    with: {
-      materials: true,
-    },
-  });
+  const results = await db.select()
+    .from(suppliers)
+    .where(eq(suppliers.id, id))
+    .limit(1);
+  return results[0] || null;
 }
 
 /**
@@ -3092,9 +3094,9 @@ export async function getSupplierById(id: number) {
 export async function getSuppliersByCountry(country: string) {
   const db = await getDb();
   if (!db) return [];
-  return await db.query.suppliers.findMany({
-    where: (suppliers, { eq }) => eq(suppliers.country, country),
-  });
+  return await db.select()
+    .from(suppliers)
+    .where(eq(suppliers.country, country));
 }
 
 /**
@@ -3103,9 +3105,9 @@ export async function getSuppliersByCountry(country: string) {
 export async function getSuppliersByRegion(region: string) {
   const db = await getDb();
   if (!db) return [];
-  return await db.query.suppliers.findMany({
-    where: (suppliers, { eq }) => eq(suppliers.region, region),
-  });
+  return await db.select()
+    .from(suppliers)
+    .where(eq(suppliers.region, region));
 }
 
 /**
@@ -3204,12 +3206,9 @@ export async function deleteSupplier(id: number) {
 export async function getSupplierMaterials(supplierId: number) {
   const db = await getDb();
   if (!db) return [];
-  return await db.query.supplierMaterials.findMany({
-    where: (materials, { eq }) => eq(materials.supplierId, supplierId),
-    with: {
-      molecule: true,
-    },
-  });
+  return await db.select()
+    .from(supplierMaterials)
+    .where(eq(supplierMaterials.supplierId, supplierId));
 }
 
 /**

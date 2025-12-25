@@ -42,17 +42,15 @@ export default function CompareRecettes() {
     return allRecettes.filter(r => {
       const matchesSearch = !searchTerm || 
         r.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesGamme = !selectedGamme || r.gamme === selectedGamme;
+      const matchesGamme = true; // Champ gamme supprimé du schéma
       return matchesSearch && matchesGamme;
     });
   }, [allRecettes, searchTerm, selectedGamme]);
   
   // Obtenir les gammes uniques
   const gammes = useMemo(() => {
-    if (!allRecettes) return [];
-    const uniqueGammes = [...new Set(allRecettes.map(r => r.gamme).filter(Boolean))];
-    return uniqueGammes.sort();
-  }, [allRecettes]);
+    return []; // Champ gamme supprimé du schéma
+  }, []);
   
   const selectedRecettes = allRecettes?.filter(r => selectedIds.includes(r.id)) || [];
   
@@ -82,14 +80,14 @@ export default function CompareRecettes() {
       associations.forEach(assoc => {
         const molecule = assoc.molecule;
         if (molecule) {
-          const weight = assoc.proportion || 1;
+          const weight = Number(assoc.proportion) || 1;
           totalWeight += weight;
-          intensity += (molecule.radarIntensity || 50) * weight;
-          freshness += (molecule.radarFreshness || 50) * weight;
-          warmth += (molecule.radarWarmth || 50) * weight;
-          sweetness += (molecule.radarSweetness || 50) * weight;
-          spiciness += (molecule.radarSpiciness || 50) * weight;
-          earthiness += (molecule.radarEarthiness || 50) * weight;
+          intensity += (Number(molecule.radarIntensity) || 50) * weight;
+          freshness += (Number(molecule.radarFreshness) || 50) * weight;
+          warmth += (Number(molecule.radarWarmth) || 50) * weight;
+          sweetness += (Number(molecule.radarSweetness) || 50) * weight;
+          spiciness += (Number(molecule.radarSpiciness) || 50) * weight;
+          earthiness += (Number(molecule.radarEarthiness) || 50) * weight;
         }
       });
       
@@ -212,14 +210,14 @@ export default function CompareRecettes() {
                     >
                       <p className="font-semibold line-clamp-1">{r.name}</p>
                       <div className="flex items-center gap-2 mt-1">
-                        {r.gamme && (
+                        {r.category && (
                           <Badge variant="outline" className="text-xs">
-                            {r.gamme}
+                            {r.category}
                           </Badge>
                         )}
-                        {r.type && (
+                        {r.status && (
                           <Badge variant="secondary" className="text-xs">
-                            {r.type}
+                            {r.status}
                           </Badge>
                         )}
                       </div>

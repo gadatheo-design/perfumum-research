@@ -2013,3 +2013,9 @@ Structurer chaque recette comme un objet JSON complet pour faciliter filtres, ex
 - [x] Typer paramètres any dans AdminHistorique
 - [x] Corriger propriétés nom/description → name/notes dans GlobalSearchAdvanced
 - [ ] 58 erreurs restantes (15 Drizzle ORM non bloquantes + 43 composants avancés)
+
+- [x] Analyser les 49 erreurs TypeScript restantes
+- [x] Corriger les erreurs de types manquants dans schémas Drizzle
+- [x] Corriger les erreurs d'imports React manquants
+- [x] Corriger les paramètres non typés dans les callbacks
+- [x] Atteindre 0 erreur TypeScript

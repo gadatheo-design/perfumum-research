@@ -11,9 +11,9 @@ interface RecetteCardProps {
   recette: {
     id: number;
     name: string;
-    category: string;
-    intensity?: number;
-    stability?: string;
+    category: string | null;
+    intensity?: number | null;
+    stability?: string | null;
     moleculeCount?: number;
     parentRecetteId?: number | null;
     ingredients?: string | null;
