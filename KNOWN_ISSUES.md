@@ -20,7 +20,9 @@ Certaines pages affichent un écran blanc au lieu du contenu. L'erreur dans la c
 - `/comparateur-avance`
 - `/compare-radar`
 - `/recherche-radicale` (24 déc 2025 - Série Pétrichor Radicalis Extremis)
-- Potentiellement toute nouvelle page de comparaison
+- `/synergies-heatmap` (25 déc 2025 - Heatmap synergies moléculaires)
+- `/recipe-network` (25 déc 2025 - Graphe de réseau D3.js)
+- Potentiellement toute nouvelle page de comparaison ou visualisation
 
 ### Causes identifiées
 1. **Cache Vite corrompu** - Le cache de développement peut se corrompre

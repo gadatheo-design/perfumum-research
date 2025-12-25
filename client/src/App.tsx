@@ -98,6 +98,8 @@ import MatriceSynergies from "./pages/MatriceSynergies";
 import GrapheMoleculesRecettes from "@/pages/GrapheMoleculesRecettes";
 import SynergiesPage from "./pages/SynergiesPage";
 import SuggestionsSynergies from "./pages/SuggestionsSynergies";
+import { SynergiesHeatmap } from "./pages/SynergiesHeatmap";
+import { RecipeNetworkPage } from "./pages/RecipeNetworkPage";
 
 // === OUTILS ===
 import OutilsFormulation from "./pages/OutilsFormulation";
@@ -270,6 +272,8 @@ function Router() {
       <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
       <Route path="/graphe-synergies" component={SynergiesPage} />
       <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
+      <Route path="/synergies-heatmap" component={SynergiesHeatmap} />
+      <Route path="/recipe-network" component={RecipeNetworkPage} />
       
       {/* === OUTILS === */}
       <Route path="/outils-formulation" component={OutilsFormulation} />

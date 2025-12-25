@@ -197,6 +197,35 @@
   input[type="radio"]:not(:disabled) {
     @apply cursor-pointer;
   }
+  
+  /* Touch targets optimization for mobile */
+  @media (hover: none) and (pointer: coarse) {
+    button,
+    [role="button"],
+    [type="button"],
+    [type="submit"],
+    [type="reset"],
+    a[href] {
+      min-height: 44px; /* iOS guideline */
+      min-width: 44px;
+    }
+    
+    /* Increase spacing on mobile */
+    body {
+      @apply py-4;
+    }
+    
+    .container {
+      @apply px-6;
+    }
+    
+    /* Larger tap areas for interactive elements */
+    input[type="checkbox"],
+    input[type="radio"] {
+      min-height: 24px;
+      min-width: 24px;
+    }
+  }
 }
 
 @layer components {

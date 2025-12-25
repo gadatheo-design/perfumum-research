@@ -429,7 +429,7 @@ export default function Recettes() {
 
               {/* Radar Filter Panel */}
               {showRadarFilter && (
-                <div className="p-4 bg-muted/50 rounded-lg border space-y-4">
+                <div className="p-4 bg-muted/50 rounded-lg border space-y-4 animate-in slide-in-from-top-2 duration-200">
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium flex items-center gap-2">
                       <Radar className="h-4 w-4" />
@@ -443,16 +443,16 @@ export default function Recettes() {
                         className="h-7 px-2"
                       >
                         <X className="h-3 w-3 mr-1" />
-                        Réinitialiser
+                        <span className="hidden sm:inline">Réinitialiser</span>
                       </Button>
                     )}
                   </div>
                   
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-muted-foreground hidden md:block">
                     Ajustez les plages de valeurs pour filtrer les recettes selon leur profil olfactif moyen (calculé à partir des molécules associées).
                   </p>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     {(Object.entries(RADAR_LABELS) as [keyof typeof radarFilters, typeof RADAR_LABELS.intensity][]).map(([key, { label, color, tooltip }]) => (
                       <div key={key} className="space-y-2">
                         <div className="flex items-center justify-between">

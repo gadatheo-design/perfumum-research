@@ -741,6 +741,10 @@ export const appRouter = router({
       return await db.getAllSynergies();
     }),
     
+    getAllMoleculeSynergies: publicProcedure.query(async () => {
+      return await db.getAllMoleculeSynergies();
+    }),
+    
     getById: publicProcedure
       .input(z.number())
       .query(async ({ input }) => {

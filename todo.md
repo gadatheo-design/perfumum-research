@@ -35,24 +35,24 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 **Objectif** : Améliorer l'expérience mobile et les performances générales
 
 #### 1. Touch targets & Gestures
-- [ ] 4.1.1 Vérifier taille minimale boutons (44x44px iOS, 48x48px Android)
+- [x] 4.1.1 Vérifier taille minimale boutons (44x44px iOS, 48x48px Android)
 - [x] 4.1.2 Ajouter swipe gestures sur cartes recettes (swipe left = favoris, swipe right = comparer)
 - [x] 4.1.3 Pull-to-refresh sur page Recettes
-- [ ] 4.1.4 Améliorer espacement vertical sur mobile (plus de padding)
+- [x] 4.1.4 Améliorer espacement vertical sur mobile (plus de padding)
 - [ ] 4.1.5 Tester sur iPhone SE (petit écran) et iPad
 
 #### 2. Performance
 - [x] 4.2.1 Lazy loading des images (mini radars, photos)
 - [x] 4.2.2 Code splitting par route (React.lazy + Suspense)
 - [x] 4.2.3 Virtualisation liste recettes (react-window si >100 items)
-- [ ] 4.2.4 Optimiser bundle size (analyze avec vite-bundle-visualizer)
+- [x] 4.2.4 Optimiser bundle size (analyze avec vite-bundle-visualizer)
 - [x] 4.2.5 Service Worker pour cache offline (PWA)
 
 #### 3. Responsive amélioré
-- [ ] 4.3.1 Menu mobile hamburger amélioré (animation slide-in)
-- [ ] 4.3.2 Filtres radar en accordéon sur mobile
-- [ ] 4.3.3 Tableau comparaison en scroll horizontal sur mobile
-- [ ] 4.3.4 FloatingCompareBar sticky bottom sur mobile
+- [x] 4.3.1 Menu mobile hamburger amélioré (animation slide-in)
+- [x] 4.3.2 Filtres radar en accordéon sur mobile
+- [x] 4.3.3 Tableau comparaison en scroll horizontal sur mobile
+- [x] 4.3.4 FloatingCompareBar sticky bottom sur mobile
 
 ### Durée estimée
 8-12 heures
@@ -94,8 +94,8 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 
 #### 1. Graphiques interactifs
 - [x] 6.1.1 Graphique évolution temporelle (nombre recettes par mois)
-- [ ] 6.1.2 Heatmap synergies moléculaires (molécule A × molécule B)
-- [ ] 6.1.3 Graphe de réseau (recettes connectées par molécules communes)
+- [x] 6.1.2 Heatmap synergies moléculaires (molécule A × molécule B) — Bug HMR dev, OK en prod
+- [x] 6.1.3 Graphe de réseau (recettes connectées par molécules communes) — Bug HMR dev, OK en prod
 - [ ] 6.1.4 Diagramme Sankey (gammes → familles → recettes)
 
 #### 2. Profils radar enrichis
