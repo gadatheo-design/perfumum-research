@@ -280,6 +280,42 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 
 ---
 
+---
+
+## 🚀 SESSION 25 DÉCEMBRE 2025 - IMPLÉMENTATION PRIORITAIRE
+
+### Suggestion 1 : Import des Données d'Enrichissement
+- [x] Importer 23 nouvelles molécules depuis NOUVELLES_MOLECULES_25.csv
+- [x] Importer 18 nouvelles recettes depuis NOUVELLES_RECETTES_18.csv
+- [x] Créer automatiquement les liaisons molécules-recettes (~90 liaisons)
+- [x] Valider l'import (COUNT molécules = 199, recettes = 213)
+- [x] Tester le système de recommandations IA
+
+### Suggestion 2 : Outil de Liaison Recettes-Molécules
+- [ ] Créer page /admin/liaison-recettes-molecules
+- [ ] Interface de sélection : recette + molécules multiples
+- [ ] Champs : proportion (%), rôle (tête/cœur/fond)
+- [ ] Validation : total proportions = 100%
+- [ ] Calcul automatique du profil radar de la recette
+- [ ] Traiter les 195 recettes existantes orphelines
+
+### Suggestion 3 : Éditeur Visuel de Formulation
+- [ ] Créer page /outils/editeur-formulation
+- [ ] Interface drag-and-drop pour composer recettes
+- [ ] Sélecteur de molécules avec recherche et filtres
+- [ ] Sliders pour ajuster proportions (0-100%)
+- [ ] Graphique radar en temps réel (calcul automatique)
+- [ ] Validation formule (total = 100%)
+- [ ] Export formule (CSV, JSON, PDF)
+- [ ] Sauvegarde dans base de données
+
+### Checkpoint Final
+- [x] Créer checkpoint avec l'import des données d'enrichissement
+- [x] Documenter les changements
+- [ ] Livrer les résultats à l'utilisateur
+
+---
+
 ## 🔮 BACKLOG LONG TERME
 
 ### Fonctionnalités futures
