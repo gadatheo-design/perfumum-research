@@ -27,6 +27,7 @@ interface MenuItem {
   icon?: React.ReactNode;
   description?: string;
   count?: number;
+  badge?: string;
 }
 
 interface MegaMenuSection {
@@ -203,6 +204,11 @@ function MegaMenuDropdown({ trigger, sections }: MegaMenuProps) {
                               {item.count !== undefined && (
                                 <span className="text-xs text-muted-foreground">({item.count})</span>
                               )}
+                              {item.badge && (
+                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/10 text-primary">
+                                  {item.badge}
+                                </span>
+                              )}
                             </div>
                             {item.description && (
                               <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
@@ -255,6 +261,13 @@ export function MegaMenu() {
     {
       title: "Outils",
       items: [
+        {
+          label: "Éditeur de Formulation",
+          path: "/outils/editeur-formulation",
+          icon: <FlaskConical className="h-4 w-4" />,
+          description: "Création formules interactives",
+          badge: "NEW",
+        },
         {
           label: "Générateur Formules",
           path: "/outils/generateur-formules",

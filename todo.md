@@ -422,3 +422,37 @@ Lire obligatoirement :
 - Créer des checkpoints réguliers
 
 - [x] 6.1.4 Diagramme Sankey (catégories → recettes)
+
+---
+
+## 🎯 SESSION 25 DÉC 2025 (SUITE 2) — ENRICHISSEMENT AVANCÉ
+
+### Phase 1 : Enrichir les liaisons molécules-recettes
+- [ ] Analyser l'état actuel des liaisons (combien de recettes ont des molécules ?)
+- [ ] Identifier les recettes orphelines (sans molécules)
+- [ ] Créer un script d'enrichissement automatique basé sur les profils olfactifs
+- [ ] Enrichir les recettes par gamme (Pétrichor, Volcanique, Civilisations, Glaciaire, Colombie)
+- [ ] Valider les liaisons créées
+
+### Phase 2 : Créer des formules de référence
+- [x] Définir les 8 familles olfactives principales (Fougère, Chypré, Oriental, Floral, Boisé, Hespéridé, Aromatique, Cuir)
+- [x] Créer 2 formules templates par famille (16 formules au total)
+- [x] Documenter les proportions standards (tête 15-30%, cœur 30-50%, fond 20-40%)
+- [ ] Ajouter les formules dans la base de données
+- [ ] Créer une page dédiée /formules-reference
+
+### Phase 3 : Améliorer la navigation
+- [x] Ajouter lien "Liaison Recettes-Molécules" dans menu mobile (section Outils IA)
+- [x] Ajouter lien "Éditeur de Formulation" dans menu Outils (MegaMenu + Mobile)
+- [x] Ajouter badge "NEW" sur Éditeur de Formulation
+- [x] Ajouter badge "ADMIN" sur Liaison Recettes-Molécules
+- [ ] Tester la navigation (desktop + mobile)
+
+### Phase 4 : Tests et Checkpoint
+- [x] Vérifier l'état du serveur (OK, aucune erreur)
+- [x] Tester la navigation desktop (MegaMenu)
+- [x] Tester la navigation mobile (Menu mobile)
+- [x] Créer rapport d'enrichissement complet
+- [x] Documenter les formules de référence
+- [ ] Créer checkpoint final
+- [ ] Livrer les résultats à l'utilisateur

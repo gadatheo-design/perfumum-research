@@ -103,8 +103,10 @@ const mobileMenuSections = [
     title: "Outils IA",
     icon: Sparkles,
     items: [
+      { href: "/outils/editeur-formulation", label: "Éditeur de Formulation", badge: "NEW" },
       { href: "/outils/generateur-formules", label: "Générateur de Formules", badge: "NEW" },
       { href: "/suggestions-synergies", label: "Suggestions Synergies" },
+      { href: "/admin/liaison-recettes-molecules", label: "Liaison Recettes-Molécules", badge: "ADMIN" },
     ],
   },
   {
