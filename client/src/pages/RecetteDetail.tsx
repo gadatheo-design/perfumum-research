@@ -15,6 +15,7 @@ import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import { MoleculeListLinks } from "@/components/MoleculeLink";
 import { RecipeOlfactiveProfile } from "@/components/RecipeRadarChart";
 import { RecetteDetailSkeleton } from "@/components/RecetteDetailSkeleton";
+import { RecommendationsCard } from "@/components/RecommendationsCard";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
 import { GitBranch, ArrowUpRight } from "lucide-react";
@@ -28,6 +29,31 @@ export default function RecetteDetail() {
   const { data: variations } = trpc.recettes.getVariations.useQuery(id);
   const { data: parentRecette } = trpc.recettes.getParent.useQuery(id);
   const trackEvent = trpc.analytics.trackEvent.useMutation();
+
+  // Calculer le profil radar moyen de la recette
+  const currentRadar = useMemo(() => {
+    if (!data?.molecules || data.molecules.length === 0) {
+      return { intensity: 50, freshness: 50, warmth: 50, sweetness: 50, spiciness: 50, earthiness: 50 };
+    }
+    const mols = data.molecules;
+    return {
+      intensity: Math.round(mols.reduce((sum, m) => sum + (m.radarIntensity || 50), 0) / mols.length),
+      freshness: Math.round(mols.reduce((sum, m) => sum + (m.radarFreshness || 50), 0) / mols.length),
+      warmth: Math.round(mols.reduce((sum, m) => sum + (m.radarWarmth || 50), 0) / mols.length),
+      sweetness: Math.round(mols.reduce((sum, m) => sum + (m.radarSweetness || 50), 0) / mols.length),
+      spiciness: Math.round(mols.reduce((sum, m) => sum + (m.radarSpiciness || 50), 0) / mols.length),
+      earthiness: Math.round(mols.reduce((sum, m) => sum + (m.radarEarthiness || 50), 0) / mols.length),
+    };
+  }, [data?.molecules]);
+
+  // Récupérer les recommandations
+  const { data: recommendations, isLoading: isLoadingRecommendations } = trpc.recommendations.similarRecettes.useQuery(
+    {
+      recetteId: id,
+      limit: 5,
+    },
+    { enabled: !!data }
+  );
 
   // Track page view
   useEffect(() => {
@@ -609,6 +635,15 @@ export default function RecetteDetail() {
             </Link>
           </CardContent>
         </Card>
+      )}
+
+      {/* Recommandations IA */}
+      {recommendations && recommendations.length > 0 && (
+        <RecommendationsCard
+          type="recettes"
+          recommendations={recommendations}
+          isLoading={isLoadingRecommendations}
+        />
       )}
 
       {/* Variations */}

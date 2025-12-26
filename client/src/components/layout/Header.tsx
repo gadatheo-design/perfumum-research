@@ -118,6 +118,15 @@ const mobileMenuSections = [
     ],
   },
   {
+    title: "Outils d'Exploration",
+    icon: Search,
+    items: [
+      { href: "/recherche-avancee", label: "Recherche Avancée", badge: "NEW" },
+      { href: "/timeline-recettes", label: "Timeline Recettes", badge: "NEW" },
+      { href: "/heatmap-correlations", label: "Heatmap Corrélations", badge: "NEW" },
+    ],
+  },
+  {
     title: "Recherche",
     icon: TestTube,
     items: [
@@ -145,6 +154,7 @@ const mobileMenuSections = [
     title: "Projet",
     icon: Info,
     items: [
+      { href: "/mon-dashboard", label: "Mon Dashboard", badge: "NEW" },
       { href: "/le-projet", label: "Le Projet PERFUMUM" },
       { href: "/a-propos", label: "À propos" },
       { href: "/contribuer", label: "Comment Contribuer", badge: "NEW" },

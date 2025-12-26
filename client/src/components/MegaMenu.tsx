@@ -16,6 +16,9 @@ import {
   GitBranch,
   Layers,
   Activity,
+  Search,
+  Clock,
+  Flame,
 } from "lucide-react";
 
 interface MenuItem {
@@ -302,8 +305,37 @@ export function MegaMenu() {
       ],
     },
     {
+      title: "Outils d'Exploration",
+      items: [
+        {
+          label: "Recherche Avancée",
+          path: "/recherche-avancee",
+          icon: <Search className="h-4 w-4" />,
+          description: "Filtres multi-critères",
+        },
+        {
+          label: "Timeline Recettes",
+          path: "/timeline-recettes",
+          icon: <Clock className="h-4 w-4" />,
+          description: "Évolution temporelle",
+        },
+        {
+          label: "Heatmap Corrélations",
+          path: "/heatmap-correlations",
+          icon: <Flame className="h-4 w-4" />,
+          description: "Corrélations axes radar",
+        },
+      ],
+    },
+    {
       title: "Projet",
       items: [
+        {
+          label: "Mon Dashboard",
+          path: "/mon-dashboard",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Recommandations personnalisées",
+        },
         {
           label: "Manifeste",
           path: "/manifeste",

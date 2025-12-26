@@ -168,8 +168,9 @@ import CalculateurCout from "./pages/CalculateurCout";
 
 // === DASHBOARDS ===
 import { DashboardMinimal } from "./pages/DashboardMinimal";
-import DashboardRecherche from "@/pages/DashboardRecherche";
+import DashboardRecherche from "./pages/DashboardRecherche";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import MonDashboard from "./pages/MonDashboard";
 import Statistics from "./pages/Statistics";
 import Recherche from "./pages/Recherche";
 
@@ -344,6 +345,7 @@ function Router() {
       <Route path="/dashboard" component={DashboardMinimal} />
       <Route path="/dashboard/recherche" component={DashboardRecherche} />
       <Route path="/analytics" component={AnalyticsDashboard} />
+      <Route path="/mon-dashboard" component={MonDashboard} />
       <Route path="/statistiques" component={Statistics} />
       <Route path="/recherche" component={Recherche} />
       <Route path="/recherche-avancee" component={AdvancedSearch} />

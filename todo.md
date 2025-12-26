@@ -202,6 +202,44 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 
 ---
 
+### Itération 8 (Suite) : Intégration Recommandations & Dashboard Personnalisé (25 Déc 2025)
+
+**Objectif** : Enrichir l'expérience utilisateur en intégrant les recommandations IA dans les pages de détail et en créant un dashboard personnalisé
+
+#### 6. Intégration Recommandations sur Pages de Détail
+- [x] 8.6.1 Intégrer RecommendationsCard dans RecetteDetail.tsx
+- [x] 8.6.2 Intégrer RecommendationsCard dans MoleculeDetail.tsx
+- [x] 8.6.3 Ajouter section "Recettes similaires" avec scores de similarité
+- [x] 8.6.4 Ajouter section "Molécules similaires" avec profils radar
+- [x] 8.6.5 Tester l'affichage des recommandations
+
+#### 7. Amélioration Navigation
+- [x] 8.7.1 Ajouter section "Outils d'Exploration" dans MegaMenu
+- [x] 8.7.2 Ajouter lien "Recherche Avancée" dans menu
+- [x] 8.7.3 Ajouter lien "Timeline Recettes" dans menu
+- [x] 8.7.4 Ajouter lien "Heatmap Corrélations" dans menu
+- [x] 8.7.5 Mettre à jour menu mobile avec nouvelles pages
+
+#### 8. Dashboard Personnalisé
+- [x] 8.8.1 Créer page MonDashboard.tsx (/mon-dashboard)
+- [x] 8.8.2 Afficher recommandations basées sur favoris
+- [x] 8.8.3 Afficher statistiques personnelles (favoris, historique)
+- [x] 8.8.4 Afficher activité récente (dernières consultations)
+- [x] 8.8.5 Ajouter graphiques personnalisés (profil radar moyen des favoris)
+- [x] 8.8.6 Intégrer dans navigation principale
+
+#### 9. Tests & Validation
+- [x] 8.9.1 Tester recommandations sur différentes recettes
+- [x] 8.9.2 Tester recommandations sur différentes molécules
+- [x] 8.9.3 Valider navigation vers nouvelles pages
+- [x] 8.9.4 Tester dashboard personnalisé avec/sans favoris
+- [x] 8.9.5 Vérifier responsive sur mobile
+
+### Durée estimée
+6-8 heures
+
+---
+
 ## 🔮 BACKLOG LONG TERME
 
 ### Fonctionnalités futures

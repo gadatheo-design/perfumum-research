@@ -7,6 +7,7 @@ import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, Fi
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from "recharts";
+import { RecommendationsCard } from "@/components/RecommendationsCard";
 
 export default function MoleculeDetail() {
   const params = useParams();
@@ -15,6 +16,15 @@ export default function MoleculeDetail() {
   const { data: molecule, isLoading } = trpc.molecules.getById.useQuery(id);
   const trackEvent = trpc.analytics.trackEvent.useMutation();
   const [isExporting, setIsExporting] = useState(false);
+
+  // Récupérer les recommandations
+  const { data: recommendations, isLoading: isLoadingRecommendations } = trpc.recommendations.similarMolecules.useQuery(
+    {
+      moleculeId: id,
+      limit: 5,
+    },
+    { enabled: !!molecule }
+  );
 
   // Export PDF function
   const exportPDF = useCallback(async () => {
@@ -407,6 +417,15 @@ export default function MoleculeDetail() {
               <h2 className="text-lg font-semibold mb-3">Notes de Recherche</h2>
               <p className="whitespace-pre-wrap text-muted-foreground">{molecule.notes}</p>
             </div>
+          )}
+
+          {/* Recommandations IA */}
+          {recommendations && recommendations.length > 0 && (
+            <RecommendationsCard
+              type="molecules"
+              recommendations={recommendations}
+              isLoading={isLoadingRecommendations}
+            />
           )}
 
           {/* Références Bibliographiques */}
