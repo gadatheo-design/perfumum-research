@@ -240,6 +240,46 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 
 ---
 
+## 🔄 ENRICHISSEMENT BASE DE DONNÉES (En cours - 25 Déc 2025)
+
+**Objectif** : Enrichir la base de données avec plus de molécules et recettes pour améliorer la qualité des recommandations IA
+
+### Phase 1 : Analyse
+- [ ] Analyser distribution des molécules par famille chimique
+- [ ] Identifier les familles sous-représentées
+- [ ] Analyser distribution des recettes par gamme
+- [ ] Identifier les lacunes dans les compositions
+
+### Phase 2 : Nouvelles Molécules
+- [x] Créer 20-30 nouvelles molécules dans familles sous-représentées (23 molécules créées)
+- [x] Générer profils radar personnalisés pour chaque molécule
+- [x] Ajouter références bibliographiques (PubChem + académiques)
+- [x] Documenter profils olfactifs détaillés
+
+### Phase 3 : Nouvelles Recettes
+- [x] Créer 15-20 nouvelles recettes dans gammes variées (18 recettes créées)
+- [x] Équilibrer distribution : Pétrichor (3), Volcanique (3), Civilisations (3), Glaciaire (3), Colombie (4), Mossi (2)
+- [x] Documenter compositions complètes (notes tête/cœur/fond)
+- [x] Ajouter protocoles de formulation
+
+### Phase 4 : Liaisons Molécules-Recettes
+- [x] Créer associations molécules-recettes (5-8 molécules par recette)
+- [x] Définir proportions réalistes (total 100%)
+- [x] Documenter rôles (tête/cœur/fond)
+- [x] Valider cohérence des profils radar résultants
+
+### Phase 5 : Validation
+- [x] Préparer fichiers CSV pour import (NOUVELLES_MOLECULES_25.csv, NOUVELLES_RECETTES_18.csv)
+- [x] Créer guide d'import complet (GUIDE_IMPORT_ENRICHISSEMENT.md)
+- [x] Créer rapport d'analyse (ANALYSE_DB_RAPPORT.md)
+- [x] Documenter procédures de validation et tests
+- [x] Créer checkpoint final
+
+### Durée estimée
+8-12 heures
+
+---
+
 ## 🔮 BACKLOG LONG TERME
 
 ### Fonctionnalités futures

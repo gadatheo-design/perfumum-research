@@ -1,0 +1,735 @@
+{
+  "query": "\nSELECT \n  family,\n  COUNT(*) as count,\n  ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM molecules), 2) as percentage\nFROM molecules\nWHERE family IS NOT NULL AND family != ''\nGROUP BY family\nORDER BY count DESC\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  family,\n  COUNT(*) as count,\n  ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM molecules), 2) as percentage\nFROM molecules\nWHERE family IS NOT NULL AND family != ''\nGROUP BY family\nORDER BY count DESC\n",
+  "rows": [
+    {
+      "family": "Sesquiterpène",
+      "count": "26",
+      "percentage": "7.85"
+    },
+    {
+      "family": "Résinoïde",
+      "count": "21",
+      "percentage": "6.34"
+    },
+    {
+      "family": "Aldéhyde",
+      "count": "15",
+      "percentage": "4.53"
+    },
+    {
+      "family": "Minéral",
+      "count": "14",
+      "percentage": "4.23"
+    },
+    {
+      "family": "Lactone",
+      "count": "10",
+      "percentage": "3.02"
+    },
+    {
+      "family": "Pyrolysat",
+      "count": "9",
+      "percentage": "2.72"
+    },
+    {
+      "family": "Monoterpène",
+      "count": "8",
+      "percentage": "2.42"
+    },
+    {
+      "family": "Phénol",
+      "count": "7",
+      "percentage": "2.11"
+    },
+    {
+      "family": "Huile Essentielle",
+      "count": "7",
+      "percentage": "2.11"
+    },
+    {
+      "family": "Esters aromatiques",
+      "count": "5",
+      "percentage": "1.51"
+    },
+    {
+      "family": "esters",
+      "count": "5",
+      "percentage": "1.51"
+    },
+    {
+      "family": "Acides gras volatils",
+      "count": "5",
+      "percentage": "1.51"
+    },
+    {
+      "family": "acides_gras",
+      "count": "5",
+      "percentage": "1.51"
+    },
+    {
+      "family": "acides_aromatiques",
+      "count": "5",
+      "percentage": "1.51"
+    },
+    {
+      "family": "Herbes aromatiques",
+      "count": "4",
+      "percentage": "1.21"
+    },
+    {
+      "family": "indoles",
+      "count": "4",
+      "percentage": "1.21"
+    },
+    {
+      "family": "Sesquiterpènes",
+      "count": "4",
+      "percentage": "1.21"
+    },
+    {
+      "family": "Bois secs",
+      "count": "4",
+      "percentage": "1.21"
+    },
+    {
+      "family": "Indoles",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Alcool",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Salicylate",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Terpènes Floraux",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Sesquiterpène alcool",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Esters fruités",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Aldéhydes terpéniques",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Quinoléine",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Muscs macrocycliques",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Acide",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Lactones",
+      "count": "3",
+      "percentage": "0.91"
+    },
+    {
+      "family": "Monoterpène alcool",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Terpène",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Bois nobles",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Agrumes / Hespéridé",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Résines balsamiques",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Aromatique",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Baumes",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Fruits tropicaux",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Alcaloïdes tropaniques",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Indole",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Aldéhydes verts",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Résines terpéniques",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Terpènes Boisés",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Aldéhydes marins",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Lipides végétaux",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Alcools sesquiterpéniques",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Alcaloïdes Tropaniques",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Esters terpéniques",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Phéromone",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Ionone",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Aldéhydes aliphatiques",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Éthers cycliques",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Ester",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Racine / Vétiver",
+      "count": "2",
+      "percentage": "0.60"
+    },
+    {
+      "family": "Phénols pyrogénés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Cétone",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Agrumes",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Agrumes tropicaux",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Accords métalliques",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Floral / Agrumes",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Racines",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Esters soufrés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Esters Lactones",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Agrumes / Herbacé",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Cétones (Irones)",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Bois",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Floral",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Résines pyrogénées",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Agrumes / Petit-grain",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Lactone-Terre",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Goudron / Absolu",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Bois / Résine",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Lactone aromatique",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Herbes sèches",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Bois secs africains",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Ambre",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Huiles végétales",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Lactones marines",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Esters gras",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Floral / Tropical",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Esters Fruités",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Aldéhydes Fruités",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Café",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Accords ambrés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Triterpènes",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Résine / Encens",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Carbones",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Minéraux",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Terpène / Terre",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Bois pyrogénés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Accords terreux",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Minéraux ferriques",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Sesquiterpènes Boisés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Poivres",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Lipides végétaux fumés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Phénols fumés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Acétals santalés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Minéraux clairs",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Racines fumées",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Lactones florales",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Diterpènes Résineux",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Ambre / Animalique",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Vanille",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Pyrazine",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Composés azotés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Accords minéraux",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Acide aromatique",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Esters jasminés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Aldéhydes spéciaux",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Non classé",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Racine / Terreux",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Florale",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Diterpène",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Terpènes floraux",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Terpènes Fruités",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Alcools boisés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Fleurs blanches",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Esters lactiques",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Bois / Thé",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Matières animales marines",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Terpènes Phénoliques",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Monoterpénols",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Résines sacrées",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Cacao",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Phénols Boisés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Esters Balsamiques",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "β-Carbolines",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Esters furaniques",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Conifère / Aromatique",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Absolu floral",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Cétones terpéniques",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Monoterpénol",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Diterpènes",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Monoterpènes",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Terreux / Pétrichor",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Ambrée / Boisée",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Esters balsamiques",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Céréales",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Organique / Cheese",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Terpènes Citrus",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Alcaloïdes β-Carbolines",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Agrumes / Asiatique",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Stéroïde / Phéromone",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Terpènes Poivrés",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Aromatique / Menthé",
+      "count": "1",
+      "percentage": "0.30"
+    },
+    {
+      "family": "Ambre synthétique",
+      "count": "1",
+      "percentage": "0.30"
+    }
+  ],
+  "messages": [],
+  "stdout": "family\tcount\tpercentage\nSesquiterpène\t26\t7.85\nRésinoïde\t21\t6.34\nAldéhyde\t15\t4.53\nMinéral\t14\t4.23\nLactone\t10\t3.02\nPyrolysat\t9\t2.72\nMonoterpène\t8\t2.42\nPhénol\t7\t2.11\nHuile Essentielle\t7\t2.11\nEsters aromatiques\t5\t1.51\nesters\t5\t1.51\nAcides gras volatils\t5\t1.51\nacides_gras\t5\t1.51\nacides_aromatiques\t5\t1.51\nHerbes aromatiques\t4\t1.21\nindoles\t4\t1.21\nSesquiterpènes\t4\t1.21\nBois secs\t4\t1.21\nIndoles\t3\t0.91\nAlcool\t3\t0.91\nSalicylate\t3\t0.91\nTerpènes Floraux\t3\t0.91\nSesquiterpène alcool\t3\t0.91\nEsters fruités\t3\t0.91\nAldéhydes terpéniques\t3\t0.91\nQuinoléine\t3\t0.91\nMuscs macrocycliques\t3\t0.91\nAcide\t3\t0.91\nLactones\t3\t0.91\nMonoterpène alcool\t2\t0.60\nTerpène\t2\t0.60\nBois nobles\t2\t0.60\nAgrumes / Hespéridé\t2\t0.60\nRésines balsamiques\t2\t0.60\nAromatique\t2\t0.60\nBaumes\t2\t0.60\nFruits tropicaux\t2\t0.60\nAlcaloïdes tropaniques\t2\t0.60\nIndole\t2\t0.60\nAldéhydes verts\t2\t0.60\nRésines terpéniques\t2\t0.60\nTerpènes Boisés\t2\t0.60\nAldéhydes marins\t2\t0.60\nLipides végétaux\t2\t0.60\nAlcools sesquiterpéniques\t2\t0.60\nAlcaloïdes Tropaniques\t2\t0.60\nEsters terpéniques\t2\t0.60\nPhéromone\t2\t0.60\nIonone\t2\t0.60\nAldéhydes aliphatiques\t2\t0.60\nÉthers cycliques\t2\t0.60\nEster\t2\t0.60\nRacine / Vétiver\t2\t0.60\nPhénols pyrogénés\t1\t0.30\nCétone\t1\t0.30\nAgrumes\t1\t0.30\nAgrumes tropicaux\t1\t0.30\nAccords métalliques\t1\t0.30\nFloral / Agrumes\t1\t0.30\nRacines\t1\t0.30\nEsters soufrés\t1\t0.30\nEsters Lactones\t1\t0.30\nAgrumes / Herbacé\t1\t0.30\nCétones (Irones)\t1\t0.30\nBois\t1\t0.30\nFloral\t1\t0.30\nRésines pyrogénées\t1\t0.30\nAgrumes / Petit-grain\t1\t0.30\nLactone-Terre\t1\t0.30\nGoudron / Absolu\t1\t0.30\nBois / Résine\t1\t0.30\nLactone aromatique\t1\t0.30\nHerbes sèches\t1\t0.30\nBois secs africains\t1\t0.30\nAmbre\t1\t0.30\nHuiles végétales\t1\t0.30\nLactones marines\t1\t0.30\nEsters gras\t1\t0.30\nFloral / Tropical\t1\t0.30\nEsters Fruités\t1\t0.30\nAldéhydes Fruités\t1\t0.30\nCafé\t1\t0.30\nAccords ambrés\t1\t0.30\nTriterpènes\t1\t0.30\nRésine / Encens\t1\t0.30\nCarbones\t1\t0.30\nMinéraux\t1\t0.30\nTerpène / Terre\t1\t0.30\nBois pyrogénés\t1\t0.30\nAccords terreux\t1\t0.30\nMinéraux ferriques\t1\t0.30\nSesquiterpènes Boisés\t1\t0.30\nPoivres\t1\t0.30\nLipides végétaux fumés\t1\t0.30\nPhénols fumés\t1\t0.30\nAcétals santalés\t1\t0.30\nMinéraux clairs\t1\t0.30\nRacines fumées\t1\t0.30\nLactones florales\t1\t0.30\nDiterpènes Résineux\t1\t0.30\nAmbre / Animalique\t1\t0.30\nVanille\t1\t0.30\nPyrazine\t1\t0.30\nComposés azotés\t1\t0.30\nAccords minéraux\t1\t0.30\nAcide aromatique\t1\t0.30\nEsters jasminés\t1\t0.30\nAldéhydes spéciaux\t1\t0.30\nNon classé\t1\t0.30\nRacine / Terreux\t1\t0.30\nFlorale\t1\t0.30\nDiterpène\t1\t0.30\nTerpènes floraux\t1\t0.30\nTerpènes Fruités\t1\t0.30\nAlcools boisés\t1\t0.30\nFleurs blanches\t1\t0.30\nEsters lactiques\t1\t0.30\nBois / Thé\t1\t0.30\nMatières animales marines\t1\t0.30\nTerpènes Phénoliques\t1\t0.30\nMonoterpénols\t1\t0.30\nRésines sacrées\t1\t0.30\nCacao\t1\t0.30\nPhénols Boisés\t1\t0.30\nEsters Balsamiques\t1\t0.30\nβ-Carbolines\t1\t0.30\nEsters furaniques\t1\t0.30\nConifère / Aromatique\t1\t0.30\nAbsolu floral\t1\t0.30\nCétones terpéniques\t1\t0.30\nMonoterpénol\t1\t0.30\nDiterpènes\t1\t0.30\nMonoterpènes\t1\t0.30\nTerreux / Pétrichor\t1\t0.30\nAmbrée / Boisée\t1\t0.30\nEsters balsamiques\t1\t0.30\nCéréales\t1\t0.30\nOrganique / Cheese\t1\t0.30\nTerpènes Citrus\t1\t0.30\nAlcaloïdes β-Carbolines\t1\t0.30\nAgrumes / Asiatique\t1\t0.30\nStéroïde / Phéromone\t1\t0.30\nTerpènes Poivrés\t1\t0.30\nAromatique / Menthé\t1\t0.30\nAmbre synthétique\t1\t0.30\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}
