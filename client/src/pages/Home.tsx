@@ -38,7 +38,7 @@ export default function Home() {
               <div className="max-w-3xl mx-auto mb-12 animate-fadeInUp" style={{animationDelay: '0.15s'}}>
                 <p className="text-base md:text-lg text-muted-foreground/90 leading-relaxed text-balance">
                   PERFUMUM est une plateforme de recherche olfactive expérimentale développée sur 10 ans (2025-2035). 
-                  Explorez <strong>176 molécules documentées</strong>, <strong>195 recettes olfactives</strong> et des méthodologies scientifiques 
+                  Explorez <strong>192 molécules documentées</strong>, <strong>195 recettes olfactives</strong> et des méthodologies scientifiques 
                   (GC-MS, synergies moléculaires). Les accords créés sont utilisés dans des projets artistiques site-specific 
                   et archivés selon la méthodologie ABSORBE.
                 </p>
@@ -86,7 +86,7 @@ export default function Home() {
                     </p>
                     <div className="space-y-2">
                       <Link href="/molecules" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
-                        → 288 Molécules documentées
+                        → 192 Molécules documentées
                       </Link>
                       <Link href="/suggestions-synergies" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
                         → Synergies moléculaires

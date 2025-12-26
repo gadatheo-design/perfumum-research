@@ -345,9 +345,9 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 - [x] Vérifier les liaisons avec recettes existantes
 
 ### Checkpoint Final 3 Fonctionnalités
-- [ ] Créer checkpoint avec les 3 fonctionnalités
-- [ ] Documenter les changements
-- [ ] Livrer les résultats à l'utilisateur
+- [x] Créer checkpoint avec les 3 fonctionnalités
+- [x] Documenter les changements
+- [x] Livrer les résultats à l'utilisateur
 
 ---
 
