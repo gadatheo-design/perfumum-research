@@ -1,0 +1,1 @@
+ALTER TABLE `molecules_recettes` ADD `role` enum('tête','cœur','fond');

@@ -3435,3 +3435,64 @@ export async function updateFormulaNotes(id: number, notes: string): Promise<Sav
   
   return updated;
 }
+
+// ============================================================================
+// LIAISON MOLÉCULES-RECETTES
+// ============================================================================
+
+/**
+ * Lie des molécules à une recette avec proportions et rôles
+ */
+export async function linkMoleculesToRecette(
+  recetteId: number,
+  moleculesData: Array<{ moleculeId: number; proportion: number; role: "tête" | "cœur" | "fond" }>
+): Promise<{ success: boolean }> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  // Supprimer les liaisons existantes
+  await db.delete(moleculesRecettes).where(eq(moleculesRecettes.recetteId, recetteId));
+  
+  // Insérer les nouvelles liaisons
+  if (moleculesData.length > 0) {
+    await db.insert(moleculesRecettes).values(
+      moleculesData.map((m) => ({
+        recetteId,
+        moleculeId: m.moleculeId,
+        proportion: m.proportion.toString(),
+        role: m.role,
+      }))
+    );
+  }
+  
+  return { success: true };
+}
+
+/**
+ * Récupère toutes les molécules liées à une recette
+ */
+export async function getMoleculesByRecette(recetteId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      family: molecules.family,
+      proportion: moleculesRecettes.proportion,
+      role: moleculesRecettes.role,
+      notes: moleculesRecettes.notes,
+      radarIntensity: molecules.radarIntensity,
+      radarFreshness: molecules.radarFreshness,
+      radarWarmth: molecules.radarWarmth,
+      radarSweetness: molecules.radarSweetness,
+      radarSpiciness: molecules.radarSpiciness,
+      radarEarthiness: molecules.radarEarthiness,
+    })
+    .from(moleculesRecettes)
+    .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
+    .where(eq(moleculesRecettes.recetteId, recetteId));
+  
+  return result;
+}

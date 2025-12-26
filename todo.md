@@ -312,6 +312,41 @@ Développer une plateforme de recherche olfactive complète et évolutive sur 10
 ### Checkpoint Final
 - [x] Créer checkpoint avec l'import des données d'enrichissement
 - [x] Documenter les changements
+- [x] Livrer les résultats à l'utilisateur
+
+---
+
+## 🎯 SESSION 25 DÉC 2025 (SUITE) - 3 FONCTIONNALITÉS DEMANDÉES
+
+### Suggestion 1 : Outil de Liaison Recettes-Molécules
+- [x] Créer page `/admin/liaison-recettes-molecules`
+- [x] Interface de sélection : dropdown recettes + recherche molécules
+- [x] Ajout de molécules avec proportion (%) et rôle (tête/cœur/fond)
+- [x] Validation automatique : total proportions = 100%
+- [x] Liste des molécules ajoutées avec édition/suppression
+- [x] Sauvegarde dans table `molecules_recettes`
+- [x] Affichage du profil radar calculé en temps réel
+
+### Suggestion 2 : Éditeur Visuel de Formulation
+- [x] Créer page `/outils/editeur-formulation`
+- [x] Zone de drag-and-drop pour molécules
+- [x] Bibliothèque de molécules avec recherche et filtres
+- [x] Calcul temps réel du profil radar (6 axes)
+- [x] Validation proportions (total = 100%)
+- [x] Export multi-format (CSV, JSON, PDF)
+- [x] Sauvegarde de la formule comme nouvelle recette
+
+### Suggestion 3 : Molécules Classiques Manquantes
+- [x] Identifier toutes les molécules manquantes dans les warnings
+- [x] Créer fichier CSV avec 20+ molécules classiques (25 molécules)
+- [x] Ajouter profils olfactifs détaillés
+- [x] Ajouter profils radar personnalisés
+- [x] Importer dans la base de données (16 nouvelles molécules)
+- [x] Vérifier les liaisons avec recettes existantes
+
+### Checkpoint Final 3 Fonctionnalités
+- [ ] Créer checkpoint avec les 3 fonctionnalités
+- [ ] Documenter les changements
 - [ ] Livrer les résultats à l'utilisateur
 
 ---

@@ -212,6 +212,7 @@ export const moleculesRecettes = mysqlTable("molecules_recettes", {
   moleculeId: int("molecule_id").notNull(),
   recetteId: int("recette_id").notNull(),
   proportion: decimal("proportion", { precision: 5, scale: 2 }), // 0-100%
+  role: mysqlEnum("role", ["tête", "cœur", "fond"]), // Rôle olfactif
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),

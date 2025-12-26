@@ -30,6 +30,8 @@ import AdminRecettes from "./pages/AdminRecettes";
 import AdminImportExport from "./pages/AdminImportExport";
 import AdminHistorique from "./pages/AdminHistorique";
 import AdminReferences from "./pages/AdminReferences";
+import LiaisonRecettesMolecules from "./pages/admin/LiaisonRecettesMolecules";
+import EditeurFormulation from "./pages/outils/EditeurFormulation";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -194,6 +196,8 @@ function Router() {
       <Route path="/systeme" component={SystemePerfumum} /> 
       {/* === ADMINISTRATION === */}
       <Route path="/admin" component={Admin} />
+      <Route path="/admin/liaison-recettes-molecules" component={LiaisonRecettesMolecules} />
+      <Route path="/outils/editeur-formulation" component={EditeurFormulation} />
       <Route path="/admin/test-trpc" component={TestTRPC} />
       <Route path="/admin/test-simple" component={TestSimple} />
       <Route path="/test-recette-card" component={TestRecetteCard} />

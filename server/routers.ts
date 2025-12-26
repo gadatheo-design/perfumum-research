@@ -227,6 +227,32 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return await db.updateMoleculeReferences(input.id, input.references);
       }),
+    
+    // Liaison molécules-recettes
+    linkToRecette: publicProcedure
+      .input(z.object({
+        recetteId: z.number(),
+        molecules: z.array(z.object({
+          moleculeId: z.number(),
+          proportion: z.number(),
+          role: z.enum(["tête", "cœur", "fond"]),
+        })),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.linkMoleculesToRecette(input.recetteId, input.molecules);
+      }),
+    
+    getByRecette: publicProcedure
+      .input(z.object({
+        recetteId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getMoleculesByRecette(input.recetteId);
+      }),
+    
+    getAll: publicProcedure.query(async () => {
+      return await db.getAllMolecules();
+    }),
   }),
 
   // Terpene Synergies
