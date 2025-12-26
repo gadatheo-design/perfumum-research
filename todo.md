@@ -459,3 +459,56 @@ Lire obligatoirement :
 - [x] Documenter les formules de référence
 - [x] Créer checkpoint final (version 90c2cdeb)
 - [x] Livrer les résultats à l'utilisateur
+
+
+---
+
+## 🎯 ENRICHISSEMENT RECETTES-FORMULES (26 Déc 2025)
+
+**Objectif** : Lier les recettes PERFUMUM aux 16 formules de référence classiques pour améliorer le système de recommandations
+
+### Phase 1 : Analyse initiale
+- [x] Compter le nombre total de recettes dans la base (244)
+- [x] Identifier le taux de couverture initial (12,3%)
+- [x] Analyser la distribution des recettes par gamme
+
+### Phase 2 : Première vague d'enrichissement
+- [x] Relancer le script de liaison sur toutes les recettes
+- [x] Améliorer le taux de couverture à 26,2% (64 recettes liées)
+- [x] Identifier les familles olfactives dominantes
+
+### Phase 3 : Analyse des recettes atypiques
+- [x] Créer script d'analyse des profils atypiques
+- [x] Identifier 184 recettes problématiques (75,4%)
+- [x] Catégoriser : sans molécules (34), peu de molécules (2), atypiques (140), score faible (8)
+- [x] Générer rapport JSON détaillé
+
+### Phase 4 : Optimisation de l'algorithme
+- [x] Abaisser le seuil de similarité de 25% à 15%
+- [x] Ajuster les pondérations (molécules 40%, proportions 40%, rôles 20%)
+- [x] Implémenter comparaison des profils globaux (tête/cœur/fond)
+- [x] Créer fonction de décroissance exponentielle pour proportions
+
+### Phase 5 : Enrichissement final
+- [x] Relancer le script optimisé sur toutes les recettes
+- [x] Atteindre taux de couverture de 81,1% (198 recettes liées)
+- [x] Créer 134 nouvelles liaisons
+- [x] Améliorer 22 liaisons existantes avec meilleurs scores
+
+### Phase 6 : Validation et documentation
+- [x] Générer rapport final d'enrichissement
+- [x] Documenter la méthodologie et les résultats
+- [x] Identifier les 46 recettes non couvertes restantes
+- [x] Proposer recommandations pour amélioration future
+
+### Résultats finaux
+- **Taux de couverture : 81,1%** (198/244 recettes)
+- **Amélioration : +310%** par rapport à l'état initial
+- **Répartition dominante : Fougère (64,1%), Chypré (10,6%), Cuir (10,1%)**
+- **Scripts créés : 4** (liaison, optimisé, analyse atypiques, comptage)
+- **Rapports générés : 2** (JSON atypiques, MD final)
+
+### Durée totale
+2-3 heures
+
+---

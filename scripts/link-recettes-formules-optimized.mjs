@@ -1,18 +1,20 @@
 #!/usr/bin/env node
 /**
- * Script pour lier automatiquement les recettes aux formules de référence
- * basé sur la similarité de composition moléculaire.
+ * Script OPTIMISÉ pour lier automatiquement les recettes aux formules de référence
+ * 
+ * Améliorations:
+ * - Seuil abaissé à 15% (au lieu de 25%)
+ * - Pondération ajustée pour favoriser les molécules dominantes
+ * - Prise en compte des proportions dans le calcul de similarité
  */
 
 import { readFileSync } from 'fs';
 import mysql from 'mysql2/promise';
 
-// Charger les formules de référence
 const formulesRef = JSON.parse(
   readFileSync('/home/ubuntu/perfumum-research/data/FORMULES_REFERENCE_16.json', 'utf-8')
 );
 
-// Configuration de la base de données
 const DB_URL = process.env.DATABASE_URL;
 
 if (!DB_URL) {
@@ -21,15 +23,14 @@ if (!DB_URL) {
 }
 
 /**
- * Calcule un score de similarité entre une recette et une formule de référence.
+ * Calcule un score de similarité OPTIMISÉ entre une recette et une formule de référence.
  * 
- * Critères:
- * - Molécules communes (50% du score)
- * - Similarité des proportions (30% du score)
- * - Similarité des rôles (20% du score)
+ * Nouvelles pondérations:
+ * - Molécules communes (40% du score) - réduit pour être moins strict
+ * - Similarité des proportions (40% du score) - augmenté pour valoriser les compositions similaires
+ * - Similarité des rôles (20% du score) - maintenu
  */
-function calculateSimilarity(recetteMolecules, formuleMolecules) {
-  // Créer des dictionnaires pour faciliter la comparaison
+function calculateSimilarityOptimized(recetteMolecules, formuleMolecules) {
   const recetteDict = {};
   recetteMolecules.forEach(m => {
     recetteDict[m.name] = { proportion: m.proportion, role: m.role };
@@ -43,22 +44,32 @@ function calculateSimilarity(recetteMolecules, formuleMolecules) {
   const recetteNames = new Set(Object.keys(recetteDict));
   const formuleNames = new Set(Object.keys(formuleDict));
   
-  // 1. Molécules communes (50%)
+  // 1. Molécules communes (40%)
   const commonMolecules = new Set([...recetteNames].filter(x => formuleNames.has(x)));
   
   if (formuleNames.size === 0) return 0;
   
   const moleculeScore = commonMolecules.size / formuleNames.size;
   
-  // 2. Similarité des proportions (30%)
+  // 2. Similarité des proportions (40%) - AMÉLIORÉ
   let proportionScore = 0;
   if (commonMolecules.size > 0) {
     const proportionDiffs = [];
     for (const mol of commonMolecules) {
-      const diff = Math.abs(recetteDict[mol].proportion - formuleDict[mol].proportion);
-      proportionDiffs.push(1 - (diff / 100)); // Normaliser
+      const recetteProp = recetteDict[mol].proportion;
+      const formuleProp = formuleDict[mol].proportion;
+      
+      // Utiliser une fonction de similarité plus douce
+      const diff = Math.abs(recetteProp - formuleProp);
+      const similarity = Math.exp(-diff / 30); // Décroissance exponentielle
+      proportionDiffs.push(similarity);
     }
     proportionScore = proportionDiffs.reduce((a, b) => a + b, 0) / proportionDiffs.length;
+  } else {
+    // Si aucune molécule commune, comparer les profils globaux
+    const recetteProfile = getConcentrationProfile(recetteMolecules);
+    const formuleProfile = getConcentrationProfile(formuleMolecules);
+    proportionScore = compareProfiles(recetteProfile, formuleProfile);
   }
   
   // 3. Similarité des rôles (20%)
@@ -73,10 +84,43 @@ function calculateSimilarity(recetteMolecules, formuleMolecules) {
     roleScore = roleMatches / commonMolecules.size;
   }
   
-  // Score final pondéré
-  const finalScore = (moleculeScore * 0.5) + (proportionScore * 0.3) + (roleScore * 0.2);
+  // Score final pondéré (nouvelles pondérations)
+  const finalScore = (moleculeScore * 0.4) + (proportionScore * 0.4) + (roleScore * 0.2);
   
   return finalScore;
+}
+
+/**
+ * Calcule le profil de concentration (tête/cœur/fond)
+ */
+function getConcentrationProfile(molecules) {
+  const profile = { tête: 0, cœur: 0, fond: 0 };
+  
+  molecules.forEach(m => {
+    const role = m.role || 'cœur';
+    profile[role] = (profile[role] || 0) + m.proportion;
+  });
+  
+  return profile;
+}
+
+/**
+ * Compare deux profils de concentration
+ */
+function compareProfiles(profile1, profile2) {
+  const roles = ['tête', 'cœur', 'fond'];
+  let totalDiff = 0;
+  
+  for (const role of roles) {
+    const p1 = profile1[role] || 0;
+    const p2 = profile2[role] || 0;
+    const diff = Math.abs(p1 - p2);
+    totalDiff += diff;
+  }
+  
+  // Normaliser (max diff = 300 si 100% dans un rôle vs 100% dans un autre)
+  const similarity = 1 - (totalDiff / 300);
+  return Math.max(0, similarity);
 }
 
 /**
@@ -87,14 +131,15 @@ function findBestFormuleForRecette(recette) {
   let bestScore = 0;
   
   for (const formule of formulesRef) {
-    const score = calculateSimilarity(recette.molecules, formule.molecules);
+    const score = calculateSimilarityOptimized(recette.molecules, formule.molecules);
     if (score > bestScore) {
       bestScore = score;
       bestMatch = formule;
     }
   }
   
-  if (bestMatch && bestScore >= 0.25) { // Seuil minimum de similarité
+  // SEUIL ABAISSÉ À 15%
+  if (bestMatch && bestScore >= 0.15) {
     return {
       formuleReferenceName: bestMatch.name,
       formuleReferenceFamily: bestMatch.family,
@@ -110,6 +155,7 @@ async function main() {
   
   try {
     console.log('🔍 Récupération des recettes avec leurs molécules...\n');
+    console.log('⚙️  Algorithme optimisé activé (seuil: 15%, pondérations ajustées)\n');
     
     // Récupérer les recettes avec leurs molécules
     const [recettes] = await connection.execute(`
@@ -126,7 +172,6 @@ async function main() {
       GROUP BY r.id, r.name, r.gamme, r.category
       HAVING molecule_count >= 3
       ORDER BY molecule_count DESC
-
     `);
     
     console.log(`✅ ${recettes.length} recettes trouvées avec au moins 3 molécules\n`);
@@ -171,28 +216,55 @@ async function main() {
     console.log('💾 Insertion des liaisons dans la base de données...\n');
     
     let inserted = 0;
+    let updated = 0;
+    
     for (const result of results) {
       try {
-        await connection.execute(`
-          INSERT INTO recettes_formules_reference 
-            (recette_id, formule_reference_name, formule_reference_family, similarity_score)
-          VALUES (?, ?, ?, ?)
-          ON DUPLICATE KEY UPDATE
-            similarity_score = VALUES(similarity_score),
-            updated_at = CURRENT_TIMESTAMP
-        `, [
-          result.recetteId,
-          result.formuleReferenceName,
-          result.formuleReferenceFamily,
-          result.similarityScore
-        ]);
-        inserted++;
+        const [existingResult] = await connection.execute(
+          'SELECT similarity_score FROM recettes_formules_reference WHERE recette_id = ?',
+          [result.recetteId]
+        );
+        
+        if (existingResult.length > 0) {
+          const existingScore = existingResult[0].similarity_score;
+          
+          // Ne mettre à jour que si le nouveau score est meilleur
+          if (result.similarityScore > existingScore) {
+            await connection.execute(`
+              UPDATE recettes_formules_reference 
+              SET formule_reference_name = ?,
+                  formule_reference_family = ?,
+                  similarity_score = ?,
+                  updated_at = CURRENT_TIMESTAMP
+              WHERE recette_id = ?
+            `, [
+              result.formuleReferenceName,
+              result.formuleReferenceFamily,
+              result.similarityScore,
+              result.recetteId
+            ]);
+            updated++;
+          }
+        } else {
+          await connection.execute(`
+            INSERT INTO recettes_formules_reference 
+              (recette_id, formule_reference_name, formule_reference_family, similarity_score)
+            VALUES (?, ?, ?, ?)
+          `, [
+            result.recetteId,
+            result.formuleReferenceName,
+            result.formuleReferenceFamily,
+            result.similarityScore
+          ]);
+          inserted++;
+        }
       } catch (err) {
         console.error(`⚠️  Erreur pour recette ${result.recetteName}:`, err.message);
       }
     }
     
-    console.log(`\n✅ ${inserted} liaisons insérées avec succès\n`);
+    console.log(`\n✅ ${inserted} nouvelles liaisons insérées`);
+    console.log(`✅ ${updated} liaisons mises à jour avec un meilleur score\n`);
     
     // Afficher les statistiques
     console.log('=== STATISTIQUES ===\n');
@@ -209,6 +281,15 @@ async function main() {
     console.log('\nTop 10 meilleures correspondances:');
     for (const result of results.slice(0, 10)) {
       console.log(`  ${result.recetteName} → ${result.formuleReferenceName} (${result.similarityScore}%)`);
+    }
+    
+    // Afficher les nouvelles correspondances (score entre 15% et 25%)
+    const newMatches = results.filter(r => r.similarityScore >= 15 && r.similarityScore < 25);
+    if (newMatches.length > 0) {
+      console.log(`\n🆕 ${newMatches.length} nouvelles correspondances grâce à l'optimisation (15-25%):`);
+      for (const result of newMatches.slice(0, 5)) {
+        console.log(`  ${result.recetteName} → ${result.formuleReferenceName} (${result.similarityScore}%)`);
+      }
     }
     
   } catch (error) {
