@@ -145,6 +145,7 @@ import GCMS from "./pages/methodologie/GCMS";
 
 // === CONTENU ÉDITORIAL ===
 import Etudes from "./pages/Etudes";
+import EtudesClimatiques from "./pages/EtudesClimatiques";
 import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
 import Collaborations from "./pages/Collaborations";
@@ -325,6 +326,7 @@ function Router() {
       
       {/* === CONTENU ÉDITORIAL === */}
       <Route path="/etudes" component={Etudes} />
+      <Route path="/etudes-climatiques" component={EtudesClimatiques} />
       <Route path="/projets" component={Projets} />
       <Route path="/terrains" component={Terrains} />
       <Route path="/collaborations" component={Collaborations} />

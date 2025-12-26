@@ -63,6 +63,21 @@ import {
   savedFormulas,
   SavedFormula,
   InsertSavedFormula,
+  climateStudies,
+  ClimateStudy,
+  InsertClimateStudy,
+  molecularProtocols,
+  MolecularProtocol,
+  InsertMolecularProtocol,
+  fieldArchives,
+  FieldArchive,
+  InsertFieldArchive,
+  extractionTests,
+  ExtractionTest,
+  InsertExtractionTest,
+  situatedSmells,
+  SituatedSmell,
+  InsertSituatedSmell,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -3503,4 +3518,102 @@ export async function getMoleculesByRecette(recetteId: number) {
     .where(eq(moleculesRecettes.recetteId, recetteId));
   
   return result;
+}
+
+
+// ============================================================================
+// CLIMATE STUDIES (Études climatiques)
+// ============================================================================
+
+export async function getAllClimateStudies() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(climateStudies);
+}
+
+export async function getClimateStudyById(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const results = await db.select().from(climateStudies).where(eq(climateStudies.id, id));
+  return results[0] || null;
+}
+
+// ============================================================================
+// MOLECULAR PROTOCOLS (Protocoles moléculaires)
+// ============================================================================
+
+export async function getAllMolecularProtocols() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(molecularProtocols);
+}
+
+export async function getMolecularProtocolById(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const results = await db.select().from(molecularProtocols).where(eq(molecularProtocols.id, id));
+  return results[0] || null;
+}
+
+export async function getMolecularProtocolsByStudyId(studyId: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(molecularProtocols).where(eq(molecularProtocols.linkedStudyId, studyId));
+}
+
+// ============================================================================
+// FIELD ARCHIVES (Archives terrain)
+// ============================================================================
+
+export async function getAllFieldArchives() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(fieldArchives);
+}
+
+export async function getFieldArchiveById(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const results = await db.select().from(fieldArchives).where(eq(fieldArchives.id, id));
+  return results[0] || null;
+}
+
+// ============================================================================
+// EXTRACTION TESTS (Tests d'extraction)
+// ============================================================================
+
+export async function getAllExtractionTests() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(extractionTests);
+}
+
+export async function getExtractionTestById(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const results = await db.select().from(extractionTests).where(eq(extractionTests.id, id));
+  return results[0] || null;
+}
+
+export async function getExtractionTestsByArchiveId(archiveId: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(extractionTests).where(eq(extractionTests.fieldArchiveId, archiveId));
+}
+
+// ============================================================================
+// SITUATED SMELLS (Odeurs situées)
+// ============================================================================
+
+export async function getAllSituatedSmells() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(situatedSmells);
+}
+
+export async function getSituatedSmellById(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const results = await db.select().from(situatedSmells).where(eq(situatedSmells.id, id));
+  return results[0] || null;
 }

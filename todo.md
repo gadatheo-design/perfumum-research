@@ -551,3 +551,76 @@ Lire obligatoirement :
 ### Durée réelle
 4 heures
 
+
+
+---
+
+## 🌍 SESSION 26 DÉC 2025 — INTÉGRATION ARCHIVES TERRAIN & ÉTUDES CLIMATIQUES
+
+### Objectif
+Intégrer les données des fichiers ABSORBE·COLOMBIA et Accords Mossi dans la base de données existante
+
+### Phase 1 : Extension du schéma de base de données
+- [x] Créer table `field_archives` (archives terrain Colombia)
+- [x] Créer table `climate_studies` (études climatiques)
+- [x] Créer table `molecular_protocols` (protocoles moléculaires)
+- [x] Créer table `extraction_tests` (tests d'extraction)
+- [x] Créer table `situated_smells` (odeurs situées)
+- [x] Créer relations avec tables existantes (molecules, recettes, accords)
+- [x] Migrer le schéma avec `pnpm db:push`
+
+### Phase 2 : Import des données ABSORBE·COLOMBIA
+- [x] Parser le fichier ABSORBE·COLOMBIA.md
+- [x] Extraire les archives terrain (Colombia_Field_Archive)
+- [x] Extraire les études climatiques (Petrichor Andin, Feuilles après pluie)
+- [x] Extraire les protocoles moléculaires (reconstructions olfactives)
+- [x] Créer script d'import automatisé
+- [x] Importer les données dans la base
+
+### Phase 3 : Import des Accords Mossi
+- [x] Parser le fichier AccordsMossi.md
+- [x] Extraire les 4 accords (Clair, Sombre, Feu, Verger Sacré)
+- [x] Créer les recettes correspondantes avec formulations complètes
+- [x] Lier aux molécules existantes ou créer nouvelles molécules
+- [x] Importer dans la base de données
+
+### Phase 4 : Interface utilisateur - Module Archives Terrain
+- [x] Créer page `/archives-terrain` avec liste des archives
+- [ ] Créer page détail archive avec carte géographique
+- [ ] Afficher contexte (lieu, altitude, date, climat)
+- [ ] Afficher description sensorielle complète
+- [ ] Afficher tests effectués et résultats
+- [ ] Lier aux molécules et recettes associées
+
+### Phase 5 : Interface utilisateur - Module Études Climatiques
+- [x] Créer page `/etudes-climatiques` avec liste des études
+- [ ] Créer page détail étude (Petrichor, Feuilles, etc.)
+- [ ] Afficher contexte géographique et climatique
+- [ ] Afficher description sensorielle (attaque/cœur/fond)
+- [ ] Afficher supports observés
+- [ ] Afficher protocoles moléculaires associés
+
+### Phase 6 : Interface utilisateur - Module Protocoles Moléculaires
+- [ ] Créer page `/protocoles-moleculaires`
+- [ ] Afficher architecture olfactive (tête/cœur/fond)
+- [ ] Afficher palette moléculaire avec proportions
+- [ ] Visualiser ratios avec graphiques
+- [ ] Afficher protocole de formulation étape par étape
+- [ ] Lier aux molécules et recettes
+
+### Phase 7 : Navigation et intégration
+- [ ] Ajouter section "Archives & Terrain" dans le menu principal
+- [ ] Ajouter liens croisés entre archives, études, protocoles et recettes
+- [ ] Créer système de tags géographiques (Colombie, Andes, Sahel, etc.)
+- [ ] Intégrer dans la recherche avancée existante
+- [ ] Ajouter filtres par région/climat/altitude
+
+### Phase 8 : Tests et validation
+- [ ] Tester l'import des données
+- [ ] Vérifier les liaisons entre entités
+- [ ] Tester l'interface sur desktop et mobile
+- [ ] Valider la cohérence des données
+- [ ] Créer checkpoint final
+
+### Durée estimée
+14-18 heures

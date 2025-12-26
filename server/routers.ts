@@ -1809,6 +1809,76 @@ export const appRouter = router({
         return await db.updateFormulaNotes(input.id, input.notes);
       }),
   }),
+
+  // Climate Studies (Études climatiques)
+  climateStudies: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllClimateStudies();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getClimateStudyById(input);
+      }),
+  }),
+
+  // Molecular Protocols (Protocoles moléculaires)
+  molecularProtocols: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllMolecularProtocols();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getMolecularProtocolById(input);
+      }),
+    getByStudyId: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getMolecularProtocolsByStudyId(input);
+      }),
+  }),
+
+  // Field Archives (Archives terrain)
+  fieldArchives: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllFieldArchives();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getFieldArchiveById(input);
+      }),
+  }),
+
+  // Extraction Tests (Tests d'extraction)
+  extractionTests: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllExtractionTests();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getExtractionTestById(input);
+      }),
+    getByArchiveId: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getExtractionTestsByArchiveId(input);
+      }),
+  }),
+
+  // Situated Smells (Odeurs situées)
+  situatedSmells: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllSituatedSmells();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getSituatedSmellById(input);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
