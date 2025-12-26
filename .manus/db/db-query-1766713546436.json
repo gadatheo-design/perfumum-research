@@ -1,0 +1,360 @@
+{
+  "query": "\nSELECT \n  r.id, r.name, r.gamme, r.category,\n  COUNT(mr.molecule_id) as molecule_count\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nGROUP BY r.id, r.name, r.gamme, r.category\nORDER BY molecule_count DESC\nLIMIT 50\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  r.id, r.name, r.gamme, r.category,\n  COUNT(mr.molecule_id) as molecule_count\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nGROUP BY r.id, r.name, r.gamme, r.category\nORDER BY molecule_count DESC\nLIMIT 50\n",
+  "rows": [
+    {
+      "id": "270001",
+      "name": "Aura Radieuse",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "8"
+    },
+    {
+      "id": "90010",
+      "name": "CBD Labdanum Nuit",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "7"
+    },
+    {
+      "id": "270005",
+      "name": "Paradis Fruité",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "7"
+    },
+    {
+      "id": "270002",
+      "name": "Nuit de Tubéreuse",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "7"
+    },
+    {
+      "id": "270004",
+      "name": "Rose Impériale",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "6"
+    },
+    {
+      "id": "270003",
+      "name": "Santal Éternel",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "6"
+    },
+    {
+      "id": "120007",
+      "name": "Rituel d'Assam",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "120005",
+      "name": "Pétrichor Sacré",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150007",
+      "name": "Tropical Cheese",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "120003",
+      "name": "Fleur d'Oranger Tropicale",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150006",
+      "name": "Classic Cheese",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150022",
+      "name": "Neon Flesh",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "120004",
+      "name": "Soleil de Sicile",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150019",
+      "name": "White Jasmine Absolute",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "120008",
+      "name": "Fraîcheur Mentholée",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150003",
+      "name": "Pétrichor Minéral",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150009",
+      "name": "Smoky Cheese",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150002",
+      "name": "Pétrichor Forestier",
+      "gamme": "NULL",
+      "category": "resine",
+      "molecule_count": "5"
+    },
+    {
+      "id": "120001",
+      "name": "Forêt Méditerranéenne",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150025",
+      "name": "Fleur Fantôme",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "210003",
+      "name": "Pheromona Cascade",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150010",
+      "name": "Sweet Cheese",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150004",
+      "name": "Pétrichor Tropical",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "120002",
+      "name": "Jardin Japonais",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150015",
+      "name": "Nectar Noir",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "240005",
+      "name": "Pheromona Cascade-Rapide",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150001",
+      "name": "Pétrichor Ancestral",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150023",
+      "name": "Cuir Marin",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150016",
+      "name": "Cuir Poire",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "240006",
+      "name": "Pheromona Cascade-Lente",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150018",
+      "name": "Noir Tabac",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "120006",
+      "name": "Ambre Océanique",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150005",
+      "name": "Pétrichor Nocturne",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150020",
+      "name": "Gardenia Night",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "150012",
+      "name": "Cassis Blanc",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "5"
+    },
+    {
+      "id": "90008",
+      "name": "CBD Myrrhe Apaisante",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "90001",
+      "name": "CBD Terre Première",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "60008",
+      "name": "Feu Fumé / Soufre Doux",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "90004",
+      "name": "CBD Mousse Profonde",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "150017",
+      "name": "Black Oud Skin",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "90002",
+      "name": "CBD Fumée Blanche",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "90005",
+      "name": "CBD Encens Calme",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "90007",
+      "name": "CBD Résine Douce",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "150014",
+      "name": "Rhum & Pêche",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "90006",
+      "name": "CBD Bois Sacré",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "60002",
+      "name": "Vétiver Labdanum",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "150013",
+      "name": "Butter Flower",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "60007",
+      "name": "Métal Liquide",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "60001",
+      "name": "Mastiha Brut",
+      "gamme": "NULL",
+      "category": "resine_cbd",
+      "molecule_count": "4"
+    },
+    {
+      "id": "210001",
+      "name": "Pheromona Skin",
+      "gamme": "NULL",
+      "category": "parfum",
+      "molecule_count": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tgamme\tcategory\tmolecule_count\n270001\tAura Radieuse\tNULL\tparfum\t8\n90010\tCBD Labdanum Nuit\tNULL\tresine_cbd\t7\n270005\tParadis Fruité\tNULL\tparfum\t7\n270002\tNuit de Tubéreuse\tNULL\tparfum\t7\n270004\tRose Impériale\tNULL\tparfum\t6\n270003\tSantal Éternel\tNULL\tparfum\t6\n120007\tRituel d'Assam\tNULL\tparfum\t5\n120005\tPétrichor Sacré\tNULL\tparfum\t5\n150007\tTropical Cheese\tNULL\tresine_cbd\t5\n120003\tFleur d'Oranger Tropicale\tNULL\tparfum\t5\n150006\tClassic Cheese\tNULL\tresine_cbd\t5\n150022\tNeon Flesh\tNULL\tresine_cbd\t5\n120004\tSoleil de Sicile\tNULL\tparfum\t5\n150019\tWhite Jasmine Absolute\tNULL\tresine_cbd\t5\n120008\tFraîcheur Mentholée\tNULL\tparfum\t5\n150003\tPétrichor Minéral\tNULL\tresine_cbd\t5\n150009\tSmoky Cheese\tNULL\tresine_cbd\t5\n150002\tPétrichor Forestier\tNULL\tresine\t5\n120001\tForêt Méditerranéenne\tNULL\tparfum\t5\n150025\tFleur Fantôme\tNULL\tresine_cbd\t5\n210003\tPheromona Cascade\tNULL\tparfum\t5\n150010\tSweet Cheese\tNULL\tresine_cbd\t5\n150004\tPétrichor Tropical\tNULL\tresine_cbd\t5\n120002\tJardin Japonais\tNULL\tparfum\t5\n150015\tNectar Noir\tNULL\tresine_cbd\t5\n240005\tPheromona Cascade-Rapide\tNULL\tparfum\t5\n150001\tPétrichor Ancestral\tNULL\tresine_cbd\t5\n150023\tCuir Marin\tNULL\tresine_cbd\t5\n150016\tCuir Poire\tNULL\tresine_cbd\t5\n240006\tPheromona Cascade-Lente\tNULL\tparfum\t5\n150018\tNoir Tabac\tNULL\tresine_cbd\t5\n120006\tAmbre Océanique\tNULL\tparfum\t5\n150005\tPétrichor Nocturne\tNULL\tresine_cbd\t5\n150020\tGardenia Night\tNULL\tresine_cbd\t5\n150012\tCassis Blanc\tNULL\tresine_cbd\t5\n90008\tCBD Myrrhe Apaisante\tNULL\tresine_cbd\t4\n90001\tCBD Terre Première\tNULL\tresine_cbd\t4\n60008\tFeu Fumé / Soufre Doux\tNULL\tresine_cbd\t4\n90004\tCBD Mousse Profonde\tNULL\tresine_cbd\t4\n150017\tBlack Oud Skin\tNULL\tresine_cbd\t4\n90002\tCBD Fumée Blanche\tNULL\tresine_cbd\t4\n90005\tCBD Encens Calme\tNULL\tresine_cbd\t4\n90007\tCBD Résine Douce\tNULL\tresine_cbd\t4\n150014\tRhum & Pêche\tNULL\tresine_cbd\t4\n90006\tCBD Bois Sacré\tNULL\tresine_cbd\t4\n60002\tVétiver Labdanum\tNULL\tresine_cbd\t4\n150013\tButter Flower\tNULL\tresine_cbd\t4\n60007\tMétal Liquide\tNULL\tresine_cbd\t4\n60001\tMastiha Brut\tNULL\tresine_cbd\t4\n210001\tPheromona Skin\tNULL\tparfum\t4\n",
+  "stderr": "",
+  "execution_time_ms": 127
+}

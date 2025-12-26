@@ -339,6 +339,15 @@ export const appRouter = router({
         return await db.getRecetteParent(input);
       }),
     
+    getFormulesReference: publicProcedure
+      .input((val: unknown) => {
+        if (typeof val !== "number") throw new Error("Expected number");
+        return val;
+      })
+      .query(async ({ input }) => {
+        return await db.getRecetteFormulesReference(input);
+      }),
+    
     create: publicProcedure
       .input(z.object({
         name: z.string().min(1),

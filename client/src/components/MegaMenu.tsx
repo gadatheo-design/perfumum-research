@@ -256,6 +256,13 @@ export function MegaMenu() {
           icon: <Sparkles className="h-4 w-4" />,
           description: "8 gammes thématiques",
         },
+        {
+          label: "Formules de Référence",
+          path: "/formules-reference",
+          icon: <Target className="h-4 w-4" />,
+          description: "16 archétypes olfactifs",
+          count: 16,
+        },
       ],
     },
     {
@@ -337,6 +344,13 @@ export function MegaMenu() {
           path: "/heatmap-correlations",
           icon: <Flame className="h-4 w-4" />,
           description: "Corrélations axes radar",
+        },
+        {
+          label: "Formules de Référence",
+          path: "/formules-reference",
+          icon: <BookOpen className="h-4 w-4" />,
+          description: "16 archétypes olfactifs classiques",
+          badge: "NEW",
         },
       ],
     },

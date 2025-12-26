@@ -55,6 +55,9 @@ export default function RecetteDetail() {
     { enabled: !!data }
   );
 
+  // Récupérer les formules de référence
+  const { data: formulesReference } = trpc.recettes.getFormulesReference.useQuery(id, { enabled: !!data });
+
   // Track page view
   useEffect(() => {
     if (data?.recette) {
@@ -633,6 +636,46 @@ export default function RecetteDetail() {
                 </CardContent>
               </Card>
             </Link>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Formules de Référence */}
+      {formulesReference && formulesReference.length > 0 && (
+        <Card className="shadow-sm border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <FlaskConical className="h-5 w-5 text-amber-600" />
+              Formules de Référence
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              Cette recette s'inspire des archétypes olfactifs classiques suivants :
+            </p>
+            <div className="space-y-3">
+              {formulesReference.map((formule: any) => (
+                <div key={formule.id} className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-200">
+                  <div className="flex-1">
+                    <div className="font-semibold text-slate-700">{formule.formuleReferenceName}</div>
+                    <div className="text-sm text-slate-600">
+                      Famille : <Badge variant="outline" className="ml-1">{formule.formuleReferenceFamily}</Badge>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="text-right">
+                      <div className="text-xs text-slate-500">Similarité</div>
+                      <div className="text-lg font-bold text-amber-600">{formule.similarityScore}%</div>
+                    </div>
+                    <Button variant="outline" size="sm" asChild>
+                      <a href="/formules-reference">
+                        Voir la formule
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
       )}

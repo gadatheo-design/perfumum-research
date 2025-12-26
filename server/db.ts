@@ -25,6 +25,7 @@ import {
   researchTimeline,
   experimentalAccords,
   moleculesRecettes,
+  recettesFormulesReference,
   Prototype,
   Family,
   Tabac,
@@ -97,6 +98,7 @@ export async function getDb() {
           researchTimeline,
           experimentalAccords,
           moleculesRecettes,
+  recettesFormulesReference,
           synergies,
           terpeneSynergies,
           userNotes,
@@ -364,6 +366,12 @@ export async function getRecetteParent(recetteId: number): Promise<Recette | und
   if (!recette[0]?.parentRecetteId) return undefined;
   const parent = await db.select().from(recettes).where(eq(recettes.id, recette[0].parentRecetteId)).limit(1);
   return parent[0];
+}
+
+export async function getRecetteFormulesReference(recetteId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(recettesFormulesReference).where(eq(recettesFormulesReference.recetteId, recetteId));
 }
 
 // ============================================================================

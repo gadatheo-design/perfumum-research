@@ -433,12 +433,15 @@ Lire obligatoirement :
 - [ ] Créer un script d'enrichissement automatique basé sur les profils olfactifs
 - [ ] Enrichir les recettes par gamme (Pétrichor, Volcanique, Civilisations, Glaciaire, Colombie)
 - [ ] Valider les liaisons créées
-
 ### Phase 2 : Créer des formules de référence
 - [x] Définir les 8 familles olfactives principales (Fougère, Chypré, Oriental, Floral, Boisé, Hespéridé, Aromatique, Cuir)
 - [x] Créer 2 formules templates par famille (16 formules au total)
 - [x] Documenter les proportions standards (tête 15-30%, cœur 30-50%, fond 20-40%)
-- [ ] Ajouter les formules dans la base de données
+- [x] Créer la page `/formules-reference` avec les 16 templates
+- [x] Ajouter un système de filtrage par famille olfactive
+- [x] Enrichir 30-50 recettes prioritaires avec l'outil de liaison (30 recettes liées)
+- [x] Afficher les formules de référence liées dans les fiches recettes
+- [x] Tester le système de liaison et la navigationans la base de données
 - [ ] Créer une page dédiée /formules-reference
 
 ### Phase 3 : Améliorer la navigation
@@ -454,5 +457,5 @@ Lire obligatoirement :
 - [x] Tester la navigation mobile (Menu mobile)
 - [x] Créer rapport d'enrichissement complet
 - [x] Documenter les formules de référence
-- [ ] Créer checkpoint final
-- [ ] Livrer les résultats à l'utilisateur
+- [x] Créer checkpoint final (version 90c2cdeb)
+- [x] Livrer les résultats à l'utilisateur

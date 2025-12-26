@@ -106,6 +106,7 @@ import SankeyFlow from "./pages/SankeyFlow";
 import EnhancedRadarDemo from "./pages/EnhancedRadarDemo";
 import AdvancedSearch from "./pages/AdvancedSearch";
 import RecipeTimeline from "./pages/RecipeTimeline";
+import FormulesReference from "./pages/FormulesReference";
 import RadarCorrelationHeatmap from "./pages/RadarCorrelationHeatmap";
 
 // === OUTILS ===
@@ -354,7 +355,8 @@ function Router() {
       <Route path="/recherche" component={Recherche} />
       <Route path="/recherche-avancee" component={AdvancedSearch} />
       <Route path="/timeline-recettes" component={RecipeTimeline} />
-      <Route path="/radar-correlation" component={RadarCorrelationHeatmap} />
+      <Route path="/heatmap-correlations" component={RadarCorrelationHeatmap} />
+      <Route path="/formules-reference" component={FormulesReference} />
       
       {/* === UTILISATEUR === */}
       <Route path="/favoris" component={Favoris} />

@@ -363,6 +363,27 @@ export type RecetteMolecule = typeof recetteMolecules.$inferSelect;
 export type InsertRecetteMolecule = typeof recetteMolecules.$inferInsert;
 
 // ============================================================================
+// RECETTES_FORMULES_REFERENCE (Liaison recettes vers formules de référence)
+// ============================================================================
+
+export const recettesFormulesReference = mysqlTable("recettes_formules_reference", {
+  id: int("id").autoincrement().primaryKey(),
+  recetteId: int("recette_id").notNull().references(() => recettes.id, { onDelete: "cascade" }),
+  formuleReferenceName: varchar("formule_reference_name", { length: 255 }).notNull(),
+  formuleReferenceFamily: varchar("formule_reference_family", { length: 100 }).notNull(),
+  similarityScore: int("similarity_score").notNull(), // Score de similarité (0-100)
+  notes: text("notes"), // Notes optionnelles sur la correspondance
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueRecetteFormule: uniqueIndex("unique_recette_formule").on(table.recetteId, table.formuleReferenceName),
+  recetteIdx: index("idx_recette_formule").on(table.recetteId),
+}));
+
+export type RecetteFormuleReference = typeof recettesFormulesReference.$inferSelect;
+export type InsertRecetteFormuleReference = typeof recettesFormulesReference.$inferInsert;
+
+// ============================================================================
 // PETRICHOR (60 variations)
 // ============================================================================
 
