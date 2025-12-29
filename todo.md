@@ -624,3 +624,51 @@ Intégrer les données des fichiers ABSORBE·COLOMBIA et Accords Mossi dans la b
 
 ### Durée estimée
 14-18 heures
+
+---
+
+## 🎯 SESSION 29 DÉC 2025 — CONTINUATION PHASE 4 & 5
+
+### Phase 4 : Interface utilisateur - Module Archives Terrain (Suite)
+- [x] Créer page `/archives-terrain` avec liste des archives
+- [x] Créer page détail archive `/archives-terrain/:id`
+- [x] Afficher contexte (lieu, altitude, date, climat)
+- [x] Afficher description sensorielle complète
+- [x] Afficher tests effectués et résultats
+- [x] Lier aux molécules et recettes associées (structure prête)
+- [x] Ajouter carte géographique (placeholder pour intégration Google Maps)
+
+### Phase 5 : Interface utilisateur - Module Études Climatiques (Suite)
+- [x] Créer page `/etudes-climatiques` avec liste des études
+- [x] Créer page détail étude `/etudes-climatiques/:id`
+- [x] Afficher contexte géographique et climatique
+- [x] Afficher description sensorielle (attaque/cœur/fond)
+- [x] Afficher supports observés
+- [x] Afficher hypothèses de traduction laboratoire
+
+### Durée réelle
+1 heure
+
+### Phase 6 : Interface utilisateur - Module Protocoles Moléculaires
+- [x] Créer page `/protocoles-moleculaires` avec liste des protocoles
+- [x] Créer page détail protocole `/protocoles-moleculaires/:id`
+- [x] Afficher architecture olfactive (tête/cœur/fond)
+- [x] Afficher palette moléculaire avec proportions
+- [x] Visualiser ratios avec graphiques circulaires
+- [x] Afficher protocole de formulation étape par étape
+- [x] Lier aux molécules et recettes (structure prête)
+
+### Durée réelle Phase 6
+30 minutes
+
+### Phase 7 : Navigation et intégration
+- [x] Ajouter section "Archives & Terrain" dans le MegaMenu (desktop)
+- [x] Ajouter section "Archives & Terrain" dans le menu mobile
+- [x] Ajouter liens vers Archives de Terrain, Études Climatiques, Protocoles Moléculaires
+- [x] Badges "NEW" sur les 3 nouvelles pages
+- [ ] Créer système de tags géographiques (Colombie, Andes, Sahel, etc.)
+- [ ] Intégrer dans la recherche avancée existante
+- [ ] Ajouter filtres par région/climat/altitude
+
+### Durée réelle Phase 7
+15 minutes (navigation complétée, tags et recherche avancée à faire dans Phase 8)

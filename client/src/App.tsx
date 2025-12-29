@@ -146,6 +146,11 @@ import GCMS from "./pages/methodologie/GCMS";
 // === CONTENU ÉDITORIAL ===
 import Etudes from "./pages/Etudes";
 import EtudesClimatiques from "./pages/EtudesClimatiques";
+import EtudeClimatiqueDetail from "./pages/EtudeClimatiqueDetail";
+import ArchivesTerrain from "./pages/ArchivesTerrain";
+import ArchiveTerrainDetail from "./pages/ArchiveTerrainDetail";
+import ProtocolesMoleculaires from "./pages/ProtocolesMoleculaires";
+import ProtocoleMoleculaireDetail from "./pages/ProtocoleMoleculaireDetail";
 import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
 import Collaborations from "./pages/Collaborations";
@@ -327,6 +332,11 @@ function Router() {
       {/* === CONTENU ÉDITORIAL === */}
       <Route path="/etudes" component={Etudes} />
       <Route path="/etudes-climatiques" component={EtudesClimatiques} />
+      <Route path="/etudes-climatiques/:id" component={EtudeClimatiqueDetail} />
+      <Route path="/archives-terrain" component={ArchivesTerrain} />
+      <Route path="/archives-terrain/:id" component={ArchiveTerrainDetail} />
+      <Route path="/protocoles-moleculaires" component={ProtocolesMoleculaires} />
+      <Route path="/protocoles-moleculaires/:id" component={ProtocoleMoleculaireDetail} />
       <Route path="/projets" component={Projets} />
       <Route path="/terrains" component={Terrains} />
       <Route path="/collaborations" component={Collaborations} />

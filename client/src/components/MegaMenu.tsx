@@ -410,6 +410,32 @@ export function MegaMenu() {
       ],
     },
     {
+      title: "Archives & Terrain",
+      items: [
+        {
+          label: "Archives de Terrain",
+          path: "/archives-terrain",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Captations olfactives in situ",
+          badge: "NEW",
+        },
+        {
+          label: "Études Climatiques",
+          path: "/etudes-climatiques",
+          icon: <FlaskConical className="h-4 w-4" />,
+          description: "Reconstructions atmosphériques",
+          badge: "NEW",
+        },
+        {
+          label: "Protocoles Moléculaires",
+          path: "/protocoles-moleculaires",
+          icon: <Beaker className="h-4 w-4" />,
+          description: "Architectures olfactives",
+          badge: "NEW",
+        },
+      ],
+    },
+    {
       title: "Recherche",
       items: [
         {

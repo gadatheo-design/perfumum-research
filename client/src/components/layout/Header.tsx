@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, Sun, Moon, ChevronDown, Beaker, FlaskConical, BookOpen, Atom, Mountain, Snowflake, Crown, Sparkles, Home, Info, Mail, FileText, Database, TestTube, Layers, BarChart3, GitBranch, Activity } from "lucide-react";
+import { Search, Menu, Sun, Moon, ChevronDown, Beaker, FlaskConical, BookOpen, Atom, Mountain, Snowflake, Crown, Sparkles, Home, Info, Mail, FileText, Database, TestTube, Layers, BarChart3, GitBranch, Activity, Leaf } from "lucide-react";
 import { MegaMenu } from "@/components/MegaMenu";
 import { Button } from "@/components/ui/button";
 import {
@@ -150,6 +150,15 @@ const mobileMenuSections = [
       { href: "/methode-absorbe", label: "Méthode ABSORBE" },
       { href: "/civilisations", label: "Traditions olfactives" },
       { href: "/galerie-botaniques", label: "Galerie botaniques" },
+    ],
+  },
+  {
+    title: "Archives & Terrain",
+    icon: Leaf,
+    items: [
+      { href: "/archives-terrain", label: "Archives de Terrain", badge: "NEW" },
+      { href: "/etudes-climatiques", label: "Études Climatiques", badge: "NEW" },
+      { href: "/protocoles-moleculaires", label: "Protocoles Moléculaires", badge: "NEW" },
     ],
   },
   {
