@@ -151,6 +151,10 @@ import ArchivesTerrain from "./pages/ArchivesTerrain";
 import ArchiveTerrainDetail from "./pages/ArchiveTerrainDetail";
 import ProtocolesMoleculaires from "./pages/ProtocolesMoleculaires";
 import ProtocoleMoleculaireDetail from "./pages/ProtocoleMoleculaireDetail";
+import TestsExtraction from "./pages/TestsExtraction";
+import TestExtractionDetail from "./pages/TestExtractionDetail";
+import OdeursSituees from "./pages/OdeursSituees";
+import OdeurSitueeDetail from "./pages/OdeurSitueeDetail";
 import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
 import Collaborations from "./pages/Collaborations";
@@ -337,6 +341,10 @@ function Router() {
       <Route path="/archives-terrain/:id" component={ArchiveTerrainDetail} />
       <Route path="/protocoles-moleculaires" component={ProtocolesMoleculaires} />
       <Route path="/protocoles-moleculaires/:id" component={ProtocoleMoleculaireDetail} />
+      <Route path="/tests-extraction" component={TestsExtraction} />
+      <Route path="/tests-extraction/:id" component={TestExtractionDetail} />
+      <Route path="/odeurs-situees" component={OdeursSituees} />
+      <Route path="/odeurs-situees/:id" component={OdeurSitueeDetail} />
       <Route path="/projets" component={Projets} />
       <Route path="/terrains" component={Terrains} />
       <Route path="/collaborations" component={Collaborations} />

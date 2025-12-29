@@ -672,3 +672,129 @@ Intégrer les données des fichiers ABSORBE·COLOMBIA et Accords Mossi dans la b
 
 ### Durée réelle Phase 7
 15 minutes (navigation complétée, tags et recherche avancée à faire dans Phase 8)
+
+
+---
+
+## 🌿 SESSION 29 DÉC 2025 — INTÉGRATION RECHERCHE TERRAIN ABSORBE · COLOMBIA
+
+### Objectif
+Intégrer les données de recherche terrain ABSORBE · COLOMBIA dans le projet existant en créant un module "Recherche Terrain" complémentaire
+
+### Phase 1 : Analyse & Conception
+- [ ] Analyser la structure existante du projet (tables, procédures, pages)
+- [ ] Analyser les données ABSORBE · COLOMBIA (field archives, extractions, protocoles)
+- [ ] Concevoir le schéma de base de données pour le module Recherche Terrain
+- [ ] Définir les relations avec les tables existantes (molécules, recettes)
+
+### Phase 2 : Schéma de Base de Données
+- [ ] Créer table `field_archives` (archives terrain)
+- [ ] Créer table `extraction_logs` (tests d'extraction)
+- [ ] Créer table `situated_odors` (odeurs situées)
+- [ ] Créer table `climate_studies` (études climatiques)
+- [ ] Créer table `molecular_protocols_field` (protocoles moléculaires terrain)
+- [ ] Créer table `spatial_adaptations` (adaptations spatiales)
+- [ ] Définir les relations et clés étrangères
+- [ ] Pousser le schéma (pnpm db:push)
+
+### Phase 3 : Helpers & Procédures tRPC
+- [ ] Créer helpers pour field_archives dans server/db.ts
+- [ ] Créer helpers pour extraction_logs dans server/db.ts
+- [ ] Créer helpers pour situated_odors dans server/db.ts
+- [ ] Créer helpers pour climate_studies dans server/db.ts
+- [ ] Créer helpers pour molecular_protocols_field dans server/db.ts
+- [ ] Créer helpers pour spatial_adaptations dans server/db.ts
+- [ ] Créer procédures tRPC pour toutes les tables (CRUD)
+- [ ] Créer procédure de recherche globale terrain
+
+### Phase 4 : Interface Utilisateur
+- [ ] Ajouter section "Recherche Terrain" dans la navigation
+- [ ] Créer page /recherche-terrain (vue d'ensemble)
+- [ ] Créer page /recherche-terrain/archives (liste + détail)
+- [ ] Créer page /recherche-terrain/extractions (liste + détail)
+- [ ] Créer page /recherche-terrain/odeurs-situees (liste + détail)
+- [ ] Créer page /recherche-terrain/etudes-climatiques (liste + détail)
+- [ ] Créer page /recherche-terrain/protocoles (liste + détail)
+- [ ] Créer page /recherche-terrain/adaptations (liste + détail)
+
+### Phase 5 : Formulaires d'Ajout/Édition
+- [ ] Formulaire Archive terrain (template Notion)
+- [ ] Formulaire Extraction (avec sélection matière)
+- [ ] Formulaire Odeur située (avec géolocalisation)
+- [ ] Formulaire Étude climatique
+- [ ] Formulaire Protocole moléculaire terrain
+- [ ] Formulaire Adaptation spatiale
+
+### Phase 6 : Import des Données ABSORBE · COLOMBIA
+- [ ] Parser les données de la page Notion ABSORBE · COLOMBIA
+- [ ] Créer script d'import pour field_archives
+- [ ] Créer script d'import pour extraction_logs
+- [ ] Créer script d'import pour situated_odors
+- [ ] Créer script d'import pour climate_studies (Petrichor Andin, Feuilles après pluie)
+- [ ] Créer script d'import pour molecular_protocols_field
+- [ ] Créer script d'import pour recettes Colombia (10 recettes COL-*)
+- [ ] Valider l'import et les relations
+
+### Phase 7 : Fonctionnalités Avancées
+- [ ] Visualisation carte interactive (altitude, zones)
+- [ ] Timeline des recherches terrain
+- [ ] Graphiques climatiques (température, humidité, altitude)
+- [ ] Liens entre protocoles terrain et recettes existantes
+- [ ] Export PDF des protocoles
+- [ ] Système de tags pour terrains
+
+### Phase 8 : Tests & Validation
+- [ ] Tester toutes les procédures tRPC
+- [ ] Tester les formulaires d'ajout/édition
+- [ ] Valider les relations entre tables
+- [ ] Tester responsive (desktop + mobile)
+- [ ] Vérifier cohérence des données importées
+
+### Phase 9 : Checkpoint Final
+- [ ] Créer checkpoint avec module Recherche Terrain
+- [ ] Documenter les changements
+- [ ] Livrer les résultats à l'utilisateur
+
+---
+
+
+---
+
+## 🌿 SESSION 29 DÉC 2025 — MODULE RECHERCHE TERRAIN ABSORBE · COLOMBIA
+
+### Objectif
+Intégrer les données de recherche terrain ABSORBE · COLOMBIA dans le projet PERFUMUM existant en créant un module "Recherche Terrain" complémentaire au système de recettes et formules déjà en place.
+
+### Travaux réalisés
+
+#### 1. Analyse de la structure existante
+- [x] Analyser la page Notion ABSORBE · COLOMBIA
+- [x] Identifier les tables existantes (fieldArchives, climateStudies, molecularProtocols, extractionTests, situatedSmells)
+- [x] Vérifier les procédures tRPC existantes
+- [x] Identifier les pages déjà créées (ArchivesTerrain, EtudesClimatiques, ProtocolesMoleculaires)
+
+#### 2. Création des pages manquantes
+- [x] Créer la page TestsExtraction.tsx (liste des tests d'extraction)
+- [x] Créer la page TestExtractionDetail.tsx (détail d'un test)
+- [x] Créer la page OdeursSituees.tsx (liste des odeurs situées)
+- [x] Créer la page OdeurSitueeDetail.tsx (détail d'une odeur)
+- [x] Ajouter les routes dans App.tsx
+
+#### 3. Import des données ABSORBE · COLOMBIA
+- [x] Importer 2 études climatiques (Petrichor Andin, Feuilles après pluie)
+- [x] Importer 2 protocoles moléculaires (reconstructions olfactives)
+- [x] Importer 10 recettes Colombia (COL-PET-01 à COL-ARC-10)
+
+### Résumé
+Le module Recherche Terrain est maintenant complet avec :
+- ✅ 5 tables de base de données (fieldArchives, climateStudies, molecularProtocols, extractionTests, situatedSmells)
+- ✅ 8 pages fonctionnelles (4 listes + 4 détails)
+- ✅ Procédures tRPC complètes
+- ✅ Données ABSORBE · COLOMBIA importées (2 études + 2 protocoles + 10 recettes)
+
+### Prochaines étapes suggérées
+- [ ] Ajouter un menu de navigation pour le module Recherche Terrain
+- [ ] Créer une page d'accueil du module avec vue d'ensemble
+- [ ] Ajouter des filtres et recherche sur les archives terrain
+- [ ] Créer des visualisations pour les études climatiques
+- [ ] Lier les protocoles moléculaires aux études climatiques
