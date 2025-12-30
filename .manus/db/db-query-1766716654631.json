@@ -1,9 +1,0 @@
-{
-  "query": "CREATE TABLE IF NOT EXISTS `molecular_protocols` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`name` varchar(255) NOT NULL,\n\t`linked_study_id` int,\n\t`objective` text,\n\t`olfactive_architecture` text,\n\t`function` text,\n\t`head_palette` json,\n\t`heart_palette` json,\n\t`base_palette` json,\n\t`head_ratio` int DEFAULT 25,\n\t`heart_ratio` int DEFAULT 45,\n\t`base_ratio` int DEFAULT 30,\n\t`formulation_protocol` text,\n\t`sensory_tests` text,\n\t`typical_failures` text,\n\t`status` enum('conceptual','testing','validated') DEFAULT 'conceptual',\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `molecular_protocols_id` PRIMARY KEY(`id`)\n);",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `molecular_protocols` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`name` varchar(255) NOT NULL,\n\t`linked_study_id` int,\n\t`objective` text,\n\t`olfactive_architecture` text,\n\t`function` text,\n\t`head_palette` json,\n\t`heart_palette` json,\n\t`base_palette` json,\n\t`head_ratio` int DEFAULT 25,\n\t`heart_ratio` int DEFAULT 45,\n\t`base_ratio` int DEFAULT 30,\n\t`formulation_protocol` text,\n\t`sensory_tests` text,\n\t`typical_failures` text,\n\t`status` enum('conceptual','testing','validated') DEFAULT 'conceptual',\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `molecular_protocols_id` PRIMARY KEY(`id`)\n);",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 208
-}

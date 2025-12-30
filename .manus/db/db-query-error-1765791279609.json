@@ -1,8 +1,0 @@
-{
-  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN boiling_point IS NULL OR boiling_point = 0 THEN 1 ELSE 0 END) as missing_boiling_point,\n  SUM(CASE WHEN molecular_weight IS NULL OR molecular_weight = 0 THEN 1 ELSE 0 END) as missing_molecular_weight,\n  SUM(CASE WHEN family IS NULL OR family = '' THEN 1 ELSE 0 END) as missing_family,\n  SUM(CASE WHEN intensity IS NULL OR intensity = 0 THEN 1 ELSE 0 END) as missing_intensity,\n  SUM(CASE WHEN volatility IS NULL OR volatility = 0 THEN 1 ELSE 0 END) as missing_volatility\nFROM molecules;",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN boiling_point IS NULL OR boiling_point = 0 THEN 1 ELSE 0 END) as missing_boiling_point,\n  SUM(CASE WHEN molecular_weight IS NULL OR molecular_weight = 0 THEN 1 ELSE 0 END) as missing_molecular_weight,\n  SUM(CASE WHEN family IS NULL OR family = '' THEN 1 ELSE 0 END) as missing_family,\n  SUM(CASE WHEN intensity IS NULL OR intensity = 0 THEN 1 ELSE 0 END) as missing_intensity,\n  SUM(CASE WHEN volatility IS NULL OR volatility = 0 THEN 1 ELSE 0 END) as missing_volatility\nFROM molecules;",
-  "returncode": 1,
-  "logs": [
-    "ERROR 1054 (42S22) at line 1: Unknown column 'boiling_point' in ''"
-  ]
-}

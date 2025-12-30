@@ -1,9 +1,0 @@
-{
-  "query": "INSERT INTO terpene_synergies (terpene1_id, terpene2_id, compatibility_score, synergy_notes) VALUES\n(270002, 240001, 85, 'Complémentarité olfactive entre début et fin de cascade. Androstadienone (musqué subtil, effets sur l humeur) + Androsténol (truffe, musc terreux, attraction). Utilisation en parfumerie: créer une évolution complète de la cascade biosynthétique. Synergie idéale pour compositions évolutives longue durée.')",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO terpene_synergies (terpene1_id, terpene2_id, compatibility_score, synergy_notes) VALUES\n(270002, 240001, 85, 'Complémentarité olfactive entre début et fin de cascade. Androstadienone (musqué subtil, effets sur l humeur) + Androsténol (truffe, musc terreux, attraction). Utilisation en parfumerie: créer une évolution complète de la cascade biosynthétique. Synergie idéale pour compositions évolutives longue durée.')",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 106
-}

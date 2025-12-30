@@ -1,8 +1,0 @@
-{
-  "query": "SELECT mr.*, m.name as molecule_name FROM moleculesRecettes mr JOIN molecules m ON mr.moleculeId = m.id WHERE mr.recetteId = 90001 ORDER BY mr.proportion DESC;",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT mr.*, m.name as molecule_name FROM moleculesRecettes mr JOIN molecules m ON mr.moleculeId = m.id WHERE mr.recetteId = 90001 ORDER BY mr.proportion DESC;",
-  "returncode": 1,
-  "logs": [
-    "ERROR 1146 (42S02) at line 1: Table 'h2pjhhjbh276xmnbncjhcp.moleculesRecettes' doesn't exist"
-  ]
-}

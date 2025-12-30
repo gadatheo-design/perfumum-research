@@ -1,9 +1,0 @@
-{
-  "query": "CREATE TABLE IF NOT EXISTS `extraction_tests` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`test_name` varchar(255) NOT NULL,\n\t`date` timestamp NOT NULL,\n\t`field_archive_id` int,\n\t`material` text,\n\t`solvent` enum('mct','alcohol_95','alcohol_70','water','other') NOT NULL,\n\t`ratio` varchar(100),\n\t`duration` int,\n\t`result_smell` text,\n\t`viable` enum('yes','no','maybe') DEFAULT 'maybe',\n\t`notes` text,\n\t`observation_day_1` text,\n\t`observation_day_7` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `extraction_tests_id` PRIMARY KEY(`id`)\n);",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `extraction_tests` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`test_name` varchar(255) NOT NULL,\n\t`date` timestamp NOT NULL,\n\t`field_archive_id` int,\n\t`material` text,\n\t`solvent` enum('mct','alcohol_95','alcohol_70','water','other') NOT NULL,\n\t`ratio` varchar(100),\n\t`duration` int,\n\t`result_smell` text,\n\t`viable` enum('yes','no','maybe') DEFAULT 'maybe',\n\t`notes` text,\n\t`observation_day_1` text,\n\t`observation_day_7` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `extraction_tests_id` PRIMARY KEY(`id`)\n);",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 232
-}

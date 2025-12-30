@@ -1,9 +1,0 @@
-{
-  "query": "INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Plumeria Light', 'C10H18O', 'Floral / Tropical', 'floral, tropical, crémeux, jasminé, exotique, enveloppant', 'paradis tropical, sensualité douce, évasion', 154, 230, 45, 68, 68, 50, 55, 85, 20, 25, 'Frangipanier dilué en huile de jojoba. 1.5ml. CHF 15.00. Hermitage Oils.');",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Plumeria Light', 'C10H18O', 'Floral / Tropical', 'floral, tropical, crémeux, jasminé, exotique, enveloppant', 'paradis tropical, sensualité douce, évasion', 154, 230, 45, 68, 68, 50, 55, 85, 20, 25, 'Frangipanier dilué en huile de jojoba. 1.5ml. CHF 15.00. Hermitage Oils.');",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 51
-}

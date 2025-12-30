@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE molecules \nSET radar_intensity = 65, radar_freshness = 45, radar_warmth = 55, radar_sweetness = 40, radar_spiciness = 35, radar_earthiness = 70\nWHERE radar_intensity = 50 AND radar_freshness = 50 AND radar_warmth = 50 AND radar_sweetness = 50 AND radar_spiciness = 50 AND radar_earthiness = 50;",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules \nSET radar_intensity = 65, radar_freshness = 45, radar_warmth = 55, radar_sweetness = 40, radar_spiciness = 35, radar_earthiness = 70\nWHERE radar_intensity = 50 AND radar_freshness = 50 AND radar_warmth = 50 AND radar_sweetness = 50 AND radar_spiciness = 50 AND radar_earthiness = 50;",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 59
-}

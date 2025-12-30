@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE molecules \nSET `references` = JSON_ARRAY(\n  JSON_OBJECT(\n    'type', 'pubchem',\n    'title', 'Geosmin - PubChem Compound Summary',\n    'url', 'https://pubchem.ncbi.nlm.nih.gov/compound/Geosmin',\n    'year', 2024\n  ),\n  JSON_OBJECT(\n    'type', 'academic',\n    'author', 'Gerber, N.N.',\n    'year', 1968,\n    'title', 'Geosmin, from microorganisms, is trans-1,10-dimethyl-trans-9-decalol',\n    'journal', 'Tetrahedron Letters',\n    'doi', '10.1016/S0040-4039(01)99023-1'\n  ),\n  JSON_OBJECT(\n    'type', 'academic',\n    'author', 'Jüttner, F. & Watson, S.B.',\n    'year', 2007,\n    'title', 'Biochemical and ecological control of geosmin and 2-methylisoborneol in source waters',\n    'journal', 'Applied and Environmental Microbiology',\n    'doi', '10.1128/AEM.02250-06'\n  )\n)\nWHERE id = 1;",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules \nSET `references` = JSON_ARRAY(\n  JSON_OBJECT(\n    'type', 'pubchem',\n    'title', 'Geosmin - PubChem Compound Summary',\n    'url', 'https://pubchem.ncbi.nlm.nih.gov/compound/Geosmin',\n    'year', 2024\n  ),\n  JSON_OBJECT(\n    'type', 'academic',\n    'author', 'Gerber, N.N.',\n    'year', 1968,\n    'title', 'Geosmin, from microorganisms, is trans-1,10-dimethyl-trans-9-decalol',\n    'journal', 'Tetrahedron Letters',\n    'doi', '10.1016/S0040-4039(01)99023-1'\n  ),\n  JSON_OBJECT(\n    'type', 'academic',\n    'author', 'Jüttner, F. & Watson, S.B.',\n    'year', 2007,\n    'title', 'Biochemical and ecological control of geosmin and 2-methylisoborneol in source waters',\n    'journal', 'Applied and Environmental Microbiology',\n    'doi', '10.1128/AEM.02250-06'\n  )\n)\nWHERE id = 1;",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 59
-}
