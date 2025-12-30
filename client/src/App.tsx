@@ -157,6 +157,8 @@ import OdeursSituees from "./pages/OdeursSituees";
 import OdeurSitueeDetail from "./pages/OdeurSitueeDetail";
 import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
+import BibliographiePage from "./pages/BibliographiePage";
+import GestionPage from "./pages/GestionPage";
 import Collaborations from "./pages/Collaborations";
 import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
@@ -347,6 +349,8 @@ function Router() {
       <Route path="/odeurs-situees/:id" component={OdeurSitueeDetail} />
       <Route path="/projets" component={Projets} />
       <Route path="/terrains" component={Terrains} />
+      <Route path="/bibliographie" component={BibliographiePage} />
+      <Route path="/gestion" component={GestionPage} />
       <Route path="/collaborations" component={Collaborations} />
       <Route path="/archives" component={Archives} />
       <Route path="/outils" component={Outils} />
