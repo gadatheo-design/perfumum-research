@@ -1,0 +1,60 @@
+{
+  "query": "SELECT id, name, family FROM molecules WHERE family LIKE '%Terpène%' OR family LIKE '%terpène%' OR name IN ('Myrcène', 'Limonène', 'α-Pinène', 'β-Pinène', 'β-Caryophyllène', 'Linalool', 'Humulène') ORDER BY id LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, family FROM molecules WHERE family LIKE '%Terpène%' OR family LIKE '%terpène%' OR name IN ('Myrcène', 'Limonène', 'α-Pinène', 'β-Pinène', 'β-Caryophyllène', 'Linalool', 'Humulène') ORDER BY id LIMIT 10;",
+  "rows": [
+    {
+      "id": "30004",
+      "name": "Géosmine",
+      "family": "Terpène / Terre"
+    },
+    {
+      "id": "30005",
+      "name": "Caryophyllène",
+      "family": "Sesquiterpène"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène",
+      "family": "Monoterpène"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène",
+      "family": "Monoterpène"
+    },
+    {
+      "id": "30008",
+      "name": "Pinène (α et β)",
+      "family": "Monoterpène"
+    },
+    {
+      "id": "30009",
+      "name": "Linalool",
+      "family": "Monoterpène alcool"
+    },
+    {
+      "id": "90047",
+      "name": "Cedarol",
+      "family": "Sesquiterpène"
+    },
+    {
+      "id": "90048",
+      "name": "Humulène",
+      "family": "Sesquiterpène"
+    },
+    {
+      "id": "90049",
+      "name": "β-caryophyllène",
+      "family": "Sesquiterpène"
+    },
+    {
+      "id": "90050",
+      "name": "Vetiverol",
+      "family": "Sesquiterpène"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\n30004\tGéosmine\tTerpène / Terre\n30005\tCaryophyllène\tSesquiterpène\n30006\tMyrcène\tMonoterpène\n30007\tLimonène\tMonoterpène\n30008\tPinène (α et β)\tMonoterpène\n30009\tLinalool\tMonoterpène alcool\n90047\tCedarol\tSesquiterpène\n90048\tHumulène\tSesquiterpène\n90049\tβ-caryophyllène\tSesquiterpène\n90050\tVetiverol\tSesquiterpène\n",
+  "stderr": "",
+  "execution_time_ms": 77
+}

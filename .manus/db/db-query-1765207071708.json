@@ -1,0 +1,58 @@
+{
+  "query": "SELECT id, name FROM molecules WHERE name IN ('Myrcène', 'Limonène', 'α-Pinène', 'β-Pinène', 'β-Caryophyllène', 'Linalool', 'Humulène') ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules WHERE name IN ('Myrcène', 'Limonène', 'α-Pinène', 'β-Pinène', 'β-Caryophyllène', 'Linalool', 'Humulène') ORDER BY name;",
+  "rows": [
+    {
+      "id": "90048",
+      "name": "Humulène"
+    },
+    {
+      "id": "150007",
+      "name": "Humulène"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène"
+    },
+    {
+      "id": "90056",
+      "name": "Limonène"
+    },
+    {
+      "id": "150002",
+      "name": "Limonène"
+    },
+    {
+      "id": "30009",
+      "name": "Linalool"
+    },
+    {
+      "id": "150006",
+      "name": "Linalool"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    },
+    {
+      "id": "150001",
+      "name": "Myrcène"
+    },
+    {
+      "id": "150003",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "150005",
+      "name": "β-Caryophyllène"
+    },
+    {
+      "id": "150004",
+      "name": "β-Pinène"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n90048\tHumulène\n150007\tHumulène\n30007\tLimonène\n90056\tLimonène\n150002\tLimonène\n30009\tLinalool\n150006\tLinalool\n30006\tMyrcène\n150001\tMyrcène\n150003\tα-Pinène\n150005\tβ-Caryophyllène\n150004\tβ-Pinène\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

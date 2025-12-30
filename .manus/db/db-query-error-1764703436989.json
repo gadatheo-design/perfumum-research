@@ -1,0 +1,8 @@
+{
+  "query": "SELECT 'Tabac' as type, id, formulaName as name FROM tobacco_formulas\nUNION ALL\nSELECT 'Installation', id, title as name FROM installations\nORDER BY type, id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'Tabac' as type, id, formulaName as name FROM tobacco_formulas\nUNION ALL\nSELECT 'Installation', id, title as name FROM installations\nORDER BY type, id;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'formulaname' in 'field list'"
+  ]
+}

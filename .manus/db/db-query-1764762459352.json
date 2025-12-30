@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE tabacs SET internalNotes = 'Tabac brun américain à séchage à l''air. Profil terreux et fumé prononcé avec notes de cacao et noix grillées. Riche en pyrazines (notes chocolatées) et β-caryophyllène (épicé boisé). Compatible avec accords minéraux et résineux. Idéal pour compositions animaliques et fumées. Température optimale: 120-140°C. Profils olfactifs: terreux, fumé, boisé, animalité.' WHERE name = 'Burley'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE tabacs SET internalNotes = 'Tabac brun américain à séchage à l''air. Profil terreux et fumé prononcé avec notes de cacao et noix grillées. Riche en pyrazines (notes chocolatées) et β-caryophyllène (épicé boisé). Compatible avec accords minéraux et résineux. Idéal pour compositions animaliques et fumées. Température optimale: 120-140°C. Profils olfactifs: terreux, fumé, boisé, animalité.' WHERE name = 'Burley'",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 64
+}

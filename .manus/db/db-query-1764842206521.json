@@ -1,0 +1,100 @@
+{
+  "query": "SELECT DISTINCT family FROM molecules WHERE family IS NOT NULL ORDER BY family LIMIT 30",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT DISTINCT family FROM molecules WHERE family IS NOT NULL ORDER BY family LIMIT 30",
+  "rows": [
+    {
+      "family": "Acide"
+    },
+    {
+      "family": "Alcool"
+    },
+    {
+      "family": "Aldéhyde"
+    },
+    {
+      "family": "Ambre"
+    },
+    {
+      "family": "Ambrée / Boisée"
+    },
+    {
+      "family": "Bois"
+    },
+    {
+      "family": "Cétone"
+    },
+    {
+      "family": "Ester"
+    },
+    {
+      "family": "Florale"
+    },
+    {
+      "family": "Indole"
+    },
+    {
+      "family": "Ionone"
+    },
+    {
+      "family": "Lactone"
+    },
+    {
+      "family": "Lactone-Terre"
+    },
+    {
+      "family": "Minéral"
+    },
+    {
+      "family": "Monoterpène"
+    },
+    {
+      "family": "Monoterpène alcool"
+    },
+    {
+      "family": "Organique / Cheese"
+    },
+    {
+      "family": "Phénol"
+    },
+    {
+      "family": "Pyrazine"
+    },
+    {
+      "family": "Pyrolysat"
+    },
+    {
+      "family": "Quinoléine"
+    },
+    {
+      "family": "Résinoïde"
+    },
+    {
+      "family": "Salicylate"
+    },
+    {
+      "family": "Sesquiterpène"
+    },
+    {
+      "family": "Terpène"
+    },
+    {
+      "family": "Terpène / Terre"
+    },
+    {
+      "family": "acides_aromatiques"
+    },
+    {
+      "family": "acides_gras"
+    },
+    {
+      "family": "esters"
+    },
+    {
+      "family": "indoles"
+    }
+  ],
+  "messages": [],
+  "stdout": "family\nAcide\nAlcool\nAldéhyde\nAmbre\nAmbrée / Boisée\nBois\nCétone\nEster\nFlorale\nIndole\nIonone\nLactone\nLactone-Terre\nMinéral\nMonoterpène\nMonoterpène alcool\nOrganique / Cheese\nPhénol\nPyrazine\nPyrolysat\nQuinoléine\nRésinoïde\nSalicylate\nSesquiterpène\nTerpène\nTerpène / Terre\nacides_aromatiques\nacides_gras\nesters\nindoles\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

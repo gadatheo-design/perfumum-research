@@ -1,0 +1,15 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM molecules) as molecules_count,\n  (SELECT COUNT(*) FROM recettes) as recettes_count,\n  (SELECT COUNT(*) FROM accords) as accords_count",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM molecules) as molecules_count,\n  (SELECT COUNT(*) FROM recettes) as recettes_count,\n  (SELECT COUNT(*) FROM accords) as accords_count",
+  "rows": [
+    {
+      "molecules_count": "176",
+      "recettes_count": "195",
+      "accords_count": "25"
+    }
+  ],
+  "messages": [],
+  "stdout": "molecules_count\trecettes_count\taccords_count\n176\t195\t25\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

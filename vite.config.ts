@@ -5,6 +5,7 @@ import fs from "node:fs";
 import path from "path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import visualizer from "vite-bundle-visualizer";
 
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime()];
@@ -24,6 +25,17 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react/jsx-runtime'],
+          'router': ['wouter'],
+          'ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-select'],
+          'charts': ['recharts', 'd3'],
+          'utils': ['clsx', 'tailwind-merge', 'date-fns'],
+        },
+      },
+    },
   },
   server: {
     host: true,
@@ -36,6 +48,10 @@ export default defineConfig({
       "localhost",
       "127.0.0.1",
     ],
+    hmr: {
+      clientPort: 443,
+      protocol: "wss",
+    },
     fs: {
       strict: true,
       deny: ["**/.*"],

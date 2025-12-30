@@ -1,0 +1,110 @@
+{
+  "query": "SELECT id, name, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness FROM molecules WHERE radar_intensity != 50 OR radar_freshness != 50 LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness FROM molecules WHERE radar_intensity != 50 OR radar_freshness != 50 LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Hexanoic acid",
+      "radar_intensity": "37",
+      "radar_freshness": "40",
+      "radar_warmth": "57",
+      "radar_sweetness": "46",
+      "radar_spiciness": "59",
+      "radar_earthiness": "42"
+    },
+    {
+      "id": "2",
+      "name": "Linalol",
+      "radar_intensity": "45",
+      "radar_freshness": "61",
+      "radar_warmth": "51",
+      "radar_sweetness": "58",
+      "radar_spiciness": "43",
+      "radar_earthiness": "47"
+    },
+    {
+      "id": "3",
+      "name": "Ambroxan",
+      "radar_intensity": "50",
+      "radar_freshness": "41",
+      "radar_warmth": "69",
+      "radar_sweetness": "48",
+      "radar_spiciness": "50",
+      "radar_earthiness": "47"
+    },
+    {
+      "id": "30001",
+      "name": "Hexanoic acid",
+      "radar_intensity": "40",
+      "radar_freshness": "38",
+      "radar_warmth": "57",
+      "radar_sweetness": "46",
+      "radar_spiciness": "59",
+      "radar_earthiness": "42"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol",
+      "radar_intensity": "48",
+      "radar_freshness": "59",
+      "radar_warmth": "51",
+      "radar_sweetness": "58",
+      "radar_spiciness": "43",
+      "radar_earthiness": "47"
+    },
+    {
+      "id": "30003",
+      "name": "Ambroxan",
+      "radar_intensity": "53",
+      "radar_freshness": "39",
+      "radar_warmth": "69",
+      "radar_sweetness": "48",
+      "radar_spiciness": "50",
+      "radar_earthiness": "47"
+    },
+    {
+      "id": "30004",
+      "name": "Géosmine",
+      "radar_intensity": "47",
+      "radar_freshness": "52",
+      "radar_warmth": "45",
+      "radar_sweetness": "49",
+      "radar_spiciness": "43",
+      "radar_earthiness": "84"
+    },
+    {
+      "id": "30005",
+      "name": "Caryophyllène",
+      "radar_intensity": "44",
+      "radar_freshness": "36",
+      "radar_warmth": "66",
+      "radar_sweetness": "36",
+      "radar_spiciness": "87",
+      "radar_earthiness": "54"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène",
+      "radar_intensity": "53",
+      "radar_freshness": "63",
+      "radar_warmth": "67",
+      "radar_sweetness": "46",
+      "radar_spiciness": "73",
+      "radar_earthiness": "64"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène",
+      "radar_intensity": "49",
+      "radar_freshness": "74",
+      "radar_warmth": "45",
+      "radar_sweetness": "54",
+      "radar_spiciness": "34",
+      "radar_earthiness": "49"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tradar_intensity\tradar_freshness\tradar_warmth\tradar_sweetness\tradar_spiciness\tradar_earthiness\n1\tHexanoic acid\t37\t40\t57\t46\t59\t42\n2\tLinalol\t45\t61\t51\t58\t43\t47\n3\tAmbroxan\t50\t41\t69\t48\t50\t47\n30001\tHexanoic acid\t40\t38\t57\t46\t59\t42\n30002\tLinalol\t48\t59\t51\t58\t43\t47\n30003\tAmbroxan\t53\t39\t69\t48\t50\t47\n30004\tGéosmine\t47\t52\t45\t49\t43\t84\n30005\tCaryophyllène\t44\t36\t66\t36\t87\t54\n30006\tMyrcène\t53\t63\t67\t46\t73\t64\n30007\tLimonène\t49\t74\t45\t54\t34\t49\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

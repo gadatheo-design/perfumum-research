@@ -1,0 +1,80 @@
+{
+  "query": "SELECT id, name, therapeuticProperties FROM molecules WHERE name LIKE '%Myrcène%' OR name LIKE '%Limonène%' OR name LIKE '%Pinène%' OR name LIKE '%Caryophyllène%' OR name LIKE '%Linalool%' OR name LIKE '%Humulène%' ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, therapeuticProperties FROM molecules WHERE name LIKE '%Myrcène%' OR name LIKE '%Limonène%' OR name LIKE '%Pinène%' OR name LIKE '%Caryophyllène%' OR name LIKE '%Linalool%' OR name LIKE '%Humulène%' ORDER BY name;",
+  "rows": [
+    {
+      "id": "30005",
+      "name": "Caryophyllène",
+      "therapeuticProperties": "NULL"
+    },
+    {
+      "id": "90048",
+      "name": "Humulène",
+      "therapeuticProperties": "Anti-inflammatoire, Antibactérien, Coupe-faim (anorexigène), Analgésique, Antitumoral (études préliminaires), Antioxydant"
+    },
+    {
+      "id": "150007",
+      "name": "Humulène",
+      "therapeuticProperties": "Anti-inflammatoire, Antibactérien, Coupe-faim (anorexigène), Analgésique, Antitumoral (études préliminaires), Antioxydant"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène",
+      "therapeuticProperties": "Antidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, Favorise l'absorption transdermique d'autres molécules"
+    },
+    {
+      "id": "90056",
+      "name": "Limonène",
+      "therapeuticProperties": "Antidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, Favorise l'absorption transdermique d'autres molécules"
+    },
+    {
+      "id": "150002",
+      "name": "Limonène",
+      "therapeuticProperties": "Antidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, Favorise l'absorption transdermique d'autres molécules"
+    },
+    {
+      "id": "150006",
+      "name": "Linalool",
+      "therapeuticProperties": "Anxiolytique, Sédatif, Anticonvulsivant, Analgésique, Anti-inflammatoire, Améliore le sommeil, Neuroprotecteur"
+    },
+    {
+      "id": "30009",
+      "name": "Linalool",
+      "therapeuticProperties": "Anxiolytique, Sédatif, Anticonvulsivant, Analgésique, Anti-inflammatoire, Améliore le sommeil, Neuroprotecteur"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène",
+      "therapeuticProperties": "Analgésique, Anti-inflammatoire, Sédatif, Relaxant musculaire, Anxiolytique, Potentialise les effets des cannabinoïdes (effet d'entourage)"
+    },
+    {
+      "id": "150001",
+      "name": "Myrcène",
+      "therapeuticProperties": "Analgésique, Anti-inflammatoire, Sédatif, Relaxant musculaire, Anxiolytique, Potentialise les effets des cannabinoïdes (effet d'entourage)"
+    },
+    {
+      "id": "30008",
+      "name": "Pinène (α et β)",
+      "therapeuticProperties": "NULL"
+    },
+    {
+      "id": "150003",
+      "name": "α-Pinène",
+      "therapeuticProperties": "Bronchodilatateur, Expectorant, Anti-inflammatoire, Améliore la mémoire et la concentration, Antimicrobien, Neuroprotecteur"
+    },
+    {
+      "id": "150005",
+      "name": "β-Caryophyllène",
+      "therapeuticProperties": "Anti-inflammatoire puissant (agoniste CB2), Analgésique, Gastroprotecteur, Neuroprotecteur, Anxiolytique, Antioxydant"
+    },
+    {
+      "id": "150004",
+      "name": "β-Pinène",
+      "therapeuticProperties": "Bronchodilatateur, Expectorant, Anti-inflammatoire, Antioxydant, Améliore la biodisponibilité d'autres composés"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttherapeuticProperties\n30005\tCaryophyllène\tNULL\n90048\tHumulène\tAnti-inflammatoire, Antibactérien, Coupe-faim (anorexigène), Analgésique, Antitumoral (études préliminaires), Antioxydant\n150007\tHumulène\tAnti-inflammatoire, Antibactérien, Coupe-faim (anorexigène), Analgésique, Antitumoral (études préliminaires), Antioxydant\n30007\tLimonène\tAntidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, Favorise l'absorption transdermique d'autres molécules\n90056\tLimonène\tAntidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, Favorise l'absorption transdermique d'autres molécules\n150002\tLimonène\tAntidépresseur, Anxiolytique, Anti-stress, Stimulant immunitaire, Antioxydant, Favorise l'absorption transdermique d'autres molécules\n150006\tLinalool\tAnxiolytique, Sédatif, Anticonvulsivant, Analgésique, Anti-inflammatoire, Améliore le sommeil, Neuroprotecteur\n30009\tLinalool\tAnxiolytique, Sédatif, Anticonvulsivant, Analgésique, Anti-inflammatoire, Améliore le sommeil, Neuroprotecteur\n30006\tMyrcène\tAnalgésique, Anti-inflammatoire, Sédatif, Relaxant musculaire, Anxiolytique, Potentialise les effets des cannabinoïdes (effet d'entourage)\n150001\tMyrcène\tAnalgésique, Anti-inflammatoire, Sédatif, Relaxant musculaire, Anxiolytique, Potentialise les effets des cannabinoïdes (effet d'entourage)\n30008\tPinène (α et β)\tNULL\n150003\tα-Pinène\tBronchodilatateur, Expectorant, Anti-inflammatoire, Améliore la mémoire et la concentration, Antimicrobien, Neuroprotecteur\n150005\tβ-Caryophyllène\tAnti-inflammatoire puissant (agoniste CB2), Analgésique, Gastroprotecteur, Neuroprotecteur, Anxiolytique, Antioxydant\n150004\tβ-Pinène\tBronchodilatateur, Expectorant, Anti-inflammatoire, Antioxydant, Améliore la biodisponibilité d'autres composés\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

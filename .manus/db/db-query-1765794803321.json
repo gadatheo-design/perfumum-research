@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Miyazaki Citrus', 'C10H16', 'Agrumes / Hespéridé', 'agrume doux, délicat, japonais, floral, rare, subtil', 'délicatesse, Japon, raffinement, sérénité', 136, 176, 88, 55, 55, 88, 20, 65, 15, 10, 'Citrus tamurana - Agrume japonais rare, doux et délicat. Distillation artisanale. 1.5ml. CHF 19.00. Hermitage Oils.');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Miyazaki Citrus', 'C10H16', 'Agrumes / Hespéridé', 'agrume doux, délicat, japonais, floral, rare, subtil', 'délicatesse, Japon, raffinement, sérénité', 136, 176, 88, 55, 55, 88, 20, 65, 15, 10, 'Citrus tamurana - Agrume japonais rare, doux et délicat. Distillation artisanale. 1.5ml. CHF 19.00. Hermitage Oils.');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 59
+}

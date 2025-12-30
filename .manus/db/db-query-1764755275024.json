@@ -1,0 +1,9 @@
+{
+  "query": "\nALTER TABLE recettes \nADD COLUMN costEstimate INT COMMENT 'Estimated cost in cents (CHF)',\nADD COLUMN productionTime INT COMMENT 'Production time in minutes',\nADD COLUMN status ENUM('experimental', 'testing', 'validated', 'production') DEFAULT 'experimental';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nALTER TABLE recettes \nADD COLUMN costEstimate INT COMMENT 'Estimated cost in cents (CHF)',\nADD COLUMN productionTime INT COMMENT 'Production time in minutes',\nADD COLUMN status ENUM('experimental', 'testing', 'validated', 'production') DEFAULT 'experimental';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1060
+}

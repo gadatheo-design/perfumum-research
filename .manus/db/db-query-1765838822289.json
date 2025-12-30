@@ -1,0 +1,26 @@
+{
+  "query": "SELECT id, name FROM recettes WHERE name IN ('Pheromona Truffle', 'Pheromona Skin', 'Pheromona Alpha', 'Pheromona Cascade')",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM recettes WHERE name IN ('Pheromona Truffle', 'Pheromona Skin', 'Pheromona Alpha', 'Pheromona Cascade')",
+  "rows": [
+    {
+      "id": "180001",
+      "name": "Pheromona Truffle"
+    },
+    {
+      "id": "210001",
+      "name": "Pheromona Skin"
+    },
+    {
+      "id": "210002",
+      "name": "Pheromona Alpha"
+    },
+    {
+      "id": "210003",
+      "name": "Pheromona Cascade"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n180001\tPheromona Truffle\n210001\tPheromona Skin\n210002\tPheromona Alpha\n210003\tPheromona Cascade\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}
