@@ -127,6 +127,20 @@
       "when": 1767053455082,
       "tag": "0017_serious_bromley",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1767056765320,
+      "tag": "0018_narrow_felicia_hardy",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1767056853838,
+      "tag": "0019_misty_the_executioner",
+      "breakpoints": true
     }
   ]
 }
