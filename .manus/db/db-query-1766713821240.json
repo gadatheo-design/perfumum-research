@@ -1,9 +1,0 @@
-{
-  "query": "\nCREATE TABLE IF NOT EXISTS `recettes_formules_reference` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `recette_id` int NOT NULL,\n  `formule_reference_name` varchar(255) NOT NULL,\n  `formule_reference_family` varchar(100) NOT NULL,\n  `similarity_score` int NOT NULL,\n  `notes` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `recettes_formules_reference_id` PRIMARY KEY(`id`),\n  CONSTRAINT `unique_recette_formule` UNIQUE(`recette_id`,`formule_reference_name`),\n  CONSTRAINT `recettes_formules_reference_recette_id_fk` FOREIGN KEY (`recette_id`) REFERENCES `recettes`(`id`) ON DELETE CASCADE,\n  INDEX `idx_recette_formule` (`recette_id`)\n)\n",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nCREATE TABLE IF NOT EXISTS `recettes_formules_reference` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `recette_id` int NOT NULL,\n  `formule_reference_name` varchar(255) NOT NULL,\n  `formule_reference_family` varchar(100) NOT NULL,\n  `similarity_score` int NOT NULL,\n  `notes` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `recettes_formules_reference_id` PRIMARY KEY(`id`),\n  CONSTRAINT `unique_recette_formule` UNIQUE(`recette_id`,`formule_reference_name`),\n  CONSTRAINT `recettes_formules_reference_recette_id_fk` FOREIGN KEY (`recette_id`) REFERENCES `recettes`(`id`) ON DELETE CASCADE,\n  INDEX `idx_recette_formule` (`recette_id`)\n)\n",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 362
-}

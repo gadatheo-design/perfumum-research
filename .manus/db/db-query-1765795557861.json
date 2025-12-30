@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Menthol, Menthone, Menthyl acetate, Isomenthone') WHERE name = 'Artisan Peppermint Oil';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: α-Pinene, Sabinene, Myrcene, β-Pinene') WHERE name = 'Wild Juniper';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Geosmin, 2-Methylisoborneol, Arginine pyrolysée') WHERE name = 'Mitti Attar';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Ambrein, Ambrox, α-Santalol, β-Santalol') WHERE name = 'Gris d''Ambre';",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Menthol, Menthone, Menthyl acetate, Isomenthone') WHERE name = 'Artisan Peppermint Oil';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: α-Pinene, Sabinene, Myrcene, β-Pinene') WHERE name = 'Wild Juniper';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Geosmin, 2-Methylisoborneol, Arginine pyrolysée') WHERE name = 'Mitti Attar';\nUPDATE molecules SET notes = CONCAT(notes, ' | Molécules-clés: Ambrein, Ambrox, α-Santalol, β-Santalol') WHERE name = 'Gris d''Ambre';",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 88
-}

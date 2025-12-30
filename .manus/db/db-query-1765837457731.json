@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE recettes SET \n  name = CASE id\n    WHEN 30001 THEN 'Résine Primordiale'\n    WHEN 30002 THEN 'Ambre Fossile'\n    WHEN 30003 THEN 'Encens Tellurique'\n    WHEN 30004 THEN 'Labdanum Nocturne'\n    WHEN 30005 THEN 'Myrrhe Ancestrale'\n    WHEN 30006 THEN 'Oliban Sacré'\n    WHEN 30007 THEN 'Styrax Profond'\n  END,\n  ingredients = CASE id\n    WHEN 30001 THEN 'Résine de pin, Ambre gris, Terre humide'\n    WHEN 30002 THEN 'Ambre fossile, Kaolin, Fumée sèche'\n    WHEN 30003 THEN 'Encens oliban, Terre noire, Vétiver'\n    WHEN 30004 THEN 'Labdanum, Ciste, Mousse de chêne'\n    WHEN 30005 THEN 'Myrrhe, Benjoin, Bois de santal'\n    WHEN 30006 THEN 'Oliban, Encens, Cèdre atlas'\n    WHEN 30007 THEN 'Styrax, Benzoin, Vanille'\n  END\nWHERE id IN (30001, 30002, 30003, 30004, 30005, 30006, 30007);",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE recettes SET \n  name = CASE id\n    WHEN 30001 THEN 'Résine Primordiale'\n    WHEN 30002 THEN 'Ambre Fossile'\n    WHEN 30003 THEN 'Encens Tellurique'\n    WHEN 30004 THEN 'Labdanum Nocturne'\n    WHEN 30005 THEN 'Myrrhe Ancestrale'\n    WHEN 30006 THEN 'Oliban Sacré'\n    WHEN 30007 THEN 'Styrax Profond'\n  END,\n  ingredients = CASE id\n    WHEN 30001 THEN 'Résine de pin, Ambre gris, Terre humide'\n    WHEN 30002 THEN 'Ambre fossile, Kaolin, Fumée sèche'\n    WHEN 30003 THEN 'Encens oliban, Terre noire, Vétiver'\n    WHEN 30004 THEN 'Labdanum, Ciste, Mousse de chêne'\n    WHEN 30005 THEN 'Myrrhe, Benjoin, Bois de santal'\n    WHEN 30006 THEN 'Oliban, Encens, Cèdre atlas'\n    WHEN 30007 THEN 'Styrax, Benzoin, Vanille'\n  END\nWHERE id IN (30001, 30002, 30003, 30004, 30005, 30006, 30007);",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 60
-}

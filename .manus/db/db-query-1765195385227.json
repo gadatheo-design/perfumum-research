@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE molecules \nSET therapeuticProperties = CASE\n  WHEN id = 3 THEN 'Bronchodilatateur, anti-inflammatoire, améliore la mémoire et la concentration. Antibactérien et antioxydant. Favorise la vigilance.'\n  WHEN id = 4 THEN 'Anti-inflammatoire, expectorant, bronchodilatateur. Améliore la respiration et réduit les inflammations. Propriétés antiseptiques.'\n  ELSE therapeuticProperties\nEND\nWHERE id IN (3, 4) AND (name LIKE '%Pinène%' OR name LIKE '%Pinene%');",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules \nSET therapeuticProperties = CASE\n  WHEN id = 3 THEN 'Bronchodilatateur, anti-inflammatoire, améliore la mémoire et la concentration. Antibactérien et antioxydant. Favorise la vigilance.'\n  WHEN id = 4 THEN 'Anti-inflammatoire, expectorant, bronchodilatateur. Améliore la respiration et réduit les inflammations. Propriétés antiseptiques.'\n  ELSE therapeuticProperties\nEND\nWHERE id IN (3, 4) AND (name LIKE '%Pinène%' OR name LIKE '%Pinene%');",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 52
-}

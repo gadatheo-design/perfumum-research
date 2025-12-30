@@ -1,9 +1,0 @@
-{
-  "query": "CREATE TABLE IF NOT EXISTS citations (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  entity_type ENUM('molecule', 'recipe', 'prototype', 'accord') NOT NULL,\n  entity_id INT NOT NULL,\n  format ENUM('apa', 'mla', 'chicago', 'bibtex') DEFAULT 'apa' NOT NULL,\n  citation_text TEXT NOT NULL,\n  doi VARCHAR(255),\n  url VARCHAR(512),\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL\n)",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS citations (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  entity_type ENUM('molecule', 'recipe', 'prototype', 'accord') NOT NULL,\n  entity_id INT NOT NULL,\n  format ENUM('apa', 'mla', 'chicago', 'bibtex') DEFAULT 'apa' NOT NULL,\n  citation_text TEXT NOT NULL,\n  doi VARCHAR(255),\n  url VARCHAR(512),\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL\n)",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 179
-}

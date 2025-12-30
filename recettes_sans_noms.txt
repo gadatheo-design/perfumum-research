@@ -1,9 +1,0 @@
-# Recettes sans noms propres identifiées
-
-## Catégorie "resine" (IDs 30001-30007)
-Ces 7 recettes n'affichent que "resine" sans nom ni ingrédients.
-
-## Catégorie "resine_cbd" (IDs 90001-90010)
-Ces 10 recettes n'affichent que "resine_cbd" sans nom ni ingrédients.
-
-## Total: 17 recettes à enrichir

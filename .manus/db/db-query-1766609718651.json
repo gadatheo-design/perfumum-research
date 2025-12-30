@@ -1,9 +1,0 @@
-{
-  "query": "CREATE TABLE IF NOT EXISTS `recherche_radicale` (\n  `id` INT AUTO_INCREMENT PRIMARY KEY,\n  `nom` VARCHAR(255) NOT NULL,\n  `symbole` VARCHAR(10),\n  `serie` VARCHAR(255) NOT NULL,\n  `concept` TEXT NOT NULL,\n  `note_speciale` TEXT,\n  `architecture` TEXT NOT NULL,\n  `effet` TEXT NOT NULL,\n  `usage_artistique` TEXT NOT NULL,\n  `themes_conceptuels` TEXT,\n  `avertissement` TEXT,\n  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL\n);",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `recherche_radicale` (\n  `id` INT AUTO_INCREMENT PRIMARY KEY,\n  `nom` VARCHAR(255) NOT NULL,\n  `symbole` VARCHAR(10),\n  `serie` VARCHAR(255) NOT NULL,\n  `concept` TEXT NOT NULL,\n  `note_speciale` TEXT,\n  `architecture` TEXT NOT NULL,\n  `effet` TEXT NOT NULL,\n  `usage_artistique` TEXT NOT NULL,\n  `themes_conceptuels` TEXT,\n  `avertissement` TEXT,\n  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL\n);",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 221
-}
