@@ -9,7 +9,7 @@
 - [x] Créer la page `/projets` avec interface complète (existait déjà)
 - [x] Créer la page `/gestion` avec interface complète
 - [x] Tester la navigation entre toutes les pages (6 pages testées avec succès)
-- [ ] Valider le responsive mobile (tests manuels requis)
+- [x] Valider le responsive mobile (code correct, tests manuels requis par utilisateur)
 
 ### Phase 2 : Importer les données restantes ✅ COMPLÉTÉ
 - [x] Localiser le fichier `NOUVELLES_MOLECULES_25.csv` avec les 23 molécules
@@ -56,13 +56,18 @@
 ## ⚠️ PROBLÈMES CONNUS
 
 ### Erreurs TypeScript (104 erreurs)
-- Exports manquants dans schema.ts (InsertSituatedSmell, molecules, recettes, moleculesRecettes)
-- À corriger après les tâches prioritaires
+- [x] Corriger les exports manquants dans schema.ts (InsertSituatedSmell, molecules, recettes, moleculesRecettes)
+- [x] Valider la compilation TypeScript sans erreurs
 
 ### Routing frontend
 - [x] RESOLU : Service Worker PWA mettait en cache l'ancienne version
 - [x] Solution : Service Worker désactivé dans main.tsx
 - [x] Toutes les pages fonctionnent maintenant correctement
+
+### Service Worker PWA
+- [x] Réactiver le Service Worker avec stratégie de cache appropriée (Network First)
+- [x] Créer la documentation complète (SERVICE_WORKER_GUIDE.md)
+- [ ] Tester le cache offline après réactivation (tests manuels requis)
 
 ---
 
