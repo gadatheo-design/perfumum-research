@@ -1,0 +1,2538 @@
+{
+  "timestamp": "2025-12-26T01:59:28.568Z",
+  "summary": {
+    "totalRecettes": 244,
+    "noMolecules": 34,
+    "fewMolecules": 2,
+    "atypical": 140,
+    "lowScore": 8,
+    "totalProblematic": 184
+  },
+  "details": {
+    "noMolecules": [
+      {
+        "id": 330018,
+        "name": "SELVA SAGRADA",
+        "gamme": "Colombie",
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360018,
+        "name": "TERRE ROUGE MOSSI",
+        "gamme": "Mossi",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 300004,
+        "name": "Colombie IV - Café Floral",
+        "gamme": null,
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360011,
+        "name": "TOUNDRA CAMPHRÉE",
+        "gamme": "Glaciaire",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360017,
+        "name": "KARITÉ SACRÉ",
+        "gamme": "Mossi",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360013,
+        "name": "CAFÉ COLOMBIEN FUMÉ",
+        "gamme": "Colombie",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360004,
+        "name": "FUMÉE DE TEMPLE ANCIEN",
+        "gamme": "Volcanique",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 330019,
+        "name": "FRUTAS ANDINAS",
+        "gamme": "Colombie",
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360006,
+        "name": "CENDRES SACRÉES",
+        "gamme": "Volcanique",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360009,
+        "name": "BIBLIOTHÈQUE D'ALEXANDRIE",
+        "gamme": "Civilisations",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 300008,
+        "name": "Colombie VIII - Harmonie Complète",
+        "gamme": null,
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 300007,
+        "name": "Colombie VII - Endémique Rare",
+        "gamme": null,
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360001,
+        "name": "BRUME MARINE MÉTALLIQUE",
+        "gamme": "Pétrichor",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360012,
+        "name": "CRISTAL DE GLACE",
+        "gamme": "Glaciaire",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360014,
+        "name": "FLEUR DE CAFÉ",
+        "gamme": "Colombie",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 300003,
+        "name": "Colombie III - Guayabita Citrus",
+        "gamme": null,
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 330020,
+        "name": "CHAMÁN NOCTURNO",
+        "gamme": "Colombie",
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360007,
+        "name": "JARDIN DE ROSES PERSANES",
+        "gamme": "Civilisations",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360008,
+        "name": "SOIE ET ÉPICES",
+        "gamme": "Civilisations",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 300006,
+        "name": "Colombie VI - Cacao Sacré",
+        "gamme": null,
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360005,
+        "name": "LAVE BALSAMIQUE",
+        "gamme": "Volcanique",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 330021,
+        "name": "VERDE MEDICINA",
+        "gamme": "Colombie",
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 300002,
+        "name": "Colombie II - Damiana Tropicale",
+        "gamme": null,
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 330022,
+        "name": "BOSQUE DE CEDRO",
+        "gamme": "Colombie",
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 330017,
+        "name": "CAFÉ DE LOS ANDES",
+        "gamme": "Colombie",
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 330024,
+        "name": "OFRENDA ANCESTRAL",
+        "gamme": "Colombie",
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360003,
+        "name": "ORAGE FERREUX",
+        "gamme": "Pétrichor",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 300005,
+        "name": "Colombie V - Poivre Sauvage",
+        "gamme": null,
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360010,
+        "name": "GLACIER DE MENTHE",
+        "gamme": "Glaciaire",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 330023,
+        "name": "DULCE TRÓPICO",
+        "gamme": "Colombie",
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360016,
+        "name": "TABAC VERT COLOMBIEN",
+        "gamme": "Colombie",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 300001,
+        "name": "Colombie I - Origan Sacré",
+        "gamme": null,
+        "category": "tabac",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360002,
+        "name": "PIERRE DE LUNE HUMIDE",
+        "gamme": "Pétrichor",
+        "category": "parfum",
+        "moleculeCount": 0
+      },
+      {
+        "id": 360015,
+        "name": "CACAO SACRÉ MAYA",
+        "gamme": "Colombie",
+        "category": "parfum",
+        "moleculeCount": 0
+      }
+    ],
+    "fewMolecules": [
+      {
+        "id": 101,
+        "name": "R’LYEH SUBMERGED",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 1,
+        "molecules": [
+          "Kaolin accord"
+        ]
+      },
+      {
+        "id": 180001,
+        "name": "Pheromona Truffle",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 1,
+        "molecules": [
+          "Androsténol"
+        ]
+      }
+    ],
+    "atypical": [
+      {
+        "id": 270001,
+        "name": "Aura Radieuse",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 8,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Hedione",
+          "Ambroxan (Cetalox)",
+          "Bergamote Calabre (Linalyl Acetate)",
+          "Yuzu (Limonene + Linalool)",
+          "Cardamome (α-Terpinyl Acetate)"
+        ]
+      },
+      {
+        "id": 270005,
+        "name": "Paradis Fruité",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 7,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Paradisone",
+          "Hedione",
+          "Yuzu (Limonene + Linalool)",
+          "Bergamote Calabre (Linalyl Acetate)",
+          "Ethylene Brassylate"
+        ]
+      },
+      {
+        "id": 270004,
+        "name": "Rose Impériale",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 6,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Absolue de Rose (Citronellol)",
+          "Absolue d'Iris (Orris Butter)",
+          "Gaïac (Guaiol)",
+          "Clearwood (Patchouli Synthétique)",
+          "Bergamote Calabre (Linalyl Acetate)"
+        ]
+      },
+      {
+        "id": 270003,
+        "name": "Santal Éternel",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 6,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Santal Mysore (α-Santalol)",
+          "Javanol",
+          "Norlimbanol",
+          "Encens Oliban (Incensole)",
+          "Cardamome (α-Terpinyl Acetate)"
+        ]
+      },
+      {
+        "id": 240005,
+        "name": "Pheromona Cascade-Rapide",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambroxan",
+          "Iso E Super",
+          "Androsténol",
+          "Androsténone",
+          "Androstadienone"
+        ]
+      },
+      {
+        "id": 120006,
+        "name": "Ambre Océanique",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Palo Santo",
+          "Wild Juniper",
+          "Gris d'Ambre",
+          "Omani Black Frankincense",
+          "Haitian Vetiver"
+        ]
+      },
+      {
+        "id": 120008,
+        "name": "Fraîcheur Mentholée",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Italian Bergamot Oil",
+          "Artisan Peppermint Oil",
+          "Wild Juniper",
+          "Makrut Lime",
+          "Haitian Vetiver"
+        ]
+      },
+      {
+        "id": 120001,
+        "name": "Forêt Méditerranéenne",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Italian Bergamot Oil",
+          "Artisan Peppermint Oil",
+          "Wild Juniper",
+          "Mitti Attar",
+          "Haitian Vetiver"
+        ]
+      },
+      {
+        "id": 120004,
+        "name": "Soleil de Sicile",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Nerol",
+          "Italian Bergamot Oil",
+          "Crème de Citronnelle",
+          "Tangerine Dream",
+          "Neroli Bouquetier Reserve"
+        ]
+      },
+      {
+        "id": 150003,
+        "name": "Pétrichor Minéral",
+        "gamme": null,
+        "category": "resine_cbd",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Géosmine",
+          "Complexes terre minérale",
+          "Silicate aldehyde",
+          "Sclerene",
+          "Aldéhyde métallique"
+        ]
+      },
+      {
+        "id": 150005,
+        "name": "Pétrichor Nocturne",
+        "gamme": null,
+        "category": "resine_cbd",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Géosmine",
+          "Black Emerald",
+          "Gris d'Ambre",
+          "Skatole",
+          "Ambrox Super"
+        ]
+      },
+      {
+        "id": 210003,
+        "name": "Pheromona Cascade",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambroxan",
+          "Iso E Super",
+          "Androsténol",
+          "Androsténone",
+          "Androstadienone"
+        ]
+      },
+      {
+        "id": 120002,
+        "name": "Jardin Japonais",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Oud Tea",
+          "Miyazaki Citrus",
+          "Makrut Lime",
+          "Spikenard",
+          "Black Emerald"
+        ]
+      },
+      {
+        "id": 240006,
+        "name": "Pheromona Cascade-Lente",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambroxan",
+          "Iso E Super",
+          "Androsténol",
+          "Androsténone",
+          "Androstadienone"
+        ]
+      },
+      {
+        "id": 120007,
+        "name": "Rituel d'Assam",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Mitti Attar",
+          "Oud Tea",
+          "Omani Black Frankincense",
+          "Spikenard",
+          "Black Emerald"
+        ]
+      },
+      {
+        "id": 120003,
+        "name": "Fleur d'Oranger Tropicale",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Nerol",
+          "Gris d'Ambre",
+          "Crème de Citronnelle",
+          "Tangerine Dream",
+          "Plumeria Light"
+        ]
+      },
+      {
+        "id": 120005,
+        "name": "Pétrichor Sacré",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Géosmine",
+          "Mitti Attar",
+          "Palo Santo",
+          "Spikenard",
+          "Ambre Gris (Ambergris)"
+        ]
+      },
+      {
+        "id": 150001,
+        "name": "Pétrichor Ancestral",
+        "gamme": null,
+        "category": "resine_cbd",
+        "moleculeCount": 5,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Géosmine",
+          "Mitti Attar",
+          "Black Emerald",
+          "Sclerene",
+          "Complexes terre minérale"
+        ]
+      },
+      {
+        "id": 210001,
+        "name": "Pheromona Skin",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 4,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambroxan",
+          "Iso E Super",
+          "Androstadienone",
+          "Hedione"
+        ]
+      },
+      {
+        "id": 60001,
+        "name": "Mastiha Brut",
+        "gamme": null,
+        "category": "resine_cbd",
+        "moleculeCount": 4,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Hexanoic acid",
+          "Ambroxan"
+        ]
+      },
+      {
+        "id": 60002,
+        "name": "Vétiver Labdanum",
+        "gamme": null,
+        "category": "resine_cbd",
+        "moleculeCount": 4,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Hexanoic acid"
+        ]
+      },
+      {
+        "id": 60004,
+        "name": "Noir de Myrrhe",
+        "gamme": null,
+        "category": "resine_cbd",
+        "moleculeCount": 4,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Hexanoic acid",
+          "Ambroxan"
+        ]
+      },
+      {
+        "id": 60006,
+        "name": "Sève Noire / Feuillage Mort",
+        "gamme": null,
+        "category": "resine_cbd",
+        "moleculeCount": 4,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambroxan",
+          "Hexanoic acid"
+        ]
+      },
+      {
+        "id": 60005,
+        "name": "Cuir d'Ambre",
+        "gamme": null,
+        "category": "resine_cbd",
+        "moleculeCount": 4,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Hexanoic acid"
+        ]
+      },
+      {
+        "id": 60010,
+        "name": "Distillat de Nuit / Morphée",
+        "gamme": null,
+        "category": "resine_cbd",
+        "moleculeCount": 4,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Hexanoic acid"
+        ]
+      },
+      {
+        "id": 240002,
+        "name": "Pheromona Skin-Warm",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 4,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambroxan",
+          "Iso E Super",
+          "Androstadienone",
+          "Hedione"
+        ]
+      },
+      {
+        "id": 72,
+        "name": "PÉTRICHOR TROPICAL FOSSILISÉ (Monoï)",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Acide isovalérique",
+          "Absolue de Jasmin (Indole)",
+          "C14 lactone (γ-Tetradecalactone)"
+        ]
+      },
+      {
+        "id": 19,
+        "name": "ARGILE LUMINEUSE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Labdanum",
+          "IBQ (Isobutyl quinoléine)",
+          "Norlimbanol"
+        ]
+      },
+      {
+        "id": 3,
+        "name": "ARCHÉOLOGIE BRÛLÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambrettolide",
+          "Acide isovalérique",
+          "Calone 1951"
+        ]
+      },
+      {
+        "id": 118,
+        "name": "ENCRE SACRÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Géosmine",
+          "Octanoic acid",
+          "Gaïac (Guaiol)"
+        ]
+      },
+      {
+        "id": 120,
+        "name": "CHEMIN DES ANCÊTRES",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Norlimbanol",
+          "Hedione",
+          "Mitti Attar"
+        ]
+      },
+      {
+        "id": 103,
+        "name": "KER YS",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Hedione",
+          "Complexes terre minérale",
+          "Haitian Vetiver"
+        ]
+      },
+      {
+        "id": 108,
+        "name": "VALLÉE DES ROIS",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Elemi",
+          "Clay smoke",
+          "Benzyl salicylate"
+        ]
+      },
+      {
+        "id": 31,
+        "name": "PÉTRICHOR DE RUINES",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Plumeria Light",
+          "Absolue de Jasmin (Indole)",
+          "C14 lactone (γ-Tetradecalactone)"
+        ]
+      },
+      {
+        "id": 86,
+        "name": "PÉTRICHOR CUIRANT",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "IsoButyrate",
+          "Ambrox Super",
+          "Aldéhyde métallique"
+        ]
+      },
+      {
+        "id": 26,
+        "name": "PLUIE SUR CENDRE FROIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Haitian Vetiver",
+          "Clay smoke",
+          "C18 lactone (γ-Octadecalactone)"
+        ]
+      },
+      {
+        "id": 12,
+        "name": "JOUR DE PLUIE ANTIQUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Octanoic acid",
+          "Cedrol",
+          "Cèdre Atlas (Cedrene)"
+        ]
+      },
+      {
+        "id": 61,
+        "name": "JOUR DE PLUIE ANTIQUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Fossile absolute",
+          "Heliotropine (Piperonal)",
+          "Benzyl salicylate"
+        ]
+      },
+      {
+        "id": 2,
+        "name": "FOSSE ANTIQUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Juniper (Genièvre)",
+          "Cèdre Atlas (Cedrene)",
+          "Mastic"
+        ]
+      },
+      {
+        "id": 30004,
+        "name": "Labdanum Nocturne",
+        "gamme": null,
+        "category": "resine",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Labdanum",
+          "Oud accord",
+          "Cedrol"
+        ]
+      },
+      {
+        "id": 128,
+        "name": "TABAC RITUEL MONTAGNARD",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Cashmeran",
+          "Labdanum",
+          "Clay smoke"
+        ]
+      },
+      {
+        "id": 112,
+        "name": "KYFI NOIR",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "β-Pinène",
+          "Miyazaki Citrus",
+          "Elemi"
+        ]
+      },
+      {
+        "id": 126,
+        "name": "TABAC GLACIAIRE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Pinène (α et β)",
+          "Pyrazines",
+          "Benzyl acetate"
+        ]
+      },
+      {
+        "id": 91,
+        "name": "MEROE : RÉSINE NOIRE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Éthyl Hexanoate",
+          "Vetiveryl acetate",
+          "Galaxolide"
+        ]
+      },
+      {
+        "id": 34,
+        "name": "PÉTRICHOR ANTIQUE / SCROLLS",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Vetiverol",
+          "Ambrettolide",
+          "Italian Bergamot Oil"
+        ]
+      },
+      {
+        "id": 102,
+        "name": "SHA’RA CITÉ SABLE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Acide Linoléique",
+          "Complexes terre minérale",
+          "Haitian Vetiver"
+        ]
+      },
+      {
+        "id": 10,
+        "name": "TEMPLE DE TERRE BLANCHE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ionone β",
+          "Absolue de Rose (Citronellol)",
+          "Gris d'Ambre"
+        ]
+      },
+      {
+        "id": 83,
+        "name": "PÉTRICHOR ANTIQUE / SCROLLS",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambrox Super",
+          "Incensol",
+          "Juniper (Genièvre)"
+        ]
+      },
+      {
+        "id": 240001,
+        "name": "Pheromona Skin-Clean",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Iso E Super",
+          "Androstadienone",
+          "Hedione"
+        ]
+      },
+      {
+        "id": 15,
+        "name": "SÉDIMENT ARCHÉOLOGIQUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Acide isovalérique",
+          "Géosmine",
+          "Cardamome (α-Terpinyl Acetate)"
+        ]
+      },
+      {
+        "id": 77,
+        "name": "PÉTRICHOR DE TEMPÊTE (Volcanique)",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Santal Mysore (α-Santalol)",
+          "Acide Benzoïque",
+          "Benzoin Siam"
+        ]
+      },
+      {
+        "id": 60,
+        "name": "BRUME SUR PIERRE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Mastic",
+          "Opoponax",
+          "Androstadienone"
+        ]
+      },
+      {
+        "id": 131,
+        "name": "TABAC DES CIVILISATIONS PERDUES",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ionone β",
+          "Vetiverol",
+          "Norlimbanol"
+        ]
+      },
+      {
+        "id": 87,
+        "name": "PÉTRICHOR SANCTUAIRE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Tangerine Dream",
+          "Cashmeran",
+          "Benzyl acetate"
+        ]
+      },
+      {
+        "id": 14,
+        "name": "PLUIE SULFURÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Coumarin",
+          "Ethyl furan-2-carboxylate",
+          "Santalol (α+β)"
+        ]
+      },
+      {
+        "id": 116,
+        "name": "TEMPLE SUBTERRAIN",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Haitian Vetiver",
+          "Hydroxyproline pyrolysée",
+          "Aluminium aldehyde"
+        ]
+      },
+      {
+        "id": 121,
+        "name": "PARCHEMIN HUMIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ozone",
+          "Androsténone",
+          "Sandstone accord"
+        ]
+      },
+      {
+        "id": 113,
+        "name": "ENCENS D’OS",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Cedrol",
+          "Omani Black Frankincense",
+          "Phénol boisé"
+        ]
+      },
+      {
+        "id": 115,
+        "name": "LITURGIE MINÉRALE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Nerol",
+          "Ozone",
+          "Ethyl phenylacetate"
+        ]
+      },
+      {
+        "id": 104,
+        "name": "AGARTHA",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Styrax",
+          "Tangerinol",
+          "Hexanoic acid"
+        ]
+      },
+      {
+        "id": 82,
+        "name": "PÉTRICHOR SUR BOIS MOISI",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ethylene Brassylate",
+          "Tonka absolute",
+          "Hydroxyproline pyrolysée"
+        ]
+      },
+      {
+        "id": 68,
+        "name": "ARGILE LUMINEUSE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Sandalore pyrolysé",
+          "Oud (Agarwood)",
+          "Black Emerald"
+        ]
+      },
+      {
+        "id": 71,
+        "name": "PÉTRICHOR SOMBRE / HUMIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Paradisone",
+          "Androstadienone",
+          "Elemi"
+        ]
+      },
+      {
+        "id": 134,
+        "name": "TABAC ASKJA",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Lignine pyrolysée",
+          "Heliotropine (Piperonal)",
+          "Iso E Super"
+        ]
+      },
+      {
+        "id": 110,
+        "name": "RITUEL DE ROCHE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "C18 lactone (γ-Octadecalactone)",
+          "Androsténol",
+          "Oxydes de fer volatils"
+        ]
+      },
+      {
+        "id": 98,
+        "name": "ATLANTIS BLACK LIBRARY",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Benzyl acetate",
+          "IBQ (Isobutyl quinoléine)",
+          "C14 lactone (γ-Tetradecalactone)"
+        ]
+      },
+      {
+        "id": 16,
+        "name": "FOSSILE BLANC MINÉRAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Skatole",
+          "Acide Benzoïque",
+          "Ambrettolide"
+        ]
+      },
+      {
+        "id": 109,
+        "name": "ENCENS VIVANT",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Benzyl salicylate",
+          "Ethyl furan-2-carboxylate",
+          "Miyazaki Citrus"
+        ]
+      },
+      {
+        "id": 89,
+        "name": "SHURUPPAK : ARGILE BRÛLÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambrette seed",
+          "Clay smoke",
+          "Acide butyrique"
+        ]
+      },
+      {
+        "id": 111,
+        "name": "CODEX MINÉRAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Tubéreuse Absolue (Methyl Benzoate)",
+          "Skatole",
+          "Ethyl 3-methylthiopropionate"
+        ]
+      },
+      {
+        "id": 33,
+        "name": "PÉTRICHOR SUR BOIS MOISI",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Fer volatil",
+          "Cashmeran",
+          "Androstadienone"
+        ]
+      },
+      {
+        "id": 49,
+        "name": "ATLANTIS BLACK LIBRARY",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambrox Super",
+          "4-methyl-guaiacol",
+          "Artisan Peppermint Oil"
+        ]
+      },
+      {
+        "id": 41,
+        "name": "AKHET : PIERRE BLANCHE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Fer volatil",
+          "Butyl butyrate",
+          "Gamma-decalactone"
+        ]
+      },
+      {
+        "id": 73,
+        "name": "PÉTRICHOR URBAIN / MÉTAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Acide décanoïque",
+          "Androsténol",
+          "Humus absolute"
+        ]
+      },
+      {
+        "id": 54,
+        "name": "PÉTRICHOR SÉPULCRAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Galaxolide",
+          "Ethylene Brassylate",
+          "Acide butyrique"
+        ]
+      },
+      {
+        "id": 100,
+        "name": "HYPERBOREA",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Bitume light",
+          "Quinoléine",
+          "Neroli Bouquetier Reserve"
+        ]
+      },
+      {
+        "id": 44,
+        "name": "ATLANTIDE LUMINEUSE : OCÉAN CLAIR",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Civettone",
+          "Phénols oxydés",
+          "Absolue de Jasmin (Indole)"
+        ]
+      },
+      {
+        "id": 55,
+        "name": "BIBLIOTHÈQUE HUMIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Santal Mysore (α-Santalol)",
+          "Mitti Attar",
+          "Sclerene"
+        ]
+      },
+      {
+        "id": 28,
+        "name": "PÉTRICHOR DE TEMPÊTE (Volcanique)",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Absolue de Jasmin (Indole)",
+          "Encens Oliban (Incensole)",
+          "Ambrette seed"
+        ]
+      },
+      {
+        "id": 90,
+        "name": "AKHET : PIERRE BLANCHE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Juniper (Genièvre)",
+          "Kaolin accord",
+          "Caryophyllène"
+        ]
+      },
+      {
+        "id": 48,
+        "name": "ATLANTIS LIGHT COLUMN",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Methyl salicylate",
+          "Géosmine",
+          "Palo Santo"
+        ]
+      },
+      {
+        "id": 24,
+        "name": "PÉTRICHOR URBAIN / MÉTAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ethyl lactate",
+          "Furanosesquiterpenes",
+          "Éthyl butyrate"
+        ]
+      },
+      {
+        "id": 127,
+        "name": "TABAC VOLCANIQUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Italian Bergamot Oil",
+          "Furanosesquiterpenes",
+          "Yuzu (Limonene + Linalool)"
+        ]
+      },
+      {
+        "id": 119,
+        "name": "RITUEL SEPTENTRIONAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Lignine pyrolysée",
+          "β-guaïène",
+          "Aldéhyde C-12"
+        ]
+      },
+      {
+        "id": 210002,
+        "name": "Pheromona Alpha",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambroxan",
+          "Androsténone",
+          "Tubéreuse Absolue (Methyl Benzoate)"
+        ]
+      },
+      {
+        "id": 21,
+        "name": "PÉTRICHOR CLAIR / GLACIAIRE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Makrut Lime",
+          "Aldéhyde C-11",
+          "Ethyl furan-2-carboxylate"
+        ]
+      },
+      {
+        "id": 51,
+        "name": "FOSSE ANTIQUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Sandalore pyrolysé",
+          "Acide Linoléique",
+          "Caryophyllène"
+        ]
+      },
+      {
+        "id": 30002,
+        "name": "Ambre Fossile",
+        "gamme": null,
+        "category": "resine",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Tangerine Dream",
+          "Makrut (Combava)",
+          "Vetiveryl acetate"
+        ]
+      },
+      {
+        "id": 63,
+        "name": "PLUIE SULFURÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Éthyl butyrate",
+          "Ambrox Super",
+          "2-heptanone"
+        ]
+      },
+      {
+        "id": 30005,
+        "name": "Myrrhe Ancestrale",
+        "gamme": null,
+        "category": "resine",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Acide Coumarique",
+          "Hinoki oil",
+          "Vetiverol"
+        ]
+      },
+      {
+        "id": 65,
+        "name": "FOSSILE BLANC MINÉRAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Santalol (α+β)",
+          "Aldéhyde C-11",
+          "Jasmonal"
+        ]
+      },
+      {
+        "id": 79,
+        "name": "PÉTRICHOR DÉSERTIQUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Glycine pyrolysée",
+          "Furanoeudesmanes",
+          "Yuzu (Limonene + Linalool)"
+        ]
+      },
+      {
+        "id": 50,
+        "name": "OS PLUVIEUX",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ethyl salicylate",
+          "Kaolin accord",
+          "Myrrhone"
+        ]
+      },
+      {
+        "id": 52,
+        "name": "ARCHÉOLOGIE BRÛLÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Vétivone",
+          "Ozone",
+          "Olibanum"
+        ]
+      },
+      {
+        "id": 30007,
+        "name": "Styrax Profond",
+        "gamme": null,
+        "category": "resine",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Styrax",
+          "Butyl butyrate",
+          "2-heptanone"
+        ]
+      },
+      {
+        "id": 11,
+        "name": "BRUME SUR PIERRE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ethyl lactate",
+          "Marrow accord",
+          "Incensol"
+        ]
+      },
+      {
+        "id": 43,
+        "name": "LYONESSE : PLUIE BLANCHE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Myrrhe (Curzerene)",
+          "Sandalore pyrolysé",
+          "Jasmonal"
+        ]
+      },
+      {
+        "id": 130,
+        "name": "TABAC DU SILENCE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Juniper (Genièvre)",
+          "Éthyl Hexanoate",
+          "Androsténone"
+        ]
+      },
+      {
+        "id": 74,
+        "name": "PÉTRICHOR ARCHIVE HUMIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Oxydes de fer volatils",
+          "Bergamote Calabre (Linalyl Acetate)",
+          "Juniper (Genièvre)"
+        ]
+      },
+      {
+        "id": 97,
+        "name": "ATLANTIS LIGHT COLUMN",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambrox Super",
+          "Androstadienone",
+          "Nerol"
+        ]
+      },
+      {
+        "id": 27,
+        "name": "PÉTRICHOR DE SAVANE (Mossi)",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Cashmeran",
+          "Pinène (α et β)",
+          "Hinoki oil"
+        ]
+      },
+      {
+        "id": 5,
+        "name": "PÉTRICHOR SÉPULCRAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Oud Tea",
+          "Ethyl salicylate",
+          "Myrrhe (Curzerene)"
+        ]
+      },
+      {
+        "id": 114,
+        "name": "CHAIR CÉRÉMONIELLE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Myrrhone",
+          "Juniper (Genièvre)",
+          "Mitti Attar"
+        ]
+      },
+      {
+        "id": 92,
+        "name": "LYONESSE : PLUIE BLANCHE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Khusimol",
+          "Methyl salicylate",
+          "Vetiverol"
+        ]
+      },
+      {
+        "id": 135,
+        "name": "TABAC SILENCE ABSOLU",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Sulfur base",
+          "Iso E Super",
+          "Black Emerald"
+        ]
+      },
+      {
+        "id": 1,
+        "name": "OS PLUVIEUX",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Pyrazines",
+          "Gaïac (Guaiol)",
+          "Marrow accord"
+        ]
+      },
+      {
+        "id": 25,
+        "name": "PÉTRICHOR ARCHIVE HUMIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Myrrhe noire",
+          "Complexes terre minérale",
+          "Wild Juniper"
+        ]
+      },
+      {
+        "id": 80,
+        "name": "PÉTRICHOR DE RUINES",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Vétivénol",
+          "Butyl butyrate",
+          "Éthyl Hexanoate"
+        ]
+      },
+      {
+        "id": 8,
+        "name": "FOUILLE HUMIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Complexes terre minérale",
+          "Androstadienone",
+          "Mitti Attar"
+        ]
+      },
+      {
+        "id": 36,
+        "name": "PÉTRICHOR ARCHÉOLOGIQUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Aldéhyde métallique",
+          "Palo Santo lactone",
+          "Makrut (Combava)"
+        ]
+      },
+      {
+        "id": 75,
+        "name": "PLUIE SUR CENDRE FROIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Neroli Bouquetier Reserve",
+          "Benzyl acetate",
+          "Gaïac (Guaiol)"
+        ]
+      },
+      {
+        "id": 23,
+        "name": "PÉTRICHOR TROPICAL FOSSILISÉ (Monoï)",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Acide Caféique",
+          "Acide Linoléique",
+          "4-methyl-guaiacol"
+        ]
+      },
+      {
+        "id": 56,
+        "name": "PIERRE NOIRE FENDUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Aluminium aldehyde",
+          "Éthyl Hexanoate",
+          "Hinoki oil"
+        ]
+      },
+      {
+        "id": 13,
+        "name": "TERRE HUMIDE SACRÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Acide Hexanoïque (C6)",
+          "IBQ (Isobutyl quinoléine)",
+          "Acide Cinnamique"
+        ]
+      },
+      {
+        "id": 94,
+        "name": "LYONESSE SINKING",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Benzyl salicylate",
+          "Butyl butyrate",
+          "Fossile absolute"
+        ]
+      },
+      {
+        "id": 64,
+        "name": "SÉDIMENT ARCHÉOLOGIQUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Androsténone",
+          "Dust-burn accord",
+          "Javanol"
+        ]
+      },
+      {
+        "id": 7,
+        "name": "PIERRE NOIRE FENDUE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "C14 lactone (γ-Tetradecalactone)",
+          "2-MIB (2-Methylisoborneol)",
+          "Skatole"
+        ]
+      },
+      {
+        "id": 96,
+        "name": "MU : SOUFFLE ANCESTRAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Coumarin",
+          "Oud Tea",
+          "Acide isovalérique"
+        ]
+      },
+      {
+        "id": 30001,
+        "name": "Résine Primordiale",
+        "gamme": null,
+        "category": "resine",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Methyl salicylate",
+          "Vetiveryl acetate",
+          "Fossile absolute"
+        ]
+      },
+      {
+        "id": 37,
+        "name": "PÉTRICHOR CUIRANT",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Frangipani (Plumeria)",
+          "Acide Benzoïque",
+          "Androsténol"
+        ]
+      },
+      {
+        "id": 59,
+        "name": "TEMPLE DE TERRE BLANCHE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Nerol",
+          "Quinoléine",
+          "Makrut (Combava)"
+        ]
+      },
+      {
+        "id": 81,
+        "name": "PÉTRICHOR DE TEMPLES (Égypte)",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ethyl furan-2-carboxylate",
+          "Incensol",
+          "Oud (Agarwood)"
+        ]
+      },
+      {
+        "id": 46,
+        "name": "LEMURIA ROOT",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Palo Santo lactone",
+          "Géosmine",
+          "Pinène (α et β)"
+        ]
+      },
+      {
+        "id": 122,
+        "name": "FUMIGATION SOLAIRE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Androsténone",
+          "Mastic",
+          "Éthyl butyrate"
+        ]
+      },
+      {
+        "id": 69,
+        "name": "OS ROUGE (Mossi)",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Tubéreuse Absolue (Methyl Benzoate)",
+          "Mechoulim",
+          "Haitian Vetiver"
+        ]
+      },
+      {
+        "id": 6,
+        "name": "BIBLIOTHÈQUE HUMIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Methyl salicylate",
+          "Kaolin accord",
+          "Santalol (α+β)"
+        ]
+      },
+      {
+        "id": 62,
+        "name": "TERRE HUMIDE SACRÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Octanoic acid",
+          "Palo Santo lactone",
+          "Linalool"
+        ]
+      },
+      {
+        "id": 95,
+        "name": "LEMURIA ROOT",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Androstadienone",
+          "Heliotropine (Piperonal)",
+          "Absolue d'Iris (Orris Butter)"
+        ]
+      },
+      {
+        "id": 240003,
+        "name": "Pheromona Alpha-Boisé",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambroxan",
+          "Androsténone",
+          "Acide Caféique"
+        ]
+      },
+      {
+        "id": 18,
+        "name": "PLUIE SUR BITUME SACRÉ",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Fossile absolute",
+          "Ionone γ",
+          "Créosote light"
+        ]
+      },
+      {
+        "id": 76,
+        "name": "PÉTRICHOR DE SAVANE (Mossi)",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Calcite",
+          "Éthyl butyrate",
+          "Acide Benzoïque"
+        ]
+      },
+      {
+        "id": 29,
+        "name": "PÉTRICHOR MARIN / ATLANTIDE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Cashmeran",
+          "Oxydes de fer volatils",
+          "Furanosesquiterpenes"
+        ]
+      },
+      {
+        "id": 40,
+        "name": "SHURUPPAK : ARGILE BRÛLÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Mastic",
+          "Acide Caféique",
+          "Acide isovalérique"
+        ]
+      },
+      {
+        "id": 17,
+        "name": "SOL NOIR VIVANT",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "2-heptanone",
+          "Oxydes de fer volatils",
+          "4-methyl-guaiacol"
+        ]
+      },
+      {
+        "id": 58,
+        "name": "MURAILLE APRÈS ORAGE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Aluminium aldehyde",
+          "Sandstone accord",
+          "Cardamome (α-Terpinyl Acetate)"
+        ]
+      },
+      {
+        "id": 240004,
+        "name": "Pheromona Alpha-Cuiré",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ambroxan",
+          "Androsténone",
+          "Benzyl acetate"
+        ]
+      },
+      {
+        "id": 133,
+        "name": "TABAC UMBRIA",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Humulène",
+          "Benzyl salicylate",
+          "Sandstone accord"
+        ]
+      },
+      {
+        "id": 20,
+        "name": "OS ROUGE (Mossi)",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Heliotropine (Piperonal)",
+          "Methyl anthranilate",
+          "Hinoki oil"
+        ]
+      },
+      {
+        "id": 30003,
+        "name": "Encens Tellurique",
+        "gamme": null,
+        "category": "resine",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Ethyl phenylacetate",
+          "Yuzu (Limonene + Linalool)",
+          "Acide Caféique"
+        ]
+      },
+      {
+        "id": 123,
+        "name": "ENCENS GLACÉ",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 0,
+        "bestFormule": "Aucune",
+        "bestFamily": "N/A",
+        "topMolecules": [
+          "Cedarol",
+          "Makrut Lime",
+          "Acide Décanoïque (C10)"
+        ]
+      }
+    ],
+    "lowScore": [
+      {
+        "id": 270002,
+        "name": "Nuit de Tubéreuse",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 7,
+        "bestScore": 34,
+        "bestFormule": "Chypre Classique",
+        "bestFamily": "Chypré",
+        "gap": 1,
+        "topMolecules": [
+          "Tubéreuse Absolue (Methyl Benzoate)",
+          "Safranal",
+          "Absolue de Jasmin (Indole)",
+          "Muscone",
+          "Civettone"
+        ]
+      },
+      {
+        "id": 105,
+        "name": "SHAMBHALA",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 34,
+        "bestFormule": "Chypre Classique",
+        "bestFamily": "Chypré",
+        "gap": 0,
+        "topMolecules": [
+          "Acide octanoïque",
+          "Créosote light",
+          "Coumarine"
+        ]
+      },
+      {
+        "id": 53,
+        "name": "ARGILE HUMIDE SACRÉE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 33,
+        "bestFormule": "Chypre Fruité",
+        "bestFamily": "Chypré",
+        "gap": 0,
+        "topMolecules": [
+          "Créosote light",
+          "Tubéreuse Absolue (Methyl Benzoate)",
+          "Vanilline"
+        ]
+      },
+      {
+        "id": 30006,
+        "name": "Oliban Sacré",
+        "gamme": null,
+        "category": "resine",
+        "moleculeCount": 3,
+        "bestScore": 34,
+        "bestFormule": "Chypre Classique",
+        "bestFamily": "Chypré",
+        "gap": 0,
+        "topMolecules": [
+          "Mitti Attar",
+          "Skatole",
+          "Coumarine"
+        ]
+      },
+      {
+        "id": 45,
+        "name": "LYONESSE SINKING",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 33,
+        "bestFormule": "Chypre Fruité",
+        "bestFamily": "Chypré",
+        "gap": 0,
+        "topMolecules": [
+          "Ionone γ",
+          "Khusimol",
+          "Vanilline"
+        ]
+      },
+      {
+        "id": 70,
+        "name": "PÉTRICHOR CLAIR / GLACIAIRE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 33,
+        "bestFormule": "Chypre Fruité",
+        "bestFamily": "Chypré",
+        "gap": 0,
+        "topMolecules": [
+          "Safranal",
+          "Ethyl 3-methylthiopropionate",
+          "Vanilline"
+        ]
+      },
+      {
+        "id": 38,
+        "name": "PÉTRICHOR SANCTUAIRE",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 34,
+        "bestFormule": "Chypre Classique",
+        "bestFamily": "Chypré",
+        "gap": 1,
+        "topMolecules": [
+          "IBQ (Isobutyl quinoléine)",
+          "Androstadienone",
+          "Muscone"
+        ]
+      },
+      {
+        "id": 47,
+        "name": "MU : SOUFFLE ANCESTRAL",
+        "gamme": null,
+        "category": "parfum",
+        "moleculeCount": 3,
+        "bestScore": 34,
+        "bestFormule": "Chypre Classique",
+        "bestFamily": "Chypré",
+        "gap": 1,
+        "topMolecules": [
+          "Cardamome (α-Terpinyl Acetate)",
+          "Muscone",
+          "Ambroxan"
+        ]
+      }
+    ]
+  }
+}

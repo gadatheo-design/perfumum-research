@@ -1,0 +1,58 @@
+{
+  "query": "SELECT \n  'prototypes' as table_name, COUNT(*) as count FROM prototypes\nUNION ALL SELECT 'molecules', COUNT(*) FROM molecules\nUNION ALL SELECT 'families', COUNT(*) FROM families\nUNION ALL SELECT 'accords', COUNT(*) FROM accords\nUNION ALL SELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL SELECT 'laboratoire', COUNT(*) FROM laboratoire\nUNION ALL SELECT 'civilisations', COUNT(*) FROM civilisations\nUNION ALL SELECT 'installations', COUNT(*) FROM installations\nUNION ALL SELECT 'chemical_families', COUNT(*) FROM chemical_families\nUNION ALL SELECT 'tobacco_formulas', COUNT(*) FROM tobacco_formulas\nUNION ALL SELECT 'experimental_accords', COUNT(*) FROM experimental_accords\nUNION ALL SELECT 'sensory_scales', COUNT(*) FROM sensory_scales;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  'prototypes' as table_name, COUNT(*) as count FROM prototypes\nUNION ALL SELECT 'molecules', COUNT(*) FROM molecules\nUNION ALL SELECT 'families', COUNT(*) FROM families\nUNION ALL SELECT 'accords', COUNT(*) FROM accords\nUNION ALL SELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL SELECT 'laboratoire', COUNT(*) FROM laboratoire\nUNION ALL SELECT 'civilisations', COUNT(*) FROM civilisations\nUNION ALL SELECT 'installations', COUNT(*) FROM installations\nUNION ALL SELECT 'chemical_families', COUNT(*) FROM chemical_families\nUNION ALL SELECT 'tobacco_formulas', COUNT(*) FROM tobacco_formulas\nUNION ALL SELECT 'experimental_accords', COUNT(*) FROM experimental_accords\nUNION ALL SELECT 'sensory_scales', COUNT(*) FROM sensory_scales;",
+  "rows": [
+    {
+      "table_name": "recettes",
+      "count": "135"
+    },
+    {
+      "table_name": "prototypes",
+      "count": "4"
+    },
+    {
+      "table_name": "families",
+      "count": "10"
+    },
+    {
+      "table_name": "molecules",
+      "count": "31"
+    },
+    {
+      "table_name": "accords",
+      "count": "19"
+    },
+    {
+      "table_name": "tobacco_formulas",
+      "count": "5"
+    },
+    {
+      "table_name": "installations",
+      "count": "7"
+    },
+    {
+      "table_name": "civilisations",
+      "count": "26"
+    },
+    {
+      "table_name": "laboratoire",
+      "count": "18"
+    },
+    {
+      "table_name": "chemical_families",
+      "count": "12"
+    },
+    {
+      "table_name": "sensory_scales",
+      "count": "18"
+    },
+    {
+      "table_name": "experimental_accords",
+      "count": "20"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tcount\nrecettes\t135\nprototypes\t4\nfamilies\t10\nmolecules\t31\naccords\t19\ntobacco_formulas\t5\ninstallations\t7\ncivilisations\t26\nlaboratoire\t18\nchemical_families\t12\nsensory_scales\t18\nexperimental_accords\t20\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

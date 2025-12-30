@@ -1,0 +1,50 @@
+{
+  "query": "SELECT COUNT(*) as total, category FROM glossary GROUP BY category",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, category FROM glossary GROUP BY category",
+  "rows": [
+    {
+      "total": "3",
+      "category": "reaction"
+    },
+    {
+      "total": "3",
+      "category": "methodologie"
+    },
+    {
+      "total": "3",
+      "category": "interaction"
+    },
+    {
+      "total": "2",
+      "category": "formulation"
+    },
+    {
+      "total": "1",
+      "category": "technique"
+    },
+    {
+      "total": "5",
+      "category": "chimie"
+    },
+    {
+      "total": "3",
+      "category": "extraction"
+    },
+    {
+      "total": "2",
+      "category": "molecule"
+    },
+    {
+      "total": "3",
+      "category": "propriete"
+    },
+    {
+      "total": "6",
+      "category": "concept"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tcategory\n3\treaction\n3\tmethodologie\n3\tinteraction\n2\tformulation\n1\ttechnique\n5\tchimie\n3\textraction\n2\tmolecule\n3\tpropriete\n6\tconcept\n",
+  "stderr": "",
+  "execution_time_ms": 65
+}

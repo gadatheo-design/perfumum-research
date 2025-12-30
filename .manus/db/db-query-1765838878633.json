@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO terpene_synergies (terpene1_id, terpene2_id, compatibility_score, synergy_notes) VALUES\n(240001, 270001, 95, 'Cascade biosynthétique directe. Androsténol est le produit de réduction de l Androsténone par la 3-cétostéroïde réductase. Complémentarité olfactive: truffe/musc (Androsténol) + boisé/urineux (Androsténone). Utilisation en parfumerie: évolution temporelle mimant le métabolisme naturel.')",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO terpene_synergies (terpene1_id, terpene2_id, compatibility_score, synergy_notes) VALUES\n(240001, 270001, 95, 'Cascade biosynthétique directe. Androsténol est le produit de réduction de l Androsténone par la 3-cétostéroïde réductase. Complémentarité olfactive: truffe/musc (Androsténol) + boisé/urineux (Androsténone). Utilisation en parfumerie: évolution temporelle mimant le métabolisme naturel.')",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 70
+}

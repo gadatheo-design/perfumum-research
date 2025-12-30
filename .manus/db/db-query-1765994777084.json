@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `modification_history` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`user_id` int NOT NULL,\n\t`entity_type` enum('molecule','recette','accord','famille','matiere','prototype','synergie','tradition') NOT NULL,\n\t`entity_id` int NOT NULL,\n\t`operation` enum('create','update','delete') NOT NULL,\n\t`state_before` json,\n\t`state_after` json,\n\t`description` text,\n\t`is_undone` int NOT NULL DEFAULT 0,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`undone_at` timestamp,\n\tCONSTRAINT `modification_history_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `modification_history` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`user_id` int NOT NULL,\n\t`entity_type` enum('molecule','recette','accord','famille','matiere','prototype','synergie','tradition') NOT NULL,\n\t`entity_id` int NOT NULL,\n\t`operation` enum('create','update','delete') NOT NULL,\n\t`state_before` json,\n\t`state_after` json,\n\t`description` text,\n\t`is_undone` int NOT NULL DEFAULT 0,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`undone_at` timestamp,\n\tCONSTRAINT `modification_history_id` PRIMARY KEY(`id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1785
+}

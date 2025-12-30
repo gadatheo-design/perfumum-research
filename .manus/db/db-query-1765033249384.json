@@ -1,0 +1,32 @@
+{
+  "query": "SELECT id, name, category, description, ingredients, formula, texture, intensity, stability FROM recettes WHERE category = 'resine_cbd' LIMIT 2;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category, description, ingredients, formula, texture, intensity, stability FROM recettes WHERE category = 'resine_cbd' LIMIT 2;",
+  "rows": [
+    {
+      "id": "60001",
+      "name": "Mastiha Brut",
+      "category": "resine_cbd",
+      "description": "Résine verte, citronnée, balsamique. Notes fraîches et aromatiques sèches.",
+      "ingredients": "Mastiha, citron vert, laurier, cardamome, santal, benjoin",
+      "formula": "Tête: Zeste citron vert 0.2%, Laurier séché 0.1% | Cœur: Mastiha fondue 0.8%, Cardamome verte 0.2% | Fond: Santal 0.5%, Benjoin 0.2%",
+      "texture": "résineuse",
+      "intensity": "20",
+      "stability": "high"
+    },
+    {
+      "id": "60002",
+      "name": "Vétiver Labdanum",
+      "category": "resine_cbd",
+      "description": "Ambré, cuiré, terreux. Fumé sec avec douceur vanillée.",
+      "ingredients": "Labdanum, vétiver, patchouli, orange amère, poivre rose, vanille",
+      "formula": "Tête: Orange amère (zeste) 0.3%, Poivre rose 0.1% | Cœur: Labdanum 0.8%, Patchouli 0.2% | Fond: Vétiver 0.5%, Vanille 0.3%",
+      "texture": "dense",
+      "intensity": "22",
+      "stability": "high"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tdescription\tingredients\tformula\ttexture\tintensity\tstability\n60001\tMastiha Brut\tresine_cbd\tRésine verte, citronnée, balsamique. Notes fraîches et aromatiques sèches.\tMastiha, citron vert, laurier, cardamome, santal, benjoin\tTête: Zeste citron vert 0.2%, Laurier séché 0.1% | Cœur: Mastiha fondue 0.8%, Cardamome verte 0.2% | Fond: Santal 0.5%, Benjoin 0.2%\trésineuse\t20\thigh\n60002\tVétiver Labdanum\tresine_cbd\tAmbré, cuiré, terreux. Fumé sec avec douceur vanillée.\tLabdanum, vétiver, patchouli, orange amère, poivre rose, vanille\tTête: Orange amère (zeste) 0.3%, Poivre rose 0.1% | Cœur: Labdanum 0.8%, Patchouli 0.2% | Fond: Vétiver 0.5%, Vanille 0.3%\tdense\t22\thigh\n",
+  "stderr": "",
+  "execution_time_ms": 178
+}

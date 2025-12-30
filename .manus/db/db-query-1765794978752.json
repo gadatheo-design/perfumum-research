@@ -1,0 +1,78 @@
+{
+  "query": "SELECT id, name FROM molecules WHERE notes LIKE '%Hermitage Oils%' ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules WHERE notes LIKE '%Hermitage Oils%' ORDER BY name;",
+  "rows": [
+    {
+      "id": "180003",
+      "name": "Artisan Peppermint Oil"
+    },
+    {
+      "id": "180017",
+      "name": "Black Emerald"
+    },
+    {
+      "id": "180007",
+      "name": "Crème de Citronnelle"
+    },
+    {
+      "id": "180006",
+      "name": "Gris d'Ambre"
+    },
+    {
+      "id": "180016",
+      "name": "Haitian Vetiver"
+    },
+    {
+      "id": "180002",
+      "name": "Italian Bergamot Oil"
+    },
+    {
+      "id": "180014",
+      "name": "Makrut Lime"
+    },
+    {
+      "id": "180005",
+      "name": "Mitti Attar"
+    },
+    {
+      "id": "180009",
+      "name": "Miyazaki Citrus"
+    },
+    {
+      "id": "180013",
+      "name": "Neroli Bouquetier Reserve"
+    },
+    {
+      "id": "180012",
+      "name": "Omani Black Frankincense"
+    },
+    {
+      "id": "180008",
+      "name": "Oud Tea"
+    },
+    {
+      "id": "180001",
+      "name": "Palo Santo"
+    },
+    {
+      "id": "180011",
+      "name": "Plumeria Light"
+    },
+    {
+      "id": "180015",
+      "name": "Spikenard"
+    },
+    {
+      "id": "180010",
+      "name": "Tangerine Dream"
+    },
+    {
+      "id": "180004",
+      "name": "Wild Juniper"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n180003\tArtisan Peppermint Oil\n180017\tBlack Emerald\n180007\tCrème de Citronnelle\n180006\tGris d'Ambre\n180016\tHaitian Vetiver\n180002\tItalian Bergamot Oil\n180014\tMakrut Lime\n180005\tMitti Attar\n180009\tMiyazaki Citrus\n180013\tNeroli Bouquetier Reserve\n180012\tOmani Black Frankincense\n180008\tOud Tea\n180001\tPalo Santo\n180011\tPlumeria Light\n180015\tSpikenard\n180010\tTangerine Dream\n180004\tWild Juniper\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

@@ -1,0 +1,34 @@
+{
+  "query": "SELECT \n  gamme,\n  COUNT(*) as total_recettes,\n  SUM(CASE WHEN nb_molecules = 0 THEN 1 ELSE 0 END) as sans_molecules,\n  SUM(CASE WHEN nb_molecules > 0 THEN 1 ELSE 0 END) as avec_molecules\nFROM (\n  SELECT \n    r.id,\n    CASE \n      WHEN r.name LIKE '%Volcanique%' OR r.name LIKE '%Fumé%' OR r.name LIKE '%Pyrolyse%' OR r.category = 'tabac' THEN 'Volcanique'\n      WHEN r.name LIKE '%Glaciaire%' OR r.name LIKE '%Frais%' OR r.name LIKE '%Ozone%' OR r.name LIKE '%Menthe%' THEN 'Glaciaire'\n      WHEN r.name LIKE '%Bio%' OR r.name LIKE '%CBD%' OR r.name LIKE '%Résine%' OR r.category = 'resine_cbd' THEN 'Bio-Lab'\n      WHEN r.name LIKE '%Pétrichor%' OR r.name LIKE '%Terre%' OR r.name LIKE '%Minéral%' THEN 'Pétrichor'\n      ELSE 'Autre'\n    END as gamme,\n    COUNT(mr.molecule_id) as nb_molecules\n  FROM recettes r\n  LEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\n  GROUP BY r.id, r.name, r.category\n) sub\nGROUP BY gamme\nORDER BY total_recettes DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  gamme,\n  COUNT(*) as total_recettes,\n  SUM(CASE WHEN nb_molecules = 0 THEN 1 ELSE 0 END) as sans_molecules,\n  SUM(CASE WHEN nb_molecules > 0 THEN 1 ELSE 0 END) as avec_molecules\nFROM (\n  SELECT \n    r.id,\n    CASE \n      WHEN r.name LIKE '%Volcanique%' OR r.name LIKE '%Fumé%' OR r.name LIKE '%Pyrolyse%' OR r.category = 'tabac' THEN 'Volcanique'\n      WHEN r.name LIKE '%Glaciaire%' OR r.name LIKE '%Frais%' OR r.name LIKE '%Ozone%' OR r.name LIKE '%Menthe%' THEN 'Glaciaire'\n      WHEN r.name LIKE '%Bio%' OR r.name LIKE '%CBD%' OR r.name LIKE '%Résine%' OR r.category = 'resine_cbd' THEN 'Bio-Lab'\n      WHEN r.name LIKE '%Pétrichor%' OR r.name LIKE '%Terre%' OR r.name LIKE '%Minéral%' THEN 'Pétrichor'\n      ELSE 'Autre'\n    END as gamme,\n    COUNT(mr.molecule_id) as nb_molecules\n  FROM recettes r\n  LEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\n  GROUP BY r.id, r.name, r.category\n) sub\nGROUP BY gamme\nORDER BY total_recettes DESC;",
+  "rows": [
+    {
+      "gamme": "Autre",
+      "total_recettes": "161",
+      "sans_molecules": "155",
+      "avec_molecules": "6"
+    },
+    {
+      "gamme": "Bio-Lab",
+      "total_recettes": "43",
+      "sans_molecules": "21",
+      "avec_molecules": "22"
+    },
+    {
+      "gamme": "Volcanique",
+      "total_recettes": "4",
+      "sans_molecules": "2",
+      "avec_molecules": "2"
+    },
+    {
+      "gamme": "Pétrichor",
+      "total_recettes": "2",
+      "sans_molecules": "0",
+      "avec_molecules": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "gamme\ttotal_recettes\tsans_molecules\tavec_molecules\nAutre\t161\t155\t6\nBio-Lab\t43\t21\t22\nVolcanique\t4\t2\t2\nPétrichor\t2\t0\t2\n",
+  "stderr": "",
+  "execution_time_ms": 65
+}

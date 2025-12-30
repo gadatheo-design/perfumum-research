@@ -1,0 +1,13 @@
+{
+  "query": "SELECT name FROM molecules WHERE name LIKE '%VETIVER%' OR name LIKE '%LIMON%' OR name LIKE '%LINALOOL%' OR name LIKE '%PINEN%' OR name LIKE '%CARYOPHYLL%' OR name LIKE '%MYRCEN%' LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT name FROM molecules WHERE name LIKE '%VETIVER%' OR name LIKE '%LIMON%' OR name LIKE '%LINALOOL%' OR name LIKE '%PINEN%' OR name LIKE '%CARYOPHYLL%' OR name LIKE '%MYRCEN%' LIMIT 20;",
+  "rows": [
+    {
+      "name": "VETIVEROL"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\nVETIVEROL\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

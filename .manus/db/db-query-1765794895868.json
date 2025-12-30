@@ -1,0 +1,95 @@
+{
+  "query": "SELECT id, name, family FROM molecules WHERE notes LIKE '%Hermitage Oils%' ORDER BY id DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, family FROM molecules WHERE notes LIKE '%Hermitage Oils%' ORDER BY id DESC;",
+  "rows": [
+    {
+      "id": "180017",
+      "name": "Black Emerald",
+      "family": "Racine / Vétiver"
+    },
+    {
+      "id": "180016",
+      "name": "Haitian Vetiver",
+      "family": "Racine / Vétiver"
+    },
+    {
+      "id": "180015",
+      "name": "Spikenard",
+      "family": "Racine / Terreux"
+    },
+    {
+      "id": "180014",
+      "name": "Makrut Lime",
+      "family": "Agrumes / Asiatique"
+    },
+    {
+      "id": "180013",
+      "name": "Neroli Bouquetier Reserve",
+      "family": "Floral / Agrumes"
+    },
+    {
+      "id": "180012",
+      "name": "Omani Black Frankincense",
+      "family": "Résine / Encens"
+    },
+    {
+      "id": "180011",
+      "name": "Plumeria Light",
+      "family": "Floral / Tropical"
+    },
+    {
+      "id": "180010",
+      "name": "Tangerine Dream",
+      "family": "Agrumes / Petit-grain"
+    },
+    {
+      "id": "180009",
+      "name": "Miyazaki Citrus",
+      "family": "Agrumes / Hespéridé"
+    },
+    {
+      "id": "180008",
+      "name": "Oud Tea",
+      "family": "Bois / Thé"
+    },
+    {
+      "id": "180007",
+      "name": "Crème de Citronnelle",
+      "family": "Agrumes / Herbacé"
+    },
+    {
+      "id": "180006",
+      "name": "Gris d'Ambre",
+      "family": "Ambre / Animalique"
+    },
+    {
+      "id": "180005",
+      "name": "Mitti Attar",
+      "family": "Terreux / Pétrichor"
+    },
+    {
+      "id": "180004",
+      "name": "Wild Juniper",
+      "family": "Conifère / Aromatique"
+    },
+    {
+      "id": "180003",
+      "name": "Artisan Peppermint Oil",
+      "family": "Aromatique / Menthé"
+    },
+    {
+      "id": "180002",
+      "name": "Italian Bergamot Oil",
+      "family": "Agrumes / Hespéridé"
+    },
+    {
+      "id": "180001",
+      "name": "Palo Santo",
+      "family": "Bois / Résine"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\n180017\tBlack Emerald\tRacine / Vétiver\n180016\tHaitian Vetiver\tRacine / Vétiver\n180015\tSpikenard\tRacine / Terreux\n180014\tMakrut Lime\tAgrumes / Asiatique\n180013\tNeroli Bouquetier Reserve\tFloral / Agrumes\n180012\tOmani Black Frankincense\tRésine / Encens\n180011\tPlumeria Light\tFloral / Tropical\n180010\tTangerine Dream\tAgrumes / Petit-grain\n180009\tMiyazaki Citrus\tAgrumes / Hespéridé\n180008\tOud Tea\tBois / Thé\n180007\tCrème de Citronnelle\tAgrumes / Herbacé\n180006\tGris d'Ambre\tAmbre / Animalique\n180005\tMitti Attar\tTerreux / Pétrichor\n180004\tWild Juniper\tConifère / Aromatique\n180003\tArtisan Peppermint Oil\tAromatique / Menthé\n180002\tItalian Bergamot Oil\tAgrumes / Hespéridé\n180001\tPalo Santo\tBois / Résine\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

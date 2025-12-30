@@ -1,0 +1,30 @@
+{
+  "query": "SELECT id, name, description FROM chemical_families ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, description FROM chemical_families ORDER BY name;",
+  "rows": [
+    {
+      "id": "2",
+      "name": "Acides Aromatiques",
+      "description": "Famille chimique apportant des notes balsamiques, vanillées et épicées. Issus de la dégradation thermique de composés phénoliques."
+    },
+    {
+      "id": "1",
+      "name": "Acides Gras",
+      "description": "Famille chimique responsable des notes fromagées, beurrées et lactées. Présents naturellement dans les processus de fermentation."
+    },
+    {
+      "id": "3",
+      "name": "Esters",
+      "description": "Famille chimique caractérisée par des notes fruitées, florales et fraîches. Très volatils et perceptibles dès les premières notes."
+    },
+    {
+      "id": "4",
+      "name": "Indoles",
+      "description": "Famille chimique complexe aux notes animales, florales et fécales. Présents dans le tabac fermenté et certaines fleurs blanches."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tdescription\n2\tAcides Aromatiques\tFamille chimique apportant des notes balsamiques, vanillées et épicées. Issus de la dégradation thermique de composés phénoliques.\n1\tAcides Gras\tFamille chimique responsable des notes fromagées, beurrées et lactées. Présents naturellement dans les processus de fermentation.\n3\tEsters\tFamille chimique caractérisée par des notes fruitées, florales et fraîches. Très volatils et perceptibles dès les premières notes.\n4\tIndoles\tFamille chimique complexe aux notes animales, florales et fécales. Présents dans le tabac fermenté et certaines fleurs blanches.\n",
+  "stderr": "",
+  "execution_time_ms": 77
+}
