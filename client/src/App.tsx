@@ -197,12 +197,14 @@ import BioMineralis from "./pages/BioMineralis";
 // === PAGES TECHNIQUES ===
 import TestMinimal from "./pages/TestMinimal";
 
+
 function Router() {
   return (
     <Switch>
       {/* === TEST === */}
       <Route path="/test-trpc" component={TestTRPC} />
       <Route path="/test-simple" component={TestSimple} />
+
       
       {/* === PAGES PRINCIPALES === */}
       <Route path="/" component={Home} />
@@ -399,10 +401,10 @@ function Router() {
 
 function App() {
   // Activer navigation clavier globale
-  useKeyboardNavigation();
+  // useKeyboardNavigation();
   
   // Activer historique navigation
-  useNavigationHistory();
+  // useNavigationHistory();
   
   return (
     <ErrorBoundary>

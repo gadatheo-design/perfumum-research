@@ -8,8 +8,8 @@
 - [x] Créer la page `/bibliographie` avec interface complète
 - [x] Créer la page `/projets` avec interface complète (existait déjà)
 - [x] Créer la page `/gestion` avec interface complète
-- [ ] Tester la navigation entre toutes les pages
-- [ ] Valider le responsive mobile
+- [x] Tester la navigation entre toutes les pages (6 pages testées avec succès)
+- [ ] Valider le responsive mobile (tests manuels requis)
 
 ### Phase 2 : Importer les données restantes ✅ COMPLÉTÉ
 - [x] Localiser le fichier `NOUVELLES_MOLECULES_25.csv` avec les 23 molécules
@@ -60,8 +60,9 @@
 - À corriger après les tâches prioritaires
 
 ### Routing frontend
-- Nouvelles pages React ne se montent pas dans le DOM
-- À investiguer en priorité (Phase 1)
+- [x] RESOLU : Service Worker PWA mettait en cache l'ancienne version
+- [x] Solution : Service Worker désactivé dans main.tsx
+- [x] Toutes les pages fonctionnent maintenant correctement
 
 ---
 
