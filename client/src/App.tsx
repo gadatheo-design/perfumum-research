@@ -161,6 +161,8 @@ import Terrains from "./pages/Terrains";
 import BibliographiePage from "./pages/BibliographiePage";
 import GestionPage from "./pages/GestionPage";
 import LeafEconomies from "./pages/LeafEconomies";
+import LeafEconomyDetail from "./pages/LeafEconomyDetail";
+import LeafEconomyForm from "./pages/LeafEconomyForm";
 import TimelineBotanique from "./pages/TimelineBotanique";
 import BotaniqueCritique from "./pages/BotaniqueCritique";
 import VarietesFantomes from "./pages/VarietesFantomes";
@@ -380,6 +382,10 @@ function Router() {
       {/* === SAN ANDRÉS / LEAF ECONOMIES === */}
       <Route path="/leaf-economies" component={LeafEconomies} />
       <Route path="/san-andres" component={LeafEconomies} />
+      <Route path="/san-andres/leaf-economies" component={LeafEconomies} />
+      <Route path="/san-andres/echantillon/:id" component={LeafEconomyDetail} />
+      <Route path="/san-andres/echantillon/:id/edit" component={LeafEconomyForm} />
+      <Route path="/san-andres/echantillon/new" component={LeafEconomyForm} />
       <Route path="/timeline-botanique" component={TimelineBotanique} />
       <Route path="/botanique-critique" component={BotaniqueCritique} />
       <Route path="/varietes-fantomes" component={VarietesFantomes} />

@@ -116,8 +116,8 @@
 
 ### Phase 3 : Interface utilisateur pour San Andrés / Seaflower
 - [x] Créer la page de liste des échantillons avec filtres avancés
-- [ ] Créer la page de détail d'un échantillon (toutes les propriétés)
-- [ ] Créer le formulaire d'ajout/édition d'échantillon
+- [x] Créer la page de détail d'un échantillon (toutes les propriétés)
+- [x] Créer le formulaire d'ajout/édition d'échantillon
 - [x] Créer les vues recommandées (À collecter, À analyser, San Andrés only, etc.)
 - [x] Créer la page de documentation méthodologique (Pasted_content_15.txt)
 - [x] Intégrer dans le menu principal
@@ -134,7 +134,7 @@
 - [ ] Créer une page de bibliographie/sources pour San Andrés
 
 ### Phase 6 : Tests et validation
-- [ ] Écrire les tests unitaires pour les procédures tRPC
+- [x] Écrire les tests unitaires pour les procédures tRPC (16 tests passés)
 - [ ] Tester l'interface sur desktop et mobile
 - [ ] Vérifier la cohérence des données
 - [ ] Valider les filtres et recherches

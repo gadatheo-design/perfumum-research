@@ -233,7 +233,8 @@ export default function LeafEconomies() {
               const status = statusConfig[sample.status || "brut"];
 
               return (
-                <Card key={sample.id} className="hover:shadow-lg transition-shadow">
+                <Link key={sample.id} href={`/san-andres/echantillon/${sample.id}`}>
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between">
                       <div>
@@ -308,6 +309,7 @@ export default function LeafEconomies() {
                     </div>
                   </CardContent>
                 </Card>
+                </Link>
               );
             })}
           </div>
