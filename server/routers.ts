@@ -2226,6 +2226,316 @@ export const appRouter = router({
       return await db.getMoleculesWithCas();
     }),
   }),
+
+  // ============================================================================
+  // PLANTS (Plantes aromatiques avec variétés et états botaniques)
+  // ============================================================================
+  plants: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllPlants();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getPlantById(input);
+      }),
+    getByCategory: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getPlantsByCategory(input);
+      }),
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(1),
+        latinName: z.string().optional(),
+        family: z.string().optional(),
+        category: z.enum(["aromatique", "tabac", "cannabis", "resine", "bois", "fleur", "racine", "autre"]),
+        origin: z.string().optional(),
+        habitat: z.string().optional(),
+        olfactiveSignature: z.string().optional(),
+        dominantMolecules: z.string().optional(),
+        chemotypes: z.string().optional(),
+        climaticAxis: z.enum(["vent", "bois", "disparition", "vent_bois", "bois_disparition", "vent_disparition"]).optional(),
+        traditionalUse: z.string().optional(),
+        absorbeUse: z.string().optional(),
+        botanicalStates: z.array(z.object({
+          state: z.string(),
+          name: z.string(),
+          odor: z.string(),
+          molecules: z.array(z.string()),
+          usage: z.string(),
+        })).optional(),
+        notes: z.string().optional(),
+        imageUrl: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createPlant(input as any);
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          name: z.string().optional(),
+          latinName: z.string().optional(),
+          family: z.string().optional(),
+          category: z.enum(["aromatique", "tabac", "cannabis", "resine", "bois", "fleur", "racine", "autre"]).optional(),
+          origin: z.string().optional(),
+          habitat: z.string().optional(),
+          olfactiveSignature: z.string().optional(),
+          dominantMolecules: z.string().optional(),
+          chemotypes: z.string().optional(),
+          climaticAxis: z.enum(["vent", "bois", "disparition", "vent_bois", "bois_disparition", "vent_disparition"]).optional(),
+          traditionalUse: z.string().optional(),
+          absorbeUse: z.string().optional(),
+          botanicalStates: z.array(z.object({
+            state: z.string(),
+            name: z.string(),
+            odor: z.string(),
+            molecules: z.array(z.string()),
+            usage: z.string(),
+          })).optional(),
+          notes: z.string().optional(),
+          imageUrl: z.string().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.updatePlant(input.id, input.data as any);
+      }),
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deletePlant(input);
+        return { success: true };
+      }),
+    getMolecules: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getPlantMolecules(input);
+      }),
+  }),
+
+  // ============================================================================
+  // TERP PROFILES (Fiches interactives San Andrés - Point 1 & 2)
+  // ============================================================================
+  terpProfiles: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllTerpProfiles();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getTerpProfileById(input);
+      }),
+    getByProfileId: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getTerpProfileByProfileId(input);
+      }),
+    getByClimaticAxis: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getTerpProfilesByClimaticAxis(input);
+      }),
+    getByUsage: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getTerpProfilesByUsage(input);
+      }),
+    create: publicProcedure
+      .input(z.object({
+        profileId: z.string().min(1),
+        name: z.string().min(1),
+        collection: z.string().optional(),
+        type: z.string().optional(),
+        climaticAxis: z.enum(["vent", "bois", "disparition", "vent_bois", "bois_disparition", "vent_disparition", "vent_bois_disparition"]),
+        secondaryAxis: z.enum(["vent", "bois", "disparition", "none"]).optional(),
+        function: z.string().optional(),
+        usage: z.enum(["parfum", "encens", "espace", "parfum_encens", "parfum_espace", "encens_espace", "tous"]).optional(),
+        level: z.string().optional(),
+        plantSources: z.string().optional(),
+        keyMolecules: z.string().optional(),
+        concentrate: z.array(z.object({
+          ingredient: z.string(),
+          percentage: z.number(),
+        })).optional(),
+        olfactiveReading: z.string().optional(),
+        temporality: z.enum(["rapide", "moyenne", "longue", "tres_courte", "variable"]).optional(),
+        temporalityDescription: z.string().optional(),
+        recommendedUsage: z.string().optional(),
+        criticalNotes: z.string().optional(),
+        connections: z.array(z.object({
+          type: z.enum(["compare", "complete"]),
+          profileId: z.string(),
+          name: z.string(),
+        })).optional(),
+        intensity: z.enum(["faible", "moyenne", "structurelle"]).optional(),
+        readability: z.enum(["abstrait", "lisible", "structure"]).optional(),
+        nonIdentifiable: z.number().optional(),
+        radarVent: z.number().optional(),
+        radarBois: z.number().optional(),
+        radarDisparition: z.number().optional(),
+        radarStructure: z.number().optional(),
+        radarDiffusion: z.number().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createTerpProfile(input as any);
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          name: z.string().optional(),
+          collection: z.string().optional(),
+          type: z.string().optional(),
+          climaticAxis: z.enum(["vent", "bois", "disparition", "vent_bois", "bois_disparition", "vent_disparition", "vent_bois_disparition"]).optional(),
+          secondaryAxis: z.enum(["vent", "bois", "disparition", "none"]).optional(),
+          function: z.string().optional(),
+          usage: z.enum(["parfum", "encens", "espace", "parfum_encens", "parfum_espace", "encens_espace", "tous"]).optional(),
+          level: z.string().optional(),
+          plantSources: z.string().optional(),
+          keyMolecules: z.string().optional(),
+          concentrate: z.array(z.object({
+            ingredient: z.string(),
+            percentage: z.number(),
+          })).optional(),
+          olfactiveReading: z.string().optional(),
+          temporality: z.enum(["rapide", "moyenne", "longue", "tres_courte", "variable"]).optional(),
+          temporalityDescription: z.string().optional(),
+          recommendedUsage: z.string().optional(),
+          criticalNotes: z.string().optional(),
+          connections: z.array(z.object({
+            type: z.enum(["compare", "complete"]),
+            profileId: z.string(),
+            name: z.string(),
+          })).optional(),
+          intensity: z.enum(["faible", "moyenne", "structurelle"]).optional(),
+          readability: z.enum(["abstrait", "lisible", "structure"]).optional(),
+          nonIdentifiable: z.number().optional(),
+          radarVent: z.number().optional(),
+          radarBois: z.number().optional(),
+          radarDisparition: z.number().optional(),
+          radarStructure: z.number().optional(),
+          radarDiffusion: z.number().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.updateTerpProfile(input.id, input.data as any);
+      }),
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteTerpProfile(input);
+        return { success: true };
+      }),
+    getPlants: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getTerpProfilePlants(input);
+      }),
+    getMolecules: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getTerpProfileMolecules(input);
+      }),
+  }),
+
+  // ============================================================================
+  // FINAL RECIPES (Recettes finales: Parfum, Encens, Espace - Point 3)
+  // ============================================================================
+  finalRecipes: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllFinalRecipes();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getFinalRecipeById(input);
+      }),
+    getByRecipeId: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getFinalRecipeByRecipeId(input);
+      }),
+    getByType: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getFinalRecipesByType(input);
+      }),
+    getByClimaticAxis: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getFinalRecipesByClimaticAxis(input);
+      }),
+    getRadical: publicProcedure.query(async () => {
+      return await db.getRadicalRecipes();
+    }),
+    create: publicProcedure
+      .input(z.object({
+        recipeId: z.string().min(1),
+        name: z.string().min(1),
+        recipeType: z.enum(["parfum", "encens", "espace"]),
+        function: z.string().optional(),
+        climaticAxis: z.enum(["vent", "bois", "disparition", "vent_bois", "bois_disparition", "vent_disparition", "vent_bois_disparition"]),
+        base: z.string().optional(),
+        concentrate: z.array(z.object({
+          ingredient: z.string(),
+          percentage: z.number(),
+        })).optional(),
+        dilution: z.string().optional(),
+        restPeriod: z.string().optional(),
+        form: z.string().optional(),
+        combustionTime: z.string().optional(),
+        protocol: z.string().optional(),
+        supports: z.string().optional(),
+        expectedResult: z.string().optional(),
+        successCriteria: z.string().optional(),
+        risks: z.string().optional(),
+        notes: z.string().optional(),
+        usage: z.string().optional(),
+        terpProfileIds: z.array(z.string()).optional(),
+        isRadical: z.number().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createFinalRecipe(input as any);
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          name: z.string().optional(),
+          recipeType: z.enum(["parfum", "encens", "espace"]).optional(),
+          function: z.string().optional(),
+          climaticAxis: z.enum(["vent", "bois", "disparition", "vent_bois", "bois_disparition", "vent_disparition", "vent_bois_disparition"]).optional(),
+          base: z.string().optional(),
+          concentrate: z.array(z.object({
+            ingredient: z.string(),
+            percentage: z.number(),
+          })).optional(),
+          dilution: z.string().optional(),
+          restPeriod: z.string().optional(),
+          form: z.string().optional(),
+          combustionTime: z.string().optional(),
+          protocol: z.string().optional(),
+          supports: z.string().optional(),
+          expectedResult: z.string().optional(),
+          successCriteria: z.string().optional(),
+          risks: z.string().optional(),
+          notes: z.string().optional(),
+          usage: z.string().optional(),
+          terpProfileIds: z.array(z.string()).optional(),
+          isRadical: z.number().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.updateFinalRecipe(input.id, input.data as any);
+      }),
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteFinalRecipe(input);
+        return { success: true };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

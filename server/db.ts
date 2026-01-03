@@ -91,6 +91,19 @@ import {
   ifraRestrictions,
   IfraRestriction,
   InsertIfraRestriction,
+  plants,
+  Plant,
+  InsertPlant,
+  terpProfiles,
+  TerpProfile,
+  InsertTerpProfile,
+  finalRecipes,
+  FinalRecipe,
+  InsertFinalRecipe,
+  terpProfilePlants,
+  terpProfileMolecules,
+  plantMolecules,
+  finalRecipeTerpProfiles,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -3911,4 +3924,240 @@ export async function getMoleculesWithCas() {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   return await db.select().from(molecules).where(isNotNull(molecules.casNumber)).orderBy(molecules.name);
+}
+
+
+// ============================================================================
+// PLANTS (Plantes aromatiques)
+// ============================================================================
+
+
+
+export async function getAllPlants() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(plants).orderBy(plants.name);
+}
+
+export async function getPlantById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(plants).where(eq(plants.id, id));
+  return result[0] || null;
+}
+
+export async function getPlantsByCategory(category: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(plants).where(eq(plants.category, category as any)).orderBy(plants.name);
+}
+
+export async function createPlant(data: InsertPlant) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const result = await db.insert(plants).values(data);
+  return result;
+}
+
+export async function updatePlant(id: number, data: Partial<InsertPlant>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(plants).set(data).where(eq(plants.id, id));
+  return await getPlantById(id);
+}
+
+export async function deletePlant(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(plants).where(eq(plants.id, id));
+}
+
+// ============================================================================
+// TERP PROFILES (Fiches interactives San Andrés)
+// ============================================================================
+
+export async function getAllTerpProfiles() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(terpProfiles).orderBy(terpProfiles.profileId);
+}
+
+export async function getTerpProfileById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(terpProfiles).where(eq(terpProfiles.id, id));
+  return result[0] || null;
+}
+
+export async function getTerpProfileByProfileId(profileId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(terpProfiles).where(eq(terpProfiles.profileId, profileId));
+  return result[0] || null;
+}
+
+export async function getTerpProfilesByClimaticAxis(axis: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(terpProfiles).where(eq(terpProfiles.climaticAxis, axis as any)).orderBy(terpProfiles.profileId);
+}
+
+export async function getTerpProfilesByUsage(usage: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(terpProfiles).where(eq(terpProfiles.usage, usage as any)).orderBy(terpProfiles.profileId);
+}
+
+export async function createTerpProfile(data: InsertTerpProfile) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const result = await db.insert(terpProfiles).values(data);
+  return result;
+}
+
+export async function updateTerpProfile(id: number, data: Partial<InsertTerpProfile>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(terpProfiles).set(data).where(eq(terpProfiles.id, id));
+  return await getTerpProfileById(id);
+}
+
+export async function deleteTerpProfile(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(terpProfiles).where(eq(terpProfiles.id, id));
+}
+
+// ============================================================================
+// FINAL RECIPES (Recettes finales: Parfum, Encens, Espace)
+// ============================================================================
+
+export async function getAllFinalRecipes() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(finalRecipes).orderBy(finalRecipes.recipeId);
+}
+
+export async function getFinalRecipeById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(finalRecipes).where(eq(finalRecipes.id, id));
+  return result[0] || null;
+}
+
+export async function getFinalRecipeByRecipeId(recipeId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(finalRecipes).where(eq(finalRecipes.recipeId, recipeId));
+  return result[0] || null;
+}
+
+export async function getFinalRecipesByType(recipeType: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(finalRecipes).where(eq(finalRecipes.recipeType, recipeType as any)).orderBy(finalRecipes.recipeId);
+}
+
+export async function getFinalRecipesByClimaticAxis(axis: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(finalRecipes).where(eq(finalRecipes.climaticAxis, axis as any)).orderBy(finalRecipes.recipeId);
+}
+
+export async function getRadicalRecipes() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(finalRecipes).where(eq(finalRecipes.isRadical, 1)).orderBy(finalRecipes.recipeId);
+}
+
+export async function createFinalRecipe(data: InsertFinalRecipe) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const result = await db.insert(finalRecipes).values(data);
+  return result;
+}
+
+export async function updateFinalRecipe(id: number, data: Partial<InsertFinalRecipe>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(finalRecipes).set(data).where(eq(finalRecipes.id, id));
+  return await getFinalRecipeById(id);
+}
+
+export async function deleteFinalRecipe(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(finalRecipes).where(eq(finalRecipes.id, id));
+}
+
+// ============================================================================
+// RELATIONS: TerpProfiles <-> Plants
+// ============================================================================
+
+export async function getTerpProfilePlants(terpProfileId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select({
+      plant: plants,
+      notes: terpProfilePlants.notes,
+    })
+    .from(terpProfilePlants)
+    .innerJoin(plants, eq(terpProfilePlants.plantId, plants.id))
+    .where(eq(terpProfilePlants.terpProfileId, terpProfileId));
+}
+
+export async function addPlantToTerpProfile(terpProfileId: number, plantId: number, notes?: string) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.insert(terpProfilePlants).values({ terpProfileId, plantId, notes });
+}
+
+// ============================================================================
+// RELATIONS: TerpProfiles <-> Molecules
+// ============================================================================
+
+export async function getTerpProfileMolecules(terpProfileId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select({
+      molecule: molecules,
+      percentage: terpProfileMolecules.percentage,
+      notes: terpProfileMolecules.notes,
+    })
+    .from(terpProfileMolecules)
+    .innerJoin(molecules, eq(terpProfileMolecules.moleculeId, molecules.id))
+    .where(eq(terpProfileMolecules.terpProfileId, terpProfileId));
+}
+
+export async function addMoleculeToTerpProfile(terpProfileId: number, moleculeId: number, percentage?: string, notes?: string) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.insert(terpProfileMolecules).values({ terpProfileId, moleculeId, percentage, notes });
+}
+
+// ============================================================================
+// RELATIONS: Plants <-> Molecules
+// ============================================================================
+
+export async function getPlantMolecules(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select({
+      molecule: molecules,
+      percentage: plantMolecules.percentage,
+      isSignature: plantMolecules.isSignature,
+      notes: plantMolecules.notes,
+    })
+    .from(plantMolecules)
+    .innerJoin(molecules, eq(plantMolecules.moleculeId, molecules.id))
+    .where(eq(plantMolecules.plantId, plantId));
+}
+
+export async function addMoleculeToPlant(plantId: number, moleculeId: number, percentage?: string, isSignature?: number, notes?: string) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.insert(plantMolecules).values({ plantId, moleculeId, percentage, isSignature, notes });
 }

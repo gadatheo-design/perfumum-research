@@ -267,3 +267,41 @@
 - [ ] Valider l'intégrité des données importées
 - [ ] Créer le checkpoint final
 
+
+
+---
+
+## 🌿 SESSION 03 JAN 2026 (suite) - POINTS 1, 2, 3 PRIORITAIRES
+
+### Point 1 : Fiches TerpProfiles interactives (TRÈS IMPORTANT) ✅ COMPLÉTÉ
+- [x] Vérifier/créer le schéma de table `terp_profiles` avec tous les champs requis
+- [x] Importer les 10 fiches TerpProfiles complètes (SA-TP-01 à SA-TP-10)
+- [x] Créer l'interface avec toggle (Formule / Molécules / Interprétation Absorbe)
+- [x] Créer les filtres (Axe climatique / Plante source / Usage)
+- [x] Créer la vue de comparaison (2-3 fiches côte à côte) - via onglet Par axe climatique
+- [x] Afficher les connexions entre fiches
+
+### Point 2 : Tableau Comparatif Dynamique (TRÈS IMPORTANT) ✅ COMPLÉTÉ
+- [x] Vérifier/étendre le schéma formules avec champs comparatifs
+- [x] Créer la vue tableau avec colonnes (ID, Formule, Axe, Fonction, Plantes, Molécules, Usage, Lisibilité, Temporalité)
+- [x] Implémenter les filtres (Axe climatique, Plante source, Usage, Lisibilité, Non-identifiable)
+- [x] Créer le mode "Compare" pour 2-3 formules côte à côte - via onglet Par axe climatique
+- [x] Créer le graphique radar climatique (Vent/Bois/Disparition/Structure/Diffusion)
+- [x] Afficher les règles Absorbe
+
+### Point 3 : Recettes Finales avec Variétés et Plantes (TRÈS IMPORTANT) ✅ COMPLÉTÉ
+- [x] Créer/vérifier le schéma recettes finales (parfum, encens, espace)
+- [x] Importer les 3 recettes parfum (PF-01 Salted Exposure, PF-02 Vent Social, PF-03 Architecture du Temps)
+- [x] Importer les 3 recettes encens (EN-01 Wind Purge, EN-02 Bois Social, EN-03 Disappearance)
+- [x] Importer les 3 protocoles espace (ES-01 Circulating Climate, ES-02 Leaf Presence, ES-03 Temporal Layer)
+- [x] Créer l'interface de visualisation avec Fonction, Axe, Recette, Critère de réussite, Risques
+- [x] Intégrer les règles de publication (jamais promesse/effet/storytelling)
+
+### Plantes et Variétés (TRÈS IMPORTANT pour Point 3) ✅ COMPLÉTÉ
+- [x] Créer/vérifier le schéma plantes avec variétés et états botaniques
+- [x] Importer les plantes aromatiques San Andrés (Pimenta racemosa, Cymbopogon citratus, Lippia alba, Ocimum basilicum, Mentha spicata, Origanum vulgare)
+- [x] Importer les données Tabac (Virginia, Burley, Criollo) avec molécules signatures
+- [x] Importer les données Cannabis (profils terpéniques, 4 profils olfactifs)
+- [x] Lier les plantes aux molécules dominantes (via champ dominantMolecules)
+- [x] Afficher les chémotypes (Lippia alba citral vs carvone)
+

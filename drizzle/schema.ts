@@ -1765,3 +1765,319 @@ export const ifraRestrictionsRelations = relations(ifraRestrictions, ({ one }) =
     references: [molecules.id],
   }),
 }));
+
+
+// ============================================================================
+// PLANTS (Plantes aromatiques avec variétés et états botaniques)
+// ============================================================================
+
+export const plants = mysqlTable("plants", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  name: varchar("name", { length: 255 }).notNull(), // Nom commun (ex: "Lemongrass")
+  latinName: varchar("latin_name", { length: 255 }), // Nom latin (ex: "Cymbopogon citratus")
+  family: varchar("family", { length: 100 }), // Famille botanique (ex: "Poaceae")
+  // Classification
+  category: mysqlEnum("category", [
+    "aromatique",
+    "tabac",
+    "cannabis",
+    "resine",
+    "bois",
+    "fleur",
+    "racine",
+    "autre"
+  ]).notNull(),
+  // Origine et localisation
+  origin: varchar("origin", { length: 255 }), // Origine géographique
+  habitat: text("habitat"), // Habitat naturel
+  // Profil olfactif
+  olfactiveSignature: text("olfactive_signature"), // Description olfactive
+  dominantMolecules: text("dominant_molecules"), // Molécules dominantes (JSON array)
+  chemotypes: text("chemotypes"), // Chémotypes disponibles (ex: Lippia alba citral vs carvone)
+  // Axe climatique Absorbe
+  climaticAxis: mysqlEnum("climatic_axis", [
+    "vent",
+    "bois",
+    "disparition",
+    "vent_bois",
+    "bois_disparition",
+    "vent_disparition"
+  ]),
+  // Usage
+  traditionalUse: text("traditional_use"), // Usage traditionnel
+  absorbeUse: text("absorbe_use"), // Usage dans le système Absorbe
+  // États botaniques
+  botanicalStates: json("botanical_states").$type<{
+    state: string; // A, B, C, D
+    name: string; // "Feuille verte vivante", "Feuille jaune", etc.
+    odor: string; // Description olfactive
+    molecules: string[]; // Molécules dominantes
+    usage: string; // Usage recommandé
+  }[]>(),
+  // Métadonnées
+  notes: text("notes"),
+  imageUrl: varchar("image_url", { length: 500 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Plant = typeof plants.$inferSelect;
+export type InsertPlant = typeof plants.$inferInsert;
+
+// ============================================================================
+// TERP PROFILES (Fiches interactives San Andrés)
+// ============================================================================
+
+export const terpProfiles = mysqlTable("terp_profiles", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  profileId: varchar("profile_id", { length: 20 }).notNull().unique(), // SA-TP-01, SA-TP-02, etc.
+  name: varchar("name", { length: 255 }).notNull(), // "Wind Cut / Citral Structure"
+  collection: varchar("collection", { length: 100 }).default("San Andrés · Leaf Economies"),
+  type: varchar("type", { length: 100 }).default("Formule analytique"),
+  // Axe climatique
+  climaticAxis: mysqlEnum("climatic_axis", [
+    "vent",
+    "bois",
+    "disparition",
+    "vent_bois",
+    "bois_disparition",
+    "vent_disparition",
+    "vent_bois_disparition"
+  ]).notNull(),
+  secondaryAxis: mysqlEnum("secondary_axis", [
+    "vent",
+    "bois",
+    "disparition",
+    "none"
+  ]).default("none"),
+  // Fonction et usage
+  function: text("function"), // "Coupe aérienne", "Structure sèche", etc.
+  usage: mysqlEnum("usage", [
+    "parfum",
+    "encens",
+    "espace",
+    "parfum_encens",
+    "parfum_espace",
+    "encens_espace",
+    "tous"
+  ]).default("parfum"),
+  level: varchar("level", { length: 50 }).default("Recherche"),
+  // Plantes sources (relation many-to-many via terpProfilePlants)
+  plantSources: text("plant_sources"), // JSON array pour affichage rapide
+  // Molécules clés (relation many-to-many via terpProfileMolecules)
+  keyMolecules: text("key_molecules"), // JSON array pour affichage rapide
+  // Concentré (formule)
+  concentrate: json("concentrate").$type<{
+    ingredient: string;
+    percentage: number;
+  }[]>(),
+  // Lecture olfactive
+  olfactiveReading: text("olfactive_reading"),
+  // Temporalité
+  temporality: mysqlEnum("temporality", [
+    "rapide",
+    "moyenne",
+    "longue",
+    "tres_courte",
+    "variable"
+  ]).default("moyenne"),
+  temporalityDescription: text("temporality_description"), // "Entrée rapide. Plateau court. Sortie nette."
+  // Usages recommandés
+  recommendedUsage: text("recommended_usage"), // "Parfum ≤ 8 %, Espace ≤ 2 %"
+  // Notes critiques
+  criticalNotes: text("critical_notes"),
+  // Connexions
+  connections: json("connections").$type<{
+    type: "compare" | "complete";
+    profileId: string;
+    name: string;
+  }[]>(),
+  // Propriétés comparatives (Point 2)
+  intensity: mysqlEnum("intensity", ["faible", "moyenne", "structurelle"]).default("moyenne"),
+  readability: mysqlEnum("readability", ["abstrait", "lisible", "structure"]).default("lisible"),
+  nonIdentifiable: int("non_identifiable").default(0), // 0 = false, 1 = true
+  // Radar climatique (0-100)
+  radarVent: int("radar_vent").default(50),
+  radarBois: int("radar_bois").default(50),
+  radarDisparition: int("radar_disparition").default(50),
+  radarStructure: int("radar_structure").default(50),
+  radarDiffusion: int("radar_diffusion").default(50),
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type TerpProfile = typeof terpProfiles.$inferSelect;
+export type InsertTerpProfile = typeof terpProfiles.$inferInsert;
+
+// ============================================================================
+// FINAL RECIPES (Recettes finales: Parfum, Encens, Espace)
+// ============================================================================
+
+export const finalRecipes = mysqlTable("final_recipes", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  recipeId: varchar("recipe_id", { length: 20 }).notNull().unique(), // PF-01, EN-01, ES-01
+  name: varchar("name", { length: 255 }).notNull(), // "Salted Exposure / Leaf Edition"
+  // Type de recette
+  recipeType: mysqlEnum("recipe_type", [
+    "parfum",
+    "encens",
+    "espace"
+  ]).notNull(),
+  // Fonction et axe
+  function: text("function"), // "climat portable", "désaturation", etc.
+  climaticAxis: mysqlEnum("climatic_axis", [
+    "vent",
+    "bois",
+    "disparition",
+    "vent_bois",
+    "bois_disparition",
+    "vent_disparition",
+    "vent_bois_disparition"
+  ]).notNull(),
+  // Base/Support
+  base: varchar("base", { length: 255 }), // "alcool neutre", "bois sec + fibres", etc.
+  // Concentré (formule)
+  concentrate: json("concentrate").$type<{
+    ingredient: string;
+    percentage: number;
+  }[]>(),
+  // Dilution (pour parfums)
+  dilution: varchar("dilution", { length: 100 }), // "8 % dans alcool"
+  restPeriod: varchar("rest_period", { length: 100 }), // "repos 7 jours max"
+  // Forme (pour encens)
+  form: text("form"), // "pastilles plates fines"
+  combustionTime: varchar("combustion_time", { length: 100 }), // "≤ 5 min"
+  // Protocole (pour espace)
+  protocol: text("protocol"),
+  supports: text("supports"), // "bois clair exposé, pierre / béton, textile sec"
+  // Résultat attendu
+  expectedResult: text("expected_result"),
+  // Critère de réussite
+  successCriteria: text("success_criteria"),
+  // Risques
+  risks: text("risks"),
+  // Notes
+  notes: text("notes"),
+  // Usage
+  usage: text("usage"), // "moments collectifs, ateliers, médiation"
+  // Lien vers TerpProfiles utilisés
+  terpProfileIds: json("terp_profile_ids").$type<string[]>(),
+  // Métadonnées
+  isRadical: int("is_radical").default(0), // 0 = standard, 1 = recette radicale (R-11 à R-18)
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type FinalRecipe = typeof finalRecipes.$inferSelect;
+export type InsertFinalRecipe = typeof finalRecipes.$inferInsert;
+
+// ============================================================================
+// RELATIONS: TerpProfiles <-> Plants (Many-to-Many)
+// ============================================================================
+
+export const terpProfilePlants = mysqlTable("terp_profile_plants", {
+  terpProfileId: int("terp_profile_id").notNull().references(() => terpProfiles.id),
+  plantId: int("plant_id").notNull().references(() => plants.id),
+  notes: text("notes"),
+});
+
+// ============================================================================
+// RELATIONS: TerpProfiles <-> Molecules (Many-to-Many)
+// ============================================================================
+
+export const terpProfileMolecules = mysqlTable("terp_profile_molecules", {
+  terpProfileId: int("terp_profile_id").notNull().references(() => terpProfiles.id),
+  moleculeId: int("molecule_id").notNull().references(() => molecules.id),
+  percentage: decimal("percentage", { precision: 5, scale: 2 }),
+  notes: text("notes"),
+});
+
+// ============================================================================
+// RELATIONS: Plants <-> Molecules (Many-to-Many)
+// ============================================================================
+
+export const plantMolecules = mysqlTable("plant_molecules", {
+  plantId: int("plant_id").notNull().references(() => plants.id),
+  moleculeId: int("molecule_id").notNull().references(() => molecules.id),
+  percentage: decimal("percentage", { precision: 5, scale: 2 }),
+  isSignature: int("is_signature").default(0), // 1 = molécule signature
+  notes: text("notes"),
+});
+
+// ============================================================================
+// RELATIONS: FinalRecipes <-> TerpProfiles (Many-to-Many)
+// ============================================================================
+
+export const finalRecipeTerpProfiles = mysqlTable("final_recipe_terp_profiles", {
+  finalRecipeId: int("final_recipe_id").notNull().references(() => finalRecipes.id),
+  terpProfileId: int("terp_profile_id").notNull().references(() => terpProfiles.id),
+  percentage: decimal("percentage", { precision: 5, scale: 2 }),
+  notes: text("notes"),
+});
+
+// ============================================================================
+// DRIZZLE RELATIONS
+// ============================================================================
+
+export const plantsRelations = relations(plants, ({ many }) => ({
+  terpProfiles: many(terpProfilePlants),
+  molecules: many(plantMolecules),
+}));
+
+export const terpProfilesRelations = relations(terpProfiles, ({ many }) => ({
+  plants: many(terpProfilePlants),
+  molecules: many(terpProfileMolecules),
+  finalRecipes: many(finalRecipeTerpProfiles),
+}));
+
+export const finalRecipesRelations = relations(finalRecipes, ({ many }) => ({
+  terpProfiles: many(finalRecipeTerpProfiles),
+}));
+
+export const terpProfilePlantsRelations = relations(terpProfilePlants, ({ one }) => ({
+  terpProfile: one(terpProfiles, {
+    fields: [terpProfilePlants.terpProfileId],
+    references: [terpProfiles.id],
+  }),
+  plant: one(plants, {
+    fields: [terpProfilePlants.plantId],
+    references: [plants.id],
+  }),
+}));
+
+export const terpProfileMoleculesRelations = relations(terpProfileMolecules, ({ one }) => ({
+  terpProfile: one(terpProfiles, {
+    fields: [terpProfileMolecules.terpProfileId],
+    references: [terpProfiles.id],
+  }),
+  molecule: one(molecules, {
+    fields: [terpProfileMolecules.moleculeId],
+    references: [molecules.id],
+  }),
+}));
+
+export const plantMoleculesRelations = relations(plantMolecules, ({ one }) => ({
+  plant: one(plants, {
+    fields: [plantMolecules.plantId],
+    references: [plants.id],
+  }),
+  molecule: one(molecules, {
+    fields: [plantMolecules.moleculeId],
+    references: [molecules.id],
+  }),
+}));
+
+export const finalRecipeTerpProfilesRelations = relations(finalRecipeTerpProfiles, ({ one }) => ({
+  finalRecipe: one(finalRecipes, {
+    fields: [finalRecipeTerpProfiles.finalRecipeId],
+    references: [finalRecipes.id],
+  }),
+  terpProfile: one(terpProfiles, {
+    fields: [finalRecipeTerpProfiles.terpProfileId],
+    references: [terpProfiles.id],
+  }),
+}));

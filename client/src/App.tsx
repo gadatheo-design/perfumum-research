@@ -165,6 +165,9 @@ import TimelineBotanique from "./pages/TimelineBotanique";
 import BotaniqueCritique from "./pages/BotaniqueCritique";
 import VarietesFantomes from "./pages/VarietesFantomes";
 import RecettesLeafEconomies from "./pages/RecettesLeafEconomies";
+import TerpProfiles from "./pages/TerpProfiles";
+import Plants from "./pages/Plants";
+import FinalRecipes from "./pages/FinalRecipes";
 import Collaborations from "./pages/Collaborations";
 import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
@@ -378,6 +381,11 @@ function Router() {
       <Route path="/botanique-critique" component={BotaniqueCritique} />
       <Route path="/varietes-fantomes" component={VarietesFantomes} />
       <Route path="/recettes-leaf-economies" component={RecettesLeafEconomies} />
+      <Route path="/terp-profiles" component={TerpProfiles} />
+      <Route path="/plants" component={Plants} />
+      <Route path="/plantes" component={Plants} />
+      <Route path="/final-recipes" component={FinalRecipes} />
+      <Route path="/recettes-finales" component={FinalRecipes} />
       
       {/* === CIVILISATIONS & TRADITIONS === */}
       <Route path="/civilisations" component={Civilisations} />
