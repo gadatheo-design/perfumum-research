@@ -50,7 +50,7 @@ export default function Terroirs() {
   
   // Extraire les pays uniques
   const countries = terroirs 
-    ? [...new Set(terroirs.map((t: any) => t.country).filter(Boolean))]
+    ? Array.from(new Set(terroirs.map((t: any) => t.country).filter(Boolean)))
     : [];
   
   // Filtrer les terroirs

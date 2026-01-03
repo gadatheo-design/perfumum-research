@@ -1,4 +1,4 @@
-import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, inArray } from "drizzle-orm";
+import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, inArray, count } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -3719,7 +3719,8 @@ export async function createLeafEconomy(data: InsertLeafEconomy) {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   const result = await db.insert(leafEconomies).values(data);
-  return result;
+  const insertId = Number(result[0].insertId);
+  return await getLeafEconomyById(insertId);
 }
 
 export async function updateLeafEconomy(id: number, data: Partial<InsertLeafEconomy>) {

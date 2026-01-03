@@ -58,6 +58,10 @@
 ### Erreurs TypeScript (104 erreurs)
 - [x] Corriger les exports manquants dans schema.ts (InsertSituatedSmell, molecules, recettes, moleculesRecettes)
 - [x] Valider la compilation TypeScript sans erreurs
+- [x] Ajouter import count dans drizzle-orm (db.ts)
+- [x] Corriger createLeafEconomy pour retourner l'objet créé
+- [x] Corriger itération Set dans Terroirs.tsx
+- [x] Corriger indentation JSX dans LeafEconomies.tsx
 
 ### Routing frontend
 - [x] RESOLU : Service Worker PWA mettait en cache l'ancienne version
