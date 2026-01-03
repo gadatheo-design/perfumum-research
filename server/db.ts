@@ -104,6 +104,34 @@ import {
   terpProfileMolecules,
   plantMolecules,
   finalRecipeTerpProfiles,
+  // Point 3 étendu
+  plantVarieties,
+  PlantVariety,
+  InsertPlantVariety,
+  terroirs,
+  Terroir,
+  InsertTerroir,
+  extractionMethods,
+  ExtractionMethod,
+  InsertExtractionMethod,
+  plantAnalyses,
+  PlantAnalysis,
+  InsertPlantAnalysis,
+  plantSamples,
+  PlantSample,
+  InsertPlantSample,
+  extendedSuppliers,
+  ExtendedSupplier,
+  InsertExtendedSupplier,
+  plantTerroirs,
+  PlantTerroir,
+  InsertPlantTerroir,
+  plantExtractions,
+  PlantExtraction,
+  InsertPlantExtraction,
+  extendedSupplierMaterials,
+  ExtendedSupplierMaterial,
+  InsertExtendedSupplierMaterial,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -4160,4 +4188,339 @@ export async function addMoleculeToPlant(plantId: number, moleculeId: number, pe
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   await db.insert(plantMolecules).values({ plantId, moleculeId, percentage, isSignature, notes });
+}
+
+
+// ============================================================================
+// POINT 3 ÉTENDU - HELPERS BOTANIQUES AVANCÉS
+// ============================================================================
+
+// Plant Varieties helpers
+export async function getAllPlantVarieties() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plantVarieties).orderBy(plantVarieties.name);
+}
+
+export async function getPlantVarietiesByPlant(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plantVarieties).where(eq(plantVarieties.plantId, plantId));
+}
+
+export async function getPlantVarietyById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(plantVarieties).where(eq(plantVarieties.id, id));
+  return results[0] || null;
+}
+
+export async function createPlantVariety(data: InsertPlantVariety) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(plantVarieties).values(data);
+  return result;
+}
+
+export async function updatePlantVariety(id: number, data: Partial<InsertPlantVariety>) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(plantVarieties).set(data).where(eq(plantVarieties.id, id));
+}
+
+export async function deletePlantVariety(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(plantVarieties).where(eq(plantVarieties.id, id));
+}
+
+// Terroirs helpers
+export async function getAllTerroirs() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(terroirs).orderBy(terroirs.name);
+}
+
+export async function getTerroirsByCountry(country: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(terroirs).where(eq(terroirs.country, country));
+}
+
+export async function getTerroirById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(terroirs).where(eq(terroirs.id, id));
+  return results[0] || null;
+}
+
+export async function createTerroir(data: InsertTerroir) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(terroirs).values(data);
+  return result;
+}
+
+export async function updateTerroir(id: number, data: Partial<InsertTerroir>) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(terroirs).set(data).where(eq(terroirs.id, id));
+}
+
+export async function deleteTerroir(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(terroirs).where(eq(terroirs.id, id));
+}
+
+// Extraction Methods helpers
+export async function getAllExtractionMethods() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(extractionMethods).orderBy(extractionMethods.name);
+}
+
+export async function getExtractionMethodById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(extractionMethods).where(eq(extractionMethods.id, id));
+  return results[0] || null;
+}
+
+export async function createExtractionMethod(data: InsertExtractionMethod) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(extractionMethods).values(data);
+  return result;
+}
+
+export async function updateExtractionMethod(id: number, data: Partial<InsertExtractionMethod>) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(extractionMethods).set(data).where(eq(extractionMethods.id, id));
+}
+
+export async function deleteExtractionMethod(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(extractionMethods).where(eq(extractionMethods.id, id));
+}
+
+// Plant Analyses helpers
+export async function getAllPlantAnalyses() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plantAnalyses).orderBy(desc(plantAnalyses.analysisDate));
+}
+
+export async function getPlantAnalysesByPlant(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plantAnalyses).where(eq(plantAnalyses.plantId, plantId));
+}
+
+export async function getPlantAnalysisById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(plantAnalyses).where(eq(plantAnalyses.id, id));
+  return results[0] || null;
+}
+
+export async function createPlantAnalysis(data: InsertPlantAnalysis) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(plantAnalyses).values(data);
+  return result;
+}
+
+export async function updatePlantAnalysis(id: number, data: Partial<InsertPlantAnalysis>) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(plantAnalyses).set(data).where(eq(plantAnalyses.id, id));
+}
+
+export async function deletePlantAnalysis(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(plantAnalyses).where(eq(plantAnalyses.id, id));
+}
+
+// Plant Samples helpers
+export async function getAllPlantSamples() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plantSamples).orderBy(desc(plantSamples.createdAt));
+}
+
+export async function getPlantSamplesByPlant(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plantSamples).where(eq(plantSamples.plantId, plantId));
+}
+
+export async function getPlantSampleById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(plantSamples).where(eq(plantSamples.id, id));
+  return results[0] || null;
+}
+
+export async function createPlantSample(data: InsertPlantSample) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(plantSamples).values(data);
+  return result;
+}
+
+export async function updatePlantSample(id: number, data: Partial<InsertPlantSample>) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(plantSamples).set(data).where(eq(plantSamples.id, id));
+}
+
+export async function deletePlantSample(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(plantSamples).where(eq(plantSamples.id, id));
+}
+
+// Extended Suppliers helpers
+export async function getAllExtendedSuppliers() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(extendedSuppliers).orderBy(extendedSuppliers.name);
+}
+
+export async function getExtendedSupplierById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(extendedSuppliers).where(eq(extendedSuppliers.id, id));
+  return results[0] || null;
+}
+
+export async function createExtendedSupplier(data: InsertExtendedSupplier) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(extendedSuppliers).values(data);
+  return result;
+}
+
+export async function updateExtendedSupplier(id: number, data: Partial<InsertExtendedSupplier>) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(extendedSuppliers).set(data).where(eq(extendedSuppliers.id, id));
+}
+
+export async function deleteExtendedSupplier(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(extendedSuppliers).where(eq(extendedSuppliers.id, id));
+}
+
+// Plant-Terroir relations helpers
+export async function getPlantTerroirs(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plantTerroirs).where(eq(plantTerroirs.plantId, plantId));
+}
+
+export async function getTerroirPlants(terroirId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plantTerroirs).where(eq(plantTerroirs.terroirId, terroirId));
+}
+
+export async function addPlantTerroir(data: InsertPlantTerroir) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(plantTerroirs).values(data);
+}
+
+export async function removePlantTerroir(plantId: number, terroirId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(plantTerroirs)
+    .where(and(eq(plantTerroirs.plantId, plantId), eq(plantTerroirs.terroirId, terroirId)));
+}
+
+// Plant-Extraction relations helpers
+export async function getPlantExtractions(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plantExtractions).where(eq(plantExtractions.plantId, plantId));
+}
+
+export async function addPlantExtraction(data: InsertPlantExtraction) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.insert(plantExtractions).values(data);
+}
+
+export async function removePlantExtraction(plantId: number, extractionMethodId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  return db.delete(plantExtractions)
+    .where(and(eq(plantExtractions.plantId, plantId), eq(plantExtractions.extractionMethodId, extractionMethodId)));
+}
+
+// Advanced search helpers
+export async function searchPlantsByMolecule(moleculeName: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(plants)
+    .where(sql`JSON_SEARCH(${plants.dominantMolecules}, 'one', ${`%${moleculeName}%`}) IS NOT NULL`);
+}
+
+export async function searchPlantsByTerroir(terroirId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const terroirPlants = await db.select().from(plantTerroirs).where(eq(plantTerroirs.terroirId, terroirId));
+  if (terroirPlants.length === 0) return [];
+  const plantIds = terroirPlants.map(tp => tp.plantId);
+  return db.select().from(plants).where(inArray(plants.id, plantIds));
+}
+
+export async function getPlantWithFullDetails(plantId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const plant = await getPlantById(plantId);
+  if (!plant) return null;
+  
+  const varieties = await getPlantVarietiesByPlant(plantId);
+  const samples = await getPlantSamplesByPlant(plantId);
+  const analyses = await getPlantAnalysesByPlant(plantId);
+  const terroirRelations = await getPlantTerroirs(plantId);
+  const extractionRelations = await getPlantExtractions(plantId);
+  
+  return {
+    ...plant,
+    varieties,
+    samples,
+    analyses,
+    terroirs: terroirRelations,
+    extractions: extractionRelations,
+  };
+}
+
+// Statistics helpers
+export async function getPlantStatistics() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const totalPlants = await db.select({ count: count() }).from(plants);
+  const totalVarieties = await db.select({ count: count() }).from(plantVarieties);
+  const totalTerroirs = await db.select({ count: count() }).from(terroirs);
+  const totalSamples = await db.select({ count: count() }).from(plantSamples);
+  const totalAnalyses = await db.select({ count: count() }).from(plantAnalyses);
+  const totalSuppliers = await db.select({ count: count() }).from(extendedSuppliers);
+  
+  return {
+    plants: totalPlants[0]?.count || 0,
+    varieties: totalVarieties[0]?.count || 0,
+    terroirs: totalTerroirs[0]?.count || 0,
+    samples: totalSamples[0]?.count || 0,
+    analyses: totalAnalyses[0]?.count || 0,
+    suppliers: totalSuppliers[0]?.count || 0,
+  };
 }

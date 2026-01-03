@@ -1,0 +1,88 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'terroirs' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'terroirs' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "terroir_id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "country"
+    },
+    {
+      "COLUMN_NAME": "region"
+    },
+    {
+      "COLUMN_NAME": "sub_region"
+    },
+    {
+      "COLUMN_NAME": "latitude"
+    },
+    {
+      "COLUMN_NAME": "longitude"
+    },
+    {
+      "COLUMN_NAME": "altitude"
+    },
+    {
+      "COLUMN_NAME": "climate_type"
+    },
+    {
+      "COLUMN_NAME": "avg_temperature"
+    },
+    {
+      "COLUMN_NAME": "annual_rainfall"
+    },
+    {
+      "COLUMN_NAME": "humidity"
+    },
+    {
+      "COLUMN_NAME": "soil_type"
+    },
+    {
+      "COLUMN_NAME": "soil_ph"
+    },
+    {
+      "COLUMN_NAME": "soil_characteristics"
+    },
+    {
+      "COLUMN_NAME": "main_crops"
+    },
+    {
+      "COLUMN_NAME": "production_history"
+    },
+    {
+      "COLUMN_NAME": "annual_production"
+    },
+    {
+      "COLUMN_NAME": "certifications"
+    },
+    {
+      "COLUMN_NAME": "quality_rating"
+    },
+    {
+      "COLUMN_NAME": "reputation"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "image_url"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nterroir_id\nname\ncountry\nregion\nsub_region\nlatitude\nlongitude\naltitude\nclimate_type\navg_temperature\nannual_rainfall\nhumidity\nsoil_type\nsoil_ph\nsoil_characteristics\nmain_crops\nproduction_history\nannual_production\ncertifications\nquality_rating\nreputation\nnotes\nimage_url\ncreated_at\nupdated_at\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

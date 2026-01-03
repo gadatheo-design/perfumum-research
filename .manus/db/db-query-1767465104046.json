@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'terroirs' AND COLUMN_NAME = 'soil_type';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'terroirs' AND COLUMN_NAME = 'soil_type';",
+  "rows": [
+    {
+      "COLUMN_NAME": "soil_type",
+      "DATA_TYPE": "enum",
+      "COLUMN_TYPE": "enum('clay','sandy','loamy','chalky','volcanic','alluvial','peaty','rocky','mixed','other')"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\tCOLUMN_TYPE\nsoil_type\tenum\tenum('clay','sandy','loamy','chalky','volcanic','alluvial','peaty','rocky','mixed','other')\n",
+  "stderr": "",
+  "execution_time_ms": 70
+}

@@ -305,3 +305,103 @@
 - [x] Lier les plantes aux molécules dominantes (via champ dominantMolecules)
 - [x] Afficher les chémotypes (Lippia alba citral vs carvone)
 
+
+
+---
+
+## 🌿 SESSION 03 JAN 2026 - POINT 3 ÉTENDU (PLANTES & VARIÉTÉS)
+
+### Architecture extensible pour 10 ans de recherche
+- [ ] Concevoir l'architecture modulaire pour l'ajout continu de données
+- [ ] Définir les conventions de nommage et d'identification (codes, versions)
+- [ ] Créer le système de versioning des données botaniques
+- [ ] Documenter les standards de saisie des données
+
+### Extension du schéma Plants
+- [ ] Ajouter les champs de classification taxonomique complète (règne, division, classe, ordre, genre, espèce)
+- [ ] Ajouter les champs de morphologie (type de feuille, fleur, fruit, racine)
+- [ ] Ajouter les champs de cycle de vie (annuelle, bisannuelle, vivace)
+- [ ] Ajouter les champs de conditions de culture (climat, sol, altitude, exposition)
+- [ ] Ajouter les champs de période de récolte (mois, stade optimal)
+- [ ] Ajouter les champs de rendement (kg/ha, % huile essentielle)
+- [ ] Ajouter les champs de conservation (durée, conditions)
+- [ ] Ajouter les champs de certification (bio, AOP, IGP)
+
+### Table Variétés (cultivars, chémotypes, clones)
+- [ ] Créer la table `plant_varieties` pour les variétés/cultivars
+- [ ] Lier les variétés aux plantes parentes
+- [ ] Ajouter les champs de sélection (obtenteur, année, pays)
+- [ ] Ajouter les champs de caractéristiques distinctives
+- [ ] Ajouter les champs de disponibilité commerciale
+
+### Table États Botaniques (stades de développement)
+- [ ] Créer la table `botanical_states` pour les états de la plante
+- [ ] Définir les stades (germination, végétatif, floraison, fructification, sénescence)
+- [ ] Lier les états aux profils moléculaires correspondants
+- [ ] Ajouter les champs de durée et conditions de transition
+
+### Table Méthodes d'Extraction ✅ COMPLÉTÉ
+- [x] Créer la table `extraction_methods` (distillation, expression, CO2, solvant, etc.)
+- [x] Ajouter les paramètres techniques (température, pression, durée)
+- [x] Ajouter les rendements par méthode et par plante
+- [x] Ajouter les profils moléculaires résultants
+- [x] Importer 7 méthodes d'extraction (distillation vapeur, hydrodistillation, CO² supercritique, solvants, expression, enfleurage, macération)
+
+### Table Terroirs et Origines ✅ COMPLÉTÉ
+- [x] Créer la table `terroirs` pour les zones de production
+- [x] Ajouter les coordonnées GPS et zones climatiques
+- [x] Ajouter les caractéristiques pédologiques (type de sol)
+- [x] Ajouter les données historiques de production
+- [x] Lier les terroirs aux plantes et variétés
+- [x] Importer 7 terroirs de référence (San Andrés, Santander, Cauca, Nossi-Bé, Grasse, Karnataka, Bosaso)
+
+### Table Fournisseurs et Sources ✅ COMPLÉTÉ
+- [x] Créer la table `suppliers` pour les fournisseurs de matières premières
+- [x] Ajouter les certifications et labels
+- [x] Ajouter les contacts et conditions commerciales
+- [x] Créer la table de liaison `supplier_materials` (plante, variété, terroir, prix)
+
+### Table Analyses et Mesures ✅ COMPLÉTÉ
+- [x] Créer la table `plant_analyses` pour les analyses GC-MS
+- [x] Ajouter les champs de date, laboratoire, méthode
+- [x] Stocker les profils moléculaires complets (JSON)
+- [x] Lier aux échantillons et lots
+
+### Table Échantillons et Lots ✅ COMPLÉTÉ
+- [x] Créer la table `plant_samples` pour les échantillons physiques
+- [x] Ajouter les champs de traçabilité (lot, date récolte, lieu)
+- [x] Ajouter les champs de stockage (localisation, conditions)
+- [x] Ajouter les champs de quantité et disponibilité
+
+### Interface détaillée des plantes ✅ COMPLÉTÉ
+- [x] Créer la page de détail d'une plante avec tous les champs
+- [x] Créer les onglets (Vue d'ensemble, Variétés, États botaniques, Échantillons, Analyses, Usage Absorbe)
+- [ ] Créer le formulaire d'ajout/édition complet
+- [ ] Créer la galerie d'images (photos, illustrations botaniques)
+- [ ] Créer la timeline d'évolution (états botaniques)
+
+### Outils de comparaison avancés
+- [ ] Créer la vue de comparaison multi-plantes (jusqu'à 5)
+- [ ] Créer les graphiques de profils moléculaires comparés
+- [ ] Créer les cartes de terroirs avec filtres
+- [ ] Créer les tableaux de rendements comparés
+
+### Système de recherche avancée
+- [ ] Créer la recherche par profil moléculaire (molécules cibles)
+- [ ] Créer la recherche par caractéristiques olfactives
+- [ ] Créer la recherche par terroir et climat
+- [ ] Créer la recherche par usage (parfum, encens, espace)
+- [ ] Créer les filtres combinés avancés
+
+### Import et export de données
+- [ ] Créer le système d'import CSV/Excel pour les plantes
+- [ ] Créer le système d'import pour les analyses GC-MS
+- [ ] Créer l'export PDF des fiches plantes
+- [ ] Créer l'export JSON pour l'interopérabilité
+
+### Documentation et guides
+- [ ] Créer le guide de saisie des données botaniques
+- [ ] Créer le glossaire des termes botaniques
+- [ ] Créer les fiches méthodologiques (extraction, analyse)
+- [ ] Documenter les conventions du projet
+

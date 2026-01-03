@@ -168,6 +168,9 @@ import RecettesLeafEconomies from "./pages/RecettesLeafEconomies";
 import TerpProfiles from "./pages/TerpProfiles";
 import Plants from "./pages/Plants";
 import FinalRecipes from "./pages/FinalRecipes";
+import PlantDetail from "./pages/PlantDetail";
+import Terroirs from "./pages/Terroirs";
+import ExtractionMethods from "./pages/ExtractionMethods";
 import Collaborations from "./pages/Collaborations";
 import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
@@ -384,8 +387,13 @@ function Router() {
       <Route path="/terp-profiles" component={TerpProfiles} />
       <Route path="/plants" component={Plants} />
       <Route path="/plantes" component={Plants} />
+      <Route path="/plants/:id" component={PlantDetail} />
+      <Route path="/plantes/:id" component={PlantDetail} />
       <Route path="/final-recipes" component={FinalRecipes} />
       <Route path="/recettes-finales" component={FinalRecipes} />
+      <Route path="/terroirs" component={Terroirs} />
+      <Route path="/extraction-methods" component={ExtractionMethods} />
+      <Route path="/methodes-extraction" component={ExtractionMethods} />
       
       {/* === CIVILISATIONS & TRADITIONS === */}
       <Route path="/civilisations" component={Civilisations} />

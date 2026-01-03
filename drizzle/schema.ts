@@ -2081,3 +2081,693 @@ export const finalRecipeTerpProfilesRelations = relations(finalRecipeTerpProfile
     references: [terpProfiles.id],
   }),
 }));
+
+
+// ============================================================================
+// POINT 3 ÉTENDU - ARCHITECTURE BOTANIQUE AVANCÉE
+// ============================================================================
+
+// ============================================================================
+// PLANT VARIETIES (Variétés, cultivars, chémotypes, clones)
+// ============================================================================
+
+export const plantVarieties = mysqlTable("plant_varieties", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  varietyId: varchar("variety_id", { length: 30 }).notNull().unique(), // PV-001, PV-002, etc.
+  plantId: int("plant_id").notNull(), // Référence à la plante parente
+  name: varchar("name", { length: 255 }).notNull(), // Nom de la variété
+  latinName: varchar("latin_name", { length: 255 }), // Nom latin complet avec var./cv.
+  // Type de variété
+  varietyType: mysqlEnum("variety_type", [
+    "cultivar",      // Variété cultivée sélectionnée
+    "chemotype",     // Chémotype (profil moléculaire distinct)
+    "landrace",      // Variété locale traditionnelle
+    "hybrid",        // Hybride
+    "clone",         // Clone végétatif
+    "wild",          // Forme sauvage
+    "other"
+  ]).notNull(),
+  // Sélection et origine
+  breeder: varchar("breeder", { length: 255 }), // Obtenteur/sélectionneur
+  yearRegistered: int("year_registered"), // Année d'enregistrement
+  countryOfOrigin: varchar("country_of_origin", { length: 100 }),
+  parentVarieties: json("parent_varieties").$type<string[]>(), // Variétés parentes (pour hybrides)
+  // Caractéristiques distinctives
+  distinctiveFeatures: text("distinctive_features"), // Ce qui distingue cette variété
+  morphology: json("morphology").$type<{
+    height?: string;
+    leafShape?: string;
+    flowerColor?: string;
+    growthHabit?: string;
+  }>(),
+  // Profil moléculaire
+  dominantMolecules: json("dominant_molecules").$type<{
+    molecule: string;
+    percentage: number;
+    role: string;
+  }[]>(),
+  molecularProfile: json("molecular_profile").$type<{
+    molecule: string;
+    minPercent: number;
+    maxPercent: number;
+    typical: number;
+  }[]>(),
+  // Olfactif
+  olfactiveDescription: text("olfactive_description"),
+  olfactiveNotes: json("olfactive_notes").$type<{
+    top: string[];
+    heart: string[];
+    base: string[];
+  }>(),
+  // Agronomie
+  yieldPerHectare: varchar("yield_per_hectare", { length: 50 }), // kg/ha
+  essentialOilYield: varchar("essential_oil_yield", { length: 50 }), // % rendement HE
+  harvestPeriod: varchar("harvest_period", { length: 100 }), // Période de récolte
+  optimalHarvestStage: varchar("optimal_harvest_stage", { length: 100 }),
+  // Disponibilité
+  commercialAvailability: mysqlEnum("commercial_availability", [
+    "widely_available",
+    "limited",
+    "rare",
+    "research_only",
+    "extinct",
+    "unknown"
+  ]).default("unknown"),
+  suppliers: json("suppliers").$type<string[]>(), // Liste des fournisseurs connus
+  // Métadonnées
+  notes: text("notes"),
+  references: json("references").$type<{
+    title: string;
+    author?: string;
+    year?: number;
+    url?: string;
+  }[]>(),
+  imageUrl: varchar("image_url", { length: 500 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PlantVariety = typeof plantVarieties.$inferSelect;
+export type InsertPlantVariety = typeof plantVarieties.$inferInsert;
+
+// ============================================================================
+// TERROIRS (Zones de production et terroirs)
+// ============================================================================
+
+export const terroirs = mysqlTable("terroirs", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  terroirId: varchar("terroir_id", { length: 30 }).notNull().unique(), // TER-001, TER-002, etc.
+  name: varchar("name", { length: 255 }).notNull(), // "Grasse, France", "Calabre, Italie"
+  // Localisation
+  country: varchar("country", { length: 100 }).notNull(),
+  region: varchar("region", { length: 255 }),
+  subRegion: varchar("sub_region", { length: 255 }),
+  latitude: decimal("latitude", { precision: 10, scale: 7 }),
+  longitude: decimal("longitude", { precision: 10, scale: 7 }),
+  altitude: varchar("altitude", { length: 50 }), // "200-800m"
+  // Climat
+  climateType: mysqlEnum("climate_type", [
+    "tropical",
+    "subtropical",
+    "mediterranean",
+    "oceanic",
+    "continental",
+    "arid",
+    "semi_arid",
+    "alpine",
+    "equatorial",
+    "other"
+  ]),
+  avgTemperature: varchar("avg_temperature", { length: 50 }), // "15-25°C"
+  annualRainfall: varchar("annual_rainfall", { length: 50 }), // "600-800mm"
+  humidity: varchar("humidity", { length: 50 }), // "60-80%"
+  // Sol
+  soilType: mysqlEnum("soil_type", [
+    "clay",
+    "sandy",
+    "loamy",
+    "chalky",
+    "volcanic",
+    "alluvial",
+    "peaty",
+    "rocky",
+    "mixed",
+    "other"
+  ]),
+  soilPh: varchar("soil_ph", { length: 20 }), // "6.5-7.5"
+  soilCharacteristics: text("soil_characteristics"),
+  // Production
+  mainCrops: json("main_crops").$type<string[]>(), // Plantes principales cultivées
+  productionHistory: text("production_history"), // Histoire de la production
+  annualProduction: varchar("annual_production", { length: 100 }), // Volume estimé
+  // Certifications et labels
+  certifications: json("certifications").$type<{
+    name: string;
+    type: "AOP" | "IGP" | "Bio" | "Demeter" | "Other";
+    year?: number;
+  }[]>(),
+  // Qualité et réputation
+  qualityRating: mysqlEnum("quality_rating", [
+    "exceptional",
+    "excellent",
+    "good",
+    "standard",
+    "variable",
+    "unknown"
+  ]).default("unknown"),
+  reputation: text("reputation"), // Réputation du terroir
+  // Métadonnées
+  notes: text("notes"),
+  imageUrl: varchar("image_url", { length: 500 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Terroir = typeof terroirs.$inferSelect;
+export type InsertTerroir = typeof terroirs.$inferInsert;
+
+// ============================================================================
+// EXTRACTION METHODS (Méthodes d'extraction)
+// ============================================================================
+
+export const extractionMethods = mysqlTable("extraction_methods", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  methodId: varchar("method_id", { length: 30 }).notNull().unique(), // EXT-001, EXT-002, etc.
+  name: varchar("name", { length: 255 }).notNull(), // "Distillation à la vapeur"
+  shortName: varchar("short_name", { length: 50 }), // "Steam distillation"
+  // Type de méthode
+  category: mysqlEnum("category", [
+    "distillation",
+    "expression",
+    "extraction_solvant",
+    "co2_supercritique",
+    "enfleurage",
+    "maceration",
+    "hydrodistillation",
+    "percolation",
+    "other"
+  ]).notNull(),
+  // Description
+  description: text("description"),
+  principle: text("principle"), // Principe physico-chimique
+  // Paramètres techniques
+  parameters: json("parameters").$type<{
+    temperature?: { min: number; max: number; unit: string };
+    pressure?: { min: number; max: number; unit: string };
+    duration?: { min: number; max: number; unit: string };
+    solvent?: string;
+    ratio?: string; // Ratio plante/solvant
+  }>(),
+  // Équipement
+  equipment: json("equipment").$type<string[]>(),
+  // Rendements typiques
+  typicalYields: json("typical_yields").$type<{
+    plant: string;
+    yieldPercent: number;
+    notes?: string;
+  }[]>(),
+  // Profil moléculaire
+  molecularImpact: text("molecular_impact"), // Impact sur le profil moléculaire
+  preservedMolecules: json("preserved_molecules").$type<string[]>(), // Molécules bien préservées
+  degradedMolecules: json("degraded_molecules").$type<string[]>(), // Molécules dégradées
+  // Avantages et inconvénients
+  advantages: json("advantages").$type<string[]>(),
+  disadvantages: json("disadvantages").$type<string[]>(),
+  // Applications
+  bestFor: json("best_for").$type<string[]>(), // Types de plantes/matières
+  notRecommendedFor: json("not_recommended_for").$type<string[]>(),
+  // Coût et complexité
+  costLevel: mysqlEnum("cost_level", [
+    "low",
+    "medium",
+    "high",
+    "very_high"
+  ]).default("medium"),
+  complexityLevel: mysqlEnum("complexity_level", [
+    "simple",
+    "moderate",
+    "complex",
+    "expert"
+  ]).default("moderate"),
+  // Métadonnées
+  notes: text("notes"),
+  references: json("references").$type<{
+    title: string;
+    author?: string;
+    year?: number;
+    url?: string;
+  }[]>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ExtractionMethod = typeof extractionMethods.$inferSelect;
+export type InsertExtractionMethod = typeof extractionMethods.$inferInsert;
+
+// ============================================================================
+// PLANT ANALYSES (Analyses GC-MS et profils moléculaires)
+// ============================================================================
+
+export const plantAnalyses = mysqlTable("plant_analyses", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  analysisId: varchar("analysis_id", { length: 30 }).notNull().unique(), // ANA-001, ANA-002, etc.
+  // Références
+  plantId: int("plant_id"), // Plante analysée
+  varietyId: int("variety_id"), // Variété spécifique (optionnel)
+  sampleId: int("sample_id"), // Échantillon (optionnel)
+  // Informations sur l'analyse
+  analysisDate: timestamp("analysis_date"),
+  laboratory: varchar("laboratory", { length: 255 }),
+  analyst: varchar("analyst", { length: 255 }),
+  method: mysqlEnum("method", [
+    "gc_ms",
+    "gc_fid",
+    "hplc",
+    "nmr",
+    "ir",
+    "other"
+  ]).default("gc_ms"),
+  // Conditions d'analyse
+  conditions: json("conditions").$type<{
+    column?: string;
+    temperature?: string;
+    carrier_gas?: string;
+    injection_volume?: string;
+    split_ratio?: string;
+  }>(),
+  // Résultats - Profil moléculaire complet
+  molecularProfile: json("molecular_profile").$type<{
+    molecule: string;
+    casNumber?: string;
+    percentage: number;
+    retentionTime?: number;
+    identificationMethod?: string;
+    confidence?: "high" | "medium" | "low";
+  }[]>(),
+  // Résumé
+  totalCompoundsIdentified: int("total_compounds_identified"),
+  majorCompounds: json("major_compounds").$type<{
+    molecule: string;
+    percentage: number;
+  }[]>(), // Composés > 5%
+  // Classification olfactive
+  olfactiveClassification: json("olfactive_classification").$type<{
+    family: string;
+    percentage: number;
+  }[]>(), // Ex: "terpènes": 45%, "alcools": 30%
+  // Qualité de l'analyse
+  qualityScore: mysqlEnum("quality_score", [
+    "excellent",
+    "good",
+    "acceptable",
+    "poor",
+    "invalid"
+  ]).default("good"),
+  qualityNotes: text("quality_notes"),
+  // Fichiers
+  rawDataUrl: varchar("raw_data_url", { length: 500 }), // Fichier brut GC-MS
+  reportUrl: varchar("report_url", { length: 500 }), // Rapport PDF
+  chromatogramUrl: varchar("chromatogram_url", { length: 500 }), // Image chromatogramme
+  // Métadonnées
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PlantAnalysis = typeof plantAnalyses.$inferSelect;
+export type InsertPlantAnalysis = typeof plantAnalyses.$inferInsert;
+
+// ============================================================================
+// PLANT SAMPLES (Échantillons et lots)
+// ============================================================================
+
+export const plantSamples = mysqlTable("plant_samples", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  sampleId: varchar("sample_id", { length: 30 }).notNull().unique(), // SAM-001, SAM-002, etc.
+  batchNumber: varchar("batch_number", { length: 50 }), // Numéro de lot
+  // Références
+  plantId: int("plant_id").notNull(),
+  varietyId: int("variety_id"),
+  terroirId: int("terroir_id"),
+  supplierId: int("supplier_id"),
+  // Traçabilité
+  harvestDate: timestamp("harvest_date"),
+  harvestYear: int("harvest_year"),
+  harvestLocation: varchar("harvest_location", { length: 255 }),
+  harvestMethod: varchar("harvest_method", { length: 100 }),
+  plantPart: mysqlEnum("plant_part", [
+    "feuille",
+    "fleur",
+    "fruit",
+    "graine",
+    "racine",
+    "ecorce",
+    "bois",
+    "resine",
+    "plante_entiere",
+    "autre"
+  ]).default("feuille"),
+  botanicalState: varchar("botanical_state", { length: 50 }), // A, B, C, D
+  // Traitement
+  processingMethod: varchar("processing_method", { length: 255 }), // Séchage, fermentation, etc.
+  processingDate: timestamp("processing_date"),
+  extractionMethodId: int("extraction_method_id"),
+  // Quantité et stockage
+  initialQuantity: varchar("initial_quantity", { length: 50 }), // "500g", "2L"
+  currentQuantity: varchar("current_quantity", { length: 50 }),
+  unit: varchar("unit", { length: 20 }), // g, kg, mL, L
+  storageLocation: varchar("storage_location", { length: 255 }),
+  storageConditions: json("storage_conditions").$type<{
+    temperature?: string;
+    humidity?: string;
+    light?: string;
+    container?: string;
+  }>(),
+  expirationDate: timestamp("expiration_date"),
+  // Qualité
+  qualityGrade: mysqlEnum("quality_grade", [
+    "premium",
+    "standard",
+    "economy",
+    "research",
+    "expired",
+    "unknown"
+  ]).default("unknown"),
+  qualityNotes: text("quality_notes"),
+  // Certifications
+  certifications: json("certifications").$type<{
+    name: string;
+    number?: string;
+    validUntil?: string;
+  }[]>(),
+  // Coût
+  purchasePrice: decimal("purchase_price", { precision: 10, scale: 2 }),
+  currency: varchar("currency", { length: 3 }).default("EUR"),
+  pricePerUnit: decimal("price_per_unit", { precision: 10, scale: 2 }),
+  // Statut
+  status: mysqlEnum("status", [
+    "available",
+    "reserved",
+    "in_use",
+    "depleted",
+    "expired",
+    "disposed"
+  ]).default("available"),
+  // Métadonnées
+  notes: text("notes"),
+  imageUrl: varchar("image_url", { length: 500 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PlantSample = typeof plantSamples.$inferSelect;
+export type InsertPlantSample = typeof plantSamples.$inferInsert;
+
+// ============================================================================
+// EXTENDED SUPPLIERS (Fournisseurs détaillés)
+// ============================================================================
+
+export const extendedSuppliers = mysqlTable("extended_suppliers", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  supplierId: varchar("supplier_id", { length: 30 }).notNull().unique(), // SUP-001, SUP-002, etc.
+  name: varchar("name", { length: 255 }).notNull(),
+  legalName: varchar("legal_name", { length: 255 }),
+  // Type
+  supplierType: mysqlEnum("supplier_type", [
+    "producer",       // Producteur direct
+    "distiller",      // Distillateur
+    "trader",         // Négociant
+    "cooperative",    // Coopérative
+    "laboratory",     // Laboratoire
+    "broker",         // Courtier
+    "other"
+  ]).notNull(),
+  // Contact
+  country: varchar("country", { length: 100 }),
+  address: text("address"),
+  phone: varchar("phone", { length: 50 }),
+  email: varchar("email", { length: 255 }),
+  website: varchar("website", { length: 500 }),
+  contactPerson: varchar("contact_person", { length: 255 }),
+  // Spécialités
+  specialties: json("specialties").$type<string[]>(), // Types de plantes/produits
+  mainProducts: json("main_products").$type<{
+    product: string;
+    quality?: string;
+    availability?: string;
+  }[]>(),
+  // Certifications
+  certifications: json("certifications").$type<{
+    name: string;
+    number?: string;
+    validUntil?: string;
+    scope?: string;
+  }[]>(),
+  // Conditions commerciales
+  minimumOrder: varchar("minimum_order", { length: 100 }),
+  leadTime: varchar("lead_time", { length: 100 }), // Délai de livraison
+  paymentTerms: varchar("payment_terms", { length: 255 }),
+  shippingMethods: json("shipping_methods").$type<string[]>(),
+  // Évaluation
+  qualityRating: mysqlEnum("quality_rating", [
+    "excellent",
+    "good",
+    "acceptable",
+    "poor",
+    "not_rated"
+  ]).default("not_rated"),
+  reliabilityRating: mysqlEnum("reliability_rating", [
+    "excellent",
+    "good",
+    "acceptable",
+    "poor",
+    "not_rated"
+  ]).default("not_rated"),
+  priceRating: mysqlEnum("price_rating", [
+    "premium",
+    "competitive",
+    "standard",
+    "budget",
+    "not_rated"
+  ]).default("not_rated"),
+  // Historique
+  firstOrderDate: timestamp("first_order_date"),
+  lastOrderDate: timestamp("last_order_date"),
+  totalOrders: int("total_orders").default(0),
+  // Statut
+  status: mysqlEnum("status", [
+    "active",
+    "inactive",
+    "blacklisted",
+    "prospect"
+  ]).default("active"),
+  // Métadonnées
+  notes: text("notes"),
+  internalNotes: text("internal_notes"), // Notes internes confidentielles
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ExtendedSupplier = typeof extendedSuppliers.$inferSelect;
+export type InsertExtendedSupplier = typeof extendedSuppliers.$inferInsert;
+
+// ============================================================================
+// PLANT-TERROIR RELATIONS (Plantes par terroir)
+// ============================================================================
+
+export const plantTerroirs = mysqlTable("plant_terroirs", {
+  id: int("id").autoincrement().primaryKey(),
+  plantId: int("plant_id").notNull(),
+  terroirId: int("terroir_id").notNull(),
+  // Spécificités
+  localName: varchar("local_name", { length: 255 }), // Nom local
+  cultivationStart: int("cultivation_start"), // Année de début de culture
+  annualProduction: varchar("annual_production", { length: 100 }),
+  qualityNotes: text("quality_notes"), // Particularités qualitatives
+  // Métadonnées
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  uniquePlantTerroir: uniqueIndex("unique_plant_terroir").on(table.plantId, table.terroirId),
+}));
+
+export type PlantTerroir = typeof plantTerroirs.$inferSelect;
+export type InsertPlantTerroir = typeof plantTerroirs.$inferInsert;
+
+// ============================================================================
+// PLANT-EXTRACTION RELATIONS (Méthodes d'extraction par plante)
+// ============================================================================
+
+export const plantExtractions = mysqlTable("plant_extractions", {
+  id: int("id").autoincrement().primaryKey(),
+  plantId: int("plant_id").notNull(),
+  extractionMethodId: int("extraction_method_id").notNull(),
+  // Spécificités
+  plantPart: varchar("plant_part", { length: 100 }), // Partie de la plante
+  yieldPercent: decimal("yield_percent", { precision: 5, scale: 3 }), // Rendement %
+  yieldNotes: text("yield_notes"),
+  // Qualité du produit
+  productType: varchar("product_type", { length: 100 }), // HE, absolue, concrète, etc.
+  productQuality: text("product_quality"),
+  // Métadonnées
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  uniquePlantExtraction: uniqueIndex("unique_plant_extraction").on(table.plantId, table.extractionMethodId),
+}));
+
+export type PlantExtraction = typeof plantExtractions.$inferSelect;
+export type InsertPlantExtraction = typeof plantExtractions.$inferInsert;
+
+// ============================================================================
+// EXTENDED SUPPLIER MATERIALS (Matières par fournisseur - Point 3 étendu)
+// ============================================================================
+
+export const extendedSupplierMaterials = mysqlTable("extended_supplier_materials", {
+  id: int("id").autoincrement().primaryKey(),
+  supplierId: int("supplier_id").notNull(),
+  plantId: int("plant_id"),
+  varietyId: int("variety_id"),
+  terroirId: int("terroir_id"),
+  // Produit
+  productName: varchar("product_name", { length: 255 }).notNull(),
+  productType: varchar("product_type", { length: 100 }), // HE, absolue, concrète, etc.
+  // Prix
+  pricePerKg: decimal("price_per_kg", { precision: 10, scale: 2 }),
+  currency: varchar("currency", { length: 3 }).default("EUR"),
+  priceDate: timestamp("price_date"),
+  // Disponibilité
+  availability: mysqlEnum("availability", [
+    "in_stock",
+    "on_order",
+    "seasonal",
+    "limited",
+    "discontinued",
+    "unknown"
+  ]).default("unknown"),
+  minimumQuantity: varchar("minimum_quantity", { length: 50 }),
+  // Qualité
+  qualityGrade: varchar("quality_grade", { length: 50 }),
+  certifications: json("certifications").$type<string[]>(),
+  // Métadonnées
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ExtendedSupplierMaterial = typeof extendedSupplierMaterials.$inferSelect;
+export type InsertExtendedSupplierMaterial = typeof extendedSupplierMaterials.$inferInsert;
+
+// ============================================================================
+// RELATIONS POUR POINT 3 ÉTENDU
+// ============================================================================
+
+export const plantVarietiesRelations = relations(plantVarieties, ({ one, many }) => ({
+  plant: one(plants, {
+    fields: [plantVarieties.plantId],
+    references: [plants.id],
+  }),
+  samples: many(plantSamples),
+  analyses: many(plantAnalyses),
+}));
+
+export const terroirsRelations = relations(terroirs, ({ many }) => ({
+  plantTerroirs: many(plantTerroirs),
+  samples: many(plantSamples),
+}));
+
+export const extractionMethodsRelations = relations(extractionMethods, ({ many }) => ({
+  plantExtractions: many(plantExtractions),
+  samples: many(plantSamples),
+}));
+
+export const plantAnalysesRelations = relations(plantAnalyses, ({ one }) => ({
+  plant: one(plants, {
+    fields: [plantAnalyses.plantId],
+    references: [plants.id],
+  }),
+  variety: one(plantVarieties, {
+    fields: [plantAnalyses.varietyId],
+    references: [plantVarieties.id],
+  }),
+  sample: one(plantSamples, {
+    fields: [plantAnalyses.sampleId],
+    references: [plantSamples.id],
+  }),
+}));
+
+export const plantSamplesRelations = relations(plantSamples, ({ one, many }) => ({
+  plant: one(plants, {
+    fields: [plantSamples.plantId],
+    references: [plants.id],
+  }),
+  variety: one(plantVarieties, {
+    fields: [plantSamples.varietyId],
+    references: [plantVarieties.id],
+  }),
+  terroir: one(terroirs, {
+    fields: [plantSamples.terroirId],
+    references: [terroirs.id],
+  }),
+  supplier: one(extendedSuppliers, {
+    fields: [plantSamples.supplierId],
+    references: [extendedSuppliers.id],
+  }),
+  extractionMethod: one(extractionMethods, {
+    fields: [plantSamples.extractionMethodId],
+    references: [extractionMethods.id],
+  }),
+  analyses: many(plantAnalyses),
+}));
+
+export const extendedSuppliersRelations = relations(extendedSuppliers, ({ many }) => ({
+  samples: many(plantSamples),
+  materials: many(extendedSupplierMaterials),
+}));
+
+export const plantTerroirsRelations = relations(plantTerroirs, ({ one }) => ({
+  plant: one(plants, {
+    fields: [plantTerroirs.plantId],
+    references: [plants.id],
+  }),
+  terroir: one(terroirs, {
+    fields: [plantTerroirs.terroirId],
+    references: [terroirs.id],
+  }),
+}));
+
+export const plantExtractionsRelations = relations(plantExtractions, ({ one }) => ({
+  plant: one(plants, {
+    fields: [plantExtractions.plantId],
+    references: [plants.id],
+  }),
+  extractionMethod: one(extractionMethods, {
+    fields: [plantExtractions.extractionMethodId],
+    references: [extractionMethods.id],
+  }),
+}));
+
+export const extendedSupplierMaterialsRelations = relations(extendedSupplierMaterials, ({ one }) => ({
+  supplier: one(extendedSuppliers, {
+    fields: [extendedSupplierMaterials.supplierId],
+    references: [extendedSuppliers.id],
+  }),
+  plant: one(plants, {
+    fields: [extendedSupplierMaterials.plantId],
+    references: [plants.id],
+  }),
+  variety: one(plantVarieties, {
+    fields: [extendedSupplierMaterials.varietyId],
+    references: [plantVarieties.id],
+  }),
+  terroir: one(terroirs, {
+    fields: [extendedSupplierMaterials.terroirId],
+    references: [terroirs.id],
+  }),
+}));

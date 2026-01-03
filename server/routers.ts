@@ -2,8 +2,48 @@ import { COOKIE_NAME } from "@shared/const";
 import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import * as db from "./db";
+import {
+  getAllPlantVarieties,
+  getPlantVarietiesByPlant,
+  getPlantVarietyById,
+  createPlantVariety,
+  updatePlantVariety,
+  deletePlantVariety,
+  getAllTerroirs,
+  getTerroirsByCountry,
+  getTerroirById,
+  createTerroir,
+  updateTerroir,
+  deleteTerroir,
+  getAllExtractionMethods,
+  getExtractionMethodById,
+  createExtractionMethod,
+  updateExtractionMethod,
+  deleteExtractionMethod,
+  getAllPlantAnalyses,
+  getPlantAnalysesByPlant,
+  getPlantAnalysisById,
+  createPlantAnalysis,
+  updatePlantAnalysis,
+  deletePlantAnalysis,
+  getAllPlantSamples,
+  getPlantSamplesByPlant,
+  getPlantSampleById,
+  createPlantSample,
+  updatePlantSample,
+  deletePlantSample,
+  getAllExtendedSuppliers,
+  getExtendedSupplierById,
+  createExtendedSupplier,
+  updateExtendedSupplier,
+  deleteExtendedSupplier,
+  getPlantStatistics,
+  getPlantWithFullDetails,
+  searchPlantsByMolecule,
+  searchPlantsByTerroir,
+} from "./db";
 import { getAllRecettesWithRadar, filterRecettesByRadar, type RadarFilters } from "./db-recettes-radar";
 import { getSimilarRecettes, getSimilarMolecules, getRecommendedRecettesFromFavorites } from "./db-recommendations";
 
@@ -2536,6 +2576,115 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // Point 3 Étendu - Routes botaniques avancées
+  plantVarieties: router({
+    getAll: publicProcedure.query(async () => {
+      return getAllPlantVarieties();
+    }),
+    getByPlant: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        return getPlantVarietiesByPlant(input.plantId);
+      }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return getPlantVarietyById(input.id);
+      }),
+  }),
+  
+  terroirs: router({
+    getAll: publicProcedure.query(async () => {
+      return getAllTerroirs();
+    }),
+    getByCountry: publicProcedure
+      .input(z.object({ country: z.string() }))
+      .query(async ({ input }) => {
+        return getTerroirsByCountry(input.country);
+      }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return getTerroirById(input.id);
+      }),
+  }),
+  
+  extractionMethods: router({
+    getAll: publicProcedure.query(async () => {
+      return getAllExtractionMethods();
+    }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return getExtractionMethodById(input.id);
+      }),
+  }),
+  
+  plantAnalyses: router({
+    getAll: publicProcedure.query(async () => {
+      return getAllPlantAnalyses();
+    }),
+    getByPlant: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        return getPlantAnalysesByPlant(input.plantId);
+      }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return getPlantAnalysisById(input.id);
+      }),
+  }),
+  
+  plantSamples: router({
+    getAll: publicProcedure.query(async () => {
+      return getAllPlantSamples();
+    }),
+    getByPlant: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        return getPlantSamplesByPlant(input.plantId);
+      }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return getPlantSampleById(input.id);
+      }),
+  }),
+  
+  extendedSuppliers: router({
+    getAll: publicProcedure.query(async () => {
+      return getAllExtendedSuppliers();
+    }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return getExtendedSupplierById(input.id);
+      }),
+  }),
+  
+  plantStatistics: router({
+    getOverview: publicProcedure.query(async () => {
+      return getPlantStatistics();
+    }),
+    getPlantWithDetails: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        return getPlantWithFullDetails(input.plantId);
+      }),
+    searchByMolecule: publicProcedure
+      .input(z.object({ moleculeName: z.string() }))
+      .query(async ({ input }) => {
+        return searchPlantsByMolecule(input.moleculeName);
+      }),
+    searchByTerroir: publicProcedure
+      .input(z.object({ terroirId: z.number() }))
+      .query(async ({ input }) => {
+        return searchPlantsByTerroir(input.terroirId);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
+
