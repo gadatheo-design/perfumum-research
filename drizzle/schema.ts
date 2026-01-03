@@ -2771,3 +2771,73 @@ export const extendedSupplierMaterialsRelations = relations(extendedSupplierMate
     references: [terroirs.id],
   }),
 }));
+
+
+// ============================================================================
+// BOTANICAL STATES (États botaniques / Stades de développement)
+// ============================================================================
+
+export const botanicalStates = mysqlTable("botanical_states", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  stateId: varchar("state_id", { length: 30 }).notNull().unique(), // BS-001, BS-002, etc.
+  plantId: int("plant_id").notNull().references(() => plants.id),
+  // Stade de développement
+  stageName: varchar("stage_name", { length: 100 }).notNull(), // "Germination", "Végétatif", "Floraison", etc.
+  stageCode: varchar("stage_code", { length: 10 }), // "A", "B", "C", "D" ou "G", "V", "F", "FR", "S"
+  stageOrder: int("stage_order").notNull(), // Ordre dans le cycle de vie (1, 2, 3...)
+  stageType: mysqlEnum("stage_type", [
+    "germination",
+    "vegetatif",
+    "floraison",
+    "fructification",
+    "senescence",
+    "dormance",
+    "autre"
+  ]).notNull(),
+  // Description
+  description: text("description"), // Description détaillée du stade
+  visualCharacteristics: text("visual_characteristics"), // Caractéristiques visuelles
+  duration: varchar("duration", { length: 100 }), // Durée typique (ex: "2-4 semaines", "30-45 jours")
+  // Conditions de transition
+  transitionConditions: json("transition_conditions").$type<{
+    temperature?: string;
+    humidity?: string;
+    photoperiod?: string;
+    triggers?: string[];
+    notes?: string;
+  }>(),
+  // Profil olfactif
+  olfactiveProfile: text("olfactive_profile"), // Description olfactive à ce stade
+  dominantNotes: json("dominant_notes").$type<string[]>(), // Notes olfactives dominantes
+  // Profil moléculaire
+  molecularProfile: json("molecular_profile").$type<{
+    molecule: string;
+    percentage: number;
+    notes?: string;
+  }[]>(),
+  // Usage recommandé
+  recommendedUse: json("recommended_use").$type<{
+    parfum?: boolean;
+    encens?: boolean;
+    espace?: boolean;
+    notes?: string;
+  }>(),
+  harvestRecommendation: text("harvest_recommendation"), // Recommandations de récolte à ce stade
+  // Métadonnées
+  imageUrl: varchar("image_url", { length: 500 }),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type BotanicalState = typeof botanicalStates.$inferSelect;
+export type InsertBotanicalState = typeof botanicalStates.$inferInsert;
+
+// Relations pour botanical_states
+export const botanicalStatesRelations = relations(botanicalStates, ({ one }) => ({
+  plant: one(plants, {
+    fields: [botanicalStates.plantId],
+    references: [plants.id],
+  }),
+}));

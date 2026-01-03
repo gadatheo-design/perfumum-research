@@ -28,6 +28,7 @@ import AdminMolecules from "./pages/AdminMolecules";
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminRecettes from "./pages/AdminRecettes";
 import AdminImportExport from "./pages/AdminImportExport";
+import ImportExportPlants from "./pages/ImportExportPlants";
 import AdminHistorique from "./pages/AdminHistorique";
 import AdminReferences from "./pages/AdminReferences";
 import LiaisonRecettesMolecules from "./pages/admin/LiaisonRecettesMolecules";
@@ -95,6 +96,7 @@ import CompareRadar from "./pages/CompareRadar";
 import CompareRecettes from "./pages/CompareRecettes";
 import CompareMoleculesAdvanced from "./pages/CompareMoleculesAdvanced";
 import ComparaisonMolecules from "@/pages/ComparaisonMolecules";
+import ComparePlants from "./pages/ComparePlants";
 import ComparateurAvance from "@/pages/ComparateurAvance";
 import MatriceSynergies from "./pages/MatriceSynergies";
 import GrapheMoleculesRecettes from "@/pages/GrapheMoleculesRecettes";
@@ -106,6 +108,7 @@ import SankeyFlow from "./pages/SankeyFlow";
 import EnhancedRadarDemo from "./pages/EnhancedRadarDemo";
 import AdvancedSearch from "./pages/AdvancedSearch";
 import RechercheAvancee from "./pages/RechercheAvancee";
+import RechercheProfilMoleculaire from "./pages/RechercheProfilMoleculaire";
 import RecipeTimeline from "./pages/RecipeTimeline";
 import FormulesReference from "./pages/FormulesReference";
 import RadarCorrelationHeatmap from "./pages/RadarCorrelationHeatmap";
@@ -171,7 +174,9 @@ import TerpProfiles from "./pages/TerpProfiles";
 import Plants from "./pages/Plants";
 import FinalRecipes from "./pages/FinalRecipes";
 import PlantDetail from "./pages/PlantDetail";
+import PlantForm from "./pages/PlantForm";
 import Terroirs from "./pages/Terroirs";
+import OriginesGeographiques from "./pages/OriginesGeographiques";
 import ExtractionMethods from "./pages/ExtractionMethods";
 import Collaborations from "./pages/Collaborations";
 import Archives from "./pages/Archives";
@@ -233,6 +238,7 @@ function Router() {
       <Route path="/admin/molecules/new" component={AdminMoleculeNew} />
       <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path="/admin/import-export" component={AdminImportExport} />
+      <Route path="/admin/import-export-plants" component={ImportExportPlants} />
       <Route path="/admin/historique" component={AdminHistorique} />
       <Route path="/admin/references" component={AdminReferences} />
       
@@ -308,7 +314,9 @@ function Router() {
       <Route path="/compare-radar" component={CompareRadar} />
       <Route path="/compare-recettes" component={CompareRecettes} />
       <Route path="/compare-molecules-advanced" component={CompareMoleculesAdvanced} />
-      <Route path="/chimie/comparaison" component={ComparaisonMolecules} />
+     <Route path="/comparaison-molecules" component={ComparaisonMolecules} />
+      <Route path="/compare-plants" component={ComparePlants} />
+      <Route path="/comparaison-plantes" component={ComparePlants} />
       <Route path="/comparateur-avance" component={ComparateurAvance} />
       <Route path="/matrice-synergies" component={MatriceSynergies} />
       <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
@@ -393,11 +401,15 @@ function Router() {
       <Route path="/terp-profiles" component={TerpProfiles} />
       <Route path="/plants" component={Plants} />
       <Route path="/plantes" component={Plants} />
+      <Route path="/plants/new" component={PlantForm} />
+      <Route path="/plants/:id/edit" component={PlantForm} />
       <Route path="/plants/:id" component={PlantDetail} />
       <Route path="/plantes/:id" component={PlantDetail} />
       <Route path="/final-recipes" component={FinalRecipes} />
       <Route path="/recettes-finales" component={FinalRecipes} />
       <Route path="/terroirs" component={Terroirs} />
+      <Route path="/terroirs/:id" component={Terroirs} />
+      <Route path="/origines-geographiques" component={OriginesGeographiques} />
       <Route path="/extraction-methods" component={ExtractionMethods} />
       <Route path="/methodes-extraction" component={ExtractionMethods} />
       
@@ -417,7 +429,8 @@ function Router() {
       <Route path="/analytics" component={AnalyticsDashboard} />
       <Route path="/mon-dashboard" component={MonDashboard} />
       <Route path="/statistiques" component={Statistics} />
-      <Route path="/recherche" component={Recherche} />
+ <Route path="/recherche" component={RechercheAvancee} />
+      <Route path="/recherche-profil-moleculaire" component={RechercheProfilMoleculaire} />
       <Route path="/recherche-avancee" component={AdvancedSearch} />
       <Route path="/timeline-recettes" component={RecipeTimeline} />
       <Route path="/heatmap-correlations" component={RadarCorrelationHeatmap} />

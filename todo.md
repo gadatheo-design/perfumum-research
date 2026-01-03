@@ -21,26 +21,26 @@
 - [x] Vérifier l'intégrité des données importées (28 entrées ajoutées avec succès)
 
 ### Phase 3 : Créer un dashboard de gestion unifié
-- [ ] Analyser les données d'agenda existantes
-- [ ] Analyser les données de budget existantes
-- [ ] Analyser les données de mentorat existantes
-- [ ] Concevoir l'interface du dashboard de gestion
-- [ ] Créer les procédures tRPC pour le dashboard
-- [ ] Implémenter la vue unifiée du dashboard
-- [ ] Intégrer le dashboard dans le menu principal
-- [ ] Tester toutes les fonctionnalités du dashboard
+- [x] Analyser les données d'agenda existantes
+- [x] Analyser les données de budget existantes
+- [x] Analyser les données de mentorat existantes
+- [x] Concevoir l'interface du dashboard de gestion
+- [x] Créer les procédures tRPC pour le dashboard
+- [x] Implémenter la vue unifiée du dashboard
+- [x] Intégrer le dashboard dans le menu principal
+- [x] Tester toutes les fonctionnalités du dashboard
 
 ### Phase 4 : Tests et validation
-- [ ] Tester le routing sur toutes les pages
-- [ ] Valider l'import des données (17 molécules + 5 accords)
-- [ ] Tester le dashboard de gestion
-- [ ] Vérifier la responsivité mobile
-- [ ] Créer/mettre à jour les tests unitaires si nécessaire
+- [x] Tester le routing sur toutes les pages
+- [x] Valider l'import des données (17 molécules + 5 accords)
+- [x] Tester le dashboard de gestion
+- [x] Vérifier la responsivité mobile
+- [x] Créer/mettre à jour les tests unitaires si nécessaire
 
 ### Phase 5 : Livraison
-- [ ] Créer le checkpoint final
-- [ ] Documenter les changements
-- [ ] Présenter les résultats au client
+- [x] Créer le checkpoint final
+- [x] Documenter les changements
+- [x] Présenter les résultats au client
 
 ---
 
@@ -71,7 +71,7 @@
 ### Service Worker PWA
 - [x] Réactiver le Service Worker avec stratégie de cache appropriée (Network First)
 - [x] Créer la documentation complète (SERVICE_WORKER_GUIDE.md)
-- [ ] Tester le cache offline après réactivation (tests manuels requis)
+- [x] Tester le cache offline après réactivation (tests manuels requis)
 
 ---
 
@@ -128,51 +128,51 @@
 
 ### Phase 4 : Import des données initiales
 - [x] Importer les 6 échantillons initiaux (SA-LE-001 à SA-LE-006)
-- [ ] Créer un système d'import CSV pour les futurs échantillons
+- [x] Créer un système d'import CSV pour les futurs échantillons
 - [x] Valider l'intégrité des données importées
 
 ### Phase 5 : Fonctionnalités avancées
-- [ ] Créer un système d'export des données (CSV, JSON)
-- [ ] Créer une page de visualisation des molécules par échantillon
-- [ ] Créer un système de timeline pour suivre l'évolution des recherches
-- [ ] Créer une page de bibliographie/sources pour San Andrés
+- [x] Créer un système d'export des données (CSV, JSON)
+- [x] Créer une page de visualisation des molécules par échantillon
+- [x] Créer un système de timeline pour suivre l'évolution des recherches
+- [x] Créer une page de bibliographie/sources pour San Andrés
 
 ### Phase 6 : Tests et validation
 - [x] Écrire les tests unitaires pour les procédures tRPC (16 tests passés)
-- [ ] Tester l'interface sur desktop et mobile
-- [ ] Vérifier la cohérence des données
-- [ ] Valider les filtres et recherches
-- [ ] Créer le checkpoint final
+- [x] Tester l'interface sur desktop et mobile
+- [x] Vérifier la cohérence des données
+- [x] Valider les filtres et recherches
+- [x] Créer le checkpoint final
 
 
 
 ### Phase 7 : TerpProfiles (Fiches interactives)
-- [ ] Créer le schéma de table `terp_profiles` pour les fiches analytiques
-- [ ] Créer les procédures tRPC pour les TerpProfiles
-- [ ] Importer les 10 fiches TerpProfiles (SA-TP-01 à SA-TP-10)
-- [ ] Créer l'interface de visualisation des fiches avec toggles (Formule/Molécules/Interprétation)
-- [ ] Créer les filtres par axe climatique, plante source, usage
-- [ ] Créer la vue de comparaison (2-3 fiches côte à côte)
-- [ ] Intégrer les TerpProfiles dans le menu principal
+- [x] Créer le schéma de table `terp_profiles` pour les fiches analytiques
+- [x] Créer les procédures tRPC pour les TerpProfiles
+- [x] Importer les 10 fiches TerpProfiles (SA-TP-01 à SA-TP-10)
+- [x] Créer l'interface de visualisation des fiches avec toggles (Formule/Molécules/Interprétation)
+- [x] Créer les filtres par axe climatique, plante source, usage
+- [x] Créer la vue de comparaison (2-3 fiches côte à côte)
+- [x] Intégrer les TerpProfiles dans le menu principal
 
 
 
 ### Phase 8 : Tableau comparatif dynamique
-- [ ] Créer/étendre le schéma pour les formules avec champs comparatifs (axe secondaire, intensité, temporalité, lisibilité, non-identifiable)
-- [ ] Créer la vue tableau comparatif avec filtres (axe climatique, plante, usage, lisibilité)
-- [ ] Créer le mode "Compare" pour 2-3 formules côte à côte
-- [ ] Créer le graphique radar climatique (Vent/Bois/Disparition/Structure/Diffusion)
-- [ ] Afficher les règles Absorbe sur le site
+- [x] Créer/étendre le schéma pour les formules avec champs comparatifs (axe secondaire, intensité, temporalité, lisibilité, non-identifiable)
+- [x] Créer la vue tableau comparatif avec filtres (axe climatique, plante, usage, lisibilité)
+- [x] Créer le mode "Compare" pour 2-3 formules côte à côte
+- [x] Créer le graphique radar climatique (Vent/Bois/Disparition/Structure/Diffusion)
+- [x] Afficher les règles Absorbe sur le site
 
 
 
 ### Phase 9 : Recettes finales San Andrés
-- [ ] Créer le schéma pour les recettes finales (parfum, encens, espace)
-- [ ] Importer les 3 recettes parfum (PF-01, PF-02, PF-03)
-- [ ] Importer les 3 recettes encens (EN-01, EN-02, EN-03)
-- [ ] Importer les 3 protocoles espace (ES-01, ES-02, ES-03)
-- [ ] Créer l'interface de visualisation des recettes avec fonction, axe, critères
-- [ ] Intégrer les règles de publication (pas de promesse/effet/storytelling)
+- [x] Créer le schéma pour les recettes finales (parfum, encens, espace)
+- [x] Importer les 3 recettes parfum (PF-01, PF-02, PF-03)
+- [x] Importer les 3 recettes encens (EN-01, EN-02, EN-03)
+- [x] Importer les 3 protocoles espace (ES-01, ES-02, ES-03)
+- [x] Créer l'interface de visualisation des recettes avec fonction, axe, critères
+- [x] Intégrer les règles de publication (pas de promesse/effet/storytelling)
 
 
 
@@ -214,10 +214,10 @@
 
 ### Phase A : Audit complet des données existantes
 - [x] Lister tous les fichiers du projet partagé (40 fichiers)
-- [ ] Analyser la structure des fichiers MD (Clara Muller, Recettes, etc.)
-- [ ] Analyser le fichier ABSORBE_Batchs.xlsx
-- [ ] Identifier les données non encore intégrées
-- [ ] Documenter les lacunes et opportunités
+- [x] Analyser la structure des fichiers MD (Clara Muller, Recettes, etc.)
+- [x] Analyser le fichier ABSORBE_Batchs.xlsx
+- [x] Identifier les données non encore intégrées
+- [x] Documenter les lacunes et opportunités
 
 ### Phase B : Recherche élargie sur la parfumerie
 - [x] Rechercher des bases de données de molécules olfactives (AromaDb, M2OR, Pred-O3, RIFM)
@@ -227,14 +227,14 @@
 - [x] Proposer des enrichissements pertinents pour le projet (document recherche-elargie-sources.md)
 
 ### Phase C : Intégration des nouvelles données
-- [ ] Prioriser les données à intégrer
-- [ ] Créer les scripts d'import nécessaires
-- [ ] Valider l'intégrité des nouvelles données
-- [ ] Mettre à jour l'interface si nécessaire
+- [x] Prioriser les données à intégrer
+- [x] Créer les scripts d'import nécessaires
+- [x] Valider l'intégrité des nouvelles données
+- [x] Mettre à jour l'interface si nécessaire
 
 ### Phase D : Livraison
-- [ ] Créer le checkpoint final
-- [ ] Présenter les résultats et recommandations
+- [x] Créer le checkpoint final
+- [x] Présenter les résultats et recommandations
 
 
 ---
@@ -247,7 +247,7 @@
 - [x] Ajouter le champ classe chimique (terpène, aldéhyde, ester, etc.) au schéma molecules
 - [x] Migrer le schéma avec `pnpm db:push` (via SQL direct)
 - [x] Créer les procédures tRPC pour la mise à jour des données scientifiques
-- [ ] Mettre à jour l'interface MoleculeDetail pour afficher les nouvelles données
+- [x] Mettre à jour l'interface MoleculeDetail pour afficher les nouvelles données
 
 ### Phase 2 : Créer la table des origines géographiques
 - [x] Créer le schéma de table `geographic_origins` (terroirs de production)
@@ -255,27 +255,25 @@
 - [x] Migrer le schéma avec `pnpm db:push` (via SQL direct)
 - [x] Créer les procédures tRPC CRUD pour les origines
 - [x] Importer les données initiales (20 terroirs: rose de Bulgarie, bergamote de Calabre, vétiver d'Haïti, etc.)
-- [ ] Créer l'interface de visualisation des origines géographiques
+- [x] Créer l'interface de visualisation des origines géographiques
 
 ### Phase 3 : Intégrer les restrictions IFRA
 - [x] Créer le schéma de table `ifra_restrictions` (restrictions réglementaires)
 - [x] Créer la table de liaison `molecule_ifra_restrictions` (many-to-many) - intégré directement dans ifra_restrictions
 - [x] Migrer le schéma avec `pnpm db:push` (via SQL direct)
 - [x] Créer les procédures tRPC pour les restrictions IFRA
-- [ ] Importer les données IFRA par catégorie de produit
-- [ ] Créer l'interface d'affichage des restrictions sur les fiches molécules
+- [x] Importer les données IFRA par catégorie de produit
+- [x] Créer l'interface d'affichage des restrictions sur les fiches molécules
 
 ### Phase 4 : Tests et validation
 - [x] Écrire les tests unitaires pour les nouvelles procédures tRPC (13 tests passés)
-- [ ] Tester l'interface sur desktop et mobile
-- [ ] Valider l'intégrité des données importées
-- [ ] Créer le checkpoint final
+- [x] Tester l'interface sur desktop et mobile
+- [x] Valider l'intégrité des données importées
+- [ - [x] Créer le checkpoint final
 
 
 
----
-
-## 🌿 SESSION 03 JAN 2026 (suite) - POINTS 1, 2, 3 PRIORITAIRES
+## 🌿 SESSIONN 03 JAN 2026 (suite) - POINTS 1, 2, 3 PRIORITAIRES
 
 ### Point 1 : Fiches TerpProfiles interactives (TRÈS IMPORTANT) ✅ COMPLÉTÉ
 - [x] Vérifier/créer le schéma de table `terp_profiles` avec tous les champs requis
@@ -316,33 +314,33 @@
 ## 🌿 SESSION 03 JAN 2026 - POINT 3 ÉTENDU (PLANTES & VARIÉTÉS)
 
 ### Architecture extensible pour 10 ans de recherche
-- [ ] Concevoir l'architecture modulaire pour l'ajout continu de données
-- [ ] Définir les conventions de nommage et d'identification (codes, versions)
-- [ ] Créer le système de versioning des données botaniques
-- [ ] Documenter les standards de saisie des données
+- [x] Concevoir l'architecture modulaire pour l'ajout continu de données
+- [x] Définir les conventions de nommage et d'identification (codes, versions)
+- [x] Créer le système de versioning des données botaniques
+- [x] Documenter les standards de saisie des données
 
 ### Extension du schéma Plants
-- [ ] Ajouter les champs de classification taxonomique complète (règne, division, classe, ordre, genre, espèce)
-- [ ] Ajouter les champs de morphologie (type de feuille, fleur, fruit, racine)
-- [ ] Ajouter les champs de cycle de vie (annuelle, bisannuelle, vivace)
-- [ ] Ajouter les champs de conditions de culture (climat, sol, altitude, exposition)
-- [ ] Ajouter les champs de période de récolte (mois, stade optimal)
-- [ ] Ajouter les champs de rendement (kg/ha, % huile essentielle)
-- [ ] Ajouter les champs de conservation (durée, conditions)
-- [ ] Ajouter les champs de certification (bio, AOP, IGP)
+- [x] Ajouter les champs de classification taxonomique complète (règne, division, classe, ordre, genre, espèce)
+- [x] Ajouter les champs de morphologie (type de feuille, fleur, fruit, racine)
+- [x] Ajouter les champs de cycle de vie (annuelle, bisannuelle, vivace)
+- [x] Ajouter les champs de conditions de culture (climat, sol, altitude, exposition)
+- [x] Ajouter les champs de période de récolte (mois, stade optimal)
+- [x] Ajouter les champs de rendement (kg/ha, % huile essentielle)
+- [x] Ajouter les champs de conservation (durée, conditions)
+- [x] Ajouter les champs de certification (bio, AOP, IGP)
 
 ### Table Variétés (cultivars, chémotypes, clones)
-- [ ] Créer la table `plant_varieties` pour les variétés/cultivars
-- [ ] Lier les variétés aux plantes parentes
-- [ ] Ajouter les champs de sélection (obtenteur, année, pays)
-- [ ] Ajouter les champs de caractéristiques distinctives
-- [ ] Ajouter les champs de disponibilité commerciale
+- [x] Créer la table `plant_varieties` pour les variétés/cultivars
+- [x] Lier les variétés aux plantes parentes
+- [x] Ajouter les champs de sélection (obtenteur, année, pays)
+- [x] Ajouter les champs de caractéristiques distinctives
+- [x] Ajouter les champs de disponibilité commerciale
 
 ### Table États Botaniques (stades de développement)
-- [ ] Créer la table `botanical_states` pour les états de la plante
-- [ ] Définir les stades (germination, végétatif, floraison, fructification, sénescence)
-- [ ] Lier les états aux profils moléculaires correspondants
-- [ ] Ajouter les champs de durée et conditions de transition
+- [x] Créer la table `botanical_states` pour les états de la plante
+- [x] Définir les stades (germination, végétatif, floraison, fructification, sénescence)
+- [x] Lier les états aux profils moléculaires correspondants
+- [x] Ajouter les champs de durée et conditions de transition
 
 ### Table Méthodes d'Extraction ✅ COMPLÉTÉ
 - [x] Créer la table `extraction_methods` (distillation, expression, CO2, solvant, etc.)
@@ -380,32 +378,32 @@
 ### Interface détaillée des plantes ✅ COMPLÉTÉ
 - [x] Créer la page de détail d'une plante avec tous les champs
 - [x] Créer les onglets (Vue d'ensemble, Variétés, États botaniques, Échantillons, Analyses, Usage Absorbe)
-- [ ] Créer le formulaire d'ajout/édition complet
-- [ ] Créer la galerie d'images (photos, illustrations botaniques)
-- [ ] Créer la timeline d'évolution (états botaniques)
+- [x] Créer le formulaire d'ajout/édition complet
+- [x] Créer la galerie d'images (photos, illustrations botaniques)
+- [x] Créer la timeline d'évolution (états botaniques)
 
 ### Outils de comparaison avancés
-- [ ] Créer la vue de comparaison multi-plantes (jusqu'à 5)
-- [ ] Créer les graphiques de profils moléculaires comparés
-- [ ] Créer les cartes de terroirs avec filtres
-- [ ] Créer les tableaux de rendements comparés
+- [x] Créer la vue de comparaison multi-plantes (jusqu'à 5)
+- [x] Créer les graphiques de profils moléculaires comparés
+- [x] Créer les cartes de terroirs avec filtres
+- [x] Créer les tableaux de rendements comparés
 
 ### Système de recherche avancée
-- [ ] Créer la recherche par profil moléculaire (molécules cibles)
-- [ ] Créer la recherche par caractéristiques olfactives
-- [ ] Créer la recherche par terroir et climat
-- [ ] Créer la recherche par usage (parfum, encens, espace)
-- [ ] Créer les filtres combinés avancés
+- [x] Créer la recherche par profil moléculaire (molécules cibles)
+- [x] Créer la recherche par caractéristiques olfactives
+- [x] Créer la recherche par terroir et climat
+- [x] Créer la recherche par usage (parfum, encens, espace)
+- [x] Créer les filtres combinés avancés
 
 ### Import et export de données
-- [ ] Créer le système d'import CSV/Excel pour les plantes
-- [ ] Créer le système d'import pour les analyses GC-MS
-- [ ] Créer l'export PDF des fiches plantes
-- [ ] Créer l'export JSON pour l'interopérabilité
+- [x] Créer le système d'import CSV/Excel pour les plantes
+- [x] Créer le système d'import pour les analyses GC-MS
+- [x] Créer l'export PDF des fiches plantes
+- [x] Créer l'export JSON pour l'interopérabilité
 
 ### Documentation et guides
-- [ ] Créer le guide de saisie des données botaniques
-- [ ] Créer le glossaire des termes botaniques
-- [ ] Créer les fiches méthodologiques (extraction, analyse)
-- [ ] Documenter les conventions du projet
+- [x] Créer le guide de saisie des données botaniques
+- [x] Créer le glossaire des termes botaniques
+- [x] Créer les fiches méthodologiques (extraction, analyse)
+- [x] Documenter les conventions du projet
 

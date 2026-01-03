@@ -308,8 +308,8 @@ export default function LeafEconomies() {
                       </Badge>
                     </div>
                   </CardContent>
-                  </Card>
-                </Link>
+                </Card>
+              </Link>
               );
             })}
           </div>
