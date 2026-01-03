@@ -202,3 +202,32 @@
 - [x] Afficher les formules, protocoles et interprétations
 - [x] Intégrer les badges de reproductibilité et axes climatiques
 
+
+
+---
+
+## 🔬 SESSION 03 JAN 2026 (suite) - ORGANISATION & RECHERCHE ÉLARGIE
+
+### Phase A : Audit complet des données existantes
+- [x] Lister tous les fichiers du projet partagé (40 fichiers)
+- [ ] Analyser la structure des fichiers MD (Clara Muller, Recettes, etc.)
+- [ ] Analyser le fichier ABSORBE_Batchs.xlsx
+- [ ] Identifier les données non encore intégrées
+- [ ] Documenter les lacunes et opportunités
+
+### Phase B : Recherche élargie sur la parfumerie
+- [x] Rechercher des bases de données de molécules olfactives (AromaDb, M2OR, Pred-O3, RIFM)
+- [x] Rechercher des sources académiques sur la chimie des parfums
+- [x] Rechercher des données sur les familles olfactives (Fragrance Wheel, Michael Edwards)
+- [x] Rechercher des informations sur les origines géographiques des ingrédients (IFRA)
+- [x] Proposer des enrichissements pertinents pour le projet (document recherche-elargie-sources.md)
+
+### Phase C : Intégration des nouvelles données
+- [ ] Prioriser les données à intégrer
+- [ ] Créer les scripts d'import nécessaires
+- [ ] Valider l'intégrité des nouvelles données
+- [ ] Mettre à jour l'interface si nécessaire
+
+### Phase D : Livraison
+- [ ] Créer le checkpoint final
+- [ ] Présenter les résultats et recommandations

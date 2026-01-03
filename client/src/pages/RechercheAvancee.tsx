@@ -93,7 +93,7 @@ export default function RechercheAvancee() {
       const matchesPeriod = selectedPeriods.length === 0 || 
         selectedPeriods.some(p => {
           const periodYear = parseInt(p.match(/\d+/)?.[0] || "0");
-          return civ.historicalPeriod?.includes(periodYear.toString());
+          return civ.temporality?.includes(periodYear.toString());
         });
 
       return matchesSearch && matchesOrigin && matchesPeriod;
@@ -375,14 +375,14 @@ export default function RechercheAvancee() {
                           )}
                         </CardHeader>
                         <CardContent>
-                          {civ.historicalPeriod && (
+                          {civ.temporality && (
                             <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">
-                              {civ.historicalPeriod}
+                              {civ.temporality}
                             </p>
                           )}
-                          {civ.keyPractices && (
+                          {civ.longDescription && (
                             <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
-                              {civ.keyPractices}
+                              {civ.longDescription}
                             </p>
                           )}
                         </CardContent>
