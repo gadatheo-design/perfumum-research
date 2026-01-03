@@ -77,3 +77,22 @@
 - Toujours tester sur mobile après chaque modification
 - Documenter les décisions importantes
 - Créer des checkpoints réguliers
+
+---
+
+## 🔍 SESSION 03 JAN 2026 - RESPONSIVE & RECHERCHE AVANCÉE
+
+### Responsive Mobile
+- [x] Tester le responsive sur mobile (375px, 768px, 1024px)
+- [x] Corriger les problèmes d'affichage mobile identifiés
+- [x] Valider la navigation mobile sur toutes les pages
+
+### Recherche Avancée
+- [x] Créer la page de recherche avancée avec filtres
+- [x] Implémenter les filtres par famille olfactive
+- [x] Implémenter les filtres par origine géographique
+- [x] Implémenter les filtres par période historique
+- [x] Créer les procédures tRPC pour la recherche avancée (utilise les procédures existantes)
+- [x] Tester la recherche avancée sur tous les écrans
+- [x] Intégrer la recherche avancée dans le menu principal
+

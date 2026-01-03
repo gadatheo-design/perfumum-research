@@ -68,6 +68,11 @@ const mobileMenuSections = [
     ],
   },
   {
+    title: "Recherche Avancée",
+    href: "/recherche-avancee",
+    icon: Search,
+  },
+  {
     title: "Molécules",
     icon: Atom,
     items: [

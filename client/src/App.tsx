@@ -105,6 +105,7 @@ import { RecipeNetworkPage } from "./pages/RecipeNetworkPage";
 import SankeyFlow from "./pages/SankeyFlow";
 import EnhancedRadarDemo from "./pages/EnhancedRadarDemo";
 import AdvancedSearch from "./pages/AdvancedSearch";
+import RechercheAvancee from "./pages/RechercheAvancee";
 import RecipeTimeline from "./pages/RecipeTimeline";
 import FormulesReference from "./pages/FormulesReference";
 import RadarCorrelationHeatmap from "./pages/RadarCorrelationHeatmap";
@@ -221,6 +222,9 @@ function Router() {
       <Route path="/admin/import-export" component={AdminImportExport} />
       <Route path="/admin/historique" component={AdminHistorique} />
       <Route path="/admin/references" component={AdminReferences} />
+      
+      {/* === RECHERCHE === */}
+      <Route path="/recherche-avancee" component={RechercheAvancee} />
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />
