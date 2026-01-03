@@ -160,6 +160,11 @@ import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
 import BibliographiePage from "./pages/BibliographiePage";
 import GestionPage from "./pages/GestionPage";
+import LeafEconomies from "./pages/LeafEconomies";
+import TimelineBotanique from "./pages/TimelineBotanique";
+import BotaniqueCritique from "./pages/BotaniqueCritique";
+import VarietesFantomes from "./pages/VarietesFantomes";
+import RecettesLeafEconomies from "./pages/RecettesLeafEconomies";
 import Collaborations from "./pages/Collaborations";
 import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
@@ -365,6 +370,14 @@ function Router() {
       <Route path="/contribuer" component={Contribuer} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/galerie-botaniques" component={GalerieBotaniques} />
+      
+      {/* === SAN ANDRÉS / LEAF ECONOMIES === */}
+      <Route path="/leaf-economies" component={LeafEconomies} />
+      <Route path="/san-andres" component={LeafEconomies} />
+      <Route path="/timeline-botanique" component={TimelineBotanique} />
+      <Route path="/botanique-critique" component={BotaniqueCritique} />
+      <Route path="/varietes-fantomes" component={VarietesFantomes} />
+      <Route path="/recettes-leaf-economies" component={RecettesLeafEconomies} />
       
       {/* === CIVILISATIONS & TRADITIONS === */}
       <Route path="/civilisations" component={Civilisations} />
