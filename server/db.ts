@@ -1,4 +1,4 @@
-import { eq, and, or, isNull, not, desc, asc, sql, like, gte, inArray } from "drizzle-orm";
+import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -82,6 +82,15 @@ import {
   LeafEconomy,
   InsertLeafEconomy,
   leafEconomyMolecules,
+  geographicOrigins,
+  GeographicOrigin,
+  InsertGeographicOrigin,
+  moleculeOrigins,
+  MoleculeOrigin,
+  InsertMoleculeOrigin,
+  ifraRestrictions,
+  IfraRestriction,
+  InsertIfraRestriction,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -3712,4 +3721,194 @@ export async function getLeafEconomiesWithoutAnalysis() {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   return await db.select().from(leafEconomies).where(eq(leafEconomies.analysisAvailable, 0)).orderBy(desc(leafEconomies.createdAt));
+}
+
+
+// ============================================================================
+// GEOGRAPHIC ORIGINS FUNCTIONS
+// ============================================================================
+
+export async function getAllGeographicOrigins() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(geographicOrigins).orderBy(geographicOrigins.country, geographicOrigins.name);
+}
+
+export async function getGeographicOriginById(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const results = await db.select().from(geographicOrigins).where(eq(geographicOrigins.id, id));
+  return results[0] || null;
+}
+
+export async function getGeographicOriginsByCountry(country: string) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(geographicOrigins).where(eq(geographicOrigins.country, country)).orderBy(geographicOrigins.name);
+}
+
+export async function createGeographicOrigin(data: InsertGeographicOrigin) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const result = await db.insert(geographicOrigins).values(data);
+  return { id: Number(result[0].insertId), ...data };
+}
+
+export async function updateGeographicOrigin(id: number, data: Partial<InsertGeographicOrigin>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(geographicOrigins).set(data).where(eq(geographicOrigins.id, id));
+  return await getGeographicOriginById(id);
+}
+
+export async function deleteGeographicOrigin(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(geographicOrigins).where(eq(geographicOrigins.id, id));
+}
+
+// ============================================================================
+// MOLECULE ORIGINS FUNCTIONS
+// ============================================================================
+
+export async function getMoleculeOrigins(moleculeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select({
+    id: moleculeOrigins.id,
+    moleculeId: moleculeOrigins.moleculeId,
+    originId: moleculeOrigins.originId,
+    isPrimaryOrigin: moleculeOrigins.isPrimaryOrigin,
+    qualityRating: moleculeOrigins.qualityRating,
+    productionVolume: moleculeOrigins.productionVolume,
+    priceRange: moleculeOrigins.priceRange,
+    specificCharacteristics: moleculeOrigins.specificCharacteristics,
+    notes: moleculeOrigins.notes,
+    origin: geographicOrigins,
+  })
+    .from(moleculeOrigins)
+    .innerJoin(geographicOrigins, eq(moleculeOrigins.originId, geographicOrigins.id))
+    .where(eq(moleculeOrigins.moleculeId, moleculeId));
+}
+
+export async function getOriginMolecules(originId: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select({
+    id: moleculeOrigins.id,
+    moleculeId: moleculeOrigins.moleculeId,
+    originId: moleculeOrigins.originId,
+    isPrimaryOrigin: moleculeOrigins.isPrimaryOrigin,
+    qualityRating: moleculeOrigins.qualityRating,
+    molecule: molecules,
+  })
+    .from(moleculeOrigins)
+    .innerJoin(molecules, eq(moleculeOrigins.moleculeId, molecules.id))
+    .where(eq(moleculeOrigins.originId, originId));
+}
+
+export async function addMoleculeOrigin(data: InsertMoleculeOrigin) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const result = await db.insert(moleculeOrigins).values(data);
+  return { id: Number(result[0].insertId), ...data };
+}
+
+export async function updateMoleculeOrigin(id: number, data: Partial<InsertMoleculeOrigin>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(moleculeOrigins).set(data).where(eq(moleculeOrigins.id, id));
+}
+
+export async function removeMoleculeOrigin(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(moleculeOrigins).where(eq(moleculeOrigins.id, id));
+}
+
+// ============================================================================
+// IFRA RESTRICTIONS FUNCTIONS
+// ============================================================================
+
+export async function getMoleculeIfraRestrictions(moleculeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const results = await db.select().from(ifraRestrictions).where(eq(ifraRestrictions.moleculeId, moleculeId));
+  return results[0] || null;
+}
+
+export async function getAllIfraRestrictions() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select({
+    restriction: ifraRestrictions,
+    molecule: molecules,
+  })
+    .from(ifraRestrictions)
+    .innerJoin(molecules, eq(ifraRestrictions.moleculeId, molecules.id))
+    .orderBy(molecules.name);
+}
+
+export async function getRestrictedMolecules() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select({
+    restriction: ifraRestrictions,
+    molecule: molecules,
+  })
+    .from(ifraRestrictions)
+    .innerJoin(molecules, eq(ifraRestrictions.moleculeId, molecules.id))
+    .where(
+      or(
+        eq(ifraRestrictions.restrictionType, 'prohibited'),
+        eq(ifraRestrictions.restrictionType, 'restricted')
+      )
+    )
+    .orderBy(molecules.name);
+}
+
+export async function createIfraRestriction(data: InsertIfraRestriction) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const result = await db.insert(ifraRestrictions).values(data);
+  return { id: Number(result[0].insertId), ...data };
+}
+
+export async function updateIfraRestriction(id: number, data: Partial<InsertIfraRestriction>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(ifraRestrictions).set(data).where(eq(ifraRestrictions.id, id));
+}
+
+export async function deleteIfraRestriction(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(ifraRestrictions).where(eq(ifraRestrictions.id, id));
+}
+
+// ============================================================================
+// MOLECULE SCIENTIFIC DATA UPDATE
+// ============================================================================
+
+export async function updateMoleculeScientificData(id: number, data: {
+  iupacName?: string;
+  casNumber?: string;
+  chemicalClass?: "terpene" | "sesquiterpene" | "diterpene" | "monoterpene" | "aldehyde" | "ketone" | "alcohol" | "ester" | "ether" | "phenol" | "lactone" | "coumarin" | "musk" | "nitrile" | "sulfur_compound" | "heterocyclic" | "aromatic" | "aliphatic" | "other";
+}) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(molecules).set(data).where(eq(molecules.id, id));
+  return await getMoleculeById(id);
+}
+
+export async function getMoleculesWithoutCas() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(molecules).where(isNull(molecules.casNumber)).orderBy(molecules.name);
+}
+
+export async function getMoleculesWithCas() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return await db.select().from(molecules).where(isNotNull(molecules.casNumber)).orderBy(molecules.name);
 }

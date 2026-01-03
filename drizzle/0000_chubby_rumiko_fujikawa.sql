@@ -83,6 +83,33 @@ CREATE TABLE `traditions_olfactives` (
 	CONSTRAINT `traditions_olfactives_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
+CREATE TABLE `climate_studies` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`name` varchar(255) NOT NULL,
+	`collection` varchar(255),
+	`axis` varchar(255),
+	`concept` text,
+	`zone` varchar(255),
+	`altitude` varchar(100),
+	`climate` text,
+	`key_moment` text,
+	`attack_description` text,
+	`heart_description` text,
+	`base_description` text,
+	`observed_supports` text,
+	`absorbe_reading` text,
+	`threshold_odor` enum('yes','no') DEFAULT 'no',
+	`recommended_tests` text,
+	`head_translation` text,
+	`heart_translation` text,
+	`base_translation` text,
+	`ethical_position` text,
+	`status` enum('field_observation','lab_translation','completed') DEFAULT 'field_observation',
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `climate_studies_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
 CREATE TABLE `experimental_accord_civilisations` (
 	`experimentalAccordId` int NOT NULL,
 	`civilisationId` int NOT NULL
@@ -103,6 +130,25 @@ CREATE TABLE `experimental_accords` (
 	CONSTRAINT `experimental_accords_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
+CREATE TABLE `extraction_tests` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`test_name` varchar(255) NOT NULL,
+	`date` timestamp NOT NULL,
+	`field_archive_id` int,
+	`material` text,
+	`solvent` enum('mct','alcohol_95','alcohol_70','water','other') NOT NULL,
+	`ratio` varchar(100),
+	`duration` int,
+	`result_smell` text,
+	`viable` enum('yes','no','maybe') DEFAULT 'maybe',
+	`notes` text,
+	`observation_day_1` text,
+	`observation_day_7` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `extraction_tests_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
 CREATE TABLE `families` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`name` varchar(255) NOT NULL,
@@ -112,6 +158,62 @@ CREATE TABLE `families` (
 	`createdAt` timestamp NOT NULL DEFAULT (now()),
 	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `families_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `field_archives` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`provisional_name` varchar(255) NOT NULL,
+	`zone` varchar(255),
+	`precise_location` varchar(255),
+	`altitude` int,
+	`date` timestamp,
+	`climate` text,
+	`material` text,
+	`dominant_smell` text,
+	`local_usage` text,
+	`personal_feeling` text,
+	`olfactive_hypothesis` text,
+	`test_performed` enum('yes','no','planned') DEFAULT 'no',
+	`test_type` varchar(100),
+	`status` enum('draft','in_progress','completed','archived') DEFAULT 'draft',
+	`linked_collection_id` int,
+	`encounter_context` text,
+	`first_impression` text,
+	`evolution` text,
+	`persistence` text,
+	`material_origin` text,
+	`material_state` varchar(100),
+	`symbolic_quantity` text,
+	`translation_hypothesis` text,
+	`what_to_keep` text,
+	`what_to_leave` text,
+	`personal_note` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `field_archives_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `geographic_origins` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`name` varchar(255) NOT NULL,
+	`country` varchar(100) NOT NULL,
+	`region` varchar(255),
+	`terroir` text,
+	`latitude` decimal(10,7),
+	`longitude` decimal(10,7),
+	`altitude` int,
+	`climate` varchar(100),
+	`soil_type` varchar(255),
+	`harvest_period` varchar(255),
+	`production_method` text,
+	`quality_indicators` text,
+	`historical_context` text,
+	`economic_importance` text,
+	`sustainability_notes` text,
+	`image_url` varchar(500),
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `geographic_origins_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `glossary` (
@@ -126,6 +228,38 @@ CREATE TABLE `glossary` (
 	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `glossary_id` PRIMARY KEY(`id`),
 	CONSTRAINT `glossary_term_unique` UNIQUE(`term`)
+);
+--> statement-breakpoint
+CREATE TABLE `ifra_restrictions` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`molecule_id` int NOT NULL,
+	`ifra_amendment` varchar(20),
+	`effective_date` timestamp,
+	`category_1` decimal(6,4),
+	`category_2` decimal(6,4),
+	`category_3` decimal(6,4),
+	`category_4` decimal(6,4),
+	`category_5a` decimal(6,4),
+	`category_5b` decimal(6,4),
+	`category_5c` decimal(6,4),
+	`category_5d` decimal(6,4),
+	`category_6` decimal(6,4),
+	`category_7a` decimal(6,4),
+	`category_7b` decimal(6,4),
+	`category_8` decimal(6,4),
+	`category_9` decimal(6,4),
+	`category_10a` decimal(6,4),
+	`category_10b` decimal(6,4),
+	`category_11a` decimal(6,4),
+	`category_11b` decimal(6,4),
+	`restriction_type` enum('prohibited','restricted','specification','no_restriction') DEFAULT 'no_restriction',
+	`reason_for_restriction` text,
+	`alternative_suggestions` text,
+	`notes` text,
+	`source_url` varchar(500),
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `ifra_restrictions_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `installation_families` (
@@ -188,6 +322,49 @@ CREATE TABLE `laboratoire_recettes` (
 	`recetteId` int NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE `leaf_economies` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`sample_id` varchar(50) NOT NULL,
+	`date` timestamp,
+	`island` enum('san_andres','providencia','autre'),
+	`precise_location` varchar(255),
+	`source_contact` text,
+	`category` enum('aromatique','tabac','cannabis') NOT NULL,
+	`species` varchar(255),
+	`claimed_variety` varchar(255),
+	`used_part` enum('feuille','fleur','resine','tige','autre'),
+	`state` enum('frais','sec','rehydrate'),
+	`curing_treatment` enum('aucun','air_cured','flue_cured','sun_cured','autre'),
+	`extraction` enum('aucune','maceration_alcool','maceration_mct','distillation','headspace'),
+	`ratio_parameters` varchar(255),
+	`duration` varchar(100),
+	`odor_notes` text,
+	`climatic_axis` text,
+	`usage` text,
+	`analysis_available` int DEFAULT 0,
+	`analysis_method` enum('gc_ms','hplc','autre'),
+	`top_molecules_list` text,
+	`top_molecule_1` varchar(255),
+	`top_molecule_2` varchar(255),
+	`top_molecule_3` varchar(255),
+	`relative_percentages` text,
+	`absorbe_interpretation` text,
+	`status` enum('brut','a_analyser','analyse','traduction','archive') DEFAULT 'brut',
+	`media_links` text,
+	`ethical_notes` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `leaf_economies_id` PRIMARY KEY(`id`),
+	CONSTRAINT `leaf_economies_sample_id_unique` UNIQUE(`sample_id`)
+);
+--> statement-breakpoint
+CREATE TABLE `leaf_economy_molecules` (
+	`leaf_economy_id` int NOT NULL,
+	`molecule_id` int NOT NULL,
+	`percentage` decimal(5,2),
+	`notes` text
+);
+--> statement-breakpoint
 CREATE TABLE `milestones` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`date` timestamp NOT NULL,
@@ -199,6 +376,43 @@ CREATE TABLE `milestones` (
 	`created_at` timestamp NOT NULL DEFAULT (now()),
 	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `milestones_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `modification_history` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`user_id` int NOT NULL,
+	`entity_type` enum('molecule','recette','accord','famille','matiere','prototype','synergie','tradition') NOT NULL,
+	`entity_id` int NOT NULL,
+	`operation` enum('create','update','delete') NOT NULL,
+	`state_before` json,
+	`state_after` json,
+	`description` text,
+	`is_undone` int NOT NULL DEFAULT 0,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`undone_at` timestamp,
+	CONSTRAINT `modification_history_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `molecular_protocols` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`name` varchar(255) NOT NULL,
+	`linked_study_id` int,
+	`objective` text,
+	`olfactive_architecture` text,
+	`function` text,
+	`head_palette` json,
+	`heart_palette` json,
+	`base_palette` json,
+	`head_ratio` int DEFAULT 25,
+	`heart_ratio` int DEFAULT 45,
+	`base_ratio` int DEFAULT 30,
+	`formulation_protocol` text,
+	`sensory_tests` text,
+	`typical_failures` text,
+	`status` enum('conceptual','testing','validated') DEFAULT 'conceptual',
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `molecular_protocols_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `molecule_accords` (
@@ -228,9 +442,39 @@ CREATE TABLE `molecule_notes` (
 	CONSTRAINT `unique_user_molecule_note` UNIQUE(`user_id`,`molecule_id`)
 );
 --> statement-breakpoint
+CREATE TABLE `molecule_origins` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`molecule_id` int NOT NULL,
+	`origin_id` int NOT NULL,
+	`is_primary_origin` int DEFAULT 0,
+	`quality_rating` int,
+	`production_volume` varchar(100),
+	`price_range` varchar(100),
+	`specific_characteristics` text,
+	`notes` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `molecule_origins_id` PRIMARY KEY(`id`),
+	CONSTRAINT `unique_molecule_origin` UNIQUE(`molecule_id`,`origin_id`)
+);
+--> statement-breakpoint
+CREATE TABLE `molecule_synergies` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`molecule1_id` int NOT NULL,
+	`molecule2_id` int NOT NULL,
+	`type` enum('potentialisation','stabilisation','transformation','masquage') NOT NULL,
+	`description` text NOT NULL,
+	`applications` text,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `molecule_synergies_id` PRIMARY KEY(`id`),
+	CONSTRAINT `unique_molecule_pair` UNIQUE(`molecule1_id`,`molecule2_id`)
+);
+--> statement-breakpoint
 CREATE TABLE `molecules` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`name` varchar(255) NOT NULL,
+	`iupac_name` varchar(500),
+	`cas_number` varchar(20),
+	`chemical_class` enum('terpene','sesquiterpene','diterpene','monoterpene','aldehyde','ketone','alcohol','ester','ether','phenol','lactone','coumarin','musk','nitrile','sulfur_compound','heterocyclic','aromatic','aliphatic','other'),
 	`family` text,
 	`chemicalFormula` varchar(100),
 	`olfactiveProfile` text,
@@ -254,6 +498,7 @@ CREATE TABLE `molecules` (
 	`radar_sweetness` int DEFAULT 50,
 	`radar_spiciness` int DEFAULT 50,
 	`radar_earthiness` int DEFAULT 50,
+	`references` json,
 	`createdAt` timestamp NOT NULL DEFAULT (now()),
 	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `molecules_id` PRIMARY KEY(`id`)
@@ -264,6 +509,7 @@ CREATE TABLE `molecules_recettes` (
 	`molecule_id` int NOT NULL,
 	`recette_id` int NOT NULL,
 	`proportion` decimal(5,2),
+	`role` enum('tête','cœur','fond'),
 	`notes` text,
 	`created_at` timestamp DEFAULT (now()),
 	`updated_at` timestamp DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
@@ -393,9 +639,40 @@ CREATE TABLE `recettes` (
 	`duree_coeur_min` int DEFAULT 45,
 	`duree_fond_min` int DEFAULT 120,
 	`parent_recette_id` int,
+	`gamme` varchar(100),
 	`createdAt` timestamp NOT NULL DEFAULT (now()),
 	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `recettes_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `recettes_formules_reference` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`recette_id` int NOT NULL,
+	`formule_reference_name` varchar(255) NOT NULL,
+	`formule_reference_family` varchar(100) NOT NULL,
+	`similarity_score` int NOT NULL,
+	`notes` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `recettes_formules_reference_id` PRIMARY KEY(`id`),
+	CONSTRAINT `unique_recette_formule` UNIQUE(`recette_id`,`formule_reference_name`)
+);
+--> statement-breakpoint
+CREATE TABLE `recherche_radicale` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`nom` varchar(255) NOT NULL,
+	`symbole` varchar(10),
+	`serie` varchar(255) NOT NULL,
+	`concept` text NOT NULL,
+	`note_speciale` text,
+	`architecture` text NOT NULL,
+	`effet` text NOT NULL,
+	`usage_artistique` text NOT NULL,
+	`themes_conceptuels` text,
+	`avertissement` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `recherche_radicale_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `recipe_versions` (
@@ -434,6 +711,17 @@ CREATE TABLE `research_timeline` (
 	CONSTRAINT `research_timeline_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
+CREATE TABLE `saved_formulas` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`user_id` int NOT NULL,
+	`radar_profile` json NOT NULL,
+	`suggestions` json NOT NULL,
+	`notes` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `saved_formulas_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
 CREATE TABLE `sensory_scales` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`type` enum('axis','family') NOT NULL,
@@ -458,6 +746,61 @@ CREATE TABLE `shared_collections` (
 	`created_at` timestamp NOT NULL DEFAULT (now()),
 	CONSTRAINT `shared_collections_id` PRIMARY KEY(`id`),
 	CONSTRAINT `shared_collections_token_unique` UNIQUE(`token`)
+);
+--> statement-breakpoint
+CREATE TABLE `situated_smells` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`poetic_name` varchar(255) NOT NULL,
+	`location` varchar(255) NOT NULL,
+	`date` timestamp NOT NULL,
+	`weather` varchar(255),
+	`support` text,
+	`immediate_impression` text,
+	`triggered_memory` text,
+	`recreatable` enum('yes','no','maybe') DEFAULT 'maybe',
+	`linked_field_archive_id` int,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `situated_smells_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `supplier_materials` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`supplier_id` int NOT NULL,
+	`molecule_id` int NOT NULL,
+	`price_per_unit` decimal(10,2),
+	`currency` varchar(3) NOT NULL DEFAULT 'USD',
+	`minimum_order_quantity` int,
+	`unit` varchar(50),
+	`lead_time_days` int,
+	`quality_grade` enum('standard','premium','extra_premium') NOT NULL DEFAULT 'standard',
+	`is_available` int NOT NULL DEFAULT 1,
+	`last_order_date` timestamp,
+	`notes` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `supplier_materials_id` PRIMARY KEY(`id`),
+	CONSTRAINT `unique_supplier_material` UNIQUE(`supplier_id`,`molecule_id`)
+);
+--> statement-breakpoint
+CREATE TABLE `suppliers` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`name` varchar(255) NOT NULL,
+	`company_name` varchar(255),
+	`country` varchar(100) NOT NULL,
+	`region` varchar(100),
+	`email` varchar(320),
+	`phone` varchar(20),
+	`website` varchar(255),
+	`specialties` json,
+	`description` text,
+	`rating` int,
+	`certifications` json,
+	`is_preferred` int NOT NULL DEFAULT 0,
+	`notes` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `suppliers_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `synergies` (
@@ -579,6 +922,20 @@ CREATE TABLE `user_notes` (
 	CONSTRAINT `user_notes_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
+CREATE TABLE `users` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`openId` varchar(64) NOT NULL,
+	`name` text,
+	`email` varchar(320),
+	`loginMethod` varchar(64),
+	`role` enum('user','admin') NOT NULL DEFAULT 'user',
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	`lastSignedIn` timestamp NOT NULL DEFAULT (now()),
+	CONSTRAINT `users_id` PRIMARY KEY(`id`),
+	CONSTRAINT `users_openId_unique` UNIQUE(`openId`)
+);
+--> statement-breakpoint
 CREATE TABLE `volcanique` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`variation` varchar(255) NOT NULL,
@@ -615,6 +972,8 @@ ALTER TABLE `accords` ADD CONSTRAINT `accords_familyId_families_id_fk` FOREIGN K
 ALTER TABLE `traditions_olfactives` ADD CONSTRAINT `traditions_olfactives_signatureAccordId_accords_id_fk` FOREIGN KEY (`signatureAccordId`) REFERENCES `accords`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `experimental_accord_civilisations` ADD CONSTRAINT `experimental_accord_civilisations_experimentalAccordId_experimental_accords_id_fk` FOREIGN KEY (`experimentalAccordId`) REFERENCES `experimental_accords`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `experimental_accord_civilisations` ADD CONSTRAINT `experimental_accord_civilisations_civilisationId_traditions_olfactives_id_fk` FOREIGN KEY (`civilisationId`) REFERENCES `traditions_olfactives`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `extraction_tests` ADD CONSTRAINT `extraction_tests_field_archive_id_field_archives_id_fk` FOREIGN KEY (`field_archive_id`) REFERENCES `field_archives`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `ifra_restrictions` ADD CONSTRAINT `ifra_restrictions_molecule_id_molecules_id_fk` FOREIGN KEY (`molecule_id`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `installation_families` ADD CONSTRAINT `installation_families_installationId_installations_id_fk` FOREIGN KEY (`installationId`) REFERENCES `installations`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `installation_families` ADD CONSTRAINT `installation_families_familyId_families_id_fk` FOREIGN KEY (`familyId`) REFERENCES `families`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `installation_recettes` ADD CONSTRAINT `installation_recettes_installationId_installations_id_fk` FOREIGN KEY (`installationId`) REFERENCES `installations`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -623,6 +982,9 @@ ALTER TABLE `laboratoire_molecules` ADD CONSTRAINT `laboratoire_molecules_labora
 ALTER TABLE `laboratoire_molecules` ADD CONSTRAINT `laboratoire_molecules_moleculeId_molecules_id_fk` FOREIGN KEY (`moleculeId`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `laboratoire_recettes` ADD CONSTRAINT `laboratoire_recettes_laboratoireId_laboratoire_id_fk` FOREIGN KEY (`laboratoireId`) REFERENCES `laboratoire`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `laboratoire_recettes` ADD CONSTRAINT `laboratoire_recettes_recetteId_recettes_id_fk` FOREIGN KEY (`recetteId`) REFERENCES `recettes`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `leaf_economy_molecules` ADD CONSTRAINT `leaf_economy_molecules_leaf_economy_id_leaf_economies_id_fk` FOREIGN KEY (`leaf_economy_id`) REFERENCES `leaf_economies`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `leaf_economy_molecules` ADD CONSTRAINT `leaf_economy_molecules_molecule_id_molecules_id_fk` FOREIGN KEY (`molecule_id`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `molecular_protocols` ADD CONSTRAINT `molecular_protocols_linked_study_id_climate_studies_id_fk` FOREIGN KEY (`linked_study_id`) REFERENCES `climate_studies`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `molecule_accords` ADD CONSTRAINT `molecule_accords_moleculeId_molecules_id_fk` FOREIGN KEY (`moleculeId`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `molecule_accords` ADD CONSTRAINT `molecule_accords_accordId_accords_id_fk` FOREIGN KEY (`accordId`) REFERENCES `accords`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `molecule_chemical_families` ADD CONSTRAINT `molecule_chemical_families_moleculeId_molecules_id_fk` FOREIGN KEY (`moleculeId`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -631,6 +993,10 @@ ALTER TABLE `molecule_families` ADD CONSTRAINT `molecule_families_moleculeId_mol
 ALTER TABLE `molecule_families` ADD CONSTRAINT `molecule_families_familyId_families_id_fk` FOREIGN KEY (`familyId`) REFERENCES `families`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `molecule_notes` ADD CONSTRAINT `molecule_notes_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `molecule_notes` ADD CONSTRAINT `molecule_notes_molecule_id_molecules_id_fk` FOREIGN KEY (`molecule_id`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `molecule_origins` ADD CONSTRAINT `molecule_origins_molecule_id_molecules_id_fk` FOREIGN KEY (`molecule_id`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `molecule_origins` ADD CONSTRAINT `molecule_origins_origin_id_geographic_origins_id_fk` FOREIGN KEY (`origin_id`) REFERENCES `geographic_origins`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `molecule_synergies` ADD CONSTRAINT `molecule_synergies_molecule1_id_molecules_id_fk` FOREIGN KEY (`molecule1_id`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `molecule_synergies` ADD CONSTRAINT `molecule_synergies_molecule2_id_molecules_id_fk` FOREIGN KEY (`molecule2_id`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `petrichor_experimental_accords` ADD CONSTRAINT `petrichor_experimental_accords_petrichorId_petrichor_id_fk` FOREIGN KEY (`petrichorId`) REFERENCES `petrichor`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `petrichor_experimental_accords` ADD CONSTRAINT `petrichor_experimental_accords_experimentalAccordId_experimental_accords_id_fk` FOREIGN KEY (`experimentalAccordId`) REFERENCES `experimental_accords`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `petrichor_molecules` ADD CONSTRAINT `petrichor_molecules_petrichorId_petrichor_id_fk` FOREIGN KEY (`petrichorId`) REFERENCES `petrichor`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -653,8 +1019,12 @@ ALTER TABLE `recettes` ADD CONSTRAINT `recettes_familyId_families_id_fk` FOREIGN
 ALTER TABLE `recettes` ADD CONSTRAINT `recettes_accordId_accords_id_fk` FOREIGN KEY (`accordId`) REFERENCES `accords`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `recettes` ADD CONSTRAINT `recettes_tabacId_tabacs_id_fk` FOREIGN KEY (`tabacId`) REFERENCES `tabacs`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `recettes` ADD CONSTRAINT `recettes_civilisationId_traditions_olfactives_id_fk` FOREIGN KEY (`civilisationId`) REFERENCES `traditions_olfactives`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `recettes_formules_reference` ADD CONSTRAINT `recettes_formules_reference_recette_id_recettes_id_fk` FOREIGN KEY (`recette_id`) REFERENCES `recettes`(`id`) ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `recipe_versions` ADD CONSTRAINT `recipe_versions_recette_id_recettes_id_fk` FOREIGN KEY (`recette_id`) REFERENCES `recettes`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `shared_collections` ADD CONSTRAINT `shared_collections_creator_id_users_id_fk` FOREIGN KEY (`creator_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `situated_smells` ADD CONSTRAINT `situated_smells_linked_field_archive_id_field_archives_id_fk` FOREIGN KEY (`linked_field_archive_id`) REFERENCES `field_archives`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `supplier_materials` ADD CONSTRAINT `supplier_materials_supplier_id_suppliers_id_fk` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `supplier_materials` ADD CONSTRAINT `supplier_materials_molecule_id_molecules_id_fk` FOREIGN KEY (`molecule_id`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `synergies` ADD CONSTRAINT `synergies_tabac_id_tabacs_id_fk` FOREIGN KEY (`tabac_id`) REFERENCES `tabacs`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `synergies` ADD CONSTRAINT `synergies_molecule_id_molecules_id_fk` FOREIGN KEY (`molecule_id`) REFERENCES `molecules`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `synergies` ADD CONSTRAINT `synergies_famille_id_families_id_fk` FOREIGN KEY (`famille_id`) REFERENCES `families`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -681,5 +1051,16 @@ ALTER TABLE `volcanique_tabacs` ADD CONSTRAINT `volcanique_tabacs_tabacId_tabacs
 CREATE INDEX `event_type_idx` ON `analytics_events` (`event_type`);--> statement-breakpoint
 CREATE INDEX `entity_type_idx` ON `analytics_events` (`entity_type`);--> statement-breakpoint
 CREATE INDEX `created_at_idx` ON `analytics_events` (`created_at`);--> statement-breakpoint
+CREATE INDEX `user_id_idx` ON `modification_history` (`user_id`);--> statement-breakpoint
+CREATE INDEX `entity_type_idx` ON `modification_history` (`entity_type`);--> statement-breakpoint
+CREATE INDEX `entity_id_idx` ON `modification_history` (`entity_id`);--> statement-breakpoint
+CREATE INDEX `created_at_idx` ON `modification_history` (`created_at`);--> statement-breakpoint
 CREATE INDEX `idx_molecule` ON `molecules_recettes` (`molecule_id`);--> statement-breakpoint
-CREATE INDEX `idx_recette` ON `molecules_recettes` (`recette_id`);
+CREATE INDEX `idx_recette` ON `molecules_recettes` (`recette_id`);--> statement-breakpoint
+CREATE INDEX `idx_recette_formule` ON `recettes_formules_reference` (`recette_id`);--> statement-breakpoint
+CREATE INDEX `saved_formulas_user_idx` ON `saved_formulas` (`user_id`);--> statement-breakpoint
+CREATE INDEX `supplier_material_supplier_idx` ON `supplier_materials` (`supplier_id`);--> statement-breakpoint
+CREATE INDEX `supplier_material_molecule_idx` ON `supplier_materials` (`molecule_id`);--> statement-breakpoint
+CREATE INDEX `supplier_name_idx` ON `suppliers` (`name`);--> statement-breakpoint
+CREATE INDEX `supplier_country_idx` ON `suppliers` (`country`);--> statement-breakpoint
+CREATE INDEX `supplier_region_idx` ON `suppliers` (`region`);

@@ -231,3 +231,39 @@
 ### Phase D : Livraison
 - [ ] Créer le checkpoint final
 - [ ] Présenter les résultats et recommandations
+
+
+---
+
+## 🧪 SESSION 03 JAN 2026 - ENRICHISSEMENT DONNÉES SCIENTIFIQUES
+
+### Phase 1 : Enrichir les fiches molécules
+- [x] Ajouter le champ IUPAC (nom systématique) au schéma molecules
+- [x] Ajouter le champ CAS (numéro d'enregistrement chimique) au schéma molecules
+- [x] Ajouter le champ classe chimique (terpène, aldéhyde, ester, etc.) au schéma molecules
+- [x] Migrer le schéma avec `pnpm db:push` (via SQL direct)
+- [x] Créer les procédures tRPC pour la mise à jour des données scientifiques
+- [ ] Mettre à jour l'interface MoleculeDetail pour afficher les nouvelles données
+
+### Phase 2 : Créer la table des origines géographiques
+- [x] Créer le schéma de table `geographic_origins` (terroirs de production)
+- [x] Créer la table de liaison `molecule_origins` (many-to-many)
+- [x] Migrer le schéma avec `pnpm db:push` (via SQL direct)
+- [x] Créer les procédures tRPC CRUD pour les origines
+- [x] Importer les données initiales (20 terroirs: rose de Bulgarie, bergamote de Calabre, vétiver d'Haïti, etc.)
+- [ ] Créer l'interface de visualisation des origines géographiques
+
+### Phase 3 : Intégrer les restrictions IFRA
+- [x] Créer le schéma de table `ifra_restrictions` (restrictions réglementaires)
+- [x] Créer la table de liaison `molecule_ifra_restrictions` (many-to-many) - intégré directement dans ifra_restrictions
+- [x] Migrer le schéma avec `pnpm db:push` (via SQL direct)
+- [x] Créer les procédures tRPC pour les restrictions IFRA
+- [ ] Importer les données IFRA par catégorie de produit
+- [ ] Créer l'interface d'affichage des restrictions sur les fiches molécules
+
+### Phase 4 : Tests et validation
+- [x] Écrire les tests unitaires pour les nouvelles procédures tRPC (13 tests passés)
+- [ ] Tester l'interface sur desktop et mobile
+- [ ] Valider l'intégrité des données importées
+- [ ] Créer le checkpoint final
+

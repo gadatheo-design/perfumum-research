@@ -147,6 +147,30 @@ export type InsertTabac = typeof tabacs.$inferInsert;
 export const molecules = mysqlTable("molecules", {
   id: int("id").autoincrement().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
+  // Nomenclature scientifique
+  iupacName: varchar("iupac_name", { length: 500 }), // Nom IUPAC systématique (ex: "(1R,5R)-4,6,6-trimethylbicyclo[3.1.1]hept-3-en-2-one")
+  casNumber: varchar("cas_number", { length: 20 }), // Numéro CAS (ex: "80-56-8")
+  chemicalClass: mysqlEnum("chemical_class", [
+    "terpene",
+    "sesquiterpene",
+    "diterpene",
+    "monoterpene",
+    "aldehyde",
+    "ketone",
+    "alcohol",
+    "ester",
+    "ether",
+    "phenol",
+    "lactone",
+    "coumarin",
+    "musk",
+    "nitrile",
+    "sulfur_compound",
+    "heterocyclic",
+    "aromatic",
+    "aliphatic",
+    "other"
+  ]), // Classe chimique principale
   family: text("family"), // Flexible: Terpène, Sesquiterpène, Aldéhyde, etc.
   chemicalFormula: varchar("chemicalFormula", { length: 100 }), // e.g., C10H16
   olfactiveProfile: text("olfactiveProfile"),
@@ -1615,6 +1639,129 @@ export const leafEconomyMoleculesRelations = relations(leafEconomyMolecules, ({ 
   }),
   molecule: one(molecules, {
     fields: [leafEconomyMolecules.moleculeId],
+    references: [molecules.id],
+  }),
+}));
+
+
+// ============================================================================
+// GEOGRAPHIC ORIGINS (Terroirs de production)
+// ============================================================================
+
+export const geographicOrigins = mysqlTable("geographic_origins", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(), // Ex: "Rose de Bulgarie", "Bergamote de Calabre"
+  country: varchar("country", { length: 100 }).notNull(), // Ex: "Bulgarie", "Italie"
+  region: varchar("region", { length: 255 }), // Ex: "Vallée des Roses", "Calabre"
+  terroir: text("terroir"), // Description du terroir (climat, sol, altitude)
+  latitude: decimal("latitude", { precision: 10, scale: 7 }), // Coordonnées GPS
+  longitude: decimal("longitude", { precision: 10, scale: 7 }),
+  altitude: int("altitude"), // Altitude en mètres
+  climate: varchar("climate", { length: 100 }), // Ex: "Méditerranéen", "Continental", "Tropical"
+  soilType: varchar("soil_type", { length: 255 }), // Ex: "Calcaire", "Volcanique", "Argileux"
+  harvestPeriod: varchar("harvest_period", { length: 255 }), // Ex: "Mai-Juin", "Octobre-Novembre"
+  productionMethod: text("production_method"), // Méthodes de culture/récolte traditionnelles
+  qualityIndicators: text("quality_indicators"), // AOC, IGP, certifications
+  historicalContext: text("historical_context"), // Histoire du terroir
+  economicImportance: text("economic_importance"), // Importance économique
+  sustainabilityNotes: text("sustainability_notes"), // Notes sur durabilité/éthique
+  imageUrl: varchar("image_url", { length: 500 }), // Image du terroir
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GeographicOrigin = typeof geographicOrigins.$inferSelect;
+export type InsertGeographicOrigin = typeof geographicOrigins.$inferInsert;
+
+// ============================================================================
+// MOLECULE ORIGINS (Many-to-Many: Molecules <-> Geographic Origins)
+// ============================================================================
+
+export const moleculeOrigins = mysqlTable("molecule_origins", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull().references(() => molecules.id),
+  originId: int("origin_id").notNull().references(() => geographicOrigins.id),
+  isPrimaryOrigin: int("is_primary_origin").default(0), // 1 = origine principale, 0 = secondaire
+  qualityRating: int("quality_rating"), // Note de qualité 1-5
+  productionVolume: varchar("production_volume", { length: 100 }), // Ex: "500 tonnes/an"
+  priceRange: varchar("price_range", { length: 100 }), // Ex: "€€€", "Premium"
+  specificCharacteristics: text("specific_characteristics"), // Caractéristiques spécifiques à cette origine
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  uniqueMoleculeOrigin: unique("unique_molecule_origin").on(table.moleculeId, table.originId),
+}));
+
+export type MoleculeOrigin = typeof moleculeOrigins.$inferSelect;
+export type InsertMoleculeOrigin = typeof moleculeOrigins.$inferInsert;
+
+// ============================================================================
+// IFRA RESTRICTIONS (Restrictions réglementaires IFRA)
+// ============================================================================
+
+export const ifraRestrictions = mysqlTable("ifra_restrictions", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull().references(() => molecules.id),
+  ifraAmendment: varchar("ifra_amendment", { length: 20 }), // Ex: "49th", "50th"
+  effectiveDate: timestamp("effective_date"), // Date d'entrée en vigueur
+  // Catégories IFRA (11 catégories principales)
+  category1: decimal("category_1", { precision: 6, scale: 4 }), // Produits appliqués sur les lèvres
+  category2: decimal("category_2", { precision: 6, scale: 4 }), // Déodorants/antiperspirants
+  category3: decimal("category_3", { precision: 6, scale: 4 }), // Produits pour les yeux
+  category4: decimal("category_4", { precision: 6, scale: 4 }), // Parfums fins
+  category5a: decimal("category_5a", { precision: 6, scale: 4 }), // Produits corporels (application large)
+  category5b: decimal("category_5b", { precision: 6, scale: 4 }), // Produits corporels (application localisée)
+  category5c: decimal("category_5c", { precision: 6, scale: 4 }), // Produits pour les pieds
+  category5d: decimal("category_5d", { precision: 6, scale: 4 }), // Produits intimes
+  category6: decimal("category_6", { precision: 6, scale: 4 }), // Produits buccaux
+  category7a: decimal("category_7a", { precision: 6, scale: 4 }), // Produits capillaires (rinçage)
+  category7b: decimal("category_7b", { precision: 6, scale: 4 }), // Produits capillaires (sans rinçage)
+  category8: decimal("category_8", { precision: 6, scale: 4 }), // Produits pour bébés
+  category9: decimal("category_9", { precision: 6, scale: 4 }), // Produits ménagers
+  category10a: decimal("category_10a", { precision: 6, scale: 4 }), // Détergents (contact direct)
+  category10b: decimal("category_10b", { precision: 6, scale: 4 }), // Détergents (contact indirect)
+  category11a: decimal("category_11a", { precision: 6, scale: 4 }), // Bougies/diffuseurs (intérieur)
+  category11b: decimal("category_11b", { precision: 6, scale: 4 }), // Bougies/diffuseurs (extérieur)
+  // Informations complémentaires
+  restrictionType: mysqlEnum("restriction_type", [
+    "prohibited", // Interdit
+    "restricted", // Limité avec concentration max
+    "specification", // Spécification requise
+    "no_restriction" // Pas de restriction
+  ]).default("no_restriction"),
+  reasonForRestriction: text("reason_for_restriction"), // Raison de la restriction (allergie, phototoxicité, etc.)
+  alternativeSuggestions: text("alternative_suggestions"), // Alternatives suggérées
+  notes: text("notes"),
+  sourceUrl: varchar("source_url", { length: 500 }), // Lien vers documentation IFRA
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type IfraRestriction = typeof ifraRestrictions.$inferSelect;
+export type InsertIfraRestriction = typeof ifraRestrictions.$inferInsert;
+
+// ============================================================================
+// RELATIONS FOR GEOGRAPHIC ORIGINS AND IFRA
+// ============================================================================
+
+export const geographicOriginsRelations = relations(geographicOrigins, ({ many }) => ({
+  moleculeOrigins: many(moleculeOrigins),
+}));
+
+export const moleculeOriginsRelations = relations(moleculeOrigins, ({ one }) => ({
+  molecule: one(molecules, {
+    fields: [moleculeOrigins.moleculeId],
+    references: [molecules.id],
+  }),
+  origin: one(geographicOrigins, {
+    fields: [moleculeOrigins.originId],
+    references: [geographicOrigins.id],
+  }),
+}));
+
+export const ifraRestrictionsRelations = relations(ifraRestrictions, ({ one }) => ({
+  molecule: one(molecules, {
+    fields: [ifraRestrictions.moleculeId],
     references: [molecules.id],
   }),
 }));

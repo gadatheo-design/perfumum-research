@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS geographic_origins (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  name VARCHAR(255) NOT NULL,\n  country VARCHAR(100) NOT NULL,\n  region VARCHAR(255),\n  terroir TEXT,\n  latitude DECIMAL(10, 7),\n  longitude DECIMAL(10, 7),\n  altitude INT,\n  climate VARCHAR(100),\n  soil_type VARCHAR(255),\n  harvest_period VARCHAR(255),\n  production_method TEXT,\n  quality_indicators TEXT,\n  historical_context TEXT,\n  economic_importance TEXT,\n  sustainability_notes TEXT,\n  image_url VARCHAR(500),\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS geographic_origins (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  name VARCHAR(255) NOT NULL,\n  country VARCHAR(100) NOT NULL,\n  region VARCHAR(255),\n  terroir TEXT,\n  latitude DECIMAL(10, 7),\n  longitude DECIMAL(10, 7),\n  altitude INT,\n  climate VARCHAR(100),\n  soil_type VARCHAR(255),\n  harvest_period VARCHAR(255),\n  production_method TEXT,\n  quality_indicators TEXT,\n  historical_context TEXT,\n  economic_importance TEXT,\n  sustainability_notes TEXT,\n  image_url VARCHAR(500),\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 189
+}

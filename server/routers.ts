@@ -1999,6 +1999,233 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // Geographic Origins (Terroirs de production)
+  geographicOrigins: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllGeographicOrigins();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getGeographicOriginById(input);
+      }),
+    getByCountry: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getGeographicOriginsByCountry(input);
+      }),
+    getMolecules: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getOriginMolecules(input);
+      }),
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(1),
+        country: z.string().min(1),
+        region: z.string().optional(),
+        terroir: z.string().optional(),
+        latitude: z.string().optional(),
+        longitude: z.string().optional(),
+        altitude: z.number().optional(),
+        climate: z.string().optional(),
+        soilType: z.string().optional(),
+        harvestPeriod: z.string().optional(),
+        productionMethod: z.string().optional(),
+        qualityIndicators: z.string().optional(),
+        historicalContext: z.string().optional(),
+        economicImportance: z.string().optional(),
+        sustainabilityNotes: z.string().optional(),
+        imageUrl: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createGeographicOrigin(input);
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          name: z.string().optional(),
+          country: z.string().optional(),
+          region: z.string().optional(),
+          terroir: z.string().optional(),
+          latitude: z.string().optional(),
+          longitude: z.string().optional(),
+          altitude: z.number().optional(),
+          climate: z.string().optional(),
+          soilType: z.string().optional(),
+          harvestPeriod: z.string().optional(),
+          productionMethod: z.string().optional(),
+          qualityIndicators: z.string().optional(),
+          historicalContext: z.string().optional(),
+          economicImportance: z.string().optional(),
+          sustainabilityNotes: z.string().optional(),
+          imageUrl: z.string().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.updateGeographicOrigin(input.id, input.data);
+      }),
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteGeographicOrigin(input);
+        return { success: true };
+      }),
+  }),
+
+  // Molecule Origins (Relations molécules-terroirs)
+  moleculeOrigins: router({
+    getByMolecule: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getMoleculeOrigins(input);
+      }),
+    add: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        originId: z.number(),
+        isPrimaryOrigin: z.number().optional(),
+        qualityRating: z.number().optional(),
+        productionVolume: z.string().optional(),
+        priceRange: z.string().optional(),
+        specificCharacteristics: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.addMoleculeOrigin(input);
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          isPrimaryOrigin: z.number().optional(),
+          qualityRating: z.number().optional(),
+          productionVolume: z.string().optional(),
+          priceRange: z.string().optional(),
+          specificCharacteristics: z.string().optional(),
+          notes: z.string().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        await db.updateMoleculeOrigin(input.id, input.data);
+        return { success: true };
+      }),
+    remove: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.removeMoleculeOrigin(input);
+        return { success: true };
+      }),
+  }),
+
+  // IFRA Restrictions
+  ifraRestrictions: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllIfraRestrictions();
+    }),
+    getByMolecule: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getMoleculeIfraRestrictions(input);
+      }),
+    getRestricted: publicProcedure.query(async () => {
+      return await db.getRestrictedMolecules();
+    }),
+    create: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        ifraAmendment: z.string().optional(),
+        effectiveDate: z.date().optional(),
+        category1: z.string().optional(),
+        category2: z.string().optional(),
+        category3: z.string().optional(),
+        category4: z.string().optional(),
+        category5a: z.string().optional(),
+        category5b: z.string().optional(),
+        category5c: z.string().optional(),
+        category5d: z.string().optional(),
+        category6: z.string().optional(),
+        category7a: z.string().optional(),
+        category7b: z.string().optional(),
+        category8: z.string().optional(),
+        category9: z.string().optional(),
+        category10a: z.string().optional(),
+        category10b: z.string().optional(),
+        category11a: z.string().optional(),
+        category11b: z.string().optional(),
+        restrictionType: z.enum(['prohibited', 'restricted', 'specification', 'no_restriction']).optional(),
+        reasonForRestriction: z.string().optional(),
+        alternativeSuggestions: z.string().optional(),
+        notes: z.string().optional(),
+        sourceUrl: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createIfraRestriction(input);
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          ifraAmendment: z.string().optional(),
+          effectiveDate: z.date().optional(),
+          category1: z.string().optional(),
+          category2: z.string().optional(),
+          category3: z.string().optional(),
+          category4: z.string().optional(),
+          category5a: z.string().optional(),
+          category5b: z.string().optional(),
+          category5c: z.string().optional(),
+          category5d: z.string().optional(),
+          category6: z.string().optional(),
+          category7a: z.string().optional(),
+          category7b: z.string().optional(),
+          category8: z.string().optional(),
+          category9: z.string().optional(),
+          category10a: z.string().optional(),
+          category10b: z.string().optional(),
+          category11a: z.string().optional(),
+          category11b: z.string().optional(),
+          restrictionType: z.enum(['prohibited', 'restricted', 'specification', 'no_restriction']).optional(),
+          reasonForRestriction: z.string().optional(),
+          alternativeSuggestions: z.string().optional(),
+          notes: z.string().optional(),
+          sourceUrl: z.string().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        await db.updateIfraRestriction(input.id, input.data);
+        return { success: true };
+      }),
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteIfraRestriction(input);
+        return { success: true };
+      }),
+  }),
+
+  // Molecule Scientific Data
+  moleculeScientificData: router({
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        iupacName: z.string().optional(),
+        casNumber: z.string().optional(),
+        chemicalClass: z.enum(['terpene', 'sesquiterpene', 'diterpene', 'monoterpene', 'aldehyde', 'ketone', 'alcohol', 'ester', 'ether', 'phenol', 'lactone', 'coumarin', 'musk', 'nitrile', 'sulfur_compound', 'heterocyclic', 'aromatic', 'aliphatic', 'other']).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateMoleculeScientificData(id, data);
+      }),
+    getWithoutCas: publicProcedure.query(async () => {
+      return await db.getMoleculesWithoutCas();
+    }),
+    getWithCas: publicProcedure.query(async () => {
+      return await db.getMoleculesWithCas();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
