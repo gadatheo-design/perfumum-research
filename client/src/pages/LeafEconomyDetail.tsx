@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useRoute, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -21,7 +22,9 @@ import {
   AlertCircle,
   Edit,
   Droplets,
-  Thermometer
+  Thermometer,
+  Camera,
+  ImageIcon
 } from "lucide-react";
 
 const climaticAxisConfig: Record<string, { label: string; icon: React.ReactNode; color: string; description: string }> = {
@@ -108,10 +111,18 @@ function parseJsonArray(value: string | null | undefined): string[] {
 export default function LeafEconomyDetail() {
   const [, params] = useRoute("/san-andres/echantillon/:id");
   const id = params?.id ? parseInt(params.id, 10) : null;
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const { data: sample, isLoading, error } = trpc.leafEconomies.getById.useQuery(
     id!,
     { enabled: id !== null }
+  );
+
+  // Récupérer les images associées à cet échantillon
+  const { data: sampleImages, isLoading: imagesLoading } = trpc.gallery.list.useQuery(
+    { leafEconomyId: id! },
+    { enabled: id !== null && isGalleryOpen }
   );
 
   if (isLoading) {
@@ -592,19 +603,148 @@ export default function LeafEconomyDetail() {
         </Tabs>
 
         {/* Actions */}
-        <div className="flex justify-between items-center mt-8 pt-6 border-t">
+        <div className="flex flex-wrap justify-between items-center gap-4 mt-8 pt-6 border-t">
           <Link href="/san-andres/leaf-economies">
             <Button variant="outline">
               <ChevronLeft className="h-4 w-4 mr-2" />
               Retour à la liste
             </Button>
           </Link>
-          <Link href={`/san-andres/echantillon/${sample.id}/edit`}>
-            <Button>
-              <Edit className="h-4 w-4 mr-2" />
-              Modifier
-            </Button>
-          </Link>
+          <div className="flex gap-2">
+            {/* Bouton Voir les photos */}
+            <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="gap-2">
+                  <Camera className="h-4 w-4" />
+                  Voir les photos
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+                <DialogHeader>
+                  <DialogTitle className="flex items-center gap-2">
+                    <ImageIcon className="h-5 w-5" />
+                    Photos de {sample.species || sample.sampleId}
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="flex-1 overflow-auto">
+                  {imagesLoading ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
+                      {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <Skeleton key={i} className="aspect-square rounded-lg" />
+                      ))}
+                    </div>
+                  ) : sampleImages && sampleImages.length > 0 ? (
+                    <>
+                      {/* Image principale sélectionnée */}
+                      <div className="relative aspect-video bg-black/5 dark:bg-white/5 rounded-lg overflow-hidden mb-4">
+                        <img
+                          src={sampleImages[selectedImageIndex]?.url}
+                          alt={sampleImages[selectedImageIndex]?.title || `Photo ${selectedImageIndex + 1}`}
+                          className="w-full h-full object-contain"
+                        />
+                        {sampleImages.length > 1 && (
+                          <>
+                            <button
+                              onClick={() => setSelectedImageIndex((prev) => (prev > 0 ? prev - 1 : sampleImages.length - 1))}
+                              className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                            >
+                              <ChevronLeft className="h-5 w-5" />
+                            </button>
+                            <button
+                              onClick={() => setSelectedImageIndex((prev) => (prev < sampleImages.length - 1 ? prev + 1 : 0))}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                            >
+                              <ChevronRight className="h-5 w-5" />
+                            </button>
+                          </>
+                        )}
+                      </div>
+                      {/* Informations de l'image */}
+                      {sampleImages[selectedImageIndex] && (
+                        <div className="mb-4 p-3 bg-muted/50 rounded-lg">
+                          <p className="font-medium">
+                            {sampleImages[selectedImageIndex].title || `Photo ${selectedImageIndex + 1}`}
+                          </p>
+                          {sampleImages[selectedImageIndex].description && (
+                            <p className="text-sm text-muted-foreground mt-1">
+                              {sampleImages[selectedImageIndex].description}
+                            </p>
+                          )}
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {sampleImages[selectedImageIndex].category && (
+                              <Badge variant="outline" className="text-xs">
+                                {sampleImages[selectedImageIndex].category}
+                              </Badge>
+                            )}
+                            {sampleImages[selectedImageIndex].location && (
+                              <Badge variant="outline" className="text-xs">
+                                <MapPin className="h-3 w-3 mr-1" />
+                                {sampleImages[selectedImageIndex].location}
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      {/* Grille de miniatures */}
+                      {sampleImages.length > 1 && (
+                        <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
+                          {sampleImages.map((img, index) => (
+                            <button
+                              key={img.id}
+                              onClick={() => setSelectedImageIndex(index)}
+                              className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                                index === selectedImageIndex
+                                  ? "border-emerald-500 ring-2 ring-emerald-500/30"
+                                  : "border-transparent hover:border-emerald-300"
+                              }`}
+                            >
+                              <img
+                                src={img.url}
+                                alt={img.title || `Photo ${index + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                      <ImageIcon className="h-16 w-16 text-muted-foreground/30 mb-4" />
+                      <h3 className="text-lg font-medium mb-2">Aucune photo</h3>
+                      <p className="text-muted-foreground mb-4">
+                        Cet échantillon n'a pas encore de photos associées.
+                      </p>
+                      <Link href="/galerie">
+                        <Button variant="outline" size="sm">
+                          <Camera className="h-4 w-4 mr-2" />
+                          Ajouter des photos
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+                {sampleImages && sampleImages.length > 0 && (
+                  <div className="flex justify-between items-center pt-4 border-t">
+                    <p className="text-sm text-muted-foreground">
+                      {sampleImages.length} photo{sampleImages.length > 1 ? "s" : ""}
+                    </p>
+                    <Link href={`/galerie?leafEconomyId=${sample.id}`}>
+                      <Button variant="outline" size="sm">
+                        Voir dans la galerie
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </DialogContent>
+            </Dialog>
+            <Link href={`/san-andres/echantillon/${sample.id}/edit`}>
+              <Button>
+                <Edit className="h-4 w-4 mr-2" />
+                Modifier
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

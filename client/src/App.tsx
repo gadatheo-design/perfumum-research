@@ -190,6 +190,7 @@ import { Timeline } from "./pages/Timeline";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
 import GalerieBotaniques from "./pages/GalerieBotaniques";
 import Gallery from "./pages/Gallery";
+import BatchImport from "./pages/BatchImport";
 import Ifra from "./pages/Ifra";
 
 // === CIVILISATIONS & TRADITIONS ===
@@ -397,6 +398,8 @@ function Router() {
       <Route path="/galerie-botaniques" component={GalerieBotaniques} />
       <Route path="/galerie" component={Gallery} />
       <Route path="/gallery" component={Gallery} />
+      <Route path="/galerie/import" component={BatchImport} />
+      <Route path="/batch-import" component={BatchImport} />
       <Route path="/ifra" component={Ifra} />
       <Route path="/reglementation-ifra" component={Ifra} />
       
