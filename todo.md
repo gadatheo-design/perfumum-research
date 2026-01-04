@@ -761,3 +761,39 @@
 - [x] Écrire les tests unitaires (6 tests passés)
 - [x] Valider les données importées
 
+
+
+---
+
+## 🖼️ SESSION 04 JAN 2026 - UPLOAD S3, GALERIE & CALCULATEUR IFRA
+
+### Upload d'images vers S3 (remplacer base64)
+- [x] Analyser le système d'upload actuel (base64 local)
+- [x] Créer la procédure tRPC pour upload vers S3 (`upload.galleryImage`)
+- [x] Modifier le composant ImageUpload pour utiliser S3
+- [x] Ajouter la gestion des erreurs et du loading
+- [x] Tester l'upload pour les utilisateurs connectés
+
+### Galerie d'images des échantillons
+- [x] Créer le schéma de table `sample_images` pour stocker les métadonnées
+- [x] Créer les procédures tRPC pour la galerie (list, add, delete, update, stats)
+- [x] Créer la page Galerie avec grille d'images responsive (`/galerie`)
+- [x] Ajouter les filtres par échantillon, date, catégorie
+- [x] Créer la vue lightbox pour agrandir les images (navigation flèches)
+- [x] Intégrer la galerie dans le menu principal (routes `/galerie` et `/gallery`)
+
+### Calculateur de conformité IFRA
+- [x] Analyser les données IFRA existantes (limites par catégorie)
+- [x] Créer l'interface du calculateur (sélection formule, catégorie produit)
+- [x] Implémenter le calcul de conformité (% vs limite) - formule complète multi-molécules
+- [x] Afficher les résultats avec indicateurs visuels (conforme/non-conforme, marges, barre de progression)
+- [x] Créer les alertes pour les dépassements de limites (tableau détaillé par ingrédient)
+- [x] Intégrer le calculateur dans la page IFRA (onglet "Calculateur Formule")
+
+### Tests et validation
+- [x] Écrire les tests unitaires pour l'upload S3 (3 tests)
+- [x] Écrire les tests unitaires pour la galerie (5 tests)
+- [x] Écrire les tests unitaires pour le calculateur IFRA (5 tests)
+- [x] Tester sur desktop et mobile (TypeScript OK)
+- [x] Créer le checkpoint final
+

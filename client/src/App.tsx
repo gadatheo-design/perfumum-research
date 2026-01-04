@@ -189,6 +189,7 @@ import Manifeste from "./pages/Manifeste";
 import { Timeline } from "./pages/Timeline";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
 import GalerieBotaniques from "./pages/GalerieBotaniques";
+import Gallery from "./pages/Gallery";
 import Ifra from "./pages/Ifra";
 
 // === CIVILISATIONS & TRADITIONS ===
@@ -394,6 +395,8 @@ function Router() {
       <Route path="/contribuer" component={Contribuer} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/galerie-botaniques" component={GalerieBotaniques} />
+      <Route path="/galerie" component={Gallery} />
+      <Route path="/gallery" component={Gallery} />
       <Route path="/ifra" component={Ifra} />
       <Route path="/reglementation-ifra" component={Ifra} />
       

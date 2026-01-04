@@ -3168,6 +3168,260 @@ export const appRouter = router({
         
         return { url };
       }),
+    
+    // Upload générique vers S3 pour la galerie
+    galleryImage: protectedProcedure
+      .input(z.object({
+        imageData: z.string(), // Base64 encoded image
+        fileName: z.string(),
+        contentType: z.string(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        leafEconomyId: z.number().optional(),
+        plantId: z.number().optional(),
+        category: z.enum(['echantillon', 'extraction', 'analyse', 'terrain', 'equipement', 'autre']).default('echantillon'),
+        tags: z.array(z.string()).optional(),
+        location: z.string().optional(),
+        capturedAt: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const { storagePut } = await import('./storage');
+        
+        // Décoder le base64
+        const base64Data = input.imageData.replace(/^data:image\/\w+;base64,/, '');
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        // Générer un nom de fichier unique
+        const timestamp = Date.now();
+        const randomSuffix = Math.random().toString(36).substring(2, 8);
+        const extension = input.fileName.split('.').pop() || 'jpg';
+        const fileKey = `gallery/${input.category}/${timestamp}-${randomSuffix}.${extension}`;
+        
+        // Upload vers S3
+        const { url } = await storagePut(fileKey, buffer, input.contentType);
+        
+        // Créer l'entrée dans la base de données
+        const imageData = await db.createSampleImage({
+          url,
+          fileKey,
+          fileName: input.fileName,
+          mimeType: input.contentType,
+          fileSize: buffer.length,
+          title: input.title,
+          description: input.description,
+          leafEconomyId: input.leafEconomyId,
+          plantId: input.plantId,
+          category: input.category,
+          tags: input.tags,
+          location: input.location,
+          capturedAt: input.capturedAt ? new Date(input.capturedAt) : undefined,
+          uploadedBy: ctx.user?.id,
+        });
+        
+        return imageData;
+      }),
+  }),
+
+  // Galerie d'images
+  gallery: router({
+    list: publicProcedure
+      .input(z.object({
+        category: z.string().optional(),
+        leafEconomyId: z.number().optional(),
+        plantId: z.number().optional(),
+        limit: z.number().default(50),
+      }).optional())
+      .query(async ({ input }) => {
+        if (input?.category) {
+          return db.getSampleImagesByCategory(input.category);
+        }
+        if (input?.leafEconomyId) {
+          return db.getSampleImagesByLeafEconomy(input.leafEconomyId);
+        }
+        if (input?.plantId) {
+          return db.getSampleImagesByPlant(input.plantId);
+        }
+        return db.getAllSampleImages();
+      }),
+    
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getSampleImageById(input);
+      }),
+    
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          title: z.string().optional(),
+          description: z.string().optional(),
+          category: z.enum(['echantillon', 'extraction', 'analyse', 'terrain', 'equipement', 'autre']).optional(),
+          tags: z.array(z.string()).optional(),
+          location: z.string().optional(),
+          capturedAt: z.string().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateSampleImage(input.id, {
+          ...input.data,
+          capturedAt: input.data.capturedAt ? new Date(input.data.capturedAt) : undefined,
+        });
+      }),
+    
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteSampleImage(input);
+        return { success: true };
+      }),
+    
+    searchByTags: publicProcedure
+      .input(z.array(z.string()))
+      .query(async ({ input }) => {
+        return db.searchSampleImagesByTags(input);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return db.getSampleImagesStats();
+    }),
+  }),
+
+  // Calculateur de conformité IFRA avancé
+  ifraCalculator: router({
+    // Vérifier la conformité d'une formule complète
+    checkFormula: publicProcedure
+      .input(z.object({
+        categoryCode: z.string(),
+        ingredients: z.array(z.object({
+          moleculeId: z.number(),
+          concentration: z.number(), // % dans la formule finale
+        })),
+      }))
+      .query(async ({ input }) => {
+        const restrictions = await db.getAllIfraRestrictions();
+        const results: Array<{
+          moleculeId: number;
+          moleculeName: string;
+          concentration: number;
+          limit: number | null;
+          isCompliant: boolean;
+          margin: number | null;
+          restrictionType: string;
+        }> = [];
+        
+        // Mapping des codes de catégorie vers les colonnes
+        const categoryMap: Record<string, string> = {
+          '1': 'category1',
+          '2': 'category2',
+          '3': 'category3',
+          '4': 'category4',
+          '5A': 'category5a',
+          '5B': 'category5b',
+          '5C': 'category5c',
+          '5D': 'category5d',
+          '6': 'category6',
+          '7A': 'category7a',
+          '7B': 'category7b',
+          '8': 'category8',
+          '9': 'category9',
+          '10A': 'category10a',
+          '10B': 'category10b',
+          '11A': 'category11a',
+          '11B': 'category11b',
+        };
+        
+        const column = categoryMap[input.categoryCode.toUpperCase()];
+        
+        for (const ingredient of input.ingredients) {
+          const restriction = restrictions.find(r => r.molecule.id === ingredient.moleculeId);
+          
+          if (!restriction) {
+            // Pas de restriction connue
+            results.push({
+              moleculeId: ingredient.moleculeId,
+              moleculeName: 'Molécule inconnue',
+              concentration: ingredient.concentration,
+              limit: null,
+              isCompliant: true,
+              margin: null,
+              restrictionType: 'no_restriction',
+            });
+            continue;
+          }
+          
+          const limit = column ? (restriction.restriction as any)[column] : null;
+          const limitNum = limit ? parseFloat(limit) : null;
+          
+          let isCompliant = true;
+          let margin: number | null = null;
+          
+          if (restriction.restriction.restrictionType === 'prohibited') {
+            isCompliant = false;
+          } else if (limitNum !== null && limitNum > 0) {
+            isCompliant = ingredient.concentration <= limitNum;
+            margin = limitNum - ingredient.concentration;
+          }
+          
+          results.push({
+            moleculeId: ingredient.moleculeId,
+            moleculeName: restriction.molecule.name,
+            concentration: ingredient.concentration,
+            limit: limitNum,
+            isCompliant,
+            margin,
+            restrictionType: restriction.restriction.restrictionType || 'no_restriction',
+          });
+        }
+        
+        const allCompliant = results.every(r => r.isCompliant);
+        const nonCompliantCount = results.filter(r => !r.isCompliant).length;
+        
+        return {
+          isCompliant: allCompliant,
+          nonCompliantCount,
+          totalIngredients: input.ingredients.length,
+          results,
+        };
+      }),
+    
+    // Récupérer les limites pour une catégorie donnée
+    getLimitsForCategory: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        const restrictions = await db.getAllIfraRestrictions();
+        
+        const categoryMap: Record<string, string> = {
+          '1': 'category1',
+          '2': 'category2',
+          '3': 'category3',
+          '4': 'category4',
+          '5A': 'category5a',
+          '5B': 'category5b',
+          '5C': 'category5c',
+          '5D': 'category5d',
+          '6': 'category6',
+          '7A': 'category7a',
+          '7B': 'category7b',
+          '8': 'category8',
+          '9': 'category9',
+          '10A': 'category10a',
+          '10B': 'category10b',
+          '11A': 'category11a',
+          '11B': 'category11b',
+        };
+        
+        const column = categoryMap[input.toUpperCase()];
+        
+        return restrictions.map(r => ({
+          moleculeId: r.molecule.id,
+          moleculeName: r.molecule.name,
+          casNumber: r.molecule.casNumber,
+          limit: column ? (r.restriction as any)[column] : null,
+          restrictionType: r.restriction.restrictionType,
+          reason: r.restriction.reasonForRestriction,
+        })).filter(r => r.limit !== null || r.restrictionType === 'prohibited');
+      }),
   }),
 });
 

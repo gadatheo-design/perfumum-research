@@ -7,23 +7,50 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Search, AlertTriangle, CheckCircle, XCircle, Info, Calculator } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import { 
+  Search, 
+  AlertTriangle, 
+  CheckCircle, 
+  XCircle, 
+  Info, 
+  Calculator,
+  Plus,
+  Trash2,
+  FileText,
+  Beaker,
+  ShieldCheck,
+  ShieldAlert,
+  Percent
+} from "lucide-react";
+
+interface FormulaIngredient {
+  moleculeId: number;
+  moleculeName: string;
+  concentration: number;
+}
 
 export default function Ifra() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [concentration, setConcentration] = useState<string>("");
   const [selectedMoleculeId, setSelectedMoleculeId] = useState<number | null>(null);
+  
+  // État pour le calculateur de formule
+  const [formulaIngredients, setFormulaIngredients] = useState<FormulaIngredient[]>([]);
+  const [newIngredientId, setNewIngredientId] = useState<string>("");
+  const [newIngredientConc, setNewIngredientConc] = useState<string>("");
+  const [formulaCategory, setFormulaCategory] = useState<string>("");
 
   // Queries
   const { data: restrictions, isLoading: loadingRestrictions } = trpc.ifraRestrictions.list.useQuery();
   const { data: categories } = trpc.ifraCategories.list.useQuery();
   const { data: stats } = trpc.ifraCategories.getStats.useQuery();
-  const { data: searchResults } = trpc.ifraCategories.searchByName.useQuery(searchTerm, {
-    enabled: searchTerm.length >= 2,
-  });
+  const { data: allMolecules } = trpc.molecules.list.useQuery();
 
-  // Calcul de conformité
+  // Calcul de conformité simple (une molécule)
   const { data: complianceResult } = trpc.ifraCategories.checkCompliance.useQuery(
     {
       moleculeId: selectedMoleculeId!,
@@ -32,6 +59,20 @@ export default function Ifra() {
     },
     {
       enabled: !!selectedMoleculeId && !!selectedCategory && !!concentration,
+    }
+  );
+
+  // Calcul de conformité de la formule complète
+  const { data: formulaResult, isLoading: checkingFormula } = trpc.ifraCalculator.checkFormula.useQuery(
+    {
+      categoryCode: formulaCategory,
+      ingredients: formulaIngredients.map(i => ({
+        moleculeId: i.moleculeId,
+        concentration: i.concentration,
+      })),
+    },
+    {
+      enabled: formulaIngredients.length > 0 && !!formulaCategory,
     }
   );
 
@@ -78,12 +119,54 @@ export default function Ifra() {
     return column ? restriction.restriction[column] : null;
   };
 
+  // Ajouter un ingrédient à la formule
+  const addIngredient = () => {
+    if (!newIngredientId || !newIngredientConc) return;
+    
+    const molecule = allMolecules?.find(m => m.id === parseInt(newIngredientId));
+    if (!molecule) return;
+    
+    // Vérifier si la molécule n'est pas déjà dans la liste
+    if (formulaIngredients.some(i => i.moleculeId === molecule.id)) {
+      return;
+    }
+    
+    setFormulaIngredients([
+      ...formulaIngredients,
+      {
+        moleculeId: molecule.id,
+        moleculeName: molecule.name,
+        concentration: parseFloat(newIngredientConc),
+      },
+    ]);
+    
+    setNewIngredientId("");
+    setNewIngredientConc("");
+  };
+
+  // Supprimer un ingrédient
+  const removeIngredient = (moleculeId: number) => {
+    setFormulaIngredients(formulaIngredients.filter(i => i.moleculeId !== moleculeId));
+  };
+
+  // Réinitialiser la formule
+  const resetFormula = () => {
+    setFormulaIngredients([]);
+    setFormulaCategory("");
+  };
+
+  // Calculer le total des concentrations
+  const totalConcentration = formulaIngredients.reduce((sum, i) => sum + i.concentration, 0);
+
   return (
     <div className="container py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Réglementation IFRA</h1>
+        <h1 className="text-3xl font-bold mb-2 flex items-center gap-2">
+          <ShieldCheck className="h-8 w-8 text-primary" />
+          Réglementation IFRA
+        </h1>
         <p className="text-muted-foreground">
-          Consultez les restrictions de l'International Fragrance Association et calculez les limites autorisées par type de produit.
+          Consultez les restrictions de l'International Fragrance Association et vérifiez la conformité de vos formules.
         </p>
       </div>
 
@@ -123,12 +206,251 @@ export default function Ifra() {
         </div>
       )}
 
-      <Tabs defaultValue="search" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="search">Recherche</TabsTrigger>
-          <TabsTrigger value="calculator">Calculateur</TabsTrigger>
-          <TabsTrigger value="categories">Catégories</TabsTrigger>
+      <Tabs defaultValue="formula-calculator" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="formula-calculator" className="gap-2">
+            <Beaker className="h-4 w-4" />
+            <span className="hidden sm:inline">Calculateur Formule</span>
+            <span className="sm:hidden">Formule</span>
+          </TabsTrigger>
+          <TabsTrigger value="search" className="gap-2">
+            <Search className="h-4 w-4" />
+            <span className="hidden sm:inline">Recherche</span>
+          </TabsTrigger>
+          <TabsTrigger value="calculator" className="gap-2">
+            <Calculator className="h-4 w-4" />
+            <span className="hidden sm:inline">Molécule unique</span>
+            <span className="sm:hidden">Simple</span>
+          </TabsTrigger>
+          <TabsTrigger value="categories" className="gap-2">
+            <FileText className="h-4 w-4" />
+            <span className="hidden sm:inline">Catégories</span>
+          </TabsTrigger>
         </TabsList>
+
+        {/* Onglet Calculateur de Formule */}
+        <TabsContent value="formula-calculator" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Beaker className="h-5 w-5" />
+                Calculateur de conformité de formule
+              </CardTitle>
+              <CardDescription>
+                Vérifiez si votre formule complète respecte les limites IFRA pour une catégorie de produit donnée
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Sélection de la catégorie */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Catégorie de produit</label>
+                <Select value={formulaCategory} onValueChange={setFormulaCategory}>
+                  <SelectTrigger className="w-full md:w-[400px]">
+                    <SelectValue placeholder="Sélectionner une catégorie de produit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories?.map((cat) => (
+                      <SelectItem key={cat.code} value={cat.code}>
+                        Cat {cat.code}: {cat.nameFr || cat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Separator />
+
+              {/* Ajout d'ingrédients */}
+              <div className="space-y-4">
+                <h4 className="font-medium">Ingrédients de la formule</h4>
+                
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1">
+                    <Select value={newIngredientId} onValueChange={setNewIngredientId}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Sélectionner une molécule" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {allMolecules?.map((m) => (
+                          <SelectItem 
+                            key={m.id} 
+                            value={m.id.toString()}
+                            disabled={formulaIngredients.some(i => i.moleculeId === m.id)}
+                          >
+                            {m.name} {m.casNumber ? `(CAS: ${m.casNumber})` : ""}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="w-full md:w-32">
+                    <Input
+                      type="number"
+                      step="0.001"
+                      min="0"
+                      max="100"
+                      placeholder="% conc."
+                      value={newIngredientConc}
+                      onChange={(e) => setNewIngredientConc(e.target.value)}
+                    />
+                  </div>
+                  <Button onClick={addIngredient} disabled={!newIngredientId || !newIngredientConc}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Ajouter
+                  </Button>
+                </div>
+
+                {/* Liste des ingrédients */}
+                {formulaIngredients.length > 0 ? (
+                  <div className="border rounded-lg overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Molécule</TableHead>
+                          <TableHead className="text-right">Concentration</TableHead>
+                          <TableHead className="w-[50px]"></TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {formulaIngredients.map((ingredient) => (
+                          <TableRow key={ingredient.moleculeId}>
+                            <TableCell className="font-medium">{ingredient.moleculeName}</TableCell>
+                            <TableCell className="text-right">{ingredient.concentration}%</TableCell>
+                            <TableCell>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => removeIngredient(ingredient.moleculeId)}
+                              >
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                        <TableRow className="bg-muted/50">
+                          <TableCell className="font-bold">Total</TableCell>
+                          <TableCell className="text-right font-bold">{totalConcentration.toFixed(3)}%</TableCell>
+                          <TableCell></TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground border rounded-lg">
+                    <Beaker className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                    <p>Ajoutez des molécules à votre formule pour vérifier la conformité IFRA</p>
+                  </div>
+                )}
+
+                {formulaIngredients.length > 0 && (
+                  <Button variant="outline" onClick={resetFormula}>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Réinitialiser la formule
+                  </Button>
+                )}
+              </div>
+
+              {/* Résultats */}
+              {formulaResult && (
+                <div className="space-y-4">
+                  <Separator />
+                  
+                  <Alert variant={formulaResult.isCompliant ? "default" : "destructive"}>
+                    {formulaResult.isCompliant ? (
+                      <ShieldCheck className="h-4 w-4" />
+                    ) : (
+                      <ShieldAlert className="h-4 w-4" />
+                    )}
+                    <AlertTitle className="text-lg">
+                      {formulaResult.isCompliant ? "Formule conforme" : "Formule non conforme"}
+                    </AlertTitle>
+                    <AlertDescription>
+                      {formulaResult.isCompliant ? (
+                        <p>Tous les ingrédients respectent les limites IFRA pour cette catégorie de produit.</p>
+                      ) : (
+                        <p>
+                          <strong>{formulaResult.nonCompliantCount}</strong> ingrédient(s) sur{" "}
+                          <strong>{formulaResult.totalIngredients}</strong> dépassent les limites autorisées.
+                        </p>
+                      )}
+                    </AlertDescription>
+                  </Alert>
+
+                  {/* Détail par ingrédient */}
+                  <div className="border rounded-lg overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Molécule</TableHead>
+                          <TableHead className="text-center">Concentration</TableHead>
+                          <TableHead className="text-center">Limite IFRA</TableHead>
+                          <TableHead className="text-center">Marge</TableHead>
+                          <TableHead className="text-center">Statut</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {formulaResult.results.map((result) => (
+                          <TableRow 
+                            key={result.moleculeId}
+                            className={!result.isCompliant ? "bg-destructive/10" : ""}
+                          >
+                            <TableCell className="font-medium">{result.moleculeName}</TableCell>
+                            <TableCell className="text-center">{result.concentration}%</TableCell>
+                            <TableCell className="text-center">
+                              {result.restrictionType === "prohibited" ? (
+                                <Badge variant="destructive">Interdit</Badge>
+                              ) : result.limit !== null ? (
+                                `${result.limit}%`
+                              ) : (
+                                <span className="text-muted-foreground">—</span>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              {result.margin !== null ? (
+                                <span className={result.margin >= 0 ? "text-green-600" : "text-red-600"}>
+                                  {result.margin >= 0 ? "+" : ""}{result.margin.toFixed(3)}%
+                                </span>
+                              ) : (
+                                <span className="text-muted-foreground">—</span>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              {result.isCompliant ? (
+                                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                                  <CheckCircle className="h-3 w-3 mr-1" />
+                                  OK
+                                </Badge>
+                              ) : (
+                                <Badge variant="destructive">
+                                  <XCircle className="h-3 w-3 mr-1" />
+                                  Non conforme
+                                </Badge>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+
+                  {/* Barre de progression */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Conformité globale</span>
+                      <span>
+                        {formulaResult.totalIngredients - formulaResult.nonCompliantCount} / {formulaResult.totalIngredients} ingrédients conformes
+                      </span>
+                    </div>
+                    <Progress 
+                      value={((formulaResult.totalIngredients - formulaResult.nonCompliantCount) / formulaResult.totalIngredients) * 100} 
+                      className={formulaResult.isCompliant ? "" : "[&>div]:bg-destructive"}
+                    />
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         {/* Onglet Recherche */}
         <TabsContent value="search" className="space-y-6">
@@ -197,7 +519,7 @@ export default function Ifra() {
                             { code: "4", label: "Parfum" },
                             { code: "5A", label: "Corps" },
                             { code: "7A", label: "Cheveux" },
-                            { code: "10B", label: "Bougies" },
+                            { code: "11A", label: "Bougies" },
                           ].map(({ code, label }) => {
                             const limit = getCategoryLimit(item, code);
                             return (
@@ -228,16 +550,16 @@ export default function Ifra() {
           )}
         </TabsContent>
 
-        {/* Onglet Calculateur */}
+        {/* Onglet Calculateur Simple */}
         <TabsContent value="calculator" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calculator className="h-5 w-5" />
-                Calculateur de conformité IFRA
+                Calculateur de conformité (molécule unique)
               </CardTitle>
               <CardDescription>
-                Vérifiez si votre concentration est conforme aux limites IFRA
+                Vérifiez rapidement si une concentration est conforme aux limites IFRA
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">

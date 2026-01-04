@@ -3294,3 +3294,69 @@ export const ifraCategories = mysqlTable("ifra_categories", {
 
 export type IfraCategory = typeof ifraCategories.$inferSelect;
 export type InsertIfraCategory = typeof ifraCategories.$inferInsert;
+
+
+// ============================================================================
+// SAMPLE IMAGES (Galerie d'images des échantillons)
+// ============================================================================
+
+export const sampleImages = mysqlTable("sample_images", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  title: varchar("title", { length: 255 }),
+  description: text("description"),
+  // Fichier
+  url: varchar("url", { length: 500 }).notNull(), // URL S3
+  fileKey: varchar("file_key", { length: 255 }).notNull(), // Clé S3
+  fileName: varchar("file_name", { length: 255 }),
+  mimeType: varchar("mime_type", { length: 100 }),
+  fileSize: int("file_size"), // Taille en bytes
+  // Dimensions
+  width: int("width"),
+  height: int("height"),
+  // Associations
+  leafEconomyId: int("leaf_economy_id").references(() => leafEconomies.id),
+  plantId: int("plant_id").references(() => plants.id),
+  // Catégorisation
+  category: mysqlEnum("category", [
+    "echantillon", // Photo d'échantillon
+    "extraction", // Photo du processus d'extraction
+    "analyse", // Photo d'analyse (GC-MS, etc.)
+    "terrain", // Photo de terrain
+    "equipement", // Photo d'équipement
+    "autre"
+  ]).default("echantillon"),
+  // Tags pour recherche
+  tags: json("tags").$type<string[]>(),
+  // Métadonnées
+  capturedAt: timestamp("captured_at"), // Date de prise de vue
+  location: varchar("location", { length: 255 }), // Lieu de prise de vue
+  photographer: varchar("photographer", { length: 255 }),
+  // Utilisateur
+  uploadedBy: int("uploaded_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  leafEconomyIdx: index("sample_images_leaf_economy_idx").on(table.leafEconomyId),
+  plantIdx: index("sample_images_plant_idx").on(table.plantId),
+  categoryIdx: index("sample_images_category_idx").on(table.category),
+}));
+
+export type SampleImage = typeof sampleImages.$inferSelect;
+export type InsertSampleImage = typeof sampleImages.$inferInsert;
+
+// Relations pour sample_images
+export const sampleImagesRelations = relations(sampleImages, ({ one }) => ({
+  leafEconomy: one(leafEconomies, {
+    fields: [sampleImages.leafEconomyId],
+    references: [leafEconomies.id],
+  }),
+  plant: one(plants, {
+    fields: [sampleImages.plantId],
+    references: [plants.id],
+  }),
+  uploadedByUser: one(users, {
+    fields: [sampleImages.uploadedBy],
+    references: [users.id],
+  }),
+}));
