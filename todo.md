@@ -943,3 +943,42 @@
 - [ ] Tester toutes les modifications sur mobile
 - [ ] Créer le checkpoint final
 - [ ] Documenter les changements
+
+
+---
+
+## 🌐 SESSION 04 JAN 2026 - AMÉLIORATION GLOBALE DE TOUTES LES PAGES
+
+### Phase 1 : Inventaire et checkpoint
+- [ ] Sauvegarder le checkpoint des modifications actuelles
+- [ ] Lister toutes les pages du site à améliorer
+
+### Phase 2 : Pages de données
+- [ ] Améliorer la page Gammes (cohérence visuelle)
+- [ ] Améliorer la page Formules de Référence
+- [ ] Améliorer la page Recherche Avancée
+
+### Phase 3 : Pages d'outils
+- [ ] Améliorer l'Éditeur de Formulation
+- [ ] Améliorer le Générateur de Formules IA
+- [ ] Améliorer le Calculateur
+- [ ] Améliorer la page Synergies
+
+### Phase 4 : Pages de visualisation
+- [ ] Améliorer le Diagramme Sankey
+- [ ] Améliorer la Heatmap Synergies
+- [ ] Améliorer le Graphe Réseau
+- [ ] Améliorer le Radar Enrichi
+
+### Phase 5 : Pages de méthodologie et ressources
+- [ ] Améliorer les pages Méthode ABSORBE
+- [ ] Améliorer les pages GC-MS et Pyrolyse
+- [ ] Améliorer les pages Archives de Terrain
+- [ ] Améliorer le Glossaire
+- [ ] Améliorer la Timeline
+- [ ] Améliorer les pages À propos et Contribuer
+
+### Phase 6 : Tests et livraison
+- [ ] Tester toutes les pages sur desktop
+- [ ] Tester toutes les pages sur mobile
+- [ ] Créer le checkpoint final
