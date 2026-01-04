@@ -4584,6 +4584,496 @@ export const appRouter = router({
         };
       }),
   }),
+
+  // ============================================================================
+  // TOBACCO-CANNABIS-PERFUME INTERACTIONS
+  // ============================================================================
+  
+  molecularInteractions: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllMolecularInteractions();
+    }),
+    
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getMolecularInteractionById(input);
+      }),
+    
+    getByCategory: publicProcedure
+      .input(z.enum(['tabac_cannabis', 'tabac_parfum', 'cannabis_parfum', 'tabac_cannabis_parfum']))
+      .query(async ({ input }) => {
+        return await db.getMolecularInteractionsByCategory(input);
+      }),
+    
+    getBySynergyType: publicProcedure
+      .input(z.enum(['entourage', 'potentiation', 'bridge', 'stabilization', 'transformation', 'masking']))
+      .query(async ({ input }) => {
+        return await db.getMolecularInteractionsBySynergyType(input);
+      }),
+    
+    create: protectedProcedure
+      .input(z.object({
+        interactionId: z.string(),
+        name: z.string(),
+        sourceCategory: z.enum(['tabac_cannabis', 'tabac_parfum', 'cannabis_parfum', 'tabac_cannabis_parfum']),
+        molecule1Id: z.number().optional(),
+        molecule2Id: z.number().optional(),
+        molecule3Id: z.number().optional(),
+        terpeneProfile: z.array(z.object({
+          name: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+          function: z.string().optional(),
+        })).optional(),
+        synergyType: z.enum(['entourage', 'potentiation', 'bridge', 'stabilization', 'transformation', 'masking']),
+        compatibilityScore: z.number().min(0).max(100).default(50),
+        description: z.string().optional(),
+        olfactiveResult: z.string().optional(),
+        applications: z.string().optional(),
+        scientificBasis: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createMolecularInteraction(input);
+      }),
+    
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        interactionId: z.string().optional(),
+        name: z.string().optional(),
+        sourceCategory: z.enum(['tabac_cannabis', 'tabac_parfum', 'cannabis_parfum', 'tabac_cannabis_parfum']).optional(),
+        molecule1Id: z.number().optional().nullable(),
+        molecule2Id: z.number().optional().nullable(),
+        molecule3Id: z.number().optional().nullable(),
+        terpeneProfile: z.array(z.object({
+          name: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+          function: z.string().optional(),
+        })).optional(),
+        synergyType: z.enum(['entourage', 'potentiation', 'bridge', 'stabilization', 'transformation', 'masking']).optional(),
+        compatibilityScore: z.number().min(0).max(100).optional(),
+        description: z.string().optional().nullable(),
+        olfactiveResult: z.string().optional().nullable(),
+        applications: z.string().optional().nullable(),
+        scientificBasis: z.string().optional().nullable(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await db.updateMolecularInteraction(id, data);
+        return { success: true };
+      }),
+    
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteMolecularInteraction(input);
+        return { success: true };
+      }),
+    
+    getGraphData: publicProcedure.query(async () => {
+      return await db.getInteractionsGraphData();
+    }),
+  }),
+  
+  aromaticAccords: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllAromaticAccords();
+    }),
+    
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getAromaticAccordById(input);
+      }),
+    
+    getByCategory: publicProcedure
+      .input(z.enum(['fumoir', 'hash', 'herbal', 'hybrid']))
+      .query(async ({ input }) => {
+        return await db.getAromaticAccordsByCategory(input);
+      }),
+    
+    create: protectedProcedure
+      .input(z.object({
+        accordId: z.string(),
+        name: z.string(),
+        category: z.enum(['fumoir', 'hash', 'herbal', 'hybrid']),
+        topNotes: z.array(z.object({
+          molecule: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+        })).optional(),
+        heartNotes: z.array(z.object({
+          molecule: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+        })).optional(),
+        baseNotes: z.array(z.object({
+          molecule: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+        })).optional(),
+        formula: z.string().optional(),
+        formulaJson: z.array(z.object({
+          ingredient: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+          role: z.enum(['top', 'heart', 'base', 'modifier']),
+        })).optional(),
+        terpeneProfile: z.array(z.object({
+          terpene: z.string(),
+          percentage: z.number(),
+          contribution: z.string(),
+        })).optional(),
+        description: z.string().optional(),
+        inspiration: z.string().optional(),
+        targetEffect: z.string().optional(),
+        diffusion: z.enum(['faible', 'moyenne', 'forte']).optional(),
+        tenacity: z.enum(['fugace', 'modérée', 'tenace']).optional(),
+        sillage: z.enum(['intime', 'modéré', 'puissant']).optional(),
+        usageRecommendations: z.string().optional(),
+        dilutionRecommendation: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createAromaticAccord(input);
+      }),
+    
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        accordId: z.string().optional(),
+        name: z.string().optional(),
+        category: z.enum(['fumoir', 'hash', 'herbal', 'hybrid']).optional(),
+        topNotes: z.array(z.object({
+          molecule: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+        })).optional(),
+        heartNotes: z.array(z.object({
+          molecule: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+        })).optional(),
+        baseNotes: z.array(z.object({
+          molecule: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+        })).optional(),
+        formula: z.string().optional().nullable(),
+        formulaJson: z.array(z.object({
+          ingredient: z.string(),
+          percentage: z.number(),
+          source: z.enum(['tabac', 'cannabis', 'parfum']),
+          role: z.enum(['top', 'heart', 'base', 'modifier']),
+        })).optional(),
+        terpeneProfile: z.array(z.object({
+          terpene: z.string(),
+          percentage: z.number(),
+          contribution: z.string(),
+        })).optional(),
+        description: z.string().optional().nullable(),
+        inspiration: z.string().optional().nullable(),
+        targetEffect: z.string().optional().nullable(),
+        diffusion: z.enum(['faible', 'moyenne', 'forte']).optional(),
+        tenacity: z.enum(['fugace', 'modérée', 'tenace']).optional(),
+        sillage: z.enum(['intime', 'modéré', 'puissant']).optional(),
+        usageRecommendations: z.string().optional().nullable(),
+        dilutionRecommendation: z.string().optional().nullable(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await db.updateAromaticAccord(id, data);
+        return { success: true };
+      }),
+    
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteAromaticAccord(input);
+        return { success: true };
+      }),
+  }),
+  
+  terpeneComparison: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllTerpeneComparisonProfiles();
+    }),
+    
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getTerpeneComparisonProfileById(input);
+      }),
+    
+    getBySource: publicProcedure
+      .input(z.enum(['tabac', 'cannabis', 'parfum']))
+      .query(async ({ input }) => {
+        return await db.getTerpeneComparisonProfilesBySource(input);
+      }),
+    
+    getComparisonData: publicProcedure
+      .input(z.array(z.number()))
+      .query(async ({ input }) => {
+        return await db.getTerpeneComparisonData(input);
+      }),
+    
+    create: protectedProcedure
+      .input(z.object({
+        profileId: z.string(),
+        name: z.string(),
+        sourceType: z.enum(['tabac', 'cannabis', 'parfum']),
+        sourceId: z.number().optional(),
+        sourceName: z.string().optional(),
+        myrcene: z.number().min(0).max(100).default(0),
+        limonene: z.number().min(0).max(100).default(0),
+        pinene: z.number().min(0).max(100).default(0),
+        linalool: z.number().min(0).max(100).default(0),
+        caryophyllene: z.number().min(0).max(100).default(0),
+        humulene: z.number().min(0).max(100).default(0),
+        terpinolene: z.number().min(0).max(100).default(0),
+        ocimene: z.number().min(0).max(100).default(0),
+        bisabolol: z.number().min(0).max(100).default(0),
+        geraniol: z.number().min(0).max(100).default(0),
+        additionalTerpenes: z.array(z.object({
+          name: z.string(),
+          value: z.number(),
+        })).optional(),
+        dominantNote: z.string().optional(),
+        olfactiveDescription: z.string().optional(),
+        aromaticBridges: z.array(z.object({
+          terpene: z.string(),
+          bridgesWith: z.string(),
+          commonality: z.number(),
+        })).optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createTerpeneComparisonProfile(input);
+      }),
+    
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        profileId: z.string().optional(),
+        name: z.string().optional(),
+        sourceType: z.enum(['tabac', 'cannabis', 'parfum']).optional(),
+        sourceId: z.number().optional().nullable(),
+        sourceName: z.string().optional().nullable(),
+        myrcene: z.number().min(0).max(100).optional(),
+        limonene: z.number().min(0).max(100).optional(),
+        pinene: z.number().min(0).max(100).optional(),
+        linalool: z.number().min(0).max(100).optional(),
+        caryophyllene: z.number().min(0).max(100).optional(),
+        humulene: z.number().min(0).max(100).optional(),
+        terpinolene: z.number().min(0).max(100).optional(),
+        ocimene: z.number().min(0).max(100).optional(),
+        bisabolol: z.number().min(0).max(100).optional(),
+        geraniol: z.number().min(0).max(100).optional(),
+        additionalTerpenes: z.array(z.object({
+          name: z.string(),
+          value: z.number(),
+        })).optional(),
+        dominantNote: z.string().optional().nullable(),
+        olfactiveDescription: z.string().optional().nullable(),
+        aromaticBridges: z.array(z.object({
+          terpene: z.string(),
+          bridgesWith: z.string(),
+          commonality: z.number(),
+        })).optional(),
+        notes: z.string().optional().nullable(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await db.updateTerpeneComparisonProfile(id, data);
+        return { success: true };
+      }),
+    
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteTerpeneComparisonProfile(input);
+        return { success: true };
+      }),
+  }),
+  
+  formulationTool: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllFormulationSuggestions();
+    }),
+    
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getFormulationSuggestionById(input);
+      }),
+    
+    getByType: publicProcedure
+      .input(z.enum(['parfum', 'encens', 'tabac_blend', 'cannabis_blend', 'hybrid']))
+      .query(async ({ input }) => {
+        return await db.getFormulationSuggestionsByType(input);
+      }),
+    
+    getByBaseMolecule: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getFormulationSuggestionsByBaseMolecule(input);
+      }),
+    
+    generateSuggestions: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.generateFormulationSuggestions(input);
+      }),
+    
+    create: protectedProcedure
+      .input(z.object({
+        suggestionId: z.string(),
+        name: z.string(),
+        baseMoleculeId: z.number().optional(),
+        baseMoleculeName: z.string().optional(),
+        suggestedMolecules: z.array(z.object({
+          moleculeId: z.number(),
+          moleculeName: z.string(),
+          reason: z.string(),
+          synergyType: z.string(),
+          compatibilityScore: z.number(),
+          proportion: z.string(),
+        })).optional(),
+        synergyRules: z.array(z.object({
+          rule: z.string(),
+          description: z.string(),
+          source: z.string(),
+        })).optional(),
+        expectedOlfactiveProfile: z.string().optional(),
+        expectedEffects: z.array(z.object({
+          effect: z.string(),
+          intensity: z.number(),
+        })).optional(),
+        formulationType: z.enum(['parfum', 'encens', 'tabac_blend', 'cannabis_blend', 'hybrid']),
+        difficulty: z.enum(['débutant', 'intermédiaire', 'avancé']).optional(),
+        technicalNotes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createFormulationSuggestion(input);
+      }),
+    
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        suggestionId: z.string().optional(),
+        name: z.string().optional(),
+        baseMoleculeId: z.number().optional().nullable(),
+        baseMoleculeName: z.string().optional().nullable(),
+        suggestedMolecules: z.array(z.object({
+          moleculeId: z.number(),
+          moleculeName: z.string(),
+          reason: z.string(),
+          synergyType: z.string(),
+          compatibilityScore: z.number(),
+          proportion: z.string(),
+        })).optional(),
+        synergyRules: z.array(z.object({
+          rule: z.string(),
+          description: z.string(),
+          source: z.string(),
+        })).optional(),
+        expectedOlfactiveProfile: z.string().optional().nullable(),
+        expectedEffects: z.array(z.object({
+          effect: z.string(),
+          intensity: z.number(),
+        })).optional(),
+        formulationType: z.enum(['parfum', 'encens', 'tabac_blend', 'cannabis_blend', 'hybrid']).optional(),
+        difficulty: z.enum(['débutant', 'intermédiaire', 'avancé']).optional(),
+        technicalNotes: z.string().optional().nullable(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await db.updateFormulationSuggestion(id, data);
+        return { success: true };
+      }),
+    
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteFormulationSuggestion(input);
+        return { success: true };
+      }),
+  }),
+  
+  entourageRules: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllEntourageRules();
+    }),
+    
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getEntourageRuleById(input);
+      }),
+    
+    getByType: publicProcedure
+      .input(z.enum(['entourage', 'potentiation', 'modulation', 'stabilization', 'enhancement', 'contrast']))
+      .query(async ({ input }) => {
+        return await db.getEntourageRulesByType(input);
+      }),
+    
+    create: protectedProcedure
+      .input(z.object({
+        ruleId: z.string(),
+        name: z.string(),
+        ruleType: z.enum(['entourage', 'potentiation', 'modulation', 'stabilization', 'enhancement', 'contrast']),
+        primaryMolecules: z.array(z.object({
+          name: z.string(),
+          role: z.string(),
+        })).optional(),
+        secondaryMolecules: z.array(z.object({
+          name: z.string(),
+          role: z.string(),
+        })).optional(),
+        description: z.string(),
+        mechanism: z.string().optional(),
+        olfactiveResult: z.string().optional(),
+        applicableTo: z.array(z.string()).optional(),
+        scientificBasis: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createEntourageRule(input);
+      }),
+    
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        ruleId: z.string().optional(),
+        name: z.string().optional(),
+        ruleType: z.enum(['entourage', 'potentiation', 'modulation', 'stabilization', 'enhancement', 'contrast']).optional(),
+        primaryMolecules: z.array(z.object({
+          name: z.string(),
+          role: z.string(),
+        })).optional(),
+        secondaryMolecules: z.array(z.object({
+          name: z.string(),
+          role: z.string(),
+        })).optional(),
+        description: z.string().optional(),
+        mechanism: z.string().optional().nullable(),
+        olfactiveResult: z.string().optional().nullable(),
+        applicableTo: z.array(z.string()).optional(),
+        scientificBasis: z.string().optional().nullable(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        await db.updateEntourageRule(id, data);
+        return { success: true };
+      }),
+    
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteEntourageRule(input);
+        return { success: true };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

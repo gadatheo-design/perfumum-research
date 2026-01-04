@@ -3374,3 +3374,342 @@ export const sampleImagesRelations = relations(sampleImages, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+
+// ============================================================================
+// TOBACCO-CANNABIS-PERFUME INTERACTIONS
+// ============================================================================
+
+/**
+ * Molecular interactions between tobacco, cannabis, and perfumery molecules
+ * Tracks synergies, entourage effects, and aromatic bridges
+ */
+export const molecularInteractions = mysqlTable("molecular_interactions", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  interactionId: varchar("interaction_id", { length: 50 }).notNull().unique(), // INT-001, INT-002, etc.
+  name: varchar("name", { length: 255 }).notNull(), // Nom de l'interaction
+  // Source categories
+  sourceCategory: mysqlEnum("source_category", [
+    "tabac_cannabis",
+    "tabac_parfum",
+    "cannabis_parfum",
+    "tabac_cannabis_parfum"
+  ]).notNull(),
+  // Molecules involved
+  molecule1Id: int("molecule1_id").references(() => molecules.id),
+  molecule2Id: int("molecule2_id").references(() => molecules.id),
+  molecule3Id: int("molecule3_id").references(() => molecules.id), // Optional third molecule
+  // Terpene profile (JSON array of terpene names and percentages)
+  terpeneProfile: json("terpene_profile").$type<{
+    name: string;
+    percentage: number;
+    source: "tabac" | "cannabis" | "parfum";
+    function?: string;
+  }[]>(),
+  // Synergy type
+  synergyType: mysqlEnum("synergy_type", [
+    "entourage", // Effet entourage (cannabis)
+    "potentiation", // Potentialisation mutuelle
+    "bridge", // Pont aromatique
+    "stabilization", // Stabilisation
+    "transformation", // Transformation olfactive
+    "masking" // Masquage
+  ]).notNull(),
+  // Compatibility score (0-100)
+  compatibilityScore: int("compatibility_score").notNull().default(50),
+  // Description
+  description: text("description"), // Description détaillée de l'interaction
+  olfactiveResult: text("olfactive_result"), // Résultat olfactif
+  applications: text("applications"), // Applications pratiques
+  // Scientific notes
+  scientificBasis: text("scientific_basis"), // Base scientifique
+  references: json("references").$type<{
+    author?: string;
+    year?: number;
+    title: string;
+    journal?: string;
+    doi?: string;
+    url?: string;
+    type: 'academic' | 'book' | 'database' | 'experimental' | 'other';
+  }[]>(),
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  sourceCategoryIdx: index("molecular_interactions_source_idx").on(table.sourceCategory),
+  synergyTypeIdx: index("molecular_interactions_synergy_idx").on(table.synergyType),
+}));
+
+export type MolecularInteraction = typeof molecularInteractions.$inferSelect;
+export type InsertMolecularInteraction = typeof molecularInteractions.$inferInsert;
+
+// Relations for molecular_interactions
+export const molecularInteractionsRelations = relations(molecularInteractions, ({ one }) => ({
+  molecule1: one(molecules, {
+    fields: [molecularInteractions.molecule1Id],
+    references: [molecules.id],
+  }),
+  molecule2: one(molecules, {
+    fields: [molecularInteractions.molecule2Id],
+    references: [molecules.id],
+  }),
+  molecule3: one(molecules, {
+    fields: [molecularInteractions.molecule3Id],
+    references: [molecules.id],
+  }),
+}));
+
+// ============================================================================
+// AROMATIC ACCORDS (Fumoir Oriental, Hash Marocain, Cannabis Vert)
+// ============================================================================
+
+/**
+ * Proposed aromatic accords combining tobacco, cannabis, and perfumery notes
+ */
+export const aromaticAccords = mysqlTable("aromatic_accords", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  accordId: varchar("accord_id", { length: 50 }).notNull().unique(), // ACC-001, ACC-002, etc.
+  name: varchar("name", { length: 255 }).notNull(), // Ex: "Fumoir Oriental"
+  // Classification
+  category: mysqlEnum("category", [
+    "fumoir", // Accords fumés/tabac
+    "hash", // Accords résine/hash
+    "herbal", // Accords herbacés/cannabis vert
+    "hybrid" // Accords hybrides
+  ]).notNull(),
+  // Olfactive pyramid
+  topNotes: json("top_notes").$type<{
+    molecule: string;
+    percentage: number;
+    source: "tabac" | "cannabis" | "parfum";
+  }[]>(),
+  heartNotes: json("heart_notes").$type<{
+    molecule: string;
+    percentage: number;
+    source: "tabac" | "cannabis" | "parfum";
+  }[]>(),
+  baseNotes: json("base_notes").$type<{
+    molecule: string;
+    percentage: number;
+    source: "tabac" | "cannabis" | "parfum";
+  }[]>(),
+  // Full formula
+  formula: text("formula"), // Formule complète en texte
+  formulaJson: json("formula_json").$type<{
+    ingredient: string;
+    percentage: number;
+    source: "tabac" | "cannabis" | "parfum";
+    role: "top" | "heart" | "base" | "modifier";
+  }[]>(),
+  // Terpene profile for comparison
+  terpeneProfile: json("terpene_profile").$type<{
+    terpene: string;
+    percentage: number;
+    contribution: string; // What it brings to the accord
+  }[]>(),
+  // Description
+  description: text("description"), // Description olfactive
+  inspiration: text("inspiration"), // Source d'inspiration
+  targetEffect: text("target_effect"), // Effet recherché
+  // Technical notes
+  diffusion: mysqlEnum("diffusion", ["faible", "moyenne", "forte"]).default("moyenne"),
+  tenacity: mysqlEnum("tenacity", ["fugace", "modérée", "tenace"]).default("modérée"),
+  sillage: mysqlEnum("sillage", ["intime", "modéré", "puissant"]).default("modéré"),
+  // Synergies
+  keyInteractions: json("key_interactions").$type<{
+    interaction: string;
+    type: string;
+    effect: string;
+  }[]>(),
+  // Usage recommendations
+  usageRecommendations: text("usage_recommendations"),
+  dilutionRecommendation: varchar("dilution_recommendation", { length: 100 }),
+  // Metadata
+  imageUrl: varchar("image_url", { length: 500 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  categoryIdx: index("aromatic_accords_category_idx").on(table.category),
+}));
+
+export type AromaticAccord = typeof aromaticAccords.$inferSelect;
+export type InsertAromaticAccord = typeof aromaticAccords.$inferInsert;
+
+// ============================================================================
+// TERPENE COMPARISON PROFILES
+// ============================================================================
+
+/**
+ * Comparative terpene profiles for tobacco, cannabis, and perfumery
+ * Used for radar charts and visual comparison
+ */
+export const terpeneComparisonProfiles = mysqlTable("terpene_comparison_profiles", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  profileId: varchar("profile_id", { length: 50 }).notNull().unique(), // TCP-001, TCP-002, etc.
+  name: varchar("name", { length: 255 }).notNull(),
+  // Source
+  sourceType: mysqlEnum("source_type", ["tabac", "cannabis", "parfum"]).notNull(),
+  sourceId: int("source_id"), // Reference to tabac, leafEconomy, or molecule
+  sourceName: varchar("source_name", { length: 255 }), // Name of the source
+  // Terpene percentages (0-100 scale for radar chart)
+  myrcene: int("myrcene").default(0),
+  limonene: int("limonene").default(0),
+  pinene: int("pinene").default(0),
+  linalool: int("linalool").default(0),
+  caryophyllene: int("caryophyllene").default(0),
+  humulene: int("humulene").default(0),
+  terpinolene: int("terpinolene").default(0),
+  ocimene: int("ocimene").default(0),
+  bisabolol: int("bisabolol").default(0),
+  geraniol: int("geraniol").default(0),
+  // Additional terpenes (JSON for flexibility)
+  additionalTerpenes: json("additional_terpenes").$type<{
+    name: string;
+    value: number;
+  }[]>(),
+  // Olfactive characteristics
+  dominantNote: varchar("dominant_note", { length: 100 }),
+  olfactiveDescription: text("olfactive_description"),
+  // Aromatic bridges (common terpenes with other sources)
+  aromaticBridges: json("aromatic_bridges").$type<{
+    terpene: string;
+    bridgesWith: string; // "tabac", "cannabis", or "parfum"
+    commonality: number; // 0-100
+  }[]>(),
+  // Metadata
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  sourceTypeIdx: index("terpene_comparison_source_idx").on(table.sourceType),
+}));
+
+export type TerpeneComparisonProfile = typeof terpeneComparisonProfiles.$inferSelect;
+export type InsertTerpeneComparisonProfile = typeof terpeneComparisonProfiles.$inferInsert;
+
+// ============================================================================
+// FORMULATION SUGGESTIONS
+// ============================================================================
+
+/**
+ * Formulation suggestions based on documented synergies
+ * Used by the formulation tool
+ */
+export const formulationSuggestions = mysqlTable("formulation_suggestions", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  suggestionId: varchar("suggestion_id", { length: 50 }).notNull().unique(), // FS-001, FS-002, etc.
+  name: varchar("name", { length: 255 }).notNull(),
+  // Base molecule (starting point)
+  baseMoleculeId: int("base_molecule_id").references(() => molecules.id),
+  baseMoleculeName: varchar("base_molecule_name", { length: 255 }),
+  // Suggested combinations
+  suggestedMolecules: json("suggested_molecules").$type<{
+    moleculeId: number;
+    moleculeName: string;
+    reason: string; // Why this combination works
+    synergyType: string;
+    compatibilityScore: number;
+    proportion: string; // Suggested proportion
+  }[]>(),
+  // Synergy rules applied
+  synergyRules: json("synergy_rules").$type<{
+    rule: string;
+    description: string;
+    source: string; // Where this rule comes from
+  }[]>(),
+  // Expected result
+  expectedOlfactiveProfile: text("expected_olfactive_profile"),
+  expectedEffects: json("expected_effects").$type<{
+    effect: string;
+    intensity: number; // 0-100
+  }[]>(),
+  // Category
+  formulationType: mysqlEnum("formulation_type", [
+    "parfum",
+    "encens",
+    "tabac_blend",
+    "cannabis_blend",
+    "hybrid"
+  ]).notNull(),
+  // Difficulty and notes
+  difficulty: mysqlEnum("difficulty", ["débutant", "intermédiaire", "avancé"]).default("intermédiaire"),
+  technicalNotes: text("technical_notes"),
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  formulationTypeIdx: index("formulation_suggestions_type_idx").on(table.formulationType),
+  baseMoleculeIdx: index("formulation_suggestions_base_idx").on(table.baseMoleculeId),
+}));
+
+export type FormulationSuggestion = typeof formulationSuggestions.$inferSelect;
+export type InsertFormulationSuggestion = typeof formulationSuggestions.$inferInsert;
+
+// Relations for formulation_suggestions
+export const formulationSuggestionsRelations = relations(formulationSuggestions, ({ one }) => ({
+  baseMolecule: one(molecules, {
+    fields: [formulationSuggestions.baseMoleculeId],
+    references: [molecules.id],
+  }),
+}));
+
+// ============================================================================
+// ENTOURAGE EFFECT RULES
+// ============================================================================
+
+/**
+ * Rules for entourage effect and molecular synergies
+ * Used to generate formulation suggestions
+ */
+export const entourageRules = mysqlTable("entourage_rules", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  ruleId: varchar("rule_id", { length: 50 }).notNull().unique(), // ER-001, ER-002, etc.
+  name: varchar("name", { length: 255 }).notNull(),
+  // Rule type
+  ruleType: mysqlEnum("rule_type", [
+    "entourage", // Cannabis entourage effect
+    "potentiation", // Mutual potentiation
+    "modulation", // Olfactive modulation
+    "stabilization", // Stabilization
+    "enhancement", // Enhancement
+    "contrast" // Contrast/opposition
+  ]).notNull(),
+  // Molecules involved
+  primaryMolecules: json("primary_molecules").$type<{
+    name: string;
+    role: string;
+  }[]>(),
+  secondaryMolecules: json("secondary_molecules").$type<{
+    name: string;
+    role: string;
+  }[]>(),
+  // Rule description
+  description: text("description").notNull(),
+  mechanism: text("mechanism"), // How it works
+  olfactiveResult: text("olfactive_result"), // What you get
+  // Applicability
+  applicableTo: json("applicable_to").$type<string[]>(), // ["tabac", "cannabis", "parfum"]
+  // Scientific basis
+  scientificBasis: text("scientific_basis"),
+  references: json("references").$type<{
+    author?: string;
+    year?: number;
+    title: string;
+    journal?: string;
+    doi?: string;
+    url?: string;
+  }[]>(),
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  ruleTypeIdx: index("entourage_rules_type_idx").on(table.ruleType),
+}));
+
+export type EntourageRule = typeof entourageRules.$inferSelect;
+export type InsertEntourageRule = typeof entourageRules.$inferInsert;

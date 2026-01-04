@@ -135,6 +135,9 @@ import { DegradationTerpenes } from "@/pages/DegradationTerpenes";
 import { ModelesAnalytiquesGCMS } from "@/pages/ModelesAnalytiquesGCMS";
 import SynergiesTerpenesNiches from "./pages/SynergiesTerpenesNiches";
 import ChimieTabac from "./pages/ChimieTabac";
+import InteractionsTabacCannabis from "./pages/InteractionsTabacCannabis";
+import ComparaisonTerpenes from "./pages/ComparaisonTerpenes";
+import OutilFormulation from "./pages/OutilFormulation";
 
 // === PROGRAMMES DE RECHERCHE ===
 import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
@@ -370,6 +373,9 @@ function Router() {
       <Route path="/recherche-scientifique/modeles-analytiques-gcms" component={ModelesAnalytiquesGCMS} />
       <Route path="/synergies-terpenes-niches" component={SynergiesTerpenesNiches} />
       <Route path="/chimie-tabac" component={ChimieTabac} />
+      <Route path="/interactions-tabac-cannabis" component={InteractionsTabacCannabis} />
+      <Route path="/comparaison-terpenes" component={ComparaisonTerpenes} />
+      <Route path="/outil-formulation" component={OutilFormulation} />
       
       {/* === PROGRAMMES DE RECHERCHE === */}
       <Route path="/programmes-recherche" component={ProgrammesRecherche} />

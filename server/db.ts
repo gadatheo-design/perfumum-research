@@ -6000,3 +6000,468 @@ export async function getUniqueVarietyCountries() {
   
   return results.map(r => r.country).filter(Boolean) as string[];
 }
+
+
+// ============================================================================
+// TOBACCO-CANNABIS-PERFUME INTERACTIONS
+// ============================================================================
+
+import { 
+  molecularInteractions, 
+  MolecularInteraction, 
+  InsertMolecularInteraction,
+  aromaticAccords,
+  AromaticAccord,
+  InsertAromaticAccord,
+  terpeneComparisonProfiles,
+  TerpeneComparisonProfile,
+  InsertTerpeneComparisonProfile,
+  formulationSuggestions,
+  FormulationSuggestion,
+  InsertFormulationSuggestion,
+  entourageRules,
+  EntourageRule,
+  InsertEntourageRule
+} from "../drizzle/schema";
+
+// Molecular Interactions
+export async function getAllMolecularInteractions(): Promise<MolecularInteraction[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(molecularInteractions).orderBy(molecularInteractions.name);
+}
+
+export async function getMolecularInteractionById(id: number): Promise<MolecularInteraction | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(molecularInteractions).where(eq(molecularInteractions.id, id));
+  return results[0] || null;
+}
+
+export async function getMolecularInteractionsByCategory(category: string): Promise<MolecularInteraction[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(molecularInteractions)
+    .where(eq(molecularInteractions.sourceCategory, category as any))
+    .orderBy(molecularInteractions.name);
+}
+
+export async function getMolecularInteractionsBySynergyType(synergyType: string): Promise<MolecularInteraction[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(molecularInteractions)
+    .where(eq(molecularInteractions.synergyType, synergyType as any))
+    .orderBy(molecularInteractions.name);
+}
+
+export async function createMolecularInteraction(data: InsertMolecularInteraction): Promise<MolecularInteraction | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(molecularInteractions).values(data);
+  const inserted = await db.select().from(molecularInteractions).where(eq(molecularInteractions.id, Number(result[0].insertId)));
+  return inserted[0] || null;
+}
+
+export async function updateMolecularInteraction(id: number, data: Partial<InsertMolecularInteraction>): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(molecularInteractions).set(data).where(eq(molecularInteractions.id, id));
+}
+
+export async function deleteMolecularInteraction(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(molecularInteractions).where(eq(molecularInteractions.id, id));
+}
+
+// Aromatic Accords
+export async function getAllAromaticAccords(): Promise<AromaticAccord[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(aromaticAccords).orderBy(aromaticAccords.name);
+}
+
+export async function getAromaticAccordById(id: number): Promise<AromaticAccord | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(aromaticAccords).where(eq(aromaticAccords.id, id));
+  return results[0] || null;
+}
+
+export async function getAromaticAccordsByCategory(category: string): Promise<AromaticAccord[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(aromaticAccords)
+    .where(eq(aromaticAccords.category, category as any))
+    .orderBy(aromaticAccords.name);
+}
+
+export async function createAromaticAccord(data: InsertAromaticAccord): Promise<AromaticAccord | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(aromaticAccords).values(data);
+  const inserted = await db.select().from(aromaticAccords).where(eq(aromaticAccords.id, Number(result[0].insertId)));
+  return inserted[0] || null;
+}
+
+export async function updateAromaticAccord(id: number, data: Partial<InsertAromaticAccord>): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(aromaticAccords).set(data).where(eq(aromaticAccords.id, id));
+}
+
+export async function deleteAromaticAccord(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(aromaticAccords).where(eq(aromaticAccords.id, id));
+}
+
+// Terpene Comparison Profiles
+export async function getAllTerpeneComparisonProfiles(): Promise<TerpeneComparisonProfile[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(terpeneComparisonProfiles).orderBy(terpeneComparisonProfiles.name);
+}
+
+export async function getTerpeneComparisonProfileById(id: number): Promise<TerpeneComparisonProfile | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(terpeneComparisonProfiles).where(eq(terpeneComparisonProfiles.id, id));
+  return results[0] || null;
+}
+
+export async function getTerpeneComparisonProfilesBySource(sourceType: string): Promise<TerpeneComparisonProfile[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(terpeneComparisonProfiles)
+    .where(eq(terpeneComparisonProfiles.sourceType, sourceType as any))
+    .orderBy(terpeneComparisonProfiles.name);
+}
+
+export async function createTerpeneComparisonProfile(data: InsertTerpeneComparisonProfile): Promise<TerpeneComparisonProfile | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(terpeneComparisonProfiles).values(data);
+  const inserted = await db.select().from(terpeneComparisonProfiles).where(eq(terpeneComparisonProfiles.id, Number(result[0].insertId)));
+  return inserted[0] || null;
+}
+
+export async function updateTerpeneComparisonProfile(id: number, data: Partial<InsertTerpeneComparisonProfile>): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(terpeneComparisonProfiles).set(data).where(eq(terpeneComparisonProfiles.id, id));
+}
+
+export async function deleteTerpeneComparisonProfile(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(terpeneComparisonProfiles).where(eq(terpeneComparisonProfiles.id, id));
+}
+
+// Formulation Suggestions
+export async function getAllFormulationSuggestions(): Promise<FormulationSuggestion[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(formulationSuggestions).orderBy(formulationSuggestions.name);
+}
+
+export async function getFormulationSuggestionById(id: number): Promise<FormulationSuggestion | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(formulationSuggestions).where(eq(formulationSuggestions.id, id));
+  return results[0] || null;
+}
+
+export async function getFormulationSuggestionsByType(formulationType: string): Promise<FormulationSuggestion[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(formulationSuggestions)
+    .where(eq(formulationSuggestions.formulationType, formulationType as any))
+    .orderBy(formulationSuggestions.name);
+}
+
+export async function getFormulationSuggestionsByBaseMolecule(moleculeId: number): Promise<FormulationSuggestion[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(formulationSuggestions)
+    .where(eq(formulationSuggestions.baseMoleculeId, moleculeId))
+    .orderBy(formulationSuggestions.name);
+}
+
+export async function createFormulationSuggestion(data: InsertFormulationSuggestion): Promise<FormulationSuggestion | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(formulationSuggestions).values(data);
+  const inserted = await db.select().from(formulationSuggestions).where(eq(formulationSuggestions.id, Number(result[0].insertId)));
+  return inserted[0] || null;
+}
+
+export async function updateFormulationSuggestion(id: number, data: Partial<InsertFormulationSuggestion>): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(formulationSuggestions).set(data).where(eq(formulationSuggestions.id, id));
+}
+
+export async function deleteFormulationSuggestion(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(formulationSuggestions).where(eq(formulationSuggestions.id, id));
+}
+
+// Entourage Rules
+export async function getAllEntourageRules(): Promise<EntourageRule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(entourageRules).orderBy(entourageRules.name);
+}
+
+export async function getEntourageRuleById(id: number): Promise<EntourageRule | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(entourageRules).where(eq(entourageRules.id, id));
+  return results[0] || null;
+}
+
+export async function getEntourageRulesByType(ruleType: string): Promise<EntourageRule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(entourageRules)
+    .where(eq(entourageRules.ruleType, ruleType as any))
+    .orderBy(entourageRules.name);
+}
+
+export async function createEntourageRule(data: InsertEntourageRule): Promise<EntourageRule | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(entourageRules).values(data);
+  const inserted = await db.select().from(entourageRules).where(eq(entourageRules.id, Number(result[0].insertId)));
+  return inserted[0] || null;
+}
+
+export async function updateEntourageRule(id: number, data: Partial<InsertEntourageRule>): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(entourageRules).set(data).where(eq(entourageRules.id, id));
+}
+
+export async function deleteEntourageRule(id: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(entourageRules).where(eq(entourageRules.id, id));
+}
+
+// Generate formulation suggestions based on synergies
+export async function generateFormulationSuggestions(baseMoleculeId: number): Promise<{
+  baseMolecule: Molecule | null;
+  suggestions: Array<{
+    molecule: Molecule;
+    synergyType: string;
+    compatibilityScore: number;
+    reason: string;
+  }>;
+}> {
+  const db = await getDb();
+  if (!db) return { baseMolecule: null, suggestions: [] };
+  
+  // Get base molecule
+  const baseMolecule = await getMoleculeById(baseMoleculeId);
+  if (!baseMolecule) return { baseMolecule: null, suggestions: [] };
+  
+  // Get all terpene synergies involving this molecule
+  const synergies1 = await db.select().from(terpeneSynergies)
+    .where(eq(terpeneSynergies.terpene1Id, baseMoleculeId));
+  const synergies2 = await db.select().from(terpeneSynergies)
+    .where(eq(terpeneSynergies.terpene2Id, baseMoleculeId));
+  
+  // Get all molecule synergies involving this molecule
+  const molSynergies1 = await db.select().from(moleculeSynergies)
+    .where(eq(moleculeSynergies.molecule1Id, baseMoleculeId));
+  const molSynergies2 = await db.select().from(moleculeSynergies)
+    .where(eq(moleculeSynergies.molecule2Id, baseMoleculeId));
+  
+  const suggestions: Array<{
+    molecule: Molecule;
+    synergyType: string;
+    compatibilityScore: number;
+    reason: string;
+  }> = [];
+  
+  // Process terpene synergies
+  for (const syn of synergies1) {
+    const mol = await getMoleculeById(syn.terpene2Id);
+    if (mol) {
+      suggestions.push({
+        molecule: mol,
+        synergyType: 'terpene',
+        compatibilityScore: syn.compatibilityScore,
+        reason: syn.synergyNotes || 'Synergie terpénique documentée'
+      });
+    }
+  }
+  for (const syn of synergies2) {
+    const mol = await getMoleculeById(syn.terpene1Id);
+    if (mol) {
+      suggestions.push({
+        molecule: mol,
+        synergyType: 'terpene',
+        compatibilityScore: syn.compatibilityScore,
+        reason: syn.synergyNotes || 'Synergie terpénique documentée'
+      });
+    }
+  }
+  
+  // Process molecule synergies
+  for (const syn of molSynergies1) {
+    const mol = await getMoleculeById(syn.molecule2Id);
+    if (mol) {
+      suggestions.push({
+        molecule: mol,
+        synergyType: syn.type,
+        compatibilityScore: 75, // Default score for molecule synergies
+        reason: syn.description
+      });
+    }
+  }
+  for (const syn of molSynergies2) {
+    const mol = await getMoleculeById(syn.molecule1Id);
+    if (mol) {
+      suggestions.push({
+        molecule: mol,
+        synergyType: syn.type,
+        compatibilityScore: 75,
+        reason: syn.description
+      });
+    }
+  }
+  
+  // Sort by compatibility score
+  suggestions.sort((a, b) => b.compatibilityScore - a.compatibilityScore);
+  
+  return { baseMolecule, suggestions };
+}
+
+// Get terpene comparison data for radar chart
+export async function getTerpeneComparisonData(profileIds: number[]): Promise<{
+  profiles: TerpeneComparisonProfile[];
+  terpenes: string[];
+  data: Array<{
+    profileId: number;
+    profileName: string;
+    sourceType: string;
+    values: Record<string, number>;
+  }>;
+}> {
+  const db = await getDb();
+  if (!db) return { profiles: [], terpenes: [], data: [] };
+  
+  const profiles: TerpeneComparisonProfile[] = [];
+  for (const id of profileIds) {
+    const profile = await getTerpeneComparisonProfileById(id);
+    if (profile) profiles.push(profile);
+  }
+  
+  const terpenes = ['myrcene', 'limonene', 'pinene', 'linalool', 'caryophyllene', 'humulene', 'terpinolene', 'ocimene', 'bisabolol', 'geraniol'];
+  
+  const data = profiles.map(p => ({
+    profileId: p.id,
+    profileName: p.name,
+    sourceType: p.sourceType,
+    values: {
+      myrcene: p.myrcene || 0,
+      limonene: p.limonene || 0,
+      pinene: p.pinene || 0,
+      linalool: p.linalool || 0,
+      caryophyllene: p.caryophyllene || 0,
+      humulene: p.humulene || 0,
+      terpinolene: p.terpinolene || 0,
+      ocimene: p.ocimene || 0,
+      bisabolol: p.bisabolol || 0,
+      geraniol: p.geraniol || 0,
+    }
+  }));
+  
+  return { profiles, terpenes, data };
+}
+
+// Get interactions graph data for visualization
+export async function getInteractionsGraphData(): Promise<{
+  nodes: Array<{ id: string; name: string; type: 'tabac' | 'cannabis' | 'parfum' | 'interaction' }>;
+  edges: Array<{ source: string; target: string; synergyType: string; score: number }>;
+}> {
+  const db = await getDb();
+  if (!db) return { nodes: [], edges: [] };
+  
+  const interactions = await getAllMolecularInteractions();
+  const nodesMap = new Map<string, { id: string; name: string; type: 'tabac' | 'cannabis' | 'parfum' | 'interaction' }>();
+  const edges: Array<{ source: string; target: string; synergyType: string; score: number }> = [];
+  
+  for (const interaction of interactions) {
+    // Add interaction as a node
+    const interactionNodeId = `int-${interaction.id}`;
+    nodesMap.set(interactionNodeId, {
+      id: interactionNodeId,
+      name: interaction.name,
+      type: 'interaction'
+    });
+    
+    // Add molecule nodes and edges
+    if (interaction.molecule1Id) {
+      const mol = await getMoleculeById(interaction.molecule1Id);
+      if (mol) {
+        const molNodeId = `mol-${mol.id}`;
+        nodesMap.set(molNodeId, {
+          id: molNodeId,
+          name: mol.name,
+          type: 'parfum'
+        });
+        edges.push({
+          source: molNodeId,
+          target: interactionNodeId,
+          synergyType: interaction.synergyType,
+          score: interaction.compatibilityScore
+        });
+      }
+    }
+    
+    if (interaction.molecule2Id) {
+      const mol = await getMoleculeById(interaction.molecule2Id);
+      if (mol) {
+        const molNodeId = `mol-${mol.id}`;
+        nodesMap.set(molNodeId, {
+          id: molNodeId,
+          name: mol.name,
+          type: 'parfum'
+        });
+        edges.push({
+          source: molNodeId,
+          target: interactionNodeId,
+          synergyType: interaction.synergyType,
+          score: interaction.compatibilityScore
+        });
+      }
+    }
+    
+    if (interaction.molecule3Id) {
+      const mol = await getMoleculeById(interaction.molecule3Id);
+      if (mol) {
+        const molNodeId = `mol-${mol.id}`;
+        nodesMap.set(molNodeId, {
+          id: molNodeId,
+          name: mol.name,
+          type: 'parfum'
+        });
+        edges.push({
+          source: molNodeId,
+          target: interactionNodeId,
+          synergyType: interaction.synergyType,
+          score: interaction.compatibilityScore
+        });
+      }
+    }
+  }
+  
+  return {
+    nodes: Array.from(nodesMap.values()),
+    edges
+  };
+}

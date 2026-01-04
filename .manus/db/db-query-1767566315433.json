@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `entourage_rules` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `rule_id` varchar(50) NOT NULL UNIQUE,\n  `name` varchar(255) NOT NULL,\n  `rule_type` enum('entourage','potentiation','modulation','stabilization','enhancement','contrast') NOT NULL,\n  `primary_molecules` json,\n  `secondary_molecules` json,\n  `description` text NOT NULL,\n  `mechanism` text,\n  `olfactive_result` text,\n  `applicable_to` json,\n  `scientific_basis` text,\n  `references` json,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  PRIMARY KEY(`id`),\n  INDEX `entourage_rules_type_idx` (`rule_type`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `entourage_rules` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `rule_id` varchar(50) NOT NULL UNIQUE,\n  `name` varchar(255) NOT NULL,\n  `rule_type` enum('entourage','potentiation','modulation','stabilization','enhancement','contrast') NOT NULL,\n  `primary_molecules` json,\n  `secondary_molecules` json,\n  `description` text NOT NULL,\n  `mechanism` text,\n  `olfactive_result` text,\n  `applicable_to` json,\n  `scientific_basis` text,\n  `references` json,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  PRIMARY KEY(`id`),\n  INDEX `entourage_rules_type_idx` (`rule_type`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 187
+}

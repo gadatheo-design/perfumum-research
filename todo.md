@@ -1574,3 +1574,38 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 
 - [x] Rechercher les interactions entre molécules de parfum et cannabis/tabac
 - [x] Documenter les synergies aromatiques parfum + tabac + cannabis
+
+
+---
+
+## 🚬🌿 SESSION 04 JAN 2026 - INTERACTIONS TABAC-CANNABIS-PARFUM
+
+### Phase 1 : Page Interactions Tabac-Cannabis-Parfum ✅ COMPLÉTÉ
+- [x] Créer le schéma de table `molecular_interactions` pour les synergies
+- [x] Créer le schéma de table `aromatic_accords` pour les accords proposés
+- [x] Importer les données des synergies moléculaires documentées
+- [x] Importer les 3 accords proposés (Fumoir Oriental, Hash Marocain, Cannabis Vert)
+- [x] Créer les procédures tRPC pour les interactions et accords
+- [x] Créer la page de visualisation des synergies moléculaires
+- [x] Afficher les accords proposés avec leurs compositions
+
+### Phase 2 : Graphique de comparaison terpénique ✅ COMPLÉTÉ
+- [x] Créer le schéma de données pour les profils terpéniques comparatifs
+- [x] Implémenter le graphique radar/spider pour superposer les profils
+- [x] Permettre la sélection de molécules tabac, cannabis et parfumerie
+- [x] Identifier visuellement les ponts aromatiques communs
+- [x] Ajouter des filtres par famille terpénique
+
+### Phase 3 : Outil de formulation ✅ COMPLÉTÉ
+- [x] Créer le schéma pour les règles de synergie (effet entourage, compatibilités)
+- [x] Implémenter l'algorithme de suggestion de combinaisons
+- [x] Créer l'interface de l'outil de formulation
+- [x] Afficher les suggestions basées sur les synergies documentées
+- [x] Permettre l'export des formulations suggérées
+
+### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+- [x] Écrire les tests Vitest pour les nouvelles procédures (17 tests passés)
+- [x] Tester l'interface sur desktop et mobile
+- [x] Valider les graphiques et visualisations
+- [x] Créer le checkpoint final
+
