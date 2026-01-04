@@ -1543,3 +1543,34 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Valider les liens entre variétés et molécules
 - [ ] Créer le checkpoint final
 
+
+
+---
+
+## 🌿 SESSION 04 JAN 2026 - PLANTES FUMABLES ET AROMATIQUES DE NICHE
+
+### Recherche approfondie
+- [x] Rechercher des variétés de tabac de niche (Perique, Latakia, Oriental, Rustica, etc.)
+- [x] Rechercher des variétés de cannabis et leurs profils terpéniques (landrace, heirloom)
+- [x] Rechercher des plantes fumables traditionnelles (Damiana, Mullein, Coltsfoot, etc.)
+- [x] Rechercher des plantes de fumigation rituelle (Copal, Palo Santo, Sauge blanche, etc.)
+- [x] Rechercher des herbes aromatiques fumables (Lavande, Menthe, Camomille, etc.)
+- [x] Rechercher des plantes psychoactives légères (Lotus bleu, Kanna, Passiflore, etc.)
+
+### Intégration dans la base de données
+- [x] Structurer les données collectées selon le schéma plants existant
+- [x] Créer les fiches pour chaque nouvelle plante (19 plantes ajoutées)
+- [x] Documenter les profils moléculaires et terpéniques
+- [x] Intégrer les usages traditionnels et contemporains
+
+
+### Interactions Tabac-Cannabis-Parfum (PRIORITAIRE)
+- [x] Rechercher les interactions moléculaires tabac-cannabis
+- [x] Documenter les synergies terpéniques entre tabac et cannabis
+- [x] Rechercher l'application de parfum sur tabac (aromatisation)
+- [x] Analyser les corrélations entre profils terpéniques (tabac, hashish, cannabis)
+- [x] Créer un schéma d'interactions moléculaires
+- [x] Intégrer les données dans la base de données PERFUMUM
+
+- [x] Rechercher les interactions entre molécules de parfum et cannabis/tabac
+- [x] Documenter les synergies aromatiques parfum + tabac + cannabis
