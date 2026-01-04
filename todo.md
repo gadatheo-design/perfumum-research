@@ -1479,3 +1479,42 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Valider les filtres et liaisons molécules-plantes
 - [x] Créer le checkpoint final
 
+
+
+---
+
+## 🌿 SESSION 04 JAN 2026 - IMPORT DONNÉES & CARTE GÉOGRAPHIQUE
+
+### Phase 1 : Import des données de variétés depuis fichiers existants
+- [x] Analyser les fichiers CSV/MD du projet partagé pour identifier les données de variétés
+- [x] Parser et valider les données des landraces cannabis (42 variétés)
+- [x] Parser et valider les données des variétés de tabac (18 variétés)
+- [x] Créer le script d'import pour les variétés (scripts/import-varieties.mjs)
+- [x] Importer les données dans la base de données (60 variétés importées)
+- [x] Vérifier l'intégrité des données importées
+
+### Phase 2 : Formulaire de création de variété
+- [x] Créer le formulaire complet avec tous les champs (nom, type, profil terpénique, origine, statut conservation)
+- [x] Ajouter la validation des champs côté client et serveur
+- [x] Implémenter la sélection multiple des molécules/terpènes dominants
+- [ ] Ajouter un sélecteur de coordonnées géographiques pour l'origine (futur)
+- [x] Intégrer le formulaire dans la page Plantes & Variétés
+
+### Phase 3 : Carte géographique interactive des origines
+- [x] Créer la page de carte interactive avec Google Maps (CarteVarietes.tsx)
+- [x] Afficher les marqueurs pour chaque origine de landrace/variété
+- [x] Implémenter les filtres par type (cannabis/tabac), statut conservation
+- [x] Ajouter les popups d'information sur chaque marqueur
+- [ ] Créer une vue de clustering pour les zones denses (futur)
+- [x] Lier les marqueurs aux fiches variétés
+
+### Phase 4 : Tests et validation
+- [x] Tester l'import des données (60 variétés importées avec succès)
+- [x] Tester le formulaire de création (validation TypeScript OK)
+- [x] Tests vitest passés (259 tests, 20 fichiers)
+- [ ] Tester la carte interactive sur desktop et mobile
+- [ ] Écrire les tests unitaires pour les nouvelles procédures
+
+### Phase 5 : Livraison
+- [ ] Créer le checkpoint final
+- [ ] Présenter les résultats à l'utilisateur

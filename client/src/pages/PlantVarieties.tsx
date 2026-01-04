@@ -26,7 +26,8 @@ import {
   FlaskConical,
   Dna,
   Globe,
-  Info
+  Info,
+  Plus
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -332,15 +333,31 @@ export default function PlantVarieties() {
         </div>
 
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
-            <Leaf className="w-8 h-8 text-primary" />
-            Plantes & Variétés
-          </h1>
-          <p className="text-muted-foreground max-w-2xl">
-            Explorez les landraces de cannabis et les variétés de tabac avec leurs profils terpéniques. 
-            Identifiez rapidement les variétés en danger critique de disparition.
-          </p>
+        <div className="mb-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
+              <Leaf className="w-8 h-8 text-primary" />
+              Plantes & Variétés
+            </h1>
+            <p className="text-muted-foreground max-w-2xl">
+              Explorez les landraces de cannabis et les variétés de tabac avec leurs profils terpéniques. 
+              Identifiez rapidement les variétés en danger critique de disparition.
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Link href="/carte-varietes">
+              <Button variant="outline" className="gap-2">
+                <Globe className="w-4 h-4" />
+                Carte des origines
+              </Button>
+            </Link>
+            <Link href="/plantes-varietes/new">
+              <Button className="gap-2">
+                <Plus className="w-4 h-4" />
+                Nouvelle variété
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Stats Overview */}

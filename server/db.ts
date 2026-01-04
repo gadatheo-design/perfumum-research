@@ -4286,6 +4286,24 @@ export async function deletePlantVariety(id: number) {
   return db.delete(plantVarieties).where(eq(plantVarieties.id, id));
 }
 
+export async function getPlantVarietiesCount(): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  const result = await db.select({ count: count() }).from(plantVarieties);
+  return result[0]?.count || 0;
+}
+
+export async function getAllPlantsForSelect() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select({
+    id: plants.id,
+    name: plants.name,
+    latinName: plants.latinName,
+    category: plants.category,
+  }).from(plants).orderBy(plants.name);
+}
+
 // Terroirs helpers
 export async function getAllTerroirs() {
   const db = await getDb();

@@ -183,6 +183,8 @@ import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
 import PlantDetail from "./pages/PlantDetail";
 import PlantForm from "./pages/PlantForm";
+import VarietyForm from "./pages/VarietyForm";
+import CarteVarietes from "./pages/CarteVarietes";
 import Terroirs from "./pages/Terroirs";
 import OriginesGeographiques from "./pages/OriginesGeographiques";
 import ExtractionMethods from "./pages/ExtractionMethods";
@@ -432,6 +434,11 @@ function Router() {
       <Route path="/plantes" component={Plants} />
       <Route path="/varietes" component={PlantVarieties} />
       <Route path="/plant-varieties" component={PlantVarieties} />
+      <Route path="/plantes-varietes" component={PlantVarieties} />
+      <Route path="/varietes/new" component={VarietyForm} />
+      <Route path="/plantes-varietes/new" component={VarietyForm} />
+      <Route path="/carte-varietes" component={CarteVarietes} />
+      <Route path="/carte-origines" component={CarteVarietes} />
       <Route path="/chemotypes" component={Chemotypes} />
       <Route path="/plants/new" component={PlantForm} />
       <Route path="/plants/:id/edit" component={PlantForm} />

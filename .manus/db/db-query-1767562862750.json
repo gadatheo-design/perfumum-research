@@ -1,0 +1,290 @@
+{
+  "query": "DESCRIBE plants;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE plants;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "latin_name",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "family",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "category",
+      "Type": "enum('aromatique','tabac','cannabis','resine','bois','fleur','racine','autre')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "origin",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "habitat",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "olfactive_signature",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "dominant_molecules",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "chemotypes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "climatic_axis",
+      "Type": "enum('vent','bois','disparition','vent_bois','bois_disparition','vent_disparition')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "traditional_use",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "absorbe_use",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "botanical_states",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "image_url",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "kingdom",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "Plantae",
+      "Extra": ""
+    },
+    {
+      "Field": "division",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "class",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "order_name",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "genus",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "species",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "subspecies",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "morphology",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "life_cycle",
+      "Type": "enum('annual','biennial','perennial','variable')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "perennial",
+      "Extra": ""
+    },
+    {
+      "Field": "growth_conditions",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "harvest_period",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "optimal_harvest_stage",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "yield_per_hectare",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "essential_oil_yield",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "storage_duration",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "storage_conditions",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "certifications",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\nname\tvarchar(255)\tNO\t\tNULL\t\nlatin_name\tvarchar(255)\tYES\t\tNULL\t\nfamily\tvarchar(100)\tYES\t\tNULL\t\ncategory\tenum('aromatique','tabac','cannabis','resine','bois','fleur','racine','autre')\tNO\t\tNULL\t\norigin\tvarchar(255)\tYES\t\tNULL\t\nhabitat\ttext\tYES\t\tNULL\t\nolfactive_signature\ttext\tYES\t\tNULL\t\ndominant_molecules\ttext\tYES\t\tNULL\t\nchemotypes\ttext\tYES\t\tNULL\t\nclimatic_axis\tenum('vent','bois','disparition','vent_bois','bois_disparition','vent_disparition')\tYES\t\tNULL\t\ntraditional_use\ttext\tYES\t\tNULL\t\nabsorbe_use\ttext\tYES\t\tNULL\t\nbotanical_states\tjson\tYES\t\tNULL\t\nnotes\ttext\tYES\t\tNULL\t\nimage_url\tvarchar(500)\tYES\t\tNULL\t\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\nkingdom\tvarchar(50)\tYES\t\tPlantae\t\ndivision\tvarchar(100)\tYES\t\tNULL\t\nclass\tvarchar(100)\tYES\t\tNULL\t\norder_name\tvarchar(100)\tYES\t\tNULL\t\ngenus\tvarchar(100)\tYES\t\tNULL\t\nspecies\tvarchar(100)\tYES\t\tNULL\t\nsubspecies\tvarchar(100)\tYES\t\tNULL\t\nmorphology\tjson\tYES\t\tNULL\t\nlife_cycle\tenum('annual','biennial','perennial','variable')\tYES\t\tperennial\t\ngrowth_conditions\tjson\tYES\t\tNULL\t\nharvest_period\tvarchar(100)\tYES\t\tNULL\t\noptimal_harvest_stage\tvarchar(100)\tYES\t\tNULL\t\nyield_per_hectare\tvarchar(100)\tYES\t\tNULL\t\nessential_oil_yield\tvarchar(50)\tYES\t\tNULL\t\nstorage_duration\tvarchar(100)\tYES\t\tNULL\t\nstorage_conditions\ttext\tYES\t\tNULL\t\ncertifications\tjson\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 83
+}
