@@ -36,23 +36,27 @@ export default function ArchivesTerrain() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="section-spacing bg-gradient-to-br from-amber-50 via-stone-50 to-emerald-50">
-          <div className="container">
+        <section className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+          
+          <div className="container relative">
             <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-900 text-sm font-medium mb-6">
-                <Leaf className="h-4 w-4" />
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <Leaf className="w-4 h-4 mr-2" />
                 Archives de Terrain
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-amber-900 via-stone-800 to-emerald-900 bg-clip-text text-transparent">
+              </Badge>
+              
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
                 Archives de Terrain PERFUMUM
               </h1>
-              <p className="text-lg text-stone-600 leading-relaxed">
+              
+              <p className="text-lg text-muted-foreground">
                 Documentation complète des captations olfactives réalisées sur le terrain : contextes géographiques, 
                 descriptions sensorielles, hypothèses de traduction et tests effectués.
               </p>
@@ -73,7 +77,7 @@ export default function ArchivesTerrain() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {archives.map((archive) => (
                   <Link key={archive.id} href={`/archives-terrain/${archive.id}`}>
-                    <Card className="h-full hover:shadow-xl transition-all duration-300 cursor-pointer group border-l-4 border-l-amber-500">
+                    <Card className="h-full hover:shadow-lg transition-all duration-200 cursor-pointer group border-border/50 hover:border-primary/40">
                       <CardHeader className="bg-gradient-to-br from-amber-50 to-stone-50 group-hover:from-amber-100 group-hover:to-stone-100 transition-colors">
                         <div className="flex items-start justify-between mb-2">
                           <CardTitle className="text-lg group-hover:text-amber-900 transition-colors">

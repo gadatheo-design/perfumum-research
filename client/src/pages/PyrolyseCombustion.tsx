@@ -122,29 +122,35 @@ const ANALYSIS_PROTOCOLS = [
 
 export function PyrolyseCombustion() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-      <div className="container py-8 space-y-8">
-        <Breadcrumbs />
-
-        {/* Hero Section */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="p-3 rounded-lg bg-red-600 border-2 border-red-700">
-              <Flame className="h-8 w-8 text-white" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold tracking-tight text-red-900">
-                PYROLYSE & COMBUSTION
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                Analyse des produits de pyrolyse et de combustion du cannabis
-              </p>
-            </div>
+    <div className="min-h-screen bg-background">
+      <Breadcrumbs />
+      
+      {/* Hero Section */}
+      <section className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+        
+        <div className="container relative">
+          <div className="max-w-3xl mx-auto text-center">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+              <Flame className="w-4 h-4 mr-2" />
+              Analyse Thermique
+            </Badge>
+            
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
+              Pyrolyse & Combustion
+            </h1>
+            
+            <p className="text-lg text-muted-foreground">
+              Analyse des produits de pyrolyse et de combustion des tabacs
+            </p>
           </div>
         </div>
+      </section>
+      
+      <div className="container py-8 space-y-8">
 
         {/* Introduction Card */}
-        <Card className="bg-red-50 border-2 border-red-200">
+        <Card className="border-border/50 bg-muted/30">
           <CardContent className="pt-6">
             <div className="flex items-start gap-4">
               <AlertTriangle className="h-6 w-6 text-red-600 flex-shrink-0 mt-1" />

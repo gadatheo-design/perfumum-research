@@ -99,30 +99,29 @@ export default function SankeyFlow() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative py-16 md:py-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-violet-100/30 via-transparent to-transparent dark:from-violet-900/20" />
+        <section className="relative py-16 md:py-20 overflow-hidden border-b border-border/50">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
           
           <div className="container relative">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="max-w-3xl"
+              className="max-w-3xl mx-auto text-center"
             >
-              <Badge variant="outline" className="mb-4 px-3 py-1">
-                <GitBranch className="w-3.5 h-3.5 mr-2" />
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <GitBranch className="w-4 h-4 mr-2" />
                 Visualisation de Données
               </Badge>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
                 Flux des Recettes
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-lg text-muted-foreground">
                 Visualisation interactive des relations entre catégories et recettes olfactives. 
                 Explorez comment les {stats?.totalRecettes || 0} recettes sont organisées.
               </p>
@@ -134,60 +133,24 @@ export default function SankeyFlow() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10"
+                className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 max-w-2xl mx-auto"
               >
-                <Card className="bg-card/50 backdrop-blur">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <Beaker className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold">{stats.totalRecettes}</p>
-                        <p className="text-xs text-muted-foreground">Recettes totales</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-card/50 backdrop-blur">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center">
-                        <Layers className="w-5 h-5 text-violet-500" />
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold">{stats.categories}</p>
-                        <p className="text-xs text-muted-foreground">Catégories</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-card/50 backdrop-blur">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center">
-                        <BarChart3 className="w-5 h-5 text-amber-500" />
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold">{stats.topCategory?.[1] || 0}</p>
-                        <p className="text-xs text-muted-foreground">Plus grande catégorie</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-card/50 backdrop-blur">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                        <FlaskConical className="w-5 h-5 text-emerald-500" />
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold capitalize">{stats.topCategory?.[0] || "-"}</p>
-                        <p className="text-xs text-muted-foreground">Catégorie principale</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{stats.totalRecettes}</div>
+                  <div className="text-xs text-muted-foreground">Recettes totales</div>
+                </div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{stats.categories}</div>
+                  <div className="text-xs text-muted-foreground">Catégories</div>
+                </div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{stats.topCategory?.[1] || 0}</div>
+                  <div className="text-xs text-muted-foreground">Plus grande catégorie</div>
+                </div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground capitalize">{stats.topCategory?.[0] || "-"}</div>
+                  <div className="text-xs text-muted-foreground">Catégorie principale</div>
+                </div>
               </motion.div>
             )}
           </div>
@@ -202,7 +165,7 @@ export default function SankeyFlow() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <Card className="overflow-hidden">
+              <Card className="overflow-hidden border-border/50">
                 <CardHeader className="border-b bg-muted/30">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
@@ -238,7 +201,7 @@ export default function SankeyFlow() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <Card>
+                <Card className="border-border/50">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Layers className="w-5 h-5 text-primary" />
@@ -265,7 +228,7 @@ export default function SankeyFlow() {
                         return (
                           <div
                             key={category}
-                            className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+                            className="flex items-center gap-4 p-4 rounded-lg border border-border/50 bg-card hover:bg-muted/30 transition-colors"
                           >
                             <div className={`w-3 h-12 rounded-full ${color}`} />
                             <div className="flex-1 min-w-0">
@@ -293,7 +256,7 @@ export default function SankeyFlow() {
               transition={{ delay: 0.5 }}
               className="grid grid-cols-1 md:grid-cols-2 gap-6"
             >
-              <Card>
+              <Card className="border-border/50">
                 <CardHeader>
                   <CardTitle className="text-lg">Légende</CardTitle>
                 </CardHeader>
@@ -315,7 +278,7 @@ export default function SankeyFlow() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-border/50">
                 <CardHeader>
                   <CardTitle className="text-lg">Explorer plus</CardTitle>
                 </CardHeader>

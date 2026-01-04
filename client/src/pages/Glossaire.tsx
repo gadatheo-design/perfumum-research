@@ -128,48 +128,57 @@ export function Glossaire() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-indigo-50/30 dark:to-indigo-950/10">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
         {/* Hero Section */}
-        <motion.section
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white py-16"
-        >
-          <div className="container">
-            <div className="flex items-center gap-4 mb-4">
-              <BookOpen className="w-12 h-12" />
-              <h1 className="text-5xl font-bold">Glossaire</h1>
-            </div>
-            <p className="text-xl text-indigo-100 max-w-3xl mb-8">
-              Terminologie technique et concepts olfactifs du projet PERFUMUM. 
-              Une référence complète pour comprendre le vocabulaire de la recherche olfactive.
-            </p>
-            
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-3xl font-bold">{allTerms.length}</div>
-                <div className="text-indigo-200 text-sm">Termes définis</div>
+        <section className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+          
+          <div className="container relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-3xl mx-auto text-center"
+            >
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <BookOpen className="w-4 h-4 mr-2" />
+                Terminologie
+              </Badge>
+              
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
+                Glossaire
+              </h1>
+              
+              <p className="text-lg text-muted-foreground mb-8">
+                Terminologie technique et concepts olfactifs du projet PERFUMUM. 
+                Une référence complète pour comprendre le vocabulaire de la recherche olfactive.
+              </p>
+              
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{allTerms.length}</div>
+                  <div className="text-xs text-muted-foreground">Termes définis</div>
+                </div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{Object.keys(categoryStats).length}</div>
+                  <div className="text-xs text-muted-foreground">Catégories</div>
+                </div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{categoryStats.chimie || 0}</div>
+                  <div className="text-xs text-muted-foreground">Termes chimiques</div>
+                </div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{categoryStats.molecule || 0}</div>
+                  <div className="text-xs text-muted-foreground">Molécules</div>
+                </div>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-3xl font-bold">{Object.keys(categoryStats).length}</div>
-                <div className="text-indigo-200 text-sm">Catégories</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-3xl font-bold">{categoryStats.chimie || 0}</div>
-                <div className="text-indigo-200 text-sm">Termes chimiques</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-3xl font-bold">{categoryStats.molecule || 0}</div>
-                <div className="text-indigo-200 text-sm">Molécules</div>
-              </div>
-            </div>
+            </motion.div>
           </div>
-        </motion.section>
+        </section>
 
         <div className="container py-8">
           {/* Filters */}

@@ -140,90 +140,83 @@ export function Timeline() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-blue-50/30 dark:to-blue-950/10">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
         {/* Hero Section */}
-        <motion.section
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-600 text-white py-16"
-        >
-          <div className="container">
-            <div className="flex items-center gap-4 mb-4">
-              <Calendar className="w-12 h-12" />
-              <h1 className="text-5xl font-bold">Calendrier de Recherche</h1>
-            </div>
-            <p className="text-xl text-blue-100 max-w-3xl mb-8">
-              Planification progressive sur 18 mois (extensible à 2-3 ans). 
+        <section className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+          
+          <div className="container relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-3xl mx-auto text-center"
+            >
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <Calendar className="w-4 h-4 mr-2" />
+                Planification
+              </Badge>
+              
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
+                Calendrier de Recherche
+              </h1>
+              
+              <p className="text-lg text-muted-foreground mb-8">
+                Planification progressive sur 18 mois (extensible à 2-3 ans). 
               Suivez l'avancement du projet PERFUMUM et ses jalons clés.
             </p>
             
-            {/* Stats Grid */}
-            {stats && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Target className="w-5 h-5 text-blue-200" />
-                    <span className="text-blue-200 text-sm">Total</span>
+              {/* Stats Grid */}
+              {stats && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
+                  <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                    <div className="text-2xl font-bold text-foreground">{stats.total}</div>
+                    <div className="text-xs text-muted-foreground">Jalons planifiés</div>
                   </div>
-                  <div className="text-3xl font-bold">{stats.total}</div>
-                  <div className="text-blue-200 text-xs">jalons planifiés</div>
+                  <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                    <div className="text-2xl font-bold text-green-600">
+                      {stats.byStatus.completed || 0}
+                    </div>
+                    <div className="text-xs text-muted-foreground">{progressPercentage}% complété</div>
+                  </div>
+                  <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                    <div className="text-2xl font-bold text-blue-600">
+                      {stats.byStatus.in_progress || 0}
+                    </div>
+                    <div className="text-xs text-muted-foreground">En cours</div>
+                  </div>
+                  <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                    <div className="text-2xl font-bold text-foreground">
+                      {stats.byStatus.planned || 0}
+                    </div>
+                    <div className="text-xs text-muted-foreground">À venir</div>
+                  </div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle2 className="w-5 h-5 text-green-300" />
-                    <span className="text-blue-200 text-sm">Terminés</span>
-                  </div>
-                  <div className="text-3xl font-bold text-green-300">
-                    {stats.byStatus.completed || 0}
-                  </div>
-                  <div className="text-blue-200 text-xs">{progressPercentage}% complété</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Clock className="w-5 h-5 text-yellow-300" />
-                    <span className="text-blue-200 text-sm">En cours</span>
-                  </div>
-                  <div className="text-3xl font-bold text-yellow-300">
-                    {stats.byStatus.in_progress || 0}
-                  </div>
-                  <div className="text-blue-200 text-xs">jalons actifs</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Layers className="w-5 h-5 text-blue-200" />
-                    <span className="text-blue-200 text-sm">Planifiés</span>
-                  </div>
-                  <div className="text-3xl font-bold">
-                    {stats.byStatus.planned || 0}
-                  </div>
-                  <div className="text-blue-200 text-xs">à venir</div>
-                </div>
-              </div>
-            )}
+              )}
 
-            {/* Progress bar */}
-            {stats && (
-              <div className="mt-6">
-                <div className="flex justify-between text-sm text-blue-200 mb-2">
-                  <span>Progression globale</span>
-                  <span>{progressPercentage}%</span>
+              {/* Progress bar */}
+              {stats && (
+                <div className="mt-6 max-w-xl mx-auto">
+                  <div className="flex justify-between text-sm text-muted-foreground mb-2">
+                    <span>Progression globale</span>
+                    <span>{progressPercentage}%</span>
+                  </div>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${progressPercentage}%` }}
+                      transition={{ duration: 1, delay: 0.5 }}
+                      className="h-full bg-primary rounded-full"
+                    />
+                  </div>
                 </div>
-                <div className="h-3 bg-white/20 rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progressPercentage}%` }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    className="h-full bg-gradient-to-r from-green-400 to-emerald-400 rounded-full"
-                  />
-                </div>
-              </div>
-            )}
+              )}
+            </motion.div>
           </div>
-        </motion.section>
+        </section>
 
         <div className="container py-8">
           {/* Year filter */}

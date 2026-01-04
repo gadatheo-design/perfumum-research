@@ -110,30 +110,29 @@ export function SynergiesHeatmap() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative py-16 md:py-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-green-100/30 via-transparent to-transparent dark:from-green-900/20" />
+        <section className="relative py-16 md:py-20 overflow-hidden border-b border-border/50">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
           
           <div className="container relative">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="max-w-3xl"
+              className="max-w-3xl mx-auto text-center"
             >
-              <Badge variant="outline" className="mb-4 px-3 py-1">
-                <Grid3X3 className="w-3.5 h-3.5 mr-2" />
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <Grid3X3 className="w-4 h-4 mr-2" />
                 Analyse Moléculaire
               </Badge>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
                 Heatmap des Synergies
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-lg text-muted-foreground">
                 Matrice interactive visualisant les interactions entre molécules olfactives.
                 {stats && ` ${stats.total} synergies documentées.`}
               </p>
@@ -144,15 +143,15 @@ export function SynergiesHeatmap() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="flex flex-wrap gap-3 mt-8"
+              className="flex flex-wrap justify-center gap-2 mt-8"
             >
               {SYNERGY_TYPES.map((type) => (
                 <div
                   key={type.code}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full ${type.bgColor} border`}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted/50 border border-border/50"
                 >
-                  <div className={`w-3 h-3 rounded-full ${type.color}`} />
-                  <span className={`text-sm font-medium ${type.textColor}`}>
+                  <div className={`w-2.5 h-2.5 rounded-full ${type.color}`} />
+                  <span className="text-xs font-medium text-muted-foreground">
                     {type.code} — {type.name}
                   </span>
                 </div>
@@ -170,7 +169,7 @@ export function SynergiesHeatmap() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <Card className="overflow-hidden">
+              <Card className="overflow-hidden border-border/50">
                 <CardHeader className="border-b bg-muted/30">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
@@ -224,7 +223,7 @@ export function SynergiesHeatmap() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 + index * 0.1 }}
                     >
-                      <Card className={`h-full border-2 hover:shadow-md transition-shadow ${type.bgColor.replace('bg-', 'border-').replace('/30', '/50').replace('100', '200')}`}>
+                      <Card className="h-full border-border/50 hover:border-primary/40 hover:shadow-md transition-all">
                         <CardContent className="p-5">
                           <div className="flex items-start gap-4">
                             <div className={`w-12 h-12 rounded-xl ${type.bgColor} flex items-center justify-center flex-shrink-0`}>
@@ -260,7 +259,7 @@ export function SynergiesHeatmap() {
               transition={{ delay: 0.6 }}
               className="grid grid-cols-1 md:grid-cols-2 gap-6"
             >
-              <Card>
+              <Card className="border-border/50">
                 <CardHeader>
                   <CardTitle className="text-lg">À propos</CardTitle>
                 </CardHeader>
@@ -278,7 +277,7 @@ export function SynergiesHeatmap() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-border/50">
                 <CardHeader>
                   <CardTitle className="text-lg">Explorer plus</CardTitle>
                 </CardHeader>

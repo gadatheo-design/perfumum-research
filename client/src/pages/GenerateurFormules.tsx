@@ -149,15 +149,14 @@ export default function GenerateurFormules() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative py-16 md:py-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-violet-100/40 via-transparent to-transparent dark:from-violet-900/20" />
+        <section className="relative py-16 md:py-20 overflow-hidden border-b border-border/50">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
           
           <div className="container relative">
             <motion.div
@@ -165,14 +164,14 @@ export default function GenerateurFormules() {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl mx-auto text-center"
             >
-              <Badge variant="outline" className="mb-4 px-3 py-1">
-                <Sparkles className="w-3.5 h-3.5 mr-2" />
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <Sparkles className="w-4 h-4 mr-2" />
                 Intelligence Artificielle
               </Badge>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
                 Générateur de Formules IA
               </h1>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-lg text-muted-foreground">
                 Définissez votre profil olfactif cible avec les 6 axes radar, et l'IA vous suggère les molécules les plus compatibles.
               </p>
             </motion.div>
@@ -190,7 +189,7 @@ export default function GenerateurFormules() {
                 transition={{ delay: 0.2 }}
                 className="lg:col-span-1"
               >
-                <Card className="sticky top-24">
+                <Card className="sticky top-24 border-border/50">
                   <CardHeader className="border-b">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-xl">Profil Radar</CardTitle>
@@ -258,7 +257,7 @@ export default function GenerateurFormules() {
                 className="lg:col-span-2 space-y-6"
               >
                 {/* Actions Bar */}
-                <Card>
+                <Card className="border-border/50">
                   <CardContent className="p-4">
                     <div className="flex flex-wrap items-center justify-between gap-4">
                       <div className="flex items-center gap-2">
@@ -314,10 +313,10 @@ export default function GenerateurFormules() {
 
                 {/* Loading State */}
                 {isLoading && (
-                  <Card>
+                  <Card className="border-border/50">
                     <CardContent className="flex items-center justify-center py-16">
                       <div className="text-center space-y-4">
-                        <Loader2 className="w-10 h-10 animate-spin text-primary mx-auto" />
+                        <div className="inline-block animate-spin rounded-full h-10 w-10 border-2 border-primary border-t-transparent"></div>
                         <p className="text-muted-foreground">Analyse en cours...</p>
                       </div>
                     </CardContent>
@@ -326,10 +325,12 @@ export default function GenerateurFormules() {
 
                 {/* Empty State */}
                 {!isLoading && suggestions && suggestions.length === 0 && (
-                  <Card>
+                  <Card className="border-border/50">
                     <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-                      <Sparkles className="w-12 h-12 text-muted-foreground/50 mb-4" />
-                      <p className="text-muted-foreground">Aucune molécule ne correspond à ce profil radar.</p>
+                      <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
+                        <Sparkles className="w-8 h-8 text-muted-foreground" />
+                      </div>
+                      <p className="text-foreground font-medium">Aucune molécule ne correspond</p>
                       <p className="text-sm text-muted-foreground mt-2">Essayez d'ajuster les valeurs des sliders.</p>
                     </CardContent>
                   </Card>
@@ -346,7 +347,7 @@ export default function GenerateurFormules() {
                         transition={{ delay: index * 0.05 }}
                       >
                         <Link href={`/molecules/${molecule.id}`}>
-                          <Card className="group hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer overflow-hidden">
+                          <Card className="group border-border/50 hover:shadow-lg hover:border-primary/40 transition-all cursor-pointer overflow-hidden">
                             <CardContent className="p-0">
                               <div className="flex">
                                 {/* Rank Badge */}
@@ -406,7 +407,7 @@ export default function GenerateurFormules() {
                 )}
 
                 {/* Info Card */}
-                <Card className="bg-primary/5 border-primary/20">
+                <Card className="bg-muted/30 border-border/50">
                   <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2">
                       <Info className="w-5 h-5" />

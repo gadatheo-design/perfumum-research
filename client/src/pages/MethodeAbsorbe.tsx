@@ -77,58 +77,65 @@ export default function MethodeAbsorbe() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-amber-50/30 dark:to-amber-950/10">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
         {/* Hero Section */}
-        <motion.section
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 text-white py-16"
-        >
-          <div className="container">
-            <div className="max-w-4xl">
-              <div className="flex items-center gap-4 mb-4">
-                <Layers className="w-12 h-12" />
-                <h1 className="text-5xl md:text-6xl font-bold">Méthode ABSORBE</h1>
-              </div>
-              <p className="text-xl text-amber-100 mb-6">
+        <section className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+          
+          <div className="container relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-3xl mx-auto text-center"
+            >
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <Layers className="w-4 h-4 mr-2" />
+                Méthodologie de Recherche
+              </Badge>
+              
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
+                Méthode ABSORBE
+              </h1>
+              
+              <p className="text-lg text-muted-foreground mb-8">
                 Protocole de recherche olfactive développé par PERFUMUM pour la captation, 
                 l'analyse et la restitution des atmosphères sensorielles d'un lieu.
               </p>
               
               {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="text-3xl font-bold">7</div>
-                  <div className="text-amber-200 text-sm">Dimensions</div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto mb-8">
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">7</div>
+                  <div className="text-xs text-muted-foreground">Dimensions</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="text-3xl font-bold">8</div>
-                  <div className="text-amber-200 text-sm">Axes olfactifs</div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">8</div>
+                  <div className="text-xs text-muted-foreground">Axes olfactifs</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="text-3xl font-bold">3</div>
-                  <div className="text-amber-200 text-sm">Températures</div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">3</div>
+                  <div className="text-xs text-muted-foreground">Températures</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="text-3xl font-bold">∞</div>
-                  <div className="text-amber-200 text-sm">Terrains</div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">∞</div>
+                  <div className="text-xs text-muted-foreground">Terrains</div>
                 </div>
               </div>
 
               <button
                 onClick={handleExportPDF}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-amber-700 rounded-lg hover:bg-amber-50 transition-colors font-semibold"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium text-sm"
               >
-                <Download className="w-5 h-5" />
+                <Download className="w-4 h-4" />
                 Exporter en PDF
               </button>
-            </div>
+            </motion.div>
           </div>
-        </motion.section>
+        </section>
 
         {/* Introduction */}
         <section className="py-12">
@@ -139,7 +146,7 @@ export default function MethodeAbsorbe() {
               transition={{ delay: 0.1 }}
               className="max-w-4xl mx-auto"
             >
-              <Card className="border-2 border-amber-500/20">
+              <Card className="border-border/50">
                 <CardContent className="pt-6">
                   <p className="text-lg text-muted-foreground leading-relaxed mb-4">
                     <strong className="text-foreground">ABSORBE</strong> est une méthodologie de recherche-création qui articule sept dimensions complémentaires 
@@ -170,7 +177,7 @@ export default function MethodeAbsorbe() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <Card className="hover:shadow-lg transition-all duration-300 border-2 hover:border-amber-500/30 overflow-hidden">
+                    <Card className="hover:shadow-lg transition-all duration-300 border-border/50 hover:border-primary/40 overflow-hidden">
                       <div className={`h-1 bg-gradient-to-r ${section.color}`} />
                       <CardContent className="pt-6">
                         <div className="flex items-start gap-6">

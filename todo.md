@@ -1040,3 +1040,41 @@
 - [x] Corriger les problèmes d'affichage identifiés
 - [x] Valider la navigation mobile
 
+
+
+---
+
+## 🎨 SESSION 04 JAN 2026 - AMÉLIORATIONS VISUELLES & UX
+
+### Phase 1 : Amélioration des pages principales
+- [x] Améliorer la page Gammes (cohérence visuelle)
+- [x] Améliorer la page Formules de Référence
+- [x] Améliorer la page Recherche Avancée
+
+### Phase 2 : Amélioration des outils
+- [x] Améliorer l'Éditeur de Formulation
+- [x] Améliorer le Générateur de Formules IA
+- [x] Améliorer le Calculateur
+
+### Phase 3 : Amélioration des visualisations
+- [x] Améliorer la page Synergies
+- [x] Améliorer le Diagramme Sankey
+- [x] Améliorer la Heatmap Synergies
+- [x] Améliorer le Graphe Réseau
+- [x] Améliorer le Radar Enrichi
+
+### Phase 4 : Amélioration des pages scientifiques
+- [x] Améliorer les pages Méthode ABSORBE
+- [x] Améliorer les pages GC-MS et Pyrolyse
+- [x] Améliorer les pages Archives de Terrain
+
+### Phase 5 : Amélioration des pages informatives
+- [x] Améliorer le Glossaire
+- [x] Améliorer la Timeline
+- [x] Améliorer les pages À propos et Contribuer
+
+### Phase 6 : Tests responsive
+- [x] Tester toutes les pages sur mobile (375px)
+- [x] Tester toutes les pages sur tablette (768px)
+- [x] Corriger les problèmes d'affichage identifiés
+

@@ -13,44 +13,39 @@ export default function APropos() {
   const { ref: contactRef, isVisible: contactVisible } = useScrollAnimation();
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
-        {/* Hero Section - Style cohérent avec Home */}
-        <div 
+        {/* Hero Section */}
+        <section 
           ref={heroRef}
-          className="section-spacing psychedelic-gradient moire-pattern relative overflow-hidden"
+          className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden"
         >
-          {/* Background decorative elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float"></div>
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-primary/3 to-transparent rounded-full blur-3xl"></div>
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
           
-          <div className="container relative z-10">
-            <div className={`max-w-4xl mx-auto text-center content-spacing transition-all duration-700 ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6 border border-primary/20">
+          <div className="container relative">
+            <div className={`max-w-3xl mx-auto text-center transition-all duration-700 ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/5 rounded-full mb-6 border border-primary/20">
                 <Beaker className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium text-primary">Recherche Olfactive</span>
               </div>
               
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance mb-6">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
                 À Propos
               </h1>
               
-              <p className="text-xl md:text-2xl text-muted-foreground/90 text-balance mb-4 font-light tracking-wide">
+              <p className="text-lg text-muted-foreground mb-2">
                 PERFUMUM / ABSORBE — Laboratoire atmosphérique olfactif
               </p>
               
-              <p className="text-lg md:text-xl text-muted-foreground/70 text-balance font-light italic">
+              <p className="text-muted-foreground">
                 Basé à Berne, Suisse — Recherche expérimentale depuis 2020
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* ABSORBE Section */}
         <div ref={absorbeRef} className="py-20 bg-gradient-to-b from-background to-muted/10">

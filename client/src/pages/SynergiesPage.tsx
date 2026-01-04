@@ -9,8 +9,8 @@ import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { 
-  Sparkles, Search, Filter, Zap, Atom, 
-  FlaskConical, TrendingUp, ArrowRight, Layers 
+  Sparkles, Search, Zap, Atom, 
+  FlaskConical, TrendingUp, ArrowRight, Layers, Grid3X3, BarChart3 
 } from 'lucide-react';
 import { Link } from 'wouter';
 
@@ -20,14 +20,12 @@ export default function Synergies() {
   
   const { data: synergies, isLoading, error } = trpc.synergies.list.useQuery();
 
-  // Get unique types
   const types = useMemo(() => {
     if (!synergies) return [];
     const uniqueTypes = new Set(synergies.map((s: any) => s.type).filter(Boolean));
     return Array.from(uniqueTypes);
   }, [synergies]);
 
-  // Filter synergies
   const filteredSynergies = useMemo(() => {
     if (!synergies) return [];
     return synergies.filter((synergy: any) => {
@@ -39,7 +37,6 @@ export default function Synergies() {
     });
   }, [synergies, searchQuery, selectedType]);
 
-  // Stats
   const stats = useMemo(() => {
     if (!synergies) return { total: 0, byType: {} };
     const byType: Record<string, number> = {};
@@ -53,13 +50,13 @@ export default function Synergies() {
 
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      'potentialisation': 'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300',
-      'synergie': 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300',
-      'modulation': 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300',
-      'antagonisme': 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300',
-      'complémentarité': 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300',
+      'potentialisation': 'bg-violet-500/10 text-violet-700 dark:text-violet-400 border-violet-500/30',
+      'synergie': 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30',
+      'modulation': 'bg-sky-500/10 text-sky-700 dark:text-sky-400 border-sky-500/30',
+      'antagonisme': 'bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/30',
+      'complémentarité': 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30',
     };
-    return colors[type?.toLowerCase()] || 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-800 dark:text-gray-300';
+    return colors[type?.toLowerCase()] || 'bg-muted text-muted-foreground border-border';
   };
 
   const getTypeIcon = (type: string) => {
@@ -74,13 +71,13 @@ export default function Synergies() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-background">
         <Breadcrumbs />
         <Header />
         <main className="flex-1 container py-8">
-          <Card className="border-red-200 bg-red-50 dark:bg-red-900/20">
+          <Card className="border-destructive/50 bg-destructive/5">
             <CardContent className="py-8 text-center">
-              <p className="text-red-600 dark:text-red-400">Erreur: {error.message}</p>
+              <p className="text-destructive">Erreur: {error.message}</p>
             </CardContent>
           </Card>
         </main>
@@ -91,16 +88,16 @@ export default function Synergies() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-background">
         <Breadcrumbs />
         <Header />
         <main className="flex-1 container py-8">
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-muted rounded w-1/4"></div>
             <div className="h-4 bg-muted rounded w-1/2"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-32 bg-muted rounded-lg"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="h-40 bg-muted rounded-lg"></div>
               ))}
             </div>
           </div>
@@ -111,42 +108,51 @@ export default function Synergies() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-green-50/30 dark:to-green-950/10">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
         {/* Hero Section */}
-        <motion.section
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-green-600 via-emerald-600 to-green-600 text-white py-16"
-        >
-          <div className="container">
-            <div className="flex items-center gap-4 mb-4">
-              <Sparkles className="w-12 h-12" />
-              <h1 className="text-5xl font-bold">Synergies Moléculaires</h1>
-            </div>
-            <p className="text-xl text-green-100 max-w-3xl mb-8">
-              Explorez les interactions entre molécules olfactives. Découvrez comment les terpènes 
-              et autres composés se potentialisent, se modulent ou se complètent.
-            </p>
-            
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-3xl font-bold">{stats.total}</div>
-                <div className="text-green-200 text-sm">Synergies documentées</div>
-              </div>
-              {Object.entries(stats.byType).slice(0, 3).map(([type, count]) => (
-                <div key={type} className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="text-3xl font-bold">{count}</div>
-                  <div className="text-green-200 text-sm capitalize">{type}</div>
+        <section className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+          
+          <div className="container relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-3xl mx-auto text-center"
+            >
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <Sparkles className="w-4 h-4 mr-2" />
+                Interactions Moléculaires
+              </Badge>
+              
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
+                Synergies Moléculaires
+              </h1>
+              
+              <p className="text-lg text-muted-foreground mb-8">
+                Explorez les interactions entre molécules olfactives. Découvrez comment les terpènes 
+                et autres composés se potentialisent, se modulent ou se complètent.
+              </p>
+              
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{stats.total}</div>
+                  <div className="text-xs text-muted-foreground">Synergies</div>
                 </div>
-              ))}
-            </div>
+                {Object.entries(stats.byType).slice(0, 3).map(([type, count]) => (
+                  <div key={type} className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                    <div className="text-2xl font-bold text-foreground">{count}</div>
+                    <div className="text-xs text-muted-foreground capitalize">{type}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
-        </motion.section>
+        </section>
 
         <div className="container py-8">
           {/* Filters */}
@@ -154,15 +160,15 @@ export default function Synergies() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="flex flex-col md:flex-row gap-4 mb-8"
+            className="flex flex-col md:flex-row gap-4 mb-6"
           >
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Rechercher une synergie..."
-                className="pl-10"
+                className="pl-9 bg-background"
               />
             </div>
             <div className="flex flex-wrap gap-2">
@@ -200,11 +206,13 @@ export default function Synergies() {
           {/* Synergies Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredSynergies.length === 0 ? (
-              <Card className="col-span-full">
-                <CardContent className="py-12 text-center text-muted-foreground">
-                  <Sparkles className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>Aucune synergie trouvée</p>
-                  <p className="text-sm mt-2">Essayez de modifier vos critères de recherche</p>
+              <Card className="col-span-full border-border/50">
+                <CardContent className="py-12 text-center">
+                  <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+                    <Sparkles className="w-8 h-8 text-muted-foreground" />
+                  </div>
+                  <p className="text-foreground font-medium">Aucune synergie trouvée</p>
+                  <p className="text-sm text-muted-foreground mt-1">Essayez de modifier vos critères de recherche</p>
                 </CardContent>
               </Card>
             ) : (
@@ -213,17 +221,17 @@ export default function Synergies() {
                   key={synergy.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.03 }}
+                  transition={{ delay: index * 0.02 }}
                 >
-                  <Card className="h-full hover:shadow-lg transition-all duration-300 border-2 hover:border-green-500/30">
+                  <Card className="h-full border-border/50 hover:border-primary/40 hover:shadow-lg transition-all duration-200">
                     <CardHeader className="pb-3">
                       <div className="flex items-start justify-between gap-2">
-                        <CardTitle className="text-lg flex items-center gap-2">
+                        <CardTitle className="text-base flex items-center gap-2">
                           {getTypeIcon(synergy.type)}
                           {synergy.name}
                         </CardTitle>
                         {synergy.type && (
-                          <Badge variant="outline" className={getTypeColor(synergy.type)}>
+                          <Badge variant="outline" className={`text-xs ${getTypeColor(synergy.type)}`}>
                             {synergy.type}
                           </Badge>
                         )}
@@ -231,19 +239,24 @@ export default function Synergies() {
                     </CardHeader>
                     <CardContent>
                       {synergy.effet && (
-                        <p className="text-sm text-muted-foreground leading-relaxed">
+                        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
                           {synergy.effet}
                         </p>
                       )}
                       {synergy.molecules && (
-                        <div className="mt-3 pt-3 border-t">
-                          <span className="text-xs text-muted-foreground uppercase tracking-wide">Molécules impliquées</span>
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {synergy.molecules.split(',').map((mol: string, i: number) => (
-                              <Badge key={i} variant="secondary" className="text-xs">
+                        <div className="mt-3 pt-3 border-t border-border/50">
+                          <span className="text-xs text-muted-foreground uppercase tracking-wide">Molécules</span>
+                          <div className="flex flex-wrap gap-1 mt-1.5">
+                            {synergy.molecules.split(',').slice(0, 4).map((mol: string, i: number) => (
+                              <Badge key={i} variant="secondary" className="text-xs font-normal">
                                 {mol.trim()}
                               </Badge>
                             ))}
+                            {synergy.molecules.split(',').length > 4 && (
+                              <Badge variant="secondary" className="text-xs font-normal">
+                                +{synergy.molecules.split(',').length - 4}
+                              </Badge>
+                            )}
                           </div>
                         </div>
                       )}
@@ -259,41 +272,51 @@ export default function Synergies() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mt-12 p-6 bg-muted/30 rounded-lg"
+            className="mt-12"
           >
-            <h3 className="font-semibold mb-4 flex items-center gap-2">
-              <Layers className="w-5 h-5 text-green-600" />
-              Outils de visualisation
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Link href="/synergies-heatmap">
-                <div className="block p-4 bg-background rounded-lg border hover:border-green-500/50 transition-colors cursor-pointer">
-                  <div className="font-medium flex items-center gap-2">
-                    <ArrowRight className="w-4 h-4 text-green-600" />
-                    Heatmap Synergies
-                  </div>
-                  <div className="text-sm text-muted-foreground">Matrice visuelle des interactions</div>
+            <Card className="border-border/50 bg-muted/30">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Layers className="w-5 h-5 text-primary" />
+                  Outils de visualisation
+                </CardTitle>
+                <CardDescription>Explorez les synergies sous différents angles</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Link href="/synergies-heatmap">
+                    <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 transition-all cursor-pointer">
+                      <div className="font-medium flex items-center gap-2 mb-1">
+                        <BarChart3 className="w-4 h-4 text-primary" />
+                        Heatmap Synergies
+                        <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
+                      </div>
+                      <div className="text-sm text-muted-foreground">Matrice visuelle des interactions</div>
+                    </div>
+                  </Link>
+                  <Link href="/matrice-synergies">
+                    <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 transition-all cursor-pointer">
+                      <div className="font-medium flex items-center gap-2 mb-1">
+                        <Grid3X3 className="w-4 h-4 text-primary" />
+                        Matrice Interactive
+                        <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
+                      </div>
+                      <div className="text-sm text-muted-foreground">Explorer les combinaisons</div>
+                    </div>
+                  </Link>
+                  <Link href="/molecules">
+                    <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 transition-all cursor-pointer">
+                      <div className="font-medium flex items-center gap-2 mb-1">
+                        <Atom className="w-4 h-4 text-primary" />
+                        Molécules
+                        <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
+                      </div>
+                      <div className="text-sm text-muted-foreground">Base de données moléculaire</div>
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-              <Link href="/matrice-synergies">
-                <div className="block p-4 bg-background rounded-lg border hover:border-green-500/50 transition-colors cursor-pointer">
-                  <div className="font-medium flex items-center gap-2">
-                    <ArrowRight className="w-4 h-4 text-green-600" />
-                    Matrice Interactive
-                  </div>
-                  <div className="text-sm text-muted-foreground">Explorer les combinaisons</div>
-                </div>
-              </Link>
-              <Link href="/molecules">
-                <div className="block p-4 bg-background rounded-lg border hover:border-green-500/50 transition-colors cursor-pointer">
-                  <div className="font-medium flex items-center gap-2">
-                    <ArrowRight className="w-4 h-4 text-green-600" />
-                    Molécules
-                  </div>
-                  <div className="text-sm text-muted-foreground">Base de données moléculaire</div>
-                </div>
-              </Link>
-            </div>
+              </CardContent>
+            </Card>
           </motion.div>
         </div>
       </main>

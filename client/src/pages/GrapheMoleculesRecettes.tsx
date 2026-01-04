@@ -308,7 +308,7 @@ export default function GrapheMoleculesRecettes() {
   }, [focusedNode]);
   
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
@@ -321,67 +321,72 @@ export default function GrapheMoleculesRecettes() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <motion.section
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 text-white py-12"
-        >
-          <div className="container">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div>
-                <div className="flex items-center gap-4 mb-4">
-                  <Network className="w-10 h-10" />
-                  <h1 className="text-4xl md:text-5xl font-bold">Graphe Molécules-Recettes</h1>
-                </div>
-                <p className="text-lg text-purple-100 max-w-2xl">
-                  Visualisation interactive des relations entre recettes CBD et terpènes.
-                  Explorez les connexions moléculaires de manière intuitive.
-                </p>
-              </div>
+        <section className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+          
+          <div className="container relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-3xl mx-auto text-center"
+            >
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <Network className="w-4 h-4 mr-2" />
+                Visualisation Réseau
+              </Badge>
+              
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
+                Graphe Molécules-Recettes
+              </h1>
+              
+              <p className="text-lg text-muted-foreground mb-8">
+                Visualisation interactive des relations entre recettes CBD et terpènes.
+                Explorez les connexions moléculaires de manière intuitive.
+              </p>
               
               {/* Stats */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold">{recettesData?.length || 0}</div>
-                  <div className="text-purple-200 text-xs">Recettes</div>
+              <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto mb-6">
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{recettesData?.length || 0}</div>
+                  <div className="text-xs text-muted-foreground">Recettes</div>
                 </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold">{allMolecules?.length || 0}</div>
-                  <div className="text-purple-200 text-xs">Molécules</div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{allMolecules?.length || 0}</div>
+                  <div className="text-xs text-muted-foreground">Molécules</div>
                 </div>
               </div>
-            </div>
-            
-            {/* Filtres */}
-            <div className="flex flex-wrap gap-2 mt-6">
-              <Button
-                variant={filter === "all" ? "secondary" : "ghost"}
-                onClick={() => setFilter("all")}
-                className={filter === "all" ? "bg-white text-purple-700" : "text-white hover:bg-white/20"}
-              >
-                Toutes les recettes
-              </Button>
-              <Button
-                variant={filter === "classique" ? "secondary" : "ghost"}
-                onClick={() => setFilter("classique")}
-                className={filter === "classique" ? "bg-white text-purple-700" : "text-white hover:bg-white/20"}
-              >
-                Classiques
-              </Button>
-              <Button
-                variant={filter === "experimentale" ? "secondary" : "ghost"}
-                onClick={() => setFilter("experimentale")}
-                className={filter === "experimentale" ? "bg-white text-purple-700" : "text-white hover:bg-white/20"}
-              >
-                Expérimentales
-              </Button>
-            </div>
+              
+              {/* Filtres */}
+              <div className="flex flex-wrap justify-center gap-2">
+                <Button
+                  variant={filter === "all" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setFilter("all")}
+                >
+                  Toutes les recettes
+                </Button>
+                <Button
+                  variant={filter === "classique" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setFilter("classique")}
+                >
+                  Classiques
+                </Button>
+                <Button
+                  variant={filter === "experimentale" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setFilter("experimentale")}
+                >
+                  Expérimentales
+                </Button>
+              </div>
+            </motion.div>
           </div>
-        </motion.section>
+        </section>
 
         <div className="container py-8 space-y-6">
         
-        <Card>
+        <Card className="border-border/50">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Graphe Interactif</CardTitle>
@@ -431,7 +436,7 @@ export default function GrapheMoleculesRecettes() {
           transition={{ delay: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          <Card className="border-2 border-purple-500/20">
+          <Card className="border-border/50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Share2 className="w-5 h-5 text-purple-600" />

@@ -78,21 +78,26 @@ export function ModelesAnalytiquesGCMS() {
       </div>
 
       {/* Hero Section */}
-      <div className="border-b border-border/40 bg-gradient-to-br from-purple-500/10 via-background to-background">
-        <div className="container py-12">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20">
-              <TestTube className="h-8 w-8 text-purple-500" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold tracking-tight">Modèles Analytiques GC-MS</h1>
-              <p className="text-lg text-muted-foreground mt-2">
-                Chromatographie en phase gazeuse couplée à la spectrométrie de masse
-              </p>
-            </div>
+      <section className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+        
+        <div className="container relative">
+          <div className="max-w-3xl mx-auto text-center">
+            <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+              <TestTube className="w-4 h-4 mr-2" />
+              Analyse Chimique
+            </Badge>
+            
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
+              Modèles Analytiques GC-MS
+            </h1>
+            
+            <p className="text-lg text-muted-foreground">
+              Chromatographie en phase gazeuse couplée à la spectrométrie de masse
+            </p>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Content */}
       <div className="container py-12">

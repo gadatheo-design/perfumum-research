@@ -118,45 +118,40 @@ export default function Contribuer() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
-        {/* Hero Section - Style cohérent avec Home */}
-        <div 
+        {/* Hero Section */}
+        <section 
           ref={heroRef}
-          className="section-spacing psychedelic-gradient moire-pattern relative overflow-hidden"
+          className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden"
         >
-          {/* Background decorative elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-float"></div>
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-green-500/5 rounded-full blur-3xl animate-float" style={{animationDelay: '1s'}}></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-primary/3 to-transparent rounded-full blur-3xl"></div>
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
           
-          <div className="container relative z-10">
-            <div className={`max-w-4xl mx-auto text-center content-spacing transition-all duration-700 ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 rounded-full mb-6 border border-green-500/20">
-                <Users className="h-4 w-4 text-green-600 dark:text-green-400" />
-                <span className="text-sm font-medium text-green-600 dark:text-green-400">Recherche Collaborative</span>
+          <div className="container relative">
+            <div className={`max-w-3xl mx-auto text-center transition-all duration-700 ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/5 rounded-full mb-6 border border-primary/20">
+                <Users className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium text-primary">Recherche Collaborative</span>
               </div>
               
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance mb-6">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
                 Comment Contribuer
               </h1>
               
-              <p className="text-xl md:text-2xl text-muted-foreground/90 text-balance mb-4 font-light tracking-wide">
+              <p className="text-lg text-muted-foreground mb-4">
                 Partagez vos données, votre expertise ou proposez une collaboration de recherche
               </p>
               
-              <p className="text-lg md:text-xl text-muted-foreground/70 text-balance font-light max-w-3xl mx-auto">
+              <p className="text-muted-foreground max-w-2xl mx-auto">
                 Nous recherchons des contributions scientifiquement rigoureuses, alignées avec la méthodologie ABSORBE. 
                 Toutes les contributions sont créditées et les données restent accessibles pour la recherche académique.
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Types de contributions */}
         <div ref={typesRef} className="py-20 bg-gradient-to-b from-background to-muted/10">
@@ -175,7 +170,7 @@ export default function Contribuer() {
                   return (
                     <Card 
                       key={index} 
-                      className="brutal-border hover:shadow-xl transition-all duration-300 group overflow-hidden relative"
+                      className="border-border/50 hover:border-primary/40 hover:shadow-lg transition-all duration-200 group overflow-hidden relative"
                       style={{ transitionDelay: `${index * 100}ms` }}
                     >
                       <div className={`absolute top-0 right-0 w-32 h-32 ${type.bgColor} rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity`}></div>

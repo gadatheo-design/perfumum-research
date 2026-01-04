@@ -90,52 +90,57 @@ export default function EnhancedRadarDemo() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-violet-50/30 dark:to-violet-950/10">
+    <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
       <Header />
       
       <main className="flex-1">
         {/* Hero Section */}
-        <motion.section
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-violet-600 via-purple-600 to-violet-600 text-white py-16"
-        >
-          <div className="container">
-            <div className="flex items-center gap-4 mb-4">
-              <Radar className="w-12 h-12" />
-              <h1 className="text-5xl font-bold">Profils Radar Enrichis</h1>
-            </div>
-            <p className="text-xl text-violet-100 max-w-3xl mb-8">
-              Visualisation avancée avec superposition de moyennes, zones de confiance et export SVG.
-              Analysez les profils olfactifs de vos recettes en détail.
-            </p>
-            
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-3xl font-bold">{recettes?.length || 0}</div>
-                <div className="text-violet-200 text-sm">Recettes disponibles</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="text-3xl font-bold">6</div>
-                <div className="text-violet-200 text-sm">Axes d'analyse</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="flex items-center gap-2">
-                  <BarChart3 className="w-6 h-6" />
+        <section className="relative py-16 md:py-20 border-b border-border/50 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+          
+          <div className="container relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-3xl mx-auto text-center"
+            >
+              <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium border-primary/20 bg-primary/5 text-primary">
+                <Radar className="w-4 h-4 mr-2" />
+                Visualisation Avancée
+              </Badge>
+              
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-foreground">
+                Profils Radar Enrichis
+              </h1>
+              
+              <p className="text-lg text-muted-foreground mb-8">
+                Visualisation avancée avec superposition de moyennes, zones de confiance et export SVG.
+                Analysez les profils olfactifs de vos recettes en détail.
+              </p>
+              
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">{recettes?.length || 0}</div>
+                  <div className="text-xs text-muted-foreground">Recettes</div>
                 </div>
-                <div className="text-violet-200 text-sm">Moyenne globale</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="w-6 h-6" />
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <div className="text-2xl font-bold text-foreground">6</div>
+                  <div className="text-xs text-muted-foreground">Axes d'analyse</div>
                 </div>
-                <div className="text-violet-200 text-sm">Zone de confiance</div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <BarChart3 className="w-5 h-5 mx-auto text-primary mb-1" />
+                  <div className="text-xs text-muted-foreground">Moyenne globale</div>
+                </div>
+                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                  <TrendingUp className="w-5 h-5 mx-auto text-primary mb-1" />
+                  <div className="text-xs text-muted-foreground">Zone de confiance</div>
+                </div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </motion.section>
+        </section>
 
         <div className="container py-8 space-y-6">
           {/* Controls Card */}
@@ -144,7 +149,7 @@ export default function EnhancedRadarDemo() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="border-2 border-violet-500/20">
+            <Card className="border-border/50">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Settings2 className="w-5 h-5 text-violet-600" />
