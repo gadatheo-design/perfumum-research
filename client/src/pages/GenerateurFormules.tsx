@@ -1,34 +1,47 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { trpc } from "@/lib/trpc";
-import { Sparkles, Download, RefreshCw, Loader2, Save } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { Sparkles, Download, RefreshCw, Loader2, Save, Zap, Droplets, Flame, Heart, Leaf, Mountain, Info, ArrowRight, History } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 
+const RADAR_AXES = [
+  { key: "intensity", label: "Intensité", description: "Puissance olfactive globale", icon: Zap, color: "text-violet-500", bgColor: "bg-violet-100 dark:bg-violet-900/30" },
+  { key: "freshness", label: "Fraîcheur", description: "Notes citronnées, mentholées, aquatiques", icon: Droplets, color: "text-cyan-500", bgColor: "bg-cyan-100 dark:bg-cyan-900/30" },
+  { key: "warmth", label: "Chaleur", description: "Notes boisées, ambrées, résineuses", icon: Flame, color: "text-orange-500", bgColor: "bg-orange-100 dark:bg-orange-900/30" },
+  { key: "sweetness", label: "Douceur", description: "Notes florales, fruitées, vanillées", icon: Heart, color: "text-rose-500", bgColor: "bg-rose-100 dark:bg-rose-900/30" },
+  { key: "spiciness", label: "Épicé", description: "Notes poivrées, gingembre, clou de girofle", icon: Leaf, color: "text-amber-500", bgColor: "bg-amber-100 dark:bg-amber-900/30" },
+  { key: "earthiness", label: "Terreux", description: "Notes de mousse, terre humide, pétrichor", icon: Mountain, color: "text-emerald-500", bgColor: "bg-emerald-100 dark:bg-emerald-900/30" },
+];
+
 export default function GenerateurFormules() {
-  // Sliders radar (0-100)
   const [intensity, setIntensity] = useState(50);
   const [freshness, setFreshness] = useState(50);
   const [warmth, setWarmth] = useState(50);
   const [sweetness, setSweetness] = useState(50);
   const [spiciness, setSpiciness] = useState(50);
   const [earthiness, setEarthiness] = useState(50);
-
   const [limit, setLimit] = useState(10);
+  
   const { toast } = useToast();
+  
   const saveFormula = trpc.formulas.save.useMutation({
     onSuccess: () => {
-      toast({ title: "✅ Formule sauvegardée", description: "Vous pouvez la retrouver dans l'historique", variant: "default" });
+      toast({ title: "Formule sauvegardée", description: "Vous pouvez la retrouver dans l'historique", variant: "default" });
     },
     onError: (error) => {
-      toast({ title: "❌ Erreur", description: error.message, variant: "destructive" });
+      toast({ title: "Erreur", description: error.message, variant: "destructive" });
     }
   });
 
-  // Appel tRPC pour obtenir les suggestions
-  const { data: suggestions, isLoading, refetch } = trpc.molecules.getSuggestionsByRadar.useQuery({
+  const { data: suggestions, isLoading } = trpc.molecules.getSuggestionsByRadar.useQuery({
     radarIntensity: intensity,
     radarFreshness: freshness,
     radarWarmth: warmth,
@@ -37,6 +50,16 @@ export default function GenerateurFormules() {
     radarEarthiness: earthiness,
     limit,
   });
+
+  const values: Record<string, number> = { intensity, freshness, warmth, sweetness, spiciness, earthiness };
+  const setters: Record<string, (v: number) => void> = {
+    intensity: setIntensity,
+    freshness: setFreshness,
+    warmth: setWarmth,
+    sweetness: setSweetness,
+    spiciness: setSpiciness,
+    earthiness: setEarthiness,
+  };
 
   const handleReset = () => {
     setIntensity(50);
@@ -49,7 +72,6 @@ export default function GenerateurFormules() {
 
   const handleExportCSV = () => {
     if (!suggestions || suggestions.length === 0) return;
-
     const headers = ["Rang", "Molécule", "Famille", "Score de compatibilité", "Profil olfactif"];
     const rows = suggestions.map((s, idx) => [
       idx + 1,
@@ -58,12 +80,10 @@ export default function GenerateurFormules() {
       `${s.compatibilityScore}%`,
       s.olfactiveProfile || "N/A",
     ]);
-
     const csvContent = [
       headers.join(","),
       ...rows.map((row) => row.map((cell) => `"${cell}"`).join(",")),
     ].join("\n");
-
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -75,13 +95,11 @@ export default function GenerateurFormules() {
 
   const handleExportPDF = () => {
     if (!suggestions || suggestions.length === 0) return;
-
     const printWindow = window.open("", "_blank");
     if (!printWindow) {
       alert("Veuillez autoriser les pop-ups pour exporter le PDF");
       return;
     }
-
     const htmlContent = `
       <!DOCTYPE html>
       <html>
@@ -103,7 +121,6 @@ export default function GenerateurFormules() {
       <body>
         <h1>Formule Générée par IA</h1>
         <p style="color: #6b7280; margin-bottom: 30px;">Générée le ${new Date().toLocaleDateString("fr-FR")} à ${new Date().toLocaleTimeString("fr-FR")}</p>
-
         <h2>Profil Radar Cible</h2>
         <div class="radar-values">
           <div class="radar-item"><strong>Intensité</strong>${intensity}/100</div>
@@ -113,287 +130,303 @@ export default function GenerateurFormules() {
           <div class="radar-item"><strong>Épicé</strong>${spiciness}/100</div>
           <div class="radar-item"><strong>Terreux</strong>${earthiness}/100</div>
         </div>
-
         <h2>Top ${suggestions.length} Molécules Compatibles</h2>
         <table>
-          <thead>
-            <tr>
-              <th>Rang</th>
-              <th>Molécule</th>
-              <th>Famille</th>
-              <th>Score</th>
-              <th>Profil Olfactif</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Rang</th><th>Molécule</th><th>Famille</th><th>Score</th><th>Profil Olfactif</th></tr></thead>
           <tbody>
-            ${suggestions
-              .map(
-                (s: any, idx: number) => `
-              <tr>
-                <td>${idx + 1}</td>
-                <td><strong>${s.name}</strong></td>
-                <td>${s.family || "N/A"}</td>
-                <td>${s.compatibilityScore}%</td>
-                <td>${s.olfactiveProfile || "N/A"}</td>
-              </tr>
-            `
-              )
-              .join("")}
+            ${suggestions.map((s: any, idx: number) => `
+              <tr><td>${idx + 1}</td><td><strong>${s.name}</strong></td><td>${s.family || "N/A"}</td><td>${s.compatibilityScore}%</td><td>${s.olfactiveProfile || "N/A"}</td></tr>
+            `).join("")}
           </tbody>
         </table>
-
-        <div class="footer">
-          <p>PERFUMUM — Recherche Olfactive</p>
-          <p>Générateur de Formules IA basé sur l'analyse de profils radar moléculaires</p>
-        </div>
+        <div class="footer"><p>PERFUMUM — Recherche Olfactive</p><p>Générateur de Formules IA</p></div>
       </body>
       </html>
     `;
-
     printWindow.document.write(htmlContent);
     printWindow.document.close();
-    setTimeout(() => {
-      printWindow.print();
-    }, 250);
+    setTimeout(() => printWindow.print(), 250);
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col">
       <Breadcrumbs />
-
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Sparkles className="w-10 h-10 text-primary" />
-            <h1 className="text-4xl font-bold">Générateur de Formules IA</h1>
+      <Header />
+      
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="relative py-16 md:py-20 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-violet-100/40 via-transparent to-transparent dark:from-violet-900/20" />
+          
+          <div className="container relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-3xl mx-auto text-center"
+            >
+              <Badge variant="outline" className="mb-4 px-3 py-1">
+                <Sparkles className="w-3.5 h-3.5 mr-2" />
+                Intelligence Artificielle
+              </Badge>
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                Générateur de Formules IA
+              </h1>
+              <p className="text-xl text-muted-foreground">
+                Définissez votre profil olfactif cible avec les 6 axes radar, et l'IA vous suggère les molécules les plus compatibles.
+              </p>
+            </motion.div>
           </div>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Définissez votre profil olfactif cible avec les 6 axes radar, et l'IA vous suggère les molécules les plus compatibles pour créer votre formule.
-          </p>
-        </div>
+        </section>
 
-        {/* Sliders Radar */}
-        <div className="card p-8 mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-semibold">Profil Radar Cible</h2>
-            <Button variant="outline" size="sm" onClick={handleReset}>
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Réinitialiser
-            </Button>
-          </div>
-
-          <div className="space-y-6">
-            {/* Intensité */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-semibold">Intensité</label>
-                <span className="text-sm font-mono bg-primary/10 px-3 py-1 rounded-full">{intensity}/100</span>
-              </div>
-              <Slider value={[intensity]} onValueChange={([v]) => setIntensity(v)} min={0} max={100} step={5} />
-              <p className="text-xs text-muted-foreground mt-1">Puissance olfactive globale</p>
-            </div>
-
-            {/* Fraîcheur */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-semibold">Fraîcheur</label>
-                <span className="text-sm font-mono bg-primary/10 px-3 py-1 rounded-full">{freshness}/100</span>
-              </div>
-              <Slider value={[freshness]} onValueChange={([v]) => setFreshness(v)} min={0} max={100} step={5} />
-              <p className="text-xs text-muted-foreground mt-1">Notes citronnées, mentholées, aquatiques</p>
-            </div>
-
-            {/* Chaleur */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-semibold">Chaleur</label>
-                <span className="text-sm font-mono bg-primary/10 px-3 py-1 rounded-full">{warmth}/100</span>
-              </div>
-              <Slider value={[warmth]} onValueChange={([v]) => setWarmth(v)} min={0} max={100} step={5} />
-              <p className="text-xs text-muted-foreground mt-1">Notes boisées, ambrées, résineuses</p>
-            </div>
-
-            {/* Douceur */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-semibold">Douceur</label>
-                <span className="text-sm font-mono bg-primary/10 px-3 py-1 rounded-full">{sweetness}/100</span>
-              </div>
-              <Slider value={[sweetness]} onValueChange={([v]) => setSweetness(v)} min={0} max={100} step={5} />
-              <p className="text-xs text-muted-foreground mt-1">Notes florales, fruitées, vanillées</p>
-            </div>
-
-            {/* Épicé */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-semibold">Épicé</label>
-                <span className="text-sm font-mono bg-primary/10 px-3 py-1 rounded-full">{spiciness}/100</span>
-              </div>
-              <Slider value={[spiciness]} onValueChange={([v]) => setSpiciness(v)} min={0} max={100} step={5} />
-              <p className="text-xs text-muted-foreground mt-1">Notes poivrées, gingembre, clou de girofle</p>
-            </div>
-
-            {/* Terreux */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-semibold">Terreux</label>
-                <span className="text-sm font-mono bg-primary/10 px-3 py-1 rounded-full">{earthiness}/100</span>
-              </div>
-              <Slider value={[earthiness]} onValueChange={([v]) => setEarthiness(v)} min={0} max={100} step={5} />
-              <p className="text-xs text-muted-foreground mt-1">Notes de mousse, terre humide, pétrichor</p>
-            </div>
-          </div>
-
-          {/* Limite résultats */}
-          <div className="mt-8 pt-6 border-t border-border">
-            <div className="flex items-center justify-between mb-2">
-              <label className="font-semibold">Nombre de suggestions</label>
-              <span className="text-sm font-mono bg-primary/10 px-3 py-1 rounded-full">{limit}</span>
-            </div>
-            <Slider value={[limit]} onValueChange={([v]) => setLimit(v)} min={5} max={20} step={1} />
-          </div>
-        </div>
-
-        {/* Résultats */}
-        <div className="card p-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-semibold">Molécules Suggérées</h2>
-            {suggestions && suggestions.length > 0 && (
-              <div className="flex gap-2">
-                <Button 
-                  variant="default" 
-                  size="sm" 
-                  onClick={() => saveFormula.mutate({
-                    radarProfile: {
-                      intensity,
-                      freshness,
-                      warmth,
-                      sweetness,
-                      spiciness,
-                      earthiness,
-                    },
-                    suggestions: suggestions.map(s => ({
-                      id: s.id,
-                      name: s.name,
-                      compatibilityScore: s.compatibilityScore,
-                      radarIntensity: s.radarIntensity ?? undefined,
-                      radarFreshness: s.radarFreshness ?? undefined,
-                      radarWarmth: s.radarWarmth ?? undefined,
-                      radarSweetness: s.radarSweetness ?? undefined,
-                      radarSpiciness: s.radarSpiciness ?? undefined,
-                      radarEarthiness: s.radarEarthiness ?? undefined,
-                    })),
-                  })}
-                  disabled={saveFormula.isPending}
-                >
-                  {saveFormula.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                  Sauvegarder
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleExportCSV}>
-                  <Download className="w-4 h-4 mr-2" />
-                  CSV
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleExportPDF}>
-                  <Download className="w-4 h-4 mr-2" />
-                  PDF
-                </Button>
-              </div>
-            )}
-          </div>
-
-          {isLoading && (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="w-8 h-8 animate-spin text-primary" />
-            </div>
-          )}
-
-          {!isLoading && suggestions && suggestions.length === 0 && (
-            <div className="text-center py-12 text-muted-foreground">
-              <p>Aucune molécule ne correspond à ce profil radar.</p>
-              <p className="text-sm mt-2">Essayez d'ajuster les valeurs des sliders.</p>
-            </div>
-          )}
-
-          {!isLoading && suggestions && suggestions.length > 0 && (
-            <div className="space-y-4">
-              {suggestions.map((molecule: any, index: number) => (
-                <Link key={molecule.id} href={`/molecules/${molecule.id}`}>
-                  <div className="border border-border rounded-lg p-4 hover:bg-muted/30 transition-colors cursor-pointer">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="text-2xl font-bold text-primary">#{index + 1}</span>
-                          <div>
-                            <h3 className="text-lg font-semibold">{molecule.name}</h3>
-                            {molecule.family && (
-                              <p className="text-sm text-muted-foreground">{molecule.family}</p>
-                            )}
+        {/* Main Content */}
+        <section className="py-12">
+          <div className="container">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {/* Radar Controls */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="lg:col-span-1"
+              >
+                <Card className="sticky top-24">
+                  <CardHeader className="border-b">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-xl">Profil Radar</CardTitle>
+                      <Button variant="ghost" size="sm" onClick={handleReset}>
+                        <RefreshCw className="w-4 h-4 mr-2" />
+                        Reset
+                      </Button>
+                    </div>
+                    <CardDescription>Ajustez les 6 axes pour définir votre cible</CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-6 space-y-6">
+                    {RADAR_AXES.map((axis) => {
+                      const Icon = axis.icon;
+                      const value = values[axis.key];
+                      const setValue = setters[axis.key];
+                      
+                      return (
+                        <div key={axis.key} className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-8 h-8 rounded-lg ${axis.bgColor} flex items-center justify-center`}>
+                                <Icon className={`w-4 h-4 ${axis.color}`} />
+                              </div>
+                              <span className="font-medium">{axis.label}</span>
+                            </div>
+                            <Badge variant="secondary" className="font-mono">
+                              {value}
+                            </Badge>
                           </div>
+                          <Slider 
+                            value={[value]} 
+                            onValueChange={([v]) => setValue(v)} 
+                            min={0} 
+                            max={100} 
+                            step={5}
+                            className="cursor-pointer"
+                          />
+                          <p className="text-xs text-muted-foreground">{axis.description}</p>
                         </div>
-                        {molecule.olfactiveProfile && (
-                          <p className="text-sm text-muted-foreground mt-2">{molecule.olfactiveProfile}</p>
+                      );
+                    })}
+                    
+                    <div className="pt-4 border-t">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="font-medium">Suggestions</span>
+                        <Badge variant="secondary" className="font-mono">{limit}</Badge>
+                      </div>
+                      <Slider 
+                        value={[limit]} 
+                        onValueChange={([v]) => setLimit(v)} 
+                        min={5} 
+                        max={20} 
+                        step={1}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              {/* Results */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="lg:col-span-2 space-y-6"
+              >
+                {/* Actions Bar */}
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex flex-wrap items-center justify-between gap-4">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="w-5 h-5 text-primary" />
+                        <span className="font-semibold">
+                          {suggestions?.length || 0} molécules suggérées
+                        </span>
+                      </div>
+                      <div className="flex gap-2">
+                        {suggestions && suggestions.length > 0 && (
+                          <>
+                            <Button 
+                              size="sm" 
+                              onClick={() => saveFormula.mutate({
+                                radarProfile: { intensity, freshness, warmth, sweetness, spiciness, earthiness },
+                                suggestions: suggestions.map(s => ({
+                                  id: s.id,
+                                  name: s.name,
+                                  compatibilityScore: s.compatibilityScore,
+                                  radarIntensity: s.radarIntensity ?? undefined,
+                                  radarFreshness: s.radarFreshness ?? undefined,
+                                  radarWarmth: s.radarWarmth ?? undefined,
+                                  radarSweetness: s.radarSweetness ?? undefined,
+                                  radarSpiciness: s.radarSpiciness ?? undefined,
+                                  radarEarthiness: s.radarEarthiness ?? undefined,
+                                })),
+                              })}
+                              disabled={saveFormula.isPending}
+                            >
+                              {saveFormula.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                              Sauvegarder
+                            </Button>
+                            <Button variant="outline" size="sm" onClick={handleExportCSV}>
+                              <Download className="w-4 h-4 mr-2" />
+                              CSV
+                            </Button>
+                            <Button variant="outline" size="sm" onClick={handleExportPDF}>
+                              <Download className="w-4 h-4 mr-2" />
+                              PDF
+                            </Button>
+                          </>
                         )}
-                      </div>
-                      <div className="text-right">
-                        <div className="text-3xl font-bold text-primary">{molecule.compatibilityScore}%</div>
-                        <p className="text-xs text-muted-foreground mt-1">Compatibilité</p>
+                        <Link href="/historique-formules">
+                          <Button variant="ghost" size="sm">
+                            <History className="w-4 h-4 mr-2" />
+                            Historique
+                          </Button>
+                        </Link>
                       </div>
                     </div>
+                  </CardContent>
+                </Card>
 
-                    {/* Mini radar values */}
-                    <div className="grid grid-cols-6 gap-2 mt-4 pt-4 border-t border-border">
-                      <div className="text-center">
-                        <p className="text-xs text-muted-foreground mb-1">Int.</p>
-                        <p className="text-sm font-semibold">{molecule.radarIntensity || 50}</p>
+                {/* Loading State */}
+                {isLoading && (
+                  <Card>
+                    <CardContent className="flex items-center justify-center py-16">
+                      <div className="text-center space-y-4">
+                        <Loader2 className="w-10 h-10 animate-spin text-primary mx-auto" />
+                        <p className="text-muted-foreground">Analyse en cours...</p>
                       </div>
-                      <div className="text-center">
-                        <p className="text-xs text-muted-foreground mb-1">Fraî.</p>
-                        <p className="text-sm font-semibold">{molecule.radarFreshness || 50}</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-xs text-muted-foreground mb-1">Chal.</p>
-                        <p className="text-sm font-semibold">{molecule.radarWarmth || 50}</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-xs text-muted-foreground mb-1">Douc.</p>
-                        <p className="text-sm font-semibold">{molecule.radarSweetness || 50}</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-xs text-muted-foreground mb-1">Épic.</p>
-                        <p className="text-sm font-semibold">{molecule.radarSpiciness || 50}</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-xs text-muted-foreground mb-1">Terr.</p>
-                        <p className="text-sm font-semibold">{molecule.radarEarthiness || 50}</p>
-                      </div>
-                    </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Empty State */}
+                {!isLoading && suggestions && suggestions.length === 0 && (
+                  <Card>
+                    <CardContent className="flex flex-col items-center justify-center py-16 text-center">
+                      <Sparkles className="w-12 h-12 text-muted-foreground/50 mb-4" />
+                      <p className="text-muted-foreground">Aucune molécule ne correspond à ce profil radar.</p>
+                      <p className="text-sm text-muted-foreground mt-2">Essayez d'ajuster les valeurs des sliders.</p>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Results List */}
+                {!isLoading && suggestions && suggestions.length > 0 && (
+                  <div className="space-y-4">
+                    {suggestions.map((molecule: any, index: number) => (
+                      <motion.div
+                        key={molecule.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                      >
+                        <Link href={`/molecules/${molecule.id}`}>
+                          <Card className="group hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer overflow-hidden">
+                            <CardContent className="p-0">
+                              <div className="flex">
+                                {/* Rank Badge */}
+                                <div className="w-16 md:w-20 flex-shrink-0 bg-primary/5 flex items-center justify-center border-r">
+                                  <span className="text-2xl md:text-3xl font-bold text-primary">#{index + 1}</span>
+                                </div>
+                                
+                                {/* Content */}
+                                <div className="flex-1 p-4 md:p-5">
+                                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex items-center gap-2 mb-1">
+                                        <h3 className="text-lg font-semibold group-hover:text-primary transition-colors truncate">
+                                          {molecule.name}
+                                        </h3>
+                                        <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                                      </div>
+                                      {molecule.family && (
+                                        <Badge variant="outline" className="mb-2">{molecule.family}</Badge>
+                                      )}
+                                      {molecule.olfactiveProfile && (
+                                        <p className="text-sm text-muted-foreground line-clamp-2 mt-2">
+                                          {molecule.olfactiveProfile}
+                                        </p>
+                                      )}
+                                    </div>
+                                    
+                                    {/* Score */}
+                                    <div className="flex items-center gap-3 md:text-right">
+                                      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <span className="text-xl font-bold text-primary">{molecule.compatibilityScore}%</span>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* Mini Radar */}
+                                  <div className="grid grid-cols-6 gap-2 mt-4 pt-4 border-t">
+                                    {RADAR_AXES.map((axis) => {
+                                      const radarKey = `radar${axis.key.charAt(0).toUpperCase() + axis.key.slice(1)}` as keyof typeof molecule;
+                                      const value = molecule[radarKey] || 50;
+                                      return (
+                                        <div key={axis.key} className="text-center">
+                                          <p className="text-xs text-muted-foreground mb-1">{axis.label.slice(0, 4)}.</p>
+                                          <p className={`text-sm font-semibold ${axis.color}`}>{value}</p>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      </motion.div>
+                    ))}
                   </div>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
+                )}
 
-        {/* Info Section */}
-        <div className="card p-6 mt-8 bg-primary/5 border-primary/20">
-          <h3 className="text-lg font-semibold mb-3">Comment ça marche ?</h3>
-          <div className="space-y-2 text-sm text-muted-foreground">
-            <p>
-              <strong>1. Définissez votre profil cible</strong> : Ajustez les 6 sliders radar pour créer le profil olfactif que vous recherchez.
-            </p>
-            <p>
-              <strong>2. Algorithme de similarité</strong> : L'IA calcule la distance euclidienne entre votre profil cible et les 176 molécules de la base de données.
-            </p>
-            <p>
-              <strong>3. Suggestions classées</strong> : Les molécules les plus compatibles sont affichées par ordre décroissant de score (100% = correspondance parfaite).
-            </p>
-            <p>
-              <strong>4. Export</strong> : Téléchargez vos résultats en CSV (pour Excel) ou PDF (pour impression).
-            </p>
+                {/* Info Card */}
+                <Card className="bg-primary/5 border-primary/20">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Info className="w-5 h-5" />
+                      Comment ça marche ?
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-sm text-muted-foreground">
+                    <p><strong className="text-foreground">1. Définissez votre profil cible</strong> : Ajustez les 6 sliders radar pour créer le profil olfactif que vous recherchez.</p>
+                    <p><strong className="text-foreground">2. Algorithme de similarité</strong> : L'IA calcule la distance euclidienne entre votre profil cible et les molécules de la base de données.</p>
+                    <p><strong className="text-foreground">3. Suggestions classées</strong> : Les molécules les plus compatibles sont affichées par ordre décroissant de score (100% = correspondance parfaite).</p>
+                    <p><strong className="text-foreground">4. Export</strong> : Téléchargez vos résultats en CSV ou PDF, ou sauvegardez-les dans votre historique.</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
+      
+      <Footer />
     </div>
   );
 }

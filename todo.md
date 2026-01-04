@@ -982,3 +982,20 @@
 - [ ] Tester toutes les pages sur desktop
 - [ ] Tester toutes les pages sur mobile
 - [ ] Créer le checkpoint final
+
+
+---
+
+## 🎨 SESSION 04 JAN 2026 - AMÉLIORATIONS VISUELLES
+
+### Améliorations des pages principales
+- [x] Page Gammes : nouveau design avec hero section, statistiques dynamiques (6 gammes, 125 variations, 28 familles), cartes colorées par gamme avec bordures et icônes distinctives
+- [x] Page Sankey Flow : hero section avec statistiques (261 recettes, 6 catégories), répartition détaillée par catégorie, navigation vers pages connexes
+- [x] Page Synergies Heatmap : hero section avec légende colorée, types de synergies avec statistiques (P:16, S:1, T:7, M:1), cartes explicatives par type
+- [x] Page Générateur de Formules IA : layout 2 colonnes (contrôles sticky + résultats), icônes colorées par axe radar, cartes de résultats avec score circulaire, mini-radar par molécule
+
+### Améliorations techniques
+- [x] Ajout de framer-motion pour les animations d'entrée
+- [x] Cohérence visuelle avec badges, cartes et hero sections
+- [x] Navigation améliorée avec liens vers pages connexes
+- [x] Responsive design maintenu sur toutes les pages
