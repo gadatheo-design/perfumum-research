@@ -872,3 +872,43 @@
 - [x] Créer le lien vers la page IFRA complète depuis le profil
 - [x] Ajouter l'onglet Réglementation dans PlantDetail avec profil réglementaire des molécules
 
+
+
+---
+
+## 🎨 SESSION 04 JAN 2026 - AUDIT UX/UI & AMÉLIORATIONS
+
+### Phase 1 : Améliorations de la navigation
+- [ ] Simplifier le MegaMenu avec structure plus claire
+- [x] Ajouter des breadcrumbs sur les pages internes (composant PageBreadcrumb créé)
+- [ ] Améliorer la hiérarchie des liens dans le header
+- [x] Optimiser le menu mobile avec recherche rapide
+
+### Phase 2 : Améliorations du design
+- [x] Adoucir le border-radius (0 → 0.5rem) pour un look plus moderne
+- [x] Améliorer le contraste des cartes avec ombres subtiles
+- [x] Uniformiser les espacements entre sections
+- [x] Réduire l'usage des UPPERCASE aux titres principaux
+- [x] Affiner la palette de couleurs (violet moins saturé)
+
+### Phase 3 : Amélioration de la page d'accueil
+- [ ] Réorganiser les sections pour réduire la longueur
+- [x] Consolider les statistiques (source unique - dashboard.getStats)
+- [ ] Améliorer les CTA avec plus de clarté visuelle
+- [ ] Ajouter des transitions et micro-interactions
+
+### Phase 4 : Cohérence globale
+- [ ] Vérifier la cohérence typographique sur toutes les pages
+- [ ] Harmoniser les styles de cartes
+- [ ] Améliorer les états hover et focus
+- [ ] Tester le responsive sur différentes tailles d'écran
+
+
+### Phase 5 : Amélioration contenu/contenant
+- [x] Créer une API centralisée pour les statistiques globales (dashboard.getStats utilisé)
+- [ ] Normaliser les échelles d'intensité (0-10 partout)
+- [ ] Améliorer les cartes de molécules avec plus d'informations
+- [ ] Améliorer les cartes de recettes avec descriptions courtes
+- [ ] Ajouter des vues alternatives (grille compacte / liste détaillée)
+- [ ] Limiter le badge "Nouveau" aux 30 derniers jours
+

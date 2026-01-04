@@ -175,12 +175,25 @@ export function RecetteCard({ recette, onCompare, onExport, onFavorite, isSelect
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs">
             <span className="text-muted-foreground font-medium">Intensité</span>
-            <span className="font-bold">{recette.intensity || 5}/10</span>
+            <span className="font-bold">
+              {(() => {
+                const intensity = recette.intensity || 5;
+                // Corriger les valeurs > 10 (probablement sur 100)
+                const normalizedIntensity = intensity > 10 ? Math.round(intensity / 10) : intensity;
+                return `${normalizedIntensity}/10`;
+              })()}
+            </span>
           </div>
           <div className="h-1.5 bg-muted rounded-full overflow-hidden">
             <div 
               className="h-full bg-primary transition-all" 
-              style={{ width: `${(recette.intensity || 5) * 10}%` }}
+              style={{ 
+                width: `${(() => {
+                  const intensity = recette.intensity || 5;
+                  // Normaliser pour la barre de progression
+                  return intensity > 10 ? intensity : intensity * 10;
+                })()}%` 
+              }}
             />
           </div>
         </div>

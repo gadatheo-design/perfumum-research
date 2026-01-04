@@ -44,8 +44,8 @@
 }
 
 :root {
-  /* PERFUMUM Swiss Psychedelic - Saturated & Brutal */
-  --primary: oklch(0.55 0.25 290); /* Electric violet */
+  /* PERFUMUM - Modern & Elegant Research Platform */
+  --primary: oklch(0.50 0.18 280); /* Refined violet */
   --primary-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.55 0.25 290);
   --sidebar-primary-foreground: oklch(0.98 0 0);
@@ -54,7 +54,7 @@
   --chart-3: oklch(0.70 0.22 60); /* Electric yellow */
   --chart-4: oklch(0.55 0.26 220); /* Cyber blue */
   --chart-5: oklch(0.60 0.24 20); /* Neon orange */
-  --radius: 0rem; /* Brutal sharp corners */
+  --radius: 0.5rem; /* Modern rounded corners */
   /* Base - Pure white with subtle tint */
   --background: oklch(0.99 0.005 290);
   --foreground: oklch(0.10 0.02 290); /* Deep black */
@@ -76,7 +76,7 @@
   --destructive: oklch(0.60 0.20 25);
   --destructive-foreground: oklch(1 0 0);
   /* Border - Sharp black */
-  --border: oklch(0.15 0.02 290);
+  --border: oklch(0.85 0.01 280); /* Softer border */
   --input: oklch(0.92 0.03 290);
   --ring: oklch(0.55 0.25 290);
   /* Sidebar */
@@ -155,30 +155,27 @@
     letter-spacing: -0.02em; /* Tight Swiss spacing */
   }
   
-  /* Typography scale - Brutal Swiss */
+  /* Typography scale - Modern & Readable */
   h1 {
-    @apply text-5xl font-bold;
-    letter-spacing: -0.04em;
-    text-transform: uppercase;
+    @apply text-4xl md:text-5xl font-bold;
+    letter-spacing: -0.03em;
   }
   h2 {
-    @apply text-4xl font-bold;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-  }
-  h3 {
-    @apply text-3xl font-semibold;
+    @apply text-3xl md:text-4xl font-semibold;
     letter-spacing: -0.02em;
   }
-  h4 {
-    @apply text-2xl font-medium;
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold;
     letter-spacing: -0.01em;
   }
+  h4 {
+    @apply text-xl md:text-2xl font-medium;
+  }
   h5 {
-    @apply text-xl font-medium;
+    @apply text-lg md:text-xl font-medium;
   }
   h6 {
-    @apply text-lg font-medium;
+    @apply text-base md:text-lg font-medium;
   }
   
   /* Monospace for technical content */
@@ -664,24 +661,26 @@
     pointer-events: none;
   }
   
-  /* Brutal border */
+  /* Modern elevated card */
   .brutal-border {
-    border: 3px solid oklch(var(--foreground));
-    box-shadow: 6px 6px 0 oklch(var(--primary));
+    border: 1px solid oklch(var(--border));
+    box-shadow: 0 4px 6px -1px oklch(0 0 0 / 0.05), 0 2px 4px -2px oklch(0 0 0 / 0.05);
+    transition: all 0.3s ease;
   }
   
   .brutal-border:hover {
-    box-shadow: 8px 8px 0 oklch(var(--accent));
-    transform: translate(-2px, -2px);
+    box-shadow: 0 10px 25px -5px oklch(var(--primary) / 0.15), 0 8px 10px -6px oklch(0 0 0 / 0.1);
+    transform: translateY(-2px);
+    border-color: oklch(var(--primary) / 0.3);
   }
   
-  /* Swiss modern spacing */
+  /* Modern spacing - More compact */
   .section-spacing {
-    @apply py-16 md:py-24 lg:py-32;
+    @apply py-12 md:py-16 lg:py-20;
   }
   
   .content-spacing {
-    @apply space-y-8 md:space-y-12;
+    @apply space-y-6 md:space-y-8;
   }
 
   @media (min-width: 640px) {

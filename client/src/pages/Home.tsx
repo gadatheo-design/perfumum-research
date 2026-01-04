@@ -7,8 +7,12 @@ import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, D
 import { MoleculeOfTheDay } from "@/components/MoleculeOfTheDay";
 import { RecentActivity } from "@/components/RecentActivity";
 import { ResearchNews } from "@/components/ResearchNews";
+import { trpc } from "@/lib/trpc";
 
 export default function Home() {
+  // Récupérer les statistiques dynamiques depuis l'API
+  const { data: stats } = trpc.dashboard.getStats.useQuery();
+  
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -38,7 +42,7 @@ export default function Home() {
               <div className="max-w-3xl mx-auto mb-12 animate-fadeInUp" style={{animationDelay: '0.15s'}}>
                 <p className="text-base md:text-lg text-muted-foreground/90 leading-relaxed text-balance">
                   PERFUMUM est une plateforme de recherche olfactive expérimentale développée sur 10 ans (2025-2035). 
-                  Explorez <strong>192 molécules documentées</strong>, <strong>195 recettes olfactives</strong> et des méthodologies scientifiques 
+                  Explorez <strong>{stats?.molecules || '...'} molécules documentées</strong>, <strong>{stats?.recettes || '...'} recettes olfactives</strong> et des méthodologies scientifiques 
                   (GC-MS, synergies moléculaires). Les accords créés sont utilisés dans des projets artistiques site-specific 
                   et archivés selon la méthodologie ABSORBE.
                 </p>
@@ -86,7 +90,7 @@ export default function Home() {
                     </p>
                     <div className="space-y-2">
                       <Link href="/molecules" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
-                        → 192 Molécules documentées
+                        → {stats?.molecules || '...'} Molécules documentées
                       </Link>
                       <Link href="/suggestions-synergies" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
                         → Synergies moléculaires
@@ -214,11 +218,11 @@ export default function Home() {
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
-                        <span>Documenter <strong>131 molécules</strong> et leurs synergies</span>
+                        <span>Documenter <strong>{stats?.molecules || '...'} molécules</strong> et leurs synergies</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
-                        <span>Créer <strong>142 recettes</strong> expérimentales (parfums, résines, tabacs)</span>
+                        <span>Créer <strong>{stats?.recettes || '...'} recettes</strong> expérimentales (parfums, résines, tabacs)</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-primary mt-1">•</span>
@@ -371,16 +375,16 @@ export default function Home() {
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <Link href="/molecules" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                      → 131 Molécules
+                      → {stats?.molecules || '...'} Molécules
                     </Link>
                     <Link href="/recettes" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                      → 142 Recettes
+                      → {stats?.recettes || '...'} Recettes
                     </Link>
                     <Link href="/accords" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                      → 25 Accords
+                      → {stats?.accords || '...'} Accords
                     </Link>
                     <Link href="/prototypes" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
-                      → 4 Prototypes
+                      → {stats?.prototypes || '...'} Prototypes
                     </Link>
                   </CardContent>
                 </Card>
@@ -452,25 +456,25 @@ export default function Home() {
         <section className="py-16 molecular-bg">
           <div className="container">
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 text-center">
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">131</div>
+              <div className="p-4 rounded-xl bg-card/50 backdrop-blur-sm">
+                <div className="text-4xl font-bold text-primary mb-2">{stats?.molecules || '...'}</div>
                 <div className="text-sm text-muted-foreground">Molécules</div>
               </div>
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">142</div>
+              <div className="p-4 rounded-xl bg-card/50 backdrop-blur-sm">
+                <div className="text-4xl font-bold text-primary mb-2">{stats?.recettes || '...'}</div>
                 <div className="text-sm text-muted-foreground">Recettes</div>
               </div>
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">25</div>
+              <div className="p-4 rounded-xl bg-card/50 backdrop-blur-sm">
+                <div className="text-4xl font-bold text-primary mb-2">{stats?.accords || '...'}</div>
                 <div className="text-sm text-muted-foreground">Accords</div>
               </div>
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">4</div>
+              <div className="p-4 rounded-xl bg-card/50 backdrop-blur-sm">
+                <div className="text-4xl font-bold text-primary mb-2">{stats?.prototypes || '...'}</div>
                 <div className="text-sm text-muted-foreground">Prototypes</div>
               </div>
-              <div>
-                <div className="text-4xl font-bold text-primary mb-2">26</div>
-                <div className="text-sm text-muted-foreground">Traditions Olfactives </div>
+              <div className="p-4 rounded-xl bg-card/50 backdrop-blur-sm">
+                <div className="text-4xl font-bold text-primary mb-2">{stats?.civilisations || '...'}</div>
+                <div className="text-sm text-muted-foreground">Traditions Olfactives</div>
               </div>
             </div>
           </div>

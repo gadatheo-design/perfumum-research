@@ -665,7 +665,9 @@ export default function Molecules() {
                             {molecule.intensity !== null && molecule.intensity !== undefined && (
                               <div className="flex items-center gap-1.5 text-muted-foreground">
                                 <Zap className="h-3.5 w-3.5 shrink-0" />
-                                <span className="truncate">Intensité {molecule.intensity}/10</span>
+                                <span className="truncate">
+                                  Intensité {molecule.intensity > 10 ? Math.round(molecule.intensity / 10) : molecule.intensity}/10
+                                </span>
                               </div>
                             )}
                             {molecule.boilingPoint && (

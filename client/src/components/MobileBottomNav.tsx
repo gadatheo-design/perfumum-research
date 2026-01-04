@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Beaker, Search, Heart, FlaskConical } from "lucide-react";
+import { Home, Beaker, Search, FlaskConical, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -7,6 +7,7 @@ interface NavItem {
   label: string;
   path: string;
   activePattern?: RegExp;
+  isSearch?: boolean;
 }
 
 export function MobileBottomNav() {
@@ -20,22 +21,22 @@ export function MobileBottomNav() {
       activePattern: /^\/$/,
     },
     {
-      icon: <Beaker className="h-5 w-5" />,
-      label: "Molécules",
-      path: "/molecules",
-      activePattern: /^\/(molecules|molecule|terpenes|terpene)/,
+      icon: <Compass className="h-5 w-5" />,
+      label: "Explorer",
+      path: "/gammes",
+      activePattern: /^\/(gammes|colombie|sourcing)/,
     },
     {
       icon: <Search className="h-5 w-5" />,
       label: "Recherche",
       path: "#",
-      activePattern: /^$/,
+      isSearch: true,
     },
     {
-      icon: <Heart className="h-5 w-5" />,
-      label: "Favoris",
-      path: "/favoris",
-      activePattern: /^\/favoris/,
+      icon: <Beaker className="h-5 w-5" />,
+      label: "Molécules",
+      path: "/molecules",
+      activePattern: /^\/(molecules|molecule|terpenes|terpene)/,
     },
     {
       icon: <FlaskConical className="h-5 w-5" />,
@@ -52,26 +53,29 @@ export function MobileBottomNav() {
   };
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-t shadow-2xl transition-all duration-300">
-      <div className="flex items-center justify-around h-16 px-2">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/98 backdrop-blur-xl border-t border-border/50 safe-area-bottom">
+      <div className="flex items-center justify-around h-16 px-1 max-w-lg mx-auto">
         {navItems.map((item) => {
           const isActive = item.activePattern?.test(location) || false;
 
-          if (item.path === "#") {
-            // Bouton recherche spécial
+          if (item.isSearch) {
             return (
               <button
                 key={item.label}
                 onClick={handleSearchClick}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all duration-200",
-                  "hover:bg-muted/80 active:scale-95 hover:-translate-y-0.5"
+                  "flex flex-col items-center justify-center gap-0.5 min-w-[64px] py-2 rounded-xl transition-all duration-200",
+                  "hover:bg-primary/5 active:scale-95"
                 )}
+                aria-label="Ouvrir la recherche"
               >
-                <div className={cn("transition-colors", "text-muted-foreground")}>
-                  {item.icon}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative p-2 rounded-full bg-primary/10 text-primary">
+                    {item.icon}
+                  </div>
                 </div>
-                <span className={cn("text-xs font-medium transition-colors", "text-muted-foreground")}>
+                <span className="text-[10px] font-medium text-primary mt-0.5">
                   {item.label}
                 </span>
               </button>
@@ -82,22 +86,24 @@ export function MobileBottomNav() {
             <Link key={item.label} href={item.path}>
               <div
                 className={cn(
-                  "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer",
-                  "hover:bg-muted/80 active:scale-95 hover:-translate-y-0.5",
-                  isActive && "bg-primary/10 shadow-lg shadow-primary/20"
+                  "flex flex-col items-center justify-center gap-0.5 min-w-[64px] py-2 rounded-xl transition-all duration-200 cursor-pointer",
+                  "hover:bg-muted/50 active:scale-95",
+                  isActive && "bg-primary/5"
                 )}
               >
                 <div
                   className={cn(
-                    "transition-colors",
-                    isActive ? "text-primary" : "text-muted-foreground"
+                    "p-1.5 rounded-lg transition-all duration-200",
+                    isActive 
+                      ? "text-primary bg-primary/10" 
+                      : "text-muted-foreground"
                   )}
                 >
                   {item.icon}
                 </div>
                 <span
                   className={cn(
-                    "text-xs font-medium transition-colors",
+                    "text-[10px] font-medium transition-colors",
                     isActive ? "text-primary" : "text-muted-foreground"
                   )}
                 >

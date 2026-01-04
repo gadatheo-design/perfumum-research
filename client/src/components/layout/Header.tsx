@@ -335,20 +335,7 @@ export function Header() {
                     </SheetClose>
                   </div>
                   
-                  {/* Stats rapides */}
-                  <div className="mt-4 p-4 bg-muted/50 rounded-lg">
-                    <p className="text-xs text-muted-foreground mb-2">Base de données</p>
-                    <div className="flex gap-4 text-sm">
-                      <div>
-                        <span className="font-bold">176</span>
-                        <span className="text-muted-foreground ml-1">molécules</span>
-                      </div>
-                      <div>
-                        <span className="font-bold">195</span>
-                        <span className="text-muted-foreground ml-1">recettes</span>
-                      </div>
-                    </div>
-                  </div>
+                  {/* Stats rapides - Supprimé car redondant */}
                 </nav>
               </ScrollArea>
             </SheetContent>
