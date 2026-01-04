@@ -830,3 +830,45 @@
 - [x] Documenter la raison de restriction (sensibilisant cutané potentiel)
 - [x] Ajouter les notes explicatives et source URL
 
+
+
+---
+
+## 🌹 SESSION 04 JAN 2026 - ENRICHISSEMENT ASSOCIATIONS & VUE RÉGLEMENTAIRE
+
+### Associations molécules-plantes pour Rose
+- [x] Identifier les molécules principales de la Rose (Géraniol, Citronellol, Nérol, Phényléthanol, etc.)
+- [x] Créer les associations Rose-molécules dans plant_molecules
+- [x] Documenter les pourcentages et caractéristiques
+
+### Associations molécules-plantes pour Jasmin
+- [x] Identifier les molécules principales du Jasmin (Benzyl acétate, Linalol, Indole, etc.)
+- [x] Créer les associations Jasmin-molécules dans plant_molecules
+- [x] Documenter les pourcentages et caractéristiques
+
+### Associations molécules-plantes pour Vétiver
+- [x] Identifier les molécules principales du Vétiver (Vétivérol, Khusimol, Isovalencénol, etc.)
+- [x] Créer les associations Vétiver-molécules dans plant_molecules
+- [x] Documenter les pourcentages et caractéristiques
+
+### Associations molécules-plantes pour autres fiches botaniques
+- [x] Identifier les autres plantes à enrichir (Lavande, Ylang-ylang, Patchouli, Géranium)
+- [x] Créer les associations pour chaque plante
+- [x] Documenter les pourcentages et caractéristiques
+
+### Enrichissement restrictions IFRA
+- [x] Ajouter les restrictions IFRA pour Géraniol (déjà présent)
+- [x] Ajouter les restrictions IFRA pour Linalol (51st Amendment)
+- [x] Ajouter les restrictions IFRA pour Citral (déjà présent)
+- [x] Ajouter les restrictions IFRA pour Nérol (51st Amendment)
+- [x] Ajouter les restrictions IFRA pour Citronellol (déjà présent)
+- [x] Ajouter les restrictions IFRA pour autres molécules sensibilisantes (Nerolidol, Citronellal, cis-Jasmone, 2-Phényléthanol, etc.)
+
+### Vue "Profil réglementaire" pour fiches molécules
+- [x] Créer le composant RegulatoryProfile pour afficher les restrictions IFRA
+- [x] Intégrer le composant dans la page MoleculeDetail (déjà présent dans l'onglet IFRA)
+- [x] Afficher automatiquement les restrictions applicables par catégorie
+- [x] Ajouter les indicateurs visuels (badges, couleurs selon niveau de restriction)
+- [x] Créer le lien vers la page IFRA complète depuis le profil
+- [x] Ajouter l'onglet Réglementation dans PlantDetail avec profil réglementaire des molécules
+

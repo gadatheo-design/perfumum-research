@@ -18,8 +18,11 @@ import {
   Droplets,
   Wind,
   TreeDeciduous,
-  Sparkles
+  Sparkles,
+  Shield,
+  Loader2
 } from "lucide-react";
+import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -67,6 +70,12 @@ export default function PlantDetail() {
   
   // Récupérer les analyses de la plante
   const { data: analyses } = trpc.plantAnalyses.getByPlant.useQuery(
+    { plantId },
+    { enabled: plantId > 0 }
+  );
+  
+  // Récupérer les molécules associées à la plante avec leurs restrictions IFRA
+  const { data: plantMolecules, isLoading: isLoadingMolecules } = trpc.plantStatistics.getPlantMoleculesWithIfra.useQuery(
     { plantId },
     { enabled: plantId > 0 }
   );
@@ -171,12 +180,13 @@ export default function PlantDetail() {
       
       {/* Onglets principaux */}
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
           <TabsTrigger value="varieties">Variétés ({varieties?.length || 0})</TabsTrigger>
           <TabsTrigger value="states">États botaniques</TabsTrigger>
           <TabsTrigger value="samples">Échantillons ({samples?.length || 0})</TabsTrigger>
           <TabsTrigger value="analyses">Analyses ({analyses?.length || 0})</TabsTrigger>
+          <TabsTrigger value="regulatory">Réglementation</TabsTrigger>
           <TabsTrigger value="usage">Usage Absorbe</TabsTrigger>
         </TabsList>
         
@@ -629,6 +639,124 @@ export default function PlantDetail() {
                   </p>
                 </div>
               )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Onglet Réglementation */}
+        <TabsContent value="regulatory" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Profil Réglementaire IFRA
+              </CardTitle>
+              <CardDescription>
+                Restrictions IFRA applicables aux molécules présentes dans cette plante
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {isLoadingMolecules ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                </div>
+              ) : plantMolecules && plantMolecules.length > 0 ? (
+                <div className="space-y-4">
+                  {/* Résumé des restrictions */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-primary">{plantMolecules.length}</p>
+                      <p className="text-xs text-muted-foreground">Molécules documentées</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-orange-500">
+                        {plantMolecules.filter((pm: any) => pm.ifraRestrictions?.some((r: any) => r.restrictionType === 'restricted')).length}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Avec restrictions</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-yellow-500">
+                        {plantMolecules.filter((pm: any) => pm.ifraRestrictions?.some((r: any) => r.restrictionType === 'specification')).length}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Spécifications</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-green-500">
+                        {plantMolecules.filter((pm: any) => !pm.ifraRestrictions?.length || pm.ifraRestrictions?.some((r: any) => r.restrictionType === 'no_restriction')).length}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Sans restriction</p>
+                    </div>
+                  </div>
+                  
+                  {/* Liste des molécules avec leurs restrictions */}
+                  <div className="space-y-3">
+                    <h4 className="font-medium">Détail par molécule</h4>
+                    {plantMolecules.map((pm: any) => (
+                      <div key={pm.moleculeId} className="p-4 border rounded-lg">
+                        <div className="flex items-start justify-between mb-2">
+                          <div>
+                            <Link href={`/molecule/${pm.moleculeId}`}>
+                              <span className="font-medium hover:text-primary cursor-pointer">
+                                {pm.molecule?.name || `Molécule #${pm.moleculeId}`}
+                              </span>
+                            </Link>
+                            {pm.percentageTypical && (
+                              <span className="text-sm text-muted-foreground ml-2">
+                                ({pm.percentageTypical}%)
+                              </span>
+                            )}
+                            {pm.role && (
+                              <Badge variant="outline" className="ml-2 text-xs capitalize">
+                                {pm.role}
+                              </Badge>
+                            )}
+                            {pm.isSignature === 1 && (
+                              <Badge className="ml-2 bg-amber-500/10 text-amber-600 border-amber-500/30">
+                                Signature
+                              </Badge>
+                            )}
+                          </div>
+                          {pm.ifraRestrictions?.[0]?.restrictionType && (
+                            <RegulatoryBadge restrictionType={pm.ifraRestrictions[0].restrictionType} />
+                          )}
+                        </div>
+                        
+                        {pm.ifraRestrictions && pm.ifraRestrictions.length > 0 ? (
+                          <RegulatoryProfile 
+                            restrictions={pm.ifraRestrictions}
+                            moleculeName={pm.molecule?.name}
+                            moleculeId={pm.moleculeId}
+                            compact={false}
+                            showLink={true}
+                          />
+                        ) : (
+                          <p className="text-sm text-muted-foreground">
+                            Aucune restriction IFRA documentée pour cette molécule.
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Shield className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                  <p>Aucune molécule documentée pour cette plante.</p>
+                  <p className="text-sm mt-2">
+                    Les associations molécules-plantes permettent d'afficher le profil réglementaire.
+                  </p>
+                </div>
+              )}
+              
+              {/* Lien vers la page IFRA */}
+              <div className="pt-4 border-t">
+                <Link href="/ifra">
+                  <Button variant="outline" className="w-full">
+                    <Shield className="h-4 w-4 mr-2" />
+                    Consulter toutes les restrictions IFRA
+                  </Button>
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

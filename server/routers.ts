@@ -2724,6 +2724,31 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return searchPlantsByTerroir(input.terroirId);
       }),
+    getPlantMoleculesWithIfra: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        // Récupérer les molécules de la plante avec leurs restrictions IFRA
+        const molecules = await db.getPlantMoleculesWithPercentages(input.plantId);
+        
+        // Pour chaque molécule, récupérer ses restrictions IFRA
+        const moleculesWithIfra = await Promise.all(
+          molecules.map(async (mol) => {
+            const ifraRestrictions = await db.getMoleculeIfraRestrictions(mol.molecule.id);
+            return {
+              moleculeId: mol.molecule.id,
+              molecule: mol.molecule,
+              percentageTypical: mol.percentageTypical,
+              percentageMin: mol.percentageMin,
+              percentageMax: mol.percentageMax,
+              role: mol.role,
+              isSignature: mol.isSignature,
+              ifraRestrictions,
+            };
+          })
+        );
+        
+        return moleculesWithIfra;
+      }),
   }),
 
   // ============================================================================
