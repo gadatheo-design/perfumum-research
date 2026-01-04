@@ -797,3 +797,25 @@
 - [x] Tester sur desktop et mobile (TypeScript OK)
 - [x] Créer le checkpoint final
 
+
+---
+
+## 🔗 SESSION 04 JAN 2026 - AMÉLIORATIONS GALERIE & MOLÉCULES
+
+### Navigation Galerie
+- [x] Ajouter lien vers /galerie/import dans le menu de la galerie
+
+### Molécules manquantes pour fiche Ambrette
+- [x] Créer molécule Farnesol pour compléter les liaisons de la fiche Ambrette
+- [x] Créer molécule Geraniol pour compléter les liaisons de la fiche Ambrette (existait déjà sous le nom Géraniol)
+
+---
+
+## 🔗 SESSION 04 JAN 2026 - AMÉLIORATIONS GALERIE & MOLÉCULES
+
+### Navigation Galerie
+- [x] Ajouter lien vers /galerie/import dans le menu de la galerie
+
+### Molécules manquantes pour fiche Ambrette
+- [x] Créer molécule Farnesol pour compléter les liaisons de la fiche Ambrette
+- [x] Créer molécule Geraniol pour compléter les liaisons de la fiche Ambrette (existait déjà sous le nom Géraniol)

@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, nom, nom_inci, famille_olfactive, cas_number FROM molecules WHERE nom LIKE '%Farnesol%' OR nom LIKE '%Geraniol%' OR nom LIKE '%farnesol%' OR nom LIKE '%geraniol%' OR nom_inci LIKE '%Farnesol%' OR nom_inci LIKE '%Geraniol%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, nom, nom_inci, famille_olfactive, cas_number FROM molecules WHERE nom LIKE '%Farnesol%' OR nom LIKE '%Geraniol%' OR nom LIKE '%farnesol%' OR nom LIKE '%geraniol%' OR nom_inci LIKE '%Farnesol%' OR nom_inci LIKE '%Geraniol%';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'nom' in 'where clause'"
+  ]
+}

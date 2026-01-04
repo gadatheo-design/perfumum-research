@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,7 +34,8 @@ import {
   Settings,
   Loader2,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  FileUp
 } from "lucide-react";
 import ImageUpload from "@/components/ImageUpload";
 
@@ -202,8 +204,17 @@ export default function Gallery() {
           </p>
         </div>
         
-        {user && (
-          <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
+        <div className="flex gap-2">
+          {user && (
+            <Link href="/galerie/import">
+              <Button variant="outline" className="gap-2">
+                <FileUp className="h-4 w-4" />
+                Import par lot
+              </Button>
+            </Link>
+          )}
+          {user && (
+            <Dialog open={isUploadOpen} onOpenChange={setIsUploadOpen}>
             <DialogTrigger asChild>
               <Button className="gap-2">
                 <Upload className="h-4 w-4" />
@@ -329,7 +340,8 @@ export default function Gallery() {
               </div>
             </DialogContent>
           </Dialog>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Stats */}
