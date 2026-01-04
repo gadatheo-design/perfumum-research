@@ -213,6 +213,11 @@ import Favoris from "./pages/Favoris";
 import Reseau from "./pages/Reseau";
 import BioMineralis from "./pages/BioMineralis";
 
+// === MATIÈRES PREMIÈRES & RELATIONS ===
+import RawMaterials from "./pages/RawMaterials";
+import RawMaterialDetail from "./pages/RawMaterialDetail";
+import MoleculePlantRelations from "./pages/MoleculePlantRelations";
+
 // === PAGES TECHNIQUES ===
 import TestMinimal from "./pages/TestMinimal";
 
@@ -412,6 +417,14 @@ function Router() {
       <Route path="/origines-geographiques" component={OriginesGeographiques} />
       <Route path="/extraction-methods" component={ExtractionMethods} />
       <Route path="/methodes-extraction" component={ExtractionMethods} />
+      
+      {/* === MATIÈRES PREMIÈRES & RELATIONS === */}
+      <Route path="/matieres-premieres" component={RawMaterials} />
+      <Route path="/matieres-premieres/:id" component={RawMaterialDetail} />
+      <Route path="/raw-materials" component={RawMaterials} />
+      <Route path="/raw-materials/:id" component={RawMaterialDetail} />
+      <Route path="/relations-molecule-plante" component={MoleculePlantRelations} />
+      <Route path="/molecule-plant-relations" component={MoleculePlantRelations} />
       
       {/* === CIVILISATIONS & TRADITIONS === */}
       <Route path="/civilisations" component={Civilisations} />

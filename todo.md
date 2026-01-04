@@ -407,3 +407,92 @@
 - [x] Créer les fiches méthodologiques (extraction, analyse)
 - [x] Documenter les conventions du projet
 
+
+
+---
+
+## 🔬 SESSION 04 JAN 2026 - CONTENU SCIENTIFIQUE : RELATIONS MOLÉCULES-PLANTES-TERROIRS
+
+### Phase 1 : Analyse et conception du modèle relationnel
+- [ ] Analyser les données existantes (molécules, plantes, recettes)
+- [ ] Concevoir le modèle de données relationnel étendu
+- [ ] Définir les relations many-to-many entre entités
+- [ ] Créer le diagramme de relations
+
+### Phase 2 : Extension du schéma de base de données
+- [ ] Étendre la table molecules avec champs scientifiques manquants
+- [ ] Créer/étendre la table plants avec taxonomie complète
+- [ ] Créer la table raw_materials (matières premières)
+- [ ] Créer la table terroirs (géographie olfactive)
+- [ ] Créer les tables de liaison (plant_molecules, terroir_plants, etc.)
+- [ ] Migrer le schéma avec pnpm db:push
+
+### Phase 3 : Procédures tRPC pour les relations
+- [ ] CRUD matières premières
+- [ ] CRUD terroirs
+- [ ] Gestion des liaisons plante-molécule
+- [ ] Gestion des liaisons terroir-plante
+- [ ] Recherche par relation (molécules d'une plante, plantes d'un terroir)
+- [ ] Statistiques et agrégations
+
+### Phase 4 : Interface de visualisation des relations
+- [ ] Page matières premières avec filtres
+- [ ] Page terroirs avec carte interactive
+- [ ] Graphe de relations molécule-plante
+- [ ] Graphe de relations terroir-plante-molécule
+- [ ] Vue détaillée avec toutes les connexions
+
+### Phase 5 : Import des données existantes
+- [ ] Importer les molécules avec leurs sources botaniques
+- [ ] Importer les plantes avec leurs terroirs
+- [ ] Importer les matières premières
+- [ ] Créer les liaisons entre entités
+- [ ] Valider l'intégrité des données
+
+### Phase 6 : Tests et livraison
+- [ ] Tests unitaires des nouvelles procédures
+- [ ] Tests d'intégration des relations
+- [ ] Checkpoint final
+
+
+---
+
+## 🔬 SESSION 04 JAN 2026 - RELATIONS MOLÉCULE-PLANTE-MATIÈRE PREMIÈRE
+
+### Phase 1 : Analyse des données existantes ✅ COMPLÉTÉ
+- [x] Analyser les fichiers de données partagés (40 fichiers)
+- [x] Identifier les structures de données pour molécules, plantes, terroirs
+- [x] Documenter les relations existantes entre entités
+
+### Phase 2 : Modèle de données relationnel ✅ COMPLÉTÉ
+- [x] Créer le schéma `raw_materials` (matières premières)
+- [x] Créer le schéma `molecule_plant_sources` (relations molécule-plante)
+- [x] Créer le schéma `terroir_specialties` (spécialités des terroirs)
+- [x] Créer le schéma `raw_material_molecules` (composition des matières premières)
+- [x] Migrer les schémas vers la base de données
+
+### Phase 3 : Procédures tRPC ✅ COMPLÉTÉ
+- [x] Créer les procédures CRUD pour raw_materials
+- [x] Créer les procédures pour molecule_plant_sources
+- [x] Créer les procédures pour terroir_specialties
+- [x] Créer les procédures de recherche avancée
+- [x] Créer les procédures de statistiques de contenu
+
+### Phase 4 : Interface utilisateur ✅ COMPLÉTÉ
+- [x] Créer la page RawMaterials.tsx (liste des matières premières)
+- [x] Créer la page RawMaterialDetail.tsx (détail avec molécules)
+- [x] Créer la page MoleculePlantRelations.tsx (visualisation des relations)
+- [x] Ajouter les routes dans App.tsx
+
+### Phase 5 : Import des données ✅ COMPLÉTÉ
+- [x] Importer 8 matières premières de test (Lavande, Romarin, Menthe, Rose, Ylang-Ylang, Vétiver, Encens, Bergamote)
+- [x] Corriger la colonne `references` manquante dans la table raw_materials
+- [x] Vérifier le fonctionnement de la page Matières Premières
+- [x] Vérifier le fonctionnement de la page Relations Molécule-Plante
+
+### Phase 6 : À faire (prochaine session)
+- [ ] Corriger les erreurs TypeScript restantes (finalRecipes functions)
+- [ ] Ajouter plus de données de relations molécule-plante
+- [ ] Créer des tests unitaires pour les nouvelles fonctionnalités
+- [ ] Importer les données de composition moléculaire des matières premières
+

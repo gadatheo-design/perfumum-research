@@ -132,6 +132,19 @@ import {
   extendedSupplierMaterials,
   ExtendedSupplierMaterial,
   InsertExtendedSupplierMaterial,
+  // Nouvelles tables pour les relations molécule-plante-terroir
+  rawMaterials,
+  RawMaterial,
+  InsertRawMaterial,
+  rawMaterialMolecules,
+  RawMaterialMolecule,
+  InsertRawMaterialMolecule,
+  moleculePlantSources,
+  MoleculePlantSource,
+  InsertMoleculePlantSource,
+  terroirSpecialties,
+  TerroirSpecialty,
+  InsertTerroirSpecialty,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -4524,5 +4537,359 @@ export async function getPlantStatistics() {
     samples: totalSamples[0]?.count || 0,
     analyses: totalAnalyses[0]?.count || 0,
     suppliers: totalSuppliers[0]?.count || 0,
+  };
+}
+
+
+// ============================================================================
+// RAW MATERIALS (Matières premières)
+// ============================================================================
+
+export async function getAllRawMaterials() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(rawMaterials).orderBy(rawMaterials.name);
+}
+
+export async function getRawMaterialById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(rawMaterials).where(eq(rawMaterials.id, id));
+  return results[0] || null;
+}
+
+export async function getRawMaterialByMaterialId(materialId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(rawMaterials).where(eq(rawMaterials.materialId, materialId));
+  return results[0] || null;
+}
+
+export async function getRawMaterialsByCategory(category: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(rawMaterials).where(eq(rawMaterials.category, category as any)).orderBy(rawMaterials.name);
+}
+
+export async function getRawMaterialsByPlant(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(rawMaterials).where(eq(rawMaterials.plantId, plantId)).orderBy(rawMaterials.name);
+}
+
+export async function getRawMaterialsByTerroir(terroirId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(rawMaterials).where(eq(rawMaterials.terroirId, terroirId)).orderBy(rawMaterials.name);
+}
+
+export async function createRawMaterial(data: InsertRawMaterial) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  const result = await db.insert(rawMaterials).values(data);
+  const insertId = Number(result[0].insertId);
+  return { id: insertId };
+}
+
+export async function updateRawMaterial(id: number, data: Partial<InsertRawMaterial>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(rawMaterials).set(data).where(eq(rawMaterials.id, id));
+  return await getRawMaterialById(id);
+}
+
+export async function deleteRawMaterial(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(rawMaterials).where(eq(rawMaterials.id, id));
+}
+
+// ============================================================================
+// RAW MATERIAL MOLECULES (Liaison matière première <-> molécule)
+// ============================================================================
+
+export async function getRawMaterialMolecules(rawMaterialId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      molecule: molecules,
+      percentage: rawMaterialMolecules.percentage,
+      isSignature: rawMaterialMolecules.isSignature,
+      variability: rawMaterialMolecules.variability,
+      notes: rawMaterialMolecules.notes,
+    })
+    .from(rawMaterialMolecules)
+    .innerJoin(molecules, eq(rawMaterialMolecules.moleculeId, molecules.id))
+    .where(eq(rawMaterialMolecules.rawMaterialId, rawMaterialId))
+    .orderBy(desc(rawMaterialMolecules.percentage));
+}
+
+export async function getMoleculeRawMaterials(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      rawMaterial: rawMaterials,
+      percentage: rawMaterialMolecules.percentage,
+      isSignature: rawMaterialMolecules.isSignature,
+      variability: rawMaterialMolecules.variability,
+    })
+    .from(rawMaterialMolecules)
+    .innerJoin(rawMaterials, eq(rawMaterialMolecules.rawMaterialId, rawMaterials.id))
+    .where(eq(rawMaterialMolecules.moleculeId, moleculeId))
+    .orderBy(desc(rawMaterialMolecules.percentage));
+}
+
+export async function addMoleculeToRawMaterial(data: InsertRawMaterialMolecule) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return db.insert(rawMaterialMolecules).values(data);
+}
+
+export async function removeMoleculeFromRawMaterial(rawMaterialId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(rawMaterialMolecules)
+    .where(and(
+      eq(rawMaterialMolecules.rawMaterialId, rawMaterialId),
+      eq(rawMaterialMolecules.moleculeId, moleculeId)
+    ));
+}
+
+// ============================================================================
+// MOLECULE PLANT SOURCES (Sources botaniques des molécules)
+// ============================================================================
+
+export async function getMoleculePlantSources(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      plant: plants,
+      plantPart: moleculePlantSources.plantPart,
+      percentageInPlant: moleculePlantSources.percentageInPlant,
+      percentageInOil: moleculePlantSources.percentageInOil,
+      variability: moleculePlantSources.variability,
+      isMainSource: moleculePlantSources.isMainSource,
+      isPrimarySource: moleculePlantSources.isPrimarySource,
+      bestExtractionMethod: moleculePlantSources.bestExtractionMethod,
+      extractionYield: moleculePlantSources.extractionYield,
+    })
+    .from(moleculePlantSources)
+    .innerJoin(plants, eq(moleculePlantSources.plantId, plants.id))
+    .where(eq(moleculePlantSources.moleculeId, moleculeId))
+    .orderBy(desc(moleculePlantSources.isMainSource), desc(moleculePlantSources.percentageInOil));
+}
+
+export async function getPlantMoleculeSources(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      molecule: molecules,
+      plantPart: moleculePlantSources.plantPart,
+      percentageInPlant: moleculePlantSources.percentageInPlant,
+      percentageInOil: moleculePlantSources.percentageInOil,
+      variability: moleculePlantSources.variability,
+      isMainSource: moleculePlantSources.isMainSource,
+    })
+    .from(moleculePlantSources)
+    .innerJoin(molecules, eq(moleculePlantSources.moleculeId, molecules.id))
+    .where(eq(moleculePlantSources.plantId, plantId))
+    .orderBy(desc(moleculePlantSources.percentageInOil));
+}
+
+export async function addMoleculePlantSource(data: InsertMoleculePlantSource) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return db.insert(moleculePlantSources).values(data);
+}
+
+export async function updateMoleculePlantSource(id: number, data: Partial<InsertMoleculePlantSource>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(moleculePlantSources).set(data).where(eq(moleculePlantSources.id, id));
+}
+
+export async function deleteMoleculePlantSource(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(moleculePlantSources).where(eq(moleculePlantSources.id, id));
+}
+
+// ============================================================================
+// TERROIR SPECIALTIES (Spécialités par terroir)
+// ============================================================================
+
+export async function getTerroirSpecialties(terroirId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      specialty: terroirSpecialties,
+      plant: plants,
+      rawMaterial: rawMaterials,
+    })
+    .from(terroirSpecialties)
+    .leftJoin(plants, eq(terroirSpecialties.plantId, plants.id))
+    .leftJoin(rawMaterials, eq(terroirSpecialties.rawMaterialId, rawMaterials.id))
+    .where(eq(terroirSpecialties.terroirId, terroirId))
+    .orderBy(desc(terroirSpecialties.isSignature), terroirSpecialties.importance);
+}
+
+export async function getPlantTerroirSpecialties(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      specialty: terroirSpecialties,
+      terroir: terroirs,
+    })
+    .from(terroirSpecialties)
+    .innerJoin(terroirs, eq(terroirSpecialties.terroirId, terroirs.id))
+    .where(eq(terroirSpecialties.plantId, plantId))
+    .orderBy(desc(terroirSpecialties.isSignature));
+}
+
+export async function addTerroirSpecialty(data: InsertTerroirSpecialty) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  return db.insert(terroirSpecialties).values(data);
+}
+
+export async function updateTerroirSpecialty(id: number, data: Partial<InsertTerroirSpecialty>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.update(terroirSpecialties).set(data).where(eq(terroirSpecialties.id, id));
+}
+
+export async function deleteTerroirSpecialty(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  await db.delete(terroirSpecialties).where(eq(terroirSpecialties.id, id));
+}
+
+// ============================================================================
+// RECHERCHE AVANCÉE - Relations molécule-plante-terroir
+// ============================================================================
+
+export async function searchMoleculesByPlantSource(plantName: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      molecule: molecules,
+      plant: plants,
+      percentageInOil: moleculePlantSources.percentageInOil,
+    })
+    .from(moleculePlantSources)
+    .innerJoin(molecules, eq(moleculePlantSources.moleculeId, molecules.id))
+    .innerJoin(plants, eq(moleculePlantSources.plantId, plants.id))
+    .where(like(plants.name, `%${plantName}%`))
+    .orderBy(desc(moleculePlantSources.percentageInOil));
+}
+
+export async function searchRawMaterialsByMolecule(moleculeName: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      rawMaterial: rawMaterials,
+      molecule: molecules,
+      percentage: rawMaterialMolecules.percentage,
+    })
+    .from(rawMaterialMolecules)
+    .innerJoin(rawMaterials, eq(rawMaterialMolecules.rawMaterialId, rawMaterials.id))
+    .innerJoin(molecules, eq(rawMaterialMolecules.moleculeId, molecules.id))
+    .where(like(molecules.name, `%${moleculeName}%`))
+    .orderBy(desc(rawMaterialMolecules.percentage));
+}
+
+export async function getFullMoleculeProfile(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const molecule = await getMoleculeById(moleculeId);
+  if (!molecule) return null;
+  
+  const plantSources = await getMoleculePlantSources(moleculeId);
+  const rawMaterialSources = await getMoleculeRawMaterials(moleculeId);
+  const origins = await getMoleculeOrigins(moleculeId);
+  const ifraRestrictions = await getMoleculeIfraRestrictions(moleculeId);
+  
+  return {
+    molecule,
+    plantSources,
+    rawMaterialSources,
+    origins,
+    ifraRestrictions,
+  };
+}
+
+export async function getFullPlantProfile(plantId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const plant = await getPlantById(plantId);
+  if (!plant) return null;
+  
+  const molecules = await getPlantMoleculeSources(plantId);
+  const rawMaterials = await getRawMaterialsByPlant(plantId);
+  const terroirs = await getPlantTerroirSpecialties(plantId);
+  const varieties = await getPlantVarietiesByPlant(plantId);
+  
+  return {
+    plant,
+    molecules,
+    rawMaterials,
+    terroirs,
+    varieties,
+  };
+}
+
+export async function getFullTerroirProfile(terroirId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const terroir = await getTerroirById(terroirId);
+  if (!terroir) return null;
+  
+  const specialties = await getTerroirSpecialties(terroirId);
+  const rawMaterials = await getRawMaterialsByTerroir(terroirId);
+  const plants = await getTerroirPlants(terroirId);
+  
+  return {
+    terroir,
+    specialties,
+    rawMaterials,
+    plants,
+  };
+}
+
+// ============================================================================
+// STATISTIQUES GLOBALES
+// ============================================================================
+
+export async function getContentStatistics() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const totalMolecules = await db.select({ count: count() }).from(molecules);
+  const totalPlants = await db.select({ count: count() }).from(plants);
+  const totalRawMaterials = await db.select({ count: count() }).from(rawMaterials);
+  const totalTerroirs = await db.select({ count: count() }).from(terroirs);
+  const totalRecettes = await db.select({ count: count() }).from(recettes);
+  const totalMoleculePlantLinks = await db.select({ count: count() }).from(moleculePlantSources);
+  const totalRawMaterialMoleculeLinks = await db.select({ count: count() }).from(rawMaterialMolecules);
+  
+  return {
+    molecules: totalMolecules[0]?.count || 0,
+    plants: totalPlants[0]?.count || 0,
+    rawMaterials: totalRawMaterials[0]?.count || 0,
+    terroirs: totalTerroirs[0]?.count || 0,
+    recettes: totalRecettes[0]?.count || 0,
+    moleculePlantLinks: totalMoleculePlantLinks[0]?.count || 0,
+    rawMaterialMoleculeLinks: totalRawMaterialMoleculeLinks[0]?.count || 0,
   };
 }

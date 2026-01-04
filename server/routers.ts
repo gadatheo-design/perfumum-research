@@ -2684,6 +2684,270 @@ export const appRouter = router({
         return searchPlantsByTerroir(input.terroirId);
       }),
   }),
+
+  // ============================================================================
+  // MATIÈRES PREMIÈRES ET RELATIONS MOLÉCULE-PLANTE-TERROIR
+  // ============================================================================
+  
+  rawMaterials: router({
+    getAll: publicProcedure.query(async () => {
+      return db.getAllRawMaterials();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getRawMaterialById(input);
+      }),
+    getByMaterialId: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getRawMaterialByMaterialId(input);
+      }),
+    getByCategory: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getRawMaterialsByCategory(input);
+      }),
+    getByPlant: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getRawMaterialsByPlant(input);
+      }),
+    getByTerroir: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getRawMaterialsByTerroir(input);
+      }),
+    getMolecules: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getRawMaterialMolecules(input);
+      }),
+    create: protectedProcedure
+      .input(z.object({
+        materialId: z.string().min(1),
+        name: z.string().min(1),
+        latinName: z.string().optional(),
+        category: z.enum(['huile_essentielle', 'absolue', 'concrete', 'resinoid', 'teinture', 'co2_extract', 'hydrolat', 'beurre', 'cire', 'oleoresine', 'infusion', 'maceration', 'distillat', 'autre']),
+        plantId: z.number().optional(),
+        plantPart: z.enum(['fleur', 'feuille', 'tige', 'racine', 'ecorce', 'bois', 'resine', 'graine', 'fruit', 'zeste', 'plante_entiere', 'bourgeon', 'autre']).optional(),
+        terroirId: z.number().optional(),
+        originCountry: z.string().optional(),
+        originRegion: z.string().optional(),
+        extractionMethodId: z.number().optional(),
+        extractionYield: z.string().optional(),
+        extractionNotes: z.string().optional(),
+        olfactiveFamily: z.enum(['floral', 'boise', 'agrume', 'epice', 'herbace', 'balsamique', 'musque', 'animal', 'vert', 'fruité', 'marin', 'terreux', 'fumé', 'gourmand', 'aromatique', 'autre']).optional(),
+        olfactiveProfile: z.string().optional(),
+        topNotes: z.string().optional(),
+        heartNotes: z.string().optional(),
+        baseNotes: z.string().optional(),
+        intensity: z.number().optional(),
+        tenacity: z.number().optional(),
+        quality: z.enum(['conventionnel', 'bio', 'sauvage', 'biodynamique', 'aop', 'igp', 'fair_trade']).optional(),
+        priceRange: z.enum(['economique', 'standard', 'premium', 'luxe', 'rare']).optional(),
+        availability: z.enum(['disponible', 'saisonnier', 'rare', 'en_rupture', 'discontinue']).optional(),
+        usageNotes: z.string().optional(),
+        blendingTips: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.createRawMaterial(input as any);
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          name: z.string().optional(),
+          latinName: z.string().optional(),
+          category: z.enum(['huile_essentielle', 'absolue', 'concrete', 'resinoid', 'teinture', 'co2_extract', 'hydrolat', 'beurre', 'cire', 'oleoresine', 'infusion', 'maceration', 'distillat', 'autre']).optional(),
+          plantId: z.number().optional(),
+          plantPart: z.enum(['fleur', 'feuille', 'tige', 'racine', 'ecorce', 'bois', 'resine', 'graine', 'fruit', 'zeste', 'plante_entiere', 'bourgeon', 'autre']).optional(),
+          terroirId: z.number().optional(),
+          originCountry: z.string().optional(),
+          originRegion: z.string().optional(),
+          olfactiveProfile: z.string().optional(),
+          notes: z.string().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateRawMaterial(input.id, input.data as any);
+      }),
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteRawMaterial(input);
+        return { success: true };
+      }),
+    addMolecule: protectedProcedure
+      .input(z.object({
+        rawMaterialId: z.number(),
+        moleculeId: z.number(),
+        percentage: z.string().optional(),
+        isSignature: z.number().optional(),
+        variability: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.addMoleculeToRawMaterial(input as any);
+      }),
+    removeMolecule: protectedProcedure
+      .input(z.object({
+        rawMaterialId: z.number(),
+        moleculeId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        await db.removeMoleculeFromRawMaterial(input.rawMaterialId, input.moleculeId);
+        return { success: true };
+      }),
+  }),
+
+  moleculePlantSources: router({
+    getByMolecule: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getMoleculePlantSources(input);
+      }),
+    getByPlant: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getPlantMoleculeSources(input);
+      }),
+    add: protectedProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        plantId: z.number(),
+        plantPart: z.string().optional(),
+        percentageInPlant: z.string().optional(),
+        percentageInOil: z.string().optional(),
+        variability: z.enum(['stable', 'variable', 'tres_variable', 'chemotype_dependant']).optional(),
+        isMainSource: z.number().optional(),
+        isPrimarySource: z.number().optional(),
+        bestExtractionMethod: z.string().optional(),
+        extractionYield: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.addMoleculePlantSource(input as any);
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          plantPart: z.string().optional(),
+          percentageInPlant: z.string().optional(),
+          percentageInOil: z.string().optional(),
+          variability: z.enum(['stable', 'variable', 'tres_variable', 'chemotype_dependant']).optional(),
+          isMainSource: z.number().optional(),
+          isPrimarySource: z.number().optional(),
+          bestExtractionMethod: z.string().optional(),
+          notes: z.string().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateMoleculePlantSource(input.id, input.data as any);
+      }),
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteMoleculePlantSource(input);
+        return { success: true };
+      }),
+  }),
+
+  terroirSpecialties: router({
+    getByTerroir: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getTerroirSpecialties(input);
+      }),
+    getByPlant: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getPlantTerroirSpecialties(input);
+      }),
+    add: protectedProcedure
+      .input(z.object({
+        terroirId: z.number(),
+        plantId: z.number().optional(),
+        rawMaterialId: z.number().optional(),
+        isSignature: z.number().optional(),
+        importance: z.enum(['majeure', 'significative', 'mineure', 'emergente']).optional(),
+        annualProduction: z.string().optional(),
+        productionTrend: z.enum(['croissante', 'stable', 'decroissante', 'variable']).optional(),
+        qualityReputation: z.enum(['exceptionnelle', 'excellente', 'bonne', 'standard']).optional(),
+        uniqueCharacteristics: z.string().optional(),
+        historicalContext: z.string().optional(),
+        traditionSince: z.string().optional(),
+        economicImportance: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.addTerroirSpecialty(input as any);
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          isSignature: z.number().optional(),
+          importance: z.enum(['majeure', 'significative', 'mineure', 'emergente']).optional(),
+          annualProduction: z.string().optional(),
+          productionTrend: z.enum(['croissante', 'stable', 'decroissante', 'variable']).optional(),
+          qualityReputation: z.enum(['exceptionnelle', 'excellente', 'bonne', 'standard']).optional(),
+          uniqueCharacteristics: z.string().optional(),
+          notes: z.string().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateTerroirSpecialty(input.id, input.data as any);
+      }),
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        await db.deleteTerroirSpecialty(input);
+        return { success: true };
+      }),
+  }),
+
+  // Profils complets avec toutes les relations
+  fullProfiles: router({
+    getMolecule: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getFullMoleculeProfile(input);
+      }),
+    getPlant: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getFullPlantProfile(input);
+      }),
+    getTerroir: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getFullTerroirProfile(input);
+      }),
+  }),
+
+  // Recherche avancée
+  advancedSearch: router({
+    moleculesByPlant: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.searchMoleculesByPlantSource(input);
+      }),
+    rawMaterialsByMolecule: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.searchRawMaterialsByMolecule(input);
+      }),
+  }),
+
+  // Statistiques de contenu
+  contentStats: router({
+    getAll: publicProcedure.query(async () => {
+      return db.getContentStatistics();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

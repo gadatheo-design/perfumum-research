@@ -1,0 +1,105 @@
+{
+  "query": "SELECT 'molecules' as type, id, name FROM molecules WHERE name LIKE '%Linalol%' OR name LIKE '%Myrcene%' OR name LIKE '%Limonene%' OR name LIKE '%Pinene%' OR name LIKE '%Caryophyllene%'\nUNION ALL\nSELECT 'plants' as type, id, name FROM plants;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'molecules' as type, id, name FROM molecules WHERE name LIKE '%Linalol%' OR name LIKE '%Myrcene%' OR name LIKE '%Limonene%' OR name LIKE '%Pinene%' OR name LIKE '%Caryophyllene%'\nUNION ALL\nSELECT 'plants' as type, id, name FROM plants;",
+  "rows": [
+    {
+      "type": "plants",
+      "id": "1",
+      "name": "West Indian Bay / Bay rum tree"
+    },
+    {
+      "type": "plants",
+      "id": "2",
+      "name": "Lemongrass / Citronnelle"
+    },
+    {
+      "type": "plants",
+      "id": "3",
+      "name": "Lippia alba"
+    },
+    {
+      "type": "plants",
+      "id": "4",
+      "name": "Basilic"
+    },
+    {
+      "type": "plants",
+      "id": "5",
+      "name": "Menthe verte"
+    },
+    {
+      "type": "plants",
+      "id": "6",
+      "name": "Origan"
+    },
+    {
+      "type": "plants",
+      "id": "7",
+      "name": "Virginia (flue-cured)"
+    },
+    {
+      "type": "plants",
+      "id": "8",
+      "name": "Burley (air-cured)"
+    },
+    {
+      "type": "plants",
+      "id": "9",
+      "name": "Criollo (sun-cured)"
+    },
+    {
+      "type": "plants",
+      "id": "10",
+      "name": "Profil VENT / clair"
+    },
+    {
+      "type": "plants",
+      "id": "11",
+      "name": "Profil BOIS / structure"
+    },
+    {
+      "type": "plants",
+      "id": "12",
+      "name": "Profil FEUILLE / vert"
+    },
+    {
+      "type": "plants",
+      "id": "13",
+      "name": "Profil DISPARITION / trace"
+    },
+    {
+      "type": "molecules",
+      "id": "2",
+      "name": "Linalol"
+    },
+    {
+      "type": "molecules",
+      "id": "30002",
+      "name": "Linalol"
+    },
+    {
+      "type": "molecules",
+      "id": "90057",
+      "name": "Linalol"
+    },
+    {
+      "type": "molecules",
+      "id": "330015",
+      "name": "Yuzu (Limonene + Linalool)"
+    },
+    {
+      "type": "molecules",
+      "id": "570012",
+      "name": "Linalol Synthétique"
+    },
+    {
+      "type": "molecules",
+      "id": "600013",
+      "name": "Linalol Synthétique"
+    }
+  ],
+  "messages": [],
+  "stdout": "type\tid\tname\nplants\t1\tWest Indian Bay / Bay rum tree\nplants\t2\tLemongrass / Citronnelle\nplants\t3\tLippia alba\nplants\t4\tBasilic\nplants\t5\tMenthe verte\nplants\t6\tOrigan\nplants\t7\tVirginia (flue-cured)\nplants\t8\tBurley (air-cured)\nplants\t9\tCriollo (sun-cured)\nplants\t10\tProfil VENT / clair\nplants\t11\tProfil BOIS / structure\nplants\t12\tProfil FEUILLE / vert\nplants\t13\tProfil DISPARITION / trace\nmolecules\t2\tLinalol\nmolecules\t30002\tLinalol\nmolecules\t90057\tLinalol\nmolecules\t330015\tYuzu (Limonene + Linalool)\nmolecules\t570012\tLinalol Synthétique\nmolecules\t600013\tLinalol Synthétique\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

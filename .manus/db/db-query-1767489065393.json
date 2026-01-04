@@ -1,0 +1,75 @@
+{
+  "query": "SELECT id, name, latin_name FROM plants LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name FROM plants LIMIT 15;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "West Indian Bay / Bay rum tree",
+      "latin_name": "Pimenta racemosa"
+    },
+    {
+      "id": "2",
+      "name": "Lemongrass / Citronnelle",
+      "latin_name": "Cymbopogon citratus"
+    },
+    {
+      "id": "3",
+      "name": "Lippia alba",
+      "latin_name": "Lippia alba"
+    },
+    {
+      "id": "4",
+      "name": "Basilic",
+      "latin_name": "Ocimum basilicum"
+    },
+    {
+      "id": "5",
+      "name": "Menthe verte",
+      "latin_name": "Mentha spicata"
+    },
+    {
+      "id": "6",
+      "name": "Origan",
+      "latin_name": "Origanum vulgare"
+    },
+    {
+      "id": "7",
+      "name": "Virginia (flue-cured)",
+      "latin_name": "Nicotiana tabacum var. Virginia"
+    },
+    {
+      "id": "8",
+      "name": "Burley (air-cured)",
+      "latin_name": "Nicotiana tabacum var. Burley"
+    },
+    {
+      "id": "9",
+      "name": "Criollo (sun-cured)",
+      "latin_name": "Nicotiana tabacum var. Criollo"
+    },
+    {
+      "id": "10",
+      "name": "Profil VENT / clair",
+      "latin_name": "Cannabis sativa (profil terpénique)"
+    },
+    {
+      "id": "11",
+      "name": "Profil BOIS / structure",
+      "latin_name": "Cannabis sativa (profil terpénique)"
+    },
+    {
+      "id": "12",
+      "name": "Profil FEUILLE / vert",
+      "latin_name": "Cannabis sativa (profil terpénique)"
+    },
+    {
+      "id": "13",
+      "name": "Profil DISPARITION / trace",
+      "latin_name": "Cannabis sativa (profil terpénique)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\n1\tWest Indian Bay / Bay rum tree\tPimenta racemosa\n2\tLemongrass / Citronnelle\tCymbopogon citratus\n3\tLippia alba\tLippia alba\n4\tBasilic\tOcimum basilicum\n5\tMenthe verte\tMentha spicata\n6\tOrigan\tOriganum vulgare\n7\tVirginia (flue-cured)\tNicotiana tabacum var. Virginia\n8\tBurley (air-cured)\tNicotiana tabacum var. Burley\n9\tCriollo (sun-cured)\tNicotiana tabacum var. Criollo\n10\tProfil VENT / clair\tCannabis sativa (profil terpénique)\n11\tProfil BOIS / structure\tCannabis sativa (profil terpénique)\n12\tProfil FEUILLE / vert\tCannabis sativa (profil terpénique)\n13\tProfil DISPARITION / trace\tCannabis sativa (profil terpénique)\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

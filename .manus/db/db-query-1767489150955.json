@@ -1,0 +1,124 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'raw_materials' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'raw_materials' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "material_id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "latin_name"
+    },
+    {
+      "COLUMN_NAME": "category"
+    },
+    {
+      "COLUMN_NAME": "plant_id"
+    },
+    {
+      "COLUMN_NAME": "plant_part"
+    },
+    {
+      "COLUMN_NAME": "terroir_id"
+    },
+    {
+      "COLUMN_NAME": "origin_country"
+    },
+    {
+      "COLUMN_NAME": "origin_region"
+    },
+    {
+      "COLUMN_NAME": "extraction_method_id"
+    },
+    {
+      "COLUMN_NAME": "extraction_yield"
+    },
+    {
+      "COLUMN_NAME": "extraction_notes"
+    },
+    {
+      "COLUMN_NAME": "olfactive_family"
+    },
+    {
+      "COLUMN_NAME": "olfactive_profile"
+    },
+    {
+      "COLUMN_NAME": "top_notes"
+    },
+    {
+      "COLUMN_NAME": "heart_notes"
+    },
+    {
+      "COLUMN_NAME": "base_notes"
+    },
+    {
+      "COLUMN_NAME": "intensity"
+    },
+    {
+      "COLUMN_NAME": "tenacity"
+    },
+    {
+      "COLUMN_NAME": "dominant_molecules"
+    },
+    {
+      "COLUMN_NAME": "quality"
+    },
+    {
+      "COLUMN_NAME": "certifications"
+    },
+    {
+      "COLUMN_NAME": "ifra_category"
+    },
+    {
+      "COLUMN_NAME": "max_usage_level"
+    },
+    {
+      "COLUMN_NAME": "restrictions"
+    },
+    {
+      "COLUMN_NAME": "allergens"
+    },
+    {
+      "COLUMN_NAME": "price_range"
+    },
+    {
+      "COLUMN_NAME": "availability"
+    },
+    {
+      "COLUMN_NAME": "suppliers"
+    },
+    {
+      "COLUMN_NAME": "usage_notes"
+    },
+    {
+      "COLUMN_NAME": "blending_tips"
+    },
+    {
+      "COLUMN_NAME": "synergies"
+    },
+    {
+      "COLUMN_NAME": "image_url"
+    },
+    {
+      "COLUMN_NAME": "refs"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nmaterial_id\nname\nlatin_name\ncategory\nplant_id\nplant_part\nterroir_id\norigin_country\norigin_region\nextraction_method_id\nextraction_yield\nextraction_notes\nolfactive_family\nolfactive_profile\ntop_notes\nheart_notes\nbase_notes\nintensity\ntenacity\ndominant_molecules\nquality\ncertifications\nifra_category\nmax_usage_level\nrestrictions\nallergens\nprice_range\navailability\nsuppliers\nusage_notes\nblending_tips\nsynergies\nimage_url\nrefs\nnotes\ncreated_at\nupdated_at\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

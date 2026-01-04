@@ -2841,3 +2841,307 @@ export const botanicalStatesRelations = relations(botanicalStates, ({ one }) => 
     references: [plants.id],
   }),
 }));
+
+
+// ============================================================================
+// RAW MATERIALS (Matières premières - lien entre plantes et molécules)
+// ============================================================================
+
+export const rawMaterials = mysqlTable("raw_materials", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  materialId: varchar("material_id", { length: 30 }).notNull().unique(), // RM-001, RM-002, etc.
+  name: varchar("name", { length: 255 }).notNull(), // "Huile essentielle de lavande", "Absolue de rose"
+  latinName: varchar("latin_name", { length: 255 }), // Nom latin de la plante source
+  // Classification
+  category: mysqlEnum("category", [
+    "huile_essentielle",
+    "absolue",
+    "concrete",
+    "resinoid",
+    "teinture",
+    "co2_extract",
+    "hydrolat",
+    "beurre",
+    "cire",
+    "oleoresine",
+    "infusion",
+    "maceration",
+    "distillat",
+    "autre"
+  ]).notNull(),
+  // Source botanique
+  plantId: int("plant_id").references(() => plants.id), // Lien vers la plante source
+  plantPart: mysqlEnum("plant_part", [
+    "fleur",
+    "feuille",
+    "tige",
+    "racine",
+    "ecorce",
+    "bois",
+    "resine",
+    "graine",
+    "fruit",
+    "zeste",
+    "plante_entiere",
+    "bourgeon",
+    "autre"
+  ]),
+  // Origine géographique
+  terroirId: int("terroir_id").references(() => terroirs.id), // Lien vers le terroir
+  originCountry: varchar("origin_country", { length: 100 }),
+  originRegion: varchar("origin_region", { length: 255 }),
+  // Extraction
+  extractionMethodId: int("extraction_method_id").references(() => extractionMethods.id),
+  extractionYield: decimal("extraction_yield", { precision: 5, scale: 3 }), // Rendement en % (ex: 0.5%)
+  extractionNotes: text("extraction_notes"),
+  // Profil olfactif
+  olfactiveFamily: mysqlEnum("olfactive_family", [
+    "floral",
+    "boise",
+    "agrume",
+    "epice",
+    "herbace",
+    "balsamique",
+    "musque",
+    "animal",
+    "vert",
+    "fruité",
+    "marin",
+    "terreux",
+    "fumé",
+    "gourmand",
+    "aromatique",
+    "autre"
+  ]),
+  olfactiveProfile: text("olfactive_profile"), // Description olfactive détaillée
+  topNotes: text("top_notes"), // Notes de tête
+  heartNotes: text("heart_notes"), // Notes de cœur
+  baseNotes: text("base_notes"), // Notes de fond
+  intensity: int("intensity"), // 1-10
+  tenacity: int("tenacity"), // Tenue en heures
+  // Propriétés chimiques
+  dominantMolecules: json("dominant_molecules").$type<{
+    moleculeId?: number;
+    name: string;
+    percentage: number;
+    casNumber?: string;
+  }[]>(),
+  // Qualité et certification
+  quality: mysqlEnum("quality", [
+    "conventionnel",
+    "bio",
+    "sauvage",
+    "biodynamique",
+    "aop",
+    "igp",
+    "fair_trade"
+  ]),
+  certifications: json("certifications").$type<string[]>(),
+  // Réglementation
+  ifraCategory: varchar("ifra_category", { length: 50 }),
+  maxUsageLevel: decimal("max_usage_level", { precision: 5, scale: 2 }), // % max autorisé
+  restrictions: text("restrictions"),
+  allergens: json("allergens").$type<string[]>(),
+  // Commercial
+  priceRange: mysqlEnum("price_range", [
+    "economique",
+    "standard",
+    "premium",
+    "luxe",
+    "rare"
+  ]),
+  availability: mysqlEnum("availability", [
+    "disponible",
+    "saisonnier",
+    "rare",
+    "en_rupture",
+    "discontinue"
+  ]),
+  // Fournisseurs
+  suppliers: json("suppliers").$type<{
+    name: string;
+    country?: string;
+    quality?: string;
+    notes?: string;
+  }[]>(),
+  // Utilisation
+  usageNotes: text("usage_notes"), // Notes d'utilisation en parfumerie
+  blendingTips: text("blending_tips"), // Conseils d'assemblage
+  synergies: json("synergies").$type<string[]>(), // Matières qui se marient bien
+  // Métadonnées
+  imageUrl: varchar("image_url", { length: 500 }),
+  references: json("references").$type<{
+    title: string;
+    author?: string;
+    year?: number;
+    url?: string;
+    type: string;
+  }[]>(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type RawMaterial = typeof rawMaterials.$inferSelect;
+export type InsertRawMaterial = typeof rawMaterials.$inferInsert;
+
+// ============================================================================
+// RAW MATERIAL MOLECULES (Many-to-Many: Matières premières <-> Molécules)
+// ============================================================================
+
+export const rawMaterialMolecules = mysqlTable("raw_material_molecules", {
+  id: int("id").autoincrement().primaryKey(),
+  rawMaterialId: int("raw_material_id").notNull().references(() => rawMaterials.id),
+  moleculeId: int("molecule_id").notNull().references(() => molecules.id),
+  percentage: decimal("percentage", { precision: 5, scale: 2 }), // % dans la matière première
+  isSignature: int("is_signature").default(0), // 1 = molécule signature
+  variability: varchar("variability", { length: 50 }), // "stable", "variable", "très variable"
+  notes: text("notes"),
+});
+
+export type RawMaterialMolecule = typeof rawMaterialMolecules.$inferSelect;
+export type InsertRawMaterialMolecule = typeof rawMaterialMolecules.$inferInsert;
+
+// ============================================================================
+// MOLECULE PLANT SOURCES (Many-to-Many enrichi: Molécules <-> Plantes avec détails)
+// ============================================================================
+
+export const moleculePlantSources = mysqlTable("molecule_plant_sources", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull().references(() => molecules.id),
+  plantId: int("plant_id").notNull().references(() => plants.id),
+  // Détails de la source
+  plantPart: varchar("plant_part", { length: 100 }), // Partie de la plante
+  percentageInPlant: decimal("percentage_in_plant", { precision: 5, scale: 3 }), // % dans la plante
+  percentageInOil: decimal("percentage_in_oil", { precision: 5, scale: 2 }), // % dans l'huile essentielle
+  // Variabilité
+  variability: mysqlEnum("variability", [
+    "stable",
+    "variable",
+    "tres_variable",
+    "chemotype_dependant"
+  ]),
+  // Qualité de la source
+  isMainSource: int("is_main_source").default(0), // 1 = source principale
+  isPrimarySource: int("is_primary_source").default(0), // 1 = source primaire (vs secondaire)
+  // Extraction
+  bestExtractionMethod: varchar("best_extraction_method", { length: 100 }),
+  extractionYield: decimal("extraction_yield", { precision: 5, scale: 3 }),
+  // Références
+  references: json("references").$type<{
+    title: string;
+    author?: string;
+    year?: number;
+    doi?: string;
+  }[]>(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type MoleculePlantSource = typeof moleculePlantSources.$inferSelect;
+export type InsertMoleculePlantSource = typeof moleculePlantSources.$inferInsert;
+
+// ============================================================================
+// TERROIR SPECIALTIES (Spécialités par terroir - quelles plantes/matières)
+// ============================================================================
+
+export const terroirSpecialties = mysqlTable("terroir_specialties", {
+  id: int("id").autoincrement().primaryKey(),
+  terroirId: int("terroir_id").notNull().references(() => terroirs.id),
+  plantId: int("plant_id").references(() => plants.id),
+  rawMaterialId: int("raw_material_id").references(() => rawMaterials.id),
+  // Importance
+  isSignature: int("is_signature").default(0), // 1 = spécialité signature du terroir
+  importance: mysqlEnum("importance", [
+    "majeure",
+    "significative",
+    "mineure",
+    "emergente"
+  ]),
+  // Production
+  annualProduction: varchar("annual_production", { length: 100 }), // "50-100 tonnes"
+  productionTrend: mysqlEnum("production_trend", [
+    "croissante",
+    "stable",
+    "decroissante",
+    "variable"
+  ]),
+  // Qualité
+  qualityReputation: mysqlEnum("quality_reputation", [
+    "exceptionnelle",
+    "excellente",
+    "bonne",
+    "standard"
+  ]),
+  uniqueCharacteristics: text("unique_characteristics"), // Ce qui rend cette production unique
+  // Histoire
+  historicalContext: text("historical_context"),
+  traditionSince: varchar("tradition_since", { length: 50 }), // "XVIIe siècle", "1920"
+  // Économie
+  economicImportance: text("economic_importance"),
+  mainBuyers: json("main_buyers").$type<string[]>(),
+  // Métadonnées
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type TerroirSpecialty = typeof terroirSpecialties.$inferSelect;
+export type InsertTerroirSpecialty = typeof terroirSpecialties.$inferInsert;
+
+// ============================================================================
+// RELATIONS pour les nouvelles tables
+// ============================================================================
+
+export const rawMaterialsRelations = relations(rawMaterials, ({ one, many }) => ({
+  plant: one(plants, {
+    fields: [rawMaterials.plantId],
+    references: [plants.id],
+  }),
+  terroir: one(terroirs, {
+    fields: [rawMaterials.terroirId],
+    references: [terroirs.id],
+  }),
+  extractionMethod: one(extractionMethods, {
+    fields: [rawMaterials.extractionMethodId],
+    references: [extractionMethods.id],
+  }),
+  molecules: many(rawMaterialMolecules),
+}));
+
+export const rawMaterialMoleculesRelations = relations(rawMaterialMolecules, ({ one }) => ({
+  rawMaterial: one(rawMaterials, {
+    fields: [rawMaterialMolecules.rawMaterialId],
+    references: [rawMaterials.id],
+  }),
+  molecule: one(molecules, {
+    fields: [rawMaterialMolecules.moleculeId],
+    references: [molecules.id],
+  }),
+}));
+
+export const moleculePlantSourcesRelations = relations(moleculePlantSources, ({ one }) => ({
+  molecule: one(molecules, {
+    fields: [moleculePlantSources.moleculeId],
+    references: [molecules.id],
+  }),
+  plant: one(plants, {
+    fields: [moleculePlantSources.plantId],
+    references: [plants.id],
+  }),
+}));
+
+export const terroirSpecialtiesRelations = relations(terroirSpecialties, ({ one }) => ({
+  terroir: one(terroirs, {
+    fields: [terroirSpecialties.terroirId],
+    references: [terroirs.id],
+  }),
+  plant: one(plants, {
+    fields: [terroirSpecialties.plantId],
+    references: [plants.id],
+  }),
+  rawMaterial: one(rawMaterials, {
+    fields: [terroirSpecialties.rawMaterialId],
+    references: [rawMaterials.id],
+  }),
+}));

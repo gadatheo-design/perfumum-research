@@ -1,0 +1,34 @@
+{
+  "query": "-- Récupérer les IDs des molécules et plantes pour créer des relations\n-- D'abord, voir les molécules disponibles\nSELECT id, name FROM molecules WHERE name LIKE '%linalol%' OR name LIKE '%Linalol%' OR name LIKE '%limonene%' OR name LIKE '%Limonene%' OR name LIKE '%myrcene%' OR name LIKE '%Myrcene%' LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Récupérer les IDs des molécules et plantes pour créer des relations\n-- D'abord, voir les molécules disponibles\nSELECT id, name FROM molecules WHERE name LIKE '%linalol%' OR name LIKE '%Linalol%' OR name LIKE '%limonene%' OR name LIKE '%Limonene%' OR name LIKE '%myrcene%' OR name LIKE '%Myrcene%' LIMIT 20;",
+  "rows": [
+    {
+      "id": "2",
+      "name": "Linalol"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol"
+    },
+    {
+      "id": "90057",
+      "name": "Linalol"
+    },
+    {
+      "id": "330015",
+      "name": "Yuzu (Limonene + Linalool)"
+    },
+    {
+      "id": "570012",
+      "name": "Linalol Synthétique"
+    },
+    {
+      "id": "600013",
+      "name": "Linalol Synthétique"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n2\tLinalol\n30002\tLinalol\n90057\tLinalol\n330015\tYuzu (Limonene + Linalool)\n570012\tLinalol Synthétique\n600013\tLinalol Synthétique\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}
