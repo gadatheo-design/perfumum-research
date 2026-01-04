@@ -1,0 +1,38 @@
+{
+  "query": "SELECT m.name, m.cas_number, ir.restriction_type, ir.reason_for_restriction, ir.category_4 as parfum_limit\nFROM ifra_restrictions ir\nJOIN molecules m ON ir.molecule_id = m.id\nWHERE m.cas_number IN ('106-24-1', '106-22-9', '93-15-2', '484-20-8');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT m.name, m.cas_number, ir.restriction_type, ir.reason_for_restriction, ir.category_4 as parfum_limit\nFROM ifra_restrictions ir\nJOIN molecules m ON ir.molecule_id = m.id\nWHERE m.cas_number IN ('106-24-1', '106-22-9', '93-15-2', '484-20-8');",
+  "rows": [
+    {
+      "name": "Géraniol",
+      "cas_number": "106-24-1",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Allergène cutané - sensibilisation par contact",
+      "parfum_limit": "5.3000"
+    },
+    {
+      "name": "Citronellol",
+      "cas_number": "106-22-9",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Allergène cutané - sensibilisation par contact",
+      "parfum_limit": "8.0000"
+    },
+    {
+      "name": "Méthyl-eugénol",
+      "cas_number": "93-15-2",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Potentiel cancérogène - génotoxicité",
+      "parfum_limit": "0.0002"
+    },
+    {
+      "name": "Bergaptène",
+      "cas_number": "484-20-8",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Phototoxicité - furocoumarine",
+      "parfum_limit": "0.0015"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tcas_number\trestriction_type\treason_for_restriction\tparfum_limit\nGéraniol\t106-24-1\trestricted\tAllergène cutané - sensibilisation par contact\t5.3000\nCitronellol\t106-22-9\trestricted\tAllergène cutané - sensibilisation par contact\t8.0000\nMéthyl-eugénol\t93-15-2\trestricted\tPotentiel cancérogène - génotoxicité\t0.0002\nBergaptène\t484-20-8\trestricted\tPhototoxicité - furocoumarine\t0.0015\n",
+  "stderr": "",
+  "execution_time_ms": 1552
+}

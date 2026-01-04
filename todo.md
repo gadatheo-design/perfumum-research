@@ -712,3 +712,52 @@
 - Page IFRA créée avec recherche, calculateur de conformité et liste des catégories
 - Backend d'upload d'images botaniques prêt (procédures tRPC et fonctions db)
 
+
+
+---
+
+## 🖼️ SESSION 04 JAN 2026 - NOUVELLES FONCTIONNALITÉS
+
+### Upload d'images pour les fiches plantes
+- [ ] Créer le composant ImageUpload avec drag & drop
+- [ ] Ajouter la prévisualisation des images avant upload
+- [ ] Intégrer le composant dans les fiches plantes (LeafEconomies)
+- [ ] Configurer le stockage S3 pour les images
+- [ ] Ajouter le champ imageUrl au schéma leaf_economies si nécessaire
+- [ ] Tester l'upload sur desktop et mobile
+
+### Lien IFRA dans le menu
+- [ ] Ajouter le lien vers la page IFRA dans le menu Méthodologie ou Recherche
+- [ ] Vérifier que la page IFRA existe et est accessible
+
+### Enrichissement des restrictions IFRA
+- [ ] Ajouter le géraniol aux restrictions IFRA
+- [ ] Ajouter le citronellol aux restrictions IFRA
+- [ ] Ajouter le méthyl-eugénol aux restrictions IFRA
+- [ ] Ajouter le bergaptène aux restrictions IFRA
+- [ ] Mettre à jour l'interface d'affichage des restrictions
+
+
+
+---
+
+## 🖼️ SESSION 04 JAN 2026 - NOUVELLES FONCTIONNALITÉS
+
+### Composant ImageUpload pour les fiches plantes
+- [x] Créer le composant ImageUpload avec drag & drop et prévisualisation
+- [x] Ajouter le champ imageUrl au schéma leaf_economies
+- [x] Créer la procédure tRPC d'upload vers S3
+- [x] Intégrer le composant dans le formulaire LeafEconomyForm
+- [x] Écrire les tests unitaires (2 tests passés)
+
+### Lien IFRA dans le menu
+- [x] Ajouter la section "Réglementation" dans le MegaMenu
+- [x] Ajouter le lien vers la page IFRA avec badge "NEW"
+- [x] Importer l'icône ShieldCheck
+
+### Enrichissement des restrictions IFRA
+- [x] Créer les molécules manquantes (Géraniol, Citronellol, Méthyl-eugénol, Bergaptène)
+- [x] Ajouter les restrictions IFRA pour chaque molécule avec limites par catégorie
+- [x] Écrire les tests unitaires (6 tests passés)
+- [x] Valider les données importées
+

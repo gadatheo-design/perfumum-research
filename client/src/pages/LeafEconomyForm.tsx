@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRoute, useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -11,13 +11,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { ImageUpload } from "@/components/ImageUpload";
 import { 
   Leaf, 
   ChevronRight,
   ChevronLeft,
   Save,
   AlertCircle,
-  Plus
+  Plus,
+  Image as ImageIcon
 } from "lucide-react";
 
 const climaticAxes = [
@@ -61,6 +63,7 @@ interface FormData {
   absorbeInterpretation: string;
   status: string;
   mediaLinks: string;
+  imageUrl: string;
   ethicalNotes: string;
 }
 
@@ -92,6 +95,7 @@ const defaultFormData: FormData = {
   absorbeInterpretation: "",
   status: "brut",
   mediaLinks: "",
+  imageUrl: "",
   ethicalNotes: "",
 };
 
@@ -188,6 +192,7 @@ export default function LeafEconomyForm() {
         absorbeInterpretation: existingSample.absorbeInterpretation || "",
         status: existingSample.status || "brut",
         mediaLinks: existingSample.mediaLinks || "",
+        imageUrl: existingSample.imageUrl || "",
         ethicalNotes: existingSample.ethicalNotes || "",
       });
     }
@@ -225,6 +230,7 @@ export default function LeafEconomyForm() {
       absorbeInterpretation: formData.absorbeInterpretation || null,
       status: formData.status as "brut" | "a_analyser" | "analyse" | "traduction" | "archive",
       mediaLinks: formData.mediaLinks || null,
+      imageUrl: formData.imageUrl || null,
       ethicalNotes: formData.ethicalNotes || null,
     };
 
@@ -651,6 +657,27 @@ export default function LeafEconomyForm() {
                   </div>
                 </div>
               )}
+            </CardContent>
+          </Card>
+
+          {/* Image de l'échantillon */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <ImageIcon className="h-5 w-5" />
+                Image de l'échantillon
+              </CardTitle>
+              <CardDescription>
+                Ajoutez une photo de l'échantillon botanique (drag & drop ou clic)
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ImageUpload
+                value={formData.imageUrl}
+                onChange={(url) => setFormData(prev => ({ ...prev, imageUrl: url || "" }))}
+                placeholder="Glissez une image de l'échantillon ici"
+                maxSizeMB={5}
+              />
             </CardContent>
           </Card>
 

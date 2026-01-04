@@ -1608,6 +1608,7 @@ export const leafEconomies = mysqlTable("leaf_economies", {
   // Statut et métadonnées
   status: mysqlEnum("status", ["brut", "a_analyser", "analyse", "traduction", "archive"]).default("brut"),
   mediaLinks: text("media_links"), // URLs séparées par des virgules ou JSON
+  imageUrl: varchar("image_url", { length: 500 }), // URL de l'image principale de l'échantillon
   ethicalNotes: text("ethical_notes"), // Notes éthiques / consentement
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),

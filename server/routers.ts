@@ -2009,6 +2009,7 @@ export const appRouter = router({
         absorbeInterpretation: z.string().optional(),
         status: z.enum(['brut', 'a_analyser', 'analyse', 'traduction', 'archive']).optional(),
         mediaLinks: z.string().optional(),
+        imageUrl: z.string().optional(),
         ethicalNotes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
@@ -2045,6 +2046,7 @@ export const appRouter = router({
           absorbeInterpretation: z.string().optional(),
           status: z.enum(['brut', 'a_analyser', 'analyse', 'traduction', 'archive']).optional(),
           mediaLinks: z.string().optional(),
+          imageUrl: z.string().optional(),
           ethicalNotes: z.string().optional(),
         }),
       }))
@@ -3134,6 +3136,38 @@ export const appRouter = router({
     getStats: publicProcedure.query(async () => {
       return db.getIfraStats();
     }),
+  }),
+
+  // Upload d'images pour les échantillons botaniques
+  upload: router({
+    leafEconomyImage: protectedProcedure
+      .input(z.object({
+        leafEconomyId: z.number(),
+        imageData: z.string(), // Base64 encoded image
+        fileName: z.string(),
+        contentType: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const { storagePut } = await import('./storage');
+        
+        // Décoder le base64
+        const base64Data = input.imageData.replace(/^data:image\/\w+;base64,/, '');
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        // Générer un nom de fichier unique
+        const timestamp = Date.now();
+        const randomSuffix = Math.random().toString(36).substring(2, 8);
+        const extension = input.fileName.split('.').pop() || 'jpg';
+        const fileKey = `leaf-economies/${input.leafEconomyId}/${timestamp}-${randomSuffix}.${extension}`;
+        
+        // Upload vers S3
+        const { url } = await storagePut(fileKey, buffer, input.contentType);
+        
+        // Mettre à jour la base de données
+        await db.updateLeafEconomy(input.leafEconomyId, { imageUrl: url });
+        
+        return { url };
+      }),
   }),
 });
 

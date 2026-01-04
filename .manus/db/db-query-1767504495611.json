@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO molecules (name, cas_number, family, chemical_class, olfactiveProfile) \nVALUES ('Méthyl-eugénol', '93-15-2', 'Phénylpropanoïde', 'phenol', 'Clou de girofle, épicé, chaud, légèrement anisé')\nON DUPLICATE KEY UPDATE cas_number = '93-15-2';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, cas_number, family, chemical_class, olfactiveProfile) \nVALUES ('Méthyl-eugénol', '93-15-2', 'Phénylpropanoïde', 'phenol', 'Clou de girofle, épicé, chaud, légèrement anisé')\nON DUPLICATE KEY UPDATE cas_number = '93-15-2';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1540
+}

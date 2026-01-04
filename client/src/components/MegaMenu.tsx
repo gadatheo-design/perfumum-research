@@ -19,6 +19,7 @@ import {
   Search,
   Clock,
   Flame,
+  ShieldCheck,
 } from "lucide-react";
 
 interface MenuItem {
@@ -449,6 +450,18 @@ export function MegaMenu() {
           path: "/recherche/fondements-theoriques",
           icon: <BookOpen className="h-4 w-4" />,
           description: "Phénoménologie olfactive",
+        },
+      ],
+    },
+    {
+      title: "Réglementation",
+      items: [
+        {
+          label: "Normes IFRA",
+          path: "/ifra",
+          icon: <ShieldCheck className="h-4 w-4" />,
+          description: "Restrictions et limites",
+          badge: "NEW",
         },
       ],
     },
