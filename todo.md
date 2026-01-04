@@ -1518,3 +1518,28 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 5 : Livraison
 - [ ] Créer le checkpoint final
 - [ ] Présenter les résultats à l'utilisateur
+
+
+---
+
+## 🗺️ SESSION 04 JAN 2026 - CARTE & DÉTAILS VARIÉTÉS
+
+### Phase 1 : Clustering sur la carte ✅ COMPLÉTÉ
+- [x] Implémenter le clustering Google Maps pour les zones denses (Inde, Afghanistan)
+- [x] Configurer les seuils de zoom pour le clustering
+- [x] Personnaliser les icônes de clusters avec le nombre d'éléments
+- [x] Tester le clustering sur les régions denses
+
+### Phase 2 : Page de détail par variété ✅ COMPLÉTÉ
+- [x] Créer la page de détail variété avec route dynamique `/varietes/:id`
+- [x] Implémenter le graphique radar du profil terpénique (Chart.js)
+- [x] Afficher les liens vers les molécules associées
+- [x] Afficher les informations géographiques et historiques
+- [x] Intégrer la navigation depuis la carte et les listes
+
+### Phase 3 : Tests et validation
+- [ ] Tester le clustering sur différents niveaux de zoom
+- [ ] Tester la page de détail variété sur desktop et mobile
+- [ ] Valider les liens entre variétés et molécules
+- [ ] Créer le checkpoint final
+

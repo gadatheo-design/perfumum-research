@@ -184,6 +184,7 @@ import FinalRecipes from "./pages/FinalRecipes";
 import PlantDetail from "./pages/PlantDetail";
 import PlantForm from "./pages/PlantForm";
 import VarietyForm from "./pages/VarietyForm";
+import VarietyDetail from "./pages/VarietyDetail";
 import CarteVarietes from "./pages/CarteVarietes";
 import Terroirs from "./pages/Terroirs";
 import OriginesGeographiques from "./pages/OriginesGeographiques";
@@ -436,6 +437,7 @@ function Router() {
       <Route path="/plant-varieties" component={PlantVarieties} />
       <Route path="/plantes-varietes" component={PlantVarieties} />
       <Route path="/varietes/new" component={VarietyForm} />
+      <Route path="/varietes/:id" component={VarietyDetail} />
       <Route path="/plantes-varietes/new" component={VarietyForm} />
       <Route path="/carte-varietes" component={CarteVarietes} />
       <Route path="/carte-origines" component={CarteVarietes} />

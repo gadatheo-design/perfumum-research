@@ -15,18 +15,19 @@ import {
   Cannabis,
   Cigarette,
   Search,
-  Filter,
   Globe,
   AlertTriangle,
   ChevronRight,
   X,
   Layers,
   List,
-  Map as MapIcon
+  Map as MapIcon,
+  Eye
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { MarkerClusterer, SuperClusterAlgorithm } from "@googlemaps/markerclusterer";
 
 // Coordonnées des pays/régions pour les variétés
 const countryCoordinates: Record<string, { lat: number; lng: number; zoom: number }> = {
@@ -135,9 +136,64 @@ interface VarietyMarker {
   coordinates: { lat: number; lng: number };
 }
 
+// Custom cluster renderer for better visualization
+function createClusterRenderer() {
+  return {
+    render: ({ count, position }: { count: number; position: google.maps.LatLng }) => {
+      // Determine cluster size and color based on count
+      let size = 40;
+      let bgColor = "#6366f1";
+      let borderColor = "#4f46e5";
+      
+      if (count >= 20) {
+        size = 60;
+        bgColor = "#ef4444";
+        borderColor = "#dc2626";
+      } else if (count >= 10) {
+        size = 50;
+        bgColor = "#f59e0b";
+        borderColor = "#d97706";
+      } else if (count >= 5) {
+        size = 45;
+        bgColor = "#22c55e";
+        borderColor = "#16a34a";
+      }
+
+      const clusterElement = document.createElement("div");
+      clusterElement.innerHTML = `
+        <div style="
+          width: ${size}px;
+          height: ${size}px;
+          background: ${bgColor};
+          border: 3px solid ${borderColor};
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          transition: transform 0.2s, box-shadow 0.2s;
+          font-family: system-ui, sans-serif;
+        " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.4)';" 
+           onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)';">
+          <span style="color: white; font-size: ${size > 50 ? 16 : 14}px; font-weight: 700;">
+            ${count}
+          </span>
+        </div>
+      `;
+
+      return new google.maps.marker.AdvancedMarkerElement({
+        position,
+        content: clusterElement,
+      });
+    },
+  };
+}
+
 export default function CarteVarietes() {
   const mapRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
+  const clustererRef = useRef<MarkerClusterer | null>(null);
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
   
   const [selectedPlantType, setSelectedPlantType] = useState<string>("all");
@@ -146,6 +202,7 @@ export default function CarteVarietes() {
   const [selectedVariety, setSelectedVariety] = useState<VarietyMarker | null>(null);
   const [viewMode, setViewMode] = useState<"map" | "list">("map");
   const [mapReady, setMapReady] = useState(false);
+  const [clusteringEnabled, setClusteringEnabled] = useState(true);
 
   // Fetch varieties data
   const { data: varietiesData, isLoading } = trpc.plantVarieties.getAll.useQuery();
@@ -204,6 +261,12 @@ export default function CarteVarietes() {
   useEffect(() => {
     if (!mapReady || !mapRef.current || !window.google) return;
 
+    // Clear existing clusterer
+    if (clustererRef.current) {
+      clustererRef.current.clearMarkers();
+      clustererRef.current = null;
+    }
+
     // Clear existing markers
     markersRef.current.forEach((marker) => {
       marker.map = null;
@@ -216,6 +279,8 @@ export default function CarteVarietes() {
     }
 
     // Create new markers
+    const newMarkers: google.maps.marker.AdvancedMarkerElement[] = [];
+    
     filteredMarkers.forEach((variety) => {
       const colors = plantTypeColors[variety.plantCategory] || plantTypeColors.default;
       const conservationColor = conservationColors[variety.conservationStatus || "unknown"];
@@ -244,7 +309,7 @@ export default function CarteVarietes() {
       `;
 
       const marker = new google.maps.marker.AdvancedMarkerElement({
-        map: mapRef.current,
+        map: clusteringEnabled ? null : mapRef.current, // Don't add to map if clustering is enabled
         position: variety.coordinates,
         title: variety.name,
         content: markerElement,
@@ -273,6 +338,18 @@ export default function CarteVarietes() {
             ">
               ${variety.conservationStatus || "Inconnu"}
             </div>
+            <div style="margin-top: 12px;">
+              <a href="/varietes/${variety.id}" style="
+                display: inline-block;
+                padding: 6px 12px;
+                background: #6366f1;
+                color: white;
+                text-decoration: none;
+                border-radius: 6px;
+                font-size: 12px;
+                font-weight: 500;
+              ">Voir le détail →</a>
+            </div>
           </div>
         `;
         
@@ -280,9 +357,36 @@ export default function CarteVarietes() {
         infoWindowRef.current?.open(mapRef.current, marker);
       });
 
-      markersRef.current.push(marker);
+      newMarkers.push(marker);
     });
-  }, [filteredMarkers, mapReady]);
+
+    markersRef.current = newMarkers;
+
+    // Create clusterer if enabled
+    if (clusteringEnabled && mapRef.current && newMarkers.length > 0) {
+      clustererRef.current = new MarkerClusterer({
+        map: mapRef.current,
+        markers: newMarkers,
+        algorithm: new SuperClusterAlgorithm({
+          radius: 80,
+          maxZoom: 12,
+        }),
+        renderer: createClusterRenderer(),
+        onClusterClick: (event, cluster, map) => {
+          // Zoom in on cluster click
+          const bounds = cluster.bounds;
+          if (bounds) {
+            map.fitBounds(bounds);
+          }
+        },
+      });
+    }
+  }, [filteredMarkers, mapReady, clusteringEnabled]);
+
+  // Toggle clustering
+  const toggleClustering = () => {
+    setClusteringEnabled(!clusteringEnabled);
+  };
 
   // Fly to location when variety is selected
   const flyToVariety = (variety: VarietyMarker) => {
@@ -328,7 +432,7 @@ export default function CarteVarietes() {
           </h1>
           <p className="text-muted-foreground max-w-2xl">
             Visualisez la distribution géographique des landraces de cannabis et des variétés de tabac.
-            Les couleurs des bordures indiquent le statut de conservation.
+            Les couleurs des bordures indiquent le statut de conservation. Le clustering regroupe automatiquement les variétés dans les zones denses.
           </p>
         </div>
 
@@ -432,6 +536,17 @@ export default function CarteVarietes() {
                   <List className="w-4 h-4" />
                 </Button>
               </div>
+
+              {/* Clustering toggle */}
+              <Button
+                variant={clusteringEnabled ? "secondary" : "outline"}
+                size="sm"
+                onClick={toggleClustering}
+                className="gap-2"
+              >
+                <Layers className="w-4 h-4" />
+                {clusteringEnabled ? "Clustering ON" : "Clustering OFF"}
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -496,6 +611,11 @@ export default function CarteVarietes() {
                           >
                             {variety.conservationStatus || "Inconnu"}
                           </Badge>
+                          <Link href={`/varietes/${variety.id}`}>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                          </Link>
                           <ChevronRight className="w-4 h-4 text-muted-foreground" />
                         </div>
                       </div>
@@ -553,6 +673,30 @@ export default function CarteVarietes() {
                     ))}
                   </div>
                 </div>
+
+                <Separator />
+
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground mb-2">Clusters (groupes)</div>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="w-4 h-4 rounded-full bg-indigo-500" />
+                      <span>1-4 variétés</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="w-4 h-4 rounded-full bg-emerald-500" />
+                      <span>5-9 variétés</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="w-4 h-4 rounded-full bg-amber-500" />
+                      <span>10-19 variétés</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="w-4 h-4 rounded-full bg-red-500" />
+                      <span>20+ variétés</span>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
@@ -582,10 +726,10 @@ export default function CarteVarietes() {
                     {selectedVariety.conservationStatus || "Statut inconnu"}
                   </Badge>
                   <Separator />
-                  <Link href={`/varietes`}>
-                    <Button variant="outline" size="sm" className="w-full gap-2">
-                      Voir les détails
-                      <ChevronRight className="w-4 h-4" />
+                  <Link href={`/varietes/${selectedVariety.id}`}>
+                    <Button variant="default" size="sm" className="w-full gap-2">
+                      <Eye className="w-4 h-4" />
+                      Voir le profil terpénique
                     </Button>
                   </Link>
                 </CardContent>
