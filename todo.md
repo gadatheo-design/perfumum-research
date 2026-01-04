@@ -819,3 +819,14 @@
 ### Molécules manquantes pour fiche Ambrette
 - [x] Créer molécule Farnesol pour compléter les liaisons de la fiche Ambrette
 - [x] Créer molécule Geraniol pour compléter les liaisons de la fiche Ambrette (existait déjà sous le nom Géraniol)
+
+
+### Associations plantes-molécules pour Ambrette
+- [x] Créer l'association Ambrette-Farnesol dans plant_molecules (4-6%, composant caractéristique)
+- [x] Créer l'association Ambrette-Géraniol dans plant_molecules (0.5-2%, traces florales)
+
+### Enrichissement données IFRA
+- [x] Ajouter les restrictions IFRA pour Farnesol (51st Amendment, toutes catégories 1-11)
+- [x] Documenter la raison de restriction (sensibilisant cutané potentiel)
+- [x] Ajouter les notes explicatives et source URL
+
