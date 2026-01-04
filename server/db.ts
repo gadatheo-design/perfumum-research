@@ -4893,3 +4893,104 @@ export async function getContentStatistics() {
     rawMaterialMoleculeLinks: totalRawMaterialMoleculeLinks[0]?.count || 0,
   };
 }
+
+
+// ============================================================================
+// GRAPHE RÉSEAU MOLÉCULE-PLANTE-TERROIR
+// ============================================================================
+
+export async function getMoleculePlantTerroirNetwork() {
+  const db = await getDb();
+  if (!db) return { nodes: [], edges: [] };
+  
+  // Récupérer toutes les plantes avec leurs molécules
+  const allPlants = await db.select().from(plants);
+  
+  // Récupérer toutes les molécules
+  const allMolecules = await db.select().from(molecules);
+  
+  // Récupérer tous les terroirs
+  const allTerroirs = await db.select().from(terroirs);
+  
+  // Récupérer les relations plante-molécule avec pourcentages
+  const plantMoleculeRelations = await db
+    .select({
+      plantId: plantMolecules.plantId,
+      moleculeId: plantMolecules.moleculeId,
+      percentageMin: plantMolecules.percentageMin,
+      percentageMax: plantMolecules.percentageMax,
+      percentageTypical: plantMolecules.percentageTypical,
+      isSignature: plantMolecules.isSignature,
+      role: plantMolecules.role,
+    })
+    .from(plantMolecules);
+  
+  // Récupérer les relations terroir-plante via terroirSpecialties
+  const terroirPlantRelations = await db
+    .select({
+      terroirId: terroirSpecialties.terroirId,
+      plantId: terroirSpecialties.plantId,
+      isSignature: terroirSpecialties.isSignature,
+      importance: terroirSpecialties.importance,
+    })
+    .from(terroirSpecialties)
+    .where(sql`${terroirSpecialties.plantId} IS NOT NULL`);
+  
+  // Récupérer les matières premières
+  const allRawMaterials = await db.select().from(rawMaterials);
+  
+  return {
+    entities: {
+      plants: allPlants,
+      molecules: allMolecules,
+      terroirs: allTerroirs,
+      rawMaterials: allRawMaterials,
+    },
+    relationships: {
+      plantMolecules: plantMoleculeRelations,
+      terroirPlants: terroirPlantRelations,
+    },
+  };
+}
+
+export async function getPlantMoleculesWithPercentages(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select({
+      molecule: molecules,
+      percentageMin: plantMolecules.percentageMin,
+      percentageMax: plantMolecules.percentageMax,
+      percentageTypical: plantMolecules.percentageTypical,
+      isSignature: plantMolecules.isSignature,
+      role: plantMolecules.role,
+      variabilityFactor: plantMolecules.variabilityFactor,
+      source: plantMolecules.source,
+    })
+    .from(plantMolecules)
+    .innerJoin(molecules, eq(plantMolecules.moleculeId, molecules.id))
+    .where(eq(plantMolecules.plantId, plantId))
+    .orderBy(desc(plantMolecules.isSignature), desc(plantMolecules.percentageTypical));
+}
+
+export async function getMoleculePlantsWithPercentages(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select({
+      plant: plants,
+      percentageMin: plantMolecules.percentageMin,
+      percentageMax: plantMolecules.percentageMax,
+      percentageTypical: plantMolecules.percentageTypical,
+      isSignature: plantMolecules.isSignature,
+      role: plantMolecules.role,
+      variabilityFactor: plantMolecules.variabilityFactor,
+      source: plantMolecules.source,
+    })
+    .from(plantMolecules)
+    .innerJoin(plants, eq(plantMolecules.plantId, plants.id))
+    .where(eq(plantMolecules.moleculeId, moleculeId))
+    .orderBy(desc(plantMolecules.percentageTypical));
+}

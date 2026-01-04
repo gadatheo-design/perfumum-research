@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM plants) as plants_count,\n  (SELECT COUNT(*) FROM plant_molecules) as plant_molecules_count,\n  (SELECT COUNT(*) FROM raw_materials) as raw_materials_count,\n  (SELECT COUNT(*) FROM molecules) as molecules_count;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM plants) as plants_count,\n  (SELECT COUNT(*) FROM plant_molecules) as plant_molecules_count,\n  (SELECT COUNT(*) FROM raw_materials) as raw_materials_count,\n  (SELECT COUNT(*) FROM molecules) as molecules_count;",
+  "rows": [
+    {
+      "plants_count": "13",
+      "plant_molecules_count": "0",
+      "raw_materials_count": "8",
+      "molecules_count": "429"
+    }
+  ],
+  "messages": [],
+  "stdout": "plants_count\tplant_molecules_count\traw_materials_count\tmolecules_count\n13\t0\t8\t429\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

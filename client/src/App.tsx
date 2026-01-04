@@ -211,6 +211,7 @@ import Recherche from "./pages/Recherche";
 // === UTILISATEUR ===
 import Favoris from "./pages/Favoris";
 import Reseau from "./pages/Reseau";
+import ReseauMoleculePlante from "./pages/ReseauMoleculePlante";
 import BioMineralis from "./pages/BioMineralis";
 
 // === MATIÈRES PREMIÈRES & RELATIONS ===
@@ -452,6 +453,7 @@ function Router() {
       {/* === UTILISATEUR === */}
       <Route path="/favoris" component={Favoris} />
       <Route path="/reseau" component={Reseau} />
+      <Route path="/reseau-molecules-plantes" component={ReseauMoleculePlante} />
       <Route path="/bio-mineralis" component={BioMineralis} />
       
       {/* === PAGES TECHNIQUES === */}

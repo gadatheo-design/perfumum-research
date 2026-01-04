@@ -2001,12 +2001,37 @@ export const terpProfileMolecules = mysqlTable("terp_profile_molecules", {
 // ============================================================================
 
 export const plantMolecules = mysqlTable("plant_molecules", {
+  id: int("id").autoincrement().primaryKey(),
   plantId: int("plant_id").notNull().references(() => plants.id),
   moleculeId: int("molecule_id").notNull().references(() => molecules.id),
-  percentage: decimal("percentage", { precision: 5, scale: 2 }),
-  isSignature: int("is_signature").default(0), // 1 = molécule signature
+  // Pourcentages de composition (ex: linalol 25-45% dans la lavande)
+  percentageMin: decimal("percentage_min", { precision: 5, scale: 2 }), // Pourcentage minimum
+  percentageMax: decimal("percentage_max", { precision: 5, scale: 2 }), // Pourcentage maximum
+  percentageTypical: decimal("percentage_typical", { precision: 5, scale: 2 }), // Pourcentage typique/moyen
+  // Classification
+  isSignature: int("is_signature").default(0), // 1 = molécule signature de la plante
+  role: mysqlEnum("role", [
+    "majeur",      // Composant principal (>10%)
+    "secondaire",  // Composant secondaire (1-10%)
+    "trace",       // Trace (<1%)
+    "variable"     // Variable selon chémotype/conditions
+  ]),
+  // Variabilité
+  variabilityFactor: mysqlEnum("variability_factor", [
+    "stable",      // Peu de variation
+    "saisonnier",  // Varie selon la saison
+    "geographique", // Varie selon l'origine
+    "chemotype",   // Varie selon le chémotype
+    "extraction"   // Varie selon la méthode d'extraction
+  ]),
+  // Source de l'information
+  source: varchar("source", { length: 255 }), // Référence bibliographique
   notes: text("notes"),
-});
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniquePlantMolecule: uniqueIndex("unique_plant_molecule").on(table.plantId, table.moleculeId),
+}));
 
 // ============================================================================
 // RELATIONS: FinalRecipes <-> TerpProfiles (Many-to-Many)

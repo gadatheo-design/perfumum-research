@@ -496,3 +496,72 @@
 - [ ] Créer des tests unitaires pour les nouvelles fonctionnalités
 - [ ] Importer les données de composition moléculaire des matières premières
 
+
+
+---
+
+## 🧬 SESSION 04 JAN 2026 - ENRICHISSEMENT RELATIONS MOLÉCULE-PLANTE
+
+### Phase 1 : Analyse des données existantes
+- [ ] Analyser les fichiers de données du projet partagé
+- [ ] Identifier les données de composition moléculaire disponibles
+- [ ] Mapper les relations molécule-plante existantes
+
+### Phase 2 : Enrichir les relations molécule-plante
+- [ ] Créer/enrichir la table de liaison plante-molécule avec pourcentages (min/max)
+- [ ] Importer les données de composition (linalol 25-45% lavande, limonène 65-95% agrumes, etc.)
+- [ ] Valider l'intégrité des données importées
+
+### Phase 3 : Import matières premières
+- [ ] Identifier les matières premières dans les fichiers sources
+- [ ] Compléter la base avec les huiles essentielles manquantes
+- [ ] Ajouter les absolues
+- [ ] Ajouter les extraits CO2
+
+### Phase 4 : Visualisation graphique interactive
+- [ ] Créer un composant de graphique de réseau interactif
+- [ ] Implémenter les connexions molécules-plantes
+- [ ] Implémenter les connexions plantes-terroirs
+- [ ] Ajouter les interactions (zoom, filtres, détails au survol)
+
+### Phase 5 : Corrections techniques
+- [ ] Corriger les erreurs TypeScript dans server/routers.ts (getRadicalRecipes, createFinalRecipe, updateFinalRecipe)
+
+
+
+---
+
+## 🧬 SESSION 04 JAN 2026 - ENRICHISSEMENT MOLÉCULE-PLANTE-TERROIR
+
+### Relations molécule-plante avec pourcentages ✅ COMPLÉTÉ
+- [x] Enrichir la table `plant_molecules` avec pourcentages min/max/typique
+- [x] Ajouter les champs de rôle (majeur, secondaire, trace, variable)
+- [x] Ajouter les champs de variabilité (stable, saisonnier, géographique, chémotype, extraction)
+- [x] Ajouter les sources bibliographiques
+- [x] Importer 55 relations plante-molécule avec données de composition
+- [x] Importer 17 plantes aromatiques avec leurs profils moléculaires complets
+
+### Matières premières ✅ COMPLÉTÉ
+- [x] Importer 6 nouvelles huiles essentielles (Eucalyptus, Patchouli, Santal, Cèdre, Géranium, Néroli)
+- [x] Importer 4 nouvelles absolues (Jasmin, Tubéreuse, Vanille, Mimosa)
+- [x] Importer 5 nouveaux extraits CO2 (Gingembre, Cardamome, Encens, Myrrhe, Vétiver)
+- [x] Importer 2 nouvelles oléorésines (Benjoin, Labdanum)
+- [x] Total: 25 matières premières dans la base
+
+### Visualisation graphique interactive ✅ COMPLÉTÉ
+- [x] Créer la page `/reseau-molecules-plantes`
+- [x] Implémenter le graphe ReactFlow avec nœuds et arêtes
+- [x] Ajouter les filtres par type d'entité (plante, molécule, terroir)
+- [x] Ajouter le filtre par pourcentage minimum
+- [x] Ajouter le filtre molécules signatures
+- [x] Ajouter la légende interactive
+- [x] Ajouter la mini-map de navigation
+- [x] Ajouter les statistiques en temps réel
+- [x] Implémenter la navigation vers les fiches détaillées au clic
+
+### Tests unitaires ✅ COMPLÉTÉ
+- [x] Créer `server/network.test.ts` avec 11 tests
+- [x] Tester `getMoleculePlantTerroirNetwork()`
+- [x] Tester `getPlantMoleculesWithPercentages()`
+- [x] Tester `getMoleculePlantsWithPercentages()`
+- [x] Valider l'intégrité des données
