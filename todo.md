@@ -1018,3 +1018,25 @@
 - [x] Cohérence visuelle avec le reste du site
 - [x] Navigation vers pages connexes sur chaque page
 - [x] Responsive design maintenu
+
+
+---
+
+## 🎨 SESSION 04 JAN 2026 - AMÉLIORATIONS UX & ANIMATIONS
+
+### Phase 1 : Amélioration des pages À propos et Contribuer
+- [x] Créer une hero section cohérente pour la page À propos
+- [x] Créer une hero section cohérente pour la page Contribuer
+- [x] Harmoniser le style avec le reste du site
+
+### Phase 2 : Animations de scroll
+- [x] Implémenter un système d'animations au défilement (fade-in, slide-up)
+- [x] Appliquer les animations aux sections principales
+- [x] Optimiser les performances des animations
+
+### Phase 3 : Tests responsive mobile
+- [x] Tester le responsive sur 375px (mobile petit)
+- [x] Tester le responsive sur 768px (tablette)
+- [x] Corriger les problèmes d'affichage identifiés
+- [x] Valider la navigation mobile
+
