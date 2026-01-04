@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET chemicalFormula = 'C₁₅H₂₆O' WHERE (name LIKE '%Bisabolol%' OR name LIKE '%Farnesol%' OR name LIKE '%Nérolidol%' OR name LIKE '%Nerolidol%' OR name LIKE '%Guaiol%' OR name LIKE '%Cédrol%' OR name LIKE '%Cedrol%' OR name LIKE '%Patchoulol%' OR name LIKE '%Eudesmol%' OR name LIKE '%Vétiver%' OR name LIKE '%Vetiver%') AND (chemicalFormula IS NULL OR chemicalFormula = '');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET chemicalFormula = 'C₁₅H₂₆O' WHERE (name LIKE '%Bisabolol%' OR name LIKE '%Farnesol%' OR name LIKE '%Nérolidol%' OR name LIKE '%Nerolidol%' OR name LIKE '%Guaiol%' OR name LIKE '%Cédrol%' OR name LIKE '%Cedrol%' OR name LIKE '%Patchoulol%' OR name LIKE '%Eudesmol%' OR name LIKE '%Vétiver%' OR name LIKE '%Vetiver%') AND (chemicalFormula IS NULL OR chemicalFormula = '');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 64
+}

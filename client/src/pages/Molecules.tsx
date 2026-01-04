@@ -1,4 +1,6 @@
 import { useState, useMemo } from "react";
+import { ViewToggle, useViewMode } from "@/components/ViewToggle";
+import { MoleculeListItem } from "@/components/MoleculeListItem";
 import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -62,6 +64,9 @@ export default function Molecules() {
   // Comparison mode state
   const [selectedMolecules, setSelectedMolecules] = useState<number[]>([]);
   const MAX_COMPARISON = 4;
+  
+  // View mode (grid/list)
+  const [viewMode, setViewMode] = useViewMode("molecules-view-mode", "grid");
   
   const toggleMoleculeSelection = (moleculeId: number) => {
     setSelectedMolecules(prev => {
@@ -250,7 +255,7 @@ export default function Molecules() {
         <section className="py-8 border-b border-border/40">
           <div className="container">
             <div className="max-w-5xl mx-auto">
-              {/* Filter toggle */}
+              {/* Filter toggle + View mode */}
               <div className="flex items-center justify-between mb-4">
                 <Button
                   variant="outline"
@@ -261,6 +266,7 @@ export default function Molecules() {
                   <Filter className="h-4 w-4 mr-2" />
                   {showFilters ? "Masquer les filtres" : "Afficher les filtres"}
                 </Button>
+                <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
               </div>
 
               {/* Active Filters Chips */}
@@ -552,7 +558,32 @@ export default function Molecules() {
                     </Button>
                   )}
                 </div>
+              ) : viewMode === "list" ? (
+                /* Vue Liste */
+                <div className="space-y-2">
+                  {filteredMolecules.map((molecule) => (
+                    <MoleculeListItem
+                      key={molecule.id}
+                      molecule={molecule}
+                      isSelected={selectedMolecules.includes(molecule.id)}
+                      onToggleSelection={toggleMoleculeSelection}
+                      onTrackEvent={() => {
+                        trackEvent.mutate({
+                          eventType: "molecule_view",
+                          entityId: molecule.id,
+                          entityType: "molecule",
+                          metadata: JSON.stringify({
+                            moleculeName: molecule.name,
+                            family: molecule.family,
+                            source: "molecules_list_view"
+                          }),
+                        });
+                      }}
+                    />
+                  ))}
+                </div>
               ) : (
+                /* Vue Grille */
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredMolecules.map((molecule) => (
                     <Link 
@@ -566,7 +597,7 @@ export default function Molecules() {
                           metadata: JSON.stringify({
                             moleculeName: molecule.name,
                             family: molecule.family,
-                            source: "molecules_list"
+                            source: "molecules_grid_view"
                           }),
                         });
                       }}

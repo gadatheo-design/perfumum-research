@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET chemicalFormula = 'C₁₀H₁₆' WHERE (name LIKE '%Limonène%' OR name LIKE '%Limonene%' OR name LIKE '%Pinène%' OR name LIKE '%Pinene%' OR name LIKE '%Myrcène%' OR name LIKE '%Myrcene%' OR name LIKE '%Terpinolène%' OR name LIKE '%Ocimène%' OR name LIKE '%Camphène%' OR name LIKE '%Carène%' OR name LIKE '%Sabinène%' OR name LIKE '%Terpinène%' OR name LIKE '%Phellandrène%') AND (chemicalFormula IS NULL OR chemicalFormula = '');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET chemicalFormula = 'C₁₀H₁₆' WHERE (name LIKE '%Limonène%' OR name LIKE '%Limonene%' OR name LIKE '%Pinène%' OR name LIKE '%Pinene%' OR name LIKE '%Myrcène%' OR name LIKE '%Myrcene%' OR name LIKE '%Terpinolène%' OR name LIKE '%Ocimène%' OR name LIKE '%Camphène%' OR name LIKE '%Carène%' OR name LIKE '%Sabinène%' OR name LIKE '%Terpinène%' OR name LIKE '%Phellandrène%') AND (chemicalFormula IS NULL OR chemicalFormula = '');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 63
+}

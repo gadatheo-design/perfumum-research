@@ -1,0 +1,510 @@
+{
+  "query": "SELECT id, name, chemicalFormula FROM molecules WHERE chemicalFormula IS NULL OR chemicalFormula = '' ORDER BY name LIMIT 100;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, chemicalFormula FROM molecules WHERE chemicalFormula IS NULL OR chemicalFormula = '' ORDER BY name LIMIT 100;",
+  "rows": [
+    {
+      "id": "480024",
+      "name": "Acacia brûlé",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60006",
+      "name": "Acide Benzoïque",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60008",
+      "name": "Acide Caféique",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60007",
+      "name": "Acide Cinnamique",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60010",
+      "name": "Acide Coumarique",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60003",
+      "name": "Acide Décanoïque (C10)",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60009",
+      "name": "Acide Férulique",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60001",
+      "name": "Acide Hexanoïque (C6)",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60004",
+      "name": "Acide Linoléique",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60002",
+      "name": "Acide Octanoïque (C8)",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60005",
+      "name": "Acide Oléique",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570059",
+      "name": "Acétate de benzyle",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570057",
+      "name": "Acétate de géranyle",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570056",
+      "name": "Acétate de linalyle",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570058",
+      "name": "Acétate de phényléthyle",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570055",
+      "name": "Alcool cinnamique",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570054",
+      "name": "Alcool phényléthylique",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480032",
+      "name": "Aldéhyde feuille",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480002",
+      "name": "Aldéhydes chauds",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480022",
+      "name": "Aldéhydes métalliques",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480013",
+      "name": "Aldéhydes sombres",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480029",
+      "name": "Ambergris",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480020",
+      "name": "Ambre profond",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "3",
+      "name": "Ambroxan",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480006",
+      "name": "Argile blanche",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "180003",
+      "name": "Artisan Peppermint Oil",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510020",
+      "name": "Baume de Tolú",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570060",
+      "name": "Benzoate de benzyle",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60013",
+      "name": "Benzyl Acetate",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "660004",
+      "name": "Bergaptène",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "180017",
+      "name": "Black Emerald",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480017",
+      "name": "Bois de brousse",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480026",
+      "name": "Bois sec",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480008",
+      "name": "Bois tendre",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570049",
+      "name": "Bornéol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510011",
+      "name": "Borrachero",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "600009",
+      "name": "Bronze Note",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570008",
+      "name": "Bronze Note",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510023",
+      "name": "Cacao Colombien",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570071",
+      "name": "Cade",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510021",
+      "name": "Café Geisha",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570004",
+      "name": "Calcaire Olfactif",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "600005",
+      "name": "Calcaire Olfactif",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570067",
+      "name": "Calone",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510028",
+      "name": "Calycolpus Moritzianus",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570047",
+      "name": "Camphre",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570041",
+      "name": "Carvacrol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "630001",
+      "name": "Carvone",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510017",
+      "name": "Cedro Rosado",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480025",
+      "name": "Charcoal africain",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570043",
+      "name": "Cinnamaldéhyde",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570045",
+      "name": "Citral",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480040",
+      "name": "Citron sec",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570051",
+      "name": "Citronellol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "660002",
+      "name": "Citronellol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480001",
+      "name": "Citrus sec",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510013",
+      "name": "Coca Décocaïnisée",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510025",
+      "name": "Copaiba",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510019",
+      "name": "Copal Colombien",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "180007",
+      "name": "Crème de Citronnelle",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480014",
+      "name": "Cuir fumé",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "600008",
+      "name": "Cuivre Olfactif",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570007",
+      "name": "Cuivre Olfactif",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480010",
+      "name": "Cèdre beige",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480038",
+      "name": "Cèdre clair",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480041",
+      "name": "Encens doré",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "630002",
+      "name": "Estragole",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60015",
+      "name": "Ethyl Lactate",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570048",
+      "name": "Eucalyptol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570039",
+      "name": "Eugénol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "600007",
+      "name": "Fer Olfactif",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570006",
+      "name": "Fer Olfactif",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480021",
+      "name": "Fer chaud",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480003",
+      "name": "Feuille d'oranger sèche",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480031",
+      "name": "Feuille verte",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510022",
+      "name": "Fleur de Café",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480037",
+      "name": "Foin chaud",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480012",
+      "name": "Fumée douce",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480023",
+      "name": "Fumée légère",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "180006",
+      "name": "Gris d'Ambre",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "510015",
+      "name": "Guanábana",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570040",
+      "name": "Guaïacol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "660001",
+      "name": "Géraniol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570050",
+      "name": "Géraniol",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "180016",
+      "name": "Haitian Vetiver",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480036",
+      "name": "Herbes sèches",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "1",
+      "name": "Hexanoic acid",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "150007",
+      "name": "Humulène",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570068",
+      "name": "Hélional",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60016",
+      "name": "Indole",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60019",
+      "name": "Indoline",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480007",
+      "name": "Ionone blanche",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "60012",
+      "name": "Isoamyl Acetate",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "180002",
+      "name": "Italian Bergamot Oil",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "570070",
+      "name": "Jasmine lactone",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480009",
+      "name": "Karité clair",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480018",
+      "name": "Karité fumé sombre",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "480035",
+      "name": "Karité vert",
+      "chemicalFormula": "NULL"
+    },
+    {
+      "id": "150002",
+      "name": "Limonène",
+      "chemicalFormula": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tchemicalFormula\n480024\tAcacia brûlé\tNULL\n60006\tAcide Benzoïque\tNULL\n60008\tAcide Caféique\tNULL\n60007\tAcide Cinnamique\tNULL\n60010\tAcide Coumarique\tNULL\n60003\tAcide Décanoïque (C10)\tNULL\n60009\tAcide Férulique\tNULL\n60001\tAcide Hexanoïque (C6)\tNULL\n60004\tAcide Linoléique\tNULL\n60002\tAcide Octanoïque (C8)\tNULL\n60005\tAcide Oléique\tNULL\n570061\tAcétate d'isoeugenol\tNULL\n570059\tAcétate de benzyle\tNULL\n570057\tAcétate de géranyle\tNULL\n570056\tAcétate de linalyle\tNULL\n570058\tAcétate de phényléthyle\tNULL\n570055\tAlcool cinnamique\tNULL\n570054\tAlcool phényléthylique\tNULL\n480032\tAldéhyde feuille\tNULL\n480002\tAldéhydes chauds\tNULL\n480022\tAldéhydes métalliques\tNULL\n480013\tAldéhydes sombres\tNULL\n480029\tAmbergris\tNULL\n480020\tAmbre profond\tNULL\n3\tAmbroxan\tNULL\n480006\tArgile blanche\tNULL\n180003\tArtisan Peppermint Oil\tNULL\n510020\tBaume de Tolú\tNULL\n570060\tBenzoate de benzyle\tNULL\n60013\tBenzyl Acetate\tNULL\n660004\tBergaptène\tNULL\n180017\tBlack Emerald\tNULL\n480017\tBois de brousse\tNULL\n480026\tBois sec\tNULL\n480008\tBois tendre\tNULL\n570049\tBornéol\tNULL\n510011\tBorrachero\tNULL\n600009\tBronze Note\tNULL\n570008\tBronze Note\tNULL\n510023\tCacao Colombien\tNULL\n570071\tCade\tNULL\n510021\tCafé Geisha\tNULL\n570004\tCalcaire Olfactif\tNULL\n600005\tCalcaire Olfactif\tNULL\n570067\tCalone\tNULL\n510028\tCalycolpus Moritzianus\tNULL\n570047\tCamphre\tNULL\n570041\tCarvacrol\tNULL\n630001\tCarvone\tNULL\n510017\tCedro Rosado\tNULL\n480025\tCharcoal africain\tNULL\n570043\tCinnamaldéhyde\tNULL\n570045\tCitral\tNULL\n480040\tCitron sec\tNULL\n570051\tCitronellol\tNULL\n660002\tCitronellol\tNULL\n480001\tCitrus sec\tNULL\n510013\tCoca Décocaïnisée\tNULL\n510025\tCopaiba\tNULL\n510019\tCopal Colombien\tNULL\n180007\tCrème de Citronnelle\tNULL\n480014\tCuir fumé\tNULL\n600008\tCuivre Olfactif\tNULL\n570007\tCuivre Olfactif\tNULL\n480010\tCèdre beige\tNULL\n480038\tCèdre clair\tNULL\n480041\tEncens doré\tNULL\n630002\tEstragole\tNULL\n60015\tEthyl Lactate\tNULL\n570048\tEucalyptol\tNULL\n570039\tEugénol\tNULL\n600007\tFer Olfactif\tNULL\n570006\tFer Olfactif\tNULL\n480021\tFer chaud\tNULL\n480003\tFeuille d'oranger sèche\tNULL\n480031\tFeuille verte\tNULL\n510022\tFleur de Café\tNULL\n480037\tFoin chaud\tNULL\n480012\tFumée douce\tNULL\n480023\tFumée légère\tNULL\n180006\tGris d'Ambre\tNULL\n510015\tGuanábana\tNULL\n570040\tGuaïacol\tNULL\n660001\tGéraniol\tNULL\n570050\tGéraniol\tNULL\n180016\tHaitian Vetiver\tNULL\n480036\tHerbes sèches\tNULL\n1\tHexanoic acid\tNULL\n150007\tHumulène\tNULL\n570068\tHélional\tNULL\n60016\tIndole\tNULL\n60019\tIndoline\tNULL\n480007\tIonone blanche\tNULL\n60012\tIsoamyl Acetate\tNULL\n180002\tItalian Bergamot Oil\tNULL\n570070\tJasmine lactone\tNULL\n480009\tKarité clair\tNULL\n480018\tKarité fumé sombre\tNULL\n480035\tKarité vert\tNULL\n150002\tLimonène\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

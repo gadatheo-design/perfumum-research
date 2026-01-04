@@ -912,3 +912,34 @@
 - [ ] Ajouter des vues alternatives (grille compacte / liste détaillée)
 - [ ] Limiter le badge "Nouveau" aux 30 derniers jours
 
+
+
+---
+
+## 🔧 SESSION 04 JAN 2026 - AMÉLIORATIONS UX
+
+### Phase 1 : Vue liste alternative
+- [x] Créer un composant ViewToggle réutilisable (grille/liste)
+- [x] Implémenter la vue liste sur la page Molécules
+- [x] Implémenter la vue liste sur la page Recettes
+- [x] Persister la préférence de vue dans localStorage
+- [x] Tester le responsive sur les deux modes d'affichage (vérifié sur desktop)
+
+### Phase 2 : Complétion des formules chimiques
+- [x] Identifier les molécules avec formules manquantes dans la base de données (163 molécules identifiées)
+- [x] Rechercher les formules chimiques manquantes
+- [x] Créer un script de mise à jour des formules (scripts/apply-formulas.sql)
+- [x] Appliquer les mises à jour pour les terpènes, sesquiterpènes, phénols, etc.
+- [x] Vérifier l'affichage correct des formules sur le site (C₁₀H₁₈O, C₁₆H₂₈O, etc.)
+
+### Phase 3 : Simplification du MegaMenu (COMPLÉTÉ)
+- [x] Analyser la structure actuelle du MegaMenu
+- [x] Regrouper les sections similaires pour réduire la complexité (3 menus → 4 menus mieux organisés)
+- [x] Améliorer la hiérarchie visuelle des éléments
+- [x] Tester la navigation simplifiée sur desktop (4 menus: Explorer, Outils, Méthodologie, Ressources)
+
+### Phase 4 : Tests et livraison
+- [x] Tester toutes les modifications sur desktop
+- [ ] Tester toutes les modifications sur mobile
+- [ ] Créer le checkpoint final
+- [ ] Documenter les changements

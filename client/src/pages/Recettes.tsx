@@ -1,4 +1,6 @@
 import { useState, useMemo } from "react";
+import { ViewToggle, useViewMode } from "@/components/ViewToggle";
+import { RecetteListItem } from "@/components/RecetteListItem";
 import { Link, useLocation } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -78,6 +80,9 @@ export default function Recettes() {
   const [selectedForComparison, setSelectedForComparison] = useState<number[]>([]);
   const [sortBy, setSortBy] = useState<string>("recent");
   const [location, setLocation] = useLocation();
+  
+  // View mode (grid/list)
+  const [viewMode, setViewMode] = useViewMode("recettes-view-mode", "grid");
   
   // Filtres radar (plages min-max)
   const [radarFilters, setRadarFilters] = useState({
@@ -396,8 +401,9 @@ export default function Recettes() {
                   {showRadarFilter ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
                 </Button>
 
-                {/* Sort Dropdown */}
-                <div className="flex items-center gap-2 ml-auto">
+                {/* View Toggle + Sort Dropdown */}
+                <div className="flex items-center gap-4 ml-auto">
+                  <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
                   <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
                   <Select value={sortBy} onValueChange={setSortBy}>
                     <SelectTrigger className="w-[180px]">
@@ -567,7 +573,40 @@ export default function Recettes() {
                   </Button>
                 )}
               </div>
+            ) : viewMode === "list" ? (
+              /* Vue Liste */
+              <div className="space-y-2">
+                {filteredRecettes.map((recette) => (
+                  <RecetteListItem
+                    key={recette.id}
+                    recette={recette}
+                    isSelected={selectedForComparison.includes(recette.id)}
+                    onToggleSelection={(id, checked) => {
+                      if (checked) {
+                        if (selectedForComparison.length >= 4) {
+                          toast({ title: "Maximum 4 recettes", description: "Vous pouvez comparer jusqu'à 4 recettes à la fois.", variant: "destructive" });
+                        } else {
+                          setSelectedForComparison(prev => [...prev, id]);
+                        }
+                      } else {
+                        setSelectedForComparison(prev => prev.filter(i => i !== id));
+                      }
+                    }}
+                    isFavorite={isFavorite(recette.id)}
+                    onFavorite={(id) => {
+                      toggleFavorite(id);
+                      toast({ 
+                        title: isFavorite(id) ? "Retiré des favoris" : "Ajouté aux favoris",
+                        description: isFavorite(id) 
+                          ? "La recette a été retirée de vos favoris" 
+                          : "La recette a été ajoutée à vos favoris"
+                      });
+                    }}
+                  />
+                ))}
+              </div>
             ) : (
+              /* Vue Grille */
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredRecettes.map((recette) => (
                 <RecetteCard

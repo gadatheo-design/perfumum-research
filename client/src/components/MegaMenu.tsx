@@ -13,13 +13,13 @@ import {
   Settings,
   Microscope,
   BarChart3,
-  GitBranch,
   Layers,
-  Activity,
   Search,
-  Clock,
-  Flame,
   ShieldCheck,
+  Compass,
+  Database,
+  Wrench,
+  FileText,
 } from "lucide-react";
 
 interface MenuItem {
@@ -122,6 +122,10 @@ function MegaMenuDropdown({ trigger, sections }: MegaMenuProps) {
   // Track item index across sections
   let itemIndex = 0;
 
+  // Determine grid columns based on number of sections
+  const gridCols = sections.length <= 2 ? "grid-cols-2" : "grid-cols-3";
+  const minWidth = sections.length <= 2 ? "min-w-[450px]" : "min-w-[600px]";
+
   return (
     <div
       className="relative"
@@ -151,8 +155,8 @@ function MegaMenuDropdown({ trigger, sections }: MegaMenuProps) {
           role="menu"
           aria-label={trigger}
         >
-          <div className="bg-background border rounded-lg shadow-xl p-6 min-w-[600px]">
-            <div className="grid grid-cols-3 gap-6">
+          <div className={cn("bg-background border rounded-lg shadow-xl p-6", minWidth)}>
+            <div className={cn("grid gap-6", gridCols)}>
               {sections.map((section, sectionIndex) => (
                 <div key={sectionIndex} role="group" aria-labelledby={`section-${sectionIndex}`}>
                   <h3 
@@ -232,8 +236,8 @@ function MegaMenuDropdown({ trigger, sections }: MegaMenuProps) {
 }
 
 export function MegaMenu() {
-  // === RECHERCHE (5 liens essentiels) ===
-  const rechercheSections: MegaMenuSection[] = [
+  // === EXPLORER (Base de données + Visualisations) ===
+  const explorerSections: MegaMenuSection[] = [
     {
       title: "Base de données",
       items: [
@@ -241,58 +245,25 @@ export function MegaMenu() {
           label: "Molécules",
           path: "/molecules",
           icon: <Beaker className="h-4 w-4" />,
-          description: "288 molécules documentées",
-          count: 288,
+          description: "Catalogue moléculaire complet",
         },
         {
           label: "Recettes",
           path: "/recettes",
           icon: <FlaskConical className="h-4 w-4" />,
-          description: "234 formules olfactives",
-          count: 234,
+          description: "Formules olfactives",
         },
         {
           label: "Gammes",
           path: "/gammes",
           icon: <Sparkles className="h-4 w-4" />,
-          description: "8 gammes thématiques",
+          description: "Collections thématiques",
         },
         {
-          label: "Formules de Référence",
-          path: "/formules-reference",
-          icon: <Target className="h-4 w-4" />,
-          description: "16 archétypes olfactifs",
-          count: 16,
-        },
-      ],
-    },
-    {
-      title: "Outils",
-      items: [
-        {
-          label: "Éditeur de Formulation",
-          path: "/outils/editeur-formulation",
-          icon: <FlaskConical className="h-4 w-4" />,
-          description: "Création formules interactives",
-          badge: "NEW",
-        },
-        {
-          label: "Générateur Formules",
-          path: "/outils/generateur-formules",
-          icon: <Sparkles className="h-4 w-4" />,
-          description: "Création formules par IA",
-        },
-        {
-          label: "Synergies",
-          path: "/suggestions-synergies",
-          icon: <Network className="h-4 w-4" />,
-          description: "Suggestions IA basées radar",
-        },
-        {
-          label: "Calculateur",
-          path: "/calculateur",
-          icon: <FlaskConical className="h-4 w-4" />,
-          description: "Formulation terpénique",
+          label: "Recherche avancée",
+          path: "/recherche-avancee",
+          icon: <Search className="h-4 w-4" />,
+          description: "Filtres multi-critères",
         },
       ],
     },
@@ -303,174 +274,152 @@ export function MegaMenu() {
           label: "Diagramme Sankey",
           path: "/sankey-flow",
           icon: <Layers className="h-4 w-4" />,
-          description: "Flux catégories vers recettes",
+          description: "Flux catégories → recettes",
         },
         {
-          label: "Radar Enrichi",
-          path: "/enhanced-radar",
-          icon: <Activity className="h-4 w-4" />,
-          description: "Profils avec moyennes et zones",
-        },
-        {
-          label: "Heatmap Synergies",
+          label: "Synergies Heatmap",
           path: "/synergies-heatmap",
           icon: <BarChart3 className="h-4 w-4" />,
-          description: "Matrice moléculaire 2D",
+          description: "Matrice de compatibilité",
         },
         {
           label: "Graphe Réseau",
           path: "/recipe-network",
-          icon: <GitBranch className="h-4 w-4" />,
+          icon: <Network className="h-4 w-4" />,
           description: "Connexions moléculaires",
-        },
-      ],
-    },
-    {
-      title: "Outils d'Exploration",
-      items: [
-        {
-          label: "Recherche Avancée",
-          path: "/recherche-avancee",
-          icon: <Search className="h-4 w-4" />,
-          description: "Filtres multi-critères",
-        },
-        {
-          label: "Timeline Recettes",
-          path: "/timeline-recettes",
-          icon: <Clock className="h-4 w-4" />,
-          description: "Évolution temporelle",
-        },
-        {
-          label: "Heatmap Corrélations",
-          path: "/heatmap-correlations",
-          icon: <Flame className="h-4 w-4" />,
-          description: "Corrélations axes radar",
-        },
-        {
-          label: "Formules de Référence",
-          path: "/formules-reference",
-          icon: <BookOpen className="h-4 w-4" />,
-          description: "16 archétypes olfactifs classiques",
-          badge: "NEW",
-        },
-      ],
-    },
-    {
-      title: "Projet",
-      items: [
-        {
-          label: "Mon Dashboard",
-          path: "/mon-dashboard",
-          icon: <Sparkles className="h-4 w-4" />,
-          description: "Recommandations personnalisées",
-        },
-        {
-          label: "Manifeste",
-          path: "/manifeste",
-          icon: <Target className="h-4 w-4" />,
-          description: "Vision ABSORBE 2025-2035",
         },
       ],
     },
   ];
 
-  // === MÉTHODOLOGIE (5 liens essentiels) ===
-  const methodologieSections: MegaMenuSection[] = [
+  // === OUTILS (Création + Analyse) ===
+  const outilsSections: MegaMenuSection[] = [
     {
-      title: "ABSORBE",
+      title: "Création",
       items: [
         {
-          label: "Méthode ABSORBE",
+          label: "Éditeur de Formulation",
+          path: "/outils/editeur-formulation",
+          icon: <FlaskConical className="h-4 w-4" />,
+          description: "Création formules interactives",
+          badge: "NEW",
+        },
+        {
+          label: "Générateur IA",
+          path: "/outils/generateur-formules",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Suggestions par intelligence artificielle",
+        },
+        {
+          label: "Calculateur",
+          path: "/calculateur",
+          icon: <Wrench className="h-4 w-4" />,
+          description: "Formulation terpénique",
+        },
+      ],
+    },
+    {
+      title: "Analyse",
+      items: [
+        {
+          label: "Synergies",
+          path: "/suggestions-synergies",
+          icon: <Network className="h-4 w-4" />,
+          description: "Suggestions basées radar",
+        },
+        {
+          label: "Formules de Référence",
+          path: "/formules-reference",
+          icon: <Target className="h-4 w-4" />,
+          description: "16 archétypes olfactifs",
+        },
+        {
+          label: "Mon Dashboard",
+          path: "/mon-dashboard",
+          icon: <Compass className="h-4 w-4" />,
+          description: "Recommandations personnalisées",
+        },
+      ],
+    },
+  ];
+
+  // === MÉTHODOLOGIE (Techniques + Recherche) ===
+  const methodologieSections: MegaMenuSection[] = [
+    {
+      title: "Méthode ABSORBE",
+      items: [
+        {
+          label: "Présentation",
           path: "/methodologie/absorbe",
           icon: <BookOpen className="h-4 w-4" />,
           description: "Captation atmosphérique",
         },
         {
-          label: "Échelle ABSORBE",
+          label: "Échelle de classification",
           path: "/methodologie/echelle",
           icon: <Leaf className="h-4 w-4" />,
-          description: "Système de classification",
+          description: "Système de notation",
+        },
+        {
+          label: "Manifeste",
+          path: "/manifeste",
+          icon: <Target className="h-4 w-4" />,
+          description: "Vision 2025-2035",
         },
       ],
     },
     {
-      title: "Techniques",
+      title: "Techniques & Terrain",
       items: [
         {
-          label: "GC-MS",
+          label: "GC-MS & Pyrolyse",
           path: "/methodologie/gcms",
-          icon: <Beaker className="h-4 w-4" />,
-          description: "Chromatographie gazeuse",
+          icon: <Microscope className="h-4 w-4" />,
+          description: "Analyses chromatographiques",
         },
-        {
-          label: "Pyrolyse",
-          path: "/methodologie/pyrolyse",
-          icon: <FlaskConical className="h-4 w-4" />,
-          description: "Analyse thermique",
-        },
-      ],
-    },
-    {
-      title: "Archives & Terrain",
-      items: [
         {
           label: "Archives de Terrain",
           path: "/archives-terrain",
-          icon: <Leaf className="h-4 w-4" />,
-          description: "Captations olfactives in situ",
-          badge: "NEW",
+          icon: <Database className="h-4 w-4" />,
+          description: "Captations in situ",
         },
-        {
-          label: "Études Climatiques",
-          path: "/etudes-climatiques",
-          icon: <FlaskConical className="h-4 w-4" />,
-          description: "Reconstructions atmosphériques",
-          badge: "NEW",
-        },
-        {
-          label: "Protocoles Moléculaires",
-          path: "/protocoles-moleculaires",
-          icon: <Beaker className="h-4 w-4" />,
-          description: "Architectures olfactives",
-          badge: "NEW",
-        },
-      ],
-    },
-    {
-      title: "Recherche",
-      items: [
-        {
-          label: "Méthodologie",
-          path: "/methodologie/recherche",
-          icon: <Microscope className="h-4 w-4" />,
-          description: "Protocoles scientifiques",
-        },
-        {
-          label: "Fondements",
-          path: "/recherche/fondements-theoriques",
-          icon: <BookOpen className="h-4 w-4" />,
-          description: "Phénoménologie olfactive",
-        },
-      ],
-    },
-    {
-      title: "Réglementation",
-      items: [
         {
           label: "Normes IFRA",
           path: "/ifra",
           icon: <ShieldCheck className="h-4 w-4" />,
-          description: "Restrictions et limites",
-          badge: "NEW",
+          description: "Réglementation",
         },
       ],
     },
   ];
 
-  // === COMMUNAUTÉ (5 liens essentiels) ===
-  const communauteSections: MegaMenuSection[] = [
+  // === RESSOURCES (Communauté + Documentation) ===
+  const ressourcesSections: MegaMenuSection[] = [
     {
-      title: "Projet",
+      title: "Documentation",
+      items: [
+        {
+          label: "Glossaire",
+          path: "/glossaire",
+          icon: <BookOpen className="h-4 w-4" />,
+          description: "Terminologie olfactive",
+        },
+        {
+          label: "Timeline",
+          path: "/timeline",
+          icon: <FileText className="h-4 w-4" />,
+          description: "Chronologie recherche",
+        },
+        {
+          label: "Fondements théoriques",
+          path: "/recherche/fondements-theoriques",
+          icon: <Microscope className="h-4 w-4" />,
+          description: "Phénoménologie olfactive",
+        },
+      ],
+    },
+    {
+      title: "Communauté",
       items: [
         {
           label: "À propos",
@@ -484,28 +433,6 @@ export function MegaMenu() {
           icon: <Target className="h-4 w-4" />,
           description: "Rejoindre le projet",
         },
-      ],
-    },
-    {
-      title: "Ressources",
-      items: [
-        {
-          label: "Timeline",
-          path: "/timeline",
-          icon: <BookOpen className="h-4 w-4" />,
-          description: "Chronologie recherche",
-        },
-        {
-          label: "Glossaire",
-          path: "/glossaire",
-          icon: <BookOpen className="h-4 w-4" />,
-          description: "Terminologie olfactive",
-        },
-      ],
-    },
-    {
-      title: "Admin",
-      items: [
         {
           label: "Administration",
           path: "/admin",
@@ -518,9 +445,10 @@ export function MegaMenu() {
 
   return (
     <nav className="hidden lg:flex items-center gap-1" role="navigation" aria-label="Menu principal">
-      <MegaMenuDropdown trigger="Recherche" sections={rechercheSections} />
+      <MegaMenuDropdown trigger="Explorer" sections={explorerSections} />
+      <MegaMenuDropdown trigger="Outils" sections={outilsSections} />
       <MegaMenuDropdown trigger="Méthodologie" sections={methodologieSections} />
-      <MegaMenuDropdown trigger="Communauté" sections={communauteSections} />
+      <MegaMenuDropdown trigger="Ressources" sections={ressourcesSections} />
     </nav>
   );
 }
