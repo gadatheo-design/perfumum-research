@@ -1190,3 +1190,75 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - 172 familles chimiques uniques
 - 4 prototypes développés
 
+
+
+---
+
+## 🔬 SESSION 04 JAN 2026 - ENRICHISSEMENT AVANCÉ
+
+### Phase 1 : Enrichissement des 367 molécules via PubChem API
+- [ ] Identifier les molécules sans données CAS/IUPAC dans la base
+- [ ] Implémenter l'intégration avec l'API PubChem (gratuite, sans clé)
+- [ ] Créer une procédure tRPC pour enrichir une molécule via PubChem
+- [ ] Créer une interface d'enrichissement par lot (batch)
+- [ ] Ajouter un indicateur de progression pour l'enrichissement
+- [ ] Valider les données récupérées avant insertion
+
+### Phase 2 : Visualisations de corrélation moléculaire
+- [ ] Créer un graphique de corrélation masse moléculaire vs point d'ébullition
+- [ ] Créer un graphique classe chimique vs famille olfactive
+- [ ] Implémenter des graphiques interactifs avec Recharts/Chart.js
+- [ ] Ajouter des filtres pour explorer les patterns
+- [ ] Créer une page dédiée aux visualisations analytiques
+
+### Phase 3 : Système d'export bibliographique
+- [ ] Créer un générateur de citations format APA
+- [ ] Créer un générateur de citations format Chicago
+- [ ] Permettre l'export de citations pour molécules individuelles
+- [ ] Permettre l'export de citations pour recettes
+- [ ] Permettre l'export groupé (sélection multiple)
+- [ ] Ajouter un bouton de copie rapide pour chaque citation
+
+### Phase 4 : Tests et validation
+- [ ] Écrire les tests unitaires pour l'enrichissement PubChem
+- [ ] Tester les visualisations sur différentes tailles d'écran
+- [ ] Valider les formats de citation APA et Chicago
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 🔬 SESSION 04 JAN 2026 — Enrichissement scientifique avancé
+
+### Enrichissement PubChem (API NIH)
+- [x] Créer le service d'enrichissement PubChem (server/pubchem.ts)
+- [x] Implémenter la recherche par nom de molécule
+- [x] Implémenter l'extraction des propriétés (CAS, IUPAC, masse, formule, logP, complexité)
+- [x] Implémenter l'inférence de classe chimique
+- [x] Créer les procédures tRPC pour enrichissement individuel et par lot
+- [x] Créer la page d'interface utilisateur (/outils/enrichissement-pubchem)
+- [x] Afficher les statistiques d'enrichissement en temps réel
+
+### Visualisations de corrélation moléculaire
+- [x] Graphique Masse moléculaire vs Point d'ébullition (scatter plot coloré par classe)
+- [x] Corrélation personnalisée entre propriétés (avec coefficient de Pearson)
+- [x] Heatmap Classes chimiques vs Familles olfactives
+- [x] Statistiques par classe chimique (bar chart + cards)
+- [x] Créer la page d'interface utilisateur (/outils/visualisations-correlation)
+
+### Export bibliographique académique
+- [x] Format APA (7ème édition) pour molécules et recettes
+- [x] Format Chicago (17ème édition) pour molécules et recettes
+- [x] Format BibTeX pour intégration LaTeX
+- [x] Export groupé avec sélection multiple
+- [x] Copie dans le presse-papiers et téléchargement
+- [x] Créer la page d'interface utilisateur (/outils/export-bibliographique)
+
+### Tests unitaires
+- [x] Tests pour le service PubChem (enrichMolecule, inferChemicalClass, extractCASNumber)
+- [x] Tests pour la génération de citations (APA, Chicago, BibTeX)
+- [x] Tests pour les calculs de corrélation (Pearson, R²)
+- [x] Tests pour le binning d'histogramme
+- [x] Tous les tests passent (212/212)
+

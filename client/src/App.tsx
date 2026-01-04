@@ -119,6 +119,9 @@ import ProportionsCalculator from "./pages/ProportionsCalculator";
 import DilutionCalculator from "./pages/DilutionCalculator";
 import CorrelationAnalysis from "./pages/CorrelationAnalysis";
 import { AbsorbeScale } from "@/pages/AbsorbeScale";
+import EnrichissementPubChem from "./pages/EnrichissementPubChem";
+import VisualisationsCorrelation from "./pages/VisualisationsCorrelation";
+import ExportBibliographique from "./pages/ExportBibliographique";
 
 // === RECHERCHE SCIENTIFIQUE ===
 import { RechercheScientifique } from "./pages/RechercheScientifique";
@@ -344,6 +347,9 @@ function Router() {
       <Route path="/outils/calculateur-cout" component={CalculateurCout} />
       <Route path="/analyses" component={CorrelationAnalysis} />
       <Route path="/absorbe-scale" component={AbsorbeScale} />
+      <Route path="/outils/enrichissement-pubchem" component={EnrichissementPubChem} />
+      <Route path="/outils/visualisations-correlation" component={VisualisationsCorrelation} />
+      <Route path="/outils/export-bibliographique" component={ExportBibliographique} />
       
       {/* === RECHERCHE SCIENTIFIQUE === */}
       <Route path="/recherche-scientifique" component={RechercheScientifique} />

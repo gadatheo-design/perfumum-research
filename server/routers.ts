@@ -3625,6 +3625,548 @@ export const appRouter = router({
         };
       }),
   }),
+
+  // ============================================================================
+  // ENRICHISSEMENT PUBCHEM
+  // ============================================================================
+  pubchem: router({
+    // Enrichir une seule molécule
+    enrichMolecule: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        const { enrichMolecule, inferChemicalClass } = await import('./pubchem');
+        
+        // Récupérer la molécule
+        const molecule = await db.getMoleculeById(input.moleculeId);
+        if (!molecule) {
+          throw new Error('Molécule non trouvée');
+        }
+        
+        // Enrichir via PubChem
+        const result = await enrichMolecule(molecule.name);
+        
+        if (result.success) {
+          // Mettre à jour la molécule
+          const chemicalClass = inferChemicalClass(result.iupacName, result.molecularFormula);
+          
+          await db.updateMoleculeScientificData(input.moleculeId, {
+            casNumber: result.casNumber || molecule.casNumber || undefined,
+            iupacName: result.iupacName || molecule.iupacName || undefined,
+            chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as any,
+          });
+          
+          // Ajouter une référence PubChem
+          const existingRefs = molecule.references || [];
+          const pubchemRef = {
+            title: `PubChem CID: ${result.pubchemCID}`,
+            url: `https://pubchem.ncbi.nlm.nih.gov/compound/${result.pubchemCID}`,
+            type: 'pubchem' as const,
+          };
+          
+          // Éviter les doublons
+          if (!existingRefs.some(r => r.type === 'pubchem' && r.url === pubchemRef.url)) {
+            await db.updateMoleculeReferences(input.moleculeId, JSON.stringify([...existingRefs, pubchemRef]));
+          }
+        }
+        
+        return result;
+      }),
+    
+    // Enrichir plusieurs molécules en lot
+    enrichBatch: publicProcedure
+      .input(z.object({
+        moleculeIds: z.array(z.number()),
+      }))
+      .mutation(async ({ input }) => {
+        const { enrichMolecule, inferChemicalClass } = await import('./pubchem');
+        
+        const results: Array<{
+          moleculeId: number;
+          moleculeName: string;
+          success: boolean;
+          casNumber?: string;
+          iupacName?: string;
+          error?: string;
+        }> = [];
+        
+        for (const moleculeId of input.moleculeIds) {
+          const molecule = await db.getMoleculeById(moleculeId);
+          if (!molecule) {
+            results.push({
+              moleculeId,
+              moleculeName: 'Inconnu',
+              success: false,
+              error: 'Molécule non trouvée',
+            });
+            continue;
+          }
+          
+          const result = await enrichMolecule(molecule.name);
+          
+          if (result.success) {
+            const chemicalClass = inferChemicalClass(result.iupacName, result.molecularFormula);
+            
+            await db.updateMoleculeScientificData(moleculeId, {
+              casNumber: result.casNumber || molecule.casNumber || undefined,
+              iupacName: result.iupacName || molecule.iupacName || undefined,
+              chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as any,
+            });
+            
+            // Ajouter référence PubChem
+            const existingRefs = molecule.references || [];
+            if (result.pubchemCID && !existingRefs.some(r => r.type === 'pubchem')) {
+              await db.updateMoleculeReferences(moleculeId, JSON.stringify([...existingRefs, {
+                title: `PubChem CID: ${result.pubchemCID}`,
+                url: `https://pubchem.ncbi.nlm.nih.gov/compound/${result.pubchemCID}`,
+                type: 'pubchem' as const,
+              }]));
+            }
+          }
+          
+          results.push({
+            moleculeId,
+            moleculeName: molecule.name,
+            success: result.success,
+            casNumber: result.casNumber,
+            iupacName: result.iupacName,
+            error: result.error,
+          });
+          
+          // Délai pour respecter les limites de l'API
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        
+        return {
+          total: results.length,
+          success: results.filter(r => r.success).length,
+          failed: results.filter(r => !r.success).length,
+          results,
+        };
+      }),
+    
+    // Obtenir les molécules à enrichir
+    getMoleculesToEnrich: publicProcedure
+      .input(z.object({
+        limit: z.number().default(50),
+        offset: z.number().default(0),
+      }))
+      .query(async ({ input }) => {
+        const allMolecules = await db.getAllMolecules();
+        
+        // Filtrer les molécules sans CAS ou IUPAC
+        const toEnrich = allMolecules.filter(m => 
+          !m.casNumber || m.casNumber === '' || !m.iupacName || m.iupacName === ''
+        );
+        
+        return {
+          total: toEnrich.length,
+          molecules: toEnrich.slice(input.offset, input.offset + input.limit),
+        };
+      }),
+    
+    // Statistiques d'enrichissement
+    getEnrichmentStats: publicProcedure.query(async () => {
+      const allMolecules = await db.getAllMolecules();
+      
+      const stats = {
+        total: allMolecules.length,
+        withCAS: allMolecules.filter(m => m.casNumber && m.casNumber !== '').length,
+        withIUPAC: allMolecules.filter(m => m.iupacName && m.iupacName !== '').length,
+        withChemicalClass: allMolecules.filter(m => m.chemicalClass).length,
+        withMolecularWeight: allMolecules.filter(m => m.molecularWeight).length,
+        withBoilingPoint: allMolecules.filter(m => m.boilingPoint).length,
+        withPubChemRef: allMolecules.filter(m => m.references?.some(r => r.type === 'pubchem')).length,
+      };
+      
+      return {
+        ...stats,
+        missingCAS: stats.total - stats.withCAS,
+        missingIUPAC: stats.total - stats.withIUPAC,
+        completeness: Math.round((stats.withCAS + stats.withIUPAC) / (stats.total * 2) * 100),
+      };
+    }),
+  }),
+
+  // ============================================================================
+  // VISUALISATIONS ET CORRÉLATIONS
+  // ============================================================================
+  visualizations: router({
+    // Données pour le graphique masse moléculaire vs point d'ébullition
+    getMolecularWeightVsBoilingPoint: publicProcedure.query(async () => {
+      const molecules = await db.getAllMolecules();
+      
+      return molecules
+        .filter(m => m.molecularWeight && m.boilingPoint)
+        .map(m => ({
+          id: m.id,
+          name: m.name,
+          molecularWeight: m.molecularWeight,
+          boilingPoint: m.boilingPoint,
+          chemicalClass: m.chemicalClass || 'other',
+          family: m.family || 'Inconnue',
+        }));
+    }),
+    
+    // Données pour le graphique classe chimique vs famille olfactive
+    getChemicalClassVsOlfactiveFamily: publicProcedure.query(async () => {
+      const molecules = await db.getAllMolecules();
+      
+      // Créer une matrice de corrélation
+      const matrix: Record<string, Record<string, number>> = {};
+      
+      for (const m of molecules) {
+        const chemClass = m.chemicalClass || 'other';
+        const family = m.family || 'Inconnue';
+        
+        if (!matrix[chemClass]) {
+          matrix[chemClass] = {};
+        }
+        matrix[chemClass][family] = (matrix[chemClass][family] || 0) + 1;
+      }
+      
+      // Convertir en format pour heatmap
+      const data: Array<{ chemicalClass: string; family: string; count: number }> = [];
+      
+      for (const [chemClass, families] of Object.entries(matrix)) {
+        for (const [family, count] of Object.entries(families)) {
+          data.push({ chemicalClass: chemClass, family, count });
+        }
+      }
+      
+      return {
+        data,
+        chemicalClasses: Object.keys(matrix),
+        families: Array.from(new Set(molecules.map(m => m.family || 'Inconnue'))),
+      };
+    }),
+    
+    // Distribution des propriétés moléculaires
+    getMolecularPropertyDistribution: publicProcedure
+      .input(z.object({
+        property: z.enum(['molecularWeight', 'boilingPoint', 'logP', 'complexity', 'intensity']),
+      }))
+      .query(async ({ input }) => {
+        const molecules = await db.getAllMolecules();
+        
+        const values = molecules
+          .map(m => m[input.property] as number | null)
+          .filter((v): v is number => v !== null && v !== undefined);
+        
+        if (values.length === 0) {
+          return { bins: [], min: 0, max: 0, mean: 0, median: 0 };
+        }
+        
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+        const mean = values.reduce((a, b) => a + b, 0) / values.length;
+        const sorted = [...values].sort((a, b) => a - b);
+        const median = sorted[Math.floor(sorted.length / 2)];
+        
+        // Créer des bins pour l'histogramme
+        const binCount = 20;
+        const binSize = (max - min) / binCount;
+        const bins: Array<{ min: number; max: number; count: number }> = [];
+        
+        for (let i = 0; i < binCount; i++) {
+          const binMin = min + i * binSize;
+          const binMax = min + (i + 1) * binSize;
+          const count = values.filter(v => v >= binMin && v < binMax).length;
+          bins.push({ min: binMin, max: binMax, count });
+        }
+        
+        return { bins, min, max, mean, median };
+      }),
+    
+    // Corrélation entre deux propriétés
+    getPropertyCorrelation: publicProcedure
+      .input(z.object({
+        propertyX: z.enum(['molecularWeight', 'boilingPoint', 'logP', 'complexity', 'intensity', 'volatility']),
+        propertyY: z.enum(['molecularWeight', 'boilingPoint', 'logP', 'complexity', 'intensity', 'volatility']),
+      }))
+      .query(async ({ input }) => {
+        const molecules = await db.getAllMolecules();
+        
+        const points = molecules
+          .filter(m => m[input.propertyX] !== null && m[input.propertyY] !== null)
+          .map(m => ({
+            id: m.id,
+            name: m.name,
+            x: m[input.propertyX] as number,
+            y: m[input.propertyY] as number,
+            chemicalClass: m.chemicalClass || 'other',
+          }));
+        
+        // Calculer le coefficient de corrélation de Pearson
+        if (points.length < 2) {
+          return { points, correlation: 0, rSquared: 0 };
+        }
+        
+        const n = points.length;
+        const sumX = points.reduce((a, p) => a + p.x, 0);
+        const sumY = points.reduce((a, p) => a + p.y, 0);
+        const sumXY = points.reduce((a, p) => a + p.x * p.y, 0);
+        const sumX2 = points.reduce((a, p) => a + p.x * p.x, 0);
+        const sumY2 = points.reduce((a, p) => a + p.y * p.y, 0);
+        
+        const numerator = n * sumXY - sumX * sumY;
+        const denominator = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+        
+        const correlation = denominator === 0 ? 0 : numerator / denominator;
+        const rSquared = correlation * correlation;
+        
+        return { points, correlation: Math.round(correlation * 1000) / 1000, rSquared: Math.round(rSquared * 1000) / 1000 };
+      }),
+    
+    // Statistiques par classe chimique
+    getStatsByChemicalClass: publicProcedure.query(async () => {
+      const molecules = await db.getAllMolecules();
+      
+      const statsByClass: Record<string, {
+        count: number;
+        avgMolecularWeight: number;
+        avgBoilingPoint: number;
+        avgLogP: number;
+        families: string[];
+      }> = {};
+      
+      for (const m of molecules) {
+        const chemClass = m.chemicalClass || 'other';
+        
+        if (!statsByClass[chemClass]) {
+          statsByClass[chemClass] = {
+            count: 0,
+            avgMolecularWeight: 0,
+            avgBoilingPoint: 0,
+            avgLogP: 0,
+            families: [],
+          };
+        }
+        
+        statsByClass[chemClass].count++;
+        if (m.molecularWeight) statsByClass[chemClass].avgMolecularWeight += m.molecularWeight;
+        if (m.boilingPoint) statsByClass[chemClass].avgBoilingPoint += m.boilingPoint;
+        if (m.logP) statsByClass[chemClass].avgLogP += m.logP;
+        if (m.family && !statsByClass[chemClass].families.includes(m.family)) {
+          statsByClass[chemClass].families.push(m.family);
+        }
+      }
+      
+      // Calculer les moyennes
+      for (const chemClass of Object.keys(statsByClass)) {
+        const stats = statsByClass[chemClass];
+        const count = stats.count;
+        stats.avgMolecularWeight = Math.round(stats.avgMolecularWeight / count);
+        stats.avgBoilingPoint = Math.round(stats.avgBoilingPoint / count);
+        stats.avgLogP = Math.round(stats.avgLogP / count);
+      }
+      
+      return statsByClass;
+    }),
+  }),
+
+  // ============================================================================
+  // EXPORT BIBLIOGRAPHIQUE
+  // ============================================================================
+  bibliography: router({
+    // Générer une citation pour une molécule
+    generateMoleculeCitation: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        format: z.enum(['apa', 'chicago', 'bibtex']),
+      }))
+      .query(async ({ input }) => {
+        const molecule = await db.getMoleculeById(input.moleculeId);
+        if (!molecule) {
+          throw new Error('Molécule non trouvée');
+        }
+        
+        const currentYear = new Date().getFullYear();
+        const accessDate = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+        
+        // Trouver la référence PubChem si elle existe
+        const pubchemRef = molecule.references?.find(r => r.type === 'pubchem');
+        const pubchemCID = pubchemRef?.url?.split('/').pop();
+        
+        let citation = '';
+        
+        switch (input.format) {
+          case 'apa':
+            if (pubchemCID) {
+              citation = `National Center for Biotechnology Information (${currentYear}). PubChem Compound Summary for CID ${pubchemCID}, ${molecule.name}. Retrieved ${accessDate}, from https://pubchem.ncbi.nlm.nih.gov/compound/${pubchemCID}`;
+            } else {
+              citation = `${molecule.name}. (${currentYear}). In PERFUMUM Research Database. Retrieved ${accessDate}.`;
+            }
+            if (molecule.casNumber) {
+              citation += ` CAS: ${molecule.casNumber}.`;
+            }
+            break;
+            
+          case 'chicago':
+            if (pubchemCID) {
+              citation = `National Center for Biotechnology Information. "PubChem Compound Summary for CID ${pubchemCID}, ${molecule.name}." PubChem. Accessed ${accessDate}. https://pubchem.ncbi.nlm.nih.gov/compound/${pubchemCID}.`;
+            } else {
+              citation = `"${molecule.name}." PERFUMUM Research Database. Accessed ${accessDate}.`;
+            }
+            if (molecule.casNumber) {
+              citation += ` CAS Registry Number: ${molecule.casNumber}.`;
+            }
+            break;
+            
+          case 'bibtex':
+            const key = molecule.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            if (pubchemCID) {
+              citation = `@misc{pubchem_${key},
+  author = {{National Center for Biotechnology Information}},
+  title = {PubChem Compound Summary for CID ${pubchemCID}, ${molecule.name}},
+  year = {${currentYear}},
+  url = {https://pubchem.ncbi.nlm.nih.gov/compound/${pubchemCID}},
+  note = {Accessed: ${accessDate}${molecule.casNumber ? `, CAS: ${molecule.casNumber}` : ''}}
+}`;
+            } else {
+              citation = `@misc{perfumum_${key},
+  title = {${molecule.name}},
+  year = {${currentYear}},
+  howpublished = {PERFUMUM Research Database},
+  note = {${molecule.casNumber ? `CAS: ${molecule.casNumber}, ` : ''}Accessed: ${accessDate}}
+}`;
+            }
+            break;
+        }
+        
+        return {
+          citation,
+          format: input.format,
+          molecule: {
+            id: molecule.id,
+            name: molecule.name,
+            casNumber: molecule.casNumber,
+            iupacName: molecule.iupacName,
+          },
+        };
+      }),
+    
+    // Générer une citation pour une recette
+    generateRecetteCitation: publicProcedure
+      .input(z.object({
+        recetteId: z.number(),
+        format: z.enum(['apa', 'chicago', 'bibtex']),
+      }))
+      .query(async ({ input }) => {
+        const recette = await db.getRecetteById(input.recetteId);
+        if (!recette) {
+          throw new Error('Recette non trouvée');
+        }
+        
+        const currentYear = new Date().getFullYear();
+        const accessDate = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+        const creationYear = recette.createdAt ? new Date(recette.createdAt).getFullYear() : currentYear;
+        
+        let citation = '';
+        
+        switch (input.format) {
+          case 'apa':
+            citation = `PERFUMUM Research. (${creationYear}). ${recette.name}. PERFUMUM Research Database. Retrieved ${accessDate}.`;
+            break;
+            
+          case 'chicago':
+            citation = `PERFUMUM Research. "${recette.name}." PERFUMUM Research Database, ${creationYear}. Accessed ${accessDate}.`;
+            break;
+            
+          case 'bibtex':
+            const key = recette.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            citation = `@misc{perfumum_${key},
+  author = {{PERFUMUM Research}},
+  title = {${recette.name}},
+  year = {${creationYear}},
+  howpublished = {PERFUMUM Research Database},
+  note = {Accessed: ${accessDate}}
+}`;
+            break;
+        }
+        
+        return {
+          citation,
+          format: input.format,
+          recette: {
+            id: recette.id,
+            name: recette.name,
+          },
+        };
+      }),
+    
+    // Générer des citations groupées
+    generateBulkCitations: publicProcedure
+      .input(z.object({
+        moleculeIds: z.array(z.number()).optional(),
+        recetteIds: z.array(z.number()).optional(),
+        format: z.enum(['apa', 'chicago', 'bibtex']),
+      }))
+      .query(async ({ input }) => {
+        const citations: Array<{ type: 'molecule' | 'recette'; id: number; name: string; citation: string }> = [];
+        
+        // Générer les citations pour les molécules
+        if (input.moleculeIds && input.moleculeIds.length > 0) {
+          for (const id of input.moleculeIds) {
+            const molecule = await db.getMoleculeById(id);
+            if (molecule) {
+              const currentYear = new Date().getFullYear();
+              const accessDate = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+              const pubchemRef = molecule.references?.find(r => r.type === 'pubchem');
+              const pubchemCID = pubchemRef?.url?.split('/').pop();
+              
+              let citation = '';
+              if (input.format === 'apa') {
+                citation = pubchemCID 
+                  ? `National Center for Biotechnology Information (${currentYear}). PubChem Compound Summary for CID ${pubchemCID}, ${molecule.name}. Retrieved ${accessDate}, from https://pubchem.ncbi.nlm.nih.gov/compound/${pubchemCID}`
+                  : `${molecule.name}. (${currentYear}). In PERFUMUM Research Database. Retrieved ${accessDate}.`;
+              } else if (input.format === 'chicago') {
+                citation = pubchemCID
+                  ? `National Center for Biotechnology Information. "PubChem Compound Summary for CID ${pubchemCID}, ${molecule.name}." PubChem. Accessed ${accessDate}. https://pubchem.ncbi.nlm.nih.gov/compound/${pubchemCID}.`
+                  : `"${molecule.name}." PERFUMUM Research Database. Accessed ${accessDate}.`;
+              } else {
+                const key = molecule.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+                citation = pubchemCID
+                  ? `@misc{pubchem_${key}, author = {{NCBI}}, title = {${molecule.name}}, year = {${currentYear}}, url = {https://pubchem.ncbi.nlm.nih.gov/compound/${pubchemCID}}}`
+                  : `@misc{perfumum_${key}, title = {${molecule.name}}, year = {${currentYear}}, howpublished = {PERFUMUM Research Database}}`;
+              }
+              
+              citations.push({ type: 'molecule', id: molecule.id, name: molecule.name, citation });
+            }
+          }
+        }
+        
+        // Générer les citations pour les recettes
+        if (input.recetteIds && input.recetteIds.length > 0) {
+          for (const id of input.recetteIds) {
+            const recette = await db.getRecetteById(id);
+            if (recette) {
+              const currentYear = new Date().getFullYear();
+              const accessDate = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+              
+              let citation = '';
+              if (input.format === 'apa') {
+                citation = `PERFUMUM Research. (${currentYear}). ${recette.name}. PERFUMUM Research Database. Retrieved ${accessDate}.`;
+              } else if (input.format === 'chicago') {
+                citation = `PERFUMUM Research. "${recette.name}." PERFUMUM Research Database, ${currentYear}. Accessed ${accessDate}.`;
+              } else {
+                const key = recette.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+                citation = `@misc{perfumum_${key}, author = {{PERFUMUM Research}}, title = {${recette.name}}, year = {${currentYear}}}`;
+              }
+              
+              citations.push({ type: 'recette', id: recette.id, name: recette.name, citation });
+            }
+          }
+        }
+        
+        return {
+          format: input.format,
+          count: citations.length,
+          citations,
+        };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
