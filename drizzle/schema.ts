@@ -3259,3 +3259,37 @@ export const chemotypesRelations = relations(chemotypes, ({ one }) => ({
     references: [molecules.id],
   }),
 }));
+
+
+// ============================================================================
+// IFRA PRODUCT CATEGORIES (Descriptions des catégories IFRA)
+// ============================================================================
+
+export const ifraCategories = mysqlTable("ifra_categories", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 10 }).notNull().unique(), // Ex: "1", "5A", "10B"
+  name: varchar("name", { length: 255 }).notNull(), // Nom de la catégorie
+  nameFr: varchar("name_fr", { length: 255 }), // Nom en français
+  description: text("description"), // Description détaillée
+  descriptionFr: text("description_fr"), // Description en français
+  examples: text("examples"), // Exemples de produits
+  examplesFr: text("examples_fr"), // Exemples en français
+  exposureLevel: mysqlEnum("exposure_level", [
+    "very_high", // Très élevé (lèvres, aisselles)
+    "high", // Élevé (parfum, corps)
+    "medium", // Moyen (rinçable)
+    "low", // Faible (ménager)
+    "very_low" // Très faible (industriel)
+  ]),
+  skinContact: mysqlEnum("skin_contact", [
+    "direct_prolonged", // Contact direct prolongé
+    "direct_brief", // Contact direct bref
+    "indirect", // Contact indirect
+    "none" // Pas de contact
+  ]),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type IfraCategory = typeof ifraCategories.$inferSelect;
+export type InsertIfraCategory = typeof ifraCategories.$inferInsert;

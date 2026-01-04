@@ -189,6 +189,7 @@ import Manifeste from "./pages/Manifeste";
 import { Timeline } from "./pages/Timeline";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
 import GalerieBotaniques from "./pages/GalerieBotaniques";
+import Ifra from "./pages/Ifra";
 
 // === CIVILISATIONS & TRADITIONS ===
 import Civilisations from "./pages/Civilisations";
@@ -393,6 +394,8 @@ function Router() {
       <Route path="/contribuer" component={Contribuer} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/galerie-botaniques" component={GalerieBotaniques} />
+      <Route path="/ifra" component={Ifra} />
+      <Route path="/reglementation-ifra" component={Ifra} />
       
       {/* === SAN ANDRÉS / LEAF ECONOMIES === */}
       <Route path="/leaf-economies" component={LeafEconomies} />

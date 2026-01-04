@@ -2371,6 +2371,26 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getPlantMolecules(input);
       }),
+    // Gestion des images botaniques
+    updateImage: protectedProcedure
+      .input(z.object({
+        plantId: z.number(),
+        imageUrl: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.updatePlantImage(input.plantId, input.imageUrl);
+      }),
+    deleteImage: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return await db.deletePlantImage(input);
+      }),
+    getWithImages: publicProcedure.query(async () => {
+      return await db.getPlantsWithImages();
+    }),
+    getWithoutImages: publicProcedure.query(async () => {
+      return await db.getPlantsWithoutImages();
+    }),
   }),
 
   // ============================================================================
@@ -3077,6 +3097,43 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return db.deleteChemotype(input);
       }),
+  }),
+
+  // Catégories IFRA et calcul des limites
+  ifraCategories: router({
+    list: publicProcedure.query(async () => {
+      return db.getAllIfraCategories();
+    }),
+    getByCode: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getIfraCategoryByCode(input);
+      }),
+    calculateLimit: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        categoryCode: z.string(),
+      }))
+      .query(async ({ input }) => {
+        return db.calculateIfraLimit(input.moleculeId, input.categoryCode);
+      }),
+    checkCompliance: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        categoryCode: z.string(),
+        concentration: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return db.checkIfraCompliance(input.moleculeId, input.categoryCode, input.concentration);
+      }),
+    searchByName: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.searchIfraRestrictionsByName(input);
+      }),
+    getStats: publicProcedure.query(async () => {
+      return db.getIfraStats();
+    }),
   }),
 });
 

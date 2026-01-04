@@ -149,6 +149,10 @@ import {
   chemotypes,
   Chemotype,
   InsertChemotype,
+  // Catégories IFRA
+  ifraCategories,
+  IfraCategory,
+  InsertIfraCategory,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -5122,4 +5126,232 @@ export async function getChemotypesStats() {
     byPlant: byPlant.sort((a, b) => b.count - a.count),
     byAxis: byAxis.sort((a, b) => b.count - a.count),
   };
+}
+
+
+// ============================================================================
+// IFRA CATEGORIES FUNCTIONS
+// ============================================================================
+
+export async function getAllIfraCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(ifraCategories).orderBy(ifraCategories.code);
+}
+
+export async function getIfraCategoryByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(ifraCategories).where(eq(ifraCategories.code, code));
+  return result[0] || null;
+}
+
+/**
+ * Calcule la limite IFRA pour une molécule dans un type de produit donné
+ * @param moleculeId - ID de la molécule
+ * @param categoryCode - Code de la catégorie IFRA (ex: "4" pour parfum fin)
+ * @returns La limite en pourcentage ou null si pas de restriction
+ */
+export async function calculateIfraLimit(moleculeId: number, categoryCode: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [restriction] = await db.select()
+    .from(ifraRestrictions)
+    .where(eq(ifraRestrictions.moleculeId, moleculeId));
+  
+  if (!restriction) return { limit: null, type: 'no_restriction' as const };
+  
+  // Mapper le code de catégorie vers la colonne correspondante
+  const categoryMap: Record<string, keyof typeof restriction> = {
+    '1': 'category1',
+    '2': 'category2',
+    '3': 'category3',
+    '4': 'category4',
+    '5A': 'category5a',
+    '5B': 'category5b',
+    '5C': 'category5c',
+    '5D': 'category5d',
+    '6': 'category6',
+    '7A': 'category7a',
+    '7B': 'category7b',
+    '8': 'category8',
+    '9': 'category9',
+    '10A': 'category10a',
+    '10B': 'category10b',
+    '11A': 'category11a',
+    '11B': 'category11b',
+  };
+  
+  const column = categoryMap[categoryCode.toUpperCase()];
+  if (!column) return { limit: null, type: 'unknown_category' as const };
+  
+  const limit = restriction[column];
+  
+  return {
+    limit: limit ? parseFloat(String(limit)) : null,
+    type: restriction.restrictionType || 'no_restriction',
+    reason: restriction.reasonForRestriction,
+    alternatives: restriction.alternativeSuggestions,
+    amendment: restriction.ifraAmendment,
+  };
+}
+
+/**
+ * Vérifie si une concentration donnée respecte les limites IFRA
+ * @param moleculeId - ID de la molécule
+ * @param categoryCode - Code de la catégorie IFRA
+ * @param concentration - Concentration en pourcentage
+ * @returns Objet avec le statut de conformité et les détails
+ */
+export async function checkIfraCompliance(
+  moleculeId: number,
+  categoryCode: string,
+  concentration: number
+) {
+  const limitInfo = await calculateIfraLimit(moleculeId, categoryCode);
+  
+  if (!limitInfo || limitInfo.type === 'no_restriction') {
+    return {
+      compliant: true,
+      message: 'Pas de restriction IFRA pour cette molécule',
+      limit: null,
+      concentration,
+    };
+  }
+  
+  if (limitInfo.type === 'prohibited') {
+    return {
+      compliant: false,
+      message: 'Cette molécule est INTERDITE par l\'IFRA',
+      limit: 0,
+      concentration,
+      reason: limitInfo.reason,
+      alternatives: limitInfo.alternatives,
+    };
+  }
+  
+  if (limitInfo.limit === null) {
+    return {
+      compliant: true,
+      message: 'Pas de limite spécifique pour cette catégorie',
+      limit: null,
+      concentration,
+    };
+  }
+  
+  const compliant = concentration <= limitInfo.limit;
+  
+  return {
+    compliant,
+    message: compliant
+      ? `Concentration conforme (${concentration}% ≤ ${limitInfo.limit}%)`
+      : `DÉPASSEMENT de la limite IFRA (${concentration}% > ${limitInfo.limit}%)`,
+    limit: limitInfo.limit,
+    concentration,
+    margin: limitInfo.limit - concentration,
+    marginPercent: ((limitInfo.limit - concentration) / limitInfo.limit) * 100,
+    reason: limitInfo.reason,
+    alternatives: limitInfo.alternatives,
+    amendment: limitInfo.amendment,
+  };
+}
+
+/**
+ * Recherche les restrictions IFRA par nom de molécule
+ */
+export async function searchIfraRestrictionsByName(searchTerm: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    restriction: ifraRestrictions,
+    molecule: molecules,
+  })
+    .from(ifraRestrictions)
+    .innerJoin(molecules, eq(ifraRestrictions.moleculeId, molecules.id))
+    .where(like(molecules.name, `%${searchTerm}%`))
+    .orderBy(molecules.name);
+}
+
+/**
+ * Obtient les statistiques IFRA
+ */
+export async function getIfraStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const all = await db.select().from(ifraRestrictions);
+  
+  const prohibited = all.filter(r => r.restrictionType === 'prohibited').length;
+  const restricted = all.filter(r => r.restrictionType === 'restricted').length;
+  const specification = all.filter(r => r.restrictionType === 'specification').length;
+  const noRestriction = all.filter(r => r.restrictionType === 'no_restriction').length;
+  
+  return {
+    total: all.length,
+    prohibited,
+    restricted,
+    specification,
+    noRestriction,
+  };
+}
+
+
+// ============================================================================
+// PLANT IMAGES FUNCTIONS
+// ============================================================================
+
+/**
+ * Met à jour l'URL de l'image d'une plante
+ */
+export async function updatePlantImage(plantId: number, imageUrl: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(plants)
+    .set({ imageUrl })
+    .where(eq(plants.id, plantId));
+  
+  return getPlantById(plantId);
+}
+
+/**
+ * Supprime l'image d'une plante
+ */
+export async function deletePlantImage(plantId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(plants)
+    .set({ imageUrl: null })
+    .where(eq(plants.id, plantId));
+  
+  return getPlantById(plantId);
+}
+
+/**
+ * Récupère toutes les plantes avec leurs images
+ */
+export async function getPlantsWithImages() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select()
+    .from(plants)
+    .where(sql`${plants.imageUrl} IS NOT NULL AND ${plants.imageUrl} != ''`)
+    .orderBy(plants.name);
+}
+
+/**
+ * Récupère les plantes sans images (pour suggérer l'ajout)
+ */
+export async function getPlantsWithoutImages() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select()
+    .from(plants)
+    .where(sql`${plants.imageUrl} IS NULL OR ${plants.imageUrl} = ''`)
+    .orderBy(plants.name);
 }

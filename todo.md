@@ -638,3 +638,77 @@
 - [x] Rechercher les restrictions IFRA officielles pour Carvone et Estragole (Amendment 49)
 - [x] Documenter les données IFRA avec limites par catégorie de produit
 - [x] Créer les fichiers de référence IFRA dans /data/ (ifra-carvone.md, ifra-estragole.md)
+
+
+---
+
+## 🧬 SESSION 03 JAN 2026 - CHÉMOTYPES, IFRA & IMAGES BOTANIQUES
+
+### Import des chémotypes connus
+- [x] Créer un script d'import pour les chémotypes classiques
+- [x] Importer les chémotypes du Thym (thymol, linalol, géraniol, carvacrol, thujanol, paracymène)
+- [x] Importer les chémotypes du Romarin (camphre, cinéole, verbénone)
+- [x] Importer les chémotypes de la Lavande (linalol, lavandulol)
+- [x] Importer les chémotypes de l'Eucalyptus (cinéole, citronellal, radiata)
+- [x] Importer les chémotypes du Basilic (linalol, méthyl-chavicol, eugénol)
+- [x] Valider l'intégrité des données importées (17 chémotypes importés)
+
+### Intégration des données IFRA dans l'interface
+- [x] Créer le schéma de table `ifra_restrictions` pour les restrictions par molécule (existait déjà)
+- [x] Définir les 17 catégories de produits IFRA (Cat 1-11B) avec table ifra_categories
+- [x] Créer les procédures tRPC pour consulter les restrictions IFRA
+- [x] Implémenter le calcul automatique des limites selon le type de produit (calculateIfraLimit)
+- [x] Créer un système d'alerte pour les dépassements de limites (checkIfraCompliance)
+- [x] Importer 11 restrictions IFRA pour les molécules clés (estragole, carvone, eugénol, etc.)
+- [ ] Créer la page de consultation IFRA avec recherche par molécule
+- [ ] Écrire les tests unitaires pour les procédures IFRA
+
+### Système d'upload d'images botaniques
+- [ ] Configurer le stockage S3 pour les images botaniques
+- [ ] Créer la procédure tRPC d'upload d'images
+- [ ] Créer le composant d'upload avec prévisualisation
+- [ ] Mettre à jour les fiches plantes pour afficher les images uploadées
+- [ ] Ajouter la gestion des images multiples par plante
+- [ ] Implémenter la suppression d'images
+- [ ] Écrire les tests unitaires pour le système d'upload
+
+
+
+---
+
+## 🧬 SESSION 04 JAN 2026 - CHÉMOTYPES, IFRA & IMAGES BOTANIQUES
+
+### Import des chémotypes connus ✅ COMPLÉTÉ
+- [x] Créer un script d'import pour les chémotypes classiques (import-chemotypes.mjs)
+- [x] Importer les chémotypes du Thym (thymol, linalol, géraniol, carvacrol, thujanol, paracymène)
+- [x] Importer les chémotypes du Romarin (camphre, cinéole, verbénone)
+- [x] Importer les chémotypes de la Lavande (linalol, lavandulol)
+- [x] Importer les chémotypes de l'Eucalyptus (globulus, citriodora, radiata)
+- [x] Importer les chémotypes du Basilic (linalol, estragole, eugénol)
+- [x] Valider l'intégrité des données importées (17 chémotypes importés)
+
+### Intégration des données IFRA dans l'interface ✅ COMPLÉTÉ
+- [x] Créer le schéma de table `ifra_restrictions` (existait déjà)
+- [x] Créer le schéma de table `ifra_categories` pour les 17 catégories IFRA
+- [x] Créer les procédures tRPC pour consulter les restrictions IFRA
+- [x] Implémenter le calcul automatique des limites (calculateIfraLimit)
+- [x] Créer un système de vérification de conformité (checkIfraCompliance)
+- [x] Importer 11 restrictions IFRA pour les molécules clés
+- [x] Créer la page de consultation IFRA (/ifra, /reglementation-ifra)
+- [x] Importer les 17 catégories IFRA avec descriptions FR/EN
+
+### Système d'upload d'images botaniques ✅ COMPLÉTÉ (backend)
+- [x] Configurer le stockage S3 (utilise storage.ts existant)
+- [x] Créer les procédures tRPC pour les images (updateImage, deleteImage, getWithImages, getWithoutImages)
+- [x] Vérifier le champ imageUrl dans le schéma plants (existait déjà)
+- [x] Créer les fonctions db pour la gestion des images
+- [ ] Créer le composant d'upload d'images dans les fiches plantes (frontend à implémenter)
+- [ ] Implémenter la galerie d'images botaniques (frontend à implémenter)
+
+### Résumé de la session
+- 17 chémotypes classiques importés (Thym, Romarin, Lavande, Eucalyptus, Basilic)
+- 17 catégories IFRA créées avec descriptions bilingues
+- 11 restrictions IFRA importées (estragole, carvone, eugénol, cinnamaldéhyde, citral, coumarine, linalol, limonène, thymol, carvacrol, camphre)
+- Page IFRA créée avec recherche, calculateur de conformité et liste des catégories
+- Backend d'upload d'images botaniques prêt (procédures tRPC et fonctions db)
+
