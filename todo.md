@@ -587,3 +587,31 @@
 - [x] Créer les relations molécule-plante avec pourcentages (17 relations ajoutées)
 - [x] Vérifier l'intégrité des données après mise à jour (72 relations total)
 - [x] Tester le réseau interactif avec les nouvelles données (vérifié sur /plantes)
+
+
+---
+
+## 🧪 SESSION 03 JAN 2026 - ENRICHISSEMENT BASE DE DONNÉES (Phase 2)
+
+### Enrichir les descriptions olfactives
+- [x] Identifier les plantes avec descriptions génériques ("Plante aromatique - [nom]") - 16 plantes identifiées
+- [x] Enrichir la description de Bergamote avec profil olfactif détaillé
+- [x] Enrichir la description de Bois de Santal avec profil olfactif détaillé
+- [x] Enrichir la description de Lavande avec profil olfactif détaillé
+- [x] Enrichir les 16 plantes avec descriptions olfactives complètes et origines géographiques
+
+### Créer les molécules manquantes
+- [x] Créer la molécule Carvone avec propriétés complètes (CAS: 99-49-0, classe: ketone)
+- [x] Créer les relations Carvone-plantes (Menthe verte 50-70%, Carvi 50-60%, Aneth 30-50%)
+- [x] Enrichir la molécule Carvacrol avec propriétés complètes (CAS: 499-75-2, classe: phenol)
+- [x] Créer les relations Carvacrol-plantes (Origan 60-80%, Sarriette 40-50%, Thym 1-5%)
+- [x] Enrichir la molécule Thymol avec propriétés complètes (CAS: 89-83-8, classe: phenol)
+- [x] Créer les relations Thymol-plantes (Thym 30-50%, Ajowan 35-50%, Origan 0.5-5%)
+- [x] Créer la molécule Estragole avec propriétés complètes (CAS: 140-67-0, classe: ether)
+- [x] Créer les relations Estragole-plantes (Estragon 60-75%, Basilic 70-85%, Fenouil 3-5%)
+
+### Ajouter les origines géographiques
+- [x] Identifier les plantes sans origine géographique - 16 plantes identifiées
+- [x] Ajouter les terroirs et régions de production pour les 16 plantes
+- [x] Créer 7 nouvelles plantes aromatiques (Thym, Estragon, Carvi, Aneth, Fenouil, Sarriette, Ajowan)
+- [x] Total: 36 plantes, 431 molécules, 84 relations plante-molécule

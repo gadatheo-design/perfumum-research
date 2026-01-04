@@ -1,0 +1,122 @@
+{
+  "query": "SELECT id, name, latin_name, olfactive_signature, origin FROM plants WHERE olfactive_signature LIKE '%Plante aromatique%' OR olfactive_signature IS NULL OR olfactive_signature = '' ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, olfactive_signature, origin FROM plants WHERE olfactive_signature LIKE '%Plante aromatique%' OR olfactive_signature IS NULL OR olfactive_signature = '' ORDER BY name;",
+  "rows": [
+    {
+      "id": "30004",
+      "name": "Bergamote",
+      "latin_name": "Citrus bergamia",
+      "olfactive_signature": "Plante aromatique - Bergamote",
+      "origin": "NULL"
+    },
+    {
+      "id": "30013",
+      "name": "Bois de Santal",
+      "latin_name": "Santalum album",
+      "olfactive_signature": "Plante aromatique - Bois de Santal",
+      "origin": "NULL"
+    },
+    {
+      "id": "30002",
+      "name": "Citron",
+      "latin_name": "Citrus limon",
+      "olfactive_signature": "Plante aromatique - Citron",
+      "origin": "NULL"
+    },
+    {
+      "id": "30015",
+      "name": "Cèdre de l'Atlas",
+      "latin_name": "Cedrus atlantica",
+      "olfactive_signature": "Plante aromatique - Cèdre de l'Atlas",
+      "origin": "NULL"
+    },
+    {
+      "id": "30014",
+      "name": "Encens / Oliban",
+      "latin_name": "Boswellia carterii",
+      "olfactive_signature": "Plante aromatique - Encens / Oliban",
+      "origin": "NULL"
+    },
+    {
+      "id": "30006",
+      "name": "Eucalyptus globulus",
+      "latin_name": "Eucalyptus globulus",
+      "olfactive_signature": "Plante aromatique - Eucalyptus globulus",
+      "origin": "NULL"
+    },
+    {
+      "id": "30016",
+      "name": "Géranium rosat",
+      "latin_name": "Pelargonium graveolens",
+      "olfactive_signature": "Plante aromatique - Géranium rosat",
+      "origin": "NULL"
+    },
+    {
+      "id": "30011",
+      "name": "Jasmin grandiflorum",
+      "latin_name": "Jasminum grandiflorum",
+      "olfactive_signature": "Plante aromatique - Jasmin grandiflorum",
+      "origin": "NULL"
+    },
+    {
+      "id": "30001",
+      "name": "Lavande vraie",
+      "latin_name": "Lavandula angustifolia",
+      "olfactive_signature": "Plante aromatique - Lavande vraie",
+      "origin": "NULL"
+    },
+    {
+      "id": "30005",
+      "name": "Menthe poivrée",
+      "latin_name": "Mentha piperita",
+      "olfactive_signature": "Plante aromatique - Menthe poivrée",
+      "origin": "NULL"
+    },
+    {
+      "id": "30003",
+      "name": "Orange douce",
+      "latin_name": "Citrus sinensis",
+      "olfactive_signature": "Plante aromatique - Orange douce",
+      "origin": "NULL"
+    },
+    {
+      "id": "30012",
+      "name": "Patchouli",
+      "latin_name": "Pogostemon cablin",
+      "olfactive_signature": "Plante aromatique - Patchouli",
+      "origin": "NULL"
+    },
+    {
+      "id": "30007",
+      "name": "Romarin",
+      "latin_name": "Rosmarinus officinalis",
+      "olfactive_signature": "Plante aromatique - Romarin",
+      "origin": "NULL"
+    },
+    {
+      "id": "30010",
+      "name": "Rose de Damas",
+      "latin_name": "Rosa damascena",
+      "olfactive_signature": "Plante aromatique - Rose de Damas",
+      "origin": "NULL"
+    },
+    {
+      "id": "30008",
+      "name": "Vétiver",
+      "latin_name": "Vetiveria zizanioides",
+      "olfactive_signature": "Plante aromatique - Vétiver",
+      "origin": "NULL"
+    },
+    {
+      "id": "30009",
+      "name": "Ylang-Ylang",
+      "latin_name": "Cananga odorata",
+      "olfactive_signature": "Plante aromatique - Ylang-Ylang",
+      "origin": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tolfactive_signature\torigin\n30004\tBergamote\tCitrus bergamia\tPlante aromatique - Bergamote\tNULL\n30013\tBois de Santal\tSantalum album\tPlante aromatique - Bois de Santal\tNULL\n30002\tCitron\tCitrus limon\tPlante aromatique - Citron\tNULL\n30015\tCèdre de l'Atlas\tCedrus atlantica\tPlante aromatique - Cèdre de l'Atlas\tNULL\n30014\tEncens / Oliban\tBoswellia carterii\tPlante aromatique - Encens / Oliban\tNULL\n30006\tEucalyptus globulus\tEucalyptus globulus\tPlante aromatique - Eucalyptus globulus\tNULL\n30016\tGéranium rosat\tPelargonium graveolens\tPlante aromatique - Géranium rosat\tNULL\n30011\tJasmin grandiflorum\tJasminum grandiflorum\tPlante aromatique - Jasmin grandiflorum\tNULL\n30001\tLavande vraie\tLavandula angustifolia\tPlante aromatique - Lavande vraie\tNULL\n30005\tMenthe poivrée\tMentha piperita\tPlante aromatique - Menthe poivrée\tNULL\n30003\tOrange douce\tCitrus sinensis\tPlante aromatique - Orange douce\tNULL\n30012\tPatchouli\tPogostemon cablin\tPlante aromatique - Patchouli\tNULL\n30007\tRomarin\tRosmarinus officinalis\tPlante aromatique - Romarin\tNULL\n30010\tRose de Damas\tRosa damascena\tPlante aromatique - Rose de Damas\tNULL\n30008\tVétiver\tVetiveria zizanioides\tPlante aromatique - Vétiver\tNULL\n30009\tYlang-Ylang\tCananga odorata\tPlante aromatique - Ylang-Ylang\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}
