@@ -4190,8 +4190,11 @@ export async function getPlantMolecules(plantId: number) {
   return await db
     .select({
       molecule: molecules,
-      percentage: plantMolecules.percentage,
+      percentageMin: plantMolecules.percentageMin,
+      percentageMax: plantMolecules.percentageMax,
+      percentageTypical: plantMolecules.percentageTypical,
       isSignature: plantMolecules.isSignature,
+      role: plantMolecules.role,
       notes: plantMolecules.notes,
     })
     .from(plantMolecules)
@@ -4199,10 +4202,32 @@ export async function getPlantMolecules(plantId: number) {
     .where(eq(plantMolecules.plantId, plantId));
 }
 
-export async function addMoleculeToPlant(plantId: number, moleculeId: number, percentage?: string, isSignature?: number, notes?: string) {
+export async function addMoleculeToPlant(
+  plantId: number, 
+  moleculeId: number, 
+  options?: {
+    percentageMin?: string;
+    percentageMax?: string;
+    percentageTypical?: string;
+    isSignature?: number;
+    role?: "majeur" | "secondaire" | "trace" | "variable";
+    notes?: string;
+    source?: string;
+  }
+) {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
-  await db.insert(plantMolecules).values({ plantId, moleculeId, percentage, isSignature, notes });
+  await db.insert(plantMolecules).values({ 
+    plantId, 
+    moleculeId, 
+    percentageMin: options?.percentageMin,
+    percentageMax: options?.percentageMax,
+    percentageTypical: options?.percentageTypical,
+    isSignature: options?.isSignature, 
+    role: options?.role,
+    notes: options?.notes,
+    source: options?.source,
+  });
 }
 
 

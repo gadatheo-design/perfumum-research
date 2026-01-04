@@ -525,7 +525,9 @@
 - [ ] Ajouter les interactions (zoom, filtres, détails au survol)
 
 ### Phase 5 : Corrections techniques
-- [ ] Corriger les erreurs TypeScript dans server/routers.ts (getRadicalRecipes, createFinalRecipe, updateFinalRecipe)
+- [x] Corriger les erreurs TypeScript dans server/routers.ts (getRadicalRecipes, createFinalRecipe, updateFinalRecipe)
+- [x] Corriger les erreurs TypeScript dans ReseauMoleculePlante.tsx (accès null-safe aux entities/relationships)
+- [x] Corriger le test points123.test.ts (family et climaticAxis peuvent être null)
 
 
 

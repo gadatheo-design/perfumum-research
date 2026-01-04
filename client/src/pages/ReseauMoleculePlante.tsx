@@ -89,7 +89,7 @@ export default function ReseauMoleculePlante() {
 
   // Générer les nœuds et arêtes à partir des données
   const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
-    if (!networkData) {
+    if (!networkData || !networkData.entities || !networkData.relationships) {
       return { nodes: [], edges: [] };
     }
 
@@ -100,7 +100,7 @@ export default function ReseauMoleculePlante() {
     const processedTerroirs = new Set<number>();
 
     // Filtrer les relations par pourcentage minimum
-    const filteredRelations = networkData.relationships.plantMolecules.filter(
+    const filteredRelations = (networkData.relationships.plantMolecules || []).filter(
       (rel) => {
         const pct = parseFloat(String(rel.percentageTypical || rel.percentageMax || 0));
         const passesPercentage = pct >= minPercentage;
@@ -111,27 +111,31 @@ export default function ReseauMoleculePlante() {
 
     // Filtrer par recherche
     const searchLower = searchQuery.toLowerCase();
-    const matchingPlants = networkData.entities.plants.filter(
+    const entitiesPlants = networkData.entities.plants || [];
+    const entitiesMolecules = networkData.entities.molecules || [];
+    const entitiesTerroirs = networkData.entities.terroirs || [];
+    
+    const matchingPlants = entitiesPlants.filter(
       (p) => p.name.toLowerCase().includes(searchLower) || 
              (p.latinName && p.latinName.toLowerCase().includes(searchLower))
     );
-    const matchingMolecules = networkData.entities.molecules.filter(
+    const matchingMolecules = entitiesMolecules.filter(
       (m) => m.name.toLowerCase().includes(searchLower)
     );
-    const matchingTerroirs = networkData.entities.terroirs.filter(
+    const matchingTerroirs = entitiesTerroirs.filter(
       (t) => t.name.toLowerCase().includes(searchLower)
     );
 
     // Si recherche active, ne montrer que les entités correspondantes
     const plantIds = searchQuery 
       ? new Set(matchingPlants.map(p => p.id))
-      : new Set(networkData.entities.plants.map(p => p.id));
+      : new Set(entitiesPlants.map(p => p.id));
     const moleculeIds = searchQuery
       ? new Set(matchingMolecules.map(m => m.id))
-      : new Set(networkData.entities.molecules.map(m => m.id));
+      : new Set(entitiesMolecules.map(m => m.id));
     const terroirIds = searchQuery
       ? new Set(matchingTerroirs.map(t => t.id))
-      : new Set(networkData.entities.terroirs.map(t => t.id));
+      : new Set(entitiesTerroirs.map(t => t.id));
 
     // Disposition en cercles concentriques
     const centerX = 600;
@@ -139,7 +143,7 @@ export default function ReseauMoleculePlante() {
     
     // 1. Ajouter les nœuds plantes (cercle intérieur)
     if (selectedTypes.includes("plant")) {
-      const plantsWithMolecules = networkData.entities.plants.filter(
+      const plantsWithMolecules = entitiesPlants.filter(
         (p) => plantIds.has(p.id) && filteredRelations.some(r => r.plantId === p.id)
       );
       
@@ -186,14 +190,14 @@ export default function ReseauMoleculePlante() {
       const moleculesInRelations = filteredRelations
         .filter(r => processedPlants.has(r.plantId) || !selectedTypes.includes("plant"))
         .map(r => r.moleculeId);
-      const uniqueMoleculeIds = [...new Set(moleculesInRelations)];
+      const uniqueMoleculeIds = Array.from(new Set(moleculesInRelations));
       
       const moleculeAngleStep = (2 * Math.PI) / Math.max(uniqueMoleculeIds.length, 1);
       uniqueMoleculeIds.forEach((molId, index) => {
         if (processedMolecules.has(molId)) return;
         if (!moleculeIds.has(molId) && searchQuery) return;
         
-        const molecule = networkData.entities.molecules.find(m => m.id === molId);
+        const molecule = entitiesMolecules.find(m => m.id === molId);
         if (!molecule) return;
         
         processedMolecules.add(molId);
@@ -236,8 +240,8 @@ export default function ReseauMoleculePlante() {
 
     // 3. Ajouter les nœuds terroirs
     if (selectedTypes.includes("terroir")) {
-      const terroirsWithPlants = networkData.entities.terroirs.filter(
-        (t) => terroirIds.has(t.id) && networkData.relationships.terroirPlants.some(r => r.terroirId === t.id)
+      const terroirsWithPlants = (networkData.entities.terroirs || []).filter(
+        (t) => terroirIds.has(t.id) && (networkData.relationships.terroirPlants || []).some(r => r.terroirId === t.id)
       );
       
       const terroirAngleStep = (2 * Math.PI) / Math.max(terroirsWithPlants.length, 1);
@@ -300,7 +304,7 @@ export default function ReseauMoleculePlante() {
     });
 
     // 5. Créer les arêtes terroir-plante
-    networkData.relationships.terroirPlants.forEach((rel) => {
+    (networkData.relationships.terroirPlants || []).forEach((rel) => {
       if (!processedTerroirs.has(rel.terroirId) || !processedPlants.has(rel.plantId!)) return;
       
       edges.push({
@@ -363,18 +367,18 @@ export default function ReseauMoleculePlante() {
   }
 
   const stats = {
-    plants: networkData?.entities.plants.length || 0,
-    molecules: networkData?.entities.molecules.length || 0,
-    terroirs: networkData?.entities.terroirs.length || 0,
-    relations: networkData?.relationships.plantMolecules.length || 0,
+    plants: networkData?.entities?.plants?.length || 0,
+    molecules: networkData?.entities?.molecules?.length || 0,
+    terroirs: networkData?.entities?.terroirs?.length || 0,
+    relations: networkData?.relationships?.plantMolecules?.length || 0,
   };
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-6">
         <Breadcrumbs
-          items={[
-            { label: "Accueil", href: "/" },
+          customItems={[
+            { label: "Accueil", path: "/" },
             { label: "Réseau Molécule-Plante-Terroir" },
           ]}
         />
