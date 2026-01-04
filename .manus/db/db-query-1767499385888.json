@@ -1,0 +1,78 @@
+{
+  "query": "SELECT id, name FROM molecules WHERE name LIKE '%linalool%' OR name LIKE '%Linalol%' OR name LIKE '%Citral%' OR name LIKE '%Carvone%' OR name LIKE '%Eugénol%' OR name LIKE '%Eugenol%' OR name LIKE '%Limonène%' OR name LIKE '%Limonene%' OR name LIKE '%Carvacrol%' OR name LIKE '%Thymol%' OR name LIKE '%Myrcène%' OR name LIKE '%Myrcene%' ORDER BY name LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules WHERE name LIKE '%linalool%' OR name LIKE '%Linalol%' OR name LIKE '%Citral%' OR name LIKE '%Carvone%' OR name LIKE '%Eugénol%' OR name LIKE '%Eugenol%' OR name LIKE '%Limonène%' OR name LIKE '%Limonene%' OR name LIKE '%Carvacrol%' OR name LIKE '%Thymol%' OR name LIKE '%Myrcène%' OR name LIKE '%Myrcene%' ORDER BY name LIMIT 50;",
+  "rows": [
+    {
+      "id": "570041",
+      "name": "Carvacrol"
+    },
+    {
+      "id": "570015",
+      "name": "Carvone L"
+    },
+    {
+      "id": "600016",
+      "name": "Carvone L"
+    },
+    {
+      "id": "570045",
+      "name": "Citral"
+    },
+    {
+      "id": "570039",
+      "name": "Eugénol"
+    },
+    {
+      "id": "90056",
+      "name": "Limonène"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène"
+    },
+    {
+      "id": "150002",
+      "name": "Limonène"
+    },
+    {
+      "id": "90057",
+      "name": "Linalol"
+    },
+    {
+      "id": "2",
+      "name": "Linalol"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol"
+    },
+    {
+      "id": "600013",
+      "name": "Linalol Synthétique"
+    },
+    {
+      "id": "570012",
+      "name": "Linalol Synthétique"
+    },
+    {
+      "id": "150001",
+      "name": "Myrcène"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    },
+    {
+      "id": "570042",
+      "name": "Thymol"
+    },
+    {
+      "id": "330015",
+      "name": "Yuzu (Limonene + Linalool)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n570041\tCarvacrol\n570015\tCarvone L\n600016\tCarvone L\n570045\tCitral\n570039\tEugénol\n90056\tLimonène\n30007\tLimonène\n150002\tLimonène\n90057\tLinalol\n2\tLinalol\n30002\tLinalol\n600013\tLinalol Synthétique\n570012\tLinalol Synthétique\n150001\tMyrcène\n30006\tMyrcène\n570042\tThymol\n330015\tYuzu (Limonene + Linalool)\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

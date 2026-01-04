@@ -567,3 +567,23 @@
 - [x] Tester `getPlantMoleculesWithPercentages()`
 - [x] Tester `getMoleculePlantsWithPercentages()`
 - [x] Valider l'intégrité des données
+
+
+---
+
+## 🌿 SESSION 03 JAN 2026 - ENRICHISSEMENT DONNÉES PLANTES
+
+### Compléter les données des plantes aromatiques
+- [x] Identifier les plantes sans famille botanique dans la base de données (16 plantes identifiées)
+- [x] Identifier les plantes sans axe climatique dans la base de données (16 plantes identifiées)
+- [x] Rechercher les familles botaniques manquantes (Lavande, Citron, Bergamote, etc.)
+- [x] Rechercher les axes climatiques appropriés pour chaque plante
+- [x] Mettre à jour la base de données avec les familles botaniques (16 plantes mises à jour)
+- [x] Mettre à jour la base de données avec les axes climatiques (16 plantes mises à jour)
+
+### Enrichir les relations molécule-plante
+- [x] Identifier les plantes sans pourcentages de composition (13 plantes identifiées)
+- [x] Rechercher les pourcentages de composition pour les nouvelles plantes
+- [x] Créer les relations molécule-plante avec pourcentages (17 relations ajoutées)
+- [x] Vérifier l'intégrité des données après mise à jour (72 relations total)
+- [x] Tester le réseau interactif avec les nouvelles données (vérifié sur /plantes)
