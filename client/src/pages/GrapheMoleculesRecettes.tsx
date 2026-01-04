@@ -62,6 +62,7 @@ export default function GrapheMoleculesRecettes() {
     // Filtrer les recettes selon le filtre actif
     const filteredRecettes = recettesData.filter((r: any) => {
       if (filter === "all") return true;
+      if (!r.name) return false;
       const isClassique = r.name.includes("Mastiha") || r.name.includes("Vétiver") || r.name.includes("Figue") || r.name.includes("Noir") || r.name.includes("Cuir");
       return filter === "classique" ? isClassique : !isClassique;
     });

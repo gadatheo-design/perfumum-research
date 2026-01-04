@@ -51,7 +51,7 @@ export default function Outils() {
       icon: Calculator,
       title: "Calculateur de Coût",
       description: "Estimation du coût de production pour les formules (matières premières + fournisseurs)",
-      href: "/calculateur-cout",
+      href: "/outils/calculateur-cout",
       status: "Actif",
       color: "text-cyan-600",
       bgColor: "bg-cyan-50"

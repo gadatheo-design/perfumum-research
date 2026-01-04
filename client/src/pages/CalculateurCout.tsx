@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { VoirAussi } from "@/components/VoirAussi";
 import { 
   Calculator, Plus, Trash2, DollarSign, FlaskConical, 
@@ -166,9 +168,11 @@ export default function CalculateurCout() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container py-8 max-w-5xl">
-        <Breadcrumbs />
+    <div className="min-h-screen flex flex-col">
+      <Breadcrumbs />
+      <Header />
+      
+      <main className="flex-1 container py-8 max-w-5xl">
         
         {/* Header */}
         <div className="mb-8">
@@ -460,7 +464,9 @@ export default function CalculateurCout() {
             ]}
           />
         </div>
-      </div>
+      </main>
+      
+      <Footer />
     </div>
   );
 }

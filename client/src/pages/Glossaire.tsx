@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
 import { trpc } from "../lib/trpc";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { SearchBar } from "../components/filters/SearchBar";
 import { FilterSelect } from "../components/filters/FilterSelect";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
@@ -95,9 +97,12 @@ export function Glossaire() {
   }
 
   return (
-    <div className="container py-8">
+    <div className="min-h-screen flex flex-col">
       <Breadcrumbs />
-      {/* Header */}
+      <Header />
+      
+      <main className="flex-1 container py-8">
+      {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">Glossaire</h1>
         <p className="text-lg text-gray-600">
@@ -183,6 +188,9 @@ export function Glossaire() {
           ))
         )}
       </div>
+      </main>
+      
+      <Footer />
     </div>
   );
 }

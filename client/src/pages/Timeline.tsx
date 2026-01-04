@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { trpc } from "../lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -119,9 +121,12 @@ export function Timeline() {
   }
 
   return (
-    <div className="container py-8">
+    <div className="min-h-screen flex flex-col">
       <Breadcrumbs />
-      {/* Header */}
+      <Header />
+      
+      <main className="flex-1 container py-8">
+      {/* Page Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <Calendar className="h-8 w-8 text-primary" />
@@ -297,6 +302,9 @@ export function Timeline() {
           );
         })}
       </div>
+      </main>
+      
+      <Footer />
     </div>
   );
 }

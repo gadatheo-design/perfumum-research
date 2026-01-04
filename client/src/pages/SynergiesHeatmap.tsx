@@ -1,8 +1,11 @@
-import { trpc } from "@/lib/trpc";
+import { trpc } from "../lib/trpc";
 import { MolecularSynergiesHeatmap } from "@/components/charts/MolecularSynergiesHeatmap";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export function SynergiesHeatmap() {
   const { data: synergies, isLoading, error } = trpc.synergies.getAllMoleculeSynergies.useQuery();
@@ -45,7 +48,11 @@ export function SynergiesHeatmap() {
   }
 
   return (
-    <div className="container py-8">
+    <div className="min-h-screen flex flex-col">
+      <Breadcrumbs />
+      <Header />
+      
+      <main className="flex-1 container py-8">
       <Card>
         <CardHeader>
           <CardTitle className="text-3xl">Heatmap des Synergies Moléculaires</CardTitle>
@@ -106,6 +113,9 @@ export function SynergiesHeatmap() {
           </p>
         </CardContent>
       </Card>
+      </main>
+      
+      <Footer />
     </div>
   );
 }

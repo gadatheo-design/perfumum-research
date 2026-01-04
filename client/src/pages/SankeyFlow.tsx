@@ -3,6 +3,9 @@ import { trpc } from "@/lib/trpc";
 import { SankeyDiagram } from "@/components/SankeyDiagram";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 interface SankeyData {
   nodes: { name: string; category: string }[];
@@ -68,7 +71,11 @@ export default function SankeyFlow() {
   }
 
   return (
-    <div className="container py-8 space-y-6">
+    <div className="min-h-screen flex flex-col">
+      <Breadcrumbs />
+      <Header />
+      
+      <main className="flex-1 container py-8 space-y-6">
       <div>
         <h1 className="text-3xl font-bold mb-2">Flux des Recettes</h1>
         <p className="text-muted-foreground">
@@ -115,6 +122,9 @@ export default function SankeyFlow() {
           </div>
         </div>
       </Card>
+      </main>
+      
+      <Footer />
     </div>
   );
 }

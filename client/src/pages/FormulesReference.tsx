@@ -5,7 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sparkles, Beaker, BookOpen, Filter } from "lucide-react";
+import { Sparkles, Beaker, BookOpen, Filter, LayoutGrid, List } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { ViewToggle } from "@/components/ViewToggle";
 import formulesData from "../../../data/FORMULES_REFERENCE_16.json";
 
 interface Molecule {
@@ -73,6 +77,17 @@ const calculateRadarProfile = (molecules: Molecule[]): any[] => {
 export default function FormulesReference() {
   const [selectedFamily, setSelectedFamily] = useState<string>("Toutes");
   const [selectedFormule, setSelectedFormule] = useState<FormuleReference | null>(null);
+  const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("formules-view-mode") as "grid" | "list") || "grid";
+    }
+    return "grid";
+  });
+
+  const handleViewChange = (mode: "grid" | "list") => {
+    setViewMode(mode);
+    localStorage.setItem("formules-view-mode", mode);
+  };
 
   const formules = formulesData as FormuleReference[];
 
@@ -82,24 +97,28 @@ export default function FormulesReference() {
   }, [selectedFamily, formules]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-amber-50/30">
-      {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 text-white py-16"
-      >
-        <div className="container">
-          <div className="flex items-center gap-4 mb-4">
-            <Sparkles className="w-12 h-12" />
-            <h1 className="text-5xl font-bold">Formules de Référence</h1>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-white to-amber-50/30">
+      <Breadcrumbs />
+      <Header />
+      
+      <main className="flex-1">
+        {/* Hero Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-r from-amber-600 via-orange-500 to-amber-600 text-white py-16"
+        >
+          <div className="container">
+            <div className="flex items-center gap-4 mb-4">
+              <Sparkles className="w-12 h-12" />
+              <h1 className="text-5xl font-bold">Formules de Référence</h1>
+            </div>
+            <p className="text-xl text-amber-50 max-w-3xl">
+              16 archétypes olfactifs classiques issus de la parfumerie traditionnelle. 
+              Chaque formule représente une famille olfactive avec ses proportions caractéristiques.
+            </p>
           </div>
-          <p className="text-xl text-amber-50 max-w-3xl">
-            16 archétypes olfactifs classiques issus de la parfumerie traditionnelle. 
-            Chaque formule représente une famille olfactive avec ses proportions caractéristiques.
-          </p>
-        </div>
-      </motion.div>
+        </motion.div>
 
       <div className="container py-12">
         {/* Filtres par famille */}
@@ -109,9 +128,12 @@ export default function FormulesReference() {
           transition={{ delay: 0.1 }}
           className="mb-8"
         >
-          <div className="flex items-center gap-3 mb-4">
-            <Filter className="w-5 h-5 text-slate-600" />
-            <h2 className="text-lg font-semibold text-slate-700">Filtrer par famille</h2>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Filter className="w-5 h-5 text-slate-600" />
+              <h2 className="text-lg font-semibold text-slate-700">Filtrer par famille</h2>
+            </div>
+            <ViewToggle viewMode={viewMode} onViewModeChange={handleViewChange} />
           </div>
           <div className="flex flex-wrap gap-2">
             {FAMILIES.map((family) => (
@@ -128,8 +150,11 @@ export default function FormulesReference() {
           </div>
         </motion.div>
 
-        {/* Grille des formules */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {/* Grille/Liste des formules */}
+        <div className={viewMode === "grid" 
+          ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+          : "flex flex-col gap-3 mb-12"
+        }>
           {filteredFormules.map((formule, index) => (
             <motion.div
               key={formule.name}
@@ -330,7 +355,7 @@ export default function FormulesReference() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+            <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <BookOpen className="w-6 h-6 text-amber-600" />
@@ -365,6 +390,9 @@ export default function FormulesReference() {
           </Card>
         </motion.div>
       </div>
+      </main>
+      
+      <Footer />
     </div>
   );
 }
