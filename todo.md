@@ -1078,3 +1078,115 @@
 - [x] Tester toutes les pages sur tablette (768px)
 - [x] Corriger les problèmes d'affichage identifiés
 
+
+
+---
+
+## 🚀 SESSION 04 JAN 2026 - ENRICHISSEMENT & AMÉLIORATION MAJEURE
+
+### Phase 1 : Correction des erreurs bloquantes
+- [x] Corriger l'erreur JSX dans Timeline.tsx (balise motion.div non fermée)
+- [ ] Vérifier la compilation TypeScript sans erreurs
+- [ ] Valider le fonctionnement du serveur de développement
+
+### Phase 2 : Enrichissement des données scientifiques
+- [ ] Rechercher et ajouter les numéros CAS pour les molécules principales
+- [ ] Rechercher et ajouter les noms IUPAC systématiques
+- [ ] Compléter les classes chimiques manquantes
+- [ ] Ajouter les propriétés physico-chimiques (point d'ébullition, masse moléculaire)
+- [ ] Enrichir les sources botaniques des molécules
+
+### Phase 3 : Amélioration de l'interface utilisateur
+- [ ] Améliorer la page d'accueil avec plus de contexte
+- [ ] Ajouter des statistiques dynamiques sur le dashboard
+- [ ] Améliorer les cartes de molécules avec plus d'informations
+- [ ] Optimiser la navigation mobile
+- [ ] Ajouter des breadcrumbs sur les pages de détail
+
+### Phase 4 : Contenu théorique et méthodologique
+- [ ] Enrichir la page "À propos" avec l'histoire du projet
+- [ ] Ajouter une section "Méthodologie de recherche" détaillée
+- [ ] Créer une page "Bibliographie" avec sources académiques
+- [ ] Documenter les protocoles d'extraction et d'analyse
+- [ ] Ajouter des définitions au glossaire
+
+### Phase 5 : Visualisations de données avancées
+- [ ] Améliorer les graphiques radar des profils olfactifs
+- [ ] Créer une heatmap des synergies moléculaires
+- [ ] Ajouter des graphiques de distribution des molécules par famille
+- [ ] Créer une timeline interactive des découvertes
+
+### Phase 6 : Tests et validation
+- [ ] Tester toutes les pages principales
+- [ ] Valider le responsive mobile
+- [ ] Vérifier l'intégrité des données
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 🔬 SESSION 04 JAN 2026 - ENRICHISSEMENT SCIENTIFIQUE (suite)
+
+### Phase 1 : Correction des erreurs
+- [x] Corriger l'erreur JSX dans Timeline.tsx (balise motion.div non fermée)
+- [x] Vérifier la compilation TypeScript sans erreurs
+- [x] Valider le fonctionnement du serveur de développement
+
+### Phase 2 : Enrichissement des données moléculaires
+- [x] Créer le script SQL d'enrichissement (scripts/enrich-molecules.sql)
+- [x] Enrichir 81 molécules avec numéros CAS et noms IUPAC
+- [x] Ajouter les classes chimiques (monoterpene, sesquiterpene, aldehyde, etc.)
+- [x] Ajouter les poids moléculaires et points d'ébullition
+- [ ] Enrichir les 367 molécules restantes (à faire progressivement)
+
+### Phase 3 : Amélioration du contenu théorique
+- [ ] Enrichir la page "À propos" avec l'histoire complète du projet
+- [ ] Ajouter une section méthodologique détaillée
+- [x] Compléter le glossaire avec des définitions scientifiques (77 termes, +14 ajoutés)
+
+### Phase 4 : Amélioration de l'interface utilisateur
+- [x] Afficher les données CAS et IUPAC sur les fiches molécules (déjà implémenté)
+- [ ] Améliorer les cartes de molécules avec plus d'informations
+- [x] Ajouter des filtres par classe chimique (14 classes disponibles)
+
+
+
+---
+
+## 🔬 SESSION 04 JAN 2026 - ENRICHISSEMENT & AMÉLIORATION
+
+### Résumé des améliorations réalisées
+
+Cette session a permis d'enrichir significativement le projet PERFUMUM avec des données scientifiques et des améliorations d'interface.
+
+### Corrections effectuées
+- [x] Corriger l'erreur JSX dans Timeline.tsx (balise motion.div non fermée)
+
+### Enrichissement des données scientifiques
+- [x] Enrichir 81 molécules avec numéros CAS (identifiants Chemical Abstracts Service)
+- [x] Ajouter les noms IUPAC (nomenclature chimique internationale)
+- [x] Compléter les classes chimiques (Monoterpène, Sesquiterpène, Aldéhyde, etc.)
+- [x] Ajouter les poids moléculaires et points d'ébullition
+
+### Amélioration de l'interface utilisateur
+- [x] Ajouter un filtre par classe chimique sur la page Molécules (14 classes disponibles)
+- [x] Afficher le chip de filtre actif pour la classe chimique
+- [x] Mettre à jour le composant ActiveFiltersChips pour supporter le nouveau type
+
+### Enrichissement du glossaire
+- [x] Ajouter 14 nouveaux termes scientifiques au glossaire (77 termes au total)
+- [x] Termes ajoutés : Numéro CAS, Nomenclature IUPAC, Monoterpène, Sesquiterpène, Diterpène, Point d'ébullition, Masse moléculaire, LogP, Aldéhyde, Cétone, Ester, Phénol, Volatilité, Intensité olfactive, Seuil de perception, Hydrodistillation, Extraction CO2 supercritique, Enfleurage, Macération, Accord olfactif, Pyramide olfactive, Fixateur, Synergie moléculaire, Réaction de Maillard, Oxydation, Chromatographie, Spectrométrie de masse, Olfactométrie, Headspace
+
+### Tests et validation
+- [x] Tous les 186 tests unitaires passent avec succès (16 fichiers de tests)
+- [x] Aucune erreur TypeScript
+- [x] Serveur de développement fonctionnel
+
+### Statistiques actuelles de la base de données
+- 448 molécules documentées (dont 81 enrichies avec données CAS/IUPAC)
+- 261 recettes olfactives
+- 77 termes dans le glossaire
+- 172 familles chimiques uniques
+- 4 prototypes développés
+

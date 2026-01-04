@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 
 interface ActiveFilter {
-  type: "search" | "family" | "profile" | "concentration" | "gamme";
+  type: "search" | "family" | "profile" | "concentration" | "gamme" | "chemicalClass";
   label: string;
   value: string;
   onRemove: () => void;

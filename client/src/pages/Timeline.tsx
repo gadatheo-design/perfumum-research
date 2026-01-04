@@ -210,7 +210,7 @@ export function Timeline() {
                       animate={{ width: `${progressPercentage}%` }}
                       transition={{ duration: 1, delay: 0.5 }}
                       className="h-full bg-primary rounded-full"
-                    />
+                    ></motion.div>
                   </div>
                 </div>
               )}

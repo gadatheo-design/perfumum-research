@@ -38,6 +38,7 @@ export default function Molecules() {
   
   const [searchQuery, setSearchQuery] = useState("");
   const [familyFilter, setFamilyFilter] = useState("all");
+  const [chemicalClassFilter, setChemicalClassFilter] = useState("all");
   const [selectedProfiles, setSelectedProfiles] = useState<string[]>([]);
   const [concentrationRange, setConcentrationRange] = useState<[number, number]>([0.0001, 0.1]);
   // Hide filters by default on mobile (<1024px), show on desktop
@@ -89,6 +90,38 @@ export default function Molecules() {
     return Array.from(uniqueFamilies).sort().map(f => ({ value: f!, label: f! }));
   }, [molecules]);
 
+  // Extract unique chemical classes for filter
+  const chemicalClassLabels: Record<string, string> = {
+    terpene: "Terpène",
+    sesquiterpene: "Sesquiterpène",
+    diterpene: "Diterpène",
+    monoterpene: "Monoterpène",
+    aldehyde: "Aldéhyde",
+    ketone: "Cétone",
+    alcohol: "Alcool",
+    ester: "Ester",
+    ether: "Éther",
+    phenol: "Phénol",
+    lactone: "Lactone",
+    coumarin: "Coumarine",
+    musk: "Musc",
+    nitrile: "Nitrile",
+    sulfur_compound: "Composé soufré",
+    heterocyclic: "Hétérocyclique",
+    aromatic: "Aromatique",
+    aliphatic: "Aliphatique",
+    other: "Autre",
+  };
+
+  const chemicalClasses = useMemo(() => {
+    if (!molecules) return [];
+    const uniqueClasses = new Set(molecules.map(m => m.chemicalClass).filter(Boolean));
+    return Array.from(uniqueClasses).sort().map(c => ({ 
+      value: c!, 
+      label: chemicalClassLabels[c!] || c! 
+    }));
+  }, [molecules]);
+
   // Extract unique olfactive profiles
   const olfactiveProfiles = useMemo(() => {
     if (!molecules) return [];
@@ -126,6 +159,10 @@ export default function Molecules() {
       // Family filter
       const matchesFamily = 
         familyFilter === "all" || molecule.family === familyFilter;
+      
+      // Chemical class filter
+      const matchesChemicalClass = 
+        chemicalClassFilter === "all" || molecule.chemicalClass === chemicalClassFilter;
       
       // Olfactive profile filter
       const matchesProfile = 
@@ -175,12 +212,12 @@ export default function Molecules() {
         mw === null || mw === undefined ||
         (mw >= molecularWeightRange[0] && mw <= molecularWeightRange[1]);
       
-      return matchesSearch && matchesFamily && matchesProfile && matchesConcentration && matchesGamme &&
+      return matchesSearch && matchesFamily && matchesChemicalClass && matchesProfile && matchesConcentration && matchesGamme &&
         matchesRadarIntensity && matchesRadarFreshness && matchesRadarWarmth && 
         matchesRadarSweetness && matchesRadarSpiciness && matchesRadarEarthiness &&
         matchesBoilingPoint && matchesMolecularWeight;
     });
-  }, [molecules, searchQuery, familyFilter, selectedProfiles, concentrationRange, selectedGamme,
+  }, [molecules, searchQuery, familyFilter, chemicalClassFilter, selectedProfiles, concentrationRange, selectedGamme,
       radarIntensityRange, radarFreshnessRange, radarWarmthRange, 
       radarSweetnessRange, radarSpicinessRange, radarEarthinessRange,
       boilingPointRange, molecularWeightRange]);
@@ -189,6 +226,7 @@ export default function Molecules() {
   const resetFilters = () => {
     setSearchQuery("");
     setFamilyFilter("all");
+    setChemicalClassFilter("all");
     setSelectedProfiles([]);
     setConcentrationRange([0.0001, 0.1]);
     setSelectedGamme(null);
@@ -215,6 +253,7 @@ export default function Molecules() {
   const hasActiveFilters = 
     searchQuery !== "" || 
     familyFilter !== "all" || 
+    chemicalClassFilter !== "all" ||
     selectedProfiles.length > 0 || 
     concentrationRange[0] !== 0.0001 || 
     concentrationRange[1] !== 0.1 ||
@@ -283,6 +322,12 @@ export default function Molecules() {
                     label: "Famille",
                     value: familyFilter,
                     onRemove: () => setFamilyFilter("all")
+                  }] : []),
+                  ...(chemicalClassFilter !== "all" ? [{
+                    type: "chemicalClass" as const,
+                    label: "Classe",
+                    value: chemicalClassLabels[chemicalClassFilter] || chemicalClassFilter,
+                    onRemove: () => setChemicalClassFilter("all")
                   }] : []),
                   ...selectedProfiles.map(profile => ({
                     type: "profile" as const,
@@ -357,7 +402,13 @@ export default function Molecules() {
                       value={familyFilter}
                       onChange={setFamilyFilter}
                       options={families}
-                      placeholder="Famille chimique"
+                      placeholder="Famille olfactive"
+                    />
+                    <FilterSelect
+                      value={chemicalClassFilter}
+                      onChange={setChemicalClassFilter}
+                      options={chemicalClasses}
+                      placeholder="Classe chimique"
                     />
                   </div>
 
