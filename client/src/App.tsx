@@ -32,6 +32,8 @@ import ImportExportPlants from "./pages/ImportExportPlants";
 import AdminHistorique from "./pages/AdminHistorique";
 import AdminReferences from "./pages/AdminReferences";
 import LiaisonRecettesMolecules from "./pages/admin/LiaisonRecettesMolecules";
+import MoleculeOriginsAdmin from "./pages/admin/MoleculeOriginsAdmin";
+import TerroirsGeocode from "./pages/admin/TerroirsGeocode";
 import EditeurFormulation from "./pages/outils/EditeurFormulation";
 
 // === PROTOTYPES ===
@@ -245,6 +247,8 @@ function Router() {
       {/* === ADMINISTRATION === */}
       <Route path="/admin" component={Admin} />
       <Route path="/admin/liaison-recettes-molecules" component={LiaisonRecettesMolecules} />
+      <Route path="/admin/molecule-origins" component={MoleculeOriginsAdmin} />
+      <Route path="/admin/terroirs-geocode" component={TerroirsGeocode} />
       <Route path="/outils/editeur-formulation" component={EditeurFormulation} />
       <Route path="/admin/test-trpc" component={TestTRPC} />
       <Route path="/admin/test-simple" component={TestSimple} />

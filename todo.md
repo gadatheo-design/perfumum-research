@@ -1324,3 +1324,79 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tester les liens molécule-terroir
 - [x] Tester le mode batch automatique PubChem
 - [x] Vérifier les performances et la stabilité
+
+---
+
+## 🌍 SESSION 04 JAN 2026 - MOLECULE_ORIGINS & GÉOCODAGE
+
+### Phase 1 : Analyse de la structure existante
+- [x] Analyser la table molecule_origins et terroirs existantes
+- [x] Identifier les fichiers sources contenant les associations molécules-terroirs
+- [x] Lister les molécules avec leurs origines géographiques connues
+
+### Phase 2 : Peuplement de molecule_origins
+- [x] Extraire les données d'origine des fichiers de recherche
+- [x] Créer un script d'import pour les associations molécules-terroirs
+- [x] Importer les données dans la table molecule_origins (100 associations créées)
+- [x] Valider l'intégrité des données importées
+
+### Phase 3 : Interface d'administration molecule_origins
+- [x] Créer les procédures tRPC pour gérer molecule_origins (CRUD) - déjà existantes
+- [x] Créer l'interface d'administration pour associer molécules et terroirs
+- [x] Ajouter des filtres et recherche dans l'interface
+- [x] Intégrer dans le menu d'administration (/admin/molecule-origins)
+
+### Phase 4 : Géocodage automatique des terroirs
+- [ ] Intégrer l'API Google Geocoding via le proxy Manus
+- [ ] Créer une procédure tRPC pour le géocodage automatique
+- [ ] Ajouter un bouton de géocodage dans l'interface terroirs
+- [ ] Créer un outil de géocodage en masse pour les terroirs existants
+
+### Phase 5 : Tests et validation
+- [ ] Écrire les tests unitaires pour les nouvelles procédures
+- [ ] Tester l'interface d'administration
+- [ ] Tester le géocodage automatique
+- [ ] Valider sur desktop et mobile
+
+### Phase 6 : Livraison
+- [ ] Créer le checkpoint final
+- [ ] Documenter les nouvelles fonctionnalités
+
+
+
+---
+
+## 🌍 SESSION 04 JAN 2026 - MOLECULE_ORIGINS & GÉOCODAGE (MIS À JOUR)
+
+### Phase 1 : Analyse de la structure existante ✅
+- [x] Analyser la table molecule_origins et terroirs existantes
+- [x] Identifier les fichiers sources contenant les associations molécules-terroirs
+- [x] Lister les molécules avec leurs origines géographiques connues
+
+### Phase 2 : Peuplement de molecule_origins ✅
+- [x] Extraire les données d'origine des fichiers de recherche
+- [x] Créer un script d'import pour les associations molécules-terroirs
+- [x] Importer les données dans la table molecule_origins (100 associations créées)
+- [x] Valider l'intégrité des données importées
+
+### Phase 3 : Interface d'administration molecule_origins ✅
+- [x] Créer les procédures tRPC pour gérer molecule_origins (CRUD) - déjà existantes
+- [x] Créer l'interface d'administration pour associer molécules et terroirs (/admin/molecule-origins)
+- [x] Ajouter des filtres et recherche dans l'interface
+- [x] Intégrer dans le menu d'administration
+
+### Phase 4 : Géocodage automatique des terroirs ✅
+- [x] Intégrer l'API Google Geocoding via le proxy Manus
+- [x] Créer les procédures tRPC pour le géocodage automatique (geocode + geocodeBatch)
+- [x] Créer l'interface pour géocoder les terroirs individuellement (/admin/terroirs-geocode)
+- [x] Ajouter une fonction de géocodage en masse
+
+### Phase 5 : Tests et validation
+- [x] Écrire les tests unitaires pour les nouvelles procédures (15 tests passés)
+- [x] Tester l'interface d'administration molecule_origins
+- [x] Tester le géocodage automatique
+- [ ] Valider sur desktop et mobile
+
+### Phase 6 : Livraison
+- [ ] Créer le checkpoint final
+- [ ] Documenter les changements
