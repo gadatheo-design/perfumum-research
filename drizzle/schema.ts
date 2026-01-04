@@ -3170,3 +3170,92 @@ export const terroirSpecialtiesRelations = relations(terroirSpecialties, ({ one 
     references: [rawMaterials.id],
   }),
 }));
+
+
+// ============================================================================
+// CHEMOTYPES (Variations chimiques au sein d'une même espèce)
+// ============================================================================
+
+export const chemotypes = mysqlTable("chemotypes", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  name: varchar("name", { length: 255 }).notNull(), // Ex: "Thym à thymol", "Thym à linalol"
+  code: varchar("code", { length: 50 }), // Ex: "CT-THYM-THYMOL", "CT-ROS-CAMPH"
+  // Plante parente
+  plantId: int("plant_id"), // Référence à la plante parente
+  plantName: varchar("plant_name", { length: 255 }).notNull(), // Nom de la plante (ex: "Thym")
+  latinName: varchar("latin_name", { length: 255 }), // Nom latin complet (ex: "Thymus vulgaris ct. thymol")
+  // Molécule dominante
+  dominantMoleculeId: int("dominant_molecule_id"), // Référence à la molécule dominante
+  dominantMoleculeName: varchar("dominant_molecule_name", { length: 255 }).notNull(), // Ex: "Thymol", "Linalol"
+  dominantPercentage: decimal("dominant_percentage", { precision: 5, scale: 2 }), // Ex: 30-50%
+  dominantPercentageMin: int("dominant_percentage_min"), // Pourcentage minimum
+  dominantPercentageMax: int("dominant_percentage_max"), // Pourcentage maximum
+  // Molécules secondaires
+  secondaryMolecules: json("secondary_molecules").$type<{
+    name: string;
+    percentage?: string;
+    percentageMin?: number;
+    percentageMax?: number;
+  }[]>(),
+  // Origine géographique
+  origin: varchar("origin", { length: 255 }), // Ex: "Provence, France"
+  terroir: text("terroir"), // Description du terroir favorable
+  altitude: varchar("altitude", { length: 100 }), // Ex: "300-1200m"
+  climate: varchar("climate", { length: 255 }), // Ex: "Méditerranéen sec"
+  // Profil olfactif
+  olfactiveProfile: text("olfactive_profile"), // Description olfactive détaillée
+  olfactiveNotes: json("olfactive_notes").$type<{
+    top: string[];
+    heart: string[];
+    base: string[];
+  }>(),
+  intensity: int("intensity"), // 1-10
+  // Propriétés
+  therapeuticProperties: text("therapeutic_properties"), // Propriétés thérapeutiques
+  contraindications: text("contraindications"), // Contre-indications
+  toxicity: mysqlEnum("toxicity", ["faible", "modérée", "élevée"]),
+  // Usage en parfumerie
+  perfumeryUse: text("perfumery_use"), // Utilisation en parfumerie
+  blendingNotes: text("blending_notes"), // Notes d'accord
+  recommendedDilution: varchar("recommended_dilution", { length: 100 }), // Ex: "1-3%"
+  // Axe climatique Absorbe
+  climaticAxis: mysqlEnum("climatic_axis", [
+    "vent",
+    "bois",
+    "disparition",
+    "vent_bois",
+    "bois_disparition",
+    "vent_disparition"
+  ]),
+  // Image
+  imageUrl: varchar("image_url", { length: 500 }),
+  // Métadonnées
+  notes: text("notes"),
+  references: json("references").$type<{
+    author?: string;
+    year?: number;
+    title: string;
+    journal?: string;
+    doi?: string;
+    url?: string;
+    type: 'academic' | 'book' | 'database' | 'other';
+  }[]>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Chemotype = typeof chemotypes.$inferSelect;
+export type InsertChemotype = typeof chemotypes.$inferInsert;
+
+// Relations pour chemotypes
+export const chemotypesRelations = relations(chemotypes, ({ one }) => ({
+  plant: one(plants, {
+    fields: [chemotypes.plantId],
+    references: [plants.id],
+  }),
+  dominantMolecule: one(molecules, {
+    fields: [chemotypes.dominantMoleculeId],
+    references: [molecules.id],
+  }),
+}));

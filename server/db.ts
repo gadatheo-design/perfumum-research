@@ -145,6 +145,10 @@ import {
   terroirSpecialties,
   TerroirSpecialty,
   InsertTerroirSpecialty,
+  // Chémotypes
+  chemotypes,
+  Chemotype,
+  InsertChemotype,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -5018,4 +5022,104 @@ export async function getMoleculePlantsWithPercentages(moleculeId: number) {
     .innerJoin(plants, eq(plantMolecules.plantId, plants.id))
     .where(eq(plantMolecules.moleculeId, moleculeId))
     .orderBy(desc(plantMolecules.percentageTypical));
+}
+
+
+// ============================================================================
+// CHEMOTYPES CRUD
+// ============================================================================
+
+export async function getAllChemotypes() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(chemotypes).orderBy(chemotypes.plantName, chemotypes.name);
+}
+
+export async function getChemotypeById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(chemotypes).where(eq(chemotypes.id, id));
+  return result[0] || null;
+}
+
+export async function getChemotypesByPlantId(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(chemotypes).where(eq(chemotypes.plantId, plantId));
+}
+
+export async function getChemotypesByPlantName(plantName: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(chemotypes).where(like(chemotypes.plantName, `%${plantName}%`));
+}
+
+export async function searchChemotypes(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(chemotypes).where(
+    or(
+      like(chemotypes.name, `%${query}%`),
+      like(chemotypes.plantName, `%${query}%`),
+      like(chemotypes.dominantMoleculeName, `%${query}%`),
+      like(chemotypes.origin, `%${query}%`)
+    )
+  );
+}
+
+export async function createChemotype(data: InsertChemotype) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(chemotypes).values(data);
+  return { id: Number(result[0].insertId), ...data };
+}
+
+export async function updateChemotype(id: number, data: Partial<InsertChemotype>) {
+  const db = await getDb();
+  if (!db) return null;
+  await db.update(chemotypes).set(data).where(eq(chemotypes.id, id));
+  return getChemotypeById(id);
+}
+
+export async function deleteChemotype(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(chemotypes).where(eq(chemotypes.id, id));
+}
+
+export async function getChemotypesStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byPlant: [], byAxis: [] };
+  
+  const all = await db.select().from(chemotypes);
+  
+  // Grouper par plante
+  const byPlant = all.reduce((acc, ct) => {
+    const existing = acc.find(p => p.plantName === ct.plantName);
+    if (existing) {
+      existing.count++;
+    } else {
+      acc.push({ plantName: ct.plantName, count: 1 });
+    }
+    return acc;
+  }, [] as { plantName: string; count: number }[]);
+  
+  // Grouper par axe climatique
+  const byAxis = all.reduce((acc, ct) => {
+    if (ct.climaticAxis) {
+      const existing = acc.find(a => a.axis === ct.climaticAxis);
+      if (existing) {
+        existing.count++;
+      } else {
+        acc.push({ axis: ct.climaticAxis, count: 1 });
+      }
+    }
+    return acc;
+  }, [] as { axis: string; count: number }[]);
+  
+  return {
+    total: all.length,
+    byPlant: byPlant.sort((a, b) => b.count - a.count),
+    byAxis: byAxis.sort((a, b) => b.count - a.count),
+  };
 }

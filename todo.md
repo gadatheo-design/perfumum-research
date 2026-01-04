@@ -615,3 +615,26 @@
 - [x] Ajouter les terroirs et régions de production pour les 16 plantes
 - [x] Créer 7 nouvelles plantes aromatiques (Thym, Estragon, Carvi, Aneth, Fenouil, Sarriette, Ajowan)
 - [x] Total: 36 plantes, 431 molécules, 84 relations plante-molécule
+
+
+---
+
+## 🌿 SESSION 03 JAN 2026 - ENRICHISSEMENT VISUEL & RÉGLEMENTAIRE
+
+### Images botaniques pour les fiches plantes
+- [x] Analyser la structure actuelle des fiches plantes (champs existants)
+- [x] Vérifier le champ `imageUrl` au schéma `plants` (déjà existant)
+- [ ] Créer le système d'upload/gestion d'images botaniques
+- [ ] Mettre à jour l'interface des fiches plantes pour afficher les images
+
+### Fiches de chémotypes
+- [x] Créer le schéma de table `chemotypes` (variations chimiques par espèce)
+- [x] Définir les champs : espèce parente, nom du chémotype, molécule dominante, pourcentage, origine géographique
+- [x] Créer les procédures tRPC CRUD pour les chémotypes
+- [x] Créer l'interface de visualisation des chémotypes (page /chemotypes)
+- [x] Écrire les tests unitaires pour les chémotypes (10/10 tests passés)
+
+### Données IFRA manquantes
+- [x] Rechercher les restrictions IFRA officielles pour Carvone et Estragole (Amendment 49)
+- [x] Documenter les données IFRA avec limites par catégorie de produit
+- [x] Créer les fichiers de référence IFRA dans /data/ (ifra-carvone.md, ifra-estragole.md)
