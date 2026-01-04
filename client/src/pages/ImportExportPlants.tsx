@@ -31,7 +31,7 @@ export default function ImportExportPlants() {
     errors: string[];
   } | null>(null);
 
-  const { data: plants } = trpc.plants.getAll.useQuery();
+  const { data: plants } = trpc.plants.list.useQuery();
   const { data: plantVarieties } = trpc.plantVarieties.getAll.useQuery();
 
   // Générer le template CSV
@@ -341,7 +341,7 @@ export default function ImportExportPlants() {
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="container max-w-6xl">
         <Breadcrumbs customItems={[
-          { label: "Administration", href: "/admin" },
+          { label: "Administration", path: "/admin" },
           { label: "Import/Export Plantes" }
         ]} />
 

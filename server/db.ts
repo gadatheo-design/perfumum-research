@@ -3876,7 +3876,7 @@ export async function getMoleculeIfraRestrictions(moleculeId: number) {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   const results = await db.select().from(ifraRestrictions).where(eq(ifraRestrictions.moleculeId, moleculeId));
-  return results[0] || null;
+  return results;
 }
 
 export async function getAllIfraRestrictions() {
@@ -3985,7 +3985,8 @@ export async function createPlant(data: InsertPlant) {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   const result = await db.insert(plants).values(data);
-  return result;
+  const insertId = Number(result[0].insertId);
+  return { id: insertId };
 }
 
 export async function updatePlant(id: number, data: Partial<InsertPlant>) {

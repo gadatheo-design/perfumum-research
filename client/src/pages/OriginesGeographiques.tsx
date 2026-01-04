@@ -17,7 +17,7 @@ export default function OriginesGeographiques() {
 
   // Extraire les pays uniques pour le filtre
   const countries = origins 
-    ? [...new Set(origins.map((o: any) => o.country))].sort()
+    ? Array.from(new Set(origins.map((o: any) => o.country))).sort()
     : [];
 
   // Filtrer les origines

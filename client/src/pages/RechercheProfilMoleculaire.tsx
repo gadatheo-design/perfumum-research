@@ -54,7 +54,7 @@ export default function RechercheProfilMoleculaire() {
   const [searchMode, setSearchMode] = useState<"any" | "all">("any");
 
   // Données
-  const { data: plants, isLoading: plantsLoading } = trpc.plants.getAll.useQuery();
+  const { data: plants, isLoading: plantsLoading } = trpc.plants.list.useQuery();
   const { data: molecules, isLoading: moleculesLoading } = trpc.molecules.getAll.useQuery();
 
   // Filtrer les molécules pour l'autocomplétion
@@ -147,7 +147,7 @@ export default function RechercheProfilMoleculaire() {
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="container max-w-7xl">
         <Breadcrumbs customItems={[
-          { label: "Recherche", href: "/recherche" },
+          { label: "Recherche", path: "/recherche" },
           { label: "Profil Moléculaire" }
         ]} />
 

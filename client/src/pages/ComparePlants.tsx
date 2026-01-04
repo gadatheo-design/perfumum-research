@@ -32,7 +32,7 @@ const COLORS = ["#8b5cf6", "#10b981", "#f59e0b", "#ef4444", "#3b82f6"];
 export default function ComparePlants() {
   const [selectedPlantIds, setSelectedPlantIds] = useState<number[]>([]);
   
-  const { data: plants, isLoading } = trpc.plants.getAll.useQuery();
+  const { data: plants, isLoading } = trpc.plants.list.useQuery();
 
   // Plantes sélectionnées
   const selectedPlants = useMemo(() => {
@@ -102,7 +102,7 @@ export default function ComparePlants() {
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="container max-w-7xl">
         <Breadcrumbs customItems={[
-          { label: "Plantes", href: "/plants" },
+          { label: "Plantes", path: "/plants" },
           { label: "Comparaison" }
         ]} />
 

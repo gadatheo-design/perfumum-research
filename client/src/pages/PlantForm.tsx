@@ -86,7 +86,7 @@ export default function PlantForm() {
 
   // Charger les données existantes si édition
   const { data: existingPlant, isLoading } = trpc.plants.getById.useQuery(
-    { id: parseInt(params.id || "0") },
+    parseInt(params.id || "0"),
     { enabled: isEdit }
   );
 
@@ -183,10 +183,10 @@ export default function PlantForm() {
       if (isEdit) {
         await updateMutation.mutateAsync({
           id: parseInt(params.id!),
-          ...formData,
+          data: formData as any,
         });
       } else {
-        await createMutation.mutateAsync(formData);
+        await createMutation.mutateAsync(formData as any);
       }
     } finally {
       setIsSubmitting(false);
@@ -205,7 +205,7 @@ export default function PlantForm() {
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="container max-w-4xl">
         <Breadcrumbs customItems={[
-          { label: "Plantes", href: "/plants" },
+          { label: "Plantes", path: "/plants" },
           { label: isEdit ? "Modifier" : "Nouvelle plante" }
         ]} />
 
