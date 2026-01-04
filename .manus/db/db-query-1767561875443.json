@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE plant_varieties \nADD COLUMN IF NOT EXISTS conservation_status ENUM('critical', 'endangered', 'vulnerable', 'near_threatened', 'stable', 'data_deficient', 'unknown') DEFAULT 'unknown',\nADD COLUMN IF NOT EXISTS conservation_notes TEXT,\nADD COLUMN IF NOT EXISTS threat_factors JSON,\nADD COLUMN IF NOT EXISTS conservation_efforts TEXT,\nADD COLUMN IF NOT EXISTS last_assessment_date TIMESTAMP;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE plant_varieties \nADD COLUMN IF NOT EXISTS conservation_status ENUM('critical', 'endangered', 'vulnerable', 'near_threatened', 'stable', 'data_deficient', 'unknown') DEFAULT 'unknown',\nADD COLUMN IF NOT EXISTS conservation_notes TEXT,\nADD COLUMN IF NOT EXISTS threat_factors JSON,\nADD COLUMN IF NOT EXISTS conservation_efforts TEXT,\nADD COLUMN IF NOT EXISTS last_assessment_date TIMESTAMP;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1480
+}

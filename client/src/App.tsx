@@ -178,6 +178,7 @@ import VarietesFantomes from "./pages/VarietesFantomes";
 import RecettesLeafEconomies from "./pages/RecettesLeafEconomies";
 import TerpProfiles from "./pages/TerpProfiles";
 import Plants from "./pages/Plants";
+import PlantVarieties from "./pages/PlantVarieties";
 import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
 import PlantDetail from "./pages/PlantDetail";
@@ -429,6 +430,8 @@ function Router() {
       <Route path="/terp-profiles" component={TerpProfiles} />
       <Route path="/plants" component={Plants} />
       <Route path="/plantes" component={Plants} />
+      <Route path="/varietes" component={PlantVarieties} />
+      <Route path="/plant-varieties" component={PlantVarieties} />
       <Route path="/chemotypes" component={Chemotypes} />
       <Route path="/plants/new" component={PlantForm} />
       <Route path="/plants/:id/edit" component={PlantForm} />

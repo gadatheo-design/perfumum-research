@@ -1,4 +1,4 @@
-import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, inArray, count } from "drizzle-orm";
+import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, inArray, count, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -5606,4 +5606,379 @@ export async function searchOriginsByMoleculeName(moleculeName: string) {
     const count = originIds.filter(o => o.originId === origin.id).length;
     return { ...origin, matchingMoleculeCount: count };
   });
+}
+
+
+// ============================================================================
+// PLANT VARIETIES - EXTENDED FUNCTIONS (Conservation Status, Filtering)
+// ============================================================================
+
+/**
+ * Récupère toutes les variétés avec filtres avancés
+ */
+export async function getPlantVarietiesWithFilters(filters: {
+  plantCategory?: string;
+  varietyType?: string;
+  conservationStatus?: string;
+  countryOfOrigin?: string;
+  searchQuery?: string;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = db.select({
+    variety: plantVarieties,
+    plant: plants,
+  })
+    .from(plantVarieties)
+    .leftJoin(plants, eq(plantVarieties.plantId, plants.id))
+    .$dynamic();
+  
+  const conditions: any[] = [];
+  
+  if (filters.plantCategory) {
+    conditions.push(eq(plants.category, filters.plantCategory as any));
+  }
+  
+  if (filters.varietyType) {
+    conditions.push(eq(plantVarieties.varietyType, filters.varietyType as any));
+  }
+  
+  if (filters.conservationStatus) {
+    conditions.push(eq(plantVarieties.conservationStatus, filters.conservationStatus as any));
+  }
+  
+  if (filters.countryOfOrigin) {
+    conditions.push(eq(plantVarieties.countryOfOrigin, filters.countryOfOrigin));
+  }
+  
+  if (filters.searchQuery) {
+    conditions.push(
+      or(
+        like(plantVarieties.name, `%${filters.searchQuery}%`),
+        like(plantVarieties.latinName, `%${filters.searchQuery}%`),
+        like(plants.name, `%${filters.searchQuery}%`)
+      )!
+    );
+  }
+  
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions));
+  }
+  
+  return query.orderBy(plantVarieties.name);
+}
+
+/**
+ * Récupère les variétés en danger critique
+ */
+export async function getCriticalVarieties() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    variety: plantVarieties,
+    plant: plants,
+  })
+    .from(plantVarieties)
+    .leftJoin(plants, eq(plantVarieties.plantId, plants.id))
+    .where(
+      or(
+        eq(plantVarieties.conservationStatus, 'critical'),
+        eq(plantVarieties.conservationStatus, 'endangered')
+      )
+    )
+    .orderBy(plantVarieties.conservationStatus, plantVarieties.name);
+}
+
+/**
+ * Récupère les statistiques de conservation
+ */
+export async function getConservationStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byStatus: [], byCategory: [] };
+  
+  const all = await db.select({
+    variety: plantVarieties,
+    plant: plants,
+  })
+    .from(plantVarieties)
+    .leftJoin(plants, eq(plantVarieties.plantId, plants.id));
+  
+  // Grouper par statut de conservation
+  const byStatus = all.reduce((acc, item) => {
+    const status = item.variety.conservationStatus || 'unknown';
+    const existing = acc.find(s => s.status === status);
+    if (existing) {
+      existing.count++;
+    } else {
+      acc.push({ status, count: 1 });
+    }
+    return acc;
+  }, [] as { status: string; count: number }[]);
+  
+  // Grouper par catégorie de plante
+  const byCategory = all.reduce((acc, item) => {
+    const category = item.plant?.category || 'unknown';
+    const existing = acc.find(c => c.category === category);
+    if (existing) {
+      existing.count++;
+    } else {
+      acc.push({ category, count: 1 });
+    }
+    return acc;
+  }, [] as { category: string; count: number }[]);
+  
+  return {
+    total: all.length,
+    byStatus: byStatus.sort((a, b) => b.count - a.count),
+    byCategory: byCategory.sort((a, b) => b.count - a.count),
+  };
+}
+
+/**
+ * Récupère une variété avec toutes ses molécules liées
+ */
+export async function getVarietyWithMolecules(varietyId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Récupérer la variété
+  const varietyResult = await db.select({
+    variety: plantVarieties,
+    plant: plants,
+  })
+    .from(plantVarieties)
+    .leftJoin(plants, eq(plantVarieties.plantId, plants.id))
+    .where(eq(plantVarieties.id, varietyId));
+  
+  if (varietyResult.length === 0) return null;
+  
+  const variety = varietyResult[0];
+  
+  // Récupérer les molécules liées à la plante parente
+  const moleculesResult = await db.select({
+    molecule: molecules,
+    percentageMin: plantMolecules.percentageMin,
+    percentageMax: plantMolecules.percentageMax,
+    percentageTypical: plantMolecules.percentageTypical,
+    isSignature: plantMolecules.isSignature,
+    role: plantMolecules.role,
+  })
+    .from(plantMolecules)
+    .innerJoin(molecules, eq(plantMolecules.moleculeId, molecules.id))
+    .where(eq(plantMolecules.plantId, variety.variety.plantId));
+  
+  return {
+    ...variety,
+    molecules: moleculesResult,
+  };
+}
+
+/**
+ * Récupère les variétés par type (landrace, cultivar, etc.)
+ */
+export async function getVarietiesByType(varietyType: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    variety: plantVarieties,
+    plant: plants,
+  })
+    .from(plantVarieties)
+    .leftJoin(plants, eq(plantVarieties.plantId, plants.id))
+    .where(eq(plantVarieties.varietyType, varietyType as any))
+    .orderBy(plantVarieties.name);
+}
+
+/**
+ * Récupère les landraces de cannabis
+ */
+export async function getCannabisLandraces() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    variety: plantVarieties,
+    plant: plants,
+  })
+    .from(plantVarieties)
+    .innerJoin(plants, eq(plantVarieties.plantId, plants.id))
+    .where(
+      and(
+        eq(plants.category, 'cannabis'),
+        eq(plantVarieties.varietyType, 'landrace')
+      )
+    )
+    .orderBy(plantVarieties.name);
+}
+
+/**
+ * Récupère les variétés de tabac
+ */
+export async function getTobaccoVarieties() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    variety: plantVarieties,
+    plant: plants,
+  })
+    .from(plantVarieties)
+    .innerJoin(plants, eq(plantVarieties.plantId, plants.id))
+    .where(eq(plants.category, 'tabac'))
+    .orderBy(plantVarieties.name);
+}
+
+// ============================================================================
+// PLANT-MOLECULE LINKS - EXTENDED FUNCTIONS
+// ============================================================================
+
+/**
+ * Récupère toutes les liaisons plantes-molécules avec détails
+ */
+export async function getAllPlantMoleculeLinks() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    link: plantMolecules,
+    plant: plants,
+    molecule: molecules,
+  })
+    .from(plantMolecules)
+    .innerJoin(plants, eq(plantMolecules.plantId, plants.id))
+    .innerJoin(molecules, eq(plantMolecules.moleculeId, molecules.id))
+    .orderBy(plants.name, molecules.name);
+}
+
+/**
+ * Récupère les plantes associées à une molécule
+ */
+export async function getPlantsByMolecule(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    plant: plants,
+    percentageMin: plantMolecules.percentageMin,
+    percentageMax: plantMolecules.percentageMax,
+    percentageTypical: plantMolecules.percentageTypical,
+    isSignature: plantMolecules.isSignature,
+    role: plantMolecules.role,
+  })
+    .from(plantMolecules)
+    .innerJoin(plants, eq(plantMolecules.plantId, plants.id))
+    .where(eq(plantMolecules.moleculeId, moleculeId))
+    .orderBy(desc(plantMolecules.percentageTypical));
+}
+
+/**
+ * Récupère les molécules signatures d'une plante
+ */
+export async function getSignatureMolecules(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    molecule: molecules,
+    percentageTypical: plantMolecules.percentageTypical,
+    role: plantMolecules.role,
+  })
+    .from(plantMolecules)
+    .innerJoin(molecules, eq(plantMolecules.moleculeId, molecules.id))
+    .where(
+      and(
+        eq(plantMolecules.plantId, plantId),
+        eq(plantMolecules.isSignature, 1)
+      )
+    )
+    .orderBy(desc(plantMolecules.percentageTypical));
+}
+
+/**
+ * Crée une liaison plante-molécule
+ */
+export async function createPlantMoleculeLink(data: {
+  plantId: number;
+  moleculeId: number;
+  percentageMin?: number;
+  percentageMax?: number;
+  percentageTypical?: number;
+  isSignature?: number;
+  role?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const result = await db.insert(plantMolecules).values({
+    plantId: data.plantId,
+    moleculeId: data.moleculeId,
+    percentageMin: data.percentageMin?.toString(),
+    percentageMax: data.percentageMax?.toString(),
+    percentageTypical: data.percentageTypical?.toString(),
+    isSignature: data.isSignature || 0,
+    role: data.role as any,
+  });
+  
+  return { id: Number(result[0].insertId), ...data };
+}
+
+/**
+ * Supprime une liaison plante-molécule
+ */
+export async function deletePlantMoleculeLink(plantId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) return;
+  
+  await db.delete(plantMolecules).where(
+    and(
+      eq(plantMolecules.plantId, plantId),
+      eq(plantMolecules.moleculeId, moleculeId)
+    )
+  );
+}
+
+/**
+ * Met à jour le statut de conservation d'une variété
+ */
+export async function updateVarietyConservationStatus(
+  varietyId: number,
+  data: {
+    conservationStatus?: string;
+    conservationNotes?: string;
+    threatFactors?: string[];
+    conservationEfforts?: string;
+  }
+) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.update(plantVarieties)
+    .set({
+      conservationStatus: data.conservationStatus as any,
+      conservationNotes: data.conservationNotes,
+      threatFactors: data.threatFactors,
+      conservationEfforts: data.conservationEfforts,
+      lastAssessmentDate: new Date(),
+    })
+    .where(eq(plantVarieties.id, varietyId));
+  
+  return getPlantVarietyById(varietyId);
+}
+
+/**
+ * Récupère les pays d'origine uniques des variétés
+ */
+export async function getUniqueVarietyCountries() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const results = await db.selectDistinct({ country: plantVarieties.countryOfOrigin })
+    .from(plantVarieties)
+    .where(sql`${plantVarieties.countryOfOrigin} IS NOT NULL AND ${plantVarieties.countryOfOrigin} != ''`)
+    .orderBy(plantVarieties.countryOfOrigin);
+  
+  return results.map(r => r.country).filter(Boolean) as string[];
 }

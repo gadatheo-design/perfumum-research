@@ -2181,6 +2181,20 @@ export const plantVarieties = mysqlTable("plant_varieties", {
     "unknown"
   ]).default("unknown"),
   suppliers: json("suppliers").$type<string[]>(), // Liste des fournisseurs connus
+  // Statut de conservation (UICN-like)
+  conservationStatus: mysqlEnum("conservation_status", [
+    "critical",       // En danger critique d'extinction
+    "endangered",     // En danger
+    "vulnerable",     // Vulnérable
+    "near_threatened", // Quasi menacé
+    "stable",         // Préoccupation mineure / Stable
+    "data_deficient", // Données insuffisantes
+    "unknown"         // Statut inconnu
+  ]).default("unknown"),
+  conservationNotes: text("conservation_notes"), // Notes sur la conservation
+  threatFactors: json("threat_factors").$type<string[]>(), // Facteurs de menace
+  conservationEfforts: text("conservation_efforts"), // Efforts de conservation en cours
+  lastAssessmentDate: timestamp("last_assessment_date"), // Date de la dernière évaluation
   // Métadonnées
   notes: text("notes"),
   references: json("references").$type<{

@@ -1447,3 +1447,35 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Rechercher les cultivars patrimoniaux disparus ou menacés
 - [x] Documenter les profils terpéniques spécifiques de ces variétés
 
+
+
+---
+
+## 🌿 SESSION 04 JAN 2026 - PLANTES & VARIÉTÉS
+
+### Phase 1 : Page Plantes & Variétés
+- [x] Créer le schéma de table `plant_varieties` pour les landraces cannabis et variétés tabac
+- [x] Ajouter les champs profil terpénique, origine géographique, statut conservation
+- [x] Créer les procédures tRPC CRUD pour les variétés
+- [x] Créer la page de visualisation des plantes et variétés
+- [x] Implémenter les filtres par type (cannabis/tabac), origine, statut
+
+### Phase 2 : Liens molécules-plantes
+- [x] Créer le schéma de table de liaison `plant_molecules` (many-to-many) - déjà existant
+- [x] Créer les procédures tRPC pour gérer les liaisons
+- [x] Afficher les terpènes dominants sur chaque fiche variété
+- [x] Afficher les variétés associées sur chaque fiche molécule (onglet "Plantes sources")
+- [x] Créer une vue de navigation croisée molécules ↔ plantes
+
+### Phase 3 : Filtre Statut de conservation
+- [x] Définir les statuts de conservation (Critique, En danger, Vulnérable, Stable, Inconnu)
+- [x] Implémenter le filtre par statut dans l'interface
+- [x] Créer une vue "Variétés en danger critique" avec alertes visuelles
+- [x] Ajouter des badges de statut colorés sur les fiches
+
+### Phase 4 : Tests et validation
+- [x] Écrire les tests unitaires pour les procédures plantes/variétés (18 tests passés)
+- [x] Tester l'interface sur desktop et mobile
+- [x] Valider les filtres et liaisons molécules-plantes
+- [x] Créer le checkpoint final
+

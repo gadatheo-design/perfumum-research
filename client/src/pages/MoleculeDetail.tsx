@@ -64,6 +64,121 @@ const ifraCategoryDescriptions: Record<string, string> = {
   category11b: "Parfums d'ambiance (autres)",
 };
 
+// Composant pour afficher les plantes sources d'une molécule
+function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
+  const { data: plantSources, isLoading } = trpc.plantMoleculeLinks.getByMolecule.useQuery({ moleculeId });
+
+  if (isLoading) {
+    return (
+      <div className="bg-card p-6 rounded-lg border shadow-sm">
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-card p-6 rounded-lg border shadow-sm">
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <Leaf className="h-5 w-5 text-primary" />
+          Plantes Sources
+        </h2>
+        
+        {plantSources && plantSources.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {plantSources.map((source: any) => (
+              <Link key={source.plant.id} href={`/plants/${source.plant.id}`}>
+                <div className="p-4 bg-muted/50 rounded-lg border hover:border-primary/50 transition-colors cursor-pointer">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-semibold text-primary">{source.plant.name}</h3>
+                      {source.plant.latinName && (
+                        <p className="text-sm italic text-muted-foreground">{source.plant.latinName}</p>
+                      )}
+                    </div>
+                    {source.isSignature === 1 && (
+                      <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">
+                        Signature
+                      </Badge>
+                    )}
+                  </div>
+                  
+                  <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
+                    {source.percentageTypical && (
+                      <div>
+                        <p className="text-xs text-muted-foreground">Typique</p>
+                        <p className="font-mono font-semibold">{source.percentageTypical}%</p>
+                      </div>
+                    )}
+                    {source.percentageMin && source.percentageMax && (
+                      <div>
+                        <p className="text-xs text-muted-foreground">Plage</p>
+                        <p className="font-mono">{source.percentageMin}-{source.percentageMax}%</p>
+                      </div>
+                    )}
+                    {source.role && (
+                      <div>
+                        <p className="text-xs text-muted-foreground">Rôle</p>
+                        <Badge variant="outline" className="text-xs">
+                          {source.role === 'majeur' ? 'Majeur' : 
+                           source.role === 'secondaire' ? 'Secondaire' : 
+                           source.role === 'trace' ? 'Trace' : source.role}
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {source.plant.category && (
+                    <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
+                      <span className="capitalize">{source.plant.category}</span>
+                      {source.plant.origin && (
+                        <>
+                          <span>•</span>
+                          <MapPin className="h-3 w-3" />
+                          <span>{source.plant.origin}</span>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-muted-foreground">
+            <Leaf className="h-12 w-12 mx-auto mb-3 opacity-50" />
+            <p>Aucune plante source documentée pour cette molécule.</p>
+            <p className="text-sm mt-2">Les informations sur les sources botaniques seront ajoutées progressivement.</p>
+          </div>
+        )}
+      </div>
+      
+      {/* Lien vers la page des plantes */}
+      <div className="bg-muted/50 p-4 rounded-lg border">
+        <p className="text-sm text-muted-foreground">
+          Explorez toutes les plantes et variétés documentées dans notre base de données.
+        </p>
+        <div className="flex gap-2 mt-2">
+          <Link href="/plants">
+            <Button variant="outline">
+              <Leaf className="h-4 w-4 mr-2" />
+              Voir toutes les plantes
+            </Button>
+          </Link>
+          <Link href="/varietes">
+            <Button variant="outline">
+              <Beaker className="h-4 w-4 mr-2" />
+              Voir les variétés
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function MoleculeDetail() {
   const params = useParams();
   const id = params.id ? parseInt(params.id) : 0;
@@ -373,9 +488,10 @@ export default function MoleculeDetail() {
 
           {/* Tabs pour organiser le contenu */}
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
               <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
               <TabsTrigger value="scientific">Données scientifiques</TabsTrigger>
+              <TabsTrigger value="plants">Plantes sources</TabsTrigger>
               <TabsTrigger value="origins">Origines géographiques</TabsTrigger>
               <TabsTrigger value="ifra">Réglementation IFRA</TabsTrigger>
             </TabsList>
@@ -638,6 +754,11 @@ export default function MoleculeDetail() {
                   </div>
                 </div>
               )}
+            </TabsContent>
+
+            {/* Onglet Plantes sources */}
+            <TabsContent value="plants" className="space-y-6 mt-6">
+              <PlantSourcesSection moleculeId={id} />
             </TabsContent>
 
             {/* Onglet Origines géographiques */}

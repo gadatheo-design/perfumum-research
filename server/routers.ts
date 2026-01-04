@@ -2736,6 +2736,97 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return getPlantVarietyById(input.id);
       }),
+    // Nouvelles procédures pour filtres avancés
+    getWithFilters: publicProcedure
+      .input(z.object({
+        plantCategory: z.string().optional(),
+        varietyType: z.string().optional(),
+        conservationStatus: z.string().optional(),
+        countryOfOrigin: z.string().optional(),
+        searchQuery: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        return db.getPlantVarietiesWithFilters(input);
+      }),
+    getCritical: publicProcedure.query(async () => {
+      return db.getCriticalVarieties();
+    }),
+    getConservationStats: publicProcedure.query(async () => {
+      return db.getConservationStats();
+    }),
+    getWithMolecules: publicProcedure
+      .input(z.object({ varietyId: z.number() }))
+      .query(async ({ input }) => {
+        return db.getVarietyWithMolecules(input.varietyId);
+      }),
+    getByType: publicProcedure
+      .input(z.object({ varietyType: z.string() }))
+      .query(async ({ input }) => {
+        return db.getVarietiesByType(input.varietyType);
+      }),
+    getCannabisLandraces: publicProcedure.query(async () => {
+      return db.getCannabisLandraces();
+    }),
+    getTobaccoVarieties: publicProcedure.query(async () => {
+      return db.getTobaccoVarieties();
+    }),
+    getUniqueCountries: publicProcedure.query(async () => {
+      return db.getUniqueVarietyCountries();
+    }),
+    updateConservationStatus: publicProcedure
+      .input(z.object({
+        varietyId: z.number(),
+        conservationStatus: z.string().optional(),
+        conservationNotes: z.string().optional(),
+        threatFactors: z.array(z.string()).optional(),
+        conservationEfforts: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateVarietyConservationStatus(input.varietyId, input);
+      }),
+  }),
+  
+  // Routes pour les liaisons plantes-molécules
+  plantMoleculeLinks: router({
+    getAll: publicProcedure.query(async () => {
+      return db.getAllPlantMoleculeLinks();
+    }),
+    getByPlant: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        return db.getPlantMolecules(input.plantId);
+      }),
+    getByMolecule: publicProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .query(async ({ input }) => {
+        return db.getPlantsByMolecule(input.moleculeId);
+      }),
+    getSignatureMolecules: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        return db.getSignatureMolecules(input.plantId);
+      }),
+    create: publicProcedure
+      .input(z.object({
+        plantId: z.number(),
+        moleculeId: z.number(),
+        percentageMin: z.number().optional(),
+        percentageMax: z.number().optional(),
+        percentageTypical: z.number().optional(),
+        isSignature: z.number().optional(),
+        role: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.createPlantMoleculeLink(input);
+      }),
+    delete: publicProcedure
+      .input(z.object({
+        plantId: z.number(),
+        moleculeId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.deletePlantMoleculeLink(input.plantId, input.moleculeId);
+      }),
   }),
   
   terroirs: router({

@@ -43,6 +43,13 @@
       "when": 1767530401213,
       "tag": "0005_watery_junta",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1767561859245,
+      "tag": "0006_long_stardust",
+      "breakpoints": true
     }
   ]
 }
