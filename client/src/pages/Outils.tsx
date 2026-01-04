@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
-import { Radar, FlaskConical, BarChart3, Network, Calculator, Database, ArrowRight } from "lucide-react";
+import { Radar, FlaskConical, BarChart3, Network, Calculator, Database, ArrowRight, Beaker, MapPin } from "lucide-react";
 
 // Cette page est conçue pour être extensible : ajoutez de nouveaux outils
 // en ajoutant des entrées dans le tableau tools ci-dessous
@@ -64,6 +64,24 @@ export default function Outils() {
       status: "Actif",
       color: "text-pink-600",
       bgColor: "bg-pink-50"
+    },
+    {
+      icon: Beaker,
+      title: "Enrichissement PubChem",
+      description: "Enrichir automatiquement les molécules avec les données scientifiques (CAS, IUPAC, masse moléculaire) depuis PubChem",
+      href: "/outils/enrichissement-pubchem",
+      status: "Actif",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50"
+    },
+    {
+      icon: MapPin,
+      title: "Carte des Origines",
+      description: "Carte géographique interactive des terroirs de production des ingrédients parfumés à travers le monde",
+      href: "/outils/carte-origines",
+      status: "Actif",
+      color: "text-amber-600",
+      bgColor: "bg-amber-50"
     }
   ];
 

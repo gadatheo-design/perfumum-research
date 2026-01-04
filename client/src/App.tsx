@@ -120,6 +120,7 @@ import DilutionCalculator from "./pages/DilutionCalculator";
 import CorrelationAnalysis from "./pages/CorrelationAnalysis";
 import { AbsorbeScale } from "@/pages/AbsorbeScale";
 import EnrichissementPubChem from "./pages/EnrichissementPubChem";
+import CarteOrigines from "./pages/CarteOrigines";
 import VisualisationsCorrelation from "./pages/VisualisationsCorrelation";
 import ExportBibliographique from "./pages/ExportBibliographique";
 
@@ -348,6 +349,7 @@ function Router() {
       <Route path="/analyses" component={CorrelationAnalysis} />
       <Route path="/absorbe-scale" component={AbsorbeScale} />
       <Route path="/outils/enrichissement-pubchem" component={EnrichissementPubChem} />
+      <Route path="/outils/carte-origines" component={CarteOrigines} />
       <Route path="/outils/visualisations-correlation" component={VisualisationsCorrelation} />
       <Route path="/outils/export-bibliographique" component={ExportBibliographique} />
       

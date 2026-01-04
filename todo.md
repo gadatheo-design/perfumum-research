@@ -1262,3 +1262,36 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tests pour le binning d'histogramme
 - [x] Tous les tests passent (212/212)
 
+
+
+---
+
+## 🔬 SESSION 04 JAN 2026 - ENRICHISSEMENT PUBCHEM & CARTE GÉOGRAPHIQUE
+
+### Phase 1 : Outil d'enrichissement PubChem
+- [x] Créer le service backend pour l'API PubChem (recherche par nom/CAS) — déjà existant
+- [x] Créer les procédures tRPC pour l'enrichissement (lancer, statut, résultats) — déjà existant
+- [x] Créer l'interface "Outils > Enrichissement PubChem" — déjà existant, ajouté au menu Outils
+- [x] Afficher les 367 molécules manquantes avec statut d'enrichissement — fonctionnel
+- [x] Implémenter l'enrichissement progressif (par lot de 10) — fonctionnel
+- [x] Afficher les données récupérées (formule, masse molaire, description) — fonctionnel
+- [x] Permettre la validation manuelle des données enrichies — fonctionnel
+- [x] Créer les tests unitaires pour l'enrichissement — 26 tests passés
+
+### Phase 2 : Carte géographique interactive des origines
+- [x] Analyser les données d'origine géographique existantes dans la base — schéma geographicOrigins avec lat/lng
+- [x] Créer le schéma pour les coordonnées géographiques des terroirs — déjà existant
+- [x] Créer les procédures tRPC pour les données géographiques — déjà existant
+- [x] Intégrer Google Maps via le composant Map.tsx existant — CarteOrigines.tsx créé
+- [x] Créer la page "Carte des origines" avec filtres par famille olfactive — /outils/carte-origines
+- [x] Afficher les marqueurs par ingrédient/terroir sur la carte — marqueurs colorés par climat
+- [x] Créer les popups d'information pour chaque origine — InfoWindow avec détails
+- [x] Permettre le filtrage par région, famille, type d'ingrédient — filtres pays/climat/recherche
+- [x] Créer les tests unitaires pour les procédures géographiques — 13 tests passés
+
+### Phase 3 : Tests et validation
+- [x] Tester l'enrichissement PubChem sur un échantillon de molécules — 26 tests passés
+- [x] Tester la carte géographique sur desktop et mobile — TypeScript validé
+- [x] Valider les performances avec les données complètes — 212 tests passés
+- [ ] Créer le checkpoint final
+
