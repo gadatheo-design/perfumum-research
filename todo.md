@@ -1609,3 +1609,25 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Valider les graphiques et visualisations
 - [x] Créer le checkpoint final
 
+
+
+---
+
+## 🔬 SESSION 04 JAN 2026 - SYNERGIES & PROFILS TERPÉNIQUES
+
+### Phase 1 : Importer les données de synergies moléculaires
+- [x] Importer les interactions moléculaires documentées (effet entourage, potentialisation)
+- [x] Importer les 3 accords proposés (Fumoir Oriental, Hash Marocain, Cannabis Vert)
+- [x] Alimenter les visualisations avec les nouvelles données
+
+### Phase 2 : Créer les profils terpéniques de référence
+- [x] Importer les profils tabac (Virginia, Latakia)
+- [x] Importer les profils cannabis (OG Kush, Haze)
+- [x] Importer les profils parfumerie (lavande, vétiver)
+- [x] Créer le graphique de comparaison des profils (données radar importées)
+
+### Phase 3 : Intégrer les nouvelles pages dans la navigation
+- [x] Ajouter un lien vers les synergies dans le menu principal
+- [x] Ajouter un lien vers les profils terpéniques dans le menu Outils/Recherche
+- [x] Tester la navigation sur desktop et mobile
+

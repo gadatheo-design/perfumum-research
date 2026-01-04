@@ -283,6 +283,13 @@ export function MegaMenu() {
           description: "Matrice de compatibilité",
         },
         {
+          label: "Comparaison Profils",
+          path: "/terp-profiles/compare",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Radar comparatif terpènes",
+          badge: "NEW",
+        },
+        {
           label: "Graphe Réseau",
           path: "/recipe-network",
           icon: <Network className="h-4 w-4" />,
@@ -322,7 +329,21 @@ export function MegaMenu() {
       title: "Analyse",
       items: [
         {
-          label: "Synergies",
+          label: "Synergies Moléculaires",
+          path: "/synergies",
+          icon: <Network className="h-4 w-4" />,
+          description: "Interactions et effet entourage",
+          badge: "NEW",
+        },
+        {
+          label: "Profils Terpéniques",
+          path: "/terp-profiles",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Références tabac, cannabis, parfum",
+          badge: "NEW",
+        },
+        {
+          label: "Suggestions Synergies",
           path: "/suggestions-synergies",
           icon: <Network className="h-4 w-4" />,
           description: "Suggestions basées radar",

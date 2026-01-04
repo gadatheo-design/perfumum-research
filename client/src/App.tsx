@@ -180,6 +180,7 @@ import BotaniqueCritique from "./pages/BotaniqueCritique";
 import VarietesFantomes from "./pages/VarietesFantomes";
 import RecettesLeafEconomies from "./pages/RecettesLeafEconomies";
 import TerpProfiles from "./pages/TerpProfiles";
+import TerpProfilesCompare from "./pages/TerpProfilesCompare";
 import Plants from "./pages/Plants";
 import PlantVarieties from "./pages/PlantVarieties";
 import Chemotypes from "./pages/Chemotypes";
@@ -346,6 +347,7 @@ function Router() {
       <Route path="/matrice-synergies" component={MatriceSynergies} />
       <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
       <Route path="/graphe-synergies" component={SynergiesPage} />
+      <Route path="/synergies" component={SynergiesPage} />
       <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
       <Route path="/synergies-heatmap" component={SynergiesHeatmap} />
       <Route path="/recipe-network" component={RecipeNetworkPage} />
@@ -437,6 +439,7 @@ function Router() {
       <Route path="/varietes-fantomes" component={VarietesFantomes} />
       <Route path="/recettes-leaf-economies" component={RecettesLeafEconomies} />
       <Route path="/terp-profiles" component={TerpProfiles} />
+      <Route path="/terp-profiles/compare" component={TerpProfilesCompare} />
       <Route path="/plants" component={Plants} />
       <Route path="/plantes" component={Plants} />
       <Route path="/varietes" component={PlantVarieties} />

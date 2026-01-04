@@ -110,6 +110,8 @@ const mobileMenuSections = [
     items: [
       { href: "/outils/editeur-formulation", label: "Éditeur de Formulation", badge: "NEW" },
       { href: "/outils/generateur-formules", label: "Générateur de Formules", badge: "NEW" },
+      { href: "/synergies", label: "Synergies Moléculaires", badge: "NEW" },
+      { href: "/terp-profiles", label: "Profils Terpéniques", badge: "NEW" },
       { href: "/suggestions-synergies", label: "Suggestions Synergies" },
       { href: "/admin/liaison-recettes-molecules", label: "Liaison Recettes-Molécules", badge: "ADMIN" },
     ],
