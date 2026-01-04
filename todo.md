@@ -1400,3 +1400,50 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 6 : Livraison
 - [ ] Créer le checkpoint final
 - [ ] Documenter les changements
+
+
+---
+
+## 🌿 SESSION 04 JAN 2026 - RECHERCHE TABAC & CANNABIS
+
+### Phase 1 : Recherche molécules du tabac
+- [ ] Rechercher les terpènes principaux du tabac
+- [ ] Rechercher les alcaloïdes et composés aromatiques du tabac
+- [ ] Collecter les numéros CAS et propriétés physico-chimiques
+- [ ] Documenter les profils olfactifs des molécules du tabac
+
+### Phase 2 : Recherche molécules du cannabis
+- [ ] Rechercher les terpènes principaux du cannabis
+- [ ] Rechercher les cannabinoïdes et leurs propriétés olfactives
+- [ ] Collecter les numéros CAS et propriétés physico-chimiques
+- [ ] Documenter les profils olfactifs des molécules du cannabis
+
+### Phase 3 : Structuration des données
+- [ ] Organiser les données en format compatible avec le schéma existant
+- [ ] Créer les relations entre molécules et plantes sources
+- [ ] Valider l'intégrité des données
+
+### Phase 4 : Implémentation
+- [ ] Créer le script d'import des nouvelles molécules
+- [ ] Importer les molécules du tabac dans la base de données
+- [ ] Importer les molécules du cannabis dans la base de données
+- [ ] Vérifier les données importées
+
+### Phase 5 : Livraison
+- [ ] Tester l'affichage des nouvelles données
+- [ ] Créer le checkpoint final
+- [ ] Présenter les résultats
+
+
+### Phase 1b : Variétés rares et oubliées du tabac
+- [x] Rechercher les variétés de tabac patrimoniales (Perique, Latakia, Maryland, etc.)
+- [x] Rechercher les tabacs orientaux rares (Yenidje, Samsun, Basma, Katerini)
+- [x] Rechercher les variétés coloniales et historiques
+- [x] Documenter les profils olfactifs spécifiques de ces variétés
+
+### Phase 2b : Variétés rares et oubliées du cannabis
+- [x] Rechercher les landraces historiques (Afghan, Thai, Acapulco Gold, Panama Red)
+- [x] Rechercher les variétés endémiques régionales
+- [x] Rechercher les cultivars patrimoniaux disparus ou menacés
+- [x] Documenter les profils terpéniques spécifiques de ces variétés
+
