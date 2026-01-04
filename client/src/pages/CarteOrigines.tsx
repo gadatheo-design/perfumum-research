@@ -10,12 +10,12 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MapView } from "@/components/Map";
 import { Link } from "wouter";
 import { 
   MapPin, 
   Search, 
-  Filter, 
   Globe, 
   Leaf, 
   Mountain, 
@@ -23,7 +23,10 @@ import {
   Thermometer,
   ExternalLink,
   ChevronRight,
-  X
+  X,
+  FlaskConical,
+  Atom,
+  Filter
 } from "lucide-react";
 
 interface Origin {
@@ -44,18 +47,55 @@ interface Origin {
   economicImportance: string | null;
   sustainabilityNotes: string | null;
   imageUrl: string | null;
+  moleculeCount?: number;
+}
+
+interface MoleculeDetail {
+  id: number;
+  moleculeId: number;
+  originId: number;
+  isPrimaryOrigin: number | null;
+  qualityRating: number | null;
+  productionVolume: string | null;
+  priceRange: string | null;
+  specificCharacteristics: string | null;
+  notes: string | null;
+  molecule: {
+    id: number;
+    name: string;
+    family: string | null;
+    chemicalFormula: string | null;
+    olfactiveProfile: string | null;
+    casNumber: string | null;
+    iupacName: string | null;
+    chemicalClass: string | null;
+  };
 }
 
 export default function CarteOrigines() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [moleculeSearch, setMoleculeSearch] = useState("");
   const [selectedCountry, setSelectedCountry] = useState<string>("all");
   const [selectedClimate, setSelectedClimate] = useState<string>("all");
   const [selectedOrigin, setSelectedOrigin] = useState<Origin | null>(null);
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
   const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
+  const [activeTab, setActiveTab] = useState<string>("terroirs");
 
-  // Récupérer toutes les origines géographiques
-  const { data: origins, isLoading } = trpc.geographicOrigins.list.useQuery();
+  // Récupérer toutes les origines géographiques avec le nombre de molécules
+  const { data: origins, isLoading } = trpc.geographicOrigins.listWithMoleculeCount.useQuery();
+
+  // Récupérer les molécules de l'origine sélectionnée
+  const { data: originMolecules, isLoading: isLoadingMolecules } = trpc.geographicOrigins.getMoleculesWithDetails.useQuery(
+    selectedOrigin?.id ?? 0,
+    { enabled: !!selectedOrigin }
+  );
+
+  // Recherche d'origines par molécule
+  const { data: searchResults } = trpc.geographicOrigins.searchByMolecule.useQuery(
+    moleculeSearch,
+    { enabled: moleculeSearch.length >= 2 }
+  );
 
   // Extraire les pays et climats uniques pour les filtres
   const countries = useMemo(() => {
@@ -72,8 +112,15 @@ export default function CarteOrigines() {
 
   // Filtrer les origines
   const filteredOrigins = useMemo(() => {
-    if (!origins) return [];
-    return origins.filter(origin => {
+    let baseOrigins = origins || [];
+    
+    // Si recherche par molécule active, utiliser les résultats de recherche
+    if (moleculeSearch.length >= 2 && searchResults) {
+      const searchIds = new Set(searchResults.map(r => r.id));
+      baseOrigins = baseOrigins.filter(o => searchIds.has(o.id));
+    }
+    
+    return baseOrigins.filter(origin => {
       const matchesSearch = searchQuery === "" || 
         origin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         origin.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -84,7 +131,7 @@ export default function CarteOrigines() {
       
       return matchesSearch && matchesCountry && matchesClimate;
     });
-  }, [origins, searchQuery, selectedCountry, selectedClimate]);
+  }, [origins, searchQuery, selectedCountry, selectedClimate, moleculeSearch, searchResults]);
 
   // Origines avec coordonnées valides
   const originsWithCoords = useMemo(() => {
@@ -114,13 +161,17 @@ export default function CarteOrigines() {
       
       if (isNaN(lat) || isNaN(lng)) return null;
 
+      // Taille du marqueur basée sur le nombre de molécules
+      const moleculeCount = origin.moleculeCount || 0;
+      const scale = Math.min(8 + moleculeCount * 0.5, 16);
+
       const marker = new google.maps.Marker({
         position: { lat, lng },
         map: mapInstance,
-        title: origin.name,
+        title: `${origin.name} (${moleculeCount} molécules)`,
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
-          scale: 8,
+          scale: scale,
           fillColor: getClimateColor(origin.climate),
           fillOpacity: 0.9,
           strokeColor: "#ffffff",
@@ -128,14 +179,21 @@ export default function CarteOrigines() {
         },
       });
 
-      // Info window au clic
+      // Info window au clic avec le nombre de molécules
       const infoWindow = new google.maps.InfoWindow({
         content: `
-          <div style="padding: 8px; max-width: 250px;">
+          <div style="padding: 8px; max-width: 280px;">
             <h3 style="font-weight: bold; margin-bottom: 4px;">${origin.name}</h3>
             <p style="color: #666; margin-bottom: 4px;">${origin.country}${origin.region ? `, ${origin.region}` : ''}</p>
             ${origin.climate ? `<p style="font-size: 12px; color: #888;">Climat: ${origin.climate}</p>` : ''}
             ${origin.altitude ? `<p style="font-size: 12px; color: #888;">Altitude: ${origin.altitude}m</p>` : ''}
+            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #eee;">
+              <p style="font-size: 13px; font-weight: 500; color: #d97706;">
+                <span style="display: inline-flex; align-items: center; gap: 4px;">
+                  🧪 ${moleculeCount} molécule${moleculeCount > 1 ? 's' : ''} associée${moleculeCount > 1 ? 's' : ''}
+                </span>
+              </p>
+            </div>
           </div>
         `,
       });
@@ -181,6 +239,14 @@ export default function CarteOrigines() {
     }
   };
 
+  // Statistiques
+  const stats = useMemo(() => {
+    if (!origins) return { totalOrigins: 0, totalMolecules: 0, withMolecules: 0 };
+    const totalMolecules = origins.reduce((sum, o) => sum + (o.moleculeCount || 0), 0);
+    const withMolecules = origins.filter(o => (o.moleculeCount || 0) > 0).length;
+    return { totalOrigins: origins.length, totalMolecules, withMolecules };
+  }, [origins]);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Breadcrumbs />
@@ -197,9 +263,31 @@ export default function CarteOrigines() {
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold">Carte des Origines</h1>
                 <p className="text-muted-foreground">
-                  Terroirs de production des ingrédients parfumés à travers le monde
+                  Terroirs de production et molécules associées à travers le monde
                 </p>
               </div>
+            </div>
+
+            {/* Statistiques rapides */}
+            <div className="grid grid-cols-3 gap-4 mt-6">
+              <Card className="bg-white/50 dark:bg-white/5">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-amber-600">{stats.totalOrigins}</div>
+                  <div className="text-sm text-muted-foreground">Terroirs</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/50 dark:bg-white/5">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-green-600">{stats.totalMolecules}</div>
+                  <div className="text-sm text-muted-foreground">Liens molécules</div>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/50 dark:bg-white/5">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-blue-600">{stats.withMolecules}</div>
+                  <div className="text-sm text-muted-foreground">Terroirs documentés</div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
@@ -207,39 +295,67 @@ export default function CarteOrigines() {
         {/* Filtres */}
         <section className="py-6 border-b bg-muted/30">
           <div className="container">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-4">
+              <TabsList>
+                <TabsTrigger value="terroirs" className="gap-2">
+                  <MapPin className="h-4 w-4" />
+                  Par terroir
+                </TabsTrigger>
+                <TabsTrigger value="molecules" className="gap-2">
+                  <Atom className="h-4 w-4" />
+                  Par molécule
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+
             <div className="flex flex-col md:flex-row gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Rechercher un terroir, pays ou région..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-                <SelectTrigger className="w-full md:w-[200px]">
-                  <SelectValue placeholder="Tous les pays" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tous les pays</SelectItem>
-                  {countries.map(country => (
-                    <SelectItem key={country} value={country}>{country}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select value={selectedClimate} onValueChange={setSelectedClimate}>
-                <SelectTrigger className="w-full md:w-[200px]">
-                  <SelectValue placeholder="Tous les climats" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tous les climats</SelectItem>
-                  {climates.map(climate => (
-                    <SelectItem key={climate} value={climate}>{climate}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {(searchQuery || selectedCountry !== "all" || selectedClimate !== "all") && (
+              {activeTab === "terroirs" ? (
+                <>
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Rechercher un terroir, pays ou région..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                  <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                    <SelectTrigger className="w-full md:w-[200px]">
+                      <SelectValue placeholder="Tous les pays" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Tous les pays</SelectItem>
+                      {countries.map(country => (
+                        <SelectItem key={country} value={country}>{country}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Select value={selectedClimate} onValueChange={setSelectedClimate}>
+                    <SelectTrigger className="w-full md:w-[200px]">
+                      <SelectValue placeholder="Tous les climats" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Tous les climats</SelectItem>
+                      {climates.map(climate => (
+                        <SelectItem key={climate} value={climate}>{climate}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </>
+              ) : (
+                <div className="relative flex-1">
+                  <FlaskConical className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Rechercher une molécule (ex: limonène, linalol...)"
+                    value={moleculeSearch}
+                    onChange={(e) => setMoleculeSearch(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+              )}
+              
+              {(searchQuery || selectedCountry !== "all" || selectedClimate !== "all" || moleculeSearch) && (
                 <Button 
                   variant="ghost" 
                   size="icon"
@@ -247,6 +363,7 @@ export default function CarteOrigines() {
                     setSearchQuery("");
                     setSelectedCountry("all");
                     setSelectedClimate("all");
+                    setMoleculeSearch("");
                   }}
                 >
                   <X className="h-4 w-4" />
@@ -257,6 +374,12 @@ export default function CarteOrigines() {
               <span>{filteredOrigins.length} terroir{filteredOrigins.length > 1 ? 's' : ''}</span>
               <span>•</span>
               <span>{originsWithCoords.length} avec coordonnées GPS</span>
+              {moleculeSearch.length >= 2 && searchResults && (
+                <>
+                  <span>•</span>
+                  <span className="text-amber-600">{searchResults.length} résultat{searchResults.length > 1 ? 's' : ''} pour "{moleculeSearch}"</span>
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -274,7 +397,7 @@ export default function CarteOrigines() {
                       Carte Interactive
                     </CardTitle>
                     <CardDescription>
-                      Cliquez sur un marqueur pour voir les détails du terroir
+                      Cliquez sur un marqueur pour voir les détails et les molécules associées
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="p-0">
@@ -287,7 +410,7 @@ export default function CarteOrigines() {
                 {/* Légende des couleurs */}
                 <Card className="mt-4">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">Légende des climats</CardTitle>
+                    <CardTitle className="text-sm">Légende</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-4">
@@ -298,11 +421,14 @@ export default function CarteOrigines() {
                       <LegendItem color="#8b5cf6" label="Continental" />
                       <LegendItem color="#6b7280" label="Autre" />
                     </div>
+                    <p className="text-xs text-muted-foreground mt-3">
+                      La taille des marqueurs est proportionnelle au nombre de molécules associées.
+                    </p>
                   </CardContent>
                 </Card>
               </div>
 
-              {/* Liste des terroirs */}
+              {/* Liste des terroirs / Détail */}
               <div>
                 {selectedOrigin ? (
                   <Card>
@@ -349,6 +475,57 @@ export default function CarteOrigines() {
                         </div>
                       )}
                       
+                      {/* Section Molécules */}
+                      <div className="pt-4 border-t">
+                        <h4 className="font-medium mb-3 flex items-center gap-2">
+                          <FlaskConical className="h-4 w-4 text-amber-600" />
+                          Molécules associées ({selectedOrigin.moleculeCount || 0})
+                        </h4>
+                        
+                        {isLoadingMolecules ? (
+                          <div className="space-y-2">
+                            <Skeleton className="h-8 w-full" />
+                            <Skeleton className="h-8 w-full" />
+                          </div>
+                        ) : originMolecules && originMolecules.length > 0 ? (
+                          <ScrollArea className="h-[200px]">
+                            <div className="space-y-2">
+                              {originMolecules.map((mol: MoleculeDetail) => (
+                                <Link key={mol.id} href={`/molecules/${mol.molecule.id}`}>
+                                  <div className="p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
+                                    <div className="flex items-center justify-between">
+                                      <span className="font-medium text-sm">{mol.molecule.name}</span>
+                                      {mol.isPrimaryOrigin === 1 && (
+                                        <Badge variant="secondary" className="text-xs">Principal</Badge>
+                                      )}
+                                    </div>
+                                    <div className="flex items-center gap-2 mt-1">
+                                      {mol.molecule.family && (
+                                        <Badge variant="outline" className="text-xs">{mol.molecule.family}</Badge>
+                                      )}
+                                      {mol.molecule.chemicalFormula && (
+                                        <span className="text-xs text-muted-foreground font-mono">
+                                          {mol.molecule.chemicalFormula}
+                                        </span>
+                                      )}
+                                    </div>
+                                    {mol.specificCharacteristics && (
+                                      <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
+                                        {mol.specificCharacteristics}
+                                      </p>
+                                    )}
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                        ) : (
+                          <p className="text-sm text-muted-foreground">
+                            Aucune molécule associée à ce terroir.
+                          </p>
+                        )}
+                      </div>
+                      
                       {selectedOrigin.terroir && (
                         <div className="pt-4 border-t">
                           <h4 className="font-medium mb-2">Description du terroir</h4>
@@ -360,13 +537,6 @@ export default function CarteOrigines() {
                         <div className="pt-4 border-t">
                           <h4 className="font-medium mb-2">Indicateurs de qualité</h4>
                           <p className="text-sm text-muted-foreground">{selectedOrigin.qualityIndicators}</p>
-                        </div>
-                      )}
-                      
-                      {selectedOrigin.historicalContext && (
-                        <div className="pt-4 border-t">
-                          <h4 className="font-medium mb-2">Contexte historique</h4>
-                          <p className="text-sm text-muted-foreground">{selectedOrigin.historicalContext}</p>
                         </div>
                       )}
 
@@ -385,7 +555,7 @@ export default function CarteOrigines() {
                     <CardHeader>
                       <CardTitle className="text-lg">Terroirs</CardTitle>
                       <CardDescription>
-                        Sélectionnez un terroir pour voir ses détails
+                        Sélectionnez un terroir pour voir ses détails et molécules
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="p-0">
@@ -410,7 +580,7 @@ export default function CarteOrigines() {
                                 onClick={() => focusOnOrigin(origin)}
                                 className="w-full p-4 text-left hover:bg-accent/50 transition-colors flex items-center justify-between group"
                               >
-                                <div>
+                                <div className="flex-1">
                                   <div className="font-medium">{origin.name}</div>
                                   <div className="text-sm text-muted-foreground">
                                     {origin.country}{origin.region ? `, ${origin.region}` : ''}
@@ -429,7 +599,15 @@ export default function CarteOrigines() {
                                     )}
                                   </div>
                                 </div>
-                                <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="flex items-center gap-2">
+                                  {(origin.moleculeCount || 0) > 0 && (
+                                    <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+                                      <FlaskConical className="h-3 w-3 mr-1" />
+                                      {origin.moleculeCount}
+                                    </Badge>
+                                  )}
+                                  <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </div>
                               </button>
                             ))}
                           </div>
@@ -449,12 +627,19 @@ export default function CarteOrigines() {
             <h2 className="text-2xl font-bold mb-6">Répartition géographique</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {countries.slice(0, 8).map(country => {
-                const count = origins?.filter(o => o.country === country).length || 0;
+                const countryOrigins = origins?.filter(o => o.country === country) || [];
+                const count = countryOrigins.length;
+                const moleculeCount = countryOrigins.reduce((sum, o) => sum + (o.moleculeCount || 0), 0);
                 return (
                   <Card key={country} className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setSelectedCountry(country)}>
                     <CardContent className="p-4">
                       <div className="text-2xl font-bold">{count}</div>
                       <div className="text-sm text-muted-foreground">{country}</div>
+                      {moleculeCount > 0 && (
+                        <div className="text-xs text-amber-600 mt-1">
+                          {moleculeCount} molécule{moleculeCount > 1 ? 's' : ''}
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 );

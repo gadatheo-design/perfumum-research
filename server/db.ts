@@ -5504,3 +5504,106 @@ export async function getSampleImagesStats() {
     byCategory,
   };
 }
+
+
+// ============================================================================
+// GEOGRAPHIC ORIGINS WITH MOLECULE COUNT
+// ============================================================================
+
+/**
+ * Récupère toutes les origines géographiques avec le nombre de molécules associées
+ */
+export async function getAllGeographicOriginsWithMoleculeCount() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  const origins = await db.select().from(geographicOrigins).orderBy(geographicOrigins.country, geographicOrigins.name);
+  
+  // Récupérer le comptage des molécules pour chaque origine
+  const moleculeCounts = await db.select({
+    originId: moleculeOrigins.originId,
+    count: sql<number>`COUNT(*)`.as('count'),
+  })
+    .from(moleculeOrigins)
+    .groupBy(moleculeOrigins.originId);
+  
+  // Créer une map pour un accès rapide
+  const countMap = new Map(moleculeCounts.map(mc => [mc.originId, mc.count]));
+  
+  // Enrichir les origines avec le comptage
+  return origins.map(origin => ({
+    ...origin,
+    moleculeCount: countMap.get(origin.id) || 0,
+  }));
+}
+
+/**
+ * Récupère les molécules d'une origine avec leurs détails complets
+ */
+export async function getOriginMoleculesWithDetails(originId: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  return await db.select({
+    id: moleculeOrigins.id,
+    moleculeId: moleculeOrigins.moleculeId,
+    originId: moleculeOrigins.originId,
+    isPrimaryOrigin: moleculeOrigins.isPrimaryOrigin,
+    qualityRating: moleculeOrigins.qualityRating,
+    productionVolume: moleculeOrigins.productionVolume,
+    priceRange: moleculeOrigins.priceRange,
+    specificCharacteristics: moleculeOrigins.specificCharacteristics,
+    notes: moleculeOrigins.notes,
+    molecule: {
+      id: molecules.id,
+      name: molecules.name,
+      family: molecules.family,
+      chemicalFormula: molecules.chemicalFormula,
+      olfactiveProfile: molecules.olfactiveProfile,
+      casNumber: molecules.casNumber,
+      iupacName: molecules.iupacName,
+      chemicalClass: molecules.chemicalClass,
+    },
+  })
+    .from(moleculeOrigins)
+    .innerJoin(molecules, eq(moleculeOrigins.moleculeId, molecules.id))
+    .where(eq(moleculeOrigins.originId, originId))
+    .orderBy(molecules.name);
+}
+
+/**
+ * Recherche les origines par nom de molécule
+ */
+export async function searchOriginsByMoleculeName(moleculeName: string) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  // Trouver les molécules correspondantes
+  const matchingMolecules = await db.select({ id: molecules.id })
+    .from(molecules)
+    .where(like(molecules.name, `%${moleculeName}%`));
+  
+  if (matchingMolecules.length === 0) return [];
+  
+  const moleculeIds = matchingMolecules.map(m => m.id);
+  
+  // Trouver les origines liées à ces molécules
+  const originIds = await db.select({ originId: moleculeOrigins.originId })
+    .from(moleculeOrigins)
+    .where(inArray(moleculeOrigins.moleculeId, moleculeIds));
+  
+  if (originIds.length === 0) return [];
+  
+  const uniqueOriginIds = Array.from(new Set(originIds.map(o => o.originId)));
+  
+  // Récupérer les origines avec le comptage
+  const origins = await db.select().from(geographicOrigins)
+    .where(inArray(geographicOrigins.id, uniqueOriginIds))
+    .orderBy(geographicOrigins.name);
+  
+  // Ajouter le comptage des molécules correspondantes
+  return origins.map(origin => {
+    const count = originIds.filter(o => o.originId === origin.id).length;
+    return { ...origin, matchingMoleculeCount: count };
+  });
+}

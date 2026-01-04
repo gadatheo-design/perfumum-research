@@ -1295,3 +1295,32 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Valider les performances avec les données complètes — 212 tests passés
 - [ ] Créer le checkpoint final
 
+
+
+---
+
+## 🗺️ SESSION 04 JAN 2026 - AMÉLIORATIONS CARTE & ENRICHISSEMENT
+
+### Phase 1 : Coordonnées GPS pour les terroirs existants
+- [x] Ajouter les coordonnées GPS aux 7 terroirs existants (San Andrés, Santander, Cauca, Nossi-Bé, Grasse, Karnataka, Bosaso)
+- [x] Créer un script d'enrichissement automatique des coordonnées via API de géocodage
+- [x] Mettre à jour la carte interactive pour afficher les terroirs avec leurs coordonnées
+
+### Phase 2 : Lien molécule-terroir sur la carte
+- [x] Créer les procédures tRPC pour récupérer les molécules par origine géographique
+- [x] Ajouter un popup enrichi sur la carte montrant les molécules de chaque terroir
+- [x] Créer un filtre par molécule pour mettre en évidence les origines correspondantes
+- [x] Afficher le nombre de molécules par origine sur les marqueurs
+
+### Phase 3 : Mode batch automatique PubChem
+- [x] Créer une procédure tRPC pour lancer l'enrichissement automatique en arrière-plan
+- [x] Implémenter une file d'attente avec traitement progressif (rate limiting PubChem)
+- [x] Créer une barre de progression globale pour suivre l'enrichissement
+- [x] Ajouter des notifications de fin de traitement
+- [x] Permettre l'annulation du traitement en cours
+
+### Phase 4 : Tests et validation
+- [x] Tester les coordonnées GPS sur la carte
+- [x] Tester les liens molécule-terroir
+- [x] Tester le mode batch automatique PubChem
+- [x] Vérifier les performances et la stabilité

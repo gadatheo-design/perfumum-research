@@ -1,0 +1,73 @@
+{
+  "query": "SELECT id, terroir_id, name, country, region, latitude, longitude FROM terroirs LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, terroir_id, name, country, region, latitude, longitude FROM terroirs LIMIT 20;",
+  "rows": [
+    {
+      "id": "1",
+      "terroir_id": "TER-COL-SAN",
+      "name": "San Andrés y Providencia",
+      "country": "Colombie",
+      "region": "Caraïbes",
+      "latitude": "NULL",
+      "longitude": "NULL"
+    },
+    {
+      "id": "2",
+      "terroir_id": "TER-COL-HUI",
+      "name": "Santander & Huila",
+      "country": "Colombie",
+      "region": "Andes",
+      "latitude": "NULL",
+      "longitude": "NULL"
+    },
+    {
+      "id": "3",
+      "terroir_id": "TER-COL-CAU",
+      "name": "Cauca Valley",
+      "country": "Colombie",
+      "region": "Valle del Cauca",
+      "latitude": "NULL",
+      "longitude": "NULL"
+    },
+    {
+      "id": "4",
+      "terroir_id": "TER-MAD-NOS",
+      "name": "Nossi-Bé",
+      "country": "Madagascar",
+      "region": "Nord-Ouest",
+      "latitude": "NULL",
+      "longitude": "NULL"
+    },
+    {
+      "id": "5",
+      "terroir_id": "TER-FRA-GRA",
+      "name": "Grasse",
+      "country": "France",
+      "region": "PACA",
+      "latitude": "NULL",
+      "longitude": "NULL"
+    },
+    {
+      "id": "6",
+      "terroir_id": "TER-IND-KAN",
+      "name": "Karnataka",
+      "country": "Inde",
+      "region": "Sud",
+      "latitude": "NULL",
+      "longitude": "NULL"
+    },
+    {
+      "id": "7",
+      "terroir_id": "TER-SOM-BOS",
+      "name": "Bosaso",
+      "country": "Somalie",
+      "region": "Puntland",
+      "latitude": "NULL",
+      "longitude": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tterroir_id\tname\tcountry\tregion\tlatitude\tlongitude\n1\tTER-COL-SAN\tSan Andrés y Providencia\tColombie\tCaraïbes\tNULL\tNULL\n2\tTER-COL-HUI\tSantander & Huila\tColombie\tAndes\tNULL\tNULL\n3\tTER-COL-CAU\tCauca Valley\tColombie\tValle del Cauca\tNULL\tNULL\n4\tTER-MAD-NOS\tNossi-Bé\tMadagascar\tNord-Ouest\tNULL\tNULL\n5\tTER-FRA-GRA\tGrasse\tFrance\tPACA\tNULL\tNULL\n6\tTER-IND-KAN\tKarnataka\tInde\tSud\tNULL\tNULL\n7\tTER-SOM-BOS\tBosaso\tSomalie\tPuntland\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 102
+}

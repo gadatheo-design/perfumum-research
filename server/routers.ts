@@ -2066,6 +2066,19 @@ export const appRouter = router({
     list: publicProcedure.query(async () => {
       return await db.getAllGeographicOrigins();
     }),
+    listWithMoleculeCount: publicProcedure.query(async () => {
+      return await db.getAllGeographicOriginsWithMoleculeCount();
+    }),
+    getMoleculesWithDetails: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getOriginMoleculesWithDetails(input);
+      }),
+    searchByMolecule: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.searchOriginsByMoleculeName(input);
+      }),
     getById: publicProcedure
       .input(z.number())
       .query(async ({ input }) => {
@@ -3787,6 +3800,114 @@ export const appRouter = router({
         completeness: Math.round((stats.withCAS + stats.withIUPAC) / (stats.total * 2) * 100),
       };
     }),
+    
+    // Mode batch automatique - obtenir toutes les molécules à enrichir
+    getAllMoleculesToEnrich: publicProcedure.query(async () => {
+      const allMolecules = await db.getAllMolecules();
+      
+      // Filtrer les molécules sans CAS ou sans référence PubChem
+      const toEnrich = allMolecules.filter(m => 
+        !m.casNumber || m.casNumber === '' || !m.references?.some(r => r.type === 'pubchem')
+      );
+      
+      return {
+        total: toEnrich.length,
+        molecules: toEnrich.map(m => ({
+          id: m.id,
+          name: m.name,
+          hasCAS: !!(m.casNumber && m.casNumber !== ''),
+          hasIUPAC: !!(m.iupacName && m.iupacName !== ''),
+          hasPubChemRef: !!m.references?.some(r => r.type === 'pubchem'),
+        })),
+      };
+    }),
+    
+    // Mode batch automatique - enrichir un lot avec progression
+    enrichBatchAuto: publicProcedure
+      .input(z.object({
+        batchSize: z.number().min(1).max(20).default(10),
+        startIndex: z.number().min(0).default(0),
+      }))
+      .mutation(async ({ input }) => {
+        const { enrichMolecule, inferChemicalClass } = await import('./pubchem');
+        
+        const allMolecules = await db.getAllMolecules();
+        
+        // Filtrer les molécules sans CAS ou sans référence PubChem
+        const toEnrich = allMolecules.filter(m => 
+          !m.casNumber || m.casNumber === '' || !m.references?.some(r => r.type === 'pubchem')
+        );
+        
+        // Prendre le lot demandé
+        const batch = toEnrich.slice(input.startIndex, input.startIndex + input.batchSize);
+        
+        const results: Array<{
+          moleculeId: number;
+          moleculeName: string;
+          success: boolean;
+          casNumber?: string;
+          iupacName?: string;
+          error?: string;
+        }> = [];
+        
+        for (const molecule of batch) {
+          try {
+            const result = await enrichMolecule(molecule.name);
+            
+            if (result.success) {
+              const chemicalClass = inferChemicalClass(result.iupacName, result.molecularFormula);
+              
+              await db.updateMoleculeScientificData(molecule.id, {
+                casNumber: result.casNumber || molecule.casNumber || undefined,
+                iupacName: result.iupacName || molecule.iupacName || undefined,
+                chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as any,
+              });
+              
+              // Ajouter référence PubChem
+              const existingRefs = molecule.references || [];
+              if (result.pubchemCID && !existingRefs.some(r => r.type === 'pubchem')) {
+                await db.updateMoleculeReferences(molecule.id, JSON.stringify([...existingRefs, {
+                  title: `PubChem CID: ${result.pubchemCID}`,
+                  url: `https://pubchem.ncbi.nlm.nih.gov/compound/${result.pubchemCID}`,
+                  type: 'pubchem' as const,
+                }]));
+              }
+            }
+            
+            results.push({
+              moleculeId: molecule.id,
+              moleculeName: molecule.name,
+              success: result.success,
+              casNumber: result.casNumber,
+              iupacName: result.iupacName,
+              error: result.error,
+            });
+          } catch (error) {
+            results.push({
+              moleculeId: molecule.id,
+              moleculeName: molecule.name,
+              success: false,
+              error: error instanceof Error ? error.message : 'Erreur inconnue',
+            });
+          }
+          
+          // Délai pour respecter les limites de l'API PubChem (5 req/s)
+          await new Promise(resolve => setTimeout(resolve, 600));
+        }
+        
+        return {
+          batchIndex: input.startIndex,
+          batchSize: batch.length,
+          totalRemaining: toEnrich.length - input.startIndex - batch.length,
+          totalToEnrich: toEnrich.length,
+          processed: results.length,
+          success: results.filter(r => r.success).length,
+          failed: results.filter(r => !r.success).length,
+          hasMore: input.startIndex + batch.length < toEnrich.length,
+          nextStartIndex: input.startIndex + batch.length,
+          results,
+        };
+      }),
   }),
 
   // ============================================================================
