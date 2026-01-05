@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { trpc } from "@/lib/trpc";
 import { Loader2, Atom, X, Filter, Check } from "lucide-react";
+import { ListSkeleton, FilterBarSkeleton } from "@/components/skeletons";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
@@ -597,9 +598,7 @@ export default function Molecules() {
           <div className="container">
             <div className="max-w-5xl mx-auto">
               {isLoading ? (
-                <div className="flex justify-center py-12">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                </div>
+                <ListSkeleton count={6} variant="card" />
               ) : filteredMolecules.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-muted-foreground mb-4">Aucune molécule trouvée</p>

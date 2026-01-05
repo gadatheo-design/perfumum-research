@@ -13,6 +13,7 @@ import { trpc } from "@/lib/trpc";
 import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp, FlaskConical, ArrowUpDown, Info } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
+import { PageHeaderSkeleton, FilterBarSkeleton, ListSkeleton } from "@/components/skeletons";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
 import { RecetteCard } from "@/components/RecetteCard";
@@ -206,12 +207,9 @@ export default function Recettes() {
         <Header />
         <Breadcrumbs />
         <main className="flex-1 container py-8">
-          <h1 className="text-3xl font-bold mb-8">Recettes</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <CardSkeleton key={i} />
-            ))}
-          </div>
+          <PageHeaderSkeleton />
+          <FilterBarSkeleton />
+          <ListSkeleton count={9} variant="card" />
         </main>
         <Footer />
       </div>

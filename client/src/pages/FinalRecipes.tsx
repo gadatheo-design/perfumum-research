@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { FinalRecipeForm } from "@/components/forms/FinalRecipeForm";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -207,6 +208,7 @@ function FinalRecipeCard({ recipe }: { recipe: any }) {
 }
 
 export default function FinalRecipes() {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState<string>("all");
   const [selectedAxis, setSelectedAxis] = useState<string>("all");
@@ -394,7 +396,7 @@ export default function FinalRecipes() {
                   ? "Essayez de modifier vos filtres de recherche."
                   : "Commencez par créer votre première recette finale."}
               </p>
-              <Button onClick={() => toast.info("Fonctionnalité en cours de développement")}>
+              <Button onClick={() => toast({ title: "Information", description: "Fonctionnalité en cours de développement" })}>
                   <Plus className="w-4 h-4 mr-2" />
                   Créer une recette
                 </Button>

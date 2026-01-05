@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { TerpProfileForm } from "@/components/forms/TerpProfileForm";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -216,6 +217,7 @@ function TerpProfileCard({ profile }: { profile: any }) {
 }
 
 export default function TerpProfiles() {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedAxis, setSelectedAxis] = useState<string>("all");
   const [selectedUsage, setSelectedUsage] = useState<string>("all");
@@ -376,7 +378,7 @@ export default function TerpProfiles() {
                   ? "Essayez de modifier vos filtres de recherche."
                   : "Commencez par créer votre première fiche TerpProfile."}
               </p>
-              <Button onClick={() => toast.info("Fonctionnalité en cours de développement")}>
+              <Button onClick={() => toast({ title: "Information", description: "Fonctionnalité en cours de développement" })}>
                   <Plus className="w-4 h-4 mr-2" />
                   Créer une fiche
                 </Button>

@@ -22,7 +22,16 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/lib/trpc";
 
-type FilterType = "all" | "molecules" | "recipes" | "accords" | "prototypes" | "glossary" | "timeline";
+type FilterType = "all" | "molecules" | "recettes" | "accords" | "prototypes" | "glossary" | "civilisations";
+
+// Type pour les résultats de recherche globale
+interface GlobalSearchResult {
+  type: string;
+  id: number;
+  name: string;
+  description?: string | null;
+  metadata?: Record<string, unknown>;
+}
 
 export default function Recherche() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,34 +66,37 @@ export default function Recherche() {
     
     return {
       molecules: activeFilter === "molecules" ? searchResults.molecules : [],
-      recipes: activeFilter === "recipes" ? searchResults.recipes : [],
+      recettes: activeFilter === "recettes" ? searchResults.recettes : [],
       accords: activeFilter === "accords" ? searchResults.accords : [],
       prototypes: activeFilter === "prototypes" ? searchResults.prototypes : [],
       glossary: activeFilter === "glossary" ? searchResults.glossary : [],
-      timeline: activeFilter === "timeline" ? searchResults.timeline : [],
+      civilisations: activeFilter === "civilisations" ? searchResults.civilisations : [],
+      plants: [],
+      terpProfiles: [],
+      finalRecipes: [],
       total: 0,
     };
   }, [searchResults, activeFilter]);
 
   // Compter les résultats par type
   const counts = useMemo(() => {
-    if (!searchResults) return { all: 0, molecules: 0, recipes: 0, accords: 0, prototypes: 0, glossary: 0, timeline: 0 };
+    if (!searchResults) return { all: 0, molecules: 0, recettes: 0, accords: 0, prototypes: 0, glossary: 0, civilisations: 0 };
     
     const molecules = searchResults.molecules?.length || 0;
-    const recipes = searchResults.recipes?.length || 0;
+    const recettes = searchResults.recettes?.length || 0;
     const accords = searchResults.accords?.length || 0;
     const prototypes = searchResults.prototypes?.length || 0;
     const glossary = searchResults.glossary?.length || 0;
-    const timeline = searchResults.timeline?.length || 0;
+    const civilisations = searchResults.civilisations?.length || 0;
     
     return {
-      all: molecules + recipes + accords + prototypes + glossary + timeline,
+      all: molecules + recettes + accords + prototypes + glossary + civilisations,
       molecules,
-      recipes,
+      recettes,
       accords,
       prototypes,
       glossary,
-      timeline,
+      civilisations,
     };
   }, [searchResults]);
 
@@ -104,7 +116,7 @@ export default function Recherche() {
           Recherche Globale PERFUMUM
         </h1>
         <p className="text-muted-foreground">
-          Recherchez dans toutes les données du projet : molécules, recettes, accords, prototypes, glossaire et timeline.
+          Recherchez dans toutes les données du projet : molécules, recettes, accords, prototypes, glossaire et civilisations.
         </p>
       </div>
 
@@ -158,9 +170,9 @@ export default function Recherche() {
                 <Beaker className="h-3 w-3" />
                 Molécules ({counts.molecules})
               </TabsTrigger>
-              <TabsTrigger value="recipes" className="gap-2" disabled={counts.recipes === 0}>
+              <TabsTrigger value="recettes" className="gap-2" disabled={counts.recettes === 0}>
                 <FlaskConical className="h-3 w-3" />
-                Recettes ({counts.recipes})
+                Recettes ({counts.recettes})
               </TabsTrigger>
               <TabsTrigger value="accords" className="gap-2" disabled={counts.accords === 0}>
                 <Sparkles className="h-3 w-3" />
@@ -174,9 +186,9 @@ export default function Recherche() {
                 <FileText className="h-3 w-3" />
                 Glossaire ({counts.glossary})
               </TabsTrigger>
-              <TabsTrigger value="timeline" className="gap-2" disabled={counts.timeline === 0}>
+              <TabsTrigger value="civilisations" className="gap-2" disabled={counts.civilisations === 0}>
                 <Database className="h-3 w-3" />
-                Timeline ({counts.timeline})
+                Civilisations ({counts.civilisations})
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -191,14 +203,14 @@ export default function Recherche() {
                   Molécules
                 </h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredResults.molecules.map((mol) => (
+                  {filteredResults.molecules.map((mol: GlobalSearchResult) => (
                     <Link key={mol.id} href={`/molecule/${mol.id}`}>
                       <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
                         <CardHeader className="pb-2">
-                          <CardTitle className="text-base">{mol.title}</CardTitle>
-                          {mol.subtitle && (
+                          <CardTitle className="text-base">{mol.name}</CardTitle>
+                          {typeof mol.metadata?.family === 'string' && (
                             <Badge variant="secondary" className="w-fit text-xs">
-                              {mol.subtitle}
+                              {mol.metadata.family}
                             </Badge>
                           )}
                         </CardHeader>
@@ -215,21 +227,21 @@ export default function Recherche() {
             )}
 
             {/* Recettes */}
-            {filteredResults?.recipes && filteredResults.recipes.length > 0 && (
+            {filteredResults?.recettes && filteredResults.recettes.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                   <FlaskConical className="h-5 w-5 text-purple-600" />
                   Recettes
                 </h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredResults.recipes.map((rec) => (
+                  {filteredResults.recettes.map((rec: GlobalSearchResult) => (
                     <Link key={rec.id} href={`/recette/${rec.id}`}>
                       <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
                         <CardHeader className="pb-2">
-                          <CardTitle className="text-base">{rec.title}</CardTitle>
-                          {rec.subtitle && (
+                          <CardTitle className="text-base">{rec.name}</CardTitle>
+                          {typeof rec.metadata?.category === 'string' && (
                             <Badge variant="secondary" className="w-fit text-xs">
-                              {rec.subtitle}
+                              {rec.metadata.category}
                             </Badge>
                           )}
                         </CardHeader>
@@ -253,14 +265,14 @@ export default function Recherche() {
                   Accords
                 </h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredResults.accords.map((acc) => (
+                  {filteredResults.accords.map((acc: GlobalSearchResult) => (
                     <Link key={acc.id} href={`/accord/${acc.id}`}>
                       <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
                         <CardHeader className="pb-2">
-                          <CardTitle className="text-base">{acc.title}</CardTitle>
-                          {acc.subtitle && (
+                          <CardTitle className="text-base">{acc.name}</CardTitle>
+                          {typeof acc.metadata?.texture === 'string' && (
                             <Badge variant="secondary" className="w-fit text-xs">
-                              {acc.subtitle}
+                              {acc.metadata.texture}
                             </Badge>
                           )}
                         </CardHeader>
@@ -284,14 +296,14 @@ export default function Recherche() {
                   Prototypes
                 </h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredResults.prototypes.map((proto) => (
+                  {filteredResults.prototypes.map((proto: GlobalSearchResult) => (
                     <Link key={proto.id} href={`/prototype/${proto.id}`}>
                       <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
                         <CardHeader className="pb-2">
-                          <CardTitle className="text-base">{proto.title}</CardTitle>
-                          {proto.subtitle && (
+                          <CardTitle className="text-base">{proto.name}</CardTitle>
+                          {typeof proto.metadata?.code === 'string' && (
                             <Badge variant="secondary" className="w-fit text-xs">
-                              {proto.subtitle}
+                              {proto.metadata.code}
                             </Badge>
                           )}
                         </CardHeader>
@@ -315,13 +327,13 @@ export default function Recherche() {
                   Glossaire
                 </h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredResults.glossary.map((term) => (
+                  {filteredResults.glossary.map((term: GlobalSearchResult) => (
                     <Card key={term.id} className="h-full">
                       <CardHeader className="pb-2">
-                        <CardTitle className="text-base">{term.title}</CardTitle>
-                        {term.subtitle && (
+                        <CardTitle className="text-base">{term.name}</CardTitle>
+                        {typeof term.metadata?.category === 'string' && (
                           <Badge variant="secondary" className="w-fit text-xs">
-                            {term.subtitle}
+                            {term.metadata.category}
                           </Badge>
                         )}
                       </CardHeader>
@@ -336,30 +348,32 @@ export default function Recherche() {
               </div>
             )}
 
-            {/* Timeline */}
-            {filteredResults?.timeline && filteredResults.timeline.length > 0 && (
+            {/* Civilisations */}
+            {filteredResults?.civilisations && filteredResults.civilisations.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                   <Database className="h-5 w-5 text-indigo-600" />
-                  Timeline
+                  Civilisations
                 </h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredResults.timeline.map((event) => (
-                    <Card key={event.id} className="h-full">
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">{event.title}</CardTitle>
-                        {event.subtitle && (
-                          <Badge variant="secondary" className="w-fit text-xs">
-                            {event.subtitle}
-                          </Badge>
-                        )}
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-muted-foreground line-clamp-2">
-                          {event.description}
-                        </p>
-                      </CardContent>
-                    </Card>
+                  {filteredResults.civilisations.map((civ: GlobalSearchResult) => (
+                    <Link key={civ.id} href={`/civilisation/${civ.id}`}>
+                      <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-base">{civ.name}</CardTitle>
+                          {typeof civ.metadata?.region === 'string' && (
+                            <Badge variant="secondary" className="w-fit text-xs">
+                              {civ.metadata.region}
+                            </Badge>
+                          )}
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {civ.description || "Civilisation olfactive"}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -398,11 +412,11 @@ export default function Recherche() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Étude des profils terpéniques et de leurs interactions synergiques dans les formulations olfactives.
+                  Exploration des profils terpéniques et de leurs interactions synergiques dans le contexte de la formulation olfactive.
                 </p>
                 <Link href="/molecules">
-                  <Button variant="outline" size="sm">
-                    Explorer <ArrowRight className="h-4 w-4 ml-2" />
+                  <Button variant="outline" size="sm" className="gap-2">
+                    Explorer <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </CardContent>
@@ -411,22 +425,22 @@ export default function Recherche() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900">
-                    <Beaker className="h-6 w-6 text-blue-700 dark:text-blue-300" />
+                  <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900">
+                    <Beaker className="h-6 w-6 text-purple-700 dark:text-purple-300" />
                   </div>
                   <div>
-                    <CardTitle>Résines CBD</CardTitle>
-                    <CardDescription>10 formulations validées</CardDescription>
+                    <CardTitle>Formulation Expérimentale</CardTitle>
+                    <CardDescription>213 recettes documentées</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Développement de résines aromatisées combinant cannabinoïdes et terpènes naturels.
+                  Développement de formulations innovantes basées sur les synergies moléculaires et les traditions olfactives.
                 </p>
-                <Link href="/resines-cbd">
-                  <Button variant="outline" size="sm">
-                    Explorer <ArrowRight className="h-4 w-4 ml-2" />
+                <Link href="/recettes">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    Explorer <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </CardContent>
@@ -439,18 +453,18 @@ export default function Recherche() {
                     <Microscope className="h-6 w-6 text-amber-700 dark:text-amber-300" />
                   </div>
                   <div>
-                    <CardTitle>Tabacs Rares</CardTitle>
-                    <CardDescription>26 traditions documentées</CardDescription>
+                    <CardTitle>Recherche Scientifique</CardTitle>
+                    <CardDescription>Méthodologies GC-MS & analyses</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Exploration des variétés de tabacs d'exception et de leurs profils aromatiques uniques.
+                  Protocoles analytiques, modèles de pyrolyse et études de dégradation thermique des composés aromatiques.
                 </p>
-                <Link href="/chimie-tabac">
-                  <Button variant="outline" size="sm">
-                    Explorer <ArrowRight className="h-4 w-4 ml-2" />
+                <Link href="/recherche-scientifique">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    Explorer <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </CardContent>
@@ -459,65 +473,34 @@ export default function Recherche() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900">
-                    <BookOpen className="h-6 w-6 text-purple-700 dark:text-purple-300" />
+                  <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900">
+                    <BookOpen className="h-6 w-6 text-blue-700 dark:text-blue-300" />
                   </div>
                   <div>
-                    <CardTitle>Anthropologie Olfactive</CardTitle>
-                    <CardDescription>26 civilisations étudiées</CardDescription>
+                    <CardTitle>Traditions Olfactives</CardTitle>
+                    <CardDescription>Civilisations & patrimoine</CardDescription>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Documentation des pratiques olfactives rituelles à travers les cultures et les époques.
+                  Étude des traditions olfactives à travers les civilisations et leur influence sur la parfumerie contemporaine.
                 </p>
                 <Link href="/civilisations">
-                  <Button variant="outline" size="sm">
-                    Explorer <ArrowRight className="h-4 w-4 ml-2" />
+                  <Button variant="outline" size="sm" className="gap-2">
+                    Explorer <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </CardContent>
             </Card>
           </div>
 
-          {/* Statistiques */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Database className="h-5 w-5" />
-                Base de données
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 bg-muted rounded-lg">
-                  <div className="text-3xl font-bold text-primary">176</div>
-                  <div className="text-sm text-muted-foreground">Molécules</div>
-                </div>
-                <div className="text-center p-4 bg-muted rounded-lg">
-                  <div className="text-3xl font-bold text-primary">195</div>
-                  <div className="text-sm text-muted-foreground">Recettes</div>
-                </div>
-                <div className="text-center p-4 bg-muted rounded-lg">
-                  <div className="text-3xl font-bold text-primary">26</div>
-                  <div className="text-sm text-muted-foreground">Traditions</div>
-                </div>
-                <div className="text-center p-4 bg-muted rounded-lg">
-                  <div className="text-3xl font-bold text-primary">5</div>
-                  <div className="text-sm text-muted-foreground">Gammes</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Voir aussi */}
           <VoirAussi
             items={[
-              { title: "Molécules", description: "Base complète des molécules", href: "/molecules" },
-              { title: "Recettes", description: "Formulations olfactives", href: "/recettes" },
-              { title: "Gammes", description: "Collections thématiques", href: "/gammes" },
-              { title: "Recherche scientifique", description: "Études et analyses", href: "/recherche-scientifique" },
+              { href: "/recherche-avancee", title: "Recherche Avancée", description: "Filtres multicritères" },
+              { href: "/glossaire", title: "Glossaire", description: "Terminologie olfactive" },
+              { href: "/statistiques", title: "Statistiques", description: "Données du projet" },
             ]}
           />
         </>

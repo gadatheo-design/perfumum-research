@@ -202,6 +202,8 @@ import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
 import Contribuer from "./pages/Contribuer";
 import Manifeste from "./pages/Manifeste";
 import { Timeline } from "./pages/Timeline";
+import TimelineInteractive from "./pages/TimelineInteractive";
+import ComparaisonAvancee from "./pages/ComparaisonAvancee";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
 import GalerieBotaniques from "./pages/GalerieBotaniques";
 import Gallery from "./pages/Gallery";
@@ -223,6 +225,7 @@ import CalculateurCout from "./pages/CalculateurCout";
 import { DashboardMinimal } from "./pages/DashboardMinimal";
 import DashboardRecherche from "./pages/DashboardRecherche";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import AnalyticsDashboardAdvanced from "./pages/AnalyticsDashboardAdvanced";
 import MonDashboard from "./pages/MonDashboard";
 import Statistics from "./pages/Statistics";
 import Recherche from "./pages/Recherche";
@@ -423,6 +426,8 @@ function Router() {
       <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
       <Route path="/contribuer" component={Contribuer} />
       <Route path="/timeline" component={Timeline} />
+      <Route path="/timeline/interactive" component={TimelineInteractive} />
+      <Route path="/comparaison" component={ComparaisonAvancee} />
       <Route path="/galerie-botaniques" component={GalerieBotaniques} />
       <Route path="/galerie" component={Gallery} />
       <Route path="/gallery" component={Gallery} />
@@ -489,6 +494,7 @@ function Router() {
       <Route path="/dashboard" component={DashboardMinimal} />
       <Route path="/dashboard/recherche" component={DashboardRecherche} />
       <Route path="/analytics" component={AnalyticsDashboard} />
+      <Route path="/analytics/advanced" component={AnalyticsDashboardAdvanced} />
       <Route path="/mon-dashboard" component={MonDashboard} />
       <Route path="/statistiques" component={Statistics} />
  <Route path="/recherche" component={RechercheAvancee} />

@@ -2372,3 +2372,243 @@ body {
 img[loading="lazy"] {
   content-visibility: auto;
 }
+
+
+  /* ============================================================================
+   * FEEDBACK VISUAL ANIMATIONS
+   * ============================================================================ */
+  
+  /* Ripple effect animation */
+  @keyframes ripple {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+  
+  .animate-ripple {
+    animation: ripple 0.6s ease-out forwards;
+  }
+  
+  /* Shimmer effect animation */
+  @keyframes shimmer-slide {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  .animate-shimmer {
+    animation: shimmer-slide 2s infinite;
+  }
+  
+  /* Success checkmark animation */
+  @keyframes checkmark {
+    0% {
+      stroke-dashoffset: 100;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  .animate-checkmark {
+    animation: checkmark 0.5s ease-out forwards;
+  }
+  
+  /* Bounce in animation */
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .animate-bounceIn {
+    animation: bounceIn 0.5s ease-out;
+  }
+  
+  /* Slide in from right */
+  @keyframes slideInRight {
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .animate-slideInRight {
+    animation: slideInRight 0.3s ease-out;
+  }
+  
+  /* Slide in from bottom */
+  @keyframes slideInBottom {
+    0% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-slideInBottom {
+    animation: slideInBottom 0.3s ease-out;
+  }
+  
+  /* Shake animation for errors */
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-4px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(4px);
+    }
+  }
+  
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+  
+  /* Pulse scale animation */
+  @keyframes pulseScale {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  
+  .animate-pulseScale {
+    animation: pulseScale 2s ease-in-out infinite;
+  }
+  
+  /* Fade slide animation for page transitions */
+  @keyframes fadeSlide {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fadeSlide {
+    animation: fadeSlide 0.4s ease-out;
+  }
+  
+  /* Stagger animation helper */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+  
+  /* Card hover micro-interaction */
+  .card-interactive {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .card-interactive:hover {
+    @apply -translate-y-1 shadow-lg;
+  }
+  
+  .card-interactive:active {
+    @apply translate-y-0 shadow-md;
+  }
+  
+  /* Button press effect */
+  .btn-press {
+    @apply transition-transform duration-100;
+  }
+  
+  .btn-press:active {
+    @apply scale-95;
+  }
+  
+  /* Focus ring animation */
+  @keyframes focusRing {
+    0% {
+      box-shadow: 0 0 0 0 oklch(var(--ring) / 0.4);
+    }
+    100% {
+      box-shadow: 0 0 0 4px oklch(var(--ring) / 0);
+    }
+  }
+  
+  .animate-focusRing {
+    animation: focusRing 0.3s ease-out;
+  }
+  
+  /* Success glow */
+  .success-glow {
+    box-shadow: 0 0 0 0 oklch(0.65 0.2 140 / 0.4);
+    animation: successGlow 0.5s ease-out;
+  }
+  
+  @keyframes successGlow {
+    0% {
+      box-shadow: 0 0 0 0 oklch(0.65 0.2 140 / 0.4);
+    }
+    100% {
+      box-shadow: 0 0 0 8px oklch(0.65 0.2 140 / 0);
+    }
+  }
+  
+  /* Error glow */
+  .error-glow {
+    box-shadow: 0 0 0 0 oklch(0.6 0.2 25 / 0.4);
+    animation: errorGlow 0.5s ease-out;
+  }
+  
+  @keyframes errorGlow {
+    0% {
+      box-shadow: 0 0 0 0 oklch(0.6 0.2 25 / 0.4);
+    }
+    100% {
+      box-shadow: 0 0 0 8px oklch(0.6 0.2 25 / 0);
+    }
+  }
+  
+  /* Loading dots animation */
+  @keyframes loadingDots {
+    0%, 20% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  .loading-dot-1 { animation: loadingDots 1.4s infinite 0s; }
+  .loading-dot-2 { animation: loadingDots 1.4s infinite 0.2s; }
+  .loading-dot-3 { animation: loadingDots 1.4s infinite 0.4s; }
