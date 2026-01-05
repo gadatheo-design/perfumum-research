@@ -2100,3 +2100,5 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tester les fonctionnalités cartographiques (306 tests passés)
 - [x] Valider le responsive mobile
 - [x] Créer le checkpoint final
+
+- [x] Ajouter Nardostachys (nard) depuis Wikipedia à la base de données
