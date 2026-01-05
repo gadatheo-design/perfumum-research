@@ -1,4 +1,4 @@
-import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex, index, json, decimal, unique, foreignKey } from "drizzle-orm/mysql-core";
+import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex, index, json, decimal, unique, foreignKey, boolean } from "drizzle-orm/mysql-core";
 import { relations } from "drizzle-orm";
 
 /**
@@ -1792,6 +1792,8 @@ export const plants = mysqlTable("plants", {
   // Origine et localisation
   origin: varchar("origin", { length: 255 }), // Origine géographique
   habitat: text("habitat"), // Habitat naturel
+  latitude: decimal("latitude", { precision: 10, scale: 7 }), // Latitude GPS (ex: 45.5016889)
+  longitude: decimal("longitude", { precision: 10, scale: 7 }), // Longitude GPS (ex: -73.5672560)
   // Profil olfactif
   olfactiveSignature: text("olfactive_signature"), // Description olfactive
   dominantMolecules: text("dominant_molecules"), // Molécules dominantes (JSON array)
@@ -3868,3 +3870,86 @@ export const civilizationalMarkers = mysqlTable("civilizational_markers", {
 
 export type CivilizationalMarker = typeof civilizationalMarkers.$inferSelect;
 export type InsertCivilizationalMarker = typeof civilizationalMarkers.$inferInsert;
+
+// ============================================================================
+// ZONES GÉOGRAPHIQUES (Overlays pour la carte interactive)
+// ============================================================================
+
+/**
+ * Zones géographiques pour visualiser les régions à forte concentration
+ * d'espèces menacées et les alternatives durables disponibles
+ */
+export const geographicZones = mysqlTable("geographic_zones", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  name: varchar("name", { length: 255 }).notNull(), // Nom de la zone
+  region: varchar("region", { length: 255 }).notNull(), // Région
+  zoneType: mysqlEnum("zone_type", [
+    "threatened_concentration",  // Zone à forte concentration d'espèces menacées
+    "sustainable_alternatives",  // Zone avec alternatives durables disponibles
+    "biodiversity_hotspot",      // Point chaud de biodiversité
+    "conservation_area"          // Zone de conservation active
+  ]).notNull(),
+  // Géométrie de la zone (polygone)
+  coordinates: json("coordinates").$type<{
+    lat: number;
+    lng: number;
+  }[]>().notNull(), // Array de {lat, lng} définissant le polygone
+  // Informations sur la zone
+  description: text("description"),
+  threatLevel: mysqlEnum("threat_level", [
+    "critical",
+    "high",
+    "medium",
+    "low",
+    "stable"
+  ]).default("medium"),
+  speciesCount: int("species_count").default(0), // Nombre d'espèces dans cette zone
+  conservationPriority: mysqlEnum("conservation_priority", [
+    "urgent",
+    "high",
+    "medium",
+    "low"
+  ]).default("medium"),
+  // Couleur de l'overlay sur la carte
+  overlayColor: varchar("overlay_color", { length: 7 }).default("#FF0000"), // Couleur hex
+  overlayOpacity: decimal("overlay_opacity", { precision: 3, scale: 2 }).default("0.35"), // Opacité (0.00 à 1.00)
+  // Alternatives durables dans cette zone
+  sustainableAlternatives: text("sustainable_alternatives"),
+  conservationEfforts: text("conservation_efforts"),
+  // Métadonnées
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  zoneTypeIdx: index("geographic_zones_zone_type_idx").on(table.zoneType),
+  threatLevelIdx: index("geographic_zones_threat_level_idx").on(table.threatLevel),
+}));
+
+export type GeographicZone = typeof geographicZones.$inferSelect;
+export type InsertGeographicZone = typeof geographicZones.$inferInsert;
+
+// ============================================================================
+// LIAISON: Plantes <-> Zones géographiques (Many-to-Many)
+// ============================================================================
+
+export const plantGeographicZones = mysqlTable("plant_geographic_zones", {
+  id: int("id").autoincrement().primaryKey(),
+  plantId: int("plant_id").notNull().references(() => plants.id, { onDelete: "cascade" }),
+  zoneId: int("zone_id").notNull().references(() => geographicZones.id, { onDelete: "cascade" }),
+  isPrimaryZone: boolean("is_primary_zone").default(false), // Zone principale pour cette plante
+  populationStatus: mysqlEnum("population_status", [
+    "abundant",
+    "common",
+    "rare",
+    "critically_rare",
+    "extinct"
+  ]).default("common"),
+  notes: text("notes"),
+}, (table) => ({
+  plantZoneIdx: index("plant_geographic_zones_plant_zone_idx").on(table.plantId, table.zoneId),
+  uniquePlantZone: unique("unique_plant_zone").on(table.plantId, table.zoneId),
+}));
+
+export type PlantGeographicZone = typeof plantGeographicZones.$inferSelect;
+export type InsertPlantGeographicZone = typeof plantGeographicZones.$inferInsert;

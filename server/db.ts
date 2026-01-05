@@ -94,6 +94,7 @@ import {
   plants,
   Plant,
   InsertPlant,
+  geographicZones,
   terpProfiles,
   TerpProfile,
   InsertTerpProfile,
@@ -6840,6 +6841,7 @@ export async function getVarietyDescendants(varietyId: number, depth: number = 5
 
 export async function addVarietyRelationship(data: InsertVarietyGenealogy) {
   const db = await getDb();
+  if (!db) return null;
   const [result] = await db.insert(varietyGenealogy).values(data);
   const [relationship] = await db
     .select()
@@ -6850,6 +6852,7 @@ export async function addVarietyRelationship(data: InsertVarietyGenealogy) {
 
 export async function updateVarietyRelationship(id: number, data: Partial<InsertVarietyGenealogy>) {
   const db = await getDb();
+  if (!db) return null;
   await db
     .update(varietyGenealogy)
     .set(data)
@@ -6931,4 +6934,99 @@ export async function updatePlantConservationStatus(plantId: number, data: {
     .set(data as any)
     .where(eq(plants.id, plantId));
   return getPlantConservationStatus(plantId);
+}
+
+// ============================================================================
+// GEOGRAPHIC ZONES (Zones géographiques)
+// ============================================================================
+
+export async function listGeographicZones(filters: {
+  zoneType?: string;
+  threatLevel?: string;
+}) {
+  const { zoneType, threatLevel } = filters;
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = db.select().from(geographicZones);
+  
+  const conditions = [];
+  if (zoneType) {
+    conditions.push(eq(geographicZones.zoneType, zoneType as any));
+  }
+  if (threatLevel) {
+    conditions.push(eq(geographicZones.threatLevel, threatLevel as any));
+  }
+  
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as any;
+  }
+  
+  return await query;
+}
+
+export async function getGeographicZone(zoneId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const [zone] = await db
+    .select()
+    .from(geographicZones)
+    .where(eq(geographicZones.id, zoneId));
+  return zone;
+}
+
+export async function createGeographicZone(data: {
+  name: string;
+  region: string;
+  zoneType: string;
+  coordinates: any;
+  description?: string;
+  threatLevel?: string;
+  speciesCount?: number;
+  conservationPriority?: string;
+  overlayColor?: string;
+  overlayOpacity?: string;
+  sustainableAlternatives?: string;
+  conservationEfforts?: string;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  const [result] = await db
+    .insert(geographicZones)
+    .values(data as any);
+  return getGeographicZone(result.insertId);
+}
+
+export async function updateGeographicZone(zoneId: number, data: {
+  name?: string;
+  region?: string;
+  zoneType?: string;
+  coordinates?: any;
+  description?: string;
+  threatLevel?: string;
+  speciesCount?: number;
+  conservationPriority?: string;
+  overlayColor?: string;
+  overlayOpacity?: string;
+  sustainableAlternatives?: string;
+  conservationEfforts?: string;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  await db
+    .update(geographicZones)
+    .set(data as any)
+    .where(eq(geographicZones.id, zoneId));
+  return getGeographicZone(zoneId);
+}
+
+export async function deleteGeographicZone(zoneId: number) {
+  const db = await getDb();
+  if (!db) return false;
+  await db
+    .delete(geographicZones)
+    .where(eq(geographicZones.id, zoneId));
+  return true;
 }

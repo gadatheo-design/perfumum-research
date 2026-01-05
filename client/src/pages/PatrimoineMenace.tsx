@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -13,10 +13,70 @@ export default function PatrimoineMenace() {
   const [showMap, setShowMap] = useState(false);
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
   const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
+  const [overlays, setOverlays] = useState<google.maps.Polygon[]>([]);
+  const [showOverlays, setShowOverlays] = useState(true);
+  const [overlayFilter, setOverlayFilter] = useState<string | undefined>(undefined);
+
+  const { data: geographicZones } = trpc.plantsConservation.listGeographicZones.useQuery();
+
+  // Mettre à jour les overlays quand les filtres changent
+  useEffect(() => {
+    if (!mapInstance || !geographicZones) return;
+    
+    // Nettoyer les anciens overlays
+    overlays.forEach(overlay => overlay.setMap(null));
+    
+    if (!showOverlays) {
+      setOverlays([]);
+      return;
+    }
+    
+    const newOverlays: google.maps.Polygon[] = [];
+    
+    geographicZones
+      .filter(zone => !overlayFilter || zone.zoneType === overlayFilter)
+      .forEach((zone) => {
+        const polygon = new google.maps.Polygon({
+          paths: zone.coordinates,
+          strokeColor: zone.overlayColor,
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: zone.overlayColor,
+          fillOpacity: parseFloat(zone.overlayOpacity || '0.3'),
+          map: mapInstance,
+        });
+        
+        const infoWindow = new google.maps.InfoWindow({
+          content: `
+            <div style="padding: 12px; max-width: 350px;">
+              <h3 style="font-weight: bold; margin-bottom: 8px; color: ${zone.overlayColor};">${zone.name}</h3>
+              <p style="margin-bottom: 8px;">${zone.description}</p>
+              <div style="display: grid; grid-template-columns: auto 1fr; gap: 8px; font-size: 0.9em;">
+                <strong>Région:</strong><span>${zone.region}</span>
+                <strong>Niveau de menace:</strong><span>${zone.threatLevel}</span>
+                <strong>Espèces:</strong><span>${zone.speciesCount}</span>
+                <strong>Priorité:</strong><span>${zone.conservationPriority}</span>
+              </div>
+              ${zone.sustainableAlternatives ? `<p style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 0.9em;"><strong>Alternatives:</strong> ${zone.sustainableAlternatives}</p>` : ''}
+              ${zone.conservationEfforts ? `<p style="margin-top: 4px; font-size: 0.9em;"><strong>Efforts:</strong> ${zone.conservationEfforts}</p>` : ''}
+            </div>
+          `,
+        });
+        
+        polygon.addListener('click', (event: google.maps.PolyMouseEvent) => {
+          infoWindow.setPosition(event.latLng);
+          infoWindow.open(mapInstance);
+        });
+        
+        newOverlays.push(polygon);
+      });
+    
+    setOverlays(newOverlays);
+  }, [mapInstance, geographicZones, showOverlays, overlayFilter]);
 
   const { data: threatenedPlants, isLoading } = trpc.plantsConservation.listThreatened.useQuery({
-    iucn: iucnFilter,
-    cites: citesFilter,
+    iucn: iucnFilter as any,
+    cites: citesFilter as any,
   });
 
   const iucnLabels: Record<string, { label: string; color: string; description: string }> = {
@@ -111,7 +171,32 @@ export default function PatrimoineMenace() {
       </Card>
 
       {/* Bouton pour afficher/masquer la carte */}
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center">
+        <div className="flex gap-2">
+          {showMap && (
+            <>
+              <Button
+                variant={showOverlays ? "default" : "outline"}
+                size="sm"
+                onClick={() => setShowOverlays(!showOverlays)}
+              >
+                {showOverlays ? 'Masquer les zones' : 'Afficher les zones'}
+              </Button>
+              <Select value={overlayFilter} onValueChange={(v) => setOverlayFilter(v === 'all' ? undefined : v)}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Toutes les zones" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Toutes les zones</SelectItem>
+                  <SelectItem value="threatened_concentration">Zones menacées</SelectItem>
+                  <SelectItem value="sustainable_alternatives">Alternatives durables</SelectItem>
+                  <SelectItem value="biodiversity_hotspot">Points chauds</SelectItem>
+                  <SelectItem value="conservation_area">Zones de conservation</SelectItem>
+                </SelectContent>
+              </Select>
+            </>
+          )}
+        </div>
         <Button
           variant={showMap ? "default" : "outline"}
           onClick={() => setShowMap(!showMap)}
@@ -139,29 +224,79 @@ export default function PatrimoineMenace() {
                 onMapReady={(map) => {
                   setMapInstance(map);
                   
-                  // Nettoyer les anciens marqueurs
+                  // Nettoyer les anciens marqueurs et overlays
                   markers.forEach(marker => marker.setMap(null));
+                  overlays.forEach(overlay => overlay.setMap(null));
                   const newMarkers: google.maps.Marker[] = [];
+                  const newOverlays: google.maps.Polygon[] = [];
                   
-                  // Ajouter un marqueur pour chaque plante avec origine
+                  const bounds = new google.maps.LatLngBounds();
+                  
+                  // Ajouter les overlays de zones géographiques
+                  if (geographicZones && showOverlays) {
+                    geographicZones
+                      .filter(zone => !overlayFilter || zone.zoneType === overlayFilter)
+                      .forEach((zone) => {
+                        const polygon = new google.maps.Polygon({
+                          paths: zone.coordinates,
+                          strokeColor: zone.overlayColor,
+                          strokeOpacity: 0.8,
+                          strokeWeight: 2,
+                          fillColor: zone.overlayColor,
+                          fillOpacity: parseFloat(zone.overlayOpacity || '0.3'),
+                          map: map,
+                        });
+                        
+                        const infoWindow = new google.maps.InfoWindow({
+                          content: `
+                            <div style="padding: 12px; max-width: 350px;">
+                              <h3 style="font-weight: bold; margin-bottom: 8px; color: ${zone.overlayColor};">${zone.name}</h3>
+                              <p style="margin-bottom: 8px;">${zone.description}</p>
+                              <div style="display: grid; grid-template-columns: auto 1fr; gap: 8px; font-size: 0.9em;">
+                                <strong>Région:</strong><span>${zone.region}</span>
+                                <strong>Niveau de menace:</strong><span>${zone.threatLevel}</span>
+                                <strong>Espèces:</strong><span>${zone.speciesCount}</span>
+                                <strong>Priorité:</strong><span>${zone.conservationPriority}</span>
+                              </div>
+                              ${zone.sustainableAlternatives ? `<p style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 0.9em;"><strong>Alternatives:</strong> ${zone.sustainableAlternatives}</p>` : ''}
+                              ${zone.conservationEfforts ? `<p style="margin-top: 4px; font-size: 0.9em;"><strong>Efforts:</strong> ${zone.conservationEfforts}</p>` : ''}
+                            </div>
+                          `,
+                        });
+                        
+                        polygon.addListener('click', (event: google.maps.PolyMouseEvent) => {
+                          infoWindow.setPosition(event.latLng);
+                          infoWindow.open(map);
+                        });
+                        
+                        newOverlays.push(polygon);
+                        
+                        // Étendre les bounds pour inclure la zone
+                        zone.coordinates.forEach((coord: {lat: number, lng: number}) => {
+                          bounds.extend(new google.maps.LatLng(coord.lat, coord.lng));
+                        });
+                      });
+                  }
+                  
+                  // Ajouter un marqueur pour chaque plante avec coordonnées GPS
                   if (threatenedPlants) {
-                    const bounds = new google.maps.LatLngBounds();
-                    
                     threatenedPlants.forEach((plant) => {
-                      // Pour l'instant, utiliser des coordonnées fictives basées sur l'origine
-                      // Dans une vraie implémentation, il faudrait géocoder les origines
-                      const coords = getCoordinatesForOrigin(plant.origin || '');
+                      // Utiliser les vraies coordonnées GPS si disponibles
+                      const lat = plant.latitude ? parseFloat(plant.latitude) : null;
+                      const lng = plant.longitude ? parseFloat(plant.longitude) : null;
                       
-                      if (coords) {
+                      if (lat && lng) {
+                        const coords = { lat, lng };
+                        
                         const marker = new google.maps.Marker({
                           position: coords,
                           map: map,
                           title: plant.name,
                           icon: {
                             path: google.maps.SymbolPath.CIRCLE,
-                            scale: 8,
+                            scale: 10,
                             fillColor: getColorForStatus(plant.conservationStatus || ''),
-                            fillOpacity: 0.8,
+                            fillOpacity: 0.9,
                             strokeColor: '#fff',
                             strokeWeight: 2,
                           },
@@ -188,13 +323,14 @@ export default function PatrimoineMenace() {
                         bounds.extend(coords);
                       }
                     });
-                    
-                    setMarkers(newMarkers);
-                    
-                    // Ajuster la vue pour inclure tous les marqueurs
-                    if (newMarkers.length > 0) {
-                      map.fitBounds(bounds);
-                    }
+                  }
+                  
+                  setMarkers(newMarkers);
+                  setOverlays(newOverlays);
+                  
+                  // Ajuster la vue pour inclure tous les éléments
+                  if (newMarkers.length > 0 || newOverlays.length > 0) {
+                    map.fitBounds(bounds);
                   }
                 }}
               />

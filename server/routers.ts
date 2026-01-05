@@ -5792,6 +5792,15 @@ export const appRouter = router({
         const { plantId, ...data } = input;
         return await db.updatePlantConservationStatus(plantId, data);
       }),
+    
+    listGeographicZones: publicProcedure
+      .input(z.object({
+        zoneType: z.enum(["threatened_concentration", "sustainable_alternatives", "biodiversity_hotspot", "conservation_area"]).optional(),
+        threatLevel: z.enum(["critical", "high", "medium", "low", "stable"]).optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listGeographicZones(input ?? {});
+      }),
   }),
 });
 

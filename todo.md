@@ -2388,3 +2388,24 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Valider que tous les tests passent
 - [ ] Tester le responsive mobile
 - [ ] Créer le checkpoint final
+
+---
+
+## 🗺️ SESSION 05 JAN 2026 - ENRICHISSEMENT GÉOGRAPHIQUE & OVERLAYS
+
+### Enrichir les données géographiques
+- [x] Analyser les données géographiques existantes dans la base de données
+- [x] Ajouter des coordonnées GPS précises pour les espèces menacées (10 espèces enrichies)
+- [x] Créer un système de zones géographiques pour regrouper les espèces (8 zones créées)
+- [x] Valider la précision des coordonnées GPS ajoutées
+
+### Overlays de zones sur la carte
+- [x] Créer des overlays colorés pour les zones à forte concentration d'espèces menacées
+- [x] Ajouter des overlays pour les alternatives durables disponibles par région
+- [x] Créer une légende interactive pour les overlays de zones
+- [x] Implémenter un système de filtrage des overlays (afficher/masquer par typ### Tests et validation
+- [x] Tester la précision des coordonnées GPS et des zones (7 tests passés)
+- [x] Optimiser les performances de rendu des overlays
+- [ ] Créer le checkpoint final mobile de la carte avec overlays
+- [ ] Écrire les tests vitest pour les nouvelles fonctionnalités
+- [ ] Créer le checkpoint final
