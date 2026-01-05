@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { AlertTriangle, Leaf, Shield, MapPin, Map as MapIcon } from 'lucide-react';
 import { MapView } from '@/components/Map';
+import { ZoneSpeciesPanel } from '@/components/ZoneSpeciesPanel';
 
 export default function PatrimoineMenace() {
   const [iucnFilter, setIucnFilter] = useState<string | undefined>(undefined);
@@ -16,6 +17,7 @@ export default function PatrimoineMenace() {
   const [overlays, setOverlays] = useState<google.maps.Polygon[]>([]);
   const [showOverlays, setShowOverlays] = useState(true);
   const [overlayFilter, setOverlayFilter] = useState<string | undefined>(undefined);
+  const [selectedZone, setSelectedZone] = useState<{ id: number; name: string; color: string } | null>(null);
 
   const { data: geographicZones } = trpc.plantsConservation.listGeographicZones.useQuery();
 
@@ -219,7 +221,49 @@ export default function PatrimoineMenace() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[600px] rounded-lg overflow-hidden border">
+            {/* Légende de la carte */}
+            <div className="mb-4 p-4 bg-muted/50 rounded-lg">
+              <h4 className="text-sm font-semibold mb-3">Légende de la carte</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#ef4444' }}></div>
+                  <div className="text-xs">
+                    <div className="font-medium">Zone menacée</div>
+                    <div className="text-muted-foreground">Forte concentration d'espèces en danger</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#22c55e' }}></div>
+                  <div className="text-xs">
+                    <div className="font-medium">Zone de conservation</div>
+                    <div className="text-muted-foreground">Aires protégées et efforts actifs</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#3b82f6' }}></div>
+                  <div className="text-xs">
+                    <div className="font-medium">Zone durable</div>
+                    <div className="text-muted-foreground">Alternatives durables disponibles</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: '#eab308' }}></div>
+                  <div className="text-xs">
+                    <div className="font-medium">Zone de biodiversité</div>
+                    <div className="text-muted-foreground">Point chaud de diversité olfactive</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="h-[600px] rounded-lg overflow-hidden border relative">
+              {selectedZone && (
+                <ZoneSpeciesPanel
+                  zoneId={selectedZone.id}
+                  zoneName={selectedZone.name}
+                  zoneColor={selectedZone.color}
+                  onClose={() => setSelectedZone(null)}
+                />
+              )}
               <MapView
                 onMapReady={(map) => {
                   setMapInstance(map);
@@ -264,9 +308,12 @@ export default function PatrimoineMenace() {
                           `,
                         });
                         
-                        polygon.addListener('click', (event: google.maps.PolyMouseEvent) => {
-                          infoWindow.setPosition(event.latLng);
-                          infoWindow.open(map);
+                        polygon.addListener('click', () => {
+                          setSelectedZone({
+                            id: zone.id,
+                            name: zone.name,
+                            color: zone.overlayColor || '#3b82f6'
+                          });
                         });
                         
                         newOverlays.push(polygon);

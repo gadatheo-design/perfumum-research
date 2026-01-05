@@ -1,0 +1,52 @@
+{
+  "query": "SELECT name, latin_name, latitude, longitude FROM plants WHERE latin_name IN ('Boswellia frereana', 'Santalum spicatum', 'Aquilaria crassna', 'Commiphora myrrha', 'Pogostemon cablin', 'Cinnamomum verum', 'Syzygium aromaticum', 'Myroxylon balsamum', 'Liquidambar orientalis', 'Styrax benzoin', 'Cistus ladanifer', 'Nardostachys jatamansi')",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT name, latin_name, latitude, longitude FROM plants WHERE latin_name IN ('Boswellia frereana', 'Santalum spicatum', 'Aquilaria crassna', 'Commiphora myrrha', 'Pogostemon cablin', 'Cinnamomum verum', 'Syzygium aromaticum', 'Myroxylon balsamum', 'Liquidambar orientalis', 'Styrax benzoin', 'Cistus ladanifer', 'Nardostachys jatamansi')",
+  "rows": [
+    {
+      "name": "Patchouli",
+      "latin_name": "Pogostemon cablin",
+      "latitude": "-0.7893000",
+      "longitude": "113.9213000"
+    },
+    {
+      "name": "Labdanum",
+      "latin_name": "Cistus ladanifer",
+      "latitude": "37.3891000",
+      "longitude": "-5.9845000"
+    },
+    {
+      "name": "Myrrhe",
+      "latin_name": "Commiphora myrrha",
+      "latitude": "9.1450000",
+      "longitude": "40.4897000"
+    },
+    {
+      "name": "Nard (Spikenard)",
+      "latin_name": "Nardostachys jatamansi",
+      "latitude": "28.3949000",
+      "longitude": "84.1240000"
+    },
+    {
+      "name": "Balsamier (baume)",
+      "latin_name": "Myroxylon balsamum",
+      "latitude": "13.7942000",
+      "longitude": "-88.8965000"
+    },
+    {
+      "name": "Myrrhe",
+      "latin_name": "Commiphora myrrha",
+      "latitude": "9.1450000",
+      "longitude": "40.4897000"
+    },
+    {
+      "name": "Myrrhe",
+      "latin_name": "Commiphora myrrha",
+      "latitude": "9.1450000",
+      "longitude": "40.4897000"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tlatin_name\tlatitude\tlongitude\nPatchouli\tPogostemon cablin\t-0.7893000\t113.9213000\nLabdanum\tCistus ladanifer\t37.3891000\t-5.9845000\nMyrrhe\tCommiphora myrrha\t9.1450000\t40.4897000\nNard (Spikenard)\tNardostachys jatamansi\t28.3949000\t84.1240000\nBalsamier (baume)\tMyroxylon balsamum\t13.7942000\t-88.8965000\nMyrrhe\tCommiphora myrrha\t9.1450000\t40.4897000\nMyrrhe\tCommiphora myrrha\t9.1450000\t40.4897000\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

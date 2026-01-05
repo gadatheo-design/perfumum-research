@@ -95,6 +95,7 @@ import {
   Plant,
   InsertPlant,
   geographicZones,
+  plantGeographicZones,
   terpProfiles,
   TerpProfile,
   InsertTerpProfile,
@@ -6973,6 +6974,33 @@ export async function getGeographicZone(zoneId: number) {
     .from(geographicZones)
     .where(eq(geographicZones.id, zoneId));
   return zone;
+}
+
+export async function getPlantsByGeographicZone(zoneId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const plantsInZone = await db
+    .select({
+      plantId: plantGeographicZones.plantId,
+      zoneId: plantGeographicZones.zoneId,
+      isPrimaryZone: plantGeographicZones.isPrimaryZone,
+      populationStatus: plantGeographicZones.populationStatus,
+      notes: plantGeographicZones.notes,
+      // Informations de la plante
+      plantName: plants.name,
+      plantLatinName: plants.latinName,
+      plantFamily: plants.family,
+      plantCategory: plants.category,
+      plantConservationStatus: plants.conservationStatus,
+      plantLatitude: plants.latitude,
+      plantLongitude: plants.longitude,
+    })
+    .from(plantGeographicZones)
+    .innerJoin(plants, eq(plantGeographicZones.plantId, plants.id))
+    .where(eq(plantGeographicZones.zoneId, zoneId));
+  
+  return plantsInZone;
 }
 
 export async function createGeographicZone(data: {

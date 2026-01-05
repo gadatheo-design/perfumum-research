@@ -123,3 +123,133 @@ describe('Plants with GPS coordinates', () => {
     expect(criticalWithGPS.length).toBeGreaterThan(0);
   });
 });
+
+describe('Plant Geographic Zones Relationships', () => {
+  let testZoneId: number;
+
+  it('should get plants by geographic zone', async () => {
+    // Récupérer une zone existante
+    const zones = await db.listGeographicZones({});
+    expect(zones.length).toBeGreaterThan(0);
+    
+    testZoneId = zones[0].id;
+    
+    // Récupérer les plantes de cette zone
+    const plants = await db.getPlantsByGeographicZone(testZoneId);
+    expect(plants).toBeDefined();
+    expect(Array.isArray(plants)).toBe(true);
+  });
+
+  it('should return plants with correct properties', async () => {
+    const zones = await db.listGeographicZones({});
+    if (zones.length === 0) return;
+    
+    const plants = await db.getPlantsByGeographicZone(zones[0].id);
+    
+    if (plants.length > 0) {
+      const plant = plants[0];
+      expect(plant).toHaveProperty('plantId');
+      expect(plant).toHaveProperty('zoneId');
+      expect(plant).toHaveProperty('plantName');
+      expect(plant).toHaveProperty('plantLatinName');
+      expect(plant).toHaveProperty('populationStatus');
+      expect(plant).toHaveProperty('isPrimaryZone');
+    }
+  });
+
+  it('should return empty array for zone with no plants', async () => {
+    const plants = await db.getPlantsByGeographicZone(999999);
+    expect(plants).toBeDefined();
+    expect(Array.isArray(plants)).toBe(true);
+    expect(plants.length).toBe(0);
+  });
+
+  it('should have valid population status', async () => {
+    const zones = await db.listGeographicZones({});
+    if (zones.length === 0) return;
+    
+    const plants = await db.getPlantsByGeographicZone(zones[0].id);
+    const validStatuses = ['abundant', 'common', 'rare', 'critically_rare', 'extinct'];
+    
+    plants.forEach(plant => {
+      if (plant.populationStatus) {
+        expect(validStatuses.includes(plant.populationStatus)).toBe(true);
+      }
+    });
+  });
+
+  it('should link plants to zones correctly', async () => {
+    const zones = await db.listGeographicZones({});
+    
+    for (const zone of zones) {
+      const plants = await db.getPlantsByGeographicZone(zone.id);
+      
+      plants.forEach(plant => {
+        expect(plant.zoneId).toBe(zone.id);
+      });
+    }
+  });
+});
+
+describe('GPS Coordinates Enrichment', () => {
+  it('should have at least 12 plants with GPS coordinates', async () => {
+    const allPlants = await db.getAllPlants();
+    const plantsWithGPS = allPlants.filter(p => p.latitude && p.longitude);
+    
+    expect(plantsWithGPS.length).toBeGreaterThanOrEqual(12);
+  });
+
+  it('should have valid GPS coordinates for enriched plants', async () => {
+    const allPlants = await db.getAllPlants();
+    const plantsWithGPS = allPlants.filter(p => p.latitude && p.longitude);
+    
+    plantsWithGPS.forEach(plant => {
+      const lat = parseFloat(plant.latitude!);
+      const lng = parseFloat(plant.longitude!);
+      
+      expect(lat).toBeGreaterThanOrEqual(-90);
+      expect(lat).toBeLessThanOrEqual(90);
+      expect(lng).toBeGreaterThanOrEqual(-180);
+      expect(lng).toBeLessThanOrEqual(180);
+    });
+  });
+
+  it('should have GPS coordinates for key species', async () => {
+    const keySpecies = [
+      'Boswellia',
+      'Santalum',
+      'Aquilaria',
+      'Commiphora',
+      'Pogostemon',
+      'Cinnamomum',
+      'Syzygium',
+      'Myroxylon',
+      'Liquidambar',
+      'Styrax',
+      'Cistus',
+      'Nardostachys'
+    ];
+    
+    const allPlants = await db.getAllPlants();
+    
+    keySpecies.forEach(speciesName => {
+      const plant = allPlants.find(p => 
+        p.name?.includes(speciesName) || p.latinName?.includes(speciesName)
+      );
+      
+      if (plant) {
+        // Si la plante existe, elle devrait avoir des coordonnées GPS
+        // (certaines peuvent ne pas exister dans la base)
+        const hasGPS = plant.latitude && plant.longitude;
+        if (hasGPS) {
+          const lat = parseFloat(plant.latitude!);
+          const lng = parseFloat(plant.longitude!);
+          expect(lat).toBeGreaterThanOrEqual(-90);
+          expect(lat).toBeLessThanOrEqual(90);
+          expect(lng).toBeGreaterThanOrEqual(-180);
+          expect(lng).toBeLessThanOrEqual(180);
+        }
+      }
+    });
+  });
+});

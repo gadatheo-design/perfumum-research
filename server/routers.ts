@@ -5801,6 +5801,14 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.listGeographicZones(input ?? {});
       }),
+    
+    getPlantsByZone: publicProcedure
+      .input(z.object({
+        zoneId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getPlantsByGeographicZone(input.zoneId);
+      }),
   }),
 });
 

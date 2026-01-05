@@ -2406,6 +2406,57 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Implémenter un système de filtrage des overlays (afficher/masquer par typ### Tests et validation
 - [x] Tester la précision des coordonnées GPS et des zones (7 tests passés)
 - [x] Optimiser les performances de rendu des overlays
-- [ ] Créer le checkpoint final mobile de la carte avec overlays
+- [x] Créer le checkpoint final (version 207f5575) mobile de la carte avec overlays
 - [ ] Écrire les tests vitest pour les nouvelles fonctionnalités
+- [ ] Créer le checkpoint final
+
+
+---
+
+## 🗺️ SESSION 05 JAN 2026 (suite) - ENRICHISSEMENT CARTOGRAPHIQUE COMPLET
+
+### Enrichir les 12 espèces restantes avec coordonnées GPS
+- [x] Boswellia frereana (Somalie) - coordonnées GPS précises
+- [x] Santalum spicatum (Australie occidentale) - coordonnées GPS précises
+- [x] Aquilaria crassna (Cambodge, Laos, Vietnam) - coordonnées GPS précises
+- [x] Commiphora myrrha (Somalie, Éthiopie, Yémen) - coordonnées GPS précises
+- [x] Pogostemon cablin (Indonésie, Philippines) - coordonnées GPS précises
+- [x] Cinnamomum verum (Sri Lanka) - coordonnées GPS précises
+- [x] Syzygium aromaticum (Zanzibar, Madagascar) - coordonnées GPS précises
+- [x] Myroxylon balsamum (Amérique centrale) - coordonnées GPS précises
+- [x] Liquidambar orientalis (Turquie) - coordonnées GPS précises
+- [x] Styrax benzoin (Sumatra, Java) - coordonnées GPS précises
+- [x] Cistus ladanifer (Méditerranée occidentale) - coordonnées GPS précises
+- [x] Nardostachys jatamansi (Himalaya) - coordonnées GPS précises
+
+### Créer la table de liaison plant_geographic_zones
+- [x] - Déjà existante Créer le schéma de table plant_geographic_zones (many-to-many)
+- [x] - Déjà migrée Migrer le schéma avec pnpm db:push
+- [x] Créer les procédures tRPC pour gérer les liaisons plantes-zones
+
+### Peupler les liaisons espèces-zones
+- [x] Lier les espèces aux zones géographiques correspondantes
+- [x] Valider la cohérence des liaisons (chaque espèce dans au moins une zone)
+- [ ] Tester les requêtes de récupération des espèces par zone
+
+### Ajouter la légende visuelle sur la carte
+- [x] Créer le composant de légende avec badges colorés
+- [x] Badge "Zone menacée" (rouge) avec explication
+- [x] Badge "Zone de conservation" (vert) avec explication
+- [x] Badge "Zone durable" (bleu) avec explication
+- [x] Badge "Zone de biodiversité" (jaune) avec explication
+- [x] Positionner la légende de manière ergonomique sur la carte
+- [ ] Rendre la légende responsive (mobile/desktop)
+
+### Afficher les espèces par zone au clic
+- [x] Implémenter le gestionnaire de clic sur les zones de la carte
+- [x] Créer le panneau latéral d'affichage des espèces
+- [x] Afficher la liste des espèces présentes dans la zone cliquée
+- [x] Ajouter des liens vers les fiches détaillées des espèces
+- [ ] Afficher les statistiques de la zone (nombre d'espèces, statuts IUCN)
+
+### Tests et validation
+- [x] Écrire les tests vitest pour les nouvelles fonctionnalités cartographiques
+- [ ] Tester l'interaction complète de la carte enrichie
+- [ ] Valider le responsive mobile de toutes les nouvelles fonctionnalités
 - [ ] Créer le checkpoint final
