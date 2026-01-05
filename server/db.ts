@@ -4119,6 +4119,13 @@ export async function getPlantsByCategory(category: string) {
   return await db.select().from(plants).where(eq(plants.category, category as any)).orderBy(plants.name);
 }
 
+export async function getPlantByLatinName(latinName: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(plants).where(eq(plants.latinName, latinName));
+  return result[0] || null;
+}
+
 export async function createPlant(data: InsertPlant) {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');

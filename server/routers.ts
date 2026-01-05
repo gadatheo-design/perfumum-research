@@ -3935,9 +3935,160 @@ export const appRouter = router({
       }),
   }),
 
-  // ============================================================================
-  // ENRICHISSEMENT PUBCHEM
-  // ============================================================================
+  // =======  // ========================================================================
+  // CSV IMPORT
+  // ========================================================================
+
+  importMolecules: protectedProcedure
+    .input(
+      z.object({
+        molecules: z.array(
+          z.object({
+            name: z.string(),
+            family: z.string().optional(),
+            odorKey: z.string().optional(),
+            role: z.string().optional(),
+            climaticAxis: z.string().optional(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const imported = [];
+      const errors = [];
+
+      for (const mol of input.molecules) {
+        try {
+          const existing = await db.getMoleculeByName(mol.name);
+          if (existing) {
+            errors.push(`Molécule "${mol.name}" existe déjà`);
+            continue;
+          }
+
+          const result = await db.createMolecule({
+            name: mol.name,
+            family: mol.family || null,
+            olfactiveProfile: mol.odorKey || null,
+            functionalEffect: mol.role || null,
+            notes: mol.climaticAxis ? `Axe climatique: ${mol.climaticAxis}` : null,
+          });
+          imported.push(result);
+        } catch (error) {
+          errors.push(`Erreur pour "${mol.name}": ${error}`);
+        }
+      }
+
+      return {
+        success: true,
+        imported: imported.length,
+        errors,
+      };
+    }),
+
+  importPlants: protectedProcedure
+    .input(
+      z.object({
+        plants: z.array(
+          z.object({
+            name: z.string(),
+            latinName: z.string().optional(),
+            family: z.string().optional(),
+            category: z.string().optional(),
+            origin: z.string().optional(),
+            habitat: z.string().optional(),
+            olfactiveSignature: z.string().optional(),
+            dominantMolecules: z.string().optional(),
+            climaticAxis: z.string().optional(),
+            traditionalUse: z.string().optional(),
+            absorbeUse: z.string().optional(),
+            kingdom: z.string().optional(),
+            division: z.string().optional(),
+            class: z.string().optional(),
+            order: z.string().optional(),
+            genus: z.string().optional(),
+            species: z.string().optional(),
+            lifeCycle: z.string().optional(),
+            harvestPeriod: z.string().optional(),
+            essentialOilYield: z.string().optional(),
+            notes: z.string().optional(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const imported = [];
+      const errors = [];
+
+      for (const plant of input.plants) {
+        try {
+          const existing = await db.getPlantByLatinName(plant.latinName || plant.name);
+          if (existing) {
+            errors.push(`Plante "${plant.name}" existe déjà`);
+            continue;
+          }
+
+          // Map category to enum value
+          let category: "aromatique" | "tabac" | "cannabis" | "resine" | "bois" | "fleur" | "racine" | "autre" = "autre";
+          if (plant.category === "aromatique") category = "aromatique";
+          else if (plant.category === "tabac") category = "tabac";
+          else if (plant.category === "cannabis") category = "cannabis";
+          else if (plant.category === "resine") category = "resine";
+          else if (plant.category === "bois") category = "bois";
+          else if (plant.category === "fleur") category = "fleur";
+          else if (plant.category === "racine") category = "racine";
+
+          // Map climatic axis to enum value
+          let climaticAxis: "vent" | "bois" | "disparition" | "vent_bois" | "bois_disparition" | "vent_disparition" | null = null;
+          if (plant.climaticAxis?.includes("vent") && plant.climaticAxis?.includes("bois")) climaticAxis = "vent_bois";
+          else if (plant.climaticAxis?.includes("bois") && plant.climaticAxis?.includes("disparition")) climaticAxis = "bois_disparition";
+          else if (plant.climaticAxis?.includes("vent") && plant.climaticAxis?.includes("disparition")) climaticAxis = "vent_disparition";
+          else if (plant.climaticAxis?.includes("vent")) climaticAxis = "vent";
+          else if (plant.climaticAxis?.includes("bois")) climaticAxis = "bois";
+          else if (plant.climaticAxis?.includes("disparition")) climaticAxis = "disparition";
+
+          const result = await db.createPlant({
+            name: plant.name,
+            latinName: plant.latinName || null,
+            family: plant.family || null,
+            category,
+            origin: plant.origin || null,
+            habitat: plant.habitat || null,
+            olfactiveSignature: plant.olfactiveSignature || null,
+            dominantMolecules: plant.dominantMolecules || null,
+            climaticAxis,
+            traditionalUse: plant.traditionalUse || null,
+            absorbeUse: plant.absorbeUse || null,
+            notes: [
+              plant.kingdom && `Règne: ${plant.kingdom}`,
+              plant.division && `Division: ${plant.division}`,
+              plant.class && `Classe: ${plant.class}`,
+              plant.order && `Ordre: ${plant.order}`,
+              plant.genus && `Genre: ${plant.genus}`,
+              plant.species && `Espèce: ${plant.species}`,
+              plant.lifeCycle && `Cycle: ${plant.lifeCycle}`,
+              plant.harvestPeriod && `Récolte: ${plant.harvestPeriod}`,
+              plant.essentialOilYield && `Rendement HE: ${plant.essentialOilYield}`,
+              plant.notes,
+            ]
+              .filter(Boolean)
+              .join(" | "),
+          });
+          imported.push(result);
+        } catch (error) {
+          errors.push(`Erreur pour "${plant.name}": ${error}`);
+        }
+      }
+
+      return {
+        success: true,
+        imported: imported.length,
+        errors,
+      };
+    }),
+
+  // ========================================================================
+  // SYSTEM
+  // ====================================================================================
   pubchem: router({
     // Enrichir une seule molécule
     enrichMolecule: publicProcedure

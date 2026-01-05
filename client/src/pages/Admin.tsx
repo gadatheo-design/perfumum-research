@@ -20,7 +20,8 @@ import {
   Flame,
   Snowflake,
   Leaf,
-  Droplets
+  Droplets,
+  Upload
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -138,6 +139,14 @@ export default function Admin() {
       href: "/admin/import-export-plants",
       color: "text-emerald-600",
       bgColor: "bg-emerald-50",
+    },
+    {
+      title: "Import CSV",
+      description: "Importer des fichiers CSV (molécules, plantes, variétés)",
+      icon: Upload,
+      href: "/admin/import-csv",
+      color: "text-indigo-600",
+      bgColor: "bg-indigo-50",
     },
     {
       title: "Liaisons Recettes",

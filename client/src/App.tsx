@@ -29,6 +29,7 @@ import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminRecettes from "./pages/AdminRecettes";
 import AdminImportExport from "./pages/AdminImportExport";
 import ImportExportPlants from "./pages/ImportExportPlants";
+import ImportCSV from "./pages/ImportCSV";
 import AdminHistorique from "./pages/AdminHistorique";
 import AdminReferences from "./pages/AdminReferences";
 import LiaisonRecettesMolecules from "./pages/admin/LiaisonRecettesMolecules";
@@ -273,6 +274,7 @@ function Router() {
       <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path="/admin/import-export" component={AdminImportExport} />
       <Route path="/admin/import-export-plants" component={ImportExportPlants} />
+      <Route path="/admin/import-csv" component={ImportCSV} />
       <Route path="/admin/historique" component={AdminHistorique} />
       <Route path="/admin/references" component={AdminReferences} />
       

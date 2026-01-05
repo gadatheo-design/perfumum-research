@@ -2102,3 +2102,158 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Créer le checkpoint final
 
 - [x] Ajouter Nardostachys (nard) depuis Wikipedia à la base de données
+
+
+---
+
+## 🌿 SESSION 05 JAN 2026 - ENRICHISSEMENT PLANTES HISTORIQUES & RÉGLEMENTATION
+
+### Phase 1 : Ajouter des plantes aromatiques historiques
+- [x] Rechercher et documenter la myrrhe (Commiphora myrrha) avec ses propriétés
+- [x] Rechercher et documenter l'encens (Boswellia sacra, B. carterii, B. serrata)
+- [x] Créer le document de synthèse des axes majeurs (AXES_MAJEURS_05JAN2026.md)
+- [x] Créer la roadmap détaillée pour les 10 prochains jours (ROADMAP_10_JOURS.md)
+- [ ] Ajouter d'autres plantes historiques majeures (styrax, galbanum, opoponax, etc.)
+- [ ] Importer les données botaniques et moléculaires dans la base de données
+- [ ] Lier les plantes historiques aux molécules dominantes
+- [ ] Ajouter les contextes historiques et usages traditionnels
+
+### Phase 2 : Enrichir les fiches molécules avec propriétés thérapeutiques
+- [ ] Ajouter le champ `therapeutic_properties` au schéma molecules
+- [ ] Rechercher les propriétés thérapeutiques documentées (antiseptique, anti-inflammatoire, etc.)
+- [ ] Ajouter les références scientifiques pour les propriétés
+- [ ] Importer les données thérapeutiques pour les molécules existantes
+- [ ] Créer l'interface d'affichage des propriétés thérapeutiques
+- [ ] Ajouter les avertissements réglementaires (pas de promesse médicale)
+
+### Phase 3 : Créer le système de plantes menacées/protégées/disparues
+- [ ] Créer le schéma pour le statut de conservation (IUCN, CITES)
+- [ ] Ajouter les champs de statut réglementaire aux plantes (menacée, protégée, disparue)
+- [x] Rechercher les données IUCN Red List pour les plantes aromatiques
+- [x] Rechercher les données CITES (Convention sur le commerce international)
+- [ ] Importer les statuts de conservation dans la base de données
+- [ ] Créer la table des réglementations par pays/région
+
+### Phase 4 : Interface de consultation des plantes réglementées
+- [ ] Créer la page `/plantes-menacees` avec liste filtrée
+- [ ] Implémenter les filtres par statut (menacée, protégée, disparue, vulnérable)
+- [ ] Afficher les informations IUCN et CITES pour chaque plante
+- [ ] Créer une vue cartographique des zones de protection
+- [ ] Ajouter les alternatives durables pour les plantes menacées
+- [ ] Intégrer la page dans le menu principal
+
+### Phase 5 : Tests et validation
+- [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
+- [ ] Tester l'interface sur desktop et mobile
+- [ ] Valider l'intégrité des données importées
+- [ ] Vérifier la cohérence des statuts de conservation
+- [ ] Créer le checkpoint final
+
+
+---
+
+## 🏛️ SESSION 05 JAN 2026 - CONSERVATION DU PATRIMOINE OLFACTIF
+
+### Vision : PERFUMUM comme musée vivant du patrimoine olfactif
+- Conservation, restauration et archives comme en art visuel, mais pour l'olfactif
+- Généalogie biologique des variétés disparues, rares ou en danger (axe majeur)
+- Documentation des profils moléculaires historiques
+- Reconstruction de parfums et variétés perdues
+
+### Phase 1 : Architecture du système de conservation patrimoniale
+- [ ] Concevoir le modèle de données pour les archives olfactives
+- [ ] Définir les métadonnées patrimoniales (provenance, datation, authenticité)
+- [ ] Créer le système de versioning des profils olfactifs
+- [ ] Établir les protocoles de documentation (comme en conservation d'art)
+
+### Phase 2 : Généalogie des variétés botaniques
+- [ ] Créer la table `variety_genealogy` (relations parent-enfant)
+- [ ] Ajouter les champs généalogiques aux variétés (lignée, croisements)
+- [ ] Documenter les variétés disparues (roses anciennes, jasmins de Grasse, tabacs ancestraux)
+- [ ] Créer l'arbre généalogique interactif (visualisation)
+- [ ] Ajouter les causes de disparition (standardisation, guerres, climat)
+- [ ] Documenter les tentatives de reconstruction
+
+### Phase 3 : Archives olfactives et profils moléculaires historiques
+- [ ] Créer la table `olfactive_archives` (documents historiques)
+- [ ] Ajouter les champs de datation et provenance
+- [ ] Documenter les profils moléculaires perdus (ratios uniques)
+- [ ] Créer la timeline historique des parfums et variétés
+- [ ] Intégrer les sources primaires (manuscrits, formules anciennes)
+- [ ] Ajouter les photographies et illustrations historiques
+
+### Phase 4 : Statuts de conservation et menaces
+- [ ] Ajouter les champs IUCN et CITES aux plantes
+- [ ] Documenter les 19 espèces menacées identifiées
+- [ ] Créer la page "Patrimoine menacé" avec filtres
+- [ ] Ajouter les alternatives durables pour chaque espèce
+- [ ] Intégrer les données de commerce et quotas
+- [ ] Créer les alertes pour nouvelles menaces
+
+### Phase 5 : Outils de restauration et reconstruction olfactive
+- [ ] Créer la table `reconstruction_projects` (projets de restauration)
+- [ ] Documenter les méthodes de reconstruction (analyse rétrospective)
+- [ ] Ajouter les formules recréées vs originales
+- [ ] Créer l'interface de comparaison moléculaire
+- [ ] Intégrer les notes de restauration (comme en conservation d'art)
+- [ ] Ajouter les certifications d'authenticité
+
+### Phase 6 : Plantes historiques majeures (myrrhe, encens, etc.)
+- [ ] Importer la myrrhe (Commiphora myrrha) avec données complètes
+- [ ] Importer les 6 espèces de Boswellia (encens)
+- [ ] Ajouter le styrax (Styrax benzoin, S. tonkinensis)
+- [ ] Ajouter le galbanum (Ferula gummosa, F. galbaniflua)
+- [ ] Ajouter l'opoponax (Commiphora guidotti, C. erythraea)
+- [ ] Ajouter le nard (Nardostachys jatamansi) - déjà en base
+- [ ] Ajouter le silphium (plante disparue de l'Antiquité)
+- [ ] Documenter les contextes historiques et spirituels
+
+### Phase 7 : Variétés disparues et fantômes
+- [ ] Documenter les roses anciennes de Grasse (cultivars pré-1900)
+- [ ] Documenter les jasmins historiques perdus
+- [ ] Documenter les lavandes sauvages disparues
+- [ ] Documenter les tabacs ancestraux pré-colombiens
+- [ ] Documenter les cannabis landrace perdus
+- [ ] Créer la section "Variétés fantômes" (comme page existante mais étendue)
+- [ ] Ajouter les tentatives de recréation modernes
+
+### Phase 8 : Interface de consultation patrimoniale
+- [ ] Créer la page "Archives olfactives" (timeline historique)
+- [ ] Créer la page "Généalogie des variétés" (arbre interactif)
+- [ ] Créer la page "Patrimoine menacé" (statuts IUCN/CITES)
+- [ ] Créer la page "Projets de restauration" (reconstructions en cours)
+- [ ] Créer la carte interactive des origines historiques
+- [ ] Intégrer les filtres par époque, région, statut
+
+### Phase 9 : Métadonnées et traçabilité
+- [ ] Ajouter les champs de provenance (source, collecteur, date)
+- [ ] Ajouter les champs d'authenticité (certification, analyse)
+- [ ] Créer le système de références bibliographiques (sources primaires)
+- [ ] Ajouter les notes de conservation (état, dégradation)
+- [ ] Créer le journal des modifications (historique des données)
+- [ ] Intégrer les protocoles de vérification
+
+### Phase 10 : Tests et validation
+- [ ] Tester les arbres généalogiques
+- [ ] Tester les interfaces de consultation
+- [ ] Valider l'intégrité des données historiques
+- [ ] Vérifier les liens entre variétés et profils moléculaires
+- [ ] Créer les tests unitaires pour les nouvelles fonctionnalités
+- [ ] Créer le checkpoint final
+
+
+---
+
+## 📥 SESSION 05 JAN 2026 - IMPORTATION CSV ADMIN
+
+### Importation des fichiers CSV via page d'administration
+- [x] Analyser la structure des 6 fichiers CSV fournis
+- [x] Créer l'interface d'importation CSV dans la page d'administration
+- [x] Implémenter l'import de perfumum_molecules_template.csv (62 molécules)
+- [x] Implémenter l'import de perfumum_plants_template_30_col_bfa_car.csv (30 plantes)
+- [x] Implémenter l'import de perfumum_varieties_template_60_col_bfa_car.csv (60 variétés)
+- [x] Implémenter l'import de perfumum_plants_molecules_relations.csv (78 relations)
+- [x] Implémenter l'import de absorbe_plantes_rares_fantomes_25.csv (25 plantes rares)
+- [x] Gérer les doublons et la validation des données
+- [x] Tester l'importation complète de tous les fichiers
+- [x] Créer un rapport d'importation avec statistiques
