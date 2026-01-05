@@ -2460,3 +2460,76 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Tester l'interaction complète de la carte enrichie
 - [ ] Valider le responsive mobile de toutes les nouvelles fonctionnalités
 - [ ] Créer le checkpoint final
+
+---
+
+## 🌿 SESSION 05 JAN 2026 (suite 2) - COMPLÉTION ESPÈCES MANQUANTES & CONSERVATION
+
+### Compléter les 5 espèces manquantes dans la base de données
+- [x] Vérifier que Santalum spicatum existe déjà dans la base (devrait être présent)
+- [x] Vérifier que Aquilaria crassna existe déjà dans la base (devrait être présent)
+- [x] Vérifier que Cinnamomum verum existe déjà dans la base (devrait être présent)
+- [x] Vérifier que Syzygium aromaticum existe déjà dans la base (devrait être présent)
+- [x] Vérifier que Liquidambar orientalis existe déjà dans la base (devrait être présent)
+- [x] Vérifier que Styrax benzoin existe déjà dans la base (devrait être présent)
+- [x] Si manquantes, créer un script d'import pour les espèces manquantes
+- [x] Exécuter le script d'import et valider les données
+
+### Créer les liaisons species_zones pour les nouvelles espèces
+- [x] Lier Santalum spicatum aux zones géographiques (Australie occidentale)
+- [x] Lier Aquilaria crassna aux zones géographiques (Asie du Sud-Est)
+- [x] Lier Cinnamomum verum aux zones géographiques (Sri Lanka)
+- [x] Lier Syzygium aromaticum aux zones géographiques (Zanzibar, Madagascar)
+- [x] Lier Liquidambar orientalis aux zones géographiques (Turquie)
+- [x] Lier Styrax benzoin aux zones géographiques (Sumatra, Java)
+- [x] Valider que toutes les liaisons sont créées correctement
+
+### Enrichir les zones avec données de conservation
+- [x] Ajouter les efforts de conservation en cours pour chaque zone géographique
+- [x] Ajouter les organisations impliquées (WWF, IUCN, CITES, etc.)
+- [x] Ajouter les alternatives durables disponibles pour chaque espèce menacée
+- [ ] Créer une section "Conservation" dans les fiches zones
+- [ ] Afficher les données de conservation sur la carte interactive
+- [ ] Créer des liens entre espèces menacées et alternatives durables
+
+### Tests et validation
+- [ ] Écrire les tests vitest pour les nouvelles fonctionnalités
+- [x] Valider que toutes les espèces sont présentes dans la base
+- [x] Valider que toutes les liaisons sont correctes
+- [ ] Tester l'affichage des données de conservation
+- [ ] Créer le checkpoint final
+
+
+---
+
+## ✅ SESSION 05 JAN 2026 - CORRECTIONS & CONSERVATION (COMPLÉTÉ)
+
+### Corrections TypeScript
+- [x] Corriger les erreurs TypeScript dans db.ts (db possibly null)
+- [x] Corriger les erreurs TypeScript dans routers.ts (z.record)
+- [x] Corriger les erreurs TypeScript dans PlantDetail.tsx (civilizationalMarkers)
+- [x] Valider la compilation TypeScript sans erreurs (0 erreurs)
+
+### Tests Conservation
+- [x] Créer le fichier conservation.test.ts avec 15 tests
+- [x] Tester getPlantConservationStatus
+- [x] Tester listThreatenedPlants avec filtres IUCN
+- [x] Tester getConservationStats
+- [x] Tester les données de conservation des zones géographiques
+- [x] Tester les liaisons plantes-zones avec données de conservation
+- [x] Tester getCriticalVarieties et getPlantVarietiesWithFilters
+- [x] Valider l'intégrité des données de conservation
+
+### Interface Conservation
+- [x] Créer le composant ZoneConservationSection (non utilisé directement)
+- [x] Mettre à jour ZoneSpeciesPanel avec onglets (Espèces, Conservation, Alternatives)
+- [x] Ajouter les badges ThreatLevel et ConservationPriority
+- [x] Afficher les efforts de conservation avec parsing du texte formaté
+- [x] Afficher les alternatives durables avec parsing du texte formaté
+- [x] Mettre à jour PatrimoineMenace pour passer les données de zone au panel
+- [x] Valider la compilation TypeScript après modifications
+
+### Tous les tests passent
+- [x] 347 tests passent avec succès (27 fichiers de test)
+- [x] Tests conservation: 15/15 passés
+- [x] Tests geographic-zones: corrigés et passés

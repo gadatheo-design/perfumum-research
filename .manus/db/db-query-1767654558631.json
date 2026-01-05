@@ -1,0 +1,15 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM geographic_zones) as zones_count,\n  (SELECT COUNT(*) FROM plant_geographic_zones) as plant_zones_count,\n  (SELECT COUNT(*) FROM plants WHERE conservation_status IS NOT NULL AND conservation_status != '') as plants_with_conservation",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM geographic_zones) as zones_count,\n  (SELECT COUNT(*) FROM plant_geographic_zones) as plant_zones_count,\n  (SELECT COUNT(*) FROM plants WHERE conservation_status IS NOT NULL AND conservation_status != '') as plants_with_conservation",
+  "rows": [
+    {
+      "zones_count": "15",
+      "plant_zones_count": "13",
+      "plants_with_conservation": "125"
+    }
+  ],
+  "messages": [],
+  "stdout": "zones_count\tplant_zones_count\tplants_with_conservation\n15\t13\t125\n",
+  "stderr": "",
+  "execution_time_ms": 129
+}

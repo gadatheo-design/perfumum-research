@@ -1,0 +1,138 @@
+{
+  "query": "DESCRIBE geographic_zones",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE geographic_zones",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "region",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "zone_type",
+      "Type": "enum('threatened_concentration','sustainable_alternatives','biodiversity_hotspot','conservation_area')",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "coordinates",
+      "Type": "json",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "description",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "threat_level",
+      "Type": "enum('critical','high','medium','low','stable')",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": "medium",
+      "Extra": ""
+    },
+    {
+      "Field": "species_count",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "conservation_priority",
+      "Type": "enum('urgent','high','medium','low')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "medium",
+      "Extra": ""
+    },
+    {
+      "Field": "overlay_color",
+      "Type": "varchar(7)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "#FF0000",
+      "Extra": ""
+    },
+    {
+      "Field": "overlay_opacity",
+      "Type": "decimal(3,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0.35",
+      "Extra": ""
+    },
+    {
+      "Field": "sustainable_alternatives",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "conservation_efforts",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\nname\tvarchar(255)\tNO\t\tNULL\t\nregion\tvarchar(255)\tNO\t\tNULL\t\nzone_type\tenum('threatened_concentration','sustainable_alternatives','biodiversity_hotspot','conservation_area')\tNO\tMUL\tNULL\t\ncoordinates\tjson\tNO\t\tNULL\t\ndescription\ttext\tYES\t\tNULL\t\nthreat_level\tenum('critical','high','medium','low','stable')\tYES\tMUL\tmedium\t\nspecies_count\tint(11)\tYES\t\t0\t\nconservation_priority\tenum('urgent','high','medium','low')\tYES\t\tmedium\t\noverlay_color\tvarchar(7)\tYES\t\t#FF0000\t\noverlay_opacity\tdecimal(3,2)\tYES\t\t0.35\t\nsustainable_alternatives\ttext\tYES\t\tNULL\t\nconservation_efforts\ttext\tYES\t\tNULL\t\nnotes\ttext\tYES\t\tNULL\t\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

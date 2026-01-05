@@ -1,0 +1,25 @@
+{
+  "query": "SELECT id, name, coordinates FROM geographic_zones LIMIT 3",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, coordinates FROM geographic_zones LIMIT 3",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Somalie - Zone critique Boswellia",
+      "coordinates": "[{\"lat\": 12, \"lng\": 49}, {\"lat\": 12, \"lng\": 51.5}, {\"lat\": 10, \"lng\": 51.5}, {\"lat\": 10, \"lng\": 49}]"
+    },
+    {
+      "id": "2",
+      "name": "Oman - Dhofar (Boswellia sacra)",
+      "coordinates": "[{\"lat\": 18, \"lng\": 53.5}, {\"lat\": 18, \"lng\": 55}, {\"lat\": 16.5, \"lng\": 55}, {\"lat\": 16.5, \"lng\": 53.5}]"
+    },
+    {
+      "id": "3",
+      "name": "Asie du Sud-Est - Triangle Aquilaria",
+      "coordinates": "[{\"lat\": 15, \"lng\": 100}, {\"lat\": 15, \"lng\": 115}, {\"lat\": 2, \"lng\": 115}, {\"lat\": 2, \"lng\": 100}]"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcoordinates\n1\tSomalie - Zone critique Boswellia\t[{\"lat\": 12, \"lng\": 49}, {\"lat\": 12, \"lng\": 51.5}, {\"lat\": 10, \"lng\": 51.5}, {\"lat\": 10, \"lng\": 49}]\n2\tOman - Dhofar (Boswellia sacra)\t[{\"lat\": 18, \"lng\": 53.5}, {\"lat\": 18, \"lng\": 55}, {\"lat\": 16.5, \"lng\": 55}, {\"lat\": 16.5, \"lng\": 53.5}]\n3\tAsie du Sud-Est - Triangle Aquilaria\t[{\"lat\": 15, \"lng\": 100}, {\"lat\": 15, \"lng\": 115}, {\"lat\": 2, \"lng\": 115}, {\"lat\": 2, \"lng\": 100}]\n",
+  "stderr": "",
+  "execution_time_ms": 159
+}

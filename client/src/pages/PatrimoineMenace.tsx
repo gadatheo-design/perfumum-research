@@ -17,7 +17,17 @@ export default function PatrimoineMenace() {
   const [overlays, setOverlays] = useState<google.maps.Polygon[]>([]);
   const [showOverlays, setShowOverlays] = useState(true);
   const [overlayFilter, setOverlayFilter] = useState<string | undefined>(undefined);
-  const [selectedZone, setSelectedZone] = useState<{ id: number; name: string; color: string } | null>(null);
+  const [selectedZone, setSelectedZone] = useState<{ 
+    id: number; 
+    name: string; 
+    color: string;
+    threatLevel?: string | null;
+    conservationPriority?: string | null;
+    conservationEfforts?: string | null;
+    sustainableAlternatives?: string | null;
+    speciesCount?: number | null;
+    description?: string | null;
+  } | null>(null);
 
   const { data: geographicZones } = trpc.plantsConservation.listGeographicZones.useQuery();
 
@@ -261,6 +271,14 @@ export default function PatrimoineMenace() {
                   zoneId={selectedZone.id}
                   zoneName={selectedZone.name}
                   zoneColor={selectedZone.color}
+                  zoneData={{
+                    threatLevel: selectedZone.threatLevel,
+                    conservationPriority: selectedZone.conservationPriority,
+                    conservationEfforts: selectedZone.conservationEfforts,
+                    sustainableAlternatives: selectedZone.sustainableAlternatives,
+                    speciesCount: selectedZone.speciesCount,
+                    description: selectedZone.description,
+                  }}
                   onClose={() => setSelectedZone(null)}
                 />
               )}
@@ -312,7 +330,13 @@ export default function PatrimoineMenace() {
                           setSelectedZone({
                             id: zone.id,
                             name: zone.name,
-                            color: zone.overlayColor || '#3b82f6'
+                            color: zone.overlayColor || '#3b82f6',
+                            threatLevel: zone.threatLevel,
+                            conservationPriority: zone.conservationPriority,
+                            conservationEfforts: zone.conservationEfforts,
+                            sustainableAlternatives: zone.sustainableAlternatives,
+                            speciesCount: zone.speciesCount,
+                            description: zone.description,
                           });
                         });
                         

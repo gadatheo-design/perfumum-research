@@ -6631,6 +6631,7 @@ export async function listOlfactiveArchives(filters: {
 }) {
   const { civilization, type, q, limit = 25, offset = 0 } = filters;
   const db = await getDb();
+  if (!db) return [];
   
   let query = db.select().from(olfactiveArchives);
   
@@ -6663,6 +6664,7 @@ export async function listOlfactiveArchives(filters: {
 
 export async function getOlfactiveArchiveById(id: number) {
   const db = await getDb();
+  if (!db) return null;
   const [archive] = await db
     .select()
     .from(olfactiveArchives)
@@ -6672,12 +6674,14 @@ export async function getOlfactiveArchiveById(id: number) {
 
 export async function createOlfactiveArchive(data: InsertOlfactiveArchive) {
   const db = await getDb();
+  if (!db) return null;
   const [result] = await db.insert(olfactiveArchives).values(data);
   return getOlfactiveArchiveById(result.insertId);
 }
 
 export async function updateOlfactiveArchive(id: number, data: Partial<InsertOlfactiveArchive>) {
   const db = await getDb();
+  if (!db) return null;
   await db
     .update(olfactiveArchives)
     .set(data)
@@ -6687,12 +6691,14 @@ export async function updateOlfactiveArchive(id: number, data: Partial<InsertOlf
 
 export async function deleteOlfactiveArchive(id: number) {
   const db = await getDb();
+  if (!db) return { success: false };
   await db.delete(olfactiveArchives).where(eq(olfactiveArchives.id, id));
   return { success: true };
 }
 
 export async function searchOlfactiveArchives(searchQuery: string, limit: number = 25) {
   const db = await getDb();
+  if (!db) return [];
   const results = await db.select().from(olfactiveArchives).limit(limit);
   const searchLower = searchQuery.toLowerCase();
   return results.filter(archive => 
@@ -6715,6 +6721,7 @@ export async function listCivilizationalMarkers(filters: {
 }) {
   const { civilization, period, usageType, plantId } = filters;
   const db = await getDb();
+  if (!db) return [];
   
   let query = db.select().from(civilizationalMarkers);
   
@@ -6741,6 +6748,7 @@ export async function listCivilizationalMarkers(filters: {
 
 export async function getCivilizationalMarkersByPlant(plantId: number) {
   const db = await getDb();
+  if (!db) return [];
   return await db
     .select()
     .from(civilizationalMarkers)
@@ -6749,6 +6757,7 @@ export async function getCivilizationalMarkersByPlant(plantId: number) {
 
 export async function getCivilizationalMarkersByCivilization(civilization: string) {
   const db = await getDb();
+  if (!db) return [];
   return await db
     .select()
     .from(civilizationalMarkers)
@@ -6757,6 +6766,7 @@ export async function getCivilizationalMarkersByCivilization(civilization: strin
 
 export async function getCivilizationalMarkersByPeriod(period: string) {
   const db = await getDb();
+  if (!db) return [];
   return await db
     .select()
     .from(civilizationalMarkers)
@@ -6765,6 +6775,7 @@ export async function getCivilizationalMarkersByPeriod(period: string) {
 
 export async function createCivilizationalMarker(data: InsertCivilizationalMarker) {
   const db = await getDb();
+  if (!db) return null;
   const [result] = await db.insert(civilizationalMarkers).values(data);
   const [marker] = await db
     .select()
@@ -6779,6 +6790,7 @@ export async function createCivilizationalMarker(data: InsertCivilizationalMarke
 
 export async function getVarietyGenealogyTree(varietyId: number) {
   const db = await getDb();
+  if (!db) return { parents: [], children: [] };
   // Get all relationships for this variety (as child or parent)
   const asChild = await db
     .select()
@@ -6798,6 +6810,7 @@ export async function getVarietyGenealogyTree(varietyId: number) {
 
 export async function getVarietyAncestors(varietyId: number, depth: number = 5) {
   const db = await getDb();
+  if (!db) return [];
   const ancestors = [];
   let currentIds = [varietyId];
   
@@ -6820,6 +6833,7 @@ export async function getVarietyAncestors(varietyId: number, depth: number = 5) 
 
 export async function getVarietyDescendants(varietyId: number, depth: number = 5) {
   const db = await getDb();
+  if (!db) return [];
   const descendants = [];
   let currentIds = [varietyId];
   

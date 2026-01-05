@@ -81,7 +81,7 @@ export default function PlantDetail() {
   );
   
   // Récupérer les marqueurs civilisationnels
-  const { data: civilizationalMarkers } = trpc.civilizationalMarkers.getByPlant.useQuery(
+  const { data: civilizationalMarkers } = trpc.markers.getByPlant.useQuery(
     { plantId },
     { enabled: plantId > 0 }
   );

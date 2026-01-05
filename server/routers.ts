@@ -5783,7 +5783,7 @@ export const appRouter = router({
         conservationStatus: z.enum(["EX","EW","CR","EN","VU","NT","LC","DD","NE"]).optional(),
         citesAppendix: z.enum(["I","II","III","NONE","UNKNOWN"]).optional(),
         conservationNotes: z.string().optional(),
-        threatFactors: z.record(z.any()).optional(),
+        threatFactors: z.record(z.string(), z.any()).optional(),
         sustainableAlternatives: z.string().optional(),
         lastAssessmentYear: z.number().int().optional(),
         historicalStatus: z.string().optional(),
