@@ -1651,3 +1651,63 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Intégrer la navigation vers la page Accords
 - [x] Tester l'affichage sur desktop et mobile
 
+
+---
+
+## 🔗 SESSION 04 JAN 2026 - AUDIT NAVIGATION & LIENS
+
+### Phase 1 : Analyse de la structure actuelle
+- [ ] Lister toutes les pages et routes existantes
+- [ ] Identifier les liens entre les pages
+- [ ] Vérifier la cohérence de la navigation principale
+
+### Phase 2 : Identification des problèmes
+- [ ] Identifier les liens manquants ou cassés
+- [ ] Identifier les pages orphelines (sans lien entrant)
+- [ ] Identifier les incohérences de navigation
+
+### Phase 3 : Amélioration de la navigation
+- [ ] Améliorer la cohérence de la navigation
+- [ ] Ajouter des liens de retour et fil d'Ariane si nécessaire
+- [ ] Améliorer les liens contextuels entre pages liées
+- [ ] Vérifier la navigation mobile
+
+### Phase 4 : Tests et validation
+- [ ] Tester tous les liens sur desktop
+- [ ] Tester tous les liens sur mobile
+- [ ] Créer le checkpoint final
+
+
+---
+
+## 🔗 SESSION 04 JAN 2026 - AUDIT NAVIGATION
+
+### Audit général de la navigation
+- [x] Analyser la structure actuelle des pages et routes (212 routes)
+- [x] Identifier les liens cassés (14 trouvés initialement)
+- [x] Identifier les pages orphelines (30 trouvées)
+- [x] Corriger tous les liens cassés (0 restant)
+- [x] Améliorer le MegaMenu desktop (ajout Plantes, Accords, Civilisations, Manifeste, Nouveautés)
+- [x] Améliorer le menu mobile (ajout Manifeste, Civilisations, Plantes, Terroirs)
+- [x] Enrichir le Footer avec plus de liens de navigation
+- [x] Ajouter les outils admin manquants à la page Admin (Import/Export, Liaisons, Historique)
+- [x] Tester et valider les améliorations
+
+### Corrections effectuées
+- [x] Home.tsx: /recherche-scientifique/synergies → /recherche-scientifique/synergies-moleculaires
+- [x] Home.tsx: /recherche-scientifique/pyrolyse → /recherche-scientifique/pyrolyse-combustion
+- [x] Home.tsx: /recherche-scientifique/volatilite → /recherche-scientifique/courbes-volatilite
+- [x] Home.tsx: /recherche-scientifique/degradation → /recherche-scientifique/degradation-terpenes
+- [x] Home.tsx: /methodologie/gcms → /methodologie/gc-ms
+- [x] Admin.tsx: /admin/accords/new → /accords
+- [x] Admin.tsx: /admin/matieres/new → /matieres-premieres
+- [x] Admin.tsx: /admin/recettes/new → /admin/recettes
+- [x] FinalRecipes.tsx: /final-recipes/new → toast (fonctionnalité en développement)
+- [x] TerpProfiles.tsx: /terp-profiles/new → toast (fonctionnalité en développement)
+- [x] Inventaire.tsx: /docs/matieres-premieres-prioritaires.md → /matieres-premieres
+- [x] Nouveautes.tsx: /docs/audit-site-perfumum.md → /statistiques
+- [x] Nouveautes.tsx: /docs/synthese-manuel-formulation.md → /methodologie/absorbe
+- [x] InteractionsTabacCannabis.tsx: /synergies-moleculaires → /recherche-scientifique/synergies-moleculaires
+- [x] SourcingColombie.tsx: /gammes/colombie → /colombie
+- [x] EchelleAbsorbe.tsx: /methodologie → /methodologie/absorbe
+

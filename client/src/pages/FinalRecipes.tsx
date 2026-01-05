@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -264,12 +265,10 @@ export default function FinalRecipes() {
               Parfum, Encens, Espace — Formulations complètes et protocoles
             </p>
           </div>
-          <Link href="/final-recipes/new">
-            <Button>
+          <Button onClick={() => toast.info("Fonctionnalité en cours de développement")}>
               <Plus className="w-4 h-4 mr-2" />
               Nouvelle recette
             </Button>
-          </Link>
         </div>
 
         {/* Filters */}
@@ -398,12 +397,10 @@ export default function FinalRecipes() {
                   ? "Essayez de modifier vos filtres de recherche."
                   : "Commencez par créer votre première recette finale."}
               </p>
-              <Link href="/final-recipes/new">
-                <Button>
+              <Button onClick={() => toast.info("Fonctionnalité en cours de développement")}>
                   <Plus className="w-4 h-4 mr-2" />
                   Créer une recette
                 </Button>
-              </Link>
             </CardContent>
           </Card>
         ) : (

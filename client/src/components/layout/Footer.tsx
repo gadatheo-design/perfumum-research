@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-muted/20 py-12 mt-auto">
       <div className="container">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-8 max-w-3xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 max-w-4xl mx-auto">
           {/* Section Données */}
           <div>
             <h3 className="font-semibold text-sm mb-3">Données</h3>
@@ -17,6 +17,48 @@ export function Footer() {
               <li>
                 <Link href="/recettes" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                   Recettes
+                </Link>
+              </li>
+              <li>
+                <Link href="/accords" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Accords
+                </Link>
+              </li>
+              <li>
+                <Link href="/gammes" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Gammes
+                </Link>
+              </li>
+              <li>
+                <Link href="/plants" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Plantes
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Section Outils */}
+          <div>
+            <h3 className="font-semibold text-sm mb-3">Outils</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/recherche-avancee" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Recherche avancée
+                </Link>
+              </li>
+              <li>
+                <Link href="/outils/editeur-formulation" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Éditeur de formulation
+                </Link>
+              </li>
+              <li>
+                <Link href="/calculateur" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Calculateur
+                </Link>
+              </li>
+              <li>
+                <Link href="/synergies" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Synergies
                 </Link>
               </li>
             </ul>
@@ -36,6 +78,16 @@ export function Footer() {
                   Glossaire
                 </Link>
               </li>
+              <li>
+                <Link href="/recherche-scientifique" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Recherche scientifique
+                </Link>
+              </li>
+              <li>
+                <Link href="/ifra" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Normes IFRA
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -44,8 +96,23 @@ export function Footer() {
             <h3 className="font-semibold text-sm mb-3">À propos</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/a-propos" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/le-projet" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                   Le Projet
+                </Link>
+              </li>
+              <li>
+                <Link href="/manifeste" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Manifeste
+                </Link>
+              </li>
+              <li>
+                <Link href="/a-propos" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  À propos
+                </Link>
+              </li>
+              <li>
+                <Link href="/nouveautes" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Nouveautés
                 </Link>
               </li>
               <li>

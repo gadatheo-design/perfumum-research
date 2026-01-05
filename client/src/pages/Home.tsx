@@ -98,7 +98,7 @@ export default function Home() {
                       <Link href="/methodologie/absorbe" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
                         → Méthodologie ABSORBE
                       </Link>
-                      <Link href="/methodologie/gcms" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
+                      <Link href="/methodologie/gc-ms" className="block text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors">
                         → Protocoles GC-MS
                       </Link>
                     </div>
@@ -398,16 +398,16 @@ export default function Home() {
                     <CardTitle className="group-hover:text-purple-500 transition-colors">Recherche Scientifique</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <Link href="/recherche-scientifique/synergies" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                    <Link href="/recherche-scientifique/synergies-moleculaires" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                       → Synergies Moléculaires
                     </Link>
-                    <Link href="/recherche-scientifique/pyrolyse" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                    <Link href="/recherche-scientifique/pyrolyse-combustion" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                       → Pyrolyse & Combustion
                     </Link>
-                    <Link href="/recherche-scientifique/volatilite" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                    <Link href="/recherche-scientifique/courbes-volatilite" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                       → Courbes de Volatilité
                     </Link>
-                    <Link href="/recherche-scientifique/degradation" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                    <Link href="/recherche-scientifique/degradation-terpenes" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                       → Dégradation Terpènes
                     </Link>
                   </CardContent>

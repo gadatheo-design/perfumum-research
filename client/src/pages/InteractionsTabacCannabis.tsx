@@ -548,7 +548,7 @@ export default function InteractionsTabacCannabis() {
             </Card>
           </Link>
           
-          <Link href="/synergies-moleculaires">
+          <Link href="/recherche-scientifique/synergies-moleculaires">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
               <CardContent className="p-6 flex items-center gap-4">
                 <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">

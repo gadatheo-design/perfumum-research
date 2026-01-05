@@ -694,7 +694,7 @@ export default function Inventaire() {
                     </div>
                   </CardContent>
                 </Card>
-                <Link href="/docs/matieres-premieres-prioritaires.md">
+                <Link href="/matieres-premieres">
                   <Card className="hover:shadow-md transition-shadow cursor-pointer">
                     <CardContent className="pt-6">
                       <div className="flex items-center gap-4">
@@ -702,8 +702,8 @@ export default function Inventaire() {
                           <Plus className="h-6 w-6 text-blue-600" />
                         </div>
                         <div>
-                          <h3 className="font-semibold">50 Prioritaires</h3>
-                          <p className="text-sm text-muted-foreground">Liste recommandée</p>
+                          <h3 className="font-semibold">Matières Premières</h3>
+                          <p className="text-sm text-muted-foreground">Catalogue complet</p>
                         </div>
                       </div>
                     </CardContent>

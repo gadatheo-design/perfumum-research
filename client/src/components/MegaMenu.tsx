@@ -260,6 +260,18 @@ export function MegaMenu() {
           description: "Collections thématiques",
         },
         {
+          label: "Plantes & Variétés",
+          path: "/plants",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Botanique et terroirs",
+        },
+        {
+          label: "Accords",
+          path: "/accords",
+          icon: <Layers className="h-4 w-4" />,
+          description: "Accords olfactifs",
+        },
+        {
           label: "Recherche avancée",
           path: "/recherche-avancee",
           icon: <Search className="h-4 w-4" />,
@@ -437,16 +449,41 @@ export function MegaMenu() {
           icon: <Microscope className="h-4 w-4" />,
           description: "Phénoménologie olfactive",
         },
+        {
+          label: "Civilisations",
+          path: "/civilisations",
+          icon: <Compass className="h-4 w-4" />,
+          description: "Traditions olfactives mondiales",
+        },
       ],
     },
     {
-      title: "Communauté",
+      title: "Projet",
       items: [
+        {
+          label: "Le Projet",
+          path: "/le-projet",
+          icon: <Target className="h-4 w-4" />,
+          description: "Vision et objectifs",
+        },
         {
           label: "À propos",
           path: "/a-propos",
           icon: <Users className="h-4 w-4" />,
           description: "Histoire et équipe",
+        },
+        {
+          label: "Manifeste",
+          path: "/manifeste",
+          icon: <FileText className="h-4 w-4" />,
+          description: "Vision 2025-2035",
+        },
+        {
+          label: "Nouveautés",
+          path: "/nouveautes",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Dernières mises à jour",
+          badge: "NEW",
         },
         {
           label: "Contribuer",

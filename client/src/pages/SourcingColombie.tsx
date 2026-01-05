@@ -105,7 +105,7 @@ export default function SourcingColombie() {
       
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
-        <Link href="/gammes/colombie">
+        <Link href="/colombie">
           <Button variant="ghost" size="icon" className="btn-enhanced">
             <ArrowLeft className="h-5 w-5" />
           </Button>
@@ -442,7 +442,7 @@ export default function SourcingColombie() {
 
       {/* Lien retour */}
       <div className="flex justify-center pt-4">
-        <Link href="/gammes/colombie">
+        <Link href="/colombie">
           <Button variant="outline" className="btn-enhanced">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Retour à la Gamme Colombie

@@ -122,6 +122,57 @@ export default function Admin() {
     },
   ];
 
+  const adminTools = [
+    {
+      title: "Import/Export",
+      description: "Importer et exporter les données",
+      icon: Database,
+      href: "/admin/import-export",
+      color: "text-cyan-600",
+      bgColor: "bg-cyan-50",
+    },
+    {
+      title: "Import Plantes",
+      description: "Importer les données botaniques",
+      icon: Leaf,
+      href: "/admin/import-export-plants",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+    },
+    {
+      title: "Liaisons Recettes",
+      description: "Gérer les liaisons molécules-recettes",
+      icon: Layers,
+      href: "/admin/liaison-recettes-molecules",
+      color: "text-violet-600",
+      bgColor: "bg-violet-50",
+    },
+    {
+      title: "Origines Molécules",
+      description: "Gérer les origines des molécules",
+      icon: Beaker,
+      href: "/admin/molecule-origins",
+      color: "text-pink-600",
+      bgColor: "bg-pink-50",
+    },
+    {
+      title: "Géocodage Terroirs",
+      description: "Géolocaliser les terroirs",
+      icon: Database,
+      href: "/admin/terroirs-geocode",
+      color: "text-orange-600",
+      bgColor: "bg-orange-50",
+    },
+    {
+      title: "Historique",
+      description: "Consulter l'historique des modifications",
+      icon: BookOpen,
+      href: "/admin/historique",
+      color: "text-slate-600",
+      bgColor: "bg-slate-50",
+    },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Breadcrumbs />
@@ -237,6 +288,42 @@ export default function Admin() {
                           <Button className="w-full btn-enhanced" variant="outline">
                             <Plus className="w-4 h-4 mr-2" />
                             Gérer
+                          </Button>
+                        </Link>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Outils Admin */}
+        <section className="py-16 bg-muted/30">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8">Outils d'administration</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {adminTools.map((tool, index) => {
+                  const Icon = tool.icon;
+                  return (
+                    <Card key={index} className="transition-all hover:shadow-lg hover:-translate-y-1 duration-300">
+                      <CardHeader>
+                        <div className="flex items-start gap-4">
+                          <div className={`p-3 rounded-lg ${tool.bgColor}`}>
+                            <Icon className={`w-6 h-6 ${tool.color}`} />
+                          </div>
+                        </div>
+                        <CardTitle className="text-xl mt-4">{tool.title}</CardTitle>
+                        <CardDescription>{tool.description}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <Link href={tool.href}>
+                          <Button className="w-full btn-enhanced" variant="outline">
+                            <Plus className="w-4 h-4 mr-2" />
+                            Accéder
                           </Button>
                         </Link>
                       </CardContent>
@@ -391,22 +478,22 @@ export default function Admin() {
                     Nouvelle Molécule
                   </Button>
                 </Link>
-                <Link href="/admin/accords/new">
+                <Link href="/accords">
                   <Button className="w-full btn-enhanced" size="lg" variant="outline">
                     <Plus className="w-5 h-5 mr-2" />
-                    Nouvel Accord
+                    Gérer les Accords
                   </Button>
                 </Link>
-                <Link href="/admin/matieres/new">
+                <Link href="/matieres-premieres">
                   <Button className="w-full btn-enhanced" size="lg" variant="outline">
                     <Plus className="w-5 h-5 mr-2" />
-                    Nouvelle Matière
+                    Gérer les Matières
                   </Button>
                 </Link>
-                <Link href="/admin/recettes/new">
+                <Link href="/admin/recettes">
                   <Button className="w-full btn-enhanced" size="lg" variant="outline">
                     <Plus className="w-5 h-5 mr-2" />
-                    Nouvelle Recette
+                    Gérer les Recettes
                   </Button>
                 </Link>
               </div>

@@ -80,6 +80,8 @@ const mobileMenuSections = [
       { href: "/chemical-families", label: "Familles chimiques" },
       { href: "/compare-molecules-advanced", label: "Comparaison avancée" },
       { href: "/matrice-synergies", label: "Matrice synergies" },
+      { href: "/plants", label: "Plantes & Variétés", badge: "NEW" },
+      { href: "/terroirs", label: "Terroirs" },
     ],
   },
   {
@@ -175,10 +177,12 @@ const mobileMenuSections = [
     items: [
       { href: "/mon-dashboard", label: "Mon Dashboard", badge: "NEW" },
       { href: "/le-projet", label: "Le Projet PERFUMUM" },
+      { href: "/manifeste", label: "Manifeste", badge: "NEW" },
       { href: "/a-propos", label: "À propos" },
       { href: "/contribuer", label: "Comment Contribuer", badge: "NEW" },
       { href: "/nouveautes", label: "Nouveautés", badge: "NEW" },
       { href: "/timeline", label: "Timeline" },
+      { href: "/civilisations", label: "Traditions Olfactives" },
       { href: "/contact", label: "Contact" },
     ],
   },

@@ -16,7 +16,7 @@ export default function EchelleAbsorbe() {
         <section className="section-spacing bg-gradient-to-b from-blue-50/50 to-background dark:from-blue-950/20">
           <div className="container">
             <div className="max-w-4xl mx-auto">
-              <Link href="/methodologie">
+              <Link href="/methodologie/absorbe">
                 <Button variant="ghost" size="sm" className="mb-6">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Retour à la Méthodologie

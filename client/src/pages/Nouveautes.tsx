@@ -42,7 +42,7 @@ const updates: Update[] = [
     description: "Rapport d'audit du site, ajout des nouvelles pages aux menus principaux",
     type: "improvement",
     items: [
-      { text: "Rapport d'audit complet du site (96 pages, 176 molécules, 195 recettes)", link: "/docs/audit-site-perfumum.md" },
+      { text: "Rapport d'audit complet du site (96 pages, 176 molécules, 195 recettes)", link: "/statistiques" },
       { text: "Fournisseurs ajouté au menu Études", link: "/fournisseurs" },
       { text: "Chimie du Tabac, Synergies Terpènes, Protocoles ajoutés au menu Résines CBD", link: "/chimie-tabac" },
       { text: "Page Nouveautés créée", link: "/nouveautes" },
@@ -114,7 +114,7 @@ const updates: Update[] = [
     description: "Documentation complète des protocoles et méthodologies",
     type: "content",
     items: [
-      { text: "Document de synthèse du manuel de formulation (40+ pages)", link: "/docs/synthese-manuel-formulation.md" },
+      { text: "Document de synthèse du manuel de formulation (40+ pages)", link: "/methodologie/absorbe" },
       { text: "Protocoles détaillés pour chaque gamme", link: "/laboratoire" },
     ],
   },

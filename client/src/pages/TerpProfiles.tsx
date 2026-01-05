@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -262,12 +263,10 @@ export default function TerpProfiles() {
               Fiches interactives San Andrés — Formules analytiques et profils climatiques
             </p>
           </div>
-          <Link href="/terp-profiles/new">
-            <Button>
+          <Button onClick={() => toast.info("Fonctionnalité en cours de développement")}>
               <Plus className="w-4 h-4 mr-2" />
               Nouvelle fiche
             </Button>
-          </Link>
         </div>
 
         {/* Filters */}
@@ -380,12 +379,10 @@ export default function TerpProfiles() {
                   ? "Essayez de modifier vos filtres de recherche."
                   : "Commencez par créer votre première fiche TerpProfile."}
               </p>
-              <Link href="/terp-profiles/new">
-                <Button>
+              <Button onClick={() => toast.info("Fonctionnalité en cours de développement")}>
                   <Plus className="w-4 h-4 mr-2" />
                   Créer une fiche
                 </Button>
-              </Link>
             </CardContent>
           </Card>
         ) : (
