@@ -1631,3 +1631,23 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Ajouter un lien vers les profils terpéniques dans le menu Outils/Recherche
 - [x] Tester la navigation sur desktop et mobile
 
+
+
+---
+
+## 🎯 SESSION 04 JAN 2026 - ENRICHISSEMENT RADAR & PAGE ACCORDS
+
+### Phase 1 : Enrichir les données radar des molécules
+- [x] Identifier les molécules avec valeurs radar par défaut (50/50/50) — 120 molécules identifiées
+- [x] Rechercher les profils olfactifs corrects pour chaque molécule
+- [x] Mettre à jour les valeurs radar (intensité, diffusion, persistance, etc.)
+- [x] Valider les modifications en base de données — 120 molécules enrichies
+
+### Phase 2 : Créer la page "Accords" dédiée
+- [x] Identifier les 3 nouveaux accords à afficher (Fumoir Oriental, Hash Marocain, Cannabis Vert)
+- [x] Créer la page AccordsDedies.tsx avec interface dédiée
+- [x] Afficher les compositions moléculaires de chaque accord
+- [x] Afficher les notes olfactives (tête, cœur, fond)
+- [x] Intégrer la navigation vers la page Accords
+- [x] Tester l'affichage sur desktop et mobile
+

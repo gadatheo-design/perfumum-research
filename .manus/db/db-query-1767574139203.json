@@ -1,0 +1,100 @@
+{
+  "query": "SELECT name, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness FROM molecules ORDER BY RAND() LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT name, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness FROM molecules ORDER BY RAND() LIMIT 10",
+  "rows": [
+    {
+      "name": "Valencène",
+      "radar_intensity": "65",
+      "radar_freshness": "75",
+      "radar_warmth": "35",
+      "radar_sweetness": "25",
+      "radar_spiciness": "30",
+      "radar_earthiness": "55"
+    },
+    {
+      "name": "Ethyl Lactate",
+      "radar_intensity": "55",
+      "radar_freshness": "54",
+      "radar_warmth": "48",
+      "radar_sweetness": "52",
+      "radar_spiciness": "47",
+      "radar_earthiness": "53"
+    },
+    {
+      "name": "Turnera Diffusa (Damiana)",
+      "radar_intensity": "75",
+      "radar_freshness": "60",
+      "radar_warmth": "40",
+      "radar_sweetness": "80",
+      "radar_spiciness": "25",
+      "radar_earthiness": "35"
+    },
+    {
+      "name": "Oud accord",
+      "radar_intensity": "51",
+      "radar_freshness": "51",
+      "radar_warmth": "83",
+      "radar_sweetness": "50",
+      "radar_spiciness": "55",
+      "radar_earthiness": "64"
+    },
+    {
+      "name": "cis-Jasmone",
+      "radar_intensity": "60",
+      "radar_freshness": "65",
+      "radar_warmth": "40",
+      "radar_sweetness": "80",
+      "radar_spiciness": "20",
+      "radar_earthiness": "25"
+    },
+    {
+      "name": "Acide Cinnamique",
+      "radar_intensity": "46",
+      "radar_freshness": "53",
+      "radar_warmth": "70",
+      "radar_sweetness": "43",
+      "radar_spiciness": "63",
+      "radar_earthiness": "48"
+    },
+    {
+      "name": "Ozonal",
+      "radar_intensity": "54",
+      "radar_freshness": "59",
+      "radar_warmth": "54",
+      "radar_sweetness": "59",
+      "radar_spiciness": "44",
+      "radar_earthiness": "54"
+    },
+    {
+      "name": "Terpinène-4-ol",
+      "radar_intensity": "65",
+      "radar_freshness": "75",
+      "radar_warmth": "35",
+      "radar_sweetness": "25",
+      "radar_spiciness": "30",
+      "radar_earthiness": "55"
+    },
+    {
+      "name": "MYRRH OIL",
+      "radar_intensity": "85",
+      "radar_freshness": "35",
+      "radar_warmth": "75",
+      "radar_sweetness": "40",
+      "radar_spiciness": "55",
+      "radar_earthiness": "60"
+    },
+    {
+      "name": "Hexanoic acid",
+      "radar_intensity": "37",
+      "radar_freshness": "40",
+      "radar_warmth": "57",
+      "radar_sweetness": "46",
+      "radar_spiciness": "59",
+      "radar_earthiness": "42"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tradar_intensity\tradar_freshness\tradar_warmth\tradar_sweetness\tradar_spiciness\tradar_earthiness\nValencène\t65\t75\t35\t25\t30\t55\nEthyl Lactate\t55\t54\t48\t52\t47\t53\nTurnera Diffusa (Damiana)\t75\t60\t40\t80\t25\t35\nOud accord\t51\t51\t83\t50\t55\t64\ncis-Jasmone\t60\t65\t40\t80\t20\t25\nAcide Cinnamique\t46\t53\t70\t43\t63\t48\nOzonal\t54\t59\t54\t59\t44\t54\nTerpinène-4-ol\t65\t75\t35\t25\t30\t55\nMYRRH OIL\t85\t35\t75\t40\t55\t60\nHexanoic acid\t37\t40\t57\t46\t59\t42\n",
+  "stderr": "",
+  "execution_time_ms": 155
+}

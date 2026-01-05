@@ -82,6 +82,7 @@ import { ChemicalFamilies } from "./pages/ChemicalFamilies";
 import Recettes from "./pages/Recettes";
 import RecetteDetail from "./pages/RecetteDetail";
 import Accords from "./pages/Accords";
+import AccordsDedies from "./pages/AccordsDedies";
 import { ExperimentalAccords } from "./pages/ExperimentalAccords";
 import RechercheRadicale from "@/pages/RechercheRadicale";
 import FondementsPhilosophiques from "@/pages/FondementsPhilosophiques";
@@ -325,6 +326,7 @@ function Router() {
       <Route path="/recettes" component={Recettes} />
       <Route path="/recette/:id" component={RecetteDetail} />
       <Route path="/accords" component={Accords} />
+      <Route path="/accords-dedies" component={AccordsDedies} />
       <Route path="/experimental-accords" component={ExperimentalAccords} />
         <Route path="/recherche-radicale" component={RechercheRadicale} />
         <Route path="/recherche/fondements-theoriques" component={FondementsPhilosophiques} />

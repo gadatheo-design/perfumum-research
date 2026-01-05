@@ -1,0 +1,186 @@
+{
+  "query": "DESCRIBE aromatic_accords",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE aromatic_accords",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "accord_id",
+      "Type": "varchar(50)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "category",
+      "Type": "enum('fumoir','hash','herbal','hybrid')",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "top_notes",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "heart_notes",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "base_notes",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "formula",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "formula_json",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "terpene_profile",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "description",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "inspiration",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "target_effect",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "diffusion",
+      "Type": "enum('faible','moyenne','forte')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "moyenne",
+      "Extra": ""
+    },
+    {
+      "Field": "tenacity",
+      "Type": "enum('fugace','modérée','tenace')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "modérée",
+      "Extra": ""
+    },
+    {
+      "Field": "sillage",
+      "Type": "enum('intime','modéré','puissant')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "modéré",
+      "Extra": ""
+    },
+    {
+      "Field": "key_interactions",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "usage_recommendations",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "dilution_recommendation",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "image_url",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\naccord_id\tvarchar(50)\tNO\tUNI\tNULL\t\nname\tvarchar(255)\tNO\t\tNULL\t\ncategory\tenum('fumoir','hash','herbal','hybrid')\tNO\tMUL\tNULL\t\ntop_notes\tjson\tYES\t\tNULL\t\nheart_notes\tjson\tYES\t\tNULL\t\nbase_notes\tjson\tYES\t\tNULL\t\nformula\ttext\tYES\t\tNULL\t\nformula_json\tjson\tYES\t\tNULL\t\nterpene_profile\tjson\tYES\t\tNULL\t\ndescription\ttext\tYES\t\tNULL\t\ninspiration\ttext\tYES\t\tNULL\t\ntarget_effect\ttext\tYES\t\tNULL\t\ndiffusion\tenum('faible','moyenne','forte')\tYES\t\tmoyenne\t\ntenacity\tenum('fugace','modérée','tenace')\tYES\t\tmodérée\t\nsillage\tenum('intime','modéré','puissant')\tYES\t\tmodéré\t\nkey_interactions\tjson\tYES\t\tNULL\t\nusage_recommendations\ttext\tYES\t\tNULL\t\ndilution_recommendation\tvarchar(100)\tYES\t\tNULL\t\nimage_url\tvarchar(500)\tYES\t\tNULL\t\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

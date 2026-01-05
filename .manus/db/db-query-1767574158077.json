@@ -1,0 +1,170 @@
+{
+  "query": "SELECT id, name, olfactiveProfile, emotionalResonance, texture, notes FROM accords ORDER BY id DESC LIMIT 20",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, olfactiveProfile, emotionalResonance, texture, notes FROM accords ORDER BY id DESC LIMIT 20",
+  "rows": [
+    {
+      "id": "90006",
+      "name": "Cannabis Vert",
+      "olfactiveProfile": "Accord frais et végétal évoquant le cannabis frais non séché. Notes vertes, herbacées avec des facettes citronnées et florales. Composition: Tête (Limonène, Pinène, Feuille de tomate), Cœur (Myrcène, Ocimène, Terpinolène), Fond (Caryophyllène, Mousse de chêne, Galbanum). Molécules: Limonène, α-Pinène, β-Myrcène, Ocimène, Terpinolène, β-Caryophyllène.",
+      "emotionalResonance": "Frais, végétal, vivifiant. Profil représentatif du cannabis frais avant séchage.",
+      "texture": "humide",
+      "notes": "Usage: Parfumerie verte, accords naturels. Les notes vertes dominent avec une fraîcheur citronnée. Intensité: 6/10, Complexité: 7/10."
+    },
+    {
+      "id": "90005",
+      "name": "Hash Marocain",
+      "olfactiveProfile": "Accord capturant l'essence du hashish marocain traditionnel : notes résineuses, terreuses et légèrement épicées avec une touche de menthe. Composition: Tête (Menthe nanah, Citron vert), Cœur (Myrcène, Caryophyllène, Humulène), Fond (Résine de cannabis, Patchouli, Vétiver). Molécules: Myrcène, β-Caryophyllène, Humulène, Limonène, Linalol.",
+      "emotionalResonance": "Terreux, résineux, authentique. Profil terpénique typique du hashish marocain.",
+      "texture": "resine",
+      "notes": "Usage: Parfumerie expérimentale, formulations cannabis-inspirées. La menthe nanah apporte la touche traditionnelle du thé à la menthe. Intensité: 7/10, Complexité: 8/10."
+    },
+    {
+      "id": "90004",
+      "name": "Fumoir Oriental",
+      "olfactiveProfile": "Accord évoquant un fumoir traditionnel oriental, mêlant tabac fermenté, résines précieuses et épices chaudes. Composition: Tête (Cardamome, Safran, Bergamote), Cœur (Tabac Virginia fermenté, Rose de Damas, Oud), Fond (Benjoin, Labdanum, Musc, Ambre). Molécules: Caryophyllène, Géraniol, Eugénol, Vanilline, Labdanum absolu.",
+      "emotionalResonance": "Opulent, mystérieux, enveloppant. Évoque les traditions du Moyen-Orient.",
+      "texture": "resine",
+      "notes": "Usage: Parfumerie de niche, encens haut de gamme. Le tabac fermenté apporte une profondeur unique. Intensité: 8/10, Complexité: 9/10."
+    },
+    {
+      "id": "90003",
+      "name": "Cannabis Vert",
+      "olfactiveProfile": "Accord frais et végétal évoquant le cannabis frais non séché. Notes vertes, herbacées avec des facettes citronnées et florales. Composition: Tête (Limonène, Pinène, Feuille de tomate), Cœur (Myrcène, Ocimène, Terpinolène), Fond (Caryophyllène, Mousse de chêne, Galbanum). Molécules: Limonène, α-Pinène, β-Myrcène, Ocimène, Terpinolène, β-Caryophyllène.",
+      "emotionalResonance": "Frais, végétal, vivifiant. Profil représentatif du cannabis frais avant séchage.",
+      "texture": "humide",
+      "notes": "Usage: Parfumerie verte, accords naturels. Les notes vertes dominent avec une fraîcheur citronnée. Intensité: 6/10, Complexité: 7/10."
+    },
+    {
+      "id": "90002",
+      "name": "Hash Marocain",
+      "olfactiveProfile": "Accord capturant l'essence du hashish marocain traditionnel : notes résineuses, terreuses et légèrement épicées avec une touche de menthe. Composition: Tête (Menthe nanah, Citron vert), Cœur (Myrcène, Caryophyllène, Humulène), Fond (Résine de cannabis, Patchouli, Vétiver). Molécules: Myrcène, β-Caryophyllène, Humulène, Limonène, Linalol.",
+      "emotionalResonance": "Terreux, résineux, authentique. Profil terpénique typique du hashish marocain.",
+      "texture": "resine",
+      "notes": "Usage: Parfumerie expérimentale, formulations cannabis-inspirées. La menthe nanah apporte la touche traditionnelle du thé à la menthe. Intensité: 7/10, Complexité: 8/10."
+    },
+    {
+      "id": "90001",
+      "name": "Fumoir Oriental",
+      "olfactiveProfile": "Accord évoquant un fumoir traditionnel oriental, mêlant tabac fermenté, résines précieuses et épices chaudes. Composition: Tête (Cardamome, Safran, Bergamote), Cœur (Tabac Virginia fermenté, Rose de Damas, Oud), Fond (Benjoin, Labdanum, Musc, Ambre). Molécules: Caryophyllène, Géraniol, Eugénol, Vanilline, Labdanum absolu.",
+      "emotionalResonance": "Opulent, mystérieux, enveloppant. Évoque les traditions du Moyen-Orient.",
+      "texture": "resine",
+      "notes": "Usage: Parfumerie de niche, encens haut de gamme. Le tabac fermenté apporte une profondeur unique. Intensité: 8/10, Complexité: 9/10."
+    },
+    {
+      "id": "60001",
+      "name": "Accord Colombien",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL",
+      "texture": "NULL",
+      "notes": "Accord tropical complexe mêlant la richesse des Andes, la chaleur de la côte caraïbe et la profondeur de l'Amazonie"
+    },
+    {
+      "id": "30006",
+      "name": "BIO-MINERALIS VI: Nécro-Géo Sacré",
+      "olfactiveProfile": "Synthèse ultime. Mort + Terre + Sacré. Autel funéraire, sépulture olfactive.",
+      "emotionalResonance": "Sacralisation de la décomposition, beauté de la mort",
+      "texture": "pierre",
+      "notes": "Protocole: Fossile absolute (0.04%) + Myrrhe noire (0.04%) + Bitume light (0.02%) + Calcite (0.03%) + Skatole (0.0003%). Laboratoire: Maturation 6 mois. Artisanal: Résine + os + terre. Rituel: Autel complet."
+    },
+    {
+      "id": "30005",
+      "name": "BIO-MINERALIS V: Sève/Chair/Roche",
+      "olfactiveProfile": "Triple hybride végétal-animal-minéral. Résine qui saigne, pierre qui respire.",
+      "emotionalResonance": "Continuum vivant-inerte, porosité des règnes",
+      "texture": "resine",
+      "notes": "Protocole: Olibanum (0.04%) + Marrow accord (0.03%) + Myrrhone (0.03%) + Bitume light (0.02%). Laboratoire: Fusion 80°C. Artisanal: Résine + moelle + argile. Rituel: Offrande triple."
+    },
+    {
+      "id": "30004",
+      "name": "BIO-MINERALIS IV: Pétrichor Anthropique",
+      "olfactiveProfile": "Géosmine humaine. Terre + corps, pluie sur peau, humus corporel.",
+      "emotionalResonance": "Fusion homme-terre, retour au sol, décomposition noble",
+      "texture": "humide",
+      "notes": "Protocole: Géosmine (0.003%) + Indole (0.0004%) + Skatole (0.0002%) + Humus absolute (0.03%). Laboratoire: Macération 96h. Artisanal: Terre + sueur. Rituel: Enterrement symbolique."
+    },
+    {
+      "id": "30003",
+      "name": "BIO-MINERALIS III: Os Carbonisé",
+      "olfactiveProfile": "Pyrolyse complète du collagène. Os brûlés, cendres organiques, mémoire du feu.",
+      "emotionalResonance": "Rituel funéraire, transformation par le feu, sacré sombre",
+      "texture": "sec",
+      "notes": "Protocole: Glycine pyrolysée (0.05%) + Hydroxyproline pyrolysée (0.06%) + Bone-smoke accord (0.04%) + Phénols oxydés (0.02%). Laboratoire: Pyrolyse 220°C. Artisanal: Combustion os. Rituel: Offrande feu."
+    },
+    {
+      "id": "30002",
+      "name": "BIO-MINERALIS II: Cuir Fossilisé",
+      "olfactiveProfile": "Cuir Mossi pyrolysé rencontrant la pierre calcaire. Peau animale pétrifiée, tannage minéral.",
+      "emotionalResonance": "Transformation matière vivante en fossile, mémoire tactile",
+      "texture": "sec",
+      "notes": "Protocole: IBQ (0.03%) + Calcite (0.03%) + Sandstone accord (0.04%) + Vetiverol (0.02%). Laboratoire: Oxydation contrôlée 120°C. Artisanal: Cuir + poudre calcaire. Rituel: Fumigation cuir + pierre."
+    },
+    {
+      "id": "30001",
+      "name": "BIO-MINERALIS I: Os + Pluie",
+      "olfactiveProfile": "Fusion archéologique entre collagène fossile et géosmine. Squelette mouillé, mémoire osseuse sous pluie.",
+      "emotionalResonance": "Archéologie olfactive, mémoire ancestrale, temps géologique",
+      "texture": "humide",
+      "notes": "Protocole: Hydroxyproline pyrolysée (0.04%) + Géosmine (0.003%) + Ozone (0.01%) + Calcite (0.03%). Laboratoire: Pyrolyse 180°C + macération 72h. Artisanal: Infusion os broyés + terre humide. Rituel: Autel pierre + eau pluie."
+    },
+    {
+      "id": "19",
+      "name": "Pierre Chaude",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL",
+      "texture": "pierre",
+      "notes": "Dimension minérale solaire. Pierre méditerranéenne chauffée."
+    },
+    {
+      "id": "18",
+      "name": "Lait Solaire",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL",
+      "texture": "lactone",
+      "notes": "Accord lactonique principal. Base du prototype C3 LACTA SOLIS."
+    },
+    {
+      "id": "17",
+      "name": "Terre Sacrée",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL",
+      "texture": "sec",
+      "notes": "Dimension tellurique du sacré. Terre des lieux de culte."
+    },
+    {
+      "id": "16",
+      "name": "Bois Fumé",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL",
+      "texture": "sec",
+      "notes": "Dimension fumée du bois sacré. Base du prototype C4 TERRA AMBRA."
+    },
+    {
+      "id": "15",
+      "name": "Encens Sacré",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL",
+      "texture": "resine",
+      "notes": "Accord sacré principal. Frankincense et résines nobles."
+    },
+    {
+      "id": "14",
+      "name": "Résine Transparente",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL",
+      "texture": "resine",
+      "notes": "Dimension résineuse claire. Base du prototype C2 CLARUS VERDE."
+    },
+    {
+      "id": "13",
+      "name": "Sève Verte",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL",
+      "texture": "humide",
+      "notes": "Accord vert principal. Dimension végétale pure."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tolfactiveProfile\temotionalResonance\ttexture\tnotes\n90006\tCannabis Vert\tAccord frais et végétal évoquant le cannabis frais non séché. Notes vertes, herbacées avec des facettes citronnées et florales. Composition: Tête (Limonène, Pinène, Feuille de tomate), Cœur (Myrcène, Ocimène, Terpinolène), Fond (Caryophyllène, Mousse de chêne, Galbanum). Molécules: Limonène, α-Pinène, β-Myrcène, Ocimène, Terpinolène, β-Caryophyllène.\tFrais, végétal, vivifiant. Profil représentatif du cannabis frais avant séchage.\thumide\tUsage: Parfumerie verte, accords naturels. Les notes vertes dominent avec une fraîcheur citronnée. Intensité: 6/10, Complexité: 7/10.\n90005\tHash Marocain\tAccord capturant l'essence du hashish marocain traditionnel : notes résineuses, terreuses et légèrement épicées avec une touche de menthe. Composition: Tête (Menthe nanah, Citron vert), Cœur (Myrcène, Caryophyllène, Humulène), Fond (Résine de cannabis, Patchouli, Vétiver). Molécules: Myrcène, β-Caryophyllène, Humulène, Limonène, Linalol.\tTerreux, résineux, authentique. Profil terpénique typique du hashish marocain.\tresine\tUsage: Parfumerie expérimentale, formulations cannabis-inspirées. La menthe nanah apporte la touche traditionnelle du thé à la menthe. Intensité: 7/10, Complexité: 8/10.\n90004\tFumoir Oriental\tAccord évoquant un fumoir traditionnel oriental, mêlant tabac fermenté, résines précieuses et épices chaudes. Composition: Tête (Cardamome, Safran, Bergamote), Cœur (Tabac Virginia fermenté, Rose de Damas, Oud), Fond (Benjoin, Labdanum, Musc, Ambre). Molécules: Caryophyllène, Géraniol, Eugénol, Vanilline, Labdanum absolu.\tOpulent, mystérieux, enveloppant. Évoque les traditions du Moyen-Orient.\tresine\tUsage: Parfumerie de niche, encens haut de gamme. Le tabac fermenté apporte une profondeur unique. Intensité: 8/10, Complexité: 9/10.\n90003\tCannabis Vert\tAccord frais et végétal évoquant le cannabis frais non séché. Notes vertes, herbacées avec des facettes citronnées et florales. Composition: Tête (Limonène, Pinène, Feuille de tomate), Cœur (Myrcène, Ocimène, Terpinolène), Fond (Caryophyllène, Mousse de chêne, Galbanum). Molécules: Limonène, α-Pinène, β-Myrcène, Ocimène, Terpinolène, β-Caryophyllène.\tFrais, végétal, vivifiant. Profil représentatif du cannabis frais avant séchage.\thumide\tUsage: Parfumerie verte, accords naturels. Les notes vertes dominent avec une fraîcheur citronnée. Intensité: 6/10, Complexité: 7/10.\n90002\tHash Marocain\tAccord capturant l'essence du hashish marocain traditionnel : notes résineuses, terreuses et légèrement épicées avec une touche de menthe. Composition: Tête (Menthe nanah, Citron vert), Cœur (Myrcène, Caryophyllène, Humulène), Fond (Résine de cannabis, Patchouli, Vétiver). Molécules: Myrcène, β-Caryophyllène, Humulène, Limonène, Linalol.\tTerreux, résineux, authentique. Profil terpénique typique du hashish marocain.\tresine\tUsage: Parfumerie expérimentale, formulations cannabis-inspirées. La menthe nanah apporte la touche traditionnelle du thé à la menthe. Intensité: 7/10, Complexité: 8/10.\n90001\tFumoir Oriental\tAccord évoquant un fumoir traditionnel oriental, mêlant tabac fermenté, résines précieuses et épices chaudes. Composition: Tête (Cardamome, Safran, Bergamote), Cœur (Tabac Virginia fermenté, Rose de Damas, Oud), Fond (Benjoin, Labdanum, Musc, Ambre). Molécules: Caryophyllène, Géraniol, Eugénol, Vanilline, Labdanum absolu.\tOpulent, mystérieux, enveloppant. Évoque les traditions du Moyen-Orient.\tresine\tUsage: Parfumerie de niche, encens haut de gamme. Le tabac fermenté apporte une profondeur unique. Intensité: 8/10, Complexité: 9/10.\n60001\tAccord Colombien\tNULL\tNULL\tNULL\tAccord tropical complexe mêlant la richesse des Andes, la chaleur de la côte caraïbe et la profondeur de l'Amazonie\n30006\tBIO-MINERALIS VI: Nécro-Géo Sacré\tSynthèse ultime. Mort + Terre + Sacré. Autel funéraire, sépulture olfactive.\tSacralisation de la décomposition, beauté de la mort\tpierre\tProtocole: Fossile absolute (0.04%) + Myrrhe noire (0.04%) + Bitume light (0.02%) + Calcite (0.03%) + Skatole (0.0003%). Laboratoire: Maturation 6 mois. Artisanal: Résine + os + terre. Rituel: Autel complet.\n30005\tBIO-MINERALIS V: Sève/Chair/Roche\tTriple hybride végétal-animal-minéral. Résine qui saigne, pierre qui respire.\tContinuum vivant-inerte, porosité des règnes\tresine\tProtocole: Olibanum (0.04%) + Marrow accord (0.03%) + Myrrhone (0.03%) + Bitume light (0.02%). Laboratoire: Fusion 80°C. Artisanal: Résine + moelle + argile. Rituel: Offrande triple.\n30004\tBIO-MINERALIS IV: Pétrichor Anthropique\tGéosmine humaine. Terre + corps, pluie sur peau, humus corporel.\tFusion homme-terre, retour au sol, décomposition noble\thumide\tProtocole: Géosmine (0.003%) + Indole (0.0004%) + Skatole (0.0002%) + Humus absolute (0.03%). Laboratoire: Macération 96h. Artisanal: Terre + sueur. Rituel: Enterrement symbolique.\n30003\tBIO-MINERALIS III: Os Carbonisé\tPyrolyse complète du collagène. Os brûlés, cendres organiques, mémoire du feu.\tRituel funéraire, transformation par le feu, sacré sombre\tsec\tProtocole: Glycine pyrolysée (0.05%) + Hydroxyproline pyrolysée (0.06%) + Bone-smoke accord (0.04%) + Phénols oxydés (0.02%). Laboratoire: Pyrolyse 220°C. Artisanal: Combustion os. Rituel: Offrande feu.\n30002\tBIO-MINERALIS II: Cuir Fossilisé\tCuir Mossi pyrolysé rencontrant la pierre calcaire. Peau animale pétrifiée, tannage minéral.\tTransformation matière vivante en fossile, mémoire tactile\tsec\tProtocole: IBQ (0.03%) + Calcite (0.03%) + Sandstone accord (0.04%) + Vetiverol (0.02%). Laboratoire: Oxydation contrôlée 120°C. Artisanal: Cuir + poudre calcaire. Rituel: Fumigation cuir + pierre.\n30001\tBIO-MINERALIS I: Os + Pluie\tFusion archéologique entre collagène fossile et géosmine. Squelette mouillé, mémoire osseuse sous pluie.\tArchéologie olfactive, mémoire ancestrale, temps géologique\thumide\tProtocole: Hydroxyproline pyrolysée (0.04%) + Géosmine (0.003%) + Ozone (0.01%) + Calcite (0.03%). Laboratoire: Pyrolyse 180°C + macération 72h. Artisanal: Infusion os broyés + terre humide. Rituel: Autel pierre + eau pluie.\n19\tPierre Chaude\tNULL\tNULL\tpierre\tDimension minérale solaire. Pierre méditerranéenne chauffée.\n18\tLait Solaire\tNULL\tNULL\tlactone\tAccord lactonique principal. Base du prototype C3 LACTA SOLIS.\n17\tTerre Sacrée\tNULL\tNULL\tsec\tDimension tellurique du sacré. Terre des lieux de culte.\n16\tBois Fumé\tNULL\tNULL\tsec\tDimension fumée du bois sacré. Base du prototype C4 TERRA AMBRA.\n15\tEncens Sacré\tNULL\tNULL\tresine\tAccord sacré principal. Frankincense et résines nobles.\n14\tRésine Transparente\tNULL\tNULL\tresine\tDimension résineuse claire. Base du prototype C2 CLARUS VERDE.\n13\tSève Verte\tNULL\tNULL\thumide\tAccord vert principal. Dimension végétale pure.\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

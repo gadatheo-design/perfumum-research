@@ -89,6 +89,7 @@ const mobileMenuSections = [
       { href: "/recettes", label: "Toutes les recettes", badge: "195" },
       { href: "/compare-recettes", label: "Comparer les recettes", badge: "NEW" },
       { href: "/accords", label: "Accords olfactifs" },
+      { href: "/accords-dedies", label: "Accords Dédiés", badge: "NEW" },
       { href: "/prototypes", label: "Prototypes CBD", badge: "4" },
       { href: "/protocoles-maturation", label: "Protocoles maturation" },
     ],
