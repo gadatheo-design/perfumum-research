@@ -5573,6 +5573,226 @@ export const appRouter = router({
         return { nodes, links };
       }),
   }),
+
+  // ============================================================================
+  // OLFACTIVE ARCHIVES (Archives historiques)
+  // ============================================================================
+  archives: router({
+    list: publicProcedure
+      .input(z.object({
+        civilization: z.string().optional(),
+        type: z.enum(["manuscript","formula","archaeological","botanical_illustration"]).optional(),
+        period: z.string().optional(),
+        q: z.string().optional(),
+        limit: z.number().int().min(1).max(100).default(25),
+        offset: z.number().int().min(0).default(0),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listOlfactiveArchives(input ?? {});
+      }),
+    
+    getById: publicProcedure
+      .input(z.object({ id: z.number().int().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getOlfactiveArchiveById(input.id);
+      }),
+    
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string().min(1),
+        type: z.enum(["manuscript","formula","archaeological","botanical_illustration"]),
+        dateCreated: z.string().optional(),
+        civilization: z.string().optional(),
+        plantIds: z.array(z.number()).default([]),
+        moleculeIds: z.array(z.number()).default([]),
+        description: z.string().optional(),
+        provenance: z.string().optional(),
+        authenticityLevel: z.enum(["confirmed","probable","hypothetical"]).default("probable"),
+        references: z.array(z.any()).default([]),
+        imageUrl: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createOlfactiveArchive(input as any);
+      }),
+    
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number().int().min(1),
+        title: z.string().min(1).optional(),
+        type: z.enum(["manuscript","formula","archaeological","botanical_illustration"]).optional(),
+        dateCreated: z.string().optional(),
+        civilization: z.string().optional(),
+        plantIds: z.array(z.number()).optional(),
+        moleculeIds: z.array(z.number()).optional(),
+        description: z.string().optional(),
+        provenance: z.string().optional(),
+        authenticityLevel: z.enum(["confirmed","probable","hypothetical"]).optional(),
+        references: z.array(z.any()).optional(),
+        imageUrl: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateOlfactiveArchive(id, data as any);
+      }),
+    
+    delete: protectedProcedure
+      .input(z.object({ id: z.number().int().min(1) }))
+      .mutation(async ({ input }) => {
+        return await db.deleteOlfactiveArchive(input.id);
+      }),
+    
+    search: publicProcedure
+      .input(z.object({ 
+        q: z.string().min(1), 
+        limit: z.number().int().min(1).max(50).default(25) 
+      }))
+      .query(async ({ input }) => {
+        return await db.searchOlfactiveArchives(input.q, input.limit);
+      }),
+  }),
+
+  // ============================================================================
+  // CIVILIZATIONAL MARKERS (Marqueurs historiques)
+  // ============================================================================
+  markers: router({
+    list: publicProcedure
+      .input(z.object({
+        civilization: z.string().optional(),
+        period: z.string().optional(),
+        usageType: z.enum(["ritual","medical","commercial","funerary","cosmetic"]).optional(),
+        plantId: z.number().int().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listCivilizationalMarkers(input ?? {});
+      }),
+    
+    getByPlant: publicProcedure
+      .input(z.object({ plantId: z.number().int().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getCivilizationalMarkersByPlant(input.plantId);
+      }),
+    
+    getByCivilization: publicProcedure
+      .input(z.object({ civilization: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getCivilizationalMarkersByCivilization(input.civilization);
+      }),
+    
+    getByPeriod: publicProcedure
+      .input(z.object({ period: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getCivilizationalMarkersByPeriod(input.period);
+      }),
+    
+    create: protectedProcedure
+      .input(z.object({
+        plantId: z.number().int().min(1),
+        civilization: z.string().min(1),
+        period: z.string().optional(),
+        startYear: z.number().int().optional(),
+        endYear: z.number().int().optional(),
+        usageType: z.enum(["ritual","medical","commercial","funerary","cosmetic"]),
+        historicalSignificance: z.string().optional(),
+        tradeRoutes: z.array(z.any()).default([]),
+        archaeologicalEvidence: z.string().optional(),
+        primarySources: z.array(z.any()).default([]),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createCivilizationalMarker(input as any);
+      }),
+  }),
+
+  // ============================================================================
+  // VARIETY GENEALOGY (Généalogie des variétés)
+  // ============================================================================
+  genealogy: router({
+    getTree: publicProcedure
+      .input(z.object({ varietyId: z.number().int().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getVarietyGenealogyTree(input.varietyId);
+      }),
+    
+    getAncestors: publicProcedure
+      .input(z.object({ 
+        varietyId: z.number().int().min(1), 
+        depth: z.number().int().min(1).max(10).default(5) 
+      }))
+      .query(async ({ input }) => {
+        return await db.getVarietyAncestors(input.varietyId, input.depth);
+      }),
+    
+    getDescendants: publicProcedure
+      .input(z.object({ 
+        varietyId: z.number().int().min(1), 
+        depth: z.number().int().min(1).max(10).default(5) 
+      }))
+      .query(async ({ input }) => {
+        return await db.getVarietyDescendants(input.varietyId, input.depth);
+      }),
+    
+    addRelationship: protectedProcedure
+      .input(z.object({
+        varietyId: z.number().int().min(1),
+        parentVarietyId: z.number().int().min(1),
+        relationshipType: z.enum(["parent","hybrid","clone","mutation"]).default("parent"),
+        crossDate: z.number().int().optional(),
+        breeder: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.addVarietyRelationship(input as any);
+      }),
+    
+    updateRelationship: protectedProcedure
+      .input(z.object({
+        id: z.number().int().min(1),
+        relationshipType: z.enum(["parent","hybrid","clone","mutation"]).optional(),
+        crossDate: z.number().int().optional(),
+        breeder: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateVarietyRelationship(id, data as any);
+      }),
+  }),
+
+  // ============================================================================
+  // PLANTS CONSERVATION (Conservation des plantes)
+  // ============================================================================
+  plantsConservation: router({
+    listThreatened: publicProcedure
+      .input(z.object({
+        iucn: z.enum(["EX","EW","CR","EN","VU","NT","LC","DD","NE"]).optional(),
+        cites: z.enum(["I","II","III","NONE","UNKNOWN"]).optional(),
+        region: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listThreatenedPlants(input ?? {});
+      }),
+    
+    getConservationStatus: publicProcedure
+      .input(z.object({ plantId: z.number().int().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getPlantConservationStatus(input.plantId);
+      }),
+    
+    updateConservationStatus: protectedProcedure
+      .input(z.object({
+        plantId: z.number().int().min(1),
+        conservationStatus: z.enum(["EX","EW","CR","EN","VU","NT","LC","DD","NE"]).optional(),
+        citesAppendix: z.enum(["I","II","III","NONE","UNKNOWN"]).optional(),
+        conservationNotes: z.string().optional(),
+        threatFactors: z.record(z.any()).optional(),
+        sustainableAlternatives: z.string().optional(),
+        lastAssessmentYear: z.number().int().optional(),
+        historicalStatus: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { plantId, ...data } = input;
+        return await db.updatePlantConservationStatus(plantId, data);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

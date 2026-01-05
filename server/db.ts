@@ -148,6 +148,16 @@ import {
   // Chémotypes
   chemotypes,
   Chemotype,
+  // Conservation & Archives (Jour 1-2)
+  olfactiveArchives,
+  OlfactiveArchive,
+  InsertOlfactiveArchive,
+  civilizationalMarkers,
+  CivilizationalMarker,
+  InsertCivilizationalMarker,
+  varietyGenealogy,
+  VarietyGenealogy,
+  InsertVarietyGenealogy,
   InsertChemotype,
   // Catégories IFRA
   ifraCategories,
@@ -6603,4 +6613,319 @@ export async function getInteractionsGraphData(): Promise<{
     nodes: Array.from(nodesMap.values()),
     edges
   };
+}
+
+// ============================================================================
+// OLFACTIVE ARCHIVES HELPERS
+// ============================================================================
+
+export async function listOlfactiveArchives(filters: {
+  civilization?: string;
+  type?: string;
+  period?: string;
+  q?: string;
+  limit?: number;
+  offset?: number;
+}) {
+  const { civilization, type, q, limit = 25, offset = 0 } = filters;
+  const db = await getDb();
+  
+  let query = db.select().from(olfactiveArchives);
+  
+  const conditions = [];
+  if (civilization) {
+    conditions.push(eq(olfactiveArchives.civilization, civilization));
+  }
+  if (type) {
+    conditions.push(eq(olfactiveArchives.type, type as any));
+  }
+  
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as any;
+  }
+  
+  const results = await query.limit(limit).offset(offset);
+  
+  // Filter by search query if provided (simple text search)
+  if (q) {
+    const searchLower = q.toLowerCase();
+    return results.filter(archive => 
+      archive.title?.toLowerCase().includes(searchLower) ||
+      archive.description?.toLowerCase().includes(searchLower) ||
+      archive.civilization?.toLowerCase().includes(searchLower)
+    );
+  }
+  
+  return results;
+}
+
+export async function getOlfactiveArchiveById(id: number) {
+  const db = await getDb();
+  const [archive] = await db
+    .select()
+    .from(olfactiveArchives)
+    .where(eq(olfactiveArchives.id, id));
+  return archive;
+}
+
+export async function createOlfactiveArchive(data: InsertOlfactiveArchive) {
+  const db = await getDb();
+  const [result] = await db.insert(olfactiveArchives).values(data);
+  return getOlfactiveArchiveById(result.insertId);
+}
+
+export async function updateOlfactiveArchive(id: number, data: Partial<InsertOlfactiveArchive>) {
+  const db = await getDb();
+  await db
+    .update(olfactiveArchives)
+    .set(data)
+    .where(eq(olfactiveArchives.id, id));
+  return getOlfactiveArchiveById(id);
+}
+
+export async function deleteOlfactiveArchive(id: number) {
+  const db = await getDb();
+  await db.delete(olfactiveArchives).where(eq(olfactiveArchives.id, id));
+  return { success: true };
+}
+
+export async function searchOlfactiveArchives(searchQuery: string, limit: number = 25) {
+  const db = await getDb();
+  const results = await db.select().from(olfactiveArchives).limit(limit);
+  const searchLower = searchQuery.toLowerCase();
+  return results.filter(archive => 
+    archive.title?.toLowerCase().includes(searchLower) ||
+    archive.description?.toLowerCase().includes(searchLower) ||
+    archive.civilization?.toLowerCase().includes(searchLower) ||
+    archive.provenance?.toLowerCase().includes(searchLower)
+  );
+}
+
+// ============================================================================
+// CIVILIZATIONAL MARKERS HELPERS
+// ============================================================================
+
+export async function listCivilizationalMarkers(filters: {
+  civilization?: string;
+  period?: string;
+  usageType?: string;
+  plantId?: number;
+}) {
+  const { civilization, period, usageType, plantId } = filters;
+  const db = await getDb();
+  
+  let query = db.select().from(civilizationalMarkers);
+  
+  const conditions = [];
+  if (civilization) {
+    conditions.push(eq(civilizationalMarkers.civilization, civilization));
+  }
+  if (period) {
+    conditions.push(eq(civilizationalMarkers.period, period));
+  }
+  if (usageType) {
+    conditions.push(eq(civilizationalMarkers.usageType, usageType as any));
+  }
+  if (plantId) {
+    conditions.push(eq(civilizationalMarkers.plantId, plantId));
+  }
+  
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as any;
+  }
+  
+  return await query;
+}
+
+export async function getCivilizationalMarkersByPlant(plantId: number) {
+  const db = await getDb();
+  return await db
+    .select()
+    .from(civilizationalMarkers)
+    .where(eq(civilizationalMarkers.plantId, plantId));
+}
+
+export async function getCivilizationalMarkersByCivilization(civilization: string) {
+  const db = await getDb();
+  return await db
+    .select()
+    .from(civilizationalMarkers)
+    .where(eq(civilizationalMarkers.civilization, civilization));
+}
+
+export async function getCivilizationalMarkersByPeriod(period: string) {
+  const db = await getDb();
+  return await db
+    .select()
+    .from(civilizationalMarkers)
+    .where(eq(civilizationalMarkers.period, period));
+}
+
+export async function createCivilizationalMarker(data: InsertCivilizationalMarker) {
+  const db = await getDb();
+  const [result] = await db.insert(civilizationalMarkers).values(data);
+  const [marker] = await db
+    .select()
+    .from(civilizationalMarkers)
+    .where(eq(civilizationalMarkers.id, result.insertId));
+  return marker;
+}
+
+// ============================================================================
+// VARIETY GENEALOGY HELPERS
+// ============================================================================
+
+export async function getVarietyGenealogyTree(varietyId: number) {
+  const db = await getDb();
+  // Get all relationships for this variety (as child or parent)
+  const asChild = await db
+    .select()
+    .from(varietyGenealogy)
+    .where(eq(varietyGenealogy.varietyId, varietyId));
+  
+  const asParent = await db
+    .select()
+    .from(varietyGenealogy)
+    .where(eq(varietyGenealogy.parentVarietyId, varietyId));
+  
+  return {
+    parents: asChild,
+    children: asParent
+  };
+}
+
+export async function getVarietyAncestors(varietyId: number, depth: number = 5) {
+  const db = await getDb();
+  const ancestors = [];
+  let currentIds = [varietyId];
+  
+  for (let i = 0; i < depth; i++) {
+    if (currentIds.length === 0) break;
+    
+    const parents = await db
+      .select()
+      .from(varietyGenealogy)
+      .where(inArray(varietyGenealogy.varietyId, currentIds));
+    
+    if (parents.length === 0) break;
+    
+    ancestors.push(...parents);
+    currentIds = parents.map(p => p.parentVarietyId);
+  }
+  
+  return ancestors;
+}
+
+export async function getVarietyDescendants(varietyId: number, depth: number = 5) {
+  const db = await getDb();
+  const descendants = [];
+  let currentIds = [varietyId];
+  
+  for (let i = 0; i < depth; i++) {
+    if (currentIds.length === 0) break;
+    
+    const children = await db
+      .select()
+      .from(varietyGenealogy)
+      .where(inArray(varietyGenealogy.parentVarietyId, currentIds));
+    
+    if (children.length === 0) break;
+    
+    descendants.push(...children);
+    currentIds = children.map(c => c.varietyId);
+  }
+  
+  return descendants;
+}
+
+export async function addVarietyRelationship(data: InsertVarietyGenealogy) {
+  const db = await getDb();
+  const [result] = await db.insert(varietyGenealogy).values(data);
+  const [relationship] = await db
+    .select()
+    .from(varietyGenealogy)
+    .where(eq(varietyGenealogy.id, result.insertId));
+  return relationship;
+}
+
+export async function updateVarietyRelationship(id: number, data: Partial<InsertVarietyGenealogy>) {
+  const db = await getDb();
+  await db
+    .update(varietyGenealogy)
+    .set(data)
+    .where(eq(varietyGenealogy.id, id));
+  const [relationship] = await db
+    .select()
+    .from(varietyGenealogy)
+    .where(eq(varietyGenealogy.id, id));
+  return relationship;
+}
+
+// ============================================================================
+// PLANTS CONSERVATION HELPERS
+// ============================================================================
+
+export async function listThreatenedPlants(filters: {
+  iucn?: string;
+  cites?: string;
+  region?: string;
+}) {
+  const { iucn, cites, region } = filters;
+  const db = await getDb();
+  
+  let query = db.select().from(plants);
+  
+  const conditions = [];
+  if (iucn) {
+    conditions.push(eq(plants.conservationStatus, iucn as any));
+  }
+  if (cites) {
+    conditions.push(eq(plants.citesAppendix, cites as any));
+  }
+  if (region) {
+    conditions.push(like(plants.origin, `%${region}%`));
+  }
+  
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as any;
+  }
+  
+  return await query;
+}
+
+export async function getPlantConservationStatus(plantId: number) {
+  const db = await getDb();
+  const [plant] = await db
+    .select({
+      id: plants.id,
+      name: plants.name,
+      latinName: plants.latinName,
+      conservationStatus: plants.conservationStatus,
+      citesAppendix: plants.citesAppendix,
+      conservationNotes: plants.conservationNotes,
+      threatFactors: plants.threatFactors,
+      sustainableAlternatives: plants.sustainableAlternatives,
+      lastAssessmentYear: plants.lastAssessmentYear,
+      historicalStatus: plants.historicalStatus,
+    })
+    .from(plants)
+    .where(eq(plants.id, plantId));
+  return plant;
+}
+
+export async function updatePlantConservationStatus(plantId: number, data: {
+  conservationStatus?: string;
+  citesAppendix?: string;
+  conservationNotes?: string;
+  threatFactors?: any;
+  sustainableAlternatives?: string;
+  lastAssessmentYear?: number;
+  historicalStatus?: string;
+}) {
+  const db = await getDb();
+  await db
+    .update(plants)
+    .set(data as any)
+    .where(eq(plants.id, plantId));
+  return getPlantConservationStatus(plantId);
 }

@@ -1,0 +1,63 @@
+molecule_name,family,odor_key,role,climatic_axis
+alpha-pinene,terpene,"pin sec, résineux",diffusion,vent
+beta-pinene,terpene,"pin vert, sec",diffusion,vent
+limonene,terpene,"agrume clair, sec",diffusion,vent
+myrcene,terpene,"vert humide, résine léger",modulation,disparition
+linalool,terpene,"floral sec, propre",modulation,peau
+alpha-terpineol,terpene,"floral boisé, propre",modulation,peau
+"1,8-cineole",terpene,"camphré propre, eucalyptus",diffusion,vent
+gamma-terpinene,terpene,agrumes/épices sec,diffusion,vent
+p-cymene,terpene,"sec, cumin, aromatique",structure,bois
+sabinene,terpene,"poivré vert, sec",diffusion,vent
+ocimene,terpene,"vert fruité, aéré",diffusion,vent
+terpinolene,terpene,"vert aromatique, air",modulation,disparition
+beta-caryophyllene,sesquiterpene,"boisé sec, poivré",structure,bois
+alpha-humulene,sesquiterpene,"bois sec, houblon",structure,bois
+elemol,sesquiterpene,"bois doux, sec",structure,bois
+valerianol,sesquiterpene,"bois sec, racine",structure,bois
+guaiol,sesquiterpene,"bois cireux, fumé doux",structure,bois
+khusimol,sesquiterpene,"terreux sec, racine",structure,bois
+vetiverol,sesquiterpene,terreux boisé,structure,bois
+zingiberene,sesquiterpene,"épice sèche, gingembre",structure,bois
+beta-sesquiphellandrene,sesquiterpene,"épice sèche, racine",structure,bois
+eugenol,phenolic,"clou sec, épice chaude",structure,bois
+carvacrol,phenolic,"origan sec, phénolique",structure,bois
+thymol,phenolic,"thym sec, médicinal",structure,bois
+cinnamaldehyde,aldehyde,"cannelle sèche, chaude",structure,bois
+benzyl benzoate,ester,"baume doux, chaud",fixation,peau
+benzyl cinnamate,ester,"baume chaud, résineux",fixation,peau
+methyl salicylate,ester,"wintergreen, froid",diffusion,vent
+E-2-dodecenal,aldehyde,"feuille coriandre, métallique",diffusion,vent
+cis-3-hexenol,alcohol,"vert feuille, aqueux",diffusion,vent
+hexenal,aldehyde,"vert feuille, coupant",diffusion,vent
+geranial,terpene aldehyde,citral sec (partie claire),diffusion,vent
+neral,terpene aldehyde,citral sec (partie douce),diffusion,vent
+carvone,ketone,"menthe sèche, aneth",diffusion,vent
+tagetone,ketone,"vert fruité, métallique",diffusion,vent
+dihydrotagetone,ketone,"vert fruité, sec",diffusion,vent
+beta-damascenone,norisoprenoid,"fruit sec, tabac clair",structure,bois
+megastigmatrienone,norisoprenoid,"tabac boisé, foin",structure,bois
+solanone,norisoprenoid,"feuille chaude, tabac",fixation,disparition
+neophytadiene,diterpene,"feuille sèche, vert huileux",fixation,disparition
+ambrettolide,macrocyclic lactone,"musqué propre, peau",fixation,peau
+farnesol,sesquiterpene alcohol,"floral sec, liant",modulation,peau
+geraniol,terpene alcohol,"rosé sec, propre",diffusion,peau
+ar-turmerone,sesquiterpene ketone,"bois/terre sec, curcuma",structure,bois
+curlone,sesquiterpene ketone,bois/terre sec,structure,bois
+alpha-terpinyl acetate,ester,"agrume propre, floral",diffusion,vent
+alpha-phellandrene,terpene,"agrume/vert, sec",diffusion,vent
+sesquiterpenes (resin mix),mixture,"résine sèche, variable",structure,bois
+monoterpenes (resin mix),mixture,"encens clair, variable",diffusion,vent
+acide cinnamique,unknown,,,
+aldehydes,unknown,,,
+aldéhydes c10–c12,unknown,,,
+chavicol,unknown,,,
+coumarin,unknown,,,
+dillapiole,unknown,,,
+p-menthadienol,unknown,,,
+profil résineux supposé,unknown,,,
+résines,unknown,,,
+résines aromatiques,unknown,,,
+terpenes,unknown,,,
+traces aromatiques,unknown,,,
+traces terpéniques,unknown,,,

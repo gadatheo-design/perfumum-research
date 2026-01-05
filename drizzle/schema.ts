@@ -1816,6 +1816,35 @@ export const plants = mysqlTable("plants", {
     molecules: string[]; // Molécules dominantes
     usage: string; // Usage recommandé
   }[]>(),
+  // Conservation (IUCN, CITES, menaces)
+  conservationStatus: mysqlEnum("conservation_status", [
+    "EX",  // Extinct
+    "EW",  // Extinct in the Wild
+    "CR",  // Critically Endangered
+    "EN",  // Endangered
+    "VU",  // Vulnerable
+    "NT",  // Near Threatened
+    "LC",  // Least Concern
+    "DD",  // Data Deficient
+    "NE"   // Not Evaluated
+  ]),
+  citesAppendix: mysqlEnum("cites_appendix", [
+    "I",       // Commerce international généralement interdit
+    "II",      // Commerce strictement régulé
+    "III",     // Commerce régulé à la demande d'un pays
+    "NONE",    // Non listé
+    "UNKNOWN"  // Information manquante
+  ]),
+  conservationNotes: text("conservation_notes"), // Notes sur le statut de conservation
+  threatFactors: json("threat_factors").$type<{
+    overharvesting?: boolean;
+    habitat_loss?: boolean;
+    climate_change?: boolean;
+    illegal_trade?: boolean;
+  }>(), // Facteurs de menace
+  sustainableAlternatives: text("sustainable_alternatives"), // Alternatives durables
+  lastAssessmentYear: int("last_assessment_year"), // Année de la dernière évaluation IUCN
+  historicalStatus: varchar("historical_status", { length: 32 }), // Statut historique si changé
   // Métadonnées
   notes: text("notes"),
   imageUrl: varchar("image_url", { length: 500 }),
@@ -3713,3 +3742,129 @@ export const entourageRules = mysqlTable("entourage_rules", {
 
 export type EntourageRule = typeof entourageRules.$inferSelect;
 export type InsertEntourageRule = typeof entourageRules.$inferInsert;
+
+// ============================================================================
+// VARIETY GENEALOGY (Généalogie des variétés botaniques)
+// ============================================================================
+
+export const varietyGenealogy = mysqlTable("variety_genealogy", {
+  id: int("id").autoincrement().primaryKey(),
+  // Relations
+  varietyId: int("variety_id").notNull(), // Référence à plant_varieties
+  parentVarietyId: int("parent_variety_id").notNull(), // Auto-référence
+  // Type de relation
+  relationshipType: mysqlEnum("relationship_type", [
+    "parent",    // Parent direct
+    "hybrid",    // Hybride (croisement)
+    "clone",     // Clone
+    "mutation"   // Mutation naturelle ou induite
+  ]).notNull().default("parent"),
+  // Informations sur le croisement
+  crossDate: int("cross_date"), // Année du croisement
+  breeder: varchar("breeder", { length: 255 }), // Obtenteur/sélectionneur
+  notes: text("notes"),
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  varietyIdx: index("variety_genealogy_variety_idx").on(table.varietyId),
+  parentIdx: index("variety_genealogy_parent_idx").on(table.parentVarietyId),
+}));
+
+export type VarietyGenealogy = typeof varietyGenealogy.$inferSelect;
+export type InsertVarietyGenealogy = typeof varietyGenealogy.$inferInsert;
+
+// ============================================================================
+// OLFACTIVE ARCHIVES (Archives historiques et documents)
+// ============================================================================
+
+export const olfactiveArchives = mysqlTable("olfactive_archives", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  title: varchar("title", { length: 500 }).notNull(),
+  type: mysqlEnum("type", [
+    "manuscript",              // Manuscrit ancien
+    "formula",                 // Formule historique
+    "archaeological",          // Découverte archéologique
+    "botanical_illustration"   // Illustration botanique
+  ]).notNull(),
+  // Datation
+  dateCreated: varchar("date_created", { length: 100 }), // Date historique (format flexible)
+  civilization: varchar("civilization", { length: 255 }), // Égypte, Rome, Grèce, etc.
+  // Contenu
+  plantIds: json("plant_ids").$type<number[]>().default([]), // Plantes mentionnées
+  moleculeIds: json("molecule_ids").$type<number[]>().default([]), // Molécules si connues
+  description: text("description"), // Description du contenu
+  provenance: text("provenance"), // Source du document
+  // Authenticité
+  authenticityLevel: mysqlEnum("authenticity_level", [
+    "confirmed",     // Confirmé par sources multiples
+    "probable",      // Probable mais non confirmé
+    "hypothetical"   // Hypothétique/reconstruction
+  ]).notNull().default("probable"),
+  // Références
+  references: json("references").$type<{
+    author?: string;
+    year?: number;
+    title: string;
+    type: string;
+    url?: string;
+  }[]>().default([]),
+  imageUrl: varchar("image_url", { length: 500 }),
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  typeIdx: index("olfactive_archives_type_idx").on(table.type),
+  civilizationIdx: index("olfactive_archives_civilization_idx").on(table.civilization),
+}));
+
+export type OlfactiveArchive = typeof olfactiveArchives.$inferSelect;
+export type InsertOlfactiveArchive = typeof olfactiveArchives.$inferInsert;
+
+// ============================================================================
+// CIVILIZATIONAL MARKERS (Marqueurs historiques et culturels)
+// ============================================================================
+
+export const civilizationalMarkers = mysqlTable("civilizational_markers", {
+  id: int("id").autoincrement().primaryKey(),
+  // Référence à la plante
+  plantId: int("plant_id").notNull(),
+  // Civilisation et période
+  civilization: varchar("civilization", { length: 255 }).notNull(), // Égypte, Rome, Grèce, Inde, Chine, etc.
+  period: varchar("period", { length: 255 }), // Antiquité, Moyen Âge, Renaissance, etc.
+  startYear: int("start_year"), // Année de début (peut être négatif pour av. J.-C.)
+  endYear: int("end_year"), // Année de fin
+  // Type d'usage
+  usageType: mysqlEnum("usage_type", [
+    "ritual",      // Rituel religieux
+    "medical",     // Médecine traditionnelle
+    "commercial",  // Commerce
+    "funerary",    // Funéraire
+    "cosmetic"     // Cosmétique
+  ]).notNull(),
+  // Contexte historique
+  historicalSignificance: text("historical_significance"), // Importance historique
+  tradeRoutes: json("trade_routes").$type<{
+    route: string;
+    description?: string;
+  }[]>().default([]), // Routes commerciales
+  archaeologicalEvidence: text("archaeological_evidence"), // Preuves archéologiques
+  primarySources: json("primary_sources").$type<{
+    title: string;
+    author?: string;
+    date?: string;
+    type?: string;
+  }[]>().default([]), // Sources primaires (textes anciens, etc.)
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  plantIdx: index("civilizational_markers_plant_idx").on(table.plantId),
+  civilizationIdx: index("civilizational_markers_civilization_idx").on(table.civilization),
+  periodIdx: index("civilizational_markers_period_idx").on(table.period),
+  usageIdx: index("civilizational_markers_usage_idx").on(table.usageType),
+}));
+
+export type CivilizationalMarker = typeof civilizationalMarkers.$inferSelect;
+export type InsertCivilizationalMarker = typeof civilizationalMarkers.$inferInsert;

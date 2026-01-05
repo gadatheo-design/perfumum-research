@@ -1,0 +1,6 @@
+latin_name,conservation_status,cites_appendix,last_assessment_year,historical_status,conservation_notes,sustainable_alternatives,threat_factors_json
+Aquilaria malaccensis,CR,II,,,à vérifier IUCN/CITES,oud synthétique; alternatives cultivées,"{""overharvesting"": true, ""habitat_loss"": true}"
+Santalum album,EN,II,,,à vérifier IUCN/CITES,Santalum spicatum; Javanol (arôme),"{""overharvesting"": true, ""habitat_loss"": true}"
+Commiphora wightii,CR,II,,,à vérifier IUCN/CITES,résines alternatives non menacées,"{""overharvesting"": true}"
+Nardostachys jatamansi,CR,UNKNOWN,,,à vérifier IUCN/CITES,valériane (usage olfactif); substituts,"{""overharvesting"": true}"
+Aniba rosaeodora,EN,II,,,à vérifier IUCN/CITES,linalool biotech; bois alternatifs,"{""overharvesting"": true, ""habitat_loss"": true}"

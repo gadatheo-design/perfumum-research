@@ -1,0 +1,8 @@
+{
+  "query": "UPDATE plants SET conservation_status = \n  CASE conservation_status\n    WHEN 'extinct' THEN 'EX'\n    WHEN 'extinct_in_wild' THEN 'EW'\n    WHEN 'critically_endangered' THEN 'CR'\n    WHEN 'endangered' THEN 'EN'\n    WHEN 'vulnerable' THEN 'VU'\n    WHEN 'near_threatened' THEN 'NT'\n    WHEN 'least_concern' THEN 'LC'\n    WHEN 'data_deficient' THEN 'DD'\n    WHEN 'not_evaluated' THEN 'NE'\n    ELSE 'NE'\n  END\nWHERE conservation_status IS NOT NULL;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE plants SET conservation_status = \n  CASE conservation_status\n    WHEN 'extinct' THEN 'EX'\n    WHEN 'extinct_in_wild' THEN 'EW'\n    WHEN 'critically_endangered' THEN 'CR'\n    WHEN 'endangered' THEN 'EN'\n    WHEN 'vulnerable' THEN 'VU'\n    WHEN 'near_threatened' THEN 'NT'\n    WHEN 'least_concern' THEN 'LC'\n    WHEN 'data_deficient' THEN 'DD'\n    WHEN 'not_evaluated' THEN 'NE'\n    ELSE 'NE'\n  END\nWHERE conservation_status IS NOT NULL;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1265 (01000) at line 1: Data truncated for column '%s' at row %d"
+  ]
+}

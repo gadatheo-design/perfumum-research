@@ -2257,3 +2257,104 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Gérer les doublons et la validation des données
 - [x] Tester l'importation complète de tous les fichiers
 - [x] Créer un rapport d'importation avec statistiques
+
+
+---
+
+## 🌺 SESSION 05 JAN 2026 - IMPORT VARIÉTÉS & RELATIONS PLANTES-MOLÉCULES
+
+### Phase 1 : Import des 60 variétés (perfumum_varieties_template_60_col_bfa_car.csv)
+- [ ] Analyser la structure du fichier CSV des 60 variétés
+- [ ] Vérifier/étendre le schéma de table `plant_varieties` pour accueillir toutes les colonnes
+- [ ] Créer le script d'import pour les 60 variétés
+- [ ] Valider l'intégrité des données importées
+- [ ] Créer les procédures tRPC pour accéder aux variétés
+- [ ] Créer l'interface de visualisation des variétés
+
+### Phase 2 : Import des 78 relations plantes-molécules (perfumum_plants_molecules_relations.csv)
+- [ ] Analyser la structure du fichier CSV des relations
+- [ ] Vérifier/étendre le schéma de table de liaison `plants_molecules`
+- [ ] Créer le script d'import pour les 78 relations
+- [ ] Valider l'intégrité des relations importées
+- [ ] Créer les procédures tRPC pour interroger les relations
+- [ ] Créer l'interface de visualisation des relations (graphe, tableau)
+
+### Phase 3 : Tests et validation
+- [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
+- [ ] Tester l'interface sur desktop et mobile
+- [ ] Vérifier la cohérence des données avec les plantes et molécules existantes
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 🗓️ ROADMAP 10 JOURS — SESSION 05 JAN 2026
+
+### 📅 JOUR 1 : Base de données (Conservation & Archives)
+- [x] Adapter les migrations SQL de PostgreSQL vers MySQL/TiDB
+- [x] Ajouter les champs de conservation à la table `plants` (IUCN, CITES, threat_factors, alternatives)
+- [x] Créer la table `variety_genealogy` (relations parent/hybrid/clone/mutation)
+- [x] Créer la table `olfactive_archives` (manuscrits, formules, archéologie, illustrations)
+- [x] Créer la table `civilizational_markers` (usage historique par civilisation)
+- [x] Créer les index de performance (conservation_status, cites_appendix, search_vector)
+- [x] Exécuter SQL direct pour appliquer les migrations
+
+### 📅 JOUR 2 : Procédures tRPC & Helpers DB
+- [x] Créer les helpers de base de données dans `server/db.ts` pour archives
+- [x] Créer les helpers de base de données pour markers
+- [x] Créer les helpers de base de données pour genealogy
+- [x] Créer les helpers de base de données pour plantsConservation
+- [x] Intégrer le router `archives` dans `server/routers.ts`
+- [x] Intégrer le router `markers` dans `server/routers.ts`
+- [x] Intégrer le router `genealogy` dans `server/routers.ts`
+- [x] Intégrer le router `plantsConservation` dans `server/routers.ts`
+- [ ] Écrire les tests unitaires pour toutes les nouvelles procédures (vitest)
+- [ ] Valider que tous les tests passent avec `pnpm test`
+
+### 📅 JOURS 3-4 : Import des données
+- [ ] Adapter le script `import-myrrhe.mjs` pour MySQL et l'environnement du projet
+- [ ] Adapter le script `import-boswellia.mjs` pour MySQL et l'environnement du projet
+- [ ] Adapter le script `import-threatened-species.mjs` pour MySQL et l'environnement du projet
+- [ ] Copier les fichiers de données JSON/CSV dans le dossier approprié
+- [ ] Exécuter `import-myrrhe.mjs` et valider l'import (plante, molécules, relations, markers)
+- [ ] Exécuter `import-boswellia.mjs` et valider l'import
+- [ ] Exécuter `import-threatened-species.mjs` et valider l'import (5+ espèces menacées)
+- [ ] Vérifier l'intégrité des données importées dans la base
+
+### 📅 JOURS 6-7 : Interfaces utilisateur
+- [x] Créer la page `/patrimoine-menace` (liste des espèces menacées avec filtres IUCN/CITES)
+- [x] Ajouter les filtres par région sur la page Patrimoine menacé
+- [ ] Créer la carte interactive des espèces menacées (Google Maps avec marqueurs)
+- [x] Créer la page `/archives-olfactives` (timeline horizontale des archives)
+- [x] Ajouter les filtres par civilisation, type, recherche full-text
+- [x] Créer la vue détaillée d'une archive (image, description, authenticité, sources)
+- [x] Intégrer les nouvelles pages dans le menu de navigation principal
+- [x] Valider le responsive mobile pour les deux nouvelles pages
+
+### 📅 JOUR 8 : Onglets Histoire & Conservation dans les fiches plantes
+- [ ] Ajouter un onglet "Histoire" aux fiches plantes existantes
+- [ ] Afficher les marqueurs civilisationnels (civilisation, période, usage, routes commerciales)
+- [ ] Créer une timeline historique pour chaque plante
+- [ ] Ajouter un onglet "Conservation" aux fiches plantes
+- [ ] Afficher le statut IUCN, CITES, facteurs de menace
+- [ ] Afficher les alternatives durables et notes de conservation
+- [ ] Créer un indicateur visuel de menace (couleur selon statut IUCN)
+
+### 📅 JOUR 9 : Variétés disparues & Généalogie
+- [ ] Importer 5 variétés botaniques disparues (EX ou EW) avec documentation
+- [ ] Créer les relations généalogiques entre variétés (parent → descendant)
+- [ ] Créer l'interface de visualisation de l'arbre généalogique
+- [ ] Ajouter les filtres par type de relation (parent, hybrid, clone, mutation)
+- [ ] Créer la vue "Variétés fantômes" avec les espèces disparues
+- [ ] Documenter les raisons de disparition et alternatives modernes
+
+### 📅 JOUR 10 : QA, Performance & Validation
+- [ ] Optimiser les requêtes pour atteindre < 2s de chargement
+- [ ] Vérifier tous les index de performance sont actifs
+- [ ] Tester le responsive sur mobile (375px, 768px, 1024px)
+- [ ] Vérifier la couverture de tests > 80% avec `pnpm test --coverage`
+- [ ] Corriger tous les bugs identifiés
+- [ ] Valider toutes les fonctionnalités sur desktop et mobile
+- [ ] Créer le checkpoint final avec documentation complète
+

@@ -198,6 +198,8 @@ import ExtractionMethods from "./pages/ExtractionMethods";
 import Collaborations from "./pages/Collaborations";
 import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
+import PatrimoineMenace from "./pages/PatrimoineMenace";
+import ArchivesOlfactives from "./pages/ArchivesOlfactives";
 import { Glossaire } from "./pages/Glossaire";
 import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
 import Contribuer from "./pages/Contribuer";
@@ -426,6 +428,8 @@ function Router() {
       <Route path="/gestion" component={GestionPage} />
       <Route path="/collaborations" component={Collaborations} />
       <Route path="/archives" component={Archives} />
+      <Route path="/patrimoine-menace" component={PatrimoineMenace} />
+      <Route path="/archives-olfactives" component={ArchivesOlfactives} />
       <Route path="/outils" component={Outils} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
