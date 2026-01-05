@@ -5971,10 +5971,29 @@ export async function getAllPlantMoleculeLinks() {
   const db = await getDb();
   if (!db) return [];
   
+  // Sélection explicite des colonnes pour éviter les conflits
+  // Note: la table plant_molecules n'a pas de colonne id (clé composite plant_id + molecule_id)
   return db.select({
-    link: plantMolecules,
-    plant: plants,
-    molecule: molecules,
+    // Colonnes du lien
+    plantId: plantMolecules.plantId,
+    moleculeId: plantMolecules.moleculeId,
+    percentageMin: plantMolecules.percentageMin,
+    percentageMax: plantMolecules.percentageMax,
+    percentageTypical: plantMolecules.percentageTypical,
+    isSignature: plantMolecules.isSignature,
+    role: plantMolecules.role,
+    variabilityFactor: plantMolecules.variabilityFactor,
+    source: plantMolecules.source,
+    linkNotes: plantMolecules.notes,
+    // Colonnes de la plante
+    plantName: plants.name,
+    plantLatinName: plants.latinName,
+    plantFamily: plants.family,
+    // Colonnes de la molécule
+    moleculeName: molecules.name,
+    moleculeFamily: molecules.family,
+    moleculeCasNumber: molecules.casNumber,
+    moleculeOlfactiveProfile: molecules.olfactiveProfile,
   })
     .from(plantMolecules)
     .innerJoin(plants, eq(plantMolecules.plantId, plants.id))

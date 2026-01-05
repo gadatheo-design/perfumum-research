@@ -78,7 +78,8 @@ describe("Points 1, 2, 3 - Data Import Tests", () => {
       const profiles = await db.select().from(terpProfiles);
       
       for (const profile of profiles) {
-        expect(profile.profileId).toMatch(/^SA-TP-\d+$/);
+        // profileId peut être SA-TP-XX ou REF-XXX-XX selon le type de profil
+        expect(profile.profileId).toMatch(/^(SA-TP-\d+|REF-[A-Z]+-\d+)$/);
         expect(profile.name).toBeTruthy();
         expect(profile.climaticAxis).toBeTruthy();
         expect(profile.function).toBeTruthy();

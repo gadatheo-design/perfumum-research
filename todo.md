@@ -508,9 +508,9 @@
 - [ ] Mapper les relations molécule-plante existantes
 
 ### Phase 2 : Enrichir les relations molécule-plante
-- [ ] Créer/enrichir la table de liaison plante-molécule avec pourcentages (min/max)
-- [ ] Importer les données de composition (linalol 25-45% lavande, limonène 65-95% agrumes, etc.)
-- [ ] Valider l'intégrité des données importées
+- [x] Créer/enrichir la table de liaison plante-molécule avec pourcentages (min/max) - 111 liens, 97 avec pourcentages
+- [x] Importer les données de composition (linalol 25-45% lavande, limonène 65-95% agrumes, etc.) - 97 compositions importées
+- [x] Valider l'intégrité des données importées - fonction getAllPlantMoleculeLinks corrigée
 
 ### Phase 3 : Import matières premières
 - [ ] Identifier les matières premières dans les fichiers sources
@@ -519,10 +519,10 @@
 - [ ] Ajouter les extraits CO2
 
 ### Phase 4 : Visualisation graphique interactive
-- [ ] Créer un composant de graphique de réseau interactif
-- [ ] Implémenter les connexions molécules-plantes
+- [x] Créer un composant de graphique de réseau interactif - PlantMoleculeGraph.tsx + PlantMoleculeNetwork.tsx
+- [x] Implémenter les connexions molécules-plantes - 111 liens affichés dans le graphe
 - [ ] Implémenter les connexions plantes-terroirs
-- [ ] Ajouter les interactions (zoom, filtres, détails au survol)
+- [x] Ajouter les interactions (zoom, filtres, détails au survol) - zoom D3, filtres par rôle/famille, tooltip
 
 ### Phase 5 : Corrections techniques
 - [x] Corriger les erreurs TypeScript dans server/routers.ts (getRadicalRecipes, createFinalRecipe, updateFinalRecipe)
@@ -702,8 +702,8 @@
 - [x] Créer les procédures tRPC pour les images (updateImage, deleteImage, getWithImages, getWithoutImages)
 - [x] Vérifier le champ imageUrl dans le schéma plants (existait déjà)
 - [x] Créer les fonctions db pour la gestion des images
-- [ ] Créer le composant d'upload d'images dans les fiches plantes (frontend à implémenter)
-- [ ] Implémenter la galerie d'images botaniques (frontend à implémenter)
+- [x] Créer le composant d'upload d'images dans les fiches plantes (frontend implémenté - ImageUpload.tsx)
+- [x] Implémenter la galerie d'images botaniques (frontend implémenté - Gallery.tsx)
 
 ### Résumé de la session
 - 17 chémotypes classiques importés (Thym, Romarin, Lavande, Eucalyptus, Basilic)
@@ -1850,8 +1850,8 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Intégrer skeleton loaders sur page Recettes
 - [x] Intégrer skeleton loaders sur page MoleculeDetail
 - [x] Intégrer skeleton loaders sur page RecetteDetail
-- [ ] Intégrer skeleton loaders sur page Dashboard
-- [ ] Intégrer skeleton loaders sur page Civilisations
+- [x] Intégrer skeleton loaders sur page Dashboard - DashboardSkeleton intégré
+- [x] Intégrer skeleton loaders sur page Civilisations - CivilisationCardSkeleton déjà intégré
 
 ### COURT TERME - Feedback visuel des interactions
 - [x] Créer composant Toast amélioré avec animations

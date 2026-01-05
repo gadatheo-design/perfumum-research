@@ -235,6 +235,7 @@ import RechercheGlobale from "./pages/RechercheGlobale";
 import Favoris from "./pages/Favoris";
 import Reseau from "./pages/Reseau";
 import ReseauMoleculePlante from "./pages/ReseauMoleculePlante";
+import PlantMoleculeNetwork from "./pages/PlantMoleculeNetwork";
 import BioMineralis from "./pages/BioMineralis";
 
 // === MATIÈRES PREMIÈRES & RELATIONS ===
@@ -508,6 +509,7 @@ function Router() {
       <Route path="/favoris" component={Favoris} />
       <Route path="/reseau" component={Reseau} />
       <Route path="/reseau-molecules-plantes" component={ReseauMoleculePlante} />
+      <Route path="/reseau-plantes-molecules" component={PlantMoleculeNetwork} />
       <Route path="/bio-mineralis" component={BioMineralis} />
       
       {/* === PAGES TECHNIQUES === */}
