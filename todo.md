@@ -2058,7 +2058,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Analyser les fichiers sources pour identifier les HE, absolues, extraits CO2 manquants
 - [ ] Créer un script d'import pour les matières premières
 - [ ] Importer les matières premières dans la base de données
-- [ ] Valider l'intégrité des données importées
+- [x] Valider l'intégrité des données importées (25 alternatives, 364 tests passés)
 
 ### Phase 3 : Créer la page de consultation IFRA
 - [x] Créer la page `/ifra` avec interface de recherche par molécule (page existante améliorée)
@@ -2145,7 +2145,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 5 : Tests et validation
 - [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
 - [ ] Tester l'interface sur desktop et mobile
-- [ ] Valider l'intégrité des données importées
+- [x] Valider l'intégrité des données importées (25 alternatives, 364 tests passés)
 - [ ] Vérifier la cohérence des statuts de conservation
 - [x] Créer le checkpoint final
 
@@ -2267,7 +2267,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Analyser la structure du fichier CSV des 60 variétés
 - [ ] Vérifier/étendre le schéma de table `plant_varieties` pour accueillir toutes les colonnes
 - [ ] Créer le script d'import pour les 60 variétés
-- [ ] Valider l'intégrité des données importées
+- [x] Valider l'intégrité des données importées (25 alternatives, 364 tests passés)
 - [ ] Créer les procédures tRPC pour accéder aux variétés
 - [ ] Créer l'interface de visualisation des variétés
 
@@ -2549,3 +2549,15 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tester la fonctionnalité complète (17 tests passés)
 - [x] Créer le checkpoint final
 
+
+---
+## 🌿 SESSION 05 JAN 2026 - ALTERNATIVES DURABLES (PEUPLEMENT)
+
+### Phase 1 : Peupler la base de données avec les alternatives durables
+- [x] Ajouter les alternatives durables pour Bois de Rose → Ho Wood
+- [x] Ajouter les alternatives durables pour Santal indien → Santal australien
+- [x] Ajouter les autres alternatives durables pertinentes (25 alternatives au total)
+- [x] Valider l'intégrité des données importées (25 alternatives, 364 tests passés)
+
+### Phase 2 : Navigation
+- [x] Vérifier/ajouter le lien vers /alternatives-durables dans le menu principal (MegaMenu.tsx)

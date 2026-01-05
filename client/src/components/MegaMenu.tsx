@@ -277,6 +277,13 @@ export function MegaMenu() {
           icon: <Search className="h-4 w-4" />,
           description: "Filtres multi-critères",
         },
+        {
+          label: "Alternatives durables",
+          path: "/alternatives-durables",
+          icon: <ShieldCheck className="h-4 w-4" />,
+          description: "Substituts pour espèces menacées",
+          badge: "NEW",
+        },
       ],
     },
     {
