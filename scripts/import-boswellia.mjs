@@ -40,6 +40,20 @@ async function main() {
       
       console.log(`\n📦 Import de ${plantData.name}...`);
       
+      // Mapper climatic_axis: "vent; bois" -> "vent_bois"
+      let climaticAxis = null;
+      if (plantData.climatic_axis) {
+        const axes = plantData.climatic_axis.toLowerCase().split(';').map(a => a.trim());
+        if (axes.length === 1) {
+          climaticAxis = axes[0];
+        } else if (axes.length === 2) {
+          // Ordre canonique: vent < bois < disparition
+          const order = { vent: 1, bois: 2, disparition: 3 };
+          axes.sort((a, b) => (order[a] || 99) - (order[b] || 99));
+          climaticAxis = axes.join('_');
+        }
+      }
+      
       // 1. Importer la plante
       const [plantResult] = await connection.execute(
         `INSERT INTO plants (
@@ -65,7 +79,7 @@ async function main() {
           plantData.habitat,
           plantData.olfactive_signature,
           plantData.dominant_molecules,
-          plantData.climatic_axis,
+          climaticAxis,
           plantData.traditional_use,
           plantData.absorbe_use,
           plantData.conservation_status,
@@ -100,10 +114,19 @@ async function main() {
         const moleculeId = moleculeIds.get(rel.molecule_name);
         if (!moleculeId) continue;
 
+        // Mapper weight -> role
+        const roleMap = {
+          'dominant': 'majeur',
+          'majeur': 'majeur',
+          'secondaire': 'secondaire',
+          'trace': 'trace'
+        };
+        const role = roleMap[rel.weight.toLowerCase()] || 'majeur';
+
         await connection.execute(
-          `INSERT IGNORE INTO plant_molecules (plant_id, molecule_id, weight, evidence, notes)
-           VALUES (?, ?, ?, 'littérature', ?)`,
-          [plantId, moleculeId, rel.weight, `Profil moléculaire de ${plantData.name}`]
+          `INSERT IGNORE INTO plant_molecules (plant_id, molecule_id, role, is_signature, source, notes)
+           VALUES (?, ?, ?, 1, 'littérature', ?)`,
+          [plantId, moleculeId, role, `Profil moléculaire de ${plantData.name}`]
         );
         totalRelations++;
       }

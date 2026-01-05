@@ -6872,6 +6872,7 @@ export async function listThreatenedPlants(filters: {
 }) {
   const { iucn, cites, region } = filters;
   const db = await getDb();
+  if (!db) return [];
   
   let query = db.select().from(plants);
   
@@ -6895,6 +6896,7 @@ export async function listThreatenedPlants(filters: {
 
 export async function getPlantConservationStatus(plantId: number) {
   const db = await getDb();
+  if (!db) return null;
   const [plant] = await db
     .select({
       id: plants.id,
@@ -6923,6 +6925,7 @@ export async function updatePlantConservationStatus(plantId: number, data: {
   historicalStatus?: string;
 }) {
   const db = await getDb();
+  if (!db) return null;
   await db
     .update(plants)
     .set(data as any)

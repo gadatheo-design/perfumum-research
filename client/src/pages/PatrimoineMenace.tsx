@@ -4,11 +4,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { AlertTriangle, Leaf, Shield, MapPin } from 'lucide-react';
+import { AlertTriangle, Leaf, Shield, MapPin, Map as MapIcon } from 'lucide-react';
+import { MapView } from '@/components/Map';
 
 export default function PatrimoineMenace() {
   const [iucnFilter, setIucnFilter] = useState<string | undefined>(undefined);
   const [citesFilter, setCitesFilter] = useState<string | undefined>(undefined);
+  const [showMap, setShowMap] = useState(false);
+  const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
+  const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
 
   const { data: threatenedPlants, isLoading } = trpc.plantsConservation.listThreatened.useQuery({
     iucn: iucnFilter,
@@ -105,6 +109,99 @@ export default function PatrimoineMenace() {
           )}
         </CardContent>
       </Card>
+
+      {/* Bouton pour afficher/masquer la carte */}
+      <div className="flex justify-end">
+        <Button
+          variant={showMap ? "default" : "outline"}
+          onClick={() => setShowMap(!showMap)}
+        >
+          <MapIcon className="h-4 w-4 mr-2" />
+          {showMap ? 'Masquer la carte' : 'Afficher la carte'}
+        </Button>
+      </div>
+
+      {/* Carte interactive */}
+      {showMap && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MapIcon className="h-5 w-5" />
+              Carte des espèces menacées
+            </CardTitle>
+            <CardDescription>
+              Visualisation géographique des espèces aromatiques menacées
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[600px] rounded-lg overflow-hidden border">
+              <MapView
+                onMapReady={(map) => {
+                  setMapInstance(map);
+                  
+                  // Nettoyer les anciens marqueurs
+                  markers.forEach(marker => marker.setMap(null));
+                  const newMarkers: google.maps.Marker[] = [];
+                  
+                  // Ajouter un marqueur pour chaque plante avec origine
+                  if (threatenedPlants) {
+                    const bounds = new google.maps.LatLngBounds();
+                    
+                    threatenedPlants.forEach((plant) => {
+                      // Pour l'instant, utiliser des coordonnées fictives basées sur l'origine
+                      // Dans une vraie implémentation, il faudrait géocoder les origines
+                      const coords = getCoordinatesForOrigin(plant.origin || '');
+                      
+                      if (coords) {
+                        const marker = new google.maps.Marker({
+                          position: coords,
+                          map: map,
+                          title: plant.name,
+                          icon: {
+                            path: google.maps.SymbolPath.CIRCLE,
+                            scale: 8,
+                            fillColor: getColorForStatus(plant.conservationStatus || ''),
+                            fillOpacity: 0.8,
+                            strokeColor: '#fff',
+                            strokeWeight: 2,
+                          },
+                        });
+                        
+                        const iucnInfo = plant.conservationStatus ? iucnLabels[plant.conservationStatus] : null;
+                        const infoWindow = new google.maps.InfoWindow({
+                          content: `
+                            <div style="padding: 8px; max-width: 300px;">
+                              <h3 style="font-weight: bold; margin-bottom: 4px;">${plant.name}</h3>
+                              <p style="font-style: italic; color: #666; margin-bottom: 8px;">${plant.latinName || ''}</p>
+                              ${iucnInfo ? `<p style="margin-bottom: 4px;"><strong>Statut IUCN:</strong> ${iucnInfo.label}</p>` : ''}
+                              ${plant.origin ? `<p style="margin-bottom: 4px;"><strong>Origine:</strong> ${plant.origin}</p>` : ''}
+                              ${plant.conservationNotes ? `<p style="margin-top: 8px; font-size: 0.9em; color: #666;">${plant.conservationNotes}</p>` : ''}
+                            </div>
+                          `,
+                        });
+                        
+                        marker.addListener('click', () => {
+                          infoWindow.open(map, marker);
+                        });
+                        
+                        newMarkers.push(marker);
+                        bounds.extend(coords);
+                      }
+                    });
+                    
+                    setMarkers(newMarkers);
+                    
+                    // Ajuster la vue pour inclure tous les marqueurs
+                    if (newMarkers.length > 0) {
+                      map.fitBounds(bounds);
+                    }
+                  }
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Liste des plantes menacées */}
       {isLoading ? (
@@ -224,4 +321,47 @@ export default function PatrimoineMenace() {
       )}
     </div>
   );
+}
+
+
+// Fonction helper pour obtenir les coordonnées basées sur l'origine
+function getCoordinatesForOrigin(origin: string): { lat: number; lng: number } | null {
+  // Mapping simple des origines vers des coordonnées approximatives
+  const originCoords: Record<string, { lat: number; lng: number }> = {
+    'Oman': { lat: 21.4735, lng: 55.9754 },
+    'Inde': { lat: 20.5937, lng: 78.9629 },
+    'Himalaya': { lat: 28.5983, lng: 83.9956 },
+    'Indonésie': { lat: -0.7893, lng: 113.9213 },
+    'Brésil': { lat: -14.2350, lng: -51.9253 },
+    'Arabie': { lat: 23.8859, lng: 45.0792 },
+    'Moyen-Orient': { lat: 29.2985, lng: 42.5510 },
+    'Asie': { lat: 34.0479, lng: 100.6197 },
+    'Afrique': { lat: -8.7832, lng: 34.5085 },
+  };
+  
+  // Chercher une correspondance partielle
+  for (const [key, coords] of Object.entries(originCoords)) {
+    if (origin.includes(key)) {
+      return coords;
+    }
+  }
+  
+  return null;
+}
+
+// Fonction helper pour obtenir la couleur selon le statut IUCN
+function getColorForStatus(status: string): string {
+  const colors: Record<string, string> = {
+    'EX': '#000000',
+    'EW': '#1a1a1a',
+    'CR': '#dc2626',
+    'EN': '#ea580c',
+    'VU': '#ca8a04',
+    'NT': '#eab308',
+    'LC': '#16a34a',
+    'DD': '#6b7280',
+    'NE': '#9ca3af',
+  };
+  
+  return colors[status] || '#6b7280';
 }

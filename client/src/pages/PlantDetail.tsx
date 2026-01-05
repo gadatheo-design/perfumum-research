@@ -80,6 +80,18 @@ export default function PlantDetail() {
     { enabled: plantId > 0 }
   );
   
+  // Récupérer les marqueurs civilisationnels
+  const { data: civilizationalMarkers } = trpc.civilizationalMarkers.getByPlant.useQuery(
+    { plantId },
+    { enabled: plantId > 0 }
+  );
+  
+  // Récupérer le statut de conservation
+  const { data: conservationStatus } = trpc.plantsConservation.getConservationStatus.useQuery(
+    { plantId },
+    { enabled: plantId > 0 }
+  );
+  
   if (isLoading) {
     return (
       <div className="container py-8">
@@ -180,12 +192,14 @@ export default function PlantDetail() {
       
       {/* Onglets principaux */}
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-9">
           <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
           <TabsTrigger value="varieties">Variétés ({varieties?.length || 0})</TabsTrigger>
           <TabsTrigger value="states">États botaniques</TabsTrigger>
           <TabsTrigger value="samples">Échantillons ({samples?.length || 0})</TabsTrigger>
           <TabsTrigger value="analyses">Analyses ({analyses?.length || 0})</TabsTrigger>
+          <TabsTrigger value="history">Histoire</TabsTrigger>
+          <TabsTrigger value="conservation">Conservation</TabsTrigger>
           <TabsTrigger value="regulatory">Réglementation</TabsTrigger>
           <TabsTrigger value="usage">Usage Absorbe</TabsTrigger>
         </TabsList>
@@ -639,6 +653,202 @@ export default function PlantDetail() {
                   </p>
                 </div>
               )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Onglet Histoire */}
+        <TabsContent value="history" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                Histoire et marqueurs civilisationnels
+              </CardTitle>
+              <CardDescription>
+                Utilisation historique de cette plante à travers les civilisations
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {civilizationalMarkers && civilizationalMarkers.length > 0 ? (
+                <div className="space-y-4">
+                  {/* Timeline horizontale */}
+                  <div className="relative">
+                    <div className="absolute top-8 left-0 right-0 h-0.5 bg-border" />
+                    <div className="relative flex gap-8 overflow-x-auto pb-4">
+                      {civilizationalMarkers
+                        .sort((a: any, b: any) => (a.startYear || 0) - (b.startYear || 0))
+                        .map((marker: any) => (
+                        <div key={marker.id} className="flex-shrink-0 w-64">
+                          <div className="relative">
+                            <div className="w-4 h-4 rounded-full bg-primary mx-auto mb-2 relative z-10" />
+                            <Card className="mt-2">
+                              <CardHeader className="pb-3">
+                                <CardTitle className="text-sm">{marker.civilization}</CardTitle>
+                                <CardDescription className="text-xs">
+                                  {marker.period}
+                                  {marker.startYear && (
+                                    <span className="block mt-1">
+                                      {marker.startYear < 0 ? `${Math.abs(marker.startYear)} av. J.-C.` : marker.startYear}
+                                      {marker.endYear && ` - ${marker.endYear < 0 ? `${Math.abs(marker.endYear)} av. J.-C.` : marker.endYear}`}
+                                    </span>
+                                  )}
+                                </CardDescription>
+                              </CardHeader>
+                              <CardContent className="space-y-2">
+                                <Badge variant="outline" className="text-xs capitalize">
+                                  {marker.usageType}
+                                </Badge>
+                                {marker.historicalSignificance && (
+                                  <p className="text-xs text-muted-foreground">
+                                    {marker.historicalSignificance}
+                                  </p>
+                                )}
+                                {marker.tradeRoutes && marker.tradeRoutes.length > 0 && (
+                                  <div className="pt-2 border-t">
+                                    <p className="text-xs font-medium mb-1">Routes commerciales</p>
+                                    {marker.tradeRoutes.map((route: any, idx: number) => (
+                                      <p key={idx} className="text-xs text-muted-foreground">
+                                        {route.route}
+                                      </p>
+                                    ))}
+                                  </div>
+                                )}
+                              </CardContent>
+                            </Card>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                  <p>Aucun marqueur civilisationnel documenté pour cette plante.</p>
+                  <p className="text-sm mt-2">
+                    Les marqueurs civilisationnels permettent de retracer l'histoire de l'usage de cette plante.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Onglet Conservation */}
+        <TabsContent value="conservation" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Statut de conservation
+              </CardTitle>
+              <CardDescription>
+                Statut IUCN, CITES et mesures de protection
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Statuts */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {plant.conservationStatus && (
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Statut IUCN</h4>
+                    <Badge className={`text-lg ${
+                      plant.conservationStatus === 'EX' || plant.conservationStatus === 'EW' ? 'bg-black text-white' :
+                      plant.conservationStatus === 'CR' ? 'bg-red-500 text-white' :
+                      plant.conservationStatus === 'EN' ? 'bg-orange-500 text-white' :
+                      plant.conservationStatus === 'VU' ? 'bg-yellow-500 text-white' :
+                      plant.conservationStatus === 'NT' ? 'bg-blue-500 text-white' :
+                      'bg-green-500 text-white'
+                    }`}>
+                      {plant.conservationStatus}
+                    </Badge>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {plant.conservationStatus === 'EX' && 'Éteint'}
+                      {plant.conservationStatus === 'EW' && 'Éteint à l’état sauvage'}
+                      {plant.conservationStatus === 'CR' && 'En danger critique'}
+                      {plant.conservationStatus === 'EN' && 'En danger'}
+                      {plant.conservationStatus === 'VU' && 'Vulnérable'}
+                      {plant.conservationStatus === 'NT' && 'Quasi menacé'}
+                      {plant.conservationStatus === 'LC' && 'Préoccupation mineure'}
+                      {plant.conservationStatus === 'DD' && 'Données insuffisantes'}
+                      {plant.conservationStatus === 'NE' && 'Non évalué'}
+                    </p>
+                    {plant.lastAssessmentYear && (
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Dernière évaluation: {plant.lastAssessmentYear}
+                      </p>
+                    )}
+                  </div>
+                )}
+                
+                {plant.citesAppendix && plant.citesAppendix !== 'UNKNOWN' && (
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="text-sm font-medium text-muted-foreground mb-2">CITES</h4>
+                    <Badge className={`text-lg ${
+                      plant.citesAppendix === 'I' ? 'bg-red-500 text-white' :
+                      plant.citesAppendix === 'II' ? 'bg-yellow-500 text-white' :
+                      plant.citesAppendix === 'III' ? 'bg-blue-500 text-white' :
+                      'bg-gray-500 text-white'
+                    }`}>
+                      Annexe {plant.citesAppendix}
+                    </Badge>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {plant.citesAppendix === 'I' && 'Commerce international généralement interdit'}
+                      {plant.citesAppendix === 'II' && 'Commerce strictement régulé'}
+                      {plant.citesAppendix === 'III' && 'Commerce régulé à la demande d\'un pays'}
+                      {plant.citesAppendix === 'NONE' && 'Non listé'}
+                    </p>
+                  </div>
+                )}
+              </div>
+              
+              {/* Facteurs de menace */}
+              {plant.threatFactors && Object.keys(plant.threatFactors).length > 0 && (
+                <div className="p-4 border rounded-lg">
+                  <h4 className="text-sm font-medium mb-3">Facteurs de menace</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {plant.threatFactors.overharvesting && (
+                      <Badge variant="destructive">Surexploitation</Badge>
+                    )}
+                    {plant.threatFactors.habitat_loss && (
+                      <Badge variant="destructive">Perte d'habitat</Badge>
+                    )}
+                    {plant.threatFactors.climate_change && (
+                      <Badge variant="destructive">Changement climatique</Badge>
+                    )}
+                    {plant.threatFactors.illegal_trade && (
+                      <Badge variant="destructive">Commerce illégal</Badge>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {/* Notes de conservation */}
+              {plant.conservationNotes && (
+                <div className="p-4 border rounded-lg">
+                  <h4 className="text-sm font-medium mb-2">Notes de conservation</h4>
+                  <p className="text-sm whitespace-pre-wrap">{plant.conservationNotes}</p>
+                </div>
+              )}
+              
+              {/* Alternatives durables */}
+              {plant.sustainableAlternatives && (
+                <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-950">
+                  <h4 className="text-sm font-medium mb-2 text-green-700 dark:text-green-300">Alternatives durables</h4>
+                  <p className="text-sm text-green-600 dark:text-green-400">{plant.sustainableAlternatives}</p>
+                </div>
+              )}
+              
+              {/* Lien vers la page Patrimoine menacé */}
+              <div className="pt-4 border-t">
+                <Link href="/patrimoine-menace">
+                  <Button variant="outline" className="w-full">
+                    <Shield className="h-4 w-4 mr-2" />
+                    Consulter toutes les espèces menacées
+                  </Button>
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

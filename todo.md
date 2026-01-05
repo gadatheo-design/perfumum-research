@@ -2358,3 +2358,33 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Valider toutes les fonctionnalités sur desktop et mobile
 - [ ] Créer le checkpoint final avec documentation complète
 
+
+
+---
+
+## 🌍 SESSION 05 JAN 2026 - IMPORT DONNÉES & CARTE INTERACTIVE
+
+### Import des données Boswellia et espèces menacées
+- [x] Exécuter le script d'import pour Boswellia (import-boswellia.mjs)
+- [x] Exécuter le script d'import pour les espèces menacées (import-threatened-species.mjs)
+- [x] Valider l'intégrité des données importées dans la base
+
+### Enrichissement des fiches plantes avec onglets Histoire & Conservation
+- [x] Ajouter un onglet "Histoire" aux fiches plantes existantes
+- [x] Afficher les marqueurs civilisationnels dans l'onglet Histoire
+- [x] Ajouter un onglet "Conservation" aux fiches plantes existantes
+- [x] Afficher les statuts IUCN dans l'onglet Conservation
+
+### Carte interactive Google Maps des espèces menacées
+- [x] Créer la carte interactive avec Google Maps sur la page Patrimoine menacé
+- [x] Afficher les marqueurs pour chaque espèce menacée avec sa localisation
+- [x] Créer les popups d'information pour chaque marqueur (nom, statut, région)
+- [x] Ajouter les filtres de carte (par statut IUCN, par région)
+- [ ] Afficher les zones de menace avec des overlays colorés
+- [ ] Afficher les alternatives durables sur la carte
+
+### Tests et validation
+- [ ] Écrire les tests vitest pour les nouvelles fonctionnalités
+- [ ] Valider que tous les tests passent
+- [ ] Tester le responsive mobile
+- [ ] Créer le checkpoint final
