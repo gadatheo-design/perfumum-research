@@ -941,7 +941,7 @@
 ### Phase 4 : Tests et livraison
 - [x] Tester toutes les modifications sur desktop
 - [ ] Tester toutes les modifications sur mobile
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 - [ ] Documenter les changements
 
 
@@ -1120,7 +1120,7 @@
 - [ ] Tester toutes les pages principales
 - [x] Valider le responsive mobile
 - [ ] Vérifier l'intégrité des données
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -1223,7 +1223,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires pour l'enrichissement PubChem
 - [ ] Tester les visualisations sur différentes tailles d'écran
 - [ ] Valider les formats de citation APA et Chicago
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -1293,7 +1293,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tester l'enrichissement PubChem sur un échantillon de molécules — 26 tests passés
 - [x] Tester la carte géographique sur desktop et mobile — TypeScript validé
 - [x] Valider les performances avec les données complètes — 212 tests passés
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -1359,7 +1359,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Valider sur desktop et mobile
 
 ### Phase 6 : Livraison
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 - [ ] Documenter les nouvelles fonctionnalités
 
 
@@ -1398,7 +1398,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Valider sur desktop et mobile
 
 ### Phase 6 : Livraison
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 - [ ] Documenter les changements
 
 
@@ -1431,7 +1431,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 
 ### Phase 5 : Livraison
 - [ ] Tester l'affichage des nouvelles données
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 - [ ] Présenter les résultats
 
 
@@ -1516,7 +1516,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires pour les nouvelles procédures
 
 ### Phase 5 : Livraison
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 - [ ] Présenter les résultats à l'utilisateur
 
 
@@ -1541,7 +1541,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Tester le clustering sur différents niveaux de zoom
 - [ ] Tester la page de détail variété sur desktop et mobile
 - [ ] Valider les liens entre variétés et molécules
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -1675,7 +1675,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 4 : Tests et validation
 - [ ] Tester tous les liens sur desktop
 - [ ] Tester tous les liens sur mobile
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 ---
@@ -1830,7 +1830,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
 - [ ] Tester le responsive sur toutes les nouvelles pages
 - [ ] Valider les performances des visualisations
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -2147,7 +2147,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Tester l'interface sur desktop et mobile
 - [ ] Valider l'intégrité des données importées
 - [ ] Vérifier la cohérence des statuts de conservation
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 ---
@@ -2239,7 +2239,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Valider l'intégrité des données historiques
 - [ ] Vérifier les liens entre variétés et profils moléculaires
 - [ ] Créer les tests unitaires pour les nouvelles fonctionnalités
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 ---
@@ -2283,7 +2283,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
 - [ ] Tester l'interface sur desktop et mobile
 - [ ] Vérifier la cohérence des données avec les plantes et molécules existantes
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -2387,7 +2387,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests vitest pour les nouvelles fonctionnalités
 - [ ] Valider que tous les tests passent
 - [ ] Tester le responsive mobile
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 ---
 
@@ -2408,7 +2408,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Optimiser les performances de rendu des overlays
 - [x] Créer le checkpoint final (version 207f5575) mobile de la carte avec overlays
 - [ ] Écrire les tests vitest pour les nouvelles fonctionnalités
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 ---
@@ -2459,7 +2459,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Écrire les tests vitest pour les nouvelles fonctionnalités cartographiques
 - [ ] Tester l'interaction complète de la carte enrichie
 - [ ] Valider le responsive mobile de toutes les nouvelles fonctionnalités
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 ---
 
@@ -2497,7 +2497,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Valider que toutes les espèces sont présentes dans la base
 - [x] Valider que toutes les liaisons sont correctes
 - [ ] Tester l'affichage des données de conservation
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 ---
@@ -2533,3 +2533,19 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] 347 tests passent avec succès (27 fichiers de test)
 - [x] Tests conservation: 15/15 passés
 - [x] Tests geographic-zones: corrigés et passés
+
+
+---
+
+## 🌱 SESSION 06 JAN 2026 - PAGE ALTERNATIVES DURABLES
+
+### Phase 1 : Création de la page Alternatives durables
+- [x] Analyser les données existantes sur les espèces menacées et alternatives
+- [x] Créer le schéma de base de données pour les alternatives durables (table sustainable_alternatives)
+- [x] Créer les procédures tRPC pour récupérer les alternatives par espèce
+- [x] Créer la page UI "Alternatives durables" avec liste par espèce menacée
+- [x] Implémenter les filtres et la recherche par espèce
+- [x] Intégrer la navigation dans le menu principal (route /alternatives-durables)
+- [x] Tester la fonctionnalité complète (17 tests passés)
+- [x] Créer le checkpoint final
+

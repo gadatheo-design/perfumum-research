@@ -3953,3 +3953,101 @@ export const plantGeographicZones = mysqlTable("plant_geographic_zones", {
 
 export type PlantGeographicZone = typeof plantGeographicZones.$inferSelect;
 export type InsertPlantGeographicZone = typeof plantGeographicZones.$inferInsert;
+
+
+// ============================================================================
+// SUSTAINABLE ALTERNATIVES (Alternatives durables pour espèces menacées)
+// ============================================================================
+
+/**
+ * Table dédiée aux alternatives durables pour les espèces menacées.
+ * Permet de lier une espèce menacée à ses alternatives avec des informations
+ * structurées sur la similarité olfactive, la disponibilité et les notes.
+ */
+export const sustainableAlternatives = mysqlTable("sustainable_alternatives", {
+  id: int("id").autoincrement().primaryKey(),
+  // Espèce menacée (source)
+  threatenedPlantId: int("threatened_plant_id").notNull(), // Référence à plants.id
+  threatenedPlantName: varchar("threatened_plant_name", { length: 255 }).notNull(), // Nom pour affichage rapide
+  // Alternative durable
+  alternativePlantId: int("alternative_plant_id"), // Référence à plants.id (optionnel si alternative synthétique)
+  alternativeName: varchar("alternative_name", { length: 255 }).notNull(), // Nom de l'alternative
+  alternativeType: mysqlEnum("alternative_type", [
+    "natural_plant",      // Plante naturelle de substitution
+    "cultivated",         // Variété cultivée durablement
+    "synthetic",          // Molécule de synthèse
+    "biotechnology",      // Produit de biotechnologie (fermentation, etc.)
+    "blend",              // Mélange reconstituant le profil olfactif
+    "other"
+  ]).notNull(),
+  // Profil olfactif comparé
+  olfactiveSimilarity: mysqlEnum("olfactive_similarity", [
+    "identical",          // Profil identique
+    "very_similar",       // Très similaire (>90%)
+    "similar",            // Similaire (70-90%)
+    "partial",            // Partiel (50-70%)
+    "inspired",           // Inspiré (<50%)
+    "different"           // Différent mais utilisable
+  ]).default("similar"),
+  olfactiveNotes: text("olfactive_notes"), // Description des différences olfactives
+  // Disponibilité et durabilité
+  availability: mysqlEnum("availability", [
+    "widely_available",   // Largement disponible
+    "available",          // Disponible
+    "limited",            // Disponibilité limitée
+    "rare",               // Rare
+    "research_only"       // Recherche uniquement
+  ]).default("available"),
+  sustainabilityScore: int("sustainability_score"), // Score 1-10 de durabilité
+  certifications: json("certifications").$type<string[]>(), // Certifications (Fair Trade, Bio, etc.)
+  // Informations complémentaires
+  priceComparison: mysqlEnum("price_comparison", [
+    "much_cheaper",       // Beaucoup moins cher
+    "cheaper",            // Moins cher
+    "similar",            // Prix similaire
+    "more_expensive",     // Plus cher
+    "much_more_expensive" // Beaucoup plus cher
+  ]).default("similar"),
+  suppliers: json("suppliers").$type<string[]>(), // Liste des fournisseurs
+  usageRecommendations: text("usage_recommendations"), // Recommandations d'utilisation
+  // Molécules clés
+  keyMolecules: json("key_molecules").$type<{
+    name: string;
+    percentage?: number;
+    note?: string;
+  }[]>(), // Molécules clés présentes dans l'alternative
+  // Références et sources
+  references: json("references").$type<{
+    title: string;
+    author?: string;
+    year?: number;
+    url?: string;
+    type: 'academic' | 'industry' | 'supplier' | 'other';
+  }[]>(),
+  // Métadonnées
+  notes: text("notes"),
+  verified: boolean("verified").default(false), // Vérifié par un expert
+  verifiedBy: varchar("verified_by", { length: 255 }),
+  verifiedAt: timestamp("verified_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  threatenedPlantIdx: index("sustainable_alt_threatened_idx").on(table.threatenedPlantId),
+  alternativeTypeIdx: index("sustainable_alt_type_idx").on(table.alternativeType),
+  availabilityIdx: index("sustainable_alt_availability_idx").on(table.availability),
+}));
+
+export type SustainableAlternative = typeof sustainableAlternatives.$inferSelect;
+export type InsertSustainableAlternative = typeof sustainableAlternatives.$inferInsert;
+
+// Relations pour sustainable_alternatives
+export const sustainableAlternativesRelations = relations(sustainableAlternatives, ({ one }) => ({
+  threatenedPlant: one(plants, {
+    fields: [sustainableAlternatives.threatenedPlantId],
+    references: [plants.id],
+  }),
+  alternativePlant: one(plants, {
+    fields: [sustainableAlternatives.alternativePlantId],
+    references: [plants.id],
+  }),
+}));

@@ -71,6 +71,13 @@
       "when": 1767652118784,
       "tag": "0009_odd_rhino",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1767655605324,
+      "tag": "0010_third_shooting_star",
+      "breakpoints": true
     }
   ]
 }
