@@ -1,0 +1,73 @@
+{
+  "query": "SELECT id, terroir_id, name, country, region, latitude, longitude FROM terroirs LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, terroir_id, name, country, region, latitude, longitude FROM terroirs LIMIT 20;",
+  "rows": [
+    {
+      "id": "1",
+      "terroir_id": "TER-COL-SAN",
+      "name": "San Andrés y Providencia",
+      "country": "Colombie",
+      "region": "Caraïbes",
+      "latitude": "12.5847000",
+      "longitude": "-81.7006000"
+    },
+    {
+      "id": "2",
+      "terroir_id": "TER-COL-HUI",
+      "name": "Santander & Huila",
+      "country": "Colombie",
+      "region": "Andes",
+      "latitude": "6.6437000",
+      "longitude": "-73.6536000"
+    },
+    {
+      "id": "3",
+      "terroir_id": "TER-COL-CAU",
+      "name": "Cauca Valley",
+      "country": "Colombie",
+      "region": "Valle del Cauca",
+      "latitude": "3.4516000",
+      "longitude": "-76.5320000"
+    },
+    {
+      "id": "4",
+      "terroir_id": "TER-MAD-NOS",
+      "name": "Nossi-Bé",
+      "country": "Madagascar",
+      "region": "Nord-Ouest",
+      "latitude": "-13.3167000",
+      "longitude": "48.2667000"
+    },
+    {
+      "id": "5",
+      "terroir_id": "TER-FRA-GRA",
+      "name": "Grasse",
+      "country": "France",
+      "region": "PACA",
+      "latitude": "43.6590000",
+      "longitude": "6.9230000"
+    },
+    {
+      "id": "6",
+      "terroir_id": "TER-IND-KAN",
+      "name": "Karnataka",
+      "country": "Inde",
+      "region": "Sud",
+      "latitude": "12.2958000",
+      "longitude": "76.6394000"
+    },
+    {
+      "id": "7",
+      "terroir_id": "TER-SOM-BOS",
+      "name": "Bosaso",
+      "country": "Somalie",
+      "region": "Puntland",
+      "latitude": "11.2842000",
+      "longitude": "49.1817000"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tterroir_id\tname\tcountry\tregion\tlatitude\tlongitude\n1\tTER-COL-SAN\tSan Andrés y Providencia\tColombie\tCaraïbes\t12.5847000\t-81.7006000\n2\tTER-COL-HUI\tSantander & Huila\tColombie\tAndes\t6.6437000\t-73.6536000\n3\tTER-COL-CAU\tCauca Valley\tColombie\tValle del Cauca\t3.4516000\t-76.5320000\n4\tTER-MAD-NOS\tNossi-Bé\tMadagascar\tNord-Ouest\t-13.3167000\t48.2667000\n5\tTER-FRA-GRA\tGrasse\tFrance\tPACA\t43.6590000\t6.9230000\n6\tTER-IND-KAN\tKarnataka\tInde\tSud\t12.2958000\t76.6394000\n7\tTER-SOM-BOS\tBosaso\tSomalie\tPuntland\t11.2842000\t49.1817000\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

@@ -243,6 +243,7 @@ import RawMaterials from "./pages/RawMaterials";
 import RawMaterialDetail from "./pages/RawMaterialDetail";
 import MoleculePlantRelations from "./pages/MoleculePlantRelations";
 import PlantTerroirNetwork from "./pages/PlantTerroirNetwork";
+import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
 
 // === PAGES TECHNIQUES ===
 import TestMinimal from "./pages/TestMinimal";
@@ -512,6 +513,7 @@ function Router() {
       <Route path="/reseau-molecules-plantes" component={ReseauMoleculePlante} />
       <Route path="/reseau-plantes-molecules" component={PlantMoleculeNetwork} />
       <Route path="/reseau-plantes-terroirs" component={PlantTerroirNetwork} />
+      <Route path="/carte-terroirs-plantes" component={CarteTerroirsPlantes} />
       <Route path="/bio-mineralis" component={BioMineralis} />
       
       {/* === PAGES TECHNIQUES === */}

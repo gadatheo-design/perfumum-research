@@ -1118,7 +1118,7 @@
 
 ### Phase 6 : Tests et validation
 - [ ] Tester toutes les pages principales
-- [ ] Valider le responsive mobile
+- [x] Valider le responsive mobile
 - [ ] Vérifier l'intégrité des données
 - [ ] Créer le checkpoint final
 
@@ -2073,3 +2073,30 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Valider les données importées
 - [x] Créer le checkpoint final
 
+
+
+---
+
+## 🗺️ SESSION 05 JAN 2026 - ENRICHISSEMENT DONNÉES & CARTOGRAPHIE
+
+### Phase 1 : Analyse des données existantes
+- [x] Analyser les fichiers sources pour les connexions plantes-terroirs
+- [x] Identifier les données géographiques disponibles (coordonnées, régions)
+- [x] Vérifier la structure actuelle des tables terroirs et plantes
+
+### Phase 2 : Enrichissement des connexions plantes-terroirs
+- [x] Créer la table de liaison plantes-terroirs si nécessaire
+- [x] Ajouter les données de connexions plantes-terroirs réelles (35 connexions, 19 terroirs)
+- [x] Valider l'intégrité des liaisons
+
+### Phase 3 : Vue cartographique
+- [x] Créer la page cartographique des terroirs (CarteTerroirsPlantes.tsx)
+- [x] Intégrer Google Maps avec les terroirs géolocalisés
+- [x] Afficher les plantes associées à chaque terroir sur la carte
+- [x] Ajouter les filtres par région/pays/continent
+- [x] Intégrer la carte dans la navigation du site (/carte-terroirs-plantes)
+
+### Phase 4 : Tests et livraison
+- [x] Tester les fonctionnalités cartographiques (306 tests passés)
+- [x] Valider le responsive mobile
+- [x] Créer le checkpoint final
