@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
 
 // Structure du menu mobile avec sections et sous-menus
 const mobileMenuSections = [
@@ -194,6 +195,7 @@ export function Header() {
   const { theme, toggleTheme } = useTheme();
 
   return (
+    <>
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 transition-all duration-300 shadow-sm">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
@@ -350,5 +352,11 @@ export function Header() {
         </div>
       </div>
     </header>
+    
+    {/* Breadcrumb sous le header */}
+    <div className="container py-2 border-b border-border/50 bg-background/80 backdrop-blur-sm">
+      <DynamicBreadcrumb />
+    </div>
+    </>
   );
 }

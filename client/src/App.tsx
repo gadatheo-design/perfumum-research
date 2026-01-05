@@ -226,6 +226,7 @@ import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import MonDashboard from "./pages/MonDashboard";
 import Statistics from "./pages/Statistics";
 import Recherche from "./pages/Recherche";
+import RechercheGlobale from "./pages/RechercheGlobale";
 
 // === UTILISATEUR ===
 import Favoris from "./pages/Favoris";
@@ -271,6 +272,7 @@ function Router() {
       
       {/* === RECHERCHE === */}
       <Route path="/recherche-avancee" component={RechercheAvancee} />
+      <Route path="/recherche-globale" component={RechercheGlobale} />
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />

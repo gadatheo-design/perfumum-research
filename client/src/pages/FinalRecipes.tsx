@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { toast } from "sonner";
+import { FinalRecipeForm } from "@/components/forms/FinalRecipeForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -265,10 +265,7 @@ export default function FinalRecipes() {
               Parfum, Encens, Espace — Formulations complètes et protocoles
             </p>
           </div>
-          <Button onClick={() => toast.info("Fonctionnalité en cours de développement")}>
-              <Plus className="w-4 h-4 mr-2" />
-              Nouvelle recette
-            </Button>
+          <FinalRecipeForm />
         </div>
 
         {/* Filters */}

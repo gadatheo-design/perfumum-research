@@ -1711,3 +1711,33 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] SourcingColombie.tsx: /gammes/colombie → /colombie
 - [x] EchelleAbsorbe.tsx: /methodologie → /methodologie/absorbe
 
+
+
+---
+
+## 🆕 SESSION 04 JAN 2026 - NOUVELLES FONCTIONNALITÉS
+
+### Phase 1 : Formulaires de création TerpProfiles et Recettes Finales
+- [x] Créer le formulaire de création TerpProfile complet
+- [x] Créer le formulaire de création Recette Finale complet
+- [x] Intégrer les formulaires dans les pages existantes
+- [x] Remplacer les toasts "en développement" par les vrais formulaires
+
+### Phase 2 : Page de recherche globale multi-entités
+- [x] Créer la procédure tRPC de recherche globale (molécules, recettes, plantes, accords)
+- [x] Créer l'interface de recherche unifiée
+- [x] Afficher les résultats groupés par type d'entité
+- [x] Intégrer la recherche globale dans le menu principal
+
+### Phase 3 : Fil d'Ariane dynamique
+- [x] Créer le composant Breadcrumb réutilisable
+- [x] Implémenter la logique de génération dynamique des chemins
+- [x] Intégrer le fil d'Ariane sur toutes les pages
+- [x] Tester la navigation contextuelle
+
+### Phase 4 : Tests et validation
+- [x] Tester les formulaires de création
+- [x] Tester la recherche globale
+- [x] Tester le fil d'Ariane sur différentes pages
+- [x] Créer le checkpoint final
+

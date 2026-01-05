@@ -781,110 +781,221 @@ export async function getAbsorbeProfileByPrototypeId(prototypeId: number) {
 // GLOBAL SEARCH
 // ============================================================================
 
-export async function globalSearch(query: string) {
+export interface GlobalSearchResult {
+  type: 'molecule' | 'recette' | 'plant' | 'accord' | 'terpProfile' | 'finalRecipe' | 'civilisation' | 'prototype' | 'glossary' | 'timeline';
+  id: number;
+  name: string;
+  description?: string | null;
+  metadata?: Record<string, any>;
+}
+
+export async function globalSearch(query: string, limit: number = 50): Promise<{
+  molecules: GlobalSearchResult[];
+  recettes: GlobalSearchResult[];
+  plants: GlobalSearchResult[];
+  accords: GlobalSearchResult[];
+  terpProfiles: GlobalSearchResult[];
+  finalRecipes: GlobalSearchResult[];
+  civilisations: GlobalSearchResult[];
+  prototypes: GlobalSearchResult[];
+  glossary: GlobalSearchResult[];
+  total: number;
+}> {
   const db = await getDb();
-  if (!db) throw new Error('Database not available');
+  if (!db || !query.trim()) {
+    return {
+      molecules: [],
+      recettes: [],
+      plants: [],
+      accords: [],
+      terpProfiles: [],
+      finalRecipes: [],
+      civilisations: [],
+      prototypes: [],
+      glossary: [],
+      total: 0
+    };
+  }
+
   const searchTerm = `%${query}%`;
-  
+  const perCategoryLimit = Math.ceil(limit / 9);
+
   // Search in prototypes
   const prototypeResults = await db
-    .select({
-      id: prototypes.id,
-      type: sql<string>`'prototype'`,
-      title: prototypes.name,
-      subtitle: prototypes.code,
-      description: prototypes.conceptualAxis,
-    })
+    .select()
     .from(prototypes)
     .where(
       sql`${prototypes.name} LIKE ${searchTerm} OR ${prototypes.code} LIKE ${searchTerm} OR ${prototypes.conceptualAxis} LIKE ${searchTerm}`
     )
-    .limit(10);
+    .limit(perCategoryLimit);
 
   // Search in molecules
   const moleculeResults = await db
-    .select({
-      id: molecules.id,
-      type: sql<string>`'molecule'`,
-      title: molecules.name,
-      subtitle: molecules.family,
-      description: molecules.olfactiveProfile,
-    })
+    .select()
     .from(molecules)
     .where(
-      sql`${molecules.name} LIKE ${searchTerm} OR ${molecules.family} LIKE ${searchTerm} OR ${molecules.olfactiveProfile} LIKE ${searchTerm}`
+      sql`${molecules.name} LIKE ${searchTerm} OR ${molecules.family} LIKE ${searchTerm} OR ${molecules.olfactiveProfile} LIKE ${searchTerm} OR ${molecules.casNumber} LIKE ${searchTerm}`
     )
-    .limit(10);
+    .limit(perCategoryLimit);
 
   // Search in recipes
   const recipeResults = await db
-    .select({
-      id: recettes.id,
-      type: sql<string>`'recipe'`,
-      title: recettes.name,
-      subtitle: recettes.category,
-      description: sql<string | null>`${recettes.formula}`,
-    })
+    .select()
     .from(recettes)
     .where(
       sql`${recettes.name} LIKE ${searchTerm} OR ${recettes.category} LIKE ${searchTerm} OR ${recettes.formula} LIKE ${searchTerm}`
     )
-    .limit(10);
+    .limit(perCategoryLimit);
+
+  // Search in plants
+  const plantResults = await db
+    .select()
+    .from(plants)
+    .where(
+      sql`${plants.name} LIKE ${searchTerm} OR ${plants.latinName} LIKE ${searchTerm} OR ${plants.family} LIKE ${searchTerm}`
+    )
+    .limit(perCategoryLimit);
+
+  // Search in accords
+  const accordResults = await db
+    .select()
+    .from(accords)
+    .where(
+      sql`${accords.name} LIKE ${searchTerm} OR ${accords.olfactiveProfile} LIKE ${searchTerm} OR ${accords.notes} LIKE ${searchTerm}`
+    )
+    .limit(perCategoryLimit);
+
+  // Search in terp profiles
+  const terpProfileResults = await db
+    .select()
+    .from(terpProfiles)
+    .where(
+      sql`${terpProfiles.name} LIKE ${searchTerm} OR ${terpProfiles.profileId} LIKE ${searchTerm} OR ${terpProfiles.function} LIKE ${searchTerm}`
+    )
+    .limit(perCategoryLimit);
+
+  // Search in final recipes
+  const finalRecipeResults = await db
+    .select()
+    .from(finalRecipes)
+    .where(
+      sql`${finalRecipes.name} LIKE ${searchTerm} OR ${finalRecipes.recipeId} LIKE ${searchTerm} OR ${finalRecipes.function} LIKE ${searchTerm}`
+    )
+    .limit(perCategoryLimit);
+
+  // Search in civilisations
+  const civilisationResults = await db
+    .select()
+    .from(civilisations)
+    .where(
+      sql`${civilisations.name} LIKE ${searchTerm} OR ${civilisations.region} LIKE ${searchTerm} OR ${civilisations.longDescription} LIKE ${searchTerm}`
+    )
+    .limit(perCategoryLimit);
 
   // Search in glossary
   const glossaryResults = await db
-    .select({
-      id: glossary.id,
-      type: sql<string>`'glossary'`,
-      title: glossary.term,
-      subtitle: glossary.category,
-      description: glossary.definition,
-    })
+    .select()
     .from(glossary)
     .where(
       sql`${glossary.term} LIKE ${searchTerm} OR ${glossary.definition} LIKE ${searchTerm}`
     )
-    .limit(10);
+    .limit(perCategoryLimit);
 
-  // Search in timeline
-  const timelineResults = await db
-    .select({
-      id: researchTimeline.id,
-      type: sql<string>`'timeline'`,
-      title: researchTimeline.title,
-      subtitle: researchTimeline.category,
-      description: researchTimeline.description,
-    })
-    .from(researchTimeline)
-    .where(
-      sql`${researchTimeline.title} LIKE ${searchTerm} OR ${researchTimeline.description} LIKE ${searchTerm}`
-    )
-    .limit(10);
+  // Transform results
+  const transformedPrototypes: GlobalSearchResult[] = prototypeResults.map(p => ({
+    type: 'prototype' as const,
+    id: p.id,
+    name: p.name,
+    description: p.conceptualAxis,
+    metadata: { code: p.code, emoji: p.emoji }
+  }));
 
-  // Search in experimental accords
-  const accordResults = await db
-    .select({
-      id: experimentalAccords.id,
-      type: sql<string>`'accord'`,
-      title: experimentalAccords.intention,
-      subtitle: sql<string>`CASE WHEN ${experimentalAccords.isExtreme} = 1 THEN 'Extrême' ELSE 'Standard' END`,
-      description: experimentalAccords.baseTabac,
-    })
-    .from(experimentalAccords)
-    .where(
-      sql`${experimentalAccords.intention} LIKE ${searchTerm} OR ${experimentalAccords.baseTabac} LIKE ${searchTerm}`
-    )
-    .limit(10);
+  const transformedMolecules: GlobalSearchResult[] = moleculeResults.map(m => ({
+    type: 'molecule' as const,
+    id: m.id,
+    name: m.name,
+    description: m.olfactiveProfile,
+    metadata: { family: m.family, chemicalFormula: m.chemicalFormula, casNumber: m.casNumber }
+  }));
+
+  const transformedRecettes: GlobalSearchResult[] = recipeResults.map(r => ({
+    type: 'recette' as const,
+    id: r.id,
+    name: r.name,
+    description: r.description,
+    metadata: { category: r.category, status: r.status }
+  }));
+
+  const transformedPlants: GlobalSearchResult[] = plantResults.map(p => ({
+    type: 'plant' as const,
+    id: p.id,
+    name: p.name,
+    description: p.olfactiveSignature,
+    metadata: { latinName: p.latinName, family: p.family, origin: p.origin }
+  }));
+
+  const transformedAccords: GlobalSearchResult[] = accordResults.map(a => ({
+    type: 'accord' as const,
+    id: a.id,
+    name: a.name,
+    description: a.olfactiveProfile,
+    metadata: { texture: a.texture, emotionalResonance: a.emotionalResonance }
+  }));
+
+  const transformedTerpProfiles: GlobalSearchResult[] = terpProfileResults.map(t => ({
+    type: 'terpProfile' as const,
+    id: t.id,
+    name: t.name,
+    description: t.function,
+    metadata: { profileId: t.profileId, climaticAxis: t.climaticAxis, usage: t.usage }
+  }));
+
+  const transformedFinalRecipes: GlobalSearchResult[] = finalRecipeResults.map(f => ({
+    type: 'finalRecipe' as const,
+    id: f.id,
+    name: f.name,
+    description: f.function,
+    metadata: { recipeId: f.recipeId, recipeType: f.recipeType, climaticAxis: f.climaticAxis }
+  }));
+
+  const transformedCivilisations: GlobalSearchResult[] = civilisationResults.map(c => ({
+    type: 'civilisation' as const,
+    id: c.id,
+    name: c.name,
+    description: c.longDescription,
+    metadata: { region: c.region, temporality: c.temporality }
+  }));
+
+  const transformedGlossary: GlobalSearchResult[] = glossaryResults.map(g => ({
+    type: 'glossary' as const,
+    id: g.id,
+    name: g.term,
+    description: g.definition,
+    metadata: { category: g.category }
+  }));
+
+  const total = 
+    transformedPrototypes.length +
+    transformedMolecules.length +
+    transformedRecettes.length +
+    transformedPlants.length +
+    transformedAccords.length +
+    transformedTerpProfiles.length +
+    transformedFinalRecipes.length +
+    transformedCivilisations.length +
+    transformedGlossary.length;
 
   return {
-    prototypes: prototypeResults,
-    molecules: moleculeResults,
-    recipes: recipeResults,
-    glossary: glossaryResults,
-    timeline: timelineResults,
-    accords: accordResults,
-    total: prototypeResults.length + moleculeResults.length + recipeResults.length + 
-           glossaryResults.length + timelineResults.length + accordResults.length,
+    prototypes: transformedPrototypes,
+    molecules: transformedMolecules,
+    recettes: transformedRecettes,
+    plants: transformedPlants,
+    accords: transformedAccords,
+    terpProfiles: transformedTerpProfiles,
+    finalRecipes: transformedFinalRecipes,
+    civilisations: transformedCivilisations,
+    glossary: transformedGlossary,
+    total
   };
 }
 

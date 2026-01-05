@@ -762,9 +762,9 @@ export const appRouter = router({
   // Global Search
   search: router({
     global: publicProcedure
-      .input(z.object({ query: z.string() }))
+      .input(z.object({ query: z.string(), limit: z.number().optional() }))
       .query(async ({ input }) => {
-        return await db.globalSearch(input.query);
+        return await db.globalSearch(input.query, input.limit);
       }),
   }),
 
