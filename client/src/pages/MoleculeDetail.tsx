@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
-import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink } from "lucide-react";
+import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box } from "lucide-react";
 import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -12,6 +12,7 @@ import { RecommendationsCard } from "@/components/RecommendationsCard";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Molecule3DViewer } from "@/components/Molecule3DViewer";
 
 // Mapping des classes chimiques pour l'affichage
 const chemicalClassLabels: Record<string, string> = {
@@ -743,6 +744,28 @@ export default function MoleculeDetail() {
                       </div>
                     )}
                   </div>
+                </div>
+              )}
+
+              {/* Visualisation 3D de la molécule */}
+              {molecule.chemicalFormula && (
+                <div className="bg-card p-6 rounded-lg border shadow-sm">
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <Box className="h-5 w-5 text-primary" />
+                    Structure Moléculaire 3D
+                  </h2>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Visualisation interactive de la structure moléculaire. Utilisez la souris pour faire pivoter le modèle.
+                  </p>
+                  <Molecule3DViewer
+                    moleculeId={id}
+                    moleculeName={molecule.name}
+                    formula={molecule.chemicalFormula}
+                    showControls={true}
+                    showInfo={true}
+                    autoRotate={false}
+                    height={400}
+                  />
                 </div>
               )}
 

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useCollaboration, type CollaboratorPresence, type ActivityItem, type Comment } from "@/hooks/useCollaboration";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,40 +40,7 @@ import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 
-// Types
-interface CollaboratorPresence {
-  id: string;
-  name: string;
-  avatar?: string;
-  status: "online" | "away" | "busy";
-  currentPage?: string;
-  lastActivity: Date;
-}
-
-interface ActivityItem {
-  id: string;
-  userId: string;
-  userName: string;
-  userAvatar?: string;
-  action: "create" | "edit" | "delete" | "comment" | "view";
-  targetType: "molecule" | "recette" | "note" | "comment";
-  targetId: number;
-  targetName: string;
-  timestamp: Date;
-  details?: string;
-}
-
-interface Comment {
-  id: string;
-  userId: string;
-  userName: string;
-  userAvatar?: string;
-  content: string;
-  timestamp: Date;
-  targetType: string;
-  targetId: number;
-  replies?: Comment[];
-}
+// Les types sont maintenant importés depuis useCollaboration
 
 interface CollaborationPanelProps {
   className?: string;
@@ -81,26 +49,10 @@ interface CollaborationPanelProps {
   targetId?: number;
 }
 
-// Données simulées pour les collaborateurs
-const MOCK_COLLABORATORS: CollaboratorPresence[] = [
-  { id: "1", name: "Clara Müller", status: "online", currentPage: "/molecules/42", lastActivity: new Date() },
-  { id: "2", name: "Thomas Berne", status: "away", currentPage: "/recettes", lastActivity: new Date(Date.now() - 300000) },
-  { id: "3", name: "Sophie Martin", status: "busy", currentPage: "/analytics", lastActivity: new Date(Date.now() - 60000) },
-];
-
-// Données simulées pour l'activité
-const MOCK_ACTIVITY: ActivityItem[] = [
-  { id: "1", userId: "1", userName: "Clara Müller", action: "edit", targetType: "molecule", targetId: 42, targetName: "Limonène", timestamp: new Date(Date.now() - 120000), details: "Mise à jour du profil radar" },
-  { id: "2", userId: "2", userName: "Thomas Berne", action: "create", targetType: "recette", targetId: 15, targetName: "Accord Pétrichor v3", timestamp: new Date(Date.now() - 300000) },
-  { id: "3", userId: "3", userName: "Sophie Martin", action: "comment", targetType: "molecule", targetId: 38, targetName: "Linalol", timestamp: new Date(Date.now() - 600000), details: "Question sur la volatilité" },
-  { id: "4", userId: "1", userName: "Clara Müller", action: "view", targetType: "note", targetId: 7, targetName: "Notes de recherche Q4", timestamp: new Date(Date.now() - 900000) },
-];
-
-// Données simulées pour les commentaires
-const MOCK_COMMENTS: Comment[] = [
-  { id: "1", userId: "1", userName: "Clara Müller", content: "J'ai remarqué une synergie intéressante avec le myrcène. À explorer dans les prochains tests.", timestamp: new Date(Date.now() - 3600000), targetType: "molecule", targetId: 42 },
-  { id: "2", userId: "2", userName: "Thomas Berne", content: "Confirmé ! J'ai obtenu des résultats similaires avec le protocole ABSORBE.", timestamp: new Date(Date.now() - 1800000), targetType: "molecule", targetId: 42 },
-];
+// Données de fallback quand WebSocket n'est pas connecté
+const FALLBACK_COLLABORATORS: CollaboratorPresence[] = [];
+const FALLBACK_ACTIVITIES: ActivityItem[] = [];
+const FALLBACK_COMMENTS: Comment[] = [];
 
 // Composant d'avatar avec indicateur de statut
 function CollaboratorAvatar({ 
@@ -412,23 +364,48 @@ export function CollaborationPanel({
   targetId,
 }: CollaborationPanelProps) {
   const [activeTab, setActiveTab] = useState<"presence" | "activity" | "comments">("presence");
-  const [collaborators] = useState<CollaboratorPresence[]>(MOCK_COLLABORATORS);
-  const [activities] = useState<ActivityItem[]>(MOCK_ACTIVITY);
-  const [comments, setComments] = useState<Comment[]>(MOCK_COMMENTS);
   const { user } = useAuth();
+  
+  // Utiliser le hook de collaboration WebSocket
+  const {
+    isConnected,
+    connectionError,
+    collaborators: wsCollaborators,
+    activities: wsActivities,
+    comments: wsComments,
+    sendComment,
+    sendActivity,
+  } = useCollaboration({ autoConnect: true });
+
+  // Utiliser les données WebSocket ou les fallbacks
+  const collaborators = wsCollaborators.length > 0 ? wsCollaborators : FALLBACK_COLLABORATORS;
+  const activities = wsActivities.length > 0 ? wsActivities : FALLBACK_ACTIVITIES;
+  const [localComments, setLocalComments] = useState<Comment[]>([]);
+  const comments = [...wsComments, ...localComments];
 
   const handleAddComment = useCallback((content: string) => {
-    const newComment: Comment = {
-      id: Date.now().toString(),
-      userId: String(user?.id || "unknown"),
-      userName: user?.name || "Utilisateur",
-      content,
-      timestamp: new Date(),
-      targetType: targetType || "general",
-      targetId: targetId || 0,
-    };
-    setComments(prev => [newComment, ...prev]);
-  }, [user, targetType, targetId]);
+    if (isConnected) {
+      // Envoyer via WebSocket
+      sendComment({
+        content,
+        targetType: targetType || "general",
+        targetId: targetId || 0,
+        targetName: targetType ? `${targetType} #${targetId}` : "Discussion générale",
+      });
+    } else {
+      // Fallback local
+      const newComment: Comment = {
+        id: Date.now().toString(),
+        userId: String(user?.id || "unknown"),
+        userName: user?.name || "Utilisateur",
+        content,
+        timestamp: new Date(),
+        targetType: targetType || "general",
+        targetId: targetId || 0,
+      };
+      setLocalComments(prev => [newComment, ...prev]);
+    }
+  }, [isConnected, sendComment, targetType, targetId, user]);
 
   if (variant === "floating") {
     return (
@@ -475,9 +452,17 @@ export function CollaborationPanel({
             <CardTitle className="flex items-center gap-2">
               <Users className="h-5 w-5 text-primary" />
               Espace Collaboratif
+              {isConnected ? (
+                <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" title="Connecté" />
+              ) : (
+                <span className="h-2 w-2 rounded-full bg-gray-400" title="Déconnecté" />
+              )}
             </CardTitle>
             <CardDescription>
-              {collaborators.filter(c => c.status === "online").length} collaborateur(s) en ligne
+              {isConnected 
+                ? `${collaborators.filter(c => c.status === "online").length} collaborateur(s) en ligne`
+                : connectionError || "Connexion en cours..."
+              }
             </CardDescription>
           </div>
           <Button variant="outline" size="sm">

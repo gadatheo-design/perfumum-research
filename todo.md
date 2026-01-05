@@ -2014,3 +2014,31 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - `/comparaison` - Mode comparaison avancé
 
 **Tests passés :** 21/22 suites (1 test mineur échoué sur format de référence)
+
+
+---
+
+## 🔧 SESSION 05 JAN 2026 - INTÉGRATIONS AVANCÉES
+
+### SmartSearch dans le Header
+- [x] Analyser le composant SmartSearch existant
+- [x] Intégrer SmartSearch dans le Header principal
+- [x] Configurer l'auto-complétion pour molécules, recettes, accords
+- [x] Tester la recherche sur toutes les pages
+- [x] Valider le responsive mobile du SmartSearch
+
+### Molecule3DViewer sur les pages de détail
+- [x] Analyser le composant Molecule3DViewer existant
+- [x] Intégrer Molecule3DViewer sur la page de détail des molécules
+- [x] Configurer le rendu 3D des structures moléculaires
+- [x] Ajouter les contrôles de rotation/zoom
+- [x] Tester l'affichage 3D sur desktop et mobile
+
+### CollaborationPanel avec WebSocket
+- [x] Créer le backend WebSocket pour la collaboration temps réel
+- [x] Configurer les événements de présence (qui est en ligne)
+- [x] Implémenter le système de curseurs partagés
+- [x] Implémenter les commentaires en temps réel
+- [x] Connecter CollaborationPanel au WebSocket
+- [x] Tester la collaboration entre plusieurs utilisateurs
+
