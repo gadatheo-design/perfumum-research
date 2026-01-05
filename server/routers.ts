@@ -5074,6 +5074,354 @@ export const appRouter = router({
         return { success: true };
       }),
   }),
+
+  // ============================================================================
+  // PLANT-TERROIR RELATIONS (Connexions plantes-terroirs pour le graphe)
+  // ============================================================================
+  plantTerroirs: router({
+    // Récupérer toutes les relations plantes-terroirs
+    getAll: publicProcedure.query(async () => {
+      // Récupérer toutes les plantes et leurs terroirs
+      const plants = await db.getAllPlants();
+      const allRelations: Array<{
+        plantId: number;
+        plantName: string;
+        terroirId: number;
+        localName?: string;
+      }> = [];
+      
+      for (const plant of plants) {
+        const terroirs = await db.getPlantTerroirs(plant.id);
+        terroirs.forEach((t: any) => {
+          allRelations.push({
+            plantId: plant.id,
+            plantName: plant.name,
+            terroirId: t.terroirId,
+            localName: t.localName,
+          });
+        });
+      }
+      
+      return allRelations;
+    }),
+    
+    // Récupérer les terroirs d'une plante
+    getByPlant: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getPlantTerroirs(input);
+      }),
+    
+    // Récupérer les plantes d'un terroir
+    getByTerroir: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getTerroirPlants(input);
+      }),
+    
+    // Ajouter une relation plante-terroir
+    create: protectedProcedure
+      .input(z.object({
+        plantId: z.number(),
+        terroirId: z.number(),
+        localName: z.string().optional(),
+        cultivationStart: z.number().optional(),
+        annualProduction: z.string().optional(),
+        qualityNotes: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.addPlantTerroir(input);
+      }),
+    
+    // Supprimer une relation plante-terroir
+    delete: protectedProcedure
+      .input(z.object({
+        plantId: z.number(),
+        terroirId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.removePlantTerroir(input.plantId, input.terroirId);
+      }),
+    
+    // Statistiques pour le graphe de réseau
+    getNetworkStats: publicProcedure.query(async () => {
+      const plants = await db.getAllPlants();
+      let totalRelations = 0;
+      const plantsWithTerroirs = new Set<number>();
+      const terroirsWithPlants = new Set<number>();
+      
+      for (const plant of plants) {
+        const terroirs = await db.getPlantTerroirs(plant.id);
+        if (terroirs.length > 0) {
+          plantsWithTerroirs.add(plant.id);
+          terroirs.forEach((t: any) => {
+            terroirsWithPlants.add(t.terroirId);
+            totalRelations++;
+          });
+        }
+      }
+      
+      return {
+        totalRelations,
+        plantsWithTerroirs: plantsWithTerroirs.size,
+        terroirsWithPlants: terroirsWithPlants.size,
+      };
+    }),
+  }),
+
+  // ============================================================================
+  // GRAPHE DE RÉSEAU UNIFIÉ (Plantes, Terroirs, Molécules)
+  // ============================================================================
+  networkGraph: router({
+    // Données complètes pour le graphe de réseau
+    getFullNetworkData: publicProcedure.query(async () => {
+      const dbInstance = await db.getDb();
+      if (!dbInstance) return { nodes: [], links: [] };
+      
+      const nodes: Array<{
+        id: string;
+        name: string;
+        type: 'plant' | 'terroir' | 'molecule' | 'rawMaterial';
+        data?: any;
+      }> = [];
+      
+      const links: Array<{
+        source: string;
+        target: string;
+        type: 'plant-terroir' | 'plant-molecule' | 'rawMaterial-terroir' | 'rawMaterial-molecule';
+        value?: number;
+      }> = [];
+      
+      // Récupérer les plantes
+      const plants = await db.getAllPlants();
+      plants.forEach(plant => {
+        nodes.push({
+          id: `plant-${plant.id}`,
+          name: plant.name,
+          type: 'plant',
+          data: { latinName: plant.latinName, category: plant.category },
+        });
+      });
+      
+      // Récupérer les terroirs
+      const terroirs = await db.getAllTerroirs();
+      terroirs.forEach(terroir => {
+        nodes.push({
+          id: `terroir-${terroir.id}`,
+          name: terroir.name,
+          type: 'terroir',
+          data: { country: terroir.country, region: terroir.region, climateType: terroir.climateType },
+        });
+      });
+      
+      // Récupérer les relations plantes-terroirs
+      const allPlants = await db.getAllPlants();
+      const plantTerroirLinks: Array<{ plantId: number; terroirId: number }> = [];
+      
+      // Récupérer les terroirs de chaque plante
+      for (const plant of allPlants.slice(0, 50)) {
+        const plantTerroirs = await db.getPlantTerroirs(plant.id);
+        plantTerroirs.forEach((pt: any) => {
+          plantTerroirLinks.push({ plantId: plant.id, terroirId: pt.terroirId });
+        });
+      }
+      
+      plantTerroirLinks.forEach((rel: { plantId: number; terroirId: number }) => {
+        links.push({
+          source: `plant-${rel.plantId}`,
+          target: `terroir-${rel.terroirId}`,
+          type: 'plant-terroir',
+        });
+      });
+      
+      // Récupérer les molécules principales
+      const molecules = await db.getAllMolecules();
+      molecules.slice(0, 100).forEach(mol => {
+        nodes.push({
+          id: `molecule-${mol.id}`,
+          name: mol.name,
+          type: 'molecule',
+          data: { family: mol.family, chemicalClass: mol.chemicalClass },
+        });
+      });
+      
+      // Récupérer les relations plantes-molécules
+      const plantMoleculeLinks: Array<{ plantId: number; moleculeId: number; percentageTypical: number }> = [];
+      
+      for (const plant of allPlants.slice(0, 50)) {
+        const plantMols = await db.getPlantMolecules(plant.id);
+        plantMols.forEach((pm: any) => {
+          if (molecules.slice(0, 100).some(m => m.id === pm.molecule.id)) {
+            plantMoleculeLinks.push({ 
+              plantId: plant.id, 
+              moleculeId: pm.molecule.id,
+              percentageTypical: Number(pm.percentageTypical) || 1
+            });
+          }
+        });
+      }
+      
+      plantMoleculeLinks.forEach((rel) => {
+        links.push({
+          source: `plant-${rel.plantId}`,
+          target: `molecule-${rel.moleculeId}`,
+          type: 'plant-molecule',
+          value: rel.percentageTypical,
+        });
+      });
+      
+      // Récupérer les matières premières
+      const rawMaterials = await db.getAllRawMaterials();
+      rawMaterials.forEach(rm => {
+        nodes.push({
+          id: `rawMaterial-${rm.id}`,
+          name: rm.name,
+          type: 'rawMaterial',
+          data: { category: rm.category, plantPart: rm.plantPart },
+        });
+        
+        // Lien vers le terroir
+        if (rm.terroirId) {
+          links.push({
+            source: `rawMaterial-${rm.id}`,
+            target: `terroir-${rm.terroirId}`,
+            type: 'rawMaterial-terroir',
+          });
+        }
+        
+        // Lien vers la plante
+        if (rm.plantId) {
+          links.push({
+            source: `rawMaterial-${rm.id}`,
+            target: `plant-${rm.plantId}`,
+            type: 'plant-molecule',
+          });
+        }
+      });
+      
+      return { nodes, links };
+    }),
+    
+    // Données filtrées par type
+    getFilteredNetworkData: publicProcedure
+      .input(z.object({
+        showPlants: z.boolean().default(true),
+        showTerroirs: z.boolean().default(true),
+        showMolecules: z.boolean().default(true),
+        showRawMaterials: z.boolean().default(false),
+        countryFilter: z.string().optional(),
+        categoryFilter: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        const dbInstance = await db.getDb();
+        if (!dbInstance) return { nodes: [], links: [] };
+        
+        const nodes: Array<{
+          id: string;
+          name: string;
+          type: 'plant' | 'terroir' | 'molecule' | 'rawMaterial';
+          data?: any;
+        }> = [];
+        
+        const links: Array<{
+          source: string;
+          target: string;
+          type: string;
+          value?: number;
+        }> = [];
+        
+        // Récupérer les plantes si demandé
+        if (input.showPlants) {
+          const plants = await db.getAllPlants();
+          const filteredPlants = input.categoryFilter 
+            ? plants.filter(p => p.category === input.categoryFilter)
+            : plants;
+          
+          filteredPlants.forEach(plant => {
+            nodes.push({
+              id: `plant-${plant.id}`,
+              name: plant.name,
+              type: 'plant',
+              data: { latinName: plant.latinName, category: plant.category },
+            });
+          });
+        }
+        
+        // Récupérer les terroirs si demandé
+        if (input.showTerroirs) {
+          const terroirs = await db.getAllTerroirs();
+          const filteredTerroirs = input.countryFilter
+            ? terroirs.filter(t => t.country === input.countryFilter)
+            : terroirs;
+          
+          filteredTerroirs.forEach(terroir => {
+            nodes.push({
+              id: `terroir-${terroir.id}`,
+              name: terroir.name,
+              type: 'terroir',
+              data: { country: terroir.country, region: terroir.region },
+            });
+          });
+        }
+        
+        // Récupérer les molécules si demandé
+        if (input.showMolecules) {
+          const molecules = await db.getAllMolecules();
+          molecules.slice(0, 50).forEach(mol => {
+            nodes.push({
+              id: `molecule-${mol.id}`,
+              name: mol.name,
+              type: 'molecule',
+              data: { family: mol.family },
+            });
+          });
+        }
+        
+        // Récupérer les relations plantes-terroirs
+        if (input.showPlants && input.showTerroirs) {
+          const plantIds = new Set(nodes.filter(n => n.type === 'plant').map(n => parseInt(n.id.split('-')[1])));
+          const terroirIds = new Set(nodes.filter(n => n.type === 'terroir').map(n => parseInt(n.id.split('-')[1])));
+          
+          // Récupérer les terroirs de chaque plante
+          for (const plantId of Array.from(plantIds)) {
+            const plantTerroirs = await db.getPlantTerroirs(plantId);
+            plantTerroirs.forEach((pt: any) => {
+              if (terroirIds.has(pt.terroirId)) {
+                links.push({
+                  source: `plant-${plantId}`,
+                  target: `terroir-${pt.terroirId}`,
+                  type: 'plant-terroir',
+                });
+              }
+            });
+          }
+        }
+        
+        // Récupérer les relations plantes-molécules
+        if (input.showPlants && input.showMolecules) {
+          const plantIds = new Set(nodes.filter(n => n.type === 'plant').map(n => parseInt(n.id.split('-')[1])));
+          const moleculeIds = new Set(nodes.filter(n => n.type === 'molecule').map(n => parseInt(n.id.split('-')[1])));
+          
+          // Récupérer les molécules de chaque plante
+          for (const plantId of Array.from(plantIds)) {
+            const plantMols = await db.getPlantMolecules(plantId);
+            plantMols.forEach((pm: any) => {
+              if (moleculeIds.has(pm.molecule.id)) {
+                links.push({
+                  source: `plant-${plantId}`,
+                  target: `molecule-${pm.molecule.id}`,
+                  type: 'plant-molecule',
+                  value: Number(pm.percentageTypical) || 1,
+                });
+              }
+            });
+          }
+        }
+        
+        return { nodes, links };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

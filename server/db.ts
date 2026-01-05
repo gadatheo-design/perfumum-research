@@ -205,6 +205,8 @@ export async function getDb() {
           supplierMaterials,
           rechercheRadicale,
           modificationHistory,
+          plantTerroirs,
+          plantMolecules,
         },
       });
     } catch (error) {

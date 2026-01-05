@@ -2042,3 +2042,34 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Connecter CollaborationPanel au WebSocket
 - [x] Tester la collaboration entre plusieurs utilisateurs
 
+
+
+---
+
+## 🌐 SESSION 05 JAN 2026 - GRAPHE RÉSEAU, MATIÈRES PREMIÈRES & IFRA
+
+### Phase 1 : Compléter les connexions plantes-terroirs dans le graphe de réseau
+- [x] Créer les procédures tRPC pour plantTerroirs (getAll, create, delete)
+- [x] Améliorer le graphe de réseau pour afficher les connexions plantes-terroirs
+- [x] Ajouter un mode de visualisation "Origine géographique" au graphe
+- [x] Intégrer les données de terroirs dans les nœuds du graphe
+
+### Phase 2 : Ajouter les matières premières manquantes
+- [ ] Analyser les fichiers sources pour identifier les HE, absolues, extraits CO2 manquants
+- [ ] Créer un script d'import pour les matières premières
+- [ ] Importer les matières premières dans la base de données
+- [ ] Valider l'intégrité des données importées
+
+### Phase 3 : Créer la page de consultation IFRA
+- [x] Créer la page `/ifra` avec interface de recherche par molécule (page existante améliorée)
+- [x] Afficher les restrictions par catégorie IFRA (11 catégories)
+- [x] Implémenter la recherche et le filtrage par type de restriction
+- [x] Ajouter un calculateur de conformité pour les formules
+- [x] Intégrer la page dans le menu principal
+
+### Phase 4 : Tests et validation
+- [x] Tester le graphe de réseau avec les nouvelles connexions
+- [x] Tester la page IFRA sur desktop et mobile
+- [x] Valider les données importées
+- [x] Créer le checkpoint final
+
