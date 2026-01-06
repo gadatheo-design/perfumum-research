@@ -1,0 +1,190 @@
+{
+  "query": "SELECT id, entry_key, title, authors, year, entry_type, research_domain FROM bibliography_entries LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, entry_key, title, authors, year, entry_type, research_domain FROM bibliography_entries LIMIT 20;",
+  "rows": [
+    {
+      "id": "1",
+      "entry_key": "test_import_1767706547723",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "2",
+      "entry_key": "test_import_1767707016991",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "30001",
+      "entry_key": "test_import_1767709269608",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "30002",
+      "entry_key": "test_import_1767709320937",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "30003",
+      "entry_key": "test_import_1767709334510",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "60001",
+      "entry_key": "test_import_1767711745277",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "60002",
+      "entry_key": "test_import_1767711784732",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "60003",
+      "entry_key": "test_import_1767713146517",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "60004",
+      "entry_key": "test_import_1767713188112",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "60005",
+      "entry_key": "test_import_1767713217414",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "60006",
+      "entry_key": "test_import_1767714804242",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "60007",
+      "entry_key": "test_import_1767715458377",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "60008",
+      "entry_key": "test_import_1767715678524",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "90001",
+      "entry_key": "test_import_1767719484554",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "120001",
+      "entry_key": "test_import_1767721379408",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "120002",
+      "entry_key": "test_import_1767721557145",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "150001",
+      "entry_key": "test_import_1767723981137",
+      "title": "Test Import Article",
+      "authors": "Test Author",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "id": "150002",
+      "entry_key": "perfumum_arctander1969",
+      "title": "Perfume and Flavor Materials of Natural Origin",
+      "authors": "Steffen Arctander",
+      "year": "1969",
+      "entry_type": "book",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150003",
+      "entry_key": "perfumum_sell2006",
+      "title": "The Chemistry of Fragrances: From Perfumer to Consumer",
+      "authors": "Charles Sell",
+      "year": "2006",
+      "entry_type": "book",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150004",
+      "entry_key": "perfumum_tisserand2014",
+      "title": "Essential Oil Safety: A Guide for Health Care Professionals",
+      "authors": "Robert Tisserand, Rodney Young",
+      "year": "2014",
+      "entry_type": "book",
+      "research_domain": "reglementation"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentry_key\ttitle\tauthors\tyear\tentry_type\tresearch_domain\n1\ttest_import_1767706547723\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n2\ttest_import_1767707016991\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n30001\ttest_import_1767709269608\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n30002\ttest_import_1767709320937\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n30003\ttest_import_1767709334510\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n60001\ttest_import_1767711745277\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n60002\ttest_import_1767711784732\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n60003\ttest_import_1767713146517\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n60004\ttest_import_1767713188112\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n60005\ttest_import_1767713217414\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n60006\ttest_import_1767714804242\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n60007\ttest_import_1767715458377\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n60008\ttest_import_1767715678524\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n90001\ttest_import_1767719484554\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n120001\ttest_import_1767721379408\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n120002\ttest_import_1767721557145\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n150001\ttest_import_1767723981137\tTest Import Article\tTest Author\t2024\tarticle\tNULL\n150002\tperfumum_arctander1969\tPerfume and Flavor Materials of Natural Origin\tSteffen Arctander\t1969\tbook\tchimie_olfactive\n150003\tperfumum_sell2006\tThe Chemistry of Fragrances: From Perfumer to Consumer\tCharles Sell\t2006\tbook\tchimie_olfactive\n150004\tperfumum_tisserand2014\tEssential Oil Safety: A Guide for Health Care Professionals\tRobert Tisserand, Rodney Young\t2014\tbook\treglementation\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

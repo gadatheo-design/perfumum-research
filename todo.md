@@ -2913,3 +2913,16 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Ajouter l'Export bibliographique dans le MegaMenu
 - [x] Ajouter les Axes de recherche dans le MegaMenu
 - [ ] Vérifier que toutes les nouvelles pages du jour sont accessibles
+
+
+---
+
+## 📚 SESSION 06 JAN 2026 - ENRICHISSEMENT BIBLIOGRAPHIE
+
+### Enrichir la bibliographie avec les références scientifiques principales
+- [x] Analyser les fichiers de recherche du projet pour identifier les références
+- [x] Identifier les références scientifiques clés (articles, livres, bases de données)
+- [x] Ajouter les références à la table bibliographyEntries (36 nouvelles références)
+- [x] Vérifier l'intégrité des données ajoutées (48 références total)
+- [ ] Créer le checkpoint final
+
