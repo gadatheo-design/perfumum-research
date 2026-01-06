@@ -262,6 +262,13 @@ export function MegaMenu() {
           description: "Formules olfactives",
         },
         {
+          label: "Recettes TL",
+          path: "/recettes-tl",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Tagetes lucida (5 formulations)",
+          badge: "NEW",
+        },
+        {
           label: "Plantes & Variétés",
           path: "/plants",
           icon: <Leaf className="h-4 w-4" />,

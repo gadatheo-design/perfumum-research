@@ -86,6 +86,7 @@ import Accords from "./pages/Accords";
 import AccordsDedies from "./pages/AccordsDedies";
 import { ExperimentalAccords } from "./pages/ExperimentalAccords";
 import RechercheRadicale from "@/pages/RechercheRadicale";
+import RecettesTL from "./pages/RecettesTL";
 import FondementsPhilosophiques from "@/pages/FondementsPhilosophiques";
 
 // === RÉSINES CBD ===
@@ -343,6 +344,7 @@ function Router() {
       
       {/* === RECETTES === */}
       <Route path="/recettes" component={Recettes} />
+      <Route path="/recettes-tl" component={RecettesTL} />
       <Route path="/recette/:id" component={RecetteDetail} />
       <Route path="/accords" component={Accords} />
       <Route path="/accords-dedies" component={AccordsDedies} />

@@ -97,6 +97,7 @@ const mobileMenuSections = [
     icon: Beaker,
     items: [
       { href: "/recettes", label: "Toutes les recettes", badge: "195" },
+      { href: "/recettes-tl", label: "Recettes Tagetes lucida", badge: "5 TL" },
       { href: "/compare-recettes", label: "Comparer les recettes", badge: "NEW" },
       { href: "/accords", label: "Accords olfactifs" },
       { href: "/accords-dedies", label: "Accords Dédiés", badge: "NEW" },

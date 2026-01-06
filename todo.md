@@ -3116,3 +3116,32 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Créer le checkpoint final
 - [x] Présenter les résultats au client
 
+
+
+---
+
+## 🌍 SESSION 06 JAN 2026 - ENRICHISSEMENT CLIMATIQUE & RECETTES TL
+
+### Phase 1 : Enrichir les données climatiques des plantes
+- [x] Analyser les données climatiques actuelles dans leaf_economies
+- [x] Identifier les plantes avec données climatiques manquantes ou incomplètes
+- [x] Rechercher les zones climatiques (Köppen) pour chaque plante
+- [x] Enrichir les champs latitude_min, latitude_max, altitude_min, altitude_max
+- [x] Ajouter les données de précipitations et températures moyennes
+- [x] Valider que les filtres GPS retournent plus de résultats (139/139 plantes enrichies)
+
+### Phase 2 : Page comparative des recettes TL
+- [x] Analyser les 5 formulations TL existantes dans les données
+- [x] Créer le schéma de données pour les recettes TL si nécessaire (déjà présent)
+- [x] Importer les 5 formulations TL dans la base de données (déjà importées: TL-01 à TL-05)
+- [x] Créer la page /recettes-tl avec vue comparative
+- [x] Afficher les TerpProfiles associés à chaque formulation
+- [x] Créer la comparaison côte à côte des 5 formulations
+- [x] Intégrer dans le menu principal (Header + MegaMenu)
+
+### Phase 3 : Tests et validation
+- [ ] Tester les filtres GPS avec les nouvelles données climatiques
+- [ ] Tester la page comparative des recettes TL
+- [ ] Valider le responsive mobile
+- [ ] Créer les tests unitaires si nécessaire
+

@@ -1,0 +1,310 @@
+{
+  "query": "SELECT id, name, latin_name, origin, latitude, longitude, climatic_axis, category FROM plants ORDER BY id LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, origin, latitude, longitude, climatic_axis, category FROM plants ORDER BY id LIMIT 30;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "West Indian Bay / Bay rum tree",
+      "latin_name": "Pimenta racemosa",
+      "origin": "Caraïbes, San Andrés",
+      "latitude": "12.5847000",
+      "longitude": "-81.7006000",
+      "climatic_axis": "vent_bois",
+      "category": "aromatique"
+    },
+    {
+      "id": "2",
+      "name": "Lemongrass / Citronnelle",
+      "latin_name": "Cymbopogon citratus",
+      "origin": "Asie tropicale, cultivé Caraïbes",
+      "latitude": "12.0000000",
+      "longitude": "-70.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "3",
+      "name": "Lippia alba",
+      "latin_name": "Lippia alba",
+      "origin": "Colombie, Amérique tropicale",
+      "latitude": "5.0000000",
+      "longitude": "-72.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "4",
+      "name": "Basilic",
+      "latin_name": "Ocimum basilicum",
+      "origin": "Asie, Méditerranée",
+      "latitude": "35.0000000",
+      "longitude": "35.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "5",
+      "name": "Menthe verte",
+      "latin_name": "Mentha spicata",
+      "origin": "Europe, Méditerranée",
+      "latitude": "45.0000000",
+      "longitude": "10.0000000",
+      "climatic_axis": "disparition",
+      "category": "aromatique"
+    },
+    {
+      "id": "6",
+      "name": "Origan",
+      "latin_name": "Origanum vulgare",
+      "origin": "Méditerranée",
+      "latitude": "35.0000000",
+      "longitude": "18.0000000",
+      "climatic_axis": "bois",
+      "category": "aromatique"
+    },
+    {
+      "id": "7",
+      "name": "Virginia (flue-cured)",
+      "latin_name": "Nicotiana tabacum var. Virginia",
+      "origin": "Colombie (Santander, Huila)",
+      "latitude": "6.5000000",
+      "longitude": "-73.0000000",
+      "climatic_axis": "vent",
+      "category": "tabac"
+    },
+    {
+      "id": "8",
+      "name": "Burley (air-cured)",
+      "latin_name": "Nicotiana tabacum var. Burley",
+      "origin": "Colombie",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "bois",
+      "category": "tabac"
+    },
+    {
+      "id": "9",
+      "name": "Criollo (sun-cured)",
+      "latin_name": "Nicotiana tabacum var. Criollo",
+      "origin": "Colombie, Cuba",
+      "latitude": "15.0000000",
+      "longitude": "-76.0000000",
+      "climatic_axis": "bois",
+      "category": "tabac"
+    },
+    {
+      "id": "10",
+      "name": "Profil VENT / clair",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "origin": "Colombie",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "vent",
+      "category": "cannabis"
+    },
+    {
+      "id": "11",
+      "name": "Profil BOIS / structure",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "origin": "Colombie",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "bois",
+      "category": "cannabis"
+    },
+    {
+      "id": "12",
+      "name": "Profil FEUILLE / vert",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "origin": "Colombie",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "bois",
+      "category": "cannabis"
+    },
+    {
+      "id": "13",
+      "name": "Profil DISPARITION / trace",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "origin": "Colombie",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "disparition",
+      "category": "cannabis"
+    },
+    {
+      "id": "30001",
+      "name": "Lavande vraie",
+      "latin_name": "Lavandula angustifolia",
+      "origin": "Provence (France), Bulgarie, Espagne, Royaume-Uni",
+      "latitude": "43.9000000",
+      "longitude": "6.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30002",
+      "name": "Citron",
+      "latin_name": "Citrus limon",
+      "origin": "Sicile (Italie), Espagne, Argentine, Californie (USA)",
+      "latitude": "37.6000000",
+      "longitude": "14.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30003",
+      "name": "Orange douce",
+      "latin_name": "Citrus sinensis",
+      "origin": "Brésil, Floride (USA), Espagne, Italie (Sicile)",
+      "latitude": "-15.0000000",
+      "longitude": "-47.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30004",
+      "name": "Bergamote",
+      "latin_name": "Citrus bergamia",
+      "origin": "Calabre (Italie), Côte d'Ivoire, Argentine",
+      "latitude": "38.9000000",
+      "longitude": "16.6000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30005",
+      "name": "Menthe poivrée",
+      "latin_name": "Mentha piperita",
+      "origin": "États-Unis (Oregon, Washington), Angleterre, France",
+      "latitude": "45.0000000",
+      "longitude": "-120.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30006",
+      "name": "Eucalyptus globulus",
+      "latin_name": "Eucalyptus globulus",
+      "origin": "Australie, Portugal, Espagne, Chine",
+      "latitude": "-25.0000000",
+      "longitude": "135.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30007",
+      "name": "Romarin",
+      "latin_name": "Rosmarinus officinalis",
+      "origin": "Espagne, Tunisie, Maroc, France (Provence)",
+      "latitude": "38.0000000",
+      "longitude": "0.0000000",
+      "climatic_axis": "vent_bois",
+      "category": "aromatique"
+    },
+    {
+      "id": "30008",
+      "name": "Vétiver",
+      "latin_name": "Vetiveria zizanioides",
+      "origin": "Haïti, Java (Indonésie), Île de la Réunion, Inde",
+      "latitude": "18.9712000",
+      "longitude": "-72.2852000",
+      "climatic_axis": "bois",
+      "category": "aromatique"
+    },
+    {
+      "id": "30009",
+      "name": "Ylang-Ylang",
+      "latin_name": "Cananga odorata",
+      "origin": "Comores (Anjouan)",
+      "latitude": "-12.1696000",
+      "longitude": "44.2530000",
+      "climatic_axis": "disparition",
+      "category": "fleur"
+    },
+    {
+      "id": "30010",
+      "name": "Rose de Damas",
+      "latin_name": "Rosa damascena",
+      "origin": "Bulgarie (Vallée des Roses)",
+      "latitude": "42.6977000",
+      "longitude": "23.3219000",
+      "climatic_axis": "disparition",
+      "category": "fleur"
+    },
+    {
+      "id": "30011",
+      "name": "Jasmin grandiflorum",
+      "latin_name": "Jasminum grandiflorum",
+      "origin": "Égypte (Le Caire)",
+      "latitude": "30.0444000",
+      "longitude": "31.2357000",
+      "climatic_axis": "disparition",
+      "category": "fleur"
+    },
+    {
+      "id": "30012",
+      "name": "Patchouli",
+      "latin_name": "Pogostemon cablin",
+      "origin": "Indonésie (Kalimantan)",
+      "latitude": "-0.7893000",
+      "longitude": "113.9213000",
+      "climatic_axis": "bois",
+      "category": "aromatique"
+    },
+    {
+      "id": "30013",
+      "name": "Bois de Santal",
+      "latin_name": "Santalum album",
+      "origin": "Inde (Karnataka)",
+      "latitude": "12.9716000",
+      "longitude": "77.5946000",
+      "climatic_axis": "bois",
+      "category": "bois"
+    },
+    {
+      "id": "30014",
+      "name": "Encens / Oliban",
+      "latin_name": "Boswellia carterii",
+      "origin": "Somalie",
+      "latitude": "10.4478000",
+      "longitude": "51.0889000",
+      "climatic_axis": "bois_disparition",
+      "category": "resine"
+    },
+    {
+      "id": "30015",
+      "name": "Cèdre de l'Atlas",
+      "latin_name": "Cedrus atlantica",
+      "origin": "Montagnes de l'Atlas (Maroc), Algérie",
+      "latitude": "32.0000000",
+      "longitude": "-2.0000000",
+      "climatic_axis": "bois",
+      "category": "bois"
+    },
+    {
+      "id": "30016",
+      "name": "Géranium rosat",
+      "latin_name": "Pelargonium graveolens",
+      "origin": "Île de la Réunion (Bourbon), Égypte, Maroc, Chine",
+      "latitude": "-21.1151000",
+      "longitude": "55.5364000",
+      "climatic_axis": "vent_bois",
+      "category": "aromatique"
+    },
+    {
+      "id": "60001",
+      "name": "Thym",
+      "latin_name": "Thymus vulgaris",
+      "origin": "Bassin méditerranéen (France, Espagne, Maroc)",
+      "latitude": "40.0000000",
+      "longitude": "0.0000000",
+      "climatic_axis": "bois",
+      "category": "aromatique"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\torigin\tlatitude\tlongitude\tclimatic_axis\tcategory\n1\tWest Indian Bay / Bay rum tree\tPimenta racemosa\tCaraïbes, San Andrés\t12.5847000\t-81.7006000\tvent_bois\taromatique\n2\tLemongrass / Citronnelle\tCymbopogon citratus\tAsie tropicale, cultivé Caraïbes\t12.0000000\t-70.0000000\tvent\taromatique\n3\tLippia alba\tLippia alba\tColombie, Amérique tropicale\t5.0000000\t-72.0000000\tvent\taromatique\n4\tBasilic\tOcimum basilicum\tAsie, Méditerranée\t35.0000000\t35.0000000\tvent\taromatique\n5\tMenthe verte\tMentha spicata\tEurope, Méditerranée\t45.0000000\t10.0000000\tdisparition\taromatique\n6\tOrigan\tOriganum vulgare\tMéditerranée\t35.0000000\t18.0000000\tbois\taromatique\n7\tVirginia (flue-cured)\tNicotiana tabacum var. Virginia\tColombie (Santander, Huila)\t6.5000000\t-73.0000000\tvent\ttabac\n8\tBurley (air-cured)\tNicotiana tabacum var. Burley\tColombie\t4.5709000\t-74.2973000\tbois\ttabac\n9\tCriollo (sun-cured)\tNicotiana tabacum var. Criollo\tColombie, Cuba\t15.0000000\t-76.0000000\tbois\ttabac\n10\tProfil VENT / clair\tCannabis sativa (profil terpénique)\tColombie\t4.5709000\t-74.2973000\tvent\tcannabis\n11\tProfil BOIS / structure\tCannabis sativa (profil terpénique)\tColombie\t4.5709000\t-74.2973000\tbois\tcannabis\n12\tProfil FEUILLE / vert\tCannabis sativa (profil terpénique)\tColombie\t4.5709000\t-74.2973000\tbois\tcannabis\n13\tProfil DISPARITION / trace\tCannabis sativa (profil terpénique)\tColombie\t4.5709000\t-74.2973000\tdisparition\tcannabis\n30001\tLavande vraie\tLavandula angustifolia\tProvence (France), Bulgarie, Espagne, Royaume-Uni\t43.9000000\t6.0000000\tvent\taromatique\n30002\tCitron\tCitrus limon\tSicile (Italie), Espagne, Argentine, Californie (USA)\t37.6000000\t14.0000000\tvent\taromatique\n30003\tOrange douce\tCitrus sinensis\tBrésil, Floride (USA), Espagne, Italie (Sicile)\t-15.0000000\t-47.0000000\tvent\taromatique\n30004\tBergamote\tCitrus bergamia\tCalabre (Italie), Côte d'Ivoire, Argentine\t38.9000000\t16.6000000\tvent\taromatique\n30005\tMenthe poivrée\tMentha piperita\tÉtats-Unis (Oregon, Washington), Angleterre, France\t45.0000000\t-120.0000000\tvent\taromatique\n30006\tEucalyptus globulus\tEucalyptus globulus\tAustralie, Portugal, Espagne, Chine\t-25.0000000\t135.0000000\tvent\taromatique\n30007\tRomarin\tRosmarinus officinalis\tEspagne, Tunisie, Maroc, France (Provence)\t38.0000000\t0.0000000\tvent_bois\taromatique\n30008\tVétiver\tVetiveria zizanioides\tHaïti, Java (Indonésie), Île de la Réunion, Inde\t18.9712000\t-72.2852000\tbois\taromatique\n30009\tYlang-Ylang\tCananga odorata\tComores (Anjouan)\t-12.1696000\t44.2530000\tdisparition\tfleur\n30010\tRose de Damas\tRosa damascena\tBulgarie (Vallée des Roses)\t42.6977000\t23.3219000\tdisparition\tfleur\n30011\tJasmin grandiflorum\tJasminum grandiflorum\tÉgypte (Le Caire)\t30.0444000\t31.2357000\tdisparition\tfleur\n30012\tPatchouli\tPogostemon cablin\tIndonésie (Kalimantan)\t-0.7893000\t113.9213000\tbois\taromatique\n30013\tBois de Santal\tSantalum album\tInde (Karnataka)\t12.9716000\t77.5946000\tbois\tbois\n30014\tEncens / Oliban\tBoswellia carterii\tSomalie\t10.4478000\t51.0889000\tbois_disparition\tresine\n30015\tCèdre de l'Atlas\tCedrus atlantica\tMontagnes de l'Atlas (Maroc), Algérie\t32.0000000\t-2.0000000\tbois\tbois\n30016\tGéranium rosat\tPelargonium graveolens\tÎle de la Réunion (Bourbon), Égypte, Maroc, Chine\t-21.1151000\t55.5364000\tvent_bois\taromatique\n60001\tThym\tThymus vulgaris\tBassin méditerranéen (France, Espagne, Maroc)\t40.0000000\t0.0000000\tbois\taromatique\n",
+  "stderr": "",
+  "execution_time_ms": 186
+}
