@@ -85,6 +85,13 @@
       "when": 1767696781964,
       "tag": "0011_youthful_dark_beast",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1767707754119,
+      "tag": "0012_late_caretaker",
+      "breakpoints": true
     }
   ]
 }

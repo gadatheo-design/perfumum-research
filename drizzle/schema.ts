@@ -4382,3 +4382,464 @@ export const bibliographyAxisLinksRelations = relations(bibliographyAxisLinks, (
     references: [researchAxes.id],
   }),
 }));
+
+
+// ============================================================================
+// PHASE 2 ROADMAP : GÉNÉALOGIE AVANCÉE
+// ============================================================================
+
+// ============================================================================
+// VARIETY MOLECULAR PROFILES (Profils moléculaires historiques des variétés)
+// ============================================================================
+
+/**
+ * Stocke les profils moléculaires historiques des variétés, permettant
+ * de comparer les compositions anciennes avec les modernes.
+ */
+export const varietyMolecularProfiles = mysqlTable("variety_molecular_profiles", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  profileId: varchar("profile_id", { length: 30 }).notNull().unique(), // VMP-001, VMP-002, etc.
+  varietyId: int("variety_id").notNull(), // Référence à plant_varieties
+  // Période historique
+  historicalPeriod: mysqlEnum("historical_period", [
+    "prehistoric",     // Préhistoire (avant -3000)
+    "ancient",         // Antiquité (-3000 à 500)
+    "medieval",        // Moyen Âge (500 à 1500)
+    "renaissance",     // Renaissance (1500 à 1700)
+    "enlightenment",   // Lumières (1700 à 1800)
+    "industrial",      // Ère industrielle (1800 à 1950)
+    "modern",          // Moderne (1950 à 2000)
+    "contemporary"     // Contemporain (2000+)
+  ]).notNull(),
+  yearEstimate: int("year_estimate"), // Année estimée du profil
+  yearRangeStart: int("year_range_start"), // Début de la fourchette
+  yearRangeEnd: int("year_range_end"), // Fin de la fourchette
+  // Source du profil
+  sourceType: mysqlEnum("source_type", [
+    "archaeological",      // Analyse archéologique (résidus, amphores)
+    "historical_text",     // Texte historique (formule, description)
+    "herbarium",           // Herbier historique
+    "genetic_analysis",    // Analyse génétique
+    "reconstruction",      // Reconstruction hypothétique
+    "contemporary_sample"  // Échantillon contemporain
+  ]).notNull(),
+  sourceDescription: text("source_description"), // Description de la source
+  sourceReferences: json("source_references").$type<{
+    author?: string;
+    year?: number;
+    title: string;
+    type: string;
+    url?: string;
+    doi?: string;
+  }[]>().default([]),
+  // Profil moléculaire
+  molecularComposition: json("molecular_composition").$type<{
+    moleculeName: string;
+    moleculeId?: number;
+    percentage: number;
+    confidence: 'high' | 'medium' | 'low';
+    notes?: string;
+  }[]>().default([]),
+  // Profil terpénique (radar)
+  terpeneProfile: json("terpene_profile").$type<{
+    monoterpenes: number;    // 0-100
+    sesquiterpenes: number;  // 0-100
+    diterpenes: number;      // 0-100
+    alcohols: number;        // 0-100
+    esters: number;          // 0-100
+    aldehydes: number;       // 0-100
+    ketones: number;         // 0-100
+    phenols: number;         // 0-100
+  }>(),
+  // Caractéristiques olfactives
+  olfactiveDescription: text("olfactive_description"),
+  olfactiveNotes: json("olfactive_notes").$type<{
+    top: string[];
+    heart: string[];
+    base: string[];
+  }>(),
+  // Niveau de confiance
+  confidenceLevel: mysqlEnum("confidence_level", [
+    "confirmed",     // Confirmé par analyses multiples
+    "probable",      // Probable (sources fiables)
+    "hypothetical",  // Hypothétique (reconstruction)
+    "speculative"    // Spéculatif (peu de données)
+  ]).notNull().default("probable"),
+  // Comparaison avec profil moderne
+  modernComparisonNotes: text("modern_comparison_notes"),
+  divergenceScore: int("divergence_score"), // 0-100, écart avec le profil moderne
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  varietyIdx: index("vmp_variety_idx").on(table.varietyId),
+  periodIdx: index("vmp_period_idx").on(table.historicalPeriod),
+}));
+
+export type VarietyMolecularProfile = typeof varietyMolecularProfiles.$inferSelect;
+export type InsertVarietyMolecularProfile = typeof varietyMolecularProfiles.$inferInsert;
+
+// ============================================================================
+// VARIETY HISTORICAL RECORDS (Archives historiques des variétés)
+// ============================================================================
+
+/**
+ * Stocke les mentions historiques et archives concernant les variétés,
+ * permettant de tracer leur évolution à travers le temps.
+ */
+export const varietyHistoricalRecords = mysqlTable("variety_historical_records", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  recordId: varchar("record_id", { length: 30 }).notNull().unique(), // VHR-001, VHR-002, etc.
+  varietyId: int("variety_id").notNull(), // Référence à plant_varieties
+  // Type de document
+  recordType: mysqlEnum("record_type", [
+    "botanical_description",   // Description botanique historique
+    "trade_record",            // Document commercial (factures, inventaires)
+    "agricultural_manual",     // Manuel agricole
+    "pharmacopoeia",           // Pharmacopée
+    "herbarium_specimen",      // Spécimen d'herbier
+    "artistic_depiction",      // Représentation artistique
+    "travel_account",          // Récit de voyage
+    "scientific_paper",        // Publication scientifique
+    "patent",                  // Brevet
+    "oral_tradition",          // Tradition orale documentée
+    "other"
+  ]).notNull(),
+  // Datation
+  dateCreated: varchar("date_created", { length: 100 }), // Date flexible (ex: "circa 1750", "XVIIe siècle")
+  yearEstimate: int("year_estimate"), // Année estimée
+  // Localisation géographique
+  location: varchar("location", { length: 255 }), // Lieu de création/découverte
+  country: varchar("country", { length: 100 }),
+  region: varchar("region", { length: 255 }),
+  // Contenu
+  title: varchar("title", { length: 500 }).notNull(),
+  author: varchar("author", { length: 255 }),
+  content: text("content"), // Transcription ou résumé
+  originalLanguage: varchar("original_language", { length: 50 }),
+  // Informations sur la variété mentionnée
+  historicalName: varchar("historical_name", { length: 255 }), // Nom utilisé à l'époque
+  synonyms: json("synonyms").$type<string[]>().default([]), // Autres noms historiques
+  descriptionExcerpt: text("description_excerpt"), // Extrait de la description
+  // Caractéristiques mentionnées
+  mentionedCharacteristics: json("mentioned_characteristics").$type<{
+    morphology?: string;
+    olfactive?: string;
+    therapeutic?: string;
+    agricultural?: string;
+    commercial?: string;
+  }>(),
+  // Authenticité et fiabilité
+  authenticityLevel: mysqlEnum("authenticity_level", [
+    "original",        // Document original
+    "copy",            // Copie d'époque
+    "transcription",   // Transcription moderne
+    "reconstruction"   // Reconstruction
+  ]).notNull().default("transcription"),
+  reliabilityScore: int("reliability_score"), // 0-100
+  // Références et liens
+  sourceUrl: varchar("source_url", { length: 500 }),
+  archiveLocation: varchar("archive_location", { length: 255 }), // Bibliothèque, musée
+  catalogNumber: varchar("catalog_number", { length: 100 }),
+  imageUrl: varchar("image_url", { length: 500 }),
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  varietyIdx: index("vhr_variety_idx").on(table.varietyId),
+  typeIdx: index("vhr_type_idx").on(table.recordType),
+  yearIdx: index("vhr_year_idx").on(table.yearEstimate),
+}));
+
+export type VarietyHistoricalRecord = typeof varietyHistoricalRecords.$inferSelect;
+export type InsertVarietyHistoricalRecord = typeof varietyHistoricalRecords.$inferInsert;
+
+// ============================================================================
+// LOST VARIETIES (Variétés disparues ou éteintes)
+// ============================================================================
+
+/**
+ * Catalogue des variétés disparues ou éteintes, avec les informations
+ * disponibles pour leur reconstruction hypothétique.
+ */
+export const lostVarieties = mysqlTable("lost_varieties", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  lostVarietyId: varchar("lost_variety_id", { length: 30 }).notNull().unique(), // LV-001, LV-002, etc.
+  plantId: int("plant_id"), // Référence à plants (si connue)
+  // Noms
+  name: varchar("name", { length: 255 }).notNull(),
+  latinName: varchar("latin_name", { length: 255 }),
+  historicalNames: json("historical_names").$type<{
+    name: string;
+    language: string;
+    period: string;
+    source?: string;
+  }[]>().default([]),
+  // Statut
+  extinctionStatus: mysqlEnum("extinction_status", [
+    "extinct",              // Éteinte (confirmée)
+    "extinct_in_wild",      // Éteinte à l'état sauvage
+    "presumed_extinct",     // Présumée éteinte
+    "possibly_extinct",     // Possiblement éteinte
+    "rediscovered"          // Redécouverte après présomption d'extinction
+  ]).notNull(),
+  lastKnownDate: int("last_known_date"), // Dernière mention connue (année)
+  extinctionDate: int("extinction_date"), // Date d'extinction estimée
+  extinctionCause: mysqlEnum("extinction_cause", [
+    "overexploitation",     // Surexploitation
+    "habitat_loss",         // Perte d'habitat
+    "climate_change",       // Changement climatique
+    "disease",              // Maladie
+    "hybridization",        // Hybridation (perte génétique)
+    "war_conflict",         // Guerre/conflit
+    "unknown"               // Inconnue
+  ]),
+  extinctionDetails: text("extinction_details"),
+  // Localisation historique
+  historicalRange: json("historical_range").$type<{
+    country: string;
+    region?: string;
+    coordinates?: { lat: number; lng: number };
+    period: string;
+    notes?: string;
+  }[]>().default([]),
+  // Caractéristiques connues
+  morphologicalDescription: text("morphological_description"),
+  olfactiveDescription: text("olfactive_description"),
+  therapeuticUses: text("therapeutic_uses"),
+  culturalSignificance: text("cultural_significance"),
+  // Profil moléculaire hypothétique
+  hypotheticalMolecularProfile: json("hypothetical_molecular_profile").$type<{
+    moleculeName: string;
+    moleculeId?: number;
+    estimatedPercentage: number;
+    confidence: 'high' | 'medium' | 'low';
+    source: string;
+  }[]>().default([]),
+  // Reconstruction
+  reconstructionPossibility: mysqlEnum("reconstruction_possibility", [
+    "possible",         // Reconstruction possible (données suffisantes)
+    "partial",          // Reconstruction partielle possible
+    "unlikely",         // Peu probable
+    "impossible"        // Impossible (données insuffisantes)
+  ]).default("partial"),
+  reconstructionNotes: text("reconstruction_notes"),
+  closestLivingRelatives: json("closest_living_relatives").$type<{
+    varietyId?: number;
+    name: string;
+    similarity: number; // 0-100
+    notes?: string;
+  }[]>().default([]),
+  // Sources et références
+  primarySources: json("primary_sources").$type<{
+    author?: string;
+    year?: number;
+    title: string;
+    type: string;
+    url?: string;
+    excerpt?: string;
+  }[]>().default([]),
+  imageUrl: varchar("image_url", { length: 500 }), // Illustration historique
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  plantIdx: index("lv_plant_idx").on(table.plantId),
+  statusIdx: index("lv_status_idx").on(table.extinctionStatus),
+}));
+
+export type LostVariety = typeof lostVarieties.$inferSelect;
+export type InsertLostVariety = typeof lostVarieties.$inferInsert;
+
+// ============================================================================
+// GENEALOGY EXTENDED (Extension de la généalogie avec métadonnées avancées)
+// ============================================================================
+
+/**
+ * Extension de variety_genealogy avec des métadonnées avancées
+ * pour la reconstruction de lignées et l'analyse génétique.
+ */
+export const genealogyExtended = mysqlTable("genealogy_extended", {
+  id: int("id").autoincrement().primaryKey(),
+  // Référence à la relation de base
+  genealogyId: int("genealogy_id").notNull(), // Référence à variety_genealogy
+  // Analyse génétique
+  geneticSimilarity: int("genetic_similarity"), // 0-100, similarité génétique
+  sharedMarkers: json("shared_markers").$type<{
+    marker: string;
+    type: 'SSR' | 'SNP' | 'AFLP' | 'RAPD' | 'other';
+    value?: string;
+  }[]>().default([]),
+  // Héritage moléculaire
+  inheritedMolecules: json("inherited_molecules").$type<{
+    moleculeName: string;
+    moleculeId?: number;
+    inheritancePattern: 'dominant' | 'recessive' | 'codominant' | 'complex';
+    expressionLevel: number; // 0-100
+  }[]>().default([]),
+  // Caractéristiques héritées
+  inheritedTraits: json("inherited_traits").$type<{
+    trait: string;
+    category: 'morphological' | 'olfactive' | 'agronomic' | 'chemical';
+    inheritanceStrength: number; // 0-100
+    notes?: string;
+  }[]>().default([]),
+  // Documentation du croisement
+  crossingMethod: mysqlEnum("crossing_method", [
+    "natural",          // Croisement naturel
+    "controlled",       // Croisement contrôlé
+    "backcross",        // Rétrocroisement
+    "selfing",          // Autofécondation
+    "mutation_induced", // Mutation induite
+    "tissue_culture",   // Culture de tissus
+    "unknown"           // Inconnu
+  ]),
+  crossingLocation: varchar("crossing_location", { length: 255 }),
+  crossingDocumentation: text("crossing_documentation"),
+  // Validation
+  validationStatus: mysqlEnum("validation_status", [
+    "confirmed",        // Confirmé par analyse génétique
+    "documented",       // Documenté historiquement
+    "inferred",         // Déduit par analyse
+    "hypothetical"      // Hypothétique
+  ]).notNull().default("documented"),
+  validationMethod: varchar("validation_method", { length: 255 }),
+  validationReferences: json("validation_references").$type<{
+    author?: string;
+    year?: number;
+    title: string;
+    method: string;
+    url?: string;
+  }[]>().default([]),
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  genealogyIdx: index("ge_genealogy_idx").on(table.genealogyId),
+}));
+
+export type GenealogyExtended = typeof genealogyExtended.$inferSelect;
+export type InsertGenealogyExtended = typeof genealogyExtended.$inferInsert;
+
+// ============================================================================
+// MOLECULAR COMPARISONS (Comparaisons moléculaires ancien/moderne)
+// ============================================================================
+
+/**
+ * Stocke les comparaisons moléculaires entre profils anciens et modernes,
+ * permettant d'analyser l'évolution des variétés.
+ */
+export const molecularComparisons = mysqlTable("molecular_comparisons", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  comparisonId: varchar("comparison_id", { length: 30 }).notNull().unique(), // MC-001, MC-002, etc.
+  // Profils comparés
+  ancientProfileId: int("ancient_profile_id").notNull(), // Référence à variety_molecular_profiles
+  modernVarietyId: int("modern_variety_id").notNull(), // Référence à plant_varieties
+  // Ou comparaison avec variété disparue
+  lostVarietyId: int("lost_variety_id"), // Référence à lost_varieties (optionnel)
+  // Résultats de la comparaison
+  overallSimilarity: int("overall_similarity"), // 0-100, similarité globale
+  terpeneProfileSimilarity: int("terpene_profile_similarity"), // 0-100
+  olfactiveProfileSimilarity: int("olfactive_profile_similarity"), // 0-100
+  // Différences détaillées
+  molecularDifferences: json("molecular_differences").$type<{
+    moleculeName: string;
+    ancientPercentage: number;
+    modernPercentage: number;
+    difference: number;
+    significance: 'major' | 'moderate' | 'minor';
+    possibleCause?: string;
+  }[]>().default([]),
+  // Molécules perdues/gagnées
+  lostMolecules: json("lost_molecules").$type<{
+    moleculeName: string;
+    moleculeId?: number;
+    ancientPercentage: number;
+    significance: string;
+  }[]>().default([]),
+  gainedMolecules: json("gained_molecules").$type<{
+    moleculeName: string;
+    moleculeId?: number;
+    modernPercentage: number;
+    possibleSource: string;
+  }[]>().default([]),
+  // Analyse
+  analysisNotes: text("analysis_notes"),
+  evolutionHypothesis: text("evolution_hypothesis"), // Hypothèse sur l'évolution
+  selectionPressures: json("selection_pressures").$type<{
+    factor: string;
+    impact: 'positive' | 'negative' | 'neutral';
+    evidence: string;
+  }[]>().default([]),
+  // Implications pour la reconstruction
+  reconstructionRelevance: mysqlEnum("reconstruction_relevance", [
+    "critical",     // Critique pour la reconstruction
+    "important",    // Important
+    "useful",       // Utile
+    "marginal"      // Marginal
+  ]).default("useful"),
+  reconstructionNotes: text("reconstruction_notes"),
+  // Métadonnées
+  comparisonDate: timestamp("comparison_date").defaultNow().notNull(),
+  analyst: varchar("analyst", { length: 255 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  ancientProfileIdx: index("mc_ancient_profile_idx").on(table.ancientProfileId),
+  modernVarietyIdx: index("mc_modern_variety_idx").on(table.modernVarietyId),
+  lostVarietyIdx: index("mc_lost_variety_idx").on(table.lostVarietyId),
+}));
+
+export type MolecularComparison = typeof molecularComparisons.$inferSelect;
+export type InsertMolecularComparison = typeof molecularComparisons.$inferInsert;
+
+// ============================================================================
+// RELATIONS POUR LA GÉNÉALOGIE AVANCÉE
+// ============================================================================
+
+export const varietyMolecularProfilesRelations = relations(varietyMolecularProfiles, ({ one }) => ({
+  variety: one(plantVarieties, {
+    fields: [varietyMolecularProfiles.varietyId],
+    references: [plantVarieties.id],
+  }),
+}));
+
+export const varietyHistoricalRecordsRelations = relations(varietyHistoricalRecords, ({ one }) => ({
+  variety: one(plantVarieties, {
+    fields: [varietyHistoricalRecords.varietyId],
+    references: [plantVarieties.id],
+  }),
+}));
+
+export const lostVarietiesRelations = relations(lostVarieties, ({ one }) => ({
+  plant: one(plants, {
+    fields: [lostVarieties.plantId],
+    references: [plants.id],
+  }),
+}));
+
+export const genealogyExtendedRelations = relations(genealogyExtended, ({ one }) => ({
+  genealogy: one(varietyGenealogy, {
+    fields: [genealogyExtended.genealogyId],
+    references: [varietyGenealogy.id],
+  }),
+}));
+
+export const molecularComparisonsRelations = relations(molecularComparisons, ({ one }) => ({
+  ancientProfile: one(varietyMolecularProfiles, {
+    fields: [molecularComparisons.ancientProfileId],
+    references: [varietyMolecularProfiles.id],
+  }),
+  modernVariety: one(plantVarieties, {
+    fields: [molecularComparisons.modernVarietyId],
+    references: [plantVarieties.id],
+  }),
+  lostVariety: one(lostVarieties, {
+    fields: [molecularComparisons.lostVarietyId],
+    references: [lostVarieties.id],
+  }),
+}));

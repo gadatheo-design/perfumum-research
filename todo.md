@@ -2883,3 +2883,317 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Documenter les nouvelles fonctionnalités
 - [ ] Présenter les résultats au client
 
+
+
+---
+
+## 🔬 AXES DE RECHERCHE MAJEURS — PROCHAINS JOURS
+
+### Axe 1 — L'olfaction comme organe "métabolique" (pré-digestion, obésité, diabète)
+- [ ] Créer le module "Olfaction & Glycémie" : résumé d'étude + glossaire (GLP-1, bulbe olfactif, phase céphalique)
+- [ ] Cartographier les familles d'odeurs alimentaires (vanillé, lacté, toasté, fruité fermenté…) vs effets perçus
+- [ ] Créer le protocole d'observation sensorielle (appétence, satiété, "craving")
+- [ ] Documenter l'odeur comme interface biologique (anticipation énergétique, addiction alimentaire, santé)
+
+### Axe 2 — "Olfactory receptors engineering" : structure réelle des récepteurs (cryo-EM)
+- [ ] Créer la base de connaissances : Récepteur (ORxx) / famille de ligands / notes associées / niveau de preuve
+- [ ] Documenter OR51E2 et autres récepteurs olfactifs humains étudiés
+- [ ] Créer le contenu "anti-bullshit" : ce qu'on sait / ce qu'on ne sait pas encore
+- [ ] Bâtir l'axe "récepteur → ligand → effet perceptif" (biochimie du signal)
+
+### Axe 3 — Chimio-communication & contagion émotionnelle (y compris "positif")
+- [ ] Créer la série "Signaux / Masques / Amplificateurs" : comment un parfum cohabite avec l'odeur humaine
+- [ ] Documenter les protocoles de collecte d'odeur axillaire et contagion émotionnelle
+- [ ] Créer le protocole installation : "sillage collectif", "zone de calme", "zone de stimulation créative"
+- [ ] Développer le chapitre "odeur sociale" (au-delà du parfum)
+
+### Axe 4 — Olfaction comparée + crise climatique/pollution (odorat perturbé, espèces trompées)
+- [ ] Créer les cartes "molécules sentinelles" (algues, plastiques, combustion, fermentation)
+- [ ] Documenter l'axe "odorat & Anthropocène" : l'odeur comme donnée environnementale
+- [ ] Créer la collection "smellscapes" : reproduire tensions olfactives (mer/plastique/végétal/diesel)
+- [ ] Documenter les effets CO₂ et pollution sur l'odorat des espèces
+
+### Axe 5 — "Sentir le vivant" : sortir du plaisir humain, penser fonctions des molécules odorantes
+- [ ] Créer la rubrique "Fonction avant note" : chaque matière première décrite par fonction écologique/culturelle/chimique
+- [ ] Documenter les rôles des molécules odorantes (défense, alerte, attachement, mémoire)
+- [ ] Intégrer l'approche archive sensorielle / installation / espace / botanique critique
+
+### Axe 6 — Régulation intelligente (IFRA, allergènes, QRA2, NAMs) : la sécurité comme moteur créatif
+- [ ] Créer la page "Contraintes → Solutions" : pour chaque accord (chypré, fougère, encens)
+- [ ] Documenter : molécule-problème → alternative (naturelle/synthétique) → impact olfactif → statut
+- [ ] Intégrer la méthodologie QRA2 et les NAMs (méthodes alternatives sans tests animaux)
+- [ ] Documenter le cas mousse de chêne (atranol/chloroatranol, restrictions IFRA, extraits conformes)
+
+### Axe 7 — Innovation "hors jus" : micro-émulsions, parfums aqueux, alcool-free, performance & supports
+- [ ] Créer l'axe "parfum ↔ encens ↔ espace" support-dépendant : même accord, trois médias, trois cinétiques
+- [ ] Créer les tables de dev : Support, Diffusion, Cinétique, Stabilité, Ratio concentré
+- [ ] Documenter les technologies : micro-émulsion, parfum aqueux, alcool-free
+- [ ] Intégrer les innovations formulation/support/technologie
+
+---
+
+## 📊 ROADMAP ENRICHISSEMENT DES DONNÉES — PHASE 2 (10 JOURS)
+
+### 📈 Objectifs quantitatifs
+- [ ] 200+ nouvelles espèces documentées
+- [ ] 50+ variétés disparues identifiées
+- [ ] 100+ marqueurs civilisationnels
+- [ ] 500+ références scientifiques
+- [ ] 400+ assets visuels
+
+### 🎨 Objectifs qualitatifs
+- [ ] 80%+ fiches niveau Or minimum (profil olfactif + chimique + 3 sources)
+- [ ] 30%+ fiches niveau Diamant (+ généalogie + relations + 5+ sources)
+- [ ] 100% sources vérifiées
+- [ ] 0 erreur taxonomique
+
+### 📅 JOUR 1 — Audit & Stratégie
+- [ ] Audit base existante + identification gaps
+- [ ] Définition taxonomie étendue + sources
+- [ ] Setup outils scraping + validation sources
+- [ ] Liste 200 espèces prioritaires établie
+
+### 📅 JOUR 2 — Familles aromatiques principales
+- [ ] Import Lamiaceae (lavandes, menthes, thyms) — 30 espèces
+- [ ] Import Rutaceae (agrumes, rue) — 25 espèces
+- [ ] Validation données + profils olfactifs — 55 fiches complètes
+
+### 📅 JOUR 3 — Bois précieux & Résines
+- [ ] Bois de santal, oud, cèdres — 15 espèces
+- [ ] Résines complémentaires (copal, benjoin, etc.) — 12 espèces
+- [ ] Marqueurs civilisationnels + routes commerciales — 20 marqueurs
+
+### 📅 JOUR 4 — Floraux iconiques
+- [ ] Roses (Rosa damascena, centifolia, etc.) — 18 variétés
+- [ ] Jasmin, tubéreuse, ylang-ylang, etc. — 15 espèces
+- [ ] Généalogie roses + variétés disparues — 12 variétés disparues
+
+### 📅 JOUR 5 — Épices & Aromates
+- [ ] Épices (cannelle, cardamome, poivre, etc.) — 20 espèces
+- [ ] Aromates culinaires (basilic, coriandre, etc.) — 18 espèces
+- [ ] Contextes gastronomiques + usages médicinaux — 38 fiches enrichies
+
+### 📅 JOUR 6 — Plantes médiévales & monastiques
+- [ ] Plantes des jardins médiévaux (absinthe, hysope, etc.) — 15 espèces
+- [ ] Plantes monastiques + recettes historiques — 12 espèces + 8 formules
+- [ ] Reconstitution Eau de Hongrie + autres parfums — 5 formules historiques
+
+### 📅 JOUR 7 — Espèces menacées critiques
+- [ ] Espèces CR (Critically Endangered) — 15 espèces
+- [ ] Espèces EN (Endangered) + menaces détaillées — 20 espèces
+- [ ] Plans conservation + alternatives durables — 35 fiches complètes
+
+### 📅 JOUR 8 — Variétés disparues & archéologie
+- [ ] Recherche variétés éteintes (analyses paléobotaniques) — 15 variétés
+- [ ] Causes extinction + contexte historique — 15 analyses
+- [ ] Projets de résurrection + analyses ADN fossile — 8 projets
+
+### 📅 JOUR 9 — Enrichissement relationnel
+- [ ] Liens chémotypiques entre espèces — 100+ relations
+- [ ] Synergies olfactives + accords classiques — 50 accords
+- [ ] Cartographie réseau + visualisations D3.js — 3 graphes interactifs
+
+### 📅 JOUR 10 — Consolidation & Qualité
+- [ ] Validation croisée toutes les données — 200+ fiches
+- [ ] Optimisation images + SEO + métadonnées — 200+ assets
+- [ ] Tests performance + rapport final
+
+---
+
+## 🎯 Stratégie d'enrichissement par axe
+
+### 1️⃣ Axe Taxonomique — Couverture botanique complète
+- [ ] Lamiaceae — 55 espèces
+- [ ] Rutaceae — 25 espèces
+- [ ] Rosaceae — 30 espèces
+- [ ] Burseraceae — 15 espèces
+- [ ] Lauraceae — 20 espèces
+- [ ] Myrtaceae — 18 espèces
+- [ ] Asteraceae — 12 espèces
+- [ ] Zingiberaceae — 15 espèces
+
+### 2️⃣ Axe Historique — Profondeur temporelle
+- [ ] Antiquité (-3000 → 476) : textes Pline, Dioscoride
+- [ ] Moyen Âge (476 → 1492) : manuscrits médiévaux
+- [ ] Renaissance (1492 → 1789) : traités Renaissance
+- [ ] Époque moderne (1789 → 1945) : archives commerciales
+- [ ] Contemporain (1945 → aujourd'hui) : analyses archéobotaniques
+
+### 3️⃣ Axe Chimique — Profils moléculaires exhaustifs
+- [ ] Chémotypes : variations géographiques + saisonnières
+- [ ] Molécules signatures : Top 10 composés majoritaires + %
+- [ ] Familles chimiques : terpènes, alcools, esters, phénols, etc.
+- [ ] Propriétés organoleptiques : seuil détection + intensité + ténacité
+- [ ] Synergies : accords classiques + interactions moléculaires
+- [ ] Stabilité : oxydation + photo-sensibilité + conservation
+
+### 4️⃣ Axe Géographique — Cartographie patrimoniale
+- [ ] Régions olfactives : Méditerranée, Proche-Orient, Asie du Sud-Est, Inde, Afrique de l'Est, Amérique centrale, Océanie
+- [ ] Routes commerciales : encens, soie, épices, comptoirs vénitiens, Compagnies des Indes, transsahariennes
+
+### 5️⃣ Axe Conservation — Protection patrimoine
+- [ ] CR (Critically Endangered) — 15 espèces : documentation urgente + banques de graines
+- [ ] EN (Endangered) — 20 espèces : monitoring + alternatives durables
+- [ ] VU (Vulnerable) — 30 espèces : cultures raisonnées + certification
+- [ ] EX (Extinct) — 50 variétés : mémoire + analyse ADN + projets résurrection
+
+---
+
+## 🛠️ Sources de données prioritaires
+
+### 🔬 Sources scientifiques
+- [ ] IUCN Red List
+- [ ] CITES Database
+- [ ] The Plant List / POWO (Kew)
+- [ ] GBIF (biodiversité)
+- [ ] PubChem (molécules)
+- [ ] JSTOR (publications historiques)
+
+### 📚 Sources historiques
+- [ ] Bibliothèque nationale de France
+- [ ] Archives commerciales (Grasse)
+- [ ] Manuscrits Ayurvédiques
+- [ ] Textes arabes médiévaux
+- [ ] Herbiers historiques numérisés
+
+### 🌐 Sources communautaires
+- [ ] Tela Botanica
+- [ ] iNaturalist
+- [ ] Pl@ntNet
+- [ ] Forums d'aromathérapie
+- [ ] Réseaux de botanistes
+
+---
+
+## 📊 Système de validation qualité (6 niveaux)
+
+| Niveau | Critères | Badge |
+|--------|----------|-------|
+| ⭐ Bronze | Nom + famille + 1 source | Données de base |
+| ⭐⭐ Argent | + profil olfactif + image | Fiche complète |
+| ⭐⭐⭐ Or | + profil chimique + 3 sources | Fiche validée |
+| ⭐⭐⭐⭐ Platine | + contexte historique + conservation | Fiche enrichie |
+| ⭐⭐⭐⭐⭐ Diamant | + généalogie + relations + 5+ sources | Fiche experte |
+| 🏆 Référence | + formules + analyses + certification scientifique | Référence mondiale |
+
+---
+
+## 🎯 Vision Phase 3 (J26-35) — Fil d'Ariane Limbique
+
+- [ ] Table olfactive_memories
+- [ ] Profils émotionnels
+- [ ] Carte limbique interactive
+- [ ] Parcours narratifs
+- [ ] Synesthésie visuelle
+- [ ] 100+ récits olfactifs
+- [ ] 50+ parcours thématiques
+- [ ] Système de contributions
+- [ ] Expérience immersive
+
+
+
+---
+
+## 🧬 SESSION 06 JAN 2026 - PHASE 2 ROADMAP : GÉNÉALOGIE AVANCÉE
+
+### Phase 1 : Analyse et préparation du schéma
+- [ ] Analyser la table variety_genealogy existante
+- [ ] Identifier les champs manquants pour la généalogie avancée
+- [ ] Planifier les extensions de schéma nécessaires
+
+### Phase 2 : Schéma de base de données pour la généalogie avancée
+- [x] Étendre la table variety_genealogy avec champs avancés
+- [x] Créer la table variety_molecular_profiles (profils moléculaires historiques)
+- [x] Créer la table variety_historical_records (archives historiques)
+- [x] Créer la table lost_varieties (variétés disparues)
+- [x] Créer la table genealogy_extended (métadonnées avancées)
+- [x] Créer la table molecular_comparisons (comparaisons ancien/moderne)
+- [x] Migrer le schéma via SQL direct (5 nouvelles tables créées)
+
+### Phase 3 : Procédures tRPC pour la généalogie
+- [x] Créer genealogy.getFullTree (arbre complet avec tous les ancêtres/descendants)
+- [x] Créer genealogy.getLineage (lignée directe d'une variété)
+- [x] Créer genealogyAdvanced.getWithMolecularProfiles
+- [x] Créer genealogyAdvanced.getEvolutionTimeline
+- [x] Créer genealogyAdvanced.findRelatedLostVarieties
+- [x] Créer lostVarieties router (CRUD complet)
+- [x] Créer molecularProfiles router (CRUD)
+- [x] Créer molecularComparisons router (CRUD)
+- [x] Créer historicalRecords router (CRUD)
+- [ ] Créer genealogy.findCommonAncestors (ancêtres communs entre variétés)
+- [ ] Créer genealogy.reconstructLostLineage (reconstruction de lignées perdues)
+- [ ] Créer genealogy.getMolecularComparison (comparaison moléculaire ancien/moderne)
+
+### Phase 4 : Import des variétés disparues supplémentaires
+- [x] Rechercher 20+ variétés disparues historiques (17 documentées)
+- [x] Créer le script d'import des variétés disparues (scripts/import-lost-varieties.ts)
+- [x] Documenter les sources (BBC, Scientific American, Future Society, IUCN, CITES)
+- [x] Ajouter les procédures bulkImport et getStats
+- [ ] Importer les données dans la base de données
+- [ ] Valider l'intégrité des données importées
+
+### Phase 5 : Arbre généalogique interactif (D3.js)
+- [ ] Installer et configurer D3.js
+- [ ] Créer le composant GenealogyTree.tsx
+- [ ] Implémenter la visualisation en arbre (tree layout)
+- [ ] Ajouter les interactions (zoom, pan, clic sur nœuds)
+- [ ] Afficher les informations détaillées au survol
+- [ ] Intégrer les couleurs par statut (vivant, disparu, menacé)
+
+### Phase 6 : Interface de comparaison moléculaire ancien/moderne
+- [ ] Créer la page /comparaison-moleculaire
+- [ ] Implémenter le sélecteur de variétés (ancienne vs moderne)
+- [ ] Créer le graphique radar comparatif des profils terpéniques
+- [ ] Créer le tableau des différences moléculaires
+- [ ] Ajouter les hypothèses de reconstruction pour variétés disparues
+
+### Phase 7 : Tests et validation
+- [ ] Écrire les tests unitaires pour les procédures tRPC
+- [ ] Tester l'arbre généalogique sur différentes tailles de données
+- [ ] Valider le responsive mobile
+- [ ] Créer le checkpoint final
+
+
+
+### Phase 5 : Arbre généalogique interactif (D3.js)
+- [x] Installer et configurer D3.js
+- [x] Créer le composant GenealogyTree.tsx
+- [x] Créer la page GenealogyAdvanced.tsx
+- [x] Créer la page LostVarietyDetail.tsx
+- [ ] Ajouter les routes dans App.tsx
+- [ ] Tester l'arbre généalogique
+
+### Phase 6 : Axes de recherche NEZ (données fournies)
+- [x] Créer les tables research_axis_nez, source_article_nez, axis_source_nez
+- [x] Créer les procédures tRPC pour les axes de recherche NEZ (researchAxesNez, sourceArticlesNez, axisSourcesNez)
+- [x] Ajouter les fonctions de base de données (db.ts)
+- [x] Importer les 10 axes de recherche (data_research_axes_nez.csv)
+- [x] Importer les 13 articles sources (data_nez_articles.csv)
+- [x] Importer les 13 mappings axe-source (data_axis_source_map.csv)
+- [x] Créer la table research_axes_innovants (6 axes de recherche innovants)
+- [x] Importer les 6 axes de recherche innovants
+- [ ] Créer la page ResearchAxisPage.tsx (fournie)
+
+### Phase 7 : Sources historiques rares
+- [x] Documenter les sources Gallica (BnF) - 3 traités 17e-18e siècle (pasted_content_6.txt)
+- [x] Documenter les sources Archive.org - 3 ouvrages anglais 19e siècle
+- [x] Documenter les revues scientifiques (JEOR, FFJ, Phytochemistry)
+- [x] Documenter les bases ethnobotaniques (POWO, IUCN, CITES)
+- [x] Documenter les archives parfumerie (Osmothèque, MIP Grasse)
+- [x] Sauvegarder dans data/nez/historical_sources_extractions.md
+
+### Phase 8 : Interface de comparaison moléculaire ancien/moderne
+- [x] Créer la page MolecularComparison.tsx
+- [x] Ajouter la route /comparaison-moleculaire
+
+### Phase 9 : Tests unitaires
+- [x] Créer le fichier de tests server/phase2-genealogy.test.ts
+- [x] Tests axes de recherche NEZ (4 tests passés)
+- [x] Tests articles sources NEZ (2 tests passés)
+- [x] Tests mappings axe-source (2 tests passés)
+- [x] Tests axes de recherche innovants (5 tests passés)
+- [x] Tests variétés disparues (2 tests passés)
+- [x] Tests profils moléculaires (1 test passé)
+- [x] Tests comparaisons moléculaires (1 test passé)
+- [x] Tests archives historiques (1 test passé)
+- [x] **TOTAL : 18 tests passés avec succès**

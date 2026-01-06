@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS axis_source_nez (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  axis_id VARCHAR(100) NOT NULL,\n  source_id VARCHAR(100) NOT NULL,\n  confidence DECIMAL(3,2) NOT NULL DEFAULT 0.5,\n  evidence TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_axis_source (axis_id, source_id),\n  FOREIGN KEY (axis_id) REFERENCES research_axis_nez(axis_id) ON DELETE CASCADE,\n  FOREIGN KEY (source_id) REFERENCES source_article_nez(source_id) ON DELETE CASCADE\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS axis_source_nez (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  axis_id VARCHAR(100) NOT NULL,\n  source_id VARCHAR(100) NOT NULL,\n  confidence DECIMAL(3,2) NOT NULL DEFAULT 0.5,\n  evidence TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_axis_source (axis_id, source_id),\n  FOREIGN KEY (axis_id) REFERENCES research_axis_nez(axis_id) ON DELETE CASCADE,\n  FOREIGN KEY (source_id) REFERENCES source_article_nez(source_id) ON DELETE CASCADE\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 290
+}

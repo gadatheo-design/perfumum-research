@@ -203,6 +203,9 @@ import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
 import PatrimoineMenace from './pages/PatrimoineMenace';
 import AlternativesDurables from './pages/AlternativesDurables';
+import GenealogyAdvanced from './pages/GenealogyAdvanced';
+import LostVarietyDetail from './pages/LostVarietyDetail';
+import MolecularComparison from './pages/MolecularComparison';
 import ArchivesOlfactives from "./pages/ArchivesOlfactives";
 import { Glossaire } from "./pages/Glossaire";
 import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
@@ -437,6 +440,9 @@ function Router() {
       <Route path="/archives" component={Archives} />
       <Route path="/patrimoine-menace" component={PatrimoineMenace} />
       <Route path="/alternatives-durables" component={AlternativesDurables} />
+      <Route path="/genealogie-avancee" component={GenealogyAdvanced} />
+      <Route path="/varietes-disparues/:id" component={LostVarietyDetail} />
+      <Route path="/comparaison-moleculaire" component={MolecularComparison} />
       <Route path="/archives-olfactives" component={ArchivesOlfactives} />
       <Route path="/outils" component={Outils} />
       <Route path="/glossaire" component={Glossaire} />

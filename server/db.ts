@@ -8195,3 +8195,1035 @@ export function exportToChicago(entry: BibliographyEntry): string {
   
   return citation;
 }
+
+
+// ============================================================================
+// PHASE 2 - GENEALOGY ADVANCED FUNCTIONS
+// ============================================================================
+
+// Types pour les nouvelles tables
+export interface VarietyMolecularProfile {
+  id: number;
+  profileId: string;
+  varietyId: number;
+  historicalPeriod: 'prehistoric' | 'ancient' | 'medieval' | 'renaissance' | 'enlightenment' | 'industrial' | 'modern' | 'contemporary';
+  yearEstimate?: number;
+  yearRangeStart?: number;
+  yearRangeEnd?: number;
+  sourceType: 'archaeological' | 'historical_text' | 'herbarium' | 'genetic_analysis' | 'reconstruction' | 'contemporary_sample';
+  sourceDescription?: string;
+  sourceReferences?: any[];
+  molecularComposition?: any[];
+  terpeneProfile?: any;
+  olfactiveDescription?: string;
+  olfactiveNotes?: any;
+  confidenceLevel: 'confirmed' | 'probable' | 'hypothetical' | 'speculative';
+  modernComparisonNotes?: string;
+  divergenceScore?: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface LostVariety {
+  id: number;
+  lostVarietyId: string;
+  plantId?: number;
+  name: string;
+  latinName?: string;
+  historicalNames?: any;
+  extinctionStatus: 'extinct' | 'extinct_in_wild' | 'presumed_extinct' | 'possibly_extinct' | 'rediscovered';
+  lastKnownDate?: number;
+  extinctionDate?: number;
+  extinctionCause?: 'overexploitation' | 'habitat_loss' | 'climate_change' | 'disease' | 'hybridization' | 'war_conflict' | 'unknown';
+  extinctionDetails?: string;
+  historicalRange?: any;
+  morphologicalDescription?: string;
+  olfactiveDescription?: string;
+  therapeuticUses?: string;
+  culturalSignificance?: string;
+  hypotheticalMolecularProfile?: any;
+  reconstructionPossibility?: 'possible' | 'partial' | 'unlikely' | 'impossible';
+  reconstructionNotes?: string;
+  closestLivingRelatives?: any;
+  primarySources?: any;
+  imageUrl?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface MolecularComparison {
+  id: number;
+  comparisonId: string;
+  ancientProfileId: number;
+  modernVarietyId: number;
+  lostVarietyId?: number;
+  overallSimilarity?: number;
+  terpeneProfileSimilarity?: number;
+  olfactiveProfileSimilarity?: number;
+  molecularDifferences?: any;
+  lostMolecules?: any;
+  gainedMolecules?: any;
+  analysisNotes?: string;
+  evolutionHypothesis?: string;
+  selectionPressures?: any;
+  reconstructionRelevance?: 'critical' | 'important' | 'useful' | 'marginal';
+  reconstructionNotes?: string;
+  comparisonDate: Date;
+  analyst?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface VarietyHistoricalRecord {
+  id: number;
+  recordId: string;
+  varietyId: number;
+  recordType: 'botanical_description' | 'trade_record' | 'agricultural_manual' | 'pharmacopoeia' | 'herbarium_specimen' | 'artistic_depiction' | 'travel_account' | 'scientific_paper' | 'patent' | 'oral_tradition' | 'other';
+  dateCreated?: string;
+  yearEstimate?: number;
+  location?: string;
+  country?: string;
+  region?: string;
+  title: string;
+  author?: string;
+  content?: string;
+  originalLanguage?: string;
+  historicalName?: string;
+  synonyms?: any;
+  descriptionExcerpt?: string;
+  mentionedCharacteristics?: any;
+  authenticityLevel: 'original' | 'copy' | 'transcription' | 'reconstruction';
+  reliabilityScore?: number;
+  sourceUrl?: string;
+  archiveLocation?: string;
+  catalogNumber?: string;
+  imageUrl?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// ============================================================================
+// LOST VARIETIES FUNCTIONS
+// ============================================================================
+
+export async function getAllLostVarieties() {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`SELECT * FROM lost_varieties ORDER BY name ASC`);
+  return results[0] as LostVariety[];
+}
+
+export async function getLostVarietyById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.execute(sql`SELECT * FROM lost_varieties WHERE id = ${id}`);
+  const rows = results[0] as LostVariety[];
+  return rows[0] || null;
+}
+
+export async function getLostVarietiesByStatus(status: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`SELECT * FROM lost_varieties WHERE extinction_status = ${status} ORDER BY name ASC`);
+  return results[0] as LostVariety[];
+}
+
+export async function getLostVarietiesByPlant(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`SELECT * FROM lost_varieties WHERE plant_id = ${plantId} ORDER BY name ASC`);
+  return results[0] as LostVariety[];
+}
+
+export async function searchLostVarieties(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const searchPattern = `%${query}%`;
+  const results = await db.execute(sql`
+    SELECT * FROM lost_varieties 
+    WHERE name LIKE ${searchPattern} 
+       OR latin_name LIKE ${searchPattern}
+       OR olfactive_description LIKE ${searchPattern}
+    ORDER BY name ASC
+  `);
+  return results[0] as LostVariety[];
+}
+
+export async function createLostVariety(data: Partial<LostVariety>) {
+  const db = await getDb();
+  if (!db) return null;
+  const lostVarietyId = `LV-${Date.now().toString(36).toUpperCase()}`;
+  
+  const result = await db.execute(sql`
+    INSERT INTO lost_varieties (
+      lost_variety_id, plant_id, name, latin_name, historical_names,
+      extinction_status, last_known_date, extinction_date, extinction_cause,
+      extinction_details, historical_range, morphological_description,
+      olfactive_description, therapeutic_uses, cultural_significance,
+      hypothetical_molecular_profile, reconstruction_possibility,
+      reconstruction_notes, closest_living_relatives, primary_sources, image_url
+    ) VALUES (
+      ${lostVarietyId}, ${data.plantId || null}, ${data.name}, ${data.latinName || null},
+      ${JSON.stringify(data.historicalNames || [])}, ${data.extinctionStatus || 'presumed_extinct'},
+      ${data.lastKnownDate || null}, ${data.extinctionDate || null}, ${data.extinctionCause || 'unknown'},
+      ${data.extinctionDetails || null}, ${JSON.stringify(data.historicalRange || {})},
+      ${data.morphologicalDescription || null}, ${data.olfactiveDescription || null},
+      ${data.therapeuticUses || null}, ${data.culturalSignificance || null},
+      ${JSON.stringify(data.hypotheticalMolecularProfile || {})}, ${data.reconstructionPossibility || 'partial'},
+      ${data.reconstructionNotes || null}, ${JSON.stringify(data.closestLivingRelatives || [])},
+      ${JSON.stringify(data.primarySources || [])}, ${data.imageUrl || null}
+    )
+  `);
+  
+  return getLostVarietyById((result[0] as any).insertId);
+}
+
+export async function updateLostVariety(id: number, data: Partial<LostVariety>) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const updates: string[] = [];
+  const values: any[] = [];
+  
+  if (data.name !== undefined) { updates.push('name = ?'); values.push(data.name); }
+  if (data.latinName !== undefined) { updates.push('latin_name = ?'); values.push(data.latinName); }
+  if (data.extinctionStatus !== undefined) { updates.push('extinction_status = ?'); values.push(data.extinctionStatus); }
+  if (data.extinctionCause !== undefined) { updates.push('extinction_cause = ?'); values.push(data.extinctionCause); }
+  if (data.extinctionDetails !== undefined) { updates.push('extinction_details = ?'); values.push(data.extinctionDetails); }
+  if (data.olfactiveDescription !== undefined) { updates.push('olfactive_description = ?'); values.push(data.olfactiveDescription); }
+  if (data.reconstructionPossibility !== undefined) { updates.push('reconstruction_possibility = ?'); values.push(data.reconstructionPossibility); }
+  if (data.reconstructionNotes !== undefined) { updates.push('reconstruction_notes = ?'); values.push(data.reconstructionNotes); }
+  if (data.historicalNames !== undefined) { updates.push('historical_names = ?'); values.push(JSON.stringify(data.historicalNames)); }
+  if (data.closestLivingRelatives !== undefined) { updates.push('closest_living_relatives = ?'); values.push(JSON.stringify(data.closestLivingRelatives)); }
+  if (data.primarySources !== undefined) { updates.push('primary_sources = ?'); values.push(JSON.stringify(data.primarySources)); }
+  
+  if (updates.length === 0) return getLostVarietyById(id);
+  
+  values.push(id);
+  await db.execute(sql.raw(`UPDATE lost_varieties SET ${updates.join(', ')} WHERE id = ?`, values));
+  
+  return getLostVarietyById(id);
+}
+
+// ============================================================================
+// VARIETY MOLECULAR PROFILES FUNCTIONS
+// ============================================================================
+
+export async function getAllMolecularProfiles() {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`SELECT * FROM variety_molecular_profiles ORDER BY year_estimate DESC`);
+  return results[0] as VarietyMolecularProfile[];
+}
+
+export async function getMolecularProfileById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.execute(sql`SELECT * FROM variety_molecular_profiles WHERE id = ${id}`);
+  const rows = results[0] as VarietyMolecularProfile[];
+  return rows[0] || null;
+}
+
+export async function getMolecularProfilesByVariety(varietyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`
+    SELECT * FROM variety_molecular_profiles 
+    WHERE variety_id = ${varietyId} 
+    ORDER BY year_estimate DESC
+  `);
+  return results[0] as VarietyMolecularProfile[];
+}
+
+export async function getMolecularProfilesByPeriod(period: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`
+    SELECT * FROM variety_molecular_profiles 
+    WHERE historical_period = ${period} 
+    ORDER BY year_estimate DESC
+  `);
+  return results[0] as VarietyMolecularProfile[];
+}
+
+export async function createMolecularProfile(data: Partial<VarietyMolecularProfile>) {
+  const db = await getDb();
+  if (!db) return null;
+  const profileId = `VMP-${Date.now().toString(36).toUpperCase()}`;
+  
+  const result = await db.execute(sql`
+    INSERT INTO variety_molecular_profiles (
+      profile_id, variety_id, historical_period, year_estimate,
+      year_range_start, year_range_end, source_type, source_description,
+      source_references, molecular_composition, terpene_profile,
+      olfactive_description, olfactive_notes, confidence_level,
+      modern_comparison_notes, divergence_score
+    ) VALUES (
+      ${profileId}, ${data.varietyId}, ${data.historicalPeriod},
+      ${data.yearEstimate || null}, ${data.yearRangeStart || null},
+      ${data.yearRangeEnd || null}, ${data.sourceType},
+      ${data.sourceDescription || null}, ${JSON.stringify(data.sourceReferences || [])},
+      ${JSON.stringify(data.molecularComposition || [])}, ${JSON.stringify(data.terpeneProfile || {})},
+      ${data.olfactiveDescription || null}, ${JSON.stringify(data.olfactiveNotes || {})},
+      ${data.confidenceLevel || 'probable'}, ${data.modernComparisonNotes || null},
+      ${data.divergenceScore || null}
+    )
+  `);
+  
+  return getMolecularProfileById((result[0] as any).insertId);
+}
+
+// ============================================================================
+// MOLECULAR COMPARISONS FUNCTIONS
+// ============================================================================
+
+export async function getAllMolecularComparisons() {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`SELECT * FROM molecular_comparisons ORDER BY comparison_date DESC`);
+  return results[0] as MolecularComparison[];
+}
+
+export async function getMolecularComparisonById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.execute(sql`SELECT * FROM molecular_comparisons WHERE id = ${id}`);
+  const rows = results[0] as MolecularComparison[];
+  return rows[0] || null;
+}
+
+export async function getMolecularComparisonsByVariety(varietyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`
+    SELECT * FROM molecular_comparisons 
+    WHERE modern_variety_id = ${varietyId} 
+    ORDER BY comparison_date DESC
+  `);
+  return results[0] as MolecularComparison[];
+}
+
+export async function createMolecularComparison(data: Partial<MolecularComparison>) {
+  const db = await getDb();
+  if (!db) return null;
+  const comparisonId = `MC-${Date.now().toString(36).toUpperCase()}`;
+  
+  const result = await db.execute(sql`
+    INSERT INTO molecular_comparisons (
+      comparison_id, ancient_profile_id, modern_variety_id, lost_variety_id,
+      overall_similarity, terpene_profile_similarity, olfactive_profile_similarity,
+      molecular_differences, lost_molecules, gained_molecules, analysis_notes,
+      evolution_hypothesis, selection_pressures, reconstruction_relevance,
+      reconstruction_notes, analyst
+    ) VALUES (
+      ${comparisonId}, ${data.ancientProfileId}, ${data.modernVarietyId},
+      ${data.lostVarietyId || null}, ${data.overallSimilarity || null},
+      ${data.terpeneProfileSimilarity || null}, ${data.olfactiveProfileSimilarity || null},
+      ${JSON.stringify(data.molecularDifferences || {})}, ${JSON.stringify(data.lostMolecules || [])},
+      ${JSON.stringify(data.gainedMolecules || [])}, ${data.analysisNotes || null},
+      ${data.evolutionHypothesis || null}, ${JSON.stringify(data.selectionPressures || [])},
+      ${data.reconstructionRelevance || 'useful'}, ${data.reconstructionNotes || null},
+      ${data.analyst || null}
+    )
+  `);
+  
+  return getMolecularComparisonById((result[0] as any).insertId);
+}
+
+// ============================================================================
+// HISTORICAL RECORDS FUNCTIONS
+// ============================================================================
+
+export async function getAllHistoricalRecords() {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`SELECT * FROM variety_historical_records ORDER BY year_estimate DESC`);
+  return results[0] as VarietyHistoricalRecord[];
+}
+
+export async function getHistoricalRecordById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.execute(sql`SELECT * FROM variety_historical_records WHERE id = ${id}`);
+  const rows = results[0] as VarietyHistoricalRecord[];
+  return rows[0] || null;
+}
+
+export async function getHistoricalRecordsByVariety(varietyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`
+    SELECT * FROM variety_historical_records 
+    WHERE variety_id = ${varietyId} 
+    ORDER BY year_estimate DESC
+  `);
+  return results[0] as VarietyHistoricalRecord[];
+}
+
+export async function getHistoricalRecordsByType(recordType: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const results = await db.execute(sql`
+    SELECT * FROM variety_historical_records 
+    WHERE record_type = ${recordType} 
+    ORDER BY year_estimate DESC
+  `);
+  return results[0] as VarietyHistoricalRecord[];
+}
+
+export async function createHistoricalRecord(data: Partial<VarietyHistoricalRecord>) {
+  const db = await getDb();
+  if (!db) return null;
+  const recordId = `VHR-${Date.now().toString(36).toUpperCase()}`;
+  
+  const result = await db.execute(sql`
+    INSERT INTO variety_historical_records (
+      record_id, variety_id, record_type, date_created, year_estimate,
+      location, country, region, title, author, content, original_language,
+      historical_name, synonyms, description_excerpt, mentioned_characteristics,
+      authenticity_level, reliability_score, source_url, archive_location,
+      catalog_number, image_url
+    ) VALUES (
+      ${recordId}, ${data.varietyId}, ${data.recordType},
+      ${data.dateCreated || null}, ${data.yearEstimate || null},
+      ${data.location || null}, ${data.country || null}, ${data.region || null},
+      ${data.title}, ${data.author || null}, ${data.content || null},
+      ${data.originalLanguage || null}, ${data.historicalName || null},
+      ${JSON.stringify(data.synonyms || [])}, ${data.descriptionExcerpt || null},
+      ${JSON.stringify(data.mentionedCharacteristics || {})},
+      ${data.authenticityLevel || 'transcription'}, ${data.reliabilityScore || null},
+      ${data.sourceUrl || null}, ${data.archiveLocation || null},
+      ${data.catalogNumber || null}, ${data.imageUrl || null}
+    )
+  `);
+  
+  return getHistoricalRecordById((result[0] as any).insertId);
+}
+
+// ============================================================================
+// ADVANCED GENEALOGY TREE FUNCTIONS
+// ============================================================================
+
+export async function getFullGenealogyTree(varietyId: number, maxDepth: number = 10) {
+  const db = await getDb();
+  if (!db) return { variety: null, ancestors: [], descendants: [], siblings: [] };
+  
+  // Get the variety itself
+  const varietyResults = await db.execute(sql`SELECT * FROM plant_varieties WHERE id = ${varietyId}`);
+  const variety = (varietyResults[0] as any[])[0] || null;
+  
+  // Get ancestors (recursive up)
+  const ancestors = await getVarietyAncestors(varietyId, maxDepth);
+  
+  // Get descendants (recursive down)
+  const descendants = await getVarietyDescendants(varietyId, maxDepth);
+  
+  // Get siblings (same parents)
+  const parentRelations = await db.execute(sql`
+    SELECT parent_variety_id FROM variety_genealogy WHERE variety_id = ${varietyId}
+  `);
+  const parentIds = (parentRelations[0] as any[]).map(r => r.parent_variety_id);
+  
+  let siblings: any[] = [];
+  if (parentIds.length > 0) {
+    const siblingResults = await db.execute(sql`
+      SELECT DISTINCT v.* FROM plant_varieties v
+      INNER JOIN variety_genealogy vg ON v.id = vg.variety_id
+      WHERE vg.parent_variety_id IN (${sql.join(parentIds.map(id => sql`${id}`), sql`, `)})
+      AND v.id != ${varietyId}
+    `);
+    siblings = siblingResults[0] as any[];
+  }
+  
+  return { variety, ancestors, descendants, siblings };
+}
+
+export async function getLineage(varietyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Get direct lineage (parent -> grandparent -> etc.)
+  const lineage: any[] = [];
+  let currentId = varietyId;
+  
+  for (let i = 0; i < 20; i++) { // Max 20 generations
+    const parentResult = await db.execute(sql`
+      SELECT vg.*, pv.name as parent_name, pv.latin_name as parent_latin_name
+      FROM variety_genealogy vg
+      LEFT JOIN plant_varieties pv ON vg.parent_variety_id = pv.id
+      WHERE vg.variety_id = ${currentId}
+      AND vg.relationship_type = 'parent'
+      LIMIT 1
+    `);
+    
+    const parent = (parentResult[0] as any[])[0];
+    if (!parent) break;
+    
+    lineage.push(parent);
+    currentId = parent.parent_variety_id;
+  }
+  
+  return lineage;
+}
+
+export async function getGenealogyWithMolecularProfiles(varietyId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Get variety with its molecular profiles
+  const varietyResults = await db.execute(sql`SELECT * FROM plant_varieties WHERE id = ${varietyId}`);
+  const variety = (varietyResults[0] as any[])[0] || null;
+  if (!variety) return null;
+  
+  // Get molecular profiles for this variety
+  const profiles = await getMolecularProfilesByVariety(varietyId);
+  
+  // Get genealogy tree
+  const tree = await getFullGenealogyTree(varietyId);
+  
+  // Get molecular comparisons
+  const comparisons = await getMolecularComparisonsByVariety(varietyId);
+  
+  // Get historical records
+  const records = await getHistoricalRecordsByVariety(varietyId);
+  
+  return {
+    variety,
+    molecularProfiles: profiles,
+    genealogyTree: tree,
+    molecularComparisons: comparisons,
+    historicalRecords: records
+  };
+}
+
+export async function findRelatedLostVarieties(varietyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Get the plant ID for this variety
+  const varietyResults = await db.execute(sql`SELECT plant_id FROM plant_varieties WHERE id = ${varietyId}`);
+  const variety = (varietyResults[0] as any[])[0];
+  if (!variety?.plant_id) return [];
+  
+  // Find lost varieties for the same plant
+  return getLostVarietiesByPlant(variety.plant_id);
+}
+
+export async function getEvolutionTimeline(varietyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Combine molecular profiles and historical records into a timeline
+  const profiles = await getMolecularProfilesByVariety(varietyId);
+  const records = await getHistoricalRecordsByVariety(varietyId);
+  
+  const timeline: any[] = [];
+  
+  profiles.forEach(p => {
+    timeline.push({
+      type: 'molecular_profile',
+      year: p.yearEstimate,
+      yearRange: p.yearRangeStart && p.yearRangeEnd ? `${p.yearRangeStart}-${p.yearRangeEnd}` : null,
+      period: p.historicalPeriod,
+      title: `Profil moléculaire - ${p.historicalPeriod}`,
+      description: p.olfactiveDescription,
+      confidence: p.confidenceLevel,
+      data: p
+    });
+  });
+  
+  records.forEach(r => {
+    timeline.push({
+      type: 'historical_record',
+      year: r.yearEstimate,
+      yearRange: null,
+      period: null,
+      title: r.title,
+      description: r.descriptionExcerpt || r.content,
+      confidence: r.authenticityLevel,
+      data: r
+    });
+  });
+  
+  // Sort by year (oldest first)
+  return timeline.sort((a, b) => (a.year || 0) - (b.year || 0));
+}
+
+
+// ============================================================================
+// BULK IMPORT FUNCTIONS FOR LOST VARIETIES
+// ============================================================================
+
+export async function bulkImportLostVarieties(varieties: Partial<LostVariety>[]) {
+  const db = await getDb();
+  if (!db) return { success: false, imported: 0, errors: [] };
+  
+  const results = {
+    success: true,
+    imported: 0,
+    errors: [] as string[]
+  };
+  
+  for (const variety of varieties) {
+    try {
+      const lostVarietyId = `LV-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+      
+      await db.execute(sql`
+        INSERT INTO lost_varieties (
+          lost_variety_id, plant_id, name, latin_name, historical_names,
+          extinction_status, last_known_date, extinction_date, extinction_cause,
+          extinction_details, historical_range, morphological_description,
+          olfactive_description, therapeutic_uses, cultural_significance,
+          hypothetical_molecular_profile, reconstruction_possibility,
+          reconstruction_notes, closest_living_relatives, primary_sources, image_url
+        ) VALUES (
+          ${lostVarietyId}, ${variety.plantId || null}, ${variety.name}, ${variety.latinName || null},
+          ${JSON.stringify(variety.historicalNames || [])}, ${variety.extinctionStatus || 'presumed_extinct'},
+          ${variety.lastKnownDate || null}, ${variety.extinctionDate || null}, ${variety.extinctionCause || 'unknown'},
+          ${variety.extinctionDetails || null}, ${JSON.stringify(variety.historicalRange || {})},
+          ${variety.morphologicalDescription || null}, ${variety.olfactiveDescription || null},
+          ${variety.therapeuticUses || null}, ${variety.culturalSignificance || null},
+          ${JSON.stringify(variety.hypotheticalMolecularProfile || {})}, ${variety.reconstructionPossibility || 'partial'},
+          ${variety.reconstructionNotes || null}, ${JSON.stringify(variety.closestLivingRelatives || [])},
+          ${JSON.stringify(variety.primarySources || [])}, ${variety.imageUrl || null}
+        )
+      `);
+      
+      results.imported++;
+    } catch (error) {
+      results.errors.push(`Erreur pour ${variety.name}: ${error}`);
+      results.success = false;
+    }
+  }
+  
+  return results;
+}
+
+export async function getLostVarietiesStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM lost_varieties`);
+  const byStatusResult = await db.execute(sql`
+    SELECT extinction_status, COUNT(*) as count 
+    FROM lost_varieties 
+    GROUP BY extinction_status
+  `);
+  const byCauseResult = await db.execute(sql`
+    SELECT extinction_cause, COUNT(*) as count 
+    FROM lost_varieties 
+    GROUP BY extinction_cause
+  `);
+  const byReconstructionResult = await db.execute(sql`
+    SELECT reconstruction_possibility, COUNT(*) as count 
+    FROM lost_varieties 
+    GROUP BY reconstruction_possibility
+  `);
+  
+  return {
+    total: (totalResult[0] as any[])[0]?.total || 0,
+    byStatus: byStatusResult[0] as any[],
+    byCause: byCauseResult[0] as any[],
+    byReconstruction: byReconstructionResult[0] as any[]
+  };
+}
+
+
+// ============================================================================
+// RESEARCH AXES NEZ (Axes de recherche du magazine NEZ)
+// ============================================================================
+
+export interface ResearchAxisNez {
+  id: number;
+  axis_id: string;
+  slug: string;
+  title_fr: string;
+  title_en: string;
+  novelty_tagline?: string;
+  description_fr?: string;
+  description_en?: string;
+  ui_module?: string;
+  core_entities?: string;
+  kpis?: string;
+  default_filters_json?: any;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export interface SourceArticleNez {
+  id: number;
+  source_id: string;
+  url: string;
+  title: string;
+  lang: 'fr' | 'en';
+  published_at?: Date;
+  author?: string;
+  categories?: string;
+  themes?: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export interface AxisSourceNez {
+  id: number;
+  axis_id: string;
+  source_id: string;
+  confidence: number;
+  evidence?: string;
+  created_at?: Date;
+}
+
+// Liste des axes de recherche NEZ
+export async function listResearchAxesNez() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM research_axis_nez ORDER BY title_fr
+  `);
+  return (result[0] as ResearchAxisNez[]) || [];
+}
+
+// Récupérer un axe par slug
+export async function getResearchAxisNezBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM research_axis_nez WHERE slug = ${slug}
+  `);
+  const rows = result[0] as ResearchAxisNez[];
+  return rows.length > 0 ? rows[0] : null;
+}
+
+// Récupérer un axe par axis_id
+export async function getResearchAxisNezById(axisId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM research_axis_nez WHERE axis_id = ${axisId}
+  `);
+  const rows = result[0] as ResearchAxisNez[];
+  return rows.length > 0 ? rows[0] : null;
+}
+
+// Créer un axe de recherche NEZ
+export async function createResearchAxisNez(data: Partial<ResearchAxisNez>) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.execute(sql`
+    INSERT INTO research_axis_nez (
+      axis_id, slug, title_fr, title_en, novelty_tagline,
+      description_fr, description_en, ui_module, core_entities, kpis,
+      default_filters_json
+    ) VALUES (
+      ${data.axis_id}, ${data.slug}, ${data.title_fr}, ${data.title_en},
+      ${data.novelty_tagline || null}, ${data.description_fr || null},
+      ${data.description_en || null}, ${data.ui_module || null},
+      ${data.core_entities || null}, ${data.kpis || null},
+      ${data.default_filters_json ? JSON.stringify(data.default_filters_json) : null}
+    )
+  `);
+  
+  return await getResearchAxisNezById(data.axis_id!);
+}
+
+// Liste des articles sources NEZ
+export async function listSourceArticlesNez() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM source_article_nez ORDER BY published_at DESC
+  `);
+  return (result[0] as SourceArticleNez[]) || [];
+}
+
+// Récupérer un article par source_id
+export async function getSourceArticleNezById(sourceId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM source_article_nez WHERE source_id = ${sourceId}
+  `);
+  const rows = result[0] as SourceArticleNez[];
+  return rows.length > 0 ? rows[0] : null;
+}
+
+// Créer un article source NEZ
+export async function createSourceArticleNez(data: Partial<SourceArticleNez>) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.execute(sql`
+    INSERT INTO source_article_nez (
+      source_id, url, title, lang, published_at, author, categories, themes
+    ) VALUES (
+      ${data.source_id}, ${data.url}, ${data.title}, ${data.lang},
+      ${data.published_at || null}, ${data.author || null},
+      ${data.categories || null}, ${data.themes || null}
+    )
+  `);
+  
+  return await getSourceArticleNezById(data.source_id!);
+}
+
+// Liste des mappings axe-source NEZ
+export async function listAxisSourcesNez(axisId?: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  if (axisId) {
+    const result = await db.execute(sql`
+      SELECT asn.*, san.title, san.url, san.lang, san.published_at, san.author
+      FROM axis_source_nez asn
+      JOIN source_article_nez san ON asn.source_id = san.source_id
+      WHERE asn.axis_id = ${axisId}
+      ORDER BY asn.confidence DESC
+    `);
+    return (result[0] as any[]) || [];
+  }
+  
+  const result = await db.execute(sql`
+    SELECT * FROM axis_source_nez ORDER BY confidence DESC
+  `);
+  return (result[0] as AxisSourceNez[]) || [];
+}
+
+// Créer un mapping axe-source NEZ
+export async function createAxisSourceNez(data: Partial<AxisSourceNez>) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.execute(sql`
+    INSERT INTO axis_source_nez (axis_id, source_id, confidence, evidence)
+    VALUES (${data.axis_id}, ${data.source_id}, ${data.confidence || 0.5}, ${data.evidence || null})
+  `);
+  
+  return data;
+}
+
+// Récupérer un axe avec ses sources
+export async function getResearchAxisNezWithSources(slug: string) {
+  const axis = await getResearchAxisNezBySlug(slug);
+  if (!axis) return null;
+  
+  const sources = await listAxisSourcesNez(axis.axis_id);
+  
+  return {
+    ...axis,
+    sources
+  };
+}
+
+// Import en masse des axes de recherche NEZ
+export async function bulkImportResearchAxesNez(axes: Partial<ResearchAxisNez>[]) {
+  const results = { success: true, imported: 0, errors: [] as string[] };
+  
+  for (const axis of axes) {
+    try {
+      await createResearchAxisNez(axis);
+      results.imported++;
+    } catch (error) {
+      results.errors.push(`Erreur pour ${axis.axis_id}: ${error}`);
+      results.success = false;
+    }
+  }
+  
+  return results;
+}
+
+// Import en masse des articles sources NEZ
+export async function bulkImportSourceArticlesNez(articles: Partial<SourceArticleNez>[]) {
+  const results = { success: true, imported: 0, errors: [] as string[] };
+  
+  for (const article of articles) {
+    try {
+      await createSourceArticleNez(article);
+      results.imported++;
+    } catch (error) {
+      results.errors.push(`Erreur pour ${article.source_id}: ${error}`);
+      results.success = false;
+    }
+  }
+  
+  return results;
+}
+
+// Import en masse des mappings axe-source NEZ
+export async function bulkImportAxisSourcesNez(mappings: Partial<AxisSourceNez>[]) {
+  const results = { success: true, imported: 0, errors: [] as string[] };
+  
+  for (const mapping of mappings) {
+    try {
+      await createAxisSourceNez(mapping);
+      results.imported++;
+    } catch (error) {
+      results.errors.push(`Erreur pour ${mapping.axis_id}-${mapping.source_id}: ${error}`);
+      results.success = false;
+    }
+  }
+  
+  return results;
+}
+
+// Statistiques des axes de recherche NEZ
+export async function getResearchAxesNezStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const axesResult = await db.execute(sql`SELECT COUNT(*) as count FROM research_axis_nez`);
+  const articlesResult = await db.execute(sql`SELECT COUNT(*) as count FROM source_article_nez`);
+  const mappingsResult = await db.execute(sql`SELECT COUNT(*) as count FROM axis_source_nez`);
+  const byLangResult = await db.execute(sql`
+    SELECT lang, COUNT(*) as count FROM source_article_nez GROUP BY lang
+  `);
+  
+  return {
+    totalAxes: (axesResult[0] as any[])[0]?.count || 0,
+    totalArticles: (articlesResult[0] as any[])[0]?.count || 0,
+    totalMappings: (mappingsResult[0] as any[])[0]?.count || 0,
+    articlesByLang: byLangResult[0] as any[]
+  };
+}
+
+
+// ============================================================================
+// RESEARCH AXES INNOVANTS (Axes de recherche innovants PERFUMUM)
+// ============================================================================
+
+export interface ResearchAxisInnovant {
+  id: number;
+  axis_code: string;
+  title_fr: string;
+  title_en?: string;
+  description_fr?: string;
+  description_en?: string;
+  methodologies?: string[];
+  target_species?: string[];
+  partnerships?: string[];
+  kpis?: Record<string, number>;
+  priority_level: 'critical' | 'high' | 'medium' | 'low';
+  status: 'active' | 'planned' | 'completed' | 'paused';
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+// Liste des axes de recherche innovants
+export async function listResearchAxesInnovants() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM research_axes_innovants ORDER BY priority_level, title_fr
+  `);
+  return (result[0] as ResearchAxisInnovant[]) || [];
+}
+
+// Récupérer un axe par code
+export async function getResearchAxisInnovantByCode(axisCode: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM research_axes_innovants WHERE axis_code = ${axisCode}
+  `);
+  const rows = result[0] as ResearchAxisInnovant[];
+  return rows.length > 0 ? rows[0] : null;
+}
+
+// Récupérer les axes par priorité
+export async function getResearchAxesInnovantsByPriority(priority: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM research_axes_innovants WHERE priority_level = ${priority} ORDER BY title_fr
+  `);
+  return (result[0] as ResearchAxisInnovant[]) || [];
+}
+
+// Récupérer les axes par statut
+export async function getResearchAxesInnovantsByStatus(status: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM research_axes_innovants WHERE status = ${status} ORDER BY priority_level, title_fr
+  `);
+  return (result[0] as ResearchAxisInnovant[]) || [];
+}
+
+// Créer un axe de recherche innovant
+export async function createResearchAxisInnovant(data: Partial<ResearchAxisInnovant>) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.execute(sql`
+    INSERT INTO research_axes_innovants (
+      axis_code, title_fr, title_en, description_fr, description_en,
+      methodologies, target_species, partnerships, kpis, priority_level, status
+    ) VALUES (
+      ${data.axis_code}, ${data.title_fr}, ${data.title_en || null},
+      ${data.description_fr || null}, ${data.description_en || null},
+      ${data.methodologies ? JSON.stringify(data.methodologies) : null},
+      ${data.target_species ? JSON.stringify(data.target_species) : null},
+      ${data.partnerships ? JSON.stringify(data.partnerships) : null},
+      ${data.kpis ? JSON.stringify(data.kpis) : null},
+      ${data.priority_level || 'medium'}, ${data.status || 'planned'}
+    )
+  `);
+  
+  return await getResearchAxisInnovantByCode(data.axis_code!);
+}
+
+// Mettre à jour un axe de recherche innovant
+export async function updateResearchAxisInnovant(axisCode: string, data: Partial<ResearchAxisInnovant>) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const updates: string[] = [];
+  const values: any[] = [];
+  
+  if (data.title_fr !== undefined) { updates.push('title_fr = ?'); values.push(data.title_fr); }
+  if (data.title_en !== undefined) { updates.push('title_en = ?'); values.push(data.title_en); }
+  if (data.description_fr !== undefined) { updates.push('description_fr = ?'); values.push(data.description_fr); }
+  if (data.description_en !== undefined) { updates.push('description_en = ?'); values.push(data.description_en); }
+  if (data.methodologies !== undefined) { updates.push('methodologies = ?'); values.push(JSON.stringify(data.methodologies)); }
+  if (data.target_species !== undefined) { updates.push('target_species = ?'); values.push(JSON.stringify(data.target_species)); }
+  if (data.partnerships !== undefined) { updates.push('partnerships = ?'); values.push(JSON.stringify(data.partnerships)); }
+  if (data.kpis !== undefined) { updates.push('kpis = ?'); values.push(JSON.stringify(data.kpis)); }
+  if (data.priority_level !== undefined) { updates.push('priority_level = ?'); values.push(data.priority_level); }
+  if (data.status !== undefined) { updates.push('status = ?'); values.push(data.status); }
+  
+  if (updates.length === 0) return await getResearchAxisInnovantByCode(axisCode);
+  
+  values.push(axisCode);
+  
+  await db.execute(sql.raw(`UPDATE research_axes_innovants SET ${updates.join(', ')} WHERE axis_code = ?`, values));
+  
+  return await getResearchAxisInnovantByCode(axisCode);
+}
+
+// Statistiques des axes de recherche innovants
+export async function getResearchAxesInnovantsStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const totalResult = await db.execute(sql`SELECT COUNT(*) as count FROM research_axes_innovants`);
+  const byPriorityResult = await db.execute(sql`
+    SELECT priority_level, COUNT(*) as count FROM research_axes_innovants GROUP BY priority_level
+  `);
+  const byStatusResult = await db.execute(sql`
+    SELECT status, COUNT(*) as count FROM research_axes_innovants GROUP BY status
+  `);
+  
+  return {
+    total: (totalResult[0] as any[])[0]?.count || 0,
+    byPriority: byPriorityResult[0] as any[],
+    byStatus: byStatusResult[0] as any[]
+  };
+}
