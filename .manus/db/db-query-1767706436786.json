@@ -1,0 +1,70 @@
+{
+  "query": "SELECT axis_code, name, status, color FROM research_axes ORDER BY axis_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT axis_code, name, status, color FROM research_axes ORDER BY axis_code;",
+  "rows": [
+    {
+      "axis_code": "AX1",
+      "name": "Neurosciences Olfactives et Mémoire",
+      "status": "planifie",
+      "color": "#8B5CF6"
+    },
+    {
+      "axis_code": "AX10",
+      "name": "Méthodologie de recherche",
+      "status": "en_cours",
+      "color": "#64748b"
+    },
+    {
+      "axis_code": "AX2",
+      "name": "Biotechnologie et Parfumerie Durable",
+      "status": "planifie",
+      "color": "#10B981"
+    },
+    {
+      "axis_code": "AX3",
+      "name": "Régulation Émotionnelle par l'Olfaction",
+      "status": "planifie",
+      "color": "#F59E0B"
+    },
+    {
+      "axis_code": "AX4",
+      "name": "Préservation du Patrimoine Olfactif",
+      "status": "planifie",
+      "color": "#EF4444"
+    },
+    {
+      "axis_code": "AX5",
+      "name": "Intelligence Artificielle et Création Parfumée",
+      "status": "planifie",
+      "color": "#3B82F6"
+    },
+    {
+      "axis_code": "AX6",
+      "name": "Neurologie olfactive",
+      "status": "planifie",
+      "color": "#06b6d4"
+    },
+    {
+      "axis_code": "AX7",
+      "name": "Durabilité et éthique",
+      "status": "en_cours",
+      "color": "#22c55e"
+    },
+    {
+      "axis_code": "AX8",
+      "name": "Tabac et Cannabis",
+      "status": "en_cours",
+      "color": "#84cc16"
+    },
+    {
+      "axis_code": "AX9",
+      "name": "Terroirs et origines",
+      "status": "en_cours",
+      "color": "#d97706"
+    }
+  ],
+  "messages": [],
+  "stdout": "axis_code\tname\tstatus\tcolor\nAX1\tNeurosciences Olfactives et Mémoire\tplanifie\t#8B5CF6\nAX10\tMéthodologie de recherche\ten_cours\t#64748b\nAX2\tBiotechnologie et Parfumerie Durable\tplanifie\t#10B981\nAX3\tRégulation Émotionnelle par l'Olfaction\tplanifie\t#F59E0B\nAX4\tPréservation du Patrimoine Olfactif\tplanifie\t#EF4444\nAX5\tIntelligence Artificielle et Création Parfumée\tplanifie\t#3B82F6\nAX6\tNeurologie olfactive\tplanifie\t#06b6d4\nAX7\tDurabilité et éthique\ten_cours\t#22c55e\nAX8\tTabac et Cannabis\ten_cours\t#84cc16\nAX9\tTerroirs et origines\ten_cours\t#d97706\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

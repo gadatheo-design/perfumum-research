@@ -2842,3 +2842,44 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Tester l'interface utilisateur après résolution du rate limiting (429)
 - [ ] Ajouter des données de test pour démonstration
 
+
+
+---
+
+## 📚 SESSION 06 JAN 2026 - BIBLIOGRAPHIE & AXES DE RECHERCHE
+
+### Phase 1 : Import BibTeX dans la bibliographie globale
+- [x] Créer le parser BibTeX côté serveur (server/lib/bibtex-parser.ts) - EXISTAIT DÉJÀ dans db.ts
+- [x] Créer la procédure tRPC pour l'import BibTeX en masse - EXISTAIT DÉJÀ
+- [x] Ajouter l'interface d'import BibTeX dans /bibliographie-globale - EXISTAIT DÉJÀ, amélioré
+- [x] Valider le parsing des différents types d'entrées (article, book, inproceedings, etc.) - EXISTAIT DÉJÀ
+- [x] Gérer les doublons lors de l'import - EXISTAIT DÉJÀ via entryKey unique
+- [ ] Tester l'import avec un fichier BibTeX réel
+
+### Phase 2 : Gestion des axes de recherche
+- [x] Créer le schéma de table `research_axes` (id, code, title, description, color, icon) - EXISTAIT DÉJÀ
+- [x] Migrer le schéma avec `pnpm db:push` - EXISTAIT DÉJÀ
+- [x] Créer les procédures CRUD pour les axes de recherche - EXISTAIT DÉJÀ
+- [x] Créer la page /axes-recherche avec liste et formulaire d'ajout - EXISTAIT DÉJÀ
+- [x] Pré-remplir les axes par défaut (AX1: Chimie olfactive, AX2: Ethnobotanique, etc.) - AJOUTÉ: 10 axes (AX1-AX10)
+- [x] Intégrer la page dans le menu principal - EXISTAIT DÉJÀ
+
+### Phase 3 : Liaison références-axes
+- [x] Créer la table de liaison `references_axes` (reference_id, axis_id) - EXISTAIT DÉJÀ: bibliography_axis_links
+- [x] Migrer le schéma avec `pnpm db:push` - EXISTAIT DÉJÀ
+- [x] Créer les procédures pour associer/dissocier références et axes - EXISTAIT DÉJÀ: linkToAxis, unlinkFromAxis
+- [x] Ajouter l'interface de sélection d'axes sur chaque référence - AJOUTÉ: AxisLinkManager
+- [x] Créer une vue filtrée par axe dans /bibliographie-globale - AJOUTÉ: filtre par axe
+- [x] Afficher les badges d'axes sur les cartes de références - AJOUTÉ: AxisBadges
+### Phase 4 : Tests et validation
+- [x] Écrire les tests unitaires pour le parser BibTeX - EXISTAIT DÉJÀ + AJOUTÉ
+- [x] Écrire les tests pour les procédures axes de recherche - EXISTAIT DÉJÀ
+- [x] Écrire les tests pour la liaison références-axes - AJOUTÉ: 7 nouveaux tests
+- [x] Valider le fonctionnement global - 18/18 tests passésp et mobile
+- [ ] Valider l'intégrité des données
+
+### Phase 5 : Livraison
+- [ ] Créer le checkpoint final
+- [ ] Documenter les nouvelles fonctionnalités
+- [ ] Présenter les résultats au client
+

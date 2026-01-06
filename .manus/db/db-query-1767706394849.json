@@ -1,0 +1,206 @@
+{
+  "query": "SELECT COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'research_axes';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'research_axes';",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "int(11)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": "PRI"
+    },
+    {
+      "COLUMN_NAME": "axis_code",
+      "COLUMN_TYPE": "varchar(20)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "code",
+      "COLUMN_TYPE": "varchar(10)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": "UNI"
+    },
+    {
+      "COLUMN_NAME": "name",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "subtitle",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "short_name",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "emoji",
+      "COLUMN_TYPE": "varchar(10)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "description",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "objectives",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "methodology",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "key_topics",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "color",
+      "COLUMN_TYPE": "varchar(20)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "icon_name",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "sort_order",
+      "COLUMN_TYPE": "int(11)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "0",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "is_active",
+      "COLUMN_TYPE": "tinyint(1)",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "1",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "CURRENT_TIMESTAMP",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "NO",
+      "COLUMN_DEFAULT": "CURRENT_TIMESTAMP",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "start_date",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "target_end_date",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "actual_end_date",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "progress_percent",
+      "COLUMN_TYPE": "int(11)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "0",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "icon",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "parent_axis_id",
+      "COLUMN_TYPE": "int(11)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "tags",
+      "COLUMN_TYPE": "json",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "created_by",
+      "COLUMN_TYPE": "int(11)",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "NULL",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "category",
+      "COLUMN_TYPE": "enum('fondamental','applique','experimental','theorique','historique','ethnographique','technique')",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "fondamental",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "status",
+      "COLUMN_TYPE": "enum('planifie','en_cours','pause','termine','archive')",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "planifie",
+      "COLUMN_KEY": ""
+    },
+    {
+      "COLUMN_NAME": "priority",
+      "COLUMN_TYPE": "enum('haute','moyenne','basse')",
+      "IS_NULLABLE": "YES",
+      "COLUMN_DEFAULT": "moyenne",
+      "COLUMN_KEY": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\tIS_NULLABLE\tCOLUMN_DEFAULT\tCOLUMN_KEY\nid\tint(11)\tNO\tNULL\tPRI\naxis_code\tvarchar(20)\tNO\t\t\ncode\tvarchar(10)\tNO\tNULL\tUNI\nname\tvarchar(255)\tNO\tNULL\t\nsubtitle\tvarchar(255)\tYES\tNULL\t\nshort_name\tvarchar(50)\tNO\tNULL\t\nemoji\tvarchar(10)\tNO\tNULL\t\ndescription\ttext\tNO\tNULL\t\nobjectives\ttext\tYES\tNULL\t\nmethodology\ttext\tYES\tNULL\t\nkey_topics\ttext\tYES\tNULL\t\ncolor\tvarchar(20)\tNO\tNULL\t\nicon_name\tvarchar(50)\tYES\tNULL\t\nsort_order\tint(11)\tNO\t0\t\nis_active\ttinyint(1)\tNO\t1\t\ncreated_at\ttimestamp\tNO\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\tCURRENT_TIMESTAMP\t\nstart_date\ttimestamp\tYES\tNULL\t\ntarget_end_date\ttimestamp\tYES\tNULL\t\nactual_end_date\ttimestamp\tYES\tNULL\t\nprogress_percent\tint(11)\tYES\t0\t\nicon\tvarchar(50)\tYES\tNULL\t\nparent_axis_id\tint(11)\tYES\tNULL\t\ntags\tjson\tYES\tNULL\t\ncreated_by\tint(11)\tYES\tNULL\t\ncategory\tenum('fondamental','applique','experimental','theorique','historique','ethnographique','technique')\tYES\tfondamental\t\nstatus\tenum('planifie','en_cours','pause','termine','archive')\tYES\tplanifie\t\npriority\tenum('haute','moyenne','basse')\tYES\tmoyenne\t\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

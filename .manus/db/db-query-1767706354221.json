@@ -1,0 +1,234 @@
+{
+  "query": "SHOW COLUMNS FROM research_axes;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM research_axes;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "axis_code",
+      "Type": "varchar(20)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "",
+      "Extra": ""
+    },
+    {
+      "Field": "code",
+      "Type": "varchar(10)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "subtitle",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "short_name",
+      "Type": "varchar(50)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "emoji",
+      "Type": "varchar(10)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "description",
+      "Type": "text",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "objectives",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "methodology",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "key_topics",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "color",
+      "Type": "varchar(20)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "icon_name",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "sort_order",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "is_active",
+      "Type": "tinyint(1)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "1",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "start_date",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "target_end_date",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "actual_end_date",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "progress_percent",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "icon",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "parent_axis_id",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "tags",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_by",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "category",
+      "Type": "enum('fondamental','applique','experimental','theorique','historique','ethnographique','technique')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "fondamental",
+      "Extra": ""
+    },
+    {
+      "Field": "status",
+      "Type": "enum('planifie','en_cours','pause','termine','archive')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "planifie",
+      "Extra": ""
+    },
+    {
+      "Field": "priority",
+      "Type": "enum('haute','moyenne','basse')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "moyenne",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\naxis_code\tvarchar(20)\tNO\t\t\t\ncode\tvarchar(10)\tNO\tUNI\tNULL\t\nname\tvarchar(255)\tNO\t\tNULL\t\nsubtitle\tvarchar(255)\tYES\t\tNULL\t\nshort_name\tvarchar(50)\tNO\t\tNULL\t\nemoji\tvarchar(10)\tNO\t\tNULL\t\ndescription\ttext\tNO\t\tNULL\t\nobjectives\ttext\tYES\t\tNULL\t\nmethodology\ttext\tYES\t\tNULL\t\nkey_topics\ttext\tYES\t\tNULL\t\ncolor\tvarchar(20)\tNO\t\tNULL\t\nicon_name\tvarchar(50)\tYES\t\tNULL\t\nsort_order\tint(11)\tNO\t\t0\t\nis_active\ttinyint(1)\tNO\t\t1\t\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\nstart_date\ttimestamp\tYES\t\tNULL\t\ntarget_end_date\ttimestamp\tYES\t\tNULL\t\nactual_end_date\ttimestamp\tYES\t\tNULL\t\nprogress_percent\tint(11)\tYES\t\t0\t\nicon\tvarchar(50)\tYES\t\tNULL\t\nparent_axis_id\tint(11)\tYES\t\tNULL\t\ntags\tjson\tYES\t\tNULL\t\ncreated_by\tint(11)\tYES\t\tNULL\t\ncategory\tenum('fondamental','applique','experimental','theorique','historique','ethnographique','technique')\tYES\t\tfondamental\t\nstatus\tenum('planifie','en_cours','pause','termine','archive')\tYES\t\tplanifie\t\npriority\tenum('haute','moyenne','basse')\tYES\t\tmoyenne\t\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}
