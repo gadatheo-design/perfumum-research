@@ -1,239 +1,111 @@
-import mysql from 'mysql2/promise';
 import 'dotenv/config';
+import mysql from 'mysql2/promise';
 
 const connection = await mysql.createConnection(process.env.DATABASE_URL);
 
-const missingMolecules = [
-  {
-    name: 'GEOSMIN',
-    category: 'Pétrichor',
-    olfactiveProfile: 'Terre humide, pluie, minéral, betterave',
-    formula: 'C12H22O',
-    boilingPoint: 270,
-    molecularWeight: 182.3,
-    chemicalFamily: 'Sesquiterpène',
-    radarIntensity: 85,
-    radarFreshness: 45,
-    radarWarmth: 30,
-    radarSweetness: 20,
-    radarSpiciness: 15,
-    radarEarthiness: 95
-  },
-  {
-    name: 'JASMINE ABSOLUTE',
-    category: 'Civilisations',
-    olfactiveProfile: 'Floral, jasmin, indole, animalique, sensuel',
-    formula: 'Mélange complexe',
-    boilingPoint: null,
-    molecularWeight: null,
-    chemicalFamily: 'Absolu floral',
-    radarIntensity: 90,
-    radarFreshness: 40,
-    radarWarmth: 75,
-    radarSweetness: 85,
-    radarSpiciness: 25,
-    radarEarthiness: 20
-  },
-  {
-    name: 'VETIVEROL',
-    category: 'Pétrichor',
-    olfactiveProfile: 'Boisé, terreux, vétiver, racine, fumé',
-    formula: 'C15H26O',
-    boilingPoint: 285,
-    molecularWeight: 222.4,
-    chemicalFamily: 'Sesquiterpène alcool',
-    radarIntensity: 80,
-    radarFreshness: 35,
-    radarWarmth: 70,
-    radarSweetness: 40,
-    radarSpiciness: 30,
-    radarEarthiness: 90
-  },
-  {
-    name: 'CEDARWOOD OIL',
-    category: 'Civilisations',
-    olfactiveProfile: 'Boisé, cèdre, sec, conifère, sacré',
-    formula: 'Mélange de cédrol et cédrène',
-    boilingPoint: 260,
-    molecularWeight: 222,
-    chemicalFamily: 'Sesquiterpène',
-    radarIntensity: 70,
-    radarFreshness: 50,
-    radarWarmth: 60,
-    radarSweetness: 35,
-    radarSpiciness: 20,
-    radarEarthiness: 75
-  },
-  {
-    name: 'PATCHOULI ALCOHOL',
-    category: 'Pétrichor',
-    olfactiveProfile: 'Terreux, patchouli, humide, moisi, camphré',
-    formula: 'C15H26O',
-    boilingPoint: 287,
-    molecularWeight: 222.4,
-    chemicalFamily: 'Sesquiterpène alcool',
-    radarIntensity: 85,
-    radarFreshness: 25,
-    radarWarmth: 65,
-    radarSweetness: 45,
-    radarSpiciness: 35,
-    radarEarthiness: 95
-  },
-  {
-    name: 'SANDALWOOD OIL',
-    category: 'Civilisations',
-    olfactiveProfile: 'Boisé, crémeux, santal, lacté, sacré',
-    formula: 'Santalol (C15H24O)',
-    boilingPoint: 301,
-    molecularWeight: 220.4,
-    chemicalFamily: 'Sesquiterpène alcool',
-    radarIntensity: 75,
-    radarFreshness: 30,
-    radarWarmth: 80,
-    radarSweetness: 70,
-    radarSpiciness: 20,
-    radarEarthiness: 50
-  },
-  {
-    name: 'FRANKINCENSE OIL',
-    category: 'Civilisations',
-    olfactiveProfile: 'Encens, résine, citronné, spirituel, sacré',
-    formula: 'Mélange de monoterpènes',
-    boilingPoint: 175,
-    molecularWeight: 136,
-    chemicalFamily: 'Monoterpène',
-    radarIntensity: 80,
-    radarFreshness: 60,
-    radarWarmth: 70,
-    radarSweetness: 50,
-    radarSpiciness: 40,
-    radarEarthiness: 45
-  },
-  {
-    name: 'MYRRH OIL',
-    category: 'Civilisations',
-    olfactiveProfile: 'Résine, myrrhe, balsamique, amer, médicinal',
-    formula: 'Mélange de sesquiterpènes',
-    boilingPoint: 280,
-    molecularWeight: 218,
-    chemicalFamily: 'Sesquiterpène',
-    radarIntensity: 85,
-    radarFreshness: 35,
-    radarWarmth: 75,
-    radarSweetness: 40,
-    radarSpiciness: 55,
-    radarEarthiness: 60
-  },
-  {
-    name: 'BENZOIN RESIN',
-    category: 'Civilisations',
-    olfactiveProfile: 'Vanille, balsamique, sucré, résine, chaleureux',
-    formula: 'Acide benzoïque + vanilline',
-    boilingPoint: 249,
-    molecularWeight: 122,
-    chemicalFamily: 'Acide aromatique',
-    radarIntensity: 90,
-    radarFreshness: 20,
-    radarWarmth: 85,
-    radarSweetness: 90,
-    radarSpiciness: 30,
-    radarEarthiness: 35
-  },
-  {
-    name: 'LABDANUM ABSOLUTE',
-    category: 'Civilisations',
-    olfactiveProfile: 'Ambré, cuir, animal, résine, chaleureux',
-    formula: 'Mélange de diterpènes',
-    boilingPoint: null,
-    molecularWeight: null,
-    chemicalFamily: 'Diterpène',
-    radarIntensity: 95,
-    radarFreshness: 15,
-    radarWarmth: 90,
-    radarSweetness: 60,
-    radarSpiciness: 45,
-    radarEarthiness: 70
-  },
-  {
-    name: 'OPOPONAX RESIN',
-    category: 'Civilisations',
-    olfactiveProfile: 'Résine, balsamique, miel, épicé, sacré',
-    formula: 'Mélange de sesquiterpènes',
-    boilingPoint: 270,
-    molecularWeight: 220,
-    chemicalFamily: 'Sesquiterpène',
-    radarIntensity: 80,
-    radarFreshness: 30,
-    radarWarmth: 80,
-    radarSweetness: 75,
-    radarSpiciness: 50,
-    radarEarthiness: 55
-  },
-  {
-    name: 'STYRAX RESIN',
-    category: 'Civilisations',
-    olfactiveProfile: 'Balsamique, vanille, cannelle, sucré, résine',
-    formula: 'Styrène + cinnamate',
-    boilingPoint: 145,
-    molecularWeight: 104,
-    chemicalFamily: 'Aromatique',
-    radarIntensity: 85,
-    radarFreshness: 25,
-    radarWarmth: 85,
-    radarSweetness: 85,
-    radarSpiciness: 60,
-    radarEarthiness: 40
-  },
-  {
-    name: 'TONKA BEAN ABSOLUTE',
-    category: 'Civilisations',
-    olfactiveProfile: 'Vanille, coumarine, foin, amande, sucré',
-    formula: 'Coumarine (C9H6O2)',
-    boilingPoint: 291,
-    molecularWeight: 146.1,
-    chemicalFamily: 'Lactone aromatique',
-    radarIntensity: 90,
-    radarFreshness: 20,
-    radarWarmth: 80,
-    radarSweetness: 95,
-    radarSpiciness: 35,
-    radarEarthiness: 30
-  }
-];
+const anethole = {
+  name: 'Anéthole',
+  iupac_name: '1-méthoxy-4-(prop-1-én-1-yl)benzène',
+  cas_number: '4180-23-8',
+  chemicalFormula: 'C10H12O',
+  family: 'Phénylpropanoïde',
+  chemical_class: 'ether',
+  molecularWeight: 148,
+  boilingPoint: 234,
+  olfactiveProfile: 'Doux, anisé, herbacé, chaud avec une note de réglisse. Odeur caractéristique de l anis étoilé, du fenouil et de l estragon.',
+  emotionalResonance: 'Évoque la chaleur méditerranéenne, les marchés d épices, la convivialité des apéritifs anisés.',
+  functionalEffect: 'Note de cœur à fond, très diffusif, effet réchauffant',
+  sourceOrigin: 'Anis étoilé (Illicium verum), Fenouil (Foeniculum vulgare), Estragon (Artemisia dracunculus), Tagetes lucida (Yauhtli)',
+  botanicalSources: 'Illicium verum (anis étoilé), Foeniculum vulgare (fenouil), Artemisia dracunculus (estragon), Tagetes lucida (Yauhtli mexicain)',
+  extractionMethod: 'Hydrodistillation, extraction CO2 supercritique',
+  therapeuticProperties: 'Carminatif, antispasmodique, expectorant',
+  radar_intensity: 70,
+  radar_freshness: 45,
+  radar_warmth: 75,
+  radar_sweetness: 80,
+  radar_spiciness: 40,
+  radar_earthiness: 25
+};
 
-console.log('🔄 Ajout des 13 molécules manquantes...\n');
+const methyleugenol = {
+  name: 'Méthyleugénol',
+  iupac_name: '1,2-diméthoxy-4-(prop-2-én-1-yl)benzène',
+  cas_number: '93-15-2',
+  chemicalFormula: 'C11H14O2',
+  family: 'Phénylpropanoïde',
+  chemical_class: 'ether',
+  molecularWeight: 178,
+  boilingPoint: 248,
+  olfactiveProfile: 'Doux, épicé, clou de girofle, œillet, cannelle. Note chaude et balsamique avec des facettes florales.',
+  emotionalResonance: 'Évoque les épices orientales, les jardins de fleurs épicées, la chaleur des intérieurs parfumés.',
+  functionalEffect: 'Note de cœur, fixateur naturel, effet réchauffant et enveloppant',
+  sourceOrigin: 'Basilic (Ocimum basilicum), Laurier (Laurus nobilis), Tagetes lucida (Yauhtli), Piment de la Jamaïque',
+  botanicalSources: 'Ocimum basilicum (basilic), Laurus nobilis (laurier), Tagetes lucida (Yauhtli mexicain), Pimenta dioica (piment de la Jamaïque)',
+  extractionMethod: 'Hydrodistillation, extraction par solvant',
+  therapeuticProperties: 'Antiseptique, analgésique local, sédatif léger',
+  radar_intensity: 65,
+  radar_freshness: 30,
+  radar_warmth: 85,
+  radar_sweetness: 70,
+  radar_spiciness: 75,
+  radar_earthiness: 40
+};
 
-for (const mol of missingMolecules) {
-  try {
-    const [result] = await connection.execute(
-      `INSERT INTO molecules (
-        name, olfactiveProfile, chemicalFormula, boilingPoint, molecularWeight, family,
-        radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        mol.name,
-        mol.olfactiveProfile,
-        mol.formula,
-        mol.boilingPoint,
-        mol.molecularWeight,
-        mol.chemicalFamily,
-        mol.radarIntensity,
-        mol.radarFreshness,
-        mol.radarWarmth,
-        mol.radarSweetness,
-        mol.radarSpiciness,
-        mol.radarEarthiness
-      ]
-    );
-    console.log(`✅ ${mol.name} ajoutée (ID: ${result.insertId})`);
-  } catch (error) {
-    if (error.code === 'ER_DUP_ENTRY') {
-      console.log(`⚠️  ${mol.name} existe déjà`);
-    } else {
-      console.error(`❌ Erreur pour ${mol.name}:`, error.message);
-    }
+const insertSQL = `
+INSERT INTO molecules (
+  name, iupac_name, cas_number, chemicalFormula, family, chemical_class,
+  molecularWeight, boilingPoint, olfactiveProfile, emotionalResonance,
+  functionalEffect, sourceOrigin, botanicalSources, extractionMethod,
+  therapeuticProperties, radar_intensity, radar_freshness, radar_warmth,
+  radar_sweetness, radar_spiciness, radar_earthiness
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
+
+try {
+  const [existingAnethole] = await connection.execute(
+    "SELECT id FROM molecules WHERE name = 'Anéthole' OR cas_number = '4180-23-8'"
+  );
+  const [existingMethyleugenol] = await connection.execute(
+    "SELECT id FROM molecules WHERE name = 'Méthyleugénol' OR cas_number = '93-15-2'"
+  );
+
+  if (existingAnethole.length === 0) {
+    const values = [
+      anethole.name, anethole.iupac_name, anethole.cas_number, anethole.chemicalFormula,
+      anethole.family, anethole.chemical_class, anethole.molecularWeight, anethole.boilingPoint,
+      anethole.olfactiveProfile, anethole.emotionalResonance, anethole.functionalEffect,
+      anethole.sourceOrigin, anethole.botanicalSources, anethole.extractionMethod,
+      anethole.therapeuticProperties, anethole.radar_intensity, anethole.radar_freshness,
+      anethole.radar_warmth, anethole.radar_sweetness, anethole.radar_spiciness, anethole.radar_earthiness
+    ];
+    const [result1] = await connection.execute(insertSQL, values);
+    console.log('Anethole ajoute avec succes, ID:', result1.insertId);
+  } else {
+    console.log('Anethole existe deja, ID:', existingAnethole[0].id);
   }
+
+  if (existingMethyleugenol.length === 0) {
+    const values = [
+      methyleugenol.name, methyleugenol.iupac_name, methyleugenol.cas_number, methyleugenol.chemicalFormula,
+      methyleugenol.family, methyleugenol.chemical_class, methyleugenol.molecularWeight, methyleugenol.boilingPoint,
+      methyleugenol.olfactiveProfile, methyleugenol.emotionalResonance, methyleugenol.functionalEffect,
+      methyleugenol.sourceOrigin, methyleugenol.botanicalSources, methyleugenol.extractionMethod,
+      methyleugenol.therapeuticProperties, methyleugenol.radar_intensity, methyleugenol.radar_freshness,
+      methyleugenol.radar_warmth, methyleugenol.radar_sweetness, methyleugenol.radar_spiciness, methyleugenol.radar_earthiness
+    ];
+    const [result2] = await connection.execute(insertSQL, values);
+    console.log('Methyleugenol ajoute avec succes, ID:', result2.insertId);
+  } else {
+    console.log('Methyleugenol existe deja, ID:', existingMethyleugenol[0].id);
+  }
+
+  const [newMolecules] = await connection.execute(
+    "SELECT id, name, cas_number, chemicalFormula, family FROM molecules WHERE name IN ('Anéthole', 'Méthyleugénol')"
+  );
+  console.log('Molecules ajoutees:', JSON.stringify(newMolecules, null, 2));
+
+} catch (error) {
+  console.error('Erreur:', error.message);
 }
 
-console.log('\n✅ Import terminé !');
 await connection.end();

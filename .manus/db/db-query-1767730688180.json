@@ -1,0 +1,499 @@
+{
+  "query": "SHOW TABLES;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW TABLES;",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "__drizzle_migrations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "absorbe_profiles"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "accords"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "analytics_events"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "aromatic_accords"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "axis_source_nez"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "bibliographie"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "bibliography_axis_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "bibliography_entries"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "bibliography_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "biotech_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "botanical_states"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "chemical_families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "chemotypes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "citations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "citizen_observations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "civilizational_markers"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "climate_axis_matrix"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "climate_studies"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "entourage_rules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "experimental_accord_civilisations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "experimental_accords"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "extended_supplier_materials"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "extended_suppliers"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "extraction_methods"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "extraction_tests"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "field_archives"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "final_recipe_terp_profiles"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "final_recipes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "formulation_suggestions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "genealogy_extended"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "genome_samples"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "genome_sequences"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "geographic_origins"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "geographic_zones"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "gestion_agenda"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "gestion_budget"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "gestion_mentorat"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "glossary"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "ifra_categories"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "ifra_restrictions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "impact_metrics"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "installation_families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "installation_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "installations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "laboratoire"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "laboratoire_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "laboratoire_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "leaf_economies"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "leaf_economy_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "lost_varieties"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "memory_olfaction_concepts"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "milestones"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "modification_history"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecular_comparisons"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecular_interactions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecular_markers"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecular_protocols"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecule_accords"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecule_chemical_families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecule_families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecule_notes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecule_origins"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecule_plant_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecule_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecule_synergies"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "molecules_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "olfaction_memory"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "olfaction_memory_article_concepts"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "olfaction_memory_article_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "olfaction_memory_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "olfactive_archives"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "partner_institutions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_fellowships"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_fermentation_runs"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_gcms_runs"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_glossary"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_herbarium_samples"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_manuscripts"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_plant_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_plants"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "perfumum_research_axes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "petrichor"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "petrichor_experimental_accords"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "petrichor_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "petrichor_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "petrichor_tabacs"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "plant_analyses"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "plant_extractions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "plant_geographic_zones"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "plant_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "plant_samples"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "plant_terroirs"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "plant_varieties"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "plants"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "projets_artistiques"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "prototype_chemical_families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "prototype_laboratoire"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "prototype_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "prototypes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "raw_material_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "raw_materials"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "recette_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "recette_tabac_associations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "recettes_formules_reference"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "recherche_radicale"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "recipe_versions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_axes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_axes_innovants"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_axis_nez"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_content"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_edges"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_entries"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_entry_axes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_entry_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_entry_tags"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_tags"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "research_timeline"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "sample_images"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "saved_formulas"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "scent_blends"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "sensory_scales"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "shared_collections"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "situated_smells"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "source_article_nez"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "supplier_alternative_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "sustainable_alternatives"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "synergies"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "tabac_accords"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "tabac_civilisations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "tabac_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "tabacs"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "tasting_notes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "terp_profile_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "terp_profile_plants"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "terp_profiles"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "terpene_comparison_profiles"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "terpene_synergies"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "terroir_specialties"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "terroirs"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "text_fragments"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "tissue_culture_lines"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "tobacco_formula_installations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "tobacco_formulas"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "trade_routes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "traditions_olfactives"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "user_favorites"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "user_notes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "users"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "variety_genealogy"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "variety_historical_records"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "variety_molecular_profiles"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "verified_suppliers"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "volcanique"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "volcanique_experimental_accords"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "volcanique_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "volcanique_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "volcanique_tabacs"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp": "vr_scenes"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp\n__drizzle_migrations\nabsorbe_profiles\naccords\nanalytics_events\naromatic_accords\naxis_source_nez\nbibliographie\nbibliography_axis_links\nbibliography_entries\nbibliography_sources\nbiotech_molecules\nbotanical_states\nchemical_families\nchemotypes\ncitations\ncitizen_observations\ncivilizational_markers\nclimate_axis_matrix\nclimate_studies\nentourage_rules\nexperimental_accord_civilisations\nexperimental_accords\nextended_supplier_materials\nextended_suppliers\nextraction_methods\nextraction_tests\nfamilies\nfield_archives\nfinal_recipe_terp_profiles\nfinal_recipes\nformulation_suggestions\ngenealogy_extended\ngenome_samples\ngenome_sequences\ngeographic_origins\ngeographic_zones\ngestion_agenda\ngestion_budget\ngestion_mentorat\nglossary\nifra_categories\nifra_restrictions\nimpact_metrics\ninstallation_families\ninstallation_recettes\ninstallations\nlaboratoire\nlaboratoire_molecules\nlaboratoire_recettes\nleaf_economies\nleaf_economy_molecules\nlost_varieties\nmemory_olfaction_concepts\nmilestones\nmodification_history\nmolecular_comparisons\nmolecular_interactions\nmolecular_markers\nmolecular_protocols\nmolecule_accords\nmolecule_chemical_families\nmolecule_families\nmolecule_notes\nmolecule_origins\nmolecule_plant_sources\nmolecule_recettes\nmolecule_synergies\nmolecules\nmolecules_recettes\nolfaction_memory\nolfaction_memory_article_concepts\nolfaction_memory_article_sources\nolfaction_memory_sources\nolfactive_archives\npartner_institutions\nperfumum_fellowships\nperfumum_fermentation_runs\nperfumum_gcms_runs\nperfumum_glossary\nperfumum_herbarium_samples\nperfumum_manuscripts\nperfumum_molecules\nperfumum_plant_molecules\nperfumum_plants\nperfumum_research_axes\npetrichor\npetrichor_experimental_accords\npetrichor_molecules\npetrichor_recettes\npetrichor_tabacs\nplant_analyses\nplant_extractions\nplant_geographic_zones\nplant_molecules\nplant_samples\nplant_terroirs\nplant_varieties\nplants\nprojets_artistiques\nprototype_chemical_families\nprototype_laboratoire\nprototype_molecules\nprototypes\nraw_material_molecules\nraw_materials\nrecette_molecules\nrecette_tabac_associations\nrecettes\nrecettes_formules_reference\nrecherche_radicale\nrecipe_versions\nresearch_axes\nresearch_axes_innovants\nresearch_axis_nez\nresearch_content\nresearch_edges\nresearch_entries\nresearch_entry_axes\nresearch_entry_sources\nresearch_entry_tags\nresearch_tags\nresearch_timeline\nsample_images\nsaved_formulas\nscent_blends\nsensory_scales\nshared_collections\nsituated_smells\nsource_article_nez\nsupplier_alternative_links\nsustainable_alternatives\nsynergies\ntabac_accords\ntabac_civilisations\ntabac_molecules\ntabacs\ntasting_notes\nterp_profile_molecules\nterp_profile_plants\nterp_profiles\nterpene_comparison_profiles\nterpene_synergies\nterroir_specialties\nterroirs\ntext_fragments\ntissue_culture_lines\ntobacco_formula_installations\ntobacco_formulas\ntrade_routes\ntraditions_olfactives\nuser_favorites\nuser_notes\nusers\nvariety_genealogy\nvariety_historical_records\nvariety_molecular_profiles\nverified_suppliers\nvolcanique\nvolcanique_experimental_accords\nvolcanique_molecules\nvolcanique_recettes\nvolcanique_tabacs\nvr_scenes\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

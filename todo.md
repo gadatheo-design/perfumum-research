@@ -2993,3 +2993,26 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Documenter les changements
 - [x] Présenter les résultats au client
 
+
+
+---
+
+## 🔬 SESSION 06 JAN 2026 - ENRICHISSEMENT BASE DE DONNÉES
+
+### Phase 1 : Molécules manquantes pour Tagetes lucida
+- [x] Créer la molécule Anéthole dans la base de données (ID: 870001, CAS: 4180-23-8)
+- [x] Créer/Mettre à jour la molécule Méthyleugénol dans la base de données (ID: 660003, CAS: 93-15-2)
+- [x] Les deux molécules sont maintenant liées à Tagetes lucida via le champ botanicalSources
+
+### Phase 2 : Géocodage des plantes pour la carte des terroirs
+- [x] Identifier les plantes existantes sans coordonnées géographiques (113 plantes identifiées)
+- [x] Rechercher les coordonnées géographiques (latitude/longitude) pour chaque plante
+- [x] Mettre à jour la base de données avec les coordonnées (110 plantes géocodées, 3 plantes de test ignorées)
+- [x] Vérifier l'affichage sur la carte des terroirs (136/139 plantes avec coordonnées)
+
+### Phase 3 : Recherche des DOI manquants
+- [x] Identifier les 26 références bibliographiques sans DOI (articles et livres)
+- [x] Rechercher les DOI via CrossRef/DOI.org pour chaque référence
+- [x] Mettre à jour la base de données avec les DOI trouvés (10 DOI ajoutés)
+- [x] Documenter les références sans DOI: 16 restantes (11 avec ISBN, 5 sans identifiant - ouvrages anciens ou institutionnels)
+
