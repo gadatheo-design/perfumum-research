@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { AlertTriangle, Leaf, Shield, MapPin, Map as MapIcon } from 'lucide-react';
+import { AlertTriangle, Leaf, Shield, MapPin, Map as MapIcon, BarChart3, Clock, BookOpen, ExternalLink, Skull, TrendingDown } from 'lucide-react';
+import { Link } from 'wouter';
 import { MapView } from '@/components/Map';
 import { ZoneSpeciesPanel } from '@/components/ZoneSpeciesPanel';
 
@@ -124,6 +125,48 @@ export default function PatrimoineMenace() {
             </p>
           </div>
         </div>
+        
+        {/* Statistiques rapides */}
+        {threatenedPlants && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Card className="bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800">
+              <CardContent className="p-4 text-center">
+                <Skull className="h-6 w-6 text-red-600 mx-auto mb-2" />
+                <p className="text-2xl font-bold text-red-700 dark:text-red-300">
+                  {threatenedPlants.filter(p => p.conservationStatus === 'CR' || p.conservationStatus === 'EX' || p.conservationStatus === 'EW').length}
+                </p>
+                <p className="text-xs text-red-600 dark:text-red-400">Critiques / Éteintes</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-orange-50 dark:bg-orange-950 border-orange-200 dark:border-orange-800">
+              <CardContent className="p-4 text-center">
+                <TrendingDown className="h-6 w-6 text-orange-600 mx-auto mb-2" />
+                <p className="text-2xl font-bold text-orange-700 dark:text-orange-300">
+                  {threatenedPlants.filter(p => p.conservationStatus === 'EN' || p.conservationStatus === 'VU').length}
+                </p>
+                <p className="text-xs text-orange-600 dark:text-orange-400">En danger / Vulnérables</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800">
+              <CardContent className="p-4 text-center">
+                <Shield className="h-6 w-6 text-purple-600 mx-auto mb-2" />
+                <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">
+                  {threatenedPlants.filter(p => p.citesAppendix === 'I' || p.citesAppendix === 'II').length}
+                </p>
+                <p className="text-xs text-purple-600 dark:text-purple-400">Protégées CITES</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800">
+              <CardContent className="p-4 text-center">
+                <Leaf className="h-6 w-6 text-green-600 mx-auto mb-2" />
+                <p className="text-2xl font-bold text-green-700 dark:text-green-300">
+                  {threatenedPlants.filter(p => p.sustainableAlternatives).length}
+                </p>
+                <p className="text-xs text-green-600 dark:text-green-400">Avec alternatives</p>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
 
       {/* Filtres */}
