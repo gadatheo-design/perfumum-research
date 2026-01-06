@@ -3386,4 +3386,46 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Validation
 - [x] Relancer tous les tests et vérifier qu'ils passent (471 tests passés)
 - [x] Vérifier que l'API corpusStats fonctionne correctement
-- [ ] Sauvegarder un checkpoint stable
+- [x] Sauvegarder un checkpoint stable (version 25061c0e)
+
+
+---
+
+## 🔧 SESSION 06 JAN 2026 - NAVIGATION & GRAPHIQUES
+
+### Phase 1 : Vérification accessibilité et navigation
+- [x] Vérifier que toutes les pages sont accessibles via le header
+- [x] Tester la navigation générale (desktop et mobile) - Pages ajoutées au header
+- [x] Identifier les liens manquants ou cassés (Corpus ajouté au header)
+- [x] Corriger les problèmes de navigation détectés (Corpus intégré desktop + mobile)
+
+### Phase 2 : Graphiques interactifs page Corpus
+- [x] Installer Chart.js et react-chartjs-2
+- [x] Créer des graphiques de répartition par axe de recherche
+- [x] Graphique radar de progression des axes
+- [x] Graphique doughnut des molécules par rôle
+- [x] Graphique pie des plantes par famille
+- [x] Graphique bar horizontal vue d'ensemble corpus
+- [x] Intégrer les graphiques dans la page Corpus (nouvel onglet Visualisations)
+- [ ] Créer des graphiques de répartition par famille olfactive
+- [ ] Créer des graphiques de répartition par origine géographique
+- [ ] Intégrer les graphiques dans la page Corpus
+
+### Phase 3 : Import des données manquantes
+- [ ] Analyser les fichiers CSV des fragments textuels
+- [ ] Adapter le format JSON pour les fragments textuels
+- [ ] Importer les fragments textuels dans la base de données
+- [ ] Analyser les fichiers CSV des routes commerciales
+- [ ] Adapter le format JSON pour les routes commerciales
+- [ ] Importer les routes commerciales dans la base de données
+- [ ] Valider l'intégrité des données importées
+
+
+
+### Phase 3 : Import des données manquantes (COMPLÉTÉ)
+- [x] Analyser les fichiers CSV source pour fragments textuels (trouvés dans /home/ubuntu/upload/)
+- [x] Analyser les fichiers CSV source pour routes commerciales
+- [x] Adapter les formats JSON si nécessaire (correction des enums ocr_status)
+- [x] Importer les manuscrits (10 entrées)
+- [x] Importer les fragments textuels (20 entrées)
+- [x] Importer les routes commerciales (6 entrées historiques enrichies)

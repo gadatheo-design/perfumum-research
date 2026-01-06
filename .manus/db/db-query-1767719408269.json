@@ -1,0 +1,22 @@
+{
+  "query": "SELECT 'perfumum_manuscripts' as tbl, COUNT(*) as cnt FROM perfumum_manuscripts\nUNION ALL\nSELECT 'text_fragments' as tbl, COUNT(*) as cnt FROM text_fragments\nUNION ALL\nSELECT 'trade_routes' as tbl, COUNT(*) as cnt FROM trade_routes;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'perfumum_manuscripts' as tbl, COUNT(*) as cnt FROM perfumum_manuscripts\nUNION ALL\nSELECT 'text_fragments' as tbl, COUNT(*) as cnt FROM text_fragments\nUNION ALL\nSELECT 'trade_routes' as tbl, COUNT(*) as cnt FROM trade_routes;",
+  "rows": [
+    {
+      "tbl": "text_fragments",
+      "cnt": "20"
+    },
+    {
+      "tbl": "perfumum_manuscripts",
+      "cnt": "16"
+    },
+    {
+      "tbl": "trade_routes",
+      "cnt": "6"
+    }
+  ],
+  "messages": [],
+  "stdout": "tbl\tcnt\ntext_fragments\t20\nperfumum_manuscripts\t16\ntrade_routes\t6\n",
+  "stderr": "",
+  "execution_time_ms": 159
+}

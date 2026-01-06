@@ -247,6 +247,13 @@ export function MegaMenu() {
       title: "Catalogues",
       items: [
         {
+          label: "Corpus PERFUMUM",
+          path: "/corpus",
+          icon: <Database className="h-4 w-4" />,
+          description: "Vue d'ensemble des données",
+          badge: "NEW",
+        },
+        {
           label: "Molécules",
           path: "/molecules",
           icon: <Beaker className="h-4 w-4" />,
@@ -269,6 +276,12 @@ export function MegaMenu() {
           path: "/accords",
           icon: <Layers className="h-4 w-4" />,
           description: "Accords olfactifs",
+        },
+        {
+          label: "Chemotypes",
+          path: "/chemotypes",
+          icon: <Microscope className="h-4 w-4" />,
+          description: "Profils chimiques",
         },
       ],
     },
@@ -357,6 +370,12 @@ export function MegaMenu() {
           icon: <Calculator className="h-4 w-4" />,
           description: "Formulation terpénique",
         },
+        {
+          label: "Tous les outils",
+          path: "/outils",
+          icon: <Wrench className="h-4 w-4" />,
+          description: "Vue d'ensemble",
+        },
       ],
     },
     {
@@ -389,6 +408,29 @@ export function MegaMenu() {
         },
       ],
     },
+    {
+      title: "Visualisations",
+      items: [
+        {
+          label: "Réseaux Moléculaires",
+          path: "/reseau-molecules-plantes",
+          icon: <Network className="h-4 w-4" />,
+          description: "Graphes interactifs",
+        },
+        {
+          label: "Carte Terroirs",
+          path: "/carte-terroirs-plantes",
+          icon: <Map className="h-4 w-4" />,
+          description: "Géolocalisation",
+        },
+        {
+          label: "Formules Référence",
+          path: "/formules-reference",
+          icon: <FileText className="h-4 w-4" />,
+          description: "Standards analytiques",
+        },
+      ],
+    },
   ];
 
   // === RECHERCHE (Méthodologie + Archives) ===
@@ -413,6 +455,13 @@ export function MegaMenu() {
           path: "/methodologie/gcms",
           icon: <Microscope className="h-4 w-4" />,
           description: "Analyses chromatographiques",
+        },
+        {
+          label: "Programmes de Recherche",
+          path: "/programmes-recherche",
+          icon: <Target className="h-4 w-4" />,
+          description: "Axes et projets en cours",
+          badge: "NEW",
         },
       ],
     },
@@ -445,6 +494,36 @@ export function MegaMenu() {
         },
       ],
     },
+    {
+      title: "San Andrés & Botanique",
+      items: [
+        {
+          label: "Leaf Economies",
+          path: "/san-andres",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Échantillons San Andrés",
+          badge: "NEW",
+        },
+        {
+          label: "Timeline Botanique",
+          path: "/timeline-botanique",
+          icon: <FileText className="h-4 w-4" />,
+          description: "Chronologie T0-T4",
+        },
+        {
+          label: "Botanique Critique",
+          path: "/botanique-critique",
+          icon: <Microscope className="h-4 w-4" />,
+          description: "Recherche avancée",
+        },
+        {
+          label: "Variétés Fantômes",
+          path: "/varietes-fantomes",
+          icon: <Compass className="h-4 w-4" />,
+          description: "Documentation critique",
+        },
+      ],
+    },
   ];
 
   // === PROJET (À propos + Administration) ===
@@ -457,6 +536,12 @@ export function MegaMenu() {
           path: "/glossaire",
           icon: <BookOpen className="h-4 w-4" />,
           description: "Terminologie olfactive",
+        },
+        {
+          label: "Bibliographie",
+          path: "/bibliographie",
+          icon: <BookOpen className="h-4 w-4" />,
+          description: "Références et sources",
         },
         {
           label: "Fondements théoriques",
@@ -495,10 +580,34 @@ export function MegaMenu() {
           description: "Rejoindre le projet",
         },
         {
+          label: "Gestion",
+          path: "/gestion",
+          icon: <Wrench className="h-4 w-4" />,
+          description: "Dashboard de gestion",
+        },
+        {
           label: "Administration",
           path: "/admin",
           icon: <Settings className="h-4 w-4" />,
           description: "Gestion du site",
+        },
+      ],
+    },
+    {
+      title: "Sourcing",
+      items: [
+        {
+          label: "Vue d'ensemble",
+          path: "/sourcing",
+          icon: <Globe className="h-4 w-4" />,
+          description: "Approvisionnement mondial",
+        },
+        {
+          label: "Patrimoine Menacé",
+          path: "/patrimoine-menace",
+          icon: <ShieldCheck className="h-4 w-4" />,
+          description: "Conservation urgente",
+          badge: "NEW",
         },
       ],
     },

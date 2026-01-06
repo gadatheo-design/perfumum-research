@@ -1,0 +1,18 @@
+{
+  "query": "SELECT 'text_fragments' as table_name, COUNT(*) as count FROM text_fragments\nUNION ALL\nSELECT 'trade_routes' as table_name, COUNT(*) as count FROM trade_routes;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'text_fragments' as table_name, COUNT(*) as count FROM text_fragments\nUNION ALL\nSELECT 'trade_routes' as table_name, COUNT(*) as count FROM trade_routes;",
+  "rows": [
+    {
+      "table_name": "trade_routes",
+      "count": "1"
+    },
+    {
+      "table_name": "text_fragments",
+      "count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tcount\ntrade_routes\t1\ntext_fragments\t1\n",
+  "stderr": "",
+  "execution_time_ms": 1170
+}

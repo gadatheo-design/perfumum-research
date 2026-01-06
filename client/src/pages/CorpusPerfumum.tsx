@@ -12,8 +12,9 @@ import { trpc } from "@/lib/trpc";
 import { 
   Dna, BookOpen, Leaf, FlaskConical, Users, ScrollText, 
   Route, BookMarked, Sparkles, Thermometer, BarChart3, 
-  Eye, Microscope, TestTube, Search, ArrowRight, Database
+  Eye, Microscope, TestTube, Search, ArrowRight, Database, PieChart
 } from "lucide-react";
+import { CorpusChartsSection } from "@/components/CorpusCharts";
 
 // Composant pour afficher les statistiques du corpus
 function CorpusStats() {
@@ -446,6 +447,9 @@ export default function CorpusPerfumum() {
           <div className="container">
             <Tabs defaultValue="axes" className="space-y-6">
               <TabsList className="flex flex-wrap h-auto gap-2 bg-background p-2 rounded-lg">
+                <TabsTrigger value="charts" className="gap-2">
+                  <PieChart className="h-4 w-4" /> Visualisations
+                </TabsTrigger>
                 <TabsTrigger value="axes" className="gap-2">
                   <Dna className="h-4 w-4" /> Axes de recherche
                 </TabsTrigger>
@@ -465,6 +469,15 @@ export default function CorpusPerfumum() {
                   <BarChart3 className="h-4 w-4" /> Métriques
                 </TabsTrigger>
               </TabsList>
+              
+              <TabsContent value="charts" className="space-y-6">
+                <h2 className="text-2xl font-bold">Visualisations interactives</h2>
+                <p className="text-muted-foreground">
+                  Graphiques interactifs pour explorer la répartition des données du corpus PERFUMUM
+                  par axe de recherche, famille botanique et rôle moléculaire.
+                </p>
+                <CorpusChartsSection />
+              </TabsContent>
               
               <TabsContent value="axes" className="space-y-6">
                 <h2 className="text-2xl font-bold">Les 6 axes de recherche PERFUMUM</h2>
