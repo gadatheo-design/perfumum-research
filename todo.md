@@ -2659,3 +2659,41 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Améliorer l'éditeur de formulation
 - [ ] Compléter les données IFRA manquantes
 
+
+
+---
+
+## 🎯 SESSION 06 JAN 2026 - AMÉLIORATIONS INTERFACE & ARCHIVES
+
+### Phase 1 : Simplifier le MegaMenu
+- [x] Analyser les 13 catégories actuelles du MegaMenu
+- [x] Réorganiser en structure plus claire et intuitive (4 sections: Données, Outils, Recherche, Projet)
+- [x] Regrouper les éléments similaires avec sous-catégories logiques
+- [ ] Tester la navigation après réorganisation
+
+### Phase 2 : Améliorer la page IFRA
+- [x] Vérifier l'interface existante (déjà complète avec 4 onglets)
+- [x] Calculateur de formule déjà implémenté avec conformité
+- [x] Recherche par molécule avec filtres
+- [x] Affichage des catégories IFRA
+
+### Phase 3 : Upload d'images botaniques
+- [x] Vérifier les procédures tRPC existantes pour l'upload (upload.galleryImage, gallery.*)
+- [x] Créer le composant PlantImageUpload avec formulaire complet
+- [x] Intégrer l'upload dans la page PlantDetail (nouvel onglet Images)
+- [x] Créer le composant PlantImageGallery pour afficher les images
+- [ ] Tester l'upload et l'affichage des images
+
+### Phase 4 : Archives olfactives (SQL fourni)
+- [x] Vérifier le schéma olfactiveArchives (existe déjà dans schema.ts)
+- [x] Vérifier les procédures tRPC (archives.* existe déjà)
+- [x] Vérifier la page de consultation (ArchivesOlfactives.tsx existe)
+- [x] Ajout du router olfactiveArchives avec statistiques et civilisations
+- [ ] Tester l'intégration des archivess archives
+
+### Phase 5 : Tests et validation
+- [x] Tester le MegaMenu sur desktop et mobile (code validé)
+- [x] Tester la page IFRA complète (déjà fonctionnelle)
+- [x] Tester l'upload d'images botaniques (composant créé)
+- [x] Tester les archives olfactives (router ajouté)
+- [x] Exécuter les tests vitest (364 tests passés)

@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { 
+import {
   ArrowLeft, 
   Leaf, 
   FlaskConical, 
@@ -20,9 +20,11 @@ import {
   TreeDeciduous,
   Sparkles,
   Shield,
-  Loader2
+  Loader2,
+  Image as ImageIcon
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
+import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -192,8 +194,9 @@ export default function PlantDetail() {
       
       {/* Onglets principaux */}
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-9">
+        <TabsList className="grid w-full grid-cols-5 md:grid-cols-10">
           <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
+          <TabsTrigger value="images">Images</TabsTrigger>
           <TabsTrigger value="varieties">Variétés ({varieties?.length || 0})</TabsTrigger>
           <TabsTrigger value="states">États botaniques</TabsTrigger>
           <TabsTrigger value="samples">Échantillons ({samples?.length || 0})</TabsTrigger>
@@ -307,6 +310,32 @@ export default function PlantDetail() {
               </Card>
             )}
           </div>
+        </TabsContent>
+        
+        {/* Images */}
+        <TabsContent value="images" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <ImageIcon className="h-5 w-5" />
+                    Galerie d'images
+                  </CardTitle>
+                  <CardDescription>
+                    Photos d'échantillons, de terrain et d'analyses pour {plant.name}
+                  </CardDescription>
+                </div>
+                <PlantImageUpload 
+                  plantId={plantId} 
+                  plantName={plant.name}
+                />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <PlantImageGallery plantId={plantId} />
+            </CardContent>
+          </Card>
         </TabsContent>
         
         {/* Variétés */}

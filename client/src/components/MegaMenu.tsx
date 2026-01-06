@@ -20,6 +20,11 @@ import {
   Database,
   Wrench,
   FileText,
+  Map,
+  Image,
+  Archive,
+  Globe,
+  Calculator,
 } from "lucide-react";
 
 interface MenuItem {
@@ -123,8 +128,8 @@ function MegaMenuDropdown({ trigger, sections }: MegaMenuProps) {
   let itemIndex = 0;
 
   // Determine grid columns based on number of sections
-  const gridCols = sections.length <= 2 ? "grid-cols-2" : "grid-cols-3";
-  const minWidth = sections.length <= 2 ? "min-w-[450px]" : "min-w-[600px]";
+  const gridCols = sections.length <= 2 ? "grid-cols-2" : sections.length === 3 ? "grid-cols-3" : "grid-cols-4";
+  const minWidth = sections.length <= 2 ? "min-w-[500px]" : sections.length === 3 ? "min-w-[700px]" : "min-w-[900px]";
 
   return (
     <div
@@ -236,28 +241,22 @@ function MegaMenuDropdown({ trigger, sections }: MegaMenuProps) {
 }
 
 export function MegaMenu() {
-  // === EXPLORER (Base de données + Visualisations) ===
-  const explorerSections: MegaMenuSection[] = [
+  // === DONNÉES (Catalogues + Recherche) ===
+  const donneesSections: MegaMenuSection[] = [
     {
-      title: "Base de données",
+      title: "Catalogues",
       items: [
         {
           label: "Molécules",
           path: "/molecules",
           icon: <Beaker className="h-4 w-4" />,
-          description: "Catalogue moléculaire complet",
+          description: "Base moléculaire complète",
         },
         {
           label: "Recettes",
           path: "/recettes",
           icon: <FlaskConical className="h-4 w-4" />,
           description: "Formules olfactives",
-        },
-        {
-          label: "Gammes",
-          path: "/gammes",
-          icon: <Sparkles className="h-4 w-4" />,
-          description: "Collections thématiques",
         },
         {
           label: "Plantes & Variétés",
@@ -271,6 +270,23 @@ export function MegaMenu() {
           icon: <Layers className="h-4 w-4" />,
           description: "Accords olfactifs",
         },
+      ],
+    },
+    {
+      title: "Exploration",
+      items: [
+        {
+          label: "Gammes",
+          path: "/gammes",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Collections thématiques",
+        },
+        {
+          label: "Terroirs",
+          path: "/terroirs",
+          icon: <Map className="h-4 w-4" />,
+          description: "Origines géographiques",
+        },
         {
           label: "Recherche avancée",
           path: "/recherche-avancee",
@@ -281,7 +297,7 @@ export function MegaMenu() {
           label: "Alternatives durables",
           path: "/alternatives-durables",
           icon: <ShieldCheck className="h-4 w-4" />,
-          description: "Substituts pour espèces menacées",
+          description: "Substituts écologiques",
           badge: "NEW",
         },
       ],
@@ -290,29 +306,28 @@ export function MegaMenu() {
       title: "Visualisations",
       items: [
         {
-          label: "Diagramme Sankey",
-          path: "/sankey-flow",
-          icon: <Layers className="h-4 w-4" />,
-          description: "Flux catégories → recettes",
-        },
-        {
           label: "Synergies Heatmap",
           path: "/synergies-heatmap",
           icon: <BarChart3 className="h-4 w-4" />,
           description: "Matrice de compatibilité",
         },
         {
-          label: "Comparaison Profils",
-          path: "/terp-profiles/compare",
-          icon: <Leaf className="h-4 w-4" />,
-          description: "Radar comparatif terpènes",
-          badge: "NEW",
-        },
-        {
           label: "Graphe Réseau",
           path: "/recipe-network",
           icon: <Network className="h-4 w-4" />,
           description: "Connexions moléculaires",
+        },
+        {
+          label: "Diagramme Sankey",
+          path: "/sankey-flow",
+          icon: <Layers className="h-4 w-4" />,
+          description: "Flux catégories → recettes",
+        },
+        {
+          label: "Galerie Botaniques",
+          path: "/galerie-botaniques",
+          icon: <Image className="h-4 w-4" />,
+          description: "Images et illustrations",
         },
       ],
     },
@@ -334,12 +349,12 @@ export function MegaMenu() {
           label: "Générateur IA",
           path: "/outils/generateur-formules",
           icon: <Sparkles className="h-4 w-4" />,
-          description: "Suggestions par intelligence artificielle",
+          description: "Suggestions intelligentes",
         },
         {
           label: "Calculateur",
           path: "/calculateur",
-          icon: <Wrench className="h-4 w-4" />,
+          icon: <Calculator className="h-4 w-4" />,
           description: "Formulation terpénique",
         },
       ],
@@ -351,40 +366,33 @@ export function MegaMenu() {
           label: "Synergies Moléculaires",
           path: "/synergies",
           icon: <Network className="h-4 w-4" />,
-          description: "Interactions et effet entourage",
+          description: "Effet entourage",
           badge: "NEW",
         },
         {
           label: "Profils Terpéniques",
           path: "/terp-profiles",
           icon: <Leaf className="h-4 w-4" />,
-          description: "Références tabac, cannabis, parfum",
-          badge: "NEW",
+          description: "Références analytiques",
         },
         {
-          label: "Suggestions Synergies",
-          path: "/suggestions-synergies",
-          icon: <Network className="h-4 w-4" />,
-          description: "Suggestions basées radar",
+          label: "Conformité IFRA",
+          path: "/ifra",
+          icon: <ShieldCheck className="h-4 w-4" />,
+          description: "Vérification réglementaire",
         },
         {
-          label: "Formules de Référence",
-          path: "/formules-reference",
-          icon: <Target className="h-4 w-4" />,
-          description: "16 archétypes olfactifs",
-        },
-        {
-          label: "Mon Dashboard",
-          path: "/mon-dashboard",
-          icon: <Compass className="h-4 w-4" />,
-          description: "Recommandations personnalisées",
+          label: "Comparaison Profils",
+          path: "/terp-profiles/compare",
+          icon: <BarChart3 className="h-4 w-4" />,
+          description: "Radar comparatif",
         },
       ],
     },
   ];
 
-  // === MÉTHODOLOGIE (Techniques + Recherche) ===
-  const methodologieSections: MegaMenuSection[] = [
+  // === RECHERCHE (Méthodologie + Archives) ===
+  const rechercheSections: MegaMenuSection[] = [
     {
       title: "Méthode ABSORBE",
       items: [
@@ -397,26 +405,20 @@ export function MegaMenu() {
         {
           label: "Échelle de classification",
           path: "/methodologie/echelle",
-          icon: <Leaf className="h-4 w-4" />,
+          icon: <Layers className="h-4 w-4" />,
           description: "Système de notation",
         },
-        {
-          label: "Manifeste",
-          path: "/manifeste",
-          icon: <Target className="h-4 w-4" />,
-          description: "Vision 2025-2035",
-        },
-      ],
-    },
-    {
-      title: "Techniques & Terrain",
-      items: [
         {
           label: "GC-MS & Pyrolyse",
           path: "/methodologie/gcms",
           icon: <Microscope className="h-4 w-4" />,
           description: "Analyses chromatographiques",
         },
+      ],
+    },
+    {
+      title: "Archives & Terrain",
+      items: [
         {
           label: "Archives de Terrain",
           path: "/archives-terrain",
@@ -424,17 +426,29 @@ export function MegaMenu() {
           description: "Captations in situ",
         },
         {
-          label: "Normes IFRA",
-          path: "/ifra",
-          icon: <ShieldCheck className="h-4 w-4" />,
-          description: "Réglementation",
+          label: "Archives Olfactives",
+          path: "/archives-olfactives",
+          icon: <Archive className="h-4 w-4" />,
+          description: "Manuscrits et formules historiques",
+        },
+        {
+          label: "Civilisations",
+          path: "/civilisations",
+          icon: <Globe className="h-4 w-4" />,
+          description: "Traditions olfactives mondiales",
+        },
+        {
+          label: "Timeline",
+          path: "/timeline",
+          icon: <FileText className="h-4 w-4" />,
+          description: "Chronologie recherche",
         },
       ],
     },
   ];
 
-  // === RESSOURCES (Communauté + Documentation) ===
-  const ressourcesSections: MegaMenuSection[] = [
+  // === PROJET (À propos + Administration) ===
+  const projetSections: MegaMenuSection[] = [
     {
       title: "Documentation",
       items: [
@@ -445,45 +459,27 @@ export function MegaMenu() {
           description: "Terminologie olfactive",
         },
         {
-          label: "Timeline",
-          path: "/timeline",
-          icon: <FileText className="h-4 w-4" />,
-          description: "Chronologie recherche",
-        },
-        {
           label: "Fondements théoriques",
           path: "/recherche/fondements-theoriques",
           icon: <Microscope className="h-4 w-4" />,
           description: "Phénoménologie olfactive",
         },
         {
-          label: "Civilisations",
-          path: "/civilisations",
-          icon: <Compass className="h-4 w-4" />,
-          description: "Traditions olfactives mondiales",
+          label: "Manifeste",
+          path: "/manifeste",
+          icon: <Target className="h-4 w-4" />,
+          description: "Vision 2025-2035",
         },
       ],
     },
     {
-      title: "Projet",
+      title: "Le Projet",
       items: [
-        {
-          label: "Le Projet",
-          path: "/le-projet",
-          icon: <Target className="h-4 w-4" />,
-          description: "Vision et objectifs",
-        },
         {
           label: "À propos",
           path: "/a-propos",
           icon: <Users className="h-4 w-4" />,
           description: "Histoire et équipe",
-        },
-        {
-          label: "Manifeste",
-          path: "/manifeste",
-          icon: <FileText className="h-4 w-4" />,
-          description: "Vision 2025-2035",
         },
         {
           label: "Nouveautés",
@@ -510,10 +506,10 @@ export function MegaMenu() {
 
   return (
     <nav className="hidden lg:flex items-center gap-1" role="navigation" aria-label="Menu principal">
-      <MegaMenuDropdown trigger="Explorer" sections={explorerSections} />
+      <MegaMenuDropdown trigger="Données" sections={donneesSections} />
       <MegaMenuDropdown trigger="Outils" sections={outilsSections} />
-      <MegaMenuDropdown trigger="Méthodologie" sections={methodologieSections} />
-      <MegaMenuDropdown trigger="Ressources" sections={ressourcesSections} />
+      <MegaMenuDropdown trigger="Recherche" sections={rechercheSections} />
+      <MegaMenuDropdown trigger="Projet" sections={projetSections} />
     </nav>
   );
 }

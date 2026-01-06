@@ -5954,6 +5954,131 @@ export const appRouter = router({
         return await db.deleteSustainableAlternative(input.id);
       }),
   }),
+
+  // ============================================================================
+  // ARCHIVES OLFACTIVES (Manuscrits, formules historiques, archéologie)
+  // ============================================================================
+  olfactiveArchives: router({
+    // Liste des archives avec filtres
+    list: publicProcedure
+      .input(z.object({
+        civilization: z.string().optional(),
+        type: z.enum(['manuscript', 'formula', 'archaeological', 'botanical_illustration']).optional(),
+        q: z.string().optional(),
+        limit: z.number().default(25),
+        offset: z.number().default(0),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.listOlfactiveArchives(input || {});
+      }),
+    
+    // Récupérer une archive par ID
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getOlfactiveArchiveById(input);
+      }),
+    
+    // Recherche full-text
+    search: publicProcedure
+      .input(z.object({
+        q: z.string(),
+        limit: z.number().default(25),
+      }))
+      .query(async ({ input }) => {
+        return db.searchOlfactiveArchives(input.q, input.limit);
+      }),
+    
+    // Créer une archive (protégé)
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string(),
+        type: z.enum(['manuscript', 'formula', 'archaeological', 'botanical_illustration']),
+        dateCreated: z.string().optional(),
+        civilization: z.string().optional(),
+        plantIds: z.array(z.number()).optional(),
+        moleculeIds: z.array(z.number()).optional(),
+        description: z.string().optional(),
+        provenance: z.string().optional(),
+        authenticityLevel: z.enum(['confirmed', 'probable', 'hypothetical']).default('probable'),
+        references: z.array(z.object({
+          author: z.string().optional(),
+          year: z.number().optional(),
+          title: z.string(),
+          type: z.string(),
+          url: z.string().optional(),
+        })).optional(),
+        imageUrl: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.createOlfactiveArchive(input as any);
+      }),
+    
+    // Mettre à jour une archive (protégé)
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().optional(),
+        type: z.enum(['manuscript', 'formula', 'archaeological', 'botanical_illustration']).optional(),
+        dateCreated: z.string().optional(),
+        civilization: z.string().optional(),
+        plantIds: z.array(z.number()).optional(),
+        moleculeIds: z.array(z.number()).optional(),
+        description: z.string().optional(),
+        provenance: z.string().optional(),
+        authenticityLevel: z.enum(['confirmed', 'probable', 'hypothetical']).optional(),
+        references: z.array(z.object({
+          author: z.string().optional(),
+          year: z.number().optional(),
+          title: z.string(),
+          type: z.string(),
+          url: z.string().optional(),
+        })).optional(),
+        imageUrl: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return db.updateOlfactiveArchive(id, data as any);
+      }),
+    
+    // Supprimer une archive (protégé)
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.deleteOlfactiveArchive(input);
+      }),
+    
+    // Obtenir les civilisations distinctes
+    getCivilizations: publicProcedure.query(async () => {
+      const archives = await db.listOlfactiveArchives({ limit: 1000 });
+      const civilizationsSet = new Set(archives.map(a => a.civilization).filter(Boolean));
+      const civilizations = Array.from(civilizationsSet) as string[];
+      return civilizations.sort();
+    }),
+    
+    // Statistiques
+    getStats: publicProcedure.query(async () => {
+      const archives = await db.listOlfactiveArchives({ limit: 1000 });
+      const byType: Record<string, number> = {};
+      const byCivilization: Record<string, number> = {};
+      const byAuthenticity: Record<string, number> = {};
+      
+      archives.forEach(a => {
+        byType[a.type] = (byType[a.type] || 0) + 1;
+        if (a.civilization) {
+          byCivilization[a.civilization] = (byCivilization[a.civilization] || 0) + 1;
+        }
+        byAuthenticity[a.authenticityLevel] = (byAuthenticity[a.authenticityLevel] || 0) + 1;
+      });
+      
+      return {
+        total: archives.length,
+        byType,
+        byCivilization,
+        byAuthenticity,
+      };
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
