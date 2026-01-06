@@ -291,6 +291,13 @@ export function MegaMenu() {
           description: "Origines géographiques",
         },
         {
+          label: "Carte GPS Plantes",
+          path: "/carte-plantes-gps",
+          icon: <Compass className="h-4 w-4" />,
+          description: "Localisation géographique",
+          badge: "136 plantes",
+        },
+        {
           label: "Recherche avancée",
           path: "/recherche-avancee",
           icon: <Search className="h-4 w-4" />,

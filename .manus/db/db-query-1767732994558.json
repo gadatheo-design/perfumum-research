@@ -1,0 +1,142 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plants' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plants' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "latin_name"
+    },
+    {
+      "COLUMN_NAME": "family"
+    },
+    {
+      "COLUMN_NAME": "category"
+    },
+    {
+      "COLUMN_NAME": "origin"
+    },
+    {
+      "COLUMN_NAME": "habitat"
+    },
+    {
+      "COLUMN_NAME": "olfactive_signature"
+    },
+    {
+      "COLUMN_NAME": "dominant_molecules"
+    },
+    {
+      "COLUMN_NAME": "chemotypes"
+    },
+    {
+      "COLUMN_NAME": "climatic_axis"
+    },
+    {
+      "COLUMN_NAME": "traditional_use"
+    },
+    {
+      "COLUMN_NAME": "absorbe_use"
+    },
+    {
+      "COLUMN_NAME": "botanical_states"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "image_url"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    },
+    {
+      "COLUMN_NAME": "kingdom"
+    },
+    {
+      "COLUMN_NAME": "division"
+    },
+    {
+      "COLUMN_NAME": "class"
+    },
+    {
+      "COLUMN_NAME": "order_name"
+    },
+    {
+      "COLUMN_NAME": "genus"
+    },
+    {
+      "COLUMN_NAME": "species"
+    },
+    {
+      "COLUMN_NAME": "subspecies"
+    },
+    {
+      "COLUMN_NAME": "morphology"
+    },
+    {
+      "COLUMN_NAME": "life_cycle"
+    },
+    {
+      "COLUMN_NAME": "growth_conditions"
+    },
+    {
+      "COLUMN_NAME": "harvest_period"
+    },
+    {
+      "COLUMN_NAME": "optimal_harvest_stage"
+    },
+    {
+      "COLUMN_NAME": "yield_per_hectare"
+    },
+    {
+      "COLUMN_NAME": "essential_oil_yield"
+    },
+    {
+      "COLUMN_NAME": "storage_duration"
+    },
+    {
+      "COLUMN_NAME": "storage_conditions"
+    },
+    {
+      "COLUMN_NAME": "certifications"
+    },
+    {
+      "COLUMN_NAME": "cites_appendix"
+    },
+    {
+      "COLUMN_NAME": "conservation_notes"
+    },
+    {
+      "COLUMN_NAME": "threat_factors"
+    },
+    {
+      "COLUMN_NAME": "sustainable_alternatives"
+    },
+    {
+      "COLUMN_NAME": "last_assessment_year"
+    },
+    {
+      "COLUMN_NAME": "historical_status"
+    },
+    {
+      "COLUMN_NAME": "conservation_status"
+    },
+    {
+      "COLUMN_NAME": "latitude"
+    },
+    {
+      "COLUMN_NAME": "longitude"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nname\nlatin_name\nfamily\ncategory\norigin\nhabitat\nolfactive_signature\ndominant_molecules\nchemotypes\nclimatic_axis\ntraditional_use\nabsorbe_use\nbotanical_states\nnotes\nimage_url\ncreated_at\nupdated_at\nkingdom\ndivision\nclass\norder_name\ngenus\nspecies\nsubspecies\nmorphology\nlife_cycle\ngrowth_conditions\nharvest_period\noptimal_harvest_stage\nyield_per_hectare\nessential_oil_yield\nstorage_duration\nstorage_conditions\ncertifications\ncites_appendix\nconservation_notes\nthreat_factors\nsustainable_alternatives\nlast_assessment_year\nhistorical_status\nconservation_status\nlatitude\nlongitude\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

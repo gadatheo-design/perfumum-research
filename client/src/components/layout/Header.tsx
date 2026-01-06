@@ -89,6 +89,7 @@ const mobileMenuSections = [
       { href: "/matrice-synergies", label: "Matrice synergies" },
       { href: "/plants", label: "Plantes & Variétés", badge: "NEW" },
       { href: "/terroirs", label: "Terroirs" },
+      { href: "/carte-plantes-gps", label: "Carte GPS Plantes", badge: "136" },
     ],
   },
   {

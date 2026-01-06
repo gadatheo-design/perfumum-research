@@ -3062,3 +3062,21 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Créer le checkpoint final
 - [ ] Présenter les résultats au client
 
+
+
+---
+
+## 🗺️ SESSION 06 JAN 2026 - GPS & RECETTES TAGETES LUCIDA
+
+### Phase 1 : Coordonnées GPS manquantes
+- [x] Identifier les plantes sans coordonnées GPS dans la base de données (3 plantes de test uniquement, 136 plantes réelles ont leurs GPS)
+- [x] Rechercher les coordonnées GPS pour les plantes manquantes (les 3 plantes sans GPS sont des entrées de test)
+- [x] Ajouter les coordonnées GPS aux plantes concernées (non applicable - plantes de test ignorées)
+
+### Phase 2 : Recettes Tagetes lucida
+- [x] Analyser les liaisons moléculaires de Tagetes lucida (Estragole 86-97%, Anéthole, Méthyl-eugénol, Tagetone, β-Ocimène)
+- [x] Créer des recettes exploitant ces liaisons moléculaires (5 recettes créées)
+- [x] Intégrer les recettes dans la base de données (TL-01 à TL-05 importées)
+
+### Phase 3 : Navigation carte GPS
+- [x] Ajouter un lien vers la carte GPS dans le menu de navigation principal (MegaMenu + Header mobile)
