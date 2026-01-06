@@ -1,0 +1,62 @@
+{
+  "query": "\nSELECT 'perfumum_research_axes' as table_name, COUNT(*) as count FROM perfumum_research_axes\nUNION ALL\nSELECT 'research_content', COUNT(*) FROM research_content\nUNION ALL\nSELECT 'perfumum_plants', COUNT(*) FROM perfumum_plants\nUNION ALL\nSELECT 'perfumum_molecules', COUNT(*) FROM perfumum_molecules\nUNION ALL\nSELECT 'partner_institutions', COUNT(*) FROM partner_institutions\nUNION ALL\nSELECT 'perfumum_manuscripts', COUNT(*) FROM perfumum_manuscripts\nUNION ALL\nSELECT 'perfumum_glossary', COUNT(*) FROM perfumum_glossary\nUNION ALL\nSELECT 'scent_blends', COUNT(*) FROM scent_blends\nUNION ALL\nSELECT 'climate_axis_matrix', COUNT(*) FROM climate_axis_matrix\nUNION ALL\nSELECT 'impact_metrics', COUNT(*) FROM impact_metrics\nUNION ALL\nSELECT 'citizen_observations', COUNT(*) FROM citizen_observations\nUNION ALL\nSELECT 'perfumum_herbarium_samples', COUNT(*) FROM perfumum_herbarium_samples\nUNION ALL\nSELECT 'tissue_culture_lines', COUNT(*) FROM tissue_culture_lines;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT 'perfumum_research_axes' as table_name, COUNT(*) as count FROM perfumum_research_axes\nUNION ALL\nSELECT 'research_content', COUNT(*) FROM research_content\nUNION ALL\nSELECT 'perfumum_plants', COUNT(*) FROM perfumum_plants\nUNION ALL\nSELECT 'perfumum_molecules', COUNT(*) FROM perfumum_molecules\nUNION ALL\nSELECT 'partner_institutions', COUNT(*) FROM partner_institutions\nUNION ALL\nSELECT 'perfumum_manuscripts', COUNT(*) FROM perfumum_manuscripts\nUNION ALL\nSELECT 'perfumum_glossary', COUNT(*) FROM perfumum_glossary\nUNION ALL\nSELECT 'scent_blends', COUNT(*) FROM scent_blends\nUNION ALL\nSELECT 'climate_axis_matrix', COUNT(*) FROM climate_axis_matrix\nUNION ALL\nSELECT 'impact_metrics', COUNT(*) FROM impact_metrics\nUNION ALL\nSELECT 'citizen_observations', COUNT(*) FROM citizen_observations\nUNION ALL\nSELECT 'perfumum_herbarium_samples', COUNT(*) FROM perfumum_herbarium_samples\nUNION ALL\nSELECT 'tissue_culture_lines', COUNT(*) FROM tissue_culture_lines;\n",
+  "rows": [
+    {
+      "table_name": "perfumum_research_axes",
+      "count": "6"
+    },
+    {
+      "table_name": "perfumum_molecules",
+      "count": "62"
+    },
+    {
+      "table_name": "research_content",
+      "count": "43"
+    },
+    {
+      "table_name": "partner_institutions",
+      "count": "16"
+    },
+    {
+      "table_name": "perfumum_plants",
+      "count": "30"
+    },
+    {
+      "table_name": "perfumum_manuscripts",
+      "count": "16"
+    },
+    {
+      "table_name": "perfumum_glossary",
+      "count": "7"
+    },
+    {
+      "table_name": "climate_axis_matrix",
+      "count": "12"
+    },
+    {
+      "table_name": "impact_metrics",
+      "count": "5"
+    },
+    {
+      "table_name": "scent_blends",
+      "count": "12"
+    },
+    {
+      "table_name": "perfumum_herbarium_samples",
+      "count": "12"
+    },
+    {
+      "table_name": "tissue_culture_lines",
+      "count": "10"
+    },
+    {
+      "table_name": "citizen_observations",
+      "count": "20"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tcount\nperfumum_research_axes\t6\nperfumum_molecules\t62\nresearch_content\t43\npartner_institutions\t16\nperfumum_plants\t30\nperfumum_manuscripts\t16\nperfumum_glossary\t7\nclimate_axis_matrix\t12\nimpact_metrics\t5\nscent_blends\t12\nperfumum_herbarium_samples\t12\ntissue_culture_lines\t10\ncitizen_observations\t20\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

@@ -1718,7 +1718,7 @@ export async function createSharedCollection(data: {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  const [result] = await db.insert(sharedCollections).values({
+  const insertResult = await db.insert(sharedCollections).values({
     token: data.token,
     title: data.title,
     description: data.description,
@@ -1726,9 +1726,12 @@ export async function createSharedCollection(data: {
     creatorId: data.creatorId,
     expiresAt: data.expiresAt,
     viewCount: 0,
-  }).$returningId();
+  });
   
-  return result;
+  // Get the inserted ID from the result
+  const insertedId = (insertResult as any)[0]?.insertId || (insertResult as any).insertId || 0;
+  
+  return { id: insertedId };
 }
 
 export async function getSharedCollectionByToken(token: string) {
@@ -1927,16 +1930,19 @@ export async function generateCitation(
   }
   
   // Save citation
-  const [result] = await db.insert(citations).values({
+  const insertResult = await db.insert(citations).values({
     entityType,
     entityId,
     format,
     citationText,
     url: `https://perfumum.manus.space/${entityType}/${entityId}`,
-  }).$returningId();
+  });
+  
+  // Get the inserted ID from the result
+  const insertedId = (insertResult as any)[0]?.insertId || (insertResult as any).insertId || 0;
   
   return {
-    id: result.id,
+    id: insertedId,
     citationText,
     format,
   };
@@ -9824,4 +9830,320 @@ export async function getAxisDetail(axisId: string) {
     default_filters: typeof axisInfo.default_filters === 'string' ? JSON.parse(axisInfo.default_filters || '{}') : axisInfo.default_filters,
     entities,
   };
+}
+
+
+// ============================================================================
+// RESEARCH CONTENT (Contenu de recherche)
+// ============================================================================
+
+export async function listResearchContent(filters?: { axisId?: string; contentType?: string; status?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = sql`SELECT * FROM research_content WHERE 1=1`;
+  
+  if (filters?.axisId) {
+    query = sql`${query} AND axis_id = ${filters.axisId}`;
+  }
+  if (filters?.contentType) {
+    query = sql`${query} AND content_type = ${filters.contentType}`;
+  }
+  if (filters?.status) {
+    query = sql`${query} AND status = ${filters.status}`;
+  }
+  
+  query = sql`${query} ORDER BY created_at DESC`;
+  
+  const result = await db.execute(query);
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    tags: typeof row.tags === 'string' ? JSON.parse(row.tags || '[]') : row.tags,
+    regions: typeof row.regions === 'string' ? JSON.parse(row.regions || '[]') : row.regions,
+  }));
+}
+
+export async function getResearchContentById(contentId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM research_content WHERE content_id = ${contentId}`);
+  const row = (result[0] as any[])[0];
+  if (!row) return null;
+  
+  return {
+    ...row,
+    tags: typeof row.tags === 'string' ? JSON.parse(row.tags || '[]') : row.tags,
+    regions: typeof row.regions === 'string' ? JSON.parse(row.regions || '[]') : row.regions,
+  };
+}
+
+export async function getResearchContentBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM research_content WHERE slug = ${slug}`);
+  const row = (result[0] as any[])[0];
+  if (!row) return null;
+  
+  return {
+    ...row,
+    tags: typeof row.tags === 'string' ? JSON.parse(row.tags || '[]') : row.tags,
+    regions: typeof row.regions === 'string' ? JSON.parse(row.regions || '[]') : row.regions,
+  };
+}
+
+// ============================================================================
+// PERFUMUM GLOSSARY (Glossaire)
+// ============================================================================
+
+export async function listPerfumumGlossary() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`SELECT * FROM perfumum_glossary ORDER BY term ASC`);
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    relatedTerms: typeof row.related_terms === 'string' ? JSON.parse(row.related_terms || '[]') : row.related_terms,
+    relatedAxes: typeof row.related_axes === 'string' ? JSON.parse(row.related_axes || '[]') : row.related_axes,
+  }));
+}
+
+export async function getPerfumumGlossaryTerm(termId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM perfumum_glossary WHERE term_id = ${termId}`);
+  const row = (result[0] as any[])[0];
+  if (!row) return null;
+  
+  return {
+    ...row,
+    relatedTerms: typeof row.related_terms === 'string' ? JSON.parse(row.related_terms || '[]') : row.related_terms,
+    relatedAxes: typeof row.related_axes === 'string' ? JSON.parse(row.related_axes || '[]') : row.related_axes,
+  };
+}
+
+// ============================================================================
+// SCENT BLENDS (Mélanges olfactifs)
+// ============================================================================
+
+export async function listScentBlends(filters?: { climateAxis?: string; intendedMedium?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = sql`SELECT * FROM scent_blends WHERE 1=1`;
+  
+  if (filters?.climateAxis) {
+    query = sql`${query} AND climate_axis = ${filters.climateAxis}`;
+  }
+  if (filters?.intendedMedium) {
+    query = sql`${query} AND intended_medium = ${filters.intendedMedium}`;
+  }
+  
+  query = sql`${query} ORDER BY created_at DESC`;
+  
+  const result = await db.execute(query);
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    materials: typeof row.materials === 'string' ? JSON.parse(row.materials || '[]') : row.materials,
+  }));
+}
+
+export async function getScentBlendById(blendId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM scent_blends WHERE blend_id = ${blendId}`);
+  const row = (result[0] as any[])[0];
+  if (!row) return null;
+  
+  return {
+    ...row,
+    materials: typeof row.materials === 'string' ? JSON.parse(row.materials || '[]') : row.materials,
+  };
+}
+
+// ============================================================================
+// CLIMATE AXIS MATRIX (Matrice climatique)
+// ============================================================================
+
+export async function listClimateAxisMatrix() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`SELECT * FROM climate_axis_matrix ORDER BY climate_axis, medium`);
+  return result[0] as any[];
+}
+
+export async function getClimateAxisMatrixEntry(climateAxis: string, medium: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM climate_axis_matrix WHERE climate_axis = ${climateAxis} AND medium = ${medium}`);
+  return (result[0] as any[])[0] || null;
+}
+
+// ============================================================================
+// IMPACT METRICS (Métriques d'impact)
+// ============================================================================
+
+export async function listImpactMetrics() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`SELECT * FROM impact_metrics ORDER BY year ASC`);
+  return result[0] as any[];
+}
+
+export async function getImpactMetricsByYear(year: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM impact_metrics WHERE year = ${year}`);
+  return (result[0] as any[])[0] || null;
+}
+
+// ============================================================================
+// PERFUMUM PLANTS (Plantes aromatiques PERFUMUM)
+// ============================================================================
+
+export async function listPerfumumPlants(filters?: { family?: string; climaticAxis?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = sql`SELECT * FROM perfumum_plants WHERE 1=1`;
+  
+  if (filters?.family) {
+    query = sql`${query} AND family = ${filters.family}`;
+  }
+  if (filters?.climaticAxis) {
+    query = sql`${query} AND climatic_axis = ${filters.climaticAxis}`;
+  }
+  
+  query = sql`${query} ORDER BY name ASC`;
+  
+  const result = await db.execute(query);
+  return result[0] as any[];
+}
+
+export async function getPerfumumPlantById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM perfumum_plants WHERE id = ${id}`);
+  return (result[0] as any[])[0] || null;
+}
+
+export async function getPerfumumPlantByLatinName(latinName: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM perfumum_plants WHERE latin_name = ${latinName}`);
+  return (result[0] as any[])[0] || null;
+}
+
+export async function getPerfumumPlantsStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM perfumum_plants`);
+  const byFamilyResult = await db.execute(sql`SELECT family, COUNT(*) as count FROM perfumum_plants WHERE family IS NOT NULL GROUP BY family ORDER BY count DESC`);
+  const byAxisResult = await db.execute(sql`SELECT climatic_axis, COUNT(*) as count FROM perfumum_plants WHERE climatic_axis IS NOT NULL GROUP BY climatic_axis ORDER BY count DESC`);
+  
+  return {
+    total: (totalResult[0] as any[])[0]?.total || 0,
+    byFamily: byFamilyResult[0] as any[],
+    byAxis: byAxisResult[0] as any[],
+  };
+}
+
+// ============================================================================
+// PERFUMUM MOLECULES (Molécules PERFUMUM)
+// ============================================================================
+
+export async function listPerfumumMolecules(filters?: { family?: string; role?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = sql`SELECT * FROM perfumum_molecules WHERE 1=1`;
+  
+  if (filters?.family) {
+    query = sql`${query} AND family = ${filters.family}`;
+  }
+  if (filters?.role) {
+    query = sql`${query} AND role = ${filters.role}`;
+  }
+  
+  query = sql`${query} ORDER BY molecule_name ASC`;
+  
+  const result = await db.execute(query);
+  return result[0] as any[];
+}
+
+export async function getPerfumumMoleculeById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM perfumum_molecules WHERE id = ${id}`);
+  return (result[0] as any[])[0] || null;
+}
+
+export async function getPerfumumMoleculesStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM perfumum_molecules`);
+  const byFamilyResult = await db.execute(sql`SELECT family, COUNT(*) as count FROM perfumum_molecules WHERE family IS NOT NULL GROUP BY family ORDER BY count DESC`);
+  const byRoleResult = await db.execute(sql`SELECT role, COUNT(*) as count FROM perfumum_molecules WHERE role IS NOT NULL GROUP BY role ORDER BY count DESC`);
+  
+  return {
+    total: (totalResult[0] as any[])[0]?.total || 0,
+    byFamily: byFamilyResult[0] as any[],
+    byRole: byRoleResult[0] as any[],
+  };
+}
+
+// ============================================================================
+// CORPUS STATISTICS (Statistiques globales du corpus)
+// ============================================================================
+
+export async function getCorpusStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const stats: Record<string, number> = {};
+  
+  // Compter chaque type d'entité
+  const tables = [
+    { name: 'perfumum_research_axes', key: 'axes' },
+    { name: 'research_content', key: 'content' },
+    { name: 'perfumum_plants', key: 'plants' },
+    { name: 'perfumum_molecules', key: 'molecules' },
+    { name: 'partner_institutions', key: 'partners' },
+    { name: 'perfumum_manuscripts', key: 'manuscripts' },
+    { name: 'text_fragments', key: 'fragments' },
+    { name: 'trade_routes', key: 'routes' },
+    { name: 'perfumum_glossary', key: 'glossary' },
+    { name: 'scent_blends', key: 'blends' },
+    { name: 'climate_axis_matrix', key: 'matrix' },
+    { name: 'impact_metrics', key: 'metrics' },
+    { name: 'citizen_observations', key: 'observations' },
+    { name: 'perfumum_herbarium_samples', key: 'herbarium' },
+    { name: 'tissue_culture_lines', key: 'tissue' },
+    { name: 'genome_samples', key: 'genomes' },
+    { name: 'perfumum_gcms_runs', key: 'gcms' },
+    { name: 'vr_scenes', key: 'vr' },
+  ];
+  
+  for (const table of tables) {
+    try {
+      const result = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM ${table.name}`));
+      stats[table.key] = (result[0] as any[])[0]?.count || 0;
+    } catch {
+      stats[table.key] = 0;
+    }
+  }
+  
+  return stats;
 }

@@ -7189,6 +7189,164 @@ export const appRouter = router({
       return await db.getGcmsRunsStats();
     }),
   }),
+
+  // ============================================================================
+  // RESEARCH CONTENT (Contenu de recherche)
+  // ============================================================================
+  researchContent: router({
+    list: publicProcedure
+      .input(z.object({
+        axisId: z.string().optional(),
+        contentType: z.string().optional(),
+        status: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listResearchContent(input);
+      }),
+    
+    getById: publicProcedure
+      .input(z.object({ contentId: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getResearchContentById(input.contentId);
+      }),
+    
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getResearchContentBySlug(input.slug);
+      }),
+  }),
+
+  // ============================================================================
+  // PERFUMUM GLOSSARY (Glossaire)
+  // ============================================================================
+  perfumumGlossary: router({
+    list: publicProcedure.query(async () => {
+      return await db.listPerfumumGlossary();
+    }),
+    
+    getById: publicProcedure
+      .input(z.object({ termId: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getPerfumumGlossaryTerm(input.termId);
+      }),
+  }),
+
+  // ============================================================================
+  // SCENT BLENDS (Mélanges olfactifs)
+  // ============================================================================
+  scentBlends: router({
+    list: publicProcedure
+      .input(z.object({
+        climateAxis: z.string().optional(),
+        intendedMedium: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listScentBlends(input);
+      }),
+    
+    getById: publicProcedure
+      .input(z.object({ blendId: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getScentBlendById(input.blendId);
+      }),
+  }),
+
+  // ============================================================================
+  // CLIMATE AXIS MATRIX (Matrice climatique)
+  // ============================================================================
+  climateMatrix: router({
+    list: publicProcedure.query(async () => {
+      return await db.listClimateAxisMatrix();
+    }),
+    
+    getEntry: publicProcedure
+      .input(z.object({
+        climateAxis: z.string().min(1),
+        medium: z.string().min(1),
+      }))
+      .query(async ({ input }) => {
+        return await db.getClimateAxisMatrixEntry(input.climateAxis, input.medium);
+      }),
+  }),
+
+  // ============================================================================
+  // IMPACT METRICS (Métriques d'impact)
+  // ============================================================================
+  impactMetrics: router({
+    list: publicProcedure.query(async () => {
+      return await db.listImpactMetrics();
+    }),
+    
+    getByYear: publicProcedure
+      .input(z.object({ year: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getImpactMetricsByYear(input.year);
+      }),
+  }),
+
+  // ============================================================================
+  // PERFUMUM PLANTS (Plantes aromatiques PERFUMUM)
+  // ============================================================================
+  perfumumPlants: router({
+    list: publicProcedure
+      .input(z.object({
+        family: z.string().optional(),
+        climaticAxis: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listPerfumumPlants(input);
+      }),
+    
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getPerfumumPlantById(input.id);
+      }),
+    
+    getByLatinName: publicProcedure
+      .input(z.object({ latinName: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getPerfumumPlantByLatinName(input.latinName);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return await db.getPerfumumPlantsStats();
+    }),
+  }),
+
+  // ============================================================================
+  // PERFUMUM MOLECULES (Molécules PERFUMUM)
+  // ============================================================================
+  perfumumMolecules: router({
+    list: publicProcedure
+      .input(z.object({
+        family: z.string().optional(),
+        role: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listPerfumumMolecules(input);
+      }),
+    
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getPerfumumMoleculeById(input.id);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return await db.getPerfumumMoleculesStats();
+    }),
+  }),
+
+  // ============================================================================
+  // CORPUS STATISTICS (Statistiques globales)
+  // ============================================================================
+  corpusStats: router({
+    getAll: publicProcedure.query(async () => {
+      return await db.getCorpusStats();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

@@ -3293,3 +3293,97 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Valider le responsive mobile
 - [x] Créer le checkpoint final
 
+
+
+---
+
+## 🔬 SESSION 06 JAN 2026 - IMPORT DU CORPUS PERFUMUM
+
+### Phase 1 : Analyse du corpus ✅ COMPLÉTÉ
+- [x] Explorer les fichiers partagés du projet (40+ fichiers)
+- [x] Analyser la structure des données CSV (plantes, molécules, axes de recherche)
+- [x] Comprendre le schéma de base de données existant (154 tables)
+- [x] Identifier les tables PERFUMUM déjà créées (perfumumResearchAxes, genomeSamples, etc.)
+
+### Phase 2 : Compléter le schéma de base de données
+- [x] Ajouter table pour le contenu (researchContent - notes, protocoles, études de cas)
+- [x] Ajouter table pour le glossaire (perfumumGlossary)
+- [x] Ajouter table pour les mélanges olfactifs (scentBlends)
+- [x] Ajouter table pour la matrice climatique (climateAxisMatrix)
+- [x] Ajouter table pour les métriques d'impact (impactMetrics)
+- [x] Ajouter table pour les plantes PERFUMUM (perfumumPlants)
+- [x] Ajouter table pour les molécules PERFUMUM (perfumumMolecules)
+
+### Phase 3 : Procédures tRPC pour le corpus
+- [x] Créer router pour les axes de recherche PERFUMUM
+- [x] Créer router pour le contenu (notes, protocoles, études de cas)
+- [x] Créer router pour les plantes aromatiques PERFUMUM
+- [x] Créer router pour les molécules PERFUMUM
+- [x] Créer router pour les partenaires institutionnels
+- [x] Créer router pour les manuscrits et fragments textuels
+- [x] Créer router pour les observations citoyennes
+- [x] Créer router pour les routes commerciales
+- [x] Créer router pour le glossaire PERFUMUM
+- [x] Créer router pour les mélanges olfactifs
+- [x] Créer router pour la matrice climatique
+- [x] Créer router pour les métriques d'impact
+- [x] Créer router pour les statistiques du corpus
+
+### Phase 4 : Interface utilisateur PERFUMUM
+- [x] Page Corpus PERFUMUM avec vue d'ensemble des statistiques
+- [x] Navigation par axes de recherche (6 axes)
+- [x] Explorateur de plantes aromatiques avec filtres par famille
+- [x] Explorateur de molécules avec filtres par rôle
+- [x] Page glossaire PERFUMUM avec recherche
+- [x] Section mélanges olfactifs avec filtres
+- [x] Tableau des métriques d'impact
+- [ ] Page de détail d'un axe avec filtres (région, niveau de preuve)
+- [ ] Visualisation des routes commerciales historiques
+- [ ] Dashboard avec graphiques d'impact
+
+### Phase 5 : Import des données du corpus
+- [x] Script d'import des 6 axes de recherche
+- [x] Script d'import du contenu (43 fichiers MD)
+- [x] Script d'import des 30 plantes aromatiques
+- [x] Script d'import des 63 molécules
+- [x] Script d'import des 15 partenaires
+- [x] Script d'import des 10 manuscrits
+- [x] Script d'import du glossaire (7 termes)
+- [x] Script d'import des 12 mélanges olfactifs
+- [x] Script d'import de la matrice climatique (12 entrées)
+- [x] Script d'import des métriques d'impact (5 années)
+- [x] Script d'import des observations citoyennes (20)
+- [x] Script d'import des lignes de culture tissulaire (10)
+- [x] Script d'import des échantillons d'herbier (12)
+- [ ] Script d'import des 20 fragments textuels (erreur de format)
+- [ ] Script d'import des 6 routes commerciales (erreur de format)
+
+### Phase 6 : Tests et livraison
+- [ ] Tests des procédures tRPC
+- [ ] Vérification de l'import des données
+- [ ] Tests de l'interface utilisateur
+- [ ] Checkpoint final
+
+
+---
+
+## 🔧 SESSION 06 JAN 2026 — CORRECTION DES ERREURS
+
+### Analyse des erreurs identifiées
+- [x] Analyser les 8 tests échoués (citations, regulatory-profile)
+- [x] Vérifier les erreurs de format JSON pour text_fragments
+- [x] Vérifier les erreurs de format JSON pour trade_routes
+- [x] Résoudre le conflit de port 3000/3001
+
+### Corrections à apporter
+- [x] Corriger la fonction generateCitation (db.ts ligne 1939)
+- [x] Corriger la fonction createSharedCollection
+- [x] Corriger les tests associations molécules-plantes (getPlantMolecules)
+- [x] Corriger les tests regulatory-profile.test.ts pour utiliser le bon ID de plante
+- [ ] Corriger l'import des fragments textuels (format entities) - non critique
+- [ ] Corriger l'import des routes commerciales (format nodes/materials) - non critique
+
+### Validation
+- [x] Relancer tous les tests et vérifier qu'ils passent (471 tests passés)
+- [x] Vérifier que l'API corpusStats fonctionne correctement
+- [ ] Sauvegarder un checkpoint stable

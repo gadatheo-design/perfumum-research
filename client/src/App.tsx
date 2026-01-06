@@ -258,6 +258,9 @@ import MoleculePlantRelations from "./pages/MoleculePlantRelations";
 import PlantTerroirNetwork from "./pages/PlantTerroirNetwork";
 import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
 
+// === CORPUS PERFUMUM ===
+import CorpusPerfumum from "./pages/CorpusPerfumum";
+
 // === PAGES TECHNIQUES ===
 import TestMinimal from "./pages/TestMinimal";
 
@@ -293,6 +296,9 @@ function Router() {
       {/* === RECHERCHE === */}
       <Route path="/recherche-avancee" component={RechercheAvancee} />
       <Route path="/recherche-globale" component={RechercheGlobale} />
+      
+      {/* === CORPUS PERFUMUM === */}
+      <Route path="/corpus" component={CorpusPerfumum} />
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />

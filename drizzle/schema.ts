@@ -2963,3 +2963,199 @@ export const biotechMolecules = mysqlTable("biotech_molecules", {
 export type BiotechMolecule = typeof biotechMolecules.$inferSelect;
 export type InsertBiotechMolecule = typeof biotechMolecules.$inferInsert;
 
+
+// ============================================================================
+// RESEARCH CONTENT (Contenu de recherche - Notes, Protocoles, Études de cas)
+// ============================================================================
+export const researchContent = mysqlTable("research_content", {
+  id: int("id").autoincrement().primaryKey(),
+  contentId: varchar("content_id", { length: 50 }).notNull().unique(),
+  slug: varchar("slug", { length: 255 }).notNull(),
+  axisId: varchar("axis_id", { length: 50 }).notNull(),
+  title: varchar("title", { length: 500 }).notNull(),
+  contentType: mysqlEnum("content_type", [
+    "axis_overview", "research_note", "case_study", "protocol", "glossary"
+  ]).notNull(),
+  lang: varchar("lang", { length: 10 }).default("fr"),
+  status: mysqlEnum("status", ["draft", "published", "archived"]).default("draft"),
+  filePath: varchar("file_path", { length: 500 }),
+  evidenceLevel: mysqlEnum("evidence_level", ["confirmed", "probable", "hypothetical"]).default("hypothetical"),
+  tags: json("tags").default(sql`(JSON_ARRAY())`),
+  regions: json("regions").default(sql`(JSON_ARRAY())`),
+  content: text("content"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  contentIdIdx: uniqueIndex("rc_content_id_idx").on(table.contentId),
+  slugIdx: index("rc_slug_idx").on(table.slug),
+  axisIdx: index("rc_axis_idx").on(table.axisId),
+  typeIdx: index("rc_type_idx").on(table.contentType),
+}));
+
+export type ResearchContent = typeof researchContent.$inferSelect;
+export type InsertResearchContent = typeof researchContent.$inferInsert;
+
+// ============================================================================
+// PERFUMUM GLOSSARY (Glossaire PERFUMUM)
+// ============================================================================
+export const perfumumGlossary = mysqlTable("perfumum_glossary", {
+  id: int("id").autoincrement().primaryKey(),
+  termId: varchar("term_id", { length: 50 }).notNull().unique(),
+  term: varchar("term", { length: 255 }).notNull(),
+  definitionFr: text("definition_fr").notNull(),
+  definitionEn: text("definition_en"),
+  category: varchar("category", { length: 100 }),
+  relatedTerms: json("related_terms").default(sql`(JSON_ARRAY())`),
+  relatedAxes: json("related_axes").default(sql`(JSON_ARRAY())`),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  termIdIdx: uniqueIndex("pg_term_id_idx").on(table.termId),
+  termIdx: index("pg_term_idx").on(table.term),
+}));
+
+export type PerfumumGlossaryTerm = typeof perfumumGlossary.$inferSelect;
+export type InsertPerfumumGlossaryTerm = typeof perfumumGlossary.$inferInsert;
+
+// ============================================================================
+// SCENT BLENDS (Mélanges olfactifs)
+// ============================================================================
+export const scentBlends = mysqlTable("scent_blends", {
+  id: int("id").autoincrement().primaryKey(),
+  blendId: varchar("blend_id", { length: 50 }).notNull().unique(),
+  climateAxis: mysqlEnum("climate_axis", ["vent", "bois", "peau", "disparition"]).notNull(),
+  intendedMedium: mysqlEnum("intended_medium", ["parfum", "encens", "espace"]).notNull(),
+  concept: varchar("concept", { length: 255 }),
+  materials: json("materials").default(sql`(JSON_ARRAY())`),
+  safetyNotes: text("safety_notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  blendIdIdx: uniqueIndex("sb_blend_id_idx").on(table.blendId),
+  axisIdx: index("sb_axis_idx").on(table.climateAxis),
+  mediumIdx: index("sb_medium_idx").on(table.intendedMedium),
+}));
+
+export type ScentBlend = typeof scentBlends.$inferSelect;
+export type InsertScentBlend = typeof scentBlends.$inferInsert;
+
+// ============================================================================
+// CLIMATE AXIS MATRIX (Matrice axe climatique / médium)
+// ============================================================================
+export const climateAxisMatrix = mysqlTable("climate_axis_matrix", {
+  id: int("id").autoincrement().primaryKey(),
+  climateAxis: mysqlEnum("climate_axis", ["vent", "bois", "peau", "disparition"]).notNull(),
+  medium: mysqlEnum("medium", ["parfum", "encens", "espace"]).notNull(),
+  targetDiffusion: mysqlEnum("target_diffusion", ["low", "medium", "high"]).default("medium"),
+  targetPersistence: mysqlEnum("target_persistence", ["short", "medium", "long"]).default("medium"),
+  volatilityBias: mysqlEnum("volatility_bias", ["top", "heart", "base"]).default("heart"),
+  carrierOrSupport: varchar("carrier_or_support", { length: 255 }),
+  safetyNotes: text("safety_notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  axisIdx: index("cam_axis_idx").on(table.climateAxis),
+  mediumIdx: index("cam_medium_idx").on(table.medium),
+}));
+
+export type ClimateAxisMatrixEntry = typeof climateAxisMatrix.$inferSelect;
+export type InsertClimateAxisMatrixEntry = typeof climateAxisMatrix.$inferInsert;
+
+// ============================================================================
+// IMPACT METRICS (Métriques d'impact par année)
+// ============================================================================
+export const impactMetrics = mysqlTable("impact_metrics", {
+  id: int("id").autoincrement().primaryKey(),
+  year: int("year").notNull(),
+  genomesSequencedTarget: int("genomes_sequenced_target").default(0),
+  chemicalProfilesTarget: int("chemical_profiles_target").default(0),
+  documentsDigitizedTarget: int("documents_digitized_target").default(0),
+  citizenContributorsTarget: int("citizen_contributors_target").default(0),
+  partnersTarget: int("partners_target").default(0),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  yearIdx: uniqueIndex("im_year_idx").on(table.year),
+}));
+
+export type ImpactMetric = typeof impactMetrics.$inferSelect;
+export type InsertImpactMetric = typeof impactMetrics.$inferInsert;
+
+// ============================================================================
+// PERFUMUM PLANTS (Plantes aromatiques PERFUMUM avec données du corpus)
+// ============================================================================
+export const perfumumPlants = mysqlTable("perfumum_plants", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  latinName: varchar("latin_name", { length: 255 }).notNull(),
+  family: varchar("family", { length: 100 }),
+  category: varchar("category", { length: 100 }),
+  origin: text("origin"),
+  habitat: text("habitat"),
+  olfactiveSignature: text("olfactive_signature"),
+  dominantMolecules: text("dominant_molecules"),
+  climaticAxis: varchar("climatic_axis", { length: 100 }),
+  traditionalUse: text("traditional_use"),
+  absorbeUse: text("absorbe_use"),
+  // Taxonomie complète
+  kingdom: varchar("kingdom", { length: 100 }).default("Plantae"),
+  division: varchar("division", { length: 100 }),
+  classField: varchar("class_field", { length: 100 }),
+  orderName: varchar("order_name", { length: 100 }),
+  genus: varchar("genus", { length: 100 }),
+  species: varchar("species", { length: 100 }),
+  // Caractéristiques
+  lifeCycle: varchar("life_cycle", { length: 100 }),
+  harvestPeriod: varchar("harvest_period", { length: 100 }),
+  essentialOilYield: varchar("essential_oil_yield", { length: 100 }),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  latinNameIdx: uniqueIndex("pp_latin_name_idx").on(table.latinName),
+  familyIdx: index("pp_family_idx").on(table.family),
+  axisIdx: index("pp_axis_idx").on(table.climaticAxis),
+}));
+
+export type PerfumumPlant = typeof perfumumPlants.$inferSelect;
+export type InsertPerfumumPlant = typeof perfumumPlants.$inferInsert;
+
+// ============================================================================
+// PERFUMUM MOLECULES (Molécules olfactives PERFUMUM avec rôles)
+// ============================================================================
+export const perfumumMolecules = mysqlTable("perfumum_molecules", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeName: varchar("molecule_name", { length: 255 }).notNull(),
+  family: varchar("family", { length: 100 }),
+  odorKey: text("odor_key"),
+  role: mysqlEnum("role", ["diffusion", "modulation", "structure", "fixation"]),
+  climaticAxis: varchar("climatic_axis", { length: 100 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  nameIdx: uniqueIndex("pmol_name_idx").on(table.moleculeName),
+  familyIdx: index("pmol_family_idx").on(table.family),
+  roleIdx: index("pmol_role_idx").on(table.role),
+}));
+
+export type PerfumumMolecule = typeof perfumumMolecules.$inferSelect;
+export type InsertPerfumumMolecule = typeof perfumumMolecules.$inferInsert;
+
+// ============================================================================
+// PLANT MOLECULE RELATIONS (Relations plantes-molécules PERFUMUM)
+// ============================================================================
+export const perfumumPlantMolecules = mysqlTable("perfumum_plant_molecules", {
+  id: int("id").autoincrement().primaryKey(),
+  plantId: int("plant_id").notNull(),
+  moleculeId: int("molecule_id").notNull(),
+  percentage: decimal("percentage", { precision: 5, scale: 2 }),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  plantIdx: index("ppm_plant_idx").on(table.plantId),
+  moleculeIdx: index("ppm_molecule_idx").on(table.moleculeId),
+}));
+
+export type PerfumumPlantMolecule = typeof perfumumPlantMolecules.$inferSelect;
+export type InsertPerfumumPlantMolecule = typeof perfumumPlantMolecules.$inferInsert;
