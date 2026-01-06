@@ -3016,3 +3016,49 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Mettre à jour la base de données avec les DOI trouvés (10 DOI ajoutés)
 - [x] Documenter les références sans DOI: 16 restantes (11 avec ISBN, 5 sans identifiant - ouvrages anciens ou institutionnels)
 
+
+
+---
+
+## 🔬 SESSION 06 JAN 2026 (suite) - ENRICHISSEMENT AVANCÉ
+
+### Phase 1 : ISBN manquants pour les 5 références sans identifiant
+- [x] Identifier les 5 références sans ISBN ni DOI (11 identifiées, 5 livres + 4 ressources en ligne + 1 rapport + 1 article)
+- [x] Rechercher les ISBN pour "Fragrances of the World" (Michael Edwards) → ISBN: 978-0980860061
+- [x] Rechercher les ISBN pour "West African Herbal Pharmacopoeia" → ISBN: 978-9988-1-8015-7
+- [x] Rechercher les ISBN pour les 3 autres références sans identifiant:
+  - The Essential Oils (Guenther) → ISBN: 978-0894647734
+  - The Useful Plants of West Tropical Africa (Burkill) → ISBN: 978-0947643010
+  - Aroma Chemicals IV: Musks (Kraft) → ISBN: 978-1405114509 + DOI
+  - Study of Essential Oils Colombia (Stashenko) → ISBN: 978-1-78984-641-6 + DOI
+- [x] Mettre à jour la base de données avec les ISBN trouvés (6 références mises à jour)
+- [x] Valider les métadonnées des références (5 restantes: 4 ressources en ligne + 1 article SOACHIM)
+
+### Phase 2 : Vue cartographique filtrable par catégorie de plante
+- [x] Analyser les catégories de plantes existantes (aromatique: 68, cannabis: 29, résine: 16, tabac: 9, fleur: 7, bois: 5, racine: 5)
+- [x] Créer les fonctions db: getPlantsWithGPS() et getPlantsWithGPSByCategory()
+- [x] Ajouter les procédures tRPC: plants.getWithGPS et plants.getWithGPSByCategory
+- [x] Créer la page CartePlantesGPS.tsx avec filtres par catégorie
+- [x] Ajouter la route /carte-plantes-gps dans App.tsx
+- [x] Créer des marqueurs différenciés par catégorie (8 couleurs distinctes)
+- [x] Implémenter le toggle de visibilité par catégorie (checkboxes + boutons Tout/Rien)
+- [ ] Tester la carte filtrée sur desktop et mobile
+
+### Phase 3 : Liaison molécules-recettes pour Tagetes lucida
+- [x] Identifier les molécules de Tagetes lucida (Estragole ID:630002, Anéthole ID:870001, Méthyl-eugénol ID:660003, β-Ocimène ID:720002)
+- [x] Vérifier les liaisons existantes dans plant_molecules (2 existantes: Estragole, β-Ocimène)
+- [x] Ajouter la liaison Anéthole -> Tagetes lucida (ID 300001)
+- [x] Ajouter la liaison Méthyl-eugénol -> Tagetes lucida (ID 300001)
+- [x] Vérifier les 4 liaisons finales pour Tagetes lucida
+- [x] Liaisons plant_molecules complètes (4 molécules liées à Tagetes lucida)
+- [x] Note: Aucune recette n'utilise directement Tagetes lucida - les liaisons plant_molecules permettent de tracer la provenance botanique
+
+### Phase 4 : Tests et validation
+- [x] Créer les tests vitest (server/session-06jan.test.ts)
+- [x] Tests ISBN: 6 tests passés
+- [x] Tests GPS plantes: 3 tests passés
+- [x] Tests liaisons Tagetes-molécules: 4 tests passés
+- [x] Tous les 399 tests passés (31 fichiers de tests)
+- [ ] Créer le checkpoint final
+- [ ] Présenter les résultats au client
+

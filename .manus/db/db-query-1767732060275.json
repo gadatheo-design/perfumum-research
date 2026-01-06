@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO plant_molecules (plant_id, molecule_id, notes) VALUES (300001, 870001, 'Molécule dominante de Tagetes lucida (Pericón)');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO plant_molecules (plant_id, molecule_id, notes) VALUES (300001, 870001, 'Molécule dominante de Tagetes lucida (Pericón)');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 69
+}

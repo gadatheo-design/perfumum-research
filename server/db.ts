@@ -4148,6 +4148,29 @@ export async function getPlantsByCategory(category: string) {
   return await db.select().from(plants).where(eq(plants.category, category as any)).orderBy(plants.name);
 }
 
+export async function getPlantsWithGPS() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(plants)
+    .where(and(
+      isNotNull(plants.latitude),
+      isNotNull(plants.longitude)
+    ))
+    .orderBy(plants.name);
+}
+
+export async function getPlantsWithGPSByCategory(category: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(plants)
+    .where(and(
+      eq(plants.category, category as any),
+      isNotNull(plants.latitude),
+      isNotNull(plants.longitude)
+    ))
+    .orderBy(plants.name);
+}
+
 export async function getPlantByLatinName(latinName: string) {
   const db = await getDb();
   if (!db) return null;

@@ -2496,6 +2496,15 @@ export const appRouter = router({
     getWithoutImages: publicProcedure.query(async () => {
       return await db.getPlantsWithoutImages();
     }),
+    // Plantes avec coordonnées GPS pour la carte
+    getWithGPS: publicProcedure.query(async () => {
+      return await db.getPlantsWithGPS();
+    }),
+    getWithGPSByCategory: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getPlantsWithGPSByCategory(input);
+      }),
   }),
 
   // ============================================================================

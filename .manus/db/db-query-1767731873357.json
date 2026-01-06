@@ -1,0 +1,28 @@
+{
+  "query": "SELECT p.id, p.name, p.latin_name, p.dominant_molecules FROM plants p WHERE p.latin_name LIKE '%Tagetes%' OR p.name LIKE '%Tagetes%' OR p.name LIKE '%Pericón%' OR p.name LIKE '%Estragon%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.id, p.name, p.latin_name, p.dominant_molecules FROM plants p WHERE p.latin_name LIKE '%Tagetes%' OR p.name LIKE '%Tagetes%' OR p.name LIKE '%Pericón%' OR p.name LIKE '%Estragon%';",
+  "rows": [
+    {
+      "id": "60002",
+      "name": "Estragon",
+      "latin_name": "Artemisia dracunculus",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "210009",
+      "name": "Tagète (huile)",
+      "latin_name": "Tagetes minuta",
+      "dominant_molecules": "tagetone; dihydrotagetone; ocimene (variable)"
+    },
+    {
+      "id": "300001",
+      "name": "Pericón",
+      "latin_name": "Tagetes lucida",
+      "dominant_molecules": "[\"Estragole\",\"Anéthole\",\"Méthyleugénol\",\"β-Ocimène\",\"(Z)-Tagétone\"]"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tdominant_molecules\n60002\tEstragon\tArtemisia dracunculus\tNULL\n210009\tTagète (huile)\tTagetes minuta\ttagetone; dihydrotagetone; ocimene (variable)\n300001\tPericón\tTagetes lucida\t[\"Estragole\",\"Anéthole\",\"Méthyleugénol\",\"β-Ocimène\",\"(Z)-Tagétone\"]\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}
