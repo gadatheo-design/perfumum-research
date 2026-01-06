@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function EtudeClimatiqueDetail() {
   const params = useParams();
@@ -53,6 +54,17 @@ export default function EtudeClimatiqueDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50/30 to-cyan-50/20">
+      {/* Breadcrumbs */}
+      <div className="bg-sky-50">
+        <Breadcrumbs 
+          currentLabel={study.name}
+          customItems={[
+            { label: "Études Climatiques", path: "/etudes-climatiques" },
+            { label: study.name }
+          ]}
+        />
+      </div>
+      
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-900 via-cyan-800 to-sky-900 text-white py-12">
         <div className="container">

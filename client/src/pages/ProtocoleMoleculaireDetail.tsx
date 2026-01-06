@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function ProtocoleMoleculaireDetail() {
   const params = useParams();
@@ -91,6 +92,17 @@ export default function ProtocoleMoleculaireDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50/30 to-indigo-50/20">
+      {/* Breadcrumbs */}
+      <div className="bg-violet-50">
+        <Breadcrumbs 
+          currentLabel={protocol.name}
+          customItems={[
+            { label: "Protocoles Moléculaires", path: "/protocoles-moleculaires" },
+            { label: protocol.name }
+          ]}
+        />
+      </div>
+      
       {/* Header */}
       <div className="bg-gradient-to-r from-violet-900 via-purple-800 to-indigo-900 text-white py-12">
         <div className="container">

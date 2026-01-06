@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 // Category configuration
 const categoryConfig: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
@@ -115,6 +116,15 @@ export default function RawMaterialDetail() {
       <Header />
       
       <main className="container py-8">
+        {/* Breadcrumbs */}
+        <Breadcrumbs 
+          currentLabel={material.name}
+          customItems={[
+            { label: "Matières Premières", path: "/matieres-premieres" },
+            { label: material.name }
+          ]}
+        />
+        
         {/* Back Navigation */}
         <div className="mb-6">
           <Link href="/matieres-premieres">

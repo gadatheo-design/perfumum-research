@@ -26,6 +26,7 @@ import {
   Camera,
   ImageIcon
 } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 const climaticAxisConfig: Record<string, { label: string; icon: React.ReactNode; color: string; description: string }> = {
   vent: { 
@@ -178,16 +179,21 @@ export default function LeafEconomyDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-gray-900">
+      {/* Breadcrumbs */}
+      <div className="bg-emerald-50 dark:bg-emerald-950">
+        <Breadcrumbs 
+          currentLabel={sample.species || sample.sampleId}
+          customItems={[
+            { label: "San Andrés", path: "/san-andres" },
+            { label: "Leaf Economies", path: "/san-andres/leaf-economies" },
+            { label: sample.species || sample.sampleId }
+          ]}
+        />
+      </div>
+      
       {/* Header */}
       <div className="bg-emerald-900 text-white py-12 px-4">
         <div className="container max-w-4xl">
-          <div className="flex items-center gap-2 text-emerald-300 text-sm mb-4">
-            <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
-            <ChevronRight className="h-4 w-4" />
-            <Link href="/san-andres/leaf-economies" className="hover:text-white transition-colors">Leaf Economies</Link>
-            <ChevronRight className="h-4 w-4" />
-            <span>{sample.sampleId}</span>
-          </div>
           
           <div className="flex items-start justify-between">
             <div>

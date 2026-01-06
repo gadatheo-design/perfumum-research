@@ -128,6 +128,57 @@ const labelMap: Record<string, string> = {
   
   // Projet
   "projet": "Projet",
+  
+  // San Andrés / Seaflower
+  "san-andres": "San Andrés",
+  "leaf-economies": "Leaf Economies",
+  "echantillon": "Échantillon",
+  "terp-profiles": "TerpProfiles",
+  "formules": "Formules",
+  "recettes-finales": "Recettes Finales",
+  "botanique-critique": "Botanique Critique",
+  "timeline-botanique": "Timeline Botanique",
+  "varietes-fantomes": "Variétés Fantômes",
+  "recettes-radicales": "Recettes Radicales",
+  
+  // Plantes & Variétés
+  "plants": "Plantes",
+  "plantes": "Plantes",
+  "varietes": "Variétés",
+  "variete": "Variété",
+  "carte-varietes": "Carte des Variétés",
+  
+  // Archives & Terrains
+  "archives-terrain": "Archives Terrain",
+  "archive-terrain": "Archive Terrain",
+  
+  // Protocoles
+  "protocoles-moleculaires": "Protocoles Moléculaires",
+  "protocole-moleculaire": "Protocole Moléculaire",
+  
+  // Matières premières
+  "matieres-premieres": "Matières Premières",
+  "raw-materials": "Matières Premières",
+  "raw-material": "Matière Première",
+  
+  // Axes de recherche
+  "axes-recherche": "Axes de Recherche",
+  "axe-recherche": "Axe de Recherche",
+  
+  // Odeurs situées
+  "odeurs-situees": "Odeurs Situées",
+  "odeur-situee": "Odeur Située",
+  
+  // Tests extraction
+  "tests-extraction": "Tests d'Extraction",
+  "test-extraction": "Test d'Extraction",
+  
+  // Études climatiques
+  "etudes-climatiques": "Études Climatiques",
+  "etude-climatique": "Étude Climatique",
+  
+  // Terpènes
+  "terpenes": "Terpènes",
 };
 
 interface BreadcrumbsProps {

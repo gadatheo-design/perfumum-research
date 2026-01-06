@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Chart as ChartJS,
@@ -269,6 +270,15 @@ export default function VarietyDetail() {
       <Header />
       
       <main className="container py-8">
+        {/* Breadcrumbs */}
+        <Breadcrumbs 
+          currentLabel={variety.name}
+          customItems={[
+            { label: "Variétés", path: "/varietes" },
+            { label: variety.name }
+          ]}
+        />
+        
         {/* Navigation */}
         <div className="mb-6 flex items-center justify-between">
           <Link href="/varietes">

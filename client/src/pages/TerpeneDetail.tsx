@@ -95,21 +95,21 @@ export default function TerpeneDetail() {
       <Header />
       
       <main className="flex-1">
-        {/* Breadcrumb */}
+        {/* Breadcrumbs */}
         <div className="container py-4">
-          <DynamicBreadcrumb />
+          <Breadcrumbs 
+            currentLabel={molecule.name}
+            customItems={[
+              { label: "Résines CBD", path: "/resines-cbd" },
+              { label: "Terpènes", path: "/terpenes" },
+              { label: molecule.name }
+            ]}
+          />
         </div>
         
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-950 dark:to-emerald-900 py-16">
           <div className="container">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-              <Link href="/">Accueil</Link>
-              <span>/</span>
-              <Link href="/resines-cbd">Résines CBD</Link>
-              <span>/</span>
-              <span className="text-foreground">{molecule.name}</span>
-            </div>
             
             <div className="flex items-start justify-between gap-8">
               <div className="flex-1">

@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -147,6 +148,9 @@ export default function PlantDetail() {
   
   return (
     <div className="container py-8 max-w-6xl">
+      {/* Breadcrumbs */}
+      <Breadcrumbs currentLabel={plant.name} />
+      
       {/* Header avec navigation */}
       <div className="flex items-center gap-4 mb-6">
         <Link href="/plants">

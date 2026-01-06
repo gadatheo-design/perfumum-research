@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function ArchiveTerrainDetail() {
   const params = useParams();
@@ -64,6 +65,17 @@ export default function ArchiveTerrainDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50/30 to-emerald-50/20">
+      {/* Breadcrumbs */}
+      <div className="bg-stone-50">
+        <Breadcrumbs 
+          currentLabel={archive.provisionalName || "Archive"}
+          customItems={[
+            { label: "Archives Terrain", path: "/archives-terrain" },
+            { label: archive.provisionalName || "Archive" }
+          ]}
+        />
+      </div>
+      
       {/* Header */}
       <div className="bg-gradient-to-r from-amber-900 via-stone-800 to-emerald-900 text-white py-12">
         <div className="container">
