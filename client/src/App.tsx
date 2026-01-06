@@ -125,6 +125,7 @@ import CorrelationAnalysis from "./pages/CorrelationAnalysis";
 import { AbsorbeScale } from "@/pages/AbsorbeScale";
 import EnrichissementPubChem from "./pages/EnrichissementPubChem";
 import CarteOrigines from "./pages/CarteOrigines";
+import CarteTerroirsRecherche from "./pages/CarteTerroirsRecherche";
 import VisualisationsCorrelation from "./pages/VisualisationsCorrelation";
 import ExportBibliographique from "./pages/ExportBibliographique";
 
@@ -382,6 +383,7 @@ function Router() {
       <Route path="/absorbe-scale" component={AbsorbeScale} />
       <Route path="/outils/enrichissement-pubchem" component={EnrichissementPubChem} />
       <Route path="/outils/carte-origines" component={CarteOrigines} />
+      <Route path="/carte-terroirs-recherche" component={CarteTerroirsRecherche} />
       <Route path="/outils/visualisations-correlation" component={VisualisationsCorrelation} />
       <Route path="/outils/export-bibliographique" component={ExportBibliographique} />
       
