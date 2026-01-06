@@ -7347,6 +7347,75 @@ export const appRouter = router({
       return await db.getCorpusStats();
     }),
   }),
+
+  // ============================================================================
+  // TEXT FRAGMENTS (Fragments textuels historiques)
+  // ============================================================================
+  textFragments: router({
+    list: publicProcedure
+      .input(z.object({
+        language: z.string().optional(),
+        evidenceLevel: z.enum(['confirmed', 'probable', 'hypothetical']).optional(),
+        manuscriptId: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.getAllTextFragments(input);
+      }),
+    
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getTextFragmentById(input);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return await db.getTextFragmentStats();
+    }),
+  }),
+
+  // ============================================================================
+  // TRADE ROUTES (Routes commerciales historiques)
+  // ============================================================================
+  tradeRoutes: router({
+    list: publicProcedure
+      .input(z.object({
+        material: z.string().optional(),
+        periodStart: z.number().optional(),
+        periodEnd: z.number().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.getAllTradeRoutes(input);
+      }),
+    
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getTradeRouteById(input);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return await db.getTradeRouteStats();
+    }),
+  }),
+
+  // ============================================================================
+  // CORPUS ADVANCED FILTERS (Filtres avancés pour le corpus)
+  // ============================================================================
+  corpusAdvanced: router({
+    filter: publicProcedure
+      .input(z.object({
+        axisId: z.string().optional(),
+        period: z.object({
+          start: z.number().optional(),
+          end: z.number().optional(),
+        }).optional(),
+        region: z.string().optional(),
+        entityType: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getCorpusWithAdvancedFilters(input);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

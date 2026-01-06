@@ -12,9 +12,10 @@ import { trpc } from "@/lib/trpc";
 import { 
   Dna, BookOpen, Leaf, FlaskConical, Users, ScrollText, 
   Route, BookMarked, Sparkles, Thermometer, BarChart3, 
-  Eye, Microscope, TestTube, Search, ArrowRight, Database, PieChart
+  Eye, Microscope, TestTube, Search, ArrowRight, Database, PieChart, Filter, Map
 } from "lucide-react";
 import { CorpusChartsSection } from "@/components/CorpusCharts";
+import { CorpusAdvancedFilters } from "@/components/CorpusAdvancedFilters";
 
 // Composant pour afficher les statistiques du corpus
 function CorpusStats() {
@@ -447,11 +448,17 @@ export default function CorpusPerfumum() {
           <div className="container">
             <Tabs defaultValue="axes" className="space-y-6">
               <TabsList className="flex flex-wrap h-auto gap-2 bg-background p-2 rounded-lg">
+                <TabsTrigger value="filters" className="gap-2">
+                  <Filter className="h-4 w-4" /> Filtres avancés
+                </TabsTrigger>
                 <TabsTrigger value="charts" className="gap-2">
                   <PieChart className="h-4 w-4" /> Visualisations
                 </TabsTrigger>
                 <TabsTrigger value="axes" className="gap-2">
                   <Dna className="h-4 w-4" /> Axes de recherche
+                </TabsTrigger>
+                <TabsTrigger value="routes" className="gap-2">
+                  <Route className="h-4 w-4" /> Routes commerciales
                 </TabsTrigger>
                 <TabsTrigger value="plants" className="gap-2">
                   <Leaf className="h-4 w-4" /> Plantes
@@ -470,6 +477,15 @@ export default function CorpusPerfumum() {
                 </TabsTrigger>
               </TabsList>
               
+              <TabsContent value="filters" className="space-y-6">
+                <h2 className="text-2xl font-bold">Filtres avancés du corpus</h2>
+                <p className="text-muted-foreground">
+                  Croisez les données du corpus par axe de recherche, période historique et région géographique.
+                  Explorez les relations entre plantes, molécules, textes historiques et routes commerciales.
+                </p>
+                <CorpusAdvancedFilters showResults={true} />
+              </TabsContent>
+              
               <TabsContent value="charts" className="space-y-6">
                 <h2 className="text-2xl font-bold">Visualisations interactives</h2>
                 <p className="text-muted-foreground">
@@ -477,6 +493,29 @@ export default function CorpusPerfumum() {
                   par axe de recherche, famille botanique et rôle moléculaire.
                 </p>
                 <CorpusChartsSection />
+              </TabsContent>
+              
+              <TabsContent value="routes" className="space-y-6">
+                <h2 className="text-2xl font-bold">Routes commerciales historiques</h2>
+                <p className="text-muted-foreground">
+                  Carte interactive des routes commerciales des aromates et parfums à travers l'histoire.
+                  Explorez les trajets de l'encens, de la myrrhe, des épices et autres matières précieuses.
+                </p>
+                <div className="flex justify-end mb-4">
+                  <Button variant="outline" asChild>
+                    <Link href="/corpus/routes-commerciales">
+                      <Map className="h-4 w-4 mr-2" />
+                      Voir la page dédiée
+                    </Link>
+                  </Button>
+                </div>
+                <Card>
+                  <CardContent className="p-6">
+                    <p className="text-center text-muted-foreground">
+                      Accédez à la <Link href="/corpus/routes-commerciales" className="text-primary hover:underline">page dédiée aux routes commerciales</Link> pour une expérience complète avec carte interactive et filtres avancés.
+                    </p>
+                  </CardContent>
+                </Card>
               </TabsContent>
               
               <TabsContent value="axes" className="space-y-6">

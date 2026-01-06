@@ -10147,3 +10147,278 @@ export async function getCorpusStats() {
   
   return stats;
 }
+
+
+// ============================================================================
+// TEXT FRAGMENTS (Fragments textuels historiques)
+// ============================================================================
+
+export async function getAllTextFragments(filters?: {
+  language?: string;
+  evidenceLevel?: string;
+  manuscriptId?: string;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = sql`SELECT * FROM text_fragments WHERE 1=1`;
+  
+  if (filters?.language) {
+    query = sql`${query} AND language = ${filters.language}`;
+  }
+  if (filters?.evidenceLevel) {
+    query = sql`${query} AND evidence_level = ${filters.evidenceLevel}`;
+  }
+  if (filters?.manuscriptId) {
+    query = sql`${query} AND manuscript_id = ${filters.manuscriptId}`;
+  }
+  
+  query = sql`${query} ORDER BY created_at DESC`;
+  
+  const result = await db.execute(query);
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    entities: typeof row.entities === 'string' ? JSON.parse(row.entities || '[]') : row.entities,
+  }));
+}
+
+export async function getTextFragmentById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM text_fragments WHERE id = ${id}`);
+  const rows = result[0] as any[];
+  if (rows.length === 0) return null;
+  
+  const row = rows[0];
+  return {
+    ...row,
+    entities: typeof row.entities === 'string' ? JSON.parse(row.entities || '[]') : row.entities,
+  };
+}
+
+export async function getTextFragmentStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const byLanguage = await db.execute(sql`
+    SELECT language, COUNT(*) as count 
+    FROM text_fragments 
+    GROUP BY language 
+    ORDER BY count DESC
+  `);
+  
+  const byEvidenceLevel = await db.execute(sql`
+    SELECT evidence_level, COUNT(*) as count 
+    FROM text_fragments 
+    GROUP BY evidence_level 
+    ORDER BY count DESC
+  `);
+  
+  const byManuscript = await db.execute(sql`
+    SELECT manuscript_id, COUNT(*) as count 
+    FROM text_fragments 
+    GROUP BY manuscript_id 
+    ORDER BY count DESC
+  `);
+  
+  const total = await db.execute(sql`SELECT COUNT(*) as total FROM text_fragments`);
+  
+  return {
+    total: (total[0] as any[])[0]?.total || 0,
+    byLanguage: byLanguage[0] as any[],
+    byEvidenceLevel: byEvidenceLevel[0] as any[],
+    byManuscript: byManuscript[0] as any[],
+  };
+}
+
+// ============================================================================
+// TRADE ROUTES (Routes commerciales historiques)
+// ============================================================================
+
+export async function getAllTradeRoutes(filters?: {
+  material?: string;
+  periodStart?: number;
+  periodEnd?: number;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = sql`SELECT * FROM trade_routes WHERE 1=1`;
+  
+  if (filters?.periodStart) {
+    query = sql`${query} AND (time_end IS NULL OR time_end >= ${filters.periodStart})`;
+  }
+  if (filters?.periodEnd) {
+    query = sql`${query} AND (time_start IS NULL OR time_start <= ${filters.periodEnd})`;
+  }
+  
+  query = sql`${query} ORDER BY time_start ASC`;
+  
+  const result = await db.execute(query);
+  let routes = (result[0] as any[]).map(row => ({
+    ...row,
+    nodes: typeof row.nodes === 'string' ? JSON.parse(row.nodes || '[]') : row.nodes,
+    materials: typeof row.materials === 'string' ? JSON.parse(row.materials || '[]') : row.materials,
+    sources: typeof row.sources === 'string' ? JSON.parse(row.sources || '[]') : row.sources,
+  }));
+  
+  // Filtrer par matériau si spécifié
+  if (filters?.material) {
+    routes = routes.filter(route => 
+      route.materials?.some((m: string) => 
+        m.toLowerCase().includes(filters.material!.toLowerCase())
+      )
+    );
+  }
+  
+  return routes;
+}
+
+export async function getTradeRouteById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM trade_routes WHERE id = ${id}`);
+  const rows = result[0] as any[];
+  if (rows.length === 0) return null;
+  
+  const row = rows[0];
+  return {
+    ...row,
+    nodes: typeof row.nodes === 'string' ? JSON.parse(row.nodes || '[]') : row.nodes,
+    materials: typeof row.materials === 'string' ? JSON.parse(row.materials || '[]') : row.materials,
+    sources: typeof row.sources === 'string' ? JSON.parse(row.sources || '[]') : row.sources,
+  };
+}
+
+export async function getTradeRouteStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const total = await db.execute(sql`SELECT COUNT(*) as total FROM trade_routes`);
+  const routes = await getAllTradeRoutes();
+  
+  // Extraire tous les matériaux uniques
+  const allMaterials = new Set<string>();
+  routes.forEach(route => {
+    route.materials?.forEach((m: string) => allMaterials.add(m));
+  });
+  
+  // Extraire toutes les régions uniques (depuis les nodes)
+  const allRegions = new Set<string>();
+  routes.forEach(route => {
+    route.nodes?.forEach((node: any) => {
+      if (node.place) allRegions.add(node.place);
+    });
+  });
+  
+  // Calculer les périodes couvertes
+  const periods = routes.map(r => ({
+    name: r.name,
+    start: r.time_start,
+    end: r.time_end,
+  }));
+  
+  return {
+    total: (total[0] as any[])[0]?.total || 0,
+    materials: Array.from(allMaterials),
+    regions: Array.from(allRegions),
+    periods,
+  };
+}
+
+// ============================================================================
+// CORPUS ADVANCED FILTERS (Filtres avancés pour le corpus)
+// ============================================================================
+
+export async function getCorpusWithAdvancedFilters(filters: {
+  axisId?: string;
+  period?: { start?: number; end?: number };
+  region?: string;
+  entityType?: string;
+}) {
+  const db = await getDb();
+  if (!db) return { plants: [], molecules: [], fragments: [], routes: [], manuscripts: [] };
+  
+  const results: any = {
+    plants: [],
+    molecules: [],
+    fragments: [],
+    routes: [],
+    manuscripts: [],
+  };
+  
+  // Filtrer les plantes
+  let plantsQuery = sql`SELECT * FROM perfumum_plants WHERE 1=1`;
+  if (filters.axisId) {
+    plantsQuery = sql`${plantsQuery} AND climatic_axis = ${filters.axisId}`;
+  }
+  if (filters.region) {
+    plantsQuery = sql`${plantsQuery} AND (origin LIKE ${`%${filters.region}%`} OR habitat LIKE ${`%${filters.region}%`})`;
+  }
+  const plantsResult = await db.execute(plantsQuery);
+  results.plants = plantsResult[0] as any[];
+  
+  // Filtrer les molécules (la table perfumum_molecules n'a pas de colonne axis_id)
+  let moleculesQuery = sql`SELECT * FROM perfumum_molecules WHERE 1=1`;
+  // Note: Les molécules ne sont pas directement liées aux axes de recherche
+  // On retourne toutes les molécules pour les filtres avancés
+  const moleculesResult = await db.execute(moleculesQuery);
+  results.molecules = moleculesResult[0] as any[];
+  
+  // Filtrer les fragments textuels
+  let fragmentsQuery = sql`SELECT * FROM text_fragments WHERE 1=1`;
+  if (filters.axisId) {
+    fragmentsQuery = sql`${fragmentsQuery} AND axis_id = ${filters.axisId}`;
+  }
+  const fragmentsResult = await db.execute(fragmentsQuery);
+  results.fragments = (fragmentsResult[0] as any[]).map(row => ({
+    ...row,
+    entities: typeof row.entities === 'string' ? JSON.parse(row.entities || '[]') : row.entities,
+  }));
+  
+  // Filtrer les routes commerciales
+  let routesQuery = sql`SELECT * FROM trade_routes WHERE 1=1`;
+  if (filters.axisId) {
+    routesQuery = sql`${routesQuery} AND axis_id = ${filters.axisId}`;
+  }
+  if (filters.period?.start) {
+    routesQuery = sql`${routesQuery} AND (time_end IS NULL OR time_end >= ${filters.period.start})`;
+  }
+  if (filters.period?.end) {
+    routesQuery = sql`${routesQuery} AND (time_start IS NULL OR time_start <= ${filters.period.end})`;
+  }
+  const routesResult = await db.execute(routesQuery);
+  results.routes = (routesResult[0] as any[]).map(row => ({
+    ...row,
+    nodes: typeof row.nodes === 'string' ? JSON.parse(row.nodes || '[]') : row.nodes,
+    materials: typeof row.materials === 'string' ? JSON.parse(row.materials || '[]') : row.materials,
+    sources: typeof row.sources === 'string' ? JSON.parse(row.sources || '[]') : row.sources,
+  }));
+  
+  // Filtrer par région dans les routes (nodes)
+  if (filters.region) {
+    results.routes = results.routes.filter((route: any) =>
+      route.nodes?.some((node: any) =>
+        node.place?.toLowerCase().includes(filters.region!.toLowerCase())
+      )
+    );
+  }
+  
+  // Filtrer les manuscrits
+  let manuscriptsQuery = sql`SELECT * FROM perfumum_manuscripts WHERE 1=1`;
+  if (filters.axisId) {
+    manuscriptsQuery = sql`${manuscriptsQuery} AND axis_id = ${filters.axisId}`;
+  }
+  if (filters.region) {
+    manuscriptsQuery = sql`${manuscriptsQuery} AND region LIKE ${`%${filters.region}%`}`;
+  }
+  const manuscriptsResult = await db.execute(manuscriptsQuery);
+  results.manuscripts = (manuscriptsResult[0] as any[]).map(row => ({
+    ...row,
+    tags: typeof row.tags === 'string' ? JSON.parse(row.tags || '[]') : row.tags,
+  }));
+  
+  return results;
+}

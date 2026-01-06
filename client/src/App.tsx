@@ -260,6 +260,7 @@ import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
 
 // === CORPUS PERFUMUM ===
 import CorpusPerfumum from "./pages/CorpusPerfumum";
+import RoutesCommerciales from "./pages/RoutesCommerciales";
 
 // === PAGES TECHNIQUES ===
 import TestMinimal from "./pages/TestMinimal";
@@ -299,6 +300,7 @@ function Router() {
       
       {/* === CORPUS PERFUMUM === */}
       <Route path="/corpus" component={CorpusPerfumum} />
+      <Route path="/corpus/routes-commerciales" component={RoutesCommerciales} />
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />
