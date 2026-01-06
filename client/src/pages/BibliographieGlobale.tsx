@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -26,11 +25,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   Card,
   CardContent,
   CardDescription,
@@ -40,7 +34,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Link } from "wouter";
 import {
   BookOpen,
   Plus,
@@ -65,9 +58,6 @@ import {
   CheckCircle,
   Clock,
   AlertCircle,
-  Compass,
-  Link2,
-  X,
 } from "lucide-react";
 
 // Types pour les entrées bibliographiques
@@ -139,159 +129,12 @@ const entryTypeIcons: Record<EntryType, React.ReactNode> = {
   software: <FileCode className="h-4 w-4" />,
 };
 
-// Composant pour gérer les axes liés à une référence
-function AxisLinkManager({ entryId, onUpdate }: { entryId: number; onUpdate: () => void }) {
-  const { user } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const { data: linkedAxes, refetch: refetchLinked } = trpc.bibliography.getLinkedAxes.useQuery(entryId);
-  const { data: allAxes } = trpc.researchAxes.list.useQuery({});
-  
-  const linkMutation = trpc.bibliography.linkToAxis.useMutation({
-    onSuccess: () => {
-      toast.success("Axe lié avec succès");
-      refetchLinked();
-      onUpdate();
-    },
-    onError: (error) => {
-      toast.error(`Erreur: ${error.message}`);
-    },
-  });
-  
-  const unlinkMutation = trpc.bibliography.unlinkFromAxis.useMutation({
-    onSuccess: () => {
-      toast.success("Axe délié");
-      refetchLinked();
-      onUpdate();
-    },
-    onError: (error) => {
-      toast.error(`Erreur: ${error.message}`);
-    },
-  });
-  
-  const linkedAxisIds = linkedAxes?.map((la: any) => la.axisId) || [];
-  const availableAxes = allAxes?.filter((a: any) => !linkedAxisIds.includes(a.id)) || [];
-  
-  return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-1">
-          <Link2 className="h-4 w-4" />
-          <span className="text-xs">{linkedAxes?.length || 0}</span>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-80" align="end">
-        <div className="space-y-4">
-          <div>
-            <h4 className="font-medium mb-2 flex items-center gap-2">
-              <Compass className="h-4 w-4" />
-              Axes de recherche liés
-            </h4>
-            {linkedAxes && linkedAxes.length > 0 ? (
-              <div className="space-y-2">
-                {linkedAxes.map((link: any) => (
-                  <div key={link.axisId} className="flex items-center justify-between p-2 bg-muted rounded-md">
-                    <div className="flex items-center gap-2">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
-                        style={{ backgroundColor: link.axis?.color || '#6366f1' }}
-                      />
-                      <span className="text-sm font-medium">{link.axis?.axisCode}</span>
-                      <span className="text-sm text-muted-foreground truncate max-w-[120px]">
-                        {link.axis?.name}
-                      </span>
-                    </div>
-                    {user && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-6 w-6 p-0 text-destructive"
-                        onClick={() => unlinkMutation.mutate({ bibliographyId: entryId, axisId: link.axisId })}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-muted-foreground">Aucun axe lié</p>
-            )}
-          </div>
-          
-          {user && availableAxes.length > 0 && (
-            <div>
-              <h4 className="font-medium mb-2 text-sm">Ajouter un axe</h4>
-              <div className="space-y-1 max-h-[200px] overflow-y-auto">
-                {availableAxes.map((axis: any) => (
-                  <Button
-                    key={axis.id}
-                    variant="ghost"
-                    size="sm"
-                    className="w-full justify-start gap-2 h-auto py-2"
-                    onClick={() => linkMutation.mutate({ bibliographyId: entryId, axisId: axis.id })}
-                  >
-                    <div 
-                      className="w-3 h-3 rounded-full flex-shrink-0" 
-                      style={{ backgroundColor: axis.color || '#6366f1' }}
-                    />
-                    <span className="font-medium">{axis.axisCode}</span>
-                    <span className="text-muted-foreground truncate">{axis.name}</span>
-                  </Button>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          <div className="pt-2 border-t">
-            <Link href="/axes-recherche">
-              <Button variant="link" size="sm" className="p-0 h-auto">
-                Gérer les axes de recherche →
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
-  );
-}
-
-// Composant pour afficher les badges d'axes
-function AxisBadges({ entryId }: { entryId: number }) {
-  const { data: linkedAxes } = trpc.bibliography.getLinkedAxes.useQuery(entryId);
-  
-  if (!linkedAxes || linkedAxes.length === 0) return null;
-  
-  return (
-    <div className="flex flex-wrap gap-1 mt-2">
-      {linkedAxes.slice(0, 3).map((link: any) => (
-        <Link key={link.axisId} href={`/axes-recherche/${link.axis?.axisCode}`}>
-          <Badge 
-            variant="outline" 
-            className="text-xs cursor-pointer hover:bg-accent"
-            style={{ borderColor: link.axis?.color || '#6366f1', color: link.axis?.color || '#6366f1' }}
-          >
-            <Compass className="h-2 w-2 mr-1" />
-            {link.axis?.axisCode}
-          </Badge>
-        </Link>
-      ))}
-      {linkedAxes.length > 3 && (
-        <Badge variant="outline" className="text-xs">
-          +{linkedAxes.length - 3}
-        </Badge>
-      )}
-    </div>
-  );
-}
-
 export default function BibliographieGlobale() {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState<string>("all");
   const [selectedDomain, setSelectedDomain] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
-  const [selectedAxis, setSelectedAxis] = useState<string>("all");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<any>(null);
@@ -307,17 +150,6 @@ export default function BibliographieGlobale() {
   });
 
   const { data: stats } = trpc.bibliography.getStats.useQuery();
-  const { data: allAxes } = trpc.researchAxes.list.useQuery({});
-
-  // Filtrer par axe côté client
-  const filteredEntries = useMemo(() => {
-    if (!entries) return [];
-    if (selectedAxis === "all") return entries;
-    
-    // Note: Pour un filtrage côté serveur, il faudrait ajouter un paramètre axisId à la procédure list
-    // Pour l'instant, on filtre côté client en utilisant les données des axes liés
-    return entries;
-  }, [entries, selectedAxis]);
 
   const createMutation = trpc.bibliography.create.useMutation({
     onSuccess: () => {
@@ -354,9 +186,6 @@ export default function BibliographieGlobale() {
   const importBibTeXMutation = trpc.bibliography.importBibTeX.useMutation({
     onSuccess: (result) => {
       toast.success(`Import terminé: ${result.success} succès, ${result.failed} échecs`);
-      if (result.errors && result.errors.length > 0) {
-        toast.warning(`Erreurs: ${result.errors.slice(0, 3).join(', ')}${result.errors.length > 3 ? '...' : ''}`);
-      }
       setIsImportDialogOpen(false);
       setImportText("");
       refetch();
@@ -376,6 +205,10 @@ export default function BibliographieGlobale() {
     onError: (error) => {
       toast.error(`Erreur d'import: ${error.message}`);
     },
+  });
+
+  const { data: exportedBibTeX } = trpc.bibliography.exportBibTeX.useQuery(undefined, {
+    enabled: false,
   });
 
   // Formulaire d'ajout/édition
@@ -539,7 +372,7 @@ export default function BibliographieGlobale() {
             </div>
 
             {user && (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex gap-2">
                 <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline">
@@ -551,7 +384,7 @@ export default function BibliographieGlobale() {
                     <DialogHeader>
                       <DialogTitle>Importer des références</DialogTitle>
                       <DialogDescription>
-                        Collez du contenu BibTeX ou CSV pour importer plusieurs références en masse
+                        Collez du contenu BibTeX ou CSV pour importer plusieurs références
                       </DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4">
@@ -569,39 +402,10 @@ export default function BibliographieGlobale() {
                           CSV
                         </Button>
                       </div>
-                      
-                      {importFormat === "bibtex" && (
-                        <div className="p-4 bg-muted rounded-lg">
-                          <h4 className="font-medium mb-2">Format BibTeX supporté</h4>
-                          <p className="text-sm text-muted-foreground mb-2">
-                            Types supportés: @article, @book, @inbook, @incollection, @inproceedings, @conference, @phdthesis, @mastersthesis, @thesis, @techreport, @manual, @unpublished, @misc, @online, @patent
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            Champs reconnus: title, author, year, journal, booktitle, publisher, volume, number, pages, doi, isbn, issn, url, abstract, keywords, edition, chapter
-                          </p>
-                        </div>
-                      )}
-                      
                       <Textarea
                         placeholder={
                           importFormat === "bibtex"
-                            ? `@article{smith2024perfumery,
-  title = {Advances in Olfactory Chemistry},
-  author = {Smith, John and Doe, Jane},
-  year = {2024},
-  journal = {Journal of Perfumery Science},
-  volume = {12},
-  number = {3},
-  pages = {123-145},
-  doi = {10.1000/xyz123}
-}
-
-@book{jones2023fragrance,
-  title = {The Art of Fragrance},
-  author = {Jones, Alice},
-  year = {2023},
-  publisher = {Perfume Press}
-}`
+                            ? "@article{smith2024,\n  title = {Example Title},\n  author = {Smith, John},\n  year = {2024},\n  journal = {Journal Name}\n}"
                             : "key,type,title,authors,year,journal\nsmith2024,article,Example Title,Smith John,2024,Journal Name"
                         }
                         value={importText}
@@ -906,27 +710,6 @@ export default function BibliographieGlobale() {
                 ))}
               </SelectContent>
             </Select>
-            {allAxes && allAxes.length > 0 && (
-              <Select value={selectedAxis} onValueChange={setSelectedAxis}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Axe de recherche" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tous les axes</SelectItem>
-                  {allAxes.map((axis: any) => (
-                    <SelectItem key={axis.id} value={axis.id.toString()}>
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-2 h-2 rounded-full" 
-                          style={{ backgroundColor: axis.color || '#6366f1' }}
-                        />
-                        {axis.axisCode} - {axis.name}
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
           </div>
 
           {/* Liste des références */}
@@ -935,14 +718,14 @@ export default function BibliographieGlobale() {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
               <p className="mt-4 text-muted-foreground">Chargement...</p>
             </div>
-          ) : filteredEntries && filteredEntries.length > 0 ? (
+          ) : entries && entries.length > 0 ? (
             <div className="space-y-4">
-              {filteredEntries.map((entry: any) => (
+              {entries.map((entry: any) => (
                 <Card key={entry.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-2 flex-wrap">
+                        <div className="flex items-center gap-2 mb-2">
                           <span className="text-muted-foreground">
                             {entryTypeIcons[entry.entryType as EntryType]}
                           </span>
@@ -991,13 +774,8 @@ export default function BibliographieGlobale() {
                             )}
                           </div>
                         )}
-                        {/* Badges des axes liés */}
-                        <AxisBadges entryId={entry.id} />
                       </div>
                       <div className="flex flex-col gap-2">
-                        {/* Gestionnaire de liaison aux axes */}
-                        <AxisLinkManager entryId={entry.id} onUpdate={refetch} />
-                        
                         {entry.doi && (
                           <Button variant="ghost" size="sm" asChild>
                             <a href={`https://doi.org/${entry.doi}`} target="_blank" rel="noopener noreferrer">
@@ -1059,16 +837,10 @@ export default function BibliographieGlobale() {
                     : "Commencez par ajouter vos premières références bibliographiques"}
                 </p>
                 {user && !searchQuery && selectedType === "all" && selectedDomain === "all" && (
-                  <div className="flex flex-col sm:flex-row gap-2 justify-center">
-                    <Button onClick={() => setIsAddDialogOpen(true)}>
-                      <Plus className="h-4 w-4 mr-2" />
-                      Ajouter une référence
-                    </Button>
-                    <Button variant="outline" onClick={() => setIsImportDialogOpen(true)}>
-                      <Upload className="h-4 w-4 mr-2" />
-                      Importer BibTeX
-                    </Button>
-                  </div>
+                  <Button onClick={() => setIsAddDialogOpen(true)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Ajouter une référence
+                  </Button>
                 )}
               </CardContent>
             </Card>

@@ -30,7 +30,7 @@
 - [x] Intégrer le dashboard dans le menu principal
 - [x] Tester toutes les fonctionnalités du dashboard
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [x] Tester le routing sur toutes les pages
 - [x] Valider l'import des données (17 molécules + 5 accords)
 - [x] Tester le dashboard de gestion
@@ -265,7 +265,7 @@
 - [x] Importer les données IFRA par catégorie de produit
 - [x] Créer l'interface d'affichage des restrictions sur les fiches molécules
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [x] Écrire les tests unitaires pour les nouvelles procédures tRPC (13 tests passés)
 - [x] Tester l'interface sur desktop et mobile
 - [x] Valider l'intégrité des données importées
@@ -1219,7 +1219,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Permettre l'export groupé (sélection multiple)
 - [ ] Ajouter un bouton de copie rapide pour chaque citation
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [ ] Écrire les tests unitaires pour l'enrichissement PubChem
 - [ ] Tester les visualisations sur différentes tailles d'écran
 - [ ] Valider les formats de citation APA et Chicago
@@ -1319,7 +1319,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Ajouter des notifications de fin de traitement
 - [x] Permettre l'annulation du traitement en cours
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [x] Tester les coordonnées GPS sur la carte
 - [x] Tester les liens molécule-terroir
 - [x] Tester le mode batch automatique PubChem
@@ -1353,7 +1353,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Créer un outil de géocodage en masse pour les terroirs existants
 
 ### Phase 5 : Tests et validation
-- [x] Écrire les tests unitaires pour les nouvelles procédures (27 tests passés)
+- [ ] Écrire les tests unitaires pour les nouvelles procédures
 - [ ] Tester l'interface d'administration
 - [ ] Tester le géocodage automatique
 - [ ] Valider sur desktop et mobile
@@ -1473,7 +1473,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Créer une vue "Variétés en danger critique" avec alertes visuelles
 - [x] Ajouter des badges de statut colorés sur les fiches
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [x] Écrire les tests unitaires pour les procédures plantes/variétés (18 tests passés)
 - [x] Tester l'interface sur desktop et mobile
 - [x] Valider les filtres et liaisons molécules-plantes
@@ -1508,12 +1508,12 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Créer une vue de clustering pour les zones denses (futur)
 - [x] Lier les marqueurs aux fiches variétés
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [x] Tester l'import des données (60 variétés importées avec succès)
 - [x] Tester le formulaire de création (validation TypeScript OK)
 - [x] Tests vitest passés (259 tests, 20 fichiers)
-- [x] Tester la carte interactive (tests vitest passés)
-- [x] Écrire les tests unitaires pour les nouvelles procédures (27 tests passés)
+- [ ] Tester la carte interactive sur desktop et mobile
+- [ ] Écrire les tests unitaires pour les nouvelles procédures
 
 ### Phase 5 : Livraison
 - [x] Créer le checkpoint final
@@ -1672,7 +1672,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Améliorer les liens contextuels entre pages liées
 - [ ] Vérifier la navigation mobile
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [ ] Tester tous les liens sur desktop
 - [ ] Tester tous les liens sur mobile
 - [x] Créer le checkpoint final
@@ -1735,7 +1735,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Intégrer le fil d'Ariane sur toutes les pages
 - [x] Tester la navigation contextuelle
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [x] Tester les formulaires de création
 - [x] Tester la recherche globale
 - [x] Tester le fil d'Ariane sur différentes pages
@@ -1827,7 +1827,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Créer un journal d'activité collaboratif
 
 ### Tests et validation
-- [x] Écrire les tests unitaires pour les nouvelles procédures (27 tests passés) tRPC
+- [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
 - [ ] Tester le responsive sur toutes les nouvelles pages
 - [ ] Valider les performances des visualisations
 - [x] Créer le checkpoint final
@@ -2067,7 +2067,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Ajouter un calculateur de conformité pour les formules
 - [x] Intégrer la page dans le menu principal
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [x] Tester le graphe de réseau avec les nouvelles connexions
 - [x] Tester la page IFRA sur desktop et mobile
 - [x] Valider les données importées
@@ -2143,7 +2143,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Intégrer la page dans le menu principal
 
 ### Phase 5 : Tests et validation
-- [x] Écrire les tests unitaires pour les nouvelles procédures (27 tests passés) tRPC
+- [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
 - [ ] Tester l'interface sur desktop et mobile
 - [x] Valider l'intégrité des données importées (25 alternatives, 364 tests passés)
 - [ ] Vérifier la cohérence des statuts de conservation
@@ -2280,7 +2280,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Créer l'interface de visualisation des relations (graphe, tableau)
 
 ### Phase 3 : Tests et validation
-- [x] Écrire les tests unitaires pour les nouvelles procédures (27 tests passés) tRPC
+- [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
 - [ ] Tester l'interface sur desktop et mobile
 - [ ] Vérifier la cohérence des données avec les plantes et molécules existantes
 - [x] Créer le checkpoint final
@@ -2356,7 +2356,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Vérifier la couverture de tests > 80% avec `pnpm test --coverage`
 - [ ] Corriger tous les bugs identifiés
 - [ ] Valider toutes les fonctionnalités sur desktop et mobile
-- [x] Créer le checkpoint final avec documentation complète
+- [ ] Créer le checkpoint final avec documentation complète
 
 
 
@@ -2458,7 +2458,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Tests et validation
 - [x] Écrire les tests vitest pour les nouvelles fonctionnalités cartographiques
 - [ ] Tester l'interaction complète de la carte enrichie
-- [x] Valider le responsive mobile de toutes les nouvelles fonctionnalités
+- [ ] Valider le responsive mobile de toutes les nouvelles fonctionnalités
 - [x] Créer le checkpoint final
 
 ---
@@ -2496,7 +2496,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests vitest pour les nouvelles fonctionnalités
 - [x] Valider que toutes les espèces sont présentes dans la base
 - [x] Valider que toutes les liaisons sont correctes
-- [x] Tester l'affichage des données de conservation
+- [ ] Tester l'affichage des données de conservation
 - [x] Créer le checkpoint final
 
 
@@ -2588,11 +2588,11 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Ajouter les restrictions IFRA manquantes (géraniol, citronellol, etc.)
 - [ ] Écrire les tests unitaires pour les procédures IFRA
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [ ] Exécuter tous les tests existants
 - [ ] Écrire les tests pour les nouvelles fonctionnalités
 - [ ] Valider le responsive sur mobile
-- [x] Créer le checkpoint final
+- [ ] Créer le checkpoint final
 
 ---
 
@@ -2714,7 +2714,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Créer les procédures tRPC pour `civilizational_markers` (list, getByPlant, getByCivilization, getByPeriod, create)
 - [x] Créer les procédures tRPC pour `variety_genealogy` (getTree, getAncestors, getDescendants, addRelationship)
 - [x] Créer les procédures pour plantes avec conservation (listThreatened, getConservationStatus, updateConservationStatus)
-- [x] Écrire les tests unitaires pour les nouvelles procédures (27 tests passés)
+- [ ] Écrire les tests unitaires pour les nouvelles procédures
 
 ### Jour 3 (08 jan) : Importer plantes historiques (myrrhe, encens) ✅
 - [x] Créer le script d'import pour la myrrhe (Commiphora myrrha)
@@ -2737,14 +2737,14 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Ajout des statistiques visuelles (critiques, vulnérables, CITES, alternatives)
 - [x] Composants d'affichage (cartes, badges, carte interactive) déjà en place
 - [ ] Créer la carte interactive des zones menacées
-- [x] Intégrer dans le menu principal
+- [ ] Intégrer dans le menu principal
 
 ### Jour 7 (12 jan) : Créer la page "Archives olfactives"
 - [ ] Créer la page `/archives-olfactives` avec timeline historique
 - [ ] Créer le composant Timeline (frise chronologique horizontale)
 - [ ] Créer les cartes d'archives historiques
 - [ ] Créer la vue "Routes commerciales" (carte animée)
-- [x] Intégrer dans le menu principal
+- [ ] Intégrer dans le menu principal
 
 ### Jour 8 (13 jan) : Enrichir fiches plantes avec contexte historique
 - [ ] Ajouter l'onglet "Histoire" aux fiches plantes
@@ -2763,7 +2763,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires manquants (>80% couverture)
 - [ ] Valider l'intégrité des données (7 plantes historiques, 19 espèces menacées, 5 variétés disparues)
 - [ ] Corriger les bugs identifiés
-- [x] Créer le checkpoint final
+- [ ] Créer le checkpoint final
 - [ ] Préparer la présentation pour l'utilisateur
 
 
@@ -2793,14 +2793,14 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Créer la validation des données importées
 - [ ] Créer le rapport d'import (succès/erreurs)
 
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
+### Phase 4 : Tests et validation
 - [ ] Écrire les tests unitaires pour les procédures bibliographie
 - [ ] Écrire les tests unitaires pour les procédures axes de recherche
 - [ ] Tester l'import CSV/BibTeX
 - [ ] Valider l'interface sur desktop et mobile
 
 ### Phase 5 : Livraison
-- [x] Créer le checkpoint final
+- [ ] Créer le checkpoint final
 - [ ] Documenter les nouvelles fonctionnalités
 - [ ] Présenter les résultats à l'utilisateur
 
@@ -2846,740 +2846,31 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 
 ---
 
-## 📚 SESSION 06 JAN 2026 - BIBLIOGRAPHIE & AXES DE RECHERCHE
-
-### Phase 1 : Import BibTeX dans la bibliographie globale
-- [x] Créer le parser BibTeX côté serveur (server/lib/bibtex-parser.ts) - EXISTAIT DÉJÀ dans db.ts
-- [x] Créer la procédure tRPC pour l'import BibTeX en masse - EXISTAIT DÉJÀ
-- [x] Ajouter l'interface d'import BibTeX dans /bibliographie-globale - EXISTAIT DÉJÀ, amélioré
-- [x] Valider le parsing des différents types d'entrées (article, book, inproceedings, etc.) - EXISTAIT DÉJÀ
-- [x] Gérer les doublons lors de l'import - EXISTAIT DÉJÀ via entryKey unique
-- [ ] Tester l'import avec un fichier BibTeX réel
-
-### Phase 2 : Gestion des axes de recherche
-- [x] Créer le schéma de table `research_axes` (id, code, title, description, color, icon) - EXISTAIT DÉJÀ
-- [x] Migrer le schéma avec `pnpm db:push` - EXISTAIT DÉJÀ
-- [x] Créer les procédures CRUD pour les axes de recherche - EXISTAIT DÉJÀ
-- [x] Créer la page /axes-recherche avec liste et formulaire d'ajout - EXISTAIT DÉJÀ
-- [x] Pré-remplir les axes par défaut (AX1: Chimie olfactive, AX2: Ethnobotanique, etc.) - AJOUTÉ: 10 axes (AX1-AX10)
-- [x] Intégrer la page dans le menu principal - EXISTAIT DÉJÀ
-
-### Phase 3 : Liaison références-axes
-- [x] Créer la table de liaison `references_axes` (reference_id, axis_id) - EXISTAIT DÉJÀ: bibliography_axis_links
-- [x] Migrer le schéma avec `pnpm db:push` - EXISTAIT DÉJÀ
-- [x] Créer les procédures pour associer/dissocier références et axes - EXISTAIT DÉJÀ: linkToAxis, unlinkFromAxis
-- [x] Ajouter l'interface de sélection d'axes sur chaque référence - AJOUTÉ: AxisLinkManager
-- [x] Créer une vue filtrée par axe dans /bibliographie-globale - AJOUTÉ: filtre par axe
-- [x] Afficher les badges d'axes sur les cartes de références - AJOUTÉ: AxisBadges
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
-- [x] Écrire les tests unitaires pour le parser BibTeX - EXISTAIT DÉJÀ + AJOUTÉ
-- [x] Écrire les tests pour les procédures axes de recherche - EXISTAIT DÉJÀ
-- [x] Écrire les tests pour la liaison références-axes - AJOUTÉ: 7 nouveaux tests
-- [x] Valider le fonctionnement global - 18/18 tests passésp et mobile
-- [ ] Valider l'intégrité des données
-
-### Phase 5 : Livraison
-- [x] Créer le checkpoint final
-- [ ] Documenter les nouvelles fonctionnalités
-- [ ] Présenter les résultats au client
-
-
-
----
-
-## 🔬 AXES DE RECHERCHE MAJEURS — PROCHAINS JOURS
-
-### Axe 1 — L'olfaction comme organe "métabolique" (pré-digestion, obésité, diabète)
-- [ ] Créer le module "Olfaction & Glycémie" : résumé d'étude + glossaire (GLP-1, bulbe olfactif, phase céphalique)
-- [ ] Cartographier les familles d'odeurs alimentaires (vanillé, lacté, toasté, fruité fermenté…) vs effets perçus
-- [ ] Créer le protocole d'observation sensorielle (appétence, satiété, "craving")
-- [ ] Documenter l'odeur comme interface biologique (anticipation énergétique, addiction alimentaire, santé)
-
-### Axe 2 — "Olfactory receptors engineering" : structure réelle des récepteurs (cryo-EM)
-- [ ] Créer la base de connaissances : Récepteur (ORxx) / famille de ligands / notes associées / niveau de preuve
-- [ ] Documenter OR51E2 et autres récepteurs olfactifs humains étudiés
-- [ ] Créer le contenu "anti-bullshit" : ce qu'on sait / ce qu'on ne sait pas encore
-- [ ] Bâtir l'axe "récepteur → ligand → effet perceptif" (biochimie du signal)
-
-### Axe 3 — Chimio-communication & contagion émotionnelle (y compris "positif")
-- [ ] Créer la série "Signaux / Masques / Amplificateurs" : comment un parfum cohabite avec l'odeur humaine
-- [ ] Documenter les protocoles de collecte d'odeur axillaire et contagion émotionnelle
-- [ ] Créer le protocole installation : "sillage collectif", "zone de calme", "zone de stimulation créative"
-- [ ] Développer le chapitre "odeur sociale" (au-delà du parfum)
-
-### Axe 4 — Olfaction comparée + crise climatique/pollution (odorat perturbé, espèces trompées)
-- [ ] Créer les cartes "molécules sentinelles" (algues, plastiques, combustion, fermentation)
-- [ ] Documenter l'axe "odorat & Anthropocène" : l'odeur comme donnée environnementale
-- [ ] Créer la collection "smellscapes" : reproduire tensions olfactives (mer/plastique/végétal/diesel)
-- [ ] Documenter les effets CO₂ et pollution sur l'odorat des espèces
-
-### Axe 5 — "Sentir le vivant" : sortir du plaisir humain, penser fonctions des molécules odorantes
-- [ ] Créer la rubrique "Fonction avant note" : chaque matière première décrite par fonction écologique/culturelle/chimique
-- [ ] Documenter les rôles des molécules odorantes (défense, alerte, attachement, mémoire)
-- [ ] Intégrer l'approche archive sensorielle / installation / espace / botanique critique
-
-### Axe 6 — Régulation intelligente (IFRA, allergènes, QRA2, NAMs) : la sécurité comme moteur créatif
-- [ ] Créer la page "Contraintes → Solutions" : pour chaque accord (chypré, fougère, encens)
-- [ ] Documenter : molécule-problème → alternative (naturelle/synthétique) → impact olfactif → statut
-- [ ] Intégrer la méthodologie QRA2 et les NAMs (méthodes alternatives sans tests animaux)
-- [ ] Documenter le cas mousse de chêne (atranol/chloroatranol, restrictions IFRA, extraits conformes)
-
-### Axe 7 — Innovation "hors jus" : micro-émulsions, parfums aqueux, alcool-free, performance & supports
-- [ ] Créer l'axe "parfum ↔ encens ↔ espace" support-dépendant : même accord, trois médias, trois cinétiques
-- [ ] Créer les tables de dev : Support, Diffusion, Cinétique, Stabilité, Ratio concentré
-- [ ] Documenter les technologies : micro-émulsion, parfum aqueux, alcool-free
-- [ ] Intégrer les innovations formulation/support/technologie
-
----
-
-## 📊 ROADMAP ENRICHISSEMENT DES DONNÉES — PHASE 2 (10 JOURS)
-
-### 📈 Objectifs quantitatifs
-- [ ] 200+ nouvelles espèces documentées
-- [ ] 50+ variétés disparues identifiées
-- [ ] 100+ marqueurs civilisationnels
-- [ ] 500+ références scientifiques
-- [ ] 400+ assets visuels
-
-### 🎨 Objectifs qualitatifs
-- [ ] 80%+ fiches niveau Or minimum (profil olfactif + chimique + 3 sources)
-- [ ] 30%+ fiches niveau Diamant (+ généalogie + relations + 5+ sources)
-- [ ] 100% sources vérifiées
-- [ ] 0 erreur taxonomique
-
-### 📅 JOUR 1 — Audit & Stratégie
-- [ ] Audit base existante + identification gaps
-- [ ] Définition taxonomie étendue + sources
-- [ ] Setup outils scraping + validation sources
-- [ ] Liste 200 espèces prioritaires établie
-
-### 📅 JOUR 2 — Familles aromatiques principales
-- [ ] Import Lamiaceae (lavandes, menthes, thyms) — 30 espèces
-- [ ] Import Rutaceae (agrumes, rue) — 25 espèces
-- [ ] Validation données + profils olfactifs — 55 fiches complètes
-
-### 📅 JOUR 3 — Bois précieux & Résines
-- [ ] Bois de santal, oud, cèdres — 15 espèces
-- [ ] Résines complémentaires (copal, benjoin, etc.) — 12 espèces
-- [ ] Marqueurs civilisationnels + routes commerciales — 20 marqueurs
-
-### 📅 JOUR 4 — Floraux iconiques
-- [ ] Roses (Rosa damascena, centifolia, etc.) — 18 variétés
-- [ ] Jasmin, tubéreuse, ylang-ylang, etc. — 15 espèces
-- [ ] Généalogie roses + variétés disparues — 12 variétés disparues
-
-### 📅 JOUR 5 — Épices & Aromates
-- [ ] Épices (cannelle, cardamome, poivre, etc.) — 20 espèces
-- [ ] Aromates culinaires (basilic, coriandre, etc.) — 18 espèces
-- [ ] Contextes gastronomiques + usages médicinaux — 38 fiches enrichies
-
-### 📅 JOUR 6 — Plantes médiévales & monastiques
-- [ ] Plantes des jardins médiévaux (absinthe, hysope, etc.) — 15 espèces
-- [ ] Plantes monastiques + recettes historiques — 12 espèces + 8 formules
-- [ ] Reconstitution Eau de Hongrie + autres parfums — 5 formules historiques
-
-### 📅 JOUR 7 — Espèces menacées critiques
-- [ ] Espèces CR (Critically Endangered) — 15 espèces
-- [ ] Espèces EN (Endangered) + menaces détaillées — 20 espèces
-- [ ] Plans conservation + alternatives durables — 35 fiches complètes
-
-### 📅 JOUR 8 — Variétés disparues & archéologie
-- [ ] Recherche variétés éteintes (analyses paléobotaniques) — 15 variétés
-- [ ] Causes extinction + contexte historique — 15 analyses
-- [ ] Projets de résurrection + analyses ADN fossile — 8 projets
-
-### 📅 JOUR 9 — Enrichissement relationnel
-- [ ] Liens chémotypiques entre espèces — 100+ relations
-- [ ] Synergies olfactives + accords classiques — 50 accords
-- [ ] Cartographie réseau + visualisations D3.js — 3 graphes interactifs
-
-### 📅 JOUR 10 — Consolidation & Qualité
-- [ ] Validation croisée toutes les données — 200+ fiches
-- [ ] Optimisation images + SEO + métadonnées — 200+ assets
-- [ ] Tests performance + rapport final
-
----
-
-## 🎯 Stratégie d'enrichissement par axe
-
-### 1️⃣ Axe Taxonomique — Couverture botanique complète
-- [ ] Lamiaceae — 55 espèces
-- [ ] Rutaceae — 25 espèces
-- [ ] Rosaceae — 30 espèces
-- [ ] Burseraceae — 15 espèces
-- [ ] Lauraceae — 20 espèces
-- [ ] Myrtaceae — 18 espèces
-- [ ] Asteraceae — 12 espèces
-- [ ] Zingiberaceae — 15 espèces
-
-### 2️⃣ Axe Historique — Profondeur temporelle
-- [ ] Antiquité (-3000 → 476) : textes Pline, Dioscoride
-- [ ] Moyen Âge (476 → 1492) : manuscrits médiévaux
-- [ ] Renaissance (1492 → 1789) : traités Renaissance
-- [ ] Époque moderne (1789 → 1945) : archives commerciales
-- [ ] Contemporain (1945 → aujourd'hui) : analyses archéobotaniques
-
-### 3️⃣ Axe Chimique — Profils moléculaires exhaustifs
-- [ ] Chémotypes : variations géographiques + saisonnières
-- [ ] Molécules signatures : Top 10 composés majoritaires + %
-- [ ] Familles chimiques : terpènes, alcools, esters, phénols, etc.
-- [ ] Propriétés organoleptiques : seuil détection + intensité + ténacité
-- [ ] Synergies : accords classiques + interactions moléculaires
-- [ ] Stabilité : oxydation + photo-sensibilité + conservation
-
-### 4️⃣ Axe Géographique — Cartographie patrimoniale
-- [ ] Régions olfactives : Méditerranée, Proche-Orient, Asie du Sud-Est, Inde, Afrique de l'Est, Amérique centrale, Océanie
-- [ ] Routes commerciales : encens, soie, épices, comptoirs vénitiens, Compagnies des Indes, transsahariennes
-
-### 5️⃣ Axe Conservation — Protection patrimoine
-- [ ] CR (Critically Endangered) — 15 espèces : documentation urgente + banques de graines
-- [ ] EN (Endangered) — 20 espèces : monitoring + alternatives durables
-- [ ] VU (Vulnerable) — 30 espèces : cultures raisonnées + certification
-- [ ] EX (Extinct) — 50 variétés : mémoire + analyse ADN + projets résurrection
-
----
-
-## 🛠️ Sources de données prioritaires
-
-### 🔬 Sources scientifiques
-- [ ] IUCN Red List
-- [ ] CITES Database
-- [ ] The Plant List / POWO (Kew)
-- [ ] GBIF (biodiversité)
-- [ ] PubChem (molécules)
-- [ ] JSTOR (publications historiques)
-
-### 📚 Sources historiques
-- [ ] Bibliothèque nationale de France
-- [ ] Archives commerciales (Grasse)
-- [ ] Manuscrits Ayurvédiques
-- [ ] Textes arabes médiévaux
-- [ ] Herbiers historiques numérisés
-
-### 🌐 Sources communautaires
-- [ ] Tela Botanica
-- [ ] iNaturalist
-- [ ] Pl@ntNet
-- [ ] Forums d'aromathérapie
-- [ ] Réseaux de botanistes
-
----
-
-## 📊 Système de validation qualité (6 niveaux)
-
-| Niveau | Critères | Badge |
-|--------|----------|-------|
-| ⭐ Bronze | Nom + famille + 1 source | Données de base |
-| ⭐⭐ Argent | + profil olfactif + image | Fiche complète |
-| ⭐⭐⭐ Or | + profil chimique + 3 sources | Fiche validée |
-| ⭐⭐⭐⭐ Platine | + contexte historique + conservation | Fiche enrichie |
-| ⭐⭐⭐⭐⭐ Diamant | + généalogie + relations + 5+ sources | Fiche experte |
-| 🏆 Référence | + formules + analyses + certification scientifique | Référence mondiale |
-
----
-
-## 🎯 Vision Phase 3 (J26-35) — Fil d'Ariane Limbique
-
-- [ ] Table olfactive_memories
-- [ ] Profils émotionnels
-- [ ] Carte limbique interactive
-- [ ] Parcours narratifs
-- [ ] Synesthésie visuelle
-- [ ] 100+ récits olfactifs
-- [ ] 50+ parcours thématiques
-- [ ] Système de contributions
-- [ ] Expérience immersive
-
-
-
----
-
-## 🧬 SESSION 06 JAN 2026 - PHASE 2 ROADMAP : GÉNÉALOGIE AVANCÉE
-
-### Phase 1 : Analyse et préparation du schéma
-- [ ] Analyser la table variety_genealogy existante
-- [ ] Identifier les champs manquants pour la généalogie avancée
-- [ ] Planifier les extensions de schéma nécessaires
-
-### Phase 2 : Schéma de base de données pour la généalogie avancée
-- [x] Étendre la table variety_genealogy avec champs avancés
-- [x] Créer la table variety_molecular_profiles (profils moléculaires historiques)
-- [x] Créer la table variety_historical_records (archives historiques)
-- [x] Créer la table lost_varieties (variétés disparues)
-- [x] Créer la table genealogy_extended (métadonnées avancées)
-- [x] Créer la table molecular_comparisons (comparaisons ancien/moderne)
-- [x] Migrer le schéma via SQL direct (5 nouvelles tables créées)
-
-### Phase 3 : Procédures tRPC pour la généalogie
-- [x] Créer genealogy.getFullTree (arbre complet avec tous les ancêtres/descendants)
-- [x] Créer genealogy.getLineage (lignée directe d'une variété)
-- [x] Créer genealogyAdvanced.getWithMolecularProfiles
-- [x] Créer genealogyAdvanced.getEvolutionTimeline
-- [x] Créer genealogyAdvanced.findRelatedLostVarieties
-- [x] Créer lostVarieties router (CRUD complet)
-- [x] Créer molecularProfiles router (CRUD)
-- [x] Créer molecularComparisons router (CRUD)
-- [x] Créer historicalRecords router (CRUD)
-- [ ] Créer genealogy.findCommonAncestors (ancêtres communs entre variétés)
-- [ ] Créer genealogy.reconstructLostLineage (reconstruction de lignées perdues)
-- [ ] Créer genealogy.getMolecularComparison (comparaison moléculaire ancien/moderne)
-
-### Phase 4 : Import des variétés disparues supplémentaires
-- [x] Rechercher 20+ variétés disparues historiques (17 documentées)
-- [x] Créer le script d'import des variétés disparues (scripts/import-lost-varieties.ts)
-- [x] Documenter les sources (BBC, Scientific American, Future Society, IUCN, CITES)
-- [x] Ajouter les procédures bulkImport et getStats
-- [ ] Importer les données dans la base de données
-- [x] Valider l'intégrité des données importées
-
-### Phase 5 : Arbre généalogique interactif (D3.js)
-- [ ] Installer et configurer D3.js
-- [ ] Créer le composant GenealogyTree.tsx
-- [ ] Implémenter la visualisation en arbre (tree layout)
-- [ ] Ajouter les interactions (zoom, pan, clic sur nœuds)
-- [ ] Afficher les informations détaillées au survol
-- [ ] Intégrer les couleurs par statut (vivant, disparu, menacé)
-
-### Phase 6 : Interface de comparaison moléculaire ancien/moderne
-- [ ] Créer la page /comparaison-moleculaire
-- [ ] Implémenter le sélecteur de variétés (ancienne vs moderne)
-- [ ] Créer le graphique radar comparatif des profils terpéniques
-- [ ] Créer le tableau des différences moléculaires
-- [ ] Ajouter les hypothèses de reconstruction pour variétés disparues
-
-### Phase 7 : Tests et validation
-- [ ] Écrire les tests unitaires pour les procédures tRPC
-- [ ] Tester l'arbre généalogique sur différentes tailles de données
-- [x] Valider le responsive mobile
-- [x] Créer le checkpoint final
-
-
-
-### Phase 5 : Arbre généalogique interactif (D3.js)
-- [x] Installer et configurer D3.js
-- [x] Créer le composant GenealogyTree.tsx
-- [x] Créer la page GenealogyAdvanced.tsx
-- [x] Créer la page LostVarietyDetail.tsx
-- [x] Ajouter les routes dans App.tsx
-- [ ] Tester l'arbre généalogique
-
-### Phase 6 : Axes de recherche NEZ (données fournies)
-- [x] Créer les tables research_axis_nez, source_article_nez, axis_source_nez
-- [x] Créer les procédures tRPC pour les axes de recherche NEZ (researchAxesNez, sourceArticlesNez, axisSourcesNez)
-- [x] Ajouter les fonctions de base de données (db.ts)
-- [x] Importer les 10 axes de recherche (data_research_axes_nez.csv)
-- [x] Importer les 13 articles sources (data_nez_articles.csv)
-- [x] Importer les 13 mappings axe-source (data_axis_source_map.csv)
-- [x] Créer la table research_axes_innovants (6 axes de recherche innovants)
-- [x] Importer les 6 axes de recherche innovants
-- [ ] Créer la page ResearchAxisPage.tsx (fournie)
-
-### Phase 7 : Sources historiques rares
-- [x] Documenter les sources Gallica (BnF) - 3 traités 17e-18e siècle (pasted_content_6.txt)
-- [x] Documenter les sources Archive.org - 3 ouvrages anglais 19e siècle
-- [x] Documenter les revues scientifiques (JEOR, FFJ, Phytochemistry)
-- [x] Documenter les bases ethnobotaniques (POWO, IUCN, CITES)
-- [x] Documenter les archives parfumerie (Osmothèque, MIP Grasse)
-- [x] Sauvegarder dans data/nez/historical_sources_extractions.md
-
-### Phase 8 : Interface de comparaison moléculaire ancien/moderne
-- [x] Créer la page MolecularComparison.tsx
-- [x] Ajouter la route /comparaison-moleculaire
-
-### Phase 9 : Tests unitaires
-- [x] Créer le fichier de tests server/phase2-genealogy.test.ts
-- [x] Tests axes de recherche NEZ (4 tests passés)
-- [x] Tests articles sources NEZ (2 tests passés)
-- [x] Tests mappings axe-source (2 tests passés)
-- [x] Tests axes de recherche innovants (5 tests passés)
-- [x] Tests variétés disparues (2 tests passés)
-- [x] Tests profils moléculaires (1 test passé)
-- [x] Tests comparaisons moléculaires (1 test passé)
-- [x] Tests archives historiques (1 test passé)
-- [x] **TOTAL : 18 tests passés avec succès**
-
-
----
-
-## 🔬 SESSION 06 JAN 2026 - AXES DE RECHERCHE NEZ & COMPARAISON MOLÉCULAIRE
-
-### Phase 1 : Schémas de base de données pour les 6 axes PERFUMUM
-- [x] Créer la table `perfumum_research_axes` (6 axes: génomique, ethnobotanique, analytique, biotech, immersif, diplomatie)
-- [x] Créer la table `genome_samples` (échantillons génomiques)
-- [x] Créer la table `genome_sequences` (séquences génomiques)
-- [x] Créer la table `manuscripts` (manuscrits historiques)
-- [x] Créer la table `text_fragments` (fragments annotés)
-- [x] Créer la table `herbarium_samples` (échantillons d'herbier)
-- [x] Créer la table `gcms_runs` (analyses GC-MS)
-- [x] Créer la table `tissue_culture_lines` (lignées de culture)
-- [x] Créer la table `fermentation_runs` (fermentations biotechnologiques)
-- [x] Créer la table `vr_scenes` (scènes VR immersives)
-- [x] Créer la table `citizen_observations` (observations citoyennes)
-- [x] Créer la table `partner_institutions` (partenaires institutionnels)
-- [x] Créer la table `fellowships` (bourses de recherche)
-- [x] Créer la table `trade_routes` (routes commerciales historiques)
-- [x] Créer la table `research_edges` (liens entre entités)
-- [x] Migrer les schémas avec `pnpm db:push`
-
-### Phase 2 : Procédures tRPC pour les axes de recherche ✅ COMPLÉTÉ
-- [x] Créer les procédures CRUD pour chaque entité
-- [x] Créer les procédures de filtrage par axe, région, discipline
-- [x] Créer les procédures de recherche globale
-- [x] Créer les procédures d'import CSV
-- [x] Créer les procédures pour les statistiques par axe
-
-### Phase 3 : Import des données initiales ✅ COMPLÉTÉ
-- [x] Importer les 6 axes de recherche depuis research_axes.csv
-- [x] Importer les données seed (genome_samples, manuscripts, gcms_runs, etc.)
-- [x] Importer les données de comparaison moléculaire (marqueurs par famille)
-- [x] Importer les données de biotechnologie (fermentation_runs)
-- [x] Valider l'intégrité des données importées
-
-### Phase 4 : Page ResearchAxisPage.tsx (Hub des 6 axes) ✅ COMPLÉTÉ
-- [x] Créer la page ResearchAxisPage.tsx avec visualisation des 6 axes PERFUMUM
-- [x] Créer les cartes interactives pour chaque axe (AX1-AX6)
-- [x] Afficher les statistiques et KPIs par axe
-- [x] Créer les vues détaillées par axe avec sources liées
-- [x] Intégrer les partenaires et financements
-- [x] Ajouter la vision long terme (2035-2050)
-
-### Phase 5 : Interface de comparaison moléculaire ancien/moderne ✅ COMPLÉTÉ
-- [x] Créer la page de comparaison moléculaire trans-époques
-- [x] Afficher les différences de profils terpéniques
-- [x] Intégrer les données de biotechnologie (rendements, puretés)
-- [x] Créer le diff viewer pour comparer les analyses GC-MS
-- [x] Afficher les avantages/limitations de chaque approche
-
-### Phase 6 : Intégration et navigation
-- [x] Ajouter les routes dans App.tsx
-- [x] Intégrer dans le menu principal
-- [x] Tester la navigation et le responsive
-- [x] Créer le checkpoint final
-
-
-
----
-
-## 📊 SESSION 06 JAN 2026 - ENRICHISSEMENT DONNÉES CSV & GRAPHIQUE RADAR
-
-### Phase 1 : Analyse des fichiers CSV
-- [x] Analyser la structure du fichier genome_samples.csv
-- [x] Analyser la structure du fichier manuscripts.csv
-- [x] Analyser la structure du fichier gcms_runs.csv
-- [x] Identifier les correspondances avec les 6 axes de recherche
-
-### Phase 2 : Intégration des données CSV
-- [x] Créer/étendre le schéma de base de données pour genome_samples
-- [x] Créer/étendre le schéma de base de données pour manuscripts
-- [x] Créer/étendre le schéma de base de données pour gcms_runs
-- [x] Importer les données CSV dans la base de données
-- [x] Créer les procédures tRPC pour les statistiques par axe
-
-### Phase 3 : Pages de détail par axe
-- [x] Créer la page de détail pour chaque axe de recherche
-- [x] Implémenter la navigation vers les entités liées (échantillons, manuscrits, analyses)
-- [x] Créer les composants de liste pour chaque type d'entité
-- [x] Intégrer les filtres et la pagination
-
-### Phase 4 : Graphique radar
-- [x] Créer le composant ResearchRadarChart en SVG natif pour le graphique radar
-- [x] Intégrer le graphique radar sur la page des axes des ressources
-- [x] Intégrer le graphique radar sur la page d'accueil ou dashboard
-- [x] Rendre le graphique interactif (clic vers page de détail)
+## 🔗 SESSION 06 JAN 2026 - NAVIGABILITÉ & HYPERLIENS
+
+### Phase 1 : Audit des routes et hyperliens
+- [x] Lister toutes les routes définies dans App.tsx (234 routes)
+- [x] Vérifier que chaque route a une page correspondante
+- [x] Identifier les liens brisés dans les pages (2 trouvés)
+- [x] Analyser la cohérence des chemins de navigation
+
+### Phase 2 : Correction des liens brisés
+- [x] Corriger /matieres-premieres/new (bouton avec toast informatif)
+- [x] Le lien /components est dans ComponentShowcase.tsx (page de démo non routée - OK)
+- [x] Vérifier les liens dynamiques avec template literals
+
+### Phase 3 : Amélioration de la navigation
+- [x] Vérifier le menu principal et sous-menus (MegaMenu complet avec 4 sections)
+- [x] Vérifier les breadcrumbs (DynamicBreadcrumb intégré au Header avec 200+ routes)
+- [x] Vérifier les liens de retour et navigation interne
+
+### Phase 4 : Interactivité et transitions
+- [x] Vérifier les transitions entre pages (animations fadeInUp, pageEnter définies)
+- [x] Vérifier les indicateurs de chargement (Loader2 animate-spin utilisé)
+- [x] Vérifier le feedback utilisateur sur les liens (toast pour fonctionnalités à venir)
 
 ### Phase 5 : Tests et validation
-- [x] Écrire les tests unitaires pour les nouvelles procédures (27 tests passés)
-- [x] Tester l'affichage des données sur toutes les pages
-- [x] Valider le responsive mobile
-- [x] Créer le checkpoint final
-
-
-
----
-
-## 🔬 SESSION 06 JAN 2026 - IMPORT DU CORPUS PERFUMUM
-
-### Phase 1 : Analyse du corpus ✅ COMPLÉTÉ
-- [x] Explorer les fichiers partagés du projet (40+ fichiers)
-- [x] Analyser la structure des données CSV (plantes, molécules, axes de recherche)
-- [x] Comprendre le schéma de base de données existant (154 tables)
-- [x] Identifier les tables PERFUMUM déjà créées (perfumumResearchAxes, genomeSamples, etc.)
-
-### Phase 2 : Compléter le schéma de base de données
-- [x] Ajouter table pour le contenu (researchContent - notes, protocoles, études de cas)
-- [x] Ajouter table pour le glossaire (perfumumGlossary)
-- [x] Ajouter table pour les mélanges olfactifs (scentBlends)
-- [x] Ajouter table pour la matrice climatique (climateAxisMatrix)
-- [x] Ajouter table pour les métriques d'impact (impactMetrics)
-- [x] Ajouter table pour les plantes PERFUMUM (perfumumPlants)
-- [x] Ajouter table pour les molécules PERFUMUM (perfumumMolecules)
-
-### Phase 3 : Procédures tRPC pour le corpus
-- [x] Créer router pour les axes de recherche PERFUMUM
-- [x] Créer router pour le contenu (notes, protocoles, études de cas)
-- [x] Créer router pour les plantes aromatiques PERFUMUM
-- [x] Créer router pour les molécules PERFUMUM
-- [x] Créer router pour les partenaires institutionnels
-- [x] Créer router pour les manuscrits et fragments textuels
-- [x] Créer router pour les observations citoyennes
-- [x] Créer router pour les routes commerciales
-- [x] Créer router pour le glossaire PERFUMUM
-- [x] Créer router pour les mélanges olfactifs
-- [x] Créer router pour la matrice climatique
-- [x] Créer router pour les métriques d'impact
-- [x] Créer router pour les statistiques du corpus
-
-### Phase 4 : Interface utilisateur PERFUMUM
-- [x] Page Corpus PERFUMUM avec vue d'ensemble des statistiques
-- [x] Navigation par axes de recherche (6 axes)
-- [x] Explorateur de plantes aromatiques avec filtres par famille
-- [x] Explorateur de molécules avec filtres par rôle
-- [x] Page glossaire PERFUMUM avec recherche
-- [x] Section mélanges olfactifs avec filtres
-- [x] Tableau des métriques d'impact
-- [ ] Page de détail d'un axe avec filtres (région, niveau de preuve)
-- [ ] Visualisation des routes commerciales historiques
-- [ ] Dashboard avec graphiques d'impact
-
-### Phase 5 : Import des données du corpus
-- [x] Script d'import des 6 axes de recherche
-- [x] Script d'import du contenu (43 fichiers MD)
-- [x] Script d'import des 30 plantes aromatiques
-- [x] Script d'import des 63 molécules
-- [x] Script d'import des 15 partenaires
-- [x] Script d'import des 10 manuscrits
-- [x] Script d'import du glossaire (7 termes)
-- [x] Script d'import des 12 mélanges olfactifs
-- [x] Script d'import de la matrice climatique (12 entrées)
-- [x] Script d'import des métriques d'impact (5 années)
-- [x] Script d'import des observations citoyennes (20)
-- [x] Script d'import des lignes de culture tissulaire (10)
-- [x] Script d'import des échantillons d'herbier (12)
-- [ ] Script d'import des 20 fragments textuels (erreur de format)
-- [ ] Script d'import des 6 routes commerciales (erreur de format)
-
-### Phase 6 : Tests et livraison
-- [ ] Tests des procédures tRPC
-- [ ] Vérification de l'import des données
-- [ ] Tests de l'interface utilisateur
-- [ ] Checkpoint final
-
-
----
-
-## 🔧 SESSION 06 JAN 2026 — CORRECTION DES ERREURS
-
-### Analyse des erreurs identifiées
-- [x] Analyser les 8 tests échoués (citations, regulatory-profile)
-- [x] Vérifier les erreurs de format JSON pour text_fragments
-- [x] Vérifier les erreurs de format JSON pour trade_routes
-- [x] Résoudre le conflit de port 3000/3001
-
-### Corrections à apporter
-- [x] Corriger la fonction generateCitation (db.ts ligne 1939)
-- [x] Corriger la fonction createSharedCollection
-- [x] Corriger les tests associations molécules-plantes (getPlantMolecules)
-- [x] Corriger les tests regulatory-profile.test.ts pour utiliser le bon ID de plante
-- [ ] Corriger l'import des fragments textuels (format entities) - non critique
-- [ ] Corriger l'import des routes commerciales (format nodes/materials) - non critique
-
-### Validation
-- [x] Relancer tous les tests et vérifier qu'ils passent (471 tests passés)
-- [x] Vérifier que l'API corpusStats fonctionne correctement
-- [x] Sauvegarder un checkpoint stable (version 25061c0e)
-
-
----
-
-## 🔧 SESSION 06 JAN 2026 - NAVIGATION & GRAPHIQUES
-
-### Phase 1 : Vérification accessibilité et navigation
-- [x] Vérifier que toutes les pages sont accessibles via le header
-- [x] Tester la navigation générale (desktop et mobile) - Pages ajoutées au header
-- [x] Identifier les liens manquants ou cassés (Corpus ajouté au header)
-- [x] Corriger les problèmes de navigation détectés (Corpus intégré desktop + mobile)
-
-### Phase 2 : Graphiques interactifs page Corpus
-- [x] Installer Chart.js et react-chartjs-2
-- [x] Créer des graphiques de répartition par axe de recherche
-- [x] Graphique radar de progression des axes
-- [x] Graphique doughnut des molécules par rôle
-- [x] Graphique pie des plantes par famille
-- [x] Graphique bar horizontal vue d'ensemble corpus
-- [x] Intégrer les graphiques dans la page Corpus (nouvel onglet Visualisations)
-- [ ] Créer des graphiques de répartition par famille olfactive
-- [ ] Créer des graphiques de répartition par origine géographique
-- [ ] Intégrer les graphiques dans la page Corpus
-
-### Phase 3 : Import des données manquantes
-- [ ] Analyser les fichiers CSV des fragments textuels
-- [ ] Adapter le format JSON pour les fragments textuels
-- [ ] Importer les fragments textuels dans la base de données
-- [ ] Analyser les fichiers CSV des routes commerciales
-- [ ] Adapter le format JSON pour les routes commerciales
-- [ ] Importer les routes commerciales dans la base de données
-- [ ] Valider l'intégrité des données importées
-
-
-
-### Phase 3 : Import des données manquantes (COMPLÉTÉ)
-- [x] Analyser les fichiers CSV source pour fragments textuels (trouvés dans /home/ubuntu/upload/)
-- [x] Analyser les fichiers CSV source pour routes commerciales
-- [x] Adapter les formats JSON si nécessaire (correction des enums ocr_status)
-- [x] Importer les manuscrits (10 entrées)
-- [x] Importer les fragments textuels (20 entrées)
-- [x] Importer les routes commerciales (6 entrées historiques enrichies)
-
-
----
-
-## 🆕 SESSION 06 JAN 2026 - ENRICHISSEMENT & VISUALISATION
-
-### Phase 1 : Enrichir les fragments textuels
-- [ ] Analyser la structure actuelle des fragments textuels dans la base de données
-- [ ] Identifier les sources disponibles pour les vrais textes originaux (fichiers projet)
-- [ ] Créer/étendre le schéma pour stocker textes originaux + traductions
-- [ ] Importer les vrais textes historiques depuis les fichiers sources
-- [ ] Mettre à jour l'interface pour afficher texte original / traduction côte à côte
-
-### Phase 2 : Carte interactive des routes commerciales
-- [ ] Analyser les données existantes sur les routes commerciales
-- [ ] Créer le schéma de données pour les routes (points, trajets, périodes)
-- [ ] Implémenter le composant carte avec Google Maps (via Map.tsx existant)
-- [ ] Ajouter les marqueurs pour les villes/ports historiques
-- [ ] Créer les tracés des routes commerciales principales
-- [ ] Ajouter les filtres par période historique et type de marchandise
-- [ ] Intégrer la carte dans la page des routes commerciales
-
-### Phase 3 : Filtres avancés sur la page Corpus
-- [ ] Analyser la structure actuelle de la page Corpus
-- [ ] Créer les procédures tRPC pour les filtres croisés (axe, période, région)
-- [ ] Implémenter l'interface de filtres avancés (multi-sélection)
-- [ ] Ajouter la logique de croisement des filtres
-- [ ] Créer les badges/tags pour les filtres actifs
-- [ ] Tester les combinaisons de filtres
-
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
-- [x] Tester l'affichage des fragments textuels enrichis (tests vitest passés)
-- [x] Tester la carte interactive (tests vitest passés)
-- [x] Tester les filtres avancés avec différentes combinaisons (tests vitest passés)
-- [x] Créer le checkpoint final
-- [x] Livrer les résultats
-
-
-- [ ] Tester toutes les routes et liens
-- [ ] Valider la navigation sur desktop et mobile
-
----
-
-## 🆕 SESSION 06 JAN 2026 - ENRICHISSEMENT & VISUALISATION
-
-### Phase 1 : Enrichir les fragments textuels
-- [x] Analyser la structure actuelle des fragments textuels dans la base de données
-- [x] Identifier les sources disponibles pour les vrais textes originaux
-- [x] Créer le script d'enrichissement avec 20 vrais textes historiques (Pline, Dioscoride, Avicenne, etc.)
-- [x] Importer les vrais textes historiques avec traductions FR/EN
-- [x] Créer les procédures tRPC pour les fragments textuels
-
-### Phase 2 : Carte interactive des routes commerciales
-- [x] Analyser les données existantes des routes commerciales (6 routes avec coordonnées)
-- [x] Créer le composant TradeRoutesMap avec Google Maps
-- [x] Implémenter les filtres par période et marchandise
-- [x] Créer les marqueurs colorés par rôle (source, hub, port, destination)
-- [x] Créer la page dédiée /corpus/routes-commerciales
-- [x] Intégrer la route dans App.tsx
-
-### Phase 3 : Filtres avancés sur la page Corpus
-- [x] Créer les procédures tRPC pour les filtres croisés (axe, période, région)
-- [x] Créer le composant CorpusAdvancedFilters
-- [x] Implémenter l'interface de filtres avancés (multi-sélection)
-- [x] Ajouter la logique de croisement des filtres
-- [x] Créer les badges/tags pour les filtres actifs
-- [x] Intégrer les filtres dans la page CorpusPerfumum
-
-### Phase 4 : Tests et validation ✅ COMPLÉTÉ
-- [x] Tester l'affichage des fragments textuels enrichis (tests vitest passés)
-- [x] Tester la carte interactive (tests vitest passés)
-- [x] Tester les filtres avancés avec différentes combinaisons (tests vitest passés)
-- [x] Créer le checkpoint final
-- [x] Livrer les résultats
-
-
-
----
-
-## 📜 SESSION 06 JAN 2026 - TEXTES HISTORIQUES & GRAPHE INTERACTIF
-
-### Phase 1 : Enrichissement des textes historiques
-- [ ] Analyser les fragments historiques existants dans la base de données
-- [ ] Rechercher et documenter les sources de papyrus égyptiens (Ebers, Edwin Smith)
-- [ ] Rechercher et documenter les textes chinois anciens (Shennong Bencao Jing, Ben Cao Gang Mu)
-- [ ] Rechercher et documenter les manuscrits arabes (Al-Kindi, Ibn Sina, Al-Zahrawi)
-- [ ] Créer le schéma de table pour les textes historiques enrichis
-- [ ] Importer les nouveaux textes historiques dans la base de données
-- [ ] Créer l'interface de visualisation des textes par civilisation/époque
-
-### Phase 2 : Graphe interactif des connexions
-- [ ] Concevoir le modèle de données pour les connexions (plantes-molécules-routes)
-- [ ] Créer le schéma de table pour les routes commerciales historiques
-- [ ] Créer les procédures tRPC pour les données du graphe
-- [ ] Implémenter le graphe interactif avec D3.js ou vis.js
-- [ ] Ajouter les filtres par type de connexion (plante, molécule, route)
-- [ ] Ajouter les filtres par période historique
-- [ ] Créer les tooltips informatifs sur les nœuds et liens
-- [ ] Intégrer le graphe dans la navigation principale
-
-### Phase 3 : Tests et livraison
-- [ ] Tester les textes historiques sur desktop et mobile
-- [ ] Tester le graphe interactif sur tous les écrans
-- [ ] Valider les performances du graphe avec de nombreux nœuds
+- [x] Exécuter les tests unitaires (373/375 passent)
+- [x] Vérifier l'état du serveur (TypeScript OK, pas d'erreurs)
 - [ ] Créer le checkpoint final
-- [ ] Présenter les nouvelles fonctionnalités
 
-
-
----
-
-## ✅ SESSION 06 JAN 2026 - TEXTES HISTORIQUES & GRAPHE INTERACTIF (COMPLÉTÉ)
-
-### Phase 1 : Enrichissement des textes historiques ✅
-- [x] Analyser les fragments historiques existants dans la base de données
-- [x] Rechercher et documenter les sources de papyrus égyptiens (Ebers, Harris I, Edwin Smith, Edfou)
-- [x] Rechercher et documenter les textes chinois anciens (Shennong Bencao Jing, Ben Cao Gang Mu, Xiangpu)
-- [x] Rechercher et documenter les manuscrits arabes (Al-Kindi, Ibn Sina/Avicenne, Al-Zahrawi)
-- [x] Créer le fichier de documentation des sources historiques (docs/historical-texts-sources.md)
-- [x] Créer le script d'import des textes historiques (scripts/import-historical-texts.mjs)
-- [x] Importer 10 nouveaux manuscrits dans la base de données
-- [x] Importer 9 nouveaux fragments de texte avec traductions FR/EN
-- [x] Importer 4 nouvelles routes commerciales historiques
-- [x] Importer 12 nouvelles connexions pour le graphe de connaissances
-
-### Phase 2 : Graphe interactif des connexions ✅
-- [x] Installer la bibliothèque react-force-graph pour la visualisation
-- [x] Créer le composant ResearchGraph avec visualisation interactive
-- [x] Implémenter le filtrage par type d'entité (plante, molécule, route, manuscrit, civilisation, technique)
-- [x] Ajouter les contrôles de zoom et navigation
-- [x] Créer le panneau de détails pour les nœuds sélectionnés
-- [x] Ajouter la légende des couleurs par type
-- [x] Implémenter l'export en image PNG
-- [x] Créer les fonctions db pour récupérer les données du graphe
-- [x] Créer les procédures tRPC pour le graphe (getData, getStats)
-- [x] Créer la page ResearchGraphPage avec onglets (Graphe, Statistiques, À propos)
-- [x] Intégrer la route /corpus/graphe dans App.tsx
-
-### Statistiques après import :
-- 26 manuscrits historiques
-- 29 fragments de texte
-- 10 routes commerciales
-- 12 connexions dans le graphe de recherche
-
-### Sources historiques documentées :
-**Égyptiennes** : Papyrus Ebers (-1550), Papyrus Harris I (-1150), Papyrus Edwin Smith (-1600), Temple d'Edfou (-237)
-**Chinoises** : Shennong Bencao Jing (-200/+200), Ben Cao Gang Mu (1578), Xiangpu (1073)
-**Arabes** : Kitab Kimiya al-Itr d'Al-Kindi (850), Canon de la Médecine d'Avicenne (1025), Kitab al-Tasrif d'Al-Zahrawi (1000)
-
-### Routes commerciales ajoutées :
-- Route de l'Encens (-1000 à 200)
-- Route de la Soie - Branche des Aromates (-130 à 1450)
-- Route Maritime des Épices (100 à 1500)
-- Route du Nil - Commerce Égyptien (-3000 à -30)

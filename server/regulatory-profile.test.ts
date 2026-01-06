@@ -6,17 +6,14 @@ describe('Enrichissement des associations molécules-plantes', () => {
     it('devrait avoir les molécules enrichies', async () => {
       // Récupérer toutes les plantes et trouver Rose de Damas
       const plants = await db.getAllPlants();
-      // Trouver la Rose de Damas qui a des associations (id 30010)
-      const rose = plants.find(p => p.name === 'Rose de Damas' && p.id === 30010);
+      const rose = plants.find(p => p.name === 'Rose de Damas');
+      expect(rose).toBeDefined();
       
       if (rose) {
         // Récupérer les associations molécules-plantes via getPlantMolecules
         const associations = await db.getPlantMolecules(rose.id);
         expect(associations).toBeDefined();
         expect(associations.length).toBeGreaterThanOrEqual(4); // Au moins 4 molécules
-      } else {
-        // Si la plante n'existe pas avec cet ID, le test passe
-        expect(true).toBe(true);
       }
     });
   });
@@ -116,23 +113,20 @@ describe('Associations molécules-plantes', () => {
     const plants = await db.getAllPlants();
     
     if (plants.length > 0) {
-      // Trouver une plante avec des molécules (Rose de Damas id 30010 par exemple)
-      const rose = plants.find(p => p.name === 'Rose de Damas' && p.id === 30010);
+      // Trouver une plante avec des molécules (Rose de Damas par exemple)
+      const rose = plants.find(p => p.name === 'Rose de Damas');
       if (rose) {
         const molecules = await db.getPlantMolecules(rose.id);
         expect(molecules).toBeDefined();
         expect(Array.isArray(molecules)).toBe(true);
         expect(molecules.length).toBeGreaterThan(0);
-      } else {
-        // Si la plante n'existe pas avec cet ID, le test passe
-        expect(true).toBe(true);
       }
     }
   });
 
   it('devrait pouvoir récupérer les molécules avec pourcentages', async () => {
     const plants = await db.getAllPlants();
-    const rose = plants.find(p => p.name === 'Rose de Damas' && p.id === 30010);
+    const rose = plants.find(p => p.name === 'Rose de Damas');
     
     if (rose) {
       const molecules = await db.getPlantMoleculesWithPercentages(rose.id);
@@ -142,9 +136,6 @@ describe('Associations molécules-plantes', () => {
         // Vérifier que les pourcentages sont présents
         expect(molecules[0].percentageTypical).toBeDefined();
       }
-    } else {
-      // Si la plante n'existe pas avec cet ID, le test passe
-      expect(true).toBe(true);
     }
   });
 });

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
+import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -357,12 +358,10 @@ export default function RawMaterials() {
                 ? "Essayez de modifier vos critères de recherche."
                 : "Commencez par ajouter des matières premières à votre base de données."}
             </p>
-            <Link href="/matieres-premieres/new">
-              <Button className="gap-2">
-                <Plus className="w-4 h-4" />
-                Ajouter une matière première
-              </Button>
-            </Link>
+            <Button className="gap-2" onClick={() => toast.info('Fonctionnalité à venir', { description: 'L\'ajout de matières premières sera disponible via l\'interface admin.' })}>
+              <Plus className="w-4 h-4" />
+              Ajouter une matière première
+            </Button>
           </Card>
         )}
 

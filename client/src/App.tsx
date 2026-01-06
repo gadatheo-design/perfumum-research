@@ -176,13 +176,9 @@ import BibliographiePage from "./pages/BibliographiePage";
 import BibliographieGlobale from "./pages/BibliographieGlobale";
 import AxesRecherche from "./pages/AxesRecherche";
 import AxeRechercheDetail from "./pages/AxeRechercheDetail";
-import ResearchAxisPage from "@/pages/ResearchAxisPage";
-import AxisDetail from "./pages/AxisDetail";
-import { MolecularComparisonPage } from "@/pages/MolecularComparisonPage";
 import GestionPage from "./pages/GestionPage";
 import LeafEconomies from "./pages/LeafEconomies";
 import LeafEconomyDetail from "./pages/LeafEconomyDetail";
-import ResearchGraphPage from "./pages/ResearchGraphPage";
 import LeafEconomyForm from "./pages/LeafEconomyForm";
 import TimelineBotanique from "./pages/TimelineBotanique";
 import BotaniqueCritique from "./pages/BotaniqueCritique";
@@ -207,9 +203,6 @@ import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
 import PatrimoineMenace from './pages/PatrimoineMenace';
 import AlternativesDurables from './pages/AlternativesDurables';
-import GenealogyAdvanced from './pages/GenealogyAdvanced';
-import LostVarietyDetail from './pages/LostVarietyDetail';
-import MolecularComparison from './pages/MolecularComparison';
 import ArchivesOlfactives from "./pages/ArchivesOlfactives";
 import { Glossaire } from "./pages/Glossaire";
 import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
@@ -259,10 +252,6 @@ import MoleculePlantRelations from "./pages/MoleculePlantRelations";
 import PlantTerroirNetwork from "./pages/PlantTerroirNetwork";
 import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
 
-// === CORPUS PERFUMUM ===
-import CorpusPerfumum from "./pages/CorpusPerfumum";
-import RoutesCommerciales from "./pages/RoutesCommerciales";
-
 // === PAGES TECHNIQUES ===
 import TestMinimal from "./pages/TestMinimal";
 
@@ -298,11 +287,6 @@ function Router() {
       {/* === RECHERCHE === */}
       <Route path="/recherche-avancee" component={RechercheAvancee} />
       <Route path="/recherche-globale" component={RechercheGlobale} />
-      
-      {/* === CORPUS PERFUMUM === */}
-      <Route path="/corpus" component={CorpusPerfumum} />
-      <Route path="/corpus/routes-commerciales" component={RoutesCommerciales} />
-      <Route path="/corpus/graphe" component={ResearchGraphPage} />
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />
@@ -448,17 +432,11 @@ function Router() {
       <Route path="/bibliographie-globale" component={BibliographieGlobale} />
       <Route path="/axes-recherche" component={AxesRecherche} />
       <Route path="/axes-recherche/:code" component={AxeRechercheDetail} />
-      <Route path="/axes-recherche-perfumum" component={ResearchAxisPage} />
-      <Route path="/axes-recherche-perfumum/:axisId" component={AxisDetail} />
-      <Route path="/comparaison-moleculaire" component={MolecularComparisonPage} />
       <Route path="/gestion" component={GestionPage} />
       <Route path="/collaborations" component={Collaborations} />
       <Route path="/archives" component={Archives} />
       <Route path="/patrimoine-menace" component={PatrimoineMenace} />
       <Route path="/alternatives-durables" component={AlternativesDurables} />
-      <Route path="/genealogie-avancee" component={GenealogyAdvanced} />
-      <Route path="/varietes-disparues/:id" component={LostVarietyDetail} />
-      <Route path="/comparaison-moleculaire" component={MolecularComparison} />
       <Route path="/archives-olfactives" component={ArchivesOlfactives} />
       <Route path="/outils" component={Outils} />
       <Route path="/glossaire" component={Glossaire} />
