@@ -18,7 +18,7 @@ import { RecetteDetailSkeleton } from "@/components/RecetteDetailSkeleton";
 import { RecommendationsCard } from "@/components/RecommendationsCard";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
-import { GitBranch, ArrowUpRight } from "lucide-react";
+import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles } from "lucide-react";
 
 export default function RecetteDetail() {
   const { toast } = useToast();
@@ -57,6 +57,9 @@ export default function RecetteDetail() {
 
   // Récupérer les formules de référence
   const { data: formulesReference } = trpc.recettes.getFormulesReference.useQuery(id, { enabled: !!data });
+
+  // Récupérer les TerpProfiles liés (pour les recettes TL)
+  const { data: linkedTerpProfiles } = trpc.recettes.getTerpProfiles.useQuery(id, { enabled: !!data });
 
   // Track page view
   useEffect(() => {
@@ -674,6 +677,57 @@ export default function RecetteDetail() {
                     </Button>
                   </div>
                 </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* TerpProfiles Liés (pour les recettes TL) */}
+      {linkedTerpProfiles && linkedTerpProfiles.length > 0 && (
+        <Card className="shadow-sm border-sky-200 bg-gradient-to-br from-sky-50/50 to-cyan-50/50 dark:from-sky-950/20 dark:to-cyan-950/20">
+          <CardHeader className="pb-2 md:pb-4">
+            <CardTitle className="text-lg md:text-xl flex items-center gap-2">
+              <Leaf className="h-4 w-4 md:h-5 md:w-5 text-sky-600" />
+              <span className="truncate">TerpProfiles Associés ({linkedTerpProfiles.length})</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
+              Fiches analytiques partageant des molécules avec cette recette
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+              {linkedTerpProfiles.map((profile: any) => (
+                <Link key={profile.id} href={`/terp-profiles/${profile.profileId}`}>
+                  <Card className="hover:shadow-md transition-shadow cursor-pointer border-sky-200 hover:border-sky-400 h-full">
+                    <CardContent className="p-3 md:p-4">
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <h4 className="font-semibold text-sm line-clamp-2">{profile.name}</h4>
+                        <Badge 
+                          variant="outline" 
+                          className={`shrink-0 text-xs ${
+                            profile.climaticAxis === 'vent' ? 'border-sky-300 bg-sky-50 text-sky-700' :
+                            profile.climaticAxis === 'bois' ? 'border-amber-300 bg-amber-50 text-amber-700' :
+                            'border-violet-300 bg-violet-50 text-violet-700'
+                          }`}
+                        >
+                          {profile.climaticAxis === 'vent' && <Wind className="w-3 h-3 mr-1" />}
+                          {profile.climaticAxis === 'bois' && <TreeDeciduous className="w-3 h-3 mr-1" />}
+                          {profile.climaticAxis === 'disparition' && <Sparkles className="w-3 h-3 mr-1" />}
+                          {profile.climaticAxis}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground">{profile.profileId}</span>
+                        {profile.matchScore && (
+                          <Badge variant="secondary" className="text-xs">
+                            {profile.matchScore}% match
+                          </Badge>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           </CardContent>

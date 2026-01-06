@@ -489,6 +489,19 @@ export const appRouter = router({
         return await db.getRecettesWithoutMoleculesByGamme(input.gamme);
       }),
     
+    // Récupérer les TerpProfiles liés à une recette
+    getTerpProfiles: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getTerpProfilesForRecette(input);
+      }),
+    
+    // Récupérer les recettes TL avec leurs TerpProfiles
+    getTLWithTerpProfiles: publicProcedure
+      .query(async () => {
+        return await db.getRecettesTLWithTerpProfiles();
+      }),
+    
     // Liste des recettes avec profil radar moyen calculé
     listWithRadar: publicProcedure
       .input(z.object({
@@ -2629,6 +2642,17 @@ export const appRouter = router({
       .input(z.number())
       .query(async ({ input }) => {
         return await db.getTerpProfileMolecules(input);
+      }),
+    // Récupérer les recettes liées à un TerpProfile
+    getRecettes: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getRecettesForTerpProfile(input);
+      }),
+    // Récupérer les TerpProfiles liés aux molécules de Tagetes lucida
+    getForTagetesLucida: publicProcedure
+      .query(async () => {
+        return await db.getTerpProfilesForTagetesLucida();
       }),
   }),
 

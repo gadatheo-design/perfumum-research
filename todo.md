@@ -3080,3 +3080,39 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 
 ### Phase 3 : Navigation carte GPS
 - [x] Ajouter un lien vers la carte GPS dans le menu de navigation principal (MegaMenu + Header mobile)
+
+
+---
+
+## 🌿 SESSION 06 JAN 2026 (suite) - GALERIE BOTANIQUE & FILTRES CLIMATIQUES
+
+### Phase 1 : Photos Tagetes lucida dans la galerie botanique
+- [x] Rechercher des images de Tagetes lucida (plante, fleurs, feuilles)
+- [x] Télécharger et optimiser les images pour le web (4 images: botanical, plant, flowers, detail)
+- [x] Créer/étendre le schéma pour les images botaniques (utilise le schéma existant)
+- [x] Ajouter les images à la galerie botanique (GalerieBotaniques.tsx avec onglets)
+- [x] Afficher les images sur la fiche plante Tagetes lucida (section dédiée avec infos moléculaires)
+
+### Phase 2 : Liaisons recettes TL / TerpProfiles
+- [x] Identifier les TerpProfiles existants liés aux molécules de Tagetes lucida (fonctions db.ts)
+- [x] Créer les liaisons entre les recettes TL (TL-01 à TL-05) et les TerpProfiles (via molécules partagées)
+- [x] Afficher les TerpProfiles associés sur les fiches recettes TL (RecetteDetail.tsx)
+- [x] Permettre la navigation bidirectionnelle (recette -> TerpProfile et inverse via routers.ts)
+
+### Phase 3 : Filtres climatiques sur la carte GPS
+- [x] Ajouter les filtres par axe climatique (Vent/Bois/Disparition) à la carte GPS (CartePlantesGPS.tsx)
+- [x] Implémenter le filtrage côté client avec sélection multiple des axes
+- [ ] Implémenter les marqueurs différenciés par axe climatique
+- [ ] Ajouter les toggles de visibilité par axe climatique
+
+### Phase 4 : Mise à jour version mobile
+- [x] Vérifier le responsive de la galerie botanique sur mobile (grilles adaptatives, lightbox responsive)
+- [x] Vérifier le responsive des liaisons recettes/TerpProfiles sur mobile (cartes responsive, padding adaptatif)
+- [x] Vérifier le responsive des filtres climatiques sur mobile (boutons toggle, panneau collapsible)
+- [x] Tester la navigation mobile sur les nouvelles pages
+
+### Phase 5 : Tests et livraison
+- [x] Créer les tests vitest pour les nouvelles fonctionnalités (14 tests passés)
+- [x] Créer le checkpoint final
+- [x] Présenter les résultats au client
+

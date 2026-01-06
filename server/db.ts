@@ -8218,3 +8218,180 @@ export function exportToChicago(entry: BibliographyEntry): string {
   
   return citation;
 }
+
+
+// ============================================================================
+// LIAISONS RECETTES TL <-> TERP PROFILES
+// ============================================================================
+
+/**
+ * Récupère les TerpProfiles liés à une recette via les molécules partagées
+ * Les recettes TL utilisent les mêmes molécules que certains TerpProfiles
+ */
+export async function getTerpProfilesForRecette(recetteId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Récupérer les molécules de la recette
+  const recetteMols = await db
+    .select({ moleculeId: moleculesRecettes.moleculeId })
+    .from(moleculesRecettes)
+    .where(eq(moleculesRecettes.recetteId, recetteId));
+  
+  if (recetteMols.length === 0) return [];
+  
+  const moleculeIds = recetteMols.map(m => m.moleculeId);
+  
+  // Trouver les TerpProfiles qui contiennent ces molécules
+  const profiles = await db
+    .select({
+      profile: terpProfiles,
+      moleculeId: terpProfileMolecules.moleculeId,
+      percentage: terpProfileMolecules.percentage,
+    })
+    .from(terpProfiles)
+    .innerJoin(terpProfileMolecules, eq(terpProfiles.id, terpProfileMolecules.terpProfileId))
+    .where(inArray(terpProfileMolecules.moleculeId, moleculeIds));
+  
+  // Grouper par profile et calculer le score de correspondance
+  const profileMap = new Map<number, { profile: TerpProfile; matchedMolecules: number; totalMolecules: number }>();
+  
+  for (const row of profiles) {
+    if (!profileMap.has(row.profile.id)) {
+      profileMap.set(row.profile.id, {
+        profile: row.profile,
+        matchedMolecules: 0,
+        totalMolecules: moleculeIds.length,
+      });
+    }
+    profileMap.get(row.profile.id)!.matchedMolecules++;
+  }
+  
+  // Retourner les profiles triés par score de correspondance
+  return Array.from(profileMap.values())
+    .map(p => ({
+      ...p.profile,
+      matchScore: Math.round((p.matchedMolecules / p.totalMolecules) * 100),
+      matchedMolecules: p.matchedMolecules,
+    }))
+    .sort((a, b) => b.matchScore - a.matchScore);
+}
+
+/**
+ * Récupère les recettes liées à un TerpProfile via les molécules partagées
+ */
+export async function getRecettesForTerpProfile(terpProfileId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Récupérer les molécules du TerpProfile
+  const profileMols = await db
+    .select({ moleculeId: terpProfileMolecules.moleculeId })
+    .from(terpProfileMolecules)
+    .where(eq(terpProfileMolecules.terpProfileId, terpProfileId));
+  
+  if (profileMols.length === 0) return [];
+  
+  const moleculeIds = profileMols.map(m => m.moleculeId);
+  
+  // Trouver les recettes qui utilisent ces molécules
+  const recettesWithMols = await db
+    .select({
+      recette: recettes,
+      moleculeId: moleculesRecettes.moleculeId,
+    })
+    .from(recettes)
+    .innerJoin(moleculesRecettes, eq(recettes.id, moleculesRecettes.recetteId))
+    .where(inArray(moleculesRecettes.moleculeId, moleculeIds));
+  
+  // Grouper par recette et calculer le score
+  const recetteMap = new Map<number, { recette: Recette; matchedMolecules: number; totalMolecules: number }>();
+  
+  for (const row of recettesWithMols) {
+    if (!recetteMap.has(row.recette.id)) {
+      recetteMap.set(row.recette.id, {
+        recette: row.recette,
+        matchedMolecules: 0,
+        totalMolecules: moleculeIds.length,
+      });
+    }
+    recetteMap.get(row.recette.id)!.matchedMolecules++;
+  }
+  
+  return Array.from(recetteMap.values())
+    .map(r => ({
+      ...r.recette,
+      matchScore: Math.round((r.matchedMolecules / r.totalMolecules) * 100),
+      matchedMolecules: r.matchedMolecules,
+    }))
+    .sort((a, b) => b.matchScore - a.matchScore);
+}
+
+/**
+ * Récupère les TerpProfiles liés aux molécules de Tagetes lucida
+ */
+export async function getTerpProfilesForTagetesLucida() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Molécules de Tagetes lucida: Estragole, Anéthole, Méthyl-eugénol, β-Ocimène
+  const tagetesPlantId = 300001;
+  
+  // Récupérer les molécules liées à Tagetes lucida
+  const plantMols = await db
+    .select({ moleculeId: plantMolecules.moleculeId })
+    .from(plantMolecules)
+    .where(eq(plantMolecules.plantId, tagetesPlantId));
+  
+  if (plantMols.length === 0) return [];
+  
+  const moleculeIds = plantMols.map(m => m.moleculeId);
+  
+  // Trouver les TerpProfiles qui contiennent ces molécules
+  const profiles = await db
+    .select({
+      profile: terpProfiles,
+      moleculeId: terpProfileMolecules.moleculeId,
+    })
+    .from(terpProfiles)
+    .innerJoin(terpProfileMolecules, eq(terpProfiles.id, terpProfileMolecules.terpProfileId))
+    .where(inArray(terpProfileMolecules.moleculeId, moleculeIds));
+  
+  // Grouper par profile
+  const profileMap = new Map<number, TerpProfile>();
+  for (const row of profiles) {
+    if (!profileMap.has(row.profile.id)) {
+      profileMap.set(row.profile.id, row.profile);
+    }
+  }
+  
+  return Array.from(profileMap.values()).sort((a, b) => a.profileId.localeCompare(b.profileId));
+}
+
+/**
+ * Récupère les recettes TL (Tagetes lucida) avec leurs TerpProfiles associés
+ */
+export async function getRecettesTLWithTerpProfiles() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Récupérer les recettes TL
+  const tlRecettes = await db
+    .select()
+    .from(recettes)
+    .where(like(recettes.name, '%TL-%'))
+    .orderBy(recettes.name);
+  
+  // Pour chaque recette, récupérer les TerpProfiles associés
+  const results = await Promise.all(
+    tlRecettes.map(async (recette) => {
+      const profiles = await getTerpProfilesForRecette(recette.id);
+      return {
+        ...recette,
+        terpProfiles: profiles,
+      };
+    })
+  );
+  
+  return results;
+}

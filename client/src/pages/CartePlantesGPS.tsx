@@ -26,7 +26,10 @@ import {
   Flower2,
   TreeDeciduous,
   Sprout,
-  MoreHorizontal
+  MoreHorizontal,
+  Wind,
+  Sparkles,
+  Mountain
 } from "lucide-react";
 
 // Configuration des catégories avec couleurs et icônes
@@ -41,7 +44,15 @@ const PLANT_CATEGORIES = [
   { id: "autre", name: "Autre", color: "#94a3b8", icon: MoreHorizontal, description: "Autres catégories" },
 ] as const;
 
+// Configuration des axes climatiques (San Andrés)
+const CLIMATIC_AXES = [
+  { id: "vent", name: "Vent", color: "#0ea5e9", icon: Wind, description: "Coupe aérienne, fraîcheur" },
+  { id: "bois", name: "Bois", color: "#d97706", icon: TreeDeciduous, description: "Structure sèche, terreux" },
+  { id: "disparition", name: "Disparition", color: "#8b5cf6", icon: Sparkles, description: "Effacement, abstraction" },
+] as const;
+
 type CategoryId = typeof PLANT_CATEGORIES[number]["id"];
+type ClimaticAxisId = typeof CLIMATIC_AXES[number]["id"];
 
 export default function CartePlantesGPS() {
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -51,15 +62,32 @@ export default function CartePlantesGPS() {
   );
   const [selectedPlant, setSelectedPlant] = useState<any | null>(null);
   const [showFilters, setShowFilters] = useState(true);
+  const [selectedClimaticAxes, setSelectedClimaticAxes] = useState<Set<ClimaticAxisId>>(new Set());
+  const [showClimaticFilter, setShowClimaticFilter] = useState(false);
 
   // Récupérer toutes les plantes avec GPS
   const { data: plantsWithGPS, isLoading } = trpc.plants.getWithGPS.useQuery();
 
-  // Filtrer les plantes par catégories sélectionnées
+  // Filtrer les plantes par catégories sélectionnées et axes climatiques
   const filteredPlants = useMemo(() => {
     if (!plantsWithGPS) return [];
-    return plantsWithGPS.filter(p => selectedCategories.has(p.category as CategoryId));
-  }, [plantsWithGPS, selectedCategories]);
+    let filtered = plantsWithGPS.filter(p => selectedCategories.has(p.category as CategoryId));
+    
+    // Filtrer par axe climatique si des axes sont sélectionnés
+    if (selectedClimaticAxes.size > 0) {
+      filtered = filtered.filter(p => {
+        // Vérifier si la plante a un axe climatique correspondant
+        const plantAxis = (p as any).climaticAxis;
+        if (!plantAxis) return false;
+        return selectedClimaticAxes.has(plantAxis as ClimaticAxisId) ||
+               (plantAxis.includes('vent') && selectedClimaticAxes.has('vent')) ||
+               (plantAxis.includes('bois') && selectedClimaticAxes.has('bois')) ||
+               (plantAxis.includes('disparition') && selectedClimaticAxes.has('disparition'));
+      });
+    }
+    
+    return filtered;
+  }, [plantsWithGPS, selectedCategories, selectedClimaticAxes]);
 
   // Statistiques par catégorie
   const categoryStats = useMemo(() => {
@@ -82,6 +110,24 @@ export default function CartePlantesGPS() {
       }
       return next;
     });
+  };
+
+  // Toggle un axe climatique
+  const toggleClimaticAxis = (axisId: ClimaticAxisId) => {
+    setSelectedClimaticAxes(prev => {
+      const next = new Set(prev);
+      if (next.has(axisId)) {
+        next.delete(axisId);
+      } else {
+        next.add(axisId);
+      }
+      return next;
+    });
+  };
+
+  // Effacer tous les filtres climatiques
+  const clearClimaticFilters = () => {
+    setSelectedClimaticAxes(new Set());
   };
 
   // Sélectionner/désélectionner toutes les catégories
@@ -331,6 +377,87 @@ export default function CartePlantesGPS() {
                           );
                         })}
                       </div>
+                    </CardContent>
+                  )}
+                </Card>
+
+                {/* Filtres par axe climatique */}
+                <Card className="border-sky-200 dark:border-sky-800">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Mountain className="h-5 w-5 text-sky-600" />
+                        Axe Climatique
+                      </CardTitle>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowClimaticFilter(!showClimaticFilter)}
+                      >
+                        {showClimaticFilter ? <X className="h-4 w-4" /> : <Filter className="h-4 w-4" />}
+                      </Button>
+                    </div>
+                    <CardDescription className="text-xs">
+                      Filtrer par signature climatique San Andrés
+                    </CardDescription>
+                  </CardHeader>
+                  {showClimaticFilter && (
+                    <CardContent className="space-y-3">
+                      {selectedClimaticAxes.size > 0 && (
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={clearClimaticFilters}
+                          className="w-full text-xs"
+                        >
+                          Effacer les filtres climatiques
+                        </Button>
+                      )}
+                      <div className="space-y-2">
+                        {CLIMATIC_AXES.map(axis => {
+                          const Icon = axis.icon;
+                          const isSelected = selectedClimaticAxes.has(axis.id);
+                          
+                          return (
+                            <button
+                              key={axis.id}
+                              onClick={() => toggleClimaticAxis(axis.id)}
+                              className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                                isSelected 
+                                  ? "bg-muted border-2" 
+                                  : "bg-muted/30 border-2 border-transparent opacity-60 hover:opacity-80"
+                              }`}
+                              style={{
+                                borderColor: isSelected ? axis.color : "transparent"
+                              }}
+                            >
+                              <div 
+                                className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                                style={{ backgroundColor: `${axis.color}20` }}
+                              >
+                                <Icon className="h-4 w-4" style={{ color: axis.color }} />
+                              </div>
+                              <div className="flex-1 text-left">
+                                <div className="font-medium text-sm">{axis.name}</div>
+                                <div className="text-xs text-muted-foreground">
+                                  {axis.description}
+                                </div>
+                              </div>
+                              <Checkbox
+                                checked={isSelected}
+                                onCheckedChange={() => toggleClimaticAxis(axis.id)}
+                              />
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {selectedClimaticAxes.size > 0 && (
+                        <div className="pt-2 border-t">
+                          <p className="text-xs text-muted-foreground">
+                            {selectedClimaticAxes.size} axe{selectedClimaticAxes.size > 1 ? 's' : ''} sélectionné{selectedClimaticAxes.size > 1 ? 's' : ''}
+                          </p>
+                        </div>
+                      )}
                     </CardContent>
                   )}
                 </Card>
