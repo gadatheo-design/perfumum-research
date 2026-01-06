@@ -9467,3 +9467,361 @@ export async function getMoleculeComparison(moleculeName: string) {
     }
   };
 }
+
+
+// ============================================================================
+// STATISTIQUES GLOBALES PAR AXE DE RECHERCHE (RADAR CHART)
+// ============================================================================
+
+// Obtenir les statistiques globales pour tous les axes (pour le graphique radar)
+export async function getAllAxesStats() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const axes = [
+    { axisId: 'AX1_GENOMIC_CONSERVATION', tables: ['genome_samples', 'genome_sequences'] },
+    { axisId: 'AX2_ETHNOBOTANY_COMP', tables: ['perfumum_manuscripts', 'text_fragments', 'trade_routes'] },
+    { axisId: 'AX3_ANALYTICAL_TRANS_EPOCH', tables: ['perfumum_herbarium_samples', 'perfumum_gcms_runs', 'molecular_markers'] },
+    { axisId: 'AX4_CONSERVATION_BIOTECH', tables: ['tissue_culture_lines', 'perfumum_fermentation_runs', 'biotech_molecules'] },
+    { axisId: 'AX5_IMMERSIVE_DEMOCRAT', tables: ['vr_scenes', 'citizen_observations'] },
+    { axisId: 'AX6_OLFACTIVE_DIPLOMACY', tables: ['partner_institutions', 'perfumum_fellowships'] },
+  ];
+  
+  const results = [];
+  
+  for (const axis of axes) {
+    let totalCount = 0;
+    const entityCounts: Record<string, number> = {};
+    
+    for (const table of axis.tables) {
+      try {
+        const result = await db.execute(sql`SELECT COUNT(*) as count FROM ${sql.identifier(table)} WHERE axis_id = ${axis.axisId}`);
+        const count = (result[0] as any[])[0]?.count || 0;
+        entityCounts[table] = count;
+        totalCount += count;
+      } catch (e) {
+        // Table might not exist, skip
+        entityCounts[table] = 0;
+      }
+    }
+    
+    // Récupérer les infos de l'axe
+    const axisResult = await db.execute(sql`SELECT * FROM perfumum_research_axes WHERE axis_id = ${axis.axisId}`);
+    const axisInfo = (axisResult[0] as any[])[0];
+    
+    results.push({
+      axisId: axis.axisId,
+      titleFr: axisInfo?.title_fr || axis.axisId,
+      titleEn: axisInfo?.title_en || axis.axisId,
+      color: axisInfo?.color || '#6366f1',
+      icon: axisInfo?.icon || 'beaker',
+      status: axisInfo?.status || 'draft',
+      totalCount,
+      entityCounts,
+    });
+  }
+  
+  return results;
+}
+
+// ============================================================================
+// GENOME SAMPLES (Échantillons génomiques - AX1)
+// ============================================================================
+
+// Lister tous les échantillons génomiques
+export async function listGenomeSamples(filters?: { region?: string; method?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = sql`SELECT * FROM genome_samples WHERE 1=1`;
+  
+  if (filters?.region) {
+    query = sql`${query} AND region = ${filters.region}`;
+  }
+  if (filters?.method) {
+    query = sql`${query} AND collection_method = ${filters.method}`;
+  }
+  
+  query = sql`${query} ORDER BY created_at DESC`;
+  
+  const result = await db.execute(query);
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    metadata: typeof row.metadata === 'string' ? JSON.parse(row.metadata || '{}') : row.metadata,
+  }));
+}
+
+// Obtenir un échantillon génomique par ID
+export async function getGenomeSampleById(sampleId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM genome_samples WHERE sample_id = ${sampleId}`);
+  const row = (result[0] as any[])[0];
+  if (!row) return null;
+  
+  return {
+    ...row,
+    metadata: typeof row.metadata === 'string' ? JSON.parse(row.metadata || '{}') : row.metadata,
+  };
+}
+
+// Statistiques des échantillons génomiques
+export async function getGenomeSamplesStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM genome_samples`);
+  const byRegionResult = await db.execute(sql`SELECT region, COUNT(*) as count FROM genome_samples GROUP BY region ORDER BY count DESC`);
+  const byMethodResult = await db.execute(sql`SELECT collection_method, COUNT(*) as count FROM genome_samples GROUP BY collection_method ORDER BY count DESC`);
+  const byStorageResult = await db.execute(sql`SELECT storage, COUNT(*) as count FROM genome_samples GROUP BY storage ORDER BY count DESC`);
+  
+  return {
+    total: (totalResult[0] as any[])[0]?.total || 0,
+    byRegion: byRegionResult[0] as any[],
+    byMethod: byMethodResult[0] as any[],
+    byStorage: byStorageResult[0] as any[],
+  };
+}
+
+// ============================================================================
+// MANUSCRIPTS (Manuscrits historiques - AX2)
+// ============================================================================
+
+// Lister tous les manuscrits
+export async function listManuscripts(filters?: { language?: string; region?: string; ocrStatus?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = sql`SELECT * FROM perfumum_manuscripts WHERE 1=1`;
+  
+  if (filters?.language) {
+    query = sql`${query} AND language = ${filters.language}`;
+  }
+  if (filters?.region) {
+    query = sql`${query} AND region = ${filters.region}`;
+  }
+  if (filters?.ocrStatus) {
+    query = sql`${query} AND ocr_status = ${filters.ocrStatus}`;
+  }
+  
+  query = sql`${query} ORDER BY date_range ASC`;
+  
+  const result = await db.execute(query);
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    tags: typeof row.tags === 'string' ? JSON.parse(row.tags || '[]') : row.tags,
+  }));
+}
+
+// Obtenir un manuscrit par ID
+export async function getManuscriptById(manuscriptId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM perfumum_manuscripts WHERE manuscript_id = ${manuscriptId}`);
+  const row = (result[0] as any[])[0];
+  if (!row) return null;
+  
+  // Récupérer les fragments liés
+  const fragmentsResult = await db.execute(sql`SELECT * FROM text_fragments WHERE manuscript_id = ${manuscriptId}`);
+  
+  return {
+    ...row,
+    tags: typeof row.tags === 'string' ? JSON.parse(row.tags || '[]') : row.tags,
+    fragments: (fragmentsResult[0] as any[]).map(f => ({
+      ...f,
+      entities: typeof f.entities === 'string' ? JSON.parse(f.entities || '[]') : f.entities,
+    })),
+  };
+}
+
+// Statistiques des manuscrits
+export async function getManuscriptsStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM perfumum_manuscripts`);
+  const byLanguageResult = await db.execute(sql`SELECT language, COUNT(*) as count FROM perfumum_manuscripts GROUP BY language ORDER BY count DESC`);
+  const byRegionResult = await db.execute(sql`SELECT region, COUNT(*) as count FROM perfumum_manuscripts GROUP BY region ORDER BY count DESC`);
+  const byOcrStatusResult = await db.execute(sql`SELECT ocr_status, COUNT(*) as count FROM perfumum_manuscripts GROUP BY ocr_status ORDER BY count DESC`);
+  
+  return {
+    total: (totalResult[0] as any[])[0]?.total || 0,
+    byLanguage: byLanguageResult[0] as any[],
+    byRegion: byRegionResult[0] as any[],
+    byOcrStatus: byOcrStatusResult[0] as any[],
+  };
+}
+
+// ============================================================================
+// GCMS RUNS (Analyses GC-MS - AX3)
+// ============================================================================
+
+// Lister toutes les analyses GC-MS
+export async function listGcmsRuns(filters?: { method?: string }) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = sql`SELECT * FROM perfumum_gcms_runs WHERE 1=1`;
+  
+  if (filters?.method) {
+    query = sql`${query} AND method = ${filters.method}`;
+  }
+  
+  query = sql`${query} ORDER BY run_date DESC`;
+  
+  const result = await db.execute(query);
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    standards: typeof row.standards === 'string' ? JSON.parse(row.standards || '[]') : row.standards,
+    topCompounds: typeof row.top_compounds === 'string' ? JSON.parse(row.top_compounds || '[]') : row.top_compounds,
+  }));
+}
+
+// Obtenir une analyse GC-MS par ID
+export async function getGcmsRunById(runId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`SELECT * FROM perfumum_gcms_runs WHERE run_id = ${runId}`);
+  const row = (result[0] as any[])[0];
+  if (!row) return null;
+  
+  return {
+    ...row,
+    standards: typeof row.standards === 'string' ? JSON.parse(row.standards || '[]') : row.standards,
+    topCompounds: typeof row.top_compounds === 'string' ? JSON.parse(row.top_compounds || '[]') : row.top_compounds,
+  };
+}
+
+// Statistiques des analyses GC-MS
+export async function getGcmsRunsStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM perfumum_gcms_runs`);
+  const byMethodResult = await db.execute(sql`SELECT method, COUNT(*) as count FROM perfumum_gcms_runs GROUP BY method ORDER BY count DESC`);
+  const byInstrumentResult = await db.execute(sql`SELECT instrument, COUNT(*) as count FROM perfumum_gcms_runs GROUP BY instrument ORDER BY count DESC`);
+  
+  // Récupérer les composés les plus fréquents
+  const allRuns = await db.execute(sql`SELECT top_compounds FROM perfumum_gcms_runs`);
+  const compoundCounts: Record<string, number> = {};
+  
+  for (const run of (allRuns[0] as any[])) {
+    const compounds = typeof run.top_compounds === 'string' ? JSON.parse(run.top_compounds || '[]') : run.top_compounds || [];
+    for (const compound of compounds) {
+      const name = compound.name || 'Unknown';
+      compoundCounts[name] = (compoundCounts[name] || 0) + 1;
+    }
+  }
+  
+  const topCompounds = Object.entries(compoundCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([name, count]) => ({ name, count }));
+  
+  return {
+    total: (totalResult[0] as any[])[0]?.total || 0,
+    byMethod: byMethodResult[0] as any[],
+    byInstrument: byInstrumentResult[0] as any[],
+    topCompounds,
+  };
+}
+
+// ============================================================================
+// DÉTAIL D'UN AXE DE RECHERCHE
+// ============================================================================
+
+// Obtenir le détail complet d'un axe avec toutes ses entités
+export async function getAxisDetail(axisId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Récupérer les infos de l'axe
+  const axisResult = await db.execute(sql`SELECT * FROM perfumum_research_axes WHERE axis_id = ${axisId}`);
+  const axisInfo = (axisResult[0] as any[])[0];
+  
+  if (!axisInfo) return null;
+  
+  // Récupérer les entités selon l'axe
+  const entities: Record<string, any[]> = {};
+  
+  if (axisId === 'AX1_GENOMIC_CONSERVATION') {
+    const samples = await db.execute(sql`SELECT * FROM genome_samples WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    const sequences = await db.execute(sql`SELECT * FROM genome_sequences WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    entities.genomeSamples = (samples[0] as any[]).map(row => ({
+      ...row,
+      metadata: typeof row.metadata === 'string' ? JSON.parse(row.metadata || '{}') : row.metadata,
+    }));
+    entities.genomeSequences = sequences[0] as any[];
+  }
+  
+  if (axisId === 'AX2_ETHNOBOTANY_COMP') {
+    const manuscripts = await db.execute(sql`SELECT * FROM perfumum_manuscripts WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    const fragments = await db.execute(sql`SELECT * FROM text_fragments WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    const routes = await db.execute(sql`SELECT * FROM trade_routes WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    entities.manuscripts = (manuscripts[0] as any[]).map(row => ({
+      ...row,
+      tags: typeof row.tags === 'string' ? JSON.parse(row.tags || '[]') : row.tags,
+    }));
+    entities.textFragments = (fragments[0] as any[]).map(row => ({
+      ...row,
+      entities: typeof row.entities === 'string' ? JSON.parse(row.entities || '[]') : row.entities,
+    }));
+    entities.tradeRoutes = (routes[0] as any[]).map(row => ({
+      ...row,
+      sources: typeof row.sources === 'string' ? JSON.parse(row.sources || '[]') : row.sources,
+    }));
+  }
+  
+  if (axisId === 'AX3_ANALYTICAL_TRANS_EPOCH') {
+    const herbarium = await db.execute(sql`SELECT * FROM perfumum_herbarium_samples WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    const gcms = await db.execute(sql`SELECT * FROM perfumum_gcms_runs WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    const markers = await db.execute(sql`SELECT * FROM molecular_markers WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    entities.herbariumSamples = herbarium[0] as any[];
+    entities.gcmsRuns = (gcms[0] as any[]).map(row => ({
+      ...row,
+      standards: typeof row.standards === 'string' ? JSON.parse(row.standards || '[]') : row.standards,
+      topCompounds: typeof row.top_compounds === 'string' ? JSON.parse(row.top_compounds || '[]') : row.top_compounds,
+    }));
+    entities.molecularMarkers = markers[0] as any[];
+  }
+  
+  if (axisId === 'AX4_CONSERVATION_BIOTECH') {
+    const tissue = await db.execute(sql`SELECT * FROM tissue_culture_lines WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    const fermentation = await db.execute(sql`SELECT * FROM perfumum_fermentation_runs WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    const biotech = await db.execute(sql`SELECT * FROM biotech_molecules WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    entities.tissueCultureLines = tissue[0] as any[];
+    entities.fermentationRuns = fermentation[0] as any[];
+    entities.biotechMolecules = (biotech[0] as any[]).map(row => ({
+      ...row,
+      heterologous_genes: typeof row.heterologous_genes === 'string' ? JSON.parse(row.heterologous_genes || '[]') : row.heterologous_genes,
+      advantages: typeof row.advantages === 'string' ? JSON.parse(row.advantages || '[]') : row.advantages,
+      limitations: typeof row.limitations === 'string' ? JSON.parse(row.limitations || '[]') : row.limitations,
+    }));
+  }
+  
+  if (axisId === 'AX5_IMMERSIVE_DEMOCRAT') {
+    const vr = await db.execute(sql`SELECT * FROM vr_scenes WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    const citizen = await db.execute(sql`SELECT * FROM citizen_observations WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    entities.vrScenes = vr[0] as any[];
+    entities.citizenObservations = citizen[0] as any[];
+  }
+  
+  if (axisId === 'AX6_OLFACTIVE_DIPLOMACY') {
+    const partners = await db.execute(sql`SELECT * FROM partner_institutions WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    const fellowships = await db.execute(sql`SELECT * FROM perfumum_fellowships WHERE axis_id = ${axisId} ORDER BY created_at DESC LIMIT 50`);
+    entities.partnerInstitutions = partners[0] as any[];
+    entities.fellowships = fellowships[0] as any[];
+  }
+  
+  return {
+    ...axisInfo,
+    kpis: typeof axisInfo.kpis === 'string' ? JSON.parse(axisInfo.kpis || '[]') : axisInfo.kpis,
+    ui_modules: typeof axisInfo.ui_modules === 'string' ? JSON.parse(axisInfo.ui_modules || '[]') : axisInfo.ui_modules,
+    core_entities: typeof axisInfo.core_entities === 'string' ? JSON.parse(axisInfo.core_entities || '[]') : axisInfo.core_entities,
+    default_filters: typeof axisInfo.default_filters === 'string' ? JSON.parse(axisInfo.default_filters || '{}') : axisInfo.default_filters,
+    entities,
+  };
+}

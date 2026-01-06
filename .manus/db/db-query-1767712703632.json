@@ -1,0 +1,46 @@
+{
+  "query": "SELECT axis_id, title_fr, status, color FROM perfumum_research_axes ORDER BY sort_order;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT axis_id, title_fr, status, color FROM perfumum_research_axes ORDER BY sort_order;",
+  "rows": [
+    {
+      "axis_id": "AX1_GENOMIC_CONSERVATION",
+      "title_fr": "Génomique olfactive et conservation ex-situ",
+      "status": "mvp",
+      "color": "#10b981"
+    },
+    {
+      "axis_id": "AX2_ETHNOBOTANY_COMP",
+      "title_fr": "Ethnobotanique computationnelle",
+      "status": "mvp",
+      "color": "#8b5cf6"
+    },
+    {
+      "axis_id": "AX3_ANALYTICAL_TRANS_EPOCH",
+      "title_fr": "Chimie analytique comparative trans-époques",
+      "status": "mvp",
+      "color": "#f59e0b"
+    },
+    {
+      "axis_id": "AX4_CONSERVATION_BIOTECH",
+      "title_fr": "Biotechnologies de conservation",
+      "status": "mvp",
+      "color": "#06b6d4"
+    },
+    {
+      "axis_id": "AX5_IMMERSIVE_DEMOCRAT",
+      "title_fr": "Technologies immersives et démocratisation",
+      "status": "mvp",
+      "color": "#ec4899"
+    },
+    {
+      "axis_id": "AX6_OLFACTIVE_DIPLOMACY",
+      "title_fr": "Diplomatie olfactive et soft power culturel",
+      "status": "mvp",
+      "color": "#6366f1"
+    }
+  ],
+  "messages": [],
+  "stdout": "axis_id\ttitle_fr\tstatus\tcolor\nAX1_GENOMIC_CONSERVATION\tGénomique olfactive et conservation ex-situ\tmvp\t#10b981\nAX2_ETHNOBOTANY_COMP\tEthnobotanique computationnelle\tmvp\t#8b5cf6\nAX3_ANALYTICAL_TRANS_EPOCH\tChimie analytique comparative trans-époques\tmvp\t#f59e0b\nAX4_CONSERVATION_BIOTECH\tBiotechnologies de conservation\tmvp\t#06b6d4\nAX5_IMMERSIVE_DEMOCRAT\tTechnologies immersives et démocratisation\tmvp\t#ec4899\nAX6_OLFACTIVE_DIPLOMACY\tDiplomatie olfactive et soft power culturel\tmvp\t#6366f1\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

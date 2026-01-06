@@ -48,6 +48,7 @@ import {
   Layers,
   ArrowRight,
 } from "lucide-react";
+import { ResearchRadarChart } from "@/components/ResearchRadarChart";
 
 // Types pour les axes de recherche
 interface ResearchAxis {
@@ -206,15 +207,7 @@ const axisDetails: Record<string, {
   },
 };
 
-// Statistiques par axe (simulées pour l'instant)
-const axisStats: Record<string, { total: number; recent: number }> = {
-  AX1_GENOMIC_CONSERVATION: { total: 2, recent: 1 },
-  AX2_ETHNOBOTANY_COMP: { total: 3, recent: 2 },
-  AX3_ANALYTICAL_TRANS_EPOCH: { total: 17, recent: 3 },
-  AX4_CONSERVATION_BIOTECH: { total: 7, recent: 2 },
-  AX5_IMMERSIVE_DEMOCRAT: { total: 2, recent: 1 },
-  AX6_OLFACTIVE_DIPLOMACY: { total: 2, recent: 1 },
-};
+// Les statistiques sont maintenant chargées dynamiquement via tRPC
 
 export default function ResearchAxisPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -223,6 +216,18 @@ export default function ResearchAxisPage() {
 
   // Fetch research axes from database
   const { data: axes, isLoading } = trpc.perfumumAxes.list.useQuery();
+  
+  // Fetch real statistics from database
+  const { data: axesStatsData } = trpc.axesStats.getAll.useQuery();
+  
+  // Build stats map from real data
+  const axisStats = useMemo(() => {
+    if (!axesStatsData) return {};
+    return axesStatsData.reduce((acc, axis) => {
+      acc[axis.axisId] = { total: axis.totalCount, recent: 0 };
+      return acc;
+    }, {} as Record<string, { total: number; recent: number }>);
+  }, [axesStatsData]);
 
   // Filter axes
   const filteredAxes = useMemo(() => {
@@ -238,16 +243,17 @@ export default function ResearchAxisPage() {
     });
   }, [axes, searchQuery, selectedStatus]);
 
-  // Calculate total stats
+  // Calculate total stats from real data
   const totalStats = useMemo(() => {
-    return Object.values(axisStats).reduce(
-      (acc, stat) => ({
-        total: acc.total + stat.total,
-        recent: acc.recent + stat.recent,
+    if (!axesStatsData) return { total: 0, recent: 0 };
+    return axesStatsData.reduce(
+      (acc, axis) => ({
+        total: acc.total + axis.totalCount,
+        recent: acc.recent,
       }),
       { total: 0, recent: 0 }
     );
-  }, []);
+  }, [axesStatsData]);
 
   const getIcon = (iconName?: string) => {
     if (!iconName) return <Layers className="h-6 w-6" />;
@@ -324,6 +330,7 @@ export default function ResearchAxisPage() {
           <TabsList>
             <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
             <TabsTrigger value="details">Détails par axe</TabsTrigger>
+            <TabsTrigger value="radar">Graphique Radar</TabsTrigger>
             <TabsTrigger value="vision">Vision 2035</TabsTrigger>
           </TabsList>
 
@@ -528,6 +535,68 @@ export default function ResearchAxisPage() {
                   </Card>
                 );
               })}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="radar" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5 text-indigo-600" />
+                  Répartition des ressources par axe
+                </CardTitle>
+                <CardDescription>
+                  Visualisation de la distribution des données de recherche entre les 6 axes stratégiques
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {axesStatsData && axesStatsData.length > 0 ? (
+                  <ResearchRadarChart data={axesStatsData} />
+                ) : (
+                  <div className="flex items-center justify-center h-[400px] text-muted-foreground">
+                    Chargement des données...
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+            
+            {/* Détail des ressources par axe */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+              {axesStatsData?.map((axis) => (
+                <Card key={axis.axisId}>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center gap-2">
+                      <div 
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: axis.color }}
+                      />
+                      <CardTitle className="text-sm">{axis.titleFr}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-3xl font-bold" style={{ color: axis.color }}>
+                      {axis.totalCount}
+                    </div>
+                    <p className="text-xs text-muted-foreground">ressources</p>
+                    <div className="mt-3 space-y-1">
+                      {Object.entries(axis.entityCounts).map(([key, count]) => (
+                        <div key={key} className="flex justify-between text-xs">
+                          <span className="text-muted-foreground capitalize">
+                            {key.replace(/_/g, ' ').replace('perfumum ', '')}
+                          </span>
+                          <span className="font-medium">{count as number}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Link href={`/axes-recherche-perfumum/${axis.axisId}`}>
+                      <Button variant="ghost" size="sm" className="w-full mt-3">
+                        Voir détail
+                        <ChevronRight className="h-4 w-4 ml-1" />
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </TabsContent>
 

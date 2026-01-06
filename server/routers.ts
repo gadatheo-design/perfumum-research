@@ -7102,6 +7102,93 @@ export const appRouter = router({
         return await db.getMoleculeComparison(input.moleculeName);
       }),
   }),
+
+  // ============================================================================
+  // STATISTIQUES GLOBALES AXES (pour graphique radar)
+  // ============================================================================
+  axesStats: router({
+    getAll: publicProcedure.query(async () => {
+      return await db.getAllAxesStats();
+    }),
+    
+    getAxisDetail: publicProcedure
+      .input(z.object({ axisId: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getAxisDetail(input.axisId);
+      }),
+  }),
+
+  // ============================================================================
+  // GENOME SAMPLES (Échantillons génomiques - AX1)
+  // ============================================================================
+  genomeSamples: router({
+    list: publicProcedure
+      .input(z.object({
+        region: z.string().optional(),
+        method: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listGenomeSamples(input);
+      }),
+    
+    getById: publicProcedure
+      .input(z.object({ sampleId: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getGenomeSampleById(input.sampleId);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return await db.getGenomeSamplesStats();
+    }),
+  }),
+
+  // ============================================================================
+  // MANUSCRIPTS (Manuscrits historiques - AX2)
+  // ============================================================================
+  manuscripts: router({
+    list: publicProcedure
+      .input(z.object({
+        language: z.string().optional(),
+        region: z.string().optional(),
+        ocrStatus: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listManuscripts(input);
+      }),
+    
+    getById: publicProcedure
+      .input(z.object({ manuscriptId: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getManuscriptById(input.manuscriptId);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return await db.getManuscriptsStats();
+    }),
+  }),
+
+  // ============================================================================
+  // GCMS RUNS (Analyses GC-MS - AX3)
+  // ============================================================================
+  gcmsRuns: router({
+    list: publicProcedure
+      .input(z.object({
+        method: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.listGcmsRuns(input);
+      }),
+    
+    getById: publicProcedure
+      .input(z.object({ runId: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getGcmsRunById(input.runId);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return await db.getGcmsRunsStats();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

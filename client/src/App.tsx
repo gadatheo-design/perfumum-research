@@ -177,6 +177,7 @@ import BibliographieGlobale from "./pages/BibliographieGlobale";
 import AxesRecherche from "./pages/AxesRecherche";
 import AxeRechercheDetail from "./pages/AxeRechercheDetail";
 import ResearchAxisPage from "@/pages/ResearchAxisPage";
+import AxisDetail from "./pages/AxisDetail";
 import { MolecularComparisonPage } from "@/pages/MolecularComparisonPage";
 import GestionPage from "./pages/GestionPage";
 import LeafEconomies from "./pages/LeafEconomies";
@@ -438,6 +439,7 @@ function Router() {
       <Route path="/axes-recherche" component={AxesRecherche} />
       <Route path="/axes-recherche/:code" component={AxeRechercheDetail} />
       <Route path="/axes-recherche-perfumum" component={ResearchAxisPage} />
+      <Route path="/axes-recherche-perfumum/:axisId" component={AxisDetail} />
       <Route path="/comparaison-moleculaire" component={MolecularComparisonPage} />
       <Route path="/gestion" component={GestionPage} />
       <Route path="/collaborations" component={Collaborations} />

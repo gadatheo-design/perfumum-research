@@ -1,0 +1,31 @@
+{
+  "query": "SELECT COUNT(*) as count FROM perfumum_research_axes; SELECT COUNT(*) as count FROM genome_samples; SELECT COUNT(*) as count FROM perfumum_manuscripts; SELECT COUNT(*) as count FROM perfumum_gcms_runs;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as count FROM perfumum_research_axes; SELECT COUNT(*) as count FROM genome_samples; SELECT COUNT(*) as count FROM perfumum_manuscripts; SELECT COUNT(*) as count FROM perfumum_gcms_runs;",
+  "rows": [
+    {
+      "count": "6"
+    },
+    {
+      "count": "count"
+    },
+    {
+      "count": "1"
+    },
+    {
+      "count": "count"
+    },
+    {
+      "count": "1"
+    },
+    {
+      "count": "count"
+    },
+    {
+      "count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "count\n6\ncount\n1\ncount\n1\ncount\n1\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}
