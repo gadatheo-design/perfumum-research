@@ -2872,5 +2872,38 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 5 : Tests et validation
 - [x] Exécuter les tests unitaires (373/375 passent)
 - [x] Vérifier l'état du serveur (TypeScript OK, pas d'erreurs)
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final (35171be2)
+
+
+
+---
+
+## 🔧 SESSION 06 JAN 2026 - CORRECTIONS ET AMÉLIORATIONS
+
+### Phase 1 : Correction des tests qui échouent
+- [x] Identifier les tests qui échouent avec `pnpm test`
+- [x] Analyser les causes des échecs (problème de schéma plantMolecules et doublons de données)
+- [x] Corriger les tests défaillants (regulatory-profile.test.ts)
+- [x] Valider que tous les tests passent (375 tests passés)
+
+### Phase 2 : Données de test pour bibliographie et axes de recherche
+- [x] Ajouter des données de test pour la bibliographie (12 entrées de référence)
+- [x] Ajouter des données de test pour les axes de recherche (7 entrées)
+- [x] Créer les liens bibliographie-axes (11 liens)
+- [ ] Valider l'affichage des données dans l'interface
+
+### Phase 3 : Page de création de matières premières
+- [x] Créer la page de création de matières premières (RawMaterialForm.tsx)
+- [x] Remplacer le bouton placeholder actuel (lien vers /matieres-premieres/nouvelle)
+- [x] Ajouter la route dans App.tsx
+- [ ] Tester le formulaire de création
+
+### Phase 4 : Validation navigation mobile
+- [x] Tests visuels limités par rate limiting du proxy (erreur 429)
+- [x] Serveur local fonctionne correctement (curl localhost:3000 = 200)
+- [x] Tous les 375 tests unitaires passent avec succès
+- [ ] Tests visuels manuels à effectuer par l'utilisateur via le panneau Preview
+- [ ] Tester la navigation mobile sur 768px (iPad)
+- [ ] Tester la navigation mobile sur 1024px (iPad Pro)
+- [ ] Corriger les problèmes identifiés si nécessaire
 

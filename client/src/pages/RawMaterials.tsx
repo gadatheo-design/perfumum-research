@@ -358,10 +358,12 @@ export default function RawMaterials() {
                 ? "Essayez de modifier vos critères de recherche."
                 : "Commencez par ajouter des matières premières à votre base de données."}
             </p>
-            <Button className="gap-2" onClick={() => toast.info('Fonctionnalité à venir', { description: 'L\'ajout de matières premières sera disponible via l\'interface admin.' })}>
-              <Plus className="w-4 h-4" />
-              Ajouter une matière première
-            </Button>
+            <Link href="/matieres-premieres/nouvelle">
+              <Button className="gap-2">
+                <Plus className="w-4 h-4" />
+                Ajouter une matière première
+              </Button>
+            </Link>
           </Card>
         )}
 

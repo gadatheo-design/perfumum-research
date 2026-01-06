@@ -248,6 +248,7 @@ import BioMineralis from "./pages/BioMineralis";
 // === MATIÈRES PREMIÈRES & RELATIONS ===
 import RawMaterials from "./pages/RawMaterials";
 import RawMaterialDetail from "./pages/RawMaterialDetail";
+import RawMaterialForm from "./pages/RawMaterialForm";
 import MoleculePlantRelations from "./pages/MoleculePlantRelations";
 import PlantTerroirNetwork from "./pages/PlantTerroirNetwork";
 import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
@@ -491,6 +492,7 @@ function Router() {
       
       {/* === MATIÈRES PREMIÈRES & RELATIONS === */}
       <Route path="/matieres-premieres" component={RawMaterials} />
+      <Route path="/matieres-premieres/nouvelle" component={RawMaterialForm} />
       <Route path="/matieres-premieres/:id" component={RawMaterialDetail} />
       <Route path="/raw-materials" component={RawMaterials} />
       <Route path="/raw-materials/:id" component={RawMaterialDetail} />

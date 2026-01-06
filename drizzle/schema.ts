@@ -2033,13 +2033,13 @@ export const terpProfileMolecules = mysqlTable("terp_profile_molecules", {
 // ============================================================================
 
 export const plantMolecules = mysqlTable("plant_molecules", {
-  id: int("id").autoincrement().primaryKey(),
   plantId: int("plant_id").notNull().references(() => plants.id),
   moleculeId: int("molecule_id").notNull().references(() => molecules.id),
   // Pourcentages de composition (ex: linalol 25-45% dans la lavande)
   percentageMin: decimal("percentage_min", { precision: 5, scale: 2 }), // Pourcentage minimum
   percentageMax: decimal("percentage_max", { precision: 5, scale: 2 }), // Pourcentage maximum
   percentageTypical: decimal("percentage_typical", { precision: 5, scale: 2 }), // Pourcentage typique/moyen
+  percentage: decimal("percentage", { precision: 5, scale: 2 }), // Pourcentage (legacy)
   // Classification
   isSignature: int("is_signature").default(0), // 1 = molécule signature de la plante
   role: mysqlEnum("role", [
@@ -2062,7 +2062,7 @@ export const plantMolecules = mysqlTable("plant_molecules", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
-  uniquePlantMolecule: uniqueIndex("unique_plant_molecule").on(table.plantId, table.moleculeId),
+  pk: uniqueIndex("plant_molecules_pk").on(table.plantId, table.moleculeId),
 }));
 
 // ============================================================================
