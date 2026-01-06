@@ -2822,3 +2822,82 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Sauvegarder les sources et références pertinentes
 - [ ] Intégrer les informations dans la base de données PERFUMUM
 
+
+
+## 🧠 SESSION 06 JAN 2026 - ENRICHISSEMENT MÉMOIRE OLFACTIVE
+
+### Phase 1 : Données de recherche olfaction-mémoire
+- [ ] Analyser la structure actuelle des tables olfaction_memory et memory_olfaction_concepts
+- [ ] Ajouter des données scientifiques sur les mécanismes neurobiologiques
+- [ ] Ajouter des données sur les rituels olfactifs historiques
+- [ ] Documenter les études clés (Proust, Herz, Engen)
+
+### Phase 2 : Visualisations interactives
+- [ ] Créer le schéma cérébral interactif (bulbe olfactif, hippocampe, amygdale, cortex)
+- [ ] Créer la chronologie interactive des rituels olfactifs historiques
+- [ ] Ajouter des animations et interactions (hover, click, zoom)
+
+### Phase 3 : Liens molécules-effets-mémoire
+- [ ] Créer la table de liaison molécules → effets psychologiques
+- [ ] Lier le linalol à l'effet relaxant et mémoire émotionnelle
+- [ ] Lier d'autres molécules clés (limonène, géraniol, eugénol, etc.)
+- [ ] Afficher les connexions dans l'interface
+
+### Phase 4 : Tests et livraison
+- [ ] Tester les visualisations sur desktop et mobile
+- [ ] Valider les liens molécules-mémoire
+- [ ] Créer le checkpoint final
+
+
+---
+
+## 🧠 SESSION 06 JAN 2026 - ENRICHISSEMENT MÉMOIRE OLFACTIVE
+
+### Phase 1 : Import des données de recherche ✅ COMPLÉTÉ
+- [x] Analyser la structure des tables olfaction_memory et memory_olfaction_concepts
+- [x] Créer le script d'import (scripts/import-olfaction-memory.mjs)
+- [x] Importer 24 concepts clés (structures cérébrales, phénomènes, types de mémoire, mécanismes, troubles, thérapies, rituels)
+- [x] Importer 8 articles de recherche (neurologie, histoire, psychologie, thérapeutique, culture)
+- [x] Importer 12 sources bibliographiques (articles scientifiques, livres, podcasts)
+
+### Phase 2 : Visualisations interactives ✅ COMPLÉTÉ
+- [x] Créer le composant BrainDiagram.tsx (schéma cérébral olfactif interactif)
+  - 6 structures cérébrales avec positions, couleurs et connexions
+  - Panneau d'information détaillé pour chaque structure
+  - Visualisation des connexions et du flux olfactif
+  - Explication de la voie directe (sans relais thalamique)
+- [x] Créer le composant OlfactoryRitualsTimeline.tsx (chronologie des rituels olfactifs)
+  - 12 rituels historiques de -3000 av. J.-C. à 1930
+  - Timeline horizontale scrollable
+  - Détails pour chaque rituel (ingrédients, rôle mémoriel, pertinence moderne)
+  - Synthèse des constantes à travers les civilisations
+
+### Phase 3 : Liens molécules-effets-mémoire ✅ COMPLÉTÉ
+- [x] Créer la fonction getMoleculeMemoryEffects() dans db.ts
+  - Mapping de 15+ molécules vers leurs effets sur la mémoire
+  - Mécanismes d'action (GABAergique, dopaminergique, etc.)
+  - Niveau de preuve (anecdotique, préclinique, clinique)
+- [x] Créer la fonction getConceptMolecules() dans db.ts
+  - Mapping des concepts vers les molécules associées
+  - Recherche des molécules dans la base de données
+- [x] Ajouter les procédures tRPC pour olfactionMemory
+  - listConcepts, getConceptById
+  - listArticles, getArticleById, getArticleBySlug, getFeaturedArticles
+  - listSources, getSourceById
+  - getArticleSources, getArticleConcepts
+  - getStats, search
+  - getMoleculeMemoryEffects, getConceptMolecules
+
+### Phase 4 : Interface utilisateur ✅ COMPLÉTÉ
+- [x] Refactorer la page OlfactionMemoire.tsx
+  - 6 onglets : Vue d'ensemble, Cerveau olfactif, Chronologie, Concepts clés, Articles, Sources
+  - Intégration des composants BrainDiagram et OlfactoryRitualsTimeline
+  - Statistiques dynamiques (concepts, articles, sources)
+  - Filtres par type de concept et catégorie d'article
+  - Recherche textuelle
+
+### Phase 5 : Tests et validation ✅ COMPLÉTÉ
+- [x] Ajouter les tests unitaires pour les nouvelles fonctions (31 tests)
+- [x] Tous les tests passent (393/395 tests globaux, 2 échecs non liés)
+- [x] Serveur opérationnel
+

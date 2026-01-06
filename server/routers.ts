@@ -6273,6 +6273,105 @@ export const appRouter = router({
         return await db.getAlternativesWithSuppliers();
       }),
   }),
+
+  // ============================================================================
+  // OLFACTION & MÉMOIRE - tRPC Procedures
+  // ============================================================================
+  olfactionMemory: router({
+    // Concepts clés
+    listConcepts: publicProcedure
+      .input(z.object({ type: z.string().optional() }).optional())
+      .query(async ({ input }) => {
+        return await db.getMemoryOlfactionConcepts(input?.type);
+      }),
+    
+    getConceptById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getMemoryOlfactionConceptById(input.id);
+      }),
+    
+    // Articles de recherche
+    listArticles: publicProcedure
+      .input(z.object({
+        category: z.string().optional(),
+        status: z.string().optional(),
+        featured: z.boolean().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.getOlfactionMemoryArticles(input);
+      }),
+    
+    getArticleById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getOlfactionMemoryArticleById(input.id);
+      }),
+    
+    getArticleBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => {
+        return await db.getOlfactionMemoryArticleBySlug(input.slug);
+      }),
+    
+    getFeaturedArticles: publicProcedure
+      .input(z.object({ limit: z.number().optional() }).optional())
+      .query(async ({ input }) => {
+        return await db.getFeaturedOlfactionMemoryArticles(input?.limit);
+      }),
+    
+    // Sources bibliographiques
+    listSources: publicProcedure
+      .input(z.object({ sourceType: z.string().optional() }).optional())
+      .query(async ({ input }) => {
+        return await db.getOlfactionMemorySources(input?.sourceType);
+      }),
+    
+    getSourceById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getOlfactionMemorySourceById(input.id);
+      }),
+    
+    // Liens articles-sources
+    getArticleSources: publicProcedure
+      .input(z.object({ articleId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getArticleSources(input.articleId);
+      }),
+    
+    // Liens articles-concepts
+    getArticleConcepts: publicProcedure
+      .input(z.object({ articleId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getArticleConcepts(input.articleId);
+      }),
+    
+    // Statistiques
+    getStats: publicProcedure.query(async () => {
+      return await db.getOlfactionMemoryStats();
+    }),
+    
+    // Recherche
+    search: publicProcedure
+      .input(z.object({ query: z.string(), limit: z.number().optional() }))
+      .query(async ({ input }) => {
+        return await db.searchOlfactionMemory(input.query, input.limit);
+      }),
+    
+    // Liens molécules-effets-mémoire
+    getMoleculeMemoryEffects: publicProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getMoleculeMemoryEffects(input.moleculeId);
+      }),
+    
+    getConceptMolecules: publicProcedure
+      .input(z.object({ conceptId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getConceptMolecules(input.conceptId);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

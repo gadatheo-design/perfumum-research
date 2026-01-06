@@ -7951,3 +7951,253 @@ export async function searchOlfactionMemory(query: string, limit: number = 20) {
   
   return { articles, concepts, sources };
 }
+
+
+// ============================================================================
+// LIENS MOLÉCULES - EFFETS - MÉMOIRE
+// ============================================================================
+
+/**
+ * Récupère les effets sur la mémoire associés à une molécule
+ * Basé sur les propriétés connues des molécules et leurs effets psychoactifs
+ */
+export async function getMoleculeMemoryEffects(moleculeId: number) {
+  const db = await getDb();
+  
+  // Récupérer la molécule avec ses propriétés
+  const molecule = await db.select()
+    .from(molecules)
+    .where(eq(molecules.id, moleculeId))
+    .limit(1);
+  
+  if (!molecule[0]) return null;
+  
+  const mol = molecule[0];
+  
+  // Mapping des molécules connues vers leurs effets sur la mémoire
+  const MOLECULE_MEMORY_EFFECTS: Record<string, {
+    effect: string;
+    mechanism: string;
+    concepts: string[];
+    intensity: 'faible' | 'modéré' | 'fort';
+    evidence: 'anecdotique' | 'préclinique' | 'clinique';
+  }> = {
+    // Terpènes relaxants
+    'linalol': {
+      effect: 'Relaxation et réduction de l\'anxiété, favorise la consolidation mnésique',
+      mechanism: 'Modulation GABAergique, réduction du cortisol',
+      concepts: ['consolidation-olfactive', 'aromatherapie-cognitive'],
+      intensity: 'modéré',
+      evidence: 'clinique'
+    },
+    'linalool': {
+      effect: 'Relaxation et réduction de l\'anxiété, favorise la consolidation mnésique',
+      mechanism: 'Modulation GABAergique, réduction du cortisol',
+      concepts: ['consolidation-olfactive', 'aromatherapie-cognitive'],
+      intensity: 'modéré',
+      evidence: 'clinique'
+    },
+    'limonène': {
+      effect: 'Stimulation cognitive et amélioration de l\'humeur',
+      mechanism: 'Augmentation de la dopamine et sérotonine',
+      concepts: ['encodage-olfactif', 'memoire-episodique'],
+      intensity: 'modéré',
+      evidence: 'préclinique'
+    },
+    'limonene': {
+      effect: 'Stimulation cognitive et amélioration de l\'humeur',
+      mechanism: 'Augmentation de la dopamine et sérotonine',
+      concepts: ['encodage-olfactif', 'memoire-episodique'],
+      intensity: 'modéré',
+      evidence: 'préclinique'
+    },
+    'pinène': {
+      effect: 'Amélioration de la vigilance et de la mémoire à court terme',
+      mechanism: 'Inhibition de l\'acétylcholinestérase',
+      concepts: ['rappel-olfactif', 'memoire-semantique-olfactive'],
+      intensity: 'modéré',
+      evidence: 'préclinique'
+    },
+    'alpha-pinene': {
+      effect: 'Amélioration de la vigilance et de la mémoire à court terme',
+      mechanism: 'Inhibition de l\'acétylcholinestérase',
+      concepts: ['rappel-olfactif', 'memoire-semantique-olfactive'],
+      intensity: 'modéré',
+      evidence: 'préclinique'
+    },
+    'beta-caryophyllène': {
+      effect: 'Effet anti-inflammatoire et neuroprotecteur',
+      mechanism: 'Agoniste du récepteur CB2',
+      concepts: ['entrainement-olfactif', 'aromatherapie-cognitive'],
+      intensity: 'faible',
+      evidence: 'préclinique'
+    },
+    'eucalyptol': {
+      effect: 'Amélioration de la clarté mentale et de la concentration',
+      mechanism: 'Stimulation du système nerveux central',
+      concepts: ['encodage-olfactif', 'rappel-olfactif'],
+      intensity: 'modéré',
+      evidence: 'clinique'
+    },
+    '1,8-cineole': {
+      effect: 'Amélioration de la clarté mentale et de la concentration',
+      mechanism: 'Stimulation du système nerveux central',
+      concepts: ['encodage-olfactif', 'rappel-olfactif'],
+      intensity: 'modéré',
+      evidence: 'clinique'
+    },
+    'myrcène': {
+      effect: 'Effet sédatif et relaxant musculaire',
+      mechanism: 'Potentialisation GABAergique',
+      concepts: ['consolidation-olfactive', 'memoire-procedurale-olfactive'],
+      intensity: 'fort',
+      evidence: 'préclinique'
+    },
+    'géraniol': {
+      effect: 'Effet calmant et neuroprotecteur',
+      mechanism: 'Modulation des canaux calciques',
+      concepts: ['aromatherapie-cognitive', 'consolidation-olfactive'],
+      intensity: 'faible',
+      evidence: 'préclinique'
+    },
+    // Molécules aromatiques
+    'vanilline': {
+      effect: 'Évocation de souvenirs d\'enfance, effet réconfortant',
+      mechanism: 'Association mémorielle forte (alimentation, enfance)',
+      concepts: ['effet-proust', 'memoire-olfactive-involontaire'],
+      intensity: 'fort',
+      evidence: 'anecdotique'
+    },
+    'coumarine': {
+      effect: 'Sensation de bien-être et nostalgie',
+      mechanism: 'Association avec le foin coupé, la nature',
+      concepts: ['effet-proust', 'bump-reminiscence-olfactive'],
+      intensity: 'modéré',
+      evidence: 'anecdotique'
+    },
+    'eugénol': {
+      effect: 'Évocation de souvenirs culinaires et festifs',
+      mechanism: 'Association avec les épices, Noël',
+      concepts: ['memoire-episodique', 'effet-proust'],
+      intensity: 'modéré',
+      evidence: 'anecdotique'
+    },
+    // Résines et encens
+    'incensole': {
+      effect: 'Effet anxiolytique et antidépresseur',
+      mechanism: 'Activation des canaux TRPV3',
+      concepts: ['encensement-rituel', 'aromatherapie-cognitive'],
+      intensity: 'fort',
+      evidence: 'préclinique'
+    },
+    'olibanol': {
+      effect: 'Induction d\'états méditatifs',
+      mechanism: 'Modulation du système limbique',
+      concepts: ['encensement-rituel', 'fumigation-purificatrice'],
+      intensity: 'modéré',
+      evidence: 'anecdotique'
+    },
+  };
+  
+  // Normaliser le nom de la molécule pour la recherche
+  const molName = mol.name?.toLowerCase().replace(/[^a-z0-9]/g, '') || '';
+  const molNameFr = mol.nameFr?.toLowerCase().replace(/[^a-z0-9]/g, '') || '';
+  
+  // Chercher dans le mapping
+  let effectData = null;
+  for (const [key, value] of Object.entries(MOLECULE_MEMORY_EFFECTS)) {
+    const normalizedKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (molName.includes(normalizedKey) || molNameFr.includes(normalizedKey) || 
+        normalizedKey.includes(molName) || normalizedKey.includes(molNameFr)) {
+      effectData = value;
+      break;
+    }
+  }
+  
+  // Récupérer les concepts liés si trouvés
+  let relatedConcepts: any[] = [];
+  if (effectData) {
+    relatedConcepts = await db.select()
+      .from(memoryOlfactionConcepts)
+      .where(
+        or(
+          ...effectData.concepts.map(slug => eq(memoryOlfactionConcepts.slug, slug))
+        )
+      );
+  }
+  
+  return {
+    molecule: mol,
+    memoryEffect: effectData,
+    relatedConcepts,
+  };
+}
+
+/**
+ * Récupère les molécules associées à un concept de mémoire olfactive
+ */
+export async function getConceptMolecules(conceptId: number) {
+  const db = await getDb();
+  
+  // Récupérer le concept
+  const concept = await db.select()
+    .from(memoryOlfactionConcepts)
+    .where(eq(memoryOlfactionConcepts.id, conceptId))
+    .limit(1);
+  
+  if (!concept[0]) return null;
+  
+  const conceptData = concept[0];
+  
+  // Mapping des concepts vers les molécules associées
+  const CONCEPT_MOLECULES: Record<string, string[]> = {
+    'effet-proust': ['vanilline', 'coumarine', 'eugénol', 'linalol'],
+    'memoire-olfactive-involontaire': ['vanilline', 'coumarine', 'musc'],
+    'bump-reminiscence-olfactive': ['coumarine', 'héliotropine', 'vanilline'],
+    'memoire-episodique': ['limonène', 'eugénol', 'linalol'],
+    'memoire-semantique-olfactive': ['pinène', 'eucalyptol', 'menthol'],
+    'memoire-procedurale-olfactive': ['myrcène', 'linalol'],
+    'encodage-olfactif': ['limonène', 'eucalyptol', 'pinène'],
+    'consolidation-olfactive': ['linalol', 'myrcène', 'géraniol'],
+    'rappel-olfactif': ['pinène', 'eucalyptol', 'limonène'],
+    'aromatherapie-cognitive': ['linalol', 'limonène', 'eucalyptol', 'incensole'],
+    'entrainement-olfactif': ['eugénol', 'citronellol', 'phényléthanol', 'eucalyptol'],
+    'encensement-rituel': ['incensole', 'olibanol', 'myrrhe'],
+    'fumigation-purificatrice': ['olibanol', 'cèdre', 'sauge'],
+  };
+  
+  const moleculeNames = CONCEPT_MOLECULES[conceptData.slug] || [];
+  
+  // Rechercher les molécules correspondantes dans la base
+  let relatedMolecules: any[] = [];
+  if (moleculeNames.length > 0) {
+    // Recherche par nom (approximative)
+    for (const name of moleculeNames) {
+      const found = await db.select()
+        .from(molecules)
+        .where(
+          or(
+            like(molecules.name, `%${name}%`),
+            like(molecules.nameFr, `%${name}%`)
+          )
+        )
+        .limit(3);
+      relatedMolecules.push(...found);
+    }
+    // Dédupliquer
+    relatedMolecules = relatedMolecules.filter((mol, index, self) => 
+      index === self.findIndex(m => m.id === mol.id)
+    );
+  }
+  
+  return {
+    concept: conceptData,
+    relatedMolecules,
+    suggestedMoleculeNames: moleculeNames,
+  };
+}
+
+// Alias pour compatibilité avec le router
+export const getOlfactionMemorySources = getAllOlfactionMemorySources;
+export const getMemoryOlfactionConcepts = getAllMemoryOlfactionConcepts;
+export const getOlfactionMemoryArticles = getAllOlfactionMemoryArticles;
