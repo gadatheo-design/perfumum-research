@@ -2561,3 +2561,101 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 
 ### Phase 2 : Navigation
 - [x] Vérifier/ajouter le lien vers /alternatives-durables dans le menu principal (MegaMenu.tsx)
+
+
+---
+
+## 🎨 SESSION 05 JAN 2026 (suite 3) - AMÉLIORATIONS UI & FONCTIONNALITÉS
+
+### Phase 1 : Amélioration de l'interface utilisateur
+- [ ] Simplifier le MegaMenu avec structure plus claire
+- [ ] Améliorer la hiérarchie visuelle des pages principales
+- [ ] Harmoniser les styles de cartes sur toutes les pages
+- [ ] Améliorer les états hover et focus
+- [ ] Ajouter des transitions et micro-interactions
+
+### Phase 2 : Système d'upload d'images botaniques
+- [ ] Configurer le stockage S3 pour les images botaniques
+- [ ] Créer la procédure tRPC d'upload d'images
+- [ ] Créer le composant ImageUpload avec drag & drop
+- [ ] Ajouter la prévisualisation des images avant upload
+- [ ] Intégrer le composant dans les fiches plantes
+- [ ] Tester l'upload sur desktop et mobile
+
+### Phase 3 : Page de consultation IFRA
+- [ ] Créer la page IFRA avec recherche par molécule
+- [ ] Ajouter le lien vers la page IFRA dans le menu
+- [ ] Ajouter les restrictions IFRA manquantes (géraniol, citronellol, etc.)
+- [ ] Écrire les tests unitaires pour les procédures IFRA
+
+### Phase 4 : Tests et validation
+- [ ] Exécuter tous les tests existants
+- [ ] Écrire les tests pour les nouvelles fonctionnalités
+- [ ] Valider le responsive sur mobile
+- [ ] Créer le checkpoint final
+
+---
+
+## 🗺️ ROADMAP STRATÉGIQUE - AXES PRIORITAIRES
+
+### AXE 1 : Données Scientifiques (Court terme)
+- [ ] Compléter les données IFRA pour toutes les molécules réglementées
+- [ ] Ajouter les numéros CAS manquants
+- [ ] Intégrer les données IUPAC systématiques
+- [ ] Créer une page de consultation IFRA dédiée
+
+### AXE 2 : Botanique & Terroirs (Court terme)
+- [ ] Compléter les liaisons plantes-molécules
+- [ ] Enrichir les données de conservation (IUCN, CITES)
+- [ ] Ajouter les méthodes d'extraction par plante
+- [ ] Système d'upload d'images botaniques
+
+### AXE 3 : Formulation & Création (Court terme)
+- [ ] Améliorer l'éditeur de formulation
+- [ ] Calculateur de coût en temps réel
+- [ ] Suggestions de synergies automatiques
+- [ ] Export des formules (PDF, Excel)
+
+### AXE 4 : Patrimoine & Histoire (Court terme)
+- [ ] Enrichir les fiches civilisations
+- [ ] Documenter les traditions olfactives régionales
+- [ ] Créer une timeline historique interactive
+- [ ] Ajouter les sources bibliographiques
+
+### AXE 5 : Expérience Utilisateur (Court terme)
+- [ ] Simplifier le MegaMenu
+- [ ] Harmoniser les styles visuels
+- [ ] Améliorer le responsive mobile
+- [ ] Ajouter des micro-interactions
+
+### AXE 6 : Collaboration & Partage (Court terme)
+- [ ] Système de notes partagées
+- [ ] Export/import de collections
+- [ ] Commentaires sur les fiches
+- [ ] Historique des modifications
+
+
+
+---
+
+## 📋 SESSION 05 JAN 2026 - ROADMAP STRATÉGIQUE & PLANIFICATION
+
+### Phase 1 : Création de la roadmap stratégique
+- [x] Analyser l'état actuel du projet (198 pages, 110 tables, 364 tests)
+- [x] Identifier les 6 axes stratégiques prioritaires
+- [x] Créer le document ROADMAP_PERFUMUM.md avec vision 2026-2036
+- [x] Définir les priorités court/moyen/long terme pour chaque axe
+- [x] Établir les métriques de succès (objectifs 2026, 2030)
+
+### Phase 2 : Mise à jour du todo.md
+- [x] Ajouter les axes stratégiques au todo.md
+- [x] Organiser les tâches par priorité
+- [x] Documenter les principes directeurs du projet
+
+### Phase 3 : Prochaines étapes identifiées
+- [ ] Simplifier le MegaMenu (13 catégories → structure plus claire)
+- [ ] Créer la page de consultation IFRA dédiée
+- [ ] Implémenter le système d'upload d'images botaniques
+- [ ] Améliorer l'éditeur de formulation
+- [ ] Compléter les données IFRA manquantes
+
