@@ -4428,3 +4428,357 @@ export const olfactionMemoryArticleConceptsRelations = relations(olfactionMemory
     references: [memoryOlfactionConcepts.id],
   }),
 }));
+
+
+// ============================================================================
+// RESEARCH AXES - 5 axes de recherche PERFUMUM
+// ============================================================================
+
+/**
+ * Les 5 axes de recherche principaux du projet PERFUMUM:
+ * 1. Neurosciences Olfactives et Mémoire
+ * 2. Biotechnologie et Parfumerie Durable
+ * 3. Régulation Émotionnelle par l'Olfaction
+ * 4. Préservation du Patrimoine Olfactif
+ * 5. Intelligence Artificielle et Création Parfumée
+ */
+export const researchAxes = mysqlTable("research_axes", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Identification
+  code: varchar("code", { length: 10 }).notNull().unique(), // AX1, AX2, AX3, AX4, AX5
+  name: varchar("name", { length: 255 }).notNull(),
+  shortName: varchar("short_name", { length: 50 }).notNull(), // Neurosciences, Biotechnologie, etc.
+  emoji: varchar("emoji", { length: 10 }).notNull(), // 🧠, 🌱, 💚, 📜, 🤖
+  
+  // Description
+  description: text("description").notNull(),
+  keyTopics: text("key_topics"), // JSON array of key topics
+  
+  // Visuel
+  color: varchar("color", { length: 20 }).notNull(), // Hex color for UI
+  iconName: varchar("icon_name", { length: 50 }), // Lucide icon name
+  
+  // Métadonnées
+  sortOrder: int("sort_order").default(0).notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  codeIdx: uniqueIndex("research_axis_code_idx").on(table.code),
+  sortIdx: index("research_axis_sort_idx").on(table.sortOrder),
+}));
+
+export type ResearchAxis = typeof researchAxes.$inferSelect;
+export type InsertResearchAxis = typeof researchAxes.$inferInsert;
+
+// ============================================================================
+// RESEARCH ENTRIES - Entrées de recherche liées aux axes
+// ============================================================================
+
+/**
+ * Entrées de recherche individuelles, pouvant être liées à plusieurs axes
+ */
+export const researchEntries = mysqlTable("research_entries", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Identification
+  title: varchar("title", { length: 500 }).notNull(),
+  slug: varchar("slug", { length: 500 }).notNull().unique(),
+  
+  // Contenu
+  summary: text("summary"), // Résumé court
+  content: text("content").notNull(), // Contenu complet (Markdown)
+  
+  // Type d'entrée
+  entryType: mysqlEnum("entry_type", [
+    "note",           // Note de recherche
+    "synthesis",      // Synthèse
+    "experiment",     // Expérience
+    "observation",    // Observation
+    "hypothesis",     // Hypothèse
+    "discovery",      // Découverte
+    "review",         // Revue de littérature
+    "methodology",    // Méthodologie
+    "protocol",       // Protocole
+    "analysis"        // Analyse
+  ]).default("note").notNull(),
+  
+  // Statut
+  status: mysqlEnum("status", [
+    "draft",          // Brouillon
+    "in_progress",    // En cours
+    "completed",      // Terminé
+    "archived"        // Archivé
+  ]).default("draft").notNull(),
+  
+  // Axe principal (relation directe)
+  primaryAxisId: int("primary_axis_id").notNull(),
+  
+  // Importance et visibilité
+  importance: mysqlEnum("importance", ["low", "medium", "high", "critical"]).default("medium").notNull(),
+  isPublic: boolean("is_public").default(false).notNull(),
+  isPinned: boolean("is_pinned").default(false).notNull(),
+  
+  // Dates de recherche
+  researchDate: timestamp("research_date"), // Date de la recherche/observation
+  
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  slugIdx: uniqueIndex("research_entry_slug_idx").on(table.slug),
+  axisIdx: index("research_entry_axis_idx").on(table.primaryAxisId),
+  typeIdx: index("research_entry_type_idx").on(table.entryType),
+  statusIdx: index("research_entry_status_idx").on(table.status),
+  dateIdx: index("research_entry_date_idx").on(table.researchDate),
+}));
+
+export type ResearchEntry = typeof researchEntries.$inferSelect;
+export type InsertResearchEntry = typeof researchEntries.$inferInsert;
+
+// ============================================================================
+// RESEARCH ENTRY AXES - Relation many-to-many entre entrées et axes
+// ============================================================================
+
+export const researchEntryAxes = mysqlTable("research_entry_axes", {
+  id: int("id").autoincrement().primaryKey(),
+  entryId: int("entry_id").notNull(),
+  axisId: int("axis_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  entryIdx: index("entry_axes_entry_idx").on(table.entryId),
+  axisIdx: index("entry_axes_axis_idx").on(table.axisId),
+  uniqueLink: uniqueIndex("entry_axes_unique").on(table.entryId, table.axisId),
+}));
+
+export type ResearchEntryAxis = typeof researchEntryAxes.$inferSelect;
+export type InsertResearchEntryAxis = typeof researchEntryAxes.$inferInsert;
+
+// ============================================================================
+// RESEARCH TAGS - Système de tags transversaux
+// ============================================================================
+
+export const researchTags = mysqlTable("research_tags", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  name: varchar("name", { length: 100 }).notNull().unique(),
+  slug: varchar("slug", { length: 100 }).notNull().unique(),
+  description: text("description"),
+  color: varchar("color", { length: 20 }), // Hex color
+  
+  // Catégorie de tag
+  category: mysqlEnum("category", [
+    "topic",          // Sujet
+    "method",         // Méthode
+    "material",       // Matériau
+    "region",         // Région géographique
+    "period",         // Période historique
+    "emotion",        // Émotion
+    "molecule",       // Molécule
+    "plant",          // Plante
+    "technology",     // Technologie
+    "other"           // Autre
+  ]).default("topic").notNull(),
+  
+  usageCount: int("usage_count").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  nameIdx: uniqueIndex("research_tag_name_idx").on(table.name),
+  slugIdx: uniqueIndex("research_tag_slug_idx").on(table.slug),
+  categoryIdx: index("research_tag_category_idx").on(table.category),
+}));
+
+export type ResearchTag = typeof researchTags.$inferSelect;
+export type InsertResearchTag = typeof researchTags.$inferInsert;
+
+// ============================================================================
+// RESEARCH ENTRY TAGS - Relation many-to-many entre entrées et tags
+// ============================================================================
+
+export const researchEntryTags = mysqlTable("research_entry_tags", {
+  id: int("id").autoincrement().primaryKey(),
+  entryId: int("entry_id").notNull(),
+  tagId: int("tag_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  entryIdx: index("entry_tags_entry_idx").on(table.entryId),
+  tagIdx: index("entry_tags_tag_idx").on(table.tagId),
+  uniqueLink: uniqueIndex("entry_tags_unique").on(table.entryId, table.tagId),
+}));
+
+export type ResearchEntryTag = typeof researchEntryTags.$inferSelect;
+export type InsertResearchEntryTag = typeof researchEntryTags.$inferInsert;
+
+// ============================================================================
+// BIBLIOGRAPHY SOURCES - Sources bibliographiques globales
+// ============================================================================
+
+/**
+ * Table centralisée pour toutes les sources bibliographiques du projet PERFUMUM
+ * Peut être liée à n'importe quelle entrée de recherche
+ */
+export const bibliographySources = mysqlTable("bibliography_sources", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Type de source
+  sourceType: mysqlEnum("source_type", [
+    "scientific_paper",   // Article scientifique peer-reviewed
+    "book",               // Livre
+    "book_chapter",       // Chapitre de livre
+    "thesis",             // Thèse (PhD, Master)
+    "conference",         // Acte de conférence
+    "patent",             // Brevet
+    "report",             // Rapport technique/institutionnel
+    "article",            // Article de presse/magazine
+    "website",            // Site web
+    "database",           // Base de données
+    "podcast",            // Podcast
+    "video",              // Vidéo/Documentaire
+    "interview",          // Interview
+    "archive",            // Document d'archive
+    "dataset",            // Jeu de données
+    "software",           // Logiciel
+    "other"               // Autre
+  ]).notNull(),
+  
+  // Identification
+  title: varchar("title", { length: 1000 }).notNull(),
+  authors: text("authors"), // JSON array: [{name, affiliation, orcid}]
+  
+  // Dates
+  publicationYear: int("publication_year"),
+  publicationMonth: int("publication_month"),
+  accessDate: timestamp("access_date"), // Date d'accès (pour les sources web)
+  
+  // Détails de publication
+  journal: varchar("journal", { length: 500 }),
+  volume: varchar("volume", { length: 50 }),
+  issue: varchar("issue", { length: 50 }),
+  pages: varchar("pages", { length: 100 }),
+  publisher: varchar("publisher", { length: 500 }),
+  edition: varchar("edition", { length: 50 }),
+  language: varchar("language", { length: 50 }).default("fr"),
+  
+  // Identifiants uniques
+  doi: varchar("doi", { length: 255 }),
+  isbn: varchar("isbn", { length: 20 }),
+  issn: varchar("issn", { length: 20 }),
+  pmid: varchar("pmid", { length: 20 }), // PubMed ID
+  arxivId: varchar("arxiv_id", { length: 50 }),
+  url: varchar("url", { length: 2000 }),
+  
+  // Contenu
+  abstract: text("abstract"),
+  keywords: text("keywords"), // JSON array
+  
+  // Notes et annotations
+  notes: text("notes"),
+  quotes: text("quotes"), // JSON array of important quotes
+  
+  // Pertinence pour PERFUMUM
+  relevanceScore: int("relevance_score"), // 1-10
+  relevantAxes: text("relevant_axes"), // JSON array of axis codes
+  
+  // Fichier attaché
+  fileUrl: varchar("file_url", { length: 2000 }),
+  fileName: varchar("file_name", { length: 255 }),
+  
+  // Citation formatée (générée)
+  citationApa: text("citation_apa"),
+  citationBibtex: text("citation_bibtex"),
+  
+  // Métadonnées
+  isVerified: boolean("is_verified").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  sourceTypeIdx: index("bibliography_source_type_idx").on(table.sourceType),
+  yearIdx: index("bibliography_year_idx").on(table.publicationYear),
+  doiIdx: index("bibliography_doi_idx").on(table.doi),
+  isbnIdx: index("bibliography_isbn_idx").on(table.isbn),
+}));
+
+export type BibliographySource = typeof bibliographySources.$inferSelect;
+export type InsertBibliographySource = typeof bibliographySources.$inferInsert;
+
+// ============================================================================
+// RESEARCH ENTRY SOURCES - Relation many-to-many entre entrées et sources
+// ============================================================================
+
+export const researchEntrySources = mysqlTable("research_entry_sources", {
+  id: int("id").autoincrement().primaryKey(),
+  entryId: int("entry_id").notNull(),
+  sourceId: int("source_id").notNull(),
+  citationContext: text("citation_context"), // Contexte de la citation dans l'entrée
+  pageReference: varchar("page_reference", { length: 100 }), // Pages spécifiques citées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  entryIdx: index("entry_sources_entry_idx").on(table.entryId),
+  sourceIdx: index("entry_sources_source_idx").on(table.sourceId),
+  uniqueLink: uniqueIndex("entry_sources_unique").on(table.entryId, table.sourceId),
+}));
+
+export type ResearchEntrySource = typeof researchEntrySources.$inferSelect;
+export type InsertResearchEntrySource = typeof researchEntrySources.$inferInsert;
+
+// ============================================================================
+// RELATIONS - Axes de recherche et Bibliographie
+// ============================================================================
+
+export const researchAxesRelations = relations(researchAxes, ({ many }) => ({
+  entries: many(researchEntries),
+  entryAxes: many(researchEntryAxes),
+}));
+
+export const researchEntriesRelations = relations(researchEntries, ({ one, many }) => ({
+  primaryAxis: one(researchAxes, {
+    fields: [researchEntries.primaryAxisId],
+    references: [researchAxes.id],
+  }),
+  axes: many(researchEntryAxes),
+  tags: many(researchEntryTags),
+  sources: many(researchEntrySources),
+}));
+
+export const researchEntryAxesRelations = relations(researchEntryAxes, ({ one }) => ({
+  entry: one(researchEntries, {
+    fields: [researchEntryAxes.entryId],
+    references: [researchEntries.id],
+  }),
+  axis: one(researchAxes, {
+    fields: [researchEntryAxes.axisId],
+    references: [researchAxes.id],
+  }),
+}));
+
+export const researchTagsRelations = relations(researchTags, ({ many }) => ({
+  entryTags: many(researchEntryTags),
+}));
+
+export const researchEntryTagsRelations = relations(researchEntryTags, ({ one }) => ({
+  entry: one(researchEntries, {
+    fields: [researchEntryTags.entryId],
+    references: [researchEntries.id],
+  }),
+  tag: one(researchTags, {
+    fields: [researchEntryTags.tagId],
+    references: [researchTags.id],
+  }),
+}));
+
+export const bibliographySourcesRelations = relations(bibliographySources, ({ many }) => ({
+  entrySources: many(researchEntrySources),
+}));
+
+export const researchEntrySourcesRelations = relations(researchEntrySources, ({ one }) => ({
+  entry: one(researchEntries, {
+    fields: [researchEntrySources.entryId],
+    references: [researchEntries.id],
+  }),
+  source: one(bibliographySources, {
+    fields: [researchEntrySources.sourceId],
+    references: [bibliographySources.id],
+  }),
+}));

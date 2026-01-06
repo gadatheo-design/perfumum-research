@@ -6372,6 +6372,299 @@ export const appRouter = router({
         return await db.getConceptMolecules(input.conceptId);
       }),
   }),
+
+  // ============================================================================
+  // RESEARCH AXES - Axes de recherche PERFUMUM
+  // ============================================================================
+  researchAxes: router({
+    // Liste tous les axes de recherche
+    list: publicProcedure
+      .query(async () => {
+        return await db.getAllResearchAxes();
+      }),
+    
+    // Récupère un axe par ID
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getResearchAxisById(input.id);
+      }),
+    
+    // Récupère un axe par code
+    getByCode: publicProcedure
+      .input(z.object({ code: z.string() }))
+      .query(async ({ input }) => {
+        return await db.getResearchAxisByCode(input.code);
+      }),
+    
+    // Met à jour un axe (admin)
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        shortName: z.string().optional(),
+        description: z.string().optional(),
+        keyTopics: z.string().optional(),
+        color: z.string().optional(),
+        isActive: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateResearchAxis(id, data);
+      }),
+  }),
+
+  // ============================================================================
+  // RESEARCH ENTRIES - Entrées de recherche
+  // ============================================================================
+  researchEntries: router({
+    // Liste toutes les entrées avec filtres
+    list: publicProcedure
+      .input(z.object({
+        axisId: z.number().optional(),
+        entryType: z.string().optional(),
+        status: z.string().optional(),
+        importance: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.getAllResearchEntries(input);
+      }),
+    
+    // Récupère les entrées par axe
+    getByAxis: publicProcedure
+      .input(z.object({ axisId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getResearchEntriesByAxis(input.axisId);
+      }),
+    
+    // Récupère une entrée par ID avec toutes ses relations
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getResearchEntryById(input.id);
+      }),
+    
+    // Crée une nouvelle entrée
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string(),
+        slug: z.string(),
+        summary: z.string().optional(),
+        content: z.string(),
+        entryType: z.string().optional(),
+        status: z.string().optional(),
+        primaryAxisId: z.number(),
+        importance: z.string().optional(),
+        isPublic: z.boolean().optional(),
+        isPinned: z.boolean().optional(),
+        researchDate: z.date().optional(),
+        tagIds: z.array(z.number()).optional(),
+        sourceIds: z.array(z.number()).optional(),
+        secondaryAxisIds: z.array(z.number()).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createResearchEntry(input);
+      }),
+    
+    // Met à jour une entrée
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().optional(),
+        slug: z.string().optional(),
+        summary: z.string().optional(),
+        content: z.string().optional(),
+        entryType: z.string().optional(),
+        status: z.string().optional(),
+        primaryAxisId: z.number().optional(),
+        importance: z.string().optional(),
+        isPublic: z.boolean().optional(),
+        isPinned: z.boolean().optional(),
+        researchDate: z.date().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateResearchEntry(id, data);
+      }),
+    
+    // Supprime une entrée
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await db.deleteResearchEntry(input.id);
+      }),
+  }),
+
+  // ============================================================================
+  // RESEARCH TAGS - Tags de recherche
+  // ============================================================================
+  researchTags: router({
+    // Liste tous les tags
+    list: publicProcedure
+      .input(z.object({ category: z.string().optional() }).optional())
+      .query(async ({ input }) => {
+        return await db.getAllResearchTags(input?.category);
+      }),
+    
+    // Crée un nouveau tag
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        slug: z.string(),
+        description: z.string().optional(),
+        color: z.string().optional(),
+        category: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createResearchTag(input as any);
+      }),
+    
+    // Met à jour un tag
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        slug: z.string().optional(),
+        description: z.string().optional(),
+        color: z.string().optional(),
+        category: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateResearchTag(id, data as any);
+      }),
+    
+    // Supprime un tag
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await db.deleteResearchTag(input.id);
+      }),
+  }),
+
+  // ============================================================================
+  // BIBLIOGRAPHY - Sources bibliographiques
+  // ============================================================================
+  bibliography: router({
+    // Liste toutes les sources avec filtres
+    list: publicProcedure
+      .input(z.object({
+        sourceType: z.string().optional(),
+        year: z.number().optional(),
+        search: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.getAllBibliographySources(input);
+      }),
+    
+    // Récupère une source par ID
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getBibliographySourceById(input.id);
+      }),
+    
+    // Recherche full-text
+    search: publicProcedure
+      .input(z.object({ query: z.string() }))
+      .query(async ({ input }) => {
+        return await db.searchBibliographySources(input.query);
+      }),
+    
+    // Statistiques
+    stats: publicProcedure
+      .query(async () => {
+        return await db.getBibliographyStats();
+      }),
+    
+    // Export BibTeX
+    exportBibtex: publicProcedure
+      .input(z.object({ sourceIds: z.array(z.number()).optional() }).optional())
+      .query(async ({ input }) => {
+        return await db.exportBibliographyBibtex(input?.sourceIds);
+      }),
+    
+    // Crée une nouvelle source
+    create: protectedProcedure
+      .input(z.object({
+        sourceType: z.string(),
+        title: z.string(),
+        authors: z.string().optional(),
+        publicationYear: z.number().optional(),
+        publicationMonth: z.number().optional(),
+        journal: z.string().optional(),
+        volume: z.string().optional(),
+        issue: z.string().optional(),
+        pages: z.string().optional(),
+        publisher: z.string().optional(),
+        edition: z.string().optional(),
+        language: z.string().optional(),
+        doi: z.string().optional(),
+        isbn: z.string().optional(),
+        issn: z.string().optional(),
+        pmid: z.string().optional(),
+        arxivId: z.string().optional(),
+        url: z.string().optional(),
+        abstract: z.string().optional(),
+        keywords: z.string().optional(),
+        notes: z.string().optional(),
+        relevanceScore: z.number().optional(),
+        relevantAxes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createBibliographySource(input as any);
+      }),
+    
+    // Met à jour une source
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        sourceType: z.string().optional(),
+        title: z.string().optional(),
+        authors: z.string().optional(),
+        publicationYear: z.number().optional(),
+        journal: z.string().optional(),
+        doi: z.string().optional(),
+        url: z.string().optional(),
+        abstract: z.string().optional(),
+        notes: z.string().optional(),
+        relevanceScore: z.number().optional(),
+        isVerified: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateBibliographySource(id, data as any);
+      }),
+    
+    // Supprime une source
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await db.deleteBibliographySource(input.id);
+      }),
+    
+    // Lie une source à une entrée
+    linkToEntry: protectedProcedure
+      .input(z.object({
+        entryId: z.number(),
+        sourceId: z.number(),
+        citationContext: z.string().optional(),
+        pageReference: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.linkSourceToEntry(input.entryId, input.sourceId, input.citationContext, input.pageReference);
+      }),
+    
+    // Supprime le lien entre une source et une entrée
+    unlinkFromEntry: protectedProcedure
+      .input(z.object({
+        entryId: z.number(),
+        sourceId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.unlinkSourceFromEntry(input.entryId, input.sourceId);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

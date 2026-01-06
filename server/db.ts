@@ -8201,3 +8201,558 @@ export async function getConceptMolecules(conceptId: number) {
 export const getOlfactionMemorySources = getAllOlfactionMemorySources;
 export const getMemoryOlfactionConcepts = getAllMemoryOlfactionConcepts;
 export const getOlfactionMemoryArticles = getAllOlfactionMemoryArticles;
+
+
+// ============================================================================
+// RESEARCH AXES - Axes de recherche PERFUMUM
+// ============================================================================
+
+import {
+  researchAxes,
+  ResearchAxis,
+  InsertResearchAxis,
+  researchEntries,
+  ResearchEntry,
+  InsertResearchEntry,
+  researchEntryAxes,
+  researchTags,
+  ResearchTag,
+  InsertResearchTag,
+  researchEntryTags,
+  bibliographySources,
+  BibliographySource,
+  InsertBibliographySource,
+  researchEntrySources,
+} from "../drizzle/schema";
+
+/**
+ * Récupère tous les axes de recherche
+ */
+export async function getAllResearchAxes() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchAxes).orderBy(researchAxes.sortOrder);
+}
+
+/**
+ * Récupère un axe de recherche par son ID
+ */
+export async function getResearchAxisById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(researchAxes).where(eq(researchAxes.id, id)).limit(1);
+  return result[0] || null;
+}
+
+/**
+ * Récupère un axe de recherche par son code
+ */
+export async function getResearchAxisByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(researchAxes).where(eq(researchAxes.code, code)).limit(1);
+  return result[0] || null;
+}
+
+/**
+ * Crée un nouvel axe de recherche
+ */
+export async function createResearchAxis(data: InsertResearchAxis) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(researchAxes).values(data);
+  return result;
+}
+
+/**
+ * Met à jour un axe de recherche
+ */
+export async function updateResearchAxis(id: number, data: Partial<InsertResearchAxis>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db.update(researchAxes).set(data).where(eq(researchAxes.id, id));
+}
+
+// ============================================================================
+// RESEARCH ENTRIES - Entrées de recherche
+// ============================================================================
+
+/**
+ * Récupère toutes les entrées de recherche avec leur axe principal
+ */
+export async function getAllResearchEntries(filters?: {
+  axisId?: number;
+  entryType?: string;
+  status?: string;
+  importance?: string;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = db.select({
+    entry: researchEntries,
+    axis: researchAxes,
+  })
+  .from(researchEntries)
+  .leftJoin(researchAxes, eq(researchEntries.primaryAxisId, researchAxes.id));
+  
+  const conditions = [];
+  
+  if (filters?.axisId) {
+    conditions.push(eq(researchEntries.primaryAxisId, filters.axisId));
+  }
+  if (filters?.entryType) {
+    conditions.push(eq(researchEntries.entryType, filters.entryType as any));
+  }
+  if (filters?.status) {
+    conditions.push(eq(researchEntries.status, filters.status as any));
+  }
+  if (filters?.importance) {
+    conditions.push(eq(researchEntries.importance, filters.importance as any));
+  }
+  
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as any;
+  }
+  
+  return await query.orderBy(desc(researchEntries.createdAt));
+}
+
+/**
+ * Récupère les entrées par axe de recherche
+ */
+export async function getResearchEntriesByAxis(axisId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select()
+    .from(researchEntries)
+    .where(eq(researchEntries.primaryAxisId, axisId))
+    .orderBy(desc(researchEntries.createdAt));
+}
+
+/**
+ * Récupère une entrée de recherche par son ID avec toutes ses relations
+ */
+export async function getResearchEntryById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const entryResult = await db.select({
+    entry: researchEntries,
+    axis: researchAxes,
+  })
+  .from(researchEntries)
+  .leftJoin(researchAxes, eq(researchEntries.primaryAxisId, researchAxes.id))
+  .where(eq(researchEntries.id, id))
+  .limit(1);
+  
+  if (!entryResult[0]) return null;
+  
+  // Récupérer les tags associés
+  const tags = await db.select({
+    tag: researchTags,
+  })
+  .from(researchEntryTags)
+  .leftJoin(researchTags, eq(researchEntryTags.tagId, researchTags.id))
+  .where(eq(researchEntryTags.entryId, id));
+  
+  // Récupérer les sources associées
+  const sources = await db.select({
+    source: bibliographySources,
+    context: researchEntrySources.citationContext,
+    pageRef: researchEntrySources.pageReference,
+  })
+  .from(researchEntrySources)
+  .leftJoin(bibliographySources, eq(researchEntrySources.sourceId, bibliographySources.id))
+  .where(eq(researchEntrySources.entryId, id));
+  
+  // Récupérer les axes secondaires
+  const secondaryAxes = await db.select({
+    axis: researchAxes,
+  })
+  .from(researchEntryAxes)
+  .leftJoin(researchAxes, eq(researchEntryAxes.axisId, researchAxes.id))
+  .where(eq(researchEntryAxes.entryId, id));
+  
+  return {
+    ...entryResult[0],
+    tags: tags.map(t => t.tag).filter(Boolean),
+    sources: sources.map(s => ({ ...s.source, citationContext: s.context, pageReference: s.pageRef })).filter(s => s.id),
+    secondaryAxes: secondaryAxes.map(a => a.axis).filter(Boolean),
+  };
+}
+
+/**
+ * Crée une nouvelle entrée de recherche
+ */
+export async function createResearchEntry(data: {
+  title: string;
+  slug: string;
+  summary?: string;
+  content: string;
+  entryType?: string;
+  status?: string;
+  primaryAxisId: number;
+  importance?: string;
+  isPublic?: boolean;
+  isPinned?: boolean;
+  researchDate?: Date;
+  tagIds?: number[];
+  sourceIds?: number[];
+  secondaryAxisIds?: number[];
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Créer l'entrée principale
+  const result = await db.insert(researchEntries).values({
+    title: data.title,
+    slug: data.slug,
+    summary: data.summary,
+    content: data.content,
+    entryType: (data.entryType || "note") as any,
+    status: (data.status || "draft") as any,
+    primaryAxisId: data.primaryAxisId,
+    importance: (data.importance || "medium") as any,
+    isPublic: data.isPublic || false,
+    isPinned: data.isPinned || false,
+    researchDate: data.researchDate,
+  });
+  
+  const entryId = Number(result[0].insertId);
+  
+  // Ajouter les tags
+  if (data.tagIds && data.tagIds.length > 0) {
+    await db.insert(researchEntryTags).values(
+      data.tagIds.map(tagId => ({ entryId, tagId }))
+    );
+  }
+  
+  // Ajouter les sources
+  if (data.sourceIds && data.sourceIds.length > 0) {
+    await db.insert(researchEntrySources).values(
+      data.sourceIds.map(sourceId => ({ entryId, sourceId }))
+    );
+  }
+  
+  // Ajouter les axes secondaires
+  if (data.secondaryAxisIds && data.secondaryAxisIds.length > 0) {
+    await db.insert(researchEntryAxes).values(
+      data.secondaryAxisIds.map(axisId => ({ entryId, axisId }))
+    );
+  }
+  
+  return { id: entryId };
+}
+
+/**
+ * Met à jour une entrée de recherche
+ */
+export async function updateResearchEntry(id: number, data: Partial<{
+  title: string;
+  slug: string;
+  summary: string;
+  content: string;
+  entryType: string;
+  status: string;
+  primaryAxisId: number;
+  importance: string;
+  isPublic: boolean;
+  isPinned: boolean;
+  researchDate: Date;
+}>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData: any = { ...data };
+  if (data.entryType) updateData.entryType = data.entryType as any;
+  if (data.status) updateData.status = data.status as any;
+  if (data.importance) updateData.importance = data.importance as any;
+  
+  return await db.update(researchEntries).set(updateData).where(eq(researchEntries.id, id));
+}
+
+/**
+ * Supprime une entrée de recherche
+ */
+export async function deleteResearchEntry(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Supprimer les relations
+  await db.delete(researchEntryTags).where(eq(researchEntryTags.entryId, id));
+  await db.delete(researchEntrySources).where(eq(researchEntrySources.entryId, id));
+  await db.delete(researchEntryAxes).where(eq(researchEntryAxes.entryId, id));
+  
+  // Supprimer l'entrée
+  return await db.delete(researchEntries).where(eq(researchEntries.id, id));
+}
+
+// ============================================================================
+// RESEARCH TAGS - Tags de recherche
+// ============================================================================
+
+/**
+ * Récupère tous les tags de recherche
+ */
+export async function getAllResearchTags(category?: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  if (category) {
+    return await db.select().from(researchTags)
+      .where(eq(researchTags.category, category as any))
+      .orderBy(researchTags.name);
+  }
+  
+  return await db.select().from(researchTags).orderBy(researchTags.name);
+}
+
+/**
+ * Crée un nouveau tag
+ */
+export async function createResearchTag(data: InsertResearchTag) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(researchTags).values(data);
+  return { id: Number(result[0].insertId) };
+}
+
+/**
+ * Met à jour un tag
+ */
+export async function updateResearchTag(id: number, data: Partial<InsertResearchTag>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db.update(researchTags).set(data).where(eq(researchTags.id, id));
+}
+
+/**
+ * Supprime un tag
+ */
+export async function deleteResearchTag(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(researchEntryTags).where(eq(researchEntryTags.tagId, id));
+  return await db.delete(researchTags).where(eq(researchTags.id, id));
+}
+
+// ============================================================================
+// BIBLIOGRAPHY SOURCES - Sources bibliographiques
+// ============================================================================
+
+/**
+ * Récupère toutes les sources bibliographiques
+ */
+export async function getAllBibliographySources(filters?: {
+  sourceType?: string;
+  year?: number;
+  search?: string;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = db.select().from(bibliographySources);
+  
+  const conditions = [];
+  
+  if (filters?.sourceType) {
+    conditions.push(eq(bibliographySources.sourceType, filters.sourceType as any));
+  }
+  if (filters?.year) {
+    conditions.push(eq(bibliographySources.publicationYear, filters.year));
+  }
+  if (filters?.search) {
+    conditions.push(
+      or(
+        like(bibliographySources.title, `%${filters.search}%`),
+        like(bibliographySources.authors, `%${filters.search}%`),
+        like(bibliographySources.abstract, `%${filters.search}%`)
+      )
+    );
+  }
+  
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as any;
+  }
+  
+  return await query.orderBy(desc(bibliographySources.publicationYear), bibliographySources.title);
+}
+
+/**
+ * Récupère une source par son ID
+ */
+export async function getBibliographySourceById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(bibliographySources).where(eq(bibliographySources.id, id)).limit(1);
+  return result[0] || null;
+}
+
+/**
+ * Crée une nouvelle source bibliographique
+ */
+export async function createBibliographySource(data: InsertBibliographySource) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Générer la citation APA si non fournie
+  let citationApa = data.citationApa;
+  if (!citationApa && data.authors && data.title) {
+    const authors = typeof data.authors === 'string' ? JSON.parse(data.authors) : data.authors;
+    const authorStr = Array.isArray(authors) 
+      ? authors.map((a: any) => typeof a === 'string' ? a : a.name).join(', ')
+      : authors;
+    citationApa = `${authorStr} (${data.publicationYear || 'n.d.'}). ${data.title}.`;
+    if (data.journal) citationApa += ` ${data.journal}`;
+    if (data.volume) citationApa += `, ${data.volume}`;
+    if (data.issue) citationApa += `(${data.issue})`;
+    if (data.pages) citationApa += `, ${data.pages}`;
+    citationApa += '.';
+    if (data.doi) citationApa += ` https://doi.org/${data.doi}`;
+  }
+  
+  // Générer la citation BibTeX si non fournie
+  let citationBibtex = data.citationBibtex;
+  if (!citationBibtex && data.title) {
+    const key = data.title.split(' ')[0].toLowerCase() + (data.publicationYear || '');
+    const type = data.sourceType === 'book' ? 'book' : data.sourceType === 'thesis' ? 'phdthesis' : 'article';
+    citationBibtex = `@${type}{${key},\n  title = {${data.title}},`;
+    if (data.authors) citationBibtex += `\n  author = {${data.authors}},`;
+    if (data.publicationYear) citationBibtex += `\n  year = {${data.publicationYear}},`;
+    if (data.journal) citationBibtex += `\n  journal = {${data.journal}},`;
+    if (data.doi) citationBibtex += `\n  doi = {${data.doi}},`;
+    citationBibtex += '\n}';
+  }
+  
+  const result = await db.insert(bibliographySources).values({
+    ...data,
+    citationApa,
+    citationBibtex,
+  });
+  
+  return { id: Number(result[0].insertId) };
+}
+
+/**
+ * Met à jour une source bibliographique
+ */
+export async function updateBibliographySource(id: number, data: Partial<InsertBibliographySource>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return await db.update(bibliographySources).set(data).where(eq(bibliographySources.id, id));
+}
+
+/**
+ * Supprime une source bibliographique
+ */
+export async function deleteBibliographySource(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(researchEntrySources).where(eq(researchEntrySources.sourceId, id));
+  return await db.delete(bibliographySources).where(eq(bibliographySources.id, id));
+}
+
+/**
+ * Exporte les sources en format BibTeX
+ */
+export async function exportBibliographyBibtex(sourceIds?: number[]) {
+  const db = await getDb();
+  if (!db) return '';
+  
+  let sources;
+  if (sourceIds && sourceIds.length > 0) {
+    sources = await db.select().from(bibliographySources).where(inArray(bibliographySources.id, sourceIds));
+  } else {
+    sources = await db.select().from(bibliographySources);
+  }
+  
+  return sources.map(s => s.citationBibtex || '').filter(Boolean).join('\n\n');
+}
+
+/**
+ * Récupère les statistiques de la bibliographie
+ */
+export async function getBibliographyStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byType: [], byYear: [] };
+  
+  const total = await db.select({ count: sql<number>`count(*)` }).from(bibliographySources);
+  
+  const byType = await db.select({
+    type: bibliographySources.sourceType,
+    count: sql<number>`count(*)`,
+  })
+  .from(bibliographySources)
+  .groupBy(bibliographySources.sourceType);
+  
+  const byYear = await db.select({
+    year: bibliographySources.publicationYear,
+    count: sql<number>`count(*)`,
+  })
+  .from(bibliographySources)
+  .where(sql`${bibliographySources.publicationYear} IS NOT NULL`)
+  .groupBy(bibliographySources.publicationYear)
+  .orderBy(desc(bibliographySources.publicationYear))
+  .limit(20);
+  
+  return {
+    total: total[0]?.count || 0,
+    byType,
+    byYear,
+  };
+}
+
+/**
+ * Recherche full-text dans les sources
+ */
+export async function searchBibliographySources(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const searchTerm = `%${query}%`;
+  
+  return await db.select()
+    .from(bibliographySources)
+    .where(
+      or(
+        like(bibliographySources.title, searchTerm),
+        like(bibliographySources.authors, searchTerm),
+        like(bibliographySources.abstract, searchTerm),
+        like(bibliographySources.keywords, searchTerm),
+        like(bibliographySources.notes, searchTerm)
+      )
+    )
+    .orderBy(desc(bibliographySources.publicationYear))
+    .limit(50);
+}
+
+/**
+ * Lie une source à une entrée de recherche
+ */
+export async function linkSourceToEntry(entryId: number, sourceId: number, context?: string, pageRef?: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return await db.insert(researchEntrySources).values({
+    entryId,
+    sourceId,
+    citationContext: context,
+    pageReference: pageRef,
+  });
+}
+
+/**
+ * Supprime le lien entre une source et une entrée
+ */
+export async function unlinkSourceFromEntry(entryId: number, sourceId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return await db.delete(researchEntrySources)
+    .where(and(
+      eq(researchEntrySources.entryId, entryId),
+      eq(researchEntrySources.sourceId, sourceId)
+    ));
+}

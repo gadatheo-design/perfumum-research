@@ -2901,3 +2901,99 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tous les tests passent (393/395 tests globaux, 2 échecs non liés)
 - [x] Serveur opérationnel
 
+
+
+---
+
+## 🔬 SESSION 06 JAN 2026 - AXES DE RECHERCHE & BIBLIOGRAPHIE
+
+### Phase 1 : Schéma de base de données pour les axes de recherche
+- [ ] Créer la table `research_axes` (5 axes principaux avec métadonnées)
+- [ ] Créer la table `research_entries` (entrées de recherche liées aux axes)
+- [ ] Créer la table `sources` (références bibliographiques complètes)
+- [ ] Créer la table `research_tags` (système de tags transversaux)
+- [ ] Créer les tables de liaison (entries_axes, entries_tags, entries_sources)
+- [ ] Migrer le schéma avec `pnpm db:push`
+
+### Phase 2 : Procédures tRPC pour les axes de recherche
+- [ ] Créer les procédures CRUD pour les axes de recherche
+- [ ] Créer les procédures CRUD pour les entrées de recherche
+- [ ] Créer les procédures de filtrage par axe, tag, date
+- [ ] Créer les procédures de recherche full-text
+
+### Phase 3 : Procédures tRPC pour la bibliographie
+- [ ] Créer les procédures CRUD pour les sources
+- [ ] Créer les procédures de filtrage par type, auteur, année
+- [ ] Créer la procédure d'export BibTeX
+- [ ] Créer les procédures de liaison source-entrée
+
+### Phase 4 : Interface des axes de recherche
+- [ ] Créer la page principale des axes avec navigation visuelle
+- [ ] Créer la page de détail par axe (🧠 Neurosciences, 🌱 Biotechnologie, 💚 Émotions, 📜 Patrimoine, 🤖 IA)
+- [ ] Créer le formulaire d'ajout/édition d'entrée de recherche
+- [ ] Créer le système de filtrage par tags
+- [ ] Créer la timeline chronologique des recherches
+
+### Phase 5 : Interface bibliographique
+- [ ] Créer la page de liste des sources avec filtres avancés
+- [ ] Créer le formulaire d'ajout/édition de source
+- [ ] Créer la vue par type de source (article, livre, étude, site web, etc.)
+- [ ] Créer la fonction d'export BibTeX
+- [ ] Créer la recherche full-text sur les sources
+
+### Phase 6 : Import des données initiales
+- [ ] Importer les 5 axes de recherche avec descriptions
+- [ ] Importer les sources existantes depuis les fichiers du projet
+- [ ] Créer les entrées de recherche initiales
+
+### Phase 7 : Tests et validation
+- [ ] Écrire les tests unitaires pour les procédures tRPC
+- [ ] Tester l'interface sur desktop et mobile
+- [ ] Valider l'intégrité des données
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 🔬 SESSION 06 JAN 2026 - AXES DE RECHERCHE & BIBLIOGRAPHIE
+
+### Phase 1 : Schéma de base de données
+- [x] Schéma de base de données pour les axes de recherche
+- [x] Tables: research_axes, research_entries, research_tags
+- [x] Table bibliography_sources pour la bibliographie globale
+- [x] Tables de liaison (entry_tags, entry_sources, entry_secondary_axes)
+- [x] Insertion des 5 axes de recherche PERFUMUM
+
+### Phase 2 : Backend (procédures tRPC)
+- [x] Procédures tRPC pour les axes de recherche (list, getById, getByCode, update)
+- [x] Procédures tRPC pour les entrées de recherche (list, getByAxis, getById, create, update, delete)
+- [x] Procédures tRPC pour les tags de recherche (list, create, update, delete)
+- [x] Procédures tRPC pour la bibliographie (list, getById, search, stats, export, create, update, delete)
+
+### Phase 3 : Interface utilisateur - Axes de recherche
+- [x] Page principale des axes de recherche (/axes-recherche)
+- [x] Page de détail par axe (/axes-recherche/:code)
+- [x] Affichage des 5 axes avec icônes et couleurs thématiques
+- [x] Statistiques par axe (nombre d'entrées, complétées, en cours)
+- [x] Filtres par type d'entrée et statut
+
+### Phase 4 : Interface utilisateur - Bibliographie
+- [x] Page bibliographie globale (/bibliographie-globale)
+- [x] Filtres par type de source et année
+- [x] Recherche full-text
+- [x] Statistiques bibliographiques
+- [x] Export BibTeX
+
+### Phase 5 : Tests et validation
+- [x] Tests unitaires pour les procédures tRPC (14 tests passés)
+- [x] Validation visuelle de l'interface
+- [x] Tests de création/modification d'entrées
+
+### Les 5 axes de recherche PERFUMUM :
+1. **AX1 - Neurosciences Olfactives** : Mémoire, modèle LOVER, états cérébraux persistants
+2. **AX2 - Biotechnologie Durable** : Biosynthèse, terpénoïdes, fleurs éteintes
+3. **AX3 - Régulation Émotionnelle** : Stimuli olfactifs, agrumes, lavande, thérapie
+4. **AX4 - Patrimoine Olfactif** : Archives, odeurs menacées, Wadi Dawkah
+5. **AX5 - IA & Création** : Intelligence olfactive, réseaux neuronaux, numérisation
+

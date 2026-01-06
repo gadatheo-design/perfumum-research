@@ -250,6 +250,11 @@ import MoleculePlantRelations from "./pages/MoleculePlantRelations";
 import PlantTerroirNetwork from "./pages/PlantTerroirNetwork";
 import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
 
+// === AXES DE RECHERCHE & BIBLIOGRAPHIE ===
+import ResearchAxes from "./pages/ResearchAxes";
+import ResearchAxisDetail from "./pages/ResearchAxisDetail";
+import BibliographyGlobal from "./pages/BibliographyGlobal";
+
 // === PAGES TECHNIQUES ===
 import TestMinimal from "./pages/TestMinimal";
 
@@ -434,6 +439,11 @@ function Router() {
       <Route path="/alternatives-durables" component={AlternativesDurables} />
       <Route path="/archives-olfactives" component={ArchivesOlfactives} />
       <Route path="/olfaction-memoire" component={OlfactionMemoire} />
+      
+      {/* === AXES DE RECHERCHE & BIBLIOGRAPHIE === */}
+      <Route path="/axes-recherche" component={ResearchAxes} />
+      <Route path="/axes-recherche/:code" component={ResearchAxisDetail} />
+      <Route path="/bibliographie-globale" component={BibliographyGlobal} />
       <Route path="/outils" component={Outils} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
