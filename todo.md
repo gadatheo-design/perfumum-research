@@ -3180,3 +3180,24 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - MegaMenu.tsx : Ajout de la section San Andrés avec liens vers les nouvelles pages
 - Nouveautes.tsx : Mise à jour complète avec historique des versions jusqu'à v3.5
 - Home.tsx : Ajout du lien San Andrés / Leaf Economies dans la section Programmes R&D
+
+
+---
+
+## 🧭 SESSION 06 JAN 2026 - BREADCRUMBS & CARTE INTERACTIVE
+
+### Phase 1 : Breadcrumbs dynamiques
+- [ ] Créer le composant Breadcrumbs réutilisable avec navigation contextuelle
+- [ ] Intégrer les breadcrumbs dans les pages de détail (molécules, recettes, échantillons, etc.)
+- [ ] Gérer la hiérarchie dynamique selon le contexte de navigation
+- [ ] Tester la navigation breadcrumbs sur desktop et mobile
+
+### Phase 2 : Page Carte interactive
+- [ ] Créer la page Carte interactive regroupant toutes les visualisations
+- [ ] Intégrer la carte des Terroirs (origines géographiques)
+- [ ] Intégrer la carte GPS Plantes (échantillons botaniques)
+- [ ] Intégrer la carte des Origines (molécules et ingrédients)
+- [ ] Créer un système de filtres pour basculer entre les vues
+- [ ] Ajouter des marqueurs interactifs avec popups d'information
+- [ ] Tester le responsive et les performances de la carte
+
