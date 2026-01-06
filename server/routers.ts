@@ -7416,6 +7416,25 @@ export const appRouter = router({
         return await db.getCorpusWithAdvancedFilters(input);
       }),
   }),
+
+  // ============================================================================
+  // RESEARCH GRAPH (Graphe de connaissances interactif)
+  // ============================================================================
+  researchGraph: router({
+    getData: publicProcedure
+      .input(z.object({
+        types: z.array(z.string()).optional(),
+        axisId: z.string().optional(),
+        includeEdges: z.boolean().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.getResearchGraphData(input);
+      }),
+    
+    getStats: publicProcedure.query(async () => {
+      return await db.getResearchGraphStats();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

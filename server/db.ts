@@ -10422,3 +10422,330 @@ export async function getCorpusWithAdvancedFilters(filters: {
   
   return results;
 }
+
+
+// ============================================================================
+// RESEARCH GRAPH (Graphe de connaissances interactif)
+// ============================================================================
+
+export interface GraphNode {
+  id: string;
+  name: string;
+  type: 'plant' | 'molecule' | 'route' | 'manuscript' | 'civilization' | 'technique';
+  group: number;
+  val: number;
+  description?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface GraphLink {
+  source: string;
+  target: string;
+  type: string;
+  weight: number;
+  confidence: number;
+  notes?: string;
+}
+
+export interface GraphData {
+  nodes: GraphNode[];
+  links: GraphLink[];
+}
+
+// Mapping des types vers les groupes numériques pour la visualisation
+const TYPE_TO_GROUP: Record<string, number> = {
+  plant: 1,
+  molecule: 2,
+  route: 3,
+  manuscript: 4,
+  civilization: 5,
+  technique: 6,
+};
+
+export async function getResearchGraphData(filters?: {
+  types?: string[];
+  axisId?: string;
+  includeEdges?: boolean;
+}): Promise<GraphData> {
+  const db = await getDb();
+  if (!db) return { nodes: [], links: [] };
+  
+  const nodes: GraphNode[] = [];
+  const links: GraphLink[] = [];
+  const nodeIds = new Set<string>();
+  
+  const includeType = (type: string) => !filters?.types || filters.types.includes(type);
+  
+  // Récupérer les plantes
+  if (includeType('plant')) {
+    const plantsResult = await db.execute(sql`
+      SELECT plant_id, latin_name, common_name_fr, origin, olfactive_profile 
+      FROM perfumum_plants 
+      LIMIT 100
+    `);
+    (plantsResult[0] as any[]).forEach(plant => {
+      const id = plant.plant_id || `plant-${plant.id}`;
+      if (!nodeIds.has(id)) {
+        nodeIds.add(id);
+        nodes.push({
+          id,
+          name: plant.common_name_fr || plant.latin_name,
+          type: 'plant',
+          group: TYPE_TO_GROUP.plant,
+          val: 5,
+          description: plant.olfactive_profile,
+          metadata: {
+            latinName: plant.latin_name,
+            origin: plant.origin,
+          },
+        });
+      }
+    });
+  }
+  
+  // Récupérer les molécules
+  if (includeType('molecule')) {
+    const moleculesResult = await db.execute(sql`
+      SELECT molecule_id, name, cas_number, olfactive_family, description 
+      FROM perfumum_molecules 
+      LIMIT 100
+    `);
+    (moleculesResult[0] as any[]).forEach(mol => {
+      const id = mol.molecule_id || `mol-${mol.id}`;
+      if (!nodeIds.has(id)) {
+        nodeIds.add(id);
+        nodes.push({
+          id,
+          name: mol.name,
+          type: 'molecule',
+          group: TYPE_TO_GROUP.molecule,
+          val: 4,
+          description: mol.description,
+          metadata: {
+            casNumber: mol.cas_number,
+            family: mol.olfactive_family,
+          },
+        });
+      }
+    });
+  }
+  
+  // Récupérer les routes commerciales
+  if (includeType('route')) {
+    const routesResult = await db.execute(sql`
+      SELECT route_id, name, time_start, time_end, materials, notes 
+      FROM trade_routes
+    `);
+    (routesResult[0] as any[]).forEach(route => {
+      const id = route.route_id || `route-${route.id}`;
+      if (!nodeIds.has(id)) {
+        nodeIds.add(id);
+        const materials = typeof route.materials === 'string' 
+          ? JSON.parse(route.materials || '[]') 
+          : route.materials;
+        nodes.push({
+          id,
+          name: route.name,
+          type: 'route',
+          group: TYPE_TO_GROUP.route,
+          val: 8,
+          description: route.notes,
+          metadata: {
+            period: `${route.time_start || '?'} - ${route.time_end || '?'}`,
+            materials: materials?.join(', '),
+          },
+        });
+      }
+    });
+  }
+  
+  // Récupérer les manuscrits
+  if (includeType('manuscript')) {
+    const manuscriptsResult = await db.execute(sql`
+      SELECT manuscript_id, title, region, date_range, language, notes 
+      FROM perfumum_manuscripts
+    `);
+    (manuscriptsResult[0] as any[]).forEach(ms => {
+      const id = ms.manuscript_id || `ms-${ms.id}`;
+      if (!nodeIds.has(id)) {
+        nodeIds.add(id);
+        nodes.push({
+          id,
+          name: ms.title,
+          type: 'manuscript',
+          group: TYPE_TO_GROUP.manuscript,
+          val: 6,
+          description: ms.notes,
+          metadata: {
+            region: ms.region,
+            date: ms.date_range,
+            language: ms.language,
+          },
+        });
+      }
+    });
+  }
+  
+  // Ajouter des nœuds pour les civilisations et techniques (basés sur les edges)
+  const edgesResult = await db.execute(sql`SELECT * FROM research_edges`);
+  const edges = edgesResult[0] as any[];
+  
+  // Extraire les civilisations et techniques uniques des edges
+  edges.forEach(edge => {
+    if (edge.from_type === 'civilization' && includeType('civilization')) {
+      if (!nodeIds.has(edge.from_id)) {
+        nodeIds.add(edge.from_id);
+        nodes.push({
+          id: edge.from_id,
+          name: formatCivilizationName(edge.from_id),
+          type: 'civilization',
+          group: TYPE_TO_GROUP.civilization,
+          val: 7,
+        });
+      }
+    }
+    if (edge.to_type === 'civilization' && includeType('civilization')) {
+      if (!nodeIds.has(edge.to_id)) {
+        nodeIds.add(edge.to_id);
+        nodes.push({
+          id: edge.to_id,
+          name: formatCivilizationName(edge.to_id),
+          type: 'civilization',
+          group: TYPE_TO_GROUP.civilization,
+          val: 7,
+        });
+      }
+    }
+    if (edge.from_type === 'technique' && includeType('technique')) {
+      if (!nodeIds.has(edge.from_id)) {
+        nodeIds.add(edge.from_id);
+        nodes.push({
+          id: edge.from_id,
+          name: formatTechniqueName(edge.from_id),
+          type: 'technique',
+          group: TYPE_TO_GROUP.technique,
+          val: 5,
+        });
+      }
+    }
+    if (edge.to_type === 'technique' && includeType('technique')) {
+      if (!nodeIds.has(edge.to_id)) {
+        nodeIds.add(edge.to_id);
+        nodes.push({
+          id: edge.to_id,
+          name: formatTechniqueName(edge.to_id),
+          type: 'technique',
+          group: TYPE_TO_GROUP.technique,
+          val: 5,
+        });
+      }
+    }
+  });
+  
+  // Créer les liens à partir des research_edges
+  if (filters?.includeEdges !== false) {
+    edges.forEach(edge => {
+      // Vérifier que les deux nœuds existent
+      if (nodeIds.has(edge.from_id) && nodeIds.has(edge.to_id)) {
+        links.push({
+          source: edge.from_id,
+          target: edge.to_id,
+          type: edge.edge_type,
+          weight: parseFloat(edge.weight) || 1,
+          confidence: parseFloat(edge.confidence) || 0.5,
+          notes: edge.notes,
+        });
+      }
+    });
+  }
+  
+  // Ajouter des liens basés sur les relations plante-molécule
+  if (includeType('plant') && includeType('molecule')) {
+    const plantMolResult = await db.execute(sql`
+      SELECT pm.plant_id, pm.molecule_id, pm.concentration_percent
+      FROM perfumum_plant_molecules pm
+      INNER JOIN perfumum_plants p ON pm.plant_id = p.plant_id
+      INNER JOIN perfumum_molecules m ON pm.molecule_id = m.molecule_id
+      LIMIT 200
+    `);
+    (plantMolResult[0] as any[]).forEach(rel => {
+      if (nodeIds.has(rel.plant_id) && nodeIds.has(rel.molecule_id)) {
+        links.push({
+          source: rel.plant_id,
+          target: rel.molecule_id,
+          type: 'contains',
+          weight: Math.min(1, (rel.concentration_percent || 10) / 50),
+          confidence: 0.9,
+          notes: `Concentration: ${rel.concentration_percent || '?'}%`,
+        });
+      }
+    });
+  }
+  
+  return { nodes, links };
+}
+
+// Fonctions utilitaires pour formater les noms
+function formatCivilizationName(id: string): string {
+  const names: Record<string, string> = {
+    'egypt': 'Égypte ancienne',
+    'nabateans': 'Nabatéens',
+    'arabs': 'Arabes',
+    'chinese': 'Chine',
+    'romans': 'Rome antique',
+    'greeks': 'Grèce antique',
+    'persians': 'Perse',
+    'indians': 'Inde',
+  };
+  return names[id] || id.charAt(0).toUpperCase() + id.slice(1);
+}
+
+function formatTechniqueName(id: string): string {
+  const names: Record<string, string> = {
+    'distillation': 'Distillation',
+    'steam_distillation': 'Distillation à la vapeur',
+    'enfleurage': 'Enfleurage',
+    'maceration': 'Macération',
+    'expression': 'Expression',
+    'extraction': 'Extraction par solvant',
+  };
+  return names[id] || id.charAt(0).toUpperCase() + id.slice(1).replace(/_/g, ' ');
+}
+
+// Récupérer les statistiques du graphe
+export async function getResearchGraphStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [plantsCount] = await db.execute(sql`SELECT COUNT(*) as count FROM perfumum_plants`);
+  const [moleculesCount] = await db.execute(sql`SELECT COUNT(*) as count FROM perfumum_molecules`);
+  const [routesCount] = await db.execute(sql`SELECT COUNT(*) as count FROM trade_routes`);
+  const [manuscriptsCount] = await db.execute(sql`SELECT COUNT(*) as count FROM perfumum_manuscripts`);
+  const [edgesCount] = await db.execute(sql`SELECT COUNT(*) as count FROM research_edges`);
+  const [fragmentsCount] = await db.execute(sql`SELECT COUNT(*) as count FROM text_fragments`);
+  
+  // Statistiques par type d'edge
+  const edgeTypes = await db.execute(sql`
+    SELECT edge_type, COUNT(*) as count 
+    FROM research_edges 
+    GROUP BY edge_type 
+    ORDER BY count DESC
+  `);
+  
+  return {
+    nodes: {
+      plants: (plantsCount[0] as any[])[0]?.count || 0,
+      molecules: (moleculesCount[0] as any[])[0]?.count || 0,
+      routes: (routesCount[0] as any[])[0]?.count || 0,
+      manuscripts: (manuscriptsCount[0] as any[])[0]?.count || 0,
+      fragments: (fragmentsCount[0] as any[])[0]?.count || 0,
+    },
+    edges: {
+      total: (edgesCount[0] as any[])[0]?.count || 0,
+      byType: (edgeTypes[0] as any[]).reduce((acc, row) => {
+        acc[row.edge_type] = row.count;
+        return acc;
+      }, {} as Record<string, number>),
+    },
+  };
+}

@@ -3504,3 +3504,82 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Créer le checkpoint final
 - [x] Livrer les résultats
 
+
+
+---
+
+## 📜 SESSION 06 JAN 2026 - TEXTES HISTORIQUES & GRAPHE INTERACTIF
+
+### Phase 1 : Enrichissement des textes historiques
+- [ ] Analyser les fragments historiques existants dans la base de données
+- [ ] Rechercher et documenter les sources de papyrus égyptiens (Ebers, Edwin Smith)
+- [ ] Rechercher et documenter les textes chinois anciens (Shennong Bencao Jing, Ben Cao Gang Mu)
+- [ ] Rechercher et documenter les manuscrits arabes (Al-Kindi, Ibn Sina, Al-Zahrawi)
+- [ ] Créer le schéma de table pour les textes historiques enrichis
+- [ ] Importer les nouveaux textes historiques dans la base de données
+- [ ] Créer l'interface de visualisation des textes par civilisation/époque
+
+### Phase 2 : Graphe interactif des connexions
+- [ ] Concevoir le modèle de données pour les connexions (plantes-molécules-routes)
+- [ ] Créer le schéma de table pour les routes commerciales historiques
+- [ ] Créer les procédures tRPC pour les données du graphe
+- [ ] Implémenter le graphe interactif avec D3.js ou vis.js
+- [ ] Ajouter les filtres par type de connexion (plante, molécule, route)
+- [ ] Ajouter les filtres par période historique
+- [ ] Créer les tooltips informatifs sur les nœuds et liens
+- [ ] Intégrer le graphe dans la navigation principale
+
+### Phase 3 : Tests et livraison
+- [ ] Tester les textes historiques sur desktop et mobile
+- [ ] Tester le graphe interactif sur tous les écrans
+- [ ] Valider les performances du graphe avec de nombreux nœuds
+- [ ] Créer le checkpoint final
+- [ ] Présenter les nouvelles fonctionnalités
+
+
+
+---
+
+## ✅ SESSION 06 JAN 2026 - TEXTES HISTORIQUES & GRAPHE INTERACTIF (COMPLÉTÉ)
+
+### Phase 1 : Enrichissement des textes historiques ✅
+- [x] Analyser les fragments historiques existants dans la base de données
+- [x] Rechercher et documenter les sources de papyrus égyptiens (Ebers, Harris I, Edwin Smith, Edfou)
+- [x] Rechercher et documenter les textes chinois anciens (Shennong Bencao Jing, Ben Cao Gang Mu, Xiangpu)
+- [x] Rechercher et documenter les manuscrits arabes (Al-Kindi, Ibn Sina/Avicenne, Al-Zahrawi)
+- [x] Créer le fichier de documentation des sources historiques (docs/historical-texts-sources.md)
+- [x] Créer le script d'import des textes historiques (scripts/import-historical-texts.mjs)
+- [x] Importer 10 nouveaux manuscrits dans la base de données
+- [x] Importer 9 nouveaux fragments de texte avec traductions FR/EN
+- [x] Importer 4 nouvelles routes commerciales historiques
+- [x] Importer 12 nouvelles connexions pour le graphe de connaissances
+
+### Phase 2 : Graphe interactif des connexions ✅
+- [x] Installer la bibliothèque react-force-graph pour la visualisation
+- [x] Créer le composant ResearchGraph avec visualisation interactive
+- [x] Implémenter le filtrage par type d'entité (plante, molécule, route, manuscrit, civilisation, technique)
+- [x] Ajouter les contrôles de zoom et navigation
+- [x] Créer le panneau de détails pour les nœuds sélectionnés
+- [x] Ajouter la légende des couleurs par type
+- [x] Implémenter l'export en image PNG
+- [x] Créer les fonctions db pour récupérer les données du graphe
+- [x] Créer les procédures tRPC pour le graphe (getData, getStats)
+- [x] Créer la page ResearchGraphPage avec onglets (Graphe, Statistiques, À propos)
+- [x] Intégrer la route /corpus/graphe dans App.tsx
+
+### Statistiques après import :
+- 26 manuscrits historiques
+- 29 fragments de texte
+- 10 routes commerciales
+- 12 connexions dans le graphe de recherche
+
+### Sources historiques documentées :
+**Égyptiennes** : Papyrus Ebers (-1550), Papyrus Harris I (-1150), Papyrus Edwin Smith (-1600), Temple d'Edfou (-237)
+**Chinoises** : Shennong Bencao Jing (-200/+200), Ben Cao Gang Mu (1578), Xiangpu (1073)
+**Arabes** : Kitab Kimiya al-Itr d'Al-Kindi (850), Canon de la Médecine d'Avicenne (1025), Kitab al-Tasrif d'Al-Zahrawi (1000)
+
+### Routes commerciales ajoutées :
+- Route de l'Encens (-1000 à 200)
+- Route de la Soie - Branche des Aromates (-130 à 1450)
+- Route Maritime des Épices (100 à 1500)
+- Route du Nil - Commerce Égyptien (-3000 à -30)

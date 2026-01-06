@@ -182,6 +182,7 @@ import { MolecularComparisonPage } from "@/pages/MolecularComparisonPage";
 import GestionPage from "./pages/GestionPage";
 import LeafEconomies from "./pages/LeafEconomies";
 import LeafEconomyDetail from "./pages/LeafEconomyDetail";
+import ResearchGraphPage from "./pages/ResearchGraphPage";
 import LeafEconomyForm from "./pages/LeafEconomyForm";
 import TimelineBotanique from "./pages/TimelineBotanique";
 import BotaniqueCritique from "./pages/BotaniqueCritique";
@@ -301,6 +302,7 @@ function Router() {
       {/* === CORPUS PERFUMUM === */}
       <Route path="/corpus" component={CorpusPerfumum} />
       <Route path="/corpus/routes-commerciales" component={RoutesCommerciales} />
+      <Route path="/corpus/graphe" component={ResearchGraphPage} />
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />
