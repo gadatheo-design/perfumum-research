@@ -25,6 +25,9 @@ import {
   Archive,
   Globe,
   Calculator,
+  Library,
+  Download,
+  GitBranch,
 } from "lucide-react";
 
 interface MenuItem {
@@ -457,6 +460,26 @@ export function MegaMenu() {
           path: "/glossaire",
           icon: <BookOpen className="h-4 w-4" />,
           description: "Terminologie olfactive",
+        },
+        {
+          label: "Bibliographie",
+          path: "/bibliographie",
+          icon: <Library className="h-4 w-4" />,
+          description: "Références scientifiques",
+          badge: "NEW",
+        },
+        {
+          label: "Export bibliographique",
+          path: "/export-bibliographique",
+          icon: <Download className="h-4 w-4" />,
+          description: "BibTeX, RIS, EndNote",
+        },
+        {
+          label: "Axes de recherche",
+          path: "/axes-recherche",
+          icon: <GitBranch className="h-4 w-4" />,
+          description: "Programmes scientifiques",
+          badge: "NEW",
         },
         {
           label: "Fondements théoriques",

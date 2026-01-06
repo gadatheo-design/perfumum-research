@@ -2907,3 +2907,9 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Tester la navigation mobile sur 1024px (iPad Pro)
 - [ ] Corriger les problèmes identifiés si nécessaire
 
+
+### Phase 5 : Amélioration du MegaMenu (accès bibliographie et nouvelles fonctionnalités)
+- [x] Ajouter la Bibliographie dans le MegaMenu (section Projet > Documentation)
+- [x] Ajouter l'Export bibliographique dans le MegaMenu
+- [x] Ajouter les Axes de recherche dans le MegaMenu
+- [ ] Vérifier que toutes les nouvelles pages du jour sont accessibles
