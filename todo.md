@@ -2926,3 +2926,28 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Vérifier l'intégrité des données ajoutées (48 références total)
 - [ ] Créer le checkpoint final
 
+
+
+---
+
+## 🔗 SESSION 06 JAN 2026 - LIAISON RÉFÉRENCES-MOLÉCULES & RÉFÉRENCES RÉGIONALES
+
+### Phase 1 : Lier les références aux molécules
+- [x] Analyser la structure actuelle des tables (bibliographyEntries, molecules)
+- [x] Identifier les références qui documentent des molécules spécifiques
+- [x] Mettre à jour le champ linked_molecule_ids pour chaque référence (30 références, 615 liens)
+- [x] Valider les liaisons créées
+
+### Phase 2 : Ajouter des références régionales colombiennes
+- [x] Rechercher des sources sur les plantes aromatiques colombiennes (8 sources trouvées)
+- [x] Ajouter les références académiques sur la flore aromatique de Colombie
+- [x] Lier les nouvelles références aux molécules correspondantes (115 liens créés)
+
+### Phase 3 : Ajouter des références régionales burkinabè
+- [x] Rechercher des sources sur les plantes aromatiques du Burkina Faso (9 sources trouvées)
+- [x] Ajouter les références académiques sur la flore aromatique burkinabè
+- [x] Lier les nouvelles références aux molécules correspondantes (126 liens créés)
+
+### Phase 4 : Validation et checkpoint
+- [x] Vérifier l'intégrité des données ajoutées (17 références, 241 liens molécules)
+- [ ] Créer le checkpoint final
