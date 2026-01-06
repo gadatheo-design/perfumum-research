@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, Sun, Moon, ChevronDown, Beaker, FlaskConical, BookOpen, Atom, Mountain, Snowflake, Crown, Sparkles, Home, Info, Mail, FileText, Database, TestTube, Layers, BarChart3, GitBranch, Activity, Leaf, Command } from "lucide-react";
+import { Search, Menu, Sun, Moon, ChevronDown, Beaker, FlaskConical, BookOpen, Atom, Mountain, Snowflake, Crown, Sparkles, Home, Info, Mail, FileText, Database, TestTube, Layers, BarChart3, GitBranch, Activity, Leaf, Command, Compass } from "lucide-react";
 import { MegaMenu } from "@/components/MegaMenu";
 import { SmartSearch } from "@/components/SmartSearch";
 import { Button } from "@/components/ui/button";
@@ -143,6 +143,14 @@ const mobileMenuSections = [
       { href: "/recherche-avancee", label: "Recherche Avancée", badge: "NEW" },
       { href: "/timeline-recettes", label: "Timeline Recettes", badge: "NEW" },
       { href: "/heatmap-correlations", label: "Heatmap Corrélations", badge: "NEW" },
+    ],
+  },
+  {
+    title: "Axes de Recherche",
+    icon: Compass,
+    items: [
+      { href: "/axes-recherche", label: "Vue d'ensemble", badge: "NEW" },
+      { href: "/bibliographie-globale", label: "Bibliographie Globale", badge: "NEW" },
     ],
   },
   {

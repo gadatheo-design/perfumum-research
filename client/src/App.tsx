@@ -253,7 +253,9 @@ import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
 // === AXES DE RECHERCHE & BIBLIOGRAPHIE ===
 import ResearchAxes from "./pages/ResearchAxes";
 import ResearchAxisDetail from "./pages/ResearchAxisDetail";
+import ResearchEntryAdd from "./pages/ResearchEntryAdd";
 import BibliographyGlobal from "./pages/BibliographyGlobal";
+import BibliographyAdd from "./pages/BibliographyAdd";
 
 // === PAGES TECHNIQUES ===
 import TestMinimal from "./pages/TestMinimal";
@@ -442,8 +444,10 @@ function Router() {
       
       {/* === AXES DE RECHERCHE & BIBLIOGRAPHIE === */}
       <Route path="/axes-recherche" component={ResearchAxes} />
+      <Route path="/axes-recherche/new" component={ResearchEntryAdd} />
       <Route path="/axes-recherche/:code" component={ResearchAxisDetail} />
       <Route path="/bibliographie-globale" component={BibliographyGlobal} />
+      <Route path="/bibliographie-globale/new" component={BibliographyAdd} />
       <Route path="/outils" component={Outils} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
