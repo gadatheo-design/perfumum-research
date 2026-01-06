@@ -7035,6 +7035,73 @@ export const appRouter = router({
       return await db.getResearchAxesInnovantsStats();
     }),
   }),
+
+  // ============================================================================
+  // PERFUMUM RESEARCH AXES (6 axes de recherche PERFUMUM)
+  // ============================================================================
+  perfumumAxes: router({
+    list: publicProcedure.query(async () => {
+      return await db.listPerfumumResearchAxes();
+    }),
+    
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getPerfumumAxisBySlug(input.slug);
+      }),
+    
+    getByAxisId: publicProcedure
+      .input(z.object({ axisId: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getPerfumumAxisByAxisId(input.axisId);
+      }),
+    
+    getStats: publicProcedure
+      .input(z.object({ axisId: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getPerfumumAxisStats(input.axisId);
+      }),
+  }),
+
+  // ============================================================================
+  // MOLECULAR MARKERS (Marqueurs moléculaires - AX3)
+  // ============================================================================
+  molecularMarkers: router({
+    list: publicProcedure.query(async () => {
+      return await db.listMolecularMarkers();
+    }),
+    
+    getByFamily: publicProcedure
+      .input(z.object({ family: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getMolecularMarkersByFamily(input.family);
+      }),
+    
+    getKeyMarkers: publicProcedure.query(async () => {
+      return await db.getKeyMolecularMarkers();
+    }),
+  }),
+
+  // ============================================================================
+  // BIOTECH MOLECULES (Molécules biotechnologiques - AX4)
+  // ============================================================================
+  biotechMolecules: router({
+    list: publicProcedure.query(async () => {
+      return await db.listBiotechMolecules();
+    }),
+    
+    getByStatus: publicProcedure
+      .input(z.object({ status: z.enum(['research', 'pilot', 'commercial', 'discontinued']) }))
+      .query(async ({ input }) => {
+        return await db.getBiotechMoleculesByStatus(input.status);
+      }),
+    
+    getComparison: publicProcedure
+      .input(z.object({ moleculeName: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getMoleculeComparison(input.moleculeName);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

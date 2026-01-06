@@ -11,7 +11,7 @@ import {
   molecules,
   accords,
   recettes,
-  civilisations,
+  traditionsOlfactives,
   petrichor,
   volcanique,
   installations,
@@ -21,7 +21,7 @@ import {
   prototypeChemicalFamilies,
   chemicalFamilies,
   moleculeChemicalFamilies,
-  accordCivilisations,
+  experimentalAccordCivilisations,
   researchTimeline,
   experimentalAccords,
   moleculesRecettes,
@@ -33,7 +33,7 @@ import {
   Accord,
   Recette,
   InsertRecette,
-  Civilisation,
+  TraditionOlfactive,
   Petrichor,
   Volcanique,
   Installation,
@@ -50,8 +50,8 @@ import {
   moleculeNotes,
   citations,
   analyticsEvents,
-  suppliers,
-  supplierMaterials,
+  extendedSuppliers,
+  extendedSupplierMaterials,
   Supplier,
   InsertSupplier,
   SupplierMaterial,
@@ -207,7 +207,7 @@ export async function getDb() {
           molecules,
           accords,
           recettes,
-          civilisations,
+          traditionsOlfactives,
           petrichor,
           volcanique,
           installations,
@@ -217,7 +217,7 @@ export async function getDb() {
           prototypeChemicalFamilies,
           chemicalFamilies,
           moleculeChemicalFamilies,
-          accordCivilisations,
+          experimentalAccordCivilisations,
           researchTimeline,
           experimentalAccords,
           moleculesRecettes,
@@ -230,8 +230,8 @@ export async function getDb() {
           moleculeNotes,
           citations,
           analyticsEvents,
-          suppliers,
-          supplierMaterials,
+          extendedSuppliers,
+          extendedSupplierMaterials,
           rechercheRadicale,
           modificationHistory,
           plantTerroirs,
@@ -503,13 +503,13 @@ export async function getRecetteFormulesReference(recetteId: number) {
 // CIVILISATIONS
 // ============================================================================
 
-export async function getAllCivilisations(): Promise<Civilisation[]> {
+export async function getAllCivilisations(): Promise<TraditionOlfactive[]> {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(civilisations);
 }
 
-export async function getCivilisationById(id: number): Promise<Civilisation | undefined> {
+export async function getCivilisationById(id: number): Promise<TraditionOlfactive | undefined> {
   const db = await getDb();
   if (!db) return undefined;
   const result = await db.select().from(civilisations).where(eq(civilisations.id, id)).limit(1);
@@ -1266,7 +1266,7 @@ export async function getNetworkRelationships() {
       accordName: accords.name,
     })
     .from(accordCivilisations)
-    .innerJoin(civilisations, eq(accordCivilisations.civilisationId, civilisations.id))
+    .innerJoin(traditionsOlfactives, eq(accordCivilisations.civilisationId, civilisations.id))
     .innerJoin(accords, eq(accordCivilisations.accordId, accords.id));
   
   // 6. Recettes → Civilisations (via civilisationId)
@@ -1278,7 +1278,7 @@ export async function getNetworkRelationships() {
       civilisationName: civilisations.name,
     })
     .from(recettes)
-    .innerJoin(civilisations, eq(recettes.civilisationId, civilisations.id))
+    .innerJoin(traditionsOlfactives, eq(recettes.civilisationId, civilisations.id))
     .where(sql`${recettes.civilisationId} IS NOT NULL`);
   
   return {
@@ -3343,7 +3343,7 @@ export async function recordModification(
 export async function getAllSuppliers() {
   const db = await getDb();
   if (!db) return [];
-  return await db.select().from(suppliers);
+  return await db.select().from(extendedSuppliers);
 }
 
 /**
@@ -3353,8 +3353,8 @@ export async function getSupplierById(id: number) {
   const db = await getDb();
   if (!db) return null;
   const results = await db.select()
-    .from(suppliers)
-    .where(eq(suppliers.id, id))
+    .from(extendedSuppliers)
+    .where(eq(extendedSuppliers.id, id))
     .limit(1);
   return results[0] || null;
 }
@@ -3366,8 +3366,8 @@ export async function getSuppliersByCountry(country: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select()
-    .from(suppliers)
-    .where(eq(suppliers.country, country));
+    .from(extendedSuppliers)
+    .where(eq(extendedSuppliers.country, country));
 }
 
 /**
@@ -3377,8 +3377,8 @@ export async function getSuppliersByRegion(region: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select()
-    .from(suppliers)
-    .where(eq(suppliers.region, region));
+    .from(extendedSuppliers)
+    .where(eq(extendedSuppliers.region, region));
 }
 
 /**
@@ -3457,7 +3457,7 @@ export async function updateSupplier(id: number, data: Partial<{
   return await db
     .update(suppliers)
     .set(updateData)
-    .where(eq(suppliers.id, id));
+    .where(eq(extendedSuppliers.id, id));
 }
 
 /**
@@ -3468,7 +3468,7 @@ export async function deleteSupplier(id: number) {
   if (!db) throw new Error("Database not available");
   return await db
     .delete(suppliers)
-    .where(eq(suppliers.id, id));
+    .where(eq(extendedSuppliers.id, id));
 }
 
 /**
@@ -9225,5 +9225,245 @@ export async function getResearchAxesInnovantsStats() {
     total: (totalResult[0] as any[])[0]?.count || 0,
     byPriority: byPriorityResult[0] as any[],
     byStatus: byStatusResult[0] as any[]
+  };
+}
+
+
+// ============================================================================
+// PERFUMUM RESEARCH AXES (6 axes de recherche PERFUMUM)
+// ============================================================================
+
+// Lister tous les axes de recherche PERFUMUM
+export async function listPerfumumResearchAxes() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM perfumum_research_axes ORDER BY sort_order ASC
+  `);
+  
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    kpis: typeof row.kpis === 'string' ? JSON.parse(row.kpis || '[]') : row.kpis,
+    ui_modules: typeof row.ui_modules === 'string' ? JSON.parse(row.ui_modules || '[]') : row.ui_modules,
+    core_entities: typeof row.core_entities === 'string' ? JSON.parse(row.core_entities || '[]') : row.core_entities,
+    default_filters: typeof row.default_filters === 'string' ? JSON.parse(row.default_filters || '{}') : row.default_filters,
+  }));
+}
+
+// Obtenir un axe par slug
+export async function getPerfumumAxisBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM perfumum_research_axes WHERE slug = ${slug}
+  `);
+  
+  const row = (result[0] as any[])[0];
+  if (!row) return null;
+  
+  return {
+    ...row,
+    kpis: typeof row.kpis === 'string' ? JSON.parse(row.kpis || '[]') : row.kpis,
+    ui_modules: typeof row.ui_modules === 'string' ? JSON.parse(row.ui_modules || '[]') : row.ui_modules,
+    core_entities: typeof row.core_entities === 'string' ? JSON.parse(row.core_entities || '[]') : row.core_entities,
+    default_filters: typeof row.default_filters === 'string' ? JSON.parse(row.default_filters || '{}') : row.default_filters,
+  };
+}
+
+// Obtenir un axe par axis_id
+export async function getPerfumumAxisByAxisId(axisId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM perfumum_research_axes WHERE axis_id = ${axisId}
+  `);
+  
+  const row = (result[0] as any[])[0];
+  if (!row) return null;
+  
+  return {
+    ...row,
+    kpis: typeof row.kpis === 'string' ? JSON.parse(row.kpis || '[]') : row.kpis,
+    ui_modules: typeof row.ui_modules === 'string' ? JSON.parse(row.ui_modules || '[]') : row.ui_modules,
+    core_entities: typeof row.core_entities === 'string' ? JSON.parse(row.core_entities || '[]') : row.core_entities,
+    default_filters: typeof row.default_filters === 'string' ? JSON.parse(row.default_filters || '{}') : row.default_filters,
+  };
+}
+
+// Statistiques par axe
+export async function getPerfumumAxisStats(axisId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Compter les entrées par type d'entité selon l'axe
+  const stats: Record<string, number> = {};
+  
+  if (axisId === 'AX1_GENOMIC_CONSERVATION') {
+    const genomeSamplesResult = await db.execute(sql`SELECT COUNT(*) as count FROM genome_samples WHERE axis_id = ${axisId}`);
+    const genomeSequencesResult = await db.execute(sql`SELECT COUNT(*) as count FROM genome_sequences WHERE axis_id = ${axisId}`);
+    stats.genome_samples = (genomeSamplesResult[0] as any[])[0]?.count || 0;
+    stats.genome_sequences = (genomeSequencesResult[0] as any[])[0]?.count || 0;
+  }
+  
+  if (axisId === 'AX2_ETHNOBOTANY_COMP') {
+    const manuscriptsResult = await db.execute(sql`SELECT COUNT(*) as count FROM perfumum_manuscripts WHERE axis_id = ${axisId}`);
+    const fragmentsResult = await db.execute(sql`SELECT COUNT(*) as count FROM text_fragments WHERE axis_id = ${axisId}`);
+    const routesResult = await db.execute(sql`SELECT COUNT(*) as count FROM trade_routes WHERE axis_id = ${axisId}`);
+    stats.manuscripts = (manuscriptsResult[0] as any[])[0]?.count || 0;
+    stats.text_fragments = (fragmentsResult[0] as any[])[0]?.count || 0;
+    stats.trade_routes = (routesResult[0] as any[])[0]?.count || 0;
+  }
+  
+  if (axisId === 'AX3_ANALYTICAL_TRANS_EPOCH') {
+    const herbariumResult = await db.execute(sql`SELECT COUNT(*) as count FROM perfumum_herbarium_samples WHERE axis_id = ${axisId}`);
+    const gcmsResult = await db.execute(sql`SELECT COUNT(*) as count FROM perfumum_gcms_runs WHERE axis_id = ${axisId}`);
+    const markersResult = await db.execute(sql`SELECT COUNT(*) as count FROM molecular_markers WHERE axis_id = ${axisId}`);
+    stats.herbarium_samples = (herbariumResult[0] as any[])[0]?.count || 0;
+    stats.gcms_runs = (gcmsResult[0] as any[])[0]?.count || 0;
+    stats.molecular_markers = (markersResult[0] as any[])[0]?.count || 0;
+  }
+  
+  if (axisId === 'AX4_CONSERVATION_BIOTECH') {
+    const tissueResult = await db.execute(sql`SELECT COUNT(*) as count FROM tissue_culture_lines WHERE axis_id = ${axisId}`);
+    const fermentationResult = await db.execute(sql`SELECT COUNT(*) as count FROM perfumum_fermentation_runs WHERE axis_id = ${axisId}`);
+    const biotechResult = await db.execute(sql`SELECT COUNT(*) as count FROM biotech_molecules WHERE axis_id = ${axisId}`);
+    stats.tissue_culture_lines = (tissueResult[0] as any[])[0]?.count || 0;
+    stats.fermentation_runs = (fermentationResult[0] as any[])[0]?.count || 0;
+    stats.biotech_molecules = (biotechResult[0] as any[])[0]?.count || 0;
+  }
+  
+  if (axisId === 'AX5_IMMERSIVE_DEMOCRAT') {
+    const vrResult = await db.execute(sql`SELECT COUNT(*) as count FROM vr_scenes WHERE axis_id = ${axisId}`);
+    const citizenResult = await db.execute(sql`SELECT COUNT(*) as count FROM citizen_observations WHERE axis_id = ${axisId}`);
+    stats.vr_scenes = (vrResult[0] as any[])[0]?.count || 0;
+    stats.citizen_observations = (citizenResult[0] as any[])[0]?.count || 0;
+  }
+  
+  if (axisId === 'AX6_OLFACTIVE_DIPLOMACY') {
+    const partnersResult = await db.execute(sql`SELECT COUNT(*) as count FROM partner_institutions WHERE axis_id = ${axisId}`);
+    const fellowshipsResult = await db.execute(sql`SELECT COUNT(*) as count FROM perfumum_fellowships WHERE axis_id = ${axisId}`);
+    stats.partner_institutions = (partnersResult[0] as any[])[0]?.count || 0;
+    stats.fellowships = (fellowshipsResult[0] as any[])[0]?.count || 0;
+  }
+  
+  return stats;
+}
+
+// ============================================================================
+// MOLECULAR MARKERS (Marqueurs moléculaires - AX3)
+// ============================================================================
+
+// Lister tous les marqueurs moléculaires
+export async function listMolecularMarkers() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM molecular_markers ORDER BY botanical_family, molecule_name
+  `);
+  
+  return result[0] as any[];
+}
+
+// Obtenir les marqueurs par famille botanique
+export async function getMolecularMarkersByFamily(family: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM molecular_markers WHERE botanical_family = ${family} ORDER BY typical_percentage DESC
+  `);
+  
+  return result[0] as any[];
+}
+
+// Obtenir les marqueurs clés
+export async function getKeyMolecularMarkers() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM molecular_markers WHERE is_key_marker = 1 ORDER BY botanical_family, typical_percentage DESC
+  `);
+  
+  return result[0] as any[];
+}
+
+// ============================================================================
+// BIOTECH MOLECULES (Molécules biotechnologiques - AX4)
+// ============================================================================
+
+// Lister toutes les molécules biotech
+export async function listBiotechMolecules() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM biotech_molecules ORDER BY molecule_name
+  `);
+  
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    heterologous_genes: typeof row.heterologous_genes === 'string' ? JSON.parse(row.heterologous_genes || '[]') : row.heterologous_genes,
+    advantages: typeof row.advantages === 'string' ? JSON.parse(row.advantages || '[]') : row.advantages,
+    limitations: typeof row.limitations === 'string' ? JSON.parse(row.limitations || '[]') : row.limitations,
+  }));
+}
+
+// Obtenir les molécules par statut de production
+export async function getBiotechMoleculesByStatus(status: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM biotech_molecules WHERE production_status = ${status} ORDER BY yield_mg_l DESC
+  `);
+  
+  return (result[0] as any[]).map(row => ({
+    ...row,
+    heterologous_genes: typeof row.heterologous_genes === 'string' ? JSON.parse(row.heterologous_genes || '[]') : row.heterologous_genes,
+    advantages: typeof row.advantages === 'string' ? JSON.parse(row.advantages || '[]') : row.advantages,
+    limitations: typeof row.limitations === 'string' ? JSON.parse(row.limitations || '[]') : row.limitations,
+  }));
+}
+
+// Comparaison molécule naturelle vs biotechnologique
+export async function getMoleculeComparison(moleculeName: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Récupérer les données biotech
+  const biotechResult = await db.execute(sql`
+    SELECT * FROM biotech_molecules WHERE molecule_name LIKE ${`%${moleculeName}%`}
+  `);
+  
+  // Récupérer les marqueurs naturels correspondants
+  const naturalResult = await db.execute(sql`
+    SELECT * FROM molecular_markers WHERE molecule_name LIKE ${`%${moleculeName}%`}
+  `);
+  
+  const biotech = (biotechResult[0] as any[])[0];
+  const natural = naturalResult[0] as any[];
+  
+  if (!biotech && natural.length === 0) return null;
+  
+  return {
+    molecule_name: moleculeName,
+    biotech: biotech ? {
+      ...biotech,
+      heterologous_genes: typeof biotech.heterologous_genes === 'string' ? JSON.parse(biotech.heterologous_genes || '[]') : biotech.heterologous_genes,
+      advantages: typeof biotech.advantages === 'string' ? JSON.parse(biotech.advantages || '[]') : biotech.advantages,
+      limitations: typeof biotech.limitations === 'string' ? JSON.parse(biotech.limitations || '[]') : biotech.limitations,
+    } : null,
+    natural_sources: natural,
+    comparison: {
+      biotech_yield_mg_l: biotech?.yield_mg_l || 0,
+      biotech_purity: biotech?.purity_percent || 0,
+      natural_typical_percentage: natural.length > 0 ? Math.max(...natural.map((n: any) => n.typical_percentage || 0)) : 0,
+      production_status: biotech?.production_status || 'not_available',
+    }
   };
 }

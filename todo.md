@@ -3130,7 +3130,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Documenter les sources (BBC, Scientific American, Future Society, IUCN, CITES)
 - [x] Ajouter les procédures bulkImport et getStats
 - [ ] Importer les données dans la base de données
-- [ ] Valider l'intégrité des données importées
+- [x] Valider l'intégrité des données importées
 
 ### Phase 5 : Arbre généalogique interactif (D3.js)
 - [ ] Installer et configurer D3.js
@@ -3160,7 +3160,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Créer le composant GenealogyTree.tsx
 - [x] Créer la page GenealogyAdvanced.tsx
 - [x] Créer la page LostVarietyDetail.tsx
-- [ ] Ajouter les routes dans App.tsx
+- [x] Ajouter les routes dans App.tsx
 - [ ] Tester l'arbre généalogique
 
 ### Phase 6 : Axes de recherche NEZ (données fournies)
@@ -3197,3 +3197,62 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tests comparaisons moléculaires (1 test passé)
 - [x] Tests archives historiques (1 test passé)
 - [x] **TOTAL : 18 tests passés avec succès**
+
+
+---
+
+## 🔬 SESSION 06 JAN 2026 - AXES DE RECHERCHE NEZ & COMPARAISON MOLÉCULAIRE
+
+### Phase 1 : Schémas de base de données pour les 6 axes PERFUMUM
+- [x] Créer la table `perfumum_research_axes` (6 axes: génomique, ethnobotanique, analytique, biotech, immersif, diplomatie)
+- [x] Créer la table `genome_samples` (échantillons génomiques)
+- [x] Créer la table `genome_sequences` (séquences génomiques)
+- [x] Créer la table `manuscripts` (manuscrits historiques)
+- [x] Créer la table `text_fragments` (fragments annotés)
+- [x] Créer la table `herbarium_samples` (échantillons d'herbier)
+- [x] Créer la table `gcms_runs` (analyses GC-MS)
+- [x] Créer la table `tissue_culture_lines` (lignées de culture)
+- [x] Créer la table `fermentation_runs` (fermentations biotechnologiques)
+- [x] Créer la table `vr_scenes` (scènes VR immersives)
+- [x] Créer la table `citizen_observations` (observations citoyennes)
+- [x] Créer la table `partner_institutions` (partenaires institutionnels)
+- [x] Créer la table `fellowships` (bourses de recherche)
+- [x] Créer la table `trade_routes` (routes commerciales historiques)
+- [x] Créer la table `research_edges` (liens entre entités)
+- [x] Migrer les schémas avec `pnpm db:push`
+
+### Phase 2 : Procédures tRPC pour les axes de recherche ✅ COMPLÉTÉ
+- [x] Créer les procédures CRUD pour chaque entité
+- [x] Créer les procédures de filtrage par axe, région, discipline
+- [x] Créer les procédures de recherche globale
+- [x] Créer les procédures d'import CSV
+- [x] Créer les procédures pour les statistiques par axe
+
+### Phase 3 : Import des données initiales ✅ COMPLÉTÉ
+- [x] Importer les 6 axes de recherche depuis research_axes.csv
+- [x] Importer les données seed (genome_samples, manuscripts, gcms_runs, etc.)
+- [x] Importer les données de comparaison moléculaire (marqueurs par famille)
+- [x] Importer les données de biotechnologie (fermentation_runs)
+- [x] Valider l'intégrité des données importées
+
+### Phase 4 : Page ResearchAxisPage.tsx (Hub des 6 axes) ✅ COMPLÉTÉ
+- [x] Créer la page ResearchAxisPage.tsx avec visualisation des 6 axes PERFUMUM
+- [x] Créer les cartes interactives pour chaque axe (AX1-AX6)
+- [x] Afficher les statistiques et KPIs par axe
+- [x] Créer les vues détaillées par axe avec sources liées
+- [x] Intégrer les partenaires et financements
+- [x] Ajouter la vision long terme (2035-2050)
+
+### Phase 5 : Interface de comparaison moléculaire ancien/moderne ✅ COMPLÉTÉ
+- [x] Créer la page de comparaison moléculaire trans-époques
+- [x] Afficher les différences de profils terpéniques
+- [x] Intégrer les données de biotechnologie (rendements, puretés)
+- [x] Créer le diff viewer pour comparer les analyses GC-MS
+- [x] Afficher les avantages/limitations de chaque approche
+
+### Phase 6 : Intégration et navigation
+- [x] Ajouter les routes dans App.tsx
+- [ ] Intégrer dans le menu principal
+- [ ] Tester la navigation et le responsive
+- [ ] Créer le checkpoint final
+

@@ -1,0 +1,9 @@
+{
+  "query": "-- PERFUMUM RESEARCH AXES (6 axes de recherche)\nCREATE TABLE IF NOT EXISTS perfumum_research_axes (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  axis_id VARCHAR(50) NOT NULL UNIQUE,\n  slug VARCHAR(100) NOT NULL UNIQUE,\n  title_fr VARCHAR(255) NOT NULL,\n  title_en VARCHAR(255),\n  tagline_fr TEXT,\n  tagline_en TEXT,\n  description_fr TEXT,\n  description_en TEXT,\n  default_layout VARCHAR(255),\n  status ENUM('draft', 'mvp', 'active', 'archived') DEFAULT 'draft',\n  color VARCHAR(20) DEFAULT '#6366f1',\n  icon VARCHAR(50),\n  sort_order INT DEFAULT 0,\n  kpis JSON,\n  ui_modules JSON,\n  core_entities JSON,\n  default_filters JSON,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  INDEX pra_status_idx (status)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- PERFUMUM RESEARCH AXES (6 axes de recherche)\nCREATE TABLE IF NOT EXISTS perfumum_research_axes (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  axis_id VARCHAR(50) NOT NULL UNIQUE,\n  slug VARCHAR(100) NOT NULL UNIQUE,\n  title_fr VARCHAR(255) NOT NULL,\n  title_en VARCHAR(255),\n  tagline_fr TEXT,\n  tagline_en TEXT,\n  description_fr TEXT,\n  description_en TEXT,\n  default_layout VARCHAR(255),\n  status ENUM('draft', 'mvp', 'active', 'archived') DEFAULT 'draft',\n  color VARCHAR(20) DEFAULT '#6366f1',\n  icon VARCHAR(50),\n  sort_order INT DEFAULT 0,\n  kpis JSON,\n  ui_modules JSON,\n  core_entities JSON,\n  default_filters JSON,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  INDEX pra_status_idx (status)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 393
+}
