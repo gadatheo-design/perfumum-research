@@ -425,8 +425,11 @@ export default function Home() {
                     <Link href="/programmes-recherche/resines-cbd" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                       → Résines CBD & Design Terpénique
                     </Link>
-                    <Link href="/programmes-recherche/tabacs-niche" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+    <Link href="/programmes-recherche/tabacs-niche" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                       → Tabacs Niche (30+ variétés)
+                    </Link>
+                    <Link href="/leaf-economies" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer font-medium text-emerald-600 dark:text-emerald-400">
+                      → San Andrés / Leaf Economies ✨
                     </Link>
                     <Link href="/dashboard" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                       → Dashboard Analytics

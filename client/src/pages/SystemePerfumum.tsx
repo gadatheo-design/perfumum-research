@@ -348,7 +348,7 @@ export default function SystemePerfumum() {
                 <h4 className="font-semibold">Base de Données</h4>
               </div>
               <p className="text-sm text-muted-foreground">
-                209 molécules et 210 recettes documentées avec profils olfactifs, propriétés chimiques et synergies
+                199 molécules et 213 recettes documentées avec profils olfactifs, propriétés chimiques et synergies
               </p>
             </div>
 
@@ -400,7 +400,7 @@ export default function SystemePerfumum() {
             <Link href="/molecules" className="bg-card p-4 rounded-lg border border-border hover:border-primary transition-colors">
               <Database className="h-5 w-5 text-primary mb-2" />
               <div className="font-semibold mb-1">Molécules</div>
-              <div className="text-sm text-muted-foreground">209 entrées</div>
+              <div className="text-sm text-muted-foreground">199 entrées</div>
             </Link>
 
             <Link href="/compare-radar" className="bg-card p-4 rounded-lg border border-border hover:border-primary transition-colors">
@@ -413,6 +413,24 @@ export default function SystemePerfumum() {
               <Map className="h-5 w-5 text-primary mb-2" />
               <div className="font-semibold mb-1">Sourcing Global</div>
               <div className="text-sm text-muted-foreground">10 régions</div>
+            </Link>
+
+            <Link href="/leaf-economies" className="bg-card p-4 rounded-lg border border-border hover:border-primary transition-colors">
+              <Beaker className="h-5 w-5 text-emerald-500 mb-2" />
+              <div className="font-semibold mb-1">San Andrés</div>
+              <div className="text-sm text-muted-foreground">Leaf Economies</div>
+            </Link>
+
+            <Link href="/terp-profiles" className="bg-card p-4 rounded-lg border border-border hover:border-primary transition-colors">
+              <Network className="h-5 w-5 text-blue-500 mb-2" />
+              <div className="font-semibold mb-1">TerpProfiles</div>
+              <div className="text-sm text-muted-foreground">Fiches analytiques</div>
+            </Link>
+
+            <Link href="/nouveautes" className="bg-card p-4 rounded-lg border border-border hover:border-primary transition-colors">
+              <Settings className="h-5 w-5 text-amber-500 mb-2" />
+              <div className="font-semibold mb-1">Nouveautés</div>
+              <div className="text-sm text-muted-foreground">Version 3.5</div>
             </Link>
           </div>
         </section>

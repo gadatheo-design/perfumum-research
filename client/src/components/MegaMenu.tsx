@@ -28,6 +28,7 @@ import {
   Library,
   Download,
   GitBranch,
+  Clock,
 } from "lucide-react";
 
 interface MenuItem {
@@ -283,6 +284,39 @@ export function MegaMenu() {
       ],
     },
     {
+      title: "San Andrés / Leaf Economies",
+      items: [
+        {
+          label: "Échantillons botaniques",
+          path: "/leaf-economies",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Programme de recherche",
+          badge: "NEW",
+        },
+        {
+          label: "Timeline botanique",
+          path: "/timeline-botanique",
+          icon: <Clock className="h-4 w-4" />,
+          description: "Chronologie T0-T4",
+          badge: "NEW",
+        },
+        {
+          label: "Recettes finales",
+          path: "/final-recipes",
+          icon: <Beaker className="h-4 w-4" />,
+          description: "Parfum, encens, espace",
+          badge: "9",
+        },
+        {
+          label: "Variétés fantômes",
+          path: "/varietes-fantomes",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Tabac et cannabis",
+          badge: "NEW",
+        },
+      ],
+    },
+    {
       title: "Exploration",
       items: [
         {
@@ -296,6 +330,7 @@ export function MegaMenu() {
           path: "/terroirs",
           icon: <Map className="h-4 w-4" />,
           description: "Origines géographiques",
+          badge: "20",
         },
         {
           label: "Carte GPS Plantes",

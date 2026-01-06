@@ -19,8 +19,14 @@ import {
   Sparkles,
   Database,
   BarChart3,
-  Leaf
+  Leaf,
+  Map,
+  Globe,
+  Microscope,
+  Network,
+  BookOpen
 } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 interface Update {
   date: string;
@@ -35,6 +41,97 @@ interface Update {
 }
 
 const updates: Update[] = [
+  {
+    date: "6 janvier 2026",
+    version: "v3.5",
+    title: "Amélioration navigation et UX globale",
+    description: "Optimisation de la navigation inter-pages et mise à jour des hyperliens",
+    type: "improvement",
+    items: [
+      { text: "Navigation améliorée entre toutes les sections", link: "/" },
+      { text: "Hyperliens cohérents entre pages liées", link: "/systeme" },
+      { text: "Mise à jour du header avec les dernières nouveautés", link: "/nouveautes" },
+      { text: "Amélioration de l'UX mobile et desktop", link: "/dashboard" },
+    ],
+  },
+  {
+    date: "4 janvier 2026",
+    version: "v3.4",
+    title: "Audit navigation et liens inter-pages",
+    description: "Vérification complète de la structure de navigation du site",
+    type: "improvement",
+    items: [
+      { text: "Audit de toutes les routes existantes (150+ pages)", link: "/systeme" },
+      { text: "Identification et correction des liens cassés", link: "/" },
+      { text: "Amélioration de la cohérence de navigation", link: "/dashboard" },
+    ],
+  },
+  {
+    date: "3 janvier 2026",
+    version: "v3.3",
+    title: "Méthodes d'extraction et données scientifiques",
+    description: "Enrichissement des fiches molécules avec données IUPAC, CAS et classes chimiques",
+    type: "feature",
+    items: [
+      { text: "7 méthodes d'extraction documentées (distillation, CO2, etc.)", link: "/extraction-methods" },
+      { text: "Champs IUPAC et CAS ajoutés aux molécules", link: "/molecules" },
+      { text: "20 terroirs géographiques importés (rose Bulgarie, bergamote Calabre...)", link: "/terroirs" },
+      { text: "Restrictions IFRA par catégorie de produit", link: "/ifra" },
+    ],
+  },
+  {
+    date: "3 janvier 2026",
+    version: "v3.2",
+    title: "TerpProfiles et tableau comparatif dynamique",
+    description: "Fiches analytiques interactives et comparaison avancée des formules",
+    type: "feature",
+    items: [
+      { text: "10 fiches TerpProfiles (SA-TP-01 à SA-TP-10)", link: "/terp-profiles" },
+      { text: "Tableau comparatif avec filtres (axe climatique, plante, usage)", link: "/terp-profiles/compare" },
+      { text: "Graphique radar climatique (Vent/Bois/Disparition/Structure/Diffusion)", link: "/terp-profiles" },
+      { text: "Règles Absorbe affichées sur le site", link: "/methodologie/absorbe" },
+    ],
+  },
+  {
+    date: "3 janvier 2026",
+    version: "v3.1",
+    title: "Recettes finales San Andrés et plantes",
+    description: "9 recettes finales (parfum, encens, espace) et base botanique étendue",
+    type: "content",
+    items: [
+      { text: "3 recettes parfum (Salted Exposure, Vent Social, Architecture du Temps)", link: "/final-recipes" },
+      { text: "3 recettes encens (Wind Purge, Bois Social, Disappearance)", link: "/final-recipes" },
+      { text: "3 protocoles espace (Circulating Climate, Leaf Presence, Temporal Layer)", link: "/final-recipes" },
+      { text: "Plantes San Andrés importées (Pimenta racemosa, Lippia alba, etc.)", link: "/plants" },
+    ],
+  },
+  {
+    date: "3 janvier 2026",
+    version: "v3.0",
+    title: "San Andrés / Seaflower - Leaf Economies",
+    description: "Intégration complète du programme de recherche San Andrés",
+    type: "feature",
+    items: [
+      { text: "6 échantillons botaniques initiaux (SA-LE-001 à SA-LE-006)", link: "/leaf-economies" },
+      { text: "Timeline botanique (T0-T4) avec scroll horizontal", link: "/timeline-botanique" },
+      { text: "Page Botanique critique avec texte théorique", link: "/botanique-critique" },
+      { text: "Variétés fantômes (tabac et cannabis)", link: "/varietes-fantomes" },
+      { text: "Recettes radicales (R-11 à R-18)", link: "/recettes-leaf-economies" },
+    ],
+  },
+  {
+    date: "3 janvier 2026",
+    version: "v2.9",
+    title: "Recherche avancée et responsive mobile",
+    description: "Filtres multi-critères et optimisation mobile complète",
+    type: "feature",
+    items: [
+      { text: "Page de recherche avancée avec filtres", link: "/recherche-avancee" },
+      { text: "Filtres par famille olfactive, origine, période", link: "/recherche-avancee" },
+      { text: "Responsive mobile validé (375px, 768px, 1024px)", link: "/" },
+      { text: "Navigation mobile optimisée", link: "/" },
+    ],
+  },
   {
     date: "15 décembre 2025",
     version: "v2.8",
@@ -187,6 +284,9 @@ const typeLabels = {
 };
 
 export default function Nouveautes() {
+  // Récupérer les statistiques dynamiques
+  const { data: stats } = trpc.dashboard.getStats.useQuery();
+  
   return (
     <div className="min-h-screen flex flex-col">
       <Breadcrumbs />
@@ -215,20 +315,67 @@ export default function Nouveautes() {
           <div className="container">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">176</div>
+                <div className="text-3xl font-bold text-primary">{stats?.molecules || '199'}</div>
                 <div className="text-sm text-muted-foreground">Molécules</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">195</div>
+                <div className="text-3xl font-bold text-primary">{stats?.recettes || '213'}</div>
                 <div className="text-sm text-muted-foreground">Recettes</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">96</div>
+                <div className="text-3xl font-bold text-primary">150+</div>
                 <div className="text-sm text-muted-foreground">Pages</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">v2.8</div>
+                <div className="text-3xl font-bold text-primary">v3.5</div>
                 <div className="text-sm text-muted-foreground">Version actuelle</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Liens rapides vers les nouvelles fonctionnalités */}
+        <section className="py-12 bg-muted/20">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <Sparkles className="h-6 w-6 text-primary" />
+                Fonctionnalités récentes
+              </h2>
+              <div className="grid md:grid-cols-3 gap-4">
+                <Link href="/leaf-economies" className="block">
+                  <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-primary/20 hover:border-primary/40">
+                    <CardHeader className="pb-2">
+                      <Leaf className="h-8 w-8 text-emerald-500 mb-2" />
+                      <CardTitle className="text-lg">San Andrés / Leaf Economies</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">Programme de recherche botanique avec échantillons, timeline et recettes radicales.</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+                <Link href="/terp-profiles" className="block">
+                  <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-primary/20 hover:border-primary/40">
+                    <CardHeader className="pb-2">
+                      <BarChart3 className="h-8 w-8 text-blue-500 mb-2" />
+                      <CardTitle className="text-lg">TerpProfiles</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">Fiches analytiques interactives avec graphiques radar et comparaison avancée.</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+                <Link href="/terroirs" className="block">
+                  <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer border-primary/20 hover:border-primary/40">
+                    <CardHeader className="pb-2">
+                      <Map className="h-8 w-8 text-amber-500 mb-2" />
+                      <CardTitle className="text-lg">Terroirs & Origines</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">20 terroirs géographiques avec données de production et caractéristiques.</p>
+                    </CardContent>
+                  </Card>
+                </Link>
               </div>
             </div>
           </div>
@@ -285,99 +432,23 @@ export default function Nouveautes() {
           </div>
         </section>
 
-        {/* Roadmap */}
+        {/* CTA */}
         <section className="py-16 bg-muted/30">
           <div className="container">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8">Prochaines étapes</h2>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Database className="h-5 w-5 text-blue-500" />
-                      Enrichissement des données
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-muted-foreground">
-                    <ul className="space-y-2">
-                      <li>• Compléter les gammes Glaciaire et BioLab</li>
-                      <li>• Ajouter les sources botaniques manquantes</li>
-                      <li>• Documenter les 26 traditions olfactives</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <BarChart3 className="h-5 w-5 text-emerald-500" />
-                      Nouvelles visualisations
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-muted-foreground">
-                    <ul className="space-y-2">
-                      <li>• Carte mondiale des traditions olfactives</li>
-                      <li>• Timeline interactive des découvertes</li>
-                      <li>• Graphe 3D des synergies moléculaires</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <FlaskConical className="h-5 w-5 text-purple-500" />
-                      Outils de formulation
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-muted-foreground">
-                    <ul className="space-y-2">
-                      <li>• Journal de formulation personnel</li>
-                      <li>• Export PDF des recettes</li>
-                      <li>• Calculateur de coûts matières</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Leaf className="h-5 w-5 text-green-500" />
-                      Nouvelles gammes
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-muted-foreground">
-                    <ul className="space-y-2">
-                      <li>• Gamme Aquatique (notes marines)</li>
-                      <li>• Gamme Gourmande (accords sucrés)</li>
-                      <li>• Gamme Cuir (notes animales)</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="py-16">
-          <div className="container">
             <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-2xl font-bold mb-4">Contribuer au projet</h2>
+              <h2 className="text-3xl font-bold mb-4">Restez informé</h2>
               <p className="text-muted-foreground mb-8">
-                PERFUMUM est un projet de recherche sur 10 ans (2025-2035). Vos retours et suggestions sont précieux pour améliorer la plateforme.
+                PERFUMUM évolue constamment. Consultez régulièrement cette page pour découvrir les dernières fonctionnalités et améliorations.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Button asChild>
-                  <Link href="/contact">
-                    Nous contacter
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                  <Link href="/contribuer">
+                    Comment contribuer <ArrowRight className="h-4 w-4 ml-2" />
                   </Link>
                 </Button>
                 <Button variant="outline" asChild>
-                  <Link href="/a-propos">
-                    En savoir plus
+                  <Link href="/contact">
+                    Nous contacter
                   </Link>
                 </Button>
               </div>

@@ -42,19 +42,14 @@ const mobileMenuSections = [
     icon: Layers,
   },
   {
+    title: "Nouveautés",
+    href: "/nouveautes",
+    icon: Sparkles,
+  },
+  {
     title: "Méthode ABSORBE",
     href: "/methodologie/absorbe",
     icon: BookOpen,
-  },
-  {
-    title: "Méthodologie de Recherche",
-    href: "/methodologie/recherche",
-    icon: TestTube,
-  },
-  {
-    title: "Échelle ABSORBE",
-    href: "/methodologie/echelle-absorbe",
-    icon: Atom,
   },
   {
     title: "Journal de Recherche",
@@ -83,12 +78,14 @@ const mobileMenuSections = [
     title: "Molécules",
     icon: Atom,
     items: [
-      { href: "/molecules", label: "Toutes les molécules", badge: "176" },
+      { href: "/molecules", label: "Toutes les molécules", badge: "199" },
       { href: "/chemical-families", label: "Familles chimiques" },
       { href: "/compare-molecules-advanced", label: "Comparaison avancée" },
       { href: "/matrice-synergies", label: "Matrice synergies" },
       { href: "/plants", label: "Plantes & Variétés", badge: "NEW" },
-      { href: "/terroirs", label: "Terroirs" },
+      { href: "/terroirs", label: "Terroirs", badge: "20" },
+      { href: "/extraction-methods", label: "Méthodes d'extraction", badge: "7" },
+      { href: "/origines-geographiques", label: "Origines géographiques", badge: "NEW" },
       { href: "/carte-plantes-gps", label: "Carte GPS Plantes", badge: "136" },
     ],
   },
@@ -96,7 +93,7 @@ const mobileMenuSections = [
     title: "Recettes",
     icon: Beaker,
     items: [
-      { href: "/recettes", label: "Toutes les recettes", badge: "195" },
+      { href: "/recettes", label: "Toutes les recettes", badge: "213" },
       { href: "/recettes-tl", label: "Recettes Tagetes lucida", badge: "5 TL" },
       { href: "/compare-recettes", label: "Comparer les recettes", badge: "NEW" },
       { href: "/accords", label: "Accords olfactifs" },
@@ -172,10 +169,23 @@ const mobileMenuSections = [
     ],
   },
   {
-    title: "Archives & Terrain",
+    title: "San Andrés / Leaf Economies",
     icon: Leaf,
     items: [
+      { href: "/leaf-economies", label: "Échantillons botaniques", badge: "NEW" },
+      { href: "/timeline-botanique", label: "Timeline botanique", badge: "NEW" },
+      { href: "/botanique-critique", label: "Botanique critique", badge: "NEW" },
+      { href: "/varietes-fantomes", label: "Variétés fantômes", badge: "NEW" },
+      { href: "/recettes-leaf-economies", label: "Recettes radicales", badge: "NEW" },
+      { href: "/final-recipes", label: "Recettes finales", badge: "9" },
+    ],
+  },
+  {
+    title: "Archives & Terrain",
+    icon: Database,
+    items: [
       { href: "/archives-terrain", label: "Archives de Terrain", badge: "NEW" },
+      { href: "/archives-olfactives", label: "Archives Olfactives", badge: "NEW" },
       { href: "/etudes-climatiques", label: "Études Climatiques", badge: "NEW" },
       { href: "/protocoles-moleculaires", label: "Protocoles Moléculaires", badge: "NEW" },
     ],

@@ -34,6 +34,16 @@ export function Footer() {
                   Plantes
                 </Link>
               </li>
+              <li>
+                <Link href="/terroirs" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  Terroirs
+                </Link>
+              </li>
+              <li>
+                <Link href="/leaf-economies" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  San Andrés
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -59,6 +69,11 @@ export function Footer() {
               <li>
                 <Link href="/synergies" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                   Synergies
+                </Link>
+              </li>
+              <li>
+                <Link href="/terp-profiles" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                  TerpProfiles
                 </Link>
               </li>
             </ul>

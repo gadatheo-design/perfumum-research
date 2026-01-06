@@ -3145,3 +3145,38 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Valider le responsive mobile
 - [ ] Créer les tests unitaires si nécessaire
 
+
+
+---
+
+## 🎨 SESSION 06 JAN 2026 - UI/UX & NAVIGATION
+
+### Améliorations UI/UX
+- [ ] Vérifier l'UX/UI général du site
+- [ ] Mettre à jour les nouveautés dans le header
+- [ ] Étendre la navigation entre pages
+- [ ] Ajouter des hyperliens cohérents entre les sections
+- [ ] Améliorer les liens de navigation dans le DashboardLayout
+
+
+---
+
+## 🎨 SESSION 06 JAN 2026 - UI/UX & NAVIGATION
+
+### Améliorations UI/UX
+- [x] Vérifier l'UX/UI général du site
+- [x] Mettre à jour les nouveautés dans le header
+- [x] Étendre la navigation entre pages (MegaMenu + Mobile)
+- [x] Ajouter des hyperliens cohérents entre les sections
+- [x] Améliorer les liens de navigation dans le Footer
+- [x] Ajouter la section San Andrés / Leaf Economies au menu
+- [x] Mettre à jour les badges avec les compteurs actuels (199 molécules, 213 recettes)
+- [x] Mettre à jour la page Nouveautés avec les dernières fonctionnalités (v3.5)
+- [x] Ajouter les liens vers les nouvelles pages (TerpProfiles, Terroirs, Extraction Methods)
+- [x] Mettre à jour SystemePerfumum.tsx avec les nouveaux liens
+
+### Modifications effectuées
+- Header.tsx : Ajout de "Nouveautés" dans le menu mobile, section San Andrés / Leaf Economies
+- MegaMenu.tsx : Ajout de la section San Andrés avec liens vers les nouvelles pages
+- Nouveautes.tsx : Mise à jour complète avec historique des versions jusqu'à v3.5
+- Home.tsx : Ajout du lien San Andrés / Leaf Economies dans la section Programmes R&D
