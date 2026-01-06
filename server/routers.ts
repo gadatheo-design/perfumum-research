@@ -5649,6 +5649,13 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.searchOlfactiveArchives(input.q, input.limit);
       }),
+    
+    // Obtenir les archives mentionnant une plante spécifique
+    getByPlant: publicProcedure
+      .input(z.object({ plantId: z.number().int().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getOlfactiveArchivesByPlant(input.plantId);
+      }),
   }),
 
   // ============================================================================
@@ -6078,6 +6085,193 @@ export const appRouter = router({
         byAuthenticity,
       };
     }),
+  }),
+
+  // ============================================================================
+  // VERIFIED SUPPLIERS (Fournisseurs vérifiés pour alternatives durables)
+  // ============================================================================
+  verifiedSuppliers: router({
+    // Liste tous les fournisseurs
+    list: publicProcedure
+      .query(async () => {
+        return await db.getAllVerifiedSuppliers();
+      }),
+    
+    // Récupère un fournisseur par ID
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getVerifiedSupplierById(input.id);
+      }),
+    
+    // Récupère les fournisseurs par pays
+    getByCountry: publicProcedure
+      .input(z.object({ country: z.string() }))
+      .query(async ({ input }) => {
+        return await db.getVerifiedSuppliersByCountry(input.country);
+      }),
+    
+    // Récupère les fournisseurs par type
+    getByType: publicProcedure
+      .input(z.object({ 
+        type: z.enum(['producer', 'cooperative', 'distributor', 'laboratory', 'biotechnology', 'artisan', 'other']) 
+      }))
+      .query(async ({ input }) => {
+        return await db.getVerifiedSuppliersByType(input.type);
+      }),
+    
+    // Récupère uniquement les fournisseurs vérifiés
+    getVerifiedOnly: publicProcedure
+      .query(async () => {
+        return await db.getVerifiedOnlySuppliers();
+      }),
+    
+    // Recherche de fournisseurs
+    search: publicProcedure
+      .input(z.object({ query: z.string() }))
+      .query(async ({ input }) => {
+        return await db.searchVerifiedSuppliers(input.query);
+      }),
+    
+    // Statistiques
+    getStats: publicProcedure
+      .query(async () => {
+        return await db.getVerifiedSuppliersStats();
+      }),
+    
+    // Créer un fournisseur (protégé)
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        companyType: z.enum(['producer', 'cooperative', 'distributor', 'laboratory', 'biotechnology', 'artisan', 'other']),
+        country: z.string(),
+        region: z.string().optional(),
+        address: z.string().optional(),
+        website: z.string().optional(),
+        email: z.string().optional(),
+        phone: z.string().optional(),
+        contactPerson: z.string().optional(),
+        certifications: z.array(z.object({
+          name: z.string(),
+          issuer: z.string().optional(),
+          validUntil: z.string().optional(),
+          certificateUrl: z.string().optional(),
+        })).optional(),
+        specialties: z.array(z.string()).optional(),
+        sustainablePractices: z.string().optional(),
+        sustainabilityRating: z.number().min(1).max(5).optional(),
+        qualityRating: z.number().min(1).max(5).optional(),
+        reliabilityRating: z.number().min(1).max(5).optional(),
+        minimumOrderQuantity: z.string().optional(),
+        leadTime: z.string().optional(),
+        paymentTerms: z.string().optional(),
+        shipsTo: z.array(z.string()).optional(),
+        verified: z.boolean().optional(),
+        verifiedBy: z.string().optional(),
+        notes: z.string().optional(),
+        supplierReferences: z.array(z.object({
+          title: z.string(),
+          url: z.string().optional(),
+          type: z.enum(['website', 'article', 'certification', 'review', 'other']),
+        })).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createVerifiedSupplier(input as any);
+      }),
+    
+    // Mettre à jour un fournisseur (protégé)
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        companyType: z.enum(['producer', 'cooperative', 'distributor', 'laboratory', 'biotechnology', 'artisan', 'other']).optional(),
+        country: z.string().optional(),
+        region: z.string().optional(),
+        address: z.string().optional(),
+        website: z.string().optional(),
+        email: z.string().optional(),
+        phone: z.string().optional(),
+        contactPerson: z.string().optional(),
+        certifications: z.array(z.object({
+          name: z.string(),
+          issuer: z.string().optional(),
+          validUntil: z.string().optional(),
+          certificateUrl: z.string().optional(),
+        })).optional(),
+        specialties: z.array(z.string()).optional(),
+        sustainablePractices: z.string().optional(),
+        sustainabilityRating: z.number().min(1).max(5).optional(),
+        qualityRating: z.number().min(1).max(5).optional(),
+        reliabilityRating: z.number().min(1).max(5).optional(),
+        minimumOrderQuantity: z.string().optional(),
+        leadTime: z.string().optional(),
+        paymentTerms: z.string().optional(),
+        shipsTo: z.array(z.string()).optional(),
+        verified: z.boolean().optional(),
+        verifiedBy: z.string().optional(),
+        notes: z.string().optional(),
+        supplierReferences: z.array(z.object({
+          title: z.string(),
+          url: z.string().optional(),
+          type: z.enum(['website', 'article', 'certification', 'review', 'other']),
+        })).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateVerifiedSupplier(id, data as any);
+      }),
+    
+    // Supprimer un fournisseur (protégé)
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await db.deleteVerifiedSupplier(input.id);
+      }),
+    
+    // Lier un fournisseur à une alternative
+    linkToAlternative: protectedProcedure
+      .input(z.object({
+        supplierId: z.number(),
+        alternativeId: z.number(),
+        productName: z.string().optional(),
+        productCode: z.string().optional(),
+        priceRange: z.string().optional(),
+        availabilityStatus: z.enum(['in_stock', 'limited_stock', 'on_demand', 'seasonal', 'out_of_stock']).optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.linkSupplierToAlternative(input);
+      }),
+    
+    // Délier un fournisseur d'une alternative
+    unlinkFromAlternative: protectedProcedure
+      .input(z.object({
+        supplierId: z.number(),
+        alternativeId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.unlinkSupplierFromAlternative(input.supplierId, input.alternativeId);
+      }),
+    
+    // Récupère les fournisseurs d'une alternative
+    getByAlternative: publicProcedure
+      .input(z.object({ alternativeId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getSuppliersByAlternative(input.alternativeId);
+      }),
+    
+    // Récupère les alternatives d'un fournisseur
+    getAlternativesBySupplier: publicProcedure
+      .input(z.object({ supplierId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getAlternativesBySupplier(input.supplierId);
+      }),
+    
+    // Liste toutes les alternatives avec leurs fournisseurs
+    listAlternativesWithSuppliers: publicProcedure
+      .query(async () => {
+        return await db.getAlternativesWithSuppliers();
+      }),
   }),
 });
 

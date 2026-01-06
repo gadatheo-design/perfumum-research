@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `supplier_alternative_links` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `supplier_id` int NOT NULL,\n  `alternative_id` int NOT NULL,\n  `product_name` varchar(255),\n  `product_code` varchar(100),\n  `price_range` varchar(100),\n  `availability_status` enum('in_stock','limited_stock','on_demand','seasonal','out_of_stock') DEFAULT 'in_stock',\n  `notes` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `supplier_alternative_links_id` PRIMARY KEY(`id`),\n  INDEX `supplier_alt_link_supplier_idx` (`supplier_id`),\n  INDEX `supplier_alt_link_alternative_idx` (`alternative_id`),\n  UNIQUE INDEX `supplier_alt_link_unique` (`supplier_id`, `alternative_id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `supplier_alternative_links` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `supplier_id` int NOT NULL,\n  `alternative_id` int NOT NULL,\n  `product_name` varchar(255),\n  `product_code` varchar(100),\n  `price_range` varchar(100),\n  `availability_status` enum('in_stock','limited_stock','on_demand','seasonal','out_of_stock') DEFAULT 'in_stock',\n  `notes` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `supplier_alternative_links_id` PRIMARY KEY(`id`),\n  INDEX `supplier_alt_link_supplier_idx` (`supplier_id`),\n  INDEX `supplier_alt_link_alternative_idx` (`alternative_id`),\n  UNIQUE INDEX `supplier_alt_link_unique` (`supplier_id`, `alternative_id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 187
+}

@@ -8,6 +8,7 @@ import { AlertTriangle, Leaf, Shield, MapPin, Map as MapIcon, BarChart3, Clock, 
 import { Link } from 'wouter';
 import { MapView } from '@/components/Map';
 import { ZoneSpeciesPanel } from '@/components/ZoneSpeciesPanel';
+import { VerifiedSuppliersSection } from '@/components/VerifiedSuppliersSection';
 
 export default function PatrimoineMenace() {
   const [iucnFilter, setIucnFilter] = useState<string | undefined>(undefined);
@@ -452,6 +453,9 @@ export default function PatrimoineMenace() {
           </CardContent>
         </Card>
       )}
+
+      {/* Section Fournisseurs Vérifiés */}
+      <VerifiedSuppliersSection />
 
       {/* Liste des plantes menacées */}
       {isLoading ? (

@@ -201,6 +201,7 @@ import Outils from "./pages/Outils";
 import PatrimoineMenace from './pages/PatrimoineMenace';
 import AlternativesDurables from './pages/AlternativesDurables';
 import ArchivesOlfactives from "./pages/ArchivesOlfactives";
+import OlfactionMemoire from "./pages/OlfactionMemoire";
 import { Glossaire } from "./pages/Glossaire";
 import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
 import Contribuer from "./pages/Contribuer";
@@ -432,6 +433,7 @@ function Router() {
       <Route path="/patrimoine-menace" component={PatrimoineMenace} />
       <Route path="/alternatives-durables" component={AlternativesDurables} />
       <Route path="/archives-olfactives" component={ArchivesOlfactives} />
+      <Route path="/olfaction-memoire" component={OlfactionMemoire} />
       <Route path="/outils" component={Outils} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />

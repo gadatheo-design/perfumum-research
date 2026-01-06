@@ -2769,3 +2769,56 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Créer le checkpoint final
 - [x] Préparer la présentation pour l'utilisateur
 
+
+---
+
+## 🕰️ SESSION 05 JAN 2026 - NOUVELLES FONCTIONNALITÉS
+
+### Phase 1 : Timeline interactive pour Archives olfactives
+- [x] Créer un composant Timeline interactif réutilisable
+- [x] Intégrer la timeline sur la page Archives olfactives
+- [x] Afficher chronologiquement les manuscrits et découvertes
+- [x] Permettre le filtrage par période et type de document
+- [x] Ajouter des interactions (zoom, navigation, détails au survol)
+
+### Phase 2 : Liens archives-plantes
+- [x] Analyser les archives pour identifier les plantes mentionnées
+- [x] Créer un système de liaison archives → fiches plantes
+- [x] Ajouter des liens cliquables dans les fiches archives
+- [x] Permettre la navigation inverse (plante → archives qui la mentionnent)
+- [x] Afficher les plantes liées dans les détails d'archive
+
+### Phase 3 : Enrichissement alternatives durables (Patrimoine menacé)
+- [x] Créer un schéma pour les fournisseurs d'alternatives durables
+- [x] Ajouter les informations de fournisseurs vérifiés
+- [x] Créer l'interface d'affichage des sources et fournisseurs
+- [x] Ajouter des liens vers les sites des fournisseurs
+- [x] Intégrer les certifications et labels de durabilité
+
+### Phase 4 : Tests et validation
+- [ ] Tester la timeline sur desktop et mobile
+- [ ] Tester les liens archives-plantes
+- [ ] Tester l'affichage des fournisseurs
+- [ ] Valider la navigation croisée
+
+
+### Phase 5 : Section Olfaction & Mémoire (historique et neurologique)
+- [x] Rechercher les données scientifiques sur olfaction et mémoire
+- [x] Créer le schéma de base de données pour les études olfaction-mémoire
+- [x] Créer la page dédiée "Olfaction & Mémoire"
+- [x] Section neurologique : bulbe olfactif, hippocampe, amygdale
+- [x] Section historique : mémoire collective, traditions olfactives
+- [x] Intégrer les références bibliographiques (Proust, neurosciences)
+- [x] Créer des liens vers les molécules et plantes concernées
+- [x] Ajouter des visualisations (schémas cérébraux, chronologies)
+
+
+### Phase 5bis : Exploration mag.bynez.com
+- [x] Explorer la page d'accueil et identifier les catégories d'articles
+- [x] Collecter les articles sur l'olfaction et la mémoire
+- [x] Collecter les articles sur l'histoire des parfums
+- [x] Collecter les articles sur les plantes aromatiques
+- [x] Collecter les articles sur les techniques de parfumerie
+- [x] Sauvegarder les sources et références pertinentes
+- [ ] Intégrer les informations dans la base de données PERFUMUM
+

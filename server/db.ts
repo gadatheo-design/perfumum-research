@@ -173,6 +173,23 @@ import {
   sustainableAlternatives,
   SustainableAlternative,
   InsertSustainableAlternative,
+  // Verified Suppliers
+  verifiedSuppliers,
+  VerifiedSupplier,
+  InsertVerifiedSupplier,
+  supplierAlternativeLinks,
+  // Olfaction & Mémoire
+  olfactionMemory,
+  OlfactionMemory,
+  InsertOlfactionMemory,
+  memoryOlfactionConcepts,
+  MemoryOlfactionConcept,
+  InsertMemoryOlfactionConcept,
+  olfactionMemorySources,
+  OlfactionMemorySource,
+  InsertOlfactionMemorySource,
+  olfactionMemoryArticleSources,
+  olfactionMemoryArticleConcepts,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -6713,6 +6730,21 @@ export async function searchOlfactiveArchives(searchQuery: string, limit: number
   );
 }
 
+// Obtenir les archives mentionnant une plante spécifique
+export async function getOlfactiveArchivesByPlant(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Récupérer toutes les archives
+  const allArchives = await db.select().from(olfactiveArchives);
+  
+  // Filtrer celles qui contiennent le plantId dans leur tableau plantIds
+  return allArchives.filter(archive => {
+    const plantIds = archive.plantIds as number[] | null;
+    return plantIds && Array.isArray(plantIds) && plantIds.includes(plantId);
+  });
+}
+
 // ============================================================================
 // CIVILIZATIONAL MARKERS HELPERS
 // ============================================================================
@@ -7337,4 +7369,585 @@ export async function getAlternativesStats() {
     byAvailability,
     bySimilarity,
   };
+}
+
+
+// ============================================================================
+// VERIFIED SUPPLIERS (Fournisseurs vérifiés)
+// ============================================================================
+
+import { verifiedSuppliers, supplierAlternativeLinks } from "../drizzle/schema";
+
+export async function getAllVerifiedSuppliers() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(verifiedSuppliers).orderBy(verifiedSuppliers.name);
+}
+
+export async function getVerifiedSupplierById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const [result] = await db.select().from(verifiedSuppliers).where(eq(verifiedSuppliers.id, id));
+  return result || null;
+}
+
+export async function getVerifiedSuppliersByCountry(country: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(verifiedSuppliers).where(eq(verifiedSuppliers.country, country));
+}
+
+export async function getVerifiedSuppliersByType(companyType: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(verifiedSuppliers).where(eq(verifiedSuppliers.companyType, companyType as any));
+}
+
+export async function getVerifiedOnlySuppliers() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(verifiedSuppliers).where(eq(verifiedSuppliers.verified, true));
+}
+
+export async function searchVerifiedSuppliers(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const searchLower = `%${query.toLowerCase()}%`;
+  return await db.select().from(verifiedSuppliers).where(
+    or(
+      like(verifiedSuppliers.name, searchLower),
+      like(verifiedSuppliers.country, searchLower),
+      like(verifiedSuppliers.region, searchLower)
+    )
+  );
+}
+
+export async function createVerifiedSupplier(data: {
+  name: string;
+  companyType: string;
+  country: string;
+  region?: string;
+  address?: string;
+  website?: string;
+  email?: string;
+  phone?: string;
+  contactPerson?: string;
+  certifications?: any[];
+  specialties?: string[];
+  sustainablePractices?: string;
+  sustainabilityRating?: number;
+  qualityRating?: number;
+  reliabilityRating?: number;
+  minimumOrderQuantity?: string;
+  leadTime?: string;
+  paymentTerms?: string;
+  shipsTo?: string[];
+  verified?: boolean;
+  verifiedBy?: string;
+  notes?: string;
+  supplierReferences?: any[];
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [result] = await db.insert(verifiedSuppliers).values({
+    name: data.name,
+    companyType: data.companyType as any,
+    country: data.country,
+    region: data.region,
+    address: data.address,
+    website: data.website,
+    email: data.email,
+    phone: data.phone,
+    contactPerson: data.contactPerson,
+    certifications: data.certifications ? JSON.stringify(data.certifications) : null,
+    specialties: data.specialties ? JSON.stringify(data.specialties) : null,
+    sustainablePractices: data.sustainablePractices,
+    sustainabilityRating: data.sustainabilityRating,
+    qualityRating: data.qualityRating,
+    reliabilityRating: data.reliabilityRating,
+    minimumOrderQuantity: data.minimumOrderQuantity,
+    leadTime: data.leadTime,
+    paymentTerms: data.paymentTerms,
+    shipsTo: data.shipsTo ? JSON.stringify(data.shipsTo) : null,
+    verified: data.verified || false,
+    verifiedBy: data.verifiedBy,
+    verifiedAt: data.verified ? new Date() : null,
+    notes: data.notes,
+    supplierReferences: data.supplierReferences ? JSON.stringify(data.supplierReferences) : null,
+  } as any);
+  
+  return getVerifiedSupplierById(result.insertId);
+}
+
+export async function updateVerifiedSupplier(id: number, data: Partial<{
+  name: string;
+  companyType: string;
+  country: string;
+  region: string;
+  address: string;
+  website: string;
+  email: string;
+  phone: string;
+  contactPerson: string;
+  certifications: any[];
+  specialties: string[];
+  sustainablePractices: string;
+  sustainabilityRating: number;
+  qualityRating: number;
+  reliabilityRating: number;
+  minimumOrderQuantity: string;
+  leadTime: string;
+  paymentTerms: string;
+  shipsTo: string[];
+  verified: boolean;
+  verifiedBy: string;
+  notes: string;
+  supplierReferences: any[];
+}>) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const updateData: any = { ...data };
+  if (data.certifications) updateData.certifications = JSON.stringify(data.certifications);
+  if (data.specialties) updateData.specialties = JSON.stringify(data.specialties);
+  if (data.shipsTo) updateData.shipsTo = JSON.stringify(data.shipsTo);
+  if (data.supplierReferences) updateData.supplierReferences = JSON.stringify(data.supplierReferences);
+  if (data.verified) updateData.verifiedAt = new Date();
+  
+  await db.update(verifiedSuppliers).set(updateData).where(eq(verifiedSuppliers.id, id));
+  return getVerifiedSupplierById(id);
+}
+
+export async function deleteVerifiedSupplier(id: number) {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(verifiedSuppliers).where(eq(verifiedSuppliers.id, id));
+  return true;
+}
+
+// ============================================================================
+// SUPPLIER-ALTERNATIVE LINKS
+// ============================================================================
+
+export async function getSuppliersByAlternative(alternativeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const links = await db
+    .select({
+      link: supplierAlternativeLinks,
+      supplier: verifiedSuppliers,
+    })
+    .from(supplierAlternativeLinks)
+    .innerJoin(verifiedSuppliers, eq(supplierAlternativeLinks.supplierId, verifiedSuppliers.id))
+    .where(eq(supplierAlternativeLinks.alternativeId, alternativeId));
+  
+  return links;
+}
+
+export async function getAlternativesBySupplier(supplierId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const links = await db
+    .select({
+      link: supplierAlternativeLinks,
+      alternative: sustainableAlternatives,
+    })
+    .from(supplierAlternativeLinks)
+    .innerJoin(sustainableAlternatives, eq(supplierAlternativeLinks.alternativeId, sustainableAlternatives.id))
+    .where(eq(supplierAlternativeLinks.supplierId, supplierId));
+  
+  return links;
+}
+
+export async function linkSupplierToAlternative(data: {
+  supplierId: number;
+  alternativeId: number;
+  productName?: string;
+  productCode?: string;
+  priceRange?: string;
+  availabilityStatus?: string;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [result] = await db.insert(supplierAlternativeLinks).values({
+    supplierId: data.supplierId,
+    alternativeId: data.alternativeId,
+    productName: data.productName,
+    productCode: data.productCode,
+    priceRange: data.priceRange,
+    availabilityStatus: data.availabilityStatus as any || 'in_stock',
+    notes: data.notes,
+  });
+  
+  return { id: result.insertId, ...data };
+}
+
+export async function unlinkSupplierFromAlternative(supplierId: number, alternativeId: number) {
+  const db = await getDb();
+  if (!db) return false;
+  
+  await db.delete(supplierAlternativeLinks).where(
+    and(
+      eq(supplierAlternativeLinks.supplierId, supplierId),
+      eq(supplierAlternativeLinks.alternativeId, alternativeId)
+    )
+  );
+  
+  return true;
+}
+
+export async function getAlternativesWithSuppliers() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Récupérer toutes les alternatives
+  const alternatives = await db.select().from(sustainableAlternatives);
+  
+  // Pour chaque alternative, récupérer les fournisseurs liés
+  const result = await Promise.all(
+    alternatives.map(async (alt) => {
+      const suppliers = await getSuppliersByAlternative(alt.id);
+      return {
+        ...alt,
+        suppliers: suppliers.map(s => ({
+          ...s.supplier,
+          linkInfo: s.link,
+        })),
+      };
+    })
+  );
+  
+  return result;
+}
+
+export async function getVerifiedSuppliersStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [totalCount] = await db.select({ count: count() }).from(verifiedSuppliers);
+  const [verifiedCount] = await db.select({ count: count() }).from(verifiedSuppliers).where(eq(verifiedSuppliers.verified, true));
+  
+  // Par type d'entreprise
+  const byType = await db
+    .select({
+      type: verifiedSuppliers.companyType,
+      count: count(),
+    })
+    .from(verifiedSuppliers)
+    .groupBy(verifiedSuppliers.companyType);
+  
+  // Par pays
+  const byCountry = await db
+    .select({
+      country: verifiedSuppliers.country,
+      count: count(),
+    })
+    .from(verifiedSuppliers)
+    .groupBy(verifiedSuppliers.country)
+    .orderBy(desc(count()));
+  
+  return {
+    total: totalCount?.count || 0,
+    verified: verifiedCount?.count || 0,
+    byType,
+    byCountry: byCountry.slice(0, 10), // Top 10 pays
+  };
+}
+
+
+// ============================================================================
+// OLFACTION & MÉMOIRE - Fonctions de base de données
+// ============================================================================
+
+// Articles Olfaction & Mémoire
+export async function getAllOlfactionMemoryArticles(filters?: {
+  category?: string;
+  status?: string;
+  featured?: boolean;
+}) {
+  const db = await getDb();
+  let query = db.select().from(olfactionMemory);
+  
+  if (filters?.category) {
+    query = query.where(eq(olfactionMemory.category, filters.category as any));
+  }
+  if (filters?.status) {
+    query = query.where(eq(olfactionMemory.status, filters.status as any));
+  }
+  if (filters?.featured !== undefined) {
+    query = query.where(eq(olfactionMemory.featured, filters.featured));
+  }
+  
+  return query.orderBy(desc(olfactionMemory.createdAt));
+}
+
+export async function getOlfactionMemoryArticleById(id: number) {
+  const db = await getDb();
+  const results = await db.select().from(olfactionMemory).where(eq(olfactionMemory.id, id));
+  return results[0] || null;
+}
+
+export async function getOlfactionMemoryArticleBySlug(slug: string) {
+  const db = await getDb();
+  const results = await db.select().from(olfactionMemory).where(eq(olfactionMemory.slug, slug));
+  return results[0] || null;
+}
+
+export async function createOlfactionMemoryArticle(data: InsertOlfactionMemory) {
+  const db = await getDb();
+  const result = await db.insert(olfactionMemory).values(data);
+  return result;
+}
+
+export async function updateOlfactionMemoryArticle(id: number, data: Partial<InsertOlfactionMemory>) {
+  const db = await getDb();
+  await db.update(olfactionMemory).set(data).where(eq(olfactionMemory.id, id));
+}
+
+export async function deleteOlfactionMemoryArticle(id: number) {
+  const db = await getDb();
+  await db.delete(olfactionMemory).where(eq(olfactionMemory.id, id));
+}
+
+export async function getFeaturedOlfactionMemoryArticles(limit: number = 5) {
+  const db = await getDb();
+  return db.select()
+    .from(olfactionMemory)
+    .where(and(
+      eq(olfactionMemory.featured, true),
+      eq(olfactionMemory.status, "published")
+    ))
+    .orderBy(desc(olfactionMemory.createdAt))
+    .limit(limit);
+}
+
+// Concepts Olfaction & Mémoire
+export async function getAllMemoryOlfactionConcepts(type?: string) {
+  const db = await getDb();
+  let query = db.select().from(memoryOlfactionConcepts);
+  
+  if (type) {
+    query = query.where(eq(memoryOlfactionConcepts.type, type as any));
+  }
+  
+  return query.orderBy(memoryOlfactionConcepts.name);
+}
+
+export async function getMemoryOlfactionConceptById(id: number) {
+  const db = await getDb();
+  const results = await db.select().from(memoryOlfactionConcepts).where(eq(memoryOlfactionConcepts.id, id));
+  return results[0] || null;
+}
+
+export async function getMemoryOlfactionConceptBySlug(slug: string) {
+  const db = await getDb();
+  const results = await db.select().from(memoryOlfactionConcepts).where(eq(memoryOlfactionConcepts.slug, slug));
+  return results[0] || null;
+}
+
+export async function createMemoryOlfactionConcept(data: InsertMemoryOlfactionConcept) {
+  const db = await getDb();
+  const result = await db.insert(memoryOlfactionConcepts).values(data);
+  return result;
+}
+
+export async function updateMemoryOlfactionConcept(id: number, data: Partial<InsertMemoryOlfactionConcept>) {
+  const db = await getDb();
+  await db.update(memoryOlfactionConcepts).set(data).where(eq(memoryOlfactionConcepts.id, id));
+}
+
+export async function deleteMemoryOlfactionConcept(id: number) {
+  const db = await getDb();
+  await db.delete(memoryOlfactionConcepts).where(eq(memoryOlfactionConcepts.id, id));
+}
+
+// Sources bibliographiques
+export async function getAllOlfactionMemorySources(sourceType?: string) {
+  const db = await getDb();
+  let query = db.select().from(olfactionMemorySources);
+  
+  if (sourceType) {
+    query = query.where(eq(olfactionMemorySources.sourceType, sourceType as any));
+  }
+  
+  return query.orderBy(desc(olfactionMemorySources.publicationYear));
+}
+
+export async function getOlfactionMemorySourceById(id: number) {
+  const db = await getDb();
+  const results = await db.select().from(olfactionMemorySources).where(eq(olfactionMemorySources.id, id));
+  return results[0] || null;
+}
+
+export async function createOlfactionMemorySource(data: InsertOlfactionMemorySource) {
+  const db = await getDb();
+  const result = await db.insert(olfactionMemorySources).values(data);
+  return result;
+}
+
+export async function updateOlfactionMemorySource(id: number, data: Partial<InsertOlfactionMemorySource>) {
+  const db = await getDb();
+  await db.update(olfactionMemorySources).set(data).where(eq(olfactionMemorySources.id, id));
+}
+
+export async function deleteOlfactionMemorySource(id: number) {
+  const db = await getDb();
+  await db.delete(olfactionMemorySources).where(eq(olfactionMemorySources.id, id));
+}
+
+// Liens articles-sources
+export async function getArticleSources(articleId: number) {
+  const db = await getDb();
+  return db.select({
+    source: olfactionMemorySources,
+    citationContext: olfactionMemoryArticleSources.citationContext,
+  })
+    .from(olfactionMemoryArticleSources)
+    .innerJoin(olfactionMemorySources, eq(olfactionMemoryArticleSources.sourceId, olfactionMemorySources.id))
+    .where(eq(olfactionMemoryArticleSources.articleId, articleId));
+}
+
+export async function linkArticleToSource(articleId: number, sourceId: number, citationContext?: string) {
+  const db = await getDb();
+  await db.insert(olfactionMemoryArticleSources).values({
+    articleId,
+    sourceId,
+    citationContext,
+  });
+}
+
+export async function unlinkArticleFromSource(articleId: number, sourceId: number) {
+  const db = await getDb();
+  await db.delete(olfactionMemoryArticleSources)
+    .where(and(
+      eq(olfactionMemoryArticleSources.articleId, articleId),
+      eq(olfactionMemoryArticleSources.sourceId, sourceId)
+    ));
+}
+
+// Liens articles-concepts
+export async function getArticleConcepts(articleId: number) {
+  const db = await getDb();
+  return db.select({
+    concept: memoryOlfactionConcepts,
+  })
+    .from(olfactionMemoryArticleConcepts)
+    .innerJoin(memoryOlfactionConcepts, eq(olfactionMemoryArticleConcepts.conceptId, memoryOlfactionConcepts.id))
+    .where(eq(olfactionMemoryArticleConcepts.articleId, articleId));
+}
+
+export async function linkArticleToConcept(articleId: number, conceptId: number) {
+  const db = await getDb();
+  await db.insert(olfactionMemoryArticleConcepts).values({
+    articleId,
+    conceptId,
+  });
+}
+
+export async function unlinkArticleFromConcept(articleId: number, conceptId: number) {
+  const db = await getDb();
+  await db.delete(olfactionMemoryArticleConcepts)
+    .where(and(
+      eq(olfactionMemoryArticleConcepts.articleId, articleId),
+      eq(olfactionMemoryArticleConcepts.conceptId, conceptId)
+    ));
+}
+
+// Statistiques Olfaction & Mémoire
+export async function getOlfactionMemoryStats() {
+  const db = await getDb();
+  
+  // Total articles
+  const totalArticles = await db.select({ count: count() }).from(olfactionMemory);
+  
+  // Par catégorie
+  const byCategory = await db
+    .select({
+      category: olfactionMemory.category,
+      count: count(),
+    })
+    .from(olfactionMemory)
+    .groupBy(olfactionMemory.category);
+  
+  // Total concepts
+  const totalConcepts = await db.select({ count: count() }).from(memoryOlfactionConcepts);
+  
+  // Par type de concept
+  const byConceptType = await db
+    .select({
+      type: memoryOlfactionConcepts.type,
+      count: count(),
+    })
+    .from(memoryOlfactionConcepts)
+    .groupBy(memoryOlfactionConcepts.type);
+  
+  // Total sources
+  const totalSources = await db.select({ count: count() }).from(olfactionMemorySources);
+  
+  // Par type de source
+  const bySourceType = await db
+    .select({
+      type: olfactionMemorySources.sourceType,
+      count: count(),
+    })
+    .from(olfactionMemorySources)
+    .groupBy(olfactionMemorySources.sourceType);
+  
+  return {
+    articles: {
+      total: totalArticles[0]?.count || 0,
+      byCategory,
+    },
+    concepts: {
+      total: totalConcepts[0]?.count || 0,
+      byType: byConceptType,
+    },
+    sources: {
+      total: totalSources[0]?.count || 0,
+      byType: bySourceType,
+    },
+  };
+}
+
+// Recherche dans Olfaction & Mémoire
+export async function searchOlfactionMemory(query: string, limit: number = 20) {
+  const db = await getDb();
+  const searchTerm = `%${query}%`;
+  
+  // Recherche dans les articles
+  const articles = await db.select()
+    .from(olfactionMemory)
+    .where(or(
+      like(olfactionMemory.title, searchTerm),
+      like(olfactionMemory.summary, searchTerm),
+      like(olfactionMemory.content, searchTerm)
+    ))
+    .limit(limit);
+  
+  // Recherche dans les concepts
+  const concepts = await db.select()
+    .from(memoryOlfactionConcepts)
+    .where(or(
+      like(memoryOlfactionConcepts.name, searchTerm),
+      like(memoryOlfactionConcepts.definition, searchTerm),
+      like(memoryOlfactionConcepts.description, searchTerm)
+    ))
+    .limit(limit);
+  
+  // Recherche dans les sources
+  const sources = await db.select()
+    .from(olfactionMemorySources)
+    .where(or(
+      like(olfactionMemorySources.title, searchTerm),
+      like(olfactionMemorySources.authors, searchTerm),
+      like(olfactionMemorySources.abstract, searchTerm)
+    ))
+    .limit(limit);
+  
+  return { articles, concepts, sources };
 }

@@ -4051,3 +4051,380 @@ export const sustainableAlternativesRelations = relations(sustainableAlternative
     references: [plants.id],
   }),
 }));
+
+
+// ============================================================================
+// VERIFIED SUPPLIERS (Fournisseurs vérifiés pour alternatives durables)
+// ============================================================================
+
+/**
+ * Table des fournisseurs vérifiés pour les alternatives durables.
+ * Permet de documenter les sources fiables pour l'approvisionnement éthique.
+ */
+export const verifiedSuppliers = mysqlTable("verified_suppliers", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  name: varchar("name", { length: 255 }).notNull(),
+  companyType: mysqlEnum("company_type", [
+    "producer",           // Producteur direct
+    "cooperative",        // Coopérative
+    "distributor",        // Distributeur
+    "laboratory",         // Laboratoire
+    "biotechnology",      // Entreprise de biotechnologie
+    "artisan",            // Artisan
+    "other"
+  ]).notNull(),
+  // Localisation
+  country: varchar("country", { length: 100 }).notNull(),
+  region: varchar("region", { length: 255 }),
+  address: text("address"),
+  // Contact
+  website: varchar("website", { length: 500 }),
+  email: varchar("email", { length: 255 }),
+  phone: varchar("phone", { length: 50 }),
+  contactPerson: varchar("contact_person", { length: 255 }),
+  // Certifications et labels
+  certifications: json("certifications").$type<{
+    name: string;
+    issuer?: string;
+    validUntil?: string;
+    certificateUrl?: string;
+  }[]>().default([]),
+  // Spécialités
+  specialties: json("specialties").$type<string[]>().default([]), // Types de produits
+  sustainablePractices: text("sustainable_practices"), // Description des pratiques durables
+  // Évaluation
+  sustainabilityRating: int("sustainability_rating"), // Note 1-5
+  qualityRating: int("quality_rating"), // Note 1-5
+  reliabilityRating: int("reliability_rating"), // Note 1-5
+  // Informations commerciales
+  minimumOrderQuantity: varchar("minimum_order_quantity", { length: 100 }),
+  leadTime: varchar("lead_time", { length: 100 }),
+  paymentTerms: varchar("payment_terms", { length: 255 }),
+  shipsTo: json("ships_to").$type<string[]>().default([]), // Pays de livraison
+  // Vérification
+  verified: boolean("verified").default(false),
+  verifiedBy: varchar("verified_by", { length: 255 }),
+  verifiedAt: timestamp("verified_at"),
+  lastContactDate: timestamp("last_contact_date"),
+  // Notes et références
+  notes: text("notes"),
+  supplierReferences: json("supplier_references").$type<{
+    title: string;
+    url?: string;
+    type: 'website' | 'article' | 'certification' | 'review' | 'other';
+  }[]>(),
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  countryIdx: index("verified_suppliers_country_idx").on(table.country),
+  companyTypeIdx: index("verified_suppliers_type_idx").on(table.companyType),
+  verifiedIdx: index("verified_suppliers_verified_idx").on(table.verified),
+}));
+
+export type VerifiedSupplier = typeof verifiedSuppliers.$inferSelect;
+export type InsertVerifiedSupplier = typeof verifiedSuppliers.$inferInsert;
+
+// ============================================================================
+// SUPPLIER-ALTERNATIVE LINKS (Liaisons fournisseurs-alternatives)
+// ============================================================================
+
+/**
+ * Table de liaison entre fournisseurs et alternatives durables.
+ * Permet de savoir quel fournisseur propose quelle alternative.
+ */
+export const supplierAlternativeLinks = mysqlTable("supplier_alternative_links", {
+  id: int("id").autoincrement().primaryKey(),
+  supplierId: int("supplier_id").notNull().references(() => verifiedSuppliers.id, { onDelete: "cascade" }),
+  alternativeId: int("alternative_id").notNull().references(() => sustainableAlternatives.id, { onDelete: "cascade" }),
+  // Informations spécifiques à cette relation
+  productName: varchar("product_name", { length: 255 }), // Nom commercial du produit
+  productCode: varchar("product_code", { length: 100 }), // Référence produit
+  priceRange: varchar("price_range", { length: 100 }), // Fourchette de prix
+  availabilityStatus: mysqlEnum("availability_status", [
+    "in_stock",
+    "limited_stock",
+    "on_demand",
+    "seasonal",
+    "out_of_stock"
+  ]).default("in_stock"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  supplierIdx: index("supplier_alt_link_supplier_idx").on(table.supplierId),
+  alternativeIdx: index("supplier_alt_link_alternative_idx").on(table.alternativeId),
+  uniqueLink: uniqueIndex("supplier_alt_link_unique").on(table.supplierId, table.alternativeId),
+}));
+
+export type SupplierAlternativeLink = typeof supplierAlternativeLinks.$inferSelect;
+export type InsertSupplierAlternativeLink = typeof supplierAlternativeLinks.$inferInsert;
+
+// Relations pour les fournisseurs
+export const verifiedSuppliersRelations = relations(verifiedSuppliers, ({ many }) => ({
+  alternativeLinks: many(supplierAlternativeLinks),
+}));
+
+export const supplierAlternativeLinksRelations = relations(supplierAlternativeLinks, ({ one }) => ({
+  supplier: one(verifiedSuppliers, {
+    fields: [supplierAlternativeLinks.supplierId],
+    references: [verifiedSuppliers.id],
+  }),
+  alternative: one(sustainableAlternatives, {
+    fields: [supplierAlternativeLinks.alternativeId],
+    references: [sustainableAlternatives.id],
+  }),
+}));
+
+
+// ============================================================================
+// OLFACTION & MÉMOIRE - Section dédiée aux rapports olfaction-mémoire
+// ============================================================================
+
+/**
+ * Table principale pour les articles/études sur le lien olfaction-mémoire
+ * Couvre les aspects neurologiques et historiques
+ */
+export const olfactionMemory = mysqlTable("olfaction_memory", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Identification
+  title: varchar("title", { length: 500 }).notNull(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  
+  // Catégorisation
+  category: mysqlEnum("category", [
+    "neurological",      // Aspects neurologiques (effet Proust, système limbique)
+    "historical",        // Aspects historiques (rituels, civilisations)
+    "psychological",     // Aspects psychologiques (émotions, thérapie)
+    "cultural",          // Aspects culturels (transmission, patrimoine)
+    "scientific_study",  // Études scientifiques publiées
+    "artistic",          // Art olfactif et mémoire
+    "therapeutic"        // Applications thérapeutiques (OSTMR, etc.)
+  ]).notNull(),
+  
+  // Contenu
+  summary: text("summary"),           // Résumé court
+  content: text("content"),           // Contenu complet (Markdown)
+  keyFindings: text("key_findings"),  // Découvertes clés (JSON array)
+  
+  // Métadonnées scientifiques
+  authors: text("authors"),           // Auteurs/chercheurs (JSON array)
+  institutions: text("institutions"), // Institutions de recherche (JSON array)
+  publicationDate: timestamp("publication_date"),
+  sourceUrl: varchar("source_url", { length: 1000 }),
+  doi: varchar("doi", { length: 255 }), // Digital Object Identifier
+  
+  // Période historique (pour category = historical)
+  historicalPeriod: varchar("historical_period", { length: 255 }),
+  startYear: int("start_year"),
+  endYear: int("end_year"),
+  
+  // Régions cérébrales impliquées (pour category = neurological)
+  brainRegions: text("brain_regions"), // JSON array: ["hippocampus", "amygdala", "piriform_cortex", etc.]
+  
+  // Civilisations concernées (pour category = historical/cultural)
+  civilizations: text("civilizations"), // JSON array
+  
+  // Tags et mots-clés
+  tags: text("tags"), // JSON array
+  
+  // Médias
+  images: text("images"),       // JSON array of image URLs
+  diagrams: text("diagrams"),   // JSON array of diagram URLs
+  videos: text("videos"),       // JSON array of video URLs
+  
+  // Liens avec d'autres entités PERFUMUM
+  relatedMoleculeIds: text("related_molecule_ids"),   // JSON array of molecule IDs
+  relatedPlantIds: text("related_plant_ids"),         // JSON array of plant IDs
+  relatedArchiveIds: text("related_archive_ids"),     // JSON array of archive IDs
+  
+  // Statut
+  status: mysqlEnum("status", ["draft", "review", "published", "archived"]).default("draft"),
+  featured: boolean("featured").default(false),
+  
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+  createdBy: int("created_by"),
+}, (table) => ({
+  categoryIdx: index("olfaction_memory_category_idx").on(table.category),
+  statusIdx: index("olfaction_memory_status_idx").on(table.status),
+  featuredIdx: index("olfaction_memory_featured_idx").on(table.featured),
+}));
+
+export type OlfactionMemory = typeof olfactionMemory.$inferSelect;
+export type InsertOlfactionMemory = typeof olfactionMemory.$inferInsert;
+
+/**
+ * Concepts clés du lien olfaction-mémoire
+ * (Effet Proust, mémoire épisodique, etc.)
+ */
+export const memoryOlfactionConcepts = mysqlTable("memory_olfaction_concepts", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Identification
+  name: varchar("name", { length: 255 }).notNull(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  
+  // Type de concept
+  type: mysqlEnum("type", [
+    "phenomenon",       // Phénomène (Effet Proust, madeleine)
+    "brain_structure",  // Structure cérébrale (hippocampe, amygdale)
+    "memory_type",      // Type de mémoire (épisodique, sémantique, procédurale)
+    "mechanism",        // Mécanisme (encodage, consolidation, rappel)
+    "disorder",         // Trouble (anosmie, hyperosmie)
+    "therapy",          // Thérapie (OSTMR, aromathérapie)
+    "ritual"            // Rituel historique (encensement, fumigation)
+  ]).notNull(),
+  
+  // Contenu
+  definition: text("definition"),
+  description: text("description"),
+  scientificBasis: text("scientific_basis"),
+  historicalContext: text("historical_context"),
+  
+  // Références
+  keyResearchers: text("key_researchers"),  // JSON array
+  seminalPapers: text("seminal_papers"),    // JSON array of references
+  
+  // Médias
+  illustration: varchar("illustration", { length: 1000 }), // URL de l'illustration principale
+  diagrams: text("diagrams"), // JSON array
+  
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  typeIdx: index("memory_concept_type_idx").on(table.type),
+}));
+
+export type MemoryOlfactionConcept = typeof memoryOlfactionConcepts.$inferSelect;
+export type InsertMemoryOlfactionConcept = typeof memoryOlfactionConcepts.$inferInsert;
+
+/**
+ * Sources bibliographiques pour la section Olfaction & Mémoire
+ */
+export const olfactionMemorySources = mysqlTable("olfaction_memory_sources", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Type de source
+  sourceType: mysqlEnum("source_type", [
+    "scientific_paper",   // Article scientifique
+    "book",               // Livre
+    "book_chapter",       // Chapitre de livre
+    "thesis",             // Thèse
+    "conference",         // Conférence
+    "podcast",            // Podcast
+    "article",            // Article de presse/magazine
+    "documentary",        // Documentaire
+    "website"             // Site web
+  ]).notNull(),
+  
+  // Identification
+  title: varchar("title", { length: 500 }).notNull(),
+  authors: text("authors"),           // JSON array
+  publicationYear: int("publication_year"),
+  
+  // Détails de publication
+  journal: varchar("journal", { length: 255 }),
+  volume: varchar("volume", { length: 50 }),
+  issue: varchar("issue", { length: 50 }),
+  pages: varchar("pages", { length: 50 }),
+  publisher: varchar("publisher", { length: 255 }),
+  
+  // Identifiants
+  doi: varchar("doi", { length: 255 }),
+  isbn: varchar("isbn", { length: 20 }),
+  url: varchar("url", { length: 1000 }),
+  
+  // Résumé et notes
+  abstract: text("abstract"),
+  notes: text("notes"),
+  
+  // Pertinence pour PERFUMUM
+  relevanceScore: int("relevance_score"), // 1-10
+  keyTopics: text("key_topics"),          // JSON array
+  
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  sourceTypeIdx: index("olfaction_source_type_idx").on(table.sourceType),
+  yearIdx: index("olfaction_source_year_idx").on(table.publicationYear),
+}));
+
+export type OlfactionMemorySource = typeof olfactionMemorySources.$inferSelect;
+export type InsertOlfactionMemorySource = typeof olfactionMemorySources.$inferInsert;
+
+/**
+ * Liens entre articles et sources
+ */
+export const olfactionMemoryArticleSources = mysqlTable("olfaction_memory_article_sources", {
+  id: int("id").autoincrement().primaryKey(),
+  articleId: int("article_id").notNull().references(() => olfactionMemory.id, { onDelete: "cascade" }),
+  sourceId: int("source_id").notNull().references(() => olfactionMemorySources.id, { onDelete: "cascade" }),
+  citationContext: text("citation_context"), // Contexte de la citation
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  articleIdx: index("article_source_article_idx").on(table.articleId),
+  sourceIdx: index("article_source_source_idx").on(table.sourceId),
+  uniqueLink: uniqueIndex("article_source_unique").on(table.articleId, table.sourceId),
+}));
+
+export type OlfactionMemoryArticleSource = typeof olfactionMemoryArticleSources.$inferSelect;
+export type InsertOlfactionMemoryArticleSource = typeof olfactionMemoryArticleSources.$inferInsert;
+
+/**
+ * Liens entre articles et concepts
+ */
+export const olfactionMemoryArticleConcepts = mysqlTable("olfaction_memory_article_concepts", {
+  id: int("id").autoincrement().primaryKey(),
+  articleId: int("article_id").notNull().references(() => olfactionMemory.id, { onDelete: "cascade" }),
+  conceptId: int("concept_id").notNull().references(() => memoryOlfactionConcepts.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  articleIdx: index("article_concept_article_idx").on(table.articleId),
+  conceptIdx: index("article_concept_concept_idx").on(table.conceptId),
+  uniqueLink: uniqueIndex("article_concept_unique").on(table.articleId, table.conceptId),
+}));
+
+export type OlfactionMemoryArticleConcept = typeof olfactionMemoryArticleConcepts.$inferSelect;
+export type InsertOlfactionMemoryArticleConcept = typeof olfactionMemoryArticleConcepts.$inferInsert;
+
+// Relations pour Olfaction & Mémoire
+export const olfactionMemoryRelations = relations(olfactionMemory, ({ many }) => ({
+  articleSources: many(olfactionMemoryArticleSources),
+  articleConcepts: many(olfactionMemoryArticleConcepts),
+}));
+
+export const memoryOlfactionConceptsRelations = relations(memoryOlfactionConcepts, ({ many }) => ({
+  articleConcepts: many(olfactionMemoryArticleConcepts),
+}));
+
+export const olfactionMemorySourcesRelations = relations(olfactionMemorySources, ({ many }) => ({
+  articleSources: many(olfactionMemoryArticleSources),
+}));
+
+export const olfactionMemoryArticleSourcesRelations = relations(olfactionMemoryArticleSources, ({ one }) => ({
+  article: one(olfactionMemory, {
+    fields: [olfactionMemoryArticleSources.articleId],
+    references: [olfactionMemory.id],
+  }),
+  source: one(olfactionMemorySources, {
+    fields: [olfactionMemoryArticleSources.sourceId],
+    references: [olfactionMemorySources.id],
+  }),
+}));
+
+export const olfactionMemoryArticleConceptsRelations = relations(olfactionMemoryArticleConcepts, ({ one }) => ({
+  article: one(olfactionMemory, {
+    fields: [olfactionMemoryArticleConcepts.articleId],
+    references: [olfactionMemory.id],
+  }),
+  concept: one(memoryOlfactionConcepts, {
+    fields: [olfactionMemoryArticleConcepts.conceptId],
+    references: [memoryOlfactionConcepts.id],
+  }),
+}));
