@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE research_axes \nADD COLUMN IF NOT EXISTS start_date TIMESTAMP NULL,\nADD COLUMN IF NOT EXISTS target_end_date TIMESTAMP NULL,\nADD COLUMN IF NOT EXISTS actual_end_date TIMESTAMP NULL,\nADD COLUMN IF NOT EXISTS progress_percent INT DEFAULT 0,\nADD COLUMN IF NOT EXISTS icon VARCHAR(50),\nADD COLUMN IF NOT EXISTS parent_axis_id INT,\nADD COLUMN IF NOT EXISTS tags JSON,\nADD COLUMN IF NOT EXISTS created_by INT",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE research_axes \nADD COLUMN IF NOT EXISTS start_date TIMESTAMP NULL,\nADD COLUMN IF NOT EXISTS target_end_date TIMESTAMP NULL,\nADD COLUMN IF NOT EXISTS actual_end_date TIMESTAMP NULL,\nADD COLUMN IF NOT EXISTS progress_percent INT DEFAULT 0,\nADD COLUMN IF NOT EXISTS icon VARCHAR(50),\nADD COLUMN IF NOT EXISTS parent_axis_id INT,\nADD COLUMN IF NOT EXISTS tags JSON,\nADD COLUMN IF NOT EXISTS created_by INT",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 2176
+}

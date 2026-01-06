@@ -21,8 +21,7 @@ import {
   Sparkles,
   Shield,
   Loader2,
-  Image as ImageIcon,
-  ScrollText
+  Image as ImageIcon
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
@@ -91,12 +90,6 @@ export default function PlantDetail() {
   
   // Récupérer le statut de conservation
   const { data: conservationStatus } = trpc.plantsConservation.getConservationStatus.useQuery(
-    { plantId },
-    { enabled: plantId > 0 }
-  );
-  
-  // Récupérer les archives mentionnant cette plante
-  const { data: relatedArchives } = trpc.archives.getByPlant.useQuery(
     { plantId },
     { enabled: plantId > 0 }
   );
@@ -765,61 +758,6 @@ export default function PlantDetail() {
                   <p className="text-sm mt-2">
                     Les marqueurs civilisationnels permettent de retracer l'histoire de l'usage de cette plante.
                   </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-          
-          {/* Archives historiques liées */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <ScrollText className="h-5 w-5 text-amber-600" />
-                Archives historiques
-              </CardTitle>
-              <CardDescription>
-                Manuscrits, formules et découvertes archéologiques mentionnant cette plante
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {relatedArchives && relatedArchives.length > 0 ? (
-                <div className="space-y-3">
-                  {relatedArchives.map((archive: any) => (
-                    <Link key={archive.id} href="/archives-olfactives">
-                      <div className="flex items-start gap-3 p-3 rounded-lg border hover:bg-amber-50 hover:border-amber-300 dark:hover:bg-amber-950/30 transition-colors cursor-pointer">
-                        <div className="text-2xl">
-                          {archive.type === 'manuscript' ? '📜' : 
-                           archive.type === 'formula' ? '⚗️' : 
-                           archive.type === 'archaeological' ? '🏺' : '🌿'}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium text-sm">{archive.title}</p>
-                          <div className="flex flex-wrap gap-2 mt-1">
-                            {archive.dateCreated && (
-                              <Badge variant="outline" className="text-xs">
-                                {archive.dateCreated}
-                              </Badge>
-                            )}
-                            {archive.civilization && (
-                              <Badge variant="secondary" className="text-xs">
-                                {archive.civilization}
-                              </Badge>
-                            )}
-                          </div>
-                          {archive.description && (
-                            <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
-                              {archive.description}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-6 text-muted-foreground">
-                  <ScrollText className="h-10 w-10 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">Aucune archive historique ne mentionne cette plante.</p>
                 </div>
               )}
             </CardContent>

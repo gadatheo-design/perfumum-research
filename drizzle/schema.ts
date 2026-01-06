@@ -4053,732 +4053,332 @@ export const sustainableAlternativesRelations = relations(sustainableAlternative
 }));
 
 
-// ============================================================================
-// VERIFIED SUPPLIERS (Fournisseurs vérifiés pour alternatives durables)
-// ============================================================================
-
-/**
- * Table des fournisseurs vérifiés pour les alternatives durables.
- * Permet de documenter les sources fiables pour l'approvisionnement éthique.
- */
-export const verifiedSuppliers = mysqlTable("verified_suppliers", {
-  id: int("id").autoincrement().primaryKey(),
-  // Identification
-  name: varchar("name", { length: 255 }).notNull(),
-  companyType: mysqlEnum("company_type", [
-    "producer",           // Producteur direct
-    "cooperative",        // Coopérative
-    "distributor",        // Distributeur
-    "laboratory",         // Laboratoire
-    "biotechnology",      // Entreprise de biotechnologie
-    "artisan",            // Artisan
-    "other"
-  ]).notNull(),
-  // Localisation
-  country: varchar("country", { length: 100 }).notNull(),
-  region: varchar("region", { length: 255 }),
-  address: text("address"),
-  // Contact
-  website: varchar("website", { length: 500 }),
-  email: varchar("email", { length: 255 }),
-  phone: varchar("phone", { length: 50 }),
-  contactPerson: varchar("contact_person", { length: 255 }),
-  // Certifications et labels
-  certifications: json("certifications").$type<{
-    name: string;
-    issuer?: string;
-    validUntil?: string;
-    certificateUrl?: string;
-  }[]>().default([]),
-  // Spécialités
-  specialties: json("specialties").$type<string[]>().default([]), // Types de produits
-  sustainablePractices: text("sustainable_practices"), // Description des pratiques durables
-  // Évaluation
-  sustainabilityRating: int("sustainability_rating"), // Note 1-5
-  qualityRating: int("quality_rating"), // Note 1-5
-  reliabilityRating: int("reliability_rating"), // Note 1-5
-  // Informations commerciales
-  minimumOrderQuantity: varchar("minimum_order_quantity", { length: 100 }),
-  leadTime: varchar("lead_time", { length: 100 }),
-  paymentTerms: varchar("payment_terms", { length: 255 }),
-  shipsTo: json("ships_to").$type<string[]>().default([]), // Pays de livraison
-  // Vérification
-  verified: boolean("verified").default(false),
-  verifiedBy: varchar("verified_by", { length: 255 }),
-  verifiedAt: timestamp("verified_at"),
-  lastContactDate: timestamp("last_contact_date"),
-  // Notes et références
-  notes: text("notes"),
-  supplierReferences: json("supplier_references").$type<{
-    title: string;
-    url?: string;
-    type: 'website' | 'article' | 'certification' | 'review' | 'other';
-  }[]>(),
-  // Métadonnées
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
-}, (table) => ({
-  countryIdx: index("verified_suppliers_country_idx").on(table.country),
-  companyTypeIdx: index("verified_suppliers_type_idx").on(table.companyType),
-  verifiedIdx: index("verified_suppliers_verified_idx").on(table.verified),
-}));
-
-export type VerifiedSupplier = typeof verifiedSuppliers.$inferSelect;
-export type InsertVerifiedSupplier = typeof verifiedSuppliers.$inferInsert;
 
 // ============================================================================
-// SUPPLIER-ALTERNATIVE LINKS (Liaisons fournisseurs-alternatives)
+// BIBLIOGRAPHY ENTRIES (Références bibliographiques)
 // ============================================================================
 
 /**
- * Table de liaison entre fournisseurs et alternatives durables.
- * Permet de savoir quel fournisseur propose quelle alternative.
+ * Comprehensive bibliography management for research references.
+ * Supports BibTeX, APA, MLA, Chicago formats and various source types.
  */
-export const supplierAlternativeLinks = mysqlTable("supplier_alternative_links", {
+export const bibliographyEntries = mysqlTable("bibliography_entries", {
   id: int("id").autoincrement().primaryKey(),
-  supplierId: int("supplier_id").notNull().references(() => verifiedSuppliers.id, { onDelete: "cascade" }),
-  alternativeId: int("alternative_id").notNull().references(() => sustainableAlternatives.id, { onDelete: "cascade" }),
-  // Informations spécifiques à cette relation
-  productName: varchar("product_name", { length: 255 }), // Nom commercial du produit
-  productCode: varchar("product_code", { length: 100 }), // Référence produit
-  priceRange: varchar("price_range", { length: 100 }), // Fourchette de prix
-  availabilityStatus: mysqlEnum("availability_status", [
-    "in_stock",
-    "limited_stock",
-    "on_demand",
-    "seasonal",
-    "out_of_stock"
-  ]).default("in_stock"),
-  notes: text("notes"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
-}, (table) => ({
-  supplierIdx: index("supplier_alt_link_supplier_idx").on(table.supplierId),
-  alternativeIdx: index("supplier_alt_link_alternative_idx").on(table.alternativeId),
-  uniqueLink: uniqueIndex("supplier_alt_link_unique").on(table.supplierId, table.alternativeId),
-}));
-
-export type SupplierAlternativeLink = typeof supplierAlternativeLinks.$inferSelect;
-export type InsertSupplierAlternativeLink = typeof supplierAlternativeLinks.$inferInsert;
-
-// Relations pour les fournisseurs
-export const verifiedSuppliersRelations = relations(verifiedSuppliers, ({ many }) => ({
-  alternativeLinks: many(supplierAlternativeLinks),
-}));
-
-export const supplierAlternativeLinksRelations = relations(supplierAlternativeLinks, ({ one }) => ({
-  supplier: one(verifiedSuppliers, {
-    fields: [supplierAlternativeLinks.supplierId],
-    references: [verifiedSuppliers.id],
-  }),
-  alternative: one(sustainableAlternatives, {
-    fields: [supplierAlternativeLinks.alternativeId],
-    references: [sustainableAlternatives.id],
-  }),
-}));
-
-
-// ============================================================================
-// OLFACTION & MÉMOIRE - Section dédiée aux rapports olfaction-mémoire
-// ============================================================================
-
-/**
- * Table principale pour les articles/études sur le lien olfaction-mémoire
- * Couvre les aspects neurologiques et historiques
- */
-export const olfactionMemory = mysqlTable("olfaction_memory", {
-  id: int("id").autoincrement().primaryKey(),
-  
-  // Identification
-  title: varchar("title", { length: 500 }).notNull(),
-  slug: varchar("slug", { length: 255 }).notNull().unique(),
-  
-  // Catégorisation
-  category: mysqlEnum("category", [
-    "neurological",      // Aspects neurologiques (effet Proust, système limbique)
-    "historical",        // Aspects historiques (rituels, civilisations)
-    "psychological",     // Aspects psychologiques (émotions, thérapie)
-    "cultural",          // Aspects culturels (transmission, patrimoine)
-    "scientific_study",  // Études scientifiques publiées
-    "artistic",          // Art olfactif et mémoire
-    "therapeutic"        // Applications thérapeutiques (OSTMR, etc.)
-  ]).notNull(),
-  
-  // Contenu
-  summary: text("summary"),           // Résumé court
-  content: text("content"),           // Contenu complet (Markdown)
-  keyFindings: text("key_findings"),  // Découvertes clés (JSON array)
-  
-  // Métadonnées scientifiques
-  authors: text("authors"),           // Auteurs/chercheurs (JSON array)
-  institutions: text("institutions"), // Institutions de recherche (JSON array)
-  publicationDate: timestamp("publication_date"),
-  sourceUrl: varchar("source_url", { length: 1000 }),
-  doi: varchar("doi", { length: 255 }), // Digital Object Identifier
-  
-  // Période historique (pour category = historical)
-  historicalPeriod: varchar("historical_period", { length: 255 }),
-  startYear: int("start_year"),
-  endYear: int("end_year"),
-  
-  // Régions cérébrales impliquées (pour category = neurological)
-  brainRegions: text("brain_regions"), // JSON array: ["hippocampus", "amygdala", "piriform_cortex", etc.]
-  
-  // Civilisations concernées (pour category = historical/cultural)
-  civilizations: text("civilizations"), // JSON array
-  
-  // Tags et mots-clés
-  tags: text("tags"), // JSON array
-  
-  // Médias
-  images: text("images"),       // JSON array of image URLs
-  diagrams: text("diagrams"),   // JSON array of diagram URLs
-  videos: text("videos"),       // JSON array of video URLs
-  
-  // Liens avec d'autres entités PERFUMUM
-  relatedMoleculeIds: text("related_molecule_ids"),   // JSON array of molecule IDs
-  relatedPlantIds: text("related_plant_ids"),         // JSON array of plant IDs
-  relatedArchiveIds: text("related_archive_ids"),     // JSON array of archive IDs
-  
-  // Statut
-  status: mysqlEnum("status", ["draft", "review", "published", "archived"]).default("draft"),
-  featured: boolean("featured").default(false),
-  
-  // Métadonnées
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
-  createdBy: int("created_by"),
-}, (table) => ({
-  categoryIdx: index("olfaction_memory_category_idx").on(table.category),
-  statusIdx: index("olfaction_memory_status_idx").on(table.status),
-  featuredIdx: index("olfaction_memory_featured_idx").on(table.featured),
-}));
-
-export type OlfactionMemory = typeof olfactionMemory.$inferSelect;
-export type InsertOlfactionMemory = typeof olfactionMemory.$inferInsert;
-
-/**
- * Concepts clés du lien olfaction-mémoire
- * (Effet Proust, mémoire épisodique, etc.)
- */
-export const memoryOlfactionConcepts = mysqlTable("memory_olfaction_concepts", {
-  id: int("id").autoincrement().primaryKey(),
-  
-  // Identification
-  name: varchar("name", { length: 255 }).notNull(),
-  slug: varchar("slug", { length: 255 }).notNull().unique(),
-  
-  // Type de concept
-  type: mysqlEnum("type", [
-    "phenomenon",       // Phénomène (Effet Proust, madeleine)
-    "brain_structure",  // Structure cérébrale (hippocampe, amygdale)
-    "memory_type",      // Type de mémoire (épisodique, sémantique, procédurale)
-    "mechanism",        // Mécanisme (encodage, consolidation, rappel)
-    "disorder",         // Trouble (anosmie, hyperosmie)
-    "therapy",          // Thérapie (OSTMR, aromathérapie)
-    "ritual"            // Rituel historique (encensement, fumigation)
-  ]).notNull(),
-  
-  // Contenu
-  definition: text("definition"),
-  description: text("description"),
-  scientificBasis: text("scientific_basis"),
-  historicalContext: text("historical_context"),
-  
-  // Références
-  keyResearchers: text("key_researchers"),  // JSON array
-  seminalPapers: text("seminal_papers"),    // JSON array of references
-  
-  // Médias
-  illustration: varchar("illustration", { length: 1000 }), // URL de l'illustration principale
-  diagrams: text("diagrams"), // JSON array
-  
-  // Métadonnées
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
-}, (table) => ({
-  typeIdx: index("memory_concept_type_idx").on(table.type),
-}));
-
-export type MemoryOlfactionConcept = typeof memoryOlfactionConcepts.$inferSelect;
-export type InsertMemoryOlfactionConcept = typeof memoryOlfactionConcepts.$inferInsert;
-
-/**
- * Sources bibliographiques pour la section Olfaction & Mémoire
- */
-export const olfactionMemorySources = mysqlTable("olfaction_memory_sources", {
-  id: int("id").autoincrement().primaryKey(),
-  
+  // Identification unique
+  entryKey: varchar("entry_key", { length: 100 }).notNull().unique(), // Clé BibTeX unique (ex: "smith2024perfumery")
   // Type de source
-  sourceType: mysqlEnum("source_type", [
-    "scientific_paper",   // Article scientifique
-    "book",               // Livre
-    "book_chapter",       // Chapitre de livre
-    "thesis",             // Thèse
-    "conference",         // Conférence
-    "podcast",            // Podcast
-    "article",            // Article de presse/magazine
-    "documentary",        // Documentaire
-    "website"             // Site web
-  ]).notNull(),
-  
-  // Identification
+  entryType: mysqlEnum("entry_type", [
+    "article",        // Article de journal scientifique
+    "book",           // Livre
+    "inbook",         // Chapitre de livre
+    "incollection",   // Article dans une collection
+    "inproceedings",  // Article de conférence
+    "conference",     // Conférence
+    "thesis",         // Thèse (PhD, Master)
+    "mastersthesis",  // Thèse de master
+    "phdthesis",      // Thèse de doctorat
+    "techreport",     // Rapport technique
+    "manual",         // Manuel technique
+    "unpublished",    // Non publié
+    "misc",           // Divers
+    "online",         // Source en ligne
+    "patent",         // Brevet
+    "standard",       // Norme/Standard
+    "dataset",        // Jeu de données
+    "software"        // Logiciel
+  ]).notNull().default("article"),
+  // Informations principales
   title: varchar("title", { length: 500 }).notNull(),
-  authors: text("authors"),           // JSON array
-  publicationYear: int("publication_year"),
-  
-  // Détails de publication
-  journal: varchar("journal", { length: 255 }),
-  volume: varchar("volume", { length: 50 }),
-  issue: varchar("issue", { length: 50 }),
-  pages: varchar("pages", { length: 50 }),
+  authors: text("authors"), // Format: "Nom1, Prénom1 and Nom2, Prénom2"
+  year: int("year"),
+  // Informations de publication
+  journal: varchar("journal", { length: 255 }), // Nom du journal
+  booktitle: varchar("booktitle", { length: 255 }), // Titre du livre (pour chapitres)
   publisher: varchar("publisher", { length: 255 }),
-  
+  volume: varchar("volume", { length: 50 }),
+  number: varchar("number", { length: 50 }), // Numéro du journal
+  pages: varchar("pages", { length: 50 }), // Ex: "123-145"
+  edition: varchar("edition", { length: 50 }),
+  chapter: varchar("chapter", { length: 100 }),
   // Identifiants
-  doi: varchar("doi", { length: 255 }),
+  doi: varchar("doi", { length: 100 }), // Digital Object Identifier
   isbn: varchar("isbn", { length: 20 }),
-  url: varchar("url", { length: 1000 }),
-  
-  // Résumé et notes
+  issn: varchar("issn", { length: 20 }),
+  pmid: varchar("pmid", { length: 20 }), // PubMed ID
+  arxivId: varchar("arxiv_id", { length: 50 }), // arXiv ID
+  url: varchar("url", { length: 500 }),
+  // Informations supplémentaires
   abstract: text("abstract"),
-  notes: text("notes"),
-  
-  // Pertinence pour PERFUMUM
-  relevanceScore: int("relevance_score"), // 1-10
-  keyTopics: text("key_topics"),          // JSON array
-  
+  keywords: json("keywords").$type<string[]>(), // Mots-clés
+  language: varchar("language", { length: 50 }).default("en"),
+  // Classification PERFUMUM
+  researchDomain: mysqlEnum("research_domain", [
+    "chimie_olfactive",      // Chimie des molécules odorantes
+    "botanique",             // Botanique et plantes aromatiques
+    "ethnobotanique",        // Ethnobotanique et usages traditionnels
+    "histoire_parfumerie",   // Histoire de la parfumerie
+    "neurologie_olfactive",  // Neurosciences olfactives
+    "extraction",            // Méthodes d'extraction
+    "formulation",           // Formulation et création
+    "reglementation",        // Réglementation (IFRA, REACH)
+    "durabilite",            // Durabilité et conservation
+    "tabac_cannabis",        // Recherche tabac/cannabis
+    "methodologie",          // Méthodologie de recherche
+    "autre"
+  ]),
+  relevanceScore: int("relevance_score").default(50), // Score de pertinence 0-100
+  // Tags personnalisés
+  tags: json("tags").$type<string[]>(),
+  // Notes et annotations
+  notes: text("notes"), // Notes personnelles sur la référence
+  annotation: text("annotation"), // Annotation/résumé personnel
+  // Fichier attaché
+  pdfUrl: varchar("pdf_url", { length: 500 }), // URL vers le PDF (S3)
+  // Statut de lecture
+  readStatus: mysqlEnum("read_status", [
+    "unread",       // Non lu
+    "reading",      // En cours de lecture
+    "read",         // Lu
+    "to_review"     // À relire
+  ]).default("unread"),
+  // Relations avec d'autres entités PERFUMUM
+  linkedMoleculeIds: json("linked_molecule_ids").$type<number[]>(), // IDs des molécules liées
+  linkedPlantIds: json("linked_plant_ids").$type<number[]>(), // IDs des plantes liées
+  linkedRecetteIds: json("linked_recette_ids").$type<number[]>(), // IDs des recettes liées
   // Métadonnées
+  addedBy: int("added_by").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
-  sourceTypeIdx: index("olfaction_source_type_idx").on(table.sourceType),
-  yearIdx: index("olfaction_source_year_idx").on(table.publicationYear),
+  entryKeyIdx: uniqueIndex("bibliography_entry_key_idx").on(table.entryKey),
+  yearIdx: index("bibliography_year_idx").on(table.year),
+  entryTypeIdx: index("bibliography_type_idx").on(table.entryType),
+  domainIdx: index("bibliography_domain_idx").on(table.researchDomain),
 }));
 
-export type OlfactionMemorySource = typeof olfactionMemorySources.$inferSelect;
-export type InsertOlfactionMemorySource = typeof olfactionMemorySources.$inferInsert;
+export type BibliographyEntry = typeof bibliographyEntries.$inferSelect;
+export type InsertBibliographyEntry = typeof bibliographyEntries.$inferInsert;
 
-/**
- * Liens entre articles et sources
- */
-export const olfactionMemoryArticleSources = mysqlTable("olfaction_memory_article_sources", {
-  id: int("id").autoincrement().primaryKey(),
-  articleId: int("article_id").notNull().references(() => olfactionMemory.id, { onDelete: "cascade" }),
-  sourceId: int("source_id").notNull().references(() => olfactionMemorySources.id, { onDelete: "cascade" }),
-  citationContext: text("citation_context"), // Contexte de la citation
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-}, (table) => ({
-  articleIdx: index("article_source_article_idx").on(table.articleId),
-  sourceIdx: index("article_source_source_idx").on(table.sourceId),
-  uniqueLink: uniqueIndex("article_source_unique").on(table.articleId, table.sourceId),
-}));
-
-export type OlfactionMemoryArticleSource = typeof olfactionMemoryArticleSources.$inferSelect;
-export type InsertOlfactionMemoryArticleSource = typeof olfactionMemoryArticleSources.$inferInsert;
-
-/**
- * Liens entre articles et concepts
- */
-export const olfactionMemoryArticleConcepts = mysqlTable("olfaction_memory_article_concepts", {
-  id: int("id").autoincrement().primaryKey(),
-  articleId: int("article_id").notNull().references(() => olfactionMemory.id, { onDelete: "cascade" }),
-  conceptId: int("concept_id").notNull().references(() => memoryOlfactionConcepts.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-}, (table) => ({
-  articleIdx: index("article_concept_article_idx").on(table.articleId),
-  conceptIdx: index("article_concept_concept_idx").on(table.conceptId),
-  uniqueLink: uniqueIndex("article_concept_unique").on(table.articleId, table.conceptId),
-}));
-
-export type OlfactionMemoryArticleConcept = typeof olfactionMemoryArticleConcepts.$inferSelect;
-export type InsertOlfactionMemoryArticleConcept = typeof olfactionMemoryArticleConcepts.$inferInsert;
-
-// Relations pour Olfaction & Mémoire
-export const olfactionMemoryRelations = relations(olfactionMemory, ({ many }) => ({
-  articleSources: many(olfactionMemoryArticleSources),
-  articleConcepts: many(olfactionMemoryArticleConcepts),
-}));
-
-export const memoryOlfactionConceptsRelations = relations(memoryOlfactionConcepts, ({ many }) => ({
-  articleConcepts: many(olfactionMemoryArticleConcepts),
-}));
-
-export const olfactionMemorySourcesRelations = relations(olfactionMemorySources, ({ many }) => ({
-  articleSources: many(olfactionMemoryArticleSources),
-}));
-
-export const olfactionMemoryArticleSourcesRelations = relations(olfactionMemoryArticleSources, ({ one }) => ({
-  article: one(olfactionMemory, {
-    fields: [olfactionMemoryArticleSources.articleId],
-    references: [olfactionMemory.id],
-  }),
-  source: one(olfactionMemorySources, {
-    fields: [olfactionMemoryArticleSources.sourceId],
-    references: [olfactionMemorySources.id],
-  }),
-}));
-
-export const olfactionMemoryArticleConceptsRelations = relations(olfactionMemoryArticleConcepts, ({ one }) => ({
-  article: one(olfactionMemory, {
-    fields: [olfactionMemoryArticleConcepts.articleId],
-    references: [olfactionMemory.id],
-  }),
-  concept: one(memoryOlfactionConcepts, {
-    fields: [olfactionMemoryArticleConcepts.conceptId],
-    references: [memoryOlfactionConcepts.id],
+// Relations pour bibliographyEntries
+export const bibliographyEntriesRelations = relations(bibliographyEntries, ({ one }) => ({
+  addedByUser: one(users, {
+    fields: [bibliographyEntries.addedBy],
+    references: [users.id],
   }),
 }));
 
 
 // ============================================================================
-// RESEARCH AXES - 5 axes de recherche PERFUMUM
+// RESEARCH AXES (Axes de recherche)
 // ============================================================================
 
 /**
- * Les 5 axes de recherche principaux du projet PERFUMUM:
- * 1. Neurosciences Olfactives et Mémoire
- * 2. Biotechnologie et Parfumerie Durable
- * 3. Régulation Émotionnelle par l'Olfaction
- * 4. Préservation du Patrimoine Olfactif
- * 5. Intelligence Artificielle et Création Parfumée
+ * Research axes for organizing research themes and directions.
+ * Each axis represents a major research direction (AX1, AX2, etc.)
  */
 export const researchAxes = mysqlTable("research_axes", {
   id: int("id").autoincrement().primaryKey(),
-  
   // Identification
-  code: varchar("code", { length: 10 }).notNull().unique(), // AX1, AX2, AX3, AX4, AX5
+  axisCode: varchar("axis_code", { length: 20 }).notNull().unique(), // AX1, AX2, AX3, etc.
   name: varchar("name", { length: 255 }).notNull(),
-  shortName: varchar("short_name", { length: 50 }).notNull(), // Neurosciences, Biotechnologie, etc.
-  emoji: varchar("emoji", { length: 10 }).notNull(), // 🧠, 🌱, 💚, 📜, 🤖
-  
+  subtitle: varchar("subtitle", { length: 255 }), // Sous-titre descriptif
   // Description
-  description: text("description").notNull(),
-  keyTopics: text("key_topics"), // JSON array of key topics
-  
-  // Visuel
-  color: varchar("color", { length: 20 }).notNull(), // Hex color for UI
-  iconName: varchar("icon_name", { length: 50 }), // Lucide icon name
-  
+  description: text("description"),
+  objectives: text("objectives"), // Objectifs de l'axe
+  methodology: text("methodology"), // Méthodologie associée
+  // Classification
+  category: mysqlEnum("category", [
+    "fondamental",     // Recherche fondamentale
+    "applique",        // Recherche appliquée
+    "experimental",    // Recherche expérimentale
+    "theorique",       // Recherche théorique
+    "historique",      // Recherche historique
+    "ethnographique",  // Recherche ethnographique
+    "technique"        // Recherche technique
+  ]).default("fondamental"),
+  // Statut
+  status: mysqlEnum("status", [
+    "planifie",        // Planifié
+    "en_cours",        // En cours
+    "pause",           // En pause
+    "termine",         // Terminé
+    "archive"          // Archivé
+  ]).default("planifie"),
+  priority: mysqlEnum("priority", [
+    "haute",
+    "moyenne",
+    "basse"
+  ]).default("moyenne"),
+  // Dates
+  startDate: timestamp("start_date"),
+  targetEndDate: timestamp("target_end_date"),
+  actualEndDate: timestamp("actual_end_date"),
+  // Progression
+  progressPercent: int("progress_percent").default(0), // 0-100
+  // Couleur et icône pour l'UI
+  color: varchar("color", { length: 20 }).default("#6366f1"), // Couleur hex
+  icon: varchar("icon", { length: 50 }), // Nom de l'icône (Lucide)
+  // Relations
+  parentAxisId: int("parent_axis_id"), // Pour les sous-axes
+  // Tags
+  tags: json("tags").$type<string[]>(),
   // Métadonnées
-  sortOrder: int("sort_order").default(0).notNull(),
-  isActive: boolean("is_active").default(true).notNull(),
+  createdBy: int("created_by").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
-  codeIdx: uniqueIndex("research_axis_code_idx").on(table.code),
-  sortIdx: index("research_axis_sort_idx").on(table.sortOrder),
+  axisCodeIdx: uniqueIndex("research_axis_code_idx").on(table.axisCode),
+  statusIdx: index("research_axis_status_idx").on(table.status),
+  categoryIdx: index("research_axis_category_idx").on(table.category),
 }));
 
 export type ResearchAxis = typeof researchAxes.$inferSelect;
 export type InsertResearchAxis = typeof researchAxes.$inferInsert;
 
+
 // ============================================================================
-// RESEARCH ENTRIES - Entrées de recherche liées aux axes
+// RESEARCH ENTRIES (Entrées de recherche)
 // ============================================================================
 
 /**
- * Entrées de recherche individuelles, pouvant être liées à plusieurs axes
+ * Individual research entries within an axis.
+ * Each entry represents a note, finding, or piece of research data.
  */
 export const researchEntries = mysqlTable("research_entries", {
   id: int("id").autoincrement().primaryKey(),
-  
   // Identification
-  title: varchar("title", { length: 500 }).notNull(),
-  slug: varchar("slug", { length: 500 }).notNull().unique(),
-  
-  // Contenu
+  entryCode: varchar("entry_code", { length: 50 }).notNull().unique(), // AX1-001, AX1-002, etc.
+  axisId: int("axis_id").notNull().references(() => researchAxes.id, { onDelete: "cascade" }),
+  // Contenu principal
+  title: varchar("title", { length: 255 }).notNull(),
+  content: text("content"), // Contenu principal (Markdown supporté)
   summary: text("summary"), // Résumé court
-  content: text("content").notNull(), // Contenu complet (Markdown)
-  
   // Type d'entrée
   entryType: mysqlEnum("entry_type", [
-    "note",           // Note de recherche
-    "synthesis",      // Synthèse
-    "experiment",     // Expérience
-    "observation",    // Observation
-    "hypothesis",     // Hypothèse
-    "discovery",      // Découverte
-    "review",         // Revue de littérature
-    "methodology",    // Méthodologie
-    "protocol",       // Protocole
-    "analysis"        // Analyse
-  ]).default("note").notNull(),
-  
+    "note",            // Note de recherche
+    "observation",     // Observation
+    "hypothese",       // Hypothèse
+    "resultat",        // Résultat
+    "conclusion",      // Conclusion
+    "question",        // Question de recherche
+    "idee",            // Idée
+    "protocole",       // Protocole expérimental
+    "donnees",         // Données brutes
+    "analyse",         // Analyse
+    "reference",       // Référence bibliographique
+    "citation",        // Citation
+    "media",           // Média (image, vidéo)
+    "lien",            // Lien externe
+    "autre"
+  ]).default("note"),
   // Statut
   status: mysqlEnum("status", [
-    "draft",          // Brouillon
-    "in_progress",    // En cours
-    "completed",      // Terminé
-    "archived"        // Archivé
-  ]).default("draft").notNull(),
-  
-  // Axe principal (relation directe)
-  primaryAxisId: int("primary_axis_id").notNull(),
-  
-  // Importance et visibilité
-  importance: mysqlEnum("importance", ["low", "medium", "high", "critical"]).default("medium").notNull(),
-  isPublic: boolean("is_public").default(false).notNull(),
-  isPinned: boolean("is_pinned").default(false).notNull(),
-  
-  // Dates de recherche
-  researchDate: timestamp("research_date"), // Date de la recherche/observation
-  
+    "brouillon",       // Brouillon
+    "en_revision",     // En révision
+    "valide",          // Validé
+    "archive"          // Archivé
+  ]).default("brouillon"),
+  // Importance
+  importance: mysqlEnum("importance", [
+    "critique",        // Critique
+    "haute",           // Haute
+    "moyenne",         // Moyenne
+    "basse",           // Basse
+    "reference"        // Pour référence
+  ]).default("moyenne"),
+  // Date de l'entrée (peut être différente de createdAt)
+  entryDate: timestamp("entry_date"),
+  // Fichiers attachés
+  attachments: json("attachments").$type<{
+    name: string;
+    url: string;
+    type: string; // mime type
+    size?: number;
+  }[]>(),
+  // Relations avec la bibliographie
+  bibliographyIds: json("bibliography_ids").$type<number[]>(), // IDs des références liées
+  // Relations avec d'autres entités PERFUMUM
+  linkedMoleculeIds: json("linked_molecule_ids").$type<number[]>(),
+  linkedPlantIds: json("linked_plant_ids").$type<number[]>(),
+  linkedRecetteIds: json("linked_recette_ids").$type<number[]>(),
+  linkedPrototypeIds: json("linked_prototype_ids").$type<number[]>(),
+  // Tags
+  tags: json("tags").$type<string[]>(),
+  // Position dans l'axe (pour l'ordre d'affichage)
+  sortOrder: int("sort_order").default(0),
   // Métadonnées
+  createdBy: int("created_by").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
-  slugIdx: uniqueIndex("research_entry_slug_idx").on(table.slug),
-  axisIdx: index("research_entry_axis_idx").on(table.primaryAxisId),
+  entryCodeIdx: uniqueIndex("research_entry_code_idx").on(table.entryCode),
+  axisIdx: index("research_entry_axis_idx").on(table.axisId),
   typeIdx: index("research_entry_type_idx").on(table.entryType),
   statusIdx: index("research_entry_status_idx").on(table.status),
-  dateIdx: index("research_entry_date_idx").on(table.researchDate),
 }));
 
 export type ResearchEntry = typeof researchEntries.$inferSelect;
 export type InsertResearchEntry = typeof researchEntries.$inferInsert;
 
-// ============================================================================
-// RESEARCH ENTRY AXES - Relation many-to-many entre entrées et axes
-// ============================================================================
-
-export const researchEntryAxes = mysqlTable("research_entry_axes", {
-  id: int("id").autoincrement().primaryKey(),
-  entryId: int("entry_id").notNull(),
-  axisId: int("axis_id").notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-}, (table) => ({
-  entryIdx: index("entry_axes_entry_idx").on(table.entryId),
-  axisIdx: index("entry_axes_axis_idx").on(table.axisId),
-  uniqueLink: uniqueIndex("entry_axes_unique").on(table.entryId, table.axisId),
+// Relations pour researchAxes
+export const researchAxesRelations = relations(researchAxes, ({ one, many }) => ({
+  createdByUser: one(users, {
+    fields: [researchAxes.createdBy],
+    references: [users.id],
+  }),
+  parentAxis: one(researchAxes, {
+    fields: [researchAxes.parentAxisId],
+    references: [researchAxes.id],
+  }),
+  entries: many(researchEntries),
 }));
 
-export type ResearchEntryAxis = typeof researchEntryAxes.$inferSelect;
-export type InsertResearchEntryAxis = typeof researchEntryAxes.$inferInsert;
-
-// ============================================================================
-// RESEARCH TAGS - Système de tags transversaux
-// ============================================================================
-
-export const researchTags = mysqlTable("research_tags", {
-  id: int("id").autoincrement().primaryKey(),
-  
-  name: varchar("name", { length: 100 }).notNull().unique(),
-  slug: varchar("slug", { length: 100 }).notNull().unique(),
-  description: text("description"),
-  color: varchar("color", { length: 20 }), // Hex color
-  
-  // Catégorie de tag
-  category: mysqlEnum("category", [
-    "topic",          // Sujet
-    "method",         // Méthode
-    "material",       // Matériau
-    "region",         // Région géographique
-    "period",         // Période historique
-    "emotion",        // Émotion
-    "molecule",       // Molécule
-    "plant",          // Plante
-    "technology",     // Technologie
-    "other"           // Autre
-  ]).default("topic").notNull(),
-  
-  usageCount: int("usage_count").default(0).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
-}, (table) => ({
-  nameIdx: uniqueIndex("research_tag_name_idx").on(table.name),
-  slugIdx: uniqueIndex("research_tag_slug_idx").on(table.slug),
-  categoryIdx: index("research_tag_category_idx").on(table.category),
+// Relations pour researchEntries
+export const researchEntriesRelations = relations(researchEntries, ({ one }) => ({
+  axis: one(researchAxes, {
+    fields: [researchEntries.axisId],
+    references: [researchAxes.id],
+  }),
+  createdByUser: one(users, {
+    fields: [researchEntries.createdBy],
+    references: [users.id],
+  }),
 }));
 
-export type ResearchTag = typeof researchTags.$inferSelect;
-export type InsertResearchTag = typeof researchTags.$inferInsert;
 
 // ============================================================================
-// RESEARCH ENTRY TAGS - Relation many-to-many entre entrées et tags
-// ============================================================================
-
-export const researchEntryTags = mysqlTable("research_entry_tags", {
-  id: int("id").autoincrement().primaryKey(),
-  entryId: int("entry_id").notNull(),
-  tagId: int("tag_id").notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-}, (table) => ({
-  entryIdx: index("entry_tags_entry_idx").on(table.entryId),
-  tagIdx: index("entry_tags_tag_idx").on(table.tagId),
-  uniqueLink: uniqueIndex("entry_tags_unique").on(table.entryId, table.tagId),
-}));
-
-export type ResearchEntryTag = typeof researchEntryTags.$inferSelect;
-export type InsertResearchEntryTag = typeof researchEntryTags.$inferInsert;
-
-// ============================================================================
-// BIBLIOGRAPHY SOURCES - Sources bibliographiques globales
+// BIBLIOGRAPHY-AXIS LINKS (Liens entre bibliographie et axes)
 // ============================================================================
 
 /**
- * Table centralisée pour toutes les sources bibliographiques du projet PERFUMUM
- * Peut être liée à n'importe quelle entrée de recherche
+ * Many-to-many relationship between bibliography entries and research axes.
  */
-export const bibliographySources = mysqlTable("bibliography_sources", {
+export const bibliographyAxisLinks = mysqlTable("bibliography_axis_links", {
   id: int("id").autoincrement().primaryKey(),
-  
-  // Type de source
-  sourceType: mysqlEnum("source_type", [
-    "scientific_paper",   // Article scientifique peer-reviewed
-    "book",               // Livre
-    "book_chapter",       // Chapitre de livre
-    "thesis",             // Thèse (PhD, Master)
-    "conference",         // Acte de conférence
-    "patent",             // Brevet
-    "report",             // Rapport technique/institutionnel
-    "article",            // Article de presse/magazine
-    "website",            // Site web
-    "database",           // Base de données
-    "podcast",            // Podcast
-    "video",              // Vidéo/Documentaire
-    "interview",          // Interview
-    "archive",            // Document d'archive
-    "dataset",            // Jeu de données
-    "software",           // Logiciel
-    "other"               // Autre
-  ]).notNull(),
-  
-  // Identification
-  title: varchar("title", { length: 1000 }).notNull(),
-  authors: text("authors"), // JSON array: [{name, affiliation, orcid}]
-  
-  // Dates
-  publicationYear: int("publication_year"),
-  publicationMonth: int("publication_month"),
-  accessDate: timestamp("access_date"), // Date d'accès (pour les sources web)
-  
-  // Détails de publication
-  journal: varchar("journal", { length: 500 }),
-  volume: varchar("volume", { length: 50 }),
-  issue: varchar("issue", { length: 50 }),
-  pages: varchar("pages", { length: 100 }),
-  publisher: varchar("publisher", { length: 500 }),
-  edition: varchar("edition", { length: 50 }),
-  language: varchar("language", { length: 50 }).default("fr"),
-  
-  // Identifiants uniques
-  doi: varchar("doi", { length: 255 }),
-  isbn: varchar("isbn", { length: 20 }),
-  issn: varchar("issn", { length: 20 }),
-  pmid: varchar("pmid", { length: 20 }), // PubMed ID
-  arxivId: varchar("arxiv_id", { length: 50 }),
-  url: varchar("url", { length: 2000 }),
-  
-  // Contenu
-  abstract: text("abstract"),
-  keywords: text("keywords"), // JSON array
-  
-  // Notes et annotations
+  bibliographyId: int("bibliography_id").notNull().references(() => bibliographyEntries.id, { onDelete: "cascade" }),
+  axisId: int("axis_id").notNull().references(() => researchAxes.id, { onDelete: "cascade" }),
+  relevance: mysqlEnum("relevance", [
+    "primaire",        // Source primaire pour l'axe
+    "secondaire",      // Source secondaire
+    "contextuelle"     // Contexte/background
+  ]).default("secondaire"),
   notes: text("notes"),
-  quotes: text("quotes"), // JSON array of important quotes
-  
-  // Pertinence pour PERFUMUM
-  relevanceScore: int("relevance_score"), // 1-10
-  relevantAxes: text("relevant_axes"), // JSON array of axis codes
-  
-  // Fichier attaché
-  fileUrl: varchar("file_url", { length: 2000 }),
-  fileName: varchar("file_name", { length: 255 }),
-  
-  // Citation formatée (générée)
-  citationApa: text("citation_apa"),
-  citationBibtex: text("citation_bibtex"),
-  
-  // Métadonnées
-  isVerified: boolean("is_verified").default(false).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
-}, (table) => ({
-  sourceTypeIdx: index("bibliography_source_type_idx").on(table.sourceType),
-  yearIdx: index("bibliography_year_idx").on(table.publicationYear),
-  doiIdx: index("bibliography_doi_idx").on(table.doi),
-  isbnIdx: index("bibliography_isbn_idx").on(table.isbn),
-}));
-
-export type BibliographySource = typeof bibliographySources.$inferSelect;
-export type InsertBibliographySource = typeof bibliographySources.$inferInsert;
-
-// ============================================================================
-// RESEARCH ENTRY SOURCES - Relation many-to-many entre entrées et sources
-// ============================================================================
-
-export const researchEntrySources = mysqlTable("research_entry_sources", {
-  id: int("id").autoincrement().primaryKey(),
-  entryId: int("entry_id").notNull(),
-  sourceId: int("source_id").notNull(),
-  citationContext: text("citation_context"), // Contexte de la citation dans l'entrée
-  pageReference: varchar("page_reference", { length: 100 }), // Pages spécifiques citées
   createdAt: timestamp("created_at").defaultNow().notNull(),
 }, (table) => ({
-  entryIdx: index("entry_sources_entry_idx").on(table.entryId),
-  sourceIdx: index("entry_sources_source_idx").on(table.sourceId),
-  uniqueLink: uniqueIndex("entry_sources_unique").on(table.entryId, table.sourceId),
+  uniqueLink: uniqueIndex("unique_bibliography_axis").on(table.bibliographyId, table.axisId),
 }));
 
-export type ResearchEntrySource = typeof researchEntrySources.$inferSelect;
-export type InsertResearchEntrySource = typeof researchEntrySources.$inferInsert;
+export type BibliographyAxisLink = typeof bibliographyAxisLinks.$inferSelect;
+export type InsertBibliographyAxisLink = typeof bibliographyAxisLinks.$inferInsert;
 
-// ============================================================================
-// RELATIONS - Axes de recherche et Bibliographie
-// ============================================================================
-
-export const researchAxesRelations = relations(researchAxes, ({ many }) => ({
-  entries: many(researchEntries),
-  entryAxes: many(researchEntryAxes),
-}));
-
-export const researchEntriesRelations = relations(researchEntries, ({ one, many }) => ({
-  primaryAxis: one(researchAxes, {
-    fields: [researchEntries.primaryAxisId],
-    references: [researchAxes.id],
-  }),
-  axes: many(researchEntryAxes),
-  tags: many(researchEntryTags),
-  sources: many(researchEntrySources),
-}));
-
-export const researchEntryAxesRelations = relations(researchEntryAxes, ({ one }) => ({
-  entry: one(researchEntries, {
-    fields: [researchEntryAxes.entryId],
-    references: [researchEntries.id],
+// Relations pour bibliographyAxisLinks
+export const bibliographyAxisLinksRelations = relations(bibliographyAxisLinks, ({ one }) => ({
+  bibliography: one(bibliographyEntries, {
+    fields: [bibliographyAxisLinks.bibliographyId],
+    references: [bibliographyEntries.id],
   }),
   axis: one(researchAxes, {
-    fields: [researchEntryAxes.axisId],
+    fields: [bibliographyAxisLinks.axisId],
     references: [researchAxes.id],
-  }),
-}));
-
-export const researchTagsRelations = relations(researchTags, ({ many }) => ({
-  entryTags: many(researchEntryTags),
-}));
-
-export const researchEntryTagsRelations = relations(researchEntryTags, ({ one }) => ({
-  entry: one(researchEntries, {
-    fields: [researchEntryTags.entryId],
-    references: [researchEntries.id],
-  }),
-  tag: one(researchTags, {
-    fields: [researchEntryTags.tagId],
-    references: [researchTags.id],
-  }),
-}));
-
-export const bibliographySourcesRelations = relations(bibliographySources, ({ many }) => ({
-  entrySources: many(researchEntrySources),
-}));
-
-export const researchEntrySourcesRelations = relations(researchEntrySources, ({ one }) => ({
-  entry: one(researchEntries, {
-    fields: [researchEntrySources.entryId],
-    references: [researchEntries.id],
-  }),
-  source: one(bibliographySources, {
-    fields: [researchEntrySources.sourceId],
-    references: [bibliographySources.id],
   }),
 }));

@@ -394,25 +394,6 @@ export function MegaMenu() {
   // === RECHERCHE (Méthodologie + Archives) ===
   const rechercheSections: MegaMenuSection[] = [
     {
-      title: "Axes de Recherche",
-      items: [
-        {
-          label: "Vue d'ensemble",
-          path: "/axes-recherche",
-          icon: <Compass className="h-4 w-4" />,
-          description: "Les 5 axes fondamentaux PERFUMUM",
-          badge: "NEW",
-        },
-        {
-          label: "Bibliographie Globale",
-          path: "/bibliographie-globale",
-          icon: <BookOpen className="h-4 w-4" />,
-          description: "Sources et références scientifiques",
-          badge: "NEW",
-        },
-      ],
-    },
-    {
       title: "Méthode ABSORBE",
       items: [
         {

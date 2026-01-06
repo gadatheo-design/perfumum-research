@@ -173,6 +173,9 @@ import OdeurSitueeDetail from "./pages/OdeurSitueeDetail";
 import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
 import BibliographiePage from "./pages/BibliographiePage";
+import BibliographieGlobale from "./pages/BibliographieGlobale";
+import AxesRecherche from "./pages/AxesRecherche";
+import AxeRechercheDetail from "./pages/AxeRechercheDetail";
 import GestionPage from "./pages/GestionPage";
 import LeafEconomies from "./pages/LeafEconomies";
 import LeafEconomyDetail from "./pages/LeafEconomyDetail";
@@ -201,7 +204,6 @@ import Outils from "./pages/Outils";
 import PatrimoineMenace from './pages/PatrimoineMenace';
 import AlternativesDurables from './pages/AlternativesDurables';
 import ArchivesOlfactives from "./pages/ArchivesOlfactives";
-import OlfactionMemoire from "./pages/OlfactionMemoire";
 import { Glossaire } from "./pages/Glossaire";
 import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
 import Contribuer from "./pages/Contribuer";
@@ -249,13 +251,6 @@ import RawMaterialDetail from "./pages/RawMaterialDetail";
 import MoleculePlantRelations from "./pages/MoleculePlantRelations";
 import PlantTerroirNetwork from "./pages/PlantTerroirNetwork";
 import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
-
-// === AXES DE RECHERCHE & BIBLIOGRAPHIE ===
-import ResearchAxes from "./pages/ResearchAxes";
-import ResearchAxisDetail from "./pages/ResearchAxisDetail";
-import ResearchEntryAdd from "./pages/ResearchEntryAdd";
-import BibliographyGlobal from "./pages/BibliographyGlobal";
-import BibliographyAdd from "./pages/BibliographyAdd";
 
 // === PAGES TECHNIQUES ===
 import TestMinimal from "./pages/TestMinimal";
@@ -434,20 +429,15 @@ function Router() {
       <Route path="/projets" component={Projets} />
       <Route path="/terrains" component={Terrains} />
       <Route path="/bibliographie" component={BibliographiePage} />
+      <Route path="/bibliographie-globale" component={BibliographieGlobale} />
+      <Route path="/axes-recherche" component={AxesRecherche} />
+      <Route path="/axes-recherche/:code" component={AxeRechercheDetail} />
       <Route path="/gestion" component={GestionPage} />
       <Route path="/collaborations" component={Collaborations} />
       <Route path="/archives" component={Archives} />
       <Route path="/patrimoine-menace" component={PatrimoineMenace} />
       <Route path="/alternatives-durables" component={AlternativesDurables} />
       <Route path="/archives-olfactives" component={ArchivesOlfactives} />
-      <Route path="/olfaction-memoire" component={OlfactionMemoire} />
-      
-      {/* === AXES DE RECHERCHE & BIBLIOGRAPHIE === */}
-      <Route path="/axes-recherche" component={ResearchAxes} />
-      <Route path="/axes-recherche/new" component={ResearchEntryAdd} />
-      <Route path="/axes-recherche/:code" component={ResearchAxisDetail} />
-      <Route path="/bibliographie-globale" component={BibliographyGlobal} />
-      <Route path="/bibliographie-globale/new" component={BibliographyAdd} />
       <Route path="/outils" component={Outils} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />

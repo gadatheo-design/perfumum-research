@@ -1,0 +1,8 @@
+{
+  "query": "CREATE UNIQUE INDEX IF NOT EXISTS idx_research_axes_code ON research_axes(axis_code)",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE UNIQUE INDEX IF NOT EXISTS idx_research_axes_code ON research_axes(axis_code)",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1062 (23000) at line 1: Duplicate entry '?' for key 'research_axes.idx_research_axes_code'"
+  ]
+}

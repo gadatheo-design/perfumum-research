@@ -4535,9 +4535,9 @@ export const appRouter = router({
   }),
 
   // ============================================================================
-  // EXPORT BIBLIOGRAPHIQUE
+  // EXPORT BIBLIOGRAPHIQUE (Citations)
   // ============================================================================
-  bibliography: router({
+  citationExport: router({
     // Générer une citation pour une molécule
     generateMoleculeCitation: publicProcedure
       .input(z.object({
@@ -5649,13 +5649,6 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.searchOlfactiveArchives(input.q, input.limit);
       }),
-    
-    // Obtenir les archives mentionnant une plante spécifique
-    getByPlant: publicProcedure
-      .input(z.object({ plantId: z.number().int().min(1) }))
-      .query(async ({ input }) => {
-        return await db.getOlfactiveArchivesByPlant(input.plantId);
-      }),
   }),
 
   // ============================================================================
@@ -6088,517 +6081,54 @@ export const appRouter = router({
   }),
 
   // ============================================================================
-  // VERIFIED SUPPLIERS (Fournisseurs vérifiés pour alternatives durables)
-  // ============================================================================
-  verifiedSuppliers: router({
-    // Liste tous les fournisseurs
-    list: publicProcedure
-      .query(async () => {
-        return await db.getAllVerifiedSuppliers();
-      }),
-    
-    // Récupère un fournisseur par ID
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getVerifiedSupplierById(input.id);
-      }),
-    
-    // Récupère les fournisseurs par pays
-    getByCountry: publicProcedure
-      .input(z.object({ country: z.string() }))
-      .query(async ({ input }) => {
-        return await db.getVerifiedSuppliersByCountry(input.country);
-      }),
-    
-    // Récupère les fournisseurs par type
-    getByType: publicProcedure
-      .input(z.object({ 
-        type: z.enum(['producer', 'cooperative', 'distributor', 'laboratory', 'biotechnology', 'artisan', 'other']) 
-      }))
-      .query(async ({ input }) => {
-        return await db.getVerifiedSuppliersByType(input.type);
-      }),
-    
-    // Récupère uniquement les fournisseurs vérifiés
-    getVerifiedOnly: publicProcedure
-      .query(async () => {
-        return await db.getVerifiedOnlySuppliers();
-      }),
-    
-    // Recherche de fournisseurs
-    search: publicProcedure
-      .input(z.object({ query: z.string() }))
-      .query(async ({ input }) => {
-        return await db.searchVerifiedSuppliers(input.query);
-      }),
-    
-    // Statistiques
-    getStats: publicProcedure
-      .query(async () => {
-        return await db.getVerifiedSuppliersStats();
-      }),
-    
-    // Créer un fournisseur (protégé)
-    create: protectedProcedure
-      .input(z.object({
-        name: z.string(),
-        companyType: z.enum(['producer', 'cooperative', 'distributor', 'laboratory', 'biotechnology', 'artisan', 'other']),
-        country: z.string(),
-        region: z.string().optional(),
-        address: z.string().optional(),
-        website: z.string().optional(),
-        email: z.string().optional(),
-        phone: z.string().optional(),
-        contactPerson: z.string().optional(),
-        certifications: z.array(z.object({
-          name: z.string(),
-          issuer: z.string().optional(),
-          validUntil: z.string().optional(),
-          certificateUrl: z.string().optional(),
-        })).optional(),
-        specialties: z.array(z.string()).optional(),
-        sustainablePractices: z.string().optional(),
-        sustainabilityRating: z.number().min(1).max(5).optional(),
-        qualityRating: z.number().min(1).max(5).optional(),
-        reliabilityRating: z.number().min(1).max(5).optional(),
-        minimumOrderQuantity: z.string().optional(),
-        leadTime: z.string().optional(),
-        paymentTerms: z.string().optional(),
-        shipsTo: z.array(z.string()).optional(),
-        verified: z.boolean().optional(),
-        verifiedBy: z.string().optional(),
-        notes: z.string().optional(),
-        supplierReferences: z.array(z.object({
-          title: z.string(),
-          url: z.string().optional(),
-          type: z.enum(['website', 'article', 'certification', 'review', 'other']),
-        })).optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.createVerifiedSupplier(input as any);
-      }),
-    
-    // Mettre à jour un fournisseur (protégé)
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        name: z.string().optional(),
-        companyType: z.enum(['producer', 'cooperative', 'distributor', 'laboratory', 'biotechnology', 'artisan', 'other']).optional(),
-        country: z.string().optional(),
-        region: z.string().optional(),
-        address: z.string().optional(),
-        website: z.string().optional(),
-        email: z.string().optional(),
-        phone: z.string().optional(),
-        contactPerson: z.string().optional(),
-        certifications: z.array(z.object({
-          name: z.string(),
-          issuer: z.string().optional(),
-          validUntil: z.string().optional(),
-          certificateUrl: z.string().optional(),
-        })).optional(),
-        specialties: z.array(z.string()).optional(),
-        sustainablePractices: z.string().optional(),
-        sustainabilityRating: z.number().min(1).max(5).optional(),
-        qualityRating: z.number().min(1).max(5).optional(),
-        reliabilityRating: z.number().min(1).max(5).optional(),
-        minimumOrderQuantity: z.string().optional(),
-        leadTime: z.string().optional(),
-        paymentTerms: z.string().optional(),
-        shipsTo: z.array(z.string()).optional(),
-        verified: z.boolean().optional(),
-        verifiedBy: z.string().optional(),
-        notes: z.string().optional(),
-        supplierReferences: z.array(z.object({
-          title: z.string(),
-          url: z.string().optional(),
-          type: z.enum(['website', 'article', 'certification', 'review', 'other']),
-        })).optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return await db.updateVerifiedSupplier(id, data as any);
-      }),
-    
-    // Supprimer un fournisseur (protégé)
-    delete: protectedProcedure
-      .input(z.object({ id: z.number() }))
-      .mutation(async ({ input }) => {
-        return await db.deleteVerifiedSupplier(input.id);
-      }),
-    
-    // Lier un fournisseur à une alternative
-    linkToAlternative: protectedProcedure
-      .input(z.object({
-        supplierId: z.number(),
-        alternativeId: z.number(),
-        productName: z.string().optional(),
-        productCode: z.string().optional(),
-        priceRange: z.string().optional(),
-        availabilityStatus: z.enum(['in_stock', 'limited_stock', 'on_demand', 'seasonal', 'out_of_stock']).optional(),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.linkSupplierToAlternative(input);
-      }),
-    
-    // Délier un fournisseur d'une alternative
-    unlinkFromAlternative: protectedProcedure
-      .input(z.object({
-        supplierId: z.number(),
-        alternativeId: z.number(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.unlinkSupplierFromAlternative(input.supplierId, input.alternativeId);
-      }),
-    
-    // Récupère les fournisseurs d'une alternative
-    getByAlternative: publicProcedure
-      .input(z.object({ alternativeId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getSuppliersByAlternative(input.alternativeId);
-      }),
-    
-    // Récupère les alternatives d'un fournisseur
-    getAlternativesBySupplier: publicProcedure
-      .input(z.object({ supplierId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getAlternativesBySupplier(input.supplierId);
-      }),
-    
-    // Liste toutes les alternatives avec leurs fournisseurs
-    listAlternativesWithSuppliers: publicProcedure
-      .query(async () => {
-        return await db.getAlternativesWithSuppliers();
-      }),
-  }),
-
-  // ============================================================================
-  // OLFACTION & MÉMOIRE - tRPC Procedures
-  // ============================================================================
-  olfactionMemory: router({
-    // Concepts clés
-    listConcepts: publicProcedure
-      .input(z.object({ type: z.string().optional() }).optional())
-      .query(async ({ input }) => {
-        return await db.getMemoryOlfactionConcepts(input?.type);
-      }),
-    
-    getConceptById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getMemoryOlfactionConceptById(input.id);
-      }),
-    
-    // Articles de recherche
-    listArticles: publicProcedure
-      .input(z.object({
-        category: z.string().optional(),
-        status: z.string().optional(),
-        featured: z.boolean().optional(),
-      }).optional())
-      .query(async ({ input }) => {
-        return await db.getOlfactionMemoryArticles(input);
-      }),
-    
-    getArticleById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getOlfactionMemoryArticleById(input.id);
-      }),
-    
-    getArticleBySlug: publicProcedure
-      .input(z.object({ slug: z.string() }))
-      .query(async ({ input }) => {
-        return await db.getOlfactionMemoryArticleBySlug(input.slug);
-      }),
-    
-    getFeaturedArticles: publicProcedure
-      .input(z.object({ limit: z.number().optional() }).optional())
-      .query(async ({ input }) => {
-        return await db.getFeaturedOlfactionMemoryArticles(input?.limit);
-      }),
-    
-    // Sources bibliographiques
-    listSources: publicProcedure
-      .input(z.object({ sourceType: z.string().optional() }).optional())
-      .query(async ({ input }) => {
-        return await db.getOlfactionMemorySources(input?.sourceType);
-      }),
-    
-    getSourceById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getOlfactionMemorySourceById(input.id);
-      }),
-    
-    // Liens articles-sources
-    getArticleSources: publicProcedure
-      .input(z.object({ articleId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getArticleSources(input.articleId);
-      }),
-    
-    // Liens articles-concepts
-    getArticleConcepts: publicProcedure
-      .input(z.object({ articleId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getArticleConcepts(input.articleId);
-      }),
-    
-    // Statistiques
-    getStats: publicProcedure.query(async () => {
-      return await db.getOlfactionMemoryStats();
-    }),
-    
-    // Recherche
-    search: publicProcedure
-      .input(z.object({ query: z.string(), limit: z.number().optional() }))
-      .query(async ({ input }) => {
-        return await db.searchOlfactionMemory(input.query, input.limit);
-      }),
-    
-    // Liens molécules-effets-mémoire
-    getMoleculeMemoryEffects: publicProcedure
-      .input(z.object({ moleculeId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getMoleculeMemoryEffects(input.moleculeId);
-      }),
-    
-    getConceptMolecules: publicProcedure
-      .input(z.object({ conceptId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getConceptMolecules(input.conceptId);
-      }),
-  }),
-
-  // ============================================================================
-  // RESEARCH AXES - Axes de recherche PERFUMUM
-  // ============================================================================
-  researchAxes: router({
-    // Liste tous les axes de recherche
-    list: publicProcedure
-      .query(async () => {
-        return await db.getAllResearchAxes();
-      }),
-    
-    // Récupère un axe par ID
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getResearchAxisById(input.id);
-      }),
-    
-    // Récupère un axe par code
-    getByCode: publicProcedure
-      .input(z.object({ code: z.string() }))
-      .query(async ({ input }) => {
-        return await db.getResearchAxisByCode(input.code);
-      }),
-    
-    // Met à jour un axe (admin)
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        name: z.string().optional(),
-        shortName: z.string().optional(),
-        description: z.string().optional(),
-        keyTopics: z.string().optional(),
-        color: z.string().optional(),
-        isActive: z.boolean().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return await db.updateResearchAxis(id, data);
-      }),
-  }),
-
-  // ============================================================================
-  // RESEARCH ENTRIES - Entrées de recherche
-  // ============================================================================
-  researchEntries: router({
-    // Liste toutes les entrées avec filtres
-    list: publicProcedure
-      .input(z.object({
-        axisId: z.number().optional(),
-        entryType: z.string().optional(),
-        status: z.string().optional(),
-        importance: z.string().optional(),
-      }).optional())
-      .query(async ({ input }) => {
-        return await db.getAllResearchEntries(input);
-      }),
-    
-    // Récupère les entrées par axe
-    getByAxis: publicProcedure
-      .input(z.object({ axisId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getResearchEntriesByAxis(input.axisId);
-      }),
-    
-    // Récupère une entrée par ID avec toutes ses relations
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getResearchEntryById(input.id);
-      }),
-    
-    // Crée une nouvelle entrée
-    create: protectedProcedure
-      .input(z.object({
-        title: z.string(),
-        slug: z.string(),
-        summary: z.string().optional(),
-        content: z.string(),
-        entryType: z.string().optional(),
-        status: z.string().optional(),
-        primaryAxisId: z.number(),
-        importance: z.string().optional(),
-        isPublic: z.boolean().optional(),
-        isPinned: z.boolean().optional(),
-        researchDate: z.date().optional(),
-        tagIds: z.array(z.number()).optional(),
-        sourceIds: z.array(z.number()).optional(),
-        secondaryAxisIds: z.array(z.number()).optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.createResearchEntry(input);
-      }),
-    
-    // Met à jour une entrée
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        title: z.string().optional(),
-        slug: z.string().optional(),
-        summary: z.string().optional(),
-        content: z.string().optional(),
-        entryType: z.string().optional(),
-        status: z.string().optional(),
-        primaryAxisId: z.number().optional(),
-        importance: z.string().optional(),
-        isPublic: z.boolean().optional(),
-        isPinned: z.boolean().optional(),
-        researchDate: z.date().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return await db.updateResearchEntry(id, data);
-      }),
-    
-    // Supprime une entrée
-    delete: protectedProcedure
-      .input(z.object({ id: z.number() }))
-      .mutation(async ({ input }) => {
-        return await db.deleteResearchEntry(input.id);
-      }),
-  }),
-
-  // ============================================================================
-  // RESEARCH TAGS - Tags de recherche
-  // ============================================================================
-  researchTags: router({
-    // Liste tous les tags
-    list: publicProcedure
-      .input(z.object({ category: z.string().optional() }).optional())
-      .query(async ({ input }) => {
-        return await db.getAllResearchTags(input?.category);
-      }),
-    
-    // Crée un nouveau tag
-    create: protectedProcedure
-      .input(z.object({
-        name: z.string(),
-        slug: z.string(),
-        description: z.string().optional(),
-        color: z.string().optional(),
-        category: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.createResearchTag(input as any);
-      }),
-    
-    // Met à jour un tag
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        name: z.string().optional(),
-        slug: z.string().optional(),
-        description: z.string().optional(),
-        color: z.string().optional(),
-        category: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return await db.updateResearchTag(id, data as any);
-      }),
-    
-    // Supprime un tag
-    delete: protectedProcedure
-      .input(z.object({ id: z.number() }))
-      .mutation(async ({ input }) => {
-        return await db.deleteResearchTag(input.id);
-      }),
-  }),
-
-  // ============================================================================
-  // BIBLIOGRAPHY - Sources bibliographiques
+  // BIBLIOGRAPHY (Références bibliographiques)
   // ============================================================================
   bibliography: router({
-    // Liste toutes les sources avec filtres
+    // Lister toutes les références avec filtres
     list: publicProcedure
       .input(z.object({
-        sourceType: z.string().optional(),
+        entryType: z.string().optional(),
+        researchDomain: z.string().optional(),
         year: z.number().optional(),
+        readStatus: z.string().optional(),
         search: z.string().optional(),
+        limit: z.number().optional(),
+        offset: z.number().optional(),
       }).optional())
       .query(async ({ input }) => {
-        return await db.getAllBibliographySources(input);
+        return db.getAllBibliographyEntries(input || {});
       }),
     
-    // Récupère une source par ID
+    // Obtenir une référence par ID
     getById: publicProcedure
-      .input(z.object({ id: z.number() }))
+      .input(z.number())
       .query(async ({ input }) => {
-        return await db.getBibliographySourceById(input.id);
+        return db.getBibliographyEntryById(input);
       }),
     
-    // Recherche full-text
-    search: publicProcedure
-      .input(z.object({ query: z.string() }))
+    // Obtenir une référence par clé
+    getByKey: publicProcedure
+      .input(z.string())
       .query(async ({ input }) => {
-        return await db.searchBibliographySources(input.query);
+        return db.getBibliographyEntryByKey(input);
       }),
     
-    // Statistiques
-    stats: publicProcedure
-      .query(async () => {
-        return await db.getBibliographyStats();
-      }),
-    
-    // Export BibTeX
-    exportBibtex: publicProcedure
-      .input(z.object({ sourceIds: z.array(z.number()).optional() }).optional())
-      .query(async ({ input }) => {
-        return await db.exportBibliographyBibtex(input?.sourceIds);
-      }),
-    
-    // Crée une nouvelle source
+    // Créer une nouvelle référence
     create: protectedProcedure
       .input(z.object({
-        sourceType: z.string(),
+        entryKey: z.string(),
+        entryType: z.enum(['article', 'book', 'inbook', 'incollection', 'inproceedings', 'conference', 'thesis', 'mastersthesis', 'phdthesis', 'techreport', 'manual', 'unpublished', 'misc', 'online', 'patent', 'standard', 'dataset', 'software']).default('article'),
         title: z.string(),
         authors: z.string().optional(),
-        publicationYear: z.number().optional(),
-        publicationMonth: z.number().optional(),
+        year: z.number().optional(),
         journal: z.string().optional(),
-        volume: z.string().optional(),
-        issue: z.string().optional(),
-        pages: z.string().optional(),
+        booktitle: z.string().optional(),
         publisher: z.string().optional(),
+        volume: z.string().optional(),
+        number: z.string().optional(),
+        pages: z.string().optional(),
         edition: z.string().optional(),
-        language: z.string().optional(),
+        chapter: z.string().optional(),
         doi: z.string().optional(),
         isbn: z.string().optional(),
         issn: z.string().optional(),
@@ -6606,63 +6136,377 @@ export const appRouter = router({
         arxivId: z.string().optional(),
         url: z.string().optional(),
         abstract: z.string().optional(),
-        keywords: z.string().optional(),
-        notes: z.string().optional(),
+        keywords: z.array(z.string()).optional(),
+        language: z.string().optional(),
+        researchDomain: z.enum(['chimie_olfactive', 'botanique', 'ethnobotanique', 'histoire_parfumerie', 'neurologie_olfactive', 'extraction', 'formulation', 'reglementation', 'durabilite', 'tabac_cannabis', 'methodologie', 'autre']).optional(),
         relevanceScore: z.number().optional(),
-        relevantAxes: z.string().optional(),
+        tags: z.array(z.string()).optional(),
+        notes: z.string().optional(),
+        annotation: z.string().optional(),
+        pdfUrl: z.string().optional(),
+        readStatus: z.enum(['unread', 'reading', 'read', 'to_review']).optional(),
+        linkedMoleculeIds: z.array(z.number()).optional(),
+        linkedPlantIds: z.array(z.number()).optional(),
+        linkedRecetteIds: z.array(z.number()).optional(),
       }))
-      .mutation(async ({ input }) => {
-        return await db.createBibliographySource(input as any);
+      .mutation(async ({ input, ctx }) => {
+        return db.createBibliographyEntry({
+          ...input,
+          addedBy: ctx.user?.id,
+        } as any);
       }),
     
-    // Met à jour une source
+    // Mettre à jour une référence
     update: protectedProcedure
       .input(z.object({
         id: z.number(),
-        sourceType: z.string().optional(),
+        entryKey: z.string().optional(),
+        entryType: z.enum(['article', 'book', 'inbook', 'incollection', 'inproceedings', 'conference', 'thesis', 'mastersthesis', 'phdthesis', 'techreport', 'manual', 'unpublished', 'misc', 'online', 'patent', 'standard', 'dataset', 'software']).optional(),
         title: z.string().optional(),
         authors: z.string().optional(),
-        publicationYear: z.number().optional(),
+        year: z.number().optional(),
         journal: z.string().optional(),
+        booktitle: z.string().optional(),
+        publisher: z.string().optional(),
+        volume: z.string().optional(),
+        number: z.string().optional(),
+        pages: z.string().optional(),
         doi: z.string().optional(),
+        isbn: z.string().optional(),
         url: z.string().optional(),
         abstract: z.string().optional(),
-        notes: z.string().optional(),
+        keywords: z.array(z.string()).optional(),
+        researchDomain: z.enum(['chimie_olfactive', 'botanique', 'ethnobotanique', 'histoire_parfumerie', 'neurologie_olfactive', 'extraction', 'formulation', 'reglementation', 'durabilite', 'tabac_cannabis', 'methodologie', 'autre']).optional(),
         relevanceScore: z.number().optional(),
-        isVerified: z.boolean().optional(),
+        tags: z.array(z.string()).optional(),
+        notes: z.string().optional(),
+        annotation: z.string().optional(),
+        readStatus: z.enum(['unread', 'reading', 'read', 'to_review']).optional(),
+        linkedMoleculeIds: z.array(z.number()).optional(),
+        linkedPlantIds: z.array(z.number()).optional(),
+        linkedRecetteIds: z.array(z.number()).optional(),
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
-        return await db.updateBibliographySource(id, data as any);
+        return db.updateBibliographyEntry(id, data as any);
       }),
     
-    // Supprime une source
+    // Supprimer une référence
     delete: protectedProcedure
-      .input(z.object({ id: z.number() }))
+      .input(z.number())
       .mutation(async ({ input }) => {
-        return await db.deleteBibliographySource(input.id);
+        return db.deleteBibliographyEntry(input);
       }),
     
-    // Lie une source à une entrée
-    linkToEntry: protectedProcedure
-      .input(z.object({
-        entryId: z.number(),
-        sourceId: z.number(),
-        citationContext: z.string().optional(),
-        pageReference: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.linkSourceToEntry(input.entryId, input.sourceId, input.citationContext, input.pageReference);
+    // Statistiques
+    getStats: publicProcedure.query(async () => {
+      return db.getBibliographyStats();
+    }),
+    
+    // Import en masse (BibTeX)
+    importBibTeX: protectedProcedure
+      .input(z.string())
+      .mutation(async ({ input, ctx }) => {
+        const entries = db.parseBibTeX(input);
+        const entriesWithUser = entries.map(e => ({
+          ...e,
+          addedBy: ctx.user?.id,
+        }));
+        return db.bulkCreateBibliographyEntries(entriesWithUser as any[]);
       }),
     
-    // Supprime le lien entre une source et une entrée
-    unlinkFromEntry: protectedProcedure
+    // Import en masse (CSV)
+    importCSV: protectedProcedure
+      .input(z.string())
+      .mutation(async ({ input, ctx }) => {
+        const entries = db.parseCSVBibliography(input);
+        const entriesWithUser = entries.map(e => ({
+          ...e,
+          addedBy: ctx.user?.id,
+        }));
+        return db.bulkCreateBibliographyEntries(entriesWithUser as any[]);
+      }),
+    
+    // Export BibTeX
+    exportBibTeX: publicProcedure
+      .input(z.array(z.number()).optional())
+      .query(async ({ input }) => {
+        const entries = await db.getAllBibliographyEntries({});
+        const filteredEntries = input && input.length > 0
+          ? entries.filter(e => input.includes(e.id))
+          : entries;
+        return db.exportToBibTeX(filteredEntries);
+      }),
+    
+    // Export APA
+    exportAPA: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        const entry = await db.getBibliographyEntryById(input);
+        if (!entry) return null;
+        return db.exportToAPA(entry);
+      }),
+    
+    // Export Chicago
+    exportChicago: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        const entry = await db.getBibliographyEntryById(input);
+        if (!entry) return null;
+        return db.exportToChicago(entry);
+      }),
+    
+    // Lier une référence à un axe
+    linkToAxis: protectedProcedure
       .input(z.object({
-        entryId: z.number(),
-        sourceId: z.number(),
+        bibliographyId: z.number(),
+        axisId: z.number(),
+        relevance: z.enum(['primaire', 'secondaire', 'contextuelle']).optional(),
+        notes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return await db.unlinkSourceFromEntry(input.entryId, input.sourceId);
+        return db.linkBibliographyToAxis(input.bibliographyId, input.axisId, input.relevance, input.notes);
+      }),
+    
+    // Délier une référence d'un axe
+    unlinkFromAxis: protectedProcedure
+      .input(z.object({
+        bibliographyId: z.number(),
+        axisId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.unlinkBibliographyFromAxis(input.bibliographyId, input.axisId);
+      }),
+    
+    // Obtenir les axes liés à une référence
+    getLinkedAxes: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getAxesByBibliography(input);
+      }),
+  }),
+
+  // ============================================================================
+  // RESEARCH AXES (Axes de recherche)
+  // ============================================================================
+  researchAxes: router({
+    // Lister tous les axes
+    list: publicProcedure
+      .input(z.object({
+        status: z.string().optional(),
+        category: z.string().optional(),
+        priority: z.string().optional(),
+        parentAxisId: z.number().nullable().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.getAllResearchAxes(input || {});
+      }),
+    
+    // Obtenir un axe par ID
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getResearchAxisById(input);
+      }),
+    
+    // Obtenir un axe par code
+    getByCode: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getResearchAxisByCode(input);
+      }),
+    
+    // Créer un nouvel axe
+    create: protectedProcedure
+      .input(z.object({
+        axisCode: z.string(),
+        name: z.string(),
+        subtitle: z.string().optional(),
+        description: z.string().optional(),
+        objectives: z.string().optional(),
+        methodology: z.string().optional(),
+        category: z.enum(['fondamental', 'applique', 'experimental', 'theorique', 'historique', 'ethnographique', 'technique']).optional(),
+        status: z.enum(['planifie', 'en_cours', 'pause', 'termine', 'archive']).optional(),
+        priority: z.enum(['haute', 'moyenne', 'basse']).optional(),
+        startDate: z.date().optional(),
+        targetEndDate: z.date().optional(),
+        progressPercent: z.number().optional(),
+        color: z.string().optional(),
+        icon: z.string().optional(),
+        parentAxisId: z.number().optional(),
+        tags: z.array(z.string()).optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createResearchAxis({
+          ...input,
+          createdBy: ctx.user?.id,
+        } as any);
+      }),
+    
+    // Mettre à jour un axe
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        axisCode: z.string().optional(),
+        name: z.string().optional(),
+        subtitle: z.string().optional(),
+        description: z.string().optional(),
+        objectives: z.string().optional(),
+        methodology: z.string().optional(),
+        category: z.enum(['fondamental', 'applique', 'experimental', 'theorique', 'historique', 'ethnographique', 'technique']).optional(),
+        status: z.enum(['planifie', 'en_cours', 'pause', 'termine', 'archive']).optional(),
+        priority: z.enum(['haute', 'moyenne', 'basse']).optional(),
+        startDate: z.date().optional(),
+        targetEndDate: z.date().optional(),
+        actualEndDate: z.date().optional(),
+        progressPercent: z.number().optional(),
+        color: z.string().optional(),
+        icon: z.string().optional(),
+        parentAxisId: z.number().nullable().optional(),
+        tags: z.array(z.string()).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return db.updateResearchAxis(id, data as any);
+      }),
+    
+    // Supprimer un axe
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.deleteResearchAxis(input);
+      }),
+    
+    // Statistiques
+    getStats: publicProcedure.query(async () => {
+      return db.getResearchAxesStats();
+    }),
+    
+    // Obtenir les références bibliographiques liées
+    getBibliography: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getBibliographyByAxis(input);
+      }),
+  }),
+
+  // ============================================================================
+  // RESEARCH ENTRIES (Entrées de recherche)
+  // ============================================================================
+  researchEntries: router({
+    // Lister toutes les entrées avec filtres
+    list: publicProcedure
+      .input(z.object({
+        axisId: z.number().optional(),
+        entryType: z.string().optional(),
+        status: z.string().optional(),
+        importance: z.string().optional(),
+        search: z.string().optional(),
+        limit: z.number().optional(),
+        offset: z.number().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.getAllResearchEntries(input || {});
+      }),
+    
+    // Obtenir une entrée par ID
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getResearchEntryById(input);
+      }),
+    
+    // Obtenir une entrée par code
+    getByCode: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getResearchEntryByCode(input);
+      }),
+    
+    // Obtenir les entrées d'un axe
+    getByAxis: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getResearchEntriesByAxis(input);
+      }),
+    
+    // Obtenir le prochain code d'entrée
+    getNextCode: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getNextEntryCode(input);
+      }),
+    
+    // Créer une nouvelle entrée
+    create: protectedProcedure
+      .input(z.object({
+        entryCode: z.string(),
+        axisId: z.number(),
+        title: z.string(),
+        content: z.string().optional(),
+        summary: z.string().optional(),
+        entryType: z.enum(['note', 'observation', 'hypothese', 'resultat', 'conclusion', 'question', 'idee', 'protocole', 'donnees', 'analyse', 'reference', 'citation', 'media', 'lien', 'autre']).optional(),
+        status: z.enum(['brouillon', 'en_revision', 'valide', 'archive']).optional(),
+        importance: z.enum(['critique', 'haute', 'moyenne', 'basse', 'reference']).optional(),
+        entryDate: z.date().optional(),
+        attachments: z.array(z.object({
+          name: z.string(),
+          url: z.string(),
+          type: z.string(),
+          size: z.number().optional(),
+        })).optional(),
+        bibliographyIds: z.array(z.number()).optional(),
+        linkedMoleculeIds: z.array(z.number()).optional(),
+        linkedPlantIds: z.array(z.number()).optional(),
+        linkedRecetteIds: z.array(z.number()).optional(),
+        linkedPrototypeIds: z.array(z.number()).optional(),
+        tags: z.array(z.string()).optional(),
+        sortOrder: z.number().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createResearchEntry({
+          ...input,
+          createdBy: ctx.user?.id,
+        } as any);
+      }),
+    
+    // Mettre à jour une entrée
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        entryCode: z.string().optional(),
+        axisId: z.number().optional(),
+        title: z.string().optional(),
+        content: z.string().optional(),
+        summary: z.string().optional(),
+        entryType: z.enum(['note', 'observation', 'hypothese', 'resultat', 'conclusion', 'question', 'idee', 'protocole', 'donnees', 'analyse', 'reference', 'citation', 'media', 'lien', 'autre']).optional(),
+        status: z.enum(['brouillon', 'en_revision', 'valide', 'archive']).optional(),
+        importance: z.enum(['critique', 'haute', 'moyenne', 'basse', 'reference']).optional(),
+        entryDate: z.date().optional(),
+        attachments: z.array(z.object({
+          name: z.string(),
+          url: z.string(),
+          type: z.string(),
+          size: z.number().optional(),
+        })).optional(),
+        bibliographyIds: z.array(z.number()).optional(),
+        linkedMoleculeIds: z.array(z.number()).optional(),
+        linkedPlantIds: z.array(z.number()).optional(),
+        linkedRecetteIds: z.array(z.number()).optional(),
+        linkedPrototypeIds: z.array(z.number()).optional(),
+        tags: z.array(z.string()).optional(),
+        sortOrder: z.number().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return db.updateResearchEntry(id, data as any);
+      }),
+    
+    // Supprimer une entrée
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.deleteResearchEntry(input);
       }),
   }),
 });

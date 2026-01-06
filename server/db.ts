@@ -173,23 +173,19 @@ import {
   sustainableAlternatives,
   SustainableAlternative,
   InsertSustainableAlternative,
-  // Verified Suppliers
-  verifiedSuppliers,
-  VerifiedSupplier,
-  InsertVerifiedSupplier,
-  supplierAlternativeLinks,
-  // Olfaction & Mémoire
-  olfactionMemory,
-  OlfactionMemory,
-  InsertOlfactionMemory,
-  memoryOlfactionConcepts,
-  MemoryOlfactionConcept,
-  InsertMemoryOlfactionConcept,
-  olfactionMemorySources,
-  OlfactionMemorySource,
-  InsertOlfactionMemorySource,
-  olfactionMemoryArticleSources,
-  olfactionMemoryArticleConcepts,
+  // Bibliography & Research Axes
+  bibliographyEntries,
+  BibliographyEntry,
+  InsertBibliographyEntry,
+  researchAxes,
+  ResearchAxis,
+  InsertResearchAxis,
+  researchEntries,
+  ResearchEntry,
+  InsertResearchEntry,
+  bibliographyAxisLinks,
+  BibliographyAxisLink,
+  InsertBibliographyAxisLink,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -6730,21 +6726,6 @@ export async function searchOlfactiveArchives(searchQuery: string, limit: number
   );
 }
 
-// Obtenir les archives mentionnant une plante spécifique
-export async function getOlfactiveArchivesByPlant(plantId: number) {
-  const db = await getDb();
-  if (!db) return [];
-  
-  // Récupérer toutes les archives
-  const allArchives = await db.select().from(olfactiveArchives);
-  
-  // Filtrer celles qui contiennent le plantId dans leur tableau plantIds
-  return allArchives.filter(archive => {
-    const plantIds = archive.plantIds as number[] | null;
-    return plantIds && Array.isArray(plantIds) && plantIds.includes(plantId);
-  });
-}
-
 // ============================================================================
 // CIVILIZATIONAL MARKERS HELPERS
 // ============================================================================
@@ -7373,933 +7354,327 @@ export async function getAlternativesStats() {
 
 
 // ============================================================================
-// VERIFIED SUPPLIERS (Fournisseurs vérifiés)
+// BIBLIOGRAPHY ENTRIES
 // ============================================================================
 
-import { verifiedSuppliers, supplierAlternativeLinks } from "../drizzle/schema";
-
-export async function getAllVerifiedSuppliers() {
-  const db = await getDb();
-  if (!db) return [];
-  return await db.select().from(verifiedSuppliers).orderBy(verifiedSuppliers.name);
-}
-
-export async function getVerifiedSupplierById(id: number) {
-  const db = await getDb();
-  if (!db) return null;
-  const [result] = await db.select().from(verifiedSuppliers).where(eq(verifiedSuppliers.id, id));
-  return result || null;
-}
-
-export async function getVerifiedSuppliersByCountry(country: string) {
-  const db = await getDb();
-  if (!db) return [];
-  return await db.select().from(verifiedSuppliers).where(eq(verifiedSuppliers.country, country));
-}
-
-export async function getVerifiedSuppliersByType(companyType: string) {
-  const db = await getDb();
-  if (!db) return [];
-  return await db.select().from(verifiedSuppliers).where(eq(verifiedSuppliers.companyType, companyType as any));
-}
-
-export async function getVerifiedOnlySuppliers() {
-  const db = await getDb();
-  if (!db) return [];
-  return await db.select().from(verifiedSuppliers).where(eq(verifiedSuppliers.verified, true));
-}
-
-export async function searchVerifiedSuppliers(query: string) {
-  const db = await getDb();
-  if (!db) return [];
-  const searchLower = `%${query.toLowerCase()}%`;
-  return await db.select().from(verifiedSuppliers).where(
-    or(
-      like(verifiedSuppliers.name, searchLower),
-      like(verifiedSuppliers.country, searchLower),
-      like(verifiedSuppliers.region, searchLower)
-    )
-  );
-}
-
-export async function createVerifiedSupplier(data: {
-  name: string;
-  companyType: string;
-  country: string;
-  region?: string;
-  address?: string;
-  website?: string;
-  email?: string;
-  phone?: string;
-  contactPerson?: string;
-  certifications?: any[];
-  specialties?: string[];
-  sustainablePractices?: string;
-  sustainabilityRating?: number;
-  qualityRating?: number;
-  reliabilityRating?: number;
-  minimumOrderQuantity?: string;
-  leadTime?: string;
-  paymentTerms?: string;
-  shipsTo?: string[];
-  verified?: boolean;
-  verifiedBy?: string;
-  notes?: string;
-  supplierReferences?: any[];
+export async function getAllBibliographyEntries(filters?: {
+  entryType?: string;
+  researchDomain?: string;
+  year?: number;
+  readStatus?: string;
+  search?: string;
+  limit?: number;
+  offset?: number;
 }) {
   const db = await getDb();
-  if (!db) return null;
+  if (!db) return { entries: [], total: 0 };
   
-  const [result] = await db.insert(verifiedSuppliers).values({
-    name: data.name,
-    companyType: data.companyType as any,
-    country: data.country,
-    region: data.region,
-    address: data.address,
-    website: data.website,
-    email: data.email,
-    phone: data.phone,
-    contactPerson: data.contactPerson,
-    certifications: data.certifications ? JSON.stringify(data.certifications) : null,
-    specialties: data.specialties ? JSON.stringify(data.specialties) : null,
-    sustainablePractices: data.sustainablePractices,
-    sustainabilityRating: data.sustainabilityRating,
-    qualityRating: data.qualityRating,
-    reliabilityRating: data.reliabilityRating,
-    minimumOrderQuantity: data.minimumOrderQuantity,
-    leadTime: data.leadTime,
-    paymentTerms: data.paymentTerms,
-    shipsTo: data.shipsTo ? JSON.stringify(data.shipsTo) : null,
-    verified: data.verified || false,
-    verifiedBy: data.verifiedBy,
-    verifiedAt: data.verified ? new Date() : null,
-    notes: data.notes,
-    supplierReferences: data.supplierReferences ? JSON.stringify(data.supplierReferences) : null,
-  } as any);
+  const conditions: any[] = [];
   
-  return getVerifiedSupplierById(result.insertId);
-}
-
-export async function updateVerifiedSupplier(id: number, data: Partial<{
-  name: string;
-  companyType: string;
-  country: string;
-  region: string;
-  address: string;
-  website: string;
-  email: string;
-  phone: string;
-  contactPerson: string;
-  certifications: any[];
-  specialties: string[];
-  sustainablePractices: string;
-  sustainabilityRating: number;
-  qualityRating: number;
-  reliabilityRating: number;
-  minimumOrderQuantity: string;
-  leadTime: string;
-  paymentTerms: string;
-  shipsTo: string[];
-  verified: boolean;
-  verifiedBy: string;
-  notes: string;
-  supplierReferences: any[];
-}>) {
-  const db = await getDb();
-  if (!db) return null;
-  
-  const updateData: any = { ...data };
-  if (data.certifications) updateData.certifications = JSON.stringify(data.certifications);
-  if (data.specialties) updateData.specialties = JSON.stringify(data.specialties);
-  if (data.shipsTo) updateData.shipsTo = JSON.stringify(data.shipsTo);
-  if (data.supplierReferences) updateData.supplierReferences = JSON.stringify(data.supplierReferences);
-  if (data.verified) updateData.verifiedAt = new Date();
-  
-  await db.update(verifiedSuppliers).set(updateData).where(eq(verifiedSuppliers.id, id));
-  return getVerifiedSupplierById(id);
-}
-
-export async function deleteVerifiedSupplier(id: number) {
-  const db = await getDb();
-  if (!db) return false;
-  await db.delete(verifiedSuppliers).where(eq(verifiedSuppliers.id, id));
-  return true;
-}
-
-// ============================================================================
-// SUPPLIER-ALTERNATIVE LINKS
-// ============================================================================
-
-export async function getSuppliersByAlternative(alternativeId: number) {
-  const db = await getDb();
-  if (!db) return [];
-  
-  const links = await db
-    .select({
-      link: supplierAlternativeLinks,
-      supplier: verifiedSuppliers,
-    })
-    .from(supplierAlternativeLinks)
-    .innerJoin(verifiedSuppliers, eq(supplierAlternativeLinks.supplierId, verifiedSuppliers.id))
-    .where(eq(supplierAlternativeLinks.alternativeId, alternativeId));
-  
-  return links;
-}
-
-export async function getAlternativesBySupplier(supplierId: number) {
-  const db = await getDb();
-  if (!db) return [];
-  
-  const links = await db
-    .select({
-      link: supplierAlternativeLinks,
-      alternative: sustainableAlternatives,
-    })
-    .from(supplierAlternativeLinks)
-    .innerJoin(sustainableAlternatives, eq(supplierAlternativeLinks.alternativeId, sustainableAlternatives.id))
-    .where(eq(supplierAlternativeLinks.supplierId, supplierId));
-  
-  return links;
-}
-
-export async function linkSupplierToAlternative(data: {
-  supplierId: number;
-  alternativeId: number;
-  productName?: string;
-  productCode?: string;
-  priceRange?: string;
-  availabilityStatus?: string;
-  notes?: string;
-}) {
-  const db = await getDb();
-  if (!db) return null;
-  
-  const [result] = await db.insert(supplierAlternativeLinks).values({
-    supplierId: data.supplierId,
-    alternativeId: data.alternativeId,
-    productName: data.productName,
-    productCode: data.productCode,
-    priceRange: data.priceRange,
-    availabilityStatus: data.availabilityStatus as any || 'in_stock',
-    notes: data.notes,
-  });
-  
-  return { id: result.insertId, ...data };
-}
-
-export async function unlinkSupplierFromAlternative(supplierId: number, alternativeId: number) {
-  const db = await getDb();
-  if (!db) return false;
-  
-  await db.delete(supplierAlternativeLinks).where(
-    and(
-      eq(supplierAlternativeLinks.supplierId, supplierId),
-      eq(supplierAlternativeLinks.alternativeId, alternativeId)
-    )
-  );
-  
-  return true;
-}
-
-export async function getAlternativesWithSuppliers() {
-  const db = await getDb();
-  if (!db) return [];
-  
-  // Récupérer toutes les alternatives
-  const alternatives = await db.select().from(sustainableAlternatives);
-  
-  // Pour chaque alternative, récupérer les fournisseurs liés
-  const result = await Promise.all(
-    alternatives.map(async (alt) => {
-      const suppliers = await getSuppliersByAlternative(alt.id);
-      return {
-        ...alt,
-        suppliers: suppliers.map(s => ({
-          ...s.supplier,
-          linkInfo: s.link,
-        })),
-      };
-    })
-  );
-  
-  return result;
-}
-
-export async function getVerifiedSuppliersStats() {
-  const db = await getDb();
-  if (!db) return null;
-  
-  const [totalCount] = await db.select({ count: count() }).from(verifiedSuppliers);
-  const [verifiedCount] = await db.select({ count: count() }).from(verifiedSuppliers).where(eq(verifiedSuppliers.verified, true));
-  
-  // Par type d'entreprise
-  const byType = await db
-    .select({
-      type: verifiedSuppliers.companyType,
-      count: count(),
-    })
-    .from(verifiedSuppliers)
-    .groupBy(verifiedSuppliers.companyType);
-  
-  // Par pays
-  const byCountry = await db
-    .select({
-      country: verifiedSuppliers.country,
-      count: count(),
-    })
-    .from(verifiedSuppliers)
-    .groupBy(verifiedSuppliers.country)
-    .orderBy(desc(count()));
-  
-  return {
-    total: totalCount?.count || 0,
-    verified: verifiedCount?.count || 0,
-    byType,
-    byCountry: byCountry.slice(0, 10), // Top 10 pays
-  };
-}
-
-
-// ============================================================================
-// OLFACTION & MÉMOIRE - Fonctions de base de données
-// ============================================================================
-
-// Articles Olfaction & Mémoire
-export async function getAllOlfactionMemoryArticles(filters?: {
-  category?: string;
-  status?: string;
-  featured?: boolean;
-}) {
-  const db = await getDb();
-  let query = db.select().from(olfactionMemory);
-  
-  if (filters?.category) {
-    query = query.where(eq(olfactionMemory.category, filters.category as any));
+  if (filters?.entryType) {
+    conditions.push(eq(bibliographyEntries.entryType, filters.entryType as any));
   }
-  if (filters?.status) {
-    query = query.where(eq(olfactionMemory.status, filters.status as any));
+  if (filters?.researchDomain) {
+    conditions.push(eq(bibliographyEntries.researchDomain, filters.researchDomain as any));
   }
-  if (filters?.featured !== undefined) {
-    query = query.where(eq(olfactionMemory.featured, filters.featured));
+  if (filters?.year) {
+    conditions.push(eq(bibliographyEntries.year, filters.year));
   }
-  
-  return query.orderBy(desc(olfactionMemory.createdAt));
-}
-
-export async function getOlfactionMemoryArticleById(id: number) {
-  const db = await getDb();
-  const results = await db.select().from(olfactionMemory).where(eq(olfactionMemory.id, id));
-  return results[0] || null;
-}
-
-export async function getOlfactionMemoryArticleBySlug(slug: string) {
-  const db = await getDb();
-  const results = await db.select().from(olfactionMemory).where(eq(olfactionMemory.slug, slug));
-  return results[0] || null;
-}
-
-export async function createOlfactionMemoryArticle(data: InsertOlfactionMemory) {
-  const db = await getDb();
-  const result = await db.insert(olfactionMemory).values(data);
-  return result;
-}
-
-export async function updateOlfactionMemoryArticle(id: number, data: Partial<InsertOlfactionMemory>) {
-  const db = await getDb();
-  await db.update(olfactionMemory).set(data).where(eq(olfactionMemory.id, id));
-}
-
-export async function deleteOlfactionMemoryArticle(id: number) {
-  const db = await getDb();
-  await db.delete(olfactionMemory).where(eq(olfactionMemory.id, id));
-}
-
-export async function getFeaturedOlfactionMemoryArticles(limit: number = 5) {
-  const db = await getDb();
-  return db.select()
-    .from(olfactionMemory)
-    .where(and(
-      eq(olfactionMemory.featured, true),
-      eq(olfactionMemory.status, "published")
-    ))
-    .orderBy(desc(olfactionMemory.createdAt))
-    .limit(limit);
-}
-
-// Concepts Olfaction & Mémoire
-export async function getAllMemoryOlfactionConcepts(type?: string) {
-  const db = await getDb();
-  let query = db.select().from(memoryOlfactionConcepts);
-  
-  if (type) {
-    query = query.where(eq(memoryOlfactionConcepts.type, type as any));
+  if (filters?.readStatus) {
+    conditions.push(eq(bibliographyEntries.readStatus, filters.readStatus as any));
   }
-  
-  return query.orderBy(memoryOlfactionConcepts.name);
-}
-
-export async function getMemoryOlfactionConceptById(id: number) {
-  const db = await getDb();
-  const results = await db.select().from(memoryOlfactionConcepts).where(eq(memoryOlfactionConcepts.id, id));
-  return results[0] || null;
-}
-
-export async function getMemoryOlfactionConceptBySlug(slug: string) {
-  const db = await getDb();
-  const results = await db.select().from(memoryOlfactionConcepts).where(eq(memoryOlfactionConcepts.slug, slug));
-  return results[0] || null;
-}
-
-export async function createMemoryOlfactionConcept(data: InsertMemoryOlfactionConcept) {
-  const db = await getDb();
-  const result = await db.insert(memoryOlfactionConcepts).values(data);
-  return result;
-}
-
-export async function updateMemoryOlfactionConcept(id: number, data: Partial<InsertMemoryOlfactionConcept>) {
-  const db = await getDb();
-  await db.update(memoryOlfactionConcepts).set(data).where(eq(memoryOlfactionConcepts.id, id));
-}
-
-export async function deleteMemoryOlfactionConcept(id: number) {
-  const db = await getDb();
-  await db.delete(memoryOlfactionConcepts).where(eq(memoryOlfactionConcepts.id, id));
-}
-
-// Sources bibliographiques
-export async function getAllOlfactionMemorySources(sourceType?: string) {
-  const db = await getDb();
-  let query = db.select().from(olfactionMemorySources);
-  
-  if (sourceType) {
-    query = query.where(eq(olfactionMemorySources.sourceType, sourceType as any));
-  }
-  
-  return query.orderBy(desc(olfactionMemorySources.publicationYear));
-}
-
-export async function getOlfactionMemorySourceById(id: number) {
-  const db = await getDb();
-  const results = await db.select().from(olfactionMemorySources).where(eq(olfactionMemorySources.id, id));
-  return results[0] || null;
-}
-
-export async function createOlfactionMemorySource(data: InsertOlfactionMemorySource) {
-  const db = await getDb();
-  const result = await db.insert(olfactionMemorySources).values(data);
-  return result;
-}
-
-export async function updateOlfactionMemorySource(id: number, data: Partial<InsertOlfactionMemorySource>) {
-  const db = await getDb();
-  await db.update(olfactionMemorySources).set(data).where(eq(olfactionMemorySources.id, id));
-}
-
-export async function deleteOlfactionMemorySource(id: number) {
-  const db = await getDb();
-  await db.delete(olfactionMemorySources).where(eq(olfactionMemorySources.id, id));
-}
-
-// Liens articles-sources
-export async function getArticleSources(articleId: number) {
-  const db = await getDb();
-  return db.select({
-    source: olfactionMemorySources,
-    citationContext: olfactionMemoryArticleSources.citationContext,
-  })
-    .from(olfactionMemoryArticleSources)
-    .innerJoin(olfactionMemorySources, eq(olfactionMemoryArticleSources.sourceId, olfactionMemorySources.id))
-    .where(eq(olfactionMemoryArticleSources.articleId, articleId));
-}
-
-export async function linkArticleToSource(articleId: number, sourceId: number, citationContext?: string) {
-  const db = await getDb();
-  await db.insert(olfactionMemoryArticleSources).values({
-    articleId,
-    sourceId,
-    citationContext,
-  });
-}
-
-export async function unlinkArticleFromSource(articleId: number, sourceId: number) {
-  const db = await getDb();
-  await db.delete(olfactionMemoryArticleSources)
-    .where(and(
-      eq(olfactionMemoryArticleSources.articleId, articleId),
-      eq(olfactionMemoryArticleSources.sourceId, sourceId)
-    ));
-}
-
-// Liens articles-concepts
-export async function getArticleConcepts(articleId: number) {
-  const db = await getDb();
-  return db.select({
-    concept: memoryOlfactionConcepts,
-  })
-    .from(olfactionMemoryArticleConcepts)
-    .innerJoin(memoryOlfactionConcepts, eq(olfactionMemoryArticleConcepts.conceptId, memoryOlfactionConcepts.id))
-    .where(eq(olfactionMemoryArticleConcepts.articleId, articleId));
-}
-
-export async function linkArticleToConcept(articleId: number, conceptId: number) {
-  const db = await getDb();
-  await db.insert(olfactionMemoryArticleConcepts).values({
-    articleId,
-    conceptId,
-  });
-}
-
-export async function unlinkArticleFromConcept(articleId: number, conceptId: number) {
-  const db = await getDb();
-  await db.delete(olfactionMemoryArticleConcepts)
-    .where(and(
-      eq(olfactionMemoryArticleConcepts.articleId, articleId),
-      eq(olfactionMemoryArticleConcepts.conceptId, conceptId)
-    ));
-}
-
-// Statistiques Olfaction & Mémoire
-export async function getOlfactionMemoryStats() {
-  const db = await getDb();
-  
-  // Total articles
-  const totalArticles = await db.select({ count: count() }).from(olfactionMemory);
-  
-  // Par catégorie
-  const byCategory = await db
-    .select({
-      category: olfactionMemory.category,
-      count: count(),
-    })
-    .from(olfactionMemory)
-    .groupBy(olfactionMemory.category);
-  
-  // Total concepts
-  const totalConcepts = await db.select({ count: count() }).from(memoryOlfactionConcepts);
-  
-  // Par type de concept
-  const byConceptType = await db
-    .select({
-      type: memoryOlfactionConcepts.type,
-      count: count(),
-    })
-    .from(memoryOlfactionConcepts)
-    .groupBy(memoryOlfactionConcepts.type);
-  
-  // Total sources
-  const totalSources = await db.select({ count: count() }).from(olfactionMemorySources);
-  
-  // Par type de source
-  const bySourceType = await db
-    .select({
-      type: olfactionMemorySources.sourceType,
-      count: count(),
-    })
-    .from(olfactionMemorySources)
-    .groupBy(olfactionMemorySources.sourceType);
-  
-  return {
-    articles: {
-      total: totalArticles[0]?.count || 0,
-      byCategory,
-    },
-    concepts: {
-      total: totalConcepts[0]?.count || 0,
-      byType: byConceptType,
-    },
-    sources: {
-      total: totalSources[0]?.count || 0,
-      byType: bySourceType,
-    },
-  };
-}
-
-// Recherche dans Olfaction & Mémoire
-export async function searchOlfactionMemory(query: string, limit: number = 20) {
-  const db = await getDb();
-  const searchTerm = `%${query}%`;
-  
-  // Recherche dans les articles
-  const articles = await db.select()
-    .from(olfactionMemory)
-    .where(or(
-      like(olfactionMemory.title, searchTerm),
-      like(olfactionMemory.summary, searchTerm),
-      like(olfactionMemory.content, searchTerm)
-    ))
-    .limit(limit);
-  
-  // Recherche dans les concepts
-  const concepts = await db.select()
-    .from(memoryOlfactionConcepts)
-    .where(or(
-      like(memoryOlfactionConcepts.name, searchTerm),
-      like(memoryOlfactionConcepts.definition, searchTerm),
-      like(memoryOlfactionConcepts.description, searchTerm)
-    ))
-    .limit(limit);
-  
-  // Recherche dans les sources
-  const sources = await db.select()
-    .from(olfactionMemorySources)
-    .where(or(
-      like(olfactionMemorySources.title, searchTerm),
-      like(olfactionMemorySources.authors, searchTerm),
-      like(olfactionMemorySources.abstract, searchTerm)
-    ))
-    .limit(limit);
-  
-  return { articles, concepts, sources };
-}
-
-
-// ============================================================================
-// LIENS MOLÉCULES - EFFETS - MÉMOIRE
-// ============================================================================
-
-/**
- * Récupère les effets sur la mémoire associés à une molécule
- * Basé sur les propriétés connues des molécules et leurs effets psychoactifs
- */
-export async function getMoleculeMemoryEffects(moleculeId: number) {
-  const db = await getDb();
-  
-  // Récupérer la molécule avec ses propriétés
-  const molecule = await db.select()
-    .from(molecules)
-    .where(eq(molecules.id, moleculeId))
-    .limit(1);
-  
-  if (!molecule[0]) return null;
-  
-  const mol = molecule[0];
-  
-  // Mapping des molécules connues vers leurs effets sur la mémoire
-  const MOLECULE_MEMORY_EFFECTS: Record<string, {
-    effect: string;
-    mechanism: string;
-    concepts: string[];
-    intensity: 'faible' | 'modéré' | 'fort';
-    evidence: 'anecdotique' | 'préclinique' | 'clinique';
-  }> = {
-    // Terpènes relaxants
-    'linalol': {
-      effect: 'Relaxation et réduction de l\'anxiété, favorise la consolidation mnésique',
-      mechanism: 'Modulation GABAergique, réduction du cortisol',
-      concepts: ['consolidation-olfactive', 'aromatherapie-cognitive'],
-      intensity: 'modéré',
-      evidence: 'clinique'
-    },
-    'linalool': {
-      effect: 'Relaxation et réduction de l\'anxiété, favorise la consolidation mnésique',
-      mechanism: 'Modulation GABAergique, réduction du cortisol',
-      concepts: ['consolidation-olfactive', 'aromatherapie-cognitive'],
-      intensity: 'modéré',
-      evidence: 'clinique'
-    },
-    'limonène': {
-      effect: 'Stimulation cognitive et amélioration de l\'humeur',
-      mechanism: 'Augmentation de la dopamine et sérotonine',
-      concepts: ['encodage-olfactif', 'memoire-episodique'],
-      intensity: 'modéré',
-      evidence: 'préclinique'
-    },
-    'limonene': {
-      effect: 'Stimulation cognitive et amélioration de l\'humeur',
-      mechanism: 'Augmentation de la dopamine et sérotonine',
-      concepts: ['encodage-olfactif', 'memoire-episodique'],
-      intensity: 'modéré',
-      evidence: 'préclinique'
-    },
-    'pinène': {
-      effect: 'Amélioration de la vigilance et de la mémoire à court terme',
-      mechanism: 'Inhibition de l\'acétylcholinestérase',
-      concepts: ['rappel-olfactif', 'memoire-semantique-olfactive'],
-      intensity: 'modéré',
-      evidence: 'préclinique'
-    },
-    'alpha-pinene': {
-      effect: 'Amélioration de la vigilance et de la mémoire à court terme',
-      mechanism: 'Inhibition de l\'acétylcholinestérase',
-      concepts: ['rappel-olfactif', 'memoire-semantique-olfactive'],
-      intensity: 'modéré',
-      evidence: 'préclinique'
-    },
-    'beta-caryophyllène': {
-      effect: 'Effet anti-inflammatoire et neuroprotecteur',
-      mechanism: 'Agoniste du récepteur CB2',
-      concepts: ['entrainement-olfactif', 'aromatherapie-cognitive'],
-      intensity: 'faible',
-      evidence: 'préclinique'
-    },
-    'eucalyptol': {
-      effect: 'Amélioration de la clarté mentale et de la concentration',
-      mechanism: 'Stimulation du système nerveux central',
-      concepts: ['encodage-olfactif', 'rappel-olfactif'],
-      intensity: 'modéré',
-      evidence: 'clinique'
-    },
-    '1,8-cineole': {
-      effect: 'Amélioration de la clarté mentale et de la concentration',
-      mechanism: 'Stimulation du système nerveux central',
-      concepts: ['encodage-olfactif', 'rappel-olfactif'],
-      intensity: 'modéré',
-      evidence: 'clinique'
-    },
-    'myrcène': {
-      effect: 'Effet sédatif et relaxant musculaire',
-      mechanism: 'Potentialisation GABAergique',
-      concepts: ['consolidation-olfactive', 'memoire-procedurale-olfactive'],
-      intensity: 'fort',
-      evidence: 'préclinique'
-    },
-    'géraniol': {
-      effect: 'Effet calmant et neuroprotecteur',
-      mechanism: 'Modulation des canaux calciques',
-      concepts: ['aromatherapie-cognitive', 'consolidation-olfactive'],
-      intensity: 'faible',
-      evidence: 'préclinique'
-    },
-    // Molécules aromatiques
-    'vanilline': {
-      effect: 'Évocation de souvenirs d\'enfance, effet réconfortant',
-      mechanism: 'Association mémorielle forte (alimentation, enfance)',
-      concepts: ['effet-proust', 'memoire-olfactive-involontaire'],
-      intensity: 'fort',
-      evidence: 'anecdotique'
-    },
-    'coumarine': {
-      effect: 'Sensation de bien-être et nostalgie',
-      mechanism: 'Association avec le foin coupé, la nature',
-      concepts: ['effet-proust', 'bump-reminiscence-olfactive'],
-      intensity: 'modéré',
-      evidence: 'anecdotique'
-    },
-    'eugénol': {
-      effect: 'Évocation de souvenirs culinaires et festifs',
-      mechanism: 'Association avec les épices, Noël',
-      concepts: ['memoire-episodique', 'effet-proust'],
-      intensity: 'modéré',
-      evidence: 'anecdotique'
-    },
-    // Résines et encens
-    'incensole': {
-      effect: 'Effet anxiolytique et antidépresseur',
-      mechanism: 'Activation des canaux TRPV3',
-      concepts: ['encensement-rituel', 'aromatherapie-cognitive'],
-      intensity: 'fort',
-      evidence: 'préclinique'
-    },
-    'olibanol': {
-      effect: 'Induction d\'états méditatifs',
-      mechanism: 'Modulation du système limbique',
-      concepts: ['encensement-rituel', 'fumigation-purificatrice'],
-      intensity: 'modéré',
-      evidence: 'anecdotique'
-    },
-  };
-  
-  // Normaliser le nom de la molécule pour la recherche
-  const molName = mol.name?.toLowerCase().replace(/[^a-z0-9]/g, '') || '';
-  const molNameFr = mol.nameFr?.toLowerCase().replace(/[^a-z0-9]/g, '') || '';
-  
-  // Chercher dans le mapping
-  let effectData = null;
-  for (const [key, value] of Object.entries(MOLECULE_MEMORY_EFFECTS)) {
-    const normalizedKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
-    if (molName.includes(normalizedKey) || molNameFr.includes(normalizedKey) || 
-        normalizedKey.includes(molName) || normalizedKey.includes(molNameFr)) {
-      effectData = value;
-      break;
-    }
-  }
-  
-  // Récupérer les concepts liés si trouvés
-  let relatedConcepts: any[] = [];
-  if (effectData) {
-    relatedConcepts = await db.select()
-      .from(memoryOlfactionConcepts)
-      .where(
-        or(
-          ...effectData.concepts.map(slug => eq(memoryOlfactionConcepts.slug, slug))
-        )
-      );
-  }
-  
-  return {
-    molecule: mol,
-    memoryEffect: effectData,
-    relatedConcepts,
-  };
-}
-
-/**
- * Récupère les molécules associées à un concept de mémoire olfactive
- */
-export async function getConceptMolecules(conceptId: number) {
-  const db = await getDb();
-  
-  // Récupérer le concept
-  const concept = await db.select()
-    .from(memoryOlfactionConcepts)
-    .where(eq(memoryOlfactionConcepts.id, conceptId))
-    .limit(1);
-  
-  if (!concept[0]) return null;
-  
-  const conceptData = concept[0];
-  
-  // Mapping des concepts vers les molécules associées
-  const CONCEPT_MOLECULES: Record<string, string[]> = {
-    'effet-proust': ['vanilline', 'coumarine', 'eugénol', 'linalol'],
-    'memoire-olfactive-involontaire': ['vanilline', 'coumarine', 'musc'],
-    'bump-reminiscence-olfactive': ['coumarine', 'héliotropine', 'vanilline'],
-    'memoire-episodique': ['limonène', 'eugénol', 'linalol'],
-    'memoire-semantique-olfactive': ['pinène', 'eucalyptol', 'menthol'],
-    'memoire-procedurale-olfactive': ['myrcène', 'linalol'],
-    'encodage-olfactif': ['limonène', 'eucalyptol', 'pinène'],
-    'consolidation-olfactive': ['linalol', 'myrcène', 'géraniol'],
-    'rappel-olfactif': ['pinène', 'eucalyptol', 'limonène'],
-    'aromatherapie-cognitive': ['linalol', 'limonène', 'eucalyptol', 'incensole'],
-    'entrainement-olfactif': ['eugénol', 'citronellol', 'phényléthanol', 'eucalyptol'],
-    'encensement-rituel': ['incensole', 'olibanol', 'myrrhe'],
-    'fumigation-purificatrice': ['olibanol', 'cèdre', 'sauge'],
-  };
-  
-  const moleculeNames = CONCEPT_MOLECULES[conceptData.slug] || [];
-  
-  // Rechercher les molécules correspondantes dans la base
-  let relatedMolecules: any[] = [];
-  if (moleculeNames.length > 0) {
-    // Recherche par nom (approximative)
-    for (const name of moleculeNames) {
-      const found = await db.select()
-        .from(molecules)
-        .where(
-          or(
-            like(molecules.name, `%${name}%`),
-            like(molecules.nameFr, `%${name}%`)
-          )
-        )
-        .limit(3);
-      relatedMolecules.push(...found);
-    }
-    // Dédupliquer
-    relatedMolecules = relatedMolecules.filter((mol, index, self) => 
-      index === self.findIndex(m => m.id === mol.id)
+  if (filters?.search) {
+    conditions.push(
+      or(
+        like(bibliographyEntries.title, `%${filters.search}%`),
+        like(bibliographyEntries.authors, `%${filters.search}%`),
+        like(bibliographyEntries.entryKey, `%${filters.search}%`)
+      )
     );
   }
   
+  // Count total
+  let countQuery = db.select({ count: sql<number>`count(*)` }).from(bibliographyEntries);
+  if (conditions.length > 0) {
+    countQuery = countQuery.where(and(...conditions)) as any;
+  }
+  const [countResult] = await countQuery;
+  const total = countResult?.count || 0;
+  
+  // Get entries
+  let query = db.select().from(bibliographyEntries);
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as any;
+  }
+  query = query.orderBy(desc(bibliographyEntries.year), desc(bibliographyEntries.createdAt)) as any;
+  
+  if (filters?.limit) {
+    query = query.limit(filters.limit) as any;
+  }
+  if (filters?.offset) {
+    query = query.offset(filters.offset) as any;
+  }
+  
+  const entries = await query;
+  return { entries, total };
+}
+
+export async function getBibliographyEntryById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [entry] = await db.select().from(bibliographyEntries).where(eq(bibliographyEntries.id, id));
+  return entry || null;
+}
+
+export async function getBibliographyEntryByKey(entryKey: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [entry] = await db.select().from(bibliographyEntries).where(eq(bibliographyEntries.entryKey, entryKey));
+  return entry || null;
+}
+
+export async function createBibliographyEntry(data: InsertBibliographyEntry) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [result] = await db.insert(bibliographyEntries).values(data);
+  return getBibliographyEntryById(result.insertId);
+}
+
+export async function updateBibliographyEntry(id: number, data: Partial<InsertBibliographyEntry>) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.update(bibliographyEntries)
+    .set(data as any)
+    .where(eq(bibliographyEntries.id, id));
+  
+  return getBibliographyEntryById(id);
+}
+
+export async function deleteBibliographyEntry(id: number) {
+  const db = await getDb();
+  if (!db) return false;
+  
+  await db.delete(bibliographyEntries).where(eq(bibliographyEntries.id, id));
+  return true;
+}
+
+export async function getBibliographyStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [totalCount] = await db.select({ count: count() }).from(bibliographyEntries);
+  
+  const byType = await db
+    .select({
+      type: bibliographyEntries.entryType,
+      count: count(),
+    })
+    .from(bibliographyEntries)
+    .groupBy(bibliographyEntries.entryType);
+  
+  const byDomain = await db
+    .select({
+      domain: bibliographyEntries.researchDomain,
+      count: count(),
+    })
+    .from(bibliographyEntries)
+    .groupBy(bibliographyEntries.researchDomain);
+  
+  const byReadStatus = await db
+    .select({
+      status: bibliographyEntries.readStatus,
+      count: count(),
+    })
+    .from(bibliographyEntries)
+    .groupBy(bibliographyEntries.readStatus);
+  
+  const byYear = await db
+    .select({
+      year: bibliographyEntries.year,
+      count: count(),
+    })
+    .from(bibliographyEntries)
+    .groupBy(bibliographyEntries.year)
+    .orderBy(desc(bibliographyEntries.year))
+    .limit(20);
+  
   return {
-    concept: conceptData,
-    relatedMolecules,
-    suggestedMoleculeNames: moleculeNames,
+    total: totalCount.count,
+    byType,
+    byDomain,
+    byReadStatus,
+    byYear,
   };
 }
 
-// Alias pour compatibilité avec le router
-export const getOlfactionMemorySources = getAllOlfactionMemorySources;
-export const getMemoryOlfactionConcepts = getAllMemoryOlfactionConcepts;
-export const getOlfactionMemoryArticles = getAllOlfactionMemoryArticles;
-
-
-// ============================================================================
-// RESEARCH AXES - Axes de recherche PERFUMUM
-// ============================================================================
-
-import {
-  researchAxes,
-  ResearchAxis,
-  InsertResearchAxis,
-  researchEntries,
-  ResearchEntry,
-  InsertResearchEntry,
-  researchEntryAxes,
-  researchTags,
-  ResearchTag,
-  InsertResearchTag,
-  researchEntryTags,
-  bibliographySources,
-  BibliographySource,
-  InsertBibliographySource,
-  researchEntrySources,
-} from "../drizzle/schema";
-
-/**
- * Récupère tous les axes de recherche
- */
-export async function getAllResearchAxes() {
+// Bulk import for bibliography entries
+export async function bulkCreateBibliographyEntries(entries: InsertBibliographyEntry[]) {
   const db = await getDb();
-  if (!db) return [];
-  return await db.select().from(researchAxes).orderBy(researchAxes.sortOrder);
+  if (!db) return { success: 0, failed: 0, errors: [] as string[] };
+  
+  let success = 0;
+  let failed = 0;
+  const errors: string[] = [];
+  
+  for (const entry of entries) {
+    try {
+      await db.insert(bibliographyEntries).values(entry);
+      success++;
+    } catch (error: any) {
+      failed++;
+      errors.push(`${entry.entryKey}: ${error.message}`);
+    }
+  }
+  
+  return { success, failed, errors };
 }
 
-/**
- * Récupère un axe de recherche par son ID
- */
+// ============================================================================
+// RESEARCH AXES
+// ============================================================================
+
+export async function getAllResearchAxes(filters?: {
+  status?: string;
+  category?: string;
+  priority?: string;
+  parentAxisId?: number | null;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  let query = db.select().from(researchAxes);
+  
+  const conditions: any[] = [];
+  
+  if (filters?.status) {
+    conditions.push(eq(researchAxes.status, filters.status as any));
+  }
+  if (filters?.category) {
+    conditions.push(eq(researchAxes.category, filters.category as any));
+  }
+  if (filters?.priority) {
+    conditions.push(eq(researchAxes.priority, filters.priority as any));
+  }
+  if (filters?.parentAxisId !== undefined) {
+    if (filters.parentAxisId === null) {
+      conditions.push(isNull(researchAxes.parentAxisId));
+    } else {
+      conditions.push(eq(researchAxes.parentAxisId, filters.parentAxisId));
+    }
+  }
+  
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as any;
+  }
+  
+  return query.orderBy(researchAxes.axisCode);
+}
+
 export async function getResearchAxisById(id: number) {
   const db = await getDb();
   if (!db) return null;
-  const result = await db.select().from(researchAxes).where(eq(researchAxes.id, id)).limit(1);
-  return result[0] || null;
+  
+  const [axis] = await db.select().from(researchAxes).where(eq(researchAxes.id, id));
+  return axis || null;
 }
 
-/**
- * Récupère un axe de recherche par son code
- */
 export async function getResearchAxisByCode(code: string) {
   const db = await getDb();
   if (!db) return null;
-  const result = await db.select().from(researchAxes).where(eq(researchAxes.code, code)).limit(1);
-  return result[0] || null;
+  
+  const [axis] = await db.select().from(researchAxes).where(eq(researchAxes.axisCode, code));
+  return axis || null;
 }
 
-/**
- * Crée un nouvel axe de recherche
- */
 export async function createResearchAxis(data: InsertResearchAxis) {
   const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  const result = await db.insert(researchAxes).values(data);
-  return result;
+  if (!db) return null;
+  
+  const [result] = await db.insert(researchAxes).values(data);
+  return getResearchAxisById(result.insertId);
 }
 
-/**
- * Met à jour un axe de recherche
- */
 export async function updateResearchAxis(id: number, data: Partial<InsertResearchAxis>) {
   const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  return await db.update(researchAxes).set(data).where(eq(researchAxes.id, id));
+  if (!db) return null;
+  
+  await db.update(researchAxes)
+    .set(data as any)
+    .where(eq(researchAxes.id, id));
+  
+  return getResearchAxisById(id);
+}
+
+export async function deleteResearchAxis(id: number) {
+  const db = await getDb();
+  if (!db) return false;
+  
+  await db.delete(researchAxes).where(eq(researchAxes.id, id));
+  return true;
+}
+
+export async function getResearchAxesStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [totalCount] = await db.select({ count: count() }).from(researchAxes);
+  
+  const byStatus = await db
+    .select({
+      status: researchAxes.status,
+      count: count(),
+    })
+    .from(researchAxes)
+    .groupBy(researchAxes.status);
+  
+  const byCategory = await db
+    .select({
+      category: researchAxes.category,
+      count: count(),
+    })
+    .from(researchAxes)
+    .groupBy(researchAxes.category);
+  
+  // Calcul de la progression moyenne
+  const allAxes = await db.select({ progress: researchAxes.progressPercent }).from(researchAxes);
+  const avgProgress = allAxes.length > 0 
+    ? Math.round(allAxes.reduce((sum, a) => sum + (a.progress || 0), 0) / allAxes.length)
+    : 0;
+  
+  return {
+    total: totalCount.count,
+    byStatus,
+    byCategory,
+    averageProgress: avgProgress,
+  };
 }
 
 // ============================================================================
-// RESEARCH ENTRIES - Entrées de recherche
+// RESEARCH ENTRIES
 // ============================================================================
 
-/**
- * Récupère toutes les entrées de recherche avec leur axe principal
- */
 export async function getAllResearchEntries(filters?: {
   axisId?: number;
   entryType?: string;
   status?: string;
   importance?: string;
+  search?: string;
+  limit?: number;
+  offset?: number;
 }) {
   const db = await getDb();
   if (!db) return [];
   
-  let query = db.select({
-    entry: researchEntries,
-    axis: researchAxes,
-  })
-  .from(researchEntries)
-  .leftJoin(researchAxes, eq(researchEntries.primaryAxisId, researchAxes.id));
+  let query = db.select().from(researchEntries);
   
-  const conditions = [];
+  const conditions: any[] = [];
   
   if (filters?.axisId) {
-    conditions.push(eq(researchEntries.primaryAxisId, filters.axisId));
+    conditions.push(eq(researchEntries.axisId, filters.axisId));
   }
   if (filters?.entryType) {
     conditions.push(eq(researchEntries.entryType, filters.entryType as any));
@@ -8310,449 +7685,513 @@ export async function getAllResearchEntries(filters?: {
   if (filters?.importance) {
     conditions.push(eq(researchEntries.importance, filters.importance as any));
   }
+  if (filters?.search) {
+    conditions.push(
+      or(
+        like(researchEntries.title, `%${filters.search}%`),
+        like(researchEntries.content, `%${filters.search}%`),
+        like(researchEntries.entryCode, `%${filters.search}%`)
+      )
+    );
+  }
   
   if (conditions.length > 0) {
     query = query.where(and(...conditions)) as any;
   }
   
-  return await query.orderBy(desc(researchEntries.createdAt));
-}
-
-/**
- * Récupère les entrées par axe de recherche
- */
-export async function getResearchEntriesByAxis(axisId: number) {
-  const db = await getDb();
-  if (!db) return [];
+  query = query.orderBy(researchEntries.sortOrder, desc(researchEntries.createdAt)) as any;
   
-  return await db.select()
-    .from(researchEntries)
-    .where(eq(researchEntries.primaryAxisId, axisId))
-    .orderBy(desc(researchEntries.createdAt));
+  if (filters?.limit) {
+    query = query.limit(filters.limit) as any;
+  }
+  if (filters?.offset) {
+    query = query.offset(filters.offset) as any;
+  }
+  
+  return query;
 }
 
-/**
- * Récupère une entrée de recherche par son ID avec toutes ses relations
- */
 export async function getResearchEntryById(id: number) {
   const db = await getDb();
   if (!db) return null;
   
-  const entryResult = await db.select({
-    entry: researchEntries,
-    axis: researchAxes,
-  })
-  .from(researchEntries)
-  .leftJoin(researchAxes, eq(researchEntries.primaryAxisId, researchAxes.id))
-  .where(eq(researchEntries.id, id))
-  .limit(1);
-  
-  if (!entryResult[0]) return null;
-  
-  // Récupérer les tags associés
-  const tags = await db.select({
-    tag: researchTags,
-  })
-  .from(researchEntryTags)
-  .leftJoin(researchTags, eq(researchEntryTags.tagId, researchTags.id))
-  .where(eq(researchEntryTags.entryId, id));
-  
-  // Récupérer les sources associées
-  const sources = await db.select({
-    source: bibliographySources,
-    context: researchEntrySources.citationContext,
-    pageRef: researchEntrySources.pageReference,
-  })
-  .from(researchEntrySources)
-  .leftJoin(bibliographySources, eq(researchEntrySources.sourceId, bibliographySources.id))
-  .where(eq(researchEntrySources.entryId, id));
-  
-  // Récupérer les axes secondaires
-  const secondaryAxes = await db.select({
-    axis: researchAxes,
-  })
-  .from(researchEntryAxes)
-  .leftJoin(researchAxes, eq(researchEntryAxes.axisId, researchAxes.id))
-  .where(eq(researchEntryAxes.entryId, id));
-  
-  return {
-    ...entryResult[0],
-    tags: tags.map(t => t.tag).filter(Boolean),
-    sources: sources.map(s => ({ ...s.source, citationContext: s.context, pageReference: s.pageRef })).filter(s => s.id),
-    secondaryAxes: secondaryAxes.map(a => a.axis).filter(Boolean),
-  };
+  const [entry] = await db.select().from(researchEntries).where(eq(researchEntries.id, id));
+  return entry || null;
 }
 
-/**
- * Crée une nouvelle entrée de recherche
- */
-export async function createResearchEntry(data: {
-  title: string;
-  slug: string;
-  summary?: string;
-  content: string;
-  entryType?: string;
-  status?: string;
-  primaryAxisId: number;
-  importance?: string;
-  isPublic?: boolean;
-  isPinned?: boolean;
-  researchDate?: Date;
-  tagIds?: number[];
-  sourceIds?: number[];
-  secondaryAxisIds?: number[];
-}) {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  
-  // Créer l'entrée principale
-  const result = await db.insert(researchEntries).values({
-    title: data.title,
-    slug: data.slug,
-    summary: data.summary,
-    content: data.content,
-    entryType: (data.entryType || "note") as any,
-    status: (data.status || "draft") as any,
-    primaryAxisId: data.primaryAxisId,
-    importance: (data.importance || "medium") as any,
-    isPublic: data.isPublic || false,
-    isPinned: data.isPinned || false,
-    researchDate: data.researchDate,
-  });
-  
-  const entryId = Number(result[0].insertId);
-  
-  // Ajouter les tags
-  if (data.tagIds && data.tagIds.length > 0) {
-    await db.insert(researchEntryTags).values(
-      data.tagIds.map(tagId => ({ entryId, tagId }))
-    );
-  }
-  
-  // Ajouter les sources
-  if (data.sourceIds && data.sourceIds.length > 0) {
-    await db.insert(researchEntrySources).values(
-      data.sourceIds.map(sourceId => ({ entryId, sourceId }))
-    );
-  }
-  
-  // Ajouter les axes secondaires
-  if (data.secondaryAxisIds && data.secondaryAxisIds.length > 0) {
-    await db.insert(researchEntryAxes).values(
-      data.secondaryAxisIds.map(axisId => ({ entryId, axisId }))
-    );
-  }
-  
-  return { id: entryId };
-}
-
-/**
- * Met à jour une entrée de recherche
- */
-export async function updateResearchEntry(id: number, data: Partial<{
-  title: string;
-  slug: string;
-  summary: string;
-  content: string;
-  entryType: string;
-  status: string;
-  primaryAxisId: number;
-  importance: string;
-  isPublic: boolean;
-  isPinned: boolean;
-  researchDate: Date;
-}>) {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  
-  const updateData: any = { ...data };
-  if (data.entryType) updateData.entryType = data.entryType as any;
-  if (data.status) updateData.status = data.status as any;
-  if (data.importance) updateData.importance = data.importance as any;
-  
-  return await db.update(researchEntries).set(updateData).where(eq(researchEntries.id, id));
-}
-
-/**
- * Supprime une entrée de recherche
- */
-export async function deleteResearchEntry(id: number) {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  
-  // Supprimer les relations
-  await db.delete(researchEntryTags).where(eq(researchEntryTags.entryId, id));
-  await db.delete(researchEntrySources).where(eq(researchEntrySources.entryId, id));
-  await db.delete(researchEntryAxes).where(eq(researchEntryAxes.entryId, id));
-  
-  // Supprimer l'entrée
-  return await db.delete(researchEntries).where(eq(researchEntries.id, id));
-}
-
-// ============================================================================
-// RESEARCH TAGS - Tags de recherche
-// ============================================================================
-
-/**
- * Récupère tous les tags de recherche
- */
-export async function getAllResearchTags(category?: string) {
-  const db = await getDb();
-  if (!db) return [];
-  
-  if (category) {
-    return await db.select().from(researchTags)
-      .where(eq(researchTags.category, category as any))
-      .orderBy(researchTags.name);
-  }
-  
-  return await db.select().from(researchTags).orderBy(researchTags.name);
-}
-
-/**
- * Crée un nouveau tag
- */
-export async function createResearchTag(data: InsertResearchTag) {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  const result = await db.insert(researchTags).values(data);
-  return { id: Number(result[0].insertId) };
-}
-
-/**
- * Met à jour un tag
- */
-export async function updateResearchTag(id: number, data: Partial<InsertResearchTag>) {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  return await db.update(researchTags).set(data).where(eq(researchTags.id, id));
-}
-
-/**
- * Supprime un tag
- */
-export async function deleteResearchTag(id: number) {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  await db.delete(researchEntryTags).where(eq(researchEntryTags.tagId, id));
-  return await db.delete(researchTags).where(eq(researchTags.id, id));
-}
-
-// ============================================================================
-// BIBLIOGRAPHY SOURCES - Sources bibliographiques
-// ============================================================================
-
-/**
- * Récupère toutes les sources bibliographiques
- */
-export async function getAllBibliographySources(filters?: {
-  sourceType?: string;
-  year?: number;
-  search?: string;
-}) {
-  const db = await getDb();
-  if (!db) return [];
-  
-  let query = db.select().from(bibliographySources);
-  
-  const conditions = [];
-  
-  if (filters?.sourceType) {
-    conditions.push(eq(bibliographySources.sourceType, filters.sourceType as any));
-  }
-  if (filters?.year) {
-    conditions.push(eq(bibliographySources.publicationYear, filters.year));
-  }
-  if (filters?.search) {
-    conditions.push(
-      or(
-        like(bibliographySources.title, `%${filters.search}%`),
-        like(bibliographySources.authors, `%${filters.search}%`),
-        like(bibliographySources.abstract, `%${filters.search}%`)
-      )
-    );
-  }
-  
-  if (conditions.length > 0) {
-    query = query.where(and(...conditions)) as any;
-  }
-  
-  return await query.orderBy(desc(bibliographySources.publicationYear), bibliographySources.title);
-}
-
-/**
- * Récupère une source par son ID
- */
-export async function getBibliographySourceById(id: number) {
+export async function getResearchEntryByCode(code: string) {
   const db = await getDb();
   if (!db) return null;
-  const result = await db.select().from(bibliographySources).where(eq(bibliographySources.id, id)).limit(1);
-  return result[0] || null;
+  
+  const [entry] = await db.select().from(researchEntries).where(eq(researchEntries.entryCode, code));
+  return entry || null;
 }
 
-/**
- * Crée une nouvelle source bibliographique
- */
-export async function createBibliographySource(data: InsertBibliographySource) {
+export async function createResearchEntry(data: InsertResearchEntry) {
   const db = await getDb();
-  if (!db) throw new Error("Database not available");
+  if (!db) return null;
   
-  // Générer la citation APA si non fournie
-  let citationApa = data.citationApa;
-  if (!citationApa && data.authors && data.title) {
-    const authors = typeof data.authors === 'string' ? JSON.parse(data.authors) : data.authors;
-    const authorStr = Array.isArray(authors) 
-      ? authors.map((a: any) => typeof a === 'string' ? a : a.name).join(', ')
-      : authors;
-    citationApa = `${authorStr} (${data.publicationYear || 'n.d.'}). ${data.title}.`;
-    if (data.journal) citationApa += ` ${data.journal}`;
-    if (data.volume) citationApa += `, ${data.volume}`;
-    if (data.issue) citationApa += `(${data.issue})`;
-    if (data.pages) citationApa += `, ${data.pages}`;
-    citationApa += '.';
-    if (data.doi) citationApa += ` https://doi.org/${data.doi}`;
-  }
-  
-  // Générer la citation BibTeX si non fournie
-  let citationBibtex = data.citationBibtex;
-  if (!citationBibtex && data.title) {
-    const key = data.title.split(' ')[0].toLowerCase() + (data.publicationYear || '');
-    const type = data.sourceType === 'book' ? 'book' : data.sourceType === 'thesis' ? 'phdthesis' : 'article';
-    citationBibtex = `@${type}{${key},\n  title = {${data.title}},`;
-    if (data.authors) citationBibtex += `\n  author = {${data.authors}},`;
-    if (data.publicationYear) citationBibtex += `\n  year = {${data.publicationYear}},`;
-    if (data.journal) citationBibtex += `\n  journal = {${data.journal}},`;
-    if (data.doi) citationBibtex += `\n  doi = {${data.doi}},`;
-    citationBibtex += '\n}';
-  }
-  
-  const result = await db.insert(bibliographySources).values({
-    ...data,
-    citationApa,
-    citationBibtex,
-  });
-  
-  return { id: Number(result[0].insertId) };
+  const [result] = await db.insert(researchEntries).values(data);
+  return getResearchEntryById(result.insertId);
 }
 
-/**
- * Met à jour une source bibliographique
- */
-export async function updateBibliographySource(id: number, data: Partial<InsertBibliographySource>) {
+export async function updateResearchEntry(id: number, data: Partial<InsertResearchEntry>) {
   const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  return await db.update(bibliographySources).set(data).where(eq(bibliographySources.id, id));
+  if (!db) return null;
+  
+  await db.update(researchEntries)
+    .set(data as any)
+    .where(eq(researchEntries.id, id));
+  
+  return getResearchEntryById(id);
 }
 
-/**
- * Supprime une source bibliographique
- */
-export async function deleteBibliographySource(id: number) {
+export async function deleteResearchEntry(id: number) {
   const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  await db.delete(researchEntrySources).where(eq(researchEntrySources.sourceId, id));
-  return await db.delete(bibliographySources).where(eq(bibliographySources.id, id));
+  if (!db) return false;
+  
+  await db.delete(researchEntries).where(eq(researchEntries.id, id));
+  return true;
 }
 
-/**
- * Exporte les sources en format BibTeX
- */
-export async function exportBibliographyBibtex(sourceIds?: number[]) {
-  const db = await getDb();
-  if (!db) return '';
-  
-  let sources;
-  if (sourceIds && sourceIds.length > 0) {
-    sources = await db.select().from(bibliographySources).where(inArray(bibliographySources.id, sourceIds));
-  } else {
-    sources = await db.select().from(bibliographySources);
-  }
-  
-  return sources.map(s => s.citationBibtex || '').filter(Boolean).join('\n\n');
-}
-
-/**
- * Récupère les statistiques de la bibliographie
- */
-export async function getBibliographyStats() {
-  const db = await getDb();
-  if (!db) return { total: 0, byType: [], byYear: [] };
-  
-  const total = await db.select({ count: sql<number>`count(*)` }).from(bibliographySources);
-  
-  const byType = await db.select({
-    type: bibliographySources.sourceType,
-    count: sql<number>`count(*)`,
-  })
-  .from(bibliographySources)
-  .groupBy(bibliographySources.sourceType);
-  
-  const byYear = await db.select({
-    year: bibliographySources.publicationYear,
-    count: sql<number>`count(*)`,
-  })
-  .from(bibliographySources)
-  .where(sql`${bibliographySources.publicationYear} IS NOT NULL`)
-  .groupBy(bibliographySources.publicationYear)
-  .orderBy(desc(bibliographySources.publicationYear))
-  .limit(20);
-  
-  return {
-    total: total[0]?.count || 0,
-    byType,
-    byYear,
-  };
-}
-
-/**
- * Recherche full-text dans les sources
- */
-export async function searchBibliographySources(query: string) {
+export async function getResearchEntriesByAxis(axisId: number) {
   const db = await getDb();
   if (!db) return [];
   
-  const searchTerm = `%${query}%`;
-  
-  return await db.select()
-    .from(bibliographySources)
-    .where(
-      or(
-        like(bibliographySources.title, searchTerm),
-        like(bibliographySources.authors, searchTerm),
-        like(bibliographySources.abstract, searchTerm),
-        like(bibliographySources.keywords, searchTerm),
-        like(bibliographySources.notes, searchTerm)
-      )
-    )
-    .orderBy(desc(bibliographySources.publicationYear))
-    .limit(50);
+  return db
+    .select()
+    .from(researchEntries)
+    .where(eq(researchEntries.axisId, axisId))
+    .orderBy(researchEntries.sortOrder, desc(researchEntries.createdAt));
 }
 
-/**
- * Lie une source à une entrée de recherche
- */
-export async function linkSourceToEntry(entryId: number, sourceId: number, context?: string, pageRef?: string) {
+export async function getNextEntryCode(axisCode: string) {
   const db = await getDb();
-  if (!db) throw new Error("Database not available");
+  if (!db) return `${axisCode}-001`;
   
-  return await db.insert(researchEntrySources).values({
-    entryId,
-    sourceId,
-    citationContext: context,
-    pageReference: pageRef,
+  // Trouver le dernier code pour cet axe
+  const entries = await db
+    .select({ code: researchEntries.entryCode })
+    .from(researchEntries)
+    .where(like(researchEntries.entryCode, `${axisCode}-%`))
+    .orderBy(desc(researchEntries.entryCode))
+    .limit(1);
+  
+  if (entries.length === 0) {
+    return `${axisCode}-001`;
+  }
+  
+  const lastCode = entries[0].code;
+  const lastNumber = parseInt(lastCode.split('-').pop() || '0', 10);
+  const nextNumber = (lastNumber + 1).toString().padStart(3, '0');
+  
+  return `${axisCode}-${nextNumber}`;
+}
+
+// ============================================================================
+// BIBLIOGRAPHY-AXIS LINKS
+// ============================================================================
+
+export async function linkBibliographyToAxis(bibliographyId: number, axisId: number, relevance?: string, notes?: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  try {
+    const [result] = await db.insert(bibliographyAxisLinks).values({
+      bibliographyId,
+      axisId,
+      relevance: relevance as any || 'secondaire',
+      notes,
+    });
+    return { id: result.insertId, bibliographyId, axisId };
+  } catch (error) {
+    // Lien déjà existant
+    return null;
+  }
+}
+
+export async function unlinkBibliographyFromAxis(bibliographyId: number, axisId: number) {
+  const db = await getDb();
+  if (!db) return false;
+  
+  await db.delete(bibliographyAxisLinks)
+    .where(
+      and(
+        eq(bibliographyAxisLinks.bibliographyId, bibliographyId),
+        eq(bibliographyAxisLinks.axisId, axisId)
+      )
+    );
+  return true;
+}
+
+export async function getBibliographyByAxis(axisId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const links = await db
+    .select()
+    .from(bibliographyAxisLinks)
+    .where(eq(bibliographyAxisLinks.axisId, axisId));
+  
+  if (links.length === 0) return [];
+  
+  const bibIds = links.map(l => l.bibliographyId);
+  const entries = await db
+    .select()
+    .from(bibliographyEntries)
+    .where(inArray(bibliographyEntries.id, bibIds));
+  
+  // Joindre les informations de relevance
+  return entries.map(entry => {
+    const link = links.find(l => l.bibliographyId === entry.id);
+    return {
+      ...entry,
+      relevance: link?.relevance,
+      linkNotes: link?.notes,
+    };
   });
 }
 
-/**
- * Supprime le lien entre une source et une entrée
- */
-export async function unlinkSourceFromEntry(entryId: number, sourceId: number) {
+export async function getAxesByBibliography(bibliographyId: number) {
   const db = await getDb();
-  if (!db) throw new Error("Database not available");
+  if (!db) return [];
   
-  return await db.delete(researchEntrySources)
-    .where(and(
-      eq(researchEntrySources.entryId, entryId),
-      eq(researchEntrySources.sourceId, sourceId)
-    ));
+  const links = await db
+    .select()
+    .from(bibliographyAxisLinks)
+    .where(eq(bibliographyAxisLinks.bibliographyId, bibliographyId));
+  
+  if (links.length === 0) return [];
+  
+  const axisIds = links.map(l => l.axisId);
+  const axes = await db
+    .select()
+    .from(researchAxes)
+    .where(inArray(researchAxes.id, axisIds));
+  
+  return axes.map(axis => {
+    const link = links.find(l => l.axisId === axis.id);
+    return {
+      ...axis,
+      relevance: link?.relevance,
+      linkNotes: link?.notes,
+    };
+  });
+}
+
+// ============================================================================
+// BIBTEX PARSING UTILITIES
+// ============================================================================
+
+export function parseBibTeX(bibtexString: string): Partial<InsertBibliographyEntry>[] {
+  const entries: Partial<InsertBibliographyEntry>[] = [];
+  
+  // Regex pour extraire les entrées BibTeX
+  const entryRegex = /@(\w+)\s*\{\s*([^,]+)\s*,([^@]*)\}/g;
+  let match;
+  
+  while ((match = entryRegex.exec(bibtexString)) !== null) {
+    const entryType = match[1].toLowerCase();
+    const entryKey = match[2].trim();
+    const fieldsString = match[3];
+    
+    const entry: Partial<InsertBibliographyEntry> = {
+      entryKey,
+      entryType: mapBibTeXType(entryType),
+    };
+    
+    // Parser les champs
+    const fieldRegex = /(\w+)\s*=\s*\{([^}]*)\}/g;
+    let fieldMatch;
+    
+    while ((fieldMatch = fieldRegex.exec(fieldsString)) !== null) {
+      const fieldName = fieldMatch[1].toLowerCase();
+      const fieldValue = fieldMatch[2].trim();
+      
+      switch (fieldName) {
+        case 'title':
+          entry.title = fieldValue;
+          break;
+        case 'author':
+          entry.authors = fieldValue;
+          break;
+        case 'year':
+          entry.year = parseInt(fieldValue, 10) || undefined;
+          break;
+        case 'journal':
+          entry.journal = fieldValue;
+          break;
+        case 'booktitle':
+          entry.booktitle = fieldValue;
+          break;
+        case 'publisher':
+          entry.publisher = fieldValue;
+          break;
+        case 'volume':
+          entry.volume = fieldValue;
+          break;
+        case 'number':
+          entry.number = fieldValue;
+          break;
+        case 'pages':
+          entry.pages = fieldValue;
+          break;
+        case 'doi':
+          entry.doi = fieldValue;
+          break;
+        case 'isbn':
+          entry.isbn = fieldValue;
+          break;
+        case 'issn':
+          entry.issn = fieldValue;
+          break;
+        case 'url':
+          entry.url = fieldValue;
+          break;
+        case 'abstract':
+          entry.abstract = fieldValue;
+          break;
+        case 'keywords':
+          entry.keywords = fieldValue.split(',').map(k => k.trim());
+          break;
+        case 'edition':
+          entry.edition = fieldValue;
+          break;
+        case 'chapter':
+          entry.chapter = fieldValue;
+          break;
+      }
+    }
+    
+    if (entry.title) {
+      entries.push(entry);
+    }
+  }
+  
+  return entries;
+}
+
+function mapBibTeXType(type: string): InsertBibliographyEntry['entryType'] {
+  const typeMap: Record<string, InsertBibliographyEntry['entryType']> = {
+    'article': 'article',
+    'book': 'book',
+    'inbook': 'inbook',
+    'incollection': 'incollection',
+    'inproceedings': 'inproceedings',
+    'conference': 'conference',
+    'phdthesis': 'phdthesis',
+    'mastersthesis': 'mastersthesis',
+    'thesis': 'thesis',
+    'techreport': 'techreport',
+    'manual': 'manual',
+    'unpublished': 'unpublished',
+    'misc': 'misc',
+    'online': 'online',
+    'patent': 'patent',
+  };
+  
+  return typeMap[type] || 'misc';
+}
+
+// ============================================================================
+// CSV PARSING UTILITIES FOR BIBLIOGRAPHY
+// ============================================================================
+
+export function parseCSVBibliography(csvString: string): Partial<InsertBibliographyEntry>[] {
+  const lines = csvString.split('\n').filter(line => line.trim());
+  if (lines.length < 2) return [];
+  
+  const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+  const entries: Partial<InsertBibliographyEntry>[] = [];
+  
+  for (let i = 1; i < lines.length; i++) {
+    const values = parseCSVLine(lines[i]);
+    if (values.length !== headers.length) continue;
+    
+    const entry: Partial<InsertBibliographyEntry> = {};
+    
+    headers.forEach((header, index) => {
+      const value = values[index]?.trim();
+      if (!value) return;
+      
+      switch (header) {
+        case 'key':
+        case 'entry_key':
+        case 'entrykey':
+          entry.entryKey = value;
+          break;
+        case 'type':
+        case 'entry_type':
+        case 'entrytype':
+          entry.entryType = mapBibTeXType(value.toLowerCase());
+          break;
+        case 'title':
+          entry.title = value;
+          break;
+        case 'author':
+        case 'authors':
+          entry.authors = value;
+          break;
+        case 'year':
+          entry.year = parseInt(value, 10) || undefined;
+          break;
+        case 'journal':
+          entry.journal = value;
+          break;
+        case 'publisher':
+          entry.publisher = value;
+          break;
+        case 'volume':
+          entry.volume = value;
+          break;
+        case 'number':
+        case 'issue':
+          entry.number = value;
+          break;
+        case 'pages':
+          entry.pages = value;
+          break;
+        case 'doi':
+          entry.doi = value;
+          break;
+        case 'isbn':
+          entry.isbn = value;
+          break;
+        case 'url':
+          entry.url = value;
+          break;
+        case 'abstract':
+          entry.abstract = value;
+          break;
+        case 'keywords':
+        case 'tags':
+          entry.keywords = value.split(';').map(k => k.trim());
+          break;
+        case 'domain':
+        case 'research_domain':
+          entry.researchDomain = value as any;
+          break;
+        case 'notes':
+          entry.notes = value;
+          break;
+      }
+    });
+    
+    // Générer une clé si manquante
+    if (!entry.entryKey && entry.authors && entry.year) {
+      const firstAuthor = entry.authors.split(',')[0].split(' ').pop()?.toLowerCase() || 'unknown';
+      entry.entryKey = `${firstAuthor}${entry.year}${Math.random().toString(36).substr(2, 4)}`;
+    }
+    
+    if (entry.title && entry.entryKey) {
+      entries.push(entry);
+    }
+  }
+  
+  return entries;
+}
+
+function parseCSVLine(line: string): string[] {
+  const result: string[] = [];
+  let current = '';
+  let inQuotes = false;
+  
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    
+    if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === ',' && !inQuotes) {
+      result.push(current);
+      current = '';
+    } else {
+      current += char;
+    }
+  }
+  
+  result.push(current);
+  return result;
+}
+
+// ============================================================================
+// EXPORT UTILITIES
+// ============================================================================
+
+export function exportToBibTeX(entries: BibliographyEntry[]): string {
+  return entries.map(entry => {
+    const fields: string[] = [];
+    
+    if (entry.title) fields.push(`  title = {${entry.title}}`);
+    if (entry.authors) fields.push(`  author = {${entry.authors}}`);
+    if (entry.year) fields.push(`  year = {${entry.year}}`);
+    if (entry.journal) fields.push(`  journal = {${entry.journal}}`);
+    if (entry.booktitle) fields.push(`  booktitle = {${entry.booktitle}}`);
+    if (entry.publisher) fields.push(`  publisher = {${entry.publisher}}`);
+    if (entry.volume) fields.push(`  volume = {${entry.volume}}`);
+    if (entry.number) fields.push(`  number = {${entry.number}}`);
+    if (entry.pages) fields.push(`  pages = {${entry.pages}}`);
+    if (entry.doi) fields.push(`  doi = {${entry.doi}}`);
+    if (entry.isbn) fields.push(`  isbn = {${entry.isbn}}`);
+    if (entry.url) fields.push(`  url = {${entry.url}}`);
+    if (entry.abstract) fields.push(`  abstract = {${entry.abstract}}`);
+    if (entry.keywords && entry.keywords.length > 0) {
+      fields.push(`  keywords = {${entry.keywords.join(', ')}}`);
+    }
+    
+    return `@${entry.entryType}{${entry.entryKey},\n${fields.join(',\n')}\n}`;
+  }).join('\n\n');
+}
+
+export function exportToAPA(entry: BibliographyEntry): string {
+  const authors = entry.authors || 'Unknown';
+  const year = entry.year || 'n.d.';
+  const title = entry.title || 'Untitled';
+  
+  let citation = `${authors} (${year}). ${title}`;
+  
+  if (entry.journal) {
+    citation += `. *${entry.journal}*`;
+    if (entry.volume) citation += `, ${entry.volume}`;
+    if (entry.number) citation += `(${entry.number})`;
+    if (entry.pages) citation += `, ${entry.pages}`;
+  } else if (entry.publisher) {
+    citation += `. ${entry.publisher}`;
+  }
+  
+  citation += '.';
+  
+  if (entry.doi) {
+    citation += ` https://doi.org/${entry.doi}`;
+  } else if (entry.url) {
+    citation += ` ${entry.url}`;
+  }
+  
+  return citation;
+}
+
+export function exportToChicago(entry: BibliographyEntry): string {
+  const authors = entry.authors || 'Unknown';
+  const year = entry.year || 'n.d.';
+  const title = entry.title || 'Untitled';
+  
+  let citation = `${authors}. "${title}."`;
+  
+  if (entry.journal) {
+    citation += ` *${entry.journal}*`;
+    if (entry.volume) citation += ` ${entry.volume}`;
+    if (entry.number) citation += `, no. ${entry.number}`;
+    citation += ` (${year})`;
+    if (entry.pages) citation += `: ${entry.pages}`;
+  } else {
+    citation += ` ${year}`;
+    if (entry.publisher) citation += `. ${entry.publisher}`;
+  }
+  
+  citation += '.';
+  
+  if (entry.doi) {
+    citation += ` https://doi.org/${entry.doi}`;
+  }
+  
+  return citation;
 }
