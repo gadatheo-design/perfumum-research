@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Slider } from "@/components/ui/slider";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   Clock,
   MapPin,
@@ -22,9 +24,16 @@ import {
   HelpCircle,
   Atom,
   Map,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+  ChevronLeft,
+  Ruler,
 } from "lucide-react";
 import { Link } from "wouter";
 import { HeritageTimelineMap } from "@/components/HeritageTimelineMap";
+import { HeritageTimelineFilters, FilterState, filterTimelineData, chemotypeColors as filterChemotypeColors } from "@/components/HeritageTimelineFilters";
+import { cn } from "@/lib/utils";
 
 // Couleurs par classe de chémotype
 const chemotypeColors: Record<string, string> = {
@@ -221,6 +230,352 @@ function HeritageTimelineCard({
   );
 }
 
+// Composant de frise chronologique interactive
+interface InteractiveTimelineProps {
+  data: {
+    id: number;
+    periodCode: string;
+    periodName: string;
+    startYear: number | null;
+    endYear: number | null;
+    regionCode: string | null;
+    regionName: string | null;
+    chemotypeClass: string | null;
+    description: string | null;
+    historicalContext: string | null;
+    evidenceCount: number | null;
+    color: string | null;
+    displayOrder: number | null;
+  }[];
+  selectedPeriod: string | null;
+  onPeriodSelect: (periodCode: string | null) => void;
+}
+
+function InteractiveTimeline({ data, selectedPeriod, onPeriodSelect }: InteractiveTimelineProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [zoomLevel, setZoomLevel] = useState(1); // 1 = millénaire, 2 = siècle, 3 = décennie
+  const [viewStart, setViewStart] = useState(-3500);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState(0);
+  const [hoveredPeriod, setHoveredPeriod] = useState<string | null>(null);
+
+  // Calcul de la plage visible en fonction du zoom
+  const getViewRange = useCallback(() => {
+    const ranges = {
+      1: 5500, // Vue millénaire: -3500 à 2000
+      2: 1000, // Vue siècle: 1000 ans
+      3: 200,  // Vue décennie: 200 ans
+    };
+    return ranges[zoomLevel as keyof typeof ranges] || 5500;
+  }, [zoomLevel]);
+
+  const viewRange = getViewRange();
+  const viewEnd = viewStart + viewRange;
+
+  // Formater une année pour l'affichage
+  const formatYear = (year: number) => {
+    if (year < 0) return `${Math.abs(year)} av. J.-C.`;
+    return `${year}`;
+  };
+
+  // Calculer la position X d'une année sur la frise
+  const yearToX = (year: number, width: number) => {
+    const normalizedYear = Math.max(viewStart, Math.min(viewEnd, year));
+    return ((normalizedYear - viewStart) / viewRange) * width;
+  };
+
+  // Générer les marqueurs d'échelle
+  const getScaleMarkers = () => {
+    const markers: number[] = [];
+    let step: number;
+    
+    switch (zoomLevel) {
+      case 1:
+        step = 500; // Tous les 500 ans
+        break;
+      case 2:
+        step = 100; // Tous les 100 ans
+        break;
+      case 3:
+        step = 20; // Tous les 20 ans
+        break;
+      default:
+        step = 500;
+    }
+    
+    const start = Math.ceil(viewStart / step) * step;
+    for (let year = start; year <= viewEnd; year += step) {
+      markers.push(year);
+    }
+    return markers;
+  };
+
+  // Gestion du zoom
+  const handleZoomIn = () => {
+    if (zoomLevel < 3) {
+      const newZoom = zoomLevel + 1;
+      const newRange = getViewRange();
+      // Centrer sur la vue actuelle
+      const center = viewStart + viewRange / 2;
+      const newStart = center - newRange / 2;
+      setZoomLevel(newZoom);
+      setViewStart(Math.max(-5000, Math.min(2100 - newRange, newStart)));
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (zoomLevel > 1) {
+      const newZoom = zoomLevel - 1;
+      setZoomLevel(newZoom);
+      // Réajuster la vue
+      if (newZoom === 1) {
+        setViewStart(-3500);
+      }
+    }
+  };
+
+  const handleReset = () => {
+    setZoomLevel(1);
+    setViewStart(-3500);
+  };
+
+  // Gestion du drag pour la navigation
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (zoomLevel > 1) {
+      setIsDragging(true);
+      setDragStart(e.clientX);
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging && containerRef.current) {
+      const width = containerRef.current.clientWidth;
+      const dx = e.clientX - dragStart;
+      const yearDelta = (dx / width) * viewRange;
+      const newStart = viewStart - yearDelta;
+      setViewStart(Math.max(-5000, Math.min(2100 - viewRange, newStart)));
+      setDragStart(e.clientX);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Filtrer les données visibles
+  const visibleData = data.filter((entry) => {
+    const start = entry.startYear || -5000;
+    const end = entry.endYear || 2100;
+    return end >= viewStart && start <= viewEnd;
+  });
+
+  // Niveaux de la frise (pour éviter les chevauchements)
+  const assignLevels = (entries: typeof data) => {
+    const levels: { entry: typeof entries[0]; level: number }[] = [];
+    const occupied: { start: number; end: number; level: number }[] = [];
+
+    entries
+      .sort((a, b) => (a.startYear || -5000) - (b.startYear || -5000))
+      .forEach((entry) => {
+        const start = entry.startYear || -5000;
+        const end = entry.endYear || 2100;
+        
+        // Trouver le premier niveau disponible
+        let level = 0;
+        while (occupied.some((o) => o.level === level && !(end < o.start || start > o.end))) {
+          level++;
+        }
+        
+        levels.push({ entry, level });
+        occupied.push({ start, end, level });
+      });
+
+    return levels;
+  };
+
+  const leveledData = assignLevels(visibleData);
+  const maxLevel = Math.max(0, ...leveledData.map((d) => d.level));
+
+  return (
+    <Card className="overflow-hidden">
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Ruler className="h-4 w-4" />
+            Frise chronologique interactive
+          </CardTitle>
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="text-xs">
+              {formatYear(viewStart)} — {formatYear(viewEnd)}
+            </Badge>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-7 w-7"
+                onClick={handleZoomOut}
+                disabled={zoomLevel <= 1}
+              >
+                <ZoomOut className="h-3 w-3" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-7 w-7"
+                onClick={handleZoomIn}
+                disabled={zoomLevel >= 3}
+              >
+                <ZoomIn className="h-3 w-3" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-7 w-7"
+                onClick={handleReset}
+              >
+                <RotateCcw className="h-3 w-3" />
+              </Button>
+            </div>
+          </div>
+        </div>
+        <CardDescription className="text-xs">
+          {zoomLevel === 1 && "Vue millénaire • Cliquez pour zoomer"}
+          {zoomLevel === 2 && "Vue siècle • Glissez pour naviguer"}
+          {zoomLevel === 3 && "Vue décennie • Glissez pour naviguer"}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="p-0">
+        <div
+          ref={containerRef}
+          className={cn(
+            "relative h-[300px] bg-muted/30 overflow-hidden select-none",
+            zoomLevel > 1 && "cursor-grab",
+            isDragging && "cursor-grabbing"
+          )}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
+          {/* Échelle temporelle */}
+          <div className="absolute bottom-0 left-0 right-0 h-8 bg-background border-t flex items-center">
+            {getScaleMarkers().map((year) => {
+              const x = yearToX(year, containerRef.current?.clientWidth || 800);
+              return (
+                <div
+                  key={year}
+                  className="absolute flex flex-col items-center"
+                  style={{ left: `${x}px`, transform: "translateX(-50%)" }}
+                >
+                  <div className="h-2 w-px bg-muted-foreground/50" />
+                  <span className="text-[10px] text-muted-foreground whitespace-nowrap">
+                    {formatYear(year)}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Lignes de grille */}
+          <div className="absolute inset-0 bottom-8">
+            {getScaleMarkers().map((year) => {
+              const x = yearToX(year, containerRef.current?.clientWidth || 800);
+              return (
+                <div
+                  key={`grid-${year}`}
+                  className="absolute top-0 bottom-0 w-px bg-muted-foreground/10"
+                  style={{ left: `${x}px` }}
+                />
+              );
+            })}
+          </div>
+
+          {/* Barres des périodes */}
+          <TooltipProvider>
+            <div className="absolute inset-0 bottom-8 p-4">
+              {leveledData.map(({ entry, level }) => {
+                const start = entry.startYear || -5000;
+                const end = entry.endYear || 2100;
+                const width = containerRef.current?.clientWidth || 800;
+                const x1 = yearToX(start, width);
+                const x2 = yearToX(end, width);
+                const barWidth = Math.max(20, x2 - x1);
+                const color = entry.color || chemotypeColors[entry.chemotypeClass || "other"] || chemotypeColors.other;
+                const isSelected = selectedPeriod === entry.periodCode;
+                const isHovered = hoveredPeriod === entry.periodCode;
+
+                return (
+                  <Tooltip key={entry.id}>
+                    <TooltipTrigger asChild>
+                      <div
+                        className={cn(
+                          "absolute rounded-md cursor-pointer transition-all",
+                          isSelected && "ring-2 ring-primary ring-offset-2",
+                          isHovered && "brightness-110"
+                        )}
+                        style={{
+                          left: `${x1}px`,
+                          width: `${barWidth}px`,
+                          top: `${level * 40 + 8}px`,
+                          height: "32px",
+                          backgroundColor: color,
+                          opacity: isSelected || isHovered ? 1 : 0.8,
+                        }}
+                        onClick={() => onPeriodSelect(isSelected ? null : entry.periodCode)}
+                        onMouseEnter={() => setHoveredPeriod(entry.periodCode)}
+                        onMouseLeave={() => setHoveredPeriod(null)}
+                      >
+                        <div className="h-full flex items-center px-2 overflow-hidden">
+                          <span className="text-white text-xs font-medium truncate">
+                            {entry.periodName}
+                          </span>
+                        </div>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="max-w-xs">
+                      <div className="space-y-1">
+                        <p className="font-medium">{entry.periodName}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {formatYear(start)} — {formatYear(end)}
+                        </p>
+                        {entry.regionName && (
+                          <p className="text-xs flex items-center gap-1">
+                            <MapPin className="h-3 w-3" />
+                            {entry.regionName}
+                          </p>
+                        )}
+                        {entry.description && (
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            {entry.description}
+                          </p>
+                        )}
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </div>
+          </TooltipProvider>
+
+          {/* Indicateur de navigation */}
+          {zoomLevel > 1 && (
+            <div className="absolute top-2 left-2 right-2 flex justify-between pointer-events-none">
+              <div className="bg-background/80 rounded px-2 py-1 text-xs text-muted-foreground flex items-center gap-1">
+                <ChevronLeft className="h-3 w-3" />
+                {viewStart > -3500 && "Glissez pour voir plus"}
+              </div>
+              <div className="bg-background/80 rounded px-2 py-1 text-xs text-muted-foreground flex items-center gap-1">
+                {viewEnd < 2100 && "Glissez pour voir plus"}
+                <ChevronRight className="h-3 w-3" />
+              </div>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 // Composant principal
 export default function HeritageTimeline() {
   const [selectedRegion, setSelectedRegion] = useState<string>("all");
@@ -228,6 +583,11 @@ export default function HeritageTimeline() {
   const [selectedEntry, setSelectedEntry] = useState<number | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("map");
+  const [filters, setFilters] = useState<FilterState>({
+    continents: [],
+    periods: [],
+    chemotypes: [],
+  });
 
   // Requêtes tRPC - Timeline basée sur les évidences
   const { data: timelineData, isLoading: isLoadingTimeline } = trpc.lostMolecules.timeline.getData.useQuery(
@@ -245,6 +605,12 @@ export default function HeritageTimeline() {
   const { data: timeContexts } = trpc.lostMolecules.timeline.getTimeContexts.useQuery();
   const { data: regionContexts } = trpc.lostMolecules.timeline.getRegionContexts.useQuery();
   const { data: bibStats } = trpc.lostMolecules.bibliography.getStats.useQuery();
+
+  // Filtrer les données heritage avec les filtres géographiques
+  const filteredHeritageData = useMemo(() => {
+    if (!heritageTimelineData) return [];
+    return filterTimelineData(heritageTimelineData, filters);
+  }, [heritageTimelineData, filters]);
 
   // Classes uniques
   const uniqueClasses = useMemo(() => {
@@ -264,15 +630,15 @@ export default function HeritageTimeline() {
 
   // Entrée sélectionnée (heritage timeline)
   const selectedHeritageEntry = useMemo(() => {
-    if (!selectedPeriod || !heritageTimelineData) return null;
-    return heritageTimelineData.find(e => e.periodCode === selectedPeriod);
-  }, [selectedPeriod, heritageTimelineData]);
+    if (!selectedPeriod || !filteredHeritageData) return null;
+    return filteredHeritageData.find(e => e.periodCode === selectedPeriod);
+  }, [selectedPeriod, filteredHeritageData]);
 
   // Grouper les entrées heritage par ère
   const heritageByEra = useMemo(() => {
-    if (!heritageTimelineData) return {};
+    if (!filteredHeritageData) return {};
     
-    const eras: Record<string, typeof heritageTimelineData> = {
+    const eras: Record<string, typeof filteredHeritageData> = {
       "Antiquité": [],
       "Moyen Âge": [],
       "Époque moderne": [],
@@ -280,7 +646,7 @@ export default function HeritageTimeline() {
       "Régions spécifiques": [],
     };
     
-    heritageTimelineData.forEach(entry => {
+    filteredHeritageData.forEach(entry => {
       const startYear = entry.startYear || 0;
       
       // Régions spécifiques (cannabis, tabac, encens, santal, vétiver)
@@ -298,7 +664,7 @@ export default function HeritageTimeline() {
     });
     
     return eras;
-  }, [heritageTimelineData]);
+  }, [filteredHeritageData]);
 
   return (
     <div className="container py-6 space-y-6">
@@ -370,6 +736,10 @@ export default function HeritageTimeline() {
             <Map className="h-4 w-4" />
             Carte géographique
           </TabsTrigger>
+          <TabsTrigger value="frise" className="flex items-center gap-2">
+            <Ruler className="h-4 w-4" />
+            Frise chronologique
+          </TabsTrigger>
           <TabsTrigger value="heritage">Timeline historique</TabsTrigger>
           <TabsTrigger value="timeline">Évidences scientifiques</TabsTrigger>
           <TabsTrigger value="regions">Par région</TabsTrigger>
@@ -381,8 +751,16 @@ export default function HeritageTimeline() {
             <Skeleton className="h-[500px] w-full" />
           ) : heritageTimelineData && heritageTimelineData.length > 0 ? (
             <div className="space-y-4">
-              <HeritageTimelineMap
+              {/* Filtres géographiques */}
+              <HeritageTimelineFilters
                 timelineData={heritageTimelineData}
+                filters={filters}
+                onFiltersChange={setFilters}
+              />
+
+              {/* Carte avec données filtrées */}
+              <HeritageTimelineMap
+                timelineData={filteredHeritageData}
                 isLoading={isLoadingHeritage}
                 selectedPeriod={selectedPeriod}
                 onPeriodSelect={setSelectedPeriod}
@@ -469,6 +847,107 @@ export default function HeritageTimeline() {
           )}
         </TabsContent>
 
+        {/* Frise chronologique interactive */}
+        <TabsContent value="frise" className="mt-4">
+          {isLoadingHeritage ? (
+            <Skeleton className="h-[400px] w-full" />
+          ) : heritageTimelineData && heritageTimelineData.length > 0 ? (
+            <div className="space-y-4">
+              {/* Filtres géographiques */}
+              <HeritageTimelineFilters
+                timelineData={heritageTimelineData}
+                filters={filters}
+                onFiltersChange={setFilters}
+              />
+
+              {/* Frise chronologique */}
+              <InteractiveTimeline
+                data={filteredHeritageData}
+                selectedPeriod={selectedPeriod}
+                onPeriodSelect={setSelectedPeriod}
+              />
+
+              {/* Détails de la période sélectionnée */}
+              {selectedHeritageEntry && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Calendar className="h-5 w-5" />
+                      {selectedHeritageEntry.periodName}
+                    </CardTitle>
+                    <CardDescription>
+                      {selectedHeritageEntry.startYear && selectedHeritageEntry.endYear && (
+                        <>
+                          {selectedHeritageEntry.startYear < 0 
+                            ? `${Math.abs(selectedHeritageEntry.startYear)} av. J.-C.`
+                            : selectedHeritageEntry.startYear
+                          }
+                          {" — "}
+                          {selectedHeritageEntry.endYear < 0 
+                            ? `${Math.abs(selectedHeritageEntry.endYear)} av. J.-C.`
+                            : selectedHeritageEntry.endYear
+                          }
+                        </>
+                      )}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {selectedHeritageEntry.chemotypeClass && (
+                      <Badge
+                        style={{
+                          backgroundColor: selectedHeritageEntry.color || chemotypeColors[selectedHeritageEntry.chemotypeClass] || chemotypeColors.other,
+                          color: "white",
+                        }}
+                        className="capitalize"
+                      >
+                        {selectedHeritageEntry.chemotypeClass}
+                      </Badge>
+                    )}
+                    
+                    {selectedHeritageEntry.description && (
+                      <div>
+                        <h4 className="font-medium mb-2">Description</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {selectedHeritageEntry.description}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {selectedHeritageEntry.historicalContext && (
+                      <div>
+                        <h4 className="font-medium mb-2">Contexte historique</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {selectedHeritageEntry.historicalContext}
+                        </p>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Beaker className="h-4 w-4" />
+                        {selectedHeritageEntry.evidenceCount || 0} évidences
+                      </span>
+                      {selectedHeritageEntry.regionName && (
+                        <span className="flex items-center gap-1">
+                          <MapPin className="h-4 w-4" />
+                          {selectedHeritageEntry.regionName}
+                        </span>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          ) : (
+            <Card className="p-8 text-center">
+              <Ruler className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">
+                Aucune donnée de timeline disponible.
+              </p>
+            </Card>
+          )}
+        </TabsContent>
+
         {/* Timeline historique enrichie */}
         <TabsContent value="heritage" className="mt-4">
           {isLoadingHeritage ? (
@@ -477,8 +956,15 @@ export default function HeritageTimeline() {
                 <Skeleton key={i} className="h-32 w-full" />
               ))}
             </div>
-          ) : heritageTimelineData && heritageTimelineData.length > 0 ? (
+          ) : filteredHeritageData && filteredHeritageData.length > 0 ? (
             <div className="space-y-8">
+              {/* Filtres */}
+              <HeritageTimelineFilters
+                timelineData={heritageTimelineData || []}
+                filters={filters}
+                onFiltersChange={setFilters}
+              />
+
               {Object.entries(heritageByEra).map(([era, entries]) => {
                 if (entries.length === 0) return null;
                 return (
@@ -533,7 +1019,10 @@ export default function HeritageTimeline() {
             <Card className="p-8 text-center">
               <Clock className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
               <p className="text-muted-foreground">
-                Aucune donnée de timeline historique disponible.
+                {filters.continents.length > 0 || filters.periods.length > 0 || filters.chemotypes.length > 0
+                  ? "Aucune donnée ne correspond aux filtres sélectionnés."
+                  : "Aucune donnée de timeline historique disponible."
+                }
               </p>
             </Card>
           )}

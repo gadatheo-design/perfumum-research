@@ -4088,3 +4088,41 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 5 : Import des nouvelles sources bibliographiques (pack v2)
 - [ ] Importer les 50 nouvelles sources du pack PERFUMUM_Bibliography_NicheInnovations_AllSources_v2
 - [ ] Valider l'intégrité des données importées
+
+
+---
+
+## 🗂️ SESSION 07 JAN 2026 - Phase 2 : Import Bibliographie et Frise Chronologique
+
+### Phase 1 : Import des nouvelles sources bibliographiques
+- [x] Lire et parser le fichier CSV des 51 nouvelles sources (PERFUMUM_Bibliography_NicheInnovations_AllSources_v2.csv)
+- [x] Mapper les champs CSV vers le schéma de la table bibliography
+- [x] Créer un script d'import pour insérer les nouvelles sources
+- [x] Exécuter l'import et vérifier l'intégrité des données
+- [ ] Exécuter l'auto-liaison sur les nouvelles sources
+
+### Phase 2 : Filtres géographiques sur la carte
+- [x] Ajouter un filtre par continent (Afrique, Asie, Europe, Amériques, Océanie)
+- [x] Ajouter un filtre par période historique (Antiquité, Moyen Âge, Moderne, Contemporain)
+- [x] Ajouter un filtre par classe de chémotype (terpene, phenolic, alkaloid, sulfur, other)
+- [x] Synchroniser les filtres avec la carte et la liste des entrées
+- [x] Ajouter des contrôles UI pour les filtres (dropdowns ou checkboxes)
+
+### Phase 3 : Frise chronologique interactive
+- [x] Créer un composant de frise chronologique avec échelle temporelle (-3500 à 2026)
+- [x] Implémenter le zoom temporel (vue millénaire, siècle, décennie)
+- [x] Ajouter la navigation par glissement (drag to pan)
+- [x] Afficher les événements/périodes sur la frise avec couleurs par chémotype avec couleurs par chémotype
+- [x] Synchroniser la frise avec la carte et les filtres
+- [x] Ajouter des marqueurs cliquables pour accéder aux détails
+
+### Phase 4 : Tests et validation
+- [ ] Écrire des tests vitest pour l'import bibliographique
+- [ ] Tester les filtres géographiques
+- [ ] Tester la frise chronologique interactive
+- [ ] Vérifier la responsivité sur mobile
+
+
+### Phase 5 : Import du pack Olfactory Heritage & Conservation (à faire ultérieurement)
+- [ ] Importer les 34 nouvelles références du pack PERFUMUM_References_OlfactoryHeritage_Conservation_v1.csv
+- [ ] Exécuter l'auto-liaison sur les nouvelles références
