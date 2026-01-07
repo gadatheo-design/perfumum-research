@@ -55,8 +55,14 @@ export default function EtudeClimatiqueDetail() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50/30 to-cyan-50/20">
       {/* Breadcrumbs */}
-      <div className="container pt-4">
-        <Breadcrumbs currentLabel={study.name || "Étude"} />
+      <div className="bg-sky-50">
+        <Breadcrumbs 
+          currentLabel={study.name}
+          customItems={[
+            { label: "Études Climatiques", path: "/etudes-climatiques" },
+            { label: study.name }
+          ]}
+        />
       </div>
       
       {/* Header */}

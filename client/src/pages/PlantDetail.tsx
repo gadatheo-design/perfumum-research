@@ -347,7 +347,8 @@ export default function PlantDetail() {
           {varieties && varieties.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {varieties.map((variety: any) => (
-                <Card key={variety.id}>
+                <Link key={variety.id} href={`/varietes/${variety.id}`}>
+                <Card className="hover:shadow-md hover:border-primary/50 transition-all cursor-pointer group">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -399,8 +400,13 @@ export default function PlantDetail() {
                         </Badge>
                       )}
                     </div>
+                    <div className="mt-3 pt-3 border-t flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground">Voir les détails de la variété</span>
+                      <ArrowLeft className="h-4 w-4 rotate-180 text-primary group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </CardContent>
                 </Card>
+                </Link>
               ))}
             </div>
           ) : (

@@ -291,7 +291,7 @@ export default function AxeRechercheDetail() {
           </Link>
 
           {/* En-tête de l'axe */}
-          <Card className="mb-8" style={{ borderTopColor: axis.color, borderTopWidth: '4px' }}>
+          <Card className="mb-8" style={{ borderTopColor: axis.color || undefined, borderTopWidth: '4px' }}>
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div>

@@ -58,7 +58,7 @@ export default function CartePlantesGPS() {
   const mapRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Set<CategoryId>>(
-    new Set(["aromatique", "tabac", "cannabis", "resine"])
+    () => new Set<CategoryId>(["aromatique", "tabac", "cannabis", "resine"])
   );
   const [selectedPlant, setSelectedPlant] = useState<any | null>(null);
   const [showFilters, setShowFilters] = useState(true);

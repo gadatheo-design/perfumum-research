@@ -1,5 +1,13 @@
 import { Link, useLocation } from "wouter";
-import { ChevronRight, Home } from "lucide-react";
+import { ChevronRight, Home, MoreHorizontal } from "lucide-react";
+import { useState, useMemo } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 // Mapping complet des chemins vers des labels lisibles
 const labelMap: Record<string, string> = {
@@ -18,6 +26,10 @@ const labelMap: Record<string, string> = {
   "recette": "Recette",
   "import-export": "Import/Export",
   "new": "Nouvelle",
+  
+  // Bibliographie
+  "bibliographie": "Bibliographie",
+  "bibliographie-globale": "Bibliographie Globale",
   
   // Prototypes
   "prototypes": "Prototypes",
@@ -157,6 +169,7 @@ const labelMap: Record<string, string> = {
   "protocole-moleculaire": "Protocole Moléculaire",
   
   // Matières premières
+  "matieres-premieres": "Matières Premières",
   "raw-materials": "Matières Premières",
   "raw-material": "Matière Première",
   
@@ -175,6 +188,13 @@ const labelMap: Record<string, string> = {
   // Études climatiques
   "etudes-climatiques": "Études Climatiques",
   "etude-climatique": "Étude Climatique",
+  
+  // Terpènes
+  "terpenes": "Terpènes",
+  
+  // Terroirs
+  "terroirs": "Terroirs",
+  "origines": "Origines",
 };
 
 interface BreadcrumbsProps {
@@ -182,9 +202,11 @@ interface BreadcrumbsProps {
   currentLabel?: string;
   /** Custom breadcrumb items to override automatic parsing */
   customItems?: Array<{ label: string; path?: string }>;
+  /** Maximum number of items to show before collapsing (default: 4 on desktop, 2 on mobile) */
+  maxItems?: number;
 }
 
-export function Breadcrumbs({ currentLabel, customItems }: BreadcrumbsProps = {}) {
+export function Breadcrumbs({ currentLabel, customItems, maxItems }: BreadcrumbsProps = {}) {
   const [location] = useLocation();
   
   // Parse location into breadcrumb segments
@@ -212,86 +234,121 @@ export function Breadcrumbs({ currentLabel, customItems }: BreadcrumbsProps = {}
       .join(" ");
   };
   
-  // If custom items are provided, use them instead
-  if (customItems && customItems.length > 0) {
-    return (
-      <nav 
-        className="container py-4" 
-        aria-label="Fil d'Ariane"
-        role="navigation"
-      >
-        <ol className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
-          <li>
-            <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1" aria-label="Retour à l'accueil">
-              <Home className="h-4 w-4" aria-hidden="true" />
-              <span className="sr-only">Accueil</span>
-            </Link>
-          </li>
-          
-          {customItems.map((item, index) => {
-            const isLast = index === customItems.length - 1;
-            
-            return (
-              <li key={index} className="flex items-center gap-2">
-                <ChevronRight className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
-                {isLast || !item.path ? (
-                  <span 
-                    className="text-foreground font-medium"
-                    aria-current={isLast ? "page" : undefined}
-                  >
-                    {item.label}
-                  </span>
-                ) : (
-                  <Link href={item.path} className="hover:text-foreground transition-colors hover:underline">
-                    {item.label}
-                  </Link>
-                )}
-              </li>
-            );
-          })}
-        </ol>
-      </nav>
-    );
-  }
-
+  // Build items array
+  const items = useMemo(() => {
+    if (customItems && customItems.length > 0) {
+      return customItems;
+    }
+    
+    return segments.map((segment, index) => ({
+      label: index === segments.length - 1 && currentLabel ? currentLabel : getLabel(segment),
+      path: index === segments.length - 1 ? undefined : "/" + segments.slice(0, index + 1).join("/"),
+    }));
+  }, [customItems, segments, currentLabel]);
+  
+  // Determine if we need to collapse items
+  const shouldCollapse = items.length > (maxItems || 3);
+  
+  // Items to show in collapsed view
+  const collapsedItems = useMemo(() => {
+    if (!shouldCollapse) return null;
+    
+    // Show first item, collapsed middle items, and last item
+    const middleItems = items.slice(1, -1);
+    return {
+      first: items[0],
+      middle: middleItems,
+      last: items[items.length - 1],
+    };
+  }, [items, shouldCollapse]);
+  
+  // Render a single breadcrumb item
+  const renderItem = (item: { label: string; path?: string }, isLast: boolean, key: string | number) => (
+    <li key={key} className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+      <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 text-muted-foreground/50" aria-hidden="true" />
+      {isLast || !item.path ? (
+        <span 
+          className="text-foreground font-medium truncate max-w-[120px] sm:max-w-[200px] md:max-w-none"
+          aria-current={isLast ? "page" : undefined}
+          title={item.label}
+        >
+          {item.label}
+        </span>
+      ) : (
+        <Link 
+          href={item.path} 
+          className="hover:text-foreground transition-colors hover:underline truncate max-w-[100px] sm:max-w-[150px] md:max-w-none"
+          title={item.label}
+        >
+          {item.label}
+        </Link>
+      )}
+    </li>
+  );
+  
   return (
     <nav 
-      className="container py-4" 
+      className="container py-3 sm:py-4" 
       aria-label="Fil d'Ariane"
       role="navigation"
     >
-      <ol className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
-        <li>
-          <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1" aria-label="Retour à l'accueil">
-            <Home className="h-4 w-4" aria-hidden="true" />
+      <ol className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
+        {/* Home link */}
+        <li className="flex-shrink-0">
+          <Link 
+            href="/" 
+            className="hover:text-foreground transition-colors flex items-center gap-1 p-1 -m-1 rounded-md hover:bg-muted/50" 
+            aria-label="Retour à l'accueil"
+          >
+            <Home className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
             <span className="sr-only">Accueil</span>
           </Link>
         </li>
         
-        {segments.map((segment, index) => {
-          const path = "/" + segments.slice(0, index + 1).join("/");
-          const isLast = index === segments.length - 1;
-          // Use currentLabel for the last segment if provided
-          const label = isLast && currentLabel ? currentLabel : getLabel(segment);
-          
-          return (
-            <li key={path} className="flex items-center gap-2">
-              <ChevronRight className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
-              {isLast ? (
-                <span 
-                  className="text-foreground font-medium"
-                  aria-current="page"
-                >
-                  {label}
-                </span>
-              ) : (
-                <Link href={path} className="hover:text-foreground transition-colors hover:underline">
-                  {label}
-                </Link>
-              )}
-            </li>
-          );
-        })}
+        {shouldCollapse && collapsedItems ? (
+          <>
+            {/* First item */}
+            {renderItem(collapsedItems.first, false, "first")}
+            
+            {/* Collapsed middle items */}
+            {collapsedItems.middle.length > 0 && (
+              <li className="flex items-center gap-1.5 sm:gap-2">
+                <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 text-muted-foreground/50" aria-hidden="true" />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 w-6 p-0 hover:bg-muted"
+                      aria-label={`${collapsedItems.middle.length} éléments masqués`}
+                    >
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="min-w-[150px]">
+                    {collapsedItems.middle.map((item, idx) => (
+                      <DropdownMenuItem key={idx} asChild>
+                        {item.path ? (
+                          <Link href={item.path} className="cursor-pointer">
+                            {item.label}
+                          </Link>
+                        ) : (
+                          <span>{item.label}</span>
+                        )}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </li>
+            )}
+            
+            {/* Last item */}
+            {renderItem(collapsedItems.last, true, "last")}
+          </>
+        ) : (
+          // Non-collapsed view
+          items.map((item, index) => renderItem(item, index === items.length - 1, index))
+        )}
       </ol>
     </nav>
   );

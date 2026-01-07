@@ -93,8 +93,14 @@ export default function ProtocoleMoleculaireDetail() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50/30 to-indigo-50/20">
       {/* Breadcrumbs */}
-      <div className="container pt-4">
-        <Breadcrumbs currentLabel={protocol.name || "Protocole"} />
+      <div className="bg-violet-50">
+        <Breadcrumbs 
+          currentLabel={protocol.name}
+          customItems={[
+            { label: "Protocoles Moléculaires", path: "/protocoles-moleculaires" },
+            { label: protocol.name }
+          ]}
+        />
       </div>
       
       {/* Header */}

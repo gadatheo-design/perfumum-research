@@ -142,7 +142,7 @@ export default function BibliographieGlobale() {
   const [importFormat, setImportFormat] = useState<"bibtex" | "csv">("bibtex");
 
   // Requêtes tRPC
-  const { data: entries, isLoading, refetch } = trpc.bibliography.list.useQuery({
+  const { data: entriesData, isLoading, refetch } = trpc.bibliography.list.useQuery({
     search: searchQuery || undefined,
     entryType: selectedType !== "all" ? selectedType : undefined,
     researchDomain: selectedDomain !== "all" ? selectedDomain : undefined,
@@ -300,9 +300,11 @@ export default function BibliographieGlobale() {
     }
   };
 
+  const utils = trpc.useUtils();
+  
   const handleExportBibTeX = async () => {
     try {
-      const result = await trpc.bibliography.exportBibTeX.query(undefined);
+      const result = await utils.bibliography.exportBibTeX.fetch(undefined);
       const blob = new Blob([result], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -318,7 +320,7 @@ export default function BibliographieGlobale() {
 
   const copyAPA = async (entry: any) => {
     try {
-      const result = await trpc.bibliography.exportAPA.query(entry.id);
+      const result = await utils.bibliography.exportAPA.fetch(entry.id);
       if (result) {
         navigator.clipboard.writeText(result);
         toast.success("Citation APA copiée");
@@ -718,9 +720,9 @@ export default function BibliographieGlobale() {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
               <p className="mt-4 text-muted-foreground">Chargement...</p>
             </div>
-          ) : entries && entries.length > 0 ? (
+          ) : entriesData?.entries && entriesData.entries.length > 0 ? (
             <div className="space-y-4">
-              {entries.map((entry: any) => (
+              {entriesData.entries.map((entry: any) => (
                 <Card key={entry.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between gap-4">

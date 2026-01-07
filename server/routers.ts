@@ -6264,9 +6264,10 @@ export const appRouter = router({
     exportBibTeX: publicProcedure
       .input(z.array(z.number()).optional())
       .query(async ({ input }) => {
-        const entries = await db.getAllBibliographyEntries({});
+        const result = await db.getAllBibliographyEntries({});
+        const entries = result.entries || [];
         const filteredEntries = input && input.length > 0
-          ? entries.filter(e => input.includes(e.id))
+          ? entries.filter((e: any) => input.includes(e.id))
           : entries;
         return db.exportToBibTeX(filteredEntries);
       }),

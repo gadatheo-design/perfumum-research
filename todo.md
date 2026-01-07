@@ -1671,17 +1671,15 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Ajouter des liens de retour et fil d'Ariane si nécessaire
 
 ### Breadcrumbs dynamiques sur les pages de détail
-- [x] Créer composant Breadcrumbs réutilisable (déjà existant, amélioré avec plus de mappings)
-- [x] Intégrer sur page détail ingrédient (MoleculeDetail - déjà fait)
-- [x] Intégrer sur page détail recette (RecetteDetail - déjà fait)
+- [x] Enrichir le composant Breadcrumbs avec plus de mappings (San Andrés, plantes, variétés, etc.)
 - [x] Intégrer sur page détail plante (PlantDetail)
 - [x] Intégrer sur page détail variété (VarietyDetail)
 - [x] Intégrer sur page détail matière première (RawMaterialDetail)
 - [x] Intégrer sur page détail archive terrain (ArchiveTerrainDetail)
 - [x] Intégrer sur page détail étude climatique (EtudeClimatiqueDetail)
 - [x] Intégrer sur page détail protocole moléculaire (ProtocoleMoleculaireDetail)
+- [x] Intégrer sur page détail leaf economy (LeafEconomyDetail)
 - [x] Intégrer sur page détail terpène (TerpeneDetail)
-- [x] Intégrer sur pages San Andrés (LeafEconomyDetail)
 - [ ] Améliorer les liens contextuels entre pages liées
 - [ ] Vérifier la navigation mobile
 
@@ -3214,3 +3212,36 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Ajouter des marqueurs interactifs avec popups d'information
 - [ ] Tester le responsive et les performances de la carte
 
+
+
+---
+
+## 🧭 SESSION 07 JAN 2026 - NAVIGATION & BIBLIOGRAPHIE INNOVANTE
+
+### Bibliographie Innovante
+- [x] Développer la page Bibliographie de façon innovante (vue d'ensemble, parcourir, par domaine, chronologie)
+- [x] Créer un système de gestion de références avancé (filtres, statistiques visuelles)
+- [x] Ajouter des visualisations de citations et connexions (timeline, nuage de domaines)
+
+### Breadcrumbs et Navigation
+- [x] Ajouter breadcrumbs sur MoleculeDetail (déjà implémenté avec customItems)
+- [x] Ajouter breadcrumbs sur RecetteDetail (déjà implémenté avec customItems)
+- [x] Vérifier/optimiser navigation mobile pour breadcrumbs (collapse avec dropdown)
+- [x] Créer composant Breadcrumb responsive réutilisable (amélioré avec truncation mobile)
+
+### Liens Contextuels
+- [x] Ajouter liens contextuels entre pages liées (plante depuis variété - déjà implémenté)
+- [x] Créer liens bidirectionnels molécules ↔ recettes (MoleculeLink avec hover card)
+- [x] Créer liens bidirectionnels plantes ↔ variétés (ajouté dans PlantDetail)
+- [ ] Créer liens bidirectionnels terroirs ↔ plantes (en attente)
+
+### Corrections TypeScript
+- [x] Corriger erreurs dans BibliographiePage (exportBibTeX)
+- [x] Corriger erreurs dans BibliographieGlobale (exportBibTeX, exportAPA, entries)
+- [x] Corriger erreurs dans ExportBibliographique (generateBulkCitations)
+- [x] Corriger erreurs dans RawMaterialForm (plants.getAll, restrictions)
+- [x] Corriger erreurs dans AxeRechercheDetail (borderTopColor)
+- [x] Corriger erreurs dans CartePlantesGPS (Set<CategoryId>)
+
+### Tests
+- [x] Tous les tests passent (429 tests passés)
