@@ -7406,6 +7406,22 @@ export const appRouter = router({
         .mutation(async ({ input }) => {
           return db.deleteHeritageTimelineEntry(input);
         }),
+      // Get timeline entry with linked molecules
+      getWithMolecules: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getHeritageTimelineWithMolecules(input);
+        }),
+      // Get all timeline entries with linked molecules
+      listWithMolecules: publicProcedure.query(async () => {
+        return db.getAllHeritageTimelineWithMolecules();
+      }),
+      // Get lost molecules by IDs
+      getLostMoleculesByIds: publicProcedure
+        .input(z.array(z.number()))
+        .query(async ({ input }) => {
+          return db.getLostMoleculesByIds(input);
+        }),
     }),
     
     // --- Evidence-Bibliography Links CRUD ---

@@ -4126,3 +4126,50 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 5 : Import du pack Olfactory Heritage & Conservation (à faire ultérieurement)
 - [ ] Importer les 34 nouvelles références du pack PERFUMUM_References_OlfactoryHeritage_Conservation_v1.csv
 - [ ] Exécuter l'auto-liaison sur les nouvelles références
+
+
+---
+
+## 🏛️ SESSION 07 JAN 2026 - HERITAGE & CONSERVATION + LIENS TIMELINE
+
+### Phase 1 : Import du pack Heritage & Conservation
+- [ ] Identifier le fichier source des 34 références Heritage & Conservation
+- [ ] Analyser la structure des données (format, champs, relations)
+- [ ] Créer/étendre le schéma de base de données si nécessaire
+- [ ] Importer les 34 références dans la base de données
+- [ ] Valider l'intégrité des données importées
+
+### Phase 2 : Liens Timeline → Molécules perdues
+- [ ] Analyser la structure actuelle de la timeline
+- [ ] Identifier les molécules perdues et leurs fiches détaillées
+- [ ] Créer les liens de navigation depuis la frise vers les fiches
+- [ ] Implémenter la navigation directe (clic sur élément timeline → fiche détaillée)
+- [ ] Tester la navigation sur desktop et mobile
+
+### Phase 3 : Validation et livraison
+- [ ] Tester toutes les fonctionnalités ajoutées
+- [ ] Créer le checkpoint final
+- [ ] Présenter les résultats à l'utilisateur
+
+
+---
+
+## 🏛️ SESSION 07 JAN 2026 — Heritage & Conservation
+
+### Import du pack Heritage & Conservation (34 références)
+- [x] Localiser le fichier CSV des références Heritage & Conservation
+- [x] Parser et valider les 34 références
+- [x] Créer le script d'import (scripts/import-heritage-conservation.mjs)
+- [x] Importer les références dans la table bibliography_entries
+- [x] Valider l'intégrité des données importées (34 références)
+
+### Liens Timeline vers Molécules Perdues
+- [x] Ajouter fonction getHeritageTimelineWithMolecules dans db.ts
+- [x] Ajouter fonction getAllHeritageTimelineWithMolecules dans db.ts
+- [x] Ajouter fonction getLostMoleculesByIds dans db.ts
+- [x] Ajouter procédures tRPC pour récupérer les molécules liées
+- [x] Créer composant LinkedMoleculesSection dans HeritageTimeline.tsx
+- [x] Intégrer les liens dans la vue Carte géographique
+- [x] Intégrer les liens dans la vue Frise chronologique
+- [x] Intégrer les liens dans la vue Timeline historique
+- [x] Créer les tests unitaires (heritage-conservation.test.ts)

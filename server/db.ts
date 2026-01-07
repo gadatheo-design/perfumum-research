@@ -10686,3 +10686,108 @@ export async function autoLinkEvidenceToBibliography(evidenceId: number, userId?
   
   return createdLinks;
 }
+
+
+// ============================================================================
+// HERITAGE TIMELINE - LINKED MOLECULES
+// ============================================================================
+
+/**
+ * Get heritage timeline entry with its linked lost molecules
+ */
+export interface HeritageTimelineWithMolecules extends HeritageChemotypesTimeline {
+  linkedLostMolecules: LostMolecule[];
+  linkedMainMolecules: Molecule[];
+}
+
+export async function getHeritageTimelineWithMolecules(id: number): Promise<HeritageTimelineWithMolecules | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const entry = await getHeritageTimelineEntryById(id);
+  if (!entry) return null;
+  
+  // Get linked lost molecules
+  const linkedLostMolecules: LostMolecule[] = [];
+  if (entry.linkedMoleculeIds && entry.linkedMoleculeIds.length > 0) {
+    for (const molId of entry.linkedMoleculeIds) {
+      const mol = await getLostMoleculeById(molId);
+      if (mol) linkedLostMolecules.push(mol);
+    }
+  }
+  
+  // Get linked main molecules
+  const linkedMainMolecules: Molecule[] = [];
+  if (entry.linkedMainMoleculeIds && entry.linkedMainMoleculeIds.length > 0) {
+    for (const molId of entry.linkedMainMoleculeIds) {
+      const results = await db.select().from(molecules).where(eq(molecules.id, molId));
+      if (results[0]) linkedMainMolecules.push(results[0]);
+    }
+  }
+  
+  return {
+    ...entry,
+    linkedLostMolecules,
+    linkedMainMolecules,
+  };
+}
+
+/**
+ * Get all heritage timeline entries with their linked molecules
+ */
+export async function getAllHeritageTimelineWithMolecules(): Promise<HeritageTimelineWithMolecules[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const entries = await getAllHeritageTimelineEntries();
+  const result: HeritageTimelineWithMolecules[] = [];
+  
+  // Pre-fetch all lost molecules and main molecules for efficiency
+  const allLostMolecules = await getAllLostMolecules();
+  const allMainMolecules = await db.select().from(molecules);
+  
+  const lostMoleculeMap = new Map(allLostMolecules.map(m => [m.id, m]));
+  const mainMoleculeMap = new Map(allMainMolecules.map(m => [m.id, m]));
+  
+  for (const entry of entries) {
+    const linkedLostMolecules: LostMolecule[] = [];
+    if (entry.linkedMoleculeIds && entry.linkedMoleculeIds.length > 0) {
+      for (const molId of entry.linkedMoleculeIds) {
+        const mol = lostMoleculeMap.get(molId);
+        if (mol) linkedLostMolecules.push(mol);
+      }
+    }
+    
+    const linkedMainMolecules: Molecule[] = [];
+    if (entry.linkedMainMoleculeIds && entry.linkedMainMoleculeIds.length > 0) {
+      for (const molId of entry.linkedMainMoleculeIds) {
+        const mol = mainMoleculeMap.get(molId);
+        if (mol) linkedMainMolecules.push(mol);
+      }
+    }
+    
+    result.push({
+      ...entry,
+      linkedLostMolecules,
+      linkedMainMolecules,
+    });
+  }
+  
+  return result;
+}
+
+/**
+ * Get lost molecules by their IDs from a heritage timeline entry
+ */
+export async function getLostMoleculesByIds(ids: number[]): Promise<LostMolecule[]> {
+  const db = await getDb();
+  if (!db || ids.length === 0) return [];
+  
+  const results: LostMolecule[] = [];
+  for (const id of ids) {
+    const mol = await getLostMoleculeById(id);
+    if (mol) results.push(mol);
+  }
+  
+  return results;
+}

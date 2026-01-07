@@ -35,6 +35,116 @@ import { HeritageTimelineMap } from "@/components/HeritageTimelineMap";
 import { HeritageTimelineFilters, FilterState, filterTimelineData, chemotypeColors as filterChemotypeColors } from "@/components/HeritageTimelineFilters";
 import { cn } from "@/lib/utils";
 
+// Composant pour afficher les molécules liées à une période heritage
+function LinkedMoleculesSection({ periodId }: { periodId: number }) {
+  const { data: timelineWithMolecules, isLoading } = trpc.lostMolecules.heritageTimeline.getWithMolecules.useQuery(periodId);
+  
+  if (isLoading) {
+    return (
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-32" />
+        <div className="flex gap-2">
+          <Skeleton className="h-8 w-24" />
+          <Skeleton className="h-8 w-24" />
+        </div>
+      </div>
+    );
+  }
+  
+  if (!timelineWithMolecules) return null;
+  
+  const hasLostMolecules = timelineWithMolecules.linkedLostMolecules && timelineWithMolecules.linkedLostMolecules.length > 0;
+  const hasMainMolecules = timelineWithMolecules.linkedMainMolecules && timelineWithMolecules.linkedMainMolecules.length > 0;
+  
+  if (!hasLostMolecules && !hasMainMolecules) return null;
+  
+  return (
+    <div className="space-y-4 pt-4 border-t">
+      {/* Molécules perdues liées */}
+      {hasLostMolecules && (
+        <div>
+          <h4 className="font-medium mb-2 flex items-center gap-2">
+            <Atom className="h-4 w-4 text-primary" />
+            Molécules perdues associées
+            <Badge variant="secondary" className="text-xs">
+              {timelineWithMolecules.linkedLostMolecules.length}
+            </Badge>
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+            {timelineWithMolecules.linkedLostMolecules.map((mol) => (
+              <Link key={mol.id} href={`/lost-molecules-graph?molecule=${mol.moleculeId}`}>
+                <Card className="p-3 hover:bg-accent cursor-pointer transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-sm">{mol.name}</p>
+                      {mol.formula && (
+                        <p className="text-xs text-muted-foreground font-mono">{mol.formula}</p>
+                      )}
+                      {mol.moleculeClass && (
+                        <Badge 
+                          variant="outline" 
+                          className="text-xs mt-1 capitalize"
+                          style={{ 
+                            borderColor: chemotypeColors[mol.moleculeClass] || chemotypeColors.other,
+                            color: chemotypeColors[mol.moleculeClass] || chemotypeColors.other 
+                          }}
+                        >
+                          {mol.moleculeClass}
+                        </Badge>
+                      )}
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {/* Molécules principales liées */}
+      {hasMainMolecules && (
+        <div>
+          <h4 className="font-medium mb-2 flex items-center gap-2">
+            <Beaker className="h-4 w-4 text-primary" />
+            Molécules de référence
+            <Badge variant="secondary" className="text-xs">
+              {timelineWithMolecules.linkedMainMolecules.length}
+            </Badge>
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+            {timelineWithMolecules.linkedMainMolecules.map((mol) => (
+              <Link key={mol.id} href={`/molecules/${mol.id}`}>
+                <Card className="p-3 hover:bg-accent cursor-pointer transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-sm">{mol.name}</p>
+                      {mol.formula && (
+                        <p className="text-xs text-muted-foreground font-mono">{mol.formula}</p>
+                      )}
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {/* Lien vers le graphe complet */}
+      <div className="flex justify-end">
+        <Link href="/lost-molecules-graph">
+          <Button variant="outline" size="sm">
+            <Atom className="h-4 w-4 mr-2" />
+            Voir le graphe complet
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 // Couleurs par classe de chémotype
 const chemotypeColors: Record<string, string> = {
   alkaloid: "#ef4444",
@@ -833,6 +943,9 @@ export default function HeritageTimeline() {
                         {selectedHeritageEntry.evidenceCount || 0} évidences
                       </span>
                     </div>
+                    
+                    {/* Liens vers les molécules perdues */}
+                    <LinkedMoleculesSection periodId={selectedHeritageEntry.id} />
                   </CardContent>
                 </Card>
               )}
@@ -934,6 +1047,9 @@ export default function HeritageTimeline() {
                         </span>
                       )}
                     </div>
+                    
+                    {/* Liens vers les molécules perdues */}
+                    <LinkedMoleculesSection periodId={selectedHeritageEntry.id} />
                   </CardContent>
                 </Card>
               )}
@@ -1011,6 +1127,9 @@ export default function HeritageTimeline() {
                         </p>
                       </div>
                     )}
+                    
+                    {/* Liens vers les molécules perdues */}
+                    <LinkedMoleculesSection periodId={selectedHeritageEntry.id} />
                   </CardContent>
                 </Card>
               )}

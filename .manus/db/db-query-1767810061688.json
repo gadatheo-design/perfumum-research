@@ -1,0 +1,45 @@
+{
+  "query": "SELECT \n  hct.id, \n  hct.period_code, \n  hct.period_name, \n  hct.linked_molecule_ids,\n  hct.linked_main_molecule_ids\nFROM heritage_chemotypes_timeline hct \nLIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  hct.id, \n  hct.period_code, \n  hct.period_name, \n  hct.linked_molecule_ids,\n  hct.linked_main_molecule_ids\nFROM heritage_chemotypes_timeline hct \nLIMIT 5;",
+  "rows": [
+    {
+      "id": "18",
+      "period_code": "EGYPT-ANCIENT",
+      "period_name": "Égypte ancienne",
+      "linked_molecule_ids": "[]",
+      "linked_main_molecule_ids": "NULL"
+    },
+    {
+      "id": "19",
+      "period_code": "MESOPOTAMIA",
+      "period_name": "Mésopotamie",
+      "linked_molecule_ids": "[]",
+      "linked_main_molecule_ids": "NULL"
+    },
+    {
+      "id": "20",
+      "period_code": "GREECE-ANCIENT",
+      "period_name": "Grèce antique",
+      "linked_molecule_ids": "[]",
+      "linked_main_molecule_ids": "NULL"
+    },
+    {
+      "id": "21",
+      "period_code": "ROME-ANCIENT",
+      "period_name": "Rome antique",
+      "linked_molecule_ids": "[]",
+      "linked_main_molecule_ids": "NULL"
+    },
+    {
+      "id": "22",
+      "period_code": "INDIA-ANCIENT",
+      "period_name": "Inde ancienne",
+      "linked_molecule_ids": "[]",
+      "linked_main_molecule_ids": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tperiod_code\tperiod_name\tlinked_molecule_ids\tlinked_main_molecule_ids\n18\tEGYPT-ANCIENT\tÉgypte ancienne\t[]\tNULL\n19\tMESOPOTAMIA\tMésopotamie\t[]\tNULL\n20\tGREECE-ANCIENT\tGrèce antique\t[]\tNULL\n21\tROME-ANCIENT\tRome antique\t[]\tNULL\n22\tINDIA-ANCIENT\tInde ancienne\t[]\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}
