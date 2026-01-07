@@ -209,6 +209,13 @@ import {
   axisConnections,
   AxisConnection,
   InsertAxisConnection,
+  // Heritage Chemotypes Timeline & Evidence-Bibliography Links
+  heritageChemotypesTimeline,
+  HeritageChemotypesTimeline,
+  InsertHeritageChemotypesTimeline,
+  evidenceBibliographyLinks,
+  EvidenceBibliographyLink,
+  InsertEvidenceBibliographyLink,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -9948,4 +9955,734 @@ export async function getLostMoleculeWithEvidenceByMoleculeId(moleculeId: string
     ...molecule,
     evidence,
   };
+}
+
+
+// ============================================================================
+// LOST MOLECULES - MOLECULE LINKING FUNCTIONS
+// ============================================================================
+
+/**
+ * Link a lost molecule to an existing molecule in the main molecules table
+ */
+export async function linkLostMoleculeToMolecule(
+  lostMoleculeId: number,
+  moleculeId: number
+): Promise<LostMolecule | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.update(lostMolecules)
+    .set({ linkedMoleculeId: moleculeId })
+    .where(eq(lostMolecules.id, lostMoleculeId));
+  
+  return getLostMoleculeById(lostMoleculeId);
+}
+
+/**
+ * Unlink a lost molecule from its linked molecule
+ */
+export async function unlinkLostMolecule(lostMoleculeId: number): Promise<LostMolecule | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.update(lostMolecules)
+    .set({ linkedMoleculeId: null })
+    .where(eq(lostMolecules.id, lostMoleculeId));
+  
+  return getLostMoleculeById(lostMoleculeId);
+}
+
+/**
+ * Get all lost molecules linked to a specific molecule
+ */
+export async function getLostMoleculesByLinkedMolecule(moleculeId: number): Promise<LostMolecule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select()
+    .from(lostMolecules)
+    .where(eq(lostMolecules.linkedMoleculeId, moleculeId))
+    .orderBy(lostMolecules.name);
+}
+
+/**
+ * Get a molecule with all its linked lost molecules and their evidence
+ */
+export interface MoleculeWithHeritageData {
+  molecule: Molecule;
+  lostMolecules: LostMoleculeWithEvidence[];
+  heritageTimeline: {
+    timeContext: string | null;
+    regionContext: string | null;
+    evidenceCount: number;
+  }[];
+}
+
+export async function getMoleculeWithHeritageData(moleculeId: number): Promise<MoleculeWithHeritageData | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Get the main molecule
+  const moleculeResults = await db.select().from(molecules).where(eq(molecules.id, moleculeId));
+  const molecule = moleculeResults[0];
+  if (!molecule) return null;
+  
+  // Get all linked lost molecules
+  const linkedLostMolecules = await getLostMoleculesByLinkedMolecule(moleculeId);
+  
+  // Get evidence for each lost molecule
+  const lostMoleculesWithEvidence: LostMoleculeWithEvidence[] = [];
+  for (const lm of linkedLostMolecules) {
+    const evidence = await getMoleculeEvidenceByLostMolecule(lm.id);
+    lostMoleculesWithEvidence.push({ ...lm, evidence });
+  }
+  
+  // Build heritage timeline from evidence
+  const timelineMap = new Map<string, { timeContext: string | null; regionContext: string | null; evidenceCount: number }>();
+  for (const lm of lostMoleculesWithEvidence) {
+    for (const ev of lm.evidence) {
+      const key = `${ev.timeContext || 'unknown'}-${ev.regionContext || 'unknown'}`;
+      const existing = timelineMap.get(key);
+      if (existing) {
+        existing.evidenceCount++;
+      } else {
+        timelineMap.set(key, {
+          timeContext: ev.timeContext,
+          regionContext: ev.regionContext,
+          evidenceCount: 1,
+        });
+      }
+    }
+  }
+  
+  return {
+    molecule,
+    lostMolecules: lostMoleculesWithEvidence,
+    heritageTimeline: Array.from(timelineMap.values()),
+  };
+}
+
+/**
+ * Search for potential molecule matches based on name, formula, or CAS number
+ */
+export interface PotentialMoleculeMatch {
+  molecule: Molecule;
+  matchType: 'exact_name' | 'partial_name' | 'formula' | 'cas';
+  matchScore: number;
+}
+
+export async function findPotentialMoleculeMatches(
+  lostMoleculeId: number
+): Promise<PotentialMoleculeMatch[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const lostMolecule = await getLostMoleculeById(lostMoleculeId);
+  if (!lostMolecule) return [];
+  
+  const matches: PotentialMoleculeMatch[] = [];
+  const allMolecules = await db.select().from(molecules);
+  
+  const lostName = lostMolecule.name.toLowerCase();
+  const lostFormula = lostMolecule.formula?.toLowerCase();
+  
+  for (const mol of allMolecules) {
+    const molName = mol.name.toLowerCase();
+    
+    // Exact name match
+    if (molName === lostName) {
+      matches.push({ molecule: mol, matchType: 'exact_name', matchScore: 100 });
+      continue;
+    }
+    
+    // Partial name match (contains)
+    if (molName.includes(lostName) || lostName.includes(molName)) {
+      const score = Math.min(lostName.length, molName.length) / Math.max(lostName.length, molName.length) * 80;
+      matches.push({ molecule: mol, matchType: 'partial_name', matchScore: Math.round(score) });
+      continue;
+    }
+    
+    // Formula match
+    if (lostFormula && mol.chemicalFormula?.toLowerCase() === lostFormula) {
+      matches.push({ molecule: mol, matchType: 'formula', matchScore: 90 });
+      continue;
+    }
+    
+    // CAS number match (if we had CAS in lost molecules - check notes field)
+    if (mol.casNumber && lostMolecule.notes?.includes(mol.casNumber)) {
+      matches.push({ molecule: mol, matchType: 'cas', matchScore: 95 });
+    }
+  }
+  
+  // Sort by match score descending
+  return matches.sort((a, b) => b.matchScore - a.matchScore).slice(0, 10);
+}
+
+/**
+ * Get all unlinked lost molecules (for linking UI)
+ */
+export async function getUnlinkedLostMolecules(): Promise<LostMolecule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select()
+    .from(lostMolecules)
+    .where(sql`${lostMolecules.linkedMoleculeId} IS NULL`)
+    .orderBy(lostMolecules.name);
+}
+
+/**
+ * Get all linked lost molecules with their main molecule info
+ */
+export interface LinkedLostMolecule extends LostMolecule {
+  linkedMolecule: Molecule | null;
+}
+
+export async function getLinkedLostMolecules(): Promise<LinkedLostMolecule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const lostMols = await db.select()
+    .from(lostMolecules)
+    .where(sql`${lostMolecules.linkedMoleculeId} IS NOT NULL`)
+    .orderBy(lostMolecules.name);
+  
+  const result: LinkedLostMolecule[] = [];
+  for (const lm of lostMols) {
+    let linkedMolecule: Molecule | null = null;
+    if (lm.linkedMoleculeId) {
+      const molResults = await db.select().from(molecules).where(eq(molecules.id, lm.linkedMoleculeId));
+      linkedMolecule = molResults[0] || null;
+    }
+    result.push({ ...lm, linkedMolecule });
+  }
+  
+  return result;
+}
+
+// ============================================================================
+// HERITAGE CHEMOTYPES TIMELINE
+// ============================================================================
+
+/**
+ * Get all unique time contexts from molecule evidence
+ */
+export async function getHeritageTimeContexts(): Promise<string[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const results = await db.selectDistinct({ timeContext: moleculeEvidence.timeContext })
+    .from(moleculeEvidence)
+    .where(sql`${moleculeEvidence.timeContext} IS NOT NULL`);
+  
+  return results.map(r => r.timeContext).filter((t): t is string => t !== null);
+}
+
+/**
+ * Get all unique region contexts from molecule evidence
+ */
+export async function getHeritageRegionContexts(): Promise<string[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const results = await db.selectDistinct({ regionContext: moleculeEvidence.regionContext })
+    .from(moleculeEvidence)
+    .where(sql`${moleculeEvidence.regionContext} IS NOT NULL`);
+  
+  return results.map(r => r.regionContext).filter((r): r is string => r !== null);
+}
+
+/**
+ * Heritage timeline entry with aggregated data
+ */
+export interface HeritageTimelineEntry {
+  timeContext: string;
+  regionContext: string | null;
+  moleculeClass: string | null;
+  molecules: {
+    id: number;
+    moleculeId: string;
+    name: string;
+    formula: string | null;
+  }[];
+  evidenceCount: number;
+  confidence: 'low' | 'medium' | 'high';
+  methods: string[];
+}
+
+/**
+ * Get heritage timeline data grouped by time period
+ */
+export async function getHeritageTimeline(filters?: {
+  timeContext?: string;
+  regionContext?: string;
+  moleculeClass?: string;
+}): Promise<HeritageTimelineEntry[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Get all evidence with their lost molecules
+  let query = db.select({
+    evidenceId: moleculeEvidence.evidenceId,
+    timeContext: moleculeEvidence.timeContext,
+    regionContext: moleculeEvidence.regionContext,
+    method: moleculeEvidence.method,
+    confidence: moleculeEvidence.confidence,
+    lostMoleculeId: moleculeEvidence.lostMoleculeId,
+  }).from(moleculeEvidence);
+  
+  const allEvidence = await query;
+  const allLostMolecules = await getAllLostMolecules();
+  
+  // Group by timeContext
+  const timelineMap = new Map<string, HeritageTimelineEntry>();
+  
+  for (const ev of allEvidence) {
+    if (!ev.timeContext) continue;
+    
+    // Apply filters
+    if (filters?.timeContext && ev.timeContext !== filters.timeContext) continue;
+    if (filters?.regionContext && ev.regionContext !== filters.regionContext) continue;
+    
+    const lostMol = allLostMolecules.find(m => m.id === ev.lostMoleculeId);
+    if (!lostMol) continue;
+    
+    if (filters?.moleculeClass && lostMol.moleculeClass !== filters.moleculeClass) continue;
+    
+    const key = `${ev.timeContext}-${ev.regionContext || 'global'}`;
+    
+    if (!timelineMap.has(key)) {
+      timelineMap.set(key, {
+        timeContext: ev.timeContext,
+        regionContext: ev.regionContext,
+        moleculeClass: lostMol.moleculeClass,
+        molecules: [],
+        evidenceCount: 0,
+        confidence: ev.confidence || 'medium',
+        methods: [],
+      });
+    }
+    
+    const entry = timelineMap.get(key)!;
+    entry.evidenceCount++;
+    
+    // Add molecule if not already present
+    if (!entry.molecules.find(m => m.id === lostMol.id)) {
+      entry.molecules.push({
+        id: lostMol.id,
+        moleculeId: lostMol.moleculeId,
+        name: lostMol.name,
+        formula: lostMol.formula,
+      });
+    }
+    
+    // Add method if not already present
+    if (ev.method && !entry.methods.includes(ev.method)) {
+      entry.methods.push(ev.method);
+    }
+    
+    // Update confidence to highest
+    if (ev.confidence === 'high') entry.confidence = 'high';
+    else if (ev.confidence === 'medium' && entry.confidence === 'low') entry.confidence = 'medium';
+  }
+  
+  // Sort by time context (try to parse dates)
+  return Array.from(timelineMap.values()).sort((a, b) => {
+    // Try to extract years from time context
+    const yearA = extractYear(a.timeContext);
+    const yearB = extractYear(b.timeContext);
+    return yearA - yearB;
+  });
+}
+
+/**
+ * Helper to extract approximate year from time context string
+ */
+function extractYear(timeContext: string): number {
+  // Handle BCE dates
+  const bceMatch = timeContext.match(/(\d+)\s*(BCE|BC|av\.?\s*J\.?-?C\.?)/i);
+  if (bceMatch) return -parseInt(bceMatch[1]);
+  
+  // Handle CE dates
+  const ceMatch = timeContext.match(/(\d+)\s*(CE|AD|ap\.?\s*J\.?-?C\.?)/i);
+  if (ceMatch) return parseInt(ceMatch[1]);
+  
+  // Handle century notation
+  const centuryMatch = timeContext.match(/(\d+)(st|nd|rd|th)\s*century/i);
+  if (centuryMatch) return (parseInt(centuryMatch[1]) - 1) * 100 + 50;
+  
+  // Handle millennium notation
+  const millenniumMatch = timeContext.match(/(\d+)(st|nd|rd|th)\s*millennium/i);
+  if (millenniumMatch) return (parseInt(millenniumMatch[1]) - 1) * 1000 + 500;
+  
+  // Handle year ranges
+  const rangeMatch = timeContext.match(/(\d{3,4})\s*[-–]\s*(\d{3,4})/);
+  if (rangeMatch) return (parseInt(rangeMatch[1]) + parseInt(rangeMatch[2])) / 2;
+  
+  // Handle single year
+  const yearMatch = timeContext.match(/(\d{3,4})/);
+  if (yearMatch) return parseInt(yearMatch[1]);
+  
+  return 0;
+}
+
+// ============================================================================
+// EVIDENCE-BIBLIOGRAPHY LINKING
+// ============================================================================
+
+/**
+ * Find bibliography entries that might match an evidence reference
+ */
+export interface BibliographyMatchResult {
+  entry: BibliographyEntry;
+  matchType: 'doi' | 'title' | 'author_year';
+  matchScore: number;
+}
+
+export async function findBibliographyMatchesForEvidence(
+  evidenceId: number
+): Promise<BibliographyMatchResult[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const evidence = await getMoleculeEvidenceById(evidenceId);
+  if (!evidence) return [];
+  
+  const allBibEntries = await db.select().from(bibliographyEntries);
+  const matches: BibliographyMatchResult[] = [];
+  
+  for (const entry of allBibEntries) {
+    // DOI match (highest priority)
+    if (evidence.doi && entry.doi && evidence.doi.toLowerCase() === entry.doi.toLowerCase()) {
+      matches.push({ entry, matchType: 'doi', matchScore: 100 });
+      continue;
+    }
+    
+    // Title match
+    if (evidence.referenceTitle && entry.title) {
+      const evTitle = evidence.referenceTitle.toLowerCase();
+      const entryTitle = entry.title.toLowerCase();
+      
+      if (evTitle === entryTitle) {
+        matches.push({ entry, matchType: 'title', matchScore: 95 });
+        continue;
+      }
+      
+      // Partial title match
+      if (evTitle.includes(entryTitle) || entryTitle.includes(evTitle)) {
+        const score = Math.min(evTitle.length, entryTitle.length) / Math.max(evTitle.length, entryTitle.length) * 70;
+        if (score > 50) {
+          matches.push({ entry, matchType: 'title', matchScore: Math.round(score) });
+          continue;
+        }
+      }
+    }
+    
+    // Author + year match (if reference ID contains author name pattern)
+    if (evidence.referenceId && entry.authors && entry.year) {
+      const refId = evidence.referenceId.toLowerCase();
+      const authorFirst = entry.authors.split(',')[0]?.toLowerCase().trim();
+      if (authorFirst && refId.includes(authorFirst.substring(0, 4)) && refId.includes(String(entry.year))) {
+        matches.push({ entry, matchType: 'author_year', matchScore: 60 });
+      }
+    }
+  }
+  
+  return matches.sort((a, b) => b.matchScore - a.matchScore).slice(0, 5);
+}
+
+/**
+ * Get all evidence entries for a bibliography entry
+ */
+export async function getEvidenceByBibliographyEntry(bibliographyId: number): Promise<MoleculeEvidence[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const bibEntry = await db.select().from(bibliographyEntries).where(eq(bibliographyEntries.id, bibliographyId));
+  if (!bibEntry[0]) return [];
+  
+  const entry = bibEntry[0];
+  const allEvidence = await getAllMoleculeEvidence();
+  
+  // Match by DOI, title, or reference ID pattern
+  return allEvidence.filter(ev => {
+    if (entry.doi && ev.doi && entry.doi.toLowerCase() === ev.doi.toLowerCase()) return true;
+    if (entry.title && ev.referenceTitle && entry.title.toLowerCase() === ev.referenceTitle.toLowerCase()) return true;
+    return false;
+  });
+}
+
+/**
+ * Get bibliography statistics for heritage research
+ */
+export interface HeritageBibliographyStats {
+  totalReferences: number;
+  linkedToEvidence: number;
+  byDomain: Record<string, number>;
+  byYear: Record<number, number>;
+}
+
+export async function getHeritageBibliographyStats(): Promise<HeritageBibliographyStats> {
+  const db = await getDb();
+  if (!db) return { totalReferences: 0, linkedToEvidence: 0, byDomain: {}, byYear: {} };
+  
+  const allBib = await db.select().from(bibliographyEntries);
+  const allEvidence = await getAllMoleculeEvidence();
+  
+  // Count linked entries
+  let linkedCount = 0;
+  for (const entry of allBib) {
+    const hasMatch = allEvidence.some(ev => 
+      (entry.doi && ev.doi && entry.doi.toLowerCase() === ev.doi.toLowerCase()) ||
+      (entry.title && ev.referenceTitle && entry.title.toLowerCase() === ev.referenceTitle.toLowerCase())
+    );
+    if (hasMatch) linkedCount++;
+  }
+  
+  // Group by domain
+  const byDomain: Record<string, number> = {};
+  for (const entry of allBib) {
+    const domain = entry.researchDomain || 'other';
+    byDomain[domain] = (byDomain[domain] || 0) + 1;
+  }
+  
+  // Group by year
+  const byYear: Record<number, number> = {};
+  for (const entry of allBib) {
+    if (entry.year) {
+      byYear[entry.year] = (byYear[entry.year] || 0) + 1;
+    }
+  }
+  
+  return {
+    totalReferences: allBib.length,
+    linkedToEvidence: linkedCount,
+    byDomain,
+    byYear,
+  };
+}
+
+
+// ============================================================================
+// HERITAGE CHEMOTYPES TIMELINE CRUD
+// ============================================================================
+
+export async function getAllHeritageTimelineEntries(): Promise<HeritageChemotypesTimeline[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(heritageChemotypesTimeline).orderBy(heritageChemotypesTimeline.startYear);
+}
+
+export async function getHeritageTimelineEntryById(id: number): Promise<HeritageChemotypesTimeline | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(heritageChemotypesTimeline).where(eq(heritageChemotypesTimeline.id, id));
+  return results[0] || null;
+}
+
+export async function getHeritageTimelineByPeriod(periodCode: string): Promise<HeritageChemotypesTimeline[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(heritageChemotypesTimeline).where(eq(heritageChemotypesTimeline.periodCode, periodCode));
+}
+
+export async function getHeritageTimelineByRegion(regionCode: string): Promise<HeritageChemotypesTimeline[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(heritageChemotypesTimeline).where(eq(heritageChemotypesTimeline.regionCode, regionCode));
+}
+
+export async function getHeritageTimelineByChemotypeClass(chemotypeClass: string): Promise<HeritageChemotypesTimeline[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(heritageChemotypesTimeline).where(eq(heritageChemotypesTimeline.chemotypeClass, chemotypeClass as any));
+}
+
+export async function createHeritageTimelineEntry(data: InsertHeritageChemotypesTimeline): Promise<HeritageChemotypesTimeline | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(heritageChemotypesTimeline).values(data);
+  const insertId = result[0].insertId;
+  return getHeritageTimelineEntryById(insertId);
+}
+
+export async function updateHeritageTimelineEntry(id: number, data: Partial<InsertHeritageChemotypesTimeline>): Promise<HeritageChemotypesTimeline | null> {
+  const db = await getDb();
+  if (!db) return null;
+  await db.update(heritageChemotypesTimeline).set(data).where(eq(heritageChemotypesTimeline.id, id));
+  return getHeritageTimelineEntryById(id);
+}
+
+export async function deleteHeritageTimelineEntry(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(heritageChemotypesTimeline).where(eq(heritageChemotypesTimeline.id, id));
+  return true;
+}
+
+// ============================================================================
+// EVIDENCE-BIBLIOGRAPHY LINKS CRUD
+// ============================================================================
+
+export async function getAllEvidenceBibliographyLinks(): Promise<EvidenceBibliographyLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(evidenceBibliographyLinks).orderBy(evidenceBibliographyLinks.createdAt);
+}
+
+export async function getEvidenceBibliographyLinkById(id: number): Promise<EvidenceBibliographyLink | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(evidenceBibliographyLinks).where(eq(evidenceBibliographyLinks.id, id));
+  return results[0] || null;
+}
+
+export async function getEvidenceBibliographyLinksByEvidence(evidenceId: number): Promise<EvidenceBibliographyLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(evidenceBibliographyLinks).where(eq(evidenceBibliographyLinks.evidenceId, evidenceId));
+}
+
+export async function getEvidenceBibliographyLinksByBibliography(bibliographyId: number): Promise<EvidenceBibliographyLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(evidenceBibliographyLinks).where(eq(evidenceBibliographyLinks.bibliographyId, bibliographyId));
+}
+
+export async function createEvidenceBibliographyLink(data: InsertEvidenceBibliographyLink): Promise<EvidenceBibliographyLink | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(evidenceBibliographyLinks).values(data);
+  const insertId = result[0].insertId;
+  return getEvidenceBibliographyLinkById(insertId);
+}
+
+export async function updateEvidenceBibliographyLink(id: number, data: Partial<InsertEvidenceBibliographyLink>): Promise<EvidenceBibliographyLink | null> {
+  const db = await getDb();
+  if (!db) return null;
+  await db.update(evidenceBibliographyLinks).set(data).where(eq(evidenceBibliographyLinks.id, id));
+  return getEvidenceBibliographyLinkById(id);
+}
+
+export async function deleteEvidenceBibliographyLink(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(evidenceBibliographyLinks).where(eq(evidenceBibliographyLinks.id, id));
+  return true;
+}
+
+export async function verifyEvidenceBibliographyLink(id: number, userId: number): Promise<EvidenceBibliographyLink | null> {
+  const db = await getDb();
+  if (!db) return null;
+  await db.update(evidenceBibliographyLinks)
+    .set({ 
+      verified: true, 
+      verifiedBy: userId, 
+      verifiedAt: new Date() 
+    })
+    .where(eq(evidenceBibliographyLinks.id, id));
+  return getEvidenceBibliographyLinkById(id);
+}
+
+/**
+ * Get evidence with linked bibliography entries
+ */
+export interface EvidenceWithBibliography {
+  evidence: MoleculeEvidence;
+  bibliographyLinks: {
+    link: EvidenceBibliographyLink;
+    bibliography: BibliographyEntry | null;
+  }[];
+}
+
+export async function getEvidenceWithBibliography(evidenceId: number): Promise<EvidenceWithBibliography | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const evidence = await getMoleculeEvidenceById(evidenceId);
+  if (!evidence) return null;
+  
+  const links = await getEvidenceBibliographyLinksByEvidence(evidenceId);
+  const bibliographyLinks: EvidenceWithBibliography['bibliographyLinks'] = [];
+  
+  for (const link of links) {
+    const bibResults = await db.select().from(bibliographyEntries).where(eq(bibliographyEntries.id, link.bibliographyId));
+    bibliographyLinks.push({
+      link,
+      bibliography: bibResults[0] || null,
+    });
+  }
+  
+  return { evidence, bibliographyLinks };
+}
+
+/**
+ * Get bibliography entry with linked evidence
+ */
+export interface BibliographyWithEvidence {
+  bibliography: BibliographyEntry;
+  evidenceLinks: {
+    link: EvidenceBibliographyLink;
+    evidence: MoleculeEvidence | null;
+  }[];
+}
+
+export async function getBibliographyWithEvidence(bibliographyId: number): Promise<BibliographyWithEvidence | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const bibResults = await db.select().from(bibliographyEntries).where(eq(bibliographyEntries.id, bibliographyId));
+  const bibliography = bibResults[0];
+  if (!bibliography) return null;
+  
+  const links = await getEvidenceBibliographyLinksByBibliography(bibliographyId);
+  const evidenceLinks: BibliographyWithEvidence['evidenceLinks'] = [];
+  
+  for (const link of links) {
+    const evidence = await getMoleculeEvidenceById(link.evidenceId);
+    evidenceLinks.push({
+      link,
+      evidence,
+    });
+  }
+  
+  return { bibliography, evidenceLinks };
+}
+
+/**
+ * Auto-link evidence to bibliography based on DOI/title matching
+ */
+export async function autoLinkEvidenceToBibliography(evidenceId: number, userId?: number): Promise<EvidenceBibliographyLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const matches = await findBibliographyMatchesForEvidence(evidenceId);
+  const createdLinks: EvidenceBibliographyLink[] = [];
+  
+  for (const match of matches) {
+    // Only auto-link high confidence matches (score >= 80)
+    if (match.matchScore >= 80) {
+      // Check if link already exists
+      const existingLinks = await db.select()
+        .from(evidenceBibliographyLinks)
+        .where(
+          sql`${evidenceBibliographyLinks.evidenceId} = ${evidenceId} AND ${evidenceBibliographyLinks.bibliographyId} = ${match.entry.id}`
+        );
+      
+      if (existingLinks.length === 0) {
+        const link = await createEvidenceBibliographyLink({
+          evidenceId,
+          bibliographyId: match.entry.id,
+          linkType: 'primary',
+          matchMethod: match.matchType as any,
+          matchScore: match.matchScore,
+          createdBy: userId,
+        });
+        if (link) createdLinks.push(link);
+      }
+    }
+  }
+  
+  return createdLinks;
 }

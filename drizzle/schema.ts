@@ -4899,3 +4899,133 @@ export const moleculeEvidenceRelations = relations(moleculeEvidence, ({ one }) =
     references: [lostMolecules.id],
   }),
 }));
+
+
+// ============================================================================
+// HERITAGE CHEMOTYPES TIMELINE
+// ============================================================================
+
+/**
+ * Heritage chemotypes timeline for visualizing the evolution of chemotypes
+ * across different historical periods and geographical regions.
+ * Aggregates data from molecule_evidence for timeline visualization.
+ */
+export const heritageChemotypesTimeline = mysqlTable("heritage_chemotypes_timeline", {
+  id: int("id").autoincrement().primaryKey(),
+  // Time period
+  periodCode: varchar("period_code", { length: 50 }).notNull(), // "BCE-1000", "CE-500", "MEDIEVAL", etc.
+  periodName: varchar("period_name", { length: 255 }).notNull(), // "1st Millennium BCE", "Early Medieval", etc.
+  startYear: int("start_year"), // -1000 for 1000 BCE
+  endYear: int("end_year"), // 500 for 500 CE
+  // Geographic context
+  regionCode: varchar("region_code", { length: 50 }), // "CENTRAL_ASIA", "MEDITERRANEAN", etc.
+  regionName: varchar("region_name", { length: 255 }), // "Central Asia", "Mediterranean Basin", etc.
+  // Chemotype classification
+  chemotypeClass: mysqlEnum("chemotype_class", [
+    "alkaloid",
+    "cannabinoid",
+    "terpene",
+    "sesquiterpene",
+    "monoterpene",
+    "phenolic",
+    "flavonoid",
+    "other"
+  ]),
+  // Description
+  description: text("description"),
+  historicalContext: text("historical_context"), // Historical significance
+  // Evidence summary
+  evidenceCount: int("evidence_count").default(0),
+  primarySources: json("primary_sources").$type<{
+    referenceId: string;
+    title: string;
+    confidence: 'low' | 'medium' | 'high';
+  }[]>(),
+  // Linked molecules
+  linkedMoleculeIds: json("linked_molecule_ids").$type<number[]>(), // IDs from lost_molecules
+  linkedMainMoleculeIds: json("linked_main_molecule_ids").$type<number[]>(), // IDs from molecules
+  // Methods used
+  analyticalMethods: json("analytical_methods").$type<string[]>(),
+  // UI properties
+  color: varchar("color", { length: 20 }).default("#6366f1"),
+  displayOrder: int("display_order").default(0),
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  periodIdx: index("heritage_timeline_period_idx").on(table.periodCode),
+  regionIdx: index("heritage_timeline_region_idx").on(table.regionCode),
+  chemotypeIdx: index("heritage_timeline_chemotype_idx").on(table.chemotypeClass),
+  yearIdx: index("heritage_timeline_year_idx").on(table.startYear, table.endYear),
+}));
+
+export type HeritageChemotypesTimeline = typeof heritageChemotypesTimeline.$inferSelect;
+export type InsertHeritageChemotypesTimeline = typeof heritageChemotypesTimeline.$inferInsert;
+
+// ============================================================================
+// EVIDENCE-BIBLIOGRAPHY LINKS
+// ============================================================================
+
+/**
+ * Links between molecule evidence entries and bibliography entries.
+ * Allows connecting evidence references to the main bibliography system.
+ */
+export const evidenceBibliographyLinks = mysqlTable("evidence_bibliography_links", {
+  id: int("id").autoincrement().primaryKey(),
+  // Evidence reference
+  evidenceId: int("evidence_id").notNull().references(() => moleculeEvidence.id, { onDelete: "cascade" }),
+  // Bibliography reference
+  bibliographyId: int("bibliography_id").notNull().references(() => bibliographyEntries.id, { onDelete: "cascade" }),
+  // Link metadata
+  linkType: mysqlEnum("link_type", [
+    "primary",      // Primary source for the evidence
+    "secondary",    // Secondary/supporting source
+    "methodology",  // Methodological reference
+    "context"       // Historical/contextual reference
+  ]).default("primary"),
+  // Match information
+  matchMethod: mysqlEnum("match_method", [
+    "doi",          // Matched by DOI
+    "title",        // Matched by title
+    "manual",       // Manually linked
+    "auto"          // Auto-suggested
+  ]).default("manual"),
+  matchScore: int("match_score"), // 0-100 confidence score
+  // Notes
+  notes: text("notes"),
+  // Verification
+  verified: boolean("verified").default(false),
+  verifiedBy: int("verified_by").references(() => users.id),
+  verifiedAt: timestamp("verified_at"),
+  // Metadata
+  createdBy: int("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueLink: uniqueIndex("unique_evidence_bibliography").on(table.evidenceId, table.bibliographyId),
+  evidenceIdx: index("evidence_bibliography_evidence_idx").on(table.evidenceId),
+  bibliographyIdx: index("evidence_bibliography_bibliography_idx").on(table.bibliographyId),
+}));
+
+export type EvidenceBibliographyLink = typeof evidenceBibliographyLinks.$inferSelect;
+export type InsertEvidenceBibliographyLink = typeof evidenceBibliographyLinks.$inferInsert;
+
+// Relations for evidenceBibliographyLinks
+export const evidenceBibliographyLinksRelations = relations(evidenceBibliographyLinks, ({ one }) => ({
+  evidence: one(moleculeEvidence, {
+    fields: [evidenceBibliographyLinks.evidenceId],
+    references: [moleculeEvidence.id],
+  }),
+  bibliography: one(bibliographyEntries, {
+    fields: [evidenceBibliographyLinks.bibliographyId],
+    references: [bibliographyEntries.id],
+  }),
+  createdByUser: one(users, {
+    fields: [evidenceBibliographyLinks.createdBy],
+    references: [users.id],
+  }),
+  verifiedByUser: one(users, {
+    fields: [evidenceBibliographyLinks.verifiedBy],
+    references: [users.id],
+  }),
+}));

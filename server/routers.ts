@@ -7246,6 +7246,243 @@ export const appRouter = router({
     graphData: publicProcedure.query(async () => {
       return db.getLostMoleculesGraphData();
     }),
+    
+    // --- Molecule Linking ---
+    linking: router({
+      linkToMolecule: protectedProcedure
+        .input(z.object({
+          lostMoleculeId: z.number(),
+          moleculeId: z.number(),
+        }))
+        .mutation(async ({ input }) => {
+          return db.linkLostMoleculeToMolecule(input.lostMoleculeId, input.moleculeId);
+        }),
+      unlink: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ input }) => {
+          return db.unlinkLostMolecule(input);
+        }),
+      getByLinkedMolecule: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getLostMoleculesByLinkedMolecule(input);
+        }),
+      getMoleculeWithHeritage: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getMoleculeWithHeritageData(input);
+        }),
+      findPotentialMatches: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.findPotentialMoleculeMatches(input);
+        }),
+      getUnlinked: publicProcedure.query(async () => {
+        return db.getUnlinkedLostMolecules();
+      }),
+      getLinked: publicProcedure.query(async () => {
+        return db.getLinkedLostMolecules();
+      }),
+    }),
+    
+    // --- Heritage Timeline ---
+    timeline: router({
+      getTimeContexts: publicProcedure.query(async () => {
+        return db.getHeritageTimeContexts();
+      }),
+      getRegionContexts: publicProcedure.query(async () => {
+        return db.getHeritageRegionContexts();
+      }),
+      getData: publicProcedure
+        .input(z.object({
+          timeContext: z.string().optional(),
+          regionContext: z.string().optional(),
+          moleculeClass: z.string().optional(),
+        }).optional())
+        .query(async ({ input }) => {
+          return db.getHeritageTimeline(input);
+        }),
+    }),
+    
+    // --- Bibliography Linking ---
+    bibliography: router({
+      findMatchesForEvidence: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.findBibliographyMatchesForEvidence(input);
+        }),
+      getEvidenceByBibliography: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getEvidenceByBibliographyEntry(input);
+        }),
+      getStats: publicProcedure.query(async () => {
+        return db.getHeritageBibliographyStats();
+      }),
+    }),
+    
+    // --- Heritage Chemotypes Timeline CRUD ---
+    heritageTimeline: router({
+      list: publicProcedure.query(async () => {
+        return db.getAllHeritageTimelineEntries();
+      }),
+      getById: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getHeritageTimelineEntryById(input);
+        }),
+      getByPeriod: publicProcedure
+        .input(z.string())
+        .query(async ({ input }) => {
+          return db.getHeritageTimelineByPeriod(input);
+        }),
+      getByRegion: publicProcedure
+        .input(z.string())
+        .query(async ({ input }) => {
+          return db.getHeritageTimelineByRegion(input);
+        }),
+      getByChemotypeClass: publicProcedure
+        .input(z.string())
+        .query(async ({ input }) => {
+          return db.getHeritageTimelineByChemotypeClass(input);
+        }),
+      create: protectedProcedure
+        .input(z.object({
+          periodCode: z.string(),
+          periodName: z.string(),
+          startYear: z.number().optional(),
+          endYear: z.number().optional(),
+          regionCode: z.string().optional(),
+          regionName: z.string().optional(),
+          chemotypeClass: z.enum(['alkaloid', 'cannabinoid', 'terpene', 'sesquiterpene', 'monoterpene', 'phenolic', 'flavonoid', 'other']).optional(),
+          description: z.string().optional(),
+          historicalContext: z.string().optional(),
+          evidenceCount: z.number().optional(),
+          primarySources: z.array(z.object({
+            referenceId: z.string(),
+            title: z.string(),
+            confidence: z.enum(['low', 'medium', 'high']),
+          })).optional(),
+          linkedMoleculeIds: z.array(z.number()).optional(),
+          linkedMainMoleculeIds: z.array(z.number()).optional(),
+          analyticalMethods: z.array(z.string()).optional(),
+          color: z.string().optional(),
+          displayOrder: z.number().optional(),
+        }))
+        .mutation(async ({ input }) => {
+          return db.createHeritageTimelineEntry(input);
+        }),
+      update: protectedProcedure
+        .input(z.object({
+          id: z.number(),
+          data: z.object({
+            periodCode: z.string().optional(),
+            periodName: z.string().optional(),
+            startYear: z.number().optional(),
+            endYear: z.number().optional(),
+            regionCode: z.string().optional(),
+            regionName: z.string().optional(),
+            chemotypeClass: z.enum(['alkaloid', 'cannabinoid', 'terpene', 'sesquiterpene', 'monoterpene', 'phenolic', 'flavonoid', 'other']).optional(),
+            description: z.string().optional(),
+            historicalContext: z.string().optional(),
+            evidenceCount: z.number().optional(),
+            primarySources: z.array(z.object({
+              referenceId: z.string(),
+              title: z.string(),
+              confidence: z.enum(['low', 'medium', 'high']),
+            })).optional(),
+            linkedMoleculeIds: z.array(z.number()).optional(),
+            linkedMainMoleculeIds: z.array(z.number()).optional(),
+            analyticalMethods: z.array(z.string()).optional(),
+            color: z.string().optional(),
+            displayOrder: z.number().optional(),
+          }),
+        }))
+        .mutation(async ({ input }) => {
+          return db.updateHeritageTimelineEntry(input.id, input.data);
+        }),
+      delete: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ input }) => {
+          return db.deleteHeritageTimelineEntry(input);
+        }),
+    }),
+    
+    // --- Evidence-Bibliography Links CRUD ---
+    evidenceBibLinks: router({
+      list: publicProcedure.query(async () => {
+        return db.getAllEvidenceBibliographyLinks();
+      }),
+      getById: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getEvidenceBibliographyLinkById(input);
+        }),
+      getByEvidence: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getEvidenceBibliographyLinksByEvidence(input);
+        }),
+      getByBibliography: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getEvidenceBibliographyLinksByBibliography(input);
+        }),
+      getEvidenceWithBibliography: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getEvidenceWithBibliography(input);
+        }),
+      getBibliographyWithEvidence: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getBibliographyWithEvidence(input);
+        }),
+      create: protectedProcedure
+        .input(z.object({
+          evidenceId: z.number(),
+          bibliographyId: z.number(),
+          linkType: z.enum(['primary', 'secondary', 'methodology', 'context']).optional(),
+          matchMethod: z.enum(['doi', 'title', 'manual', 'auto']).optional(),
+          matchScore: z.number().optional(),
+          notes: z.string().optional(),
+        }))
+        .mutation(async ({ ctx, input }) => {
+          return db.createEvidenceBibliographyLink({
+            ...input,
+            createdBy: ctx.user?.id,
+          });
+        }),
+      update: protectedProcedure
+        .input(z.object({
+          id: z.number(),
+          data: z.object({
+            linkType: z.enum(['primary', 'secondary', 'methodology', 'context']).optional(),
+            matchMethod: z.enum(['doi', 'title', 'manual', 'auto']).optional(),
+            matchScore: z.number().optional(),
+            notes: z.string().optional(),
+          }),
+        }))
+        .mutation(async ({ input }) => {
+          return db.updateEvidenceBibliographyLink(input.id, input.data);
+        }),
+      delete: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ input }) => {
+          return db.deleteEvidenceBibliographyLink(input);
+        }),
+      verify: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ ctx, input }) => {
+          if (!ctx.user?.id) throw new Error('User not authenticated');
+          return db.verifyEvidenceBibliographyLink(input, ctx.user.id);
+        }),
+      autoLink: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ ctx, input }) => {
+          return db.autoLinkEvidenceToBibliography(input, ctx.user?.id);
+        }),
+    }),
   }),
 });
 

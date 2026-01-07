@@ -3979,3 +3979,74 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Créer le checkpoint final
 - [ ] Présenter les résultats au client
 
+
+
+---
+
+## 🔗 SESSION 07 JAN 2026 - INTÉGRATION MOLÉCULES PERDUES & TIMELINE HISTORIQUE
+
+### Phase 1 : Lier les molécules perdues aux molécules existantes
+- [ ] Créer les procédures tRPC pour lier lost_molecules à molecules via linkedMoleculeId
+- [ ] Créer une procédure pour rechercher les correspondances automatiques (par nom, formule, CAS)
+- [ ] Créer une interface de liaison manuelle dans la fiche molécule perdue
+- [ ] Afficher les données enrichies (historiques) dans la fiche molécule principale
+- [ ] Tester les liaisons bidirectionnelles
+
+### Phase 2 : Timeline historique des chémotypes patrimoniaux
+- [ ] Créer le schéma de table heritage_chemotypes_timeline
+- [ ] Créer les procédures tRPC pour la timeline (CRUD + filtres par période/région)
+- [ ] Créer l'interface de visualisation timeline (scroll horizontal par période)
+- [ ] Intégrer les données timeContext et regionContext des molecule_evidence
+- [ ] Créer les filtres par région géographique et période historique
+- [ ] Ajouter les couleurs par classe de molécule
+
+### Phase 3 : Intégrer les références dans la bibliographie
+- [ ] Créer une table de liaison evidence_bibliography_links
+- [ ] Créer les procédures pour lier reference_id aux entrées bibliographiques
+- [ ] Créer une interface de liaison dans la page evidence
+- [ ] Afficher les références liées dans la fiche bibliographique
+- [ ] Créer un système de recherche/suggestion automatique
+
+### Phase 4 : Tests et validation
+- [ ] Écrire les tests unitaires pour les nouvelles procédures
+- [ ] Tester les interfaces sur desktop et mobile
+- [ ] Valider l'intégrité des données
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 🔗 SESSION 07 JAN 2026 - INTÉGRATION MOLÉCULES PERDUES & TIMELINE HISTORIQUE (COMPLÉTÉ)
+
+### Phase 1 : Lier les molécules perdues aux molécules existantes ✅
+- [x] Créer les procédures tRPC pour lier lost_molecules à molecules via linkedMoleculeId
+- [x] Créer une procédure pour rechercher les correspondances automatiques (par nom, formule, CAS)
+- [x] Créer une interface de liaison manuelle (page MoleculeLinking.tsx)
+- [x] Afficher les données enrichies (historiques) dans la fiche molécule principale
+- [x] Tester les liaisons bidirectionnelles
+
+### Phase 2 : Timeline historique des chémotypes patrimoniaux ✅
+- [x] Créer la table heritage_chemotypes_timeline (via SQL direct)
+- [x] Créer les procédures tRPC pour la timeline (list, getById, getByPeriod, getByRegion, getByChemotypeClass, create, update, delete)
+- [x] Créer la page HeritageTimeline.tsx avec visualisation horizontale
+- [x] Implémenter les filtres par région et classe de chémotype
+- [x] Afficher les molécules liées et méthodes analytiques
+
+### Phase 3 : Intégrer les références evidence dans la bibliographie ✅
+- [x] Créer la table evidence_bibliography_links (via SQL direct)
+- [x] Créer les procédures tRPC pour les liens (list, getById, getByEvidence, getByBibliography, create, update, delete, verify, autoLink)
+- [x] Créer la page EvidenceBibliography.tsx pour la liaison manuelle et automatique
+- [x] Implémenter la fonction d'auto-liaison basée sur DOI/titre
+- [x] Afficher les statistiques de liaison
+
+### Phase 4 : Tests et validation ✅
+- [x] Écrire les tests unitaires pour les nouvelles fonctions (13 tests passés)
+- [x] Tester les procédures tRPC
+- [x] Valider l'intégrité des données
+
+### Nouvelles pages créées
+- `/heritage-timeline` - Timeline historique des chémotypes patrimoniaux
+- `/molecule-linking` - Liaison des molécules perdues aux molécules existantes
+- `/evidence-bibliography` - Liaison évidences-bibliographie
+
