@@ -4783,3 +4783,142 @@ export const axisConnectionsRelations = relations(axisConnections, ({ one }) => 
     relationName: "targetAxis",
   }),
 }));
+
+
+// ============================================================================
+// REFERENCE ENTITY LINKS (Liaisons entre références et entités PERFUMUM)
+// ============================================================================
+
+/**
+ * Links between v3 references and various PERFUMUM entities.
+ * Enables connecting bibliography references to:
+ * - Leaf Economies (plantes menacées, échantillons botaniques)
+ * - Molecules (molécules olfactives)
+ * - Recettes (formulations)
+ * - Plants (plantes)
+ * - Prototypes (C1-C4)
+ * 
+ * Particularly useful for:
+ * - H2 (Durabilité) → plantes menacées (leaf_economies)
+ * - H3 (Traditions antiques) → traditions olfactives documentées
+ */
+export const referenceEntityLinks = mysqlTable("reference_entity_links", {
+  id: int("id").autoincrement().primaryKey(),
+  // Reference source
+  referenceId: int("reference_id").notNull().references(() => v3References.id, { onDelete: "cascade" }),
+  // Entity type and ID
+  entityType: mysqlEnum("entity_type", [
+    "leaf_economy",    // Échantillon botanique (San Andrés, etc.)
+    "molecule",        // Molécule olfactive
+    "recette",         // Recette/formulation
+    "plant",           // Plante
+    "prototype",       // Prototype C1-C4
+    "tradition",       // Tradition olfactive (pour H3)
+    "terroir",         // Terroir/région
+    "supplier"         // Fournisseur
+  ]).notNull(),
+  entityId: int("entity_id").notNull(), // ID de l'entité liée
+  // Link metadata
+  linkType: mysqlEnum("link_type", [
+    "documents",       // La référence documente l'entité
+    "mentions",        // La référence mentionne l'entité
+    "analyzes",        // La référence analyse l'entité
+    "conserves",       // La référence traite de la conservation
+    "reconstructs",    // La référence traite de la reconstruction
+    "sources",         // La référence est une source pour l'entité
+    "validates",       // La référence valide l'entité
+    "contextualizes"   // La référence contextualise l'entité
+  ]).default("documents"),
+  // Relevance score (0-100)
+  relevanceScore: int("relevance_score").default(50),
+  // Notes
+  notes: text("notes"),
+  // Context (extrait pertinent de la référence)
+  context: text("context"),
+  // Metadata
+  createdBy: int("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueLink: uniqueIndex("unique_ref_entity_link").on(table.referenceId, table.entityType, table.entityId),
+  refIdx: index("ref_entity_ref_idx").on(table.referenceId),
+  entityIdx: index("ref_entity_entity_idx").on(table.entityType, table.entityId),
+  linkTypeIdx: index("ref_entity_link_type_idx").on(table.linkType),
+}));
+
+export type ReferenceEntityLink = typeof referenceEntityLinks.$inferSelect;
+export type InsertReferenceEntityLink = typeof referenceEntityLinks.$inferInsert;
+
+// Relations pour referenceEntityLinks
+export const referenceEntityLinksRelations = relations(referenceEntityLinks, ({ one }) => ({
+  reference: one(v3References, {
+    fields: [referenceEntityLinks.referenceId],
+    references: [v3References.id],
+  }),
+  createdByUser: one(users, {
+    fields: [referenceEntityLinks.createdBy],
+    references: [users.id],
+  }),
+}));
+
+
+// ============================================================================
+// OLFACTORY TRADITIONS (Traditions olfactives pour H3)
+// ============================================================================
+
+/**
+ * Documented olfactory traditions for Heritage & Conservation (H3).
+ * Stores information about historical perfume traditions, ancient recipes,
+ * and cultural olfactory practices.
+ */
+export const olfactoryTraditions = mysqlTable("olfactory_traditions", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  code: varchar("code", { length: 50 }).notNull().unique(), // e.g., "TRAD-EGY-001"
+  name: varchar("name", { length: 255 }).notNull(),
+  // Historical context
+  period: varchar("period", { length: 100 }), // e.g., "Antiquité égyptienne", "Moyen Âge"
+  startYear: int("start_year"), // Année de début (peut être négative pour avant J.-C.)
+  endYear: int("end_year"),     // Année de fin
+  // Geographic context
+  region: varchar("region", { length: 255 }), // e.g., "Égypte", "Mésopotamie"
+  civilization: varchar("civilization", { length: 255 }), // e.g., "Égyptienne", "Romaine"
+  // Description
+  description: text("description"),
+  historicalContext: text("historical_context"),
+  // Ingredients and techniques
+  knownIngredients: json("known_ingredients").$type<string[]>(),
+  techniques: json("techniques").$type<string[]>(),
+  // Reconstruction status
+  reconstructionStatus: mysqlEnum("reconstruction_status", [
+    "documented",      // Documenté mais non reconstruit
+    "partial",         // Partiellement reconstruit
+    "reconstructed",   // Entièrement reconstruit
+    "speculative"      // Reconstruction spéculative
+  ]).default("documented"),
+  // Sources
+  primarySources: text("primary_sources"), // Sources primaires (textes anciens)
+  modernSources: text("modern_sources"),   // Sources modernes (études)
+  // Tags
+  tags: json("tags").$type<string[]>(),
+  // Metadata
+  createdBy: int("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  codeIdx: uniqueIndex("tradition_code_idx").on(table.code),
+  periodIdx: index("tradition_period_idx").on(table.period),
+  regionIdx: index("tradition_region_idx").on(table.region),
+  statusIdx: index("tradition_status_idx").on(table.reconstructionStatus),
+}));
+
+export type OlfactoryTradition = typeof olfactoryTraditions.$inferSelect;
+export type InsertOlfactoryTradition = typeof olfactoryTraditions.$inferInsert;
+
+// Relations pour olfactoryTraditions
+export const olfactoryTraditionsRelations = relations(olfactoryTraditions, ({ one }) => ({
+  createdByUser: one(users, {
+    fields: [olfactoryTraditions.createdBy],
+    references: [users.id],
+  }),
+}));

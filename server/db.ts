@@ -209,6 +209,13 @@ import {
   axisConnections,
   AxisConnection,
   InsertAxisConnection,
+  // Reference Entity Links & Olfactory Traditions
+  referenceEntityLinks,
+  ReferenceEntityLink,
+  InsertReferenceEntityLink,
+  olfactoryTraditions,
+  OlfactoryTradition,
+  InsertOlfactoryTradition,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -9484,4 +9491,442 @@ export async function deleteAxisConnection(sourceId: number, targetId: number) {
       )
     );
   return { success: true };
+}
+
+
+
+// ============================================================================
+// REFERENCE ENTITY LINKS (Liaisons références-entités)
+// ============================================================================
+
+/**
+ * Create a link between a reference and an entity
+ */
+export async function createReferenceEntityLink(data: {
+  referenceId: number;
+  entityType: 'leaf_economy' | 'molecule' | 'recette' | 'plant' | 'prototype' | 'tradition' | 'terroir' | 'supplier';
+  entityId: number;
+  linkType?: 'documents' | 'mentions' | 'analyzes' | 'conserves' | 'reconstructs' | 'sources' | 'validates' | 'contextualizes';
+  relevanceScore?: number;
+  notes?: string;
+  context?: string;
+  createdBy?: number;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  const [result] = await db
+    .insert(referenceEntityLinks)
+    .values({
+      referenceId: data.referenceId,
+      entityType: data.entityType,
+      entityId: data.entityId,
+      linkType: data.linkType || 'documents',
+      relevanceScore: data.relevanceScore || 50,
+      notes: data.notes,
+      context: data.context,
+      createdBy: data.createdBy,
+    })
+    .$returningId();
+  return result;
+}
+
+/**
+ * Get all links for a reference
+ */
+export async function getLinksForReference(referenceId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(referenceEntityLinks)
+    .where(eq(referenceEntityLinks.referenceId, referenceId))
+    .orderBy(desc(referenceEntityLinks.relevanceScore));
+}
+
+/**
+ * Get all references linked to an entity
+ */
+export async function getReferencesForEntity(
+  entityType: 'leaf_economy' | 'molecule' | 'recette' | 'plant' | 'prototype' | 'tradition' | 'terroir' | 'supplier',
+  entityId: number
+) {
+  const db = await getDb();
+  if (!db) return [];
+  const links = await db
+    .select({
+      link: referenceEntityLinks,
+      reference: v3References,
+    })
+    .from(referenceEntityLinks)
+    .innerJoin(v3References, eq(referenceEntityLinks.referenceId, v3References.id))
+    .where(
+      and(
+        eq(referenceEntityLinks.entityType, entityType),
+        eq(referenceEntityLinks.entityId, entityId)
+      )
+    )
+    .orderBy(desc(referenceEntityLinks.relevanceScore));
+  return links;
+}
+
+/**
+ * Get all links by entity type
+ */
+export async function getLinksByEntityType(
+  entityType: 'leaf_economy' | 'molecule' | 'recette' | 'plant' | 'prototype' | 'tradition' | 'terroir' | 'supplier'
+) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      link: referenceEntityLinks,
+      reference: v3References,
+    })
+    .from(referenceEntityLinks)
+    .innerJoin(v3References, eq(referenceEntityLinks.referenceId, v3References.id))
+    .where(eq(referenceEntityLinks.entityType, entityType))
+    .orderBy(desc(referenceEntityLinks.relevanceScore));
+}
+
+/**
+ * Get links for Heritage & Conservation axes (H1, H2, H3)
+ */
+export async function getHeritageConservationLinks() {
+  const db = await getDb();
+  if (!db) return [];
+  // Get references with H1, H2, or H3 axes
+  const refs = await db
+    .select()
+    .from(v3References)
+    .where(
+      or(
+        like(v3References.axisPrimaryCode, 'H%'),
+        like(sql`JSON_EXTRACT(${v3References.axesSecondary}, '$')`, '%H1%'),
+        like(sql`JSON_EXTRACT(${v3References.axesSecondary}, '$')`, '%H2%'),
+        like(sql`JSON_EXTRACT(${v3References.axesSecondary}, '$')`, '%H3%')
+      )
+    );
+  
+  const refIds = refs.map(r => r.id);
+  if (refIds.length === 0) return [];
+  
+  // Get all links for these references
+  const links = await db
+    .select()
+    .from(referenceEntityLinks)
+    .where(inArray(referenceEntityLinks.referenceId, refIds));
+  
+  return { references: refs, links };
+}
+
+/**
+ * Update a reference entity link
+ */
+export async function updateReferenceEntityLink(
+  id: number,
+  data: {
+    linkType?: 'documents' | 'mentions' | 'analyzes' | 'conserves' | 'reconstructs' | 'sources' | 'validates' | 'contextualizes';
+    relevanceScore?: number;
+    notes?: string;
+    context?: string;
+  }
+) {
+  const db = await getDb();
+  if (!db) return null;
+  await db
+    .update(referenceEntityLinks)
+    .set(data)
+    .where(eq(referenceEntityLinks.id, id));
+  const [updated] = await db
+    .select()
+    .from(referenceEntityLinks)
+    .where(eq(referenceEntityLinks.id, id));
+  return updated;
+}
+
+/**
+ * Delete a reference entity link
+ */
+export async function deleteReferenceEntityLink(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  await db
+    .delete(referenceEntityLinks)
+    .where(eq(referenceEntityLinks.id, id));
+  return { success: true };
+}
+
+/**
+ * Get statistics for reference entity links
+ */
+export async function getReferenceEntityLinkStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byEntityType: [], byLinkType: [] };
+  
+  const [totalCount] = await db
+    .select({ count: count() })
+    .from(referenceEntityLinks);
+  
+  const byEntityType = await db
+    .select({
+      entityType: referenceEntityLinks.entityType,
+      count: count(),
+    })
+    .from(referenceEntityLinks)
+    .groupBy(referenceEntityLinks.entityType);
+  
+  const byLinkType = await db
+    .select({
+      linkType: referenceEntityLinks.linkType,
+      count: count(),
+    })
+    .from(referenceEntityLinks)
+    .groupBy(referenceEntityLinks.linkType);
+  
+  return {
+    total: totalCount?.count || 0,
+    byEntityType,
+    byLinkType,
+  };
+}
+
+
+// ============================================================================
+// OLFACTORY TRADITIONS (Traditions olfactives)
+// ============================================================================
+
+/**
+ * Create an olfactory tradition
+ */
+export async function createOlfactoryTradition(data: {
+  code: string;
+  name: string;
+  period?: string;
+  startYear?: number;
+  endYear?: number;
+  region?: string;
+  civilization?: string;
+  description?: string;
+  historicalContext?: string;
+  knownIngredients?: string[];
+  techniques?: string[];
+  reconstructionStatus?: 'documented' | 'partial' | 'reconstructed' | 'speculative';
+  primarySources?: string;
+  modernSources?: string;
+  tags?: string[];
+  createdBy?: number;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  const [result] = await db
+    .insert(olfactoryTraditions)
+    .values({
+      code: data.code,
+      name: data.name,
+      period: data.period,
+      startYear: data.startYear,
+      endYear: data.endYear,
+      region: data.region,
+      civilization: data.civilization,
+      description: data.description,
+      historicalContext: data.historicalContext,
+      knownIngredients: data.knownIngredients,
+      techniques: data.techniques,
+      reconstructionStatus: data.reconstructionStatus || 'documented',
+      primarySources: data.primarySources,
+      modernSources: data.modernSources,
+      tags: data.tags,
+      createdBy: data.createdBy,
+    })
+    .$returningId();
+  return result;
+}
+
+/**
+ * Get all olfactory traditions
+ */
+export async function getAllOlfactoryTraditions() {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(olfactoryTraditions)
+    .orderBy(olfactoryTraditions.startYear, olfactoryTraditions.name);
+}
+
+/**
+ * Get olfactory tradition by ID
+ */
+export async function getOlfactoryTraditionById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const [tradition] = await db
+    .select()
+    .from(olfactoryTraditions)
+    .where(eq(olfactoryTraditions.id, id));
+  return tradition;
+}
+
+/**
+ * Get olfactory tradition by code
+ */
+export async function getOlfactoryTraditionByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const [tradition] = await db
+    .select()
+    .from(olfactoryTraditions)
+    .where(eq(olfactoryTraditions.code, code));
+  return tradition;
+}
+
+/**
+ * Get olfactory traditions by region
+ */
+export async function getOlfactoryTraditionsByRegion(region: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(olfactoryTraditions)
+    .where(like(olfactoryTraditions.region, `%${region}%`))
+    .orderBy(olfactoryTraditions.startYear);
+}
+
+/**
+ * Get olfactory traditions by period
+ */
+export async function getOlfactoryTraditionsByPeriod(period: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(olfactoryTraditions)
+    .where(like(olfactoryTraditions.period, `%${period}%`))
+    .orderBy(olfactoryTraditions.startYear);
+}
+
+/**
+ * Get olfactory traditions by reconstruction status
+ */
+export async function getOlfactoryTraditionsByStatus(
+  status: 'documented' | 'partial' | 'reconstructed' | 'speculative'
+) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(olfactoryTraditions)
+    .where(eq(olfactoryTraditions.reconstructionStatus, status))
+    .orderBy(olfactoryTraditions.startYear);
+}
+
+/**
+ * Update an olfactory tradition
+ */
+export async function updateOlfactoryTradition(
+  id: number,
+  data: Partial<{
+    name: string;
+    period: string;
+    startYear: number;
+    endYear: number;
+    region: string;
+    civilization: string;
+    description: string;
+    historicalContext: string;
+    knownIngredients: string[];
+    techniques: string[];
+    reconstructionStatus: 'documented' | 'partial' | 'reconstructed' | 'speculative';
+    primarySources: string;
+    modernSources: string;
+    tags: string[];
+  }>
+) {
+  const db = await getDb();
+  if (!db) return null;
+  await db
+    .update(olfactoryTraditions)
+    .set(data)
+    .where(eq(olfactoryTraditions.id, id));
+  return getOlfactoryTraditionById(id);
+}
+
+/**
+ * Delete an olfactory tradition
+ */
+export async function deleteOlfactoryTradition(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  await db
+    .delete(olfactoryTraditions)
+    .where(eq(olfactoryTraditions.id, id));
+  return { success: true };
+}
+
+/**
+ * Search olfactory traditions
+ */
+export async function searchOlfactoryTraditions(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const searchTerm = `%${query}%`;
+  return db
+    .select()
+    .from(olfactoryTraditions)
+    .where(
+      or(
+        like(olfactoryTraditions.name, searchTerm),
+        like(olfactoryTraditions.description, searchTerm),
+        like(olfactoryTraditions.region, searchTerm),
+        like(olfactoryTraditions.civilization, searchTerm),
+        like(olfactoryTraditions.period, searchTerm)
+      )
+    )
+    .orderBy(olfactoryTraditions.startYear);
+}
+
+/**
+ * Get olfactory traditions statistics
+ */
+export async function getOlfactoryTraditionsStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byStatus: [], byRegion: [], byPeriod: [] };
+  
+  const [totalCount] = await db
+    .select({ count: count() })
+    .from(olfactoryTraditions);
+  
+  const byStatus = await db
+    .select({
+      status: olfactoryTraditions.reconstructionStatus,
+      count: count(),
+    })
+    .from(olfactoryTraditions)
+    .groupBy(olfactoryTraditions.reconstructionStatus);
+  
+  const byRegion = await db
+    .select({
+      region: olfactoryTraditions.region,
+      count: count(),
+    })
+    .from(olfactoryTraditions)
+    .where(isNotNull(olfactoryTraditions.region))
+    .groupBy(olfactoryTraditions.region);
+  
+  const byPeriod = await db
+    .select({
+      period: olfactoryTraditions.period,
+      count: count(),
+    })
+    .from(olfactoryTraditions)
+    .where(isNotNull(olfactoryTraditions.period))
+    .groupBy(olfactoryTraditions.period);
+  
+  return {
+    total: totalCount?.count || 0,
+    byStatus,
+    byRegion,
+    byPeriod,
+  };
 }

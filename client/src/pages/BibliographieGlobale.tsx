@@ -60,7 +60,10 @@ import {
   AlertCircle,
   Network,
   Link2,
+  TreeDeciduous,
+  ChevronRight,
 } from "lucide-react";
+import { Link } from "wouter";
 import { CitationGraph } from "@/components/CitationGraph";
 import { AxisSelector } from "@/components/AxisSelector";
 import { CitationManager } from "@/components/CitationManager";
@@ -761,6 +764,28 @@ export default function BibliographieGlobale() {
               </Card>
             </div>
           )}
+
+          {/* Lien vers Heritage & Conservation */}
+          <Link href="/heritage-conservation">
+            <Card className="mb-6 cursor-pointer hover:shadow-lg transition-all border-l-4 border-l-amber-600 bg-gradient-to-r from-amber-950/20 to-emerald-950/20 hover:from-amber-950/30 hover:to-emerald-950/30">
+              <CardContent className="py-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500/20 to-emerald-500/20">
+                      <TreeDeciduous className="w-6 h-6 text-amber-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-lg">Heritage & Conservation</h3>
+                      <p className="text-sm text-muted-foreground">
+                        34 références sur le patrimoine olfactif, la durabilité et les parfums antiques (H1, H2, H3)
+                      </p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
 
           {/* Tabs pour basculer entre liste et graphe */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">

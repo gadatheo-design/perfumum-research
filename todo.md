@@ -3748,3 +3748,39 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Importer les 34 références bibliographiques sur les parfums historiques et la conservation
 - [x] Créer 3 nouveaux axes thématiques (H1, H2, H3)
 - [x] Créer le checkpoint final et préparer la publication
+
+
+---
+
+## 🏛️ SESSION 07 JAN 2026 - HERITAGE & CONSERVATION + PACK V4 GENOMICS
+
+### Phase 1 : Vue Heritage & Conservation dédiée
+- [x] Créer la page /heritage-conservation avec filtrage par axes H1/H2/H3
+- [x] Implémenter les filtres par axe (H1: Parfums historiques, H2: Conservation/durabilité, H3: Traditions olfactives antiques)
+- [x] Créer les statistiques par axe (nombre de références, auteurs principaux)
+- [x] Intégrer la vue dans le menu bibliographie
+
+### Phase 2 : Liaisons références-entités
+- [x] Créer la table reference_entity_links pour les liaisons
+- [x] Créer la table olfactory_traditions pour les traditions olfactives (H3)
+- [x] Créer les fonctions de base de données pour les liaisons
+- [ ] Lier les références H2 (durabilité) aux plantes menacées (leaf_economies)
+- [ ] Lier les références H3 (traditions antiques) aux traditions olfactives documentées
+- [ ] Créer les procédures tRPC pour gérer les liaisons
+- [ ] Créer l'interface de visualisation des liaisons
+
+### Phase 3 : Import pack v4 Cannabis/Tabac Genomics
+- [x] Analyser les fichiers du pack v4 dans le projet partagé
+- [x] Créer le script d'import pour les 29 références génomiques
+- [x] Créer les axes génomiques G1 (Cannabis), G2 (Tobacco), G3 (Databases)
+- [x] Importer les 29 références avec succès (14 G1, 10 G2, 5 G3)
+- [ ] Importer les références avec métadonnées (DOI, auteurs, année)
+- [ ] Créer les axes thématiques génomiques si nécessaire
+- [ ] Valider l'intégrité des données importées
+
+### Phase 4 : Tests et validation
+- [ ] Créer les tests vitest pour les nouvelles fonctionnalités
+- [ ] Tester l'interface Heritage & Conservation
+- [ ] Tester les liaisons références-entités
+- [ ] Valider l'import du pack v4
+
