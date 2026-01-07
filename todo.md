@@ -2286,7 +2286,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Analyser la structure du fichier CSV des relations
 - [ ] Vérifier/étendre le schéma de table de liaison `plants_molecules`
 - [ ] Créer le script d'import pour les 78 relations
-- [ ] Valider l'intégrité des relations importées
+- [x] Valider l'intégrité des relations importées
 - [ ] Créer les procédures tRPC pour interroger les relations
 - [ ] Créer l'interface de visualisation des relations (graphe, tableau)
 
@@ -3275,7 +3275,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires pour les procédures
 
 ### Phase 5 : Livraison
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 - [ ] Documenter la fonctionnalité
 
 
@@ -3362,7 +3362,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires pour les nouvelles procédures
 - [ ] Tester l'interface de citations croisées
 - [ ] Valider l'import des nouvelles sources
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -3428,7 +3428,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires pour les nouvelles procédures
 - [ ] Tester l'interface du graphe de citations
 - [ ] Valider les liens externes ISBN/DOI
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -3539,7 +3539,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires pour les nouvelles fonctionnalités
 - [ ] Tester l'interface sur desktop et mobile
 - [ ] Valider les performances du graphe avec de nombreuses citations
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 ### Phase 4 : Import des nouvelles références bibliographiques
@@ -3628,7 +3628,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Tester l'import des références
 - [ ] Tester le filtre par axe
 - [ ] Tester la vue réseau
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -3709,7 +3709,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
 - [ ] Tester l'interface sur desktop et mobile
 - [ ] Valider les performances du graphe D3.js
-- [ ] Créer le checkpoint final
+- [x] Créer le checkpoint final
 
 
 
@@ -3791,3 +3791,36 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Vérifier les liens croisés entre pages (Plantes ↔ Molécules ↔ Références) — VALIDÉ
 - [ ] Valider l'accessibilité clavier et lecteur d'écran — À TESTER MANUELLEMENT
 
+
+
+---
+
+## 🔗 SESSION 07 JAN 2026 - RELATIONS ET VISUALISATION GRAPHIQUE
+
+### Phase 1 : Liaison bibliographique plantes-références
+- [x] Modifier la page Bibliographie pour permettre l'association de références aux plantes via linkedPlantIds
+- [x] Créer un sélecteur de plantes dans le formulaire d'ajout/édition de référence
+- [x] Afficher les plantes liées sur chaque fiche de référence
+- [x] Permettre la navigation bidirectionnelle (référence → plantes et plante → références)
+
+### Phase 2 : Import des données seed relationnelles
+- [x] Créer le script d'import pour les relations plantes-molécules
+- [x] Importer les cannabinoïdes (THC, CBD, CBG, CBN, etc.) avec liaisons Cannabis
+- [x] Importer les terpènes communs (myrcène, limonène, pinène, etc.) avec liaisons multi-plantes
+- [x] Importer les alcaloïdes du tabac (nicotine, nornicotine, anabasine, etc.) avec liaisons Nicotiana
+- [x] Valider l'intégrité des relations importées
+
+### Phase 3 : Visualisation graphique D3.js
+- [x] Installer D3.js et configurer le composant de graphe
+- [x] Créer le composant RelationshipGraph avec nœuds et arêtes
+- [x] Implémenter les nœuds pour plantes, variétés, molécules et références
+- [x] Implémenter les arêtes colorées par type de relation
+- [x] Ajouter les interactions (zoom, pan, sélection, filtres)
+- [x] Créer la page /graphe avec la visualisation complète
+- [x] Intégrer le graphe dans le menu principal
+
+### Phase 4 : Tests et livraison
+- [x] Tester les liaisons bibliographiques
+- [x] Tester l'import des données seed
+- [x] Tester la visualisation graphique sur desktop et mobile
+- [x] Créer le checkpoint final

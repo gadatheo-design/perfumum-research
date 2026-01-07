@@ -64,6 +64,7 @@ import {
 import { CitationGraph } from "@/components/CitationGraph";
 import { AxisSelector } from "@/components/AxisSelector";
 import { CitationManager } from "@/components/CitationManager";
+import { PlantSelector } from "@/components/PlantSelector";
 
 // Types pour les entrées bibliographiques
 type EntryType = 'article' | 'book' | 'inbook' | 'incollection' | 'inproceedings' | 'conference' | 'thesis' | 'mastersthesis' | 'phdthesis' | 'techreport' | 'manual' | 'unpublished' | 'misc' | 'online' | 'patent' | 'standard' | 'dataset' | 'software';
@@ -686,6 +687,17 @@ export default function BibliographieGlobale() {
                           onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                         />
                       </div>
+                      
+                      {/* Plantes liées - uniquement en mode édition */}
+                      {selectedEntry && (
+                        <div className="col-span-2 pt-4 border-t">
+                          <PlantSelector 
+                            bibliographyId={selectedEntry.id}
+                            linkedPlantIds={selectedEntry.linkedPlantIds || []}
+                            onUpdate={() => refetch()} 
+                          />
+                        </div>
+                      )}
                       
                       {/* Axes de recherche - uniquement en mode édition */}
                       {selectedEntry && (
