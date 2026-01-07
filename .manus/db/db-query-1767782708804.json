@@ -1,0 +1,46 @@
+{
+  "query": "SELECT id, poetic_name, location, recreatable FROM situated_smells ORDER BY id DESC LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, poetic_name, location, recreatable FROM situated_smells ORDER BY id DESC LIMIT 10",
+  "rows": [
+    {
+      "id": "6",
+      "poetic_name": "Mer à aube",
+      "location": "Bretagne, France - Côte sauvage",
+      "recreatable": "no"
+    },
+    {
+      "id": "5",
+      "poetic_name": "Marché aux épices",
+      "location": "Marrakech, Maroc - Souk des épices",
+      "recreatable": "maybe"
+    },
+    {
+      "id": "4",
+      "poetic_name": "Encens de cathédrale",
+      "location": "Fribourg, Suisse - Cathédrale Saint-Nicolas",
+      "recreatable": "yes"
+    },
+    {
+      "id": "3",
+      "poetic_name": "Forêt après orage",
+      "location": "Jura suisse - Sentier des Crêtes",
+      "recreatable": "yes"
+    },
+    {
+      "id": "2",
+      "poetic_name": "Tabac séchant au vent",
+      "location": "San Andrés, Colombie - Ferme locale",
+      "recreatable": "maybe"
+    },
+    {
+      "id": "1",
+      "poetic_name": "Pluie sur pierre chaude",
+      "location": "Berne, Suisse - Vieille ville",
+      "recreatable": "yes"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tpoetic_name\tlocation\trecreatable\n6\tMer à aube\tBretagne, France - Côte sauvage\tno\n5\tMarché aux épices\tMarrakech, Maroc - Souk des épices\tmaybe\n4\tEncens de cathédrale\tFribourg, Suisse - Cathédrale Saint-Nicolas\tyes\n3\tForêt après orage\tJura suisse - Sentier des Crêtes\tyes\n2\tTabac séchant au vent\tSan Andrés, Colombie - Ferme locale\tmaybe\n1\tPluie sur pierre chaude\tBerne, Suisse - Vieille ville\tyes\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

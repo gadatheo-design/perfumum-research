@@ -3458,3 +3458,39 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Ajouter les tests unitaires pour les liaisons aux axes (bibliography.getLinkedAxes)
 - [x] Exécuter tous les tests (465 tests passés)
 
+
+
+---
+
+## 🔬 SESSION 07 JAN 2026 - AXES PRIORITAIRES & IMPORT
+
+### Phase 1 : Pages des axes prioritaires
+- [x] Vérifier la page AX1 (Variétés Fantômes) - `/varietes-fantomes`
+- [x] Vérifier la page AX3 (Mémoires Olfactives) - `/odeurs-situees`
+- [x] Vérifier la page AX4 (Timeline Civilisationnelle) - `/civilisations`
+- [x] Vérifier la page de gestion des axes - `/axes-recherche`
+
+### Phase 2 : Procédures CRUD pour situatedSmells
+- [x] Ajouter la procédure `create` pour situatedSmells
+- [x] Ajouter la procédure `update` pour situatedSmells
+- [x] Ajouter la procédure `delete` pour situatedSmells
+- [x] Ajouter les fonctions db correspondantes (createSituatedSmell, updateSituatedSmell, deleteSituatedSmell)
+
+### Phase 3 : Système d'import MD/CSV
+- [x] Créer la page d'import de données `/admin/import-data`
+- [x] Implémenter le parser CSV avec détection automatique du délimiteur
+- [x] Implémenter le parser Markdown avec extraction des métadonnées
+- [x] Créer le système de mapping des colonnes vers les champs de la base
+- [x] Ajouter les cibles d'import (molécules, plantes, civilisations, odeurs situées, axes, entrées)
+- [x] Ajouter la route dans App.tsx
+
+### Phase 4 : Données initiales de test
+- [x] Insérer les axes de recherche AX1, AX3, AX4 dans la base de données
+- [x] Insérer 6 odeurs situées de test (Pluie sur pierre, Tabac séchant, Forêt après orage, etc.)
+- [x] Vérifier l'intégrité des données insérées
+
+### Phase 5 : Tests et validation
+- [x] Créer les tests unitaires pour situatedSmells (15 tests)
+- [x] Créer les tests unitaires pour researchAxes
+- [x] Exécuter tous les tests (480 tests passés)
+- [x] Vérifier l'état du serveur de développement

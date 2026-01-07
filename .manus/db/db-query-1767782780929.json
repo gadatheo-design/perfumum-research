@@ -1,0 +1,54 @@
+{
+  "query": "SELECT axis_code, name FROM research_axes ORDER BY axis_code",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT axis_code, name FROM research_axes ORDER BY axis_code",
+  "rows": [
+    {
+      "axis_code": "AX1",
+      "name": "Neurosciences Olfactives et Mémoire"
+    },
+    {
+      "axis_code": "AX1",
+      "name": "Variétés Fantômes"
+    },
+    {
+      "axis_code": "AX10",
+      "name": "Méthodologie de recherche"
+    },
+    {
+      "axis_code": "AX2",
+      "name": "Biotechnologie et Parfumerie Durable"
+    },
+    {
+      "axis_code": "AX3",
+      "name": "Régulation Émotionnelle par l'Olfaction"
+    },
+    {
+      "axis_code": "AX4",
+      "name": "Préservation du Patrimoine Olfactif"
+    },
+    {
+      "axis_code": "AX5",
+      "name": "Intelligence Artificielle et Création Parfumée"
+    },
+    {
+      "axis_code": "AX6",
+      "name": "Neurologie olfactive"
+    },
+    {
+      "axis_code": "AX7",
+      "name": "Durabilité et éthique"
+    },
+    {
+      "axis_code": "AX8",
+      "name": "Tabac et Cannabis"
+    },
+    {
+      "axis_code": "AX9",
+      "name": "Terroirs et origines"
+    }
+  ],
+  "messages": [],
+  "stdout": "axis_code\tname\nAX1\tNeurosciences Olfactives et Mémoire\nAX1\tVariétés Fantômes\nAX10\tMéthodologie de recherche\nAX2\tBiotechnologie et Parfumerie Durable\nAX3\tRégulation Émotionnelle par l'Olfaction\nAX4\tPréservation du Patrimoine Olfactif\nAX5\tIntelligence Artificielle et Création Parfumée\nAX6\tNeurologie olfactive\nAX7\tDurabilité et éthique\nAX8\tTabac et Cannabis\nAX9\tTerroirs et origines\n",
+  "stderr": "",
+  "execution_time_ms": 102
+}
