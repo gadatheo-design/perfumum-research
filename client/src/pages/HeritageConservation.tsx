@@ -605,6 +605,51 @@ export default function HeritageConservation() {
           </div>
         )}
 
+        {/* Quick Links to Related Pages */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Link href="/h2-linking">
+            <Card className="bg-slate-900/50 border-slate-700 hover:border-green-600 transition-colors cursor-pointer group">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-green-900/30">
+                    <Link2 className="w-6 h-6 text-green-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-medium text-slate-200 group-hover:text-slate-100">
+                      Liaisons H2 — Plantes Menacées
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      Connecter les références durabilité aux échantillons botaniques
+                    </p>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-slate-300" />
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+          
+          <Link href="/genomics-explorer">
+            <Card className="bg-slate-900/50 border-slate-700 hover:border-purple-600 transition-colors cursor-pointer group">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-purple-900/30">
+                    <Network className="w-6 h-6 text-purple-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-medium text-slate-200 group-hover:text-slate-100">
+                      Genomics Explorer
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      Références génomiques G1/G2/G3 et voies biosynthétiques
+                    </p>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-slate-300" />
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+
         {/* Main Authors Sidebar */}
         {mainAuthors.length > 0 && (
           <Card className="mt-8 bg-slate-900/50 border-slate-700">

@@ -6965,6 +6965,72 @@ export const appRouter = router({
         return db.deleteAxisConnection(input.sourceId, input.targetId);
       }),
   }),
+  
+  // ============================================================================
+  // REFERENCE ENTITY LINKS (Liaisons références ↔ entités)
+  // ============================================================================
+  referenceEntityLinks: router({
+    // Créer une liaison
+    create: protectedProcedure
+      .input(z.object({
+        referenceId: z.number(),
+        entityType: z.enum(['leaf_economy', 'molecule', 'recette', 'plant', 'prototype', 'tradition', 'terroir', 'supplier']),
+        entityId: z.number(),
+        linkType: z.enum(['documents', 'mentions', 'analyzes', 'conserves', 'reconstructs', 'sources', 'validates', 'contextualizes']).optional(),
+        relevanceScore: z.number().min(0).max(100).optional(),
+        notes: z.string().optional(),
+        context: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createReferenceEntityLink({
+          ...input,
+          createdBy: ctx.user?.id,
+        });
+      }),
+    
+    // Obtenir les liaisons pour une référence
+    getForReference: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getLinksForReference(input);
+      }),
+    
+    // Obtenir les références liées à une entité
+    getForEntity: publicProcedure
+      .input(z.object({
+        entityType: z.enum(['leaf_economy', 'molecule', 'recette', 'plant', 'prototype', 'tradition', 'terroir', 'supplier']),
+        entityId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return db.getReferencesForEntity(input.entityType, input.entityId);
+      }),
+    
+    // Mettre à jour une liaison
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        linkType: z.enum(['documents', 'mentions', 'analyzes', 'conserves', 'reconstructs', 'sources', 'validates', 'contextualizes']).optional(),
+        relevanceScore: z.number().min(0).max(100).optional(),
+        notes: z.string().optional(),
+        context: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return db.updateReferenceEntityLink(id, data);
+      }),
+    
+    // Supprimer une liaison
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.deleteReferenceEntityLink(input);
+      }),
+    
+    // Obtenir les statistiques
+    getStats: publicProcedure.query(async () => {
+      return db.getReferenceEntityLinkStats();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

@@ -3784,3 +3784,33 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Tester les liaisons références-entités
 - [ ] Valider l'import du pack v4
 
+
+
+---
+
+## 🔗 SESSION 07 JAN 2026 - LIAISONS H2 & GENOMICS EXPLORER
+
+### Phase 1 : Interface de liaison manuelle H2 ↔ Plantes menacées
+- [x] Créer les procédures tRPC pour gérer les liaisons références-entités
+- [x] Créer l'interface de liaison manuelle H2 → leaf_economies
+- [x] Ajouter un sélecteur de plantes menacées dans la vue Heritage & Conservation
+- [x] Implémenter la création/suppression de liaisons via l'interface
+- [x] Afficher les références liées dans les fiches leaf_economies
+- [x] Afficher les plantes liées dans les fiches références H2
+- [x] Créer les tests Vitest pour les liaisons (17 tests passés)
+
+### Phase 2 : Vue Genomics Explorer (G1/G2/G3)
+- [x] Créer la page /genomics-explorer avec navigation par axes G1/G2/G3
+- [x] Implémenter les filtres par axe génomique
+- [x] Créer la visualisation des voies biosynthétiques
+- [x] Afficher les statistiques par axe (G1: Cannabis, G2: Tobacco, G3: Databases)
+- [x] Créer le graphique des voies métaboliques (terpènes, cannabinoïdes, alcaloïdes)
+- [x] Intégrer la vue dans le menu bibliographie
+- [x] Créer les tests Vitest pour le Genomics Explorer
+
+### Phase 3 : Tests et validation
+- [x] Tester l'interface de liaison H2 sur desktop et mobile
+- [x] Tester le Genomics Explorer sur desktop et mobile
+- [x] Valider les filtres et la navigation
+- [x] Créer le checkpoint final
+
