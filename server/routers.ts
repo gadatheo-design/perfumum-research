@@ -6649,6 +6649,322 @@ export const appRouter = router({
       return db.getCitationGraphStats();
     }),
   }),
+
+  // ============================================================================
+  // V3 REFERENCES (Pack Niche Innovations)
+  // ============================================================================
+  
+  thematicAxes: router({
+    // Liste tous les axes thématiques
+    list: publicProcedure.query(async () => {
+      return db.getAllThematicAxes();
+    }),
+    
+    // Alias getAll pour compatibilité
+    getAll: publicProcedure.query(async () => {
+      return db.getAllThematicAxes();
+    }),
+    
+    // Obtenir un axe par son code
+    getByCode: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getThematicAxisByCode(input);
+      }),
+  }),
+  
+  v3References: router({
+    // Liste toutes les références v3
+    list: publicProcedure.query(async () => {
+      return db.getAllV3References();
+    }),
+    
+    // Alias getAll pour compatibilité
+    getAll: publicProcedure.query(async () => {
+      return db.getAllV3References();
+    }),
+    
+    // Obtenir une référence par ID
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getV3ReferenceById(input);
+      }),
+    
+    // Obtenir une référence par clé
+    getByKey: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getV3ReferenceByKey(input);
+      }),
+    
+    // Obtenir les références par axe
+    getByAxis: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getV3ReferencesByAxis(input);
+      }),
+    
+    // Obtenir les références par méta-axe
+    getByMetaAxis: publicProcedure
+      .input(z.enum(['meta_a', 'meta_b', 'meta_c', 'other']))
+      .query(async ({ input }) => {
+        return db.getV3ReferencesByMetaAxis(input);
+      }),
+    
+    // Rechercher des références
+    search: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.searchV3References(input);
+      }),
+    
+    // Mettre à jour les notes utilisateur
+    updateUserNotes: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        userNotes: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateV3ReferenceUserNotes(input.id, input.userNotes);
+      }),
+    
+    // Mettre à jour le statut de lecture
+    updateReadStatus: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        readStatus: z.enum(['unread', 'reading', 'read', 'to_review']),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateV3ReferenceReadStatus(input.id, input.readStatus);
+      }),
+    
+    // Mettre à jour le score de pertinence
+    updateRelevance: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        relevanceScore: z.number().min(0).max(100),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateV3ReferenceRelevance(input.id, input.relevanceScore);
+      }),
+    
+    // Statistiques
+    getStats: publicProcedure.query(async () => {
+      return db.getV3ReferencesStats();
+    }),
+    
+    // Obtenir les tags d'une référence
+    getTags: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getTagsForV3Reference(input);
+      }),
+    
+    // Obtenir les notes d'une référence
+    getNotes: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getNotesForV3Reference(input);
+      }),
+  }),
+  
+  referenceTags: router({
+    // Liste tous les tags
+    list: publicProcedure.query(async () => {
+      return db.getAllReferenceTags();
+    }),
+    
+    // Obtenir les tags par catégorie
+    getByCategory: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getReferenceTagsByCategory(input);
+      }),
+    
+    // Obtenir un tag par slug
+    getBySlug: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getReferenceTagBySlug(input);
+      }),
+    
+    // Créer un tag
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        slug: z.string(),
+        category: z.enum(['theme', 'method', 'source_type', 'region', 'period', 'material', 'discipline', 'project', 'custom']).optional(),
+        description: z.string().optional(),
+        color: z.string().optional(),
+        parentId: z.number().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.createReferenceTag(input);
+      }),
+    
+    // Mettre à jour un tag
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        color: z.string().optional(),
+        category: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return db.updateReferenceTag(id, data);
+      }),
+    
+    // Supprimer un tag
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.deleteReferenceTag(input);
+      }),
+    
+    // Ajouter un tag à une référence
+    addToReference: protectedProcedure
+      .input(z.object({
+        referenceId: z.number(),
+        tagId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.addTagToV3Reference(input.referenceId, input.tagId);
+      }),
+    
+    // Retirer un tag d'une référence
+    removeFromReference: protectedProcedure
+      .input(z.object({
+        referenceId: z.number(),
+        tagId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.removeTagFromV3Reference(input.referenceId, input.tagId);
+      }),
+    
+    // Obtenir les références par tag
+    getReferences: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getV3ReferencesByTag(input);
+      }),
+  }),
+  
+  referenceNotes: router({
+    // Obtenir une note par ID
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getReferenceNoteById(input);
+      }),
+    
+    // Créer une note
+    create: protectedProcedure
+      .input(z.object({
+        referenceId: z.number(),
+        noteType: z.enum(['summary', 'critique', 'quote', 'methodology', 'connection', 'idea', 'question', 'todo', 'general']).optional(),
+        title: z.string().optional(),
+        content: z.string(),
+        pageNumber: z.string().optional(),
+        importance: z.enum(['low', 'medium', 'high', 'critical']).optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createReferenceNote({
+          ...input,
+          createdBy: ctx.user?.id,
+        });
+      }),
+    
+    // Mettre à jour une note
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        noteType: z.enum(['summary', 'critique', 'quote', 'methodology', 'connection', 'idea', 'question', 'todo', 'general']).optional(),
+        title: z.string().optional(),
+        content: z.string().optional(),
+        pageNumber: z.string().optional(),
+        importance: z.enum(['low', 'medium', 'high', 'critical']).optional(),
+        isResolved: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return db.updateReferenceNote(id, data);
+      }),
+    
+    // Supprimer une note
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.deleteReferenceNote(input);
+      }),
+    
+    // Obtenir les notes par type
+    getByType: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getReferenceNotesByType(input);
+      }),
+    
+    // Obtenir les notes non résolues
+    getUnresolved: publicProcedure.query(async () => {
+      return db.getUnresolvedReferenceNotes();
+    }),
+  }),
+  
+  axisGraph: router({
+    // Obtenir les données du graphe
+    getData: publicProcedure.query(async () => {
+      return db.getAxisGraphData();
+    }),
+    
+    // Obtenir toutes les connexions
+    getConnections: publicProcedure.query(async () => {
+      return db.getAllAxisConnections();
+    }),
+    
+    // Obtenir les connexions pour un axe
+    getConnectionsForAxis: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getAxisConnectionsForAxis(input);
+      }),
+    
+    // Créer une connexion
+    createConnection: protectedProcedure
+      .input(z.object({
+        sourceAxisId: z.number(),
+        targetAxisId: z.number(),
+        strength: z.number().min(1).max(10).optional(),
+        connectionType: z.enum(['related', 'complementary', 'dependent', 'overlap']).optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.createAxisConnection(input);
+      }),
+    
+    // Mettre à jour la force d'une connexion
+    updateStrength: protectedProcedure
+      .input(z.object({
+        sourceId: z.number(),
+        targetId: z.number(),
+        strength: z.number().min(1).max(10),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateAxisConnectionStrength(input.sourceId, input.targetId, input.strength);
+      }),
+    
+    // Supprimer une connexion
+    deleteConnection: protectedProcedure
+      .input(z.object({
+        sourceId: z.number(),
+        targetId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.deleteAxisConnection(input.sourceId, input.targetId);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

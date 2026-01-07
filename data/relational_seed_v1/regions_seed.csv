@@ -1,0 +1,8 @@
+region_id,name,parent_region_id,iso,notes
+reg-colombia,Colombia,,,Pays; focus Andes + Caraïbes.
+reg-colombia-andes,Colombia — Andes,reg-colombia,,"Cundinamarca, Antioquia, etc. (macro-région)."
+reg-colombia-caribbean,Colombia — Caribbean,reg-colombia,,"Côte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina."
+reg-san-andres,San Andrés (archipel),reg-colombia-caribbean,,Île / archipel; terrain utilisateur.
+reg-burkina-faso,Burkina Faso,,,Pays; axe comparatif variétés fantômes / terroirs.
+reg-caribbean,Caribbean (macro),,,Macro-région (hors Colombie).
+reg-global,Global,,,"Pour ressources mondiales (pangenomes, databases)."

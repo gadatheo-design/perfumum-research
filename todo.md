@@ -3672,3 +3672,73 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Importer les références avec axes primaires et secondaires
 - [ ] Valider l'intégration
 
+
+
+---
+
+## 🚀 SESSION 07 JAN 2026 - PACK V3, MÉTADONNÉES & VISUALISATION D3.JS
+
+### Phase 1 : Import du pack v3 (69 nouvelles références avec axes thématiques)
+- [ ] Analyser les fichiers du pack v3 dans le projet partagé
+- [ ] Identifier la structure des données et les axes thématiques (A1, B1, C1…)
+- [ ] Créer/mettre à jour le schéma de base de données pour les axes thématiques
+- [ ] Créer le script d'import pour les 69 nouvelles références
+- [ ] Exécuter l'import et valider l'intégrité des données
+- [ ] Créer les procédures tRPC pour accéder aux nouvelles références
+
+### Phase 2 : Enrichissement des métadonnées (tags et notes)
+- [ ] Ajouter le système de tags au schéma de base de données
+- [ ] Ajouter le système de notes au schéma de base de données
+- [ ] Créer les procédures tRPC pour gérer les tags (CRUD)
+- [ ] Créer les procédures tRPC pour gérer les notes (CRUD)
+- [ ] Créer l'interface utilisateur pour ajouter/modifier les tags
+- [ ] Créer l'interface utilisateur pour ajouter/modifier les notes
+- [ ] Intégrer les tags dans la recherche avancée
+
+### Phase 3 : Visualisation avancée (graphe de force D3.js)
+- [ ] Installer D3.js dans le projet
+- [ ] Créer le composant de graphe de force pour les axes thématiques
+- [ ] Implémenter les nœuds pour les références et les axes
+- [ ] Implémenter les liens entre références et axes
+- [ ] Ajouter les interactions (zoom, drag, hover, click)
+- [ ] Créer les filtres pour le graphe (par axe, par famille, par période)
+- [ ] Intégrer le graphe dans une nouvelle page dédiée
+- [ ] Optimiser les performances pour les grands ensembles de données
+
+### Phase 4 : Tests et validation
+- [ ] Écrire les tests unitaires pour les nouvelles procédures tRPC
+- [ ] Tester l'interface sur desktop et mobile
+- [ ] Valider les performances du graphe D3.js
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 🚀 SESSION 07 JAN 2026 - PACK V3 & V4
+
+### Pack v3 — Niche Innovations (69 références)
+- [x] Créer les tables thematic_axes, v3_references, reference_tags, reference_notes, axis_connections
+- [x] Importer les 16 axes thématiques (A1, B1, B2, C1, C2, C3, D1, D2, E1, E2, F1, F2, J1, J2, J3, M1, M2, M3, N1, N2, N3)
+- [x] Importer les 69 références bibliographiques du pack v3
+- [x] Créer les procédures tRPC pour les références v3
+- [x] Créer les fonctions de base de données pour tags et notes
+- [ ] Corriger les erreurs TypeScript restantes dans db.ts
+- [ ] Créer le composant AxisForceGraph (D3.js)
+- [ ] Créer l'interface utilisateur pour les références v3
+
+### Pack v4 — Cannabis/Tabac Genomics
+- [ ] Analyser les fichiers du pack v4 (BibTeX, CSV, ZIP)
+- [ ] Créer le script d'import pour les références v4
+- [ ] Importer les nouvelles références génomiques
+- [ ] Lier les références v4 aux axes thématiques existants
+
+
+### Pack Relationnel v1 — Cannabis/Tabac Seed Data
+- [ ] Créer les tables pour les données relationnelles (regions, plants, varieties, molecules)
+- [ ] Importer les 7 régions (Colombia, San Andrés, Burkina Faso, Caribbean, Global)
+- [ ] Importer les 6 plantes (Cannabis sativa, Nicotiana tabacum, N. benthamiana, N. attenuata, N. sylvestris, N. tomentosiformis)
+- [ ] Importer les 9 variétés (CBDRx, Pink Pepper, Cherry Pie, Punto Rojo, Purple Kush, TN90, K326, etc.)
+- [ ] Importer les 19 molécules (cannabinoïdes, terpènes, alcaloïdes, TSNAs)
+- [ ] Créer les tables de relations (plant_variety, plant_molecule, variety_molecule, plant_reference, etc.)
+- [ ] Importer les relations plantes-molécules, variétés-références, etc.

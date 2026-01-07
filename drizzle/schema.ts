@@ -4468,3 +4468,318 @@ export const referenceCitationsRelations = relations(referenceCitations, ({ one 
     references: [users.id],
   }),
 }));
+
+
+// ============================================================================
+// THEMATIC AXES (Axes thématiques v3 - Pack Niche Innovations)
+// ============================================================================
+
+/**
+ * Thematic axes for organizing bibliography references.
+ * Based on the PERFUMUM v3 pack structure:
+ * - Meta-A: Olfactory Heritage & Archives
+ * - Meta-B: Olfactory Arts & Chimie de l'espace
+ * - Meta-C: Digital Olfaction (IA/VR/Capteurs) & Datasets
+ */
+export const thematicAxes = mysqlTable("thematic_axes", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  axisCode: varchar("axis_code", { length: 20 }).notNull().unique(), // A1, B1, B2, C1, etc.
+  name: varchar("name", { length: 255 }).notNull(),
+  // Meta-axis (parent category)
+  metaAxis: mysqlEnum("meta_axis", [
+    "meta_a",  // Olfactory Heritage & Archives
+    "meta_b",  // Olfactory Arts & Chimie de l'espace
+    "meta_c",  // Digital Olfaction (IA/VR/Capteurs) & Datasets
+    "other"
+  ]).notNull(),
+  // Description
+  description: text("description"),
+  outputTypes: text("output_types"), // Types de sorties attendues (encyclopédie, datasets, etc.)
+  // UI properties
+  color: varchar("color", { length: 20 }).default("#6366f1"),
+  icon: varchar("icon", { length: 50 }),
+  // Order for display
+  displayOrder: int("display_order").default(0),
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  axisCodeIdx: uniqueIndex("thematic_axis_code_idx").on(table.axisCode),
+  metaAxisIdx: index("thematic_axis_meta_idx").on(table.metaAxis),
+}));
+
+export type ThematicAxis = typeof thematicAxes.$inferSelect;
+export type InsertThematicAxis = typeof thematicAxes.$inferInsert;
+
+
+// ============================================================================
+// V3 REFERENCES (Références bibliographiques pack v3)
+// ============================================================================
+
+/**
+ * Bibliography references from the v3 pack (Niche Innovations).
+ * 69 references with thematic axes (A1, B1, C1, etc.)
+ */
+export const v3References = mysqlTable("v3_references", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification unique (BibTeX key)
+  entryKey: varchar("entry_key", { length: 100 }).notNull().unique(),
+  // Type de source
+  entryType: mysqlEnum("entry_type", [
+    "article",
+    "book",
+    "chapter",
+    "thesis",
+    "conference_paper",
+    "report",
+    "website",
+    "web_entry",
+    "news",
+    "preprint",
+    "dataset",
+    "software",
+    "misc"
+  ]).notNull().default("article"),
+  // Informations principales
+  title: varchar("title", { length: 500 }).notNull(),
+  authors: text("authors"),
+  year: int("year"),
+  // Publication info
+  containerTitle: varchar("container_title", { length: 255 }), // Journal, book title, etc.
+  publisher: varchar("publisher", { length: 255 }),
+  // Identifiants
+  doi: varchar("doi", { length: 100 }),
+  isbn: varchar("isbn", { length: 20 }),
+  url: varchar("url", { length: 500 }),
+  // Axes thématiques
+  axisPrimaryId: int("axis_primary_id").references(() => thematicAxes.id),
+  axisPrimaryCode: varchar("axis_primary_code", { length: 50 }), // Stockage direct du code (A1, B1, etc.)
+  axesSecondary: json("axes_secondary").$type<string[]>(), // Codes des axes secondaires
+  // Annotations
+  notes: text("notes"), // Notes de l'auteur original
+  userNotes: text("user_notes"), // Notes personnelles de l'utilisateur
+  // Tags
+  tags: json("tags").$type<string[]>(),
+  // Statut
+  readStatus: mysqlEnum("read_status", [
+    "unread",
+    "reading",
+    "read",
+    "to_review"
+  ]).default("unread"),
+  relevanceScore: int("relevance_score").default(50), // 0-100
+  // Metadata
+  importedAt: timestamp("imported_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  entryKeyIdx: uniqueIndex("v3_ref_entry_key_idx").on(table.entryKey),
+  yearIdx: index("v3_ref_year_idx").on(table.year),
+  typeIdx: index("v3_ref_type_idx").on(table.entryType),
+  axisPrimaryIdx: index("v3_ref_axis_primary_idx").on(table.axisPrimaryId),
+}));
+
+export type V3Reference = typeof v3References.$inferSelect;
+export type InsertV3Reference = typeof v3References.$inferInsert;
+
+// Relations pour v3References
+export const v3ReferencesRelations = relations(v3References, ({ one }) => ({
+  axisPrimary: one(thematicAxes, {
+    fields: [v3References.axisPrimaryId],
+    references: [thematicAxes.id],
+  }),
+}));
+
+
+// ============================================================================
+// REFERENCE TAGS (Tags pour les références)
+// ============================================================================
+
+/**
+ * Tags system for organizing and filtering references.
+ * Supports hierarchical tags and tag categories.
+ */
+export const referenceTags = mysqlTable("reference_tags", {
+  id: int("id").autoincrement().primaryKey(),
+  // Tag info
+  name: varchar("name", { length: 100 }).notNull(),
+  slug: varchar("slug", { length: 100 }).notNull().unique(), // URL-friendly version
+  // Category
+  category: mysqlEnum("category", [
+    "theme",        // Thème de recherche
+    "method",       // Méthode
+    "source_type",  // Type de source
+    "region",       // Région géographique
+    "period",       // Période historique
+    "material",     // Matériau/ingrédient
+    "discipline",   // Discipline académique
+    "project",      // Projet de recherche
+    "custom"        // Tag personnalisé
+  ]).default("custom"),
+  // Description
+  description: text("description"),
+  // UI
+  color: varchar("color", { length: 20 }).default("#6b7280"),
+  // Hierarchy (optional parent tag)
+  parentId: int("parent_id"),
+  // Usage count (for popularity sorting)
+  usageCount: int("usage_count").default(0),
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  slugIdx: uniqueIndex("ref_tag_slug_idx").on(table.slug),
+  categoryIdx: index("ref_tag_category_idx").on(table.category),
+  parentIdx: index("ref_tag_parent_idx").on(table.parentId),
+}));
+
+export type ReferenceTag = typeof referenceTags.$inferSelect;
+export type InsertReferenceTag = typeof referenceTags.$inferInsert;
+
+
+// ============================================================================
+// V3 REFERENCE TAG LINKS (Liaison références-tags)
+// ============================================================================
+
+/**
+ * Many-to-many relationship between v3 references and tags.
+ */
+export const v3ReferenceTagLinks = mysqlTable("v3_reference_tag_links", {
+  id: int("id").autoincrement().primaryKey(),
+  referenceId: int("reference_id").notNull().references(() => v3References.id, { onDelete: "cascade" }),
+  tagId: int("tag_id").notNull().references(() => referenceTags.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  uniqueLink: uniqueIndex("unique_v3_ref_tag").on(table.referenceId, table.tagId),
+  refIdx: index("v3_ref_tag_ref_idx").on(table.referenceId),
+  tagIdx: index("v3_ref_tag_tag_idx").on(table.tagId),
+}));
+
+export type V3ReferenceTagLink = typeof v3ReferenceTagLinks.$inferSelect;
+export type InsertV3ReferenceTagLink = typeof v3ReferenceTagLinks.$inferInsert;
+
+// Relations pour v3ReferenceTagLinks
+export const v3ReferenceTagLinksRelations = relations(v3ReferenceTagLinks, ({ one }) => ({
+  reference: one(v3References, {
+    fields: [v3ReferenceTagLinks.referenceId],
+    references: [v3References.id],
+  }),
+  tag: one(referenceTags, {
+    fields: [v3ReferenceTagLinks.tagId],
+    references: [referenceTags.id],
+  }),
+}));
+
+
+// ============================================================================
+// REFERENCE NOTES (Notes enrichies pour les références)
+// ============================================================================
+
+/**
+ * Rich notes system for references.
+ * Supports multiple notes per reference with different types.
+ */
+export const referenceNotes = mysqlTable("reference_notes", {
+  id: int("id").autoincrement().primaryKey(),
+  // Reference link
+  referenceId: int("reference_id").notNull().references(() => v3References.id, { onDelete: "cascade" }),
+  // Note type
+  noteType: mysqlEnum("note_type", [
+    "summary",      // Résumé
+    "critique",     // Critique
+    "quote",        // Citation
+    "methodology",  // Note méthodologique
+    "connection",   // Connexion avec d'autres travaux
+    "idea",         // Idée inspirée
+    "question",     // Question soulevée
+    "todo",         // À faire
+    "general"       // Note générale
+  ]).default("general"),
+  // Content
+  title: varchar("title", { length: 255 }),
+  content: text("content").notNull(),
+  // Quote specific (if noteType is 'quote')
+  pageNumber: varchar("page_number", { length: 50 }),
+  // Priority/importance
+  importance: mysqlEnum("importance", [
+    "low",
+    "medium",
+    "high",
+    "critical"
+  ]).default("medium"),
+  // Status
+  isResolved: boolean("is_resolved").default(false), // For todo/question types
+  // Metadata
+  createdBy: int("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  refIdx: index("ref_notes_ref_idx").on(table.referenceId),
+  typeIdx: index("ref_notes_type_idx").on(table.noteType),
+  importanceIdx: index("ref_notes_importance_idx").on(table.importance),
+}));
+
+export type ReferenceNote = typeof referenceNotes.$inferSelect;
+export type InsertReferenceNote = typeof referenceNotes.$inferInsert;
+
+// Relations pour referenceNotes
+export const referenceNotesRelations = relations(referenceNotes, ({ one }) => ({
+  reference: one(v3References, {
+    fields: [referenceNotes.referenceId],
+    references: [v3References.id],
+  }),
+  createdByUser: one(users, {
+    fields: [referenceNotes.createdBy],
+    references: [users.id],
+  }),
+}));
+
+
+// ============================================================================
+// AXIS CONNECTIONS (Connexions entre axes pour le graphe)
+// ============================================================================
+
+/**
+ * Connections between thematic axes for visualization.
+ * Used for the D3.js force graph.
+ */
+export const axisConnections = mysqlTable("axis_connections", {
+  id: int("id").autoincrement().primaryKey(),
+  // Source and target axes
+  sourceAxisId: int("source_axis_id").notNull().references(() => thematicAxes.id, { onDelete: "cascade" }),
+  targetAxisId: int("target_axis_id").notNull().references(() => thematicAxes.id, { onDelete: "cascade" }),
+  // Connection strength (for graph visualization)
+  strength: int("strength").default(1), // 1-10
+  // Connection type
+  connectionType: mysqlEnum("connection_type", [
+    "related",      // Axes liés thématiquement
+    "complementary", // Axes complémentaires
+    "dependent",    // Axe dépendant d'un autre
+    "overlap"       // Axes qui se chevauchent
+  ]).default("related"),
+  // Notes
+  notes: text("notes"),
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  uniqueConnection: uniqueIndex("unique_axis_connection").on(table.sourceAxisId, table.targetAxisId),
+  sourceIdx: index("axis_conn_source_idx").on(table.sourceAxisId),
+  targetIdx: index("axis_conn_target_idx").on(table.targetAxisId),
+}));
+
+export type AxisConnection = typeof axisConnections.$inferSelect;
+export type InsertAxisConnection = typeof axisConnections.$inferInsert;
+
+// Relations pour axisConnections
+export const axisConnectionsRelations = relations(axisConnections, ({ one }) => ({
+  sourceAxis: one(thematicAxes, {
+    fields: [axisConnections.sourceAxisId],
+    references: [thematicAxes.id],
+    relationName: "sourceAxis",
+  }),
+  targetAxis: one(thematicAxes, {
+    fields: [axisConnections.targetAxisId],
+    references: [thematicAxes.id],
+    relationName: "targetAxis",
+  }),
+}));

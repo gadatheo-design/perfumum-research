@@ -177,6 +177,7 @@ import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
 import BibliographiePage from "./pages/BibliographiePage";
 import BibliographieGlobale from "./pages/BibliographieGlobale";
+import ReferencesV3 from "./pages/ReferencesV3";
 import AxesRecherche from "./pages/AxesRecherche";
 import AxeRechercheDetail from "./pages/AxeRechercheDetail";
 import ReseauAxes from "./pages/ReseauAxes";
@@ -438,6 +439,7 @@ function Router() {
       <Route path="/terrains" component={Terrains} />
       <Route path="/bibliographie" component={BibliographiePage} />
       <Route path="/bibliographie-globale" component={BibliographieGlobale} />
+      <Route path="/references-v3" component={ReferencesV3} />
       <Route path="/axes-recherche" component={AxesRecherche} />
       <Route path="/axes-recherche/:code" component={AxeRechercheDetail} />
       <Route path="/reseau-axes" component={ReseauAxes} />

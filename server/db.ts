@@ -190,6 +190,25 @@ import {
   referenceCitations,
   ReferenceCitation,
   InsertReferenceCitation,
+  // V3 References (Pack Niche Innovations)
+  thematicAxes,
+  ThematicAxis,
+  InsertThematicAxis,
+  v3References,
+  V3Reference,
+  InsertV3Reference,
+  referenceTags,
+  ReferenceTag,
+  InsertReferenceTag,
+  v3ReferenceTagLinks,
+  V3ReferenceTagLink,
+  InsertV3ReferenceTagLink,
+  referenceNotes,
+  ReferenceNote,
+  InsertReferenceNote,
+  axisConnections,
+  AxisConnection,
+  InsertAxisConnection,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -8806,4 +8825,663 @@ export async function getCitationGraphStats() {
     verifiedCount: verifiedCount?.count || 0,
     unverifiedCount: (totalCitations?.count || 0) - (verifiedCount?.count || 0),
   };
+}
+
+
+// ============================================================================
+// V3 REFERENCES (Pack Niche Innovations)
+// ============================================================================
+
+/**
+ * Get all thematic axes
+ */
+export async function getAllThematicAxes() {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(thematicAxes)
+    .orderBy(thematicAxes.displayOrder);
+}
+
+/**
+ * Get thematic axis by code
+ */
+export async function getThematicAxisByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const [axis] = await db
+    .select()
+    .from(thematicAxes)
+    .where(eq(thematicAxes.axisCode, code));
+  return axis;
+}
+
+/**
+ * Get all v3 references
+ */
+export async function getAllV3References() {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(v3References)
+    .orderBy(desc(v3References.year), v3References.title);
+}
+
+/**
+ * Get v3 reference by ID
+ */
+export async function getV3ReferenceById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const [ref] = await db
+    .select()
+    .from(v3References)
+    .where(eq(v3References.id, id));
+  return ref;
+}
+
+/**
+ * Get v3 reference by entry key
+ */
+export async function getV3ReferenceByKey(entryKey: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const [ref] = await db
+    .select()
+    .from(v3References)
+    .where(eq(v3References.entryKey, entryKey));
+  return ref;
+}
+
+/**
+ * Get v3 references by axis code
+ */
+export async function getV3ReferencesByAxis(axisCode: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(v3References)
+    .where(
+      or(
+        like(v3References.axisPrimaryCode, `${axisCode}%`),
+        like(sql`JSON_EXTRACT(${v3References.axesSecondary}, '$')`, `%${axisCode}%`)
+      )
+    )
+    .orderBy(desc(v3References.year));
+}
+
+/**
+ * Get v3 references by meta-axis
+ */
+export async function getV3ReferencesByMetaAxis(metaAxis: 'meta_a' | 'meta_b' | 'meta_c' | 'other') {
+  const db = await getDb();
+  if (!db) return [];
+  // Get all axis codes for this meta-axis
+  const axes = await db
+    .select({ code: thematicAxes.axisCode })
+    .from(thematicAxes)
+    .where(eq(thematicAxes.metaAxis, metaAxis));
+  
+  const axisCodes = axes.map(a => a.code);
+  
+  if (axisCodes.length === 0) return [];
+  
+  // Build OR conditions for each axis code
+  const conditions = axisCodes.map(code => 
+    or(
+      like(v3References.axisPrimaryCode, `${code}%`),
+      like(sql`JSON_EXTRACT(${v3References.axesSecondary}, '$')`, `%${code}%`)
+    )
+  );
+  
+  return db
+    .select()
+    .from(v3References)
+    .where(or(...conditions))
+    .orderBy(desc(v3References.year));
+}
+
+/**
+ * Search v3 references
+ */
+export async function searchV3References(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const searchTerm = `%${query}%`;
+  return db
+    .select()
+    .from(v3References)
+    .where(
+      or(
+        like(v3References.title, searchTerm),
+        like(v3References.authors, searchTerm),
+        like(v3References.notes, searchTerm),
+        like(sql`JSON_EXTRACT(${v3References.tags}, '$')`, searchTerm)
+      )
+    )
+    .orderBy(desc(v3References.year));
+}
+
+/**
+ * Update v3 reference user notes
+ */
+export async function updateV3ReferenceUserNotes(id: number, userNotes: string) {
+  const db = await getDb();
+  if (!db) return null;
+  await db
+    .update(v3References)
+    .set({ userNotes })
+    .where(eq(v3References.id, id));
+  return getV3ReferenceById(id);
+}
+
+/**
+ * Update v3 reference read status
+ */
+export async function updateV3ReferenceReadStatus(id: number, readStatus: 'unread' | 'reading' | 'read' | 'to_review') {
+  const db = await getDb();
+  if (!db) return null;
+  await db
+    .update(v3References)
+    .set({ readStatus })
+    .where(eq(v3References.id, id));
+  return getV3ReferenceById(id);
+}
+
+/**
+ * Update v3 reference relevance score
+ */
+export async function updateV3ReferenceRelevance(id: number, relevanceScore: number) {
+  const db = await getDb();
+  if (!db) return null;
+  await db
+    .update(v3References)
+    .set({ relevanceScore })
+    .where(eq(v3References.id, id));
+  return getV3ReferenceById(id);
+}
+
+/**
+ * Get v3 references statistics
+ */
+export async function getV3ReferencesStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byType: [], byReadStatus: [], byYear: [] };
+  const [totalCount] = await db
+    .select({ count: count() })
+    .from(v3References);
+  
+  const byType = await db
+    .select({
+      type: v3References.entryType,
+      count: count(),
+    })
+    .from(v3References)
+    .groupBy(v3References.entryType);
+  
+  const byReadStatus = await db
+    .select({
+      status: v3References.readStatus,
+      count: count(),
+    })
+    .from(v3References)
+    .groupBy(v3References.readStatus);
+  
+  const byYear = await db
+    .select({
+      year: v3References.year,
+      count: count(),
+    })
+    .from(v3References)
+    .where(isNotNull(v3References.year))
+    .groupBy(v3References.year)
+    .orderBy(desc(v3References.year));
+  
+  return {
+    total: totalCount?.count || 0,
+    byType,
+    byReadStatus,
+    byYear,
+  };
+}
+
+// ============================================================================
+// REFERENCE TAGS
+// ============================================================================
+
+/**
+ * Get all reference tags
+ */
+export async function getAllReferenceTags() {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(referenceTags)
+    .orderBy(desc(referenceTags.usageCount), referenceTags.name);
+}
+
+/**
+ * Get reference tags by category
+ */
+export async function getReferenceTagsByCategory(category: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(referenceTags)
+    .where(eq(referenceTags.category, category as any))
+    .orderBy(referenceTags.name);
+}
+
+/**
+ * Get reference tag by slug
+ */
+export async function getReferenceTagBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const [tag] = await db
+    .select()
+    .from(referenceTags)
+    .where(eq(referenceTags.slug, slug));
+  return tag;
+}
+
+/**
+ * Create a new reference tag
+ */
+export async function createReferenceTag(data: {
+  name: string;
+  slug: string;
+  category?: string;
+  description?: string;
+  color?: string;
+  parentId?: number;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  const [result] = await db
+    .insert(referenceTags)
+    .values(data as any);
+  return getReferenceTagBySlug(data.slug);
+}
+
+/**
+ * Update a reference tag
+ */
+export async function updateReferenceTag(id: number, data: Partial<{
+  name: string;
+  description: string;
+  color: string;
+  category: string;
+}>) {
+  const db = await getDb();
+  if (!db) return null;
+  await db
+    .update(referenceTags)
+    .set(data as any)
+    .where(eq(referenceTags.id, id));
+  const [tag] = await db
+    .select()
+    .from(referenceTags)
+    .where(eq(referenceTags.id, id));
+  return tag;
+}
+
+/**
+ * Delete a reference tag
+ */
+export async function deleteReferenceTag(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  await db
+    .delete(referenceTags)
+    .where(eq(referenceTags.id, id));
+  return { success: true };
+}
+
+/**
+ * Add tag to v3 reference
+ */
+export async function addTagToV3Reference(referenceId: number, tagId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  await db
+    .insert(v3ReferenceTagLinks)
+    .values({ referenceId, tagId })
+    .onDuplicateKeyUpdate({ set: { referenceId } });
+  
+  // Increment usage count
+  await db
+    .update(referenceTags)
+    .set({ usageCount: sql`${referenceTags.usageCount} + 1` })
+    .where(eq(referenceTags.id, tagId));
+  
+  return { success: true };
+}
+
+/**
+ * Remove tag from v3 reference
+ */
+export async function removeTagFromV3Reference(referenceId: number, tagId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  await db
+    .delete(v3ReferenceTagLinks)
+    .where(
+      and(
+        eq(v3ReferenceTagLinks.referenceId, referenceId),
+        eq(v3ReferenceTagLinks.tagId, tagId)
+      )
+    );
+  
+  // Decrement usage count
+  await db
+    .update(referenceTags)
+    .set({ usageCount: sql`GREATEST(${referenceTags.usageCount} - 1, 0)` })
+    .where(eq(referenceTags.id, tagId));
+  
+  return { success: true };
+}
+
+/**
+ * Get tags for a v3 reference
+ */
+export async function getTagsForV3Reference(referenceId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const links = await db
+    .select({
+      tag: referenceTags,
+    })
+    .from(v3ReferenceTagLinks)
+    .innerJoin(referenceTags, eq(v3ReferenceTagLinks.tagId, referenceTags.id))
+    .where(eq(v3ReferenceTagLinks.referenceId, referenceId));
+  
+  return links.map(l => l.tag);
+}
+
+/**
+ * Get v3 references by tag
+ */
+export async function getV3ReferencesByTag(tagId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const links = await db
+    .select({
+      reference: v3References,
+    })
+    .from(v3ReferenceTagLinks)
+    .innerJoin(v3References, eq(v3ReferenceTagLinks.referenceId, v3References.id))
+    .where(eq(v3ReferenceTagLinks.tagId, tagId));
+  
+  return links.map(l => l.reference);
+}
+
+// ============================================================================
+// REFERENCE NOTES
+// ============================================================================
+
+/**
+ * Get all notes for a v3 reference
+ */
+export async function getNotesForV3Reference(referenceId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(referenceNotes)
+    .where(eq(referenceNotes.referenceId, referenceId))
+    .orderBy(desc(referenceNotes.createdAt));
+}
+
+/**
+ * Get reference note by ID
+ */
+export async function getReferenceNoteById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const [note] = await db
+    .select()
+    .from(referenceNotes)
+    .where(eq(referenceNotes.id, id));
+  return note;
+}
+
+/**
+ * Create a reference note
+ */
+export async function createReferenceNote(data: {
+  referenceId: number;
+  noteType?: string;
+  title?: string;
+  content: string;
+  pageNumber?: string;
+  importance?: string;
+  createdBy?: number;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  const [result] = await db
+    .insert(referenceNotes)
+    .values(data as any);
+  
+  // Get the inserted note
+  const [note] = await db
+    .select()
+    .from(referenceNotes)
+    .where(eq(referenceNotes.referenceId, data.referenceId))
+    .orderBy(desc(referenceNotes.createdAt))
+    .limit(1);
+  
+  return note;
+}
+
+/**
+ * Update a reference note
+ */
+export async function updateReferenceNote(id: number, data: Partial<{
+  noteType: string;
+  title: string;
+  content: string;
+  pageNumber: string;
+  importance: string;
+  isResolved: boolean;
+}>) {
+  const db = await getDb();
+  if (!db) return null;
+  await db
+    .update(referenceNotes)
+    .set(data as any)
+    .where(eq(referenceNotes.id, id));
+  return getReferenceNoteById(id);
+}
+
+/**
+ * Delete a reference note
+ */
+export async function deleteReferenceNote(id: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  await db
+    .delete(referenceNotes)
+    .where(eq(referenceNotes.id, id));
+  return { success: true };
+}
+
+/**
+ * Get notes by type
+ */
+export async function getReferenceNotesByType(noteType: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      note: referenceNotes,
+      reference: v3References,
+    })
+    .from(referenceNotes)
+    .innerJoin(v3References, eq(referenceNotes.referenceId, v3References.id))
+    .where(eq(referenceNotes.noteType, noteType as any))
+    .orderBy(desc(referenceNotes.createdAt));
+}
+
+/**
+ * Get unresolved notes (todos and questions)
+ */
+export async function getUnresolvedReferenceNotes() {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      note: referenceNotes,
+      reference: v3References,
+    })
+    .from(referenceNotes)
+    .innerJoin(v3References, eq(referenceNotes.referenceId, v3References.id))
+    .where(
+      and(
+        or(
+          eq(referenceNotes.noteType, 'todo'),
+          eq(referenceNotes.noteType, 'question')
+        ),
+        eq(referenceNotes.isResolved, false)
+      )
+    )
+    .orderBy(desc(referenceNotes.importance), desc(referenceNotes.createdAt));
+}
+
+// ============================================================================
+// AXIS CONNECTIONS (for D3.js graph)
+// ============================================================================
+
+/**
+ * Get all axis connections
+ */
+export async function getAllAxisConnections() {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(axisConnections)
+    .orderBy(desc(axisConnections.strength));
+}
+
+/**
+ * Get axis connections for a specific axis
+ */
+export async function getAxisConnectionsForAxis(axisId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select()
+    .from(axisConnections)
+    .where(
+      or(
+        eq(axisConnections.sourceAxisId, axisId),
+        eq(axisConnections.targetAxisId, axisId)
+      )
+    );
+}
+
+/**
+ * Get graph data for D3.js visualization
+ */
+export async function getAxisGraphData() {
+  const db = await getDb();
+  if (!db) return { nodes: [], links: [] };
+  // Get all axes as nodes
+  const axes = await getAllThematicAxes();
+  
+  // Get all connections as links
+  const connections = await getAllAxisConnections();
+  
+  // Get reference counts per axis
+  const refCounts = await db
+    .select({
+      axisCode: v3References.axisPrimaryCode,
+      count: count(),
+    })
+    .from(v3References)
+    .where(isNotNull(v3References.axisPrimaryCode))
+    .groupBy(v3References.axisPrimaryCode);
+  
+  const countMap = new Map(refCounts.map(r => [r.axisCode?.split(' ')[0], r.count]));
+  
+  // Build nodes with reference counts
+  const nodes = axes.map(axis => ({
+    id: axis.id,
+    code: axis.axisCode,
+    name: axis.name,
+    metaAxis: axis.metaAxis,
+    color: axis.color,
+    referenceCount: countMap.get(axis.axisCode) || 0,
+  }));
+  
+  // Build links
+  const links = connections.map((conn: any) => ({
+    source: conn.sourceAxisId,
+    target: conn.targetAxisId,
+    strength: conn.strength,
+    type: conn.connectionType,
+  }));
+  
+  return { nodes, links };
+}
+
+/**
+ * Create an axis connection
+ */
+export async function createAxisConnection(data: {
+  sourceAxisId: number;
+  targetAxisId: number;
+  strength?: number;
+  connectionType?: string;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  await db
+    .insert(axisConnections)
+    .values(data as any)
+    .onDuplicateKeyUpdate({ set: { strength: data.strength } });
+  return { success: true };
+}
+
+/**
+ * Update axis connection strength
+ */
+export async function updateAxisConnectionStrength(sourceId: number, targetId: number, strength: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  await db
+    .update(axisConnections)
+    .set({ strength })
+    .where(
+      and(
+        eq(axisConnections.sourceAxisId, sourceId),
+        eq(axisConnections.targetAxisId, targetId)
+      )
+    );
+  return { success: true };
+}
+
+/**
+ * Delete an axis connection
+ */
+export async function deleteAxisConnection(sourceId: number, targetId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  await db
+    .delete(axisConnections)
+    .where(
+      and(
+        eq(axisConnections.sourceAxisId, sourceId),
+        eq(axisConnections.targetAxisId, targetId)
+      )
+    );
+  return { success: true };
 }
