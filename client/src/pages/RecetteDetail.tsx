@@ -19,6 +19,9 @@ import { RecommendationsCard } from "@/components/RecommendationsCard";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
 import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles } from "lucide-react";
+import { SmartLink } from "@/components/SmartLink";
+import { ExplorerAussi } from "@/components/ExplorerAussi";
+import { CategoryBadge, FamilyBadge } from "@/components/ClickableBadge";
 
 export default function RecetteDetail() {
   const { toast } = useToast();
@@ -787,6 +790,14 @@ export default function RecetteDetail() {
           </CardContent>
         </Card>
       )}
+      
+      {/* Section Explorer aussi */}
+      <ExplorerAussi 
+        context="recette" 
+        entityId={id}
+        category={data?.recette?.category || undefined}
+        className="mt-8"
+      />
     </div>
   );
 }

@@ -3824,3 +3824,38 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tester l'import des données seed
 - [x] Tester la visualisation graphique sur desktop et mobile
 - [x] Créer le checkpoint final
+
+
+---
+
+## 🔗 SESSION 07 JAN 2026 - AMÉLIORATION NAVIGATION
+
+### Phase 1 : Ajout lien graphe-relations au menu
+- [ ] Ajouter le lien vers /graphe-relations dans le menu principal (MegaMenu)
+- [ ] Ajouter le lien vers /graphe-relations dans le menu mobile
+- [ ] Vérifier la cohérence des labels de navigation
+
+### Phase 2 : Check-up général de la navigation
+- [ ] Auditer tous les liens entre les pages
+- [ ] Vérifier les liens croisés (molécules ↔ plantes ↔ recettes ↔ références)
+- [ ] Améliorer la cohérence de la navigation globale
+- [ ] Tester la navigation sur desktop et mobile
+
+### Phase 3 : Amélioration navigation didactique inter-entités
+- [ ] Ajouter liens vers plantes sur les fiches molécules
+- [ ] Ajouter liens vers molécules sur les fiches plantes
+- [ ] Ajouter liens vers recettes utilisant chaque molécule
+- [ ] Ajouter liens vers terroirs sur les fiches plantes
+- [ ] Ajouter liens vers références bibliographiques pertinentes
+- [ ] Créer des sections "Voir aussi" cohérentes sur toutes les pages de détail
+
+
+### Phase 4 : Sérendipité et navigation enrichie
+- [x] Créer le composant SmartLink avec tooltips enrichis (mini-fiche au survol)
+- [x] Créer le composant SmartText pour détecter automatiquement les termes clés
+- [x] Ajouter les liens contextuels automatiques (molécules, plantes, familles)
+- [x] Créer la section "Explorer aussi" dynamique basée sur le contexte
+- [x] Rendre les badges/tags cliquables vers des filtres de recherche (ClickableBadge)
+- [ ] Améliorer le fil d'Ariane avec aperçu au survol
+- [x] Intégrer ExplorerAussi dans les pages de détail (molécules, plantes, recettes)
+- [x] Créer le composant PlantLink pour les liens vers les plantes

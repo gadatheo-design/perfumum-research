@@ -32,6 +32,9 @@ import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUplo
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { SmartLink } from "@/components/SmartLink";
+import { ExplorerAussi } from "@/components/ExplorerAussi";
+import { ClimaticAxisBadge, CategoryBadge } from "@/components/ClickableBadge";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -1210,6 +1213,14 @@ export default function PlantDetail() {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      {/* Section Explorer aussi */}
+      <ExplorerAussi 
+        context="plant" 
+        entityId={plantId}
+        category={plant.category || undefined}
+        className="mt-8"
+      />
     </div>
   );
 }
