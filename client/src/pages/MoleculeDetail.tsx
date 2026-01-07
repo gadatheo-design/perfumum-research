@@ -618,7 +618,9 @@ export default function MoleculeDetail() {
               {molecule.notes && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-lg font-semibold mb-3">Notes de Recherche</h2>
-                  <p className="whitespace-pre-wrap text-muted-foreground">{molecule.notes}</p>
+                  <div className="whitespace-pre-wrap text-muted-foreground">
+                    <SmartText text={molecule.notes} />
+                  </div>
                 </div>
               )}
 

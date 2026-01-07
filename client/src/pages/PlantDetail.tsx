@@ -33,6 +33,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { SmartLink } from "@/components/SmartLink";
+import { SmartText } from "@/components/SmartText";
 import { ExplorerAussi } from "@/components/ExplorerAussi";
 import { ClimaticAxisBadge, CategoryBadge } from "@/components/ClickableBadge";
 
@@ -328,7 +329,9 @@ export default function PlantDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm whitespace-pre-wrap">{plant.notes}</p>
+                  <div className="text-sm whitespace-pre-wrap">
+                    <SmartText text={plant.notes} />
+                  </div>
                 </CardContent>
               </Card>
             )}

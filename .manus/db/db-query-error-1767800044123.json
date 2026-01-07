@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO bibliography_entries (entry_key, entry_type, title, authors, year, journal, doi, url, tags, notes, research_domain, read_status, relevance_score)\nVALUES ('ref-doi-10-1073-pnas-2424863122', 'article', 'A Vetiver-Specific Terpene Synthase Controls the Production of the Woody Sesquiterpene Cedrol', '(voir article)', 2025, 'PNAS', '10.1073/pnas.2424863122', 'https://doi.org/10.1073/pnas.2424863122', '[\"vetiver\",\"cedrol\",\"terpene-synthase\",\"woody\",\"climate-adaptation\"]', 'Lien direct gène→cedrol; utile pour modèle perte/variation de note boisée.', 'perfumery', 'unread', 70)\nON DUPLICATE KEY UPDATE title = VALUES(title), notes = VALUES(notes), updated_at = NOW();",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO bibliography_entries (entry_key, entry_type, title, authors, year, journal, doi, url, tags, notes, research_domain, read_status, relevance_score)\nVALUES ('ref-doi-10-1073-pnas-2424863122', 'article', 'A Vetiver-Specific Terpene Synthase Controls the Production of the Woody Sesquiterpene Cedrol', '(voir article)', 2025, 'PNAS', '10.1073/pnas.2424863122', 'https://doi.org/10.1073/pnas.2424863122', '[\"vetiver\",\"cedrol\",\"terpene-synthase\",\"woody\",\"climate-adaptation\"]', 'Lien direct gène→cedrol; utile pour modèle perte/variation de note boisée.', 'perfumery', 'unread', 70)\nON DUPLICATE KEY UPDATE title = VALUES(title), notes = VALUES(notes), updated_at = NOW();",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1265 (01000) at line 1: Data truncated for column 'research_domain' at row 1"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COUNT(*) as total, \n       COUNT(CASE WHEN entry_type = 'article' THEN 1 END) as articles,\n       COUNT(CASE WHEN entry_type = 'misc' THEN 1 END) as misc\nFROM bibliography_entries;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, \n       COUNT(CASE WHEN entry_type = 'article' THEN 1 END) as articles,\n       COUNT(CASE WHEN entry_type = 'misc' THEN 1 END) as misc\nFROM bibliography_entries;",
+  "rows": [
+    {
+      "total": "257",
+      "articles": "160",
+      "misc": "10"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tarticles\tmisc\n257\t160\t10\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

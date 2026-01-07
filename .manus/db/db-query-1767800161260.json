@@ -1,0 +1,80 @@
+{
+  "query": "SELECT id, entry_key, title, year, research_domain FROM bibliography_entries ORDER BY id DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, entry_key, title, year, research_domain FROM bibliography_entries ORDER BY id DESC LIMIT 10;",
+  "rows": [
+    {
+      "id": "300059",
+      "entry_key": "aroma-003",
+      "title": "Metabolic Fingerprinting of Muscat of Alexandria Grape Musts (PDF)",
+      "year": "2023",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "300058",
+      "entry_key": "aroma-002",
+      "title": "The hops (Humulus lupulus) genome contains a mid-sized terpene synthase family that shows wide functional and allelic diversity",
+      "year": "2023",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "300057",
+      "entry_key": "aroma-001",
+      "title": "Molecular Rearrangement of Four Typical Grape Free Terpenes in a Model Wine System during Aging",
+      "year": "2023",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "300056",
+      "entry_key": "xmat-006",
+      "title": "Cleopatra's ancient perfume recreated",
+      "year": "2019",
+      "research_domain": "histoire_parfumerie"
+    },
+    {
+      "id": "300055",
+      "entry_key": "xmat-005",
+      "title": "An Etruscan ointment from Chiusi (Tuscany, Italy): its chemical characterization",
+      "year": "2009",
+      "research_domain": "histoire_parfumerie"
+    },
+    {
+      "id": "300054",
+      "entry_key": "xmat-004",
+      "title": "Archaeometric Identification of a Perfume from Roman Times",
+      "year": "2023",
+      "research_domain": "histoire_parfumerie"
+    },
+    {
+      "id": "300053",
+      "entry_key": "xmat-003",
+      "title": "Untargeted metabolomics based on HS-SPME-GC-MS revealing the dynamic evolution of aroma components during cigar aging",
+      "year": "2025",
+      "research_domain": "botanique"
+    },
+    {
+      "id": "300052",
+      "entry_key": "xmat-002",
+      "title": "Temporal patterns of damage and decay kinetics of DNA retrieved from plant herbarium specimens",
+      "year": "2016",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "300051",
+      "entry_key": "xmat-001",
+      "title": "Historical herbarium collections reveal patterns of change in volatile terpenoids across time",
+      "year": "2018",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "300050",
+      "entry_key": "tob-007",
+      "title": "Alkaloid composition of the USDA tobacco (Nicotiana tabacum L.) germplasm collection",
+      "year": "1982",
+      "research_domain": "botanique"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentry_key\ttitle\tyear\tresearch_domain\n300059\taroma-003\tMetabolic Fingerprinting of Muscat of Alexandria Grape Musts (PDF)\t2023\tchimie_olfactive\n300058\taroma-002\tThe hops (Humulus lupulus) genome contains a mid-sized terpene synthase family that shows wide functional and allelic diversity\t2023\tchimie_olfactive\n300057\taroma-001\tMolecular Rearrangement of Four Typical Grape Free Terpenes in a Model Wine System during Aging\t2023\tchimie_olfactive\n300056\txmat-006\tCleopatra's ancient perfume recreated\t2019\thistoire_parfumerie\n300055\txmat-005\tAn Etruscan ointment from Chiusi (Tuscany, Italy): its chemical characterization\t2009\thistoire_parfumerie\n300054\txmat-004\tArchaeometric Identification of a Perfume from Roman Times\t2023\thistoire_parfumerie\n300053\txmat-003\tUntargeted metabolomics based on HS-SPME-GC-MS revealing the dynamic evolution of aroma components during cigar aging\t2025\tbotanique\n300052\txmat-002\tTemporal patterns of damage and decay kinetics of DNA retrieved from plant herbarium specimens\t2016\tchimie_olfactive\n300051\txmat-001\tHistorical herbarium collections reveal patterns of change in volatile terpenoids across time\t2018\tchimie_olfactive\n300050\ttob-007\tAlkaloid composition of the USDA tobacco (Nicotiana tabacum L.) germplasm collection\t1982\tbotanique\n",
+  "stderr": "",
+  "execution_time_ms": 48
+}

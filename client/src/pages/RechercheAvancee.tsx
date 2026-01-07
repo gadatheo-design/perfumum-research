@@ -1,6 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
-import { Search, Filter, X, ChevronDown, ChevronUp, Beaker, Globe, Clock, SlidersHorizontal } from "lucide-react";
+import { Search, Filter, X, ChevronDown, ChevronUp, Beaker, Globe, Clock, SlidersHorizontal, Atom, Tag, FlaskConical, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -8,33 +8,94 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "wouter";
+import { Link, useSearch } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { motion } from "framer-motion";
+import { FamilyBadge, ChemicalClassBadge, OriginBadge, ClickableBadge } from "@/components/ClickableBadge";
+import { SmartLink } from "@/components/SmartLink";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
+// Labels pour les classes chimiques
+const chemicalClassLabels: Record<string, string> = {
+  terpene: "Terpène",
+  sesquiterpene: "Sesquiterpène",
+  diterpene: "Diterpène",
+  monoterpene: "Monoterpène",
+  aldehyde: "Aldéhyde",
+  ketone: "Cétone",
+  alcohol: "Alcool",
+  ester: "Ester",
+  ether: "Éther",
+  phenol: "Phénol",
+  lactone: "Lactone",
+  coumarin: "Coumarine",
+  musk: "Musc",
+  nitrile: "Nitrile",
+  sulfur_compound: "Composé soufré",
+  heterocyclic: "Hétérocyclique",
+  aromatic: "Aromatique",
+  aliphatic: "Aliphatique",
+  other: "Autre",
+};
+
 export default function RechercheAvancee() {
+  // Récupérer les paramètres URL
+  const searchParams = useSearch();
+  const urlParams = new URLSearchParams(searchParams);
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(true);
   const [expandedSections, setExpandedSections] = useState({
     family: true,
+    chemicalClass: false,
     origin: false,
-    period: false
+    period: false,
+    tags: false
   });
   
   const [selectedFamilies, setSelectedFamilies] = useState<string[]>([]);
+  const [selectedChemicalClasses, setSelectedChemicalClasses] = useState<string[]>([]);
   const [selectedOrigins, setSelectedOrigins] = useState<string[]>([]);
   const [selectedPeriods, setSelectedPeriods] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   
   const { data: molecules = [], isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
   const { data: civilisations = [], isLoading: loadingCivilisations } = trpc.civilisations.list.useQuery();
+  const { data: recettes = [], isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
+  const { data: plants = [], isLoading: loadingPlants } = trpc.plants.list.useQuery();
 
+  // Initialiser les filtres depuis l'URL
+  useEffect(() => {
+    const familyParam = urlParams.get('family');
+    const chemicalClassParam = urlParams.get('chemicalClass');
+    const originParam = urlParams.get('origin');
+    const tagParam = urlParams.get('tag');
+    
+    if (familyParam) {
+      setSelectedFamilies([familyParam]);
+      setExpandedSections(prev => ({ ...prev, family: true }));
+    }
+    if (chemicalClassParam) {
+      setSelectedChemicalClasses([chemicalClassParam]);
+      setExpandedSections(prev => ({ ...prev, chemicalClass: true }));
+    }
+    if (originParam) {
+      setSelectedOrigins([originParam]);
+      setExpandedSections(prev => ({ ...prev, origin: true }));
+    }
+    if (tagParam) {
+      setSelectedTags([tagParam]);
+      setExpandedSections(prev => ({ ...prev, tags: true }));
+    }
+  }, [searchParams]);
+
+  // Extraire les familles uniques
   const uniqueFamilies = useMemo(() => {
     const families = new Set<string>();
     molecules.forEach(m => {
@@ -45,6 +106,18 @@ export default function RechercheAvancee() {
     return Array.from(families).sort();
   }, [molecules]);
 
+  // Extraire les classes chimiques uniques
+  const uniqueChemicalClasses = useMemo(() => {
+    const classes = new Set<string>();
+    molecules.forEach(m => {
+      if (m.chemicalClass) {
+        classes.add(m.chemicalClass);
+      }
+    });
+    return Array.from(classes).sort();
+  }, [molecules]);
+
+  // Extraire les origines uniques
   const uniqueOrigins = useMemo(() => {
     const origins = new Set<string>();
     molecules.forEach(m => {
@@ -58,6 +131,22 @@ export default function RechercheAvancee() {
     return Array.from(origins).sort();
   }, [molecules, civilisations]);
 
+  // Extraire les tags uniques (depuis les molécules et recettes)
+  const uniqueTags = useMemo(() => {
+    const tags = new Set<string>();
+    molecules.forEach(m => {
+      // Ajouter les familles comme tags
+      if (m.family) {
+        m.family.split(',').forEach(f => tags.add(f.trim()));
+      }
+    });
+    recettes.forEach(r => {
+      // Ajouter les catégories comme tags
+      if (r.category) tags.add(r.category);
+    });
+    return Array.from(tags).sort().slice(0, 30);
+  }, [molecules, recettes]);
+
   const historicalPeriods = [
     "Antiquité (-3000 à 476)",
     "Moyen Âge (476-1492)",
@@ -66,25 +155,34 @@ export default function RechercheAvancee() {
     "Époque contemporaine (1914-présent)"
   ];
 
+  // Filtrer les molécules
   const filteredMolecules = useMemo(() => {
     return molecules.filter(molecule => {
       const matchesSearch = !searchQuery || 
         molecule.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         molecule.olfactiveProfile?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        molecule.sourceOrigin?.toLowerCase().includes(searchQuery.toLowerCase());
+        molecule.sourceOrigin?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        molecule.chemicalClass?.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesFamily = selectedFamilies.length === 0 || 
-        selectedFamilies.some(f => molecule.family?.includes(f));
+        selectedFamilies.some(f => molecule.family?.toLowerCase().includes(f.toLowerCase()));
+
+      const matchesChemicalClass = selectedChemicalClasses.length === 0 ||
+        selectedChemicalClasses.some(c => molecule.chemicalClass === c);
 
       const matchesOrigin = selectedOrigins.length === 0 || 
-        selectedOrigins.some(o => molecule.sourceOrigin?.includes(o));
+        selectedOrigins.some(o => molecule.sourceOrigin?.toLowerCase().includes(o.toLowerCase()));
 
       const matchesPeriod = selectedPeriods.length === 0;
 
-      return matchesSearch && matchesFamily && matchesOrigin && matchesPeriod;
-    });
-  }, [molecules, searchQuery, selectedFamilies, selectedOrigins, selectedPeriods]);
+      const matchesTags = selectedTags.length === 0 ||
+        selectedTags.some(t => molecule.family?.toLowerCase().includes(t.toLowerCase()));
 
+      return matchesSearch && matchesFamily && matchesChemicalClass && matchesOrigin && matchesPeriod && matchesTags;
+    });
+  }, [molecules, searchQuery, selectedFamilies, selectedChemicalClasses, selectedOrigins, selectedPeriods, selectedTags]);
+
+  // Filtrer les civilisations
   const filteredCivilisations = useMemo(() => {
     return civilisations.filter(civ => {
       const matchesSearch = !searchQuery || 
@@ -92,7 +190,7 @@ export default function RechercheAvancee() {
         civ.region?.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesOrigin = selectedOrigins.length === 0 || 
-        selectedOrigins.some(o => civ.region?.includes(o));
+        selectedOrigins.some(o => civ.region?.toLowerCase().includes(o.toLowerCase()));
 
       const matchesPeriod = selectedPeriods.length === 0 || 
         selectedPeriods.some(p => {
@@ -104,6 +202,36 @@ export default function RechercheAvancee() {
     });
   }, [civilisations, searchQuery, selectedOrigins, selectedPeriods]);
 
+  // Filtrer les recettes
+  const filteredRecettes = useMemo(() => {
+    return recettes.filter(recette => {
+      const matchesSearch = !searchQuery || 
+        recette.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recette.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recette.formula?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesTags = selectedTags.length === 0 ||
+        selectedTags.some(t => recette.category?.toLowerCase().includes(t.toLowerCase()));
+
+      return matchesSearch && matchesTags;
+    });
+  }, [recettes, searchQuery, selectedTags]);
+
+  // Filtrer les plantes
+  const filteredPlants = useMemo(() => {
+    return plants.filter(plant => {
+      const matchesSearch = !searchQuery || 
+        plant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        plant.latinName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        plant.family?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesFamily = selectedFamilies.length === 0 || 
+        selectedFamilies.some(f => plant.family?.toLowerCase().includes(f.toLowerCase()));
+
+      return matchesSearch && matchesFamily;
+    });
+  }, [plants, searchQuery, selectedFamilies]);
+
   const toggleFilter = (value: string, selected: string[], setter: (v: string[]) => void) => {
     if (selected.includes(value)) {
       setter(selected.filter(v => v !== value));
@@ -114,16 +242,20 @@ export default function RechercheAvancee() {
 
   const clearAllFilters = () => {
     setSelectedFamilies([]);
+    setSelectedChemicalClasses([]);
     setSelectedOrigins([]);
     setSelectedPeriods([]);
+    setSelectedTags([]);
     setSearchQuery("");
   };
 
-  const activeFiltersCount = selectedFamilies.length + selectedOrigins.length + selectedPeriods.length;
+  const activeFiltersCount = selectedFamilies.length + selectedChemicalClasses.length + selectedOrigins.length + selectedPeriods.length + selectedTags.length;
 
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
+
+  const totalResults = filteredMolecules.length + filteredCivilisations.length + filteredRecettes.length + filteredPlants.length;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -151,7 +283,7 @@ export default function RechercheAvancee() {
               </h1>
               
               <p className="text-lg text-muted-foreground">
-                Explorez la base de données PERFUMUM avec des filtres précis
+                Explorez la base de données PERFUMUM avec des filtres combinés
               </p>
             </motion.div>
           </div>
@@ -169,7 +301,7 @@ export default function RechercheAvancee() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Rechercher par nom, profil olfactif, origine..."
+                placeholder="Rechercher par nom, profil olfactif, origine, classe chimique..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-12 pr-12 h-14 text-base border-border/60 focus:border-primary bg-card"
@@ -261,6 +393,52 @@ export default function RechercheAvancee() {
                               +{uniqueFamilies.length - 20} autres familles
                             </p>
                           )}
+                        </div>
+                      </CardContent>
+                    </CollapsibleContent>
+                  </Collapsible>
+                </Card>
+
+                {/* Classe Chimique */}
+                <Card className="border-border/50">
+                  <Collapsible open={expandedSections.chemicalClass} onOpenChange={() => toggleSection('chemicalClass')}>
+                    <CollapsibleTrigger asChild>
+                      <CardHeader className="pb-3 cursor-pointer hover:bg-muted/30 transition-colors rounded-t-lg">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Atom className="w-4 h-4 text-primary" />
+                            <CardTitle className="text-sm font-medium">Classe Chimique</CardTitle>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {selectedChemicalClasses.length > 0 && (
+                              <Badge variant="secondary" className="h-5 px-1.5 text-xs">
+                                {selectedChemicalClasses.length}
+                              </Badge>
+                            )}
+                            {expandedSections.chemicalClass ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+                          </div>
+                        </div>
+                      </CardHeader>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <CardContent className="pt-0 pb-4">
+                        <div className="max-h-48 overflow-y-auto space-y-2 pr-2">
+                          {uniqueChemicalClasses.map(chemClass => (
+                            <div key={chemClass} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`chemClass-${chemClass}`}
+                                checked={selectedChemicalClasses.includes(chemClass)}
+                                onCheckedChange={() => toggleFilter(chemClass, selectedChemicalClasses, setSelectedChemicalClasses)}
+                                className="h-4 w-4"
+                              />
+                              <Label
+                                htmlFor={`chemClass-${chemClass}`}
+                                className="text-sm cursor-pointer flex-1 text-muted-foreground hover:text-foreground transition-colors truncate"
+                              >
+                                {chemicalClassLabels[chemClass] || chemClass}
+                              </Label>
+                            </div>
+                          ))}
                         </div>
                       </CardContent>
                     </CollapsibleContent>
@@ -363,16 +541,57 @@ export default function RechercheAvancee() {
                     </CollapsibleContent>
                   </Collapsible>
                 </Card>
+
+                {/* Tags */}
+                <Card className="border-border/50">
+                  <Collapsible open={expandedSections.tags} onOpenChange={() => toggleSection('tags')}>
+                    <CollapsibleTrigger asChild>
+                      <CardHeader className="pb-3 cursor-pointer hover:bg-muted/30 transition-colors rounded-t-lg">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Tag className="w-4 h-4 text-primary" />
+                            <CardTitle className="text-sm font-medium">Tags</CardTitle>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {selectedTags.length > 0 && (
+                              <Badge variant="secondary" className="h-5 px-1.5 text-xs">
+                                {selectedTags.length}
+                              </Badge>
+                            )}
+                            {expandedSections.tags ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+                          </div>
+                        </div>
+                      </CardHeader>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <CardContent className="pt-0 pb-4">
+                        <div className="flex flex-wrap gap-1.5">
+                          {uniqueTags.map(tag => (
+                            <Badge
+                              key={tag}
+                              variant={selectedTags.includes(tag) ? "default" : "outline"}
+                              className="cursor-pointer transition-all hover:ring-2 hover:ring-primary/30"
+                              onClick={() => toggleFilter(tag, selectedTags, setSelectedTags)}
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </CollapsibleContent>
+                  </Collapsible>
+                </Card>
               </motion.div>
             )}
 
             {/* Results */}
             <div className={showFilters ? "lg:col-span-3" : "lg:col-span-4"}>
-              {/* Active Filters */}
+              {/* Active Filters with ClickableBadge */}
               {activeFiltersCount > 0 && (
                 <div className="mb-4 flex flex-wrap gap-2">
                   {selectedFamilies.map(f => (
-                    <Badge key={f} variant="secondary" className="gap-1.5 pr-1.5">
+                    <Badge key={`fam-${f}`} variant="secondary" className="gap-1.5 pr-1.5 bg-primary/10">
+                      <Beaker className="h-3 w-3" />
                       {f}
                       <button
                         onClick={() => toggleFilter(f, selectedFamilies, setSelectedFamilies)}
@@ -382,8 +601,21 @@ export default function RechercheAvancee() {
                       </button>
                     </Badge>
                   ))}
+                  {selectedChemicalClasses.map(c => (
+                    <Badge key={`chem-${c}`} variant="secondary" className="gap-1.5 pr-1.5 bg-blue-500/10">
+                      <Atom className="h-3 w-3" />
+                      {chemicalClassLabels[c] || c}
+                      <button
+                        onClick={() => toggleFilter(c, selectedChemicalClasses, setSelectedChemicalClasses)}
+                        className="ml-1 hover:bg-muted rounded-full p-0.5"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
                   {selectedOrigins.map(o => (
-                    <Badge key={o} variant="secondary" className="gap-1.5 pr-1.5">
+                    <Badge key={`orig-${o}`} variant="secondary" className="gap-1.5 pr-1.5 bg-green-500/10">
+                      <Globe className="h-3 w-3" />
                       {o}
                       <button
                         onClick={() => toggleFilter(o, selectedOrigins, setSelectedOrigins)}
@@ -394,10 +626,23 @@ export default function RechercheAvancee() {
                     </Badge>
                   ))}
                   {selectedPeriods.map(p => (
-                    <Badge key={p} variant="secondary" className="gap-1.5 pr-1.5">
+                    <Badge key={`per-${p}`} variant="secondary" className="gap-1.5 pr-1.5 bg-amber-500/10">
+                      <Clock className="h-3 w-3" />
                       {p}
                       <button
                         onClick={() => toggleFilter(p, selectedPeriods, setSelectedPeriods)}
+                        className="ml-1 hover:bg-muted rounded-full p-0.5"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                  {selectedTags.map(t => (
+                    <Badge key={`tag-${t}`} variant="secondary" className="gap-1.5 pr-1.5 bg-violet-500/10">
+                      <Tag className="h-3 w-3" />
+                      {t}
+                      <button
+                        onClick={() => toggleFilter(t, selectedTags, setSelectedTags)}
                         className="ml-1 hover:bg-muted rounded-full p-0.5"
                       >
                         <X className="h-3 w-3" />
@@ -409,11 +654,15 @@ export default function RechercheAvancee() {
 
               {/* Results Count */}
               <div className="mb-5 text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">{filteredMolecules.length}</span> molécule(s) · <span className="font-medium text-foreground">{filteredCivilisations.length}</span> civilisation(s)
+                <span className="font-medium text-foreground">{totalResults}</span> résultat(s) : 
+                <span className="ml-2">{filteredMolecules.length} molécule(s)</span> · 
+                <span className="ml-1">{filteredRecettes.length} recette(s)</span> · 
+                <span className="ml-1">{filteredPlants.length} plante(s)</span> · 
+                <span className="ml-1">{filteredCivilisations.length} civilisation(s)</span>
               </div>
 
               {/* Loading */}
-              {(loadingMolecules || loadingCivilisations) && (
+              {(loadingMolecules || loadingCivilisations || loadingRecettes || loadingPlants) && (
                 <div className="text-center py-16">
                   <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent"></div>
                   <p className="mt-4 text-muted-foreground">Chargement des données...</p>
@@ -448,15 +697,14 @@ export default function RechercheAvancee() {
                                 {molecule.olfactiveProfile}
                               </p>
                             )}
-                            {molecule.sourceOrigin && (
-                              <div className="flex flex-wrap gap-1">
-                                {molecule.sourceOrigin.split(',').slice(0, 2).map((origin, idx) => (
-                                  <Badge key={idx} variant="secondary" className="text-xs font-normal">
-                                    {origin.trim()}
-                                  </Badge>
-                                ))}
-                              </div>
-                            )}
+                            <div className="flex flex-wrap gap-1">
+                              {molecule.chemicalClass && (
+                                <ChemicalClassBadge chemicalClass={molecule.chemicalClass} disabled />
+                              )}
+                              {molecule.sourceOrigin?.split(',').slice(0, 1).map((origin, idx) => (
+                                <OriginBadge key={idx} origin={origin.trim()} disabled />
+                              ))}
+                            </div>
                           </CardContent>
                         </Card>
                       </Link>
@@ -467,6 +715,78 @@ export default function RechercheAvancee() {
                       Affichage des 30 premiers résultats sur {filteredMolecules.length}
                     </p>
                   )}
+                </div>
+              )}
+
+              {/* Recettes */}
+              {!loadingRecettes && filteredRecettes.length > 0 && (selectedTags.length > 0 || searchQuery) && (
+                <div className="mb-10">
+                  <Separator className="my-8" />
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-foreground">
+                    <FlaskConical className="w-5 h-5 text-primary" />
+                    Recettes
+                    <Badge variant="outline" className="ml-1">{filteredRecettes.length}</Badge>
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    {filteredRecettes.slice(0, 15).map(recette => (
+                      <Link key={recette.id} href={`/recette/${recette.id}`}>
+                        <Card className="h-full border-border/50 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer group">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-base font-medium group-hover:text-primary transition-colors">
+                              {recette.name}
+                            </CardTitle>
+                            {recette.category && (
+                              <CardDescription className="text-xs">
+                                {recette.category}
+                              </CardDescription>
+                            )}
+                          </CardHeader>
+                          <CardContent className="pt-0">
+                            {recette.description && (
+                              <p className="text-sm text-muted-foreground line-clamp-2">
+                                {recette.description}
+                              </p>
+                            )}
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Plants */}
+              {!loadingPlants && filteredPlants.length > 0 && (selectedFamilies.length > 0 || searchQuery) && (
+                <div className="mb-10">
+                  <Separator className="my-8" />
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-foreground">
+                    <Leaf className="w-5 h-5 text-primary" />
+                    Plantes
+                    <Badge variant="outline" className="ml-1">{filteredPlants.length}</Badge>
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    {filteredPlants.slice(0, 15).map(plant => (
+                      <Link key={plant.id} href={`/plants/${plant.id}`}>
+                        <Card className="h-full border-border/50 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer group">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-base font-medium group-hover:text-primary transition-colors">
+                              {plant.name}
+                            </CardTitle>
+                            {plant.latinName && (
+                              <CardDescription className="text-xs italic">
+                                {plant.latinName}
+                              </CardDescription>
+                            )}
+                          </CardHeader>
+                          <CardContent className="pt-0">
+                            {plant.family && (
+                              <FamilyBadge family={plant.family} disabled />
+                            )}
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
 
@@ -513,8 +833,8 @@ export default function RechercheAvancee() {
               )}
 
               {/* No Results */}
-              {!loadingMolecules && !loadingCivilisations && 
-               filteredMolecules.length === 0 && filteredCivilisations.length === 0 && (
+              {!loadingMolecules && !loadingCivilisations && !loadingRecettes && !loadingPlants &&
+               totalResults === 0 && (
                 <Card className="text-center py-16 border-border/50">
                   <CardContent>
                     <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">

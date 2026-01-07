@@ -1,0 +1,16 @@
+{
+  "query": "SELECT COUNT(*) as total, \n       COUNT(CASE WHEN year = 2025 THEN 1 END) as y2025,\n       COUNT(CASE WHEN year = 2024 THEN 1 END) as y2024,\n       COUNT(CASE WHEN year = 2023 THEN 1 END) as y2023\nFROM bibliography_entries;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, \n       COUNT(CASE WHEN year = 2025 THEN 1 END) as y2025,\n       COUNT(CASE WHEN year = 2024 THEN 1 END) as y2024,\n       COUNT(CASE WHEN year = 2023 THEN 1 END) as y2023\nFROM bibliography_entries;",
+  "rows": [
+    {
+      "total": "315",
+      "y2025": "43",
+      "y2024": "54",
+      "y2023": "32"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\ty2025\ty2024\ty2023\n315\t43\t54\t32\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}

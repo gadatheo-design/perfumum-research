@@ -1,0 +1,38 @@
+molecule_id,name,class,formula,notes
+mol-nicotine,Nicotine,alkaloid,C10H14N2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-nornicotine,Nornicotine,alkaloid,C9H12N2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-anabasine,Anabasine,alkaloid,C10H14N2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-anatabine,Anatabine,alkaloid,C10H12N2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-isonicoteine,Isonicoteine,alkaloid,C10H12N2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-myosmine,Myosmine,alkaloid,C9H10N2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-nnn-n-nitrosonornicotine,NNN (N'-Nitrosonornicotine),TSNA,,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-nnk-4-methylnitrosamino-1-3-pyridyl-1-bu,NNK (4-(Methylnitrosamino)-1-(3-pyridyl)-1-butanone),TSNA,,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-9-thc,Δ9-THC,cannabinoid,C21H30O2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-thca,THCA,cannabinoid-acid,C22H30O4,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-cbd,CBD,cannabinoid,C21H30O2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-cbda,CBDA,cannabinoid-acid,C22H30O4,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-cbn-cannabinol,CBN (Cannabinol),cannabinoid-oxidation-product,C21H26O2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-cbg,CBG,cannabinoid,C21H32O2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-myrcene,β-Myrcene,terpene,C10H16,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-limonene,Limonene,terpene,C10H16,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-pinene,α-Pinene,terpene,C10H16,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-caryophyllene,β-Caryophyllene,sesquiterpene,C15H24,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-linalool,Linalool,terpene-alcohol,C10H18O,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-terpinolene,Terpinolene,terpene,C10H16,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-patchoulol,Patchoulol,sesquiterpene-alcohol,C15H26O,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-santalol,α-Santalol,sesquiterpene-alcohol,C15H24O,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-ambrein,Ambrein,triterpenoid,C30H52O,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-atranorin,Atranorin,lichen depside,,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-vanillin,Vanillin,phenolic aldehyde,C8H8O3,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-ionone,β-Ionone,norisoprenoid,C13H20O,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-irones-irone,Irones (α/β/γ-irone),norisoprenoid ketones,,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-cedrol,Cedrol,sesquiterpene-alcohol,C15H26O,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-zizaene,(−)-Zizaene,sesquiterpene,C15H24,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-ambrettolide,Ambrettolide,macrocyclic lactone,C16H28O2,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-civetone,Civetone,macrocyclic ketone,C17H30O,Marker list for 'lost molecules' / heritage chemotypes mapping.
+mol-indole,Indole,heteroaromatic,C8H7N,Added for broader perfumery 'lost molecules' mapping.
+mol-methyl-anthranilate,Methyl anthranilate,ester,C8H9NO2,Added for broader perfumery 'lost molecules' mapping.
+mol-eugenol,Eugenol,phenylpropanoid,C10H12O2,Added for broader perfumery 'lost molecules' mapping.
+mol-coumarin,Coumarin,lactone,C9H6O2,Added for broader perfumery 'lost molecules' mapping.
+mol-benzyl-acetate,Benzyl acetate,ester,C9H10O2,Added for broader perfumery 'lost molecules' mapping.
+mol-safranal,Safranal,terpene aldehyde,C10H14O,Added for broader perfumery 'lost molecules' mapping.

@@ -20,6 +20,7 @@ import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
 import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles } from "lucide-react";
 import { SmartLink } from "@/components/SmartLink";
+import { SmartText } from "@/components/SmartText";
 import { ExplorerAussi } from "@/components/ExplorerAussi";
 import { CategoryBadge, FamilyBadge } from "@/components/ClickableBadge";
 
@@ -361,7 +362,9 @@ export default function RecetteDetail() {
           {/* Description */}
           {recette.description && (
             <div className="bg-muted/50 p-4 rounded-lg">
-              <p className="text-base leading-relaxed">{recette.description}</p>
+              <div className="text-base leading-relaxed">
+                <SmartText text={recette.description} />
+              </div>
             </div>
           )}
 
@@ -514,7 +517,9 @@ export default function RecetteDetail() {
           {recette.notes && (
             <div className="bg-muted/30 p-6 rounded-lg border-l-4 border-primary">
               <h3 className="text-sm font-semibold text-muted-foreground mb-2">Notes de Recherche</h3>
-              <p className="text-base whitespace-pre-wrap leading-relaxed">{recette.notes}</p>
+              <div className="text-base whitespace-pre-wrap leading-relaxed">
+                <SmartText text={recette.notes} />
+              </div>
             </div>
           )}
         </CardContent>

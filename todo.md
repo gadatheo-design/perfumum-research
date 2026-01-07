@@ -3859,3 +3859,85 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Améliorer le fil d'Ariane avec aperçu au survol
 - [x] Intégrer ExplorerAussi dans les pages de détail (molécules, plantes, recettes)
 - [x] Créer le composant PlantLink pour les liens vers les plantes
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - RÉFÉRENCES & COMPOSANTS INTERACTIFS
+
+### Phase 1 : Import des références BibTeX
+- [ ] Parser le fichier BibTeX (34 références scientifiques)
+- [ ] Créer le script d'import des références dans la base de données
+- [ ] Valider l'intégrité des données importées (DOI, URL, tags)
+- [ ] Afficher les nouvelles références dans la page Bibliographie
+
+### Phase 2 : Composant SmartText
+- [ ] Créer le composant SmartText pour transformer automatiquement les noms de molécules en liens cliquables
+- [ ] Créer le composant SmartText pour transformer automatiquement les noms de plantes en liens cliquables
+- [ ] Intégrer SmartText dans les descriptions longues (notes de recherche, profils olfactifs)
+- [ ] Tester le rendu sur desktop et mobile
+
+### Phase 3 : SmartLink sur fiches molécules
+- [ ] Créer la procédure tRPC pour récupérer les recettes utilisant une molécule
+- [ ] Ajouter le composant SmartLink sur les fiches molécules
+- [ ] Afficher la liste des recettes associées avec liens cliquables
+- [ ] Tester la navigation bidirectionnelle molécules ↔ recettes
+
+### Phase 4 : Page de recherche avancée avec ClickableBadge
+- [ ] Créer le composant ClickableBadge pour les filtres combinés
+- [ ] Créer la page de recherche avancée avec filtres multiples
+- [ ] Implémenter les filtres par famille olfactive, origine, période, tags
+- [ ] Permettre la combinaison de plusieurs filtres (AND/OR)
+- [ ] Tester la recherche avancée sur tous les écrans
+
+### Phase 5 : Tests et livraison
+- [ ] Écrire les tests unitaires pour les nouvelles procédures
+- [ ] Tester l'interface sur desktop et mobile
+- [ ] Créer le checkpoint final
+- [ ] Présenter les résultats au client
+
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - RÉFÉRENCES & RECHERCHE AVANCÉE
+
+### Phase 1 : Import des nouvelles références bibliographiques
+- [x] Analyser les fichiers BibTeX (PerfumeryMaterials_NicheOmics_v2 + LostMolecules_AncientVarieties_v1)
+- [x] Analyser les fichiers CSV de références (Pasted_content_31.txt + Pasted_content_32.txt)
+- [x] Créer le script d'import des références
+- [x] Importer les 58 nouvelles références dans la base de données
+- [x] Valider l'intégrité des données importées
+
+### Phase 2 : Import du MoleculesLostMap DevPack
+- [ ] Analyser le schéma MoleculesLostMap (31 molécules marqueurs + 64 liens evidence)
+- [ ] Créer les tables nécessaires pour le knowledge graph
+- [ ] Importer les molécules marqueurs (nicotine, THC, CBD, CBN, terpènes, etc.)
+- [ ] Importer les liens evidence (molecule-référence-contexte)
+- [ ] Créer l'interface de visualisation du graphe
+
+### Phase 3 : Intégration SmartText dans les descriptions longues
+- [x] Vérifier l'utilisation de SmartText dans les pages existantes
+- [x] Intégrer SmartText dans les notes de recherche (MoleculeDetail, RecetteDetail, PlantDetail)
+- [x] Intégrer SmartText dans les profils olfactifs
+- [x] Tester la détection automatique des molécules/plantes
+
+### Phase 4 : Recettes associées sur les fiches molécules
+- [x] Vérifier que les recettes sont bien affichées sur les fiches molécules (déjà implémenté)
+- [x] Améliorer l'affichage avec SmartLink (déjà implémenté)
+- [x] Ajouter les proportions et rôles des molécules dans les recettes (via getMoleculeWithRelations)
+
+### Phase 5 : Page de recherche avancée avec filtres combinés
+- [x] Créer la page de recherche avancée (améliorée)
+- [x] Implémenter les filtres par famille olfactive (ClickableBadge)
+- [x] Implémenter les filtres par classe chimique (ClickableBadge)
+- [x] Implémenter les filtres par origine géographique (ClickableBadge)
+- [x] Implémenter les filtres par tags (ClickableBadge)
+- [x] Permettre la combinaison de plusieurs filtres
+- [x] Créer l'interface de résultats avec pagination (30 premiers résultats)
+
+### Phase 6 : Tests et validation
+- [x] Tester l'import des références (5 tests passés)
+- [x] Tester SmartText sur différents textes (intégré dans MoleculeDetail, RecetteDetail, PlantDetail)
+- [x] Tester la page de recherche avancée (filtres par famille, classe chimique, origine, tags)
+- [x] Valider les filtres combinés (fonctionnel)
