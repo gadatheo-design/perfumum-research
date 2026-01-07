@@ -19,10 +19,6 @@ import { RecommendationsCard } from "@/components/RecommendationsCard";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
 import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles } from "lucide-react";
-import { SmartLink } from "@/components/SmartLink";
-import { SmartText } from "@/components/SmartText";
-import { ExplorerAussi } from "@/components/ExplorerAussi";
-import { CategoryBadge, FamilyBadge } from "@/components/ClickableBadge";
 
 export default function RecetteDetail() {
   const { toast } = useToast();
@@ -362,9 +358,7 @@ export default function RecetteDetail() {
           {/* Description */}
           {recette.description && (
             <div className="bg-muted/50 p-4 rounded-lg">
-              <div className="text-base leading-relaxed">
-                <SmartText text={recette.description} />
-              </div>
+              <p className="text-base leading-relaxed">{recette.description}</p>
             </div>
           )}
 
@@ -517,9 +511,7 @@ export default function RecetteDetail() {
           {recette.notes && (
             <div className="bg-muted/30 p-6 rounded-lg border-l-4 border-primary">
               <h3 className="text-sm font-semibold text-muted-foreground mb-2">Notes de Recherche</h3>
-              <div className="text-base whitespace-pre-wrap leading-relaxed">
-                <SmartText text={recette.notes} />
-              </div>
+              <p className="text-base whitespace-pre-wrap leading-relaxed">{recette.notes}</p>
             </div>
           )}
         </CardContent>
@@ -795,14 +787,6 @@ export default function RecetteDetail() {
           </CardContent>
         </Card>
       )}
-      
-      {/* Section Explorer aussi */}
-      <ExplorerAussi 
-        context="recette" 
-        entityId={id}
-        category={data?.recette?.category || undefined}
-        className="mt-8"
-      />
     </div>
   );
 }

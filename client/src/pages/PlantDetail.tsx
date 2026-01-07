@@ -21,21 +21,11 @@ import {
   Sparkles,
   Shield,
   Loader2,
-  Image as ImageIcon,
-  BookOpen,
-  Download,
-  ExternalLink,
-  Copy
+  Image as ImageIcon
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { useToast } from "@/hooks/use-toast";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { SmartLink } from "@/components/SmartLink";
-import { SmartText } from "@/components/SmartText";
-import { ExplorerAussi } from "@/components/ExplorerAussi";
-import { ClimaticAxisBadge, CategoryBadge } from "@/components/ClickableBadge";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -104,15 +94,6 @@ export default function PlantDetail() {
     { plantId },
     { enabled: plantId > 0 }
   );
-  
-  // Récupérer les références bibliographiques liées à la plante
-  const { data: plantBibliography } = trpc.bibliography.getByPlant.useQuery(
-    plantId,
-    { enabled: plantId > 0 }
-  );
-  
-  // Toast pour les notifications
-  const { toast } = useToast();
   
   if (isLoading) {
     return (
@@ -217,18 +198,17 @@ export default function PlantDetail() {
       
       {/* Onglets principaux */}
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="flex flex-wrap gap-1 h-auto p-1">
-          <TabsTrigger value="overview" className="text-xs md:text-sm">Vue d'ensemble</TabsTrigger>
-          <TabsTrigger value="images" className="text-xs md:text-sm">Images</TabsTrigger>
-          <TabsTrigger value="varieties" className="text-xs md:text-sm">Variétés ({varieties?.length || 0})</TabsTrigger>
-          <TabsTrigger value="states" className="text-xs md:text-sm">États botaniques</TabsTrigger>
-          <TabsTrigger value="samples" className="text-xs md:text-sm">Échantillons ({samples?.length || 0})</TabsTrigger>
-          <TabsTrigger value="analyses" className="text-xs md:text-sm">Analyses ({analyses?.length || 0})</TabsTrigger>
-          <TabsTrigger value="bibliography" className="text-xs md:text-sm">Bibliographie ({plantBibliography?.length || 0})</TabsTrigger>
-          <TabsTrigger value="history" className="text-xs md:text-sm">Histoire</TabsTrigger>
-          <TabsTrigger value="conservation" className="text-xs md:text-sm">Conservation</TabsTrigger>
-          <TabsTrigger value="regulatory" className="text-xs md:text-sm">Réglementation</TabsTrigger>
-          <TabsTrigger value="usage" className="text-xs md:text-sm">Usage Absorbe</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-5 md:grid-cols-10">
+          <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
+          <TabsTrigger value="images">Images</TabsTrigger>
+          <TabsTrigger value="varieties">Variétés ({varieties?.length || 0})</TabsTrigger>
+          <TabsTrigger value="states">États botaniques</TabsTrigger>
+          <TabsTrigger value="samples">Échantillons ({samples?.length || 0})</TabsTrigger>
+          <TabsTrigger value="analyses">Analyses ({analyses?.length || 0})</TabsTrigger>
+          <TabsTrigger value="history">Histoire</TabsTrigger>
+          <TabsTrigger value="conservation">Conservation</TabsTrigger>
+          <TabsTrigger value="regulatory">Réglementation</TabsTrigger>
+          <TabsTrigger value="usage">Usage Absorbe</TabsTrigger>
         </TabsList>
         
         {/* Vue d'ensemble */}
@@ -329,9 +309,7 @@ export default function PlantDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-sm whitespace-pre-wrap">
-                    <SmartText text={plant.notes} />
-                  </div>
+                  <p className="text-sm whitespace-pre-wrap">{plant.notes}</p>
                 </CardContent>
               </Card>
             )}
@@ -914,190 +892,6 @@ export default function PlantDetail() {
           </Card>
         </TabsContent>
         
-        {/* Onglet Bibliographie */}
-        <TabsContent value="bibliography" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <BookOpen className="h-5 w-5" />
-                    Références Bibliographiques
-                  </CardTitle>
-                  <CardDescription>
-                    Publications scientifiques et sources liées à {plant.name}
-                  </CardDescription>
-                </div>
-                {plantBibliography && plantBibliography.length > 0 && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={async () => {
-                      try {
-                        // Générer le BibTeX
-                        const bibtexContent = plantBibliography.map((entry: any) => {
-                          const fields: string[] = [];
-                          if (entry.title) fields.push(`  title = {${entry.title}}`);
-                          if (entry.authors) fields.push(`  author = {${entry.authors}}`);
-                          if (entry.year) fields.push(`  year = {${entry.year}}`);
-                          if (entry.journal) fields.push(`  journal = {${entry.journal}}`);
-                          if (entry.volume) fields.push(`  volume = {${entry.volume}}`);
-                          if (entry.pages) fields.push(`  pages = {${entry.pages}}`);
-                          if (entry.doi) fields.push(`  doi = {${entry.doi}}`);
-                          if (entry.url) fields.push(`  url = {${entry.url}}`);
-                          return `@${entry.entryType}{${entry.entryKey},\n${fields.join(',\n')}\n}`;
-                        }).join('\n\n');
-                        
-                        // Télécharger le fichier
-                        const blob = new Blob([bibtexContent], { type: 'text/plain' });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `${plant.name.toLowerCase().replace(/\s+/g, '-')}-references.bib`;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        URL.revokeObjectURL(url);
-                        
-                        toast({
-                          title: "Export réussi",
-                          description: `${plantBibliography.length} référence(s) exportée(s) au format BibTeX`,
-                        });
-                      } catch (error) {
-                        toast({
-                          title: "Erreur d'export",
-                          description: "Impossible d'exporter les références",
-                          variant: "destructive",
-                        });
-                      }
-                    }}
-                  >
-                    <Download className="h-4 w-4 mr-2" />
-                    Export BibTeX
-                  </Button>
-                )}
-              </div>
-            </CardHeader>
-            <CardContent>
-              {plantBibliography && plantBibliography.length > 0 ? (
-                <ScrollArea className="h-[500px] pr-4">
-                  <div className="space-y-4">
-                    {plantBibliography.map((entry: any) => (
-                      <Card key={entry.id} className="bg-muted/30">
-                        <CardContent className="pt-4">
-                          <div className="flex items-start justify-between gap-4">
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-2">
-                                <Badge variant="outline" className="capitalize text-xs">
-                                  {entry.entryType}
-                                </Badge>
-                                {entry.year && (
-                                  <Badge variant="secondary" className="text-xs">
-                                    {entry.year}
-                                  </Badge>
-                                )}
-                                {entry.researchDomain && (
-                                  <Badge className="text-xs bg-primary/10 text-primary border-primary/30">
-                                    {entry.researchDomain.replace(/_/g, ' ')}
-                                  </Badge>
-                                )}
-                              </div>
-                              <h4 className="font-medium text-sm mb-1 line-clamp-2">
-                                {entry.title}
-                              </h4>
-                              {entry.authors && (
-                                <p className="text-xs text-muted-foreground mb-2">
-                                  {entry.authors}
-                                </p>
-                              )}
-                              {entry.journal && (
-                                <p className="text-xs text-muted-foreground italic">
-                                  {entry.journal}
-                                  {entry.volume && `, Vol. ${entry.volume}`}
-                                  {entry.pages && `, pp. ${entry.pages}`}
-                                </p>
-                              )}
-                              {entry.abstract && (
-                                <p className="text-xs text-muted-foreground mt-2 line-clamp-3">
-                                  {entry.abstract}
-                                </p>
-                              )}
-                            </div>
-                            <div className="flex flex-col gap-1">
-                              {entry.doi && (
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8"
-                                  onClick={() => window.open(`https://doi.org/${entry.doi}`, '_blank')}
-                                  title="Ouvrir DOI"
-                                >
-                                  <ExternalLink className="h-4 w-4" />
-                                </Button>
-                              )}
-                              {entry.url && !entry.doi && (
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8"
-                                  onClick={() => window.open(entry.url, '_blank')}
-                                  title="Ouvrir URL"
-                                >
-                                  <ExternalLink className="h-4 w-4" />
-                                </Button>
-                              )}
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8"
-                                onClick={() => {
-                                  const citation = `${entry.authors || 'Unknown'} (${entry.year || 'n.d.'}). ${entry.title}. ${entry.journal || ''}`;
-                                  navigator.clipboard.writeText(citation);
-                                  toast({
-                                    title: "Citation copiée",
-                                    description: "La citation a été copiée dans le presse-papiers",
-                                  });
-                                }}
-                                title="Copier citation"
-                              >
-                                <Copy className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </ScrollArea>
-              ) : (
-                <div className="text-center py-12">
-                  <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Aucune référence liée</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Les références bibliographiques liées à {plant.name} apparaîtront ici.
-                  </p>
-                  <Link href="/bibliographie">
-                    <Button variant="outline">
-                      <BookOpen className="h-4 w-4 mr-2" />
-                      Explorer la bibliographie
-                    </Button>
-                  </Link>
-                </div>
-              )}
-              
-              {/* Lien vers la page bibliographie */}
-              <div className="pt-4 border-t mt-4">
-                <Link href="/bibliographie">
-                  <Button variant="outline" className="w-full">
-                    <BookOpen className="h-4 w-4 mr-2" />
-                    Consulter toute la bibliographie
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
         {/* Onglet Réglementation */}
         <TabsContent value="regulatory" className="space-y-6">
           <Card>
@@ -1216,14 +1010,6 @@ export default function PlantDetail() {
           </Card>
         </TabsContent>
       </Tabs>
-      
-      {/* Section Explorer aussi */}
-      <ExplorerAussi 
-        context="plant" 
-        entityId={plantId}
-        category={plant.category || undefined}
-        className="mt-8"
-      />
     </div>
   );
 }

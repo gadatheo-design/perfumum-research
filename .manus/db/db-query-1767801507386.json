@@ -1,9 +1,0 @@
-{
-  "query": "CREATE TABLE IF NOT EXISTS `analytical_methods` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `method_id` varchar(30) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `modality` varchar(255),\n  `sample_types` text,\n  `output` text,\n  `strengths` text,\n  `limitations` text,\n  `typical_markers` text,\n  `sop_outline` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `analytical_methods_id` PRIMARY KEY(`id`),\n  CONSTRAINT `analytical_methods_method_id_unique` UNIQUE(`method_id`)\n);",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `analytical_methods` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `method_id` varchar(30) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `modality` varchar(255),\n  `sample_types` text,\n  `output` text,\n  `strengths` text,\n  `limitations` text,\n  `typical_markers` text,\n  `sop_outline` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `analytical_methods_id` PRIMARY KEY(`id`),\n  CONSTRAINT `analytical_methods_method_id_unique` UNIQUE(`method_id`)\n);",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 403
-}

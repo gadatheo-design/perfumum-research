@@ -181,11 +181,6 @@ import ReferencesV3 from "./pages/ReferencesV3";
 import AxesRecherche from "./pages/AxesRecherche";
 import AxeRechercheDetail from "./pages/AxeRechercheDetail";
 import ReseauAxes from "./pages/ReseauAxes";
-import LostMoleculesGraph from "./pages/LostMoleculesGraph";
-import HeritageTimeline from "./pages/HeritageTimeline";
-import MoleculeLinking from "./pages/MoleculeLinking";
-import EvidenceBibliography from "./pages/EvidenceBibliography";
-import RelationsPage from "./pages/RelationsPage";
 import GestionPage from "./pages/GestionPage";
 import LeafEconomies from "./pages/LeafEconomies";
 import LeafEconomyDetail from "./pages/LeafEconomyDetail";
@@ -448,11 +443,6 @@ function Router() {
       <Route path="/axes-recherche" component={AxesRecherche} />
       <Route path="/axes-recherche/:code" component={AxeRechercheDetail} />
       <Route path="/reseau-axes" component={ReseauAxes} />
-      <Route path="/molecules-perdues" component={LostMoleculesGraph} />
-      <Route path="/heritage-timeline" component={HeritageTimeline} />
-      <Route path="/molecule-linking" component={MoleculeLinking} />
-      <Route path="/evidence-bibliography" component={EvidenceBibliography} />
-      <Route path="/graphe-relations" component={RelationsPage} />
       <Route path="/gestion" component={GestionPage} />
       <Route path="/collaborations" component={Collaborations} />
       <Route path="/archives" component={Archives} />

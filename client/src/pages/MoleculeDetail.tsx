@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
-import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, FlaskConical } from "lucide-react";
+import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box } from "lucide-react";
 import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -13,10 +13,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Molecule3DViewer } from "@/components/Molecule3DViewer";
-import { SmartLink } from "@/components/SmartLink";
-import { SmartText } from "@/components/SmartText";
-import { ExplorerAussi } from "@/components/ExplorerAussi";
-import { FamilyBadge, ChemicalClassBadge } from "@/components/ClickableBadge";
 
 // Mapping des classes chimiques pour l'affichage
 const chemicalClassLabels: Record<string, string> = {
@@ -209,12 +205,6 @@ export default function MoleculeDetail() {
       moleculeId: id,
       limit: 5,
     },
-    { enabled: !!molecule }
-  );
-
-  // Récupérer les recettes utilisant cette molécule
-  const { data: moleculeWithRecettes } = trpc.molecule.getById.useQuery(
-    { id },
     { enabled: !!molecule }
   );
 
@@ -618,45 +608,7 @@ export default function MoleculeDetail() {
               {molecule.notes && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-lg font-semibold mb-3">Notes de Recherche</h2>
-                  <div className="whitespace-pre-wrap text-muted-foreground">
-                    <SmartText text={molecule.notes} />
-                  </div>
-                </div>
-              )}
-
-              {/* Recettes utilisant cette molécule */}
-              {moleculeWithRecettes?.recettes && moleculeWithRecettes.recettes.length > 0 && (
-                <div className="bg-card p-6 rounded-lg border shadow-sm">
-                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <FlaskConical className="h-5 w-5 text-primary" />
-                    Recettes utilisant cette molécule
-                  </h2>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Cette molécule est utilisée dans {moleculeWithRecettes.recettes.length} recette{moleculeWithRecettes.recettes.length > 1 ? 's' : ''} du projet PERFUMUM.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {moleculeWithRecettes.recettes.map((recette: any) => (
-                      <Link key={recette.id} href={`/recette/${recette.id}`}>
-                        <div className="p-4 bg-muted/50 rounded-lg border hover:border-primary/50 transition-colors cursor-pointer group">
-                          <div className="flex items-center gap-2">
-                            <FlaskConical className="h-4 w-4 text-primary" />
-                            <span className="font-medium group-hover:text-primary transition-colors">{recette.name}</span>
-                          </div>
-                          {recette.formula && (
-                            <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{recette.formula}</p>
-                          )}
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                  <div className="mt-4 pt-4 border-t">
-                    <Link href="/recettes">
-                      <Button variant="outline" size="sm">
-                        <FlaskConical className="h-4 w-4 mr-2" />
-                        Voir toutes les recettes
-                      </Button>
-                    </Link>
-                  </div>
+                  <p className="whitespace-pre-wrap text-muted-foreground">{molecule.notes}</p>
                 </div>
               )}
 
@@ -1092,14 +1044,6 @@ export default function MoleculeDetail() {
               </div>
             </TabsContent>
           </Tabs>
-          
-          {/* Section Explorer aussi */}
-          <ExplorerAussi 
-            context="molecule" 
-            entityId={id}
-            family={molecule.family || undefined}
-            className="mt-8"
-          />
         </div>
       </div>
     </div>

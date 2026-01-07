@@ -191,15 +191,6 @@ const mobileMenuSections = [
     ],
   },
   {
-    title: "Bibliographie",
-    icon: BookOpen,
-    items: [
-      { href: "/bibliographie", label: "Références scientifiques", badge: "NEW" },
-      { href: "/export-bibliographique", label: "Export BibTeX", badge: "NEW" },
-      { href: "/axes-recherche", label: "Axes de recherche", badge: "NEW" },
-    ],
-  },
-  {
     title: "Projet",
     icon: Info,
     items: [

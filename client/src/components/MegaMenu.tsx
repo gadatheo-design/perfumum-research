@@ -381,13 +381,6 @@ export function MegaMenu() {
           icon: <Image className="h-4 w-4" />,
           description: "Images et illustrations",
         },
-        {
-          label: "Graphe de Relations",
-          path: "/graphe-relations",
-          icon: <GitBranch className="h-4 w-4" />,
-          description: "Connexions plantes-molécules",
-          badge: "NEW",
-        },
       ],
     },
   ];
