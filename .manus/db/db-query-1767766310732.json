@@ -1,0 +1,30 @@
+{
+  "query": "SELECT COUNT(*) as total, entry_type FROM bibliography_entries GROUP BY entry_type ORDER BY total DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, entry_type FROM bibliography_entries GROUP BY entry_type ORDER BY total DESC;",
+  "rows": [
+    {
+      "total": "42",
+      "entry_type": "book"
+    },
+    {
+      "total": "36",
+      "entry_type": "article"
+    },
+    {
+      "total": "13",
+      "entry_type": "online"
+    },
+    {
+      "total": "3",
+      "entry_type": "inbook"
+    },
+    {
+      "total": "1",
+      "entry_type": "techreport"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tentry_type\n42\tbook\n36\tarticle\n13\tonline\n3\tinbook\n1\ttechreport\n",
+  "stderr": "",
+  "execution_time_ms": 440
+}

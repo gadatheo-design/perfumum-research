@@ -1,0 +1,16 @@
+{
+  "query": "SELECT COUNT(*) as total, \n       SUM(CASE WHEN doi IS NOT NULL AND doi != '' THEN 1 ELSE 0 END) as with_doi,\n       SUM(CASE WHEN pmid IS NOT NULL AND pmid != '' THEN 1 ELSE 0 END) as with_pmid,\n       SUM(CASE WHEN url IS NOT NULL AND url != '' THEN 1 ELSE 0 END) as with_url\nFROM bibliography_entries;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, \n       SUM(CASE WHEN doi IS NOT NULL AND doi != '' THEN 1 ELSE 0 END) as with_doi,\n       SUM(CASE WHEN pmid IS NOT NULL AND pmid != '' THEN 1 ELSE 0 END) as with_pmid,\n       SUM(CASE WHEN url IS NOT NULL AND url != '' THEN 1 ELSE 0 END) as with_url\nFROM bibliography_entries;",
+  "rows": [
+    {
+      "total": "125",
+      "with_doi": "64",
+      "with_pmid": "5",
+      "with_url": "28"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\twith_doi\twith_pmid\twith_url\n125\t64\t5\t28\n",
+  "stderr": "",
+  "execution_time_ms": 459
+}

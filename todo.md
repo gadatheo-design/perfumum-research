@@ -3326,3 +3326,77 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Importer les sources d'art olfactif (Tolaas, Verbeek, etc.) — 2 sources importées
 - [x] Vérifier que tous les types de sources sont bien gérés dans l'interface — 12 tests passés
 
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - ENRICHISSEMENT BIBLIOGRAPHIQUE
+
+### Phase 1 : Citations croisées entre références
+- [ ] Créer l'interface pour ajouter des citations croisées entre références
+- [ ] Implémenter les procédures tRPC pour les citations croisées (referenceCitations)
+- [ ] Créer la visualisation du graphe de citations (réseau de références)
+- [ ] Permettre l'ajout de contexte et type de citation (direct, méthodologique, etc.)
+
+### Phase 2 : Complétion des métadonnées
+- [ ] Ajouter les champs ISBN, DOI, PMID aux références existantes
+- [ ] Créer un formulaire d'édition enrichi pour les métadonnées
+- [ ] Implémenter la recherche automatique de métadonnées via DOI/ISBN
+- [ ] Valider et normaliser les URLs des sources
+
+### Phase 3 : Axes de recherche et liaison bibliographique
+- [ ] Créer l'interface de gestion des axes de recherche
+- [ ] Implémenter la liaison références <-> axes de recherche
+- [ ] Créer la vue par axe avec les références associées
+- [ ] Permettre le filtrage des références par axe
+
+### Phase 4 : Import des sources manquantes
+- [ ] Identifier toutes les sources utilisées dans les fichiers MD du projet
+- [ ] Importer les références de interactions-tabac-cannabis-parfum.md (5 sources)
+- [ ] Importer les références de synergies-terpeniques-data.md
+- [ ] Importer les références de plantes-aromatiques-recherche.md (10+ sources)
+- [ ] Importer les références de recherche-elargie-sources.md
+- [ ] Vérifier et dédupliquer les entrées bibliographiques
+
+### Phase 5 : Tests et validation
+- [ ] Écrire les tests unitaires pour les nouvelles procédures
+- [ ] Tester l'interface de citations croisées
+- [ ] Valider l'import des nouvelles sources
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - ENRICHISSEMENT BIBLIOGRAPHIQUE
+
+### Phase 1 : Import des sources bibliographiques
+- [x] Identifier les sources dans les fichiers MD du projet (30 sources identifiées)
+- [x] Créer le script d'extraction des sources (import-sources.py)
+- [x] Importer les 30 sources dans la base de données bibliography_entries
+- [x] Vérifier l'intégrité des données importées
+
+### Phase 2 : Citations croisées
+- [x] Vérifier les procédures tRPC existantes pour les citations (referenceCitations)
+- [x] Vérifier le composant CitationGraph existant
+- [x] Interface de citations croisées déjà implémentée (onglet Graphe de citations)
+- [ ] Créer des suggestions automatiques de citations (fonctionnalité future)
+
+### Phase 3 : Métadonnées complètes
+- [x] Ajouter les DOI aux sources importées
+- [x] Ajouter les PMID aux sources importées
+- [x] Ajouter les URLs aux sources en ligne
+- [ ] Créer un système de validation des métadonnées
+
+### Phase 4 : Axes de recherche
+- [x] Vérifier le schéma research_axes existant
+- [x] Vérifier les procédures de liaison références ↔ axes
+- [x] Interface de liaison références ↔ axes existante (procédures linkToAxis, getBibliography)
+- [x] 10 axes de recherche déjà présents dans la base de données
+
+### Phase 5 : Livraison
+- [x] Mettre à jour le todo.md avec les tâches complétées
+- [x] Écrire les tests unitaires (13 tests passés)
+- [ ] Créer le checkpoint final
+- [ ] Présenter les résultats au client
+

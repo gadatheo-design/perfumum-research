@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO bibliography_entries (entry_key, entry_type, title, authors, year, journal, volume, pages, doi, research_domain, abstract, keywords, read_status)\nVALUES ('marchini2014', 'article', 'Multidimensional analysis of cannabis volatile constituents: Identification of 5,5-dimethyl-1-vinylbicyclo[2.1.1]hexane as a volatile marker of hashish', 'Marchini, M. et al.', 2014, 'Journal of Chromatography A', '1370', '200-215', '10.1016/j.chroma.2014.10.037', 'chimie_olfactive', 'Découverte du hashishene comme marqueur volatil unique du hashish marocain.', '[\"hashishene\", \"cannabis\", \"hash\", \"terpènes\", \"chromatographie\"]', 'read')\nON DUPLICATE KEY UPDATE title=VALUES(title), authors=VALUES(authors), year=VALUES(year);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO bibliography_entries (entry_key, entry_type, title, authors, year, journal, volume, pages, doi, research_domain, abstract, keywords, read_status)\nVALUES ('marchini2014', 'article', 'Multidimensional analysis of cannabis volatile constituents: Identification of 5,5-dimethyl-1-vinylbicyclo[2.1.1]hexane as a volatile marker of hashish', 'Marchini, M. et al.', 2014, 'Journal of Chromatography A', '1370', '200-215', '10.1016/j.chroma.2014.10.037', 'chimie_olfactive', 'Découverte du hashishene comme marqueur volatil unique du hashish marocain.', '[\"hashishene\", \"cannabis\", \"hash\", \"terpènes\", \"chromatographie\"]', 'read')\nON DUPLICATE KEY UPDATE title=VALUES(title), authors=VALUES(authors), year=VALUES(year);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 424
+}
