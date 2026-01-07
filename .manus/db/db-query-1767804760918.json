@@ -1,0 +1,17 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM heritage_chemotypes_timeline) as timeline_count,\n  (SELECT COUNT(*) FROM molecule_evidence) as evidence_count,\n  (SELECT COUNT(*) FROM bibliography_entries) as bibliography_count,\n  (SELECT COUNT(*) FROM evidence_bibliography_links) as links_count,\n  (SELECT COUNT(*) FROM lost_molecules) as lost_molecules_count;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM heritage_chemotypes_timeline) as timeline_count,\n  (SELECT COUNT(*) FROM molecule_evidence) as evidence_count,\n  (SELECT COUNT(*) FROM bibliography_entries) as bibliography_count,\n  (SELECT COUNT(*) FROM evidence_bibliography_links) as links_count,\n  (SELECT COUNT(*) FROM lost_molecules) as lost_molecules_count;",
+  "rows": [
+    {
+      "timeline_count": "1",
+      "evidence_count": "64",
+      "bibliography_count": "315",
+      "links_count": "2",
+      "lost_molecules_count": "37"
+    }
+  ],
+  "messages": [],
+  "stdout": "timeline_count\tevidence_count\tbibliography_count\tlinks_count\tlost_molecules_count\n1\t64\t315\t2\t37\n",
+  "stderr": "",
+  "execution_time_ms": 165
+}

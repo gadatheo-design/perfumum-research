@@ -129,3 +129,52 @@ describe('Bibliography Matching Functions', () => {
     });
   });
 });
+
+
+// Additional tests for populated data verification
+describe('Heritage Timeline Data Population Verification', () => {
+  it('should have at least 15 timeline entries after population', async () => {
+    const entries = await db.getAllHeritageTimelineEntries();
+    expect(entries.length).toBeGreaterThanOrEqual(15);
+  });
+
+  it('should have entries covering ancient period (before 500 CE)', async () => {
+    const entries = await db.getAllHeritageTimelineEntries();
+    const ancientEntries = entries.filter((e: any) => e.startYear < 500);
+    expect(ancientEntries.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it('should have entries covering medieval period (500-1500 CE)', async () => {
+    const entries = await db.getAllHeritageTimelineEntries();
+    const medievalEntries = entries.filter((e: any) => e.startYear >= 500 && e.startYear < 1500);
+    expect(medievalEntries.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('should have entries covering modern period (1500+ CE)', async () => {
+    const entries = await db.getAllHeritageTimelineEntries();
+    const modernEntries = entries.filter((e: any) => e.startYear >= 1500);
+    expect(modernEntries.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it('should have entries with geographic coordinates for map display', async () => {
+    const entries = await db.getAllHeritageTimelineEntries();
+    const entriesWithCoords = entries.filter((e: any) => 
+      e.latitude !== null && e.longitude !== null
+    );
+    // At least 80% should have coordinates
+    expect(entriesWithCoords.length / entries.length).toBeGreaterThanOrEqual(0.8);
+  });
+});
+
+describe('Auto-linking Bibliography Verification', () => {
+  it('should have at least 50 evidence-bibliography links after auto-linking', async () => {
+    const links = await db.getAllEvidenceBibliographyLinks();
+    expect(links.length).toBeGreaterThanOrEqual(50);
+  });
+
+  it('should have multiple link types (primary, secondary, methodology)', async () => {
+    const links = await db.getAllEvidenceBibliographyLinks();
+    const linkTypes = new Set(links.map((l: any) => l.linkType));
+    expect(linkTypes.size).toBeGreaterThanOrEqual(2);
+  });
+});

@@ -21,8 +21,10 @@ import {
   CheckCircle,
   HelpCircle,
   Atom,
+  Map,
 } from "lucide-react";
 import { Link } from "wouter";
+import { HeritageTimelineMap } from "@/components/HeritageTimelineMap";
 
 // Couleurs par classe de chémotype
 const chemotypeColors: Record<string, string> = {
@@ -50,7 +52,7 @@ function ConfidenceIcon({ level }: { level: string }) {
   }
 }
 
-// Composant de carte pour une période
+// Composant de carte pour une période (timeline evidence-based)
 function TimelinePeriodCard({
   entry,
   isSelected,
@@ -130,14 +132,104 @@ function TimelinePeriodCard({
   );
 }
 
+// Composant de carte pour une période historique (heritage timeline)
+function HeritageTimelineCard({
+  entry,
+  isSelected,
+  onClick,
+}: {
+  entry: {
+    id: number;
+    periodCode: string;
+    periodName: string;
+    startYear: number | null;
+    endYear: number | null;
+    regionCode: string | null;
+    regionName: string | null;
+    chemotypeClass: string | null;
+    description: string | null;
+    historicalContext: string | null;
+    evidenceCount: number | null;
+    color: string | null;
+    displayOrder: number | null;
+  };
+  isSelected: boolean;
+  onClick: () => void;
+}) {
+  const color = entry.color || (entry.chemotypeClass ? chemotypeColors[entry.chemotypeClass] || chemotypeColors.other : chemotypeColors.other);
+
+  const formatYearRange = () => {
+    if (!entry.startYear && !entry.endYear) return "Période inconnue";
+    
+    const formatYear = (year: number) => {
+      if (year < 0) return `${Math.abs(year)} av. J.-C.`;
+      return `${year}`;
+    };
+    
+    if (entry.startYear && entry.endYear) {
+      return `${formatYear(entry.startYear)} — ${formatYear(entry.endYear)}`;
+    }
+    if (entry.startYear) return `Depuis ${formatYear(entry.startYear)}`;
+    if (entry.endYear) return `Jusqu'à ${formatYear(entry.endYear)}`;
+    return "";
+  };
+
+  return (
+    <Card
+      className={`min-w-[300px] max-w-[350px] cursor-pointer transition-all hover:shadow-lg ${
+        isSelected ? "ring-2 ring-primary" : ""
+      }`}
+      onClick={onClick}
+    >
+      <CardHeader className="pb-2">
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle className="text-sm font-medium">{entry.periodName}</CardTitle>
+            <CardDescription className="flex items-center gap-1 mt-1">
+              <Calendar className="h-3 w-3" />
+              {formatYearRange()}
+            </CardDescription>
+          </div>
+          {entry.chemotypeClass && (
+            <Badge
+              style={{ backgroundColor: color, color: "white" }}
+              className="capitalize text-xs"
+            >
+              {entry.chemotypeClass}
+            </Badge>
+          )}
+        </div>
+        {entry.regionName && (
+          <CardDescription className="flex items-center gap-1 mt-1">
+            <MapPin className="h-3 w-3" />
+            {entry.regionName}
+          </CardDescription>
+        )}
+      </CardHeader>
+      <CardContent className="space-y-2">
+        {entry.description && (
+          <p className="text-xs text-muted-foreground line-clamp-3">
+            {entry.description}
+          </p>
+        )}
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Beaker className="h-3 w-3" />
+          <span>{entry.evidenceCount || 0} évidences documentées</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 // Composant principal
 export default function HeritageTimeline() {
   const [selectedRegion, setSelectedRegion] = useState<string>("all");
   const [selectedClass, setSelectedClass] = useState<string>("all");
   const [selectedEntry, setSelectedEntry] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState("timeline");
+  const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("map");
 
-  // Requêtes tRPC
+  // Requêtes tRPC - Timeline basée sur les évidences
   const { data: timelineData, isLoading: isLoadingTimeline } = trpc.lostMolecules.timeline.getData.useQuery(
     selectedRegion !== "all" || selectedClass !== "all"
       ? {
@@ -146,6 +238,9 @@ export default function HeritageTimeline() {
         }
       : undefined
   );
+
+  // Requêtes tRPC - Timeline historique enrichie
+  const { data: heritageTimelineData, isLoading: isLoadingHeritage } = trpc.lostMolecules.heritageTimeline.list.useQuery();
 
   const { data: timeContexts } = trpc.lostMolecules.timeline.getTimeContexts.useQuery();
   const { data: regionContexts } = trpc.lostMolecules.timeline.getRegionContexts.useQuery();
@@ -161,11 +256,49 @@ export default function HeritageTimeline() {
     return Array.from(classes);
   }, [timelineData]);
 
-  // Entrée sélectionnée
+  // Entrée sélectionnée (evidence-based)
   const selectedEntryData = useMemo(() => {
     if (selectedEntry === null || !timelineData) return null;
     return timelineData[selectedEntry];
   }, [selectedEntry, timelineData]);
+
+  // Entrée sélectionnée (heritage timeline)
+  const selectedHeritageEntry = useMemo(() => {
+    if (!selectedPeriod || !heritageTimelineData) return null;
+    return heritageTimelineData.find(e => e.periodCode === selectedPeriod);
+  }, [selectedPeriod, heritageTimelineData]);
+
+  // Grouper les entrées heritage par ère
+  const heritageByEra = useMemo(() => {
+    if (!heritageTimelineData) return {};
+    
+    const eras: Record<string, typeof heritageTimelineData> = {
+      "Antiquité": [],
+      "Moyen Âge": [],
+      "Époque moderne": [],
+      "Époque contemporaine": [],
+      "Régions spécifiques": [],
+    };
+    
+    heritageTimelineData.forEach(entry => {
+      const startYear = entry.startYear || 0;
+      
+      // Régions spécifiques (cannabis, tabac, encens, santal, vétiver)
+      if (['CENTRAL_ASIA', 'AMERICAS', 'SOUTH_ARABIA', 'INDIA_PACIFIC', 'HAITI_REUNION'].includes(entry.regionCode || '')) {
+        eras["Régions spécifiques"].push(entry);
+      } else if (startYear < 500) {
+        eras["Antiquité"].push(entry);
+      } else if (startYear < 1500) {
+        eras["Moyen Âge"].push(entry);
+      } else if (startYear < 1900) {
+        eras["Époque moderne"].push(entry);
+      } else {
+        eras["Époque contemporaine"].push(entry);
+      }
+    });
+    
+    return eras;
+  }, [heritageTimelineData]);
 
   return (
     <div className="container py-6 space-y-6">
@@ -197,97 +330,269 @@ export default function HeritageTimeline() {
       </div>
 
       {/* Statistiques */}
-      {bibStats && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Périodes historiques</CardDescription>
-              <CardTitle className="text-2xl">{timeContexts?.length || 0}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Régions géographiques</CardDescription>
-              <CardTitle className="text-2xl">{regionContexts?.length || 0}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Références bibliographiques</CardDescription>
-              <CardTitle className="text-2xl">{bibStats.totalReferences}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Liées aux évidences</CardDescription>
-              <CardTitle className="text-2xl">{bibStats.linkedToEvidence}</CardTitle>
-            </CardHeader>
-          </Card>
-        </div>
-      )}
-
-      {/* Filtres */}
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filtres
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-4">
-            <div className="w-full md:w-auto">
-              <label className="text-sm font-medium mb-1 block">Région géographique</label>
-              <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Toutes les régions" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Toutes les régions</SelectItem>
-                  {regionContexts?.map((region) => (
-                    <SelectItem key={region} value={region}>
-                      {region}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="w-full md:w-auto">
-              <label className="text-sm font-medium mb-1 block">Classe de chémotype</label>
-              <Select value={selectedClass} onValueChange={setSelectedClass}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Toutes les classes" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Toutes les classes</SelectItem>
-                  {uniqueClasses.map((cls) => (
-                    <SelectItem key={cls} value={cls}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: chemotypeColors[cls] || chemotypeColors.other }}
-                        />
-                        <span className="capitalize">{cls}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Périodes historiques</CardDescription>
+            <CardTitle className="text-2xl">{heritageTimelineData?.length || 0}</CardTitle>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Contextes temporels</CardDescription>
+            <CardTitle className="text-2xl">{timeContexts?.length || 0}</CardTitle>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Régions géographiques</CardDescription>
+            <CardTitle className="text-2xl">{regionContexts?.length || 0}</CardTitle>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Références bibliographiques</CardDescription>
+            <CardTitle className="text-2xl">{bibStats?.totalReferences || 0}</CardTitle>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Liées aux évidences</CardDescription>
+            <CardTitle className="text-2xl">{bibStats?.linkedToEvidence || 0}</CardTitle>
+          </CardHeader>
+        </Card>
+      </div>
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
-          <TabsTrigger value="timeline">Timeline horizontale</TabsTrigger>
-          <TabsTrigger value="list">Liste détaillée</TabsTrigger>
+          <TabsTrigger value="map" className="flex items-center gap-2">
+            <Map className="h-4 w-4" />
+            Carte géographique
+          </TabsTrigger>
+          <TabsTrigger value="heritage">Timeline historique</TabsTrigger>
+          <TabsTrigger value="timeline">Évidences scientifiques</TabsTrigger>
           <TabsTrigger value="regions">Par région</TabsTrigger>
         </TabsList>
 
-        {/* Timeline horizontale */}
+        {/* Carte géographique */}
+        <TabsContent value="map" className="mt-4">
+          {isLoadingHeritage ? (
+            <Skeleton className="h-[500px] w-full" />
+          ) : heritageTimelineData && heritageTimelineData.length > 0 ? (
+            <div className="space-y-4">
+              <HeritageTimelineMap
+                timelineData={heritageTimelineData}
+                isLoading={isLoadingHeritage}
+                selectedPeriod={selectedPeriod}
+                onPeriodSelect={setSelectedPeriod}
+              />
+              
+              {/* Détails de la période sélectionnée */}
+              {selectedHeritageEntry && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Calendar className="h-5 w-5" />
+                      {selectedHeritageEntry.periodName}
+                      {selectedHeritageEntry.regionName && (
+                        <Badge variant="outline" className="ml-2">
+                          <MapPin className="h-3 w-3 mr-1" />
+                          {selectedHeritageEntry.regionName}
+                        </Badge>
+                      )}
+                    </CardTitle>
+                    <CardDescription>
+                      {selectedHeritageEntry.startYear && selectedHeritageEntry.endYear && (
+                        <>
+                          {selectedHeritageEntry.startYear < 0 
+                            ? `${Math.abs(selectedHeritageEntry.startYear)} av. J.-C.`
+                            : selectedHeritageEntry.startYear
+                          }
+                          {" — "}
+                          {selectedHeritageEntry.endYear < 0 
+                            ? `${Math.abs(selectedHeritageEntry.endYear)} av. J.-C.`
+                            : selectedHeritageEntry.endYear
+                          }
+                        </>
+                      )}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {selectedHeritageEntry.chemotypeClass && (
+                      <Badge
+                        style={{
+                          backgroundColor: selectedHeritageEntry.color || chemotypeColors[selectedHeritageEntry.chemotypeClass] || chemotypeColors.other,
+                          color: "white",
+                        }}
+                        className="capitalize"
+                      >
+                        {selectedHeritageEntry.chemotypeClass}
+                      </Badge>
+                    )}
+                    
+                    {selectedHeritageEntry.description && (
+                      <div>
+                        <h4 className="font-medium mb-2">Description</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {selectedHeritageEntry.description}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {selectedHeritageEntry.historicalContext && (
+                      <div>
+                        <h4 className="font-medium mb-2">Contexte historique</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {selectedHeritageEntry.historicalContext}
+                        </p>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Beaker className="h-4 w-4" />
+                        {selectedHeritageEntry.evidenceCount || 0} évidences
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          ) : (
+            <Card className="p-8 text-center">
+              <Map className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">
+                Aucune donnée géographique disponible.
+              </p>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* Timeline historique enrichie */}
+        <TabsContent value="heritage" className="mt-4">
+          {isLoadingHeritage ? (
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-32 w-full" />
+              ))}
+            </div>
+          ) : heritageTimelineData && heritageTimelineData.length > 0 ? (
+            <div className="space-y-8">
+              {Object.entries(heritageByEra).map(([era, entries]) => {
+                if (entries.length === 0) return null;
+                return (
+                  <div key={era}>
+                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                      <Clock className="h-5 w-5 text-primary" />
+                      {era}
+                      <Badge variant="secondary">{entries.length}</Badge>
+                    </h3>
+                    <ScrollArea className="w-full whitespace-nowrap">
+                      <div className="flex gap-4 pb-4">
+                        {entries
+                          .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
+                          .map((entry) => (
+                            <HeritageTimelineCard
+                              key={entry.id}
+                              entry={entry}
+                              isSelected={selectedPeriod === entry.periodCode}
+                              onClick={() => setSelectedPeriod(selectedPeriod === entry.periodCode ? null : entry.periodCode)}
+                            />
+                          ))}
+                      </div>
+                      <ScrollBar orientation="horizontal" />
+                    </ScrollArea>
+                  </div>
+                );
+              })}
+              
+              {/* Détails de la période sélectionnée */}
+              {selectedHeritageEntry && (
+                <Card className="mt-4">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Calendar className="h-5 w-5" />
+                      {selectedHeritageEntry.periodName}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {selectedHeritageEntry.historicalContext && (
+                      <div>
+                        <h4 className="font-medium mb-2">Contexte historique</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {selectedHeritageEntry.historicalContext}
+                        </p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          ) : (
+            <Card className="p-8 text-center">
+              <Clock className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+              <p className="text-muted-foreground">
+                Aucune donnée de timeline historique disponible.
+              </p>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* Évidences scientifiques (timeline originale) */}
         <TabsContent value="timeline" className="mt-4">
+          {/* Filtres */}
+          <Card className="mb-4">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Filter className="h-5 w-5" />
+                Filtres
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-4">
+                <div className="w-full md:w-auto">
+                  <label className="text-sm font-medium mb-1 block">Région géographique</label>
+                  <Select value={selectedRegion} onValueChange={setSelectedRegion}>
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Toutes les régions" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Toutes les régions</SelectItem>
+                      {regionContexts?.map((region) => (
+                        <SelectItem key={region} value={region}>
+                          {region}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="w-full md:w-auto">
+                  <label className="text-sm font-medium mb-1 block">Classe de chémotype</label>
+                  <Select value={selectedClass} onValueChange={setSelectedClass}>
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Toutes les classes" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Toutes les classes</SelectItem>
+                      {uniqueClasses.map((cls) => (
+                        <SelectItem key={cls} value={cls}>
+                          <div className="flex items-center gap-2">
+                            <div
+                              className="w-3 h-3 rounded-full"
+                              style={{ backgroundColor: chemotypeColors[cls] || chemotypeColors.other }}
+                            />
+                            <span className="capitalize">{cls}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {isLoadingTimeline ? (
             <div className="flex gap-4 overflow-hidden">
               {[1, 2, 3, 4].map((i) => (
@@ -370,68 +675,6 @@ export default function HeritageTimeline() {
               <p className="text-muted-foreground">
                 Aucune donnée de timeline disponible pour les filtres sélectionnés.
               </p>
-            </Card>
-          )}
-        </TabsContent>
-
-        {/* Liste détaillée */}
-        <TabsContent value="list" className="mt-4">
-          {isLoadingTimeline ? (
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <Skeleton key={i} className="h-24 w-full" />
-              ))}
-            </div>
-          ) : timelineData && timelineData.length > 0 ? (
-            <div className="space-y-4">
-              {timelineData.map((entry, index) => (
-                <Card key={`${entry.timeContext}-${entry.regionContext}-${index}`}>
-                  <CardContent className="p-4">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4 text-muted-foreground" />
-                          <span className="font-medium">{entry.timeContext}</span>
-                          {entry.regionContext && (
-                            <Badge variant="outline">
-                              <MapPin className="h-3 w-3 mr-1" />
-                              {entry.regionContext}
-                            </Badge>
-                          )}
-                          {entry.moleculeClass && (
-                            <Badge
-                              style={{
-                                backgroundColor: chemotypeColors[entry.moleculeClass] || chemotypeColors.other,
-                                color: "white",
-                              }}
-                              className="capitalize"
-                            >
-                              {entry.moleculeClass}
-                            </Badge>
-                          )}
-                          <ConfidenceIcon level={entry.confidence} />
-                        </div>
-                        <div className="flex flex-wrap gap-1">
-                          {entry.molecules.map((mol) => (
-                            <Badge key={mol.id} variant="secondary" className="text-xs">
-                              {mol.name}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <span>{entry.evidenceCount} évidence{entry.evidenceCount > 1 ? "s" : ""}</span>
-                        <span>{entry.methods.length} méthode{entry.methods.length > 1 ? "s" : ""}</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <Card className="p-8 text-center">
-              <Clock className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Aucune donnée disponible.</p>
             </Card>
           )}
         </TabsContent>

@@ -4050,3 +4050,41 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - `/molecule-linking` - Liaison des molécules perdues aux molécules existantes
 - `/evidence-bibliography` - Liaison évidences-bibliographie
 
+
+
+---
+
+## 🗺️ SESSION 07 JAN 2026 - TIMELINE HISTORIQUE & CARTE GÉOGRAPHIQUE
+
+### Phase 1 : Peupler la timeline historique avec des données réelles
+- [x] Analyser la structure actuelle de la timeline
+- [x] Rechercher et compiler les données historiques (périodes antiques, médiévales, modernes)
+- [x] Créer les entrées pour la période antique (Égypte, Mésopotamie, Grèce, Rome)
+- [x] Créer les entrées pour la période médiévale (monde arabe, Europe médiévale)
+- [x] Créer les entrées pour la période moderne (Renaissance, XVIIe-XIXe siècles)
+- [x] Créer les entrées pour la période contemporaine (XXe-XXIe siècles)
+- [x] Importer les données dans la base de données (20 entrées)
+
+### Phase 2 : Auto-liaison en masse des références bibliographiques
+- [x] Analyser la structure des évidences et références existantes
+- [x] Créer l'algorithme de liaison automatique (matching par titre, auteur, année)
+- [x] Exécuter l'auto-liaison en masse sur toutes les évidences (131 liens créés)
+- [x] Valider les liaisons créées
+- [x] Créer un rapport des liaisons établies (auto-link-report.json)
+
+### Phase 3 : Carte géographique pour la timeline
+- [x] Intégrer Google Maps dans la page timeline
+- [x] Créer les marqueurs pour les régions d'origine des chémotypes
+- [x] Synchroniser la carte avec la timeline (période sélectionnée)
+- [x] Ajouter les interactions carte-timeline
+- [x] Tester la responsivité de la carte sur mobile
+
+### Phase 4 : Tests et livraison
+- [ ] Tester toutes les nouvelles fonctionnalités
+- [ ] Valider l'intégrité des données
+- [ ] Créer le checkpoint final
+
+
+### Phase 5 : Import des nouvelles sources bibliographiques (pack v2)
+- [ ] Importer les 50 nouvelles sources du pack PERFUMUM_Bibliography_NicheInnovations_AllSources_v2
+- [ ] Valider l'intégrité des données importées
