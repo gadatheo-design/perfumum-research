@@ -61,6 +61,9 @@ import {
   Atom,
   Leaf,
   FlaskConical,
+  Beaker,
+  Cpu,
+  Home as HomeIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -161,6 +164,58 @@ const entryTypeIcons: Record<EntryType, React.ReactNode> = {
   standard: <FileCode className="h-4 w-4" />,
   dataset: <BarChart3 className="h-4 w-4" />,
   software: <FileCode className="h-4 w-4" />,
+};
+
+// Configuration des axes de recherche
+const axisConfig: Record<string, { 
+  name: string; 
+  shortName: string;
+  color: string; 
+  bgColor: string;
+  icon: React.ReactNode;
+}> = {
+  'AX1': {
+    name: 'Génomique olfactive & conservation ex-situ',
+    shortName: 'Génomique',
+    color: '#4CAF50',
+    bgColor: 'bg-green-500',
+    icon: <Atom className="h-4 w-4" />,
+  },
+  'AX2': {
+    name: 'Ethnobotanique computationnelle',
+    shortName: 'Ethnobotanique',
+    color: '#2196F3',
+    bgColor: 'bg-blue-500',
+    icon: <Leaf className="h-4 w-4" />,
+  },
+  'AX3': {
+    name: 'Chimie analytique comparative trans-époques',
+    shortName: 'Chimie analytique',
+    color: '#FF9800',
+    bgColor: 'bg-orange-500',
+    icon: <FlaskConical className="h-4 w-4" />,
+  },
+  'AX4': {
+    name: 'Biotechnologies de conservation & fermentation',
+    shortName: 'Biotechnologies',
+    color: '#9C27B0',
+    bgColor: 'bg-purple-500',
+    icon: <Beaker className="h-4 w-4" />,
+  },
+  'AX5': {
+    name: 'Technologies immersives & démocratisation',
+    shortName: 'Technologies VR',
+    color: '#00BCD4',
+    bgColor: 'bg-cyan-500',
+    icon: <Cpu className="h-4 w-4" />,
+  },
+  'AX6': {
+    name: 'Chimie de l\'espace (indoor) & pratiques domestiques',
+    shortName: 'Chimie indoor',
+    color: '#795548',
+    bgColor: 'bg-amber-700',
+    icon: <HomeIcon className="h-4 w-4" />,
+  },
 };
 
 // Composant Timeline des publications
@@ -426,7 +481,18 @@ export default function BibliographiePage() {
   const [selectedType, setSelectedType] = useState<string>("all");
   const [selectedDomain, setSelectedDomain] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
+  const [selectedAxis, setSelectedAxis] = useState<string>("all");
   const [activeTab, setActiveTab] = useState("overview");
+  
+  // Récupérer les axes de recherche
+  const { data: axes = [] } = trpc.researchAxes.list.useQuery({});
+  
+  // Trouver l'ID de l'axe sélectionné
+  const selectedAxisId = useMemo(() => {
+    if (selectedAxis === "all") return undefined;
+    const axis = axes.find((a: any) => a.axisCode === selectedAxis);
+    return axis?.id;
+  }, [selectedAxis, axes]);
   
   // Requêtes tRPC
   const { data: entriesData, isLoading } = trpc.bibliography.list.useQuery({
@@ -434,6 +500,7 @@ export default function BibliographiePage() {
     entryType: selectedType !== "all" ? selectedType : undefined,
     researchDomain: selectedDomain !== "all" ? selectedDomain : undefined,
     readStatus: selectedStatus !== "all" ? selectedStatus : undefined,
+    axisId: selectedAxisId,
   });
   
   const { data: stats } = trpc.bibliography.getStats.useQuery();
@@ -546,6 +613,12 @@ export default function BibliographiePage() {
               </TabsList>
               
               <div className="flex items-center gap-2">
+                <Link href="/reseau-axes">
+                  <Button variant="outline" size="sm">
+                    <Network className="h-4 w-4 mr-2" />
+                    Réseau d'axes
+                  </Button>
+                </Link>
                 <Button variant="outline" size="sm" onClick={handleExportBibTeX}>
                   <Download className="h-4 w-4 mr-2" />
                   Export BibTeX
@@ -644,8 +717,27 @@ export default function BibliographiePage() {
                         className="pl-10"
                       />
                     </div>
+                    <Select value={selectedAxis} onValueChange={setSelectedAxis}>
+                      <SelectTrigger className="w-full md:w-[180px]">
+                        <SelectValue placeholder="Axe de recherche" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Tous les axes</SelectItem>
+                        {Object.entries(axisConfig).map(([code, config]) => (
+                          <SelectItem key={code} value={code}>
+                            <div className="flex items-center gap-2">
+                              <div 
+                                className="w-2 h-2 rounded-full"
+                                style={{ backgroundColor: config.color }}
+                              />
+                              {code} - {config.shortName}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <Select value={selectedType} onValueChange={setSelectedType}>
-                      <SelectTrigger className="w-full md:w-[160px]">
+                      <SelectTrigger className="w-full md:w-[140px]">
                         <SelectValue placeholder="Type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -656,7 +748,7 @@ export default function BibliographiePage() {
                       </SelectContent>
                     </Select>
                     <Select value={selectedDomain} onValueChange={setSelectedDomain}>
-                      <SelectTrigger className="w-full md:w-[160px]">
+                      <SelectTrigger className="w-full md:w-[140px]">
                         <SelectValue placeholder="Domaine" />
                       </SelectTrigger>
                       <SelectContent>
@@ -667,7 +759,7 @@ export default function BibliographiePage() {
                       </SelectContent>
                     </Select>
                     <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                      <SelectTrigger className="w-full md:w-[140px]">
+                      <SelectTrigger className="w-full md:w-[120px]">
                         <SelectValue placeholder="Statut" />
                       </SelectTrigger>
                       <SelectContent>
@@ -678,6 +770,30 @@ export default function BibliographiePage() {
                       </SelectContent>
                     </Select>
                   </div>
+                  
+                  {/* Indicateur d'axe sélectionné */}
+                  {selectedAxis !== "all" && axisConfig[selectedAxis] && (
+                    <div className="mt-4 p-3 rounded-lg bg-muted/50 flex items-center gap-3">
+                      <div 
+                        className={`p-2 rounded-lg text-white ${axisConfig[selectedAxis].bgColor}`}
+                      >
+                        {axisConfig[selectedAxis].icon}
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-sm">{selectedAxis}: {axisConfig[selectedAxis].name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {entries.length} référence{entries.length > 1 ? 's' : ''} dans cet axe
+                        </p>
+                      </div>
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => setSelectedAxis("all")}
+                      >
+                        Effacer
+                      </Button>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
               
@@ -710,7 +826,7 @@ export default function BibliographiePage() {
                   <CardContent className="py-12 text-center">
                     <Search className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
                     <p className="text-muted-foreground">Aucune référence trouvée</p>
-                    {(searchQuery || selectedType !== "all" || selectedDomain !== "all") && (
+                    {(searchQuery || selectedType !== "all" || selectedDomain !== "all" || selectedAxis !== "all") && (
                       <Button 
                         variant="link" 
                         onClick={() => {
@@ -718,6 +834,7 @@ export default function BibliographiePage() {
                           setSelectedType("all");
                           setSelectedDomain("all");
                           setSelectedStatus("all");
+                          setSelectedAxis("all");
                         }}
                       >
                         Réinitialiser les filtres

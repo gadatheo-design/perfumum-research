@@ -179,6 +179,7 @@ import BibliographiePage from "./pages/BibliographiePage";
 import BibliographieGlobale from "./pages/BibliographieGlobale";
 import AxesRecherche from "./pages/AxesRecherche";
 import AxeRechercheDetail from "./pages/AxeRechercheDetail";
+import ReseauAxes from "./pages/ReseauAxes";
 import GestionPage from "./pages/GestionPage";
 import LeafEconomies from "./pages/LeafEconomies";
 import LeafEconomyDetail from "./pages/LeafEconomyDetail";
@@ -439,6 +440,7 @@ function Router() {
       <Route path="/bibliographie-globale" component={BibliographieGlobale} />
       <Route path="/axes-recherche" component={AxesRecherche} />
       <Route path="/axes-recherche/:code" component={AxeRechercheDetail} />
+      <Route path="/reseau-axes" component={ReseauAxes} />
       <Route path="/gestion" component={GestionPage} />
       <Route path="/collaborations" component={Collaborations} />
       <Route path="/archives" component={Archives} />

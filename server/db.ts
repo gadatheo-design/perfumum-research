@@ -7390,6 +7390,7 @@ export async function getAllBibliographyEntries(filters?: {
   year?: number;
   readStatus?: string;
   search?: string;
+  axisId?: number;
   limit?: number;
   offset?: number;
 }) {
@@ -7418,6 +7419,22 @@ export async function getAllBibliographyEntries(filters?: {
         like(bibliographyEntries.entryKey, `%${filters.search}%`)
       )
     );
+  }
+  
+  // Filtre par axe de recherche
+  if (filters?.axisId) {
+    const axisLinks = await db
+      .select({ bibliographyId: bibliographyAxisLinks.bibliographyId })
+      .from(bibliographyAxisLinks)
+      .where(eq(bibliographyAxisLinks.axisId, filters.axisId));
+    
+    const bibIds = axisLinks.map(l => l.bibliographyId);
+    if (bibIds.length > 0) {
+      conditions.push(inArray(bibliographyEntries.id, bibIds));
+    } else {
+      // Aucune référence liée à cet axe
+      return { entries: [], total: 0 };
+    }
   }
   
   // Count total

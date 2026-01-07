@@ -3599,3 +3599,76 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - **Axes de recherche**: 11 (AX1-AX4, AXC, AXJ, AXM, AXN, etc.)
 - **Tests unitaires**: 491 passés
 
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - IMPORT RÉFÉRENCES & VUE RÉSEAU D'AXES
+
+### Phase 1 : Import du pack de références v2
+- [ ] Analyser la structure du fichier PERFUMUM_References_Master_v2.csv (37 références)
+- [ ] Créer les axes de recherche manquants (Axe 1 à Axe 6) dans la base de données
+- [ ] Importer les 37 références bibliographiques dans la table bibliography_entries
+- [ ] Créer les liens entre références et axes dans bibliography_axis_links
+- [ ] Valider l'intégrité des données importées
+
+### Phase 2 : Filtre par axe de recherche
+- [ ] Ajouter un filtre par axe dans l'interface de bibliographie existante
+- [ ] Créer la procédure tRPC pour filtrer les références par axe
+- [ ] Implémenter le sélecteur d'axe dans le frontend
+- [ ] Tester le filtre sur tous les axes
+
+### Phase 3 : Vue réseau d'axes
+- [ ] Créer la page de visualisation du réseau d'axes
+- [ ] Implémenter le graphe de connexions entre axes via références partagées
+- [ ] Ajouter les interactions (survol, clic, zoom)
+- [ ] Intégrer la vue dans le menu principal
+
+### Phase 4 : Tests et validation
+- [ ] Tester l'import des références
+- [ ] Tester le filtre par axe
+- [ ] Tester la vue réseau
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - IMPORT RÉFÉRENCES V2 & VUE RÉSEAU D'AXES
+
+### Phase 1 : Import du pack de références v2
+- [x] Analyser la structure du fichier PERFUMUM_References_Master_v2.csv (36 références)
+- [x] Vérifier les axes de recherche (Axe 1 à Axe 6) dans la base de données
+- [x] Importer les 36 références bibliographiques dans la table bibliography_entries
+- [x] Créer les 36 liens entre références et axes dans bibliography_axis_links
+- [x] Valider l'intégrité des données importées
+
+### Phase 2 : Filtre par axe de recherche
+- [x] Ajouter un filtre par axe dans l'interface de bibliographie existante
+- [x] Créer la procédure tRPC pour filtrer les références par axe (axisId)
+- [x] Implémenter le sélecteur d'axe dans le frontend (BibliographiePage.tsx)
+- [x] Tester le filtre sur tous les axes (9 tests vitest passés)
+
+### Phase 3 : Vue réseau d'axes
+- [x] Créer la page de visualisation du réseau d'axes (/reseau-axes)
+- [x] Implémenter le graphe SVG de connexions entre axes via références partagées
+- [x] Ajouter les interactions (survol, clic, sélection d'axe)
+- [x] Créer la vue matrice des connexions
+- [x] Intégrer la vue dans le menu principal et la page bibliographie
+
+### Phase 4 : Tests et validation
+- [x] Créer les tests vitest pour le filtre par axe (bibliography-axis.test.ts)
+- [x] Exécuter et valider tous les tests (9/9 passés)
+
+### Phase 5 : Préparation du pack v3
+- [x] Extraire le fichier PERFUMUM_References_NicheInnovations_DevPack_v3.zip
+- [x] Analyser la structure (69 références, nouveaux axes thématiques)
+- [x] Copier les fichiers dans /data/references_v3/
+- [x] Créer le README d'intégration
+
+### À faire ultérieurement (pack v3)
+- [ ] Créer le script d'import pour le pack v3 (69 références)
+- [ ] Gérer les nouveaux axes thématiques (A1, B1, C1, etc.)
+- [ ] Importer les références avec axes primaires et secondaires
+- [ ] Valider l'intégration
+

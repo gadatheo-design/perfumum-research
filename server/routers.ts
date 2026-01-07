@@ -6125,6 +6125,7 @@ export const appRouter = router({
         year: z.number().optional(),
         readStatus: z.string().optional(),
         search: z.string().optional(),
+        axisId: z.number().optional(),
         limit: z.number().optional(),
         offset: z.number().optional(),
       }).optional())
