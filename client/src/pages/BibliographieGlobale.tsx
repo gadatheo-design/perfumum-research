@@ -58,7 +58,10 @@ import {
   CheckCircle,
   Clock,
   AlertCircle,
+  Network,
+  Link2,
 } from "lucide-react";
+import { CitationGraph } from "@/components/CitationGraph";
 
 // Types pour les entrées bibliographiques
 type EntryType = 'article' | 'book' | 'inbook' | 'incollection' | 'inproceedings' | 'conference' | 'thesis' | 'mastersthesis' | 'phdthesis' | 'techreport' | 'manual' | 'unpublished' | 'misc' | 'online' | 'patent' | 'standard' | 'dataset' | 'software';
@@ -140,6 +143,13 @@ export default function BibliographieGlobale() {
   const [selectedEntry, setSelectedEntry] = useState<any>(null);
   const [importText, setImportText] = useState("");
   const [importFormat, setImportFormat] = useState<"bibtex" | "csv">("bibtex");
+  const [activeTab, setActiveTab] = useState<string>("list");
+  const [graphFilters, setGraphFilters] = useState<{
+    citationType?: string;
+    researchDomain?: string;
+    minWeight?: number;
+    verified?: boolean;
+  }>({});
 
   // Requêtes tRPC
   const { data: entriesData, isLoading, refetch } = trpc.bibliography.list.useQuery({
@@ -150,6 +160,16 @@ export default function BibliographieGlobale() {
   });
 
   const { data: stats } = trpc.bibliography.getStats.useQuery();
+
+  // Graphe de citations
+  const { data: citationGraph, isLoading: isGraphLoading } = trpc.referenceCitations.getGraph.useQuery(
+    graphFilters,
+    { enabled: activeTab === "graph" }
+  );
+  const { data: citationStats } = trpc.referenceCitations.getStats.useQuery(
+    undefined,
+    { enabled: activeTab === "graph" }
+  );
 
   const createMutation = trpc.bibliography.create.useMutation({
     onSuccess: () => {
@@ -668,185 +688,276 @@ export default function BibliographieGlobale() {
             </div>
           )}
 
-          {/* Filtres */}
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Rechercher par titre, auteur ou clé..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Select value={selectedType} onValueChange={setSelectedType}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tous les types</SelectItem>
-                {Object.entries(entryTypeLabels).map(([key, label]) => (
-                  <SelectItem key={key} value={key}>{label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={selectedDomain} onValueChange={setSelectedDomain}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Domaine" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tous les domaines</SelectItem>
-                {Object.entries(domainLabels).map(([key, label]) => (
-                  <SelectItem key={key} value={key}>{label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-              <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="Statut" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tous</SelectItem>
-                {Object.entries(readStatusLabels).map(([key, { label }]) => (
-                  <SelectItem key={key} value={key}>{label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Tabs pour basculer entre liste et graphe */}
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
+            <TabsList className="grid w-full max-w-md grid-cols-2">
+              <TabsTrigger value="list" className="flex items-center gap-2">
+                <BookOpen className="h-4 w-4" />
+                Liste des références
+              </TabsTrigger>
+              <TabsTrigger value="graph" className="flex items-center gap-2">
+                <Network className="h-4 w-4" />
+                Graphe de citations
+              </TabsTrigger>
+            </TabsList>
 
-          {/* Liste des références */}
-          {isLoading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-              <p className="mt-4 text-muted-foreground">Chargement...</p>
-            </div>
-          ) : entriesData?.entries && entriesData.entries.length > 0 ? (
-            <div className="space-y-4">
-              {entriesData.entries.map((entry: any) => (
-                <Card key={entry.id} className="hover:shadow-md transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-muted-foreground">
-                            {entryTypeIcons[entry.entryType as EntryType]}
-                          </span>
-                          <Badge variant="outline">
-                            {entryTypeLabels[entry.entryType as EntryType]}
-                          </Badge>
-                          {entry.researchDomain && (
-                            <Badge variant="secondary">
-                              {domainLabels[entry.researchDomain as ResearchDomain]}
-                            </Badge>
-                          )}
-                          <Badge className={`${readStatusLabels[entry.readStatus as ReadStatus]?.color} text-white`}>
-                            {readStatusLabels[entry.readStatus as ReadStatus]?.icon}
-                            <span className="ml-1">{readStatusLabels[entry.readStatus as ReadStatus]?.label}</span>
-                          </Badge>
-                        </div>
-                        <h3 className="text-lg font-semibold mb-1 line-clamp-2">{entry.title}</h3>
-                        {entry.authors && (
-                          <p className="text-sm text-muted-foreground flex items-center gap-1">
-                            <User className="h-3 w-3" />
-                            {entry.authors}
-                          </p>
-                        )}
-                        <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                          {entry.year && (
-                            <span className="flex items-center gap-1">
-                              <Calendar className="h-3 w-3" />
-                              {entry.year}
-                            </span>
-                          )}
-                          {entry.journal && <span>{entry.journal}</span>}
-                          {entry.publisher && <span>{entry.publisher}</span>}
-                        </div>
-                        {entry.keywords && entry.keywords.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {entry.keywords.slice(0, 5).map((kw: string, i: number) => (
-                              <Badge key={i} variant="outline" className="text-xs">
-                                <Tag className="h-2 w-2 mr-1" />
-                                {kw}
+            <TabsContent value="list" className="mt-6">
+              {/* Filtres */}
+              <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Rechercher par titre, auteur ou clé..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <Select value={selectedType} onValueChange={setSelectedType}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tous les types</SelectItem>
+                    {Object.entries(entryTypeLabels).map(([key, label]) => (
+                      <SelectItem key={key} value={key}>{label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={selectedDomain} onValueChange={setSelectedDomain}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Domaine" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tous les domaines</SelectItem>
+                    {Object.entries(domainLabels).map(([key, label]) => (
+                      <SelectItem key={key} value={key}>{label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+                  <SelectTrigger className="w-[150px]">
+                    <SelectValue placeholder="Statut" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tous</SelectItem>
+                    {Object.entries(readStatusLabels).map(([key, { label }]) => (
+                      <SelectItem key={key} value={key}>{label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Liste des références */}
+              {isLoading ? (
+                <div className="text-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                  <p className="mt-4 text-muted-foreground">Chargement...</p>
+                </div>
+              ) : entriesData?.entries && entriesData.entries.length > 0 ? (
+                <div className="space-y-4">
+                  {entriesData.entries.map((entry: any) => (
+                    <Card key={entry.id} className="hover:shadow-md transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-muted-foreground">
+                                {entryTypeIcons[entry.entryType as EntryType]}
+                              </span>
+                              <Badge variant="outline">
+                                {entryTypeLabels[entry.entryType as EntryType]}
                               </Badge>
-                            ))}
-                            {entry.keywords.length > 5 && (
-                              <Badge variant="outline" className="text-xs">
-                                +{entry.keywords.length - 5}
+                              {entry.researchDomain && (
+                                <Badge variant="secondary">
+                                  {domainLabels[entry.researchDomain as ResearchDomain]}
+                                </Badge>
+                              )}
+                              <Badge className={`${readStatusLabels[entry.readStatus as ReadStatus]?.color} text-white`}>
+                                {readStatusLabels[entry.readStatus as ReadStatus]?.icon}
+                                <span className="ml-1">{readStatusLabels[entry.readStatus as ReadStatus]?.label}</span>
                               </Badge>
+                            </div>
+                            <h3 className="text-lg font-semibold mb-1 line-clamp-2">{entry.title}</h3>
+                            {entry.authors && (
+                              <p className="text-sm text-muted-foreground flex items-center gap-1">
+                                <User className="h-3 w-3" />
+                                {entry.authors}
+                              </p>
+                            )}
+                            <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                              {entry.year && (
+                                <span className="flex items-center gap-1">
+                                  <Calendar className="h-3 w-3" />
+                                  {entry.year}
+                                </span>
+                              )}
+                              {entry.journal && <span>{entry.journal}</span>}
+                              {entry.publisher && <span>{entry.publisher}</span>}
+                            </div>
+                            {entry.keywords && entry.keywords.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {entry.keywords.slice(0, 5).map((kw: string, i: number) => (
+                                  <Badge key={i} variant="outline" className="text-xs">
+                                    <Tag className="h-2 w-2 mr-1" />
+                                    {kw}
+                                  </Badge>
+                                ))}
+                                {entry.keywords.length > 5 && (
+                                  <Badge variant="outline" className="text-xs">
+                                    +{entry.keywords.length - 5}
+                                  </Badge>
+                                )}
+                              </div>
                             )}
                           </div>
-                        )}
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        {entry.doi && (
-                          <Button variant="ghost" size="sm" asChild>
-                            <a href={`https://doi.org/${entry.doi}`} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-4 w-4" />
-                            </a>
-                          </Button>
-                        )}
-                        {entry.url && !entry.doi && (
-                          <Button variant="ghost" size="sm" asChild>
-                            <a href={entry.url} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-4 w-4" />
-                            </a>
-                          </Button>
-                        )}
-                        <Button variant="ghost" size="sm" onClick={() => copyAPA(entry)}>
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                        {user && (
-                          <>
-                            <Button variant="ghost" size="sm" onClick={() => openEditDialog(entry)}>
-                              <Edit className="h-4 w-4" />
+                          <div className="flex flex-col gap-2">
+                            {entry.doi && (
+                              <Button variant="ghost" size="sm" asChild>
+                                <a href={`https://doi.org/${entry.doi}`} target="_blank" rel="noopener noreferrer">
+                                  <ExternalLink className="h-4 w-4" />
+                                </a>
+                              </Button>
+                            )}
+                            {entry.url && !entry.doi && (
+                              <Button variant="ghost" size="sm" asChild>
+                                <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                                  <ExternalLink className="h-4 w-4" />
+                                </a>
+                              </Button>
+                            )}
+                            <Button variant="ghost" size="sm" onClick={() => copyAPA(entry)}>
+                              <Copy className="h-4 w-4" />
                             </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="text-destructive"
-                              onClick={() => {
-                                if (confirm("Supprimer cette référence ?")) {
-                                  deleteMutation.mutate(entry.id);
-                                }
-                              }}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </>
+                            {user && (
+                              <>
+                                <Button variant="ghost" size="sm" onClick={() => openEditDialog(entry)}>
+                                  <Edit className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="text-destructive"
+                                  onClick={() => {
+                                    if (confirm("Supprimer cette référence ?")) {
+                                      deleteMutation.mutate(entry.id);
+                                    }
+                                  }}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        {entry.abstract && (
+                          <p className="mt-4 text-sm text-muted-foreground line-clamp-3">
+                            {entry.abstract}
+                          </p>
                         )}
-                      </div>
-                    </div>
-                    {entry.abstract && (
-                      <p className="mt-4 text-sm text-muted-foreground line-clamp-3">
-                        {entry.abstract}
-                      </p>
+                        <div className="mt-3 text-xs text-muted-foreground">
+                          Clé: <code className="bg-muted px-1 rounded">{entry.entryKey}</code>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <Card>
+                  <CardContent className="py-12 text-center">
+                    <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">Aucune référence</h3>
+                    <p className="text-muted-foreground mb-4">
+                      {searchQuery || selectedType !== "all" || selectedDomain !== "all"
+                        ? "Aucune référence ne correspond à vos critères"
+                        : "Commencez par ajouter vos premières références bibliographiques"}
+                    </p>
+                    {user && !searchQuery && selectedType === "all" && selectedDomain === "all" && (
+                      <Button onClick={() => setIsAddDialogOpen(true)}>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Ajouter une référence
+                      </Button>
                     )}
-                    <div className="mt-3 text-xs text-muted-foreground">
-                      Clé: <code className="bg-muted px-1 rounded">{entry.entryKey}</code>
+                  </CardContent>
+                </Card>
+              )}
+            </TabsContent>
+
+            <TabsContent value="graph" className="mt-6">
+              {/* Statistiques du graphe */}
+              {citationStats && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-2xl">{citationStats.totalCitations}</CardTitle>
+                      <CardDescription>Citations totales</CardDescription>
+                    </CardHeader>
+                  </Card>
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-2xl">{citationStats.totalCitingReferences}</CardTitle>
+                      <CardDescription>Références citantes</CardDescription>
+                    </CardHeader>
+                  </Card>
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-2xl">{citationStats.totalCitedReferences}</CardTitle>
+                      <CardDescription>Références citées</CardDescription>
+                    </CardHeader>
+                  </Card>
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-2xl">{citationStats.verifiedCount}</CardTitle>
+                      <CardDescription>Citations vérifiées</CardDescription>
+                    </CardHeader>
+                  </Card>
+                </div>
+              )}
+
+              {/* Graphe de citations */}
+              <CitationGraph
+                nodes={citationGraph?.nodes || []}
+                links={citationGraph?.links || []}
+                isLoading={isGraphLoading}
+                filters={graphFilters}
+                onFiltersChange={setGraphFilters}
+                onNodeClick={(node) => {
+                  // Naviguer vers la fiche de la référence
+                  toast.info(`Référence: ${node.title}`);
+                }}
+              />
+
+              {/* Top références citées */}
+              {citationStats?.mostCited && citationStats.mostCited.length > 0 && (
+                <Card className="mt-6">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Link2 className="h-5 w-5" />
+                      Références les plus citées
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {citationStats.mostCited.slice(0, 5).map((item: any, index: number) => (
+                        <div key={item.citedId} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl font-bold text-muted-foreground">#{index + 1}</span>
+                            <div>
+                              <p className="font-medium line-clamp-1">{item.reference?.title || 'Titre inconnu'}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {item.reference?.authors?.split(',')[0] || 'Auteur inconnu'} ({item.reference?.year || '?'})
+                              </p>
+                            </div>
+                          </div>
+                          <Badge variant="secondary">{item.count} citations</Badge>
+                        </div>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          ) : (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Aucune référence</h3>
-                <p className="text-muted-foreground mb-4">
-                  {searchQuery || selectedType !== "all" || selectedDomain !== "all"
-                    ? "Aucune référence ne correspond à vos critères"
-                    : "Commencez par ajouter vos premières références bibliographiques"}
-                </p>
-                {user && !searchQuery && selectedType === "all" && selectedDomain === "all" && (
-                  <Button onClick={() => setIsAddDialogOpen(true)}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Ajouter une référence
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
-          )}
+              )}
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
 

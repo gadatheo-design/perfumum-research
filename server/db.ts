@@ -186,6 +186,10 @@ import {
   bibliographyAxisLinks,
   BibliographyAxisLink,
   InsertBibliographyAxisLink,
+  // Reference Citations
+  referenceCitations,
+  ReferenceCitation,
+  InsertReferenceCitation,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -8394,4 +8398,395 @@ export async function getRecettesTLWithTerpProfiles() {
   );
   
   return results;
+}
+
+
+// ============================================================================
+// REFERENCE CITATIONS (Citations croisées entre références bibliographiques)
+// ============================================================================
+
+/**
+ * Récupère toutes les citations avec filtres optionnels
+ */
+export async function getAllReferenceCitations(filters?: {
+  citingId?: number;
+  citedId?: number;
+  citationType?: string;
+  verified?: boolean;
+  limit?: number;
+  offset?: number;
+}) {
+  const db = await getDb();
+  if (!db) return { citations: [], total: 0 };
+  
+  const conditions: any[] = [];
+  
+  if (filters?.citingId) {
+    conditions.push(eq(referenceCitations.citingId, filters.citingId));
+  }
+  if (filters?.citedId) {
+    conditions.push(eq(referenceCitations.citedId, filters.citedId));
+  }
+  if (filters?.citationType) {
+    conditions.push(eq(referenceCitations.citationType, filters.citationType as any));
+  }
+  if (filters?.verified !== undefined) {
+    conditions.push(eq(referenceCitations.verified, filters.verified));
+  }
+  
+  const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+  
+  const [totalResult] = await db
+    .select({ count: count() })
+    .from(referenceCitations)
+    .where(whereClause);
+  
+  const citationsResult = await db
+    .select()
+    .from(referenceCitations)
+    .where(whereClause)
+    .orderBy(desc(referenceCitations.createdAt))
+    .limit(filters?.limit || 100)
+    .offset(filters?.offset || 0);
+  
+  return {
+    citations: citationsResult,
+    total: totalResult?.count || 0,
+  };
+}
+
+/**
+ * Récupère une citation par ID
+ */
+export async function getReferenceCitationById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [citation] = await db
+    .select()
+    .from(referenceCitations)
+    .where(eq(referenceCitations.id, id));
+  
+  return citation || null;
+}
+
+/**
+ * Récupère le graphe complet des citations pour visualisation
+ * Retourne les nœuds (références) et les liens (citations)
+ */
+export async function getCitationGraph(filters?: {
+  citationType?: string;
+  researchDomain?: string;
+  minWeight?: number;
+  verified?: boolean;
+}) {
+  const db = await getDb();
+  if (!db) return { nodes: [], links: [] };
+  
+  // Construire les conditions pour les citations
+  const citationConditions: any[] = [];
+  if (filters?.citationType) {
+    citationConditions.push(eq(referenceCitations.citationType, filters.citationType as any));
+  }
+  if (filters?.minWeight) {
+    citationConditions.push(gte(referenceCitations.weight, filters.minWeight));
+  }
+  if (filters?.verified !== undefined) {
+    citationConditions.push(eq(referenceCitations.verified, filters.verified));
+  }
+  
+  const citationWhere = citationConditions.length > 0 ? and(...citationConditions) : undefined;
+  
+  // Récupérer toutes les citations
+  const allCitations = await db
+    .select()
+    .from(referenceCitations)
+    .where(citationWhere);
+  
+  // Collecter tous les IDs de références impliquées
+  const refIds = new Set<number>();
+  allCitations.forEach(c => {
+    refIds.add(c.citingId);
+    refIds.add(c.citedId);
+  });
+  
+  if (refIds.size === 0) {
+    return { nodes: [], links: [] };
+  }
+  
+  // Construire les conditions pour les références
+  const refConditions: any[] = [inArray(bibliographyEntries.id, Array.from(refIds))];
+  if (filters?.researchDomain) {
+    refConditions.push(eq(bibliographyEntries.researchDomain, filters.researchDomain as any));
+  }
+  
+  // Récupérer les références
+  const refs = await db
+    .select()
+    .from(bibliographyEntries)
+    .where(and(...refConditions));
+  
+  // Créer un map des références pour accès rapide
+  const refMap = new Map(refs.map(r => [r.id, r]));
+  
+  // Construire les nœuds
+  const nodes = refs.map(ref => ({
+    id: ref.id,
+    entryKey: ref.entryKey,
+    title: ref.title,
+    authors: ref.authors,
+    year: ref.year,
+    entryType: ref.entryType,
+    researchDomain: ref.researchDomain,
+    // Calculer le nombre de citations entrantes et sortantes
+    inDegree: allCitations.filter(c => c.citedId === ref.id).length,
+    outDegree: allCitations.filter(c => c.citingId === ref.id).length,
+  }));
+  
+  // Construire les liens
+  const links = allCitations
+    .filter(c => refMap.has(c.citingId) && refMap.has(c.citedId))
+    .map(c => ({
+      id: c.id,
+      source: c.citingId,
+      target: c.citedId,
+      citationType: c.citationType,
+      weight: c.weight || 1,
+      verified: c.verified,
+    }));
+  
+  return { nodes, links };
+}
+
+/**
+ * Récupère les références qui citent une référence donnée
+ */
+export async function getCitationsOf(citedId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const citations = await db
+    .select({
+      citation: referenceCitations,
+      citing: bibliographyEntries,
+    })
+    .from(referenceCitations)
+    .innerJoin(bibliographyEntries, eq(referenceCitations.citingId, bibliographyEntries.id))
+    .where(eq(referenceCitations.citedId, citedId))
+    .orderBy(desc(bibliographyEntries.year));
+  
+  return citations.map(c => ({
+    ...c.citation,
+    citingReference: c.citing,
+  }));
+}
+
+/**
+ * Récupère les références citées par une référence donnée
+ */
+export async function getCitedBy(citingId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const citations = await db
+    .select({
+      citation: referenceCitations,
+      cited: bibliographyEntries,
+    })
+    .from(referenceCitations)
+    .innerJoin(bibliographyEntries, eq(referenceCitations.citedId, bibliographyEntries.id))
+    .where(eq(referenceCitations.citingId, citingId))
+    .orderBy(desc(bibliographyEntries.year));
+  
+  return citations.map(c => ({
+    ...c.citation,
+    citedReference: c.cited,
+  }));
+}
+
+/**
+ * Crée une nouvelle citation entre deux références
+ */
+export async function createReferenceCitation(data: {
+  citingId: number;
+  citedId: number;
+  citationType?: string;
+  context?: string;
+  pageNumber?: string;
+  notes?: string;
+  weight?: number;
+  addedBy?: number;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Vérifier que les deux références existent
+  const [citing] = await db.select().from(bibliographyEntries).where(eq(bibliographyEntries.id, data.citingId));
+  const [cited] = await db.select().from(bibliographyEntries).where(eq(bibliographyEntries.id, data.citedId));
+  
+  if (!citing || !cited) {
+    throw new Error("Une ou les deux références n'existent pas");
+  }
+  
+  // Vérifier qu'on ne cite pas soi-même
+  if (data.citingId === data.citedId) {
+    throw new Error("Une référence ne peut pas se citer elle-même");
+  }
+  
+  const [result] = await db.insert(referenceCitations).values({
+    citingId: data.citingId,
+    citedId: data.citedId,
+    citationType: (data.citationType || 'direct') as any,
+    context: data.context,
+    pageNumber: data.pageNumber,
+    notes: data.notes,
+    weight: data.weight || 1,
+    addedBy: data.addedBy,
+  });
+  
+  return getReferenceCitationById(result.insertId);
+}
+
+/**
+ * Met à jour une citation
+ */
+export async function updateReferenceCitation(id: number, data: {
+  citationType?: string;
+  context?: string;
+  pageNumber?: string;
+  notes?: string;
+  weight?: number;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.update(referenceCitations)
+    .set(data as any)
+    .where(eq(referenceCitations.id, id));
+  
+  return getReferenceCitationById(id);
+}
+
+/**
+ * Supprime une citation
+ */
+export async function deleteReferenceCitation(id: number) {
+  const db = await getDb();
+  if (!db) return false;
+  
+  await db.delete(referenceCitations).where(eq(referenceCitations.id, id));
+  return true;
+}
+
+/**
+ * Vérifie une citation
+ */
+export async function verifyReferenceCitation(id: number, userId?: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.update(referenceCitations)
+    .set({
+      verified: true,
+      verifiedBy: userId,
+      verifiedAt: new Date(),
+    } as any)
+    .where(eq(referenceCitations.id, id));
+  
+  return getReferenceCitationById(id);
+}
+
+/**
+ * Statistiques du graphe de citations
+ */
+export async function getCitationGraphStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Nombre total de citations
+  const [totalCitations] = await db.select({ count: count() }).from(referenceCitations);
+  
+  // Citations par type
+  const byType = await db
+    .select({
+      type: referenceCitations.citationType,
+      count: count(),
+    })
+    .from(referenceCitations)
+    .groupBy(referenceCitations.citationType);
+  
+  // Nombre de références avec au moins une citation
+  const citingRefs = await db
+    .selectDistinct({ id: referenceCitations.citingId })
+    .from(referenceCitations);
+  
+  const citedRefs = await db
+    .selectDistinct({ id: referenceCitations.citedId })
+    .from(referenceCitations);
+  
+  // Références les plus citées (top 10)
+  const mostCited = await db
+    .select({
+      citedId: referenceCitations.citedId,
+      count: count(),
+    })
+    .from(referenceCitations)
+    .groupBy(referenceCitations.citedId)
+    .orderBy(desc(count()))
+    .limit(10);
+  
+  // Enrichir avec les infos des références
+  const mostCitedWithInfo = await Promise.all(
+    mostCited.map(async (mc) => {
+      const [ref] = await db
+        .select()
+        .from(bibliographyEntries)
+        .where(eq(bibliographyEntries.id, mc.citedId));
+      return {
+        ...mc,
+        reference: ref,
+      };
+    })
+  );
+  
+  // Références qui citent le plus (top 10)
+  const mostCiting = await db
+    .select({
+      citingId: referenceCitations.citingId,
+      count: count(),
+    })
+    .from(referenceCitations)
+    .groupBy(referenceCitations.citingId)
+    .orderBy(desc(count()))
+    .limit(10);
+  
+  const mostCitingWithInfo = await Promise.all(
+    mostCiting.map(async (mc) => {
+      const [ref] = await db
+        .select()
+        .from(bibliographyEntries)
+        .where(eq(bibliographyEntries.id, mc.citingId));
+      return {
+        ...mc,
+        reference: ref,
+      };
+    })
+  );
+  
+  // Citations vérifiées vs non vérifiées
+  const [verifiedCount] = await db
+    .select({ count: count() })
+    .from(referenceCitations)
+    .where(eq(referenceCitations.verified, true));
+  
+  return {
+    totalCitations: totalCitations?.count || 0,
+    totalCitingReferences: citingRefs.length,
+    totalCitedReferences: citedRefs.length,
+    byType,
+    mostCited: mostCitedWithInfo,
+    mostCiting: mostCitingWithInfo,
+    verifiedCount: verifiedCount?.count || 0,
+    unverifiedCount: (totalCitations?.count || 0) - (verifiedCount?.count || 0),
+  };
 }

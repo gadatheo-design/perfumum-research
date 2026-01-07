@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, entry_key, title, authors, year FROM bibliography_entries \nWHERE authors LIKE '%Arctander%' \n   OR authors LIKE '%Merleau%' \n   OR authors LIKE '%Böhme%' \n   OR authors LIKE '%Carles%'\n   OR authors LIKE '%Roudnitska%'\n   OR authors LIKE '%Ellena%'\n   OR authors LIKE '%Tolaas%'\n   OR authors LIKE '%Guenther%'\n   OR authors LIKE '%Bauer%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, entry_key, title, authors, year FROM bibliography_entries \nWHERE authors LIKE '%Arctander%' \n   OR authors LIKE '%Merleau%' \n   OR authors LIKE '%Böhme%' \n   OR authors LIKE '%Carles%'\n   OR authors LIKE '%Roudnitska%'\n   OR authors LIKE '%Ellena%'\n   OR authors LIKE '%Tolaas%'\n   OR authors LIKE '%Guenther%'\n   OR authors LIKE '%Bauer%';",
+  "rows": [
+    {
+      "id": "150002",
+      "entry_key": "perfumum_arctander1969",
+      "title": "Perfume and Flavor Materials of Natural Origin",
+      "authors": "Steffen Arctander",
+      "year": "1969"
+    },
+    {
+      "id": "150007",
+      "entry_key": "perfumum_guenther1948",
+      "title": "The Essential Oils (6 volumes)",
+      "authors": "Ernest Guenther",
+      "year": "1948"
+    },
+    {
+      "id": "150008",
+      "entry_key": "perfumum_roudnitska1991",
+      "title": "L'Art de la Parfumerie",
+      "authors": "Edmond Roudnitska",
+      "year": "1991"
+    },
+    {
+      "id": "150009",
+      "entry_key": "perfumum_ellena2007",
+      "title": "Journal d'un Parfumeur",
+      "authors": "Jean-Claude Ellena",
+      "year": "2007"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentry_key\ttitle\tauthors\tyear\n150002\tperfumum_arctander1969\tPerfume and Flavor Materials of Natural Origin\tSteffen Arctander\t1969\n150007\tperfumum_guenther1948\tThe Essential Oils (6 volumes)\tErnest Guenther\t1948\n150008\tperfumum_roudnitska1991\tL'Art de la Parfumerie\tEdmond Roudnitska\t1991\n150009\tperfumum_ellena2007\tJournal d'un Parfumeur\tJean-Claude Ellena\t2007\n",
+  "stderr": "",
+  "execution_time_ms": 418
+}

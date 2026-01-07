@@ -3245,3 +3245,84 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 
 ### Tests
 - [x] Tous les tests passent (429 tests passés)
+
+
+---
+
+## 📊 SESSION 07 JAN 2026 - GRAPHE DE CITATIONS INTERACTIF
+
+### Phase 1 : Structure de données pour les citations croisées
+- [ ] Analyser la structure actuelle des références bibliographiques
+- [ ] Créer le schéma de table `reference_citations` pour les liens entre références
+- [ ] Migrer le schéma avec `pnpm db:push`
+
+### Phase 2 : Procédures tRPC pour les citations
+- [ ] Créer les procédures CRUD pour les citations (create, read, delete)
+- [ ] Créer la procédure pour récupérer le graphe complet des citations
+- [ ] Créer les procédures de filtrage (par type de source, par période)
+
+### Phase 3 : Composant de graphe interactif
+- [ ] Installer la bibliothèque de graphe (react-force-graph ou vis.js)
+- [ ] Créer le composant CitationGraph avec nœuds et liens
+- [ ] Implémenter le zoom, pan et interactions (clic sur nœud)
+- [ ] Ajouter les filtres visuels (par type, par période)
+- [ ] Créer le panneau de détail au clic sur un nœud
+
+### Phase 4 : Intégration et tests
+- [ ] Intégrer le graphe dans la page Bibliographie
+- [ ] Créer le formulaire d'ajout de citation entre références
+- [ ] Tester les performances avec de nombreuses références
+- [ ] Écrire les tests unitaires pour les procédures
+
+### Phase 5 : Livraison
+- [ ] Créer le checkpoint final
+- [ ] Documenter la fonctionnalité
+
+
+### Phase 6 : Audit et intégration des sources bibliographiques
+- [ ] Auditer tous les fichiers du projet pour identifier les sources utilisées
+- [ ] Lister les références déjà présentes dans la base de données
+- [ ] Identifier les sources manquantes
+- [ ] Importer les sources manquantes dans la base de données
+- [ ] Vérifier la cohérence des données bibliographiques
+
+
+
+---
+
+## 📊 SESSION 07 JAN 2026 - GRAPHE DE CITATIONS
+
+### Phase 1 : Structure de données
+- [x] Créer la table `reference_citations` pour les liens entre références
+- [x] Ajouter les champs (citing_id, cited_id, citation_type, context, page_number, verified)
+- [x] Migrer le schéma vers la base de données
+
+### Phase 2 : Procédures tRPC
+- [x] Créer les procédures CRUD pour les citations
+- [x] Créer la procédure `getGraph` pour récupérer les données du graphe
+- [x] Créer la procédure `getStats` pour les statistiques de citations
+
+### Phase 3 : Composant graphe interactif
+- [x] Installer react-force-graph pour la visualisation
+- [x] Créer le composant CitationGraph avec D3.js/force-graph
+- [x] Implémenter les filtres (type de citation, domaine, poids)
+- [x] Ajouter les interactions (zoom, pan, clic sur nœud)
+
+### Phase 4 : Intégration dans la page Bibliographie
+- [x] Ajouter un onglet "Graphe de citations" dans BibliographieGlobale
+- [x] Afficher les statistiques de citations
+- [x] Afficher les références les plus citées
+
+### Phase 5 : Audit des sources
+- [x] Auditer les sources mentionnées dans les fichiers du projet
+- [x] Vérifier les sources présentes dans la base de données (4 auteurs clés trouvés)
+- [ ] Importer les sources manquantes (Merleau-Ponty, Böhme, Guenther, etc.)
+
+
+### Phase 6 : Import complet des sources (MISE À JOUR)
+- [x] Importer les livres de référence (Arctander, Guenther, Bauer, etc.) — 14 livres importés
+- [x] Importer les articles universitaires (phénoménologie, chimie olfactive) — 6 articles importés
+- [x] Importer les sites web de référence (bases de données moléculaires, IFRA, etc.) — 10 ressources en ligne importées
+- [x] Importer les sources d'art olfactif (Tolaas, Verbeek, etc.) — 2 sources importées
+- [x] Vérifier que tous les types de sources sont bien gérés dans l'interface — 12 tests passés
+

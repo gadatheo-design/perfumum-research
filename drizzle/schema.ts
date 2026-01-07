@@ -4393,3 +4393,78 @@ export const bibliographyAxisLinksRelations = relations(bibliographyAxisLinks, (
     references: [researchAxes.id],
   }),
 }));
+
+
+// ============================================================================
+// REFERENCE CITATIONS (Citations croisées entre références bibliographiques)
+// ============================================================================
+
+/**
+ * Tracks citation relationships between bibliography entries.
+ * Enables visualization of citation networks and influence graphs.
+ * A "citing" reference cites a "cited" reference.
+ */
+export const referenceCitations = mysqlTable("reference_citations", {
+  id: int("id").autoincrement().primaryKey(),
+  // Source reference (the one that cites)
+  citingId: int("citing_id").notNull().references(() => bibliographyEntries.id, { onDelete: "cascade" }),
+  // Target reference (the one being cited)
+  citedId: int("cited_id").notNull().references(() => bibliographyEntries.id, { onDelete: "cascade" }),
+  // Citation context
+  citationType: mysqlEnum("citation_type", [
+    "direct",          // Citation directe dans le texte
+    "indirect",        // Référence indirecte/paraphrase
+    "methodological",  // Citation méthodologique
+    "theoretical",     // Citation théorique/conceptuelle
+    "data",            // Citation de données
+    "critique",        // Citation critique
+    "support",         // Citation de soutien
+    "comparison"       // Citation comparative
+  ]).default("direct"),
+  // Context and notes
+  context: text("context"), // Contexte de la citation (extrait ou description)
+  pageNumber: varchar("page_number", { length: 50 }), // Page(s) où la citation apparaît
+  notes: text("notes"), // Notes additionnelles
+  // Importance/weight for graph visualization
+  weight: int("weight").default(1), // Poids de la citation (1-5)
+  // Verification status
+  verified: boolean("verified").default(false),
+  verifiedBy: int("verified_by").references(() => users.id),
+  verifiedAt: timestamp("verified_at"),
+  // Metadata
+  addedBy: int("added_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  // Unique constraint: one citation relationship per pair
+  uniqueCitation: uniqueIndex("unique_reference_citation").on(table.citingId, table.citedId),
+  // Indexes for efficient querying
+  citingIdx: index("reference_citations_citing_idx").on(table.citingId),
+  citedIdx: index("reference_citations_cited_idx").on(table.citedId),
+  typeIdx: index("reference_citations_type_idx").on(table.citationType),
+}));
+
+export type ReferenceCitation = typeof referenceCitations.$inferSelect;
+export type InsertReferenceCitation = typeof referenceCitations.$inferInsert;
+
+// Relations for referenceCitations
+export const referenceCitationsRelations = relations(referenceCitations, ({ one }) => ({
+  citing: one(bibliographyEntries, {
+    fields: [referenceCitations.citingId],
+    references: [bibliographyEntries.id],
+    relationName: "citingReference",
+  }),
+  cited: one(bibliographyEntries, {
+    fields: [referenceCitations.citedId],
+    references: [bibliographyEntries.id],
+    relationName: "citedReference",
+  }),
+  addedByUser: one(users, {
+    fields: [referenceCitations.addedBy],
+    references: [users.id],
+  }),
+  verifiedByUser: one(users, {
+    fields: [referenceCitations.verifiedBy],
+    references: [users.id],
+  }),
+}));

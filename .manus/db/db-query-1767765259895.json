@@ -1,0 +1,460 @@
+{
+  "query": "SELECT id, entry_key, title, authors, year, entry_type, research_domain FROM bibliography_entries ORDER BY year DESC LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, entry_key, title, authors, year, entry_type, research_domain FROM bibliography_entries ORDER BY year DESC LIMIT 50;",
+  "rows": [
+    {
+      "id": "150064",
+      "entry_key": "perfumum_kienou2025",
+      "title": "Plantes aromatiques et leurs huiles essentielles: état des connaissances et utilisation dans la gestion de la chenille légionnaire d'automne à l'ouest du Burkina Faso",
+      "authors": "T. Kienou, S. Ouattara, A. Sawadogo, et al.",
+      "year": "2025",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150056",
+      "entry_key": "perfumum_perafan2024",
+      "title": "Ethnobotanical study of the uses of medicinal plants in the Nasa ethnic group in the Colombian Andes",
+      "authors": "G.M.P. Perafán, M.A. Bastidas-Bacca, et al.",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150058",
+      "entry_key": "perfumum_ouedraogo2024",
+      "title": "Medicinal Plants of Aromatic Potential from Burkina Faso: a Review",
+      "authors": "W. Jedida Ouedraogo, R. Serge Yerbanga, Roland Meda, Jean Bosco Ouedraogo, Georges A. Ouedraogo",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150040",
+      "entry_key": "perfumum_thegoodscents2023",
+      "title": "The Good Scents Company Information System",
+      "authors": "The Good Scents Company",
+      "year": "2023",
+      "entry_type": "online",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "150050",
+      "entry_key": "perfumum_carreno2023",
+      "title": "Essential Oils Distilled from Colombian Aromatic Plants and Their Constituents as Penetration Enhancers for Transdermal Drug Delivery",
+      "authors": "Heider Carreño, Elena E. Stashenko, Patricia Escobar",
+      "year": "2023",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150039",
+      "entry_key": "perfumum_pubchem2023",
+      "title": "PubChem Compound Database",
+      "authors": "National Center for Biotechnology Information",
+      "year": "2023",
+      "entry_type": "online",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150060",
+      "entry_key": "perfumum_balbonne2022",
+      "title": "Essential Oils From Five Local Plants: An Alternative Larvicide Against Aedes aegypti in Burkina Faso",
+      "authors": "M. Balboné, A. Sanou, R. Ouédraogo, et al.",
+      "year": "2022",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150065",
+      "entry_key": "perfumum_popoola2022",
+      "title": "West African medicinal plants and their constituent compounds in antiviral drug discovery",
+      "authors": "T.D. Popoola, O.A. Awodele, A.T. Omisanya, et al.",
+      "year": "2022",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150059",
+      "entry_key": "perfumum_sounouvou2021",
+      "title": "Antimicrobial potentials of essential oils extracted from aromatic plants of Benin and Burkina Faso",
+      "authors": "H.T. Sounouvou, A. Toukourou, C. Agbangnan, et al.",
+      "year": "2021",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150037",
+      "entry_key": "perfumum_ifra2020",
+      "title": "IFRA Standards Library - 49th Amendment",
+      "authors": "International Fragrance Association",
+      "year": "2020",
+      "entry_type": "techreport",
+      "research_domain": "reglementation"
+    },
+    {
+      "id": "150010",
+      "entry_key": "perfumum_edwards2019",
+      "title": "Fragrances of the World",
+      "authors": "Michael Edwards",
+      "year": "2019",
+      "entry_type": "book",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "150052",
+      "entry_key": "perfumum_stashenko2019",
+      "title": "Study of Essential Oils Obtained from Tropical Plants Grown in Colombia",
+      "authors": "Elena E. Stashenko",
+      "year": "2019",
+      "entry_type": "inbook",
+      "research_domain": "extraction"
+    },
+    {
+      "id": "150055",
+      "entry_key": "perfumum_bussmann2018",
+      "title": "Astonishing diversity—the medicinal plant markets of Bogotá",
+      "authors": "Rainer W. Bussmann, Narel Y. Paniagua Zambrana, Sonia Liliana Romero Benavides, Bebelyn Placencia Castillo",
+      "year": "2018",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150042",
+      "entry_key": "perfumum_booth2017",
+      "title": "Terpene synthases from Cannabis sativa",
+      "authors": "Judith K. Booth, Jonathan E. Page, Jörg Bohlmann",
+      "year": "2017",
+      "entry_type": "article",
+      "research_domain": "tabac_cannabis"
+    },
+    {
+      "id": "150023",
+      "entry_key": "perfumum_keller2016",
+      "title": "Olfactory perception of chemically diverse molecules",
+      "authors": "Andreas Keller, Leslie B. Vosshall",
+      "year": "2016",
+      "entry_type": "article",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "150043",
+      "entry_key": "perfumum_andre2016",
+      "title": "Cannabis sativa: The Plant of the Thousand and One Molecules",
+      "authors": "Christelle M. Andre, Jean-François Hausman, Gea Guerriero",
+      "year": "2016",
+      "entry_type": "article",
+      "research_domain": "tabac_cannabis"
+    },
+    {
+      "id": "150061",
+      "entry_key": "perfumum_bayala2014",
+      "title": "Chemical Composition, Antioxidant, Anti-Inflammatory and Anti-Proliferative Activities of Essential Oils of Plants from Burkina Faso",
+      "authors": "B. Bayala, I.H.N. Bassole, C. Gnoula, et al.",
+      "year": "2014",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150021",
+      "entry_key": "perfumum_mainland2014",
+      "title": "The missense of smell: functional variability in the human odorant receptor repertoire",
+      "authors": "Joel D. Mainland, Andreas Keller, Yun R. Li, et al.",
+      "year": "2014",
+      "entry_type": "article",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "150004",
+      "entry_key": "perfumum_tisserand2014",
+      "title": "Essential Oil Safety: A Guide for Health Care Professionals",
+      "authors": "Robert Tisserand, Rodney Young",
+      "year": "2014",
+      "entry_type": "book",
+      "research_domain": "reglementation"
+    },
+    {
+      "id": "150045",
+      "entry_key": "perfumum_rodgman2013",
+      "title": "The Chemical Components of Tobacco and Tobacco Smoke",
+      "authors": "Alan Rodgman, Thomas A. Perfetti",
+      "year": "2013",
+      "entry_type": "book",
+      "research_domain": "tabac_cannabis"
+    },
+    {
+      "id": "150066",
+      "entry_key": "perfumum_waho2013",
+      "title": "West African Herbal Pharmacopoeia",
+      "authors": "West African Health Organisation (WAHO)",
+      "year": "2013",
+      "entry_type": "book",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150018",
+      "entry_key": "perfumum_russo2011",
+      "title": "Taming THC: potential cannabis synergy and phytocannabinoid-terpenoid entourage effects",
+      "authors": "Ethan B. Russo",
+      "year": "2011",
+      "entry_type": "article",
+      "research_domain": "tabac_cannabis"
+    },
+    {
+      "id": "150024",
+      "entry_key": "perfumum_baser2010",
+      "title": "Handbook of Essential Oils: Science, Technology, and Applications",
+      "authors": "K. Hüsnü Can Başer, Gerhard Buchbauer",
+      "year": "2010",
+      "entry_type": "book",
+      "research_domain": "extraction"
+    },
+    {
+      "id": "150054",
+      "entry_key": "perfumum_oliveroverbel2010",
+      "title": "Chemical composition and antioxidant activity of essential oil of Tagetes lucida from Colombia",
+      "authors": "J. Olivero-Verbel, L.S. Nerio, E.E. Stashenko",
+      "year": "2010",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150053",
+      "entry_key": "perfumum_buenosanchez2009",
+      "title": "Anti-tubercular activity of eleven aromatic and medicinal plants occurring in Colombia",
+      "authors": "J.G. Bueno-Sánchez, J.R. Martínez-Morales, E.E. Stashenko, W. Ribón",
+      "year": "2009",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150015",
+      "entry_key": "perfumum_dewick2009",
+      "title": "Medicinal Natural Products: A Biosynthetic Approach",
+      "authors": "Paul M. Dewick",
+      "year": "2009",
+      "entry_type": "book",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150051",
+      "entry_key": "perfumum_nerio2009",
+      "title": "Repellent activity of essential oils from seven aromatic plants grown in Colombia against Sitophilus zeamais Motschulsky (Coleoptera)",
+      "authors": "Luz S. Nerio, Jesus Olivero-Verbel, Elena E. Stashenko",
+      "year": "2009",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150057",
+      "entry_key": "perfumum_ceuterick2008",
+      "title": "The Colombian folk pharmacopoeia in London: traditional health care practices and changes in medicinal plant use among the Colombian community",
+      "authors": "Melissa Ceuterick, Ina Vandebroek, Andrea Pieroni",
+      "year": "2008",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150038",
+      "entry_key": "perfumum_api2008",
+      "title": "Dermal sensitization quantitative risk assessment (QRA) for fragrance ingredients",
+      "authors": "Anne Marie Api, David A. Basketter, et al.",
+      "year": "2008",
+      "entry_type": "article",
+      "research_domain": "reglementation"
+    },
+    {
+      "id": "150016",
+      "entry_key": "perfumum_gershenzon2007",
+      "title": "The function of terpene natural products in the natural world",
+      "authors": "Jonathan Gershenzon, Natalia Dudareva",
+      "year": "2007",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150009",
+      "entry_key": "perfumum_ellena2007",
+      "title": "Journal d'un Parfumeur",
+      "authors": "Jean-Claude Ellena",
+      "year": "2007",
+      "entry_type": "book",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "150014",
+      "entry_key": "perfumum_breitmaier2006",
+      "title": "Terpenes: Flavors, Fragrances, Pharmaca, Pheromones",
+      "authors": "Eberhard Breitmaier",
+      "year": "2006",
+      "entry_type": "book",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150003",
+      "entry_key": "perfumum_sell2006",
+      "title": "The Chemistry of Fragrances: From Perfumer to Consumer",
+      "authors": "Charles Sell",
+      "year": "2006",
+      "entry_type": "book",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150035",
+      "entry_key": "perfumum_surburg2006",
+      "title": "Common Fragrance and Flavor Materials: Preparation, Properties and Uses",
+      "authors": "Horst Surburg, Johannes Panten",
+      "year": "2006",
+      "entry_type": "book",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "150026",
+      "entry_key": "perfumum_bicchi2004",
+      "title": "Headspace sampling of the volatile fraction of vegetable matrices",
+      "authors": "Carlo Bicchi, Chiara Cordero, Patrizia Rubiolo",
+      "year": "2004",
+      "entry_type": "article",
+      "research_domain": "extraction"
+    },
+    {
+      "id": "150022",
+      "entry_key": "perfumum_herz2004",
+      "title": "Neuroimaging evidence for the emotional potency of odor-evoked memory",
+      "authors": "Rachel S. Herz, Jonathan Eliassen, Sophia Beland, Timothy Souza",
+      "year": "2004",
+      "entry_type": "article",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "150005",
+      "entry_key": "perfumum_buck2004",
+      "title": "Odorant Receptors and the Organization of the Olfactory System",
+      "authors": "Linda Buck",
+      "year": "2004",
+      "entry_type": "article",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "150041",
+      "entry_key": "perfumum_flavornet2004",
+      "title": "Flavornet and Human Odor Space",
+      "authors": "Terry E. Acree, Heinrich Arn",
+      "year": "2004",
+      "entry_type": "online",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150013",
+      "entry_key": "perfumum_burr2003",
+      "title": "The Emperor of Scent: A True Story of Perfume and Obsession",
+      "authors": "Chandler Burr",
+      "year": "2003",
+      "entry_type": "book",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "150063",
+      "entry_key": "perfumum_nebie2002",
+      "title": "Étude des plantes aromatiques du Burkina Faso: Caractérisations chimique et biologique des huiles essentielles de Lippia multiflora",
+      "authors": "R.H.C. Nébié, R.T. Yaméogo, A. Bélanger, C. Sib",
+      "year": "2002",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150020",
+      "entry_key": "perfumum_firestein2001",
+      "title": "How the olfactory system makes sense of scents",
+      "authors": "Stuart Firestein",
+      "year": "2001",
+      "entry_type": "article",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "150012",
+      "entry_key": "perfumum_aftel2001",
+      "title": "Essence and Alchemy: A Natural History of Perfume",
+      "authors": "Mandy Aftel",
+      "year": "2001",
+      "entry_type": "book",
+      "research_domain": "histoire_parfumerie"
+    },
+    {
+      "id": "150027",
+      "entry_key": "perfumum_marriott2001",
+      "title": "Principles and applications of headspace analysis",
+      "authors": "Philip J. Marriott, Robin Shellie, Charles Cornwell",
+      "year": "2001",
+      "entry_type": "article",
+      "research_domain": "extraction"
+    },
+    {
+      "id": "150031",
+      "entry_key": "perfumum_cunningham2001",
+      "title": "Applied Ethnobotany: People, Wild Plant Use and Conservation",
+      "authors": "Anthony B. Cunningham",
+      "year": "2001",
+      "entry_type": "book",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150036",
+      "entry_key": "perfumum_poucher2000",
+      "title": "Poucher's Perfumes, Cosmetics and Soaps",
+      "authors": "Hilda Butler",
+      "year": "2000",
+      "entry_type": "book",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "150017",
+      "entry_key": "perfumum_croteau2000",
+      "title": "Natural Products (Secondary Metabolites)",
+      "authors": "Rodney Croteau, Toni M. Kutchan, Norman G. Lewis",
+      "year": "2000",
+      "entry_type": "inbook",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150034",
+      "entry_key": "perfumum_kraft2000",
+      "title": "Aroma Chemicals IV: Musks",
+      "authors": "Philip Kraft",
+      "year": "2000",
+      "entry_type": "inbook",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "150044",
+      "entry_key": "perfumum_layten1999",
+      "title": "Tobacco: Production, Chemistry and Technology",
+      "authors": "Davis D. Layten, Mark T. Nielsen",
+      "year": "1999",
+      "entry_type": "book",
+      "research_domain": "tabac_cannabis"
+    },
+    {
+      "id": "150062",
+      "entry_key": "perfumum_samate1998",
+      "title": "Aromatic Plants of Tropical West Africa. VII. Chemical Composition of the Essential Oils of two Eucalyptus Species from Burkina Faso",
+      "authors": "A.D. Samaté, H.J.T. Bloem, S. Barreau, et al.",
+      "year": "1998",
+      "entry_type": "article",
+      "research_domain": "extraction"
+    },
+    {
+      "id": "150025",
+      "entry_key": "perfumum_reverchon1997",
+      "title": "Supercritical fluid extraction and fractionation of essential oils and related products",
+      "authors": "Ernesto Reverchon",
+      "year": "1997",
+      "entry_type": "article",
+      "research_domain": "extraction"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentry_key\ttitle\tauthors\tyear\tentry_type\tresearch_domain\n150064\tperfumum_kienou2025\tPlantes aromatiques et leurs huiles essentielles: état des connaissances et utilisation dans la gestion de la chenille légionnaire d'automne à l'ouest du Burkina Faso\tT. Kienou, S. Ouattara, A. Sawadogo, et al.\t2025\tarticle\tethnobotanique\n150056\tperfumum_perafan2024\tEthnobotanical study of the uses of medicinal plants in the Nasa ethnic group in the Colombian Andes\tG.M.P. Perafán, M.A. Bastidas-Bacca, et al.\t2024\tarticle\tethnobotanique\n150058\tperfumum_ouedraogo2024\tMedicinal Plants of Aromatic Potential from Burkina Faso: a Review\tW. Jedida Ouedraogo, R. Serge Yerbanga, Roland Meda, Jean Bosco Ouedraogo, Georges A. Ouedraogo\t2024\tarticle\tethnobotanique\n150040\tperfumum_thegoodscents2023\tThe Good Scents Company Information System\tThe Good Scents Company\t2023\tonline\tformulation\n150050\tperfumum_carreno2023\tEssential Oils Distilled from Colombian Aromatic Plants and Their Constituents as Penetration Enhancers for Transdermal Drug Delivery\tHeider Carreño, Elena E. Stashenko, Patricia Escobar\t2023\tarticle\tchimie_olfactive\n150039\tperfumum_pubchem2023\tPubChem Compound Database\tNational Center for Biotechnology Information\t2023\tonline\tchimie_olfactive\n150060\tperfumum_balbonne2022\tEssential Oils From Five Local Plants: An Alternative Larvicide Against Aedes aegypti in Burkina Faso\tM. Balboné, A. Sanou, R. Ouédraogo, et al.\t2022\tarticle\tchimie_olfactive\n150065\tperfumum_popoola2022\tWest African medicinal plants and their constituent compounds in antiviral drug discovery\tT.D. Popoola, O.A. Awodele, A.T. Omisanya, et al.\t2022\tarticle\tethnobotanique\n150059\tperfumum_sounouvou2021\tAntimicrobial potentials of essential oils extracted from aromatic plants of Benin and Burkina Faso\tH.T. Sounouvou, A. Toukourou, C. Agbangnan, et al.\t2021\tarticle\tchimie_olfactive\n150037\tperfumum_ifra2020\tIFRA Standards Library - 49th Amendment\tInternational Fragrance Association\t2020\ttechreport\treglementation\n150010\tperfumum_edwards2019\tFragrances of the World\tMichael Edwards\t2019\tbook\tformulation\n150052\tperfumum_stashenko2019\tStudy of Essential Oils Obtained from Tropical Plants Grown in Colombia\tElena E. Stashenko\t2019\tinbook\textraction\n150055\tperfumum_bussmann2018\tAstonishing diversity—the medicinal plant markets of Bogotá\tRainer W. Bussmann, Narel Y. Paniagua Zambrana, Sonia Liliana Romero Benavides, Bebelyn Placencia Castillo\t2018\tarticle\tethnobotanique\n150042\tperfumum_booth2017\tTerpene synthases from Cannabis sativa\tJudith K. Booth, Jonathan E. Page, Jörg Bohlmann\t2017\tarticle\ttabac_cannabis\n150023\tperfumum_keller2016\tOlfactory perception of chemically diverse molecules\tAndreas Keller, Leslie B. Vosshall\t2016\tarticle\tneurologie_olfactive\n150043\tperfumum_andre2016\tCannabis sativa: The Plant of the Thousand and One Molecules\tChristelle M. Andre, Jean-François Hausman, Gea Guerriero\t2016\tarticle\ttabac_cannabis\n150061\tperfumum_bayala2014\tChemical Composition, Antioxidant, Anti-Inflammatory and Anti-Proliferative Activities of Essential Oils of Plants from Burkina Faso\tB. Bayala, I.H.N. Bassole, C. Gnoula, et al.\t2014\tarticle\tchimie_olfactive\n150021\tperfumum_mainland2014\tThe missense of smell: functional variability in the human odorant receptor repertoire\tJoel D. Mainland, Andreas Keller, Yun R. Li, et al.\t2014\tarticle\tneurologie_olfactive\n150004\tperfumum_tisserand2014\tEssential Oil Safety: A Guide for Health Care Professionals\tRobert Tisserand, Rodney Young\t2014\tbook\treglementation\n150045\tperfumum_rodgman2013\tThe Chemical Components of Tobacco and Tobacco Smoke\tAlan Rodgman, Thomas A. Perfetti\t2013\tbook\ttabac_cannabis\n150066\tperfumum_waho2013\tWest African Herbal Pharmacopoeia\tWest African Health Organisation (WAHO)\t2013\tbook\tethnobotanique\n150018\tperfumum_russo2011\tTaming THC: potential cannabis synergy and phytocannabinoid-terpenoid entourage effects\tEthan B. Russo\t2011\tarticle\ttabac_cannabis\n150024\tperfumum_baser2010\tHandbook of Essential Oils: Science, Technology, and Applications\tK. Hüsnü Can Başer, Gerhard Buchbauer\t2010\tbook\textraction\n150054\tperfumum_oliveroverbel2010\tChemical composition and antioxidant activity of essential oil of Tagetes lucida from Colombia\tJ. Olivero-Verbel, L.S. Nerio, E.E. Stashenko\t2010\tarticle\tchimie_olfactive\n150053\tperfumum_buenosanchez2009\tAnti-tubercular activity of eleven aromatic and medicinal plants occurring in Colombia\tJ.G. Bueno-Sánchez, J.R. Martínez-Morales, E.E. Stashenko, W. Ribón\t2009\tarticle\tethnobotanique\n150015\tperfumum_dewick2009\tMedicinal Natural Products: A Biosynthetic Approach\tPaul M. Dewick\t2009\tbook\tchimie_olfactive\n150051\tperfumum_nerio2009\tRepellent activity of essential oils from seven aromatic plants grown in Colombia against Sitophilus zeamais Motschulsky (Coleoptera)\tLuz S. Nerio, Jesus Olivero-Verbel, Elena E. Stashenko\t2009\tarticle\tchimie_olfactive\n150057\tperfumum_ceuterick2008\tThe Colombian folk pharmacopoeia in London: traditional health care practices and changes in medicinal plant use among the Colombian community\tMelissa Ceuterick, Ina Vandebroek, Andrea Pieroni\t2008\tarticle\tethnobotanique\n150038\tperfumum_api2008\tDermal sensitization quantitative risk assessment (QRA) for fragrance ingredients\tAnne Marie Api, David A. Basketter, et al.\t2008\tarticle\treglementation\n150016\tperfumum_gershenzon2007\tThe function of terpene natural products in the natural world\tJonathan Gershenzon, Natalia Dudareva\t2007\tarticle\tchimie_olfactive\n150009\tperfumum_ellena2007\tJournal d'un Parfumeur\tJean-Claude Ellena\t2007\tbook\tformulation\n150014\tperfumum_breitmaier2006\tTerpenes: Flavors, Fragrances, Pharmaca, Pheromones\tEberhard Breitmaier\t2006\tbook\tchimie_olfactive\n150003\tperfumum_sell2006\tThe Chemistry of Fragrances: From Perfumer to Consumer\tCharles Sell\t2006\tbook\tchimie_olfactive\n150035\tperfumum_surburg2006\tCommon Fragrance and Flavor Materials: Preparation, Properties and Uses\tHorst Surburg, Johannes Panten\t2006\tbook\tformulation\n150026\tperfumum_bicchi2004\tHeadspace sampling of the volatile fraction of vegetable matrices\tCarlo Bicchi, Chiara Cordero, Patrizia Rubiolo\t2004\tarticle\textraction\n150022\tperfumum_herz2004\tNeuroimaging evidence for the emotional potency of odor-evoked memory\tRachel S. Herz, Jonathan Eliassen, Sophia Beland, Timothy Souza\t2004\tarticle\tneurologie_olfactive\n150005\tperfumum_buck2004\tOdorant Receptors and the Organization of the Olfactory System\tLinda Buck\t2004\tarticle\tneurologie_olfactive\n150041\tperfumum_flavornet2004\tFlavornet and Human Odor Space\tTerry E. Acree, Heinrich Arn\t2004\tonline\tchimie_olfactive\n150013\tperfumum_burr2003\tThe Emperor of Scent: A True Story of Perfume and Obsession\tChandler Burr\t2003\tbook\tneurologie_olfactive\n150063\tperfumum_nebie2002\tÉtude des plantes aromatiques du Burkina Faso: Caractérisations chimique et biologique des huiles essentielles de Lippia multiflora\tR.H.C. Nébié, R.T. Yaméogo, A. Bélanger, C. Sib\t2002\tarticle\tchimie_olfactive\n150020\tperfumum_firestein2001\tHow the olfactory system makes sense of scents\tStuart Firestein\t2001\tarticle\tneurologie_olfactive\n150012\tperfumum_aftel2001\tEssence and Alchemy: A Natural History of Perfume\tMandy Aftel\t2001\tbook\thistoire_parfumerie\n150027\tperfumum_marriott2001\tPrinciples and applications of headspace analysis\tPhilip J. Marriott, Robin Shellie, Charles Cornwell\t2001\tarticle\textraction\n150031\tperfumum_cunningham2001\tApplied Ethnobotany: People, Wild Plant Use and Conservation\tAnthony B. Cunningham\t2001\tbook\tethnobotanique\n150036\tperfumum_poucher2000\tPoucher's Perfumes, Cosmetics and Soaps\tHilda Butler\t2000\tbook\tformulation\n150017\tperfumum_croteau2000\tNatural Products (Secondary Metabolites)\tRodney Croteau, Toni M. Kutchan, Norman G. Lewis\t2000\tinbook\tchimie_olfactive\n150034\tperfumum_kraft2000\tAroma Chemicals IV: Musks\tPhilip Kraft\t2000\tinbook\tformulation\n150044\tperfumum_layten1999\tTobacco: Production, Chemistry and Technology\tDavis D. Layten, Mark T. Nielsen\t1999\tbook\ttabac_cannabis\n150062\tperfumum_samate1998\tAromatic Plants of Tropical West Africa. VII. Chemical Composition of the Essential Oils of two Eucalyptus Species from Burkina Faso\tA.D. Samaté, H.J.T. Bloem, S. Barreau, et al.\t1998\tarticle\textraction\n150025\tperfumum_reverchon1997\tSupercritical fluid extraction and fractionation of essential oils and related products\tErnesto Reverchon\t1997\tarticle\textraction\n",
+  "stderr": "",
+  "execution_time_ms": 518
+}

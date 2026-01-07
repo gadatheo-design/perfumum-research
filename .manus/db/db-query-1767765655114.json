@@ -1,0 +1,17 @@
+{
+  "query": "SELECT COUNT(*) as total, \n       SUM(CASE WHEN entry_type = 'book' THEN 1 ELSE 0 END) as livres,\n       SUM(CASE WHEN entry_type = 'article' THEN 1 ELSE 0 END) as articles,\n       SUM(CASE WHEN entry_type = 'online' THEN 1 ELSE 0 END) as en_ligne,\n       SUM(CASE WHEN entry_type NOT IN ('book', 'article', 'online') THEN 1 ELSE 0 END) as autres\nFROM bibliography_entries;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, \n       SUM(CASE WHEN entry_type = 'book' THEN 1 ELSE 0 END) as livres,\n       SUM(CASE WHEN entry_type = 'article' THEN 1 ELSE 0 END) as articles,\n       SUM(CASE WHEN entry_type = 'online' THEN 1 ELSE 0 END) as en_ligne,\n       SUM(CASE WHEN entry_type NOT IN ('book', 'article', 'online') THEN 1 ELSE 0 END) as autres\nFROM bibliography_entries;",
+  "rows": [
+    {
+      "total": "95",
+      "livres": "42",
+      "articles": "36",
+      "en_ligne": "13",
+      "autres": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tlivres\tarticles\ten_ligne\tautres\n95\t42\t36\t13\t4\n",
+  "stderr": "",
+  "execution_time_ms": 413
+}
