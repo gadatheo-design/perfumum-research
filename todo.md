@@ -1671,6 +1671,16 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Ajouter des liens de retour et fil d'Ariane si nécessaire
 
 ### Breadcrumbs dynamiques sur les pages de détail
+- [x] Breadcrumbs implémentés sur toutes les pages de détail
+
+---
+
+## 🏛️ SESSION 07 JAN 2026 - ENRICHISSEMENT HERITAGE & TIMELINE
+
+### Phase 5 : Liens Heritage-Timeline
+- [ ] Lier les 34 références bibliographiques Heritage aux périodes de la timeline
+- [ ] Enrichir les linkedMoleculeIds avec les molécules perdues
+- [ ] Créer une vue "Sources Heritage" dans la bibliographie
 - [x] Enrichir le composant Breadcrumbs avec plus de mappings (San Andrés, plantes, variétés, etc.)
 - [x] Intégrer sur page détail plante (PlantDetail)
 - [x] Intégrer sur page détail variété (VarietyDetail)
