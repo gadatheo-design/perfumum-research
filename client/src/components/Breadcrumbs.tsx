@@ -157,7 +157,6 @@ const labelMap: Record<string, string> = {
   "protocole-moleculaire": "Protocole Moléculaire",
   
   // Matières premières
-  "matieres-premieres": "Matières Premières",
   "raw-materials": "Matières Premières",
   "raw-material": "Matière Première",
   
@@ -176,9 +175,6 @@ const labelMap: Record<string, string> = {
   // Études climatiques
   "etudes-climatiques": "Études Climatiques",
   "etude-climatique": "Étude Climatique",
-  
-  // Terpènes
-  "terpenes": "Terpènes",
 };
 
 interface BreadcrumbsProps {

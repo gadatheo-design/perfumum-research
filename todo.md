@@ -1671,15 +1671,17 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Ajouter des liens de retour et fil d'Ariane si nécessaire
 
 ### Breadcrumbs dynamiques sur les pages de détail
-- [x] Enrichir le composant Breadcrumbs avec plus de mappings (San Andrés, plantes, variétés, etc.)
+- [x] Créer composant Breadcrumbs réutilisable (déjà existant, amélioré avec plus de mappings)
+- [x] Intégrer sur page détail ingrédient (MoleculeDetail - déjà fait)
+- [x] Intégrer sur page détail recette (RecetteDetail - déjà fait)
 - [x] Intégrer sur page détail plante (PlantDetail)
 - [x] Intégrer sur page détail variété (VarietyDetail)
 - [x] Intégrer sur page détail matière première (RawMaterialDetail)
 - [x] Intégrer sur page détail archive terrain (ArchiveTerrainDetail)
 - [x] Intégrer sur page détail étude climatique (EtudeClimatiqueDetail)
 - [x] Intégrer sur page détail protocole moléculaire (ProtocoleMoleculaireDetail)
-- [x] Intégrer sur page détail leaf economy (LeafEconomyDetail)
 - [x] Intégrer sur page détail terpène (TerpeneDetail)
+- [x] Intégrer sur pages San Andrés (LeafEconomyDetail)
 - [ ] Améliorer les liens contextuels entre pages liées
 - [ ] Vérifier la navigation mobile
 

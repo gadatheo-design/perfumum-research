@@ -66,14 +66,8 @@ export default function ArchiveTerrainDetail() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50/30 to-emerald-50/20">
       {/* Breadcrumbs */}
-      <div className="bg-stone-50">
-        <Breadcrumbs 
-          currentLabel={archive.provisionalName || "Archive"}
-          customItems={[
-            { label: "Archives Terrain", path: "/archives-terrain" },
-            { label: archive.provisionalName || "Archive" }
-          ]}
-        />
+      <div className="container pt-4">
+        <Breadcrumbs currentLabel={archive.provisionalName || "Archive"} />
       </div>
       
       {/* Header */}
