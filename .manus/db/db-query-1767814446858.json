@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COUNT(*) as total, \n       COUNT(DISTINCT axis_primary_code) as axes_count,\n       COUNT(DISTINCT entry_type) as types_count\nFROM v3_references;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, \n       COUNT(DISTINCT axis_primary_code) as axes_count,\n       COUNT(DISTINCT entry_type) as types_count\nFROM v3_references;",
+  "rows": [
+    {
+      "total": "147",
+      "axes_count": "49",
+      "types_count": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\taxes_count\ttypes_count\n147\t49\t12\n",
+  "stderr": "",
+  "execution_time_ms": 85
+}

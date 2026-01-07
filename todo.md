@@ -4183,3 +4183,58 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Intégrer les liens dans la vue Frise chronologique
 - [x] Intégrer les liens dans la vue Timeline historique
 - [x] Créer les tests unitaires (heritage-conservation.test.ts)
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - INTÉGRATION BIBLIOGRAPHIE SCIENTIFIQUE
+
+### Phase 1 : Analyse et préparation des données
+- [ ] Analyser le fichier CSV de bibliographie (50+ références)
+- [ ] Identifier les champs : reference_id, type, year, title, authors, venue, doi, url, axis, tags, note
+- [ ] Vérifier la compatibilité avec le schéma existant
+
+### Phase 2 : Mise à jour du schéma de base de données
+- [ ] Créer/mettre à jour la table `bibliography` avec tous les champs nécessaires
+- [ ] Ajouter les index pour les recherches (axis, year, type)
+- [ ] Migrer le schéma avec `pnpm db:push`
+
+### Phase 3 : Import des données bibliographiques
+- [ ] Créer le script d'import des 50+ références
+- [ ] Importer les données dans la base de données
+- [ ] Valider l'intégrité des données importées
+
+### Phase 4 : Interface utilisateur
+- [ ] Mettre à jour la page Bibliographie avec les nouvelles données
+- [ ] Ajouter les filtres par axe de recherche (Omics, Herbarium, Heritage, Digital smell, etc.)
+- [ ] Ajouter les filtres par type (journal-article, preprint, website, book, etc.)
+- [ ] Ajouter la recherche par tags
+- [ ] Créer les liens vers les DOI et URLs
+
+### Phase 5 : Tests et validation
+- [ ] Tester l'affichage de toutes les références
+- [ ] Tester les filtres et la recherche
+- [ ] Valider le responsive mobile
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - IMPORT BIBLIOGRAPHIE NICHE INNOVATIONS
+
+### Phase 1 : Analyse des données
+- [x] Analyser le fichier PERFUMUM_Bibliography_NicheInnovations_AllSources_v2.csv (50 références)
+- [x] Identifier les champs : reference_id, type, year, title, authors, venue, doi, url, axis, tags, note
+- [x] Vérifier la compatibilité avec le schéma v3_references existant
+
+### Phase 2 : Import des données
+- [x] Importer les 50 références dans la table v3_references
+- [x] Valider l'intégrité des données importées (147 références totales dans v3_references)
+- [x] Vérifier les statistiques par axe et type
+
+### Phase 3 : Validation
+- [ ] Tester l'affichage des nouvelles références sur la page ReferencesV3
+- [ ] Vérifier les filtres par axe de recherche
+- [ ] Créer le checkpoint final
+

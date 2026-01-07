@@ -1,0 +1,130 @@
+{
+  "query": "SELECT entry_key, title, entry_type, axis_primary_code FROM v3_references ORDER BY imported_at DESC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT entry_key, title, entry_type, axis_primary_code FROM v3_references ORDER BY imported_at DESC LIMIT 20;",
+  "rows": [
+    {
+      "entry_key": "CHEM-007",
+      "title": "Tandem Mass Spectral Library (NIST)",
+      "entry_type": "website",
+      "axis_primary_code": "Chem analytics tooling"
+    },
+    {
+      "entry_key": "CHEM-006",
+      "title": "GenBank 2025 update",
+      "entry_type": "article",
+      "axis_primary_code": "Genomics infra"
+    },
+    {
+      "entry_key": "DAT-014",
+      "title": "Metabolomics Workbench — How to Cite (project ID + DOI)",
+      "entry_type": "website",
+      "axis_primary_code": "Data infra / Repositories"
+    },
+    {
+      "entry_key": "TAX-004",
+      "title": "GBIF — Citation Guidelines",
+      "entry_type": "website",
+      "axis_primary_code": "Taxonomy & distribution"
+    },
+    {
+      "entry_key": "CHEM-005",
+      "title": "PubMed (NCBI) — portal",
+      "entry_type": "website",
+      "axis_primary_code": "Scholarly discovery infra"
+    },
+    {
+      "entry_key": "BIO-003",
+      "title": "Sustainable Ambrox Production: Chemistry Meets Biocatalysis",
+      "entry_type": "report",
+      "axis_primary_code": "Biotech / Conservation substitutes"
+    },
+    {
+      "entry_key": "CIT-003",
+      "title": "Smell Pittsburgh — Data Analysis page",
+      "entry_type": "website",
+      "axis_primary_code": "Citizen science / Smell mapping"
+    },
+    {
+      "entry_key": "TAX-005",
+      "title": "Kew — Data and digital resources (overview)",
+      "entry_type": "website",
+      "axis_primary_code": "Taxonomy & distribution"
+    },
+    {
+      "entry_key": "HER-002",
+      "title": "Archaeologists Discover New Evidence of Ancient Perfume Trade",
+      "entry_type": "news",
+      "axis_primary_code": "Heritage science / Lost perfumes"
+    },
+    {
+      "entry_key": "DAT-012",
+      "title": "MetaboLights — About (EMBL-EBI)",
+      "entry_type": "website",
+      "axis_primary_code": "Data infra / Repositories"
+    },
+    {
+      "entry_key": "DAT-010",
+      "title": "GNPS Public Spectral Libraries (index)",
+      "entry_type": "website",
+      "axis_primary_code": "Data infra / Metabolomics"
+    },
+    {
+      "entry_key": "DAT-013",
+      "title": "MetaboLights: open data repository for metabolomics",
+      "entry_type": "article",
+      "axis_primary_code": "Data infra / Repositories"
+    },
+    {
+      "entry_key": "DAT-009",
+      "title": "GNPS Documentation (developer docs)",
+      "entry_type": "website",
+      "axis_primary_code": "Data infra / Metabolomics"
+    },
+    {
+      "entry_key": "OLF-002",
+      "title": "Pyrfume-Data design scheme",
+      "entry_type": "website",
+      "axis_primary_code": "Olfaction datasets"
+    },
+    {
+      "entry_key": "DAT-011",
+      "title": "GNPS — FAIRsharing registry record",
+      "entry_type": "website",
+      "axis_primary_code": "Data infra / Metabolomics"
+    },
+    {
+      "entry_key": "OLF-003",
+      "title": "Atlas of Odor Character Profiles",
+      "entry_type": "book",
+      "axis_primary_code": "Olfaction datasets"
+    },
+    {
+      "entry_key": "OLF-005",
+      "title": "Leffingwell odor dataset (expert-labeled odor descriptors)",
+      "entry_type": "dataset",
+      "axis_primary_code": "Olfaction datasets"
+    },
+    {
+      "entry_key": "OLF-004",
+      "title": "Predicting natural language descriptions of mono-molecular odorants",
+      "entry_type": "article",
+      "axis_primary_code": "Olfaction datasets / ML"
+    },
+    {
+      "entry_key": "OLF-001",
+      "title": "Pyrfume: A window to the worlds olfactory data",
+      "entry_type": "article",
+      "axis_primary_code": "Olfaction datasets"
+    },
+    {
+      "entry_key": "TAX-002",
+      "title": "GBIF — Global Biodiversity Information Facility",
+      "entry_type": "website",
+      "axis_primary_code": "Taxonomy & distribution"
+    }
+  ],
+  "messages": [],
+  "stdout": "entry_key\ttitle\tentry_type\taxis_primary_code\nCHEM-007\tTandem Mass Spectral Library (NIST)\twebsite\tChem analytics tooling\nCHEM-006\tGenBank 2025 update\tarticle\tGenomics infra\nDAT-014\tMetabolomics Workbench — How to Cite (project ID + DOI)\twebsite\tData infra / Repositories\nTAX-004\tGBIF — Citation Guidelines\twebsite\tTaxonomy & distribution\nCHEM-005\tPubMed (NCBI) — portal\twebsite\tScholarly discovery infra\nBIO-003\tSustainable Ambrox Production: Chemistry Meets Biocatalysis\treport\tBiotech / Conservation substitutes\nCIT-003\tSmell Pittsburgh — Data Analysis page\twebsite\tCitizen science / Smell mapping\nTAX-005\tKew — Data and digital resources (overview)\twebsite\tTaxonomy & distribution\nHER-002\tArchaeologists Discover New Evidence of Ancient Perfume Trade\tnews\tHeritage science / Lost perfumes\nDAT-012\tMetaboLights — About (EMBL-EBI)\twebsite\tData infra / Repositories\nDAT-010\tGNPS Public Spectral Libraries (index)\twebsite\tData infra / Metabolomics\nDAT-013\tMetaboLights: open data repository for metabolomics\tarticle\tData infra / Repositories\nDAT-009\tGNPS Documentation (developer docs)\twebsite\tData infra / Metabolomics\nOLF-002\tPyrfume-Data design scheme\twebsite\tOlfaction datasets\nDAT-011\tGNPS — FAIRsharing registry record\twebsite\tData infra / Metabolomics\nOLF-003\tAtlas of Odor Character Profiles\tbook\tOlfaction datasets\nOLF-005\tLeffingwell odor dataset (expert-labeled odor descriptors)\tdataset\tOlfaction datasets\nOLF-004\tPredicting natural language descriptions of mono-molecular odorants\tarticle\tOlfaction datasets / ML\nOLF-001\tPyrfume: A window to the worlds olfactory data\tarticle\tOlfaction datasets\nTAX-002\tGBIF — Global Biodiversity Information Facility\twebsite\tTaxonomy & distribution\n",
+  "stderr": "",
+  "execution_time_ms": 134
+}

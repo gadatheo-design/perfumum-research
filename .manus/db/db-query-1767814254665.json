@@ -1,0 +1,415 @@
+{
+  "query": "SELECT COUNT(*) as total, entry_type, axis_primary_code FROM v3_references GROUP BY entry_type, axis_primary_code ORDER BY total DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, entry_type, axis_primary_code FROM v3_references GROUP BY entry_type, axis_primary_code ORDER BY total DESC;",
+  "rows": [
+    {
+      "total": "11",
+      "entry_type": "article",
+      "axis_primary_code": "N1"
+    },
+    {
+      "total": "5",
+      "entry_type": "website",
+      "axis_primary_code": "Taxonomy & distribution"
+    },
+    {
+      "total": "5",
+      "entry_type": "article",
+      "axis_primary_code": "J2 VR olfactive & multisensory interfaces"
+    },
+    {
+      "total": "5",
+      "entry_type": "book",
+      "axis_primary_code": "A1 Smell studies & critical theory"
+    },
+    {
+      "total": "4",
+      "entry_type": "article",
+      "axis_primary_code": "M2"
+    },
+    {
+      "total": "4",
+      "entry_type": "book",
+      "axis_primary_code": "F1 Ethics, politics & decolonial smell"
+    },
+    {
+      "total": "4",
+      "entry_type": "news",
+      "axis_primary_code": "C1 Olfactory heritage & computational humanities"
+    },
+    {
+      "total": "4",
+      "entry_type": "website",
+      "axis_primary_code": "C1 Olfactory heritage & computational humanities"
+    },
+    {
+      "total": "4",
+      "entry_type": "website",
+      "axis_primary_code": "Data infra / Metabolomics"
+    },
+    {
+      "total": "3",
+      "entry_type": "website",
+      "axis_primary_code": "Data infra / Repositories"
+    },
+    {
+      "total": "3",
+      "entry_type": "article",
+      "axis_primary_code": "E1 Museum protocols & olfactory museology"
+    },
+    {
+      "total": "3",
+      "entry_type": "article",
+      "axis_primary_code": "Omics / Chemodiversity"
+    },
+    {
+      "total": "3",
+      "entry_type": "article",
+      "axis_primary_code": "M3"
+    },
+    {
+      "total": "3",
+      "entry_type": "book",
+      "axis_primary_code": "B2 Smell in space, design & urban smellscapes"
+    },
+    {
+      "total": "3",
+      "entry_type": "article",
+      "axis_primary_code": "Data infra / Repositories"
+    },
+    {
+      "total": "3",
+      "entry_type": "article",
+      "axis_primary_code": "M1"
+    },
+    {
+      "total": "2",
+      "entry_type": "website",
+      "axis_primary_code": "Chem analytics tooling"
+    },
+    {
+      "total": "2",
+      "entry_type": "preprint",
+      "axis_primary_code": "J3 AI for olfaction / digital smell"
+    },
+    {
+      "total": "2",
+      "entry_type": "book",
+      "axis_primary_code": "N2 Tabac: industrie, histoire, pouvoir"
+    },
+    {
+      "total": "2",
+      "entry_type": "article",
+      "axis_primary_code": "E2 Heritage science: documentation & analysis"
+    },
+    {
+      "total": "2",
+      "entry_type": "website",
+      "axis_primary_code": "Data infra / Spectral libraries"
+    },
+    {
+      "total": "2",
+      "entry_type": "book",
+      "axis_primary_code": "N1 Tabac: ethnobotanique & rituels"
+    },
+    {
+      "total": "2",
+      "entry_type": "website",
+      "axis_primary_code": "B1 Olfactory art & aesthetics"
+    },
+    {
+      "total": "2",
+      "entry_type": "report",
+      "axis_primary_code": "E1 Museum protocols & olfactory museology"
+    },
+    {
+      "total": "2",
+      "entry_type": "book",
+      "axis_primary_code": "B1 Olfactory art & aesthetics"
+    },
+    {
+      "total": "2",
+      "entry_type": "article",
+      "axis_primary_code": "J3 AI for olfaction / digital smell"
+    },
+    {
+      "total": "2",
+      "entry_type": "website",
+      "axis_primary_code": "M3"
+    },
+    {
+      "total": "2",
+      "entry_type": "article",
+      "axis_primary_code": "N2"
+    },
+    {
+      "total": "2",
+      "entry_type": "website",
+      "axis_primary_code": "Ethnobotany computation / Scholarly graph"
+    },
+    {
+      "total": "2",
+      "entry_type": "website",
+      "axis_primary_code": "J3"
+    },
+    {
+      "total": "2",
+      "entry_type": "article",
+      "axis_primary_code": "Genomics infra"
+    },
+    {
+      "total": "1",
+      "entry_type": "website",
+      "axis_primary_code": "Chem info infra"
+    },
+    {
+      "total": "1",
+      "entry_type": "website",
+      "axis_primary_code": "M2"
+    },
+    {
+      "total": "1",
+      "entry_type": "news",
+      "axis_primary_code": "J2 VR olfactive & multisensory interfaces"
+    },
+    {
+      "total": "1",
+      "entry_type": "thesis",
+      "axis_primary_code": "B1 Olfactory art & aesthetics"
+    },
+    {
+      "total": "1",
+      "entry_type": "conference_paper",
+      "axis_primary_code": "D1 Knowledge graph & datasets"
+    },
+    {
+      "total": "1",
+      "entry_type": "website",
+      "axis_primary_code": "E1 Museum protocols & olfactory museology"
+    },
+    {
+      "total": "1",
+      "entry_type": "book",
+      "axis_primary_code": "C1 Olfactory heritage & computational humanities"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "M1 Cannabis: diversité colombienne (chimio/terpènes)"
+    },
+    {
+      "total": "1",
+      "entry_type": "book",
+      "axis_primary_code": "N3 Psychoactive ethnobotany (context only)"
+    },
+    {
+      "total": "1",
+      "entry_type": "dataset",
+      "axis_primary_code": "D1 Knowledge graph & datasets"
+    },
+    {
+      "total": "1",
+      "entry_type": "news",
+      "axis_primary_code": "Heritage science / Lost perfumes"
+    },
+    {
+      "total": "1",
+      "entry_type": "chapter",
+      "axis_primary_code": "C1 Olfactory heritage & computational humanities"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "D2 Methods (field, mapping, participatory)"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Citizen science / Smell mapping"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "M3 Cannabis: phytochemistry & biosynthesis"
+    },
+    {
+      "total": "1",
+      "entry_type": "book",
+      "axis_primary_code": "Olfaction datasets"
+    },
+    {
+      "total": "1",
+      "entry_type": "website",
+      "axis_primary_code": "J1 Performative smell systems / devices"
+    },
+    {
+      "total": "1",
+      "entry_type": "website",
+      "axis_primary_code": "F2 Community, education & practice networks"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Heritage science / Lost perfumes"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "N3"
+    },
+    {
+      "total": "1",
+      "entry_type": "website",
+      "axis_primary_code": "Citizen science / Smell mapping"
+    },
+    {
+      "total": "1",
+      "entry_type": "software",
+      "axis_primary_code": "D1 Knowledge graph & datasets"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Chem info infra"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Data infra / Metabolomics"
+    },
+    {
+      "total": "1",
+      "entry_type": "software",
+      "axis_primary_code": "Ethnobotany computation / Text mining"
+    },
+    {
+      "total": "1",
+      "entry_type": "book",
+      "axis_primary_code": "C2 Material culture & perfumery archives"
+    },
+    {
+      "total": "1",
+      "entry_type": "report",
+      "axis_primary_code": "J3 AI for olfaction / digital smell"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Herbarium / Time-series metabolomics"
+    },
+    {
+      "total": "1",
+      "entry_type": "web_entry",
+      "axis_primary_code": "J1 Performative smell systems / devices"
+    },
+    {
+      "total": "1",
+      "entry_type": "news",
+      "axis_primary_code": "B1 Olfactory art & aesthetics"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Data infra / Spectral libraries"
+    },
+    {
+      "total": "1",
+      "entry_type": "report",
+      "axis_primary_code": "Biotech / Conservation substitutes"
+    },
+    {
+      "total": "1",
+      "entry_type": "website",
+      "axis_primary_code": "Scholarly discovery infra"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "M2 Cannabis: standardisation & nomenclature"
+    },
+    {
+      "total": "1",
+      "entry_type": "chapter",
+      "axis_primary_code": "B2 Smell in space, design & urban smellscapes"
+    },
+    {
+      "total": "1",
+      "entry_type": "dataset",
+      "axis_primary_code": "Olfaction datasets"
+    },
+    {
+      "total": "1",
+      "entry_type": "report",
+      "axis_primary_code": "C1 Olfactory heritage & computational humanities"
+    },
+    {
+      "total": "1",
+      "entry_type": "preprint",
+      "axis_primary_code": "Citizen science / Smell mapping"
+    },
+    {
+      "total": "1",
+      "entry_type": "website",
+      "axis_primary_code": "Olfaction datasets"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Digital smell / Applied"
+    },
+    {
+      "total": "1",
+      "entry_type": "conference_paper",
+      "axis_primary_code": "J2 VR olfactive & multisensory interfaces"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Biotech / Conservation substitutes"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Biotech / Sustainable feedstocks"
+    },
+    {
+      "total": "1",
+      "entry_type": "report",
+      "axis_primary_code": "B2 Smell in space, design & urban smellscapes"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Olfaction datasets"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Digital smell / Immersive"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Digital smell / Hardware"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "C1 Olfactory heritage & computational humanities"
+    },
+    {
+      "total": "1",
+      "entry_type": "book",
+      "axis_primary_code": "C3 Global scent histories beyond Eurocentrism"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "axis_primary_code": "Olfaction datasets / ML"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tentry_type\taxis_primary_code\n11\tarticle\tN1\n5\twebsite\tTaxonomy & distribution\n5\tarticle\tJ2 VR olfactive & multisensory interfaces\n5\tbook\tA1 Smell studies & critical theory\n4\tarticle\tM2\n4\tbook\tF1 Ethics, politics & decolonial smell\n4\tnews\tC1 Olfactory heritage & computational humanities\n4\twebsite\tC1 Olfactory heritage & computational humanities\n4\twebsite\tData infra / Metabolomics\n3\twebsite\tData infra / Repositories\n3\tarticle\tE1 Museum protocols & olfactory museology\n3\tarticle\tOmics / Chemodiversity\n3\tarticle\tM3\n3\tbook\tB2 Smell in space, design & urban smellscapes\n3\tarticle\tData infra / Repositories\n3\tarticle\tM1\n2\twebsite\tChem analytics tooling\n2\tpreprint\tJ3 AI for olfaction / digital smell\n2\tbook\tN2 Tabac: industrie, histoire, pouvoir\n2\tarticle\tE2 Heritage science: documentation & analysis\n2\twebsite\tData infra / Spectral libraries\n2\tbook\tN1 Tabac: ethnobotanique & rituels\n2\twebsite\tB1 Olfactory art & aesthetics\n2\treport\tE1 Museum protocols & olfactory museology\n2\tbook\tB1 Olfactory art & aesthetics\n2\tarticle\tJ3 AI for olfaction / digital smell\n2\twebsite\tM3\n2\tarticle\tN2\n2\twebsite\tEthnobotany computation / Scholarly graph\n2\twebsite\tJ3\n2\tarticle\tGenomics infra\n1\twebsite\tChem info infra\n1\twebsite\tM2\n1\tnews\tJ2 VR olfactive & multisensory interfaces\n1\tthesis\tB1 Olfactory art & aesthetics\n1\tconference_paper\tD1 Knowledge graph & datasets\n1\twebsite\tE1 Museum protocols & olfactory museology\n1\tbook\tC1 Olfactory heritage & computational humanities\n1\tarticle\tM1 Cannabis: diversité colombienne (chimio/terpènes)\n1\tbook\tN3 Psychoactive ethnobotany (context only)\n1\tdataset\tD1 Knowledge graph & datasets\n1\tnews\tHeritage science / Lost perfumes\n1\tchapter\tC1 Olfactory heritage & computational humanities\n1\tarticle\tD2 Methods (field, mapping, participatory)\n1\tarticle\tCitizen science / Smell mapping\n1\tarticle\tM3 Cannabis: phytochemistry & biosynthesis\n1\tbook\tOlfaction datasets\n1\twebsite\tJ1 Performative smell systems / devices\n1\twebsite\tF2 Community, education & practice networks\n1\tarticle\tHeritage science / Lost perfumes\n1\tarticle\tN3\n1\twebsite\tCitizen science / Smell mapping\n1\tsoftware\tD1 Knowledge graph & datasets\n1\tarticle\tChem info infra\n1\tarticle\tData infra / Metabolomics\n1\tsoftware\tEthnobotany computation / Text mining\n1\tbook\tC2 Material culture & perfumery archives\n1\treport\tJ3 AI for olfaction / digital smell\n1\tarticle\tHerbarium / Time-series metabolomics\n1\tweb_entry\tJ1 Performative smell systems / devices\n1\tnews\tB1 Olfactory art & aesthetics\n1\tarticle\tData infra / Spectral libraries\n1\treport\tBiotech / Conservation substitutes\n1\twebsite\tScholarly discovery infra\n1\tarticle\tM2 Cannabis: standardisation & nomenclature\n1\tchapter\tB2 Smell in space, design & urban smellscapes\n1\tdataset\tOlfaction datasets\n1\treport\tC1 Olfactory heritage & computational humanities\n1\tpreprint\tCitizen science / Smell mapping\n1\twebsite\tOlfaction datasets\n1\tarticle\tDigital smell / Applied\n1\tconference_paper\tJ2 VR olfactive & multisensory interfaces\n1\tarticle\tBiotech / Conservation substitutes\n1\tarticle\tBiotech / Sustainable feedstocks\n1\treport\tB2 Smell in space, design & urban smellscapes\n1\tarticle\tOlfaction datasets\n1\tarticle\tDigital smell / Immersive\n1\tarticle\tDigital smell / Hardware\n1\tarticle\tC1 Olfactory heritage & computational humanities\n1\tbook\tC3 Global scent histories beyond Eurocentrism\n1\tarticle\tOlfaction datasets / ML\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}
