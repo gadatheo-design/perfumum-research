@@ -9485,3 +9485,153 @@ export async function deleteAxisConnection(sourceId: number, targetId: number) {
     );
   return { success: true };
 }
+
+
+// ============================================================================
+// BIBLIOGRAPHIE PAR PLANTE (Références liées aux plantes)
+// ============================================================================
+
+/**
+ * Récupère les références bibliographiques liées à une plante spécifique
+ */
+export async function getBibliographyByPlant(plantId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Récupérer toutes les entrées bibliographiques qui ont cette plante dans linkedPlantIds
+  const entries = await db
+    .select()
+    .from(bibliographyEntries)
+    .orderBy(desc(bibliographyEntries.year));
+  
+  // Filtrer celles qui contiennent le plantId dans linkedPlantIds
+  return entries.filter(entry => {
+    const linkedPlants = entry.linkedPlantIds as number[] | null;
+    return linkedPlants && linkedPlants.includes(plantId);
+  });
+}
+
+/**
+ * Récupère les références bibliographiques liées à plusieurs plantes
+ */
+export async function getBibliographyByPlants(plantIds: number[]) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const entries = await db
+    .select()
+    .from(bibliographyEntries)
+    .orderBy(desc(bibliographyEntries.year));
+  
+  // Filtrer celles qui contiennent au moins un des plantIds
+  return entries.filter(entry => {
+    const linkedPlants = entry.linkedPlantIds as number[] | null;
+    return linkedPlants && linkedPlants.some(id => plantIds.includes(id));
+  });
+}
+
+/**
+ * Exporte les références d'une plante au format BibTeX
+ */
+export async function exportPlantBibliographyToBibTeX(plantId: number) {
+  const entries = await getBibliographyByPlant(plantId);
+  return exportToBibTeX(entries);
+}
+
+/**
+ * Récupère les références bibliographiques par catégorie de plante (cannabis, tabac, etc.)
+ */
+export async function getBibliographyByPlantCategory(category: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // D'abord récupérer les plantes de cette catégorie
+  const plantsInCategory = await db
+    .select({ id: plants.id })
+    .from(plants)
+    .where(eq(plants.category, category as any));
+  
+  const plantIds = plantsInCategory.map(p => p.id);
+  if (plantIds.length === 0) return [];
+  
+  return getBibliographyByPlants(plantIds);
+}
+
+/**
+ * Récupère les statistiques bibliographiques pour une plante
+ */
+export async function getPlantBibliographyStats(plantId: number) {
+  const entries = await getBibliographyByPlant(plantId);
+  
+  const byType: Record<string, number> = {};
+  const byYear: Record<number, number> = {};
+  const byDomain: Record<string, number> = {};
+  
+  for (const entry of entries) {
+    // Par type
+    byType[entry.entryType] = (byType[entry.entryType] || 0) + 1;
+    
+    // Par année
+    if (entry.year) {
+      byYear[entry.year] = (byYear[entry.year] || 0) + 1;
+    }
+    
+    // Par domaine
+    if (entry.researchDomain) {
+      byDomain[entry.researchDomain] = (byDomain[entry.researchDomain] || 0) + 1;
+    }
+  }
+  
+  return {
+    total: entries.length,
+    byType,
+    byYear,
+    byDomain,
+  };
+}
+
+/**
+ * Lier une référence bibliographique à une plante
+ */
+export async function linkBibliographyToPlant(bibliographyId: number, plantId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  
+  const entry = await getBibliographyEntryById(bibliographyId);
+  if (!entry) return { success: false, error: 'Référence non trouvée' };
+  
+  const currentLinkedPlants = (entry.linkedPlantIds as number[] | null) || [];
+  if (currentLinkedPlants.includes(plantId)) {
+    return { success: true, message: 'Déjà liée' };
+  }
+  
+  const newLinkedPlants = [...currentLinkedPlants, plantId];
+  
+  await db
+    .update(bibliographyEntries)
+    .set({ linkedPlantIds: newLinkedPlants })
+    .where(eq(bibliographyEntries.id, bibliographyId));
+  
+  return { success: true };
+}
+
+/**
+ * Délier une référence bibliographique d'une plante
+ */
+export async function unlinkBibliographyFromPlant(bibliographyId: number, plantId: number) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  
+  const entry = await getBibliographyEntryById(bibliographyId);
+  if (!entry) return { success: false, error: 'Référence non trouvée' };
+  
+  const currentLinkedPlants = (entry.linkedPlantIds as number[] | null) || [];
+  const newLinkedPlants = currentLinkedPlants.filter(id => id !== plantId);
+  
+  await db
+    .update(bibliographyEntries)
+    .set({ linkedPlantIds: newLinkedPlants })
+    .where(eq(bibliographyEntries.id, bibliographyId));
+  
+  return { success: true };
+}

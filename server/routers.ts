@@ -6320,6 +6320,61 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return db.getAxesByBibliography(input);
       }),
+    
+    // Récupérer les références liées à une plante
+    getByPlant: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getBibliographyByPlant(input);
+      }),
+    
+    // Récupérer les références liées à plusieurs plantes
+    getByPlants: publicProcedure
+      .input(z.array(z.number()))
+      .query(async ({ input }) => {
+        return db.getBibliographyByPlants(input);
+      }),
+    
+    // Récupérer les références par catégorie de plante
+    getByPlantCategory: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getBibliographyByPlantCategory(input);
+      }),
+    
+    // Statistiques bibliographiques pour une plante
+    getPlantStats: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getPlantBibliographyStats(input);
+      }),
+    
+    // Export BibTeX pour une plante
+    exportPlantBibTeX: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.exportPlantBibliographyToBibTeX(input);
+      }),
+    
+    // Lier une référence à une plante
+    linkToPlant: protectedProcedure
+      .input(z.object({
+        bibliographyId: z.number(),
+        plantId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.linkBibliographyToPlant(input.bibliographyId, input.plantId);
+      }),
+    
+    // Délier une référence d'une plante
+    unlinkFromPlant: protectedProcedure
+      .input(z.object({
+        bibliographyId: z.number(),
+        plantId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.unlinkBibliographyFromPlant(input.bibliographyId, input.plantId);
+      }),
   }),
 
   // ============================================================================

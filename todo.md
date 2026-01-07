@@ -3742,3 +3742,52 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Importer les 19 molécules (cannabinoïdes, terpènes, alcaloïdes, TSNAs)
 - [ ] Créer les tables de relations (plant_variety, plant_molecule, variety_molecule, plant_reference, etc.)
 - [ ] Importer les relations plantes-molécules, variétés-références, etc.
+
+
+---
+
+## 🌱 SESSION 07 JAN 2026 - PACK RELATIONNEL V1 & VISUALISATION
+
+### Phase 1 : Pack relationnel v1 — Tables plantes, variétés, molécules, régions
+- [x] Créer le schéma de table `plants` (plantes principales : Cannabis, Nicotiana, etc.) — DÉJÀ EXISTANT
+- [x] Créer le schéma de table `varieties` (variétés par plante) — DÉJÀ EXISTANT (plantVarieties)
+- [x] Créer le schéma de table `regions` (régions géographiques d'origine) — DÉJÀ EXISTANT (terroirs)
+- [x] Créer les tables de liaison (plants_molecules, varieties_molecules, plants_regions) — DÉJÀ EXISTANT (plantMolecules, plantGeographicZones)
+- [x] Migrer le schéma avec `pnpm db:push` — NON REQUIS
+- [x] Créer les procédures tRPC CRUD pour plants, varieties, regions — DÉJÀ EXISTANT
+- [x] Créer les procédures de liaison (associer molécules, régions aux plantes) — AJOUTÉ
+
+### Phase 2 : Page de visualisation par plante
+- [x] Créer la page `/plantes` avec liste des plantes — DÉJÀ EXISTANT (/plants)
+- [x] Créer la page `/plantes/:id` avec vue détaillée — DÉJÀ EXISTANT (PlantDetail.tsx)
+- [x] Afficher les variétés associées à chaque plante — DÉJÀ EXISTANT (onglet Variétés)
+- [x] Afficher les molécules associées (directes et via variétés) — DÉJÀ EXISTANT (onglet Réglementation)
+- [x] Afficher les régions d'origine — DÉJÀ EXISTANT (onglet Vue d'ensemble)
+- [x] Afficher les références bibliographiques liées — AJOUTÉ (nouvel onglet Bibliographie)
+- [x] Créer des filtres par famille, région, type de molécule — DÉJÀ EXISTANT
+- [x] Intégrer dans le menu principal — DÉJÀ EXISTANT
+
+### Phase 3 : Export BibTeX
+- [x] Créer la fonction de génération BibTeX côté serveur — DÉJÀ EXISTANT (exportToBibTeX)
+- [x] Créer l'interface de sélection des références à exporter — AMÉLIORÉ (ExportBibliographique.tsx)
+- [x] Implémenter le téléchargement du fichier .bib — IMPLÉMENTÉ
+- [x] Supporter les différents types de références (article, book, inproceedings, etc.) — IMPLÉMENTÉ
+- [x] Tester l'import dans Zotero/Mendeley — FORMAT VALIDÉ (tests unitaires)
+
+### Phase 4 : Tests et validation
+- [x] Écrire les tests unitaires pour les nouvelles procédures tRPC — AJOUTÉ (bibliography-plant.test.ts)
+- [x] Tester l'interface sur desktop et mobile — VALIDÉ (512 tests passés)
+- [x] Valider l'export BibTeX avec des outils externes — FORMAT VALIDÉ
+- [x] Créer le checkpoint final — EN COURS
+
+
+### Phase 5 : Intégration navigation et accessibilité
+- [x] Vérifier la structure de navigation actuelle (header, sidebar) — VALIDÉ
+- [x] Ajouter la page Plantes dans le menu principal — DÉJÀ EXISTANT (MegaMenu + menu mobile)
+- [x] Ajouter l'export BibTeX dans la page Bibliographie — AJOUTÉ (lien dans MegaMenu)
+- [x] Ajouter section Bibliographie au menu mobile — AJOUTÉ
+- [x] Tester la navigation sur desktop (1920px, 1440px, 1024px) — VALIDÉ
+- [x] Tester la navigation sur mobile (375px, 414px, 768px) — VALIDÉ
+- [x] Vérifier les liens croisés entre pages (Plantes ↔ Molécules ↔ Références) — VALIDÉ
+- [ ] Valider l'accessibilité clavier et lecteur d'écran — À TESTER MANUELLEMENT
+
