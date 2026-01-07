@@ -3070,8 +3070,8 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tests GPS plantes: 3 tests passés
 - [x] Tests liaisons Tagetes-molécules: 4 tests passés
 - [x] Tous les 399 tests passés (31 fichiers de tests)
-- [ ] Créer le checkpoint final
-- [ ] Présenter les résultats au client
+- [x] Créer le checkpoint final
+- [x] Présenter les résultats au client
 
 
 
@@ -3397,6 +3397,64 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 5 : Livraison
 - [x] Mettre à jour le todo.md avec les tâches complétées
 - [x] Écrire les tests unitaires (13 tests passés)
+- [x] Créer le checkpoint final
+- [x] Présenter les résultats au client
+
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - ENRICHISSEMENT SYSTÈME BIBLIOGRAPHIQUE
+
+### Phase 1 : Citations croisées entre références
+- [ ] Créer le schéma de table `reference_citations` pour les liens entre références
+- [ ] Créer les procédures tRPC pour ajouter/supprimer des citations croisées
+- [ ] Créer l'interface "Graphe de citations" dans la Bibliographie globale
+- [ ] Implémenter la visualisation du réseau de citations (graphe interactif)
+
+### Phase 2 : Liaison aux axes de recherche
+- [ ] Créer le schéma de table `reference_axes` pour lier références et axes thématiques
+- [ ] Créer les procédures tRPC pour associer références aux axes
+- [ ] Ajouter les filtres par axe dans l'interface bibliographique
+- [ ] Afficher les axes associés sur les fiches de références
+
+### Phase 3 : Métadonnées améliorées (ISBN/DOI)
+- [ ] Ajouter les champs ISBN et DOI au schéma `references`
+- [ ] Améliorer le formulaire d'édition avec champs ISBN/DOI
+- [ ] Ajouter les liens externes automatiques (DOI.org, WorldCat)
+- [ ] Créer un système de validation des formats ISBN/DOI
+
+### Phase 4 : Tests et validation
+- [ ] Écrire les tests unitaires pour les nouvelles procédures
+- [ ] Tester l'interface du graphe de citations
+- [ ] Valider les liens externes ISBN/DOI
 - [ ] Créer le checkpoint final
-- [ ] Présenter les résultats au client
+
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - AMÉLIORATIONS BIBLIOGRAPHIQUES
+
+### Citations croisées et Graphe de citations
+- [x] Vérifier la table `referenceCitations` existante dans le schéma
+- [x] Vérifier les procédures tRPC pour les citations croisées (list, getGraph, create, update, delete, verify)
+- [x] Vérifier le composant `CitationGraph.tsx` avec visualisation canvas
+- [x] Vérifier l'onglet "Graphe de citations" dans BibliographieGlobale
+
+### Liaisons aux axes de recherche
+- [x] Vérifier la table `bibliographyAxisLinks` existante
+- [x] Vérifier les procédures tRPC (linkToAxis, unlinkFromAxis, getLinkedAxes)
+- [x] Vérifier la table `researchAxes` pour les axes thématiques
+
+### Métadonnées ISBN/DOI/ISSN
+- [x] Ajouter les champs ISBN et ISSN au formulaire d'édition des références
+- [x] Ajouter les liens externes automatiques vers WorldCat (ISBN), ISSN Portal, et DOI.org
+- [x] Afficher les métadonnées ISBN/ISSN/DOI dans la liste des références
+- [x] Ajouter le champ ISSN dans la procédure bibliography.update
+
+### Tests et validation
+- [x] Ajouter les tests unitaires pour les citations croisées (referenceCitations.list, getGraph, getStats)
+- [x] Ajouter les tests unitaires pour les liaisons aux axes (bibliography.getLinkedAxes)
+- [x] Exécuter tous les tests (465 tests passés)
 

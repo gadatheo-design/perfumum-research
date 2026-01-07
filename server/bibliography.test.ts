@@ -173,3 +173,140 @@ describe("Research Entries Procedures", () => {
     });
   });
 });
+
+
+// ============================================================================
+// REFERENCE CITATIONS TESTS (Citations croisées)
+// ============================================================================
+
+describe("Reference Citations Procedures", () => {
+  const caller = appRouter.createCaller(createMockContext());
+  const authenticatedCaller = appRouter.createCaller(createMockContext(true));
+
+  describe("referenceCitations.list", () => {
+    it("should return a list of citations with total count", async () => {
+      const result = await caller.referenceCitations.list({});
+      
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty("citations");
+      expect(result).toHaveProperty("total");
+      expect(Array.isArray(result.citations)).toBe(true);
+      expect(typeof result.total).toBe("number");
+    });
+
+    it("should filter by citation type", async () => {
+      const result = await caller.referenceCitations.list({ citationType: "direct" });
+      
+      expect(result).toBeDefined();
+      expect(Array.isArray(result.citations)).toBe(true);
+      // All returned citations should be of type 'direct'
+      result.citations.forEach((citation: any) => {
+        expect(citation.citationType).toBe("direct");
+      });
+    });
+
+    it("should filter by verified status", async () => {
+      const result = await caller.referenceCitations.list({ verified: true });
+      
+      expect(result).toBeDefined();
+      expect(Array.isArray(result.citations)).toBe(true);
+      // All returned citations should be verified
+      result.citations.forEach((citation: any) => {
+        expect(citation.verified).toBe(true);
+      });
+    });
+  });
+
+  describe("referenceCitations.getGraph", () => {
+    it("should return nodes and links for graph visualization", async () => {
+      const result = await caller.referenceCitations.getGraph({});
+      
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty("nodes");
+      expect(result).toHaveProperty("links");
+      expect(Array.isArray(result.nodes)).toBe(true);
+      expect(Array.isArray(result.links)).toBe(true);
+    });
+
+    it("should filter graph by citation type", async () => {
+      const result = await caller.referenceCitations.getGraph({ citationType: "methodological" });
+      
+      expect(result).toBeDefined();
+      expect(Array.isArray(result.nodes)).toBe(true);
+      expect(Array.isArray(result.links)).toBe(true);
+    });
+
+    it("should filter graph by minimum weight", async () => {
+      const result = await caller.referenceCitations.getGraph({ minWeight: 3 });
+      
+      expect(result).toBeDefined();
+      expect(Array.isArray(result.links)).toBe(true);
+      // All links should have weight >= 3
+      result.links.forEach((link: any) => {
+        expect(link.weight).toBeGreaterThanOrEqual(3);
+      });
+    });
+
+    it("should filter graph by verified status", async () => {
+      const result = await caller.referenceCitations.getGraph({ verified: true });
+      
+      expect(result).toBeDefined();
+      expect(Array.isArray(result.links)).toBe(true);
+    });
+  });
+
+  describe("referenceCitations.getStats", () => {
+    it("should return citation graph statistics", async () => {
+      const result = await caller.referenceCitations.getStats();
+      
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty("totalCitations");
+      expect(result).toHaveProperty("totalCitingReferences");
+      expect(result).toHaveProperty("totalCitedReferences");
+      expect(result).toHaveProperty("verifiedCount");
+      expect(result).toHaveProperty("byType");
+      expect(result).toHaveProperty("mostCited");
+      expect(typeof result.totalCitations).toBe("number");
+      expect(Array.isArray(result.byType)).toBe(true);
+      expect(Array.isArray(result.mostCited)).toBe(true);
+    });
+  });
+
+  describe("referenceCitations.getCitationsOf", () => {
+    it("should return citations of a reference (who cites this reference)", async () => {
+      // Test with a non-existent ID should return empty array
+      const result = await caller.referenceCitations.getCitationsOf(99999);
+      
+      expect(result).toBeDefined();
+      expect(Array.isArray(result)).toBe(true);
+    });
+  });
+
+  describe("referenceCitations.getCitedBy", () => {
+    it("should return references cited by a reference", async () => {
+      // Test with a non-existent ID should return empty array
+      const result = await caller.referenceCitations.getCitedBy(99999);
+      
+      expect(result).toBeDefined();
+      expect(Array.isArray(result)).toBe(true);
+    });
+  });
+});
+
+// ============================================================================
+// BIBLIOGRAPHY AXIS LINKS TESTS (Liaisons aux axes de recherche)
+// ============================================================================
+
+describe("Bibliography Axis Links Procedures", () => {
+  const caller = appRouter.createCaller(createMockContext());
+
+  describe("bibliography.getLinkedAxes", () => {
+    it("should return linked axes for a bibliography entry", async () => {
+      // Test with a non-existent ID should return empty array
+      const result = await caller.bibliography.getLinkedAxes(99999);
+      
+      expect(result).toBeDefined();
+      expect(Array.isArray(result)).toBe(true);
+    });
+  });
+});

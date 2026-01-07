@@ -244,6 +244,8 @@ export default function BibliographieGlobale() {
     number: "",
     pages: "",
     doi: "",
+    isbn: "",
+    issn: "",
     url: "",
     abstract: "",
     keywords: "",
@@ -265,6 +267,8 @@ export default function BibliographieGlobale() {
       number: "",
       pages: "",
       doi: "",
+      isbn: "",
+      issn: "",
       url: "",
       abstract: "",
       keywords: "",
@@ -292,6 +296,8 @@ export default function BibliographieGlobale() {
       number: formData.number || undefined,
       pages: formData.pages || undefined,
       doi: formData.doi || undefined,
+      isbn: formData.isbn || undefined,
+      issn: formData.issn || undefined,
       url: formData.url || undefined,
       abstract: formData.abstract || undefined,
       keywords: formData.keywords ? formData.keywords.split(",").map(k => k.trim()) : undefined,
@@ -364,6 +370,8 @@ export default function BibliographieGlobale() {
       number: entry.number || "",
       pages: entry.pages || "",
       doi: entry.doi || "",
+      isbn: entry.isbn || "",
+      issn: entry.issn || "",
       url: entry.url || "",
       abstract: entry.abstract || "",
       keywords: entry.keywords?.join(", ") || "",
@@ -562,11 +570,54 @@ export default function BibliographieGlobale() {
                       </div>
                       <div className="space-y-2">
                         <Label>DOI</Label>
-                        <Input
-                          placeholder="10.1000/xyz123"
-                          value={formData.doi}
-                          onChange={(e) => setFormData({ ...formData, doi: e.target.value })}
-                        />
+                        <div className="flex gap-2">
+                          <Input
+                            placeholder="10.1000/xyz123"
+                            value={formData.doi}
+                            onChange={(e) => setFormData({ ...formData, doi: e.target.value })}
+                          />
+                          {formData.doi && (
+                            <Button variant="outline" size="icon" asChild>
+                              <a href={`https://doi.org/${formData.doi}`} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="h-4 w-4" />
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>ISBN (pour les livres)</Label>
+                        <div className="flex gap-2">
+                          <Input
+                            placeholder="978-3-16-148410-0"
+                            value={formData.isbn}
+                            onChange={(e) => setFormData({ ...formData, isbn: e.target.value })}
+                          />
+                          {formData.isbn && (
+                            <Button variant="outline" size="icon" asChild>
+                              <a href={`https://www.worldcat.org/isbn/${formData.isbn.replace(/-/g, '')}`} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="h-4 w-4" />
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>ISSN (pour les journaux)</Label>
+                        <div className="flex gap-2">
+                          <Input
+                            placeholder="1234-5678"
+                            value={formData.issn}
+                            onChange={(e) => setFormData({ ...formData, issn: e.target.value })}
+                          />
+                          {formData.issn && (
+                            <Button variant="outline" size="icon" asChild>
+                              <a href={`https://portal.issn.org/resource/ISSN/${formData.issn}`} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink className="h-4 w-4" />
+                              </a>
+                            </Button>
+                          )}
+                        </div>
                       </div>
                       <div className="space-y-2">
                         <Label>URL</Label>
@@ -855,8 +906,38 @@ export default function BibliographieGlobale() {
                             {entry.abstract}
                           </p>
                         )}
-                        <div className="mt-3 text-xs text-muted-foreground">
-                          Clé: <code className="bg-muted px-1 rounded">{entry.entryKey}</code>
+                        <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                          <span>Clé: <code className="bg-muted px-1 rounded">{entry.entryKey}</code></span>
+                          {entry.doi && (
+                            <a 
+                              href={`https://doi.org/${entry.doi}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-primary hover:underline"
+                            >
+                              <span className="font-medium">DOI:</span> {entry.doi}
+                            </a>
+                          )}
+                          {entry.isbn && (
+                            <a 
+                              href={`https://www.worldcat.org/isbn/${entry.isbn.replace(/-/g, '')}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-primary hover:underline"
+                            >
+                              <span className="font-medium">ISBN:</span> {entry.isbn}
+                            </a>
+                          )}
+                          {entry.issn && (
+                            <a 
+                              href={`https://portal.issn.org/resource/ISSN/${entry.issn}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-primary hover:underline"
+                            >
+                              <span className="font-medium">ISSN:</span> {entry.issn}
+                            </a>
+                          )}
                         </div>
                       </CardContent>
                     </Card>

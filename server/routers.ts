@@ -6206,6 +6206,7 @@ export const appRouter = router({
         pages: z.string().optional(),
         doi: z.string().optional(),
         isbn: z.string().optional(),
+        issn: z.string().optional(),
         url: z.string().optional(),
         abstract: z.string().optional(),
         keywords: z.array(z.string()).optional(),
