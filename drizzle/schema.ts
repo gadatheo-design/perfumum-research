@@ -4783,3 +4783,119 @@ export const axisConnectionsRelations = relations(axisConnections, ({ one }) => 
     relationName: "targetAxis",
   }),
 }));
+
+
+// ============================================================================
+// MOLECULES LOST MAP v2 - GRAPHE DE CONNAISSANCES
+// ============================================================================
+
+/**
+ * Analytical methods catalog for heritage chemotype research.
+ * Methods: GC-MS, LC-HRMS, GC×GC-TOFMS, HS-SPME, Herbarium aDNA
+ */
+export const analyticalMethods = mysqlTable("analytical_methods", {
+  id: int("id").autoincrement().primaryKey(),
+  methodId: varchar("method_id", { length: 30 }).notNull().unique(), // meth-gcms, meth-lchrms, etc.
+  name: varchar("name", { length: 255 }).notNull(), // "GC–MS (Gas Chromatography–Mass Spectrometry)"
+  modality: varchar("modality", { length: 255 }), // "volatile/semi-volatile separation + MS identification"
+  sampleTypes: text("sample_types"), // "essential oils, headspace, distillates, residues, tinctures"
+  output: text("output"), // "identification + relative abundance; library match; targeted quant"
+  strengths: text("strengths"), // "gold standard for terpenes/volatiles; rich libraries"
+  limitations: text("limitations"), // "needs derivatization for some polar compounds"
+  typicalMarkers: text("typical_markers"), // "terpenes;sesquiterpenes;CBN;vanillin;ionones"
+  sopOutline: text("sop_outline"), // Standard operating procedure outline
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type AnalyticalMethod = typeof analyticalMethods.$inferSelect;
+export type InsertAnalyticalMethod = typeof analyticalMethods.$inferInsert;
+
+/**
+ * Lost molecules markers for heritage chemotype mapping.
+ * 38 marker molecules: alkaloids, cannabinoids, terpenes, etc.
+ */
+export const lostMolecules = mysqlTable("lost_molecules", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: varchar("molecule_id", { length: 100 }).notNull().unique(), // mol-nicotine, mol-9-thc, etc.
+  name: varchar("name", { length: 255 }).notNull(), // "Nicotine", "Δ9-THC", etc.
+  moleculeClass: varchar("molecule_class", { length: 100 }), // "alkaloid", "cannabinoid", "terpene", etc.
+  formula: varchar("formula", { length: 100 }), // "C10H14N2", "C21H30O2", etc.
+  notes: text("notes"), // "Marker list for 'lost molecules' / heritage chemotypes mapping"
+  // Link to main molecules table if exists
+  linkedMoleculeId: int("linked_molecule_id").references(() => molecules.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  classIdx: index("lost_molecules_class_idx").on(table.moleculeClass),
+  linkedIdx: index("lost_molecules_linked_idx").on(table.linkedMoleculeId),
+}));
+
+export type LostMolecule = typeof lostMolecules.$inferSelect;
+export type InsertLostMolecule = typeof lostMolecules.$inferInsert;
+
+/**
+ * Evidence links connecting lost molecules to research references.
+ * 67 evidence entries with entity linking, methods, and confidence levels.
+ */
+export const moleculeEvidence = mysqlTable("molecule_evidence", {
+  id: int("id").autoincrement().primaryKey(),
+  evidenceId: varchar("evidence_id", { length: 100 }).notNull().unique(), // ev-CAN-002-mol-terpinolene
+  // Molecule reference
+  lostMoleculeId: int("lost_molecule_id").notNull().references(() => lostMolecules.id),
+  moleculeName: varchar("molecule_name", { length: 255 }), // Denormalized for quick display
+  // Marker classification
+  markerType: varchar("marker_type", { length: 100 }), // "family/variation", "present/selected", "oxidation marker", etc.
+  processContext: varchar("process_context", { length: 255 }), // "genetics ↔ terpenes", "chemotype", "aging/oxidation"
+  method: varchar("method", { length: 255 }), // "genomics + GC-MS", "GC-MS/LC", etc.
+  // Temporal and spatial context
+  timeContext: varchar("time_context", { length: 500 }), // "1st millennium BCE", "Late 19th–early 20th century"
+  regionContext: varchar("region_context", { length: 255 }), // Geographic region
+  // Entity linking (heuristic keyword match)
+  entityType: mysqlEnum("entity_type", ["plant", "animal", "material", "reference"]), // "plant", "reference"
+  entityName: varchar("entity_name", { length: 255 }), // "Cannabis sativa", "Nicotiana tabacum"
+  entityId: varchar("entity_id", { length: 100 }), // "plant-cannabis-sativa", "plant-nicotiana-tabacum"
+  // Evidence details
+  claimSummary: text("claim_summary"), // "Keyword match: ..." audit trail
+  confidence: mysqlEnum("confidence", ["low", "medium", "high"]).default("medium"),
+  // Reference information
+  referenceId: varchar("reference_id", { length: 100 }), // "CAN-002", "TOB-001", etc.
+  referenceTitle: text("reference_title"), // Full title of the reference
+  doi: varchar("doi", { length: 255 }), // DOI if available
+  url: text("url"), // URL to the reference
+  // Additional metadata
+  tags: text("tags"), // Semicolon-separated tags
+  evidenceNotes: text("evidence_notes"), // Additional notes
+  // Method reference
+  methodId: varchar("method_id", { length: 30 }), // Link to analytical_methods.method_id
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  moleculeIdx: index("molecule_evidence_molecule_idx").on(table.lostMoleculeId),
+  markerTypeIdx: index("molecule_evidence_marker_type_idx").on(table.markerType),
+  confidenceIdx: index("molecule_evidence_confidence_idx").on(table.confidence),
+  entityTypeIdx: index("molecule_evidence_entity_type_idx").on(table.entityType),
+  methodIdx: index("molecule_evidence_method_idx").on(table.methodId),
+  referenceIdx: index("molecule_evidence_reference_idx").on(table.referenceId),
+}));
+
+export type MoleculeEvidence = typeof moleculeEvidence.$inferSelect;
+export type InsertMoleculeEvidence = typeof moleculeEvidence.$inferInsert;
+
+// Relations for lost molecules
+export const lostMoleculesRelations = relations(lostMolecules, ({ one, many }) => ({
+  linkedMolecule: one(molecules, {
+    fields: [lostMolecules.linkedMoleculeId],
+    references: [molecules.id],
+  }),
+  evidence: many(moleculeEvidence),
+}));
+
+// Relations for molecule evidence
+export const moleculeEvidenceRelations = relations(moleculeEvidence, ({ one }) => ({
+  lostMolecule: one(lostMolecules, {
+    fields: [moleculeEvidence.lostMoleculeId],
+    references: [lostMolecules.id],
+  }),
+}));

@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `lost_molecules` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `molecule_id` varchar(100) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `molecule_class` varchar(100),\n  `formula` varchar(100),\n  `notes` text,\n  `linked_molecule_id` int,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `lost_molecules_id` PRIMARY KEY(`id`),\n  CONSTRAINT `lost_molecules_molecule_id_unique` UNIQUE(`molecule_id`),\n  INDEX `lost_molecules_class_idx` (`molecule_class`),\n  INDEX `lost_molecules_linked_idx` (`linked_molecule_id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `lost_molecules` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `molecule_id` varchar(100) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `molecule_class` varchar(100),\n  `formula` varchar(100),\n  `notes` text,\n  `linked_molecule_id` int,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `lost_molecules_id` PRIMARY KEY(`id`),\n  CONSTRAINT `lost_molecules_molecule_id_unique` UNIQUE(`molecule_id`),\n  INDEX `lost_molecules_class_idx` (`molecule_class`),\n  INDEX `lost_molecules_linked_idx` (`linked_molecule_id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 199
+}

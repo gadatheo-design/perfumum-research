@@ -7020,6 +7020,233 @@ export const appRouter = router({
         return db.deleteAxisConnection(input.sourceId, input.targetId);
       }),
   }),
+
+  // ============================================================================
+  // MOLECULES LOST MAP v2 - GRAPHE DE CONNAISSANCES
+  // ============================================================================
+  
+  lostMolecules: router({
+    // --- Analytical Methods ---
+    methods: router({
+      list: publicProcedure.query(async () => {
+        return db.getAllAnalyticalMethods();
+      }),
+      getById: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getAnalyticalMethodById(input);
+        }),
+      getByMethodId: publicProcedure
+        .input(z.string())
+        .query(async ({ input }) => {
+          return db.getAnalyticalMethodByMethodId(input);
+        }),
+      create: protectedProcedure
+        .input(z.object({
+          methodId: z.string(),
+          name: z.string(),
+          modality: z.string().optional(),
+          sampleTypes: z.string().optional(),
+          output: z.string().optional(),
+          strengths: z.string().optional(),
+          limitations: z.string().optional(),
+          typicalMarkers: z.string().optional(),
+          sopOutline: z.string().optional(),
+        }))
+        .mutation(async ({ input }) => {
+          return db.createAnalyticalMethod(input);
+        }),
+      update: protectedProcedure
+        .input(z.object({
+          id: z.number(),
+          data: z.object({
+            methodId: z.string().optional(),
+            name: z.string().optional(),
+            modality: z.string().optional(),
+            sampleTypes: z.string().optional(),
+            output: z.string().optional(),
+            strengths: z.string().optional(),
+            limitations: z.string().optional(),
+            typicalMarkers: z.string().optional(),
+            sopOutline: z.string().optional(),
+          }),
+        }))
+        .mutation(async ({ input }) => {
+          return db.updateAnalyticalMethod(input.id, input.data);
+        }),
+      delete: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ input }) => {
+          return db.deleteAnalyticalMethod(input);
+        }),
+    }),
+    
+    // --- Lost Molecules ---
+    molecules: router({
+      list: publicProcedure.query(async () => {
+        return db.getAllLostMolecules();
+      }),
+      getById: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getLostMoleculeById(input);
+        }),
+      getByMoleculeId: publicProcedure
+        .input(z.string())
+        .query(async ({ input }) => {
+          return db.getLostMoleculeByMoleculeId(input);
+        }),
+      getByClass: publicProcedure
+        .input(z.string())
+        .query(async ({ input }) => {
+          return db.getLostMoleculesByClass(input);
+        }),
+      getWithEvidence: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getLostMoleculeWithEvidence(input);
+        }),
+      getWithEvidenceByMoleculeId: publicProcedure
+        .input(z.string())
+        .query(async ({ input }) => {
+          return db.getLostMoleculeWithEvidenceByMoleculeId(input);
+        }),
+      create: protectedProcedure
+        .input(z.object({
+          moleculeId: z.string(),
+          name: z.string(),
+          moleculeClass: z.string().optional(),
+          formula: z.string().optional(),
+          notes: z.string().optional(),
+          linkedMoleculeId: z.number().optional(),
+        }))
+        .mutation(async ({ input }) => {
+          return db.createLostMolecule(input);
+        }),
+      update: protectedProcedure
+        .input(z.object({
+          id: z.number(),
+          data: z.object({
+            moleculeId: z.string().optional(),
+            name: z.string().optional(),
+            moleculeClass: z.string().optional(),
+            formula: z.string().optional(),
+            notes: z.string().optional(),
+            linkedMoleculeId: z.number().optional(),
+          }),
+        }))
+        .mutation(async ({ input }) => {
+          return db.updateLostMolecule(input.id, input.data);
+        }),
+      delete: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ input }) => {
+          return db.deleteLostMolecule(input);
+        }),
+    }),
+    
+    // --- Molecule Evidence ---
+    evidence: router({
+      list: publicProcedure.query(async () => {
+        return db.getAllMoleculeEvidence();
+      }),
+      getById: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getMoleculeEvidenceById(input);
+        }),
+      getByEvidenceId: publicProcedure
+        .input(z.string())
+        .query(async ({ input }) => {
+          return db.getMoleculeEvidenceByEvidenceId(input);
+        }),
+      getByLostMolecule: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getMoleculeEvidenceByLostMolecule(input);
+        }),
+      getByConfidence: publicProcedure
+        .input(z.enum(['low', 'medium', 'high']))
+        .query(async ({ input }) => {
+          return db.getMoleculeEvidenceByConfidence(input);
+        }),
+      getByEntityType: publicProcedure
+        .input(z.enum(['plant', 'animal', 'material', 'reference']))
+        .query(async ({ input }) => {
+          return db.getMoleculeEvidenceByEntityType(input);
+        }),
+      getByMethod: publicProcedure
+        .input(z.string())
+        .query(async ({ input }) => {
+          return db.getMoleculeEvidenceByMethod(input);
+        }),
+      create: protectedProcedure
+        .input(z.object({
+          evidenceId: z.string(),
+          lostMoleculeId: z.number(),
+          moleculeName: z.string().optional(),
+          markerType: z.string().optional(),
+          processContext: z.string().optional(),
+          method: z.string().optional(),
+          timeContext: z.string().optional(),
+          regionContext: z.string().optional(),
+          entityType: z.enum(['plant', 'animal', 'material', 'reference']).optional(),
+          entityName: z.string().optional(),
+          entityId: z.string().optional(),
+          claimSummary: z.string().optional(),
+          confidence: z.enum(['low', 'medium', 'high']).optional(),
+          referenceId: z.string().optional(),
+          referenceTitle: z.string().optional(),
+          doi: z.string().optional(),
+          url: z.string().optional(),
+          tags: z.string().optional(),
+          evidenceNotes: z.string().optional(),
+          methodId: z.string().optional(),
+        }))
+        .mutation(async ({ input }) => {
+          return db.createMoleculeEvidence(input);
+        }),
+      update: protectedProcedure
+        .input(z.object({
+          id: z.number(),
+          data: z.object({
+            evidenceId: z.string().optional(),
+            lostMoleculeId: z.number().optional(),
+            moleculeName: z.string().optional(),
+            markerType: z.string().optional(),
+            processContext: z.string().optional(),
+            method: z.string().optional(),
+            timeContext: z.string().optional(),
+            regionContext: z.string().optional(),
+            entityType: z.enum(['plant', 'animal', 'material', 'reference']).optional(),
+            entityName: z.string().optional(),
+            entityId: z.string().optional(),
+            claimSummary: z.string().optional(),
+            confidence: z.enum(['low', 'medium', 'high']).optional(),
+            referenceId: z.string().optional(),
+            referenceTitle: z.string().optional(),
+            doi: z.string().optional(),
+            url: z.string().optional(),
+            tags: z.string().optional(),
+            evidenceNotes: z.string().optional(),
+            methodId: z.string().optional(),
+          }),
+        }))
+        .mutation(async ({ input }) => {
+          return db.updateMoleculeEvidence(input.id, input.data);
+        }),
+      delete: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ input }) => {
+          return db.deleteMoleculeEvidence(input);
+        }),
+    }),
+    
+    // --- Graph Data ---
+    graphData: publicProcedure.query(async () => {
+      return db.getLostMoleculesGraphData();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

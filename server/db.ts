@@ -9635,3 +9635,317 @@ export async function unlinkBibliographyFromPlant(bibliographyId: number, plantI
   
   return { success: true };
 }
+
+
+// ============================================================================
+// MOLECULES LOST MAP v2 - GRAPHE DE CONNAISSANCES
+// ============================================================================
+
+import {
+  analyticalMethods,
+  AnalyticalMethod,
+  InsertAnalyticalMethod,
+  lostMolecules,
+  LostMolecule,
+  InsertLostMolecule,
+  moleculeEvidence,
+  MoleculeEvidence,
+  InsertMoleculeEvidence,
+} from "../drizzle/schema";
+
+// --- Analytical Methods ---
+
+export async function getAllAnalyticalMethods(): Promise<AnalyticalMethod[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(analyticalMethods).orderBy(analyticalMethods.name);
+}
+
+export async function getAnalyticalMethodById(id: number): Promise<AnalyticalMethod | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(analyticalMethods).where(eq(analyticalMethods.id, id));
+  return results[0] || null;
+}
+
+export async function getAnalyticalMethodByMethodId(methodId: string): Promise<AnalyticalMethod | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(analyticalMethods).where(eq(analyticalMethods.methodId, methodId));
+  return results[0] || null;
+}
+
+export async function createAnalyticalMethod(data: InsertAnalyticalMethod): Promise<AnalyticalMethod | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(analyticalMethods).values(data);
+  const insertId = result[0].insertId;
+  return getAnalyticalMethodById(insertId);
+}
+
+export async function updateAnalyticalMethod(id: number, data: Partial<InsertAnalyticalMethod>): Promise<AnalyticalMethod | null> {
+  const db = await getDb();
+  if (!db) return null;
+  await db.update(analyticalMethods).set(data).where(eq(analyticalMethods.id, id));
+  return getAnalyticalMethodById(id);
+}
+
+export async function deleteAnalyticalMethod(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(analyticalMethods).where(eq(analyticalMethods.id, id));
+  return true;
+}
+
+// --- Lost Molecules ---
+
+export async function getAllLostMolecules(): Promise<LostMolecule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(lostMolecules).orderBy(lostMolecules.name);
+}
+
+export async function getLostMoleculeById(id: number): Promise<LostMolecule | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(lostMolecules).where(eq(lostMolecules.id, id));
+  return results[0] || null;
+}
+
+export async function getLostMoleculeByMoleculeId(moleculeId: string): Promise<LostMolecule | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(lostMolecules).where(eq(lostMolecules.moleculeId, moleculeId));
+  return results[0] || null;
+}
+
+export async function getLostMoleculesByClass(moleculeClass: string): Promise<LostMolecule[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(lostMolecules).where(eq(lostMolecules.moleculeClass, moleculeClass)).orderBy(lostMolecules.name);
+}
+
+export async function createLostMolecule(data: InsertLostMolecule): Promise<LostMolecule | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(lostMolecules).values(data);
+  const insertId = result[0].insertId;
+  return getLostMoleculeById(insertId);
+}
+
+export async function updateLostMolecule(id: number, data: Partial<InsertLostMolecule>): Promise<LostMolecule | null> {
+  const db = await getDb();
+  if (!db) return null;
+  await db.update(lostMolecules).set(data).where(eq(lostMolecules.id, id));
+  return getLostMoleculeById(id);
+}
+
+export async function deleteLostMolecule(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(lostMolecules).where(eq(lostMolecules.id, id));
+  return true;
+}
+
+// --- Molecule Evidence ---
+
+export async function getAllMoleculeEvidence(): Promise<MoleculeEvidence[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(moleculeEvidence).orderBy(moleculeEvidence.evidenceId);
+}
+
+export async function getMoleculeEvidenceById(id: number): Promise<MoleculeEvidence | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(moleculeEvidence).where(eq(moleculeEvidence.id, id));
+  return results[0] || null;
+}
+
+export async function getMoleculeEvidenceByEvidenceId(evidenceId: string): Promise<MoleculeEvidence | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const results = await db.select().from(moleculeEvidence).where(eq(moleculeEvidence.evidenceId, evidenceId));
+  return results[0] || null;
+}
+
+export async function getMoleculeEvidenceByLostMolecule(lostMoleculeId: number): Promise<MoleculeEvidence[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(moleculeEvidence).where(eq(moleculeEvidence.lostMoleculeId, lostMoleculeId)).orderBy(moleculeEvidence.confidence);
+}
+
+export async function getMoleculeEvidenceByConfidence(confidence: 'low' | 'medium' | 'high'): Promise<MoleculeEvidence[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(moleculeEvidence).where(eq(moleculeEvidence.confidence, confidence)).orderBy(moleculeEvidence.evidenceId);
+}
+
+export async function getMoleculeEvidenceByEntityType(entityType: 'plant' | 'animal' | 'material' | 'reference'): Promise<MoleculeEvidence[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(moleculeEvidence).where(eq(moleculeEvidence.entityType, entityType)).orderBy(moleculeEvidence.evidenceId);
+}
+
+export async function getMoleculeEvidenceByMethod(methodId: string): Promise<MoleculeEvidence[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(moleculeEvidence).where(eq(moleculeEvidence.methodId, methodId)).orderBy(moleculeEvidence.evidenceId);
+}
+
+export async function createMoleculeEvidence(data: InsertMoleculeEvidence): Promise<MoleculeEvidence | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.insert(moleculeEvidence).values(data);
+  const insertId = result[0].insertId;
+  return getMoleculeEvidenceById(insertId);
+}
+
+export async function updateMoleculeEvidence(id: number, data: Partial<InsertMoleculeEvidence>): Promise<MoleculeEvidence | null> {
+  const db = await getDb();
+  if (!db) return null;
+  await db.update(moleculeEvidence).set(data).where(eq(moleculeEvidence.id, id));
+  return getMoleculeEvidenceById(id);
+}
+
+export async function deleteMoleculeEvidence(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(moleculeEvidence).where(eq(moleculeEvidence.id, id));
+  return true;
+}
+
+// --- Lost Molecules Graph Data ---
+
+export interface LostMoleculeGraphNode {
+  id: string;
+  name: string;
+  moleculeClass: string | null;
+  formula: string | null;
+  evidenceCount: number;
+  type: 'molecule';
+}
+
+export interface LostMoleculeGraphEdge {
+  source: string;
+  target: string;
+  evidenceId: string;
+  markerType: string | null;
+  confidence: string | null;
+  referenceTitle: string | null;
+}
+
+export interface LostMoleculeGraphData {
+  nodes: LostMoleculeGraphNode[];
+  edges: LostMoleculeGraphEdge[];
+  methods: AnalyticalMethod[];
+  stats: {
+    totalMolecules: number;
+    totalEvidence: number;
+    byClass: Record<string, number>;
+    byConfidence: Record<string, number>;
+    byEntityType: Record<string, number>;
+  };
+}
+
+export async function getLostMoleculesGraphData(): Promise<LostMoleculeGraphData> {
+  const db = await getDb();
+  if (!db) {
+    return {
+      nodes: [],
+      edges: [],
+      methods: [],
+      stats: { totalMolecules: 0, totalEvidence: 0, byClass: {}, byConfidence: {}, byEntityType: {} }
+    };
+  }
+
+  const allMolecules = await getAllLostMolecules();
+  const allEvidence = await getAllMoleculeEvidence();
+  const allMethods = await getAllAnalyticalMethods();
+
+  // Build nodes
+  const nodes: LostMoleculeGraphNode[] = allMolecules.map(mol => ({
+    id: mol.moleculeId,
+    name: mol.name,
+    moleculeClass: mol.moleculeClass,
+    formula: mol.formula,
+    evidenceCount: allEvidence.filter(ev => ev.lostMoleculeId === mol.id).length,
+    type: 'molecule' as const,
+  }));
+
+  // Build edges (evidence links)
+  const edges: LostMoleculeGraphEdge[] = [];
+  for (const ev of allEvidence) {
+    const mol = allMolecules.find(m => m.id === ev.lostMoleculeId);
+    if (mol && ev.entityId) {
+      edges.push({
+        source: mol.moleculeId,
+        target: ev.entityId,
+        evidenceId: ev.evidenceId,
+        markerType: ev.markerType,
+        confidence: ev.confidence,
+        referenceTitle: ev.referenceTitle,
+      });
+    }
+  }
+
+  // Calculate stats
+  const byClass: Record<string, number> = {};
+  for (const mol of allMolecules) {
+    const cls = mol.moleculeClass || 'unknown';
+    byClass[cls] = (byClass[cls] || 0) + 1;
+  }
+
+  const byConfidence: Record<string, number> = {};
+  const byEntityType: Record<string, number> = {};
+  for (const ev of allEvidence) {
+    const conf = ev.confidence || 'unknown';
+    byConfidence[conf] = (byConfidence[conf] || 0) + 1;
+    
+    const entType = ev.entityType || 'unknown';
+    byEntityType[entType] = (byEntityType[entType] || 0) + 1;
+  }
+
+  return {
+    nodes,
+    edges,
+    methods: allMethods,
+    stats: {
+      totalMolecules: allMolecules.length,
+      totalEvidence: allEvidence.length,
+      byClass,
+      byConfidence,
+      byEntityType,
+    },
+  };
+}
+
+// --- Lost Molecule with Evidence ---
+
+export interface LostMoleculeWithEvidence extends LostMolecule {
+  evidence: MoleculeEvidence[];
+}
+
+export async function getLostMoleculeWithEvidence(id: number): Promise<LostMoleculeWithEvidence | null> {
+  const molecule = await getLostMoleculeById(id);
+  if (!molecule) return null;
+  
+  const evidence = await getMoleculeEvidenceByLostMolecule(id);
+  
+  return {
+    ...molecule,
+    evidence,
+  };
+}
+
+export async function getLostMoleculeWithEvidenceByMoleculeId(moleculeId: string): Promise<LostMoleculeWithEvidence | null> {
+  const molecule = await getLostMoleculeByMoleculeId(moleculeId);
+  if (!molecule) return null;
+  
+  const evidence = await getMoleculeEvidenceByLostMolecule(molecule.id);
+  
+  return {
+    ...molecule,
+    evidence,
+  };
+}

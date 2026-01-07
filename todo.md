@@ -3254,7 +3254,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 1 : Structure de données pour les citations croisées
 - [ ] Analyser la structure actuelle des références bibliographiques
 - [ ] Créer le schéma de table `reference_citations` pour les liens entre références
-- [ ] Migrer le schéma avec `pnpm db:push`
+- [x] Migrer le schéma avec `pnpm db:push` (via SQL direct)
 
 ### Phase 2 : Procédures tRPC pour les citations
 - [ ] Créer les procédures CRUD pour les citations (create, read, delete)
@@ -3610,7 +3610,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [ ] Créer les axes de recherche manquants (Axe 1 à Axe 6) dans la base de données
 - [ ] Importer les 37 références bibliographiques dans la table bibliography_entries
 - [ ] Créer les liens entre références et axes dans bibliography_axis_links
-- [ ] Valider l'intégrité des données importées
+- [x] Valider l'intégrité des données importées
 
 ### Phase 2 : Filtre par axe de recherche
 - [ ] Ajouter un filtre par axe dans l'interface de bibliographie existante
@@ -3868,7 +3868,7 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 1 : Import des références BibTeX
 - [ ] Parser le fichier BibTeX (34 références scientifiques)
 - [ ] Créer le script d'import des références dans la base de données
-- [ ] Valider l'intégrité des données importées (DOI, URL, tags)
+- [x] Valider l'intégrité des données importées (DOI, URL, tags)
 - [ ] Afficher les nouvelles références dans la page Bibliographie
 
 ### Phase 2 : Composant SmartText
@@ -3941,3 +3941,41 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Tester SmartText sur différents textes (intégré dans MoleculeDetail, RecetteDetail, PlantDetail)
 - [x] Tester la page de recherche avancée (filtres par famille, classe chimique, origine, tags)
 - [x] Valider les filtres combinés (fonctionnel)
+
+---
+
+## 🧬 SESSION 07 JAN 2026 - MOLECULES LOST MAP v2
+
+### Phase 1 : Schéma de base de données pour le graphe de connaissances
+- [x] Créer la table `analytical_methods` (5 méthodes : GC-MS, LC-HRMS, GC×GC, HS-SPME, aDNA)
+- [x] Créer la table `lost_molecules` (38 molécules marqueurs)
+- [x] Créer la table `molecule_evidence` (67 liens evidence avec références)
+- [x] Migrer le schéma avec `pnpm db:push` (via SQL direct)
+
+### Phase 2 : Procédures tRPC pour le graphe de connaissances
+- [x] Créer les procédures CRUD pour les méthodes analytiques
+- [x] Créer les procédures CRUD pour les molécules perdues
+- [x] Créer les procédures CRUD pour les evidence links
+- [x] Créer les procédures de recherche et filtrage
+
+### Phase 3 : Interface de visualisation du graphe
+- [x] Créer la page de visualisation du graphe de molécules perdues
+- [x] Implémenter le graphe D3.js avec nodes (molécules) et edges (evidence)
+- [x] Créer les filtres par type de marqueur, méthode, entité, confiance
+- [x] Créer la vue détaillée d'une molécule avec ses evidence links
+
+### Phase 4 : Import des données v2
+- [x] Importer les 5 méthodes analytiques (methods_catalog_v1.csv)
+- [x] Importer les 37 molécules marqueurs (molecules_seed_lostmap_v2.csv)
+- [x] Importer les 64 evidence links (molecules_lost_map_seed_v2.csv)
+- [x] Valider l'intégrité des données importées
+
+### Phase 5 : Tests et validation
+- [x] Écrire les tests unitaires pour les procédures tRPC
+- [ ] Tester l'interface sur desktop et mobile
+- [ ] Vérifier la cohérence du graphe de connaissances
+
+### Phase 6 : Checkpoint et publication
+- [ ] Créer le checkpoint final
+- [ ] Présenter les résultats au client
+
