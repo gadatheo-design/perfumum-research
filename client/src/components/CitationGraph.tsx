@@ -6,7 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { Loader2, ZoomIn, ZoomOut, Maximize2, Filter, Info, X } from 'lucide-react';
+import { Loader2, ZoomIn, ZoomOut, Maximize2, Filter, Info, X, Target, ExternalLink } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
 
 // Types pour le graphe
 interface GraphNode {
@@ -656,6 +657,9 @@ export function CitationGraph({
                 </div>
               </div>
               
+              {/* Axes de recherche liés */}
+              <LinkedAxesDisplay bibliographyId={selectedNode.id} />
+              
               <div className="mt-3 pt-3 border-t border-zinc-700">
                 <Button
                   variant="outline"
@@ -663,6 +667,7 @@ export function CitationGraph({
                   className="w-full border-zinc-600"
                   onClick={() => onNodeClick?.(selectedNode)}
                 >
+                  <ExternalLink className="w-3 h-3 mr-2" />
                   Voir la fiche complète
                 </Button>
               </div>
@@ -671,6 +676,55 @@ export function CitationGraph({
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+// Composant pour afficher les axes liés dans le panneau de détail
+function LinkedAxesDisplay({ bibliographyId }: { bibliographyId: number }) {
+  const { data: linkedAxes, isLoading } = trpc.bibliography.getLinkedAxes.useQuery(bibliographyId);
+  
+  if (isLoading) {
+    return (
+      <div className="mt-3 pt-3 border-t border-zinc-700">
+        <div className="flex items-center gap-2 text-zinc-500 text-sm">
+          <Loader2 className="w-3 h-3 animate-spin" />
+          Chargement des axes...
+        </div>
+      </div>
+    );
+  }
+  
+  if (!linkedAxes || linkedAxes.length === 0) {
+    return null;
+  }
+  
+  return (
+    <div className="mt-3 pt-3 border-t border-zinc-700">
+      <div className="flex items-center gap-2 mb-2">
+        <Target className="w-3 h-3 text-zinc-500" />
+        <span className="text-zinc-500 text-sm">Axes de recherche</span>
+      </div>
+      <div className="flex flex-wrap gap-1">
+        {linkedAxes.map((axis: any) => (
+          <Badge
+            key={axis.id}
+            variant="outline"
+            className="text-xs"
+            style={{ 
+              borderColor: axis.color || '#6b7280',
+              backgroundColor: `${axis.color || '#6b7280'}20`
+            }}
+          >
+            {axis.axisCode}
+            {axis.relevance && (
+              <span className="ml-1 opacity-60">
+                ({axis.relevance === 'primaire' ? 'P' : axis.relevance === 'secondaire' ? 'S' : 'C'})
+              </span>
+            )}
+          </Badge>
+        ))}
+      </div>
+    </div>
   );
 }
 

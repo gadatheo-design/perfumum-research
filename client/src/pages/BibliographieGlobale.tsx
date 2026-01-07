@@ -62,6 +62,8 @@ import {
   Link2,
 } from "lucide-react";
 import { CitationGraph } from "@/components/CitationGraph";
+import { AxisSelector } from "@/components/AxisSelector";
+import { CitationManager } from "@/components/CitationManager";
 
 // Types pour les entrées bibliographiques
 type EntryType = 'article' | 'book' | 'inbook' | 'incollection' | 'inproceedings' | 'conference' | 'thesis' | 'mastersthesis' | 'phdthesis' | 'techreport' | 'manual' | 'unpublished' | 'misc' | 'online' | 'patent' | 'standard' | 'dataset' | 'software';
@@ -684,6 +686,27 @@ export default function BibliographieGlobale() {
                           onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                         />
                       </div>
+                      
+                      {/* Axes de recherche - uniquement en mode édition */}
+                      {selectedEntry && (
+                        <div className="col-span-2 pt-4 border-t">
+                          <AxisSelector 
+                            bibliographyId={selectedEntry.id} 
+                            onUpdate={() => refetch()} 
+                          />
+                        </div>
+                      )}
+                      
+                      {/* Citations croisées - uniquement en mode édition */}
+                      {selectedEntry && (
+                        <div className="col-span-2 pt-4 border-t">
+                          <CitationManager
+                            bibliographyId={selectedEntry.id}
+                            bibliographyTitle={selectedEntry.title}
+                            onUpdate={() => refetch()}
+                          />
+                        </div>
+                      )}
                     </div>
                     <DialogFooter>
                       <Button variant="outline" onClick={() => {
@@ -906,6 +929,14 @@ export default function BibliographieGlobale() {
                             {entry.abstract}
                           </p>
                         )}
+                        {/* Axes de recherche liés */}
+                        <div className="mt-3 pt-3 border-t border-border/50">
+                          <div className="flex items-center gap-2 text-xs">
+                            <Link2 className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-muted-foreground">Axes:</span>
+                            <AxisSelector bibliographyId={entry.id} compact onUpdate={() => refetch()} />
+                          </div>
+                        </div>
                         <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                           <span>Clé: <code className="bg-muted px-1 rounded">{entry.entryKey}</code></span>
                           {entry.doi && (

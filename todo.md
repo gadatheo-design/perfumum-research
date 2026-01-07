@@ -3513,3 +3513,89 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 3 : Validation
 - [x] Vérifier l'intégrité des données importées
 - [x] Tester l'affichage dans la page Bibliographie
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - LIAISONS SOURCES-AXES & GRAPHE DE CITATIONS
+
+### Phase 1 : Interface de liaison sources-axes dans la bibliographie
+- [ ] Analyser la structure existante des tables bibliographyAxisLinks et researchAxes
+- [ ] Vérifier les procédures tRPC existantes pour les liaisons
+- [ ] Améliorer l'interface de liaison dans la page Bibliographie
+- [ ] Ajouter un sélecteur d'axes de recherche dans le formulaire d'édition
+- [ ] Afficher les axes liés sur chaque fiche de référence
+- [ ] Permettre la liaison/déliaison rapide depuis la liste
+
+### Phase 2 : Visualisation du graphe de citations croisées
+- [ ] Analyser la structure existante de la table referenceCitations
+- [ ] Vérifier le composant CitationGraph.tsx existant
+- [ ] Améliorer la visualisation du graphe avec D3.js ou Canvas
+- [ ] Ajouter les interactions (zoom, pan, sélection de nœuds)
+- [ ] Afficher les métadonnées au survol des nœuds
+- [ ] Permettre l'ajout de citations depuis le graphe
+
+### Phase 3 : Tests et validation
+- [ ] Écrire les tests unitaires pour les nouvelles fonctionnalités
+- [ ] Tester l'interface sur desktop et mobile
+- [ ] Valider les performances du graphe avec de nombreuses citations
+- [ ] Créer le checkpoint final
+
+
+### Phase 4 : Import des nouvelles références bibliographiques
+- [ ] Analyser Pasted_content_25.txt (structure et contenu)
+- [ ] Analyser PERFUMUM_References_Master.bib (fichier BibTeX)
+- [ ] Analyser Pasted_content_26.txt (structure et contenu)
+- [ ] Créer le script d'import pour les nouvelles références
+- [ ] Importer les références dans la base de données
+- [ ] Lier les références aux axes de recherche appropriés
+- [ ] Vérifier l'intégrité des données importées
+
+
+
+---
+
+## ✅ RÉSUMÉ SESSION 07 JAN 2026 - LIAISONS SOURCES-AXES & CITATIONS
+
+### Fonctionnalités implémentées
+
+**1. Interface de liaison sources-axes (AxisSelector.tsx)**
+- [x] Composant AxisSelector créé avec mode compact et mode complet
+- [x] Intégré dans le formulaire d'édition des références bibliographiques
+- [x] Affichage des axes liés sur chaque carte de référence (mode compact)
+- [x] Sélecteur de pertinence (primaire/secondaire/contextuelle)
+- [x] Liaison/déliaison dynamique avec feedback utilisateur
+
+**2. Gestionnaire de citations croisées (CitationManager.tsx)**
+- [x] Composant CitationManager créé avec interface complète
+- [x] Affichage des citations sortantes ("Cette référence cite...")
+- [x] Affichage des citations entrantes ("Citée par...")
+- [x] Formulaire d'ajout de citation avec recherche de références
+- [x] Types de citation (direct, indirect, méthodologique, théorique, etc.)
+- [x] Système de poids et vérification des citations
+
+**3. Amélioration du graphe de citations (CitationGraph.tsx)**
+- [x] Ajout de l'affichage des axes liés dans le panneau de détail
+- [x] Composant LinkedAxesDisplay pour afficher les axes au clic sur un nœud
+- [x] Indicateurs de pertinence (P/S/C) sur les badges d'axes
+
+**4. Import des nouvelles références bibliographiques**
+- [x] Script de parsing BibTeX (import-references.mjs)
+- [x] Script de seed en base de données (seed-references.mjs)
+- [x] 30 références importées avec succès
+- [x] 15 liaisons axes-références créées automatiquement
+- [x] Fichiers sources copiés dans /data/
+
+**5. Tests unitaires (bibliography-links.test.ts)**
+- [x] Tests pour bibliography.getLinkedAxes
+- [x] Tests pour bibliography.linkToAxis
+- [x] Tests pour referenceCitations (list, create, verify, delete)
+- [x] Tests pour referenceCitations.getGraph
+- [x] 491 tests passés au total
+
+### Statistiques finales
+- **Références bibliographiques**: 193 (163 existantes + 30 nouvelles)
+- **Liaisons axes-références**: 15 nouvelles créées
+- **Axes de recherche**: 11 (AX1-AX4, AXC, AXJ, AXM, AXN, etc.)
+- **Tests unitaires**: 491 passés
+
