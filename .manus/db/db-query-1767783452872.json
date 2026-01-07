@@ -1,0 +1,14 @@
+{
+  "query": "SELECT COUNT(*) as total, research_domain FROM bibliography_entries WHERE entry_key IN ('powo2024', 'iucn2024', 'bgci2024', 'cites2024', 'gbif2024', 'bhl2024', 'iiif2024', 'transkribus2024', 'terpene_genomics2025', 'tps_evolution2022', 'tps_dynamics2023', 'edna_biomonitoring2022', 'pollen_barcoding2016', 'plant_cryopreservation2024', 'meristem_cryo2008', 'svalbard2024', 'ai_knowledge_graphs2025', 'ethnopharmacology_ai2025', 'nlp_ethnobotany2018', 'roman_perfume2023', 'unguentaria2025', 'bronze_age_oils2023', 'nomen2025', 'herbarium_chemistry2024', 'csia_review2023', 'yeast_terpenoids2023', 'patchoulol_yeast2021', 'olfactory_vr2024', 'digital_smell2025', 'olfactory_advances2025', 'inaturalist2025', 'indoor_cleaning2022', 'indoor_soa2021', 'soa_hvac2025', 'ozone_terpenoids2013', 'wax_melts2025', 'colombia_cannabis2024', 'or51e2_structure2023') GROUP BY research_domain ORDER BY total DESC",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, research_domain FROM bibliography_entries WHERE entry_key IN ('powo2024', 'iucn2024', 'bgci2024', 'cites2024', 'gbif2024', 'bhl2024', 'iiif2024', 'transkribus2024', 'terpene_genomics2025', 'tps_evolution2022', 'tps_dynamics2023', 'edna_biomonitoring2022', 'pollen_barcoding2016', 'plant_cryopreservation2024', 'meristem_cryo2008', 'svalbard2024', 'ai_knowledge_graphs2025', 'ethnopharmacology_ai2025', 'nlp_ethnobotany2018', 'roman_perfume2023', 'unguentaria2025', 'bronze_age_oils2023', 'nomen2025', 'herbarium_chemistry2024', 'csia_review2023', 'yeast_terpenoids2023', 'patchoulol_yeast2021', 'olfactory_vr2024', 'digital_smell2025', 'olfactory_advances2025', 'inaturalist2025', 'indoor_cleaning2022', 'indoor_soa2021', 'soa_hvac2025', 'ozone_terpenoids2013', 'wax_melts2025', 'colombia_cannabis2024', 'or51e2_structure2023') GROUP BY research_domain ORDER BY total DESC",
+  "rows": [
+    {
+      "total": "38",
+      "research_domain": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tresearch_domain\n38\t\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

@@ -3494,3 +3494,22 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Créer les tests unitaires pour researchAxes
 - [x] Exécuter tous les tests (480 tests passés)
 - [x] Vérifier l'état du serveur de développement
+
+
+---
+
+## 📚 SESSION 07 JAN 2026 - IMPORT SOURCES BIBLIOGRAPHIQUES
+
+### Phase 1 : Analyse des sources
+- [x] Analyser le fichier Pasted_content_23.txt (bibliographie PERFUMUM)
+- [x] Identifier les catégories et axes de recherche
+- [x] Structurer les données pour l'import
+
+### Phase 2 : Import des sources
+- [x] Créer le script d'import des sources
+- [x] Importer les sources dans bibliography_entries (38 sources)
+- [x] Lier les sources aux axes de recherche correspondants
+
+### Phase 3 : Validation
+- [x] Vérifier l'intégrité des données importées
+- [x] Tester l'affichage dans la page Bibliographie

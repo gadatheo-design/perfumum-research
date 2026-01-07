@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as total FROM bibliography_entries WHERE entry_key LIKE '%2024' OR entry_key LIKE '%2025' OR entry_key LIKE '%2023' OR entry_key LIKE '%2022' OR entry_key LIKE '%2021' OR entry_key LIKE '%2018' OR entry_key LIKE '%2016' OR entry_key LIKE '%2013' OR entry_key LIKE '%2008'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total FROM bibliography_entries WHERE entry_key LIKE '%2024' OR entry_key LIKE '%2025' OR entry_key LIKE '%2023' OR entry_key LIKE '%2022' OR entry_key LIKE '%2021' OR entry_key LIKE '%2018' OR entry_key LIKE '%2016' OR entry_key LIKE '%2013' OR entry_key LIKE '%2008'",
+  "rows": [
+    {
+      "total": "69"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n69\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}
