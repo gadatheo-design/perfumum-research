@@ -1,0 +1,26 @@
+{
+  "query": "SELECT 'molecules' as entity, COUNT(*) as count FROM molecules\nUNION ALL\nSELECT 'plants', COUNT(*) FROM plants\nUNION ALL\nSELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL\nSELECT 'geographic_origins', COUNT(*) FROM geographic_origins",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'molecules' as entity, COUNT(*) as count FROM molecules\nUNION ALL\nSELECT 'plants', COUNT(*) FROM plants\nUNION ALL\nSELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL\nSELECT 'geographic_origins', COUNT(*) FROM geographic_origins",
+  "rows": [
+    {
+      "entity": "plants",
+      "count": "149"
+    },
+    {
+      "entity": "recettes",
+      "count": "266"
+    },
+    {
+      "entity": "geographic_origins",
+      "count": "20"
+    },
+    {
+      "entity": "molecules",
+      "count": "569"
+    }
+  ],
+  "messages": [],
+  "stdout": "entity\tcount\nplants\t149\nrecettes\t266\ngeographic_origins\t20\nmolecules\t569\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

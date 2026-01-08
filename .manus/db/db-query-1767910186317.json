@@ -1,0 +1,22 @@
+{
+  "query": "SELECT 'plant_molecules' as relation_type, COUNT(*) as count FROM plant_molecules\nUNION ALL\nSELECT 'molecule_recettes', COUNT(*) FROM molecule_recettes\nUNION ALL\nSELECT 'plant_terroirs', COUNT(*) FROM plant_terroirs",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'plant_molecules' as relation_type, COUNT(*) as count FROM plant_molecules\nUNION ALL\nSELECT 'molecule_recettes', COUNT(*) FROM molecule_recettes\nUNION ALL\nSELECT 'plant_terroirs', COUNT(*) FROM plant_terroirs",
+  "rows": [
+    {
+      "relation_type": "plant_molecules",
+      "count": "285"
+    },
+    {
+      "relation_type": "plant_terroirs",
+      "count": "41"
+    },
+    {
+      "relation_type": "molecule_recettes",
+      "count": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "relation_type\tcount\nplant_molecules\t285\nplant_terroirs\t41\nmolecule_recettes\t0\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

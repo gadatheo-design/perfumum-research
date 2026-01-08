@@ -1,0 +1,28 @@
+{
+  "query": "SELECT \n  'molecules' as entity, COUNT(*) as total, \n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as linked,\n  ROUND((SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) * 100.0 / COUNT(*), 1) as coverage_pct\nFROM molecules\nUNION ALL\nSELECT \n  'plants', COUNT(*),\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules),\n  ROUND((SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) * 100.0 / COUNT(*), 1)\nFROM plants\nUNION ALL\nSELECT \n  'plant_terroirs', \n  (SELECT COUNT(*) FROM plants),\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs),\n  ROUND((SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs) * 100.0 / (SELECT COUNT(*) FROM plants), 1)\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  'molecules' as entity, COUNT(*) as total, \n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as linked,\n  ROUND((SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) * 100.0 / COUNT(*), 1) as coverage_pct\nFROM molecules\nUNION ALL\nSELECT \n  'plants', COUNT(*),\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules),\n  ROUND((SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) * 100.0 / COUNT(*), 1)\nFROM plants\nUNION ALL\nSELECT \n  'plant_terroirs', \n  (SELECT COUNT(*) FROM plants),\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs),\n  ROUND((SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs) * 100.0 / (SELECT COUNT(*) FROM plants), 1)\n",
+  "rows": [
+    {
+      "entity": "plant_terroirs",
+      "total": "149",
+      "linked": "28",
+      "coverage_pct": "18.8"
+    },
+    {
+      "entity": "plants",
+      "total": "149",
+      "linked": "56",
+      "coverage_pct": "37.6"
+    },
+    {
+      "entity": "molecules",
+      "total": "569",
+      "linked": "135",
+      "coverage_pct": "23.7"
+    }
+  ],
+  "messages": [],
+  "stdout": "entity\ttotal\tlinked\tcoverage_pct\nplant_terroirs\t149\t28\t18.8\nplants\t149\t56\t37.6\nmolecules\t569\t135\t23.7\n",
+  "stderr": "",
+  "execution_time_ms": 75
+}

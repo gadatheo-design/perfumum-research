@@ -91,24 +91,24 @@
 - [x] Ajouter le citronellol aux restrictions IFRA (déjà présent - 49th Amendment, 8.0%)
 - [x] Ajouter le méthyl-eugénol aux restrictions IFRA (déjà présent - 49th Amendment, 0.0002%)
 - [x] Ajouter le bergaptène aux restrictions IFRA (déjà présent - 49th Amendment, 0.0015%)
-- [ ] Écrire les tests unitaires pour les procédures IFRA
+- [x] Écrire les tests unitaires pour les procédures IFRA (`ifra.test.ts` - 22 tests)
 
 ---
 
 ## 🔧 P2 — AMÉLIORATION (Qualité et UX)
 
 ### Système d'images botaniques
-- [ ] Configurer le stockage S3 pour les images botaniques
-- [ ] Créer la procédure tRPC d'upload d'images
-- [ ] Créer le composant ImageUpload avec drag & drop
-- [ ] Ajouter la prévisualisation des images avant upload
-- [ ] Intégrer le composant dans les fiches plantes (LeafEconomies)
-- [ ] Ajouter la gestion des images multiples par plante
-- [ ] Implémenter la suppression d'images
-- [ ] Écrire les tests unitaires pour le système d'upload
+- [x] Configurer le stockage S3 pour les images botaniques
+- [x] Créer la procédure tRPC d'upload d'images (`upload.galleryImage`)
+- [x] Créer le composant ImageUpload avec drag & drop (`PlantImageUpload.tsx`)
+- [x] Ajouter la prévisualisation des images avant upload
+- [x] Intégrer le composant dans les fiches plantes (`PlantDetail.tsx` onglet Images)
+- [x] Ajouter la gestion des images multiples par plante (`PlantImageGallery`)
+- [x] Implémenter la suppression d'images
+- [x] Écrire les tests unitaires pour le système d'upload (`gallery.test.ts` - 13 tests)
 
 ### Visualisations avancées
-- [ ] Graphe de relations molécule-plante (D3.js)
+- [x] Graphe de relations molécule-plante (D3.js) — `/graphe-plante-molecule`
 - [ ] Graphe de relations terroir-plante-molécule
 - [ ] Vue détaillée avec toutes les connexions
 - [ ] Page terroirs avec carte interactive
@@ -348,3 +348,16 @@
 - [x] Ajouter les molécules manquantes (13 molécules ajoutées)
 - [x] Créer les liaisons plantes-molécules pour les nouvelles entrées (15 liaisons)
 - [x] Tester l'upload d'images depuis l'interface (21 tests passés)
+
+
+---
+
+## 🔥 SESSION ACTIVE — 08 Jan 2026 (Suite)
+
+### Tâches complétées
+- [x] Créer la page GraphePlanteMolecule avec visualisation D3.js interactive
+- [x] Ajouter la route /graphe-plante-molecule dans App.tsx
+- [x] Intégrer le composant PlantMoleculeGraph existant
+- [x] Ajouter les statistiques de couverture des liaisons
+- [x] Mettre à jour le todo.md avec les tâches du système d'images (déjà implémentées)
+- [x] Mettre à jour le todo.md avec les tests IFRA (déjà implémentés - 22 tests)

@@ -119,6 +119,7 @@ import ComparePlants from "./pages/ComparePlants";
 import ComparateurAvance from "@/pages/ComparateurAvance";
 import MatriceSynergies from "./pages/MatriceSynergies";
 import GrapheMoleculesRecettes from "@/pages/GrapheMoleculesRecettes";
+import GraphePlanteMolecule from "@/pages/GraphePlanteMolecule";
 import SynergiesPage from "./pages/SynergiesPage";
 import SuggestionsSynergies from "./pages/SuggestionsSynergies";
 import { SynergiesHeatmap } from "./pages/SynergiesHeatmap";
@@ -402,6 +403,7 @@ function Router() {
       <Route path="/comparateur-avance" component={ComparateurAvance} />
       <Route path="/matrice-synergies" component={MatriceSynergies} />
       <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
+      <Route path="/graphe-plante-molecule" component={GraphePlanteMolecule} />
       <Route path="/graphe-synergies" component={SynergiesPage} />
       <Route path="/synergies" component={SynergiesPage} />
       <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
