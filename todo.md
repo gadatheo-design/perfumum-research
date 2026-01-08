@@ -50,7 +50,7 @@
 - [x] Interface drag-drop molécule-recette (`/molecule-recette-dragdrop`)
 - [x] Import CSV molécule-recette (`/molecule-recette-import-csv`)
 - [x] Objectif : Atteindre 50% de couverture molécule→recette (atteint: 50.0%) — 66 liaisons créées automatiquement
-- [ ] Objectif : Atteindre 10% de couverture molécule→plante
+- [x] Objectif : Atteindre 10% de couverture molécule→plante (atteint: 16%)
 - [x] Objectif : Atteindre 20% de couverture plante→terroir (actuellement 19.4%) ✅
 
 ### Pages Admin (Complétées le 08 Jan 2026)
@@ -75,8 +75,8 @@
 - [x] Interface d'import CSV basique (`/admin/import-csv`)
 - [x] Créer l'interface d'upload avec prévisualisation (`/admin/import-csv-preview`)
 - [x] Ajouter la validation des données avant import (`/csv-validation-import`)
-- [ ] Permettre la correction des erreurs avant import final
-- [ ] Créer le système d'export des données (CSV, JSON)
+- [x] Permettre la correction des erreurs avant import final (édition inline + dialog + auto-correction)
+- [x] Créer le système d'export des données (CSV, JSON) - page améliorée avec export groupeé
 
 ### Enrichissement des données scientifiques
 - [ ] Ajouter plus de données de relations molécule-plante

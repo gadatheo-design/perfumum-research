@@ -8,10 +8,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Table,
   TableBody,
@@ -34,7 +38,9 @@ import {
   FileSpreadsheet,
   ArrowRight,
   RefreshCw,
-  Download
+  Pencil,
+  Save,
+  X
 } from "lucide-react";
 
 interface ParsedRow {
@@ -84,6 +90,9 @@ const plantFields = [
   { name: "notes", label: "Notes", required: false },
 ];
 
+// Catégories valides pour les plantes
+const validCategories = ["aromatique", "tabac", "cannabis", "resine", "bois", "fleur", "racine", "autre"];
+
 export default function ImportCSVPreview() {
   const [activeTab, setActiveTab] = useState<"molecules" | "plants">("molecules");
   const [file, setFile] = useState<File | null>(null);
@@ -94,6 +103,15 @@ export default function ImportCSVPreview() {
   const [importProgress, setImportProgress] = useState(0);
   const [step, setStep] = useState<"upload" | "mapping" | "preview" | "result">("upload");
   const [importResult, setImportResult] = useState<{ success: number; errors: string[] } | null>(null);
+  
+  // État pour l'édition inline
+  const [editingRow, setEditingRow] = useState<number | null>(null);
+  const [editingData, setEditingData] = useState<Record<string, string>>({});
+  
+  // État pour le dialog d'édition détaillée
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editDialogRowIndex, setEditDialogRowIndex] = useState<number | null>(null);
+  const [editDialogData, setEditDialogData] = useState<Record<string, string>>({});
 
   const importMoleculesMutation = trpc.importMolecules.useMutation();
   const importPlantsMutation = trpc.importPlants.useMutation();
@@ -191,38 +209,43 @@ export default function ImportCSVPreview() {
     }
   }, [parseCSV, fields]);
 
+  // Fonction de validation d'une ligne
+  const validateRow = useCallback((rowData: Record<string, string>): string[] => {
+    const errors: string[] = [];
+    
+    // Vérifier les champs requis
+    fields.filter(f => f.required).forEach((field) => {
+      const mappedColumn = Object.entries(columnMappings).find(([_, dbField]) => dbField === field.name)?.[0];
+      if (mappedColumn && !rowData[mappedColumn]?.trim()) {
+        errors.push(`${field.label} est requis`);
+      }
+    });
+
+    // Validation spécifique pour les plantes
+    if (activeTab === "plants") {
+      const categoryColumn = Object.entries(columnMappings).find(([_, dbField]) => dbField === "category")?.[0];
+      if (categoryColumn) {
+        const category = rowData[categoryColumn]?.toLowerCase();
+        if (category && !validCategories.includes(category)) {
+          errors.push(`Catégorie invalide: ${category}. Valeurs acceptées: ${validCategories.join(", ")}`);
+        }
+      }
+    }
+
+    return errors;
+  }, [fields, columnMappings, activeTab]);
+
   // Valider les lignes selon le mapping
   const validatedRows = useMemo(() => {
     return parsedRows.map((row) => {
-      const errors: string[] = [];
-      
-      // Vérifier les champs requis
-      fields.filter(f => f.required).forEach((field) => {
-        const mappedColumn = Object.entries(columnMappings).find(([_, dbField]) => dbField === field.name)?.[0];
-        if (mappedColumn && !row.data[mappedColumn]?.trim()) {
-          errors.push(`${field.label} est requis`);
-        }
-      });
-
-      // Validation spécifique pour les plantes
-      if (activeTab === "plants") {
-        const categoryColumn = Object.entries(columnMappings).find(([_, dbField]) => dbField === "category")?.[0];
-        if (categoryColumn) {
-          const category = row.data[categoryColumn]?.toLowerCase();
-          const validCategories = ["aromatique", "tabac", "cannabis", "resine", "bois", "fleur", "racine", "autre"];
-          if (category && !validCategories.includes(category)) {
-            errors.push(`Catégorie invalide: ${category}`);
-          }
-        }
-      }
-
+      const errors = validateRow(row.data);
       return {
         ...row,
         valid: errors.length === 0,
         errors,
       };
     });
-  }, [parsedRows, columnMappings, fields, activeTab]);
+  }, [parsedRows, validateRow]);
 
   // Statistiques de prévisualisation
   const previewStats = useMemo(() => {
@@ -247,6 +270,139 @@ export default function ImportCSVPreview() {
   // Sélectionner/désélectionner tout
   const toggleAllSelection = (selected: boolean) => {
     setParsedRows(prev => prev.map(row => ({ ...row, selected })));
+  };
+
+  // Commencer l'édition inline d'une ligne
+  const startInlineEdit = (index: number) => {
+    setEditingRow(index);
+    setEditingData({ ...parsedRows[index].data });
+  };
+
+  // Sauvegarder l'édition inline
+  const saveInlineEdit = () => {
+    if (editingRow === null) return;
+    
+    setParsedRows(prev => prev.map((row, i) => 
+      i === editingRow ? { ...row, data: { ...editingData } } : row
+    ));
+    
+    setEditingRow(null);
+    setEditingData({});
+    toast.success("Ligne mise à jour");
+  };
+
+  // Annuler l'édition inline
+  const cancelInlineEdit = () => {
+    setEditingRow(null);
+    setEditingData({});
+  };
+
+  // Ouvrir le dialog d'édition détaillée
+  const openEditDialog = (index: number) => {
+    setEditDialogRowIndex(index);
+    setEditDialogData({ ...parsedRows[index].data });
+    setEditDialogOpen(true);
+  };
+
+  // Sauvegarder depuis le dialog
+  const saveDialogEdit = () => {
+    if (editDialogRowIndex === null) return;
+    
+    setParsedRows(prev => prev.map((row, i) => 
+      i === editDialogRowIndex ? { ...row, data: { ...editDialogData } } : row
+    ));
+    
+    setEditDialogOpen(false);
+    setEditDialogRowIndex(null);
+    setEditDialogData({});
+    toast.success("Ligne mise à jour");
+  };
+
+  // Corriger automatiquement les erreurs courantes
+  const autoFixRow = (index: number) => {
+    const row = parsedRows[index];
+    const newData = { ...row.data };
+    let fixed = false;
+
+    // Auto-correction pour les plantes
+    if (activeTab === "plants") {
+      const categoryColumn = Object.entries(columnMappings).find(([_, dbField]) => dbField === "category")?.[0];
+      if (categoryColumn) {
+        const category = newData[categoryColumn]?.toLowerCase().trim();
+        // Correction des catégories mal orthographiées
+        const categoryFixes: Record<string, string> = {
+          "aromatic": "aromatique",
+          "tobacco": "tabac",
+          "resin": "resine",
+          "wood": "bois",
+          "flower": "fleur",
+          "root": "racine",
+          "other": "autre",
+          "": "autre",
+        };
+        if (categoryFixes[category]) {
+          newData[categoryColumn] = categoryFixes[category];
+          fixed = true;
+        } else if (!validCategories.includes(category)) {
+          newData[categoryColumn] = "autre";
+          fixed = true;
+        }
+      }
+    }
+
+    if (fixed) {
+      setParsedRows(prev => prev.map((r, i) => 
+        i === index ? { ...r, data: newData } : r
+      ));
+      toast.success("Corrections automatiques appliquées");
+    } else {
+      toast.info("Aucune correction automatique disponible");
+    }
+  };
+
+  // Corriger toutes les erreurs automatiquement
+  const autoFixAllErrors = () => {
+    let fixedCount = 0;
+    
+    setParsedRows(prev => prev.map((row) => {
+      if (row.valid) return row;
+      
+      const newData = { ...row.data };
+      let fixed = false;
+
+      if (activeTab === "plants") {
+        const categoryColumn = Object.entries(columnMappings).find(([_, dbField]) => dbField === "category")?.[0];
+        if (categoryColumn) {
+          const category = newData[categoryColumn]?.toLowerCase().trim();
+          const categoryFixes: Record<string, string> = {
+            "aromatic": "aromatique",
+            "tobacco": "tabac",
+            "resin": "resine",
+            "wood": "bois",
+            "flower": "fleur",
+            "root": "racine",
+            "other": "autre",
+            "": "autre",
+          };
+          if (categoryFixes[category] || !validCategories.includes(category)) {
+            newData[categoryColumn] = categoryFixes[category] || "autre";
+            fixed = true;
+          }
+        }
+      }
+
+      if (fixed) {
+        fixedCount++;
+        return { ...row, data: newData };
+      }
+      return row;
+    }));
+
+    if (fixedCount > 0) {
+      toast.success(`${fixedCount} lignes corrigées automatiquement`);
+    } else {
+      toast.info("Aucune correction automatique disponible");
+    }
   };
 
   // Importer les données
@@ -335,7 +491,21 @@ export default function ImportCSVPreview() {
     setColumnMappings({});
     setStep("upload");
     setImportResult(null);
+    setEditingRow(null);
+    setEditingData({});
   };
+
+  // Obtenir les colonnes mappées pour l'affichage
+  const mappedColumns = useMemo(() => {
+    return Object.entries(columnMappings)
+      .filter(([_, dbField]) => dbField)
+      .map(([csvCol, dbField]) => ({
+        csvCol,
+        dbField,
+        label: fields.find(f => f.name === dbField)?.label || dbField,
+        required: fields.find(f => f.name === dbField)?.required || false,
+      }));
+  }, [columnMappings, fields]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -353,7 +523,7 @@ export default function ImportCSVPreview() {
                 <div>
                   <h1 className="text-4xl font-bold">Import CSV avec Prévisualisation</h1>
                   <p className="text-muted-foreground">
-                    Importez vos données avec mapping intelligent et validation
+                    Importez vos données avec mapping intelligent, validation et correction des erreurs
                   </p>
                 </div>
               </div>
@@ -384,7 +554,7 @@ export default function ImportCSVPreview() {
                 <ArrowRight className="h-4 w-4 text-muted-foreground" />
                 <Badge variant={step === "mapping" ? "default" : "outline"}>2. Mapping</Badge>
                 <ArrowRight className="h-4 w-4 text-muted-foreground" />
-                <Badge variant={step === "preview" ? "default" : "outline"}>3. Prévisualisation</Badge>
+                <Badge variant={step === "preview" ? "default" : "outline"}>3. Prévisualisation & Correction</Badge>
                 <ArrowRight className="h-4 w-4 text-muted-foreground" />
                 <Badge variant={step === "result" ? "default" : "outline"}>4. Résultat</Badge>
               </div>
@@ -490,7 +660,7 @@ export default function ImportCSVPreview() {
                 </Card>
               )}
 
-              {/* Étape 3: Prévisualisation */}
+              {/* Étape 3: Prévisualisation avec édition */}
               {step === "preview" && (
                 <>
                   {/* Statistiques */}
@@ -516,7 +686,7 @@ export default function ImportCSVPreview() {
                     <Card>
                       <CardContent className="pt-6">
                         <div className="text-2xl font-bold text-red-600">{previewStats.invalid}</div>
-                        <p className="text-xs text-muted-foreground">Invalides</p>
+                        <p className="text-xs text-muted-foreground">À corriger</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -526,9 +696,15 @@ export default function ImportCSVPreview() {
                       <CardTitle className="flex items-center justify-between">
                         <span className="flex items-center gap-2">
                           <Eye className="h-5 w-5" />
-                          Prévisualisation des données
+                          Prévisualisation et correction des données
                         </span>
                         <div className="flex gap-2">
+                          {previewStats.invalid > 0 && (
+                            <Button variant="outline" size="sm" onClick={autoFixAllErrors}>
+                              <Pencil className="h-4 w-4 mr-2" />
+                              Corriger tout automatiquement
+                            </Button>
+                          )}
                           <Button variant="outline" size="sm" onClick={() => toggleAllSelection(true)}>
                             Tout sélectionner
                           </Button>
@@ -537,26 +713,31 @@ export default function ImportCSVPreview() {
                           </Button>
                         </div>
                       </CardTitle>
+                      <CardDescription>
+                        Cliquez sur une ligne pour la modifier. Les lignes en rouge contiennent des erreurs à corriger.
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <ScrollArea className="h-[400px]">
+                      <ScrollArea className="h-[500px]">
                         <Table>
                           <TableHeader>
                             <TableRow>
                               <TableHead className="w-12">✓</TableHead>
                               <TableHead className="w-16">Statut</TableHead>
-                              {Object.entries(columnMappings)
-                                .filter(([_, dbField]) => dbField)
-                                .map(([csvCol, dbField]) => (
-                                  <TableHead key={csvCol}>
-                                    {fields.find(f => f.name === dbField)?.label || dbField}
-                                  </TableHead>
-                                ))}
+                              {mappedColumns.map(({ csvCol, label, required }) => (
+                                <TableHead key={csvCol}>
+                                  {label} {required && <span className="text-red-500">*</span>}
+                                </TableHead>
+                              ))}
+                              <TableHead className="w-24">Actions</TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
                             {validatedRows.map((row, index) => (
-                              <TableRow key={index} className={!row.valid ? "bg-red-50 dark:bg-red-950/20" : ""}>
+                              <TableRow 
+                                key={index} 
+                                className={`${!row.valid ? "bg-red-50 dark:bg-red-950/20" : ""} ${editingRow === index ? "bg-blue-50 dark:bg-blue-950/20" : ""}`}
+                              >
                                 <TableCell>
                                   <Checkbox
                                     checked={row.selected}
@@ -567,19 +748,58 @@ export default function ImportCSVPreview() {
                                   {row.valid ? (
                                     <CheckCircle2 className="h-4 w-4 text-green-600" />
                                   ) : (
-                                    <div className="flex items-center gap-1">
+                                    <div className="flex items-center gap-1" title={row.errors.join("\n")}>
                                       <XCircle className="h-4 w-4 text-red-600" />
                                       <span className="text-xs text-red-600">{row.errors.length}</span>
                                     </div>
                                   )}
                                 </TableCell>
-                                {Object.entries(columnMappings)
-                                  .filter(([_, dbField]) => dbField)
-                                  .map(([csvCol]) => (
-                                    <TableCell key={csvCol} className="max-w-[200px] truncate">
-                                      {row.data[csvCol] || "-"}
-                                    </TableCell>
-                                  ))}
+                                {mappedColumns.map(({ csvCol }) => (
+                                  <TableCell key={csvCol} className="max-w-[200px]">
+                                    {editingRow === index ? (
+                                      <Input
+                                        value={editingData[csvCol] || ""}
+                                        onChange={(e) => setEditingData(prev => ({
+                                          ...prev,
+                                          [csvCol]: e.target.value,
+                                        }))}
+                                        className="h-8 text-sm"
+                                      />
+                                    ) : (
+                                      <span className="truncate block" title={row.data[csvCol]}>
+                                        {row.data[csvCol] || <span className="text-muted-foreground">-</span>}
+                                      </span>
+                                    )}
+                                  </TableCell>
+                                ))}
+                                <TableCell>
+                                  <div className="flex gap-1">
+                                    {editingRow === index ? (
+                                      <>
+                                        <Button size="icon" variant="ghost" className="h-7 w-7" onClick={saveInlineEdit}>
+                                          <Save className="h-3 w-3 text-green-600" />
+                                        </Button>
+                                        <Button size="icon" variant="ghost" className="h-7 w-7" onClick={cancelInlineEdit}>
+                                          <X className="h-3 w-3 text-red-600" />
+                                        </Button>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => startInlineEdit(index)} title="Édition rapide">
+                                          <Pencil className="h-3 w-3" />
+                                        </Button>
+                                        <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => openEditDialog(index)} title="Édition détaillée">
+                                          <Eye className="h-3 w-3" />
+                                        </Button>
+                                        {!row.valid && (
+                                          <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => autoFixRow(index)} title="Correction auto">
+                                            <RefreshCw className="h-3 w-3 text-orange-500" />
+                                          </Button>
+                                        )}
+                                      </>
+                                    )}
+                                  </div>
+                                </TableCell>
                               </TableRow>
                             ))}
                           </TableBody>
@@ -591,9 +811,10 @@ export default function ImportCSVPreview() {
                   {previewStats.invalid > 0 && (
                     <Alert variant="destructive">
                       <AlertTriangle className="h-4 w-4" />
-                      <AlertTitle>Lignes invalides détectées</AlertTitle>
+                      <AlertTitle>Lignes avec erreurs détectées</AlertTitle>
                       <AlertDescription>
-                        {previewStats.invalid} lignes contiennent des erreurs et ne seront pas importées.
+                        {previewStats.invalid} lignes contiennent des erreurs. Vous pouvez les corriger manuellement 
+                        ou utiliser la correction automatique. Les lignes non corrigées ne seront pas importées.
                       </AlertDescription>
                     </Alert>
                   )}
@@ -615,7 +836,7 @@ export default function ImportCSVPreview() {
                       ) : (
                         <>
                           <Upload className="h-4 w-4 mr-2" />
-                          Importer {previewStats.valid} {activeTab === "molecules" ? "molécules" : "plantes"}
+                          Importer {previewStats.valid} {activeTab === "molecules" ? "molécules" : "plantes"} valides
                         </>
                       )}
                     </Button>
@@ -680,6 +901,92 @@ export default function ImportCSVPreview() {
           </div>
         </section>
       </main>
+
+      {/* Dialog d'édition détaillée */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Édition détaillée de la ligne</DialogTitle>
+            <DialogDescription>
+              Modifiez les valeurs de cette ligne. Les champs marqués d'un * sont obligatoires.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-4 py-4">
+            {mappedColumns.map(({ csvCol, label, required }) => (
+              <div key={csvCol} className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor={csvCol} className="text-right">
+                  {label} {required && <span className="text-red-500">*</span>}
+                </Label>
+                {csvCol.toLowerCase().includes("note") || csvCol.toLowerCase().includes("description") ? (
+                  <Textarea
+                    id={csvCol}
+                    value={editDialogData[csvCol] || ""}
+                    onChange={(e) => setEditDialogData(prev => ({
+                      ...prev,
+                      [csvCol]: e.target.value,
+                    }))}
+                    className="col-span-3"
+                    rows={3}
+                  />
+                ) : (
+                  <Input
+                    id={csvCol}
+                    value={editDialogData[csvCol] || ""}
+                    onChange={(e) => setEditDialogData(prev => ({
+                      ...prev,
+                      [csvCol]: e.target.value,
+                    }))}
+                    className="col-span-3"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Afficher les erreurs de validation en temps réel */}
+          {editDialogRowIndex !== null && (
+            (() => {
+              const errors = validateRow(editDialogData);
+              if (errors.length > 0) {
+                return (
+                  <Alert variant="destructive" className="mb-4">
+                    <AlertTriangle className="h-4 w-4" />
+                    <AlertTitle>Erreurs de validation</AlertTitle>
+                    <AlertDescription>
+                      <ul className="list-disc list-inside">
+                        {errors.map((error, i) => (
+                          <li key={i} className="text-sm">{error}</li>
+                        ))}
+                      </ul>
+                    </AlertDescription>
+                  </Alert>
+                );
+              }
+              return (
+                <Alert className="mb-4 border-green-500 text-green-700">
+                  <CheckCircle2 className="h-4 w-4" />
+                  <AlertTitle>Validation réussie</AlertTitle>
+                  <AlertDescription>
+                    Toutes les données sont valides.
+                  </AlertDescription>
+                </Alert>
+              );
+            })()
+          )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditDialogOpen(false)}>
+              Annuler
+            </Button>
+            <Button onClick={saveDialogEdit}>
+              <Save className="h-4 w-4 mr-2" />
+              Sauvegarder
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );
