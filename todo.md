@@ -66,14 +66,14 @@
 ## ⚠️ P1 — IMPORTANT (Améliore significativement l'expérience)
 
 ### Système de brouillons et validation
-- [ ] Ajouter un champ "status" (brouillon/validé) aux entités principales
-- [ ] Créer l'interface de validation admin
+- [x] Ajouter un champ "status" (brouillon/validé) aux entités principales (molécules et plantes)
+- [x] Créer l'interface de validation admin (`/admin/validation`)
 - [ ] Implémenter les notifications admin pour les nouvelles contributions
 - [ ] Créer les formulaires d'entrée de données simplifiés
 
 ### Import/Export CSV amélioré
 - [x] Interface d'import CSV basique (`/admin/import-csv`)
-- [ ] Créer l'interface d'upload avec prévisualisation
+- [x] Créer l'interface d'upload avec prévisualisation (`/admin/import-csv-preview`)
 - [ ] Ajouter la validation des données avant import
 - [ ] Permettre la correction des erreurs avant import final
 - [ ] Créer le système d'export des données (CSV, JSON)
@@ -86,7 +86,7 @@
 - [ ] Implémenter les connexions plantes-terroirs
 
 ### Restrictions IFRA
-- [ ] Créer la page de consultation IFRA avec recherche par molécule
+- [x] Créer la page de consultation IFRA avec recherche par molécule (`/ifra`)
 - [ ] Ajouter le géraniol aux restrictions IFRA
 - [ ] Ajouter le citronellol aux restrictions IFRA
 - [ ] Ajouter le méthyl-eugénol aux restrictions IFRA
@@ -289,3 +289,14 @@
 | Familles Admin | `/admin/familles` | Gestion familles |
 | Matières Admin | `/admin/matieres` | Gestion matières premières |
 
+
+
+---
+
+## 📚 RÉFÉRENCES À INTÉGRER (Bibliographie)
+
+### Nouvelles références (08 Jan 2026)
+- [x] Intégrer "Terpenes and Terpenoids in Cannabis sativa" (Sommano et al., 2020) - DOI: 10.1016/j.foodchem.2020.127491
+- [x] Intégrer "Terpenes from Forests and Human Health" (Antonelli et al., 2020) - DOI: 10.3390/toxins12040232
+- [x] Intégrer "Terpene Synthases and Their Contribution to Herbivore-Induced Volatile Emission in Western Balsam Poplar" (Irmisch et al., 2014) - DOI: 10.1186/1471-2229-14-270
+- [x] Importé 16 références supplémentaires (patrimoine olfactif, tabac/cannabis, terpenes)

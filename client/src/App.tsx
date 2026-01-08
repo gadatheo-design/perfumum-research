@@ -28,6 +28,7 @@ import AdminRecettes from "./pages/AdminRecettes";
 import AdminImportExport from "./pages/AdminImportExport";
 import ImportExportPlants from "./pages/ImportExportPlants";
 import ImportCSV from "./pages/ImportCSV";
+import ImportCSVPreview from "./pages/ImportCSVPreview";
 import AdminHistorique from "./pages/AdminHistorique";
 import AdminReferences from "./pages/AdminReferences";
 import LiaisonRecettesMolecules from "./pages/admin/LiaisonRecettesMolecules";
@@ -45,6 +46,9 @@ import PlantTerroirLinking from "./pages/PlantTerroirLinking";
 import PlantTerroirAudit from "./pages/PlantTerroirAudit";
 import PlantTerroirDragDrop from "./pages/PlantTerroirDragDrop";
 import PlantTerroirImportCSV from "./pages/PlantTerroirImportCSV";
+import PlantMoleculeAudit from "./pages/PlantMoleculeAudit";
+import LinkingDashboard from "./pages/LinkingDashboard";
+import AdminValidation from "./pages/AdminValidation";
 import EditeurFormulation from "./pages/outils/EditeurFormulation";
 
 // === PROTOTYPES ===
@@ -294,6 +298,9 @@ function Router() {
       <Route path="/plant-terroir-audit" component={PlantTerroirAudit} />
       <Route path="/plant-terroir-dragdrop" component={PlantTerroirDragDrop} />
       <Route path="/plant-terroir-import-csv" component={PlantTerroirImportCSV} />
+      <Route path="/plant-molecule-audit" component={PlantMoleculeAudit} />
+      <Route path="/linking-dashboard" component={LinkingDashboard} />
+      <Route path="/admin/validation" component={AdminValidation} />
       <Route path="/admin/molecule-origins" component={MoleculeOriginsAdmin} />
       <Route path="/admin/terroirs-geocode" component={TerroirsGeocode} />
       <Route path="/outils/editeur-formulation" component={EditeurFormulation} />
@@ -307,6 +314,7 @@ function Router() {
       <Route path="/admin/import-export" component={AdminImportExport} />
       <Route path="/admin/import-export-plants" component={ImportExportPlants} />
       <Route path="/admin/import-csv" component={ImportCSV} />
+      <Route path="/admin/import-csv-preview" component={ImportCSVPreview} />
       <Route path="/admin/historique" component={AdminHistorique} />
       <Route path="/admin/references" component={AdminReferences} />
       

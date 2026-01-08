@@ -207,6 +207,16 @@ export const molecules = mysqlTable("molecules", {
     url?: string;
     type: 'pubchem' | 'academic' | 'book' | 'database' | 'other';
   }[]>(),
+  // Statut de validation (brouillon/validé)
+  validationStatus: mysqlEnum("validation_status", [
+    "brouillon",       // Brouillon - en attente de validation
+    "en_revision",     // En révision - soumis pour validation
+    "valide",          // Validé - approuvé par un admin
+    "rejete"           // Rejeté - nécessite des corrections
+  ]).default("valide"),
+  validatedBy: int("validated_by"),      // ID de l'admin qui a validé
+  validatedAt: timestamp("validated_at"), // Date de validation
+  contributorId: int("contributor_id"),   // ID du contributeur original
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -1861,6 +1871,16 @@ export const plants = mysqlTable("plants", {
   // Métadonnées
   notes: text("notes"),
   imageUrl: varchar("image_url", { length: 500 }),
+  // Statut de validation (brouillon/validé)
+  validationStatus: mysqlEnum("validation_status", [
+    "brouillon",       // Brouillon - en attente de validation
+    "en_revision",     // En révision - soumis pour validation
+    "valide",          // Validé - approuvé par un admin
+    "rejete"           // Rejeté - nécessite des corrections
+  ]).default("valide"),
+  validatedBy: int("validated_by"),      // ID de l'admin qui a validé
+  validatedAt: timestamp("validated_at"), // Date de validation
+  contributorId: int("contributor_id"),   // ID du contributeur original
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });

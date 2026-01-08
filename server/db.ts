@@ -11082,3 +11082,780 @@ export async function suggestMoleculeRecetteLinks() {
 
   return suggestions.slice(0, 100);
 }
+
+
+/**
+ * Auto-liaison intelligente molécule-recette basée sur plusieurs critères
+ * Cette fonction analyse les molécules et recettes pour créer des liaisons pertinentes
+ */
+export async function autoLinkMoleculeRecettes(options: {
+  maxLinks?: number;
+  dryRun?: boolean;
+} = {}) {
+  const db = await getDb();
+  if (!db) return { success: false, created: 0, suggestions: [], errors: [] as string[] };
+
+  const { maxLinks = 100, dryRun = false } = options;
+
+  const allMolecules = await db.select().from(molecules);
+  const allRecettes = await db.select().from(recettes);
+  const existingRelations = await db.select().from(moleculesRecettes);
+
+  const existingSet = new Set(existingRelations.map(r => `${r.moleculeId}-${r.recetteId}`));
+
+  // Mapping étendu des familles chimiques vers les catégories de recettes
+  const familyToCategoryMap: Record<string, { categories: string[]; role: "tête" | "cœur" | "fond"; confidence: number }> = {
+    'terpène': { categories: ['resine_cbd', 'huile_essentielle', 'accord'], role: 'tête', confidence: 0.8 },
+    'monoterpène': { categories: ['resine_cbd', 'huile_essentielle', 'accord'], role: 'tête', confidence: 0.85 },
+    'sesquiterpène': { categories: ['resine_cbd', 'huile_essentielle', 'accord'], role: 'cœur', confidence: 0.85 },
+    'diterpène': { categories: ['resine_cbd', 'huile_essentielle'], role: 'fond', confidence: 0.8 },
+    'alcool terpénique': { categories: ['resine_cbd', 'huile_essentielle', 'parfum', 'accord'], role: 'cœur', confidence: 0.75 },
+    'aldéhyde': { categories: ['parfum', 'formule_reference', 'accord'], role: 'tête', confidence: 0.7 },
+    'ester': { categories: ['parfum', 'formule_reference', 'accord'], role: 'cœur', confidence: 0.75 },
+    'cétone': { categories: ['parfum', 'formule_reference', 'accord'], role: 'cœur', confidence: 0.7 },
+    'phénol': { categories: ['huile_essentielle', 'resine_cbd', 'accord'], role: 'fond', confidence: 0.7 },
+    'lactone': { categories: ['parfum', 'formule_reference'], role: 'fond', confidence: 0.65 },
+    'coumarine': { categories: ['parfum', 'formule_reference'], role: 'fond', confidence: 0.65 },
+    'musc': { categories: ['parfum', 'formule_reference'], role: 'fond', confidence: 0.7 },
+    'cannabinoïde': { categories: ['resine_cbd'], role: 'fond', confidence: 0.9 },
+  };
+
+  // Mapping des mots-clés olfactifs vers les gammes de recettes
+  const olfactiveKeywords: Record<string, { gammes: string[]; confidence: number }> = {
+    'boisé': { gammes: ['volcanique', 'terroir', 'signature'], confidence: 0.7 },
+    'floral': { gammes: ['petrichor', 'signature', 'classique'], confidence: 0.7 },
+    'agrume': { gammes: ['colombie', 'signature', 'classique'], confidence: 0.7 },
+    'citrus': { gammes: ['colombie', 'signature', 'classique'], confidence: 0.7 },
+    'épicé': { gammes: ['volcanique', 'mossi', 'signature'], confidence: 0.7 },
+    'herbacé': { gammes: ['petrichor', 'colombie', 'terroir'], confidence: 0.7 },
+    'terreux': { gammes: ['volcanique', 'petrichor', 'terroir'], confidence: 0.75 },
+    'fumé': { gammes: ['volcanique', 'tabac', 'signature'], confidence: 0.75 },
+    'résineux': { gammes: ['volcanique', 'resine_cbd', 'signature'], confidence: 0.8 },
+    'balsamique': { gammes: ['volcanique', 'signature'], confidence: 0.7 },
+    'fruité': { gammes: ['colombie', 'signature', 'classique'], confidence: 0.65 },
+    'vert': { gammes: ['petrichor', 'colombie', 'terroir'], confidence: 0.7 },
+    'minéral': { gammes: ['petrichor', 'volcanique'], confidence: 0.75 },
+    'animal': { gammes: ['signature', 'pheromone'], confidence: 0.7 },
+    'musqué': { gammes: ['signature', 'pheromone'], confidence: 0.7 },
+  };
+
+  const suggestions: Array<{
+    moleculeId: number;
+    moleculeName: string;
+    recetteId: number;
+    recetteName: string;
+    role: "tête" | "cœur" | "fond";
+    proportion: number;
+    reason: string;
+    confidence: number;
+  }> = [];
+
+  for (const molecule of allMolecules) {
+    const moleculeNameLower = molecule.name.toLowerCase();
+    const moleculeFamilyLower = (molecule.family || '').toLowerCase();
+    const moleculeProfileLower = (molecule.olfactiveProfile || '').toLowerCase();
+
+    for (const recette of allRecettes) {
+      const key = `${molecule.id}-${recette.id}`;
+      if (existingSet.has(key)) continue;
+
+      const recetteNameLower = recette.name.toLowerCase();
+      const recetteDescLower = (recette.description || '').toLowerCase();
+      const recetteGammeLower = (recette.gamme || '').toLowerCase();
+      const recetteCategoryLower = (recette.category || '').toLowerCase();
+
+      let matchScore = 0;
+      let matchReason = '';
+      let suggestedRole: "tête" | "cœur" | "fond" = 'cœur';
+
+      // 1. Correspondance par nom (molécule mentionnée dans la recette)
+      if (recetteNameLower.includes(moleculeNameLower) || recetteDescLower.includes(moleculeNameLower)) {
+        matchScore += 0.9;
+        matchReason = `Molécule "${molecule.name}" mentionnée dans la recette`;
+      }
+
+      // 2. Correspondance par famille chimique et catégorie
+      for (const [family, config] of Object.entries(familyToCategoryMap)) {
+        if (moleculeFamilyLower.includes(family)) {
+          if (config.categories.includes(recetteCategoryLower)) {
+            matchScore += config.confidence * 0.5;
+            suggestedRole = config.role;
+            if (!matchReason) {
+              matchReason = `Famille ${family} compatible avec catégorie ${recette.category}`;
+            }
+          }
+        }
+      }
+
+      // 3. Correspondance par profil olfactif et gamme
+      for (const [keyword, config] of Object.entries(olfactiveKeywords)) {
+        if (moleculeProfileLower.includes(keyword)) {
+          if (config.gammes.some(g => recetteGammeLower.includes(g))) {
+            matchScore += config.confidence * 0.4;
+            if (!matchReason) {
+              matchReason = `Profil olfactif "${keyword}" compatible avec gamme ${recette.gamme}`;
+            }
+          }
+        }
+      }
+
+      // 4. Correspondance par mots-clés communs
+      const moleculeKeywords = moleculeProfileLower.split(/[\s,;]+/).filter(w => w.length > 3);
+      const recetteKeywords = `${recetteNameLower} ${recetteDescLower}`.split(/[\s,;]+/).filter(w => w.length > 3);
+      const commonKeywords = moleculeKeywords.filter(k => recetteKeywords.some(rk => rk.includes(k) || k.includes(rk)));
+      if (commonKeywords.length > 0) {
+        matchScore += Math.min(commonKeywords.length * 0.15, 0.45);
+        if (!matchReason) {
+          matchReason = `Mots-clés communs: ${commonKeywords.slice(0, 3).join(', ')}`;
+        }
+      }
+
+      // Seuil de confiance minimum
+      if (matchScore >= 0.5) {
+        suggestions.push({
+          moleculeId: molecule.id,
+          moleculeName: molecule.name,
+          recetteId: recette.id,
+          recetteName: recette.name,
+          role: suggestedRole,
+          proportion: suggestedRole === 'tête' ? 15 : suggestedRole === 'cœur' ? 30 : 20,
+          reason: matchReason,
+          confidence: Math.min(matchScore, 1),
+        });
+      }
+    }
+  }
+
+  // Trier par confiance décroissante et limiter
+  const sortedSuggestions = suggestions
+    .sort((a, b) => b.confidence - a.confidence)
+    .slice(0, maxLinks);
+
+  if (dryRun) {
+    return {
+      success: true,
+      created: 0,
+      wouldCreate: sortedSuggestions.length,
+      suggestions: sortedSuggestions,
+      errors: [],
+    };
+  }
+
+  // Créer les liaisons
+  const toInsert = sortedSuggestions.map(s => ({
+    moleculeId: s.moleculeId,
+    recetteId: s.recetteId,
+    proportion: s.proportion.toString(),
+    role: s.role,
+    notes: `Auto-liaison: ${s.reason} (confiance: ${Math.round(s.confidence * 100)}%)`,
+  }));
+
+  if (toInsert.length > 0) {
+    try {
+      await db.insert(moleculesRecettes).values(toInsert);
+    } catch (error: any) {
+      return {
+        success: false,
+        created: 0,
+        suggestions: sortedSuggestions,
+        errors: [`Erreur d'insertion: ${error.message}`],
+      };
+    }
+  }
+
+  return {
+    success: true,
+    created: toInsert.length,
+    suggestions: sortedSuggestions,
+    errors: [],
+  };
+}
+
+/**
+ * Auto-liaison intelligente plante-molécule basée sur plusieurs critères
+ */
+export async function autoLinkPlantMolecules(options: {
+  maxLinks?: number;
+  dryRun?: boolean;
+} = {}) {
+  const db = await getDb();
+  if (!db) return { success: false, created: 0, suggestions: [], errors: [] as string[] };
+
+  const { maxLinks = 100, dryRun = false } = options;
+
+  const allPlants = await db.select().from(plants);
+  const allMolecules = await db.select().from(molecules);
+  const existingRelations = await db.select().from(plantMolecules);
+
+  const existingSet = new Set(existingRelations.map(r => `${r.plantId}-${r.moleculeId}`));
+
+  // Mapping des familles botaniques vers les types de molécules
+  const botanicalFamilyToMolecules: Record<string, { keywords: string[]; role: "majeur" | "secondaire" | "trace"; confidence: number }> = {
+    'lamiaceae': { keywords: ['linalol', 'thymol', 'carvacrol', 'menthol', 'eucalyptol'], role: 'majeur', confidence: 0.8 },
+    'rutaceae': { keywords: ['limonène', 'citral', 'linalol', 'bergaptène'], role: 'majeur', confidence: 0.8 },
+    'asteraceae': { keywords: ['chamazulène', 'bisabolol', 'artemisinine'], role: 'secondaire', confidence: 0.7 },
+    'lauraceae': { keywords: ['cinnamaldéhyde', 'eugénol', 'safrol'], role: 'majeur', confidence: 0.75 },
+    'myrtaceae': { keywords: ['eucalyptol', 'terpinéol', 'pinène'], role: 'majeur', confidence: 0.8 },
+    'zingiberaceae': { keywords: ['zingibérène', 'curcumine', 'gingérol'], role: 'majeur', confidence: 0.75 },
+    'apiaceae': { keywords: ['anéthol', 'fenchone', 'carvone'], role: 'majeur', confidence: 0.7 },
+    'pinaceae': { keywords: ['pinène', 'limonène', 'bornéol'], role: 'majeur', confidence: 0.8 },
+    'cannabaceae': { keywords: ['myrcène', 'limonène', 'caryophyllène', 'humulène', 'linalol', 'pinène', 'terpinolène'], role: 'majeur', confidence: 0.85 },
+    'burseraceae': { keywords: ['limonène', 'phellandrène', 'sabinène'], role: 'majeur', confidence: 0.75 },
+  };
+
+  const suggestions: Array<{
+    plantId: number;
+    plantName: string;
+    moleculeId: number;
+    moleculeName: string;
+    role: "majeur" | "secondaire" | "trace";
+    percentageTypical: number;
+    reason: string;
+    confidence: number;
+  }> = [];
+
+  for (const plant of allPlants) {
+    const plantNameLower = plant.name.toLowerCase();
+    const plantFamilyLower = (plant.family || '').toLowerCase();
+    const plantDescLower = (plant.olfactiveSignature || '').toLowerCase();
+
+    for (const molecule of allMolecules) {
+      const key = `${plant.id}-${molecule.id}`;
+      if (existingSet.has(key)) continue;
+
+      const moleculeNameLower = molecule.name.toLowerCase();
+      const moleculeSourcesLower = (molecule.botanicalSources || '').toLowerCase();
+
+      let matchScore = 0;
+      let matchReason = '';
+      let suggestedRole: "majeur" | "secondaire" | "trace" = 'secondaire';
+
+      // 1. Correspondance directe par sources botaniques
+      if (moleculeSourcesLower.includes(plantNameLower) || 
+          moleculeSourcesLower.includes(plant.latinName?.toLowerCase() || '')) {
+        matchScore += 0.95;
+        matchReason = `Plante "${plant.name}" listée comme source de la molécule`;
+        suggestedRole = 'majeur';
+      }
+
+      // 2. Correspondance par famille botanique
+      for (const [family, config] of Object.entries(botanicalFamilyToMolecules)) {
+        if (plantFamilyLower.includes(family)) {
+          if (config.keywords.some(kw => moleculeNameLower.includes(kw.toLowerCase()))) {
+            matchScore += config.confidence * 0.6;
+            suggestedRole = config.role;
+            if (!matchReason) {
+              matchReason = `Famille botanique ${family} associée à ${molecule.name}`;
+            }
+          }
+        }
+      }
+
+      // 3. Correspondance par mots-clés dans la description
+      const plantKeywords = `${plantNameLower} ${plantDescLower}`.split(/[\s,;]+/).filter(w => w.length > 3);
+      const moleculeKeywords = `${moleculeNameLower} ${moleculeSourcesLower}`.split(/[\s,;]+/).filter(w => w.length > 3);
+      const commonKeywords = plantKeywords.filter(k => moleculeKeywords.some(mk => mk.includes(k) || k.includes(mk)));
+      if (commonKeywords.length > 0) {
+        matchScore += Math.min(commonKeywords.length * 0.1, 0.3);
+        if (!matchReason) {
+          matchReason = `Mots-clés communs: ${commonKeywords.slice(0, 3).join(', ')}`;
+        }
+      }
+
+      // Seuil de confiance minimum
+      if (matchScore >= 0.5) {
+        suggestions.push({
+          plantId: plant.id,
+          plantName: plant.name,
+          moleculeId: molecule.id,
+          moleculeName: molecule.name,
+          role: suggestedRole,
+          percentageTypical: suggestedRole === 'majeur' ? 15 : suggestedRole === 'secondaire' ? 5 : 1,
+          reason: matchReason,
+          confidence: Math.min(matchScore, 1),
+        });
+      }
+    }
+  }
+
+  // Trier par confiance décroissante et limiter
+  const sortedSuggestions = suggestions
+    .sort((a, b) => b.confidence - a.confidence)
+    .slice(0, maxLinks);
+
+  if (dryRun) {
+    return {
+      success: true,
+      created: 0,
+      wouldCreate: sortedSuggestions.length,
+      suggestions: sortedSuggestions,
+      errors: [],
+    };
+  }
+
+  // Créer les liaisons
+  const errors: string[] = [];
+  let created = 0;
+
+  for (const s of sortedSuggestions) {
+    try {
+      await db.insert(plantMolecules).values({
+        plantId: s.plantId,
+        moleculeId: s.moleculeId,
+        percentageTypical: s.percentageTypical.toString(),
+        role: s.role,
+        notes: `Auto-liaison: ${s.reason} (confiance: ${Math.round(s.confidence * 100)}%)`,
+      });
+      created++;
+    } catch (error: any) {
+      if (!error.message.includes('Duplicate')) {
+        errors.push(`Erreur pour ${s.plantName} - ${s.moleculeName}: ${error.message}`);
+      }
+    }
+  }
+
+  return {
+    success: true,
+    created,
+    suggestions: sortedSuggestions,
+    errors,
+  };
+}
+
+/**
+ * Récupérer les statistiques de couverture pour le dashboard
+ */
+export async function getLinkingCoverageStats() {
+  const db = await getDb();
+  if (!db) return null;
+
+  // Molécules-Recettes
+  const allMolecules = await db.select().from(molecules);
+  const allRecettes = await db.select().from(recettes);
+  const moleculeRecetteLinks = await db.select().from(moleculesRecettes);
+  
+  const moleculesWithRecette = new Set(moleculeRecetteLinks.map(r => r.moleculeId));
+  const recettesWithMolecule = new Set(moleculeRecetteLinks.map(r => r.recetteId));
+
+  // Plantes-Molécules
+  const allPlants = await db.select().from(plants);
+  const plantMoleculeLinks = await db.select().from(plantMolecules);
+  
+  const plantsWithMolecule = new Set(plantMoleculeLinks.map(r => r.plantId));
+  const moleculesWithPlant = new Set(plantMoleculeLinks.map(r => r.moleculeId));
+
+  // Plantes-Terroirs
+  const allTerroirs = await db.select().from(terroirs);
+  const plantTerroirLinks = await db.select().from(plantTerroirs);
+  
+  const plantsWithTerroir = new Set(plantTerroirLinks.map(r => r.plantId));
+
+  return {
+    moleculeRecette: {
+      totalMolecules: allMolecules.length,
+      moleculesWithRecette: moleculesWithRecette.size,
+      coverageMolecules: Math.round((moleculesWithRecette.size / allMolecules.length) * 100),
+      totalRecettes: allRecettes.length,
+      recettesWithMolecule: recettesWithMolecule.size,
+      coverageRecettes: Math.round((recettesWithMolecule.size / allRecettes.length) * 100),
+      totalLinks: moleculeRecetteLinks.length,
+      targetCoverage: 50,
+      gap: Math.max(0, 50 - Math.round((moleculesWithRecette.size / allMolecules.length) * 100)),
+    },
+    plantMolecule: {
+      totalPlants: allPlants.length,
+      plantsWithMolecule: plantsWithMolecule.size,
+      coveragePlants: Math.round((plantsWithMolecule.size / allPlants.length) * 100),
+      totalMolecules: allMolecules.length,
+      moleculesWithPlant: moleculesWithPlant.size,
+      coverageMolecules: Math.round((moleculesWithPlant.size / allMolecules.length) * 100),
+      totalLinks: plantMoleculeLinks.length,
+      targetCoverage: 10,
+      gap: Math.max(0, 10 - Math.round((moleculesWithPlant.size / allMolecules.length) * 100)),
+    },
+    plantTerroir: {
+      totalPlants: allPlants.length,
+      plantsWithTerroir: plantsWithTerroir.size,
+      coveragePlants: Math.round((plantsWithTerroir.size / allPlants.length) * 100),
+      totalTerroirs: allTerroirs.length,
+      totalLinks: plantTerroirLinks.length,
+      targetCoverage: 20,
+      gap: Math.max(0, 20 - Math.round((plantsWithTerroir.size / allPlants.length) * 100)),
+    },
+  };
+}
+
+/**
+ * Récupérer les statistiques d'audit des liaisons plante-molécule
+ */
+export async function getPlantMoleculeAuditStats() {
+  const db = await getDb();
+  if (!db) return null;
+
+  const allPlants = await db.select().from(plants);
+  const allMolecules = await db.select().from(molecules);
+  const allRelations = await db.select().from(plantMolecules);
+
+  // Identifier les plantes sans molécule
+  const plantIdsWithMolecule = new Set(allRelations.map(r => r.plantId));
+  const plantsWithoutMolecule = allPlants.filter(p => !plantIdsWithMolecule.has(p.id));
+
+  // Identifier les molécules sans plante
+  const moleculeIdsWithPlant = new Set(allRelations.map(r => r.moleculeId));
+  const moleculesWithoutPlant = allMolecules.filter(m => !moleculeIdsWithPlant.has(m.id));
+
+  // Compter les liaisons par plante
+  const plantLinkCounts: Record<number, number> = {};
+  allRelations.forEach(r => {
+    plantLinkCounts[r.plantId] = (plantLinkCounts[r.plantId] || 0) + 1;
+  });
+
+  // Plantes avec le plus de molécules
+  const topPlantsByMolecules = allPlants
+    .filter(p => plantLinkCounts[p.id])
+    .map(p => ({ ...p, moleculeCount: plantLinkCounts[p.id] }))
+    .sort((a, b) => b.moleculeCount - a.moleculeCount)
+    .slice(0, 10);
+
+  return {
+    totalPlants: allPlants.length,
+    totalMolecules: allMolecules.length,
+    totalRelations: allRelations.length,
+    plantsWithMolecule: plantIdsWithMolecule.size,
+    plantsWithoutMolecule: plantsWithoutMolecule.length,
+    moleculesWithPlant: moleculeIdsWithPlant.size,
+    moleculesWithoutPlant: moleculesWithoutPlant.length,
+    coveragePlants: Math.round((plantIdsWithMolecule.size / allPlants.length) * 100),
+    coverageMolecules: Math.round((moleculeIdsWithPlant.size / allMolecules.length) * 100),
+    plantsWithoutMoleculeList: plantsWithoutMolecule.slice(0, 50),
+    moleculesWithoutPlantList: moleculesWithoutPlant.slice(0, 50),
+    topPlantsByMolecules,
+  };
+}
+
+
+// ============================================================================
+// VALIDATION & DRAFT SYSTEM
+// ============================================================================
+
+/**
+ * Récupérer les molécules en attente de validation
+ */
+export async function getPendingMolecules() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db.select()
+    .from(molecules)
+    .where(
+      or(
+        eq(molecules.validationStatus, 'brouillon'),
+        eq(molecules.validationStatus, 'en_revision')
+      )
+    )
+    .orderBy(desc(molecules.updatedAt));
+}
+
+/**
+ * Récupérer les plantes en attente de validation
+ */
+export async function getPendingPlants() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db.select()
+    .from(plants)
+    .where(
+      or(
+        eq(plants.validationStatus, 'brouillon'),
+        eq(plants.validationStatus, 'en_revision')
+      )
+    )
+    .orderBy(desc(plants.updatedAt));
+}
+
+/**
+ * Valider une molécule
+ */
+export async function validateMolecule(moleculeId: number, adminId: number) {
+  const db = await getDb();
+  if (!db) return { success: false, error: "Database not available" };
+
+  try {
+    await db.update(molecules)
+      .set({
+        validationStatus: 'valide',
+        validatedBy: adminId,
+        validatedAt: new Date(),
+      })
+      .where(eq(molecules.id, moleculeId));
+
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Rejeter une molécule
+ */
+export async function rejectMolecule(moleculeId: number, adminId: number, reason?: string) {
+  const db = await getDb();
+  if (!db) return { success: false, error: "Database not available" };
+
+  try {
+    const currentNotes = await db.select({ notes: molecules.notes })
+      .from(molecules)
+      .where(eq(molecules.id, moleculeId));
+
+    const existingNotes = currentNotes[0]?.notes || '';
+    const rejectionNote = reason ? `[REJET ${new Date().toISOString()}]: ${reason}\n${existingNotes}` : existingNotes;
+
+    await db.update(molecules)
+      .set({
+        validationStatus: 'rejete',
+        validatedBy: adminId,
+        validatedAt: new Date(),
+        notes: rejectionNote,
+      })
+      .where(eq(molecules.id, moleculeId));
+
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Valider une plante
+ */
+export async function validatePlant(plantId: number, adminId: number) {
+  const db = await getDb();
+  if (!db) return { success: false, error: "Database not available" };
+
+  try {
+    await db.update(plants)
+      .set({
+        validationStatus: 'valide',
+        validatedBy: adminId,
+        validatedAt: new Date(),
+      })
+      .where(eq(plants.id, plantId));
+
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Rejeter une plante
+ */
+export async function rejectPlant(plantId: number, adminId: number, reason?: string) {
+  const db = await getDb();
+  if (!db) return { success: false, error: "Database not available" };
+
+  try {
+    const currentNotes = await db.select({ notes: plants.notes })
+      .from(plants)
+      .where(eq(plants.id, plantId));
+
+    const existingNotes = currentNotes[0]?.notes || '';
+    const rejectionNote = reason ? `[REJET ${new Date().toISOString()}]: ${reason}\n${existingNotes}` : existingNotes;
+
+    await db.update(plants)
+      .set({
+        validationStatus: 'rejete',
+        validatedBy: adminId,
+        validatedAt: new Date(),
+        notes: rejectionNote,
+      })
+      .where(eq(plants.id, plantId));
+
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Soumettre une molécule pour révision
+ */
+export async function submitMoleculeForReview(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return { success: false, error: "Database not available" };
+
+  try {
+    await db.update(molecules)
+      .set({
+        validationStatus: 'en_revision',
+      })
+      .where(eq(molecules.id, moleculeId));
+
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Soumettre une plante pour révision
+ */
+export async function submitPlantForReview(plantId: number) {
+  const db = await getDb();
+  if (!db) return { success: false, error: "Database not available" };
+
+  try {
+    await db.update(plants)
+      .set({
+        validationStatus: 'en_revision',
+      })
+      .where(eq(plants.id, plantId));
+
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Récupérer les statistiques de validation
+ */
+export async function getValidationStats() {
+  const db = await getDb();
+  if (!db) return null;
+
+  const allMolecules = await db.select({
+    validationStatus: molecules.validationStatus,
+  }).from(molecules);
+
+  const allPlants = await db.select({
+    validationStatus: plants.validationStatus,
+  }).from(plants);
+
+  const moleculeStats = {
+    total: allMolecules.length,
+    brouillon: allMolecules.filter(m => m.validationStatus === 'brouillon').length,
+    en_revision: allMolecules.filter(m => m.validationStatus === 'en_revision').length,
+    valide: allMolecules.filter(m => m.validationStatus === 'valide' || !m.validationStatus).length,
+    rejete: allMolecules.filter(m => m.validationStatus === 'rejete').length,
+  };
+
+  const plantStats = {
+    total: allPlants.length,
+    brouillon: allPlants.filter(p => p.validationStatus === 'brouillon').length,
+    en_revision: allPlants.filter(p => p.validationStatus === 'en_revision').length,
+    valide: allPlants.filter(p => p.validationStatus === 'valide' || !p.validationStatus).length,
+    rejete: allPlants.filter(p => p.validationStatus === 'rejete').length,
+  };
+
+  return {
+    molecules: moleculeStats,
+    plants: plantStats,
+    pendingTotal: moleculeStats.brouillon + moleculeStats.en_revision + plantStats.brouillon + plantStats.en_revision,
+  };
+}
+
+
+// ============================================================================
+// IMPORT BIBLIOGRAPHY FROM JSON
+// ============================================================================
+
+interface BibliographyImportEntry {
+  id: string;
+  type: string;
+  author?: string;
+  year?: number;
+  title: string;
+  publication?: string;
+  publisher?: string;
+  url?: string;
+  content?: string;
+  quote?: string;
+  source?: string;
+  source_id?: string;
+  era?: string;
+  region?: string;
+  location?: string;
+}
+
+/**
+ * Import bibliography entries from JSON format (like the Pasted_content_36.txt structure)
+ */
+export async function importBibliographyFromJson(
+  entries: BibliographyImportEntry[],
+  category: string = 'autre'
+) {
+  const db = await getDb();
+  if (!db) return { success: 0, failed: 0, errors: [] as string[] };
+
+  let success = 0;
+  let failed = 0;
+  const errors: string[] = [];
+
+  // Map entry types
+  const typeMap: Record<string, string> = {
+    'Publication Académique': 'article',
+    'Article Scientifique': 'article',
+    'Livre': 'book',
+    'Rapport': 'techreport',
+    'Site Web / Article': 'online',
+    'Site Web / Projet': 'online',
+    'Peinture': 'misc',
+    'Musée': 'misc',
+    'Génétique': 'misc',
+    'Chimie': 'article',
+    'Cultivars': 'misc',
+  };
+
+  // Map research domains
+  const domainMap: Record<string, string> = {
+    'olfactory_heritage_and_ritual_plants': 'patrimoine_olfactif',
+    'tobacco_and_cannabis': 'tabac_cannabis',
+    'cannabis': 'tabac_cannabis',
+    'tobacco': 'tabac_cannabis',
+  };
+
+  for (const entry of entries) {
+    try {
+      // Generate a unique entry key
+      const authorPart = entry.author?.split(',')[0]?.split(' ').pop()?.toLowerCase() || 'unknown';
+      const yearPart = entry.year || 'nd';
+      const titlePart = entry.title.split(' ').slice(0, 2).join('').toLowerCase().replace(/[^a-z]/g, '');
+      const entryKey = `${authorPart}${yearPart}${titlePart}`;
+
+      // Check if entry already exists
+      const existing = await getBibliographyEntryByKey(entryKey);
+      if (existing) {
+        errors.push(`${entry.id}: Entrée déjà existante (${entryKey})`);
+        failed++;
+        continue;
+      }
+
+      const entryType = typeMap[entry.type] || 'misc';
+      const researchDomain = domainMap[category] || 'autre';
+
+      await db.insert(bibliographyEntries).values({
+        entryKey,
+        entryType: entryType as any,
+        title: entry.title,
+        authors: entry.author || null,
+        year: entry.year || null,
+        journal: entry.publication || null,
+        publisher: entry.publisher || null,
+        url: entry.url || null,
+        abstract: entry.content || entry.quote || null,
+        researchDomain: researchDomain as any,
+        readStatus: 'unread',
+        notes: entry.source ? `Source: ${entry.source}` : null,
+      });
+
+      success++;
+    } catch (error: any) {
+      failed++;
+      errors.push(`${entry.id}: ${error.message}`);
+    }
+  }
+
+  return { success, failed, errors };
+}

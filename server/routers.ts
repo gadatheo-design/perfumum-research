@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { TRPCError } from "@trpc/server";
 import * as db from "./db";
 import {
   getAllPlantVarieties,
@@ -7347,6 +7348,131 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return db.enrichMoleculeFromPubChem(input.moleculeId, input.pubchemData);
       }),
+  }),
+
+  // ============================================================================
+  // VALIDATION & DRAFT SYSTEM ROUTER
+  // ============================================================================
+  validation: router({
+    // Get validation statistics
+    getStats: publicProcedure.query(async () => {
+      return db.getValidationStats();
+    }),
+
+    // Get pending molecules
+    getPendingMolecules: protectedProcedure.query(async () => {
+      return db.getPendingMolecules();
+    }),
+
+    // Get pending plants
+    getPendingPlants: protectedProcedure.query(async () => {
+      return db.getPendingPlants();
+    }),
+
+    // Validate a molecule (admin only)
+    validateMolecule: protectedProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Admin access required' });
+        }
+        return db.validateMolecule(input.moleculeId, ctx.user.id);
+      }),
+
+    // Reject a molecule (admin only)
+    rejectMolecule: protectedProcedure
+      .input(z.object({ moleculeId: z.number(), reason: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Admin access required' });
+        }
+        return db.rejectMolecule(input.moleculeId, ctx.user.id, input.reason);
+      }),
+
+    // Validate a plant (admin only)
+    validatePlant: protectedProcedure
+      .input(z.object({ plantId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Admin access required' });
+        }
+        return db.validatePlant(input.plantId, ctx.user.id);
+      }),
+
+    // Reject a plant (admin only)
+    rejectPlant: protectedProcedure
+      .input(z.object({ plantId: z.number(), reason: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Admin access required' });
+        }
+        return db.rejectPlant(input.plantId, ctx.user.id, input.reason);
+      }),
+
+    // Submit molecule for review
+    submitMoleculeForReview: protectedProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .mutation(async ({ input }) => {
+        return db.submitMoleculeForReview(input.moleculeId);
+      }),
+
+    // Submit plant for review
+    submitPlantForReview: protectedProcedure
+      .input(z.object({ plantId: z.number() }))
+      .mutation(async ({ input }) => {
+        return db.submitPlantForReview(input.plantId);
+      }),
+  }),
+
+  // ============================================================================
+  // LINKING COVERAGE & AUTO-LINK ROUTER
+  // ============================================================================
+  linkingCoverage: router({
+    // Get overall coverage statistics
+    getStats: publicProcedure.query(async () => {
+      return db.getLinkingCoverageStats();
+    }),
+
+    // Auto-link molecules to recettes (dry run)
+    previewAutoLink: protectedProcedure
+      .input(z.object({
+        maxLinks: z.number().default(50),
+      }))
+      .query(async ({ input }) => {
+        return db.autoLinkMoleculeRecettes({ maxLinks: input.maxLinks, dryRun: true });
+      }),
+
+    // Execute auto-link molecule-recette
+    executeAutoLink: protectedProcedure
+      .input(z.object({
+        maxLinks: z.number().default(50),
+      }))
+      .mutation(async ({ input }) => {
+        return db.autoLinkMoleculeRecettes({ maxLinks: input.maxLinks, dryRun: false });
+      }),
+
+    // Auto-link plants to molecules (dry run)
+    previewPlantMoleculeAutoLink: protectedProcedure
+      .input(z.object({
+        maxLinks: z.number().default(50),
+      }))
+      .query(async ({ input }) => {
+        return db.autoLinkPlantMolecules({ maxLinks: input.maxLinks, dryRun: true });
+      }),
+
+    // Execute plant-molecule auto-link
+    executePlantMoleculeAutoLink: protectedProcedure
+      .input(z.object({
+        maxLinks: z.number().default(50),
+      }))
+      .mutation(async ({ input }) => {
+        return db.autoLinkPlantMolecules({ maxLinks: input.maxLinks, dryRun: false });
+      }),
+
+    // Get plant-molecule audit stats
+    getPlantMoleculeAuditStats: publicProcedure.query(async () => {
+      return db.getPlantMoleculeAuditStats();
+    }),
   }),
 });
 
