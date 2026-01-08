@@ -35,8 +35,11 @@
 - [x] Créer le formulaire d'ajout de molécule avec recherche de doublons (`/contributor`)
 - [x] Créer le formulaire d'ajout de plante avec recherche de doublons (`/contributor`)
 - [x] Implémenter la recherche automatique de doublons avant création
-- [ ] Créer l'interface de création de liaisons molécule↔recette
-- [ ] Créer l'interface de création de liaisons plante↔terroir
+- [x] Créer l'interface de création de liaisons molécule↔recette
+- [x] Connecter dialog d'édition AdminAccords aux mutations update/delete
+- [x] Connecter dialog d'édition AdminFamilles aux mutations update/delete
+- [x] Connecter dialog d'édition AdminMatieres aux mutations update/delete
+- [x] Créer l'interface de création de liaisons plante↔terroir
 
 ### Liaisons entre entités (Couverture actuelle très faible)
 - [x] Interface de liaison plante-molécule avec statistiques (`/plant-molecule-linking`)

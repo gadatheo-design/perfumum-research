@@ -21,6 +21,16 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Table,
   TableBody,
   TableCell,
@@ -49,7 +59,9 @@ import {
   ChevronRight,
   Eye,
   Package,
-  AlertTriangle
+  AlertTriangle,
+  Trash2,
+  Loader2
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -75,6 +87,15 @@ const NOTES = [
   { value: "coeur_fond", label: "Cœur-Fond" },
 ];
 
+const EXTRACTION_METHODS = [
+  { value: "distillation", label: "Distillation" },
+  { value: "extraction_solvant", label: "Extraction solvant" },
+  { value: "co2_supercritique", label: "CO2 supercritique" },
+  { value: "expression", label: "Expression" },
+  { value: "teinture", label: "Teinture" },
+  { value: "autre", label: "Autre" },
+];
+
 const STATUS = [
   { value: "en_stock", label: "En stock", color: "bg-green-500/20 text-green-700" },
   { value: "a_commander", label: "À commander", color: "bg-yellow-500/20 text-yellow-700" },
@@ -88,6 +109,7 @@ export default function AdminMatieres() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedMatiere, setSelectedMatiere] = useState<any>(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -107,7 +129,66 @@ export default function AdminMatieres() {
     manipulationNotes: "",
   });
 
-  const { data: matieres, isLoading, refetch } = trpc.laboratoire.list.useQuery();
+  const utils = trpc.useUtils();
+  const { data: matieres, isLoading } = trpc.laboratoire.list.useQuery();
+
+  // Mutations
+  const createMutation = trpc.laboratoire.create.useMutation({
+    onSuccess: () => {
+      toast.success("Matière première créée avec succès");
+      utils.laboratoire.list.invalidate();
+      setCreateDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const updateMutation = trpc.laboratoire.update.useMutation({
+    onSuccess: () => {
+      toast.success("Matière première mise à jour avec succès");
+      utils.laboratoire.list.invalidate();
+      setEditDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const deleteMutation = trpc.laboratoire.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Matière première supprimée avec succès");
+      utils.laboratoire.list.invalidate();
+      setDeleteDialogOpen(false);
+      setSelectedMatiere(null);
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      botanicalName: "",
+      type: "",
+      olfactiveFamily: "",
+      note: "",
+      origin: "",
+      extractionMethod: "",
+      olfactiveProfile: "",
+      character: "",
+      supplier: "",
+      pricePerMl: "",
+      stock: "",
+      status: "en_stock",
+      technicalNotes: "",
+      manipulationNotes: "",
+    });
+    setSelectedMatiere(null);
+  };
 
   // Filtrage et pagination
   const filteredMatieres = matieres?.filter((m) => {
@@ -151,32 +232,72 @@ export default function AdminMatieres() {
   };
 
   const handleCreate = () => {
-    setSelectedMatiere(null);
-    setFormData({
-      name: "",
-      botanicalName: "",
-      type: "",
-      olfactiveFamily: "",
-      note: "",
-      origin: "",
-      extractionMethod: "",
-      olfactiveProfile: "",
-      character: "",
-      supplier: "",
-      pricePerMl: "",
-      stock: "",
-      status: "en_stock",
-      technicalNotes: "",
-      manipulationNotes: "",
-    });
+    resetForm();
     setCreateDialogOpen(true);
   };
 
-  const handleSave = async () => {
-    // TODO: Implémenter la mutation de mise à jour/création
-    toast.info("Fonctionnalité en cours de développement");
-    setEditDialogOpen(false);
-    setCreateDialogOpen(false);
+  const handleDelete = (matiere: any) => {
+    setSelectedMatiere(matiere);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleSaveCreate = () => {
+    if (!formData.name.trim()) {
+      toast.error("Le nom est requis");
+      return;
+    }
+    if (!formData.type) {
+      toast.error("Le type est requis");
+      return;
+    }
+    createMutation.mutate({
+      name: formData.name,
+      botanicalName: formData.botanicalName || undefined,
+      type: formData.type as any,
+      olfactiveFamily: formData.olfactiveFamily || undefined,
+      note: formData.note ? formData.note as any : undefined,
+      origin: formData.origin || undefined,
+      extractionMethod: formData.extractionMethod ? formData.extractionMethod as any : undefined,
+      olfactiveProfile: formData.olfactiveProfile || undefined,
+      character: formData.character || undefined,
+      supplier: formData.supplier || undefined,
+      pricePerMl: formData.pricePerMl ? parseFloat(formData.pricePerMl) : undefined,
+      stock: formData.stock ? parseFloat(formData.stock) : undefined,
+      status: formData.status as any,
+      technicalNotes: formData.technicalNotes || undefined,
+      manipulationNotes: formData.manipulationNotes || undefined,
+    });
+  };
+
+  const handleSaveUpdate = () => {
+    if (!selectedMatiere || !formData.name.trim()) {
+      toast.error("Le nom est requis");
+      return;
+    }
+    updateMutation.mutate({
+      id: selectedMatiere.id,
+      name: formData.name,
+      botanicalName: formData.botanicalName || undefined,
+      type: formData.type ? formData.type as any : undefined,
+      olfactiveFamily: formData.olfactiveFamily || undefined,
+      note: formData.note ? formData.note as any : undefined,
+      origin: formData.origin || undefined,
+      extractionMethod: formData.extractionMethod ? formData.extractionMethod as any : undefined,
+      olfactiveProfile: formData.olfactiveProfile || undefined,
+      character: formData.character || undefined,
+      supplier: formData.supplier || undefined,
+      pricePerMl: formData.pricePerMl ? parseFloat(formData.pricePerMl) : undefined,
+      stock: formData.stock ? parseFloat(formData.stock) : undefined,
+      status: formData.status ? formData.status as any : undefined,
+      technicalNotes: formData.technicalNotes || undefined,
+      manipulationNotes: formData.manipulationNotes || undefined,
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedMatiere) {
+      deleteMutation.mutate(selectedMatiere.id);
+    }
   };
 
   const getTypeLabel = (type: string | null) => {
@@ -208,6 +329,8 @@ export default function AdminMatieres() {
     aCommander: matieres?.filter(m => m.status === "a_commander").length || 0,
     epuise: matieres?.filter(m => m.status === "epuise").length || 0,
   };
+
+  const isLoading_mutations = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
   if (isLoading) {
     return (
@@ -311,7 +434,7 @@ export default function AdminMatieres() {
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder="Rechercher par nom, origine..."
+                    placeholder="Rechercher par nom, nom botanique ou origine..."
                     value={searchTerm}
                     onChange={(e) => {
                       setSearchTerm(e.target.value);
@@ -322,7 +445,7 @@ export default function AdminMatieres() {
                 </div>
                 <Select value={filterType} onValueChange={(v) => { setFilterType(v); setCurrentPage(1); }}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Type de matière" />
+                    <SelectValue placeholder="Type" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Tous les types</SelectItem>
@@ -356,6 +479,7 @@ export default function AdminMatieres() {
               <CardTitle>Liste des matières premières</CardTitle>
               <CardDescription>
                 {filteredMatieres.length} matières trouvées
+                {searchTerm && ` pour "${searchTerm}"`}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -406,20 +530,18 @@ export default function AdminMatieres() {
                             </Badge>
                           )}
                         </TableCell>
-                        <TableCell className="max-w-[100px] truncate">
+                        <TableCell className="text-sm">
                           {matiere.origin || "-"}
                         </TableCell>
-                        <TableCell>
-                          {matiere.stock !== null ? (
-                            <span className="font-mono">{matiere.stock} ml</span>
-                          ) : "-"}
+                        <TableCell className="text-sm">
+                          {matiere.stock ? `${matiere.stock} ml` : "-"}
                         </TableCell>
                         <TableCell>
                           {getStatusBadge(matiere.status)}
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-2">
-                            <Link href={`/matieres-premieres/${matiere.id}`}>
+                            <Link href={`/laboratoire/${matiere.id}`}>
                               <Button variant="ghost" size="sm">
                                 <Eye className="h-4 w-4" />
                               </Button>
@@ -431,6 +553,14 @@ export default function AdminMatieres() {
                             >
                               <Edit className="h-4 w-4 mr-1" />
                               Éditer
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="text-destructive hover:text-destructive"
+                              onClick={() => handleDelete(matiere)}
+                            >
+                              <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
                         </TableCell>
@@ -505,13 +635,14 @@ export default function AdminMatieres() {
               <div className="space-y-2">
                 <Label htmlFor="type">Type</Label>
                 <Select
-                  value={formData.type}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, type: value }))}
+                  value={formData.type || "none"}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, type: value === "none" ? "" : value }))}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="none">Aucun</SelectItem>
                     {TYPES_MATIERE.map((type) => (
                       <SelectItem key={type.value} value={type.value}>
                         {type.label}
@@ -523,13 +654,14 @@ export default function AdminMatieres() {
               <div className="space-y-2">
                 <Label htmlFor="note">Note olfactive</Label>
                 <Select
-                  value={formData.note}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, note: value }))}
+                  value={formData.note || "none"}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, note: value === "none" ? "" : value }))}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="none">Aucune</SelectItem>
                     {NOTES.map((note) => (
                       <SelectItem key={note.value} value={note.value}>
                         {note.label}
@@ -555,6 +687,36 @@ export default function AdminMatieres() {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="extractionMethod">Méthode d'extraction</Label>
+                <Select
+                  value={formData.extractionMethod || "none"}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, extractionMethod: value === "none" ? "" : value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">Aucune</SelectItem>
+                    {EXTRACTION_METHODS.map((method) => (
+                      <SelectItem key={method.value} value={method.value}>
+                        {method.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="olfactiveFamily">Famille olfactive</Label>
+                <Input
+                  id="olfactiveFamily"
+                  value={formData.olfactiveFamily}
+                  onChange={(e) => setFormData(prev => ({ ...prev, olfactiveFamily: e.target.value }))}
+                />
               </div>
             </div>
 
@@ -618,20 +780,31 @@ export default function AdminMatieres() {
                 rows={2}
               />
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="manipulationNotes">Notes de manipulation</Label>
+              <Textarea
+                id="manipulationNotes"
+                value={formData.manipulationNotes}
+                onChange={(e) => setFormData(prev => ({ ...prev, manipulationNotes: e.target.value }))}
+                rows={2}
+              />
+            </div>
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setEditDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setEditDialogOpen(false)} disabled={isLoading_mutations}>
               Annuler
             </Button>
-            <Button onClick={handleSave} className="btn-enhanced">
+            <Button onClick={handleSaveUpdate} className="btn-enhanced" disabled={isLoading_mutations}>
+              {updateMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Enregistrer
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Dialog de création - similaire mais avec champs vides */}
+      {/* Dialog de création */}
       <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
@@ -667,13 +840,14 @@ export default function AdminMatieres() {
               <div className="space-y-2">
                 <Label htmlFor="create-type">Type *</Label>
                 <Select
-                  value={formData.type}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, type: value }))}
+                  value={formData.type || "none"}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, type: value === "none" ? "" : value }))}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="none">Sélectionner</SelectItem>
                     {TYPES_MATIERE.map((type) => (
                       <SelectItem key={type.value} value={type.value}>
                         {type.label}
@@ -685,13 +859,14 @@ export default function AdminMatieres() {
               <div className="space-y-2">
                 <Label htmlFor="create-note">Note olfactive</Label>
                 <Select
-                  value={formData.note}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, note: value }))}
+                  value={formData.note || "none"}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, note: value === "none" ? "" : value }))}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionner" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="none">Aucune</SelectItem>
                     {NOTES.map((note) => (
                       <SelectItem key={note.value} value={note.value}>
                         {note.label}
@@ -724,15 +899,40 @@ export default function AdminMatieres() {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setCreateDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setCreateDialogOpen(false)} disabled={isLoading_mutations}>
               Annuler
             </Button>
-            <Button onClick={handleSave} className="btn-enhanced" disabled={!formData.name || !formData.type}>
+            <Button onClick={handleSaveCreate} className="btn-enhanced" disabled={!formData.name || !formData.type || isLoading_mutations}>
+              {createMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Créer la matière
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Dialog de confirmation de suppression */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+            <AlertDialogDescription>
+              Êtes-vous sûr de vouloir supprimer la matière première "{selectedMatiere?.name}" ?
+              Cette action est irréversible.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleteMutation.isPending}>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+              Supprimer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Footer />
     </div>

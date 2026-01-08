@@ -21,6 +21,16 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Table,
   TableBody,
   TableCell,
@@ -40,7 +50,9 @@ import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
-  Eye
+  Eye,
+  Trash2,
+  Loader2
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -51,6 +63,7 @@ export default function AdminFamilles() {
   const [currentPage, setCurrentPage] = useState(1);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedFamily, setSelectedFamily] = useState<any>(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -58,7 +71,54 @@ export default function AdminFamilles() {
     type: "",
   });
 
-  const { data: families, isLoading, refetch } = trpc.families.list.useQuery();
+  const utils = trpc.useUtils();
+  const { data: families, isLoading } = trpc.families.list.useQuery();
+
+  // Mutations
+  const createMutation = trpc.families.create.useMutation({
+    onSuccess: () => {
+      toast.success("Famille créée avec succès");
+      utils.families.list.invalidate();
+      setCreateDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const updateMutation = trpc.families.update.useMutation({
+    onSuccess: () => {
+      toast.success("Famille mise à jour avec succès");
+      utils.families.list.invalidate();
+      setEditDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const deleteMutation = trpc.families.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Famille supprimée avec succès");
+      utils.families.list.invalidate();
+      setDeleteDialogOpen(false);
+      setSelectedFamily(null);
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      description: "",
+      type: "",
+    });
+    setSelectedFamily(null);
+  };
 
   // Filtrage et pagination
   const filteredFamilies = families?.filter((f) =>
@@ -83,21 +143,47 @@ export default function AdminFamilles() {
   };
 
   const handleCreate = () => {
-    setSelectedFamily(null);
-    setFormData({
-      name: "",
-      description: "",
-      type: "",
-    });
+    resetForm();
     setCreateDialogOpen(true);
   };
 
-  const handleSave = async () => {
-    // TODO: Implémenter la mutation de mise à jour/création
-    toast.info("Fonctionnalité en cours de développement");
-    setEditDialogOpen(false);
-    setCreateDialogOpen(false);
+  const handleDelete = (family: any) => {
+    setSelectedFamily(family);
+    setDeleteDialogOpen(true);
   };
+
+  const handleSaveCreate = () => {
+    if (!formData.name.trim()) {
+      toast.error("Le nom est requis");
+      return;
+    }
+    createMutation.mutate({
+      name: formData.name,
+      description: formData.description || undefined,
+      type: formData.type || undefined,
+    });
+  };
+
+  const handleSaveUpdate = () => {
+    if (!selectedFamily || !formData.name.trim()) {
+      toast.error("Le nom est requis");
+      return;
+    }
+    updateMutation.mutate({
+      id: selectedFamily.id,
+      name: formData.name,
+      description: formData.description || undefined,
+      type: formData.type || undefined,
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedFamily) {
+      deleteMutation.mutate(selectedFamily.id);
+    }
+  };
+
+  const isLoading_mutations = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
   if (isLoading) {
     return (
@@ -220,6 +306,14 @@ export default function AdminFamilles() {
                               <Edit className="h-4 w-4 mr-1" />
                               Éditer
                             </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="text-destructive hover:text-destructive"
+                              onClick={() => handleDelete(family)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -271,7 +365,7 @@ export default function AdminFamilles() {
           
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Nom</Label>
+              <Label htmlFor="name">Nom *</Label>
               <Input
                 id="name"
                 value={formData.name}
@@ -301,10 +395,11 @@ export default function AdminFamilles() {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setEditDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setEditDialogOpen(false)} disabled={isLoading_mutations}>
               Annuler
             </Button>
-            <Button onClick={handleSave} className="btn-enhanced">
+            <Button onClick={handleSaveUpdate} className="btn-enhanced" disabled={isLoading_mutations}>
+              {updateMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Enregistrer
             </Button>
           </DialogFooter>
@@ -355,15 +450,40 @@ export default function AdminFamilles() {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setCreateDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setCreateDialogOpen(false)} disabled={isLoading_mutations}>
               Annuler
             </Button>
-            <Button onClick={handleSave} className="btn-enhanced" disabled={!formData.name}>
+            <Button onClick={handleSaveCreate} className="btn-enhanced" disabled={!formData.name || isLoading_mutations}>
+              {createMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Créer la famille
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Dialog de confirmation de suppression */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+            <AlertDialogDescription>
+              Êtes-vous sûr de vouloir supprimer la famille "{selectedFamily?.name}" ?
+              Cette action est irréversible et pourrait affecter les accords liés.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleteMutation.isPending}>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+              Supprimer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Footer />
     </div>

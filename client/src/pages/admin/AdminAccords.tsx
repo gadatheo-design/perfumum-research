@@ -21,6 +21,16 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Table,
   TableBody,
   TableCell,
@@ -47,8 +57,8 @@ import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
-  Eye,
-  Trash2
+  Trash2,
+  Loader2
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -68,6 +78,7 @@ export default function AdminAccords() {
   const [currentPage, setCurrentPage] = useState(1);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedAccord, setSelectedAccord] = useState<any>(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -78,8 +89,58 @@ export default function AdminAccords() {
     familyId: null as number | null,
   });
 
-  const { data: accords, isLoading, refetch } = trpc.accords.list.useQuery();
+  const utils = trpc.useUtils();
+  const { data: accords, isLoading } = trpc.accords.list.useQuery();
   const { data: families } = trpc.families.list.useQuery();
+
+  // Mutations
+  const createMutation = trpc.accords.create.useMutation({
+    onSuccess: () => {
+      toast.success("Accord créé avec succès");
+      utils.accords.list.invalidate();
+      setCreateDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const updateMutation = trpc.accords.update.useMutation({
+    onSuccess: () => {
+      toast.success("Accord mis à jour avec succès");
+      utils.accords.list.invalidate();
+      setEditDialogOpen(false);
+      resetForm();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const deleteMutation = trpc.accords.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Accord supprimé avec succès");
+      utils.accords.list.invalidate();
+      setDeleteDialogOpen(false);
+      setSelectedAccord(null);
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      olfactiveProfile: "",
+      emotionalResonance: "",
+      texture: "",
+      notes: "",
+      familyId: null,
+    });
+    setSelectedAccord(null);
+  };
 
   // Filtrage et pagination
   const filteredAccords = accords?.filter((a) =>
@@ -108,23 +169,50 @@ export default function AdminAccords() {
   };
 
   const handleCreate = () => {
-    setSelectedAccord(null);
-    setFormData({
-      name: "",
-      olfactiveProfile: "",
-      emotionalResonance: "",
-      texture: "",
-      notes: "",
-      familyId: null,
-    });
+    resetForm();
     setCreateDialogOpen(true);
   };
 
-  const handleSave = async () => {
-    // TODO: Implémenter la mutation de mise à jour
-    toast.info("Fonctionnalité en cours de développement");
-    setEditDialogOpen(false);
-    setCreateDialogOpen(false);
+  const handleDelete = (accord: any) => {
+    setSelectedAccord(accord);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleSaveCreate = () => {
+    if (!formData.name.trim()) {
+      toast.error("Le nom est requis");
+      return;
+    }
+    createMutation.mutate({
+      name: formData.name,
+      familyId: formData.familyId,
+      olfactiveProfile: formData.olfactiveProfile || undefined,
+      emotionalResonance: formData.emotionalResonance || undefined,
+      texture: formData.texture || undefined,
+      notes: formData.notes || undefined,
+    });
+  };
+
+  const handleSaveUpdate = () => {
+    if (!selectedAccord || !formData.name.trim()) {
+      toast.error("Le nom est requis");
+      return;
+    }
+    updateMutation.mutate({
+      id: selectedAccord.id,
+      name: formData.name,
+      familyId: formData.familyId,
+      olfactiveProfile: formData.olfactiveProfile || undefined,
+      emotionalResonance: formData.emotionalResonance || undefined,
+      texture: formData.texture || undefined,
+      notes: formData.notes || undefined,
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedAccord) {
+      deleteMutation.mutate(selectedAccord.id);
+    }
   };
 
   const getTextureLabel = (texture: string | null) => {
@@ -138,6 +226,8 @@ export default function AdminAccords() {
     const family = families.find(f => f.id === familyId);
     return family?.name || null;
   };
+
+  const isLoading_mutations = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
   if (isLoading) {
     return (
@@ -265,6 +355,14 @@ export default function AdminAccords() {
                               <Edit className="h-4 w-4 mr-1" />
                               Éditer
                             </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="text-destructive hover:text-destructive"
+                              onClick={() => handleDelete(accord)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -316,7 +414,7 @@ export default function AdminAccords() {
           
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Nom</Label>
+              <Label htmlFor="name">Nom *</Label>
               <Input
                 id="name"
                 value={formData.name}
@@ -328,16 +426,17 @@ export default function AdminAccords() {
               <div className="space-y-2">
                 <Label htmlFor="family">Famille olfactive</Label>
                 <Select
-                  value={formData.familyId?.toString() || ""}
+                  value={formData.familyId?.toString() || "none"}
                   onValueChange={(value) => setFormData(prev => ({ 
                     ...prev, 
-                    familyId: value ? parseInt(value) : null 
+                    familyId: value === "none" ? null : parseInt(value)
                   }))}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionner une famille" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="none">Aucune</SelectItem>
                     {families?.map((family) => (
                       <SelectItem key={family.id} value={family.id.toString()}>
                         {family.name}
@@ -350,13 +449,14 @@ export default function AdminAccords() {
               <div className="space-y-2">
                 <Label htmlFor="texture">Texture</Label>
                 <Select
-                  value={formData.texture}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, texture: value }))}
+                  value={formData.texture || "none"}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, texture: value === "none" ? "" : value }))}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionner une texture" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="none">Aucune</SelectItem>
                     {TEXTURES.map((texture) => (
                       <SelectItem key={texture.value} value={texture.value}>
                         {texture.label}
@@ -399,10 +499,11 @@ export default function AdminAccords() {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setEditDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setEditDialogOpen(false)} disabled={isLoading_mutations}>
               Annuler
             </Button>
-            <Button onClick={handleSave} className="btn-enhanced">
+            <Button onClick={handleSaveUpdate} className="btn-enhanced" disabled={isLoading_mutations}>
+              {updateMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Enregistrer
             </Button>
           </DialogFooter>
@@ -434,16 +535,17 @@ export default function AdminAccords() {
               <div className="space-y-2">
                 <Label htmlFor="create-family">Famille olfactive</Label>
                 <Select
-                  value={formData.familyId?.toString() || ""}
+                  value={formData.familyId?.toString() || "none"}
                   onValueChange={(value) => setFormData(prev => ({ 
                     ...prev, 
-                    familyId: value ? parseInt(value) : null 
+                    familyId: value === "none" ? null : parseInt(value)
                   }))}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionner une famille" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="none">Aucune</SelectItem>
                     {families?.map((family) => (
                       <SelectItem key={family.id} value={family.id.toString()}>
                         {family.name}
@@ -456,13 +558,14 @@ export default function AdminAccords() {
               <div className="space-y-2">
                 <Label htmlFor="create-texture">Texture</Label>
                 <Select
-                  value={formData.texture}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, texture: value }))}
+                  value={formData.texture || "none"}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, texture: value === "none" ? "" : value }))}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionner une texture" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="none">Aucune</SelectItem>
                     {TEXTURES.map((texture) => (
                       <SelectItem key={texture.value} value={texture.value}>
                         {texture.label}
@@ -497,15 +600,40 @@ export default function AdminAccords() {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setCreateDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setCreateDialogOpen(false)} disabled={isLoading_mutations}>
               Annuler
             </Button>
-            <Button onClick={handleSave} className="btn-enhanced" disabled={!formData.name}>
+            <Button onClick={handleSaveCreate} className="btn-enhanced" disabled={!formData.name || isLoading_mutations}>
+              {createMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Créer l'accord
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Dialog de confirmation de suppression */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+            <AlertDialogDescription>
+              Êtes-vous sûr de vouloir supprimer l'accord "{selectedAccord?.name}" ?
+              Cette action est irréversible.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleteMutation.isPending}>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+              Supprimer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <Footer />
     </div>

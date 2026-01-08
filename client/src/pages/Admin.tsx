@@ -157,6 +157,22 @@ export default function Admin() {
       bgColor: "bg-violet-50",
     },
     {
+      title: "Molécule ↔ Recette (P0)",
+      description: "Interface améliorée avec statistiques de couverture",
+      icon: BarChart3,
+      href: "/molecule-recette-linking",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+    },
+    {
+      title: "Plante ↔ Terroir (P0)",
+      description: "Associer plantes et terroirs d'origine",
+      icon: Leaf,
+      href: "/plant-terroir-linking",
+      color: "text-green-600",
+      bgColor: "bg-green-50",
+    },
+    {
       title: "Origines Molécules",
       description: "Gérer les origines des molécules",
       icon: Beaker,
