@@ -69,12 +69,12 @@
 - [x] Ajouter un champ "status" (brouillon/validé) aux entités principales (molécules et plantes)
 - [x] Créer l'interface de validation admin (`/admin/validation`)
 - [x] Implémenter les notifications admin pour les nouvelles contributions (alertes automatiques)
-- [ ] Créer les formulaires d'entrée de données simplifiés
+- [x] Créer les formulaires d'entrée de données simplifiés (`/contributor/simple`)
 
 ### Import/Export CSV amélioré
 - [x] Interface d'import CSV basique (`/admin/import-csv`)
 - [x] Créer l'interface d'upload avec prévisualisation (`/admin/import-csv-preview`)
-- [ ] Ajouter la validation des données avant import
+- [x] Ajouter la validation des données avant import (`/csv-validation-import`)
 - [ ] Permettre la correction des erreurs avant import final
 - [ ] Créer le système d'export des données (CSV, JSON)
 
@@ -300,3 +300,27 @@
 - [x] Intégrer "Terpenes from Forests and Human Health" (Antonelli et al., 2020) - DOI: 10.3390/toxins12040232
 - [x] Intégrer "Terpene Synthases and Their Contribution to Herbivore-Induced Volatile Emission in Western Balsam Poplar" (Irmisch et al., 2014) - DOI: 10.1186/1471-2229-14-270
 - [x] Importé 16 références supplémentaires (patrimoine olfactif, tabac/cannabis, terpenes)
+
+---
+
+## 🆕 NOUVELLES TÂCHES (08 Jan 2026 - Session courante)
+
+### Objectif de couverture molécule→plante (10%)
+- [x] Analyser la couverture actuelle molécule→plante
+- [x] Créer un tableau de bord de suivi de la couverture (`/coverage-goal`)
+- [x] Identifier les molécules prioritaires à lier
+- [x] Créer une interface dédiée pour atteindre l'objectif 10%
+
+### Formulaires d'entrée de données simplifiés
+- [x] Concevoir les formulaires simplifiés pour contributeurs
+- [x] Créer le formulaire simplifié d'ajout de molécule (`/contributor/simple`)
+- [x] Créer le formulaire simplifié d'ajout de plante (`/contributor/simple`)
+- [x] Créer le formulaire simplifié de liaison molécule-plante (`/contributor/simple`)
+- [x] Ajouter des guides/tooltips pour chaque champ
+
+### Validation des données avant import CSV
+- [x] Créer le système de validation des données CSV (`/csv-validation-import`)
+- [x] Ajouter la détection des erreurs de format (CAS, formules, pourcentages)
+- [x] Ajouter la détection des doublons potentiels
+- [x] Créer l'interface de prévisualisation avec erreurs
+- [x] Permettre la correction des erreurs avant import final

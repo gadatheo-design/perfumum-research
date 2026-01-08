@@ -230,6 +230,9 @@ import { Glossaire } from "./pages/Glossaire";
 import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
 import Contribuer from "./pages/Contribuer";
 import ContributorInterface from "./pages/ContributorInterface";
+import SimplifiedContributorForm from "./pages/SimplifiedContributorForm";
+import CoverageGoalDashboard from "./pages/CoverageGoalDashboard";
+import CSVValidationImport from "./pages/CSVValidationImport";
 import PlantMoleculeLinking from "./pages/PlantMoleculeLinking";
 import Manifeste from "./pages/Manifeste";
 import { Timeline } from "./pages/Timeline";
@@ -487,6 +490,9 @@ function Router() {
       <Route path="/contributor" component={ContributorInterface} />
       <Route path="/contributor/add" component={ContributorInterface} />
       <Route path="/contributor/links" component={PlantMoleculeLinking} />
+      <Route path="/contributor/simple" component={SimplifiedContributorForm} />
+      <Route path="/coverage-goal" component={CoverageGoalDashboard} />
+      <Route path="/csv-validation-import" component={CSVValidationImport} />
       <Route path="/plant-molecule-linking" component={PlantMoleculeLinking} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/timeline/interactive" component={TimelineInteractive} />
