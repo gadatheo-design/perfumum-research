@@ -1,0 +1,19 @@
+{
+  "query": "\nSELECT \n  total_plants,\n  total_terroirs,\n  total_relations,\n  plants_with_terroirs,\n  terroirs_with_plants,\n  ROUND(plants_with_terroirs * 100.0 / total_plants, 1) as plant_coverage_pct,\n  ROUND(terroirs_with_plants * 100.0 / total_terroirs, 1) as terroir_coverage_pct\nFROM (\n  SELECT \n    (SELECT COUNT(*) FROM plants) as total_plants,\n    (SELECT COUNT(*) FROM terroirs) as total_terroirs,\n    (SELECT COUNT(*) FROM plant_terroirs) as total_relations,\n    (SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs) as plants_with_terroirs,\n    (SELECT COUNT(DISTINCT terroir_id) FROM plant_terroirs) as terroirs_with_plants\n) stats\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  total_plants,\n  total_terroirs,\n  total_relations,\n  plants_with_terroirs,\n  terroirs_with_plants,\n  ROUND(plants_with_terroirs * 100.0 / total_plants, 1) as plant_coverage_pct,\n  ROUND(terroirs_with_plants * 100.0 / total_terroirs, 1) as terroir_coverage_pct\nFROM (\n  SELECT \n    (SELECT COUNT(*) FROM plants) as total_plants,\n    (SELECT COUNT(*) FROM terroirs) as total_terroirs,\n    (SELECT COUNT(*) FROM plant_terroirs) as total_relations,\n    (SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs) as plants_with_terroirs,\n    (SELECT COUNT(DISTINCT terroir_id) FROM plant_terroirs) as terroirs_with_plants\n) stats\n",
+  "rows": [
+    {
+      "total_plants": "149",
+      "total_terroirs": "29",
+      "total_relations": "41",
+      "plants_with_terroirs": "28",
+      "terroirs_with_plants": "19",
+      "plant_coverage_pct": "18.8",
+      "terroir_coverage_pct": "65.5"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_plants\ttotal_terroirs\ttotal_relations\tplants_with_terroirs\tterroirs_with_plants\tplant_coverage_pct\tterroir_coverage_pct\n149\t29\t41\t28\t19\t18.8\t65.5\n",
+  "stderr": "",
+  "execution_time_ms": 132
+}

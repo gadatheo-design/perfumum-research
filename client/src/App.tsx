@@ -282,6 +282,7 @@ import PlantTerroirNetwork from "./pages/PlantTerroirNetwork";
 import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
 import GrapheTerroirPlanteMolecule from "./pages/GrapheTerroirPlanteMolecule";
 import CarteInteractiveTerroirs from "./pages/CarteInteractiveTerroirs";
+import ParcoursOlfactif from "./pages/ParcoursOlfactif";
 
 
 
@@ -587,6 +588,7 @@ function Router() {
       <Route path="/carte-terroirs-plantes" component={CarteTerroirsPlantes} />
       <Route path="/graphe-terroir-plante-molecule" component={GrapheTerroirPlanteMolecule} />
       <Route path="/carte-interactive-terroirs" component={CarteInteractiveTerroirs} />
+      <Route path="/parcours-olfactif" component={ParcoursOlfactif} />
       <Route path="/bio-mineralis" component={BioMineralis} />
       
       

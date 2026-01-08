@@ -388,3 +388,36 @@
 ### Nouvelles pages créées
 - [x] `/graphe-terroir-plante-molecule` - Graphe tripartite D3.js
 - [x] `/carte-interactive-terroirs` - Carte Google Maps améliorée
+
+
+---
+
+## 🔥 SESSION ACTIVE — 08 Jan 2026 (Améliorations)
+
+### Enrichissement des liaisons terroir-plante (objectif 50%)
+- [x] Analyser la couverture actuelle des liaisons terroir-plante (actuellement ~19%)
+- [x] Améliorer l'interface `/plant-terroir-linking` pour faciliter les liaisons
+- [x] Créer des liaisons en masse pour atteindre 50% de couverture — Atteint 69.1% (103/149 plantes, 283 liaisons)
+- [x] Valider les nouvelles liaisons créées
+
+### Coordonnées GPS manquantes
+- [x] Identifier les terroirs sans coordonnées GPS (7 terroirs identifiés)
+- [x] Améliorer la page `/admin/terroirs-geocode` pour compléter les données
+- [x] Ajouter les coordonnées GPS manquantes (7/7 terroirs complétés)
+- [x] Vérifier l'affichage sur la carte interactive
+
+### Vue "parcours olfactif" interactive
+- [x] Concevoir la navigation terroir → plantes → molécules
+- [x] Créer le composant de parcours olfactif interactif (`/parcours-olfactif`)
+- [x] Implémenter la navigation par clic sur les nœuds du graphe
+- [x] Ajouter les transitions et animations entre vues
+
+### Finalisation
+- [x] Tester toutes les nouvelles fonctionnalités
+- [x] Créer le checkpoint final
+- [x] Préparer la publication
+
+### Résultats finaux
+- **Liaisons terroir-plante**: 283 liaisons (69.1% de couverture, objectif 50% atteint)
+- **Coordonnées GPS**: 29/29 terroirs (100% de couverture)
+- **Parcours olfactif**: Nouvelle page `/parcours-olfactif` créée
