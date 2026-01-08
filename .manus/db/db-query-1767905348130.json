@@ -1,0 +1,25 @@
+{
+  "query": "SELECT * FROM plant_molecules LIMIT 1",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT * FROM plant_molecules LIMIT 1",
+  "rows": [
+    {
+      "plant_id": "30001",
+      "molecule_id": "30009",
+      "percentage_min": "25.00",
+      "percentage_max": "45.00",
+      "percentage_typical": "35.00",
+      "percentage": "NULL",
+      "is_signature": "1",
+      "role": "majeur",
+      "variability_factor": "geographique",
+      "source": "ISO 3515",
+      "notes": "NULL",
+      "created_at": "2026-01-04 01:40:45",
+      "updated_at": "2026-01-04 01:40:45"
+    }
+  ],
+  "messages": [],
+  "stdout": "plant_id\tmolecule_id\tpercentage_min\tpercentage_max\tpercentage_typical\tpercentage\tis_signature\trole\tvariability_factor\tsource\tnotes\tcreated_at\tupdated_at\n30001\t30009\t25.00\t45.00\t35.00\tNULL\t1\tmajeur\tgeographique\tISO 3515\tNULL\t2026-01-04 01:40:45\t2026-01-04 01:40:45\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

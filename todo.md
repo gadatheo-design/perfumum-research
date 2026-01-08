@@ -324,3 +324,15 @@
 - [x] Ajouter la détection des doublons potentiels
 - [x] Créer l'interface de prévisualisation avec erreurs
 - [x] Permettre la correction des erreurs avant import final
+
+
+---
+
+## 🔥 SESSION ACTIVE — 08 Jan 2026 (Soir)
+
+### Tâches demandées par l'utilisateur
+- [x] Enrichir les données molécule-plante (ajouter plus de relations) — 107 nouvelles liaisons créées
+- [x] Configurer le stockage S3 pour les images botaniques
+- [x] Créer la procédure tRPC d'upload d'images botaniques
+- [x] Créer le composant ImageUpload avec drag & drop (BotanicalImageUpload.tsx)
+- [x] Écrire les tests unitaires vitest pour les procédures IFRA — 22 tests passés

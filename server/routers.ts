@@ -2619,6 +2619,33 @@ export const appRouter = router({
         return await db.getPlantMolecules(input);
       }),
     // Gestion des images botaniques
+    uploadImage: protectedProcedure
+      .input(z.object({
+        plantId: z.number(),
+        imageData: z.string(), // Base64 encoded image data
+        fileName: z.string(),
+        contentType: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        // Extraire les données base64 (enlever le préfixe data:...)
+        const base64Data = input.imageData.replace(/^data:[^;]+;base64,/, '');
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        // Générer un nom de fichier unique
+        const timestamp = Date.now();
+        const randomSuffix = Math.random().toString(36).substring(2, 8);
+        const extension = input.fileName.split('.').pop() || 'jpg';
+        const fileKey = `plants/${input.plantId}/botanical-${timestamp}-${randomSuffix}.${extension}`;
+        
+        // Upload vers S3
+        const { storagePut } = await import('./storage');
+        const { url } = await storagePut(fileKey, buffer, input.contentType);
+        
+        // Mettre à jour l'URL dans la base de données
+        await db.updatePlantImage(input.plantId, url);
+        
+        return { url, key: fileKey };
+      }),
     updateImage: protectedProcedure
       .input(z.object({
         plantId: z.number(),

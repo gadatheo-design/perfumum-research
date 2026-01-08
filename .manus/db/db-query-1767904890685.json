@@ -1,0 +1,28 @@
+{
+  "query": "\nSELECT \n  'plant_molecules' as table_name,\n  COUNT(*) as total_links,\n  COUNT(DISTINCT plant_id) as unique_plants,\n  COUNT(DISTINCT molecule_id) as unique_molecules\nFROM plant_molecules\nUNION ALL\nSELECT \n  'plants_total' as table_name,\n  COUNT(*) as total,\n  0 as col2,\n  0 as col3\nFROM plants\nUNION ALL\nSELECT \n  'molecules_total' as table_name,\n  COUNT(*) as total,\n  0 as col2,\n  0 as col3\nFROM molecules\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  'plant_molecules' as table_name,\n  COUNT(*) as total_links,\n  COUNT(DISTINCT plant_id) as unique_plants,\n  COUNT(DISTINCT molecule_id) as unique_molecules\nFROM plant_molecules\nUNION ALL\nSELECT \n  'plants_total' as table_name,\n  COUNT(*) as total,\n  0 as col2,\n  0 as col3\nFROM plants\nUNION ALL\nSELECT \n  'molecules_total' as table_name,\n  COUNT(*) as total,\n  0 as col2,\n  0 as col3\nFROM molecules\n",
+  "rows": [
+    {
+      "table_name": "plant_molecules",
+      "total_links": "163",
+      "unique_plants": "47",
+      "unique_molecules": "90"
+    },
+    {
+      "table_name": "plants_total",
+      "total_links": "144",
+      "unique_plants": "0",
+      "unique_molecules": "0"
+    },
+    {
+      "table_name": "molecules_total",
+      "total_links": "556",
+      "unique_plants": "0",
+      "unique_molecules": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\ttotal_links\tunique_plants\tunique_molecules\nplant_molecules\t163\t47\t90\nplants_total\t144\t0\t0\nmolecules_total\t556\t0\t0\n",
+  "stderr": "",
+  "execution_time_ms": 203
+}

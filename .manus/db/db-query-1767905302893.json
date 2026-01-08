@@ -1,0 +1,70 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plants' LIMIT 20",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plants' LIMIT 20",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "latin_name"
+    },
+    {
+      "COLUMN_NAME": "family"
+    },
+    {
+      "COLUMN_NAME": "category"
+    },
+    {
+      "COLUMN_NAME": "origin"
+    },
+    {
+      "COLUMN_NAME": "habitat"
+    },
+    {
+      "COLUMN_NAME": "olfactive_signature"
+    },
+    {
+      "COLUMN_NAME": "dominant_molecules"
+    },
+    {
+      "COLUMN_NAME": "chemotypes"
+    },
+    {
+      "COLUMN_NAME": "climatic_axis"
+    },
+    {
+      "COLUMN_NAME": "traditional_use"
+    },
+    {
+      "COLUMN_NAME": "absorbe_use"
+    },
+    {
+      "COLUMN_NAME": "botanical_states"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "image_url"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    },
+    {
+      "COLUMN_NAME": "kingdom"
+    },
+    {
+      "COLUMN_NAME": "division"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nname\nlatin_name\nfamily\ncategory\norigin\nhabitat\nolfactive_signature\ndominant_molecules\nchemotypes\nclimatic_axis\ntraditional_use\nabsorbe_use\nbotanical_states\nnotes\nimage_url\ncreated_at\nupdated_at\nkingdom\ndivision\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

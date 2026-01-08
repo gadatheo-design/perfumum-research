@@ -134,3 +134,144 @@ describe('Plant Images', () => {
     });
   });
 });
+
+
+// ============================================================================
+// Tests du calculateur de conformité IFRA via tRPC
+// ============================================================================
+
+import { appRouter } from "./routers";
+import type { TrpcContext } from "./_core/context";
+import { vi } from "vitest";
+
+// Contexte de test public (sans authentification)
+function createPublicContext(): TrpcContext {
+  return {
+    user: null,
+    req: {
+      protocol: "https",
+      headers: {},
+    } as TrpcContext["req"],
+    res: {
+      clearCookie: vi.fn(),
+    } as unknown as TrpcContext["res"],
+  };
+}
+
+describe("ifraCalculator tRPC procedures", () => {
+  describe("checkFormula", () => {
+    it("devrait valider une formule vide comme conforme", async () => {
+      const ctx = createPublicContext();
+      const caller = appRouter.createCaller(ctx);
+
+      const result = await caller.ifraCalculator.checkFormula({
+        categoryCode: "4",
+        ingredients: [],
+      });
+
+      expect(result).toBeDefined();
+      expect(result.isCompliant).toBe(true);
+      expect(result.totalIngredients).toBe(0);
+    });
+
+    it("devrait gérer les codes de catégorie en majuscules et minuscules", async () => {
+      const ctx = createPublicContext();
+      const caller = appRouter.createCaller(ctx);
+
+      const resultUpper = await caller.ifraCalculator.checkFormula({
+        categoryCode: "5A",
+        ingredients: [],
+      });
+
+      const resultLower = await caller.ifraCalculator.checkFormula({
+        categoryCode: "5a",
+        ingredients: [],
+      });
+
+      expect(resultUpper.isCompliant).toBe(true);
+      expect(resultLower.isCompliant).toBe(true);
+    });
+  });
+
+  describe("getLimitsForCategory", () => {
+    it("devrait retourner un tableau pour chaque catégorie valide", async () => {
+      const ctx = createPublicContext();
+      const caller = appRouter.createCaller(ctx);
+
+      const categories = ["1", "2", "3", "4", "5A", "5B", "6", "7A", "8", "9", "10A", "11A"];
+      
+      for (const cat of categories) {
+        const result = await caller.ifraCalculator.getLimitsForCategory(cat);
+        expect(Array.isArray(result)).toBe(true);
+      }
+    });
+  });
+});
+
+describe("ifraRestrictions tRPC procedures", () => {
+  describe("list", () => {
+    it("devrait retourner un tableau de restrictions", async () => {
+      const ctx = createPublicContext();
+      const caller = appRouter.createCaller(ctx);
+
+      const result = await caller.ifraRestrictions.list();
+
+      expect(Array.isArray(result)).toBe(true);
+    });
+  });
+
+  describe("getRestricted", () => {
+    it("devrait retourner uniquement les molécules avec restrictions", async () => {
+      const ctx = createPublicContext();
+      const caller = appRouter.createCaller(ctx);
+
+      const result = await caller.ifraRestrictions.getRestricted();
+
+      expect(Array.isArray(result)).toBe(true);
+      // Chaque élément devrait avoir une restriction de type prohibited ou restricted
+      result.forEach((item: any) => {
+        expect(["prohibited", "restricted", "specified"]).toContain(item.restriction.restrictionType);
+      });
+    });
+  });
+});
+
+describe("ifraCategories tRPC procedures", () => {
+  describe("list", () => {
+    it("devrait retourner toutes les catégories IFRA", async () => {
+      const ctx = createPublicContext();
+      const caller = appRouter.createCaller(ctx);
+
+      const result = await caller.ifraCategories.list();
+
+      expect(Array.isArray(result)).toBe(true);
+    });
+  });
+
+  describe("getByCode", () => {
+    it("devrait retourner une catégorie par son code", async () => {
+      const ctx = createPublicContext();
+      const caller = appRouter.createCaller(ctx);
+
+      const result = await caller.ifraCategories.getByCode("4");
+
+      // Peut être null si pas de données, mais ne devrait pas lever d'erreur
+      expect(result === null || typeof result === "object").toBe(true);
+    });
+  });
+
+  describe("calculateLimit", () => {
+    it("devrait calculer la limite pour une molécule et catégorie", async () => {
+      const ctx = createPublicContext();
+      const caller = appRouter.createCaller(ctx);
+
+      const result = await caller.ifraCategories.calculateLimit({
+        moleculeId: 1,
+        categoryCode: "4",
+      });
+
+      expect(result).toBeDefined();
+      expect(result).toHaveProperty("type");
+    });
+  });
+});
