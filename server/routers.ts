@@ -5437,6 +5437,50 @@ export const appRouter = router({
         terroirsWithPlants: terroirsWithPlants.size,
       };
     }),
+    
+    // Audit des liaisons existantes
+    getAuditStats: publicProcedure.query(async () => {
+      return db.getPlantTerroirAuditStats();
+    }),
+    
+    // Toutes les relations avec noms
+    getAllWithNames: publicProcedure.query(async () => {
+      return db.getAllPlantTerroirRelationsWithNames();
+    }),
+    
+    // Suggestions de liaisons basées sur les origines
+    getSuggestions: publicProcedure.query(async () => {
+      return db.suggestPlantTerroirLinks();
+    }),
+    
+    // Import en masse depuis CSV
+    bulkImport: protectedProcedure
+      .input(z.array(z.object({
+        plantId: z.number().optional(),
+        plantName: z.string().optional(),
+        terroirId: z.number().optional(),
+        terroirName: z.string().optional(),
+        localName: z.string().optional(),
+        cultivationStart: z.number().optional(),
+        annualProduction: z.string().optional(),
+        qualityNotes: z.string().optional(),
+        notes: z.string().optional(),
+      })))
+      .mutation(async ({ input }) => {
+        return db.bulkImportPlantTerroirs(input);
+      }),
+    
+    // Création de liaisons multiples (drag-drop)
+    createMultiple: protectedProcedure
+      .input(z.array(z.object({
+        plantId: z.number(),
+        terroirId: z.number(),
+        localName: z.string().optional(),
+        notes: z.string().optional(),
+      })))
+      .mutation(async ({ input }) => {
+        return db.createMultiplePlantTerroirs(input);
+      }),
   }),
 
   // ============================================================================

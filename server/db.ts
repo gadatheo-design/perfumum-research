@@ -10432,3 +10432,332 @@ export async function deleteMatiere(id: number) {
   await db.delete(laboratoire).where(eq(laboratoire.id, id));
   return { success: true };
 }
+
+
+// ============================================================================
+// AUDIT ET IMPORT EN MASSE DES LIAISONS PLANTE-TERROIR
+// ============================================================================
+
+/**
+ * Récupère les statistiques d'audit des liaisons plante-terroir
+ */
+export async function getPlantTerroirAuditStats() {
+  const db = await getDb();
+  if (!db) return null;
+
+  // Compter les plantes et terroirs
+  const allPlants = await db.select().from(plants);
+  const allTerroirs = await db.select().from(terroirs);
+  const allRelations = await db.select().from(plantTerroirs);
+
+  // Identifier les plantes sans terroir
+  const plantIdsWithTerroir = new Set(allRelations.map(r => r.plantId));
+  const plantsWithoutTerroir = allPlants.filter(p => !plantIdsWithTerroir.has(p.id));
+
+  // Identifier les terroirs sans plante
+  const terroirIdsWithPlant = new Set(allRelations.map(r => r.terroirId));
+  const terroirsWithoutPlant = allTerroirs.filter(t => !terroirIdsWithPlant.has(t.id));
+
+  // Compter les liaisons par plante
+  const plantLinkCounts: Record<number, number> = {};
+  allRelations.forEach(r => {
+    plantLinkCounts[r.plantId] = (plantLinkCounts[r.plantId] || 0) + 1;
+  });
+
+  // Compter les liaisons par terroir
+  const terroirLinkCounts: Record<number, number> = {};
+  allRelations.forEach(r => {
+    terroirLinkCounts[r.terroirId] = (terroirLinkCounts[r.terroirId] || 0) + 1;
+  });
+
+  // Plantes avec le plus de terroirs
+  const topPlantsByTerroirs = allPlants
+    .map(p => ({ ...p, terroirCount: plantLinkCounts[p.id] || 0 }))
+    .filter(p => p.terroirCount > 0)
+    .sort((a, b) => b.terroirCount - a.terroirCount)
+    .slice(0, 10);
+
+  // Terroirs avec le plus de plantes
+  const topTerroirsByPlants = allTerroirs
+    .map(t => ({ ...t, plantCount: terroirLinkCounts[t.id] || 0 }))
+    .filter(t => t.plantCount > 0)
+    .sort((a, b) => b.plantCount - a.plantCount)
+    .slice(0, 10);
+
+  // Plantes prioritaires (catégories importantes sans terroir)
+  const priorityCategories = ['aromatique', 'medicinale', 'parfumerie'];
+  const priorityPlantsWithoutTerroir = plantsWithoutTerroir
+    .filter(p => p.category && priorityCategories.includes(p.category))
+    .slice(0, 20);
+
+  // Terroirs prioritaires (pays importants sans plantes)
+  const priorityCountries = ['France', 'Italie', 'Bulgarie', 'Maroc', 'Inde', 'Madagascar', 'Égypte'];
+  const priorityTerroirsWithoutPlant = terroirsWithoutPlant
+    .filter(t => t.country && priorityCountries.includes(t.country))
+    .slice(0, 20);
+
+  return {
+    totalPlants: allPlants.length,
+    totalTerroirs: allTerroirs.length,
+    totalRelations: allRelations.length,
+    plantsWithTerroir: plantIdsWithTerroir.size,
+    terroirsWithPlant: terroirIdsWithPlant.size,
+    plantsWithoutTerroir: plantsWithoutTerroir.length,
+    terroirsWithoutPlant: terroirsWithoutPlant.length,
+    coveragePlants: allPlants.length > 0 ? Math.round((plantIdsWithTerroir.size / allPlants.length) * 100) : 0,
+    coverageTerroirs: allTerroirs.length > 0 ? Math.round((terroirIdsWithPlant.size / allTerroirs.length) * 100) : 0,
+    topPlantsByTerroirs,
+    topTerroirsByPlants,
+    priorityPlantsWithoutTerroir,
+    priorityTerroirsWithoutPlant,
+    plantsWithoutTerroirList: plantsWithoutTerroir.slice(0, 50),
+    terroirsWithoutPlantList: terroirsWithoutPlant.slice(0, 50),
+  };
+}
+
+/**
+ * Récupère toutes les liaisons plante-terroir avec les noms
+ */
+export async function getAllPlantTerroirRelationsWithNames() {
+  const db = await getDb();
+  if (!db) return [];
+
+  const allPlants = await db.select().from(plants);
+  const allTerroirs = await db.select().from(terroirs);
+  const allRelations = await db.select().from(plantTerroirs);
+
+  const plantMap = new Map(allPlants.map(p => [p.id, p]));
+  const terroirMap = new Map(allTerroirs.map(t => [t.id, t]));
+
+  return allRelations.map(r => ({
+    ...r,
+    plantName: plantMap.get(r.plantId)?.name || `Plante #${r.plantId}`,
+    plantLatinName: plantMap.get(r.plantId)?.latinName,
+    plantCategory: plantMap.get(r.plantId)?.category,
+    terroirName: terroirMap.get(r.terroirId)?.name || `Terroir #${r.terroirId}`,
+    terroirCountry: terroirMap.get(r.terroirId)?.country,
+    terroirRegion: terroirMap.get(r.terroirId)?.region,
+  }));
+}
+
+/**
+ * Import en masse de liaisons plante-terroir
+ */
+export async function bulkImportPlantTerroirs(relations: Array<{
+  plantId?: number;
+  plantName?: string;
+  terroirId?: number;
+  terroirName?: string;
+  localName?: string;
+  cultivationStart?: number;
+  annualProduction?: string;
+  qualityNotes?: string;
+  notes?: string;
+}>) {
+  const db = await getDb();
+  if (!db) return { success: false, imported: 0, errors: [] as string[] };
+
+  const allPlants = await db.select().from(plants);
+  const allTerroirs = await db.select().from(terroirs);
+  const existingRelations = await db.select().from(plantTerroirs);
+
+  const plantNameMap = new Map(allPlants.map(p => [p.name.toLowerCase(), p.id]));
+  const plantLatinNameMap = new Map(allPlants.filter(p => p.latinName).map(p => [p.latinName!.toLowerCase(), p.id]));
+  const terroirNameMap = new Map(allTerroirs.map(t => [t.name.toLowerCase(), t.id]));
+
+  const existingSet = new Set(existingRelations.map(r => `${r.plantId}-${r.terroirId}`));
+
+  const errors: string[] = [];
+  let imported = 0;
+  const toInsert: InsertPlantTerroir[] = [];
+
+  for (let i = 0; i < relations.length; i++) {
+    const rel = relations[i];
+    const rowNum = i + 1;
+
+    // Résoudre l'ID de la plante
+    let plantId = rel.plantId;
+    if (!plantId && rel.plantName) {
+      const nameLower = rel.plantName.toLowerCase();
+      plantId = plantNameMap.get(nameLower) || plantLatinNameMap.get(nameLower);
+    }
+
+    // Résoudre l'ID du terroir
+    let terroirId = rel.terroirId;
+    if (!terroirId && rel.terroirName) {
+      terroirId = terroirNameMap.get(rel.terroirName.toLowerCase());
+    }
+
+    // Validation
+    if (!plantId) {
+      errors.push(`Ligne ${rowNum}: Plante non trouvée "${rel.plantName || rel.plantId}"`);
+      continue;
+    }
+    if (!terroirId) {
+      errors.push(`Ligne ${rowNum}: Terroir non trouvé "${rel.terroirName || rel.terroirId}"`);
+      continue;
+    }
+
+    // Vérifier si la relation existe déjà
+    const key = `${plantId}-${terroirId}`;
+    if (existingSet.has(key)) {
+      errors.push(`Ligne ${rowNum}: Liaison déjà existante (plante ${plantId} - terroir ${terroirId})`);
+      continue;
+    }
+
+    toInsert.push({
+      plantId,
+      terroirId,
+      localName: rel.localName || null,
+      cultivationStart: rel.cultivationStart || null,
+      annualProduction: rel.annualProduction || null,
+      qualityNotes: rel.qualityNotes || null,
+      notes: rel.notes || null,
+    });
+    existingSet.add(key); // Éviter les doublons dans le même import
+  }
+
+  // Insérer en masse
+  if (toInsert.length > 0) {
+    try {
+      await db.insert(plantTerroirs).values(toInsert);
+      imported = toInsert.length;
+    } catch (error: any) {
+      errors.push(`Erreur d'insertion: ${error.message}`);
+    }
+  }
+
+  return {
+    success: errors.length === 0 || imported > 0,
+    imported,
+    skipped: relations.length - imported - errors.filter(e => e.includes('déjà existante')).length,
+    duplicates: errors.filter(e => e.includes('déjà existante')).length,
+    errors: errors.filter(e => !e.includes('déjà existante')),
+  };
+}
+
+/**
+ * Suggestions de liaisons basées sur les origines géographiques des plantes
+ */
+export async function suggestPlantTerroirLinks() {
+  const db = await getDb();
+  if (!db) return [];
+
+  const allPlants = await db.select().from(plants);
+  const allTerroirs = await db.select().from(terroirs);
+  const existingRelations = await db.select().from(plantTerroirs);
+
+  const existingSet = new Set(existingRelations.map(r => `${r.plantId}-${r.terroirId}`));
+
+  const suggestions: Array<{
+    plantId: number;
+    plantName: string;
+    terroirId: number;
+    terroirName: string;
+    reason: string;
+    confidence: 'high' | 'medium' | 'low';
+  }> = [];
+
+  for (const plant of allPlants) {
+    if (!plant.origin) continue;
+
+    const originLower = plant.origin.toLowerCase();
+
+    for (const terroir of allTerroirs) {
+      const key = `${plant.id}-${terroir.id}`;
+      if (existingSet.has(key)) continue;
+
+      const terroirNameLower = terroir.name.toLowerCase();
+      const countryLower = (terroir.country || '').toLowerCase();
+      const regionLower = (terroir.region || '').toLowerCase();
+
+      // Vérifier les correspondances
+      let confidence: 'high' | 'medium' | 'low' | null = null;
+      let reason = '';
+
+      if (originLower.includes(countryLower) && countryLower.length > 2) {
+        confidence = 'high';
+        reason = `Origine de la plante (${plant.origin}) correspond au pays du terroir (${terroir.country})`;
+      } else if (originLower.includes(regionLower) && regionLower.length > 2) {
+        confidence = 'high';
+        reason = `Origine de la plante (${plant.origin}) correspond à la région du terroir (${terroir.region})`;
+      } else if (originLower.includes(terroirNameLower.split(',')[0]) || terroirNameLower.includes(originLower.split(',')[0])) {
+        confidence = 'medium';
+        reason = `Correspondance partielle entre origine (${plant.origin}) et terroir (${terroir.name})`;
+      }
+
+      if (confidence) {
+        suggestions.push({
+          plantId: plant.id,
+          plantName: plant.name,
+          terroirId: terroir.id,
+          terroirName: terroir.name,
+          reason,
+          confidence,
+        });
+      }
+    }
+  }
+
+  // Trier par confiance puis par nom de plante
+  return suggestions
+    .sort((a, b) => {
+      const confOrder = { high: 0, medium: 1, low: 2 };
+      if (confOrder[a.confidence] !== confOrder[b.confidence]) {
+        return confOrder[a.confidence] - confOrder[b.confidence];
+      }
+      return a.plantName.localeCompare(b.plantName);
+    })
+    .slice(0, 100);
+}
+
+/**
+ * Créer plusieurs liaisons plante-terroir en une seule opération
+ */
+export async function createMultiplePlantTerroirs(relations: Array<{
+  plantId: number;
+  terroirId: number;
+  localName?: string;
+  notes?: string;
+}>) {
+  const db = await getDb();
+  if (!db) return { success: false, created: 0, errors: [] as string[] };
+
+  const existingRelations = await db.select().from(plantTerroirs);
+  const existingSet = new Set(existingRelations.map(r => `${r.plantId}-${r.terroirId}`));
+
+  const errors: string[] = [];
+  const toInsert: InsertPlantTerroir[] = [];
+
+  for (const rel of relations) {
+    const key = `${rel.plantId}-${rel.terroirId}`;
+    if (existingSet.has(key)) {
+      errors.push(`Liaison déjà existante: plante ${rel.plantId} - terroir ${rel.terroirId}`);
+      continue;
+    }
+
+    toInsert.push({
+      plantId: rel.plantId,
+      terroirId: rel.terroirId,
+      localName: rel.localName || null,
+      notes: rel.notes || null,
+    });
+    existingSet.add(key);
+  }
+
+  if (toInsert.length > 0) {
+    try {
+      await db.insert(plantTerroirs).values(toInsert);
+    } catch (error: any) {
+      errors.push(`Erreur d'insertion: ${error.message}`);
+      return { success: false, created: 0, errors };
+    }
+  }
+
+  return {
+    success: true,
+    created: toInsert.length,
+    skipped: relations.length - toInsert.length,
+    errors,
+  };
+}

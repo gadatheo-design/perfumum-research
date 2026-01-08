@@ -43,9 +43,9 @@
 
 ### Liaisons entre entités (Couverture actuelle très faible)
 - [x] Interface de liaison plante-molécule avec statistiques (`/plant-molecule-linking`)
-- [ ] Auditer les liaisons existantes et identifier les priorités
-- [ ] Créer une interface drag-drop pour créer des liaisons rapidement
-- [ ] Permettre la création de liaisons en masse via CSV
+- [x] Auditer les liaisons existantes et identifier les priorités (`/plant-terroir-audit`)
+- [x] Créer une interface drag-drop pour créer des liaisons rapidement (`/plant-terroir-dragdrop`)
+- [x] Permettre la création de liaisons en masse via CSV (`/plant-terroir-import-csv`)
 - [ ] Objectif : Atteindre 50% de couverture molécule→recette
 - [ ] Objectif : Atteindre 10% de couverture molécule→plante
 - [ ] Objectif : Atteindre 20% de couverture plante→terroir

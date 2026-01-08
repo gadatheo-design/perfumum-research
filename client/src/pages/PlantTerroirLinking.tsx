@@ -57,7 +57,10 @@ import {
   Target,
   TrendingUp,
   Globe,
-  Mountain
+  Mountain,
+  GripVertical,
+  Upload,
+  ClipboardList
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -276,6 +279,28 @@ export default function PlantTerroirLinking() {
                     Associez des plantes à leurs terroirs d'origine pour enrichir la base de données
                   </p>
                 </div>
+              </div>
+              
+              {/* Liens vers les outils avancés */}
+              <div className="flex flex-wrap gap-3 mt-6">
+                <Link href="/plant-terroir-audit">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <ClipboardList className="h-4 w-4" />
+                    Audit des liaisons
+                  </Button>
+                </Link>
+                <Link href="/plant-terroir-dragdrop">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <GripVertical className="h-4 w-4" />
+                    Création en masse (Drag & Drop)
+                  </Button>
+                </Link>
+                <Link href="/plant-terroir-import-csv">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Upload className="h-4 w-4" />
+                    Import CSV
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
