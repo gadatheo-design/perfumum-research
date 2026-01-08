@@ -361,3 +361,30 @@
 - [x] Ajouter les statistiques de couverture des liaisons
 - [x] Mettre à jour le todo.md avec les tâches du système d'images (déjà implémentées)
 - [x] Mettre à jour le todo.md avec les tests IFRA (déjà implémentés - 22 tests)
+
+
+---
+
+## 🗺️ SESSION COURANTE — 08 Jan 2026 (Terroirs)
+
+### Graphe terroir-plante-molécule
+- [x] Analyser la structure actuelle du graphe plante-molécule
+- [x] Étendre le schéma pour inclure les terroirs dans le graphe
+- [x] Créer le composant TerrainPlantMoleculeGraph
+- [x] Implémenter les nœuds terroir avec style distinctif
+- [x] Ajouter les liens terroir→plante dans la visualisation
+- [x] Créer les filtres par type de nœud (terroir/plante/molécule)
+- [x] Tester la visualisation avec les données existantes
+
+### Carte interactive des terroirs
+- [x] Analyser les données géographiques des terroirs existants
+- [x] Créer la page `/carte-interactive-terroirs` avec le composant Map
+- [x] Implémenter les marqueurs pour chaque terroir
+- [x] Ajouter les popups avec informations sur les plantes
+- [x] Créer les filtres par région/continent/climat/sol
+- [x] Implémenter le zoom sur les zones de production
+- [x] Lier la carte aux fiches terroirs existantes
+
+### Nouvelles pages créées
+- [x] `/graphe-terroir-plante-molecule` - Graphe tripartite D3.js
+- [x] `/carte-interactive-terroirs` - Carte Google Maps améliorée
