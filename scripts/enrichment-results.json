@@ -1,0 +1,320 @@
+{
+  "enriched": [
+    {
+      "id": 90033,
+      "name": "2-heptanone",
+      "pubchemCid": 8051,
+      "casNumber": "110-43-0",
+      "iupacName": "heptan-2-one",
+      "formula": "C7H14O",
+      "molecularWeight": "114.19",
+      "chemicalClass": "Cétone",
+      "smiles": null
+    },
+    {
+      "id": 210003,
+      "name": "Acide butyrique",
+      "pubchemCid": 264,
+      "casNumber": "107-92-6",
+      "iupacName": "butanoic acid",
+      "formula": "C4H8O2",
+      "molecularWeight": "88.11",
+      "chemicalClass": "Acide carboxylique",
+      "smiles": null
+    },
+    {
+      "id": 600022,
+      "name": "Alpha-Ionone",
+      "pubchemCid": 5282108,
+      "casNumber": "127-41-3",
+      "iupacName": "(E)-4-(2,6,6-trimethylcyclohex-2-en-1-yl)but-3-en-2-one",
+      "formula": "C13H20O",
+      "molecularWeight": "192.30",
+      "chemicalClass": "Cétone",
+      "smiles": null
+    },
+    {
+      "id": 570021,
+      "name": "Alpha-Ionone",
+      "pubchemCid": 5282108,
+      "casNumber": "127-41-3",
+      "iupacName": "(E)-4-(2,6,6-trimethylcyclohex-2-en-1-yl)but-3-en-2-one",
+      "formula": "C13H20O",
+      "molecularWeight": "192.30",
+      "chemicalClass": "Cétone",
+      "smiles": null
+    },
+    {
+      "id": 90016,
+      "name": "Ambrettolide",
+      "pubchemCid": 5365703,
+      "casNumber": "123-69-3",
+      "iupacName": "(8Z)-1-oxacycloheptadec-8-en-2-one",
+      "formula": "C16H28O2",
+      "molecularWeight": "252.39",
+      "chemicalClass": "Cétone",
+      "smiles": null
+    },
+    {
+      "id": 330017,
+      "name": "Ambroxan (Cetalox)",
+      "pubchemCid": 10857465,
+      "casNumber": "6790-58-5",
+      "iupacName": "(3aR,5aS,9aS,9bR)-3a,6,6,9a-tetramethyl-2,4,5,5a,7,8,9,9b-octahydro-1H-benzo[e][1]benzofuran",
+      "formula": "C16H28O",
+      "molecularWeight": "236.39",
+      "chemicalClass": null,
+      "smiles": null
+    },
+    {
+      "id": 900012,
+      "name": "Anabasine",
+      "pubchemCid": 205586,
+      "casNumber": "494-52-0",
+      "iupacName": "3-[(2S)-piperidin-2-yl]pyridine",
+      "formula": "C10H14N2",
+      "molecularWeight": "162.23",
+      "chemicalClass": "Composé azoté",
+      "smiles": null
+    },
+    {
+      "id": 900011,
+      "name": "Anatabine",
+      "pubchemCid": 11388,
+      "casNumber": "581-49-7",
+      "iupacName": "3-[(2S)-1,2,3,6-tetrahydropyridin-2-yl]pyridine",
+      "formula": "C10H12N2",
+      "molecularWeight": "160.22",
+      "chemicalClass": "Composé azoté",
+      "smiles": null
+    },
+    {
+      "id": 270002,
+      "name": "Androstadienone",
+      "pubchemCid": 92979,
+      "casNumber": "4075-07-4",
+      "iupacName": "(8S,9S,10R,13R,14S)-10,13-dimethyl-1,2,6,7,8,9,11,12,14,15-decahydrocyclopenta[a]phenanthren-3-one",
+      "formula": "C19H26O",
+      "molecularWeight": "270.4",
+      "chemicalClass": "Cétone",
+      "smiles": null
+    }
+  ],
+  "notFound": [
+    {
+      "id": 810007,
+      "name": "1,8-cineole",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 90002,
+      "name": "2-MIB (2-Methylisoborneol)",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 120006,
+      "name": "4-methyl-guaiacol",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 300002,
+      "name": "Absolue d'Iris (Orris Butter)",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 330008,
+      "name": "Absolue de Jasmin (Indole)",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 330007,
+      "name": "Absolue de Rose (Citronellol)",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 480024,
+      "name": "Acacia brûlé",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 780015,
+      "name": "Acaciine",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 60010,
+      "name": "Acide Coumarique",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 60003,
+      "name": "Acide Décanoïque (C10)",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 60009,
+      "name": "Acide Férulique",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 210007,
+      "name": "Acide décanoïque",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 210004,
+      "name": "Acide isovalérique",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 570061,
+      "name": "Acétate d'isoeugenol",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 600021,
+      "name": "Acétate de Bornyle",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 570020,
+      "name": "Acétate de Bornyle",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 570059,
+      "name": "Acétate de benzyle",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 570058,
+      "name": "Acétate de phényléthyle",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 570054,
+      "name": "Alcool phényléthylique",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 120008,
+      "name": "Aldéhyde C-10",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 120009,
+      "name": "Aldéhyde C-11",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 570028,
+      "name": "Aldéhyde C-11 Undécylénique",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 120010,
+      "name": "Aldéhyde C-12",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 570024,
+      "name": "Aldéhyde C-12 MNA",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 570025,
+      "name": "Aldéhyde C-14 (Gamma-Undécalactone)",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 570029,
+      "name": "Aldéhyde C-18 (Gamma-Nonalactone)",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 480032,
+      "name": "Aldéhyde feuille",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 120011,
+      "name": "Aldéhyde métallique",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 480002,
+      "name": "Aldéhydes chauds",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 480022,
+      "name": "Aldéhydes métalliques",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 480013,
+      "name": "Aldéhydes sombres",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 90008,
+      "name": "Aluminium aldehyde",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 480029,
+      "name": "Ambergris",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 300003,
+      "name": "Ambre Gris (Ambergris)",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 480020,
+      "name": "Ambre profond",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 90060,
+      "name": "Ambrette seed",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 300004,
+      "name": "Ambrox Super",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 90027,
+      "name": "Ammonium-Maillard",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 240001,
+      "name": "Androsténol",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 270001,
+      "name": "Androsténone",
+      "reason": "Non trouvé sur PubChem"
+    },
+    {
+      "id": 480006,
+      "name": "Argile blanche",
+      "reason": "Non trouvé sur PubChem"
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "total": 422,
+    "processed": 50,
+    "enriched": 9,
+    "notFound": 41,
+    "errors": 0,
+    "startTime": "2026-01-08T03:21:22.353Z",
+    "lastUpdate": "2026-01-08T03:21:58.993Z"
+  }
+}

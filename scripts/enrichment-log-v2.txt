@@ -1,0 +1,896 @@
+[2026-01-08T03:23:37.798Z] === DÉBUT DE L'ENRICHISSEMENT PUBCHEM V2 ===
+[2026-01-08T03:23:37.801Z] Nombre de molécules à traiter: 422
+[2026-01-08T03:23:37.801Z] Molécules restantes à traiter: 422
+[2026-01-08T03:23:37.801Z] Nombre de lots: 9
+[2026-01-08T03:23:37.801Z] 
+--- Traitement du lot 1/9 (50 molécules) ---
+[2026-01-08T03:23:37.801Z] Recherche: 1,8-cineole (ID: 810007)
+[2026-01-08T03:23:39.989Z]   ✓ Trouvé via "eucalyptol": CAS=470-82-6
+[2026-01-08T03:23:40.290Z] Recherche: 2-MIB (2-Methylisoborneol) (ID: 90002)
+[2026-01-08T03:23:41.801Z]   ✓ Trouvé via "2-Methylisoborneol": CAS=2371-42-8
+[2026-01-08T03:23:42.101Z] Recherche: 2-heptanone (ID: 90033)
+[2026-01-08T03:23:43.144Z]   ✓ Trouvé via "2-heptanone": CAS=110-43-0
+[2026-01-08T03:23:43.445Z] Recherche: 4-methyl-guaiacol (ID: 120006)
+[2026-01-08T03:23:43.793Z]   ✗ Non trouvé
+[2026-01-08T03:23:44.094Z] Recherche: Absolue d'Iris (Orris Butter) (ID: 300002)
+[2026-01-08T03:23:46.301Z]   ✗ Non trouvé
+[2026-01-08T03:23:46.601Z] Recherche: Absolue de Jasmin (Indole) (ID: 330008)
+[2026-01-08T03:23:49.137Z]   ✓ Trouvé via "Indole": CAS=120-72-9
+[2026-01-08T03:23:49.438Z] Recherche: Absolue de Rose (Citronellol) (ID: 330007)
+[2026-01-08T03:23:52.064Z]   ✓ Trouvé via "Citronellol": CAS=106-22-9
+[2026-01-08T03:23:52.364Z] Recherche: Acacia brûlé (ID: 480024)
+[2026-01-08T03:23:53.082Z]   ✗ Non trouvé
+[2026-01-08T03:23:53.383Z] Recherche: Acaciine (ID: 780015)
+[2026-01-08T03:23:53.774Z]   ✗ Non trouvé
+[2026-01-08T03:23:54.075Z] Recherche: Acide Coumarique (ID: 60010)
+[2026-01-08T03:23:55.486Z]   ✓ Trouvé via "coumaric acid": CAS=501-98-4
+[2026-01-08T03:23:55.786Z] Recherche: Acide Décanoïque (C10) (ID: 60003)
+[2026-01-08T03:23:58.446Z]   ✗ Non trouvé
+[2026-01-08T03:23:58.746Z] Recherche: Acide Férulique (ID: 60009)
+[2026-01-08T03:24:00.039Z]   ✓ Trouvé via "ferulic acid": CAS=1135-24-6
+[2026-01-08T03:24:00.340Z] Recherche: Acide butyrique (ID: 210003)
+[2026-01-08T03:24:01.622Z]   ✓ Trouvé via "Acide butyrique": CAS=107-92-6
+[2026-01-08T03:24:01.922Z] Recherche: Acide décanoïque (ID: 210007)
+[2026-01-08T03:24:03.416Z]   ✓ Trouvé via "decanoic acid": CAS=334-48-5
+[2026-01-08T03:24:03.717Z] Recherche: Acide isovalérique (ID: 210004)
+[2026-01-08T03:24:05.164Z]   ✓ Trouvé via "isovaleric acid": CAS=503-74-2
+[2026-01-08T03:24:05.464Z] Recherche: Acétate d'isoeugenol (ID: 570061)
+[2026-01-08T03:24:06.904Z]   ✓ Trouvé via "isoeugenol acetate": CAS=5912-87-8
+[2026-01-08T03:24:07.205Z] Recherche: Acétate de Bornyle (ID: 600021)
+[2026-01-08T03:24:08.905Z]   ✓ Trouvé via "bornyl acetate": CAS=5655-61-8
+[2026-01-08T03:24:09.206Z] Recherche: Acétate de Bornyle (ID: 570020)
+[2026-01-08T03:24:10.773Z]   ✓ Trouvé via "bornyl acetate": CAS=5655-61-8
+[2026-01-08T03:24:11.074Z] Recherche: Acétate de benzyle (ID: 570059)
+[2026-01-08T03:24:12.510Z]   ✓ Trouvé via "benzyl acetate": CAS=140-11-4
+[2026-01-08T03:24:12.810Z] Recherche: Acétate de phényléthyle (ID: 570058)
+[2026-01-08T03:24:14.427Z]   ✓ Trouvé via "phenylethyl acetate": CAS=103-45-7
+[2026-01-08T03:24:14.728Z] Recherche: Alcool phényléthylique (ID: 570054)
+[2026-01-08T03:24:16.316Z]   ✓ Trouvé via "phenylethyl alcohol": CAS=60-12-8
+[2026-01-08T03:24:16.617Z] Recherche: Aldéhyde C-10 (ID: 120008)
+[2026-01-08T03:24:18.750Z]   ✓ Trouvé via "decanal": CAS=112-31-2
+[2026-01-08T03:24:19.050Z] Recherche: Aldéhyde C-11 (ID: 120009)
+[2026-01-08T03:24:20.331Z]   ✓ Trouvé via "undecanal": CAS=112-44-7
+[2026-01-08T03:24:20.632Z] Recherche: Aldéhyde C-11 Undécylénique (ID: 570028)
+[2026-01-08T03:24:22.246Z]   ✗ Non trouvé
+[2026-01-08T03:24:22.546Z] Recherche: Aldéhyde C-12 (ID: 120010)
+[2026-01-08T03:24:24.110Z]   ✓ Trouvé via "dodecanal": CAS=112-54-9
+[2026-01-08T03:24:24.410Z] Recherche: Aldéhyde C-12 MNA (ID: 570024)
+[2026-01-08T03:24:25.869Z]   ✓ Trouvé via "aldehyde c-12 mna": CAS=110-41-8
+[2026-01-08T03:24:26.170Z] Recherche: Aldéhyde C-14 (Gamma-Undécalactone) (ID: 570025)
+[2026-01-08T03:24:29.218Z]   ✓ Trouvé via "Aldehyde C-14": CAS=124-25-4
+[2026-01-08T03:24:29.519Z] Recherche: Aldéhyde C-18 (Gamma-Nonalactone) (ID: 570029)
+[2026-01-08T03:24:31.893Z]   ✓ Trouvé via "Aldehyde C-18": CAS=104-61-0
+[2026-01-08T03:24:32.194Z] Recherche: Aldéhyde feuille (ID: 480032)
+[2026-01-08T03:24:34.333Z]   ✗ Non trouvé
+[2026-01-08T03:24:34.634Z] Recherche: Aldéhyde métallique (ID: 120011)
+[2026-01-08T03:24:35.686Z]   ✗ Non trouvé
+[2026-01-08T03:24:35.987Z] Recherche: Aldéhydes chauds (ID: 480002)
+[2026-01-08T03:24:37.052Z]   ✗ Non trouvé
+[2026-01-08T03:24:37.353Z] Recherche: Aldéhydes métalliques (ID: 480022)
+[2026-01-08T03:24:38.040Z]   ✗ Non trouvé
+[2026-01-08T03:24:38.340Z] Recherche: Aldéhydes sombres (ID: 480013)
+[2026-01-08T03:24:39.019Z]   ✗ Non trouvé
+[2026-01-08T03:24:39.320Z] Recherche: Alpha-Ionone (ID: 600022)
+[2026-01-08T03:24:39.866Z]   ✓ Trouvé via "Alpha-Ionone": CAS=127-41-3
+[2026-01-08T03:24:40.167Z] Recherche: Alpha-Ionone (ID: 570021)
+[2026-01-08T03:24:40.870Z]   ✓ Trouvé via "Alpha-Ionone": CAS=127-41-3
+[2026-01-08T03:24:41.171Z] Recherche: Aluminium aldehyde (ID: 90008)
+[2026-01-08T03:24:41.418Z]   ✗ Non trouvé
+[2026-01-08T03:24:41.719Z] Recherche: Ambergris (ID: 480029)
+[2026-01-08T03:24:41.970Z]   ✗ Non trouvé
+[2026-01-08T03:24:42.271Z] Recherche: Ambre Gris (Ambergris) (ID: 300003)
+[2026-01-08T03:24:42.774Z]   ✗ Non trouvé
+[2026-01-08T03:24:43.075Z] Recherche: Ambre profond (ID: 480020)
+[2026-01-08T03:24:43.298Z]   ✗ Non trouvé
+[2026-01-08T03:24:43.598Z] Recherche: Ambrette seed (ID: 90060)
+[2026-01-08T03:24:43.885Z]   ✗ Non trouvé
+[2026-01-08T03:24:44.186Z] Recherche: Ambrettolide (ID: 90016)
+[2026-01-08T03:24:44.797Z]   ✓ Trouvé via "Ambrettolide": CAS=123-69-3
+[2026-01-08T03:24:45.098Z] Recherche: Ambrox Super (ID: 300004)
+[2026-01-08T03:24:45.334Z]   ✗ Non trouvé
+[2026-01-08T03:24:45.635Z] Recherche: Ambroxan (Cetalox) (ID: 330017)
+[2026-01-08T03:24:46.929Z]   ✓ Trouvé via "Ambroxan": CAS=6790-58-5
+[2026-01-08T03:24:47.229Z] Recherche: Ammonium-Maillard (ID: 90027)
+[2026-01-08T03:24:47.589Z]   ✗ Non trouvé
+[2026-01-08T03:24:47.890Z] Recherche: Anabasine (ID: 900012)
+[2026-01-08T03:24:48.598Z]   ✓ Trouvé via "Anabasine": CAS=494-52-0
+[2026-01-08T03:24:48.898Z] Recherche: Anatabine (ID: 900011)
+[2026-01-08T03:24:49.441Z]   ✓ Trouvé via "Anatabine": CAS=581-49-7
+[2026-01-08T03:24:49.742Z] Recherche: Androstadienone (ID: 270002)
+[2026-01-08T03:24:50.490Z]   ✓ Trouvé via "Androstadienone": CAS=4075-07-4
+[2026-01-08T03:24:50.791Z] Recherche: Androsténol (ID: 240001)
+[2026-01-08T03:24:51.671Z]   ✓ Trouvé via "Androstenol": CAS=1153-51-1
+[2026-01-08T03:24:51.971Z] Recherche: Androsténone (ID: 270001)
+[2026-01-08T03:24:53.091Z]   ✓ Trouvé via "Androstenone": CAS=18339-16-7
+[2026-01-08T03:24:53.392Z] Recherche: Argile blanche (ID: 480006)
+[2026-01-08T03:24:53.729Z]   ✗ Non trouvé
+[2026-01-08T03:24:54.030Z] Résultats sauvegardés (50/422 traités)
+[2026-01-08T03:24:54.030Z] Pause de 5 secondes...
+[2026-01-08T03:24:59.032Z] 
+--- Traitement du lot 2/9 (50 molécules) ---
+[2026-01-08T03:24:59.033Z] Recherche: Aristolen-9β-ol (ID: 780016)
+[2026-01-08T03:24:59.774Z]   ✗ Non trouvé
+[2026-01-08T03:25:00.075Z] Recherche: Artisan Peppermint Oil (ID: 180003)
+[2026-01-08T03:25:00.404Z]   ✗ Non trouvé
+[2026-01-08T03:25:00.705Z] Recherche: BENZOIN RESIN (ID: 540009)
+[2026-01-08T03:25:01.138Z]   ✗ Non trouvé
+[2026-01-08T03:25:01.439Z] Recherche: Balsam Fir Essential Oil (ID: 420003)
+[2026-01-08T03:25:01.684Z]   ✗ Non trouvé
+[2026-01-08T03:25:01.984Z] Recherche: Baume de Tolú (ID: 510020)
+[2026-01-08T03:25:02.227Z]   ✗ Non trouvé
+[2026-01-08T03:25:02.527Z] Recherche: Baume de Tolú (Myroxylon balsamum) (ID: 510010)
+[2026-01-08T03:25:03.222Z]   ✗ Non trouvé
+[2026-01-08T03:25:03.523Z] Recherche: Benzoate de benzyle (ID: 570060)
+[2026-01-08T03:25:03.770Z]   ✗ Non trouvé
+[2026-01-08T03:25:04.071Z] Recherche: Benzoin Siam (ID: 90073)
+[2026-01-08T03:25:04.303Z]   ✗ Non trouvé
+[2026-01-08T03:25:04.604Z] Recherche: Benzyl acetate (ID: 210011)
+[2026-01-08T03:25:05.160Z]   ✓ Trouvé via "Benzyl acetate": CAS=140-11-4
+[2026-01-08T03:25:05.460Z] Recherche: Benzyl salicylate (ID: 90065)
+[2026-01-08T03:25:06.002Z]   ✓ Trouvé via "Benzyl salicylate": CAS=118-58-1
+[2026-01-08T03:25:06.302Z] Recherche: Benzyle Salicylate (ID: 570026)
+[2026-01-08T03:25:06.932Z]   ✓ Trouvé via "Benzyle Salicylate": CAS=118-58-1
+[2026-01-08T03:25:07.233Z] Recherche: Birch Tar North American (ID: 420007)
+[2026-01-08T03:25:07.490Z]   ✗ Non trouvé
+[2026-01-08T03:25:07.790Z] Recherche: Bitume light (ID: 90011)
+[2026-01-08T03:25:08.060Z]   ✗ Non trouvé
+[2026-01-08T03:25:08.361Z] Recherche: Black Emerald (ID: 180017)
+[2026-01-08T03:25:08.600Z]   ✗ Non trouvé
+[2026-01-08T03:25:08.901Z] Recherche: Black Spruce Essential Oil (ID: 420004)
+[2026-01-08T03:25:09.161Z]   ✗ Non trouvé
+[2026-01-08T03:25:09.462Z] Recherche: Bois de brousse (ID: 480017)
+[2026-01-08T03:25:09.761Z]   ✗ Non trouvé
+[2026-01-08T03:25:10.062Z] Recherche: Bois sec (ID: 480026)
+[2026-01-08T03:25:10.310Z]   ✗ Non trouvé
+[2026-01-08T03:25:10.611Z] Recherche: Bois tendre (ID: 480008)
+[2026-01-08T03:25:10.852Z]   ✗ Non trouvé
+[2026-01-08T03:25:11.153Z] Recherche: Bone-smoke accord (ID: 90039)
+[2026-01-08T03:25:11.400Z]   ✗ Non trouvé
+[2026-01-08T03:25:11.701Z] Recherche: Bornéol (ID: 570049)
+[2026-01-08T03:25:12.651Z]   ✓ Trouvé via "borneol": CAS=507-70-0
+[2026-01-08T03:25:12.952Z] Recherche: Borrachero (ID: 510011)
+[2026-01-08T03:25:13.193Z]   ✗ Non trouvé
+[2026-01-08T03:25:13.494Z] Recherche: Borrachero (Brugmansia) (ID: 510001)
+[2026-01-08T03:25:14.065Z]   ✗ Non trouvé
+[2026-01-08T03:25:14.365Z] Recherche: Bronze Note (ID: 600009)
+[2026-01-08T03:25:14.586Z]   ✗ Non trouvé
+[2026-01-08T03:25:14.887Z] Recherche: Bronze Note (ID: 570008)
+[2026-01-08T03:25:15.182Z]   ✗ Non trouvé
+[2026-01-08T03:25:15.483Z] Recherche: Butyl butyrate (ID: 210018)
+[2026-01-08T03:25:16.314Z]   ✓ Trouvé via "Butyl butyrate": CAS=109-21-7
+[2026-01-08T03:25:16.614Z] Recherche: C14 lactone (γ-Tetradecalactone) (ID: 90061)
+[2026-01-08T03:25:18.243Z]   ✗ Non trouvé
+[2026-01-08T03:25:18.544Z] Recherche: C18 lactone (γ-Octadecalactone) (ID: 90062)
+[2026-01-08T03:25:19.728Z]   ✗ Non trouvé
+[2026-01-08T03:25:20.029Z] Recherche: CBC (ID: 900006)
+[2026-01-08T03:25:21.212Z]   ✓ Trouvé via "CBC": CAS=20675-51-8
+[2026-01-08T03:25:21.513Z] Recherche: CBD (ID: 900003)
+[2026-01-08T03:25:22.588Z]   ✓ Trouvé via "CBD": CAS=13956-29-1
+[2026-01-08T03:25:22.888Z] Recherche: CBDA (ID: 900004)
+[2026-01-08T03:25:23.921Z]   ✓ Trouvé via "CBDA": CAS=1244-58-2
+[2026-01-08T03:25:24.221Z] Recherche: CBG (ID: 900005)
+[2026-01-08T03:25:25.325Z]   ✓ Trouvé via "CBG": CAS=25654-31-3
+[2026-01-08T03:25:25.625Z] Recherche: CEDARWOOD OIL (ID: 540004)
+[2026-01-08T03:25:25.964Z]   ✗ Non trouvé
+[2026-01-08T03:25:26.265Z] Recherche: Cacao Colombien (ID: 510023)
+[2026-01-08T03:25:26.649Z]   ✗ Non trouvé
+[2026-01-08T03:25:26.950Z] Recherche: Cacao Colombien - Fèves Fermentées (ID: 390008)
+[2026-01-08T03:25:27.660Z]   ✗ Non trouvé
+[2026-01-08T03:25:27.961Z] Recherche: Cade (ID: 570071)
+[2026-01-08T03:25:28.356Z]   ✗ Non trouvé
+[2026-01-08T03:25:28.657Z] Recherche: Café Geisha (ID: 510021)
+[2026-01-08T03:25:29.371Z]   ✗ Non trouvé
+[2026-01-08T03:25:29.671Z] Recherche: Café Geisha - Grains Verts (ID: 390006)
+[2026-01-08T03:25:30.543Z]   ✗ Non trouvé
+[2026-01-08T03:25:30.844Z] Recherche: Calcaire Olfactif (ID: 570004)
+[2026-01-08T03:25:31.541Z]   ✗ Non trouvé
+[2026-01-08T03:25:31.842Z] Recherche: Calcite (ID: 90013)
+[2026-01-08T03:25:35.017Z]   ✓ Trouvé via "Calcite": CAS=471-34-1
+[2026-01-08T03:25:35.318Z] Recherche: Calone (ID: 570067)
+[2026-01-08T03:25:36.577Z]   ✓ Trouvé via "Calone": CAS=28940-11-6
+[2026-01-08T03:25:36.877Z] Recherche: Calone 1951 (ID: 300006)
+[2026-01-08T03:25:37.968Z]   ✓ Trouvé via "Calone 1951": CAS=28940-11-6
+[2026-01-08T03:25:38.269Z] Recherche: Calycolpus Moritzianus (ID: 510028)
+[2026-01-08T03:25:38.711Z]   ✗ Non trouvé
+[2026-01-08T03:25:39.012Z] Recherche: Calycolpus Moritzianus (Guayabita) (ID: 390003)
+[2026-01-08T03:25:39.790Z]   ✗ Non trouvé
+[2026-01-08T03:25:40.091Z] Recherche: Camphre (ID: 570047)
+[2026-01-08T03:25:41.415Z]   ✓ Trouvé via "camphor": CAS=76-22-2
+[2026-01-08T03:25:41.715Z] Recherche: Cardamome (α-Terpinyl Acetate) (ID: 330011)
+[2026-01-08T03:25:42.201Z]   ✗ Non trouvé
+[2026-01-08T03:25:42.502Z] Recherche: Carvone L (ID: 600016)
+[2026-01-08T03:25:42.996Z]   ✗ Non trouvé
+[2026-01-08T03:25:43.297Z] Recherche: Carvone L (ID: 570015)
+[2026-01-08T03:25:43.788Z]   ✗ Non trouvé
+[2026-01-08T03:25:44.088Z] Recherche: Cashmeran (ID: 90079)
+[2026-01-08T03:25:44.678Z]   ✓ Trouvé via "Cashmeran": CAS=33704-61-9
+[2026-01-08T03:25:44.979Z] Recherche: Cedarol (ID: 90047)
+[2026-01-08T03:25:45.210Z]   ✗ Non trouvé
+[2026-01-08T03:25:45.511Z] Recherche: Cedro Rosado (ID: 510017)
+[2026-01-08T03:25:45.778Z]   ✗ Non trouvé
+[2026-01-08T03:25:46.080Z] Résultats sauvegardés (100/422 traités)
+[2026-01-08T03:25:46.080Z] Pause de 5 secondes...
+[2026-01-08T03:25:51.082Z] 
+--- Traitement du lot 3/9 (50 molécules) ---
+[2026-01-08T03:25:51.083Z] Recherche: Cedro Rosado (Cedrela odorata) (ID: 510007)
+[2026-01-08T03:25:52.638Z]   ✗ Non trouvé
+[2026-01-08T03:25:52.939Z] Recherche: Charcoal africain (ID: 480025)
+[2026-01-08T03:25:53.361Z]   ✗ Non trouvé
+[2026-01-08T03:25:53.662Z] Recherche: Cinnamaldéhyde (ID: 570043)
+[2026-01-08T03:25:55.111Z]   ✓ Trouvé via "cinnamaldehyde": CAS=104-55-2
+[2026-01-08T03:25:55.412Z] Recherche: Cis-3-Hexénol (ID: 570030)
+[2026-01-08T03:25:56.922Z]   ✓ Trouvé via "Cis-3-Hexenol": CAS=928-96-1
+[2026-01-08T03:25:57.223Z] Recherche: Citron sec (ID: 480040)
+[2026-01-08T03:25:57.583Z]   ✗ Non trouvé
+[2026-01-08T03:25:57.884Z] Recherche: Citrus sec (ID: 480001)
+[2026-01-08T03:25:58.264Z]   ✗ Non trouvé
+[2026-01-08T03:25:58.565Z] Recherche: Civettone (ID: 330002)
+[2026-01-08T03:25:59.633Z]   ✓ Trouvé via "Civettone": CAS=542-46-1
+[2026-01-08T03:25:59.934Z] Recherche: Clay smoke (ID: 90005)
+[2026-01-08T03:26:00.278Z]   ✗ Non trouvé
+[2026-01-08T03:26:00.580Z] Recherche: Clearwood (Patchouli Synthétique) (ID: 330019)
+[2026-01-08T03:26:01.415Z]   ✗ Non trouvé
+[2026-01-08T03:26:01.716Z] Recherche: Coca Décocaïnisée (ID: 510013)
+[2026-01-08T03:26:02.481Z]   ✗ Non trouvé
+[2026-01-08T03:26:02.782Z] Recherche: Coca Décocaïnisée (Erythroxylum coca) (ID: 510003)
+[2026-01-08T03:26:03.918Z]   ✗ Non trouvé
+[2026-01-08T03:26:04.219Z] Recherche: Complexes terre minérale (ID: 120018)
+[2026-01-08T03:26:05.315Z]   ✗ Non trouvé
+[2026-01-08T03:26:05.615Z] Recherche: Copaiba (ID: 510025)
+[2026-01-08T03:26:06.719Z]   ✓ Trouvé via "Copaiba": CAS=87-44-5
+[2026-01-08T03:26:07.020Z] Recherche: Copal Colombien (ID: 510019)
+[2026-01-08T03:26:07.508Z]   ✗ Non trouvé
+[2026-01-08T03:26:07.809Z] Recherche: Copal Colombien (Protium spp.) (ID: 510009)
+[2026-01-08T03:26:08.627Z]   ✗ Non trouvé
+[2026-01-08T03:26:08.927Z] Recherche: Coumarin (ID: 90068)
+[2026-01-08T03:26:10.009Z]   ✓ Trouvé via "Coumarin": CAS=91-64-5
+[2026-01-08T03:26:10.310Z] Recherche: Coumarine (ID: 300005)
+[2026-01-08T03:26:11.377Z]   ✓ Trouvé via "Coumarine": CAS=91-64-5
+[2026-01-08T03:26:11.678Z] Recherche: Crème de Citronnelle (ID: 180007)
+[2026-01-08T03:26:12.505Z]   ✗ Non trouvé
+[2026-01-08T03:26:12.805Z] Recherche: Créosote light (ID: 90022)
+[2026-01-08T03:26:14.328Z]   ✗ Non trouvé
+[2026-01-08T03:26:14.628Z] Recherche: Crésol Fumé (ID: 570010)
+[2026-01-08T03:26:15.445Z]   ✗ Non trouvé
+[2026-01-08T03:26:15.746Z] Recherche: Crésol Fumé (ID: 600011)
+[2026-01-08T03:26:16.687Z]   ✗ Non trouvé
+[2026-01-08T03:26:16.988Z] Recherche: Cuir fumé (ID: 480014)
+[2026-01-08T03:26:17.861Z]   ✗ Non trouvé
+[2026-01-08T03:26:18.162Z] Recherche: Cuivre Olfactif (ID: 570007)
+[2026-01-08T03:26:18.619Z]   ✗ Non trouvé
+[2026-01-08T03:26:18.920Z] Recherche: Cèdre Atlas (Cedrene) (ID: 330005)
+[2026-01-08T03:26:20.840Z]   ✓ Trouvé via "Cedrene": CAS=11028-42-5
+[2026-01-08T03:26:21.141Z] Recherche: Cèdre beige (ID: 480010)
+[2026-01-08T03:26:21.950Z]   ✗ Non trouvé
+[2026-01-08T03:26:22.250Z] Recherche: Cèdre clair (ID: 480038)
+[2026-01-08T03:26:23.119Z]   ✗ Non trouvé
+[2026-01-08T03:26:23.419Z] Recherche: Damascone Alpha (ID: 570031)
+[2026-01-08T03:26:24.274Z]   ✗ Non trouvé
+[2026-01-08T03:26:24.575Z] Recherche: Damascone Beta (ID: 570032)
+[2026-01-08T03:26:25.398Z]   ✗ Non trouvé
+[2026-01-08T03:26:25.698Z] Recherche: Damianine (ID: 750010)
+[2026-01-08T03:26:26.104Z]   ✗ Non trouvé
+[2026-01-08T03:26:26.405Z] Recherche: Decanoic acid (ID: 90032)
+[2026-01-08T03:26:27.497Z]   ✓ Trouvé via "Decanoic acid": CAS=334-48-5
+[2026-01-08T03:26:27.798Z] Recherche: Douglas Fir Essential Oil (ID: 420001)
+[2026-01-08T03:26:28.214Z]   ✗ Non trouvé
+[2026-01-08T03:26:28.515Z] Recherche: Dust-burn accord (ID: 90040)
+[2026-01-08T03:26:28.932Z]   ✗ Non trouvé
+[2026-01-08T03:26:29.233Z] Recherche: E-2-dodecenal (ID: 810029)
+[2026-01-08T03:26:29.665Z]   ✗ Non trouvé
+[2026-01-08T03:26:29.965Z] Recherche: Elemi (ID: 90045)
+[2026-01-08T03:26:30.442Z]   ✗ Non trouvé
+[2026-01-08T03:26:30.743Z] Recherche: Encens Oliban (Incensole) (ID: 330012)
+[2026-01-08T03:26:32.473Z]   ✓ Trouvé via "Incensole": CAS=22419-74-5
+[2026-01-08T03:26:32.773Z] Recherche: Encens doré (ID: 480041)
+[2026-01-08T03:26:33.459Z]   ✗ Non trouvé
+[2026-01-08T03:26:33.760Z] Recherche: Ethyl 3-methylthiopropionate (ID: 210019)
+[2026-01-08T03:26:34.882Z]   ✓ Trouvé via "Ethyl 3-methylthiopropionate": CAS=13327-56-5
+[2026-01-08T03:26:35.183Z] Recherche: Ethyl Maltol (ID: 570033)
+[2026-01-08T03:26:36.926Z]   ✓ Trouvé via "Ethyl Maltol": CAS=4940-11-8
+[2026-01-08T03:26:37.227Z] Recherche: Ethyl cinnamate (ID: 210014)
+[2026-01-08T03:26:38.374Z]   ✓ Trouvé via "Ethyl cinnamate": CAS=103-36-6
+[2026-01-08T03:26:38.675Z] Recherche: Ethyl decanoate (ID: 210015)
+[2026-01-08T03:26:39.675Z]   ✓ Trouvé via "Ethyl decanoate": CAS=110-38-3
+[2026-01-08T03:26:39.976Z] Recherche: Ethyl furan-2-carboxylate (ID: 210020)
+[2026-01-08T03:26:41.237Z]   ✓ Trouvé via "Ethyl furan-2-carboxylate": CAS=614-99-3
+[2026-01-08T03:26:41.538Z] Recherche: Ethyl lactate (ID: 210012)
+[2026-01-08T03:26:42.557Z]   ✓ Trouvé via "Ethyl lactate": CAS=97-64-3
+[2026-01-08T03:26:42.857Z] Recherche: Ethyl phenylacetate (ID: 210016)
+[2026-01-08T03:26:43.911Z]   ✓ Trouvé via "Ethyl phenylacetate": CAS=101-97-3
+[2026-01-08T03:26:44.212Z] Recherche: Ethyl salicylate (ID: 90066)
+[2026-01-08T03:26:45.352Z]   ✓ Trouvé via "Ethyl salicylate": CAS=118-61-6
+[2026-01-08T03:26:45.652Z] Recherche: Ethyl vanilline (ID: 90070)
+[2026-01-08T03:26:47.240Z]   ✓ Trouvé via "ethyl vanillin": CAS=121-32-4
+[2026-01-08T03:26:47.540Z] Recherche: Ethylene Brassylate (ID: 330003)
+[2026-01-08T03:26:48.532Z]   ✓ Trouvé via "Ethylene Brassylate": CAS=105-95-3
+[2026-01-08T03:26:48.832Z] Recherche: FRANKINCENSE OIL (ID: 540007)
+[2026-01-08T03:26:49.215Z]   ✗ Non trouvé
+[2026-01-08T03:26:49.516Z] Recherche: Fer Olfactif (ID: 570006)
+[2026-01-08T03:26:49.905Z]   ✗ Non trouvé
+[2026-01-08T03:26:50.206Z] Recherche: Fer chaud (ID: 480021)
+[2026-01-08T03:26:50.533Z]   ✗ Non trouvé
+[2026-01-08T03:26:50.834Z] Recherche: Fer volatil (ID: 90007)
+[2026-01-08T03:26:51.167Z]   ✗ Non trouvé
+[2026-01-08T03:26:51.469Z] Résultats sauvegardés (150/422 traités)
+[2026-01-08T03:26:51.470Z] Pause de 5 secondes...
+[2026-01-08T03:26:56.472Z] 
+--- Traitement du lot 4/9 (50 molécules) ---
+[2026-01-08T03:26:56.472Z] Recherche: Feuille d'oranger sèche (ID: 480003)
+[2026-01-08T03:26:57.863Z]   ✗ Non trouvé
+[2026-01-08T03:26:58.163Z] Recherche: Feuille verte (ID: 480031)
+[2026-01-08T03:26:58.550Z]   ✗ Non trouvé
+[2026-01-08T03:26:58.851Z] Recherche: Fleur de Café (ID: 510022)
+[2026-01-08T03:26:59.638Z]   ✗ Non trouvé
+[2026-01-08T03:26:59.938Z] Recherche: Fleur de Café - Absolue (ID: 390007)
+[2026-01-08T03:27:01.522Z]   ✗ Non trouvé
+[2026-01-08T03:27:01.823Z] Recherche: Floralozone (ID: 570034)
+[2026-01-08T03:27:02.836Z]   ✓ Trouvé via "Floralozone": CAS=93963-78-1
+[2026-01-08T03:27:03.137Z] Recherche: Foin chaud (ID: 480037)
+[2026-01-08T03:27:03.568Z]   ✗ Non trouvé
+[2026-01-08T03:27:03.869Z] Recherche: Fossile absolute (ID: 90018)
+[2026-01-08T03:27:04.256Z]   ✗ Non trouvé
+[2026-01-08T03:27:04.557Z] Recherche: Frangipani (Plumeria) (ID: 360002)
+[2026-01-08T03:27:05.208Z]   ✗ Non trouvé
+[2026-01-08T03:27:05.508Z] Recherche: Fructone (ID: 570035)
+[2026-01-08T03:27:06.546Z]   ✓ Trouvé via "Fructone": CAS=6413-10-1
+[2026-01-08T03:27:06.847Z] Recherche: Fumée douce (ID: 480012)
+[2026-01-08T03:27:07.633Z]   ✗ Non trouvé
+[2026-01-08T03:27:07.934Z] Recherche: Fumée légère (ID: 480023)
+[2026-01-08T03:27:08.730Z]   ✗ Non trouvé
+[2026-01-08T03:27:09.031Z] Recherche: Furanoeudesmanes (ID: 120013)
+[2026-01-08T03:27:09.394Z]   ✗ Non trouvé
+[2026-01-08T03:27:09.694Z] Recherche: Furanosesquiterpenes (ID: 120012)
+[2026-01-08T03:27:10.100Z]   ✗ Non trouvé
+[2026-01-08T03:27:10.401Z] Recherche: Gamma-decalactone (ID: 210021)
+[2026-01-08T03:27:11.519Z]   ✓ Trouvé via "Gamma-decalactone": CAS=706-14-9
+[2026-01-08T03:27:11.820Z] Recherche: Gaïac (Guaiol) (ID: 330006)
+[2026-01-08T03:27:13.668Z]   ✓ Trouvé via "Guaiol": CAS=489-86-1
+[2026-01-08T03:27:13.969Z] Recherche: Georgywood (ID: 570036)
+[2026-01-08T03:27:14.336Z]   ✗ Non trouvé
+[2026-01-08T03:27:14.637Z] Recherche: Glycine pyrolysée (ID: 90025)
+[2026-01-08T03:27:15.395Z]   ✗ Non trouvé
+[2026-01-08T03:27:15.695Z] Recherche: Gris d'Ambre (ID: 180006)
+[2026-01-08T03:27:16.356Z]   ✗ Non trouvé
+[2026-01-08T03:27:16.656Z] Recherche: Guaiacol (ID: 90021)
+[2026-01-08T03:27:17.787Z]   ✓ Trouvé via "Guaiacol": CAS=90-05-1
+[2026-01-08T03:27:18.088Z] Recherche: Guaiacol Fumé (ID: 600010)
+[2026-01-08T03:27:18.856Z]   ✗ Non trouvé
+[2026-01-08T03:27:19.157Z] Recherche: Guaiacol Fumé (ID: 570009)
+[2026-01-08T03:27:20.558Z]   ✗ Non trouvé
+[2026-01-08T03:27:20.858Z] Recherche: Guanábana (ID: 510015)
+[2026-01-08T03:27:21.991Z]   ✗ Non trouvé
+[2026-01-08T03:27:22.292Z] Recherche: Guanábana (Annona muricata) (ID: 510005)
+[2026-01-08T03:27:23.543Z]   ✗ Non trouvé
+[2026-01-08T03:27:23.843Z] Recherche: Guaïacol (ID: 570040)
+[2026-01-08T03:27:25.695Z]   ✓ Trouvé via "Guaiacol": CAS=90-05-1
+[2026-01-08T03:27:25.996Z] Recherche: Géraniol Pur (ID: 570013)
+[2026-01-08T03:27:27.138Z]   ✗ Non trouvé
+[2026-01-08T03:27:27.439Z] Recherche: Géraniol Pur (ID: 600014)
+[2026-01-08T03:27:28.609Z]   ✗ Non trouvé
+[2026-01-08T03:27:28.910Z] Recherche: Habanolide (ID: 570037)
+[2026-01-08T03:27:29.830Z]   ✓ Trouvé via "Habanolide": CAS=111879-80-2
+[2026-01-08T03:27:30.131Z] Recherche: Haitian Vetiver (ID: 180016)
+[2026-01-08T03:27:30.518Z]   ✗ Non trouvé
+[2026-01-08T03:27:30.819Z] Recherche: Hashishene (ID: 750001)
+[2026-01-08T03:27:32.029Z]   ✓ Trouvé via "Hashishene": CAS=16626-39-4
+[2026-01-08T03:27:32.330Z] Recherche: Heliotropine (Piperonal) (ID: 90071)
+[2026-01-08T03:27:33.318Z]   ✓ Trouvé via "Heliotropine": CAS=120-57-0
+[2026-01-08T03:27:33.619Z] Recherche: Herbes sèches (ID: 480036)
+[2026-01-08T03:27:34.383Z]   ✗ Non trouvé
+[2026-01-08T03:27:34.683Z] Recherche: Hinoki oil (ID: 90052)
+[2026-01-08T03:27:35.081Z]   ✗ Non trouvé
+[2026-01-08T03:27:35.381Z] Recherche: Humus absolute (ID: 90006)
+[2026-01-08T03:27:35.766Z]   ✗ Non trouvé
+[2026-01-08T03:27:36.067Z] Recherche: Hydroxyproline pyrolysée (ID: 90026)
+[2026-01-08T03:27:36.898Z]   ✗ Non trouvé
+[2026-01-08T03:27:37.198Z] Recherche: Hélional (ID: 570068)
+[2026-01-08T03:27:38.644Z]   ✓ Trouvé via "Helional": CAS=1205-17-0
+[2026-01-08T03:27:38.944Z] Recherche: Héliotropine (ID: 570023)
+[2026-01-08T03:27:40.408Z]   ✓ Trouvé via "heliotropin": CAS=120-57-0
+[2026-01-08T03:27:40.709Z] Recherche: IBQ (Isobutyl quinoléine) (ID: 90028)
+[2026-01-08T03:27:42.133Z]   ✗ Non trouvé
+[2026-01-08T03:27:42.434Z] Recherche: Incensol (ID: 120014)
+[2026-01-08T03:27:43.458Z]   ✓ Trouvé via "Incensol": CAS=N/A
+[2026-01-08T03:27:43.758Z] Recherche: Incensol acetate (ID: 120015)
+[2026-01-08T03:27:44.134Z]   ✗ Non trouvé
+[2026-01-08T03:27:44.435Z] Recherche: Indole (ID: 60016)
+[2026-01-08T03:27:45.527Z]   ✓ Trouvé via "Indole": CAS=120-72-9
+[2026-01-08T03:27:45.828Z] Recherche: Indole (ID: 90035)
+[2026-01-08T03:27:47.152Z]   ✓ Trouvé via "Indole": CAS=120-72-9
+[2026-01-08T03:27:47.452Z] Recherche: Indole (ID: 210001)
+[2026-01-08T03:27:48.686Z]   ✓ Trouvé via "Indole": CAS=120-72-9
+[2026-01-08T03:27:48.987Z] Recherche: Indoline (ID: 60019)
+[2026-01-08T03:27:50.850Z]   ✓ Trouvé via "Indoline": CAS=496-15-1
+[2026-01-08T03:27:51.150Z] Recherche: Ionone blanche (ID: 480007)
+[2026-01-08T03:27:51.909Z]   ✗ Non trouvé
+[2026-01-08T03:27:52.210Z] Recherche: Ionone β (ID: 90019)
+[2026-01-08T03:27:53.474Z]   ✗ Non trouvé
+[2026-01-08T03:27:53.774Z] Recherche: Ionone γ (ID: 90020)
+[2026-01-08T03:27:55.039Z]   ✗ Non trouvé
+[2026-01-08T03:27:55.340Z] Recherche: IsoButyrate (ID: 90029)
+[2026-01-08T03:27:56.578Z]   ✓ Trouvé via "IsoButyrate": CAS=5711-69-3
+[2026-01-08T03:27:56.879Z] Recherche: Isoamyl acetate (ID: 210010)
+[2026-01-08T03:27:58.379Z]   ✓ Trouvé via "Isoamyl acetate": CAS=123-92-2
+[2026-01-08T03:27:58.679Z] Recherche: Isocericenine (ID: 840008)
+[2026-01-08T03:27:59.011Z]   ✗ Non trouvé
+[2026-01-08T03:27:59.312Z] Recherche: Italian Bergamot Oil (ID: 180002)
+[2026-01-08T03:27:59.691Z]   ✗ Non trouvé
+[2026-01-08T03:27:59.993Z] Résultats sauvegardés (200/422 traités)
+[2026-01-08T03:27:59.993Z] Pause de 5 secondes...
+[2026-01-08T03:28:04.995Z] 
+--- Traitement du lot 5/9 (50 molécules) ---
+[2026-01-08T03:28:04.995Z] Recherche: JASMINE ABSOLUTE (ID: 540002)
+[2026-01-08T03:28:06.108Z]   ✗ Non trouvé
+[2026-01-08T03:28:06.408Z] Recherche: Jasmine lactone (ID: 570070)
+[2026-01-08T03:28:07.553Z]   ✓ Trouvé via "Jasmine lactone": CAS=25524-95-2
+[2026-01-08T03:28:07.853Z] Recherche: Jasmonal (ID: 90058)
+[2026-01-08T03:28:08.264Z]   ✗ Non trouvé
+[2026-01-08T03:28:08.564Z] Recherche: Javanol (ID: 300007)
+[2026-01-08T03:28:08.981Z]   ✗ Non trouvé
+[2026-01-08T03:28:09.282Z] Recherche: Juniper (Genièvre) (ID: 360003)
+[2026-01-08T03:28:10.092Z]   ✗ Non trouvé
+[2026-01-08T03:28:10.392Z] Recherche: Kanshone A (ID: 780017)
+[2026-01-08T03:28:11.581Z]   ✓ Trouvé via "Kanshone A": CAS=115356-18-8
+[2026-01-08T03:28:11.880Z] Recherche: Kaolin accord (ID: 90004)
+[2026-01-08T03:28:12.308Z]   ✗ Non trouvé
+[2026-01-08T03:28:12.609Z] Recherche: Karité clair (ID: 480009)
+[2026-01-08T03:28:13.564Z]   ✗ Non trouvé
+[2026-01-08T03:28:13.865Z] Recherche: Karité fumé sombre (ID: 480018)
+[2026-01-08T03:28:14.625Z]   ✗ Non trouvé
+[2026-01-08T03:28:14.926Z] Recherche: Karité vert (ID: 480035)
+[2026-01-08T03:28:15.746Z]   ✗ Non trouvé
+[2026-01-08T03:28:16.047Z] Recherche: Khusimol (ID: 120003)
+[2026-01-08T03:28:17.156Z]   ✓ Trouvé via "Khusimol": CAS=16223-63-5
+[2026-01-08T03:28:17.456Z] Recherche: Khusimol (ID: 450003)
+[2026-01-08T03:28:18.645Z]   ✓ Trouvé via "Khusimol": CAS=16223-63-5
+[2026-01-08T03:28:18.946Z] Recherche: LABDANUM ABSOLUTE (ID: 540010)
+[2026-01-08T03:28:19.309Z]   ✗ Non trouvé
+[2026-01-08T03:28:19.610Z] Recherche: Labdanum (ID: 90044)
+[2026-01-08T03:28:20.019Z]   ✗ Non trouvé
+[2026-01-08T03:28:20.320Z] Recherche: Labdanum diterpenes (ID: 120020)
+[2026-01-08T03:28:20.819Z]   ✗ Non trouvé
+[2026-01-08T03:28:21.119Z] Recherche: Labrador Tea Essential Oil (ID: 420008)
+[2026-01-08T03:28:21.461Z]   ✗ Non trouvé
+[2026-01-08T03:28:21.762Z] Recherche: Lignine pyrolysée (ID: 90037)
+[2026-01-08T03:28:22.586Z]   ✗ Non trouvé
+[2026-01-08T03:28:22.887Z] Recherche: Lilial (ID: 570038)
+[2026-01-08T03:28:24.063Z]   ✓ Trouvé via "Lilial": CAS=80-54-6
+[2026-01-08T03:28:24.364Z] Recherche: Linalol Synthétique (ID: 600013)
+[2026-01-08T03:28:25.656Z]   ✗ Non trouvé
+[2026-01-08T03:28:25.957Z] Recherche: Linalol Synthétique (ID: 570012)
+[2026-01-08T03:28:27.189Z]   ✗ Non trouvé
+[2026-01-08T03:28:27.490Z] Recherche: Lippia Origanoides (ID: 510026)
+[2026-01-08T03:28:27.905Z]   ✗ Non trouvé
+[2026-01-08T03:28:28.206Z] Recherche: Lippia Origanoides (Origan Sauvage) (ID: 390001)
+[2026-01-08T03:28:29.783Z]   ✗ Non trouvé
+[2026-01-08T03:28:30.084Z] Recherche: Lulo (ID: 510014)
+[2026-01-08T03:28:30.473Z]   ✗ Non trouvé
+[2026-01-08T03:28:30.774Z] Recherche: Lulo (Solanum quitoense) (ID: 510004)
+[2026-01-08T03:28:31.683Z]   ✗ Non trouvé
+[2026-01-08T03:28:31.984Z] Recherche: MYRRH OIL (ID: 540008)
+[2026-01-08T03:28:32.367Z]   ✗ Non trouvé
+[2026-01-08T03:28:32.668Z] Recherche: Makrut (Combava) (ID: 360001)
+[2026-01-08T03:28:33.523Z]   ✗ Non trouvé
+[2026-01-08T03:28:33.824Z] Recherche: Makrut Lime (ID: 180014)
+[2026-01-08T03:28:34.206Z]   ✗ Non trouvé
+[2026-01-08T03:28:34.506Z] Recherche: Maritima (ID: 570001)
+[2026-01-08T03:28:34.945Z]   ✗ Non trouvé
+[2026-01-08T03:28:35.246Z] Recherche: Marrow accord (ID: 90038)
+[2026-01-08T03:28:35.628Z]   ✗ Non trouvé
+[2026-01-08T03:28:35.929Z] Recherche: Mastic (ID: 90043)
+[2026-01-08T03:28:36.248Z]   ✗ Non trouvé
+[2026-01-08T03:28:36.548Z] Recherche: Mechoulim (ID: 120016)
+[2026-01-08T03:28:36.955Z]   ✗ Non trouvé
+[2026-01-08T03:28:37.256Z] Recherche: Methyl Dihydrojasmonate (ID: 570027)
+[2026-01-08T03:28:38.293Z]   ✓ Trouvé via "Methyl Dihydrojasmonate": CAS=24851-98-7
+[2026-01-08T03:28:38.594Z] Recherche: Methyl anthranilate (ID: 210013)
+[2026-01-08T03:28:39.710Z]   ✓ Trouvé via "Methyl anthranilate": CAS=134-20-3
+[2026-01-08T03:28:40.011Z] Recherche: Methyl salicylate (ID: 210017)
+[2026-01-08T03:28:41.098Z]   ✓ Trouvé via "Methyl salicylate": CAS=119-36-8
+[2026-01-08T03:28:41.398Z] Recherche: Millet chaud (ID: 480042)
+[2026-01-08T03:28:41.767Z]   ✗ Non trouvé
+[2026-01-08T03:28:42.068Z] Recherche: Mitti Attar (ID: 180005)
+[2026-01-08T03:28:42.466Z]   ✗ Non trouvé
+[2026-01-08T03:28:42.767Z] Recherche: Miyazaki Citrus (ID: 180009)
+[2026-01-08T03:28:43.144Z]   ✗ Non trouvé
+[2026-01-08T03:28:43.445Z] Recherche: Muscone (ID: 330001)
+[2026-01-08T03:28:44.450Z]   ✓ Trouvé via "Muscone": CAS=10403-00-6
+[2026-01-08T03:28:44.750Z] Recherche: Myrrhe (Curzerene) (ID: 330013)
+[2026-01-08T03:28:46.383Z]   ✓ Trouvé via "Curzerene": CAS=17910-09-7
+[2026-01-08T03:28:46.684Z] Recherche: Myrrhe chaude (ID: 480028)
+[2026-01-08T03:28:47.069Z]   ✗ Non trouvé
+[2026-01-08T03:28:47.369Z] Recherche: Myrrhe noire (ID: 90042)
+[2026-01-08T03:28:47.756Z]   ✗ Non trouvé
+[2026-01-08T03:28:48.057Z] Recherche: Myrrhone (ID: 90010)
+[2026-01-08T03:28:49.074Z]   ✓ Trouvé via "Myrrhone": CAS=183551-83-9
+[2026-01-08T03:28:49.374Z] Recherche: Méthyl Ionone Gamma (ID: 600023)
+[2026-01-08T03:28:51.204Z]   ✓ Trouvé via "Methyl Ionone Gamma": CAS=79-68-5
+[2026-01-08T03:28:51.506Z] Recherche: Méthyl Ionone Gamma (ID: 570022)
+[2026-01-08T03:28:53.961Z]   ✓ Trouvé via "Methyl Ionone Gamma": CAS=79-68-5
+[2026-01-08T03:28:54.262Z] Recherche: NNK (4-(Methylnitrosamino)-1-(3-pyridyl)-1-butanone) (ID: 900014)
+[2026-01-08T03:28:55.751Z]   ✓ Trouvé via "NNK": CAS=64091-91-4
+[2026-01-08T03:28:56.052Z] Recherche: NNN (N'-Nitrosonornicotine) (ID: 900013)
+[2026-01-08T03:28:57.160Z]   ✓ Trouvé via "NNN": CAS=80508-23-2
+[2026-01-08T03:28:57.461Z] Recherche: Nardosinone (ID: 780010)
+[2026-01-08T03:28:58.707Z]   ✓ Trouvé via "Nardosinone": CAS=23720-80-1
+[2026-01-08T03:28:59.008Z] Recherche: Nardosinonediol (ID: 780018)
+[2026-01-08T03:29:00.150Z]   ✓ Trouvé via "Nardosinonediol": CAS=20489-11-6
+[2026-01-08T03:29:00.450Z] Recherche: Neem (ID: 480034)
+[2026-01-08T03:29:00.955Z]   ✗ Non trouvé
+[2026-01-08T03:29:01.256Z] Recherche: Neroli Bouquetier Reserve (ID: 180013)
+[2026-01-08T03:29:01.642Z]   ✗ Non trouvé
+[2026-01-08T03:29:01.945Z] Résultats sauvegardés (250/422 traités)
+[2026-01-08T03:29:01.945Z] Pause de 5 secondes...
+[2026-01-08T03:29:06.947Z] 
+--- Traitement du lot 6/9 (50 molécules) ---
+[2026-01-08T03:29:06.948Z] Recherche: Nogal Colombien (ID: 510018)
+[2026-01-08T03:29:07.854Z]   ✗ Non trouvé
+[2026-01-08T03:29:08.155Z] Recherche: Nogal Colombien (Juglans neotropica) (ID: 510008)
+[2026-01-08T03:29:08.805Z]   ✗ Non trouvé
+[2026-01-08T03:29:09.106Z] Recherche: Norlimbanol (ID: 330018)
+[2026-01-08T03:29:10.140Z]   ✓ Trouvé via "Norlimbanol": CAS=70788-30-6
+[2026-01-08T03:29:10.441Z] Recherche: OPOPONAX RESIN (ID: 540011)
+[2026-01-08T03:29:10.834Z]   ✗ Non trouvé
+[2026-01-08T03:29:11.135Z] Recherche: Oliban brûlé (ID: 480015)
+[2026-01-08T03:29:11.972Z]   ✗ Non trouvé
+[2026-01-08T03:29:12.273Z] Recherche: Oliban clair (ID: 480005)
+[2026-01-08T03:29:12.657Z]   ✗ Non trouvé
+[2026-01-08T03:29:12.957Z] Recherche: Olibanol (ID: 840014)
+[2026-01-08T03:29:13.296Z]   ✗ Non trouvé
+[2026-01-08T03:29:13.597Z] Recherche: Olibanum (ID: 90041)
+[2026-01-08T03:29:13.973Z]   ✗ Non trouvé
+[2026-01-08T03:29:14.274Z] Recherche: Omani Black Frankincense (ID: 180012)
+[2026-01-08T03:29:14.680Z]   ✗ Non trouvé
+[2026-01-08T03:29:14.981Z] Recherche: Opoponax (ID: 90046)
+[2026-01-08T03:29:15.428Z]   ✗ Non trouvé
+[2026-01-08T03:29:15.729Z] Recherche: Oud (Agarwood) (ID: 300001)
+[2026-01-08T03:29:16.592Z]   ✗ Non trouvé
+[2026-01-08T03:29:16.893Z] Recherche: Oud Tea (ID: 180008)
+[2026-01-08T03:29:17.316Z]   ✗ Non trouvé
+[2026-01-08T03:29:17.617Z] Recherche: Oud accord (ID: 90075)
+[2026-01-08T03:29:18.013Z]   ✗ Non trouvé
+[2026-01-08T03:29:18.314Z] Recherche: Oxydes de fer volatils (ID: 120017)
+[2026-01-08T03:29:19.017Z]   ✗ Non trouvé
+[2026-01-08T03:29:19.318Z] Recherche: Ozonal (ID: 570069)
+[2026-01-08T03:29:19.698Z]   ✗ Non trouvé
+[2026-01-08T03:29:19.999Z] Recherche: Ozone (ID: 90017)
+[2026-01-08T03:29:21.141Z]   ✓ Trouvé via "Ozone": CAS=10028-15-6
+[2026-01-08T03:29:21.442Z] Recherche: Ozone clair (ID: 480033)
+[2026-01-08T03:29:21.820Z]   ✗ Non trouvé
+[2026-01-08T03:29:22.121Z] Recherche: Ozone minéral clair (ID: 480004)
+[2026-01-08T03:29:23.255Z]   ✗ Non trouvé
+[2026-01-08T03:29:23.555Z] Recherche: PATCHOULI ALCOHOL (ID: 540005)
+[2026-01-08T03:29:24.753Z]   ✓ Trouvé via "PATCHOULI ALCOHOL": CAS=5986-55-0
+[2026-01-08T03:29:25.054Z] Recherche: Palo Santo (ID: 180001)
+[2026-01-08T03:29:25.453Z]   ✗ Non trouvé
+[2026-01-08T03:29:25.754Z] Recherche: Palo Santo Colombien (ID: 390009)
+[2026-01-08T03:29:26.141Z]   ✗ Non trouvé
+[2026-01-08T03:29:26.442Z] Recherche: Palo Santo lactone (ID: 90053)
+[2026-01-08T03:29:27.208Z]   ✗ Non trouvé
+[2026-01-08T03:29:27.508Z] Recherche: Paradisone (ID: 330020)
+[2026-01-08T03:29:27.899Z]   ✗ Non trouvé
+[2026-01-08T03:29:28.199Z] Recherche: Patchoulol (ID: 90054)
+[2026-01-08T03:29:29.211Z]   ✓ Trouvé via "Patchoulol": CAS=5986-55-0
+[2026-01-08T03:29:29.512Z] Recherche: Phénol Pyrogéné Doux (ID: 570011)
+[2026-01-08T03:29:30.288Z]   ✗ Non trouvé
+[2026-01-08T03:29:30.589Z] Recherche: Phénol Pyrogéné Doux (ID: 600012)
+[2026-01-08T03:29:31.916Z]   ✗ Non trouvé
+[2026-01-08T03:29:32.217Z] Recherche: Phénol boisé (ID: 120007)
+[2026-01-08T03:29:32.959Z]   ✗ Non trouvé
+[2026-01-08T03:29:33.260Z] Recherche: Phénols oxydés (ID: 90023)
+[2026-01-08T03:29:34.049Z]   ✗ Non trouvé
+[2026-01-08T03:29:34.350Z] Recherche: Pinocamphone (ID: 570017)
+[2026-01-08T03:29:35.437Z]   ✓ Trouvé via "Pinocamphone": CAS=547-60-4
+[2026-01-08T03:29:35.737Z] Recherche: Pinocamphone (ID: 600018)
+[2026-01-08T03:29:36.885Z]   ✓ Trouvé via "Pinocamphone": CAS=547-60-4
+[2026-01-08T03:29:37.186Z] Recherche: Piper Aduncum (ID: 510027)
+[2026-01-08T03:29:37.646Z]   ✗ Non trouvé
+[2026-01-08T03:29:37.947Z] Recherche: Piper Aduncum (Poivre Sauvage) (ID: 390004)
+[2026-01-08T03:29:38.685Z]   ✗ Non trouvé
+[2026-01-08T03:29:38.985Z] Recherche: Pipérine (ID: 570074)
+[2026-01-08T03:29:40.419Z]   ✓ Trouvé via "Piperine": CAS=94-62-2
+[2026-01-08T03:29:40.719Z] Recherche: Plumeria Light (ID: 180011)
+[2026-01-08T03:29:41.163Z]   ✗ Non trouvé
+[2026-01-08T03:29:41.464Z] Recherche: Ponderosa Pine (ID: 420005)
+[2026-01-08T03:29:41.854Z]   ✗ Non trouvé
+[2026-01-08T03:29:42.155Z] Recherche: Poussière blanche du Sahel (ID: 480011)
+[2026-01-08T03:29:43.012Z]   ✗ Non trouvé
+[2026-01-08T03:29:43.313Z] Recherche: Pyrazines (ID: 90024)
+[2026-01-08T03:29:44.471Z]   ✓ Trouvé via "Pyrazines": CAS=290-37-9
+[2026-01-08T03:29:44.772Z] Recherche: Quinoléine (ID: 120019)
+[2026-01-08T03:29:46.276Z]   ✓ Trouvé via "Quinoleine": CAS=86-80-6
+[2026-01-08T03:29:46.577Z] Recherche: Rocky Mountain Juniper (ID: 420006)
+[2026-01-08T03:29:47.009Z]   ✗ Non trouvé
+[2026-01-08T03:29:47.310Z] Recherche: Résine douce (ID: 480039)
+[2026-01-08T03:29:48.179Z]   ✗ Non trouvé
+[2026-01-08T03:29:48.480Z] Recherche: SANDALWOOD OIL (ID: 540006)
+[2026-01-08T03:29:48.885Z]   ✗ Non trouvé
+[2026-01-08T03:29:49.186Z] Recherche: STYRAX RESIN (ID: 540012)
+[2026-01-08T03:29:49.575Z]   ✗ Non trouvé
+[2026-01-08T03:29:49.875Z] Recherche: Sabinène (ID: 570073)
+[2026-01-08T03:29:51.314Z]   ✓ Trouvé via "Sabinene": CAS=3387-41-5
+[2026-01-08T03:29:51.615Z] Recherche: Safranal (ID: 330010)
+[2026-01-08T03:29:53.362Z]   ✓ Trouvé via "Safranal": CAS=116-26-7
+[2026-01-08T03:29:53.662Z] Recherche: Sandalore pyrolysé (ID: 90036)
+[2026-01-08T03:29:54.427Z]   ✗ Non trouvé
+[2026-01-08T03:29:54.728Z] Recherche: Sandstone accord (ID: 90012)
+[2026-01-08T03:29:55.055Z]   ✗ Non trouvé
+[2026-01-08T03:29:55.356Z] Recherche: Santal Mysore (α-Santalol) (ID: 330004)
+[2026-01-08T03:29:56.463Z]   ✗ Non trouvé
+[2026-01-08T03:29:56.764Z] Recherche: Santalol (α+β) (ID: 90076)
+[2026-01-08T03:29:57.843Z]   ✓ Trouvé via "Santalol": CAS=73890-74-1
+[2026-01-08T03:29:58.143Z] Recherche: Schiste Olfactif (ID: 570005)
+[2026-01-08T03:29:58.703Z]   ✗ Non trouvé
+[2026-01-08T03:29:59.004Z] Recherche: Sclerene (ID: 90003)
+[2026-01-08T03:29:59.390Z]   ✗ Non trouvé
+[2026-01-08T03:29:59.692Z] Résultats sauvegardés (300/422 traités)
+[2026-01-08T03:29:59.692Z] Pause de 5 secondes...
+[2026-01-08T03:30:04.694Z] 
+--- Traitement du lot 7/9 (50 molécules) ---
+[2026-01-08T03:30:04.694Z] Recherche: Silicate Note (ID: 570003)
+[2026-01-08T03:30:05.689Z]   ✗ Non trouvé
+[2026-01-08T03:30:05.990Z] Recherche: Silicate aldehyde (ID: 90014)
+[2026-01-08T03:30:06.376Z]   ✗ Non trouvé
+[2026-01-08T03:30:06.677Z] Recherche: Skatole (ID: 210002)
+[2026-01-08T03:30:07.807Z]   ✓ Trouvé via "Skatole": CAS=83-34-1
+[2026-01-08T03:30:08.107Z] Recherche: Spikenard (ID: 180015)
+[2026-01-08T03:30:08.523Z]   ✗ Non trouvé
+[2026-01-08T03:30:08.823Z] Recherche: Steiractinia Aspera (Endémique Rare) (ID: 390005)
+[2026-01-08T03:30:09.555Z]   ✗ Non trouvé
+[2026-01-08T03:30:09.856Z] Recherche: Styrax (ID: 90074)
+[2026-01-08T03:30:10.237Z]   ✗ Non trouvé
+[2026-01-08T03:30:10.538Z] Recherche: Sulfur base (ID: 90009)
+[2026-01-08T03:30:10.937Z]   ✗ Non trouvé
+[2026-01-08T03:30:11.238Z] Recherche: THCA (ID: 900002)
+[2026-01-08T03:30:11.629Z]   ✗ Non trouvé
+[2026-01-08T03:30:11.930Z] Recherche: TONKA BEAN ABSOLUTE (ID: 540013)
+[2026-01-08T03:30:12.309Z]   ✗ Non trouvé
+[2026-01-08T03:30:12.610Z] Recherche: Tangerine Dream (ID: 180010)
+[2026-01-08T03:30:12.983Z]   ✗ Non trouvé
+[2026-01-08T03:30:13.284Z] Recherche: Tangerinol (ID: 90055)
+[2026-01-08T03:30:15.058Z]   ✓ Trouvé via "Tangerinol": CAS=91482-37-0
+[2026-01-08T03:30:15.359Z] Recherche: Terpinolene (ID: 900010)
+[2026-01-08T03:30:17.352Z]   ✓ Trouvé via "Terpinolene": CAS=586-62-9
+[2026-01-08T03:30:17.653Z] Recherche: Terre claire (ID: 480043)
+[2026-01-08T03:30:18.052Z]   ✗ Non trouvé
+[2026-01-08T03:30:18.352Z] Recherche: Terre ferrique (ID: 480027)
+[2026-01-08T03:30:18.679Z]   ✗ Non trouvé
+[2026-01-08T03:30:18.980Z] Recherche: Terre noire (ID: 480016)
+[2026-01-08T03:30:19.367Z]   ✗ Non trouvé
+[2026-01-08T03:30:19.668Z] Recherche: Test Molecule 1 (ID: 810063)
+[2026-01-08T03:30:20.046Z]   ✗ Non trouvé
+[2026-01-08T03:30:20.347Z] Recherche: Test Molecule 2 (ID: 810064)
+[2026-01-08T03:30:20.760Z]   ✗ Non trouvé
+[2026-01-08T03:30:21.060Z] Recherche: Thujopsène (ID: 570065)
+[2026-01-08T03:30:22.483Z]   ✓ Trouvé via "Thujopsene": CAS=470-40-6
+[2026-01-08T03:30:22.784Z] Recherche: Tonka absolute (ID: 90072)
+[2026-01-08T03:30:23.159Z]   ✗ Non trouvé
+[2026-01-08T03:30:23.460Z] Recherche: Triplal (ID: 570002)
+[2026-01-08T03:30:24.579Z]   ✓ Trouvé via "Triplal": CAS=68039-49-6
+[2026-01-08T03:30:24.879Z] Recherche: Tubéreuse Absolue (Methyl Benzoate) (ID: 330009)
+[2026-01-08T03:30:27.070Z]   ✓ Trouvé via "Methyl Benzoate": CAS=93-58-3
+[2026-01-08T03:30:27.370Z] Recherche: Turnera Diffusa (ID: 510029)
+[2026-01-08T03:30:27.754Z]   ✗ Non trouvé
+[2026-01-08T03:30:28.055Z] Recherche: Turnera Diffusa (Damiana) (ID: 390002)
+[2026-01-08T03:30:28.857Z]   ✗ Non trouvé
+[2026-01-08T03:30:29.157Z] Recherche: Uchuva (ID: 510016)
+[2026-01-08T03:30:29.681Z]   ✗ Non trouvé
+[2026-01-08T03:30:29.982Z] Recherche: Uchuva (Physalis peruviana) (ID: 510006)
+[2026-01-08T03:30:30.548Z]   ✗ Non trouvé
+[2026-01-08T03:30:30.849Z] Recherche: VETIVEROL (ID: 540003)
+[2026-01-08T03:30:31.501Z]   ✓ Trouvé via "VETIVEROL": CAS=68129-81-7
+[2026-01-08T03:30:31.801Z] Recherche: Vanilla Pompona (ID: 510024)
+[2026-01-08T03:30:32.093Z]   ✗ Non trouvé
+[2026-01-08T03:30:32.394Z] Recherche: Vanilline (ID: 90069)
+[2026-01-08T03:30:33.007Z]   ✓ Trouvé via "Vanilline": CAS=121-33-5
+[2026-01-08T03:30:33.307Z] Recherche: Vetiver Assam (ID: 480019)
+[2026-01-08T03:30:33.556Z]   ✗ Non trouvé
+[2026-01-08T03:30:33.857Z] Recherche: Vetiver fumé (ID: 480030)
+[2026-01-08T03:30:34.317Z]   ✗ Non trouvé
+[2026-01-08T03:30:34.618Z] Recherche: Vetiverol (ID: 90050)
+[2026-01-08T03:30:35.269Z]   ✓ Trouvé via "Vetiverol": CAS=68129-81-7
+[2026-01-08T03:30:35.569Z] Recherche: Vetiveryl acetate (ID: 90051)
+[2026-01-08T03:30:36.311Z]   ✓ Trouvé via "Vetiveryl acetate": CAS=117-98-6
+[2026-01-08T03:30:36.611Z] Recherche: Vétivone (ID: 120002)
+[2026-01-08T03:30:37.094Z]   ✗ Non trouvé
+[2026-01-08T03:30:37.395Z] Recherche: Vétivénol (ID: 120001)
+[2026-01-08T03:30:38.394Z]   ✓ Trouvé via "Vetivenol": CAS=N/A
+[2026-01-08T03:30:38.695Z] Recherche: Vétivérol (ID: 570062)
+[2026-01-08T03:30:39.657Z]   ✓ Trouvé via "vetiverol": CAS=68129-81-7
+[2026-01-08T03:30:39.958Z] Recherche: Western Red Cedar (ID: 420002)
+[2026-01-08T03:30:40.179Z]   ✗ Non trouvé
+[2026-01-08T03:30:40.480Z] Recherche: Wild Juniper (ID: 180004)
+[2026-01-08T03:30:40.737Z]   ✗ Non trouvé
+[2026-01-08T03:30:41.038Z] Recherche: Yagé (ID: 510012)
+[2026-01-08T03:30:41.579Z]   ✗ Non trouvé
+[2026-01-08T03:30:41.880Z] Recherche: Yagé (Banisteriopsis caapi) (ID: 510002)
+[2026-01-08T03:30:42.644Z]   ✗ Non trouvé
+[2026-01-08T03:30:42.944Z] Recherche: Yuzu (Limonene + Linalool) (ID: 330015)
+[2026-01-08T03:30:43.698Z]   ✗ Non trouvé
+[2026-01-08T03:30:43.999Z] Recherche: acide cinnamique (ID: 810050)
+[2026-01-08T03:30:44.459Z]   ✗ Non trouvé
+[2026-01-08T03:30:44.760Z] Recherche: aldehydes (ID: 810051)
+[2026-01-08T03:30:47.083Z]   ✓ Trouvé via "aldehydes": CAS=115609-68-2
+[2026-01-08T03:30:47.383Z] Recherche: aldéhydes c10–c12 (ID: 810052)
+[2026-01-08T03:30:48.665Z]   ✗ Non trouvé
+[2026-01-08T03:30:48.965Z] Recherche: alpha-humulene (ID: 810014)
+[2026-01-08T03:30:50.381Z]   ✓ Trouvé via "alpha-humulene": CAS=6753-98-6
+[2026-01-08T03:30:50.682Z] Recherche: alpha-phellandrene (ID: 810047)
+[2026-01-08T03:30:51.785Z]   ✓ Trouvé via "alpha-phellandrene": CAS=99-83-2
+[2026-01-08T03:30:52.086Z] Recherche: alpha-pinene (ID: 810001)
+[2026-01-08T03:30:53.253Z]   ✓ Trouvé via "alpha-pinene": CAS=80-56-8
+[2026-01-08T03:30:53.554Z] Recherche: alpha-pinene (ID: 810067)
+[2026-01-08T03:30:54.691Z]   ✓ Trouvé via "alpha-pinene": CAS=80-56-8
+[2026-01-08T03:30:54.992Z] Recherche: alpha-pinene (ID: 810065)
+[2026-01-08T03:30:56.120Z]   ✓ Trouvé via "alpha-pinene": CAS=80-56-8
+[2026-01-08T03:30:56.420Z] Recherche: alpha-pinene (ID: 810069)
+[2026-01-08T03:30:57.664Z]   ✓ Trouvé via "alpha-pinene": CAS=80-56-8
+[2026-01-08T03:30:57.965Z] Recherche: alpha-pinene (ID: 810071)
+[2026-01-08T03:30:59.037Z]   ✓ Trouvé via "alpha-pinene": CAS=80-56-8
+[2026-01-08T03:30:59.338Z] Résultats sauvegardés (350/422 traités)
+[2026-01-08T03:30:59.339Z] Pause de 5 secondes...
+[2026-01-08T03:31:04.342Z] 
+--- Traitement du lot 8/9 (50 molécules) ---
+[2026-01-08T03:31:04.342Z] Recherche: alpha-terpineol (ID: 810006)
+[2026-01-08T03:31:06.371Z]   ✓ Trouvé via "alpha-terpineol": CAS=98-55-5
+[2026-01-08T03:31:06.671Z] Recherche: alpha-terpinyl acetate (ID: 810046)
+[2026-01-08T03:31:07.825Z]   ✓ Trouvé via "alpha-terpinyl acetate": CAS=80-26-2
+[2026-01-08T03:31:08.126Z] Recherche: ar-turmerone (ID: 810044)
+[2026-01-08T03:31:09.180Z]   ✓ Trouvé via "ar-turmerone": CAS=532-65-0
+[2026-01-08T03:31:09.481Z] Recherche: benzyl benzoate (ID: 810026)
+[2026-01-08T03:31:10.580Z]   ✓ Trouvé via "benzyl benzoate": CAS=120-51-4
+[2026-01-08T03:31:10.880Z] Recherche: benzyl cinnamate (ID: 810027)
+[2026-01-08T03:31:12.192Z]   ✓ Trouvé via "benzyl cinnamate": CAS=103-41-3
+[2026-01-08T03:31:12.493Z] Recherche: beta-caryophyllene (ID: 810068)
+[2026-01-08T03:31:13.565Z]   ✓ Trouvé via "beta-caryophyllene": CAS=87-44-5
+[2026-01-08T03:31:13.865Z] Recherche: beta-caryophyllene (ID: 810066)
+[2026-01-08T03:31:14.934Z]   ✓ Trouvé via "beta-caryophyllene": CAS=87-44-5
+[2026-01-08T03:31:15.234Z] Recherche: beta-caryophyllene (ID: 810013)
+[2026-01-08T03:31:16.820Z]   ✓ Trouvé via "beta-caryophyllene": CAS=87-44-5
+[2026-01-08T03:31:17.121Z] Recherche: beta-damascenone (ID: 810037)
+[2026-01-08T03:31:18.638Z]   ✓ Trouvé via "beta-damascenone": CAS=23726-93-4
+[2026-01-08T03:31:18.939Z] Recherche: beta-pinene (ID: 810002)
+[2026-01-08T03:31:20.272Z]   ✓ Trouvé via "beta-pinene": CAS=127-91-3
+[2026-01-08T03:31:20.573Z] Recherche: beta-sesquiphellandrene (ID: 810021)
+[2026-01-08T03:31:21.713Z]   ✓ Trouvé via "beta-sesquiphellandrene": CAS=20307-83-9
+[2026-01-08T03:31:22.013Z] Recherche: carvacrol (ID: 810023)
+[2026-01-08T03:31:23.125Z]   ✓ Trouvé via "carvacrol": CAS=499-75-2
+[2026-01-08T03:31:23.425Z] Recherche: carvone (ID: 810034)
+[2026-01-08T03:31:24.582Z]   ✓ Trouvé via "carvone": CAS=99-49-0
+[2026-01-08T03:31:24.882Z] Recherche: chavicol (ID: 810053)
+[2026-01-08T03:31:26.715Z]   ✓ Trouvé via "chavicol": CAS=501-92-8
+[2026-01-08T03:31:27.016Z] Recherche: cinnamaldehyde (ID: 810025)
+[2026-01-08T03:31:28.164Z]   ✓ Trouvé via "cinnamaldehyde": CAS=104-55-2
+[2026-01-08T03:31:28.465Z] Recherche: cis-3-hexenol (ID: 810030)
+[2026-01-08T03:31:29.449Z]   ✓ Trouvé via "cis-3-hexenol": CAS=928-96-1
+[2026-01-08T03:31:29.750Z] Recherche: curlone (ID: 810045)
+[2026-01-08T03:31:31.110Z]   ✓ Trouvé via "curlone": CAS=82508-14-3
+[2026-01-08T03:31:31.411Z] Recherche: dihydrotagetone (ID: 810036)
+[2026-01-08T03:31:32.680Z]   ✓ Trouvé via "dihydrotagetone": CAS=1879-00-1
+[2026-01-08T03:31:32.981Z] Recherche: dillapiole (ID: 810055)
+[2026-01-08T03:31:34.314Z]   ✓ Trouvé via "dillapiole": CAS=484-31-1
+[2026-01-08T03:31:34.615Z] Recherche: elemol (ID: 810015)
+[2026-01-08T03:31:35.658Z]   ✓ Trouvé via "elemol": CAS=639-99-6
+[2026-01-08T03:31:35.959Z] Recherche: eugenol (ID: 810022)
+[2026-01-08T03:31:37.097Z]   ✓ Trouvé via "eugenol": CAS=97-53-0
+[2026-01-08T03:31:37.398Z] Recherche: farnesol (ID: 810042)
+[2026-01-08T03:31:38.632Z]   ✓ Trouvé via "farnesol": CAS=4602-84-0
+[2026-01-08T03:31:38.933Z] Recherche: gamma-terpinene (ID: 810008)
+[2026-01-08T03:31:40.035Z]   ✓ Trouvé via "gamma-terpinene": CAS=99-85-4
+[2026-01-08T03:31:40.337Z] Recherche: geranial (ID: 810032)
+[2026-01-08T03:31:41.367Z]   ✓ Trouvé via "geranial": CAS=5392-40-5
+[2026-01-08T03:31:41.667Z] Recherche: geraniol (ID: 810043)
+[2026-01-08T03:31:42.705Z]   ✓ Trouvé via "geraniol": CAS=106-24-1
+[2026-01-08T03:31:43.006Z] Recherche: guaiol (ID: 810017)
+[2026-01-08T03:31:44.112Z]   ✓ Trouvé via "guaiol": CAS=489-86-1
+[2026-01-08T03:31:44.412Z] Recherche: hexenal (ID: 810031)
+[2026-01-08T03:31:45.604Z]   ✓ Trouvé via "hexenal": CAS=1335-39-3
+[2026-01-08T03:31:45.904Z] Recherche: khusimol (ID: 810018)
+[2026-01-08T03:31:47.849Z]   ✓ Trouvé via "khusimol": CAS=16223-63-5
+[2026-01-08T03:31:48.150Z] Recherche: limonene (ID: 810003)
+[2026-01-08T03:31:49.295Z]   ✓ Trouvé via "limonene": CAS=138-86-3
+[2026-01-08T03:31:49.595Z] Recherche: limonene (ID: 810070)
+[2026-01-08T03:31:50.711Z]   ✓ Trouvé via "limonene": CAS=138-86-3
+[2026-01-08T03:31:51.011Z] Recherche: limonene (ID: 810072)
+[2026-01-08T03:31:52.097Z]   ✓ Trouvé via "limonene": CAS=138-86-3
+[2026-01-08T03:31:52.398Z] Recherche: linalool (ID: 810005)
+[2026-01-08T03:31:53.516Z]   ✓ Trouvé via "linalool": CAS=78-70-6
+[2026-01-08T03:31:53.817Z] Recherche: megastigmatrienone (ID: 810038)
+[2026-01-08T03:31:55.138Z]   ✓ Trouvé via "megastigmatrienone": CAS=5896-02-6
+[2026-01-08T03:31:55.438Z] Recherche: monoterpenes (resin mix) (ID: 810049)
+[2026-01-08T03:31:56.197Z]   ✗ Non trouvé
+[2026-01-08T03:31:56.497Z] Recherche: myrcene (ID: 810004)
+[2026-01-08T03:31:57.819Z]   ✓ Trouvé via "myrcene": CAS=123-35-3
+[2026-01-08T03:31:58.120Z] Recherche: neophytadiene (ID: 810040)
+[2026-01-08T03:31:59.308Z]   ✓ Trouvé via "neophytadiene": CAS=504-96-1
+[2026-01-08T03:31:59.608Z] Recherche: neral (ID: 810033)
+[2026-01-08T03:32:00.699Z]   ✓ Trouvé via "neral": CAS=106-26-3
+[2026-01-08T03:32:01.000Z] Recherche: ocimene (ID: 810011)
+[2026-01-08T03:32:02.321Z]   ✓ Trouvé via "ocimene": CAS=29714-87-2
+[2026-01-08T03:32:02.622Z] Recherche: p-Cymène (ID: 570072)
+[2026-01-08T03:32:04.014Z]   ✓ Trouvé via "p-Cymene": CAS=99-87-6
+[2026-01-08T03:32:04.315Z] Recherche: p-cymene (ID: 810009)
+[2026-01-08T03:32:05.606Z]   ✓ Trouvé via "p-cymene": CAS=99-87-6
+[2026-01-08T03:32:05.906Z] Recherche: p-menthadienol (ID: 810056)
+[2026-01-08T03:32:06.963Z]   ✓ Trouvé via "p-menthadienol": CAS=N/A
+[2026-01-08T03:32:07.264Z] Recherche: profil résineux supposé (ID: 810057)
+[2026-01-08T03:32:08.913Z]   ✗ Non trouvé
+[2026-01-08T03:32:09.214Z] Recherche: résines (ID: 810058)
+[2026-01-08T03:32:10.172Z]   ✗ Non trouvé
+[2026-01-08T03:32:10.473Z] Recherche: résines aromatiques (ID: 810059)
+[2026-01-08T03:32:11.283Z]   ✗ Non trouvé
+[2026-01-08T03:32:11.584Z] Recherche: sabinene (ID: 810010)
+[2026-01-08T03:32:12.690Z]   ✓ Trouvé via "sabinene": CAS=3387-41-5
+[2026-01-08T03:32:12.991Z] Recherche: sesquiterpenes (resin mix) (ID: 810048)
+[2026-01-08T03:32:14.065Z]   ✓ Trouvé via "sesquiterpenes": CAS=N/A
+[2026-01-08T03:32:14.365Z] Recherche: solanone (ID: 810039)
+[2026-01-08T03:32:15.499Z]   ✓ Trouvé via "solanone": CAS=1937-54-8
+[2026-01-08T03:32:15.799Z] Recherche: tagetone (ID: 810035)
+[2026-01-08T03:32:18.519Z]   ✓ Trouvé via "tagetone": CAS=23985-25-3
+[2026-01-08T03:32:18.819Z] Recherche: terpenes (ID: 810060)
+[2026-01-08T03:32:19.268Z]   ✗ Non trouvé
+[2026-01-08T03:32:19.569Z] Recherche: terpinolene (ID: 810012)
+[2026-01-08T03:32:20.641Z]   ✓ Trouvé via "terpinolene": CAS=586-62-9
+[2026-01-08T03:32:20.943Z] Résultats sauvegardés (400/422 traités)
+[2026-01-08T03:32:20.943Z] Pause de 5 secondes...
+[2026-01-08T03:32:25.943Z] 
+--- Traitement du lot 9/9 (22 molécules) ---
+[2026-01-08T03:32:25.944Z] Recherche: thymol (ID: 810024)
+[2026-01-08T03:32:27.700Z]   ✓ Trouvé via "thymol": CAS=89-83-8
+[2026-01-08T03:32:28.000Z] Recherche: traces aromatiques (ID: 810061)
+[2026-01-08T03:32:29.379Z]   ✗ Non trouvé
+[2026-01-08T03:32:29.680Z] Recherche: traces terpéniques (ID: 810062)
+[2026-01-08T03:32:30.500Z]   ✗ Non trouvé
+[2026-01-08T03:32:30.800Z] Recherche: valerianol (ID: 810016)
+[2026-01-08T03:32:32.724Z]   ✓ Trouvé via "valerianol": CAS=20489-45-6
+[2026-01-08T03:32:33.024Z] Recherche: vetiverol (ID: 810019)
+[2026-01-08T03:32:34.279Z]   ✓ Trouvé via "vetiverol": CAS=68129-81-7
+[2026-01-08T03:32:34.580Z] Recherche: zingiberene (ID: 810020)
+[2026-01-08T03:32:35.695Z]   ✓ Trouvé via "zingiberene": CAS=495-60-3
+[2026-01-08T03:32:35.996Z] Recherche: Éthyl Hexanoate (ID: 60014)
+[2026-01-08T03:32:37.495Z]   ✓ Trouvé via "Ethyl Hexanoate": CAS=123-66-0
+[2026-01-08T03:32:37.796Z] Recherche: Éthyl butyrate (ID: 210009)
+[2026-01-08T03:32:39.503Z]   ✓ Trouvé via "Ethyl butyrate": CAS=105-54-4
+[2026-01-08T03:32:39.804Z] Recherche: Δ9-THC (ID: 900001)
+[2026-01-08T03:32:40.148Z]   ✗ Non trouvé
+[2026-01-08T03:32:40.449Z] Recherche: α-Androsténol (ID: 570075)
+[2026-01-08T03:32:42.514Z]   ✗ Non trouvé
+[2026-01-08T03:32:42.815Z] Recherche: α-Cédrène (ID: 570063)
+[2026-01-08T03:32:43.931Z]   ✗ Non trouvé
+[2026-01-08T03:32:44.232Z] Recherche: α-Humulène (ID: 570066)
+[2026-01-08T03:32:45.923Z]   ✗ Non trouvé
+[2026-01-08T03:32:46.223Z] Recherche: α-Pinene (ID: 900008)
+[2026-01-08T03:32:48.128Z]   ✓ Trouvé via "alpha-Pinene": CAS=80-56-8
+[2026-01-08T03:32:48.429Z] Recherche: α-Terpinéol (ID: 570052)
+[2026-01-08T03:32:50.138Z]   ✗ Non trouvé
+[2026-01-08T03:32:50.439Z] Recherche: β-Caryophyllene (ID: 900009)
+[2026-01-08T03:32:51.237Z]   ✓ Trouvé via "beta-Caryophyllene": CAS=87-44-5
+[2026-01-08T03:32:51.538Z] Recherche: β-Cédrène (ID: 570064)
+[2026-01-08T03:32:52.266Z]   ✗ Non trouvé
+[2026-01-08T03:32:52.567Z] Recherche: β-Damascénone (ID: 570044)
+[2026-01-08T03:32:53.534Z]   ✗ Non trouvé
+[2026-01-08T03:32:53.835Z] Recherche: β-Myrcene (ID: 900007)
+[2026-01-08T03:32:54.643Z]   ✓ Trouvé via "beta-Myrcene": CAS=123-35-3
+[2026-01-08T03:32:54.943Z] Recherche: β-guaïène (ID: 120004)
+[2026-01-08T03:32:55.684Z]   ✗ Non trouvé
+[2026-01-08T03:32:55.985Z] Recherche: γ-dodecalactone (ID: 90063)
+[2026-01-08T03:32:56.846Z]   ✓ Trouvé via "gamma-dodecalactone": CAS=2305-05-7
+[2026-01-08T03:32:57.147Z] Recherche: δ-Décalactone (ID: 210008)
+[2026-01-08T03:32:58.160Z]   ✗ Non trouvé
+[2026-01-08T03:32:58.461Z] Recherche: δ-dodecalactone (ID: 90064)
+[2026-01-08T03:32:59.443Z]   ✓ Trouvé via "delta-dodecalactone": CAS=713-95-1
+[2026-01-08T03:32:59.747Z] Résultats sauvegardés (422/422 traités)
+[2026-01-08T03:32:59.749Z] 
+=== RÉSUMÉ DE L'ENRICHISSEMENT ===
+[2026-01-08T03:32:59.749Z] Total traité: 422
+[2026-01-08T03:32:59.749Z] Enrichis: 187 (44.3%)
+[2026-01-08T03:32:59.750Z] Non trouvés: 235 (55.7%)
+[2026-01-08T03:32:59.750Z] Erreurs: 0 (0.0%)
+[2026-01-08T03:32:59.750Z] 
+=== DONNÉES RÉCUPÉRÉES ===
+[2026-01-08T03:32:59.750Z] Avec numéro CAS: 183/187
+[2026-01-08T03:32:59.750Z] Avec nom IUPAC: 187/187
+[2026-01-08T03:32:59.750Z] Avec classe chimique: 131/187
+[2026-01-08T03:32:59.750Z] 
+=== FIN ===
