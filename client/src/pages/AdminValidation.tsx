@@ -37,7 +37,9 @@ import {
   Leaf,
   Loader2,
   AlertTriangle,
-  RefreshCw
+  RefreshCw,
+  Bell,
+  Send
 } from "lucide-react";
 
 export default function AdminValidation() {
@@ -173,10 +175,13 @@ export default function AdminValidation() {
                   </p>
                 </div>
               </div>
-              <Button variant="outline" size="sm" onClick={() => { refetchStats(); refetchMolecules(); refetchPlants(); }} className="gap-2">
-                <RefreshCw className="h-4 w-4" />
-                Actualiser
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={() => { refetchStats(); refetchMolecules(); refetchPlants(); }} className="gap-2">
+                  <RefreshCw className="h-4 w-4" />
+                  Actualiser
+                </Button>
+                <NotifyAdminButton />
+              </div>
             </div>
           </div>
         </section>
@@ -446,5 +451,38 @@ export default function AdminValidation() {
 
       <Footer />
     </div>
+  );
+}
+
+// Composant pour le bouton de notification admin
+function NotifyAdminButton() {
+  const notifyAdmin = trpc.validation.notifyAdminPendingContributions.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(data.message, {
+          description: data.stats ? `${data.stats.molecules} molécule(s), ${data.stats.plants} plante(s)` : undefined,
+        });
+      } else {
+        toast.error(data.message);
+      }
+    },
+    onError: (error) => toast.error(`Erreur: ${error.message}`),
+  });
+
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => notifyAdmin.mutate()}
+      disabled={notifyAdmin.isPending}
+      className="gap-2"
+    >
+      {notifyAdmin.isPending ? (
+        <Loader2 className="h-4 w-4 animate-spin" />
+      ) : (
+        <Bell className="h-4 w-4" />
+      )}
+      Envoyer notification
+    </Button>
   );
 }

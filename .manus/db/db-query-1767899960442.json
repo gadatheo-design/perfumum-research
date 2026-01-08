@@ -1,0 +1,15 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(DISTINCT molecule_id) FROM molecules_recettes) as linked_molecules,\n  ROUND((SELECT COUNT(DISTINCT molecule_id) FROM molecules_recettes) * 100.0 / (SELECT COUNT(*) FROM molecules), 1) as coverage_percent",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(DISTINCT molecule_id) FROM molecules_recettes) as linked_molecules,\n  ROUND((SELECT COUNT(DISTINCT molecule_id) FROM molecules_recettes) * 100.0 / (SELECT COUNT(*) FROM molecules), 1) as coverage_percent",
+  "rows": [
+    {
+      "total_molecules": "556",
+      "linked_molecules": "278",
+      "coverage_percent": "50.0"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\tlinked_molecules\tcoverage_percent\n556\t278\t50.0\n",
+  "stderr": "",
+  "execution_time_ms": 933
+}

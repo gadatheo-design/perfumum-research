@@ -1,0 +1,30 @@
+{
+  "query": "SELECT id, name, cas_number FROM molecules WHERE name LIKE '%géraniol%' OR name LIKE '%geraniol%' OR name LIKE '%citronellol%' OR name LIKE '%eugénol%' OR name LIKE '%eugenol%' OR name LIKE '%bergaptène%' OR name LIKE '%bergapten%' OR name LIKE '%methyl%eugen%' OR name LIKE '%méthyl%eugén%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number FROM molecules WHERE name LIKE '%géraniol%' OR name LIKE '%geraniol%' OR name LIKE '%citronellol%' OR name LIKE '%eugénol%' OR name LIKE '%eugenol%' OR name LIKE '%bergaptène%' OR name LIKE '%bergapten%' OR name LIKE '%methyl%eugen%' OR name LIKE '%méthyl%eugén%';",
+  "rows": [
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol",
+      "cas_number": "5912-87-8"
+    },
+    {
+      "id": "660003",
+      "name": "Méthyl-eugénol",
+      "cas_number": "93-15-2"
+    },
+    {
+      "id": "810022",
+      "name": "eugenol",
+      "cas_number": "97-53-0"
+    },
+    {
+      "id": "810043",
+      "name": "geraniol",
+      "cas_number": "106-24-1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\n570061\tAcétate d'isoeugenol\t5912-87-8\n660003\tMéthyl-eugénol\t93-15-2\n810022\teugenol\t97-53-0\n810043\tgeraniol\t106-24-1\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

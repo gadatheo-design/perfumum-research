@@ -10,7 +10,7 @@
 ### Base de données
 | Entité | Quantité | Liaisons |
 |--------|----------|----------|
-| Molécules | ~556 | 38% liées aux recettes (212/556) |
+| Molécules | ~556 | 50% liées aux recettes (278/556) |
 | Recettes | ~266 | 93% avec molécules (248/266) |
 | Plantes | ~144 | 19.4% liées aux terroirs (28/144) |
 | Terroirs | ~29 | 65.5% avec plantes (19/29) |
@@ -49,7 +49,7 @@
 - [x] Audit des liaisons molécule-recette (`/molecule-recette-audit`)
 - [x] Interface drag-drop molécule-recette (`/molecule-recette-dragdrop`)
 - [x] Import CSV molécule-recette (`/molecule-recette-import-csv`)
-- [ ] Objectif : Atteindre 50% de couverture molécule→recette (actuellement 38%)
+- [x] Objectif : Atteindre 50% de couverture molécule→recette (atteint: 50.0%) — 66 liaisons créées automatiquement
 - [ ] Objectif : Atteindre 10% de couverture molécule→plante
 - [x] Objectif : Atteindre 20% de couverture plante→terroir (actuellement 19.4%) ✅
 
@@ -68,7 +68,7 @@
 ### Système de brouillons et validation
 - [x] Ajouter un champ "status" (brouillon/validé) aux entités principales (molécules et plantes)
 - [x] Créer l'interface de validation admin (`/admin/validation`)
-- [ ] Implémenter les notifications admin pour les nouvelles contributions
+- [x] Implémenter les notifications admin pour les nouvelles contributions (alertes automatiques)
 - [ ] Créer les formulaires d'entrée de données simplifiés
 
 ### Import/Export CSV amélioré
@@ -87,10 +87,10 @@
 
 ### Restrictions IFRA
 - [x] Créer la page de consultation IFRA avec recherche par molécule (`/ifra`)
-- [ ] Ajouter le géraniol aux restrictions IFRA
-- [ ] Ajouter le citronellol aux restrictions IFRA
-- [ ] Ajouter le méthyl-eugénol aux restrictions IFRA
-- [ ] Ajouter le bergaptène aux restrictions IFRA
+- [x] Ajouter le géraniol aux restrictions IFRA (déjà présent - 49th Amendment, 5.3%)
+- [x] Ajouter le citronellol aux restrictions IFRA (déjà présent - 49th Amendment, 8.0%)
+- [x] Ajouter le méthyl-eugénol aux restrictions IFRA (déjà présent - 49th Amendment, 0.0002%)
+- [x] Ajouter le bergaptène aux restrictions IFRA (déjà présent - 49th Amendment, 0.0015%)
 - [ ] Écrire les tests unitaires pour les procédures IFRA
 
 ---

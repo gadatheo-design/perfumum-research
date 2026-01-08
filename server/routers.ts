@@ -7422,6 +7422,43 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return db.submitPlantForReview(input.plantId);
       }),
+
+    // Get pending contributions with details
+    getPendingContributions: protectedProcedure.query(async () => {
+      return db.getPendingContributions();
+    }),
+
+    // Get new contributions since a date
+    getNewContributionsSince: protectedProcedure
+      .input(z.object({ since: z.date() }))
+      .query(async ({ input }) => {
+        return db.getNewContributionsSince(input.since);
+      }),
+
+    // Send notification to admin about pending contributions
+    notifyAdminPendingContributions: protectedProcedure
+      .mutation(async ({ ctx }) => {
+        if (ctx.user.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Admin access required' });
+        }
+        
+        const summary = await db.generatePendingContributionsSummary();
+        if (!summary) {
+          return { success: true, message: 'Aucune contribution en attente' };
+        }
+
+        const { notifyOwner } = await import('./_core/notification');
+        const sent = await notifyOwner({
+          title: summary.title,
+          content: summary.content,
+        });
+
+        return {
+          success: sent,
+          message: sent ? 'Notification envoyée' : 'Échec de l\'envoi de la notification',
+          stats: summary.stats,
+        };
+      }),
   }),
 
   // ============================================================================
