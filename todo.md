@@ -3814,3 +3814,24 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Valider les filtres et la navigation
 - [x] Créer le checkpoint final
 
+
+
+---
+
+## 🌿 SESSION 07 JAN 2026 - INTÉGRATION MAMBE (COLOMBIE)
+
+### Phase 1 : Recherche et extraction des informations
+- [x] Consulter la page Wikipedia sur le Mambe (es.wikipedia.org)
+- [x] Extraire les informations sur l'importance culturelle
+- [x] Identifier les molécules et composés chimiques associés
+- [x] Identifier les arômes et profils olfactifs
+
+### Phase 2 : Intégration dans la base de données
+- [x] Créer l'entrée plante (Erythroxylum coca var. ipadu + Yarumo + Copal) pour le Mambe (Erythroxylum coca)
+- [x] Ajouter les molécules associées (6: Cocaïne, Cinnamoylcocaïne, Ecgonine, pyrazines, Furfural) (alcaloïdes, terpènes)
+- [x] Documenter les usages traditionnels (mambeadero, Uitoto, Tukano) et rituels
+- [x] Lier aux terroirs (Colombie, Brésil, Pérou - Putumayo/Vaupés) (Colombie, Amazonie)
+
+### Phase 3 : Validation
+- [x] Vérifier l'intégrité des données (4 plantes, 6 molécules, 6 liens)
+- [ ] Créer le checkpoint

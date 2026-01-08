@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO plant_molecules (plant_id, molecule_id, role, notes) \nSELECT p.id, m.id, 'secondaire', 'Lien Mambe - Source: Wikipedia ES - Molécules de torréfaction'\nFROM plants p, molecules m \nWHERE p.latin_name = 'Erythroxylum coca var. ipadu' \nAND m.name IN ('Cinnamoylcocaïne', 'Ecgonine', '2-Méthylpyrazine', '2,5-Diméthylpyrazine', 'Furfural')\nON DUPLICATE KEY UPDATE notes = VALUES(notes);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO plant_molecules (plant_id, molecule_id, role, notes) \nSELECT p.id, m.id, 'secondaire', 'Lien Mambe - Source: Wikipedia ES - Molécules de torréfaction'\nFROM plants p, molecules m \nWHERE p.latin_name = 'Erythroxylum coca var. ipadu' \nAND m.name IN ('Cinnamoylcocaïne', 'Ecgonine', '2-Méthylpyrazine', '2,5-Diméthylpyrazine', 'Furfural')\nON DUPLICATE KEY UPDATE notes = VALUES(notes);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 61
+}

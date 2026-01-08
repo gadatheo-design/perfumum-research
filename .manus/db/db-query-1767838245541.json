@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO plant_molecules (plant_id, molecule_id, percentage, role, notes) \nSELECT p.id, m.id, '0.25', 'majeur', 'Lien Mambe - Source: Wikipedia ES'\nFROM plants p, molecules m \nWHERE p.latin_name = 'Erythroxylum coca var. ipadu' AND m.name = 'Cocaïne'\nON DUPLICATE KEY UPDATE notes = 'Lien Mambe - Source: Wikipedia ES';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO plant_molecules (plant_id, molecule_id, percentage, role, notes) \nSELECT p.id, m.id, '0.25', 'majeur', 'Lien Mambe - Source: Wikipedia ES'\nFROM plants p, molecules m \nWHERE p.latin_name = 'Erythroxylum coca var. ipadu' AND m.name = 'Cocaïne'\nON DUPLICATE KEY UPDATE notes = 'Lien Mambe - Source: Wikipedia ES';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 64
+}

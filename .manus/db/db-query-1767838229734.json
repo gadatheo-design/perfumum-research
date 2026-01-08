@@ -1,0 +1,49 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plant_molecules';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plant_molecules';",
+  "rows": [
+    {
+      "COLUMN_NAME": "plant_id"
+    },
+    {
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "COLUMN_NAME": "percentage_min"
+    },
+    {
+      "COLUMN_NAME": "percentage_max"
+    },
+    {
+      "COLUMN_NAME": "percentage_typical"
+    },
+    {
+      "COLUMN_NAME": "percentage"
+    },
+    {
+      "COLUMN_NAME": "is_signature"
+    },
+    {
+      "COLUMN_NAME": "role"
+    },
+    {
+      "COLUMN_NAME": "variability_factor"
+    },
+    {
+      "COLUMN_NAME": "source"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nplant_id\nmolecule_id\npercentage_min\npercentage_max\npercentage_typical\npercentage\nis_signature\nrole\nvariability_factor\nsource\nnotes\ncreated_at\nupdated_at\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

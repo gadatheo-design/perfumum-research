@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, name, latin_name, category, origin FROM plants WHERE name LIKE '%Mambe%' OR name LIKE '%Yarumo%' OR name LIKE '%Copal%' OR latin_name LIKE '%Erythroxylum%' OR latin_name LIKE '%Cecropia%' OR latin_name LIKE '%Protium%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, category, origin FROM plants WHERE name LIKE '%Mambe%' OR name LIKE '%Yarumo%' OR name LIKE '%Copal%' OR latin_name LIKE '%Erythroxylum%' OR latin_name LIKE '%Cecropia%' OR latin_name LIKE '%Protium%';",
+  "rows": [
+    {
+      "id": "150009",
+      "name": "Copal",
+      "latin_name": "Bursera spp.",
+      "category": "resine",
+      "origin": "Mexique, Amérique centrale"
+    },
+    {
+      "id": "210003",
+      "name": "Breu branco (résine)",
+      "latin_name": "Protium heptaphyllum",
+      "category": "aromatique",
+      "origin": "Colombie; Amazonie"
+    },
+    {
+      "id": "360001",
+      "name": "Coca amazonienne (Mambe)",
+      "latin_name": "Erythroxylum coca var. ipadu",
+      "category": "autre",
+      "origin": "Amazonie (Colombie, Brésil, Pérou)"
+    },
+    {
+      "id": "360002",
+      "name": "Yarumo (Cetico)",
+      "latin_name": "Cecropia peltata",
+      "category": "autre",
+      "origin": "Amérique centrale et du Sud, Amazonie"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcategory\torigin\n150009\tCopal\tBursera spp.\tresine\tMexique, Amérique centrale\n210003\tBreu branco (résine)\tProtium heptaphyllum\taromatique\tColombie; Amazonie\n360001\tCoca amazonienne (Mambe)\tErythroxylum coca var. ipadu\tautre\tAmazonie (Colombie, Brésil, Pérou)\n360002\tYarumo (Cetico)\tCecropia peltata\tautre\tAmérique centrale et du Sud, Amazonie\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}
