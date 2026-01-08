@@ -347,6 +347,49 @@ export const appRouter = router({
     getAll: publicProcedure.query(async () => {
       return await db.getAllMolecules();
     }),
+    
+    // Audit des liaisons molécule-recette
+    getRecetteAuditStats: publicProcedure.query(async () => {
+      return db.getMoleculeRecetteAuditStats();
+    }),
+    
+    // Toutes les relations avec noms
+    getAllRecetteRelationsWithNames: publicProcedure.query(async () => {
+      return db.getAllMoleculeRecetteRelationsWithNames();
+    }),
+    
+    // Suggestions de liaisons
+    getRecetteSuggestions: publicProcedure.query(async () => {
+      return db.suggestMoleculeRecetteLinks();
+    }),
+    
+    // Import en masse depuis CSV
+    bulkImportRecettes: protectedProcedure
+      .input(z.array(z.object({
+        moleculeId: z.number().optional(),
+        moleculeName: z.string().optional(),
+        recetteId: z.number().optional(),
+        recetteName: z.string().optional(),
+        proportion: z.number().optional(),
+        role: z.string().optional(),
+        notes: z.string().optional(),
+      })))
+      .mutation(async ({ input }) => {
+        return db.bulkImportMoleculeRecettes(input);
+      }),
+    
+    // Création de liaisons multiples (drag-drop)
+    createMultipleRecettes: protectedProcedure
+      .input(z.array(z.object({
+        moleculeId: z.number(),
+        recetteId: z.number(),
+        proportion: z.number().optional(),
+        role: z.string().optional(),
+        notes: z.string().optional(),
+      })))
+      .mutation(async ({ input }) => {
+        return db.createMultipleMoleculeRecettes(input);
+      }),
   }),
 
   // Terpene Synergies

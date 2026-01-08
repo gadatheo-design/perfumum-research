@@ -44,7 +44,10 @@ import {
   Loader2,
   BarChart3,
   Target,
-  TrendingUp
+  TrendingUp,
+  ClipboardList,
+  GripVertical,
+  Upload
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Legend } from "recharts";
@@ -339,6 +342,28 @@ export default function MoleculeRecetteLinking() {
                     Associez des molécules aux recettes pour enrichir la base de données
                   </p>
                 </div>
+              </div>
+              
+              {/* Liens vers les outils avancés */}
+              <div className="flex flex-wrap gap-3 mt-6">
+                <Link href="/molecule-recette-audit">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <ClipboardList className="h-4 w-4" />
+                    Audit des liaisons
+                  </Button>
+                </Link>
+                <Link href="/molecule-recette-dragdrop">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <GripVertical className="h-4 w-4" />
+                    Création en masse (Drag & Drop)
+                  </Button>
+                </Link>
+                <Link href="/molecule-recette-import-csv">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Upload className="h-4 w-4" />
+                    Import CSV
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

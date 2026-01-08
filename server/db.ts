@@ -10761,3 +10761,324 @@ export async function createMultiplePlantTerroirs(relations: Array<{
     errors,
   };
 }
+
+
+// ============================================================================
+// AUDIT ET IMPORT EN MASSE DES LIAISONS MOLÉCULE-RECETTE
+// ============================================================================
+
+/**
+ * Récupère les statistiques d'audit des liaisons molécule-recette
+ */
+export async function getMoleculeRecetteAuditStats() {
+  const db = await getDb();
+  if (!db) return null;
+
+  // Compter les molécules et recettes
+  const allMolecules = await db.select().from(molecules);
+  const allRecettes = await db.select().from(recettes);
+  const allRelations = await db.select().from(moleculesRecettes);
+
+  // Identifier les molécules sans recette
+  const moleculeIdsWithRecette = new Set(allRelations.map(r => r.moleculeId));
+  const moleculesWithoutRecette = allMolecules.filter(m => !moleculeIdsWithRecette.has(m.id));
+
+  // Identifier les recettes sans molécule
+  const recetteIdsWithMolecule = new Set(allRelations.map(r => r.recetteId));
+  const recettesWithoutMolecule = allRecettes.filter(r => !recetteIdsWithMolecule.has(r.id));
+
+  // Compter les liaisons par molécule
+  const moleculeLinkCounts: Record<number, number> = {};
+  allRelations.forEach(r => {
+    moleculeLinkCounts[r.moleculeId] = (moleculeLinkCounts[r.moleculeId] || 0) + 1;
+  });
+
+  // Compter les liaisons par recette
+  const recetteLinkCounts: Record<number, number> = {};
+  allRelations.forEach(r => {
+    recetteLinkCounts[r.recetteId] = (recetteLinkCounts[r.recetteId] || 0) + 1;
+  });
+
+  // Molécules avec le plus de recettes
+  const topMoleculesByRecettes = allMolecules
+    .map(m => ({ ...m, recetteCount: moleculeLinkCounts[m.id] || 0 }))
+    .filter(m => m.recetteCount > 0)
+    .sort((a, b) => b.recetteCount - a.recetteCount)
+    .slice(0, 10);
+
+  // Recettes avec le plus de molécules
+  const topRecettesByMolecules = allRecettes
+    .map(r => ({ ...r, moleculeCount: recetteLinkCounts[r.id] || 0 }))
+    .filter(r => r.moleculeCount > 0)
+    .sort((a, b) => b.moleculeCount - a.moleculeCount)
+    .slice(0, 10);
+
+  // Molécules prioritaires (terpènes et composés aromatiques sans recette)
+  const priorityFamilies = ['terpène', 'alcool', 'aldéhyde', 'ester', 'cétone'];
+  const priorityMoleculesWithoutRecette = moleculesWithoutRecette
+    .filter(m => m.family && priorityFamilies.some(f => m.family?.toLowerCase().includes(f)))
+    .slice(0, 20);
+
+  // Recettes prioritaires (résines et parfums sans molécules)
+  const priorityRecettesWithoutMolecule = recettesWithoutMolecule
+    .filter(r => r.category === 'resine' || r.category === 'parfum')
+    .slice(0, 20);
+
+  return {
+    totalMolecules: allMolecules.length,
+    totalRecettes: allRecettes.length,
+    totalRelations: allRelations.length,
+    moleculesWithRecette: moleculeIdsWithRecette.size,
+    recettesWithMolecule: recetteIdsWithMolecule.size,
+    moleculesWithoutRecette: moleculesWithoutRecette.length,
+    recettesWithoutMolecule: recettesWithoutMolecule.length,
+    coverageMolecules: allMolecules.length > 0 ? Math.round((moleculeIdsWithRecette.size / allMolecules.length) * 100) : 0,
+    coverageRecettes: allRecettes.length > 0 ? Math.round((recetteIdsWithMolecule.size / allRecettes.length) * 100) : 0,
+    topMoleculesByRecettes,
+    topRecettesByMolecules,
+    priorityMoleculesWithoutRecette,
+    priorityRecettesWithoutMolecule,
+    moleculesWithoutRecetteList: moleculesWithoutRecette.slice(0, 50),
+    recettesWithoutMoleculeList: recettesWithoutMolecule.slice(0, 50),
+  };
+}
+
+/**
+ * Récupère toutes les liaisons molécule-recette avec les noms
+ */
+export async function getAllMoleculeRecetteRelationsWithNames() {
+  const db = await getDb();
+  if (!db) return [];
+
+  const allMolecules = await db.select().from(molecules);
+  const allRecettes = await db.select().from(recettes);
+  const allRelations = await db.select().from(moleculesRecettes);
+
+  const moleculeMap = new Map(allMolecules.map(m => [m.id, m]));
+  const recetteMap = new Map(allRecettes.map(r => [r.id, r]));
+
+  return allRelations.map(r => ({
+    ...r,
+    moleculeName: moleculeMap.get(r.moleculeId)?.name || `Molécule #${r.moleculeId}`,
+    moleculeFamily: moleculeMap.get(r.moleculeId)?.family,
+    recetteName: recetteMap.get(r.recetteId)?.name || `Recette #${r.recetteId}`,
+    recetteCategory: recetteMap.get(r.recetteId)?.category,
+  }));
+}
+
+/**
+ * Import en masse de liaisons molécule-recette
+ */
+export async function bulkImportMoleculeRecettes(relations: Array<{
+  moleculeId?: number;
+  moleculeName?: string;
+  recetteId?: number;
+  recetteName?: string;
+  proportion?: number;
+  role?: string;
+  notes?: string;
+}>) {
+  const db = await getDb();
+  if (!db) return { success: false, imported: 0, errors: [] as string[] };
+
+  const allMolecules = await db.select().from(molecules);
+  const allRecettes = await db.select().from(recettes);
+  const existingRelations = await db.select().from(moleculesRecettes);
+
+  const moleculeNameMap = new Map(allMolecules.map(m => [m.name.toLowerCase(), m.id]));
+  const recetteNameMap = new Map(allRecettes.map(r => [r.name.toLowerCase(), r.id]));
+
+  const existingSet = new Set(existingRelations.map(r => `${r.moleculeId}-${r.recetteId}`));
+
+  const errors: string[] = [];
+  let imported = 0;
+  const toInsert: Array<{
+    moleculeId: number;
+    recetteId: number;
+    proportion: string;
+    role?: "tête" | "cœur" | "fond" | null;
+    notes?: string | null;
+  }> = [];
+
+  for (let i = 0; i < relations.length; i++) {
+    const rel = relations[i];
+    const rowNum = i + 1;
+
+    // Résoudre l'ID de la molécule
+    let moleculeId = rel.moleculeId;
+    if (!moleculeId && rel.moleculeName) {
+      moleculeId = moleculeNameMap.get(rel.moleculeName.toLowerCase());
+    }
+
+    // Résoudre l'ID de la recette
+    let recetteId = rel.recetteId;
+    if (!recetteId && rel.recetteName) {
+      recetteId = recetteNameMap.get(rel.recetteName.toLowerCase());
+    }
+
+    // Validation
+    if (!moleculeId) {
+      errors.push(`Ligne ${rowNum}: Molécule non trouvée "${rel.moleculeName || rel.moleculeId}"`);
+      continue;
+    }
+    if (!recetteId) {
+      errors.push(`Ligne ${rowNum}: Recette non trouvée "${rel.recetteName || rel.recetteId}"`);
+      continue;
+    }
+
+    // Vérifier si la relation existe déjà
+    const key = `${moleculeId}-${recetteId}`;
+    if (existingSet.has(key)) {
+      errors.push(`Ligne ${rowNum}: Liaison déjà existante (molécule ${moleculeId} - recette ${recetteId})`);
+      continue;
+    }
+
+    toInsert.push({
+      moleculeId,
+      recetteId,
+      proportion: (rel.proportion || 10).toString(),
+      role: (rel.role as "tête" | "cœur" | "fond") || 'cœur',
+      notes: rel.notes || undefined,
+    });
+    existingSet.add(key);
+  }
+
+  // Insérer en masse
+  if (toInsert.length > 0) {
+    try {
+      await db.insert(moleculesRecettes).values(toInsert);
+      imported = toInsert.length;
+    } catch (error: any) {
+      errors.push(`Erreur d'insertion: ${error.message}`);
+    }
+  }
+
+  return {
+    success: errors.length === 0 || imported > 0,
+    imported,
+    skipped: relations.length - imported - errors.filter(e => e.includes('déjà existante')).length,
+    duplicates: errors.filter(e => e.includes('déjà existante')).length,
+    errors: errors.filter(e => !e.includes('déjà existante')),
+  };
+}
+
+/**
+ * Créer plusieurs liaisons molécule-recette en une seule opération
+ */
+export async function createMultipleMoleculeRecettes(relations: Array<{
+  moleculeId: number;
+  recetteId: number;
+  proportion?: number;
+  role?: string;
+  notes?: string;
+}>) {
+  const db = await getDb();
+  if (!db) return { success: false, created: 0, errors: [] as string[] };
+
+  const existingRelations = await db.select().from(moleculesRecettes);
+  const existingSet = new Set(existingRelations.map(r => `${r.moleculeId}-${r.recetteId}`));
+
+  const errors: string[] = [];
+  const toInsert: Array<{
+    moleculeId: number;
+    recetteId: number;
+    proportion: string;
+    role?: "tête" | "cœur" | "fond" | null;
+    notes?: string | null;
+  }> = [];
+
+  for (const rel of relations) {
+    const key = `${rel.moleculeId}-${rel.recetteId}`;
+    if (existingSet.has(key)) {
+      errors.push(`Liaison déjà existante: molécule ${rel.moleculeId} - recette ${rel.recetteId}`);
+      continue;
+    }
+
+    toInsert.push({
+      moleculeId: rel.moleculeId,
+      recetteId: rel.recetteId,
+      proportion: (rel.proportion || 10).toString(),
+      role: (rel.role as "tête" | "cœur" | "fond") || 'cœur',
+      notes: rel.notes || undefined,
+    });
+    existingSet.add(key);
+  }
+
+  if (toInsert.length > 0) {
+    try {
+      await db.insert(moleculesRecettes).values(toInsert);
+    } catch (error: any) {
+      errors.push(`Erreur d'insertion: ${error.message}`);
+      return { success: false, created: 0, errors };
+    }
+  }
+
+  return {
+    success: true,
+    created: toInsert.length,
+    skipped: relations.length - toInsert.length,
+    errors,
+  };
+}
+
+/**
+ * Suggestions de liaisons basées sur les familles olfactives
+ */
+export async function suggestMoleculeRecetteLinks() {
+  const db = await getDb();
+  if (!db) return [];
+
+  const allMolecules = await db.select().from(molecules);
+  const allRecettes = await db.select().from(recettes);
+  const existingRelations = await db.select().from(moleculesRecettes);
+
+  const existingSet = new Set(existingRelations.map(r => `${r.moleculeId}-${r.recetteId}`));
+
+  // Mapping des familles de molécules vers les catégories de recettes
+  const familyToCategoryMap: Record<string, string[]> = {
+    'terpène': ['resine_cbd', 'huile_essentielle'],
+    'alcool terpénique': ['resine_cbd', 'huile_essentielle', 'parfum'],
+    'aldéhyde': ['parfum', 'formule_reference'],
+    'ester': ['parfum', 'formule_reference'],
+    'cétone': ['parfum', 'formule_reference'],
+    'phénol': ['huile_essentielle', 'resine_cbd'],
+  };
+
+  const suggestions: Array<{
+    moleculeId: number;
+    moleculeName: string;
+    recetteId: number;
+    recetteName: string;
+    reason: string;
+    confidence: 'high' | 'medium' | 'low';
+  }> = [];
+
+  for (const molecule of allMolecules) {
+    if (!molecule.family) continue;
+
+    const familyLower = molecule.family.toLowerCase();
+    const matchingCategories = Object.entries(familyToCategoryMap)
+      .filter(([family]) => familyLower.includes(family))
+      .flatMap(([, categories]) => categories);
+
+    if (matchingCategories.length === 0) continue;
+
+    for (const recette of allRecettes) {
+      const key = `${molecule.id}-${recette.id}`;
+      if (existingSet.has(key)) continue;
+
+      if (recette.category && matchingCategories.includes(recette.category)) {
+        suggestions.push({
+          moleculeId: molecule.id,
+          moleculeName: molecule.name,
+          recetteId: recette.id,
+          recetteName: recette.name,
+          reason: `Famille ${molecule.family} compatible avec catégorie ${recette.category}`,
+          confidence: 'medium',
+        });
+      }
+    }
+  }
+
+  return suggestions.slice(0, 100);
+}

@@ -38,6 +38,9 @@ import AdminAccords from "./pages/admin/AdminAccords";
 import AdminFamilles from "./pages/admin/AdminFamilles";
 import AdminMatieres from "./pages/admin/AdminMatieres";
 import MoleculeRecetteLinking from "./pages/MoleculeRecetteLinking";
+import MoleculeRecetteAudit from "./pages/MoleculeRecetteAudit";
+import MoleculeRecetteDragDrop from "./pages/MoleculeRecetteDragDrop";
+import MoleculeRecetteImportCSV from "./pages/MoleculeRecetteImportCSV";
 import PlantTerroirLinking from "./pages/PlantTerroirLinking";
 import PlantTerroirAudit from "./pages/PlantTerroirAudit";
 import PlantTerroirDragDrop from "./pages/PlantTerroirDragDrop";
@@ -284,6 +287,9 @@ function Router() {
       <Route path="/admin" component={Admin} />
       <Route path="/admin/liaison-recettes-molecules" component={LiaisonRecettesMolecules} />
       <Route path="/molecule-recette-linking" component={MoleculeRecetteLinking} />
+      <Route path="/molecule-recette-audit" component={MoleculeRecetteAudit} />
+      <Route path="/molecule-recette-dragdrop" component={MoleculeRecetteDragDrop} />
+      <Route path="/molecule-recette-import-csv" component={MoleculeRecetteImportCSV} />
       <Route path="/plant-terroir-linking" component={PlantTerroirLinking} />
       <Route path="/plant-terroir-audit" component={PlantTerroirAudit} />
       <Route path="/plant-terroir-dragdrop" component={PlantTerroirDragDrop} />

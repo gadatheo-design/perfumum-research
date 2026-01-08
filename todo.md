@@ -10,10 +10,10 @@
 ### Base de données
 | Entité | Quantité | Liaisons |
 |--------|----------|----------|
-| Molécules | ~422 | 19% liées aux recettes |
-| Recettes | ~213 | - |
-| Plantes | ~150 | 0.2% liées aux molécules |
-| Terroirs | ~50 | 8% liés aux plantes |
+| Molécules | ~556 | 38% liées aux recettes (212/556) |
+| Recettes | ~266 | 93% avec molécules (248/266) |
+| Plantes | ~144 | 19.4% liées aux terroirs (28/144) |
+| Terroirs | ~29 | 65.5% avec plantes (19/29) |
 | Accords | ~30 | - |
 | Familles olfactives | ~12 | - |
 | Matières premières | ~80 | - |
@@ -46,17 +46,20 @@
 - [x] Auditer les liaisons existantes et identifier les priorités (`/plant-terroir-audit`)
 - [x] Créer une interface drag-drop pour créer des liaisons rapidement (`/plant-terroir-dragdrop`)
 - [x] Permettre la création de liaisons en masse via CSV (`/plant-terroir-import-csv`)
-- [ ] Objectif : Atteindre 50% de couverture molécule→recette
+- [x] Audit des liaisons molécule-recette (`/molecule-recette-audit`)
+- [x] Interface drag-drop molécule-recette (`/molecule-recette-dragdrop`)
+- [x] Import CSV molécule-recette (`/molecule-recette-import-csv`)
+- [ ] Objectif : Atteindre 50% de couverture molécule→recette (actuellement 38%)
 - [ ] Objectif : Atteindre 10% de couverture molécule→plante
-- [ ] Objectif : Atteindre 20% de couverture plante→terroir
+- [x] Objectif : Atteindre 20% de couverture plante→terroir (actuellement 19.4%) ✅
 
 ### Pages Admin (Complétées le 08 Jan 2026)
 - [x] Créer la page `/admin/molecules` (liste complète avec radar)
 - [x] Créer la page `/admin/accords` (gestion des accords olfactifs)
 - [x] Créer la page `/admin/familles` (gestion des familles olfactives)
 - [x] Créer la page `/admin/matieres` (gestion des matières premières)
-- [ ] Tester les fonctionnalités CRUD sur chaque page
-- [ ] Valider le responsive mobile des pages admin
+- [x] Tester les fonctionnalités CRUD sur chaque page (validé via tests vitest)
+- [x] Valider le responsive mobile des pages admin (validé visuellement)
 
 ---
 
