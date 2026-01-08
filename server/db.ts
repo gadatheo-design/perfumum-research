@@ -10305,3 +10305,130 @@ export async function getMoleculeEnrichmentStats() {
     percentageWithIupac: total?.count ? Math.round((withIupac?.count || 0) / total.count * 100) : 0,
   };
 }
+
+
+// ============================================================================
+// CRUD COMPLET POUR ACCORDS, FAMILLES, LABORATOIRE
+// ============================================================================
+
+/**
+ * Mise à jour complète d'un accord
+ */
+export async function updateAccordFull(id: number, data: {
+  name?: string;
+  familyId?: number | null;
+  olfactiveProfile?: string;
+  emotionalResonance?: string;
+  texture?: string;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData: Record<string, any> = {};
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.familyId !== undefined) updateData.familyId = data.familyId;
+  if (data.olfactiveProfile !== undefined) updateData.olfactiveProfile = data.olfactiveProfile;
+  if (data.emotionalResonance !== undefined) updateData.emotionalResonance = data.emotionalResonance;
+  if (data.texture !== undefined) updateData.texture = data.texture;
+  if (data.notes !== undefined) updateData.notes = data.notes;
+  
+  await db.update(accords).set(updateData).where(eq(accords.id, id));
+  return getAccordById(id);
+}
+
+/**
+ * Suppression d'un accord
+ */
+export async function deleteAccord(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(accords).where(eq(accords.id, id));
+  return { success: true };
+}
+
+/**
+ * Mise à jour complète d'une famille
+ */
+export async function updateFamilyFull(id: number, data: {
+  name?: string;
+  description?: string;
+  type?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData: Record<string, any> = {};
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.description !== undefined) updateData.description = data.description;
+  if (data.type !== undefined) updateData.type = data.type;
+  
+  await db.update(families).set(updateData).where(eq(families.id, id));
+  return getFamilyById(id);
+}
+
+/**
+ * Suppression d'une famille
+ */
+export async function deleteFamily(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(families).where(eq(families.id, id));
+  return { success: true };
+}
+
+/**
+ * Mise à jour complète d'une matière première
+ */
+export async function updateMatiereFull(id: number, data: {
+  name?: string;
+  botanicalName?: string;
+  type?: "huile_essentielle" | "absolu" | "resinoid" | "concrete" | "co2" | "teinture" | "poudre" | "alcoolat" | "autre";
+  olfactiveFamily?: string;
+  note?: "tete" | "coeur" | "fond" | "tete_coeur" | "coeur_fond";
+  origin?: string;
+  extractionMethod?: "distillation" | "extraction_solvant" | "co2_supercritique" | "expression" | "teinture" | "autre";
+  olfactiveProfile?: string;
+  character?: string;
+  supplier?: string;
+  pricePerMl?: number;
+  stock?: number;
+  status?: "en_stock" | "a_commander" | "epuise";
+  technicalNotes?: string;
+  manipulationNotes?: string;
+  maxTemperature?: number;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  const updateData: Record<string, any> = {};
+  if (data.name !== undefined) updateData.name = data.name;
+  if (data.botanicalName !== undefined) updateData.botanicalName = data.botanicalName;
+  if (data.type !== undefined) updateData.type = data.type;
+  if (data.olfactiveFamily !== undefined) updateData.olfactiveFamily = data.olfactiveFamily;
+  if (data.note !== undefined) updateData.note = data.note;
+  if (data.origin !== undefined) updateData.origin = data.origin;
+  if (data.extractionMethod !== undefined) updateData.extractionMethod = data.extractionMethod;
+  if (data.olfactiveProfile !== undefined) updateData.olfactiveProfile = data.olfactiveProfile;
+  if (data.character !== undefined) updateData.character = data.character;
+  if (data.supplier !== undefined) updateData.supplier = data.supplier;
+  if (data.pricePerMl !== undefined) updateData.pricePerMl = data.pricePerMl;
+  if (data.stock !== undefined) updateData.stock = data.stock;
+  if (data.status !== undefined) updateData.status = data.status;
+  if (data.technicalNotes !== undefined) updateData.technicalNotes = data.technicalNotes;
+  if (data.manipulationNotes !== undefined) updateData.manipulationNotes = data.manipulationNotes;
+  if (data.maxTemperature !== undefined) updateData.maxTemperature = data.maxTemperature;
+  
+  await db.update(laboratoire).set(updateData).where(eq(laboratoire.id, id));
+  return getMatiereById(id);
+}
+
+/**
+ * Suppression d'une matière première
+ */
+export async function deleteMatiere(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.delete(laboratoire).where(eq(laboratoire.id, id));
+  return { success: true };
+}

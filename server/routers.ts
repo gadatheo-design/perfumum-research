@@ -89,6 +89,31 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getFamilyById(input);
       }),
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(1),
+        description: z.string().optional(),
+        type: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createFamily(input);
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        description: z.string().optional(),
+        type: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateFamilyFull(id, data);
+      }),
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return await db.deleteFamily(input);
+      }),
   }),
 
   // Laboratoire (Matières Premières)
@@ -135,6 +160,35 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         await db.updateMatiereStock(input.id, input.stock, input.status);
         return { success: true };
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        botanicalName: z.string().optional(),
+        type: z.enum(["huile_essentielle", "absolu", "resinoid", "concrete", "co2", "teinture", "poudre", "alcoolat", "autre"]).optional(),
+        olfactiveFamily: z.string().optional(),
+        note: z.enum(["tete", "coeur", "fond", "tete_coeur", "coeur_fond"]).optional(),
+        origin: z.string().optional(),
+        extractionMethod: z.enum(["distillation", "extraction_solvant", "co2_supercritique", "expression", "teinture", "autre"]).optional(),
+        olfactiveProfile: z.string().optional(),
+        character: z.string().optional(),
+        supplier: z.string().optional(),
+        pricePerMl: z.number().optional(),
+        stock: z.number().optional(),
+        status: z.enum(["en_stock", "a_commander", "epuise"]).optional(),
+        technicalNotes: z.string().optional(),
+        manipulationNotes: z.string().optional(),
+        maxTemperature: z.number().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateMatiereFull(id, data);
+      }),
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return await db.deleteMatiere(input);
       }),
   }),
 
@@ -322,6 +376,37 @@ export const appRouter = router({
       })
       .query(async ({ input }) => {
         return await db.getAccordById(input);
+      }),
+    create: publicProcedure
+      .input(z.object({
+        name: z.string().min(1),
+        familyId: z.number().nullable().optional(),
+        olfactiveProfile: z.string().optional(),
+        emotionalResonance: z.string().optional(),
+        texture: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.createAccord(input);
+      }),
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        name: z.string().optional(),
+        familyId: z.number().nullable().optional(),
+        olfactiveProfile: z.string().optional(),
+        emotionalResonance: z.string().optional(),
+        texture: z.string().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await db.updateAccordFull(id, data);
+      }),
+    delete: publicProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return await db.deleteAccord(input);
       }),
   }),
 

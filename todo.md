@@ -230,6 +230,9 @@
 - [x] Documenter l'état réel du projet
 
 ### À faire
+- [x] Implémenter les mutations CRUD complètes pour families (create, update, delete)
+- [x] Implémenter les mutations CRUD complètes pour accords (create, update, delete)
+- [x] Implémenter les mutations update et delete pour laboratoire
 - [ ] Vérifier les fonctionnalités annoncées vs implémentées
 - [ ] Supprimer le code mort et les composants inutilisés
 - [ ] Mettre à jour la documentation technique
