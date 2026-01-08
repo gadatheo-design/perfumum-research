@@ -3873,27 +3873,27 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ## 🔍 SESSION 08 JAN 2026 - AUDIT COMPLET & STRATÉGIE COLLABORATIVE
 
 ### Phase 1 : Nettoyage de la base de données
-- [ ] Identifier tous les doublons dans la table molecules
-- [ ] Identifier tous les doublons dans la table plants
-- [ ] Identifier tous les doublons dans la table terroirs
-- [ ] Nettoyer les doublons en préservant les données les plus complètes
-- [ ] Vérifier l'intégrité référentielle après nettoyage
+- [x] Identifier tous les doublons dans la table molecules
+- [x] Identifier tous les doublons dans la table plants
+- [x] Identifier tous les doublons dans la table terroirs
+- [x] Nettoyer les doublons en préservant les données les plus complètes (56 mol + 4 plantes)
+- [x] Vérifier l'intégrité référentielle après nettoyage
 
 ### Phase 2 : Audit des pages et fonctionnalités
-- [ ] Lister toutes les pages existantes et leur état
-- [ ] Identifier les pages manquantes ou incomplètes
-- [ ] Identifier les fonctionnalités CRUD manquantes
-- [ ] Évaluer la cohérence de l'interface utilisateur
+- [x] Lister toutes les pages existantes et leur état (120+ pages)
+- [x] Identifier les pages manquantes ou incomplètes
+- [x] Identifier les fonctionnalités CRUD manquantes (interface contributeur)
+- [x] Évaluer la cohérence de l'interface utilisateur
 
 ### Phase 3 : Stratégie de travail autonome (5 collègues)
-- [ ] Concevoir l'interface d'ajout de données autonome
-- [ ] Définir les rôles et permissions
-- [ ] Créer les formulaires d'entrée de données
-- [ ] Documenter le workflow de contribution
+- [x] Concevoir l'interface d'ajout de données autonome (spécifié dans rapport)
+- [x] Définir les rôles et permissions (Admin, Contributeur, Lecteur)
+- [ ] Créer les formulaires d'entrée de données (À IMPLÉMENTER)
+- [x] Documenter le workflow de contribution (Annexe E)
 
 ### Phase 4 : Roadmap et audit général
-- [ ] Analyser l'historique du projet depuis le début
-- [ ] Identifier les axes de développement prioritaires
-- [ ] Créer la roadmap 2026-2035 (10 ans)
-- [ ] Rédiger le rapport d'audit radical et honnête
+- [x] Analyser l'historique du projet depuis le début (70+ sessions)
+- [x] Identifier les axes de développement prioritaires
+- [x] Créer la roadmap 2026-2035 (10 ans)
+- [x] Rédiger le rapport d'audit radical et honnête (AUDIT_PERFUMUM_08JAN2026.md)
 
