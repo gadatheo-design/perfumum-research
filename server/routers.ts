@@ -2201,6 +2201,49 @@ export const appRouter = router({
         await db.deleteLeafEconomy(input);
         return { success: true };
       }),
+    // Upload d'image botanique pour LeafEconomy
+    uploadImage: protectedProcedure
+      .input(z.object({
+        leafEconomyId: z.number(),
+        imageData: z.string(), // Base64 encoded image data
+        fileName: z.string(),
+        contentType: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        // Extraire les données base64 (enlever le préfixe data:...)
+        const base64Data = input.imageData.replace(/^data:[^;]+;base64,/, '');
+        const buffer = Buffer.from(base64Data, 'base64');
+        
+        // Générer un nom de fichier unique
+        const timestamp = Date.now();
+        const randomSuffix = Math.random().toString(36).substring(2, 8);
+        const extension = input.fileName.split('.').pop() || 'jpg';
+        const fileKey = `leaf-economies/${input.leafEconomyId}/botanical-${timestamp}-${randomSuffix}.${extension}`;
+        
+        // Upload vers S3
+        const { storagePut } = await import('./storage');
+        const { url } = await storagePut(fileKey, buffer, input.contentType);
+        
+        // Mettre à jour l'URL dans la base de données
+        await db.updateLeafEconomyImage(input.leafEconomyId, url);
+        
+        return { url, key: fileKey };
+      }),
+    // Mettre à jour l'URL de l'image
+    updateImage: protectedProcedure
+      .input(z.object({
+        leafEconomyId: z.number(),
+        imageUrl: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.updateLeafEconomyImage(input.leafEconomyId, input.imageUrl);
+      }),
+    // Supprimer l'image
+    deleteImage: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return await db.deleteLeafEconomyImage(input);
+      }),
   }),
 
   // Geographic Origins (Terroirs de production)

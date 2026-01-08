@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { ImageUpload } from "@/components/ImageUpload";
+import { LeafEconomyImageUpload } from "@/components/LeafEconomyImageUpload";
 import { 
   Leaf, 
   ChevronRight,
@@ -668,16 +668,23 @@ export default function LeafEconomyForm() {
                 Image de l'échantillon
               </CardTitle>
               <CardDescription>
-                Ajoutez une photo de l'échantillon botanique (drag & drop ou clic)
+                Ajoutez une photo de l'échantillon botanique (upload vers S3)
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ImageUpload
-                value={formData.imageUrl}
-                onChange={(url) => setFormData(prev => ({ ...prev, imageUrl: url || "" }))}
-                placeholder="Glissez une image de l'échantillon ici"
-                maxSizeMB={5}
-              />
+              {id ? (
+                <LeafEconomyImageUpload
+                  leafEconomyId={id}
+                  currentImageUrl={formData.imageUrl || null}
+                  onImageUploaded={(url) => setFormData(prev => ({ ...prev, imageUrl: url }))}
+                  disabled={isNew}
+                />
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <ImageIcon className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                  <p className="text-sm">L'upload d'images sera disponible après la création de l'échantillon</p>
+                </div>
+              )}
             </CardContent>
           </Card>
 

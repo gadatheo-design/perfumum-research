@@ -1,0 +1,100 @@
+{
+  "query": "SELECT p.id as plant_id, p.name as plant_name, m.id as molecule_id, m.name as molecule_name\nFROM plants p\nCROSS JOIN molecules m\nWHERE \n  (p.name = 'Gingembre' AND m.name IN ('Zingiberene', 'Gingerol', 'Beta-bisabolene', 'Alpha-curcumene'))\n  OR (p.name = 'Sauge sclarée' AND m.name IN ('Linalyl acetate', 'Linalool', 'Sclareol', 'Germacrene D'))\n  OR (p.name = 'Pin sylvestre' AND m.name IN ('Alpha-pinene', 'Beta-pinene', 'Delta-3-carene', 'Limonene'))\n  OR (p.name = 'Tea tree' AND m.name IN ('Terpinen-4-ol', 'Gamma-terpinene', 'Alpha-terpinene', '1,8-Cineole'))\n  OR (p.name = 'Cardamome' AND m.name IN ('1,8-Cineole', 'Alpha-terpinyl acetate', 'Linalool', 'Limonene'))\nORDER BY p.name, m.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.id as plant_id, p.name as plant_name, m.id as molecule_id, m.name as molecule_name\nFROM plants p\nCROSS JOIN molecules m\nWHERE \n  (p.name = 'Gingembre' AND m.name IN ('Zingiberene', 'Gingerol', 'Beta-bisabolene', 'Alpha-curcumene'))\n  OR (p.name = 'Sauge sclarée' AND m.name IN ('Linalyl acetate', 'Linalool', 'Sclareol', 'Germacrene D'))\n  OR (p.name = 'Pin sylvestre' AND m.name IN ('Alpha-pinene', 'Beta-pinene', 'Delta-3-carene', 'Limonene'))\n  OR (p.name = 'Tea tree' AND m.name IN ('Terpinen-4-ol', 'Gamma-terpinene', 'Alpha-terpinene', '1,8-Cineole'))\n  OR (p.name = 'Cardamome' AND m.name IN ('1,8-Cineole', 'Alpha-terpinyl acetate', 'Linalool', 'Limonene'))\nORDER BY p.name, m.name;",
+  "rows": [
+    {
+      "plant_id": "390005",
+      "plant_name": "Cardamome",
+      "molecule_id": "960007",
+      "molecule_name": "Alpha-terpinyl acetate"
+    },
+    {
+      "plant_id": "390005",
+      "plant_name": "Cardamome",
+      "molecule_id": "150006",
+      "molecule_name": "Linalool"
+    },
+    {
+      "plant_id": "390005",
+      "plant_name": "Cardamome",
+      "molecule_id": "30009",
+      "molecule_name": "Linalool"
+    },
+    {
+      "plant_id": "390001",
+      "plant_name": "Gingembre",
+      "molecule_id": "960013",
+      "molecule_name": "Alpha-curcumene"
+    },
+    {
+      "plant_id": "390001",
+      "plant_name": "Gingembre",
+      "molecule_id": "960012",
+      "molecule_name": "Beta-bisabolene"
+    },
+    {
+      "plant_id": "390001",
+      "plant_name": "Gingembre",
+      "molecule_id": "960006",
+      "molecule_name": "Gingerol"
+    },
+    {
+      "plant_id": "390001",
+      "plant_name": "Gingembre",
+      "molecule_id": "960005",
+      "molecule_name": "Zingiberene"
+    },
+    {
+      "plant_id": "390003",
+      "plant_name": "Pin sylvestre",
+      "molecule_id": "960010",
+      "molecule_name": "Delta-3-carene"
+    },
+    {
+      "plant_id": "390002",
+      "plant_name": "Sauge sclarée",
+      "molecule_id": "960011",
+      "molecule_name": "Germacrene D"
+    },
+    {
+      "plant_id": "390002",
+      "plant_name": "Sauge sclarée",
+      "molecule_id": "150006",
+      "molecule_name": "Linalool"
+    },
+    {
+      "plant_id": "390002",
+      "plant_name": "Sauge sclarée",
+      "molecule_id": "30009",
+      "molecule_name": "Linalool"
+    },
+    {
+      "plant_id": "390002",
+      "plant_name": "Sauge sclarée",
+      "molecule_id": "960004",
+      "molecule_name": "Sclareol"
+    },
+    {
+      "plant_id": "390004",
+      "plant_name": "Tea tree",
+      "molecule_id": "960009",
+      "molecule_name": "Alpha-terpinene"
+    },
+    {
+      "plant_id": "390004",
+      "plant_name": "Tea tree",
+      "molecule_id": "960008",
+      "molecule_name": "Gamma-terpinene"
+    },
+    {
+      "plant_id": "390004",
+      "plant_name": "Tea tree",
+      "molecule_id": "960002",
+      "molecule_name": "Terpinen-4-ol"
+    }
+  ],
+  "messages": [],
+  "stdout": "plant_id\tplant_name\tmolecule_id\tmolecule_name\n390005\tCardamome\t960007\tAlpha-terpinyl acetate\n390005\tCardamome\t150006\tLinalool\n390005\tCardamome\t30009\tLinalool\n390001\tGingembre\t960013\tAlpha-curcumene\n390001\tGingembre\t960012\tBeta-bisabolene\n390001\tGingembre\t960006\tGingerol\n390001\tGingembre\t960005\tZingiberene\n390003\tPin sylvestre\t960010\tDelta-3-carene\n390002\tSauge sclarée\t960011\tGermacrene D\n390002\tSauge sclarée\t150006\tLinalool\n390002\tSauge sclarée\t30009\tLinalool\n390002\tSauge sclarée\t960004\tSclareol\n390004\tTea tree\t960009\tAlpha-terpinene\n390004\tTea tree\t960008\tGamma-terpinene\n390004\tTea tree\t960002\tTerpinen-4-ol\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

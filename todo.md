@@ -336,3 +336,15 @@
 - [x] Créer la procédure tRPC d'upload d'images botaniques
 - [x] Créer le composant ImageUpload avec drag & drop (BotanicalImageUpload.tsx)
 - [x] Écrire les tests unitaires vitest pour les procédures IFRA — 22 tests passés
+
+
+---
+
+## 🔥 SESSION ACTIVE — 08 Jan 2026 (Nuit)
+
+### Tâches demandées par l'utilisateur
+- [x] Intégrer BotanicalImageUpload dans les fiches LeafEconomies
+- [x] Ajouter les plantes manquantes (Gingembre, Sauge sclarée, Pin sylvestre, Tea tree, Cardamome)
+- [x] Ajouter les molécules manquantes (13 molécules ajoutées)
+- [x] Créer les liaisons plantes-molécules pour les nouvelles entrées (15 liaisons)
+- [x] Tester l'upload d'images depuis l'interface (21 tests passés)
