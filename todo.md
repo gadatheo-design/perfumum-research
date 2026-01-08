@@ -3954,3 +3954,24 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 ### Phase 4 : Livraison
 - [x] Rapporter les résultats à l'utilisateur
 - [x] Créer le checkpoint final
+
+
+---
+
+## 🧹 SESSION 08 JAN 2026 - NETTOYAGE ROUTES ET PAGES DE TEST
+
+### Phase 1 : Suppression des pages de test
+- [x] Supprimer la route `/test-trpc` (ligne 274)
+- [x] Supprimer la route `/test-simple` (ligne 275)
+- [x] Supprimer la route `/admin/test-trpc` (ligne 287)
+- [x] Supprimer la route `/admin/test-simple` (ligne 288)
+- [x] Supprimer la route `/test-recette-card` (ligne 289)
+- [x] Supprimer la route `/test-minimal` (ligne 558)
+- [x] Supprimer les imports des composants de test (TestTRPC, TestSimple, TestRecetteCard, TestMinimal)
+- [x] Supprimer les fichiers de pages de test
+
+### Phase 2 : Consolidation des routes en double
+- [x] Consolider `/plants` et `/plantes` → conservés comme alias bilingues (intentionnel)
+- [x] Consolider `/terroirs/:id` et `/terroirs` → conservés (paramètre optionnel géré par le composant)
+- [x] Vérifier les autres doublons potentiels → tous sont des alias bilingues intentionnels
+

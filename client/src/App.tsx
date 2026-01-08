@@ -21,9 +21,7 @@ import LeProjet from "./pages/LeProjet";
 
 // === ADMINISTRATION ===
 import Admin from "./pages/Admin";
-import TestTRPC from "./pages/TestTRPC";
-import TestSimple from "./pages/TestSimple";
-import TestRecetteCard from "./pages/TestRecetteCard";
+
 import AdminMolecules from "./pages/AdminMolecules";
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminRecettes from "./pages/AdminRecettes";
@@ -263,17 +261,12 @@ import MoleculePlantRelations from "./pages/MoleculePlantRelations";
 import PlantTerroirNetwork from "./pages/PlantTerroirNetwork";
 import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
 
-// === PAGES TECHNIQUES ===
-import TestMinimal from "./pages/TestMinimal";
+
 
 
 function Router() {
   return (
     <Switch>
-      {/* === TEST === */}
-      <Route path="/test-trpc" component={TestTRPC} />
-      <Route path="/test-simple" component={TestSimple} />
-
       
       {/* === PAGES PRINCIPALES === */}
       <Route path="/" component={Home} />
@@ -284,9 +277,7 @@ function Router() {
       <Route path="/admin/molecule-origins" component={MoleculeOriginsAdmin} />
       <Route path="/admin/terroirs-geocode" component={TerroirsGeocode} />
       <Route path="/outils/editeur-formulation" component={EditeurFormulation} />
-      <Route path="/admin/test-trpc" component={TestTRPC} />
-      <Route path="/admin/test-simple" component={TestSimple} />
-      <Route path="/test-recette-card" component={TestRecetteCard} />
+
       <Route path="/admin/molecules/new" component={AdminMoleculeNew} />
       <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path="/admin/import-export" component={AdminImportExport} />
@@ -554,8 +545,6 @@ function Router() {
       <Route path="/carte-terroirs-plantes" component={CarteTerroirsPlantes} />
       <Route path="/bio-mineralis" component={BioMineralis} />
       
-      {/* === PAGES TECHNIQUES === */}
-      <Route path="/test-minimal" component={TestMinimal} />
       
       {/* === ERREURS === */}
       <Route path="/404" component={NotFound} />
