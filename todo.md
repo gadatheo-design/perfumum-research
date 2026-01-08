@@ -3897,3 +3897,36 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 - [x] Créer la roadmap 2026-2035 (10 ans)
 - [x] Rédiger le rapport d'audit radical et honnête (AUDIT_PERFUMUM_08JAN2026.md)
 
+
+
+---
+
+## 🧑‍🔬 SESSION 07 JAN 2026 - INTERFACE CONTRIBUTEUR & ENRICHISSEMENT
+
+### Phase 1 : Interface contributeur avec détection de doublons
+- [x] Créer les procédures tRPC pour détection de doublons (molécules par nom/CAS, plantes par nom latin)
+- [x] Créer le formulaire d'ajout de molécule avec auto-complétion et alertes doublons
+- [x] Créer le formulaire d'ajout de plante avec auto-complétion et alertes doublons
+- [x] Créer la page contributeur unifiée avec les deux formulaires
+- [x] Intégrer la validation des données avant insertion
+
+### Phase 2 : Interface de liaison molécules↔plantes
+- [x] Créer les procédures tRPC pour gérer les liaisons (create, read, delete)
+- [x] Créer l'interface de recherche/sélection de molécules
+- [x] Créer l'interface de recherche/sélection de plantes
+- [x] Créer la vue des liaisons existantes avec filtres
+- [x] Implémenter la création de liaisons avec validation
+
+### Phase 3 : Enrichissement automatique via PubChem
+- [x] Créer le service d'intégration PubChem (existait déjà) (recherche par nom, CAS)
+- [x] Implémenter la récupération automatique des données CAS/IUPAC
+- [x] Créer l'interface d'enrichissement (via EnrichissementPubChem.tsx) avec prévisualisation
+- [x] Implémenter l'enrichissement en masse des molécules sans CAS
+- [x] Ajouter les logs d'enrichissement pour traçabilité
+
+### Phase 4 : Tests et validation
+- [x] Écrire les tests unitaires (28 tests passés) pour les nouvelles procédures
+- [x] Tester la détection de doublons sur cas réels
+- [x] Tester l'intégration PubChem avec différentes molécules
+- [x] Valider l'interface sur desktop et mobile
+

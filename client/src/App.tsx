@@ -215,6 +215,8 @@ import ArchivesOlfactives from "./pages/ArchivesOlfactives";
 import { Glossaire } from "./pages/Glossaire";
 import GlossaireVisuelRadar from "./pages/GlossaireVisuelRadar";
 import Contribuer from "./pages/Contribuer";
+import ContributorInterface from "./pages/ContributorInterface";
+import PlantMoleculeLinking from "./pages/PlantMoleculeLinking";
 import Manifeste from "./pages/Manifeste";
 import { Timeline } from "./pages/Timeline";
 import TimelineInteractive from "./pages/TimelineInteractive";
@@ -459,6 +461,10 @@ function Router() {
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
       <Route path="/contribuer" component={Contribuer} />
+      <Route path="/contributor" component={ContributorInterface} />
+      <Route path="/contributor/add" component={ContributorInterface} />
+      <Route path="/contributor/links" component={PlantMoleculeLinking} />
+      <Route path="/plant-molecule-linking" component={PlantMoleculeLinking} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/timeline/interactive" component={TimelineInteractive} />
       <Route path="/comparaison" component={ComparaisonAvancee} />

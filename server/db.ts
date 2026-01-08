@@ -1,4 +1,4 @@
-import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, inArray, count, type SQL } from "drizzle-orm";
+import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, inArray, notInArray, count, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -9928,5 +9928,380 @@ export async function getOlfactoryTraditionsStats() {
     byStatus,
     byRegion,
     byPeriod,
+  };
+}
+
+
+// ============================================================================
+// CONTRIBUTOR INTERFACE - DUPLICATE DETECTION
+// ============================================================================
+
+/**
+ * Recherche de doublons potentiels pour une molécule
+ * Vérifie par nom (similarité), CAS number et IUPAC name
+ */
+export async function findMoleculeDuplicates(data: {
+  name?: string;
+  casNumber?: string;
+  iupacName?: string;
+}) {
+  const db = await getDb();
+  if (!db) return { exact: [], similar: [] };
+  
+  const exact: Molecule[] = [];
+  const similar: Molecule[] = [];
+  
+  // Recherche exacte par CAS number (identifiant unique)
+  if (data.casNumber) {
+    const casMatches = await db.select().from(molecules)
+      .where(eq(molecules.casNumber, data.casNumber));
+    exact.push(...casMatches);
+  }
+  
+  // Recherche exacte par nom
+  if (data.name) {
+    const nameMatches = await db.select().from(molecules)
+      .where(eq(molecules.name, data.name));
+    // Éviter les doublons si déjà trouvé par CAS
+    for (const m of nameMatches) {
+      if (!exact.find(e => e.id === m.id)) {
+        exact.push(m);
+      }
+    }
+  }
+  
+  // Recherche similaire par nom (LIKE)
+  if (data.name && data.name.length >= 3) {
+    const similarMatches = await db.select().from(molecules)
+      .where(like(molecules.name, `%${data.name}%`))
+      .limit(10);
+    for (const m of similarMatches) {
+      if (!exact.find(e => e.id === m.id) && !similar.find(s => s.id === m.id)) {
+        similar.push(m);
+      }
+    }
+  }
+  
+  // Recherche par IUPAC name
+  if (data.iupacName) {
+    const iupacMatches = await db.select().from(molecules)
+      .where(like(molecules.iupacName, `%${data.iupacName}%`))
+      .limit(5);
+    for (const m of iupacMatches) {
+      if (!exact.find(e => e.id === m.id) && !similar.find(s => s.id === m.id)) {
+        similar.push(m);
+      }
+    }
+  }
+  
+  return { exact, similar };
+}
+
+/**
+ * Recherche de doublons potentiels pour une plante
+ * Vérifie par nom commun et nom latin
+ */
+export async function findPlantDuplicates(data: {
+  name?: string;
+  latinName?: string;
+}) {
+  const db = await getDb();
+  if (!db) return { exact: [], similar: [] };
+  
+  const exact: Plant[] = [];
+  const similar: Plant[] = [];
+  
+  // Recherche exacte par nom latin (identifiant unique)
+  if (data.latinName) {
+    const latinMatches = await db.select().from(plants)
+      .where(eq(plants.latinName, data.latinName));
+    exact.push(...latinMatches);
+  }
+  
+  // Recherche exacte par nom commun
+  if (data.name) {
+    const nameMatches = await db.select().from(plants)
+      .where(eq(plants.name, data.name));
+    for (const p of nameMatches) {
+      if (!exact.find(e => e.id === p.id)) {
+        exact.push(p);
+      }
+    }
+  }
+  
+  // Recherche similaire par nom commun
+  if (data.name && data.name.length >= 3) {
+    const similarMatches = await db.select().from(plants)
+      .where(like(plants.name, `%${data.name}%`))
+      .limit(10);
+    for (const p of similarMatches) {
+      if (!exact.find(e => e.id === p.id) && !similar.find(s => s.id === p.id)) {
+        similar.push(p);
+      }
+    }
+  }
+  
+  // Recherche similaire par nom latin
+  if (data.latinName && data.latinName.length >= 3) {
+    const latinSimilar = await db.select().from(plants)
+      .where(like(plants.latinName, `%${data.latinName}%`))
+      .limit(10);
+    for (const p of latinSimilar) {
+      if (!exact.find(e => e.id === p.id) && !similar.find(s => s.id === p.id)) {
+        similar.push(p);
+      }
+    }
+  }
+  
+  return { exact, similar };
+}
+
+/**
+ * Recherche de molécules pour auto-complétion
+ */
+export async function searchMoleculesForAutocomplete(query: string, limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  if (query.length < 2) return [];
+  
+  return db.select({
+    id: molecules.id,
+    name: molecules.name,
+    casNumber: molecules.casNumber,
+    chemicalFormula: molecules.chemicalFormula,
+    family: molecules.family,
+  }).from(molecules)
+    .where(
+      or(
+        like(molecules.name, `%${query}%`),
+        like(molecules.casNumber, `%${query}%`),
+        like(molecules.iupacName, `%${query}%`)
+      )
+    )
+    .limit(limit);
+}
+
+/**
+ * Recherche de plantes pour auto-complétion
+ */
+export async function searchPlantsForAutocomplete(query: string, limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  if (query.length < 2) return [];
+  
+  return db.select({
+    id: plants.id,
+    name: plants.name,
+    latinName: plants.latinName,
+    family: plants.family,
+    category: plants.category,
+  }).from(plants)
+    .where(
+      or(
+        like(plants.name, `%${query}%`),
+        like(plants.latinName, `%${query}%`)
+      )
+    )
+    .limit(limit);
+}
+
+// ============================================================================
+// PLANT-MOLECULE LINKS MANAGEMENT
+// ============================================================================
+
+/**
+ * Récupère toutes les liaisons plante-molécule avec statistiques
+ */
+export async function getPlantMoleculeLinksStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, plantsWithLinks: 0, moleculesWithLinks: 0, orphanPlants: 0, orphanMolecules: 0 };
+  
+  const [totalLinks] = await db.select({ count: count() }).from(plantMolecules);
+  
+  // Plantes avec au moins une liaison
+  const plantsWithLinksResult = await db
+    .selectDistinct({ plantId: plantMolecules.plantId })
+    .from(plantMolecules);
+  
+  // Molécules avec au moins une liaison
+  const moleculesWithLinksResult = await db
+    .selectDistinct({ moleculeId: plantMolecules.moleculeId })
+    .from(plantMolecules);
+  
+  // Total plantes et molécules
+  const [totalPlants] = await db.select({ count: count() }).from(plants);
+  const [totalMolecules] = await db.select({ count: count() }).from(molecules);
+  
+  return {
+    total: totalLinks?.count || 0,
+    plantsWithLinks: plantsWithLinksResult.length,
+    moleculesWithLinks: moleculesWithLinksResult.length,
+    orphanPlants: (totalPlants?.count || 0) - plantsWithLinksResult.length,
+    orphanMolecules: (totalMolecules?.count || 0) - moleculesWithLinksResult.length,
+    totalPlants: totalPlants?.count || 0,
+    totalMolecules: totalMolecules?.count || 0,
+  };
+}
+
+/**
+ * Vérifie si une liaison plante-molécule existe déjà
+ */
+export async function checkPlantMoleculeLinkExists(plantId: number, moleculeId: number) {
+  const db = await getDb();
+  if (!db) return false;
+  
+  const [existing] = await db.select({ id: plantMolecules.plantId })
+    .from(plantMolecules)
+    .where(
+      and(
+        eq(plantMolecules.plantId, plantId),
+        eq(plantMolecules.moleculeId, moleculeId)
+      )
+    )
+    .limit(1);
+  
+  return !!existing;
+}
+
+/**
+ * Récupère les plantes sans liaisons (orphelines)
+ */
+export async function getOrphanPlants(limit: number = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const plantsWithLinks = await db
+    .selectDistinct({ plantId: plantMolecules.plantId })
+    .from(plantMolecules);
+  
+  const linkedPlantIds = plantsWithLinks.map(p => p.plantId);
+  
+  if (linkedPlantIds.length === 0) {
+    return db.select().from(plants).limit(limit);
+  }
+  
+  return db.select().from(plants)
+    .where(notInArray(plants.id, linkedPlantIds))
+    .orderBy(plants.name)
+    .limit(limit);
+}
+
+/**
+ * Récupère les molécules sans liaisons (orphelines)
+ */
+export async function getOrphanMolecules(limit: number = 50) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const moleculesWithLinks = await db
+    .selectDistinct({ moleculeId: plantMolecules.moleculeId })
+    .from(plantMolecules);
+  
+  const linkedMoleculeIds = moleculesWithLinks.map(m => m.moleculeId);
+  
+  if (linkedMoleculeIds.length === 0) {
+    return db.select().from(molecules).limit(limit);
+  }
+  
+  return db.select().from(molecules)
+    .where(notInArray(molecules.id, linkedMoleculeIds))
+    .orderBy(molecules.name)
+    .limit(limit);
+}
+
+// ============================================================================
+// PUBCHEM ENRICHMENT LOGGING
+// ============================================================================
+
+/**
+ * Met à jour une molécule avec les données PubChem
+ */
+export async function enrichMoleculeFromPubChem(
+  moleculeId: number,
+  pubchemData: {
+    casNumber?: string;
+    iupacName?: string;
+    chemicalFormula?: string;
+    molecularWeight?: number;
+    pubchemCid?: number;
+  }
+) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  const updateData: any = {};
+  
+  if (pubchemData.casNumber) updateData.casNumber = pubchemData.casNumber;
+  if (pubchemData.iupacName) updateData.iupacName = pubchemData.iupacName;
+  if (pubchemData.chemicalFormula) updateData.chemicalFormula = pubchemData.chemicalFormula;
+  if (pubchemData.molecularWeight) updateData.molecularWeight = pubchemData.molecularWeight;
+  
+  // Ajouter une référence PubChem si CID fourni
+  if (pubchemData.pubchemCid) {
+    const molecule = await getMoleculeById(moleculeId);
+    const existingRefs = molecule?.references || [];
+    const pubchemRef = {
+      type: 'pubchem' as const,
+      title: `PubChem CID: ${pubchemData.pubchemCid}`,
+      url: `https://pubchem.ncbi.nlm.nih.gov/compound/${pubchemData.pubchemCid}`,
+    };
+    
+    // Éviter les doublons
+    if (!existingRefs.find(r => r.url === pubchemRef.url)) {
+      updateData.references = [...existingRefs, pubchemRef];
+    }
+  }
+  
+  if (Object.keys(updateData).length > 0) {
+    await db.update(molecules).set(updateData).where(eq(molecules.id, moleculeId));
+  }
+  
+  return getMoleculeById(moleculeId);
+}
+
+/**
+ * Récupère les molécules candidates pour enrichissement PubChem
+ * (sans CAS number ou sans IUPAC name)
+ */
+export async function getMoleculesForPubChemEnrichment(limit: number = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select().from(molecules)
+    .where(
+      or(
+        isNull(molecules.casNumber),
+        isNull(molecules.iupacName)
+      )
+    )
+    .orderBy(molecules.name)
+    .limit(limit);
+}
+
+/**
+ * Statistiques d'enrichissement des molécules
+ */
+export async function getMoleculeEnrichmentStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, withCas: 0, withIupac: 0, withBoth: 0, withNeither: 0 };
+  
+  const [total] = await db.select({ count: count() }).from(molecules);
+  const [withCas] = await db.select({ count: count() }).from(molecules).where(isNotNull(molecules.casNumber));
+  const [withIupac] = await db.select({ count: count() }).from(molecules).where(isNotNull(molecules.iupacName));
+  const [withBoth] = await db.select({ count: count() }).from(molecules)
+    .where(and(isNotNull(molecules.casNumber), isNotNull(molecules.iupacName)));
+  const [withNeither] = await db.select({ count: count() }).from(molecules)
+    .where(and(isNull(molecules.casNumber), isNull(molecules.iupacName)));
+  
+  return {
+    total: total?.count || 0,
+    withCas: withCas?.count || 0,
+    withIupac: withIupac?.count || 0,
+    withBoth: withBoth?.count || 0,
+    withNeither: withNeither?.count || 0,
+    percentageWithCas: total?.count ? Math.round((withCas?.count || 0) / total.count * 100) : 0,
+    percentageWithIupac: total?.count ? Math.round((withIupac?.count || 0) / total.count * 100) : 0,
   };
 }
