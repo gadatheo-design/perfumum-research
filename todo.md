@@ -3834,4 +3834,66 @@ Cette session a permis d'enrichir significativement le projet PERFUMUM avec des 
 
 ### Phase 3 : Validation
 - [x] Vérifier l'intégrité des données (4 plantes, 6 molécules, 6 liens)
-- [ ] Créer le checkpoint
+- [x] Créer le checkpoint
+
+
+---
+
+## 🌿 SESSION 08 JAN 2026 - ENRICHISSEMENT PROTIUM & TERROIR AMAZONIE
+
+### Phase 1 : Terpènes du Protium
+- [x] Ajouter α-pinène à la base de données et le lier au Protium
+- [x] Ajouter β-pinène à la base de données et le lier au Protium
+- [x] Ajouter limonène à la base de données et le lier au Protium
+- [x] Ajouter β-caryophyllène à la base de données et le lier au Protium
+- [x] Créer les liaisons molécules-plantes pour le Protium
+
+### Phase 2 : Fiche Terroir Amazonie
+- [x] Créer le schéma de table `terroirs` si nécessaire (existait déjà)
+- [x] Créer la fiche "Terroir Amazonie" avec caractéristiques climatiques
+- [x] Lister les plantes de la région Putumayo (sous-terroir créé)
+- [x] Lister les plantes de la région Vaupés (sous-terroir créé)
+- [x] Créer l'interface de visualisation du terroir (page Terroirs existante)
+
+### Phase 3 : Documentation de l'Ambil
+- [x] Créer une entrée complète pour l'Ambil (tabac rituel)
+- [x] Documenter le lien avec le mambe et les mambeaderos
+- [x] Documenter les usages rituels et contexte culturel
+- [x] Lier l'Ambil aux plantes et molécules associées (lié aux terroirs Amazonie)
+
+### Phase 4 : Validation
+- [x] Vérifier l'intégrité des données ajoutées
+- [x] Tester les nouvelles pages/fonctionnalités (données visibles via pages existantes)
+- [ ] Créer le checkpoint final
+
+
+
+---
+
+## 🔍 SESSION 08 JAN 2026 - AUDIT COMPLET & STRATÉGIE COLLABORATIVE
+
+### Phase 1 : Nettoyage de la base de données
+- [ ] Identifier tous les doublons dans la table molecules
+- [ ] Identifier tous les doublons dans la table plants
+- [ ] Identifier tous les doublons dans la table terroirs
+- [ ] Nettoyer les doublons en préservant les données les plus complètes
+- [ ] Vérifier l'intégrité référentielle après nettoyage
+
+### Phase 2 : Audit des pages et fonctionnalités
+- [ ] Lister toutes les pages existantes et leur état
+- [ ] Identifier les pages manquantes ou incomplètes
+- [ ] Identifier les fonctionnalités CRUD manquantes
+- [ ] Évaluer la cohérence de l'interface utilisateur
+
+### Phase 3 : Stratégie de travail autonome (5 collègues)
+- [ ] Concevoir l'interface d'ajout de données autonome
+- [ ] Définir les rôles et permissions
+- [ ] Créer les formulaires d'entrée de données
+- [ ] Documenter le workflow de contribution
+
+### Phase 4 : Roadmap et audit général
+- [ ] Analyser l'historique du projet depuis le début
+- [ ] Identifier les axes de développement prioritaires
+- [ ] Créer la roadmap 2026-2035 (10 ans)
+- [ ] Rédiger le rapport d'audit radical et honnête
+
