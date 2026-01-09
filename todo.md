@@ -466,3 +466,24 @@
 - [x] Améliorer l'interface de visualisation des liaisons plante-molécule (interface existante fonctionnelle)
 - [x] Valider les nouvelles liaisons créées (480 liaisons, 345 avec pourcentages, 124 signatures)
 
+
+
+---
+
+## 🔬 SESSION ACTUELLE — Enrichissement données climatiques et liaisons (08 Jan 2026)
+
+### Enrichissement zones climatiques Köppen (27 nouvelles plantes)
+- [x] Identifier les 27 plantes avec zones Köppen manquantes
+- [x] Rechercher les données climatiques pour chaque plante (28 plantes mises à jour)
+- [x] Mettre à jour la base de données avec les zones Köppen (0 plantes restantes)
+
+### Compositions chimiques des plantes orphelines (68 plantes)
+- [ ] Identifier les 68 plantes orphelines (sans liaisons moléculaires)
+- [ ] Rechercher les compositions chimiques pour chaque plante
+- [ ] Créer les liaisons molécule-plante correspondantes
+
+### Liaisons terroir-plante (nouvelles plantes)
+- [ ] Identifier les nouvelles plantes nécessitant des liaisons terroir
+- [ ] Créer les liaisons terroir-plante pour Cyprès méditerranéen
+- [ ] Créer les liaisons terroir-plante pour Genévrier alpin
+- [ ] Créer les liaisons terroir-plante pour autres nouvelles plantes
