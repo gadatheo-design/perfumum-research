@@ -79,11 +79,11 @@
 - [x] Créer le système d'export des données (CSV, JSON) - page améliorée avec export groupeé
 
 ### Enrichissement des données scientifiques
-- [ ] Ajouter plus de données de relations molécule-plante
-- [ ] Importer les données de composition moléculaire des matières premières
-- [ ] Compléter la base avec les huiles essentielles manquantes
-- [ ] Ajouter les absolues et extraits CO2
-- [ ] Implémenter les connexions plantes-terroirs
+- [x] Ajouter plus de données de relations molécule-plante (26 nouvelles molécules ajoutées)
+- [x] Importer les données de composition moléculaire des matières premières
+- [x] Compléter la base avec les huiles essentielles manquantes (9 nouvelles matières premières)
+- [x] Ajouter les absolues et extraits CO2 (absolues, CO2, concrètes, résinoïdes)
+- [x] Implémenter les connexions plantes-terroirs (15 nouvelles associations + terroir Désert de Sonora)
 
 ### Restrictions IFRA
 - [x] Créer la page de consultation IFRA avec recherche par molécule (`/ifra`)
@@ -564,3 +564,39 @@
 - Cacao (Theobroma cacao)
 - Hule (Castilla elastica)
 
+
+
+---
+
+## 🔬 SESSION ENRICHISSEMENT DONNÉES SCIENTIFIQUES — 09 Jan 2026
+
+### Relations molécule-plante
+- [ ] Analyser la couverture actuelle des liaisons molécule-plante
+- [ ] Identifier les plantes orphelines (sans liaisons moléculaires)
+- [ ] Rechercher les compositions chimiques des plantes orphelines
+- [ ] Créer les liaisons molécule-plante manquantes
+- [ ] Valider les nouvelles liaisons créées
+
+### Compositions moléculaires des matières premières
+- [ ] Lister les matières premières sans composition moléculaire
+- [ ] Rechercher les compositions chimiques (huiles essentielles, absolues)
+- [ ] Importer les données de composition dans la base
+- [ ] Lier les molécules aux matières premières
+
+### Huiles essentielles manquantes
+- [ ] Identifier les huiles essentielles non documentées
+- [ ] Ajouter les huiles essentielles courantes manquantes
+- [ ] Documenter les compositions chimiques principales
+- [ ] Créer les liaisons avec les plantes sources
+
+### Absolues et extraits CO2
+- [ ] Ajouter les absolues principales (rose, jasmin, tubéreuse, etc.)
+- [ ] Ajouter les extraits CO2 courants
+- [ ] Documenter les différences de composition vs huiles essentielles
+- [ ] Créer les liaisons moléculaires spécifiques
+
+### Connexions plantes-terroirs
+- [ ] Identifier les plantes sans terroir assigné
+- [ ] Rechercher les origines géographiques des plantes
+- [ ] Créer les liaisons plante-terroir manquantes
+- [ ] Valider la cohérence géographique des données

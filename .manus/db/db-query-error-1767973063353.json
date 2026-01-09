@@ -1,0 +1,8 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM raw_materials) as total_raw_materials,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'huile_essentielle') as huiles_essentielles,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'absolue') as absolues,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'extrait_co2') as extraits_co2,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'concrete') as concretes,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'resinoid') as resinoids;\n\nSELECT DISTINCT type FROM raw_materials;\n\nSELECT name, type, plant_id FROM raw_materials WHERE type IN ('huile_essentielle', 'absolue', 'extrait_co2') LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM raw_materials) as total_raw_materials,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'huile_essentielle') as huiles_essentielles,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'absolue') as absolues,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'extrait_co2') as extraits_co2,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'concrete') as concretes,\n  (SELECT COUNT(*) FROM raw_materials WHERE type = 'resinoid') as resinoids;\n\nSELECT DISTINCT type FROM raw_materials;\n\nSELECT name, type, plant_id FROM raw_materials WHERE type IN ('huile_essentielle', 'absolue', 'extrait_co2') LIMIT 30;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'type' in 'where clause'"
+  ]
+}
