@@ -815,3 +815,40 @@
 - [x] Écrire les tests pour les liens entités-sources (5 tests)
 - [x] Écrire les tests pour la vue réseau de citations (4 tests)
 - [x] Tous les 14 tests passent avec succès
+
+
+---
+
+## 🆕 SESSION 09 JANVIER 2026 — Améliorations UX/Responsive
+
+### Responsive et compatibilité
+- [ ] Tester le responsive sur mobile (320px-480px)
+- [ ] Tester le responsive sur tablette (768px-1024px)
+- [ ] Corriger les problèmes d'affichage identifiés
+
+### Cohérence visuelle page Gammes
+- [ ] Améliorer la page Gammes avec la même cohérence visuelle que les cartes améliorées
+- [ ] Harmoniser les styles avec le reste du site
+
+### Animations de chargement
+- [ ] Créer un composant Skeleton générique
+- [ ] Ajouter des skeletons pour les cartes de molécules
+- [ ] Ajouter des skeletons pour les cartes de recettes
+- [ ] Ajouter des skeletons pour les listes et tableaux
+
+
+---
+
+## 🔥 SESSION ACTIVE — 09 Jan 2026 (Responsive & Skeletons)
+
+### Tâches demandées par l'utilisateur
+- [x] Tester le responsive sur mobile et tablette
+- [x] Améliorer la page Gammes avec cohérence visuelle (refonte complète)
+- [x] Ajouter des animations de chargement (skeletons)
+
+### Détails des améliorations
+- Page Gammes : Refonte complète avec design responsive, animations Framer Motion, cartes améliorées
+- Skeletons : Création d'une bibliothèque complète de composants skeleton (card-skeleton.tsx, skeletons.tsx)
+- Nouveaux composants : GammeCardSkeleton, MoleculeCardSkeleton, RecetteCardSkeleton, DashboardSkeleton, etc.
+- Responsive : Optimisation des breakpoints et des espacements pour mobile/tablette
+- Animations : Effet shimmer amélioré, animations de chargement fluides

@@ -107,3 +107,102 @@ export function ListSkeleton({ count = 5 }: { count?: number }) {
     </div>
   );
 }
+
+/**
+ * Skeleton pour la barre de filtres
+ */
+export function FilterBarSkeleton() {
+  return (
+    <div className="flex flex-wrap gap-3 mb-6">
+      <Skeleton className="h-10 w-48 rounded-md" />
+      <Skeleton className="h-10 w-32 rounded-md" />
+      <Skeleton className="h-10 w-32 rounded-md" />
+      <Skeleton className="h-10 w-24 rounded-md" />
+    </div>
+  );
+}
+
+/**
+ * Skeleton pour une grille de cartes
+ */
+export function GridSkeleton({ count = 9, columns = 3 }: { count?: number; columns?: number }) {
+  const gridClass = columns === 2 
+    ? 'grid-cols-1 sm:grid-cols-2' 
+    : columns === 4 
+      ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+  
+  return (
+    <div className={`grid ${gridClass} gap-4 md:gap-6`}>
+      {Array.from({ length: count }).map((_, i) => (
+        <CardSkeleton key={i} />
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Skeleton pour les statistiques
+ */
+export function StatsSkeleton({ count = 4 }: { count?: number }) {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="border border-border rounded-lg p-4 space-y-2">
+          <Skeleton className="h-4 w-20" />
+          <Skeleton className="h-8 w-16" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Skeleton pour les tableaux
+ */
+export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; columns?: number }) {
+  return (
+    <div className="border border-border rounded-lg overflow-hidden">
+      {/* Header */}
+      <div className="bg-muted/50 border-b border-border p-3 flex gap-4">
+        {Array.from({ length: columns }).map((_, i) => (
+          <Skeleton key={i} className="h-4 flex-1" />
+        ))}
+      </div>
+      {/* Rows */}
+      {Array.from({ length: rows }).map((_, rowIdx) => (
+        <div key={rowIdx} className="border-b border-border/50 p-3 flex gap-4">
+          {Array.from({ length: columns }).map((_, colIdx) => (
+            <Skeleton key={colIdx} className="h-4 flex-1" />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Skeleton pour le header de page
+ */
+export function PageHeaderSkeleton() {
+  return (
+    <div className="space-y-4 mb-8">
+      <Skeleton className="h-4 w-48" />
+      <Skeleton className="h-10 w-2/3" />
+      <Skeleton className="h-5 w-1/2" />
+    </div>
+  );
+}
+
+/**
+ * Skeleton complet pour une page de liste
+ */
+export function ListPageSkeleton({ cardCount = 9 }: { cardCount?: number }) {
+  return (
+    <div className="space-y-6">
+      <PageHeaderSkeleton />
+      <FilterBarSkeleton />
+      <GridSkeleton count={cardCount} />
+    </div>
+  );
+}
