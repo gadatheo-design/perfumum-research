@@ -452,3 +452,17 @@
 - [ ] Créer le parcours "Bois et résines"
 - [ ] Implémenter l'interface de sélection des parcours
 - [ ] Permettre aux utilisateurs de créer leurs propres parcours (P2)
+
+
+---
+
+## 🔗 SESSION ACTUELLE — Enrichissement liaisons plante-molécule (08 Jan 2026)
+
+### Objectifs
+- [x] Analyser l'état actuel des liaisons plante-molécule dans la base de données
+- [x] Identifier les plantes sans liaisons moléculaires
+- [x] Identifier les molécules sans liaisons végétales
+- [x] Enrichir les liaisons existantes avec des données des fichiers source (480 liaisons, 58% plantes, 32% molécules)
+- [x] Améliorer l'interface de visualisation des liaisons plante-molécule (interface existante fonctionnelle)
+- [x] Valider les nouvelles liaisons créées (480 liaisons, 345 avec pourcentages, 124 signatures)
+
