@@ -511,3 +511,20 @@
 - [x] Créer les liaisons terroir-plante pour Genévrier (Juniperus communis) → Grasse, Calabre, Valensole
 - [x] Créer les liaisons terroir-plante pour Immortelle (Helichrysum italicum) → Grasse, Calabre, Valensole
 - [x] Valider les liaisons créées (9 liaisons au total)
+
+## 🌍 TERROIRS MÉDITERRANÉENS (09 Jan 2026)
+
+### Nouveaux terroirs à ajouter
+- [x] Ajouter le terroir Corse (maquis corse, Immortelle de Corse)
+- [x] Ajouter le terroir Sardaigne (macchia mediterranea)
+- [x] Ajouter le terroir Balkans (Croatie, Monténégro, Albanie)
+
+### Liaisons molécule-plante pour Immortelle
+- [x] Créer liaisons α-pinène → Helichrysum italicum
+- [x] Créer liaisons limonène → Helichrysum italicum
+- [x] Créer liaisons italidiones → Helichrysum italicum (I, II, III créées)
+- [x] Créer liaisons nérol → Helichrysum italicum
+- [x] Créer liaisons acétate de néryle → Helichrysum italicum
+- [x] Créer liaisons β-caryophyllène → Helichrysum italicum
+- [x] Créer liaisons γ-curcumène → Helichrysum italicum
+
