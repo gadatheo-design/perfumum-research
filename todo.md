@@ -640,3 +640,56 @@
 - [ ] Vérifier la page bibliographie sur desktop
 - [ ] Vérifier les liens de la bibliographie vers les autres pages
 - [ ] Tester la page bibliographie sur mobile
+
+
+---
+
+## 🎯 SESSION PRIORITAIRE — 09 Jan 2026 (4 Axes d'amélioration)
+
+### AXE 1 — Enrichissement des données scientifiques (CAS, IUPAC, classes chimiques)
+- [x] Analyser les molécules sans numéro CAS (avant: 43% → après: 60%)
+- [x] Rechercher et ajouter les numéros CAS manquants via PubChem (392/648 molécules)
+- [x] Analyser les molécules sans nom IUPAC (avant: 50% → après: 57%)
+- [x] Compléter les noms IUPAC manquants via PubChem (372/648 molécules)
+- [x] Analyser les molécules sans classe chimique (avant: 56% → après: 80%)
+- [x] Classifier les molécules par famille chimique (521/648 classifiées)
+- [x] Créer un script d'enrichissement automatique via API PubChem (scripts/enrich-molecules-pubchem.mjs)
+- [x] Créer un script de classification automatique (scripts/classify-molecules.mjs)
+- [ ] Continuer l'enrichissement manuel des molécules complexes restantes
+
+### AXE 2 — Amélioration des visualisations (graphes de relations, cartes)
+- [x] Corriger l'écran blanc sur /carte-terroirs (remplacé Google Maps par Leaflet/OpenStreetMap)
+- [x] Créer TerroirMapLeaflet.tsx avec OpenStreetMap comme alternative fiable
+- [x] Améliorer TerroirMapPage avec onglets Carte/Statistiques
+- [x] Ajouter des statistiques visuelles (barres de progression, répartition par climat/pays)
+- [x] Installer les dépendances Leaflet (leaflet, react-leaflet, @types/leaflet)
+- [ ] Améliorer le graphe de relations terroir-plante-molécule
+- [ ] Créer une vue détaillée avec toutes les connexions
+- [ ] Améliorer le Diagramme Sankey (flux olfactifs)
+- [ ] Améliorer la Heatmap Synergies
+- [ ] Améliorer le Graphe Réseau (D3.js)
+- [ ] Améliorer le Radar Enrichi
+- [ ] Ajouter des filtres interactifs aux visualisations
+- [ ] Optimiser les performances des graphes D3.js
+
+### AXE 3 — Optimisation de l'interface mobile
+- [x] Auditer le responsive sur les pages principales
+- [x] Ajouter des utilitaires CSS mobile-first (safe-area, touch targets, scroll-x-mobile)
+- [x] Optimiser les tableaux de données pour mobile (scroll horizontal)
+- [x] Ajouter des breakpoints optimisés (mobile 767px, tablet 1023px, desktop 1024px+)
+- [x] Optimiser les cartes et dialogues pour mobile
+- [x] Ajouter le support des appareils à encoche (safe-area-inset)
+- [x] Améliorer les cibles tactiles (min 44px iOS guideline)
+- [x] Optimiser les charts et cartes Leaflet pour mobile
+- [ ] Optimiser le MegaMenu pour mobile
+- [ ] Améliorer la navigation tactile (bottom nav)
+- [ ] Tester et corriger les visualisations sur mobile
+
+### AXE 4 — Développement de nouvelles fonctionnalités
+- [ ] Système de tags et notes (schéma + procédures + UI)
+- [ ] Graphe de force D3.js pour axes thématiques
+- [ ] Import des données relationnelles v4
+- [ ] Améliorer le système de recherche avancée
+- [ ] Ajouter des filtres par classe chimique
+- [ ] Créer des exports personnalisés
+

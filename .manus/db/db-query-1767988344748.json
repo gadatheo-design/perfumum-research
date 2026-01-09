@@ -1,0 +1,164 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as cas_filled,\n  SUM(CASE WHEN iupac_name IS NOT NULL AND iupac_name != '' THEN 1 ELSE 0 END) as iupac_filled,\n  SUM(CASE WHEN chemical_class IS NOT NULL THEN 1 ELSE 0 END) as class_filled,\n  SUM(CASE WHEN chemicalFormula IS NOT NULL AND chemicalFormula != '' THEN 1 ELSE 0 END) as formula_filled\nFROM molecules;\n\nSELECT name, cas_number, iupac_name, chemical_class, chemicalFormula \nFROM molecules \nWHERE cas_number IS NULL OR cas_number = '' \nLIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as cas_filled,\n  SUM(CASE WHEN iupac_name IS NOT NULL AND iupac_name != '' THEN 1 ELSE 0 END) as iupac_filled,\n  SUM(CASE WHEN chemical_class IS NOT NULL THEN 1 ELSE 0 END) as class_filled,\n  SUM(CASE WHEN chemicalFormula IS NOT NULL AND chemicalFormula != '' THEN 1 ELSE 0 END) as formula_filled\nFROM molecules;\n\nSELECT name, cas_number, iupac_name, chemical_class, chemicalFormula \nFROM molecules \nWHERE cas_number IS NULL OR cas_number = '' \nLIMIT 20;",
+  "rows": [
+    {
+      "total": "648",
+      "cas_filled": "372",
+      "iupac_filled": "327",
+      "class_filled": "365",
+      "formula_filled": "391"
+    },
+    {
+      "total": "name",
+      "cas_filled": "cas_number",
+      "iupac_filled": "iupac_name",
+      "class_filled": "chemical_class",
+      "formula_filled": "chemicalFormula"
+    },
+    {
+      "total": "Acide Décanoïque (C10)",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "NULL"
+    },
+    {
+      "total": "Sclerene",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "C15H24"
+    },
+    {
+      "total": "Kaolin accord",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "Al2Si2O5(OH)4"
+    },
+    {
+      "total": "Clay smoke",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "Complex"
+    },
+    {
+      "total": "Humus absolute",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "Complex"
+    },
+    {
+      "total": "Fer volatil",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "Fe-complex"
+    },
+    {
+      "total": "Aluminium aldehyde",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "C10H20O"
+    },
+    {
+      "total": "Sulfur base",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "S-complex"
+    },
+    {
+      "total": "Bitume light",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "Complex"
+    },
+    {
+      "total": "Sandstone accord",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "SiO2-complex"
+    },
+    {
+      "total": "Silicate aldehyde",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "C12H24O2"
+    },
+    {
+      "total": "Fossile absolute",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "Complex"
+    },
+    {
+      "total": "Ionone β",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "C13H20O"
+    },
+    {
+      "total": "Ionone γ",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "C13H20O"
+    },
+    {
+      "total": "Créosote light",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "C8H10O2"
+    },
+    {
+      "total": "Phénols oxydés",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "Complex"
+    },
+    {
+      "total": "Glycine pyrolysée",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "C2H5NO2"
+    },
+    {
+      "total": "Hydroxyproline pyrolysée",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "C5H9NO3"
+    },
+    {
+      "total": "Ammonium-Maillard",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "Complex"
+    },
+    {
+      "total": "IBQ (Isobutyl quinoléine)",
+      "cas_filled": "NULL",
+      "iupac_filled": "NULL",
+      "class_filled": "NULL",
+      "formula_filled": "C13H15N"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tcas_filled\tiupac_filled\tclass_filled\tformula_filled\n648\t372\t327\t365\t391\nname\tcas_number\tiupac_name\tchemical_class\tchemicalFormula\nAcide Décanoïque (C10)\tNULL\tNULL\tNULL\tNULL\nSclerene\tNULL\tNULL\tNULL\tC15H24\nKaolin accord\tNULL\tNULL\tNULL\tAl2Si2O5(OH)4\nClay smoke\tNULL\tNULL\tNULL\tComplex\nHumus absolute\tNULL\tNULL\tNULL\tComplex\nFer volatil\tNULL\tNULL\tNULL\tFe-complex\nAluminium aldehyde\tNULL\tNULL\tNULL\tC10H20O\nSulfur base\tNULL\tNULL\tNULL\tS-complex\nBitume light\tNULL\tNULL\tNULL\tComplex\nSandstone accord\tNULL\tNULL\tNULL\tSiO2-complex\nSilicate aldehyde\tNULL\tNULL\tNULL\tC12H24O2\nFossile absolute\tNULL\tNULL\tNULL\tComplex\nIonone β\tNULL\tNULL\tNULL\tC13H20O\nIonone γ\tNULL\tNULL\tNULL\tC13H20O\nCréosote light\tNULL\tNULL\tNULL\tC8H10O2\nPhénols oxydés\tNULL\tNULL\tNULL\tComplex\nGlycine pyrolysée\tNULL\tNULL\tNULL\tC2H5NO2\nHydroxyproline pyrolysée\tNULL\tNULL\tNULL\tC5H9NO3\nAmmonium-Maillard\tNULL\tNULL\tNULL\tComplex\nIBQ (Isobutyl quinoléine)\tNULL\tNULL\tNULL\tC13H15N\n",
+  "stderr": "",
+  "execution_time_ms": 1829
+}

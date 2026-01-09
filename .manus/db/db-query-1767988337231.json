@@ -1,0 +1,17 @@
+{
+  "query": "SELECT \n  COUNT(*) as total_molecules,\n  SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as with_cas,\n  SUM(CASE WHEN iupac_name IS NOT NULL AND iupac_name != '' THEN 1 ELSE 0 END) as with_iupac,\n  SUM(CASE WHEN chemical_class IS NOT NULL AND chemical_class != '' THEN 1 ELSE 0 END) as with_class,\n  SUM(CASE WHEN chemicalFormula IS NOT NULL AND chemicalFormula != '' THEN 1 ELSE 0 END) as with_formula\nFROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total_molecules,\n  SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as with_cas,\n  SUM(CASE WHEN iupac_name IS NOT NULL AND iupac_name != '' THEN 1 ELSE 0 END) as with_iupac,\n  SUM(CASE WHEN chemical_class IS NOT NULL AND chemical_class != '' THEN 1 ELSE 0 END) as with_class,\n  SUM(CASE WHEN chemicalFormula IS NOT NULL AND chemicalFormula != '' THEN 1 ELSE 0 END) as with_formula\nFROM molecules;",
+  "rows": [
+    {
+      "total_molecules": "648",
+      "with_cas": "372",
+      "with_iupac": "327",
+      "with_class": "365",
+      "with_formula": "391"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\twith_cas\twith_iupac\twith_class\twith_formula\n648\t372\t327\t365\t391\n",
+  "stderr": "",
+  "execution_time_ms": 1477
+}
