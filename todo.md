@@ -528,3 +528,39 @@
 - [x] Créer liaisons β-caryophyllène → Helichrysum italicum
 - [x] Créer liaisons γ-curcumène → Helichrysum italicum
 
+
+
+---
+
+## 🇲🇽 SESSION 9 JAN 2026 - CULTURE OLFACTIVE MEXIQUE
+
+### Import données mexicaines
+- [x] Extraire données du PDF (24 pages)
+- [x] Structurer en JSON (plantes, recettes, molécules)
+- [x] Créer script d'import des plantes mésoaméricaines
+- [x] Importer les 17 plantes mexicaines (14 nouvelles + 3 existantes)
+- [x] Importer les recettes d'encens (1: Aliento de Quetzalcóatl)
+- [x] Importer les recettes de tabacs aromatisés (5: Piciete, Fuego y Noche, Sol de Mediodía, Corazón de la Tierra, Viento del Desierto)
+- [x] Importer les recettes de parfums huile (5: Lágrimas de Ahuehuete, Piel de Jaguar, Biblioteca de Palenque, Ofrenda de Cempasúchil, Xocolatl Negro)
+- [x] Créer parcours curaté "Culture Olfactive Mésoaméricaine" (7 plantes)
+- [ ] Lier les molécules mentionnées (Geosmin, Indole, Vanilline, Pyrazine)
+
+### Plantes à importer
+- Yauhtli (Tagetes lucida)
+- Hoja Santa (Piper auritum)
+- Copal Oro/Blanco (Bursera microphylla)
+- Cacaloxochitl (Plumeria rubra)
+- Nicotiana rustica
+- Tepezcohuite (Mimosa tenuiflora)
+- Valériane mexicaine (Valeriana edulis)
+- Gobernadora (Larrea tridentata)
+- Pin Pinyon (Pinus edulis)
+- Sauge Blanche (Salvia apiana)
+- Origan Mexicain (Lippia graveolens)
+- Jasmin nocturne (Cestrum nocturnum)
+- Cempasúchil (Tagetes erecta)
+- Ahuehuete (Taxodium mucronatum)
+- Nardo/Tubéreuse (Polianthes tuberosa)
+- Cacao (Theobroma cacao)
+- Hule (Castilla elastica)
+

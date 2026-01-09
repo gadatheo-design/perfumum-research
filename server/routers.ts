@@ -7747,7 +7747,7 @@ export const appRouter = router({
         let filtered = allTerroirs;
         
         if (input.climate) {
-          filtered = filtered.filter(t => t.climate === input.climate);
+          filtered = filtered.filter(t => t.climateType === input.climate);
         }
         if (input.country) {
           filtered = filtered.filter(t => t.country === input.country);
@@ -7756,7 +7756,7 @@ export const appRouter = router({
           const search = input.search.toLowerCase();
           filtered = filtered.filter(t => 
             t.name.toLowerCase().includes(search) ||
-            (t.description && t.description.toLowerCase().includes(search)) ||
+            (t.productionHistory && t.productionHistory.toLowerCase().includes(search)) ||
             (t.region && t.region.toLowerCase().includes(search))
           );
         }
@@ -7785,7 +7785,7 @@ export const appRouter = router({
           filtered = filtered.filter(p => 
             p.name.toLowerCase().includes(search) ||
             (p.latinName && p.latinName.toLowerCase().includes(search)) ||
-            (p.description && p.description.toLowerCase().includes(search))
+            (p.olfactiveSignature && p.olfactiveSignature.toLowerCase().includes(search))
           );
         }
         return filtered;
@@ -7806,13 +7806,13 @@ export const appRouter = router({
           filtered = filtered.filter(m => m.family === input.family);
         }
         if (input.gamme) {
-          filtered = filtered.filter(m => m.gamme === input.gamme);
+          filtered = filtered.filter(m => m.olfactiveFamily === input.gamme);
         }
         if (input.search) {
           const search = input.search.toLowerCase();
           filtered = filtered.filter(m => 
             m.name.toLowerCase().includes(search) ||
-            (m.description && m.description.toLowerCase().includes(search)) ||
+            (m.olfactiveProfile && m.olfactiveProfile.toLowerCase().includes(search)) ||
             (m.olfactiveProfile && m.olfactiveProfile.toLowerCase().includes(search))
           );
         }
@@ -7826,12 +7826,12 @@ export const appRouter = router({
       const molecules = await db.getAllMolecules();
 
       // Extraire les valeurs uniques pour les filtres
-      const climates = Array.from(new Set(terroirs.map(t => t.climate).filter(Boolean))) as string[];
+      const climates = Array.from(new Set(terroirs.map(t => t.climateType).filter(Boolean))) as string[];
       const countries = Array.from(new Set(terroirs.map(t => t.country).filter(Boolean))) as string[];
       const plantCategories = Array.from(new Set(plants.map(p => p.category).filter(Boolean))) as string[];
       const olfactiveFamilies = Array.from(new Set(plants.map(p => p.family).filter(Boolean))) as string[];
       const moleculeFamilies = Array.from(new Set(molecules.map(m => m.family).filter(Boolean))) as string[];
-      const gammes = Array.from(new Set(molecules.map(m => m.gamme).filter(Boolean))) as string[];
+      const gammes = Array.from(new Set(molecules.map(m => m.olfactiveFamily).filter(Boolean))) as string[];
 
       return {
         climates: climates.sort(),
