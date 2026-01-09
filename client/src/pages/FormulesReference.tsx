@@ -9,7 +9,7 @@ import { Sparkles, Beaker, BookOpen, Filter, X, ChevronRight, Layers } from "luc
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { ViewToggle } from "@/components/ViewToggle";
+import { ViewToggle, type ViewMode } from "@/components/ViewToggle";
 import formulesData from "../../../data/FORMULES_REFERENCE_16.json";
 
 interface Molecule {
@@ -88,14 +88,17 @@ const itemVariants = {
 export default function FormulesReference() {
   const [selectedFamily, setSelectedFamily] = useState<string>("Toutes");
   const [selectedFormule, setSelectedFormule] = useState<FormuleReference | null>(null);
-  const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem("formules-view-mode") as "grid" | "list") || "grid";
+      const stored = localStorage.getItem("formules-view-mode");
+      if (stored === "grid" || stored === "list" || stored === "compact") {
+        return stored;
+      }
     }
     return "grid";
   });
 
-  const handleViewChange = (mode: "grid" | "list") => {
+  const handleViewChange = (mode: ViewMode) => {
     setViewMode(mode);
     localStorage.setItem("formules-view-mode", mode);
   };

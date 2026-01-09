@@ -141,24 +141,24 @@
 ## 🎨 P3 — UX/UI (Polissage)
 
 ### Navigation et structure
-- [ ] Simplifier le MegaMenu avec structure plus claire
-- [ ] Améliorer la hiérarchie des liens dans le header
-- [ ] Réorganiser les sections pour réduire la longueur
-- [ ] Améliorer les CTA avec plus de clarté visuelle
-- [ ] Ajouter des transitions et micro-interactions
+- [x] Simplifier le MegaMenu avec structure plus claire
+- [x] Améliorer la hiérarchie des liens dans le header
+- [x] Réorganiser les sections pour réduire la longueur
+- [x] Améliorer les CTA avec plus de clarté visuelle
+- [x] Ajouter des transitions et micro-interactions
 
 ### Cohérence visuelle
-- [ ] Vérifier la cohérence typographique sur toutes les pages
-- [ ] Harmoniser les styles de cartes
-- [ ] Améliorer les états hover et focus
+- [x] Vérifier la cohérence typographique sur toutes les pages
+- [x] Harmoniser les styles de cartes
+- [x] Améliorer les états hover et focus
 - [ ] Tester le responsive sur différentes tailles d'écran
-- [ ] Normaliser les échelles d'intensité (0-10 partout)
+- [x] Normaliser les échelles d'intensité (0-10 partout)
 
 ### Amélioration des cartes
-- [ ] Améliorer les cartes de molécules avec plus d'informations
-- [ ] Améliorer les cartes de recettes avec descriptions courtes
-- [ ] Ajouter des vues alternatives (grille compacte / liste détaillée)
-- [ ] Limiter le badge "Nouveau" aux 30 derniers jours
+- [x] Améliorer les cartes de molécules avec plus d'informations
+- [x] Améliorer les cartes de recettes avec descriptions courtes
+- [x] Ajouter des vues alternatives (grille compacte / liste détaillée)
+- [x] Limiter le badge "Nouveau" aux 30 derniers jours
 
 ### Pages à améliorer
 - [ ] Améliorer la page Gammes (cohérence visuelle)
