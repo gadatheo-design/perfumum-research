@@ -127,6 +127,7 @@ import { RecipeNetworkPage } from "./pages/RecipeNetworkPage";
 import SankeyFlow from "./pages/SankeyFlow";
 import EnhancedRadarDemo from "./pages/EnhancedRadarDemo";
 import AdvancedSearch from "./pages/AdvancedSearch";
+import CrossSearch from "./pages/CrossSearch";
 import RechercheAvancee from "./pages/RechercheAvancee";
 import RechercheProfilMoleculaire from "./pages/RechercheProfilMoleculaire";
 import RecipeTimeline from "./pages/RecipeTimeline";
@@ -577,6 +578,7 @@ function Router() {
  <Route path="/recherche" component={RechercheAvancee} />
       <Route path="/recherche-profil-moleculaire" component={RechercheProfilMoleculaire} />
       <Route path="/recherche-avancee" component={AdvancedSearch} />
+      <Route path="/recherche-croisee" component={CrossSearch} />
       <Route path="/timeline-recettes" component={RecipeTimeline} />
       <Route path="/heatmap-correlations" component={RadarCorrelationHeatmap} />
       <Route path="/formules-reference" component={FormulesReference} />

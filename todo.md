@@ -725,3 +725,32 @@
 - [x] Page dédiée accessible via `/graphe-terroir-plante-molecule`
 - [x] Lien ajouté dans le menu mobile (section Molécules)
 
+
+
+---
+
+## 🆕 SESSION 09 JANVIER 2026
+
+### Enrichissement PubChem
+- [x] Lancer le script d'enrichissement PubChem (`node scripts/enrich-molecules-pubchem.mjs`)
+- [x] Vérifier les données scientifiques complétées (CAS: 60%, IUPAC: 57%, Classe: 80%, Formule: 63%)
+
+### Accessibilité Mobile
+- [x] Ajouter le toggle mode sombre/clair au menu mobile (design amélioré avec texte + icône)
+
+### Recherche Avancée
+- [x] Créer la page de recherche croisée (`/recherche-croisee`)
+- [x] Implémenter les filtres par terroir (pays, climat)
+- [x] Implémenter les filtres par plante (catégorie, famille)
+- [x] Implémenter les filtres par molécule (famille olfactive, classe chimique)
+- [x] Ajouter la recherche textuelle globale
+- [x] Afficher les statistiques de résultats
+- [x] Écrire les tests vitest (12 tests passés)
+- [ ] Tester le toggle sur différents appareils mobiles
+
+### Recherche Avancée Multi-Entités
+- [ ] Créer la page de recherche avancée `/advanced-search`
+- [ ] Implémenter les filtres croisés terroirs ↔ plantes ↔ molécules
+- [ ] Ajouter la sélection multiple de filtres
+- [ ] Afficher les résultats avec relations entre entités
+- [ ] Tester la recherche avancée sur desktop et mobile

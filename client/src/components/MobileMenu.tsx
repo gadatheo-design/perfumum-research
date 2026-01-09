@@ -143,6 +143,7 @@ const mobileMenuSections: MenuSection[] = [
     title: "Recherche",
     icon: TestTube,
     items: [
+      { href: "/recherche-croisee", label: "Recherche croisée", badge: "NEW" },
       { href: "/recherche-scientifique", label: "Modules scientifiques" },
       { href: "/methodologie/absorbe", label: "Méthode ABSORBE" },
       { href: "/recherche/fondements-theoriques", label: "Fondements Philosophiques" },
@@ -499,9 +500,48 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               </nav>
             </ScrollArea>
 
-            {/* Footer */}
+            {/* Theme Toggle Section */}
             <div className="p-4 border-t bg-muted/30">
-              <p className="text-xs text-center text-muted-foreground">
+              <button
+                onClick={toggleTheme}
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50 hover:bg-muted/50 transition-colors"
+                aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={cn(
+                    "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                    theme === 'dark' ? "bg-amber-500/20 text-amber-400" : "bg-indigo-500/20 text-indigo-500"
+                  )}>
+                    {theme === 'dark' ? (
+                      <Moon className="h-5 w-5" />
+                    ) : (
+                      <Sun className="h-5 w-5" />
+                    )}
+                  </div>
+                  <div className="text-left">
+                    <p className="font-medium text-sm">
+                      {theme === 'dark' ? 'Mode sombre' : 'Mode clair'}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Appuyez pour changer
+                    </p>
+                  </div>
+                </div>
+                <div className={cn(
+                  "w-12 h-6 rounded-full p-1 transition-colors",
+                  theme === 'dark' ? "bg-amber-500/30" : "bg-indigo-500/30"
+                )}>
+                  <motion.div
+                    className={cn(
+                      "w-4 h-4 rounded-full",
+                      theme === 'dark' ? "bg-amber-400" : "bg-indigo-500"
+                    )}
+                    animate={{ x: theme === 'dark' ? 24 : 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  />
+                </div>
+              </button>
+              <p className="text-xs text-center text-muted-foreground mt-3">
                 Glissez vers la droite pour fermer
               </p>
             </div>

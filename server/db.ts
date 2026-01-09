@@ -12361,3 +12361,336 @@ export async function getJourneysStats() {
     byTheme,
   };
 }
+
+
+// ============================================================================
+// RECHERCHE AVANCÉE CROISÉE (Terroirs ↔ Plantes ↔ Molécules)
+// ============================================================================
+
+export interface CrossSearchFilters {
+  // Filtres terroirs
+  terroirIds?: number[];
+  terroirCountries?: string[];
+  terroirClimates?: string[];
+  
+  // Filtres plantes
+  plantIds?: number[];
+  plantCategories?: string[];
+  plantFamilies?: string[];
+  
+  // Filtres molécules
+  moleculeIds?: number[];
+  moleculeFamilies?: string[];
+  chemicalClasses?: string[];
+  
+  // Recherche textuelle
+  searchQuery?: string;
+  
+  // Options
+  includeRelations?: boolean;
+}
+
+export interface CrossSearchResult {
+  terroirs: Array<{
+    id: number;
+    name: string;
+    country: string | null;
+    region: string | null;
+    climateType: string | null;
+    plantCount: number;
+    moleculeCount: number;
+  }>;
+  plants: Array<{
+    id: number;
+    name: string;
+    latinName: string | null;
+    category: string | null;
+    family: string | null;
+    terroirCount: number;
+    moleculeCount: number;
+  }>;
+  molecules: Array<{
+    id: number;
+    name: string;
+    family: string | null;
+    chemicalClass: string | null;
+    olfactiveProfile: string | null;
+    plantCount: number;
+  }>;
+  relations: {
+    plantTerroirs: Array<{ plantId: number; terroirId: number; plantName: string; terroirName: string }>;
+    plantMolecules: Array<{ plantId: number; moleculeId: number; plantName: string; moleculeName: string; percentage?: number }>;
+  };
+  stats: {
+    totalTerroirs: number;
+    totalPlants: number;
+    totalMolecules: number;
+    totalPlantTerroirLinks: number;
+    totalPlantMoleculeLinks: number;
+  };
+}
+
+/**
+ * Recherche avancée croisée entre terroirs, plantes et molécules
+ */
+export async function crossSearch(filters: CrossSearchFilters): Promise<CrossSearchResult> {
+  const db = await getDb();
+  if (!db) {
+    return {
+      terroirs: [],
+      plants: [],
+      molecules: [],
+      relations: { plantTerroirs: [], plantMolecules: [] },
+      stats: { totalTerroirs: 0, totalPlants: 0, totalMolecules: 0, totalPlantTerroirLinks: 0, totalPlantMoleculeLinks: 0 }
+    };
+  }
+
+  // Récupérer toutes les données de base
+  const allTerroirs = await db.select().from(terroirs);
+  const allPlants = await db.select().from(plants);
+  const allMolecules = await db.select().from(molecules);
+  const allPlantTerroirs = await db.select().from(plantTerroirs);
+  const allPlantMolecules = await db.select().from(plantMolecules);
+
+  // Créer des maps pour les lookups rapides
+  const terroirMap = new Map(allTerroirs.map(t => [t.id, t]));
+  const plantMap = new Map(allPlants.map(p => [p.id, p]));
+  const moleculeMap = new Map(allMolecules.map(m => [m.id, m]));
+
+  // Filtrer les terroirs
+  let filteredTerroirs = allTerroirs;
+  if (filters.terroirIds?.length) {
+    filteredTerroirs = filteredTerroirs.filter(t => filters.terroirIds!.includes(t.id));
+  }
+  if (filters.terroirCountries?.length) {
+    filteredTerroirs = filteredTerroirs.filter(t => t.country && filters.terroirCountries!.includes(t.country));
+  }
+  if (filters.terroirClimates?.length) {
+    filteredTerroirs = filteredTerroirs.filter(t => t.climateType && filters.terroirClimates!.includes(t.climateType));
+  }
+
+  // Filtrer les plantes
+  let filteredPlants = allPlants;
+  if (filters.plantIds?.length) {
+    filteredPlants = filteredPlants.filter(p => filters.plantIds!.includes(p.id));
+  }
+  if (filters.plantCategories?.length) {
+    filteredPlants = filteredPlants.filter(p => p.category && filters.plantCategories!.includes(p.category));
+  }
+  if (filters.plantFamilies?.length) {
+    filteredPlants = filteredPlants.filter(p => p.family && filters.plantFamilies!.includes(p.family));
+  }
+
+  // Filtrer les molécules
+  let filteredMolecules = allMolecules;
+  if (filters.moleculeIds?.length) {
+    filteredMolecules = filteredMolecules.filter(m => filters.moleculeIds!.includes(m.id));
+  }
+  if (filters.moleculeFamilies?.length) {
+    filteredMolecules = filteredMolecules.filter(m => m.family && filters.moleculeFamilies!.includes(m.family));
+  }
+  if (filters.chemicalClasses?.length) {
+    filteredMolecules = filteredMolecules.filter(m => m.chemicalClass && filters.chemicalClasses!.includes(m.chemicalClass));
+  }
+
+  // Recherche textuelle
+  if (filters.searchQuery) {
+    const query = filters.searchQuery.toLowerCase();
+    filteredTerroirs = filteredTerroirs.filter(t => 
+      t.name.toLowerCase().includes(query) ||
+      (t.country && t.country.toLowerCase().includes(query)) ||
+      (t.region && t.region.toLowerCase().includes(query))
+    );
+    filteredPlants = filteredPlants.filter(p => 
+      p.name.toLowerCase().includes(query) ||
+      (p.latinName && p.latinName.toLowerCase().includes(query)) ||
+      (p.olfactiveSignature && p.olfactiveSignature.toLowerCase().includes(query))
+    );
+    filteredMolecules = filteredMolecules.filter(m => 
+      m.name.toLowerCase().includes(query) ||
+      (m.olfactiveProfile && m.olfactiveProfile.toLowerCase().includes(query)) ||
+      (m.casNumber && m.casNumber.toLowerCase().includes(query))
+    );
+  }
+
+  // Appliquer les filtres croisés si des filtres sont actifs
+  const terroirIdsSet = new Set(filteredTerroirs.map(t => t.id));
+  const plantIdsSet = new Set(filteredPlants.map(p => p.id));
+  const moleculeIdsSet = new Set(filteredMolecules.map(m => m.id));
+
+  // Si des filtres terroirs sont actifs, filtrer les plantes liées
+  if (filters.terroirIds?.length || filters.terroirCountries?.length || filters.terroirClimates?.length) {
+    const linkedPlantIds = new Set(
+      allPlantTerroirs
+        .filter(pt => terroirIdsSet.has(pt.terroirId))
+        .map(pt => pt.plantId)
+    );
+    filteredPlants = filteredPlants.filter(p => linkedPlantIds.has(p.id));
+    plantIdsSet.clear();
+    filteredPlants.forEach(p => plantIdsSet.add(p.id));
+  }
+
+  // Si des filtres plantes sont actifs, filtrer les terroirs et molécules liés
+  if (filters.plantIds?.length || filters.plantCategories?.length || filters.plantFamilies?.length) {
+    const linkedTerroirIds = new Set(
+      allPlantTerroirs
+        .filter(pt => plantIdsSet.has(pt.plantId))
+        .map(pt => pt.terroirId)
+    );
+    const linkedMoleculeIds = new Set(
+      allPlantMolecules
+        .filter(pm => plantIdsSet.has(pm.plantId))
+        .map(pm => pm.moleculeId)
+    );
+    filteredTerroirs = filteredTerroirs.filter(t => linkedTerroirIds.has(t.id));
+    filteredMolecules = filteredMolecules.filter(m => linkedMoleculeIds.has(m.id));
+    terroirIdsSet.clear();
+    moleculeIdsSet.clear();
+    filteredTerroirs.forEach(t => terroirIdsSet.add(t.id));
+    filteredMolecules.forEach(m => moleculeIdsSet.add(m.id));
+  }
+
+  // Si des filtres molécules sont actifs, filtrer les plantes liées
+  if (filters.moleculeIds?.length || filters.moleculeFamilies?.length || filters.chemicalClasses?.length) {
+    const linkedPlantIds = new Set(
+      allPlantMolecules
+        .filter(pm => moleculeIdsSet.has(pm.moleculeId))
+        .map(pm => pm.plantId)
+    );
+    filteredPlants = filteredPlants.filter(p => linkedPlantIds.has(p.id));
+    plantIdsSet.clear();
+    filteredPlants.forEach(p => plantIdsSet.add(p.id));
+  }
+
+  // Calculer les compteurs pour chaque entité
+  const terroirPlantCounts = new Map<number, number>();
+  const terroirMoleculeCounts = new Map<number, Set<number>>();
+  const plantTerroirCounts = new Map<number, number>();
+  const plantMoleculeCounts = new Map<number, number>();
+  const moleculePlantCounts = new Map<number, number>();
+
+  // Compter les relations plante-terroir
+  allPlantTerroirs.forEach(pt => {
+    if (terroirIdsSet.has(pt.terroirId) && plantIdsSet.has(pt.plantId)) {
+      terroirPlantCounts.set(pt.terroirId, (terroirPlantCounts.get(pt.terroirId) || 0) + 1);
+      plantTerroirCounts.set(pt.plantId, (plantTerroirCounts.get(pt.plantId) || 0) + 1);
+    }
+  });
+
+  // Compter les relations plante-molécule
+  allPlantMolecules.forEach(pm => {
+    if (plantIdsSet.has(pm.plantId) && moleculeIdsSet.has(pm.moleculeId)) {
+      plantMoleculeCounts.set(pm.plantId, (plantMoleculeCounts.get(pm.plantId) || 0) + 1);
+      moleculePlantCounts.set(pm.moleculeId, (moleculePlantCounts.get(pm.moleculeId) || 0) + 1);
+      
+      // Compter les molécules par terroir (via les plantes)
+      allPlantTerroirs.filter(pt => pt.plantId === pm.plantId).forEach(pt => {
+        if (terroirIdsSet.has(pt.terroirId)) {
+          if (!terroirMoleculeCounts.has(pt.terroirId)) {
+            terroirMoleculeCounts.set(pt.terroirId, new Set());
+          }
+          terroirMoleculeCounts.get(pt.terroirId)!.add(pm.moleculeId);
+        }
+      });
+    }
+  });
+
+  // Construire les résultats
+  const resultTerroirs = filteredTerroirs.map(t => ({
+    id: t.id,
+    name: t.name,
+    country: t.country,
+    region: t.region,
+    climateType: t.climateType,
+    plantCount: terroirPlantCounts.get(t.id) || 0,
+    moleculeCount: terroirMoleculeCounts.get(t.id)?.size || 0,
+  }));
+
+  const resultPlants = filteredPlants.map(p => ({
+    id: p.id,
+    name: p.name,
+    latinName: p.latinName,
+    category: p.category,
+    family: p.family,
+    terroirCount: plantTerroirCounts.get(p.id) || 0,
+    moleculeCount: plantMoleculeCounts.get(p.id) || 0,
+  }));
+
+  const resultMolecules = filteredMolecules.map(m => ({
+    id: m.id,
+    name: m.name,
+    family: m.family,
+    chemicalClass: m.chemicalClass,
+    olfactiveProfile: m.olfactiveProfile,
+    plantCount: moleculePlantCounts.get(m.id) || 0,
+  }));
+
+  // Construire les relations si demandé
+  const relations = {
+    plantTerroirs: filters.includeRelations 
+      ? allPlantTerroirs
+          .filter(pt => plantIdsSet.has(pt.plantId) && terroirIdsSet.has(pt.terroirId))
+          .map(pt => ({
+            plantId: pt.plantId,
+            terroirId: pt.terroirId,
+            plantName: plantMap.get(pt.plantId)?.name || '',
+            terroirName: terroirMap.get(pt.terroirId)?.name || '',
+          }))
+      : [],
+    plantMolecules: filters.includeRelations
+      ? allPlantMolecules
+          .filter(pm => plantIdsSet.has(pm.plantId) && moleculeIdsSet.has(pm.moleculeId))
+          .map(pm => ({
+            plantId: pm.plantId,
+            moleculeId: pm.moleculeId,
+            plantName: plantMap.get(pm.plantId)?.name || '',
+            moleculeName: moleculeMap.get(pm.moleculeId)?.name || '',
+            percentage: pm.percentage ? Number(pm.percentage) : undefined,
+          }))
+      : [],
+  };
+
+  return {
+    terroirs: resultTerroirs,
+    plants: resultPlants,
+    molecules: resultMolecules,
+    relations,
+    stats: {
+      totalTerroirs: resultTerroirs.length,
+      totalPlants: resultPlants.length,
+      totalMolecules: resultMolecules.length,
+      totalPlantTerroirLinks: relations.plantTerroirs.length,
+      totalPlantMoleculeLinks: relations.plantMolecules.length,
+    },
+  };
+}
+
+/**
+ * Récupère les options de filtres disponibles pour la recherche croisée
+ */
+export async function getCrossSearchFilterOptions() {
+  const db = await getDb();
+  if (!db) {
+    return {
+      terroirCountries: [],
+      terroirClimates: [],
+      plantCategories: [],
+      plantFamilies: [],
+      moleculeFamilies: [],
+      chemicalClasses: [],
+    };
+  }
+
+  const allTerroirs = await db.select().from(terroirs);
+  const allPlants = await db.select().from(plants);
+  const allMolecules = await db.select().from(molecules);
+
+  return {
+    terroirCountries: Array.from(new Set(allTerroirs.map(t => t.country).filter(Boolean))).sort() as string[],
+    terroirClimates: Array.from(new Set(allTerroirs.map(t => t.climateType).filter(Boolean))).sort() as string[],
+    plantCategories: Array.from(new Set(allPlants.map(p => p.category).filter(Boolean))).sort() as string[],
+    plantFamilies: Array.from(new Set(allPlants.map(p => p.family).filter(Boolean))).sort() as string[],
+    moleculeFamilies: Array.from(new Set(allMolecules.map(m => m.family).filter(Boolean))).sort() as string[],
+    chemicalClasses: Array.from(new Set(allMolecules.map(m => m.chemicalClass).filter(Boolean))).sort() as string[],
+  };
+}
