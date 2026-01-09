@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `journey_items` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `journey_id` int NOT NULL,\n  `item_type` enum('terroir','plant','molecule') NOT NULL,\n  `terroir_id` int,\n  `plant_id` int,\n  `molecule_id` int,\n  `sort_order` int DEFAULT 0,\n  `step_number` int,\n  `group_name` varchar(100),\n  `context_description` text,\n  `is_highlight` boolean DEFAULT false,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `journey_items_id` PRIMARY KEY(`id`),\n  INDEX `journey_item_journey_idx` (`journey_id`),\n  INDEX `journey_item_type_idx` (`item_type`),\n  INDEX `journey_item_order_idx` (`journey_id`, `sort_order`)\n)",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `journey_items` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `journey_id` int NOT NULL,\n  `item_type` enum('terroir','plant','molecule') NOT NULL,\n  `terroir_id` int,\n  `plant_id` int,\n  `molecule_id` int,\n  `sort_order` int DEFAULT 0,\n  `step_number` int,\n  `group_name` varchar(100),\n  `context_description` text,\n  `is_highlight` boolean DEFAULT false,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `journey_items_id` PRIMARY KEY(`id`),\n  INDEX `journey_item_journey_idx` (`journey_id`),\n  INDEX `journey_item_type_idx` (`item_type`),\n  INDEX `journey_item_order_idx` (`journey_id`, `sort_order`)\n)",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 173
+}

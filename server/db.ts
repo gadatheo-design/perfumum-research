@@ -216,6 +216,13 @@ import {
   olfactoryTraditions,
   OlfactoryTradition,
   InsertOlfactoryTradition,
+  // Curated Journeys
+  curatedJourneys,
+  CuratedJourney,
+  InsertCuratedJourney,
+  journeyItems,
+  JourneyItem,
+  InsertJourneyItem,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -12074,4 +12081,275 @@ export async function getLeafEconomiesWithoutImages() {
     .from(leafEconomies)
     .where(sql`${leafEconomies.imageUrl} IS NULL OR ${leafEconomies.imageUrl} = ''`)
     .orderBy(desc(leafEconomies.updatedAt));
+}
+
+
+// ============================================================================
+// CURATED JOURNEYS (Parcours olfactifs prédéfinis)
+// ============================================================================
+
+/**
+ * Récupère tous les parcours publiés
+ */
+export async function getAllPublishedJourneys() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select()
+    .from(curatedJourneys)
+    .where(eq(curatedJourneys.isPublished, true))
+    .orderBy(curatedJourneys.sortOrder, curatedJourneys.name);
+}
+
+/**
+ * Récupère tous les parcours (admin)
+ */
+export async function getAllJourneys() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select()
+    .from(curatedJourneys)
+    .orderBy(curatedJourneys.sortOrder, curatedJourneys.name);
+}
+
+/**
+ * Récupère les parcours mis en avant
+ */
+export async function getFeaturedJourneys() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select()
+    .from(curatedJourneys)
+    .where(and(
+      eq(curatedJourneys.isPublished, true),
+      eq(curatedJourneys.isFeatured, true)
+    ))
+    .orderBy(curatedJourneys.sortOrder);
+}
+
+/**
+ * Récupère un parcours par ID
+ */
+export async function getJourneyById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [journey] = await db.select()
+    .from(curatedJourneys)
+    .where(eq(curatedJourneys.id, id));
+  
+  return journey || null;
+}
+
+/**
+ * Récupère un parcours par code
+ */
+export async function getJourneyByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [journey] = await db.select()
+    .from(curatedJourneys)
+    .where(eq(curatedJourneys.code, code));
+  
+  return journey || null;
+}
+
+/**
+ * Récupère les parcours par thème
+ */
+export async function getJourneysByTheme(theme: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select()
+    .from(curatedJourneys)
+    .where(and(
+      eq(curatedJourneys.theme, theme as any),
+      eq(curatedJourneys.isPublished, true)
+    ))
+    .orderBy(curatedJourneys.sortOrder);
+}
+
+/**
+ * Crée un nouveau parcours
+ */
+export async function createJourney(data: InsertCuratedJourney) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  const [result] = await db.insert(curatedJourneys).values(data);
+  return getJourneyById(result.insertId);
+}
+
+/**
+ * Met à jour un parcours
+ */
+export async function updateJourney(id: number, data: Partial<InsertCuratedJourney>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  await db.update(curatedJourneys)
+    .set(data)
+    .where(eq(curatedJourneys.id, id));
+  
+  return getJourneyById(id);
+}
+
+/**
+ * Supprime un parcours
+ */
+export async function deleteJourney(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  // Supprimer d'abord les items liés
+  await db.delete(journeyItems).where(eq(journeyItems.journeyId, id));
+  // Puis le parcours
+  await db.delete(curatedJourneys).where(eq(curatedJourneys.id, id));
+  
+  return true;
+}
+
+// ============================================================================
+// JOURNEY ITEMS (Éléments des parcours)
+// ============================================================================
+
+/**
+ * Récupère les éléments d'un parcours avec les détails des entités
+ */
+export async function getJourneyItems(journeyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const items = await db.select()
+    .from(journeyItems)
+    .where(eq(journeyItems.journeyId, journeyId))
+    .orderBy(journeyItems.sortOrder);
+  
+  // Enrichir avec les détails des entités
+  const enrichedItems = await Promise.all(items.map(async (item) => {
+    let entity = null;
+    
+    if (item.itemType === 'terroir' && item.terroirId) {
+      const [t] = await db.select().from(terroirs).where(eq(terroirs.id, item.terroirId));
+      entity = t;
+    } else if (item.itemType === 'plant' && item.plantId) {
+      const [p] = await db.select().from(plants).where(eq(plants.id, item.plantId));
+      entity = p;
+    } else if (item.itemType === 'molecule' && item.moleculeId) {
+      const [m] = await db.select().from(molecules).where(eq(molecules.id, item.moleculeId));
+      entity = m;
+    }
+    
+    return { ...item, entity };
+  }));
+  
+  return enrichedItems;
+}
+
+/**
+ * Ajoute un élément à un parcours
+ */
+export async function addJourneyItem(data: InsertJourneyItem) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  const [result] = await db.insert(journeyItems).values(data);
+  
+  // Mettre à jour les compteurs du parcours
+  await updateJourneyCounts(data.journeyId);
+  
+  return result.insertId;
+}
+
+/**
+ * Supprime un élément d'un parcours
+ */
+export async function removeJourneyItem(itemId: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  // Récupérer le journeyId avant suppression
+  const [item] = await db.select().from(journeyItems).where(eq(journeyItems.id, itemId));
+  if (!item) return false;
+  
+  await db.delete(journeyItems).where(eq(journeyItems.id, itemId));
+  
+  // Mettre à jour les compteurs
+  await updateJourneyCounts(item.journeyId);
+  
+  return true;
+}
+
+/**
+ * Met à jour l'ordre d'un élément
+ */
+export async function updateJourneyItemOrder(itemId: number, sortOrder: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  await db.update(journeyItems)
+    .set({ sortOrder })
+    .where(eq(journeyItems.id, itemId));
+  
+  return true;
+}
+
+/**
+ * Met à jour les compteurs d'un parcours
+ */
+async function updateJourneyCounts(journeyId: number) {
+  const db = await getDb();
+  if (!db) return;
+  
+  const items = await db.select().from(journeyItems).where(eq(journeyItems.journeyId, journeyId));
+  
+  const terroirCount = items.filter(i => i.itemType === 'terroir').length;
+  const plantCount = items.filter(i => i.itemType === 'plant').length;
+  const moleculeCount = items.filter(i => i.itemType === 'molecule').length;
+  
+  await db.update(curatedJourneys)
+    .set({ terroirCount, plantCount, moleculeCount })
+    .where(eq(curatedJourneys.id, journeyId));
+}
+
+/**
+ * Récupère un parcours complet avec tous ses éléments
+ */
+export async function getFullJourney(journeyId: number) {
+  const journey = await getJourneyById(journeyId);
+  if (!journey) return null;
+  
+  const items = await getJourneyItems(journeyId);
+  
+  return { ...journey, items };
+}
+
+/**
+ * Récupère les statistiques des parcours
+ */
+export async function getJourneysStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const allJourneys = await db.select().from(curatedJourneys);
+  
+  const published = allJourneys.filter(j => j.isPublished);
+  const featured = allJourneys.filter(j => j.isFeatured);
+  
+  // Grouper par thème
+  const byTheme: Record<string, number> = {};
+  allJourneys.forEach(j => {
+    byTheme[j.theme] = (byTheme[j.theme] || 0) + 1;
+  });
+  
+  return {
+    total: allJourneys.length,
+    published: published.length,
+    featured: featured.length,
+    byTheme,
+  };
 }

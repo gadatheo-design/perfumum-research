@@ -7581,6 +7581,301 @@ export const appRouter = router({
       return db.getPlantMoleculeAuditStats();
     }),
   }),
+
+  // ============================================================================
+  // CURATED JOURNEYS (Parcours olfactifs prédéfinis)
+  // ============================================================================
+  curatedJourneys: router({
+    // Liste des parcours publiés
+    listPublished: publicProcedure.query(async () => {
+      return db.getAllPublishedJourneys();
+    }),
+
+    // Liste de tous les parcours (admin)
+    listAll: protectedProcedure.query(async () => {
+      return db.getAllJourneys();
+    }),
+
+    // Parcours mis en avant
+    getFeatured: publicProcedure.query(async () => {
+      return db.getFeaturedJourneys();
+    }),
+
+    // Récupérer un parcours par ID
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getJourneyById(input);
+      }),
+
+    // Récupérer un parcours par code
+    getByCode: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getJourneyByCode(input);
+      }),
+
+    // Récupérer un parcours complet avec ses éléments
+    getFull: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getFullJourney(input);
+      }),
+
+    // Parcours par thème
+    getByTheme: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.getJourneysByTheme(input);
+      }),
+
+    // Statistiques des parcours
+    getStats: publicProcedure.query(async () => {
+      return db.getJourneysStats();
+    }),
+
+    // Créer un parcours
+    create: protectedProcedure
+      .input(z.object({
+        code: z.string().min(1).max(50),
+        name: z.string().min(1).max(255),
+        nameEn: z.string().max(255).optional(),
+        description: z.string().optional(),
+        shortDescription: z.string().max(500).optional(),
+        theme: z.enum(["geographic", "olfactive", "botanical", "historical", "seasonal", "therapeutic", "culinary", "sacred", "luxury", "sustainable", "custom"]),
+        emoji: z.string().max(10).optional(),
+        coverImageUrl: z.string().max(500).optional(),
+        color: z.string().max(20).optional(),
+        difficulty: z.enum(["beginner", "intermediate", "advanced", "expert"]).optional(),
+        estimatedDuration: z.number().optional(),
+        isPublished: z.boolean().optional(),
+        isFeatured: z.boolean().optional(),
+        sortOrder: z.number().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createJourney({ ...input, createdBy: ctx.user.id });
+      }),
+
+    // Mettre à jour un parcours
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          code: z.string().min(1).max(50).optional(),
+          name: z.string().min(1).max(255).optional(),
+          nameEn: z.string().max(255).optional(),
+          description: z.string().optional(),
+          shortDescription: z.string().max(500).optional(),
+          theme: z.enum(["geographic", "olfactive", "botanical", "historical", "seasonal", "therapeutic", "culinary", "sacred", "luxury", "sustainable", "custom"]).optional(),
+          emoji: z.string().max(10).optional(),
+          coverImageUrl: z.string().max(500).optional(),
+          color: z.string().max(20).optional(),
+          difficulty: z.enum(["beginner", "intermediate", "advanced", "expert"]).optional(),
+          estimatedDuration: z.number().optional(),
+          isPublished: z.boolean().optional(),
+          isFeatured: z.boolean().optional(),
+          sortOrder: z.number().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateJourney(input.id, input.data);
+      }),
+
+    // Supprimer un parcours
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.deleteJourney(input);
+      }),
+
+    // Récupérer les éléments d'un parcours
+    getItems: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getJourneyItems(input);
+      }),
+
+    // Ajouter un élément à un parcours
+    addItem: protectedProcedure
+      .input(z.object({
+        journeyId: z.number(),
+        itemType: z.enum(["terroir", "plant", "molecule"]),
+        terroirId: z.number().optional(),
+        plantId: z.number().optional(),
+        moleculeId: z.number().optional(),
+        sortOrder: z.number().optional(),
+        stepNumber: z.number().optional(),
+        groupName: z.string().max(100).optional(),
+        contextDescription: z.string().optional(),
+        isHighlight: z.boolean().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.addJourneyItem(input);
+      }),
+
+    // Supprimer un élément d'un parcours
+    removeItem: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.removeJourneyItem(input);
+      }),
+
+    // Mettre à jour l'ordre d'un élément
+    updateItemOrder: protectedProcedure
+      .input(z.object({
+        itemId: z.number(),
+        sortOrder: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateJourneyItemOrder(input.itemId, input.sortOrder);
+      }),
+  }),
+
+  // ============================================================================
+  // PARCOURS OLFACTIF - FILTRES AVANCÉS
+  // ============================================================================
+  parcoursOlfactif: router({
+    // Récupérer les terroirs avec filtres
+    getTerroirsWithFilters: publicProcedure
+      .input(z.object({
+        climate: z.string().optional(),
+        country: z.string().optional(),
+        search: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        const allTerroirs = await db.getAllTerroirs();
+        let filtered = allTerroirs;
+        
+        if (input.climate) {
+          filtered = filtered.filter(t => t.climate === input.climate);
+        }
+        if (input.country) {
+          filtered = filtered.filter(t => t.country === input.country);
+        }
+        if (input.search) {
+          const search = input.search.toLowerCase();
+          filtered = filtered.filter(t => 
+            t.name.toLowerCase().includes(search) ||
+            (t.description && t.description.toLowerCase().includes(search)) ||
+            (t.region && t.region.toLowerCase().includes(search))
+          );
+        }
+        return filtered;
+      }),
+
+    // Récupérer les plantes avec filtres
+    getPlantsWithFilters: publicProcedure
+      .input(z.object({
+        category: z.string().optional(),
+        family: z.string().optional(),
+        search: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        const allPlants = await db.getAllPlants();
+        let filtered = allPlants;
+        
+        if (input.category) {
+          filtered = filtered.filter(p => p.category === input.category);
+        }
+        if (input.family) {
+          filtered = filtered.filter(p => p.olfactiveFamily === input.family);
+        }
+        if (input.search) {
+          const search = input.search.toLowerCase();
+          filtered = filtered.filter(p => 
+            p.name.toLowerCase().includes(search) ||
+            (p.latinName && p.latinName.toLowerCase().includes(search)) ||
+            (p.description && p.description.toLowerCase().includes(search))
+          );
+        }
+        return filtered;
+      }),
+
+    // Récupérer les molécules avec filtres
+    getMoleculesWithFilters: publicProcedure
+      .input(z.object({
+        family: z.string().optional(),
+        gamme: z.string().optional(),
+        search: z.string().optional(),
+      }))
+      .query(async ({ input }) => {
+        const allMolecules = await db.getAllMolecules();
+        let filtered = allMolecules;
+        
+        if (input.family) {
+          filtered = filtered.filter(m => m.family === input.family);
+        }
+        if (input.gamme) {
+          filtered = filtered.filter(m => m.gamme === input.gamme);
+        }
+        if (input.search) {
+          const search = input.search.toLowerCase();
+          filtered = filtered.filter(m => 
+            m.name.toLowerCase().includes(search) ||
+            (m.description && m.description.toLowerCase().includes(search)) ||
+            (m.olfactiveProfile && m.olfactiveProfile.toLowerCase().includes(search))
+          );
+        }
+        return filtered;
+      }),
+
+    // Récupérer les options de filtres disponibles
+    getFilterOptions: publicProcedure.query(async () => {
+      const terroirs = await db.getAllTerroirs();
+      const plants = await db.getAllPlants();
+      const molecules = await db.getAllMolecules();
+
+      // Extraire les valeurs uniques pour les filtres
+      const climates = Array.from(new Set(terroirs.map(t => t.climate).filter(Boolean))) as string[];
+      const countries = Array.from(new Set(terroirs.map(t => t.country).filter(Boolean))) as string[];
+      const plantCategories = Array.from(new Set(plants.map(p => p.category).filter(Boolean))) as string[];
+      const olfactiveFamilies = Array.from(new Set(plants.map(p => p.family).filter(Boolean))) as string[];
+      const moleculeFamilies = Array.from(new Set(molecules.map(m => m.family).filter(Boolean))) as string[];
+      const gammes = Array.from(new Set(molecules.map(m => m.gamme).filter(Boolean))) as string[];
+
+      return {
+        climates: climates.sort(),
+        countries: countries.sort(),
+        plantCategories: plantCategories.sort(),
+        olfactiveFamilies: olfactiveFamilies.sort(),
+        moleculeFamilies: moleculeFamilies.sort(),
+        gammes: gammes.sort(),
+      };
+    }),
+
+    // Récupérer les liaisons plante-molécule enrichies
+    getEnrichedPlantMoleculeLinks: publicProcedure
+      .input(z.object({
+        plantId: z.number().optional(),
+        moleculeId: z.number().optional(),
+      }))
+      .query(async ({ input }) => {
+        if (input.plantId) {
+          return db.getPlantMoleculesWithPercentages(input.plantId);
+        }
+        if (input.moleculeId) {
+          return db.getMoleculePlantsWithPercentages(input.moleculeId);
+        }
+        return db.getAllPlantMoleculeLinks();
+      }),
+
+    // Statistiques du parcours
+    getStats: publicProcedure.query(async () => {
+      const terroirs = await db.getAllTerroirs();
+      const plants = await db.getAllPlants();
+      const molecules = await db.getAllMolecules();
+      const plantMoleculeLinks = await db.getAllPlantMoleculeLinks();
+      const plantTerroirLinks = await db.getAllPlantTerroirRelationsWithNames();
+
+      return {
+        terroirCount: terroirs.length,
+        plantCount: plants.length,
+        moleculeCount: molecules.length,
+        plantMoleculeLinkCount: plantMoleculeLinks.length,
+        plantTerroirLinkCount: plantTerroirLinks.length,
+      };
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

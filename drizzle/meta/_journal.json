@@ -120,6 +120,13 @@
       "when": 1767897711394,
       "tag": "0016_legal_quicksilver",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "5",
+      "when": 1767915430259,
+      "tag": "0017_quick_wraith",
+      "breakpoints": true
     }
   ]
 }

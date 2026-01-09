@@ -4942,3 +4942,138 @@ export const olfactoryTraditionsRelations = relations(olfactoryTraditions, ({ on
     references: [users.id],
   }),
 }));
+
+
+// ============================================================================
+// CURATED OLFACTORY JOURNEYS (Parcours olfactifs prédéfinis)
+// ============================================================================
+
+/**
+ * Curated olfactory journeys for guided exploration.
+ * Each journey is a themed collection of terroirs, plants, and molecules
+ * that users can follow for a structured olfactory experience.
+ */
+export const curatedJourneys = mysqlTable("curated_journeys", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  code: varchar("code", { length: 50 }).notNull().unique(), // e.g., "ENCENS-MONDE", "MEDITERR-PLANTES"
+  name: varchar("name", { length: 255 }).notNull(),
+  nameEn: varchar("name_en", { length: 255 }), // English name
+  // Description
+  description: text("description"),
+  shortDescription: varchar("short_description", { length: 500 }),
+  // Theme and category
+  theme: mysqlEnum("theme", [
+    "geographic",      // Par région géographique
+    "olfactive",       // Par famille olfactive
+    "botanical",       // Par famille botanique
+    "historical",      // Par période historique
+    "seasonal",        // Par saison
+    "therapeutic",     // Par usage thérapeutique
+    "culinary",        // Aromates culinaires
+    "sacred",          // Encens et rituels
+    "luxury",          // Matières précieuses
+    "sustainable",     // Durabilité et conservation
+    "custom"           // Personnalisé
+  ]).notNull(),
+  // Visual
+  emoji: varchar("emoji", { length: 10 }),
+  coverImageUrl: varchar("cover_image_url", { length: 500 }),
+  color: varchar("color", { length: 20 }), // Hex color for UI
+  // Difficulty and duration
+  difficulty: mysqlEnum("difficulty", [
+    "beginner",        // Débutant
+    "intermediate",    // Intermédiaire
+    "advanced",        // Avancé
+    "expert"           // Expert
+  ]).default("beginner"),
+  estimatedDuration: int("estimated_duration"), // Minutes
+  // Content counts (cached for performance)
+  terroirCount: int("terroir_count").default(0),
+  plantCount: int("plant_count").default(0),
+  moleculeCount: int("molecule_count").default(0),
+  // Status
+  isPublished: boolean("is_published").default(false),
+  isFeatured: boolean("is_featured").default(false),
+  sortOrder: int("sort_order").default(0),
+  // Metadata
+  createdBy: int("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  codeIdx: uniqueIndex("journey_code_idx").on(table.code),
+  themeIdx: index("journey_theme_idx").on(table.theme),
+  publishedIdx: index("journey_published_idx").on(table.isPublished),
+  featuredIdx: index("journey_featured_idx").on(table.isFeatured),
+}));
+
+export type CuratedJourney = typeof curatedJourneys.$inferSelect;
+export type InsertCuratedJourney = typeof curatedJourneys.$inferInsert;
+
+// ============================================================================
+// JOURNEY ITEMS (Éléments des parcours)
+// ============================================================================
+
+/**
+ * Items within a curated journey.
+ * Links terroirs, plants, and molecules to journeys with ordering.
+ */
+export const journeyItems = mysqlTable("journey_items", {
+  id: int("id").autoincrement().primaryKey(),
+  journeyId: int("journey_id").notNull().references(() => curatedJourneys.id, { onDelete: "cascade" }),
+  // Item type and reference
+  itemType: mysqlEnum("item_type", [
+    "terroir",
+    "plant",
+    "molecule"
+  ]).notNull(),
+  terroirId: int("terroir_id").references(() => terroirs.id, { onDelete: "cascade" }),
+  plantId: int("plant_id").references(() => plants.id, { onDelete: "cascade" }),
+  moleculeId: int("molecule_id").references(() => molecules.id, { onDelete: "cascade" }),
+  // Ordering and grouping
+  sortOrder: int("sort_order").default(0),
+  stepNumber: int("step_number"), // For sequential journeys
+  groupName: varchar("group_name", { length: 100 }), // For grouped items
+  // Description for this item in context
+  contextDescription: text("context_description"),
+  // Highlight flag
+  isHighlight: boolean("is_highlight").default(false),
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  journeyIdx: index("journey_item_journey_idx").on(table.journeyId),
+  typeIdx: index("journey_item_type_idx").on(table.itemType),
+  orderIdx: index("journey_item_order_idx").on(table.journeyId, table.sortOrder),
+}));
+
+export type JourneyItem = typeof journeyItems.$inferSelect;
+export type InsertJourneyItem = typeof journeyItems.$inferInsert;
+
+// Relations pour curatedJourneys
+export const curatedJourneysRelations = relations(curatedJourneys, ({ one, many }) => ({
+  createdByUser: one(users, {
+    fields: [curatedJourneys.createdBy],
+    references: [users.id],
+  }),
+  items: many(journeyItems),
+}));
+
+// Relations pour journeyItems
+export const journeyItemsRelations = relations(journeyItems, ({ one }) => ({
+  journey: one(curatedJourneys, {
+    fields: [journeyItems.journeyId],
+    references: [curatedJourneys.id],
+  }),
+  terroir: one(terroirs, {
+    fields: [journeyItems.terroirId],
+    references: [terroirs.id],
+  }),
+  plant: one(plants, {
+    fields: [journeyItems.plantId],
+    references: [plants.id],
+  }),
+  molecule: one(molecules, {
+    fields: [journeyItems.moleculeId],
+    references: [molecules.id],
+  }),
+}));

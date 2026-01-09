@@ -421,3 +421,34 @@
 - **Liaisons terroir-plante**: 283 liaisons (69.1% de couverture, objectif 50% atteint)
 - **Coordonnées GPS**: 29/29 terroirs (100% de couverture)
 - **Parcours olfactif**: Nouvelle page `/parcours-olfactif` créée
+
+
+---
+
+## 🌿 PARCOURS OLFACTIF — Améliorations (09 Jan 2026)
+
+### Enrichissement liaisons plante-molécule
+- [x] Auditer les liaisons plante-molécule existantes
+- [x] Identifier les plantes sans molécules associées
+- [x] Enrichir les données de composition moléculaire des plantes principales
+- [x] Améliorer l'affichage des molécules dans les fiches plantes
+
+### Filtres thématiques pour le parcours olfactif
+- [x] Ajouter un filtre par climat (méditerranéen, tropical, tempéré, etc.)
+- [x] Ajouter un filtre par famille olfactive (boisé, floral, agrumes, etc.)
+- [x] Ajouter un filtre par famille botanique
+- [x] Implémenter la combinaison de filtres multiples
+- [x] Créer l'interface de filtrage intuitive
+
+### Parcours prédéfinis curatés
+- [x] Créer la table de données pour les parcours prédéfinis (curated_journeys + journey_items)
+- [x] Créer les procédures tRPC pour gérer les parcours
+- [x] Créer la page ParcoursDetail pour afficher un parcours
+- [x] Écrire les tests unitaires pour les parcours curatés (17 tests)
+- [ ] Créer le parcours "Encens du monde" (contenu à ajouter)
+- [ ] Créer le parcours "Plantes méditerranéennes" (contenu à ajouter)
+- [ ] Créer le parcours "Aromates culinaires" (contenu à ajouter)
+- [ ] Créer le parcours "Fleurs précieuses" (contenu à ajouter)
+- [ ] Créer le parcours "Bois et résines"
+- [ ] Implémenter l'interface de sélection des parcours
+- [ ] Permettre aux utilisateurs de créer leurs propres parcours (P2)
