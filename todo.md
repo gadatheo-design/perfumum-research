@@ -109,7 +109,7 @@
 
 ### Visualisations avancées
 - [x] Graphe de relations molécule-plante (D3.js) — `/graphe-plante-molecule`
-- [ ] Graphe de relations terroir-plante-molécule
+- [x] Graphe de relations terroir-plante-molécule (D3.js) — `/graphe-terroir-plante-molecule`
 - [ ] Vue détaillée avec toutes les connexions
 - [ ] Page terroirs avec carte interactive
 - [ ] Améliorer le Diagramme Sankey
@@ -692,4 +692,36 @@
 - [ ] Améliorer le système de recherche avancée
 - [ ] Ajouter des filtres par classe chimique
 - [ ] Créer des exports personnalisés
+
+
+
+---
+
+## 📋 SESSION 09 JANVIER 2026 — Nouvelles demandes
+
+### MegaMenu Mobile (Hamburger)
+- [x] Améliorer le MegaMenu mobile avec menu hamburger optimisé pour navigation tactile
+- [x] Implémenter les animations d'ouverture/fermeture fluides
+- [x] Organiser les sections en accordéons pour mobile
+- [x] Ajouter les gestes tactiles (swipe pour fermer)
+- [ ] Tester sur différentes tailles d'écran mobile
+
+### Enrichissement des molécules restantes (40%)
+- [x] Identifier les molécules sans données scientifiques complètes (256 sans CAS, 276 sans IUPAC)
+- [x] Script d'enrichissement PubChem existant (fonctionne pour molécules simples)
+- [ ] Recherche manuelle pour les composés complexes (accords, mélanges, noms français)
+- [ ] Compléter les CAS Numbers manquants
+- [ ] Compléter les noms IUPAC manquants
+- [ ] Compléter les classes chimiques manquantes
+- [ ] Valider les données enrichies
+
+### Graphe D3.js Terroir-Plante-Molécule
+- [x] D3.js déjà installé dans le projet
+- [x] Composant TerrainPlantMoleculeGraph.tsx existant et fonctionnel
+- [x] Nœuds pour terroirs (43), plantes (176) et molécules (648) implémentés
+- [x] Liens entre les trois entités (577 plant-molécule, 382 plant-terroir)
+- [x] Interactions implémentées (zoom, drag, hover, click, recherche)
+- [x] Filtres par type d'entité disponibles
+- [x] Page dédiée accessible via `/graphe-terroir-plante-molecule`
+- [x] Lien ajouté dans le menu mobile (section Molécules)
 
