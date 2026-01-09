@@ -1,0 +1,186 @@
+{
+  "query": "SELECT id, name, latin_name, conservation_status, cites_appendix, conservation_notes, last_assessment_year, sustainable_alternatives, threat_factors\nFROM plants \nWHERE category = 'resine' \nORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, conservation_status, cites_appendix, conservation_notes, last_assessment_year, sustainable_alternatives, threat_factors\nFROM plants \nWHERE category = 'resine' \nORDER BY name;",
+  "rows": [
+    {
+      "id": "240006",
+      "name": "Benjoin",
+      "latin_name": "Styrax benzoin",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations sauvages en déclin. Culture traditionnelle en agroforesterie.",
+      "last_assessment_year": "2019",
+      "sustainable_alternatives": "Benjoin du Siam, tolu balsam, vanilline synthétique",
+      "threat_factors": "{\"habitat_loss\": true, \"overharvesting\": true}"
+    },
+    {
+      "id": "150009",
+      "name": "Copal",
+      "latin_name": "Bursera spp.",
+      "conservation_status": "NE",
+      "cites_appendix": "NULL",
+      "conservation_notes": "NULL",
+      "last_assessment_year": "NULL",
+      "sustainable_alternatives": "NULL",
+      "threat_factors": "NULL"
+    },
+    {
+      "id": "30014",
+      "name": "Encens / Oliban",
+      "latin_name": "Boswellia carterii",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Pression commerciale importante, gestion durable nécessaire",
+      "last_assessment_year": "2018",
+      "sustainable_alternatives": "Certification de durabilité, encens de culture",
+      "threat_factors": "{\"climate_change\": true, \"overharvesting\": true}"
+    },
+    {
+      "id": "270002",
+      "name": "Encens d'Éthiopie",
+      "latin_name": "Boswellia papyrifera",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Déclin significatif des populations, régénération très faible",
+      "last_assessment_year": "2019",
+      "sustainable_alternatives": "Programmes de conservation en cours",
+      "threat_factors": "{\"climate_change\": true, \"habitat_loss\": true, \"overharvesting\": true}"
+    },
+    {
+      "id": "270003",
+      "name": "Encens de Rivae",
+      "latin_name": "Boswellia rivae",
+      "conservation_status": "DD",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Données insuffisantes sur l'état des populations",
+      "last_assessment_year": "2015",
+      "sustainable_alternatives": "NULL",
+      "threat_factors": "{\"climate_change\": true}"
+    },
+    {
+      "id": "270001",
+      "name": "Encens indien (Shallaki)",
+      "latin_name": "Boswellia serrata",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Demande croissante pour les compléments alimentaires",
+      "last_assessment_year": "2020",
+      "sustainable_alternatives": "Plantations certifiées, extraits standardisés",
+      "threat_factors": "{\"habitat_loss\": true, \"overharvesting\": true}"
+    },
+    {
+      "id": "270004",
+      "name": "Encens négligé",
+      "latin_name": "Boswellia neglecta",
+      "conservation_status": "LC",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations relativement stables",
+      "last_assessment_year": "2018",
+      "sustainable_alternatives": "NULL",
+      "threat_factors": "{\"climate_change\": true}"
+    },
+    {
+      "id": "270011",
+      "name": "Galbanum",
+      "latin_name": "Ferula gummosa",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Surexploitation en Iran. Populations sauvages en déclin.",
+      "last_assessment_year": "2017",
+      "sustainable_alternatives": "Galbanum de culture, notes vertes synthétiques",
+      "threat_factors": "{\"habitat_loss\": true, \"overharvesting\": true}"
+    },
+    {
+      "id": "150010",
+      "name": "Labdanum",
+      "latin_name": "Cistus ladanifer",
+      "conservation_status": "LC",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations stables. Récolte traditionnelle par les chèvres (résine sur leur pelage).",
+      "last_assessment_year": "2015",
+      "sustainable_alternatives": "Ambroxan (synthétique), autres résines",
+      "threat_factors": "{\"climate_change\": true, \"habitat_loss\": true}"
+    },
+    {
+      "id": "150011",
+      "name": "Myrrhe",
+      "latin_name": "Commiphora myrrha",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations stables mais pression croissante due à la demande mondiale",
+      "last_assessment_year": "2020",
+      "sustainable_alternatives": "Myrrhe de culture, alternatives synthétiques pour certains usages",
+      "threat_factors": "{\"climate_change\": true, \"habitat_loss\": true, \"overharvesting\": true}"
+    },
+    {
+      "id": "150008",
+      "name": "Oliban (Encens)",
+      "latin_name": "Boswellia sacra",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations en déclin, surexploitation et changement climatique",
+      "last_assessment_year": "2019",
+      "sustainable_alternatives": "Programmes de reforestation en cours, encens de culture",
+      "threat_factors": "{\"climate_change\": true, \"habitat_loss\": true, \"overharvesting\": true}"
+    },
+    {
+      "id": "270010",
+      "name": "Opoponax (Myrrhe douce)",
+      "latin_name": "Commiphora guidottii",
+      "conservation_status": "DD",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Données insuffisantes. Exploitation commerciale croissante.",
+      "last_assessment_year": "2018",
+      "sustainable_alternatives": "Myrrhe, benjoin",
+      "threat_factors": "{\"climate_change\": true, \"overharvesting\": true}"
+    },
+    {
+      "id": "270008",
+      "name": "Silphium",
+      "latin_name": "Ferula drudeana (probable)",
+      "conservation_status": "EX",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Éteint depuis le 1er siècle ap. J.-C. Surexploitation et impossibilité de culture.",
+      "last_assessment_year": "NULL",
+      "sustainable_alternatives": "Asa-foetida (Ferula assa-foetida) comme substitut partiel",
+      "threat_factors": "{\"overharvesting\": true}"
+    },
+    {
+      "id": "240005",
+      "name": "Styrax liquide",
+      "latin_name": "Liquidambar orientalis",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "conservation_notes": "NULL",
+      "last_assessment_year": "NULL",
+      "sustainable_alternatives": "Styrax benzoin (benjoin de Sumatra), synthèse de vanilline et cinnamates",
+      "threat_factors": "NULL"
+    },
+    {
+      "id": "210032",
+      "name": "Test Resin Plant",
+      "latin_name": "Testus resinus",
+      "conservation_status": "NE",
+      "cites_appendix": "NULL",
+      "conservation_notes": "NULL",
+      "last_assessment_year": "NULL",
+      "sustainable_alternatives": "NULL",
+      "threat_factors": "NULL"
+    },
+    {
+      "id": "270012",
+      "name": "Élémi",
+      "latin_name": "Canarium luzonicum",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Déforestation aux Philippines. Récolte traditionnelle durable menacée.",
+      "last_assessment_year": "2019",
+      "sustainable_alternatives": "Élémi de culture, limonène synthétique",
+      "threat_factors": "{\"habitat_loss\": true, \"overharvesting\": true}"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tconservation_status\tcites_appendix\tconservation_notes\tlast_assessment_year\tsustainable_alternatives\tthreat_factors\n240006\tBenjoin\tStyrax benzoin\tVU\tNONE\tPopulations sauvages en déclin. Culture traditionnelle en agroforesterie.\t2019\tBenjoin du Siam, tolu balsam, vanilline synthétique\t{\"habitat_loss\": true, \"overharvesting\": true}\n150009\tCopal\tBursera spp.\tNE\tNULL\tNULL\tNULL\tNULL\tNULL\n30014\tEncens / Oliban\tBoswellia carterii\tNT\tNONE\tPression commerciale importante, gestion durable nécessaire\t2018\tCertification de durabilité, encens de culture\t{\"climate_change\": true, \"overharvesting\": true}\n270002\tEncens d'Éthiopie\tBoswellia papyrifera\tVU\tNONE\tDéclin significatif des populations, régénération très faible\t2019\tProgrammes de conservation en cours\t{\"climate_change\": true, \"habitat_loss\": true, \"overharvesting\": true}\n270003\tEncens de Rivae\tBoswellia rivae\tDD\tNONE\tDonnées insuffisantes sur l'état des populations\t2015\tNULL\t{\"climate_change\": true}\n270001\tEncens indien (Shallaki)\tBoswellia serrata\tNT\tNONE\tDemande croissante pour les compléments alimentaires\t2020\tPlantations certifiées, extraits standardisés\t{\"habitat_loss\": true, \"overharvesting\": true}\n270004\tEncens négligé\tBoswellia neglecta\tLC\tNONE\tPopulations relativement stables\t2018\tNULL\t{\"climate_change\": true}\n270011\tGalbanum\tFerula gummosa\tVU\tNONE\tSurexploitation en Iran. Populations sauvages en déclin.\t2017\tGalbanum de culture, notes vertes synthétiques\t{\"habitat_loss\": true, \"overharvesting\": true}\n150010\tLabdanum\tCistus ladanifer\tLC\tNONE\tPopulations stables. Récolte traditionnelle par les chèvres (résine sur leur pelage).\t2015\tAmbroxan (synthétique), autres résines\t{\"climate_change\": true, \"habitat_loss\": true}\n150011\tMyrrhe\tCommiphora myrrha\tNT\tNONE\tPopulations stables mais pression croissante due à la demande mondiale\t2020\tMyrrhe de culture, alternatives synthétiques pour certains usages\t{\"climate_change\": true, \"habitat_loss\": true, \"overharvesting\": true}\n150008\tOliban (Encens)\tBoswellia sacra\tVU\tNONE\tPopulations en déclin, surexploitation et changement climatique\t2019\tProgrammes de reforestation en cours, encens de culture\t{\"climate_change\": true, \"habitat_loss\": true, \"overharvesting\": true}\n270010\tOpoponax (Myrrhe douce)\tCommiphora guidottii\tDD\tNONE\tDonnées insuffisantes. Exploitation commerciale croissante.\t2018\tMyrrhe, benjoin\t{\"climate_change\": true, \"overharvesting\": true}\n270008\tSilphium\tFerula drudeana (probable)\tEX\tNONE\tÉteint depuis le 1er siècle ap. J.-C. Surexploitation et impossibilité de culture.\tNULL\tAsa-foetida (Ferula assa-foetida) comme substitut partiel\t{\"overharvesting\": true}\n240005\tStyrax liquide\tLiquidambar orientalis\tVU\tNULL\tNULL\tNULL\tStyrax benzoin (benjoin de Sumatra), synthèse de vanilline et cinnamates\tNULL\n210032\tTest Resin Plant\tTestus resinus\tNE\tNULL\tNULL\tNULL\tNULL\tNULL\n270012\tÉlémi\tCanarium luzonicum\tVU\tNONE\tDéforestation aux Philippines. Récolte traditionnelle durable menacée.\t2019\tÉlémi de culture, limonène synthétique\t{\"habitat_loss\": true, \"overharvesting\": true}\n",
+  "stderr": "",
+  "execution_time_ms": 129
+}

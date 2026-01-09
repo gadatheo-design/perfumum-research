@@ -1,0 +1,9 @@
+{
+  "query": "SELECT pt.*, p.name as plant_name, t.name as terroir_name FROM plant_terroirs pt JOIN plants p ON pt.plant_id = p.id JOIN terroirs t ON pt.terroir_id = t.id WHERE pt.plant_id IN (420003, 420004, 420011);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT pt.*, p.name as plant_name, t.name as terroir_name FROM plant_terroirs pt JOIN plants p ON pt.plant_id = p.id JOIN terroirs t ON pt.terroir_id = t.id WHERE pt.plant_id IN (420003, 420004, 420011);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 66
+}

@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO plant_terroirs (plant_id, terroir_id, local_name, quality_notes, created_at) VALUES \n(420004, 5, 'Genévrier de Provence', 'Genévrier commun des garrigues provençales, baies aromatiques utilisées en gin et parfumerie', NOW()),\n(420004, 30002, 'Ginepro di Calabria', 'Variété méditerranéenne au profil balsamique prononcé', NOW()),\n(420004, 30008, 'Genévrier de Valensole', 'Présent sur les coteaux secs du plateau, notes résineuses et fraîches', NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO plant_terroirs (plant_id, terroir_id, local_name, quality_notes, created_at) VALUES \n(420004, 5, 'Genévrier de Provence', 'Genévrier commun des garrigues provençales, baies aromatiques utilisées en gin et parfumerie', NOW()),\n(420004, 30002, 'Ginepro di Calabria', 'Variété méditerranéenne au profil balsamique prononcé', NOW()),\n(420004, 30008, 'Genévrier de Valensole', 'Présent sur les coteaux secs du plateau, notes résineuses et fraîches', NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 59
+}

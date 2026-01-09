@@ -365,7 +365,30 @@
 
 ---
 
-## 🗺️ SESSION COURANTE — 08 Jan 2026 (Terroirs)
+## 🌿 SESSION COURANTE — 08 Jan 2026 (Conservation IUCN/CITES)
+
+### Données de conservation pour résines précieuses menacées
+- [x] Rechercher les statuts IUCN actuels pour les espèces de Boswellia (encens) - IUCN 2025-2
+- [x] Vérifier les nouvelles inscriptions CITES CoP20 (décembre 2025)
+- [x] Mettre à jour Commiphora wightii (Guggul) - nouvelle inscription CITES Annexe II (mars 2026)
+- [x] Compléter les données pour Liquidambar orientalis (Styrax liquide) - EN, 2018
+- [x] Mettre à jour Boswellia rivae - réévalué à LC selon IUCN 2025-2
+- [x] Compléter les données pour Aquilaria crassna (Bois d'agar) - CR, CITES II
+- [x] Mettre à jour Canarium luzonicum (Élémi) - VU, 2019
+- [x] Compléter les données pour Bursera spp. (Copal) - VU, 2024
+- [x] Mettre à jour les données pour les bois précieux (Santalum spicatum, Cinnamomum verum, Pinus sylvestris)
+- [x] Créer le fichier de notes de recherche research-notes/iucn-boswellia-2025.md
+- [x] Créer le script update-conservation-data.mjs pour mise à jour en base
+- [x] Exécuter la mise à jour : 11 espèces mises à jour avec succès
+
+### Résumé des espèces menacées (15 total)
+- CR (Critically Endangered): 5 espèces (Aquilaria malaccensis, Commiphora wightii, Aquilaria crassna, Saussurea costus, Nardostachys jatamansi)
+- EN (Endangered): 3 espèces (Aniba rosaeodora, Liquidambar orientalis, Cedrus atlantica)
+- VU (Vulnerable): 7 espèces (Styrax benzoin, Bursera spp., Boswellia papyrifera, Ferula gummosa, Canarium luzonicum, Santalum album, Santalum spicatum)
+
+---
+
+## 🗺️ SESSION PRÉCÉDENTE — 08 Jan 2026 (Terroirs)
 
 ### Graphe terroir-plante-molécule
 - [x] Analyser la structure actuelle du graphe plante-molécule
@@ -482,8 +505,9 @@
 - [ ] Rechercher les compositions chimiques pour chaque plante
 - [ ] Créer les liaisons molécule-plante correspondantes
 
-### Liaisons terroir-plante (nouvelles plantes)
-- [ ] Identifier les nouvelles plantes nécessitant des liaisons terroir
-- [ ] Créer les liaisons terroir-plante pour Cyprès méditerranéen
-- [ ] Créer les liaisons terroir-plante pour Genévrier alpin
-- [ ] Créer les liaisons terroir-plante pour autres nouvelles plantes
+### Liaisons terroir-plante (nouvelles plantes méditerranéennes)
+- [x] Identifier les nouvelles plantes nécessitant des liaisons terroir (Cyprès #420003, Genévrier #420004, Immortelle #420011)
+- [x] Créer les liaisons terroir-plante pour Cyprès (Cupressus sempervirens) → Grasse, Calabre, Valensole
+- [x] Créer les liaisons terroir-plante pour Genévrier (Juniperus communis) → Grasse, Calabre, Valensole
+- [x] Créer les liaisons terroir-plante pour Immortelle (Helichrysum italicum) → Grasse, Calabre, Valensole
+- [x] Valider les liaisons créées (9 liaisons au total)

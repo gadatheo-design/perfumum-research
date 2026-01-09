@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO plant_terroirs (plant_id, terroir_id, local_name, quality_notes, created_at) VALUES \n(420003, 5, 'Cyprès de Provence', 'Essence emblématique du paysage méditerranéen provençal, utilisée en parfumerie depuis l''Antiquité', NOW()),\n(420003, 30002, 'Cipresso di Calabria', 'Variété italienne au profil olfactif légèrement plus résineux', NOW()),\n(420003, 30008, 'Cyprès de Valensole', 'Présent dans les haies et bosquets du plateau lavandier', NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO plant_terroirs (plant_id, terroir_id, local_name, quality_notes, created_at) VALUES \n(420003, 5, 'Cyprès de Provence', 'Essence emblématique du paysage méditerranéen provençal, utilisée en parfumerie depuis l''Antiquité', NOW()),\n(420003, 30002, 'Cipresso di Calabria', 'Variété italienne au profil olfactif légèrement plus résineux', NOW()),\n(420003, 30008, 'Cyprès de Valensole', 'Présent dans les haies et bosquets du plateau lavandier', NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 65
+}

@@ -1,0 +1,184 @@
+{
+  "query": "SELECT id, name, region, country FROM terroirs ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, country FROM terroirs ORDER BY name;",
+  "rows": [
+    {
+      "id": "90001",
+      "name": "Amazonie Colombienne",
+      "region": "Amazonie",
+      "country": "Colombie"
+    },
+    {
+      "id": "30011",
+      "name": "Anjouan",
+      "region": "Anjouan",
+      "country": "Comores"
+    },
+    {
+      "id": "7",
+      "name": "Bosaso",
+      "region": "Puntland",
+      "country": "Somalie"
+    },
+    {
+      "id": "60005",
+      "name": "Burkina Faso",
+      "region": "Pays; axe comparatif variétés fantômes / terroirs.",
+      "country": "Burkina Faso"
+    },
+    {
+      "id": "30002",
+      "name": "Calabre",
+      "region": "Calabre",
+      "country": "Italie"
+    },
+    {
+      "id": "60006",
+      "name": "Caribbean (macro)",
+      "region": "Macro-région (hors Colombie).",
+      "country": "Caraïbes"
+    },
+    {
+      "id": "3",
+      "name": "Cauca Valley",
+      "region": "Valle del Cauca",
+      "country": "Colombie"
+    },
+    {
+      "id": "30012",
+      "name": "Cilaos",
+      "region": "Cilaos",
+      "country": "France (Réunion)"
+    },
+    {
+      "id": "60001",
+      "name": "Colombia",
+      "region": "Pays; focus Andes + Caraïbes.",
+      "country": "Colombie"
+    },
+    {
+      "id": "60002",
+      "name": "Colombia — Andes",
+      "region": "Cundinamarca, Antioquia, etc. (macro-région).",
+      "country": "Colombie"
+    },
+    {
+      "id": "60003",
+      "name": "Colombia — Caribbean",
+      "region": "Côte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.",
+      "country": "Colombie"
+    },
+    {
+      "id": "60007",
+      "name": "Global",
+      "region": "Pour ressources mondiales (pangenomes, databases).",
+      "country": "Global"
+    },
+    {
+      "id": "5",
+      "name": "Grasse",
+      "region": "PACA",
+      "country": "France"
+    },
+    {
+      "id": "30006",
+      "name": "Haute-Égypte",
+      "region": "Louxor-Assouan",
+      "country": "Égypte"
+    },
+    {
+      "id": "30009",
+      "name": "Isparta",
+      "region": "Isparta",
+      "country": "Turquie"
+    },
+    {
+      "id": "30010",
+      "name": "Kandy",
+      "region": "Province Centrale",
+      "country": "Sri Lanka"
+    },
+    {
+      "id": "6",
+      "name": "Karnataka",
+      "region": "Sud",
+      "country": "Inde"
+    },
+    {
+      "id": "4",
+      "name": "Nossi-Bé",
+      "region": "Nord-Ouest",
+      "country": "Madagascar"
+    },
+    {
+      "id": "30003",
+      "name": "Plaine des Cayes",
+      "region": "Sud",
+      "country": "Haïti"
+    },
+    {
+      "id": "30008",
+      "name": "Plateau de Valensole",
+      "region": "Provence-Alpes-Côte d'Azur",
+      "country": "France"
+    },
+    {
+      "id": "90002",
+      "name": "Putumayo",
+      "region": "Amazonie",
+      "country": "Colombie"
+    },
+    {
+      "id": "30004",
+      "name": "Région de Fès-Meknès",
+      "region": "Fès-Meknès",
+      "country": "Maroc"
+    },
+    {
+      "id": "30005",
+      "name": "Région de Ouagadougou",
+      "region": "Centre",
+      "country": "Burkina Faso"
+    },
+    {
+      "id": "60004",
+      "name": "San Andrés (archipel)",
+      "region": "Île / archipel; terrain utilisateur.",
+      "country": "Colombie"
+    },
+    {
+      "id": "1",
+      "name": "San Andrés y Providencia",
+      "region": "Caraïbes",
+      "country": "Colombie"
+    },
+    {
+      "id": "2",
+      "name": "Santander & Huila",
+      "region": "Andes",
+      "country": "Colombie"
+    },
+    {
+      "id": "30007",
+      "name": "Sumatra - Aceh",
+      "region": "Aceh",
+      "country": "Indonésie"
+    },
+    {
+      "id": "30001",
+      "name": "Vallée des Roses de Kazanlak",
+      "region": "Vallée des Roses",
+      "country": "Bulgarie"
+    },
+    {
+      "id": "90003",
+      "name": "Vaupés",
+      "region": "Amazonie",
+      "country": "Colombie"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\tcountry\n90001\tAmazonie Colombienne\tAmazonie\tColombie\n30011\tAnjouan\tAnjouan\tComores\n7\tBosaso\tPuntland\tSomalie\n60005\tBurkina Faso\tPays; axe comparatif variétés fantômes / terroirs.\tBurkina Faso\n30002\tCalabre\tCalabre\tItalie\n60006\tCaribbean (macro)\tMacro-région (hors Colombie).\tCaraïbes\n3\tCauca Valley\tValle del Cauca\tColombie\n30012\tCilaos\tCilaos\tFrance (Réunion)\n60001\tColombia\tPays; focus Andes + Caraïbes.\tColombie\n60002\tColombia — Andes\tCundinamarca, Antioquia, etc. (macro-région).\tColombie\n60003\tColombia — Caribbean\tCôte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.\tColombie\n60007\tGlobal\tPour ressources mondiales (pangenomes, databases).\tGlobal\n5\tGrasse\tPACA\tFrance\n30006\tHaute-Égypte\tLouxor-Assouan\tÉgypte\n30009\tIsparta\tIsparta\tTurquie\n30010\tKandy\tProvince Centrale\tSri Lanka\n6\tKarnataka\tSud\tInde\n4\tNossi-Bé\tNord-Ouest\tMadagascar\n30003\tPlaine des Cayes\tSud\tHaïti\n30008\tPlateau de Valensole\tProvence-Alpes-Côte d'Azur\tFrance\n90002\tPutumayo\tAmazonie\tColombie\n30004\tRégion de Fès-Meknès\tFès-Meknès\tMaroc\n30005\tRégion de Ouagadougou\tCentre\tBurkina Faso\n60004\tSan Andrés (archipel)\tÎle / archipel; terrain utilisateur.\tColombie\n1\tSan Andrés y Providencia\tCaraïbes\tColombie\n2\tSantander & Huila\tAndes\tColombie\n30007\tSumatra - Aceh\tAceh\tIndonésie\n30001\tVallée des Roses de Kazanlak\tVallée des Roses\tBulgarie\n90003\tVaupés\tAmazonie\tColombie\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}
