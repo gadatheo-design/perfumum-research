@@ -610,3 +610,33 @@
 - [ ] Rechercher les origines géographiques des plantes
 - [ ] Créer les liaisons plante-terroir manquantes
 - [ ] Valider la cohérence géographique des données
+
+
+---
+
+## 🔥 SESSION ACTIVE — 09 Jan 2026 (Complétion données et carte)
+
+### Plantes orphelines (29 restantes sans terroir)
+- [x] Identifier les 29 plantes orphelines restantes sans terroir
+- [x] Rechercher les terroirs appropriés pour chaque plante
+- [x] Créer les liaisons plante-terroir manquantes (31 liaisons créées)
+- [x] Valider la couverture finale (objectif: 100%) ✅ Atteint
+
+### Proportions molécules-recettes
+- [x] Identifier les liaisons molécules-recettes sans proportions
+- [x] Ajouter les proportions manquantes aux liaisons existantes (66 liaisons mises à jour)
+- [x] Valider la cohérence des proportions ✅
+
+### Carte interactive des terroirs
+- [x] Créer le composant carte interactive avec les terroirs (TerroirMap.tsx)
+- [x] Ajouter les marqueurs géographiques pour chaque terroir
+- [x] Afficher les plantes associées à chaque terroir au clic
+- [x] Intégrer la carte dans le dashboard existant (/carte-terroirs)
+- [ ] Tester la carte sur desktop et mobile
+
+
+### Corrections et vérifications (09 Jan 2026)
+- [ ] Diagnostiquer et corriger l'écran blanc sur /carte-terroirs
+- [ ] Vérifier la page bibliographie sur desktop
+- [ ] Vérifier les liens de la bibliographie vers les autres pages
+- [ ] Tester la page bibliographie sur mobile

@@ -1,0 +1,213 @@
+{
+  "query": "\nSELECT p.id, p.name, p.latin_name, p.family, p.origin\nFROM plants p\nLEFT JOIN plant_terroirs pt ON p.id = pt.plant_id\nWHERE pt.id IS NULL\nORDER BY p.name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT p.id, p.name, p.latin_name, p.family, p.origin\nFROM plants p\nLEFT JOIN plant_terroirs pt ON p.id = pt.plant_id\nWHERE pt.id IS NULL\nORDER BY p.name;\n",
+  "rows": [
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora",
+      "family": "NULL",
+      "origin": "NULL"
+    },
+    {
+      "id": "420012",
+      "name": "Anis étoilé",
+      "latin_name": "Illicium verum",
+      "family": "Schisandraceae",
+      "origin": "Sud de la Chine, Nord du Vietnam"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "latin_name": "Commiphora wightii",
+      "family": "NULL",
+      "origin": "NULL"
+    },
+    {
+      "id": "120012",
+      "name": "Durban Poison",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "family": "NULL",
+      "origin": "Afrique du Sud"
+    },
+    {
+      "id": "150016",
+      "name": "Kanna",
+      "latin_name": "Sceletium tortuosum",
+      "family": "Aizoaceae",
+      "origin": "Afrique du Sud (Cap)"
+    },
+    {
+      "id": "150018",
+      "name": "Klip Dagga",
+      "latin_name": "Leonotis nepetifolia",
+      "family": "Lamiaceae",
+      "origin": "Afrique tropicale"
+    },
+    {
+      "id": "150002",
+      "name": "Latakia",
+      "latin_name": "Nicotiana tabacum var. Latakia",
+      "family": "Solanaceae",
+      "origin": "Syrie (Lattaquié) / Chypre"
+    },
+    {
+      "id": "120013",
+      "name": "Malawi Gold",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "family": "NULL",
+      "origin": "Malawi"
+    },
+    {
+      "id": "120022",
+      "name": "Maui Wowie",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "family": "NULL",
+      "origin": "Maui, Hawaï"
+    },
+    {
+      "id": "330003",
+      "name": "Nicotiana benthamiana",
+      "latin_name": "Nicotiana benthamiana",
+      "family": "Solanaceae",
+      "origin": "Nord de l'Australie"
+    },
+    {
+      "id": "330005",
+      "name": "Nicotiana sylvestris",
+      "latin_name": "Nicotiana sylvestris",
+      "family": "Solanaceae",
+      "origin": "Nord-ouest de l'Argentine (Andes)"
+    },
+    {
+      "id": "330006",
+      "name": "Nicotiana tomentosiformis",
+      "latin_name": "Nicotiana tomentosiformis",
+      "family": "Solanaceae",
+      "origin": "Bolivie, nord de l'Argentine"
+    },
+    {
+      "id": "420002",
+      "name": "Orange amère",
+      "latin_name": "Citrus aurantium var. amara",
+      "family": "Rutaceae",
+      "origin": "Asie du Sud-Est, cultivé Méditerranée"
+    },
+    {
+      "id": "150004",
+      "name": "Oriental Katerini",
+      "latin_name": "Nicotiana tabacum var. Katerini",
+      "family": "Solanaceae",
+      "origin": "Grèce (Macédoine, Piérie)"
+    },
+    {
+      "id": "210004",
+      "name": "Palo santo",
+      "latin_name": "Bursera graveolens",
+      "family": "Burseraceae",
+      "origin": "Équateur (Guayaquil)"
+    },
+    {
+      "id": "120018",
+      "name": "Panama Red",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "family": "NULL",
+      "origin": "Panama"
+    },
+    {
+      "id": "150017",
+      "name": "Passiflore",
+      "latin_name": "Passiflora incarnata",
+      "family": "Passifloraceae",
+      "origin": "Sud-Est des États-Unis, Amérique centrale"
+    },
+    {
+      "id": "150001",
+      "name": "Perique",
+      "latin_name": "Nicotiana tabacum var. Perique",
+      "family": "Solanaceae",
+      "origin": "Louisiane, USA (St. James Parish)"
+    },
+    {
+      "id": "390003",
+      "name": "Pin sylvestre",
+      "latin_name": "Pinus sylvestris",
+      "family": "Pinaceae",
+      "origin": "Europe du Nord, Sibérie"
+    },
+    {
+      "id": "270008",
+      "name": "Silphium",
+      "latin_name": "Ferula drudeana (probable)",
+      "family": "Apiaceae",
+      "origin": "Cyrénaïque (Libye antique)"
+    },
+    {
+      "id": "210026",
+      "name": "Silphium (disparu)",
+      "latin_name": "Silphium sp.",
+      "family": "Asteraceae",
+      "origin": "Afrique du Nord antique (disparue)"
+    },
+    {
+      "id": "120014",
+      "name": "Swazi Gold",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "family": "NULL",
+      "origin": "Eswatini"
+    },
+    {
+      "id": "330002",
+      "name": "Tabac cultivé",
+      "latin_name": "Nicotiana tabacum L.",
+      "family": "Solanaceae",
+      "origin": "Amérique du Sud tropicale (Andes)"
+    },
+    {
+      "id": "210031",
+      "name": "Test Plant 1",
+      "latin_name": "Testus plantus",
+      "family": "Testaceae",
+      "origin": "Test Region"
+    },
+    {
+      "id": "210032",
+      "name": "Test Resin Plant",
+      "latin_name": "Testus resinus",
+      "family": "Testaceae",
+      "origin": "Test"
+    },
+    {
+      "id": "210033",
+      "name": "Test Wind Plant",
+      "latin_name": "Testus ventus",
+      "family": "Testaceae",
+      "origin": "Test"
+    },
+    {
+      "id": "150014",
+      "name": "Wild Dagga",
+      "latin_name": "Leonotis leonurus",
+      "family": "Lamiaceae",
+      "origin": "Afrique du Sud"
+    },
+    {
+      "id": "150005",
+      "name": "Yenidje",
+      "latin_name": "Nicotiana tabacum var. Yenidje",
+      "family": "Solanaceae",
+      "origin": "Grèce (Thrace, ancienne Yenidje)"
+    },
+    {
+      "id": "270012",
+      "name": "Élémi",
+      "latin_name": "Canarium luzonicum",
+      "family": "Burseraceae",
+      "origin": "Philippines"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tfamily\torigin\n210040\tAniba\tAniba rosaeodora\tNULL\tNULL\n420012\tAnis étoilé\tIllicium verum\tSchisandraceae\tSud de la Chine, Nord du Vietnam\n210039\tCommiphora\tCommiphora wightii\tNULL\tNULL\n120012\tDurban Poison\tCannabis sativa subsp. indica\tNULL\tAfrique du Sud\n150016\tKanna\tSceletium tortuosum\tAizoaceae\tAfrique du Sud (Cap)\n150018\tKlip Dagga\tLeonotis nepetifolia\tLamiaceae\tAfrique tropicale\n150002\tLatakia\tNicotiana tabacum var. Latakia\tSolanaceae\tSyrie (Lattaquié) / Chypre\n120013\tMalawi Gold\tCannabis sativa subsp. indica\tNULL\tMalawi\n120022\tMaui Wowie\tCannabis sativa subsp. indica\tNULL\tMaui, Hawaï\n330003\tNicotiana benthamiana\tNicotiana benthamiana\tSolanaceae\tNord de l'Australie\n330005\tNicotiana sylvestris\tNicotiana sylvestris\tSolanaceae\tNord-ouest de l'Argentine (Andes)\n330006\tNicotiana tomentosiformis\tNicotiana tomentosiformis\tSolanaceae\tBolivie, nord de l'Argentine\n420002\tOrange amère\tCitrus aurantium var. amara\tRutaceae\tAsie du Sud-Est, cultivé Méditerranée\n150004\tOriental Katerini\tNicotiana tabacum var. Katerini\tSolanaceae\tGrèce (Macédoine, Piérie)\n210004\tPalo santo\tBursera graveolens\tBurseraceae\tÉquateur (Guayaquil)\n120018\tPanama Red\tCannabis sativa subsp. indica\tNULL\tPanama\n150017\tPassiflore\tPassiflora incarnata\tPassifloraceae\tSud-Est des États-Unis, Amérique centrale\n150001\tPerique\tNicotiana tabacum var. Perique\tSolanaceae\tLouisiane, USA (St. James Parish)\n390003\tPin sylvestre\tPinus sylvestris\tPinaceae\tEurope du Nord, Sibérie\n270008\tSilphium\tFerula drudeana (probable)\tApiaceae\tCyrénaïque (Libye antique)\n210026\tSilphium (disparu)\tSilphium sp.\tAsteraceae\tAfrique du Nord antique (disparue)\n120014\tSwazi Gold\tCannabis sativa subsp. indica\tNULL\tEswatini\n330002\tTabac cultivé\tNicotiana tabacum L.\tSolanaceae\tAmérique du Sud tropicale (Andes)\n210031\tTest Plant 1\tTestus plantus\tTestaceae\tTest Region\n210032\tTest Resin Plant\tTestus resinus\tTestaceae\tTest\n210033\tTest Wind Plant\tTestus ventus\tTestaceae\tTest\n150014\tWild Dagga\tLeonotis leonurus\tLamiaceae\tAfrique du Sud\n150005\tYenidje\tNicotiana tabacum var. Yenidje\tSolanaceae\tGrèce (Thrace, ancienne Yenidje)\n270012\tÉlémi\tCanarium luzonicum\tBurseraceae\tPhilippines\n",
+  "stderr": "",
+  "execution_time_ms": 1510
+}

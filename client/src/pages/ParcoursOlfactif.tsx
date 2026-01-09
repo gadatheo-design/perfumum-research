@@ -177,7 +177,7 @@ export default function ParcoursOlfactif() {
       );
     }
     if (selectedClimate) {
-      filtered = filtered.filter(t => t.climate === selectedClimate);
+      filtered = filtered.filter(t => t.climateType === selectedClimate);
     }
     if (selectedCountry) {
       filtered = filtered.filter(t => t.country === selectedCountry);
@@ -202,7 +202,7 @@ export default function ParcoursOlfactif() {
       filtered = filtered.filter(p => p.category === selectedPlantCategory);
     }
     if (selectedOlfactiveFamily) {
-      filtered = filtered.filter(p => p.olfactiveFamily === selectedOlfactiveFamily);
+      filtered = filtered.filter(p => p.family === selectedOlfactiveFamily);
     }
     
     return filtered;
@@ -223,7 +223,7 @@ export default function ParcoursOlfactif() {
       plants = plants.filter(p => p.category === selectedPlantCategory);
     }
     if (selectedOlfactiveFamily) {
-      plants = plants.filter(p => p.olfactiveFamily === selectedOlfactiveFamily);
+      plants = plants.filter(p => p.family === selectedOlfactiveFamily);
     }
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -251,7 +251,7 @@ export default function ParcoursOlfactif() {
       molecules = molecules.filter(m => m.family === selectedMoleculeFamily);
     }
     if (selectedGamme) {
-      molecules = molecules.filter(m => m.gamme === selectedGamme);
+      molecules = molecules.filter(m => m.chemicalClass === selectedGamme);
     }
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -1155,7 +1155,7 @@ export default function ParcoursOlfactif() {
                   <h2 className="text-xl font-semibold">Parcours recommandés</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {featuredJourneys.map((journey: CuratedJourney) => (
+                  {featuredJourneys.map((journey: any) => (
                     <JourneyCard key={journey.id} journey={journey} featured />
                   ))}
                 </div>
@@ -1177,7 +1177,7 @@ export default function ParcoursOlfactif() {
                 </div>
               ) : curatedJourneys && curatedJourneys.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {curatedJourneys.map((journey: CuratedJourney) => (
+                  {curatedJourneys.map((journey: any) => (
                     <JourneyCard key={journey.id} journey={journey} />
                   ))}
                 </div>
