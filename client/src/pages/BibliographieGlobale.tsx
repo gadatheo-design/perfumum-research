@@ -67,6 +67,8 @@ import { Link } from "wouter";
 import { CitationGraph } from "@/components/CitationGraph";
 import { AxisSelector } from "@/components/AxisSelector";
 import { CitationManager } from "@/components/CitationManager";
+import { DateRangeFilter } from "@/components/DateRangeFilter";
+import { EntityLinker } from "@/components/EntityLinker";
 
 // Types pour les entrées bibliographiques
 type EntryType = 'article' | 'book' | 'inbook' | 'incollection' | 'inproceedings' | 'conference' | 'thesis' | 'mastersthesis' | 'phdthesis' | 'techreport' | 'manual' | 'unpublished' | 'misc' | 'online' | 'patent' | 'standard' | 'dataset' | 'software';
@@ -143,6 +145,7 @@ export default function BibliographieGlobale() {
   const [selectedType, setSelectedType] = useState<string>("all");
   const [selectedDomain, setSelectedDomain] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
+  const [selectedYearRange, setSelectedYearRange] = useState<[number, number] | null>(null);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<any>(null);
@@ -162,6 +165,8 @@ export default function BibliographieGlobale() {
     entryType: selectedType !== "all" ? selectedType : undefined,
     researchDomain: selectedDomain !== "all" ? selectedDomain : undefined,
     readStatus: selectedStatus !== "all" ? selectedStatus : undefined,
+    yearMin: selectedYearRange?.[0],
+    yearMax: selectedYearRange?.[1],
   });
 
   const { data: stats } = trpc.bibliography.getStats.useQuery();
@@ -710,6 +715,17 @@ export default function BibliographieGlobale() {
                           />
                         </div>
                       )}
+                      
+                      {/* Liaisons avec entités PERFUMUM - uniquement en mode édition */}
+                      {selectedEntry && (
+                        <div className="col-span-2 pt-4 border-t">
+                          <EntityLinker
+                            referenceId={selectedEntry.id}
+                            referenceTitle={selectedEntry.title}
+                            onUpdate={() => refetch()}
+                          />
+                        </div>
+                      )}
                     </div>
                     <DialogFooter>
                       <Button variant="outline" onClick={() => {
@@ -845,6 +861,15 @@ export default function BibliographieGlobale() {
                     ))}
                   </SelectContent>
                 </Select>
+                {stats?.yearRange && (
+                  <DateRangeFilter
+                    minYear={stats.yearRange.min}
+                    maxYear={stats.yearRange.max}
+                    selectedRange={selectedYearRange}
+                    onRangeChange={setSelectedYearRange}
+                    yearDistribution={stats.byYear}
+                  />
+                )}
               </div>
 
               {/* Liste des références */}

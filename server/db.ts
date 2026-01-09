@@ -1,4 +1,4 @@
-import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, inArray, notInArray, count, type SQL } from "drizzle-orm";
+import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, inArray, notInArray, count, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -7429,6 +7429,8 @@ export async function getAllBibliographyEntries(filters?: {
   entryType?: string;
   researchDomain?: string;
   year?: number;
+  yearMin?: number;
+  yearMax?: number;
   readStatus?: string;
   search?: string;
   axisId?: number;
@@ -7448,6 +7450,12 @@ export async function getAllBibliographyEntries(filters?: {
   }
   if (filters?.year) {
     conditions.push(eq(bibliographyEntries.year, filters.year));
+  }
+  if (filters?.yearMin) {
+    conditions.push(gte(bibliographyEntries.year, filters.yearMin));
+  }
+  if (filters?.yearMax) {
+    conditions.push(lte(bibliographyEntries.year, filters.yearMax));
   }
   if (filters?.readStatus) {
     conditions.push(eq(bibliographyEntries.readStatus, filters.readStatus as any));
@@ -7587,12 +7595,24 @@ export async function getBibliographyStats() {
     .orderBy(desc(bibliographyEntries.year))
     .limit(20);
   
+  // Get year range for timeline filter
+  const [yearRange] = await db
+    .select({
+      minYear: sql<number>`MIN(${bibliographyEntries.year})`,
+      maxYear: sql<number>`MAX(${bibliographyEntries.year})`,
+    })
+    .from(bibliographyEntries);
+  
   return {
     total: totalCount.count,
     byType,
     byDomain,
     byReadStatus,
     byYear,
+    yearRange: {
+      min: yearRange?.minYear || 1900,
+      max: yearRange?.maxYear || new Date().getFullYear(),
+    },
   };
 }
 
@@ -9546,16 +9566,73 @@ export async function createReferenceEntityLink(data: {
 }
 
 /**
- * Get all links for a reference
+ * Get all links for a reference with entity names
  */
 export async function getLinksForReference(referenceId: number) {
   const db = await getDb();
   if (!db) return [];
-  return db
+  
+  const links = await db
     .select()
     .from(referenceEntityLinks)
     .where(eq(referenceEntityLinks.referenceId, referenceId))
     .orderBy(desc(referenceEntityLinks.relevanceScore));
+  
+  // Enrich with entity names
+  const enrichedLinks = await Promise.all(
+    links.map(async (link) => {
+      let entityName = '';
+      try {
+        switch (link.entityType) {
+          case 'molecule': {
+            const [mol] = await db.select({ name: molecules.name }).from(molecules).where(eq(molecules.id, link.entityId));
+            entityName = mol?.name || '';
+            break;
+          }
+          case 'plant': {
+            const [plant] = await db.select({ name: plants.name }).from(plants).where(eq(plants.id, link.entityId));
+            entityName = plant?.name || '';
+            break;
+          }
+          case 'recette': {
+            const [rec] = await db.select({ name: recettes.name }).from(recettes).where(eq(recettes.id, link.entityId));
+            entityName = rec?.name || '';
+            break;
+          }
+          case 'terroir': {
+            const [ter] = await db.select({ name: terroirs.name }).from(terroirs).where(eq(terroirs.id, link.entityId));
+            entityName = ter?.name || '';
+            break;
+          }
+          case 'prototype': {
+            const [proto] = await db.select({ name: prototypes.name }).from(prototypes).where(eq(prototypes.id, link.entityId));
+            entityName = proto?.name || '';
+            break;
+          }
+          case 'tradition': {
+            const [trad] = await db.select({ name: olfactoryTraditions.name }).from(olfactoryTraditions).where(eq(olfactoryTraditions.id, link.entityId));
+            entityName = trad?.name || '';
+            break;
+          }
+          case 'leaf_economy': {
+            const [leaf] = await db.select({ sampleId: leafEconomies.sampleId, species: leafEconomies.species }).from(leafEconomies).where(eq(leafEconomies.id, link.entityId));
+            entityName = leaf?.species || leaf?.sampleId || '';
+            break;
+          }
+          case 'supplier': {
+            const [sup] = await db.select({ name: extendedSuppliers.name }).from(extendedSuppliers).where(eq(extendedSuppliers.id, link.entityId));
+            entityName = sup?.name || '';
+            break;
+          }
+        }
+      } catch (e) {
+        // Entity not found
+      }
+      return { ...link, entityName };
+    })
+  );
+  
+  return enrichedLinks;
 }
 
 /**

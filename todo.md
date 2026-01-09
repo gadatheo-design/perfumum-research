@@ -754,3 +754,64 @@
 - [ ] Ajouter la sélection multiple de filtres
 - [ ] Afficher les résultats avec relations entre entités
 - [ ] Tester la recherche avancée sur desktop et mobile
+
+
+---
+
+## 📖 BIBLIOGRAPHIE AVANCÉE (Ajouté le 09 Jan 2026)
+
+### Filtres par date dans la bibliographie
+- [ ] Ajouter un filtre par période de publication (décennie, siècle, plage personnalisée)
+- [ ] Créer un slider de sélection de plage temporelle
+- [ ] Afficher une timeline des publications avec distribution temporelle
+- [ ] Permettre le tri par date de publication (ascendant/descendant)
+
+### Liens entités-sources (associations manuelles)
+- [ ] Créer la table de liaison `reference_entity_links` (référence ↔ plante/molécule)
+- [ ] Créer les procédures tRPC pour gérer les liaisons référence-entité
+- [ ] Créer l'interface d'association manuelle des références aux entités
+- [ ] Afficher les références liées sur les fiches plantes et molécules
+- [ ] Permettre la recherche de références par entité associée
+
+### Vue réseau de citations
+- [ ] Créer la table `reference_citations` pour les relations entre références
+- [ ] Créer le composant D3.js de visualisation du réseau de citations
+- [ ] Implémenter les nœuds (références) et liens (citations)
+- [ ] Ajouter les interactions (zoom, drag, hover, click sur nœud)
+- [ ] Créer les filtres pour le réseau (par axe, par période, par auteur)
+- [ ] Afficher les métadonnées au survol des nœuds
+- [ ] Permettre l'ajout manuel de relations de citation
+
+
+
+---
+
+## 📖 SESSION COURANTE — 09 Jan 2026 (Bibliographie Avancée)
+
+### Filtres par date dans la bibliographie
+- [x] Ajouter yearMin/yearMax dans la procédure bibliography.list
+- [x] Ajouter yearRange dans getBibliographyStats (min/max des années)
+- [x] Créer le composant DateRangeFilter avec slider et périodes prédéfinies
+- [x] Intégrer le filtre par date dans BibliographieGlobale
+- [x] Ajouter l'histogramme de distribution temporelle
+
+### Liens entités-sources (références bibliographiques ↔ entités PERFUMUM)
+- [x] Améliorer getLinksForReference pour inclure les noms d'entités
+- [x] Créer le composant EntityLinker pour associer références et entités
+- [x] Supporter tous les types d'entités (molécule, plante, recette, terroir, prototype, tradition, leaf_economy, supplier)
+- [x] Supporter tous les types de liaisons (documents, mentions, analyzes, conserves, reconstructs, sources, validates, contextualizes)
+- [x] Intégrer EntityLinker dans le dialog d'édition des références
+
+### Vue réseau de citations améliorée
+- [x] Créer CitationNetworkView avec filtres avancés
+- [x] Ajouter filtre par auteur principal
+- [x] Ajouter filtre par axe thématique
+- [x] Ajouter vue liste des relations de citations
+- [x] Ajouter statistiques du réseau (densité, degré moyen, nœuds isolés, taux de vérification)
+- [x] Ajouter onglet statistiques avec distribution par type et références les plus citées/citantes
+
+### Tests unitaires
+- [x] Écrire les tests pour les filtres par date (5 tests)
+- [x] Écrire les tests pour les liens entités-sources (5 tests)
+- [x] Écrire les tests pour la vue réseau de citations (4 tests)
+- [x] Tous les 14 tests passent avec succès

@@ -6388,6 +6388,8 @@ export const appRouter = router({
         entryType: z.string().optional(),
         researchDomain: z.string().optional(),
         year: z.number().optional(),
+        yearMin: z.number().optional(),
+        yearMax: z.number().optional(),
         readStatus: z.string().optional(),
         search: z.string().optional(),
         axisId: z.number().optional(),
