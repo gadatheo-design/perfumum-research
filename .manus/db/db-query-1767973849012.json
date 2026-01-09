@@ -1,0 +1,568 @@
+{
+  "query": "-- Lister tous les terroirs existants\nSELECT id, terroir_id, name, country, region FROM terroirs ORDER BY name;\n\n-- Compter les plantes sans liaison terroir\nSELECT COUNT(*) as total_plants FROM plants;\n\n-- Compter les plantes avec liaison terroir\nSELECT COUNT(DISTINCT pt.plant_id) as linked_plants FROM plant_terroirs pt;\n\n-- Lister les plantes sans liaison terroir (orphelines)\nSELECT p.id, p.name, p.latin_name, p.origin, p.category\nFROM plants p \nLEFT JOIN plant_terroirs pt ON p.id = pt.plant_id \nWHERE pt.id IS NULL \nORDER BY p.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Lister tous les terroirs existants\nSELECT id, terroir_id, name, country, region FROM terroirs ORDER BY name;\n\n-- Compter les plantes sans liaison terroir\nSELECT COUNT(*) as total_plants FROM plants;\n\n-- Compter les plantes avec liaison terroir\nSELECT COUNT(DISTINCT pt.plant_id) as linked_plants FROM plant_terroirs pt;\n\n-- Lister les plantes sans liaison terroir (orphelines)\nSELECT p.id, p.name, p.latin_name, p.origin, p.category\nFROM plants p \nLEFT JOIN plant_terroirs pt ON p.id = pt.plant_id \nWHERE pt.id IS NULL \nORDER BY p.name;",
+  "rows": [
+    {
+      "id": "90001",
+      "terroir_id": "TER-COL-AMA",
+      "name": "Amazonie Colombienne",
+      "country": "Colombie",
+      "region": "Amazonie"
+    },
+    {
+      "id": "30011",
+      "terroir_id": "TER-COM-ANJ",
+      "name": "Anjouan",
+      "country": "Comores",
+      "region": "Anjouan"
+    },
+    {
+      "id": "7",
+      "terroir_id": "TER-SOM-BOS",
+      "name": "Bosaso",
+      "country": "Somalie",
+      "region": "Puntland"
+    },
+    {
+      "id": "60005",
+      "terroir_id": "TER-SEED-BURKINA-FA",
+      "name": "Burkina Faso",
+      "country": "Burkina Faso",
+      "region": "Pays; axe comparatif variétés fantômes / terroirs."
+    },
+    {
+      "id": "30002",
+      "terroir_id": "TER-ITA-CAL",
+      "name": "Calabre",
+      "country": "Italie",
+      "region": "Calabre"
+    },
+    {
+      "id": "60006",
+      "terroir_id": "TER-SEED-CARIBBEAN",
+      "name": "Caribbean (macro)",
+      "country": "Caraïbes",
+      "region": "Macro-région (hors Colombie)."
+    },
+    {
+      "id": "3",
+      "terroir_id": "TER-COL-CAU",
+      "name": "Cauca Valley",
+      "country": "Colombie",
+      "region": "Valle del Cauca"
+    },
+    {
+      "id": "30012",
+      "terroir_id": "TER-REU-CIL",
+      "name": "Cilaos",
+      "country": "France (Réunion)",
+      "region": "Cilaos"
+    },
+    {
+      "id": "60001",
+      "terroir_id": "TER-SEED-COLOMBIA",
+      "name": "Colombia",
+      "country": "Colombie",
+      "region": "Pays; focus Andes + Caraïbes."
+    },
+    {
+      "id": "60002",
+      "terroir_id": "TER-SEED-COLOMBIA-A",
+      "name": "Colombia — Andes",
+      "country": "Colombie",
+      "region": "Cundinamarca, Antioquia, etc. (macro-région)."
+    },
+    {
+      "id": "60003",
+      "terroir_id": "TER-SEED-COLOMBIA-C",
+      "name": "Colombia — Caribbean",
+      "country": "Colombie",
+      "region": "Côte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina."
+    },
+    {
+      "id": "120003",
+      "terroir_id": "TER-HRV-DAL",
+      "name": "Côte Dalmate",
+      "country": "Croatie",
+      "region": "Dalmatie"
+    },
+    {
+      "id": "150001",
+      "terroir_id": "TER-120004",
+      "name": "Côte Monténégrine",
+      "country": "Monténégro",
+      "region": "Côte Adriatique"
+    },
+    {
+      "id": "210001",
+      "terroir_id": "TER-MEX-SON",
+      "name": "Désert de Sonora",
+      "country": "Mexique",
+      "region": "Sonora / Arizona"
+    },
+    {
+      "id": "60007",
+      "terroir_id": "TER-SEED-GLOBAL",
+      "name": "Global",
+      "country": "Global",
+      "region": "Pour ressources mondiales (pangenomes, databases)."
+    },
+    {
+      "id": "5",
+      "terroir_id": "TER-FRA-GRA",
+      "name": "Grasse",
+      "country": "France",
+      "region": "PACA"
+    },
+    {
+      "id": "30006",
+      "terroir_id": "TER-EGY-LUX",
+      "name": "Haute-Égypte",
+      "country": "Égypte",
+      "region": "Louxor-Assouan"
+    },
+    {
+      "id": "30009",
+      "terroir_id": "TER-TUR-ISP",
+      "name": "Isparta",
+      "country": "Turquie",
+      "region": "Isparta"
+    },
+    {
+      "id": "30010",
+      "terroir_id": "TER-SRI-KAN",
+      "name": "Kandy",
+      "country": "Sri Lanka",
+      "region": "Province Centrale"
+    },
+    {
+      "id": "6",
+      "terroir_id": "TER-IND-KAN",
+      "name": "Karnataka",
+      "country": "Inde",
+      "region": "Sud"
+    },
+    {
+      "id": "120004",
+      "terroir_id": "TER-MNE-ADR",
+      "name": "Littoral Monténégrin",
+      "country": "Monténégro",
+      "region": "Côte adriatique"
+    },
+    {
+      "id": "120002",
+      "terroir_id": "TER-ITA-SAR",
+      "name": "Macchia Sarda",
+      "country": "Italie",
+      "region": "Sardaigne"
+    },
+    {
+      "id": "120001",
+      "terroir_id": "TER-FRA-COR",
+      "name": "Maquis Corse",
+      "country": "France",
+      "region": "Corse"
+    },
+    {
+      "id": "180001",
+      "terroir_id": "MESO-001",
+      "name": "Mésoamérique",
+      "country": "Mexique",
+      "region": "Amérique Centrale"
+    },
+    {
+      "id": "4",
+      "terroir_id": "TER-MAD-NOS",
+      "name": "Nossi-Bé",
+      "country": "Madagascar",
+      "region": "Nord-Ouest"
+    },
+    {
+      "id": "30003",
+      "terroir_id": "TER-HAI-VET",
+      "name": "Plaine des Cayes",
+      "country": "Haïti",
+      "region": "Sud"
+    },
+    {
+      "id": "30008",
+      "terroir_id": "TER-PRO-VAL",
+      "name": "Plateau de Valensole",
+      "country": "France",
+      "region": "Provence-Alpes-Côte d'Azur"
+    },
+    {
+      "id": "90002",
+      "terroir_id": "TER-COL-PUT",
+      "name": "Putumayo",
+      "country": "Colombie",
+      "region": "Amazonie"
+    },
+    {
+      "id": "120005",
+      "terroir_id": "TER-ALB-RIV",
+      "name": "Riviera Albanaise",
+      "country": "Albanie",
+      "region": "Côte ionienne"
+    },
+    {
+      "id": "30004",
+      "terroir_id": "TER-MAR-FES",
+      "name": "Région de Fès-Meknès",
+      "country": "Maroc",
+      "region": "Fès-Meknès"
+    },
+    {
+      "id": "30005",
+      "terroir_id": "TER-BUR-OUA",
+      "name": "Région de Ouagadougou",
+      "country": "Burkina Faso",
+      "region": "Centre"
+    },
+    {
+      "id": "60004",
+      "terroir_id": "TER-SEED-SAN-ANDRES",
+      "name": "San Andrés (archipel)",
+      "country": "Colombie",
+      "region": "Île / archipel; terrain utilisateur."
+    },
+    {
+      "id": "1",
+      "terroir_id": "TER-COL-SAN",
+      "name": "San Andrés y Providencia",
+      "country": "Colombie",
+      "region": "Caraïbes"
+    },
+    {
+      "id": "2",
+      "terroir_id": "TER-COL-HUI",
+      "name": "Santander & Huila",
+      "country": "Colombie",
+      "region": "Andes"
+    },
+    {
+      "id": "30007",
+      "terroir_id": "TER-IDN-SUM",
+      "name": "Sumatra - Aceh",
+      "country": "Indonésie",
+      "region": "Aceh"
+    },
+    {
+      "id": "30001",
+      "terroir_id": "TER-BUL-KAZ",
+      "name": "Vallée des Roses de Kazanlak",
+      "country": "Bulgarie",
+      "region": "Vallée des Roses"
+    },
+    {
+      "id": "90003",
+      "terroir_id": "TER-COL-VAU",
+      "name": "Vaupés",
+      "country": "Colombie",
+      "region": "Amazonie"
+    },
+    {
+      "id": "id",
+      "terroir_id": "name",
+      "name": "latin_name",
+      "country": "origin",
+      "region": "category"
+    },
+    {
+      "id": "120007",
+      "terroir_id": "Afghan Kush",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Hindu Kush, Afghanistan",
+      "region": "cannabis"
+    },
+    {
+      "id": "210040",
+      "terroir_id": "Aniba",
+      "name": "Aniba rosaeodora",
+      "country": "NULL",
+      "region": "aromatique"
+    },
+    {
+      "id": "420012",
+      "terroir_id": "Anis étoilé",
+      "name": "Illicium verum",
+      "country": "Sud de la Chine, Nord du Vietnam",
+      "region": "aromatique"
+    },
+    {
+      "id": "330001",
+      "terroir_id": "Cannabis",
+      "name": "Cannabis sativa L.",
+      "country": "Asie centrale (Hindu Kush, Himalaya)",
+      "region": "cannabis"
+    },
+    {
+      "id": "120010",
+      "terroir_id": "Chitral",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Pakistan (KPK)",
+      "region": "cannabis"
+    },
+    {
+      "id": "210039",
+      "terroir_id": "Commiphora",
+      "name": "Commiphora wightii",
+      "country": "NULL",
+      "region": "aromatique"
+    },
+    {
+      "id": "120012",
+      "terroir_id": "Durban Poison",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Afrique du Sud",
+      "region": "cannabis"
+    },
+    {
+      "id": "210036",
+      "terroir_id": "Encens d’Oman",
+      "name": "Boswellia sacra",
+      "country": "Oman",
+      "region": "aromatique"
+    },
+    {
+      "id": "270011",
+      "terroir_id": "Galbanum",
+      "name": "Ferula gummosa",
+      "country": "Iran, Afghanistan, Turkménistan",
+      "region": "resine"
+    },
+    {
+      "id": "120021",
+      "terroir_id": "Hawaiian",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Hawaï",
+      "region": "cannabis"
+    },
+    {
+      "id": "150006",
+      "terroir_id": "Hindu Kush",
+      "name": "Cannabis indica var. Hindu Kush",
+      "country": "Afghanistan / Pakistan (chaîne Hindu Kush)",
+      "region": "cannabis"
+    },
+    {
+      "id": "120009",
+      "terroir_id": "Kandahar",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Sud Afghanistan",
+      "region": "cannabis"
+    },
+    {
+      "id": "150016",
+      "terroir_id": "Kanna",
+      "name": "Sceletium tortuosum",
+      "country": "Afrique du Sud (Cap)",
+      "region": "aromatique"
+    },
+    {
+      "id": "120015",
+      "terroir_id": "Kilimanjaro",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Tanzanie",
+      "region": "cannabis"
+    },
+    {
+      "id": "150018",
+      "terroir_id": "Klip Dagga",
+      "name": "Leonotis nepetifolia",
+      "country": "Afrique tropicale",
+      "region": "aromatique"
+    },
+    {
+      "id": "150002",
+      "terroir_id": "Latakia",
+      "name": "Nicotiana tabacum var. Latakia",
+      "country": "Syrie (Lattaquié) / Chypre",
+      "region": "tabac"
+    },
+    {
+      "id": "120013",
+      "terroir_id": "Malawi Gold",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Malawi",
+      "region": "cannabis"
+    },
+    {
+      "id": "120022",
+      "terroir_id": "Maui Wowie",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Maui, Hawaï",
+      "region": "cannabis"
+    },
+    {
+      "id": "120008",
+      "terroir_id": "Mazar-i-Sharif",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Nord Afghanistan",
+      "region": "cannabis"
+    },
+    {
+      "id": "180003",
+      "terroir_id": "Nard (Spikenard)",
+      "name": "Nardostachys jatamansi",
+      "country": "Himalaya (Kumaon, Népal, Sikkim, Bhoutan, Myanmar, Chine)",
+      "region": "racine"
+    },
+    {
+      "id": "330003",
+      "terroir_id": "Nicotiana benthamiana",
+      "name": "Nicotiana benthamiana",
+      "country": "Nord de l'Australie",
+      "region": "tabac"
+    },
+    {
+      "id": "330005",
+      "terroir_id": "Nicotiana sylvestris",
+      "name": "Nicotiana sylvestris",
+      "country": "Nord-ouest de l'Argentine (Andes)",
+      "region": "tabac"
+    },
+    {
+      "id": "330006",
+      "terroir_id": "Nicotiana tomentosiformis",
+      "name": "Nicotiana tomentosiformis",
+      "country": "Bolivie, nord de l'Argentine",
+      "region": "tabac"
+    },
+    {
+      "id": "420002",
+      "terroir_id": "Orange amère",
+      "name": "Citrus aurantium var. amara",
+      "country": "Asie du Sud-Est, cultivé Méditerranée",
+      "region": "aromatique"
+    },
+    {
+      "id": "150004",
+      "terroir_id": "Oriental Katerini",
+      "name": "Nicotiana tabacum var. Katerini",
+      "country": "Grèce (Macédoine, Piérie)",
+      "region": "tabac"
+    },
+    {
+      "id": "120011",
+      "terroir_id": "Pakistani Kush",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Vallée de Swat, Pakistan",
+      "region": "cannabis"
+    },
+    {
+      "id": "210004",
+      "terroir_id": "Palo santo",
+      "name": "Bursera graveolens",
+      "country": "Équateur (Guayaquil)",
+      "region": "aromatique"
+    },
+    {
+      "id": "120018",
+      "terroir_id": "Panama Red",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Panama",
+      "region": "cannabis"
+    },
+    {
+      "id": "150017",
+      "terroir_id": "Passiflore",
+      "name": "Passiflora incarnata",
+      "country": "Sud-Est des États-Unis, Amérique centrale",
+      "region": "aromatique"
+    },
+    {
+      "id": "150001",
+      "terroir_id": "Perique",
+      "name": "Nicotiana tabacum var. Perique",
+      "country": "Louisiane, USA (St. James Parish)",
+      "region": "tabac"
+    },
+    {
+      "id": "390003",
+      "terroir_id": "Pin sylvestre",
+      "name": "Pinus sylvestris",
+      "country": "Europe du Nord, Sibérie",
+      "region": "bois"
+    },
+    {
+      "id": "270008",
+      "terroir_id": "Silphium",
+      "name": "Ferula drudeana (probable)",
+      "country": "Cyrénaïque (Libye antique)",
+      "region": "resine"
+    },
+    {
+      "id": "210026",
+      "terroir_id": "Silphium (disparu)",
+      "name": "Silphium sp.",
+      "country": "Afrique du Nord antique (disparue)",
+      "region": "aromatique"
+    },
+    {
+      "id": "120014",
+      "terroir_id": "Swazi Gold",
+      "name": "Cannabis sativa subsp. indica",
+      "country": "Eswatini",
+      "region": "cannabis"
+    },
+    {
+      "id": "330002",
+      "terroir_id": "Tabac cultivé",
+      "name": "Nicotiana tabacum L.",
+      "country": "Amérique du Sud tropicale (Andes)",
+      "region": "tabac"
+    },
+    {
+      "id": "210031",
+      "terroir_id": "Test Plant 1",
+      "name": "Testus plantus",
+      "country": "Test Region",
+      "region": "aromatique"
+    },
+    {
+      "id": "210032",
+      "terroir_id": "Test Resin Plant",
+      "name": "Testus resinus",
+      "country": "Test",
+      "region": "resine"
+    },
+    {
+      "id": "210033",
+      "terroir_id": "Test Wind Plant",
+      "name": "Testus ventus",
+      "country": "Test",
+      "region": "aromatique"
+    },
+    {
+      "id": "150014",
+      "terroir_id": "Wild Dagga",
+      "name": "Leonotis leonurus",
+      "country": "Afrique du Sud",
+      "region": "aromatique"
+    },
+    {
+      "id": "150005",
+      "terroir_id": "Yenidje",
+      "name": "Nicotiana tabacum var. Yenidje",
+      "country": "Grèce (Thrace, ancienne Yenidje)",
+      "region": "tabac"
+    },
+    {
+      "id": "270012",
+      "terroir_id": "Élémi",
+      "name": "Canarium luzonicum",
+      "country": "Philippines",
+      "region": "resine"
+    }
+  ],
+  "messages": [
+    "total_plants",
+    "176",
+    "linked_plants",
+    "135"
+  ],
+  "stdout": "id\tterroir_id\tname\tcountry\tregion\n90001\tTER-COL-AMA\tAmazonie Colombienne\tColombie\tAmazonie\n30011\tTER-COM-ANJ\tAnjouan\tComores\tAnjouan\n7\tTER-SOM-BOS\tBosaso\tSomalie\tPuntland\n60005\tTER-SEED-BURKINA-FA\tBurkina Faso\tBurkina Faso\tPays; axe comparatif variétés fantômes / terroirs.\n30002\tTER-ITA-CAL\tCalabre\tItalie\tCalabre\n60006\tTER-SEED-CARIBBEAN\tCaribbean (macro)\tCaraïbes\tMacro-région (hors Colombie).\n3\tTER-COL-CAU\tCauca Valley\tColombie\tValle del Cauca\n30012\tTER-REU-CIL\tCilaos\tFrance (Réunion)\tCilaos\n60001\tTER-SEED-COLOMBIA\tColombia\tColombie\tPays; focus Andes + Caraïbes.\n60002\tTER-SEED-COLOMBIA-A\tColombia — Andes\tColombie\tCundinamarca, Antioquia, etc. (macro-région).\n60003\tTER-SEED-COLOMBIA-C\tColombia — Caribbean\tColombie\tCôte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.\n120003\tTER-HRV-DAL\tCôte Dalmate\tCroatie\tDalmatie\n150001\tTER-120004\tCôte Monténégrine\tMonténégro\tCôte Adriatique\n210001\tTER-MEX-SON\tDésert de Sonora\tMexique\tSonora / Arizona\n60007\tTER-SEED-GLOBAL\tGlobal\tGlobal\tPour ressources mondiales (pangenomes, databases).\n5\tTER-FRA-GRA\tGrasse\tFrance\tPACA\n30006\tTER-EGY-LUX\tHaute-Égypte\tÉgypte\tLouxor-Assouan\n30009\tTER-TUR-ISP\tIsparta\tTurquie\tIsparta\n30010\tTER-SRI-KAN\tKandy\tSri Lanka\tProvince Centrale\n6\tTER-IND-KAN\tKarnataka\tInde\tSud\n120004\tTER-MNE-ADR\tLittoral Monténégrin\tMonténégro\tCôte adriatique\n120002\tTER-ITA-SAR\tMacchia Sarda\tItalie\tSardaigne\n120001\tTER-FRA-COR\tMaquis Corse\tFrance\tCorse\n180001\tMESO-001\tMésoamérique\tMexique\tAmérique Centrale\n4\tTER-MAD-NOS\tNossi-Bé\tMadagascar\tNord-Ouest\n30003\tTER-HAI-VET\tPlaine des Cayes\tHaïti\tSud\n30008\tTER-PRO-VAL\tPlateau de Valensole\tFrance\tProvence-Alpes-Côte d'Azur\n90002\tTER-COL-PUT\tPutumayo\tColombie\tAmazonie\n120005\tTER-ALB-RIV\tRiviera Albanaise\tAlbanie\tCôte ionienne\n30004\tTER-MAR-FES\tRégion de Fès-Meknès\tMaroc\tFès-Meknès\n30005\tTER-BUR-OUA\tRégion de Ouagadougou\tBurkina Faso\tCentre\n60004\tTER-SEED-SAN-ANDRES\tSan Andrés (archipel)\tColombie\tÎle / archipel; terrain utilisateur.\n1\tTER-COL-SAN\tSan Andrés y Providencia\tColombie\tCaraïbes\n2\tTER-COL-HUI\tSantander & Huila\tColombie\tAndes\n30007\tTER-IDN-SUM\tSumatra - Aceh\tIndonésie\tAceh\n30001\tTER-BUL-KAZ\tVallée des Roses de Kazanlak\tBulgarie\tVallée des Roses\n90003\tTER-COL-VAU\tVaupés\tColombie\tAmazonie\ntotal_plants\n176\nlinked_plants\n135\nid\tname\tlatin_name\torigin\tcategory\n120007\tAfghan Kush\tCannabis sativa subsp. indica\tHindu Kush, Afghanistan\tcannabis\n210040\tAniba\tAniba rosaeodora\tNULL\taromatique\n420012\tAnis étoilé\tIllicium verum\tSud de la Chine, Nord du Vietnam\taromatique\n330001\tCannabis\tCannabis sativa L.\tAsie centrale (Hindu Kush, Himalaya)\tcannabis\n120010\tChitral\tCannabis sativa subsp. indica\tPakistan (KPK)\tcannabis\n210039\tCommiphora\tCommiphora wightii\tNULL\taromatique\n120012\tDurban Poison\tCannabis sativa subsp. indica\tAfrique du Sud\tcannabis\n210036\tEncens d’Oman\tBoswellia sacra\tOman\taromatique\n270011\tGalbanum\tFerula gummosa\tIran, Afghanistan, Turkménistan\tresine\n120021\tHawaiian\tCannabis sativa subsp. indica\tHawaï\tcannabis\n150006\tHindu Kush\tCannabis indica var. Hindu Kush\tAfghanistan / Pakistan (chaîne Hindu Kush)\tcannabis\n120009\tKandahar\tCannabis sativa subsp. indica\tSud Afghanistan\tcannabis\n150016\tKanna\tSceletium tortuosum\tAfrique du Sud (Cap)\taromatique\n120015\tKilimanjaro\tCannabis sativa subsp. indica\tTanzanie\tcannabis\n150018\tKlip Dagga\tLeonotis nepetifolia\tAfrique tropicale\taromatique\n150002\tLatakia\tNicotiana tabacum var. Latakia\tSyrie (Lattaquié) / Chypre\ttabac\n120013\tMalawi Gold\tCannabis sativa subsp. indica\tMalawi\tcannabis\n120022\tMaui Wowie\tCannabis sativa subsp. indica\tMaui, Hawaï\tcannabis\n120008\tMazar-i-Sharif\tCannabis sativa subsp. indica\tNord Afghanistan\tcannabis\n180003\tNard (Spikenard)\tNardostachys jatamansi\tHimalaya (Kumaon, Népal, Sikkim, Bhoutan, Myanmar, Chine)\tracine\n330003\tNicotiana benthamiana\tNicotiana benthamiana\tNord de l'Australie\ttabac\n330005\tNicotiana sylvestris\tNicotiana sylvestris\tNord-ouest de l'Argentine (Andes)\ttabac\n330006\tNicotiana tomentosiformis\tNicotiana tomentosiformis\tBolivie, nord de l'Argentine\ttabac\n420002\tOrange amère\tCitrus aurantium var. amara\tAsie du Sud-Est, cultivé Méditerranée\taromatique\n150004\tOriental Katerini\tNicotiana tabacum var. Katerini\tGrèce (Macédoine, Piérie)\ttabac\n120011\tPakistani Kush\tCannabis sativa subsp. indica\tVallée de Swat, Pakistan\tcannabis\n210004\tPalo santo\tBursera graveolens\tÉquateur (Guayaquil)\taromatique\n120018\tPanama Red\tCannabis sativa subsp. indica\tPanama\tcannabis\n150017\tPassiflore\tPassiflora incarnata\tSud-Est des États-Unis, Amérique centrale\taromatique\n150001\tPerique\tNicotiana tabacum var. Perique\tLouisiane, USA (St. James Parish)\ttabac\n390003\tPin sylvestre\tPinus sylvestris\tEurope du Nord, Sibérie\tbois\n270008\tSilphium\tFerula drudeana (probable)\tCyrénaïque (Libye antique)\tresine\n210026\tSilphium (disparu)\tSilphium sp.\tAfrique du Nord antique (disparue)\taromatique\n120014\tSwazi Gold\tCannabis sativa subsp. indica\tEswatini\tcannabis\n330002\tTabac cultivé\tNicotiana tabacum L.\tAmérique du Sud tropicale (Andes)\ttabac\n210031\tTest Plant 1\tTestus plantus\tTest Region\taromatique\n210032\tTest Resin Plant\tTestus resinus\tTest\tresine\n210033\tTest Wind Plant\tTestus ventus\tTest\taromatique\n150014\tWild Dagga\tLeonotis leonurus\tAfrique du Sud\taromatique\n150005\tYenidje\tNicotiana tabacum var. Yenidje\tGrèce (Thrace, ancienne Yenidje)\ttabac\n270012\tÉlémi\tCanarium luzonicum\tPhilippines\tresine\n",
+  "stderr": "",
+  "execution_time_ms": 2288
+}

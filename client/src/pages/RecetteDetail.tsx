@@ -581,29 +581,170 @@ export default function RecetteDetail() {
       {molecules.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Molécules Utilisées ({molecules.length})</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <FlaskConical className="h-5 w-5 text-purple-600" />
+              Molécules Utilisées ({molecules.length})
+            </CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">
+              Composition moléculaire avec proportions et rôles olfactifs
+            </p>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {molecules.map((molecule) => (
-                <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
-                  <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer">
-                    <CardHeader>
-                      <CardTitle className="text-lg">{molecule.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-gray-600 font-mono">
-                        {molecule.chemicalFormula}
-                      </p>
-                      {molecule.family && (
-                        <Badge variant="outline" className="mt-2">
-                          {molecule.family}
+            {/* Visualisation par rôle olfactif */}
+            <div className="mb-6 space-y-4">
+              {/* Notes de tête */}
+              {molecules.filter((m: any) => m.role === 'tête').length > 0 && (
+                <div className="bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-950/30 dark:to-amber-950/30 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                  <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-3 flex items-center gap-2">
+                    <Wind className="h-4 w-4" />
+                    Notes de Tête ({molecules.filter((m: any) => m.role === 'tête').length})
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {molecules.filter((m: any) => m.role === 'tête').map((molecule: any) => (
+                      <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
+                        <Badge variant="outline" className="cursor-pointer hover:bg-yellow-100 dark:hover:bg-yellow-900/50 transition-colors py-1.5 px-3">
+                          <span className="font-medium">{molecule.name}</span>
+                          {molecule.proportion && (
+                            <span className="ml-2 text-xs opacity-70">{Number(molecule.proportion).toFixed(2)}%</span>
+                          )}
                         </Badge>
-                      )}
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Notes de cœur */}
+              {molecules.filter((m: any) => m.role === 'cœur').length > 0 && (
+                <div className="bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-950/30 dark:to-rose-950/30 p-4 rounded-lg border border-pink-200 dark:border-pink-800">
+                  <h4 className="text-sm font-semibold text-pink-800 dark:text-pink-300 mb-3 flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Notes de Cœur ({molecules.filter((m: any) => m.role === 'cœur').length})
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {molecules.filter((m: any) => m.role === 'cœur').map((molecule: any) => (
+                      <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
+                        <Badge variant="outline" className="cursor-pointer hover:bg-pink-100 dark:hover:bg-pink-900/50 transition-colors py-1.5 px-3">
+                          <span className="font-medium">{molecule.name}</span>
+                          {molecule.proportion && (
+                            <span className="ml-2 text-xs opacity-70">{Number(molecule.proportion).toFixed(2)}%</span>
+                          )}
+                        </Badge>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Notes de fond */}
+              {molecules.filter((m: any) => m.role === 'fond').length > 0 && (
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+                  <h4 className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-3 flex items-center gap-2">
+                    <TreeDeciduous className="h-4 w-4" />
+                    Notes de Fond ({molecules.filter((m: any) => m.role === 'fond').length})
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {molecules.filter((m: any) => m.role === 'fond').map((molecule: any) => (
+                      <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
+                        <Badge variant="outline" className="cursor-pointer hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors py-1.5 px-3">
+                          <span className="font-medium">{molecule.name}</span>
+                          {molecule.proportion && (
+                            <span className="ml-2 text-xs opacity-70">{Number(molecule.proportion).toFixed(2)}%</span>
+                          )}
+                        </Badge>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Molécules sans rôle défini */}
+              {molecules.filter((m: any) => !m.role).length > 0 && (
+                <div className="bg-muted/50 p-4 rounded-lg border">
+                  <h4 className="text-sm font-semibold text-muted-foreground mb-3 flex items-center gap-2">
+                    <Beaker className="h-4 w-4" />
+                    Autres molécules ({molecules.filter((m: any) => !m.role).length})
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {molecules.filter((m: any) => !m.role).map((molecule: any) => (
+                      <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
+                        <Badge variant="outline" className="cursor-pointer hover:bg-muted transition-colors py-1.5 px-3">
+                          <span className="font-medium">{molecule.name}</span>
+                          {molecule.proportion && (
+                            <span className="ml-2 text-xs opacity-70">{Number(molecule.proportion).toFixed(2)}%</span>
+                          )}
+                        </Badge>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            {/* Grille détaillée des molécules */}
+            <div className="border-t pt-6">
+              <h4 className="text-sm font-semibold text-muted-foreground mb-4">Détails des molécules</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {molecules.map((molecule: any) => (
+                  <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
+                    <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer h-full">
+                      <CardHeader className="pb-2">
+                        <div className="flex items-start justify-between">
+                          <CardTitle className="text-lg">{molecule.name}</CardTitle>
+                          {molecule.role && (
+                            <Badge 
+                              variant="secondary" 
+                              className={`text-xs ${
+                                molecule.role === 'tête' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300' :
+                                molecule.role === 'cœur' ? 'bg-pink-100 text-pink-800 dark:bg-pink-900/50 dark:text-pink-300' :
+                                'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300'
+                              }`}
+                            >
+                              {molecule.role}
+                            </Badge>
+                          )}
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-sm text-muted-foreground font-mono mb-2">
+                          {molecule.chemicalFormula}
+                        </p>
+                        {molecule.proportion && (
+                          <div className="mb-2">
+                            <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                              <span>Proportion</span>
+                              <span className="font-semibold">{Number(molecule.proportion).toFixed(2)}%</span>
+                            </div>
+                            <div className="w-full bg-muted rounded-full h-1.5">
+                              <div 
+                                className="bg-purple-500 h-1.5 rounded-full transition-all" 
+                                style={{ width: `${Math.min(Number(molecule.proportion) * 10, 100)}%` }}
+                              />
+                            </div>
+                          </div>
+                        )}
+                        {molecule.olfactiveProfile && (
+                          <p className="text-xs text-muted-foreground line-clamp-2 mt-2">
+                            {molecule.olfactiveProfile}
+                          </p>
+                        )}
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {molecule.family && (
+                            <Badge variant="outline" className="text-xs">
+                              {molecule.family}
+                            </Badge>
+                          )}
+                          {molecule.chemicalClass && (
+                            <Badge variant="outline" className="text-xs bg-purple-50 dark:bg-purple-950/30">
+                              {molecule.chemicalClass}
+                            </Badge>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>

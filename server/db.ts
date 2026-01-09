@@ -1116,23 +1116,31 @@ export async function getRecetteWithRelations(id: number) {
   
   const recette = recettesList[0];
   
-  // Get related molecules via molecule_recettes with radar data
+  // Get related molecules via molecule_recettes with radar data and proportion/role
   const relatedMolecules = await db
     .select({
       id: molecules.id,
       name: molecules.name,
       chemicalFormula: molecules.chemicalFormula,
       family: molecules.family,
+      olfactiveProfile: molecules.olfactiveProfile,
+      chemicalClass: molecules.chemicalClass,
+      casNumber: molecules.casNumber,
       radarIntensity: molecules.radarIntensity,
       radarFreshness: molecules.radarFreshness,
       radarWarmth: molecules.radarWarmth,
       radarSweetness: molecules.radarSweetness,
       radarSpiciness: molecules.radarSpiciness,
       radarEarthiness: molecules.radarEarthiness,
+      // Données de liaison
+      proportion: moleculesRecettes.proportion,
+      role: moleculesRecettes.role,
+      linkNotes: moleculesRecettes.notes,
     })
     .from(moleculesRecettes)
     .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
-    .where(eq(moleculesRecettes.recetteId, id));
+    .where(eq(moleculesRecettes.recetteId, id))
+    .orderBy(desc(moleculesRecettes.proportion));
   
   // Get family if familyId exists
   let family = null;

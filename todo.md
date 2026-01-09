@@ -365,7 +365,17 @@
 
 ---
 
-## 🌿 SESSION COURANTE — 08 Jan 2026 (Conservation IUCN/CITES)
+## 🌿 SESSION COURANTE — 09 Jan 2026 (Terroirs et Molécules)
+
+### Tâches demandées par l'utilisateur
+- [x] Créer les terroirs manquants (Hindu Kush, Hawaii, Afrique) - 6 terroirs créés
+- [x] Associer les 41 plantes orphelines aux nouveaux terroirs - 12 liaisons créées (84% couverture)
+- [x] Lier les molécules aux recettes (Geosmin, Indole, Vanilline, Pyrazine) - 105 liaisons créées
+- [x] Améliorer la page Recettes avec visualisation des molécules liées
+
+---
+
+## 🌿 SESSION PRÉCÉDENTE — 08 Jan 2026 (Conservation IUCN/CITES)
 
 ### Données de conservation pour résines précieuses menacées
 - [x] Rechercher les statuts IUCN actuels pour les espèces de Boswellia (encens) - IUCN 2025-2
