@@ -7778,7 +7778,7 @@ export const appRouter = router({
           filtered = filtered.filter(p => p.category === input.category);
         }
         if (input.family) {
-          filtered = filtered.filter(p => p.olfactiveFamily === input.family);
+          filtered = filtered.filter(p => p.family === input.family);
         }
         if (input.search) {
           const search = input.search.toLowerCase();
@@ -7806,7 +7806,7 @@ export const appRouter = router({
           filtered = filtered.filter(m => m.family === input.family);
         }
         if (input.gamme) {
-          filtered = filtered.filter(m => m.olfactiveFamily === input.gamme);
+          filtered = filtered.filter(m => m.chemicalClass === input.gamme);
         }
         if (input.search) {
           const search = input.search.toLowerCase();
@@ -7831,7 +7831,7 @@ export const appRouter = router({
       const plantCategories = Array.from(new Set(plants.map(p => p.category).filter(Boolean))) as string[];
       const olfactiveFamilies = Array.from(new Set(plants.map(p => p.family).filter(Boolean))) as string[];
       const moleculeFamilies = Array.from(new Set(molecules.map(m => m.family).filter(Boolean))) as string[];
-      const gammes = Array.from(new Set(molecules.map(m => m.olfactiveFamily).filter(Boolean))) as string[];
+      const gammes = Array.from(new Set(molecules.map(m => m.chemicalClass).filter(Boolean))) as string[];
 
       return {
         climates: climates.sort(),
