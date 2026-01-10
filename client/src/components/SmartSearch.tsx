@@ -21,8 +21,14 @@ import {
   Clock,
   Star,
   Hash,
-  Filter
+  Filter,
+  Languages,
+  FlaskRound,
+  Info,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 // Types
@@ -35,6 +41,23 @@ interface SearchResult {
   category?: string;
   matchScore?: number;
   highlights?: string[];
+  /** Score de pertinence (100 = exact, 80 = synonyme, etc.) */
+  relevanceScore?: number;
+  /** Type de correspondance */
+  matchType?: 'exact' | 'synonym' | 'latin' | 'cas' | 'partial';
+  /** Terme qui a matché */
+  matchedTerm?: string;
+}
+
+/** Métadonnées d'enrichissement de la recherche */
+interface SearchEnrichment {
+  originalQuery: string;
+  expandedTerms: string[];
+  synonymsUsed: number;
+  queryCategory: { category: string; confidence: number };
+  olfactiveSynonyms: string[];
+  scientificNames: string[];
+  totalExpansions: number;
 }
 
 interface SearchSuggestion {
@@ -91,6 +114,31 @@ function useDebounceValue<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
+// Labels et couleurs pour les types de correspondance
+const MATCH_TYPE_LABELS: Record<string, string> = {
+  exact: "Exact",
+  synonym: "Synonyme",
+  latin: "Nom latin",
+  cas: "N° CAS",
+  partial: "Partiel",
+};
+
+const MATCH_TYPE_COLORS: Record<string, string> = {
+  exact: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 border-green-200",
+  synonym: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200",
+  latin: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border-purple-200",
+  cas: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300 border-orange-200",
+  partial: "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300 border-gray-200",
+};
+
+const MATCH_TYPE_ICONS: Record<string, React.ReactNode> = {
+  exact: <Sparkles className="h-3 w-3" />,
+  synonym: <Languages className="h-3 w-3" />,
+  latin: <Leaf className="h-3 w-3" />,
+  cas: <FlaskRound className="h-3 w-3" />,
+  partial: <Search className="h-3 w-3" />,
+};
+
 // Composant de résultat de recherche
 function SearchResultItem({ 
   result, 
@@ -119,7 +167,8 @@ function SearchResultItem({
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <span className="font-medium truncate">{result.name}</span>
-          {result.matchScore && result.matchScore > 80 && (
+          {/* Indicateur de score de pertinence */}
+          {result.relevanceScore && result.relevanceScore >= 95 && (
             <Sparkles className="h-3 w-3 text-amber-500" />
           )}
         </div>
@@ -127,6 +176,19 @@ function SearchResultItem({
           <p className="text-sm text-muted-foreground truncate">
             {result.description}
           </p>
+        )}
+        {/* Affichage du terme matché si différent du nom */}
+        {result.matchType && result.matchType !== 'exact' && result.matchedTerm && (
+          <div className="flex items-center gap-1 mt-1">
+            <span className="text-xs text-muted-foreground">via</span>
+            <Badge 
+              variant="outline" 
+              className={cn("text-xs h-5 gap-1", MATCH_TYPE_COLORS[result.matchType])}
+            >
+              {MATCH_TYPE_ICONS[result.matchType]}
+              <span className="font-mono">{result.matchedTerm}</span>
+            </Badge>
+          </div>
         )}
         {result.highlights && result.highlights.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-1">
@@ -140,8 +202,26 @@ function SearchResultItem({
       </div>
       
       <div className="flex items-center gap-2 shrink-0">
+        {/* Badge du type de correspondance */}
+        {result.matchType && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Badge 
+                variant="outline" 
+                className={cn("text-xs hidden sm:flex gap-1", MATCH_TYPE_COLORS[result.matchType])}
+              >
+                {MATCH_TYPE_ICONS[result.matchType]}
+                {MATCH_TYPE_LABELS[result.matchType]}
+              </Badge>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Score: {result.relevanceScore || 0}%</p>
+              {result.matchedTerm && <p>Matché via: {result.matchedTerm}</p>}
+            </TooltipContent>
+          </Tooltip>
+        )}
         {result.family && (
-          <Badge variant="outline" className="text-xs hidden sm:flex">
+          <Badge variant="outline" className="text-xs hidden md:flex">
             {result.family}
           </Badge>
         )}
@@ -184,6 +264,121 @@ function SuggestionItem({
           {suggestion.count} résultats
         </span>
       )}
+    </motion.div>
+  );
+}
+
+// Composant d'indicateur d'enrichissement de la recherche
+function SearchEnrichmentIndicator({ enrichment }: { enrichment: SearchEnrichment }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const hasOlfactiveSynonyms = enrichment.olfactiveSynonyms && enrichment.olfactiveSynonyms.length > 0;
+  const hasScientificNames = enrichment.scientificNames && enrichment.scientificNames.length > 0;
+  
+  if (!hasOlfactiveSynonyms && !hasScientificNames) return null;
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: 'auto' }}
+      className="border-b bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30"
+    >
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full p-2 flex items-center justify-between text-xs hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-3.5 w-3.5 text-blue-500" />
+          <span className="text-muted-foreground">
+            Recherche enrichie avec <strong className="text-foreground">{enrichment.synonymsUsed}</strong> terme{enrichment.synonymsUsed > 1 ? 's' : ''} supplémentaire{enrichment.synonymsUsed > 1 ? 's' : ''}
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          {hasOlfactiveSynonyms && (
+            <Badge variant="outline" className="h-5 text-[10px] bg-blue-100 dark:bg-blue-900/30 border-blue-200">
+              <Languages className="h-3 w-3 mr-1" />
+              {enrichment.olfactiveSynonyms.length} synonyme{enrichment.olfactiveSynonyms.length > 1 ? 's' : ''}
+            </Badge>
+          )}
+          {hasScientificNames && (
+            <Badge variant="outline" className="h-5 text-[10px] bg-purple-100 dark:bg-purple-900/30 border-purple-200">
+              <FlaskRound className="h-3 w-3 mr-1" />
+              {enrichment.scientificNames.length} nom{enrichment.scientificNames.length > 1 ? 's' : ''} scientifique{enrichment.scientificNames.length > 1 ? 's' : ''}
+            </Badge>
+          )}
+          {isExpanded ? (
+            <ChevronUp className="h-4 w-4 text-muted-foreground" />
+          ) : (
+            <ChevronDown className="h-4 w-4 text-muted-foreground" />
+          )}
+        </div>
+      </button>
+      
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="px-3 pb-3 space-y-2"
+          >
+            {/* Synonymes olfactifs */}
+            {hasOlfactiveSynonyms && (
+              <div>
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <Languages className="h-3 w-3 text-blue-500" />
+                  <span className="text-xs font-medium text-blue-700 dark:text-blue-300">Synonymes olfactifs</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {enrichment.olfactiveSynonyms.slice(0, 8).map((syn, i) => (
+                    <Badge key={i} variant="secondary" className="text-[10px] h-5 bg-blue-100/50 dark:bg-blue-900/20">
+                      {syn}
+                    </Badge>
+                  ))}
+                  {enrichment.olfactiveSynonyms.length > 8 && (
+                    <Badge variant="outline" className="text-[10px] h-5">
+                      +{enrichment.olfactiveSynonyms.length - 8} autres
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            {/* Noms scientifiques */}
+            {hasScientificNames && (
+              <div>
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <FlaskRound className="h-3 w-3 text-purple-500" />
+                  <span className="text-xs font-medium text-purple-700 dark:text-purple-300">Noms scientifiques (latins / CAS)</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {enrichment.scientificNames.slice(0, 8).map((name, i) => (
+                    <Badge key={i} variant="secondary" className="text-[10px] h-5 font-mono bg-purple-100/50 dark:bg-purple-900/20">
+                      {name}
+                    </Badge>
+                  ))}
+                  {enrichment.scientificNames.length > 8 && (
+                    <Badge variant="outline" className="text-[10px] h-5">
+                      +{enrichment.scientificNames.length - 8} autres
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            {/* Catégorie détectée */}
+            {enrichment.queryCategory && enrichment.queryCategory.confidence > 0.5 && (
+              <div className="flex items-center gap-2 pt-1 border-t border-dashed">
+                <Info className="h-3 w-3 text-muted-foreground" />
+                <span className="text-[10px] text-muted-foreground">
+                  Catégorie détectée: <strong>{enrichment.queryCategory.category}</strong>
+                  <span className="opacity-60"> ({Math.round(enrichment.queryCategory.confidence * 100)}% confiance)</span>
+                </span>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -242,7 +437,10 @@ export function SmartSearch({
           type: "molecule",
           name: mol.name,
           description: mol.description?.substring(0, 100),
-          family: mol.family,
+          family: mol.metadata?.family,
+          relevanceScore: mol.relevanceScore,
+          matchType: mol.matchType,
+          matchedTerm: mol.matchedTerm,
         });
       });
     }
@@ -255,7 +453,10 @@ export function SmartSearch({
           type: "recette",
           name: rec.name,
           description: rec.description?.substring(0, 100),
-          category: rec.category,
+          category: rec.metadata?.category,
+          relevanceScore: rec.relevanceScore,
+          matchType: rec.matchType,
+          matchedTerm: rec.matchedTerm,
         });
       });
     }
@@ -266,8 +467,11 @@ export function SmartSearch({
         allResults.push({
           id: term.id,
           type: "glossaire",
-          name: term.term,
-          description: term.definition?.substring(0, 100),
+          name: term.name,
+          description: term.description?.substring(0, 100),
+          relevanceScore: term.relevanceScore,
+          matchType: term.matchType,
+          matchedTerm: term.matchedTerm,
         });
       });
     }
@@ -280,7 +484,10 @@ export function SmartSearch({
           type: "plante",
           name: plant.name,
           description: plant.description?.substring(0, 100),
-          family: plant.family,
+          family: plant.metadata?.family,
+          relevanceScore: plant.relevanceScore,
+          matchType: plant.matchType,
+          matchedTerm: plant.matchedTerm,
         });
       });
     }
@@ -290,8 +497,14 @@ export function SmartSearch({
       return allResults.filter(r => activeFilters.includes(r.type));
     }
     
-    return allResults;
+    // Trier par score de pertinence (déjà trié côté serveur, mais on s'assure)
+    return allResults.sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
   }, [searchResults, activeFilters]);
+
+  // Extraire les métadonnées d'enrichissement
+  const searchEnrichment: SearchEnrichment | null = useMemo(() => {
+    return searchResults?.searchEnrichment || null;
+  }, [searchResults]);
 
   // Nombre total d'éléments navigables
   const totalItems = query.length >= 2 ? results.length : suggestions.length;
@@ -449,6 +662,11 @@ export function SmartSearch({
             exit={{ opacity: 0, y: -10 }}
             className="absolute z-50 w-full mt-2 bg-background border rounded-lg shadow-lg overflow-hidden"
           >
+            {/* Indicateur d'enrichissement de la recherche */}
+            {query.length >= 2 && searchEnrichment && searchEnrichment.synonymsUsed > 0 && (
+              <SearchEnrichmentIndicator enrichment={searchEnrichment} />
+            )}
+
             {/* Filtres */}
             {query.length >= 2 && (
               <div className="p-2 border-b flex flex-wrap gap-2">

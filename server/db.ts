@@ -226,6 +226,7 @@ import {
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../shared/olfactiveSynonyms';
+import { expandWithScientificNames, getScientificDictionaryStats } from '../shared/botanicalLatinNames';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -856,6 +857,12 @@ export interface GlobalSearchResult {
   name: string;
   description?: string | null;
   metadata?: Record<string, any>;
+  /** Score de pertinence (100 = correspondance exacte, 80 = synonyme, 60 = partiel) */
+  relevanceScore?: number;
+  /** Type de correspondance qui a déclenché le résultat */
+  matchType?: 'exact' | 'synonym' | 'latin' | 'cas' | 'partial';
+  /** Terme qui a matché (pour l'affichage) */
+  matchedTerm?: string;
 }
 
 export async function globalSearch(query: string, limit: number = 50): Promise<{
@@ -874,6 +881,12 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     expandedTerms: string[];
     synonymsUsed: number;
     queryCategory: { category: string; confidence: number };
+    /** Synonymes olfactifs utilisés pour enrichir la recherche */
+    olfactiveSynonyms: string[];
+    /** Noms scientifiques (latins, CAS) utilisés */
+    scientificNames: string[];
+    /** Nombre total d'expansions de la requête */
+    totalExpansions: number;
   };
 }> {
   const db = await getDb();
@@ -892,8 +905,22 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     };
   }
 
-  // Enrichissement de la requête avec synonymes olfactifs
-  const expandedTerms = expandSearchQuery(query);
+  // Enrichissement de la requête avec synonymes olfactifs ET scientifiques (noms latins, CAS)
+  const olfactiveTerms = expandSearchQuery(query);
+  const scientificTerms = expandWithScientificNames(query);
+  
+  // Combiner tous les termes enrichis (sans doublons)
+  const allExpandedTerms = new Set([...olfactiveTerms, ...scientificTerms]);
+  const expandedTerms = Array.from(allExpandedTerms);
+  
+  // Catégoriser les termes pour la pondération
+  const originalTermLower = query.toLowerCase().trim();
+  const synonymTerms = olfactiveTerms.filter(t => t.toLowerCase() !== originalTermLower);
+  const latinTerms = scientificTerms.filter(t => 
+    t.toLowerCase() !== originalTermLower && 
+    !synonymTerms.map(s => s.toLowerCase()).includes(t.toLowerCase())
+  );
+  
   const searchPatterns = expandedTerms.map(term => `%${term}%`);
   const primarySearchTerm = `%${query}%`;
   const perCategoryLimit = Math.ceil(limit / 9);
@@ -982,78 +1009,176 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     .where(buildEnrichedSearchCondition([glossary.term, glossary.definition]))
     .limit(perCategoryLimit);
 
-  // Transform results
-  const transformedPrototypes: GlobalSearchResult[] = prototypeResults.map(p => ({
-    type: 'prototype' as const,
-    id: p.id,
-    name: p.name,
-    description: p.conceptualAxis,
-    metadata: { code: p.code, emoji: p.emoji }
-  }));
+  // Fonction pour calculer le score de pertinence et le type de correspondance
+  const calculateRelevance = (itemName: string, itemDescription?: string | null, additionalFields?: string[]): {
+    score: number;
+    matchType: 'exact' | 'synonym' | 'latin' | 'cas' | 'partial';
+    matchedTerm: string;
+  } => {
+    const nameLower = itemName.toLowerCase();
+    const descLower = (itemDescription || '').toLowerCase();
+    const allFieldsLower = [nameLower, descLower, ...(additionalFields || []).map(f => (f || '').toLowerCase())];
+    
+    // Correspondance exacte avec le terme original (score 100)
+    if (nameLower.includes(originalTermLower) || originalTermLower.includes(nameLower)) {
+      return { score: 100, matchType: 'exact', matchedTerm: query };
+    }
+    
+    // Correspondance dans la description avec terme original (score 95)
+    if (descLower.includes(originalTermLower)) {
+      return { score: 95, matchType: 'exact', matchedTerm: query };
+    }
+    
+    // Correspondance avec synonyme olfactif (score 80)
+    for (const syn of synonymTerms) {
+      const synLower = syn.toLowerCase();
+      if (allFieldsLower.some(f => f.includes(synLower))) {
+        return { score: 80, matchType: 'synonym', matchedTerm: syn };
+      }
+    }
+    
+    // Correspondance avec nom latin (score 75)
+    for (const latin of latinTerms) {
+      const latinLower = latin.toLowerCase();
+      if (allFieldsLower.some(f => f.includes(latinLower))) {
+        // Vérifier si c'est un numéro CAS
+        if (/^\d+-\d+-\d+$/.test(latin)) {
+          return { score: 70, matchType: 'cas', matchedTerm: latin };
+        }
+        return { score: 75, matchType: 'latin', matchedTerm: latin };
+      }
+    }
+    
+    // Correspondance partielle (score 60)
+    return { score: 60, matchType: 'partial', matchedTerm: query };
+  };
 
-  const transformedMolecules: GlobalSearchResult[] = moleculeResults.map(m => ({
-    type: 'molecule' as const,
-    id: m.id,
-    name: m.name,
-    description: m.olfactiveProfile,
-    metadata: { family: m.family, chemicalFormula: m.chemicalFormula, casNumber: m.casNumber }
-  }));
+  // Transform results avec scores de pertinence
+  const transformedPrototypes: GlobalSearchResult[] = prototypeResults.map(p => {
+    const relevance = calculateRelevance(p.name, p.conceptualAxis, [p.code || '']);
+    return {
+      type: 'prototype' as const,
+      id: p.id,
+      name: p.name,
+      description: p.conceptualAxis,
+      metadata: { code: p.code, emoji: p.emoji },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
 
-  const transformedRecettes: GlobalSearchResult[] = recipeResults.map(r => ({
-    type: 'recette' as const,
-    id: r.id,
-    name: r.name,
-    description: r.description,
-    metadata: { category: r.category, status: r.status }
-  }));
+  const transformedMolecules: GlobalSearchResult[] = moleculeResults.map(m => {
+    const relevance = calculateRelevance(m.name, m.olfactiveProfile, [m.family || '', m.casNumber || '']);
+    return {
+      type: 'molecule' as const,
+      id: m.id,
+      name: m.name,
+      description: m.olfactiveProfile,
+      metadata: { family: m.family, chemicalFormula: m.chemicalFormula, casNumber: m.casNumber },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
 
-  const transformedPlants: GlobalSearchResult[] = plantResults.map(p => ({
-    type: 'plant' as const,
-    id: p.id,
-    name: p.name,
-    description: p.olfactiveSignature,
-    metadata: { latinName: p.latinName, family: p.family, origin: p.origin }
-  }));
+  const transformedRecettes: GlobalSearchResult[] = recipeResults.map(r => {
+    const relevance = calculateRelevance(r.name, r.description, [r.category || '']);
+    return {
+      type: 'recette' as const,
+      id: r.id,
+      name: r.name,
+      description: r.description,
+      metadata: { category: r.category, status: r.status },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
 
-  const transformedAccords: GlobalSearchResult[] = accordResults.map(a => ({
-    type: 'accord' as const,
-    id: a.id,
-    name: a.name,
-    description: a.olfactiveProfile,
-    metadata: { texture: a.texture, emotionalResonance: a.emotionalResonance }
-  }));
+  const transformedPlants: GlobalSearchResult[] = plantResults.map(p => {
+    const relevance = calculateRelevance(p.name, p.olfactiveSignature, [p.latinName || '', p.family || '']);
+    return {
+      type: 'plant' as const,
+      id: p.id,
+      name: p.name,
+      description: p.olfactiveSignature,
+      metadata: { latinName: p.latinName, family: p.family, origin: p.origin },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
 
-  const transformedTerpProfiles: GlobalSearchResult[] = terpProfileResults.map(t => ({
-    type: 'terpProfile' as const,
-    id: t.id,
-    name: t.name,
-    description: t.function,
-    metadata: { profileId: t.profileId, climaticAxis: t.climaticAxis, usage: t.usage }
-  }));
+  const transformedAccords: GlobalSearchResult[] = accordResults.map(a => {
+    const relevance = calculateRelevance(a.name, a.olfactiveProfile, [a.texture || '']);
+    return {
+      type: 'accord' as const,
+      id: a.id,
+      name: a.name,
+      description: a.olfactiveProfile,
+      metadata: { texture: a.texture, emotionalResonance: a.emotionalResonance },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
 
-  const transformedFinalRecipes: GlobalSearchResult[] = finalRecipeResults.map(f => ({
-    type: 'finalRecipe' as const,
-    id: f.id,
-    name: f.name,
-    description: f.function,
-    metadata: { recipeId: f.recipeId, recipeType: f.recipeType, climaticAxis: f.climaticAxis }
-  }));
+  const transformedTerpProfiles: GlobalSearchResult[] = terpProfileResults.map(t => {
+    const relevance = calculateRelevance(t.name, t.function, [t.profileId || '']);
+    return {
+      type: 'terpProfile' as const,
+      id: t.id,
+      name: t.name,
+      description: t.function,
+      metadata: { profileId: t.profileId, climaticAxis: t.climaticAxis, usage: t.usage },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
 
-  const transformedCivilisations: GlobalSearchResult[] = civilisationResults.map(c => ({
-    type: 'civilisation' as const,
-    id: c.id,
-    name: c.name,
-    description: c.longDescription,
-    metadata: { region: c.region, temporality: c.temporality }
-  }));
+  const transformedFinalRecipes: GlobalSearchResult[] = finalRecipeResults.map(f => {
+    const relevance = calculateRelevance(f.name, f.function, [f.recipeId || '']);
+    return {
+      type: 'finalRecipe' as const,
+      id: f.id,
+      name: f.name,
+      description: f.function,
+      metadata: { recipeId: f.recipeId, recipeType: f.recipeType, climaticAxis: f.climaticAxis },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
 
-  const transformedGlossary: GlobalSearchResult[] = glossaryResults.map(g => ({
-    type: 'glossary' as const,
-    id: g.id,
-    name: g.term,
-    description: g.definition,
-    metadata: { category: g.category }
-  }));
+  const transformedCivilisations: GlobalSearchResult[] = civilisationResults.map(c => {
+    const relevance = calculateRelevance(c.name, c.longDescription, [c.region || '']);
+    return {
+      type: 'civilisation' as const,
+      id: c.id,
+      name: c.name,
+      description: c.longDescription,
+      metadata: { region: c.region, temporality: c.temporality },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
+
+  const transformedGlossary: GlobalSearchResult[] = glossaryResults.map(g => {
+    const relevance = calculateRelevance(g.term, g.definition);
+    return {
+      type: 'glossary' as const,
+      id: g.id,
+      name: g.term,
+      description: g.definition,
+      metadata: { category: g.category },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
 
   const total = 
     transformedPrototypes.length +
@@ -1066,16 +1191,20 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     transformedCivilisations.length +
     transformedGlossary.length;
 
+  // Trier chaque catégorie par score de pertinence (décroissant)
+  const sortByRelevance = (a: GlobalSearchResult, b: GlobalSearchResult) => 
+    (b.relevanceScore || 0) - (a.relevanceScore || 0);
+
   return {
-    prototypes: transformedPrototypes,
-    molecules: transformedMolecules,
-    recettes: transformedRecettes,
-    plants: transformedPlants,
-    accords: transformedAccords,
-    terpProfiles: transformedTerpProfiles,
-    finalRecipes: transformedFinalRecipes,
-    civilisations: transformedCivilisations,
-    glossary: transformedGlossary,
+    prototypes: transformedPrototypes.sort(sortByRelevance),
+    molecules: transformedMolecules.sort(sortByRelevance),
+    recettes: transformedRecettes.sort(sortByRelevance),
+    plants: transformedPlants.sort(sortByRelevance),
+    accords: transformedAccords.sort(sortByRelevance),
+    terpProfiles: transformedTerpProfiles.sort(sortByRelevance),
+    finalRecipes: transformedFinalRecipes.sort(sortByRelevance),
+    civilisations: transformedCivilisations.sort(sortByRelevance),
+    glossary: transformedGlossary.sort(sortByRelevance),
     total,
     // Métadonnées d'enrichissement de la recherche
     searchEnrichment: {
@@ -1083,6 +1212,10 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
       expandedTerms: expandedTerms,
       synonymsUsed: expandedTerms.length - 1, // -1 pour exclure le terme original
       queryCategory: categorizeOlfactiveTerm(query),
+      // Nouvelles métadonnées pour l'affichage des synonymes
+      olfactiveSynonyms: synonymTerms,
+      scientificNames: latinTerms,
+      totalExpansions: expandedTerms.length,
     }
   };
 }

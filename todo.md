@@ -1007,3 +1007,24 @@
 - [x] Ajouter termes techniques du domaine (pyramide olfactive, sillage, etc.)
 - [x] Tester et valider les améliorations de recherche
 
+
+---
+
+## 🔍 AMÉLIORATION RECHERCHE (Session 10 Jan 2026)
+
+### Indicateur visuel des synonymes (Complété le 10 Jan 2026)
+- [x] Ajouter un indicateur visuel dans l'interface de recherche montrant les synonymes utilisés pour enrichir la requête
+- [x] Créer un composant de badge/tag pour visualiser les synonymes actifs (SearchEnrichmentIndicator)
+- [x] Afficher les synonymes olfactifs et noms scientifiques utilisés dans un panneau expansible
+
+### Extension du dictionnaire de synonymes (Complété le 10 Jan 2026)
+- [x] Étendre le dictionnaire avec les noms latins des plantes (~100 plantes avec noms latins)
+- [x] Ajouter les numéros CAS des molécules courantes au dictionnaire (~100 molécules avec CAS)
+- [x] Créer une structure de données pour les correspondances nom commun ↔ nom latin ↔ CAS (botanicalLatinNames.ts)
+- [x] Implémenter les fonctions de recherche inverse (CAS → molécule, nom latin → plante)
+
+### Système de pondération des résultats (Complété le 10 Jan 2026)
+- [x] Implémenter un système de pondération pour prioriser les résultats correspondant au terme original
+- [x] Ajouter un score de pertinence basé sur la correspondance (exact:100 > synonyme:80 > latin:75 > CAS:70 > partiel:60)
+- [x] Afficher le score de pertinence dans les résultats de recherche avec badges colorés
+- [x] Trier les résultats par score de pertinence décroissant
