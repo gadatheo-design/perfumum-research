@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Molecule3DViewer } from "@/components/Molecule3DViewer";
+import { LinkedRecettes, SimilarContent } from "@/components/SeeAlso";
 
 // Mapping des classes chimiques pour l'affichage
 const chemicalClassLabels: Record<string, string> = {
@@ -205,6 +206,17 @@ export default function MoleculeDetail() {
       moleculeId: id,
       limit: 5,
     },
+    { enabled: !!molecule }
+  );
+
+  // Récupérer les recettes qui utilisent cette molécule
+  const { data: linkedRecettes, isLoading: isLoadingRecettes } = trpc.crossLinks.getRecettesByMolecule.useQuery(id, {
+    enabled: !!molecule,
+  });
+
+  // Récupérer les molécules similaires
+  const { data: similarMolecules, isLoading: isLoadingSimilar } = trpc.crossLinks.getSimilarMolecules.useQuery(
+    { moleculeId: id, limit: 5 },
     { enabled: !!molecule }
   );
 
@@ -625,6 +637,24 @@ export default function MoleculeDetail() {
               <div className="bg-card p-6 rounded-lg border shadow-sm">
                 <h2 className="text-lg font-semibold mb-4">Références Bibliographiques</h2>
                 <ReferencesList references={molecule.references as any} />
+              </div>
+
+              {/* Section Voir aussi */}
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Recettes utilisant cette molécule */}
+                <LinkedRecettes 
+                  recettes={linkedRecettes || []} 
+                  isLoading={isLoadingRecettes}
+                  title="Recettes utilisant cette molécule"
+                />
+
+                {/* Molécules similaires */}
+                <SimilarContent
+                  items={similarMolecules || []}
+                  type="molecule"
+                  isLoading={isLoadingSimilar}
+                  getSubtitle={(m) => m.family || m.chemicalClass || undefined}
+                />
               </div>
             </TabsContent>
 

@@ -16,6 +16,7 @@ import { MoleculeListLinks } from "@/components/MoleculeLink";
 import { RecipeOlfactiveProfile } from "@/components/RecipeRadarChart";
 import { RecetteDetailSkeleton } from "@/components/RecetteDetailSkeleton";
 import { RecommendationsCard } from "@/components/RecommendationsCard";
+import { LinkedMolecules, SimilarContent } from "@/components/SeeAlso";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
 import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles } from "lucide-react";
@@ -57,6 +58,12 @@ export default function RecetteDetail() {
 
   // Récupérer les formules de référence
   const { data: formulesReference } = trpc.recettes.getFormulesReference.useQuery(id, { enabled: !!data });
+
+  // Récupérer les recettes similaires
+  const { data: similarRecettes, isLoading: isLoadingSimilar } = trpc.crossLinks.getSimilarRecettes.useQuery(
+    { recetteId: id, limit: 5 },
+    { enabled: !!data }
+  );
 
   // Récupérer les TerpProfiles liés (pour les recettes TL)
   const { data: linkedTerpProfiles } = trpc.recettes.getTerpProfiles.useQuery(id, { enabled: !!data });
@@ -883,6 +890,24 @@ export default function RecetteDetail() {
           isLoading={isLoadingRecommendations}
         />
       )}
+
+      {/* Section Voir aussi */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Molécules de cette recette */}
+        <LinkedMolecules
+          molecules={data?.molecules || []}
+          isLoading={isLoading}
+          title="Molécules de cette recette"
+        />
+
+        {/* Recettes similaires */}
+        <SimilarContent
+          items={similarRecettes || []}
+          type="recette"
+          isLoading={isLoadingSimilar}
+          getSubtitle={(r) => r.category || r.description?.slice(0, 50) || undefined}
+        />
+      </div>
 
       {/* Variations */}
       {variations && variations.length > 0 && (

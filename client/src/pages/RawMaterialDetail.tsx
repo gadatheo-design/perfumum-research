@@ -25,6 +25,7 @@ import {
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { LinkedMolecules, SimilarContent } from "@/components/SeeAlso";
 
 // Category configuration
 const categoryConfig: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
@@ -70,6 +71,12 @@ export default function RawMaterialDetail() {
 
   const { data: material, isLoading } = trpc.rawMaterials.getById.useQuery(id);
   const { data: molecules } = trpc.rawMaterials.getMolecules.useQuery(id);
+
+  // Récupérer les matières premières similaires
+  const { data: similarMaterials, isLoading: isLoadingSimilar } = trpc.crossLinks.getSimilarRawMaterials.useQuery(
+    { rawMaterialId: id, limit: 5 },
+    { enabled: id > 0 }
+  );
 
   if (isLoading) {
     return (
@@ -477,6 +484,24 @@ export default function RawMaterialDetail() {
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* Section Voir aussi */}
+        <div className="mt-8 grid md:grid-cols-2 gap-6">
+          {/* Molécules de cette matière première */}
+          <LinkedMolecules
+            molecules={molecules || []}
+            isLoading={isLoading}
+            title="Molécules dominantes"
+          />
+
+          {/* Matières premières similaires */}
+          <SimilarContent
+            items={similarMaterials || []}
+            type="rawMaterial"
+            isLoading={isLoadingSimilar}
+            getSubtitle={(m) => m.olfactiveFamily || m.category || undefined}
+          />
+        </div>
       </main>
 
       <Footer />

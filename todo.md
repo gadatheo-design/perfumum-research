@@ -932,3 +932,22 @@
 - [x] Vérifier les liens existants sur Gammes (déjà fonctionnels)
 - [ ] Tester la navigation complète après ajout des liens (serveur temporairement surchargé)
 
+
+- [x] Tester la navigation complète après ajout des liens
+
+### Liens croisés entre fiches (Session 10 Jan 2026)
+- [x] Créer le composant SeeAlso réutilisable (`/components/SeeAlso.tsx`)
+- [x] Ajouter les fonctions de liens croisés dans db.ts (getRecettesByMolecule, getSimilarMoleculesByProfile, etc.)
+- [x] Ajouter le router crossLinks dans routers.ts
+- [x] Implémenter les liens croisés sur MoleculeDetail (recettes liées + molécules similaires)
+- [x] Implémenter les liens croisés sur RecetteDetail (molécules liées + recettes similaires)
+- [x] Implémenter les liens croisés sur PlantDetail (terroirs liés + plantes similaires)
+- [x] Implémenter les liens croisés sur RawMaterialDetail (molécules dominantes + matières similaires)
+
+### Système "Voir aussi" (Session 10 Jan 2026)
+- [x] Créer le composant LinkedRecettes pour afficher les recettes liées
+- [x] Créer le composant LinkedMolecules pour afficher les molécules liées
+- [x] Créer le composant LinkedPlants pour afficher les plantes liées
+- [x] Créer le composant LinkedTerroirs pour afficher les terroirs liés
+- [x] Créer le composant SimilarContent générique pour le contenu similaire
+- [x] Intégrer les composants dans les pages de détails

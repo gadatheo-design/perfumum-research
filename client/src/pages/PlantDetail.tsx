@@ -26,6 +26,7 @@ import {
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { LinkedMolecules, LinkedTerroirs, SimilarContent } from "@/components/SeeAlso";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -92,6 +93,18 @@ export default function PlantDetail() {
   // Récupérer le statut de conservation
   const { data: conservationStatus } = trpc.plantsConservation.getConservationStatus.useQuery(
     { plantId },
+    { enabled: plantId > 0 }
+  );
+
+  // Récupérer les terroirs liés à cette plante
+  const { data: linkedTerroirs, isLoading: isLoadingTerroirs } = trpc.crossLinks.getTerroirsByPlant.useQuery(
+    plantId,
+    { enabled: plantId > 0 }
+  );
+
+  // Récupérer les plantes similaires
+  const { data: similarPlants, isLoading: isLoadingSimilar } = trpc.crossLinks.getSimilarPlants.useQuery(
+    { plantId, limit: 5 },
     { enabled: plantId > 0 }
   );
   
@@ -1010,6 +1023,24 @@ export default function PlantDetail() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Section Voir aussi */}
+      <div className="mt-8 grid md:grid-cols-2 gap-6">
+        {/* Terroirs où cette plante est cultivée */}
+        <LinkedTerroirs
+          terroirs={linkedTerroirs || []}
+          isLoading={isLoadingTerroirs}
+          title="Terroirs de culture"
+        />
+
+        {/* Plantes similaires */}
+        <SimilarContent
+          items={similarPlants || []}
+          type="plant"
+          isLoading={isLoadingSimilar}
+          getSubtitle={(p) => p.latinName || p.family || undefined}
+        />
+      </div>
     </div>
   );
 }
