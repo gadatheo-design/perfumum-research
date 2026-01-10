@@ -1063,3 +1063,13 @@
 - [x] Ajouter les interactions (zoom, pan, hover pour détails)
 - [x] Permettre le filtrage par famille dans la visualisation
 
+
+---
+
+## 🆕 SESSION 10 JANVIER 2026
+
+### Nouvelles fonctionnalités demandées
+- [x] Ajouter un sélecteur de famille chimique dans le formulaire d'édition de chaque molécule
+- [x] Enrichir le graphe avec un mode "arbre hiérarchique" en plus du réseau
+- [x] Créer un export CSV/JSON des liaisons molécules-familles pour analyse externe
+

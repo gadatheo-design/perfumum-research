@@ -960,6 +960,18 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getMoleculesByFamily(input);
       }),
+    // Récupérer toutes les liaisons molécule-famille chimique (pour graphe)
+    getAllLinks: publicProcedure.query(async () => {
+      return await db.getAllMoleculeChemicalFamilyLinks();
+    }),
+    // Export CSV des liaisons
+    exportCSV: publicProcedure.query(async () => {
+      return await db.exportMoleculeChemicalFamilyLinksCSV();
+    }),
+    // Export JSON des liaisons
+    exportJSON: publicProcedure.query(async () => {
+      return await db.exportMoleculeChemicalFamilyLinksJSON();
+    }),
   }),
 
   // Experimental Accords

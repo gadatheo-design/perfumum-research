@@ -14313,3 +14313,113 @@ export function getOlfactiveDictionaryStats(): {
 } {
   return getDictionaryStats();
 }
+
+
+// ============================================================================
+// LIAISONS MOLÉCULE-FAMILLE CHIMIQUE (pour graphe et export)
+// ============================================================================
+
+/**
+ * Récupère toutes les liaisons molécule-famille chimique avec détails complets
+ */
+export async function getAllMoleculeChemicalFamilyLinks() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const links = await db
+    .select({
+      moleculeId: molecules.id,
+      moleculeName: molecules.name,
+      moleculeFamily: molecules.family,
+      chemicalFamilyId: chemicalFamilies.id,
+      chemicalFamilyName: chemicalFamilies.name,
+      chemicalFamilyType: chemicalFamilies.type,
+      chemicalFamilyDescription: chemicalFamilies.description,
+      chemicalFamilyOlfactiveRole: chemicalFamilies.olfactiveRole,
+    })
+    .from(moleculeChemicalFamilies)
+    .innerJoin(molecules, eq(moleculeChemicalFamilies.moleculeId, molecules.id))
+    .innerJoin(chemicalFamilies, eq(moleculeChemicalFamilies.chemicalFamilyId, chemicalFamilies.id))
+    .orderBy(chemicalFamilies.name, molecules.name);
+  
+  return links;
+}
+
+/**
+ * Exporte les liaisons molécule-famille chimique au format CSV
+ */
+export async function exportMoleculeChemicalFamilyLinksCSV() {
+  const links = await getAllMoleculeChemicalFamilyLinks();
+  
+  // En-têtes CSV
+  const headers = [
+    'molecule_id',
+    'molecule_name',
+    'molecule_family',
+    'chemical_family_id',
+    'chemical_family_name',
+    'chemical_family_type',
+    'chemical_family_description',
+    'chemical_family_olfactive_role',
+  ];
+  
+  // Lignes CSV
+  const rows = links.map((link: {
+    moleculeId: number;
+    moleculeName: string;
+    moleculeFamily: string | null;
+    chemicalFamilyId: number;
+    chemicalFamilyName: string;
+    chemicalFamilyType: string;
+    chemicalFamilyDescription: string | null;
+    chemicalFamilyOlfactiveRole: string | null;
+  }) => [
+    link.moleculeId,
+    `"${(link.moleculeName || '').replace(/"/g, '""')}"`,
+    `"${(link.moleculeFamily || '').replace(/"/g, '""')}"`,
+    link.chemicalFamilyId,
+    `"${(link.chemicalFamilyName || '').replace(/"/g, '""')}"`,
+    `"${(link.chemicalFamilyType || '').replace(/"/g, '""')}"`,
+    `"${(link.chemicalFamilyDescription || '').replace(/"/g, '""')}"`,
+    `"${(link.chemicalFamilyOlfactiveRole || '').replace(/"/g, '""')}"`,
+  ].join(','));
+  
+  return [headers.join(','), ...rows].join('\n');
+}
+
+/**
+ * Exporte les liaisons molécule-famille chimique au format JSON
+ */
+export async function exportMoleculeChemicalFamilyLinksJSON() {
+  const links = await getAllMoleculeChemicalFamilyLinks();
+  
+  return {
+    exportDate: new Date().toISOString(),
+    totalLinks: links.length,
+    uniqueMolecules: new Set(links.map((l: { moleculeId: number }) => l.moleculeId)).size,
+    uniqueFamilies: new Set(links.map((l: { chemicalFamilyId: number }) => l.chemicalFamilyId)).size,
+    links: links.map((link: {
+      moleculeId: number;
+      moleculeName: string;
+      moleculeFamily: string | null;
+      chemicalFamilyId: number;
+      chemicalFamilyName: string;
+      chemicalFamilyType: string;
+      chemicalFamilyDescription: string | null;
+      chemicalFamilyOlfactiveRole: string | null;
+    }) => ({
+      molecule: {
+        id: link.moleculeId,
+        name: link.moleculeName,
+        family: link.moleculeFamily,
+      },
+      chemicalFamily: {
+        id: link.chemicalFamilyId,
+        name: link.chemicalFamilyName,
+        type: link.chemicalFamilyType,
+        description: link.chemicalFamilyDescription,
+        olfactiveRole: link.chemicalFamilyOlfactiveRole,
+      },
+    })),
+  };
+}
