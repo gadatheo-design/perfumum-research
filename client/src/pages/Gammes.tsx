@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Droplets, Mountain, Crown, ArrowRight, Sparkles, Heart, Gem, Beaker, FileText, FlaskConical, Layers, ChevronRight } from "lucide-react";
 import { VoirAussi, suggestionsGammes } from "@/components/VoirAussi";
 import { useState } from "react";
+import { AnimatedCard, HoverScale, FadeInSection, StaggeredContent, StaggeredItem } from "@/components/PageTransition";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -281,6 +282,7 @@ export default function Gammes() {
                   return (
                     <motion.div key={gamme.name} variants={itemVariants}>
                       <Link href={gamme.href}>
+                        <AnimatedCard hoverScale={1.015} hoverY={-6} className="h-full">
                         <Card className={`group h-full border ${gamme.borderColor} ${gamme.hoverBorder} bg-card hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/20 transition-all duration-300 cursor-pointer overflow-hidden relative`}>
                           {/* Subtle gradient overlay on hover */}
                           <div className={`absolute inset-0 bg-gradient-to-br ${gamme.gradientFrom} ${gamme.gradientTo} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -339,6 +341,7 @@ export default function Gammes() {
                             </div>
                           </CardContent>
                         </Card>
+                        </AnimatedCard>
                       </Link>
                     </motion.div>
                   );
@@ -391,6 +394,7 @@ export default function Gammes() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                   >
+                    <HoverScale scale={1.02} className="h-full">
                     <Card className="h-full border-border/50 hover:border-border hover:shadow-lg transition-all duration-300 bg-card">
                       <CardHeader className="pb-3 sm:pb-4">
                         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-primary/10 flex items-center justify-center mb-3 sm:mb-4">
@@ -404,6 +408,7 @@ export default function Gammes() {
                         </p>
                       </CardContent>
                     </Card>
+                    </HoverScale>
                   </motion.div>
                 ))}
               </div>

@@ -13,6 +13,7 @@ import {
   FlaskConical, TrendingUp, ArrowRight, Layers, Grid3X3, BarChart3 
 } from 'lucide-react';
 import { Link } from 'wouter';
+import { AnimatedCard, HoverScale, FadeInSection } from '@/components/PageTransition';
 
 export default function Synergies() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -223,6 +224,7 @@ export default function Synergies() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.02 }}
                 >
+                  <AnimatedCard hoverScale={1.02} hoverY={-4} className="h-full">
                   <Card className="h-full border-border/50 hover:border-primary/40 hover:shadow-lg transition-all duration-200">
                     <CardHeader className="pb-3">
                       <div className="flex items-start justify-between gap-2">
@@ -262,6 +264,7 @@ export default function Synergies() {
                       )}
                     </CardContent>
                   </Card>
+                  </AnimatedCard>
                 </motion.div>
               ))
             )}
@@ -285,34 +288,40 @@ export default function Synergies() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Link href="/synergies-heatmap">
-                    <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 transition-all cursor-pointer">
-                      <div className="font-medium flex items-center gap-2 mb-1">
-                        <BarChart3 className="w-4 h-4 text-primary" />
-                        Heatmap Synergies
-                        <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
+                    <HoverScale scale={1.03}>
+                      <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer">
+                        <div className="font-medium flex items-center gap-2 mb-1">
+                          <BarChart3 className="w-4 h-4 text-primary" />
+                          Heatmap Synergies
+                          <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
+                        </div>
+                        <div className="text-sm text-muted-foreground">Matrice visuelle des interactions</div>
                       </div>
-                      <div className="text-sm text-muted-foreground">Matrice visuelle des interactions</div>
-                    </div>
+                    </HoverScale>
                   </Link>
                   <Link href="/matrice-synergies">
-                    <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 transition-all cursor-pointer">
-                      <div className="font-medium flex items-center gap-2 mb-1">
-                        <Grid3X3 className="w-4 h-4 text-primary" />
-                        Matrice Interactive
-                        <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
+                    <HoverScale scale={1.03}>
+                      <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer">
+                        <div className="font-medium flex items-center gap-2 mb-1">
+                          <Grid3X3 className="w-4 h-4 text-primary" />
+                          Matrice Interactive
+                          <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
+                        </div>
+                        <div className="text-sm text-muted-foreground">Explorer les combinaisons</div>
                       </div>
-                      <div className="text-sm text-muted-foreground">Explorer les combinaisons</div>
-                    </div>
+                    </HoverScale>
                   </Link>
                   <Link href="/molecules">
-                    <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 transition-all cursor-pointer">
-                      <div className="font-medium flex items-center gap-2 mb-1">
-                        <Atom className="w-4 h-4 text-primary" />
-                        Molécules
-                        <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
+                    <HoverScale scale={1.03}>
+                      <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer">
+                        <div className="font-medium flex items-center gap-2 mb-1">
+                          <Atom className="w-4 h-4 text-primary" />
+                          Molécules
+                          <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all ml-auto" />
+                        </div>
+                        <div className="text-sm text-muted-foreground">Base de données moléculaire</div>
                       </div>
-                      <div className="text-sm text-muted-foreground">Base de données moléculaire</div>
-                    </div>
+                    </HoverScale>
                   </Link>
                 </div>
               </CardContent>

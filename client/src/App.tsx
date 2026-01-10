@@ -10,6 +10,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
+import { PageTransition } from "./components/PageTransition";
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -618,7 +619,9 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <GlobalSearch />
-          <Router />
+          <PageTransition>
+            <Router />
+          </PageTransition>
           <MobileBottomNav />
           <ScrollToTop />
           <PWAInstallPrompt />

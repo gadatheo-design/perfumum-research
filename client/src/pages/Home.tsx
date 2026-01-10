@@ -8,6 +8,7 @@ import { MoleculeOfTheDay } from "@/components/MoleculeOfTheDay";
 import { RecentActivity } from "@/components/RecentActivity";
 import { ResearchNews } from "@/components/ResearchNews";
 import { trpc } from "@/lib/trpc";
+import { AnimatedCard, HoverScale, FadeInSection } from "@/components/PageTransition";
 
 export default function Home() {
   // Récupérer les statistiques dynamiques depuis l'API
@@ -75,6 +76,7 @@ export default function Home() {
               
               <div className="grid md:grid-cols-3 gap-8">
                 {/* Parcours Chercheur */}
+                <AnimatedCard hoverScale={1.02} hoverY={-6}>
                 <Card className="brutal-border bg-card hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
                   <CardHeader className="relative z-10">
@@ -109,8 +111,10 @@ export default function Home() {
                     </Button>
                   </CardContent>
                 </Card>
+                </AnimatedCard>
 
                 {/* Parcours Créateur */}
+                <AnimatedCard hoverScale={1.02} hoverY={-6}>
                 <Card className="brutal-border bg-card hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl group-hover:bg-purple-500/10 transition-colors"></div>
                   <CardHeader className="relative z-10">
@@ -145,8 +149,10 @@ export default function Home() {
                     </Button>
                   </CardContent>
                 </Card>
+                </AnimatedCard>
 
                 {/* Parcours Curieux */}
+                <AnimatedCard hoverScale={1.02} hoverY={-6}>
                 <Card className="brutal-border bg-card hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl group-hover:bg-amber-500/10 transition-colors"></div>
                   <CardHeader className="relative z-10">
@@ -181,6 +187,7 @@ export default function Home() {
                     </Button>
                   </CardContent>
                 </Card>
+                </AnimatedCard>
               </div>
             </div>
           </div>
@@ -247,6 +254,7 @@ export default function Home() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Pétrichor */}
+                <HoverScale scale={1.02}>
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-petrichor/10 flex items-center justify-center mb-4 group-hover:bg-petrichor/20 transition-colors">
@@ -266,8 +274,10 @@ export default function Home() {
                     </Button>
                   </CardContent>
                 </Card>
+                </HoverScale>
 
                 {/* Volcanique */}
+                <HoverScale scale={1.02}>
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-volcanique/10 flex items-center justify-center mb-4 group-hover:bg-volcanique/20 transition-colors">
@@ -287,8 +297,10 @@ export default function Home() {
                     </Button>
                   </CardContent>
                 </Card>
+                </HoverScale>
 
                 {/* Traditions Olfactives */}
+                <HoverScale scale={1.02}>
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-solar-mineralis/10 flex items-center justify-center mb-4 group-hover:bg-solar-mineralis/20 transition-colors">
@@ -308,8 +320,10 @@ export default function Home() {
                     </Button>
                   </CardContent>
                 </Card>
+                </HoverScale>
 
                 {/* Glaciaire */}
+                <HoverScale scale={1.02}>
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors">
@@ -329,8 +343,10 @@ export default function Home() {
                     </Button>
                   </CardContent>
                 </Card>
+                </HoverScale>
 
                 {/* Bio-Lab */}
+                <HoverScale scale={1.02}>
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group md:col-span-2 lg:col-span-1">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-pink-500/10 flex items-center justify-center mb-4 group-hover:bg-pink-500/20 transition-colors">
@@ -350,6 +366,7 @@ export default function Home() {
                     </Button>
                   </CardContent>
                 </Card>
+                </HoverScale>
               </div>
             </div>
           </div>
@@ -366,6 +383,7 @@ export default function Home() {
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Données */}
+                <HoverScale scale={1.02}>
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
@@ -388,8 +406,10 @@ export default function Home() {
                     </Link>
                   </CardContent>
                 </Card>
+                </HoverScale>
 
                 {/* Recherche Scientifique */}
+                <HoverScale scale={1.02}>
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4 group-hover:bg-purple-500/20 transition-colors">
@@ -412,8 +432,10 @@ export default function Home() {
                     </Link>
                   </CardContent>
                 </Card>
+                </HoverScale>
 
                 {/* Programmes de Recherche */}
+                <HoverScale scale={1.02}>
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4 group-hover:bg-green-500/20 transition-colors">
@@ -436,6 +458,7 @@ export default function Home() {
                     </Link>
                   </CardContent>
                 </Card>
+                </HoverScale>
               </div>
             </div>
           </div>

@@ -14,6 +14,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { motion } from "framer-motion";
+import { AnimatedCard, HoverScale, FadeInSection } from "@/components/PageTransition";
 
 interface MoleculeFormule {
   moleculeId: number;
@@ -260,18 +261,19 @@ export default function EditeurFormulation() {
                       <p className="text-sm text-muted-foreground text-center py-8">Aucune molécule trouvée</p>
                     ) : (
                       moleculesFiltrees.slice(0, 50).map((m: any) => (
-                        <div
-                          key={m.id}
-                          draggable
-                          onDragStart={() => handleDragStart(m.id)}
-                          className="flex items-center gap-2 p-3 border border-border/50 rounded-lg cursor-move hover:bg-muted/50 hover:border-primary/30 transition-all group"
-                        >
-                          <GripVertical className="h-4 w-4 text-muted-foreground/50 group-hover:text-primary transition-colors" />
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium text-sm truncate">{m.name}</p>
-                            <p className="text-xs text-muted-foreground truncate">{m.family || "Non définie"}</p>
+                        <HoverScale key={m.id} scale={1.02}>
+                          <div
+                            draggable
+                            onDragStart={() => handleDragStart(m.id)}
+                            className="flex items-center gap-2 p-3 border border-border/50 rounded-lg cursor-move hover:bg-muted/50 hover:border-primary/30 transition-all group"
+                          >
+                            <GripVertical className="h-4 w-4 text-muted-foreground/50 group-hover:text-primary transition-colors" />
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-sm truncate">{m.name}</p>
+                              <p className="text-xs text-muted-foreground truncate">{m.family || "Non définie"}</p>
+                            </div>
                           </div>
-                        </div>
+                        </HoverScale>
                       ))
                     )}
                     {moleculesFiltrees.length > 50 && (

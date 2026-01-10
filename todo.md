@@ -861,3 +861,21 @@
 - [x] Améliorer visuellement la page Formules de Référence (cohérence avec le style global)
 - [x] Améliorer visuellement la page Recherche Avancée (cohérence avec le style global)
 - [x] Implémenter des transitions de page pour navigation fluide
+
+---
+## 🔥 SESSION ACTIVE — 10 Jan 2026 (Transitions globales & Micro-interactions)
+
+### Tâches demandées par l'utilisateur
+- [x] Appliquer transitions globales : Envelopper Router dans PageTransition
+- [x] Améliorer page Gammes : Ajouter AnimatedCard et HoverScale aux cartes
+- [x] Améliorer page Éditeur de Formulation : Ajouter HoverScale aux molécules draggables
+- [x] Améliorer page Synergies : Ajouter AnimatedCard aux cartes et HoverScale aux liens
+- [x] Ajouter micro-interactions HoverScale sur cartes cliquables de la page Home
+- [x] Ajouter AnimatedCard sur les parcours utilisateur de la page Home
+
+### Détails des améliorations
+- App.tsx : Router enveloppé dans PageTransition pour transitions automatiques entre pages
+- Gammes.tsx : AnimatedCard (scale 1.015, y -6) sur cartes de gammes, HoverScale sur cartes méthodologie
+- EditeurFormulation.tsx : HoverScale (scale 1.02) sur molécules draggables
+- SynergiesPage.tsx : AnimatedCard (scale 1.02, y -4) sur cartes synergies, HoverScale (scale 1.03) sur liens navigation
+- Home.tsx : AnimatedCard sur parcours utilisateur, HoverScale sur cartes gammes et accès données
