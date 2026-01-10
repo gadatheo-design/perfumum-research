@@ -1142,3 +1142,20 @@
 - [x] Intégrer le composant dans le formulaire d'ajout de molécule
 - [x] Ajouter la possibilité d'accepter/rejeter les suggestions IA
 - [x] Écrire les tests unitaires pour la procédure de classification IA (19 tests)
+
+
+---
+
+## 🤖 CLASSIFICATION IA EN MASSE (Session 10 Jan 2026)
+
+### Classification batch des molécules
+- [x] Créer la procédure `ai.classifyMoleculesBatch` pour classifier automatiquement les ~400 molécules sans classe chimique
+- [x] Améliorer le prompt IA avec les données des plantes sources liées pour des suggestions plus précises
+- [x] Créer les tests unitaires Vitest pour les nouvelles procédures (25 tests passés)
+- [x] Mettre à jour l'interface utilisateur pour permettre la classification en masse (AdminAIClassification.tsx)
+
+
+### Import des plantes de niche
+- [x] Analyser le fichier plantes_niches.json
+- [x] Importer les plantes de niche dans la base de données (34 plantes)
+- [x] Vérifier l'intégrité des données importées

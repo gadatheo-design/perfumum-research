@@ -92,7 +92,7 @@ export function NotificationBell() {
       case 'validation_required':
         return '/admin/validation';
       case 'classification_milestone':
-        return '/admin/progress-report';
+        return '/admin/ai-classification';
       default:
         return null;
     }
