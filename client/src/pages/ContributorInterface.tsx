@@ -28,6 +28,7 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import useDebounce from "@/hooks/useDebounce";
+import { AIClassificationSuggestion } from "@/components/AIClassificationSuggestion";
 
 // Types pour les formulaires
 interface MoleculeFormData {
@@ -493,6 +494,27 @@ export default function ContributorInterface() {
                             </div>
                           </div>
                         </div>
+                        
+                        <Separator />
+
+                        {/* Classification assistée par IA */}
+                        {moleculeForm.name && (
+                          <AIClassificationSuggestion
+                            molecule={{
+                              name: moleculeForm.name,
+                              iupacName: moleculeForm.iupacName || undefined,
+                              casNumber: moleculeForm.casNumber || undefined,
+                              chemicalFormula: moleculeForm.chemicalFormula || undefined,
+                              olfactiveProfile: moleculeForm.olfactiveProfile || undefined,
+                              botanicalSources: moleculeForm.sourceOrigin || undefined,
+                            }}
+                            currentChemicalClass={moleculeForm.chemicalClass || undefined}
+                            currentOlfactiveFamily={moleculeForm.family || undefined}
+                            onAcceptChemicalClass={(value) => setMoleculeForm({ ...moleculeForm, chemicalClass: value })}
+                            onAcceptOlfactiveFamily={(value) => setMoleculeForm({ ...moleculeForm, family: value })}
+                            onAcceptOlfactiveProfile={(value) => setMoleculeForm({ ...moleculeForm, olfactiveProfile: value })}
+                          />
+                        )}
                         
                         <Separator />
                         

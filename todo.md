@@ -1130,3 +1130,15 @@
 - [x] Ajouter des graphiques de progression (ligne, barres empilées)
 - [ ] Permettre l'export du rapport en PDF/CSV
 - [x] Ajouter des prévisions basées sur la tendance actuelle (projection 10 ans)
+
+## 🤖 CLASSIFICATION ASSISTÉE PAR IA (Session 10 Jan 2026)
+
+### Fonctionnalité de classification automatique
+- [x] Créer la procédure tRPC `ai.classifyMolecule` pour la classification IA
+- [x] Implémenter le prompt LLM pour suggérer les familles olfactives
+- [x] Implémenter le prompt LLM pour suggérer les classes chimiques
+- [x] Créer le composant `AIClassificationSuggestion` pour l'interface utilisateur
+- [x] Intégrer le composant dans la page de détail des molécules
+- [x] Intégrer le composant dans le formulaire d'ajout de molécule
+- [x] Ajouter la possibilité d'accepter/rejeter les suggestions IA
+- [x] Écrire les tests unitaires pour la procédure de classification IA (19 tests)

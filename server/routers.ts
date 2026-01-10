@@ -8292,6 +8292,299 @@ export const appRouter = router({
         return db.getProgressReport(input?.startDate, input?.endDate);
       }),
   }),
+
+  // ============================================================================
+  // AI-ASSISTED CLASSIFICATION
+  // ============================================================================
+  ai: router({
+    // Classifier une molécule avec l'IA
+    classifyMolecule: publicProcedure
+      .input(z.object({
+        name: z.string(),
+        iupacName: z.string().optional(),
+        casNumber: z.string().optional(),
+        chemicalFormula: z.string().optional(),
+        olfactiveProfile: z.string().optional(),
+        botanicalSources: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import("./_core/llm");
+        
+        // Construire le contexte pour l'IA
+        const moleculeContext = [
+          `Nom: ${input.name}`,
+          input.iupacName ? `Nom IUPAC: ${input.iupacName}` : null,
+          input.casNumber ? `Numéro CAS: ${input.casNumber}` : null,
+          input.chemicalFormula ? `Formule chimique: ${input.chemicalFormula}` : null,
+          input.olfactiveProfile ? `Profil olfactif: ${input.olfactiveProfile}` : null,
+          input.botanicalSources ? `Sources botaniques: ${input.botanicalSources}` : null,
+        ].filter(Boolean).join("\n");
+
+        const systemPrompt = `Tu es un expert en chimie des parfums et en olfaction. Tu dois analyser une molécule aromatique et suggérer sa classification.
+
+Classes chimiques disponibles:
+- terpene: Terpènes généraux (hydrocarbures dérivés de l'isoprène)
+- monoterpene: Monoterpènes (C10, ex: limonène, pinène)
+- sesquiterpene: Sesquiterpènes (C15, ex: caryophyllène)
+- diterpene: Diterpènes (C20)
+- aldehyde: Aldéhydes (groupe -CHO, ex: citral, vanilline)
+- ketone: Cétones (groupe C=O, ex: carvone, ionone)
+- alcohol: Alcools (groupe -OH, ex: linalol, géraniol)
+- ester: Esters (groupe -COO-, ex: acétate de linalyle)
+- ether: Éthers (groupe C-O-C, ex: anéthol)
+- phenol: Phénols (groupe -OH sur cycle aromatique, ex: eugénol)
+- lactone: Lactones (esters cycliques, ex: coumarine)
+- coumarin: Coumarines spécifiquement
+- musk: Muscs (macrocycliques ou nitromuscs)
+- nitrile: Nitriles (groupe -CN)
+- sulfur_compound: Composés soufrés (thiols, sulfures)
+- heterocyclic: Hétérocycliques (cycles avec N, O, S)
+- aromatic: Composés aromatiques généraux
+- aliphatic: Composés aliphatiques
+- other: Autre classe
+
+Familles olfactives disponibles:
+- floral: Notes florales (rose, jasmin, muguet)
+- boise: Notes boisées (cèdre, santal, vétiver)
+- agrume: Notes agrumes/hespéridées (citron, orange, bergamote)
+- epice: Notes épicées (cannelle, clou de girofle, poivre)
+- herbace: Notes herbacées (lavande, romarin, thym)
+- balsamique: Notes balsamiques (benjoin, tolu, vanille)
+- musque: Notes musquées
+- animal: Notes animales (ambre gris, castoreum)
+- vert: Notes vertes (feuille, gazon, galbanum)
+- fruite: Notes fruitées (pomme, pêche, baies)
+- marin: Notes marines/ozôniques
+- terreux: Notes terreuses (mousse, terre, champignon)
+- fume: Notes fumées/cuirées
+- gourmand: Notes gourmandes (caramel, chocolat, café)
+- aromatique: Notes aromatiques (herbes de Provence)
+- autre: Autre famille
+
+Réponds UNIQUEMENT avec un objet JSON valide, sans texte supplémentaire.`;
+
+        const userPrompt = `Analyse cette molécule et suggère sa classification:
+
+${moleculeContext}
+
+Réponds avec un JSON contenant:
+- chemicalClass: la classe chimique la plus appropriée (une seule valeur parmi la liste)
+- chemicalClassConfidence: niveau de confiance (0-100)
+- chemicalClassReasoning: explication courte de ton choix
+- olfactiveFamily: la famille olfactive principale (une seule valeur parmi la liste)
+- olfactiveFamilyConfidence: niveau de confiance (0-100)
+- olfactiveFamilyReasoning: explication courte de ton choix
+- suggestedOlfactiveProfile: description olfactive suggérée si non fournie
+- additionalNotes: notes supplémentaires utiles pour le chercheur`;
+
+        try {
+          const response = await invokeLLM({
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: userPrompt },
+            ],
+            response_format: {
+              type: "json_schema",
+              json_schema: {
+                name: "molecule_classification",
+                strict: true,
+                schema: {
+                  type: "object",
+                  properties: {
+                    chemicalClass: {
+                      type: "string",
+                      enum: ["terpene", "sesquiterpene", "diterpene", "monoterpene", "aldehyde", "ketone", "alcohol", "ester", "ether", "phenol", "lactone", "coumarin", "musk", "nitrile", "sulfur_compound", "heterocyclic", "aromatic", "aliphatic", "other"],
+                      description: "Classe chimique principale de la molécule"
+                    },
+                    chemicalClassConfidence: {
+                      type: "number",
+                      description: "Niveau de confiance pour la classe chimique (0-100)"
+                    },
+                    chemicalClassReasoning: {
+                      type: "string",
+                      description: "Explication du choix de classe chimique"
+                    },
+                    olfactiveFamily: {
+                      type: "string",
+                      enum: ["floral", "boise", "agrume", "epice", "herbace", "balsamique", "musque", "animal", "vert", "fruite", "marin", "terreux", "fume", "gourmand", "aromatique", "autre"],
+                      description: "Famille olfactive principale"
+                    },
+                    olfactiveFamilyConfidence: {
+                      type: "number",
+                      description: "Niveau de confiance pour la famille olfactive (0-100)"
+                    },
+                    olfactiveFamilyReasoning: {
+                      type: "string",
+                      description: "Explication du choix de famille olfactive"
+                    },
+                    suggestedOlfactiveProfile: {
+                      type: "string",
+                      description: "Description olfactive suggérée"
+                    },
+                    additionalNotes: {
+                      type: "string",
+                      description: "Notes supplémentaires pour le chercheur"
+                    }
+                  },
+                  required: ["chemicalClass", "chemicalClassConfidence", "chemicalClassReasoning", "olfactiveFamily", "olfactiveFamilyConfidence", "olfactiveFamilyReasoning", "suggestedOlfactiveProfile", "additionalNotes"],
+                  additionalProperties: false
+                }
+              }
+            }
+          });
+
+          const content = response.choices[0]?.message?.content;
+          if (typeof content === "string") {
+            const parsed = JSON.parse(content);
+            return {
+              success: true,
+              classification: parsed,
+              inputData: input,
+            };
+          }
+          throw new Error("Réponse IA invalide");
+        } catch (error) {
+          console.error("Erreur classification IA:", error);
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : "Erreur inconnue",
+            inputData: input,
+          };
+        }
+      }),
+
+    // Classifier plusieurs molécules en batch
+    classifyMoleculesBatch: protectedProcedure
+      .input(z.array(z.object({
+        id: z.number(),
+        name: z.string(),
+        iupacName: z.string().optional(),
+        casNumber: z.string().optional(),
+        chemicalFormula: z.string().optional(),
+        olfactiveProfile: z.string().optional(),
+        botanicalSources: z.string().optional(),
+      })))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import("./_core/llm");
+        const results: Array<{
+          id: number;
+          name: string;
+          success: boolean;
+          classification?: any;
+          error?: string;
+        }> = [];
+
+        // Traiter par lots de 5 pour éviter les timeouts
+        for (let i = 0; i < input.length; i += 5) {
+          const batch = input.slice(i, i + 5);
+          
+          const batchPromises = batch.map(async (molecule) => {
+            const moleculeContext = [
+              `Nom: ${molecule.name}`,
+              molecule.iupacName ? `Nom IUPAC: ${molecule.iupacName}` : null,
+              molecule.casNumber ? `Numéro CAS: ${molecule.casNumber}` : null,
+              molecule.chemicalFormula ? `Formule chimique: ${molecule.chemicalFormula}` : null,
+              molecule.olfactiveProfile ? `Profil olfactif: ${molecule.olfactiveProfile}` : null,
+              molecule.botanicalSources ? `Sources botaniques: ${molecule.botanicalSources}` : null,
+            ].filter(Boolean).join("\n");
+
+            try {
+              const response = await invokeLLM({
+                messages: [
+                  { role: "system", content: `Tu es un expert en chimie des parfums. Analyse cette molécule et suggère sa classification chimique et olfactive. Réponds UNIQUEMENT en JSON valide.` },
+                  { role: "user", content: `Molécule:\n${moleculeContext}\n\nRéponds avec: chemicalClass (terpene|sesquiterpene|diterpene|monoterpene|aldehyde|ketone|alcohol|ester|ether|phenol|lactone|coumarin|musk|nitrile|sulfur_compound|heterocyclic|aromatic|aliphatic|other), olfactiveFamily (floral|boise|agrume|epice|herbace|balsamique|musque|animal|vert|fruite|marin|terreux|fume|gourmand|aromatique|autre), confidence (0-100), reasoning.` },
+                ],
+                response_format: {
+                  type: "json_schema",
+                  json_schema: {
+                    name: "batch_classification",
+                    strict: true,
+                    schema: {
+                      type: "object",
+                      properties: {
+                        chemicalClass: { type: "string" },
+                        olfactiveFamily: { type: "string" },
+                        confidence: { type: "number" },
+                        reasoning: { type: "string" }
+                      },
+                      required: ["chemicalClass", "olfactiveFamily", "confidence", "reasoning"],
+                      additionalProperties: false
+                    }
+                  }
+                }
+              });
+
+              const content = response.choices[0]?.message?.content;
+              if (typeof content === "string") {
+                return {
+                  id: molecule.id,
+                  name: molecule.name,
+                  success: true,
+                  classification: JSON.parse(content),
+                };
+              }
+              throw new Error("Réponse invalide");
+            } catch (error) {
+              return {
+                id: molecule.id,
+                name: molecule.name,
+                success: false,
+                error: error instanceof Error ? error.message : "Erreur inconnue",
+              };
+            }
+          });
+
+          const batchResults = await Promise.all(batchPromises);
+          results.push(...batchResults);
+        }
+
+        return {
+          total: input.length,
+          successful: results.filter(r => r.success).length,
+          failed: results.filter(r => !r.success).length,
+          results,
+        };
+      }),
+
+    // Suggérer un profil olfactif basé sur le nom et la structure
+    suggestOlfactiveProfile: publicProcedure
+      .input(z.object({
+        name: z.string(),
+        chemicalClass: z.string().optional(),
+        chemicalFormula: z.string().optional(),
+        botanicalSources: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import("./_core/llm");
+
+        const context = [
+          `Nom: ${input.name}`,
+          input.chemicalClass ? `Classe chimique: ${input.chemicalClass}` : null,
+          input.chemicalFormula ? `Formule: ${input.chemicalFormula}` : null,
+          input.botanicalSources ? `Sources: ${input.botanicalSources}` : null,
+        ].filter(Boolean).join("\n");
+
+        try {
+          const response = await invokeLLM({
+            messages: [
+              { role: "system", content: "Tu es un parfumeur expert. Décris le profil olfactif de cette molécule de manière précise et poétique, en utilisant le vocabulaire professionnel de la parfumerie. Limite ta réponse à 2-3 phrases." },
+              { role: "user", content: `Décris le profil olfactif de cette molécule:\n${context}` },
+            ],
+          });
+
+          const content = response.choices[0]?.message?.content;
+          return {
+            success: true,
+            profile: typeof content === "string" ? content : "",
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : "Erreur inconnue",
+          };
+        }
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

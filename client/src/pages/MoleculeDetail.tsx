@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Molecule3DViewer } from "@/components/Molecule3DViewer";
 import { LinkedRecettes, SimilarContent } from "@/components/SeeAlso";
+import { AIClassificationSuggestion } from "@/components/AIClassificationSuggestion";
 
 // Mapping des classes chimiques pour l'affichage
 const chemicalClassLabels: Record<string, string> = {
@@ -811,6 +812,20 @@ export default function MoleculeDetail() {
                   </div>
                 </div>
               )}
+
+              {/* Classification assistée par IA */}
+              <AIClassificationSuggestion
+                molecule={{
+                  name: molecule.name,
+                  iupacName: molecule.iupacName,
+                  casNumber: molecule.casNumber,
+                  chemicalFormula: molecule.chemicalFormula,
+                  olfactiveProfile: molecule.olfactiveProfile,
+                  botanicalSources: molecule.botanicalSources,
+                }}
+                currentChemicalClass={molecule.chemicalClass}
+                currentOlfactiveFamily={molecule.family}
+              />
             </TabsContent>
 
             {/* Onglet Plantes sources */}
