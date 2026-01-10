@@ -28,7 +28,7 @@ interface ChemicalFamily {
 interface MoleculeChemicalFamilyLink {
   moleculeId: number;
   moleculeName: string;
-  moleculeFamily?: string;
+  moleculeFamily?: string | null;
   chemicalFamilyId: number;
   chemicalFamilyName: string;
   chemicalFamilyType: string;
@@ -53,7 +53,7 @@ interface GraphNode {
   id: string;
   name: string;
   type: "family" | "molecule";
-  family?: string;
+  family?: string | null;
   linkCount: number;
 }
 
@@ -200,7 +200,7 @@ export function ChemicalFamilyHierarchyGraph({
           id: moleculeId,
           name: link.moleculeName,
           type: "molecule",
-          family: link.moleculeFamily,
+          family: link.moleculeFamily ?? undefined,
           linkCount: 0,
         });
       }

@@ -24,12 +24,12 @@ import {
 interface MoleculeChemicalFamilyLink {
   moleculeId: number;
   moleculeName: string;
-  moleculeFamily: string | null;
+  moleculeFamily?: string | null;
   chemicalFamilyId: number;
   chemicalFamilyName: string;
   chemicalFamilyType: string;
-  chemicalFamilyDescription: string | null;
-  chemicalFamilyOlfactiveRole: string | null;
+  chemicalFamilyDescription?: string | null;
+  chemicalFamilyOlfactiveRole?: string | null;
 }
 
 export default function GrapheMoleculesFamillesChimiques() {
