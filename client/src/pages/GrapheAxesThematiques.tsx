@@ -61,10 +61,10 @@ export default function GrapheAxesThematiques() {
             id: `mol-${mol.id}`,
             name: mol.name,
             type: 'molecule',
-            group: mol.category || 'Non classé',
+            group: mol.chemicalClass || 'Non classé',
             value: 1,
             metadata: {
-              category: mol.category,
+              chemicalClass: mol.chemicalClass,
               cas: mol.casNumber,
             }
           });
@@ -88,8 +88,8 @@ export default function GrapheAxesThematiques() {
         // Note: Les liens molécule-recette sont chargés dynamiquement via les recettes
         // On crée des liens basés sur les familles olfactives des molécules
         molecules?.forEach(mol => {
-          if (mol.familyId) {
-            const family = families?.find(f => f.id === mol.familyId);
+          if ((mol as any).familyId) {
+            const family = families?.find(f => f.id === (mol as any).familyId);
             if (family) {
               links.push({
                 source: `mol-${mol.id}`,
