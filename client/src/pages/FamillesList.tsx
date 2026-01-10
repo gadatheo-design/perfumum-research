@@ -1,11 +1,13 @@
 import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Layers } from "lucide-react";
+import { Loader2, Layers, ChevronRight, ArrowRight, Search } from "lucide-react";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
 
@@ -17,6 +19,17 @@ const TYPE_LABELS: Record<string, string> = {
   solarmineralis: "Solar-Mineralis",
   necrogeo: "Nécro-Géo",
   other: "Autre",
+};
+
+// Mapping des types vers les pages de gammes
+const TYPE_TO_GAMME_PATH: Record<string, string> = {
+  perfumeum12: "/recettes?category=Perfumeum",
+  biomineralis: "/gammes/biolab",
+  petrichor: "/gammes/petrichor",
+  volcanique: "/gammes/volcanique",
+  solarmineralis: "/recettes?category=Solar-Mineralis",
+  necrogeo: "/recettes?category=Nécro-Géo",
+  other: "/recettes",
 };
 
 export default function FamillesList() {
@@ -51,10 +64,20 @@ export default function FamillesList() {
     });
   }, [families, searchQuery, typeFilter]);
 
+  // Get link path for a family
+  const getFamilyPath = (family: { name: string; type: string }) => {
+    // First try to match by type
+    if (TYPE_TO_GAMME_PATH[family.type]) {
+      return TYPE_TO_GAMME_PATH[family.type];
+    }
+    // Fallback to search by name
+    return `/recettes?search=${encodeURIComponent(family.name)}`;
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
-      <Breadcrumbs />
       <Header />
+      <Breadcrumbs />
       
       <main className="flex-1">
         {/* Hero */}
@@ -67,9 +90,22 @@ export default function FamillesList() {
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
                 Familles Olfactives
               </h1>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
                 Les familles olfactives constituent les grandes catégories conceptuelles du projet PERFUMUM. Chaque famille regroupe des accords et variations explorant une dimension sensible spécifique.
               </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link href="/recettes">
+                  <Button size="lg">
+                    Explorer les recettes
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/gammes">
+                  <Button size="lg" variant="outline">
+                    Voir les gammes
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -117,30 +153,39 @@ export default function FamillesList() {
               ) : (
                 <div className="grid grid-cols-1 gap-6">
                   {filteredFamilies.map((family) => (
-                    <Card key={family.id} className="hover:shadow-md transition-shadow">
-                      <CardHeader>
-                        <div className="flex items-start justify-between gap-4">
-                          <CardTitle className="text-2xl">{family.name}</CardTitle>
-                          <div className="flex gap-2 shrink-0">
-                            <Badge variant="outline">
-                              {TYPE_LABELS[family.type] || family.type}
-                            </Badge>
-                            {family.variationCount && family.variationCount > 0 && (
-                              <Badge variant="secondary">
-                                {family.variationCount} variation{family.variationCount > 1 ? "s" : ""}
+                    <Link key={family.id} href={getFamilyPath(family)}>
+                      <Card className="hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+                        <CardHeader>
+                          <div className="flex items-start justify-between gap-4">
+                            <CardTitle className="text-2xl group-hover:text-primary transition-colors flex items-center gap-2">
+                              {family.name}
+                              <ChevronRight className="h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </CardTitle>
+                            <div className="flex gap-2 shrink-0">
+                              <Badge variant="outline">
+                                {TYPE_LABELS[family.type] || family.type}
                               </Badge>
-                            )}
+                              {family.variationCount && family.variationCount > 0 && (
+                                <Badge variant="secondary">
+                                  {family.variationCount} variation{family.variationCount > 1 ? "s" : ""}
+                                </Badge>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        {family.description && (
-                          <p className="text-muted-foreground leading-relaxed">
-                            {family.description}
-                          </p>
-                        )}
-                      </CardContent>
-                    </Card>
+                        </CardHeader>
+                        <CardContent>
+                          {family.description && (
+                            <p className="text-muted-foreground leading-relaxed">
+                              {family.description}
+                            </p>
+                          )}
+                          <div className="pt-4 flex items-center text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Search className="h-4 w-4 mr-2" />
+                            Voir les recettes de cette famille
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -149,16 +194,7 @@ export default function FamillesList() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border/40 py-8 mt-16">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <p>© 2025 PERFUMUM — Recherche Olfactive</p>
-          </div>
-        </div>
-      </footer>
-    <Footer />
-
+      <Footer />
     </div>
   );
 }

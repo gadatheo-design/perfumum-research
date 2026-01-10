@@ -914,3 +914,21 @@
 - `client/src/components/TagsNotesEditor.tsx` - Éditeur de tags et notes
 - `client/src/pages/VueDetailConnexions.tsx` - Vue détaillée des connexions
 - `client/src/pages/GrapheAxesThematiques.tsx` - Page graphe axes thématiques
+
+
+---
+
+## 🔗 HYPERLIENS MANQUANTS (Session 10 Jan 2026)
+
+### Navigation par liens cliquables
+- [x] Vérifier les liens existants sur RecipeTimeline (déjà fonctionnels)
+- [x] Vérifier les liens existants sur RecetteCard (déjà fonctionnels)
+- [x] Vérifier les liens existants sur Molecules (déjà fonctionnels)
+- [x] Vérifier les liens existants sur Plants (déjà fonctionnels)
+- [x] Améliorer la page Accords avec liens cliquables vers les recettes
+- [x] Améliorer la page FamillesList avec liens cliquables vers les recettes
+- [x] Améliorer la page Terroirs avec liens cliquables vers les plantes
+- [x] Vérifier les liens existants sur Civilisations (déjà fonctionnels)
+- [x] Vérifier les liens existants sur Gammes (déjà fonctionnels)
+- [ ] Tester la navigation complète après ajout des liens (serveur temporairement surchargé)
+

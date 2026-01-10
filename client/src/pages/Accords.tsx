@@ -1,11 +1,13 @@
 import { useState, useMemo } from "react";
+import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, ChevronRight, Search, ArrowRight } from "lucide-react";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
 
@@ -67,9 +69,22 @@ export default function Accords() {
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
                 Accords Olfactifs
               </h1>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
                 Les accords constituent les unités compositionnelles du projet PERFUMUM. Chaque accord articule plusieurs molécules pour créer une atmosphère olfactive cohérente et évocatrice.
               </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link href="/recettes">
+                  <Button size="lg">
+                    Voir les recettes
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/molecules">
+                  <Button size="lg" variant="outline">
+                    Explorer les molécules
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -117,46 +132,56 @@ export default function Accords() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredAccords.map((accord) => (
-                    <Card key={accord.id} className="hover:shadow-md transition-shadow">
-                      <CardHeader>
-                        <div className="flex items-start justify-between gap-4">
-                          <CardTitle className="text-xl">{accord.name}</CardTitle>
-                          {accord.texture && (
-                            <Badge variant="outline" className="shrink-0">
-                              {TEXTURE_LABELS[accord.texture] || accord.texture}
-                            </Badge>
+                    <Link key={accord.id} href={`/recettes?search=${encodeURIComponent(accord.name)}`}>
+                      <Card className="hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group h-full">
+                        <CardHeader>
+                          <div className="flex items-start justify-between gap-4">
+                            <CardTitle className="text-xl group-hover:text-primary transition-colors flex items-center gap-2">
+                              {accord.name}
+                              <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </CardTitle>
+                            {accord.texture && (
+                              <Badge variant="outline" className="shrink-0">
+                                {TEXTURE_LABELS[accord.texture] || accord.texture}
+                              </Badge>
+                            )}
+                          </div>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          {accord.olfactiveProfile && (
+                            <div>
+                              <h4 className="text-sm font-semibold mb-2">Profil Olfactif</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {accord.olfactiveProfile}
+                              </p>
+                            </div>
                           )}
-                        </div>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {accord.olfactiveProfile && (
-                          <div>
-                            <h4 className="text-sm font-semibold mb-2">Profil Olfactif</h4>
-                            <p className="text-sm text-muted-foreground">
-                              {accord.olfactiveProfile}
-                            </p>
+                          
+                          {accord.emotionalResonance && (
+                            <div>
+                              <h4 className="text-sm font-semibold mb-2">Résonance Émotionnelle</h4>
+                              <p className="text-sm text-muted-foreground italic">
+                                {accord.emotionalResonance}
+                              </p>
+                            </div>
+                          )}
+                          
+                          {accord.notes && (
+                            <div>
+                              <h4 className="text-sm font-semibold mb-2">Notes</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {accord.notes}
+                              </p>
+                            </div>
+                          )}
+                          
+                          <div className="pt-2 flex items-center text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Search className="h-3 w-3 mr-1" />
+                            Voir les recettes avec cet accord
                           </div>
-                        )}
-                        
-                        {accord.emotionalResonance && (
-                          <div>
-                            <h4 className="text-sm font-semibold mb-2">Résonance Émotionnelle</h4>
-                            <p className="text-sm text-muted-foreground italic">
-                              {accord.emotionalResonance}
-                            </p>
-                          </div>
-                        )}
-                        
-                        {accord.notes && (
-                          <div>
-                            <h4 className="text-sm font-semibold mb-2">Notes</h4>
-                            <p className="text-sm text-muted-foreground">
-                              {accord.notes}
-                            </p>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
+                        </CardContent>
+                      </Card>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -165,16 +190,7 @@ export default function Accords() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border/40 py-8 mt-16">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <p>© 2025 PERFUMUM — Recherche Olfactive</p>
-          </div>
-        </div>
-      </footer>
-    <Footer />
-
+      <Footer />
     </div>
   );
 }
