@@ -238,7 +238,7 @@ export default function GrapheAxesThematiques() {
     }
 
     return { nodes, links };
-  }, [viewMode, molecules, recettes, prototypes, families, moleculesRecettes, plants, terroirs, isLoading]);
+  }, [viewMode, molecules, recettes, prototypes, families, plantMoleculeLinks, plants, terroirs, isLoading]);
 
   const handleNodeClick = (node: any) => {
     const type = node.type;
