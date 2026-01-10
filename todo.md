@@ -973,3 +973,26 @@
 - [ ] Analyser les fichiers du pack v4 (BibTeX, CSV, ZIP) — en attente des fichiers
 - [ ] Créer le script d'import pour les références v4
 - [ ] Importer les nouvelles références génomiques
+
+
+---
+
+## 🔗 LIAISONS AUTOMATIQUES & VISUALISATION (Session 10 Jan 2026)
+
+### Liaisons automatiques entités (références ↔ molécules/plantes)
+- [x] Analyser la structure des références existantes et leurs mots-clés
+- [x] Créer la table de liaisons `reference_entity_links` dans le schéma (déjà existante)
+- [x] Implémenter l'algorithme de matching par mots-clés (extractKeywords, calculateKeywordSimilarity)
+- [x] Créer les procédures tRPC pour générer les liaisons automatiques (autoLinking router)
+- [ ] Créer l'interface de validation/correction des liaisons suggérées
+- [x] Écrire les tests vitest pour le système de liaisons automatiques (27 tests)
+
+### Visualisation graphique des références par axe H2/H3
+- [x] Créer la page `/references-graph` pour la visualisation
+- [x] Implémenter le graphe de force D3.js avec nœuds références/axes
+- [x] Ajouter les filtres par axe thématique (meta-axes: Heritage, Arts, Digital)
+- [x] Implémenter les interactions (zoom, drag, hover avec détails)
+- [x] Ajouter la navigation vers les fiches détaillées depuis le graphe
+- [x] Optimiser les performances pour les grands ensembles de données
+- [x] Écrire les tests vitest pour les procédures du graphe (27 tests)
+

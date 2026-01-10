@@ -285,6 +285,7 @@ import CarteTerroirsPlantes from "./pages/CarteTerroirsPlantes";
 import GrapheTerroirPlanteMolecule from "./pages/GrapheTerroirPlanteMolecule";
 import VueDetailConnexions from "./pages/VueDetailConnexions";
 import GrapheAxesThematiques from "./pages/GrapheAxesThematiques";
+import ReferencesGraph from "./pages/ReferencesGraph";
 import CarteInteractiveTerroirs from "./pages/CarteInteractiveTerroirs";
 import TerroirMapPage from "./pages/TerroirMapPage";
 import ParcoursOlfactif from "./pages/ParcoursOlfactif";
@@ -596,6 +597,7 @@ function Router() {
       <Route path="/graphe-terroir-plante-molecule" component={GrapheTerroirPlanteMolecule} />
       <Route path="/vue-connexions" component={VueDetailConnexions} />
       <Route path="/graphe-axes-thematiques" component={GrapheAxesThematiques} />
+      <Route path="/references-graph" component={ReferencesGraph} />
       <Route path="/carte-interactive-terroirs" component={CarteInteractiveTerroirs} />
       <Route path="/carte-terroirs" component={TerroirMapPage} />
       <Route path="/parcours-olfactif" component={ParcoursOlfactif} />

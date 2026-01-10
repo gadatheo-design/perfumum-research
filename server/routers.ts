@@ -7983,6 +7983,67 @@ export const appRouter = router({
         return db.getSimilarRawMaterialsByProfile(input.rawMaterialId, input.limit);
       }),
   }),
+
+  // ============================================================================
+  // AUTOMATIC ENTITY LINKING (Liaisons automatiques par mots-clés)
+  // ============================================================================
+  autoLinking: router({
+    // Suggérer des liaisons pour une référence
+    suggestForReference: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.suggestEntityLinksForReference(input);
+      }),
+    
+    // Suggérer des liaisons en masse
+    bulkSuggest: publicProcedure
+      .input(z.object({
+        minScore: z.number().min(0).max(100).optional(),
+        limit: z.number().min(1).max(500).optional(),
+        entityTypes: z.array(z.enum(['molecule', 'plant', 'terroir'])).optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.bulkSuggestEntityLinks(input || {});
+      }),
+    
+    // Créer des liaisons en masse
+    batchCreate: protectedProcedure
+      .input(z.array(z.object({
+        referenceId: z.number(),
+        entityType: z.enum(['leaf_economy', 'molecule', 'recette', 'plant', 'prototype', 'tradition', 'terroir', 'supplier']),
+        entityId: z.number(),
+        linkType: z.enum(['documents', 'mentions', 'analyzes', 'conserves', 'reconstructs', 'sources', 'validates', 'contextualizes']).optional(),
+        relevanceScore: z.number().min(0).max(100).optional(),
+        notes: z.string().optional(),
+      })))
+      .mutation(async ({ input, ctx }) => {
+        return db.batchCreateEntityLinks(
+          input.map(link => ({ ...link, createdBy: ctx.user?.id }))
+        );
+      }),
+  }),
+
+  // ============================================================================
+  // GRAPH VISUALIZATION (Visualisation graphique des références)
+  // ============================================================================
+  graphVisualization: router({
+    // Obtenir les données pour le graphe
+    getGraphData: publicProcedure.query(async () => {
+      return db.getReferencesGroupedByAxis();
+    }),
+    
+    // Obtenir les statistiques du graphe
+    getStats: publicProcedure.query(async () => {
+      return db.getGraphVisualizationStats();
+    }),
+    
+    // Obtenir les détails d'une référence avec ses entités liées
+    getReferenceDetails: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getReferenceWithLinkedEntities(input);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;
