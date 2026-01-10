@@ -660,11 +660,85 @@ export const laboratoireRecettes = mysqlTable("laboratoire_recettes", {
 export const chemicalFamilies = mysqlTable("chemical_families", {
   id: int("id").autoincrement().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
-  type: mysqlEnum("type", ["acides_gras", "acides_aromatiques", "esters", "indoles"]).notNull(),
+  // Familles chimiques complètes pour la parfumerie
+  type: mysqlEnum("type", [
+    // Terpènes et dérivés
+    "monoterpene",           // C10 - ex: limonène, pinène, myrcène
+    "sesquiterpene",         // C15 - ex: caryophyllène, humulène
+    "diterpene",             // C20 - ex: sclareol
+    "triterpene",            // C30 - ex: squalène
+    "monoterpenoid",         // Terpènes oxygénés C10 - ex: linalol, géraniol
+    "sesquiterpenoid",       // Terpènes oxygénés C15 - ex: patchoulol, nootkatone
+    // Alcools
+    "alcohol_aliphatic",     // Alcools aliphatiques - ex: hexanol, octanol
+    "alcohol_aromatic",      // Alcools aromatiques - ex: alcool benzylique, phényléthanol
+    "alcohol_terpenic",      // Alcools terpéniques - ex: linalol, géraniol, menthol
+    // Aldéhydes
+    "aldehyde_aliphatic",    // Aldéhydes aliphatiques - ex: aldéhyde C-10, C-11, C-12
+    "aldehyde_aromatic",     // Aldéhydes aromatiques - ex: benzaldéhyde, anisaldéhyde
+    "aldehyde_terpenic",     // Aldéhydes terpéniques - ex: citral, citronellal
+    // Cétones
+    "ketone_aliphatic",      // Cétones aliphatiques - ex: méthyl hepténone
+    "ketone_aromatic",       // Cétones aromatiques - ex: acétophénone
+    "ketone_terpenic",       // Cétones terpéniques - ex: carvone, menthone, ionones
+    "ketone_macrocyclic",    // Cétones macrocycliques - ex: muscone, civetone
+    // Esters
+    "ester_aliphatic",       // Esters aliphatiques - ex: acétate d'éthyle
+    "ester_aromatic",        // Esters aromatiques - ex: benzoate de benzyle
+    "ester_terpenic",        // Esters terpéniques - ex: acétate de linalyle
+    // Éthers
+    "ether_aliphatic",       // Éthers aliphatiques
+    "ether_aromatic",        // Éthers aromatiques - ex: anéthole, estragole
+    // Phénols et dérivés
+    "phenol",                // Phénols - ex: eugénol, thymol, carvacrol
+    "phenol_ether",          // Éthers de phénol - ex: anéthole, estragole, safrole
+    // Lactones
+    "lactone",               // Lactones - ex: coumarine, gamma-décalactone
+    "lactone_macrocyclic",   // Lactones macrocycliques - ex: ambrettolide
+    // Coumarines
+    "coumarin",              // Coumarines - ex: coumarine, dihydrocoumarine
+    // Muscs
+    "musk_nitro",            // Muscs nitrés - ex: musk ketone, musk xylene
+    "musk_polycyclic",       // Muscs polycycliques - ex: galaxolide, tonalide
+    "musk_macrocyclic",      // Muscs macrocycliques - ex: muscone, ambrettolide
+    "musk_linear",           // Muscs linéaires - ex: helvetolide
+    // Composés azotés
+    "nitrile",               // Nitriles - ex: géranyl nitrile
+    "indole",                // Indoles - ex: indole, skatole
+    "pyrazine",              // Pyrazines - ex: méthoxypyrazines
+    "pyridine",              // Pyridines
+    "amine",                 // Amines
+    // Composés soufrés
+    "sulfur_compound",       // Composés soufrés - ex: thiols, sulfures
+    "thiophene",             // Thiophènes
+    // Acides
+    "acid_carboxylic",       // Acides carboxyliques - ex: acide benzoïque
+    "acid_fatty",            // Acides gras - ex: acide laurique
+    // Hétérocycles
+    "furan",                 // Furanes - ex: furfural
+    "heterocyclic_oxygen",   // Hétérocycles oxygénés
+    "heterocyclic_nitrogen", // Hétérocycles azotés
+    // Autres
+    "hydrocarbon_aromatic",  // Hydrocarbures aromatiques
+    "hydrocarbon_aliphatic", // Hydrocarbures aliphatiques
+    "oxide",                 // Oxydes - ex: oxyde de rose, oxyde de linalol
+    "acetals",               // Acétals - ex: acétal phényléthylique
+    "anhydride",             // Anhydrides
+    "other"                  // Autres
+  ]).notNull(),
+  // Sous-catégorie pour plus de précision
+  subcategory: varchar("subcategory", { length: 100 }), // ex: "saturé", "insaturé", "cyclique"
   description: text("description"),
   olfactiveRole: text("olfactiveRole"), // Rôle olfactif (rondeur, balsamique, etc.)
+  // Caractéristiques physico-chimiques
   volatility: varchar("volatility", { length: 50 }), // Faible, Moyenne, Forte
   polarity: varchar("polarity", { length: 50 }), // Faible, Moyenne, Élevée
+  molecularWeightRange: varchar("molecular_weight_range", { length: 50 }), // ex: "100-200 g/mol"
+  // Caractéristiques olfactives générales
+  typicalNotes: text("typical_notes"), // Notes olfactives typiques de cette famille
+  // Exemples de molécules représentatives
+  exampleMolecules: text("example_molecules"), // ex: "linalol, géraniol, nérol"
+  // Métadonnées
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

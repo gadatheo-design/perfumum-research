@@ -1,0 +1,54 @@
+{
+  "query": "SELECT * FROM chemical_families LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT * FROM chemical_families LIMIT 20;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Acides Gras",
+      "type": "acides_gras",
+      "description": "Famille chimique responsable des notes fromagées, beurrées et lactées. Présents naturellement dans les processus de fermentation.",
+      "olfactiveRole": "Rondeur, profondeur, notes animales et fromagées",
+      "volatility": "Faible à Moyenne",
+      "polarity": "Moyenne à Élevée",
+      "createdAt": "2025-12-02 19:10:42",
+      "updatedAt": "2025-12-02 19:10:42"
+    },
+    {
+      "id": "2",
+      "name": "Acides Aromatiques",
+      "type": "acides_aromatiques",
+      "description": "Famille chimique apportant des notes balsamiques, vanillées et épicées. Issus de la dégradation thermique de composés phénoliques.",
+      "olfactiveRole": "Balsamique, vanillé, notes de foin et de miel",
+      "volatility": "Moyenne",
+      "polarity": "Élevée",
+      "createdAt": "2025-12-02 19:10:42",
+      "updatedAt": "2025-12-02 19:10:42"
+    },
+    {
+      "id": "3",
+      "name": "Esters",
+      "type": "esters",
+      "description": "Famille chimique caractérisée par des notes fruitées, florales et fraîches. Très volatils et perceptibles dès les premières notes.",
+      "olfactiveRole": "Fraîcheur, fruité, floral, légèreté",
+      "volatility": "Forte",
+      "polarity": "Faible à Moyenne",
+      "createdAt": "2025-12-02 19:10:42",
+      "updatedAt": "2025-12-02 19:10:42"
+    },
+    {
+      "id": "4",
+      "name": "Indoles",
+      "type": "indoles",
+      "description": "Famille chimique complexe aux notes animales, florales et fécales. Présents dans le tabac fermenté et certaines fleurs blanches.",
+      "olfactiveRole": "Animalité, profondeur florale, notes fécales à faible concentration",
+      "volatility": "Moyenne à Forte",
+      "polarity": "Moyenne",
+      "createdAt": "2025-12-02 19:10:42",
+      "updatedAt": "2025-12-02 19:10:42"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttype\tdescription\tolfactiveRole\tvolatility\tpolarity\tcreatedAt\tupdatedAt\n1\tAcides Gras\tacides_gras\tFamille chimique responsable des notes fromagées, beurrées et lactées. Présents naturellement dans les processus de fermentation.\tRondeur, profondeur, notes animales et fromagées\tFaible à Moyenne\tMoyenne à Élevée\t2025-12-02 19:10:42\t2025-12-02 19:10:42\n2\tAcides Aromatiques\tacides_aromatiques\tFamille chimique apportant des notes balsamiques, vanillées et épicées. Issus de la dégradation thermique de composés phénoliques.\tBalsamique, vanillé, notes de foin et de miel\tMoyenne\tÉlevée\t2025-12-02 19:10:42\t2025-12-02 19:10:42\n3\tEsters\testers\tFamille chimique caractérisée par des notes fruitées, florales et fraîches. Très volatils et perceptibles dès les premières notes.\tFraîcheur, fruité, floral, légèreté\tForte\tFaible à Moyenne\t2025-12-02 19:10:42\t2025-12-02 19:10:42\n4\tIndoles\tindoles\tFamille chimique complexe aux notes animales, florales et fécales. Présents dans le tabac fermenté et certaines fleurs blanches.\tAnimalité, profondeur florale, notes fécales à faible concentration\tMoyenne à Forte\tMoyenne\t2025-12-02 19:10:42\t2025-12-02 19:10:42\n",
+  "stderr": "",
+  "execution_time_ms": 65
+}

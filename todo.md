@@ -1028,3 +1028,16 @@
 - [x] Ajouter un score de pertinence basé sur la correspondance (exact:100 > synonyme:80 > latin:75 > CAS:70 > partiel:60)
 - [x] Afficher le score de pertinence dans les résultats de recherche avec badges colorés
 - [x] Trier les résultats par score de pertinence décroissant
+
+---
+
+## 🧪 FAMILLES CHIMIQUES (Session 10 Jan 2026)
+
+### Enrichissement du dictionnaire avec les familles chimiques
+- [x] Créer la table `chemical_families` pour les familles chimiques (aldéhydes, esters, cétones, terpènes, etc.)
+- [x] Ajouter une colonne `chemical_family_id` à la table `molecules` (via table de liaison existante)
+- [x] Créer les procédures tRPC pour CRUD des familles chimiques
+- [x] Pré-remplir les familles chimiques courantes en parfumerie (28 familles ajoutées)
+- [x] Mettre à jour l'interface du dictionnaire pour afficher la famille chimique
+- [x] Ajouter un filtre par famille chimique dans le dictionnaire
+- [x] Écrire les tests unitaires pour les procédures familles chimiques (19 tests)

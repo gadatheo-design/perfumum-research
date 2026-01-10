@@ -1,0 +1,55 @@
+{
+  "query": "SELECT COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE FROM information_schema.COLUMNS WHERE TABLE_NAME = 'chemical_families' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE FROM information_schema.COLUMNS WHERE TABLE_NAME = 'chemical_families' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "int(11)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "COLUMN_NAME": "name",
+      "COLUMN_TYPE": "varchar(255)",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "COLUMN_NAME": "type",
+      "COLUMN_TYPE": "enum('acides_gras','acides_aromatiques','esters','indoles')",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "COLUMN_NAME": "description",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "COLUMN_NAME": "olfactiveRole",
+      "COLUMN_TYPE": "text",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "COLUMN_NAME": "volatility",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "COLUMN_NAME": "polarity",
+      "COLUMN_TYPE": "varchar(50)",
+      "IS_NULLABLE": "YES"
+    },
+    {
+      "COLUMN_NAME": "createdAt",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "NO"
+    },
+    {
+      "COLUMN_NAME": "updatedAt",
+      "COLUMN_TYPE": "timestamp",
+      "IS_NULLABLE": "NO"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\tIS_NULLABLE\nid\tint(11)\tNO\nname\tvarchar(255)\tNO\ntype\tenum('acides_gras','acides_aromatiques','esters','indoles')\tNO\ndescription\ttext\tYES\nolfactiveRole\ttext\tYES\nvolatility\tvarchar(50)\tYES\npolarity\tvarchar(50)\tYES\ncreatedAt\ttimestamp\tNO\nupdatedAt\ttimestamp\tNO\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

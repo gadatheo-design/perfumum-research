@@ -1,0 +1,8 @@
+{
+  "query": "ALTER TABLE chemical_families \n  ADD COLUMN subcategory VARCHAR(100) NULL AFTER type,\n  ADD COLUMN molecular_weight_range VARCHAR(50) NULL AFTER polarity,\n  ADD COLUMN typical_notes TEXT NULL AFTER molecular_weight_range,\n  ADD COLUMN example_molecules TEXT NULL AFTER typical_notes;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE chemical_families \n  ADD COLUMN subcategory VARCHAR(100) NULL AFTER type,\n  ADD COLUMN molecular_weight_range VARCHAR(50) NULL AFTER polarity,\n  ADD COLUMN typical_notes TEXT NULL AFTER molecular_weight_range,\n  ADD COLUMN example_molecules TEXT NULL AFTER typical_notes;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'molecular_weight_range' in 'chemical_families'"
+  ]
+}
