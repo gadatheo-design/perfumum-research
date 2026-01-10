@@ -39,9 +39,9 @@ export default function GrapheAxesThematiques() {
   const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
   const { data: prototypes, isLoading: loadingPrototypes } = trpc.prototypes.list.useQuery();
   const { data: families, isLoading: loadingFamilies } = trpc.families.list.useQuery();
-  const { data: plantMoleculeLinks, isLoading: loadingLinks } = trpc.plantMoleculeLinks.list.useQuery();
-  const { data: plants, isLoading: loadingPlants } = trpc.plants.list.useQuery({ limit: 200 });
-  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs.list.useQuery({ limit: 100 });
+  const { data: plantMoleculeLinks, isLoading: loadingLinks } = trpc.plantMoleculeLinks.getAll.useQuery();
+  const { data: plants, isLoading: loadingPlants } = trpc.plants.list.useQuery();
+  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs.list.useQuery();
 
   const isLoading = loadingMolecules || loadingRecettes || loadingPrototypes || 
                    loadingFamilies || loadingPlants || loadingTerroirs;
