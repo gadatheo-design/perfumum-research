@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, ReactNode } from 'react';
 import { useLocation } from 'wouter';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface PageTransitionProps {
@@ -7,9 +8,59 @@ interface PageTransitionProps {
   className?: string;
 }
 
+// Variants pour les transitions de page avec Framer Motion
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 12,
+    scale: 0.995,
+  },
+  enter: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.35,
+      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+      when: "beforeChildren",
+      staggerChildren: 0.05,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -8,
+    scale: 0.995,
+    transition: {
+      duration: 0.2,
+      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+    },
+  },
+};
+
+// Variants subtils (fade uniquement)
+const subtleVariants = {
+  initial: {
+    opacity: 0,
+  },
+  enter: {
+    opacity: 1,
+    transition: {
+      duration: 0.25,
+      ease: "easeOut" as const,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.15,
+      ease: "easeIn" as const,
+    },
+  },
+};
+
 /**
- * Composant de transition de page avec animation fade + slide
- * Enveloppe le contenu de chaque page pour des transitions fluides
+ * Composant de transition de page avec animation Framer Motion
+ * Enveloppe le contenu de la page pour des transitions fluides
  * 
  * @example
  * <PageTransition>
@@ -18,35 +69,42 @@ interface PageTransitionProps {
  */
 export function PageTransition({ children, className }: PageTransitionProps) {
   const [location] = useLocation();
-  const [displayLocation, setDisplayLocation] = useState(location);
-  const [transitionStage, setTransitionStage] = useState<'fadeIn' | 'fadeOut'>('fadeIn');
-
-  useEffect(() => {
-    if (location !== displayLocation) {
-      setTransitionStage('fadeOut');
-    }
-  }, [location, displayLocation]);
-
-  const handleAnimationEnd = () => {
-    if (transitionStage === 'fadeOut') {
-      setDisplayLocation(location);
-      setTransitionStage('fadeIn');
-    }
-  };
 
   return (
-    <div
-      className={cn(
-        'transition-all duration-300 ease-in-out',
-        transitionStage === 'fadeIn' && 'animate-fadeInUp opacity-100',
-        transitionStage === 'fadeOut' && 'opacity-0 translate-y-4',
-        className
-      )}
-      onAnimationEnd={handleAnimationEnd}
-      onTransitionEnd={handleAnimationEnd}
-    >
-      {children}
-    </div>
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location}
+        initial="initial"
+        animate="enter"
+        exit="exit"
+        variants={pageVariants}
+        className={cn("min-h-screen", className)}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+/**
+ * Version subtile de la transition (fade uniquement)
+ */
+export function SubtlePageTransition({ children, className }: PageTransitionProps) {
+  const [location] = useLocation();
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location}
+        initial="initial"
+        animate="enter"
+        exit="exit"
+        variants={subtleVariants}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
@@ -63,27 +121,18 @@ interface FadeInProps {
 export function FadeIn({ 
   children, 
   delay = 0, 
-  duration = 300, 
+  duration = 0.3, 
   className 
 }: FadeInProps) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setIsVisible(true), delay);
-    return () => clearTimeout(timeout);
-  }, [delay]);
-
   return (
-    <div
-      className={cn(
-        "transition-opacity ease-out",
-        isVisible ? "opacity-100" : "opacity-0",
-        className
-      )}
-      style={{ transitionDuration: `${duration}ms` }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay, duration, ease: "easeOut" }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
@@ -102,35 +151,36 @@ export function SlideIn({
   children, 
   direction = "bottom", 
   delay = 0, 
-  duration = 300,
+  duration = 0.35,
   className 
 }: SlideInProps) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setIsVisible(true), delay);
-    return () => clearTimeout(timeout);
-  }, [delay]);
-
-  const directionClasses = {
-    left: isVisible ? "translate-x-0" : "-translate-x-4",
-    right: isVisible ? "translate-x-0" : "translate-x-4",
-    top: isVisible ? "translate-y-0" : "-translate-y-4",
-    bottom: isVisible ? "translate-y-0" : "translate-y-4",
+  const directionOffset = {
+    left: { x: -20, y: 0 },
+    right: { x: 20, y: 0 },
+    top: { x: 0, y: -20 },
+    bottom: { x: 0, y: 20 },
   };
 
   return (
-    <div
-      className={cn(
-        "transition-all ease-out",
-        isVisible ? "opacity-100" : "opacity-0",
-        directionClasses[direction],
-        className
-      )}
-      style={{ transitionDuration: `${duration}ms` }}
+    <motion.div
+      initial={{ 
+        opacity: 0, 
+        ...directionOffset[direction] 
+      }}
+      animate={{ 
+        opacity: 1, 
+        x: 0, 
+        y: 0 
+      }}
+      transition={{ 
+        delay, 
+        duration, 
+        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number]
+      }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
@@ -147,23 +197,48 @@ interface StaggeredListProps {
 
 export function StaggeredList({ 
   children, 
-  staggerDelay = 50, 
+  staggerDelay = 0.05, 
   initialDelay = 0,
   className,
   itemClassName
 }: StaggeredListProps) {
   return (
-    <div className={className}>
+    <motion.div 
+      className={className}
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            delayChildren: initialDelay,
+            staggerChildren: staggerDelay,
+          },
+        },
+      }}
+    >
       {children.map((child, index) => (
-        <SlideIn 
-          key={index} 
-          delay={initialDelay + index * staggerDelay}
+        <motion.div 
+          key={index}
           className={itemClassName}
+          variants={{
+            hidden: { opacity: 0, y: 15 },
+            visible: { 
+              opacity: 1, 
+              y: 0,
+              transition: {
+                type: "spring",
+                stiffness: 100,
+                damping: 15,
+              },
+            },
+          }}
         >
           {child}
-        </SlideIn>
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
 
@@ -180,29 +255,22 @@ interface ScaleInProps {
 export function ScaleIn({ 
   children, 
   delay = 0, 
-  duration = 300,
+  duration = 0.35,
   className 
 }: ScaleInProps) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setIsVisible(true), delay);
-    return () => clearTimeout(timeout);
-  }, [delay]);
-
   return (
-    <div
-      className={cn(
-        "transition-all ease-out",
-        isVisible 
-          ? "opacity-100 scale-100" 
-          : "opacity-0 scale-95",
-        className
-      )}
-      style={{ transitionDuration: `${duration}ms` }}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ 
+        delay, 
+        duration, 
+        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number]
+      }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
@@ -220,40 +288,134 @@ export function RevealOnScroll({
   threshold = 0.1,
   className 
 }: RevealOnScrollProps) {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, [threshold]);
-
   return (
-    <div
-      ref={ref}
-      className={cn(
-        "transition-all duration-500 ease-out",
-        isVisible 
-          ? "opacity-100 translate-y-0" 
-          : "opacity-0 translate-y-8",
-        className
-      )}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: threshold }}
+      transition={{ 
+        duration: 0.5, 
+        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number]
+      }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
+  );
+}
+
+/**
+ * FadeInSection - Animation de fondu pour les sections avec viewport detection
+ */
+export function FadeInSection({ 
+  children, 
+  className = "", 
+  delay = 0 
+}: { 
+  children: ReactNode; 
+  className?: string; 
+  delay?: number 
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{
+        duration: 0.5,
+        delay,
+        ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/**
+ * HoverScale - Animation de zoom au survol
+ */
+export function HoverScale({ 
+  children, 
+  className = "", 
+  scale = 1.02 
+}: { 
+  children: ReactNode; 
+  className?: string; 
+  scale?: number 
+}) {
+  return (
+    <motion.div
+      whileHover={{ scale }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/**
+ * StaggeredContent - Conteneur pour animer les éléments enfants avec un délai progressif
+ */
+export function StaggeredContent({ 
+  children, 
+  className = "" 
+}: { 
+  children: ReactNode; 
+  className?: string 
+}) {
+  return (
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.08,
+            delayChildren: 0.1,
+          },
+        },
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/**
+ * StaggeredItem - Élément enfant animé pour StaggeredContent
+ */
+export function StaggeredItem({ 
+  children, 
+  className = "" 
+}: { 
+  children: ReactNode; 
+  className?: string 
+}) {
+  return (
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 15 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            type: "spring",
+            stiffness: 100,
+            damping: 15,
+          },
+        },
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
   );
 }
 
@@ -283,3 +445,60 @@ export function ShimmerSkeleton({
     </div>
   );
 }
+
+/**
+ * AnimatedCard - Carte avec animation au survol
+ */
+export function AnimatedCard({ 
+  children, 
+  className = "",
+  hoverScale = 1.02,
+  hoverY = -4,
+}: { 
+  children: ReactNode; 
+  className?: string;
+  hoverScale?: number;
+  hoverY?: number;
+}) {
+  return (
+    <motion.div
+      whileHover={{ 
+        scale: hoverScale, 
+        y: hoverY,
+        transition: { type: "spring", stiffness: 300, damping: 20 }
+      }}
+      whileTap={{ scale: 0.98 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/**
+ * PulseOnHover - Animation de pulsation au survol
+ */
+export function PulseOnHover({ 
+  children, 
+  className = "" 
+}: { 
+  children: ReactNode; 
+  className?: string 
+}) {
+  return (
+    <motion.div
+      whileHover={{ 
+        scale: [1, 1.02, 1],
+        transition: { 
+          duration: 0.3,
+          times: [0, 0.5, 1],
+        }
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export default PageTransition;

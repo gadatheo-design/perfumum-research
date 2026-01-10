@@ -852,3 +852,12 @@
 - Nouveaux composants : GammeCardSkeleton, MoleculeCardSkeleton, RecetteCardSkeleton, DashboardSkeleton, etc.
 - Responsive : Optimisation des breakpoints et des espacements pour mobile/tablette
 - Animations : Effet shimmer amélioré, animations de chargement fluides
+
+---
+
+## 🔥 SESSION ACTIVE — 09 Jan 2026 (Améliorations visuelles & Transitions)
+
+### Tâches demandées par l'utilisateur
+- [x] Améliorer visuellement la page Formules de Référence (cohérence avec le style global)
+- [x] Améliorer visuellement la page Recherche Avancée (cohérence avec le style global)
+- [x] Implémenter des transitions de page pour navigation fluide
