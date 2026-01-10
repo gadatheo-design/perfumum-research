@@ -141,6 +141,13 @@
       "when": 1768075879439,
       "tag": "0019_worthless_zaladane",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "5",
+      "when": 1768082940952,
+      "tag": "0020_magenta_gorgon",
+      "breakpoints": true
     }
   ]
 }

@@ -5252,3 +5252,62 @@ export const classificationSnapshotsRelations = relations(classificationSnapshot
     references: [users.id],
   }),
 }));
+
+
+// ============================================================================
+// CLASSIFICATION REVIEWS (Low Confidence Review Queue)
+// ============================================================================
+
+export const classificationReviews = mysqlTable("classification_reviews", {
+  id: int("id").autoincrement().primaryKey(),
+  // Molecule being reviewed
+  moleculeId: int("molecule_id").notNull(),
+  // AI Classification data
+  aiChemicalClass: varchar("ai_chemical_class", { length: 100 }),
+  aiChemicalClassConfidence: int("ai_chemical_class_confidence"), // 0-100
+  aiChemicalClassReasoning: text("ai_chemical_class_reasoning"),
+  aiOlfactiveFamily: varchar("ai_olfactive_family", { length: 100 }),
+  aiOlfactiveFamilyConfidence: int("ai_olfactive_family_confidence"), // 0-100
+  aiOlfactiveFamilyReasoning: text("ai_olfactive_family_reasoning"),
+  aiSuggestedOlfactiveProfile: text("ai_suggested_olfactive_profile"),
+  aiBotanicalContextUsed: boolean("ai_botanical_context_used").default(false),
+  // Review status
+  status: mysqlEnum("status", [
+    "pending",      // En attente de révision
+    "approved",     // Approuvé et appliqué
+    "rejected",     // Rejeté
+    "modified",     // Modifié manuellement
+    "skipped"       // Ignoré pour l'instant
+  ]).default("pending").notNull(),
+  // Manual corrections (if modified)
+  manualChemicalClass: varchar("manual_chemical_class", { length: 100 }),
+  manualOlfactiveFamily: varchar("manual_olfactive_family", { length: 100 }),
+  manualOlfactiveProfile: text("manual_olfactive_profile"),
+  // Review metadata
+  reviewNotes: text("review_notes"),
+  priority: mysqlEnum("priority", ["low", "medium", "high"]).default("medium"),
+  // Timestamps and user tracking
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  reviewedAt: timestamp("reviewed_at"),
+  reviewedBy: int("reviewed_by"),
+}, (table) => ({
+  moleculeIdx: index("review_molecule_idx").on(table.moleculeId),
+  statusIdx: index("review_status_idx").on(table.status),
+  priorityIdx: index("review_priority_idx").on(table.priority),
+  confidenceIdx: index("review_confidence_idx").on(table.aiChemicalClassConfidence),
+}));
+
+export type ClassificationReview = typeof classificationReviews.$inferSelect;
+export type InsertClassificationReview = typeof classificationReviews.$inferInsert;
+
+// Relations
+export const classificationReviewsRelations = relations(classificationReviews, ({ one }) => ({
+  molecule: one(molecules, {
+    fields: [classificationReviews.moleculeId],
+    references: [molecules.id],
+  }),
+  reviewer: one(users, {
+    fields: [classificationReviews.reviewedBy],
+    references: [users.id],
+  }),
+}));

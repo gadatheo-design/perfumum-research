@@ -55,6 +55,9 @@ import ChemicalFamilyGraph from "./pages/ChemicalFamilyGraph";
 import EditeurFormulation from "./pages/outils/EditeurFormulation";
 import AdminOrphanMolecules from "./pages/AdminOrphanMolecules";
 import AdminAIClassification from "./pages/AdminAIClassification";
+import AIClassificationBatch from "./pages/AIClassificationBatch";
+import NichePlantMoleculeLinking from "./pages/NichePlantMoleculeLinking";
+import ClassificationReviewQueue from "./pages/ClassificationReviewQueue";
 import AdminNotifications from "./pages/AdminNotifications";
 import AdminProgressReport from "./pages/AdminProgressReport";
 
@@ -324,6 +327,9 @@ function Router() {
       <Route path="/admin/validation" component={AdminValidation} />
       <Route path="/admin/orphan-molecules" component={AdminOrphanMolecules} />
       <Route path="/admin/ai-classification" component={AdminAIClassification} />
+      <Route path="/admin/ai-classification-batch" component={AIClassificationBatch} />
+      <Route path="/admin/niche-plant-linking" component={NichePlantMoleculeLinking} />
+      <Route path="/admin/classification-review" component={ClassificationReviewQueue} />
       <Route path="/admin/notifications" component={AdminNotifications} />
       <Route path="/admin/progress-report" component={AdminProgressReport} />
       <Route path="/admin/molecule-origins" component={MoleculeOriginsAdmin} />

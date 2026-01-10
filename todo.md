@@ -1159,3 +1159,26 @@
 - [x] Analyser le fichier plantes_niches.json
 - [x] Importer les plantes de niche dans la base de données (34 plantes)
 - [x] Vérifier l'intégrité des données importées
+
+
+---
+
+## 🤖 CLASSIFICATION IA & LIAISONS (Janvier 2026)
+
+### Classification IA sur lot de 50 molécules
+- [x] Créer une interface dédiée pour lancer la classification IA sur un lot de 50 molécules (`/admin/ai-classification-batch`)
+- [x] Afficher les résultats de classification avec niveau de confiance
+- [x] Permettre la validation/rejet des classifications proposées
+- [x] Afficher les statistiques de succès/échec du lot
+
+### Liaisons plante-molécule pour plantes de niche
+- [x] Identifier les plantes de niche importées sans liaisons moléculaires (`/admin/niche-plant-linking`)
+- [x] Créer une interface de création de liaisons pour les plantes de niche
+- [x] Suggérer des molécules candidates basées sur la famille botanique
+- [x] Permettre l'import en masse de liaisons plante-molécule
+
+### Système de révision manuelle pour classifications à faible confiance
+- [x] Créer une file d'attente de révision pour les classifications < 70% confiance (`/admin/classification-review`)
+- [x] Interface de révision avec contexte complet (données moléculaires, sources botaniques)
+- [x] Permettre l'approbation, le rejet ou la modification manuelle
+- [x] Historique des révisions effectuées (table classification_reviews)
