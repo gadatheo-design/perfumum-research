@@ -1073,3 +1073,30 @@
 - [x] Enrichir le graphe avec un mode "arbre hiérarchique" en plus du réseau
 - [x] Créer un export CSV/JSON des liaisons molécules-familles pour analyse externe
 
+
+
+---
+
+## 🧬 CLASSIFICATION CHIMIQUE AVANCÉE (Session 10 Jan 2026)
+
+### Liaison molécules orphelines aux familles chimiques
+- [x] Créer la procédure `getOrphanMoleculesChemicalFamily` pour identifier les molécules sans famille
+- [x] Créer la procédure `countOrphanMoleculesChemicalFamily` pour compter les orphelines
+- [x] Créer la procédure `bulkLinkMoleculesToChemicalFamily` pour liaison en masse
+- [x] Créer la procédure `suggestChemicalFamilyForMolecule` pour suggestions automatiques
+- [x] Créer l'interface dédiée `/admin/orphan-molecule-linking` (OrphanMoleculeLinking.tsx)
+
+### Filtre par famille chimique sur la page molécules
+- [x] Vérifier le filtre existant dans Molecules.tsx (lignes 453-479)
+- [x] Le filtre utilise la table dédiée `chemicalFamilies` avec sélecteur
+- [x] Affichage du compteur de molécules par famille chimique
+
+### Tableau de bord analytique des classifications chimiques
+- [x] Créer la page `/admin/analytics-chimie` (AnalyticsChemistry.tsx)
+- [x] Créer la procédure `getClassificationStats` pour les statistiques complètes
+- [x] Graphique de répartition des molécules par famille chimique (SimpleBarChart)
+- [x] Graphique de distribution par classe chimique
+- [x] Indicateur de couverture (DonutChart) avec % classifiées vs orphelines
+- [x] Export CSV/JSON des liaisons depuis le tableau de bord
+- [x] Actions rapides vers les pages de liaison et visualisation
+- [x] Ajouter les tests unitaires pour les nouvelles fonctionnalités
