@@ -908,6 +908,29 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.globalSearch(input.query, input.limit);
       }),
+    // Synonymes olfactifs - récupère les synonymes d'un terme
+    getSynonyms: publicProcedure
+      .input(z.object({ term: z.string() }))
+      .query(async ({ input }) => {
+        return db.getOlfactiveSynonyms(input.term);
+      }),
+    // Expansion de requête - étend une requête avec ses synonymes
+    expandQuery: publicProcedure
+      .input(z.object({ query: z.string() }))
+      .query(async ({ input }) => {
+        return db.expandOlfactiveSearchQuery(input.query);
+      }),
+    // Catégorisation - identifie le domaine olfactif d'un terme
+    categorizeTerm: publicProcedure
+      .input(z.object({ term: z.string() }))
+      .query(async ({ input }) => {
+        return db.categorizeOlfactiveSearchTerm(input.term);
+      }),
+    // Statistiques du dictionnaire de synonymes
+    getDictionaryStats: publicProcedure
+      .query(async () => {
+        return db.getOlfactiveDictionaryStats();
+      }),
   }),
 
   // Molecule details

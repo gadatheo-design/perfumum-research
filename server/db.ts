@@ -225,6 +225,7 @@ import {
   InsertJourneyItem,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
+import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../shared/olfactiveSynonyms';
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -868,6 +869,12 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
   prototypes: GlobalSearchResult[];
   glossary: GlobalSearchResult[];
   total: number;
+  searchEnrichment?: {
+    originalQuery: string;
+    expandedTerms: string[];
+    synonymsUsed: number;
+    queryCategory: { category: string; confidence: number };
+  };
 }> {
   const db = await getDb();
   if (!db || !query.trim()) {
@@ -885,88 +892,94 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     };
   }
 
-  const searchTerm = `%${query}%`;
+  // Enrichissement de la requête avec synonymes olfactifs
+  const expandedTerms = expandSearchQuery(query);
+  const searchPatterns = expandedTerms.map(term => `%${term}%`);
+  const primarySearchTerm = `%${query}%`;
   const perCategoryLimit = Math.ceil(limit / 9);
+
+  // Fonction helper pour construire les conditions de recherche enrichies
+  const buildEnrichedSearchCondition = (columns: any[]) => {
+    const conditions: any[] = [];
+    
+    // Recherche principale (terme original) - priorité haute
+    for (const col of columns) {
+      conditions.push(sql`${col} LIKE ${primarySearchTerm}`);
+    }
+    
+    // Recherche avec synonymes (termes enrichis) - priorité normale
+    for (const pattern of searchPatterns) {
+      if (pattern !== primarySearchTerm) {
+        for (const col of columns) {
+          conditions.push(sql`${col} LIKE ${pattern}`);
+        }
+      }
+    }
+    
+    return sql.join(conditions, sql` OR `);
+  };
 
   // Search in prototypes
   const prototypeResults = await db
     .select()
     .from(prototypes)
-    .where(
-      sql`${prototypes.name} LIKE ${searchTerm} OR ${prototypes.code} LIKE ${searchTerm} OR ${prototypes.conceptualAxis} LIKE ${searchTerm}`
-    )
+    .where(buildEnrichedSearchCondition([prototypes.name, prototypes.code, prototypes.conceptualAxis]))
     .limit(perCategoryLimit);
 
-  // Search in molecules
+  // Search in molecules (enrichi avec famille et profil olfactif)
   const moleculeResults = await db
     .select()
     .from(molecules)
-    .where(
-      sql`${molecules.name} LIKE ${searchTerm} OR ${molecules.family} LIKE ${searchTerm} OR ${molecules.olfactiveProfile} LIKE ${searchTerm} OR ${molecules.casNumber} LIKE ${searchTerm}`
-    )
+    .where(buildEnrichedSearchCondition([molecules.name, molecules.family, molecules.olfactiveProfile, molecules.casNumber]))
     .limit(perCategoryLimit);
 
   // Search in recipes
   const recipeResults = await db
     .select()
     .from(recettes)
-    .where(
-      sql`${recettes.name} LIKE ${searchTerm} OR ${recettes.category} LIKE ${searchTerm} OR ${recettes.formula} LIKE ${searchTerm}`
-    )
+    .where(buildEnrichedSearchCondition([recettes.name, recettes.category, recettes.formula]))
     .limit(perCategoryLimit);
 
   // Search in plants
   const plantResults = await db
     .select()
     .from(plants)
-    .where(
-      sql`${plants.name} LIKE ${searchTerm} OR ${plants.latinName} LIKE ${searchTerm} OR ${plants.family} LIKE ${searchTerm}`
-    )
+    .where(buildEnrichedSearchCondition([plants.name, plants.latinName, plants.family]))
     .limit(perCategoryLimit);
 
-  // Search in accords
+  // Search in accords (enrichi avec profil olfactif et notes)
   const accordResults = await db
     .select()
     .from(accords)
-    .where(
-      sql`${accords.name} LIKE ${searchTerm} OR ${accords.olfactiveProfile} LIKE ${searchTerm} OR ${accords.notes} LIKE ${searchTerm}`
-    )
+    .where(buildEnrichedSearchCondition([accords.name, accords.olfactiveProfile, accords.notes]))
     .limit(perCategoryLimit);
 
   // Search in terp profiles
   const terpProfileResults = await db
     .select()
     .from(terpProfiles)
-    .where(
-      sql`${terpProfiles.name} LIKE ${searchTerm} OR ${terpProfiles.profileId} LIKE ${searchTerm} OR ${terpProfiles.function} LIKE ${searchTerm}`
-    )
+    .where(buildEnrichedSearchCondition([terpProfiles.name, terpProfiles.profileId, terpProfiles.function]))
     .limit(perCategoryLimit);
 
   // Search in final recipes
   const finalRecipeResults = await db
     .select()
     .from(finalRecipes)
-    .where(
-      sql`${finalRecipes.name} LIKE ${searchTerm} OR ${finalRecipes.recipeId} LIKE ${searchTerm} OR ${finalRecipes.function} LIKE ${searchTerm}`
-    )
+    .where(buildEnrichedSearchCondition([finalRecipes.name, finalRecipes.recipeId, finalRecipes.function]))
     .limit(perCategoryLimit);
 
   // Search in civilisations
   const civilisationResults = await db
     .select()
     .from(civilisations)
-    .where(
-      sql`${civilisations.name} LIKE ${searchTerm} OR ${civilisations.region} LIKE ${searchTerm} OR ${civilisations.longDescription} LIKE ${searchTerm}`
-    )
+    .where(buildEnrichedSearchCondition([civilisations.name, civilisations.region, civilisations.longDescription]))
     .limit(perCategoryLimit);
 
   // Search in glossary
   const glossaryResults = await db
     .select()
     .from(glossary)
-    .where(
-      sql`${glossary.term} LIKE ${searchTerm} OR ${glossary.definition} LIKE ${searchTerm}`
-    )
+    .where(buildEnrichedSearchCondition([glossary.term, glossary.definition]))
     .limit(perCategoryLimit);
 
   // Transform results
@@ -1063,7 +1076,14 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     finalRecipes: transformedFinalRecipes,
     civilisations: transformedCivilisations,
     glossary: transformedGlossary,
-    total
+    total,
+    // Métadonnées d'enrichissement de la recherche
+    searchEnrichment: {
+      originalQuery: query,
+      expandedTerms: expandedTerms,
+      synonymsUsed: expandedTerms.length - 1, // -1 pour exclure le terme original
+      queryCategory: categorizeOlfactiveTerm(query),
+    }
   };
 }
 
@@ -12570,23 +12590,39 @@ export async function crossSearch(filters: CrossSearchFilters): Promise<CrossSea
     filteredMolecules = filteredMolecules.filter(m => m.chemicalClass && filters.chemicalClasses!.includes(m.chemicalClass));
   }
 
-  // Recherche textuelle
+  // Recherche textuelle enrichie avec synonymes olfactifs
   if (filters.searchQuery) {
-    const query = filters.searchQuery.toLowerCase();
+    const originalQuery = filters.searchQuery.toLowerCase();
+    // Expansion de la requête avec synonymes olfactifs
+    const expandedTerms = expandSearchQuery(filters.searchQuery).map(t => t.toLowerCase());
+    
+    // Fonction helper pour vérifier si un texte contient l'un des termes enrichis
+    const matchesEnrichedQuery = (text: string | null | undefined): boolean => {
+      if (!text) return false;
+      const lowerText = text.toLowerCase();
+      return expandedTerms.some(term => lowerText.includes(term));
+    };
+    
     filteredTerroirs = filteredTerroirs.filter(t => 
-      t.name.toLowerCase().includes(query) ||
-      (t.country && t.country.toLowerCase().includes(query)) ||
-      (t.region && t.region.toLowerCase().includes(query))
+      matchesEnrichedQuery(t.name) ||
+      matchesEnrichedQuery(t.country) ||
+      matchesEnrichedQuery(t.region) ||
+      matchesEnrichedQuery(t.subRegion) ||
+      matchesEnrichedQuery(t.climateType)
     );
     filteredPlants = filteredPlants.filter(p => 
-      p.name.toLowerCase().includes(query) ||
-      (p.latinName && p.latinName.toLowerCase().includes(query)) ||
-      (p.olfactiveSignature && p.olfactiveSignature.toLowerCase().includes(query))
+      matchesEnrichedQuery(p.name) ||
+      matchesEnrichedQuery(p.latinName) ||
+      matchesEnrichedQuery(p.olfactiveSignature) ||
+      matchesEnrichedQuery(p.family) ||
+      matchesEnrichedQuery(p.category)
     );
     filteredMolecules = filteredMolecules.filter(m => 
-      m.name.toLowerCase().includes(query) ||
-      (m.olfactiveProfile && m.olfactiveProfile.toLowerCase().includes(query)) ||
-      (m.casNumber && m.casNumber.toLowerCase().includes(query))
+      matchesEnrichedQuery(m.name) ||
+      matchesEnrichedQuery(m.olfactiveProfile) ||
+      matchesEnrichedQuery(m.casNumber) ||
+      matchesEnrichedQuery(m.family) ||
+      matchesEnrichedQuery(m.chemicalClass)
     );
   }
 
@@ -13852,4 +13888,44 @@ export async function getGraphVisualizationStats(): Promise<{
     referencesWithLinks: refsWithLinks.length,
     referencesWithoutLinks: refsCount.count - refsWithLinks.length,
   };
+}
+
+
+// ============================================
+// FONCTIONS UTILITAIRES SYNONYMES OLFACTIFS
+// ============================================
+
+/**
+ * Récupère les synonymes d'un terme olfactif
+ */
+export function getOlfactiveSynonyms(term: string): string[] {
+  return getSynonyms(term);
+}
+
+/**
+ * Étend une requête de recherche avec ses synonymes olfactifs
+ */
+export function expandOlfactiveSearchQuery(query: string): string[] {
+  return expandSearchQuery(query);
+}
+
+/**
+ * Catégorise un terme selon son domaine olfactif
+ */
+export function categorizeOlfactiveSearchTerm(term: string): {
+  category: 'family' | 'note' | 'technical' | 'sensory' | 'emotional' | 'unknown';
+  confidence: number;
+} {
+  return categorizeOlfactiveTerm(term);
+}
+
+/**
+ * Récupère les statistiques du dictionnaire de synonymes olfactifs
+ */
+export function getOlfactiveDictionaryStats(): {
+  totalTerms: number;
+  byCategory: Record<string, number>;
+  totalSynonyms: number;
+} {
+  return getDictionaryStats();
 }

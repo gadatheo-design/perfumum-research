@@ -996,3 +996,14 @@
 - [x] Optimiser les performances pour les grands ensembles de données
 - [x] Écrire les tests vitest pour les procédures du graphe (27 tests)
 
+
+---
+
+## 🔥 SESSION ACTIVE — 10 Jan 2026 (Enrichissement Recherche)
+
+### Enrichissement des mots-clés olfactifs
+- [x] Créer dictionnaire de synonymes olfactifs (familles, notes, accords)
+- [x] Implémenter expansion des requêtes avec synonymes
+- [x] Ajouter termes techniques du domaine (pyramide olfactive, sillage, etc.)
+- [x] Tester et valider les améliorations de recherche
+
