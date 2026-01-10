@@ -951,3 +951,25 @@
 - [x] Créer le composant LinkedTerroirs pour afficher les terroirs liés
 - [x] Créer le composant SimilarContent générique pour le contenu similaire
 - [x] Intégrer les composants dans les pages de détails
+
+
+---
+
+## 🔥 SESSION ACTIVE — 10 Jan 2026 (Données relationnelles P4)
+
+### Tâches complétées
+- [x] Lier les références H2 (durabilité) aux plantes menacées — 29 liaisons créées
+- [x] Lier les références H3 (traditions antiques) aux traditions olfactives — 38 liaisons créées
+- [x] Créer les tests vitest pour Heritage & Conservation — 14 tests passés
+- [x] Script de liaison automatique H2/H3 (`scripts/link-h2-h3-references.mjs`)
+
+### Statistiques des liaisons
+| Axe | Liaisons | Description |
+|-----|----------|-------------|
+| H2 | 29 | Durabilité & Biodiversité (conservation, extinction, biodiversité) |
+| H3 | 38 | Traditions antiques (ethnobotanique, parfums antiques, rituels) |
+
+### Tâches P4 restantes
+- [ ] Analyser les fichiers du pack v4 (BibTeX, CSV, ZIP) — en attente des fichiers
+- [ ] Créer le script d'import pour les références v4
+- [ ] Importer les nouvelles références génomiques

@@ -1,0 +1,110 @@
+{
+  "query": "SELECT id, axis_code, name FROM thematic_axes ORDER BY axis_code LIMIT 20",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, axis_code, name FROM thematic_axes ORDER BY axis_code LIMIT 20",
+  "rows": [
+    {
+      "id": "1",
+      "axis_code": "A1",
+      "name": "Smell studies & critical theory"
+    },
+    {
+      "id": "2",
+      "axis_code": "B1",
+      "name": "Olfactory art & aesthetics"
+    },
+    {
+      "id": "3",
+      "axis_code": "B2",
+      "name": "Smell in space, design & urban smellscapes"
+    },
+    {
+      "id": "4",
+      "axis_code": "C1",
+      "name": "Olfactory heritage & computational humanities"
+    },
+    {
+      "id": "5",
+      "axis_code": "C2",
+      "name": "Material culture & perfumery archives"
+    },
+    {
+      "id": "6",
+      "axis_code": "C3",
+      "name": "Global scent histories beyond Eurocentrism"
+    },
+    {
+      "id": "7",
+      "axis_code": "D1",
+      "name": "Knowledge graph & datasets"
+    },
+    {
+      "id": "8",
+      "axis_code": "D2",
+      "name": "Methods (field, mapping, participatory)"
+    },
+    {
+      "id": "9",
+      "axis_code": "E1",
+      "name": "Museum protocols & olfactory museology"
+    },
+    {
+      "id": "10",
+      "axis_code": "E2",
+      "name": "Heritage science: documentation & analysis"
+    },
+    {
+      "id": "11",
+      "axis_code": "F1",
+      "name": "Ethics, politics & decolonial smell"
+    },
+    {
+      "id": "12",
+      "axis_code": "F2",
+      "name": "Community, education & practice networks"
+    },
+    {
+      "id": "30010",
+      "axis_code": "G1",
+      "name": "Cannabis Genomics"
+    },
+    {
+      "id": "30011",
+      "axis_code": "G2",
+      "name": "Tobacco Genomics"
+    },
+    {
+      "id": "30012",
+      "axis_code": "G3",
+      "name": "Genomic Databases"
+    },
+    {
+      "id": "30001",
+      "axis_code": "H1",
+      "name": "Patrimoine Olfactif & Archives"
+    },
+    {
+      "id": "30002",
+      "axis_code": "H2",
+      "name": "Durabilité & Biodiversité"
+    },
+    {
+      "id": "30003",
+      "axis_code": "H3",
+      "name": "Reconstruction de Parfums Antiques"
+    },
+    {
+      "id": "13",
+      "axis_code": "J1",
+      "name": "Performative smell systems / devices"
+    },
+    {
+      "id": "14",
+      "axis_code": "J2",
+      "name": "VR olfactive & multisensory interfaces"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\taxis_code\tname\n1\tA1\tSmell studies & critical theory\n2\tB1\tOlfactory art & aesthetics\n3\tB2\tSmell in space, design & urban smellscapes\n4\tC1\tOlfactory heritage & computational humanities\n5\tC2\tMaterial culture & perfumery archives\n6\tC3\tGlobal scent histories beyond Eurocentrism\n7\tD1\tKnowledge graph & datasets\n8\tD2\tMethods (field, mapping, participatory)\n9\tE1\tMuseum protocols & olfactory museology\n10\tE2\tHeritage science: documentation & analysis\n11\tF1\tEthics, politics & decolonial smell\n12\tF2\tCommunity, education & practice networks\n30010\tG1\tCannabis Genomics\n30011\tG2\tTobacco Genomics\n30012\tG3\tGenomic Databases\n30001\tH1\tPatrimoine Olfactif & Archives\n30002\tH2\tDurabilité & Biodiversité\n30003\tH3\tReconstruction de Parfums Antiques\n13\tJ1\tPerformative smell systems / devices\n14\tJ2\tVR olfactive & multisensory interfaces\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

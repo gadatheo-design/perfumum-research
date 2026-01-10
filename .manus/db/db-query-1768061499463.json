@@ -1,0 +1,266 @@
+{
+  "query": "DESCRIBE leaf_economies",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE leaf_economies",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "sample_id",
+      "Type": "varchar(50)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "date",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "island",
+      "Type": "enum('san_andres','providencia','autre')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "precise_location",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "source_contact",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "category",
+      "Type": "enum('aromatique','tabac','cannabis')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "species",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "claimed_variety",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "used_part",
+      "Type": "enum('feuille','fleur','resine','tige','autre')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "state",
+      "Type": "enum('frais','sec','rehydrate')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "curing_treatment",
+      "Type": "enum('aucun','air_cured','flue_cured','sun_cured','autre')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "extraction",
+      "Type": "enum('aucune','maceration_alcool','maceration_mct','distillation','headspace')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "ratio_parameters",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "duration",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "odor_notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "climatic_axis",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "usage",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "analysis_available",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "analysis_method",
+      "Type": "enum('gc_ms','hplc','autre')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "top_molecules_list",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "top_molecule_1",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "top_molecule_2",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "top_molecule_3",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "relative_percentages",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "absorbe_interpretation",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "status",
+      "Type": "enum('brut','a_analyser','analyse','traduction','archive')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "brut",
+      "Extra": ""
+    },
+    {
+      "Field": "media_links",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "ethical_notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "image_url",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\nsample_id\tvarchar(50)\tNO\tUNI\tNULL\t\ndate\ttimestamp\tYES\t\tNULL\t\nisland\tenum('san_andres','providencia','autre')\tYES\t\tNULL\t\nprecise_location\tvarchar(255)\tYES\t\tNULL\t\nsource_contact\ttext\tYES\t\tNULL\t\ncategory\tenum('aromatique','tabac','cannabis')\tNO\t\tNULL\t\nspecies\tvarchar(255)\tYES\t\tNULL\t\nclaimed_variety\tvarchar(255)\tYES\t\tNULL\t\nused_part\tenum('feuille','fleur','resine','tige','autre')\tYES\t\tNULL\t\nstate\tenum('frais','sec','rehydrate')\tYES\t\tNULL\t\ncuring_treatment\tenum('aucun','air_cured','flue_cured','sun_cured','autre')\tYES\t\tNULL\t\nextraction\tenum('aucune','maceration_alcool','maceration_mct','distillation','headspace')\tYES\t\tNULL\t\nratio_parameters\tvarchar(255)\tYES\t\tNULL\t\nduration\tvarchar(100)\tYES\t\tNULL\t\nodor_notes\ttext\tYES\t\tNULL\t\nclimatic_axis\ttext\tYES\t\tNULL\t\nusage\ttext\tYES\t\tNULL\t\nanalysis_available\tint(11)\tYES\t\t0\t\nanalysis_method\tenum('gc_ms','hplc','autre')\tYES\t\tNULL\t\ntop_molecules_list\ttext\tYES\t\tNULL\t\ntop_molecule_1\tvarchar(255)\tYES\t\tNULL\t\ntop_molecule_2\tvarchar(255)\tYES\t\tNULL\t\ntop_molecule_3\tvarchar(255)\tYES\t\tNULL\t\nrelative_percentages\ttext\tYES\t\tNULL\t\nabsorbe_interpretation\ttext\tYES\t\tNULL\t\nstatus\tenum('brut','a_analyser','analyse','traduction','archive')\tYES\t\tbrut\t\nmedia_links\ttext\tYES\t\tNULL\t\nethical_notes\ttext\tYES\t\tNULL\t\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\nimage_url\tvarchar(500)\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}
