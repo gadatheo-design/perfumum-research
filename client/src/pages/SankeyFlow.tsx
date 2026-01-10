@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { SankeyDiagram } from "@/components/SankeyDiagram";
+import { EnhancedSankeyDiagram } from "@/components/charts/EnhancedSankeyDiagram";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -182,7 +183,15 @@ export default function SankeyFlow() {
                 <CardContent className="p-0">
                   {sankeyData ? (
                     <div className="p-6 overflow-x-auto">
-                      <SankeyDiagram data={sankeyData} width={960} height={500} />
+                      <EnhancedSankeyDiagram 
+                        data={sankeyData} 
+                        width={960} 
+                        height={500}
+                        animate={true}
+                        showLabels={true}
+                        showValues={true}
+                        colorScheme="nature"
+                      />
                     </div>
                   ) : (
                     <div className="flex items-center justify-center h-64 text-muted-foreground">

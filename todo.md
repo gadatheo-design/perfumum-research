@@ -879,3 +879,38 @@
 - EditeurFormulation.tsx : HoverScale (scale 1.02) sur molécules draggables
 - SynergiesPage.tsx : AnimatedCard (scale 1.02, y -4) sur cartes synergies, HoverScale (scale 1.03) sur liens navigation
 - Home.tsx : AnimatedCard sur parcours utilisateur, HoverScale sur cartes gammes et accès données
+
+
+---
+## 🔧 P2 — AMÉLIORATION (Suite - 10 Jan 2026)
+
+### Visualisations avancées
+- [x] Vue détaillée avec toutes les connexions (`/vue-connexions`)
+- [x] Page terroirs avec carte interactive (existante: `/carte-terroirs`)
+- [x] Améliorer le Diagramme Sankey (EnhancedSankeyDiagram avec animations, tooltips, zoom, export)
+- [x] Améliorer la Heatmap Synergies (EnhancedHeatmap avec filtres, recherche, zoom, export)
+- [x] Améliorer le Graphe Réseau (ForceGraph D3.js avec simulation, filtres, paramètres)
+- [x] Améliorer le Radar Enrichi (MultiRadarChart avec comparaison multi-données)
+
+### Système de tags et notes
+- [x] Schéma de base de données pour tags et notes (existant: moleculeNotes, userNotes)
+- [x] Procédures tRPC CRUD (existant: moleculeNotes.get/upsert/listMine/delete, notes.create/update/delete)
+- [x] Interface utilisateur améliorée (TagsNotesEditor avec auto-complétion et suggestions)
+- [ ] Intégration dans la recherche avancée (filtrer par tags)
+
+### Graphe de force D3.js pour axes thématiques
+- [x] Installation D3.js (déjà présent v7.9.0)
+- [x] Composant ForceGraph avec nœuds, liens, interactions
+- [x] Filtres par type de nœud (molecule, recette, accord, prototype, family, plant, terroir)
+- [x] Paramètres de simulation (force des liens, répulsion)
+- [x] Page dédiée (`/graphe-axes-thematiques`)
+- [x] Vues multiples (Molécules-Recettes, Prototypes-Familles, Plantes-Terroirs, Vue Complète)
+
+### Composants créés
+- `client/src/components/charts/EnhancedSankeyDiagram.tsx` - Sankey amélioré
+- `client/src/components/charts/EnhancedHeatmap.tsx` - Heatmap améliorée
+- `client/src/components/charts/MultiRadarChart.tsx` - Radar multi-données
+- `client/src/components/charts/ForceGraph.tsx` - Graphe de force D3.js
+- `client/src/components/TagsNotesEditor.tsx` - Éditeur de tags et notes
+- `client/src/pages/VueDetailConnexions.tsx` - Vue détaillée des connexions
+- `client/src/pages/GrapheAxesThematiques.tsx` - Page graphe axes thématiques

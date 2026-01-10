@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { trpc } from "../lib/trpc";
 import { MolecularSynergiesHeatmap } from "@/components/charts/MolecularSynergiesHeatmap";
+import { EnhancedHeatmap } from "@/components/charts/EnhancedHeatmap";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -189,8 +190,14 @@ export function SynergiesHeatmap() {
                 </CardHeader>
                 <CardContent className="p-0">
                   {synergies && synergies.length > 0 ? (
-                    <div className="p-6 overflow-x-auto">
-                      <MolecularSynergiesHeatmap synergies={synergies} maxMolecules={25} />
+                    <div className="p-6">
+                      <EnhancedHeatmap 
+                        synergies={synergies} 
+                        maxMolecules={30}
+                        cellSize={26}
+                        animate={true}
+                        showLabels={true}
+                      />
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-16 text-center">
