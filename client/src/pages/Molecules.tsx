@@ -34,12 +34,14 @@ import {
 
 export default function Molecules() {
   const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
+  const { data: chemicalFamiliesData } = trpc.chemicalFamilies.listWithCount.useQuery();
   const trackEvent = trpc.analytics.trackEvent.useMutation();
   const [, setLocation] = useLocation();
   
   const [searchQuery, setSearchQuery] = useState("");
   const [familyFilter, setFamilyFilter] = useState("all");
   const [chemicalClassFilter, setChemicalClassFilter] = useState("all");
+  const [chemicalFamilyFilter, setChemicalFamilyFilter] = useState("all");
   const [selectedProfiles, setSelectedProfiles] = useState<string[]>([]);
   const [concentrationRange, setConcentrationRange] = useState<[number, number]>([0.0001, 0.1]);
   // Hide filters by default on mobile (<1024px), show on desktop
@@ -123,6 +125,16 @@ export default function Molecules() {
     }));
   }, [molecules]);
 
+  // Extract chemical families from dedicated table
+  const chemicalFamilies = useMemo(() => {
+    if (!chemicalFamiliesData) return [];
+    return chemicalFamiliesData.map(f => ({
+      value: String(f.id),
+      label: `${f.name} (${f.moleculeCount || 0})`,
+      count: f.moleculeCount || 0
+    }));
+  }, [chemicalFamiliesData]);
+
   // Extract unique olfactive profiles
   const olfactiveProfiles = useMemo(() => {
     if (!molecules) return [];
@@ -164,6 +176,9 @@ export default function Molecules() {
       // Chemical class filter
       const matchesChemicalClass = 
         chemicalClassFilter === "all" || molecule.chemicalClass === chemicalClassFilter;
+      
+      // Chemical family filter (via dedicated table - will be checked separately)
+      // Note: This requires async lookup, so we handle it differently
       
       // Olfactive profile filter
       const matchesProfile = 
@@ -223,11 +238,26 @@ export default function Molecules() {
       radarSweetnessRange, radarSpicinessRange, radarEarthinessRange,
       boilingPointRange, molecularWeightRange]);
 
+  // Query for molecules in selected chemical family
+  const { data: chemicalFamilyMoleculeIds } = trpc.chemicalFamilies.getMoleculesById.useQuery(
+    { familyId: parseInt(chemicalFamilyFilter) },
+    { enabled: chemicalFamilyFilter !== "all" }
+  );
+
+  // Apply chemical family filter on top of other filters
+  const finalFilteredMolecules = useMemo(() => {
+    if (chemicalFamilyFilter === "all") return filteredMolecules;
+    if (!chemicalFamilyMoleculeIds) return [];
+    const moleculeIdsInFamily = new Set(chemicalFamilyMoleculeIds.map(m => m.id));
+    return filteredMolecules.filter(m => moleculeIdsInFamily.has(m.id));
+  }, [filteredMolecules, chemicalFamilyFilter, chemicalFamilyMoleculeIds]);
+
   // Reset all filters
   const resetFilters = () => {
     setSearchQuery("");
     setFamilyFilter("all");
     setChemicalClassFilter("all");
+    setChemicalFamilyFilter("all");
     setSelectedProfiles([]);
     setConcentrationRange([0.0001, 0.1]);
     setSelectedGamme(null);
@@ -255,6 +285,7 @@ export default function Molecules() {
     searchQuery !== "" || 
     familyFilter !== "all" || 
     chemicalClassFilter !== "all" ||
+    chemicalFamilyFilter !== "all" ||
     selectedProfiles.length > 0 || 
     concentrationRange[0] !== 0.0001 || 
     concentrationRange[1] !== 0.1 ||
@@ -347,6 +378,12 @@ export default function Molecules() {
                     label: "Gamme",
                     value: selectedGamme,
                     onRemove: () => setSelectedGamme(null)
+                  }] : []),
+                  ...(chemicalFamilyFilter !== "all" ? [{
+                    type: "chemicalFamily" as const,
+                    label: "Famille chimique",
+                    value: chemicalFamilies.find(f => f.value === chemicalFamilyFilter)?.label || chemicalFamilyFilter,
+                    onRemove: () => setChemicalFamilyFilter("all")
                   }] : [])
                 ]}
                 onResetAll={resetFilters}
@@ -412,6 +449,34 @@ export default function Molecules() {
                       placeholder="Classe chimique"
                     />
                   </div>
+
+                  {/* Chemical Family Filter */}
+                  {chemicalFamilies.length > 0 && (
+                    <div className="border-t border-border/40 pt-4 mt-4">
+                      <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
+                        <FlaskConical className="w-4 h-4" />
+                        Famille chimique (table dédiée)
+                      </h3>
+                      <Select value={chemicalFamilyFilter} onValueChange={setChemicalFamilyFilter}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Toutes les familles chimiques" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Toutes les familles chimiques</SelectItem>
+                          {chemicalFamilies.map((family) => (
+                            <SelectItem key={family.value} value={family.value}>
+                              {family.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {chemicalFamilyFilter !== "all" && (
+                        <p className="text-xs text-muted-foreground mt-2">
+                          {chemicalFamilyMoleculeIds?.length || 0} molécule(s) dans cette famille
+                        </p>
+                      )}
+                    </div>
+                  )}
 
                   {/* Olfactive Profiles - Autocomplete */}
                   <ProfileAutocomplete
@@ -586,7 +651,7 @@ export default function Molecules() {
               
               {/* Results count */}
               <div className="mt-4 text-sm text-muted-foreground">
-                {filteredMolecules.length} molécule{filteredMolecules.length > 1 ? "s" : ""} trouvée{filteredMolecules.length > 1 ? "s" : ""}
+                {finalFilteredMolecules.length} molécule{finalFilteredMolecules.length > 1 ? "s" : ""} trouvée{finalFilteredMolecules.length > 1 ? "s" : ""}
                 {hasActiveFilters && ` sur ${molecules?.length || 0}`}
               </div>
             </div>
@@ -599,7 +664,7 @@ export default function Molecules() {
             <div className="max-w-5xl mx-auto">
               {isLoading ? (
                 <GridSkeleton count={6} />
-              ) : filteredMolecules.length === 0 ? (
+              ) : finalFilteredMolecules.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-muted-foreground mb-4">Aucune molécule trouvée</p>
                   {hasActiveFilters && (
@@ -611,7 +676,7 @@ export default function Molecules() {
               ) : viewMode === "list" ? (
                 /* Vue Liste */
                 <div className="space-y-2">
-                  {filteredMolecules.map((molecule) => (
+                  {finalFilteredMolecules.map((molecule) => (
                     <MoleculeListItem
                       key={molecule.id}
                       molecule={molecule}
@@ -635,7 +700,7 @@ export default function Molecules() {
               ) : (
                 /* Vue Grille */
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {filteredMolecules.map((molecule) => (
+                  {finalFilteredMolecules.map((molecule) => (
                     <Link 
                       key={molecule.id} 
                       href={`/molecule/${molecule.id}`}

@@ -50,6 +50,8 @@ import PlantTerroirImportCSV from "./pages/PlantTerroirImportCSV";
 import PlantMoleculeAudit from "./pages/PlantMoleculeAudit";
 import LinkingDashboard from "./pages/LinkingDashboard";
 import AdminValidation from "./pages/AdminValidation";
+import AdminChemicalFamilyLinking from "./pages/AdminChemicalFamilyLinking";
+import ChemicalFamilyGraph from "./pages/ChemicalFamilyGraph";
 import EditeurFormulation from "./pages/outils/EditeurFormulation";
 
 // === PROTOTYPES ===
@@ -323,6 +325,8 @@ function Router() {
       <Route path="/admin/molecules/new" component={AdminMoleculeNew} />
       <Route path="/admin/accords" component={AdminAccords} />
       <Route path="/admin/familles" component={AdminFamilles} />
+      <Route path="/admin/chemical-family-linking" component={AdminChemicalFamilyLinking} />
+      <Route path="/graphe-familles-chimiques" component={ChemicalFamilyGraph} />
       <Route path="/admin/matieres" component={AdminMatieres} />
       <Route path="/admin/recettes" component={AdminRecettes} />
       <Route path="/admin/import-export" component={AdminImportExport} />

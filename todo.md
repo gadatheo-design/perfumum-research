@@ -1041,3 +1041,25 @@
 - [x] Mettre à jour l'interface du dictionnaire pour afficher la famille chimique
 - [x] Ajouter un filtre par famille chimique dans le dictionnaire
 - [x] Écrire les tests unitaires pour les procédures familles chimiques (19 tests)
+
+
+---
+
+## 🧬 FAMILLES CHIMIQUES (Session 10 Jan 2026)
+
+### Liaison molécules-familles chimiques
+- [x] Créer l'interface admin pour lier molécules aux familles chimiques (`/admin/chemical-family-linking`)
+- [ ] Ajouter un sélecteur de famille chimique dans le formulaire d'édition de molécule
+- [x] Permettre la liaison en masse via interface dédiée
+
+### Filtrage par famille chimique
+- [x] Ajouter le filtre "Famille chimique" dans Molecules.tsx
+- [x] Intégrer le filtre avec les filtres existants (famille olfactive, etc.)
+- [x] Afficher le compteur de molécules par famille chimique
+
+### Visualisation graphique des relations
+- [x] Créer une page de visualisation des relations familles chimiques ↔ molécules (`/graphe-familles-chimiques`)
+- [x] Implémenter un diagramme en réseau (Canvas 2D)
+- [x] Ajouter les interactions (zoom, pan, hover pour détails)
+- [x] Permettre le filtrage par famille dans la visualisation
+
