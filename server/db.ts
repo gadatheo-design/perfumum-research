@@ -14423,3 +14423,510 @@ export async function exportMoleculeChemicalFamilyLinksJSON() {
     })),
   };
 }
+
+
+// ============================================================================
+// ORPHAN MOLECULES CLASSIFICATION
+// ============================================================================
+
+export interface OrphanMoleculeStats {
+  totalMolecules: number;
+  withFamily: number;
+  withChemicalClass: number;
+  withCasNumber: number;
+  withIupacName: number;
+  withFormula: number;
+  withOlfactiveProfile: number;
+  withRadarComplete: number;
+  orphanCount: number;
+  classificationRate: number;
+}
+
+export async function getOrphanMoleculeStats(): Promise<OrphanMoleculeStats | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  const allMolecules = await db.select().from(molecules);
+  const total = allMolecules.length;
+
+  const withFamily = allMolecules.filter(m => m.family && m.family.trim() !== '').length;
+  const withChemicalClass = allMolecules.filter(m => m.chemicalClass).length;
+  const withCasNumber = allMolecules.filter(m => m.casNumber && m.casNumber.trim() !== '').length;
+  const withIupacName = allMolecules.filter(m => m.iupacName && m.iupacName.trim() !== '').length;
+  const withFormula = allMolecules.filter(m => m.chemicalFormula && m.chemicalFormula.trim() !== '').length;
+  const withOlfactiveProfile = allMolecules.filter(m => m.olfactiveProfile && m.olfactiveProfile.trim() !== '').length;
+  const withRadarComplete = allMolecules.filter(m => 
+    m.radarIntensity !== null && m.radarIntensity !== 50 &&
+    m.radarFreshness !== null && m.radarFreshness !== 50 &&
+    m.radarWarmth !== null && m.radarWarmth !== 50 &&
+    m.radarSweetness !== null && m.radarSweetness !== 50 &&
+    m.radarSpiciness !== null && m.radarSpiciness !== 50 &&
+    m.radarEarthiness !== null && m.radarEarthiness !== 50
+  ).length;
+
+  // Une molécule est "orpheline" si elle n'a ni famille, ni classe chimique, ni profil olfactif
+  const orphanCount = allMolecules.filter(m => 
+    (!m.family || m.family.trim() === '') &&
+    !m.chemicalClass &&
+    (!m.olfactiveProfile || m.olfactiveProfile.trim() === '')
+  ).length;
+
+  // Taux de classification = moyenne des champs remplis
+  const classificationRate = Math.round(
+    ((withFamily + withChemicalClass + withCasNumber + withIupacName + withFormula + withOlfactiveProfile) / (total * 6)) * 100
+  );
+
+  return {
+    totalMolecules: total,
+    withFamily,
+    withChemicalClass,
+    withCasNumber,
+    withIupacName,
+    withFormula,
+    withOlfactiveProfile,
+    withRadarComplete,
+    orphanCount,
+    classificationRate,
+  };
+}
+
+export type OrphanFilter = 'all' | 'no_family' | 'no_chemical_class' | 'no_cas' | 'no_iupac' | 'no_formula' | 'no_olfactive_profile' | 'no_radar';
+
+export async function getOrphanMoleculesList(filter: OrphanFilter = 'all', limit: number = 100, offset: number = 0) {
+  const db = await getDb();
+  if (!db) return { molecules: [], total: 0 };
+
+  let allMolecules = await db.select().from(molecules);
+
+  // Filtrer selon le critère
+  switch (filter) {
+    case 'no_family':
+      allMolecules = allMolecules.filter(m => !m.family || m.family.trim() === '');
+      break;
+    case 'no_chemical_class':
+      allMolecules = allMolecules.filter(m => !m.chemicalClass);
+      break;
+    case 'no_cas':
+      allMolecules = allMolecules.filter(m => !m.casNumber || m.casNumber.trim() === '');
+      break;
+    case 'no_iupac':
+      allMolecules = allMolecules.filter(m => !m.iupacName || m.iupacName.trim() === '');
+      break;
+    case 'no_formula':
+      allMolecules = allMolecules.filter(m => !m.chemicalFormula || m.chemicalFormula.trim() === '');
+      break;
+    case 'no_olfactive_profile':
+      allMolecules = allMolecules.filter(m => !m.olfactiveProfile || m.olfactiveProfile.trim() === '');
+      break;
+    case 'no_radar':
+      allMolecules = allMolecules.filter(m => 
+        m.radarIntensity === 50 && m.radarFreshness === 50 && m.radarWarmth === 50 &&
+        m.radarSweetness === 50 && m.radarSpiciness === 50 && m.radarEarthiness === 50
+      );
+      break;
+    case 'all':
+    default:
+      // Molécules orphelines = sans famille ET sans classe chimique ET sans profil olfactif
+      allMolecules = allMolecules.filter(m => 
+        (!m.family || m.family.trim() === '') &&
+        !m.chemicalClass &&
+        (!m.olfactiveProfile || m.olfactiveProfile.trim() === '')
+      );
+      break;
+  }
+
+  const total = allMolecules.length;
+  const paginatedMolecules = allMolecules.slice(offset, offset + limit);
+
+  return {
+    molecules: paginatedMolecules,
+    total,
+  };
+}
+
+export async function batchClassifyMolecules(updates: Array<{
+  moleculeId: number;
+  family?: string;
+  chemicalClass?: string;
+  olfactiveProfile?: string;
+}>) {
+  const db = await getDb();
+  if (!db) return { success: false, updated: 0 };
+
+  let updated = 0;
+  for (const update of updates) {
+    const updateData: Record<string, unknown> = {};
+    if (update.family !== undefined) updateData.family = update.family;
+    if (update.chemicalClass !== undefined) updateData.chemicalClass = update.chemicalClass;
+    if (update.olfactiveProfile !== undefined) updateData.olfactiveProfile = update.olfactiveProfile;
+
+    if (Object.keys(updateData).length > 0) {
+      await db.update(molecules).set(updateData).where(eq(molecules.id, update.moleculeId));
+      updated++;
+    }
+  }
+
+  return { success: true, updated };
+}
+
+// ============================================================================
+// NOTIFICATIONS SYSTEM
+// ============================================================================
+
+import { notifications, classificationSnapshots, type Notification, type InsertNotification, type ClassificationSnapshot, type InsertClassificationSnapshot } from "../drizzle/schema";
+
+export async function createNotification(data: InsertNotification): Promise<Notification | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  const [result] = await db.insert(notifications).values(data);
+  const [notification] = await db.select().from(notifications).where(eq(notifications.id, result.insertId));
+  return notification || null;
+}
+
+export async function getNotifications(options: {
+  unreadOnly?: boolean;
+  type?: string;
+  limit?: number;
+  offset?: number;
+} = {}) {
+  const db = await getDb();
+  if (!db) return { notifications: [], total: 0, unreadCount: 0 };
+
+  const { unreadOnly = false, type, limit = 50, offset = 0 } = options;
+
+  let query = db.select().from(notifications);
+  
+  // Récupérer toutes les notifications pour les comptes
+  const allNotifications = await query.orderBy(desc(notifications.createdAt));
+  
+  // Filtrer
+  let filtered = allNotifications;
+  if (unreadOnly) {
+    filtered = filtered.filter(n => !n.isRead);
+  }
+  if (type) {
+    filtered = filtered.filter(n => n.type === type);
+  }
+
+  const total = filtered.length;
+  const unreadCount = allNotifications.filter(n => !n.isRead).length;
+  const paginatedNotifications = filtered.slice(offset, offset + limit);
+
+  return {
+    notifications: paginatedNotifications,
+    total,
+    unreadCount,
+  };
+}
+
+export async function markNotificationAsRead(notificationId: number, userId?: number) {
+  const db = await getDb();
+  if (!db) return false;
+
+  await db.update(notifications)
+    .set({ 
+      isRead: true, 
+      readAt: new Date(),
+      readBy: userId || null,
+    })
+    .where(eq(notifications.id, notificationId));
+
+  return true;
+}
+
+export async function markAllNotificationsAsRead(userId?: number) {
+  const db = await getDb();
+  if (!db) return false;
+
+  await db.update(notifications)
+    .set({ 
+      isRead: true, 
+      readAt: new Date(),
+      readBy: userId || null,
+    })
+    .where(eq(notifications.isRead, false));
+
+  return true;
+}
+
+export async function deleteNotification(notificationId: number) {
+  const db = await getDb();
+  if (!db) return false;
+
+  await db.delete(notifications).where(eq(notifications.id, notificationId));
+  return true;
+}
+
+export async function createOrphanMoleculeNotification(moleculeIds: number[], importSource?: string) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const count = moleculeIds.length;
+  if (count === 0) return null;
+
+  return await createNotification({
+    type: 'import_orphan_molecules',
+    title: `${count} molécule${count > 1 ? 's' : ''} sans classification importée${count > 1 ? 's' : ''}`,
+    message: `${count} nouvelle${count > 1 ? 's' : ''} molécule${count > 1 ? 's' : ''} ${count > 1 ? 'ont été importées' : 'a été importée'} sans classification complète. ${importSource ? `Source: ${importSource}` : ''}`,
+    severity: 'warning',
+    entityType: 'molecule',
+    metadata: {
+      count,
+      moleculeIds,
+      importId: importSource,
+    },
+  });
+}
+
+// ============================================================================
+// CLASSIFICATION SNAPSHOTS (Progress Tracking)
+// ============================================================================
+
+export async function createClassificationSnapshot(notes?: string, createdBy?: number): Promise<ClassificationSnapshot | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  // Récupérer les statistiques actuelles
+  const stats = await getOrphanMoleculeStats();
+  if (!stats) return null;
+
+  // Récupérer les statistiques de liaison
+  const linkingStats = await getLinkingCoverageStats();
+  
+  // Compter les entités
+  const allRecettes = await db.select().from(recettes);
+  const allPlants = await db.select().from(plants);
+  const allTerroirs = await db.select().from(terroirs);
+  const allAccords = await db.select().from(accords);
+
+  // Calculer les taux
+  const classificationFields = [
+    stats.withFamily / stats.totalMolecules,
+    stats.withChemicalClass / stats.totalMolecules,
+    stats.withCasNumber / stats.totalMolecules,
+    stats.withIupacName / stats.totalMolecules,
+    stats.withFormula / stats.totalMolecules,
+    stats.withOlfactiveProfile / stats.totalMolecules,
+  ];
+  const overallClassificationRate = Math.round(
+    (classificationFields.reduce((a, b) => a + b, 0) / classificationFields.length) * 10000
+  );
+
+  const linkingFields = linkingStats ? [
+    linkingStats.moleculeRecette.coverageMolecules / 100,
+    linkingStats.plantMolecule.coverageMolecules / 100,
+    linkingStats.plantTerroir.coveragePlants / 100,
+  ] : [0, 0, 0];
+  const overallLinkingRate = Math.round(
+    (linkingFields.reduce((a, b) => a + b, 0) / linkingFields.length) * 10000
+  );
+
+  const snapshotData: InsertClassificationSnapshot = {
+    snapshotDate: new Date(),
+    totalMolecules: stats.totalMolecules,
+    moleculesWithFamily: stats.withFamily,
+    moleculesWithChemicalClass: stats.withChemicalClass,
+    moleculesWithCasNumber: stats.withCasNumber,
+    moleculesWithIupacName: stats.withIupacName,
+    moleculesWithFormula: stats.withFormula,
+    moleculesWithOlfactiveProfile: stats.withOlfactiveProfile,
+    moleculesWithRadar: stats.withRadarComplete,
+    moleculesLinkedToRecettes: linkingStats?.moleculeRecette.moleculesWithRecette || 0,
+    moleculesLinkedToPlants: linkingStats?.plantMolecule.moleculesWithPlant || 0,
+    plantsLinkedToTerroirs: linkingStats?.plantTerroir.plantsWithTerroir || 0,
+    overallClassificationRate,
+    overallLinkingRate,
+    totalRecettes: allRecettes.length,
+    totalPlants: allPlants.length,
+    totalTerroirs: allTerroirs.length,
+    totalAccords: allAccords.length,
+    notes,
+    createdBy,
+  };
+
+  const [result] = await db.insert(classificationSnapshots).values(snapshotData);
+  const [snapshot] = await db.select().from(classificationSnapshots).where(eq(classificationSnapshots.id, result.insertId));
+  
+  // Créer une notification si un jalon est atteint
+  const milestones = [25, 50, 75, 90, 95, 100];
+  const currentRate = overallClassificationRate / 100;
+  for (const milestone of milestones) {
+    if (currentRate >= milestone) {
+      // Vérifier si ce jalon a déjà été notifié
+      const existingNotification = await db.select().from(notifications)
+        .where(and(
+          eq(notifications.type, 'classification_milestone'),
+          sql`JSON_EXTRACT(metadata, '$.milestone') = ${milestone}`
+        ))
+        .limit(1);
+      
+      if (existingNotification.length === 0) {
+        await createNotification({
+          type: 'classification_milestone',
+          title: `Jalon de classification atteint: ${milestone}%`,
+          message: `Le taux de classification global a atteint ${milestone}%. Félicitations pour cette progression!`,
+          severity: 'success',
+          metadata: { milestone, rate: currentRate },
+        });
+      }
+    }
+  }
+
+  return snapshot || null;
+}
+
+export async function getClassificationSnapshots(options: {
+  limit?: number;
+  offset?: number;
+  startDate?: Date;
+  endDate?: Date;
+} = {}) {
+  const db = await getDb();
+  if (!db) return { snapshots: [], total: 0 };
+
+  const { limit = 100, offset = 0, startDate, endDate } = options;
+
+  let allSnapshots = await db.select().from(classificationSnapshots)
+    .orderBy(desc(classificationSnapshots.snapshotDate));
+
+  // Filtrer par date si spécifié
+  if (startDate) {
+    allSnapshots = allSnapshots.filter(s => new Date(s.snapshotDate) >= startDate);
+  }
+  if (endDate) {
+    allSnapshots = allSnapshots.filter(s => new Date(s.snapshotDate) <= endDate);
+  }
+
+  const total = allSnapshots.length;
+  const paginatedSnapshots = allSnapshots.slice(offset, offset + limit);
+
+  return {
+    snapshots: paginatedSnapshots,
+    total,
+  };
+}
+
+export async function getLatestSnapshot(): Promise<ClassificationSnapshot | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  const [snapshot] = await db.select().from(classificationSnapshots)
+    .orderBy(desc(classificationSnapshots.snapshotDate))
+    .limit(1);
+
+  return snapshot || null;
+}
+
+export async function getProgressReport(startDate?: Date, endDate?: Date) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const { snapshots } = await getClassificationSnapshots({ 
+    startDate, 
+    endDate,
+    limit: 1000,
+  });
+
+  if (snapshots.length === 0) return null;
+
+  const firstSnapshot = snapshots[snapshots.length - 1];
+  const lastSnapshot = snapshots[0];
+
+  // Calculer les progressions
+  const calculateProgress = (first: number, last: number) => ({
+    start: first,
+    end: last,
+    change: last - first,
+    changePercent: first > 0 ? Math.round(((last - first) / first) * 100) : 0,
+  });
+
+  // Projection sur 10 ans basée sur la tendance actuelle
+  const daysBetween = snapshots.length > 1 
+    ? (new Date(lastSnapshot.snapshotDate).getTime() - new Date(firstSnapshot.snapshotDate).getTime()) / (1000 * 60 * 60 * 24)
+    : 1;
+  
+  const dailyClassificationProgress = daysBetween > 0 
+    ? (lastSnapshot.overallClassificationRate - firstSnapshot.overallClassificationRate) / daysBetween
+    : 0;
+  
+  const daysToComplete = dailyClassificationProgress > 0 
+    ? Math.ceil((10000 - lastSnapshot.overallClassificationRate) / dailyClassificationProgress)
+    : Infinity;
+
+  const projectedCompletionDate = daysToComplete !== Infinity && daysToComplete > 0
+    ? new Date(Date.now() + daysToComplete * 24 * 60 * 60 * 1000)
+    : null;
+
+  return {
+    period: {
+      start: firstSnapshot.snapshotDate,
+      end: lastSnapshot.snapshotDate,
+      snapshotCount: snapshots.length,
+    },
+    classification: {
+      overall: calculateProgress(firstSnapshot.overallClassificationRate / 100, lastSnapshot.overallClassificationRate / 100),
+      family: calculateProgress(
+        (firstSnapshot.moleculesWithFamily / firstSnapshot.totalMolecules) * 100,
+        (lastSnapshot.moleculesWithFamily / lastSnapshot.totalMolecules) * 100
+      ),
+      chemicalClass: calculateProgress(
+        (firstSnapshot.moleculesWithChemicalClass / firstSnapshot.totalMolecules) * 100,
+        (lastSnapshot.moleculesWithChemicalClass / lastSnapshot.totalMolecules) * 100
+      ),
+      casNumber: calculateProgress(
+        (firstSnapshot.moleculesWithCasNumber / firstSnapshot.totalMolecules) * 100,
+        (lastSnapshot.moleculesWithCasNumber / lastSnapshot.totalMolecules) * 100
+      ),
+      iupacName: calculateProgress(
+        (firstSnapshot.moleculesWithIupacName / firstSnapshot.totalMolecules) * 100,
+        (lastSnapshot.moleculesWithIupacName / lastSnapshot.totalMolecules) * 100
+      ),
+      formula: calculateProgress(
+        (firstSnapshot.moleculesWithFormula / firstSnapshot.totalMolecules) * 100,
+        (lastSnapshot.moleculesWithFormula / lastSnapshot.totalMolecules) * 100
+      ),
+      olfactiveProfile: calculateProgress(
+        (firstSnapshot.moleculesWithOlfactiveProfile / firstSnapshot.totalMolecules) * 100,
+        (lastSnapshot.moleculesWithOlfactiveProfile / lastSnapshot.totalMolecules) * 100
+      ),
+    },
+    linking: {
+      overall: calculateProgress(firstSnapshot.overallLinkingRate / 100, lastSnapshot.overallLinkingRate / 100),
+      moleculeRecette: calculateProgress(
+        (firstSnapshot.moleculesLinkedToRecettes / firstSnapshot.totalMolecules) * 100,
+        (lastSnapshot.moleculesLinkedToRecettes / lastSnapshot.totalMolecules) * 100
+      ),
+      moleculePlant: calculateProgress(
+        (firstSnapshot.moleculesLinkedToPlants / firstSnapshot.totalMolecules) * 100,
+        (lastSnapshot.moleculesLinkedToPlants / lastSnapshot.totalMolecules) * 100
+      ),
+      plantTerroir: calculateProgress(
+        (firstSnapshot.plantsLinkedToTerroirs / firstSnapshot.totalPlants) * 100,
+        (lastSnapshot.plantsLinkedToTerroirs / lastSnapshot.totalPlants) * 100
+      ),
+    },
+    entities: {
+      molecules: calculateProgress(firstSnapshot.totalMolecules, lastSnapshot.totalMolecules),
+      recettes: calculateProgress(firstSnapshot.totalRecettes, lastSnapshot.totalRecettes),
+      plants: calculateProgress(firstSnapshot.totalPlants, lastSnapshot.totalPlants),
+      terroirs: calculateProgress(firstSnapshot.totalTerroirs, lastSnapshot.totalTerroirs),
+      accords: calculateProgress(firstSnapshot.totalAccords, lastSnapshot.totalAccords),
+    },
+    projection: {
+      dailyProgress: dailyClassificationProgress / 100, // En pourcentage
+      daysToComplete,
+      projectedCompletionDate,
+      tenYearProjection: {
+        date: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
+        estimatedClassificationRate: Math.min(100, (lastSnapshot.overallClassificationRate / 100) + (dailyClassificationProgress * 10 * 365 / 100)),
+      },
+    },
+    snapshots: snapshots.map(s => ({
+      date: s.snapshotDate,
+      classificationRate: s.overallClassificationRate / 100,
+      linkingRate: s.overallLinkingRate / 100,
+      totalMolecules: s.totalMolecules,
+    })),
+  };
+}

@@ -53,6 +53,9 @@ import AdminValidation from "./pages/AdminValidation";
 import AdminChemicalFamilyLinking from "./pages/AdminChemicalFamilyLinking";
 import ChemicalFamilyGraph from "./pages/ChemicalFamilyGraph";
 import EditeurFormulation from "./pages/outils/EditeurFormulation";
+import AdminOrphanMolecules from "./pages/AdminOrphanMolecules";
+import AdminNotifications from "./pages/AdminNotifications";
+import AdminProgressReport from "./pages/AdminProgressReport";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -318,6 +321,9 @@ function Router() {
       <Route path="/plant-molecule-audit" component={PlantMoleculeAudit} />
       <Route path="/linking-dashboard" component={LinkingDashboard} />
       <Route path="/admin/validation" component={AdminValidation} />
+      <Route path="/admin/orphan-molecules" component={AdminOrphanMolecules} />
+      <Route path="/admin/notifications" component={AdminNotifications} />
+      <Route path="/admin/progress-report" component={AdminProgressReport} />
       <Route path="/admin/molecule-origins" component={MoleculeOriginsAdmin} />
       <Route path="/admin/terroirs-geocode" component={TerroirsGeocode} />
       <Route path="/outils/editeur-formulation" component={EditeurFormulation} />

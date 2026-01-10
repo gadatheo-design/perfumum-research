@@ -1100,3 +1100,33 @@
 - [x] Export CSV/JSON des liaisons depuis le tableau de bord
 - [x] Actions rapides vers les pages de liaison et visualisation
 - [x] Ajouter les tests unitaires pour les nouvelles fonctionnalités
+
+
+---
+
+## 🆕 NOUVELLES FONCTIONNALITÉS (10 Jan 2026)
+
+### Classification des molécules orphelines
+- [x] Créer la page `/admin/orphan-molecules` pour classifier les molécules sans classification
+- [x] Implémenter la procédure tRPC pour récupérer les molécules orphelines (sans famille, sans accord, sans classe chimique)
+- [x] Créer l'interface de classification rapide avec suggestions automatiques
+- [x] Ajouter des filtres par type de classification manquante
+- [x] Afficher les statistiques de couverture en temps réel
+- [x] Permettre la classification en masse via sélection multiple
+
+### Système de notifications automatiques
+- [x] Créer la table `notifications` dans le schéma de base de données
+- [x] Implémenter la procédure tRPC pour créer des notifications lors des imports
+- [x] Créer le composant de notification dans le header (badge + dropdown)
+- [x] Ajouter les notifications automatiques lors de l'import de molécules non classifiées
+- [x] Permettre de marquer les notifications comme lues
+- [x] Créer la page `/admin/notifications` pour consulter l'historique
+
+### Rapport périodique de progression
+- [x] Créer la table `classification_snapshots` pour stocker les états historiques
+- [x] Implémenter la procédure tRPC pour générer un snapshot de progression
+- [x] Créer la page `/admin/progress-report` avec visualisations
+- [x] Afficher l'évolution du taux de classification sur le temps
+- [x] Ajouter des graphiques de progression (ligne, barres empilées)
+- [ ] Permettre l'export du rapport en PDF/CSV
+- [x] Ajouter des prévisions basées sur la tendance actuelle (projection 10 ans)

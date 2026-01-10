@@ -8166,6 +8166,132 @@ export const appRouter = router({
         return db.getReferenceWithLinkedEntities(input);
       }),
   }),
+
+  // ============================================================================
+  // ORPHAN MOLECULES CLASSIFICATION
+  // ============================================================================
+  orphanMolecules: router({
+    // Obtenir les statistiques des molécules orphelines
+    getStats: publicProcedure.query(async () => {
+      return db.getOrphanMoleculeStats();
+    }),
+
+    // Lister les molécules orphelines avec filtres
+    list: publicProcedure
+      .input(z.object({
+        filter: z.enum(['all', 'no_family', 'no_chemical_class', 'no_cas', 'no_iupac', 'no_formula', 'no_olfactive_profile', 'no_radar']).default('all'),
+        limit: z.number().default(100),
+        offset: z.number().default(0),
+      }))
+      .query(async ({ input }) => {
+        return db.getOrphanMoleculesList(input.filter, input.limit, input.offset);
+      }),
+
+    // Classifier des molécules en masse
+    batchClassify: protectedProcedure
+      .input(z.array(z.object({
+        moleculeId: z.number(),
+        family: z.string().optional(),
+        chemicalClass: z.string().optional(),
+        olfactiveProfile: z.string().optional(),
+      })))
+      .mutation(async ({ input }) => {
+        return db.batchClassifyMolecules(input);
+      }),
+  }),
+
+  // ============================================================================
+  // NOTIFICATIONS SYSTEM
+  // ============================================================================
+  notifications: router({
+    // Lister les notifications
+    list: publicProcedure
+      .input(z.object({
+        unreadOnly: z.boolean().default(false),
+        type: z.string().optional(),
+        limit: z.number().default(50),
+        offset: z.number().default(0),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.getNotifications(input || {});
+      }),
+
+    // Marquer une notification comme lue
+    markAsRead: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input, ctx }) => {
+        return db.markNotificationAsRead(input, ctx.user?.id);
+      }),
+
+    // Marquer toutes les notifications comme lues
+    markAllAsRead: protectedProcedure
+      .mutation(async ({ ctx }) => {
+        return db.markAllNotificationsAsRead(ctx.user?.id);
+      }),
+
+    // Supprimer une notification
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.deleteNotification(input);
+      }),
+
+    // Créer une notification (admin)
+    create: protectedProcedure
+      .input(z.object({
+        type: z.enum(['import_orphan_molecules', 'new_contribution', 'validation_required', 'classification_milestone', 'system_alert', 'data_quality', 'other']),
+        title: z.string(),
+        message: z.string(),
+        severity: z.enum(['info', 'warning', 'error', 'success']).default('info'),
+        entityType: z.string().optional(),
+        entityId: z.number().optional(),
+        metadata: z.object({}).passthrough().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        return db.createNotification(input as any);
+      }),
+  }),
+
+  // ============================================================================
+  // CLASSIFICATION PROGRESS REPORTS
+  // ============================================================================
+  progressReports: router({
+    // Créer un snapshot de l'état actuel
+    createSnapshot: protectedProcedure
+      .input(z.object({
+        notes: z.string().optional(),
+      }).optional())
+      .mutation(async ({ input, ctx }) => {
+        return db.createClassificationSnapshot(input?.notes, ctx.user?.id);
+      }),
+
+    // Obtenir le dernier snapshot
+    getLatest: publicProcedure.query(async () => {
+      return db.getLatestSnapshot();
+    }),
+
+    // Lister les snapshots
+    listSnapshots: publicProcedure
+      .input(z.object({
+        limit: z.number().default(100),
+        offset: z.number().default(0),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.getClassificationSnapshots(input || {});
+      }),
+
+    // Obtenir le rapport de progression complet
+    getReport: publicProcedure
+      .input(z.object({
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.getProgressReport(input?.startDate, input?.endDate);
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

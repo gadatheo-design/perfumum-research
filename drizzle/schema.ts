@@ -5151,3 +5151,104 @@ export const journeyItemsRelations = relations(journeyItems, ({ one }) => ({
     references: [molecules.id],
   }),
 }));
+
+
+// ============================================================================
+// NOTIFICATIONS SYSTEM
+// ============================================================================
+
+export const notifications = mysqlTable("notifications", {
+  id: int("id").autoincrement().primaryKey(),
+  type: mysqlEnum("type", [
+    "import_orphan_molecules",    // Molécules importées sans classification
+    "new_contribution",           // Nouvelle contribution d'un utilisateur
+    "validation_required",        // Validation requise
+    "classification_milestone",   // Jalon de classification atteint
+    "system_alert",               // Alerte système
+    "data_quality",               // Problème de qualité des données
+    "other"
+  ]).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message").notNull(),
+  severity: mysqlEnum("severity", ["info", "warning", "error", "success"]).default("info").notNull(),
+  // Related entity (optional)
+  entityType: varchar("entity_type", { length: 50 }), // 'molecule', 'plant', 'recette', etc.
+  entityId: int("entity_id"),
+  // Metadata
+  metadata: json("metadata").$type<{
+    count?: number;
+    moleculeIds?: number[];
+    importId?: string;
+    [key: string]: unknown;
+  }>(),
+  // Read status
+  isRead: boolean("is_read").default(false).notNull(),
+  readAt: timestamp("read_at"),
+  readBy: int("read_by"),
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at"), // Optional expiration
+}, (table) => ({
+  typeIdx: index("notification_type_idx").on(table.type),
+  readIdx: index("notification_read_idx").on(table.isRead),
+  createdIdx: index("notification_created_idx").on(table.createdAt),
+}));
+
+export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = typeof notifications.$inferInsert;
+
+// ============================================================================
+// CLASSIFICATION SNAPSHOTS (Progress Tracking)
+// ============================================================================
+
+export const classificationSnapshots = mysqlTable("classification_snapshots", {
+  id: int("id").autoincrement().primaryKey(),
+  // Snapshot date
+  snapshotDate: timestamp("snapshot_date").notNull(),
+  // Molecule classification stats
+  totalMolecules: int("total_molecules").notNull(),
+  moleculesWithFamily: int("molecules_with_family").notNull(),
+  moleculesWithChemicalClass: int("molecules_with_chemical_class").notNull(),
+  moleculesWithCasNumber: int("molecules_with_cas_number").notNull(),
+  moleculesWithIupacName: int("molecules_with_iupac_name").notNull(),
+  moleculesWithFormula: int("molecules_with_formula").notNull(),
+  moleculesWithOlfactiveProfile: int("molecules_with_olfactive_profile").notNull(),
+  moleculesWithRadar: int("molecules_with_radar").notNull(),
+  // Linking stats
+  moleculesLinkedToRecettes: int("molecules_linked_to_recettes").notNull(),
+  moleculesLinkedToPlants: int("molecules_linked_to_plants").notNull(),
+  plantsLinkedToTerroirs: int("plants_linked_to_terroirs").notNull(),
+  // Overall coverage percentages (stored as integers 0-10000 for 0.00%-100.00%)
+  overallClassificationRate: int("overall_classification_rate").notNull(), // Average of all classification fields
+  overallLinkingRate: int("overall_linking_rate").notNull(), // Average of all linking fields
+  // Additional entity counts for context
+  totalRecettes: int("total_recettes").notNull(),
+  totalPlants: int("total_plants").notNull(),
+  totalTerroirs: int("total_terroirs").notNull(),
+  totalAccords: int("total_accords").notNull(),
+  // Notes
+  notes: text("notes"),
+  // Who created this snapshot
+  createdBy: int("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  dateIdx: index("snapshot_date_idx").on(table.snapshotDate),
+}));
+
+export type ClassificationSnapshot = typeof classificationSnapshots.$inferSelect;
+export type InsertClassificationSnapshot = typeof classificationSnapshots.$inferInsert;
+
+// Relations
+export const notificationsRelations = relations(notifications, ({ one }) => ({
+  reader: one(users, {
+    fields: [notifications.readBy],
+    references: [users.id],
+  }),
+}));
+
+export const classificationSnapshotsRelations = relations(classificationSnapshots, ({ one }) => ({
+  creator: one(users, {
+    fields: [classificationSnapshots.createdBy],
+    references: [users.id],
+  }),
+}));
