@@ -1,0 +1,22 @@
+{
+  "query": "SELECT 'leaf_economies' as table_name, COUNT(*) as count FROM leaf_economies\nUNION ALL\nSELECT 'olfactory_traditions' as table_name, COUNT(*) as count FROM olfactory_traditions\nUNION ALL\nSELECT 'reference_entity_links' as table_name, COUNT(*) as count FROM reference_entity_links;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'leaf_economies' as table_name, COUNT(*) as count FROM leaf_economies\nUNION ALL\nSELECT 'olfactory_traditions' as table_name, COUNT(*) as count FROM olfactory_traditions\nUNION ALL\nSELECT 'reference_entity_links' as table_name, COUNT(*) as count FROM reference_entity_links;",
+  "rows": [
+    {
+      "table_name": "olfactory_traditions",
+      "count": "0"
+    },
+    {
+      "table_name": "leaf_economies",
+      "count": "10"
+    },
+    {
+      "table_name": "reference_entity_links",
+      "count": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tcount\nolfactory_traditions\t0\nleaf_economies\t10\nreference_entity_links\t0\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

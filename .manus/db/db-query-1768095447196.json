@@ -1,0 +1,61 @@
+{
+  "query": "SHOW TABLES LIKE '%civili%';\nSHOW TABLES LIKE '%tradition%';\nSHOW TABLES LIKE '%olfact%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW TABLES LIKE '%civili%';\nSHOW TABLES LIKE '%tradition%';\nSHOW TABLES LIKE '%olfact%';",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "civilizational_markers"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "civilizational_timeline"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "experimental_accord_civilisations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "tabac_civilisations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "olfactory_traditions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "traditions_olfactives"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%olfact%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "memory_olfaction_concepts"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "olfaction_memory"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "olfaction_memory_article_concepts"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "olfaction_memory_article_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "olfaction_memory_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "olfactive_archives"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "olfactory_memories"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "olfactory_traditions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)": "traditions_olfactives"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%civili%)\ncivilizational_markers\ncivilizational_timeline\nexperimental_accord_civilisations\ntabac_civilisations\nTables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)\nolfactory_traditions\ntraditions_olfactives\nTables_in_H2pjHHJbH276XmnbNcJhCp (%olfact%)\nmemory_olfaction_concepts\nolfaction_memory\nolfaction_memory_article_concepts\nolfaction_memory_article_sources\nolfaction_memory_sources\nolfactive_archives\nolfactory_memories\nolfactory_traditions\ntraditions_olfactives\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

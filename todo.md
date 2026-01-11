@@ -195,18 +195,18 @@
 - [ ] Importer les relations plantes-molécules, variétés-références, etc.
 
 ### Liaisons références-entités
-- [ ] Lier les références H2 (durabilité) aux plantes menacées (leaf_economies)
-- [ ] Lier les références H3 (traditions antiques) aux traditions olfactives documentées
-- [ ] Créer les procédures tRPC pour gérer les liaisons
-- [ ] Créer l'interface de visualisation des liaisons
+- [x] Lier les références H2 (durabilité) aux plantes menacées (leaf_economies) — Interface `/h2-linking` créée
+- [x] Lier les références H3 (traditions antiques) aux traditions olfactives documentées — Interface `/h3-linking` créée
+- [x] Créer les procédures tRPC pour gérer les liaisons — `referenceEntityLinks` router complet
+- [x] Créer l'interface de visualisation des liaisons — Page `/heritage-conservation` avec liens H2/H3/Genomics
 
 ### Heritage & Conservation
-- [ ] Importer les références avec métadonnées (DOI, auteurs, année)
-- [ ] Créer les axes thématiques génomiques si nécessaire
-- [ ] Valider l'intégrité des données importées
-- [ ] Créer les tests vitest pour les nouvelles fonctionnalités
-- [ ] Tester l'interface Heritage & Conservation
-- [ ] Tester les liaisons références-entités
+- [x] Importer les références avec métadonnées (DOI, auteurs, année) — 25+ références H1/H2/H3
+- [x] Créer les axes thématiques génomiques si nécessaire — G1/G2/G3 dans GenomicsExplorer
+- [x] Valider l'intégrité des données importées — Données vérifiées
+- [x] Créer les tests vitest pour les nouvelles fonctionnalités — Tests validés
+- [x] Tester l'interface Heritage & Conservation — Page fonctionnelle
+- [x] Tester les liaisons références-entités — Interfaces H2/H3 fonctionnelles
 - [ ] Valider l'import du pack v4
 
 ---
@@ -218,7 +218,7 @@
 - [ ] Tests d'intégration des relations
 - [ ] Tester l'interface sur desktop et mobile
 - [ ] Valider les performances du graphe D3.js
-- [ ] Créer les tests vitest pour les nouvelles fonctionnalités
+- [x] Créer les tests vitest pour les nouvelles fonctionnalités — Tests validés
 
 ### Corrections techniques
 - [ ] Corriger les erreurs TypeScript restantes (finalRecipes functions)

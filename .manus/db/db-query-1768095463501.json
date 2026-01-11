@@ -1,0 +1,9 @@
+{
+  "query": "SELECT \n  rel.id, \n  rel.reference_id, \n  rel.entity_type, \n  rel.entity_id, \n  rel.link_type,\n  rel.relevance_score,\n  v3.title as ref_title\nFROM reference_entity_links rel\nLEFT JOIN v3_references v3 ON rel.reference_id = v3.id\nLIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  rel.id, \n  rel.reference_id, \n  rel.entity_type, \n  rel.entity_id, \n  rel.link_type,\n  rel.relevance_score,\n  v3.title as ref_title\nFROM reference_entity_links rel\nLEFT JOIN v3_references v3 ON rel.reference_id = v3.id\nLIMIT 20;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 58
+}

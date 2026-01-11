@@ -1,0 +1,80 @@
+{
+  "query": "SELECT id, sample_id, species, category, island FROM leaf_economies LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, sample_id, species, category, island FROM leaf_economies LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "sample_id": "SA-LE-001",
+      "species": "Pimenta racemosa",
+      "category": "aromatique",
+      "island": "san_andres"
+    },
+    {
+      "id": "2",
+      "sample_id": "SA-LE-002",
+      "species": "Cymbopogon citratus",
+      "category": "aromatique",
+      "island": "san_andres"
+    },
+    {
+      "id": "3",
+      "sample_id": "SA-LE-003",
+      "species": "Lippia alba",
+      "category": "aromatique",
+      "island": "san_andres"
+    },
+    {
+      "id": "4",
+      "sample_id": "SA-LE-004",
+      "species": "Nicotiana tabacum",
+      "category": "tabac",
+      "island": "san_andres"
+    },
+    {
+      "id": "5",
+      "sample_id": "SA-LE-005",
+      "species": "Nicotiana tabacum",
+      "category": "tabac",
+      "island": "san_andres"
+    },
+    {
+      "id": "6",
+      "sample_id": "SA-LE-006",
+      "species": "Cannabis sativa",
+      "category": "cannabis",
+      "island": "san_andres"
+    },
+    {
+      "id": "30001",
+      "sample_id": "TEST-IMG-1767504777591",
+      "species": "NULL",
+      "category": "aromatique",
+      "island": "NULL"
+    },
+    {
+      "id": "30002",
+      "sample_id": "TEST-IMG-UPDATE-1767504778035",
+      "species": "NULL",
+      "category": "aromatique",
+      "island": "NULL"
+    },
+    {
+      "id": "30003",
+      "sample_id": "TEST-IMG-1767504956852",
+      "species": "NULL",
+      "category": "aromatique",
+      "island": "NULL"
+    },
+    {
+      "id": "30004",
+      "sample_id": "TEST-IMG-UPDATE-1767504957283",
+      "species": "NULL",
+      "category": "aromatique",
+      "island": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsample_id\tspecies\tcategory\tisland\n1\tSA-LE-001\tPimenta racemosa\taromatique\tsan_andres\n2\tSA-LE-002\tCymbopogon citratus\taromatique\tsan_andres\n3\tSA-LE-003\tLippia alba\taromatique\tsan_andres\n4\tSA-LE-004\tNicotiana tabacum\ttabac\tsan_andres\n5\tSA-LE-005\tNicotiana tabacum\ttabac\tsan_andres\n6\tSA-LE-006\tCannabis sativa\tcannabis\tsan_andres\n30001\tTEST-IMG-1767504777591\tNULL\taromatique\tNULL\n30002\tTEST-IMG-UPDATE-1767504778035\tNULL\taromatique\tNULL\n30003\tTEST-IMG-1767504956852\tNULL\taromatique\tNULL\n30004\tTEST-IMG-UPDATE-1767504957283\tNULL\taromatique\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

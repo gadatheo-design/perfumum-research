@@ -606,7 +606,7 @@ export default function HeritageConservation() {
         )}
 
         {/* Quick Links to Related Pages */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link href="/h2-linking">
             <Card className="bg-slate-900/50 border-slate-700 hover:border-green-600 transition-colors cursor-pointer group">
               <CardContent className="pt-6">
@@ -620,6 +620,27 @@ export default function HeritageConservation() {
                     </h3>
                     <p className="text-sm text-slate-400">
                       Connecter les références durabilité aux échantillons botaniques
+                    </p>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-slate-300" />
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+          
+          <Link href="/h3-linking">
+            <Card className="bg-slate-900/50 border-slate-700 hover:border-amber-600 transition-colors cursor-pointer group">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-amber-900/30">
+                    <Scroll className="w-6 h-6 text-amber-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-medium text-slate-200 group-hover:text-slate-100">
+                      Liaisons H3 — Traditions Antiques
+                    </h3>
+                    <p className="text-sm text-slate-400">
+                      Connecter les références parfums antiques aux traditions olfactives
                     </p>
                   </div>
                   <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-slate-300" />

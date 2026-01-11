@@ -1,0 +1,100 @@
+{
+  "query": "SELECT id, name, region, temporality FROM traditions_olfactives LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, temporality FROM traditions_olfactives LIMIT 15;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Égypte — Akhet",
+      "region": "Égypte antique",
+      "temporality": "antique"
+    },
+    {
+      "id": "2",
+      "name": "Mésopotamie — Shuruppak",
+      "region": "Mésopotamie antique",
+      "temporality": "antique"
+    },
+    {
+      "id": "3",
+      "name": "Mycène",
+      "region": "Grèce mycénienne",
+      "temporality": "antique"
+    },
+    {
+      "id": "4",
+      "name": "Tell Halaf",
+      "region": "Syrie du Nord",
+      "temporality": "archaic"
+    },
+    {
+      "id": "5",
+      "name": "Meroe",
+      "region": "Nubie / Soudan",
+      "temporality": "antique"
+    },
+    {
+      "id": "6",
+      "name": "Lyonesse",
+      "region": "Atlantide celtique (légendaire)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "7",
+      "name": "Atlantide Lumineuse",
+      "region": "Océan Atlantique (mythologique)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "8",
+      "name": "Atlantide Abyssale",
+      "region": "Océan Atlantique profond (mythologique)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "9",
+      "name": "Akkad",
+      "region": "Mésopotamie (Empire akkadien)",
+      "temporality": "antique"
+    },
+    {
+      "id": "10",
+      "name": "Nubie",
+      "region": "Nubie / Haute-Égypte",
+      "temporality": "antique"
+    },
+    {
+      "id": "11",
+      "name": "Dilmun",
+      "region": "Golfe Persique (Bahreïn)",
+      "temporality": "antique"
+    },
+    {
+      "id": "12",
+      "name": "Umbria Arcana",
+      "region": "Dimension ombrale (conceptuelle)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "13",
+      "name": "Cryo-Atlas",
+      "region": "Régions glaciaires (conceptuelle)",
+      "temporality": "futuristic"
+    },
+    {
+      "id": "14",
+      "name": "November Humid",
+      "region": "Climat novembre humide (conceptuelle)",
+      "temporality": "futuristic"
+    },
+    {
+      "id": "15",
+      "name": "Sogdiane",
+      "region": "Asie Centrale (Route de la Soie)",
+      "temporality": "medieval"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\ttemporality\n1\tÉgypte — Akhet\tÉgypte antique\tantique\n2\tMésopotamie — Shuruppak\tMésopotamie antique\tantique\n3\tMycène\tGrèce mycénienne\tantique\n4\tTell Halaf\tSyrie du Nord\tarchaic\n5\tMeroe\tNubie / Soudan\tantique\n6\tLyonesse\tAtlantide celtique (légendaire)\tabyssal\n7\tAtlantide Lumineuse\tOcéan Atlantique (mythologique)\tabyssal\n8\tAtlantide Abyssale\tOcéan Atlantique profond (mythologique)\tabyssal\n9\tAkkad\tMésopotamie (Empire akkadien)\tantique\n10\tNubie\tNubie / Haute-Égypte\tantique\n11\tDilmun\tGolfe Persique (Bahreïn)\tantique\n12\tUmbria Arcana\tDimension ombrale (conceptuelle)\tabyssal\n13\tCryo-Atlas\tRégions glaciaires (conceptuelle)\tfuturistic\n14\tNovember Humid\tClimat novembre humide (conceptuelle)\tfuturistic\n15\tSogdiane\tAsie Centrale (Route de la Soie)\tmedieval\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

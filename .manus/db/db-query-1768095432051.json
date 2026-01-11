@@ -1,0 +1,22 @@
+{
+  "query": "SELECT \n  axis_primary_code,\n  COUNT(*) as count\nFROM v3_references \nWHERE axis_primary_code IN ('H1', 'H2', 'H3')\nGROUP BY axis_primary_code\nORDER BY axis_primary_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  axis_primary_code,\n  COUNT(*) as count\nFROM v3_references \nWHERE axis_primary_code IN ('H1', 'H2', 'H3')\nGROUP BY axis_primary_code\nORDER BY axis_primary_code;",
+  "rows": [
+    {
+      "axis_primary_code": "H1",
+      "count": "9"
+    },
+    {
+      "axis_primary_code": "H2",
+      "count": "15"
+    },
+    {
+      "axis_primary_code": "H3",
+      "count": "10"
+    }
+  ],
+  "messages": [],
+  "stdout": "axis_primary_code\tcount\nH1\t9\nH2\t15\nH3\t10\n",
+  "stderr": "",
+  "execution_time_ms": 868
+}
