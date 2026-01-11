@@ -235,6 +235,7 @@ import VarietyForm from "./pages/VarietyForm";
 import VarietyDetail from "./pages/VarietyDetail";
 import CarteVarietes from "./pages/CarteVarietes";
 import Terroirs from "./pages/Terroirs";
+import TerroirDetail from "./pages/TerroirDetail";
 import OriginesGeographiques from "./pages/OriginesGeographiques";
 import ExtractionMethods from "./pages/ExtractionMethods";
 import Collaborations from "./pages/Collaborations";
@@ -577,7 +578,7 @@ function Router() {
       <Route path="/final-recipes" component={FinalRecipes} />
       <Route path="/recettes-finales" component={FinalRecipes} />
       <Route path="/terroirs" component={Terroirs} />
-      <Route path="/terroirs/:id" component={Terroirs} />
+      <Route path="/terroirs/:id" component={TerroirDetail} />
       <Route path="/origines-geographiques" component={OriginesGeographiques} />
       <Route path="/extraction-methods" component={ExtractionMethods} />
       <Route path="/methodes-extraction" component={ExtractionMethods} />

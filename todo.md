@@ -1424,3 +1424,31 @@
 - [x] Afficher les références liées dans la page de détail des axes
 - [x] Permettre la recherche et sélection de références existantes
 
+
+
+---
+## 🔥 SESSION ACTIVE — 11 Jan 2026 (Relations & Hypertexte - Suite)
+
+### Relations et Hypertexte entre entités
+- [x] Créer composant RelatedEntities réutilisable pour afficher les entités liées avec navigation
+- [x] Créer page TerroirDetail avec liens vers les plantes cultivées
+- [x] Ajouter route /terroirs/:id dans App.tsx
+- [x] Vérifier les liens hypertexte existants dans MoleculeDetail (LinkedPlants déjà implémenté)
+- [x] Vérifier les liens hypertexte existants dans PlantDetail (LinkedTerroirs déjà implémenté)
+- [x] Vérifier les liens hypertexte existants dans RecetteDetail (LinkedMolecules déjà implémenté)
+
+### Pages vérifiées et fonctionnelles
+- [x] Gammes — bien structurée avec animations et responsive
+- [x] Formules de Référence — bien structurée avec radar charts
+- [x] Recherche Avancée — bien structurée avec filtres et animations
+- [x] Éditeur de Formulation — fonctionnel avec drag-drop et radar
+- [x] Générateur de Formules IA — fonctionnel avec sliders et export
+- [x] Synergies Moléculaires — fonctionnelle avec graphe D3.js
+- [x] VueDetailConnexions — fonctionnelle avec onglets
+- [x] SankeyFlow — fonctionnel
+- [x] SynergiesHeatmap — fonctionnelle
+- [x] Glossaire — bien structuré avec recherche
+- [x] Timeline — bien structurée avec animations
+- [x] À propos — bien structurée
+- [x] Contribuer — bien structurée
+
