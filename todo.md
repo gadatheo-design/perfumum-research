@@ -127,14 +127,14 @@
 - [x] Intégrer les tags dans la recherche avancée — Recherche par tags dans références v3
 
 ### Graphe de force D3.js pour axes thématiques
-- [ ] Installer D3.js dans le projet
-- [ ] Créer le composant de graphe de force pour les axes thématiques
-- [ ] Implémenter les nœuds pour les références et les axes
-- [ ] Implémenter les liens entre références et axes
-- [ ] Ajouter les interactions (zoom, drag, hover, click)
-- [ ] Créer les filtres pour le graphe (par axe, par famille, par période)
-- [ ] Intégrer le graphe dans une nouvelle page dédiée
-- [ ] Optimiser les performances pour les grands ensembles de données
+- [x] Installer D3.js dans le projet
+- [x] Créer le composant de graphe de force pour les axes thématiques (ForceGraphAxes.tsx)
+- [x] Implémenter les nœuds pour les références et les axes
+- [x] Implémenter les liens entre références et axes
+- [x] Ajouter les interactions (zoom, drag, hover, click)
+- [x] Créer les filtres pour le graphe (par méta-axe, toggle références)
+- [x] Intégrer le graphe dans une nouvelle page dédiée (/graphe-references-axes)
+- [x] Optimiser les performances pour les grands ensembles de données
 
 ---
 
@@ -165,7 +165,7 @@
 - [x] Améliorer la page Formules de Référence (radar, filtres, détail molécules)
 - [x] Améliorer la page Recherche Avancée (suggestions, historique, filtres AND/OR)
 - [x] Améliorer l'Éditeur de Formulation (bibliothèque, suggestions, formules sauvegardées)
-- [ ] Améliorer le Générateur de Formules IA
+- [x] Améliorer le Générateur de Formules IA (suggestions synergies moléculaires)
 - [ ] Améliorer le Calculateur
 - [ ] Améliorer la page Synergies
 - [ ] Améliorer les pages Méthode ABSORBE
@@ -1513,4 +1513,31 @@
 - [x] Ajouter des filtres par pays/climat avec recherche textuelle
 - [x] Ajouter un onglet Statistiques avec graphiques détaillés
 - [x] Intégrer les données existantes des terroirs avec liaisons plantes
+
+
+
+---
+
+## 🆕 SESSION 11 JANVIER 2026 — Nouvelles fonctionnalités
+
+### Graphe de force D3.js pour axes thématiques
+- [ ] Créer le composant ForceGraph pour les axes thématiques (`/graphe-axes-thematiques`)
+- [ ] Implémenter les nœuds pour les références (taille selon importance)
+- [ ] Implémenter les nœuds pour les axes thématiques (couleur par catégorie)
+- [ ] Créer les liens entre références et axes avec force de connexion
+- [ ] Ajouter les interactions (zoom, pan, drag des nœuds)
+- [ ] Ajouter les tooltips au survol avec détails
+- [ ] Créer les filtres (par axe, par famille, par période)
+- [ ] Optimiser les performances avec WebGL ou canvas si nécessaire
+- [ ] Intégrer dans la navigation principale
+
+### Amélioration du Générateur de Formules IA avec synergies moléculaires
+- [ ] Analyser les synergies moléculaires documentées dans les données existantes
+- [ ] Créer une table de synergies moléculaires dans le schéma
+- [ ] Implémenter les procédures tRPC pour récupérer les synergies
+- [ ] Modifier le générateur IA pour suggérer des molécules synergiques
+- [ ] Ajouter un panneau de suggestions de synergies dans l'interface
+- [ ] Afficher les explications des synergies (pourquoi ces molécules fonctionnent ensemble)
+- [ ] Permettre l'ajout rapide des molécules suggérées à la formule
+- [ ] Tester les suggestions avec des formules existantes
 

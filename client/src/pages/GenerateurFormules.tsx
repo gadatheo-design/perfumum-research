@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Sparkles, Download, RefreshCw, Loader2, Save, Zap, Droplets, Flame, Heart, Leaf, Mountain, Info, ArrowRight, History } from "lucide-react";
+import { SynergySuggestions } from "@/components/SynergySuggestions";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 
@@ -406,6 +407,14 @@ export default function GenerateurFormules() {
                   </div>
                 )}
 
+                {/* Synergy Suggestions - Nouvelles suggestions basées sur les synergies documentées */}
+                {suggestions && suggestions.length > 0 && (
+                  <SynergySuggestions
+                    selectedMoleculeIds={suggestions.slice(0, 5).map((s: any) => s.id)}
+                    className="mb-4"
+                  />
+                )}
+
                 {/* Info Card */}
                 <Card className="bg-muted/30 border-border/50">
                   <CardHeader>
@@ -418,7 +427,8 @@ export default function GenerateurFormules() {
                     <p><strong className="text-foreground">1. Définissez votre profil cible</strong> : Ajustez les 6 sliders radar pour créer le profil olfactif que vous recherchez.</p>
                     <p><strong className="text-foreground">2. Algorithme de similarité</strong> : L'IA calcule la distance euclidienne entre votre profil cible et les molécules de la base de données.</p>
                     <p><strong className="text-foreground">3. Suggestions classées</strong> : Les molécules les plus compatibles sont affichées par ordre décroissant de score (100% = correspondance parfaite).</p>
-                    <p><strong className="text-foreground">4. Export</strong> : Téléchargez vos résultats en CSV ou PDF, ou sauvegardez-les dans votre historique.</p>
+                    <p><strong className="text-foreground">4. Synergies documentées</strong> : Le panneau "Synergies Documentées" suggère des molécules complémentaires basées sur les interactions moléculaires validées.</p>
+                    <p><strong className="text-foreground">5. Export</strong> : Téléchargez vos résultats en CSV ou PDF, ou sauvegardez-les dans votre historique.</p>
                   </CardContent>
                 </Card>
               </motion.div>

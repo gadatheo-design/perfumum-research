@@ -16576,3 +16576,344 @@ export async function bulkCreateAxisReferenceLinks(links: Array<{
   
   return { created, errors, total: links.length };
 }
+
+
+// ============================================================================
+// FORCE GRAPH DATA FOR REFERENCES-AXES VISUALIZATION
+// ============================================================================
+
+/**
+ * Get comprehensive force graph data for D3.js visualization
+ * Includes both axes and references as nodes with their connections
+ */
+export async function getForceGraphDataReferencesAxes(options?: {
+  includeReferences?: boolean;
+  metaAxisFilter?: string;
+  minRelevanceScore?: number;
+}) {
+  const db = await getDb();
+  if (!db) return { nodes: [], links: [], stats: {} };
+  
+  const includeReferences = options?.includeReferences ?? true;
+  const metaAxisFilter = options?.metaAxisFilter;
+  const minRelevanceScore = options?.minRelevanceScore ?? 0;
+  
+  // Get all thematic axes
+  const axes = metaAxisFilter && metaAxisFilter !== 'all'
+    ? await db.select().from(thematicAxes).where(eq(thematicAxes.metaAxis, metaAxisFilter as any)).orderBy(thematicAxes.displayOrder)
+    : await db.select().from(thematicAxes).orderBy(thematicAxes.displayOrder);
+  
+  // Get all v3 references with their primary axis
+  let references: typeof v3References.$inferSelect[] = [];
+  if (metaAxisFilter && metaAxisFilter !== 'all') {
+    // Filter references by meta-axis through their primary axis
+    const axisIds = axes.map(a => a.id);
+    if (axisIds.length > 0) {
+      references = await db.select().from(v3References).where(inArray(v3References.axisPrimaryId, axisIds)).orderBy(desc(v3References.year));
+    }
+  } else {
+    references = await db.select().from(v3References).orderBy(desc(v3References.year));
+  }
+  
+  // Build axis nodes
+  const axisNodes = axes.map(axis => ({
+    id: `axis-${axis.id}`,
+    numericId: axis.id,
+    type: 'axis' as const,
+    code: axis.axisCode,
+    name: axis.name,
+    metaAxis: axis.metaAxis,
+    color: axis.color || getMetaAxisColor(axis.metaAxis),
+    description: axis.description,
+    outputTypes: axis.outputTypes,
+    size: 30, // Base size for axes
+  }));
+  
+  // Build reference nodes (if enabled)
+  const referenceNodes = includeReferences ? references.map(ref => ({
+    id: `ref-${ref.id}`,
+    numericId: ref.id,
+    type: 'reference' as const,
+    code: ref.entryKey,
+    name: ref.title || ref.entryKey,
+    author: ref.authors,
+    year: ref.year,
+    axisPrimaryCode: ref.axisPrimaryCode,
+    axisPrimaryId: ref.axisPrimaryId,
+    axesSecondary: ref.axesSecondary,
+    relevanceScore: ref.relevanceScore || 50,
+    readStatus: ref.readStatus,
+    color: getReadStatusColor(ref.readStatus),
+    size: Math.max(8, Math.min(20, (ref.relevanceScore || 50) / 5)), // Size based on relevance
+  })) : [];
+  
+  // Build links between references and axes
+  const links: Array<{
+    source: string;
+    target: string;
+    strength: number;
+    type: 'primary' | 'secondary';
+  }> = [];
+  
+  if (includeReferences) {
+    for (const ref of references) {
+      // Primary axis link
+      if (ref.axisPrimaryId) {
+        const axisNode = axisNodes.find(a => a.numericId === ref.axisPrimaryId);
+        if (axisNode) {
+          links.push({
+            source: `ref-${ref.id}`,
+            target: axisNode.id,
+            strength: 1,
+            type: 'primary',
+          });
+        }
+      }
+      
+      // Secondary axes links
+      if (ref.axesSecondary && Array.isArray(ref.axesSecondary)) {
+        for (const secondaryCode of ref.axesSecondary) {
+          const axisNode = axisNodes.find(a => a.code === secondaryCode);
+          if (axisNode) {
+            links.push({
+              source: `ref-${ref.id}`,
+              target: axisNode.id,
+              strength: 0.5,
+              type: 'secondary',
+            });
+          }
+        }
+      }
+    }
+  }
+  
+  // Get axis connections for inter-axis links
+  const axisConnections_ = await db.select().from(axisConnections);
+  for (const conn of axisConnections_) {
+    const sourceNode = axisNodes.find(a => a.numericId === conn.sourceAxisId);
+    const targetNode = axisNodes.find(a => a.numericId === conn.targetAxisId);
+    if (sourceNode && targetNode) {
+      links.push({
+        source: sourceNode.id,
+        target: targetNode.id,
+        strength: (conn.strength || 5) / 10,
+        type: 'primary',
+      });
+    }
+  }
+  
+  // Calculate statistics
+  const stats = {
+    totalAxes: axisNodes.length,
+    totalReferences: referenceNodes.length,
+    totalLinks: links.length,
+    referencesByMetaAxis: {
+      meta_a: references.filter(r => {
+        const axis = axes.find(a => a.id === r.axisPrimaryId);
+        return axis?.metaAxis === 'meta_a';
+      }).length,
+      meta_b: references.filter(r => {
+        const axis = axes.find(a => a.id === r.axisPrimaryId);
+        return axis?.metaAxis === 'meta_b';
+      }).length,
+      meta_c: references.filter(r => {
+        const axis = axes.find(a => a.id === r.axisPrimaryId);
+        return axis?.metaAxis === 'meta_c';
+      }).length,
+    },
+    axesByMetaAxis: {
+      meta_a: axes.filter(a => a.metaAxis === 'meta_a').length,
+      meta_b: axes.filter(a => a.metaAxis === 'meta_b').length,
+      meta_c: axes.filter(a => a.metaAxis === 'meta_c').length,
+    },
+  };
+  
+  return {
+    nodes: [...axisNodes, ...referenceNodes],
+    links,
+    stats,
+  };
+}
+
+// Helper function to get color based on meta-axis
+function getMetaAxisColor(metaAxis: string | null): string {
+  switch (metaAxis) {
+    case 'meta_a': return '#f59e0b'; // Amber - Heritage & Archives
+    case 'meta_b': return '#8b5cf6'; // Purple - Arts & Chemistry
+    case 'meta_c': return '#06b6d4'; // Cyan - Digital & Datasets
+    default: return '#6b7280'; // Gray
+  }
+}
+
+// Helper function to get color based on read status
+function getReadStatusColor(status: string | null): string {
+  switch (status) {
+    case 'read': return '#22c55e'; // Green
+    case 'reading': return '#f59e0b'; // Amber
+    case 'to_review': return '#ef4444'; // Red
+    default: return '#94a3b8'; // Slate
+  }
+}
+
+/**
+ * Get synergies data for the AI formula generator
+ * Returns all documented molecular synergies with their details
+ */
+export async function getMolecularSynergiesForGenerator() {
+  const db = await getDb();
+  if (!db) return { synergies: [], rules: [], interactions: [] };
+  
+  // Get terpene synergies
+  const terpeneSynergiesData = await db
+    .select({
+      id: terpeneSynergies.id,
+      terpene1Id: terpeneSynergies.terpene1Id,
+      terpene2Id: terpeneSynergies.terpene2Id,
+      compatibilityScore: terpeneSynergies.compatibilityScore,
+      synergyNotes: terpeneSynergies.synergyNotes,
+    })
+    .from(terpeneSynergies);
+  
+  // Get molecule synergies
+  const moleculeSynergiesData = await db
+    .select({
+      id: moleculeSynergies.id,
+      molecule1Id: moleculeSynergies.molecule1Id,
+      molecule2Id: moleculeSynergies.molecule2Id,
+      type: moleculeSynergies.type,
+      description: moleculeSynergies.description,
+      applications: moleculeSynergies.applications,
+    })
+    .from(moleculeSynergies);
+  
+  // Get entourage rules
+  const entourageRulesData = await db
+    .select()
+    .from(entourageRules);
+  
+  // Get molecular interactions
+  const molecularInteractionsData = await db
+    .select()
+    .from(molecularInteractions);
+  
+  // Get formulation suggestions
+  const formulationSuggestionsData = await db
+    .select()
+    .from(formulationSuggestions);
+  
+  // Enrich synergies with molecule names
+  const moleculeIds = new Set<number>();
+  terpeneSynergiesData.forEach(s => {
+    moleculeIds.add(s.terpene1Id);
+    moleculeIds.add(s.terpene2Id);
+  });
+  moleculeSynergiesData.forEach(s => {
+    moleculeIds.add(s.molecule1Id);
+    moleculeIds.add(s.molecule2Id);
+  });
+  
+  const moleculeNames = new Map<number, string>();
+  if (moleculeIds.size > 0) {
+    const mols = await db
+      .select({ id: molecules.id, name: molecules.name })
+      .from(molecules)
+      .where(inArray(molecules.id, Array.from(moleculeIds)));
+    mols.forEach(m => moleculeNames.set(m.id, m.name));
+  }
+  
+  // Build enriched synergies
+  const enrichedTerpeneSynergies = terpeneSynergiesData.map(s => ({
+    ...s,
+    terpene1Name: moleculeNames.get(s.terpene1Id) || `Molecule #${s.terpene1Id}`,
+    terpene2Name: moleculeNames.get(s.terpene2Id) || `Molecule #${s.terpene2Id}`,
+  }));
+  
+  const enrichedMoleculeSynergies = moleculeSynergiesData.map(s => ({
+    ...s,
+    molecule1Name: moleculeNames.get(s.molecule1Id) || `Molecule #${s.molecule1Id}`,
+    molecule2Name: moleculeNames.get(s.molecule2Id) || `Molecule #${s.molecule2Id}`,
+  }));
+  
+  return {
+    terpeneSynergies: enrichedTerpeneSynergies,
+    moleculeSynergies: enrichedMoleculeSynergies,
+    entourageRules: entourageRulesData,
+    molecularInteractions: molecularInteractionsData,
+    formulationSuggestions: formulationSuggestionsData,
+  };
+}
+
+/**
+ * Get synergy suggestions for a specific molecule
+ * Returns molecules that have documented synergies with the given molecule
+ */
+export async function getSynergySuggestionsForMolecule(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return { moleculeId, suggestions: [] };
+  
+  // Get terpene synergies where this molecule is involved
+  const terpeneSyns = await db
+    .select()
+    .from(terpeneSynergies)
+    .where(
+      or(
+        eq(terpeneSynergies.terpene1Id, moleculeId),
+        eq(terpeneSynergies.terpene2Id, moleculeId)
+      )
+    );
+  
+  // Get molecule synergies where this molecule is involved
+  const molSyns = await db
+    .select()
+    .from(moleculeSynergies)
+    .where(
+      or(
+        eq(moleculeSynergies.molecule1Id, moleculeId),
+        eq(moleculeSynergies.molecule2Id, moleculeId)
+      )
+    );
+  
+  // Collect partner molecule IDs
+  const partnerIds = new Set<number>();
+  terpeneSyns.forEach(s => {
+    if (s.terpene1Id === moleculeId) partnerIds.add(s.terpene2Id);
+    else partnerIds.add(s.terpene1Id);
+  });
+  molSyns.forEach(s => {
+    if (s.molecule1Id === moleculeId) partnerIds.add(s.molecule2Id);
+    else partnerIds.add(s.molecule1Id);
+  });
+  
+  if (partnerIds.size === 0) return { moleculeId, suggestions: [] };
+  
+  // Get partner molecule details
+  const partners = await db
+    .select()
+    .from(molecules)
+    .where(inArray(molecules.id, Array.from(partnerIds)));
+  
+  // Build suggestions with synergy details
+  const suggestions = partners.map(partner => {
+    const terpeneSyn = terpeneSyns.find(
+      s => (s.terpene1Id === moleculeId && s.terpene2Id === partner.id) ||
+           (s.terpene2Id === moleculeId && s.terpene1Id === partner.id)
+    );
+    const molSyn = molSyns.find(
+      s => (s.molecule1Id === moleculeId && s.molecule2Id === partner.id) ||
+           (s.molecule2Id === moleculeId && s.molecule1Id === partner.id)
+    );
+    
+    return {
+      molecule: partner,
+      synergyType: molSyn?.type || 'potentialisation',
+      compatibilityScore: terpeneSyn?.compatibilityScore || 70,
+      description: molSyn?.description || terpeneSyn?.synergyNotes || 'Synergie documentée',
+      applications: molSyn?.applications,
+    };
+  });
+  
+  // Sort by compatibility score
+  const sortedSuggestions = suggestions.sort((a, b) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0));
+  
+  return { moleculeId, suggestions: sortedSuggestions };
+}

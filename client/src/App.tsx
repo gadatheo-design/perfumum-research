@@ -302,6 +302,7 @@ import GrapheTerroirPlanteMolecule from "./pages/GrapheTerroirPlanteMolecule";
 import GrapheMoleculesFamillesChimiques from "./pages/GrapheMoleculesFamillesChimiques";
 import VueDetailConnexions from "./pages/VueDetailConnexions";
 import GrapheAxesThematiques from "./pages/GrapheAxesThematiques";
+import GrapheReferencesAxes from "./pages/GrapheReferencesAxes";
 import ReferencesGraph from "./pages/ReferencesGraph";
 import CarteInteractiveTerroirs from "./pages/CarteInteractiveTerroirs";
 import TerroirMapPage from "./pages/TerroirMapPage";
@@ -630,6 +631,7 @@ function Router() {
       <Route path="/graphe-molecules-familles-chimiques" component={GrapheMoleculesFamillesChimiques} />
       <Route path="/vue-connexions" component={VueDetailConnexions} />
       <Route path="/graphe-axes-thematiques" component={GrapheAxesThematiques} />
+      <Route path="/graphe-references-axes" component={GrapheReferencesAxes} />
       <Route path="/references-graph" component={ReferencesGraph} />
       <Route path="/carte-interactive-terroirs" component={CarteInteractiveTerroirs} />
       <Route path="/carte-terroirs" component={TerroirMapPage} />

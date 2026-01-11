@@ -1160,6 +1160,42 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getSynergySuggestions(input?.minSimilarity, input?.limit);
       }),
+    
+    // Nouvelles procédures pour le générateur IA
+    getAllForGenerator: publicProcedure.query(async () => {
+      return db.getMolecularSynergiesForGenerator();
+    }),
+    
+    getSuggestionsForMolecule: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getSynergySuggestionsForMolecule(input);
+      }),
+    
+    getBetweenMolecules: publicProcedure
+      .input(z.object({
+        molecule1Id: z.number(),
+        molecule2Id: z.number(),
+      }))
+      .query(async ({ input }) => {
+        const allSynergies = await db.getMolecularSynergiesForGenerator();
+        
+        const terpeneSyn = allSynergies.terpeneSynergies?.find(
+          (s: any) => (s.terpene1Id === input.molecule1Id && s.terpene2Id === input.molecule2Id) ||
+               (s.terpene2Id === input.molecule1Id && s.terpene1Id === input.molecule2Id)
+        );
+        
+        const molSyn = allSynergies.moleculeSynergies?.find(
+          (s: any) => (s.molecule1Id === input.molecule1Id && s.molecule2Id === input.molecule2Id) ||
+               (s.molecule2Id === input.molecule1Id && s.molecule1Id === input.molecule2Id)
+        );
+        
+        return {
+          terpeneSynergy: terpeneSyn || null,
+          moleculeSynergy: molSyn || null,
+          hasDocumentedSynergy: !!(terpeneSyn || molSyn),
+        };
+      }),
   }),
 
   // Favorites
@@ -9799,7 +9835,29 @@ Familles olfactives disponibles:
         return db.bulkCreateAxisReferenceLinks(links);
       }),
   }),
-});
 
+  // ============================================================================
+  // FORCE GRAPH VISUALIZATION
+  // ============================================================================
+  forceGraph: router({
+    // Obtenir les données du graphe de force pour références-axes
+    getReferencesAxesData: publicProcedure
+      .input(z.object({
+        includeReferences: z.boolean().default(true),
+        metaAxisFilter: z.string().optional(),
+        minRelevanceScore: z.number().default(0),
+      }).optional())
+      .query(async ({ input }) => {
+        return db.getForceGraphDataReferencesAxes(input || {});
+      }),
+    
+    // Obtenir les données du graphe d'axes uniquement
+    getAxisGraphData: publicProcedure.query(async () => {
+      return db.getAxisGraphData();
+    }),
+  }),
+
+
+});
 export type AppRouter = typeof appRouter;
 
