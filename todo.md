@@ -1490,3 +1490,27 @@
 - [x] Afficher les connexions axes-références dans le graphe (données disponibles via API)
 - [ ] Créer l'interface de gestion des liaisons axes-références (à faire)
 
+
+
+---
+
+## 🆕 SESSION 11 JANVIER 2026 — NOUVELLES FONCTIONNALITÉS
+
+### Amélioration de la page Gammes
+- [x] Ajouter des statistiques par gamme (nombre de recettes, molécules, plantes associées)
+- [x] Créer une vue comparative entre gammes (tableau ou graphique)
+- [x] Améliorer la cohérence visuelle de la page
+
+### Amélioration de la Recherche Avancée
+- [x] Ajouter des filtres combinés (ET/OU logiques)
+- [x] Implémenter des suggestions de recherche (autocomplete)
+- [x] Améliorer l'interface utilisateur des filtres
+
+### Page Terroirs avec carte interactive
+- [x] Améliorer la page `/terroirs` avec carte Google Maps intégrée
+- [x] Afficher les terroirs sur la carte avec marqueurs personnalisés par climat
+- [x] Afficher les plantes associées à chaque terroir (via TerroirCardWithPlants)
+- [x] Ajouter des filtres par pays/climat avec recherche textuelle
+- [x] Ajouter un onglet Statistiques avec graphiques détaillés
+- [x] Intégrer les données existantes des terroirs avec liaisons plantes
+

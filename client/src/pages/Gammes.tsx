@@ -1,15 +1,23 @@
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Droplets, Mountain, Crown, ArrowRight, Sparkles, Heart, Gem, Beaker, FileText, FlaskConical, Layers, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import { 
+  Droplets, Mountain, Crown, ArrowRight, Sparkles, Heart, Gem, Beaker, FileText, FlaskConical, 
+  Layers, ChevronRight, BarChart3, Grid3X3, List, TrendingUp, Leaf, Atom, Users, Globe,
+  ChevronDown, ChevronUp
+} from "lucide-react";
 import { VoirAussi, suggestionsGammes } from "@/components/VoirAussi";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { AnimatedCard, HoverScale, FadeInSection, StaggeredContent, StaggeredItem } from "@/components/PageTransition";
+import { trpc } from "@/lib/trpc";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -34,6 +42,25 @@ const itemVariants = {
     }
   }
 };
+
+// Types pour les gammes
+interface Gamme {
+  name: string;
+  subtitle: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  bgColor: string;
+  borderColor: string;
+  hoverBorder: string;
+  gradientFrom: string;
+  gradientTo: string;
+  accentGradient: string;
+  variations: number;
+  families: string[];
+  href: string;
+  keywords: string[];
+}
 
 // Skeleton pour les cartes de gammes
 function GammeCardSkeleton() {
@@ -80,10 +107,355 @@ function GammesGridSkeleton() {
   );
 }
 
-export default function Gammes() {
-  const [isLoading] = useState(false);
+// Composant de statistiques par gamme
+function GammeStats({ gamme, recettes, molecules, plants }: { 
+  gamme: Gamme; 
+  recettes: any[]; 
+  molecules: any[];
+  plants: any[];
+}) {
+  // Calculer les statistiques basées sur les keywords de la gamme
+  const stats = useMemo(() => {
+    const matchingRecettes = recettes.filter(r => 
+      gamme.keywords.some(kw => 
+        r.name?.toLowerCase().includes(kw.toLowerCase()) ||
+        r.description?.toLowerCase().includes(kw.toLowerCase()) ||
+        r.category?.toLowerCase().includes(kw.toLowerCase())
+      )
+    );
+    
+    const matchingMolecules = molecules.filter(m =>
+      gamme.keywords.some(kw =>
+        m.name?.toLowerCase().includes(kw.toLowerCase()) ||
+        m.olfactiveProfile?.toLowerCase().includes(kw.toLowerCase()) ||
+        m.family?.toLowerCase().includes(kw.toLowerCase())
+      )
+    );
+    
+    const matchingPlants = plants.filter(p =>
+      gamme.keywords.some(kw =>
+        p.name?.toLowerCase().includes(kw.toLowerCase()) ||
+        p.description?.toLowerCase().includes(kw.toLowerCase()) ||
+        p.family?.toLowerCase().includes(kw.toLowerCase())
+      )
+    );
+    
+    return {
+      recettes: matchingRecettes.length,
+      molecules: matchingMolecules.length,
+      plants: matchingPlants.length,
+      total: matchingRecettes.length + matchingMolecules.length + matchingPlants.length
+    };
+  }, [gamme, recettes, molecules, plants]);
   
-  const gammes = [
+  return (
+    <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-border/30">
+      <div className="text-center">
+        <div className={`text-lg font-bold ${gamme.color}`}>{stats.recettes}</div>
+        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Recettes</div>
+      </div>
+      <div className="text-center border-x border-border/30">
+        <div className={`text-lg font-bold ${gamme.color}`}>{stats.molecules}</div>
+        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Molécules</div>
+      </div>
+      <div className="text-center">
+        <div className={`text-lg font-bold ${gamme.color}`}>{stats.plants}</div>
+        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Plantes</div>
+      </div>
+    </div>
+  );
+}
+
+// Composant de vue comparative
+function ComparativeView({ gammes, recettes, molecules, plants }: {
+  gammes: Gamme[];
+  recettes: any[];
+  molecules: any[];
+  plants: any[];
+}) {
+  const [sortBy, setSortBy] = useState<'variations' | 'recettes' | 'molecules' | 'plants'>('variations');
+  const [expandedGamme, setExpandedGamme] = useState<string | null>(null);
+  
+  const gammeStats = useMemo(() => {
+    return gammes.map(gamme => {
+      const matchingRecettes = recettes.filter(r => 
+        gamme.keywords.some(kw => 
+          r.name?.toLowerCase().includes(kw.toLowerCase()) ||
+          r.description?.toLowerCase().includes(kw.toLowerCase())
+        )
+      );
+      
+      const matchingMolecules = molecules.filter(m =>
+        gamme.keywords.some(kw =>
+          m.name?.toLowerCase().includes(kw.toLowerCase()) ||
+          m.olfactiveProfile?.toLowerCase().includes(kw.toLowerCase())
+        )
+      );
+      
+      const matchingPlants = plants.filter(p =>
+        gamme.keywords.some(kw =>
+          p.name?.toLowerCase().includes(kw.toLowerCase()) ||
+          p.description?.toLowerCase().includes(kw.toLowerCase())
+        )
+      );
+      
+      return {
+        ...gamme,
+        stats: {
+          recettes: matchingRecettes.length,
+          molecules: matchingMolecules.length,
+          plants: matchingPlants.length,
+          total: matchingRecettes.length + matchingMolecules.length + matchingPlants.length
+        }
+      };
+    });
+  }, [gammes, recettes, molecules, plants]);
+  
+  const sortedGammes = useMemo(() => {
+    return [...gammeStats].sort((a, b) => {
+      switch (sortBy) {
+        case 'variations':
+          return b.variations - a.variations;
+        case 'recettes':
+          return b.stats.recettes - a.stats.recettes;
+        case 'molecules':
+          return b.stats.molecules - a.stats.molecules;
+        case 'plants':
+          return b.stats.plants - a.stats.plants;
+        default:
+          return 0;
+      }
+    });
+  }, [gammeStats, sortBy]);
+  
+  const maxValues = useMemo(() => ({
+    variations: Math.max(...gammeStats.map(g => g.variations)),
+    recettes: Math.max(...gammeStats.map(g => g.stats.recettes), 1),
+    molecules: Math.max(...gammeStats.map(g => g.stats.molecules), 1),
+    plants: Math.max(...gammeStats.map(g => g.stats.plants), 1),
+  }), [gammeStats]);
+  
+  return (
+    <div className="space-y-6">
+      {/* Contrôles de tri */}
+      <div className="flex flex-wrap items-center gap-2 justify-center">
+        <span className="text-sm text-muted-foreground mr-2">Trier par :</span>
+        {[
+          { key: 'variations', label: 'Variations', icon: FileText },
+          { key: 'recettes', label: 'Recettes', icon: FlaskConical },
+          { key: 'molecules', label: 'Molécules', icon: Atom },
+          { key: 'plants', label: 'Plantes', icon: Leaf },
+        ].map(({ key, label, icon: Icon }) => (
+          <Button
+            key={key}
+            variant={sortBy === key ? "default" : "outline"}
+            size="sm"
+            onClick={() => setSortBy(key as typeof sortBy)}
+            className="gap-1.5"
+          >
+            <Icon className="w-3.5 h-3.5" />
+            {label}
+          </Button>
+        ))}
+      </div>
+      
+      {/* Tableau comparatif */}
+      <div className="space-y-3">
+        {sortedGammes.map((gamme, index) => {
+          const Icon = gamme.icon;
+          const isExpanded = expandedGamme === gamme.name;
+          
+          return (
+            <motion.div
+              key={gamme.name}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              <Card className={`border ${gamme.borderColor} ${gamme.hoverBorder} transition-all duration-300 overflow-hidden`}>
+                <div 
+                  className="p-4 cursor-pointer hover:bg-muted/30 transition-colors"
+                  onClick={() => setExpandedGamme(isExpanded ? null : gamme.name)}
+                >
+                  <div className="flex items-center gap-4">
+                    {/* Rang */}
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                      <span className="text-sm font-bold text-muted-foreground">#{index + 1}</span>
+                    </div>
+                    
+                    {/* Icône et nom */}
+                    <div className={`w-10 h-10 rounded-lg ${gamme.bgColor} flex items-center justify-center flex-shrink-0`}>
+                      <Icon className={`h-5 w-5 ${gamme.color}`} />
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-foreground">{gamme.name}</h3>
+                        <Badge variant="secondary" className={`${gamme.bgColor} ${gamme.color} border-0 text-xs`}>
+                          {gamme.variations} var.
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground truncate">{gamme.subtitle}</p>
+                    </div>
+                    
+                    {/* Statistiques rapides */}
+                    <div className="hidden md:flex items-center gap-6">
+                      <div className="text-center">
+                        <div className="text-sm font-bold text-foreground">{gamme.stats.recettes}</div>
+                        <div className="text-[10px] text-muted-foreground">Recettes</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm font-bold text-foreground">{gamme.stats.molecules}</div>
+                        <div className="text-[10px] text-muted-foreground">Molécules</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm font-bold text-foreground">{gamme.stats.plants}</div>
+                        <div className="text-[10px] text-muted-foreground">Plantes</div>
+                      </div>
+                    </div>
+                    
+                    {/* Chevron */}
+                    <div className="flex-shrink-0">
+                      {isExpanded ? (
+                        <ChevronUp className="w-5 h-5 text-muted-foreground" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* Barres de progression */}
+                  <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[10px]">
+                        <span className="text-muted-foreground">Variations</span>
+                        <span className="font-medium">{gamme.variations}</span>
+                      </div>
+                      <Progress 
+                        value={(gamme.variations / maxValues.variations) * 100} 
+                        className="h-1.5"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[10px]">
+                        <span className="text-muted-foreground">Recettes</span>
+                        <span className="font-medium">{gamme.stats.recettes}</span>
+                      </div>
+                      <Progress 
+                        value={(gamme.stats.recettes / maxValues.recettes) * 100} 
+                        className="h-1.5"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[10px]">
+                        <span className="text-muted-foreground">Molécules</span>
+                        <span className="font-medium">{gamme.stats.molecules}</span>
+                      </div>
+                      <Progress 
+                        value={(gamme.stats.molecules / maxValues.molecules) * 100} 
+                        className="h-1.5"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[10px]">
+                        <span className="text-muted-foreground">Plantes</span>
+                        <span className="font-medium">{gamme.stats.plants}</span>
+                      </div>
+                      <Progress 
+                        value={(gamme.stats.plants / maxValues.plants) * 100} 
+                        className="h-1.5"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Détails étendus */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-4 pb-4 pt-2 border-t border-border/50 bg-muted/20">
+                        <p className="text-sm text-muted-foreground mb-4">{gamme.description}</p>
+                        
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {gamme.families.map((family, idx) => (
+                            <Badge 
+                              key={idx} 
+                              variant="outline" 
+                              className="text-xs font-normal bg-background/50"
+                            >
+                              {family}
+                            </Badge>
+                          ))}
+                        </div>
+                        
+                        <Link href={gamme.href}>
+                          <Button size="sm" className="gap-2">
+                            Explorer la gamme
+                            <ArrowRight className="w-4 h-4" />
+                          </Button>
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Card>
+            </motion.div>
+          );
+        })}
+      </div>
+      
+      {/* Résumé global */}
+      <Card className="border-primary/20 bg-primary/5">
+        <CardContent className="p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <div className="text-3xl font-bold text-primary">
+                {gammeStats.reduce((sum, g) => sum + g.variations, 0)}
+              </div>
+              <div className="text-sm text-muted-foreground">Variations totales</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-primary">
+                {gammeStats.reduce((sum, g) => sum + g.stats.recettes, 0)}
+              </div>
+              <div className="text-sm text-muted-foreground">Recettes liées</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-primary">
+                {gammeStats.reduce((sum, g) => sum + g.stats.molecules, 0)}
+              </div>
+              <div className="text-sm text-muted-foreground">Molécules associées</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-primary">
+                {gammeStats.reduce((sum, g) => sum + g.stats.plants, 0)}
+              </div>
+              <div className="text-sm text-muted-foreground">Plantes référencées</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export default function Gammes() {
+  const [viewMode, setViewMode] = useState<'grid' | 'compare'>('grid');
+  
+  // Récupérer les données pour les statistiques
+  const { data: recettes = [], isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
+  const { data: molecules = [], isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
+  const { data: plants = [], isLoading: loadingPlants } = trpc.plants.list.useQuery();
+  
+  const isLoading = loadingRecettes || loadingMolecules || loadingPlants;
+  
+  const gammes: Gamme[] = [
     {
       name: "Pétrichor",
       subtitle: "L'odeur de la pluie sur la terre",
@@ -99,6 +471,7 @@ export default function Gammes() {
       variations: 60,
       families: ["Hash Prima", "Tabac Fermenté", "Minéral Hash", "Floral Salé", "Animal Fumé", "Métallique Humide"],
       href: "/gammes/petrichor",
+      keywords: ["pétrichor", "petrichor", "terre", "pluie", "minéral", "géosmine", "humide", "mousse"],
     },
     {
       name: "Volcanique",
@@ -115,6 +488,7 @@ export default function Gammes() {
       variations: 36,
       families: ["Soufre Pur", "Cendre Chaude", "Pierre Calcinée", "Fumée Noire", "Minéral Brûlé", "Lave Refroidie"],
       href: "/gammes/volcanique",
+      keywords: ["volcanique", "soufre", "cendre", "fumée", "pyrolyse", "brûlé", "lave", "basalte"],
     },
     {
       name: "Royal Mossi",
@@ -131,6 +505,7 @@ export default function Gammes() {
       variations: 12,
       families: ["Cuir Mossi", "Fumigations", "Peaux Tannées", "Bois Sahel"],
       href: "/gammes/mossi",
+      keywords: ["mossi", "sahel", "cuir", "fumigation", "afrique", "burkina", "rituel", "encens"],
     },
     {
       name: "Signatures",
@@ -147,6 +522,7 @@ export default function Gammes() {
       variations: 3,
       families: ["Cuir Marin", "Forêt de Cacao", "Fleur Fantôme"],
       href: "/gammes/signatures",
+      keywords: ["signature", "premium", "cuir marin", "cacao", "fleur", "fantôme", "exception"],
     },
     {
       name: "Phéromones",
@@ -163,6 +539,7 @@ export default function Gammes() {
       variations: 4,
       families: ["Pheromona Truffle", "Pheromona Skin", "Pheromona Alpha", "Pheromona Cascade"],
       href: "/gammes/pheromones",
+      keywords: ["phéromone", "pheromone", "androsténol", "androsténone", "musc", "skin", "alpha"],
     },
     {
       name: "Raretés",
@@ -179,6 +556,7 @@ export default function Gammes() {
       variations: 10,
       families: ["Trésor d'Orient", "Iris Royal", "Santal Sacré", "Musc Précieux", "Océan Profond"],
       href: "/gammes/raretes",
+      keywords: ["oud", "iris", "ambre", "ambrox", "iso e super", "galaxolide", "cashmeran", "javanol", "rare", "précieux"],
     },
   ];
 
@@ -242,7 +620,7 @@ export default function Gammes() {
                     key={i}
                     className="flex items-center gap-2 px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-full bg-card border border-border/50 shadow-sm"
                   >
-                    <stat.icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${stat.color}`} />
+                    <stat.icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${stat.color}`} />
                     <span className="text-xs sm:text-sm font-medium text-foreground">{stat.label}</span>
                   </div>
                 ))}
@@ -265,12 +643,32 @@ export default function Gammes() {
           </div>
         </section>
 
-        {/* Gammes Grid - Enhanced Cards with better responsive */}
+        {/* Sélecteur de vue */}
+        <section className="py-6 sm:py-8 border-b border-border/50">
+          <div className="container px-4 sm:px-6">
+            <div className="flex justify-center">
+              <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as 'grid' | 'compare')} className="w-auto">
+                <TabsList className="grid grid-cols-2 w-[280px]">
+                  <TabsTrigger value="grid" className="gap-2">
+                    <Grid3X3 className="w-4 h-4" />
+                    Grille
+                  </TabsTrigger>
+                  <TabsTrigger value="compare" className="gap-2">
+                    <BarChart3 className="w-4 h-4" />
+                    Comparatif
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+          </div>
+        </section>
+
+        {/* Contenu principal */}
         <section className="py-12 sm:py-16 md:py-20 lg:py-28">
           <div className="container px-4 sm:px-6">
             {isLoading ? (
               <GammesGridSkeleton />
-            ) : (
+            ) : viewMode === 'grid' ? (
               <motion.div 
                 variants={containerVariants}
                 initial="hidden"
@@ -318,6 +716,14 @@ export default function Gammes() {
                               {gamme.description}
                             </p>
                             
+                            {/* Statistiques par gamme */}
+                            <GammeStats 
+                              gamme={gamme} 
+                              recettes={recettes} 
+                              molecules={molecules}
+                              plants={plants}
+                            />
+                            
                             <div className="pt-2 sm:pt-3 border-t border-border/50">
                               <h4 className="text-[10px] sm:text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 sm:mb-3">
                                 Familles principales
@@ -347,6 +753,15 @@ export default function Gammes() {
                   );
                 })}
               </motion.div>
+            ) : (
+              <div className="max-w-5xl mx-auto">
+                <ComparativeView 
+                  gammes={gammes}
+                  recettes={recettes}
+                  molecules={molecules}
+                  plants={plants}
+                />
+              </div>
             )}
           </div>
         </section>
