@@ -1211,3 +1211,31 @@
 - [x] Définir les priorités de développement par axe thématique
 - [x] Créer un document de stratégie de développement (`docs/STRATEGIE-DEVELOPPEMENT-AXES.md`)
 - [x] Identifier les fonctionnalités manquantes par axe
+
+
+---
+
+## 🧬 SESSION 11 JANVIER 2026 — Axes Prioritaires
+
+### Liaisons génomiques (G1-G3)
+- [x] Créer les tables `genomic_molecule_links` et `genomic_plant_links`
+- [x] Créer les procédures tRPC pour créer/lister les liaisons génomiques
+- [x] Créer les fonctions de base de données pour les requêtes génomiques
+- [x] Permettre la connexion des 29 références génomiques aux molécules et plantes
+
+### Interface variétés fantômes (AX1)
+- [x] Créer la table `ghost_varieties` pour les variétés disparues/rares
+- [x] Créer la page `/ghost-varieties` avec liste et filtres
+- [x] Créer le formulaire de contribution pour soumettre de nouvelles variétés
+- [x] Ajouter les procédures tRPC pour lister, consulter et soumettre des variétés
+
+### Dashboard durabilité (AX7)
+- [x] Créer la page `/sustainability-dashboard` avec indicateurs de conservation
+- [x] Afficher les statistiques sur les espèces menacées et zones de conservation
+- [x] Implémenter les alertes de conservation pour espèces critiques
+- [x] Afficher les alternatives durables disponibles
+
+### Navigation et intégration
+- [x] Ajouter les routes dans App.tsx pour les nouvelles pages
+- [x] Ajouter les liens dans la section Programmes R&D de la page d'accueil
+- [x] Créer les tests unitaires pour les nouvelles fonctionnalités (ghostVarieties.test.ts)
