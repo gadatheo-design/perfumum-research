@@ -220,6 +220,8 @@ import BotaniqueCritique from "./pages/BotaniqueCritique";
 import VarietesFantomes from "./pages/VarietesFantomes";
 import GhostVarietiesExplorer from "./pages/GhostVarietiesExplorer";
 import GhostVarietyForm from "./pages/GhostVarietyForm";
+import GhostVarietyDetail from "./pages/GhostVarietyDetail";
+import GhostVarietyImageUpload from "./pages/GhostVarietyImageUpload";
 import RecettesLeafEconomies from "./pages/RecettesLeafEconomies";
 import TerpProfiles from "./pages/TerpProfiles";
 import TerpProfilesCompare from "./pages/TerpProfilesCompare";
@@ -552,6 +554,8 @@ function Router() {
       <Route path="/varietes-fantomes" component={VarietesFantomes} />
       <Route path="/ghost-varieties-explorer" component={GhostVarietiesExplorer} />
       <Route path="/ghost-variety/new" component={GhostVarietyForm} />
+      <Route path="/ghost-variety/:id" component={GhostVarietyDetail} />
+      <Route path="/ghost-variety/:id/upload-image" component={GhostVarietyImageUpload} />
       <Route path="/recettes-leaf-economies" component={RecettesLeafEconomies} />
       <Route path="/terp-profiles" component={TerpProfiles} />
       <Route path="/terp-profiles/compare" component={TerpProfilesCompare} />

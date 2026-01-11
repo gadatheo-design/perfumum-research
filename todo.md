@@ -1289,3 +1289,26 @@
 - [x] Ajouter les sources historiques dans le formulaire (onglet Sources)
 - [x] Tests unitaires pour les nouvelles fonctionnalités (10 tests passés)
 - [x] Bouton d'ajout dans l'explorateur de variétés fantômes
+
+## 🧬 SESSION 11 JANVIER 2026 — Liaisons génomiques et page de détail
+
+### Liaisons génomiques variétés fantômes
+- [x] Créer les tables de liaison variété-molécule et variété-plante dans le schéma
+- [x] Créer les procédures tRPC pour gérer les liaisons variétés fantômes ↔ molécules
+- [x] Créer les procédures tRPC pour gérer les liaisons variétés fantômes ↔ plantes
+- [x] Développer l'interface de gestion des liaisons génomiques pour les 8 variétés existantes
+- [x] Permettre la connexion via interface de gestion (formulaire autonome)
+
+### Page de détail des variétés fantômes
+- [x] Créer la page `/ghost-variety/:id` avec vue détaillée
+- [x] Afficher toutes les liaisons (molécules, plantes, sources)
+- [x] Afficher le profil moléculaire complet avec visualisation radar
+- [x] Intégrer la galerie d'images
+- [x] Afficher les sources historiques et références
+
+### Système d'images pour variétés fantômes
+- [x] Créer le formulaire d'upload d'images autonome
+- [x] Intégrer le stockage S3 pour les images de variétés
+- [x] Permettre l'ajout d'images multiples par variété
+- [x] Ajouter la prévisualisation et la gestion des images
+

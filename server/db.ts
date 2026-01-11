@@ -15889,3 +15889,290 @@ export async function searchPlantsForGhostVariety(query: string, limit: number =
     .orderBy(plants.name)
     .limit(limit);
 }
+
+
+// ============================================================================
+// GHOST VARIETY MOLECULE LINKS (Liaisons variétés fantômes ↔ molécules)
+// ============================================================================
+
+import { ghostVarietyMoleculeLinks, GhostVarietyMoleculeLink, InsertGhostVarietyMoleculeLink, ghostVarietyPlantLinks, GhostVarietyPlantLink, InsertGhostVarietyPlantLink, ghostVarietyImages, GhostVarietyImage, InsertGhostVarietyImage } from "../drizzle/schema";
+
+/**
+ * Get all molecule links for a ghost variety
+ */
+export async function getGhostVarietyMoleculeLinks(ghostVarietyId: number): Promise<(GhostVarietyMoleculeLink & { molecule: { id: number; name: string; casNumber: string | null; family: string | null } | null })[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const links = await db.select().from(ghostVarietyMoleculeLinks)
+    .where(eq(ghostVarietyMoleculeLinks.ghostVarietyId, ghostVarietyId))
+    .orderBy(desc(ghostVarietyMoleculeLinks.percentage));
+  
+  // Get molecule details for each link
+  const result = await Promise.all(links.map(async (link) => {
+    const [molecule] = await db.select({
+      id: molecules.id,
+      name: molecules.name,
+      casNumber: molecules.casNumber,
+      family: molecules.family,
+    }).from(molecules).where(eq(molecules.id, link.moleculeId));
+    return { ...link, molecule: molecule || null };
+  }));
+  
+  return result;
+}
+
+/**
+ * Create a ghost variety molecule link
+ */
+export async function createGhostVarietyMoleculeLink(data: Omit<InsertGhostVarietyMoleculeLink, 'id' | 'createdAt' | 'updatedAt'>): Promise<GhostVarietyMoleculeLink> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  const [result] = await db.insert(ghostVarietyMoleculeLinks).values(data);
+  const [created] = await db.select().from(ghostVarietyMoleculeLinks).where(eq(ghostVarietyMoleculeLinks.id, result.insertId));
+  return created;
+}
+
+/**
+ * Update a ghost variety molecule link
+ */
+export async function updateGhostVarietyMoleculeLink(id: number, data: Partial<InsertGhostVarietyMoleculeLink>): Promise<GhostVarietyMoleculeLink | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.update(ghostVarietyMoleculeLinks).set(data).where(eq(ghostVarietyMoleculeLinks.id, id));
+  const [updated] = await db.select().from(ghostVarietyMoleculeLinks).where(eq(ghostVarietyMoleculeLinks.id, id));
+  return updated || null;
+}
+
+/**
+ * Delete a ghost variety molecule link
+ */
+export async function deleteGhostVarietyMoleculeLink(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  await db.delete(ghostVarietyMoleculeLinks).where(eq(ghostVarietyMoleculeLinks.id, id));
+  return true;
+}
+
+/**
+ * Get all molecule links (for stats)
+ */
+export async function getAllGhostVarietyMoleculeLinks(): Promise<GhostVarietyMoleculeLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(ghostVarietyMoleculeLinks).orderBy(desc(ghostVarietyMoleculeLinks.createdAt));
+}
+
+// ============================================================================
+// GHOST VARIETY PLANT LINKS (Liaisons variétés fantômes ↔ plantes)
+// ============================================================================
+
+/**
+ * Get all plant links for a ghost variety
+ */
+export async function getGhostVarietyPlantLinks(ghostVarietyId: number): Promise<(GhostVarietyPlantLink & { plant: { id: number; name: string; latinName: string | null; category: string | null } | null })[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const links = await db.select().from(ghostVarietyPlantLinks)
+    .where(eq(ghostVarietyPlantLinks.ghostVarietyId, ghostVarietyId))
+    .orderBy(ghostVarietyPlantLinks.relationshipType);
+  
+  // Get plant details for each link
+  const result = await Promise.all(links.map(async (link) => {
+    const [plant] = await db.select({
+      id: plants.id,
+      name: plants.name,
+      latinName: plants.latinName,
+      category: plants.category,
+    }).from(plants).where(eq(plants.id, link.plantId));
+    return { ...link, plant: plant || null };
+  }));
+  
+  return result;
+}
+
+/**
+ * Create a ghost variety plant link
+ */
+export async function createGhostVarietyPlantLink(data: Omit<InsertGhostVarietyPlantLink, 'id' | 'createdAt' | 'updatedAt'>): Promise<GhostVarietyPlantLink> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  const [result] = await db.insert(ghostVarietyPlantLinks).values(data);
+  const [created] = await db.select().from(ghostVarietyPlantLinks).where(eq(ghostVarietyPlantLinks.id, result.insertId));
+  return created;
+}
+
+/**
+ * Update a ghost variety plant link
+ */
+export async function updateGhostVarietyPlantLink(id: number, data: Partial<InsertGhostVarietyPlantLink>): Promise<GhostVarietyPlantLink | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.update(ghostVarietyPlantLinks).set(data).where(eq(ghostVarietyPlantLinks.id, id));
+  const [updated] = await db.select().from(ghostVarietyPlantLinks).where(eq(ghostVarietyPlantLinks.id, id));
+  return updated || null;
+}
+
+/**
+ * Delete a ghost variety plant link
+ */
+export async function deleteGhostVarietyPlantLink(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  await db.delete(ghostVarietyPlantLinks).where(eq(ghostVarietyPlantLinks.id, id));
+  return true;
+}
+
+/**
+ * Get all plant links (for stats)
+ */
+export async function getAllGhostVarietyPlantLinks(): Promise<GhostVarietyPlantLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(ghostVarietyPlantLinks).orderBy(desc(ghostVarietyPlantLinks.createdAt));
+}
+
+// ============================================================================
+// GHOST VARIETY IMAGES (Images des variétés fantômes)
+// ============================================================================
+
+/**
+ * Get all images for a ghost variety
+ */
+export async function getGhostVarietyImages(ghostVarietyId: number): Promise<GhostVarietyImage[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select().from(ghostVarietyImages)
+    .where(eq(ghostVarietyImages.ghostVarietyId, ghostVarietyId))
+    .orderBy(ghostVarietyImages.sortOrder);
+}
+
+/**
+ * Create a ghost variety image
+ */
+export async function createGhostVarietyImage(data: Omit<InsertGhostVarietyImage, 'id' | 'createdAt' | 'updatedAt'>): Promise<GhostVarietyImage> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  
+  const [result] = await db.insert(ghostVarietyImages).values(data);
+  const [created] = await db.select().from(ghostVarietyImages).where(eq(ghostVarietyImages.id, result.insertId));
+  return created;
+}
+
+/**
+ * Update a ghost variety image
+ */
+export async function updateGhostVarietyImage(id: number, data: Partial<InsertGhostVarietyImage>): Promise<GhostVarietyImage | null> {
+  const db = await getDb();
+  if (!db) return null;
+  
+  await db.update(ghostVarietyImages).set(data).where(eq(ghostVarietyImages.id, id));
+  const [updated] = await db.select().from(ghostVarietyImages).where(eq(ghostVarietyImages.id, id));
+  return updated || null;
+}
+
+/**
+ * Delete a ghost variety image
+ */
+export async function deleteGhostVarietyImage(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  await db.delete(ghostVarietyImages).where(eq(ghostVarietyImages.id, id));
+  return true;
+}
+
+/**
+ * Set primary image for a ghost variety
+ */
+export async function setGhostVarietyPrimaryImage(ghostVarietyId: number, imageId: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  
+  // Reset all images for this variety
+  await db.update(ghostVarietyImages)
+    .set({ isPrimary: false })
+    .where(eq(ghostVarietyImages.ghostVarietyId, ghostVarietyId));
+  
+  // Set the new primary
+  await db.update(ghostVarietyImages)
+    .set({ isPrimary: true })
+    .where(eq(ghostVarietyImages.id, imageId));
+  
+  return true;
+}
+
+/**
+ * Get ghost variety with all relations (molecules, plants, images)
+ */
+export async function getGhostVarietyComplete(id: number): Promise<{
+  variety: GhostVariety | null;
+  moleculeLinks: (GhostVarietyMoleculeLink & { molecule: { id: number; name: string; casNumber: string | null; family: string | null } | null })[];
+  plantLinks: (GhostVarietyPlantLink & { plant: { id: number; name: string; latinName: string | null; category: string | null } | null })[];
+  images: GhostVarietyImage[];
+}> {
+  const variety = await getGhostVarietyById(id);
+  if (!variety) {
+    return { variety: null, moleculeLinks: [], plantLinks: [], images: [] };
+  }
+  
+  const [moleculeLinks, plantLinks, images] = await Promise.all([
+    getGhostVarietyMoleculeLinks(id),
+    getGhostVarietyPlantLinks(id),
+    getGhostVarietyImages(id),
+  ]);
+  
+  return { variety, moleculeLinks, plantLinks, images };
+}
+
+/**
+ * Get linking statistics for ghost varieties
+ */
+export async function getGhostVarietyLinkingStats(): Promise<{
+  totalVarieties: number;
+  varietiesWithMolecules: number;
+  varietiesWithPlants: number;
+  varietiesWithImages: number;
+  totalMoleculeLinks: number;
+  totalPlantLinks: number;
+  totalImages: number;
+}> {
+  const db = await getDb();
+  if (!db) return {
+    totalVarieties: 0,
+    varietiesWithMolecules: 0,
+    varietiesWithPlants: 0,
+    varietiesWithImages: 0,
+    totalMoleculeLinks: 0,
+    totalPlantLinks: 0,
+    totalImages: 0,
+  };
+  
+  const [totalVarietiesResult] = await db.select({ count: count() }).from(ghostVarieties);
+  const [totalMolLinksResult] = await db.select({ count: count() }).from(ghostVarietyMoleculeLinks);
+  const [totalPlantLinksResult] = await db.select({ count: count() }).from(ghostVarietyPlantLinks);
+  const [totalImagesResult] = await db.select({ count: count() }).from(ghostVarietyImages);
+  
+  // Count distinct varieties with links
+  const varietiesWithMolsResult = await db.selectDistinct({ ghostVarietyId: ghostVarietyMoleculeLinks.ghostVarietyId }).from(ghostVarietyMoleculeLinks);
+  const varietiesWithPlantsResult = await db.selectDistinct({ ghostVarietyId: ghostVarietyPlantLinks.ghostVarietyId }).from(ghostVarietyPlantLinks);
+  const varietiesWithImagesResult = await db.selectDistinct({ ghostVarietyId: ghostVarietyImages.ghostVarietyId }).from(ghostVarietyImages);
+  
+  return {
+    totalVarieties: totalVarietiesResult.count,
+    varietiesWithMolecules: varietiesWithMolsResult.length,
+    varietiesWithPlants: varietiesWithPlantsResult.length,
+    varietiesWithImages: varietiesWithImagesResult.length,
+    totalMoleculeLinks: totalMolLinksResult.count,
+    totalPlantLinks: totalPlantLinksResult.count,
+    totalImages: totalImagesResult.count,
+  };
+}

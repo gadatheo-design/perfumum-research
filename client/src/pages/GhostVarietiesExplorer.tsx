@@ -493,6 +493,16 @@ export default function GhostVarietiesExplorer() {
                       <p className="text-sm text-muted-foreground">{selectedVarietyData.historicalSignificance}</p>
                     </div>
                   )}
+
+                  {/* Link to full detail page */}
+                  <div className="pt-4 border-t">
+                    <Button asChild className="w-full">
+                      <Link href={`/ghost-variety/${selectedVarietyData.id}`}>
+                        Voir la fiche complète
+                        <ChevronRight className="h-4 w-4 ml-2" />
+                      </Link>
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ) : (
