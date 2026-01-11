@@ -1,6 +1,6 @@
 /**
  * Heatmap améliorée avec D3.js, animations et interactions avancées
- * Visualise les synergies moléculaires avec zoom, filtres et export
+ * Visualise les synergies moléculaires avec zoom interactif, clustering par famille chimique et export
  */
 
 import { useEffect, useRef, useState, useMemo, useCallback } from "react";
@@ -11,12 +11,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Download, ZoomIn, ZoomOut, RotateCcw, Search, Filter, Grid3X3 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Download, ZoomIn, ZoomOut, RotateCcw, Search, Filter, Grid3X3, Maximize2, Layers } from "lucide-react";
 
 interface SynergyData {
   id: number;
   molecule1Name: string | null;
   molecule2Name: string | null;
+  molecule1Family?: string | null;
+  molecule2Family?: string | null;
   type: "potentialisation" | "stabilisation" | "transformation" | "masquage";
   description: string;
   applications?: string | null;
@@ -39,6 +43,12 @@ interface TooltipData {
   synergy: SynergyData;
 }
 
+interface MoleculeInfo {
+  name: string;
+  family: string;
+  synergyCount: number;
+}
+
 // Couleurs par type de synergie
 const TYPE_COLORS = {
   potentialisation: { main: "oklch(0.65 0.20 142)", light: "oklch(0.85 0.10 142)" },
@@ -54,6 +64,35 @@ const TYPE_LABELS = {
   masquage: { short: "M", full: "Masquage" },
 };
 
+// Couleurs pour les familles chimiques
+const FAMILY_COLORS: Record<string, string> = {
+  "terpene": "oklch(0.70 0.15 140)",
+  "alcohol": "oklch(0.70 0.15 200)",
+  "aldehyde": "oklch(0.70 0.15 60)",
+  "ketone": "oklch(0.70 0.15 280)",
+  "ester": "oklch(0.70 0.15 320)",
+  "ether": "oklch(0.70 0.15 180)",
+  "phenol": "oklch(0.70 0.15 20)",
+  "lactone": "oklch(0.70 0.15 100)",
+  "oxide": "oklch(0.70 0.15 240)",
+  "acid": "oklch(0.70 0.15 350)",
+  "monoterpene": "oklch(0.65 0.18 130)",
+  "sesquiterpene": "oklch(0.65 0.18 160)",
+  "diterpene": "oklch(0.65 0.18 190)",
+  "default": "oklch(0.75 0.05 0)",
+};
+
+function getFamilyColor(family: string | null | undefined): string {
+  if (!family) return FAMILY_COLORS.default;
+  const normalizedFamily = family.toLowerCase().replace(/[^a-z]/g, "");
+  for (const [key, color] of Object.entries(FAMILY_COLORS)) {
+    if (normalizedFamily.includes(key) || key.includes(normalizedFamily)) {
+      return color;
+    }
+  }
+  return FAMILY_COLORS.default;
+}
+
 export function EnhancedHeatmap({
   synergies,
   maxMolecules = 30,
@@ -65,12 +104,15 @@ export function EnhancedHeatmap({
 }: EnhancedHeatmapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
-  const [zoom, setZoom] = useState(1);
+  const [zoomLevel, setZoomLevel] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
+  const [filterFamily, setFilterFamily] = useState<string>("all");
   const [highlightedMolecule, setHighlightedMolecule] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [enableClustering, setEnableClustering] = useState(false);
 
   // Filtrer les synergies
   const filteredSynergies = useMemo(() => {
@@ -87,19 +129,110 @@ export function EnhancedHeatmap({
         s.molecule2Name?.toLowerCase().includes(query)
       );
     }
+
+    if (filterFamily !== "all") {
+      filtered = filtered.filter(s => 
+        s.molecule1Family?.toLowerCase().includes(filterFamily.toLowerCase()) ||
+        s.molecule2Family?.toLowerCase().includes(filterFamily.toLowerCase())
+      );
+    }
     
     return filtered;
-  }, [synergies, filterType, searchQuery]);
+  }, [synergies, filterType, searchQuery, filterFamily]);
 
-  // Extraire les molécules uniques
-  const allMolecules = useMemo(() => {
-    const moleculeSet = new Set<string>();
+  // Extraire les molécules uniques avec leurs familles
+  const moleculesWithInfo = useMemo(() => {
+    const moleculeMap = new Map<string, MoleculeInfo>();
+    
     filteredSynergies.forEach((s) => {
-      if (s.molecule1Name) moleculeSet.add(s.molecule1Name);
-      if (s.molecule2Name) moleculeSet.add(s.molecule2Name);
+      if (s.molecule1Name) {
+        const existing = moleculeMap.get(s.molecule1Name);
+        if (existing) {
+          existing.synergyCount++;
+        } else {
+          moleculeMap.set(s.molecule1Name, {
+            name: s.molecule1Name,
+            family: s.molecule1Family || "unknown",
+            synergyCount: 1,
+          });
+        }
+      }
+      if (s.molecule2Name) {
+        const existing = moleculeMap.get(s.molecule2Name);
+        if (existing) {
+          existing.synergyCount++;
+        } else {
+          moleculeMap.set(s.molecule2Name, {
+            name: s.molecule2Name,
+            family: s.molecule2Family || "unknown",
+            synergyCount: 1,
+          });
+        }
+      }
     });
-    return Array.from(moleculeSet).sort().slice(0, maxMolecules);
-  }, [filteredSynergies, maxMolecules]);
+    
+    let molecules = Array.from(moleculeMap.values());
+    
+    // Tri par famille puis par nombre de synergies si clustering activé
+    if (enableClustering) {
+      molecules.sort((a, b) => {
+        const familyCompare = a.family.localeCompare(b.family);
+        if (familyCompare !== 0) return familyCompare;
+        return b.synergyCount - a.synergyCount;
+      });
+    } else {
+      molecules.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    
+    return molecules.slice(0, maxMolecules);
+  }, [filteredSynergies, maxMolecules, enableClustering]);
+
+  const allMolecules = useMemo(() => moleculesWithInfo.map(m => m.name), [moleculesWithInfo]);
+
+  // Extraire les familles uniques pour le filtre
+  const uniqueFamilies = useMemo(() => {
+    const families = new Set<string>();
+    synergies.forEach(s => {
+      if (s.molecule1Family) families.add(s.molecule1Family);
+      if (s.molecule2Family) families.add(s.molecule2Family);
+    });
+    return Array.from(families).sort();
+  }, [synergies]);
+
+  // Groupes de familles pour le clustering
+  const familyGroups = useMemo(() => {
+    if (!enableClustering) return [];
+    
+    const groups: { family: string; startIndex: number; endIndex: number; color: string }[] = [];
+    let currentFamily = "";
+    let startIndex = 0;
+    
+    moleculesWithInfo.forEach((mol, index) => {
+      if (mol.family !== currentFamily) {
+        if (currentFamily) {
+          groups.push({
+            family: currentFamily,
+            startIndex,
+            endIndex: index - 1,
+            color: getFamilyColor(currentFamily),
+          });
+        }
+        currentFamily = mol.family;
+        startIndex = index;
+      }
+    });
+    
+    if (currentFamily) {
+      groups.push({
+        family: currentFamily,
+        startIndex,
+        endIndex: moleculesWithInfo.length - 1,
+        color: getFamilyColor(currentFamily),
+      });
+    }
+    
+    return groups;
+  }, [moleculesWithInfo, enableClustering]);
 
   // Créer la matrice de synergies
   const synergyMatrix = useMemo(() => {
@@ -166,23 +299,93 @@ export function EnhancedHeatmap({
     }
   }, [allMolecules.length, cellSize]);
 
-  // Dessiner la heatmap
+  // Zoom controls
+  const handleZoomIn = useCallback(() => {
+    if (svgRef.current && zoomRef.current) {
+      d3.select(svgRef.current)
+        .transition()
+        .duration(300)
+        .call(zoomRef.current.scaleBy, 1.3);
+    }
+  }, []);
+
+  const handleZoomOut = useCallback(() => {
+    if (svgRef.current && zoomRef.current) {
+      d3.select(svgRef.current)
+        .transition()
+        .duration(300)
+        .call(zoomRef.current.scaleBy, 0.7);
+    }
+  }, []);
+
+  const handleZoomReset = useCallback(() => {
+    if (svgRef.current && zoomRef.current) {
+      d3.select(svgRef.current)
+        .transition()
+        .duration(300)
+        .call(zoomRef.current.transform, d3.zoomIdentity);
+    }
+  }, []);
+
+  const handleZoomFit = useCallback(() => {
+    if (svgRef.current && zoomRef.current && containerRef.current) {
+      const containerWidth = containerRef.current.clientWidth - 40;
+      const containerHeight = Math.min(600, window.innerHeight - 300);
+      const contentWidth = allMolecules.length * cellSize + 150;
+      const contentHeight = allMolecules.length * cellSize + 150;
+      
+      const scale = Math.min(
+        containerWidth / contentWidth,
+        containerHeight / contentHeight,
+        1
+      ) * 0.9;
+      
+      d3.select(svgRef.current)
+        .transition()
+        .duration(300)
+        .call(zoomRef.current.transform, d3.zoomIdentity.scale(scale));
+    }
+  }, [allMolecules.length, cellSize]);
+
+  // Dessiner la heatmap avec zoom D3
   useEffect(() => {
     if (!svgRef.current || allMolecules.length === 0) return;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
-    const margin = { top: 100, right: 20, bottom: 20, left: 120 };
+    const margin = { top: 120, right: 20, bottom: 20, left: 140 };
     const width = allMolecules.length * cellSize;
     const height = allMolecules.length * cellSize;
 
     svg
       .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom);
+      .attr("height", height + margin.top + margin.bottom)
+      .style("cursor", "grab");
 
-    const g = svg.append("g")
-      .attr("transform", `translate(${margin.left},${margin.top}) scale(${zoom})`);
+    // Groupe principal pour le zoom
+    const mainGroup = svg.append("g")
+      .attr("class", "main-group");
+
+    const g = mainGroup.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Configuration du zoom D3
+    const zoom = d3.zoom<SVGSVGElement, unknown>()
+      .scaleExtent([0.3, 4])
+      .on("zoom", (event) => {
+        mainGroup.attr("transform", event.transform);
+        setZoomLevel(event.transform.k);
+      })
+      .on("start", () => {
+        svg.style("cursor", "grabbing");
+      })
+      .on("end", () => {
+        svg.style("cursor", "grab");
+      });
+
+    svg.call(zoom);
+    zoomRef.current = zoom;
 
     // Créer les échelles
     const xScale = d3.scaleBand()
@@ -194,6 +397,51 @@ export function EnhancedHeatmap({
       .domain(allMolecules)
       .range([0, height])
       .padding(0.05);
+
+    // Dessiner les bandes de famille si clustering activé
+    if (enableClustering && familyGroups.length > 0) {
+      // Bandes horizontales (en haut)
+      familyGroups.forEach(group => {
+        const startX = xScale(allMolecules[group.startIndex]) || 0;
+        const endX = (xScale(allMolecules[group.endIndex]) || 0) + xScale.bandwidth();
+        
+        g.append("rect")
+          .attr("x", startX)
+          .attr("y", -25)
+          .attr("width", endX - startX)
+          .attr("height", 20)
+          .attr("fill", group.color)
+          .attr("opacity", 0.6)
+          .attr("rx", 3);
+
+        // Label de famille
+        if (endX - startX > 40) {
+          g.append("text")
+            .attr("x", startX + (endX - startX) / 2)
+            .attr("y", -12)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "9px")
+            .attr("font-weight", "500")
+            .attr("fill", "oklch(0.2 0 0)")
+            .text(group.family.length > 10 ? group.family.substring(0, 8) + "..." : group.family);
+        }
+      });
+
+      // Bandes verticales (à gauche)
+      familyGroups.forEach(group => {
+        const startY = yScale(allMolecules[group.startIndex]) || 0;
+        const endY = (yScale(allMolecules[group.endIndex]) || 0) + yScale.bandwidth();
+        
+        g.append("rect")
+          .attr("x", -25)
+          .attr("y", startY)
+          .attr("width", 20)
+          .attr("height", endY - startY)
+          .attr("fill", group.color)
+          .attr("opacity", 0.6)
+          .attr("rx", 3);
+      });
+    }
 
     // Dessiner les cellules
     const cells = g.selectAll("rect.cell")
@@ -230,7 +478,7 @@ export function EnhancedHeatmap({
       })
       .attr("opacity", 0)
       .style("cursor", d => d.synergy ? "pointer" : "default")
-      .on("mouseover", function(event: MouseEvent, d: any) {
+      .on("mouseover", function(event: MouseEvent, d: { mol1: string; mol2: string; synergy: SynergyData | null }) {
         if (d.synergy) {
           d3.select(this)
             .attr("stroke", "oklch(0.3 0 0)")
@@ -246,7 +494,7 @@ export function EnhancedHeatmap({
           }
         }
       })
-      .on("mouseout", function(event: MouseEvent, d: any) {
+      .on("mouseout", function(_event: MouseEvent, d: { mol1: string; mol2: string; synergy: SynergyData | null }) {
         d3.select(this)
           .attr("stroke", highlightedMolecule && (d.mol1 === highlightedMolecule || d.mol2 === highlightedMolecule) 
             ? "oklch(0.3 0 0)" 
@@ -256,7 +504,7 @@ export function EnhancedHeatmap({
             : 0.5);
         setTooltip(null);
       })
-      .on("click", function(event: MouseEvent, d: any) {
+      .on("click", function(_event: MouseEvent, d: { mol1: string; mol2: string; synergy: SynergyData | null }) {
         if (d.synergy && onCellClick) {
           onCellClick(d.synergy);
         }
@@ -266,7 +514,7 @@ export function EnhancedHeatmap({
     if (animate) {
       cells.transition()
         .duration(500)
-        .delay((d, i) => i * 2)
+        .delay((_d, i) => i * 2)
         .attr("opacity", 1);
     } else {
       cells.attr("opacity", 1);
@@ -301,14 +549,14 @@ export function EnhancedHeatmap({
         .join("text")
         .attr("class", "x-label")
         .attr("x", d => (xScale(d) || 0) + xScale.bandwidth() / 2)
-        .attr("y", -8)
+        .attr("y", enableClustering ? -30 : -8)
         .attr("text-anchor", "start")
-        .attr("transform", d => `rotate(-45, ${(xScale(d) || 0) + xScale.bandwidth() / 2}, -8)`)
+        .attr("transform", d => `rotate(-45, ${(xScale(d) || 0) + xScale.bandwidth() / 2}, ${enableClustering ? -30 : -8})`)
         .attr("font-size", "10px")
         .attr("fill", "currentColor")
         .style("cursor", "pointer")
         .text(d => d.length > 12 ? d.substring(0, 10) + "..." : d)
-        .on("mouseover", function(event, d) {
+        .on("mouseover", function(_event, d) {
           setHighlightedMolecule(d);
           d3.select(this).attr("font-weight", "bold");
         })
@@ -322,7 +570,7 @@ export function EnhancedHeatmap({
         .data(allMolecules)
         .join("text")
         .attr("class", "y-label")
-        .attr("x", -8)
+        .attr("x", enableClustering ? -30 : -8)
         .attr("y", d => (yScale(d) || 0) + yScale.bandwidth() / 2)
         .attr("text-anchor", "end")
         .attr("dominant-baseline", "middle")
@@ -330,7 +578,7 @@ export function EnhancedHeatmap({
         .attr("fill", "currentColor")
         .style("cursor", "pointer")
         .text(d => d.length > 12 ? d.substring(0, 10) + "..." : d)
-        .on("mouseover", function(event, d) {
+        .on("mouseover", function(_event, d) {
           setHighlightedMolecule(d);
           d3.select(this).attr("font-weight", "bold");
         })
@@ -352,7 +600,7 @@ export function EnhancedHeatmap({
         .text(title);
     }
 
-  }, [allMolecules, synergyMatrix, cellSize, zoom, animate, showLabels, title, highlightedMolecule, onCellClick]);
+  }, [allMolecules, synergyMatrix, cellSize, animate, showLabels, title, highlightedMolecule, onCellClick, enableClustering, familyGroups]);
 
   // Statistiques
   const stats = useMemo(() => {
@@ -391,7 +639,7 @@ export function EnhancedHeatmap({
     <div ref={containerRef} className="relative space-y-4">
       {/* Controls */}
       <div className="flex flex-wrap gap-3 items-center justify-between">
-        <div className="flex gap-2 items-center">
+        <div className="flex flex-wrap gap-2 items-center">
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
@@ -414,42 +662,88 @@ export function EnhancedHeatmap({
               <SelectItem value="masquage">Masquage</SelectItem>
             </SelectContent>
           </Select>
+          {uniqueFamilies.length > 0 && (
+            <Select value={filterFamily} onValueChange={setFilterFamily}>
+              <SelectTrigger className="w-40">
+                <Layers className="w-4 h-4 mr-2" />
+                <SelectValue placeholder="Famille" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Toutes les familles</SelectItem>
+                {uniqueFamilies.map(family => (
+                  <SelectItem key={family} value={family}>{family}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
         
-        <div className="flex gap-1">
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => setZoom(z => Math.min(z + 0.1, 2))}
-          >
-            <ZoomIn className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => setZoom(z => Math.max(z - 0.1, 0.5))}
-          >
-            <ZoomOut className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => setZoom(1)}
-          >
-            <RotateCcw className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8"
-            onClick={exportAsPNG}
-            disabled={isExporting}
-          >
-            <Download className="h-4 w-4" />
-          </Button>
+        <div className="flex gap-2 items-center">
+          {/* Clustering toggle */}
+          <div className="flex items-center gap-2 mr-2">
+            <Switch
+              id="clustering"
+              checked={enableClustering}
+              onCheckedChange={setEnableClustering}
+            />
+            <Label htmlFor="clustering" className="text-sm cursor-pointer">
+              Clustering
+            </Label>
+          </div>
+          
+          {/* Zoom indicator */}
+          <Badge variant="outline" className="font-mono text-xs">
+            {Math.round(zoomLevel * 100)}%
+          </Badge>
+          
+          <div className="flex gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={handleZoomIn}
+              title="Zoom avant"
+            >
+              <ZoomIn className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={handleZoomOut}
+              title="Zoom arrière"
+            >
+              <ZoomOut className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={handleZoomReset}
+              title="Réinitialiser le zoom"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={handleZoomFit}
+              title="Ajuster à la vue"
+            >
+              <Maximize2 className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              onClick={exportAsPNG}
+              disabled={isExporting}
+              title="Exporter en PNG"
+            >
+              <Download className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -473,8 +767,29 @@ export function EnhancedHeatmap({
         </div>
       </div>
 
+      {/* Clustering legend */}
+      {enableClustering && familyGroups.length > 0 && (
+        <div className="flex flex-wrap gap-2 items-center p-2 bg-muted/30 rounded-lg">
+          <span className="text-xs font-medium text-muted-foreground mr-2">Familles chimiques:</span>
+          {familyGroups.map(group => (
+            <Badge
+              key={group.family}
+              variant="outline"
+              className="text-xs"
+              style={{
+                backgroundColor: group.color,
+                borderColor: group.color,
+                color: "oklch(0.2 0 0)",
+              }}
+            >
+              {group.family} ({group.endIndex - group.startIndex + 1})
+            </Badge>
+          ))}
+        </div>
+      )}
+
       {/* Heatmap */}
-      <div className="overflow-auto border rounded-lg bg-background p-4">
+      <div className="overflow-hidden border rounded-lg bg-background p-4">
         <svg ref={svgRef} />
       </div>
 
@@ -492,6 +807,11 @@ export function EnhancedHeatmap({
           </div>
         ))}
       </div>
+
+      {/* Instructions */}
+      <p className="text-xs text-center text-muted-foreground">
+        Utilisez la molette pour zoomer, glissez pour naviguer. Cliquez sur une cellule pour voir les détails.
+      </p>
 
       {/* Tooltip */}
       <AnimatePresence>
@@ -520,8 +840,14 @@ export function EnhancedHeatmap({
                 </div>
                 <div className="text-sm">
                   <span className="font-semibold">{tooltip.synergy.molecule1Name}</span>
+                  {tooltip.synergy.molecule1Family && (
+                    <span className="text-xs text-muted-foreground ml-1">({tooltip.synergy.molecule1Family})</span>
+                  )}
                   <span className="text-muted-foreground"> ↔ </span>
                   <span className="font-semibold">{tooltip.synergy.molecule2Name}</span>
+                  {tooltip.synergy.molecule2Family && (
+                    <span className="text-xs text-muted-foreground ml-1">({tooltip.synergy.molecule2Family})</span>
+                  )}
                 </div>
                 <p className="text-xs text-muted-foreground line-clamp-3">
                   {tooltip.synergy.description}

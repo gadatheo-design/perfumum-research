@@ -115,16 +115,16 @@
 - [x] Améliorer le Diagramme Sankey — `/sankey-flow` (filtres, niveaux)
 - [x] Améliorer le Graphe Réseau — `/graphe-relations` (recherche, filtres)
 - [x] Améliorer le Radar Enrichi — `/compare-radar` (comparaison multi-entités)
-- [ ] Améliorer la Heatmap Synergies (zoom, clustering)
+- [x] Améliorer la Heatmap Synergies (zoom interactif D3.js, clustering par famille chimique)
 
 ### Système de tags et notes
-- [ ] Ajouter le système de tags au schéma de base de données
-- [ ] Ajouter le système de notes au schéma de base de données
-- [ ] Créer les procédures tRPC pour gérer les tags (CRUD)
-- [ ] Créer les procédures tRPC pour gérer les notes (CRUD)
-- [ ] Créer l'interface utilisateur pour ajouter/modifier les tags
-- [ ] Créer l'interface utilisateur pour ajouter/modifier les notes
-- [ ] Intégrer les tags dans la recherche avancée
+- [x] Ajouter le système de tags au schéma de base de données (referenceTags, v3ReferenceTagLinks)
+- [x] Ajouter le système de notes au schéma de base de données (userNotes, moleculeNotes, referenceNotes)
+- [x] Créer les procédures tRPC pour gérer les tags (CRUD) — router referenceTags
+- [x] Créer les procédures tRPC pour gérer les notes (CRUD) — routers moleculeNotes, referenceNotes
+- [x] Créer l'interface utilisateur pour ajouter/modifier les tags — TagsNotesEditor.tsx
+- [x] Créer l'interface utilisateur pour ajouter/modifier les notes — TagsNotesEditor.tsx
+- [x] Intégrer les tags dans la recherche avancée — Recherche par tags dans références v3
 
 ### Graphe de force D3.js pour axes thématiques
 - [ ] Installer D3.js dans le projet

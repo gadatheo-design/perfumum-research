@@ -4029,7 +4029,7 @@ export async function getRechercheRadicaleBySerie(serie: string) {
 // ============================================================================
 
 /**
- * Récupère toutes les synergies moléculaires avec les noms des molécules
+ * Récupère toutes les synergies moléculaires avec les noms et familles chimiques des molécules
  */
 export async function getAllMoleculeSynergies() {
   const db = await getDb();
@@ -4044,7 +4044,9 @@ export async function getAllMoleculeSynergies() {
       description: moleculeSynergies.description,
       applications: moleculeSynergies.applications,
       molecule1Name: molecules.name,
+      molecule1Family: molecules.chemicalClass,
       molecule2Name: sql<string>`m2.name`,
+      molecule2Family: sql<string>`m2.chemical_class`,
     })
     .from(moleculeSynergies)
     .leftJoin(molecules, eq(moleculeSynergies.molecule1Id, molecules.id))
@@ -4067,6 +4069,8 @@ export async function getMoleculeSynergiesGraphData() {
     id: s.id,
     molecule1Name: s.molecule1Name || `Molécule ${s.molecule1Id}`,
     molecule2Name: s.molecule2Name || `Molécule ${s.molecule2Id}`,
+    molecule1Family: s.molecule1Family || null,
+    molecule2Family: s.molecule2Family || null,
     effectType: s.type,
     description: s.description,
     applications: s.applications,
