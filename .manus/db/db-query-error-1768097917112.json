@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT id, sample_id, common_name, scientific_name, region, conservation_status \nFROM leaf_economies \nWHERE conservation_status IS NOT NULL AND conservation_status != ''\nORDER BY conservation_status, common_name\nLIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, sample_id, common_name, scientific_name, region, conservation_status \nFROM leaf_economies \nWHERE conservation_status IS NOT NULL AND conservation_status != ''\nORDER BY conservation_status, common_name\nLIMIT 30;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'conservation_status' in 'where clause'"
+  ]
+}

@@ -1182,3 +1182,32 @@
 - [x] Interface de révision avec contexte complet (données moléculaires, sources botaniques)
 - [x] Permettre l'approbation, le rejet ou la modification manuelle
 - [x] Historique des révisions effectuées (table classification_reviews)
+
+---
+
+## 🔗 PEUPLEMENT LIAISONS H2/H3 & TRADITIONS (Session 11 Jan 2026)
+
+### Liaisons H2 (Durabilité → Plantes menacées)
+- [x] Analyser les références H2 existantes et leurs thématiques (15 références H2)
+- [x] Identifier les plantes menacées pertinentes dans leaf_economies (10 échantillons)
+- [x] Peupler les liaisons H2 → plantes menacées via script automatique (144 liaisons créées)
+- [x] Vérifier l'intégrité des liaisons créées
+
+### Liaisons H3 (Traditions antiques → Traditions olfactives)
+- [x] Analyser les références H3 existantes et leurs thématiques (10 références H3)
+- [x] Identifier les traditions olfactives pertinentes (42 traditions)
+- [x] Peupler les liaisons H3 → traditions olfactives via script automatique (98 liaisons créées)
+- [x] Vérifier l'intégrité des liaisons créées
+
+### Compléter les données traditions_olfactives
+- [x] Analyser les civilisations actuellement documentées (27 traditions existantes)
+- [x] Ajouter les civilisations manquantes avec leurs matériaux symboliques (15 nouvelles traditions)
+- [x] Documenter les temporalités pour chaque tradition (archaic, antique, medieval)
+- [x] Vérifier la cohérence des données ajoutées (42 traditions au total)
+
+
+### Stratégie de développement basée sur les axes de recherche
+- [x] Analyser la page des axes de recherche existante (27 axes thématiques + 11 axes personnalisés)
+- [x] Définir les priorités de développement par axe thématique
+- [x] Créer un document de stratégie de développement (`docs/STRATEGIE-DEVELOPPEMENT-AXES.md`)
+- [x] Identifier les fonctionnalités manquantes par axe

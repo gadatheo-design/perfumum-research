@@ -1,0 +1,100 @@
+{
+  "query": "\nSELECT id, sample_id, species, claimed_variety, category, island, odor_notes \nFROM leaf_economies \nORDER BY id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, sample_id, species, claimed_variety, category, island, odor_notes \nFROM leaf_economies \nORDER BY id;\n",
+  "rows": [
+    {
+      "id": "1",
+      "sample_id": "SA-LE-001",
+      "species": "Pimenta racemosa",
+      "claimed_variety": "NULL",
+      "category": "aromatique",
+      "island": "san_andres",
+      "odor_notes": "NULL"
+    },
+    {
+      "id": "2",
+      "sample_id": "SA-LE-002",
+      "species": "Cymbopogon citratus",
+      "claimed_variety": "NULL",
+      "category": "aromatique",
+      "island": "san_andres",
+      "odor_notes": "NULL"
+    },
+    {
+      "id": "3",
+      "sample_id": "SA-LE-003",
+      "species": "Lippia alba",
+      "claimed_variety": "NULL",
+      "category": "aromatique",
+      "island": "san_andres",
+      "odor_notes": "NULL"
+    },
+    {
+      "id": "4",
+      "sample_id": "SA-LE-004",
+      "species": "Nicotiana tabacum",
+      "claimed_variety": "NULL",
+      "category": "tabac",
+      "island": "san_andres",
+      "odor_notes": "NULL"
+    },
+    {
+      "id": "5",
+      "sample_id": "SA-LE-005",
+      "species": "Nicotiana tabacum",
+      "claimed_variety": "NULL",
+      "category": "tabac",
+      "island": "san_andres",
+      "odor_notes": "NULL"
+    },
+    {
+      "id": "6",
+      "sample_id": "SA-LE-006",
+      "species": "Cannabis sativa",
+      "claimed_variety": "NULL",
+      "category": "cannabis",
+      "island": "san_andres",
+      "odor_notes": "NULL"
+    },
+    {
+      "id": "30001",
+      "sample_id": "TEST-IMG-1767504777591",
+      "species": "NULL",
+      "claimed_variety": "NULL",
+      "category": "aromatique",
+      "island": "NULL",
+      "odor_notes": "NULL"
+    },
+    {
+      "id": "30002",
+      "sample_id": "TEST-IMG-UPDATE-1767504778035",
+      "species": "NULL",
+      "claimed_variety": "NULL",
+      "category": "aromatique",
+      "island": "NULL",
+      "odor_notes": "NULL"
+    },
+    {
+      "id": "30003",
+      "sample_id": "TEST-IMG-1767504956852",
+      "species": "NULL",
+      "claimed_variety": "NULL",
+      "category": "aromatique",
+      "island": "NULL",
+      "odor_notes": "NULL"
+    },
+    {
+      "id": "30004",
+      "sample_id": "TEST-IMG-UPDATE-1767504957283",
+      "species": "NULL",
+      "claimed_variety": "NULL",
+      "category": "aromatique",
+      "island": "NULL",
+      "odor_notes": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsample_id\tspecies\tclaimed_variety\tcategory\tisland\todor_notes\n1\tSA-LE-001\tPimenta racemosa\tNULL\taromatique\tsan_andres\tNULL\n2\tSA-LE-002\tCymbopogon citratus\tNULL\taromatique\tsan_andres\tNULL\n3\tSA-LE-003\tLippia alba\tNULL\taromatique\tsan_andres\tNULL\n4\tSA-LE-004\tNicotiana tabacum\tNULL\ttabac\tsan_andres\tNULL\n5\tSA-LE-005\tNicotiana tabacum\tNULL\ttabac\tsan_andres\tNULL\n6\tSA-LE-006\tCannabis sativa\tNULL\tcannabis\tsan_andres\tNULL\n30001\tTEST-IMG-1767504777591\tNULL\tNULL\taromatique\tNULL\tNULL\n30002\tTEST-IMG-UPDATE-1767504778035\tNULL\tNULL\taromatique\tNULL\tNULL\n30003\tTEST-IMG-1767504956852\tNULL\tNULL\taromatique\tNULL\tNULL\n30004\tTEST-IMG-UPDATE-1767504957283\tNULL\tNULL\taromatique\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

@@ -1,0 +1,185 @@
+{
+  "query": "\nSELECT id, entry_key, title, axis_primary_code, year \nFROM v3_references \nWHERE axis_primary_code IN ('H2', 'H3') \nORDER BY axis_primary_code, year DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, entry_key, title, axis_primary_code, year \nFROM v3_references \nWHERE axis_primary_code IN ('H2', 'H3') \nORDER BY axis_primary_code, year DESC;\n",
+  "rows": [
+    {
+      "id": "90024",
+      "entry_key": "cites2025wwd",
+      "title": "World Wildlife Day 2026: Medicinal and Aromatic Plants - Conserving Health",
+      "axis_primary_code": "H2",
+      "year": "2025"
+    },
+    {
+      "id": "90021",
+      "entry_key": "ifra2024cites",
+      "title": "CITES and the Fragrance Industry",
+      "axis_primary_code": "H2",
+      "year": "2024"
+    },
+    {
+      "id": "90033",
+      "entry_key": "hpc2024nature",
+      "title": "Biodiversity and the Nature-Positive Economy: A Fragrance Industry Challenge",
+      "axis_primary_code": "H2",
+      "year": "2024"
+    },
+    {
+      "id": "90009",
+      "entry_key": "ipf2024oud",
+      "title": "Oud, A Precious Heritage: World Heritage Program",
+      "axis_primary_code": "H2",
+      "year": "2024"
+    },
+    {
+      "id": "90022",
+      "entry_key": "cites2024map",
+      "title": "CITES-listed Medicinal and Aromatic Plant (MAP) Species in International Trade",
+      "axis_primary_code": "H2",
+      "year": "2024"
+    },
+    {
+      "id": "90034",
+      "entry_key": "ejoc2023industrial",
+      "title": "Industrial Fragrance Chemistry: A Brief Historical Perspective",
+      "axis_primary_code": "H2",
+      "year": "2023"
+    },
+    {
+      "id": "90029",
+      "entry_key": "scidir2023biocatalysis",
+      "title": "Scent and Sustainability: Investigating Consumer Evaluations of Biocatalysis and Naturalness in Fragrances",
+      "axis_primary_code": "H2",
+      "year": "2023"
+    },
+    {
+      "id": "90032",
+      "entry_key": "pf2022biodiversity",
+      "title": "The Link Between Ingredient Sourcing and Biodiversity Regeneration",
+      "axis_primary_code": "H2",
+      "year": "2022"
+    },
+    {
+      "id": "90023",
+      "entry_key": "traffic2022map",
+      "title": "CITES CoP19 Medicinal and Aromatic Plants",
+      "axis_primary_code": "H2",
+      "year": "2022"
+    },
+    {
+      "id": "90028",
+      "entry_key": "wiley2020ethical",
+      "title": "Ethical Sourcing of Raw Materials",
+      "axis_primary_code": "H2",
+      "year": "2020"
+    },
+    {
+      "id": "90025",
+      "entry_key": "bfn2020asian",
+      "title": "Review of the Status, Harvest, Trade and Management of Seven Asian CITES-listed Medicinal and Aromatic Plant Species",
+      "axis_primary_code": "H2",
+      "year": "2020"
+    },
+    {
+      "id": "90027",
+      "entry_key": "cssc2020biotech",
+      "title": "Chemistry, Sustainability and Naturality of Perfumery Biotech Ingredients",
+      "axis_primary_code": "H2",
+      "year": "2020"
+    },
+    {
+      "id": "90026",
+      "entry_key": "springer2020threatened",
+      "title": "Threatened and Endangered Medicinal and Aromatic Plants",
+      "axis_primary_code": "H2",
+      "year": "2020"
+    },
+    {
+      "id": "90031",
+      "entry_key": "cbdv2019extraction",
+      "title": "Extraction of Natural Fragrance Ingredients: History Overview and Future Trends",
+      "axis_primary_code": "H2",
+      "year": "2019"
+    },
+    {
+      "id": "90030",
+      "entry_key": "springer2015conservation",
+      "title": "Conservation of Wild Crafted Medicinal and Aromatic Plants and Their Habitats",
+      "axis_primary_code": "H2",
+      "year": "2015"
+    },
+    {
+      "id": "90016",
+      "entry_key": "pylos2025bronze",
+      "title": "Scientists Recreate 3000-Year-Old Perfume from Bronze Age Pylos",
+      "axis_primary_code": "H3",
+      "year": "2025"
+    },
+    {
+      "id": "90020",
+      "entry_key": "worldherb2025essential",
+      "title": "Perfumes, Remedies, and Rituals: The Forgotten History of Essential Oils",
+      "axis_primary_code": "H3",
+      "year": "2025"
+    },
+    {
+      "id": "90017",
+      "entry_key": "egypt2024mummification",
+      "title": "Archaeologists Reconstruct the Scents of Ancient Mummification",
+      "axis_primary_code": "H3",
+      "year": "2025"
+    },
+    {
+      "id": "90018",
+      "entry_key": "sciam2025smell",
+      "title": "How Archaeology Is Reviving the Smell of History",
+      "axis_primary_code": "H3",
+      "year": "2025"
+    },
+    {
+      "id": "90014",
+      "entry_key": "coughlin2024perfumer",
+      "title": "The Perfumer's Garden: Scent and Well-being in Some Greek and Roman Sources",
+      "axis_primary_code": "H3",
+      "year": "2024"
+    },
+    {
+      "id": "90012",
+      "entry_key": "mdpi2023roman",
+      "title": "Archaeometric Identification of a Perfume from Roman Times",
+      "axis_primary_code": "H3",
+      "year": "2023"
+    },
+    {
+      "id": "90015",
+      "entry_key": "missouri2021perfumery",
+      "title": "Perfumery in Ancient Greek and Roman Societies",
+      "axis_primary_code": "H3",
+      "year": "2021"
+    },
+    {
+      "id": "90011",
+      "entry_key": "fadel2020greco",
+      "title": "History of the Perfume Industry in Greco-Roman Egypt",
+      "axis_primary_code": "H3",
+      "year": "2020"
+    },
+    {
+      "id": "90013",
+      "entry_key": "lawrence2019odour",
+      "title": "Odour, Perfume, and the Female Body in Ancient Rome",
+      "axis_primary_code": "H3",
+      "year": "2019"
+    },
+    {
+      "id": "90010",
+      "entry_key": "namuseum2019antiquity",
+      "title": "The Scent of Antiquity Reborn",
+      "axis_primary_code": "H3",
+      "year": "2019"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentry_key\ttitle\taxis_primary_code\tyear\n90024\tcites2025wwd\tWorld Wildlife Day 2026: Medicinal and Aromatic Plants - Conserving Health\tH2\t2025\n90021\tifra2024cites\tCITES and the Fragrance Industry\tH2\t2024\n90033\thpc2024nature\tBiodiversity and the Nature-Positive Economy: A Fragrance Industry Challenge\tH2\t2024\n90009\tipf2024oud\tOud, A Precious Heritage: World Heritage Program\tH2\t2024\n90022\tcites2024map\tCITES-listed Medicinal and Aromatic Plant (MAP) Species in International Trade\tH2\t2024\n90034\tejoc2023industrial\tIndustrial Fragrance Chemistry: A Brief Historical Perspective\tH2\t2023\n90029\tscidir2023biocatalysis\tScent and Sustainability: Investigating Consumer Evaluations of Biocatalysis and Naturalness in Fragrances\tH2\t2023\n90032\tpf2022biodiversity\tThe Link Between Ingredient Sourcing and Biodiversity Regeneration\tH2\t2022\n90023\ttraffic2022map\tCITES CoP19 Medicinal and Aromatic Plants\tH2\t2022\n90028\twiley2020ethical\tEthical Sourcing of Raw Materials\tH2\t2020\n90025\tbfn2020asian\tReview of the Status, Harvest, Trade and Management of Seven Asian CITES-listed Medicinal and Aromatic Plant Species\tH2\t2020\n90027\tcssc2020biotech\tChemistry, Sustainability and Naturality of Perfumery Biotech Ingredients\tH2\t2020\n90026\tspringer2020threatened\tThreatened and Endangered Medicinal and Aromatic Plants\tH2\t2020\n90031\tcbdv2019extraction\tExtraction of Natural Fragrance Ingredients: History Overview and Future Trends\tH2\t2019\n90030\tspringer2015conservation\tConservation of Wild Crafted Medicinal and Aromatic Plants and Their Habitats\tH2\t2015\n90016\tpylos2025bronze\tScientists Recreate 3000-Year-Old Perfume from Bronze Age Pylos\tH3\t2025\n90020\tworldherb2025essential\tPerfumes, Remedies, and Rituals: The Forgotten History of Essential Oils\tH3\t2025\n90017\tegypt2024mummification\tArchaeologists Reconstruct the Scents of Ancient Mummification\tH3\t2025\n90018\tsciam2025smell\tHow Archaeology Is Reviving the Smell of History\tH3\t2025\n90014\tcoughlin2024perfumer\tThe Perfumer's Garden: Scent and Well-being in Some Greek and Roman Sources\tH3\t2024\n90012\tmdpi2023roman\tArchaeometric Identification of a Perfume from Roman Times\tH3\t2023\n90015\tmissouri2021perfumery\tPerfumery in Ancient Greek and Roman Societies\tH3\t2021\n90011\tfadel2020greco\tHistory of the Perfume Industry in Greco-Roman Egypt\tH3\t2020\n90013\tlawrence2019odour\tOdour, Perfume, and the Female Body in Ancient Rome\tH3\t2019\n90010\tnamuseum2019antiquity\tThe Scent of Antiquity Reborn\tH3\t2019\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

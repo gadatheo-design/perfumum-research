@@ -1,0 +1,186 @@
+{
+  "query": "DESCRIBE v3_references;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE v3_references;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "entry_key",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "entry_type",
+      "Type": "enum('article','book','chapter','thesis','conference_paper','report','website','web_entry','news','preprint','dataset','software','misc')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "article",
+      "Extra": ""
+    },
+    {
+      "Field": "title",
+      "Type": "varchar(500)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "authors",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "year",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "container_title",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "publisher",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "doi",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "isbn",
+      "Type": "varchar(20)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "url",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "axis_primary_id",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "axis_primary_code",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "axes_secondary",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "user_notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "tags",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "read_status",
+      "Type": "enum('unread','reading','read','to_review')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "unread",
+      "Extra": ""
+    },
+    {
+      "Field": "relevance_score",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "imported_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "pack_version",
+      "Type": "varchar(10)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "v3",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\nentry_key\tvarchar(100)\tNO\tUNI\tNULL\t\nentry_type\tenum('article','book','chapter','thesis','conference_paper','report','website','web_entry','news','preprint','dataset','software','misc')\tNO\t\tarticle\t\ntitle\tvarchar(500)\tNO\t\tNULL\t\nauthors\ttext\tYES\t\tNULL\t\nyear\tint(11)\tYES\t\tNULL\t\ncontainer_title\tvarchar(255)\tYES\t\tNULL\t\npublisher\tvarchar(255)\tYES\t\tNULL\t\ndoi\tvarchar(100)\tYES\t\tNULL\t\nisbn\tvarchar(20)\tYES\t\tNULL\t\nurl\tvarchar(500)\tYES\t\tNULL\t\naxis_primary_id\tint(11)\tYES\t\tNULL\t\naxis_primary_code\tvarchar(100)\tYES\t\tNULL\t\naxes_secondary\tjson\tYES\t\tNULL\t\nnotes\ttext\tYES\t\tNULL\t\nuser_notes\ttext\tYES\t\tNULL\t\ntags\tjson\tYES\t\tNULL\t\nread_status\tenum('unread','reading','read','to_review')\tYES\t\tunread\t\nrelevance_score\tint(11)\tYES\t\t50\t\nimported_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\npack_version\tvarchar(10)\tYES\t\tv3\t\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}
