@@ -431,12 +431,7 @@ export function MegaMenu() {
           icon: <Layers className="h-4 w-4" />,
           description: "Flux catégories → recettes",
         },
-        {
-          label: "Galerie Botaniques",
-          path: "/galerie-botaniques",
-          icon: <Image className="h-4 w-4" />,
-          description: "Images et illustrations",
-        },
+
       ],
     },
   ];
@@ -508,7 +503,7 @@ export function MegaMenu() {
     badge: "Nouveau",
   };
 
-  // === RECHERCHE (Méthodologie + Archives) ===
+  // === RECHERCHE (Méthodologie + Archives + Axes) ===
   const rechercheSections: MegaMenuSection[] = [
     {
       title: "Méthode ABSORBE",
@@ -530,6 +525,30 @@ export function MegaMenu() {
           path: "/methodologie/gcms",
           icon: <Microscope className="h-4 w-4" />,
           description: "Analyses chromatographiques",
+        },
+      ],
+    },
+    {
+      title: "Axes de Recherche",
+      items: [
+        {
+          label: "Vue d'ensemble",
+          path: "/axes-recherche",
+          icon: <GitBranch className="h-4 w-4" />,
+          description: "Tous les programmes",
+          badge: "11 axes",
+        },
+        {
+          label: "Bibliographie",
+          path: "/bibliographie",
+          icon: <Library className="h-4 w-4" />,
+          description: "Références scientifiques",
+        },
+        {
+          label: "Export bibliographique",
+          path: "/export-bibliographique",
+          icon: <Download className="h-4 w-4" />,
+          description: "BibTeX, RIS, EndNote",
         },
       ],
     },
@@ -575,26 +594,7 @@ export function MegaMenu() {
           icon: <BookOpen className="h-4 w-4" />,
           description: "Terminologie olfactive",
         },
-        {
-          label: "Bibliographie",
-          path: "/bibliographie",
-          icon: <Library className="h-4 w-4" />,
-          description: "Références scientifiques",
-          badge: "NEW",
-        },
-        {
-          label: "Export bibliographique",
-          path: "/export-bibliographique",
-          icon: <Download className="h-4 w-4" />,
-          description: "BibTeX, RIS, EndNote",
-        },
-        {
-          label: "Axes de recherche",
-          path: "/axes-recherche",
-          icon: <GitBranch className="h-4 w-4" />,
-          description: "Programmes scientifiques",
-          badge: "NEW",
-        },
+
       ],
     },
     {

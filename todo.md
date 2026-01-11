@@ -1328,3 +1328,30 @@
 - [x] Créer les liaisons variétés→plantes pour les 8 variétés (5 liaisons créées)
 - [x] Valider l'affichage des liaisons dans l'interface
 - [x] Tests unitaires validés (15 tests passés)
+
+## 🔬 SESSION 11 JANVIER 2026 (Suite) — Axes de Recherche
+
+### Mise à jour de la page Axes de Recherche
+- [ ] Mettre à jour la page Axes de Recherche avec tous les axes disponibles
+- [ ] Vérifier l intégration de la page Axes de Recherche dans le header
+
+
+### Fusion Galerie Botanique
+- [ ] Fusionner la galerie botanique dans les pages Plantes et Variétés
+- [ ] Mettre à jour la navigation (supprimer le lien galerie botanique séparé)
+- [ ] Nettoyer les routes inutiles
+
+
+
+---
+
+## 🔥 SESSION ACTIVE — 11 Jan 2026 (Axes de Recherche & Galerie)
+
+### Tâches complétées
+- [x] Mettre à jour la page Axes de Recherche avec tous les axes disponibles
+- [x] Déplacer les Axes de Recherche dans la section "Recherche" du MegaMenu
+- [x] Ajouter le badge "11 axes" dans le MegaMenu
+- [x] Fusionner la galerie botanique dans la page Plantes & Variétés (nouvel onglet)
+- [x] Supprimer la route /galerie-botaniques (maintenant intégrée dans /plants?tab=gallery)
+- [x] Supprimer l'entrée "Galerie Botaniques" du MegaMenu section Visualisations
+- [x] Nettoyer les imports et routes obsolètes dans App.tsx

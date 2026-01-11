@@ -21,8 +21,12 @@ import {
   ArrowLeft,
   MapPin,
   Beaker,
-  Wind
+  Wind,
+  Image as ImageIcon,
+  Download,
+  X
 } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
@@ -350,6 +354,10 @@ export default function Plants() {
             <TabsList>
               <TabsTrigger value="grid">Grille</TabsTrigger>
               <TabsTrigger value="by-category">Par catégorie</TabsTrigger>
+              <TabsTrigger value="gallery" className="flex items-center gap-1">
+                <ImageIcon className="w-4 h-4" />
+                Galerie Botanique
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="grid">
@@ -377,10 +385,276 @@ export default function Plants() {
                 </div>
               ))}
             </TabsContent>
+
+            {/* Galerie Botanique */}
+            <TabsContent value="gallery" className="space-y-6">
+              <BotanicalGallery />
+            </TabsContent>
           </Tabs>
         )}
       </div>
       <Footer />
     </>
+  );
+}
+
+// ============================================================================
+// GALERIE BOTANIQUE (intégrée)
+// ============================================================================
+
+interface BotanicalImage {
+  id: number;
+  name: string;
+  latinName: string;
+  commonName: string;
+  description: string;
+  imagePath: string;
+  family: string;
+  category?: "terpene" | "tagetes" | "san-andres";
+  climaticAxis?: string;
+  molecules?: string[];
+}
+
+const BOTANICAL_IMAGES: BotanicalImage[] = [
+  {
+    id: 1,
+    name: "Myrcène",
+    latinName: "Humulus lupulus",
+    commonName: "Houblon",
+    description: "Plante grimpante vivace de la famille des Cannabaceae, cultivée pour ses cônes aromatiques utilisés dans le brassage de la bière.",
+    imagePath: "/images/terpenes/myrcene-botanical.png",
+    family: "Cannabaceae",
+    category: "terpene"
+  },
+  {
+    id: 2,
+    name: "Limonène",
+    latinName: "Citrus limon",
+    commonName: "Citronnier",
+    description: "Arbuste fruitier de la famille des Rutaceae, cultivé pour ses fruits acides riches en vitamine C.",
+    imagePath: "/images/terpenes/limonene-botanical.png",
+    family: "Rutaceae",
+    category: "terpene"
+  },
+  {
+    id: 3,
+    name: "α-Pinène",
+    latinName: "Pinus sylvestris",
+    commonName: "Pin sylvestre",
+    description: "Conifère de la famille des Pinaceae, caractérisé par son écorce orangée et ses longues aiguilles.",
+    imagePath: "/images/terpenes/pinene-botanical.png",
+    family: "Pinaceae",
+    category: "terpene"
+  },
+  {
+    id: 4,
+    name: "β-Pinène",
+    latinName: "Petroselinum crispum",
+    commonName: "Persil frisé",
+    description: "Plante herbacée bisannuelle de la famille des Apiaceae, cultivée comme aromate culinaire.",
+    imagePath: "/images/terpenes/beta-pinene-botanical.png",
+    family: "Apiaceae",
+    category: "terpene"
+  },
+  {
+    id: 5,
+    name: "β-Caryophyllène",
+    latinName: "Piper nigrum",
+    commonName: "Poivrier noir",
+    description: "Liane ligneuse de la famille des Piperaceae, cultivée pour ses baies séchées (poivre).",
+    imagePath: "/images/terpenes/caryophyllene-botanical.png",
+    family: "Piperaceae",
+    category: "terpene"
+  },
+  {
+    id: 6,
+    name: "Linalool",
+    latinName: "Lavandula angustifolia",
+    commonName: "Lavande vraie",
+    description: "Sous-arbrisseau vivace de la famille des Lamiaceae, cultivé pour ses fleurs aromatiques.",
+    imagePath: "/images/terpenes/linalool-botanical.png",
+    family: "Lamiaceae",
+    category: "terpene"
+  },
+  {
+    id: 7,
+    name: "Humulène",
+    latinName: "Zingiber officinale",
+    commonName: "Gingembre",
+    description: "Plante herbacée tropicale de la famille des Zingiberaceae, cultivée pour son rhizome aromatique.",
+    imagePath: "/images/terpenes/humulene-botanical.png",
+    family: "Zingiberaceae",
+    category: "terpene"
+  },
+  {
+    id: 101,
+    name: "Tagetes lucida",
+    latinName: "Tagetes lucida",
+    commonName: "Estragon mexicain",
+    description: "Illustration botanique complète de Tagetes lucida montrant la structure générale de la plante.",
+    imagePath: "/images/botanicals/tagetes-lucida-botanical.jpg",
+    family: "Asteraceae",
+    category: "tagetes",
+    climaticAxis: "vent",
+    molecules: ["Estragole (86-97%)", "Anéthole", "Méthyl-eugénol", "β-Ocimène"]
+  },
+];
+
+function BotanicalGallery() {
+  const [selectedImage, setSelectedImage] = useState<BotanicalImage | null>(null);
+  const [activeFilter, setActiveFilter] = useState<string>("all");
+
+  const filteredImages = activeFilter === "all" 
+    ? BOTANICAL_IMAGES 
+    : BOTANICAL_IMAGES.filter(img => img.category === activeFilter);
+
+  const handleDownload = (image: BotanicalImage) => {
+    const link = document.createElement('a');
+    link.href = image.imagePath;
+    const extension = image.imagePath.split('.').pop() || 'jpg';
+    link.download = `${image.latinName.replace(/ /g, '_')}_botanical.${extension}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Filtres */}
+      <div className="flex flex-wrap gap-2">
+        <Button 
+          variant={activeFilter === "all" ? "default" : "outline"} 
+          size="sm"
+          onClick={() => setActiveFilter("all")}
+        >
+          Toutes ({BOTANICAL_IMAGES.length})
+        </Button>
+        <Button 
+          variant={activeFilter === "terpene" ? "default" : "outline"} 
+          size="sm"
+          onClick={() => setActiveFilter("terpene")}
+        >
+          Terpènes ({BOTANICAL_IMAGES.filter(i => i.category === "terpene").length})
+        </Button>
+        <Button 
+          variant={activeFilter === "tagetes" ? "default" : "outline"} 
+          size="sm"
+          onClick={() => setActiveFilter("tagetes")}
+          className="flex items-center gap-1"
+        >
+          <Flower2 className="w-4 h-4" />
+          Tagetes ({BOTANICAL_IMAGES.filter(i => i.category === "tagetes").length})
+        </Button>
+      </div>
+
+      {/* Grille d'images */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {filteredImages.map((image) => (
+          <Card key={image.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+            <div 
+              className="relative aspect-square cursor-pointer bg-muted/20"
+              onClick={() => setSelectedImage(image)}
+            >
+              <img
+                src={image.imagePath}
+                alt={`${image.latinName} - ${image.commonName}`}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+              <div className="absolute top-2 right-2">
+                <Badge variant="secondary" className="text-xs">{image.name}</Badge>
+              </div>
+              {image.category === "tagetes" && (
+                <div className="absolute bottom-2 left-2">
+                  <Badge className="bg-amber-500 text-white text-xs">
+                    <Flower2 className="w-3 h-3 mr-1" />
+                    Tagetes
+                  </Badge>
+                </div>
+              )}
+            </div>
+            
+            <CardHeader className="p-3">
+              <CardTitle className="text-sm">
+                <div className="flex items-center gap-2">
+                  <Leaf className="w-4 h-4 text-green-600 flex-shrink-0" />
+                  <span className="italic truncate">{image.latinName}</span>
+                </div>
+              </CardTitle>
+              <p className="text-xs text-muted-foreground truncate">{image.commonName}</p>
+            </CardHeader>
+            
+            <CardContent className="p-3 pt-0 space-y-2">
+              <p className="text-xs line-clamp-2">{image.description}</p>
+              <div className="flex items-center justify-between">
+                <Badge variant="outline" className="text-xs">{image.family}</Badge>
+                <Button 
+                  size="sm" 
+                  variant="ghost"
+                  className="h-7 text-xs"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDownload(image);
+                  }}
+                >
+                  <Download className="w-3 h-3" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Info card */}
+      <Card className="bg-muted/30">
+        <CardContent className="py-4">
+          <p className="text-sm text-muted-foreground">
+            Ces illustrations botaniques ont été créées pour illustrer les principales plantes sources des terpènes étudiés dans le cadre du projet PERFUMUM.
+            Les images sont disponibles en haute résolution pour vos documents de recherche.
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Lightbox */}
+      <Dialog open={selectedImage !== null} onOpenChange={() => setSelectedImage(null)}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          {selectedImage && (
+            <div className="space-y-4">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold italic">{selectedImage.latinName}</h2>
+                  <p className="text-muted-foreground">{selectedImage.commonName}</p>
+                </div>
+                <Button variant="ghost" size="icon" onClick={() => setSelectedImage(null)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+              
+              <div className="bg-muted/20 rounded-lg p-4">
+                <img
+                  src={selectedImage.imagePath}
+                  alt={`${selectedImage.latinName} - ${selectedImage.commonName}`}
+                  className="w-full h-auto max-h-[60vh] object-contain"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <p>{selectedImage.description}</p>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline">{selectedImage.family}</Badge>
+                  {selectedImage.molecules && (
+                    <Badge variant="secondary">Molécules: {selectedImage.molecules.join(", ")}</Badge>
+                  )}
+                </div>
+                <Button onClick={() => handleDownload(selectedImage)}>
+                  <Download className="w-4 h-4 mr-2" />
+                  Télécharger l'image
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

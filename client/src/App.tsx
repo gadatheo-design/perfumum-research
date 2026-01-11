@@ -256,7 +256,7 @@ import { Timeline } from "./pages/Timeline";
 import TimelineInteractive from "./pages/TimelineInteractive";
 import ComparaisonAvancee from "./pages/ComparaisonAvancee";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
-import GalerieBotaniques from "./pages/GalerieBotaniques";
+// import GalerieBotaniques from "./pages/GalerieBotaniques"; // Maintenant intégré dans Plants.tsx
 import Gallery from "./pages/Gallery";
 import BatchImport from "./pages/BatchImport";
 import Ifra from "./pages/Ifra";
@@ -534,7 +534,7 @@ function Router() {
       <Route path="/timeline" component={Timeline} />
       <Route path="/timeline/interactive" component={TimelineInteractive} />
       <Route path="/comparaison" component={ComparaisonAvancee} />
-      <Route path="/galerie-botaniques" component={GalerieBotaniques} />
+      {/* <Route path="/galerie-botaniques" component={GalerieBotaniques} /> */} {/* Intégré dans /plants?tab=gallery */}
       <Route path="/galerie" component={Gallery} />
       <Route path="/gallery" component={Gallery} />
       <Route path="/galerie/import" component={BatchImport} />
