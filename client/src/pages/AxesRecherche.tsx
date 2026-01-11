@@ -414,37 +414,109 @@ export default function AxesRecherche() {
             )}
           </div>
 
-          {/* Statistiques */}
+          {/* Statistiques améliorées */}
           {stats && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-2xl">{stats.total}</CardTitle>
-                  <CardDescription>Axes de recherche</CardDescription>
-                </CardHeader>
+            <div className="space-y-6 mb-8">
+              {/* Barre de progression globale */}
+              <Card className="bg-gradient-to-r from-primary/5 to-primary/10">
+                <CardContent className="py-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <h3 className="text-lg font-semibold">Progression globale du projet</h3>
+                      <p className="text-sm text-muted-foreground">Moyenne de tous les axes de recherche</p>
+                    </div>
+                    <div className="text-3xl font-bold text-primary">{stats.averageProgress}%</div>
+                  </div>
+                  <Progress value={stats.averageProgress} className="h-3" />
+                  <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+                    <span>Début</span>
+                    <span>Objectif 2035</span>
+                  </div>
+                </CardContent>
               </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-2xl">
-                    {stats.byStatus?.find((s: any) => s.status === "en_cours")?.count || 0}
-                  </CardTitle>
-                  <CardDescription>En cours</CardDescription>
-                </CardHeader>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-2xl">
-                    {stats.byStatus?.find((s: any) => s.status === "termine")?.count || 0}
-                  </CardTitle>
-                  <CardDescription>Terminés</CardDescription>
-                </CardHeader>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-2xl">{stats.averageProgress}%</CardTitle>
-                  <CardDescription>Progression moyenne</CardDescription>
-                </CardHeader>
-              </Card>
+
+              {/* Grille de statistiques */}
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center gap-2">
+                      <Compass className="h-5 w-5 text-primary" />
+                      <CardTitle className="text-2xl">{stats.total}</CardTitle>
+                    </div>
+                    <CardDescription>Axes de recherche</CardDescription>
+                  </CardHeader>
+                </Card>
+                <Card className="border-l-4 border-l-blue-500">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-5 w-5 text-blue-500" />
+                      <CardTitle className="text-2xl">
+                        {stats.byStatus?.find((s: any) => s.status === "en_cours")?.count || 0}
+                      </CardTitle>
+                    </div>
+                    <CardDescription>En cours</CardDescription>
+                  </CardHeader>
+                </Card>
+                <Card className="border-l-4 border-l-green-500">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      <CardTitle className="text-2xl">
+                        {stats.byStatus?.find((s: any) => s.status === "termine")?.count || 0}
+                      </CardTitle>
+                    </div>
+                    <CardDescription>Terminés</CardDescription>
+                  </CardHeader>
+                </Card>
+                <Card className="border-l-4 border-l-yellow-500">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center gap-2">
+                      <PauseCircle className="h-5 w-5 text-yellow-500" />
+                      <CardTitle className="text-2xl">
+                        {stats.byStatus?.find((s: any) => s.status === "pause")?.count || 0}
+                      </CardTitle>
+                    </div>
+                    <CardDescription>En pause</CardDescription>
+                  </CardHeader>
+                </Card>
+                <Card className="border-l-4 border-l-slate-500">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-5 w-5 text-slate-500" />
+                      <CardTitle className="text-2xl">
+                        {stats.byStatus?.find((s: any) => s.status === "planifie")?.count || 0}
+                      </CardTitle>
+                    </div>
+                    <CardDescription>Planifiés</CardDescription>
+                  </CardHeader>
+                </Card>
+              </div>
+
+              {/* Répartition par catégorie */}
+              {stats.byCategory && stats.byCategory.length > 0 && (
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm font-medium">Répartition par catégorie</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {stats.byCategory.map((cat: any) => (
+                        <Badge 
+                          key={cat.category} 
+                          variant="outline" 
+                          className="flex items-center gap-1"
+                        >
+                          {categoryLabels[cat.category as AxisCategory]?.icon}
+                          {categoryLabels[cat.category as AxisCategory]?.label || cat.category}
+                          <span className="ml-1 bg-muted px-1.5 py-0.5 rounded text-xs">
+                            {cat.count}
+                          </span>
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           )}
 

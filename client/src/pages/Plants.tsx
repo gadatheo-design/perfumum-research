@@ -24,9 +24,17 @@ import {
   Wind,
   Image as ImageIcon,
   Download,
-  X
+  X,
+  Upload,
+  ExternalLink,
+  Loader2,
+  Tag
 } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { toast } from "sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
@@ -399,221 +407,459 @@ export default function Plants() {
 }
 
 // ============================================================================
-// GALERIE BOTANIQUE (intégrée)
+// GALERIE BOTANIQUE (intégrée avec base de données)
 // ============================================================================
 
-interface BotanicalImage {
-  id: number;
-  name: string;
-  latinName: string;
-  commonName: string;
-  description: string;
-  imagePath: string;
-  family: string;
-  category?: "terpene" | "tagetes" | "san-andres";
-  climaticAxis?: string;
-  molecules?: string[];
-}
-
-const BOTANICAL_IMAGES: BotanicalImage[] = [
+// Images statiques de base (illustrations terpenes)
+const STATIC_BOTANICAL_IMAGES = [
   {
-    id: 1,
+    id: "static-1",
     name: "Myrcène",
     latinName: "Humulus lupulus",
     commonName: "Houblon",
-    description: "Plante grimpante vivace de la famille des Cannabaceae, cultivée pour ses cônes aromatiques utilisés dans le brassage de la bière.",
-    imagePath: "/images/terpenes/myrcene-botanical.png",
+    description: "Plante grimpante vivace de la famille des Cannabaceae, cultivée pour ses cônes aromatiques.",
+    url: "/images/terpenes/myrcene-botanical.png",
     family: "Cannabaceae",
     category: "terpene"
   },
   {
-    id: 2,
+    id: "static-2",
     name: "Limonène",
     latinName: "Citrus limon",
     commonName: "Citronnier",
-    description: "Arbuste fruitier de la famille des Rutaceae, cultivé pour ses fruits acides riches en vitamine C.",
-    imagePath: "/images/terpenes/limonene-botanical.png",
+    description: "Arbuste fruitier de la famille des Rutaceae, cultivé pour ses fruits acides.",
+    url: "/images/terpenes/limonene-botanical.png",
     family: "Rutaceae",
     category: "terpene"
   },
   {
-    id: 3,
+    id: "static-3",
     name: "α-Pinène",
     latinName: "Pinus sylvestris",
     commonName: "Pin sylvestre",
-    description: "Conifère de la famille des Pinaceae, caractérisé par son écorce orangée et ses longues aiguilles.",
-    imagePath: "/images/terpenes/pinene-botanical.png",
+    description: "Conifère de la famille des Pinaceae, caractérisé par son écorce orangée.",
+    url: "/images/terpenes/pinene-botanical.png",
     family: "Pinaceae",
     category: "terpene"
   },
   {
-    id: 4,
-    name: "β-Pinène",
-    latinName: "Petroselinum crispum",
-    commonName: "Persil frisé",
-    description: "Plante herbacée bisannuelle de la famille des Apiaceae, cultivée comme aromate culinaire.",
-    imagePath: "/images/terpenes/beta-pinene-botanical.png",
-    family: "Apiaceae",
-    category: "terpene"
-  },
-  {
-    id: 5,
+    id: "static-4",
     name: "β-Caryophyllène",
     latinName: "Piper nigrum",
     commonName: "Poivrier noir",
-    description: "Liane ligneuse de la famille des Piperaceae, cultivée pour ses baies séchées (poivre).",
-    imagePath: "/images/terpenes/caryophyllene-botanical.png",
+    description: "Liane ligneuse de la famille des Piperaceae, cultivée pour ses baies séchées.",
+    url: "/images/terpenes/caryophyllene-botanical.png",
     family: "Piperaceae",
     category: "terpene"
   },
   {
-    id: 6,
+    id: "static-5",
     name: "Linalool",
     latinName: "Lavandula angustifolia",
     commonName: "Lavande vraie",
-    description: "Sous-arbrisseau vivace de la famille des Lamiaceae, cultivé pour ses fleurs aromatiques.",
-    imagePath: "/images/terpenes/linalool-botanical.png",
+    description: "Sous-arbrisseau vivace de la famille des Lamiaceae.",
+    url: "/images/terpenes/linalool-botanical.png",
     family: "Lamiaceae",
     category: "terpene"
-  },
-  {
-    id: 7,
-    name: "Humulène",
-    latinName: "Zingiber officinale",
-    commonName: "Gingembre",
-    description: "Plante herbacée tropicale de la famille des Zingiberaceae, cultivée pour son rhizome aromatique.",
-    imagePath: "/images/terpenes/humulene-botanical.png",
-    family: "Zingiberaceae",
-    category: "terpene"
-  },
-  {
-    id: 101,
-    name: "Tagetes lucida",
-    latinName: "Tagetes lucida",
-    commonName: "Estragon mexicain",
-    description: "Illustration botanique complète de Tagetes lucida montrant la structure générale de la plante.",
-    imagePath: "/images/botanicals/tagetes-lucida-botanical.jpg",
-    family: "Asteraceae",
-    category: "tagetes",
-    climaticAxis: "vent",
-    molecules: ["Estragole (86-97%)", "Anéthole", "Méthyl-eugénol", "β-Ocimène"]
   },
 ];
 
 function BotanicalGallery() {
-  const [selectedImage, setSelectedImage] = useState<BotanicalImage | null>(null);
+  const { user } = useAuth();
+  const [selectedImage, setSelectedImage] = useState<any>(null);
   const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [uploadData, setUploadData] = useState({
+    title: "",
+    description: "",
+    plantId: "",
+    category: "echantillon" as "echantillon" | "extraction" | "analyse" | "terrain" | "equipement" | "autre",
+    tags: "",
+    location: "",
+  });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  // Récupérer les images de la galerie depuis la base de données
+  const { data: dbImages, isLoading, refetch } = trpc.gallery.list.useQuery();
+  
+  // Récupérer les plantes pour le lien
+  const { data: plants } = trpc.plants.list.useQuery();
+
+  // Mutation pour uploader une image
+  const uploadMutation = trpc.uploads.galleryImage.useMutation({
+    onSuccess: () => {
+      toast.success("Image ajoutée à la galerie");
+      setIsUploadOpen(false);
+      resetUploadForm();
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  const resetUploadForm = () => {
+    setUploadData({
+      title: "",
+      description: "",
+      plantId: "",
+      category: "echantillon",
+      tags: "",
+      location: "",
+    });
+    setSelectedFile(null);
+    setPreviewUrl(null);
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onload = () => setPreviewUrl(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile || !previewUrl) {
+      toast.error("Veuillez sélectionner une image");
+      return;
+    }
+
+    uploadMutation.mutate({
+      imageData: previewUrl,
+      fileName: selectedFile.name,
+      contentType: selectedFile.type,
+      title: uploadData.title || undefined,
+      description: uploadData.description || undefined,
+      plantId: uploadData.plantId ? parseInt(uploadData.plantId) : undefined,
+      category: uploadData.category,
+      tags: uploadData.tags ? uploadData.tags.split(",").map(t => t.trim()) : undefined,
+      location: uploadData.location || undefined,
+    });
+  };
+
+  // Combiner images statiques et images de la base
+  const allImages = [
+    ...STATIC_BOTANICAL_IMAGES.map(img => ({ ...img, isStatic: true })),
+    ...(dbImages || []).map((img: any) => ({
+      id: img.id,
+      name: img.title || "Image",
+      latinName: img.plant?.latinName || img.title || "Sans nom",
+      commonName: img.plant?.commonName || img.description?.substring(0, 50) || "",
+      description: img.description || "",
+      url: img.url,
+      family: img.plant?.family || img.category || "Non classé",
+      category: img.category || "autre",
+      plantId: img.plantId,
+      tags: img.tags,
+      isStatic: false,
+    })),
+  ];
 
   const filteredImages = activeFilter === "all" 
-    ? BOTANICAL_IMAGES 
-    : BOTANICAL_IMAGES.filter(img => img.category === activeFilter);
+    ? allImages 
+    : allImages.filter(img => img.category === activeFilter);
 
-  const handleDownload = (image: BotanicalImage) => {
+  const handleDownload = (image: any) => {
     const link = document.createElement('a');
-    link.href = image.imagePath;
-    const extension = image.imagePath.split('.').pop() || 'jpg';
-    link.download = `${image.latinName.replace(/ /g, '_')}_botanical.${extension}`;
+    link.href = image.url;
+    const extension = image.url.split('.').pop()?.split('?')[0] || 'jpg';
+    link.download = `${(image.latinName || image.name || 'image').replace(/ /g, '_')}_botanical.${extension}`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
+  const categoryLabels: Record<string, string> = {
+    terpene: "Terpènes",
+    echantillon: "Échantillons",
+    extraction: "Extractions",
+    analyse: "Analyses",
+    terrain: "Terrain",
+    equipement: "Équipement",
+    autre: "Autre",
+  };
+
   return (
     <div className="space-y-6">
-      {/* Filtres */}
-      <div className="flex flex-wrap gap-2">
-        <Button 
-          variant={activeFilter === "all" ? "default" : "outline"} 
-          size="sm"
-          onClick={() => setActiveFilter("all")}
-        >
-          Toutes ({BOTANICAL_IMAGES.length})
-        </Button>
-        <Button 
-          variant={activeFilter === "terpene" ? "default" : "outline"} 
-          size="sm"
-          onClick={() => setActiveFilter("terpene")}
-        >
-          Terpènes ({BOTANICAL_IMAGES.filter(i => i.category === "terpene").length})
-        </Button>
-        <Button 
-          variant={activeFilter === "tagetes" ? "default" : "outline"} 
-          size="sm"
-          onClick={() => setActiveFilter("tagetes")}
-          className="flex items-center gap-1"
-        >
-          <Flower2 className="w-4 h-4" />
-          Tagetes ({BOTANICAL_IMAGES.filter(i => i.category === "tagetes").length})
-        </Button>
+      {/* En-tête avec filtres et bouton d'upload */}
+      <div className="flex flex-col md:flex-row gap-4 justify-between">
+        <div className="flex flex-wrap gap-2">
+          <Button 
+            variant={activeFilter === "all" ? "default" : "outline"} 
+            size="sm"
+            onClick={() => setActiveFilter("all")}
+          >
+            Toutes ({allImages.length})
+          </Button>
+          <Button 
+            variant={activeFilter === "terpene" ? "default" : "outline"} 
+            size="sm"
+            onClick={() => setActiveFilter("terpene")}
+          >
+            Terpènes ({allImages.filter(i => i.category === "terpene").length})
+          </Button>
+          <Button 
+            variant={activeFilter === "echantillon" ? "default" : "outline"} 
+            size="sm"
+            onClick={() => setActiveFilter("echantillon")}
+          >
+            Échantillons ({allImages.filter(i => i.category === "echantillon").length})
+          </Button>
+          <Button 
+            variant={activeFilter === "terrain" ? "default" : "outline"} 
+            size="sm"
+            onClick={() => setActiveFilter("terrain")}
+          >
+            Terrain ({allImages.filter(i => i.category === "terrain").length})
+          </Button>
+        </div>
+
+        {user && (
+          <Button onClick={() => setIsUploadOpen(true)}>
+            <Upload className="w-4 h-4 mr-2" />
+            Ajouter une image
+          </Button>
+        )}
       </div>
 
       {/* Grille d'images */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {filteredImages.map((image) => (
-          <Card key={image.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-            <div 
-              className="relative aspect-square cursor-pointer bg-muted/20"
-              onClick={() => setSelectedImage(image)}
-            >
-              <img
-                src={image.imagePath}
-                alt={`${image.latinName} - ${image.commonName}`}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                loading="lazy"
-              />
-              <div className="absolute top-2 right-2">
-                <Badge variant="secondary" className="text-xs">{image.name}</Badge>
-              </div>
-              {image.category === "tagetes" && (
-                <div className="absolute bottom-2 left-2">
-                  <Badge className="bg-amber-500 text-white text-xs">
-                    <Flower2 className="w-3 h-3 mr-1" />
-                    Tagetes
+      {isLoading ? (
+        <div className="flex justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {filteredImages.map((image) => (
+            <Card key={image.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+              <div 
+                className="relative aspect-square cursor-pointer bg-muted/20"
+                onClick={() => setSelectedImage(image)}
+              >
+                <img
+                  src={image.url}
+                  alt={`${image.latinName} - ${image.commonName}`}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/placeholder-botanical.png';
+                  }}
+                />
+                <div className="absolute top-2 right-2">
+                  <Badge variant="secondary" className="text-xs">
+                    {categoryLabels[image.category] || image.category}
                   </Badge>
                 </div>
-              )}
-            </div>
-            
-            <CardHeader className="p-3">
-              <CardTitle className="text-sm">
-                <div className="flex items-center gap-2">
-                  <Leaf className="w-4 h-4 text-green-600 flex-shrink-0" />
-                  <span className="italic truncate">{image.latinName}</span>
-                </div>
-              </CardTitle>
-              <p className="text-xs text-muted-foreground truncate">{image.commonName}</p>
-            </CardHeader>
-            
-            <CardContent className="p-3 pt-0 space-y-2">
-              <p className="text-xs line-clamp-2">{image.description}</p>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="text-xs">{image.family}</Badge>
-                <Button 
-                  size="sm" 
-                  variant="ghost"
-                  className="h-7 text-xs"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDownload(image);
-                  }}
-                >
-                  <Download className="w-3 h-3" />
-                </Button>
+                {image.plantId && (
+                  <div className="absolute bottom-2 left-2">
+                    <Badge className="bg-green-600 text-white text-xs">
+                      <Leaf className="w-3 h-3 mr-1" />
+                      Liée à une plante
+                    </Badge>
+                  </div>
+                )}
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              
+              <CardHeader className="p-3">
+                <CardTitle className="text-sm">
+                  <div className="flex items-center gap-2">
+                    <Leaf className="w-4 h-4 text-green-600 flex-shrink-0" />
+                    <span className="italic truncate">{image.latinName || image.name}</span>
+                  </div>
+                </CardTitle>
+                <p className="text-xs text-muted-foreground truncate">{image.commonName}</p>
+              </CardHeader>
+              
+              <CardContent className="p-3 pt-0 space-y-2">
+                <p className="text-xs line-clamp-2">{image.description}</p>
+                <div className="flex items-center justify-between">
+                  <Badge variant="outline" className="text-xs">{image.family}</Badge>
+                  <div className="flex gap-1">
+                    {image.plantId && (
+                      <Link href={`/plants/${image.plantId}`}>
+                        <Button 
+                          size="sm" 
+                          variant="ghost"
+                          className="h-7 text-xs"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                        </Button>
+                      </Link>
+                    )}
+                    <Button 
+                      size="sm" 
+                      variant="ghost"
+                      className="h-7 text-xs"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDownload(image);
+                      }}
+                    >
+                      <Download className="w-3 h-3" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
 
       {/* Info card */}
       <Card className="bg-muted/30">
         <CardContent className="py-4">
           <p className="text-sm text-muted-foreground">
-            Ces illustrations botaniques ont été créées pour illustrer les principales plantes sources des terpènes étudiés dans le cadre du projet PERFUMUM.
-            Les images sont disponibles en haute résolution pour vos documents de recherche.
+            Cette galerie regroupe les illustrations botaniques et photographies de terrain du projet PERFUMUM.
+            Les images peuvent être liées aux fiches plantes pour une navigation enrichie.
           </p>
         </CardContent>
       </Card>
+
+      {/* Dialog d'upload */}
+      <Dialog open={isUploadOpen} onOpenChange={(open) => {
+        setIsUploadOpen(open);
+        if (!open) resetUploadForm();
+      }}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Ajouter une image à la galerie</DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            {/* Zone de sélection de fichier */}
+            <div className="space-y-2">
+              <Label>Image *</Label>
+              {previewUrl ? (
+                <div className="relative">
+                  <img 
+                    src={previewUrl} 
+                    alt="Aperçu" 
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="absolute top-2 right-2"
+                    onClick={() => {
+                      setSelectedFile(null);
+                      setPreviewUrl(null);
+                    }}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              ) : (
+                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:bg-muted/50">
+                  <Upload className="w-8 h-8 text-muted-foreground mb-2" />
+                  <span className="text-sm text-muted-foreground">Cliquez pour sélectionner</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleFileSelect}
+                  />
+                </label>
+              )}
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Titre</Label>
+                <Input
+                  value={uploadData.title}
+                  onChange={(e) => setUploadData({ ...uploadData, title: e.target.value })}
+                  placeholder="Nom de l'image"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Catégorie</Label>
+                <Select 
+                  value={uploadData.category} 
+                  onValueChange={(v) => setUploadData({ ...uploadData, category: v as any })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="echantillon">Échantillon</SelectItem>
+                    <SelectItem value="extraction">Extraction</SelectItem>
+                    <SelectItem value="analyse">Analyse</SelectItem>
+                    <SelectItem value="terrain">Terrain</SelectItem>
+                    <SelectItem value="equipement">Équipement</SelectItem>
+                    <SelectItem value="autre">Autre</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Lier à une plante</Label>
+              <Select 
+                value={uploadData.plantId} 
+                onValueChange={(v) => setUploadData({ ...uploadData, plantId: v })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionner une plante (optionnel)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">Aucune</SelectItem>
+                  {plants?.map((plant: any) => (
+                    <SelectItem key={plant.id} value={plant.id.toString()}>
+                      {plant.latinName} ({plant.commonName})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Description</Label>
+              <Textarea
+                value={uploadData.description}
+                onChange={(e) => setUploadData({ ...uploadData, description: e.target.value })}
+                placeholder="Description de l'image..."
+                rows={3}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Tags (séparés par des virgules)</Label>
+                <Input
+                  value={uploadData.tags}
+                  onChange={(e) => setUploadData({ ...uploadData, tags: e.target.value })}
+                  placeholder="terpène, extraction, ..."
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Lieu</Label>
+                <Input
+                  value={uploadData.location}
+                  onChange={(e) => setUploadData({ ...uploadData, location: e.target.value })}
+                  placeholder="Laboratoire, terrain..."
+                />
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsUploadOpen(false)}>
+              Annuler
+            </Button>
+            <Button onClick={handleUpload} disabled={uploadMutation.isPending || !selectedFile}>
+              {uploadMutation.isPending ? (
+                <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Upload...</>
+              ) : (
+                <><Upload className="w-4 h-4 mr-2" /> Ajouter</>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Lightbox */}
       <Dialog open={selectedImage !== null} onOpenChange={() => setSelectedImage(null)}>
@@ -622,7 +868,7 @@ function BotanicalGallery() {
             <div className="space-y-4">
               <div className="flex items-start justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold italic">{selectedImage.latinName}</h2>
+                  <h2 className="text-2xl font-bold italic">{selectedImage.latinName || selectedImage.name}</h2>
                   <p className="text-muted-foreground">{selectedImage.commonName}</p>
                 </div>
                 <Button variant="ghost" size="icon" onClick={() => setSelectedImage(null)}>
@@ -632,7 +878,7 @@ function BotanicalGallery() {
               
               <div className="bg-muted/20 rounded-lg p-4">
                 <img
-                  src={selectedImage.imagePath}
+                  src={selectedImage.url}
                   alt={`${selectedImage.latinName} - ${selectedImage.commonName}`}
                   className="w-full h-auto max-h-[60vh] object-contain"
                 />
@@ -640,16 +886,30 @@ function BotanicalGallery() {
               
               <div className="space-y-2">
                 <p>{selectedImage.description}</p>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Badge variant="outline">{selectedImage.family}</Badge>
-                  {selectedImage.molecules && (
-                    <Badge variant="secondary">Molécules: {selectedImage.molecules.join(", ")}</Badge>
-                  )}
+                  <Badge variant="secondary">{categoryLabels[selectedImage.category] || selectedImage.category}</Badge>
+                  {selectedImage.tags?.map((tag: string, i: number) => (
+                    <Badge key={i} variant="outline" className="text-xs">
+                      <Tag className="w-3 h-3 mr-1" />
+                      {tag}
+                    </Badge>
+                  ))}
                 </div>
-                <Button onClick={() => handleDownload(selectedImage)}>
-                  <Download className="w-4 h-4 mr-2" />
-                  Télécharger l'image
-                </Button>
+                <div className="flex gap-2 pt-2">
+                  {selectedImage.plantId && (
+                    <Link href={`/plants/${selectedImage.plantId}`}>
+                      <Button variant="outline">
+                        <Leaf className="w-4 h-4 mr-2" />
+                        Voir la fiche plante
+                      </Button>
+                    </Link>
+                  )}
+                  <Button onClick={() => handleDownload(selectedImage)}>
+                    <Download className="w-4 h-4 mr-2" />
+                    Télécharger
+                  </Button>
+                </div>
               </div>
             </div>
           )}

@@ -1355,3 +1355,46 @@
 - [x] Supprimer la route /galerie-botaniques (maintenant intégrée dans /plants?tab=gallery)
 - [x] Supprimer l'entrée "Galerie Botaniques" du MegaMenu section Visualisations
 - [x] Nettoyer les imports et routes obsolètes dans App.tsx
+
+
+---
+
+## 🔥 SESSION ACTIVE — 11 Jan 2026 (Suite - Enrichissement Axes & Galerie)
+
+### Enrichissement des axes de recherche
+- [ ] Ajouter des descriptions détaillées pour chaque axe de recherche
+- [ ] Lier les références bibliographiques aux axes de recherche
+- [ ] Ajouter des indicateurs de progression pour chaque axe
+- [ ] Créer les sous-axes pour chaque axe principal
+
+### Amélioration de la galerie botanique
+- [ ] Connecter les images aux fiches plantes correspondantes
+- [ ] Permettre l'upload d'images depuis l'onglet galerie
+- [ ] Ajouter la prévisualisation des images avant upload
+
+### Pages détaillées par axe
+- [ ] Développer les pages /axes-recherche/:code
+- [ ] Afficher les sous-axes dans les pages détaillées
+- [ ] Afficher les références associées à chaque axe
+- [ ] Afficher les résultats de recherche liés
+
+
+---
+
+## 🔥 SESSION ACTIVE — 11 Jan 2026 (Suite - Axes de Recherche)
+
+### Tâches complétées
+- [x] Mettre à jour la page Axes de Recherche avec tous les axes disponibles
+- [x] Vérifier l'intégration de la page Axes de Recherche dans le header
+- [x] Fusionner la galerie botanique dans la page Plantes & Variétés
+- [x] Supprimer la route /galerie-botaniques et mettre à jour la navigation
+- [x] Enrichir les données des axes de recherche avec descriptions détaillées
+- [x] Ajouter des références bibliographiques liées aux axes
+- [x] Ajouter des indicateurs de progression pour chaque axe
+- [x] Améliorer la galerie botanique avec connexion aux plantes
+- [x] Permettre l'upload d'images depuis l'onglet galerie
+- [x] Créer les pages détaillées /axes-recherche/:code avec sous-axes
+- [x] Ajouter les fonctions getSubAxes, getAxisWithSubAxes, getAxisHierarchy dans db.ts
+- [x] Ajouter les procédures tRPC getSubAxes, getWithSubAxes, getHierarchy
+- [x] Améliorer les statistiques de la page Axes de Recherche avec barre de progression globale
+- [x] Ajouter la répartition par catégorie dans les statistiques

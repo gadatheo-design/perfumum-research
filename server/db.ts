@@ -16176,3 +16176,59 @@ export async function getGhostVarietyLinkingStats(): Promise<{
     totalImages: totalImagesResult.count,
   };
 }
+
+
+// ============================================================================
+// SUB-AXES (Sous-axes de recherche)
+// ============================================================================
+
+export async function getSubAxes(parentAxisId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db
+    .select()
+    .from(researchAxes)
+    .where(eq(researchAxes.parentAxisId, parentAxisId))
+    .orderBy(researchAxes.axisCode);
+}
+
+export async function getAxisWithSubAxes(axisId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [axis] = await db.select().from(researchAxes).where(eq(researchAxes.id, axisId));
+  if (!axis) return null;
+  
+  const subAxes = await getSubAxes(axisId);
+  
+  return {
+    ...axis,
+    subAxes,
+  };
+}
+
+export async function getAxisHierarchy() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Récupérer tous les axes principaux (sans parent)
+  const mainAxes = await db
+    .select()
+    .from(researchAxes)
+    .where(isNull(researchAxes.parentAxisId))
+    .orderBy(researchAxes.axisCode);
+  
+  // Pour chaque axe principal, récupérer ses sous-axes
+  const hierarchy = await Promise.all(
+    mainAxes.map(async (axis) => {
+      const subAxes = await getSubAxes(axis.id);
+      return {
+        ...axis,
+        subAxes,
+      };
+    })
+  );
+  
+  return hierarchy;
+}

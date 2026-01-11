@@ -133,6 +133,11 @@ export default function AxeRechercheDetail() {
     enabled: !!axis?.id,
   });
 
+  // Récupérer les sous-axes
+  const { data: subAxes } = trpc.researchAxes.getSubAxes.useQuery(axis?.id || 0, {
+    enabled: !!axis?.id,
+  });
+
   const createMutation = trpc.researchEntries.create.useMutation({
     onSuccess: () => {
       toast.success("Entrée créée");
@@ -327,8 +332,11 @@ export default function AxeRechercheDetail() {
           </Card>
 
           <Tabs defaultValue="entries" className="space-y-6">
-            <TabsList>
+            <TabsList className="flex-wrap">
               <TabsTrigger value="entries">Entrées de recherche</TabsTrigger>
+              {subAxes && subAxes.length > 0 && (
+                <TabsTrigger value="subaxes">Sous-axes ({subAxes.length})</TabsTrigger>
+              )}
               <TabsTrigger value="bibliography">Bibliographie ({bibliography?.length || 0})</TabsTrigger>
               <TabsTrigger value="info">Informations</TabsTrigger>
             </TabsList>
@@ -594,6 +602,59 @@ export default function AxeRechercheDetail() {
                 </Card>
               )}
             </TabsContent>
+
+            {/* Sous-axes */}
+            {subAxes && subAxes.length > 0 && (
+              <TabsContent value="subaxes">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {subAxes.map((subAxis: any) => (
+                    <Card 
+                      key={subAxis.id} 
+                      className="hover:shadow-lg transition-shadow overflow-hidden"
+                      style={{ borderTopColor: subAxis.color || axis.color, borderTopWidth: '4px' }}
+                    >
+                      <CardHeader className="pb-2">
+                        <div className="flex items-start justify-between">
+                          <Badge variant="outline">{subAxis.category}</Badge>
+                          <Badge>{subAxis.status}</Badge>
+                        </div>
+                        <div className="mt-3">
+                          <span className="text-xs font-mono text-muted-foreground">{subAxis.axisCode}</span>
+                          <CardTitle className="text-lg mt-1">{subAxis.name}</CardTitle>
+                          {subAxis.subtitle && (
+                            <CardDescription className="mt-1">{subAxis.subtitle}</CardDescription>
+                          )}
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        {subAxis.description && (
+                          <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
+                            {subAxis.description}
+                          </p>
+                        )}
+                        
+                        <div className="space-y-2 mb-4">
+                          <div className="flex justify-between text-sm">
+                            <span>Progression</span>
+                            <span className="font-medium">{subAxis.progressPercent || 0}%</span>
+                          </div>
+                          <Progress value={subAxis.progressPercent || 0} className="h-2" />
+                        </div>
+
+                        <div className="pt-4 border-t">
+                          <Link href={`/axes-recherche/${subAxis.axisCode}`}>
+                            <Button variant="ghost" size="sm" className="w-full">
+                              Voir le sous-axe
+                              <ChevronLeft className="h-4 w-4 ml-1 rotate-180" />
+                            </Button>
+                          </Link>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+            )}
 
             <TabsContent value="bibliography">
               {bibliography && bibliography.length > 0 ? (

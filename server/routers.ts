@@ -6813,6 +6813,25 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return db.getBibliographyByAxis(input);
       }),
+    
+    // Obtenir les sous-axes d'un axe parent
+    getSubAxes: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getSubAxes(input);
+      }),
+    
+    // Obtenir un axe avec ses sous-axes
+    getWithSubAxes: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getAxisWithSubAxes(input);
+      }),
+    
+    // Obtenir la hiérarchie complète des axes
+    getHierarchy: publicProcedure.query(async () => {
+      return db.getAxisHierarchy();
+    }),
   }),
 
   // ============================================================================
