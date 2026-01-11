@@ -22,8 +22,10 @@ import {
   Map as MapIcon,
   Info,
   Flower2,
-  TreeDeciduous
+  TreeDeciduous,
+  Plus
 } from "lucide-react";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 // Coordonnées géographiques pour les localisations connues
 const LOCATION_COORDS: Record<string, { lat: number; lng: number }> = {
@@ -204,6 +206,12 @@ export default function GhostVarietiesExplorer() {
                 Base de données des variétés botaniques disparues, menacées ou historiquement significatives 
                 pour la parfumerie et l'étude olfactive.
               </p>
+              <Button asChild className="mt-4 bg-white/10 hover:bg-white/20 border-white/30">
+                <Link href="/ghost-variety/new">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Ajouter une variété
+                </Link>
+              </Button>
             </div>
             {stats && (
               <div className="hidden md:flex gap-4">

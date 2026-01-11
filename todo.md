@@ -1260,3 +1260,32 @@
 - [x] Ajouter le panneau de détails pour chaque variété
 - [x] Ajouter les statistiques par type et statut
 - [x] Ajouter la route /ghost-varieties-explorer dans App.tsx
+
+
+---
+
+## 🧬 VARIÉTÉS FANTÔMES (Ghost Varieties) — Session 10 Jan 2026
+
+### Liaisons génomiques
+- [x] Créer les procédures tRPC pour `genomic_molecule_links` (CRUD)
+- [x] Créer les procédures tRPC pour `genomic_plant_links` (CRUD)
+- [x] Procédures bulk pour créer des liaisons en masse
+- [x] Procédures de recherche molécules/plantes pour autocomplete
+- [ ] Peupler les liaisons variétés→molécules existantes
+- [ ] Peupler les liaisons variétés→plantes existantes
+- [ ] Interface de gestion des liaisons génomiques
+
+### Enrichissement des données
+- [x] Champ `imageUrl` déjà présent dans le schéma ghost_varieties
+- [x] Champ `historicalSources` déjà présent dans le schéma ghost_varieties
+- [x] Procédures pour gérer les images (via champ imageUrl)
+- [x] Procédures pour gérer les sources historiques (via champ JSON)
+
+### Formulaire d'ajout
+- [x] Créer le formulaire d'ajout de variété fantôme (`/ghost-variety/new`)
+- [x] Intégrer la sélection de molécules dans le formulaire (onglet Liaisons)
+- [x] Intégrer la sélection de plantes dans le formulaire (onglet Liaisons)
+- [x] Ajouter l'URL d'image dans le formulaire (onglet Identité)
+- [x] Ajouter les sources historiques dans le formulaire (onglet Sources)
+- [x] Tests unitaires pour les nouvelles fonctionnalités (10 tests passés)
+- [x] Bouton d'ajout dans l'explorateur de variétés fantômes

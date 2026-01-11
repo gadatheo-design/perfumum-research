@@ -9370,6 +9370,74 @@ Familles olfactives disponibles:
     getStats: publicProcedure.query(async () => {
       return db.getGenomicLinksStats();
     }),
+    // Bulk create molecule links
+    bulkCreateMoleculeLinks: protectedProcedure
+      .input(z.object({
+        links: z.array(z.object({
+          referenceId: z.number(),
+          moleculeId: z.number(),
+          genomicAxis: z.enum(['G1', 'G2', 'G3']),
+          linkType: z.string().optional(),
+          relevanceScore: z.number().min(0).max(100).optional(),
+          confidence: z.enum(['high', 'medium', 'low']).optional(),
+          notes: z.string().optional(),
+        })),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.bulkCreateGenomicMoleculeLinks(input.links, ctx.user?.id);
+      }),
+    // Bulk create plant links
+    bulkCreatePlantLinks: protectedProcedure
+      .input(z.object({
+        links: z.array(z.object({
+          referenceId: z.number(),
+          plantId: z.number(),
+          genomicAxis: z.enum(['G1', 'G2', 'G3']),
+          linkType: z.string().optional(),
+          relevanceScore: z.number().min(0).max(100).optional(),
+          confidence: z.enum(['high', 'medium', 'low']).optional(),
+          notes: z.string().optional(),
+        })),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.bulkCreateGenomicPlantLinks(input.links, ctx.user?.id);
+      }),
+  }),
+
+  // Ghost Variety Extended Operations
+  ghostVarietyExtended: router({
+    // Get variety with all relations
+    getWithRelations: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getGhostVarietyWithRelations(input);
+      }),
+    // Get molecules for linking
+    getMoleculesForLinking: publicProcedure.query(async () => {
+      return db.getMoleculesForGhostVarietyLinking();
+    }),
+    // Get plants for linking
+    getPlantsForLinking: publicProcedure.query(async () => {
+      return db.getPlantsForGhostVarietyLinking();
+    }),
+    // Search molecules for autocomplete
+    searchMolecules: publicProcedure
+      .input(z.object({
+        query: z.string(),
+        limit: z.number().optional(),
+      }))
+      .query(async ({ input }) => {
+        return db.searchMoleculesForGhostVariety(input.query, input.limit);
+      }),
+    // Search plants for autocomplete
+    searchPlants: publicProcedure
+      .input(z.object({
+        query: z.string(),
+        limit: z.number().optional(),
+      }))
+      .query(async ({ input }) => {
+        return db.searchPlantsForGhostVariety(input.query, input.limit);
+      }),
   }),
 });
 

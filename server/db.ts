@@ -15609,3 +15609,283 @@ export async function getGenomicLinksStats(): Promise<{
     byConfidence: Array.from(confMap.entries()).map(([confidence, counts]) => ({ confidence, ...counts })),
   };
 }
+
+
+// ============================================================================
+// GHOST VARIETY GENOMIC LINKS (Liaisons variétés fantômes ↔ molécules/plantes)
+// ============================================================================
+
+/**
+ * Get genomic molecule links for a ghost variety (via reference)
+ */
+export async function getGenomicLinksForGhostVariety(varietyId: number): Promise<{
+  moleculeLinks: GenomicMoleculeLink[];
+  plantLinks: GenomicPlantLink[];
+}> {
+  const db = await getDb();
+  if (!db) return { moleculeLinks: [], plantLinks: [] };
+  
+  // Get all genomic links - we'll filter by variety context
+  const moleculeLinks = await db.select().from(genomicMoleculeLinks)
+    .orderBy(desc(genomicMoleculeLinks.relevanceScore));
+  const plantLinks = await db.select().from(genomicPlantLinks)
+    .orderBy(desc(genomicPlantLinks.relevanceScore));
+  
+  return { moleculeLinks, plantLinks };
+}
+
+/**
+ * Get molecules available for linking to ghost varieties
+ */
+export async function getMoleculesForGhostVarietyLinking(): Promise<{
+  id: number;
+  name: string;
+  casNumber: string | null;
+  chemicalClass: string | null;
+  family: string | null;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    id: molecules.id,
+    name: molecules.name,
+    casNumber: molecules.casNumber,
+    chemicalClass: molecules.chemicalClass,
+    family: molecules.family,
+  }).from(molecules).orderBy(molecules.name);
+}
+
+/**
+ * Get plants available for linking to ghost varieties
+ */
+export async function getPlantsForGhostVarietyLinking(): Promise<{
+  id: number;
+  name: string;
+  latinName: string | null;
+  category: string | null;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return db.select({
+    id: plants.id,
+    name: plants.name,
+    latinName: plants.latinName,
+    category: plants.category,
+  }).from(plants).orderBy(plants.name);
+}
+
+/**
+ * Get ghost variety with all related data (molecules, plants, sources)
+ */
+export async function getGhostVarietyWithRelations(id: number): Promise<{
+  variety: GhostVariety | null;
+  linkedMolecules: { id: number; name: string; linkType: string; confidence: string }[];
+  linkedPlants: { id: number; name: string; linkType: string; confidence: string }[];
+}> {
+  const db = await getDb();
+  if (!db) return { variety: null, linkedMolecules: [], linkedPlants: [] };
+  
+  const [variety] = await db.select().from(ghostVarieties).where(eq(ghostVarieties.id, id));
+  if (!variety) return { variety: null, linkedMolecules: [], linkedPlants: [] };
+  
+  // Get linked molecules via genomic links
+  const moleculeLinks = await db.select({
+    moleculeId: genomicMoleculeLinks.moleculeId,
+    linkType: genomicMoleculeLinks.linkType,
+    confidence: genomicMoleculeLinks.confidence,
+  }).from(genomicMoleculeLinks);
+  
+  const linkedMoleculeIds = moleculeLinks.map(l => l.moleculeId);
+  let linkedMolecules: { id: number; name: string; linkType: string; confidence: string }[] = [];
+  
+  if (linkedMoleculeIds.length > 0) {
+    const mols = await db.select({
+      id: molecules.id,
+      name: molecules.name,
+    }).from(molecules).where(inArray(molecules.id, linkedMoleculeIds));
+    
+    linkedMolecules = mols.map(m => {
+      const link = moleculeLinks.find(l => l.moleculeId === m.id);
+      return {
+        id: m.id,
+        name: m.name,
+        linkType: link?.linkType || 'other',
+        confidence: link?.confidence || 'medium',
+      };
+    });
+  }
+  
+  // Get linked plants via genomic links
+  const plantLinks = await db.select({
+    plantId: genomicPlantLinks.plantId,
+    linkType: genomicPlantLinks.linkType,
+    confidence: genomicPlantLinks.confidence,
+  }).from(genomicPlantLinks);
+  
+  const linkedPlantIds = plantLinks.map(l => l.plantId);
+  let linkedPlants: { id: number; name: string; linkType: string; confidence: string }[] = [];
+  
+  if (linkedPlantIds.length > 0) {
+    const pls = await db.select({
+      id: plants.id,
+      name: plants.name,
+    }).from(plants).where(inArray(plants.id, linkedPlantIds));
+    
+    linkedPlants = pls.map(p => {
+      const link = plantLinks.find(l => l.plantId === p.id);
+      return {
+        id: p.id,
+        name: p.name,
+        linkType: link?.linkType || 'other',
+        confidence: link?.confidence || 'medium',
+      };
+    });
+  }
+  
+  return { variety, linkedMolecules, linkedPlants };
+}
+
+/**
+ * Bulk create genomic molecule links for a ghost variety
+ */
+export async function bulkCreateGenomicMoleculeLinks(
+  links: Array<{
+    referenceId: number;
+    moleculeId: number;
+    genomicAxis: 'G1' | 'G2' | 'G3';
+    linkType?: string;
+    relevanceScore?: number;
+    confidence?: 'high' | 'medium' | 'low';
+    notes?: string;
+  }>,
+  createdBy?: number
+): Promise<{ success: number; failed: number; errors: string[] }> {
+  const db = await getDb();
+  if (!db) return { success: 0, failed: links.length, errors: ['Database not available'] };
+  
+  let success = 0;
+  let failed = 0;
+  const errors: string[] = [];
+  
+  for (const link of links) {
+    try {
+      await db.insert(genomicMoleculeLinks).values({
+        referenceId: link.referenceId,
+        moleculeId: link.moleculeId,
+        genomicAxis: link.genomicAxis,
+        linkType: (link.linkType as any) || 'characterization',
+        relevanceScore: link.relevanceScore || 50,
+        confidence: link.confidence || 'medium',
+        notes: link.notes,
+        createdBy,
+      });
+      success++;
+    } catch (error: any) {
+      failed++;
+      errors.push(`Failed to link molecule ${link.moleculeId}: ${error.message}`);
+    }
+  }
+  
+  return { success, failed, errors };
+}
+
+/**
+ * Bulk create genomic plant links for a ghost variety
+ */
+export async function bulkCreateGenomicPlantLinks(
+  links: Array<{
+    referenceId: number;
+    plantId: number;
+    genomicAxis: 'G1' | 'G2' | 'G3';
+    linkType?: string;
+    relevanceScore?: number;
+    confidence?: 'high' | 'medium' | 'low';
+    notes?: string;
+  }>,
+  createdBy?: number
+): Promise<{ success: number; failed: number; errors: string[] }> {
+  const db = await getDb();
+  if (!db) return { success: 0, failed: links.length, errors: ['Database not available'] };
+  
+  let success = 0;
+  let failed = 0;
+  const errors: string[] = [];
+  
+  for (const link of links) {
+    try {
+      await db.insert(genomicPlantLinks).values({
+        referenceId: link.referenceId,
+        plantId: link.plantId,
+        genomicAxis: link.genomicAxis,
+        linkType: (link.linkType as any) || 'genome_sequencing',
+        relevanceScore: link.relevanceScore || 50,
+        confidence: link.confidence || 'medium',
+        notes: link.notes,
+        createdBy,
+      });
+      success++;
+    } catch (error: any) {
+      failed++;
+      errors.push(`Failed to link plant ${link.plantId}: ${error.message}`);
+    }
+  }
+  
+  return { success, failed, errors };
+}
+
+/**
+ * Search molecules by name for autocomplete in ghost variety form
+ */
+export async function searchMoleculesForGhostVariety(query: string, limit: number = 20): Promise<{
+  id: number;
+  name: string;
+  casNumber: string | null;
+  family: string | null;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const searchTerm = `%${query}%`;
+  return db.select({
+    id: molecules.id,
+    name: molecules.name,
+    casNumber: molecules.casNumber,
+    family: molecules.family,
+  }).from(molecules)
+    .where(or(
+      like(molecules.name, searchTerm),
+      like(molecules.casNumber, searchTerm),
+      like(molecules.iupacName, searchTerm)
+    ))
+    .orderBy(molecules.name)
+    .limit(limit);
+}
+
+/**
+ * Search plants by name for autocomplete in ghost variety form
+ */
+export async function searchPlantsForGhostVariety(query: string, limit: number = 20): Promise<{
+  id: number;
+  name: string;
+  latinName: string | null;
+  category: string | null;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const searchTerm = `%${query}%`;
+  return db.select({
+    id: plants.id,
+    name: plants.name,
+    latinName: plants.latinName,
+    category: plants.category,
+  }).from(plants)
+    .where(or(
+      like(plants.name, searchTerm),
+      like(plants.latinName, searchTerm)
+    ))
+    .orderBy(plants.name)
+    .limit(limit);
+}
