@@ -5704,3 +5704,71 @@ export const ghostVarietyImagesRelations = relations(ghostVarietyImages, ({ one 
     references: [users.id],
   }),
 }));
+
+
+// ============================================================================
+// AXIS REFERENCE LINKS (Liaisons axes-références pour le graphe)
+// ============================================================================
+
+/**
+ * Many-to-many relationship between research axes and v3 references.
+ * Enables visualization of connections between axes and their supporting references
+ * in the force-directed graph.
+ */
+export const axisReferenceLinks = mysqlTable("axis_reference_links", {
+  id: int("id").autoincrement().primaryKey(),
+  // Entités liées
+  axisId: int("axis_id").notNull().references(() => researchAxes.id, { onDelete: "cascade" }),
+  referenceId: int("reference_id").notNull().references(() => v3References.id, { onDelete: "cascade" }),
+  // Type de liaison
+  linkType: mysqlEnum("link_type", [
+    "primary_source",      // Source primaire de l'axe
+    "secondary_source",    // Source secondaire
+    "methodology",         // Référence méthodologique
+    "theoretical_basis",   // Base théorique
+    "case_study",          // Étude de cas
+    "data_source",         // Source de données
+    "comparative",         // Référence comparative
+    "historical",          // Contexte historique
+    "review",              // Revue de littérature
+    "other"
+  ]).default("secondary_source"),
+  // Pertinence et qualité
+  relevanceScore: int("relevance_score").default(50), // 0-100
+  confidence: mysqlEnum("confidence", ["high", "medium", "low"]).default("medium"),
+  // Annotations
+  notes: text("notes"),
+  excerpt: text("excerpt"), // Extrait pertinent de la référence
+  pageNumbers: varchar("page_numbers", { length: 100 }), // Pages spécifiques
+  // Visualisation dans le graphe
+  displayWeight: int("display_weight").default(1), // Épaisseur du lien dans le graphe (1-10)
+  isHighlighted: boolean("is_highlighted").default(false), // Mettre en évidence dans le graphe
+  // Métadonnées
+  createdBy: int("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  axisIdx: index("axis_ref_link_axis_idx").on(table.axisId),
+  referenceIdx: index("axis_ref_link_ref_idx").on(table.referenceId),
+  uniqueLink: uniqueIndex("unique_axis_reference").on(table.axisId, table.referenceId),
+  linkTypeIdx: index("axis_ref_link_type_idx").on(table.linkType),
+}));
+
+export type AxisReferenceLink = typeof axisReferenceLinks.$inferSelect;
+export type InsertAxisReferenceLink = typeof axisReferenceLinks.$inferInsert;
+
+// Relations pour axisReferenceLinks
+export const axisReferenceLinksRelations = relations(axisReferenceLinks, ({ one }) => ({
+  axis: one(researchAxes, {
+    fields: [axisReferenceLinks.axisId],
+    references: [researchAxes.id],
+  }),
+  reference: one(v3References, {
+    fields: [axisReferenceLinks.referenceId],
+    references: [v3References.id],
+  }),
+  creator: one(users, {
+    fields: [axisReferenceLinks.createdBy],
+    references: [users.id],
+  }),
+}));

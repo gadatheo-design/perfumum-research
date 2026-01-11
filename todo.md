@@ -1473,3 +1473,20 @@
 - [x] Ajouter des filtres pour afficher/masquer certains types de nœuds
 - [x] Implémenter les tooltips au survol des nœuds
 - [x] Permettre de cliquer sur un nœud pour naviguer vers sa page détaillée
+
+## 🗺️ NOUVELLES FONCTIONNALITÉS (11 Jan 2026)
+
+### Clustering des marqueurs sur la carte
+- [x] Implémenter le clustering des marqueurs pour les zones denses (ex: plusieurs terroirs en France)
+- [x] Utiliser la bibliothèque @googlemaps/markerclusterer pour le regroupement
+- [x] Afficher le nombre de terroirs dans chaque cluster
+- [x] Permettre le zoom automatique lors du clic sur un cluster
+- [x] Styliser les clusters selon le nombre de marqueurs
+
+### Table de liaison axes-références
+- [x] Créer la table `axis_reference_links` dans le schéma de base de données
+- [x] Créer les procédures tRPC pour gérer les liaisons axes-références (CRUD)
+- [x] Intégrer les liaisons dans le graphe de force D3.js existant (getAxisReferenceGraphData)
+- [x] Afficher les connexions axes-références dans le graphe (données disponibles via API)
+- [ ] Créer l'interface de gestion des liaisons axes-références (à faire)
+

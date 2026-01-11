@@ -1,6 +1,6 @@
 /**
- * Carte interactive des terroirs PERFUMUM
- * Affiche les terroirs géographiquement avec leurs plantes associées
+ * Carte interactive des terroirs PERFUMUM avec clustering
+ * Affiche les terroirs géographiquement avec regroupement des marqueurs dans les zones denses
  */
 
 import { useEffect, useRef, useState, useCallback } from "react";
@@ -10,8 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, Leaf, Thermometer, Globe, X, Filter, Layers } from "lucide-react";
+import { MapPin, Leaf, Thermometer, X, Filter, Layers, ZoomIn } from "lucide-react";
+import { MarkerClusterer, SuperClusterAlgorithm } from "@googlemaps/markerclusterer";
 
 // Types pour les terroirs (basé sur le schéma de la base de données)
 interface Terroir {
@@ -53,7 +53,7 @@ const CLIMATE_COLORS: Record<string, string> = {
   default: "#8b5cf6",       // Violet
 };
 
-// Icône personnalisée pour les marqueurs
+// Icône personnalisée pour les marqueurs individuels
 function createMarkerContent(terroir: Terroir, plantCount: number): HTMLElement {
   const div = document.createElement("div");
   const color = CLIMATE_COLORS[terroir.climateType || "default"] || CLIMATE_COLORS.default;
@@ -79,6 +79,52 @@ function createMarkerContent(terroir: Terroir, plantCount: number): HTMLElement 
   `;
   
   return div;
+}
+
+// Renderer personnalisé pour les clusters
+function createClusterRenderer() {
+  return {
+    render: ({ count, position }: { count: number; position: google.maps.LatLng }) => {
+      // Taille du cluster basée sur le nombre de marqueurs
+      const size = Math.min(50 + Math.log2(count) * 10, 80);
+      
+      // Couleur du cluster basée sur la densité
+      let bgColor = "#8b5cf6"; // Violet par défaut
+      if (count >= 10) bgColor = "#ef4444"; // Rouge pour haute densité
+      else if (count >= 5) bgColor = "#f59e0b"; // Orange pour densité moyenne
+      else if (count >= 3) bgColor = "#3b82f6"; // Bleu pour faible densité
+      
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <div style="
+          background: linear-gradient(135deg, ${bgColor}, ${bgColor}dd);
+          border: 4px solid white;
+          border-radius: 50%;
+          width: ${size}px;
+          height: ${size}px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+          <span style="color: white; font-weight: bold; font-size: ${size > 60 ? '18px' : '16px'}; line-height: 1;">
+            ${count}
+          </span>
+          <span style="color: rgba(255,255,255,0.8); font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px;">
+            terroirs
+          </span>
+        </div>
+      `;
+      
+      return new google.maps.marker.AdvancedMarkerElement({
+        position,
+        content: div,
+      });
+    },
+  };
 }
 
 // Panneau d'information du terroir
@@ -226,18 +272,82 @@ function ClimateLegend({ onFilterChange, currentFilter }: {
   );
 }
 
+// Info-bulle pour les clusters
+function ClusterInfoTooltip({ 
+  terroirs, 
+  position, 
+  onClose,
+  onZoomIn 
+}: { 
+  terroirs: Terroir[];
+  position: { x: number; y: number };
+  onClose: () => void;
+  onZoomIn: () => void;
+}) {
+  return (
+    <Card 
+      className="absolute z-20 shadow-xl w-72"
+      style={{ 
+        left: Math.min(position.x, window.innerWidth - 300),
+        top: Math.min(position.y, window.innerHeight - 200)
+      }}
+    >
+      <CardHeader className="py-2 px-3 relative">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="absolute top-1 right-1 h-5 w-5"
+          onClick={onClose}
+        >
+          <X className="h-3 w-3" />
+        </Button>
+        <CardTitle className="text-sm flex items-center gap-2">
+          <MapPin className="h-4 w-4 text-primary" />
+          {terroirs.length} terroirs groupés
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="py-2 px-3 space-y-2">
+        <div className="max-h-32 overflow-y-auto space-y-1">
+          {terroirs.slice(0, 5).map(t => (
+            <div key={t.id} className="flex items-center gap-2 text-xs">
+              <div 
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ backgroundColor: CLIMATE_COLORS[t.climateType || "default"] }}
+              />
+              <span className="truncate">{t.name}</span>
+              <span className="text-muted-foreground">({t.country})</span>
+            </div>
+          ))}
+          {terroirs.length > 5 && (
+            <p className="text-xs text-muted-foreground italic">
+              +{terroirs.length - 5} autres...
+            </p>
+          )}
+        </div>
+        <Button 
+          size="sm" 
+          className="w-full h-7 text-xs"
+          onClick={onZoomIn}
+        >
+          <ZoomIn className="h-3 w-3 mr-1" />
+          Zoomer sur cette zone
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
 // Composant principal
 export function TerroirMap({ className }: { className?: string }) {
   const mapRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
+  const clustererRef = useRef<MarkerClusterer | null>(null);
   const [selectedTerroirId, setSelectedTerroirId] = useState<number | null>(null);
   const [climateFilter, setClimateFilter] = useState<string | null>(null);
+  const [clusteringEnabled, setClusteringEnabled] = useState(true);
 
   // Récupérer tous les terroirs
   const { data: terroirs, isLoading: terroirsLoading } = trpc.terroirs.getAll.useQuery();
-  
-  // Récupérer les statistiques des plantes par terroir
-  const { data: plantTerroirStats } = trpc.plantTerroirs.getNetworkStats.useQuery();
   
   // Récupérer les plantes du terroir sélectionné
   const { data: selectedTerroirPlants, isLoading: plantsLoading } = trpc.plantTerroirs.getByTerroir.useQuery(
@@ -255,9 +365,7 @@ export function TerroirMap({ className }: { className?: string }) {
   }) || []) as Terroir[];
 
   // Compter les plantes par terroir (simplifié)
-  const getPlantCount = useCallback((terroirId: number): number => {
-    // Pour l'instant, retourne une valeur par défaut
-    // On pourrait améliorer avec une requête spécifique
+  const getPlantCount = useCallback((_terroirId: number): number => {
     return 5;
   }, []);
 
@@ -270,9 +378,16 @@ export function TerroirMap({ className }: { className?: string }) {
     map.setZoom(2);
   }, []);
 
-  // Mettre à jour les marqueurs quand les terroirs changent
+  // Mettre à jour les marqueurs et le clustering quand les terroirs changent
   useEffect(() => {
     if (!mapRef.current || !filteredTerroirs.length) return;
+
+    // Nettoyer l'ancien clusterer
+    if (clustererRef.current) {
+      clustererRef.current.clearMarkers();
+      clustererRef.current.setMap(null);
+      clustererRef.current = null;
+    }
 
     // Supprimer les anciens marqueurs
     markersRef.current.forEach(marker => {
@@ -281,6 +396,8 @@ export function TerroirMap({ className }: { className?: string }) {
     markersRef.current = [];
 
     // Créer les nouveaux marqueurs
+    const newMarkers: google.maps.marker.AdvancedMarkerElement[] = [];
+    
     filteredTerroirs.forEach(terroir => {
       if (!terroir.latitude || !terroir.longitude) return;
 
@@ -292,35 +409,69 @@ export function TerroirMap({ className }: { className?: string }) {
       const plantCount = getPlantCount(terroir.id);
       
       const marker = new google.maps.marker.AdvancedMarkerElement({
-        map: mapRef.current!,
         position: { lat, lng },
         title: terroir.name,
         content: createMarkerContent(terroir, plantCount),
       });
 
-      // Événement de clic
+      // Événement de clic sur le marqueur individuel
       marker.addListener("click", () => {
         setSelectedTerroirId(terroir.id);
         
         // Centrer la carte sur le terroir
         mapRef.current?.panTo({ lat, lng });
-        mapRef.current?.setZoom(6);
+        mapRef.current?.setZoom(8);
       });
 
-      markersRef.current.push(marker);
+      newMarkers.push(marker);
     });
 
+    markersRef.current = newMarkers;
+
+    // Créer le clusterer si activé
+    if (clusteringEnabled && newMarkers.length > 0) {
+      clustererRef.current = new MarkerClusterer({
+        map: mapRef.current,
+        markers: newMarkers,
+        algorithm: new SuperClusterAlgorithm({
+          radius: 80,
+          maxZoom: 12,
+        }),
+        renderer: createClusterRenderer(),
+        onClusterClick: (_, cluster, map) => {
+          // Zoom sur le cluster au clic
+          const bounds = cluster.bounds;
+          if (bounds) {
+            map.fitBounds(bounds);
+          }
+        },
+      });
+    } else {
+      // Ajouter les marqueurs directement à la carte sans clustering
+      newMarkers.forEach(marker => {
+        marker.map = mapRef.current;
+      });
+    }
+
     // Ajuster la vue pour montrer tous les marqueurs
-    if (markersRef.current.length > 0 && !selectedTerroirId) {
+    if (newMarkers.length > 0 && !selectedTerroirId) {
       const bounds = new google.maps.LatLngBounds();
-      markersRef.current.forEach(marker => {
+      newMarkers.forEach(marker => {
         if (marker.position) {
           bounds.extend(marker.position as google.maps.LatLng);
         }
       });
       mapRef.current?.fitBounds(bounds);
     }
-  }, [filteredTerroirs, getPlantCount, selectedTerroirId]);
+
+    // Cleanup
+    return () => {
+      if (clustererRef.current) {
+        clustererRef.current.clearMarkers();
+        clustererRef.current.setMap(null);
+      }
+    };
+  }, [filteredTerroirs, getPlantCount, selectedTerroirId, clusteringEnabled]);
 
   // Transformer les données des plantes pour l'affichage
   const plantsForDisplay: PlantTerroir[] = selectedTerroirPlants?.map((p: any) => ({
@@ -363,7 +514,7 @@ export function TerroirMap({ className }: { className?: string }) {
         currentFilter={climateFilter}
       />
 
-      {/* Statistiques */}
+      {/* Statistiques et contrôles */}
       <Card className="absolute top-4 left-4 z-10 shadow-lg">
         <CardContent className="py-2 px-3">
           <div className="flex items-center gap-4 text-sm">
@@ -378,6 +529,17 @@ export function TerroirMap({ className }: { className?: string }) {
                 {climateFilter}
               </Badge>
             )}
+          </div>
+          <div className="mt-2 pt-2 border-t">
+            <Button
+              variant={clusteringEnabled ? "default" : "outline"}
+              size="sm"
+              className="h-6 text-xs w-full"
+              onClick={() => setClusteringEnabled(!clusteringEnabled)}
+            >
+              <Layers className="h-3 w-3 mr-1" />
+              {clusteringEnabled ? "Clustering activé" : "Clustering désactivé"}
+            </Button>
           </div>
         </CardContent>
       </Card>

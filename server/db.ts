@@ -223,6 +223,10 @@ import {
   journeyItems,
   JourneyItem,
   InsertJourneyItem,
+  // Axis Reference Links
+  axisReferenceLinks,
+  AxisReferenceLink,
+  InsertAxisReferenceLink,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../shared/olfactiveSynonyms';
@@ -16231,4 +16235,340 @@ export async function getAxisHierarchy() {
   );
   
   return hierarchy;
+}
+
+
+// ============================================================================
+// AXIS REFERENCE LINKS (Liaisons axes-références pour le graphe)
+// ============================================================================
+
+/**
+ * Récupère toutes les liaisons axes-références
+ */
+export async function getAllAxisReferenceLinks(filters?: {
+  axisId?: number;
+  referenceId?: number;
+  linkType?: string;
+  confidence?: string;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const conditions: any[] = [];
+  
+  if (filters?.axisId) {
+    conditions.push(eq(axisReferenceLinks.axisId, filters.axisId));
+  }
+  if (filters?.referenceId) {
+    conditions.push(eq(axisReferenceLinks.referenceId, filters.referenceId));
+  }
+  if (filters?.linkType) {
+    conditions.push(eq(axisReferenceLinks.linkType, filters.linkType as any));
+  }
+  if (filters?.confidence) {
+    conditions.push(eq(axisReferenceLinks.confidence, filters.confidence as any));
+  }
+  
+  let query = db.select().from(axisReferenceLinks);
+  
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as any;
+  }
+  
+  return query.orderBy(desc(axisReferenceLinks.relevanceScore));
+}
+
+/**
+ * Récupère une liaison par ID
+ */
+export async function getAxisReferenceLinkById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const [link] = await db.select().from(axisReferenceLinks).where(eq(axisReferenceLinks.id, id));
+  return link || null;
+}
+
+/**
+ * Récupère les liaisons pour un axe avec les détails des références
+ */
+export async function getAxisReferenceLinksWithDetails(axisId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const links = await db
+    .select()
+    .from(axisReferenceLinks)
+    .where(eq(axisReferenceLinks.axisId, axisId))
+    .orderBy(desc(axisReferenceLinks.relevanceScore));
+  
+  // Enrichir avec les détails des références
+  const enrichedLinks = await Promise.all(
+    links.map(async (link) => {
+      const [reference] = await db
+        .select()
+        .from(v3References)
+        .where(eq(v3References.id, link.referenceId));
+      return { ...link, reference };
+    })
+  );
+  
+  return enrichedLinks;
+}
+
+/**
+ * Récupère les liaisons pour une référence avec les détails des axes
+ */
+export async function getReferenceAxisLinksWithDetails(referenceId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const links = await db
+    .select()
+    .from(axisReferenceLinks)
+    .where(eq(axisReferenceLinks.referenceId, referenceId))
+    .orderBy(desc(axisReferenceLinks.relevanceScore));
+  
+  // Enrichir avec les détails des axes
+  const enrichedLinks = await Promise.all(
+    links.map(async (link) => {
+      const [axis] = await db
+        .select()
+        .from(researchAxes)
+        .where(eq(researchAxes.id, link.axisId));
+      return { ...link, axis };
+    })
+  );
+  
+  return enrichedLinks;
+}
+
+/**
+ * Crée une nouvelle liaison axe-référence
+ */
+export async function createAxisReferenceLink(data: {
+  axisId: number;
+  referenceId: number;
+  linkType?: string;
+  relevanceScore?: number;
+  confidence?: string;
+  notes?: string;
+  excerpt?: string;
+  pageNumbers?: string;
+  displayWeight?: number;
+  isHighlighted?: boolean;
+  createdBy?: number;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  const [result] = await db.insert(axisReferenceLinks).values(data as any);
+  return { id: result.insertId, ...data };
+}
+
+/**
+ * Met à jour une liaison axe-référence
+ */
+export async function updateAxisReferenceLink(id: number, data: {
+  linkType?: string;
+  relevanceScore?: number;
+  confidence?: string;
+  notes?: string;
+  excerpt?: string;
+  pageNumbers?: string;
+  displayWeight?: number;
+  isHighlighted?: boolean;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  await db.update(axisReferenceLinks).set(data as any).where(eq(axisReferenceLinks.id, id));
+  return getAxisReferenceLinkById(id);
+}
+
+/**
+ * Supprime une liaison axe-référence
+ */
+export async function deleteAxisReferenceLink(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  await db.delete(axisReferenceLinks).where(eq(axisReferenceLinks.id, id));
+  return { success: true };
+}
+
+/**
+ * Récupère les données du graphe axes-références pour D3.js
+ */
+export async function getAxisReferenceGraphData() {
+  const db = await getDb();
+  if (!db) return { nodes: [], links: [] };
+  
+  // Récupérer tous les axes
+  const axes = await db.select().from(researchAxes);
+  
+  // Récupérer toutes les références liées
+  const allLinks = await db.select().from(axisReferenceLinks);
+  const linkedRefIds = [...new Set(allLinks.map(l => l.referenceId))];
+  
+  // Récupérer les références liées
+  let references: any[] = [];
+  if (linkedRefIds.length > 0) {
+    references = await db
+      .select()
+      .from(v3References)
+      .where(inArray(v3References.id, linkedRefIds));
+  }
+  
+  // Construire les nœuds
+  const nodes: Array<{
+    id: string;
+    type: 'axis' | 'reference';
+    label: string;
+    code?: string;
+    year?: number;
+    color?: string;
+    size?: number;
+  }> = [];
+  
+  // Ajouter les axes comme nœuds
+  axes.forEach(axis => {
+    nodes.push({
+      id: `axis-${axis.id}`,
+      type: 'axis',
+      label: axis.name,
+      code: axis.axisCode,
+      color: '#8b5cf6', // Violet pour les axes
+      size: 30,
+    });
+  });
+  
+  // Ajouter les références comme nœuds
+  references.forEach(ref => {
+    nodes.push({
+      id: `ref-${ref.id}`,
+      type: 'reference',
+      label: ref.title.substring(0, 50) + (ref.title.length > 50 ? '...' : ''),
+      year: ref.year,
+      color: '#3b82f6', // Bleu pour les références
+      size: 15,
+    });
+  });
+  
+  // Construire les liens
+  const links = allLinks.map(link => ({
+    source: `axis-${link.axisId}`,
+    target: `ref-${link.referenceId}`,
+    type: link.linkType,
+    weight: link.displayWeight || 1,
+    highlighted: link.isHighlighted,
+    relevance: link.relevanceScore,
+  }));
+  
+  return { nodes, links };
+}
+
+/**
+ * Statistiques des liaisons axes-références
+ */
+export async function getAxisReferenceLinkStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // Total des liaisons
+  const [totalResult] = await db.select({ count: count() }).from(axisReferenceLinks);
+  const total = totalResult?.count || 0;
+  
+  // Par type de liaison
+  const byType = await db
+    .select({
+      linkType: axisReferenceLinks.linkType,
+      count: count(),
+    })
+    .from(axisReferenceLinks)
+    .groupBy(axisReferenceLinks.linkType);
+  
+  // Par niveau de confiance
+  const byConfidence = await db
+    .select({
+      confidence: axisReferenceLinks.confidence,
+      count: count(),
+    })
+    .from(axisReferenceLinks)
+    .groupBy(axisReferenceLinks.confidence);
+  
+  // Axes avec le plus de références
+  const topAxes = await db
+    .select({
+      axisId: axisReferenceLinks.axisId,
+      count: count(),
+    })
+    .from(axisReferenceLinks)
+    .groupBy(axisReferenceLinks.axisId)
+    .orderBy(desc(count()))
+    .limit(10);
+  
+  // Enrichir avec les noms des axes
+  const topAxesWithNames = await Promise.all(
+    topAxes.map(async (item) => {
+      const [axis] = await db.select().from(researchAxes).where(eq(researchAxes.id, item.axisId));
+      return {
+        axisId: item.axisId,
+        axisCode: axis?.axisCode,
+        axisName: axis?.name,
+        count: item.count,
+      };
+    })
+  );
+  
+  // Références les plus liées
+  const topReferences = await db
+    .select({
+      referenceId: axisReferenceLinks.referenceId,
+      count: count(),
+    })
+    .from(axisReferenceLinks)
+    .groupBy(axisReferenceLinks.referenceId)
+    .orderBy(desc(count()))
+    .limit(10);
+  
+  return {
+    total,
+    byType,
+    byConfidence,
+    topAxes: topAxesWithNames,
+    topReferences,
+  };
+}
+
+/**
+ * Créer plusieurs liaisons en masse
+ */
+export async function bulkCreateAxisReferenceLinks(links: Array<{
+  axisId: number;
+  referenceId: number;
+  linkType?: string;
+  relevanceScore?: number;
+  confidence?: string;
+  notes?: string;
+  createdBy?: number;
+}>) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+  
+  let created = 0;
+  const errors: string[] = [];
+  
+  for (const link of links) {
+    try {
+      await db.insert(axisReferenceLinks).values(link as any);
+      created++;
+    } catch (error: any) {
+      if (!error.message.includes('Duplicate')) {
+        errors.push(`Erreur pour axe ${link.axisId} - ref ${link.referenceId}: ${error.message}`);
+      }
+    }
+  }
+  
+  return { created, errors, total: links.length };
 }
