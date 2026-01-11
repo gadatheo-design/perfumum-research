@@ -1398,3 +1398,29 @@
 - [x] Ajouter les procédures tRPC getSubAxes, getWithSubAxes, getHierarchy
 - [x] Améliorer les statistiques de la page Axes de Recherche avec barre de progression globale
 - [x] Ajouter la répartition par catégorie dans les statistiques
+
+
+---
+
+## 🔬 SESSION 11 JAN 2026 — Axes de Recherche Avancés
+
+### Sous-axes hiérarchiques
+- [x] Ajouter le champ `parentId` au schéma des axes pour la hiérarchie (déjà présent)
+- [x] Créer les procédures tRPC pour gérer les sous-axes (CRUD) (déjà présent)
+- [x] Mettre à jour l'interface d'édition des axes avec sélection du parent
+- [x] Afficher la hiérarchie des sous-axes dans la page de détail
+- [x] Permettre la création de sous-axes depuis l'interface d'édition
+
+### Descriptions enrichies (objectifs/méthodologie)
+- [x] Ajouter les champs `objectives` et `methodology` au schéma des axes (déjà présent)
+- [x] Créer les procédures tRPC pour mettre à jour ces champs (déjà présent)
+- [x] Mettre à jour le formulaire d'édition avec sections objectifs et méthodologie
+- [x] Afficher les objectifs et méthodologie dans la page de détail des axes
+
+### Liaison références bibliographiques aux axes
+- [x] Créer la table de liaison `axisReferences` (axis_id, reference_id) (déjà présent: bibliographyAxisLinks)
+- [x] Créer les procédures tRPC pour gérer les liaisons (add, remove, list) (déjà présent)
+- [x] Créer l'interface de liaison des références depuis la page de détail
+- [x] Afficher les références liées dans la page de détail des axes
+- [x] Permettre la recherche et sélection de références existantes
+

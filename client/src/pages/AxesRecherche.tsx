@@ -154,7 +154,16 @@ export default function AxesRecherche() {
     progressPercent: 0,
     color: "#6366f1",
     icon: "",
+    parentAxisId: null as number | null,
   });
+
+  // Récupérer les axes principaux pour le sélecteur de parent
+  const { data: allAxes } = trpc.researchAxes.list.useQuery({});
+  const mainAxes = useMemo(() => {
+    if (!allAxes) return [];
+    // Filtrer pour ne montrer que les axes principaux (sans parent)
+    return allAxes.filter((a: any) => !a.parentAxisId);
+  }, [allAxes]);
 
   const resetForm = () => {
     setFormData({
@@ -170,6 +179,7 @@ export default function AxesRecherche() {
       progressPercent: 0,
       color: "#6366f1",
       icon: "",
+      parentAxisId: null,
     });
   };
 
@@ -192,6 +202,7 @@ export default function AxesRecherche() {
       progressPercent: formData.progressPercent,
       color: formData.color,
       icon: formData.icon || undefined,
+      parentAxisId: formData.parentAxisId || undefined,
     };
 
     if (selectedAxis) {
@@ -216,6 +227,7 @@ export default function AxesRecherche() {
       progressPercent: axis.progressPercent || 0,
       color: axis.color || "#6366f1",
       icon: axis.icon || "",
+      parentAxisId: axis.parentAxisId || null,
     });
     setIsAddDialogOpen(true);
   };
@@ -312,6 +324,30 @@ export default function AxesRecherche() {
                         value={formData.subtitle}
                         onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
                       />
+                    </div>
+                    <div className="col-span-2 space-y-2">
+                      <Label>Axe parent (optionnel)</Label>
+                      <Select
+                        value={formData.parentAxisId?.toString() || "none"}
+                        onValueChange={(v) => setFormData({ ...formData, parentAxisId: v === "none" ? null : parseInt(v) })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Aucun (axe principal)" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">Aucun (axe principal)</SelectItem>
+                          {mainAxes
+                            .filter((a: any) => !selectedAxis || a.id !== selectedAxis.id)
+                            .map((a: any) => (
+                              <SelectItem key={a.id} value={a.id.toString()}>
+                                {a.axisCode} — {a.name}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                      <p className="text-xs text-muted-foreground">
+                        Sélectionnez un axe parent pour créer un sous-axe
+                      </p>
                     </div>
                     <div className="space-y-2">
                       <Label>Statut</Label>

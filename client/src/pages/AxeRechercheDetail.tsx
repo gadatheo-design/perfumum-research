@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -63,6 +63,9 @@ import {
   ArrowUp,
   ArrowDown,
   Minus,
+  Target,
+  Beaker,
+  Unlink,
 } from "lucide-react";
 
 // Types
@@ -112,6 +115,14 @@ export default function AxeRechercheDetail() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<any>(null);
   const [viewEntry, setViewEntry] = useState<any>(null);
+  const [isEditAxisDialogOpen, setIsEditAxisDialogOpen] = useState(false);
+  const [axisFormData, setAxisFormData] = useState({
+    description: "",
+    objectives: "",
+    methodology: "",
+  });
+  const [isLinkBibDialogOpen, setIsLinkBibDialogOpen] = useState(false);
+  const [bibSearchQuery, setBibSearchQuery] = useState("");
 
   // Requêtes tRPC
   const { data: axis, isLoading: axisLoading } = trpc.researchAxes.getByCode.useQuery(code || "");
@@ -169,6 +180,86 @@ export default function AxeRechercheDetail() {
       toast.error(`Erreur: ${error.message}`);
     },
   });
+
+  // Mutation pour mettre à jour l'axe
+  const updateAxisMutation = trpc.researchAxes.update.useMutation({
+    onSuccess: () => {
+      toast.success("Axe mis à jour");
+      setIsEditAxisDialogOpen(false);
+      // Refetch axis data
+      window.location.reload();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  // Récupérer toutes les références bibliographiques pour la liaison
+  const { data: allBibliography } = trpc.bibliography.list.useQuery({}, {
+    enabled: isLinkBibDialogOpen,
+  });
+
+  // Mutation pour lier une référence
+  const linkBibMutation = trpc.bibliography.linkToAxis.useMutation({
+    onSuccess: () => {
+      toast.success("Référence liée");
+      window.location.reload();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  // Mutation pour délier une référence
+  const unlinkBibMutation = trpc.bibliography.unlinkFromAxis.useMutation({
+    onSuccess: () => {
+      toast.success("Référence déliée");
+      window.location.reload();
+    },
+    onError: (error) => {
+      toast.error(`Erreur: ${error.message}`);
+    },
+  });
+
+  // Ouvrir le dialog d'édition de l'axe
+  const openEditAxisDialog = () => {
+    if (axis) {
+      setAxisFormData({
+        description: axis.description || "",
+        objectives: axis.objectives || "",
+        methodology: axis.methodology || "",
+      });
+      setIsEditAxisDialogOpen(true);
+    }
+  };
+
+  // Soumettre les modifications de l'axe
+  const handleAxisSubmit = () => {
+    if (!axis) return;
+    updateAxisMutation.mutate({
+      id: axis.id,
+      description: axisFormData.description || undefined,
+      objectives: axisFormData.objectives || undefined,
+      methodology: axisFormData.methodology || undefined,
+    });
+  };
+
+  // Filtrer les références pour la recherche
+  const filteredBibliography = useMemo(() => {
+    if (!allBibliography) return [];
+    if (!bibSearchQuery) return allBibliography.slice(0, 50);
+    const query = bibSearchQuery.toLowerCase();
+    return allBibliography.filter((b: any) =>
+      b.title?.toLowerCase().includes(query) ||
+      b.authors?.toLowerCase().includes(query) ||
+      b.entryKey?.toLowerCase().includes(query)
+    ).slice(0, 50);
+  }, [allBibliography, bibSearchQuery]);
+
+  // Vérifier si une référence est déjà liée
+  const isLinked = (bibId: number) => {
+    return bibliography?.some((b: any) => b.id === bibId);
+  };
 
   // Formulaire
   const [formData, setFormData] = useState({
@@ -657,32 +748,141 @@ export default function AxeRechercheDetail() {
             )}
 
             <TabsContent value="bibliography">
+              {/* Actions pour lier des références */}
+              {user && (
+                <div className="flex justify-end mb-4">
+                  <Dialog open={isLinkBibDialogOpen} onOpenChange={setIsLinkBibDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Lier une référence
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[80vh]">
+                      <DialogHeader>
+                        <DialogTitle>Lier une référence bibliographique</DialogTitle>
+                        <DialogDescription>
+                          Recherchez et sélectionnez une référence à lier à cet axe de recherche
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div className="relative">
+                          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            placeholder="Rechercher par titre, auteur ou clé..."
+                            value={bibSearchQuery}
+                            onChange={(e) => setBibSearchQuery(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
+                        <div className="max-h-[400px] overflow-y-auto space-y-2">
+                          {filteredBibliography.map((bib: any) => (
+                            <Card 
+                              key={bib.id} 
+                              className={`cursor-pointer hover:bg-muted/50 transition-colors ${isLinked(bib.id) ? 'border-green-500 bg-green-50 dark:bg-green-950/20' : ''}`}
+                            >
+                              <CardContent className="p-3">
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <Badge variant="outline" className="text-xs">{bib.entryType}</Badge>
+                                      {bib.year && <span className="text-xs text-muted-foreground">{bib.year}</span>}
+                                    </div>
+                                    <h4 className="font-medium text-sm line-clamp-2">{bib.title}</h4>
+                                    {bib.authors && (
+                                      <p className="text-xs text-muted-foreground line-clamp-1 mt-1">{bib.authors}</p>
+                                    )}
+                                  </div>
+                                  {isLinked(bib.id) ? (
+                                    <Badge className="bg-green-500 text-white shrink-0">Lié</Badge>
+                                  ) : (
+                                    <Button
+                                      size="sm"
+                                      onClick={() => {
+                                        if (axis) {
+                                          linkBibMutation.mutate({
+                                            bibliographyId: bib.id,
+                                            axisId: axis.id,
+                                            relevance: 'secondaire',
+                                          });
+                                        }
+                                      }}
+                                      disabled={linkBibMutation.isPending}
+                                    >
+                                      <Plus className="h-4 w-4" />
+                                    </Button>
+                                  )}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                          {filteredBibliography.length === 0 && (
+                            <div className="text-center py-8 text-muted-foreground">
+                              <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                              <p>Aucune référence trouvée</p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              )}
+
               {bibliography && bibliography.length > 0 ? (
                 <div className="space-y-4">
                   {bibliography.map((entry: any) => (
                     <Card key={entry.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
-                          <div>
-                            <Badge variant="outline" className="mb-2">{entry.entryType}</Badge>
-                            {entry.relevance && (
-                              <Badge className="ml-2">{entry.relevance}</Badge>
-                            )}
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Badge variant="outline">{entry.entryType}</Badge>
+                              {entry.relevance && (
+                                <Badge 
+                                  className={entry.relevance === 'primaire' ? 'bg-blue-500' : entry.relevance === 'secondaire' ? 'bg-slate-500' : 'bg-gray-400'}
+                                >
+                                  {entry.relevance}
+                                </Badge>
+                              )}
+                              {entry.year && (
+                                <span className="text-sm text-muted-foreground">{entry.year}</span>
+                              )}
+                            </div>
                             <h3 className="font-semibold">{entry.title}</h3>
                             {entry.authors && (
-                              <p className="text-sm text-muted-foreground">{entry.authors}</p>
+                              <p className="text-sm text-muted-foreground mt-1">{entry.authors}</p>
                             )}
-                            {entry.year && (
-                              <p className="text-sm text-muted-foreground">{entry.year}</p>
+                            {entry.journal && (
+                              <p className="text-sm text-muted-foreground italic">{entry.journal}</p>
                             )}
                           </div>
-                          {entry.doi && (
-                            <Button variant="ghost" size="sm" asChild>
-                              <a href={`https://doi.org/${entry.doi}`} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4" />
-                              </a>
-                            </Button>
-                          )}
+                          <div className="flex items-center gap-1">
+                            {entry.doi && (
+                              <Button variant="ghost" size="sm" asChild>
+                                <a href={`https://doi.org/${entry.doi}`} target="_blank" rel="noopener noreferrer">
+                                  <ExternalLink className="h-4 w-4" />
+                                </a>
+                              </Button>
+                            )}
+                            {user && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-destructive"
+                                onClick={() => {
+                                  if (axis && confirm("Délier cette référence ?")) {
+                                    unlinkBibMutation.mutate({
+                                      bibliographyId: entry.id,
+                                      axisId: axis.id,
+                                    });
+                                  }
+                                }}
+                              >
+                                <Unlink className="h-4 w-4" />
+                              </Button>
+                            )}
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -693,37 +893,163 @@ export default function AxeRechercheDetail() {
                   <CardContent className="py-12 text-center">
                     <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                     <h3 className="text-lg font-semibold mb-2">Aucune référence liée</h3>
-                    <p className="text-muted-foreground">
-                      Liez des références depuis la bibliographie globale
+                    <p className="text-muted-foreground mb-4">
+                      Liez des références bibliographiques pour documenter les sources de cet axe
                     </p>
+                    {user && (
+                      <Button onClick={() => setIsLinkBibDialogOpen(true)}>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Lier une référence
+                      </Button>
+                    )}
                   </CardContent>
                 </Card>
               )}
             </TabsContent>
 
             <TabsContent value="info">
+              {/* Bouton d'édition */}
+              {user && (
+                <div className="flex justify-end mb-4">
+                  <Button variant="outline" onClick={openEditAxisDialog}>
+                    <Edit className="h-4 w-4 mr-2" />
+                    Modifier les informations
+                  </Button>
+                </div>
+              )}
+
               <div className="grid md:grid-cols-2 gap-6">
-                {axis.objectives && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg">Objectifs</CardTitle>
-                    </CardHeader>
-                    <CardContent>
+                {/* Description */}
+                <Card className="md:col-span-2">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <FileText className="h-5 w-5" />
+                      Description
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {axis.description ? (
+                      <p className="whitespace-pre-wrap">{axis.description}</p>
+                    ) : (
+                      <p className="text-muted-foreground italic">Aucune description définie</p>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Objectifs */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Target className="h-5 w-5 text-blue-500" />
+                      Objectifs
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {axis.objectives ? (
                       <p className="whitespace-pre-wrap">{axis.objectives}</p>
-                    </CardContent>
-                  </Card>
-                )}
-                {axis.methodology && (
-                  <Card>
+                    ) : (
+                      <p className="text-muted-foreground italic">Aucun objectif défini</p>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Méthodologie */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Beaker className="h-5 w-5 text-purple-500" />
+                      Méthodologie
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {axis.methodology ? (
+                      <p className="whitespace-pre-wrap">{axis.methodology}</p>
+                    ) : (
+                      <p className="text-muted-foreground italic">Aucune méthodologie définie</p>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Tags */}
+                {axis.tags && axis.tags.length > 0 && (
+                  <Card className="md:col-span-2">
                     <CardHeader>
-                      <CardTitle className="text-lg">Méthodologie</CardTitle>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <Tag className="h-5 w-5" />
+                        Tags
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="whitespace-pre-wrap">{axis.methodology}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {axis.tags.map((tag: string, i: number) => (
+                          <Badge key={i} variant="outline">{tag}</Badge>
+                        ))}
+                      </div>
                     </CardContent>
                   </Card>
                 )}
               </div>
+
+              {/* Dialog d'édition des informations de l'axe */}
+              <Dialog open={isEditAxisDialogOpen} onOpenChange={setIsEditAxisDialogOpen}>
+                <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Modifier les informations de l'axe</DialogTitle>
+                    <DialogDescription>
+                      Enrichissez la description, les objectifs et la méthodologie de cet axe de recherche
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Description</Label>
+                      <Textarea
+                        placeholder="Description détaillée de l'axe de recherche..."
+                        value={axisFormData.description}
+                        onChange={(e) => setAxisFormData({ ...axisFormData, description: e.target.value })}
+                        className="min-h-[100px]"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Target className="h-4 w-4 text-blue-500" />
+                        Objectifs
+                      </Label>
+                      <Textarea
+                        placeholder="Quels sont les objectifs de cet axe de recherche ?\n\n- Objectif 1\n- Objectif 2\n- ..."
+                        value={axisFormData.objectives}
+                        onChange={(e) => setAxisFormData({ ...axisFormData, objectives: e.target.value })}
+                        className="min-h-[150px]"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Décrivez les objectifs spécifiques, mesurables et atteignables de cet axe
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Beaker className="h-4 w-4 text-purple-500" />
+                        Méthodologie
+                      </Label>
+                      <Textarea
+                        placeholder="Quelle approche méthodologique sera utilisée ?\n\n1. Étape 1\n2. Étape 2\n3. ..."
+                        value={axisFormData.methodology}
+                        onChange={(e) => setAxisFormData({ ...axisFormData, methodology: e.target.value })}
+                        className="min-h-[150px]"
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Décrivez les méthodes, protocoles et approches qui seront utilisés
+                      </p>
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setIsEditAxisDialogOpen(false)}>
+                      Annuler
+                    </Button>
+                    <Button onClick={handleAxisSubmit} disabled={updateAxisMutation.isPending}>
+                      {updateAxisMutation.isPending ? "Enregistrement..." : "Enregistrer"}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </TabsContent>
           </Tabs>
 
