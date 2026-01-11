@@ -26,14 +26,12 @@ export default function TerroirDetail() {
   );
   
   const { data: plants = [] } = trpc.crossLinks.getPlantsByTerroir.useQuery(
-    { terroirId },
+    terroirId,
     { enabled: terroirId > 0 }
   );
   
-  const { data: similarTerroirs = [] } = trpc.network.getSimilarTerroirsByProfile.useQuery(
-    { terroirId, limit: 5 },
-    { enabled: terroirId > 0 }
-  );
+  // Terroirs similaires - désactivé pour l'instant
+  const similarTerroirs: any[] = [];
 
   if (isLoading) {
     return (
@@ -122,9 +120,9 @@ export default function TerroirDetail() {
                 </div>
               </div>
               
-              {terroir.description && (
+              {terroir.reputation && (
                 <p className="text-muted-foreground leading-relaxed max-w-3xl">
-                  {terroir.description}
+                  {terroir.reputation}
                 </p>
               )}
               
@@ -134,10 +132,10 @@ export default function TerroirDetail() {
                   <Leaf className="w-3.5 h-3.5 mr-1.5" />
                   {plants.length} plantes
                 </Badge>
-                {terroir.climate && (
+                {terroir.climateType && (
                   <Badge variant="outline" className="text-sm">
                     <Sun className="w-3.5 h-3.5 mr-1.5" />
-                    {terroir.climate}
+                    {terroir.climateType}
                   </Badge>
                 )}
                 {terroir.altitude && (
@@ -226,7 +224,7 @@ export default function TerroirDetail() {
             {/* Onglet Caractéristiques */}
             <TabsContent value="characteristics" className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {terroir.climate && (
+                {terroir.climateType && (
                   <Card className="border-border/50">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -235,7 +233,7 @@ export default function TerroirDetail() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-lg font-semibold">{terroir.climate}</p>
+                      <p className="text-lg font-semibold">{terroir.climateType}</p>
                     </CardContent>
                   </Card>
                 )}
@@ -268,7 +266,7 @@ export default function TerroirDetail() {
                   </Card>
                 )}
                 
-                {terroir.rainfall && (
+                {terroir.annualRainfall && (
                   <Card className="border-border/50">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -277,13 +275,13 @@ export default function TerroirDetail() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-lg font-semibold">{terroir.rainfall} mm/an</p>
+                      <p className="text-lg font-semibold">{terroir.annualRainfall}</p>
                     </CardContent>
                   </Card>
                 )}
               </div>
               
-              {terroir.olfactiveProfile && (
+              {terroir.reputation && (
                 <Card className="border-border/50">
                   <CardHeader>
                     <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -293,7 +291,7 @@ export default function TerroirDetail() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground leading-relaxed">
-                      {terroir.olfactiveProfile}
+                      {terroir.reputation}
                     </p>
                   </CardContent>
                 </Card>

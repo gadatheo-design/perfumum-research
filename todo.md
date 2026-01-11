@@ -1452,3 +1452,24 @@
 - [x] À propos — bien structurée
 - [x] Contribuer — bien structurée
 
+
+---
+## 🗺️ SESSION 11 JAN 2026 — Visualisations Avancées
+
+### Carte interactive des terroirs
+- [x] Enrichir la page Terroirs avec une carte géographique interactive
+- [x] Intégrer Google Maps avec le composant Map.tsx existant
+- [x] Afficher les terroirs sur la carte avec des marqueurs personnalisés
+- [x] Permettre de cliquer sur un terroir pour voir ses plantes associées
+- [x] Ajouter des popups informatifs avec les détails du terroir
+- [ ] Implémenter le clustering des marqueurs pour les zones denses (à faire)
+
+### Graphe de force D3.js pour les relations thématiques
+- [x] Créer un composant ForceGraph pour visualiser les relations
+- [x] Afficher les axes thématiques comme nœuds centraux
+- [x] Afficher les références bibliographiques liées aux axes
+- [x] Afficher les entités (plantes, molécules, terroirs) connectées
+- [x] Permettre le zoom et le pan sur le graphe
+- [x] Ajouter des filtres pour afficher/masquer certains types de nœuds
+- [x] Implémenter les tooltips au survol des nœuds
+- [x] Permettre de cliquer sur un nœud pour naviguer vers sa page détaillée

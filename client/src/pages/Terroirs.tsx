@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
+import { TerroirsMap } from "@/components/TerroirsMap";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +23,8 @@ import {
   Award,
   ChevronRight,
   ArrowRight,
-  Leaf
+  Leaf,
+  Map
 } from "lucide-react";
 
 // Mapping des types de climat vers des icônes
@@ -253,6 +255,10 @@ export default function Terroirs() {
               <TabsList>
                 <TabsTrigger value="grid">Grille</TabsTrigger>
                 <TabsTrigger value="country">Par pays</TabsTrigger>
+                <TabsTrigger value="map" className="flex items-center gap-1.5">
+                  <Map className="h-4 w-4" />
+                  Carte
+                </TabsTrigger>
               </TabsList>
               
               <TabsContent value="grid">
@@ -371,6 +377,40 @@ export default function Terroirs() {
                     </div>
                   ))}
                 </div>
+              </TabsContent>
+              
+              <TabsContent value="map">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Map className="h-5 w-5 text-primary" />
+                      Carte des terroirs
+                    </CardTitle>
+                    <CardDescription>
+                      Explorez les terroirs sur la carte interactive. Cliquez sur un marqueur pour voir les détails.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <TerroirsMap 
+                      terroirs={filteredTerroirs.map((t: any) => ({
+                        id: t.id,
+                        terroirId: t.terroirId,
+                        name: t.name,
+                        country: t.country,
+                        region: t.region,
+                        latitude: t.latitude,
+                        longitude: t.longitude,
+                        climateType: t.climateType,
+                        soilType: t.soilType,
+                        altitude: t.altitude,
+                        qualityRating: t.qualityRating,
+                        reputation: t.reputation,
+                        mainCrops: typeof t.mainCrops === 'string' ? JSON.parse(t.mainCrops) : t.mainCrops,
+                      }))}
+                      className="rounded-lg"
+                    />
+                  </CardContent>
+                </Card>
               </TabsContent>
             </Tabs>
           )}

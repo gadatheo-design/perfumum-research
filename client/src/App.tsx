@@ -211,6 +211,7 @@ import GenomicsExplorer from "./pages/GenomicsExplorer";
 import AxesRecherche from "./pages/AxesRecherche";
 import AxeRechercheDetail from "./pages/AxeRechercheDetail";
 import ReseauAxes from "./pages/ReseauAxes";
+import RelationsGraph from "./pages/RelationsGraph";
 import GestionPage from "./pages/GestionPage";
 import LeafEconomies from "./pages/LeafEconomies";
 import LeafEconomyDetail from "./pages/LeafEconomyDetail";
@@ -441,6 +442,7 @@ function Router() {
       <Route path="/graphe-plante-molecule" component={GraphePlanteMolecule} />
       <Route path="/graphe-synergies" component={SynergiesPage} />
       <Route path="/synergies" component={SynergiesPage} />
+      <Route path="/graphe-relations" component={RelationsGraph} />
       <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
       <Route path="/synergies-heatmap" component={SynergiesHeatmap} />
       <Route path="/recipe-network" component={RecipeNetworkPage} />
