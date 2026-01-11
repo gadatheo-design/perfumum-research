@@ -5456,9 +5456,9 @@ export const genomicMoleculeLinksRelations = relations(genomicMoleculeLinks, ({ 
     fields: [genomicMoleculeLinks.moleculeId],
     references: [molecules.id],
   }),
-  reference: one(references, {
+  reference: one(v3References, {
     fields: [genomicMoleculeLinks.referenceId],
-    references: [references.id],
+    references: [v3References.id],
   }),
   creator: one(users, {
     fields: [genomicMoleculeLinks.createdBy],
@@ -5516,9 +5516,9 @@ export const genomicPlantLinksRelations = relations(genomicPlantLinks, ({ one })
     fields: [genomicPlantLinks.plantId],
     references: [plants.id],
   }),
-  reference: one(references, {
+  reference: one(v3References, {
     fields: [genomicPlantLinks.referenceId],
-    references: [references.id],
+    references: [v3References.id],
   }),
   creator: one(users, {
     fields: [genomicPlantLinks.createdBy],
