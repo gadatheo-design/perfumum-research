@@ -1239,3 +1239,24 @@
 - [x] Ajouter les routes dans App.tsx pour les nouvelles pages
 - [x] Ajouter les liens dans la section Programmes R&D de la page d'accueil
 - [x] Créer les tests unitaires pour les nouvelles fonctionnalités (ghostVarieties.test.ts)
+
+
+---
+
+## 🗺️ SESSION 11 JANVIER 2026 — Carte Interactive & Données
+
+### Peuplement des données initiales
+- [x] Vérifier les 8 variétés fantômes existantes dans la base de données
+- [x] Ajouter les définitions de schéma pour ghostVarieties dans schema.ts
+- [x] Ajouter les définitions de schéma pour genomicMoleculeLinks et genomicPlantLinks
+- [x] Créer les fonctions de base de données dans db.ts
+- [x] Créer les procédures tRPC pour ghostVarieties et genomicLinks
+
+### Carte interactive
+- [x] Créer la page GhostVarietiesExplorer avec carte Google Maps
+- [x] Intégrer le composant MapView existant
+- [x] Ajouter les marqueurs pour les régions d'origine des variétés
+- [x] Implémenter les filtres par type et statut de conservation
+- [x] Ajouter le panneau de détails pour chaque variété
+- [x] Ajouter les statistiques par type et statut
+- [x] Ajouter la route /ghost-varieties-explorer dans App.tsx

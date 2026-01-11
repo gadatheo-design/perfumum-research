@@ -15268,3 +15268,344 @@ export async function getReviewById(reviewId: number) {
 
   return result || null;
 }
+
+
+// ============================================================================
+// GHOST VARIETIES (Variétés fantômes - AX1)
+// ============================================================================
+
+import { ghostVarieties, GhostVariety, InsertGhostVariety, genomicMoleculeLinks, GenomicMoleculeLink, InsertGenomicMoleculeLink, genomicPlantLinks, GenomicPlantLink, InsertGenomicPlantLink } from "../drizzle/schema";
+
+/**
+ * Get all ghost varieties
+ */
+export async function getAllGhostVarieties(): Promise<GhostVariety[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(ghostVarieties).orderBy(desc(ghostVarieties.createdAt));
+}
+
+/**
+ * Get ghost varieties by variety type
+ */
+export async function getGhostVarietiesByType(varietyType: string): Promise<GhostVariety[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(ghostVarieties)
+    .where(eq(ghostVarieties.varietyType, varietyType as any))
+    .orderBy(desc(ghostVarieties.createdAt));
+}
+
+/**
+ * Get ghost varieties by conservation status
+ */
+export async function getGhostVarietiesByStatus(status: string): Promise<GhostVariety[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(ghostVarieties)
+    .where(eq(ghostVarieties.conservationStatus, status as any))
+    .orderBy(desc(ghostVarieties.createdAt));
+}
+
+/**
+ * Get ghost variety by ID
+ */
+export async function getGhostVarietyById(id: number): Promise<GhostVariety | null> {
+  const db = await getDb();
+  if (!db) return null;
+  const [variety] = await db.select().from(ghostVarieties).where(eq(ghostVarieties.id, id));
+  return variety || null;
+}
+
+/**
+ * Create a new ghost variety
+ */
+export async function createGhostVariety(data: Omit<InsertGhostVariety, 'id' | 'createdAt' | 'updatedAt'>): Promise<GhostVariety> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  const [result] = await db.insert(ghostVarieties).values(data);
+  const [created] = await db.select().from(ghostVarieties).where(eq(ghostVarieties.id, result.insertId));
+  return created;
+}
+
+/**
+ * Update a ghost variety
+ */
+export async function updateGhostVariety(id: number, data: Partial<InsertGhostVariety>): Promise<GhostVariety | null> {
+  const db = await getDb();
+  if (!db) return null;
+  await db.update(ghostVarieties).set(data).where(eq(ghostVarieties.id, id));
+  return getGhostVarietyById(id);
+}
+
+/**
+ * Delete a ghost variety
+ */
+export async function deleteGhostVariety(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(ghostVarieties).where(eq(ghostVarieties.id, id));
+  return true;
+}
+
+/**
+ * Search ghost varieties
+ */
+export async function searchGhostVarieties(query: string): Promise<GhostVariety[]> {
+  const db = await getDb();
+  if (!db) return [];
+  const searchTerm = `%${query}%`;
+  return db.select().from(ghostVarieties)
+    .where(or(
+      like(ghostVarieties.name, searchTerm),
+      like(ghostVarieties.scientificName, searchTerm),
+      like(ghostVarieties.description, searchTerm),
+      like(ghostVarieties.lastDocumentedLocation, searchTerm)
+    ))
+    .orderBy(desc(ghostVarieties.createdAt));
+}
+
+/**
+ * Get ghost varieties statistics
+ */
+export async function getGhostVarietiesStats(): Promise<{
+  total: number;
+  byVarietyType: { type: string; count: number }[];
+  byConservationStatus: { status: string; count: number }[];
+}> {
+  const db = await getDb();
+  if (!db) return { total: 0, byVarietyType: [], byConservationStatus: [] };
+  
+  const [totalCount] = await db.select({ count: count() }).from(ghostVarieties);
+  
+  const byVarietyType = await db.select({
+    type: ghostVarieties.varietyType,
+    count: count(),
+  }).from(ghostVarieties).groupBy(ghostVarieties.varietyType);
+  
+  const byConservationStatus = await db.select({
+    status: ghostVarieties.conservationStatus,
+    count: count(),
+  }).from(ghostVarieties).groupBy(ghostVarieties.conservationStatus);
+  
+  return {
+    total: totalCount.count,
+    byVarietyType: byVarietyType.map(b => ({ type: b.type || 'other', count: b.count })),
+    byConservationStatus: byConservationStatus.map(b => ({ status: b.status || 'unknown', count: b.count })),
+  };
+}
+
+// ============================================================================
+// GENOMIC MOLECULE LINKS (Liaisons génomiques molécules - G1-G3)
+// ============================================================================
+
+/**
+ * Get all genomic molecule links
+ */
+export async function getAllGenomicMoleculeLinks(): Promise<GenomicMoleculeLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(genomicMoleculeLinks).orderBy(desc(genomicMoleculeLinks.createdAt));
+}
+
+/**
+ * Get genomic links for a molecule
+ */
+export async function getGenomicLinksForMolecule(moleculeId: number): Promise<GenomicMoleculeLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(genomicMoleculeLinks)
+    .where(eq(genomicMoleculeLinks.moleculeId, moleculeId));
+}
+
+/**
+ * Get genomic links by axis
+ */
+export async function getGenomicMoleculeLinksByAxis(axis: 'G1' | 'G2' | 'G3'): Promise<GenomicMoleculeLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(genomicMoleculeLinks)
+    .where(eq(genomicMoleculeLinks.genomicAxis, axis))
+    .orderBy(desc(genomicMoleculeLinks.relevanceScore));
+}
+
+/**
+ * Get genomic links for a reference
+ */
+export async function getGenomicMoleculeLinksForReference(referenceId: number): Promise<GenomicMoleculeLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(genomicMoleculeLinks)
+    .where(eq(genomicMoleculeLinks.referenceId, referenceId));
+}
+
+/**
+ * Create a genomic molecule link
+ */
+export async function createGenomicMoleculeLink(data: Omit<InsertGenomicMoleculeLink, 'id' | 'createdAt' | 'updatedAt'>): Promise<GenomicMoleculeLink> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  const [result] = await db.insert(genomicMoleculeLinks).values(data);
+  const [created] = await db.select().from(genomicMoleculeLinks).where(eq(genomicMoleculeLinks.id, result.insertId));
+  return created;
+}
+
+/**
+ * Delete a genomic molecule link
+ */
+export async function deleteGenomicMoleculeLink(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(genomicMoleculeLinks).where(eq(genomicMoleculeLinks.id, id));
+  return true;
+}
+
+// ============================================================================
+// GENOMIC PLANT LINKS (Liaisons génomiques plantes - G1-G3)
+// ============================================================================
+
+/**
+ * Get all genomic plant links
+ */
+export async function getAllGenomicPlantLinks(): Promise<GenomicPlantLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(genomicPlantLinks).orderBy(desc(genomicPlantLinks.createdAt));
+}
+
+/**
+ * Get genomic links for a plant
+ */
+export async function getGenomicLinksForPlant(plantId: number): Promise<GenomicPlantLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(genomicPlantLinks)
+    .where(eq(genomicPlantLinks.plantId, plantId));
+}
+
+/**
+ * Get genomic plant links by axis
+ */
+export async function getGenomicPlantLinksByAxis(axis: 'G1' | 'G2' | 'G3'): Promise<GenomicPlantLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(genomicPlantLinks)
+    .where(eq(genomicPlantLinks.genomicAxis, axis))
+    .orderBy(desc(genomicPlantLinks.relevanceScore));
+}
+
+/**
+ * Get genomic links for a reference
+ */
+export async function getGenomicPlantLinksForReference(referenceId: number): Promise<GenomicPlantLink[]> {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(genomicPlantLinks)
+    .where(eq(genomicPlantLinks.referenceId, referenceId));
+}
+
+/**
+ * Create a genomic plant link
+ */
+export async function createGenomicPlantLink(data: Omit<InsertGenomicPlantLink, 'id' | 'createdAt' | 'updatedAt'>): Promise<GenomicPlantLink> {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+  const [result] = await db.insert(genomicPlantLinks).values(data);
+  const [created] = await db.select().from(genomicPlantLinks).where(eq(genomicPlantLinks.id, result.insertId));
+  return created;
+}
+
+/**
+ * Delete a genomic plant link
+ */
+export async function deleteGenomicPlantLink(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  await db.delete(genomicPlantLinks).where(eq(genomicPlantLinks.id, id));
+  return true;
+}
+
+/**
+ * Get genomic links statistics
+ */
+export async function getGenomicLinksStats(): Promise<{
+  totalMoleculeLinks: number;
+  totalPlantLinks: number;
+  byAxis: { axis: string; moleculeCount: number; plantCount: number }[];
+  byLinkType: { type: string; moleculeCount: number; plantCount: number }[];
+  byConfidence: { confidence: string; moleculeCount: number; plantCount: number }[];
+}> {
+  const db = await getDb();
+  if (!db) return { totalMoleculeLinks: 0, totalPlantLinks: 0, byAxis: [], byLinkType: [], byConfidence: [] };
+  
+  const [molCount] = await db.select({ count: count() }).from(genomicMoleculeLinks);
+  const [plantCount] = await db.select({ count: count() }).from(genomicPlantLinks);
+  
+  // By axis
+  const molByAxis = await db.select({
+    axis: genomicMoleculeLinks.genomicAxis,
+    count: count(),
+  }).from(genomicMoleculeLinks).groupBy(genomicMoleculeLinks.genomicAxis);
+  
+  const plantByAxis = await db.select({
+    axis: genomicPlantLinks.genomicAxis,
+    count: count(),
+  }).from(genomicPlantLinks).groupBy(genomicPlantLinks.genomicAxis);
+  
+  const axisMap = new Map<string, { moleculeCount: number; plantCount: number }>();
+  for (const m of molByAxis) {
+    axisMap.set(m.axis, { moleculeCount: m.count, plantCount: 0 });
+  }
+  for (const p of plantByAxis) {
+    const existing = axisMap.get(p.axis) || { moleculeCount: 0, plantCount: 0 };
+    axisMap.set(p.axis, { ...existing, plantCount: p.count });
+  }
+  
+  // By type
+  const molByType = await db.select({
+    type: genomicMoleculeLinks.linkType,
+    count: count(),
+  }).from(genomicMoleculeLinks).groupBy(genomicMoleculeLinks.linkType);
+  
+  const plantByType = await db.select({
+    type: genomicPlantLinks.linkType,
+    count: count(),
+  }).from(genomicPlantLinks).groupBy(genomicPlantLinks.linkType);
+  
+  const typeMap = new Map<string, { moleculeCount: number; plantCount: number }>();
+  for (const m of molByType) {
+    typeMap.set(m.type || 'other', { moleculeCount: m.count, plantCount: 0 });
+  }
+  for (const p of plantByType) {
+    const existing = typeMap.get(p.type || 'other') || { moleculeCount: 0, plantCount: 0 };
+    typeMap.set(p.type || 'other', { ...existing, plantCount: p.count });
+  }
+  
+  // By confidence
+  const molByConf = await db.select({
+    confidence: genomicMoleculeLinks.confidence,
+    count: count(),
+  }).from(genomicMoleculeLinks).groupBy(genomicMoleculeLinks.confidence);
+  
+  const plantByConf = await db.select({
+    confidence: genomicPlantLinks.confidence,
+    count: count(),
+  }).from(genomicPlantLinks).groupBy(genomicPlantLinks.confidence);
+  
+  const confMap = new Map<string, { moleculeCount: number; plantCount: number }>();
+  for (const m of molByConf) {
+    confMap.set(m.confidence || 'medium', { moleculeCount: m.count, plantCount: 0 });
+  }
+  for (const p of plantByConf) {
+    const existing = confMap.get(p.confidence || 'medium') || { moleculeCount: 0, plantCount: 0 };
+    confMap.set(p.confidence || 'medium', { ...existing, plantCount: p.count });
+  }
+  
+  return {
+    totalMoleculeLinks: molCount.count,
+    totalPlantLinks: plantCount.count,
+    byAxis: Array.from(axisMap.entries()).map(([axis, counts]) => ({ axis, ...counts })),
+    byLinkType: Array.from(typeMap.entries()).map(([type, counts]) => ({ type, ...counts })),
+    byConfidence: Array.from(confMap.entries()).map(([confidence, counts]) => ({ confidence, ...counts })),
+  };
+}

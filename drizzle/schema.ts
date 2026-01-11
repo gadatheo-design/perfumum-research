@@ -5311,3 +5311,217 @@ export const classificationReviewsRelations = relations(classificationReviews, (
     references: [users.id],
   }),
 }));
+
+
+// ============================================================================
+// GHOST VARIETIES (Variétés fantômes - AX1)
+// Variétés botaniques disparues ou menacées, historiquement significatives
+// ============================================================================
+
+export const ghostVarieties = mysqlTable("ghost_varieties", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identité de la variété
+  name: varchar("name", { length: 255 }).notNull(),
+  scientificName: varchar("scientific_name", { length: 255 }),
+  commonNames: json("common_names").$type<string[]>(),
+  // Classification botanique
+  plantFamily: varchar("plant_family", { length: 255 }),
+  genus: varchar("genus", { length: 255 }),
+  species: varchar("species", { length: 255 }),
+  cultivar: varchar("cultivar", { length: 255 }),
+  // Type de variété
+  varietyType: mysqlEnum("variety_type", [
+    "rose",
+    "jasmine",
+    "tobacco",
+    "cannabis",
+    "lavender",
+    "citrus",
+    "aromatic_herb",
+    "resin_tree",
+    "other"
+  ]).notNull(),
+  // Statut de conservation
+  conservationStatus: mysqlEnum("conservation_status", [
+    "extinct",
+    "extinct_wild",
+    "critically_endangered",
+    "endangered",
+    "vulnerable",
+    "near_threatened",
+    "reconstructed",
+    "unknown"
+  ]).notNull(),
+  // Documentation historique
+  lastDocumentedYear: int("last_documented_year"),
+  lastDocumentedLocation: varchar("last_documented_location", { length: 255 }),
+  peakCultivationPeriod: varchar("peak_cultivation_period", { length: 255 }),
+  disappearanceCauses: json("disappearance_causes").$type<string[]>(),
+  // Profil olfactif
+  olfactiveProfile: text("olfactive_profile"),
+  molecularProfile: json("molecular_profile").$type<{
+    molecule: string;
+    percentage?: number;
+    note?: string;
+  }[]>(),
+  // Tentatives de reconstruction
+  reconstructionAttempts: json("reconstruction_attempts").$type<{
+    year: number;
+    institution?: string;
+    method?: string;
+    success?: boolean;
+    notes?: string;
+  }[]>(),
+  // Sources historiques
+  historicalSources: json("historical_sources").$type<{
+    title: string;
+    author?: string;
+    year?: number;
+    type?: string;
+  }[]>(),
+  // Description et notes
+  description: text("description"),
+  historicalSignificance: text("historical_significance"),
+  notes: text("notes"),
+  imageUrl: varchar("image_url", { length: 500 }),
+  // Métadonnées
+  createdBy: int("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  nameIdx: index("ghost_variety_name_idx").on(table.name),
+  typeIdx: index("ghost_varieties_type_idx").on(table.varietyType),
+  statusIdx: index("ghost_varieties_status_idx").on(table.conservationStatus),
+}));
+
+export type GhostVariety = typeof ghostVarieties.$inferSelect;
+export type InsertGhostVariety = typeof ghostVarieties.$inferInsert;
+
+// Relations
+export const ghostVarietiesRelations = relations(ghostVarieties, ({ one }) => ({
+  creator: one(users, {
+    fields: [ghostVarieties.createdBy],
+    references: [users.id],
+  }),
+}));
+
+// ============================================================================
+// GENOMIC MOLECULE LINKS (Liaisons génomiques molécules - G1-G3)
+// ============================================================================
+
+export const genomicMoleculeLinks = mysqlTable("genomic_molecule_links", {
+  id: int("id").autoincrement().primaryKey(),
+  // Entités liées
+  referenceId: int("reference_id").notNull(),
+  moleculeId: int("molecule_id").notNull(),
+  // Métadonnées de la liaison
+  linkType: mysqlEnum("link_type", [
+    "biosynthesis",
+    "characterization",
+    "quantification",
+    "pathway",
+    "gene_association",
+    "regulation",
+    "evolution",
+    "application",
+    "other"
+  ]).default("characterization"),
+  genomicAxis: mysqlEnum("genomic_axis", ["G1", "G2", "G3"]).notNull(),
+  relevanceScore: int("relevance_score").default(50),
+  confidence: mysqlEnum("confidence", ["high", "medium", "low"]).default("medium"),
+  // Données scientifiques
+  geneNames: json("gene_names").$type<string[]>(),
+  pathwayName: varchar("pathway_name", { length: 255 }),
+  enzymeNames: json("enzyme_names").$type<string[]>(),
+  notes: text("notes"),
+  excerpt: text("excerpt"),
+  pageNumbers: varchar("page_numbers", { length: 50 }),
+  // Métadonnées
+  createdBy: int("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  referenceIdx: index("genomic_mol_link_ref_idx").on(table.referenceId),
+  moleculeIdx: index("genomic_mol_link_mol_idx").on(table.moleculeId),
+  axisIdx: index("genomic_mol_link_axis_idx").on(table.genomicAxis),
+  uniqueLink: uniqueIndex("unique_genomic_ref_mol").on(table.referenceId, table.moleculeId),
+}));
+
+export type GenomicMoleculeLink = typeof genomicMoleculeLinks.$inferSelect;
+export type InsertGenomicMoleculeLink = typeof genomicMoleculeLinks.$inferInsert;
+
+// Relations
+export const genomicMoleculeLinksRelations = relations(genomicMoleculeLinks, ({ one }) => ({
+  molecule: one(molecules, {
+    fields: [genomicMoleculeLinks.moleculeId],
+    references: [molecules.id],
+  }),
+  reference: one(references, {
+    fields: [genomicMoleculeLinks.referenceId],
+    references: [references.id],
+  }),
+  creator: one(users, {
+    fields: [genomicMoleculeLinks.createdBy],
+    references: [users.id],
+  }),
+}));
+
+// ============================================================================
+// GENOMIC PLANT LINKS (Liaisons génomiques plantes - G1-G3)
+// ============================================================================
+
+export const genomicPlantLinks = mysqlTable("genomic_plant_links", {
+  id: int("id").autoincrement().primaryKey(),
+  // Entités liées
+  referenceId: int("reference_id").notNull(),
+  plantId: int("plant_id").notNull(),
+  // Métadonnées de la liaison
+  linkType: mysqlEnum("link_type", [
+    "genome_sequencing",
+    "transcriptomics",
+    "metabolomics",
+    "phylogenetics",
+    "breeding",
+    "gene_editing",
+    "marker_development",
+    "comparative",
+    "other"
+  ]).default("genome_sequencing"),
+  genomicAxis: mysqlEnum("genomic_axis", ["G1", "G2", "G3"]).notNull(),
+  relevanceScore: int("relevance_score").default(50),
+  confidence: mysqlEnum("confidence", ["high", "medium", "low"]).default("medium"),
+  // Données scientifiques
+  genomeVersion: varchar("genome_version", { length: 100 }),
+  assemblyAccession: varchar("assembly_accession", { length: 100 }),
+  sequencingMethod: varchar("sequencing_method", { length: 255 }),
+  notes: text("notes"),
+  excerpt: text("excerpt"),
+  // Métadonnées
+  createdBy: int("created_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  referenceIdx: index("genomic_plant_link_ref_idx").on(table.referenceId),
+  plantIdx: index("genomic_plant_link_plant_idx").on(table.plantId),
+  axisIdx: index("genomic_plant_link_axis_idx").on(table.genomicAxis),
+  uniqueLink: uniqueIndex("unique_genomic_ref_plant").on(table.referenceId, table.plantId),
+}));
+
+export type GenomicPlantLink = typeof genomicPlantLinks.$inferSelect;
+export type InsertGenomicPlantLink = typeof genomicPlantLinks.$inferInsert;
+
+// Relations
+export const genomicPlantLinksRelations = relations(genomicPlantLinks, ({ one }) => ({
+  plant: one(plants, {
+    fields: [genomicPlantLinks.plantId],
+    references: [plants.id],
+  }),
+  reference: one(references, {
+    fields: [genomicPlantLinks.referenceId],
+    references: [references.id],
+  }),
+  creator: one(users, {
+    fields: [genomicPlantLinks.createdBy],
+    references: [users.id],
+  }),
+}));

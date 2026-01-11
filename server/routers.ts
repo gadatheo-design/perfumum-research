@@ -9163,6 +9163,214 @@ Familles olfactives disponibles:
         return db.createClassificationReview(input);
       }),
   }),
+
+  // Ghost Varieties (Variétés fantômes - AX1)
+  ghostVarieties: router({
+    list: publicProcedure.query(async () => {
+      return db.getAllGhostVarieties();
+    }),
+    getById: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getGhostVarietyById(input);
+      }),
+    getByType: publicProcedure
+      .input(z.enum(['rose', 'jasmine', 'tobacco', 'cannabis', 'lavender', 'citrus', 'aromatic_herb', 'resin_tree', 'other']))
+      .query(async ({ input }) => {
+        return db.getGhostVarietiesByType(input);
+      }),
+    getByStatus: publicProcedure
+      .input(z.enum(['extinct', 'extinct_wild', 'critically_endangered', 'endangered', 'vulnerable', 'near_threatened', 'reconstructed', 'unknown']))
+      .query(async ({ input }) => {
+        return db.getGhostVarietiesByStatus(input);
+      }),
+    search: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return db.searchGhostVarieties(input);
+      }),
+    getStats: publicProcedure.query(async () => {
+      return db.getGhostVarietiesStats();
+    }),
+    create: protectedProcedure
+      .input(z.object({
+        name: z.string(),
+        scientificName: z.string().optional(),
+        commonNames: z.array(z.string()).optional(),
+        plantFamily: z.string().optional(),
+        genus: z.string().optional(),
+        species: z.string().optional(),
+        cultivar: z.string().optional(),
+        varietyType: z.enum(['rose', 'jasmine', 'tobacco', 'cannabis', 'lavender', 'citrus', 'aromatic_herb', 'resin_tree', 'other']),
+        conservationStatus: z.enum(['extinct', 'extinct_wild', 'critically_endangered', 'endangered', 'vulnerable', 'near_threatened', 'reconstructed', 'unknown']),
+        lastDocumentedYear: z.number().optional(),
+        lastDocumentedLocation: z.string().optional(),
+        peakCultivationPeriod: z.string().optional(),
+        disappearanceCauses: z.array(z.string()).optional(),
+        olfactiveProfile: z.string().optional(),
+        molecularProfile: z.array(z.object({
+          molecule: z.string(),
+          percentage: z.number().optional(),
+          note: z.string().optional(),
+        })).optional(),
+        reconstructionAttempts: z.array(z.object({
+          year: z.number(),
+          institution: z.string().optional(),
+          method: z.string().optional(),
+          success: z.boolean().optional(),
+          notes: z.string().optional(),
+        })).optional(),
+        historicalSources: z.array(z.object({
+          title: z.string(),
+          author: z.string().optional(),
+          year: z.number().optional(),
+          type: z.string().optional(),
+        })).optional(),
+        description: z.string().optional(),
+        historicalSignificance: z.string().optional(),
+        notes: z.string().optional(),
+        imageUrl: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        return db.createGhostVariety({
+          ...input,
+          createdBy: ctx.user?.id,
+        });
+      }),
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        data: z.object({
+          name: z.string().optional(),
+          scientificName: z.string().optional(),
+          commonNames: z.array(z.string()).optional(),
+          plantFamily: z.string().optional(),
+          genus: z.string().optional(),
+          species: z.string().optional(),
+          cultivar: z.string().optional(),
+          varietyType: z.enum(['rose', 'jasmine', 'tobacco', 'cannabis', 'lavender', 'citrus', 'aromatic_herb', 'resin_tree', 'other']).optional(),
+          conservationStatus: z.enum(['extinct', 'extinct_wild', 'critically_endangered', 'endangered', 'vulnerable', 'near_threatened', 'reconstructed', 'unknown']).optional(),
+          lastDocumentedYear: z.number().optional(),
+          lastDocumentedLocation: z.string().optional(),
+          peakCultivationPeriod: z.string().optional(),
+          disappearanceCauses: z.array(z.string()).optional(),
+          olfactiveProfile: z.string().optional(),
+          description: z.string().optional(),
+          historicalSignificance: z.string().optional(),
+          notes: z.string().optional(),
+          imageUrl: z.string().optional(),
+        }),
+      }))
+      .mutation(async ({ input }) => {
+        return db.updateGhostVariety(input.id, input.data);
+      }),
+    delete: protectedProcedure
+      .input(z.number())
+      .mutation(async ({ input }) => {
+        return db.deleteGhostVariety(input);
+      }),
+  }),
+
+  // Genomic Links (Liaisons génomiques - G1-G3)
+  genomicLinks: router({
+    // Molecule links
+    moleculeLinks: router({
+      list: publicProcedure.query(async () => {
+        return db.getAllGenomicMoleculeLinks();
+      }),
+      getForMolecule: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getGenomicLinksForMolecule(input);
+        }),
+      getByAxis: publicProcedure
+        .input(z.enum(['G1', 'G2', 'G3']))
+        .query(async ({ input }) => {
+          return db.getGenomicMoleculeLinksByAxis(input);
+        }),
+      getForReference: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getGenomicMoleculeLinksForReference(input);
+        }),
+      create: protectedProcedure
+        .input(z.object({
+          referenceId: z.number(),
+          moleculeId: z.number(),
+          genomicAxis: z.enum(['G1', 'G2', 'G3']),
+          linkType: z.enum(['biosynthesis', 'characterization', 'quantification', 'pathway', 'gene_association', 'regulation', 'evolution', 'application', 'other']).optional(),
+          relevanceScore: z.number().min(0).max(100).optional(),
+          confidence: z.enum(['high', 'medium', 'low']).optional(),
+          geneNames: z.array(z.string()).optional(),
+          pathwayName: z.string().optional(),
+          enzymeNames: z.array(z.string()).optional(),
+          notes: z.string().optional(),
+          excerpt: z.string().optional(),
+          pageNumbers: z.string().optional(),
+        }))
+        .mutation(async ({ input, ctx }) => {
+          return db.createGenomicMoleculeLink({
+            ...input,
+            createdBy: ctx.user?.id,
+          });
+        }),
+      delete: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ input }) => {
+          return db.deleteGenomicMoleculeLink(input);
+        }),
+    }),
+    // Plant links
+    plantLinks: router({
+      list: publicProcedure.query(async () => {
+        return db.getAllGenomicPlantLinks();
+      }),
+      getForPlant: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getGenomicLinksForPlant(input);
+        }),
+      getByAxis: publicProcedure
+        .input(z.enum(['G1', 'G2', 'G3']))
+        .query(async ({ input }) => {
+          return db.getGenomicPlantLinksByAxis(input);
+        }),
+      getForReference: publicProcedure
+        .input(z.number())
+        .query(async ({ input }) => {
+          return db.getGenomicPlantLinksForReference(input);
+        }),
+      create: protectedProcedure
+        .input(z.object({
+          referenceId: z.number(),
+          plantId: z.number(),
+          genomicAxis: z.enum(['G1', 'G2', 'G3']),
+          linkType: z.enum(['genome_sequencing', 'transcriptomics', 'metabolomics', 'phylogenetics', 'breeding', 'gene_editing', 'marker_development', 'comparative', 'other']).optional(),
+          relevanceScore: z.number().min(0).max(100).optional(),
+          confidence: z.enum(['high', 'medium', 'low']).optional(),
+          genomeVersion: z.string().optional(),
+          assemblyAccession: z.string().optional(),
+          sequencingMethod: z.string().optional(),
+          notes: z.string().optional(),
+          excerpt: z.string().optional(),
+        }))
+        .mutation(async ({ input, ctx }) => {
+          return db.createGenomicPlantLink({
+            ...input,
+            createdBy: ctx.user?.id,
+          });
+        }),
+      delete: protectedProcedure
+        .input(z.number())
+        .mutation(async ({ input }) => {
+          return db.deleteGenomicPlantLink(input);
+        }),
+    }),
+    // Stats
+    getStats: publicProcedure.query(async () => {
+      return db.getGenomicLinksStats();
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

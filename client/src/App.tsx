@@ -218,6 +218,7 @@ import LeafEconomyForm from "./pages/LeafEconomyForm";
 import TimelineBotanique from "./pages/TimelineBotanique";
 import BotaniqueCritique from "./pages/BotaniqueCritique";
 import VarietesFantomes from "./pages/VarietesFantomes";
+import GhostVarietiesExplorer from "./pages/GhostVarietiesExplorer";
 import RecettesLeafEconomies from "./pages/RecettesLeafEconomies";
 import TerpProfiles from "./pages/TerpProfiles";
 import TerpProfilesCompare from "./pages/TerpProfilesCompare";
@@ -548,6 +549,7 @@ function Router() {
       <Route path="/timeline-botanique" component={TimelineBotanique} />
       <Route path="/botanique-critique" component={BotaniqueCritique} />
       <Route path="/varietes-fantomes" component={VarietesFantomes} />
+      <Route path="/ghost-varieties-explorer" component={GhostVarietiesExplorer} />
       <Route path="/recettes-leaf-economies" component={RecettesLeafEconomies} />
       <Route path="/terp-profiles" component={TerpProfiles} />
       <Route path="/terp-profiles/compare" component={TerpProfilesCompare} />
