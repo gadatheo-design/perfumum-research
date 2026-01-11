@@ -1312,3 +1312,19 @@
 - [x] Permettre l'ajout d'images multiples par variété
 - [x] Ajouter la prévisualisation et la gestion des images
 
+
+
+## 🧬 SESSION 11 JANVIER 2026 (Suite) — Radar moléculaire et liaisons
+
+### Radar moléculaire pour variétés fantômes
+- [x] Créer le composant MolecularRadar (Recharts)
+- [x] Intégrer le radar dans l'onglet Aperçu des variétés fantômes
+- [x] Afficher les molécules liées avec leurs concentrations
+- [x] Ajouter les légendes et tooltips informatifs
+
+### Peupler les liaisons variétés-molécules-plantes
+- [x] Analyser les 8 variétés existantes et leurs profils moléculaires
+- [x] Créer les liaisons variétés→molécules pour les 8 variétés (43 liaisons créées)
+- [x] Créer les liaisons variétés→plantes pour les 8 variétés (5 liaisons créées)
+- [x] Valider l'affichage des liaisons dans l'interface
+- [x] Tests unitaires validés (15 tests passés)

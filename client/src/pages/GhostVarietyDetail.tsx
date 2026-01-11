@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import MolecularRadar from "@/components/MolecularRadar";
 import { Link, useParams, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -542,6 +543,15 @@ export default function GhostVarietyDetail() {
                 </CardContent>
               </Card>
             )}
+
+            {/* Radar moléculaire - Visualisation du profil */}
+            <MolecularRadar
+              moleculeLinks={moleculeLinks}
+              title="Radar moléculaire"
+              description={`Profil olfactif agrégé basé sur ${moleculeLinks.length} molécule${moleculeLinks.length > 1 ? 's' : ''} liée${moleculeLinks.length > 1 ? 's' : ''}`}
+              showLegend={true}
+              height={400}
+            />
 
             {/* Molecular profile from JSON */}
             {molecularProfile.length > 0 && (
