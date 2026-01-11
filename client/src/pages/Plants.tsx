@@ -411,7 +411,17 @@ export default function Plants() {
 // ============================================================================
 
 // Images statiques de base (illustrations terpenes)
-const STATIC_BOTANICAL_IMAGES = [
+const STATIC_BOTANICAL_IMAGES: Array<{
+  id: string;
+  name: string;
+  latinName: string;
+  commonName: string;
+  description: string;
+  url: string;
+  family: string;
+  category: string;
+  plantId?: number;
+}> = [
   {
     id: "static-1",
     name: "Myrcène",
@@ -487,14 +497,14 @@ function BotanicalGallery() {
   const { data: plants } = trpc.plants.list.useQuery();
 
   // Mutation pour uploader une image
-  const uploadMutation = trpc.uploads.galleryImage.useMutation({
+  const uploadMutation = trpc.upload.galleryImage.useMutation({
     onSuccess: () => {
       toast.success("Image ajoutée à la galerie");
       setIsUploadOpen(false);
       resetUploadForm();
       refetch();
     },
-    onError: (error) => {
+    onError: (error: { message: string }) => {
       toast.error(`Erreur: ${error.message}`);
     },
   });

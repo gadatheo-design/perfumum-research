@@ -173,7 +173,7 @@ export default function GhostVarietiesExplorer() {
           bounds.extend(marker.position as google.maps.LatLngLiteral);
         }
       });
-      map.fitBounds(bounds, { padding: 50 });
+      map.fitBounds(bounds, { top: 50, right: 50, bottom: 50, left: 50 });
     }
   };
 

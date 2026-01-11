@@ -16409,7 +16409,7 @@ export async function getAxisReferenceGraphData() {
   
   // Récupérer toutes les références liées
   const allLinks = await db.select().from(axisReferenceLinks);
-  const linkedRefIds = [...new Set(allLinks.map(l => l.referenceId))];
+  const linkedRefIds = Array.from(new Set(allLinks.map(l => l.referenceId)));
   
   // Récupérer les références liées
   let references: any[] = [];

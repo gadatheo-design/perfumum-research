@@ -246,10 +246,10 @@ export default function AxeRechercheDetail() {
 
   // Filtrer les références pour la recherche
   const filteredBibliography = useMemo(() => {
-    if (!allBibliography) return [];
-    if (!bibSearchQuery) return allBibliography.slice(0, 50);
+    if (!allBibliography?.entries) return [];
+    if (!bibSearchQuery) return allBibliography.entries.slice(0, 50);
     const query = bibSearchQuery.toLowerCase();
-    return allBibliography.filter((b: any) =>
+    return allBibliography.entries.filter((b: any) =>
       b.title?.toLowerCase().includes(query) ||
       b.authors?.toLowerCase().includes(query) ||
       b.entryKey?.toLowerCase().includes(query)

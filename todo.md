@@ -110,12 +110,12 @@
 ### Visualisations avancées
 - [x] Graphe de relations molécule-plante (D3.js) — `/graphe-plante-molecule`
 - [x] Graphe de relations terroir-plante-molécule (D3.js) — `/graphe-terroir-plante-molecule`
-- [ ] Vue détaillée avec toutes les connexions
-- [ ] Page terroirs avec carte interactive
-- [ ] Améliorer le Diagramme Sankey
-- [ ] Améliorer la Heatmap Synergies
-- [ ] Améliorer le Graphe Réseau
-- [ ] Améliorer le Radar Enrichi
+- [x] Vue détaillée avec toutes les connexions — `/vue-connexions`
+- [x] Page terroirs avec carte interactive — `/carte-terroirs`
+- [x] Améliorer le Diagramme Sankey — `/sankey-flow` (filtres, niveaux)
+- [x] Améliorer le Graphe Réseau — `/graphe-relations` (recherche, filtres)
+- [x] Améliorer le Radar Enrichi — `/compare-radar` (comparaison multi-entités)
+- [ ] Améliorer la Heatmap Synergies (zoom, clustering)
 
 ### Système de tags et notes
 - [ ] Ajouter le système de tags au schéma de base de données
@@ -161,10 +161,10 @@
 - [x] Limiter le badge "Nouveau" aux 30 derniers jours
 
 ### Pages à améliorer
-- [ ] Améliorer la page Gammes (cohérence visuelle)
-- [ ] Améliorer la page Formules de Référence
-- [ ] Améliorer la page Recherche Avancée
-- [ ] Améliorer l'Éditeur de Formulation
+- [x] Améliorer la page Gammes (vue comparative, stats, méthodologie)
+- [x] Améliorer la page Formules de Référence (radar, filtres, détail molécules)
+- [x] Améliorer la page Recherche Avancée (suggestions, historique, filtres AND/OR)
+- [x] Améliorer l'Éditeur de Formulation (bibliothèque, suggestions, formules sauvegardées)
 - [ ] Améliorer le Générateur de Formules IA
 - [ ] Améliorer le Calculateur
 - [ ] Améliorer la page Synergies

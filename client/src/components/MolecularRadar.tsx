@@ -22,16 +22,17 @@ interface MoleculeLink {
   molecule: {
     id: number;
     name: string;
-    chemicalClass: string | null;
-    family: string | null;
-    olfactiveProfile: string | null;
-    radarIntensity: number | null;
-    radarFreshness: number | null;
-    radarWarmth: number | null;
-    radarSweetness: number | null;
-    radarSpiciness: number | null;
-    radarEarthiness: number | null;
-  };
+    chemicalClass?: string | null;
+    family?: string | null;
+    olfactiveProfile?: string | null;
+    radarIntensity?: number | null;
+    radarFreshness?: number | null;
+    radarWarmth?: number | null;
+    radarSweetness?: number | null;
+    radarSpiciness?: number | null;
+    radarEarthiness?: number | null;
+    casNumber?: string | null;
+  } | null;
 }
 
 interface MolecularRadarProps {
@@ -79,7 +80,7 @@ function calculateAggregatedProfile(moleculeLinks: MoleculeLink[]) {
 
   let totalWeight = 0;
 
-  moleculeLinks.forEach((link) => {
+  moleculeLinks.filter(l => l.molecule).forEach((link) => {
     // Poids basé sur le type de liaison
     let typeWeight = 1;
     switch (link.linkType) {
@@ -96,7 +97,7 @@ function calculateAggregatedProfile(moleculeLinks: MoleculeLink[]) {
     const percentageWeight = link.percentage ? parseFloat(link.percentage) / 100 : 1;
     const weight = typeWeight * percentageWeight;
 
-    const mol = link.molecule;
+    const mol = link.molecule!;
     weightedProfile.intensity += (mol.radarIntensity ?? 50) * weight;
     weightedProfile.freshness += (mol.radarFreshness ?? 50) * weight;
     weightedProfile.warmth += (mol.radarWarmth ?? 50) * weight;
@@ -132,15 +133,15 @@ function prepareRadarData(moleculeLinks: MoleculeLink[]) {
 
 // Préparer les données individuelles par molécule (pour le mode détaillé)
 function prepareIndividualRadarData(moleculeLinks: MoleculeLink[]) {
+  const validLinks = moleculeLinks.filter(l => l.molecule);
   return RADAR_AXES.map((axis) => {
     const dataPoint: Record<string, number | string> = {
       axis: axis.label,
       fullMark: 100,
     };
 
-    moleculeLinks.slice(0, 5).forEach((link) => {
-      const mol = link.molecule;
-      const key = axis.key as keyof typeof mol;
+    validLinks.slice(0, 5).forEach((link) => {
+      const mol = link.molecule!;
       const radarKey = `radar${axis.key.charAt(0).toUpperCase() + axis.key.slice(1)}` as keyof typeof mol;
       dataPoint[mol.name] = (mol[radarKey] as number) ?? 50;
     });
@@ -284,7 +285,7 @@ export default function MolecularRadar({
           <div className="mt-4 pt-4 border-t">
             <h4 className="text-sm font-medium mb-3">Molécules principales</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {moleculeLinks.slice(0, 6).map((link) => (
+              {moleculeLinks.filter(l => l.molecule).slice(0, 6).map((link) => (
                 <div
                   key={link.id}
                   className="flex items-center justify-between p-2 rounded-lg bg-muted/50"
@@ -299,7 +300,7 @@ export default function MolecularRadar({
                       }}
                     />
                     <span className="text-sm font-medium truncate max-w-[150px]">
-                      {link.molecule.name}
+                      {link.molecule!.name}
                     </span>
                   </div>
                   {link.percentage && (

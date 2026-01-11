@@ -187,7 +187,7 @@ export function TerroirsMap({ terroirs, className, onTerroirSelect }: TerroirsMa
           lng: parseFloat(t.longitude!),
         });
       });
-      map.fitBounds(bounds, { padding: 50 });
+      map.fitBounds(bounds, { top: 50, right: 50, bottom: 50, left: 50 });
     }
   }, [terroirsWithCoords, onTerroirSelect]);
 

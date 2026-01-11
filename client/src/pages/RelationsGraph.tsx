@@ -70,7 +70,7 @@ export default function RelationsGraph() {
         const isLinkedToVisibleAxis = selectedAxis === "all" || 
           linkedAxes.some((link: any) => {
             const axis = axes?.find((a: any) => a.id === link.axisId);
-            return axis?.code === selectedAxis;
+            return axis?.axisCode === selectedAxis;
           });
 
         if (isLinkedToVisibleAxis || selectedAxis === "all") {
