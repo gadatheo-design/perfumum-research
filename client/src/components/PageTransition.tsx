@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, ReactNode } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { trackPageView } from '@/lib/analytics';
 
 interface PageTransitionProps {
   children: React.ReactNode;
@@ -69,6 +70,11 @@ const subtleVariants = {
  */
 export function PageTransition({ children, className }: PageTransitionProps) {
   const [location] = useLocation();
+
+  // Track page view on route change
+  useEffect(() => {
+    trackPageView(location);
+  }, [location]);
 
   return (
     <AnimatePresence mode="wait" initial={false}>

@@ -1962,3 +1962,26 @@
 - ✅ Tests de redirections complets
 - ✅ Procédures tRPC pour enrichissement Köppen
 - ✅ Composant RedirectTracker pour analytics
+
+
+---
+
+## 🎯 TÂCHES PRIORITAIRES IMMÉDIATES (Session 09 Jan 2026)
+
+### 1. Compléter les zones Köppen manquantes
+- [x] Identifier et ajouter les zones Köppen pour Rosa × damascena (Cs, Csa)
+- [x] Identifier et ajouter les zones Köppen pour Dalbergia nigra (Aw, Am)
+- [x] Valider les données dans la base de données
+- [ ] Tester l'affichage sur la carte des terroirs
+
+### 2. Intégrer MegaMenuOptimized
+- [x] Analyser le nombre d'items actuels du menu (seuil: 50)
+- [x] Si > 50 items: implémenter MegaMenuOptimized
+- [x] Optimiser les performances mobiles du menu
+- [ ] Tester la navigation sur mobile (< 768px)
+
+### 3. Configurer Google Analytics
+- [x] Ajouter le tracking Google Analytics au projet
+- [x] Implémenter le tracking des redirections d'URLs
+- [x] Créer un dashboard de monitoring des migrations d'URLs
+- [ ] Valider la collecte de données en production

@@ -9,6 +9,13 @@ import { getLoginUrl } from "./const";
 import "./index.css";
 import "./mobile-touch.css";
 import { Toaster } from "@/components/ui/sonner";
+import { initializeAnalytics } from "@/lib/analytics";
+
+// Initialize Google Analytics if measurement ID is provided
+const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+if (measurementId) {
+  initializeAnalytics(measurementId);
+}
 
 const queryClient = new QueryClient();
 
