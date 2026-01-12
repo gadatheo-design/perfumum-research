@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Molecule3DViewer } from "@/components/Molecule3DViewer";
 import { LinkedRecettes, SimilarContent } from "@/components/SeeAlso";
+import { LinkedReferences } from "@/components/LinkedReferences";
 import { AIClassificationSuggestion } from "@/components/AIClassificationSuggestion";
 
 // Mapping des classes chimiques pour l'affichage
@@ -634,11 +635,19 @@ export default function MoleculeDetail() {
                 />
               )}
 
-              {/* Références Bibliographiques */}
+              {/* Références Bibliographiques (PubChem, etc.) */}
               <div className="bg-card p-6 rounded-lg border shadow-sm">
-                <h2 className="text-lg font-semibold mb-4">Références Bibliographiques</h2>
+                <h2 className="text-lg font-semibold mb-4">Références PubChem</h2>
                 <ReferencesList references={molecule.references as any} />
               </div>
+
+              {/* Références Bibliographiques Liées (V3) */}
+              <LinkedReferences 
+                entityType="molecule" 
+                entityId={id} 
+                title="Références Bibliographiques Associées"
+                maxItems={5}
+              />
 
               {/* Section Voir aussi */}
               <div className="grid md:grid-cols-2 gap-6">

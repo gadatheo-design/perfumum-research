@@ -17,6 +17,7 @@ import { RecipeOlfactiveProfile } from "@/components/RecipeRadarChart";
 import { RecetteDetailSkeleton } from "@/components/RecetteDetailSkeleton";
 import { RecommendationsCard } from "@/components/RecommendationsCard";
 import { LinkedMolecules, SimilarContent } from "@/components/SeeAlso";
+import { LinkedReferences } from "@/components/LinkedReferences";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
 import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles } from "lucide-react";
@@ -908,6 +909,14 @@ export default function RecetteDetail() {
           getSubtitle={(r) => r.category || r.description?.slice(0, 50) || undefined}
         />
       </div>
+
+      {/* Références Bibliographiques Associées */}
+      <LinkedReferences 
+        entityType="recette" 
+        entityId={id} 
+        title="Références Bibliographiques Associées"
+        maxItems={5}
+      />
 
       {/* Variations */}
       {variations && variations.length > 0 && (

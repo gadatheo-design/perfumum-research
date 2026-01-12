@@ -414,6 +414,13 @@ export function MegaMenu() {
       title: "Visualisations",
       items: [
         {
+          label: "Hub Visualisations",
+          path: "/visualisations",
+          icon: <Network className="h-4 w-4" />,
+          description: "Toutes les visualisations",
+          badge: "HUB",
+        },
+        {
           label: "Synergies Heatmap",
           path: "/synergies-heatmap",
           icon: <BarChart3 className="h-4 w-4" />,

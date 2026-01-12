@@ -3,7 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope } from "lucide-react";
+import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope, Network, Eye } from "lucide-react";
 import { MoleculeOfTheDay } from "@/components/MoleculeOfTheDay";
 import { RecentActivity } from "@/components/RecentActivity";
 import { ResearchNews } from "@/components/ResearchNews";
@@ -381,7 +381,7 @@ export default function Home() {
                 Bases de données, visualisations scientifiques et programmes de recherche.
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Données */}
                 <HoverScale scale={1.02}>
                 <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
@@ -429,6 +429,32 @@ export default function Home() {
                     </Link>
                     <Link href="/recherche-scientifique/degradation-terpenes" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                       → Dégradation Terpènes
+                    </Link>
+                  </CardContent>
+                </Card>
+                </HoverScale>
+
+                {/* Visualisations */}
+                <HoverScale scale={1.02}>
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-4 group-hover:bg-cyan-500/20 transition-colors">
+                      <Network className="h-6 w-6 text-cyan-500" />
+                    </div>
+                    <CardTitle className="group-hover:text-cyan-500 transition-colors">Visualisations</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Link href="/visualisations" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer font-medium text-cyan-600 dark:text-cyan-400">
+                      → Hub Visualisations ✨
+                    </Link>
+                    <Link href="/graphe-molecules-recettes" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Graphe Molécules-Recettes
+                    </Link>
+                    <Link href="/synergies-heatmap" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Heatmap Synergies
+                    </Link>
+                    <Link href="/sankey-flow" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Diagramme Sankey
                     </Link>
                   </CardContent>
                 </Card>

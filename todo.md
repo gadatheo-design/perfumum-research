@@ -1649,3 +1649,26 @@
 - 218 imports de pages
 - 0 liens morts restants (après corrections)
 - 1 route dupliquée supprimée
+
+
+---
+
+## 🔥 SESSION ACTIVE — 12 Jan 2026 (Amélioration Navigation)
+
+### Liens vers /visualisations
+- [x] Ajouter liens vers /visualisations dans le menu principal (DashboardLayout/MegaMenu)
+- [x] Ajouter liens vers /visualisations sur la page d'accueil
+
+### Breadcrumbs sur pages principales
+- [x] Créer composant Breadcrumbs réutilisable (déjà existant: Breadcrumbs.tsx)
+- [x] Vérifier/ajouter Breadcrumbs sur les pages molécules (liste et détail) — déjà présents
+- [x] Vérifier/ajouter Breadcrumbs sur les pages recettes (liste et détail) — déjà présents
+- [x] Vérifier/ajouter Breadcrumbs sur les pages gammes (liste et détail) — déjà présents (9 pages)
+- [x] Vérifier/ajouter Breadcrumbs sur les pages bibliographie — déjà présents (3 pages)
+- [x] Vérifier/ajouter Breadcrumbs sur les pages visualisations — déjà présents
+- [x] Vérifier/ajouter Breadcrumbs sur les pages fournisseurs — déjà présents
+
+### Connexion bibliographie-molécules
+- [x] Ajouter section "Références associées" dans les fiches molécules (LinkedReferences.tsx)
+- [x] Ajouter section "Références associées" dans les fiches recettes
+- [x] Créer les liens bidirectionnels bibliographie↔molécules (via referenceEntityLinks)
