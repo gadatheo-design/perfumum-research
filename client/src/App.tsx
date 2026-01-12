@@ -165,6 +165,7 @@ import { CourbesVolatilite } from "@/pages/CourbesVolatilite";
 import { DegradationTerpenes } from "@/pages/DegradationTerpenes";
 import { ModelesAnalytiquesGCMS } from "@/pages/ModelesAnalytiquesGCMS";
 import SynergiesTerpenesNiches from "./pages/SynergiesTerpenesNiches";
+import SynergiesGraphVisualization from "./pages/SynergiesGraphVisualization";
 import ChimieTabac from "./pages/ChimieTabac";
 import InteractionsTabacCannabis from "./pages/InteractionsTabacCannabis";
 import ComparaisonTerpenes from "./pages/ComparaisonTerpenes";
@@ -446,6 +447,7 @@ function Router() {
       <Route path="/graphe-relations" component={RelationsGraph} />
       <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
       <Route path="/synergies-heatmap" component={SynergiesHeatmap} />
+      <Route path="/synergies-graph-visualization" component={SynergiesGraphVisualization} />
       <Route path="/recipe-network" component={RecipeNetworkPage} />
       <Route path="/sankey-flow" component={SankeyFlow} />
       <Route path="/enhanced-radar" component={EnhancedRadarDemo} />

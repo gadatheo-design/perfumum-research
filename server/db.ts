@@ -16917,3 +16917,293 @@ export async function getSynergySuggestionsForMolecule(moleculeId: number) {
   
   return { moleculeId, suggestions: sortedSuggestions };
 }
+
+
+// ============================================================================
+// SYNERGIES GRAPH VISUALIZATION
+// ============================================================================
+
+/**
+ * Get comprehensive synergy graph data for D3.js visualization
+ * Returns nodes (molecules) and links (synergies) with enriched metadata
+ * Enhanced version with molecule details and statistics
+ */
+export async function getMolecularSynergiesGraphVisualization() {
+  const db = await getDb();
+  if (!db) return { nodes: [], links: [], stats: { totalNodes: 0, totalLinks: 0, byType: {} } };
+  
+  // Get all terpene synergies
+  const terpeneSyns = await db
+    .select({
+      id: terpeneSynergies.id,
+      terpene1Id: terpeneSynergies.terpene1Id,
+      terpene2Id: terpeneSynergies.terpene2Id,
+      compatibilityScore: terpeneSynergies.compatibilityScore,
+      synergyNotes: terpeneSynergies.synergyNotes,
+    })
+    .from(terpeneSynergies);
+  
+  // Get all molecule synergies
+  const molSyns = await db
+    .select({
+      id: moleculeSynergies.id,
+      molecule1Id: moleculeSynergies.molecule1Id,
+      molecule2Id: moleculeSynergies.molecule2Id,
+      type: moleculeSynergies.type,
+      description: moleculeSynergies.description,
+      applications: moleculeSynergies.applications,
+    })
+    .from(moleculeSynergies);
+  
+  // Collect all molecule IDs
+  const moleculeIds = new Set<number>();
+  terpeneSyns.forEach(s => {
+    moleculeIds.add(s.terpene1Id);
+    moleculeIds.add(s.terpene2Id);
+  });
+  molSyns.forEach(s => {
+    moleculeIds.add(s.molecule1Id);
+    moleculeIds.add(s.molecule2Id);
+  });
+  
+  if (moleculeIds.size === 0) {
+    return { nodes: [], links: [], stats: { totalNodes: 0, totalLinks: 0, byType: {} } };
+  }
+  
+  // Get molecule details
+  const mols = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      family: molecules.family,
+      chemicalClass: molecules.chemicalClass,
+      olfactiveProfile: molecules.olfactiveProfile,
+      radarIntensity: molecules.radarIntensity,
+      radarFreshness: molecules.radarFreshness,
+      radarWarmth: molecules.radarWarmth,
+      radarSweetness: molecules.radarSweetness,
+      radarSpiciness: molecules.radarSpiciness,
+      radarEarthiness: molecules.radarEarthiness,
+    })
+    .from(molecules)
+    .where(inArray(molecules.id, Array.from(moleculeIds)));
+  
+  // Build nodes
+  const nodes = mols.map(m => ({
+    id: m.id,
+    name: m.name,
+    family: m.family,
+    chemicalClass: m.chemicalClass,
+    olfactiveProfile: m.olfactiveProfile,
+    radar: {
+      intensity: m.radarIntensity || 50,
+      freshness: m.radarFreshness || 50,
+      warmth: m.radarWarmth || 50,
+      sweetness: m.radarSweetness || 50,
+      spiciness: m.radarSpiciness || 50,
+      earthiness: m.radarEarthiness || 50,
+    },
+    // Count connections
+    connectionCount: 0,
+  }));
+  
+  // Create node map for quick lookup
+  const nodeMap = new Map(nodes.map(n => [n.id, n]));
+  
+  // Build links from terpene synergies
+  const links: Array<{
+    id: string;
+    source: number;
+    target: number;
+    type: string;
+    compatibilityScore: number;
+    description: string | null;
+    applications: string | null;
+  }> = [];
+  
+  terpeneSyns.forEach(s => {
+    const sourceNode = nodeMap.get(s.terpene1Id);
+    const targetNode = nodeMap.get(s.terpene2Id);
+    if (sourceNode && targetNode) {
+      sourceNode.connectionCount++;
+      targetNode.connectionCount++;
+      links.push({
+        id: `terpene-${s.id}`,
+        source: s.terpene1Id,
+        target: s.terpene2Id,
+        type: s.compatibilityScore >= 70 ? 'potentialisation' : s.compatibilityScore >= 40 ? 'stabilisation' : 'masquage',
+        compatibilityScore: s.compatibilityScore,
+        description: s.synergyNotes,
+        applications: null,
+      });
+    }
+  });
+  
+  // Build links from molecule synergies
+  molSyns.forEach(s => {
+    const sourceNode = nodeMap.get(s.molecule1Id);
+    const targetNode = nodeMap.get(s.molecule2Id);
+    if (sourceNode && targetNode) {
+      sourceNode.connectionCount++;
+      targetNode.connectionCount++;
+      links.push({
+        id: `molecule-${s.id}`,
+        source: s.molecule1Id,
+        target: s.molecule2Id,
+        type: s.type,
+        compatibilityScore: 80, // Default for molecule synergies
+        description: s.description,
+        applications: s.applications,
+      });
+    }
+  });
+  
+  // Calculate stats
+  const byType: Record<string, number> = {};
+  links.forEach(l => {
+    byType[l.type] = (byType[l.type] || 0) + 1;
+  });
+  
+  return {
+    nodes,
+    links,
+    stats: {
+      totalNodes: nodes.length,
+      totalLinks: links.length,
+      byType,
+    },
+  };
+}
+
+/**
+ * Get synergy suggestions for multiple molecules at once
+ * Used by the formulation tool to show relevant synergies
+ */
+export async function getSynergySuggestionsForMolecules(moleculeIds: number[]) {
+  const db = await getDb();
+  if (!db || moleculeIds.length === 0) return { selectedIds: moleculeIds, suggestions: [] };
+  
+  // Get terpene synergies involving any of the selected molecules
+  const terpeneSyns = await db
+    .select()
+    .from(terpeneSynergies)
+    .where(
+      or(
+        inArray(terpeneSynergies.terpene1Id, moleculeIds),
+        inArray(terpeneSynergies.terpene2Id, moleculeIds)
+      )
+    );
+  
+  // Get molecule synergies involving any of the selected molecules
+  const molSyns = await db
+    .select()
+    .from(moleculeSynergies)
+    .where(
+      or(
+        inArray(moleculeSynergies.molecule1Id, moleculeIds),
+        inArray(moleculeSynergies.molecule2Id, moleculeIds)
+      )
+    );
+  
+  // Collect partner molecule IDs (not in selected list)
+  const selectedSet = new Set(moleculeIds);
+  const partnerIds = new Set<number>();
+  
+  terpeneSyns.forEach(s => {
+    if (selectedSet.has(s.terpene1Id) && !selectedSet.has(s.terpene2Id)) {
+      partnerIds.add(s.terpene2Id);
+    }
+    if (selectedSet.has(s.terpene2Id) && !selectedSet.has(s.terpene1Id)) {
+      partnerIds.add(s.terpene1Id);
+    }
+  });
+  
+  molSyns.forEach(s => {
+    if (selectedSet.has(s.molecule1Id) && !selectedSet.has(s.molecule2Id)) {
+      partnerIds.add(s.molecule2Id);
+    }
+    if (selectedSet.has(s.molecule2Id) && !selectedSet.has(s.molecule1Id)) {
+      partnerIds.add(s.molecule1Id);
+    }
+  });
+  
+  if (partnerIds.size === 0) return { selectedIds: moleculeIds, suggestions: [] };
+  
+  // Get partner molecule details
+  const partners = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      family: molecules.family,
+      chemicalClass: molecules.chemicalClass,
+      olfactiveProfile: molecules.olfactiveProfile,
+    })
+    .from(molecules)
+    .where(inArray(molecules.id, Array.from(partnerIds)));
+  
+  // Get selected molecule names for context
+  const selectedMols = await db
+    .select({ id: molecules.id, name: molecules.name })
+    .from(molecules)
+    .where(inArray(molecules.id, moleculeIds));
+  const selectedNameMap = new Map(selectedMols.map(m => [m.id, m.name]));
+  
+  // Build suggestions with synergy details
+  const suggestions = partners.map(partner => {
+    // Find all synergies with this partner
+    const relevantTerpeneSyns = terpeneSyns.filter(
+      s => (s.terpene1Id === partner.id || s.terpene2Id === partner.id)
+    );
+    const relevantMolSyns = molSyns.filter(
+      s => (s.molecule1Id === partner.id || s.molecule2Id === partner.id)
+    );
+    
+    // Get the best synergy info
+    const bestTerpeneSyn = relevantTerpeneSyns.reduce((best, curr) => 
+      !best || (curr.compatibilityScore > best.compatibilityScore) ? curr : best, 
+      null as typeof relevantTerpeneSyns[0] | null
+    );
+    const bestMolSyn = relevantMolSyns[0];
+    
+    // Find which selected molecules this partner synergizes with
+    const synergyPartners: string[] = [];
+    relevantTerpeneSyns.forEach(s => {
+      const partnerId = s.terpene1Id === partner.id ? s.terpene2Id : s.terpene1Id;
+      const partnerName = selectedNameMap.get(partnerId);
+      if (partnerName && !synergyPartners.includes(partnerName)) {
+        synergyPartners.push(partnerName);
+      }
+    });
+    relevantMolSyns.forEach(s => {
+      const partnerId = s.molecule1Id === partner.id ? s.molecule2Id : s.molecule1Id;
+      const partnerName = selectedNameMap.get(partnerId);
+      if (partnerName && !synergyPartners.includes(partnerName)) {
+        synergyPartners.push(partnerName);
+      }
+    });
+    
+    return {
+      molecule: {
+        id: partner.id,
+        name: partner.name,
+        family: partner.family,
+        chemicalClass: partner.chemicalClass,
+        olfactiveProfile: partner.olfactiveProfile,
+      },
+      synergyType: bestMolSyn?.type || (bestTerpeneSyn?.compatibilityScore && bestTerpeneSyn.compatibilityScore >= 70 ? 'potentialisation' : 'stabilisation'),
+      compatibilityScore: bestTerpeneSyn?.compatibilityScore || 75,
+      description: bestMolSyn?.description || bestTerpeneSyn?.synergyNotes || 'Synergie documentée',
+      applications: bestMolSyn?.applications,
+      synergyPartners,
+      synergyCount: relevantTerpeneSyns.length + relevantMolSyns.length,
+    };
+  });
+  
+  // Sort by synergy count and compatibility score
+  const sortedSuggestions = suggestions.sort((a, b) => {
+    if (b.synergyCount !== a.synergyCount) return b.synergyCount - a.synergyCount;
+    return b.compatibilityScore - a.compatibilityScore;
+  });
+  
+  return { selectedIds: moleculeIds, suggestions: sortedSuggestions };
+}

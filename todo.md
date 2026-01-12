@@ -1535,10 +1535,34 @@
 - [x] Analyser les synergies moléculaires documentées dans les données existantes
 - [x] Créer une table de synergies moléculaires dans le schéma (moleculeSynergies)
 - [x] Enrichir la table moleculeSynergies avec 30 nouvelles synergies documentées (total: 55)
-- [ ] Implémenter les procédures tRPC pour récupérer les synergies
-- [ ] Modifier le générateur IA pour suggérer des molécules synergiques
-- [ ] Ajouter un panneau de suggestions de synergies dans l'interface
+- [x] Implémenter les procédures tRPC pour récupérer les synergies
+- [x] Modifier le générateur IA pour suggérer des molécules synergiques
+- [x] Ajouter un panneau de suggestions de synergies dans l'interface
 - [ ] Afficher les explications des synergies (pourquoi ces molécules fonctionnent ensemble)
 - [ ] Permettre l'ajout rapide des molécules suggérées à la formule
 - [ ] Tester les suggestions avec des formules existantes
+
+
+
+---
+
+## 🔬 Session du 12 Janvier 2026 — Système de Synergies Moléculaires
+
+### Intégration des synergies au générateur IA
+- [x] Améliorer les procédures tRPC synergies pour le générateur de formules
+- [x] Ajouter la récupération des synergies enrichies avec noms de molécules
+- [x] Créer une procédure pour obtenir les suggestions basées sur les molécules sélectionnées
+
+### Panneau de suggestions synergiques dans le formulateur
+- [x] Intégrer le composant SynergySuggestions dans OutilFormulation.tsx
+- [x] Ajouter un callback pour ajouter les molécules suggérées à la formule
+- [x] Améliorer l'affichage des synergies avec les scores de compatibilité
+
+### Page de visualisation graphique des synergies
+- [x] Créer la page SynergiesGraphVisualization.tsx avec graphe D3.js interactif
+- [x] Implémenter les nœuds pour les molécules avec couleurs par famille chimique
+- [x] Implémenter les liens entre molécules avec épaisseur selon le score de compatibilité
+- [x] Ajouter les interactions (zoom, pan, drag, hover, click)
+- [x] Ajouter les filtres (par type de synergie, par famille chimique)
+- [x] Ajouter la route dans App.tsx
 

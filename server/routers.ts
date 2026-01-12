@@ -1196,6 +1196,17 @@ export const appRouter = router({
           hasDocumentedSynergy: !!(terpeneSyn || molSyn),
         };
       }),
+    
+    // Nouvelles procédures pour la visualisation graphique
+    getGraphVisualizationData: publicProcedure.query(async () => {
+      return db.getMolecularSynergiesGraphVisualization();
+    }),
+    
+    getSuggestionsForMolecules: publicProcedure
+      .input(z.array(z.number()))
+      .query(async ({ input }) => {
+        return db.getSynergySuggestionsForMolecules(input);
+      }),
   }),
 
   // Favorites

@@ -31,6 +31,7 @@ import {
   Check
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { SynergySuggestions } from "@/components/SynergySuggestions";
 
 // Types
 type FormulationType = 'parfum' | 'encens' | 'tabac_blend' | 'cannabis_blend' | 'hybrid';
@@ -68,6 +69,13 @@ export default function OutilFormulation() {
 
   // Fetch data
   const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
+  
+  // Synergy suggestions for selected molecules
+  const selectedMoleculeIds = useMemo(() => selectedMolecules.map(m => m.id), [selectedMolecules]);
+  const { data: synergySuggestions } = trpc.synergies.getSuggestionsForMolecules.useQuery(
+    selectedMoleculeIds,
+    { enabled: selectedMoleculeIds.length > 0 }
+  );
   const { data: suggestions, isLoading: loadingSuggestions } = trpc.formulationTool.generateSuggestions.useQuery(
     selectedBaseMolecule || 0,
     { enabled: !!selectedBaseMolecule }
@@ -407,24 +415,17 @@ export default function OutilFormulation() {
                   </CardContent>
                 </Card>
 
-                {/* Synergy Analysis */}
-                {selectedMolecules.length >= 2 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <Sparkles className="h-5 w-5" />
-                        Analyse des synergies
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="bg-muted/50 rounded-lg p-4">
-                        <p className="text-sm text-muted-foreground">
-                          L'analyse des synergies entre les molécules sélectionnées sera disponible 
-                          une fois les données de synergie importées dans la base de données.
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
+                {/* Synergy Suggestions Panel */}
+                {selectedMolecules.length > 0 && (
+                  <SynergySuggestions
+                    selectedMoleculeIds={selectedMoleculeIds}
+                    onAddMolecule={(moleculeId) => {
+                      const mol = molecules?.find(m => m.id === moleculeId);
+                      if (mol) {
+                        addMolecule({ id: mol.id, name: mol.name }, 'modifier');
+                      }
+                    }}
+                  />
                 )}
               </div>
             </div>
