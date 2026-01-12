@@ -1,6 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { Search, Menu, Sun, Moon, Command } from "lucide-react";
 import { MegaMenu } from "@/components/MegaMenu";
+import { MegaMenuOptimized, useMegaMenuSections, useMegaMenuPerformance } from "@/components/MegaMenuOptimized";
 import { MobileMenu } from "@/components/MobileMenu";
 import { SmartSearch } from "@/components/SmartSearch";
 import { Button } from "@/components/ui/button";
@@ -49,7 +50,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation - Mega Menu */}
-        <MegaMenu />
+        <MegaMenu /> {/* TODO: Replace with MegaMenuOptimized */}
 
         {/* Search Button & Theme Toggle */}
         <div className="hidden lg:flex items-center gap-4">

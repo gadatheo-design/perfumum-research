@@ -1884,7 +1884,7 @@ export const plants = mysqlTable("plants", {
   latitudeMax: decimal("latitude_max", { precision: 10, scale: 7 }), // Latitude maximale de distribution
   altitudeMin: int("altitude_min"), // Altitude minimale en mètres
   altitudeMax: int("altitude_max"), // Altitude maximale en mètres
-  koppenZone: varchar("koppen_zone", { length: 10 }), // Zone climatique Köppen (ex: "Af", "Cfa", "Dfb")
+  koppenZone: varchar("koppen_zone", { length: 50 }), // Zone climatique Köppen (ex: "Af, Cfa, Dfb")
   koppenDescription: varchar("koppen_description", { length: 100 }), // Description de la zone Köppen
   precipitationMin: int("precipitation_min"), // Précipitations annuelles minimales (mm)
   precipitationMax: int("precipitation_max"), // Précipitations annuelles maximales (mm)

@@ -176,6 +176,13 @@
       "when": 1768219527255,
       "tag": "0024_nosy_nico_minoru",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "5",
+      "when": 1768255215383,
+      "tag": "0025_flippant_wolfpack",
+      "breakpoints": true
     }
   ]
 }
