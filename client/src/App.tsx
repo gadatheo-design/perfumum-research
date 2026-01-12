@@ -205,6 +205,8 @@ import Terrains from "./pages/Terrains";
 import BibliographiePage from "./pages/BibliographiePage";
 import BibliographieGlobale from "./pages/BibliographieGlobale";
 import ReferencesV3 from "./pages/ReferencesV3";
+import Visualisations from "./pages/Visualisations";
+import Bibliographie from "./pages/Bibliographie";
 import HeritageConservation from "./pages/HeritageConservation";
 import H2LinkingInterface from "./pages/H2LinkingInterface";
 import H3LinkingInterface from "./pages/H3LinkingInterface";
@@ -513,6 +515,8 @@ function Router() {
       <Route path="/bibliographie" component={BibliographiePage} />
       <Route path="/bibliographie-globale" component={BibliographieGlobale} />
       <Route path="/references-v3" component={ReferencesV3} />
+      <Route path="/visualisations" component={Visualisations} />
+      <Route path="/bibliographie-hub" component={Bibliographie} />
       <Route path="/heritage-conservation" component={HeritageConservation} />
       <Route path="/h2-linking" component={H2LinkingInterface} />
       <Route path="/h3-linking" component={H3LinkingInterface} />
