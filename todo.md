@@ -1868,3 +1868,34 @@
 - [ ] Mettre à jour la navigation principale pour pointer vers les hubs
 - [ ] Implémenter les fonctions incrementCollectionViews et deleteSharedCollection
 - [ ] Enrichir les données climatiques Köppen pour atteindre 100% de couverture
+
+---
+## 🔥 SESSION ACTIVE — 12 Jan 2026 (Consolidation Hubs - Suite)
+### Tâches complétées (Suite de l'audit)
+- [x] Mettre à jour la navigation MegaMenu pour pointer vers les hubs
+  - Gammes: `/gammes` → `/gammes-hub` (avec badge HUB)
+  - Outils: Ajout de "Hub Outils" en accès rapide (avec badge HUB)
+  - Highlight Outils mis à jour vers `/outils-hub`
+- [x] Créer le composant LegacyRedirect pour les redirections automatiques
+  - Composant créé: `client/src/components/LegacyRedirect.tsx`
+  - Deux composants: `LegacyRedirect` et `SimpleRedirect`
+- [x] Implémenter les redirections depuis les anciennes routes
+  - Gammes: `/gammes` → `/gammes-hub`, `/gammes/petrichor` → `/gammes-hub?tab=petrichor`, etc.
+  - Outils: `/outils` → `/outils-hub`, `/calculateur` → `/outils-hub?tab=calculateurs`, etc.
+  - Routes non-hub conservées: `/gammes/signatures`, `/gammes/pheromones`, `/gammes/raretes`
+- [x] Enrichir les données climatiques Köppen
+  - Script créé: `enrich-koppen-100percent.mjs`
+  - 27 plantes mises à jour avec zones Köppen
+  - Couverture Köppen: 50% → 65.6% (162/247 plantes)
+  - Test climat-tl.test.ts: 8/8 tests passent ✅
+- [x] Corriger les tests climatiques
+  - Mise à jour des noms de colonnes (camelCase → snake_case)
+  - Ajout de vérifications null/undefined
+  - Ajout de vérifications NaN
+  - Seuil de couverture: 50% → 65%
+
+### Prochaines étapes suggérées
+- [ ] Enrichir les 85 plantes restantes pour atteindre 100% de couverture Köppen
+- [ ] Tester les redirections en production
+- [ ] Vérifier que le MegaMenu fonctionne correctement sur mobile
+- [ ] Documenter les changements de navigation

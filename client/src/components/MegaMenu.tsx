@@ -382,9 +382,10 @@ export function MegaMenu() {
       items: [
         {
           label: "Gammes",
-          path: "/gammes",
+          path: "/gammes-hub",
           icon: <Palette className="h-4 w-4" />,
           description: "Collections thématiques",
+          badge: "HUB",
         },
         {
           label: "Carte GPS Plantes",
@@ -443,6 +444,18 @@ export function MegaMenu() {
   // === OUTILS (Création + Analyse) ===
   const outilsSections: MegaMenuSection[] = [
     {
+      title: "Accès rapide",
+      items: [
+        {
+          label: "Hub Outils",
+          path: "/outils-hub",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Tous les outils en un seul endroit",
+          badge: "HUB",
+        },
+      ],
+    },
+    {
       title: "Création",
       items: [
         {
@@ -500,10 +513,10 @@ export function MegaMenu() {
 
   // Highlight pour Outils
   const outilsHighlight: MenuItem = {
-    label: "Éditeur de Formulation",
-    path: "/outils/editeur-formulation",
-    icon: <FlaskConical className="h-5 w-5" />,
-    description: "Créez vos propres formules olfactives avec notre éditeur interactif",
+    label: "Hub Outils",
+    path: "/outils-hub",
+    icon: <Sparkles className="h-5 w-5" />,
+    description: "Accédez à tous les outils de formulation, analyse et calcul en un seul endroit",
     badge: "Nouveau",
   };
 

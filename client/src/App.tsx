@@ -11,6 +11,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { PageTransition } from "./components/PageTransition";
+import { LegacyRedirect, SimpleRedirect } from "./components/LegacyRedirect";
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -104,14 +105,14 @@ import Familles from "./pages/Familles";
 import FamillesList from "./pages/FamillesList";
 import { ChemicalFamilies } from "./pages/ChemicalFamilies";
 import MoleculesHub from "./pages/MoleculesHub";
-import { RedirectToFamilles, RedirectToChemicalFamilies, RedirectToChemicalFamilyGraph } from "./components/LegacyRedirect";
+
 
 // === RECETTES ===
 import Recettes from "./pages/Recettes";
 import RecetteDetail from "./pages/RecetteDetail";
 import Accords from "./pages/Accords";
 import RecettesHub from "./pages/RecettesHub";
-import { RedirectToAccords, RedirectToFormulesReference } from "./components/LegacyRedirect";
+
 import AccordsDedies from "./pages/AccordsDedies";
 import { ExperimentalAccords } from "./pages/ExperimentalAccords";
 import RechercheRadicale from "@/pages/RechercheRadicale";
@@ -394,8 +395,19 @@ function Router() {
       <Route path="/prototypes/:code" component={PrototypeDetail} />
       
       {/* === GAMMES === */}
-      <Route path="/gammes" component={Gammes} />
+      {/* Legacy redirects to gammes-hub */}
+      <Route path="/gammes" component={() => <SimpleRedirect to="/gammes-hub" />} />
       <Route path="/gammes-hub" component={GammesHub} />
+      <Route path="/gammes/petrichor" component={() => <SimpleRedirect to="/gammes-hub?tab=petrichor" />} />
+      <Route path="/gammes/volcanique" component={() => <SimpleRedirect to="/gammes-hub?tab=volcanique" />} />
+      <Route path="/gammes/glaciaire" component={() => <SimpleRedirect to="/gammes-hub?tab=glaciaire" />} />
+      <Route path="/gammes/biolab" component={() => <SimpleRedirect to="/gammes-hub?tab=bio-lab" />} />
+      <Route path="/gammes/mossi" component={() => <SimpleRedirect to="/gammes-hub?tab=mossi" />} />
+      {/* Note: /gammes/signatures, /gammes/pheromones, /gammes/raretes are not in hub - keep original routes */}
+      <Route path="/gammes/signatures" component={GammeSignatures} />
+      <Route path="/gammes/pheromones" component={GammePheromones} />
+      <Route path="/gammes/raretes" component={GammeRaretes} />
+      
       <Route path="/colombie" component={ColombieLine} />
       <Route path="/recette/colombie/:id" component={RecetteColombie} />
       <Route path="/sourcing" component={Sourcing} />
@@ -404,14 +416,6 @@ function Router() {
       <Route path="/sourcing/inde" component={SourcingInde} />
       <Route path="/sourcing/madagascar" component={SourcingMadagascar} />
       <Route path="/sourcing/north-america" component={SourcingNorthAmerica} />
-      <Route path="/gammes/petrichor" component={GammesPetrichor} />
-      <Route path="/gammes/volcanique" component={GammesVolcanique} />
-      <Route path="/gammes/glaciaire" component={GammesGlaciaire} />
-      <Route path="/gammes/biolab" component={GammesBioLab} />
-      <Route path="/gammes/mossi" component={GammesMossi} />
-      <Route path="/gammes/signatures" component={GammeSignatures} />
-      <Route path="/gammes/pheromones" component={GammePheromones} />
-      <Route path="/gammes/raretes" component={GammeRaretes} />
       
       {/* === LABORATOIRE === */}
       <Route path="/laboratoire" component={Laboratoire} />
@@ -435,8 +439,9 @@ function Router() {
       <Route path="/recettes-tl" component={RecettesTL} />
       <Route path="/recette/:id" component={RecetteDetail} />
       {/* Anciennes routes redirigées vers RecettesHub */}
-      <Route path="/accords" component={RedirectToAccords} />
-      <Route path="/formules-reference" component={RedirectToFormulesReference} />
+      {/* Legacy redirects for accords and formules-reference */}
+      <Route path="/accords" component={() => <SimpleRedirect to="/recettes-hub?tab=accords" />} />
+      <Route path="/formules-reference" component={() => <SimpleRedirect to="/recettes-hub?tab=formules" />} />
       <Route path="/accords-legacy" component={Accords} />
       <Route path="/accords-dedies" component={AccordsDedies} />
       <Route path="/experimental-accords" component={ExperimentalAccords} />
@@ -472,10 +477,16 @@ function Router() {
       <Route path="/enhanced-radar" component={EnhancedRadarDemo} />
       
       {/* === OUTILS === */}
-      <Route path="/outils-formulation" component={OutilsFormulation} />
-      <Route path="/calculateur" component={ProportionsCalculator} />
-      <Route path="/outils/dilution" component={DilutionCalculator} />
-      <Route path="/outils/calculateur-cout" component={CalculateurCout} />
+      {/* Legacy redirects to outils-hub */}
+      <Route path="/outils" component={() => <SimpleRedirect to="/outils-hub" />} />
+      <Route path="/outils-hub" component={OutilsHub} />
+      <Route path="/outils-formulation" component={() => <SimpleRedirect to="/outils-hub" />} />
+      <Route path="/calculateur" component={() => <SimpleRedirect to="/outils-hub?tab=calculateurs" />} />
+      <Route path="/outils/dilution" component={() => <SimpleRedirect to="/outils-hub?tab=calculateurs" />} />
+      <Route path="/outils/calculateur-cout" component={() => <SimpleRedirect to="/outils-hub?tab=calculateurs" />} />
+      <Route path="/outils/editeur-formulation" component={() => <SimpleRedirect to="/outils-hub?tab=formulation" />} />
+      <Route path="/outils/generateur-formules" component={() => <SimpleRedirect to="/outils-hub?tab=formulation" />} />
+      {/* Keep these as they're not in hub */}
       <Route path="/analyses" component={CorrelationAnalysis} />
       <Route path="/absorbe-scale" component={AbsorbeScale} />
       <Route path="/outils/enrichissement-pubchem" component={EnrichissementPubChem} />
@@ -551,8 +562,7 @@ function Router() {
       <Route path="/patrimoine-menace" component={PatrimoineMenace} />
       <Route path="/alternatives-durables" component={AlternativesDurables} />
       <Route path="/archives-olfactives" component={ArchivesOlfactives} />
-      <Route path="/outils" component={Outils} />
-      <Route path="/outils-hub" component={OutilsHub} />
+
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
       <Route path="/contribuer" component={Contribuer} />
