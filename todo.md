@@ -1532,8 +1532,9 @@
 - [ ] Intégrer dans la navigation principale
 
 ### Amélioration du Générateur de Formules IA avec synergies moléculaires
-- [ ] Analyser les synergies moléculaires documentées dans les données existantes
-- [ ] Créer une table de synergies moléculaires dans le schéma
+- [x] Analyser les synergies moléculaires documentées dans les données existantes
+- [x] Créer une table de synergies moléculaires dans le schéma (moleculeSynergies)
+- [x] Enrichir la table moleculeSynergies avec 30 nouvelles synergies documentées (total: 55)
 - [ ] Implémenter les procédures tRPC pour récupérer les synergies
 - [ ] Modifier le générateur IA pour suggérer des molécules synergiques
 - [ ] Ajouter un panneau de suggestions de synergies dans l'interface

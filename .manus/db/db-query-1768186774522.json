@@ -1,0 +1,610 @@
+{
+  "query": "SELECT id, name, chemical_class, family FROM molecules WHERE name IS NOT NULL ORDER BY name LIMIT 100;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, chemical_class, family FROM molecules WHERE name IS NOT NULL ORDER BY name LIMIT 100;",
+  "rows": [
+    {
+      "id": "810007",
+      "name": "1,8-cineole",
+      "chemical_class": "ether",
+      "family": "terpene"
+    },
+    {
+      "id": "930005",
+      "name": "2,5-Diméthylpyrazine",
+      "chemical_class": "heterocyclic",
+      "family": "Pyrazine"
+    },
+    {
+      "id": "90002",
+      "name": "2-MIB (2-Methylisoborneol)",
+      "chemical_class": "alcohol",
+      "family": "Minéral"
+    },
+    {
+      "id": "930004",
+      "name": "2-Méthylpyrazine",
+      "chemical_class": "heterocyclic",
+      "family": "Pyrazine"
+    },
+    {
+      "id": "690002",
+      "name": "2-Phényléthanol",
+      "chemical_class": "alcohol",
+      "family": "Alcool aromatique"
+    },
+    {
+      "id": "90033",
+      "name": "2-heptanone",
+      "chemical_class": "ketone",
+      "family": "Cétone"
+    },
+    {
+      "id": "720005",
+      "name": "3-Carène",
+      "chemical_class": "monoterpene",
+      "family": "Terpène (Cannabis)"
+    },
+    {
+      "id": "720032",
+      "name": "4-Vinylguaiacol",
+      "chemical_class": "phenol",
+      "family": "Composé du Tabac"
+    },
+    {
+      "id": "120006",
+      "name": "4-methyl-guaiacol",
+      "chemical_class": "phenol",
+      "family": "Phénol"
+    },
+    {
+      "id": "840012",
+      "name": "AKBA (Acide 3-O-acétyl-11-céto-β-boswellique)",
+      "chemical_class": "other",
+      "family": "Triterpène pentacyclique"
+    },
+    {
+      "id": "300002",
+      "name": "Absolue d'Iris (Orris Butter)",
+      "chemical_class": "ketone",
+      "family": "Cétones (Irones)"
+    },
+    {
+      "id": "330008",
+      "name": "Absolue de Jasmin (Indole)",
+      "chemical_class": "heterocyclic",
+      "family": "Indoles"
+    },
+    {
+      "id": "330007",
+      "name": "Absolue de Rose (Citronellol)",
+      "chemical_class": "alcohol",
+      "family": "Monoterpénols"
+    },
+    {
+      "id": "480024",
+      "name": "Acacia brûlé",
+      "chemical_class": "NULL",
+      "family": "Bois pyrogénés"
+    },
+    {
+      "id": "780015",
+      "name": "Acaciine",
+      "chemical_class": "other",
+      "family": "Flavonoïde"
+    },
+    {
+      "id": "840011",
+      "name": "Acide 11-céto-β-boswellique (KBA)",
+      "chemical_class": "other",
+      "family": "Triterpène pentacyclique"
+    },
+    {
+      "id": "60006",
+      "name": "Acide Benzoïque",
+      "chemical_class": "aromatic",
+      "family": "acides_aromatiques"
+    },
+    {
+      "id": "60008",
+      "name": "Acide Caféique",
+      "chemical_class": "phenol",
+      "family": "acides_aromatiques"
+    },
+    {
+      "id": "60010",
+      "name": "Acide Coumarique",
+      "chemical_class": "other",
+      "family": "acides_aromatiques"
+    },
+    {
+      "id": "60003",
+      "name": "Acide Décanoïque (C10)",
+      "chemical_class": "NULL",
+      "family": "acides_gras"
+    },
+    {
+      "id": "60009",
+      "name": "Acide Férulique",
+      "chemical_class": "other",
+      "family": "acides_aromatiques"
+    },
+    {
+      "id": "60004",
+      "name": "Acide Linoléique",
+      "chemical_class": "other",
+      "family": "acides_gras"
+    },
+    {
+      "id": "1050025",
+      "name": "Acide acétique",
+      "chemical_class": "other",
+      "family": "Acides carboxyliques"
+    },
+    {
+      "id": "210003",
+      "name": "Acide butyrique",
+      "chemical_class": "other",
+      "family": "Acides gras volatils"
+    },
+    {
+      "id": "210007",
+      "name": "Acide décanoïque",
+      "chemical_class": "other",
+      "family": "Acides gras volatils"
+    },
+    {
+      "id": "210005",
+      "name": "Acide hexanoïque",
+      "chemical_class": "other",
+      "family": "Acides gras volatils"
+    },
+    {
+      "id": "210004",
+      "name": "Acide isovalérique",
+      "chemical_class": "other",
+      "family": "Acides gras volatils"
+    },
+    {
+      "id": "210006",
+      "name": "Acide octanoïque",
+      "chemical_class": "other",
+      "family": "Acides gras volatils"
+    },
+    {
+      "id": "780012",
+      "name": "Acide oléanolique",
+      "chemical_class": "other",
+      "family": "Triterpène"
+    },
+    {
+      "id": "780011",
+      "name": "Acide ursolique",
+      "chemical_class": "other",
+      "family": "Triterpène"
+    },
+    {
+      "id": "840010",
+      "name": "Acide β-boswellique",
+      "chemical_class": "other",
+      "family": "Triterpène pentacyclique"
+    },
+    {
+      "id": "1050019",
+      "name": "Acétate d'eugényle",
+      "chemical_class": "ester",
+      "family": "Esters phénoliques"
+    },
+    {
+      "id": "840013",
+      "name": "Acétate d'incensole",
+      "chemical_class": "diterpene",
+      "family": "Diterpène"
+    },
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol",
+      "chemical_class": "ester",
+      "family": "Ester phénolique"
+    },
+    {
+      "id": "600021",
+      "name": "Acétate de Bornyle",
+      "chemical_class": "ester",
+      "family": "Esters terpéniques"
+    },
+    {
+      "id": "570020",
+      "name": "Acétate de Bornyle",
+      "chemical_class": "ester",
+      "family": "Esters terpéniques"
+    },
+    {
+      "id": "570019",
+      "name": "Acétate de Géranyle",
+      "chemical_class": "ester",
+      "family": "Esters terpéniques"
+    },
+    {
+      "id": "600019",
+      "name": "Acétate de Linalyle",
+      "chemical_class": "ester",
+      "family": "Esters terpéniques"
+    },
+    {
+      "id": "570018",
+      "name": "Acétate de Linalyle",
+      "chemical_class": "ester",
+      "family": "Esters terpéniques"
+    },
+    {
+      "id": "570059",
+      "name": "Acétate de benzyle",
+      "chemical_class": "ester",
+      "family": "Ester aromatique"
+    },
+    {
+      "id": "1050018",
+      "name": "Acétate de cinnamyle",
+      "chemical_class": "ester",
+      "family": "Esters aromatiques"
+    },
+    {
+      "id": "570056",
+      "name": "Acétate de linalyle",
+      "chemical_class": "ester",
+      "family": "Ester terpénique"
+    },
+    {
+      "id": "1020004",
+      "name": "Acétate de néryle",
+      "chemical_class": "ester",
+      "family": "Ester"
+    },
+    {
+      "id": "570058",
+      "name": "Acétate de phényléthyle",
+      "chemical_class": "ester",
+      "family": "Ester aromatique"
+    },
+    {
+      "id": "720031",
+      "name": "Acétophénone",
+      "chemical_class": "ketone",
+      "family": "Composé du Tabac"
+    },
+    {
+      "id": "990031",
+      "name": "Agarol",
+      "chemical_class": "sesquiterpene",
+      "family": "Sesquiterpènes"
+    },
+    {
+      "id": "990032",
+      "name": "Agarospirol",
+      "chemical_class": "sesquiterpene",
+      "family": "Sesquiterpènes"
+    },
+    {
+      "id": "1080003",
+      "name": "Agarwood / Oud — Aquilaria crassna (CITES, proxy)",
+      "chemical_class": "NULL",
+      "family": "NULL"
+    },
+    {
+      "id": "1080002",
+      "name": "Agarwood / Oud — Aquilaria malaccensis (CITES)",
+      "chemical_class": "NULL",
+      "family": "NULL"
+    },
+    {
+      "id": "570055",
+      "name": "Alcool cinnamique",
+      "chemical_class": "aromatic",
+      "family": "Alcool aromatique"
+    },
+    {
+      "id": "570054",
+      "name": "Alcool phényléthylique",
+      "chemical_class": "alcohol",
+      "family": "Alcool aromatique"
+    },
+    {
+      "id": "120008",
+      "name": "Aldéhyde C-10",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhyde"
+    },
+    {
+      "id": "120009",
+      "name": "Aldéhyde C-11",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhyde"
+    },
+    {
+      "id": "570028",
+      "name": "Aldéhyde C-11 Undécylénique",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhyde"
+    },
+    {
+      "id": "120010",
+      "name": "Aldéhyde C-12",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhyde"
+    },
+    {
+      "id": "570024",
+      "name": "Aldéhyde C-12 MNA",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhyde"
+    },
+    {
+      "id": "570025",
+      "name": "Aldéhyde C-14 (Gamma-Undécalactone)",
+      "chemical_class": "aldehyde",
+      "family": "Lactone"
+    },
+    {
+      "id": "570029",
+      "name": "Aldéhyde C-18 (Gamma-Nonalactone)",
+      "chemical_class": "ketone",
+      "family": "Lactone"
+    },
+    {
+      "id": "480032",
+      "name": "Aldéhyde feuille",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhydes verts"
+    },
+    {
+      "id": "120011",
+      "name": "Aldéhyde métallique",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhyde"
+    },
+    {
+      "id": "480002",
+      "name": "Aldéhydes chauds",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhydes aliphatiques"
+    },
+    {
+      "id": "480022",
+      "name": "Aldéhydes métalliques",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhydes spéciaux"
+    },
+    {
+      "id": "480013",
+      "name": "Aldéhydes sombres",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhydes aliphatiques"
+    },
+    {
+      "id": "570021",
+      "name": "Alpha-Ionone",
+      "chemical_class": "ketone",
+      "family": "Ionone"
+    },
+    {
+      "id": "600022",
+      "name": "Alpha-Ionone",
+      "chemical_class": "ketone",
+      "family": "Ionone"
+    },
+    {
+      "id": "990039",
+      "name": "Alpha-bulnesene",
+      "chemical_class": "sesquiterpene",
+      "family": "Sesquiterpènes"
+    },
+    {
+      "id": "990026",
+      "name": "Alpha-cedrene",
+      "chemical_class": "sesquiterpene",
+      "family": "Sesquiterpènes"
+    },
+    {
+      "id": "960013",
+      "name": "Alpha-curcumene",
+      "chemical_class": "sesquiterpene",
+      "family": "Sesquiterpène aromatique"
+    },
+    {
+      "id": "990040",
+      "name": "Alpha-guaiene",
+      "chemical_class": "sesquiterpene",
+      "family": "Sesquiterpènes"
+    },
+    {
+      "id": "990023",
+      "name": "Alpha-santalene",
+      "chemical_class": "sesquiterpene",
+      "family": "Sesquiterpènes"
+    },
+    {
+      "id": "960009",
+      "name": "Alpha-terpinene",
+      "chemical_class": "monoterpene",
+      "family": "Monoterpène cyclique"
+    },
+    {
+      "id": "960007",
+      "name": "Alpha-terpinyl acetate",
+      "chemical_class": "ester",
+      "family": "Ester monoterpénique"
+    },
+    {
+      "id": "90008",
+      "name": "Aluminium aldehyde",
+      "chemical_class": "aldehyde",
+      "family": "Aldéhyde"
+    },
+    {
+      "id": "480029",
+      "name": "Ambergris",
+      "chemical_class": "NULL",
+      "family": "Matières animales marines"
+    },
+    {
+      "id": "1080020",
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)",
+      "chemical_class": "NULL",
+      "family": "NULL"
+    },
+    {
+      "id": "300003",
+      "name": "Ambre Gris (Ambergris)",
+      "chemical_class": "monoterpene",
+      "family": "Triterpènes"
+    },
+    {
+      "id": "480020",
+      "name": "Ambre profond",
+      "chemical_class": "NULL",
+      "family": "Accords ambrés"
+    },
+    {
+      "id": "90060",
+      "name": "Ambrette seed",
+      "chemical_class": "lactone",
+      "family": "Lactone"
+    },
+    {
+      "id": "1080022",
+      "name": "Ambrette — Abelmoschus moschatus (musc végétal)",
+      "chemical_class": "NULL",
+      "family": "NULL"
+    },
+    {
+      "id": "90016",
+      "name": "Ambrettolide",
+      "chemical_class": "ketone",
+      "family": "Lactone"
+    },
+    {
+      "id": "300004",
+      "name": "Ambrox Super",
+      "chemical_class": "ether",
+      "family": "Éthers cycliques"
+    },
+    {
+      "id": "90015",
+      "name": "Ambroxan",
+      "chemical_class": "ether",
+      "family": "Ambre"
+    },
+    {
+      "id": "30003",
+      "name": "Ambroxan",
+      "chemical_class": "ether",
+      "family": "Ambrée / Boisée"
+    },
+    {
+      "id": "3",
+      "name": "Ambroxan",
+      "chemical_class": "ether",
+      "family": "Ambre synthétique"
+    },
+    {
+      "id": "330017",
+      "name": "Ambroxan (Cetalox)",
+      "chemical_class": "ether",
+      "family": "Éthers cycliques"
+    },
+    {
+      "id": "90027",
+      "name": "Ammonium-Maillard",
+      "chemical_class": "NULL",
+      "family": "Pyrolysat"
+    },
+    {
+      "id": "900012",
+      "name": "Anabasine",
+      "chemical_class": "heterocyclic",
+      "family": "alkaloid"
+    },
+    {
+      "id": "900011",
+      "name": "Anatabine",
+      "chemical_class": "heterocyclic",
+      "family": "alkaloid"
+    },
+    {
+      "id": "270002",
+      "name": "Androstadienone",
+      "chemical_class": "ketone",
+      "family": "Phéromone"
+    },
+    {
+      "id": "240001",
+      "name": "Androsténol",
+      "chemical_class": "alcohol",
+      "family": "Stéroïde / Phéromone"
+    },
+    {
+      "id": "270001",
+      "name": "Androsténone",
+      "chemical_class": "ketone",
+      "family": "Phéromone"
+    },
+    {
+      "id": "870001",
+      "name": "Anéthole",
+      "chemical_class": "ether",
+      "family": "Phénylpropanoïde"
+    },
+    {
+      "id": "750008",
+      "name": "Aporphine",
+      "chemical_class": "other",
+      "family": "Non classé"
+    },
+    {
+      "id": "480006",
+      "name": "Argile blanche",
+      "chemical_class": "NULL",
+      "family": "Minéraux"
+    },
+    {
+      "id": "780016",
+      "name": "Aristolen-9β-ol",
+      "chemical_class": "sesquiterpene",
+      "family": "Sesquiterpène"
+    },
+    {
+      "id": "990007",
+      "name": "Aromadendrene",
+      "chemical_class": "sesquiterpene",
+      "family": "Sesquiterpènes"
+    },
+    {
+      "id": "180003",
+      "name": "Artisan Peppermint Oil",
+      "chemical_class": "NULL",
+      "family": "Aromatique / Menthé"
+    },
+    {
+      "id": "540009",
+      "name": "BENZOIN RESIN",
+      "chemical_class": "NULL",
+      "family": "Acide aromatique"
+    },
+    {
+      "id": "420003",
+      "name": "Balsam Fir Essential Oil",
+      "chemical_class": "NULL",
+      "family": "Huile Essentielle"
+    },
+    {
+      "id": "510020",
+      "name": "Baume de Tolú",
+      "chemical_class": "NULL",
+      "family": "Baumes"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tchemical_class\tfamily\n810007\t1,8-cineole\tether\tterpene\n930005\t2,5-Diméthylpyrazine\theterocyclic\tPyrazine\n90002\t2-MIB (2-Methylisoborneol)\talcohol\tMinéral\n930004\t2-Méthylpyrazine\theterocyclic\tPyrazine\n690002\t2-Phényléthanol\talcohol\tAlcool aromatique\n90033\t2-heptanone\tketone\tCétone\n720005\t3-Carène\tmonoterpene\tTerpène (Cannabis)\n720032\t4-Vinylguaiacol\tphenol\tComposé du Tabac\n120006\t4-methyl-guaiacol\tphenol\tPhénol\n840012\tAKBA (Acide 3-O-acétyl-11-céto-β-boswellique)\tother\tTriterpène pentacyclique\n300002\tAbsolue d'Iris (Orris Butter)\tketone\tCétones (Irones)\n330008\tAbsolue de Jasmin (Indole)\theterocyclic\tIndoles\n330007\tAbsolue de Rose (Citronellol)\talcohol\tMonoterpénols\n480024\tAcacia brûlé\tNULL\tBois pyrogénés\n780015\tAcaciine\tother\tFlavonoïde\n840011\tAcide 11-céto-β-boswellique (KBA)\tother\tTriterpène pentacyclique\n60006\tAcide Benzoïque\taromatic\tacides_aromatiques\n60008\tAcide Caféique\tphenol\tacides_aromatiques\n60010\tAcide Coumarique\tother\tacides_aromatiques\n60003\tAcide Décanoïque (C10)\tNULL\tacides_gras\n60009\tAcide Férulique\tother\tacides_aromatiques\n60004\tAcide Linoléique\tother\tacides_gras\n1050025\tAcide acétique\tother\tAcides carboxyliques\n210003\tAcide butyrique\tother\tAcides gras volatils\n210007\tAcide décanoïque\tother\tAcides gras volatils\n210005\tAcide hexanoïque\tother\tAcides gras volatils\n210004\tAcide isovalérique\tother\tAcides gras volatils\n210006\tAcide octanoïque\tother\tAcides gras volatils\n780012\tAcide oléanolique\tother\tTriterpène\n780011\tAcide ursolique\tother\tTriterpène\n840010\tAcide β-boswellique\tother\tTriterpène pentacyclique\n1050019\tAcétate d'eugényle\tester\tEsters phénoliques\n840013\tAcétate d'incensole\tditerpene\tDiterpène\n570061\tAcétate d'isoeugenol\tester\tEster phénolique\n600021\tAcétate de Bornyle\tester\tEsters terpéniques\n570020\tAcétate de Bornyle\tester\tEsters terpéniques\n570019\tAcétate de Géranyle\tester\tEsters terpéniques\n600019\tAcétate de Linalyle\tester\tEsters terpéniques\n570018\tAcétate de Linalyle\tester\tEsters terpéniques\n570059\tAcétate de benzyle\tester\tEster aromatique\n1050018\tAcétate de cinnamyle\tester\tEsters aromatiques\n570056\tAcétate de linalyle\tester\tEster terpénique\n1020004\tAcétate de néryle\tester\tEster\n570058\tAcétate de phényléthyle\tester\tEster aromatique\n720031\tAcétophénone\tketone\tComposé du Tabac\n990031\tAgarol\tsesquiterpene\tSesquiterpènes\n990032\tAgarospirol\tsesquiterpene\tSesquiterpènes\n1080003\tAgarwood / Oud — Aquilaria crassna (CITES, proxy)\tNULL\tNULL\n1080002\tAgarwood / Oud — Aquilaria malaccensis (CITES)\tNULL\tNULL\n570055\tAlcool cinnamique\taromatic\tAlcool aromatique\n570054\tAlcool phényléthylique\talcohol\tAlcool aromatique\n120008\tAldéhyde C-10\taldehyde\tAldéhyde\n120009\tAldéhyde C-11\taldehyde\tAldéhyde\n570028\tAldéhyde C-11 Undécylénique\taldehyde\tAldéhyde\n120010\tAldéhyde C-12\taldehyde\tAldéhyde\n570024\tAldéhyde C-12 MNA\taldehyde\tAldéhyde\n570025\tAldéhyde C-14 (Gamma-Undécalactone)\taldehyde\tLactone\n570029\tAldéhyde C-18 (Gamma-Nonalactone)\tketone\tLactone\n480032\tAldéhyde feuille\taldehyde\tAldéhydes verts\n120011\tAldéhyde métallique\taldehyde\tAldéhyde\n480002\tAldéhydes chauds\taldehyde\tAldéhydes aliphatiques\n480022\tAldéhydes métalliques\taldehyde\tAldéhydes spéciaux\n480013\tAldéhydes sombres\taldehyde\tAldéhydes aliphatiques\n570021\tAlpha-Ionone\tketone\tIonone\n600022\tAlpha-Ionone\tketone\tIonone\n990039\tAlpha-bulnesene\tsesquiterpene\tSesquiterpènes\n990026\tAlpha-cedrene\tsesquiterpene\tSesquiterpènes\n960013\tAlpha-curcumene\tsesquiterpene\tSesquiterpène aromatique\n990040\tAlpha-guaiene\tsesquiterpene\tSesquiterpènes\n990023\tAlpha-santalene\tsesquiterpene\tSesquiterpènes\n960009\tAlpha-terpinene\tmonoterpene\tMonoterpène cyclique\n960007\tAlpha-terpinyl acetate\tester\tEster monoterpénique\n90008\tAluminium aldehyde\taldehyde\tAldéhyde\n480029\tAmbergris\tNULL\tMatières animales marines\n1080020\tAmbergris (patrimoine) — Physeter macrocephalus (échouages)\tNULL\tNULL\n300003\tAmbre Gris (Ambergris)\tmonoterpene\tTriterpènes\n480020\tAmbre profond\tNULL\tAccords ambrés\n90060\tAmbrette seed\tlactone\tLactone\n1080022\tAmbrette — Abelmoschus moschatus (musc végétal)\tNULL\tNULL\n90016\tAmbrettolide\tketone\tLactone\n300004\tAmbrox Super\tether\tÉthers cycliques\n90015\tAmbroxan\tether\tAmbre\n30003\tAmbroxan\tether\tAmbrée / Boisée\n3\tAmbroxan\tether\tAmbre synthétique\n330017\tAmbroxan (Cetalox)\tether\tÉthers cycliques\n90027\tAmmonium-Maillard\tNULL\tPyrolysat\n900012\tAnabasine\theterocyclic\talkaloid\n900011\tAnatabine\theterocyclic\talkaloid\n270002\tAndrostadienone\tketone\tPhéromone\n240001\tAndrosténol\talcohol\tStéroïde / Phéromone\n270001\tAndrosténone\tketone\tPhéromone\n870001\tAnéthole\tether\tPhénylpropanoïde\n750008\tAporphine\tother\tNon classé\n480006\tArgile blanche\tNULL\tMinéraux\n780016\tAristolen-9β-ol\tsesquiterpene\tSesquiterpène\n990007\tAromadendrene\tsesquiterpene\tSesquiterpènes\n180003\tArtisan Peppermint Oil\tNULL\tAromatique / Menthé\n540009\tBENZOIN RESIN\tNULL\tAcide aromatique\n420003\tBalsam Fir Essential Oil\tNULL\tHuile Essentielle\n510020\tBaume de Tolú\tNULL\tBaumes\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}
