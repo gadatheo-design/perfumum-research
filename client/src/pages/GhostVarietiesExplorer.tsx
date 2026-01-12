@@ -568,7 +568,7 @@ export default function GhostVarietiesExplorer() {
               </CardContent>
             </Card>
           </Link>
-          <Link href="/sustainability-dashboard">
+          <Link href="/leaf-economies">
             <Card className="hover:shadow-lg transition-shadow cursor-pointer">
               <CardContent className="p-4 flex items-center gap-3">
                 <AlertTriangle className="h-5 w-5 text-amber-600" />

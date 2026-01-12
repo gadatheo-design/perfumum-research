@@ -273,7 +273,7 @@ export default function GalerieBotaniques() {
                         Voir les recettes TL
                       </Button>
                     </Link>
-                    <Link href="/plantes/300001">
+                    <Link href="/plants">
                       <Button variant="outline" size="sm">
                         Fiche plante complète
                       </Button>
@@ -431,7 +431,7 @@ export default function GalerieBotaniques() {
                   </Button>
                   {selectedImage.category === "tagetes" ? (
                     <>
-                      <Link href="/plantes/300001">
+                      <Link href="/plants">
                         <Button variant="outline" size="sm">
                           Fiche plante
                         </Button>

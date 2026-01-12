@@ -234,9 +234,11 @@ export default function SourcingColombie() {
                         <div className="text-sm font-medium mb-2">Molécules endémiques :</div>
                         <div className="flex flex-wrap gap-1">
                           {region.molecules.map((mol) => (
-                            <Badge key={mol} variant="outline" className="text-xs">
-                              {mol}
-                            </Badge>
+                            <Link key={mol} href={`/molecules?search=${encodeURIComponent(mol)}`}>
+                              <Badge variant="outline" className="text-xs cursor-pointer hover:bg-primary/10 hover:border-primary transition-colors">
+                                {mol}
+                              </Badge>
+                            </Link>
                           ))}
                         </div>
                       </div>
@@ -318,9 +320,11 @@ export default function SourcingColombie() {
                     <div className="text-sm font-medium mb-2">Spécialités :</div>
                     <div className="flex flex-wrap gap-1">
                       {fournisseur.specialties.map((spec) => (
-                        <Badge key={spec} className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
-                          {spec}
-                        </Badge>
+                        <Link key={spec} href={`/molecules?search=${encodeURIComponent(spec)}`}>
+                          <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 cursor-pointer hover:bg-green-200 dark:hover:bg-green-800/50 transition-colors">
+                            {spec}
+                          </Badge>
+                        </Link>
                       ))}
                     </div>
                   </div>

@@ -396,7 +396,7 @@ export default function ReferencesGraph() {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl mx-auto text-center"
             >
-              <Link href="/visualisations">
+              <Link href="/graphe-relations">
                 <Button variant="ghost" size="sm" className="mb-4 gap-2">
                   <ArrowLeft className="w-4 h-4" />
                   Retour aux visualisations

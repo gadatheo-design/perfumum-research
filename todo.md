@@ -1586,3 +1586,66 @@
 - [x] Mise à jour des synergies existantes avec mécanismes chimiques détaillés
 - [x] Intégration du profil radar cible dans OutilFormulation
 - [x] Filtrage des synergies par compatibilité radar
+- [ ] Ajouter des hyperliens sur les plantes et molécules dans la page sourcing Colombie
+
+## 🔥 SESSION ACTIVE — 12 Jan 2026 (Révision complète)
+
+### Hyperliens sourcing Colombie
+- [x] Ajouter des hyperliens sur les plantes et molécules dans la page sourcing Colombie
+
+### Audit et liens morts
+- [ ] Vérifier le fonctionnement de toutes les pages principales
+- [ ] Détecter et corriger les liens morts
+- [ ] Vérifier les routes orphelines dans App.tsx
+
+### Amélioration navigation
+- [ ] Améliorer les breadcrumbs sur toutes les pages
+- [ ] Ajouter des liens de retour cohérents
+- [ ] Vérifier la navigation mobile
+
+### Design et cohérence
+- [ ] Vérifier la cohérence visuelle des pages
+- [ ] Améliorer les états hover et focus
+- [ ] Optimiser le responsive
+
+### Nettoyage code
+- [ ] Identifier et supprimer le code mort
+- [ ] Supprimer les imports inutilisés
+- [ ] Nettoyer les composants non utilisés
+
+
+---
+
+## 🔥 SESSION ACTIVE — 12 Jan 2026 (Révision complète du site)
+
+### Hyperliens sourcing Colombie
+- [x] Ajouter des hyperliens sur les plantes et molécules dans la page sourcing Colombie
+
+### Audit et correction des liens morts
+- [x] Audit complet des routes (281 routes, 218 imports, 261 fichiers de pages)
+- [x] Détection et correction de 7 liens morts:
+  - `/reseau-molecule-plante` → `/reseau-molecules-plantes`
+  - `/visualisations` → `/graphe-relations`
+  - `/sustainability-dashboard` → `/leaf-economies`
+  - `/components` → `/`
+  - `/plantes/300001` → `/plants`
+- [x] Suppression de la route dupliquée `/recherche-avancee` (ligne 619)
+- [x] Suppression de l'import non utilisé `AdminMolecules`
+
+### Amélioration de la navigation
+- [x] Vérification du composant MobileBottomNav (fonctionnel)
+- [x] Vérification du composant GlobalSearch (fonctionnel)
+- [x] Vérification du composant ScrollToTop (fonctionnel)
+- [x] Audit des Breadcrumbs (193/261 pages avec Breadcrumbs)
+
+### Nettoyage du code
+- [x] Identification des fichiers de pages non importés (3 fichiers: ComponentShowcase, Dashboard, Projet)
+- [x] Correction des erreurs TypeScript dans ForceGraphAxes.tsx (drag D3.js)
+- [x] Correction des erreurs TypeScript dans GrapheReferencesAxes.tsx (accès stats)
+
+### Statistiques du site
+- 281 routes définies
+- 261 fichiers de pages
+- 218 imports de pages
+- 0 liens morts restants (après corrections)
+- 1 route dupliquée supprimée

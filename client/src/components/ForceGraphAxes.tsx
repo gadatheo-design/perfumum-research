@@ -172,20 +172,20 @@ export function ForceGraphAxes({ width = 900, height = 600, className }: ForceGr
       .attr("class", "node")
       .style("cursor", "pointer")
       .call(d3.drag<SVGGElement, GraphNode>()
-        .on("start", (event, d) => {
+        .on("start", (event: any, d: any) => {
           if (!event.active) simulation.alphaTarget(0.3).restart();
           d.fx = d.x;
           d.fy = d.y;
         })
-        .on("drag", (event, d) => {
+        .on("drag", (event: any, d: any) => {
           d.fx = event.x;
           d.fy = event.y;
         })
-        .on("end", (event, d) => {
+        .on("end", (event: any, d: any) => {
           if (!event.active) simulation.alphaTarget(0);
           d.fx = null;
           d.fy = null;
-        }));
+        }) as any);
 
     // Add circles for nodes
     node.append("circle")
@@ -316,7 +316,7 @@ export function ForceGraphAxes({ width = 900, height = 600, className }: ForceGr
       </CardHeader>
       <CardContent>
         {/* Stats bar */}
-        {data?.stats && (
+        {data?.stats && 'axesByMetaAxis' in data.stats && (
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-amber-500/30">
               {data.stats.axesByMetaAxis?.meta_a || 0} axes Heritage

@@ -75,7 +75,7 @@ export default function GrapheReferencesAxes() {
                     <Network className="h-5 w-5 text-purple-500" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-slate-100">{stats?.totalLinks || 0}</p>
+                    <p className="text-2xl font-bold text-slate-100">{stats && 'totalLinks' in stats ? stats.totalLinks : 0}</p>
                     <p className="text-xs text-slate-400">Connexions</p>
                   </div>
                 </div>

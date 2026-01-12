@@ -23,7 +23,7 @@ import LeProjet from "./pages/LeProjet";
 // === ADMINISTRATION ===
 import Admin from "./pages/Admin";
 
-import AdminMolecules from "./pages/AdminMolecules";
+// import AdminMolecules from "./pages/AdminMolecules"; // Non utilisé - AdminMoleculesIndex est utilisé à la place
 import AdminMoleculeNew from "./pages/AdminMoleculeNew";
 import AdminRecettes from "./pages/AdminRecettes";
 import AdminImportExport from "./pages/AdminImportExport";
@@ -616,7 +616,7 @@ function Router() {
       <Route path="/statistiques" component={Statistics} />
  <Route path="/recherche" component={RechercheAvancee} />
       <Route path="/recherche-profil-moleculaire" component={RechercheProfilMoleculaire} />
-      <Route path="/recherche-avancee" component={AdvancedSearch} />
+      {/* Route /recherche-avancee déjà définie ligne 364 avec RechercheAvancee */}
       <Route path="/recherche-croisee" component={CrossSearch} />
       <Route path="/timeline-recettes" component={RecipeTimeline} />
       <Route path="/heatmap-correlations" component={RadarCorrelationHeatmap} />

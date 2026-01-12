@@ -343,7 +343,7 @@ export default function VueDetailConnexions() {
                       Graphe 3D
                     </Button>
                   </Link>
-                  <Link href="/reseau-molecule-plante">
+                  <Link href="/reseau-molecules-plantes">
                     <Button variant="outline" size="sm" className="gap-2">
                       <Network className="w-4 h-4" />
                       Réseau
