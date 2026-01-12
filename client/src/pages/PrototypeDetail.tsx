@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
 import { Loader2, ArrowLeft } from "lucide-react";
+import { LinkedReferences } from "@/components/LinkedReferences";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 
@@ -239,6 +240,16 @@ export default function PrototypeDetail() {
                   </CardContent>
                 </Card>
               )}
+              
+              {/* References Bibliographiques Liees (V3) */}
+              <div className="mt-12">
+                <LinkedReferences 
+                  entityType="prototype" 
+                  entityId={prototype.id} 
+                  title="References Bibliographiques Associees"
+                  maxItems={5}
+                />
+              </div>
             </div>
           </div>
         </section>

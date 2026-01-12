@@ -27,6 +27,7 @@ import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfi
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LinkedMolecules, LinkedTerroirs, SimilarContent } from "@/components/SeeAlso";
+import { LinkedReferences } from "@/components/LinkedReferences";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -1023,6 +1024,16 @@ export default function PlantDetail() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Références Bibliographiques Liées (V3) */}
+      <div className="mt-8">
+        <LinkedReferences 
+          entityType="plant" 
+          entityId={plantId} 
+          title="Références Bibliographiques Associées"
+          maxItems={5}
+        />
+      </div>
 
       {/* Section Voir aussi */}
       <div className="mt-8 grid md:grid-cols-2 gap-6">

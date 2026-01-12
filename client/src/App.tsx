@@ -205,6 +205,7 @@ import Terrains from "./pages/Terrains";
 import BibliographiePage from "./pages/BibliographiePage";
 import BibliographieGlobale from "./pages/BibliographieGlobale";
 import ReferencesV3 from "./pages/ReferencesV3";
+import ReferenceEntityLinkManager from "./pages/ReferenceEntityLinkManager";
 import Visualisations from "./pages/Visualisations";
 import Bibliographie from "./pages/Bibliographie";
 import HeritageConservation from "./pages/HeritageConservation";
@@ -515,6 +516,7 @@ function Router() {
       <Route path="/bibliographie" component={BibliographiePage} />
       <Route path="/bibliographie-globale" component={BibliographieGlobale} />
       <Route path="/references-v3" component={ReferencesV3} />
+      <Route path="/reference-entity-link-manager" component={ReferenceEntityLinkManager} />
       <Route path="/visualisations" component={Visualisations} />
       <Route path="/bibliographie-hub" component={Bibliographie} />
       <Route path="/heritage-conservation" component={HeritageConservation} />

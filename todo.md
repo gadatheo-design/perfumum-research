@@ -1672,3 +1672,17 @@
 - [x] Ajouter section "Références associées" dans les fiches molécules (LinkedReferences.tsx)
 - [x] Ajouter section "Références associées" dans les fiches recettes
 - [x] Créer les liens bidirectionnels bibliographie↔molécules (via referenceEntityLinks)
+
+---
+## 🔥 SESSION ACTIVE — 12 Jan 2026 (Liaisons Références↔Entités)
+
+### Liaisons références-molécules via Références V3
+- [x] Ajouter des références bibliographiques aux molécules existantes via la page Références V3
+- [x] Tester la connexion références-molécules
+
+### Extension LinkedReferences
+- [x] Étendre le composant LinkedReferences aux pages de détail des plantes
+- [x] Étendre le composant LinkedReferences aux pages de détail des prototypes
+
+### Page de gestion des liaisons
+- [x] Créer une page de gestion des liaisons références↔entités pour faciliter l'association

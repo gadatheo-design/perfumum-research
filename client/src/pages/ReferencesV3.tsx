@@ -22,9 +22,13 @@ import {
   Database,
   Beaker,
   Leaf,
-  Dna
+  Dna,
+  Loader2,
+  Link2,
+  AlertCircle
 } from 'lucide-react';
 import { AxisForceGraph } from '@/components/AxisForceGraph';
+import { Textarea } from '@/components/ui/textarea';
 
 // Types - utiliser any pour éviter les conflits de typage avec tRPC
 type Reference = {
@@ -94,11 +98,21 @@ export default function ReferencesV3() {
   const [selectedType, setSelectedType] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'list' | 'grid' | 'graph'>('list');
   const [selectedReference, setSelectedReference] = useState<Reference | null>(null);
+  const [showLinkDialog, setShowLinkDialog] = useState(false);
+  const [selectedMoleculeId, setSelectedMoleculeId] = useState<number | null>(null);
+  const [selectedLinkType, setSelectedLinkType] = useState<string>('documents');
+  const [linkNotes, setLinkNotes] = useState('');
+  const [relevanceScore, setRelevanceScore] = useState(50);
+  const [isLinking, setIsLinking] = useState(false);
+  const [linkError, setLinkError] = useState<string | null>(null);
+  const [linkSuccess, setLinkSuccess] = useState(false);
 
   // Fetch data
   const { data: references, isLoading: loadingRefs } = trpc.v3References.getAll.useQuery();
   const { data: axes, isLoading: loadingAxes } = trpc.thematicAxes.getAll.useQuery();
   const { data: graphData, isLoading: loadingGraph } = trpc.axisGraph.getData.useQuery();
+  const { data: molecules } = trpc.molecules.getAll.useQuery();
+  const createLinkMutation = trpc.referenceEntityLinks.create.useMutation();
 
   // Filter references
   const filteredReferences = (references as any[] | undefined)?.filter((ref: any) => {
@@ -600,10 +614,176 @@ export default function ReferencesV3() {
                       </a>
                     </Button>
                   )}
+                  <Button 
+                    variant="default"
+                    onClick={() => {
+                      setShowLinkDialog(true);
+                      setLinkError(null);
+                      setLinkSuccess(false);
+                    }}
+                  >
+                    <Link2 className="w-4 h-4 mr-2" />
+                    Lier à une molécule
+                  </Button>
                 </div>
               </div>
             </>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Link to Molecule Dialog */}
+      <Dialog open={showLinkDialog} onOpenChange={setShowLinkDialog}>
+        <DialogContent className="max-w-2xl bg-slate-900 border-slate-700">
+          <DialogHeader>
+            <DialogTitle className="text-xl text-slate-100 flex items-center gap-2">
+              <Link2 className="w-5 h-5" />
+              Lier la reference a une molecule
+            </DialogTitle>
+            <DialogDescription className="text-slate-400">
+              {selectedReference?.title}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 mt-4">
+            {/* Molecule Selection */}
+            <div>
+              <label className="text-sm text-slate-300 mb-2 block">Molecule</label>
+              <Select value={selectedMoleculeId?.toString() || ''} onValueChange={(val) => setSelectedMoleculeId(parseInt(val))}>
+                <SelectTrigger className="bg-slate-800 border-slate-700">
+                  <SelectValue placeholder="Selectionner une molecule..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {molecules?.map((mol: any) => (
+                    <SelectItem key={mol.id} value={mol.id.toString()}>
+                      {mol.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Link Type */}
+            <div>
+              <label className="text-sm text-slate-300 mb-2 block">Type de liaison</label>
+              <Select value={selectedLinkType} onValueChange={setSelectedLinkType}>
+                <SelectTrigger className="bg-slate-800 border-slate-700">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="documents">Documente</SelectItem>
+                  <SelectItem value="mentions">Mentionne</SelectItem>
+                  <SelectItem value="analyzes">Analyse</SelectItem>
+                  <SelectItem value="conserves">Conserve</SelectItem>
+                  <SelectItem value="reconstructs">Reconstruit</SelectItem>
+                  <SelectItem value="sources">Source</SelectItem>
+                  <SelectItem value="validates">Valide</SelectItem>
+                  <SelectItem value="contextualizes">Contextualise</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Relevance Score */}
+            <div>
+              <label className="text-sm text-slate-300 mb-2 block">
+                Pertinence: {relevanceScore}%
+              </label>
+              <input 
+                type="range" 
+                min="0" 
+                max="100" 
+                value={relevanceScore}
+                onChange={(e) => setRelevanceScore(parseInt(e.target.value))}
+                className="w-full"
+              />
+            </div>
+
+            {/* Notes */}
+            <div>
+              <label className="text-sm text-slate-300 mb-2 block">Notes (optionnel)</label>
+              <Textarea 
+                placeholder="Ajouter des notes sur cette liaison..."
+                value={linkNotes}
+                onChange={(e) => setLinkNotes(e.target.value)}
+                className="bg-slate-800 border-slate-700"
+                rows={3}
+              />
+            </div>
+
+            {/* Error Message */}
+            {linkError && (
+              <div className="p-3 bg-red-500/20 border border-red-500/50 rounded-lg flex items-start gap-2">
+                <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-red-300">{linkError}</p>
+              </div>
+            )}
+
+            {/* Success Message */}
+            {linkSuccess && (
+              <div className="p-3 bg-green-500/20 border border-green-500/50 rounded-lg">
+                <p className="text-sm text-green-300">Liaison creee avec succes!</p>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="flex gap-2 pt-4 border-t border-slate-700">
+              <Button 
+                variant="outline"
+                onClick={() => setShowLinkDialog(false)}
+              >
+                Annuler
+              </Button>
+              <Button 
+                variant="default"
+                onClick={async () => {
+                  if (!selectedMoleculeId || !selectedReference) {
+                    setLinkError('Veuillez selectionner une molecule');
+                    return;
+                  }
+                  
+                  setIsLinking(true);
+                  setLinkError(null);
+                  
+                  try {
+                    await createLinkMutation.mutateAsync({
+                      referenceId: selectedReference.id,
+                      entityType: 'molecule',
+                      entityId: selectedMoleculeId,
+                      linkType: selectedLinkType as any,
+                      relevanceScore,
+                      notes: linkNotes || undefined,
+                    });
+                    
+                    setLinkSuccess(true);
+                    setTimeout(() => {
+                      setShowLinkDialog(false);
+                      setSelectedMoleculeId(null);
+                      setLinkNotes('');
+                      setRelevanceScore(50);
+                      setLinkSuccess(false);
+                    }, 1500);
+                  } catch (error: any) {
+                    setLinkError(error.message || 'Erreur lors de la creation de la liaison');
+                  } finally {
+                    setIsLinking(false);
+                  }
+                }}
+                disabled={isLinking || !selectedMoleculeId}
+              >
+                {isLinking ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Creation...
+                  </>
+                ) : (
+                  <>
+                    <Link2 className="w-4 h-4 mr-2" />
+                    Creer la liaison
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
