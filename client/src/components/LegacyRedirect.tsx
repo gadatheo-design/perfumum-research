@@ -51,6 +51,7 @@ export const RedirectToChemicalFamilyGraph = createRedirect("/molecules", "graph
 export const RedirectToRecettesList = createRedirect("/recettes", "liste");
 export const RedirectToAccords = createRedirect("/recettes", "accords");
 export const RedirectToFormules = createRedirect("/recettes", "formules");
+export const RedirectToFormulesReference = createRedirect("/recettes", "formules");
 
 // Pre-defined redirects for plants section
 export const RedirectToPlantsList = createRedirect("/plants", "liste");

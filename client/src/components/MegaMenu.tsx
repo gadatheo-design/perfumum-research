@@ -321,13 +321,15 @@ export function MegaMenu() {
           label: "Molécules",
           path: "/molecules",
           icon: <Beaker className="h-4 w-4" />,
-          description: "Base moléculaire complète",
+          description: "Molécules, familles olfactives et chimiques",
+          badge: "HUB",
         },
         {
           label: "Recettes",
           path: "/recettes",
           icon: <FlaskConical className="h-4 w-4" />,
-          description: "Formules olfactives",
+          description: "Recettes, accords et formules de référence",
+          badge: "HUB",
         },
         {
           label: "Plantes & Variétés",
@@ -335,12 +337,7 @@ export function MegaMenu() {
           icon: <Leaf className="h-4 w-4" />,
           description: "Botanique et terroirs",
         },
-        {
-          label: "Accords",
-          path: "/accords",
-          icon: <Layers className="h-4 w-4" />,
-          description: "Accords olfactifs",
-        },
+
         {
           label: "Terroirs",
           path: "/terroirs",

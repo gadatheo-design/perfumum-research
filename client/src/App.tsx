@@ -109,6 +109,8 @@ import { RedirectToFamilles, RedirectToChemicalFamilies, RedirectToChemicalFamil
 import Recettes from "./pages/Recettes";
 import RecetteDetail from "./pages/RecetteDetail";
 import Accords from "./pages/Accords";
+import RecettesHub from "./pages/RecettesHub";
+import { RedirectToAccords, RedirectToFormulesReference } from "./components/LegacyRedirect";
 import AccordsDedies from "./pages/AccordsDedies";
 import { ExperimentalAccords } from "./pages/ExperimentalAccords";
 import RechercheRadicale from "@/pages/RechercheRadicale";
@@ -425,10 +427,13 @@ function Router() {
       <Route path="/chemical-families" component={ChemicalFamilies} />
       
       {/* === RECETTES === */}
-      <Route path="/recettes" component={Recettes} />
+      <Route path="/recettes" component={RecettesHub} />
       <Route path="/recettes-tl" component={RecettesTL} />
       <Route path="/recette/:id" component={RecetteDetail} />
-      <Route path="/accords" component={Accords} />
+      {/* Anciennes routes redirigées vers RecettesHub */}
+      <Route path="/accords" component={RedirectToAccords} />
+      <Route path="/formules-reference" component={RedirectToFormulesReference} />
+      <Route path="/accords-legacy" component={Accords} />
       <Route path="/accords-dedies" component={AccordsDedies} />
       <Route path="/experimental-accords" component={ExperimentalAccords} />
         <Route path="/recherche-radicale" component={RechercheRadicale} />
@@ -636,7 +641,6 @@ function Router() {
       <Route path="/recherche-croisee" component={CrossSearch} />
       <Route path="/timeline-recettes" component={RecipeTimeline} />
       <Route path="/heatmap-correlations" component={RadarCorrelationHeatmap} />
-      <Route path="/formules-reference" component={FormulesReference} />
       
       {/* === UTILISATEUR === */}
       <Route path="/favoris" component={Favoris} />

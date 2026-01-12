@@ -1753,3 +1753,25 @@
 - [ ] Créer une librairie de composants réutilisables dans /components/lib
 - [ ] Documenter les composants avec exemples d'utilisation
 
+
+## 🔥 SESSION ACTIVE — 12 Jan 2026
+
+### Consolidation des pages avec pattern MoleculesHub
+- [ ] Consolider la page Recettes avec le pattern MoleculesHub (filtres, recherche, grille)
+- [ ] Consolider la page Accords avec le pattern MoleculesHub (filtres, recherche, grille)
+- [ ] Consolider la page Formules de Référence avec le pattern MoleculesHub (filtres, recherche, grille)
+- [ ] Ajouter MoleculesHub au menu de navigation principal (DashboardLayout)
+
+
+---
+
+## 🔥 SESSION ACTIVE — 12 Jan 2026
+
+### Consolidation des Hubs
+- [x] Créer RecettesHub consolidant Recettes, Accords et Formules de Référence
+- [x] Créer le composant RecettesContent pour le Hub
+- [x] Créer le composant AccordsContent pour le Hub
+- [x] Créer le composant FormulesReferenceContent pour le Hub
+- [x] Ajouter les redirections pour /accords et /formules-reference vers RecettesHub
+- [x] Mettre à jour le MegaMenu avec les badges HUB pour Molécules et Recettes
+- [x] Build réussi avec tous les composants
