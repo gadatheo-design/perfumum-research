@@ -24,45 +24,63 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 
+interface RadarProfile {
+  intensity?: number;
+  freshness?: number;
+  warmth?: number;
+  sweetness?: number;
+  spiciness?: number;
+  earthiness?: number;
+}
+
 interface SynergySuggestionsProps {
   selectedMoleculeIds: number[];
   onAddMolecule?: (moleculeId: number) => void;
   className?: string;
+  targetRadarProfile?: RadarProfile; // Profil radar cible pour suggestions contextuelles
 }
 
-const SYNERGY_TYPE_CONFIG: Record<string, { label: string; color: string; icon: typeof Zap; description: string }> = {
+const SYNERGY_TYPE_CONFIG: Record<string, { label: string; color: string; icon: typeof Zap; description: string; mechanism: string }> = {
   potentialisation: {
     label: "Potentialisation",
     color: "text-green-500 bg-green-500/10 border-green-500/30",
     icon: Zap,
     description: "Ces molécules amplifient mutuellement leurs effets olfactifs",
+    mechanism: "Liaisons hydrogène et forces de van der Waals amplifiant la perception olfactive",
   },
   stabilisation: {
     label: "Stabilisation",
     color: "text-blue-500 bg-blue-500/10 border-blue-500/30",
     icon: Shield,
     description: "Ces molécules se stabilisent mutuellement dans le temps",
+    mechanism: "Interactions π-π et liaisons hydrogène réduisant la volatilité",
   },
   transformation: {
     label: "Transformation",
     color: "text-purple-500 bg-purple-500/10 border-purple-500/30",
     icon: RefreshCw,
     description: "Ces molécules créent ensemble de nouvelles notes olfactives",
+    mechanism: "Réactions de condensation ou oxydation générant de nouveaux composés",
   },
   masquage: {
     label: "Masquage",
     color: "text-amber-500 bg-amber-500/10 border-amber-500/30",
     icon: Eye,
     description: "Une molécule peut masquer ou atténuer l'autre",
+    mechanism: "Compétition au niveau des récepteurs olfactifs",
   },
 };
 
-export function SynergySuggestions({ selectedMoleculeIds, onAddMolecule, className }: SynergySuggestionsProps) {
+export function SynergySuggestions({ selectedMoleculeIds, onAddMolecule, className, targetRadarProfile }: SynergySuggestionsProps) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [showAllSuggestions, setShowAllSuggestions] = useState(false);
+  const [filterByRadar, setFilterByRadar] = useState(false);
 
   // Charger les synergies pour toutes les molécules sélectionnées
   const { data: allSynergies, isLoading: loadingSynergies } = trpc.synergies.getAllForGenerator.useQuery();
+  
+  // Charger toutes les molécules pour le filtrage par profil radar
+  const { data: allMolecules } = trpc.molecules.list.useQuery();
 
   // Calculer les suggestions de synergies basées sur les molécules sélectionnées
   const synergySuggestions = (() => {
@@ -151,7 +169,56 @@ export function SynergySuggestions({ selectedMoleculeIds, onAddMolecule, classNa
     return uniqueSuggestions.sort((a, b) => b.compatibilityScore - a.compatibilityScore);
   })();
 
-  const displayedSuggestions = showAllSuggestions ? synergySuggestions : synergySuggestions.slice(0, 5);
+  // Fonction pour calculer la compatibilité avec le profil radar cible
+  const calculateRadarCompatibility = (moleculeId: number): number => {
+    if (!targetRadarProfile || !allMolecules) return 0;
+    
+    const molecule = allMolecules.find((m: any) => m.id === moleculeId) as any;
+    if (!molecule) return 0;
+    
+    const radarMapping: Record<string, string> = {
+      intensity: 'radarIntensity',
+      freshness: 'radarFreshness',
+      warmth: 'radarWarmth',
+      sweetness: 'radarSweetness',
+      spiciness: 'radarSpiciness',
+      earthiness: 'radarEarthiness',
+    };
+    
+    let totalDiff = 0;
+    let count = 0;
+    
+    Object.entries(radarMapping).forEach(([field, moleculeField]) => {
+      const targetValue = targetRadarProfile[field as keyof RadarProfile];
+      const moleculeValue = molecule[moleculeField] ?? 50;
+      
+      if (targetValue !== undefined) {
+        // Calculer la différence (0-100 scale)
+        totalDiff += Math.abs(targetValue - moleculeValue);
+        count++;
+      }
+    });
+    
+    if (count === 0) return 0;
+    
+    // Convertir en score de compatibilité (100 = parfait, 0 = très différent)
+    return Math.max(0, 100 - (totalDiff / count));
+  };
+
+  // Enrichir les suggestions avec la compatibilité radar
+  const enrichedSuggestions = synergySuggestions.map(suggestion => ({
+    ...suggestion,
+    radarCompatibility: calculateRadarCompatibility(suggestion.moleculeId),
+  }));
+
+  // Filtrer et trier par compatibilité radar si activé
+  const filteredSuggestions = filterByRadar && targetRadarProfile
+    ? enrichedSuggestions
+        .filter(s => s.radarCompatibility >= 60) // Seuil de compatibilité minimum
+        .sort((a, b) => b.radarCompatibility - a.radarCompatibility)
+    : enrichedSuggestions;
+
+  const displayedSuggestions = showAllSuggestions ? filteredSuggestions : filteredSuggestions.slice(0, 5);
 
   if (selectedMoleculeIds.length === 0) {
     return null;
@@ -184,17 +251,35 @@ export function SynergySuggestions({ selectedMoleculeIds, onAddMolecule, classNa
 
       {isExpanded && (
         <CardContent className="pt-0">
+          {/* Toggle de filtrage par profil radar */}
+          {targetRadarProfile && (
+            <div className="flex items-center justify-between mb-3 p-2 bg-muted/30 rounded-lg">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-primary" />
+                <span className="text-xs font-medium">Filtrer par profil radar cible</span>
+              </div>
+              <Button
+                variant={filterByRadar ? "default" : "outline"}
+                size="sm"
+                className="h-7 text-xs"
+                onClick={() => setFilterByRadar(!filterByRadar)}
+              >
+                {filterByRadar ? "Actif" : "Inactif"}
+              </Button>
+            </div>
+          )}
+          
           {loadingSynergies ? (
             <div className="space-y-3">
               {[1, 2, 3].map(i => (
                 <Skeleton key={i} className="h-16 w-full" />
               ))}
             </div>
-          ) : synergySuggestions.length === 0 ? (
+          ) : filteredSuggestions.length === 0 ? (
             <div className="text-center py-6 text-muted-foreground">
               <Info className="h-8 w-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">Aucune synergie documentée trouvée</p>
-              <p className="text-xs mt-1">Ajoutez des molécules pour voir les suggestions</p>
+              <p className="text-sm">{filterByRadar ? "Aucune synergie compatible avec le profil radar" : "Aucune synergie documentée trouvée"}</p>
+              <p className="text-xs mt-1">{filterByRadar ? "Désactivez le filtre ou ajustez le profil cible" : "Ajoutez des molécules pour voir les suggestions"}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -223,8 +308,15 @@ export function SynergySuggestions({ selectedMoleculeIds, onAddMolecule, classNa
                                   {typeConfig.label}
                                 </Badge>
                               </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="text-xs max-w-xs">{typeConfig.description}</p>
+                              <TooltipContent className="max-w-sm">
+                                <div className="space-y-2">
+                                  <p className="text-xs font-medium">{typeConfig.description}</p>
+                                  <div className="pt-1 border-t border-border/50">
+                                    <p className="text-xs text-muted-foreground">
+                                      <strong>Mécanisme chimique :</strong> {typeConfig.mechanism}
+                                    </p>
+                                  </div>
+                                </div>
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
@@ -246,6 +338,11 @@ export function SynergySuggestions({ selectedMoleculeIds, onAddMolecule, classNa
                           <span className="text-lg font-bold text-primary">
                             {suggestion.compatibilityScore}%
                           </span>
+                          {suggestion.radarCompatibility > 0 && filterByRadar && (
+                            <div className="text-xs text-muted-foreground mt-0.5">
+                              Radar: {Math.round(suggestion.radarCompatibility)}%
+                            </div>
+                          )}
                         </div>
                         {onAddMolecule && (
                           <Button
@@ -264,7 +361,7 @@ export function SynergySuggestions({ selectedMoleculeIds, onAddMolecule, classNa
                 );
               })}
 
-              {synergySuggestions.length > 5 && (
+              {filteredSuggestions.length > 5 && (
                 <Button
                   variant="ghost"
                   size="sm"
@@ -279,7 +376,7 @@ export function SynergySuggestions({ selectedMoleculeIds, onAddMolecule, classNa
                   ) : (
                     <>
                       <ChevronDown className="h-4 w-4 mr-2" />
-                      Voir {synergySuggestions.length - 5} autres suggestions
+                      Voir {filteredSuggestions.length - 5} autres suggestions
                     </>
                   )}
                 </Button>

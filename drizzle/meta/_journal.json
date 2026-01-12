@@ -169,6 +169,13 @@
       "when": 1768120127134,
       "tag": "0023_lying_the_phantom",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "5",
+      "when": 1768219527255,
+      "tag": "0024_nosy_nico_minoru",
+      "breakpoints": true
     }
   ]
 }

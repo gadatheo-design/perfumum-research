@@ -18,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   Network,
   Search,
@@ -68,30 +69,39 @@ interface GraphLink {
   type: string;
   compatibilityScore: number;
   description: string | null;
+  chemicalMechanism: string | null;
   applications: string | null;
 }
 
-// Synergy type configuration
-const SYNERGY_TYPE_CONFIG: Record<string, { label: string; color: string; icon: typeof Zap }> = {
+// Synergy type configuration with detailed chemical explanations
+const SYNERGY_TYPE_CONFIG: Record<string, { label: string; color: string; icon: typeof Zap; shortDesc: string; mechanism: string }> = {
   potentialisation: {
     label: "Potentialisation",
     color: "#22c55e",
     icon: Zap,
+    shortDesc: "Amplification mutuelle des effets olfactifs",
+    mechanism: "Les molécules interagissent via des liaisons hydrogène et des forces de van der Waals. L'une peut agir comme modulateur allostérique des récepteurs olfactifs.",
   },
   stabilisation: {
     label: "Stabilisation",
     color: "#3b82f6",
     icon: Shield,
+    shortDesc: "Formation de complexes moléculaires stables",
+    mechanism: "Formation de complexes stables par interactions π-π (empilement aromatique) et liaisons hydrogène. Réduit la volatilité et prolonge la tenue.",
   },
   transformation: {
     label: "Transformation",
     color: "#a855f7",
     icon: Sparkles,
+    shortDesc: "Création de nouvelles notes olfactives",
+    mechanism: "Réactions chimiques lentes (condensation, oxydation ménagée) générant de nouveaux composés. Sites réactifs : doubles liaisons et groupes carbonyle.",
   },
   masquage: {
     label: "Masquage",
     color: "#f59e0b",
     icon: Eye,
+    shortDesc: "Compétition au niveau des récepteurs",
+    mechanism: "La molécule dominante sature les récepteurs spécifiques, réduisant la perception de l'autre. Lié aux différences de seuil de détection.",
   },
 };
 
@@ -132,6 +142,8 @@ export default function SynergiesGraphVisualization() {
   const [showLabels, setShowLabels] = useState(true);
   const [linkStrength, setLinkStrength] = useState(50);
   const [nodeSize, setNodeSize] = useState(50);
+  const [exportFormat, setExportFormat] = useState<'svg' | 'png'>('svg');
+  const [isExporting, setIsExporting] = useState(false);
   
   // Fetch data
   const { data: graphData, isLoading, error } = trpc.synergies.getGraphVisualizationData.useQuery();
@@ -364,17 +376,80 @@ export default function SynergiesGraphVisualization() {
     }
   };
   
-  // Export graph as SVG
-  const handleExport = () => {
+  // Export graph as SVG or PNG
+  const handleExport = async (format: 'svg' | 'png' = exportFormat) => {
     if (!svgRef.current) return;
-    const svgData = new XMLSerializer().serializeToString(svgRef.current);
-    const blob = new Blob([svgData], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `synergies-graph-${Date.now()}.svg`;
-    link.click();
-    URL.revokeObjectURL(url);
+    setIsExporting(true);
+    
+    try {
+      const svgElement = svgRef.current;
+      const svgData = new XMLSerializer().serializeToString(svgElement);
+      
+      if (format === 'svg') {
+        // Export as SVG
+        const blob = new Blob([svgData], { type: "image/svg+xml" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `synergies-graph-${Date.now()}.svg`;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else {
+        // Export as PNG using canvas
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        
+        // Set high resolution for export
+        const scale = 2;
+        const width = svgElement.clientWidth || 800;
+        const height = svgElement.clientHeight || 600;
+        canvas.width = width * scale;
+        canvas.height = height * scale;
+        ctx.scale(scale, scale);
+        
+        // Create image from SVG
+        const img = new Image();
+        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        const svgUrl = URL.createObjectURL(svgBlob);
+        
+        img.onload = () => {
+          // Fill white background
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, width, height);
+          
+          // Draw SVG
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // Convert to PNG and download
+          canvas.toBlob((blob) => {
+            if (blob) {
+              const pngUrl = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              link.href = pngUrl;
+              link.download = `synergies-graph-${Date.now()}.png`;
+              link.click();
+              URL.revokeObjectURL(pngUrl);
+            }
+          }, 'image/png', 1.0);
+          
+          URL.revokeObjectURL(svgUrl);
+          setIsExporting(false);
+        };
+        
+        img.onerror = () => {
+          console.error('Error loading SVG for PNG export');
+          setIsExporting(false);
+        };
+        
+        img.src = svgUrl;
+        return; // Don't set isExporting to false here, wait for onload
+      }
+    } catch (error) {
+      console.error('Export error:', error);
+    }
+    
+    setIsExporting(false);
   };
   
   if (error) {
@@ -600,9 +675,28 @@ export default function SynergiesGraphVisualization() {
                         <Button variant="outline" size="sm" onClick={() => handleZoom("reset")}>
                           <Maximize2 className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="sm" onClick={handleExport}>
-                          <Download className="h-4 w-4" />
-                        </Button>
+                        <div className="flex gap-1">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={() => handleExport('svg')}
+                            disabled={isExporting}
+                            title="Exporter en SVG (vectoriel)"
+                          >
+                            <Download className="h-4 w-4 mr-1" />
+                            SVG
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={() => handleExport('png')}
+                            disabled={isExporting}
+                            title="Exporter en PNG (image)"
+                          >
+                            <Download className="h-4 w-4 mr-1" />
+                            PNG
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </CardHeader>
@@ -638,18 +732,32 @@ export default function SynergiesGraphVisualization() {
                 <Card className="mt-4">
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base">Légende</CardTitle>
+                    <CardDescription className="text-xs">Survolez les types pour voir les mécanismes chimiques</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <h4 className="text-sm font-medium mb-2">Types de synergies (liens)</h4>
-                        <div className="space-y-1">
-                          {Object.entries(SYNERGY_TYPE_CONFIG).map(([key, config]) => (
-                            <div key={key} className="flex items-center gap-2 text-sm">
-                              <div className="w-6 h-0.5" style={{ backgroundColor: config.color }} />
-                              <span>{config.label}</span>
-                            </div>
-                          ))}
+                        <div className="space-y-2">
+                          <TooltipProvider>
+                            {Object.entries(SYNERGY_TYPE_CONFIG).map(([key, config]) => (
+                              <Tooltip key={key}>
+                                <TooltipTrigger asChild>
+                                  <div className="flex items-center gap-2 text-sm cursor-help p-1.5 rounded hover:bg-muted/50 transition-colors">
+                                    <div className="w-6 h-0.5" style={{ backgroundColor: config.color }} />
+                                    <span>{config.label}</span>
+                                    <Info className="h-3 w-3 text-muted-foreground ml-auto" />
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent side="right" className="max-w-xs">
+                                  <div className="space-y-1">
+                                    <p className="font-medium text-sm">{config.shortDesc}</p>
+                                    <p className="text-xs text-muted-foreground">{config.mechanism}</p>
+                                  </div>
+                                </TooltipContent>
+                              </Tooltip>
+                            ))}
+                          </TooltipProvider>
                         </div>
                       </div>
                       <div>
@@ -740,6 +848,18 @@ export default function SynergiesGraphVisualization() {
                             {selectedLink.description && (
                               <p className="text-sm text-muted-foreground">{selectedLink.description}</p>
                             )}
+                            
+                            {/* Mécanisme chimique détaillé */}
+                            <div className="mt-3 p-3 bg-muted/50 rounded-lg border border-border/50">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Info className="h-4 w-4 text-primary" />
+                                <span className="text-sm font-medium text-foreground">Mécanisme chimique</span>
+                              </div>
+                              <p className="text-xs text-muted-foreground leading-relaxed">
+                                {selectedLink.chemicalMechanism || SYNERGY_TYPE_CONFIG[selectedLink.type]?.mechanism || "Interaction moléculaire documentée impliquant des forces intermoléculaires."}
+                              </p>
+                            </div>
+                            
                             {selectedLink.applications && (
                               <div className="text-sm">
                                 <span className="text-muted-foreground">Applications : </span>

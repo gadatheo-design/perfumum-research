@@ -16924,6 +16924,19 @@ export async function getSynergySuggestionsForMolecule(moleculeId: number) {
 // ============================================================================
 
 /**
+ * Get default chemical mechanism explanation based on synergy type
+ */
+function getDefaultChemicalMechanism(type: string): string {
+  const mechanisms: Record<string, string> = {
+    potentialisation: "Synergie de potentialisation : les molécules interagissent via des liaisons hydrogène et des forces de van der Waals pour amplifier mutuellement leur perception olfactive. L'une des molécules peut agir comme modulateur allostérique des récepteurs olfactifs, augmentant l'affinité de liaison de l'autre.",
+    stabilisation: "Synergie de stabilisation : formation de complexes moléculaires stables par interactions π-π (empilement aromatique) et liaisons hydrogène. Ces interactions réduisent la volatilité et prolongent la tenue du parfum en créant des associations supramoléculaires.",
+    transformation: "Synergie de transformation : réactions chimiques lentes (condensation, oxydation ménagée) entre les groupes fonctionnels des deux molécules, générant de nouveaux composés aux propriétés olfactives distinctes. Les doubles liaisons et groupes carbonyle sont les sites réactifs principaux.",
+    masquage: "Synergie de masquage : compétition au niveau des récepteurs olfactifs. La molécule dominante sature les récepteurs spécifiques, réduisant la perception de l'autre composé. Ce phénomène est lié aux différences de seuil de détection et d'affinité réceptorielle.",
+  };
+  return mechanisms[type] || "Interaction moléculaire documentée impliquant des forces intermoléculaires (van der Waals, liaisons hydrogène, interactions π-π) qui modulent la volatilité et la perception olfactive des composés.";
+}
+
+/**
  * Get comprehensive synergy graph data for D3.js visualization
  * Returns nodes (molecules) and links (synergies) with enriched metadata
  * Enhanced version with molecule details and statistics
@@ -16951,6 +16964,7 @@ export async function getMolecularSynergiesGraphVisualization() {
       molecule2Id: moleculeSynergies.molecule2Id,
       type: moleculeSynergies.type,
       description: moleculeSynergies.description,
+      chemicalMechanism: moleculeSynergies.chemicalMechanism,
       applications: moleculeSynergies.applications,
     })
     .from(moleculeSynergies);
@@ -17018,6 +17032,7 @@ export async function getMolecularSynergiesGraphVisualization() {
     type: string;
     compatibilityScore: number;
     description: string | null;
+    chemicalMechanism: string | null;
     applications: string | null;
   }> = [];
   
@@ -17027,13 +17042,15 @@ export async function getMolecularSynergiesGraphVisualization() {
     if (sourceNode && targetNode) {
       sourceNode.connectionCount++;
       targetNode.connectionCount++;
+      const synergyType = s.compatibilityScore >= 70 ? 'potentialisation' : s.compatibilityScore >= 40 ? 'stabilisation' : 'masquage';
       links.push({
         id: `terpene-${s.id}`,
         source: s.terpene1Id,
         target: s.terpene2Id,
-        type: s.compatibilityScore >= 70 ? 'potentialisation' : s.compatibilityScore >= 40 ? 'stabilisation' : 'masquage',
+        type: synergyType,
         compatibilityScore: s.compatibilityScore,
         description: s.synergyNotes,
+        chemicalMechanism: getDefaultChemicalMechanism(synergyType),
         applications: null,
       });
     }
@@ -17053,6 +17070,7 @@ export async function getMolecularSynergiesGraphVisualization() {
         type: s.type,
         compatibilityScore: 80, // Default for molecule synergies
         description: s.description,
+        chemicalMechanism: s.chemicalMechanism || getDefaultChemicalMechanism(s.type),
         applications: s.applications,
       });
     }

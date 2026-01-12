@@ -28,7 +28,8 @@ import {
   Beaker,
   FileText,
   Copy,
-  Check
+  Check,
+  Target
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SynergySuggestions } from "@/components/SynergySuggestions";
@@ -58,6 +59,16 @@ interface SelectedMolecule {
   role: 'base' | 'modifier' | 'accent';
 }
 
+// Type pour le profil radar cible
+interface TargetRadarProfile {
+  intensity?: number;
+  freshness?: number;
+  warmth?: number;
+  sweetness?: number;
+  spiciness?: number;
+  earthiness?: number;
+}
+
 export default function OutilFormulation() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("create");
@@ -66,6 +77,14 @@ export default function OutilFormulation() {
   const [formulationType, setFormulationType] = useState<FormulationType>("parfum");
   const [selectedMolecules, setSelectedMolecules] = useState<SelectedMolecule[]>([]);
   const [copiedFormula, setCopiedFormula] = useState(false);
+  const [targetRadarProfile, setTargetRadarProfile] = useState<TargetRadarProfile>({
+    intensity: 50,
+    freshness: 50,
+    warmth: 50,
+    sweetness: 50,
+    spiciness: 50,
+    earthiness: 50,
+  });
 
   // Fetch data
   const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
@@ -286,6 +305,43 @@ export default function OutilFormulation() {
                     </ScrollArea>
                   </CardContent>
                 </Card>
+                
+                {/* Target Radar Profile */}
+                <Card className="border-primary/20">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Target className="h-4 w-4 text-primary" />
+                      Profil Radar Cible
+                    </CardTitle>
+                    <CardDescription className="text-xs">
+                      Définissez le profil olfactif souhaité pour filtrer les synergies
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {[
+                      { key: 'intensity', label: 'Intensité', color: 'bg-red-500' },
+                      { key: 'freshness', label: 'Fraîcheur', color: 'bg-cyan-500' },
+                      { key: 'warmth', label: 'Chaleur', color: 'bg-orange-500' },
+                      { key: 'sweetness', label: 'Douceur', color: 'bg-pink-500' },
+                      { key: 'spiciness', label: 'Épicé', color: 'bg-amber-600' },
+                      { key: 'earthiness', label: 'Terreux', color: 'bg-emerald-700' },
+                    ].map(({ key, label, color }) => (
+                      <div key={key} className="space-y-1">
+                        <div className="flex justify-between text-xs">
+                          <span className="text-muted-foreground">{label}</span>
+                          <span className="font-medium">{targetRadarProfile[key as keyof TargetRadarProfile]}%</span>
+                        </div>
+                        <Slider
+                          value={[targetRadarProfile[key as keyof TargetRadarProfile] || 50]}
+                          onValueChange={([value]) => setTargetRadarProfile(prev => ({ ...prev, [key]: value }))}
+                          max={100}
+                          step={5}
+                          className="w-full"
+                        />
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
               </div>
 
               {/* Formula Builder */}
@@ -419,6 +475,7 @@ export default function OutilFormulation() {
                 {selectedMolecules.length > 0 && (
                   <SynergySuggestions
                     selectedMoleculeIds={selectedMoleculeIds}
+                    targetRadarProfile={targetRadarProfile}
                     onAddMolecule={(moleculeId) => {
                       const mol = molecules?.find(m => m.id === moleculeId);
                       if (mol) {

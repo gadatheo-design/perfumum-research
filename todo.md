@@ -1566,3 +1566,23 @@
 - [x] Ajouter les filtres (par type de synergie, par famille chimique)
 - [x] Ajouter la route dans App.tsx
 
+
+
+### Améliorations Module Synergies (12 Janvier 2026 - Après-midi)
+- [ ] Tooltips détaillés avec mécanismes chimiques pour chaque synergie
+- [ ] Export du graphe de synergies en PNG/SVG
+- [ ] Suggestions contextuelles de synergies dans le générateur IA basées sur le profil radar cible
+
+
+---
+
+## 🔥 SESSION ACTIVE — 12 Jan 2026
+
+### Améliorations Module Synergies
+- [x] Tooltips détaillés avec mécanismes chimiques (SYNERGY_TYPE_CONFIG enrichi)
+- [x] Export du graphe en PNG/SVG (boutons SVG et PNG dans SynergiesGraphVisualization)
+- [x] Suggestions contextuelles basées sur le profil radar cible (SynergySuggestions avec targetRadarProfile)
+- [x] Ajout du champ chemicalMechanism à la table moleculeSynergies
+- [x] Mise à jour des synergies existantes avec mécanismes chimiques détaillés
+- [x] Intégration du profil radar cible dans OutilFormulation
+- [x] Filtrage des synergies par compatibilité radar

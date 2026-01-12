@@ -1033,6 +1033,7 @@ export const moleculeSynergies = mysqlTable("molecule_synergies", {
   molecule2Id: int("molecule2_id").notNull().references(() => molecules.id),
   type: mysqlEnum("type", ["potentialisation", "stabilisation", "transformation", "masquage"]).notNull(),
   description: text("description").notNull(), // Description détaillée de la synergie
+  chemicalMechanism: text("chemical_mechanism"), // Explication du mécanisme chimique (liaisons, interactions, etc.)
   applications: text("applications"), // Applications pratiques
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 }, (table) => ({
