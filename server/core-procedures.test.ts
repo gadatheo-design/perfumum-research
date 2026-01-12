@@ -187,12 +187,16 @@ describe('Data Utilities', () => {
     });
 
     it('should remove short words', () => {
-      const text = 'a is the fresh citrus';
+      const text = 'a is to fresh citrus';
       const keywords = extractKeywords(text);
       
+      // Le filtre est > 2, donc les mots de 2 caractères ou moins sont exclus
       expect(keywords).not.toContain('a');
       expect(keywords).not.toContain('is');
-      expect(keywords).not.toContain('the');
+      expect(keywords).not.toContain('to');
+      // 'the' a 3 caractères donc il passe le filtre > 2
+      expect(keywords).toContain('fresh');
+      expect(keywords).toContain('citrus');
     });
 
     it('should handle accented characters', () => {

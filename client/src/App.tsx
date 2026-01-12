@@ -76,6 +76,7 @@ import GammesVolcanique from "@/pages/GammesVolcanique";
 import GammesGlaciaire from "@/pages/GammesGlaciaire";
 import GammesBioLab from "@/pages/GammesBioLab";
 import GammesMossi from "./pages/GammesMossi";
+import GammesHub from "./pages/GammesHub";
 import GammeSignatures from "./pages/GammeSignatures";
 import GammePheromones from "./pages/GammePheromones";
 import GammeRaretes from "./pages/GammeRaretes";
@@ -254,6 +255,7 @@ import ExtractionMethods from "./pages/ExtractionMethods";
 import Collaborations from "./pages/Collaborations";
 import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
+import OutilsHub from "./pages/OutilsHub";
 import PatrimoineMenace from './pages/PatrimoineMenace';
 import AlternativesDurables from './pages/AlternativesDurables';
 import ArchivesOlfactives from "./pages/ArchivesOlfactives";
@@ -393,6 +395,7 @@ function Router() {
       
       {/* === GAMMES === */}
       <Route path="/gammes" component={Gammes} />
+      <Route path="/gammes-hub" component={GammesHub} />
       <Route path="/colombie" component={ColombieLine} />
       <Route path="/recette/colombie/:id" component={RecetteColombie} />
       <Route path="/sourcing" component={Sourcing} />
@@ -549,6 +552,7 @@ function Router() {
       <Route path="/alternatives-durables" component={AlternativesDurables} />
       <Route path="/archives-olfactives" component={ArchivesOlfactives} />
       <Route path="/outils" component={Outils} />
+      <Route path="/outils-hub" component={OutilsHub} />
       <Route path="/glossaire" component={Glossaire} />
       <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
       <Route path="/contribuer" component={Contribuer} />
