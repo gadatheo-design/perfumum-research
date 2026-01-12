@@ -231,7 +231,7 @@ export default function VarietyDetail() {
       <div className="min-h-screen bg-background">
         <Header />
         <main className="container py-8">
-          <Link href="/varietes">
+          <Link href="/plantes?tab=varietes">
             <Button variant="ghost" size="sm" className="gap-2 mb-6">
               <ArrowLeft className="w-4 h-4" />
               Retour aux variétés
@@ -244,7 +244,7 @@ export default function VarietyDetail() {
               <p className="text-muted-foreground mb-4">
                 Cette variété n'existe pas ou a été supprimée.
               </p>
-              <Link href="/varietes">
+              <Link href="/plantes?tab=varietes">
                 <Button>Voir toutes les variétés</Button>
               </Link>
             </CardContent>
@@ -281,7 +281,7 @@ export default function VarietyDetail() {
         
         {/* Navigation */}
         <div className="mb-6 flex items-center justify-between">
-          <Link href="/varietes">
+          <Link href="/plantes?tab=varietes">
             <Button variant="ghost" size="sm" className="gap-2">
               <ArrowLeft className="w-4 h-4" />
               Retour aux variétés

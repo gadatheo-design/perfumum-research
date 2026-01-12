@@ -1781,3 +1781,9 @@
 - [x] Appliquer le même pattern que les autres hubs (CompoundsHub, RecipesHub)
 - [x] Intégrer les vues existantes dans le hub unifié
 - [x] Mettre à jour les routes et la navigation
+
+### Amélioration PlantsHub (12 Jan 2026 - Suite)
+- [x] Ajouter onglet Carte dans PlantsHub avec carte interactive des terroirs
+- [x] Créer liens croisés dans PlantsContent vers terroirs et variétés
+- [x] Ajouter liens croisés dans TerroirsContent vers plantes
+- [x] Ajouter liens croisés dans VarietiesContent vers plantes parentes

@@ -65,7 +65,7 @@ export default function TerroirDetail() {
               <MapPin className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
               <h2 className="text-xl font-semibold mb-2">Terroir non trouvé</h2>
               <p className="text-muted-foreground mb-4">Ce terroir n'existe pas ou a été supprimé.</p>
-              <Link href="/terroirs">
+              <Link href="/plantes?tab=terroirs">
                 <Button variant="outline">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Retour aux terroirs
@@ -95,7 +95,7 @@ export default function TerroirDetail() {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-4xl"
             >
-              <Link href="/terroirs">
+              <Link href="/plantes?tab=terroirs">
                 <Button variant="ghost" size="sm" className="mb-4 -ml-2 text-muted-foreground hover:text-foreground">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Tous les terroirs

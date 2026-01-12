@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { Leaf, Dna, MapPin, Network } from "lucide-react";
+import { Leaf, Dna, MapPin, Network, Map } from "lucide-react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 // Lazy load tab content components for performance
@@ -13,6 +13,7 @@ const PlantsContent = lazy(() => import("@/components/content/PlantsContent"));
 const VarietiesContent = lazy(() => import("@/components/content/VarietiesContent"));
 const TerroirsContent = lazy(() => import("@/components/content/TerroirsContent"));
 const PlantTerroirNetworkContent = lazy(() => import("./PlantTerroirNetwork"));
+const CarteContent = lazy(() => import("@/components/content/CarteContent"));
 
 /**
  * PlantsHub - Consolidated page for all plant-related content
@@ -60,6 +61,12 @@ export default function PlantsHub() {
       label: "Terroirs",
       icon: <MapPin className="h-4 w-4" />,
       description: "Régions et zones de culture"
+    },
+    {
+      id: "carte",
+      label: "Carte",
+      icon: <Map className="h-4 w-4" />,
+      description: "Carte interactive des terroirs et régions de culture"
     },
     {
       id: "reseau",
@@ -118,6 +125,12 @@ export default function PlantsHub() {
             <TabsContent value="terroirs" className="mt-0">
               <Suspense fallback={<TabLoadingState />}>
                 <TerroirsContent />
+              </Suspense>
+            </TabsContent>
+
+            <TabsContent value="carte" className="mt-0">
+              <Suspense fallback={<TabLoadingState />}>
+                <CarteContent />
               </Suspense>
             </TabsContent>
 

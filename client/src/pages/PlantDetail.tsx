@@ -134,7 +134,7 @@ export default function PlantDetail() {
           <p className="text-muted-foreground mb-4">
             Cette plante n'existe pas ou a été supprimée.
           </p>
-          <Link href="/plants">
+          <Link href="/plantes?tab=plantes">
             <Button variant="outline">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Retour aux plantes
@@ -167,10 +167,10 @@ export default function PlantDetail() {
       
       {/* Header avec navigation */}
       <div className="flex items-center gap-4 mb-6">
-        <Link href="/plants">
+        <Link href="/plantes?tab=plantes">
           <Button variant="ghost" size="sm">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Retour
+            Retour aux plantes
           </Button>
         </Link>
       </div>
