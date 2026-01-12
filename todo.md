@@ -1775,3 +1775,9 @@
 - [x] Ajouter les redirections pour /accords et /formules-reference vers RecettesHub
 - [x] Mettre à jour le MegaMenu avec les badges HUB pour Molécules et Recettes
 - [x] Build réussi avec tous les composants
+
+### Consolidation PlantsHub (12 Jan 2026)
+- [x] Consolider PlantsHub avec navigation par onglets (Plantes, Variétés, Terroirs)
+- [x] Appliquer le même pattern que les autres hubs (CompoundsHub, RecipesHub)
+- [x] Intégrer les vues existantes dans le hub unifié
+- [x] Mettre à jour les routes et la navigation

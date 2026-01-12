@@ -239,6 +239,7 @@ import TerpProfiles from "./pages/TerpProfiles";
 import TerpProfilesCompare from "./pages/TerpProfilesCompare";
 import Plants from "./pages/Plants";
 import PlantVarieties from "./pages/PlantVarieties";
+import PlantsHub from "./pages/PlantsHub";
 import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
 import PlantDetail from "./pages/PlantDetail";
@@ -586,11 +587,13 @@ function Router() {
       <Route path="/recettes-leaf-economies" component={RecettesLeafEconomies} />
       <Route path="/terp-profiles" component={TerpProfiles} />
       <Route path="/terp-profiles/compare" component={TerpProfilesCompare} />
-      <Route path="/plants" component={Plants} />
-      <Route path="/plantes" component={Plants} />
-      <Route path="/varietes" component={PlantVarieties} />
-      <Route path="/plant-varieties" component={PlantVarieties} />
-      <Route path="/plantes-varietes" component={PlantVarieties} />
+      <Route path="/plants" component={PlantsHub} />
+      <Route path="/plantes" component={PlantsHub} />
+      <Route path="/plants-legacy" component={Plants} />
+      <Route path="/varietes" component={PlantsHub} />
+      <Route path="/plant-varieties" component={PlantsHub} />
+      <Route path="/plantes-varietes" component={PlantsHub} />
+      <Route path="/varietes-legacy" component={PlantVarieties} />
       <Route path="/varietes/new" component={VarietyForm} />
       <Route path="/varietes/:id" component={VarietyDetail} />
       <Route path="/plantes-varietes/new" component={VarietyForm} />
@@ -603,7 +606,8 @@ function Router() {
       <Route path="/plantes/:id" component={PlantDetail} />
       <Route path="/final-recipes" component={FinalRecipes} />
       <Route path="/recettes-finales" component={FinalRecipes} />
-      <Route path="/terroirs" component={Terroirs} />
+      <Route path="/terroirs" component={PlantsHub} />
+      <Route path="/terroirs-legacy" component={Terroirs} />
       <Route path="/terroirs/:id" component={TerroirDetail} />
       <Route path="/origines-geographiques" component={OriginesGeographiques} />
       <Route path="/extraction-methods" component={ExtractionMethods} />
