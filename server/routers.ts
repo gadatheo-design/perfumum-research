@@ -47,6 +47,7 @@ import {
 } from "./db";
 import { getAllRecettesWithRadar, filterRecettesByRadar, type RadarFilters } from "./db-recettes-radar";
 import { getSimilarRecettes, getSimilarMolecules, getRecommendedRecettesFromFavorites } from "./db-recommendations";
+import { koppenRouter } from "./routers/koppen";
 
 export const appRouter = router({
   system: systemRouter,
@@ -9902,13 +9903,14 @@ Familles olfactives disponibles:
         return db.getForceGraphDataReferencesAxes(input || {});
       }),
     
-    // Obtenir les données du graphe d'axes uniquement
+     // Obtenir les données du graphe d'axes uniquement
     getAxisGraphData: publicProcedure.query(async () => {
       return db.getAxisGraphData();
     }),
   }),
 
-
+  // Köppen Climate Data
+  koppen: router(koppenRouter),
 });
 export type AppRouter = typeof appRouter;
 

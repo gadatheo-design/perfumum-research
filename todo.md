@@ -1899,3 +1899,65 @@
 - [ ] Tester les redirections en production
 - [ ] Vérifier que le MegaMenu fonctionne correctement sur mobile
 - [ ] Documenter les changements de navigation
+
+---
+## 🔥 SESSION ACTIVE — 12 Jan 2026 (Trois tâches prioritaires)
+### Enrichissement données climatiques Köppen (85 plantes restantes)
+- [ ] Analyser les 85 plantes sans données Köppen
+- [ ] Rechercher les zones Köppen appropriées pour chaque plante
+- [ ] Mettre à jour la base de données avec les nouvelles zones
+- [ ] Valider la couverture Köppen à 100%
+- [ ] Mettre à jour le test climate-tl.test.ts avec le nouveau seuil
+### Redirections en production
+- [ ] Tester les redirections gammes en production (`/gammes*` → `/gammes-hub`)
+- [ ] Tester les redirections outils en production (`/outils*` → `/outils-hub`)
+- [ ] Vérifier que les paramètres de tab sont correctement transmis
+- [ ] Tester les redirections sur mobile
+- [ ] Documenter les URLs legacy et leurs redirections
+### Optimisation MegaMenu - Virtualisation
+- [ ] Analyser la structure actuelle du MegaMenu
+- [ ] Implémenter la virtualisation pour les menus avec beaucoup d'items
+- [ ] Optimiser les performances sur mobile
+- [ ] Tester le rendu avec 100+ items
+- [ ] Mesurer les gains de performance (Lighthouse)
+
+---
+## 🔥 SESSION ACTIVE — 12 Jan 2026 (Trois tâches prioritaires - Implémentation)
+### Enrichissement données climatiques Köppen (85 plantes restantes)
+- [x] Analyser les 85 plantes sans données Köppen
+- [x] Créer le script d'enrichissement avec référence Köppen
+- [x] Implémenter les procédures tRPC pour enrichissement
+- [x] Créer les tests d'enrichissement Köppen
+- [x] Vérifier la couverture Köppen actuelle (65.6%)
+- [ ] Appliquer l'enrichissement à la base de données (85 plantes)
+- [ ] Valider la couverture Köppen à 100%
+
+### Redirections en production
+- [x] Créer la suite de tests complète pour redirections
+- [x] Valider les redirections gammes (/gammes* → /gammes-hub)
+- [x] Valider les redirections outils (/outils* → /outils-hub)
+- [x] Tester les paramètres de tab
+- [x] Tester les redirections sur mobile
+- [x] Documenter les URLs legacy et redirections
+- [ ] Déployer les redirections en production
+- [ ] Monitorer les redirections en production
+
+### Optimisation MegaMenu - Virtualisation
+- [x] Créer le composant MegaMenuOptimized avec virtualisation
+- [x] Implémenter la virtualisation pour menus avec 100+ items
+- [x] Créer les tests de performance du MegaMenu
+- [x] Optimiser pour mobile
+- [x] Ajouter support des badges HUB
+- [x] Implémenter le hook useMegaMenuSections
+- [x] Implémenter le hook useMegaMenuPerformance
+- [ ] Intégrer le MegaMenuOptimized à la navigation principale
+- [ ] Tester les performances avec Lighthouse
+- [ ] Mesurer les gains de performance
+
+### Résumé de la session
+- ✅ 1105 tests passent (2 skipped)
+- ✅ 74 fichiers de test
+- ✅ Couverture Köppen: 65.6% (162/247 plantes)
+- ✅ Composant MegaMenuOptimized créé avec virtualisation
+- ✅ Tests de redirections complets
+- ✅ Procédures tRPC pour enrichissement Köppen
