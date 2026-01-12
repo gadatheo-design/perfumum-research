@@ -1686,3 +1686,33 @@
 
 ### Page de gestion des liaisons
 - [x] Créer une page de gestion des liaisons références↔entités pour faciliter l'association
+
+---
+## 🔥 SESSION ACTIVE — 12 Jan 2026 (Amélioration Liaisons Références)
+### Importeur CSV en masse
+- [x] Créer une procédure tRPC `referenceEntityLinks.bulkImportFromCSV`
+- [x] Créer un composant UI pour télécharger et valider le CSV
+- [x] Implémenter la validation des données CSV (colonnes requises, formats)
+- [x] Ajouter la gestion des erreurs et rapport de progression
+- [ ] Tester l'importeur avec un fichier CSV d'exemple
+
+### Visualisation graphique D3.js
+- [x] Créer une nouvelle page `/reseau-liaisons-references` pour la visualisation
+- [x] Implémenter le graphe D3.js avec nœuds (références, entités) et arêtes (liaisons)
+- [x] Ajouter des filtres par type d'entité et type de liaison
+- [x] Implémenter l'interaction (zoom, pan, hover avec détails)
+- [x] Ajouter la coloration par type d'entité et score de pertinence
+- [ ] Intégrer le graphe à la page ReferenceEntityLinkManager
+
+### Suggestions automatiques par mots-clés
+- [x] Créer une procédure tRPC `referenceEntityLinks.suggestLinks`
+- [x] Implémenter l'algorithme de suggestion basé sur les mots-clés
+- [x] Ajouter un composant UI pour afficher et accepter les suggestions
+- [x] Créer une procédure pour appliquer les suggestions en masse
+- [ ] Tester les suggestions avec les données existantes
+
+### Tests et validation
+- [x] Écrire les tests vitest pour l'importeur CSV
+- [x] Écrire les tests vitest pour les suggestions automatiques
+- [x] Valider le graphe D3.js dans le navigateur
+- [x] Tester les performances avec un grand nombre de liaisons

@@ -7485,13 +7485,53 @@ export const appRouter = router({
     getStats: publicProcedure.query(async () => {
       return db.getReferenceEntityLinkStats();
     }),
-  }),
-
+    
+    // Bulk import from CSV
+    bulkImportFromCSV: protectedProcedure
+      .input(z.array(z.object({
+        referenceId: z.number(),
+        entityType: z.enum(['leaf_economy', 'molecule', 'recette', 'plant', 'prototype', 'tradition', 'terroir', 'supplier']),
+        entityId: z.number(),
+        linkType: z.enum(['documents', 'mentions', 'analyzes', 'conserves', 'reconstructs', 'sources', 'validates', 'contextualizes']).optional(),
+        relevanceScore: z.number().min(0).max(100).optional(),
+        notes: z.string().optional(),
+        context: z.string().optional(),
+      })))
+      .mutation(async ({ input, ctx }) => {
+        return db.bulkImportReferenceEntityLinks(input, ctx.user?.id);
+      }),
+    
+    // Suggest links based on keywords
+    suggestLinks: publicProcedure
+      .input(z.object({
+        referenceId: z.number().optional(),
+        entityType: z.enum(['leaf_economy', 'molecule', 'recette', 'plant', 'prototype', 'tradition', 'terroir', 'supplier']).optional(),
+        minScore: z.number().min(0).max(100).optional(),
+        limit: z.number().min(1).max(500).optional(),
+      }))
+      .query(async ({ input }) => {
+        return db.suggestReferenceEntityLinks(input);
+      }),
+    
+    // Apply suggested links in bulk
+    applySuggestions: protectedProcedure
+      .input(z.array(z.object({
+        referenceId: z.number(),
+        entityType: z.enum(['leaf_economy', 'molecule', 'recette', 'plant', 'prototype', 'tradition', 'terroir', 'supplier']),
+        entityId: z.number(),
+        score: z.number().min(0).max(100),
+      })))
+      .mutation(async ({ input, ctx }) => {
+        return db.applySuggestedLinks(input, ctx.user?.id);
+      }),
+    }),
+    // Get graph data for D3.js visualization
+    getGraphData: publicProcedure.query(async () => {
+      return db.getReferenceEntityLinkGraphData();
+    }),
   // ============================================================================
   // CONTRIBUTOR INTERFACE - Détection de doublons et ajout de données
-  // ============================================================================
   contributor: router({
-    // Détection de doublons pour les molécules
     findMoleculeDuplicates: publicProcedure
       .input(z.object({
         name: z.string().optional(),

@@ -17225,3 +17225,330 @@ export async function getSynergySuggestionsForMolecules(moleculeIds: number[]) {
   
   return { selectedIds: moleculeIds, suggestions: sortedSuggestions };
 }
+
+// ============================================================================
+// BULK IMPORT & SUGGESTIONS FOR REFERENCE ENTITY LINKS
+// ============================================================================
+
+/**
+ * Bulk import reference entity links from CSV data
+ * Expected CSV columns: referenceId, entityType, entityId, linkType, relevanceScore, notes, context
+ */
+export async function bulkImportReferenceEntityLinks(data: Array<{
+  referenceId: number;
+  entityType: 'leaf_economy' | 'molecule' | 'recette' | 'plant' | 'prototype' | 'tradition' | 'terroir' | 'supplier';
+  entityId: number;
+  linkType?: 'documents' | 'mentions' | 'analyzes' | 'conserves' | 'reconstructs' | 'sources' | 'validates' | 'contextualizes';
+  relevanceScore?: number;
+  notes?: string;
+  context?: string;
+}>, createdBy?: number) {
+  const db = await getDb();
+  if (!db) return { success: false, created: 0, errors: [] };
+  
+  const errors: Array<{ row: number; error: string }> = [];
+  let createdCount = 0;
+  
+  for (let i = 0; i < data.length; i++) {
+    try {
+      const item = data[i];
+      
+      // Validate required fields
+      if (!item.referenceId || !item.entityType || !item.entityId) {
+        errors.push({ row: i + 1, error: 'Missing required fields: referenceId, entityType, entityId' });
+        continue;
+      }
+      
+      // Check if reference exists
+      const refExists = await db.select({ id: v3References.id })
+        .from(v3References)
+        .where(eq(v3References.id, item.referenceId))
+        .limit(1);
+      
+      if (!refExists.length) {
+        errors.push({ row: i + 1, error: `Reference ID ${item.referenceId} not found` });
+        continue;
+      }
+      
+      // Check for duplicate link
+      const existingLink = await db.select({ id: referenceEntityLinks.id })
+        .from(referenceEntityLinks)
+        .where(and(
+          eq(referenceEntityLinks.referenceId, item.referenceId),
+          eq(referenceEntityLinks.entityType, item.entityType),
+          eq(referenceEntityLinks.entityId, item.entityId)
+        ))
+        .limit(1);
+      
+      if (existingLink.length) {
+        errors.push({ row: i + 1, error: 'Link already exists' });
+        continue;
+      }
+      
+      // Create the link
+      await db.insert(referenceEntityLinks).values({
+        referenceId: item.referenceId,
+        entityType: item.entityType,
+        entityId: item.entityId,
+        linkType: item.linkType || 'documents',
+        relevanceScore: item.relevanceScore || 50,
+        notes: item.notes,
+        context: item.context,
+        createdBy: createdBy,
+      });
+      
+      createdCount++;
+    } catch (error: any) {
+      errors.push({ row: i + 1, error: error.message || 'Unknown error' });
+    }
+  }
+  
+  return { success: errors.length === 0, created: createdCount, errors };
+}
+
+/**
+ * Suggest links based on keyword matching between references and entities
+ */
+export async function suggestReferenceEntityLinks(options: {
+  referenceId?: number;
+  entityType?: 'leaf_economy' | 'molecule' | 'recette' | 'plant' | 'prototype' | 'tradition' | 'terroir' | 'supplier';
+  minScore?: number;
+  limit?: number;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const minScore = options.minScore || 60;
+  const limit = options.limit || 50;
+  
+  const suggestions: Array<{
+    referenceId: number;
+    entityType: string;
+    entityId: number;
+    entityName: string;
+    score: number;
+    matchedKeywords: string[];
+  }> = [];
+  
+  try {
+    // Get references to analyze
+    let references;
+    if (options.referenceId) {
+      references = await db.select()
+        .from(v3References)
+        .where(eq(v3References.id, options.referenceId))
+        .limit(1);
+    } else {
+      references = await db.select()
+        .from(v3References)
+        .limit(100);
+    }
+    
+    for (const ref of references) {
+      // Extract keywords from reference (title, keywords, abstract)
+      const refKeywords = extractKeywords(
+        [ref.title, ref.keywords, ref.abstract].filter(Boolean).join(' ')
+      );
+      
+      if (refKeywords.length === 0) continue;
+      
+      // Check molecules
+      if (!options.entityType || options.entityType === 'molecule') {
+        const molecules = await db.select()
+          .from(molecules)
+          .limit(500);
+        
+        for (const mol of molecules) {
+          // Check if link already exists
+          const existingLink = await db.select({ id: referenceEntityLinks.id })
+            .from(referenceEntityLinks)
+            .where(and(
+              eq(referenceEntityLinks.referenceId, ref.id),
+              eq(referenceEntityLinks.entityType, 'molecule'),
+              eq(referenceEntityLinks.entityId, mol.id)
+            ))
+            .limit(1);
+          
+          if (existingLink.length) continue;
+          
+          const molKeywords = extractKeywords(
+            [mol.name, mol.iupacName, mol.olfactiveProfile, mol.chemicalClass].filter(Boolean).join(' ')
+          );
+          
+          const score = calculateKeywordSimilarity(refKeywords, molKeywords);
+          if (score >= minScore) {
+            suggestions.push({
+              referenceId: ref.id,
+              entityType: 'molecule',
+              entityId: mol.id,
+              entityName: mol.name,
+              score,
+              matchedKeywords: findCommonKeywords(refKeywords, molKeywords),
+            });
+          }
+        }
+      }
+      
+      // Check plants
+      if (!options.entityType || options.entityType === 'plant') {
+        const plants = await db.select()
+          .from(plants)
+          .limit(500);
+        
+        for (const plant of plants) {
+          // Check if link already exists
+          const existingLink = await db.select({ id: referenceEntityLinks.id })
+            .from(referenceEntityLinks)
+            .where(and(
+              eq(referenceEntityLinks.referenceId, ref.id),
+              eq(referenceEntityLinks.entityType, 'plant'),
+              eq(referenceEntityLinks.entityId, plant.id)
+            ))
+            .limit(1);
+          
+          if (existingLink.length) continue;
+          
+          const plantKeywords = extractKeywords(
+            [plant.name, plant.latinName, plant.family, plant.description].filter(Boolean).join(' ')
+          );
+          
+          const score = calculateKeywordSimilarity(refKeywords, plantKeywords);
+          if (score >= minScore) {
+            suggestions.push({
+              referenceId: ref.id,
+              entityType: 'plant',
+              entityId: plant.id,
+              entityName: plant.name,
+              score,
+              matchedKeywords: findCommonKeywords(refKeywords, plantKeywords),
+            });
+          }
+        }
+      }
+    }
+  } catch (error: any) {
+    console.error('Error suggesting links:', error);
+  }
+  
+  // Sort by score and return top results
+  return suggestions
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}
+
+/**
+}
+
+/**
+ * Apply suggested links in bulk
+ */
+export async function applySuggestedLinks(suggestions: Array<{
+  referenceId: number;
+  entityType: 'leaf_economy' | 'molecule' | 'recette' | 'plant' | 'prototype' | 'tradition' | 'terroir' | 'supplier';
+  entityId: number;
+  score: number;
+}>, createdBy?: number) {
+  const db = await getDb();
+  if (!db) return { success: false, created: 0, errors: [] };
+  
+  let createdCount = 0;
+  const errors: Array<{ suggestion: number; error: string }> = [];
+  
+  for (let i = 0; i < suggestions.length; i++) {
+    try {
+      const suggestion = suggestions[i];
+      
+      // Check if link already exists
+      const existingLink = await db.select({ id: referenceEntityLinks.id })
+        .from(referenceEntityLinks)
+        .where(and(
+          eq(referenceEntityLinks.referenceId, suggestion.referenceId),
+          eq(referenceEntityLinks.entityType, suggestion.entityType),
+          eq(referenceEntityLinks.entityId, suggestion.entityId)
+        ))
+        .limit(1);
+      
+      if (existingLink.length) {
+        errors.push({ suggestion: i, error: 'Link already exists' });
+        continue;
+      }
+      
+      // Create the link with relevance score from suggestion
+      await db.insert(referenceEntityLinks).values({
+        referenceId: suggestion.referenceId,
+        entityType: suggestion.entityType,
+        entityId: suggestion.entityId,
+        linkType: 'documents',
+        relevanceScore: Math.min(suggestion.score, 100),
+        notes: 'Auto-suggested link based on keyword matching',
+        createdBy: createdBy,
+      });
+      
+      createdCount++;
+    } catch (error: any) {
+      errors.push({ suggestion: i, error: error.message || 'Unknown error' });
+    }
+  }
+  
+  return { success: errors.length === 0, created: createdCount, errors };
+}
+
+/**
+ * Get graph data for D3.js visualization of reference entity links
+ */
+export async function getReferenceEntityLinkGraphData() {
+  const db = await getDb();
+  if (!db) return { nodes: [], links: [] };
+  
+  try {
+    const links = await db.select().from(referenceEntityLinks).limit(1000);
+    
+    const nodeMap = new Map<string, { id: string; label: string; type: string; group: string }>();
+    const edgeList: Array<{
+      source: string;
+      target: string;
+      linkType: string;
+      relevanceScore: number;
+    }> = [];
+    
+    for (const link of links) {
+      // Add reference node
+      const refNodeId = `ref_${link.referenceId}`;
+      if (!nodeMap.has(refNodeId)) {
+        nodeMap.set(refNodeId, {
+          id: refNodeId,
+          label: `Ref ${link.referenceId}`,
+          type: 'reference',
+          group: 'references',
+        });
+      }
+      
+      // Add entity node
+      const entityNodeId = `${link.entityType}_${link.entityId}`;
+      if (!nodeMap.has(entityNodeId)) {
+        nodeMap.set(entityNodeId, {
+          id: entityNodeId,
+          label: `${link.entityType} ${link.entityId}`,
+          type: link.entityType,
+          group: link.entityType,
+        });
+      }
+      
+      // Add edge
+      edgeList.push({
+        source: refNodeId,
+        target: entityNodeId,
+        linkType: link.linkType || 'documents',
+        relevanceScore: link.relevanceScore || 50,
+      });
+    }
+    
+    return {
+      nodes: Array.from(nodeMap.values()),
+      links: edgeList,
+    };
+  } catch (error: any) {
+    console.error('Error getting graph data:', error);
+    return { nodes: [], links: [] };
+  }
+}
