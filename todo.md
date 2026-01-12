@@ -1787,3 +1787,39 @@
 - [x] Créer liens croisés dans PlantsContent vers terroirs et variétés
 - [x] Ajouter liens croisés dans TerroirsContent vers plantes
 - [x] Ajouter liens croisés dans VarietiesContent vers plantes parentes
+
+
+---
+
+## 🔥 SESSION ACTIVE — 12 Jan 2026 (Suite Audit)
+
+### Stabilisation (Recommandations Audit)
+- [x] Diagnostiquer l'erreur "Too many requests" → Problème de rate limiting du proxy Manus (temporaire)
+- [x] Vérifier que le serveur local fonctionne correctement (HTTP 200 en local)
+- [x] Vérifier l'existence de la documentation de base (ARCHITECTURE.md, DATABASE.md, CONTRIBUTING.md)
+- [x] Ajouter des tests unitaires pour les procédures tRPC critiques (72 fichiers, 1091 tests passés)
+
+### Restructuration Navigation (Phase 2 Audit)
+- [ ] Consolider les 270 pages vers ~70 pages principales avec onglets
+- [ ] Implémenter un système de breadcrumbs global
+- [ ] Améliorer la recherche globale avec filtres avancés
+
+### Simplification Schéma DB (Phase 3 Audit)
+- [ ] Auditer les 134 tables et identifier les redondances
+- [ ] Créer des vues SQL pour les requêtes complexes
+- [ ] Optimiser les indexes pour les requêtes fréquentes
+
+### Optimisation Performance (Phase 4 Audit)
+- [ ] Audit de performance Lighthouse
+- [ ] Optimisation des images
+- [ ] Lazy loading des composants lourds
+- [ ] Pagination des listes longues
+
+### Consolidation Navigation (Rapport d'Audit)
+- [x] Créer le rapport d'audit de navigation (NAVIGATION_AUDIT_REPORT.md)
+- [ ] Créer GammesHub avec onglets (Pétrichor, Volcanique, Glaciaire, Bio-Lab, Mossi)
+- [ ] Créer OutilsHub avec onglets (Calculateur, IFRA, Formulation, Synergies)
+- [ ] Consolider AdminHub en 7 onglets principaux
+- [ ] Créer SourcingHub avec onglets géographiques
+- [ ] Configurer les redirections legacy vers les nouveaux hubs
+- [ ] Mettre à jour le MegaMenu avec la nouvelle structure
