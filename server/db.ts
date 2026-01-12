@@ -17437,9 +17437,6 @@ export async function suggestReferenceEntityLinks(options: {
 }
 
 /**
-}
-
-/**
  * Apply suggested links in bulk
  */
 export async function applySuggestedLinks(suggestions: Array<{
