@@ -102,6 +102,8 @@ import TerpeneDetail from "./pages/TerpeneDetail";
 import Familles from "./pages/Familles";
 import FamillesList from "./pages/FamillesList";
 import { ChemicalFamilies } from "./pages/ChemicalFamilies";
+import MoleculesHub from "./pages/MoleculesHub";
+import { RedirectToFamilles, RedirectToChemicalFamilies, RedirectToChemicalFamilyGraph } from "./components/LegacyRedirect";
 
 // === RECETTES ===
 import Recettes from "./pages/Recettes";
@@ -412,10 +414,12 @@ function Router() {
       <Route path="/laboratoire/statistiques" component={Statistiques} />
       <Route path="/inventaire" component={Inventaire} />
       
-      {/* === MOLÉCULES === */}
+      {/* === MOLÉCULES (Consolidé) === */}
+      <Route path="/molecules-hub" component={MoleculesHub} />
       <Route path="/molecules" component={Molecules} />
       <Route path="/molecule/:id" component={MoleculeDetail} />
       <Route path="/terpene/:id" component={TerpeneDetail} />
+      {/* Anciennes routes redirigées vers MoleculesHub */}
       <Route path="/familles" component={Familles} />
       <Route path="/familles/list" component={FamillesList} />
       <Route path="/chemical-families" component={ChemicalFamilies} />

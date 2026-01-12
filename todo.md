@@ -1716,3 +1716,40 @@
 - [x] Écrire les tests vitest pour les suggestions automatiques
 - [x] Valider le graphe D3.js dans le navigateur
 - [x] Tester les performances avec un grand nombre de liaisons
+
+
+---
+
+## 🔄 CONSOLIDATION (Session 12 Jan 2026)
+
+### Phase 1 : Correction des erreurs existantes
+- [x] Corriger les erreurs de symboles dupliqués dans db.ts (extractKeywords, calculateKeywordSimilarity)
+- [ ] Corriger la fonction findCommonKeywords manquante
+- [ ] Valider la compilation TypeScript
+
+### Phase 2 : Consolidation de la navigation (286 → ~70 routes)
+- [x] Créer le composant TabsContainer réutilisable pour les sections avec onglets
+- [x] Consolider les pages Molécules (8 routes → 1 section avec 4 onglets)
+- [ ] Consolider les pages Recettes & Accords (14 routes → 1 section avec 5 onglets)
+- [ ] Consolider les pages Plantes & Botanique (25 routes → 1 section avec 6 onglets)
+- [ ] Consolider les pages Prototypes & Gammes (15 routes → 1 section avec 4 onglets)
+- [ ] Consolider les pages Visualisations & Graphes (20 routes → 1 section avec 5 onglets)
+- [ ] Consolider les pages Comparaison (11 routes → 1 section avec 4 onglets)
+- [ ] Consolider les pages Recherche & Méthodologie (22 routes → 1 section avec 6 onglets)
+- [ ] Consolider les pages Bibliographie & Références (15 routes → 1 section avec 4 onglets)
+- [ ] Consolider les pages Outils & Calculateurs (15 routes → 1 section avec 5 onglets)
+- [ ] Consolider les pages Archives & Études (20 routes → 1 section avec 5 onglets)
+- [ ] Consolider les pages Administration (25 routes → 1 section avec 7 onglets)
+- [ ] Configurer les redirections automatiques pour les anciennes URLs
+
+### Phase 3 : Simplification du schéma DB (134 tables)
+- [ ] Auditer les 134 tables et identifier les redondances
+- [ ] Créer des vues SQL pour les requêtes complexes
+- [ ] Optimiser les indexes pour les requêtes fréquentes
+- [ ] Documenter le schéma consolidé
+
+### Phase 4 : Refactorisation des composants
+- [ ] Identifier les composants dupliqués (RadarChart, ForceGraph, etc.)
+- [ ] Créer une librairie de composants réutilisables dans /components/lib
+- [ ] Documenter les composants avec exemples d'utilisation
+

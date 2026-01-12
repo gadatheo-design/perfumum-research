@@ -17354,11 +17354,11 @@ export async function suggestReferenceEntityLinks(options: {
       
       // Check molecules
       if (!options.entityType || options.entityType === 'molecule') {
-        const molecules = await db.select()
+        const moleculesList = await db.select()
           .from(molecules)
           .limit(500);
         
-        for (const mol of molecules) {
+        for (const mol of moleculesList) {
           // Check if link already exists
           const existingLink = await db.select({ id: referenceEntityLinks.id })
             .from(referenceEntityLinks)
@@ -17391,11 +17391,11 @@ export async function suggestReferenceEntityLinks(options: {
       
       // Check plants
       if (!options.entityType || options.entityType === 'plant') {
-        const plants = await db.select()
+        const plantsList = await db.select()
           .from(plants)
           .limit(500);
         
-        for (const plant of plants) {
+        for (const plant of plantsList) {
           // Check if link already exists
           const existingLink = await db.select({ id: referenceEntityLinks.id })
             .from(referenceEntityLinks)
