@@ -2244,3 +2244,16 @@
 
 
 - [x] BUG CRITIQUE: Corriger erreur "useGuidedNavigation must be used within a GuidedNavigationProvider" (13 Jan 2026) — Résolu: désactivé le StartGuidedTourButton dans Home.tsx
+
+## 🔄 Session 13 janvier 2026
+
+### Navigation guidée
+- [ ] Réactiver la navigation guidée simplifiée selon le plan de présentation
+
+
+---
+
+## 🔄 SESSION 13 janvier 2026
+
+### Navigation guidée
+- [x] Réactiver la navigation guidée simplifiée selon le plan de présentation — Imports et composants réactivés dans App.tsx (GuidedNavigationProvider, GuidedNavigationBar, TourSelector, GuidedNavigationWidget)
