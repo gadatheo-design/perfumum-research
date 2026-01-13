@@ -2122,3 +2122,12 @@
 ### Validation
 - [x] Tester responsive sur différentes tailles d'écran
 - [x] Valider visuellement les modifications
+
+
+---
+
+## 🔥 SESSION ACTIVE — 13 Jan 2026
+
+### Améliorations UX Mobile
+- [x] Ajouter un bouton de recherche visible dans le header mobile (actuellement uniquement via le menu)
+- [x] Implémenter un sticky breadcrumb sur mobile pour améliorer la navigation dans les pages profondes

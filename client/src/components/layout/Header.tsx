@@ -214,24 +214,51 @@ export function Header() {
           </Button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="lg:hidden flex items-center gap-3">
+        {/* Mobile: Search + Theme + Menu */}
+        <div className="lg:hidden flex items-center gap-2">
+          {/* Bouton de recherche visible sur mobile */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setSearchOpen(true)}
+            className="h-10 w-10"
+            aria-label="Ouvrir la recherche"
+          >
+            <Search className="h-5 w-5" />
+          </Button>
+          {/* Toggle thème sur mobile */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="h-10 w-10"
+            aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
+          >
+            {theme === 'dark' ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </Button>
+          {/* Menu hamburger */}
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setMobileMenuOpen(true)}
-            className="h-12 w-12"
+            className="h-10 w-10"
             aria-label="Ouvrir le menu"
           >
-            <Menu className="h-7 w-7" />
+            <Menu className="h-6 w-6" />
           </Button>
         </div>
       </div>
     </header>
     
-    {/* Breadcrumb sous le header */}
-    <div className="container py-1.5 sm:py-2 px-4 lg:px-6 border-b border-border/50 bg-background/80 backdrop-blur-sm">
-      <DynamicBreadcrumb />
+    {/* Breadcrumb sous le header - sticky sur mobile pour navigation dans les pages profondes */}
+    <div className="sticky top-14 lg:top-[72px] z-40 border-b border-border/50 bg-background/95 backdrop-blur-md shadow-sm">
+      <div className="container py-1.5 sm:py-2 px-4 lg:px-6">
+        <DynamicBreadcrumb />
+      </div>
     </div>
 
     {/* Mobile Menu Component */}
