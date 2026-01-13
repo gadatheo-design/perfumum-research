@@ -11,7 +11,8 @@ import { trpc } from "@/lib/trpc";
 import { AnimatedCard, HoverScale, FadeInSection } from "@/components/PageTransition";
 import { useEffect } from "react";
 import { trackPageView } from "@/lib/analytics";
-import { StartGuidedTourButton } from "@/components/GuidedNavigation";
+// Guided navigation désactivé
+// import { StartGuidedTourButton } from "@/components/GuidedNavigation";
 import { Play } from "lucide-react";
 
 export default function Home() {
@@ -69,7 +70,8 @@ export default function Home() {
                     Accéder au Dashboard
                   </Link>
                 </Button>
-                <StartGuidedTourButton className="btn-enhanced border-2" />
+                {/* Guided navigation désactivé */}
+                {/* <StartGuidedTourButton className="btn-enhanced border-2" /> */}
               </div>
             </div>
           </div>

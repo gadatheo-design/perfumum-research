@@ -2242,3 +2242,5 @@
 - [x] Améliorer la page Synergies (graphe interactif, détails, filtres avancés)
 - [x] Améliorer la page Méthode ABSORBE (contenu enrichi, interactivité, exemples)
 
+
+- [x] BUG CRITIQUE: Corriger erreur "useGuidedNavigation must be used within a GuidedNavigationProvider" (13 Jan 2026) — Résolu: désactivé le StartGuidedTourButton dans Home.tsx
