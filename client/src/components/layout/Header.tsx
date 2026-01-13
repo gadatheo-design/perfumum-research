@@ -136,7 +136,7 @@ function MegaMenuOptimizedNav() {
   const projetMenuSections = useMegaMenuSections(projetSections);
 
   return (
-    <nav className="hidden lg:flex items-center gap-0.5" role="navigation" aria-label="Menu principal">
+    <nav className="hidden lg:flex items-center gap-8" role="navigation" aria-label="Menu principal">
       <MegaMenuOptimized sections={menuSections} trigger="Données" />
       <MegaMenuOptimized sections={outilsMenuSections} trigger="Outils" />
       <MegaMenuOptimized sections={rechercheMenuSections} trigger="Recherche" />
@@ -173,10 +173,10 @@ export function Header() {
   return (
     <>
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 transition-all duration-300 shadow-sm">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-14 lg:h-[72px] items-center justify-between px-4 lg:px-6">
         {/* Logo */}
         <Link href="/" className="flex flex-col transition-opacity hover:opacity-80">
-          <span className="text-2xl font-bold tracking-tight">PERFUMUM</span>
+          <span className="text-xl lg:text-2xl font-bold tracking-tight">PERFUMUM</span>
           <span className="hidden md:block text-[10px] text-muted-foreground/70 tracking-wide font-light -mt-1">Recherche olfactive expérimentale</span>
         </Link>
 
@@ -215,22 +215,22 @@ export function Header() {
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="lg:hidden flex items-center gap-2">
+        <div className="lg:hidden flex items-center gap-3">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setMobileMenuOpen(true)}
-            className="h-10 w-10"
+            className="h-12 w-12"
             aria-label="Ouvrir le menu"
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="h-7 w-7" />
           </Button>
         </div>
       </div>
     </header>
     
     {/* Breadcrumb sous le header */}
-    <div className="container py-2 border-b border-border/50 bg-background/80 backdrop-blur-sm">
+    <div className="container py-1.5 sm:py-2 px-4 lg:px-6 border-b border-border/50 bg-background/80 backdrop-blur-sm">
       <DynamicBreadcrumb />
     </div>
 

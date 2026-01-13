@@ -360,10 +360,10 @@ export function DynamicBreadcrumb({ segments, className = "" }: DynamicBreadcrum
   }
 
   return (
-    <nav className={`flex items-center gap-2 text-sm text-muted-foreground ${className}`}>
+    <nav className={`flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground overflow-x-auto scrollbar-hide ${className}`}>
       {/* Home */}
-      <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1">
-        <Home className="w-4 h-4" />
+      <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1 flex-shrink-0">
+        <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         <span className="hidden sm:inline">Accueil</span>
       </Link>
 
@@ -372,7 +372,7 @@ export function DynamicBreadcrumb({ segments, className = "" }: DynamicBreadcrum
 
         return (
           <div key={segment.path} className="flex items-center gap-2">
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
             
             {segment.dropdown && segment.dropdown.length > 0 ? (
               // Segment avec dropdown

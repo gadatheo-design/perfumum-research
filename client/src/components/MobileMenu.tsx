@@ -418,9 +418,9 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             aria-label="Menu de navigation"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b bg-background/95 backdrop-blur-sm">
+            <div className="flex items-center justify-between h-14 px-4 border-b bg-background/95 backdrop-blur-sm">
               <div className="flex items-center gap-3">
-                <span className="text-xl font-bold">PERFUMUM</span>
+                <span className="text-lg font-bold tracking-tight">PERFUMUM</span>
                 <Badge variant="outline" className="text-xs">
                   Menu
                 </Badge>

@@ -2099,3 +2099,26 @@
 - [x] `server/db.ts` — Ajout de findCommonKeywords()
 - [x] `server/enrich-koppen.ts` — Correction des imports
 - [x] `client/public/manifest.json` — Nettoyage
+
+
+---
+
+## 🔧 Session 13 Jan 2026 — Corrections Header & Responsive
+
+### Header Desktop
+- [x] Appliquer h-18 au header desktop (h-14 mobile, h-[72px] desktop)
+- [x] Appliquer gap-8 pour meilleur espacement
+- [x] Optimiser l'espacement général du header (px-4 lg:px-6)
+
+### Header Mobile
+- [x] Appliquer h-14 au header mobile
+- [x] Appliquer text-xl pour le titre (text-xl lg:text-2xl)
+- [x] Appliquer px-4 pour le padding horizontal
+
+### Menu Mobile & Breadcrumb
+- [x] Optimiser le menu mobile (h-14, text-lg)
+- [x] Optimiser le breadcrumb responsive (text-xs sm:text-sm, gap-1.5 sm:gap-2)
+
+### Validation
+- [x] Tester responsive sur différentes tailles d'écran
+- [x] Valider visuellement les modifications
