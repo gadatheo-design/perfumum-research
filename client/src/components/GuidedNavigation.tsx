@@ -247,15 +247,15 @@ export function GuidedNavigationBar() {
                 </SheetContent>
               </Sheet>
 
-              {/* Bouton Précédent */}
+              {/* Bouton Précédent - Zone de tap améliorée sur mobile */}
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={goToPreviousStep}
                 disabled={!canGoPrevious}
-                className="gap-0.5 sm:gap-1 h-7 sm:h-8 px-1.5 sm:px-2 md:px-3 text-xs sm:text-sm"
+                className="gap-0.5 sm:gap-1 h-10 sm:h-8 px-3 sm:px-2 md:px-3 text-xs sm:text-sm min-w-[44px] touch-manipulation"
               >
-                <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <ChevronLeft className="h-4 w-4 sm:h-4 sm:w-4" />
                 <span className="hidden xs:inline sm:inline">Préc.</span>
                 <span className="hidden md:inline">édent</span>
               </Button>
@@ -313,14 +313,14 @@ export function GuidedNavigationBar() {
             </div>
 
             {/* Bouton Suivant + Quitter */}
-            <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2">
-              {/* Bouton Suivant */}
+            <div className="flex items-center gap-1 sm:gap-1 md:gap-2">
+              {/* Bouton Suivant - Zone de tap améliorée sur mobile */}
               <Button
                 variant={canGoNext ? "default" : "secondary"}
                 size="sm"
                 onClick={goToNextStep}
                 disabled={!canGoNext}
-                className="gap-0.5 sm:gap-1 h-7 sm:h-8 px-1.5 sm:px-2 md:px-3 text-xs sm:text-sm"
+                className="gap-0.5 sm:gap-1 h-10 sm:h-8 px-3 sm:px-2 md:px-3 text-xs sm:text-sm min-w-[44px] touch-manipulation"
               >
                 <span className="hidden xs:inline sm:inline">
                   {canGoNext ? 'Suiv.' : 'Fin'}
@@ -329,21 +329,21 @@ export function GuidedNavigationBar() {
                   {canGoNext ? 'ant' : ''}
                 </span>
                 {canGoNext ? (
-                  <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <ChevronRight className="h-4 w-4 sm:h-4 sm:w-4" />
                 ) : (
-                  <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <CheckCircle2 className="h-4 w-4 sm:h-4 sm:w-4" />
                 )}
               </Button>
 
-              {/* Bouton Quitter */}
+              {/* Bouton Quitter - Zone de tap améliorée sur mobile */}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={exitGuidedMode}
-                className="h-7 w-7 sm:h-8 sm:w-8 text-muted-foreground hover:text-foreground"
+                className="h-10 w-10 sm:h-8 sm:w-8 text-muted-foreground hover:text-foreground touch-manipulation"
                 aria-label="Quitter le mode guidé"
               >
-                <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <X className="h-4 w-4 sm:h-4 sm:w-4" />
               </Button>
             </div>
           </div>
@@ -359,8 +359,8 @@ export function GuidedNavigationBar() {
         </div>
       </motion.div>
 
-      {/* Spacer pour éviter que le contenu soit caché sous la barre */}
-      <div className="h-[44px] sm:h-[52px] md:h-[60px]" />
+      {/* Spacer pour éviter que le contenu soit caché sous la barre - ajusté pour mobile */}
+      <div className="h-[52px] sm:h-[52px] md:h-[60px]" />
       
       {/* Sélecteur de parcours */}
       <TourSelector />
@@ -698,13 +698,14 @@ export function GuidedNavigationWidget() {
       </motion.div>
 
       {/* Bouton flottant mobile - accès rapide au menu */}
+      {/* Positionné en haut à droite sur mobile pour ne pas chevaucher les annotations en bas */}
       <motion.button
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.8 }}
         onClick={toggleMenu}
         className={cn(
-          "lg:hidden fixed right-3 bottom-20 z-50",
+          "lg:hidden fixed right-3 top-16 z-50",
           "w-12 h-12 rounded-full shadow-lg",
           "flex items-center justify-center",
           "bg-primary text-primary-foreground",

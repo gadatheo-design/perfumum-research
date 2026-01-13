@@ -2209,3 +2209,13 @@
 - [x] Améliorer le responsive design du composant OlfactoryJourney/GuidedNavigation
 - [x] Optimiser l'affichage des étapes sur petits écrans
 - [x] Ajuster la taille et l'espacement des éléments visuels
+
+
+## 🐛 CORRECTIONS MOBILE — Session 13 Jan 2026 (Soir)
+
+### Diagnostic et correction des erreurs mobile
+- [x] Diagnostiquer les erreurs d'affichage mobile sur le parcours
+- [x] Corriger les annotations contextuelles affichées au milieu de l'écran sur mobile
+- [x] Repositionner les annotations en bas de l'écran sur mobile
+- [x] Améliorer l'expérience utilisateur mobile (zones de tap, boutons, positionnement)
+- [x] Tester et valider les corrections (code review - test visuel bloqué par rate limiting)

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { X, Info, Lightbulb, Clock, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useGuidedNavigation, TourType } from '@/contexts/GuidedNavigationContext';
@@ -393,6 +393,15 @@ interface AnnotationBubbleProps {
 
 function AnnotationBubble({ annotation, onDismiss, index }: AnnotationBubbleProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Détecter si on est sur mobile
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     // Animation d'entrée
@@ -400,13 +409,25 @@ function AnnotationBubble({ annotation, onDismiss, index }: AnnotationBubbleProp
     return () => clearTimeout(timer);
   }, []);
 
-  const positionClasses = {
-    top: 'top-20 left-1/2 -translate-x-1/2',
-    bottom: 'bottom-32 left-1/2 -translate-x-1/2',
-    left: 'top-1/2 left-4 -translate-y-1/2',
-    right: 'top-1/2 right-4 -translate-y-1/2',
-    center: 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-  };
+  // Sur mobile, toutes les annotations sont en bas de l'écran pour ne pas bloquer le contenu
+  // Sur desktop, on utilise les positions spécifiées
+  const positionClasses = useMemo(() => ({
+    top: isMobile 
+      ? 'bottom-24 left-4 right-4' 
+      : 'top-20 left-1/2 -translate-x-1/2',
+    bottom: isMobile 
+      ? 'bottom-24 left-4 right-4' 
+      : 'bottom-32 left-1/2 -translate-x-1/2',
+    left: isMobile 
+      ? 'bottom-24 left-4 right-4' 
+      : 'top-1/2 left-4 -translate-y-1/2',
+    right: isMobile 
+      ? 'bottom-24 left-4 right-4' 
+      : 'top-1/2 right-4 -translate-y-1/2',
+    center: isMobile 
+      ? 'bottom-24 left-4 right-4' 
+      : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+  }), [isMobile]);
 
   const iconComponents = {
     info: Info,
@@ -425,7 +446,10 @@ function AnnotationBubble({ annotation, onDismiss, index }: AnnotationBubbleProp
         isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
       )}
       style={{
-        marginTop: annotation.position === 'center' ? `${index * 80}px` : undefined,
+        // Sur mobile, empiler les annotations vers le haut depuis le bas
+        // Sur desktop, utiliser le décalage vertical pour les annotations centrées
+        marginBottom: isMobile ? `${index * 100}px` : undefined,
+        marginTop: !isMobile && annotation.position === 'center' ? `${index * 80}px` : undefined,
       }}
     >
       <div className="bg-card/95 backdrop-blur-sm border border-primary/20 rounded-xl shadow-2xl overflow-hidden">
@@ -503,7 +527,7 @@ export function GuidedAnnotations() {
       {annotations.length > 1 && (
         <button
           onClick={dismissAll}
-          className="fixed bottom-40 right-4 z-[101] px-3 py-1.5 text-xs font-medium bg-muted/90 hover:bg-muted text-muted-foreground rounded-full shadow-lg transition-colors"
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 md:bottom-40 md:right-4 md:left-auto md:translate-x-0 z-[101] px-4 py-2 md:px-3 md:py-1.5 text-sm md:text-xs font-medium bg-primary text-primary-foreground md:bg-muted/90 md:hover:bg-muted md:text-muted-foreground rounded-full shadow-lg transition-colors min-h-[44px] md:min-h-0"
         >
           Tout fermer
         </button>
