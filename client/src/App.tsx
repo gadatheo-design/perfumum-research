@@ -14,6 +14,7 @@ import { PageTransition } from "./components/PageTransition";
 import { LegacyRedirect, SimpleRedirect } from "./components/LegacyRedirect";
 import { GuidedNavigationProvider } from "./contexts/GuidedNavigationContext";
 import { GuidedNavigationBar, GuidedNavigationWidget, GuidedTourComplete } from "./components/GuidedNavigation";
+import { GuidedAnnotations } from "./components/GuidedAnnotation";
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -708,6 +709,7 @@ function App() {
               <Router />
             </PageTransition>
             <GuidedNavigationWidget />
+            <GuidedAnnotations />
             <GuidedTourComplete />
             <MobileBottomNav />
             <ScrollToTop />

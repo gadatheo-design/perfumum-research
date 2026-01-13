@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo } from 'framer-motion';
-import { useGuidedNavigation, GuidedStep } from '@/contexts/GuidedNavigationContext';
+import { useGuidedNavigation, GuidedStep, TourType, TOUR_CONFIGS } from '@/contexts/GuidedNavigationContext';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { 
   ChevronLeft, 
@@ -13,7 +14,13 @@ import {
   Play, 
   CheckCircle2,
   Circle,
-  MapPin
+  MapPin,
+  Clock,
+  Compass,
+  Beaker,
+  Palette,
+  Sparkles,
+  Mic
 } from 'lucide-react';
 
 // Catégories avec couleurs
@@ -33,6 +40,100 @@ const CATEGORY_LABELS: Record<string, string> = {
   conclusion: 'Conclusion',
 };
 
+// Icônes pour les types de parcours
+const TOUR_ICONS: Record<TourType, React.ReactNode> = {
+  presentation: <Mic className="h-5 w-5" />,
+  researcher: <Beaker className="h-5 w-5" />,
+  creator: <Palette className="h-5 w-5" />,
+  explorer: <Compass className="h-5 w-5" />,
+};
+
+// Couleurs pour les types de parcours
+const TOUR_COLORS: Record<TourType, string> = {
+  presentation: 'bg-amber-500/10 text-amber-600 border-amber-500/30',
+  researcher: 'bg-blue-500/10 text-blue-600 border-blue-500/30',
+  creator: 'bg-purple-500/10 text-purple-600 border-purple-500/30',
+  explorer: 'bg-green-500/10 text-green-600 border-green-500/30',
+};
+
+/**
+ * Sélecteur de parcours thématique
+ */
+export function TourSelector() {
+  const { 
+    isTourSelectorOpen, 
+    closeTourSelector, 
+    switchTour, 
+    currentTourType,
+    availableTours,
+    isGuidedMode 
+  } = useGuidedNavigation();
+
+  return (
+    <Dialog open={isTourSelectorOpen} onOpenChange={(open) => !open && closeTourSelector()}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
+            Choisir un parcours
+          </DialogTitle>
+          <DialogDescription>
+            Sélectionnez le parcours adapté à votre profil et vos objectifs.
+          </DialogDescription>
+        </DialogHeader>
+        
+        <div className="grid gap-3 mt-4">
+          {availableTours.map((tour) => {
+            const isActive = isGuidedMode && currentTourType === tour.id;
+            
+            return (
+              <button
+                key={tour.id}
+                onClick={() => switchTour(tour.id)}
+                className={cn(
+                  "w-full p-4 rounded-xl border-2 text-left transition-all",
+                  isActive 
+                    ? "border-primary bg-primary/5" 
+                    : "border-border hover:border-primary/50 hover:bg-muted/50"
+                )}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={cn(
+                    "p-2 rounded-lg",
+                    TOUR_COLORS[tour.id]
+                  )}>
+                    {TOUR_ICONS[tour.id]}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold">{tour.name}</h3>
+                      {isActive && (
+                        <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                          Actif
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      {tour.description}
+                    </p>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {tour.duration}
+                      </span>
+                      <span>{tour.steps.length} étapes</span>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 /**
  * Barre de navigation guidée fixe en haut de l'écran
  */
@@ -51,6 +152,8 @@ export function GuidedNavigationBar() {
     isMenuOpen,
     toggleMenu,
     closeMenu,
+    currentTourConfig,
+    openTourSelector,
   } = useGuidedNavigation();
 
   // Gestion du swipe sur mobile
@@ -134,7 +237,10 @@ export function GuidedNavigationBar() {
                 </SheetTrigger>
                 <SheetContent side="left" className="w-[300px] sm:w-[350px]">
                   <SheetHeader>
-                    <SheetTitle className="text-left">Parcours guidé</SheetTitle>
+                    <SheetTitle className="text-left flex items-center gap-2">
+                      {TOUR_ICONS[currentTourConfig.id]}
+                      {currentTourConfig.shortName}
+                    </SheetTitle>
                   </SheetHeader>
                   <GuidedStepsList />
                 </SheetContent>
@@ -156,16 +262,33 @@ export function GuidedNavigationBar() {
             {/* Info étape actuelle */}
             <div className="flex-1 min-w-0 text-center">
               <div className="flex items-center justify-center gap-2">
+                {/* Bouton pour changer de parcours */}
+                <button
+                  onClick={openTourSelector}
+                  className={cn(
+                    "hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium transition-colors hover:opacity-80",
+                    TOUR_COLORS[currentTourConfig.id]
+                  )}
+                >
+                  {TOUR_ICONS[currentTourConfig.id]}
+                  <span className="hidden lg:inline">{currentTourConfig.shortName}</span>
+                </button>
                 <span className={cn(
                   "hidden md:inline-flex px-2 py-0.5 rounded-full text-xs font-medium",
                   categoryStyle.bg,
                   categoryStyle.text
                 )}>
-                  {CATEGORY_LABELS[currentStep.category]}
+                  {currentStep.section ? `S${currentStep.section}` : CATEGORY_LABELS[currentStep.category]}
                 </span>
                 <span className="text-xs md:text-sm text-muted-foreground">
                   {currentStepIndex + 1}/{steps.length}
                 </span>
+                {currentStep.duration && (
+                  <span className="hidden lg:flex items-center gap-1 text-xs text-muted-foreground">
+                    <Clock className="h-3 w-3" />
+                    {currentStep.duration}
+                  </span>
+                )}
               </div>
               <h2 className="text-sm md:text-base font-medium truncate">
                 {currentStep.icon} {currentStep.shortTitle}
@@ -218,6 +341,9 @@ export function GuidedNavigationBar() {
 
       {/* Spacer pour éviter que le contenu soit caché sous la barre */}
       <div className="h-[60px] md:h-[68px]" />
+      
+      {/* Sélecteur de parcours */}
+      <TourSelector />
     </>
   );
 }
@@ -226,29 +352,49 @@ export function GuidedNavigationBar() {
  * Liste des étapes dans le drawer mobile
  */
 function GuidedStepsList() {
-  const { steps, currentStepIndex, goToStep } = useGuidedNavigation();
+  const { steps, currentStepIndex, goToStep, openTourSelector, currentTourConfig } = useGuidedNavigation();
 
-  // Grouper les étapes par catégorie
+  // Grouper les étapes par section (si disponible) ou par catégorie
   const groupedSteps = steps.reduce((acc, step, index) => {
-    if (!acc[step.category]) {
-      acc[step.category] = [];
+    const key = step.section ? `section-${step.section}` : step.category;
+    if (!acc[key]) {
+      acc[key] = [];
     }
-    acc[step.category].push({ ...step, originalIndex: index });
+    acc[key].push({ ...step, originalIndex: index });
     return acc;
   }, {} as Record<string, (GuidedStep & { originalIndex: number })[]>);
 
   return (
     <div className="mt-4 space-y-4 overflow-y-auto max-h-[calc(100vh-120px)]">
-      {Object.entries(groupedSteps).map(([category, categorySteps]) => {
+      {/* Bouton pour changer de parcours */}
+      <button
+        onClick={openTourSelector}
+        className={cn(
+          "w-full flex items-center gap-3 p-3 rounded-lg border transition-colors",
+          TOUR_COLORS[currentTourConfig.id]
+        )}
+      >
+        {TOUR_ICONS[currentTourConfig.id]}
+        <div className="flex-1 text-left">
+          <div className="font-medium text-sm">{currentTourConfig.name}</div>
+          <div className="text-xs opacity-70">{currentTourConfig.duration} • {steps.length} étapes</div>
+        </div>
+        <ChevronRight className="h-4 w-4 opacity-50" />
+      </button>
+
+      {Object.entries(groupedSteps).map(([key, categorySteps]) => {
+        const isSection = key.startsWith('section-');
+        const sectionNum = isSection ? key.replace('section-', '') : null;
+        const category = isSection ? categorySteps[0].category : key;
         const categoryStyle = CATEGORY_COLORS[category] || CATEGORY_COLORS.intro;
         
         return (
-          <div key={category}>
+          <div key={key}>
             <h3 className={cn(
               "text-xs font-semibold uppercase tracking-wider mb-2 px-2",
               categoryStyle.text
             )}>
-              {CATEGORY_LABELS[category]}
+              {isSection ? `Section ${sectionNum}` : CATEGORY_LABELS[category]}
             </h3>
             <div className="space-y-1">
               {categorySteps.map((step) => {
@@ -284,6 +430,12 @@ function GuidedStepsList() {
                         )}>
                           {step.shortTitle}
                         </span>
+                        {step.duration && (
+                          <span className="text-xs text-muted-foreground/60 flex items-center gap-0.5">
+                            <Clock className="h-3 w-3" />
+                            {step.duration}
+                          </span>
+                        )}
                       </div>
                       <p className="text-xs text-muted-foreground/70 mt-0.5 line-clamp-2">
                         {step.description}
@@ -304,19 +456,82 @@ function GuidedStepsList() {
  * Bouton pour démarrer le mode guidé
  */
 export function StartGuidedTourButton({ className }: { className?: string }) {
-  const { startGuidedMode, isGuidedMode } = useGuidedNavigation();
+  const { startGuidedMode, isGuidedMode, openTourSelector } = useGuidedNavigation();
+  const [showSelector, setShowSelector] = useState(false);
 
   if (isGuidedMode) return null;
 
   return (
-    <Button
-      onClick={() => startGuidedMode()}
-      variant="outline"
-      className={cn("gap-2", className)}
-    >
-      <Play className="h-4 w-4" />
-      Visite guidée
-    </Button>
+    <>
+      <Button
+        onClick={() => setShowSelector(true)}
+        variant="outline"
+        className={cn("gap-2", className)}
+      >
+        <Play className="h-4 w-4" />
+        Visite guidée
+      </Button>
+      
+      {/* Dialog de sélection du parcours */}
+      <Dialog open={showSelector} onOpenChange={setShowSelector}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              Choisir un parcours
+            </DialogTitle>
+            <DialogDescription>
+              Sélectionnez le parcours adapté à votre profil et vos objectifs.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-3 mt-4">
+            {Object.values(TOUR_CONFIGS).map((tour) => (
+              <button
+                key={tour.id}
+                onClick={() => {
+                  setShowSelector(false);
+                  startGuidedMode(tour.id);
+                }}
+                className={cn(
+                  "w-full p-4 rounded-xl border-2 text-left transition-all",
+                  "border-border hover:border-primary/50 hover:bg-muted/50"
+                )}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={cn(
+                    "p-2 rounded-lg",
+                    TOUR_COLORS[tour.id]
+                  )}>
+                    {TOUR_ICONS[tour.id]}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold">{tour.name}</h3>
+                      {tour.id === 'presentation' && (
+                        <span className="text-xs bg-amber-500/10 text-amber-600 px-2 py-0.5 rounded-full">
+                          Recommandé
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      {tour.description}
+                    </p>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {tour.duration}
+                      </span>
+                      <span>{tour.steps.length} étapes</span>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
@@ -331,6 +546,7 @@ export function GuidedNavigationWidget() {
     steps,
     progress,
     goToStep,
+    currentTourConfig,
   } = useGuidedNavigation();
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -347,7 +563,7 @@ export function GuidedNavigationWidget() {
       <div
         className={cn(
           "bg-background/95 backdrop-blur-md border border-border rounded-xl shadow-lg transition-all duration-300",
-          isExpanded ? "w-64" : "w-12"
+          isExpanded ? "w-72" : "w-12"
         )}
         onMouseEnter={() => setIsExpanded(true)}
         onMouseLeave={() => setIsExpanded(false)}
@@ -384,13 +600,18 @@ export function GuidedNavigationWidget() {
         {/* Version étendue */}
         {isExpanded && (
           <div className="p-3 space-y-2">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-medium text-muted-foreground">
-                Progression
-              </span>
-              <span className="text-xs font-bold">
-                {Math.round(progress)}%
-              </span>
+            <div className="flex items-center gap-2 mb-3">
+              <div className={cn("p-1.5 rounded-lg", TOUR_COLORS[currentTourConfig.id])}>
+                {TOUR_ICONS[currentTourConfig.id]}
+              </div>
+              <div className="flex-1">
+                <span className="text-xs font-medium">{currentTourConfig.shortName}</span>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span>{Math.round(progress)}%</span>
+                  <span>•</span>
+                  <span>{currentTourConfig.duration}</span>
+                </div>
+              </div>
             </div>
             <Progress value={progress} className="h-1.5 mb-3" />
             
@@ -425,6 +646,9 @@ export function GuidedNavigationWidget() {
                     )}>
                       {step.shortTitle}
                     </span>
+                    {step.duration && (
+                      <span className="text-muted-foreground/50">{step.duration}</span>
+                    )}
                   </button>
                 );
               })}
@@ -440,10 +664,21 @@ export function GuidedNavigationWidget() {
  * Overlay de fin de parcours
  */
 export function GuidedTourComplete() {
-  const { isGuidedMode, currentStepIndex, steps, exitGuidedMode, startGuidedMode } = useGuidedNavigation();
+  const { isGuidedMode, currentStepIndex, steps, exitGuidedMode, startGuidedMode, currentTourConfig, openTourSelector } = useGuidedNavigation();
   const isComplete = isGuidedMode && currentStepIndex === steps.length - 1;
+  const [showComplete, setShowComplete] = useState(false);
 
-  if (!isComplete) return null;
+  // Afficher l'overlay après un délai quand on atteint la dernière étape
+  useEffect(() => {
+    if (isComplete) {
+      const timer = setTimeout(() => setShowComplete(true), 2000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowComplete(false);
+    }
+  }, [isComplete]);
+
+  if (!showComplete) return null;
 
   return (
     <AnimatePresence>
@@ -464,16 +699,29 @@ export function GuidedTourComplete() {
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
             <CheckCircle2 className="h-8 w-8 text-primary" />
           </div>
-          <h2 className="text-2xl font-bold mb-2">Visite terminée !</h2>
+          <h2 className="text-2xl font-bold mb-2">
+            {currentTourConfig.id === 'presentation' ? 'Présentation terminée !' : 'Visite terminée !'}
+          </h2>
           <p className="text-muted-foreground mb-6">
-            Vous avez découvert les principales fonctionnalités de PERFUMUM. 
-            N'hésitez pas à explorer librement ou à recommencer la visite.
+            {currentTourConfig.id === 'presentation' 
+              ? 'Vous avez parcouru les 7 sections de la présentation PERFUMUM. Merci pour votre attention !'
+              : `Vous avez découvert les principales fonctionnalités de PERFUMUM via le parcours ${currentTourConfig.name}.`
+            }
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button variant="outline" onClick={exitGuidedMode}>
               Explorer librement
             </Button>
-            <Button onClick={() => startGuidedMode()}>
+            <Button variant="outline" onClick={() => {
+              setShowComplete(false);
+              openTourSelector();
+            }}>
+              Autre parcours
+            </Button>
+            <Button onClick={() => {
+              setShowComplete(false);
+              startGuidedMode(currentTourConfig.id);
+            }}>
               <Play className="h-4 w-4 mr-2" />
               Recommencer
             </Button>

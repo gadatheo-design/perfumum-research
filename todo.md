@@ -2161,3 +2161,43 @@
 - [x] Créer un menu des étapes accessible sur mobile (drawer)
 - [x] Optimiser la barre de progression pour mobile
 
+
+---
+
+## 🧭 NAVIGATION GUIDÉE ENRICHIE — Session 13 Jan 2026
+
+### Parcours thématiques multiples
+- [ ] Créer le système de parcours thématiques (Chercheur, Créateur, Découverte)
+- [ ] Définir les étapes spécifiques pour chaque parcours
+- [ ] Implémenter le sélecteur de parcours dans l'interface
+- [ ] Ajouter les indicateurs de progression par parcours
+
+### Système d'annotations contextuelles
+- [ ] Créer le composant Tooltip/Annotation réutilisable
+- [ ] Définir les annotations pour chaque page du parcours
+- [ ] Implémenter les bulles d'information contextuelles
+- [ ] Ajouter les animations d'apparition des annotations
+
+### Personnalisation des parcours
+- [ ] Adapter les étapes du parcours Chercheur (focus données scientifiques)
+- [ ] Adapter les étapes du parcours Créateur (focus formulation)
+- [ ] Adapter les étapes du parcours Découverte (vue d'ensemble)
+- [ ] Permettre la sauvegarde des préférences de parcours
+
+### Adaptation au Guide de Présentation Orale
+- [ ] Adapter le parcours principal aux 7 sections du guide (15 min)
+- [ ] Mettre à jour les annotations contextuelles selon le script oral
+- [ ] Ajouter les URLs correctes (molecules-hub, gammes-hub, etc.)
+- [ ] Intégrer les timings par section
+
+## 🧭 Navigation Guidée Enrichie — Session 2
+
+### Adaptation au Guide de Présentation Orale
+- [x] Créer les 4 parcours thématiques (Présentation, Chercheur, Créateur, Explorateur)
+- [x] Adapter le parcours Présentation aux 7 sections du guide officiel
+- [x] Ajouter les durées estimées pour chaque étape
+- [x] Créer le système d'annotations contextuelles
+- [x] Implémenter le sélecteur de parcours avec dialog
+- [x] Mettre à jour le composant GuidedNavigation avec les nouveaux parcours
+- [x] Ajouter les icônes et couleurs par type de parcours
+- [x] Intégrer GuidedAnnotations dans App.tsx
