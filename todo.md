@@ -2201,3 +2201,11 @@
 - [x] Mettre à jour le composant GuidedNavigation avec les nouveaux parcours
 - [x] Ajouter les icônes et couleurs par type de parcours
 - [x] Intégrer GuidedAnnotations dans App.tsx
+
+## 📱 AJUSTEMENTS MOBILE — Session 13 Jan 2026
+
+### Visualisation du parcours pour mobile
+- [x] Ajuster la visualisation du parcours olfactif pour mobile
+- [x] Améliorer le responsive design du composant OlfactoryJourney/GuidedNavigation
+- [x] Optimiser l'affichage des étapes sur petits écrans
+- [x] Ajuster la taille et l'espacement des éléments visuels
