@@ -166,9 +166,9 @@
 - [x] Améliorer la page Recherche Avancée (suggestions, historique, filtres AND/OR)
 - [x] Améliorer l'Éditeur de Formulation (bibliothèque, suggestions, formules sauvegardées)
 - [x] Améliorer le Générateur de Formules IA (suggestions synergies moléculaires)
-- [ ] Améliorer le Calculateur
-- [ ] Améliorer la page Synergies
-- [ ] Améliorer les pages Méthode ABSORBE
+- [x] Améliorer le Calculateur
+- [x] Améliorer la page Synergies
+- [x] Améliorer les pages Méthode ABSORBE
 - [ ] Améliorer les pages GC-MS et Pyrolyse
 - [ ] Améliorer les pages Archives de Terrain
 - [ ] Améliorer le Glossaire
@@ -2228,3 +2228,11 @@
 ### Bug signalé par l'utilisateur
 - [x] Corriger l'erreur "unexpected error" sur le Hub (erreur 429 rate limiting temporaire)
 - [x] Supprimer les annotations (non nécessaires selon l'utilisateur)
+
+## 🚀 SESSION ACTUELLE (13 Jan 2026)
+
+### Amélioration des pages restantes
+- [x] Améliorer la page Calculateur de Coût (intégration DB, historique, comparaison)
+- [x] Améliorer la page Synergies (graphe interactif, détails, filtres avancés)
+- [x] Améliorer la page Méthode ABSORBE (contenu enrichi, interactivité, exemples)
+
