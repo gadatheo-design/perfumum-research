@@ -2131,3 +2131,33 @@
 ### Améliorations UX Mobile
 - [x] Ajouter un bouton de recherche visible dans le header mobile (actuellement uniquement via le menu)
 - [x] Implémenter un sticky breadcrumb sur mobile pour améliorer la navigation dans les pages profondes
+
+
+---
+
+## 🎤 PRÉSENTATION ORALE (15 minutes) — Session 13 Jan 2026
+
+### Préparation de la présentation
+- [x] Analyser les pages clés du site pour la navigation guidée
+- [x] Structurer le script de présentation (introduction, démo, conclusion)
+- [x] Préparer le document de présentation avec timings
+- [x] Livrer le document final de présentation
+
+
+---
+
+## 🧭 NAVIGATION GUIDÉE (Ajouté le 13 Jan 2026)
+
+### Système de présentation guidée
+- [x] Créer le composant GuidedNavigation avec indicateurs de progression
+- [x] Créer le contexte React pour gérer l'état de la navigation guidée
+- [x] Définir le parcours de présentation (ordre des sections)
+- [x] Implémenter les boutons Précédent/Suivant
+- [x] Ajouter la barre de progression visuelle
+- [x] Intégrer la navigation guidée dans les pages existantes
+- [x] Ajouter le mode "présentation" avec transitions fluides
+- [ ] Tester la navigation sur desktop et mobile
+- [x] Ajouter le support des gestes swipe sur mobile
+- [x] Créer un menu des étapes accessible sur mobile (drawer)
+- [x] Optimiser la barre de progression pour mobile
+

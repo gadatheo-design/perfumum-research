@@ -12,6 +12,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { PageTransition } from "./components/PageTransition";
 import { LegacyRedirect, SimpleRedirect } from "./components/LegacyRedirect";
+import { GuidedNavigationProvider } from "./contexts/GuidedNavigationContext";
+import { GuidedNavigationBar, GuidedNavigationWidget, GuidedTourComplete } from "./components/GuidedNavigation";
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -697,16 +699,21 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light" switchable={true}>
-        <TooltipProvider>
-          <Toaster />
-          <GlobalSearch />
-          <PageTransition>
-            <Router />
-          </PageTransition>
-          <MobileBottomNav />
-          <ScrollToTop />
-          <PWAInstallPrompt />
-        </TooltipProvider>
+        <GuidedNavigationProvider>
+          <TooltipProvider>
+            <Toaster />
+            <GlobalSearch />
+            <GuidedNavigationBar />
+            <PageTransition>
+              <Router />
+            </PageTransition>
+            <GuidedNavigationWidget />
+            <GuidedTourComplete />
+            <MobileBottomNav />
+            <ScrollToTop />
+            <PWAInstallPrompt />
+          </TooltipProvider>
+        </GuidedNavigationProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
