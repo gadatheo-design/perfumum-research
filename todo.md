@@ -2257,3 +2257,4 @@
 
 ### Navigation guidée
 - [x] Réactiver la navigation guidée simplifiée selon le plan de présentation — Imports et composants réactivés dans App.tsx (GuidedNavigationProvider, GuidedNavigationBar, TourSelector, GuidedNavigationWidget)
+- [x] Ajouter un bouton visible de démarrage du parcours guidé sur la page d'accueil
