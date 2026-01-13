@@ -2219,3 +2219,12 @@
 - [x] Repositionner les annotations en bas de l'écran sur mobile
 - [x] Améliorer l'expérience utilisateur mobile (zones de tap, boutons, positionnement)
 - [x] Tester et valider les corrections (code review - test visuel bloqué par rate limiting)
+
+
+---
+
+## 🔥 SESSION ACTIVE — 13 Jan 2026
+
+### Bug signalé par l'utilisateur
+- [x] Corriger l'erreur "unexpected error" sur le Hub (erreur 429 rate limiting temporaire)
+- [x] Supprimer les annotations (non nécessaires selon l'utilisateur)

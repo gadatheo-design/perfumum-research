@@ -12,9 +12,10 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { PageTransition } from "./components/PageTransition";
 import { LegacyRedirect, SimpleRedirect } from "./components/LegacyRedirect";
-import { GuidedNavigationProvider } from "./contexts/GuidedNavigationContext";
-import { GuidedNavigationBar, GuidedNavigationWidget, GuidedTourComplete } from "./components/GuidedNavigation";
-import { GuidedAnnotations } from "./components/GuidedAnnotation";
+// Guided navigation désactivé
+// import { GuidedNavigationProvider } from "./contexts/GuidedNavigationContext";
+// import { GuidedNavigationBar, GuidedNavigationWidget, GuidedTourComplete } from "./components/GuidedNavigation";
+// import { GuidedAnnotations } from "./components/GuidedAnnotation";
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -700,22 +701,23 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light" switchable={true}>
-        <GuidedNavigationProvider>
+        {/* GuidedNavigationProvider désactivé */}
+        <>
           <TooltipProvider>
             <Toaster />
             <GlobalSearch />
-            <GuidedNavigationBar />
+            {/* <GuidedNavigationBar /> */}
             <PageTransition>
               <Router />
             </PageTransition>
-            <GuidedNavigationWidget />
-            <GuidedAnnotations />
-            <GuidedTourComplete />
+            {/* <GuidedNavigationWidget /> */}
+            {/* <GuidedAnnotations /> */}
+            {/* <GuidedTourComplete /> */}
             <MobileBottomNav />
             <ScrollToTop />
             <PWAInstallPrompt />
           </TooltipProvider>
-        </GuidedNavigationProvider>
+        </>
       </ThemeProvider>
     </ErrorBoundary>
   );
