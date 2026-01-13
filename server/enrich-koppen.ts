@@ -1,5 +1,5 @@
-import { db } from "./db";
-import { plants } from "../drizzle/schema";
+import { db } from "./db.ts";
+import { plants } from "../drizzle/schema.ts";
 import { isNull, or, eq } from "drizzle-orm";
 
 /**

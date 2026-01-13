@@ -4,7 +4,7 @@
   "description": "Plateforme de recherche et développement olfactif basée à Berne. Design terpénique, résines CBD et variétés de tabacs rares.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
+  "background_color": "#000000",
   "theme_color": "#8b5cf6",
   "orientation": "portrait-primary",
   "scope": "/",
@@ -35,31 +35,12 @@
     }
   ],
   "categories": ["education", "productivity", "utilities"],
-  "shortcuts": [
-    {
-      "name": "Molécules",
-      "short_name": "Molécules",
-      "description": "Explorer les molécules olfactives",
-      "url": "/molecules",
-      "icons": [{ "src": "/icons/molecules-96x96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Statistiques",
-      "short_name": "Stats",
-      "description": "Voir les statistiques de recherche",
-      "url": "/statistiques",
-      "icons": [{ "src": "/icons/stats-96x96.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Favoris",
-      "short_name": "Favoris",
-      "description": "Accéder aux molécules favorites",
-      "url": "/favoris",
-      "icons": [{ "src": "/icons/favorites-96x96.png", "sizes": "96x96" }]
-    }
-  ],
+  "shortcuts": [],
   "related_applications": [],
+  "screenshots": [],
   "prefer_related_applications": false,
+  "share_target": null,
   "lang": "fr-FR",
-  "dir": "ltr"
+  "dir": "ltr",
+  "iarc_rating_id": ""
 }

@@ -9,13 +9,20 @@ import { RecentActivity } from "@/components/RecentActivity";
 import { ResearchNews } from "@/components/ResearchNews";
 import { trpc } from "@/lib/trpc";
 import { AnimatedCard, HoverScale, FadeInSection } from "@/components/PageTransition";
+import { useEffect } from "react";
+import { trackPageView } from "@/lib/analytics";
 
 export default function Home() {
   // Récupérer les statistiques dynamiques depuis l'API
   const { data: stats } = trpc.dashboard.getStats.useQuery();
   
+  // Track page view
+  useEffect(() => {
+    trackPageView("/", "PERFUMUM — Accueil");
+  }, []);
+  
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" data-page="home">
       <Header />
       
       <main className="flex-1">

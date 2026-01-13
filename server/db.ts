@@ -13637,6 +13637,15 @@ function extractKeywords(text: string): string[] {
 }
 
 /**
+ * Find common keywords between two sets
+ */
+function findCommonKeywords(keywords1: string[], keywords2: string[]): string[] {
+  const set1 = new Set(keywords1);
+  const set2 = new Set(keywords2);
+  return Array.from(set1).filter(k => set2.has(k));
+}
+
+/**
  * Calculate similarity score between two sets of keywords
  */
 function calculateKeywordSimilarity(keywords1: string[], keywords2: string[]): number {

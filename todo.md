@@ -1985,3 +1985,117 @@
 - [x] Implémenter le tracking des redirections d'URLs
 - [x] Créer un dashboard de monitoring des migrations d'URLs
 - [ ] Valider la collecte de données en production
+
+
+---
+
+## 🔥 SESSION ACTIVE — 13 Jan 2026 (Vérification UI/UX et GA)
+
+### Tâches demandées par l'utilisateur
+- [x] Corriger les erreurs TypeScript (findCommonKeywords manquante)
+- [x] Corriger les imports dans server/enrich-koppen.ts
+- [x] Corriger le manifest.json (icônes manquantes)
+- [ ] Déboguer les erreurs 429 (rate limiting) — À investiguer
+- [ ] Vérifier le rendu React sur desktop
+- [ ] Vérifier le rendu React sur mobile
+- [ ] Corriger le header desktop (espacement et alignement)
+- [ ] Corriger le responsive design mobile
+- [ ] Configurer Google Analytics (GA4)
+- [ ] Ajouter VITE_GA_MEASUREMENT_ID aux secrets
+- [ ] Intégrer le tracking des événements principaux
+
+### Problèmes identifiés
+- Erreurs 429 (Too Many Requests) au niveau du serveur
+- React ne se rend pas correctement (page vide)
+- WebSocket connection failures (Invalid frame header)
+- Manifest.json avait des références à des icônes manquantes
+
+### Corrections effectuées
+- Ajout de la fonction findCommonKeywords() manquante dans server/db.ts
+- Correction des imports .ts dans server/enrich-koppen.ts
+- Nettoyage du manifest.json (suppression des icônes manquantes)
+- Correction du background_color du manifest (#0a0a0a → #000000)
+
+### À faire
+- Attendre la stabilisation du serveur
+- Vérifier le rendu React après stabilisation
+- Configurer Google Analytics
+- Intégrer le tracking des événements
+
+
+## 🎨 CORRECTION UI/UX — Header et Responsive Design
+
+### Header Desktop
+- [ ] Augmenter la hauteur du header à h-18 (72px)
+- [ ] Ajouter gap-8 entre les sections
+- [ ] Centrer verticalement les éléments
+- [ ] Tester l'alignement du logo et du sous-titre
+- [ ] Vérifier l'espacement du menu et des boutons
+
+### Header Mobile
+- [ ] Réduire la hauteur du header à h-14 (56px)
+- [ ] Réduire la taille du logo à text-xl
+- [ ] Ajouter px-4 au container
+- [ ] Augmenter la taille des boutons tactiles (min 44px)
+- [ ] Tester sur iPhone 12, iPhone SE, Android
+
+### Breadcrumb
+- [ ] Implémenter la troncature sur mobile
+- [ ] Ajouter max-items pour limiter l'affichage
+- [ ] Tester avec des chemins longs
+
+### Menu Mobile
+- [ ] Augmenter la hauteur de la zone de contenu
+- [ ] Améliorer le padding vertical
+- [ ] Ajouter des séparateurs visuels
+- [ ] Tester les touches (min 44px)
+
+### Validation
+- [ ] Tester sur desktop (1920x1080, 1366x768)
+- [ ] Tester sur mobile (iPhone 12, iPhone SE, Pixel 5)
+- [ ] Vérifier l'accessibilité (WCAG 2.1 AA)
+- [ ] Valider avec Lighthouse
+
+## 📊 Problèmes Identifiés
+
+### Erreurs 429 (Too Many Requests)
+- **Impact** : Bloque le rendu complet de la page
+- **Cause** : Rate limiting au niveau du serveur Manus
+- **Solution** : Attendre la stabilisation du serveur
+
+### React ne se rend pas
+- **Impact** : Page vide malgré le chargement du HTML
+- **Cause** : Ressources CSS/JS ne se chargent pas (erreurs 429)
+- **Solution** : Attendre la stabilisation du serveur
+
+### Manifest.json
+- [x] Suppression des icônes manquantes
+- [x] Correction du background_color
+- [ ] Ajouter la meta tag mobile-web-app-capable
+
+## 🔧 Infrastructure Google Analytics
+
+### Configuration
+- [x] Vérification de react-ga4
+- [x] Vérification de l'initialisation dans main.tsx
+- [x] Ajout du tracking dans Home.tsx
+- [x] Création du hook usePageTracking
+- [ ] Ajouter VITE_GA_MEASUREMENT_ID (en attente du Measurement ID)
+
+### Événements à intégrer
+- [ ] Ajouter trackPageView dans toutes les pages principales
+- [ ] Ajouter trackMoleculeSearch dans la page Molécules
+- [ ] Ajouter trackRecipeSearch dans la page Recettes
+- [ ] Ajouter trackPlantSearch dans la page Plantes
+- [ ] Ajouter trackToolUsage dans les outils
+- [ ] Ajouter trackVisualizationView dans les visualisations
+- [ ] Ajouter trackDataExport dans les exports
+
+## 📝 Fichiers Créés/Modifiés
+
+- [x] `client/src/hooks/usePageTracking.ts` — Hook pour le tracking
+- [x] `client/src/pages/Home.tsx` — Ajout du tracking
+- [x] `DIAGNOSTIC_AND_RECOMMENDATIONS.md` — Rapport complet
+- [x] `server/db.ts` — Ajout de findCommonKeywords()
+- [x] `server/enrich-koppen.ts` — Correction des imports
+- [x] `client/public/manifest.json` — Nettoyage
