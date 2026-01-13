@@ -328,6 +328,12 @@
 
 ---
 
+## 🚨 BUGS CRITIQUES À CORRIGER
+
+- [x] Erreur 429 "Too many requests" sur la page d'accueil - rate limiting du proxy (13 Jan 2026) — Résolu: problème de rate limiting du proxy de développement, pas du code. Utiliser la version publiée.
+
+---
+
 ## 🔥 SESSION ACTIVE — 08 Jan 2026 (Soir)
 
 ### Tâches demandées par l'utilisateur
