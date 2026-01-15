@@ -74,7 +74,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, href, icon, badge }) => (
     className={cn(
       "block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground",
       "rounded-sm transition-colors duration-150 ease-in-out",
-      "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+      "whitespace-nowrap min-w-[180px]"
     )}
   >
     <div className="flex items-center justify-between gap-2">
@@ -200,11 +201,11 @@ export const MegaMenuOptimized: React.FC<MegaMenuOptimizedProps> = ({
             {trigger}
             <ChevronDown className="h-4 w-4 transition-transform duration-200" />
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="w-full md:w-auto">
+          <NavigationMenuContent className="w-full md:w-auto min-w-[600px]">
             <div
               className={cn(
                 "grid gap-4 p-4",
-                "md:grid-cols-2 lg:grid-cols-3",
+                "md:grid-cols-2 lg:grid-cols-4",
                 "max-h-[80vh] overflow-y-auto"
               )}
             >

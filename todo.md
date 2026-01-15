@@ -2258,3 +2258,7 @@
 ### Navigation guidée
 - [x] Réactiver la navigation guidée simplifiée selon le plan de présentation — Imports et composants réactivés dans App.tsx (GuidedNavigationProvider, GuidedNavigationBar, TourSelector, GuidedNavigationWidget)
 - [x] Ajouter un bouton visible de démarrage du parcours guidé sur la page d'accueil
+- [x] Créer le guide de présentation orale PERFUMUM en français
+- [x] Traduire le guide de présentation orale en allemand
+- [x] Créer un QR code pour le lien du site PERFUMUM
+- [x] Corriger le problème d'affichage du menu déroulant Données (texte tronqué)
