@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, Sun, Moon, Command } from "lucide-react";
+import { Search, Menu, Sun, Moon, Command, Database, Leaf, Compass, BarChart3, Zap, FlaskConical, Microscope, BookOpen, Archive, Globe, Info, FileText, Users } from "lucide-react";
 import { MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";
 import { MobileMenu } from "@/components/MobileMenu";
 import { SmartSearch } from "@/components/SmartSearch";
@@ -19,6 +19,7 @@ function MegaMenuOptimizedNav() {
   const donneesSections = [
     {
       category: "Catalogues",
+      icon: <Database className="h-4 w-4" />,
       items: [
         { id: "1", label: "Molécules", href: "/molecules", badge: "HUB" },
         { id: "2", label: "Recettes", href: "/recettes", badge: "HUB" },
@@ -28,6 +29,7 @@ function MegaMenuOptimizedNav() {
     },
     {
       category: "Leaf Economies",
+      icon: <Leaf className="h-4 w-4" />,
       items: [
         { id: "5", label: "Échantillons botaniques", href: "/leaf-economies", badge: "NEW" },
         { id: "6", label: "Timeline botanique", href: "/timeline-botanique" },
@@ -37,6 +39,7 @@ function MegaMenuOptimizedNav() {
     },
     {
       category: "Exploration",
+      icon: <Compass className="h-4 w-4" />,
       items: [
         { id: "9", label: "Gammes", href: "/gammes-hub", badge: "HUB" },
         { id: "10", label: "Carte GPS Plantes", href: "/carte-plantes-gps" },
@@ -46,6 +49,7 @@ function MegaMenuOptimizedNav() {
     },
     {
       category: "Visualisations",
+      icon: <BarChart3 className="h-4 w-4" />,
       items: [
         { id: "13", label: "Hub Visualisations", href: "/visualisations", badge: "HUB" },
         { id: "14", label: "Synergies Heatmap", href: "/synergies-heatmap" },
@@ -59,12 +63,14 @@ function MegaMenuOptimizedNav() {
   const outilsSections = [
     {
       category: "Accès rapide",
+      icon: <Zap className="h-4 w-4" />,
       items: [
         { id: "17", label: "Hub Outils", href: "/outils-hub", badge: "HUB" },
       ],
     },
     {
       category: "Création",
+      icon: <FlaskConical className="h-4 w-4" />,
       items: [
         { id: "18", label: "Éditeur de Formulation", href: "/outils/editeur-formulation", badge: "NEW" },
         { id: "19", label: "Générateur IA", href: "/outils/generateur-formules" },
@@ -73,6 +79,7 @@ function MegaMenuOptimizedNav() {
     },
     {
       category: "Analyse",
+      icon: <Microscope className="h-4 w-4" />,
       items: [
         { id: "21", label: "Synergies Moléculaires", href: "/synergies", badge: "NEW" },
         { id: "22", label: "Profils Terpéniques", href: "/terp-profiles" },
@@ -86,6 +93,7 @@ function MegaMenuOptimizedNav() {
   const rechercheSections = [
     {
       category: "Méthode ABSORBE",
+      icon: <BookOpen className="h-4 w-4" />,
       items: [
         { id: "25", label: "Présentation", href: "/methodologie/absorbe" },
         { id: "26", label: "Échelle de classification", href: "/methodologie/echelle" },
@@ -94,6 +102,7 @@ function MegaMenuOptimizedNav() {
     },
     {
       category: "Axes de Recherche",
+      icon: <Globe className="h-4 w-4" />,
       items: [
         { id: "28", label: "Vue d'ensemble", href: "/axes-recherche" },
         { id: "29", label: "Bibliographie", href: "/bibliographie" },
@@ -102,6 +111,7 @@ function MegaMenuOptimizedNav() {
     },
     {
       category: "Archives & Terrain",
+      icon: <Archive className="h-4 w-4" />,
       items: [
         { id: "31", label: "Archives de Terrain", href: "/archives-terrain" },
         { id: "32", label: "Archives Olfactives", href: "/archives-olfactives" },
@@ -115,12 +125,14 @@ function MegaMenuOptimizedNav() {
   const projetSections = [
     {
       category: "Documentation",
+      icon: <FileText className="h-4 w-4" />,
       items: [
         { id: "35", label: "Glossaire", href: "/glossaire" },
       ],
     },
     {
       category: "Le Projet",
+      icon: <Info className="h-4 w-4" />,
       items: [
         { id: "36", label: "À propos", href: "/a-propos" },
         { id: "37", label: "Manifeste", href: "/manifeste" },

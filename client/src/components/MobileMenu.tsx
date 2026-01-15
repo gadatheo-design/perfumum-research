@@ -54,138 +54,123 @@ interface MenuSection {
   items?: MenuItem[];
 }
 
-// Structure du menu mobile
+// Structure du menu mobile - Synchronisée avec le menu desktop
 const mobileMenuSections: MenuSection[] = [
   {
     title: "Accueil",
     href: "/",
     icon: Home,
   },
+  // === DONNÉES ===
   {
-    title: "Système PERFUMUM",
-    href: "/systeme",
-    icon: Layers,
+    title: "Catalogues",
+    icon: Database,
+    items: [
+      { href: "/molecules", label: "Molécules", badge: "HUB" },
+      { href: "/recettes", label: "Recettes", badge: "HUB" },
+      { href: "/plants", label: "Plantes & Variétés" },
+      { href: "/terroirs", label: "Terroirs" },
+    ],
   },
   {
-    title: "Nouveautés",
-    href: "/nouveautes",
+    title: "Leaf Economies",
+    icon: Leaf,
+    items: [
+      { href: "/leaf-economies", label: "Échantillons botaniques", badge: "NEW" },
+      { href: "/timeline-botanique", label: "Timeline botanique" },
+      { href: "/final-recipes", label: "Recettes finales" },
+      { href: "/recettes-tl", label: "Recettes TL", badge: "NEW" },
+    ],
+  },
+  {
+    title: "Exploration",
     icon: Sparkles,
-  },
-  {
-    title: "Gammes",
-    icon: Sparkles,
     items: [
-      { href: "/gammes", label: "Vue d'ensemble", badge: "7 gammes" },
-      { href: "/gammes/petrichor", label: "Pétrichor", badge: "60" },
-      { href: "/gammes/volcanique", label: "Volcanique", badge: "36" },
-      { href: "/gammes/glaciaire", label: "Glaciaire", badge: "7" },
-      { href: "/gammes/biolab", label: "Bio-Lab", badge: "7" },
-      { href: "/gammes/mossi", label: "Royal Mossi", badge: "12" },
-      { href: "/gammes/signatures", label: "Signatures", badge: "NEW" },
-    ],
-  },
-  {
-    title: "Molécules",
-    icon: Atom,
-    items: [
-      { href: "/molecules", label: "Toutes les molécules", badge: "556" },
-      { href: "/chemical-families", label: "Familles chimiques" },
-      { href: "/compare-molecules-advanced", label: "Comparaison avancée" },
-      { href: "/matrice-synergies", label: "Matrice synergies" },
-      { href: "/plants", label: "Plantes & Variétés", badge: "144" },
-      { href: "/terroirs", label: "Terroirs", badge: "29" },
-      { href: "/graphe-terroir-plante-molecule", label: "Graphe Terroir-Plante-Molécule", badge: "NEW" },
-    ],
-  },
-  {
-    title: "Recettes",
-    icon: Beaker,
-    items: [
-      { href: "/recettes", label: "Toutes les recettes", badge: "266" },
-      { href: "/recettes-tl", label: "Recettes Tagetes lucida", badge: "5 TL" },
-      { href: "/compare-recettes", label: "Comparer les recettes" },
-      { href: "/accords", label: "Accords olfactifs", badge: "30" },
-      { href: "/prototypes", label: "Prototypes CBD", badge: "4" },
-    ],
-  },
-  {
-    title: "Laboratoire",
-    icon: FlaskConical,
-    items: [
-      { href: "/laboratoire", label: "Vue d'ensemble" },
-      { href: "/inventaire", label: "Inventaire" },
-      { href: "/matrice-interactive", label: "Matrice interactive" },
-      { href: "/statistiques", label: "Statistiques" },
-    ],
-  },
-  {
-    title: "Outils",
-    icon: TestTube,
-    items: [
-      { href: "/outils/editeur-formulation", label: "Éditeur de Formulation" },
-      { href: "/outils/generateur-formules", label: "Générateur IA" },
-      { href: "/calculateur", label: "Calculateur" },
-      { href: "/synergies", label: "Synergies Moléculaires" },
+      { href: "/gammes-hub", label: "Gammes", badge: "HUB" },
+      { href: "/carte-plantes-gps", label: "Carte GPS Plantes" },
+      { href: "/recherche-avancee", label: "Recherche avancée" },
+      { href: "/alternatives-durables", label: "Alternatives durables", badge: "NEW" },
     ],
   },
   {
     title: "Visualisations",
     icon: BarChart3,
     items: [
-      { href: "/sankey-flow", label: "Diagramme Sankey" },
-      { href: "/enhanced-radar", label: "Radar Enrichi" },
-      { href: "/synergies-heatmap", label: "Heatmap Synergies" },
+      { href: "/visualisations", label: "Hub Visualisations", badge: "HUB" },
+      { href: "/synergies-heatmap", label: "Synergies Heatmap" },
       { href: "/recipe-network", label: "Graphe Réseau" },
-      { href: "/graphe-plante-molecule", label: "Graphe Plante-Molécule" },
+      { href: "/sankey-flow", label: "Diagramme Sankey" },
+    ],
+  },
+  // === OUTILS ===
+  {
+    title: "Outils - Accès rapide",
+    href: "/outils-hub",
+    icon: Layers,
+  },
+  {
+    title: "Création",
+    icon: FlaskConical,
+    items: [
+      { href: "/outils/editeur-formulation", label: "Éditeur de Formulation", badge: "NEW" },
+      { href: "/outils/generateur-formules", label: "Générateur IA" },
+      { href: "/calculateur", label: "Calculateur" },
     ],
   },
   {
-    title: "Recherche",
+    title: "Analyse",
     icon: TestTube,
     items: [
-      { href: "/recherche-croisee", label: "Recherche croisée", badge: "NEW" },
-      { href: "/recherche-scientifique", label: "Modules scientifiques" },
-      { href: "/methodologie/absorbe", label: "Méthode ABSORBE" },
-      { href: "/recherche/fondements-theoriques", label: "Fondements Philosophiques" },
-      { href: "/ifra", label: "Restrictions IFRA" },
+      { href: "/synergies", label: "Synergies Moléculaires", badge: "NEW" },
+      { href: "/terp-profiles", label: "Profils Terpéniques" },
+      { href: "/ifra", label: "Conformité IFRA" },
+      { href: "/terp-profiles/compare", label: "Comparaison Profils" },
     ],
   },
+  // === RECHERCHE ===
   {
-    title: "San Andrés / Leaf Economies",
-    icon: Leaf,
-    items: [
-      { href: "/leaf-economies", label: "Échantillons botaniques", badge: "NEW" },
-      { href: "/timeline-botanique", label: "Timeline botanique" },
-      { href: "/final-recipes", label: "Recettes finales", badge: "9" },
-      { href: "/varietes-fantomes", label: "Variétés fantômes" },
-    ],
-  },
-  {
-    title: "Documentation",
+    title: "Méthode ABSORBE",
     icon: BookOpen,
     items: [
-      { href: "/glossaire", label: "Glossaire" },
-      { href: "/bibliographie", label: "Bibliographie", badge: "NEW" },
-      { href: "/axes-recherche", label: "Axes de recherche" },
+      { href: "/methodologie/absorbe", label: "Présentation" },
+      { href: "/methodologie/echelle", label: "Échelle de classification" },
+      { href: "/methodologie/gcms", label: "GC-MS & Pyrolyse" },
     ],
   },
   {
-    title: "Archives",
+    title: "Axes de Recherche",
+    icon: Atom,
+    items: [
+      { href: "/axes-recherche", label: "Vue d'ensemble" },
+      { href: "/bibliographie", label: "Bibliographie" },
+      { href: "/export-bibliographique", label: "Export bibliographique" },
+    ],
+  },
+  {
+    title: "Archives & Terrain",
     icon: Database,
     items: [
       { href: "/archives-terrain", label: "Archives de Terrain" },
       { href: "/archives-olfactives", label: "Archives Olfactives" },
+      { href: "/civilisations", label: "Civilisations" },
+      { href: "/timeline", label: "Timeline" },
+    ],
+  },
+  // === PROJET ===
+  {
+    title: "Documentation",
+    icon: FileText,
+    items: [
+      { href: "/glossaire", label: "Glossaire" },
     ],
   },
   {
-    title: "Projet",
+    title: "Le Projet",
     icon: Info,
     items: [
-      { href: "/mon-dashboard", label: "Mon Dashboard" },
-      { href: "/le-projet", label: "Le Projet PERFUMUM" },
-      { href: "/manifeste", label: "Manifeste" },
       { href: "/a-propos", label: "À propos" },
-      { href: "/contribuer", label: "Comment Contribuer" },
+      { href: "/manifeste", label: "Manifeste" },
+      { href: "/contribuer", label: "Contribuer" },
       { href: "/admin", label: "Administration", badge: "ADMIN" },
     ],
   },

@@ -2262,3 +2262,5 @@
 - [x] Traduire le guide de présentation orale en allemand
 - [x] Créer un QR code pour le lien du site PERFUMUM
 - [x] Corriger le problème d'affichage du menu déroulant Données (texte tronqué)
+- [x] Ajouter des icônes distinctives aux catégories du menu desktop
+- [x] Optimiser le menu mobile avec organisation en accordéon (synchronisé avec desktop)

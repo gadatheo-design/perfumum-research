@@ -222,13 +222,14 @@ export const MegaMenuOptimized: React.FC<MegaMenuOptimizedProps> = ({
  * Hook for managing MegaMenu sections
  */
 export const useMegaMenuSections = (
-  data: Array<{ category: string; items: Array<{ id: string; label: string; href: string; badge?: string }> }>
+  data: Array<{ category: string; icon?: React.ReactNode; items: Array<{ id: string; label: string; href: string; badge?: string }> }>
 ): MegaMenuSection[] => {
   return useMemo(
     () =>
       data.map((section, index) => ({
         id: `section-${index}`,
         title: section.category,
+        icon: section.icon,
         items: section.items,
       })),
     [data]
