@@ -304,6 +304,7 @@ import RechercheGlobale from "./pages/RechercheGlobale";
 
 // === UTILISATEUR ===
 import Favoris from "./pages/Favoris";
+import { MyFavorites } from "./pages/MyFavorites";
 import Reseau from "./pages/Reseau";
 import ReseauMoleculePlante from "./pages/ReseauMoleculePlante";
 import PlantMoleculeNetwork from "./pages/PlantMoleculeNetwork";
@@ -665,6 +666,7 @@ function Router() {
       
       {/* === UTILISATEUR === */}
       <Route path="/favoris" component={Favoris} />
+      <Route path="/mes-favoris" component={MyFavorites} />
       <Route path="/reseau" component={Reseau} />
       <Route path="/reseau-molecules-plantes" component={ReseauMoleculePlante} />
       <Route path="/reseau-plantes-molecules" component={PlantMoleculeNetwork} />

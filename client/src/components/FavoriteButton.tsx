@@ -1,99 +1,70 @@
-import { Star } from "lucide-react";
+import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { trpc } from "@/lib/trpc";
+import { useFavorites, FavoritePage } from "@/hooks/useFavorites";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface FavoriteButtonProps {
-  moleculeId: number;
-  moleculeName?: string;
-  variant?: "default" | "icon";
-  size?: "sm" | "md" | "lg";
+  page: Omit<FavoritePage, "addedAt">;
+  variant?: "default" | "ghost" | "outline";
+  size?: "default" | "sm" | "lg" | "icon";
+  showLabel?: boolean;
+  className?: string;
 }
 
-export function FavoriteButton({ 
-  moleculeId, 
-  moleculeName,
-  variant = "default",
-  size = "md"
+export function FavoriteButton({
+  page,
+  variant = "ghost",
+  size = "icon",
+  showLabel = false,
+  className,
 }: FavoriteButtonProps) {
-  const utils = trpc.useUtils();
-  
-  // Check if molecule is favorited
-  const { data: isFavorited, isLoading: checkingFavorite } = trpc.favorites.isFavorite.useQuery(
-    { moleculeId },
-    { refetchOnWindowFocus: false }
-  );
-  
-  // Add favorite mutation
-  const addFavorite = trpc.favorites.add.useMutation({
-    onSuccess: () => {
-      utils.favorites.isFavorite.invalidate({ moleculeId });
-      utils.favorites.list.invalidate();
-      toast.success(`${moleculeName || "Molécule"} ajoutée aux favoris`);
-    },
-    onError: (error) => {
-      toast.error(`Erreur : ${error.message}`);
-    },
-  });
-  
-  // Remove favorite mutation
-  const removeFavorite = trpc.favorites.remove.useMutation({
-    onSuccess: () => {
-      utils.favorites.isFavorite.invalidate({ moleculeId });
-      utils.favorites.list.invalidate();
-      toast.success(`${moleculeName || "Molécule"} retirée des favoris`);
-    },
-    onError: (error) => {
-      toast.error(`Erreur : ${error.message}`);
-    },
-  });
-  
-  const handleToggleFavorite = () => {
-    if (isFavorited) {
-      removeFavorite.mutate({ moleculeId });
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const [isFav, setIsFav] = useState(false);
+
+  useEffect(() => {
+    setIsFav(isFavorite(page.href));
+  }, [page.href, isFavorite]);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavorite(page);
+    const newState = !isFav;
+    setIsFav(newState);
+    
+    if (newState) {
+      toast.success(`${page.title} ajoutée aux favoris`);
     } else {
-      addFavorite.mutate({ moleculeId });
+      toast.info(`${page.title} retirée des favoris`);
     }
   };
-  
-  const isLoading = checkingFavorite || addFavorite.isPending || removeFavorite.isPending;
-  
-  if (variant === "icon") {
-    return (
-      <Button
-        variant="ghost"
-        size={size === "sm" ? "sm" : size === "lg" ? "lg" : "default"}
-        onClick={handleToggleFavorite}
-        disabled={isLoading}
-        className="group"
-      >
-        <Star 
-          className={`h-4 w-4 transition-all ${
-            isFavorited 
-              ? "fill-yellow-500 text-yellow-500" 
-              : "text-muted-foreground group-hover:text-yellow-500"
-          }`}
-        />
-      </Button>
-    );
-  }
-  
+
   return (
     <Button
-      variant={isFavorited ? "default" : "outline"}
-      size={size === "sm" ? "sm" : size === "lg" ? "lg" : "default"}
-      onClick={handleToggleFavorite}
-      disabled={isLoading}
-      className="group"
+      variant={variant}
+      size={size}
+      onClick={handleClick}
+      className={cn(
+        "transition-colors",
+        isFav && "text-red-500 hover:text-red-600",
+        className
+      )}
+      aria-label={isFav ? "Retirer des favoris" : "Ajouter aux favoris"}
+      title={isFav ? "Retirer des favoris" : "Ajouter aux favoris"}
     >
-      <Star 
-        className={`h-4 w-4 mr-2 transition-all ${
-          isFavorited 
-            ? "fill-yellow-500 text-yellow-500" 
-            : "text-muted-foreground group-hover:text-yellow-500"
-        }`}
+      <Heart
+        className={cn(
+          "h-5 w-5",
+          isFav && "fill-current"
+        )}
       />
-      {isFavorited ? "Retirer des favoris" : "Ajouter aux favoris"}
+      {showLabel && (
+        <span className="ml-2">
+          {isFav ? "Favori" : "Ajouter"}
+        </span>
+      )}
     </Button>
   );
 }

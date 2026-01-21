@@ -1,6 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const FAVORITES_KEY = "perfumum_favorites";
+
+export interface FavoritePage {
+  id: string;
+  title: string;
+  href: string;
+  icon?: string;
+  description?: string;
+  addedAt: number;
+}
 
 /**
  * Hook personnalisé pour gérer les favoris avec localStorage
@@ -8,12 +17,13 @@ const FAVORITES_KEY = "perfumum_favorites";
  * Fonctionnalités :
  * - Persiste les favoris dans localStorage
  * - Synchronise entre onglets
+ * - Support pour pages complètes (titre, description, icône)
  * - Toggle favori (ajouter/retirer)
  * - Vérifier si un item est favori
- * - Obtenir tous les favoris
+ * - Réorganiser les favoris
  */
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<number[]>(() => {
+  const [favorites, setFavorites] = useState<FavoritePage[]>(() => {
     try {
       const stored = localStorage.getItem(FAVORITES_KEY);
       return stored ? JSON.parse(stored) : [];
@@ -43,13 +53,34 @@ export function useFavorites() {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  const toggleFavorite = (id: number) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]
-    );
-  };
+  const toggleFavorite = useCallback((page: Omit<FavoritePage, "addedAt">) => {
+    setFavorites((prev) => {
+      const exists = prev.some((fav) => fav.href === page.href);
+      if (exists) {
+        return prev.filter((fav) => fav.href !== page.href);
+      } else {
+        return [...prev, { ...page, addedAt: Date.now() }];
+      }
+    });
+  }, []);
 
-  const isFavorite = (id: number) => favorites.includes(id);
+  const isFavorite = useCallback((href: string) => {
+    return favorites.some((fav) => fav.href === href);
+  }, [favorites]);
+
+  const addFavorite = useCallback((page: Omit<FavoritePage, "addedAt">) => {
+    if (!isFavorite(page.href)) {
+      toggleFavorite(page);
+    }
+  }, [isFavorite, toggleFavorite]);
+
+  const removeFavorite = useCallback((href: string) => {
+    setFavorites((prev) => prev.filter((fav) => fav.href !== href));
+  }, []);
+
+  const reorderFavorites = useCallback((newOrder: FavoritePage[]) => {
+    setFavorites(newOrder);
+  }, []);
 
   const clearFavorites = () => setFavorites([]);
 
@@ -57,6 +88,9 @@ export function useFavorites() {
     favorites,
     toggleFavorite,
     isFavorite,
+    addFavorite,
+    removeFavorite,
+    reorderFavorites,
     clearFavorites,
     count: favorites.length,
   };

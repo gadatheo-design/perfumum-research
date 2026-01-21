@@ -2264,3 +2264,15 @@
 - [x] Corriger le problème d'affichage du menu déroulant Données (texte tronqué)
 - [x] Ajouter des icônes distinctives aux catégories du menu desktop
 - [x] Optimiser le menu mobile avec organisation en accordéon (synchronisé avec desktop)
+
+## 🔄 SESSION 15 janvier 2026 - Favoris et Intégration ExportBlock
+
+### Fonctionnalité Favoris
+- [x] Créer la fonctionnalité de favoris (stockage localStorage + UI)
+- [x] Ajouter un bouton favoris sur les pages principales
+- [x] Créer une page/section "Mes Favoris"
+- [ ] Intégrer les favoris dans le menu de navigation
+
+### Intégration ExportBlock
+- [ ] Extraire et analyser le contenu du fichier ExportBlock
+- [ ] Intégrer le contenu dans la structure du site
