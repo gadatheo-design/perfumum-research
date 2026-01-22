@@ -16,6 +16,12 @@ import { LegacyRedirect, SimpleRedirect } from "./components/LegacyRedirect";
 import { GuidedNavigationProvider } from "./contexts/GuidedNavigationContext";
 import { GuidedNavigationBar, GuidedNavigationWidget, TourSelector } from "./components/GuidedNavigation";
 
+// === ABSORBE X - RECHERCHE AVANCÉE ===
+import { AbsorbeXDashboard } from "./pages/AbsorbeXDashboard";
+import { AbsorbeXManifeste } from "./pages/AbsorbeXManifeste";
+import { AbsorbeXNotesRecherche } from "./pages/AbsorbeXNotesRecherche";
+import { AbsorbeXQuantique } from "./pages/AbsorbeXQuantique";
+
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
 import SystemePerfumum from "./pages/SystemePerfumum";
@@ -389,6 +395,12 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/nouveautes" component={Nouveautes} />
       <Route path="/projet/timeline" component={TimelinePerfumum} />
+      
+      {/* === ABSORBE X - RECHERCHE AVANCÉE === */}
+      <Route path="/absorbe-x" component={AbsorbeXDashboard} />
+      <Route path="/absorbe-x/manifeste" component={AbsorbeXManifeste} />
+      <Route path="/absorbe-x/notes-recherche" component={AbsorbeXNotesRecherche} />
+      <Route path="/absorbe-x/quantique" component={AbsorbeXQuantique} />
       
       {/* === PROTOTYPES === */}
       <Route path="/prototypes" component={Prototypes} />

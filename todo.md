@@ -2276,3 +2276,51 @@
 ### Intégration ExportBlock
 - [ ] Extraire et analyser le contenu du fichier ExportBlock
 - [ ] Intégrer le contenu dans la structure du site
+- [ ] Créer un widget de favoris récents sur la page d'accueil
+
+## 🔬 ABSORBE X - Recherche Avancée & Patrimoine
+
+### Analyse & Planification
+- [x] Analyser les 5 fichiers ABSORBE X (Structure, Guide, Notes, Manifeste, Suivi)
+- [x] Créer un plan d'intégration détaillé avec architecture de pages révisée
+
+### Pages & Sections
+- [ ] Créer le Dashboard ABSORBE X (navigation principale)
+- [ ] Créer la page "Laboratoire Quantique & Nano" (Isomères vibratoires, MOF)
+- [ ] Créer la page "Département Patrimoine & Résurrection" (Flore éteinte, Archéologie olfactive)
+- [ ] Créer la page "Neuro-olfaction & Conscience" (Opto-Scent, Dream Blends)
+- [ ] Créer la page "Bibliothèque des Odeurs Perdues" (base de données)
+- [ ] Créer la page "Guide de Laboratoire" (protocoles pratiques)
+
+### Données & Workflows
+- [ ] Implémenter la base de données "Registre des Expériences de Rupture"
+- [ ] Implémenter la base de données "Bibliothèque des Odeurs Perdues"
+- [ ] Créer les templates d'expériences ABSORBE X
+- [ ] Implémenter les workflows (Sourcing → Synthèse → Analyse → Évaluation)
+- [ ] Intégrer l'annuaire des fournisseurs stratégiques
+
+### Contenu Scientifique
+- [ ] Intégrer les protocoles H/D Exchange (Axe Quantique)
+- [ ] Intégrer les protocoles MOF HKUST-1 (Axe Nano)
+- [ ] Intégrer les workflows de biocatalyse (Axe Patrimonial)
+- [ ] Ajouter les références bibliographiques
+
+
+## 🔬 SESSION 22 janvier 2026 - ABSORBE X
+
+### Implémentation ABSORBE X
+- [x] Analyser les 5 fichiers ABSORBE X (Structure Notion, Guide Laboratoire, Notes Recherche, Manifeste, Suivi Expérimental)
+- [x] Créer le plan d'implémentation détaillé (9 pages, 3 BDD, 12 semaines)
+- [x] Créer le Dashboard ABSORBE X (`/absorbe-x`)
+- [x] Créer la page Manifeste de Recherche (`/absorbe-x/manifeste`)
+- [x] Créer la page Notes de Recherche (`/absorbe-x/notes-recherche`)
+- [x] Créer la page Olfaction Quantique (`/absorbe-x/quantique`) avec 4 onglets:
+  - Concepts (Théorie vibratoire, Ingénierie isotopique, Accords quantiques)
+  - Protocole H/D Exchange (5 étapes détaillées)
+  - Registre des Expériences (3 expériences avec progression)
+  - Annuaire des Fournisseurs (3 fournisseurs stratégiques)
+- [ ] Créer la page Patrimoine Olfactif Menacé
+- [ ] Créer la page Neuro-Olfaction
+- [ ] Créer la page Odeurs Perdues (Bibliothèque)
+- [ ] Créer la page Guide de Laboratoire complet
+- [ ] Créer la page Suivi des Expériences
