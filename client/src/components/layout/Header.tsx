@@ -129,6 +129,7 @@ function MegaMenuOptimizedNav() {
         { id: "43", label: "Olfaction Quantique", href: "/absorbe-x/quantique" },
         { id: "44", label: "Patrimoine Olfactif", href: "/absorbe-x/patrimoine" },
         { id: "45", label: "Neuro-Olfaction", href: "/absorbe-x/neuro-olfaction", badge: "NEW" },
+        { id: "46", label: "Odeurs Perdues", href: "/absorbe-x/odeurs-perdues", badge: "NEW" },
       ],
     },
   ];
