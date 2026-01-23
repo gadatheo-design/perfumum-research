@@ -22,6 +22,7 @@ import { AbsorbeXManifeste } from "./pages/AbsorbeXManifeste";
 import { AbsorbeXNotesRecherche } from "./pages/AbsorbeXNotesRecherche";
 import { AbsorbeXQuantique } from "./pages/AbsorbeXQuantique";
 import { AbsorbeXPatrimoine } from "./pages/AbsorbeXPatrimoine";
+import { AbsorbeXNeuroOlfaction } from "./pages/AbsorbeXNeuroOlfaction";
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -403,6 +404,7 @@ function Router() {
       <Route path="/absorbe-x/notes-recherche" component={AbsorbeXNotesRecherche} />
       <Route path="/absorbe-x/quantique" component={AbsorbeXQuantique} />
       <Route path="/absorbe-x/patrimoine" component={AbsorbeXPatrimoine} />
+      <Route path="/absorbe-x/neuro-olfaction" component={AbsorbeXNeuroOlfaction} />
       
       {/* === PROTOTYPES === */}
       <Route path="/prototypes" component={Prototypes} />

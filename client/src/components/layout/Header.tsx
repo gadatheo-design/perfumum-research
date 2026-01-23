@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, Sun, Moon, Command, Database, Leaf, Compass, BarChart3, Zap, FlaskConical, Microscope, BookOpen, Archive, Globe, Info, FileText, Users } from "lucide-react";
+import { Search, Menu, Sun, Moon, Command, Database, Leaf, Compass, BarChart3, Zap, FlaskConical, Microscope, BookOpen, Archive, Globe, Info, FileText, Users, Brain } from "lucide-react";
 import { MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";
 import { MobileMenu } from "@/components/MobileMenu";
 import { SmartSearch } from "@/components/SmartSearch";
@@ -117,6 +117,18 @@ function MegaMenuOptimizedNav() {
         { id: "32", label: "Archives Olfactives", href: "/archives-olfactives" },
         { id: "33", label: "Civilisations", href: "/civilisations" },
         { id: "34", label: "Timeline", href: "/timeline" },
+      ],
+    },
+    {
+      category: "ABSORBE X - Recherche Avancee",
+      icon: <Brain className="h-4 w-4" />,
+      items: [
+        { id: "40", label: "Dashboard", href: "/absorbe-x", badge: "NEW" },
+        { id: "41", label: "Manifeste", href: "/absorbe-x/manifeste" },
+        { id: "42", label: "Notes de Recherche", href: "/absorbe-x/notes-recherche" },
+        { id: "43", label: "Olfaction Quantique", href: "/absorbe-x/quantique" },
+        { id: "44", label: "Patrimoine Olfactif", href: "/absorbe-x/patrimoine" },
+        { id: "45", label: "Neuro-Olfaction", href: "/absorbe-x/neuro-olfaction", badge: "NEW" },
       ],
     },
   ];
