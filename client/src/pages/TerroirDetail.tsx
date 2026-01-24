@@ -190,11 +190,11 @@ export default function TerroirDetail() {
                               <Leaf className="w-5 h-5 text-green-600 dark:text-green-400" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <CardTitle className="text-base group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors truncate">
+                              <CardTitle className="text-base group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors break-words">
                                 {plant.name}
                               </CardTitle>
                               {plant.latinName && (
-                                <CardDescription className="text-xs italic truncate">
+                                <CardDescription className="text-xs italic break-words">
                                   {plant.latinName}
                                 </CardDescription>
                               )}
