@@ -24,6 +24,7 @@ import { FloatingCompareBar } from "@/components/FloatingCompareBar";
 import { useLocation } from "wouter";
 import { MiniRadarChart } from "@/components/MiniRadarChart";
 import { Beaker, Droplets, Zap, FlaskConical } from "lucide-react";
+import { TruncatableBody } from "@/components/TruncatableText";
 import {
   Select,
   SelectContent,
@@ -799,27 +800,45 @@ export default function Molecules() {
                             {molecule.molecularWeight && (
                               <div className="flex items-center gap-1.5 text-muted-foreground">
                                 <Beaker className="h-3.5 w-3.5 shrink-0" />
-                                <span className="truncate">{molecule.molecularWeight} g/mol</span>
+                                <TruncatableBody
+                                  text={`${molecule.molecularWeight} g/mol`}
+                                  maxLines={1}
+                                  expandable={false}
+                                  className="text-xs"
+                                />
                               </div>
                             )}
                             {molecule.volatility && (
                               <div className="flex items-center gap-1.5 text-muted-foreground">
                                 <Droplets className="h-3.5 w-3.5 shrink-0" />
-                                <span className="truncate">{molecule.volatility}</span>
+                                <TruncatableBody
+                                  text={molecule.volatility}
+                                  maxLines={1}
+                                  expandable={false}
+                                  className="text-xs"
+                                />
                               </div>
                             )}
                             {molecule.intensity !== null && molecule.intensity !== undefined && (
                               <div className="flex items-center gap-1.5 text-muted-foreground">
                                 <Zap className="h-3.5 w-3.5 shrink-0" />
-                                <span className="truncate">
-                                  Intensité {molecule.intensity > 10 ? Math.round(molecule.intensity / 10) : molecule.intensity}/10
-                                </span>
+                                <TruncatableBody
+                                  text={`Intensité ${molecule.intensity > 10 ? Math.round(molecule.intensity / 10) : molecule.intensity}/10`}
+                                  maxLines={1}
+                                  expandable={false}
+                                  className="text-xs"
+                                />
                               </div>
                             )}
                             {molecule.boilingPoint && (
                               <div className="flex items-center gap-1.5 text-muted-foreground">
                                 <FlaskConical className="h-3.5 w-3.5 shrink-0" />
-                                <span className="truncate">{molecule.boilingPoint}°C</span>
+                                <TruncatableBody
+                                  text={`${molecule.boilingPoint}°C`}
+                                  maxLines={1}
+                                  expandable={false}
+                                  className="text-xs"
+                                />
                               </div>
                             )}
                           </div>

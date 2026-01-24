@@ -37,6 +37,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { toast } from "sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { TruncatableTitle, TruncatableDescription } from "@/components/TruncatableText";
 
 // Category Icon Component
 function CategoryIcon({ category }: { category: string }) {
@@ -677,10 +678,20 @@ function BotanicalGallery() {
                 <CardTitle className="text-sm">
                   <div className="flex items-center gap-2">
                     <Leaf className="w-4 h-4 text-green-600 flex-shrink-0" />
-                    <span className="italic truncate">{image.latinName || image.name}</span>
+                    <TruncatableDescription
+                      text={image.latinName || image.name}
+                      maxLines={1}
+                      expandable={false}
+                    />
                   </div>
                 </CardTitle>
-                <p className="text-xs text-muted-foreground truncate">{image.commonName}</p>
+                {image.commonName && (
+                  <TruncatableDescription
+                    text={image.commonName}
+                    maxLines={1}
+                    expandable={false}
+                  />
+                )}
               </CardHeader>
               
               <CardContent className="p-3 pt-0 space-y-2">
