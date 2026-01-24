@@ -15,6 +15,7 @@ import {
   ChevronRight, Globe, Sun, Wind, ArrowLeft,
   Beaker, FlaskConical
 } from "lucide-react";
+import { TruncatableTitle, TruncatableDescription } from "@/components/TruncatableText";
 
 export default function TerroirDetail() {
   const { id } = useParams<{ id: string }>();
@@ -190,13 +191,18 @@ export default function TerroirDetail() {
                               <Leaf className="w-5 h-5 text-green-600 dark:text-green-400" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <CardTitle className="text-base group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors break-words">
-                                {plant.name}
-                              </CardTitle>
+                              <TruncatableTitle
+                                text={plant.name}
+                                maxLines={2}
+                                className="group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors"
+                                expandable={false}
+                              />
                               {plant.latinName && (
-                                <CardDescription className="text-xs italic break-words">
-                                  {plant.latinName}
-                                </CardDescription>
+                                <TruncatableDescription
+                                  text={plant.latinName}
+                                  maxLines={1}
+                                  expandable={false}
+                                />
                               )}
                             </div>
                             <ChevronRight className="w-4 h-4 text-muted-foreground/50 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
