@@ -24,7 +24,8 @@ import { AbsorbeXQuantique } from "./pages/AbsorbeXQuantique";
 import { AbsorbeXPatrimoine } from "./pages/AbsorbeXPatrimoine";
 import { AbsorbeXNeuroOlfaction } from "./pages/AbsorbeXNeuroOlfaction";
 import { AbsorbeXOdeursPerdues } from "./pages/AbsorbeXOdeursPerdues";
-import { AbsorbeXGuideLaboratoire } from "./pages/AbsorbeXGuideLaboratoire";
+import { AbsorbeXGuideLaboratoire } from '@/pages/AbsorbeXGuideLaboratoire';
+import AromaticRarities from '@/pages/AromaticRarities';
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -410,7 +411,11 @@ function Router() {
       <Route path="/absorbe-x/odeurs-perdues" component={AbsorbeXOdeursPerdues} />
       <Route path="/absorbe-x/guide-laboratoire" component={AbsorbeXGuideLaboratoire} />
       
-      {/* === PROTOTYPES === */}
+      {/* === MATIÈRES PREMIÈRES RARES === */}
+      <Route path="/aromatic-rarities" component={AromaticRarities} />
+      <Route path="/matieres-premieres-rares" component={AromaticRarities} />
+      
+      {/* === ERREURS === */}
       <Route path="/prototypes" component={Prototypes} />
       <Route path="/prototypes/c1" component={C1Fermentum} />
       <Route path="/prototypes/c2" component={C2ClarusVerde} />

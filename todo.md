@@ -2324,3 +2324,10 @@
 - [ ] Créer la page Odeurs Perdues (Bibliothèque)
 - [ ] Créer la page Guide de Laboratoire complet
 - [ ] Créer la page Suivi des Expériences
+
+
+## 🌿 Matières Premières Aromatiques Rares (CSV Import)
+
+- [ ] Analyser le CSV des matières premières aromatiques rares
+- [ ] Importer les données dans la base de données
+- [ ] Créer une page de visualisation des matières premières
