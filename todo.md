@@ -303,7 +303,14 @@
 
 ---
 
-## 🆕 NOUVELLES TÂCHES (08 Jan 2026 - Session courante)
+## 🆕 NOUVELLES TÂCHES (26 Jan 2026 - Session courante)
+
+### Visualisations D3.js pour matières premières rares
+- [ ] Créer le composant de visualisation D3.js pour les relations
+- [ ] Intégrer le composant dans la page AromaticRarities
+- [ ] Ajouter les filtres et interactions (zoom, drag, hover)
+
+## 🆕 TÂCHES ANTÉRIEURES (08 Jan 2026)
 
 ### Objectif de couverture molécule→plante (10%)
 - [x] Analyser la couverture actuelle molécule→plante

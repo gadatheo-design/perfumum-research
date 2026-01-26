@@ -26,6 +26,7 @@ import { AbsorbeXNeuroOlfaction } from "./pages/AbsorbeXNeuroOlfaction";
 import { AbsorbeXOdeursPerdues } from "./pages/AbsorbeXOdeursPerdues";
 import { AbsorbeXGuideLaboratoire } from '@/pages/AbsorbeXGuideLaboratoire';
 import AromaticRarities from '@/pages/AromaticRarities';
+import AromaticRarityDetailPage from '@/pages/AromaticRarityDetailPage';
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -413,6 +414,7 @@ function Router() {
       
       {/* === MATIÈRES PREMIÈRES RARES === */}
       <Route path="/aromatic-rarities" component={AromaticRarities} />
+      <Route path="/aromatic-rarities/:id" component={AromaticRarityDetailPage} />
       <Route path="/matieres-premieres-rares" component={AromaticRarities} />
       
       {/* === ERREURS === */}
