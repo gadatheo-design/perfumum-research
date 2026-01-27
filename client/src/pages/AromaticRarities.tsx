@@ -18,6 +18,8 @@ import {
   Filter
 } from 'lucide-react';
 import aromaticRaritiesData from '@/data/aromatic_rarities.json';
+import { AromaticRaritiesGraph } from '@/components/AromaticRaritiesGraph';
+import { useState, useMemo } from 'react';
 
 interface AromaticRarity {
   id: string;
@@ -190,6 +192,26 @@ export default function AromaticRarities() {
           </Card>
         </div>
 
+        {/* Graphe D3.js des relations */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-4">Graphe des relations</h2>
+          <AromaticRaritiesGraph 
+            materials={filteredMaterials.map(m => ({
+              id: m.id,
+              name: m.name,
+              rarity: m.rarity_regime,
+              category: m.category,
+              relatedAccords: []
+            }))}
+            heritages={[
+              { id: 'hibiscadelphus', name: 'Hibiscadelphus', type: 'accord', rarity: 'Critique' },
+              { id: 'kyphi', name: 'Kyphi Royal', type: 'accord', rarity: 'Menace' },
+              { id: 'silphium', name: 'Silphium', type: 'accord', rarity: 'Critique' },
+              { id: 'cedrus', name: 'Cedrus Libani', type: 'accord', rarity: 'Vulnerable' }
+            ]}
+          />
+        </div>
+
         {/* Recherche et filtres */}
         <div className="mb-8 space-y-4">
           <div className="relative">
@@ -256,7 +278,8 @@ export default function AromaticRarities() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredMaterials.map((material) => (
-              <Card key={material.id} className="hover:shadow-lg transition-shadow">
+              <a key={material.id} href={`/aromatic-rarities/${material.id}`} className="block">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
@@ -328,6 +351,7 @@ export default function AromaticRarities() {
                   )}
                 </CardContent>
               </Card>
+              </a>
             ))}
           </div>
 
