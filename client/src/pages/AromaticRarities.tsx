@@ -20,6 +20,7 @@ import {
 import aromaticRaritiesData from '@/data/aromatic_rarities.json';
 import { AromaticRaritiesGraph } from '@/components/AromaticRaritiesGraph';
 import { useState, useMemo } from 'react';
+import { useLocation } from 'wouter';
 
 interface AromaticRarity {
   id: string;
