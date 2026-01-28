@@ -1,0 +1,157 @@
+{
+  "query": "SELECT id, material_id, name, latin_name, plant_id FROM raw_materials WHERE material_id LIKE 'RM-HE%' ORDER BY material_id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, material_id, name, latin_name, plant_id FROM raw_materials WHERE material_id LIKE 'RM-HE%' ORDER BY material_id;",
+  "rows": [
+    {
+      "id": "60001",
+      "material_id": "RM-HE-001",
+      "name": "Huile essentielle de Néroli",
+      "latin_name": "Citrus aurantium var. amara",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60002",
+      "material_id": "RM-HE-002",
+      "name": "Huile essentielle de Petit-grain Bigarade",
+      "latin_name": "Citrus aurantium var. amara",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60003",
+      "material_id": "RM-HE-003",
+      "name": "Huile essentielle de Jasmin",
+      "latin_name": "Jasminum grandiflorum",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60004",
+      "material_id": "RM-HE-004",
+      "name": "Huile essentielle de Tubéreuse",
+      "latin_name": "Polianthes tuberosa",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60005",
+      "material_id": "RM-HE-005",
+      "name": "Huile essentielle de Géranium Bourbon",
+      "latin_name": "Pelargonium graveolens",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60006",
+      "material_id": "RM-HE-006",
+      "name": "Huile essentielle de Palmarosa",
+      "latin_name": "Cymbopogon martinii",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60007",
+      "material_id": "RM-HE-007",
+      "name": "Huile essentielle de Cyprès",
+      "latin_name": "Cupressus sempervirens",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60008",
+      "material_id": "RM-HE-008",
+      "name": "Huile essentielle de Genévrier",
+      "latin_name": "Juniperus communis",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60009",
+      "material_id": "RM-HE-009",
+      "name": "Huile essentielle d'Encens (Oliban)",
+      "latin_name": "Boswellia sacra",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60010",
+      "material_id": "RM-HE-010",
+      "name": "Huile essentielle de Myrrhe",
+      "latin_name": "Commiphora myrrha",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60011",
+      "material_id": "RM-HE-011",
+      "name": "Huile essentielle de Galbanum",
+      "latin_name": "Ferula galbaniflua",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60012",
+      "material_id": "RM-HE-012",
+      "name": "Huile essentielle d'Immortelle (Hélichryse)",
+      "latin_name": "Helichrysum italicum",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60013",
+      "material_id": "RM-HE-013",
+      "name": "Huile essentielle de Camomille Romaine",
+      "latin_name": "Chamaemelum nobile",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60014",
+      "material_id": "RM-HE-014",
+      "name": "Huile essentielle de Camomille Bleue",
+      "latin_name": "Matricaria chamomilla",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "60015",
+      "material_id": "RM-HE-015",
+      "name": "Huile essentielle de Cardamome",
+      "latin_name": "Elettaria cardamomum",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "30006",
+      "material_id": "RM-HE-CIT-001",
+      "name": "Huile essentielle de Citron",
+      "latin_name": "Citrus limon",
+      "plant_id": "30002"
+    },
+    {
+      "id": "30005",
+      "material_id": "RM-HE-ENC-001",
+      "name": "Huile essentielle d'Encens Oliban",
+      "latin_name": "Boswellia sacra",
+      "plant_id": "30014"
+    },
+    {
+      "id": "30002",
+      "material_id": "RM-HE-JAS-001",
+      "name": "Huile essentielle de Jasmin sambac",
+      "latin_name": "Jasminum sambac",
+      "plant_id": "NULL"
+    },
+    {
+      "id": "30001",
+      "material_id": "RM-HE-ROS-001",
+      "name": "Huile essentielle de Rose de Damas",
+      "latin_name": "Rosa damascena",
+      "plant_id": "30010"
+    },
+    {
+      "id": "30004",
+      "material_id": "RM-HE-SAN-001",
+      "name": "Huile essentielle de Santal de Mysore",
+      "latin_name": "Santalum album",
+      "plant_id": "30013"
+    },
+    {
+      "id": "30003",
+      "material_id": "RM-HE-YLA-001",
+      "name": "Huile essentielle d'Ylang-Ylang extra",
+      "latin_name": "Cananga odorata",
+      "plant_id": "30009"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tmaterial_id\tname\tlatin_name\tplant_id\n60001\tRM-HE-001\tHuile essentielle de Néroli\tCitrus aurantium var. amara\tNULL\n60002\tRM-HE-002\tHuile essentielle de Petit-grain Bigarade\tCitrus aurantium var. amara\tNULL\n60003\tRM-HE-003\tHuile essentielle de Jasmin\tJasminum grandiflorum\tNULL\n60004\tRM-HE-004\tHuile essentielle de Tubéreuse\tPolianthes tuberosa\tNULL\n60005\tRM-HE-005\tHuile essentielle de Géranium Bourbon\tPelargonium graveolens\tNULL\n60006\tRM-HE-006\tHuile essentielle de Palmarosa\tCymbopogon martinii\tNULL\n60007\tRM-HE-007\tHuile essentielle de Cyprès\tCupressus sempervirens\tNULL\n60008\tRM-HE-008\tHuile essentielle de Genévrier\tJuniperus communis\tNULL\n60009\tRM-HE-009\tHuile essentielle d'Encens (Oliban)\tBoswellia sacra\tNULL\n60010\tRM-HE-010\tHuile essentielle de Myrrhe\tCommiphora myrrha\tNULL\n60011\tRM-HE-011\tHuile essentielle de Galbanum\tFerula galbaniflua\tNULL\n60012\tRM-HE-012\tHuile essentielle d'Immortelle (Hélichryse)\tHelichrysum italicum\tNULL\n60013\tRM-HE-013\tHuile essentielle de Camomille Romaine\tChamaemelum nobile\tNULL\n60014\tRM-HE-014\tHuile essentielle de Camomille Bleue\tMatricaria chamomilla\tNULL\n60015\tRM-HE-015\tHuile essentielle de Cardamome\tElettaria cardamomum\tNULL\n30006\tRM-HE-CIT-001\tHuile essentielle de Citron\tCitrus limon\t30002\n30005\tRM-HE-ENC-001\tHuile essentielle d'Encens Oliban\tBoswellia sacra\t30014\n30002\tRM-HE-JAS-001\tHuile essentielle de Jasmin sambac\tJasminum sambac\tNULL\n30001\tRM-HE-ROS-001\tHuile essentielle de Rose de Damas\tRosa damascena\t30010\n30004\tRM-HE-SAN-001\tHuile essentielle de Santal de Mysore\tSantalum album\t30013\n30003\tRM-HE-YLA-001\tHuile essentielle d'Ylang-Ylang extra\tCananga odorata\t30009\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

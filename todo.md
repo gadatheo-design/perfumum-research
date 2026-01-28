@@ -2553,3 +2553,23 @@
 - [x] Créer les liaisons plante-terroir manquantes (14+ liaisons créées)
 - [x] Valider la cohérence géographique des données
 
+
+
+---
+
+## 🔗 SESSION LIAISONS ET VISUALISATION — 28 Jan 2026
+
+### Liaisons moléculaires absolues et CO2
+- [x] Créer les liaisons moléculaires pour les 15 absolues ajoutées (13 liaisons créées)
+- [x] Créer les liaisons moléculaires pour les 15 extraits CO2 ajoutés (8 liaisons créées)
+- [x] Documenter les différences de composition entre HE et absolues
+
+### Liaisons plantes sources pour HE
+- [x] Lier les 15 nouvelles HE à leurs plantes sources (15 liaisons créées)
+- [x] Vérifier la cohérence des noms latins
+
+### Page visualisation plantes-terroirs
+- [x] Créer la page de visualisation avec carte interactive (CarteInteractiveTerroirs.tsx existe déjà)
+- [x] Implémenter les marqueurs par terroir (marqueurs colorés par climat)
+- [x] Afficher les plantes liées à chaque terroir (InfoWindow avec détails)
+- [x] Ajouter les filtres par climat et type de sol (filtres fonctionnels)

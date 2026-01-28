@@ -1,0 +1,85 @@
+{
+  "query": "SELECT id, material_id, name FROM raw_materials WHERE material_id LIKE 'RM-ABS%' ORDER BY material_id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, material_id, name FROM raw_materials WHERE material_id LIKE 'RM-ABS%' ORDER BY material_id;",
+  "rows": [
+    {
+      "id": "60016",
+      "material_id": "RM-ABS-001",
+      "name": "Absolue de Rose de Mai"
+    },
+    {
+      "id": "60017",
+      "material_id": "RM-ABS-002",
+      "name": "Absolue de Rose de Damas"
+    },
+    {
+      "id": "60018",
+      "material_id": "RM-ABS-003",
+      "name": "Absolue de Jasmin Grandiflorum"
+    },
+    {
+      "id": "60019",
+      "material_id": "RM-ABS-004",
+      "name": "Absolue de Jasmin Sambac"
+    },
+    {
+      "id": "60020",
+      "material_id": "RM-ABS-005",
+      "name": "Absolue de Tubéreuse"
+    },
+    {
+      "id": "60021",
+      "material_id": "RM-ABS-006",
+      "name": "Absolue de Fleur d'Oranger"
+    },
+    {
+      "id": "60022",
+      "material_id": "RM-ABS-007",
+      "name": "Absolue d'Iris (Beurre d'Iris)"
+    },
+    {
+      "id": "60023",
+      "material_id": "RM-ABS-008",
+      "name": "Absolue de Violette (Feuilles)"
+    },
+    {
+      "id": "60024",
+      "material_id": "RM-ABS-009",
+      "name": "Absolue de Mimosa"
+    },
+    {
+      "id": "60025",
+      "material_id": "RM-ABS-010",
+      "name": "Absolue de Narcisse"
+    },
+    {
+      "id": "60026",
+      "material_id": "RM-ABS-011",
+      "name": "Absolue de Jonquille"
+    },
+    {
+      "id": "60027",
+      "material_id": "RM-ABS-012",
+      "name": "Absolue de Foin"
+    },
+    {
+      "id": "60028",
+      "material_id": "RM-ABS-013",
+      "name": "Absolue de Mousse de Chêne"
+    },
+    {
+      "id": "60029",
+      "material_id": "RM-ABS-014",
+      "name": "Absolue de Benjoin"
+    },
+    {
+      "id": "60030",
+      "material_id": "RM-ABS-015",
+      "name": "Absolue de Labdanum"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tmaterial_id\tname\n60016\tRM-ABS-001\tAbsolue de Rose de Mai\n60017\tRM-ABS-002\tAbsolue de Rose de Damas\n60018\tRM-ABS-003\tAbsolue de Jasmin Grandiflorum\n60019\tRM-ABS-004\tAbsolue de Jasmin Sambac\n60020\tRM-ABS-005\tAbsolue de Tubéreuse\n60021\tRM-ABS-006\tAbsolue de Fleur d'Oranger\n60022\tRM-ABS-007\tAbsolue d'Iris (Beurre d'Iris)\n60023\tRM-ABS-008\tAbsolue de Violette (Feuilles)\n60024\tRM-ABS-009\tAbsolue de Mimosa\n60025\tRM-ABS-010\tAbsolue de Narcisse\n60026\tRM-ABS-011\tAbsolue de Jonquille\n60027\tRM-ABS-012\tAbsolue de Foin\n60028\tRM-ABS-013\tAbsolue de Mousse de Chêne\n60029\tRM-ABS-014\tAbsolue de Benjoin\n60030\tRM-ABS-015\tAbsolue de Labdanum\n",
+  "stderr": "",
+  "execution_time_ms": 95
+}
