@@ -1,0 +1,100 @@
+{
+  "query": "SELECT rm.id, rm.name, rm.category \nFROM raw_materials rm \nWHERE rm.category LIKE '%huile%' OR rm.category LIKE '%essential%' OR rm.name LIKE '%HE %' OR rm.name LIKE '%Huile%'\nORDER BY rm.name \nLIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT rm.id, rm.name, rm.category \nFROM raw_materials rm \nWHERE rm.category LIKE '%huile%' OR rm.category LIKE '%essential%' OR rm.name LIKE '%HE %' OR rm.name LIKE '%Huile%'\nORDER BY rm.name \nLIMIT 30;",
+  "rows": [
+    {
+      "id": "30005",
+      "name": "Huile essentielle d'Encens Oliban",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "9",
+      "name": "Huile essentielle d'Eucalyptus globulus",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "5",
+      "name": "Huile essentielle d'Ylang-Ylang",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30003",
+      "name": "Huile essentielle d'Ylang-Ylang extra",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "8",
+      "name": "Huile essentielle de Bergamote",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "11",
+      "name": "Huile essentielle de Bois de Santal",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30006",
+      "name": "Huile essentielle de Citron",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "12",
+      "name": "Huile essentielle de Cèdre de l'Atlas",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "13",
+      "name": "Huile essentielle de Géranium rosat",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30002",
+      "name": "Huile essentielle de Jasmin sambac",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "1",
+      "name": "Huile essentielle de Lavande vraie",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "3",
+      "name": "Huile essentielle de Menthe poivrée",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "14",
+      "name": "Huile essentielle de Néroli",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "10",
+      "name": "Huile essentielle de Patchouli",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "2",
+      "name": "Huile essentielle de Romarin",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30001",
+      "name": "Huile essentielle de Rose de Damas",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30004",
+      "name": "Huile essentielle de Santal de Mysore",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "6",
+      "name": "Huile essentielle de Vétiver",
+      "category": "huile_essentielle"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n30005\tHuile essentielle d'Encens Oliban\thuile_essentielle\n9\tHuile essentielle d'Eucalyptus globulus\thuile_essentielle\n5\tHuile essentielle d'Ylang-Ylang\thuile_essentielle\n30003\tHuile essentielle d'Ylang-Ylang extra\thuile_essentielle\n8\tHuile essentielle de Bergamote\thuile_essentielle\n11\tHuile essentielle de Bois de Santal\thuile_essentielle\n30006\tHuile essentielle de Citron\thuile_essentielle\n12\tHuile essentielle de Cèdre de l'Atlas\thuile_essentielle\n13\tHuile essentielle de Géranium rosat\thuile_essentielle\n30002\tHuile essentielle de Jasmin sambac\thuile_essentielle\n1\tHuile essentielle de Lavande vraie\thuile_essentielle\n3\tHuile essentielle de Menthe poivrée\thuile_essentielle\n14\tHuile essentielle de Néroli\thuile_essentielle\n10\tHuile essentielle de Patchouli\thuile_essentielle\n2\tHuile essentielle de Romarin\thuile_essentielle\n30001\tHuile essentielle de Rose de Damas\thuile_essentielle\n30004\tHuile essentielle de Santal de Mysore\thuile_essentielle\n6\tHuile essentielle de Vétiver\thuile_essentielle\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

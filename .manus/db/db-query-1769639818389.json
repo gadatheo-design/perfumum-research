@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as orphan_plants\nFROM plants p \nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id \nWHERE pm.plant_id IS NULL;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as orphan_plants\nFROM plants p \nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id \nWHERE pm.plant_id IS NULL;",
+  "rows": [
+    {
+      "orphan_plants": "146"
+    }
+  ],
+  "messages": [],
+  "stdout": "orphan_plants\n146\n",
+  "stderr": "",
+  "execution_time_ms": 65
+}

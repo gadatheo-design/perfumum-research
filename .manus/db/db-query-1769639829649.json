@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, name FROM molecules WHERE name IN ('Linalol', 'Limonène', 'α-Pinène', 'β-Pinène', 'Géraniol', 'Citronellol', 'Eugénol', 'Carvone', 'Menthol', 'Thymol', 'Carvacrol', 'Cinéole', '1,8-Cinéole', 'Camphre', 'Myrcène', 'Caryophyllène', 'β-Caryophyllène', 'Humulène', 'Farnesène', 'Bisabolol', 'α-Bisabolol', 'Nérol', 'Citral', 'Acétate de linalyle', 'Acétate de géranyle') ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules WHERE name IN ('Linalol', 'Limonène', 'α-Pinène', 'β-Pinène', 'Géraniol', 'Citronellol', 'Eugénol', 'Carvone', 'Menthol', 'Thymol', 'Carvacrol', 'Cinéole', '1,8-Cinéole', 'Camphre', 'Myrcène', 'Caryophyllène', 'β-Caryophyllène', 'Humulène', 'Farnesène', 'Bisabolol', 'α-Bisabolol', 'Nérol', 'Citral', 'Acétate de linalyle', 'Acétate de géranyle') ORDER BY name;",
+  "rows": [
+    {
+      "id": "570056",
+      "name": "Acétate de linalyle"
+    },
+    {
+      "id": "570047",
+      "name": "Camphre"
+    },
+    {
+      "id": "570041",
+      "name": "Carvacrol"
+    },
+    {
+      "id": "630001",
+      "name": "Carvone"
+    },
+    {
+      "id": "570045",
+      "name": "Citral"
+    },
+    {
+      "id": "660002",
+      "name": "Citronellol"
+    },
+    {
+      "id": "570039",
+      "name": "Eugénol"
+    },
+    {
+      "id": "660001",
+      "name": "Géraniol"
+    },
+    {
+      "id": "90048",
+      "name": "Humulène"
+    },
+    {
+      "id": "150007",
+      "name": "Humulène"
+    },
+    {
+      "id": "90056",
+      "name": "Limonène"
+    },
+    {
+      "id": "150002",
+      "name": "Limonène"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène"
+    },
+    {
+      "id": "930008",
+      "name": "Limonène"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol"
+    },
+    {
+      "id": "570046",
+      "name": "Menthol"
+    },
+    {
+      "id": "150001",
+      "name": "Myrcène"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    },
+    {
+      "id": "570014",
+      "name": "Nérol"
+    },
+    {
+      "id": "600015",
+      "name": "Nérol"
+    },
+    {
+      "id": "570042",
+      "name": "Thymol"
+    },
+    {
+      "id": "720016",
+      "name": "α-Bisabolol"
+    },
+    {
+      "id": "570053",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "150004",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "150003",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "30008",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "150005",
+      "name": "β-Caryophyllène"
+    },
+    {
+      "id": "90049",
+      "name": "β-Caryophyllène"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène"
+    },
+    {
+      "id": "930007",
+      "name": "β-Pinène"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n570056\tAcétate de linalyle\n570047\tCamphre\n570041\tCarvacrol\n630001\tCarvone\n570045\tCitral\n660002\tCitronellol\n570039\tEugénol\n660001\tGéraniol\n90048\tHumulène\n150007\tHumulène\n90056\tLimonène\n150002\tLimonène\n30007\tLimonène\n930008\tLimonène\n30002\tLinalol\n570046\tMenthol\n150001\tMyrcène\n30006\tMyrcène\n570014\tNérol\n600015\tNérol\n570042\tThymol\n720016\tα-Bisabolol\n570053\tα-Pinène\n150004\tα-Pinène\n150003\tα-Pinène\n30008\tα-Pinène\n150005\tβ-Caryophyllène\n90049\tβ-Caryophyllène\n30005\tβ-Caryophyllène\n930007\tβ-Pinène\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

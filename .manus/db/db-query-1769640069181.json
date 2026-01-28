@@ -1,0 +1,205 @@
+{
+  "query": "SELECT rm.id, rm.name, rm.category \nFROM raw_materials rm \nLEFT JOIN raw_material_molecules rmm ON rm.id = rmm.raw_material_id \nWHERE rmm.raw_material_id IS NULL \nORDER BY rm.category, rm.name \nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT rm.id, rm.name, rm.category \nFROM raw_materials rm \nLEFT JOIN raw_material_molecules rmm ON rm.id = rmm.raw_material_id \nWHERE rmm.raw_material_id IS NULL \nORDER BY rm.category, rm.name \nLIMIT 50;",
+  "rows": [
+    {
+      "id": "30005",
+      "name": "Huile essentielle d'Encens Oliban",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "9",
+      "name": "Huile essentielle d'Eucalyptus globulus",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "5",
+      "name": "Huile essentielle d'Ylang-Ylang",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30003",
+      "name": "Huile essentielle d'Ylang-Ylang extra",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "8",
+      "name": "Huile essentielle de Bergamote",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "11",
+      "name": "Huile essentielle de Bois de Santal",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30006",
+      "name": "Huile essentielle de Citron",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "12",
+      "name": "Huile essentielle de Cèdre de l'Atlas",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "13",
+      "name": "Huile essentielle de Géranium rosat",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30002",
+      "name": "Huile essentielle de Jasmin sambac",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "1",
+      "name": "Huile essentielle de Lavande vraie",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "3",
+      "name": "Huile essentielle de Menthe poivrée",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "14",
+      "name": "Huile essentielle de Néroli",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "10",
+      "name": "Huile essentielle de Patchouli",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "2",
+      "name": "Huile essentielle de Romarin",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30001",
+      "name": "Huile essentielle de Rose de Damas",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30004",
+      "name": "Huile essentielle de Santal de Mysore",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "6",
+      "name": "Huile essentielle de Vétiver",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "30007",
+      "name": "Absolue de Fleur d'Oranger",
+      "category": "absolue"
+    },
+    {
+      "id": "15",
+      "name": "Absolue de Jasmin grandiflorum",
+      "category": "absolue"
+    },
+    {
+      "id": "18",
+      "name": "Absolue de Mimosa",
+      "category": "absolue"
+    },
+    {
+      "id": "4",
+      "name": "Absolue de Rose de Mai",
+      "category": "absolue"
+    },
+    {
+      "id": "16",
+      "name": "Absolue de Tubéreuse",
+      "category": "absolue"
+    },
+    {
+      "id": "17",
+      "name": "Absolue de Vanille",
+      "category": "absolue"
+    },
+    {
+      "id": "30012",
+      "name": "Concrète de Jasmin",
+      "category": "concrete"
+    },
+    {
+      "id": "30011",
+      "name": "Concrète de Rose de Mai",
+      "category": "concrete"
+    },
+    {
+      "id": "30013",
+      "name": "Résinoïde de Benjoin",
+      "category": "resinoid"
+    },
+    {
+      "id": "30014",
+      "name": "Résinoïde de Labdanum",
+      "category": "resinoid"
+    },
+    {
+      "id": "21",
+      "name": "Extrait CO2 d'Encens",
+      "category": "co2_extract"
+    },
+    {
+      "id": "30010",
+      "name": "Extrait CO2 de Cacao",
+      "category": "co2_extract"
+    },
+    {
+      "id": "20",
+      "name": "Extrait CO2 de Cardamome",
+      "category": "co2_extract"
+    },
+    {
+      "id": "19",
+      "name": "Extrait CO2 de Gingembre",
+      "category": "co2_extract"
+    },
+    {
+      "id": "30009",
+      "name": "Extrait CO2 de Houblon",
+      "category": "co2_extract"
+    },
+    {
+      "id": "22",
+      "name": "Extrait CO2 de Myrrhe",
+      "category": "co2_extract"
+    },
+    {
+      "id": "30008",
+      "name": "Extrait CO2 de Vanille",
+      "category": "co2_extract"
+    },
+    {
+      "id": "23",
+      "name": "Extrait CO2 de Vétiver",
+      "category": "co2_extract"
+    },
+    {
+      "id": "7",
+      "name": "Oléorésine d'Encens",
+      "category": "oleoresine"
+    },
+    {
+      "id": "24",
+      "name": "Oléorésine de Benjoin",
+      "category": "oleoresine"
+    },
+    {
+      "id": "25",
+      "name": "Oléorésine de Labdanum",
+      "category": "oleoresine"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n30005\tHuile essentielle d'Encens Oliban\thuile_essentielle\n9\tHuile essentielle d'Eucalyptus globulus\thuile_essentielle\n5\tHuile essentielle d'Ylang-Ylang\thuile_essentielle\n30003\tHuile essentielle d'Ylang-Ylang extra\thuile_essentielle\n8\tHuile essentielle de Bergamote\thuile_essentielle\n11\tHuile essentielle de Bois de Santal\thuile_essentielle\n30006\tHuile essentielle de Citron\thuile_essentielle\n12\tHuile essentielle de Cèdre de l'Atlas\thuile_essentielle\n13\tHuile essentielle de Géranium rosat\thuile_essentielle\n30002\tHuile essentielle de Jasmin sambac\thuile_essentielle\n1\tHuile essentielle de Lavande vraie\thuile_essentielle\n3\tHuile essentielle de Menthe poivrée\thuile_essentielle\n14\tHuile essentielle de Néroli\thuile_essentielle\n10\tHuile essentielle de Patchouli\thuile_essentielle\n2\tHuile essentielle de Romarin\thuile_essentielle\n30001\tHuile essentielle de Rose de Damas\thuile_essentielle\n30004\tHuile essentielle de Santal de Mysore\thuile_essentielle\n6\tHuile essentielle de Vétiver\thuile_essentielle\n30007\tAbsolue de Fleur d'Oranger\tabsolue\n15\tAbsolue de Jasmin grandiflorum\tabsolue\n18\tAbsolue de Mimosa\tabsolue\n4\tAbsolue de Rose de Mai\tabsolue\n16\tAbsolue de Tubéreuse\tabsolue\n17\tAbsolue de Vanille\tabsolue\n30012\tConcrète de Jasmin\tconcrete\n30011\tConcrète de Rose de Mai\tconcrete\n30013\tRésinoïde de Benjoin\tresinoid\n30014\tRésinoïde de Labdanum\tresinoid\n21\tExtrait CO2 d'Encens\tco2_extract\n30010\tExtrait CO2 de Cacao\tco2_extract\n20\tExtrait CO2 de Cardamome\tco2_extract\n19\tExtrait CO2 de Gingembre\tco2_extract\n30009\tExtrait CO2 de Houblon\tco2_extract\n22\tExtrait CO2 de Myrrhe\tco2_extract\n30008\tExtrait CO2 de Vanille\tco2_extract\n23\tExtrait CO2 de Vétiver\tco2_extract\n7\tOléorésine d'Encens\toleoresine\n24\tOléorésine de Benjoin\toleoresine\n25\tOléorésine de Labdanum\toleoresine\n",
+  "stderr": "",
+  "execution_time_ms": 65
+}

@@ -1,0 +1,28 @@
+{
+  "query": "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES \nWHERE TABLE_SCHEMA = DATABASE() \nAND (TABLE_NAME LIKE '%material%' OR TABLE_NAME LIKE '%essential%' OR TABLE_NAME LIKE '%oil%' OR TABLE_NAME LIKE '%product%' OR TABLE_NAME LIKE '%extract%' OR TABLE_NAME LIKE '%absolue%');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES \nWHERE TABLE_SCHEMA = DATABASE() \nAND (TABLE_NAME LIKE '%material%' OR TABLE_NAME LIKE '%essential%' OR TABLE_NAME LIKE '%oil%' OR TABLE_NAME LIKE '%product%' OR TABLE_NAME LIKE '%extract%' OR TABLE_NAME LIKE '%absolue%');",
+  "rows": [
+    {
+      "TABLE_NAME": "extraction_tests"
+    },
+    {
+      "TABLE_NAME": "extraction_methods"
+    },
+    {
+      "TABLE_NAME": "plant_extractions"
+    },
+    {
+      "TABLE_NAME": "extended_supplier_materials"
+    },
+    {
+      "TABLE_NAME": "raw_materials"
+    },
+    {
+      "TABLE_NAME": "raw_material_molecules"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\nextraction_tests\nextraction_methods\nplant_extractions\nextended_supplier_materials\nraw_materials\nraw_material_molecules\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

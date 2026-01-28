@@ -1,0 +1,210 @@
+{
+  "query": "SELECT p.id, p.name \nFROM plants p \nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id \nWHERE pm.plant_id IS NULL \nORDER BY p.name \nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.id, p.name \nFROM plants p \nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id \nWHERE pm.plant_id IS NULL \nORDER BY p.name \nLIMIT 50;",
+  "rows": [
+    {
+      "id": "120017",
+      "name": "Acapulco Gold"
+    },
+    {
+      "id": "120007",
+      "name": "Afghan Kush"
+    },
+    {
+      "id": "480018",
+      "name": "Aframomum melegueta (grains of paradise)"
+    },
+    {
+      "id": "450011",
+      "name": "Ahuehuete"
+    },
+    {
+      "id": "480025",
+      "name": "Ambergris (matière patrimoniale)"
+    },
+    {
+      "id": "510007",
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)"
+    },
+    {
+      "id": "360003",
+      "name": "Ambil"
+    },
+    {
+      "id": "540004",
+      "name": "Anadenanthera colubrina"
+    },
+    {
+      "id": "540003",
+      "name": "Anadenanthera peregrina"
+    },
+    {
+      "id": "210040",
+      "name": "Aniba"
+    },
+    {
+      "id": "210038",
+      "name": "Aquilaria"
+    },
+    {
+      "id": "540029",
+      "name": "Argemone mexicana"
+    },
+    {
+      "id": "150015",
+      "name": "Armoise"
+    },
+    {
+      "id": "540025",
+      "name": "Attalea speciosa"
+    },
+    {
+      "id": "540007",
+      "name": "Banisteriopsis caapi"
+    },
+    {
+      "id": "240006",
+      "name": "Benjoin"
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar"
+    },
+    {
+      "id": "510003",
+      "name": "Bois de rose (lutherie) — Dalbergia nigra (CITES)"
+    },
+    {
+      "id": "510004",
+      "name": "Bois de santal rouge — Pterocarpus santalinus"
+    },
+    {
+      "id": "540015",
+      "name": "Bursera bipinnata"
+    },
+    {
+      "id": "540014",
+      "name": "Bursera copallifera"
+    },
+    {
+      "id": "540013",
+      "name": "Bursera graveolens"
+    },
+    {
+      "id": "450002",
+      "name": "Cacaloxochitl"
+    },
+    {
+      "id": "150019",
+      "name": "Calamus (Acore)"
+    },
+    {
+      "id": "120006",
+      "name": "Cambodian"
+    },
+    {
+      "id": "210030",
+      "name": "Cannabis feuille sèche #3"
+    },
+    {
+      "id": "480027",
+      "name": "Castoreum (référence historique)"
+    },
+    {
+      "id": "480004",
+      "name": "Cedrón"
+    },
+    {
+      "id": "120010",
+      "name": "Chitral"
+    },
+    {
+      "id": "120005",
+      "name": "Chocolate Thai"
+    },
+    {
+      "id": "480026",
+      "name": "Civet (référence historique)"
+    },
+    {
+      "id": "120019",
+      "name": "Colombian Gold"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora"
+    },
+    {
+      "id": "540018",
+      "name": "Copaifera officinalis"
+    },
+    {
+      "id": "480016",
+      "name": "Copaifera spp. (copaiba)"
+    },
+    {
+      "id": "480005",
+      "name": "Copal Blanco"
+    },
+    {
+      "id": "480006",
+      "name": "Copal Negro"
+    },
+    {
+      "id": "480007",
+      "name": "Copal de Piedra"
+    },
+    {
+      "id": "270005",
+      "name": "Costus"
+    },
+    {
+      "id": "540030",
+      "name": "Croton lechleri"
+    },
+    {
+      "id": "540028",
+      "name": "Cymbopetalum penduliflorum"
+    },
+    {
+      "id": "150012",
+      "name": "Damiana"
+    },
+    {
+      "id": "540012",
+      "name": "Datura stramonium"
+    },
+    {
+      "id": "120012",
+      "name": "Durban Poison"
+    },
+    {
+      "id": "540034",
+      "name": "Dysphania ambrosioides"
+    },
+    {
+      "id": "270002",
+      "name": "Encens d'Éthiopie"
+    },
+    {
+      "id": "270003",
+      "name": "Encens de Rivae"
+    },
+    {
+      "id": "270001",
+      "name": "Encens indien (Shallaki)"
+    },
+    {
+      "id": "270004",
+      "name": "Encens négligé"
+    },
+    {
+      "id": "480003",
+      "name": "Epazote"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n120017\tAcapulco Gold\n120007\tAfghan Kush\n480018\tAframomum melegueta (grains of paradise)\n450011\tAhuehuete\n480025\tAmbergris (matière patrimoniale)\n510007\tAmbergris (patrimoine) — Physeter macrocephalus (échouages)\n360003\tAmbil\n540004\tAnadenanthera colubrina\n540003\tAnadenanthera peregrina\n210040\tAniba\n210038\tAquilaria\n540029\tArgemone mexicana\n150015\tArmoise\n540025\tAttalea speciosa\n540007\tBanisteriopsis caapi\n240006\tBenjoin\n240002\tBois d'agar\n510003\tBois de rose (lutherie) — Dalbergia nigra (CITES)\n510004\tBois de santal rouge — Pterocarpus santalinus\n540015\tBursera bipinnata\n540014\tBursera copallifera\n540013\tBursera graveolens\n450002\tCacaloxochitl\n150019\tCalamus (Acore)\n120006\tCambodian\n210030\tCannabis feuille sèche #3\n480027\tCastoreum (référence historique)\n480004\tCedrón\n120010\tChitral\n120005\tChocolate Thai\n480026\tCivet (référence historique)\n120019\tColombian Gold\n210039\tCommiphora\n540018\tCopaifera officinalis\n480016\tCopaifera spp. (copaiba)\n480005\tCopal Blanco\n480006\tCopal Negro\n480007\tCopal de Piedra\n270005\tCostus\n540030\tCroton lechleri\n540028\tCymbopetalum penduliflorum\n150012\tDamiana\n540012\tDatura stramonium\n120012\tDurban Poison\n540034\tDysphania ambrosioides\n270002\tEncens d'Éthiopie\n270003\tEncens de Rivae\n270001\tEncens indien (Shallaki)\n270004\tEncens négligé\n480003\tEpazote\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

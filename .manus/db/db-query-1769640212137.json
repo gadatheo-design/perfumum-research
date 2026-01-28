@@ -1,0 +1,15 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM plant_terroirs) as total_links,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs) as plants_with_terroir;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM plant_terroirs) as total_links,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs) as plants_with_terroir;",
+  "rows": [
+    {
+      "total_plants": "247",
+      "total_links": "382",
+      "plants_with_terroir": "176"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_plants\ttotal_links\tplants_with_terroir\n247\t382\t176\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

@@ -594,35 +594,35 @@
 ## 🔬 SESSION ENRICHISSEMENT DONNÉES SCIENTIFIQUES — 09 Jan 2026
 
 ### Relations molécule-plante
-- [ ] Analyser la couverture actuelle des liaisons molécule-plante
-- [ ] Identifier les plantes orphelines (sans liaisons moléculaires)
-- [ ] Rechercher les compositions chimiques des plantes orphelines
-- [ ] Créer les liaisons molécule-plante manquantes
-- [ ] Valider les nouvelles liaisons créées
+- [x] Analyser la couverture actuelle des liaisons molécule-plante (146 plantes orphelines identifiées)
+- [x] Identifier les plantes orphelines (sans liaisons moléculaires)
+- [x] Rechercher les compositions chimiques des plantes orphelines
+- [x] Créer les liaisons molécule-plante manquantes (35+ liaisons créées)
+- [x] Valider les nouvelles liaisons créées
 
 ### Compositions moléculaires des matières premières
-- [ ] Lister les matières premières sans composition moléculaire
-- [ ] Rechercher les compositions chimiques (huiles essentielles, absolues)
-- [ ] Importer les données de composition dans la base
-- [ ] Lier les molécules aux matières premières
+- [x] Lister les matières premières sans composition moléculaire (39 identifiées)
+- [x] Rechercher les compositions chimiques (huiles essentielles, absolues)
+- [x] Importer les données de composition dans la base
+- [x] Lier les molécules aux matières premières (13+ liaisons créées)
 
 ### Huiles essentielles manquantes
-- [ ] Identifier les huiles essentielles non documentées
-- [ ] Ajouter les huiles essentielles courantes manquantes
-- [ ] Documenter les compositions chimiques principales
+- [x] Identifier les huiles essentielles non documentées (18 existantes)
+- [x] Ajouter les huiles essentielles courantes manquantes (15 ajoutées: Néroli, Jasmin, Tubéreuse, etc.)
+- [x] Documenter les compositions chimiques principales
 - [ ] Créer les liaisons avec les plantes sources
 
 ### Absolues et extraits CO2
-- [ ] Ajouter les absolues principales (rose, jasmin, tubéreuse, etc.)
-- [ ] Ajouter les extraits CO2 courants
-- [ ] Documenter les différences de composition vs huiles essentielles
+- [x] Ajouter les absolues principales (15 ajoutées: Rose de Mai, Jasmin, Tubéreuse, Iris, etc.)
+- [x] Ajouter les extraits CO2 courants (15 ajoutés: Gingembre, Vanille, Café, Cacao, etc.)
+- [x] Documenter les différences de composition vs huiles essentielles
 - [ ] Créer les liaisons moléculaires spécifiques
 
 ### Connexions plantes-terroirs
-- [ ] Identifier les plantes sans terroir assigné
-- [ ] Rechercher les origines géographiques des plantes
-- [ ] Créer les liaisons plante-terroir manquantes
-- [ ] Valider la cohérence géographique des données
+- [x] Identifier les plantes sans terroir assigné
+- [x] Rechercher les origines géographiques des plantes
+- [x] Créer les liaisons plante-terroir manquantes (14+ liaisons créées)
+- [x] Valider la cohérence géographique des données
 
 
 ---
@@ -2515,4 +2515,41 @@
 - [x] Créer la timeline historique des marques disparues (21 marques documentées)
 - [x] Documenter les formulations et additifs historiques (mélanges, types de tabac, additifs)
 - [x] Ajouter les références bibliographiques (sources académiques)
+
+
+
+---
+
+## 🔬 SESSION ENRICHISSEMENT DONNÉES SCIENTIFIQUES — 09 Jan 2026 (Reprise 28 Jan)
+
+### Relations molécule-plante
+- [x] Analyser la couverture actuelle des liaisons molécule-plante (146 plantes orphelines identifiées)
+- [x] Identifier les plantes orphelines (sans liaisons moléculaires)
+- [x] Rechercher les compositions chimiques des plantes orphelines
+- [x] Créer les liaisons molécule-plante manquantes (35+ liaisons créées)
+- [x] Valider les nouvelles liaisons créées
+
+### Compositions moléculaires des matières premières
+- [x] Lister les matières premières sans composition moléculaire (39 identifiées)
+- [x] Rechercher les compositions chimiques (huiles essentielles, absolues)
+- [x] Importer les données de composition dans la base
+- [x] Lier les molécules aux matières premières (13+ liaisons créées)
+
+### Huiles essentielles manquantes
+- [x] Identifier les huiles essentielles non documentées (18 existantes)
+- [x] Ajouter les huiles essentielles courantes manquantes (15 ajoutées: Néroli, Jasmin, Tubéreuse, etc.)
+- [x] Documenter les compositions chimiques principales
+- [ ] Créer les liaisons avec les plantes sources
+
+### Absolues et extraits CO2
+- [x] Ajouter les absolues principales (15 ajoutées: Rose de Mai, Jasmin, Tubéreuse, Iris, etc.)
+- [x] Ajouter les extraits CO2 courants (15 ajoutés: Gingembre, Vanille, Café, Cacao, etc.)
+- [x] Documenter les différences de composition vs huiles essentielles
+- [ ] Créer les liaisons moléculaires spécifiques
+
+### Connexions plantes-terroirs
+- [x] Identifier les plantes sans terroir assigné
+- [x] Rechercher les origines géographiques des plantes
+- [x] Créer les liaisons plante-terroir manquantes (14+ liaisons créées)
+- [x] Valider la cohérence géographique des données
 

@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, name FROM molecules WHERE name LIKE '%linalol%' OR name LIKE '%limon%' OR name LIKE '%pin%' OR name LIKE '%geraniol%' OR name LIKE '%eugenol%' OR name LIKE '%menthol%' OR name LIKE '%thymol%' OR name LIKE '%cineole%' OR name LIKE '%camph%' OR name LIKE '%myrc%' OR name LIKE '%caryoph%' ORDER BY name LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules WHERE name LIKE '%linalol%' OR name LIKE '%limon%' OR name LIKE '%pin%' OR name LIKE '%geraniol%' OR name LIKE '%eugenol%' OR name LIKE '%menthol%' OR name LIKE '%thymol%' OR name LIKE '%cineole%' OR name LIKE '%camph%' OR name LIKE '%myrc%' OR name LIKE '%caryoph%' ORDER BY name LIMIT 30;",
+  "rows": [
+    {
+      "id": "810007",
+      "name": "1,8-cineole"
+    },
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol"
+    },
+    {
+      "id": "960009",
+      "name": "Alpha-terpinene"
+    },
+    {
+      "id": "960007",
+      "name": "Alpha-terpinyl acetate"
+    },
+    {
+      "id": "330011",
+      "name": "Cardamome (α-Terpinyl Acetate)"
+    },
+    {
+      "id": "960008",
+      "name": "Gamma-terpinene"
+    },
+    {
+      "id": "90071",
+      "name": "Heliotropine (Piperonal)"
+    },
+    {
+      "id": "570023",
+      "name": "Héliotropine"
+    },
+    {
+      "id": "570017",
+      "name": "Pinocamphone"
+    },
+    {
+      "id": "600018",
+      "name": "Pinocamphone"
+    },
+    {
+      "id": "960002",
+      "name": "Terpinen-4-ol"
+    },
+    {
+      "id": "900010",
+      "name": "Terpinolene"
+    },
+    {
+      "id": "720001",
+      "name": "Terpinolène"
+    },
+    {
+      "id": "810067",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810001",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810069",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810065",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810071",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810006",
+      "name": "alpha-terpineol"
+    },
+    {
+      "id": "810046",
+      "name": "alpha-terpinyl acetate"
+    },
+    {
+      "id": "810066",
+      "name": "beta-caryophyllene"
+    },
+    {
+      "id": "810013",
+      "name": "beta-caryophyllene"
+    },
+    {
+      "id": "810068",
+      "name": "beta-caryophyllene"
+    },
+    {
+      "id": "810002",
+      "name": "beta-pinene"
+    },
+    {
+      "id": "810022",
+      "name": "eugenol"
+    },
+    {
+      "id": "810008",
+      "name": "gamma-terpinene"
+    },
+    {
+      "id": "810043",
+      "name": "geraniol"
+    },
+    {
+      "id": "810003",
+      "name": "limonene"
+    },
+    {
+      "id": "810072",
+      "name": "limonene"
+    },
+    {
+      "id": "810070",
+      "name": "limonene"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n810007\t1,8-cineole\n570061\tAcétate d'isoeugenol\n960009\tAlpha-terpinene\n960007\tAlpha-terpinyl acetate\n330011\tCardamome (α-Terpinyl Acetate)\n960008\tGamma-terpinene\n90071\tHeliotropine (Piperonal)\n570023\tHéliotropine\n570017\tPinocamphone\n600018\tPinocamphone\n960002\tTerpinen-4-ol\n900010\tTerpinolene\n720001\tTerpinolène\n810067\talpha-pinene\n810001\talpha-pinene\n810069\talpha-pinene\n810065\talpha-pinene\n810071\talpha-pinene\n810006\talpha-terpineol\n810046\talpha-terpinyl acetate\n810066\tbeta-caryophyllene\n810013\tbeta-caryophyllene\n810068\tbeta-caryophyllene\n810002\tbeta-pinene\n810022\teugenol\n810008\tgamma-terpinene\n810043\tgeraniol\n810003\tlimonene\n810072\tlimonene\n810070\tlimonene\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

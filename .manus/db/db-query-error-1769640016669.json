@@ -1,0 +1,8 @@
+{
+  "query": "SELECT rp.id, rp.name, rp.type \nFROM raw_products rp \nLEFT JOIN raw_product_molecules rpm ON rp.id = rpm.raw_product_id \nWHERE rpm.raw_product_id IS NULL \nORDER BY rp.type, rp.name \nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT rp.id, rp.name, rp.type \nFROM raw_products rp \nLEFT JOIN raw_product_molecules rpm ON rp.id = rpm.raw_product_id \nWHERE rpm.raw_product_id IS NULL \nORDER BY rp.type, rp.name \nLIMIT 50;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 1: Table 'h2pjhhjbh276xmnbncjhcp.raw_products' doesn't exist"
+  ]
+}

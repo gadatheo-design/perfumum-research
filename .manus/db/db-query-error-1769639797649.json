@@ -1,0 +1,8 @@
+{
+  "query": "SELECT p.id, p.name, p.scientificName \nFROM plants p \nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id \nWHERE pm.plant_id IS NULL \nORDER BY p.name \nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.id, p.name, p.scientificName \nFROM plants p \nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id \nWHERE pm.plant_id IS NULL \nORDER BY p.name \nLIMIT 50;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'p.scientificname' in 'field list'"
+  ]
+}
