@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET chemicalFormula = 'C5H6N2', molecularWeight = 94.11, logP = 0.5 WHERE name LIKE '%methylpyrazine%'; UPDATE molecules SET chemicalFormula = 'C6H8N2', molecularWeight = 108.14, logP = 0.9 WHERE name LIKE '%dimethylpyrazine%'; UPDATE molecules SET chemicalFormula = 'C7H10N2', molecularWeight = 122.17, logP = 1.3 WHERE name LIKE '%trimethylpyrazine%'; UPDATE molecules SET chemicalFormula = 'C8H12N2', molecularWeight = 136.19, logP = 1.7 WHERE name LIKE '%tetramethylpyrazine%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET chemicalFormula = 'C5H6N2', molecularWeight = 94.11, logP = 0.5 WHERE name LIKE '%methylpyrazine%'; UPDATE molecules SET chemicalFormula = 'C6H8N2', molecularWeight = 108.14, logP = 0.9 WHERE name LIKE '%dimethylpyrazine%'; UPDATE molecules SET chemicalFormula = 'C7H10N2', molecularWeight = 122.17, logP = 1.3 WHERE name LIKE '%trimethylpyrazine%'; UPDATE molecules SET chemicalFormula = 'C8H12N2', molecularWeight = 136.19, logP = 1.7 WHERE name LIKE '%tetramethylpyrazine%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 79
+}

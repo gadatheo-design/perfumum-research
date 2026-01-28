@@ -1,0 +1,34 @@
+{
+  "query": "SELECT id, name, region, country FROM terroirs WHERE country IN ('USA', 'France', 'Turquie', 'Syrie', 'Cuba', 'Chypre') OR name LIKE '%Louisiana%' OR name LIKE '%Virginia%' OR name LIKE '%Kentucky%' LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, country FROM terroirs WHERE country IN ('USA', 'France', 'Turquie', 'Syrie', 'Cuba', 'Chypre') OR name LIKE '%Louisiana%' OR name LIKE '%Virginia%' OR name LIKE '%Kentucky%' LIMIT 15;",
+  "rows": [
+    {
+      "id": "5",
+      "name": "Grasse",
+      "region": "PACA",
+      "country": "France"
+    },
+    {
+      "id": "30008",
+      "name": "Plateau de Valensole",
+      "region": "Provence-Alpes-Côte d'Azur",
+      "country": "France"
+    },
+    {
+      "id": "30009",
+      "name": "Isparta",
+      "region": "Isparta",
+      "country": "Turquie"
+    },
+    {
+      "id": "120001",
+      "name": "Maquis Corse",
+      "region": "Corse",
+      "country": "France"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\tcountry\n5\tGrasse\tPACA\tFrance\n30008\tPlateau de Valensole\tProvence-Alpes-Côte d'Azur\tFrance\n30009\tIsparta\tIsparta\tTurquie\n120001\tMaquis Corse\tCorse\tFrance\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

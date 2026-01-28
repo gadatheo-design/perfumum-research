@@ -1,0 +1,38 @@
+{
+  "query": "SELECT * FROM terroirs LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT * FROM terroirs LIMIT 1;",
+  "rows": [
+    {
+      "id": "1",
+      "terroir_id": "TER-COL-SAN",
+      "name": "San Andrés y Providencia",
+      "country": "Colombie",
+      "region": "Caraïbes",
+      "sub_region": "NULL",
+      "latitude": "12.5847000",
+      "longitude": "-81.7006000",
+      "altitude": "0-100m",
+      "climate_type": "tropical",
+      "avg_temperature": "NULL",
+      "annual_rainfall": "NULL",
+      "humidity": "NULL",
+      "soil_type": "NULL",
+      "soil_ph": "NULL",
+      "soil_characteristics": "NULL",
+      "main_crops": "NULL",
+      "production_history": "NULL",
+      "annual_production": "NULL",
+      "certifications": "NULL",
+      "quality_rating": "excellent",
+      "reputation": "Terroir unique Caraïbes colombiennes",
+      "notes": "Zone ABSORBE - Bay rum",
+      "image_url": "NULL",
+      "created_at": "2026-01-03 18:31:51",
+      "updated_at": "2026-01-04 20:32:11"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tterroir_id\tname\tcountry\tregion\tsub_region\tlatitude\tlongitude\taltitude\tclimate_type\tavg_temperature\tannual_rainfall\thumidity\tsoil_type\tsoil_ph\tsoil_characteristics\tmain_crops\tproduction_history\tannual_production\tcertifications\tquality_rating\treputation\tnotes\timage_url\tcreated_at\tupdated_at\n1\tTER-COL-SAN\tSan Andrés y Providencia\tColombie\tCaraïbes\tNULL\t12.5847000\t-81.7006000\t0-100m\ttropical\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\texcellent\tTerroir unique Caraïbes colombiennes\tZone ABSORBE - Bay rum\tNULL\t2026-01-03 18:31:51\t2026-01-04 20:32:11\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

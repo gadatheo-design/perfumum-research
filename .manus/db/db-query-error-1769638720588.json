@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO tabac_molecule_links (tabacId, moleculeId, concentration, notes, createdAt) SELECT t.id, m.id, 'Élevée', 'Terpène majeur du Perique fermenté', NOW() FROM tabacs t, molecules m WHERE t.name LIKE '%Perique%' AND (m.name LIKE '%linalool%' OR m.name LIKE '%geraniol%' OR m.name LIKE '%caryophyllene%') ON DUPLICATE KEY UPDATE notes = VALUES(notes);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO tabac_molecule_links (tabacId, moleculeId, concentration, notes, createdAt) SELECT t.id, m.id, 'Élevée', 'Terpène majeur du Perique fermenté', NOW() FROM tabacs t, molecules m WHERE t.name LIKE '%Perique%' AND (m.name LIKE '%linalool%' OR m.name LIKE '%geraniol%' OR m.name LIKE '%caryophyllene%') ON DUPLICATE KEY UPDATE notes = VALUES(notes);",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'tabacId' in 'field list'"
+  ]
+}

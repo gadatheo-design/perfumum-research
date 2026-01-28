@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO v3_references (entry_key, title, authors, year, url, tags, notes) VALUES ('hawks1980', 'Principles of Flue-Cured Tobacco Production', 'Hawks SN, Collins WK', 1980, NULL, '[\"tabac\",\"virginia\",\"flue-cured\",\"agriculture\"]', 'Guide de production du tabac Virginia'), ('tso1990', 'Production, Physiology and Biochemistry of Tobacco Plant', 'Tso TC', 1990, NULL, '[\"tabac\",\"physiologie\",\"biochimie\",\"production\"]', 'Reference sur la physiologie du tabac'), ('akehurst1981', 'Tobacco', 'Akehurst BC', 1981, NULL, '[\"tabac\",\"culture\",\"varietes\",\"agriculture\"]', 'Manuel complet sur la culture du tabac'), ('wolf1999', 'Terroir: The Role of Geology, Climate, and Culture', 'Wolf TK', 1999, NULL, '[\"terroir\",\"geologie\",\"climat\",\"viticulture\"]', 'Etude sur le concept de terroir');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO v3_references (entry_key, title, authors, year, url, tags, notes) VALUES ('hawks1980', 'Principles of Flue-Cured Tobacco Production', 'Hawks SN, Collins WK', 1980, NULL, '[\"tabac\",\"virginia\",\"flue-cured\",\"agriculture\"]', 'Guide de production du tabac Virginia'), ('tso1990', 'Production, Physiology and Biochemistry of Tobacco Plant', 'Tso TC', 1990, NULL, '[\"tabac\",\"physiologie\",\"biochimie\",\"production\"]', 'Reference sur la physiologie du tabac'), ('akehurst1981', 'Tobacco', 'Akehurst BC', 1981, NULL, '[\"tabac\",\"culture\",\"varietes\",\"agriculture\"]', 'Manuel complet sur la culture du tabac'), ('wolf1999', 'Terroir: The Role of Geology, Climate, and Culture', 'Wolf TK', 1999, NULL, '[\"terroir\",\"geologie\",\"climat\",\"viticulture\"]', 'Etude sur le concept de terroir');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 66
+}

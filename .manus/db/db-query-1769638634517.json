@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET chemicalFormula = 'C15H24', molecularWeight = 204.35, logP = 4.7 WHERE name LIKE '%caryophyllene%' OR name LIKE '%caryophyllène%'; UPDATE molecules SET chemicalFormula = 'C15H24', molecularWeight = 204.35, logP = 4.8 WHERE name LIKE '%humulene%' OR name LIKE '%humulène%'; UPDATE molecules SET chemicalFormula = 'C15H26O', molecularWeight = 222.37, logP = 3.5 WHERE name LIKE '%nerolidol%' OR name LIKE '%nérolidol%'; UPDATE molecules SET chemicalFormula = 'C15H24O', molecularWeight = 220.35, logP = 3.2 WHERE name LIKE '%bisabolol%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET chemicalFormula = 'C15H24', molecularWeight = 204.35, logP = 4.7 WHERE name LIKE '%caryophyllene%' OR name LIKE '%caryophyllène%'; UPDATE molecules SET chemicalFormula = 'C15H24', molecularWeight = 204.35, logP = 4.8 WHERE name LIKE '%humulene%' OR name LIKE '%humulène%'; UPDATE molecules SET chemicalFormula = 'C15H26O', molecularWeight = 222.37, logP = 3.5 WHERE name LIKE '%nerolidol%' OR name LIKE '%nérolidol%'; UPDATE molecules SET chemicalFormula = 'C15H24O', molecularWeight = 220.35, logP = 3.2 WHERE name LIKE '%bisabolol%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 117
+}

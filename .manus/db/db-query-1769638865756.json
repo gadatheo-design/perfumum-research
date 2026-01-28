@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO tabac_terroir_links (tabac_id, terroir_id, soil_ph, soil_type, nitrogen_level, potassium_level, climate_notes, cultivation_notes) SELECT t.id, te.id, 5.8, 'Alluvial riche en matiere organique', 'Modere', 'Eleve', 'Climat subtropical humide Cfa - Precipitations 1500mm/an', 'Fermentation traditionnelle en presse pendant 12 mois' FROM tabacs t, terroirs te WHERE t.name LIKE '%Perique%' AND te.name = 'Saint James Parish';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO tabac_terroir_links (tabac_id, terroir_id, soil_ph, soil_type, nitrogen_level, potassium_level, climate_notes, cultivation_notes) SELECT t.id, te.id, 5.8, 'Alluvial riche en matiere organique', 'Modere', 'Eleve', 'Climat subtropical humide Cfa - Precipitations 1500mm/an', 'Fermentation traditionnelle en presse pendant 12 mois' FROM tabacs t, terroirs te WHERE t.name LIKE '%Perique%' AND te.name = 'Saint James Parish';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 66
+}

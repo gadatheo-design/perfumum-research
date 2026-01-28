@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO terroirs (name, region, country, latitude, longitude, terroir_id) VALUES ('Saint James Parish', 'Louisiane', 'USA', 30.0, -90.8, 'saint-james-parish-louisiane'), ('Piedmont Virginia', 'Virginie', 'USA', 37.5, -79.0, 'piedmont-virginia-usa'), ('Western Kentucky', 'Kentucky', 'USA', 37.0, -87.5, 'western-kentucky-usa'), ('Izmir Region', 'Egee', 'Turquie', 38.4, 27.1, 'izmir-region-turquie'), ('Latakia Coast', 'Lattaquie', 'Syrie', 35.5, 35.8, 'latakia-coast-syrie');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO terroirs (name, region, country, latitude, longitude, terroir_id) VALUES ('Saint James Parish', 'Louisiane', 'USA', 30.0, -90.8, 'saint-james-parish-louisiane'), ('Piedmont Virginia', 'Virginie', 'USA', 37.5, -79.0, 'piedmont-virginia-usa'), ('Western Kentucky', 'Kentucky', 'USA', 37.0, -87.5, 'western-kentucky-usa'), ('Izmir Region', 'Egee', 'Turquie', 38.4, 27.1, 'izmir-region-turquie'), ('Latakia Coast', 'Lattaquie', 'Syrie', 35.5, 35.8, 'latakia-coast-syrie');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 71
+}

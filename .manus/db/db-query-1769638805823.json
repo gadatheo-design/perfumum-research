@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, name, region, country FROM terroirs ORDER BY country, name LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, country FROM terroirs ORDER BY country, name LIMIT 20;",
+  "rows": [
+    {
+      "id": "210002",
+      "name": "Hindu Kush, Afghanistan/Pakistan",
+      "region": "Hindu Kush",
+      "country": "Afghanistan"
+    },
+    {
+      "id": "120005",
+      "name": "Riviera Albanaise",
+      "region": "Côte ionienne",
+      "country": "Albanie"
+    },
+    {
+      "id": "30001",
+      "name": "Vallée des Roses de Kazanlak",
+      "region": "Vallée des Roses",
+      "country": "Bulgarie"
+    },
+    {
+      "id": "60005",
+      "name": "Burkina Faso",
+      "region": "Pays; axe comparatif variétés fantômes / terroirs.",
+      "country": "Burkina Faso"
+    },
+    {
+      "id": "30005",
+      "name": "Région de Ouagadougou",
+      "region": "Centre",
+      "country": "Burkina Faso"
+    },
+    {
+      "id": "60006",
+      "name": "Caribbean (macro)",
+      "region": "Macro-région (hors Colombie).",
+      "country": "Caraïbes"
+    },
+    {
+      "id": "90001",
+      "name": "Amazonie Colombienne",
+      "region": "Amazonie",
+      "country": "Colombie"
+    },
+    {
+      "id": "3",
+      "name": "Cauca Valley",
+      "region": "Valle del Cauca",
+      "country": "Colombie"
+    },
+    {
+      "id": "60001",
+      "name": "Colombia",
+      "region": "Pays; focus Andes + Caraïbes.",
+      "country": "Colombie"
+    },
+    {
+      "id": "60002",
+      "name": "Colombia — Andes",
+      "region": "Cundinamarca, Antioquia, etc. (macro-région).",
+      "country": "Colombie"
+    },
+    {
+      "id": "60003",
+      "name": "Colombia — Caribbean",
+      "region": "Côte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.",
+      "country": "Colombie"
+    },
+    {
+      "id": "90002",
+      "name": "Putumayo",
+      "region": "Amazonie",
+      "country": "Colombie"
+    },
+    {
+      "id": "60004",
+      "name": "San Andrés (archipel)",
+      "region": "Île / archipel; terrain utilisateur.",
+      "country": "Colombie"
+    },
+    {
+      "id": "1",
+      "name": "San Andrés y Providencia",
+      "region": "Caraïbes",
+      "country": "Colombie"
+    },
+    {
+      "id": "2",
+      "name": "Santander & Huila",
+      "region": "Andes",
+      "country": "Colombie"
+    },
+    {
+      "id": "90003",
+      "name": "Vaupés",
+      "region": "Amazonie",
+      "country": "Colombie"
+    },
+    {
+      "id": "30011",
+      "name": "Anjouan",
+      "region": "Anjouan",
+      "country": "Comores"
+    },
+    {
+      "id": "120003",
+      "name": "Côte Dalmate",
+      "region": "Dalmatie",
+      "country": "Croatie"
+    },
+    {
+      "id": "5",
+      "name": "Grasse",
+      "region": "PACA",
+      "country": "France"
+    },
+    {
+      "id": "120001",
+      "name": "Maquis Corse",
+      "region": "Corse",
+      "country": "France"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\tcountry\n210002\tHindu Kush, Afghanistan/Pakistan\tHindu Kush\tAfghanistan\n120005\tRiviera Albanaise\tCôte ionienne\tAlbanie\n30001\tVallée des Roses de Kazanlak\tVallée des Roses\tBulgarie\n60005\tBurkina Faso\tPays; axe comparatif variétés fantômes / terroirs.\tBurkina Faso\n30005\tRégion de Ouagadougou\tCentre\tBurkina Faso\n60006\tCaribbean (macro)\tMacro-région (hors Colombie).\tCaraïbes\n90001\tAmazonie Colombienne\tAmazonie\tColombie\n3\tCauca Valley\tValle del Cauca\tColombie\n60001\tColombia\tPays; focus Andes + Caraïbes.\tColombie\n60002\tColombia — Andes\tCundinamarca, Antioquia, etc. (macro-région).\tColombie\n60003\tColombia — Caribbean\tCôte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.\tColombie\n90002\tPutumayo\tAmazonie\tColombie\n60004\tSan Andrés (archipel)\tÎle / archipel; terrain utilisateur.\tColombie\n1\tSan Andrés y Providencia\tCaraïbes\tColombie\n2\tSantander & Huila\tAndes\tColombie\n90003\tVaupés\tAmazonie\tColombie\n30011\tAnjouan\tAnjouan\tComores\n120003\tCôte Dalmate\tDalmatie\tCroatie\n5\tGrasse\tPACA\tFrance\n120001\tMaquis Corse\tCorse\tFrance\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

@@ -1,0 +1,16 @@
+{
+  "query": "SELECT id, title, authors, year FROM v3_references LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, title, authors, year FROM v3_references LIMIT 1;",
+  "rows": [
+    {
+      "id": "1",
+      "title": "The Smell Culture Reader",
+      "authors": "Jim Drobnick (ed.)",
+      "year": "2006"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tauthors\tyear\n1\tThe Smell Culture Reader\tJim Drobnick (ed.)\t2006\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}
