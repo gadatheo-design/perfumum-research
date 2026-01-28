@@ -7,7 +7,7 @@ import { router, publicProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
 import { tabacs } from "../../drizzle/schema";
-import { sql } from "drizzle-orm";
+import { sql, eq, like, or, and } from "drizzle-orm";
 
 export const tobaccoRouter = router({
   /**
@@ -26,21 +26,48 @@ export const tobaccoRouter = router({
       try {
         const db = await getDb();
         
-        let query = db.select().from(tabacs);
+        if (!db) {
+          return {
+            success: false,
+            data: [],
+            count: 0,
+            error: "Database not available",
+          };
+        }
         
-        // Apply filters
+        // Build conditions array
+        const conditions = [];
+        
         if (input.type) {
-          query = query.where(sql`${tabacs.type} = ${input.type}`);
+          conditions.push(eq(tabacs.type, input.type));
         }
         
         if (input.search) {
           const searchTerm = `%${input.search}%`;
-          query = query.where(
-            sql`${tabacs.name} LIKE ${searchTerm} OR ${tabacs.internalNotes} LIKE ${searchTerm}`
+          conditions.push(
+            or(
+              like(tabacs.name, searchTerm),
+              like(tabacs.internalNotes, searchTerm)
+            )
           );
         }
         
-        const results = await query.limit(input.limit).offset(input.offset);
+        // Execute query with conditions
+        let results;
+        if (conditions.length > 0) {
+          results = await db
+            .select()
+            .from(tabacs)
+            .where(and(...conditions))
+            .limit(input.limit)
+            .offset(input.offset);
+        } else {
+          results = await db
+            .select()
+            .from(tabacs)
+            .limit(input.limit)
+            .offset(input.offset);
+        }
         
         return {
           success: true,
@@ -67,10 +94,18 @@ export const tobaccoRouter = router({
       try {
         const db = await getDb();
         
+        if (!db) {
+          return {
+            success: false,
+            data: null,
+            error: "Database not available",
+          };
+        }
+        
         const result = await db
           .select()
           .from(tabacs)
-          .where(sql`${tabacs.id} = ${input.id}`)
+          .where(eq(tabacs.id, input.id))
           .limit(1);
         
         if (result.length === 0) {
@@ -104,10 +139,19 @@ export const tobaccoRouter = router({
       try {
         const db = await getDb();
         
+        if (!db) {
+          return {
+            success: false,
+            data: [],
+            count: 0,
+            error: "Database not available",
+          };
+        }
+        
         const results = await db
           .select()
           .from(tabacs)
-          .where(sql`${tabacs.type} = ${input.type}`);
+          .where(eq(tabacs.type, input.type));
         
         return {
           success: true,
@@ -131,6 +175,14 @@ export const tobaccoRouter = router({
   getStatistics: publicProcedure.query(async () => {
     try {
       const db = await getDb();
+      
+      if (!db) {
+        return {
+          success: false,
+          data: null,
+          error: "Database not available",
+        };
+      }
       
       const allVarieties = await db.select().from(tabacs);
       
