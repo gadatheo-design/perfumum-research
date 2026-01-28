@@ -2495,3 +2495,24 @@
 - [x] Corriger les erreurs dans `db.ts` (champs v3References)
 - [x] Identifier et résoudre le problème de mémoire (processus tsc --watch)
 
+
+
+---
+
+## 🔄 SESSION 28 JANVIER 2026 - PARTIE 3
+
+### Accords Ethnobotaniques
+- [x] Créer 15+ accords ethnobotaniques tabac-cannabis (15 accords créés)
+- [x] Documenter les traditions rituelles (Amérique, Afrique, Asie, Europe, Moyen-Orient, Océanie)
+- [ ] Lier les accords aux recettes existantes
+
+### Pyrazines Tabac
+- [x] Intégrer les pyrazines spécifiques au tabac (15 pyrazines ajoutées)
+- [x] Ajouter les profils olfactifs (torréfié, noisette, chocolat, café, pop-corn)
+- [x] Documenter les seuils de détection (de 0.000000002 à 0.000175 ppm)
+
+### Timeline Cigarettes Disparues
+- [x] Créer la timeline historique des marques disparues (21 marques documentées)
+- [x] Documenter les formulations et additifs historiques (mélanges, types de tabac, additifs)
+- [x] Ajouter les références bibliographiques (sources académiques)
+

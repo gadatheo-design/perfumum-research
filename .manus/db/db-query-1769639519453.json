@@ -1,0 +1,115 @@
+{
+  "query": "SELECT id, name, chemical_formula, odor_threshold, volatility FROM pyrazines ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, chemical_formula, odor_threshold, volatility FROM pyrazines ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Pyrazine",
+      "chemical_formula": "C4H4N2",
+      "odor_threshold": "0.0001750000",
+      "volatility": "Haute"
+    },
+    {
+      "id": "2",
+      "name": "2-Méthylpyrazine",
+      "chemical_formula": "C5H6N2",
+      "odor_threshold": "0.0000600000",
+      "volatility": "Haute"
+    },
+    {
+      "id": "3",
+      "name": "2,3-Diméthylpyrazine",
+      "chemical_formula": "C6H8N2",
+      "odor_threshold": "0.0000250000",
+      "volatility": "Moyenne-haute"
+    },
+    {
+      "id": "4",
+      "name": "2,5-Diméthylpyrazine",
+      "chemical_formula": "C6H8N2",
+      "odor_threshold": "0.0000180000",
+      "volatility": "Moyenne-haute"
+    },
+    {
+      "id": "5",
+      "name": "2,6-Diméthylpyrazine",
+      "chemical_formula": "C6H8N2",
+      "odor_threshold": "0.0000150000",
+      "volatility": "Moyenne-haute"
+    },
+    {
+      "id": "6",
+      "name": "2,3,5-Triméthylpyrazine",
+      "chemical_formula": "C7H10N2",
+      "odor_threshold": "0.0000090000",
+      "volatility": "Moyenne"
+    },
+    {
+      "id": "7",
+      "name": "2,3,5,6-Tétraméthylpyrazine (Ligustrazine)",
+      "chemical_formula": "C8H12N2",
+      "odor_threshold": "0.0000100000",
+      "volatility": "Moyenne"
+    },
+    {
+      "id": "8",
+      "name": "2-Éthyl-3,5-diméthylpyrazine",
+      "chemical_formula": "C8H12N2",
+      "odor_threshold": "0.0000010000",
+      "volatility": "Moyenne"
+    },
+    {
+      "id": "9",
+      "name": "2-Éthyl-3,6-diméthylpyrazine",
+      "chemical_formula": "C8H12N2",
+      "odor_threshold": "0.0000020000",
+      "volatility": "Moyenne"
+    },
+    {
+      "id": "10",
+      "name": "2-Méthoxy-3-isobutylpyrazine",
+      "chemical_formula": "C9H14N2O",
+      "odor_threshold": "0.0000000020",
+      "volatility": "Basse"
+    },
+    {
+      "id": "11",
+      "name": "2-Acétylpyrazine",
+      "chemical_formula": "C6H6N2O",
+      "odor_threshold": "0.0000620000",
+      "volatility": "Moyenne-haute"
+    },
+    {
+      "id": "12",
+      "name": "2-Acétyl-3-méthylpyrazine",
+      "chemical_formula": "C7H8N2O",
+      "odor_threshold": "0.0000050000",
+      "volatility": "Moyenne"
+    },
+    {
+      "id": "13",
+      "name": "Furfurylpyrazine",
+      "chemical_formula": "C9H8N2O",
+      "odor_threshold": "0.0000030000",
+      "volatility": "Basse"
+    },
+    {
+      "id": "14",
+      "name": "2-Éthyl-3-méthoxypyrazine",
+      "chemical_formula": "C7H10N2O",
+      "odor_threshold": "0.0000040000",
+      "volatility": "Moyenne"
+    },
+    {
+      "id": "15",
+      "name": "Quinoxaline",
+      "chemical_formula": "C8H6N2",
+      "odor_threshold": "0.0000500000",
+      "volatility": "Basse"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tchemical_formula\todor_threshold\tvolatility\n1\tPyrazine\tC4H4N2\t0.0001750000\tHaute\n2\t2-Méthylpyrazine\tC5H6N2\t0.0000600000\tHaute\n3\t2,3-Diméthylpyrazine\tC6H8N2\t0.0000250000\tMoyenne-haute\n4\t2,5-Diméthylpyrazine\tC6H8N2\t0.0000180000\tMoyenne-haute\n5\t2,6-Diméthylpyrazine\tC6H8N2\t0.0000150000\tMoyenne-haute\n6\t2,3,5-Triméthylpyrazine\tC7H10N2\t0.0000090000\tMoyenne\n7\t2,3,5,6-Tétraméthylpyrazine (Ligustrazine)\tC8H12N2\t0.0000100000\tMoyenne\n8\t2-Éthyl-3,5-diméthylpyrazine\tC8H12N2\t0.0000010000\tMoyenne\n9\t2-Éthyl-3,6-diméthylpyrazine\tC8H12N2\t0.0000020000\tMoyenne\n10\t2-Méthoxy-3-isobutylpyrazine\tC9H14N2O\t0.0000000020\tBasse\n11\t2-Acétylpyrazine\tC6H6N2O\t0.0000620000\tMoyenne-haute\n12\t2-Acétyl-3-méthylpyrazine\tC7H8N2O\t0.0000050000\tMoyenne\n13\tFurfurylpyrazine\tC9H8N2O\t0.0000030000\tBasse\n14\t2-Éthyl-3-méthoxypyrazine\tC7H10N2O\t0.0000040000\tMoyenne\n15\tQuinoxaline\tC8H6N2\t0.0000500000\tBasse\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

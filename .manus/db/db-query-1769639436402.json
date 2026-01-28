@@ -1,0 +1,115 @@
+{
+  "query": "SELECT id, name, type, region, cultural_context FROM tobacco_cannabis_accords ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, type, region, cultural_context FROM tobacco_cannabis_accords ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Calumet Sacré",
+      "type": "tobacco_only",
+      "region": "Amérique du Nord - Grandes Plaines",
+      "cultural_context": "Cérémoniel"
+    },
+    {
+      "id": "2",
+      "name": "Rapé Amazônico",
+      "type": "tobacco_cannabis_blend",
+      "region": "Amazonie - Brésil/Pérou",
+      "cultural_context": "Chamanique"
+    },
+    {
+      "id": "3",
+      "name": "Cohoba Taíno",
+      "type": "tobacco_cannabis_blend",
+      "region": "Caraïbes - Hispaniola",
+      "cultural_context": "Cérémoniel"
+    },
+    {
+      "id": "4",
+      "name": "Picietl Aztèque",
+      "type": "tobacco_only",
+      "region": "Mésoamérique - Mexique",
+      "cultural_context": "Médico-religieux"
+    },
+    {
+      "id": "5",
+      "name": "Dagga Khoisan",
+      "type": "cannabis_only",
+      "region": "Afrique du Sud - Cap",
+      "cultural_context": "Traditionnel"
+    },
+    {
+      "id": "6",
+      "name": "Liamba Congolais",
+      "type": "cannabis_only",
+      "region": "Afrique Centrale - Congo",
+      "cultural_context": "Rituel-social"
+    },
+    {
+      "id": "7",
+      "name": "Kif Marocain",
+      "type": "tobacco_cannabis_blend",
+      "region": "Afrique du Nord - Maroc",
+      "cultural_context": "Social-traditionnel"
+    },
+    {
+      "id": "8",
+      "name": "Charas Himalayen",
+      "type": "cannabis_only",
+      "region": "Asie du Sud - Himalaya",
+      "cultural_context": "Spirituel-Shaivite"
+    },
+    {
+      "id": "9",
+      "name": "Ganja Rastafari",
+      "type": "cannabis_only",
+      "region": "Jamaïque - Caraïbes",
+      "cultural_context": "Spirituel-Rastafari"
+    },
+    {
+      "id": "10",
+      "name": "Bhang Védique",
+      "type": "tobacco_cannabis_blend",
+      "region": "Inde - Sous-continent",
+      "cultural_context": "Religieux-Ayurvédique"
+    },
+    {
+      "id": "11",
+      "name": "Tabac Hollandais Colonial",
+      "type": "tobacco_cannabis_blend",
+      "region": "Pays-Bas - Europe",
+      "cultural_context": "Colonial-commercial"
+    },
+    {
+      "id": "12",
+      "name": "Spliff Jamaïcain-Britannique",
+      "type": "tobacco_cannabis_blend",
+      "region": "Royaume-Uni - Europe",
+      "cultural_context": "Diaspora-urbain"
+    },
+    {
+      "id": "13",
+      "name": "Hashish Ottoman",
+      "type": "cannabis_only",
+      "region": "Empire Ottoman - Moyen-Orient",
+      "cultural_context": "Soufi-littéraire"
+    },
+    {
+      "id": "14",
+      "name": "Tumbak Persan",
+      "type": "tobacco_only",
+      "region": "Iran - Perse",
+      "cultural_context": "Social-traditionnel"
+    },
+    {
+      "id": "15",
+      "name": "Pituri Aborigène",
+      "type": "tobacco_only",
+      "region": "Australie - Outback",
+      "cultural_context": "Cérémoniel-commercial"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttype\tregion\tcultural_context\n1\tCalumet Sacré\ttobacco_only\tAmérique du Nord - Grandes Plaines\tCérémoniel\n2\tRapé Amazônico\ttobacco_cannabis_blend\tAmazonie - Brésil/Pérou\tChamanique\n3\tCohoba Taíno\ttobacco_cannabis_blend\tCaraïbes - Hispaniola\tCérémoniel\n4\tPicietl Aztèque\ttobacco_only\tMésoamérique - Mexique\tMédico-religieux\n5\tDagga Khoisan\tcannabis_only\tAfrique du Sud - Cap\tTraditionnel\n6\tLiamba Congolais\tcannabis_only\tAfrique Centrale - Congo\tRituel-social\n7\tKif Marocain\ttobacco_cannabis_blend\tAfrique du Nord - Maroc\tSocial-traditionnel\n8\tCharas Himalayen\tcannabis_only\tAsie du Sud - Himalaya\tSpirituel-Shaivite\n9\tGanja Rastafari\tcannabis_only\tJamaïque - Caraïbes\tSpirituel-Rastafari\n10\tBhang Védique\ttobacco_cannabis_blend\tInde - Sous-continent\tReligieux-Ayurvédique\n11\tTabac Hollandais Colonial\ttobacco_cannabis_blend\tPays-Bas - Europe\tColonial-commercial\n12\tSpliff Jamaïcain-Britannique\ttobacco_cannabis_blend\tRoyaume-Uni - Europe\tDiaspora-urbain\n13\tHashish Ottoman\tcannabis_only\tEmpire Ottoman - Moyen-Orient\tSoufi-littéraire\n14\tTumbak Persan\ttobacco_only\tIran - Perse\tSocial-traditionnel\n15\tPituri Aborigène\ttobacco_only\tAustralie - Outback\tCérémoniel-commercial\n",
+  "stderr": "",
+  "execution_time_ms": 76
+}
