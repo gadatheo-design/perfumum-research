@@ -1,0 +1,67 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tobacco_cannabis_accords';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tobacco_cannabis_accords';",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "type"
+    },
+    {
+      "COLUMN_NAME": "region"
+    },
+    {
+      "COLUMN_NAME": "cultural_context"
+    },
+    {
+      "COLUMN_NAME": "description"
+    },
+    {
+      "COLUMN_NAME": "components"
+    },
+    {
+      "COLUMN_NAME": "preparation_protocol"
+    },
+    {
+      "COLUMN_NAME": "consumption_method"
+    },
+    {
+      "COLUMN_NAME": "aroma_profile"
+    },
+    {
+      "COLUMN_NAME": "effect_profile"
+    },
+    {
+      "COLUMN_NAME": "historical_documentation"
+    },
+    {
+      "COLUMN_NAME": "modern_practices"
+    },
+    {
+      "COLUMN_NAME": "chemical_interactions"
+    },
+    {
+      "COLUMN_NAME": "therapeutic_claims"
+    },
+    {
+      "COLUMN_NAME": "legal_status"
+    },
+    {
+      "COLUMN_NAME": "source_references"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nname\ntype\nregion\ncultural_context\ndescription\ncomponents\npreparation_protocol\nconsumption_method\naroma_profile\neffect_profile\nhistorical_documentation\nmodern_practices\nchemical_interactions\ntherapeutic_claims\nlegal_status\nsource_references\ncreated_at\nupdated_at\n",
+  "stderr": "",
+  "execution_time_ms": 203
+}

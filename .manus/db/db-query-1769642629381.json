@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS tobacco_cannabis_accord_recettes (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  accord_id INT NOT NULL,\n  recette_id INT NOT NULL,\n  relation_type VARCHAR(50) DEFAULT 'inspired_by',\n  relevance_score DECIMAL(3,2) DEFAULT 0.80,\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_accord_recette (accord_id, recette_id)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS tobacco_cannabis_accord_recettes (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  accord_id INT NOT NULL,\n  recette_id INT NOT NULL,\n  relation_type VARCHAR(50) DEFAULT 'inspired_by',\n  relevance_score DECIMAL(3,2) DEFAULT 0.80,\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_accord_recette (accord_id, recette_id)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 217
+}

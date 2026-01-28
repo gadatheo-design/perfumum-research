@@ -610,13 +610,13 @@
 - [x] Identifier les huiles essentielles non documentées (18 existantes)
 - [x] Ajouter les huiles essentielles courantes manquantes (15 ajoutées: Néroli, Jasmin, Tubéreuse, etc.)
 - [x] Documenter les compositions chimiques principales
-- [ ] Créer les liaisons avec les plantes sources
+- [x] Créer les liaisons avec les plantes sources (16 liaisons HE-plantes créées)
 
 ### Absolues et extraits CO2
 - [x] Ajouter les absolues principales (15 ajoutées: Rose de Mai, Jasmin, Tubéreuse, Iris, etc.)
 - [x] Ajouter les extraits CO2 courants (15 ajoutés: Gingembre, Vanille, Café, Cacao, etc.)
 - [x] Documenter les différences de composition vs huiles essentielles
-- [ ] Créer les liaisons moléculaires spécifiques
+- [x] Créer les liaisons moléculaires spécifiques (77 liaisons pour absolues)
 
 ### Connexions plantes-terroirs
 - [x] Identifier les plantes sans terroir assigné
@@ -2504,7 +2504,7 @@
 ### Accords Ethnobotaniques
 - [x] Créer 15+ accords ethnobotaniques tabac-cannabis (15 accords créés)
 - [x] Documenter les traditions rituelles (Amérique, Afrique, Asie, Europe, Moyen-Orient, Océanie)
-- [ ] Lier les accords aux recettes existantes
+- [x] Lier les accords aux recettes existantes (23 liaisons créées)
 
 ### Pyrazines Tabac
 - [x] Intégrer les pyrazines spécifiques au tabac (15 pyrazines ajoutées)
@@ -2539,13 +2539,13 @@
 - [x] Identifier les huiles essentielles non documentées (18 existantes)
 - [x] Ajouter les huiles essentielles courantes manquantes (15 ajoutées: Néroli, Jasmin, Tubéreuse, etc.)
 - [x] Documenter les compositions chimiques principales
-- [ ] Créer les liaisons avec les plantes sources
+- [x] Créer les liaisons avec les plantes sources (16 liaisons HE-plantes créées)
 
 ### Absolues et extraits CO2
 - [x] Ajouter les absolues principales (15 ajoutées: Rose de Mai, Jasmin, Tubéreuse, Iris, etc.)
 - [x] Ajouter les extraits CO2 courants (15 ajoutés: Gingembre, Vanille, Café, Cacao, etc.)
 - [x] Documenter les différences de composition vs huiles essentielles
-- [ ] Créer les liaisons moléculaires spécifiques
+- [x] Créer les liaisons moléculaires spécifiques (77 liaisons pour absolues)
 
 ### Connexions plantes-terroirs
 - [x] Identifier les plantes sans terroir assigné
