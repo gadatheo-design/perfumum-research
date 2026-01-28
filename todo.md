@@ -2573,3 +2573,32 @@
 - [x] Implémenter les marqueurs par terroir (marqueurs colorés par climat)
 - [x] Afficher les plantes liées à chaque terroir (InfoWindow avec détails)
 - [x] Ajouter les filtres par climat et type de sol (filtres fonctionnels)
+
+---
+
+## 🔗 SESSION 28 JANVIER 2026 — Enrichissement et Visualisation
+
+### Nettoyage du TODO (tâches obsolètes du fichier collé)
+- [x] Vérifier Köppen : 0 plantes manquantes (100% couverture atteinte)
+- [x] Vérifier redirections : fonctionnelles en production
+- [x] Vérifier MegaMenu mobile : optimisé avec hamburger
+- [ ] Consolider les pages (reporté - architecture stable actuelle)
+- [ ] Simplification schéma DB (reporté - 134 tables nécessaires pour la recherche)
+- [ ] Refactorisation composants (reporté - priorité données)
+
+### Enrichissement coordonnées GPS terroirs
+- [x] Identifier les terroirs sans coordonnées GPS (4 terroirs identifiés)
+- [x] Ajouter les coordonnées GPS manquantes (Mésoamérique, Sahel, Forêt Équatoriale, Global)
+- [x] Valider l'affichage sur la carte interactive (100% couverture GPS)
+
+### Page réseau moléculaire
+- [x] Créer la page de visualisation du réseau moléculaire (PlantMoleculeNetwork.tsx existe)
+- [x] Implémenter le graphe force-directed (GrapheTerroirPlanteMolecule.tsx avec D3.js)
+- [x] Ajouter les filtres par type d'entité (terroirs, plantes, molécules)
+- [x] Permettre le zoom et la navigation dans le graphe (zoom D3 intégré)
+
+### Compositions moléculaires détaillées
+- [x] Ajouter les pourcentages précis pour les 15 absolues (55+ liaisons avec % et variabilité)
+- [x] Ajouter les pourcentages précis pour les 15 extraits CO2 (22+ liaisons avec % et variabilité)
+- [x] Documenter les sources bibliographiques (notes scientifiques ajoutées)
+

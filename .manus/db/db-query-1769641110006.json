@@ -1,0 +1,30 @@
+{
+  "query": "SELECT id, name, country FROM terroirs \nWHERE latitude IS NULL OR longitude IS NULL OR latitude = '' OR longitude = '';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, country FROM terroirs \nWHERE latitude IS NULL OR longitude IS NULL OR latitude = '' OR longitude = '';",
+  "rows": [
+    {
+      "id": "60007",
+      "name": "Global",
+      "country": "Global"
+    },
+    {
+      "id": "180001",
+      "name": "Mésoamérique",
+      "country": "Mexique"
+    },
+    {
+      "id": "210004",
+      "name": "Afrique de l'Ouest, Sahel",
+      "country": "Multi-pays"
+    },
+    {
+      "id": "210007",
+      "name": "Afrique Centrale, Forêt Équatoriale",
+      "country": "Multi-pays"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcountry\n60007\tGlobal\tGlobal\n180001\tMésoamérique\tMexique\n210004\tAfrique de l'Ouest, Sahel\tMulti-pays\n210007\tAfrique Centrale, Forêt Équatoriale\tMulti-pays\n",
+  "stderr": "",
+  "execution_time_ms": 108
+}

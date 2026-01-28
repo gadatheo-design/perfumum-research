@@ -1,0 +1,14 @@
+{
+  "query": "SELECT COUNT(*) as total_terroirs, \n       SUM(CASE WHEN latitude IS NULL OR longitude IS NULL THEN 1 ELSE 0 END) as missing_gps\nFROM terroirs;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total_terroirs, \n       SUM(CASE WHEN latitude IS NULL OR longitude IS NULL THEN 1 ELSE 0 END) as missing_gps\nFROM terroirs;",
+  "rows": [
+    {
+      "total_terroirs": "48",
+      "missing_gps": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_terroirs\tmissing_gps\n48\t1\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}
