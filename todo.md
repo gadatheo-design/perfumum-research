@@ -169,10 +169,10 @@
 - [x] Améliorer le Calculateur
 - [x] Améliorer la page Synergies
 - [x] Améliorer les pages Méthode ABSORBE
-- [ ] Améliorer les pages GC-MS et Pyrolyse
-- [ ] Améliorer les pages Archives de Terrain
+- [x] Améliorer les pages GC-MS et Pyrolyse (chromatogramme visuel SVG ajouté - 28 Jan 2026)
+- [x] Améliorer les pages Archives de Terrain (5 archives ABSORBE·COLOMBIA ajoutées - 28 Jan 2026)
 - [x] Améliorer le Glossaire (24 termes GC-MS/pyrolyse ajoutés - 28 Jan 2026)
-- [ ] Améliorer la Timeline
+- [x] Améliorer la Timeline (21 jalons 2025-2035 ajoutés - 28 Jan 2026)
 - [ ] Améliorer les pages À propos et Contribuer
 
 ---

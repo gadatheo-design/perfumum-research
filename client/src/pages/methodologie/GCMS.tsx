@@ -45,6 +45,27 @@ export default function GCMS() {
     },
   ];
 
+  // Exemple de chromatogramme (données simulées pour illustration)
+  const chromatogramData = [
+    { time: 0, intensity: 5 },
+    { time: 2, intensity: 8 },
+    { time: 4, intensity: 12 },
+    { time: 5.2, intensity: 85, label: "α-Pinène" },
+    { time: 6, intensity: 15 },
+    { time: 7.8, intensity: 72, label: "Limonène" },
+    { time: 9, intensity: 18 },
+    { time: 10.5, intensity: 45, label: "Linalool" },
+    { time: 12, intensity: 20 },
+    { time: 14.5, intensity: 38, label: "Guaiacol" },
+    { time: 16, intensity: 22 },
+    { time: 18.2, intensity: 55, label: "Vétivérol" },
+    { time: 20, intensity: 25 },
+    { time: 22.5, intensity: 32, label: "Cédrène" },
+    { time: 25, intensity: 18 },
+    { time: 27.8, intensity: 28, label: "Birch Tar" },
+    { time: 30, intensity: 10 },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -275,6 +296,98 @@ export default function GCMS() {
                     </p>
                     <p className="text-sm text-muted-foreground">
                       3. <strong>Quantification absolue</strong> : Concentration = (Facteur de réponse) × (Concentration standard)
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Exemple visuel de chromatogramme */}
+        <section className="py-16">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex items-center gap-3 mb-8">
+                <LineChart className="h-6 w-6 text-primary" />
+                <h2 className="text-3xl font-bold">
+                  Exemple de Chromatogramme
+                </h2>
+              </div>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Chromatogramme d'une huile essentielle (simulation)</CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    Profil chromatographique typique montrant la séparation des terpènes, sesquiterpènes et composés phénoliques
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="relative w-full h-64 md:h-80 bg-slate-900 rounded-lg p-4 overflow-hidden">
+                    {/* Axes */}
+                    <div className="absolute bottom-8 left-12 right-4 h-px bg-slate-600"></div>
+                    <div className="absolute bottom-8 left-12 top-4 w-px bg-slate-600"></div>
+                    
+                    {/* Labels axes */}
+                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-slate-400">
+                      Temps de rétention (min)
+                    </div>
+                    <div className="absolute left-2 top-1/2 transform -rotate-90 -translate-y-1/2 text-xs text-slate-400 whitespace-nowrap">
+                      Intensité (mV)
+                    </div>
+                    
+                    {/* Chromatogramme SVG */}
+                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 200" preserveAspectRatio="none">
+                      {/* Ligne de base */}
+                      <path
+                        d="M 40 180 Q 50 178, 60 175 Q 70 172, 80 140 Q 85 60, 90 140 Q 95 172, 105 168 Q 115 165, 125 100 Q 130 50, 135 100 Q 140 165, 150 160 Q 160 155, 170 120 Q 175 80, 180 120 Q 185 155, 195 150 Q 205 145, 215 115 Q 220 90, 225 115 Q 230 145, 240 140 Q 250 135, 260 100 Q 265 70, 270 100 Q 275 135, 285 130 Q 295 125, 305 110 Q 310 95, 315 110 Q 320 125, 330 120 Q 340 115, 350 105 Q 355 95, 360 105 Q 365 115, 375 110 Q 385 108, 395 105"
+                        fill="none"
+                        stroke="#22c55e"
+                        strokeWidth="1.5"
+                        className="drop-shadow-[0_0_3px_rgba(34,197,94,0.5)]"
+                      />
+                      
+                      {/* Pics annotés */}
+                      <text x="85" y="45" fill="#94a3b8" fontSize="8" textAnchor="middle">α-Pinène</text>
+                      <text x="130" y="35" fill="#94a3b8" fontSize="8" textAnchor="middle">Limonène</text>
+                      <text x="175" y="65" fill="#94a3b8" fontSize="8" textAnchor="middle">Linalool</text>
+                      <text x="220" y="75" fill="#94a3b8" fontSize="8" textAnchor="middle">Guaiacol</text>
+                      <text x="265" y="55" fill="#94a3b8" fontSize="8" textAnchor="middle">Vétivérol</text>
+                      <text x="310" y="80" fill="#94a3b8" fontSize="8" textAnchor="middle">Cédrène</text>
+                      <text x="355" y="80" fill="#94a3b8" fontSize="8" textAnchor="middle">Birch Tar</text>
+                      
+                      {/* Graduations temps */}
+                      <text x="40" y="195" fill="#64748b" fontSize="7">0</text>
+                      <text x="100" y="195" fill="#64748b" fontSize="7">5</text>
+                      <text x="160" y="195" fill="#64748b" fontSize="7">10</text>
+                      <text x="220" y="195" fill="#64748b" fontSize="7">15</text>
+                      <text x="280" y="195" fill="#64748b" fontSize="7">20</text>
+                      <text x="340" y="195" fill="#64748b" fontSize="7">25</text>
+                      <text x="390" y="195" fill="#64748b" fontSize="7">30</text>
+                    </svg>
+                    
+                    {/* Légende zones */}
+                    <div className="absolute top-4 right-4 flex flex-col gap-1 text-xs">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded bg-green-500/30 border border-green-500"></div>
+                        <span className="text-slate-400">Terpènes légers (0-10 min)</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded bg-yellow-500/30 border border-yellow-500"></div>
+                        <span className="text-slate-400">Sesquiterpènes (10-20 min)</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded bg-orange-500/30 border border-orange-500"></div>
+                        <span className="text-slate-400">Composés lourds (20-30 min)</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 p-4 bg-muted/30 rounded-lg">
+                    <h4 className="text-sm font-semibold mb-2">Lecture du chromatogramme</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Chaque pic représente une molécule séparée par la colonne. La <strong>position horizontale</strong> indique le temps de rétention (caractéristique de chaque molécule), 
+                      tandis que la <strong>hauteur du pic</strong> est proportionnelle à la concentration. L'identification se fait par comparaison avec la bibliothèque NIST.
                     </p>
                   </div>
                 </CardContent>
