@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `tobacco_additives` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `scientific_name` varchar(255),\n  `category` varchar(100),\n  `type` varchar(100),\n  `origin` text,\n  `form` varchar(255),\n  `usage_type` varchar(255),\n  `concentration` varchar(100),\n  `main_function` text,\n  `aromatic_profile` json,\n  `tobacco_influence` json,\n  `key_molecules` json,\n  `perfumery_applications` json,\n  `regulatory_status` varchar(255),\n  `toxicity` varchar(255),\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `tobacco_additives_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `tobacco_additives` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `scientific_name` varchar(255),\n  `category` varchar(100),\n  `type` varchar(100),\n  `origin` text,\n  `form` varchar(255),\n  `usage_type` varchar(255),\n  `concentration` varchar(100),\n  `main_function` text,\n  `aromatic_profile` json,\n  `tobacco_influence` json,\n  `key_molecules` json,\n  `perfumery_applications` json,\n  `regulatory_status` varchar(255),\n  `toxicity` varchar(255),\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `tobacco_additives_id` PRIMARY KEY(`id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 186
+}

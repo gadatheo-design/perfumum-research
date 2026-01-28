@@ -2630,3 +2630,35 @@
 - [x] Ajouter les graphiques radar de comparaison (Recharts RadarChart + BarChart)
 - [x] Documenter les différences de rendement et coût (tableau détaillé + 5 exemples de plantes)
 
+
+
+---
+
+## ✅ SESSION IMPORT MASSIF — 28 Jan 2026 (Complétée)
+
+### Import Tabacothèque v3
+- [x] Importer 17 landraces de la tabacothèque v3
+- [x] Importer 21 molécules clés du tabac
+
+### Import Landraces Mondiales v2
+- [x] Importer 34 landraces de 6 régions et 25 pays
+- [x] Documenter les profils aromatiques et moléculaires
+
+### Import Pyrazines et Additifs
+- [x] Importer 8 pyrazines du tabac (4 existantes + 4 nouvelles)
+- [x] Importer 13 additifs traditionnels et industriels
+
+### Import Tabacs Disparus, Hybrides et Blends
+- [x] Importer 5 variétés de tabac disparues (Corojo Original, Criollo Original, etc.)
+- [x] Importer 12 hybrides de tabac (Habano 2000, Corojo 99, etc.)
+- [x] Importer 15 blends de tabac (Balkan Sobranie, Pielroja, etc.)
+
+**Total importé cette session:** 
+- 51 landraces
+- 23 pyrazines
+- 13 additifs
+- 5 variétés disparues
+- 12 hybrides
+- 15 blends
+- 21 molécules
+= **140+ nouvelles entrées**

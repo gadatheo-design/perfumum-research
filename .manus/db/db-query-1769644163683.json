@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO pyrazines (name, chemical_formula, odor_profile, perfumery_potential, tobacco_contribution) VALUES\n('Tétraméthylpyrazine', 'C8H12N2', 'Cacao, Chocolat, Torréfié, Noisette', 'Très élevé - Molécule signature du cacao et chocolat noir', 'Fermentation intense, notes chocolatées'),\n('2-Éthylpyrazine', 'C6H8N2', 'Noisette, Terreux, Torréfié', 'Élevé - Note torréfiée subtile', 'Réaction de Maillard, torréfaction'),\n('2-Isobutyl-3-méthoxypyrazine (IBMP)', 'C9H14N2O', 'Poivron vert, Végétal, Terreux', 'Modéré - Seuil de détection extrêmement bas', 'Notes végétales vertes'),\n('2-Isopropyl-3-méthoxypyrazine (IPMP)', 'C8H12N2O', 'Terreux, Végétal, Pomme de terre', 'Modéré - Note terreuse caractéristique', 'Notes terreuses');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO pyrazines (name, chemical_formula, odor_profile, perfumery_potential, tobacco_contribution) VALUES\n('Tétraméthylpyrazine', 'C8H12N2', 'Cacao, Chocolat, Torréfié, Noisette', 'Très élevé - Molécule signature du cacao et chocolat noir', 'Fermentation intense, notes chocolatées'),\n('2-Éthylpyrazine', 'C6H8N2', 'Noisette, Terreux, Torréfié', 'Élevé - Note torréfiée subtile', 'Réaction de Maillard, torréfaction'),\n('2-Isobutyl-3-méthoxypyrazine (IBMP)', 'C9H14N2O', 'Poivron vert, Végétal, Terreux', 'Modéré - Seuil de détection extrêmement bas', 'Notes végétales vertes'),\n('2-Isopropyl-3-méthoxypyrazine (IPMP)', 'C8H12N2O', 'Terreux, Végétal, Pomme de terre', 'Modéré - Note terreuse caractéristique', 'Notes terreuses');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 58
+}
