@@ -271,6 +271,7 @@ import Terroirs from "./pages/Terroirs";
 import TerroirDetail from "./pages/TerroirDetail";
 import OriginesGeographiques from "./pages/OriginesGeographiques";
 import ExtractionMethods from "./pages/ExtractionMethods";
+import ComparaisonExtractions from "./pages/ComparaisonExtractions";
 import Collaborations from "./pages/Collaborations";
 import Archives from "./pages/Archives";
 import Outils from "./pages/Outils";
@@ -666,6 +667,8 @@ function Router() {
       <Route path="/origines-geographiques" component={OriginesGeographiques} />
       <Route path="/extraction-methods" component={ExtractionMethods} />
       <Route path="/methodes-extraction" component={ExtractionMethods} />
+      <Route path="/comparaison-extractions" component={ComparaisonExtractions} />
+      <Route path="/he-absolue-co2" component={ComparaisonExtractions} />
       
       {/* === MATIÈRES PREMIÈRES & RELATIONS === */}
       <Route path="/matieres-premieres" component={RawMaterials} />

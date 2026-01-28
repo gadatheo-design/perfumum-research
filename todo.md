@@ -2602,3 +2602,31 @@
 - [x] Ajouter les pourcentages précis pour les 15 extraits CO2 (22+ liaisons avec % et variabilité)
 - [x] Documenter les sources bibliographiques (notes scientifiques ajoutées)
 
+
+---
+
+## 🧪 SESSION 28 JANVIER 2026 (Suite) — Extraits CO2 et Comparaison
+
+### Molécules manquantes pour extraits CO2
+- [x] Ajouter Zingébérène (sesquiterpène du gingembre) - ID: 1110001
+- [x] Ajouter 6-Gingérol (principe actif du gingembre) - ID: 1110002
+- [x] Ajouter Chamazulène (camomille, bleu caractéristique) - ID: 1110003
+- [x] Ajouter α-Turmérone (curcuma) - ID: 1110004
+- [x] Ajouter Carotol (carotte) - ID: 1110005
+- [x] Ajouter Faradiol (calendula) - ID: 1110006
+- [x] Ajouter Acide palmitoléique (argousier) - ID: 1110007
+
+### Compositions extraits CO2 restants
+- [x] Enrichir Extrait CO2 de Calendula (Faradiol 15%, Farnesol 3%)
+- [x] Enrichir Extrait CO2 de Curcuma (α-Turmérone 35%, Zingébérène 8%)
+- [x] Enrichir Extrait CO2 de Carotte (Carotol 45%)
+- [x] Enrichir Extrait CO2 d'Argousier (Acide palmitoléique 35%)
+- [x] Enrichir Extrait CO2 de Gingembre (Zingébérène 25%, Gingérol 8%)
+- [x] Enrichir Extrait CO2 de Camomille (Chamazulène 8%)
+
+### Page comparaison HE vs Absolue vs CO2
+- [x] Créer la page de comparaison des méthodes d'extraction (ComparaisonExtractions.tsx)
+- [x] Implémenter le tableau comparatif des compositions (4 onglets: Vue d'ensemble, Radar, Molécules, Exemples)
+- [x] Ajouter les graphiques radar de comparaison (Recharts RadarChart + BarChart)
+- [x] Documenter les différences de rendement et coût (tableau détaillé + 5 exemples de plantes)
+
