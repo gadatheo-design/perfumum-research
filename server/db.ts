@@ -17354,9 +17354,10 @@ export async function suggestReferenceEntityLinks(options: {
     }
     
     for (const ref of references) {
-      // Extract keywords from reference (title, keywords, abstract)
+      // Extract keywords from reference (title, tags, notes)
+      const tagsStr = Array.isArray(ref.tags) ? ref.tags.join(' ') : '';
       const refKeywords = extractKeywords(
-        [ref.title, ref.keywords, ref.abstract].filter(Boolean).join(' ')
+        [ref.title, tagsStr, ref.notes].filter(Boolean).join(' ')
       );
       
       if (refKeywords.length === 0) continue;

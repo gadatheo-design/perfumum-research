@@ -9912,12 +9912,11 @@ Familles olfactives disponibles:
   }),
 
   // Köppen Climate Data
-  koppen: router(koppenRouter),
+  koppen: koppenRouter,
   // Tobacco & PERFUMUM Data
-  tobacco: router(tobaccoRouter),
+  tobacco: tobaccoRouter,
   // Research Data
-  // Research Data
-  research: router(researchRouter),
+  research: researchRouter,
 });
 export type AppRouter = typeof appRouter;
 
