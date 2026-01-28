@@ -137,6 +137,28 @@ export default function APropos() {
                     scientifique et artistique unique.
                   </p>
                   
+                  <div className="bg-muted/30 rounded-lg p-6 border border-border/50">
+                    <h4 className="font-semibold mb-3 text-foreground">Données actuelles (Janvier 2026)</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                      <div className="text-center p-3 bg-background rounded-lg border border-border/30">
+                        <span className="text-2xl font-bold text-primary block">671</span>
+                        <span className="text-xs text-muted-foreground">Molécules</span>
+                      </div>
+                      <div className="text-center p-3 bg-background rounded-lg border border-border/30">
+                        <span className="text-2xl font-bold text-purple-500 block">292</span>
+                        <span className="text-xs text-muted-foreground">Recettes</span>
+                      </div>
+                      <div className="text-center p-3 bg-background rounded-lg border border-border/30">
+                        <span className="text-2xl font-bold text-green-500 block">247</span>
+                        <span className="text-xs text-muted-foreground">Plantes</span>
+                      </div>
+                      <div className="text-center p-3 bg-background rounded-lg border border-border/30">
+                        <span className="text-2xl font-bold text-amber-500 block">43</span>
+                        <span className="text-xs text-muted-foreground">Terroirs</span>
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/30 rounded-lg p-4 border border-border/50">
                     <GraduationCap className="h-5 w-5 text-primary flex-shrink-0" />
                     <span>
@@ -205,6 +227,48 @@ export default function APropos() {
                     </p>
                   </CardContent>
                 </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Timeline Section */}
+        <div className="py-20 bg-muted/20">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Feuille de route 2025-2035</h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Un projet de recherche décennal structuré en phases progressives.
+                </p>
+              </div>
+              
+              <div className="space-y-6">
+                {[
+                  { year: '2025', title: 'Fondation', description: 'Lancement de la plateforme, création des 4 prototypes (C1-C4), expédition ABSORBE·COLOMBIA', status: 'current' },
+                  { year: '2026', title: 'Expansion', description: 'Intégration des données tabac/cannabis, expédition San Andrés, module Heritage & Conservation', status: 'planned' },
+                  { year: '2027-2028', title: 'Master', description: 'Recherche académique, application mobile, partenariats laboratoires', status: 'planned' },
+                  { year: '2029-2032', title: 'Doctorat', description: 'Publication de la Méthode ABSORBE, expéditions internationales, exposition 5 ans', status: 'planned' },
+                  { year: '2033-2035', title: 'Maturité', description: 'Centre de Recherche ABSORBE, programme de formation, encyclopédie olfactive', status: 'planned' }
+                ].map((phase, index) => (
+                  <div key={index} className="flex gap-6 group">
+                    <div className="flex-shrink-0">
+                      <div className={`w-20 h-14 rounded-xl flex items-center justify-center text-sm font-bold shadow-lg ${phase.status === 'current' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                        {phase.year}
+                      </div>
+                    </div>
+                    <div className="flex-1 pt-1">
+                      <h3 className="text-xl font-semibold mb-1 group-hover:text-primary transition-colors">{phase.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{phase.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="mt-8 text-center">
+                <a href="/timeline" className="inline-flex items-center gap-2 px-6 py-3 bg-muted text-foreground rounded-xl hover:bg-muted/80 transition-colors font-medium">
+                  Voir la timeline complète →
+                </a>
               </div>
             </div>
           </div>

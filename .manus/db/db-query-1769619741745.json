@@ -1,0 +1,50 @@
+{
+  "query": "SELECT fa.id, fa.provisional_name, fa.zone, fa.precise_location, t.id as terroir_id, t.name as terroir_name \nFROM field_archives fa \nLEFT JOIN terroirs t ON fa.zone LIKE CONCAT('%', t.region, '%') OR t.name LIKE CONCAT('%', fa.zone, '%')\nORDER BY fa.id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT fa.id, fa.provisional_name, fa.zone, fa.precise_location, t.id as terroir_id, t.name as terroir_name \nFROM field_archives fa \nLEFT JOIN terroirs t ON fa.zone LIKE CONCAT('%', t.region, '%') OR t.name LIKE CONCAT('%', fa.zone, '%')\nORDER BY fa.id;",
+  "rows": [
+    {
+      "id": "1",
+      "provisional_name": "Petrichor Andin #001",
+      "zone": "Andes / Altiplano",
+      "precise_location": "Bogotá - Cerros Orientales",
+      "terroir_id": "2",
+      "terroir_name": "Santander & Huila"
+    },
+    {
+      "id": "2",
+      "provisional_name": "Fumée de Café Torréfié #002",
+      "zone": "Eje Cafetero",
+      "precise_location": "Salento - Finca La Esperanza",
+      "terroir_id": "NULL",
+      "terroir_name": "NULL"
+    },
+    {
+      "id": "3",
+      "provisional_name": "Brume de Páramo #003",
+      "zone": "Páramo de Sumapaz",
+      "precise_location": "Laguna de Chisacá",
+      "terroir_id": "NULL",
+      "terroir_name": "NULL"
+    },
+    {
+      "id": "4",
+      "provisional_name": "Résine de Copal #004",
+      "zone": "Sierra Nevada de Santa Marta",
+      "precise_location": "Nabusímake - Territoire Arhuaco",
+      "terroir_id": "NULL",
+      "terroir_name": "NULL"
+    },
+    {
+      "id": "5",
+      "provisional_name": "Sel Marin Caraïbe #005",
+      "zone": "Côte Caraïbe",
+      "precise_location": "Cartagena - Playa Blanca",
+      "terroir_id": "NULL",
+      "terroir_name": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tprovisional_name\tzone\tprecise_location\tterroir_id\tterroir_name\n1\tPetrichor Andin #001\tAndes / Altiplano\tBogotá - Cerros Orientales\t2\tSantander & Huila\n2\tFumée de Café Torréfié #002\tEje Cafetero\tSalento - Finca La Esperanza\tNULL\tNULL\n3\tBrume de Páramo #003\tPáramo de Sumapaz\tLaguna de Chisacá\tNULL\tNULL\n4\tRésine de Copal #004\tSierra Nevada de Santa Marta\tNabusímake - Territoire Arhuaco\tNULL\tNULL\n5\tSel Marin Caraïbe #005\tCôte Caraïbe\tCartagena - Playa Blanca\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 869
+}
