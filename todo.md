@@ -171,7 +171,7 @@
 - [x] Améliorer les pages Méthode ABSORBE
 - [ ] Améliorer les pages GC-MS et Pyrolyse
 - [ ] Améliorer les pages Archives de Terrain
-- [ ] Améliorer le Glossaire
+- [x] Améliorer le Glossaire (24 termes GC-MS/pyrolyse ajoutés - 28 Jan 2026)
 - [ ] Améliorer la Timeline
 - [ ] Améliorer les pages À propos et Contribuer
 
@@ -2454,3 +2454,23 @@
 - Profils moléculaires détaillés
 - Traditions tabac-cannabis (15+ accords, protocoles)
 - Analyses génomiques
+
+
+---
+
+## 🔄 SESSION 28 JANVIER 2026 — AMÉLIORATIONS
+
+### Archives de Terrain
+- [ ] Ajouter des données de captation terrain avec géolocalisation
+- [ ] Intégrer les métadonnées (date, lieu, conditions météo)
+- [ ] Créer des liens vers les molécules identifiées par GC-MS
+
+### Glossaire
+- [ ] Enrichir avec les termes scientifiques GC-MS
+- [ ] Ajouter les termes de pyrolyse contrôlée
+- [ ] Créer des liens croisés vers les pages méthodologie
+
+### Responsive Mobile
+- [ ] Tester l'affichage des tableaux de données sur mobile
+- [ ] Corriger les problèmes de scroll horizontal
+- [ ] Vérifier la lisibilité des données scientifiques

@@ -28,30 +28,35 @@ export const researchRouter = router({
     .query(async ({ input }) => {
       try {
         const db = await getDb();
+        if (!db) {
+          return {
+            success: false,
+            data: [],
+            count: 0,
+            error: "Database connection failed",
+          };
+        }
         
-        // Query directly using raw SQL since we can't import the table
-        let query = `SELECT * FROM research_claims WHERE 1=1`;
-        const params: any[] = [];
+        // Build query with parameters
+        let queryParts: string[] = [`SELECT * FROM research_claims WHERE 1=1`];
         
         if (input.type) {
-          query += ` AND claimType = ?`;
-          params.push(input.type);
+          queryParts.push(` AND claimType = '${input.type}'`);
         }
         
         if (input.status) {
-          query += ` AND status = ?`;
-          params.push(input.status);
+          queryParts.push(` AND status = '${input.status}'`);
         }
         
         if (input.search) {
-          query += ` AND (claim LIKE ? OR claimId LIKE ?)`;
-          params.push(`%${input.search}%`, `%${input.search}%`);
+          const searchTerm = input.search.replace(/'/g, "''");
+          queryParts.push(` AND (claim LIKE '%${searchTerm}%' OR claimId LIKE '%${searchTerm}%')`);
         }
         
-        query += ` LIMIT ? OFFSET ?`;
-        params.push(input.limit, input.offset);
+        queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
         
-        const results = await db.execute(sql.raw(query, params));
+        const fullQuery = queryParts.join('');
+        const results = await db.execute(sql.raw(fullQuery));
         
         return {
           success: true,
@@ -85,30 +90,35 @@ export const researchRouter = router({
     .query(async ({ input }) => {
       try {
         const db = await getDb();
+        if (!db) {
+          return {
+            success: false,
+            data: [],
+            count: 0,
+            error: "Database connection failed",
+          };
+        }
         
-        // Query directly using raw SQL
-        let query = `SELECT * FROM research_sources WHERE 1=1`;
-        const params: any[] = [];
+        // Build query with parameters
+        let queryParts: string[] = [`SELECT * FROM research_sources WHERE 1=1`];
         
         if (input.quality) {
-          query += ` AND quality = ?`;
-          params.push(input.quality);
+          queryParts.push(` AND quality = '${input.quality}'`);
         }
         
         if (input.status) {
-          query += ` AND status = ?`;
-          params.push(input.status);
+          queryParts.push(` AND status = '${input.status}'`);
         }
         
         if (input.search) {
-          query += ` AND (reference LIKE ? OR sourceId LIKE ?)`;
-          params.push(`%${input.search}%`, `%${input.search}%`);
+          const searchTerm = input.search.replace(/'/g, "''");
+          queryParts.push(` AND (reference LIKE '%${searchTerm}%' OR sourceId LIKE '%${searchTerm}%')`);
         }
         
-        query += ` LIMIT ? OFFSET ?`;
-        params.push(input.limit, input.offset);
+        queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
         
-        const results = await db.execute(sql.raw(query, params));
+        const fullQuery = queryParts.join('');
+        const results = await db.execute(sql.raw(fullQuery));
         
         return {
           success: true,
@@ -134,9 +144,16 @@ export const researchRouter = router({
     .query(async ({ input }) => {
       try {
         const db = await getDb();
+        if (!db) {
+          return {
+            success: false,
+            data: null,
+            error: "Database connection failed",
+          };
+        }
         
         const results = await db.execute(
-          sql.raw(`SELECT * FROM research_claims WHERE id = ?`, [input.id])
+          sql.raw(`SELECT * FROM research_claims WHERE id = ${input.id}`)
         );
         
         if ((results as any[]).length === 0) {
@@ -169,9 +186,16 @@ export const researchRouter = router({
     .query(async ({ input }) => {
       try {
         const db = await getDb();
+        if (!db) {
+          return {
+            success: false,
+            data: null,
+            error: "Database connection failed",
+          };
+        }
         
         const results = await db.execute(
-          sql.raw(`SELECT * FROM research_sources WHERE id = ?`, [input.id])
+          sql.raw(`SELECT * FROM research_sources WHERE id = ${input.id}`)
         );
         
         if ((results as any[]).length === 0) {
@@ -202,6 +226,18 @@ export const researchRouter = router({
   getStatistics: publicProcedure.query(async () => {
     try {
       const db = await getDb();
+      if (!db) {
+        return {
+          success: false,
+          error: "Database connection failed",
+          data: {
+            totalClaims: 0,
+            totalSources: 0,
+            claimsByType: [],
+            sourcesByQuality: [],
+          },
+        };
+      }
       
       const claimsResult = await db.execute(
         sql.raw(`SELECT COUNT(*) as total FROM research_claims`)
