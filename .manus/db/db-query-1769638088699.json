@@ -1,0 +1,150 @@
+{
+  "query": "SELECT id, name, chemicalFormula, molecularWeight, logP FROM molecules WHERE molecularWeight IS NOT NULL AND molecularWeight > 0 LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, chemicalFormula, molecularWeight, logP FROM molecules WHERE molecularWeight IS NOT NULL AND molecularWeight > 0 LIMIT 20;",
+  "rows": [
+    {
+      "id": "3",
+      "name": "Ambroxan",
+      "chemicalFormula": "C₁₆H₂₈O",
+      "molecularWeight": "236",
+      "logP": "NULL"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol",
+      "chemicalFormula": "C10H18O",
+      "molecularWeight": "154",
+      "logP": "270"
+    },
+    {
+      "id": "30003",
+      "name": "Ambroxan",
+      "chemicalFormula": "C16H28O",
+      "molecularWeight": "236",
+      "logP": "NULL"
+    },
+    {
+      "id": "30004",
+      "name": "Géosmine",
+      "chemicalFormula": "C12H22O",
+      "molecularWeight": "182",
+      "logP": "NULL"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène",
+      "chemicalFormula": "C₁₅H₂₄",
+      "molecularWeight": "204",
+      "logP": "NULL"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène",
+      "chemicalFormula": "C10H16",
+      "molecularWeight": "136",
+      "logP": "430"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène",
+      "chemicalFormula": "C10H16",
+      "molecularWeight": "136",
+      "logP": "460"
+    },
+    {
+      "id": "30008",
+      "name": "α-Pinène",
+      "chemicalFormula": "C₁₀H₁₆",
+      "molecularWeight": "136",
+      "logP": "NULL"
+    },
+    {
+      "id": "30009",
+      "name": "Linalool",
+      "chemicalFormula": "C10H18O",
+      "molecularWeight": "154",
+      "logP": "NULL"
+    },
+    {
+      "id": "60003",
+      "name": "Acide Décanoïque (C10)",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "162",
+      "logP": "NULL"
+    },
+    {
+      "id": "60004",
+      "name": "Acide Linoléique",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "282",
+      "logP": "NULL"
+    },
+    {
+      "id": "60006",
+      "name": "Acide Benzoïque",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "122",
+      "logP": "NULL"
+    },
+    {
+      "id": "60008",
+      "name": "Acide Caféique",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "180",
+      "logP": "NULL"
+    },
+    {
+      "id": "60009",
+      "name": "Acide Férulique",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "157",
+      "logP": "NULL"
+    },
+    {
+      "id": "60010",
+      "name": "Acide Coumarique",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "158",
+      "logP": "NULL"
+    },
+    {
+      "id": "60014",
+      "name": "Éthyl Hexanoate",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "152",
+      "logP": "NULL"
+    },
+    {
+      "id": "60016",
+      "name": "Indole",
+      "chemicalFormula": "C₈H₇N",
+      "molecularWeight": "117",
+      "logP": "NULL"
+    },
+    {
+      "id": "60019",
+      "name": "Indoline",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "147",
+      "logP": "NULL"
+    },
+    {
+      "id": "90002",
+      "name": "2-MIB (2-Methylisoborneol)",
+      "chemicalFormula": "C11H20O",
+      "molecularWeight": "145",
+      "logP": "NULL"
+    },
+    {
+      "id": "90003",
+      "name": "Sclerene",
+      "chemicalFormula": "C15H24",
+      "molecularWeight": "142",
+      "logP": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tchemicalFormula\tmolecularWeight\tlogP\n3\tAmbroxan\tC₁₆H₂₈O\t236\tNULL\n30002\tLinalol\tC10H18O\t154\t270\n30003\tAmbroxan\tC16H28O\t236\tNULL\n30004\tGéosmine\tC12H22O\t182\tNULL\n30005\tβ-Caryophyllène\tC₁₅H₂₄\t204\tNULL\n30006\tMyrcène\tC10H16\t136\t430\n30007\tLimonène\tC10H16\t136\t460\n30008\tα-Pinène\tC₁₀H₁₆\t136\tNULL\n30009\tLinalool\tC10H18O\t154\tNULL\n60003\tAcide Décanoïque (C10)\tNULL\t162\tNULL\n60004\tAcide Linoléique\tNULL\t282\tNULL\n60006\tAcide Benzoïque\tNULL\t122\tNULL\n60008\tAcide Caféique\tNULL\t180\tNULL\n60009\tAcide Férulique\tNULL\t157\tNULL\n60010\tAcide Coumarique\tNULL\t158\tNULL\n60014\tÉthyl Hexanoate\tNULL\t152\tNULL\n60016\tIndole\tC₈H₇N\t117\tNULL\n60019\tIndoline\tNULL\t147\tNULL\n90002\t2-MIB (2-Methylisoborneol)\tC11H20O\t145\tNULL\n90003\tSclerene\tC15H24\t142\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

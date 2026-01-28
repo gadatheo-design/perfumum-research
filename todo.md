@@ -2474,3 +2474,24 @@
 - [ ] Tester l'affichage des tableaux de données sur mobile
 - [ ] Corriger les problèmes de scroll horizontal
 - [ ] Vérifier la lisibilité des données scientifiques
+
+
+---
+
+## 🔄 SESSION 28 JANVIER 2026 (Suite)
+
+### Enrichissement PubChem des molécules
+- [x] Créer le script d'enrichissement PubChem (`enrich_pubchem.py`)
+- [x] Enrichir 19 molécules avec poids moléculaire, formule chimique, LogP
+- [x] Molécules enrichies : α-pinène, β-pinène, limonène, linalool, géraniol, citronellol, eugénol, vanilline, coumarine, carvone, menthol, camphre, thymol, cinéole, myrcène, ocimène, terpinène, sabinène, carène
+
+### Liens croisés tabac-molécules
+- [x] Créer la table `tabac_molecule_links` pour les liaisons tabac-terpènes
+- [x] Insérer 6 liens tabac-molécules (Virginia, Burley, Oriental)
+- [x] Documenter les concentrations et notes pour chaque liaison
+
+### Corrections TypeScript
+- [x] Corriger les erreurs dans `routers.ts` (suppression wrappers router() redondants)
+- [x] Corriger les erreurs dans `db.ts` (champs v3References)
+- [x] Identifier et résoudre le problème de mémoire (processus tsc --watch)
+

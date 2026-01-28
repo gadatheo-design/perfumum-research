@@ -1,0 +1,52 @@
+{
+  "query": "SELECT tml.id, t.name as tabac, m.name as molecule, tml.concentration, tml.notes FROM tabac_molecule_links tml JOIN tabacs t ON tml.tabac_id = t.id JOIN molecules m ON tml.molecule_id = m.id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT tml.id, t.name as tabac, m.name as molecule, tml.concentration, tml.notes FROM tabac_molecule_links tml JOIN tabacs t ON tml.tabac_id = t.id JOIN molecules m ON tml.molecule_id = m.id;",
+  "rows": [
+    {
+      "id": "1",
+      "tabac": "Krumovgrad",
+      "molecule": "linalool",
+      "concentration": "0.0500",
+      "notes": "Terpène principal du tabac Virginia - profil floral"
+    },
+    {
+      "id": "2",
+      "tabac": "Krumovgrad",
+      "molecule": "alpha-pinene",
+      "concentration": "0.0300",
+      "notes": "Terpène secondaire - notes boisées"
+    },
+    {
+      "id": "3",
+      "tabac": "Krumovgrad",
+      "molecule": "limonene",
+      "concentration": "0.0200",
+      "notes": "Terpène mineur - notes citronnées"
+    },
+    {
+      "id": "4",
+      "tabac": "Virginia Orange",
+      "molecule": "myrcene",
+      "concentration": "0.0800",
+      "notes": "Terpène dominant du tabac Burley - notes herbacées"
+    },
+    {
+      "id": "5",
+      "tabac": "Virginia Orange",
+      "molecule": "beta-caryophyllene",
+      "concentration": "0.0400",
+      "notes": "Sesquiterpène - notes épicées"
+    },
+    {
+      "id": "6",
+      "tabac": "Virginia Deutscher",
+      "molecule": "geraniol",
+      "concentration": "0.0600",
+      "notes": "Terpène du tabac Oriental - notes florales"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttabac\tmolecule\tconcentration\tnotes\n1\tKrumovgrad\tlinalool\t0.0500\tTerpène principal du tabac Virginia - profil floral\n2\tKrumovgrad\talpha-pinene\t0.0300\tTerpène secondaire - notes boisées\n3\tKrumovgrad\tlimonene\t0.0200\tTerpène mineur - notes citronnées\n4\tVirginia Orange\tmyrcene\t0.0800\tTerpène dominant du tabac Burley - notes herbacées\n5\tVirginia Orange\tbeta-caryophyllene\t0.0400\tSesquiterpène - notes épicées\n6\tVirginia Deutscher\tgeraniol\t0.0600\tTerpène du tabac Oriental - notes florales\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

@@ -1,0 +1,110 @@
+{
+  "query": "SELECT id, name, cas_number FROM molecules WHERE cas_number IS NOT NULL AND cas_number != '' AND (molecularWeight IS NULL OR molecularWeight = 0) LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number FROM molecules WHERE cas_number IS NOT NULL AND cas_number != '' AND (molecularWeight IS NULL OR molecularWeight = 0) LIMIT 20;",
+  "rows": [
+    {
+      "id": "960001",
+      "name": "Lavandulyl acetate",
+      "cas_number": "25905-14-0"
+    },
+    {
+      "id": "960002",
+      "name": "Terpinen-4-ol",
+      "cas_number": "562-74-3"
+    },
+    {
+      "id": "960003",
+      "name": "Camphor",
+      "cas_number": "76-22-2"
+    },
+    {
+      "id": "960004",
+      "name": "Sclareol",
+      "cas_number": "515-03-7"
+    },
+    {
+      "id": "960005",
+      "name": "Zingiberene",
+      "cas_number": "495-60-3"
+    },
+    {
+      "id": "960006",
+      "name": "Gingerol",
+      "cas_number": "23513-14-6"
+    },
+    {
+      "id": "960007",
+      "name": "Alpha-terpinyl acetate",
+      "cas_number": "80-26-2"
+    },
+    {
+      "id": "960008",
+      "name": "Gamma-terpinene",
+      "cas_number": "99-85-4"
+    },
+    {
+      "id": "960009",
+      "name": "Alpha-terpinene",
+      "cas_number": "99-86-5"
+    },
+    {
+      "id": "960010",
+      "name": "Delta-3-carene",
+      "cas_number": "13466-78-9"
+    },
+    {
+      "id": "960011",
+      "name": "Germacrene D",
+      "cas_number": "23986-74-5"
+    },
+    {
+      "id": "960012",
+      "name": "Beta-bisabolene",
+      "cas_number": "495-61-4"
+    },
+    {
+      "id": "960013",
+      "name": "Alpha-curcumene",
+      "cas_number": "644-30-4"
+    },
+    {
+      "id": "990001",
+      "name": "Linalyl acetate",
+      "cas_number": "115-95-7"
+    },
+    {
+      "id": "990004",
+      "name": "Isomenthone",
+      "cas_number": "491-07-6"
+    },
+    {
+      "id": "1020004",
+      "name": "Acétate de néryle",
+      "cas_number": "141-12-8"
+    },
+    {
+      "id": "1050001",
+      "name": "β-Santalol",
+      "cas_number": "77-42-9"
+    },
+    {
+      "id": "1050002",
+      "name": "α-Vétivone",
+      "cas_number": "15764-04-2"
+    },
+    {
+      "id": "1050003",
+      "name": "α-Bulnésène",
+      "cas_number": "3691-11-0"
+    },
+    {
+      "id": "1050004",
+      "name": "α-Guaiène",
+      "cas_number": "3691-12-1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\n960001\tLavandulyl acetate\t25905-14-0\n960002\tTerpinen-4-ol\t562-74-3\n960003\tCamphor\t76-22-2\n960004\tSclareol\t515-03-7\n960005\tZingiberene\t495-60-3\n960006\tGingerol\t23513-14-6\n960007\tAlpha-terpinyl acetate\t80-26-2\n960008\tGamma-terpinene\t99-85-4\n960009\tAlpha-terpinene\t99-86-5\n960010\tDelta-3-carene\t13466-78-9\n960011\tGermacrene D\t23986-74-5\n960012\tBeta-bisabolene\t495-61-4\n960013\tAlpha-curcumene\t644-30-4\n990001\tLinalyl acetate\t115-95-7\n990004\tIsomenthone\t491-07-6\n1020004\tAcétate de néryle\t141-12-8\n1050001\tβ-Santalol\t77-42-9\n1050002\tα-Vétivone\t15764-04-2\n1050003\tα-Bulnésène\t3691-11-0\n1050004\tα-Guaiène\t3691-12-1\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

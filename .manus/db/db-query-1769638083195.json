@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET molecularWeight = 152, chemicalFormula = 'C10H16O', logP = 220 WHERE name LIKE '%camphor%' OR name LIKE '%Camphre%'; UPDATE molecules SET molecularWeight = 150, chemicalFormula = 'C10H14O', logP = 330 WHERE name LIKE '%thymol%' OR name LIKE '%Thymol%'; UPDATE molecules SET molecularWeight = 154, chemicalFormula = 'C10H18O', logP = 250 WHERE name LIKE '%cineole%' OR name LIKE '%Cinéole%' OR name LIKE '%eucalyptol%'; UPDATE molecules SET molecularWeight = 136, chemicalFormula = 'C10H16', logP = 430 WHERE name LIKE '%myrcene%' OR name LIKE '%Myrcène%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET molecularWeight = 152, chemicalFormula = 'C10H16O', logP = 220 WHERE name LIKE '%camphor%' OR name LIKE '%Camphre%'; UPDATE molecules SET molecularWeight = 150, chemicalFormula = 'C10H14O', logP = 330 WHERE name LIKE '%thymol%' OR name LIKE '%Thymol%'; UPDATE molecules SET molecularWeight = 154, chemicalFormula = 'C10H18O', logP = 250 WHERE name LIKE '%cineole%' OR name LIKE '%Cinéole%' OR name LIKE '%eucalyptol%'; UPDATE molecules SET molecularWeight = 136, chemicalFormula = 'C10H16', logP = 430 WHERE name LIKE '%myrcene%' OR name LIKE '%Myrcène%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 148
+}
