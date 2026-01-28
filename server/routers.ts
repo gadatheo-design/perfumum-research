@@ -48,6 +48,8 @@ import {
 import { getAllRecettesWithRadar, filterRecettesByRadar, type RadarFilters } from "./db-recettes-radar";
 import { getSimilarRecettes, getSimilarMolecules, getRecommendedRecettesFromFavorites } from "./db-recommendations";
 import { koppenRouter } from "./routers/koppen";
+import { tobaccoRouter } from "./routers/tobacco";
+import { researchRouter } from "./routers/research";
 
 export const appRouter = router({
   system: systemRouter,
@@ -9911,6 +9913,11 @@ Familles olfactives disponibles:
 
   // Köppen Climate Data
   koppen: router(koppenRouter),
+  // Tobacco & PERFUMUM Data
+  tobacco: router(tobaccoRouter),
+  // Research Data
+  // Research Data
+  research: router(researchRouter),
 });
 export type AppRouter = typeof appRouter;
 

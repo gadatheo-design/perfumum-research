@@ -2338,3 +2338,119 @@
 - [ ] Analyser le CSV des matières premières aromatiques rares
 - [ ] Importer les données dans la base de données
 - [ ] Créer une page de visualisation des matières premières
+
+
+---
+
+## 🆕 INTÉGRATION PERFUMUM_FINAL_DATA (27-28 Jan 2026)
+
+### Phase 1: Organisation des données ✅
+- [x] Créer un document d'organisation des données
+- [x] Cataloguer les 700+ données en 14 catégories
+- [x] Identifier les fichiers JSON/CSV prioritaires
+
+### Phase 2: Structure PostgreSQL ✅
+- [x] Créer le schéma Drizzle avec 12 tables
+- [x] Ajouter les imports et types
+- [x] Intégrer au schéma principal
+
+### Phase 3: Importation des données ✅
+- [x] Créer le script d'importation standalone
+- [x] Configurer la connexion SSL/TLS à TiDB Cloud
+- [x] Importer 17 tobacco varieties
+- [x] Importer 17 research claims
+- [x] Importer 24 research sources
+- [x] Créer les tables research_claims et research_sources
+- [x] Valider l'intégrité des données importées
+
+### Phase 4: Pages principales ✅
+- [x] Créer la page Tabacothèque (/tabacotheque)
+  - [x] Affichage en grille responsive
+  - [x] Filtres par type (Blond, Brun, Oriental, Expérimental)
+  - [x] Recherche par nom
+  - [x] Statistiques (total, par type, intensité moyenne)
+  - [x] Badges colorisés
+  - [x] Indicateurs d'intensité visuels
+- [x] Créer la page Claims & Preuves (/claims-and-proofs)
+  - [x] Affichage des 17 claims
+  - [x] Affichage des 24 sources
+  - [x] Onglets Claims/Sources
+  - [x] Filtres et recherche
+  - [x] Statistiques
+  - [x] Badges de statut et qualité
+- [x] Créer les routers tRPC
+  - [x] tobacco.ts - Procédures pour les variétés
+  - [x] research.ts - Procédures pour claims et sources
+- [x] Ajouter les routes dans App.tsx
+- [x] Écrire les tests vitest
+  - [x] Tabacotheque.test.ts - 80+ assertions
+  - [x] ClaimsAndProofs.test.ts - 60+ assertions
+
+### Phase 5: Visualisations interactives ⏳
+- [ ] Créer les graphiques comparatifs
+  - [ ] Heatmap des terroirs
+  - [ ] Graphique des additifs
+  - [ ] Analyse des pyrazines
+- [ ] Créer les timelines historiques
+- [ ] Créer les graphes de relations
+- [ ] Intégrer D3.js ou Chart.js
+
+### Phase 6: Pages de détail avancées ⏳
+- [ ] Créer les fiches détaillées pour chaque variété
+- [ ] Créer les profils moléculaires complets
+- [ ] Ajouter les comparaisons interactives
+- [ ] Créer les liens entre données
+
+### Phase 7: Traditions tabac-cannabis ⏳
+- [ ] Importer les 15+ accords documentés
+- [ ] Créer la page des traditions
+- [ ] Afficher les protocoles d'extraction
+- [ ] Intégrer les sources bibliographiques
+- [ ] Afficher les analyses chimiques
+
+### Phase 8: Tests complets ⏳
+- [ ] Exécuter tous les tests vitest
+- [ ] Tests d'intégration
+- [ ] Tests de performance
+- [ ] Tests de responsivité mobile
+
+### Phase 9: Livraison ⏳
+- [ ] Créer le checkpoint final
+- [ ] Vérifier la cohérence globale
+- [ ] Optimiser les performances
+- [ ] Préparer la documentation
+
+---
+
+## 📊 STATISTIQUES PERFUMUM_FINAL_DATA
+
+**Données importées :**
+- 17 tobacco varieties
+- 17 research claims
+- 24 research sources
+- **Total : 58 entités**
+
+**Pages créées :**
+- Tabacothèque (responsive, filtres, recherche)
+- Claims & Preuves (onglets, statistiques)
+
+**Tests écrits :**
+- 80+ assertions pour Tabacotheque
+- 60+ assertions pour ClaimsAndProofs
+- **Total : 140+ assertions**
+
+**Routers tRPC :**
+- tobacco.ts (getVarieties, getVarietyById, getVarietiesByType, getStatistics)
+- research.ts (getClaims, getSources, getClaimById, getSourceById, getStatistics)
+
+**Données à intégrer (prochaines phases) :**
+- Terroirs (analyses pédologiques)
+- Additifs du tabac
+- Pyrazines et molécules aromatiques
+- Landraces du monde entier
+- Tabacs disparus et substituts
+- Hybrides et blends iconiques
+- Cigarettes disparues
+- Profils moléculaires détaillés
+- Traditions tabac-cannabis (15+ accords, protocoles)
+- Analyses génomiques

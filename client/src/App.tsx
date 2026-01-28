@@ -28,6 +28,8 @@ import { AbsorbeXGuideLaboratoire } from '@/pages/AbsorbeXGuideLaboratoire';
 import AromaticRarities from '@/pages/AromaticRarities';
 import AromaticRarityDetailPage from '@/pages/AromaticRarityDetailPage';
 import ClaimsAndProofs from '@/pages/ClaimsAndProofs';
+import { Tabacotheque } from '@/pages/Tabacotheque';
+import { ClaimsAndProofsPage } from '@/pages/ClaimsAndProofsPage';
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -412,6 +414,9 @@ function Router() {
       <Route path="/absorbe-x/neuro-olfaction" component={AbsorbeXNeuroOlfaction} />
       <Route path="/absorbe-x/odeurs-perdues" component={AbsorbeXOdeursPerdues} />
       <Route path="/absorbe-x/guide-laboratoire" component={AbsorbeXGuideLaboratoire} />
+      
+      {/* === TABACOTHÈQUE === */}
+      <Route path="/tabacotheque" component={Tabacotheque} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />
