@@ -132,6 +132,7 @@ function MegaMenuOptimizedNav() {
         { id: "46", label: "Odeurs Perdues", href: "/absorbe-x/odeurs-perdues", badge: "NEW" },
         { id: "47", label: "Guide de Laboratoire", href: "/absorbe-x/guide-laboratoire", badge: "NEW" },
         { id: "48", label: "Matieres Premieres Rares", href: "/aromatic-rarities", badge: "NEW" },
+        { id: "49", label: "Claims & Preuves", href: "/claims-and-proofs", badge: "NEW" },
       ],
     },
   ];

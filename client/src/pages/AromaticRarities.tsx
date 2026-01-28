@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -19,7 +19,6 @@ import {
 } from 'lucide-react';
 import aromaticRaritiesData from '@/data/aromatic_rarities.json';
 import { AromaticRaritiesGraph } from '@/components/AromaticRaritiesGraph';
-import { useState, useMemo } from 'react';
 import { useLocation } from 'wouter';
 
 interface AromaticRarity {

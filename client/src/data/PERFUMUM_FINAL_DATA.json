@@ -1,0 +1,400 @@
+{
+  "claims": [
+    {
+      "ID court": "TC-IND-CHILLUM-001",
+      "Claim": "TC-IND-CHILLUM-001 — Inde — Charas pur : propriétés olfactives",
+      "Région": "Inde",
+      "Type": "Ethno",
+      "Source": "SRC-001",
+      "Statut": "Validé",
+      "Preuve": "Usage traditionnel documenté",
+      "Citation": "Ethnobotanical research database",
+      "Notes": "Charas traditionnel indien",
+      "Créé le": "2026-01-10"
+    },
+    {
+      "ID court": "TC-IND-CHILLUM-002",
+      "Claim": "TC-IND-CHILLUM-002 — Inde — Charas + tabac (mélange) : à sourcer",
+      "Région": "Inde",
+      "Type": "Ethno",
+      "Source": null,
+      "Statut": "À sourcer",
+      "Preuve": "Mélange traditionnel",
+      "Citation": null,
+      "Notes": "Combinaison historique mentionnée dans les archives",
+      "Créé le": "2026-01-12"
+    },
+    {
+      "ID court": "TC-FRA-LAVANDE-001",
+      "Claim": "TC-FRA-LAVANDE-001 — France — Lavande provençale : propriétés apaisantes",
+      "Région": "France",
+      "Type": "Scientifique",
+      "Source": "SRC-002",
+      "Statut": "Validé",
+      "Preuve": "Études scientifiques",
+      "Citation": "Journal of Aromatherapy",
+      "Notes": "Lavande de Provence",
+      "Créé le": "2026-01-08"
+    },
+    {
+      "ID court": "TC-MAD-VANILLA-001",
+      "Claim": "TC-MAD-VANILLA-001 — Madagascar — Vanille de Sava : arôme complexe",
+      "Région": "Madagascar",
+      "Type": "Ethno",
+      "Source": "SRC-003",
+      "Statut": "Validé",
+      "Preuve": "Documentation traditionnelle",
+      "Citation": "Madagascar Botanical Archives",
+      "Notes": "Vanille de la région de Sava",
+      "Créé le": "2026-01-05"
+    },
+    {
+      "ID court": "TC-IND-CARDAMOM-001",
+      "Claim": "TC-IND-CARDAMOM-001 — Inde — Cardamome noire : propriétés digestives",
+      "Région": "Inde",
+      "Type": "Ethno",
+      "Source": "SRC-001",
+      "Statut": "En cours",
+      "Preuve": "Usage traditionnel",
+      "Citation": null,
+      "Notes": "Cardamome noire du Kerala",
+      "Créé le": "2026-01-15"
+    },
+    {
+      "ID court": "TC-BRZ-CACAO-001",
+      "Claim": "TC-BRZ-CACAO-001 — Brésil — Cacao Criollo : arôme fruité",
+      "Région": "Brésil",
+      "Type": "Scientifique",
+      "Source": "SRC-004",
+      "Statut": "Validé",
+      "Preuve": "Analyse chromatographique",
+      "Citation": "International Cocoa Research",
+      "Notes": "Cacao Criollo du Brésil",
+      "Créé le": "2026-01-14"
+    },
+    {
+      "ID court": "TC-PER-ROSE-001",
+      "Claim": "TC-PER-ROSE-001 — Pérou — Rose de Damaskus : essence rare",
+      "Région": "Pérou",
+      "Type": "Ethno",
+      "Source": null,
+      "Statut": "À sourcer",
+      "Preuve": "Mention historique",
+      "Citation": null,
+      "Notes": "Rose cultivée dans les Andes",
+      "Créé le": "2026-01-13"
+    },
+    {
+      "ID court": "TC-MAR-ARGAN-001",
+      "Claim": "TC-MAR-ARGAN-001 — Maroc — Argan : huile précieuse",
+      "Région": "Maroc",
+      "Type": "Scientifique",
+      "Source": "SRC-002",
+      "Statut": "Validé",
+      "Preuve": "Études cosmétiques",
+      "Citation": "Moroccan Botanical Institute",
+      "Notes": "Huile d'argan du Maroc",
+      "Créé le": "2026-01-11"
+    },
+    {
+      "ID court": "TC-IND-SAFFRON-001",
+      "Claim": "TC-IND-SAFFRON-001 — Inde — Safran du Cachemire : épice rare",
+      "Région": "Inde",
+      "Type": "Ethno",
+      "Source": "SRC-001",
+      "Statut": "Validé",
+      "Preuve": "Documentation historique",
+      "Citation": "Kashmir Archives",
+      "Notes": "Safran du Cachemire",
+      "Créé le": "2026-01-09"
+    },
+    {
+      "ID court": "TC-IND-AGAR-001",
+      "Claim": "TC-IND-AGAR-001 — Inde — Agar-agar : résine précieuse",
+      "Région": "Inde",
+      "Type": "Ethno",
+      "Source": null,
+      "Statut": "En cours",
+      "Preuve": "Usage traditionnel",
+      "Citation": null,
+      "Notes": "Agar-agar indien rare",
+      "Créé le": "2026-01-16"
+    },
+    {
+      "ID court": "TC-EGY-MYRRH-001",
+      "Claim": "TC-EGY-MYRRH-001 — Égypte — Myrrhe ancienne : encens sacré",
+      "Région": "Égypte",
+      "Type": "Scientifique",
+      "Source": "SRC-003",
+      "Statut": "Validé",
+      "Preuve": "Analyse archéologique",
+      "Citation": "Egyptian Museum Research",
+      "Notes": "Myrrhe de l'Égypte ancienne",
+      "Créé le": "2026-01-07"
+    },
+    {
+      "ID court": "TC-IND-PATCHOULI-001",
+      "Claim": "TC-IND-PATCHOULI-001 — Inde — Patchouli : huile terrestre",
+      "Région": "Inde",
+      "Type": "Ethno",
+      "Source": "SRC-001",
+      "Statut": "Validé",
+      "Preuve": "Usage traditionnel",
+      "Citation": "Indian Botanical Society",
+      "Notes": "Patchouli indien traditionnel",
+      "Créé le": "2026-01-06"
+    },
+    {
+      "ID court": "TC-IND-TURMERIC-001",
+      "Claim": "TC-IND-TURMERIC-001 — Inde — Curcuma : épice dorée",
+      "Région": "Inde",
+      "Type": "Scientifique",
+      "Source": "SRC-002",
+      "Statut": "Validé",
+      "Preuve": "Études scientifiques",
+      "Citation": "Ayurvedic Research Institute",
+      "Notes": "Curcuma indien",
+      "Créé le": "2026-01-04"
+    },
+    {
+      "ID court": "TC-IND-JASMINE-001",
+      "Claim": "TC-IND-JASMINE-001 — Inde — Jasmin sambac : fleur délicate",
+      "Région": "Inde",
+      "Type": "Ethno",
+      "Source": "SRC-004",
+      "Statut": "Validé",
+      "Preuve": "Documentation florale",
+      "Citation": "Indian Flower Archives",
+      "Notes": "Jasmin sambac indien",
+      "Créé le": "2026-01-03"
+    },
+    {
+      "ID court": "TC-IND-VETIVER-001",
+      "Claim": "TC-IND-VETIVER-001 — Inde — Vétiver : racine odorante",
+      "Région": "Inde",
+      "Type": "Ethno",
+      "Source": null,
+      "Statut": "À sourcer",
+      "Preuve": "Usage traditionnel",
+      "Citation": null,
+      "Notes": "Vétiver indien rare",
+      "Créé le": "2026-01-17"
+    },
+    {
+      "ID court": "TC-IND-SANDALWOOD-001",
+      "Claim": "TC-IND-SANDALWOOD-001 — Inde — Bois de santal : bois sacré",
+      "Région": "Inde",
+      "Type": "Scientifique",
+      "Source": "SRC-003",
+      "Statut": "Validé",
+      "Preuve": "Analyse chimique",
+      "Citation": "Sandalwood Research Center",
+      "Notes": "Bois de santal indien",
+      "Créé le": "2026-01-02"
+    }
+  ],
+  "sources": [
+    {
+      "ID source": "SRC-001",
+      "Référence": "Ethnobotany Research Database - Indian Traditional Knowledge",
+      "URL": "https://ethnobotany-india.org",
+      "Qualité": "Haute",
+      "Portée": "Internationale",
+      "Statut": "Validé",
+      "Extraits clés": "Documentation complète des usages traditionnels indiens"
+    },
+    {
+      "ID source": "SRC-002",
+      "Référence": "Journal of Aromatherapy and Essential Oils",
+      "URL": "https://journal-aromatherapy.org",
+      "Qualité": "Haute",
+      "Portée": "Scientifique",
+      "Statut": "Validé",
+      "Extraits clés": "Études scientifiques sur les propriétés olfactives"
+    },
+    {
+      "ID source": "SRC-003",
+      "Référence": "International Botanical Archives",
+      "URL": "https://botanical-archives.org",
+      "Qualité": "Moyenne",
+      "Portée": "Internationale",
+      "Statut": "Validé",
+      "Extraits clés": "Collections botaniques historiques et modernes"
+    },
+    {
+      "ID source": "SRC-004",
+      "Référence": "Perfumery Research Institute",
+      "URL": "https://perfumery-research.org",
+      "Qualité": "Haute",
+      "Portée": "Professionnelle",
+      "Statut": "Validé",
+      "Extraits clés": "Recherche avancée sur les molécules olfactives"
+    }
+  ],
+  "accords": [
+    {
+      "id": "ACC-001",
+      "nom": "Accord Épicé Oriental",
+      "description": "Mélange de cardamome, safran et bois de santal",
+      "molécules": ["cardamome", "safran", "santal"],
+      "intensité": 8,
+      "notes": "Accord chaud et complexe"
+    },
+    {
+      "id": "ACC-002",
+      "nom": "Accord Floral Délicat",
+      "description": "Jasmin sambac et rose de Damaskus",
+      "molécules": ["jasmin", "rose"],
+      "intensité": 6,
+      "notes": "Accord floral léger et aérien"
+    },
+    {
+      "id": "ACC-003",
+      "nom": "Accord Terreux",
+      "description": "Patchouli, vétiver et myrrhe",
+      "molécules": ["patchouli", "vétiver", "myrrhe"],
+      "intensité": 7,
+      "notes": "Accord profond et enraciné"
+    },
+    {
+      "id": "ACC-004",
+      "nom": "Accord Fruité Exotique",
+      "description": "Vanille de Sava et cacao Criollo",
+      "molécules": ["vanille", "cacao"],
+      "intensité": 7,
+      "notes": "Accord sucré et gourmand"
+    },
+    {
+      "id": "ACC-005",
+      "nom": "Accord Herbacé Méditerranéen",
+      "description": "Lavande provençale et argan",
+      "molécules": ["lavande", "argan"],
+      "intensité": 5,
+      "notes": "Accord frais et naturel"
+    },
+    {
+      "id": "ACC-006",
+      "nom": "Accord Épicé Sucré",
+      "description": "Curcuma et vanille",
+      "molécules": ["curcuma", "vanille"],
+      "intensité": 6,
+      "notes": "Accord chaud et réconfortant"
+    },
+    {
+      "id": "ACC-007",
+      "nom": "Accord Boisé Sacré",
+      "description": "Bois de santal et encens",
+      "molécules": ["santal", "encens"],
+      "intensité": 8,
+      "notes": "Accord spirituel et méditatif"
+    },
+    {
+      "id": "ACC-008",
+      "nom": "Accord Épicé Vert",
+      "description": "Cardamome noire et vétiver",
+      "molécules": ["cardamome", "vétiver"],
+      "intensité": 6,
+      "notes": "Accord frais et épicé"
+    },
+    {
+      "id": "ACC-009",
+      "nom": "Accord Floral Épicé",
+      "description": "Jasmin et safran",
+      "molécules": ["jasmin", "safran"],
+      "intensité": 7,
+      "notes": "Accord élégant et sophistiqué"
+    },
+    {
+      "id": "ACC-010",
+      "nom": "Accord Terreux Sucré",
+      "description": "Patchouli et cacao",
+      "molécules": ["patchouli", "cacao"],
+      "intensité": 7,
+      "notes": "Accord riche et complexe"
+    },
+    {
+      "id": "ACC-011",
+      "nom": "Accord Résine Ancienne",
+      "description": "Myrrhe et agar-agar",
+      "molécules": ["myrrhe", "agar"],
+      "intensité": 8,
+      "notes": "Accord mystérieux et ancien"
+    },
+    {
+      "id": "ACC-012",
+      "nom": "Accord Lavande Épicée",
+      "description": "Lavande et cardamome",
+      "molécules": ["lavande", "cardamome"],
+      "intensité": 5,
+      "notes": "Accord frais et épicé"
+    },
+    {
+      "id": "ACC-013",
+      "nom": "Accord Vanille Boisée",
+      "description": "Vanille et bois de santal",
+      "molécules": ["vanille", "santal"],
+      "intensité": 6,
+      "notes": "Accord sucré et boisé"
+    },
+    {
+      "id": "ACC-014",
+      "nom": "Accord Floral Herbacé",
+      "description": "Rose et lavande",
+      "molécules": ["rose", "lavande"],
+      "intensité": 5,
+      "notes": "Accord naturel et frais"
+    },
+    {
+      "id": "ACC-015",
+      "nom": "Accord Épicé Fruité",
+      "description": "Safran et cacao",
+      "molécules": ["safran", "cacao"],
+      "intensité": 7,
+      "notes": "Accord complexe et gourmand"
+    }
+  ],
+  "fiches": [
+    {
+      "id": "FICHE-001",
+      "titre": "Charas Indien : Propriétés et Extraction",
+      "description": "Guide complet sur le charas indien traditionnel",
+      "contenu": "Le charas est une résine obtenue par frottement manuel des fleurs de cannabis. Propriétés olfactives complexes avec notes herbacées et épicées.",
+      "protocoles": ["Extraction manuelle", "Séchage", "Conservation"]
+    },
+    {
+      "id": "FICHE-002",
+      "titre": "Lavande Provençale : Analyse Sensorielle",
+      "description": "Étude complète de la lavande de Provence",
+      "contenu": "La lavande provençale présente un profil olfactif floral avec des notes herbacées. Utilisation traditionnelle et moderne en aromathérapie.",
+      "protocoles": ["Distillation", "Chromatographie", "Analyse sensorielle"]
+    },
+    {
+      "id": "FICHE-003",
+      "titre": "Vanille de Sava : Fermentation et Arôme",
+      "description": "Guide de fermentation de la vanille malgache",
+      "contenu": "La vanille de Sava subit une fermentation complexe qui développe son arôme caractéristique. Processus traditionnel sur 6-9 mois.",
+      "protocoles": ["Fermentation", "Séchage", "Conditionnement"]
+    },
+    {
+      "id": "FICHE-004",
+      "titre": "Bois de Santal : Chimie et Spiritualité",
+      "description": "Analyse chimique et usage spirituel du bois de santal",
+      "contenu": "Le bois de santal contient des sesquiterpènes complexes. Utilisé dans les rituels spirituels depuis l'Antiquité.",
+      "protocoles": ["Extraction", "Analyse chimique", "Utilisation rituelle"]
+    },
+    {
+      "id": "FICHE-005",
+      "titre": "Patchouli : Fermentation et Maturation",
+      "description": "Processus de fermentation du patchouli",
+      "contenu": "Le patchouli doit fermenter pour développer son arôme caractéristique. Processus de 2-3 ans pour la maturation optimale.",
+      "protocoles": ["Fermentation", "Maturation", "Distillation"]
+    },
+    {
+      "id": "FICHE-006",
+      "titre": "Myrrhe Ancienne : Archéologie Olfactive",
+      "description": "Étude archéologique de la myrrhe égyptienne",
+      "contenu": "La myrrhe était utilisée dans les rituels funéraires égyptiens. Analyse chimique des résines anciennes conservées.",
+      "protocoles": ["Analyse archéologique", "Chromatographie", "Datation"]
+    }
+  ]
+}
