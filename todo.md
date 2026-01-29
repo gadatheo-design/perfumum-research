@@ -2965,3 +2965,41 @@
 - Mise en évidence des connexions au survol
 - Atténuation des nœuds non connectés
 - Effet de lueur sur le nœud survolé
+
+
+### Session 30 janvier 2026 - Transformations par pyrolyse et liens recettes
+- [ ] Insérer les données de transformations par pyrolyse des monoterpènes (limonène, pinène, myrcène)
+- [ ] Insérer les données de transformations par pyrolyse des sesquiterpènes (caryophyllène, humulène)
+- [ ] Insérer les données de transformations par pyrolyse des diterpènes (phytol, sclareol)
+- [ ] Créer la table de liaison transformations-recettes
+- [ ] Créer les procédures tRPC pour les liaisons transformations-recettes
+- [ ] Implémenter l'interface de visualisation des impacts sur les recettes de tabac
+- [ ] Documenter les transformations spécifiques à la combustion du tabac
+
+
+---
+
+## 🧬 SESSION 30 JANVIER 2026 — Transformations Pyrolyse & Impacts Recettes
+
+### Phase 1 : Données de transformations par pyrolyse — COMPLÉTÉ
+- [x] Créer la table molecular_transformations
+- [x] Insérer 34 transformations moléculaires (pyrolyse, oxydation, isomérisation, etc.)
+- [x] Documenter les températures optimales et rendements
+
+### Phase 2 : Liaisons transformations-recettes — COMPLÉTÉ
+- [x] Créer la table transformation_recipe_impacts
+- [x] Créer 17 liaisons entre transformations et recettes
+- [x] Documenter les types d'impact (majeur, modéré, mineur, trace)
+
+### Phase 3 : Interface de visualisation — COMPLÉTÉ
+- [x] Créer les procédures tRPC pour les impacts (getTransformationRecipeImpacts, getTransformationImpactStats)
+- [x] Créer les procédures tRPC pour les analyses (getRecipesAffectedByTransformation, getTransformationsAffectingRecipe)
+- [x] Ajouter l'onglet "Impacts Recettes" dans la page MolecularTransformations
+- [x] Créer le composant TransformationImpactsTab avec statistiques et liste des impacts
+
+**Résumé des données :**
+| Type | Quantité |
+|------|----------|
+| Transformations moléculaires | 34 |
+| Liaisons transformations-recettes | 17 |
+| Types de transformation | 6 (pyrolyse, oxydation, isomérisation, déshydratation, dégradation, autre) |

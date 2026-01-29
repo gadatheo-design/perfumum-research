@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS transformation_recipe_impacts (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  transformation_id INT NOT NULL,\n  recette_id INT NOT NULL,\n  impact_type ENUM('major', 'moderate', 'minor', 'trace') NOT NULL DEFAULT 'moderate',\n  impact_description TEXT,\n  olfactory_contribution TEXT,\n  percentage_contribution DECIMAL(5,2),\n  temperature_range VARCHAR(100),\n  notes TEXT,\n  source_reference TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  FOREIGN KEY (transformation_id) REFERENCES molecular_transformations(id) ON DELETE CASCADE,\n  FOREIGN KEY (recette_id) REFERENCES recettes(id) ON DELETE CASCADE,\n  UNIQUE KEY unique_transformation_recipe (transformation_id, recette_id)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS transformation_recipe_impacts (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  transformation_id INT NOT NULL,\n  recette_id INT NOT NULL,\n  impact_type ENUM('major', 'moderate', 'minor', 'trace') NOT NULL DEFAULT 'moderate',\n  impact_description TEXT,\n  olfactory_contribution TEXT,\n  percentage_contribution DECIMAL(5,2),\n  temperature_range VARCHAR(100),\n  notes TEXT,\n  source_reference TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  FOREIGN KEY (transformation_id) REFERENCES molecular_transformations(id) ON DELETE CASCADE,\n  FOREIGN KEY (recette_id) REFERENCES recettes(id) ON DELETE CASCADE,\n  UNIQUE KEY unique_transformation_recipe (transformation_id, recette_id)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 282
+}

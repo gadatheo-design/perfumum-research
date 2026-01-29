@@ -1071,4 +1071,222 @@ export const researchRouter = router({
       return { success: false, data: [], error: error.message };
     }
   }),
+
+  // ============================================================================
+  // TRANSFORMATION RECIPE IMPACTS
+  // ============================================================================
+
+  /**
+   * Get transformation impacts on recipes
+   */
+  getTransformationRecipeImpacts: publicProcedure
+    .input(
+      z.object({
+        transformationId: z.number().optional(),
+        recetteId: z.number().optional(),
+        impactType: z.enum(['major', 'moderate', 'minor', 'trace']).optional(),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, impacts: [], error: "Database connection failed" };
+        }
+
+        let whereClause = '';
+        const conditions: string[] = [];
+        
+        if (input?.transformationId) {
+          conditions.push(`tri.transformation_id = ${input.transformationId}`);
+        }
+        if (input?.recetteId) {
+          conditions.push(`tri.recette_id = ${input.recetteId}`);
+        }
+        if (input?.impactType) {
+          conditions.push(`tri.impact_type = '${input.impactType}'`);
+        }
+        
+        if (conditions.length > 0) {
+          whereClause = `WHERE ${conditions.join(' AND ')}`;
+        }
+
+        const result = await db.execute(sql.raw(`
+          SELECT 
+            tri.id,
+            tri.transformation_id,
+            tri.recette_id,
+            tri.impact_type,
+            tri.impact_description,
+            tri.olfactory_contribution,
+            tri.percentage_contribution,
+            tri.temperature_range,
+            tri.notes,
+            tri.source_reference,
+            mt.source_molecule_name,
+            mt.product_molecule_name,
+            mt.transformation_type,
+            mt.temperature_optimal,
+            r.name as recette_name,
+            r.category as recette_category
+          FROM transformation_recipe_impacts tri
+          JOIN molecular_transformations mt ON tri.transformation_id = mt.id
+          JOIN recettes r ON tri.recette_id = r.id
+          ${whereClause}
+          ORDER BY 
+            CASE tri.impact_type 
+              WHEN 'major' THEN 1 
+              WHEN 'moderate' THEN 2 
+              WHEN 'minor' THEN 3 
+              WHEN 'trace' THEN 4 
+            END,
+            mt.source_molecule_name
+        `));
+
+        const impacts = (result as any).rows || (result as any[]) || [];
+        return { success: true, impacts };
+      } catch (error: any) {
+        console.error("Error getting transformation recipe impacts:", error);
+        return { success: false, impacts: [], error: error.message };
+      }
+    }),
+
+  /**
+   * Get recipes affected by a specific transformation
+   */
+  getRecipesAffectedByTransformation: publicProcedure
+    .input(z.number())
+    .query(async ({ input: transformationId }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, recipes: [], error: "Database connection failed" };
+        }
+
+        const result = await db.execute(sql.raw(`
+          SELECT 
+            r.id,
+            r.name,
+            r.category,
+            r.description,
+            tri.impact_type,
+            tri.impact_description,
+            tri.olfactory_contribution
+          FROM recettes r
+          JOIN transformation_recipe_impacts tri ON r.id = tri.recette_id
+          WHERE tri.transformation_id = ${transformationId}
+          ORDER BY 
+            CASE tri.impact_type 
+              WHEN 'major' THEN 1 
+              WHEN 'moderate' THEN 2 
+              WHEN 'minor' THEN 3 
+              WHEN 'trace' THEN 4 
+            END
+        `));
+
+        const recipes = (result as any).rows || (result as any[]) || [];
+        return { success: true, recipes };
+      } catch (error: any) {
+        console.error("Error getting recipes affected by transformation:", error);
+        return { success: false, recipes: [], error: error.message };
+      }
+    }),
+
+  /**
+   * Get transformations affecting a specific recipe
+   */
+  getTransformationsAffectingRecipe: publicProcedure
+    .input(z.number())
+    .query(async ({ input: recetteId }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, transformations: [], error: "Database connection failed" };
+        }
+
+        const result = await db.execute(sql.raw(`
+          SELECT 
+            mt.id,
+            mt.source_molecule_name,
+            mt.product_molecule_name,
+            mt.transformation_type,
+            mt.temperature_optimal,
+            mt.olfactory_change_description,
+            tri.impact_type,
+            tri.impact_description,
+            tri.olfactory_contribution
+          FROM molecular_transformations mt
+          JOIN transformation_recipe_impacts tri ON mt.id = tri.transformation_id
+          WHERE tri.recette_id = ${recetteId}
+          ORDER BY 
+            CASE tri.impact_type 
+              WHEN 'major' THEN 1 
+              WHEN 'moderate' THEN 2 
+              WHEN 'minor' THEN 3 
+              WHEN 'trace' THEN 4 
+            END
+        `));
+
+        const transformations = (result as any).rows || (result as any[]) || [];
+        return { success: true, transformations };
+      } catch (error: any) {
+        console.error("Error getting transformations affecting recipe:", error);
+        return { success: false, transformations: [], error: error.message };
+      }
+    }),
+
+  /**
+   * Get impact statistics
+   */
+  getTransformationImpactStats: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return { success: false, stats: null, error: "Database connection failed" };
+      }
+
+      const [impactCounts, topTransformations, topRecipes] = await Promise.all([
+        db.execute(sql.raw(`
+          SELECT impact_type, COUNT(*) as count
+          FROM transformation_recipe_impacts
+          GROUP BY impact_type
+          ORDER BY count DESC
+        `)),
+        db.execute(sql.raw(`
+          SELECT 
+            mt.source_molecule_name,
+            mt.product_molecule_name,
+            COUNT(tri.id) as recipe_count
+          FROM molecular_transformations mt
+          JOIN transformation_recipe_impacts tri ON mt.id = tri.transformation_id
+          GROUP BY mt.id, mt.source_molecule_name, mt.product_molecule_name
+          ORDER BY recipe_count DESC
+          LIMIT 10
+        `)),
+        db.execute(sql.raw(`
+          SELECT 
+            r.name,
+            r.category,
+            COUNT(tri.id) as transformation_count
+          FROM recettes r
+          JOIN transformation_recipe_impacts tri ON r.id = tri.recette_id
+          GROUP BY r.id, r.name, r.category
+          ORDER BY transformation_count DESC
+          LIMIT 10
+        `)),
+      ]);
+
+      return {
+        success: true,
+        stats: {
+          impactCounts: (impactCounts as any).rows || (impactCounts as any[]) || [],
+          topTransformations: (topTransformations as any).rows || (topTransformations as any[]) || [],
+          topRecipes: (topRecipes as any).rows || (topRecipes as any[]) || [],
+        },
+      };
+    } catch (error: any) {
+      console.error("Error getting transformation impact stats:", error);
+      return { success: false, stats: null, error: error.message };
+    }
+  }),
 });

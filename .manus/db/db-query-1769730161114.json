@@ -1,0 +1,90 @@
+{
+  "query": "SELECT id, name FROM recettes LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM recettes LIMIT 20;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "OS PLUVIEUX"
+    },
+    {
+      "id": "2",
+      "name": "FOSSE ANTIQUE"
+    },
+    {
+      "id": "3",
+      "name": "ARCHÉOLOGIE BRÛLÉE"
+    },
+    {
+      "id": "4",
+      "name": "ARGILE HUMIDE SACRÉE"
+    },
+    {
+      "id": "5",
+      "name": "PÉTRICHOR SÉPULCRAL"
+    },
+    {
+      "id": "6",
+      "name": "BIBLIOTHÈQUE HUMIDE"
+    },
+    {
+      "id": "7",
+      "name": "PIERRE NOIRE FENDUE"
+    },
+    {
+      "id": "8",
+      "name": "FOUILLE HUMIDE"
+    },
+    {
+      "id": "9",
+      "name": "MURAILLE APRÈS ORAGE"
+    },
+    {
+      "id": "10",
+      "name": "TEMPLE DE TERRE BLANCHE"
+    },
+    {
+      "id": "11",
+      "name": "BRUME SUR PIERRE"
+    },
+    {
+      "id": "12",
+      "name": "JOUR DE PLUIE ANTIQUE"
+    },
+    {
+      "id": "13",
+      "name": "TERRE HUMIDE SACRÉE"
+    },
+    {
+      "id": "14",
+      "name": "PLUIE SULFURÉE"
+    },
+    {
+      "id": "15",
+      "name": "SÉDIMENT ARCHÉOLOGIQUE"
+    },
+    {
+      "id": "16",
+      "name": "FOSSILE BLANC MINÉRAL"
+    },
+    {
+      "id": "17",
+      "name": "SOL NOIR VIVANT"
+    },
+    {
+      "id": "18",
+      "name": "PLUIE SUR BITUME SACRÉ"
+    },
+    {
+      "id": "19",
+      "name": "ARGILE LUMINEUSE"
+    },
+    {
+      "id": "20",
+      "name": "OS ROUGE (Mossi)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1\tOS PLUVIEUX\n2\tFOSSE ANTIQUE\n3\tARCHÉOLOGIE BRÛLÉE\n4\tARGILE HUMIDE SACRÉE\n5\tPÉTRICHOR SÉPULCRAL\n6\tBIBLIOTHÈQUE HUMIDE\n7\tPIERRE NOIRE FENDUE\n8\tFOUILLE HUMIDE\n9\tMURAILLE APRÈS ORAGE\n10\tTEMPLE DE TERRE BLANCHE\n11\tBRUME SUR PIERRE\n12\tJOUR DE PLUIE ANTIQUE\n13\tTERRE HUMIDE SACRÉE\n14\tPLUIE SULFURÉE\n15\tSÉDIMENT ARCHÉOLOGIQUE\n16\tFOSSILE BLANC MINÉRAL\n17\tSOL NOIR VIVANT\n18\tPLUIE SUR BITUME SACRÉ\n19\tARGILE LUMINEUSE\n20\tOS ROUGE (Mossi)\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

@@ -1,0 +1,64 @@
+{
+  "query": "SELECT id, source_molecule_name, product_molecule_name, transformation_type FROM molecular_transformations WHERE relevance_context = 'tobacco_combustion';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, source_molecule_name, product_molecule_name, transformation_type FROM molecular_transformations WHERE relevance_context = 'tobacco_combustion';",
+  "rows": [
+    {
+      "id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "4",
+      "source_molecule_name": "α-Pinène",
+      "product_molecule_name": "Camphène",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "6",
+      "source_molecule_name": "β-Pinène",
+      "product_molecule_name": "Myrcène",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "11",
+      "source_molecule_name": "β-Caryophyllène",
+      "product_molecule_name": "Oxyde de caryophyllène",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "15",
+      "source_molecule_name": "α-Humulène",
+      "product_molecule_name": "Caryophyllène",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "19",
+      "source_molecule_name": "Germacrène D",
+      "product_molecule_name": "β-Élémène",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "20",
+      "source_molecule_name": "Germacrène D",
+      "product_molecule_name": "Sélina-4,11-diène",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "21",
+      "source_molecule_name": "Phytol",
+      "product_molecule_name": "Néophytadiène",
+      "transformation_type": "dehydration"
+    },
+    {
+      "id": "28",
+      "source_molecule_name": "Eugénol",
+      "product_molecule_name": "Isoeugénol",
+      "transformation_type": "isomerization"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsource_molecule_name\tproduct_molecule_name\ttransformation_type\n1\tLimonène\tp-Cymène\tpyrolysis\n4\tα-Pinène\tCamphène\tisomerization\n6\tβ-Pinène\tMyrcène\tpyrolysis\n11\tβ-Caryophyllène\tOxyde de caryophyllène\toxidation\n15\tα-Humulène\tCaryophyllène\tisomerization\n19\tGermacrène D\tβ-Élémène\tpyrolysis\n20\tGermacrène D\tSélina-4,11-diène\tpyrolysis\n21\tPhytol\tNéophytadiène\tdehydration\n28\tEugénol\tIsoeugénol\tisomerization\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

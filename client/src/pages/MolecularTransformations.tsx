@@ -334,6 +334,7 @@ export default function MolecularTransformations() {
           <TabsList>
             <TabsTrigger value="list">Liste des transformations</TabsTrigger>
             <TabsTrigger value="graph">Graphe des transformations</TabsTrigger>
+            <TabsTrigger value="impacts">Impacts Recettes</TabsTrigger>
           </TabsList>
 
           <TabsContent value="list" className="space-y-4">
@@ -481,8 +482,196 @@ export default function MolecularTransformations() {
               </CardContent>
             </Card>
           </TabsContent>
+
+          <TabsContent value="impacts">
+            <TransformationImpactsTab />
+          </TabsContent>
         </Tabs>
       </div>
     </DashboardLayout>
+  );
+}
+
+
+// Composant pour l'onglet Impacts Recettes
+function TransformationImpactsTab() {
+  const { data: impactsData, isLoading: impactsLoading } = trpc.research.getTransformationRecipeImpacts.useQuery({});
+  const { data: statsData, isLoading: statsLoading } = trpc.research.getTransformationImpactStats.useQuery();
+
+  const impacts = impactsData?.impacts || [];
+  const stats = statsData?.stats;
+
+  const impactTypeColors: Record<string, string> = {
+    major: "bg-red-500",
+    moderate: "bg-orange-500",
+    minor: "bg-yellow-500",
+    trace: "bg-gray-400",
+  };
+
+  const impactTypeLabels: Record<string, string> = {
+    major: "Majeur",
+    moderate: "Modéré",
+    minor: "Mineur",
+    trace: "Trace",
+  };
+
+  if (impactsLoading || statsLoading) {
+    return (
+      <Card>
+        <CardContent className="py-12 text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto" />
+          <p className="mt-4 text-muted-foreground">Chargement des impacts...</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Statistics */}
+      {stats && (
+        <div className="grid gap-4 md:grid-cols-4">
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Impacts Majeurs</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-red-500">
+                {stats.impactCounts?.find((c: any) => c.impact_type === 'major')?.count || 0}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Impacts Modérés</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-orange-500">
+                {stats.impactCounts?.find((c: any) => c.impact_type === 'moderate')?.count || 0}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Impacts Mineurs</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-yellow-500">
+                {stats.impactCounts?.find((c: any) => c.impact_type === 'minor')?.count || 0}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium">Total Liaisons</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{impacts.length}</div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Top Transformations */}
+      {stats?.topTransformations && stats.topTransformations.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Transformations les plus impactantes</CardTitle>
+            <CardDescription>Transformations affectant le plus de recettes</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {stats.topTransformations.slice(0, 5).map((t: any, i: number) => (
+                <div key={i} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <span className="text-orange-500">🔥</span>
+                    <div>
+                      <span className="font-medium">{t.source_molecule_name}</span>
+                      <ArrowRight className="inline h-4 w-4 mx-2 text-muted-foreground" />
+                      <span className="font-medium">{t.product_molecule_name}</span>
+                    </div>
+                  </div>
+                  <Badge variant="secondary">{t.recipe_count} recettes</Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Top Recipes */}
+      {stats?.topRecipes && stats.topRecipes.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Recettes les plus affectées</CardTitle>
+            <CardDescription>Recettes avec le plus de transformations associées</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {stats.topRecipes.slice(0, 5).map((r: any, i: number) => (
+                <div key={i} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <span>📜</span>
+                    <div>
+                      <span className="font-medium">{r.name}</span>
+                      <Badge variant="outline" className="ml-2">{r.category}</Badge>
+                    </div>
+                  </div>
+                  <Badge variant="secondary">{r.transformation_count} transformations</Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* All Impacts */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Tous les impacts</CardTitle>
+          <CardDescription>Liste complète des liaisons transformations-recettes</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {impacts.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <Flame className="mx-auto h-12 w-12 text-orange-500/30" />
+              <p className="mt-4">Aucun impact documenté pour le moment</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {impacts.map((impact: any) => (
+                <div key={impact.id} className="border rounded-lg p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Badge className={impactTypeColors[impact.impact_type]}>
+                        {impactTypeLabels[impact.impact_type]}
+                      </Badge>
+                      <span className="font-medium">{impact.source_molecule_name}</span>
+                      <ArrowRight className="h-4 w-4 text-muted-foreground" />
+                      <span className="font-medium">{impact.product_molecule_name}</span>
+                    </div>
+                    <Badge variant="outline">{impact.transformation_type}</Badge>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span>📜</span>
+                    <span className="font-medium">{impact.recette_name}</span>
+                    <Badge variant="secondary" className="text-xs">{impact.recette_category}</Badge>
+                  </div>
+                  {impact.impact_description && (
+                    <p className="text-sm text-muted-foreground">{impact.impact_description}</p>
+                  )}
+                  {impact.olfactory_contribution && (
+                    <div className="text-sm">
+                      <span className="text-muted-foreground">Contribution olfactive : </span>
+                      <span className="italic">{impact.olfactory_contribution}</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }
