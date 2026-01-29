@@ -156,6 +156,18 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/timeline", label: "Timeline" },
     ],
   },
+  // === TABACOTHÈQUE ===
+  {
+    title: "Tabacothèque",
+    icon: Leaf,
+    items: [
+      { href: "/tabacotheque", label: "Vue d'ensemble", badge: "HUB" },
+      { href: "/historic-cigarettes", label: "Cigarettes Historiques", badge: "NEW" },
+      { href: "/perique-compounds", label: "Composés du Perique" },
+      { href: "/tps-genes", label: "Gènes TPS", badge: "NEW" },
+      { href: "/genomics-explorer", label: "Explorateur Génomique" },
+    ],
+  },
   // === PROJET ===
   {
     title: "Documentation",

@@ -2786,3 +2786,29 @@
   - Explorateur Génomique (`/genomics-explorer`)
 - [x] Ajouter les cartes de navigation rapide dans la page Tabacothèque
 - [x] Écrire les tests vitest pour les procédures génomiques (`research.genomics.test.ts` - 4 tests)
+
+
+---
+
+## 🧬 SESSION 29 JANVIER 2026 — GÉNOMIQUE TPS
+
+### Enrichissement données génomiques TPS
+- [x] Importer les gènes TPS 116-140 (batch 5) — 25 gènes diterpènes et monoterpènes
+- [x] Importer les gènes TPS 141-147 (batch 6) — 7 gènes diterpènes finaux
+- [x] Total gènes TPS importés : 147/160 documentés (91.9% de couverture)
+
+### Visualisation D3.js des voies biosynthétiques
+- [x] Créer le composant BiosyntheticPathwayViz.tsx avec D3.js force-directed graph
+- [x] Implémenter les nœuds pour précurseurs, intermédiaires, produits, enzymes et gènes
+- [x] Implémenter les liens de conversion métabolique et catalyse enzymatique
+- [x] Ajouter les filtres par voie (MEP/MVA/Toutes)
+- [x] Ajouter les contrôles de zoom (zoom in/out/reset)
+- [x] Ajouter les tooltips interactifs avec détails des nœuds
+- [x] Intégrer la visualisation dans l'onglet "Voies Biosynthétiques" de /tps-genes
+- [x] Ajouter la légende avec formes et couleurs
+
+### Navigation mobile Tabacothèque
+- [x] Ajouter la section Tabacothèque au menu mobile (MobileMenu.tsx)
+- [x] Inclure les liens : Vue d'ensemble, Cigarettes Historiques, Composés du Perique, Gènes TPS, Explorateur Génomique
+- [x] Vérifier l'affichage correct du menu desktop Tabacothèque
+

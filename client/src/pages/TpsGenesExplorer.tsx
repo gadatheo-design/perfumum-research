@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dna, FlaskConical, Leaf, Search, ArrowRight, Beaker } from "lucide-react";
+import BiosyntheticPathwayViz from "@/components/BiosyntheticPathwayViz";
 
 interface TpsGene {
   id: number;
@@ -255,6 +256,9 @@ export default function TpsGenesExplorer() {
 
           {/* Biosynthetic Pathways Tab */}
           <TabsContent value="pathways" className="space-y-4">
+            {/* Visualisation D3.js interactive */}
+            <BiosyntheticPathwayViz />
+
             {pathwaysLoading ? (
               <div className="text-center py-12 text-muted-foreground">Chargement des voies biosynthétiques...</div>
             ) : (pathways as BiosyntheticPathway[]).length === 0 ? (
