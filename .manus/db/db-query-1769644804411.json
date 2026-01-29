@@ -1,0 +1,50 @@
+{
+  "query": "SELECT COUNT(*) as total, category, COUNT(CASE WHEN is_new_tobacco_isolate = 1 THEN 1 END) as new_isolates FROM perique_compounds GROUP BY category;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, category, COUNT(CASE WHEN is_new_tobacco_isolate = 1 THEN 1 END) as new_isolates FROM perique_compounds GROUP BY category;",
+  "rows": [
+    {
+      "total": "2",
+      "category": "Sesquiterpènes",
+      "new_isolates": "2"
+    },
+    {
+      "total": "4",
+      "category": "Alcools",
+      "new_isolates": "4"
+    },
+    {
+      "total": "6",
+      "category": "Esters",
+      "new_isolates": "6"
+    },
+    {
+      "total": "1",
+      "category": "Acétals",
+      "new_isolates": "1"
+    },
+    {
+      "total": "2",
+      "category": "Lactones",
+      "new_isolates": "2"
+    },
+    {
+      "total": "4",
+      "category": "Cétones",
+      "new_isolates": "3"
+    },
+    {
+      "total": "1",
+      "category": "Aromatiques",
+      "new_isolates": "1"
+    },
+    {
+      "total": "8",
+      "category": "Caroténoïdes",
+      "new_isolates": "8"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tcategory\tnew_isolates\n2\tSesquiterpènes\t2\n4\tAlcools\t4\n6\tEsters\t6\n1\tAcétals\t1\n2\tLactones\t2\n4\tCétones\t3\n1\tAromatiques\t1\n8\tCaroténoïdes\t8\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

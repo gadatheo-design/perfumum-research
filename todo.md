@@ -2662,3 +2662,28 @@
 - 15 blends
 - 21 molécules
 = **140+ nouvelles entrées**
+
+
+---
+
+## 🧬 SESSION IMPORT MOLÉCULAIRE — 28 Jan 2026 (En cours)
+
+### Phase 1 : Données moléculaires du Perique
+- [x] Analyser la structure du fichier JSON des 334 composés
+- [x] Créer la table perique_compounds (14 colonnes)
+- [x] Importer les composés - Lot 1 : Alcools et esters de fermentation (10 composés)
+- [x] Importer les composés - Lot 2 : Carotenöides dégradés (8 composés)
+- [x] Importer les composés - Lot 3 : Lactones et aromatiques (10 composés)
+- [x] Importer les composés - Lot 4 : Composés majeurs tabac (10 composés)
+- [x] Importer les composés - Lot 5 : Acides et aldéhydes (10 composés)
+- [ ] Continuer import des composés restants (~286 composés)
+
+### Phase 1b : Profils moléculaires des 7 landraces
+- [ ] Analyser le fichier comparaison_7_landraces.json
+- [ ] Enrichir les landraces existantes avec les profils moléculaires
+- [ ] Créer les liaisons landrace-molécule
+
+### Phase 1c : Composés différenciateurs Tier 1
+- [ ] Analyser le fichier analyse_composes_differenciateurs.json
+- [ ] Importer les marqueurs moléculaires Tier 1
+- [ ] Créer les liaisons avec les cigarettes existantes
