@@ -2676,7 +2676,10 @@
 - [x] Importer les composés - Lot 3 : Lactones et aromatiques (10 composés)
 - [x] Importer les composés - Lot 4 : Composés majeurs tabac (10 composés)
 - [x] Importer les composés - Lot 5 : Acides et aldéhydes (10 composés)
-- [ ] Continuer import des composés restants (~286 composés)
+- [x] Importer les composés - Lot 6 : Phénols et composés soufrés (10 composés)
+- [x] Importer les composés - Lot 7 : Pyrazines et composés azotés (10 composés)
+- [x] Importer les composés - Lot 8 : Terpènes et hydrocarbures (10 composés)
+- [ ] Continuer import des composés restants (~256 composés)
 
 ### Phase 1b : Profils moléculaires des 7 landraces
 - [ ] Analyser le fichier comparaison_7_landraces.json
