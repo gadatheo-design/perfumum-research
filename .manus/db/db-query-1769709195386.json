@@ -1,0 +1,9 @@
+{
+  "query": "\nSELECT name, COUNT(*) as count \nFROM tps_genes \nGROUP BY name \nHAVING COUNT(*) > 1 \nORDER BY count DESC \nLIMIT 20\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT name, COUNT(*) as count \nFROM tps_genes \nGROUP BY name \nHAVING COUNT(*) > 1 \nORDER BY count DESC \nLIMIT 20\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 7123
+}

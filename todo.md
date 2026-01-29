@@ -1,6 +1,6 @@
 # PERFUMUM — TODO
 
-> **Dernière mise à jour** : 08 janvier 2026
+> **Dernière mise à jour** : 29 janvier 2026
 > **Archive des sessions précédentes** : `todo-archive-2026-01-08.md` (116 sessions, 1577 tâches complétées)
 
 ---
@@ -10,13 +10,15 @@
 ### Base de données
 | Entité | Quantité | Liaisons |
 |--------|----------|----------|
-| Molécules | ~556 | 50% liées aux recettes (278/556) |
-| Recettes | ~266 | 93% avec molécules (248/266) |
-| Plantes | ~144 | 19.4% liées aux terroirs (28/144) |
-| Terroirs | ~29 | 65.5% avec plantes (19/29) |
+| Molécules | ~699 | 50% liées aux recettes |
+| Recettes | ~266 | 93% avec molécules |
+| Plantes | ~144 | 19.4% liées aux terroirs |
+| Terroirs | ~29 | 65.5% avec plantes |
 | Accords | ~30 | - |
 | Familles olfactives | ~12 | - |
 | Matières premières | ~80 | - |
+| **Gènes TPS** | **307** | **126 liés aux molécules (4.4%)** |
+| **Liaisons TPS↔Molécules** | **126** | **14 gènes → 33 molécules** |
 
 ### Qualité des données scientifiques
 | Champ | Rempli | Manquant |
