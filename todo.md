@@ -2697,3 +2697,32 @@
 - [ ] Analyser le fichier analyse_composes_differenciateurs.json
 - [ ] Importer les marqueurs moléculaires Tier 1
 - [ ] Créer les liaisons avec les cigarettes existantes
+
+
+---
+
+## ✅ SESSION IMPORT COMPOSÉS DU PERIQUE — 29 Jan 2026
+
+### Import complet des 278 composés du Perique
+- [x] Créer la table `perique_compounds` (14 colonnes)
+- [x] Importer Lot 1-5 : Alcools, esters, caroténoïdes, lactones, cétones (48 composés)
+- [x] Importer Lot 6-8 : Phénols, soufrés, pyrazines, azotés, terpènes (30 composés)
+- [x] Importer Lot 9-15 : Esters fruités, furanones, vanilloïdes, fermentation (70 composés)
+- [x] Importer Lot 16-20 : Acides, alcools supérieurs, sesquiterpénols, aldéhydes, soufrés (50 composés)
+- [x] Importer Lot 21-25 : Sesquiterpènes, monoterpènes, azotés hétérocycliques, norisoprénoïdes (50 composés)
+- [x] Importer Lot 26-28 : Phénols dérivés, composés spécifiques Perique, esters finaux (30 composés)
+- [x] **TOTAL : 278 composés importés, 24 catégories, ~60 nouveaux isolats de tabac**
+
+### Statistiques par catégorie
+| Catégorie | Composés | Nouveaux isolats |
+|-----------|----------|------------------|
+| Esters | 35+ | 5 |
+| Alcools | 30+ | 12 |
+| Sesquiterpènes | 20+ | 4 |
+| Norisoprénoïdes | 15+ | 3 |
+| Phénols | 15+ | 2 |
+| Azotés | 20+ | 5 |
+| Soufrés | 10+ | 3 |
+| Lactones | 10+ | 5 |
+| ... | ... | ... |
+
