@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import BiosyntheticPathwayViz from "@/components/BiosyntheticPathwayViz";
+import BiosyntheticPathwayFlow from "@/components/BiosyntheticPathwayFlow";
 
 interface TpsGene {
   id: number;
@@ -153,6 +154,10 @@ export default function TpsGenesExplorer() {
             <TabsTrigger value="links" className="data-[state=active]:bg-violet-500/20">
               <Link2 className="h-4 w-4 mr-2" />
               Liaisons Molécules
+            </TabsTrigger>
+            <TabsTrigger value="flow" className="data-[state=active]:bg-amber-500/20">
+              <ArrowRight className="h-4 w-4 mr-2" />
+              Chemins
             </TabsTrigger>
           </TabsList>
 
@@ -353,6 +358,11 @@ export default function TpsGenesExplorer() {
           {/* Molecule Links Tab */}
           <TabsContent value="links" className="space-y-4">
             <TpsGeneMoleculeLinksTab tpsGenes={tpsGenes as TpsGene[]} />
+          </TabsContent>
+
+          {/* Biosynthetic Pathways Flow Tab */}
+          <TabsContent value="flow" className="space-y-4">
+            <BiosyntheticPathwayFlowTab />
           </TabsContent>
         </Tabs>
 
@@ -693,6 +703,44 @@ function TpsGeneMoleculeLinksTab({ tpsGenes }: TpsGeneMoleculeLinksTabProps) {
               <p className="text-xs text-muted-foreground mt-1">Substrat initial</p>
             </div>
           </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+
+/**
+ * BiosyntheticPathwayFlowTab - Onglet de visualisation des chemins biosynthétiques
+ */
+function BiosyntheticPathwayFlowTab() {
+  const [selectedPathway, setSelectedPathway] = useState<"MEP" | "MVA" | "all">("all");
+  
+  const { data: pathwaysData, isLoading } = trpc.research.getBiosyntheticPathwayFlow.useQuery({
+    pathway: selectedPathway,
+    limit: 100,
+  });
+
+  return (
+    <div className="space-y-4">
+      <Card className="bg-card/50 border-border/50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <ArrowRight className="h-5 w-5 text-amber-400" />
+            Chemins Biosynthétiques
+          </CardTitle>
+          <CardDescription>
+            Visualisation du parcours complet: Gène TPS → Molécule → Recette
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <BiosyntheticPathwayFlow
+            data={pathwaysData?.paths || []}
+            stats={pathwaysData?.stats}
+            isLoading={isLoading}
+            selectedPathway={selectedPathway}
+            onPathwayChange={setSelectedPathway}
+          />
         </CardContent>
       </Card>
     </div>

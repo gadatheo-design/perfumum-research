@@ -746,4 +746,143 @@ export const researchRouter = router({
         return { success: false, error: error.message, gene: null, matches: [] };
       }
     }),
+
+  /**
+   * Get biosynthetic pathways flow: TPS gene → molecule → recipe
+   * Returns complete paths from gene to final application
+   */
+  getBiosyntheticPathwayFlow: publicProcedure
+    .input(
+      z.object({
+        geneId: z.number().optional(),
+        moleculeId: z.number().optional(),
+        pathway: z.enum(["MEP", "MVA", "all"]).default("all"),
+        limit: z.number().default(100),
+      })
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, paths: [], stats: null, error: "Database connection failed" };
+        }
+
+        // Get TPS genes with their linked molecules and recipes
+        let geneFilter = "";
+        if (input.geneId) {
+          geneFilter = ` AND tg.id = ${input.geneId}`;
+        }
+        if (input.pathway !== "all") {
+          geneFilter += ` AND tg.pathway = '${input.pathway}'`;
+        }
+
+        const pathsQuery = `
+          SELECT 
+            tg.id as gene_id,
+            tg.name as gene_name,
+            tg.subfamily,
+            tg.main_product,
+            tg.olfactory_notes as gene_olfactory,
+            tg.pathway,
+            tg.product_class,
+            m.id as molecule_id,
+            m.name as molecule_name,
+            tgm.relationship_type,
+            tgm.confidence,
+            r.id as recipe_id,
+            r.name as recipe_name,
+            r.category as recipe_category
+          FROM tps_genes tg
+          LEFT JOIN tps_gene_molecules tgm ON tg.id = tgm.tps_gene_id
+          LEFT JOIN molecules m ON tgm.molecule_id = m.id
+          LEFT JOIN recette_molecules rm ON m.id = rm.molecule_id
+          LEFT JOIN recettes r ON rm.recette_id = r.id
+          WHERE 1=1 ${geneFilter}
+          ORDER BY tg.name, m.name, r.name
+          LIMIT ${input.limit}
+        `;
+
+        const pathsResult = await db.execute(sql.raw(pathsQuery));
+        const paths = (pathsResult as any).rows || (pathsResult as any[]) || [];
+
+        // Get statistics
+        const statsQuery = `
+          SELECT 
+            COUNT(DISTINCT tg.id) as total_genes,
+            COUNT(DISTINCT CASE WHEN tgm.id IS NOT NULL THEN tg.id END) as linked_genes,
+            COUNT(DISTINCT m.id) as linked_molecules,
+            COUNT(DISTINCT r.id) as linked_recipes,
+            COUNT(DISTINCT tg.pathway) as pathways_count
+          FROM tps_genes tg
+          LEFT JOIN tps_gene_molecules tgm ON tg.id = tgm.tps_gene_id
+          LEFT JOIN molecules m ON tgm.molecule_id = m.id
+          LEFT JOIN recette_molecules rm ON m.id = rm.molecule_id
+          LEFT JOIN recettes r ON rm.recette_id = r.id
+        `;
+        const statsResult = await db.execute(sql.raw(statsQuery));
+        const statsRows = (statsResult as any).rows || (statsResult as any[]) || [];
+        const stats = statsRows[0] || null;
+
+        // Group paths by gene for visualization
+        const groupedPaths: Record<number, {
+          gene: { id: number; name: string; subfamily: string; main_product: string; olfactory: string; pathway: string; product_class: string };
+          molecules: Array<{
+            id: number;
+            name: string;
+            relationship: string;
+            confidence: string;
+            recipes: Array<{ id: number; name: string; category: string }>;
+          }>;
+        }> = {};
+
+        for (const row of paths as any[]) {
+          if (!groupedPaths[row.gene_id]) {
+            groupedPaths[row.gene_id] = {
+              gene: {
+                id: row.gene_id,
+                name: row.gene_name,
+                subfamily: row.subfamily,
+                main_product: row.main_product,
+                olfactory: row.gene_olfactory,
+                pathway: row.pathway,
+                product_class: row.product_class,
+              },
+              molecules: [],
+            };
+          }
+
+          if (row.molecule_id) {
+            let molecule = groupedPaths[row.gene_id].molecules.find(m => m.id === row.molecule_id);
+            if (!molecule) {
+              molecule = {
+                id: row.molecule_id,
+                name: row.molecule_name,
+                relationship: row.relationship_type,
+                confidence: row.confidence,
+                recipes: [],
+              };
+              groupedPaths[row.gene_id].molecules.push(molecule);
+            }
+
+            if (row.recipe_id && !molecule.recipes.find(r => r.id === row.recipe_id)) {
+              molecule.recipes.push({
+                id: row.recipe_id,
+                name: row.recipe_name,
+                category: row.recipe_category,
+              });
+            }
+          }
+        }
+
+        return {
+          success: true,
+          paths: Object.values(groupedPaths),
+          stats,
+          rawPaths: paths,
+        };
+      } catch (error: any) {
+        console.error("Error getting biosynthetic pathways:", error);
+        return { success: false, paths: [], stats: null, error: error.message };
+      }
+    }),
 });

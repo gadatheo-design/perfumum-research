@@ -2873,3 +2873,17 @@
 | Gènes liés | 14 | 47 | +235% |
 | Molécules liées | 33 | 72 | +118% |
 | Couverture gènes | 4.4% | 15.3% | +247% |
+
+
+### Session 29 janvier 2026 - Partie 4 : Enrichissement profils olfactifs TPS
+- [ ] Analyser les noms des 307 gènes TPS pour extraire les produits
+- [ ] Mettre à jour le champ 'product' pour chaque gène TPS
+- [ ] Ajouter les profils olfactifs correspondants
+- [ ] Valider les correspondances avec les molécules existantes
+
+
+### Session 29 janvier 2026 - Partie 5 : Visualisation chemin biosynthétique — EN COURS
+- [x] Créer la procédure tRPC getBiosyntheticPathwayFlow
+- [x] Créer le composant D3.js BiosyntheticPathwayFlow
+- [x] Intégrer dans TpsGenesExplorer (nouvel onglet "Chemins")
+- [ ] Tester le responsive mobile (en attente connexion DB)
