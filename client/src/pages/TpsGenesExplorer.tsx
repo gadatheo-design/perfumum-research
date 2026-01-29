@@ -6,7 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dna, FlaskConical, Leaf, Search, ArrowRight, Beaker } from "lucide-react";
+import { Dna, FlaskConical, Leaf, Search, ArrowRight, Beaker, Link2, Plus, Trash2, Sparkles, AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { toast } from "sonner";
 import BiosyntheticPathwayViz from "@/components/BiosyntheticPathwayViz";
 
 interface TpsGene {
@@ -146,6 +149,10 @@ export default function TpsGenesExplorer() {
             <TabsTrigger value="pathways" className="data-[state=active]:bg-blue-500/20">
               <FlaskConical className="h-4 w-4 mr-2" />
               Voies Biosynthétiques
+            </TabsTrigger>
+            <TabsTrigger value="links" className="data-[state=active]:bg-violet-500/20">
+              <Link2 className="h-4 w-4 mr-2" />
+              Liaisons Molécules
             </TabsTrigger>
           </TabsList>
 
@@ -342,6 +349,11 @@ export default function TpsGenesExplorer() {
               </div>
             )}
           </TabsContent>
+
+          {/* Molecule Links Tab */}
+          <TabsContent value="links" className="space-y-4">
+            <TpsGeneMoleculeLinksTab tpsGenes={tpsGenes as TpsGene[]} />
+          </TabsContent>
         </Tabs>
 
         {/* Info Box */}
@@ -372,5 +384,317 @@ export default function TpsGenesExplorer() {
         </Card>
       </div>
     </DashboardLayout>
+  );
+}
+
+
+// ============================================================================
+// TPS Gene - Molecule Links Tab Component
+// ============================================================================
+
+interface TpsGeneMoleculeLinksTabProps {
+  tpsGenes: TpsGene[];
+}
+
+function TpsGeneMoleculeLinksTab({ tpsGenes }: TpsGeneMoleculeLinksTabProps) {
+  const [selectedGeneId, setSelectedGeneId] = useState<string>("all");
+  const [relationshipFilter, setRelationshipFilter] = useState<string>("all");
+  const [confidenceFilter, setConfidenceFilter] = useState<string>("all");
+  const [isAutoLinkDialogOpen, setIsAutoLinkDialogOpen] = useState(false);
+
+  const { data: links = [], isLoading: linksLoading, refetch: refetchLinks } = trpc.research.getTpsGeneMoleculeLinks.useQuery(
+    selectedGeneId !== "all" ? { tpsGeneId: parseInt(selectedGeneId) } : undefined
+  );
+  
+  const { data: linkStats } = trpc.research.getTpsGeneMoleculeLinkStats.useQuery();
+  
+  const autoLinkMutation = trpc.research.autoLinkTpsGenesToMolecules.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(`${data.linksCreated} liaisons créées automatiquement`);
+        refetchLinks();
+        setIsAutoLinkDialogOpen(false);
+      } else {
+        toast.error(data.error || "Erreur lors de la création des liaisons");
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const deleteLinkMutation = trpc.research.deleteTpsGeneMoleculeLink.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success("Liaison supprimée");
+        refetchLinks();
+      } else {
+        toast.error(data.error || "Erreur lors de la suppression");
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const filteredLinks = useMemo(() => {
+    return (links as any[]).filter((link) => {
+      const matchesRelationship = relationshipFilter === "all" || link.relationshipType === relationshipFilter;
+      const matchesConfidence = confidenceFilter === "all" || link.confidenceLevel === confidenceFilter;
+      return matchesRelationship && matchesConfidence;
+    });
+  }, [links, relationshipFilter, confidenceFilter]);
+
+  const relationshipColors: Record<string, string> = {
+    produces: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+    catalyzes: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+    regulates: "bg-amber-500/20 text-amber-400 border-amber-500/30",
+    precursor: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+  };
+
+  const confidenceColors: Record<string, string> = {
+    confirmed: "bg-green-500/20 text-green-400 border-green-500/30",
+    predicted: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+    inferred: "bg-gray-500/20 text-gray-400 border-gray-500/30",
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Stats Overview */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card className="bg-card/50 border-border/50">
+          <CardContent className="p-4 text-center">
+            <div className="text-3xl font-bold text-violet-400">{linkStats?.totalLinks || 0}</div>
+            <div className="text-xs text-muted-foreground mt-1">Liaisons totales</div>
+          </CardContent>
+        </Card>
+        <Card className="bg-card/50 border-border/50">
+          <CardContent className="p-4 text-center">
+            <div className="text-3xl font-bold text-emerald-400">{linkStats?.linkedGenes || 0}</div>
+            <div className="text-xs text-muted-foreground mt-1">
+              Gènes liés ({linkStats?.geneCoverage?.toFixed(1) || 0}%)
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-card/50 border-border/50">
+          <CardContent className="p-4 text-center">
+            <div className="text-3xl font-bold text-blue-400">{linkStats?.linkedMolecules || 0}</div>
+            <div className="text-xs text-muted-foreground mt-1">
+              Molécules liées ({linkStats?.moleculeCoverage?.toFixed(1) || 0}%)
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-card/50 border-border/50">
+          <CardContent className="p-4 text-center">
+            <div className="text-3xl font-bold text-amber-400">{linkStats?.totalGenes || 0}</div>
+            <div className="text-xs text-muted-foreground mt-1">Gènes TPS total</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Actions & Filters */}
+      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+        <div className="flex flex-col md:flex-row gap-4 flex-1">
+          <Select value={selectedGeneId} onValueChange={setSelectedGeneId}>
+            <SelectTrigger className="w-full md:w-[250px] bg-card/50 border-border/50">
+              <SelectValue placeholder="Filtrer par gène" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tous les gènes</SelectItem>
+              {tpsGenes.map((gene) => (
+                <SelectItem key={gene.id} value={gene.id.toString()}>
+                  {gene.name} - {gene.main_product}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={relationshipFilter} onValueChange={setRelationshipFilter}>
+            <SelectTrigger className="w-full md:w-[180px] bg-card/50 border-border/50">
+              <SelectValue placeholder="Type de relation" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Toutes relations</SelectItem>
+              <SelectItem value="produces">Produit</SelectItem>
+              <SelectItem value="catalyzes">Catalyse</SelectItem>
+              <SelectItem value="regulates">Régule</SelectItem>
+              <SelectItem value="precursor">Précurseur</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={confidenceFilter} onValueChange={setConfidenceFilter}>
+            <SelectTrigger className="w-full md:w-[180px] bg-card/50 border-border/50">
+              <SelectValue placeholder="Niveau de confiance" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tous niveaux</SelectItem>
+              <SelectItem value="confirmed">Confirmé</SelectItem>
+              <SelectItem value="predicted">Prédit</SelectItem>
+              <SelectItem value="inferred">Inféré</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <Dialog open={isAutoLinkDialogOpen} onOpenChange={setIsAutoLinkDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" className="gap-2">
+              <Sparkles className="h-4 w-4" />
+              Auto-liaison
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Liaison automatique</DialogTitle>
+              <DialogDescription>
+                Cette fonction va analyser tous les gènes TPS et créer automatiquement des liaisons 
+                avec les molécules correspondantes basées sur la correspondance des noms de produits.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex items-center gap-2 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+              <AlertCircle className="h-5 w-5 text-amber-400" />
+              <p className="text-sm text-amber-400">
+                Les liaisons existantes ne seront pas dupliquées. Seules les nouvelles correspondances seront ajoutées.
+              </p>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsAutoLinkDialogOpen(false)}>
+                Annuler
+              </Button>
+              <Button 
+                onClick={() => autoLinkMutation.mutate()}
+                disabled={autoLinkMutation.isPending}
+                className="gap-2"
+              >
+                {autoLinkMutation.isPending ? (
+                  <>Analyse en cours...</>
+                ) : (
+                  <>
+                    <Sparkles className="h-4 w-4" />
+                    Lancer l'auto-liaison
+                  </>
+                )}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* Links List */}
+      <Card className="bg-card/50 border-border/50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Link2 className="h-5 w-5 text-violet-400" />
+            Liaisons Gènes TPS ↔ Molécules
+          </CardTitle>
+          <CardDescription>
+            {filteredLinks.length} liaison{filteredLinks.length !== 1 ? 's' : ''} trouvée{filteredLinks.length !== 1 ? 's' : ''}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {linksLoading ? (
+            <div className="text-center py-8 text-muted-foreground">
+              Chargement des liaisons...
+            </div>
+          ) : filteredLinks.length === 0 ? (
+            <div className="text-center py-8">
+              <Link2 className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
+              <p className="text-muted-foreground">
+                Aucune liaison trouvée. Utilisez l'auto-liaison pour créer des correspondances automatiques.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-3 max-h-[500px] overflow-y-auto">
+              {filteredLinks.map((link: any) => (
+                <div
+                  key={link.id}
+                  className="flex items-center justify-between p-4 bg-background/50 rounded-lg border border-border/30 hover:border-violet-500/30 transition-colors"
+                >
+                  <div className="flex items-center gap-4 flex-1">
+                    {/* Gene Info */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <Dna className="h-4 w-4 text-emerald-400" />
+                        <span className="font-medium">{link.geneName}</span>
+                        <Badge variant="outline" className={productClassColors[link.geneProductClass] || ""}>
+                          {link.geneProductClass}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {link.geneMainProduct} • {link.geneOlfactoryNotes}
+                      </p>
+                    </div>
+
+                    {/* Relationship Arrow */}
+                    <div className="flex flex-col items-center px-4">
+                      <Badge variant="outline" className={relationshipColors[link.relationshipType] || ""}>
+                        {link.relationshipType}
+                      </Badge>
+                      <ArrowRight className="h-4 w-4 text-muted-foreground my-1" />
+                      <Badge variant="outline" className={confidenceColors[link.confidenceLevel] || ""}>
+                        {link.confidenceLevel}
+                      </Badge>
+                    </div>
+
+                    {/* Molecule Info */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <Beaker className="h-4 w-4 text-blue-400" />
+                        <span className="font-medium">{link.moleculeName}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {link.moleculeFormula} • {link.moleculeOlfactiveProfile}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                    onClick={() => deleteLinkMutation.mutate({ id: link.id })}
+                    disabled={deleteLinkMutation.isPending}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Info Card */}
+      <Card className="bg-gradient-to-br from-violet-500/10 to-purple-500/10 border-violet-500/30">
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-violet-400 mb-2">
+            À propos des liaisons Gènes-Molécules
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            Les liaisons entre gènes TPS et molécules permettent de tracer la biosynthèse des composés 
+            aromatiques. Chaque gène TPS code pour une enzyme qui catalyse la formation de terpènes 
+            spécifiques à partir de précurseurs comme le GPP, FPP ou GGPP.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+            <div className="text-center">
+              <Badge variant="outline" className={relationshipColors.produces}>Produit</Badge>
+              <p className="text-xs text-muted-foreground mt-1">Synthèse directe</p>
+            </div>
+            <div className="text-center">
+              <Badge variant="outline" className={relationshipColors.catalyzes}>Catalyse</Badge>
+              <p className="text-xs text-muted-foreground mt-1">Réaction enzymatique</p>
+            </div>
+            <div className="text-center">
+              <Badge variant="outline" className={relationshipColors.regulates}>Régule</Badge>
+              <p className="text-xs text-muted-foreground mt-1">Contrôle expression</p>
+            </div>
+            <div className="text-center">
+              <Badge variant="outline" className={relationshipColors.precursor}>Précurseur</Badge>
+              <p className="text-xs text-muted-foreground mt-1">Substrat initial</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

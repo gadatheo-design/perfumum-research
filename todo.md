@@ -2812,3 +2812,45 @@
 - [x] Inclure les liens : Vue d'ensemble, Cigarettes Historiques, Composés du Perique, Gènes TPS, Explorateur Génomique
 - [x] Vérifier l'affichage correct du menu desktop Tabacothèque
 
+
+---
+
+## 🧬 SESSION 29 JANVIER 2026 — SUITE GÉNOMIQUE
+
+### Phase 1 : Compléter la couverture génomique TPS (147 → 160) — COMPLÉTÉ
+- [x] Vérifier le nombre actuel de gènes TPS dans la base
+- [x] Identifier les 13 gènes TPS manquants par sous-famille
+- [x] Importer les gènes TPS restants (TPS-b, TPS-g, TPS-c, TPS-a)
+- [x] Valider la couverture à 100% (160/160 gènes)
+
+**Répartition finale :**
+| Sous-famille | Nombre | Classe |
+|--------------|--------|--------|
+| TPS-a | 103 | Sesquiterpènes |
+| TPS-b | 32 | Monoterpènes cycliques |
+| TPS-c | 15 | Diterpènes |
+| TPS-e/f | 8 | Mono/diterpènes |
+| TPS-g | 2 | Monoterpènes acycliques |
+
+### Phase 2 : Liens interactifs gènes TPS ↔ molécules — COMPLÉTÉ
+- [x] Créer la table tps_gene_molecules pour les liaisons
+- [x] Créer les procédures tRPC (CRUD, recherche, statistiques)
+  - getTpsGeneMoleculeLinks (avec filtres)
+  - createTpsGeneMoleculeLink
+  - deleteTpsGeneMoleculeLink
+  - getTpsGeneMoleculeLinkStats
+  - autoLinkTpsGenesToMolecules
+  - searchMoleculeMatchesForTpsGene
+- [x] Créer l'interface utilisateur pour gérer les liaisons
+- [x] Ajouter un onglet "Liaisons Molécules" dans TpsGenesExplorer
+  - Statistiques de couverture (gènes liés, molécules liées)
+  - Filtres par gène, type de relation, niveau de confiance
+  - Fonction auto-liaison avec confirmation
+  - Liste des liaisons avec suppression
+
+### Phase 3 : Import données relationnelles v4
+- [ ] Analyser les fichiers du pack v4 (BibTeX, CSV, ZIP)
+- [ ] Créer le script d'import pour les références v4
+- [ ] Importer les nouvelles références génomiques
+- [ ] Lier les références v4 aux axes thématiques existants
+

@@ -1,0 +1,16 @@
+{
+  "query": "SELECT COUNT(*) as total, \n       SUM(CASE WHEN product_class = 'monoterpene' THEN 1 ELSE 0 END) as monoterpenes,\n       SUM(CASE WHEN product_class = 'sesquiterpene' THEN 1 ELSE 0 END) as sesquiterpenes,\n       SUM(CASE WHEN product_class = 'diterpene' THEN 1 ELSE 0 END) as diterpenes\nFROM tps_genes;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, \n       SUM(CASE WHEN product_class = 'monoterpene' THEN 1 ELSE 0 END) as monoterpenes,\n       SUM(CASE WHEN product_class = 'sesquiterpene' THEN 1 ELSE 0 END) as sesquiterpenes,\n       SUM(CASE WHEN product_class = 'diterpene' THEN 1 ELSE 0 END) as diterpenes\nFROM tps_genes;",
+  "rows": [
+    {
+      "total": "160",
+      "monoterpenes": "33",
+      "sesquiterpenes": "103",
+      "diterpenes": "24"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tmonoterpenes\tsesquiterpenes\tditerpenes\n160\t33\t103\t24\n",
+  "stderr": "",
+  "execution_time_ms": 423
+}

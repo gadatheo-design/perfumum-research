@@ -17559,3 +17559,331 @@ export async function getReferenceEntityLinkGraphData() {
     return { nodes: [], links: [] };
   }
 }
+
+
+// ============================================================================
+// TPS GENE - MOLECULE LINKS FUNCTIONS
+// ============================================================================
+
+// Get all TPS gene-molecule links with gene and molecule details
+export async function getTpsGeneMoleculeLinks(filters?: {
+  tpsGeneId?: number;
+  moleculeId?: number;
+  relationshipType?: string;
+  confidenceLevel?: string;
+}) {
+  try {
+    let query = `
+      SELECT 
+        tgm.id,
+        tgm.tps_gene_id as tpsGeneId,
+        tgm.molecule_id as moleculeId,
+        tgm.relationship_type as relationshipType,
+        tgm.confidence_level as confidenceLevel,
+        tgm.evidence_source as evidenceSource,
+        tgm.notes,
+        tgm.created_at as createdAt,
+        tg.name as geneName,
+        tg.subfamily as geneSubfamily,
+        tg.product_class as geneProductClass,
+        tg.main_product as geneMainProduct,
+        tg.olfactory_notes as geneOlfactoryNotes,
+        m.name as moleculeName,
+        m.formula as moleculeFormula,
+        m.olfactiveProfile as moleculeOlfactiveProfile
+      FROM tps_gene_molecules tgm
+      JOIN tps_genes tg ON tgm.tps_gene_id = tg.id
+      JOIN molecules m ON tgm.molecule_id = m.id
+      WHERE 1=1
+    `;
+    
+    const params: any[] = [];
+    
+    if (filters?.tpsGeneId) {
+      query += ` AND tgm.tps_gene_id = ?`;
+      params.push(filters.tpsGeneId);
+    }
+    
+    if (filters?.moleculeId) {
+      query += ` AND tgm.molecule_id = ?`;
+      params.push(filters.moleculeId);
+    }
+    
+    if (filters?.relationshipType) {
+      query += ` AND tgm.relationship_type = ?`;
+      params.push(filters.relationshipType);
+    }
+    
+    if (filters?.confidenceLevel) {
+      query += ` AND tgm.confidence_level = ?`;
+      params.push(filters.confidenceLevel);
+    }
+    
+    query += ` ORDER BY tg.name, m.name`;
+    
+    const [rows] = await pool.execute(query, params);
+    return rows as any[];
+  } catch (error: any) {
+    console.error('Error getting TPS gene-molecule links:', error);
+    return [];
+  }
+}
+
+// Create a TPS gene-molecule link
+export async function createTpsGeneMoleculeLink(data: {
+  tpsGeneId: number;
+  moleculeId: number;
+  relationshipType?: string;
+  confidenceLevel?: string;
+  evidenceSource?: string;
+  notes?: string;
+}) {
+  try {
+    const [result] = await pool.execute(
+      `INSERT INTO tps_gene_molecules 
+        (tps_gene_id, molecule_id, relationship_type, confidence_level, evidence_source, notes)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [
+        data.tpsGeneId,
+        data.moleculeId,
+        data.relationshipType || 'produces',
+        data.confidenceLevel || 'inferred',
+        data.evidenceSource || null,
+        data.notes || null
+      ]
+    );
+    return { success: true, id: (result as any).insertId };
+  } catch (error: any) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return { success: false, error: 'Cette liaison existe déjà' };
+    }
+    console.error('Error creating TPS gene-molecule link:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Update a TPS gene-molecule link
+export async function updateTpsGeneMoleculeLink(
+  id: number,
+  data: {
+    relationshipType?: string;
+    confidenceLevel?: string;
+    evidenceSource?: string;
+    notes?: string;
+  }
+) {
+  try {
+    const updates: string[] = [];
+    const params: any[] = [];
+    
+    if (data.relationshipType) {
+      updates.push('relationship_type = ?');
+      params.push(data.relationshipType);
+    }
+    if (data.confidenceLevel) {
+      updates.push('confidence_level = ?');
+      params.push(data.confidenceLevel);
+    }
+    if (data.evidenceSource !== undefined) {
+      updates.push('evidence_source = ?');
+      params.push(data.evidenceSource);
+    }
+    if (data.notes !== undefined) {
+      updates.push('notes = ?');
+      params.push(data.notes);
+    }
+    
+    if (updates.length === 0) {
+      return { success: false, error: 'Aucune mise à jour fournie' };
+    }
+    
+    params.push(id);
+    
+    await pool.execute(
+      `UPDATE tps_gene_molecules SET ${updates.join(', ')} WHERE id = ?`,
+      params
+    );
+    
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error updating TPS gene-molecule link:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Delete a TPS gene-molecule link
+export async function deleteTpsGeneMoleculeLink(id: number) {
+  try {
+    await pool.execute('DELETE FROM tps_gene_molecules WHERE id = ?', [id]);
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error deleting TPS gene-molecule link:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Get TPS gene-molecule link statistics
+export async function getTpsGeneMoleculeLinkStats() {
+  try {
+    const [totalLinks] = await pool.execute(
+      'SELECT COUNT(*) as count FROM tps_gene_molecules'
+    );
+    
+    const [byRelationship] = await pool.execute(`
+      SELECT relationship_type as type, COUNT(*) as count 
+      FROM tps_gene_molecules 
+      GROUP BY relationship_type
+    `);
+    
+    const [byConfidence] = await pool.execute(`
+      SELECT confidence_level as level, COUNT(*) as count 
+      FROM tps_gene_molecules 
+      GROUP BY confidence_level
+    `);
+    
+    const [linkedGenes] = await pool.execute(`
+      SELECT COUNT(DISTINCT tps_gene_id) as count FROM tps_gene_molecules
+    `);
+    
+    const [linkedMolecules] = await pool.execute(`
+      SELECT COUNT(DISTINCT molecule_id) as count FROM tps_gene_molecules
+    `);
+    
+    const [totalGenes] = await pool.execute(
+      'SELECT COUNT(*) as count FROM tps_genes'
+    );
+    
+    const [totalMolecules] = await pool.execute(
+      'SELECT COUNT(*) as count FROM molecules'
+    );
+    
+    return {
+      totalLinks: (totalLinks as any[])[0]?.count || 0,
+      byRelationship: byRelationship as any[],
+      byConfidence: byConfidence as any[],
+      linkedGenes: (linkedGenes as any[])[0]?.count || 0,
+      linkedMolecules: (linkedMolecules as any[])[0]?.count || 0,
+      totalGenes: (totalGenes as any[])[0]?.count || 0,
+      totalMolecules: (totalMolecules as any[])[0]?.count || 0,
+      geneCoverage: ((linkedGenes as any[])[0]?.count || 0) / ((totalGenes as any[])[0]?.count || 1) * 100,
+      moleculeCoverage: ((linkedMolecules as any[])[0]?.count || 0) / ((totalMolecules as any[])[0]?.count || 1) * 100,
+    };
+  } catch (error: any) {
+    console.error('Error getting TPS gene-molecule link stats:', error);
+    return {
+      totalLinks: 0,
+      byRelationship: [],
+      byConfidence: [],
+      linkedGenes: 0,
+      linkedMolecules: 0,
+      totalGenes: 0,
+      totalMolecules: 0,
+      geneCoverage: 0,
+      moleculeCoverage: 0,
+    };
+  }
+}
+
+// Auto-link TPS genes to molecules based on product name matching
+export async function autoLinkTpsGenesToMolecules() {
+  try {
+    // Get all TPS genes with their main products
+    const [genes] = await pool.execute(`
+      SELECT id, name, main_product FROM tps_genes
+    `);
+    
+    // Get all molecules
+    const [moleculesList] = await pool.execute(`
+      SELECT id, name FROM molecules
+    `);
+    
+    const molecules = moleculesList as any[];
+    let linksCreated = 0;
+    
+    for (const gene of genes as any[]) {
+      const mainProduct = gene.main_product.toLowerCase();
+      
+      // Find matching molecules
+      for (const mol of molecules) {
+        const molName = mol.name.toLowerCase();
+        
+        // Check for exact or partial match
+        if (molName.includes(mainProduct) || mainProduct.includes(molName)) {
+          // Try to create link (will fail silently if already exists)
+          const result = await createTpsGeneMoleculeLink({
+            tpsGeneId: gene.id,
+            moleculeId: mol.id,
+            relationshipType: 'produces',
+            confidenceLevel: 'inferred',
+            evidenceSource: 'Auto-link based on product name matching',
+          });
+          
+          if (result.success) {
+            linksCreated++;
+          }
+        }
+      }
+    }
+    
+    return { success: true, linksCreated };
+  } catch (error: any) {
+    console.error('Error auto-linking TPS genes to molecules:', error);
+    return { success: false, error: error.message, linksCreated: 0 };
+  }
+}
+
+// Search for potential molecule matches for a TPS gene
+export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
+  try {
+    // Get the TPS gene details
+    const [geneRows] = await pool.execute(
+      'SELECT * FROM tps_genes WHERE id = ?',
+      [tpsGeneId]
+    );
+    
+    const gene = (geneRows as any[])[0];
+    if (!gene) {
+      return { success: false, error: 'Gène TPS non trouvé', matches: [] };
+    }
+    
+    // Search for molecules that might match
+    const mainProduct = gene.main_product;
+    const olfactoryNotes = gene.olfactory_notes || '';
+    
+    const [matches] = await pool.execute(`
+      SELECT 
+        m.id,
+        m.name,
+        m.formula,
+        m.olfactiveProfile,
+        m.chemicalClass,
+        CASE 
+          WHEN LOWER(m.name) = LOWER(?) THEN 100
+          WHEN LOWER(m.name) LIKE CONCAT('%', LOWER(?), '%') THEN 80
+          WHEN LOWER(?) LIKE CONCAT('%', LOWER(m.name), '%') THEN 70
+          ELSE 50
+        END as matchScore
+      FROM molecules m
+      WHERE 
+        LOWER(m.name) LIKE CONCAT('%', LOWER(?), '%')
+        OR LOWER(?) LIKE CONCAT('%', LOWER(m.name), '%')
+        OR (m.olfactiveProfile IS NOT NULL AND m.olfactiveProfile LIKE CONCAT('%', ?, '%'))
+      ORDER BY matchScore DESC
+      LIMIT 20
+    `, [mainProduct, mainProduct, mainProduct, mainProduct, mainProduct, olfactoryNotes.split(',')[0] || '']);
+    
+    return {
+      success: true,
+      gene: {
+        id: gene.id,
+        name: gene.name,
+        mainProduct: gene.main_product,
+        olfactoryNotes: gene.olfactory_notes,
+      },
+      matches: matches as any[],
+    };
+  } catch (error: any) {
+    console.error('Error searching molecule matches:', error);
+    return { success: false, error: error.message, matches: [] };
+  }
+}
