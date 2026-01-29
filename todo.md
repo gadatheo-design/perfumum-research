@@ -2679,7 +2679,14 @@
 - [x] Importer les composés - Lot 6 : Phénols et composés soufrés (10 composés)
 - [x] Importer les composés - Lot 7 : Pyrazines et composés azotés (10 composés)
 - [x] Importer les composés - Lot 8 : Terpènes et hydrocarbures (10 composés)
-- [ ] Continuer import des composés restants (~256 composés)
+- [x] Importer les composés - Lot 9 : Esters aromatiques et fruités (10 composés)
+- [x] Importer les composés - Lot 10 : Furanones et lactones (10 composés)
+- [x] Importer les composés - Lot 11 : Cétones spécifiques (10 composés)
+- [x] Importer les composés - Lot 12 : Composés vanillés et phénylpropanoïdes (10 composés)
+- [x] Importer les composés - Lot 13 : Composés de fermentation anaérobie (10 composés)
+- [x] Importer les composés - Lot 14 : Composés de Maillard (10 composés)
+- [x] Importer les composés - Lot 15 : Composés uniques Perique (10 composés)
+- [ ] Continuer import des composés restants (~186 composés)
 
 ### Phase 1b : Profils moléculaires des 7 landraces
 - [ ] Analyser le fichier comparaison_7_landraces.json
