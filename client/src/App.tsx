@@ -346,6 +346,7 @@ import ParcoursDetail from "./pages/ParcoursDetail";
 import PeriqueCompounds from "./pages/PeriqueCompounds";
 import HistoricCigarettes from "./pages/HistoricCigarettes";
 import TpsGenesExplorer from "./pages/TpsGenesExplorer";
+import MolecularTransformations from "./pages/MolecularTransformations";
 
 
 
@@ -600,6 +601,7 @@ function Router() {
       <Route path="/h3-linking" component={H3LinkingInterface} />
       <Route path="/genomics-explorer" component={GenomicsExplorer} />
       <Route path="/tps-genes" component={TpsGenesExplorer} />
+      <Route path="/molecular-transformations" component={MolecularTransformations} />
       <Route path="/axes-recherche" component={AxesRecherche} />
       <Route path="/axes-recherche/:code" component={AxeRechercheDetail} />
       <Route path="/reseau-axes" component={ReseauAxes} />

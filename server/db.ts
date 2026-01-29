@@ -17621,8 +17621,10 @@ export async function getTpsGeneMoleculeLinks(filters?: {
     
     query += ` ORDER BY tg.name, m.name`;
     
-    const [rows] = await pool.execute(query, params);
-    return rows as any[];
+    const db = await getDb();
+    if (!db) return [];
+    const result = await db.execute(sql.raw(query.replace(/\?/g, (_, i) => `'${String(params[i] || '').replace(/'/g, "''")}'`)));
+    return (result as any).rows || (result as any[]) || [];
   } catch (error: any) {
     console.error('Error getting TPS gene-molecule links:', error);
     return [];
@@ -17639,20 +17641,16 @@ export async function createTpsGeneMoleculeLink(data: {
   notes?: string;
 }) {
   try {
-    const [result] = await pool.execute(
-      `INSERT INTO tps_gene_molecules 
+    const db = await getDb();
+    if (!db) return { success: false, error: 'Database connection failed' };
+    const evidenceSource = data.evidenceSource ? `'${data.evidenceSource.replace(/'/g, "''")}'` : 'NULL';
+    const notes = data.notes ? `'${data.notes.replace(/'/g, "''")}'` : 'NULL';
+    await db.execute(sql.raw(`
+      INSERT INTO tps_gene_molecules 
         (tps_gene_id, molecule_id, relationship_type, confidence_level, evidence_source, notes)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [
-        data.tpsGeneId,
-        data.moleculeId,
-        data.relationshipType || 'produces',
-        data.confidenceLevel || 'inferred',
-        data.evidenceSource || null,
-        data.notes || null
-      ]
-    );
-    return { success: true, id: (result as any).insertId };
+       VALUES (${data.tpsGeneId}, ${data.moleculeId}, '${data.relationshipType || 'produces'}', '${data.confidenceLevel || 'inferred'}', ${evidenceSource}, ${notes})
+    `));
+    return { success: true, id: 0 };
   } catch (error: any) {
     if (error.code === 'ER_DUP_ENTRY') {
       return { success: false, error: 'Cette liaison existe déjà' };
@@ -17699,10 +17697,10 @@ export async function updateTpsGeneMoleculeLink(
     
     params.push(id);
     
-    await pool.execute(
-      `UPDATE tps_gene_molecules SET ${updates.join(', ')} WHERE id = ?`,
-      params
-    );
+    const db = await getDb();
+    if (!db) return { success: false, error: 'Database connection failed' };
+    const setClause = updates.map((u, i) => u.replace('?', `'${String(params[i]).replace(/'/g, "''")}'`)).join(', ');
+    await db.execute(sql.raw(`UPDATE tps_gene_molecules SET ${setClause} WHERE id = ${id}`));
     
     return { success: true };
   } catch (error: any) {
@@ -17714,7 +17712,9 @@ export async function updateTpsGeneMoleculeLink(
 // Delete a TPS gene-molecule link
 export async function deleteTpsGeneMoleculeLink(id: number) {
   try {
-    await pool.execute('DELETE FROM tps_gene_molecules WHERE id = ?', [id]);
+    const db = await getDb();
+    if (!db) return { success: false, error: 'Database connection failed' };
+    await db.execute(sql.raw(`DELETE FROM tps_gene_molecules WHERE id = ${id}`));
     return { success: true };
   } catch (error: any) {
     console.error('Error deleting TPS gene-molecule link:', error);
@@ -17725,48 +17725,70 @@ export async function deleteTpsGeneMoleculeLink(id: number) {
 // Get TPS gene-molecule link statistics
 export async function getTpsGeneMoleculeLinkStats() {
   try {
-    const [totalLinks] = await pool.execute(
-      'SELECT COUNT(*) as count FROM tps_gene_molecules'
-    );
+    const db = await getDb();
+    if (!db) {
+      return {
+        totalLinks: 0,
+        byRelationship: [],
+        byConfidence: [],
+        linkedGenes: 0,
+        linkedMolecules: 0,
+        totalGenes: 0,
+        totalMolecules: 0,
+        geneCoverage: 0,
+        moleculeCoverage: 0,
+      };
+    }
     
-    const [byRelationship] = await pool.execute(`
+    const totalLinksResult = await db.execute(sql.raw(
+      'SELECT COUNT(*) as count FROM tps_gene_molecules'
+    ));
+    const totalLinks = ((totalLinksResult as any).rows || (totalLinksResult as any[]) || [])[0]?.count || 0;
+    
+    const byRelationshipResult = await db.execute(sql.raw(`
       SELECT relationship_type as type, COUNT(*) as count 
       FROM tps_gene_molecules 
       GROUP BY relationship_type
-    `);
+    `));
+    const byRelationship = (byRelationshipResult as any).rows || (byRelationshipResult as any[]) || [];
     
-    const [byConfidence] = await pool.execute(`
+    const byConfidenceResult = await db.execute(sql.raw(`
       SELECT confidence_level as level, COUNT(*) as count 
       FROM tps_gene_molecules 
       GROUP BY confidence_level
-    `);
+    `));
+    const byConfidence = (byConfidenceResult as any).rows || (byConfidenceResult as any[]) || [];
     
-    const [linkedGenes] = await pool.execute(`
+    const linkedGenesResult = await db.execute(sql.raw(`
       SELECT COUNT(DISTINCT tps_gene_id) as count FROM tps_gene_molecules
-    `);
+    `));
+    const linkedGenes = ((linkedGenesResult as any).rows || (linkedGenesResult as any[]) || [])[0]?.count || 0;
     
-    const [linkedMolecules] = await pool.execute(`
+    const linkedMoleculesResult = await db.execute(sql.raw(`
       SELECT COUNT(DISTINCT molecule_id) as count FROM tps_gene_molecules
-    `);
+    `));
+    const linkedMolecules = ((linkedMoleculesResult as any).rows || (linkedMoleculesResult as any[]) || [])[0]?.count || 0;
     
-    const [totalGenes] = await pool.execute(
+    const totalGenesResult = await db.execute(sql.raw(
       'SELECT COUNT(*) as count FROM tps_genes'
-    );
+    ));
+    const totalGenesCount = ((totalGenesResult as any).rows || (totalGenesResult as any[]) || [])[0]?.count || 0;
     
-    const [totalMolecules] = await pool.execute(
+    const totalMoleculesResult = await db.execute(sql.raw(
       'SELECT COUNT(*) as count FROM molecules'
-    );
+    ));
+    const totalMoleculesCount = ((totalMoleculesResult as any).rows || (totalMoleculesResult as any[]) || [])[0]?.count || 0;
     
     return {
-      totalLinks: (totalLinks as any[])[0]?.count || 0,
-      byRelationship: byRelationship as any[],
-      byConfidence: byConfidence as any[],
-      linkedGenes: (linkedGenes as any[])[0]?.count || 0,
-      linkedMolecules: (linkedMolecules as any[])[0]?.count || 0,
-      totalGenes: (totalGenes as any[])[0]?.count || 0,
-      totalMolecules: (totalMolecules as any[])[0]?.count || 0,
-      geneCoverage: ((linkedGenes as any[])[0]?.count || 0) / ((totalGenes as any[])[0]?.count || 1) * 100,
-      moleculeCoverage: ((linkedMolecules as any[])[0]?.count || 0) / ((totalMolecules as any[])[0]?.count || 1) * 100,
+      totalLinks,
+      byRelationship,
+      byConfidence,
+      linkedGenes,
+      linkedMolecules,
+      totalGenes: totalGenesCount,
+      totalMolecules: totalMoleculesCount,
+      geneCoverage: linkedGenes / (totalGenesCount || 1) * 100,
+      moleculeCoverage: linkedMolecules / (totalMoleculesCount || 1) * 100,
     };
   } catch (error: any) {
     console.error('Error getting TPS gene-molecule link stats:', error);
@@ -17787,24 +17809,31 @@ export async function getTpsGeneMoleculeLinkStats() {
 // Auto-link TPS genes to molecules based on product name matching
 export async function autoLinkTpsGenesToMolecules() {
   try {
+    const db = await getDb();
+    if (!db) {
+      return { success: false, error: 'Database connection failed', linksCreated: 0 };
+    }
+    
     // Get all TPS genes with their main products
-    const [genes] = await pool.execute(`
+    const genesResult = await db.execute(sql.raw(`
       SELECT id, name, main_product FROM tps_genes
-    `);
+    `));
+    const genes = (genesResult as any).rows || (genesResult as any[]) || [];
     
     // Get all molecules
-    const [moleculesList] = await pool.execute(`
+    const moleculesResult = await db.execute(sql.raw(`
       SELECT id, name FROM molecules
-    `);
+    `));
+    const moleculesList = (moleculesResult as any).rows || (moleculesResult as any[]) || [];
     
-    const molecules = moleculesList as any[];
     let linksCreated = 0;
     
-    for (const gene of genes as any[]) {
+    for (const gene of genes) {
+      if (!gene.main_product) continue;
       const mainProduct = gene.main_product.toLowerCase();
       
       // Find matching molecules
-      for (const mol of molecules) {
+      for (const mol of moleculesList) {
         const molName = mol.name.toLowerCase();
         
         // Check for exact or partial match
@@ -17835,42 +17864,43 @@ export async function autoLinkTpsGenesToMolecules() {
 // Search for potential molecule matches for a TPS gene
 export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
   try {
-    // Get the TPS gene details
-    const [geneRows] = await pool.execute(
-      'SELECT * FROM tps_genes WHERE id = ?',
-      [tpsGeneId]
-    );
+    const db = await getDb();
+    if (!db) {
+      return { success: false, error: 'Database connection failed', matches: [] };
+    }
     
-    const gene = (geneRows as any[])[0];
+    // Get the TPS gene details
+    const geneResult = await db.execute(sql.raw(
+      `SELECT * FROM tps_genes WHERE id = ${tpsGeneId}`
+    ));
+    const geneRows = (geneResult as any).rows || (geneResult as any[]) || [];
+    
+    const gene = geneRows[0];
     if (!gene) {
       return { success: false, error: 'Gène TPS non trouvé', matches: [] };
     }
     
     // Search for molecules that might match
-    const mainProduct = gene.main_product;
+    const mainProduct = gene.main_product || '';
     const olfactoryNotes = gene.olfactory_notes || '';
+    const searchTerm = mainProduct.toLowerCase().replace(/'/g, "''");
+    const olfactoryTerm = (olfactoryNotes.split(',')[0] || '').replace(/'/g, "''");
     
-    const [matches] = await pool.execute(`
+    const matchesResult = await db.execute(sql.raw(`
       SELECT 
         m.id,
         m.name,
         m.formula,
         m.olfactiveProfile,
-        m.chemicalClass,
-        CASE 
-          WHEN LOWER(m.name) = LOWER(?) THEN 100
-          WHEN LOWER(m.name) LIKE CONCAT('%', LOWER(?), '%') THEN 80
-          WHEN LOWER(?) LIKE CONCAT('%', LOWER(m.name), '%') THEN 70
-          ELSE 50
-        END as matchScore
+        m.chemicalClass
       FROM molecules m
       WHERE 
-        LOWER(m.name) LIKE CONCAT('%', LOWER(?), '%')
-        OR LOWER(?) LIKE CONCAT('%', LOWER(m.name), '%')
-        OR (m.olfactiveProfile IS NOT NULL AND m.olfactiveProfile LIKE CONCAT('%', ?, '%'))
-      ORDER BY matchScore DESC
+        LOWER(m.name) LIKE '%${searchTerm}%'
+        OR '${searchTerm}' LIKE CONCAT('%', LOWER(m.name), '%')
+        OR (m.olfactiveProfile IS NOT NULL AND m.olfactiveProfile LIKE '%${olfactoryTerm}%')
       LIMIT 20
-    `, [mainProduct, mainProduct, mainProduct, mainProduct, mainProduct, olfactoryNotes.split(',')[0] || '']);
+    `));
+    const matches = (matchesResult as any).rows || (matchesResult as any[]) || [];
     
     return {
       success: true,
@@ -17880,10 +17910,142 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
         mainProduct: gene.main_product,
         olfactoryNotes: gene.olfactory_notes,
       },
-      matches: matches as any[],
+      matches,
     };
   } catch (error: any) {
     console.error('Error searching molecule matches:', error);
     return { success: false, error: error.message, matches: [] };
+  }
+}
+
+
+// ============================================================================
+// MOLECULAR TRANSFORMATIONS (Pyrolysis) Functions
+// ============================================================================
+
+/**
+ * Get all molecular transformations with optional filtering
+ */
+export async function getMolecularTransformations(options?: {
+  transformationType?: string;
+  relevanceContext?: string;
+  sourceMoleculeName?: string;
+  limit?: number;
+  offset?: number;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  try {
+    let query = `
+      SELECT 
+        mt.*,
+        sm.name as source_molecule_db_name,
+        pm.name as product_molecule_db_name
+      FROM molecular_transformations mt
+      LEFT JOIN molecules sm ON mt.source_molecule_id = sm.id
+      LEFT JOIN molecules pm ON mt.product_molecule_id = pm.id
+      WHERE 1=1
+    `;
+    
+    if (options?.transformationType) {
+      query += ` AND mt.transformation_type = '${options.transformationType}'`;
+    }
+    if (options?.relevanceContext) {
+      query += ` AND mt.relevance_context = '${options.relevanceContext}'`;
+    }
+    if (options?.sourceMoleculeName) {
+      query += ` AND mt.source_molecule_name LIKE '%${options.sourceMoleculeName}%'`;
+    }
+    
+    query += ` ORDER BY mt.source_molecule_name`;
+    
+    if (options?.limit) {
+      query += ` LIMIT ${options.limit}`;
+    }
+    if (options?.offset) {
+      query += ` OFFSET ${options.offset}`;
+    }
+    
+    const result = await db.execute(sql.raw(query));
+    return (result as any).rows || (result as any[]) || [];
+  } catch (error) {
+    console.error("Error getting molecular transformations:", error);
+    return [];
+  }
+}
+
+/**
+ * Create a new molecular transformation
+ */
+export async function createMolecularTransformation(data: {
+  sourceMoleculeName: string;
+  productMoleculeName: string;
+  transformationType: string;
+  sourceMoleculeId?: number;
+  productMoleculeId?: number;
+  temperatureMin?: number;
+  temperatureMax?: number;
+  temperatureOptimal?: number;
+  yieldPercent?: number;
+  olfactoryChangeDescription?: string;
+  sourceOlfactoryNotes?: string;
+  productOlfactoryNotes?: string;
+  relevanceContext?: string;
+  sourceReference?: string;
+  notes?: string;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  try {
+    const result = await db.execute(sql.raw(`
+      INSERT INTO molecular_transformations (
+        source_molecule_name, product_molecule_name, transformation_type,
+        source_molecule_id, product_molecule_id,
+        temperature_min, temperature_max, temperature_optimal,
+        yield_percent, olfactory_change_description,
+        source_olfactory_notes, product_olfactory_notes,
+        relevance_context, source_reference, notes
+      ) VALUES (
+        '${data.sourceMoleculeName}', '${data.productMoleculeName}', '${data.transformationType}',
+        ${data.sourceMoleculeId || 'NULL'}, ${data.productMoleculeId || 'NULL'},
+        ${data.temperatureMin || 'NULL'}, ${data.temperatureMax || 'NULL'}, ${data.temperatureOptimal || 'NULL'},
+        ${data.yieldPercent || 'NULL'}, ${data.olfactoryChangeDescription ? `'${data.olfactoryChangeDescription.replace(/'/g, "''")}'` : 'NULL'},
+        ${data.sourceOlfactoryNotes ? `'${data.sourceOlfactoryNotes.replace(/'/g, "''")}'` : 'NULL'},
+        ${data.productOlfactoryNotes ? `'${data.productOlfactoryNotes.replace(/'/g, "''")}'` : 'NULL'},
+        '${data.relevanceContext || 'tobacco_combustion'}',
+        ${data.sourceReference ? `'${data.sourceReference.replace(/'/g, "''")}'` : 'NULL'},
+        ${data.notes ? `'${data.notes.replace(/'/g, "''")}'` : 'NULL'}
+      )
+    `));
+    return result;
+  } catch (error) {
+    console.error("Error creating molecular transformation:", error);
+    return null;
+  }
+}
+
+/**
+ * Get transformation statistics
+ */
+export async function getMolecularTransformationStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  try {
+    const result = await db.execute(sql.raw(`
+      SELECT 
+        COUNT(*) as total_transformations,
+        COUNT(DISTINCT source_molecule_name) as unique_sources,
+        COUNT(DISTINCT product_molecule_name) as unique_products,
+        COUNT(DISTINCT transformation_type) as transformation_types,
+        COUNT(DISTINCT relevance_context) as relevance_contexts
+      FROM molecular_transformations
+    `));
+    return ((result as any).rows || (result as any[]) || [])[0] || null;
+  } catch (error) {
+    console.error("Error getting transformation stats:", error);
+    return null;
   }
 }

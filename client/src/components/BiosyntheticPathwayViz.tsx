@@ -213,7 +213,7 @@ export default function BiosyntheticPathwayViz() {
       .force("x", d3.forceX(innerWidth / 2).strength(0.05))
       .force("y", d3.forceY(innerHeight / 2).strength(0.05));
 
-    // Dessiner les liens
+    // Dessiner les liens avec animation d'entrée
     const link = g
       .append("g")
       .attr("class", "links")
@@ -232,7 +232,16 @@ export default function BiosyntheticPathwayViz() {
         const sourceNode = filteredNodes.find((n) => n.id === (typeof d.source === "string" ? d.source : d.source.id));
         return sourceNode ? `url(#arrow-${sourceNode.pathway})` : "url(#arrow-shared)";
       })
+      .attr("opacity", 0)
+      .transition()
+      .duration(800)
+      .delay((_, i) => i * 20)
       .attr("opacity", 0.7);
+
+    // Animation de pulsation pour les liens actifs
+    g.selectAll(".links line")
+      .filter((d: any) => d.type === "conversion")
+      .style("animation", "pulse-link 2s ease-in-out infinite");
 
     // Dessiner les nœuds
     const node = g
@@ -300,7 +309,7 @@ export default function BiosyntheticPathwayViz() {
       }
     });
 
-    // Labels des nœuds
+    // Labels des nœuds avec animation
     node
       .append("text")
       .attr("dy", (d) => (d.type === "product" ? 28 : 24))
@@ -308,18 +317,81 @@ export default function BiosyntheticPathwayViz() {
       .attr("fill", "#e5e7eb")
       .attr("font-size", "10px")
       .attr("font-weight", "500")
-      .text((d) => d.name);
+      .attr("opacity", 0)
+      .text((d) => d.name)
+      .transition()
+      .duration(600)
+      .delay((_, i) => 400 + i * 30)
+      .attr("opacity", 1);
 
-    // Gestion des événements de survol
+    // Animation d'entrée pour les nœuds
+    node.selectAll("circle, rect, polygon")
+      .attr("transform", "scale(0)")
+      .transition()
+      .duration(500)
+      .delay((_, i) => i * 25)
+      .attr("transform", (d: any) => d.type === "enzyme" || d.type === "gene" ? "rotate(45) scale(1)" : "scale(1)")
+      .ease(d3.easeElasticOut.amplitude(1).period(0.5));
+
+    // Gestion des événements de survol avec animations améliorées
     node
       .on("mouseenter", function (event, d) {
         const [x, y] = d3.pointer(event, svgRef.current);
         setTooltip({ node: d, x: x + margin.left, y: y + margin.top });
-        d3.select(this).select("circle, rect, polygon").attr("stroke", "#f59e0b").attr("stroke-width", 3);
+        
+        // Animation de mise en évidence du nœud
+        d3.select(this).select("circle, rect, polygon")
+          .transition()
+          .duration(200)
+          .attr("stroke", "#f59e0b")
+          .attr("stroke-width", 4)
+          .style("filter", "drop-shadow(0 0 8px rgba(245, 158, 11, 0.6))");
+        
+        // Mise en évidence des liens connectés
+        g.selectAll(".links line")
+          .transition()
+          .duration(200)
+          .attr("opacity", (l: any) => {
+            const sourceId = typeof l.source === "string" ? l.source : l.source.id;
+            const targetId = typeof l.target === "string" ? l.target : l.target.id;
+            return sourceId === d.id || targetId === d.id ? 1 : 0.2;
+          })
+          .attr("stroke-width", (l: any) => {
+            const sourceId = typeof l.source === "string" ? l.source : l.source.id;
+            const targetId = typeof l.target === "string" ? l.target : l.target.id;
+            return sourceId === d.id || targetId === d.id ? 3 : (l.type === "catalysis" ? 1 : 2);
+          });
+        
+        // Atténuer les autres nœuds
+        g.selectAll(".nodes g")
+          .filter((n: any) => n.id !== d.id)
+          .transition()
+          .duration(200)
+          .attr("opacity", 0.4);
       })
       .on("mouseleave", function () {
         setTooltip(null);
-        d3.select(this).select("circle, rect, polygon").attr("stroke", "#1f2937").attr("stroke-width", 2);
+        
+        // Réinitialiser le nœud
+        d3.select(this).select("circle, rect, polygon")
+          .transition()
+          .duration(200)
+          .attr("stroke", "#1f2937")
+          .attr("stroke-width", 2)
+          .style("filter", "none");
+        
+        // Réinitialiser les liens
+        g.selectAll(".links line")
+          .transition()
+          .duration(200)
+          .attr("opacity", 0.7)
+          .attr("stroke-width", (l: any) => l.type === "catalysis" ? 1 : 2);
+        
+        // Réinitialiser tous les nœuds
+        g.selectAll(".nodes g")
+          .transition()
+          .duration(200)
+          .attr("opacity", 1);
       });
 
     // Mise à jour de la simulation

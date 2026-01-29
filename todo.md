@@ -2887,3 +2887,81 @@
 - [x] Créer le composant D3.js BiosyntheticPathwayFlow
 - [x] Intégrer dans TpsGenesExplorer (nouvel onglet "Chemins")
 - [ ] Tester le responsive mobile (en attente connexion DB)
+
+
+### Session 29 janvier 2026 - Partie 6 : Transformations par pyrolyse et améliorations D3.js
+- [ ] Créer la table molecular_transformations pour les transformations par pyrolyse
+- [ ] Documenter les transformations majeures (limonène → p-cymène, pinène → camphène, etc.)
+- [ ] Créer les procédures tRPC pour les transformations
+- [ ] Créer l'interface utilisateur pour visualiser les transformations
+- [ ] Améliorer BiosyntheticPathwayFlow avec animations (transitions fluides)
+- [ ] Ajouter le highlighting au survol des nœuds connectés
+- [ ] Ajouter un mode "focus" pour isoler un chemin spécifique
+- [ ] Optimiser les performances pour les grands graphes
+
+
+---
+
+## 🧬 SESSION 29 JANVIER 2026 - ENRICHISSEMENT GÉNOMIQUE & D3.js
+
+### Phase 1 : Couverture génomique TPS (147 → 160) — COMPLÉTÉ
+- [x] Vérifier le nombre actuel de gènes TPS dans la base
+- [x] Identifier les gènes TPS manquants par sous-famille
+- [x] Importer les gènes TPS restants (TPS-b, TPS-g, TPS-c, TPS-a)
+- [x] Valider la couverture à 100% (160/160 gènes)
+
+**Répartition finale :**
+| Sous-famille | Nombre | Classe |
+|--------------|--------|--------|
+| TPS-a | 103 | Sesquiterpènes |
+| TPS-b | 32 | Monoterpènes cycliques |
+| TPS-c | 15 | Diterpènes |
+| TPS-e/f | 8 | Mono/diterpènes |
+| TPS-g | 2 | Monoterpènes acycliques |
+
+### Phase 2 : Liens interactifs gènes TPS ↔ molécules — COMPLÉTÉ
+- [x] Créer la table tps_gene_molecules pour les liaisons
+- [x] Créer les procédures tRPC (CRUD, recherche, statistiques)
+  - getTpsGeneMoleculeLinks (avec filtres)
+  - createTpsGeneMoleculeLink
+  - deleteTpsGeneMoleculeLink
+  - getTpsGeneMoleculeLinkStats
+  - autoLinkTpsGenesToMolecules
+  - searchMoleculeMatchesForTpsGene
+- [x] Créer l'interface utilisateur pour gérer les liaisons
+- [x] Ajouter un onglet "Liaisons Molécules" dans TpsGenesExplorer
+
+### Phase 3 : Enrichissement liaisons TPS↔molécules — COMPLÉTÉ
+- [x] Analyser les molécules terpéniques existantes dans la base (699 molécules)
+- [x] Identifier les gènes TPS correspondants pour chaque terpène (307 gènes)
+- [x] Créer les liaisons pour les monoterpènes majeurs (limonène, pinène, myrcène, linalol)
+- [x] Créer les liaisons pour les sesquiterpènes majeurs (caryophyllène, humulène, farnésène)
+- [x] Créer les liaisons pour les diterpènes (géranylgéraniol, phytol)
+- [x] **Objectif atteint** : 15.3% de couverture TPS↔molécules (vs 4.4% initial)
+
+**Résultats finaux :**
+| Métrique | Avant | Après | Progression |
+|----------|-------|-------|-------------|
+| Liaisons totales | 126 | 177 | +40% |
+| Gènes liés | 14 | 47 | +235% |
+| Molécules liées | 33 | 72 | +118% |
+| Couverture gènes | 4.4% | 15.3% | +247% |
+
+### Phase 4 : Transformations par pyrolyse — EN COURS
+- [x] Créer le schéma de la table molecular_transformations
+- [x] Créer les procédures tRPC pour les transformations
+- [x] Créer la page MolecularTransformations
+- [ ] Appliquer la migration de la base de données (en attente connexion)
+- [ ] Insérer les données de transformations par pyrolyse
+
+### Phase 5 : Amélioration visualisation D3.js — COMPLÉTÉ
+- [x] Améliorer BiosyntheticPathwayViz avec animations d'entrée
+- [x] Ajouter des transitions fluides au survol
+- [x] Implémenter la mise en évidence des connexions
+
+**Améliorations D3.js :**
+- Animation d'entrée progressive des liens (800ms, délai 20ms/lien)
+- Animation élastique des nœuds (500ms, easeElasticOut)
+- Mise en évidence des connexions au survol
+- Atténuation des nœuds non connectés
+- Effet de lueur sur le nœud survolé

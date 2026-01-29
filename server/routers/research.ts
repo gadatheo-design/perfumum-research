@@ -885,4 +885,190 @@ export const researchRouter = router({
         return { success: false, paths: [], stats: null, error: error.message };
       }
     }),
+
+  // ============================================================================
+  // MOLECULAR TRANSFORMATIONS (Pyrolysis)
+  // ============================================================================
+
+  /**
+   * Get molecular transformations with optional filtering
+   */
+  getMolecularTransformations: publicProcedure
+    .input(
+      z.object({
+        transformationType: z.string().optional(),
+        relevanceContext: z.string().optional(),
+        sourceMoleculeName: z.string().optional(),
+        limit: z.number().default(100),
+        offset: z.number().default(0),
+      })
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, data: [], error: "Database connection failed" };
+        }
+
+        let query = `
+          SELECT 
+            mt.*,
+            sm.name as source_molecule_db_name,
+            pm.name as product_molecule_db_name
+          FROM molecular_transformations mt
+          LEFT JOIN molecules sm ON mt.source_molecule_id = sm.id
+          LEFT JOIN molecules pm ON mt.product_molecule_id = pm.id
+          WHERE 1=1
+        `;
+
+        if (input.transformationType && input.transformationType !== 'all') {
+          query += ` AND mt.transformation_type = '${input.transformationType}'`;
+        }
+        if (input.relevanceContext && input.relevanceContext !== 'all') {
+          query += ` AND mt.relevance_context = '${input.relevanceContext}'`;
+        }
+        if (input.sourceMoleculeName) {
+          query += ` AND mt.source_molecule_name LIKE '%${input.sourceMoleculeName}%'`;
+        }
+
+        query += ` ORDER BY mt.source_molecule_name LIMIT ${input.limit} OFFSET ${input.offset}`;
+
+        const result = await db.execute(sql.raw(query));
+        const data = (result as any).rows || (result as any[]) || [];
+
+        return { success: true, data };
+      } catch (error: any) {
+        console.error("Error getting molecular transformations:", error);
+        return { success: false, data: [], error: error.message };
+      }
+    }),
+
+  /**
+   * Get transformation statistics
+   */
+  getMolecularTransformationStats: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return { success: false, stats: null, error: "Database connection failed" };
+      }
+
+      const result = await db.execute(sql.raw(`
+        SELECT 
+          COUNT(*) as total_transformations,
+          COUNT(DISTINCT source_molecule_name) as unique_sources,
+          COUNT(DISTINCT product_molecule_name) as unique_products,
+          COUNT(DISTINCT transformation_type) as transformation_types,
+          COUNT(DISTINCT relevance_context) as relevance_contexts
+        FROM molecular_transformations
+      `));
+
+      const stats = ((result as any).rows || (result as any[]) || [])[0] || null;
+      return { success: true, stats };
+    } catch (error: any) {
+      console.error("Error getting transformation stats:", error);
+      return { success: false, stats: null, error: error.message };
+    }
+  }),
+
+  /**
+   * Create a new molecular transformation
+   */
+  createMolecularTransformation: publicProcedure
+    .input(
+      z.object({
+        sourceMoleculeName: z.string(),
+        productMoleculeName: z.string(),
+        transformationType: z.enum([
+          "pyrolysis", "oxidation", "isomerization", "dehydration",
+          "cyclization", "ring_opening", "polymerization", "degradation",
+          "maillard", "caramelization", "other"
+        ]),
+        sourceMoleculeId: z.number().optional(),
+        productMoleculeId: z.number().optional(),
+        temperatureMin: z.number().optional(),
+        temperatureMax: z.number().optional(),
+        temperatureOptimal: z.number().optional(),
+        yieldPercent: z.number().optional(),
+        olfactoryChangeDescription: z.string().optional(),
+        sourceOlfactoryNotes: z.string().optional(),
+        productOlfactoryNotes: z.string().optional(),
+        relevanceContext: z.enum([
+          "tobacco_combustion", "tobacco_heating", "incense_burning",
+          "essential_oil_distillation", "perfume_aging", "food_cooking",
+          "industrial_process", "natural_degradation", "other"
+        ]).default("tobacco_combustion"),
+        sourceReference: z.string().optional(),
+        notes: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, error: "Database connection failed" };
+        }
+
+        const escapeSql = (str: string) => str.replace(/'/g, "''");
+
+        const result = await db.execute(sql.raw(`
+          INSERT INTO molecular_transformations (
+            source_molecule_name, product_molecule_name, transformation_type,
+            source_molecule_id, product_molecule_id,
+            temperature_min, temperature_max, temperature_optimal,
+            yield_percent, olfactory_change_description,
+            source_olfactory_notes, product_olfactory_notes,
+            relevance_context, source_reference, notes
+          ) VALUES (
+            '${escapeSql(input.sourceMoleculeName)}',
+            '${escapeSql(input.productMoleculeName)}',
+            '${input.transformationType}',
+            ${input.sourceMoleculeId || 'NULL'},
+            ${input.productMoleculeId || 'NULL'},
+            ${input.temperatureMin || 'NULL'},
+            ${input.temperatureMax || 'NULL'},
+            ${input.temperatureOptimal || 'NULL'},
+            ${input.yieldPercent || 'NULL'},
+            ${input.olfactoryChangeDescription ? `'${escapeSql(input.olfactoryChangeDescription)}'` : 'NULL'},
+            ${input.sourceOlfactoryNotes ? `'${escapeSql(input.sourceOlfactoryNotes)}'` : 'NULL'},
+            ${input.productOlfactoryNotes ? `'${escapeSql(input.productOlfactoryNotes)}'` : 'NULL'},
+            '${input.relevanceContext}',
+            ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'},
+            ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'}
+          )
+        `));
+
+        return { success: true, message: "Transformation created successfully" };
+      } catch (error: any) {
+        console.error("Error creating molecular transformation:", error);
+        return { success: false, error: error.message };
+      }
+    }),
+
+  /**
+   * Get transformation types distribution
+   */
+  getTransformationTypesDistribution: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return { success: false, data: [], error: "Database connection failed" };
+      }
+
+      const result = await db.execute(sql.raw(`
+        SELECT 
+          transformation_type,
+          COUNT(*) as count
+        FROM molecular_transformations
+        GROUP BY transformation_type
+        ORDER BY count DESC
+      `));
+
+      const data = (result as any).rows || (result as any[]) || [];
+      return { success: true, data };
+    } catch (error: any) {
+      console.error("Error getting transformation types:", error);
+      return { success: false, data: [], error: error.message };
+    }
+  }),
 });
