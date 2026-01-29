@@ -293,4 +293,56 @@ export const researchRouter = router({
       };
     }
   }),
+
+  /**
+   * Get all historic cigarettes (Soviet/Oriental/Chinese brands)
+   */
+  getHistoricCigarettes: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return [];
+      }
+      
+      const result = await db.execute(
+        sql.raw(`SELECT * FROM historic_cigarettes ORDER BY country, name`)
+      );
+      
+      // Flatten the result array (db.execute returns [rows, fields])
+      const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+      return Array.isArray(rows) ? rows : [];
+    } catch (error) {
+      console.error("Error fetching historic cigarettes:", error);
+      return [];
+    }
+  }),
+
+  /**
+   * Get Perique-molecule links with enriched data
+   */
+  getPeriqueMoleculeLinks: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return [];
+      }
+      
+      const result = await db.execute(
+        sql.raw(`
+          SELECT pml.*, pc.name as compound_name, m.name as molecule_name
+          FROM perique_molecule_links pml
+          LEFT JOIN perique_compounds pc ON pml.perique_compound_id = pc.id
+          LEFT JOIN molecules m ON pml.molecule_id = m.id
+          ORDER BY pml.match_type, pml.confidence DESC
+        `)
+      );
+      
+      // Flatten the result array (db.execute returns [rows, fields])
+      const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+      return Array.isArray(rows) ? rows : [];
+    } catch (error) {
+      console.error("Error fetching Perique-molecule links:", error);
+      return [];
+    }
+  }),
 });

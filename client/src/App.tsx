@@ -344,6 +344,7 @@ import TerroirMapPage from "./pages/TerroirMapPage";
 import ParcoursOlfactif from "./pages/ParcoursOlfactif";
 import ParcoursDetail from "./pages/ParcoursDetail";
 import PeriqueCompounds from "./pages/PeriqueCompounds";
+import HistoricCigarettes from "./pages/HistoricCigarettes";
 
 
 
@@ -420,6 +421,7 @@ function Router() {
       {/* === TABACOTHÈQUE === */}
       <Route path="/tabacotheque" component={Tabacotheque} />
       <Route path="/perique-compounds" component={PeriqueCompounds} />
+      <Route path="/historic-cigarettes" component={HistoricCigarettes} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />
