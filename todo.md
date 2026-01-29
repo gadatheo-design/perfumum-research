@@ -2754,3 +2754,35 @@
 - [x] Créer les liaisons automatiques basées sur les noms (30 liaisons créées)
 - [ ] Valider les liaisons créées
 
+
+
+## 📅 SESSION DU 29 JANVIER 2026 - PARTIE 2
+
+### Données Génomiques
+- [ ] Analyser les données génomiques disponibles (160 gènes TPS, voies biosynthétiques)
+- [ ] Créer la table et les procédures tRPC pour les gènes TPS
+- [ ] Créer la page de visualisation des données génomiques
+- [ ] Intégrer les voies biosynthétiques MEP/MVA
+
+### Navigation
+- [ ] Ajouter un lien vers HistoricCigarettes dans le menu principal
+- [ ] Ajouter un lien vers la section Génomique dans le menu principal
+
+
+---
+
+## 📅 SESSION DU 29 JANVIER 2026 (Suite)
+
+### Données génomiques et navigation
+- [x] Créer la table `tps_genes` pour les gènes terpène synthases (15 gènes)
+- [x] Créer la table `biosynthetic_pathways` pour les voies MEP/MVA
+- [x] Créer les procédures tRPC `getTpsGenes`, `getBiosyntheticPathways`, `getGenomicStats`
+- [x] Créer la page `TpsGenesExplorer` pour visualiser les données génomiques
+- [x] Ajouter le menu "Tabacothèque" dans le header principal avec liens vers :
+  - Vue d'ensemble (`/tabacotheque`)
+  - Cigarettes Historiques (`/historic-cigarettes`) [NEW]
+  - Composés du Perique (`/perique-compounds`)
+  - Gènes TPS (`/tps-genes`) [NEW]
+  - Explorateur Génomique (`/genomics-explorer`)
+- [x] Ajouter les cartes de navigation rapide dans la page Tabacothèque
+- [x] Écrire les tests vitest pour les procédures génomiques (`research.genomics.test.ts` - 4 tests)

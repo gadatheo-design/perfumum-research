@@ -1,0 +1,19 @@
+{
+  "query": "SELECT DISTINCT product_class FROM tps_genes;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT DISTINCT product_class FROM tps_genes;",
+  "rows": [
+    {
+      "product_class": "monoterpene"
+    },
+    {
+      "product_class": "diterpene"
+    },
+    {
+      "product_class": "sesquiterpene"
+    }
+  ],
+  "messages": [],
+  "stdout": "product_class\nmonoterpene\nditerpene\nsesquiterpene\n",
+  "stderr": "",
+  "execution_time_ms": 394
+}

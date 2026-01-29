@@ -4,7 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Search } from 'lucide-react';
+import { Loader2, Search, Cigarette, Dna, FlaskConical, ArrowRight } from 'lucide-react';
+import { Link } from 'wouter';
 
 const TOBACCO_TYPES = [
   { value: 'blond', label: 'Blond', color: 'bg-yellow-100 text-yellow-800' },
@@ -51,6 +52,58 @@ export function Tabacotheque() {
           <p className="text-lg text-amber-700 mb-8">
             Explorez notre collection complète de variétés de tabac patrimoniales et expérimentales
           </p>
+
+          {/* Quick Navigation */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <Link href="/historic-cigarettes">
+              <Card className="cursor-pointer hover:shadow-lg transition-all hover:border-amber-400 group">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-lg bg-amber-100 group-hover:bg-amber-200 transition-colors">
+                      <Cigarette className="h-6 w-6 text-amber-700" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-amber-900">Cigarettes Historiques</h3>
+                      <p className="text-sm text-amber-600">11 marques soviétiques, orientales et chinoises</p>
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-amber-400 group-hover:text-amber-600 transition-colors" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/perique-compounds">
+              <Card className="cursor-pointer hover:shadow-lg transition-all hover:border-amber-400 group">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-lg bg-purple-100 group-hover:bg-purple-200 transition-colors">
+                      <FlaskConical className="h-6 w-6 text-purple-700" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-amber-900">Composés du Perique</h3>
+                      <p className="text-sm text-amber-600">278 molécules aromatiques analysées</p>
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-amber-400 group-hover:text-amber-600 transition-colors" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/tps-genes">
+              <Card className="cursor-pointer hover:shadow-lg transition-all hover:border-amber-400 group">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 transition-colors">
+                      <Dna className="h-6 w-6 text-emerald-700" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-amber-900">Gènes TPS</h3>
+                      <p className="text-sm text-amber-600">Terpène synthases et voies biosynthétiques</p>
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-amber-400 group-hover:text-amber-600 transition-colors" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
 
           {/* Statistics */}
           {stats && (

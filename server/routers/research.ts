@@ -345,4 +345,110 @@ export const researchRouter = router({
       return [];
     }
   }),
+  /**
+   * Get all TPS genes with their products and olfactory notes
+   */
+  getTpsGenes: publicProcedure
+    .input(
+      z.object({
+        productClass: z.string().optional(),
+        pathway: z.string().optional(),
+        search: z.string().optional(),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return [];
+        }
+        
+        let query = `SELECT * FROM tps_genes WHERE 1=1`;
+        
+        if (input?.productClass) {
+          query += ` AND product_class = '${input.productClass}'`;
+        }
+        if (input?.pathway) {
+          query += ` AND pathway = '${input.pathway}'`;
+        }
+        if (input?.search) {
+          query += ` AND (name LIKE '%${input.search}%' OR main_product LIKE '%${input.search}%' OR olfactory_notes LIKE '%${input.search}%')`;
+        }
+        
+        query += ` ORDER BY product_class, name`;
+        
+        const result = await db.execute(sql.raw(query));
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        return Array.isArray(rows) ? rows : [];
+      } catch (error) {
+        console.error("Error fetching TPS genes:", error);
+        return [];
+      }
+    }),
+  /**
+   * Get all biosynthetic pathways
+   */
+  getBiosyntheticPathways: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return [];
+      }
+      
+      const result = await db.execute(
+        sql.raw(`SELECT * FROM biosynthetic_pathways ORDER BY name`)
+      );
+      
+      const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+      return Array.isArray(rows) ? rows : [];
+    } catch (error) {
+      console.error("Error fetching biosynthetic pathways:", error);
+      return [];
+    }
+  }),
+  /**
+   * Get genomic statistics
+   */
+  getGenomicStats: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return {
+          totalTpsGenes: 0,
+          monoterpenes: 0,
+          sesquiterpenes: 0,
+          diterpenes: 0,
+          pathways: 0,
+        };
+      }
+      
+      const tpsResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes`));
+      const monoResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'monoterpene'`));
+      const sesquiResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'sesquiterpene'`));
+      const diResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'diterpene'`));
+      const pathwayResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM biosynthetic_pathways`));
+      
+      const getCount = (result: any) => {
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        return Array.isArray(rows) && rows.length > 0 ? Number(rows[0].count) : 0;
+      };
+      
+      return {
+        totalTpsGenes: getCount(tpsResult),
+        monoterpenes: getCount(monoResult),
+        sesquiterpenes: getCount(sesquiResult),
+        diterpenes: getCount(diResult),
+        pathways: getCount(pathwayResult),
+      };
+    } catch (error) {
+      console.error("Error fetching genomic stats:", error);
+      return {
+        totalTpsGenes: 0,
+        monoterpenes: 0,
+        sesquiterpenes: 0,
+        diterpenes: 0,
+        pathways: 0,
+      };
+    }
+  }),
 });

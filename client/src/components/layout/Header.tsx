@@ -137,6 +137,27 @@ function MegaMenuOptimizedNav() {
     },
   ];
 
+  // === TABACOTHÈQUE ===
+  const tabacothequeSections = [
+    {
+      category: "Tabacothèque",
+      icon: <Leaf className="h-4 w-4" />,
+      items: [
+        { id: "t1", label: "Vue d'ensemble", href: "/tabacotheque", badge: "HUB" },
+        { id: "t2", label: "Cigarettes Historiques", href: "/historic-cigarettes", badge: "NEW" },
+        { id: "t3", label: "Composés du Perique", href: "/perique-compounds" },
+      ],
+    },
+    {
+      category: "Génomique du Tabac",
+      icon: <Database className="h-4 w-4" />,
+      items: [
+        { id: "t4", label: "Gènes TPS", href: "/tps-genes", badge: "NEW" },
+        { id: "t5", label: "Explorateur Génomique", href: "/genomics-explorer" },
+      ],
+    },
+  ];
+
   // === PROJET (À propos + Administration) ===
   const projetSections = [
     {
@@ -162,12 +183,14 @@ function MegaMenuOptimizedNav() {
   const outilsMenuSections = useMegaMenuSections(outilsSections);
   const rechercheMenuSections = useMegaMenuSections(rechercheSections);
   const projetMenuSections = useMegaMenuSections(projetSections);
+  const tabacothequeMenuSections = useMegaMenuSections(tabacothequeSections);
 
   return (
     <nav className="hidden lg:flex items-center gap-8" role="navigation" aria-label="Menu principal">
       <MegaMenuOptimized sections={menuSections} trigger="Données" />
       <MegaMenuOptimized sections={outilsMenuSections} trigger="Outils" />
       <MegaMenuOptimized sections={rechercheMenuSections} trigger="Recherche" />
+      <MegaMenuOptimized sections={tabacothequeMenuSections} trigger="Tabacothèque" />
       <MegaMenuOptimized sections={projetMenuSections} trigger="Projet" />
     </nav>
   );
