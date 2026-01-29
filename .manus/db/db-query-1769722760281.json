@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Liaisons Limonène\nINSERT IGNORE INTO tps_gene_molecules (tps_gene_id, molecule_id, relationship_type, confidence, source_reference, notes)\nSELECT tg.id, m.id, 'primary_product', 'high', 'Nomenclature TPS - Produit principal', CONCAT('Liaison automatique: ', tg.name, ' → ', m.name)\nFROM tps_genes tg\nCROSS JOIN molecules m\nWHERE tg.name LIKE '%Limonène%' AND m.name = 'Limonène'\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Liaisons Limonène\nINSERT IGNORE INTO tps_gene_molecules (tps_gene_id, molecule_id, relationship_type, confidence, source_reference, notes)\nSELECT tg.id, m.id, 'primary_product', 'high', 'Nomenclature TPS - Produit principal', CONCAT('Liaison automatique: ', tg.name, ' → ', m.name)\nFROM tps_genes tg\nCROSS JOIN molecules m\nWHERE tg.name LIKE '%Limonène%' AND m.name = 'Limonène'\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 69
+}

@@ -2856,3 +2856,20 @@
 - [ ] Importer les nouvelles références génomiques
 - [ ] Lier les références v4 aux axes thématiques existants
 
+
+
+### Session 29 janvier 2026 - Partie 3 : Enrichissement liaisons TPS↔molécules — COMPLÉTÉ
+- [x] Analyser les molécules terpéniques existantes dans la base (699 molécules)
+- [x] Identifier les gènes TPS correspondants pour chaque terpène (307 gènes)
+- [x] Créer les liaisons pour les monoterpènes majeurs (limonène, pinène, myrcène, linalol)
+- [x] Créer les liaisons pour les sesquiterpènes majeurs (caryophyllène, humulène, farnesène)
+- [x] Créer les liaisons pour les diterpènes (géranylgéraniol, phytol)
+- [x] **Objectif atteint** : 15.3% de couverture TPS↔molécules (vs 4.4% initial)
+
+**Résultats finaux :**
+| Métrique | Avant | Après | Progression |
+|----------|-------|-------|-------------|
+| Liaisons totales | 126 | 177 | +40% |
+| Gènes liés | 14 | 47 | +235% |
+| Molécules liées | 33 | 72 | +118% |
+| Couverture gènes | 4.4% | 15.3% | +247% |

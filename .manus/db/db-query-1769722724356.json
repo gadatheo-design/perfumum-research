@@ -1,0 +1,510 @@
+{
+  "query": "\nSELECT id, name, chemical_class \nFROM molecules \nWHERE name LIKE '%ène%' \n   OR name LIKE '%ol%' \n   OR name LIKE '%terpèn%'\n   OR name LIKE '%terpén%'\n   OR chemical_class LIKE '%terpèn%'\n   OR chemical_class LIKE '%monoterp%'\n   OR chemical_class LIKE '%sesquiterp%'\n   OR chemical_class LIKE '%diterp%'\nORDER BY name\nLIMIT 100\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, chemical_class \nFROM molecules \nWHERE name LIKE '%ène%' \n   OR name LIKE '%ol%' \n   OR name LIKE '%terpèn%'\n   OR name LIKE '%terpén%'\n   OR chemical_class LIKE '%terpèn%'\n   OR chemical_class LIKE '%monoterp%'\n   OR chemical_class LIKE '%sesquiterp%'\n   OR chemical_class LIKE '%diterp%'\nORDER BY name\nLIMIT 100\n",
+  "rows": [
+    {
+      "id": "810007",
+      "name": "1,8-cineole",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "90002",
+      "name": "2-MIB (2-Methylisoborneol)",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "690002",
+      "name": "2-Phényléthanol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720005",
+      "name": "3-Carène",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720032",
+      "name": "4-Vinylguaiacol",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "120006",
+      "name": "4-methyl-guaiacol",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "1110014",
+      "name": "4-Éthylguaiacol",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "1110002",
+      "name": "6-Gingérol",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "300002",
+      "name": "Absolue d'Iris (Orris Butter)",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "330008",
+      "name": "Absolue de Jasmin (Indole)",
+      "chemical_class": "heterocyclic"
+    },
+    {
+      "id": "330007",
+      "name": "Absolue de Rose (Citronellol)",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "60004",
+      "name": "Acide Linoléique",
+      "chemical_class": "other"
+    },
+    {
+      "id": "780012",
+      "name": "Acide oléanolique",
+      "chemical_class": "other"
+    },
+    {
+      "id": "1110007",
+      "name": "Acide palmitoléique",
+      "chemical_class": "aliphatic"
+    },
+    {
+      "id": "780011",
+      "name": "Acide ursolique",
+      "chemical_class": "other"
+    },
+    {
+      "id": "840013",
+      "name": "Acétate d'incensole",
+      "chemical_class": "diterpene"
+    },
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol",
+      "chemical_class": "ester"
+    },
+    {
+      "id": "990031",
+      "name": "Agarol",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "990032",
+      "name": "Agarospirol",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "570055",
+      "name": "Alcool cinnamique",
+      "chemical_class": "aromatic"
+    },
+    {
+      "id": "570054",
+      "name": "Alcool phényléthylique",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "990039",
+      "name": "Alpha-bulnesene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "990026",
+      "name": "Alpha-cedrene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "960013",
+      "name": "Alpha-curcumene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "990040",
+      "name": "Alpha-guaiene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "990023",
+      "name": "Alpha-santalene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "960009",
+      "name": "Alpha-terpinene",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "300003",
+      "name": "Ambre Gris (Ambergris)",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "90016",
+      "name": "Ambrettolide",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "240001",
+      "name": "Androsténol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "870001",
+      "name": "Anéthole",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "780016",
+      "name": "Aristolen-9β-ol",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "990007",
+      "name": "Aromadendrene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "510020",
+      "name": "Baume de Tolú",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510010",
+      "name": "Baume de Tolú (Myroxylon balsamum)",
+      "chemical_class": "ester"
+    },
+    {
+      "id": "1050016",
+      "name": "Benzyl alcool",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "660004",
+      "name": "Bergaptène",
+      "chemical_class": "coumarin"
+    },
+    {
+      "id": "960012",
+      "name": "Beta-bisabolene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "990027",
+      "name": "Beta-cedrene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "990024",
+      "name": "Beta-santalene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "990021",
+      "name": "Beta-vetivone",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "990002",
+      "name": "Borneol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "570049",
+      "name": "Bornéol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "540004",
+      "name": "CEDARWOOD OIL",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "510023",
+      "name": "Cacao Colombien",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "390008",
+      "name": "Cacao Colombien - Fèves Fermentées",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "390006",
+      "name": "Café Geisha - Grains Verts",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "510028",
+      "name": "Calycolpus Moritzianus",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "390003",
+      "name": "Calycolpus Moritzianus (Guayabita)",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "990009",
+      "name": "Camphene",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720003",
+      "name": "Camphène",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "1110005",
+      "name": "Carotol",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "570041",
+      "name": "Carvacrol",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "1110027",
+      "name": "Caryophyllène",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "720018",
+      "name": "Caryophyllène oxide",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "1110017",
+      "name": "Catéchol",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "90047",
+      "name": "Cedarol",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "990028",
+      "name": "Cedrenol",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "510007",
+      "name": "Cedro Rosado (Cedrela odorata)",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720029",
+      "name": "Cembratrienol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "1110003",
+      "name": "Chamazulène",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "570030",
+      "name": "Cis-3-Hexénol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "660002",
+      "name": "Citronellol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "330019",
+      "name": "Clearwood (Patchouli Synthétique)",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "1080016",
+      "name": "Comino (Colombie) — Aniba perutilis (menacé)",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510019",
+      "name": "Copal Colombien",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510009",
+      "name": "Copal Colombien (Protium spp.)",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "750011",
+      "name": "Créosol",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "1110016",
+      "name": "Crésol",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "600011",
+      "name": "Crésol Fumé",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "570010",
+      "name": "Crésol Fumé",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "990030",
+      "name": "Cuparene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "840002",
+      "name": "Curzérène",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "330005",
+      "name": "Cèdre Atlas (Cedrene)",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "720019",
+      "name": "Cédrol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "960010",
+      "name": "Delta-3-carene",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "90045",
+      "name": "Elemi",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "330012",
+      "name": "Encens Oliban (Incensole)",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "990025",
+      "name": "Epi-alpha-cadinol",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "1050026",
+      "name": "Epi-β-santalène",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "630002",
+      "name": "Estragole",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "570033",
+      "name": "Ethyl Maltol",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "570048",
+      "name": "Eucalyptol",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "570039",
+      "name": "Eugénol",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "540007",
+      "name": "FRANKINCENSE OIL",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "1110006",
+      "name": "Faradiol",
+      "chemical_class": "other"
+    },
+    {
+      "id": "990014",
+      "name": "Farnesene",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "690001",
+      "name": "Farnesol",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "720013",
+      "name": "Farnésène",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "720009",
+      "name": "Fenchol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "90007",
+      "name": "Fer volatil",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "480003",
+      "name": "Feuille d'oranger sèche",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "390007",
+      "name": "Fleur de Café - Absolue",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "90018",
+      "name": "Fossile absolute",
+      "chemical_class": "lactone"
+    },
+    {
+      "id": "1110024",
+      "name": "Furaneol",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "840003",
+      "name": "Furanodienone",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "840001",
+      "name": "Furanoeudesma-1,3-diène",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "90080",
+      "name": "Galaxolide",
+      "chemical_class": "musk"
+    },
+    {
+      "id": "960008",
+      "name": "Gamma-terpinene",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "330006",
+      "name": "Gaïac (Guaiol)",
+      "chemical_class": "alcohol"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tchemical_class\n810007\t1,8-cineole\tether\n90002\t2-MIB (2-Methylisoborneol)\talcohol\n690002\t2-Phényléthanol\talcohol\n720005\t3-Carène\tmonoterpene\n720032\t4-Vinylguaiacol\tphenol\n120006\t4-methyl-guaiacol\tphenol\n1110014\t4-Éthylguaiacol\tNULL\n1110002\t6-Gingérol\tphenol\n300002\tAbsolue d'Iris (Orris Butter)\tketone\n330008\tAbsolue de Jasmin (Indole)\theterocyclic\n330007\tAbsolue de Rose (Citronellol)\talcohol\n60004\tAcide Linoléique\tother\n780012\tAcide oléanolique\tother\n1110007\tAcide palmitoléique\taliphatic\n780011\tAcide ursolique\tother\n840013\tAcétate d'incensole\tditerpene\n570061\tAcétate d'isoeugenol\tester\n990031\tAgarol\tsesquiterpene\n990032\tAgarospirol\tsesquiterpene\n570055\tAlcool cinnamique\taromatic\n570054\tAlcool phényléthylique\talcohol\n990039\tAlpha-bulnesene\tsesquiterpene\n990026\tAlpha-cedrene\tsesquiterpene\n960013\tAlpha-curcumene\tsesquiterpene\n990040\tAlpha-guaiene\tsesquiterpene\n990023\tAlpha-santalene\tsesquiterpene\n960009\tAlpha-terpinene\tmonoterpene\n300003\tAmbre Gris (Ambergris)\tmonoterpene\n90016\tAmbrettolide\tketone\n240001\tAndrosténol\talcohol\n870001\tAnéthole\tether\n780016\tAristolen-9β-ol\tsesquiterpene\n990007\tAromadendrene\tsesquiterpene\n510020\tBaume de Tolú\tNULL\n510010\tBaume de Tolú (Myroxylon balsamum)\tester\n1050016\tBenzyl alcool\talcohol\n660004\tBergaptène\tcoumarin\n960012\tBeta-bisabolene\tsesquiterpene\n990027\tBeta-cedrene\tsesquiterpene\n990024\tBeta-santalene\tsesquiterpene\n990021\tBeta-vetivone\tsesquiterpene\n990002\tBorneol\talcohol\n570049\tBornéol\talcohol\n540004\tCEDARWOOD OIL\tmonoterpene\n510023\tCacao Colombien\tNULL\n390008\tCacao Colombien - Fèves Fermentées\tmonoterpene\n390006\tCafé Geisha - Grains Verts\tmonoterpene\n510028\tCalycolpus Moritzianus\tNULL\n390003\tCalycolpus Moritzianus (Guayabita)\tmonoterpene\n990009\tCamphene\tmonoterpene\n720003\tCamphène\tmonoterpene\n1110005\tCarotol\tsesquiterpene\n570041\tCarvacrol\tphenol\n1110027\tCaryophyllène\tNULL\n720018\tCaryophyllène oxide\tether\n1110017\tCatéchol\tNULL\n90047\tCedarol\tmonoterpene\n990028\tCedrenol\tsesquiterpene\n510007\tCedro Rosado (Cedrela odorata)\tmonoterpene\n720029\tCembratrienol\talcohol\n1110003\tChamazulène\tsesquiterpene\n570030\tCis-3-Hexénol\talcohol\n660002\tCitronellol\talcohol\n330019\tClearwood (Patchouli Synthétique)\tmonoterpene\n1080016\tComino (Colombie) — Aniba perutilis (menacé)\tNULL\n510019\tCopal Colombien\tNULL\n510009\tCopal Colombien (Protium spp.)\tmonoterpene\n750011\tCréosol\tphenol\n1110016\tCrésol\tNULL\n600011\tCrésol Fumé\tphenol\n570010\tCrésol Fumé\tphenol\n990030\tCuparene\tsesquiterpene\n840002\tCurzérène\tsesquiterpene\n330005\tCèdre Atlas (Cedrene)\tsesquiterpene\n720019\tCédrol\talcohol\n960010\tDelta-3-carene\tmonoterpene\n90045\tElemi\tsesquiterpene\n330012\tEncens Oliban (Incensole)\talcohol\n990025\tEpi-alpha-cadinol\tsesquiterpene\n1050026\tEpi-β-santalène\tsesquiterpene\n630002\tEstragole\tether\n570033\tEthyl Maltol\tketone\n570048\tEucalyptol\tether\n570039\tEugénol\tphenol\n540007\tFRANKINCENSE OIL\tmonoterpene\n1110006\tFaradiol\tother\n990014\tFarnesene\tsesquiterpene\n690001\tFarnesol\tsesquiterpene\n720013\tFarnésène\tsesquiterpene\n720009\tFenchol\talcohol\n90007\tFer volatil\tNULL\n480003\tFeuille d'oranger sèche\tmonoterpene\n390007\tFleur de Café - Absolue\tmonoterpene\n90018\tFossile absolute\tlactone\n1110024\tFuraneol\tNULL\n840003\tFuranodienone\tsesquiterpene\n840001\tFuranoeudesma-1,3-diène\tsesquiterpene\n90080\tGalaxolide\tmusk\n960008\tGamma-terpinene\tmonoterpene\n330006\tGaïac (Guaiol)\talcohol\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}
