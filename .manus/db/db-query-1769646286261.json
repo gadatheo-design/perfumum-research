@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) AS total_links FROM perique_molecule_links;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) AS total_links FROM perique_molecule_links;",
+  "rows": [
+    {
+      "total_links": "107"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_links\n107\n",
+  "stderr": "",
+  "execution_time_ms": 77
+}

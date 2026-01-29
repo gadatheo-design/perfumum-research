@@ -2726,3 +2726,31 @@
 | Lactones | 10+ | 5 |
 | ... | ... | ... |
 
+
+
+---
+
+## 🚬 SESSION ARCHIVES OLFACTIVES — 29 Jan 2026
+
+### Import archives cigarettes soviétiques/orientales/chinoises
+- [x] Lire et analyser le fichier ArchiveOlfactiveCigarettesSoviétiques (11 marques)
+- [x] Créer la table historic_cigarettes (21 colonnes)
+- [x] Importer les cigarettes soviétiques (Belomorkanal, Laika, Prima, Apollo-Soyuz)
+- [x] Importer les cigarettes orientales (Bahman, Homa - Iran)
+- [x] Importer les cigarettes chinoises (Zhonghua, Huang He Lou 1916, Giant Panda, Double Happiness, Zhongnanhai)
+
+### Page visualisation composés du Perique
+- [x] Créer la page PeriqueCompounds.tsx (avec DashboardLayout)
+- [x] Implémenter les graphiques par catégorie (BarChart Recharts)
+- [x] Implémenter le graphique potentiel parfumerie (PieChart Recharts)
+- [x] Ajouter les filtres interactifs (catégorie, potentiel parfumerie)
+- [x] Ajouter la recherche et le tri
+- [x] Ajouter la route /perique-compounds dans App.tsx
+- [x] Ajouter la procédure getPeriqueCompounds dans research router
+
+### Liaisons Perique-molécules existantes
+- [x] Identifier les molécules communes entre perique_compounds et molecules (30+ molécules)
+- [x] Créer la table perique_molecule_links
+- [x] Créer les liaisons automatiques basées sur les noms (30 liaisons créées)
+- [ ] Valider les liaisons créées
+

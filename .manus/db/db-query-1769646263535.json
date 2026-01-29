@@ -1,0 +1,190 @@
+{
+  "query": "SELECT pc.name AS perique_name, m.name AS molecule_name, m.id AS molecule_id, pc.id AS perique_id\nFROM perique_compounds pc\nJOIN molecules m ON LOWER(pc.name) = LOWER(m.name)\nLIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT pc.name AS perique_name, m.name AS molecule_name, m.id AS molecule_id, pc.id AS perique_id\nFROM perique_compounds pc\nJOIN molecules m ON LOWER(pc.name) = LOWER(m.name)\nLIMIT 30;",
+  "rows": [
+    {
+      "perique_name": "Linalool",
+      "molecule_name": "Linalool",
+      "molecule_id": "30009",
+      "perique_id": "35"
+    },
+    {
+      "perique_name": "Indole",
+      "molecule_name": "Indole",
+      "molecule_id": "60016",
+      "perique_id": "226"
+    },
+    {
+      "perique_name": "Indole",
+      "molecule_name": "Indole",
+      "molecule_id": "60016",
+      "perique_id": "67"
+    },
+    {
+      "perique_name": "Guaiacol",
+      "molecule_name": "Guaiacol",
+      "molecule_id": "90021",
+      "perique_id": "49"
+    },
+    {
+      "perique_name": "Decanoic acid",
+      "molecule_name": "Decanoic acid",
+      "molecule_id": "90032",
+      "perique_id": "156"
+    },
+    {
+      "perique_name": "Indole",
+      "molecule_name": "Indole",
+      "molecule_id": "90035",
+      "perique_id": "226"
+    },
+    {
+      "perique_name": "Indole",
+      "molecule_name": "Indole",
+      "molecule_id": "90035",
+      "perique_id": "67"
+    },
+    {
+      "perique_name": "Patchoulol",
+      "molecule_name": "Patchoulol",
+      "molecule_id": "90054",
+      "perique_id": "173"
+    },
+    {
+      "perique_name": "Nerol",
+      "molecule_name": "Nerol",
+      "molecule_id": "90059",
+      "perique_id": "167"
+    },
+    {
+      "perique_name": "Nerol",
+      "molecule_name": "Nerol",
+      "molecule_id": "90059",
+      "perique_id": "37"
+    },
+    {
+      "perique_name": "Coumarin",
+      "molecule_name": "Coumarin",
+      "molecule_id": "90068",
+      "perique_id": "97"
+    },
+    {
+      "perique_name": "Linalool",
+      "molecule_name": "Linalool",
+      "molecule_id": "150006",
+      "perique_id": "35"
+    },
+    {
+      "perique_name": "Indole",
+      "molecule_name": "Indole",
+      "molecule_id": "210001",
+      "perique_id": "226"
+    },
+    {
+      "perique_name": "Indole",
+      "molecule_name": "Indole",
+      "molecule_id": "210001",
+      "perique_id": "67"
+    },
+    {
+      "perique_name": "Skatole",
+      "molecule_name": "Skatole",
+      "molecule_id": "210002",
+      "perique_id": "227"
+    },
+    {
+      "perique_name": "Skatole",
+      "molecule_name": "Skatole",
+      "molecule_id": "210002",
+      "perique_id": "68"
+    },
+    {
+      "perique_name": "Isoamyl acetate",
+      "molecule_name": "Isoamyl acetate",
+      "molecule_id": "210010",
+      "perique_id": "80"
+    },
+    {
+      "perique_name": "Isoamyl acetate",
+      "molecule_name": "Isoamyl acetate",
+      "molecule_id": "210010",
+      "perique_id": "3"
+    },
+    {
+      "perique_name": "Benzyl acetate",
+      "molecule_name": "Benzyl acetate",
+      "molecule_id": "210011",
+      "perique_id": "85"
+    },
+    {
+      "perique_name": "Methyl anthranilate",
+      "molecule_name": "Methyl anthranilate",
+      "molecule_id": "210013",
+      "perique_id": "276"
+    },
+    {
+      "perique_name": "Methyl anthranilate",
+      "molecule_name": "Methyl anthranilate",
+      "molecule_id": "210013",
+      "perique_id": "88"
+    },
+    {
+      "perique_name": "Ethyl cinnamate",
+      "molecule_name": "Ethyl cinnamate",
+      "molecule_id": "210014",
+      "perique_id": "275"
+    },
+    {
+      "perique_name": "Ethyl cinnamate",
+      "molecule_name": "Ethyl cinnamate",
+      "molecule_id": "210014",
+      "perique_id": "87"
+    },
+    {
+      "perique_name": "Methyl salicylate",
+      "molecule_name": "Methyl salicylate",
+      "molecule_id": "210017",
+      "perique_id": "274"
+    },
+    {
+      "perique_name": "Methyl salicylate",
+      "molecule_name": "Methyl salicylate",
+      "molecule_id": "210017",
+      "perique_id": "84"
+    },
+    {
+      "perique_name": "Gamma-Decalactone",
+      "molecule_name": "Gamma-decalactone",
+      "molecule_id": "210021",
+      "perique_id": "93"
+    },
+    {
+      "perique_name": "alpha-Ionone",
+      "molecule_name": "Alpha-Ionone",
+      "molecule_id": "570021",
+      "perique_id": "240"
+    },
+    {
+      "perique_name": "Alpha-Ionone",
+      "molecule_name": "Alpha-Ionone",
+      "molecule_id": "570021",
+      "perique_id": "33"
+    },
+    {
+      "perique_name": "Ethyl maltol",
+      "molecule_name": "Ethyl Maltol",
+      "molecule_id": "570033",
+      "perique_id": "106"
+    },
+    {
+      "perique_name": "alpha-Ionone",
+      "molecule_name": "Alpha-Ionone",
+      "molecule_id": "600022",
+      "perique_id": "240"
+    }
+  ],
+  "messages": [],
+  "stdout": "perique_name\tmolecule_name\tmolecule_id\tperique_id\nLinalool\tLinalool\t30009\t35\nIndole\tIndole\t60016\t226\nIndole\tIndole\t60016\t67\nGuaiacol\tGuaiacol\t90021\t49\nDecanoic acid\tDecanoic acid\t90032\t156\nIndole\tIndole\t90035\t226\nIndole\tIndole\t90035\t67\nPatchoulol\tPatchoulol\t90054\t173\nNerol\tNerol\t90059\t167\nNerol\tNerol\t90059\t37\nCoumarin\tCoumarin\t90068\t97\nLinalool\tLinalool\t150006\t35\nIndole\tIndole\t210001\t226\nIndole\tIndole\t210001\t67\nSkatole\tSkatole\t210002\t227\nSkatole\tSkatole\t210002\t68\nIsoamyl acetate\tIsoamyl acetate\t210010\t80\nIsoamyl acetate\tIsoamyl acetate\t210010\t3\nBenzyl acetate\tBenzyl acetate\t210011\t85\nMethyl anthranilate\tMethyl anthranilate\t210013\t276\nMethyl anthranilate\tMethyl anthranilate\t210013\t88\nEthyl cinnamate\tEthyl cinnamate\t210014\t275\nEthyl cinnamate\tEthyl cinnamate\t210014\t87\nMethyl salicylate\tMethyl salicylate\t210017\t274\nMethyl salicylate\tMethyl salicylate\t210017\t84\nGamma-Decalactone\tGamma-decalactone\t210021\t93\nalpha-Ionone\tAlpha-Ionone\t570021\t240\nAlpha-Ionone\tAlpha-Ionone\t570021\t33\nEthyl maltol\tEthyl Maltol\t570033\t106\nalpha-Ionone\tAlpha-Ionone\t600022\t240\n",
+  "stderr": "",
+  "execution_time_ms": 127
+}

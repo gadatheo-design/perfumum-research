@@ -223,6 +223,27 @@ export const researchRouter = router({
   /**
    * Get research statistics
    */
+  /**
+   * Get all Perique compounds
+   */
+  getPeriqueCompounds: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return [];
+      }
+      
+      const result = await db.execute(
+        sql.raw(`SELECT * FROM perique_compounds ORDER BY category, name`)
+      );
+      
+      return result as any[];
+    } catch (error) {
+      console.error("Error fetching Perique compounds:", error);
+      return [];
+    }
+  }),
+
   getStatistics: publicProcedure.query(async () => {
     try {
       const db = await getDb();
