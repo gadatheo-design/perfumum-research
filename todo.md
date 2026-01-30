@@ -3077,3 +3077,17 @@
 - [x] Ajouter des liens vers le mode cascade du graphe pour chaque molécule
 - [x] Ajouter un bouton "Voir le graphe des transformations"
 - [x] Créer le composant TransformationCard pour afficher les détails
+
+
+## 🐛 BUG (30 Jan 2026)
+
+### Erreur page molécule
+- [ ] Diagnostiquer l'erreur sur la page molécule
+- [ ] Corriger l'erreur identifiée
+- [ ] Tester la page après correction
+
+
+### Bug liens 404 molécules depuis recettes
+- [x] Diagnostiquer les erreurs 404 sur les liens molécules (chemin /molecules au lieu de /molecule)
+- [x] Corriger les URLs des liens molécules dans SeeAlso.tsx
+- [x] Tester les liens après correction (HMR appliqué)

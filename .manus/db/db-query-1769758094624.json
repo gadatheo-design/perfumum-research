@@ -1,0 +1,50 @@
+{
+  "query": "SELECT id, name FROM molecules ORDER BY id LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules ORDER BY id LIMIT 10;",
+  "rows": [
+    {
+      "id": "3",
+      "name": "Ambroxan"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol"
+    },
+    {
+      "id": "30003",
+      "name": "Ambroxan"
+    },
+    {
+      "id": "30004",
+      "name": "Géosmine"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène"
+    },
+    {
+      "id": "30008",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "30009",
+      "name": "Linalool"
+    },
+    {
+      "id": "60003",
+      "name": "Acide Décanoïque (C10)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n3\tAmbroxan\n30002\tLinalol\n30003\tAmbroxan\n30004\tGéosmine\n30005\tβ-Caryophyllène\n30006\tMyrcène\n30007\tLimonène\n30008\tα-Pinène\n30009\tLinalool\n60003\tAcide Décanoïque (C10)\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}
