@@ -1,0 +1,1 @@
+ALTER TABLE `molecule_synergies` ADD `chemical_mechanism` text;

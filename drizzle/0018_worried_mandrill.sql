@@ -1,0 +1,5 @@
+ALTER TABLE `chemical_families` MODIFY COLUMN `type` enum('monoterpene','sesquiterpene','diterpene','triterpene','monoterpenoid','sesquiterpenoid','alcohol_aliphatic','alcohol_aromatic','alcohol_terpenic','aldehyde_aliphatic','aldehyde_aromatic','aldehyde_terpenic','ketone_aliphatic','ketone_aromatic','ketone_terpenic','ketone_macrocyclic','ester_aliphatic','ester_aromatic','ester_terpenic','ether_aliphatic','ether_aromatic','phenol','phenol_ether','lactone','lactone_macrocyclic','coumarin','musk_nitro','musk_polycyclic','musk_macrocyclic','musk_linear','nitrile','indole','pyrazine','pyridine','amine','sulfur_compound','thiophene','acid_carboxylic','acid_fatty','furan','heterocyclic_oxygen','heterocyclic_nitrogen','hydrocarbon_aromatic','hydrocarbon_aliphatic','oxide','acetals','anhydride','other') NOT NULL;--> statement-breakpoint
+ALTER TABLE `chemical_families` ADD `subcategory` varchar(100);--> statement-breakpoint
+ALTER TABLE `chemical_families` ADD `molecular_weight_range` varchar(50);--> statement-breakpoint
+ALTER TABLE `chemical_families` ADD `typical_notes` text;--> statement-breakpoint
+ALTER TABLE `chemical_families` ADD `example_molecules` text;

@@ -1,0 +1,40 @@
+[2026-01-08T03:39:32.157Z] === DÉBUT DE L'INTÉGRATION DES DONNÉES PUBCHEM ===
+[2026-01-08T03:39:32.163Z] Molécules enrichies à intégrer: 187
+[2026-01-08T03:39:32.264Z] Connexion à la base de données établie
+[2026-01-08T03:39:32.285Z]   ✓ Mis à jour: 1,8-cineole (ID: 810007) - CAS: 470-82-6
+[2026-01-08T03:39:32.301Z]   ✓ Mis à jour: 2-MIB (2-Methylisoborneol) (ID: 90002) - CAS: 2371-42-8
+[2026-01-08T03:39:32.312Z]   ✓ Mis à jour: 2-heptanone (ID: 90033) - CAS: 110-43-0
+[2026-01-08T03:39:32.321Z]   ✓ Mis à jour: Absolue de Jasmin (Indole) (ID: 330008) - CAS: 120-72-9
+[2026-01-08T03:39:32.331Z]   ✓ Mis à jour: Absolue de Rose (Citronellol) (ID: 330007) - CAS: 106-22-9
+[2026-01-08T03:39:32.341Z]   ✓ Mis à jour: Acide Coumarique (ID: 60010) - CAS: 501-98-4
+[2026-01-08T03:39:32.351Z]   ✓ Mis à jour: Acide Férulique (ID: 60009) - CAS: 1135-24-6
+[2026-01-08T03:39:32.360Z]   ✓ Mis à jour: Acide butyrique (ID: 210003) - CAS: 107-92-6
+[2026-01-08T03:39:32.371Z]   ✓ Mis à jour: Acide décanoïque (ID: 210007) - CAS: 334-48-5
+[2026-01-08T03:39:32.383Z]   ✓ Mis à jour: Acide isovalérique (ID: 210004) - CAS: 503-74-2
+[2026-01-08T03:39:32.392Z]   ✓ Mis à jour: Acétate d'isoeugenol (ID: 570061) - CAS: 5912-87-8
+[2026-01-08T03:39:32.407Z]   ✓ Mis à jour: Acétate de Bornyle (ID: 600021) - CAS: 5655-61-8
+[2026-01-08T03:39:32.417Z]   ✓ Mis à jour: Acétate de Bornyle (ID: 570020) - CAS: 5655-61-8
+[2026-01-08T03:39:32.427Z]   ✓ Mis à jour: Acétate de benzyle (ID: 570059) - CAS: 140-11-4
+[2026-01-08T03:39:32.438Z]   ✓ Mis à jour: Acétate de phényléthyle (ID: 570058) - CAS: 103-45-7
+[2026-01-08T03:39:32.447Z]   ✓ Mis à jour: Alcool phényléthylique (ID: 570054) - CAS: 60-12-8
+[2026-01-08T03:39:32.458Z]   ✓ Mis à jour: Aldéhyde C-10 (ID: 120008) - CAS: 112-31-2
+[2026-01-08T03:39:32.469Z]   ✓ Mis à jour: Aldéhyde C-11 (ID: 120009) - CAS: 112-44-7
+[2026-01-08T03:39:32.478Z]   ✓ Mis à jour: Aldéhyde C-12 (ID: 120010) - CAS: 112-54-9
+[2026-01-08T03:39:32.488Z]   ✓ Mis à jour: Aldéhyde C-12 MNA (ID: 570024) - CAS: 110-41-8
+[2026-01-08T03:39:32.785Z]   ✓ Mis à jour: Coumarin (ID: 90068) - CAS: 91-64-5
+[2026-01-08T03:39:33.279Z]   ✓ Mis à jour: Norlimbanol (ID: 330018) - CAS: 70788-30-6
+[2026-01-08T03:39:33.776Z]   ✓ Mis à jour: dillapiole (ID: 810055) - CAS: 484-31-1
+[2026-01-08T03:39:34.156Z] 
+=== RÉSUMÉ DE L'INTÉGRATION ===
+[2026-01-08T03:39:34.156Z] Total traité: 187
+[2026-01-08T03:39:34.156Z] Mis à jour: 187
+[2026-01-08T03:39:34.156Z] Ignorés: 0
+[2026-01-08T03:39:34.156Z] Erreurs: 0
+[2026-01-08T03:39:34.156Z] 
+=== VÉRIFICATION FINALE ===
+[2026-01-08T03:39:34.216Z] Total molécules: 556
+[2026-01-08T03:39:34.216Z] Avec numéro CAS: 317 (57.0%)
+[2026-01-08T03:39:34.216Z] Avec nom IUPAC: 282 (50.7%)
+[2026-01-08T03:39:34.216Z] Avec classe chimique: 278 (50.0%)
+[2026-01-08T03:39:34.217Z] 
+=== FIN DE L'INTÉGRATION ===

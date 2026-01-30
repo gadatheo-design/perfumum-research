@@ -1,0 +1,65 @@
+{
+  "plant": {
+    "name": "Myrrhe",
+    "latin_name": "Commiphora myrrha",
+    "family": "Burseraceae",
+    "category": "aromatique",
+    "origin": "Afrique de l’Est; Arabie",
+    "habitat": "zones sèches",
+    "olfactive_signature": "résine amère, sèche, cuir léger",
+    "dominant_molecules": "sesquiterpenes (resin mix); monoterpenes (resin mix)",
+    "climatic_axis": "bois; disparition",
+    "traditional_use": "rituel; médecine",
+    "absorbe_use": "structure; archive olfactive",
+    "conservation_status": "NT",
+    "cites_appendix": "UNKNOWN",
+    "conservation_notes": "À vérifier via IUCN/CITES au moment de l’import final.",
+    "threat_factors": {
+      "overharvesting": true,
+      "habitat_loss": true
+    },
+    "sustainable_alternatives": "résines locales non menacées (à définir)",
+    "last_assessment_year": null,
+    "historical_status": null
+  },
+  "molecules": [
+    {
+      "molecule_name": "alpha-pinene",
+      "family": "terpene"
+    },
+    {
+      "molecule_name": "beta-caryophyllene",
+      "family": "sesquiterpene"
+    }
+  ],
+  "relations": [
+    {
+      "molecule_name": "alpha-pinene",
+      "weight": "secondary"
+    },
+    {
+      "molecule_name": "beta-caryophyllene",
+      "weight": "dominant"
+    }
+  ],
+  "civilizational_markers": [
+    {
+      "civilization": "Égypte",
+      "period": "Antiquité",
+      "start_year": -3000,
+      "end_year": 0,
+      "usage_type": "funerary",
+      "historical_significance": "Embaumement, rituels funéraires, médecine",
+      "trade_routes": [
+        {
+          "route": "Arabie→Égypte"
+        }
+      ],
+      "primary_sources": [
+        {
+          "title": "Papyrus Ebers"
+        }
+      ]
+    }
+  ]
+}

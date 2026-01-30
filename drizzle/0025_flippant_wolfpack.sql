@@ -1,0 +1,1 @@
+ALTER TABLE `plants` MODIFY COLUMN `koppen_zone` varchar(50);

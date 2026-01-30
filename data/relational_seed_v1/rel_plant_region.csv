@@ -1,0 +1,7 @@
+plant_id,region_id,role,variety_id
+pl-cannabis-sativa,reg-colombia,focus,
+pl-cannabis-sativa,reg-global,context,
+pl-nicotiana-tabacum,reg-global,context,
+,reg-colombia-andes,origin,var-cannabis-punto-rojo
+,reg-colombia,origin,var-cannabis-punto-rojo
+,reg-global,reference,var-cannabis-cbdrx

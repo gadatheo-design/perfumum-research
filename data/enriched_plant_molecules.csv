@@ -1,0 +1,249 @@
+plant_latin_name,plant_common_name,molecule_name,percentage_typical,role,is_signature,evidence,notes
+Lavandula angustifolia,Lavande vraie,linalool,35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Lavande vraie
+Lavandula angustifolia,Lavande vraie,linalyl acetate,30,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Lavande vraie
+Lavandula angustifolia,Lavande vraie,lavandulyl acetate,4,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Lavande vraie
+Lavandula angustifolia,Lavande vraie,terpinen-4-ol,3,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Lavande vraie
+Lavandula angustifolia,Lavande vraie,beta-caryophyllene,2.5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Lavande vraie
+Lavandula angustifolia,Lavande vraie,"1,8-cineole",1.5,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Lavande vraie
+Lavandula angustifolia,Lavande vraie,camphor,0.5,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Lavande vraie
+Lavandula angustifolia,Lavande vraie,borneol,1,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Lavande vraie
+Mentha x piperita,Menthe poivrée,menthol,42,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe poivrée
+Mentha x piperita,Menthe poivrée,menthone,22,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe poivrée
+Mentha x piperita,Menthe poivrée,menthyl acetate,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe poivrée
+Mentha x piperita,Menthe poivrée,"1,8-cineole",5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe poivrée
+Mentha x piperita,Menthe poivrée,isomenthone,4,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe poivrée
+Mentha x piperita,Menthe poivrée,limonene,2.5,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe poivrée
+Mentha x piperita,Menthe poivrée,pulegone,1,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe poivrée
+Eucalyptus globulus,Eucalyptus globuleux,"1,8-cineole",75,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Eucalyptus globuleux
+Eucalyptus globulus,Eucalyptus globuleux,alpha-pinene,10,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Eucalyptus globuleux
+Eucalyptus globulus,Eucalyptus globuleux,limonene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Eucalyptus globuleux
+Eucalyptus globulus,Eucalyptus globuleux,globulol,2,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Eucalyptus globuleux
+Eucalyptus globulus,Eucalyptus globuleux,aromadendrene,1.5,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Eucalyptus globuleux
+Rosmarinus officinalis,Romarin,"1,8-cineole",45,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Romarin
+Rosmarinus officinalis,Romarin,camphor,15,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Romarin
+Rosmarinus officinalis,Romarin,alpha-pinene,12,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Romarin
+Rosmarinus officinalis,Romarin,borneol,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Romarin
+Rosmarinus officinalis,Romarin,verbenone,3,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Romarin
+Rosmarinus officinalis,Romarin,camphene,4,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Romarin
+Rosmarinus officinalis,Romarin,beta-pinene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Romarin
+Citrus limon,Citron,limonene,68,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citron
+Citrus limon,Citron,beta-pinene,12,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citron
+Citrus limon,Citron,gamma-terpinene,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citron
+Citrus limon,Citron,citral,3,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citron
+Citrus limon,Citron,geranial,1.5,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citron
+Citrus limon,Citron,neral,1,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citron
+Citrus limon,Citron,alpha-pinene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citron
+Citrus sinensis,Orange douce,limonene,95,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Orange douce
+Citrus sinensis,Orange douce,myrcene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Orange douce
+Citrus sinensis,Orange douce,linalool,0.5,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Orange douce
+Citrus sinensis,Orange douce,alpha-pinene,0.5,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Orange douce
+Citrus sinensis,Orange douce,decanal,0.3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Orange douce
+Citrus bergamia,Bergamote,limonene,40,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Bergamote
+Citrus bergamia,Bergamote,linalyl acetate,30,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Bergamote
+Citrus bergamia,Bergamote,linalool,12,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Bergamote
+Citrus bergamia,Bergamote,gamma-terpinene,7,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Bergamote
+Citrus bergamia,Bergamote,beta-pinene,6,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Bergamote
+Citrus bergamia,Bergamote,bergaptene,0.3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Bergamote
+Cananga odorata,Ylang-ylang,linalool,15,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Ylang-ylang
+Cananga odorata,Ylang-ylang,germacrene D,18,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Ylang-ylang
+Cananga odorata,Ylang-ylang,beta-caryophyllene,12,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Ylang-ylang
+Cananga odorata,Ylang-ylang,benzyl acetate,10,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Ylang-ylang
+Cananga odorata,Ylang-ylang,methyl benzoate,6,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Ylang-ylang
+Cananga odorata,Ylang-ylang,benzyl benzoate,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Ylang-ylang
+Cananga odorata,Ylang-ylang,geranyl acetate,4,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Ylang-ylang
+Cananga odorata,Ylang-ylang,farnesene,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Ylang-ylang
+Rosa damascena,Rose de Damas,citronellol,35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Rose de Damas
+Rosa damascena,Rose de Damas,geraniol,18,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Rose de Damas
+Rosa damascena,Rose de Damas,nerol,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Rose de Damas
+Rosa damascena,Rose de Damas,linalool,3,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Rose de Damas
+Rosa damascena,Rose de Damas,rose oxide,0.5,trace,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Rose de Damas
+Rosa damascena,Rose de Damas,damascenone,0.01,trace,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Rose de Damas
+Rosa damascena,Rose de Damas,phenylethyl alcohol,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Rose de Damas
+Jasminum grandiflorum,Jasmin grandiflorum,benzyl acetate,25,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Jasmin grandiflorum
+Jasminum grandiflorum,Jasmin grandiflorum,linalool,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Jasmin grandiflorum
+Jasminum grandiflorum,Jasmin grandiflorum,benzyl benzoate,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Jasmin grandiflorum
+Jasminum grandiflorum,Jasmin grandiflorum,methyl anthranilate,3,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Jasmin grandiflorum
+Jasminum grandiflorum,Jasmin grandiflorum,indole,2.5,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Jasmin grandiflorum
+Jasminum grandiflorum,Jasmin grandiflorum,jasmone,3,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Jasmin grandiflorum
+Jasminum grandiflorum,Jasmin grandiflorum,phytol,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Jasmin grandiflorum
+Chrysopogon zizanioides,Vétiver,khusimol,15,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Vétiver
+Chrysopogon zizanioides,Vétiver,vetiverol,10,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Vétiver
+Chrysopogon zizanioides,Vétiver,isovalencenol,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Vétiver
+Chrysopogon zizanioides,Vétiver,khusimone,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Vétiver
+Chrysopogon zizanioides,Vétiver,vetivone,6,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Vétiver
+Chrysopogon zizanioides,Vétiver,beta-vetivone,4,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Vétiver
+Pogostemon cablin,Patchouli,patchoulol,35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Patchouli
+Pogostemon cablin,Patchouli,alpha-bulnesene,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Patchouli
+Pogostemon cablin,Patchouli,alpha-guaiene,12,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Patchouli
+Pogostemon cablin,Patchouli,seychellene,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Patchouli
+Pogostemon cablin,Patchouli,pogostol,3,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Patchouli
+Pogostemon cablin,Patchouli,norpatchoulenol,1,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Patchouli
+Santalum album,Santal blanc,alpha-santalol,50,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Santal blanc
+Santalum album,Santal blanc,beta-santalol,20,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Santal blanc
+Santalum album,Santal blanc,alpha-santalene,6,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Santal blanc
+Santalum album,Santal blanc,beta-santalene,3,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Santal blanc
+Santalum album,Santal blanc,santalene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Santal blanc
+Cedrus atlantica,Cèdre de l'Atlas,alpha-himachalene,15,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cèdre de l'Atlas
+Cedrus atlantica,Cèdre de l'Atlas,beta-himachalene,40,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cèdre de l'Atlas
+Cedrus atlantica,Cèdre de l'Atlas,gamma-himachalene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cèdre de l'Atlas
+Cedrus atlantica,Cèdre de l'Atlas,atlantone,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cèdre de l'Atlas
+Cedrus atlantica,Cèdre de l'Atlas,cedrol,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cèdre de l'Atlas
+Boswellia sacra,Encens oliban,alpha-pinene,45,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Encens oliban
+Boswellia sacra,Encens oliban,limonene,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Encens oliban
+Boswellia sacra,Encens oliban,myrcene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Encens oliban
+Boswellia sacra,Encens oliban,incensole,3,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Encens oliban
+Boswellia sacra,Encens oliban,incensole acetate,2,trace,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Encens oliban
+Boswellia sacra,Encens oliban,octyl acetate,4,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Encens oliban
+Commiphora myrrha,Myrrhe,"furanoeudesma-1,3-diene",25,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Myrrhe
+Commiphora myrrha,Myrrhe,curzerene,15,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Myrrhe
+Commiphora myrrha,Myrrhe,lindestrene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Myrrhe
+Commiphora myrrha,Myrrhe,beta-elemene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Myrrhe
+Commiphora myrrha,Myrrhe,germacrene D,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Myrrhe
+Zingiber officinale,Gingembre,zingiberene,30,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Gingembre
+Zingiber officinale,Gingembre,beta-sesquiphellandrene,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Gingembre
+Zingiber officinale,Gingembre,ar-curcumene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Gingembre
+Zingiber officinale,Gingembre,alpha-farnesene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Gingembre
+Zingiber officinale,Gingembre,camphene,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Gingembre
+Zingiber officinale,Gingembre,"1,8-cineole",3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Gingembre
+Zingiber officinale,Gingembre,gingerol,2,trace,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Gingembre
+Cinnamomum verum,Cannelle de Ceylan,cinnamaldehyde,75,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cannelle de Ceylan
+Cinnamomum verum,Cannelle de Ceylan,eugenol,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cannelle de Ceylan
+Cinnamomum verum,Cannelle de Ceylan,linalool,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cannelle de Ceylan
+Cinnamomum verum,Cannelle de Ceylan,beta-caryophyllene,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cannelle de Ceylan
+Cinnamomum verum,Cannelle de Ceylan,cinnamyl acetate,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cannelle de Ceylan
+Syzygium aromaticum,Clou de girofle,eugenol,85,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Clou de girofle
+Syzygium aromaticum,Clou de girofle,eugenyl acetate,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Clou de girofle
+Syzygium aromaticum,Clou de girofle,beta-caryophyllene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Clou de girofle
+Syzygium aromaticum,Clou de girofle,alpha-humulene,1,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Clou de girofle
+Thymus vulgaris,Thym,thymol,45,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Thym
+Thymus vulgaris,Thym,p-cymene,20,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Thym
+Thymus vulgaris,Thym,gamma-terpinene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Thym
+Thymus vulgaris,Thym,carvacrol,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Thym
+Thymus vulgaris,Thym,linalool,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Thym
+Thymus vulgaris,Thym,borneol,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Thym
+Origanum vulgare,Origan,carvacrol,65,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Origan
+Origanum vulgare,Origan,thymol,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Origan
+Origanum vulgare,Origan,p-cymene,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Origan
+Origanum vulgare,Origan,gamma-terpinene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Origan
+Origanum vulgare,Origan,beta-caryophyllene,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Origan
+Ocimum basilicum,Basilic,linalool,55,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Basilic
+Ocimum basilicum,Basilic,methyl chavicol,20,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Basilic
+Ocimum basilicum,Basilic,eugenol,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Basilic
+Ocimum basilicum,Basilic,"1,8-cineole",5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Basilic
+Ocimum basilicum,Basilic,beta-caryophyllene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Basilic
+Salvia sclarea,Sauge sclarée,linalyl acetate,65,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Sauge sclarée
+Salvia sclarea,Sauge sclarée,linalool,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Sauge sclarée
+Salvia sclarea,Sauge sclarée,sclareol,3,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Sauge sclarée
+Salvia sclarea,Sauge sclarée,germacrene D,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Sauge sclarée
+Salvia sclarea,Sauge sclarée,alpha-terpineol,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Sauge sclarée
+Pelargonium graveolens,Géranium rosat,citronellol,30,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Géranium rosat
+Pelargonium graveolens,Géranium rosat,geraniol,15,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Géranium rosat
+Pelargonium graveolens,Géranium rosat,citronellyl formate,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Géranium rosat
+Pelargonium graveolens,Géranium rosat,linalool,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Géranium rosat
+Pelargonium graveolens,Géranium rosat,isomenthone,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Géranium rosat
+Pelargonium graveolens,Géranium rosat,geranyl formate,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Géranium rosat
+Pelargonium graveolens,Géranium rosat,rose oxide,0.5,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Géranium rosat
+Citrus aurantium,Néroli (Bigarade),linalool,35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Néroli (Bigarade)
+Citrus aurantium,Néroli (Bigarade),limonene,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Néroli (Bigarade)
+Citrus aurantium,Néroli (Bigarade),linalyl acetate,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Néroli (Bigarade)
+Citrus aurantium,Néroli (Bigarade),nerolidol,5,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Néroli (Bigarade)
+Citrus aurantium,Néroli (Bigarade),alpha-terpineol,4,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Néroli (Bigarade)
+Citrus aurantium,Néroli (Bigarade),geraniol,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Néroli (Bigarade)
+Citrus aurantium,Néroli (Bigarade),indole,0.1,trace,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Néroli (Bigarade)
+Citrus aurantium var. amara,Petit grain bigarade,linalyl acetate,50,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Petit grain bigarade
+Citrus aurantium var. amara,Petit grain bigarade,linalool,25,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Petit grain bigarade
+Citrus aurantium var. amara,Petit grain bigarade,alpha-terpineol,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Petit grain bigarade
+Citrus aurantium var. amara,Petit grain bigarade,geranyl acetate,3,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Petit grain bigarade
+Citrus aurantium var. amara,Petit grain bigarade,myrcene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Petit grain bigarade
+Pinus sylvestris,Pin sylvestre,alpha-pinene,45,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Pin sylvestre
+Pinus sylvestris,Pin sylvestre,beta-pinene,25,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Pin sylvestre
+Pinus sylvestris,Pin sylvestre,delta-3-carene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Pin sylvestre
+Pinus sylvestris,Pin sylvestre,limonene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Pin sylvestre
+Pinus sylvestris,Pin sylvestre,bornyl acetate,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Pin sylvestre
+Pinus sylvestris,Pin sylvestre,camphene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Pin sylvestre
+Cupressus sempervirens,Cyprès toujours vert,alpha-pinene,50,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cyprès toujours vert
+Cupressus sempervirens,Cyprès toujours vert,delta-3-carene,20,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cyprès toujours vert
+Cupressus sempervirens,Cyprès toujours vert,cedrol,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cyprès toujours vert
+Cupressus sempervirens,Cyprès toujours vert,limonene,3,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cyprès toujours vert
+Cupressus sempervirens,Cyprès toujours vert,terpinolene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cyprès toujours vert
+Juniperus communis,Genévrier commun,alpha-pinene,40,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Genévrier commun
+Juniperus communis,Genévrier commun,myrcene,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Genévrier commun
+Juniperus communis,Genévrier commun,sabinene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Genévrier commun
+Juniperus communis,Genévrier commun,limonene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Genévrier commun
+Juniperus communis,Genévrier commun,terpinen-4-ol,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Genévrier commun
+Juniperus communis,Genévrier commun,beta-pinene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Genévrier commun
+Melaleuca alternifolia,Tea tree,terpinen-4-ol,40,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Tea tree
+Melaleuca alternifolia,Tea tree,gamma-terpinene,20,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Tea tree
+Melaleuca alternifolia,Tea tree,alpha-terpinene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Tea tree
+Melaleuca alternifolia,Tea tree,"1,8-cineole",5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Tea tree
+Melaleuca alternifolia,Tea tree,alpha-terpineol,4,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Tea tree
+Melaleuca alternifolia,Tea tree,p-cymene,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Tea tree
+Cymbopogon citratus,Citronnelle,geranial,45,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citronnelle
+Cymbopogon citratus,Citronnelle,neral,35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citronnelle
+Cymbopogon citratus,Citronnelle,myrcene,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citronnelle
+Cymbopogon citratus,Citronnelle,geraniol,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citronnelle
+Cymbopogon citratus,Citronnelle,limonene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Citronnelle
+Cymbopogon martinii,Palmarosa,geraniol,80,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Palmarosa
+Cymbopogon martinii,Palmarosa,geranyl acetate,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Palmarosa
+Cymbopogon martinii,Palmarosa,linalool,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Palmarosa
+Cymbopogon martinii,Palmarosa,beta-caryophyllene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Palmarosa
+Elettaria cardamomum,Cardamome,"1,8-cineole",35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cardamome
+Elettaria cardamomum,Cardamome,alpha-terpinyl acetate,35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cardamome
+Elettaria cardamomum,Cardamome,linalool,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cardamome
+Elettaria cardamomum,Cardamome,linalyl acetate,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cardamome
+Elettaria cardamomum,Cardamome,limonene,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cardamome
+Coriandrum sativum,Coriandre,linalool,70,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Coriandre
+Coriandrum sativum,Coriandre,gamma-terpinene,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Coriandre
+Coriandrum sativum,Coriandre,alpha-pinene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Coriandre
+Coriandrum sativum,Coriandre,camphor,4,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Coriandre
+Coriandrum sativum,Coriandre,geranyl acetate,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Coriandre
+Piper nigrum,Poivre noir,beta-caryophyllene,30,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Poivre noir
+Piper nigrum,Poivre noir,limonene,20,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Poivre noir
+Piper nigrum,Poivre noir,sabinene,15,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Poivre noir
+Piper nigrum,Poivre noir,alpha-pinene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Poivre noir
+Piper nigrum,Poivre noir,beta-pinene,8,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Poivre noir
+Piper nigrum,Poivre noir,delta-3-carene,5,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Poivre noir
+Myristica fragrans,Muscade,sabinene,25,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Muscade
+Myristica fragrans,Muscade,alpha-pinene,20,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Muscade
+Myristica fragrans,Muscade,myristicin,8,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Muscade
+Myristica fragrans,Muscade,terpinen-4-ol,6,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Muscade
+Myristica fragrans,Muscade,limonene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Muscade
+Myristica fragrans,Muscade,safrole,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Muscade
+Chamaemelum nobile,Camomille romaine,isobutyl angelate,35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille romaine
+Chamaemelum nobile,Camomille romaine,isoamyl angelate,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille romaine
+Chamaemelum nobile,Camomille romaine,alpha-pinene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille romaine
+Chamaemelum nobile,Camomille romaine,pinocarvone,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille romaine
+Chamaemelum nobile,Camomille romaine,trans-pinocarveol,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille romaine
+Matricaria chamomilla,Camomille allemande,chamazulene,5,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille allemande
+Matricaria chamomilla,Camomille allemande,alpha-bisabolol,25,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille allemande
+Matricaria chamomilla,Camomille allemande,bisabolol oxide A,20,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille allemande
+Matricaria chamomilla,Camomille allemande,bisabolol oxide B,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille allemande
+Matricaria chamomilla,Camomille allemande,farnesene,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Camomille allemande
+Helichrysum italicum,Immortelle,neryl acetate,35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Immortelle
+Helichrysum italicum,Immortelle,italidione,8,secondaire,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Immortelle
+Helichrysum italicum,Immortelle,gamma-curcumene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Immortelle
+Helichrysum italicum,Immortelle,limonene,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Immortelle
+Helichrysum italicum,Immortelle,alpha-pinene,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Immortelle
+Foeniculum vulgare,Fenouil,trans-anethole,75,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Fenouil
+Foeniculum vulgare,Fenouil,fenchone,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Fenouil
+Foeniculum vulgare,Fenouil,methyl chavicol,5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Fenouil
+Foeniculum vulgare,Fenouil,limonene,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Fenouil
+Foeniculum vulgare,Fenouil,alpha-pinene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Fenouil
+Illicium verum,Anis étoilé,trans-anethole,90,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Anis étoilé
+Illicium verum,Anis étoilé,limonene,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Anis étoilé
+Illicium verum,Anis étoilé,linalool,1,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Anis étoilé
+Illicium verum,Anis étoilé,estragole,1,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Anis étoilé
+Cuminum cyminum,Cumin,cuminaldehyde,35,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cumin
+Cuminum cyminum,Cumin,gamma-terpinene,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cumin
+Cuminum cyminum,Cumin,beta-pinene,12,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cumin
+Cuminum cyminum,Cumin,p-cymene,10,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cumin
+Cuminum cyminum,Cumin,safranal,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Cumin
+Carum carvi,Carvi,carvone,55,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Carvi
+Carum carvi,Carvi,limonene,40,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Carvi
+Carum carvi,Carvi,myrcene,1,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Carvi
+Carum carvi,Carvi,trans-dihydrocarvone,1,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Carvi
+Mentha spicata,Menthe verte,carvone,60,majeur,1,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe verte
+Mentha spicata,Menthe verte,limonene,15,majeur,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe verte
+Mentha spicata,Menthe verte,"1,8-cineole",5,secondaire,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe verte
+Mentha spicata,Menthe verte,dihydrocarvone,3,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe verte
+Mentha spicata,Menthe verte,myrcene,2,trace,0,"littérature scientifique (EssOilDB, AromaDb)",Composition typique de l'huile essentielle de Menthe verte

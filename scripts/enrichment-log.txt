@@ -1,0 +1,235 @@
+[2026-01-08T03:21:11.894Z] === DÉBUT DE L'ENRICHISSEMENT PUBCHEM ===
+[2026-01-08T03:21:11.897Z] Nombre de molécules à traiter: 422
+[2026-01-08T03:21:11.897Z] Molécules restantes à traiter: 422
+[2026-01-08T03:21:11.898Z] Nombre de lots: 9
+[2026-01-08T03:21:11.898Z] 
+--- Traitement du lot 1/9 (50 molécules) ---
+[2026-01-08T03:21:11.898Z] Recherche: 1,8-cineole (ID: 810007)
+[2026-01-08T03:21:13.827Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:14.078Z] Recherche: 2-MIB (2-Methylisoborneol) (ID: 90002)
+[2026-01-08T03:21:14.787Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:15.038Z] Recherche: 2-heptanone (ID: 90033)
+[2026-01-08T03:21:16.325Z]   ✓ Trouvé: CAS=110-43-0, IUPAC=Oui
+[2026-01-08T03:21:16.576Z] Recherche: 4-methyl-guaiacol (ID: 120006)
+[2026-01-08T03:21:16.995Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:17.245Z] Recherche: Absolue d'Iris (Orris Butter) (ID: 300002)
+[2026-01-08T03:21:17.501Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:17.752Z] Recherche: Absolue de Jasmin (Indole) (ID: 330008)
+[2026-01-08T03:21:18.035Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:18.286Z] Recherche: Absolue de Rose (Citronellol) (ID: 330007)
+[2026-01-08T03:21:18.557Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:18.811Z] Recherche: Acacia brûlé (ID: 480024)
+[2026-01-08T03:21:19.132Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:19.388Z] Recherche: Acaciine (ID: 780015)
+[2026-01-08T03:21:19.707Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:19.957Z] Recherche: Acide Coumarique (ID: 60010)
+[2026-01-08T03:21:20.346Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:20.596Z] Recherche: Acide Décanoïque (C10) (ID: 60003)
+[2026-01-08T03:21:20.907Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:21.158Z] Recherche: Acide Férulique (ID: 60009)
+[2026-01-08T03:21:21.481Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:21.732Z] Recherche: Acide butyrique (ID: 210003)
+[2026-01-08T03:21:22.350Z] === DÉBUT DE L'ENRICHISSEMENT PUBCHEM ===
+[2026-01-08T03:21:22.352Z] Nombre de molécules à traiter: 422
+[2026-01-08T03:21:22.353Z] Molécules restantes à traiter: 422
+[2026-01-08T03:21:22.353Z] Nombre de lots: 9
+[2026-01-08T03:21:22.353Z] 
+--- Traitement du lot 1/9 (50 molécules) ---
+[2026-01-08T03:21:22.353Z] Recherche: 1,8-cineole (ID: 810007)
+[2026-01-08T03:21:22.841Z]   ✓ Trouvé: CAS=107-92-6, IUPAC=Oui
+[2026-01-08T03:21:23.092Z] Recherche: Acide décanoïque (ID: 210007)
+[2026-01-08T03:21:23.408Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:23.659Z] Recherche: Acide isovalérique (ID: 210004)
+[2026-01-08T03:21:23.752Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:24.003Z] Recherche: 2-MIB (2-Methylisoborneol) (ID: 90002)
+[2026-01-08T03:21:24.639Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:24.890Z] Recherche: Acétate d'isoeugenol (ID: 570061)
+[2026-01-08T03:21:25.074Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:25.209Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:25.325Z] Recherche: 2-heptanone (ID: 90033)
+[2026-01-08T03:21:25.459Z] Recherche: Acétate de Bornyle (ID: 600021)
+[2026-01-08T03:21:25.768Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:26.019Z] Recherche: Acétate de Bornyle (ID: 570020)
+[2026-01-08T03:21:26.276Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:26.317Z]   ✓ Trouvé: CAS=110-43-0, IUPAC=Oui
+[2026-01-08T03:21:26.527Z] Recherche: Acétate de benzyle (ID: 570059)
+[2026-01-08T03:21:26.568Z] Recherche: 4-methyl-guaiacol (ID: 120006)
+[2026-01-08T03:21:26.838Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:26.839Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:27.089Z] Recherche: Absolue d'Iris (Orris Butter) (ID: 300002)
+[2026-01-08T03:21:27.090Z] Recherche: Acétate de phényléthyle (ID: 570058)
+[2026-01-08T03:21:27.364Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:27.405Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:27.615Z] Recherche: Absolue de Jasmin (Indole) (ID: 330008)
+[2026-01-08T03:21:27.656Z] Recherche: Alcool phényléthylique (ID: 570054)
+[2026-01-08T03:21:27.931Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:27.932Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:28.182Z] Recherche: Absolue de Rose (Citronellol) (ID: 330007)
+[2026-01-08T03:21:28.182Z] Recherche: Aldéhyde C-10 (ID: 120008)
+[2026-01-08T03:21:28.457Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:28.493Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:28.708Z] Recherche: Aldéhyde C-11 (ID: 120009)
+[2026-01-08T03:21:28.744Z] Recherche: Acacia brûlé (ID: 480024)
+[2026-01-08T03:21:29.033Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:29.033Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:29.283Z] Recherche: Acaciine (ID: 780015)
+[2026-01-08T03:21:29.283Z] Recherche: Aldéhyde C-11 Undécylénique (ID: 570028)
+[2026-01-08T03:21:29.519Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:29.540Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:29.769Z] Recherche: Aldéhyde C-12 (ID: 120010)
+[2026-01-08T03:21:29.791Z] Recherche: Acide Coumarique (ID: 60010)
+[2026-01-08T03:21:30.034Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:30.065Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:30.285Z] Recherche: Aldéhyde C-12 MNA (ID: 570024)
+[2026-01-08T03:21:30.315Z] Recherche: Acide Décanoïque (C10) (ID: 60003)
+[2026-01-08T03:21:30.565Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:30.601Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:30.816Z] Recherche: Acide Férulique (ID: 60009)
+[2026-01-08T03:21:30.852Z] Recherche: Aldéhyde C-14 (Gamma-Undécalactone) (ID: 570025)
+[2026-01-08T03:21:31.186Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:31.186Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:31.436Z] Recherche: Acide butyrique (ID: 210003)
+[2026-01-08T03:21:31.437Z] Recherche: Aldéhyde C-18 (Gamma-Nonalactone) (ID: 570029)
+[2026-01-08T03:21:31.741Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:31.992Z] Recherche: Aldéhyde feuille (ID: 480032)
+[2026-01-08T03:21:32.302Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:32.511Z]   ✓ Trouvé: CAS=107-92-6, IUPAC=Oui
+[2026-01-08T03:21:32.553Z] Recherche: Aldéhyde métallique (ID: 120011)
+[2026-01-08T03:21:32.761Z] Recherche: Acide décanoïque (ID: 210007)
+[2026-01-08T03:21:32.830Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:33.081Z] Recherche: Aldéhydes chauds (ID: 480002)
+[2026-01-08T03:21:33.144Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:33.391Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:33.395Z] Recherche: Acide isovalérique (ID: 210004)
+[2026-01-08T03:21:33.642Z] Recherche: Aldéhydes métalliques (ID: 480022)
+[2026-01-08T03:21:33.697Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:33.948Z] Recherche: Acétate d'isoeugenol (ID: 570061)
+[2026-01-08T03:21:33.964Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:34.214Z] Recherche: Aldéhydes sombres (ID: 480013)
+[2026-01-08T03:21:34.259Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:34.509Z] Recherche: Acétate de Bornyle (ID: 600021)
+[2026-01-08T03:21:34.520Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:34.754Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:34.771Z] Recherche: Alpha-Ionone (ID: 600022)
+[2026-01-08T03:21:35.005Z] Recherche: Acétate de Bornyle (ID: 570020)
+[2026-01-08T03:21:35.311Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:35.562Z] Recherche: Acétate de benzyle (ID: 570059)
+[2026-01-08T03:21:35.877Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:36.018Z]   ✓ Trouvé: CAS=127-41-3, IUPAC=Oui
+[2026-01-08T03:21:36.127Z] Recherche: Acétate de phényléthyle (ID: 570058)
+[2026-01-08T03:21:36.269Z] Recherche: Alpha-Ionone (ID: 570021)
+[2026-01-08T03:21:36.435Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:36.686Z] Recherche: Alcool phényléthylique (ID: 570054)
+[2026-01-08T03:21:36.977Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:37.227Z] Recherche: Aldéhyde C-10 (ID: 120008)
+[2026-01-08T03:21:37.475Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:37.725Z] Recherche: Aldéhyde C-11 (ID: 120009)
+[2026-01-08T03:21:37.921Z]   ✓ Trouvé: CAS=127-41-3, IUPAC=Oui
+[2026-01-08T03:21:38.047Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:38.172Z] Recherche: Aluminium aldehyde (ID: 90008)
+[2026-01-08T03:21:38.298Z] Recherche: Aldéhyde C-11 Undécylénique (ID: 570028)
+[2026-01-08T03:21:38.508Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:38.636Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:38.759Z] Recherche: Ambergris (ID: 480029)
+[2026-01-08T03:21:38.887Z] Recherche: Aldéhyde C-12 (ID: 120010)
+[2026-01-08T03:21:39.044Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:39.231Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:39.295Z] Recherche: Ambre Gris (Ambergris) (ID: 300003)
+[2026-01-08T03:21:39.481Z] Recherche: Aldéhyde C-12 MNA (ID: 570024)
+[2026-01-08T03:21:39.583Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:39.786Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:39.834Z] Recherche: Ambre profond (ID: 480020)
+[2026-01-08T03:21:40.037Z] Recherche: Aldéhyde C-14 (Gamma-Undécalactone) (ID: 570025)
+[2026-01-08T03:21:40.120Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:40.333Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:40.370Z] Recherche: Ambrette seed (ID: 90060)
+[2026-01-08T03:21:40.583Z] Recherche: Aldéhyde C-18 (Gamma-Nonalactone) (ID: 570029)
+[2026-01-08T03:21:40.660Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:40.895Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:40.910Z] Recherche: Ambrettolide (ID: 90016)
+[2026-01-08T03:21:41.145Z] Recherche: Aldéhyde feuille (ID: 480032)
+[2026-01-08T03:21:41.491Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:41.741Z] Recherche: Aldéhyde métallique (ID: 120011)
+[2026-01-08T03:21:41.996Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:42.058Z]   ✓ Trouvé: CAS=123-69-3, IUPAC=Oui
+[2026-01-08T03:21:42.246Z] Recherche: Aldéhydes chauds (ID: 480002)
+[2026-01-08T03:21:42.308Z] Recherche: Ambrox Super (ID: 300004)
+[2026-01-08T03:21:42.554Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:42.559Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:42.805Z] Recherche: Aldéhydes métalliques (ID: 480022)
+[2026-01-08T03:21:42.809Z] Recherche: Ambroxan (Cetalox) (ID: 330017)
+[2026-01-08T03:21:43.115Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:43.365Z] Recherche: Aldéhydes sombres (ID: 480013)
+[2026-01-08T03:21:43.682Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:43.933Z] Recherche: Alpha-Ionone (ID: 600022)
+[2026-01-08T03:21:43.992Z]   ✓ Trouvé: CAS=6790-58-5, IUPAC=Oui
+[2026-01-08T03:21:44.243Z] Recherche: Ammonium-Maillard (ID: 90027)
+[2026-01-08T03:21:44.493Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:44.743Z] Recherche: Anabasine (ID: 900012)
+[2026-01-08T03:21:44.938Z]   ✓ Trouvé: CAS=127-41-3, IUPAC=Oui
+[2026-01-08T03:21:45.189Z] Recherche: Alpha-Ionone (ID: 570021)
+[2026-01-08T03:21:46.170Z]   ✓ Trouvé: CAS=494-52-0, IUPAC=Oui
+[2026-01-08T03:21:46.421Z] Recherche: Anatabine (ID: 900011)
+[2026-01-08T03:21:46.707Z]   ✓ Trouvé: CAS=127-41-3, IUPAC=Oui
+[2026-01-08T03:21:46.958Z] Recherche: Aluminium aldehyde (ID: 90008)
+[2026-01-08T03:21:47.252Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:47.503Z] Recherche: Ambergris (ID: 480029)
+[2026-01-08T03:21:47.541Z]   ✓ Trouvé: CAS=581-49-7, IUPAC=Oui
+[2026-01-08T03:21:47.749Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:47.791Z] Recherche: Androstadienone (ID: 270002)
+[2026-01-08T03:21:47.999Z] Recherche: Ambre Gris (Ambergris) (ID: 300003)
+[2026-01-08T03:21:48.293Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:48.544Z] Recherche: Ambre profond (ID: 480020)
+[2026-01-08T03:21:48.691Z]   ✓ Trouvé: CAS=4075-07-4, IUPAC=Oui
+[2026-01-08T03:21:48.901Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:48.942Z] Recherche: Androsténol (ID: 240001)
+[2026-01-08T03:21:49.152Z] Recherche: Ambrette seed (ID: 90060)
+[2026-01-08T03:21:49.351Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:49.442Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:49.602Z] Recherche: Androsténone (ID: 270001)
+[2026-01-08T03:21:49.692Z] Recherche: Ambrettolide (ID: 90016)
+[2026-01-08T03:21:49.912Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:50.163Z] Recherche: Argile blanche (ID: 480006)
+[2026-01-08T03:21:50.452Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:50.632Z]   ✓ Trouvé: CAS=123-69-3, IUPAC=Oui
+[2026-01-08T03:21:50.702Z] Résultats sauvegardés (50/422 traités)
+[2026-01-08T03:21:50.702Z] Pause de 5 secondes avant le prochain lot...
+[2026-01-08T03:21:50.883Z] Recherche: Ambrox Super (ID: 300004)
+[2026-01-08T03:21:51.177Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:51.428Z] Recherche: Ambroxan (Cetalox) (ID: 330017)
+[2026-01-08T03:21:52.577Z]   ✓ Trouvé: CAS=6790-58-5, IUPAC=Oui
+[2026-01-08T03:21:52.827Z] Recherche: Ammonium-Maillard (ID: 90027)
+[2026-01-08T03:21:53.109Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:53.360Z] Recherche: Anabasine (ID: 900012)
+[2026-01-08T03:21:54.474Z]   ✓ Trouvé: CAS=494-52-0, IUPAC=Oui
+[2026-01-08T03:21:54.725Z] Recherche: Anatabine (ID: 900011)
+[2026-01-08T03:21:55.704Z] 
+--- Traitement du lot 2/9 (50 molécules) ---
+[2026-01-08T03:21:55.704Z] Recherche: Aristolen-9β-ol (ID: 780016)
+[2026-01-08T03:21:55.896Z]   ✓ Trouvé: CAS=581-49-7, IUPAC=Oui
+[2026-01-08T03:21:56.147Z] Recherche: Androstadienone (ID: 270002)
+[2026-01-08T03:21:56.643Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:56.893Z] Recherche: Artisan Peppermint Oil (ID: 180003)
+[2026-01-08T03:21:57.160Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:57.195Z]   ✓ Trouvé: CAS=4075-07-4, IUPAC=Oui
+[2026-01-08T03:21:57.410Z] Recherche: BENZOIN RESIN (ID: 540009)
+[2026-01-08T03:21:57.446Z] Recherche: Androsténol (ID: 240001)
+[2026-01-08T03:21:57.674Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:57.702Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:57.924Z] Recherche: Androsténone (ID: 270001)
+[2026-01-08T03:21:57.952Z] Recherche: Balsam Fir Essential Oil (ID: 420003)
+[2026-01-08T03:21:58.211Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:58.221Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:58.462Z] Recherche: Argile blanche (ID: 480006)
+[2026-01-08T03:21:58.472Z] Recherche: Baume de Tolú (ID: 510020)
+[2026-01-08T03:21:58.742Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:58.775Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:58.993Z] Résultats sauvegardés (50/422 traités)
+[2026-01-08T03:21:58.994Z] Pause de 5 secondes avant le prochain lot...
+[2026-01-08T03:21:59.025Z] Recherche: Baume de Tolú (Myroxylon balsamum) (ID: 510010)
+[2026-01-08T03:21:59.317Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:21:59.568Z] Recherche: Benzoate de benzyle (ID: 570060)
+[2026-01-08T03:21:59.897Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:22:00.148Z] Recherche: Benzoin Siam (ID: 90073)
+[2026-01-08T03:22:00.437Z]   ✗ Non trouvé sur PubChem
+[2026-01-08T03:22:00.688Z] Recherche: Benzyl acetate (ID: 210011)

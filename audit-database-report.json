@@ -1,0 +1,1547 @@
+{
+  "timestamp": "2026-01-08T02:24:02.973Z",
+  "tables": {
+    "molecules": 612,
+    "plants": 148,
+    "terroirs": 29,
+    "recettes": 266,
+    "accords": 32,
+    "families": 10,
+    "prototypes": 4,
+    "civilisations": "TABLE_NOT_FOUND",
+    "tabacs": 25,
+    "leaf_economies": 10,
+    "terp_profiles": 16,
+    "final_recipes": 9,
+    "botanical_states": 0,
+    "raw_materials": 25,
+    "extraction_methods": 7,
+    "plant_varieties": 74,
+    "chemotypes": 28,
+    "molecule_plant_sources": 4,
+    "plant_terroirs": 41,
+    "molecules_recettes": 973,
+    "users": 3,
+    "user_favorites": 0,
+    "milestones": 0
+  },
+  "duplicates": {
+    "molecules_by_name": [
+      {
+        "name": "alpha-pinene",
+        "count": 5,
+        "ids": "810001,810065,810067,810069,810071"
+      },
+      {
+        "name": "Limonène",
+        "count": 4,
+        "ids": "30007,90056,150002,930008"
+      },
+      {
+        "name": "α-Pinène",
+        "count": 4,
+        "ids": "30008,150003,150004,570053"
+      },
+      {
+        "name": "Indole",
+        "count": 3,
+        "ids": "60016,90035,210001"
+      },
+      {
+        "name": "Hexanoic acid",
+        "count": 3,
+        "ids": "1,30001,90030"
+      },
+      {
+        "name": "beta-caryophyllene",
+        "count": 3,
+        "ids": "810013,810066,810068"
+      },
+      {
+        "name": "limonene",
+        "count": 3,
+        "ids": "810003,810070,810072"
+      },
+      {
+        "name": "β-Caryophyllène",
+        "count": 3,
+        "ids": "30005,90049,150005"
+      },
+      {
+        "name": "Ambroxan",
+        "count": 3,
+        "ids": "3,30003,90015"
+      },
+      {
+        "name": "Linalol",
+        "count": 3,
+        "ids": "2,30002,90057"
+      },
+      {
+        "name": "Skatole",
+        "count": 3,
+        "ids": "60017,90034,210002"
+      },
+      {
+        "name": "Complexes terre minérale",
+        "count": 2,
+        "ids": "120018,450018"
+      },
+      {
+        "name": "Bronze Note",
+        "count": 2,
+        "ids": "570008,600009"
+      },
+      {
+        "name": "Crésol Fumé",
+        "count": 2,
+        "ids": "570010,600011"
+      },
+      {
+        "name": "Furanosesquiterpenes",
+        "count": 2,
+        "ids": "120012,450012"
+      },
+      {
+        "name": "Citronellol",
+        "count": 2,
+        "ids": "570051,660002"
+      },
+      {
+        "name": "Quinoléine",
+        "count": 2,
+        "ids": "120019,450019"
+      },
+      {
+        "name": "Géraniol Pur",
+        "count": 2,
+        "ids": "570013,600014"
+      },
+      {
+        "name": "Acétate de Bornyle",
+        "count": 2,
+        "ids": "570020,600021"
+      },
+      {
+        "name": "Incensol acetate",
+        "count": 2,
+        "ids": "120015,450015"
+      },
+      {
+        "name": "Nérol",
+        "count": 2,
+        "ids": "570014,600015"
+      },
+      {
+        "name": "Khusimol",
+        "count": 2,
+        "ids": "120003,450003"
+      },
+      {
+        "name": "Furanoeudesmanes",
+        "count": 2,
+        "ids": "120013,450013"
+      },
+      {
+        "name": "Fer Olfactif",
+        "count": 2,
+        "ids": "570006,600007"
+      },
+      {
+        "name": "Methyl salicylate",
+        "count": 2,
+        "ids": "90067,210017"
+      },
+      {
+        "name": "Acétate de Linalyle",
+        "count": 2,
+        "ids": "570018,600019"
+      },
+      {
+        "name": "Labdanum diterpenes",
+        "count": 2,
+        "ids": "120020,450020"
+      },
+      {
+        "name": "β-guaïène",
+        "count": 2,
+        "ids": "120004,450004"
+      },
+      {
+        "name": "Oxydes de fer volatils",
+        "count": 2,
+        "ids": "120017,450017"
+      },
+      {
+        "name": "Maritima",
+        "count": 2,
+        "ids": "570001,600002"
+      },
+      {
+        "name": "Linalool",
+        "count": 2,
+        "ids": "30009,150006"
+      },
+      {
+        "name": "Aldéhyde C-10",
+        "count": 2,
+        "ids": "120008,450008"
+      },
+      {
+        "name": "Aldéhyde C-11",
+        "count": 2,
+        "ids": "120009,450009"
+      },
+      {
+        "name": "Vétivénol",
+        "count": 2,
+        "ids": "120001,450001"
+      },
+      {
+        "name": "Carvone L",
+        "count": 2,
+        "ids": "570015,600016"
+      },
+      {
+        "name": "Schiste Olfactif",
+        "count": 2,
+        "ids": "570005,600006"
+      },
+      {
+        "name": "Myrcène",
+        "count": 2,
+        "ids": "30006,150001"
+      },
+      {
+        "name": "4-methyl-guaiacol",
+        "count": 2,
+        "ids": "120006,450006"
+      },
+      {
+        "name": "α-humulène",
+        "count": 2,
+        "ids": "120005,450005"
+      },
+      {
+        "name": "Vétivone",
+        "count": 2,
+        "ids": "120002,450002"
+      },
+      {
+        "name": "Calone 1951",
+        "count": 2,
+        "ids": "300006,600001"
+      },
+      {
+        "name": "Alpha-Ionone",
+        "count": 2,
+        "ids": "570021,600022"
+      },
+      {
+        "name": "Aldéhyde C-12",
+        "count": 2,
+        "ids": "120010,450010"
+      },
+      {
+        "name": "Humulène",
+        "count": 2,
+        "ids": "90048,150007"
+      },
+      {
+        "name": "Silicate Note",
+        "count": 2,
+        "ids": "570003,600004"
+      },
+      {
+        "name": "Méthyl Ionone Gamma",
+        "count": 2,
+        "ids": "570022,600023"
+      },
+      {
+        "name": "Cuivre Olfactif",
+        "count": 2,
+        "ids": "570007,600008"
+      },
+      {
+        "name": "Phénol Pyrogéné Doux",
+        "count": 2,
+        "ids": "570011,600012"
+      },
+      {
+        "name": "Calcaire Olfactif",
+        "count": 2,
+        "ids": "570004,600005"
+      },
+      {
+        "name": "Pinocamphone",
+        "count": 2,
+        "ids": "570017,600018"
+      }
+    ],
+    "molecules_by_cas": [
+      {
+        "cas_number": "78-70-6",
+        "count": 5,
+        "ids": "2,30002,30009,90057,150006",
+        "names": "Linalol | Linalol | Linalool | Linalol | Linalool"
+      },
+      {
+        "cas_number": "142-62-1",
+        "count": 5,
+        "ids": "1,30001,60001,90030,210005",
+        "names": "Hexanoic acid | Hexanoic acid | Acide Hexanoïque (C6) | Hexanoic acid | Acide hexanoïque"
+      },
+      {
+        "cas_number": "80-56-8",
+        "count": 4,
+        "ids": "30008,150003,150004,570053",
+        "names": "α-Pinène | α-Pinène | α-Pinène | α-Pinène"
+      },
+      {
+        "cas_number": "115-95-7",
+        "count": 4,
+        "ids": "330014,570018,570056,600019",
+        "names": "Bergamote Calabre (Linalyl Acetate) | Acétate de Linalyle | Acétate de linalyle | Acétate de Linalyle"
+      },
+      {
+        "cas_number": "124-07-2",
+        "count": 3,
+        "ids": "60002,90031,210006",
+        "names": "Acide Octanoïque (C8) | Octanoic acid | Acide octanoïque"
+      },
+      {
+        "cas_number": "106-25-2",
+        "count": 3,
+        "ids": "90059,570014,600015",
+        "names": "Nerol | Nérol | Nérol"
+      },
+      {
+        "cas_number": "138-86-3",
+        "count": 3,
+        "ids": "30007,90056,150002",
+        "names": "Limonène | Limonène | Limonène"
+      },
+      {
+        "cas_number": "105-87-3",
+        "count": 3,
+        "ids": "570019,570057,600020",
+        "names": "Acétate de Géranyle | Acétate de géranyle | Acétate de Géranyle"
+      },
+      {
+        "cas_number": "87-44-5",
+        "count": 3,
+        "ids": "30005,90049,150005",
+        "names": "β-Caryophyllène | β-Caryophyllène | β-Caryophyllène"
+      },
+      {
+        "cas_number": "19700-21-1",
+        "count": 3,
+        "ids": "30004,90001,540001",
+        "names": "Géosmine | Géosmine | GEOSMIN"
+      },
+      {
+        "cas_number": "6790-58-5",
+        "count": 3,
+        "ids": "3,30003,90015",
+        "names": "Ambroxan | Ambroxan | Ambroxan"
+      },
+      {
+        "cas_number": "140-10-3",
+        "count": 2,
+        "ids": "60007,570055",
+        "names": "Acide Cinnamique | Alcool cinnamique"
+      },
+      {
+        "cas_number": "112-80-1",
+        "count": 2,
+        "ids": "60004,60005",
+        "names": "Acide Linoléique | Acide Oléique"
+      },
+      {
+        "cas_number": "106-22-9",
+        "count": 2,
+        "ids": "570051,660002",
+        "names": "Citronellol | Citronellol"
+      },
+      {
+        "cas_number": "123-35-3",
+        "count": 2,
+        "ids": "30006,150001",
+        "names": "Myrcène | Myrcène"
+      },
+      {
+        "cas_number": "6753-98-6",
+        "count": 2,
+        "ids": "90048,150007",
+        "names": "Humulène | Humulène"
+      },
+      {
+        "cas_number": "106-24-1",
+        "count": 2,
+        "ids": "570050,660001",
+        "names": "Géraniol | Géraniol"
+      },
+      {
+        "cas_number": "89-80-5",
+        "count": 2,
+        "ids": "570016,600017",
+        "names": "Menthone | Menthone"
+      }
+    ],
+    "molecules_similar": [
+      {
+        "normalized": "alphapinene",
+        "count": 6,
+        "ids": "810001,810065,810067,810069,810071,900008",
+        "names": "alpha-pinene | alpha-pinene | alpha-pinene | alpha-pinene | alpha-pinene | α-Pinene"
+      },
+      {
+        "normalized": "limonène",
+        "count": 4,
+        "ids": "30007,90056,150002,930008",
+        "names": "Limonène | Limonène | Limonène | Limonène"
+      },
+      {
+        "normalized": "alphapinène",
+        "count": 4,
+        "ids": "30008,150003,150004,570053",
+        "names": "α-Pinène | α-Pinène | α-Pinène | α-Pinène"
+      },
+      {
+        "normalized": "betacaryophyllene",
+        "count": 4,
+        "ids": "810013,810066,810068,900009",
+        "names": "beta-caryophyllene | beta-caryophyllene | beta-caryophyllene | β-Caryophyllene"
+      },
+      {
+        "normalized": "vetiverol",
+        "count": 3,
+        "ids": "90050,540003,810019",
+        "names": "Vetiverol | VETIVEROL | vetiverol"
+      },
+      {
+        "normalized": "linalool",
+        "count": 3,
+        "ids": "30009,150006,810005",
+        "names": "Linalool | Linalool | linalool"
+      },
+      {
+        "normalized": "alphahumulène",
+        "count": 3,
+        "ids": "120005,450005,570066",
+        "names": "α-humulène | α-humulène | α-Humulène"
+      },
+      {
+        "normalized": "linalol",
+        "count": 3,
+        "ids": "2,30002,90057",
+        "names": "Linalol | Linalol | Linalol"
+      },
+      {
+        "normalized": "khusimol",
+        "count": 3,
+        "ids": "120003,450003,810018",
+        "names": "Khusimol | Khusimol | khusimol"
+      },
+      {
+        "normalized": "skatole",
+        "count": 3,
+        "ids": "60017,90034,210002",
+        "names": "Skatole | Skatole | Skatole"
+      },
+      {
+        "normalized": "acétate de géranyle",
+        "count": 3,
+        "ids": "570019,570057,600020",
+        "names": "Acétate de Géranyle | Acétate de géranyle | Acétate de Géranyle"
+      },
+      {
+        "normalized": "methyl salicylate",
+        "count": 3,
+        "ids": "90067,210017,810028",
+        "names": "Methyl salicylate | Methyl salicylate | methyl salicylate"
+      },
+      {
+        "normalized": "indole",
+        "count": 3,
+        "ids": "60016,90035,210001",
+        "names": "Indole | Indole | Indole"
+      },
+      {
+        "normalized": "betacaryophyllène",
+        "count": 3,
+        "ids": "30005,90049,150005",
+        "names": "β-Caryophyllène | β-Caryophyllène | β-Caryophyllène"
+      },
+      {
+        "normalized": "hexanoic acid",
+        "count": 3,
+        "ids": "1,30001,90030",
+        "names": "Hexanoic acid | Hexanoic acid | Hexanoic acid"
+      },
+      {
+        "normalized": "ambroxan",
+        "count": 3,
+        "ids": "3,30003,90015",
+        "names": "Ambroxan | Ambroxan | Ambroxan"
+      },
+      {
+        "normalized": "acétate de linalyle",
+        "count": 3,
+        "ids": "570018,570056,600019",
+        "names": "Acétate de Linalyle | Acétate de linalyle | Acétate de Linalyle"
+      },
+      {
+        "normalized": "alphaionone",
+        "count": 3,
+        "ids": "570021,600022,720020",
+        "names": "Alpha-Ionone | Alpha-Ionone | α-Ionone"
+      },
+      {
+        "normalized": "limonene",
+        "count": 3,
+        "ids": "810003,810070,810072",
+        "names": "limonene | limonene | limonene"
+      },
+      {
+        "normalized": "cuivre olfactif",
+        "count": 2,
+        "ids": "570007,600008",
+        "names": "Cuivre Olfactif | Cuivre Olfactif"
+      },
+      {
+        "normalized": "mechoulim",
+        "count": 2,
+        "ids": "120016,450016",
+        "names": "Mechoulim | Mechoulim"
+      },
+      {
+        "normalized": "furanosesquiterpenes",
+        "count": 2,
+        "ids": "120012,450012",
+        "names": "Furanosesquiterpenes | Furanosesquiterpenes"
+      },
+      {
+        "normalized": "incensol",
+        "count": 2,
+        "ids": "120014,450014",
+        "names": "Incensol | Incensol"
+      },
+      {
+        "normalized": "pinocamphone",
+        "count": 2,
+        "ids": "570017,600018",
+        "names": "Pinocamphone | Pinocamphone"
+      },
+      {
+        "normalized": "vétivone",
+        "count": 2,
+        "ids": "120002,450002",
+        "names": "Vétivone | Vétivone"
+      },
+      {
+        "normalized": "oxydes de fer volatils",
+        "count": 2,
+        "ids": "120017,450017",
+        "names": "Oxydes de fer volatils | Oxydes de fer volatils"
+      },
+      {
+        "normalized": "carvone l",
+        "count": 2,
+        "ids": "570015,600016",
+        "names": "Carvone L | Carvone L"
+      },
+      {
+        "normalized": "methyl anthranilate",
+        "count": 2,
+        "ids": "60018,210013",
+        "names": "Methyl Anthranilate | Methyl anthranilate"
+      },
+      {
+        "normalized": "coumarin",
+        "count": 2,
+        "ids": "90068,810054",
+        "names": "Coumarin | coumarin"
+      },
+      {
+        "normalized": "aldéhyde c12",
+        "count": 2,
+        "ids": "120010,450010",
+        "names": "Aldéhyde C-12 | Aldéhyde C-12"
+      }
+    ],
+    "plants_by_name": [
+      {
+        "name": "Myrrhe",
+        "count": 3,
+        "ids": "150011,210034,210035"
+      },
+      {
+        "name": "Rose de Damas",
+        "count": 2,
+        "ids": "30010,270009"
+      },
+      {
+        "name": "Encens d’Oman",
+        "count": 2,
+        "ids": "210036,210037"
+      }
+    ],
+    "plants_by_latin": [
+      {
+        "latin_name": "Cannabis sativa subsp. indica",
+        "count": 22,
+        "ids": "120001,120002,120003,120004,120005,120006,120007,120008,120009,120010,120011,120012,120013,120014,120015,120016,120017,120018,120019,120020,120021,120022",
+        "names": "Kerala Gold | Malana Cream | Idukki Gold | Thai Stick | Chocolate Thai | Cambodian | Afghan Kush | Mazar-i-Sharif | Kandahar | Chitral | Pakistani Kush | Durban Poison | Malawi Gold | Swazi Gold | Kilimanjaro | Ethiopian Highland | Acapulco Gold | Panama Red | Colombian Gold | Lamb's Bread | Hawaiian | Maui Wowie"
+      },
+      {
+        "latin_name": "Cannabis sativa (profil terpénique)",
+        "count": 4,
+        "ids": "10,11,12,13",
+        "names": "Profil VENT / clair | Profil BOIS / structure | Profil FEUILLE / vert | Profil DISPARITION / trace"
+      },
+      {
+        "latin_name": "Commiphora myrrha",
+        "count": 3,
+        "ids": "150011,210034,210035",
+        "names": "Myrrhe | Myrrhe | Myrrhe"
+      },
+      {
+        "latin_name": "Boswellia sacra",
+        "count": 3,
+        "ids": "150008,210036,210037",
+        "names": "Oliban (Encens) | Encens d’Oman | Encens d’Oman"
+      }
+    ],
+    "terroirs_by_name": [],
+    "detailed_molecules": {
+      "4-methyl-guaiacol": [
+        {
+          "id": 450006,
+          "name": "4-methyl-guaiacol",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C8H10O2",
+          "data_richness": 94
+        },
+        {
+          "id": 120006,
+          "name": "4-methyl-guaiacol",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C8H10O2",
+          "data_richness": 94
+        }
+      ],
+      "Acétate de Bornyle": [
+        {
+          "id": 600021,
+          "name": "Acétate de Bornyle",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C12H20O2",
+          "data_richness": 32
+        },
+        {
+          "id": 570020,
+          "name": "Acétate de Bornyle",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C12H20O2",
+          "data_richness": 32
+        }
+      ],
+      "Acétate de Géranyle": [
+        {
+          "id": 600020,
+          "name": "Acétate de Géranyle",
+          "cas_number": "105-87-3",
+          "chemical_class": "ester",
+          "chemicalFormula": "C12H20O2",
+          "data_richness": 33
+        },
+        {
+          "id": 570019,
+          "name": "Acétate de Géranyle",
+          "cas_number": "105-87-3",
+          "chemical_class": "ester",
+          "chemicalFormula": "C12H20O2",
+          "data_richness": 33
+        }
+      ],
+      "Acétate de Linalyle": [
+        {
+          "id": 600019,
+          "name": "Acétate de Linalyle",
+          "cas_number": "115-95-7",
+          "chemical_class": "ester",
+          "chemicalFormula": "C12H20O2",
+          "data_richness": 40
+        },
+        {
+          "id": 570018,
+          "name": "Acétate de Linalyle",
+          "cas_number": "115-95-7",
+          "chemical_class": "ester",
+          "chemicalFormula": "C12H20O2",
+          "data_richness": 40
+        }
+      ],
+      "Aldéhyde C-10": [
+        {
+          "id": 450008,
+          "name": "Aldéhyde C-10",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H20O",
+          "data_richness": 85
+        },
+        {
+          "id": 120008,
+          "name": "Aldéhyde C-10",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H20O",
+          "data_richness": 85
+        }
+      ],
+      "Aldéhyde C-11": [
+        {
+          "id": 120009,
+          "name": "Aldéhyde C-11",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C11H22O",
+          "data_richness": 83
+        },
+        {
+          "id": 450009,
+          "name": "Aldéhyde C-11",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C11H22O",
+          "data_richness": 83
+        }
+      ],
+      "Aldéhyde C-12": [
+        {
+          "id": 120010,
+          "name": "Aldéhyde C-12",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C12H24O",
+          "data_richness": 85
+        },
+        {
+          "id": 450010,
+          "name": "Aldéhyde C-12",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C12H24O",
+          "data_richness": 85
+        }
+      ],
+      "Aldéhyde métallique": [
+        {
+          "id": 120011,
+          "name": "Aldéhyde métallique",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "Complex",
+          "data_richness": 83
+        },
+        {
+          "id": 450011,
+          "name": "Aldéhyde métallique",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "Complex",
+          "data_richness": 83
+        }
+      ],
+      "Alpha-Ionone": [
+        {
+          "id": 570021,
+          "name": "Alpha-Ionone",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C13H20O",
+          "data_richness": 45
+        },
+        {
+          "id": 600022,
+          "name": "Alpha-Ionone",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C13H20O",
+          "data_richness": 45
+        }
+      ],
+      "Ambroxan": [
+        {
+          "id": 90015,
+          "name": "Ambroxan",
+          "cas_number": "6790-58-5",
+          "chemical_class": "ether",
+          "chemicalFormula": "C16H28O",
+          "data_richness": 29
+        },
+        {
+          "id": 3,
+          "name": "Ambroxan",
+          "cas_number": "6790-58-5",
+          "chemical_class": "ether",
+          "chemicalFormula": "C₁₆H₂₈O",
+          "data_richness": 26
+        },
+        {
+          "id": 30003,
+          "name": "Ambroxan",
+          "cas_number": "6790-58-5",
+          "chemical_class": "ether",
+          "chemicalFormula": "C16H28O",
+          "data_richness": 26
+        }
+      ],
+      "Bronze Note": [
+        {
+          "id": 570008,
+          "name": "Bronze Note",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": null,
+          "data_richness": 50
+        },
+        {
+          "id": 600009,
+          "name": "Bronze Note",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": null,
+          "data_richness": 50
+        }
+      ],
+      "Calcaire Olfactif": [
+        {
+          "id": 570004,
+          "name": "Calcaire Olfactif",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": null,
+          "data_richness": 37
+        },
+        {
+          "id": 600005,
+          "name": "Calcaire Olfactif",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": null,
+          "data_richness": 37
+        }
+      ],
+      "Calone 1951": [
+        {
+          "id": 300006,
+          "name": "Calone 1951",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H10O3",
+          "data_richness": 65
+        },
+        {
+          "id": 600001,
+          "name": "Calone 1951",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C11H16O2",
+          "data_richness": 37
+        }
+      ],
+      "Carvone L": [
+        {
+          "id": 600016,
+          "name": "Carvone L",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H14O",
+          "data_richness": 35
+        },
+        {
+          "id": 570015,
+          "name": "Carvone L",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H14O",
+          "data_richness": 35
+        }
+      ],
+      "Citronellol": [
+        {
+          "id": 660002,
+          "name": "Citronellol",
+          "cas_number": "106-22-9",
+          "chemical_class": "alcohol",
+          "chemicalFormula": "C₁₀H₂₀O",
+          "data_richness": 41
+        },
+        {
+          "id": 570051,
+          "name": "Citronellol",
+          "cas_number": "106-22-9",
+          "chemical_class": "alcohol",
+          "chemicalFormula": "C₁₀H₂₀O",
+          "data_richness": 31
+        }
+      ],
+      "Complexes terre minérale": [
+        {
+          "id": 450018,
+          "name": "Complexes terre minérale",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "Complex",
+          "data_richness": 89
+        },
+        {
+          "id": 120018,
+          "name": "Complexes terre minérale",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "Complex",
+          "data_richness": 89
+        }
+      ],
+      "Crésol Fumé": [
+        {
+          "id": 600011,
+          "name": "Crésol Fumé",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C7H8O",
+          "data_richness": 40
+        },
+        {
+          "id": 570010,
+          "name": "Crésol Fumé",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C7H8O",
+          "data_richness": 40
+        }
+      ],
+      "Cuivre Olfactif": [
+        {
+          "id": 600008,
+          "name": "Cuivre Olfactif",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": null,
+          "data_richness": 45
+        },
+        {
+          "id": 570007,
+          "name": "Cuivre Olfactif",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": null,
+          "data_richness": 45
+        }
+      ],
+      "Fer Olfactif": [
+        {
+          "id": 570006,
+          "name": "Fer Olfactif",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": null,
+          "data_richness": 41
+        },
+        {
+          "id": 600007,
+          "name": "Fer Olfactif",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": null,
+          "data_richness": 41
+        }
+      ],
+      "Furanoeudesmanes": [
+        {
+          "id": 450013,
+          "name": "Furanoeudesmanes",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C15H22O",
+          "data_richness": 86
+        },
+        {
+          "id": 120013,
+          "name": "Furanoeudesmanes",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C15H22O",
+          "data_richness": 86
+        }
+      ],
+      "Furanosesquiterpenes": [
+        {
+          "id": 120012,
+          "name": "Furanosesquiterpenes",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C15H20O",
+          "data_richness": 87
+        },
+        {
+          "id": 450012,
+          "name": "Furanosesquiterpenes",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C15H20O",
+          "data_richness": 87
+        }
+      ],
+      "Guaiacol Fumé": [
+        {
+          "id": 600010,
+          "name": "Guaiacol Fumé",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C7H8O2",
+          "data_richness": 47
+        },
+        {
+          "id": 570009,
+          "name": "Guaiacol Fumé",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C7H8O2",
+          "data_richness": 47
+        }
+      ],
+      "Géosmine": [
+        {
+          "id": 30004,
+          "name": "Géosmine",
+          "cas_number": "19700-21-1",
+          "chemical_class": "alcohol",
+          "chemicalFormula": "C12H22O",
+          "data_richness": 140
+        },
+        {
+          "id": 90001,
+          "name": "Géosmine",
+          "cas_number": "19700-21-1",
+          "chemical_class": "alcohol",
+          "chemicalFormula": "C12H22O",
+          "data_richness": 34
+        }
+      ],
+      "Géraniol": [
+        {
+          "id": 660001,
+          "name": "Géraniol",
+          "cas_number": "106-24-1",
+          "chemical_class": "alcohol",
+          "chemicalFormula": "C₁₀H₁₈O",
+          "data_richness": 39
+        },
+        {
+          "id": 570050,
+          "name": "Géraniol",
+          "cas_number": "106-24-1",
+          "chemical_class": "alcohol",
+          "chemicalFormula": "C₁₀H₁₈O",
+          "data_richness": 27
+        }
+      ],
+      "Géraniol Pur": [
+        {
+          "id": 570013,
+          "name": "Géraniol Pur",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H18O",
+          "data_richness": 56
+        },
+        {
+          "id": 600014,
+          "name": "Géraniol Pur",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H18O",
+          "data_richness": 56
+        }
+      ],
+      "Hexanoic acid": [
+        {
+          "id": 1,
+          "name": "Hexanoic acid",
+          "cas_number": "142-62-1",
+          "chemical_class": "other",
+          "chemicalFormula": null,
+          "data_richness": 31
+        },
+        {
+          "id": 30001,
+          "name": "Hexanoic acid",
+          "cas_number": "142-62-1",
+          "chemical_class": "other",
+          "chemicalFormula": "C6H12O2",
+          "data_richness": 31
+        },
+        {
+          "id": 90030,
+          "name": "Hexanoic acid",
+          "cas_number": "142-62-1",
+          "chemical_class": "other",
+          "chemicalFormula": "C6H12O2",
+          "data_richness": 13
+        }
+      ],
+      "Humulène": [
+        {
+          "id": 150007,
+          "name": "Humulène",
+          "cas_number": "6753-98-6",
+          "chemical_class": "sesquiterpene",
+          "chemicalFormula": "C₁₅H₂₄",
+          "data_richness": 147
+        },
+        {
+          "id": 90048,
+          "name": "Humulène",
+          "cas_number": "6753-98-6",
+          "chemical_class": "sesquiterpene",
+          "chemicalFormula": "C15H24",
+          "data_richness": 27
+        }
+      ],
+      "Incensol": [
+        {
+          "id": 450014,
+          "name": "Incensol",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C20H34O",
+          "data_richness": 86
+        },
+        {
+          "id": 120014,
+          "name": "Incensol",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C20H34O",
+          "data_richness": 86
+        }
+      ],
+      "Incensol acetate": [
+        {
+          "id": 120015,
+          "name": "Incensol acetate",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C22H36O2",
+          "data_richness": 80
+        },
+        {
+          "id": 450015,
+          "name": "Incensol acetate",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C22H36O2",
+          "data_richness": 80
+        }
+      ],
+      "Indole": [
+        {
+          "id": 210001,
+          "name": "Indole",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "1H-indole",
+          "data_richness": 120
+        },
+        {
+          "id": 60016,
+          "name": "Indole",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C₈H₇N",
+          "data_richness": 58
+        },
+        {
+          "id": 90035,
+          "name": "Indole",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C8H7N",
+          "data_richness": 39
+        }
+      ],
+      "Khusimol": [
+        {
+          "id": 120003,
+          "name": "Khusimol",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C15H26O",
+          "data_richness": 93
+        },
+        {
+          "id": 450003,
+          "name": "Khusimol",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C15H26O",
+          "data_richness": 93
+        }
+      ],
+      "Labdanum diterpenes": [
+        {
+          "id": 450020,
+          "name": "Labdanum diterpenes",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C20H32",
+          "data_richness": 84
+        },
+        {
+          "id": 120020,
+          "name": "Labdanum diterpenes",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C20H32",
+          "data_richness": 84
+        }
+      ],
+      "Limonène": [
+        {
+          "id": 150002,
+          "name": "Limonène",
+          "cas_number": "138-86-3",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C₁₀H₁₆",
+          "data_richness": 158
+        },
+        {
+          "id": 30007,
+          "name": "Limonène",
+          "cas_number": "138-86-3",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C10H16",
+          "data_richness": 91
+        },
+        {
+          "id": 930008,
+          "name": "Limonène",
+          "cas_number": "5989-27-5",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C₁₀H₁₆",
+          "data_richness": 42
+        },
+        {
+          "id": 90056,
+          "name": "Limonène",
+          "cas_number": "138-86-3",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C10H16",
+          "data_richness": 19
+        }
+      ],
+      "Linalol": [
+        {
+          "id": 2,
+          "name": "Linalol",
+          "cas_number": "78-70-6",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C₁₀H₁₈O",
+          "data_richness": 27
+        },
+        {
+          "id": 30002,
+          "name": "Linalol",
+          "cas_number": "78-70-6",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C10H18O",
+          "data_richness": 27
+        },
+        {
+          "id": 90057,
+          "name": "Linalol",
+          "cas_number": "78-70-6",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C10H18O",
+          "data_richness": 22
+        }
+      ],
+      "Linalol Synthétique": [
+        {
+          "id": 570012,
+          "name": "Linalol Synthétique",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H18O",
+          "data_richness": 55
+        },
+        {
+          "id": 600013,
+          "name": "Linalol Synthétique",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H18O",
+          "data_richness": 55
+        }
+      ],
+      "Linalool": [
+        {
+          "id": 150006,
+          "name": "Linalool",
+          "cas_number": "78-70-6",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C₁₀H₁₈O",
+          "data_richness": 151
+        },
+        {
+          "id": 30009,
+          "name": "Linalool",
+          "cas_number": "78-70-6",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C10H18O",
+          "data_richness": 116
+        }
+      ],
+      "Maritima": [
+        {
+          "id": 570001,
+          "name": "Maritima",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C12H18O2",
+          "data_richness": 27
+        },
+        {
+          "id": 600002,
+          "name": "Maritima",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C12H18O2",
+          "data_richness": 27
+        }
+      ],
+      "Mechoulim": [
+        {
+          "id": 450016,
+          "name": "Mechoulim",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "Complex",
+          "data_richness": 86
+        },
+        {
+          "id": 120016,
+          "name": "Mechoulim",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "Complex",
+          "data_richness": 86
+        }
+      ],
+      "Menthone": [
+        {
+          "id": 570016,
+          "name": "Menthone",
+          "cas_number": "89-80-5",
+          "chemical_class": "ketone",
+          "chemicalFormula": "C10H18O",
+          "data_richness": 36
+        },
+        {
+          "id": 600017,
+          "name": "Menthone",
+          "cas_number": "89-80-5",
+          "chemical_class": "ketone",
+          "chemicalFormula": "C10H18O",
+          "data_richness": 36
+        }
+      ],
+      "Methyl salicylate": [
+        {
+          "id": 210017,
+          "name": "Methyl salicylate",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "Methyl 2-hydroxybenzoate",
+          "data_richness": 63
+        },
+        {
+          "id": 90067,
+          "name": "Methyl salicylate",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C8H8O3",
+          "data_richness": 28
+        }
+      ],
+      "Myrcène": [
+        {
+          "id": 150001,
+          "name": "Myrcène",
+          "cas_number": "123-35-3",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C₁₀H₁₆",
+          "data_richness": 157
+        },
+        {
+          "id": 30006,
+          "name": "Myrcène",
+          "cas_number": "123-35-3",
+          "chemical_class": "monoterpene",
+          "chemicalFormula": "C10H16",
+          "data_richness": 111
+        }
+      ],
+      "Méthyl Ionone Gamma": [
+        {
+          "id": 600023,
+          "name": "Méthyl Ionone Gamma",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C14H22O",
+          "data_richness": 36
+        },
+        {
+          "id": 570022,
+          "name": "Méthyl Ionone Gamma",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C14H22O",
+          "data_richness": 36
+        }
+      ],
+      "Nérol": [
+        {
+          "id": 600015,
+          "name": "Nérol",
+          "cas_number": "106-25-2",
+          "chemical_class": "alcohol",
+          "chemicalFormula": "C10H18O",
+          "data_richness": 46
+        },
+        {
+          "id": 570014,
+          "name": "Nérol",
+          "cas_number": "106-25-2",
+          "chemical_class": "alcohol",
+          "chemicalFormula": "C10H18O",
+          "data_richness": 46
+        }
+      ],
+      "Oxydes de fer volatils": [
+        {
+          "id": 120017,
+          "name": "Oxydes de fer volatils",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "Fe-complex",
+          "data_richness": 92
+        },
+        {
+          "id": 450017,
+          "name": "Oxydes de fer volatils",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "Fe-complex",
+          "data_richness": 92
+        }
+      ],
+      "Phénol Pyrogéné Doux": [
+        {
+          "id": 600012,
+          "name": "Phénol Pyrogéné Doux",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C8H10O2",
+          "data_richness": 41
+        },
+        {
+          "id": 570011,
+          "name": "Phénol Pyrogéné Doux",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C8H10O2",
+          "data_richness": 41
+        }
+      ],
+      "Phénol boisé": [
+        {
+          "id": 450007,
+          "name": "Phénol boisé",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C6H6O",
+          "data_richness": 98
+        },
+        {
+          "id": 120007,
+          "name": "Phénol boisé",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C6H6O",
+          "data_richness": 98
+        }
+      ],
+      "Pinocamphone": [
+        {
+          "id": 570017,
+          "name": "Pinocamphone",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H16O",
+          "data_richness": 37
+        },
+        {
+          "id": 600018,
+          "name": "Pinocamphone",
+          "cas_number": null,
+          "chemical_class": null,
+          "chemicalFormula": "C10H16O",
+          "data_richness": 37
+        }
+      ]
+    }
+  },
+  "orphans": {
+    "molecules_without_links": 384,
+    "plants_without_links": 120,
+    "terroirs_without_plants": 10
+  },
+  "statistics": {
+    "molecules_quality": {
+      "total": 612,
+      "with_cas": "150",
+      "with_iupac": "112",
+      "with_class": "173",
+      "with_formula": "403",
+      "with_weight": "354",
+      "with_olfactive": "577"
+    },
+    "plants_quality": {
+      "total": 148,
+      "with_latin": "148",
+      "with_family": "123",
+      "with_origin": "140",
+      "with_olfactive": "148",
+      "with_traditional": "101"
+    },
+    "links": {
+      "mol_recettes": 973,
+      "mol_plants": 4,
+      "plant_terroirs": 41,
+      "unique_mol_in_recettes": 230,
+      "unique_mol_with_plants": 4
+    }
+  },
+  "issues": [],
+  "recommendations": []
+}

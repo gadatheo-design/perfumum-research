@@ -1,0 +1,1524 @@
+{
+  "total_routes": 286,
+  "categories": {
+    "Accueil": 1,
+    "Système": 1,
+    "Administration": 25,
+    "Molécules": 8,
+    "Plantes": 15,
+    "Liaisons": 1,
+    "Outils": 12,
+    "Visualisations": 13,
+    "Recherche": 13,
+    "Le Projet": 1,
+    "Autres": 28,
+    "À propos": 1,
+    "Contact": 1,
+    "Nouveautés": 1,
+    "Projets": 2,
+    "Prototypes": 6,
+    "Gammes": 9,
+    "Recettes": 6,
+    "Sourcing": 6,
+    "Laboratoire": 4,
+    "Inventaire": 1,
+    "Familles": 3,
+    "Accords": 2,
+    "Résines CBD": 2,
+    "Protocoles": 3,
+    "Comparaison": 11,
+    "Synergies": 4,
+    "Suggestions": 2,
+    "Méthodologie": 9,
+    "Cartes": 7,
+    "Chimie": 1,
+    "Interactions": 1,
+    "Programmes": 3,
+    "Journal": 1,
+    "Historique": 1,
+    "Études": 3,
+    "Archives": 4,
+    "Tests": 2,
+    "Odeurs": 2,
+    "Terrains": 1,
+    "Bibliographie": 3,
+    "Références": 3,
+    "Import en masse": 1,
+    "Réseaux": 6,
+    "Patrimoine": 2,
+    "Liaisons H2": 1,
+    "Liaisons H3": 1,
+    "Génomique": 1,
+    "Axes de Recherche": 2,
+    "Gestion": 1,
+    "Collaborations": 1,
+    "Alternatives": 1,
+    "Glossaire": 2,
+    "Contributeur": 5,
+    "Couverture": 1,
+    "Import/Export": 1,
+    "Timeline": 4,
+    "Galerie": 4,
+    "IFRA": 1,
+    "Leaf Economies": 6,
+    "Botanique": 1,
+    "Variétés": 4,
+    "Variétés Fantômes": 4,
+    "Profils Terpéniques": 2,
+    "Chemotypes": 1,
+    "Terroirs": 2,
+    "Civilisations": 2,
+    "Tabacs": 1,
+    "Tableaux de bord": 2,
+    "Statistiques": 1,
+    "Formulation": 1,
+    "Vues": 1
+  },
+  "routes_by_category": {
+    "Accueil": [
+      {
+        "path": "/",
+        "component": "Home"
+      }
+    ],
+    "Système": [
+      {
+        "path": "/systeme",
+        "component": "SystemePerfumum"
+      }
+    ],
+    "Administration": [
+      {
+        "path": "/admin",
+        "component": "Admin"
+      },
+      {
+        "path": "/admin/liaison-recettes-molecules",
+        "component": "LiaisonRecettesMolecules"
+      },
+      {
+        "path": "/admin/validation",
+        "component": "AdminValidation"
+      },
+      {
+        "path": "/admin/orphan-molecules",
+        "component": "AdminOrphanMolecules"
+      },
+      {
+        "path": "/admin/ai-classification",
+        "component": "AdminAIClassification"
+      },
+      {
+        "path": "/admin/ai-classification-batch",
+        "component": "AIClassificationBatch"
+      },
+      {
+        "path": "/admin/niche-plant-linking",
+        "component": "NichePlantMoleculeLinking"
+      },
+      {
+        "path": "/admin/classification-review",
+        "component": "ClassificationReviewQueue"
+      },
+      {
+        "path": "/admin/notifications",
+        "component": "AdminNotifications"
+      },
+      {
+        "path": "/admin/progress-report",
+        "component": "AdminProgressReport"
+      },
+      {
+        "path": "/admin/molecule-origins",
+        "component": "MoleculeOriginsAdmin"
+      },
+      {
+        "path": "/admin/terroirs-geocode",
+        "component": "TerroirsGeocode"
+      },
+      {
+        "path": "/admin/molecules",
+        "component": "AdminMoleculesIndex"
+      },
+      {
+        "path": "/admin/molecules/new",
+        "component": "AdminMoleculeNew"
+      },
+      {
+        "path": "/admin/accords",
+        "component": "AdminAccords"
+      },
+      {
+        "path": "/admin/familles",
+        "component": "AdminFamilles"
+      },
+      {
+        "path": "/admin/chemical-family-linking",
+        "component": "AdminChemicalFamilyLinking"
+      },
+      {
+        "path": "/admin/matieres",
+        "component": "AdminMatieres"
+      },
+      {
+        "path": "/admin/recettes",
+        "component": "AdminRecettes"
+      },
+      {
+        "path": "/admin/import-export",
+        "component": "AdminImportExport"
+      },
+      {
+        "path": "/admin/import-export-plants",
+        "component": "ImportExportPlants"
+      },
+      {
+        "path": "/admin/import-csv",
+        "component": "ImportCSV"
+      },
+      {
+        "path": "/admin/import-csv-preview",
+        "component": "ImportCSVPreview"
+      },
+      {
+        "path": "/admin/historique",
+        "component": "AdminHistorique"
+      },
+      {
+        "path": "/admin/references",
+        "component": "AdminReferences"
+      }
+    ],
+    "Molécules": [
+      {
+        "path": "/molecule-recette-linking",
+        "component": "MoleculeRecetteLinking"
+      },
+      {
+        "path": "/molecule-recette-audit",
+        "component": "MoleculeRecetteAudit"
+      },
+      {
+        "path": "/molecule-recette-dragdrop",
+        "component": "MoleculeRecetteDragDrop"
+      },
+      {
+        "path": "/molecule-recette-import-csv",
+        "component": "MoleculeRecetteImportCSV"
+      },
+      {
+        "path": "/molecules",
+        "component": "Molecules"
+      },
+      {
+        "path": "/molecule/:id",
+        "component": "MoleculeDetail"
+      },
+      {
+        "path": "/terpene/:id",
+        "component": "TerpeneDetail"
+      },
+      {
+        "path": "/molecule-plant-relations",
+        "component": "MoleculePlantRelations"
+      }
+    ],
+    "Plantes": [
+      {
+        "path": "/plant-terroir-linking",
+        "component": "PlantTerroirLinking"
+      },
+      {
+        "path": "/plant-terroir-audit",
+        "component": "PlantTerroirAudit"
+      },
+      {
+        "path": "/plant-terroir-dragdrop",
+        "component": "PlantTerroirDragDrop"
+      },
+      {
+        "path": "/plant-terroir-import-csv",
+        "component": "PlantTerroirImportCSV"
+      },
+      {
+        "path": "/plant-molecule-audit",
+        "component": "PlantMoleculeAudit"
+      },
+      {
+        "path": "/plant-molecule-linking",
+        "component": "PlantMoleculeLinking"
+      },
+      {
+        "path": "/plants",
+        "component": "Plants"
+      },
+      {
+        "path": "/plantes",
+        "component": "Plants"
+      },
+      {
+        "path": "/plant-varieties",
+        "component": "PlantVarieties"
+      },
+      {
+        "path": "/plantes-varietes",
+        "component": "PlantVarieties"
+      },
+      {
+        "path": "/plantes-varietes/new",
+        "component": "VarietyForm"
+      },
+      {
+        "path": "/plants/new",
+        "component": "PlantForm"
+      },
+      {
+        "path": "/plants/:id/edit",
+        "component": "PlantForm"
+      },
+      {
+        "path": "/plants/:id",
+        "component": "PlantDetail"
+      },
+      {
+        "path": "/plantes/:id",
+        "component": "PlantDetail"
+      }
+    ],
+    "Liaisons": [
+      {
+        "path": "/linking-dashboard",
+        "component": "LinkingDashboard"
+      }
+    ],
+    "Outils": [
+      {
+        "path": "/outils/editeur-formulation",
+        "component": "EditeurFormulation"
+      },
+      {
+        "path": "/outils-formulation",
+        "component": "OutilsFormulation"
+      },
+      {
+        "path": "/calculateur",
+        "component": "ProportionsCalculator"
+      },
+      {
+        "path": "/outils/dilution",
+        "component": "DilutionCalculator"
+      },
+      {
+        "path": "/outils/calculateur-cout",
+        "component": "CalculateurCout"
+      },
+      {
+        "path": "/analyses",
+        "component": "CorrelationAnalysis"
+      },
+      {
+        "path": "/outils/enrichissement-pubchem",
+        "component": "EnrichissementPubChem"
+      },
+      {
+        "path": "/outils/carte-origines",
+        "component": "CarteOrigines"
+      },
+      {
+        "path": "/outils/visualisations-correlation",
+        "component": "VisualisationsCorrelation"
+      },
+      {
+        "path": "/outils/export-bibliographique",
+        "component": "ExportBibliographique"
+      },
+      {
+        "path": "/outils/generateur-formules",
+        "component": "GenerateurFormules"
+      },
+      {
+        "path": "/outils",
+        "component": "Outils"
+      }
+    ],
+    "Visualisations": [
+      {
+        "path": "/graphe-familles-chimiques",
+        "component": "ChemicalFamilyGraph"
+      },
+      {
+        "path": "/matrice-synergies",
+        "component": "MatriceSynergies"
+      },
+      {
+        "path": "/graphe-molecules-recettes",
+        "component": "GrapheMoleculesRecettes"
+      },
+      {
+        "path": "/graphe-plante-molecule",
+        "component": "GraphePlanteMolecule"
+      },
+      {
+        "path": "/graphe-synergies",
+        "component": "SynergiesPage"
+      },
+      {
+        "path": "/graphe-relations",
+        "component": "RelationsGraph"
+      },
+      {
+        "path": "/sankey-flow",
+        "component": "SankeyFlow"
+      },
+      {
+        "path": "/visualisations",
+        "component": "Visualisations"
+      },
+      {
+        "path": "/heatmap-correlations",
+        "component": "RadarCorrelationHeatmap"
+      },
+      {
+        "path": "/graphe-terroir-plante-molecule",
+        "component": "GrapheTerroirPlanteMolecule"
+      },
+      {
+        "path": "/graphe-molecules-familles-chimiques",
+        "component": "GrapheMoleculesFamillesChimiques"
+      },
+      {
+        "path": "/graphe-axes-thematiques",
+        "component": "GrapheAxesThematiques"
+      },
+      {
+        "path": "/graphe-references-axes",
+        "component": "GrapheReferencesAxes"
+      }
+    ],
+    "Recherche": [
+      {
+        "path": "/recherche-avancee",
+        "component": "RechercheAvancee"
+      },
+      {
+        "path": "/recherche-globale",
+        "component": "RechercheGlobale"
+      },
+      {
+        "path": "/recherche-radicale",
+        "component": "RechercheRadicale"
+      },
+      {
+        "path": "/recherche/fondements-theoriques",
+        "component": "FondementsPhilosophiques"
+      },
+      {
+        "path": "/recherche-scientifique",
+        "component": "RechercheScientifique"
+      },
+      {
+        "path": "/recherche-scientifique/synergies-moleculaires",
+        "component": "SynergiesMoleculaires"
+      },
+      {
+        "path": "/recherche-scientifique/pyrolyse-combustion",
+        "component": "PyrolyseCombustion"
+      },
+      {
+        "path": "/recherche-scientifique/courbes-volatilite",
+        "component": "CourbesVolatilite"
+      },
+      {
+        "path": "/recherche-scientifique/degradation-terpenes",
+        "component": "DegradationTerpenes"
+      },
+      {
+        "path": "/recherche-scientifique/modeles-analytiques-gcms",
+        "component": "ModelesAnalytiquesGCMS"
+      },
+      {
+        "path": "/recherche",
+        "component": "RechercheAvancee"
+      },
+      {
+        "path": "/recherche-profil-moleculaire",
+        "component": "RechercheProfilMoleculaire"
+      },
+      {
+        "path": "/recherche-croisee",
+        "component": "CrossSearch"
+      }
+    ],
+    "Le Projet": [
+      {
+        "path": "/le-projet",
+        "component": "LeProjet"
+      }
+    ],
+    "Autres": [
+      {
+        "path": "/manifeste",
+        "component": "Manifeste"
+      },
+      {
+        "path": "/colombie",
+        "component": "ColombieLine"
+      },
+      {
+        "path": "/experimental-accords",
+        "component": "ExperimentalAccords"
+      },
+      {
+        "path": "/recipe-network",
+        "component": "RecipeNetworkPage"
+      },
+      {
+        "path": "/enhanced-radar",
+        "component": "EnhancedRadarDemo"
+      },
+      {
+        "path": "/outil-formulation",
+        "component": "OutilFormulation"
+      },
+      {
+        "path": "/batch-import",
+        "component": "BatchImport"
+      },
+      {
+        "path": "/reglementation-ifra",
+        "component": "Ifra"
+      },
+      {
+        "path": "/final-recipes",
+        "component": "FinalRecipes"
+      },
+      {
+        "path": "/origines-geographiques",
+        "component": "OriginesGeographiques"
+      },
+      {
+        "path": "/extraction-methods",
+        "component": "ExtractionMethods"
+      },
+      {
+        "path": "/matieres-premieres",
+        "component": "RawMaterials"
+      },
+      {
+        "path": "/matieres-premieres/nouvelle",
+        "component": "RawMaterialForm"
+      },
+      {
+        "path": "/matieres-premieres/:id",
+        "component": "RawMaterialDetail"
+      },
+      {
+        "path": "/raw-materials",
+        "component": "RawMaterials"
+      },
+      {
+        "path": "/raw-materials/:id",
+        "component": "RawMaterialDetail"
+      },
+      {
+        "path": "/relations-molecule-plante",
+        "component": "MoleculePlantRelations"
+      },
+      {
+        "path": "/installations",
+        "component": "Installations"
+      },
+      {
+        "path": "/associations",
+        "component": "Associations"
+      },
+      {
+        "path": "/fournisseurs",
+        "component": "Fournisseurs"
+      },
+      {
+        "path": "/analytics",
+        "component": "AnalyticsDashboard"
+      },
+      {
+        "path": "/analytics/advanced",
+        "component": "AnalyticsDashboardAdvanced"
+      },
+      {
+        "path": "/mon-dashboard",
+        "component": "MonDashboard"
+      },
+      {
+        "path": "/favoris",
+        "component": "Favoris"
+      },
+      {
+        "path": "/parcours-olfactif",
+        "component": "ParcoursOlfactif"
+      },
+      {
+        "path": "/parcours/:code",
+        "component": "ParcoursDetail"
+      },
+      {
+        "path": "/bio-mineralis",
+        "component": "BioMineralis"
+      },
+      {
+        "path": "/404",
+        "component": "NotFound"
+      }
+    ],
+    "À propos": [
+      {
+        "path": "/a-propos",
+        "component": "APropos"
+      }
+    ],
+    "Contact": [
+      {
+        "path": "/contact",
+        "component": "Contact"
+      }
+    ],
+    "Nouveautés": [
+      {
+        "path": "/nouveautes",
+        "component": "Nouveautes"
+      }
+    ],
+    "Projets": [
+      {
+        "path": "/projet/timeline",
+        "component": "TimelinePerfumum"
+      },
+      {
+        "path": "/projets",
+        "component": "Projets"
+      }
+    ],
+    "Prototypes": [
+      {
+        "path": "/prototypes",
+        "component": "Prototypes"
+      },
+      {
+        "path": "/prototypes/c1",
+        "component": "C1Fermentum"
+      },
+      {
+        "path": "/prototypes/c2",
+        "component": "C2ClarusVerde"
+      },
+      {
+        "path": "/prototypes/c3",
+        "component": "C3LactaSolis"
+      },
+      {
+        "path": "/prototypes/c4",
+        "component": "C4TerraAmbra"
+      },
+      {
+        "path": "/prototypes/:code",
+        "component": "PrototypeDetail"
+      }
+    ],
+    "Gammes": [
+      {
+        "path": "/gammes",
+        "component": "Gammes"
+      },
+      {
+        "path": "/gammes/petrichor",
+        "component": "GammesPetrichor"
+      },
+      {
+        "path": "/gammes/volcanique",
+        "component": "GammesVolcanique"
+      },
+      {
+        "path": "/gammes/glaciaire",
+        "component": "GammesGlaciaire"
+      },
+      {
+        "path": "/gammes/biolab",
+        "component": "GammesBioLab"
+      },
+      {
+        "path": "/gammes/mossi",
+        "component": "GammesMossi"
+      },
+      {
+        "path": "/gammes/signatures",
+        "component": "GammeSignatures"
+      },
+      {
+        "path": "/gammes/pheromones",
+        "component": "GammePheromones"
+      },
+      {
+        "path": "/gammes/raretes",
+        "component": "GammeRaretes"
+      }
+    ],
+    "Recettes": [
+      {
+        "path": "/recette/colombie/:id",
+        "component": "RecetteColombie"
+      },
+      {
+        "path": "/recettes",
+        "component": "Recettes"
+      },
+      {
+        "path": "/recettes-tl",
+        "component": "RecettesTL"
+      },
+      {
+        "path": "/recette/:id",
+        "component": "RecetteDetail"
+      },
+      {
+        "path": "/recettes-leaf-economies",
+        "component": "RecettesLeafEconomies"
+      },
+      {
+        "path": "/recettes-finales",
+        "component": "FinalRecipes"
+      }
+    ],
+    "Sourcing": [
+      {
+        "path": "/sourcing",
+        "component": "Sourcing"
+      },
+      {
+        "path": "/sourcing/colombie",
+        "component": "SourcingColombie"
+      },
+      {
+        "path": "/sourcing/france",
+        "component": "SourcingFrance"
+      },
+      {
+        "path": "/sourcing/inde",
+        "component": "SourcingInde"
+      },
+      {
+        "path": "/sourcing/madagascar",
+        "component": "SourcingMadagascar"
+      },
+      {
+        "path": "/sourcing/north-america",
+        "component": "SourcingNorthAmerica"
+      }
+    ],
+    "Laboratoire": [
+      {
+        "path": "/laboratoire",
+        "component": "Laboratoire"
+      },
+      {
+        "path": "/laboratoire/recettes",
+        "component": "LaboratoireRecettes"
+      },
+      {
+        "path": "/laboratoire/matrice-interactive",
+        "component": "MatriceInteractive"
+      },
+      {
+        "path": "/laboratoire/statistiques",
+        "component": "Statistiques"
+      }
+    ],
+    "Inventaire": [
+      {
+        "path": "/inventaire",
+        "component": "Inventaire"
+      }
+    ],
+    "Familles": [
+      {
+        "path": "/familles",
+        "component": "Familles"
+      },
+      {
+        "path": "/familles/list",
+        "component": "FamillesList"
+      },
+      {
+        "path": "/chemical-families",
+        "component": "ChemicalFamilies"
+      }
+    ],
+    "Accords": [
+      {
+        "path": "/accords",
+        "component": "Accords"
+      },
+      {
+        "path": "/accords-dedies",
+        "component": "AccordsDedies"
+      }
+    ],
+    "Résines CBD": [
+      {
+        "path": "/resines-cbd",
+        "component": "ResinesCBD"
+      },
+      {
+        "path": "/resine-cbd/:id",
+        "component": "RecetteCBDDetail"
+      }
+    ],
+    "Protocoles": [
+      {
+        "path": "/protocoles-maturation",
+        "component": "ProtocolesMaturation"
+      },
+      {
+        "path": "/protocoles-moleculaires",
+        "component": "ProtocolesMoleculaires"
+      },
+      {
+        "path": "/protocoles-moleculaires/:id",
+        "component": "ProtocoleMoleculaireDetail"
+      }
+    ],
+    "Comparaison": [
+      {
+        "path": "/compare",
+        "component": "Compare"
+      },
+      {
+        "path": "/compare-terpenes",
+        "component": "CompareTerpenes"
+      },
+      {
+        "path": "/compare-radar",
+        "component": "CompareRadar"
+      },
+      {
+        "path": "/compare-recettes",
+        "component": "CompareRecettes"
+      },
+      {
+        "path": "/compare-molecules-advanced",
+        "component": "CompareMoleculesAdvanced"
+      },
+      {
+        "path": "/comparaison-molecules",
+        "component": "ComparaisonMolecules"
+      },
+      {
+        "path": "/compare-plants",
+        "component": "ComparePlants"
+      },
+      {
+        "path": "/comparaison-plantes",
+        "component": "ComparePlants"
+      },
+      {
+        "path": "/comparateur-avance",
+        "component": "ComparateurAvance"
+      },
+      {
+        "path": "/comparaison-terpenes",
+        "component": "ComparaisonTerpenes"
+      },
+      {
+        "path": "/comparaison",
+        "component": "ComparaisonAvancee"
+      }
+    ],
+    "Synergies": [
+      {
+        "path": "/synergies",
+        "component": "SynergiesPage"
+      },
+      {
+        "path": "/synergies-heatmap",
+        "component": "SynergiesHeatmap"
+      },
+      {
+        "path": "/synergies-graph-visualization",
+        "component": "SynergiesGraphVisualization"
+      },
+      {
+        "path": "/synergies-terpenes-niches",
+        "component": "SynergiesTerpenesNiches"
+      }
+    ],
+    "Suggestions": [
+      {
+        "path": "/suggestions-synergies",
+        "component": "SuggestionsSynergies"
+      },
+      {
+        "path": "/suggest-reference-links",
+        "component": "SuggestReferenceLinks"
+      }
+    ],
+    "Méthodologie": [
+      {
+        "path": "/absorbe-scale",
+        "component": "AbsorbeScale"
+      },
+      {
+        "path": "/methode",
+        "component": "MethodeAbsorbe"
+      },
+      {
+        "path": "/methode-absorbe",
+        "component": "MethodeAbsorbe"
+      },
+      {
+        "path": "/methodologie/absorbe",
+        "component": "MethodologieAbsorbe"
+      },
+      {
+        "path": "/methodologie/recherche",
+        "component": "MethodologieRecherche"
+      },
+      {
+        "path": "/methodologie/echelle-absorbe",
+        "component": "EchelleAbsorbe"
+      },
+      {
+        "path": "/methodologie/pyrolyse",
+        "component": "Pyrolyse"
+      },
+      {
+        "path": "/methodologie/gc-ms",
+        "component": "GCMS"
+      },
+      {
+        "path": "/methodes-extraction",
+        "component": "ExtractionMethods"
+      }
+    ],
+    "Cartes": [
+      {
+        "path": "/carte-terroirs-recherche",
+        "component": "CarteTerroirsRecherche"
+      },
+      {
+        "path": "/carte-plantes-gps",
+        "component": "CartePlantesGPS"
+      },
+      {
+        "path": "/carte-varietes",
+        "component": "CarteVarietes"
+      },
+      {
+        "path": "/carte-origines",
+        "component": "CarteVarietes"
+      },
+      {
+        "path": "/carte-terroirs-plantes",
+        "component": "CarteTerroirsPlantes"
+      },
+      {
+        "path": "/carte-interactive-terroirs",
+        "component": "CarteInteractiveTerroirs"
+      },
+      {
+        "path": "/carte-terroirs",
+        "component": "TerroirMapPage"
+      }
+    ],
+    "Chimie": [
+      {
+        "path": "/chimie-tabac",
+        "component": "ChimieTabac"
+      }
+    ],
+    "Interactions": [
+      {
+        "path": "/interactions-tabac-cannabis",
+        "component": "InteractionsTabacCannabis"
+      }
+    ],
+    "Programmes": [
+      {
+        "path": "/programmes-recherche",
+        "component": "ProgrammesRecherche"
+      },
+      {
+        "path": "/programmes-recherche/resines-cbd",
+        "component": "ResinesCBD"
+      },
+      {
+        "path": "/programmes-recherche/tabacs-niche",
+        "component": "TabacsNiche"
+      }
+    ],
+    "Journal": [
+      {
+        "path": "/journal",
+        "component": "Journal"
+      }
+    ],
+    "Historique": [
+      {
+        "path": "/historique-formules",
+        "component": "HistoriqueFormules"
+      }
+    ],
+    "Études": [
+      {
+        "path": "/etudes",
+        "component": "Etudes"
+      },
+      {
+        "path": "/etudes-climatiques",
+        "component": "EtudesClimatiques"
+      },
+      {
+        "path": "/etudes-climatiques/:id",
+        "component": "EtudeClimatiqueDetail"
+      }
+    ],
+    "Archives": [
+      {
+        "path": "/archives-terrain",
+        "component": "ArchivesTerrain"
+      },
+      {
+        "path": "/archives-terrain/:id",
+        "component": "ArchiveTerrainDetail"
+      },
+      {
+        "path": "/archives",
+        "component": "Archives"
+      },
+      {
+        "path": "/archives-olfactives",
+        "component": "ArchivesOlfactives"
+      }
+    ],
+    "Tests": [
+      {
+        "path": "/tests-extraction",
+        "component": "TestsExtraction"
+      },
+      {
+        "path": "/tests-extraction/:id",
+        "component": "TestExtractionDetail"
+      }
+    ],
+    "Odeurs": [
+      {
+        "path": "/odeurs-situees",
+        "component": "OdeursSituees"
+      },
+      {
+        "path": "/odeurs-situees/:id",
+        "component": "OdeurSitueeDetail"
+      }
+    ],
+    "Terrains": [
+      {
+        "path": "/terrains",
+        "component": "Terrains"
+      }
+    ],
+    "Bibliographie": [
+      {
+        "path": "/bibliographie",
+        "component": "BibliographiePage"
+      },
+      {
+        "path": "/bibliographie-globale",
+        "component": "BibliographieGlobale"
+      },
+      {
+        "path": "/bibliographie-hub",
+        "component": "Bibliographie"
+      }
+    ],
+    "Références": [
+      {
+        "path": "/references-v3",
+        "component": "ReferencesV3"
+      },
+      {
+        "path": "/reference-entity-link-manager",
+        "component": "ReferenceEntityLinkManager"
+      },
+      {
+        "path": "/references-graph",
+        "component": "ReferencesGraph"
+      }
+    ],
+    "Import en masse": [
+      {
+        "path": "/bulk-import-references",
+        "component": "BulkImportReferences"
+      }
+    ],
+    "Réseaux": [
+      {
+        "path": "/reseau-liaisons-references",
+        "component": "ReferenceLinkNetwork"
+      },
+      {
+        "path": "/reseau-axes",
+        "component": "ReseauAxes"
+      },
+      {
+        "path": "/reseau",
+        "component": "Reseau"
+      },
+      {
+        "path": "/reseau-molecules-plantes",
+        "component": "ReseauMoleculePlante"
+      },
+      {
+        "path": "/reseau-plantes-molecules",
+        "component": "PlantMoleculeNetwork"
+      },
+      {
+        "path": "/reseau-plantes-terroirs",
+        "component": "PlantTerroirNetwork"
+      }
+    ],
+    "Patrimoine": [
+      {
+        "path": "/heritage-conservation",
+        "component": "HeritageConservation"
+      },
+      {
+        "path": "/patrimoine-menace",
+        "component": "PatrimoineMenace"
+      }
+    ],
+    "Liaisons H2": [
+      {
+        "path": "/h2-linking",
+        "component": "H2LinkingInterface"
+      }
+    ],
+    "Liaisons H3": [
+      {
+        "path": "/h3-linking",
+        "component": "H3LinkingInterface"
+      }
+    ],
+    "Génomique": [
+      {
+        "path": "/genomics-explorer",
+        "component": "GenomicsExplorer"
+      }
+    ],
+    "Axes de Recherche": [
+      {
+        "path": "/axes-recherche",
+        "component": "AxesRecherche"
+      },
+      {
+        "path": "/axes-recherche/:code",
+        "component": "AxeRechercheDetail"
+      }
+    ],
+    "Gestion": [
+      {
+        "path": "/gestion",
+        "component": "GestionPage"
+      }
+    ],
+    "Collaborations": [
+      {
+        "path": "/collaborations",
+        "component": "Collaborations"
+      }
+    ],
+    "Alternatives": [
+      {
+        "path": "/alternatives-durables",
+        "component": "AlternativesDurables"
+      }
+    ],
+    "Glossaire": [
+      {
+        "path": "/glossaire",
+        "component": "Glossaire"
+      },
+      {
+        "path": "/glossaire-visuel-radar",
+        "component": "GlossaireVisuelRadar"
+      }
+    ],
+    "Contributeur": [
+      {
+        "path": "/contribuer",
+        "component": "Contribuer"
+      },
+      {
+        "path": "/contributor",
+        "component": "ContributorInterface"
+      },
+      {
+        "path": "/contributor/add",
+        "component": "ContributorInterface"
+      },
+      {
+        "path": "/contributor/links",
+        "component": "PlantMoleculeLinking"
+      },
+      {
+        "path": "/contributor/simple",
+        "component": "SimplifiedContributorForm"
+      }
+    ],
+    "Couverture": [
+      {
+        "path": "/coverage-goal",
+        "component": "CoverageGoalDashboard"
+      }
+    ],
+    "Import/Export": [
+      {
+        "path": "/csv-validation-import",
+        "component": "CSVValidationImport"
+      }
+    ],
+    "Timeline": [
+      {
+        "path": "/timeline",
+        "component": "Timeline"
+      },
+      {
+        "path": "/timeline/interactive",
+        "component": "TimelineInteractive"
+      },
+      {
+        "path": "/timeline-botanique",
+        "component": "TimelineBotanique"
+      },
+      {
+        "path": "/timeline-recettes",
+        "component": "RecipeTimeline"
+      }
+    ],
+    "Galerie": [
+      {
+        "path": "/galerie-botaniques",
+        "component": "GalerieBotaniques"
+      },
+      {
+        "path": "/galerie",
+        "component": "Gallery"
+      },
+      {
+        "path": "/gallery",
+        "component": "Gallery"
+      },
+      {
+        "path": "/galerie/import",
+        "component": "BatchImport"
+      }
+    ],
+    "IFRA": [
+      {
+        "path": "/ifra",
+        "component": "Ifra"
+      }
+    ],
+    "Leaf Economies": [
+      {
+        "path": "/leaf-economies",
+        "component": "LeafEconomies"
+      },
+      {
+        "path": "/san-andres",
+        "component": "LeafEconomies"
+      },
+      {
+        "path": "/san-andres/leaf-economies",
+        "component": "LeafEconomies"
+      },
+      {
+        "path": "/san-andres/echantillon/:id",
+        "component": "LeafEconomyDetail"
+      },
+      {
+        "path": "/san-andres/echantillon/:id/edit",
+        "component": "LeafEconomyForm"
+      },
+      {
+        "path": "/san-andres/echantillon/new",
+        "component": "LeafEconomyForm"
+      }
+    ],
+    "Botanique": [
+      {
+        "path": "/botanique-critique",
+        "component": "BotaniqueCritique"
+      }
+    ],
+    "Variétés": [
+      {
+        "path": "/varietes-fantomes",
+        "component": "VarietesFantomes"
+      },
+      {
+        "path": "/varietes",
+        "component": "PlantVarieties"
+      },
+      {
+        "path": "/varietes/new",
+        "component": "VarietyForm"
+      },
+      {
+        "path": "/varietes/:id",
+        "component": "VarietyDetail"
+      }
+    ],
+    "Variétés Fantômes": [
+      {
+        "path": "/ghost-varieties-explorer",
+        "component": "GhostVarietiesExplorer"
+      },
+      {
+        "path": "/ghost-variety/new",
+        "component": "GhostVarietyForm"
+      },
+      {
+        "path": "/ghost-variety/:id",
+        "component": "GhostVarietyDetail"
+      },
+      {
+        "path": "/ghost-variety/:id/upload-image",
+        "component": "GhostVarietyImageUpload"
+      }
+    ],
+    "Profils Terpéniques": [
+      {
+        "path": "/terp-profiles",
+        "component": "TerpProfiles"
+      },
+      {
+        "path": "/terp-profiles/compare",
+        "component": "TerpProfilesCompare"
+      }
+    ],
+    "Chemotypes": [
+      {
+        "path": "/chemotypes",
+        "component": "Chemotypes"
+      }
+    ],
+    "Terroirs": [
+      {
+        "path": "/terroirs",
+        "component": "Terroirs"
+      },
+      {
+        "path": "/terroirs/:id",
+        "component": "TerroirDetail"
+      }
+    ],
+    "Civilisations": [
+      {
+        "path": "/civilisations",
+        "component": "Civilisations"
+      },
+      {
+        "path": "/civilisation/:id",
+        "component": "CivilisationDetail"
+      }
+    ],
+    "Tabacs": [
+      {
+        "path": "/tabacs-resines",
+        "component": "TabacsResines"
+      }
+    ],
+    "Tableaux de bord": [
+      {
+        "path": "/dashboard",
+        "component": "DashboardMinimal"
+      },
+      {
+        "path": "/dashboard/recherche",
+        "component": "DashboardRecherche"
+      }
+    ],
+    "Statistiques": [
+      {
+        "path": "/statistiques",
+        "component": "Statistics"
+      }
+    ],
+    "Formulation": [
+      {
+        "path": "/formules-reference",
+        "component": "FormulesReference"
+      }
+    ],
+    "Vues": [
+      {
+        "path": "/vue-connexions",
+        "component": "VueDetailConnexions"
+      }
+    ]
+  },
+  "consolidation_plan": {
+    "Molécules": {
+      "main_route": "/molecules",
+      "tabs": [
+        "Liste",
+        "Détail",
+        "Familles",
+        "Chimie"
+      ],
+      "merge_from": [
+        "Familles"
+      ]
+    },
+    "Recettes": {
+      "main_route": "/recettes",
+      "tabs": [
+        "Liste",
+        "Détail",
+        "Timeline",
+        "Formules"
+      ],
+      "merge_from": [
+        "Accords"
+      ]
+    },
+    "Plantes": {
+      "main_route": "/plants",
+      "tabs": [
+        "Liste",
+        "Variétés",
+        "Terroirs",
+        "Galerie",
+        "Chemotypes"
+      ],
+      "merge_from": [
+        "Variétés",
+        "Terroirs",
+        "Chemotypes"
+      ]
+    },
+    "Comparaison": {
+      "main_route": "/compare",
+      "tabs": [
+        "Molécules",
+        "Recettes",
+        "Plantes",
+        "Terpènes",
+        "Radar"
+      ],
+      "merge_from": []
+    },
+    "Visualisations": {
+      "main_route": "/visualisations",
+      "tabs": [
+        "Graphes",
+        "Matrices",
+        "Sankey",
+        "Heatmaps",
+        "Réseaux"
+      ],
+      "merge_from": [
+        "Synergies"
+      ]
+    },
+    "Recherche": {
+      "main_route": "/recherche",
+      "tabs": [
+        "Avancée",
+        "Scientifique",
+        "Programmes",
+        "Radicale"
+      ],
+      "merge_from": [
+        "Programmes"
+      ]
+    },
+    "Méthodologie": {
+      "main_route": "/methodologie",
+      "tabs": [
+        "ABSORBE",
+        "GC-MS",
+        "Pyrolyse",
+        "Protocoles"
+      ],
+      "merge_from": [
+        "Protocoles"
+      ]
+    },
+    "Administration": {
+      "main_route": "/admin",
+      "tabs": [
+        "Molécules",
+        "Recettes",
+        "Plantes",
+        "Import/Export",
+        "Validation",
+        "Liaisons"
+      ],
+      "merge_from": [
+        "Import/Export",
+        "Liaisons",
+        "Validation",
+        "Audit"
+      ]
+    },
+    "Bibliographie": {
+      "main_route": "/bibliographie",
+      "tabs": [
+        "Références",
+        "Axes",
+        "Import",
+        "Réseau"
+      ],
+      "merge_from": [
+        "Références",
+        "Axes de Recherche"
+      ]
+    },
+    "Archives": {
+      "main_route": "/archives",
+      "tabs": [
+        "Terrain",
+        "Olfactives",
+        "Études",
+        "Tests"
+      ],
+      "merge_from": [
+        "Études",
+        "Tests",
+        "Odeurs"
+      ]
+    },
+    "Outils": {
+      "main_route": "/outils",
+      "tabs": [
+        "Formulation",
+        "Calculateurs",
+        "Enrichissement",
+        "Export"
+      ],
+      "merge_from": [
+        "Formulation",
+        "Générateur"
+      ]
+    },
+    "Cartes": {
+      "main_route": "/cartes",
+      "tabs": [
+        "Terroirs",
+        "Origines",
+        "Variétés",
+        "GPS"
+      ],
+      "merge_from": []
+    }
+  },
+  "estimated_after_consolidation": 22
+}

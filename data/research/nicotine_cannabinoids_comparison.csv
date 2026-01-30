@@ -1,0 +1,11 @@
+Aspect,Nicotine,"Cannabinoïdes (THC, CBD)"
+Type chimique,Diamine tertiaire (base),Composés phénoliques (acides faibles)
+pKa,3.1 et 8.0,~10-11
+Forme acide-base,Base libre (NH) ⇌ Protonée (NH2+),Phénol neutre (OH) ⇌ Phénolate (O-)
+Température de dégradation,200-400°C,200-400°C
+Produits de dégradation majeurs,"Cotinine, myosmine, nornicotine, N-nitrosamines","CBN, produits d'oxydation"
+Toxicité intrinsèque,Élevée,Faible
+Rôle des additifs,"Arômes (aldéhydes, esters) → Formation de toxines","Terpènes (myrcène, limonène) → Formation de toxines"
+Biodisponibilité,Dépend du pH (α_fb),Dépend du pH (forme phénolique)
+Partitionnement gaz/particules,Modèle de Pankow (1994-2018),Applicable (modèle de Pankow)
+Chercheur clé (PSU),James F. Pankow,Robert M. Strongin
