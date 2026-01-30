@@ -4474,3 +4474,24 @@
 - [x] Routes /methodes-analytiques et /analytical-methods ajoutées
 - [ ] Lier les méthodes aux molécules et analyses (Phase 2)
 
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 - Suite 6
+
+### Tâche 60 : Peupler la table analytical_methods
+- [x] GC-MS (Gas Chromatography-Mass Spectrometry)
+- [x] PTR-MS (Proton Transfer Reaction Mass Spectrometry)
+- [x] HPLC (High Performance Liquid Chromatography)
+- [x] IR (Infrared Spectroscopy)
+- [x] RMN/NMR (Nuclear Magnetic Resonance)
+- [x] GC-FID (Gas Chromatography-Flame Ionization Detector)
+- [x] GC-O (Gas Chromatography-Olfactometry)
+- [x] SPME (Solid Phase Microextraction)
+- [x] HS-GC (Headspace Gas Chromatography)
+- [x] TGA (Thermogravimetric Analysis)
+
+### Tâche 61 : Ajouter les liens de navigation
+- [x] Ajouter ChémotypesExplorer au menu principal (Données > Exploration)
+- [x] Ajouter MéthodesAnalytiques au menu principal (Recherche > Méthode ABSORBE)
+- [ ] Vérifier la cohérence du menu sur mobile

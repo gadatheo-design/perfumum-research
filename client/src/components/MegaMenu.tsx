@@ -474,6 +474,13 @@ export function MegaMenu() {
           badge: "HUB",
         },
         {
+          label: "Chémotypes",
+          path: "/chemotypes",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Variations chimiques par origine",
+          badge: "NEW",
+        },
+        {
           label: "Carte GPS Plantes",
           path: "/carte-plantes-gps",
           icon: <Compass className="h-4 w-4" />,
@@ -628,6 +635,13 @@ export function MegaMenu() {
           path: "/methodologie/gcms",
           icon: <Microscope className="h-4 w-4" />,
           description: "Analyses chromatographiques",
+        },
+        {
+          label: "Méthodes Analytiques",
+          path: "/methodes-analytiques",
+          icon: <Microscope className="h-4 w-4" />,
+          description: "GC-MS, PTR-MS, HPLC, IR, RMN",
+          badge: "NEW",
         },
       ],
     },
