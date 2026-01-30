@@ -4455,3 +4455,22 @@
 
 =======
 >>>>>>> Stashed changes
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 (Suite) — ChémotypesExplorer et Méthodes Analytiques
+
+### Tâche 58 : Créer la page ChémotypesExplorer
+- [x] Créer le composant ChemotypesExplorer.tsx
+- [x] Afficher les plantes avec chémotypes par onglets interactifs
+- [x] Filtrer par origine, famille, recherche texte
+- [x] Ajouter la route /chemotypes dans App.tsx
+- [x] Design responsive (grille adaptative)
+
+### Tâche 59 : Implémenter les méthodes analytiques
+- [x] Créer la procédure tRPC getMethods (analyticalMethods.list, getById, getByCategory, search)
+- [x] Table analytical_methods déjà existante dans le schéma
+- [x] Créer l'interface UI AnalyticalMethodsPage.tsx
+- [x] Routes /methodes-analytiques et /analytical-methods ajoutées
+- [ ] Lier les méthodes aux molécules et analyses (Phase 2)
+

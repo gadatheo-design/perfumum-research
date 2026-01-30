@@ -18527,6 +18527,22 @@ export async function getAnalyticalMethodsByCategory(category: string) {
     .orderBy(desc(analyticalMethods.performanceScore));
 }
 
+export async function searchAnalyticalMethods(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const searchTerm = `%${query}%`;
+  return await db.select().from(analyticalMethods)
+    .where(
+      or(
+        like(analyticalMethods.name, searchTerm),
+        like(analyticalMethods.code, searchTerm),
+        like(analyticalMethods.fullName, searchTerm),
+        like(analyticalMethods.description, searchTerm)
+      )
+    )
+    .orderBy(desc(analyticalMethods.performanceScore));
+}
+
 // --- Researchers ---
 
 export async function getAllResearchers() {

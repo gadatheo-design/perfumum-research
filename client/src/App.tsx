@@ -285,6 +285,8 @@ import GenealogyGraph from "./pages/GenealogyGraph";
 import CarteVarietes from "./pages/CarteVarietes";
 import Terroirs from "./pages/Terroirs";
 import TerroirDetail from "./pages/TerroirDetail";
+import ChemotypesExplorer from "./pages/ChemotypesExplorer";
+import AnalyticalMethodsPage from "./pages/AnalyticalMethodsPage";
 import OriginesGeographiques from "./pages/OriginesGeographiques";
 import ExtractionMethods from "./pages/ExtractionMethods";
 import ComparaisonExtractions from "./pages/ComparaisonExtractions";
@@ -818,6 +820,9 @@ function Router() {
       <Route path="/terroirs" component={PlantsHub} />
       <Route path="/terroirs-legacy" component={Terroirs} />
       <Route path="/terroirs/:id" component={TerroirDetail} />
+      <Route path="/chemotypes" component={ChemotypesExplorer} />
+      <Route path="/methodes-analytiques" component={AnalyticalMethodsPage} />
+      <Route path="/analytical-methods" component={AnalyticalMethodsPage} />
       <Route path="/origines-geographiques" component={OriginesGeographiques} />
       <Route path="/extraction-methods" component={ExtractionMethods} />
       <Route path="/methodes-extraction" component={ExtractionMethods} />

@@ -3443,6 +3443,28 @@ export const appRouter = router({
       }),
   }),
   
+  // Méthodes analytiques (GC-MS, PTR-MS, etc.)
+  analyticalMethods: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllAnalyticalMethods();
+    }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getAnalyticalMethodById(input.id);
+      }),
+    getByCategory: publicProcedure
+      .input(z.object({ category: z.string() }))
+      .query(async ({ input }) => {
+        return await db.getAnalyticalMethodsByCategory(input.category);
+      }),
+    search: publicProcedure
+      .input(z.object({ query: z.string() }))
+      .query(async ({ input }) => {
+        return await db.searchAnalyticalMethods(input.query);
+      }),
+  }),
+  
   plantAnalyses: router({
     getAll: publicProcedure.query(async () => {
       return getAllPlantAnalyses();
