@@ -351,6 +351,7 @@ import TpsGenesExplorer from "./pages/TpsGenesExplorer";
 import MolecularTransformations from "./pages/MolecularTransformations";
 import TobaccoLandraces from "./pages/TobaccoLandraces";
 import SoilAnalysis from "./pages/SoilAnalysis";
+import BiosyntheticPathways from "./pages/BiosyntheticPathways";
 
 
 
@@ -431,6 +432,9 @@ function Router() {
       <Route path="/tobacco-landraces" component={TobaccoLandraces} />
       <Route path="/soil-analysis" component={SoilAnalysis} />
       <Route path="/analyses-pedologiques" component={SoilAnalysis} />
+      <Route path="/biosynthetic-pathways" component={BiosyntheticPathways} />
+      <Route path="/voies-biosynthetiques" component={BiosyntheticPathways} />
+      <Route path="/tps-pathways" component={BiosyntheticPathways} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />

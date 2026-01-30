@@ -18,6 +18,7 @@ import {
   ChevronRight
 } from "lucide-react";
 import { Link } from "wouter";
+import { D3RadarChart, D3RadarLegend } from "@/components/D3RadarChart";
 
 // Données enrichies pour la visualisation
 const terroirProfiles = {
@@ -238,6 +239,60 @@ export default function SoilAnalysis() {
               </SelectContent>
             </Select>
           </div>
+
+          {/* Radar Chart Comparatif */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FlaskConical className="h-5 w-5" />
+                Profils Minéraux Comparés
+              </CardTitle>
+              <CardDescription>
+                Visualisation radar des concentrations minérales relatives
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center">
+              <D3RadarChart
+                data={[
+                  {
+                    name: "Vuelta Abajo",
+                    color: "#D97706",
+                    values: [
+                      { axis: "Fer (Fe)", value: 75 },
+                      { axis: "Potassium (K)", value: 80 },
+                      { axis: "Magnésium (Mg)", value: 55 },
+                      { axis: "Calcium (Ca)", value: 70 },
+                      { axis: "Soufre (S)", value: 40 },
+                      { axis: "Matière Org.", value: 40 }
+                    ]
+                  },
+                  {
+                    name: "Estelí",
+                    color: "#475569",
+                    values: [
+                      { axis: "Fer (Fe)", value: 95 },
+                      { axis: "Potassium (K)", value: 90 },
+                      { axis: "Magnésium (Mg)", value: 75 },
+                      { axis: "Calcium (Ca)", value: 50 },
+                      { axis: "Soufre (S)", value: 70 },
+                      { axis: "Matière Org.", value: 65 }
+                    ]
+                  }
+                ]}
+                width={450}
+                height={400}
+                maxValue={100}
+                levels={5}
+                opacityArea={0.3}
+              />
+              <D3RadarLegend
+                items={[
+                  { name: "Vuelta Abajo (Cuba)", color: "#D97706" },
+                  { name: "Estelí (Nicaragua)", color: "#475569" }
+                ]}
+              />
+            </CardContent>
+          </Card>
 
           {/* Cartes de comparaison */}
           <div className="grid md:grid-cols-2 gap-6">

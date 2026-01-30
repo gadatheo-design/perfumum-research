@@ -3647,3 +3647,30 @@
 - **soil_analyses**: 2 analyses pédologiques
 - **tps_genes**: 307 gènes TPS
 - **tps_molecule_links**: 129 liaisons TPS-Molécules
+
+
+---
+
+## 🧪 SESSION 30 JANVIER 2026 — Suite
+
+### Tâche 1 : Import des composés du Perique - TERMINÉ
+- [x] Analyser le fichier JSON complet des 334 composés
+- [x] Identifier les composés non encore importés (97 déjà présents)
+- [x] Importer les composés restants dans tobacco_compounds (155 nouveaux)
+- [x] Vérifier l'intégrité des données
+- **Résultat**: 252 composés Perique total, 47 nouveaux isolats, 39 familles chimiques
+
+### Tâche 2 : Graphiques D3.js pour Analyses Pédologiques - TERMINÉ
+- [x] Créer le composant D3RadarChart.tsx
+- [x] Ajouter les radar charts des profils minéraux (Vuelta Abajo vs Estelí)
+- [x] Créer les graphiques comparatifs interactifs avec hover effects
+- [x] Ajouter la légende D3RadarLegend
+
+### Tâche 3 : Page Voies Biosynthétiques TPS → Molécules - TERMINÉ
+- [x] Créer la page BiosyntheticPathways.tsx
+- [x] Afficher les voies MEP (plastidiale) et MVA (cytosolique)
+- [x] Créer le composant TpsNetworkGraph D3.js interactif
+- [x] Ajouter l'explorateur de gènes TPS avec filtres
+- [x] Ajouter les routes /biosynthetic-pathways, /voies-biosynthetiques, /tps-pathways
+- [ ] Connecter les gènes TPS aux molécules produites
+- [ ] Ajouter les interactions (zoom, filtres)
