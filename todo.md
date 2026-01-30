@@ -3091,3 +3091,10 @@
 - [x] Diagnostiquer les erreurs 404 sur les liens molécules (chemin /molecules au lieu de /molecule)
 - [x] Corriger les URLs des liens molécules dans SeeAlso.tsx
 - [x] Tester les liens après correction (HMR appliqué)
+
+
+### Bug page Transformations Moléculaires - affichage 0 et cartes vides
+- [ ] Diagnostiquer le problème de chargement des données
+- [ ] Vérifier la procédure tRPC getAll pour les transformations
+- [ ] Corriger l'affichage des statistiques et des cartes
+- [ ] Tester la page après correction
