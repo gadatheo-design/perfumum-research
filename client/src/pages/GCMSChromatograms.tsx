@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { trpc } from '@/lib/trpc';
+import MSSpectrumPopup from '@/components/MSSpectrumPopup';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +13,7 @@ import * as d3 from 'd3';
 function ChromatogramChart({ peaks, landraceName }: { peaks: any[]; landraceName: string }) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [hoveredPeak, setHoveredPeak] = useState<any>(null);
+  const [selectedPeakForMS, setSelectedPeakForMS] = useState<any>(null);
   
   useEffect(() => {
     if (!svgRef.current || peaks.length === 0) return;
@@ -115,7 +117,8 @@ function ChromatogramChart({ peaks, landraceName }: { peaks: any[]; landraceName
         .attr('fill', `hsl(${(idx * 30) % 360}, 70%, 50%)`)
         .attr('cursor', 'pointer')
         .on('mouseenter', () => setHoveredPeak(peak))
-        .on('mouseleave', () => setHoveredPeak(null));
+        .on('mouseleave', () => setHoveredPeak(null))
+        .on('click', () => setSelectedPeakForMS(peak));
       
       // Label du composé
       if (peak.peak_area > 200000) {
@@ -185,8 +188,16 @@ function ChromatogramChart({ peaks, landraceName }: { peaks: any[]; landraceName
             <p><span className="font-medium">Concentration:</span> {hoveredPeak.concentration_ppm} ppm</p>
             <p><span className="font-medium">Qualité match:</span> {hoveredPeak.match_quality}%</p>
           </div>
+          <p className="text-xs text-primary mt-2 font-medium">Cliquez pour voir le spectre MS</p>
         </div>
       )}
+      
+      {/* Popup du spectre MS */}
+      <MSSpectrumPopup
+        compoundName={selectedPeakForMS?.compound_name}
+        casNumber={selectedPeakForMS?.cas_number}
+        onClose={() => setSelectedPeakForMS(null)}
+      />
     </div>
   );
 }

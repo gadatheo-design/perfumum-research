@@ -360,6 +360,7 @@ import LandraceComparator from "./pages/LandraceComparator";
 import GCMSChromatograms from "./pages/GCMSChromatograms";
 import CompoundSearch from "./pages/CompoundSearch";
 import MSSpectraViewer from "./pages/MSSpectraViewer";
+import SpectraComparison from "./pages/SpectraComparison";
 
 
 
@@ -465,6 +466,9 @@ function Router() {
       <Route path="/ms-spectra" component={MSSpectraViewer} />
       <Route path="/spectres-masse" component={MSSpectraViewer} />
       <Route path="/mass-spectrometry" component={MSSpectraViewer} />
+      <Route path="/compare-spectra" component={SpectraComparison} />
+      <Route path="/comparaison-spectres" component={SpectraComparison} />
+      <Route path="/spectra-comparison" component={SpectraComparison} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />

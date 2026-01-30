@@ -3824,3 +3824,27 @@
 - [x] Créer les procédures tRPC getMsSpectra, getMsSpectrumByCompound, getMsSpectrumByCas
 - **Résultat**: 17 spectres MS avec patterns de fragmentation, pics m/z et intensités relatives
 - [ ] Lier les spectres aux pics du chromatogramme (intégration future)
+
+
+## 📊 SESSION 30 JANVIER 2026 — Amélioration spectres de masse (Suite)
+
+### Tâche 4 : Lier les spectres MS aux pics des chromatogrammes - TERMINÉ
+- [x] Créer un composant popup pour afficher le spectre MS au clic sur un pic (MSSpectrumPopup.tsx)
+- [x] Intégrer le popup dans la page GCMSChromatograms.tsx
+- [x] Afficher le spectre D3.js interactif dans le popup avec pics m/z
+- [x] Ajouter le message "Cliquez pour voir le spectre MS" dans le tooltip
+
+### Tâche 5 : Importer les spectres des 60 composés identifiés - TERMINÉ
+- [x] Récupérer la liste des 39 composés uniques dans gcms_peaks
+- [x] Générer les données de spectres MS pour 29 composés supplémentaires
+- [x] Importer les spectres dans la table ms_spectra (total: 46 spectres)
+- [x] Inclure: phénols (gaïacol, syringol), indoles, lactones, ionones, damascénones
+
+### Tâche 6 : Page de comparaison de spectres - TERMINÉ
+- [x] Créer la page SpectraComparison.tsx avec visualisation D3.js
+- [x] Permettre la sélection de 2-3 spectres à comparer via recherche
+- [x] Afficher les spectres superposés avec couleurs distinctes (bleu, rose, vert)
+- [x] Ajouter un outil de calcul de similarité spectrale (cosinus)
+- [x] Ajouter les routes /compare-spectra, /comparaison-spectres, /spectra-comparison
+- [x] Ajouter un tableau comparatif des propriétés moléculaires
+- [x] Tests unitaires: 32 tests passés (ms-spectra.test.ts)

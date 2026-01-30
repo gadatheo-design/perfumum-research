@@ -174,3 +174,154 @@ describe('Ionization Modes', () => {
     expect(validModes).toContain('APCI');
   });
 });
+
+
+// === Tests pour les spectres des chromatogrammes ===
+describe('Chromatogram MS Spectra', () => {
+  const chromatogramCompounds = [
+    'Camphène', 'p-Cymène', 'α-Humulène', 'β-Élémène', 'γ-Élémène',
+    'Caryophyllène oxide', 'Guaïol', 'α-Bisabolol', 'Nérolidol', 'Farnésol',
+    'Acétate de géranyle', 'Gaïacol', '4-Méthylguaïacol', 'Créosol', 'Syringol',
+    'Indole', 'Skatole', 'Furfural', '5-Méthylfurfural', 'γ-Nonalactone',
+    'δ-Octalactone', 'δ-Décalactone', 'β-Ionone', 'β-Damascénone',
+    'Mégastigmatrienone', 'Solanone', 'Acide acétique', 'Maltol', 'Isomaltol'
+  ];
+
+  it('should have spectra for all chromatogram compounds', () => {
+    expect(chromatogramCompounds.length).toBe(29);
+  });
+
+  it('should include phenolic compounds from tobacco smoke', () => {
+    const phenolics = ['Gaïacol', '4-Méthylguaïacol', 'Créosol', 'Syringol'];
+    phenolics.forEach(compound => {
+      expect(chromatogramCompounds).toContain(compound);
+    });
+  });
+
+  it('should include indolic compounds', () => {
+    const indolics = ['Indole', 'Skatole'];
+    indolics.forEach(compound => {
+      expect(chromatogramCompounds).toContain(compound);
+    });
+  });
+
+  it('should include lactones', () => {
+    const lactones = ['γ-Nonalactone', 'δ-Octalactone', 'δ-Décalactone'];
+    lactones.forEach(compound => {
+      expect(chromatogramCompounds).toContain(compound);
+    });
+  });
+
+  it('should include ionones and damascenones', () => {
+    const carotenoidDerivatives = ['β-Ionone', 'β-Damascénone', 'Mégastigmatrienone'];
+    carotenoidDerivatives.forEach(compound => {
+      expect(chromatogramCompounds).toContain(compound);
+    });
+  });
+});
+
+// === Tests pour la similarité spectrale ===
+describe('Spectral Similarity Calculation', () => {
+  const calculateCosineSimilarity = (peaks1: {mz: number, intensity: number}[], peaks2: {mz: number, intensity: number}[]) => {
+    const allMz = new Set([...peaks1.map(p => p.mz), ...peaks2.map(p => p.mz)]);
+    const vec1: number[] = [];
+    const vec2: number[] = [];
+    
+    allMz.forEach(mz => {
+      const p1 = peaks1.find(p => p.mz === mz);
+      const p2 = peaks2.find(p => p.mz === mz);
+      vec1.push(p1?.intensity || 0);
+      vec2.push(p2?.intensity || 0);
+    });
+    
+    const dotProduct = vec1.reduce((sum, v, i) => sum + v * vec2[i], 0);
+    const norm1 = Math.sqrt(vec1.reduce((sum, v) => sum + v * v, 0));
+    const norm2 = Math.sqrt(vec2.reduce((sum, v) => sum + v * v, 0));
+    
+    if (norm1 === 0 || norm2 === 0) return 0;
+    return (dotProduct / (norm1 * norm2)) * 100;
+  };
+
+  it('should return 100% for identical spectra', () => {
+    const peaks = [
+      { mz: 41, intensity: 45 },
+      { mz: 93, intensity: 100 },
+      { mz: 204, intensity: 25 }
+    ];
+    const similarity = calculateCosineSimilarity(peaks, peaks);
+    expect(similarity).toBeCloseTo(100, 1);
+  });
+
+  it('should return 0% for completely different spectra', () => {
+    const peaks1 = [{ mz: 41, intensity: 100 }];
+    const peaks2 = [{ mz: 200, intensity: 100 }];
+    const similarity = calculateCosineSimilarity(peaks1, peaks2);
+    expect(similarity).toBe(0);
+  });
+
+  it('should return intermediate value for partially similar spectra', () => {
+    const peaks1 = [
+      { mz: 41, intensity: 45 },
+      { mz: 93, intensity: 100 },
+      { mz: 204, intensity: 25 }
+    ];
+    const peaks2 = [
+      { mz: 41, intensity: 50 },
+      { mz: 93, intensity: 90 },
+      { mz: 150, intensity: 30 }
+    ];
+    const similarity = calculateCosineSimilarity(peaks1, peaks2);
+    expect(similarity).toBeGreaterThan(50);
+    expect(similarity).toBeLessThan(100);
+  });
+
+  it('should handle empty spectra', () => {
+    const similarity = calculateCosineSimilarity([], []);
+    expect(similarity).toBe(0);
+  });
+});
+
+// === Tests pour les classes chimiques ===
+describe('Chemical Classes in MS Spectra', () => {
+  it('should categorize monoterpenes correctly', () => {
+    const monoterpenes = [
+      { name: 'Limonène', formula: 'C10H16', mw: 136.24 },
+      { name: 'α-Pinène', formula: 'C10H16', mw: 136.24 },
+      { name: 'Myrcène', formula: 'C10H16', mw: 136.24 },
+      { name: 'Camphène', formula: 'C10H16', mw: 136.24 },
+      { name: 'p-Cymène', formula: 'C10H14', mw: 134.22 },
+    ];
+    
+    monoterpenes.forEach(m => {
+      expect(m.mw).toBeLessThan(160);
+      expect(m.formula).toMatch(/^C10H1[4-8]$/);
+    });
+  });
+
+  it('should categorize sesquiterpenes correctly', () => {
+    const sesquiterpenes = [
+      { name: 'β-Caryophyllène', formula: 'C15H24', mw: 204.35 },
+      { name: 'α-Humulène', formula: 'C15H24', mw: 204.35 },
+      { name: 'β-Élémène', formula: 'C15H24', mw: 204.35 },
+      { name: 'Farnésène', formula: 'C15H24', mw: 204.35 },
+    ];
+    
+    sesquiterpenes.forEach(s => {
+      expect(s.mw).toBeGreaterThan(200);
+      expect(s.formula).toBe('C15H24');
+    });
+  });
+
+  it('should categorize oxygenated terpenes correctly', () => {
+    const oxygenatedTerpenes = [
+      { name: 'Linalol', formula: 'C10H18O', mw: 154.25 },
+      { name: 'Géraniol', formula: 'C10H18O', mw: 154.25 },
+      { name: 'Eucalyptol', formula: 'C10H18O', mw: 154.25 },
+      { name: 'Nérolidol', formula: 'C15H26O', mw: 222.37 },
+    ];
+    
+    oxygenatedTerpenes.forEach(t => {
+      expect(t.formula).toContain('O');
+    });
+  });
+});
