@@ -3965,3 +3965,31 @@
 - [ ] Lier aux molécules existantes (Mitti Attar → géosmine, etc.)
 - [ ] Créer les pages de visualisation et gestion
 
+
+
+## 📊 SESSION 30 JANVIER 2025 - PARTIE 4 : FICHES DÉTAILLÉES ET INVENTAIRE
+
+### Tâche 19 : Fiches détaillées matières premières - TERMINÉ
+- [x] Page RawMaterialDetail.tsx déjà existante et complète
+- [x] Ajouter les onglets Inventaire et Spectres MS
+- [x] Afficher les liens vers les molécules clés avec navigation
+- [x] Intégrer les notes olfactives (tête, cœur, fond) visuellement
+- [x] Ajouter les informations de terroir et origine
+- [x] Liens vers les outils d'analyse GC-MS
+
+### Tâche 20 : Système de suivi d'inventaire - TERMINÉ
+- [x] Créer la table inventory_entries pour le suivi des achats
+- [x] Ajouter les champs: quantité, date d'achat, prix, fournisseur, lot, expiration
+- [x] Créer les procédures tRPC: getInventory, getAllInventory, addInventoryEntry, updateInventoryQuantity, getInventoryStats
+- [x] Intégrer l'onglet Inventaire dans RawMaterialDetail.tsx
+- [x] Ajouter les cartes de stock actuel, dernier achat, prix moyen
+- [x] API fonctionnelle (testée avec curl)
+
+### Tâche 21 : Liaison aux spectres MS - TERMINÉ
+- [x] Créer la procédure getMsSpectra dans le router raw-materials
+- [x] Rechercher automatiquement les spectres MS par CAS number ou nom de molécule
+- [x] Retourner les spectres trouvés et les molécules sans spectre
+- [x] Intégrer la requête dans RawMaterialDetail.tsx
+- [x] API fonctionnelle (testée avec curl - Linalol trouvé pour matière 1)
+- [ ] Afficher le profil chromatographique dans la fiche matière
+- [ ] Permettre la comparaison avec les spectres de référence

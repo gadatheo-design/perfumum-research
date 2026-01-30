@@ -20,7 +20,17 @@ import {
   Atom,
   ExternalLink,
   Clock,
-  Gauge
+  Gauge,
+  Package,
+  BarChart3,
+  Plus,
+  Calendar,
+  DollarSign,
+  Image as ImageIcon,
+  Upload,
+  ChevronLeft,
+  ChevronRight,
+  X
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -71,6 +81,10 @@ export default function RawMaterialDetail() {
 
   const { data: material, isLoading } = trpc.rawMaterials.getById.useQuery(id);
   const { data: molecules } = trpc.rawMaterials.getMolecules.useQuery(id);
+  const { data: msSpectraData, isLoading: isLoadingSpectra } = trpc.rawMaterials.getMsSpectra.useQuery(
+    { rawMaterialId: id },
+    { enabled: id > 0 }
+  );
 
   // Récupérer les matières premières similaires
   const { data: similarMaterials, isLoading: isLoadingSimilar } = trpc.crossLinks.getSimilarRawMaterials.useQuery(
@@ -174,9 +188,11 @@ export default function RawMaterialDetail() {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList>
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
             <TabsTrigger value="molecules">Molécules ({molecules?.length || 0})</TabsTrigger>
+            <TabsTrigger value="inventory">Inventaire</TabsTrigger>
+            <TabsTrigger value="spectra">Spectres MS</TabsTrigger>
             <TabsTrigger value="usage">Utilisation</TabsTrigger>
           </TabsList>
 
@@ -418,6 +434,169 @@ export default function RawMaterialDetail() {
                     <p>Aucune molécule associée à cette matière première.</p>
                   </div>
                 )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Inventory Tab */}
+          <TabsContent value="inventory" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Package className="w-5 h-5" />
+                  Historique des achats
+                </CardTitle>
+                <CardDescription>
+                  Suivi des acquisitions de cette matière première
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <Package className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+                  <p className="text-muted-foreground mb-4">
+                    Aucune entrée d'inventaire pour le moment
+                  </p>
+                  <Button>
+                    <Plus className="w-4 h-4 mr-2" />
+                    Ajouter une entrée
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Informations de stock */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-emerald-500/20">
+                      <Package className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Stock actuel</p>
+                      <p className="text-2xl font-bold">0 ml</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-blue-500/20">
+                      <Calendar className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Dernier achat</p>
+                      <p className="text-lg font-medium">-</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-amber-500/20">
+                      <DollarSign className="w-5 h-5 text-amber-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Prix moyen</p>
+                      <p className="text-lg font-medium">-</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Spectra Tab */}
+          <TabsContent value="spectra" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5" />
+                  Profil chromatographique
+                </CardTitle>
+                <CardDescription>
+                  Spectres de masse des molécules clés de cette matière première
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {molecules && molecules.length > 0 ? (
+                  <div className="space-y-3">
+                    {molecules.slice(0, 10).map((mol: any) => (
+                      <Link 
+                        key={mol.id}
+                        href={`/ms-spectra?search=${encodeURIComponent(mol.molecule?.name || mol.name || '')}`}
+                      >
+                        <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors cursor-pointer">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-violet-500/20">
+                              <BarChart3 className="w-4 h-4 text-violet-400" />
+                            </div>
+                            <div>
+                              <span className="font-medium">{mol.molecule?.name || mol.name}</span>
+                              {mol.percentage && (
+                                <span className="text-sm text-muted-foreground ml-2">({mol.percentage}%)</span>
+                              )}
+                            </div>
+                          </div>
+                          <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                        </div>
+                      </Link>
+                    ))}
+                    <div className="flex justify-center gap-4 pt-4">
+                      <Link href="/compare-spectra">
+                        <Button variant="outline">
+                          Comparer les spectres
+                        </Button>
+                      </Link>
+                      <Link href="/identify-spectrum">
+                        <Button variant="outline">
+                          Identifier un spectre
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <BarChart3 className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+                    <p className="text-muted-foreground mb-4">
+                      Aucune molécule liée - les spectres MS seront disponibles après liaison
+                    </p>
+                    <Link href="/ms-spectra">
+                      <Button variant="outline">
+                        Explorer les spectres MS
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+            
+            {/* Liens vers les outils d'analyse */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Outils d'analyse</CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Link href="/gcms-chromatograms">
+                  <Button variant="outline" className="w-full justify-start">
+                    <BarChart3 className="w-4 h-4 mr-2" />
+                    Chromatogrammes GC-MS
+                  </Button>
+                </Link>
+                <Link href="/ms-spectra">
+                  <Button variant="outline" className="w-full justify-start">
+                    <Atom className="w-4 h-4 mr-2" />
+                    Bibliothèque de spectres
+                  </Button>
+                </Link>
+                <Link href="/analysis-hub">
+                  <Button variant="outline" className="w-full justify-start">
+                    <Beaker className="w-4 h-4 mr-2" />
+                    Hub Analyse
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </TabsContent>

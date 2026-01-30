@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { rawMaterials, rawMaterialMolecules, molecules, extendedSuppliers, extendedSupplierMaterials } from "../../drizzle/schema";
+import { rawMaterials, rawMaterialMolecules, molecules, extendedSuppliers, extendedSupplierMaterials, inventoryEntries, suppliers } from "../../drizzle/schema";
 import { eq, like, desc, asc, sql, and, or, inArray } from "drizzle-orm";
 
 export const rawMaterialsRouter = router({
@@ -224,6 +224,222 @@ export const rawMaterialsRouter = router({
     
     return origins.map(o => o.origin).filter(Boolean);
   }),
+
+  // ============================================================================
+  // INVENTORY ENTRIES (Entrées d'inventaire)
+  // ============================================================================
+
+  // Récupérer les entrées d'inventaire d'une matière première
+  getInventory: publicProcedure
+    .input(z.object({ rawMaterialId: z.number() }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      const results = await db
+        .select()
+        .from(inventoryEntries)
+        .where(eq(inventoryEntries.rawMaterialId, input.rawMaterialId))
+        .orderBy(desc(inventoryEntries.purchaseDate));
+      
+      return results;
+    }),
+
+  // Récupérer toutes les entrées d'inventaire
+  getAllInventory: publicProcedure
+    .input(z.object({
+      limit: z.number().optional().default(50),
+      offset: z.number().optional().default(0),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      const results = await db
+        .select({
+          entry: inventoryEntries,
+          rawMaterial: {
+            id: rawMaterials.id,
+            name: rawMaterials.name,
+            materialId: rawMaterials.materialId,
+            category: rawMaterials.category,
+          }
+        })
+        .from(inventoryEntries)
+        .innerJoin(rawMaterials, eq(inventoryEntries.rawMaterialId, rawMaterials.id))
+        .orderBy(desc(inventoryEntries.purchaseDate))
+        .limit(input?.limit || 50)
+        .offset(input?.offset || 0);
+      
+      return results;
+    }),
+
+  // Ajouter une entrée d'inventaire
+  addInventoryEntry: protectedProcedure
+    .input(z.object({
+      rawMaterialId: z.number(),
+      purchaseDate: z.string(), // ISO date string
+      supplierId: z.number().optional(),
+      supplierName: z.string().optional(),
+      quantity: z.number(),
+      unit: z.enum(['ml', 'g', 'kg', 'L', 'oz', 'lb']).default('ml'),
+      price: z.number(),
+      currency: z.string().default('CHF'),
+      batchNumber: z.string().optional(),
+      expirationDate: z.string().optional(),
+      storageLocation: z.string().optional(),
+      storageConditions: z.string().optional(),
+      notes: z.string().optional(),
+      qualityNotes: z.string().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      
+      // Générer un ID unique pour l'entrée
+      const [countResult] = await db
+        .select({ count: sql<number>`COUNT(*)` })
+        .from(inventoryEntries);
+      const entryId = `INV-${String((countResult?.count || 0) + 1).padStart(4, '0')}`;
+      
+      // Calculer le prix par unité
+      const pricePerUnit = input.quantity > 0 ? input.price / input.quantity : 0;
+      
+      const [result] = await db.insert(inventoryEntries).values({
+        entryId,
+        rawMaterialId: input.rawMaterialId,
+        purchaseDate: new Date(input.purchaseDate),
+        supplierId: input.supplierId,
+        supplierName: input.supplierName,
+        quantity: String(input.quantity),
+        unit: input.unit,
+        remainingQuantity: String(input.quantity), // Initialement, tout le stock est disponible
+        price: String(input.price),
+        currency: input.currency,
+        pricePerUnit: String(pricePerUnit),
+        batchNumber: input.batchNumber,
+        expirationDate: input.expirationDate ? new Date(input.expirationDate) : undefined,
+        storageLocation: input.storageLocation,
+        storageConditions: input.storageConditions,
+        notes: input.notes,
+        qualityNotes: input.qualityNotes,
+      });
+      
+      return { success: true, id: result.insertId, entryId };
+    }),
+
+  // Mettre à jour la quantité restante
+  updateInventoryQuantity: protectedProcedure
+    .input(z.object({
+      entryId: z.number(),
+      remainingQuantity: z.number(),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      await db
+        .update(inventoryEntries)
+        .set({ remainingQuantity: String(input.remainingQuantity) })
+        .where(eq(inventoryEntries.id, input.entryId));
+      
+      return { success: true };
+    }),
+
+  // Statistiques d'inventaire
+  getInventoryStats: publicProcedure.query(async () => {
+    const db = await getDb();
+    
+    // Nombre total d'entrées
+    const [totalEntries] = await db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(inventoryEntries);
+    
+    // Valeur totale du stock
+    const [totalValue] = await db
+      .select({ total: sql<number>`SUM(CAST(price AS DECIMAL(10,2)))` })
+      .from(inventoryEntries);
+    
+    // Entrées récentes (30 derniers jours)
+    const recentEntries = await db
+      .select({
+        entry: inventoryEntries,
+        rawMaterial: {
+          id: rawMaterials.id,
+          name: rawMaterials.name,
+        }
+      })
+      .from(inventoryEntries)
+      .innerJoin(rawMaterials, eq(inventoryEntries.rawMaterialId, rawMaterials.id))
+      .orderBy(desc(inventoryEntries.purchaseDate))
+      .limit(5);
+    
+    return {
+      totalEntries: totalEntries?.count || 0,
+      totalValue: totalValue?.total || 0,
+      recentEntries,
+    };
+  }),
+
+  // Récupérer les spectres MS liés aux molécules d'une matière première
+  getMsSpectra: publicProcedure
+    .input(z.object({ rawMaterialId: z.number() }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      
+      // Récupérer les molécules de la matière première
+      const materialMolecules = await db
+        .select({
+          moleculeId: rawMaterialMolecules.moleculeId,
+          percentage: rawMaterialMolecules.percentage,
+          moleculeName: molecules.name,
+          casNumber: molecules.casNumber,
+        })
+        .from(rawMaterialMolecules)
+        .innerJoin(molecules, eq(rawMaterialMolecules.moleculeId, molecules.id))
+        .where(eq(rawMaterialMolecules.rawMaterialId, input.rawMaterialId));
+      
+      if (materialMolecules.length === 0) {
+        return { spectra: [], moleculesWithoutSpectra: [] };
+      }
+      
+      // Chercher les spectres MS correspondants par nom de molécule ou CAS number
+      const spectraResults: any[] = [];
+      const moleculesWithoutSpectra: any[] = [];
+      
+      for (const mol of materialMolecules) {
+        // Chercher par nom ou CAS avec SQL brut
+        let spectra: any[] = [];
+        
+        if (mol.casNumber) {
+          spectra = await db.execute(sql`
+            SELECT * FROM ms_spectra 
+            WHERE cas_number = ${mol.casNumber}
+            LIMIT 1
+          `);
+        }
+        
+        if (spectra.length === 0 && mol.moleculeName) {
+          spectra = await db.execute(sql`
+            SELECT * FROM ms_spectra 
+            WHERE compound_name LIKE ${`%${mol.moleculeName}%`}
+            LIMIT 1
+          `);
+        }
+        
+        if (spectra.length > 0) {
+          spectraResults.push({
+            ...spectra[0],
+            moleculeName: mol.moleculeName,
+            percentage: mol.percentage,
+          });
+        } else {
+          moleculesWithoutSpectra.push({
+            name: mol.moleculeName,
+            casNumber: mol.casNumber,
+            percentage: mol.percentage,
+          });
+        }
+      }
+      
+      return {
+        spectra: spectraResults,
+        moleculesWithoutSpectra,
+      };
+    }),
 });
 
 // Router pour les fournisseurs

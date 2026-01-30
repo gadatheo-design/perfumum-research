@@ -218,6 +218,13 @@
       "when": 1769766965797,
       "tag": "0030_orange_annihilus",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "5",
+      "when": 1769779301355,
+      "tag": "0031_chilly_calypso",
+      "breakpoints": true
     }
   ]
 }

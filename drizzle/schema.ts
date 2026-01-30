@@ -6693,3 +6693,58 @@ export const publicationTransformationsRelations = relations(publicationTransfor
     references: [molecularTransformations.id],
   }),
 }));
+
+
+// ============================================================================
+// INVENTORY ENTRIES (Entrées d'inventaire - Suivi des achats)
+// ============================================================================
+
+export const inventoryEntries = mysqlTable("inventory_entries", {
+  id: int("id").autoincrement().primaryKey(),
+  // Identification
+  entryId: varchar("entry_id", { length: 30 }).notNull().unique(), // INV-001, INV-002, etc.
+  rawMaterialId: int("raw_material_id").notNull().references(() => rawMaterials.id),
+  // Informations d'achat
+  purchaseDate: timestamp("purchase_date").notNull(),
+  supplierId: int("supplier_id").references(() => suppliers.id),
+  supplierName: varchar("supplier_name", { length: 255 }), // Nom du fournisseur si non lié
+  // Quantité
+  quantity: decimal("quantity", { precision: 10, scale: 2 }).notNull(), // Quantité achetée
+  unit: mysqlEnum("unit", ["ml", "g", "kg", "L", "oz", "lb"]).default("ml").notNull(),
+  remainingQuantity: decimal("remaining_quantity", { precision: 10, scale: 2 }), // Quantité restante
+  // Prix
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(), // Prix total
+  currency: varchar("currency", { length: 3 }).default("CHF").notNull(),
+  pricePerUnit: decimal("price_per_unit", { precision: 10, scale: 4 }), // Prix par unité calculé
+  // Lot et traçabilité
+  batchNumber: varchar("batch_number", { length: 100 }), // Numéro de lot
+  expirationDate: timestamp("expiration_date"), // Date d'expiration
+  // Stockage
+  storageLocation: varchar("storage_location", { length: 255 }), // Emplacement de stockage
+  storageConditions: text("storage_conditions"), // Conditions de stockage
+  // Notes
+  notes: text("notes"), // Notes diverses
+  qualityNotes: text("quality_notes"), // Notes sur la qualité
+  // Métadonnées
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  rawMaterialIdx: index("inventory_raw_material_idx").on(table.rawMaterialId),
+  supplierIdx: index("inventory_supplier_idx").on(table.supplierId),
+  purchaseDateIdx: index("inventory_purchase_date_idx").on(table.purchaseDate),
+}));
+
+export type InventoryEntry = typeof inventoryEntries.$inferSelect;
+export type InsertInventoryEntry = typeof inventoryEntries.$inferInsert;
+
+// Relations pour inventory_entries
+export const inventoryEntriesRelations = relations(inventoryEntries, ({ one }) => ({
+  rawMaterial: one(rawMaterials, {
+    fields: [inventoryEntries.rawMaterialId],
+    references: [rawMaterials.id],
+  }),
+  supplier: one(suppliers, {
+    fields: [inventoryEntries.supplierId],
+    references: [suppliers.id],
+  }),
+}));
