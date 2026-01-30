@@ -126,7 +126,9 @@ export default function MolecularTransformations() {
   });
 
   const transformations = transformationsData?.data || [];
-  const stats = statsData?.stats;
+  // Stats peut être un tableau ou un objet selon la réponse de l'API
+  const rawStats = statsData?.stats;
+  const stats = Array.isArray(rawStats) ? rawStats[0] : rawStats;
 
   return (
     <DashboardLayout>

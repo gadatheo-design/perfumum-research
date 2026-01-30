@@ -3094,7 +3094,7 @@
 
 
 ### Bug page Transformations Moléculaires - affichage 0 et cartes vides
-- [ ] Diagnostiquer le problème de chargement des données
-- [ ] Vérifier la procédure tRPC getAll pour les transformations
-- [ ] Corriger l'affichage des statistiques et des cartes
-- [ ] Tester la page après correction
+- [x] Diagnostiquer le problème de chargement des données (stats retourné en tableau)
+- [x] Vérifier la procédure tRPC getAll pour les transformations (OK, 33 transformations)
+- [x] Corriger l'affichage des statistiques (accès au premier élément du tableau)
+- [x] Tester la page après correction (HMR appliqué)

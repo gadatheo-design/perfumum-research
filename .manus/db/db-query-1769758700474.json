@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COUNT(*) as total, COUNT(DISTINCT source_molecule_name) as sources, COUNT(DISTINCT product_molecule_name) as products FROM molecular_transformations;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, COUNT(DISTINCT source_molecule_name) as sources, COUNT(DISTINCT product_molecule_name) as products FROM molecular_transformations;",
+  "rows": [
+    {
+      "total": "33",
+      "sources": "20",
+      "products": "33"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tsources\tproducts\n33\t20\t33\n",
+  "stderr": "",
+  "execution_time_ms": 121
+}
