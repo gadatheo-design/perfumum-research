@@ -194,6 +194,7 @@ import ChimieTabac from "./pages/ChimieTabac";
 import InteractionsTabacCannabis from "./pages/InteractionsTabacCannabis";
 import ComparaisonTerpenes from "./pages/ComparaisonTerpenes";
 import OutilFormulation from "./pages/OutilFormulation";
+import ResearchData from "./pages/ResearchData";
 
 // === PROGRAMMES DE RECHERCHE ===
 import ProgrammesRecherche from "@/pages/ProgrammesRecherche";
@@ -266,6 +267,7 @@ import PlantDetail from "./pages/PlantDetail";
 import PlantForm from "./pages/PlantForm";
 import VarietyForm from "./pages/VarietyForm";
 import VarietyDetail from "./pages/VarietyDetail";
+import GenealogyGraph from "./pages/GenealogyGraph";
 import CarteVarietes from "./pages/CarteVarietes";
 import Terroirs from "./pages/Terroirs";
 import TerroirDetail from "./pages/TerroirDetail";
@@ -347,6 +349,7 @@ import PeriqueCompounds from "./pages/PeriqueCompounds";
 import HistoricCigarettes from "./pages/HistoricCigarettes";
 import TpsGenesExplorer from "./pages/TpsGenesExplorer";
 import MolecularTransformations from "./pages/MolecularTransformations";
+import TobaccoLandraces from "./pages/TobaccoLandraces";
 
 
 
@@ -424,6 +427,7 @@ function Router() {
       <Route path="/tabacotheque" component={Tabacotheque} />
       <Route path="/perique-compounds" component={PeriqueCompounds} />
       <Route path="/historic-cigarettes" component={HistoricCigarettes} />
+      <Route path="/tobacco-landraces" component={TobaccoLandraces} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />
@@ -550,6 +554,8 @@ function Router() {
       <Route path="/recherche-scientifique/courbes-volatilite" component={CourbesVolatilite} />
       <Route path="/recherche-scientifique/degradation-terpenes" component={DegradationTerpenes} />
       <Route path="/recherche-scientifique/modeles-analytiques-gcms" component={ModelesAnalytiquesGCMS} />
+      <Route path="/recherche-scientifique/donnees" component={ResearchData} />
+      <Route path="/research-data" component={ResearchData} />
       <Route path="/synergies-terpenes-niches" component={SynergiesTerpenesNiches} />
       <Route path="/chimie-tabac" component={ChimieTabac} />
       <Route path="/interactions-tabac-cannabis" component={InteractionsTabacCannabis} />
@@ -659,6 +665,8 @@ function Router() {
       <Route path="/varietes-legacy" component={PlantVarieties} />
       <Route path="/varietes/new" component={VarietyForm} />
       <Route path="/varietes/:id" component={VarietyDetail} />
+      <Route path="/genealogy" component={GenealogyGraph} />
+      <Route path="/arbre-genealogique" component={GenealogyGraph} />
       <Route path="/plantes-varietes/new" component={VarietyForm} />
       <Route path="/carte-varietes" component={CarteVarietes} />
       <Route path="/carte-origines" component={CarteVarietes} />

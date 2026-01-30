@@ -18049,3 +18049,871 @@ export async function getMolecularTransformationStats() {
     return null;
   }
 }
+
+
+// ============================================================================
+// TPS GENES BY MOLECULE (Biosynthesis pathway information)
+// ============================================================================
+
+/**
+ * Get TPS genes that produce a specific molecule (terpene)
+ * Returns gene information with biosynthesis pathway details
+ */
+export async function getTpsGenesByMolecule(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  try {
+    // First get the molecule name to match with gene products
+    const moleculeResult = await db.select({
+      id: molecules.id,
+      name: molecules.name,
+      casNumber: molecules.casNumber,
+    }).from(molecules).where(eq(molecules.id, moleculeId)).limit(1);
+    
+    if (!moleculeResult[0]) return [];
+    
+    const moleculeName = moleculeResult[0].name.toLowerCase();
+    
+    // Search for TPS genes that produce this molecule
+    // Using gene_terpene_links table and matching by terpene_product field
+    const result = await db.execute(sql.raw(`
+      SELECT 
+        gtl.id,
+        gtl.gene_name,
+        gtl.gene_id,
+        gtl.terpene_product,
+        gtl.product_type,
+        gtl.enzyme_class,
+        gtl.species,
+        gtl.chromosome,
+        gtl.pathway,
+        gtl.expression_tissue,
+        gtl.regulation_notes,
+        gtl.reference_source,
+        gtl.ncbi_gene_id,
+        gtl.uniprot_id,
+        gtl.created_at
+      FROM gene_terpene_links gtl
+      WHERE LOWER(gtl.terpene_product) LIKE '%${moleculeName.replace(/'/g, "''")}%'
+         OR LOWER(gtl.terpene_product) LIKE '%${moleculeName.replace(/'/g, "''").replace(/[αβγδ-]/g, '%')}%'
+      ORDER BY gtl.gene_name
+    `));
+    
+    const rows = (result as any).rows || (result as any[]) || [];
+    
+    return rows.map((row: any) => ({
+      id: row.id,
+      geneName: row.gene_name,
+      geneId: row.gene_id,
+      terpeneProduct: row.terpene_product,
+      productType: row.product_type,
+      enzymeClass: row.enzyme_class,
+      species: row.species,
+      chromosome: row.chromosome,
+      pathway: row.pathway,
+      expressionTissue: row.expression_tissue,
+      regulationNotes: row.regulation_notes,
+      referenceSource: row.reference_source,
+      ncbiGeneId: row.ncbi_gene_id,
+      uniprotId: row.uniprot_id,
+      createdAt: row.created_at,
+    }));
+  } catch (error) {
+    console.error("Error getting TPS genes for molecule:", error);
+    return [];
+  }
+}
+
+/**
+ * Get all TPS genes with their terpene products
+ */
+export async function getAllTpsGenes() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  try {
+    const result = await db.execute(sql.raw(`
+      SELECT 
+        gtl.*,
+        m.id as molecule_id,
+        m.name as molecule_name
+      FROM gene_terpene_links gtl
+      LEFT JOIN molecules m ON LOWER(m.name) LIKE CONCAT('%', LOWER(gtl.terpene_product), '%')
+      ORDER BY gtl.gene_name
+    `));
+    
+    const rows = (result as any).rows || (result as any[]) || [];
+    
+    return rows.map((row: any) => ({
+      id: row.id,
+      geneName: row.gene_name,
+      geneId: row.gene_id,
+      terpeneProduct: row.terpene_product,
+      productType: row.product_type,
+      enzymeClass: row.enzyme_class,
+      species: row.species,
+      chromosome: row.chromosome,
+      pathway: row.pathway,
+      expressionTissue: row.expression_tissue,
+      regulationNotes: row.regulation_notes,
+      referenceSource: row.reference_source,
+      ncbiGeneId: row.ncbi_gene_id,
+      uniprotId: row.uniprot_id,
+      linkedMoleculeId: row.molecule_id,
+      linkedMoleculeName: row.molecule_name,
+    }));
+  } catch (error) {
+    console.error("Error getting all TPS genes:", error);
+    return [];
+  }
+}
+
+/**
+ * Get TPS gene statistics
+ */
+export async function getTpsGeneStats() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  try {
+    const result = await db.execute(sql.raw(`
+      SELECT 
+        COUNT(*) as total_genes,
+        COUNT(DISTINCT species) as unique_species,
+        COUNT(DISTINCT enzyme_class) as enzyme_classes,
+        COUNT(DISTINCT product_type) as product_types,
+        COUNT(DISTINCT pathway) as pathways
+      FROM gene_terpene_links
+    `));
+    
+    const stats = ((result as any).rows || (result as any[]) || [])[0];
+    
+    // Get genes by species
+    const speciesResult = await db.execute(sql.raw(`
+      SELECT species, COUNT(*) as count
+      FROM gene_terpene_links
+      WHERE species IS NOT NULL
+      GROUP BY species
+      ORDER BY count DESC
+    `));
+    
+    // Get genes by product type
+    const productTypeResult = await db.execute(sql.raw(`
+      SELECT product_type, COUNT(*) as count
+      FROM gene_terpene_links
+      WHERE product_type IS NOT NULL
+      GROUP BY product_type
+      ORDER BY count DESC
+    `));
+    
+    return {
+      totalGenes: stats?.total_genes || 0,
+      uniqueSpecies: stats?.unique_species || 0,
+      enzymeClasses: stats?.enzyme_classes || 0,
+      productTypes: stats?.product_types || 0,
+      pathways: stats?.pathways || 0,
+      bySpecies: ((speciesResult as any).rows || (speciesResult as any[]) || []).map((r: any) => ({
+        species: r.species,
+        count: r.count,
+      })),
+      byProductType: ((productTypeResult as any).rows || (productTypeResult as any[]) || []).map((r: any) => ({
+        productType: r.product_type,
+        count: r.count,
+      })),
+    };
+  } catch (error) {
+    console.error("Error getting TPS gene stats:", error);
+    return null;
+  }
+}
+
+
+// ============================================================================
+// GENEALOGY GRAPH DATA FOR D3.JS VISUALIZATION
+// ============================================================================
+
+/**
+ * Get all genealogy data for D3.js force-directed graph visualization
+ * Returns nodes (varieties) and links (parent-child relationships)
+ */
+export async function getGenealogyGraphData(filters?: {
+  plantType?: 'cannabis' | 'tobacco' | 'all';
+  includeModern?: boolean;
+  includeLandraces?: boolean;
+}) {
+  const db = await getDb();
+  if (!db) return { nodes: [], links: [], stats: null };
+  
+  try {
+    // Get all varieties
+    let varietiesQuery = db.select({
+      id: plantVarieties.id,
+      name: plantVarieties.name,
+      plantId: plantVarieties.plantId,
+      varietyType: plantVarieties.varietyType,
+      isLandrace: plantVarieties.isLandrace,
+      countryOfOrigin: plantVarieties.countryOfOrigin,
+      dominantMolecules: plantVarieties.dominantMolecules,
+      molecularProfile: plantVarieties.molecularProfile,
+      olfactiveNotes: plantVarieties.olfactiveNotes,
+      thcContent: plantVarieties.thcContent,
+      cbdContent: plantVarieties.cbdContent,
+    }).from(plantVarieties);
+    
+    const allVarieties = await varietiesQuery;
+    
+    // Get all genealogy relationships
+    const allRelationships = await db.select().from(varietyGenealogy);
+    
+    // Get plant info for categorization
+    const allPlants = await db.select({
+      id: plants.id,
+      name: plants.name,
+      category: plants.category,
+    }).from(plants);
+    
+    const plantMap = new Map(allPlants.map(p => [p.id, p]));
+    
+    // Filter varieties based on plant type
+    let filteredVarieties = allVarieties;
+    if (filters?.plantType && filters.plantType !== 'all') {
+      filteredVarieties = allVarieties.filter(v => {
+        const plant = plantMap.get(v.plantId);
+        if (!plant) return false;
+        if (filters.plantType === 'cannabis') {
+          return plant.name.toLowerCase().includes('cannabis') || 
+                 plant.category === 'cannabis';
+        }
+        if (filters.plantType === 'tobacco') {
+          return plant.name.toLowerCase().includes('tabac') || 
+                 plant.name.toLowerCase().includes('tobacco') ||
+                 plant.category === 'tabac';
+        }
+        return true;
+      });
+    }
+    
+    // Apply landrace/modern filters
+    if (filters?.includeLandraces === false) {
+      filteredVarieties = filteredVarieties.filter(v => v.isLandrace !== 1);
+    }
+    if (filters?.includeModern === false) {
+      filteredVarieties = filteredVarieties.filter(v => v.isLandrace === 1);
+    }
+    
+    const varietyIds = new Set(filteredVarieties.map(v => v.id));
+    
+    // Build nodes
+    const nodes = filteredVarieties.map(v => {
+      const plant = plantMap.get(v.plantId);
+      return {
+        id: v.id,
+        name: v.name,
+        type: v.isLandrace === 1 ? 'landrace' : 'modern',
+        varietyType: v.varietyType,
+        plantName: plant?.name || 'Unknown',
+        plantCategory: plant?.category || 'unknown',
+        country: v.countryOfOrigin,
+        dominantMolecules: v.dominantMolecules,
+        molecularProfile: v.molecularProfile,
+        olfactiveNotes: v.olfactiveNotes,
+        thcContent: v.thcContent,
+        cbdContent: v.cbdContent,
+      };
+    });
+    
+    // Build links (only include links where both nodes exist in filtered set)
+    const links = allRelationships
+      .filter(r => varietyIds.has(r.varietyId) && varietyIds.has(r.parentVarietyId))
+      .map(r => ({
+        id: r.id,
+        source: r.parentVarietyId,
+        target: r.varietyId,
+        type: r.relationshipType,
+        crossDate: r.crossDate,
+        breeder: r.breeder,
+        notes: r.notes,
+      }));
+    
+    // Calculate stats
+    const landraceCount = nodes.filter(n => n.type === 'landrace').length;
+    const modernCount = nodes.filter(n => n.type === 'modern').length;
+    const countriesSet = new Set(nodes.map(n => n.country).filter(Boolean));
+    
+    return {
+      nodes,
+      links,
+      stats: {
+        totalVarieties: nodes.length,
+        landraces: landraceCount,
+        modern: modernCount,
+        relationships: links.length,
+        countries: countriesSet.size,
+        countriesList: [...countriesSet],
+      },
+    };
+  } catch (error) {
+    console.error("Error getting genealogy graph data:", error);
+    return { nodes: [], links: [], stats: null };
+  }
+}
+
+/**
+ * Get genealogy data for a specific variety with full ancestor/descendant tree
+ */
+export async function getVarietyFullGenealogy(varietyId: number, depth: number = 5) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  try {
+    // Get the variety
+    const [variety] = await db.select().from(plantVarieties).where(eq(plantVarieties.id, varietyId));
+    if (!variety) return null;
+    
+    // Get ancestors
+    const ancestors = await getVarietyAncestors(varietyId, depth);
+    
+    // Get descendants
+    const descendants = await getVarietyDescendants(varietyId, depth);
+    
+    // Get all variety IDs involved
+    const allIds = new Set([
+      varietyId,
+      ...ancestors.map(a => a.parentVarietyId),
+      ...descendants.map(d => d.varietyId),
+    ]);
+    
+    // Get full variety details for all involved
+    const allVarieties = await db
+      .select()
+      .from(plantVarieties)
+      .where(inArray(plantVarieties.id, [...allIds]));
+    
+    // Get all relationships between these varieties
+    const allRelationships = await db
+      .select()
+      .from(varietyGenealogy)
+      .where(
+        or(
+          inArray(varietyGenealogy.varietyId, [...allIds]),
+          inArray(varietyGenealogy.parentVarietyId, [...allIds])
+        )
+      );
+    
+    return {
+      centralVariety: variety,
+      nodes: allVarieties.map(v => ({
+        id: v.id,
+        name: v.name,
+        type: v.isLandrace === 1 ? 'landrace' : 'modern',
+        varietyType: v.varietyType,
+        country: v.countryOfOrigin,
+        isCentral: v.id === varietyId,
+      })),
+      links: allRelationships.map(r => ({
+        source: r.parentVarietyId,
+        target: r.varietyId,
+        type: r.relationshipType,
+      })),
+      ancestorCount: ancestors.length,
+      descendantCount: descendants.length,
+    };
+  } catch (error) {
+    console.error("Error getting variety full genealogy:", error);
+    return null;
+  }
+}
+
+
+// ============================================================================
+// RESEARCH DATA (Publications, Méthodes analytiques, Chercheurs, Institutions)
+// ============================================================================
+
+import { 
+  researchPublications,
+  analyticalMethods,
+  researchers,
+  researchInstitutions,
+  publicationMethods,
+  publicationResearchers,
+  researcherInstitutions,
+  publicationMolecules,
+  publicationTransformations,
+  ResearchPublication,
+  AnalyticalMethod,
+  Researcher,
+  ResearchInstitution
+} from '../drizzle/schema';
+
+// --- Research Publications ---
+
+export async function getAllResearchPublications() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchPublications).orderBy(desc(researchPublications.year));
+}
+
+export async function getResearchPublicationById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(researchPublications).where(eq(researchPublications.id, id));
+  return result[0] || null;
+}
+
+export async function getResearchPublicationByRefCode(refCode: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(researchPublications).where(eq(researchPublications.refCode, refCode));
+  return result[0] || null;
+}
+
+export async function getResearchPublicationsByFocus(focus: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchPublications)
+    .where(eq(researchPublications.researchFocus, focus as any))
+    .orderBy(desc(researchPublications.citations));
+}
+
+export async function getResearchPublicationsBySubject(subject: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchPublications)
+    .where(eq(researchPublications.subjectMatter, subject as any))
+    .orderBy(desc(researchPublications.citations));
+}
+
+export async function searchResearchPublications(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const searchTerm = `%${query}%`;
+  return await db.select().from(researchPublications)
+    .where(or(
+      like(researchPublications.title, searchTerm),
+      like(researchPublications.authors, searchTerm),
+      like(researchPublications.keyFindings, searchTerm)
+    ))
+    .orderBy(desc(researchPublications.citations));
+}
+
+// --- Analytical Methods ---
+
+export async function getAllAnalyticalMethods() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(analyticalMethods).orderBy(desc(analyticalMethods.performanceScore));
+}
+
+export async function getAnalyticalMethodById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(analyticalMethods).where(eq(analyticalMethods.id, id));
+  return result[0] || null;
+}
+
+export async function getAnalyticalMethodByCode(code: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(analyticalMethods).where(eq(analyticalMethods.methodId, code));
+  return result[0] || null;
+}
+
+export async function getAnalyticalMethodsByCategory(category: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(analyticalMethods)
+    .where(eq(analyticalMethods.category, category))
+    .orderBy(desc(analyticalMethods.performanceScore));
+}
+
+// --- Researchers ---
+
+export async function getAllResearchers() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchers).orderBy(desc(researchers.totalCitations));
+}
+
+export async function getResearcherById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(researchers).where(eq(researchers.id, id));
+  return result[0] || null;
+}
+
+export async function getResearchersByStatus(status: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchers)
+    .where(eq(researchers.status, status as any))
+    .orderBy(desc(researchers.totalCitations));
+}
+
+export async function searchResearchers(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const searchTerm = `%${query}%`;
+  return await db.select().from(researchers)
+    .where(or(
+      like(researchers.name, searchTerm),
+      like(researchers.bio, searchTerm)
+    ))
+    .orderBy(desc(researchers.totalCitations));
+}
+
+// --- Research Institutions ---
+
+export async function getAllResearchInstitutions() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchInstitutions).orderBy(desc(researchInstitutions.totalCitations));
+}
+
+export async function getResearchInstitutionById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(researchInstitutions).where(eq(researchInstitutions.id, id));
+  return result[0] || null;
+}
+
+export async function getResearchInstitutionsByCountry(country: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchInstitutions)
+    .where(eq(researchInstitutions.country, country))
+    .orderBy(desc(researchInstitutions.totalCitations));
+}
+
+export async function getResearchInstitutionsByType(type: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchInstitutions)
+    .where(eq(researchInstitutions.institutionType, type as any))
+    .orderBy(desc(researchInstitutions.totalCitations));
+}
+
+// --- Research Statistics ---
+
+export async function getResearchStatistics() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const publications = await db.select({ count: sql<number>`COUNT(*)` }).from(researchPublications);
+  const methods = await db.select({ count: sql<number>`COUNT(*)` }).from(analyticalMethods);
+  const researcherCount = await db.select({ count: sql<number>`COUNT(*)` }).from(researchers);
+  const institutions = await db.select({ count: sql<number>`COUNT(*)` }).from(researchInstitutions);
+  
+  const totalCitations = await db.select({ 
+    total: sql<number>`COALESCE(SUM(citations), 0)` 
+  }).from(researchPublications);
+  
+  const cannabisPublications = await db.select({ count: sql<number>`COUNT(*)` })
+    .from(researchPublications)
+    .where(or(
+      eq(researchPublications.subjectMatter, 'cannabis'),
+      eq(researchPublications.subjectMatter, 'both')
+    ));
+  
+  const tobaccoPublications = await db.select({ count: sql<number>`COUNT(*)` })
+    .from(researchPublications)
+    .where(or(
+      eq(researchPublications.subjectMatter, 'tobacco'),
+      eq(researchPublications.subjectMatter, 'both')
+    ));
+  
+  return {
+    publicationCount: publications[0]?.count || 0,
+    methodCount: methods[0]?.count || 0,
+    researcherCount: researcherCount[0]?.count || 0,
+    institutionCount: institutions[0]?.count || 0,
+    totalCitations: totalCitations[0]?.total || 0,
+    cannabisPublications: cannabisPublications[0]?.count || 0,
+    tobaccoPublications: tobaccoPublications[0]?.count || 0
+  };
+}
+
+// --- Publications by Year ---
+
+export async function getPublicationsByYear() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.select({
+    year: researchPublications.year,
+    count: sql<number>`COUNT(*)`,
+    totalCitations: sql<number>`COALESCE(SUM(citations), 0)`
+  })
+  .from(researchPublications)
+  .groupBy(researchPublications.year)
+  .orderBy(researchPublications.year);
+  
+  return result;
+}
+
+// --- Top Cited Publications ---
+
+export async function getTopCitedPublications(limit: number = 10) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(researchPublications)
+    .orderBy(desc(researchPublications.citations))
+    .limit(limit);
+}
+
+// --- Methods Performance Comparison ---
+
+export async function getMethodsPerformanceComparison() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select({
+    id: analyticalMethods.id,
+    code: analyticalMethods.methodId,
+    name: analyticalMethods.name,
+    category: analyticalMethods.category,
+    performanceScore: analyticalMethods.performanceScore,
+    resolutionScore: analyticalMethods.resolutionScore,
+    sensitivityScore: analyticalMethods.sensitivityScore,
+    detectionLimit: analyticalMethods.detectionLimit,
+    publicationCount: analyticalMethods.publicationCount
+  })
+  .from(analyticalMethods)
+  .orderBy(desc(analyticalMethods.performanceScore));
+}
+
+
+// ============================================================================
+// TOBACCO DATA - LANDRACES, CIGARETTES, COMPOUNDS, SOIL ANALYSES
+// ============================================================================
+
+// --- Tobacco Landraces ---
+
+export async function getAllTobaccoLandraces() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_landraces ORDER BY perfumery_potential_score DESC
+  `);
+  return result[0] as any[];
+}
+
+export async function getTobaccoLandracesByRegion(region: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_landraces 
+    WHERE country LIKE ${`%${region}%`} OR region LIKE ${`%${region}%`}
+    ORDER BY perfumery_potential_score DESC
+  `);
+  return result[0] as any[];
+}
+
+export async function getTobaccoLandracesByMolecularProfile(profileType: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_landraces 
+    WHERE molecular_profile_type = ${profileType}
+    ORDER BY perfumery_potential_score DESC
+  `);
+  return result[0] as any[];
+}
+
+export async function getTobaccoLandraceById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_landraces WHERE id = ${id}
+  `);
+  const rows = result[0] as any[];
+  return rows[0] || null;
+}
+
+export async function getTobaccoLandracesStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byCountry: [], byProfile: [], byStatus: [] };
+  
+  const [total] = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_landraces`);
+  const [byCountry] = await db.execute(sql`
+    SELECT country, COUNT(*) as count FROM tobacco_landraces GROUP BY country ORDER BY count DESC
+  `);
+  const [byProfile] = await db.execute(sql`
+    SELECT molecular_profile_type as profile, COUNT(*) as count FROM tobacco_landraces GROUP BY molecular_profile_type
+  `);
+  const [byStatus] = await db.execute(sql`
+    SELECT status, COUNT(*) as count FROM tobacco_landraces GROUP BY status
+  `);
+  
+  return {
+    total: (total as any[])[0]?.count || 0,
+    byCountry: byCountry as any[],
+    byProfile: byProfile as any[],
+    byStatus: byStatus as any[]
+  };
+}
+
+// --- Tobacco Cigarettes ---
+
+export async function getAllTobaccoCigarettes() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_cigarettes ORDER BY perfumery_potential_score DESC
+  `);
+  return result[0] as any[];
+}
+
+export async function getTobaccoCigarettesByCategory(category: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_cigarettes 
+    WHERE region_category = ${category}
+    ORDER BY perfumery_potential_score DESC
+  `);
+  return result[0] as any[];
+}
+
+export async function getTobaccoCigaretteById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_cigarettes WHERE id = ${id}
+  `);
+  const rows = result[0] as any[];
+  return rows[0] || null;
+}
+
+export async function getTobaccoCigarettesStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byCategory: [], byStatus: [] };
+  
+  const [total] = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_cigarettes`);
+  const [byCategory] = await db.execute(sql`
+    SELECT region_category as category, COUNT(*) as count FROM tobacco_cigarettes GROUP BY region_category
+  `);
+  const [byStatus] = await db.execute(sql`
+    SELECT status, COUNT(*) as count FROM tobacco_cigarettes GROUP BY status
+  `);
+  
+  return {
+    total: (total as any[])[0]?.count || 0,
+    byCategory: byCategory as any[],
+    byStatus: byStatus as any[]
+  };
+}
+
+// --- Tobacco Compounds ---
+
+export async function getAllTobaccoCompounds() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_compounds ORDER BY chemical_class, compound_name
+  `);
+  return result[0] as any[];
+}
+
+export async function getTobaccoCompoundsByCategory(category: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_compounds 
+    WHERE category = ${category}
+    ORDER BY compound_name
+  `);
+  return result[0] as any[];
+}
+
+export async function getTobaccoCompoundsByLandrace(landrace: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_compounds 
+    WHERE landrace_source = ${landrace}
+    ORDER BY compound_name
+  `);
+  return result[0] as any[];
+}
+
+export async function getNewTobaccoIsolates() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM tobacco_compounds 
+    WHERE is_new_tobacco_isolate = TRUE
+    ORDER BY compound_name
+  `);
+  return result[0] as any[];
+}
+
+export async function getTobaccoCompoundsStats() {
+  const db = await getDb();
+  if (!db) return { total: 0, byCategory: [], byClass: [], newIsolates: 0 };
+  
+  const [total] = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_compounds`);
+  const [byCategory] = await db.execute(sql`
+    SELECT category, COUNT(*) as count FROM tobacco_compounds GROUP BY category ORDER BY count DESC
+  `);
+  const [byClass] = await db.execute(sql`
+    SELECT chemical_class as class, COUNT(*) as count FROM tobacco_compounds GROUP BY chemical_class ORDER BY count DESC
+  `);
+  const [newIsolates] = await db.execute(sql`
+    SELECT COUNT(*) as count FROM tobacco_compounds WHERE is_new_tobacco_isolate = TRUE
+  `);
+  
+  return {
+    total: (total as any[])[0]?.count || 0,
+    byCategory: byCategory as any[],
+    byClass: byClass as any[],
+    newIsolates: (newIsolates as any[])[0]?.count || 0
+  };
+}
+
+// --- Soil Analyses ---
+
+export async function getAllSoilAnalyses() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM soil_analyses ORDER BY terroir_name
+  `);
+  return result[0] as any[];
+}
+
+export async function getSoilAnalysisByTerroir(terroir: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM soil_analyses WHERE terroir_name = ${terroir}
+  `);
+  const rows = result[0] as any[];
+  return rows[0] || null;
+}
+
+export async function compareSoilAnalyses(terroir1: string, terroir2: string) {
+  const db = await getDb();
+  if (!db) return { terroir1: null, terroir2: null };
+  
+  const [result1] = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${terroir1}`);
+  const [result2] = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${terroir2}`);
+  
+  return {
+    terroir1: (result1 as any[])[0] || null,
+    terroir2: (result2 as any[])[0] || null
+  };
+}

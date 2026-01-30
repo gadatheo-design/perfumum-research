@@ -215,4 +215,280 @@ export const tobaccoRouter = router({
       };
     }
   }),
+
+  // ============================================================================
+  // TOBACCO LANDRACES (nouvelles tables)
+  // ============================================================================
+
+  /**
+   * Get all tobacco landraces
+   */
+  getLandraces: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return { success: false, data: [], error: "Database not available" };
+      
+      const result = await db.execute(sql`
+        SELECT * FROM tobacco_landraces ORDER BY perfumery_potential_score DESC
+      `);
+      return { success: true, data: result[0] as any[] };
+    } catch (error) {
+      console.error("Error fetching landraces:", error);
+      return { success: false, data: [], error: (error as Error).message };
+    }
+  }),
+
+  /**
+   * Get landraces by molecular profile type
+   */
+  getLandracesByProfile: publicProcedure
+    .input(z.object({ profile: z.enum(["cuir-animal", "floral-mielle", "cremeux-gourmand", "mixte", "unknown"]) }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return { success: false, data: [], error: "Database not available" };
+        
+        const result = await db.execute(sql`
+          SELECT * FROM tobacco_landraces 
+          WHERE molecular_profile_type = ${input.profile}
+          ORDER BY perfumery_potential_score DESC
+        `);
+        return { success: true, data: result[0] as any[] };
+      } catch (error) {
+        console.error("Error fetching landraces by profile:", error);
+        return { success: false, data: [], error: (error as Error).message };
+      }
+    }),
+
+  /**
+   * Get landrace by ID
+   */
+  getLandraceById: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return { success: false, data: null, error: "Database not available" };
+        
+        const result = await db.execute(sql`
+          SELECT * FROM tobacco_landraces WHERE id = ${input.id}
+        `);
+        const rows = result[0] as any[];
+        return { success: true, data: rows[0] || null };
+      } catch (error) {
+        console.error("Error fetching landrace:", error);
+        return { success: false, data: null, error: (error as Error).message };
+      }
+    }),
+
+  /**
+   * Get landraces statistics
+   */
+  getLandracesStats: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return { success: false, data: null, error: "Database not available" };
+      
+      const [total] = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_landraces`);
+      const [byCountry] = await db.execute(sql`
+        SELECT country, COUNT(*) as count FROM tobacco_landraces GROUP BY country ORDER BY count DESC
+      `);
+      const [byProfile] = await db.execute(sql`
+        SELECT molecular_profile_type as profile, COUNT(*) as count FROM tobacco_landraces GROUP BY molecular_profile_type
+      `);
+      const [byStatus] = await db.execute(sql`
+        SELECT status, COUNT(*) as count FROM tobacco_landraces GROUP BY status
+      `);
+      
+      return {
+        success: true,
+        data: {
+          total: (total as any[])[0]?.count || 0,
+          byCountry: byCountry as any[],
+          byProfile: byProfile as any[],
+          byStatus: byStatus as any[]
+        }
+      };
+    } catch (error) {
+      console.error("Error fetching landraces stats:", error);
+      return { success: false, data: null, error: (error as Error).message };
+    }
+  }),
+
+  // ============================================================================
+  // TOBACCO CIGARETTES
+  // ============================================================================
+
+  /**
+   * Get all cigarettes
+   */
+  getCigarettes: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return { success: false, data: [], error: "Database not available" };
+      
+      const result = await db.execute(sql`
+        SELECT * FROM tobacco_cigarettes ORDER BY perfumery_potential_score DESC
+      `);
+      return { success: true, data: result[0] as any[] };
+    } catch (error) {
+      console.error("Error fetching cigarettes:", error);
+      return { success: false, data: [], error: (error as Error).message };
+    }
+  }),
+
+  /**
+   * Get cigarettes by category
+   */
+  getCigarettesByCategory: publicProcedure
+    .input(z.object({ category: z.enum(["soviet", "oriental", "chinese", "european", "american", "other"]) }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return { success: false, data: [], error: "Database not available" };
+        
+        const result = await db.execute(sql`
+          SELECT * FROM tobacco_cigarettes 
+          WHERE region_category = ${input.category}
+          ORDER BY perfumery_potential_score DESC
+        `);
+        return { success: true, data: result[0] as any[] };
+      } catch (error) {
+        console.error("Error fetching cigarettes by category:", error);
+        return { success: false, data: [], error: (error as Error).message };
+      }
+    }),
+
+  /**
+   * Get cigarette by ID
+   */
+  getCigaretteById: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return { success: false, data: null, error: "Database not available" };
+        
+        const result = await db.execute(sql`
+          SELECT * FROM tobacco_cigarettes WHERE id = ${input.id}
+        `);
+        const rows = result[0] as any[];
+        return { success: true, data: rows[0] || null };
+      } catch (error) {
+        console.error("Error fetching cigarette:", error);
+        return { success: false, data: null, error: (error as Error).message };
+      }
+    }),
+
+  // ============================================================================
+  // TOBACCO COMPOUNDS
+  // ============================================================================
+
+  /**
+   * Get all tobacco compounds
+   */
+  getCompounds: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return { success: false, data: [], error: "Database not available" };
+      
+      const result = await db.execute(sql`
+        SELECT * FROM tobacco_compounds ORDER BY chemical_class, compound_name
+      `);
+      return { success: true, data: result[0] as any[] };
+    } catch (error) {
+      console.error("Error fetching compounds:", error);
+      return { success: false, data: [], error: (error as Error).message };
+    }
+  }),
+
+  /**
+   * Get compounds by category
+   */
+  getCompoundsByCategory: publicProcedure
+    .input(z.object({ category: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return { success: false, data: [], error: "Database not available" };
+        
+        const result = await db.execute(sql`
+          SELECT * FROM tobacco_compounds 
+          WHERE category = ${input.category}
+          ORDER BY compound_name
+        `);
+        return { success: true, data: result[0] as any[] };
+      } catch (error) {
+        console.error("Error fetching compounds by category:", error);
+        return { success: false, data: [], error: (error as Error).message };
+      }
+    }),
+
+  /**
+   * Get new tobacco isolates
+   */
+  getNewIsolates: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return { success: false, data: [], error: "Database not available" };
+      
+      const result = await db.execute(sql`
+        SELECT * FROM tobacco_compounds 
+        WHERE is_new_tobacco_isolate = TRUE
+        ORDER BY compound_name
+      `);
+      return { success: true, data: result[0] as any[] };
+    } catch (error) {
+      console.error("Error fetching new isolates:", error);
+      return { success: false, data: [], error: (error as Error).message };
+    }
+  }),
+
+  // ============================================================================
+  // SOIL ANALYSES
+  // ============================================================================
+
+  /**
+   * Get all soil analyses
+   */
+  getSoilAnalyses: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return { success: false, data: [], error: "Database not available" };
+      
+      const result = await db.execute(sql`
+        SELECT * FROM soil_analyses ORDER BY terroir_name
+      `);
+      return { success: true, data: result[0] as any[] };
+    } catch (error) {
+      console.error("Error fetching soil analyses:", error);
+      return { success: false, data: [], error: (error as Error).message };
+    }
+  }),
+
+  /**
+   * Compare two terroirs
+   */
+  compareSoils: publicProcedure
+    .input(z.object({ terroir1: z.string(), terroir2: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return { success: false, data: null, error: "Database not available" };
+        
+        const [result1] = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${input.terroir1}`);
+        const [result2] = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${input.terroir2}`);
+        
+        return {
+          success: true,
+          data: {
+            terroir1: (result1 as any[])[0] || null,
+            terroir2: (result2 as any[])[0] || null
+          }
+        };
+      } catch (error) {
+        console.error("Error comparing soils:", error);
+        return { success: false, data: null, error: (error as Error).message };
+      }
+    }),
 });

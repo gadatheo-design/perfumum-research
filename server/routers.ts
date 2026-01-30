@@ -394,6 +394,13 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return db.createMultipleMoleculeRecettes(input);
       }),
+    
+    // Gènes TPS (Terpene Synthases) associés à une molécule
+    getTpsGenes: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getTpsGenesByMolecule(input);
+      }),
   }),
 
   // Terpene Synergies
@@ -6254,6 +6261,27 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
         return await db.updateVarietyRelationship(id, data as any);
+      }),
+    
+    // Données du graphe généalogique pour D3.js
+    getGraphData: publicProcedure
+      .input(z.object({
+        plantType: z.enum(["cannabis", "tobacco", "all"]).default("all"),
+        includeModern: z.boolean().default(true),
+        includeLandraces: z.boolean().default(true),
+      }).optional())
+      .query(async ({ input }) => {
+        return await db.getGenealogyGraphData(input ?? {});
+      }),
+    
+    // Généalogie complète d'une variété
+    getFullGenealogy: publicProcedure
+      .input(z.object({
+        varietyId: z.number().int().min(1),
+        depth: z.number().int().min(1).max(10).default(5),
+      }))
+      .query(async ({ input }) => {
+        return await db.getVarietyFullGenealogy(input.varietyId, input.depth);
       }),
   }),
 

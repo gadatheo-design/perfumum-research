@@ -1,0 +1,26 @@
+{
+  "query": "\nSELECT 'research_publications' as table_name, COUNT(*) as count FROM research_publications\nUNION ALL\nSELECT 'analytical_methods', COUNT(*) FROM analytical_methods\nUNION ALL\nSELECT 'researchers', COUNT(*) FROM researchers\nUNION ALL\nSELECT 'research_institutions', COUNT(*) FROM research_institutions;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT 'research_publications' as table_name, COUNT(*) as count FROM research_publications\nUNION ALL\nSELECT 'analytical_methods', COUNT(*) FROM analytical_methods\nUNION ALL\nSELECT 'researchers', COUNT(*) FROM researchers\nUNION ALL\nSELECT 'research_institutions', COUNT(*) FROM research_institutions;\n",
+  "rows": [
+    {
+      "table_name": "research_institutions",
+      "count": "5"
+    },
+    {
+      "table_name": "research_publications",
+      "count": "12"
+    },
+    {
+      "table_name": "researchers",
+      "count": "11"
+    },
+    {
+      "table_name": "analytical_methods",
+      "count": "16"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tcount\nresearch_institutions\t5\nresearch_publications\t12\nresearchers\t11\nanalytical_methods\t16\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

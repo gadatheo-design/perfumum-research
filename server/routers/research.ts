@@ -1633,4 +1633,330 @@ export const researchRouter = router({
         return { success: false, asSource: [], asProduct: [], error: error.message };
       }
     }),
+
+  // ============================================================================
+  // RESEARCH PUBLICATIONS, METHODS, RESEARCHERS, INSTITUTIONS
+  // ============================================================================
+
+  /**
+   * Get all research publications with filtering
+   */
+  getPublications: publicProcedure
+    .input(
+      z.object({
+        search: z.string().optional(),
+        focus: z.string().optional(),
+        subject: z.string().optional(),
+        limit: z.number().default(50),
+        offset: z.number().default(0),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, data: [], count: 0, error: "Database connection failed" };
+        }
+
+        let query = `SELECT * FROM research_publications WHERE 1=1`;
+        
+        if (input?.focus) {
+          query += ` AND research_focus = '${input.focus}'`;
+        }
+        if (input?.subject) {
+          query += ` AND subject_matter = '${input.subject}'`;
+        }
+        if (input?.search) {
+          const searchTerm = input.search.replace(/'/g, "''");
+          query += ` AND (title LIKE '%${searchTerm}%' OR authors LIKE '%${searchTerm}%' OR key_findings LIKE '%${searchTerm}%')`;
+        }
+        
+        query += ` ORDER BY citations DESC LIMIT ${input?.limit || 50} OFFSET ${input?.offset || 0}`;
+        
+        const result = await db.execute(sql.raw(query));
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        
+        return {
+          success: true,
+          data: Array.isArray(rows) ? rows : [],
+          count: Array.isArray(rows) ? rows.length : 0,
+        };
+      } catch (error: any) {
+        console.error("Error fetching publications:", error);
+        return { success: false, data: [], count: 0, error: error.message };
+      }
+    }),
+
+  /**
+   * Get a single publication by ID
+   */
+  getPublicationById: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, data: null, error: "Database connection failed" };
+        }
+
+        const result = await db.execute(
+          sql.raw(`SELECT * FROM research_publications WHERE id = ${input.id}`)
+        );
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        const data = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
+        
+        return { success: true, data };
+      } catch (error: any) {
+        console.error("Error fetching publication:", error);
+        return { success: false, data: null, error: error.message };
+      }
+    }),
+
+  /**
+   * Get all analytical methods with filtering
+   */
+  getAnalyticalMethods: publicProcedure
+    .input(
+      z.object({
+        category: z.string().optional(),
+        search: z.string().optional(),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, data: [], error: "Database connection failed" };
+        }
+
+        let query = `SELECT * FROM analytical_methods WHERE 1=1`;
+        
+        if (input?.category) {
+          query += ` AND category = '${input.category}'`;
+        }
+        if (input?.search) {
+          const searchTerm = input.search.replace(/'/g, "''");
+          query += ` AND (name LIKE '%${searchTerm}%' OR code LIKE '%${searchTerm}%' OR description LIKE '%${searchTerm}%')`;
+        }
+        
+        query += ` ORDER BY performance_score DESC`;
+        
+        const result = await db.execute(sql.raw(query));
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        
+        return {
+          success: true,
+          data: Array.isArray(rows) ? rows : [],
+        };
+      } catch (error: any) {
+        console.error("Error fetching analytical methods:", error);
+        return { success: false, data: [], error: error.message };
+      }
+    }),
+
+  /**
+   * Get all researchers with filtering
+   */
+  getResearchers: publicProcedure
+    .input(
+      z.object({
+        status: z.string().optional(),
+        search: z.string().optional(),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, data: [], error: "Database connection failed" };
+        }
+
+        let query = `SELECT * FROM researchers WHERE 1=1`;
+        
+        if (input?.status) {
+          query += ` AND status = '${input.status}'`;
+        }
+        if (input?.search) {
+          const searchTerm = input.search.replace(/'/g, "''");
+          query += ` AND (name LIKE '%${searchTerm}%' OR bio LIKE '%${searchTerm}%')`;
+        }
+        
+        query += ` ORDER BY total_citations DESC`;
+        
+        const result = await db.execute(sql.raw(query));
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        
+        return {
+          success: true,
+          data: Array.isArray(rows) ? rows : [],
+        };
+      } catch (error: any) {
+        console.error("Error fetching researchers:", error);
+        return { success: false, data: [], error: error.message };
+      }
+    }),
+
+  /**
+   * Get all research institutions with filtering
+   */
+  getInstitutions: publicProcedure
+    .input(
+      z.object({
+        country: z.string().optional(),
+        type: z.string().optional(),
+        search: z.string().optional(),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, data: [], error: "Database connection failed" };
+        }
+
+        let query = `SELECT * FROM research_institutions WHERE 1=1`;
+        
+        if (input?.country) {
+          query += ` AND country = '${input.country}'`;
+        }
+        if (input?.type) {
+          query += ` AND institution_type = '${input.type}'`;
+        }
+        if (input?.search) {
+          const searchTerm = input.search.replace(/'/g, "''");
+          query += ` AND (name LIKE '%${searchTerm}%' OR description LIKE '%${searchTerm}%')`;
+        }
+        
+        query += ` ORDER BY total_citations DESC`;
+        
+        const result = await db.execute(sql.raw(query));
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        
+        return {
+          success: true,
+          data: Array.isArray(rows) ? rows : [],
+        };
+      } catch (error: any) {
+        console.error("Error fetching institutions:", error);
+        return { success: false, data: [], error: error.message };
+      }
+    }),
+
+  /**
+   * Get research data statistics
+   */
+  getResearchDataStats: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return { success: false, data: null, error: "Database connection failed" };
+      }
+
+      const pubCount = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_publications`));
+      const methodCount = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM analytical_methods`));
+      const researcherCount = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM researchers`));
+      const instCount = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_institutions`));
+      const totalCitations = await db.execute(sql.raw(`SELECT COALESCE(SUM(citations), 0) as total FROM research_publications`));
+
+      const pubBySubject = await db.execute(sql.raw(`
+        SELECT subject_matter, COUNT(*) as count 
+        FROM research_publications 
+        GROUP BY subject_matter
+      `));
+      
+      const pubByYear = await db.execute(sql.raw(`
+        SELECT year, COUNT(*) as count, COALESCE(SUM(citations), 0) as citations
+        FROM research_publications 
+        GROUP BY year 
+        ORDER BY year
+      `));
+
+      const methodsByCategory = await db.execute(sql.raw(`
+        SELECT category, COUNT(*) as count 
+        FROM analytical_methods 
+        GROUP BY category
+      `));
+
+      const extractRows = (result: any) => {
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        return Array.isArray(rows) ? rows : [];
+      };
+
+      return {
+        success: true,
+        data: {
+          publicationCount: extractRows(pubCount)[0]?.count || 0,
+          methodCount: extractRows(methodCount)[0]?.count || 0,
+          researcherCount: extractRows(researcherCount)[0]?.count || 0,
+          institutionCount: extractRows(instCount)[0]?.count || 0,
+          totalCitations: extractRows(totalCitations)[0]?.total || 0,
+          publicationsBySubject: extractRows(pubBySubject),
+          publicationsByYear: extractRows(pubByYear),
+          methodsByCategory: extractRows(methodsByCategory),
+        },
+      };
+    } catch (error: any) {
+      console.error("Error fetching research stats:", error);
+      return { success: false, data: null, error: error.message };
+    }
+  }),
+
+  /**
+   * Get top cited publications
+   */
+  getTopCitedPublications: publicProcedure
+    .input(z.object({ limit: z.number().default(10) }).optional())
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, data: [], error: "Database connection failed" };
+        }
+
+        const result = await db.execute(
+          sql.raw(`SELECT * FROM research_publications ORDER BY citations DESC LIMIT ${input?.limit || 10}`)
+        );
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        
+        return {
+          success: true,
+          data: Array.isArray(rows) ? rows : [],
+        };
+      } catch (error: any) {
+        console.error("Error fetching top cited publications:", error);
+        return { success: false, data: [], error: error.message };
+      }
+    }),
+
+  /**
+   * Get methods performance comparison
+   */
+  getMethodsPerformance: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return { success: false, data: [], error: "Database connection failed" };
+      }
+
+      const result = await db.execute(
+        sql.raw(`
+          SELECT 
+            id, method_id as code, name, category,
+            performance_score, resolution_score, sensitivity_score,
+            detection_limit, publication_count
+          FROM analytical_methods
+          ORDER BY performance_score DESC
+        `)
+      );
+      const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+      
+      return {
+        success: true,
+        data: Array.isArray(rows) ? rows : [],
+      };
+    } catch (error: any) {
+      console.error("Error fetching methods performance:", error);
+      return { success: false, data: [], error: error.message };
+    }
+  }),
 });

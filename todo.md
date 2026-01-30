@@ -748,6 +748,48 @@
 - [ ] Recherche manuelle pour les composés complexes (accords, mélanges, noms français)
 - [ ] Compléter les CAS Numbers manquants
 - [ ] Compléter les noms IUPAC manquants
+
+---
+
+## 🔬 SESSION 30 JANVIER 2026 — Données de recherche scientifique
+
+### Nouvelles données reçues
+- [x] Copier les fichiers de recherche dans /data/research/
+- [x] Analyser le fichier de veille scientifique (transformations aromatiques cannabis)
+- [x] Analyser les méthodes analytiques (GC-MS, PTR-MS, SMPS, etc.)
+- [x] Analyser les données des chercheurs et institutions clés
+- [ ] Créer table research_publications pour les publications scientifiques
+- [ ] Créer table analytical_methods pour les méthodes analytiques
+- [ ] Créer table researchers pour les chercheurs clés
+- [ ] Créer table research_institutions pour les institutions de recherche
+
+### Import des données de recherche
+- [ ] Importer les 8 références scientifiques (Meehan-Atrash, Graves, Tang, etc.)
+- [ ] Importer les méthodes analytiques (GC-MS, PTR-MS, SMPS, HS-SPME, etc.)
+- [ ] Importer les chercheurs clés (Strongin, Meehan-Atrash, Graves, Tang, etc.)
+- [ ] Importer les institutions (Portland State, Cambridge, Alberta, LBNL, UBC)
+- [ ] Lier les publications aux molécules (myrcène, limonène, caryophyllène, etc.)
+
+### Données de pyrolyse et combustion
+- [ ] Importer les données de transformation à la combustion par landrace
+- [ ] Lier les produits de pyrolyse aux molécules sources (myrcène → méthacroléine)
+- [ ] Créer les relations landrace → profil terpénique → produits de combustion
+- [ ] Documenter les zones de température (vaporisation, pyrolyse, combustion)
+
+### Visualisation des données de recherche
+- [x] Créer page de visualisation des méthodes analytiques (/research-data)
+- [x] Créer graphique comparatif Cannabis vs Tabac (dans la page)
+- [x] Créer timeline de l'évolution de la recherche (2017-2025) (dans la page)
+- [ ] Créer carte des institutions de recherche (future amélioration)
+
+### Gènes TPS et biosynthèse (en cours)
+- [x] Créer la fonction getTpsGenesByMolecule dans db.ts
+- [x] Ajouter la procédure tRPC molecules.getTpsGenes
+- [x] Ajouter l'onglet Biosynthèse dans MoleculeDetail
+- [x] Créer la page GenealogyGraph.tsx pour l'arbre généalogique D3.js
+- [x] Ajouter les routes /genealogy et /arbre-genealogique
+- [ ] Tester la page de l'arbre généalogique
+- [ ] Ajouter la section généalogie aux pages variétés
 - [ ] Compléter les classes chimiques manquantes
 - [ ] Valider les données enrichies
 
@@ -3398,3 +3440,157 @@
 - [ ] Importer les relations généalogiques des variétés de tabac (Virginia, Burley, Oriental, etc.)
 - [ ] Documenter les lignées des plantes importantes en parfumerie (lavandes, roses, jasmin)
 - [ ] Enrichir les profils moléculaires des 14 variétés restantes sans profil
+
+
+---
+
+## 🔄 SESSION 30 Janvier 2026 - Partie 7 (Généalogie Tabac + Visualisation D3.js)
+
+### Relations généalogiques du tabac
+- [ ] Importer les variétés de tabac Virginia (Flue-cured) avec profils moléculaires
+- [ ] Importer les variétés de tabac Burley (Air-cured) avec profils moléculaires
+- [ ] Importer les variétés de tabac Oriental/Turkish avec profils moléculaires
+- [ ] Documenter les croisements et lignées parentales entre variétés
+- [ ] Créer les relations généalogiques dans variety_genealogy
+
+### Page de visualisation D3.js des arbres généalogiques
+- [ ] Créer le composant GenealogyTree.tsx avec D3.js
+- [ ] Implémenter le graphe hiérarchique pour les relations parentales
+- [ ] Ajouter les interactions (zoom, pan, hover, click)
+- [ ] Créer la page /genealogy-tree avec filtres par plante
+- [ ] Intégrer les données cannabis et tabac
+
+### Liaison gènes TPS aux molécules
+- [ ] Lier les 24 gènes TPS aux molécules correspondantes dans la base
+- [ ] Créer une procédure tRPC pour récupérer les gènes par molécule
+- [ ] Intégrer les données TPS dans les fiches moléculaires (voies de synthèse terpénique)
+- [ ] Afficher le gène responsable de la synthèse sur chaque fiche molécule
+
+### Page de visualisation D3.js des arbres généalogiques
+- [ ] Créer le composant GenealogyTree.tsx avec D3.js
+- [ ] Implémenter le graphe hiérarchique pour les relations parentales cannabis
+- [ ] Ajouter les interactions (zoom, pan, hover, click)
+- [ ] Créer la page /genealogy-tree avec filtres par plante
+
+### Section généalogie sur les pages de variétés
+- [ ] Ajouter une section "Relations généalogiques" sur chaque page de variété
+- [ ] Afficher les parents directs de la variété
+- [ ] Afficher les enfants/descendants de la variété
+- [ ] Créer les liens de navigation entre variétés apparentées
+
+
+---
+
+## 🔬 SESSION 30 JANVIER 2026 — Données de recherche scientifique
+
+### Nouvelles données reçues
+- [x] Copier les fichiers de recherche dans /data/research/
+- [x] Analyser le fichier de veille scientifique (transformations aromatiques cannabis)
+- [x] Analyser les méthodes analytiques (GC-MS, PTR-MS, SMPS, etc.)
+- [x] Analyser les données des chercheurs et institutions clés
+- [x] Analyser les publications du Strongin Lab (lien nicotine-cannabinoïdes)
+- [x] Créer table research_publications pour les publications scientifiques
+- [x] Créer table analytical_methods pour les méthodes analytiques
+- [x] Créer table researchers pour les chercheurs clés
+- [x] Créer table research_institutions pour les institutions de recherche
+
+### Import des données de recherche
+- [x] Importer les 12 références scientifiques (Meehan-Atrash, Graves, Tang, Pankow, Munger, etc.)
+- [x] Importer les 11 méthodes analytiques (GC-MS, PTR-MS, SMPS, HS-SPME, NMR, DSC, TGA, etc.)
+- [x] Importer les 11 chercheurs clés (Strongin, Meehan-Atrash, Pankow, Graves, Tang, McWhirter, Luo, etc.)
+- [x] Importer les 5 institutions (Portland State, Cambridge, Alberta, LBNL, UBC)
+- [ ] Lier les publications aux molécules (myrcène, limonène, caryophyllène, etc.)
+
+### Données de pyrolyse et combustion
+- [ ] Importer les données de transformation à la combustion par landrace
+- [ ] Lier les produits de pyrolyse aux molécules sources (myrcène → méthacroléine)
+- [ ] Créer les relations landrace → profil terpénique → produits de combustion
+- [ ] Documenter les zones de température (vaporisation, pyrolyse, combustion)
+
+### Visualisation des données de recherche
+- [x] Créer page de visualisation des méthodes analytiques (/research-data)
+- [x] Créer graphique comparatif Cannabis vs Tabac (dans la page)
+- [x] Créer timeline de l'évolution de la recherche (2017-2025) (dans la page)
+- [ ] Créer carte des institutions de recherche (future amélioration)
+
+### Gènes TPS et biosynthèse (en cours)
+- [x] Créer la fonction getTpsGenesByMolecule dans db.ts
+- [x] Ajouter la procédure tRPC molecules.getTpsGenes
+- [x] Ajouter l'onglet Biosynthèse dans MoleculeDetail
+- [x] Créer la page GenealogyGraph.tsx pour l'arbre généalogique D3.js
+- [x] Ajouter les routes /genealogy et /arbre-genealogique
+- [ ] Tester la page de l'arbre généalogique
+- [ ] Ajouter la section généalogie aux pages variétés
+
+### Données transversales nicotine-cannabinoïdes (Strongin Lab)
+- [x] Documenter les publications transversales Pankow-Strongin
+- [x] Importer les données de comparaison nicotine vs cannabinoïdes
+- [x] Documenter le modèle de partitionnement gaz/particules de Pankow
+- [x] Documenter la chimie acide-base (nicotine base libre vs protonée)
+- [ ] Créer page de visualisation des liens nicotine-cannabinoïdes
+- [ ] Créer interface de comparaison des températures de dégradation
+
+
+---
+
+## 🚬 SESSION 30 JANVIER 2026 — Nouveaux fichiers de recherche tabac et génomique
+
+### Fichiers reçus (17 fichiers)
+- [x] Copier les fichiers dans /data/research/
+- [ ] AnalysedesVariationsGénétiquesHypothétiques.md
+- [ ] AnalyseGénomiqueGènesResponsablesdesMoléculesAromatiquesPerdues.md
+- [ ] AnalyseGénomiquedesVariétésdeTabac-PERFUMUM.md
+- [ ] AnalyseMoléculaireComplète7LandracesExceptionnelles+334ComposésduPerique.md
+- [ ] AnalysePédologiqueComparativeVueltaAbajovs.Estelí.md
+- [ ] analyse_cigarettes_perfumum.md
+- [ ] analyse_pedologique_detaillee.md
+- [ ] ArchiveOlfactiveCigarettesSoviétiques,OrientalesetChinoises.md
+- [ ] Au-delàdesPyrazinesLesMoléculesSecrètesduTabacd'Estelí.md
+- [ ] basma_study_notes.md
+- [ ] blends_recherche.md
+- [ ] cigarettes_disparues_recherche.md
+- [ ] cigarettes_est_orientales_chinoises_recherche.md
+- [ ] CompositionMoléculaireduPerique-DécouvertesClés.md
+- [ ] descendants_modernes_recherche.md
+- [ ] DocumentationApprofondiedesHybridesdeTabacOriginauxetParticuliers.md
+- [ ] DocumentationComplètedesLandracesdeTabacduMondeEntier.md
+
+### Catégories de données identifiées
+1. **Analyses génomiques** (3 fichiers)
+   - Gènes TPS responsables des terpènes floraux
+   - Gènes responsables des indoles et lactones
+   - Variations génétiques entre variétés ancestrales et modernes
+
+2. **Analyses moléculaires** (4 fichiers)
+   - 334 composés du Perique (Leffingwell & Alford 2005)
+   - 7 landraces exceptionnelles avec profils moléculaires
+   - Molécules secrètes du tabac d'Estelí
+   - Composition moléculaire du Perique
+
+3. **Archives olfactives** (4 fichiers)
+   - Cigarettes soviétiques (Belomorkanal, Laika, Prima)
+   - Cigarettes orientales et chinoises
+   - Cigarettes disparues
+   - Blends historiques
+
+4. **Documentation landraces** (3 fichiers)
+   - 38 landraces du monde entier
+   - Hybrides originaux et particuliers
+   - Descendants modernes
+
+5. **Analyses pédologiques** (2 fichiers)
+   - Vuelta Abajo vs Estelí
+   - Analyse pédologique détaillée
+
+6. **Notes de recherche** (1 fichier)
+   - Étude du Basma grec
+
+### Intégration prévue
+- [x] Créer table tobacco_landraces pour les landraces (13 importées)
+- [x] Créer table tobacco_cigarettes pour l'archive olfactive (5 importées)
+- [x] Créer table tobacco_compounds pour les composés du Perique (12 importés)
+- [x] Créer table soil_analyses pour les analyses pédologiques (2 importées)
+- [ ] Lier les données génomiques aux gènes TPS existants
+- [x] Créer page Landraces de Tabac avec profils moléculaires (/tobacco-landraces)
+- [x] Page Archive Olfactive Cigarettes existante (/historic-cigarettes)
+- [ ] Créer page Analyses Pédologiques

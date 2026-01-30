@@ -1,0 +1,9 @@
+{
+  "query": "\nALTER TABLE analytical_methods ADD COLUMN IF NOT EXISTS `description` text;\nALTER TABLE analytical_methods ADD COLUMN IF NOT EXISTS `publication_count` int DEFAULT 0;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nALTER TABLE analytical_methods ADD COLUMN IF NOT EXISTS `description` text;\nALTER TABLE analytical_methods ADD COLUMN IF NOT EXISTS `publication_count` int DEFAULT 0;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 892
+}
