@@ -350,6 +350,7 @@ import HistoricCigarettes from "./pages/HistoricCigarettes";
 import TpsGenesExplorer from "./pages/TpsGenesExplorer";
 import MolecularTransformations from "./pages/MolecularTransformations";
 import TobaccoLandraces from "./pages/TobaccoLandraces";
+import TobaccoLandraceDetail from "./pages/TobaccoLandraceDetail";
 import SoilAnalysis from "./pages/SoilAnalysis";
 import BiosyntheticPathways from "./pages/BiosyntheticPathways";
 import PyrolysisVisualization from "./pages/PyrolysisVisualization";
@@ -357,6 +358,8 @@ import TerpeneProfiles from "./pages/TerpeneProfiles";
 import PeriqueFermentation from "./pages/PeriqueFermentation";
 import LandraceComparator from "./pages/LandraceComparator";
 import GCMSChromatograms from "./pages/GCMSChromatograms";
+import CompoundSearch from "./pages/CompoundSearch";
+import MSSpectraViewer from "./pages/MSSpectraViewer";
 
 
 
@@ -435,6 +438,7 @@ function Router() {
       <Route path="/perique-compounds" component={PeriqueCompounds} />
       <Route path="/historic-cigarettes" component={HistoricCigarettes} />
       <Route path="/tobacco-landraces" component={TobaccoLandraces} />
+      <Route path="/tobacco-landrace/:name" component={TobaccoLandraceDetail} />
       <Route path="/soil-analysis" component={SoilAnalysis} />
       <Route path="/analyses-pedologiques" component={SoilAnalysis} />
       <Route path="/biosynthetic-pathways" component={BiosyntheticPathways} />
@@ -455,6 +459,12 @@ function Router() {
       <Route path="/gcms-chromatograms" component={GCMSChromatograms} />
       <Route path="/chromatogrammes-gcms" component={GCMSChromatograms} />
       <Route path="/chromatograms" component={GCMSChromatograms} />
+      <Route path="/compound-search" component={CompoundSearch} />
+      <Route path="/recherche-compose" component={CompoundSearch} />
+      <Route path="/search-compound" component={CompoundSearch} />
+      <Route path="/ms-spectra" component={MSSpectraViewer} />
+      <Route path="/spectres-masse" component={MSSpectraViewer} />
+      <Route path="/mass-spectrometry" component={MSSpectraViewer} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />

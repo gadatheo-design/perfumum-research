@@ -3795,3 +3795,32 @@
 - **Résultat**: 6 chromatogrammes, 60 pics identifiés avec temps de rétention, concentrations et qualité de match
 - [ ] Intégrer les chromatogrammes dans les fiches landraces
 - [ ] Ajouter une galerie de chromatogrammes dans la page Méthodes Analytiques
+
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 — Intégration chromatographie et recherche par composé
+
+### Tâche 1 : Intégrer les chromatogrammes dans les fiches landraces - TERMINÉ
+- [x] Créer la page TobaccoLandraceDetail.tsx avec 5 onglets
+- [x] Ajouter l'onglet "Chromatographie" avec chromatogramme D3.js interactif
+- [x] Afficher les pics identifiés et paramètres d'analyse
+- [x] Lier aux données des tables gcms_chromatograms et gcms_peaks
+- [x] Ajouter la route /tobacco-landrace/:name
+
+### Tâche 2 : Outil de recherche par composé chimique - TERMINÉ
+- [x] Créer la page CompoundSearch.tsx avec 3 vues (par landrace, par composé, tous les résultats)
+- [x] Permettre la recherche par nom de composé ou CAS
+- [x] Afficher toutes les landraces contenant le composé
+- [x] Comparer les concentrations entre landraces avec tri
+- [x] Ajouter les routes /compound-search, /recherche-compose, /search-compound
+- [x] Ajouter les composés populaires pour recherche rapide
+
+### Tâche 3 : Données de spectrométrie de masse - TERMINÉ
+- [x] Créer la table ms_spectra pour les spectres de masse
+- [x] Générer des données de spectres MS pour 17 composés terpéniques (β-Caryophyllène, Limonène, Myrcène, α-Pinène, etc.)
+- [x] Créer la page MSSpectraViewer.tsx avec visualisation D3.js interactive
+- [x] Ajouter les routes /ms-spectra, /spectres-masse, /mass-spectrometry
+- [x] Créer les procédures tRPC getMsSpectra, getMsSpectrumByCompound, getMsSpectrumByCas
+- **Résultat**: 17 spectres MS avec patterns de fragmentation, pics m/z et intensités relatives
+- [ ] Lier les spectres aux pics du chromatogramme (intégration future)

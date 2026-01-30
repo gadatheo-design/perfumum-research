@@ -594,4 +594,122 @@ export const tobaccoRouter = router({
         return [];
       }
     }),
+
+  /**
+   * Get all chromatogram peaks with landrace names for compound search
+   */
+  getAllChromatogramPeaks: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return [];
+      
+      const result = await db.execute(sql`
+        SELECT 
+          p.compound_name,
+          p.cas_number,
+          c.landrace_name,
+          p.concentration_ppm,
+          p.retention_time,
+          p.match_quality
+        FROM gcms_peaks p
+        JOIN gcms_chromatograms c ON p.chromatogram_id = c.id
+        ORDER BY p.concentration_ppm DESC
+      `);
+      return result[0] as any[];
+    } catch (error) {
+      console.error("Error fetching all chromatogram peaks:", error);
+      return [];
+    }
+  }),
+
+  // ============================================================================
+  // MASS SPECTROMETRY DATA
+  // ============================================================================
+
+  /**
+   * Get all MS spectra
+   */
+  getMsSpectra: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return [];
+      
+      const result = await db.execute(sql`
+        SELECT * FROM ms_spectra ORDER BY compound_name
+      `);
+      
+      // Parse JSON spectrum_data
+      return (result[0] as any[]).map(row => ({
+        ...row,
+        spectrum_data: typeof row.spectrum_data === 'string' 
+          ? JSON.parse(row.spectrum_data) 
+          : row.spectrum_data
+      }));
+    } catch (error) {
+      console.error("Error fetching MS spectra:", error);
+      return [];
+    }
+  }),
+
+  /**
+   * Get MS spectrum by compound name
+   */
+  getMsSpectrumByCompound: publicProcedure
+    .input(z.object({ compoundName: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return null;
+        
+        const result = await db.execute(sql`
+          SELECT * FROM ms_spectra 
+          WHERE compound_name = ${input.compoundName}
+        `);
+        
+        const rows = result[0] as any[];
+        if (rows.length === 0) return null;
+        
+        const row = rows[0];
+        return {
+          ...row,
+          spectrum_data: typeof row.spectrum_data === 'string' 
+            ? JSON.parse(row.spectrum_data) 
+            : row.spectrum_data
+        };
+      } catch (error) {
+        console.error("Error fetching MS spectrum:", error);
+        return null;
+      }
+    }),
+
+  /**
+   * Search MS spectra by CAS number
+   */
+  getMsSpectrumByCas: publicProcedure
+    .input(z.object({ casNumber: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return null;
+        
+        const result = await db.execute(sql`
+          SELECT * FROM ms_spectra 
+          WHERE cas_number = ${input.casNumber}
+        `);
+        
+        const rows = result[0] as any[];
+        if (rows.length === 0) return null;
+        
+        const row = rows[0];
+        return {
+          ...row,
+          spectrum_data: typeof row.spectrum_data === 'string' 
+            ? JSON.parse(row.spectrum_data) 
+            : row.spectrum_data
+        };
+      } catch (error) {
+        console.error("Error fetching MS spectrum by CAS:", error);
+        return null;
+      }
+    }),
 });
