@@ -362,6 +362,8 @@ import CompoundSearch from "./pages/CompoundSearch";
 import MSSpectraViewer from "./pages/MSSpectraViewer";
 import SpectraComparison from "./pages/SpectraComparison";
 import SpectraIdentification from "./pages/SpectraIdentification";
+import AnalysisHub from "./pages/AnalysisHub";
+import RawMaterialsInventory from "./pages/RawMaterialsInventory";
 
 
 
@@ -464,6 +466,13 @@ function Router() {
       <Route path="/compound-search" component={CompoundSearch} />
       <Route path="/recherche-compose" component={CompoundSearch} />
       <Route path="/search-compound" component={CompoundSearch} />
+      <Route path="/analysis-hub" component={AnalysisHub} />
+      <Route path="/hub-analyse" component={AnalysisHub} />
+      <Route path="/gcms-hub" component={AnalysisHub} />
+      <Route path="/raw-materials" component={RawMaterialsInventory} />
+      <Route path="/matieres-premieres" component={RawMaterialsInventory} />
+      <Route path="/inventory" component={RawMaterialsInventory} />
+      <Route path="/inventaire" component={RawMaterialsInventory} />
       <Route path="/ms-spectra" component={MSSpectraViewer} />
       <Route path="/spectres-masse" component={MSSpectraViewer} />
       <Route path="/mass-spectrometry" component={MSSpectraViewer} />

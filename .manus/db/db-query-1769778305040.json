@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE ms_spectra \nADD COLUMN retention_index DECIMAL(10,2) NULL COMMENT 'Kovats Retention Index',\nADD COLUMN retention_index_type VARCHAR(20) NULL COMMENT 'Type: kovats, linear, etc.'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE ms_spectra \nADD COLUMN retention_index DECIMAL(10,2) NULL COMMENT 'Kovats Retention Index',\nADD COLUMN retention_index_type VARCHAR(20) NULL COMMENT 'Type: kovats, linear, etc.'",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 976
+}

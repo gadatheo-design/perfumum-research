@@ -24,6 +24,9 @@ interface MatchResult {
   matchedPeaks: number;
   totalPeaks: number;
   source: string;
+  retention_index?: number;
+  retention_index_type?: string;
+  riMatch?: boolean; // true si le RI correspond à la plage fournie
 }
 
 // Composant de visualisation du spectre inconnu
@@ -173,6 +176,10 @@ export default function SpectraIdentification() {
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<MatchResult[]>([]);
   
+  // Indice de rétention (RI)
+  const [unknownRI, setUnknownRI] = useState<string>('');
+  const [riTolerance, setRiTolerance] = useState(20); // +/- 20 unités par défaut
+  
   // États pour l'upload de fichiers
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [parsedSpectrum, setParsedSpectrum] = useState<ParsedSpectrum | null>(null);
@@ -267,9 +274,23 @@ export default function SpectraIdentification() {
     setIsSearching(true);
     
     // Calculer la similarité avec chaque spectre de référence
-    const matches: MatchResult[] = referenceSpectra.map((ref: any) => {
+    const userRI = unknownRI ? parseFloat(unknownRI) : null;
+    
+    const matches = referenceSpectra.map((ref: any) => {
       const refPeaks = ref.spectrum_data?.peaks || [];
-      const { similarity, matchedPeaks } = calculateWeightedSimilarity(manualPeaks, refPeaks, tolerance);
+      let { similarity, matchedPeaks } = calculateWeightedSimilarity(manualPeaks, refPeaks, tolerance);
+      
+      // Vérifier la correspondance RI si fourni
+      let riMatch = false;
+      if (userRI && ref.retention_index) {
+        const riDiff = Math.abs(userRI - ref.retention_index);
+        riMatch = riDiff <= riTolerance;
+        
+        // Bonus de similarité si le RI correspond
+        if (riMatch) {
+          similarity = Math.min(100, similarity * 1.15); // +15% bonus
+        }
+      }
       
       return {
         compound_name: ref.compound_name,
@@ -279,7 +300,10 @@ export default function SpectraIdentification() {
         similarity,
         matchedPeaks,
         totalPeaks: refPeaks.length,
-        source: ref.source
+        source: ref.source,
+        retention_index: ref.retention_index,
+        retention_index_type: ref.retention_index_type,
+        riMatch
       };
     });
     
@@ -531,8 +555,8 @@ export default function SpectraIdentification() {
             )}
             
             {/* Paramètres et actions */}
-            <div className="flex items-center justify-between pt-4 border-t">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col gap-4 pt-4 border-t">
+              <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-2">
                   <label className="text-sm text-muted-foreground">Tolérance m/z:</label>
                   <Input
@@ -545,11 +569,33 @@ export default function SpectraIdentification() {
                     step={0.1}
                   />
                 </div>
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-muted-foreground">Indice de rétention (RI):</label>
+                  <Input
+                    type="number"
+                    value={unknownRI}
+                    onChange={(e) => setUnknownRI(e.target.value)}
+                    placeholder="ex: 1418"
+                    className="w-24"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <label className="text-sm text-muted-foreground">Tolérance RI (±):</label>
+                  <Input
+                    type="number"
+                    value={riTolerance}
+                    onChange={(e) => setRiTolerance(parseInt(e.target.value) || 20)}
+                    className="w-16"
+                    min={5}
+                    max={100}
+                    step={5}
+                  />
+                </div>
                 <span className="text-sm text-muted-foreground">
                   {manualPeaks.length} pics
                 </span>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 ml-auto">
                 <Button variant="outline" onClick={clearAll}>
                   <Trash2 className="h-4 w-4 mr-2" />
                   Effacer
@@ -601,10 +647,16 @@ export default function SpectraIdentification() {
                           )}
                           <h4 className="font-semibold text-lg">{result.compound_name}</h4>
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                           <span className="font-mono">{result.molecular_formula}</span>
                           <span>MW: {parseFloat(result.molecular_weight).toFixed(2)}</span>
                           <span>CAS: {result.cas_number}</span>
+                          {result.retention_index && (
+                            <span className={result.riMatch ? 'text-green-500 font-medium' : ''}>
+                              RI: {result.retention_index}
+                              {result.riMatch && ' ✓'}
+                            </span>
+                          )}
                           <Badge variant="outline" className="text-xs">{result.source}</Badge>
                         </div>
                       </div>

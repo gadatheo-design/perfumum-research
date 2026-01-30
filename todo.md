@@ -3927,3 +3927,41 @@
 - [x] Ajouter des liens dans SpectraIdentification (3 outils connexes)
 - [x] Liens bidirectionnels entre toutes les pages MS
 - [x] Liens vers chromatogrammes, recherche par composé, comparaison
+
+
+## 📊 SESSION 30 JANVIER 2026 — Navigation avancée et Matières Premières
+
+### Tâche 15 : Breadcrumbs dynamiques - TERMINÉ
+- [x] Composant Breadcrumbs.tsx déjà existant et fonctionnel
+- [x] Ajouter les routes GC-MS au labelMap (analysis-hub, gcms-chromatograms, ms-spectra, etc.)
+- [x] Ajouter les routes matières premières (suppliers, inventory)
+- [x] Version responsive avec collapse automatique sur mobile
+
+### Tâche 16 : Hub Analyse GC-MS - TERMINÉ
+- [x] Créer la page AnalysisHub.tsx avec statistiques dynamiques
+- [x] Afficher le nombre de chromatogrammes, spectres MS, composés, landraces
+- [x] Ajouter 6 cartes d'accès rapides vers tous les outils MS
+- [x] Afficher les 5 spectres récents avec badges source
+- [x] Section ressources (formats supportés, base de référence, algorithme)
+- [x] Routes: /analysis-hub, /hub-analyse, /gcms-hub
+
+### Tâche 17 : Temps de rétention (RI) dans l'identification - TERMINÉ
+- [x] Ajouter les colonnes retention_index et retention_index_type à la table ms_spectra
+- [x] Mettre à jour 45+ composés avec leurs indices de rétention Kovats
+- [x] Modifier l'algorithme d'identification pour inclure le RI (+15% bonus si match)
+- [x] Ajouter les champs RI et tolérance RI dans le formulaire d'identification
+- [x] Afficher le RI dans les résultats avec indicateur de correspondance (✓)
+
+### Tâche 18 : Fiches matières premières et inventaire - TERMINÉ
+- [x] Tables raw_materials et suppliers déjà existantes dans le schéma
+- [x] Créer le router raw-materials.ts avec procédures tRPC
+- [x] Créer la page RawMaterialsInventory.tsx
+- [x] Ajouter les routes /raw-materials, /matieres-premieres, /inventory, /inventaire
+- [x] Importer les 17 matières premières de la commande Eden Botanicals
+- [x] Total: 67 matières premières dans la base de données
+- [x] Molécules clés documentées dans les notes de chaque matière
+- [ ] Créer la table inventory pour le suivi des achats
+- [ ] Importer les 17 matières de la commande
+- [ ] Lier aux molécules existantes (Mitti Attar → géosmine, etc.)
+- [ ] Créer les pages de visualisation et gestion
+

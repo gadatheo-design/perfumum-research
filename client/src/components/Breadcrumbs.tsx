@@ -172,6 +172,19 @@ const labelMap: Record<string, string> = {
   "matieres-premieres": "Matières Premières",
   "raw-materials": "Matières Premières",
   "raw-material": "Matière Première",
+  "suppliers": "Fournisseurs",
+  "supplier": "Fournisseur",
+  "inventory": "Inventaire",
+  
+  // Analyse GC-MS
+  "analysis-hub": "Hub Analyse",
+  "gcms-chromatograms": "Chromatogrammes GC-MS",
+  "ms-spectra": "Spectres de Masse",
+  "compare-spectra": "Comparaison Spectres",
+  "identify-spectrum": "Identification Spectre",
+  "search-compound": "Recherche Composé",
+  "spectra-comparison": "Comparaison Spectres",
+  "spectra-identification": "Identification Spectre",
   
   // Axes de recherche
   "axes-recherche": "Axes de Recherche",

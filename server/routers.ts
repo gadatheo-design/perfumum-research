@@ -50,6 +50,7 @@ import { getSimilarRecettes, getSimilarMolecules, getRecommendedRecettesFromFavo
 import { koppenRouter } from "./routers/koppen";
 import { tobaccoRouter } from "./routers/tobacco";
 import { researchRouter } from "./routers/research";
+import { rawMaterialsRouter, suppliersRouter } from "./routers/raw-materials";
 
 export const appRouter = router({
   system: systemRouter,
@@ -9989,6 +9990,9 @@ Familles olfactives disponibles:
   tobacco: tobaccoRouter,
   // Research Data
   research: researchRouter,
+  // Raw Materials & Suppliers
+  rawMaterials: rawMaterialsRouter,
+  suppliers: suppliersRouter,
 });
 export type AppRouter = typeof appRouter;
 
