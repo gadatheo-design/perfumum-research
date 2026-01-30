@@ -364,6 +364,7 @@ import SpectraComparison from "./pages/SpectraComparison";
 import SpectraIdentification from "./pages/SpectraIdentification";
 import AnalysisHub from "./pages/AnalysisHub";
 import RawMaterialsInventory from "./pages/RawMaterialsInventory";
+import InventoryDashboard from "./pages/InventoryDashboard";
 
 
 
@@ -473,6 +474,9 @@ function Router() {
       <Route path="/matieres-premieres" component={RawMaterialsInventory} />
       <Route path="/inventory" component={RawMaterialsInventory} />
       <Route path="/inventaire" component={RawMaterialsInventory} />
+      <Route path="/inventory-dashboard" component={InventoryDashboard} />
+      <Route path="/tableau-inventaire" component={InventoryDashboard} />
+      <Route path="/stock-dashboard" component={InventoryDashboard} />
       <Route path="/ms-spectra" component={MSSpectraViewer} />
       <Route path="/spectres-masse" component={MSSpectraViewer} />
       <Route path="/mass-spectrometry" component={MSSpectraViewer} />

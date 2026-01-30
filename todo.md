@@ -3993,3 +3993,32 @@
 - [x] API fonctionnelle (testée avec curl - Linalol trouvé pour matière 1)
 - [ ] Afficher le profil chromatographique dans la fiche matière
 - [ ] Permettre la comparaison avec les spectres de référence
+
+
+## 📊 SESSION 30 JANVIER 2025 - PARTIE 5 : INVENTAIRE AVANCÉ
+
+### Tâche 22 : Formulaire modal d'ajout d'inventaire - TERMINÉ
+- [x] Créer le composant AddInventoryModal.tsx
+- [x] Intégrer les champs: quantité, unité, prix, devise, fournisseur, lot, date d'achat, expiration, stockage, notes
+- [x] Validation des champs avec zod via tRPC
+- [x] Intégrer le modal dans l'onglet Inventaire de RawMaterialDetail.tsx
+- [x] Rafraîchir la liste après ajout réussi (invalidate queries)
+- [x] Toast de confirmation/erreur
+
+### Tâche 23 : Page d'inventaire global - TERMINÉ
+- [x] Créer la page InventoryDashboard.tsx avec design complet
+- [x] Ajouter les filtres par fournisseur et recherche textuelle
+- [x] Créer les alertes de stock bas (< 5 unités) avec liens vers les fiches
+- [x] Ajouter un graphique d'évolution des achats par mois (12 derniers mois)
+- [x] Afficher les statistiques globales (total entrées, valeur, alertes, fournisseurs)
+- [x] Tableau des entrées avec tri par date/valeur/quantité
+- [x] Ajouter les routes /inventory-dashboard, /tableau-inventaire, /stock-dashboard
+
+### Tâche 24 : Chromatogramme complet des matières premières - TERMINÉ
+- [x] Créer le composant CombinedChromatogram.tsx avec visualisation SVG
+- [x] Combiner les spectres MS de toutes les molécules d'une matière
+- [x] Afficher un graphique avec les pics pondérés par pourcentage
+- [x] Intégrer dans l'onglet Spectres MS de RawMaterialDetail.tsx
+- [x] Permettre l'export du chromatogramme en PNG
+- [x] Légende des composés avec couleurs et pourcentages
+- [x] Statistiques (nombre de pics, composés, pics majeurs)

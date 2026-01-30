@@ -1,4 +1,6 @@
-import { Link, useParams } from "wouter";
+import { useParams, Link } from "wouter";
+import { AddInventoryModal } from "@/components/AddInventoryModal";
+import { CombinedChromatogram } from "@/components/CombinedChromatogram";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -456,10 +458,10 @@ export default function RawMaterialDetail() {
                   <p className="text-muted-foreground mb-4">
                     Aucune entrée d'inventaire pour le moment
                   </p>
-                  <Button>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Ajouter une entrée
-                  </Button>
+                  <AddInventoryModal 
+                    rawMaterialId={id} 
+                    rawMaterialName={material?.name || ""} 
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -510,11 +512,18 @@ export default function RawMaterialDetail() {
 
           {/* Spectra Tab */}
           <TabsContent value="spectra" className="space-y-6">
+            {/* Chromatogramme combiné */}
+            <CombinedChromatogram
+              spectra={msSpectraData?.spectra || []}
+              materialName={material?.name || ""}
+              isLoading={isLoadingSpectra}
+            />
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BarChart3 className="w-5 h-5" />
-                  Profil chromatographique
+                  Molécules identifiées
                 </CardTitle>
                 <CardDescription>
                   Spectres de masse des molécules clés de cette matière première
