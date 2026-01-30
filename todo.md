@@ -3121,3 +3121,54 @@
 - [x] Vérifier le filtrage des données (recherche sensible à la casse)
 - [x] Corriger le problème de recherche (flatten + filter metadata + LOWER pour recherche)
 - [x] Tester la recherche après correction (limon -> 4 résultats)
+
+
+## 🚨 BUGS CRITIQUES (30 Jan 2026 - Priorité haute)
+
+### Bug accès base molécules principale
+- [ ] Diagnostiquer l'erreur d'accès à la page molécules
+- [ ] Identifier la cause de l'erreur JavaScript
+- [ ] Corriger le problème
+- [ ] Tester l'accès après correction
+
+### Bug Dashboard - appels tRPC
+- [ ] Diagnostiquer le problème des appels tRPC sur le Dashboard
+- [ ] Corriger les appels API
+
+### Bug Plantes associées - noms manquants
+- [ ] Les plantes affichent "Plante #ID" au lieu des vrais noms
+- [ ] Corriger l'affichage des noms de plantes
+
+### Pages non fonctionnelles à auditer
+- [ ] Générateur de Formules - vérifier si implémenté
+- [ ] Heatmap de Corrélation - vérifier si implémenté
+- [ ] Supprimer ou compléter les pages placeholders
+
+
+---
+
+## 📋 AUDIT COMPLET - 30 Janvier 2026
+
+### Correction effectuée
+- [x] Corriger l'erreur SQL dans `research.getTransformationsByMolecule` (chemicalClass → chemical_class)
+
+### Résultats des tests API
+- [x] `molecules.list` - ✅ Fonctionnel (794KB)
+- [x] `molecules.getById` - ✅ Fonctionnel
+- [x] `molecules.getGlobalStats` - ✅ Fonctionnel
+- [x] `recettes.list` - ✅ Fonctionnel (292KB)
+- [x] `recettes.getById` - ✅ Fonctionnel
+- [x] `plants.list` - ✅ Fonctionnel (331KB)
+- [x] `plants.getById` - ✅ Fonctionnel
+- [x] `research.getMolecularTransformations` - ✅ Fonctionnel
+- [x] `research.getMolecularTransformationStats` - ✅ Fonctionnel
+- [x] `research.getTransformationsByMolecule` - ✅ Fonctionnel (après correction)
+- [x] `recommendations.fromFavorites` - ✅ Fonctionnel
+- [x] `plantMoleculeLinks.getByMolecule` - ✅ Fonctionnel
+- [x] `crossLinks.getRecettesByMolecule` - ✅ Fonctionnel
+- [x] `moleculeOrigins.getByMolecule` - ✅ Fonctionnel
+- [x] `ifraRestrictions.getByMolecule` - ✅ Fonctionnel
+
+### Problème externe identifié
+- [ ] Rate limiting du proxy Manus (erreurs 429) - Problème temporaire, externe au code
+
