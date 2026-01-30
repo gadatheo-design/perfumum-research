@@ -1,0 +1,82 @@
+{
+  "query": "SELECT id, variety_id, name, plant_id, variety_type, country_of_origin\nFROM plant_varieties \nWHERE dominant_molecules IS NULL\nORDER BY plant_id, name\nLIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, variety_id, name, plant_id, variety_type, country_of_origin\nFROM plant_varieties \nWHERE dominant_molecules IS NULL\nORDER BY plant_id, name\nLIMIT 30;",
+  "rows": [
+    {
+      "id": "60001",
+      "variety_id": "PV-SEED-001",
+      "name": "CBDRx",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60003",
+      "variety_id": "PV-SEED-003",
+      "name": "Cherry Pie",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60002",
+      "variety_id": "PV-SEED-002",
+      "name": "Pink Pepper",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60004",
+      "variety_id": "PV-SEED-004",
+      "name": "Punto Rojo",
+      "plant_id": "330001",
+      "variety_type": "landrace",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60005",
+      "variety_id": "PV-SEED-005",
+      "name": "Purple Kush",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60007",
+      "variety_id": "PV-SEED-007",
+      "name": "K326",
+      "plant_id": "330002",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60006",
+      "variety_id": "PV-SEED-006",
+      "name": "TN90",
+      "plant_id": "330002",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60008",
+      "variety_id": "PV-SEED-008",
+      "name": "Lab strain",
+      "plant_id": "330003",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60009",
+      "variety_id": "PV-SEED-009",
+      "name": "Ecotype (wild)",
+      "plant_id": "330004",
+      "variety_type": "wild",
+      "country_of_origin": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tvariety_id\tname\tplant_id\tvariety_type\tcountry_of_origin\n60001\tPV-SEED-001\tCBDRx\t330001\tcultivar\tNULL\n60003\tPV-SEED-003\tCherry Pie\t330001\tcultivar\tNULL\n60002\tPV-SEED-002\tPink Pepper\t330001\tcultivar\tNULL\n60004\tPV-SEED-004\tPunto Rojo\t330001\tlandrace\tNULL\n60005\tPV-SEED-005\tPurple Kush\t330001\tcultivar\tNULL\n60007\tPV-SEED-007\tK326\t330002\tcultivar\tNULL\n60006\tPV-SEED-006\tTN90\t330002\tcultivar\tNULL\n60008\tPV-SEED-008\tLab strain\t330003\tcultivar\tNULL\n60009\tPV-SEED-009\tEcotype (wild)\t330004\twild\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

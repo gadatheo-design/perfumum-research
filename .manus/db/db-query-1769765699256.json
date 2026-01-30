@@ -1,0 +1,90 @@
+{
+  "query": "SELECT id, variety_id, name FROM plant_varieties WHERE plant_id = 210030;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, variety_id, name FROM plant_varieties WHERE plant_id = 210030;",
+  "rows": [
+    {
+      "id": "90010",
+      "variety_id": "PV-CBD-X01",
+      "name": "CBDRx"
+    },
+    {
+      "id": "90011",
+      "variety_id": "PV-CAN-X02",
+      "name": "Pink Pepper"
+    },
+    {
+      "id": "90012",
+      "variety_id": "PV-CAN-X03",
+      "name": "Cherry Pie"
+    },
+    {
+      "id": "90013",
+      "variety_id": "PV-CAN-X04",
+      "name": "Lamb's Bread"
+    },
+    {
+      "id": "90014",
+      "variety_id": "PV-CAN-X05",
+      "name": "Punto Rojo"
+    },
+    {
+      "id": "90019",
+      "variety_id": "landrace_afghan_kush",
+      "name": "Afghan Kush (Landrace)"
+    },
+    {
+      "id": "90020",
+      "variety_id": "landrace_thai_stick",
+      "name": "Thai Stick (Landrace)"
+    },
+    {
+      "id": "90021",
+      "variety_id": "landrace_malawi_gold",
+      "name": "Malawi Gold (Landrace)"
+    },
+    {
+      "id": "90022",
+      "variety_id": "landrace_durban_poison",
+      "name": "Durban Poison (Landrace)"
+    },
+    {
+      "id": "90023",
+      "variety_id": "landrace_angola_red",
+      "name": "Angola Red (Landrace)"
+    },
+    {
+      "id": "90024",
+      "variety_id": "landrace_lebanese_red",
+      "name": "Lebanese Red (Landrace)"
+    },
+    {
+      "id": "90025",
+      "variety_id": "landrace_oaxacan_gold",
+      "name": "Oaxacan Gold (Landrace)"
+    },
+    {
+      "id": "90026",
+      "variety_id": "landrace_colombian_gold",
+      "name": "Colombian Gold (Landrace)"
+    },
+    {
+      "id": "90027",
+      "variety_id": "landrace_panama_red",
+      "name": "Panama Red (Landrace)"
+    },
+    {
+      "id": "90028",
+      "variety_id": "landrace_acapulco_gold",
+      "name": "Acapulco Gold (Landrace)"
+    },
+    {
+      "id": "90029",
+      "variety_id": "landrace_hindu_kush",
+      "name": "Hindu Kush (Landrace)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tvariety_id\tname\n90010\tPV-CBD-X01\tCBDRx\n90011\tPV-CAN-X02\tPink Pepper\n90012\tPV-CAN-X03\tCherry Pie\n90013\tPV-CAN-X04\tLamb's Bread\n90014\tPV-CAN-X05\tPunto Rojo\n90019\tlandrace_afghan_kush\tAfghan Kush (Landrace)\n90020\tlandrace_thai_stick\tThai Stick (Landrace)\n90021\tlandrace_malawi_gold\tMalawi Gold (Landrace)\n90022\tlandrace_durban_poison\tDurban Poison (Landrace)\n90023\tlandrace_angola_red\tAngola Red (Landrace)\n90024\tlandrace_lebanese_red\tLebanese Red (Landrace)\n90025\tlandrace_oaxacan_gold\tOaxacan Gold (Landrace)\n90026\tlandrace_colombian_gold\tColombian Gold (Landrace)\n90027\tlandrace_panama_red\tPanama Red (Landrace)\n90028\tlandrace_acapulco_gold\tAcapulco Gold (Landrace)\n90029\tlandrace_hindu_kush\tHindu Kush (Landrace)\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

@@ -1,0 +1,526 @@
+{
+  "metadata": {
+    "title": "Landraces de Cannabis Rares et En Danger d'Extinction",
+    "description": "Catalogue des variétés de cannabis landrace les plus rares ou disparues à travers le monde, avec profils terpéniques et transformations aromatiques à la combustion",
+    "version": "1.0",
+    "last_updated": "2026-01-29",
+    "sources": [
+      "McPartland et al. (2020) - PMC7148385",
+      "True Terpenes (2020)",
+      "Meehan-Atrash et al. (2017) - PMC5623941"
+    ]
+  },
+  
+  "classification_taxonomique": {
+    "sativa_type": {
+      "nom_scientifique": "Cannabis sativa subsp. indica var. indica",
+      "origine": "Asie du Sud (Inde)",
+      "dissemination": ["Asie du Sud-Est", "Afrique", "Amériques"],
+      "ratio_thc_cbd": "≥7",
+      "profil_terpenes": "Absence d'alcools sesquiterpéniques",
+      "statut": "Critically Endangered"
+    },
+    "indica_type": {
+      "nom_scientifique": "Cannabis sativa subsp. indica var. afghanica",
+      "origine": "Asie Centrale (Afghanistan, Pakistan, Turkestan)",
+      "ratio_thc_cbd": "<7",
+      "profil_terpenes": "Présence d'alcools sesquiterpéniques",
+      "statut": "Critically Endangered"
+    }
+  },
+  
+  "menaces_principales": [
+    {
+      "menace": "Hybridation introgressive",
+      "description": "Croisements massifs depuis les années 1960-70 ayant oblitéré les différences entre Sativa et Indica pures",
+      "impact": "Critique",
+      "periode": "1960-présent"
+    },
+    {
+      "menace": "Destruction d'habitat",
+      "description": "Urbanisation, changements d'utilisation des terres, pression agricole",
+      "impact": "Élevé",
+      "periode": "1980-présent"
+    },
+    {
+      "menace": "Difficulté de culture hors habitat naturel",
+      "description": "Landraces adaptées à des environnements spécifiques, difficiles à cultiver ailleurs",
+      "impact": "Modéré",
+      "periode": "Permanent"
+    },
+    {
+      "menace": "Préférence commerciale pour les hybrides",
+      "description": "Rendements plus élevés, temps de floraison plus courts, profils standardisés",
+      "impact": "Élevé",
+      "periode": "1990-présent"
+    }
+  ],
+  
+  "landraces": [
+    {
+      "id": "afghan_kush",
+      "nom": "Afghan Kush / Afghani",
+      "region": "Asie Centrale",
+      "pays": "Afghanistan",
+      "zone_specifique": "Hindu Kush",
+      "type": "Indica",
+      "statut": "En danger - Hybridation extensive",
+      "rarity_score": 7,
+      "profil_terpenes": {
+        "terpene_dominant": "Myrcène",
+        "concentration_myrcene": "40-55%",
+        "terpenes_secondaires": ["β-Caryophyllène", "α-Pinène"],
+        "notes_olfactives": ["Terreux", "Musqué", "Épicé", "Poivré"],
+        "total_terpenes": "2-4%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["Myrcène", "Caryophyllène"],
+        "produits_pyrolyse": [
+          "Méthacroléine (du myrcène)",
+          "HAP (du caryophyllène)",
+          "Benzène"
+        ],
+        "notes_aromatiques_fumee": ["Terreux intense", "Épicé", "Résineux"],
+        "particularite": "Forte concentration en myrcène produit des niveaux élevés de méthacroléine"
+      },
+      "caracteristiques": {
+        "morphologie": "Plante compacte, feuilles larges",
+        "floraison": "7-8 semaines",
+        "effets": "Sédatif, relaxant musculaire",
+        "histoire": "Origine des variétés Indica modernes, cultivée depuis des millénaires"
+      }
+    },
+    {
+      "id": "thai_stick",
+      "nom": "Thai / Thai Stick",
+      "region": "Asie du Sud-Est",
+      "pays": "Thaïlande",
+      "zone_specifique": "Hauts plateaux thaïlandais",
+      "type": "Sativa",
+      "statut": "Quasi-éteinte (forme pure)",
+      "rarity_score": 9,
+      "profil_terpenes": {
+        "terpene_dominant": "Limonène",
+        "terpenes_secondaires": ["Myrcène", "β-Caryophyllène", "Terpinolène"],
+        "notes_olfactives": ["Citrus", "Terreux", "Floral", "Tropical"],
+        "total_terpenes": "1-3%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["Limonène", "Terpinolène"],
+        "produits_pyrolyse": [
+          "Isoprène (du limonène)",
+          "Benzène",
+          "Composés aromatiques"
+        ],
+        "notes_aromatiques_fumee": ["Citrus brûlé", "Floral fumé", "Épicé doux"],
+        "particularite": "Profil terpénique complexe produit une fumée aromatique distinctive"
+      },
+      "caracteristiques": {
+        "morphologie": "Plante élancée, feuilles fines",
+        "floraison": "12-16 semaines",
+        "effets": "Énergisant, cérébral, euphorique",
+        "histoire": "Exportée vers les USA dans les années 1970, souvent attachée à des bâtons de bambou"
+      }
+    },
+    {
+      "id": "malawi_gold",
+      "nom": "Malawi Gold",
+      "region": "Afrique de l'Est",
+      "pays": "Malawi",
+      "zone_specifique": "Salima",
+      "type": "Sativa",
+      "statut": "Rare - Cannabis interdit au Malawi",
+      "rarity_score": 8,
+      "profil_terpenes": {
+        "terpene_dominant": "Terpinolène",
+        "terpenes_secondaires": ["Myrcène", "Ocimène", "β-Caryophyllène"],
+        "notes_olfactives": ["Floral", "Pin", "Herbacé", "Sucré"],
+        "total_terpenes": "2-3%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["Terpinolène", "Ocimène"],
+        "produits_pyrolyse": [
+          "Composés aromatiques cycliques",
+          "Aldéhydes",
+          "Benzène"
+        ],
+        "notes_aromatiques_fumee": ["Floral intense", "Pin brûlé", "Sucré"],
+        "particularite": "Terpinolène élevé produit une fumée florale distinctive"
+      },
+      "caracteristiques": {
+        "morphologie": "Très haute (3-4m), feuilles fines dorées",
+        "floraison": "12-14 semaines",
+        "effets": "Énergisant, créatif, psychédélique",
+        "histoire": "Cultivée depuis des siècles par les tribus locales, considérée comme sacrée"
+      }
+    },
+    {
+      "id": "durban_poison",
+      "nom": "Durban Poison",
+      "region": "Afrique du Sud",
+      "pays": "Afrique du Sud",
+      "zone_specifique": "Durban",
+      "type": "Sativa",
+      "statut": "Rare (forme pure) - Hybridée massivement",
+      "rarity_score": 6,
+      "profil_terpenes": {
+        "terpene_dominant": "Terpinolène",
+        "terpenes_secondaires": ["Myrcène", "Ocimène", "β-Caryophyllène"],
+        "notes_olfactives": ["Anis", "Réglisse", "Pin", "Terreux"],
+        "total_terpenes": "2-3.5%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["Terpinolène", "Myrcène"],
+        "produits_pyrolyse": [
+          "Composés phénoliques",
+          "Méthacroléine",
+          "Benzène"
+        ],
+        "notes_aromatiques_fumee": ["Anis fumé", "Réglisse", "Pin"],
+        "particularite": "Profil unique anis/réglisse persiste partiellement à la combustion"
+      },
+      "caracteristiques": {
+        "morphologie": "Haute, feuilles épaisses avec résine abondante",
+        "floraison": "8-9 semaines",
+        "effets": "Énergisant, focus, clarté mentale",
+        "histoire": "Introduite en Occident par Ed Rosenthal dans les années 1970, cultivée par tribus indigènes depuis le 14e siècle"
+      }
+    },
+    {
+      "id": "angola_red",
+      "nom": "Angola Red / Angola Roja",
+      "region": "Afrique Centrale",
+      "pays": "Angola",
+      "zone_specifique": "Régions montagneuses",
+      "type": "Sativa",
+      "statut": "Extrêmement rare - Quasi-éteinte",
+      "rarity_score": 10,
+      "profil_terpenes": {
+        "terpene_dominant": "β-Caryophyllène",
+        "terpenes_secondaires": ["Myrcène", "Limonène", "Humulène"],
+        "notes_olfactives": ["Épicé", "Boisé", "Terreux", "Poivré"],
+        "total_terpenes": "1.5-2.5%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["β-Caryophyllène", "Humulène"],
+        "produits_pyrolyse": [
+          "HAP (hydrocarbures aromatiques polycycliques)",
+          "Composés sesquiterpéniques oxydés",
+          "Benzène"
+        ],
+        "notes_aromatiques_fumee": ["Épicé intense", "Boisé fumé", "Poivré"],
+        "particularite": "Sesquiterpènes élevés produisent des HAP significatifs mais fumée très aromatique"
+      },
+      "caracteristiques": {
+        "morphologie": "Haute, pistils rouges distinctifs",
+        "floraison": "12-14 semaines",
+        "effets": "Euphorique, énergisant, psychédélique",
+        "histoire": "Considérée comme l'une des plus anciennes landraces africaines, déclarée l'une des 10 variétés les plus convoitées au monde"
+      }
+    },
+    {
+      "id": "lebanese_red",
+      "nom": "Lebanese Red",
+      "region": "Moyen-Orient",
+      "pays": "Liban",
+      "zone_specifique": "Vallée de la Bekaa",
+      "type": "Indica/Sativa hybride naturel",
+      "statut": "Extrêmement rare",
+      "rarity_score": 9,
+      "profil_terpenes": {
+        "terpene_dominant": "Myrcène",
+        "terpenes_secondaires": ["β-Caryophyllène", "Pinène", "Limonène"],
+        "notes_olfactives": ["Terreux", "Épicé", "Cèdre", "Résineux"],
+        "total_terpenes": "2-3%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["Myrcène", "Pinène"],
+        "produits_pyrolyse": [
+          "Méthacroléine",
+          "Composés terpéniques oxydés",
+          "Benzène"
+        ],
+        "notes_aromatiques_fumee": ["Cèdre fumé", "Épicé", "Résineux intense"],
+        "particularite": "Combinaison unique myrcène/pinène produit une fumée résineuse caractéristique"
+      },
+      "caracteristiques": {
+        "morphologie": "Taille moyenne, pistils rouges",
+        "floraison": "9-10 semaines",
+        "effets": "Équilibré, relaxant mais cérébral",
+        "histoire": "Cultivée traditionnellement pour la production de haschisch libanais rouge"
+      }
+    },
+    {
+      "id": "oaxacan",
+      "nom": "Oaxacan / Oaxaca Gold",
+      "region": "Amérique Centrale",
+      "pays": "Mexique",
+      "zone_specifique": "Oaxaca",
+      "type": "Sativa",
+      "statut": "Rare - Hybridation extensive",
+      "rarity_score": 7,
+      "profil_terpenes": {
+        "terpene_dominant": "Limonène",
+        "terpenes_secondaires": ["Myrcène", "β-Caryophyllène", "Linalool"],
+        "notes_olfactives": ["Citrus", "Terreux", "Floral", "Épicé doux"],
+        "total_terpenes": "2-3%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["Limonène", "Linalool"],
+        "produits_pyrolyse": [
+          "Isoprène",
+          "Composés aromatiques",
+          "Aldéhydes floraux"
+        ],
+        "notes_aromatiques_fumee": ["Citrus brûlé", "Floral fumé", "Doux"],
+        "particularite": "Linalool préserve partiellement les notes florales à la combustion"
+      },
+      "caracteristiques": {
+        "morphologie": "Très haute, feuilles fines, buds dorés",
+        "floraison": "12-14 semaines",
+        "effets": "Énergisant, créatif, social",
+        "histoire": "Exportée massivement vers les USA dans les années 1970, origine des variétés mexicaines modernes"
+      }
+    },
+    {
+      "id": "colombian_gold",
+      "nom": "Colombian Gold",
+      "region": "Amérique du Sud",
+      "pays": "Colombie",
+      "zone_specifique": "Santa Marta",
+      "type": "Sativa",
+      "statut": "Rare - Quasi-éteinte (forme pure)",
+      "rarity_score": 8,
+      "profil_terpenes": {
+        "terpene_dominant": "Limonène",
+        "terpenes_secondaires": ["Myrcène", "β-Caryophyllène", "Pinène"],
+        "notes_olfactives": ["Citrus", "Skunk", "Terreux", "Sucré"],
+        "total_terpenes": "2-3.5%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["Limonène", "Myrcène"],
+        "produits_pyrolyse": [
+          "Isoprène",
+          "Méthacroléine",
+          "Benzène"
+        ],
+        "notes_aromatiques_fumee": ["Citrus intense", "Skunk fumé", "Sucré"],
+        "particularite": "Profil skunk unique persiste à la combustion"
+      },
+      "caracteristiques": {
+        "morphologie": "Très haute, buds dorés denses",
+        "floraison": "12-14 semaines",
+        "effets": "Énergisant, euphorique, psychédélique",
+        "histoire": "Légendaire dans les années 1970, origine de nombreuses variétés Sativa modernes"
+      }
+    },
+    {
+      "id": "panama_red",
+      "nom": "Panama Red",
+      "region": "Amérique Centrale",
+      "pays": "Panama",
+      "zone_specifique": "Régions montagneuses",
+      "type": "Sativa",
+      "statut": "Quasi-éteinte",
+      "rarity_score": 9,
+      "profil_terpenes": {
+        "terpene_dominant": "β-Caryophyllène",
+        "terpenes_secondaires": ["Limonène", "Myrcène", "Humulène"],
+        "notes_olfactives": ["Épicé", "Citrus", "Terreux", "Boisé"],
+        "total_terpenes": "2-3%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["β-Caryophyllène", "Humulène"],
+        "produits_pyrolyse": [
+          "HAP",
+          "Composés sesquiterpéniques oxydés",
+          "Benzène"
+        ],
+        "notes_aromatiques_fumee": ["Épicé intense", "Citrus fumé", "Boisé"],
+        "particularite": "Sesquiterpènes dominants produisent une fumée épicée distinctive"
+      },
+      "caracteristiques": {
+        "morphologie": "Très haute, pistils rouges, buds aérés",
+        "floraison": "13-15 semaines",
+        "effets": "Énergisant, psychédélique, créatif",
+        "histoire": "Légendaire dans les années 1960-70, considérée comme éteinte dans sa forme pure"
+      }
+    },
+    {
+      "id": "acapulco_gold",
+      "nom": "Acapulco Gold",
+      "region": "Amérique Centrale",
+      "pays": "Mexique",
+      "zone_specifique": "Acapulco",
+      "type": "Sativa",
+      "statut": "Rare - Hybridée massivement",
+      "rarity_score": 7,
+      "profil_terpenes": {
+        "terpene_dominant": "β-Caryophyllène",
+        "terpenes_secondaires": ["Limonène", "Myrcène", "Pinène"],
+        "notes_olfactives": ["Épicé", "Citrus", "Caramel", "Terreux"],
+        "total_terpenes": "2.5-3.5%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["β-Caryophyllène", "Limonène"],
+        "produits_pyrolyse": [
+          "HAP",
+          "Isoprène",
+          "Composés aromatiques"
+        ],
+        "notes_aromatiques_fumee": ["Épicé doux", "Caramel fumé", "Citrus"],
+        "particularite": "Notes de caramel uniques partiellement préservées à la combustion"
+      },
+      "caracteristiques": {
+        "morphologie": "Haute, buds dorés denses avec reflets orange",
+        "floraison": "10-12 semaines",
+        "effets": "Euphorique, énergisant, social",
+        "histoire": "Icône des années 1960-70, réputée pour sa couleur dorée et sa puissance"
+      }
+    },
+    {
+      "id": "hindu_kush",
+      "nom": "Hindu Kush",
+      "region": "Asie Centrale",
+      "pays": "Afghanistan/Pakistan",
+      "zone_specifique": "Chaîne de l'Hindu Kush",
+      "type": "Indica",
+      "statut": "En danger - Hybridation extensive",
+      "rarity_score": 6,
+      "profil_terpenes": {
+        "terpene_dominant": "Myrcène",
+        "concentration_myrcene": "35-50%",
+        "terpenes_secondaires": ["β-Caryophyllène", "Limonène", "Pinène"],
+        "notes_olfactives": ["Terreux", "Pin", "Épicé", "Sandalwood"],
+        "total_terpenes": "2-4%"
+      },
+      "transformations_combustion": {
+        "precurseurs": ["Myrcène", "Pinène"],
+        "produits_pyrolyse": [
+          "Méthacroléine",
+          "Composés terpéniques oxydés",
+          "Benzène"
+        ],
+        "notes_aromatiques_fumee": ["Terreux intense", "Pin fumé", "Sandalwood"],
+        "particularite": "Myrcène très élevé produit une fumée terreuse puissante"
+      },
+      "caracteristiques": {
+        "morphologie": "Compacte, feuilles larges vert foncé",
+        "floraison": "7-8 semaines",
+        "effets": "Sédatif profond, relaxant musculaire",
+        "histoire": "Origine de la plupart des variétés Indica modernes, cultivée depuis des millénaires"
+      }
+    }
+  ],
+  
+  "transformations_combustion_generales": {
+    "temperature_combustion": "600-900°C",
+    "temperature_vaporisation": "157-220°C",
+    "produits_pyrolyse_communs": [
+      {
+        "nom": "Méthacroléine",
+        "precurseur": "Myrcène",
+        "toxicite": "Élevée",
+        "notes": "Irritant respiratoire"
+      },
+      {
+        "nom": "Benzène",
+        "precurseur": "Tous terpènes",
+        "toxicite": "Cancérigène",
+        "notes": "Produit de dégradation universel"
+      },
+      {
+        "nom": "HAP (Hydrocarbures Aromatiques Polycycliques)",
+        "precurseur": "Sesquiterpènes (β-caryophyllène, α-cédrène)",
+        "toxicite": "Cancérigène",
+        "notes": "Formation à hautes températures"
+      },
+      {
+        "nom": "Isoprène",
+        "precurseur": "Limonène",
+        "toxicite": "Modérée",
+        "notes": "Composé volatil"
+      },
+      {
+        "nom": "Composés aromatiques cycliques",
+        "precurseur": "Terpinolène, Ocimène",
+        "toxicite": "Variable",
+        "notes": "Contribuent aux arômes"
+      }
+    ],
+    "facteurs_influencant_transformations": [
+      "Température de combustion",
+      "Concentration en oxygène",
+      "Profil terpénique initial",
+      "Ratio monoterpènes/sesquiterpènes",
+      "Humidité du matériel végétal"
+    ]
+  },
+  
+  "profils_regionaux": {
+    "asie_centrale_indica": {
+      "caracteristiques": "Myrcène dominant (35-55%), alcools sesquiterpéniques présents",
+      "transformations": "Méthacroléine élevée, fumée terreuse intense",
+      "exemples": ["Afghan Kush", "Hindu Kush"]
+    },
+    "asie_sud_est_sativa": {
+      "caracteristiques": "Limonène et terpinolène dominants, profils complexes",
+      "transformations": "Isoprène, composés aromatiques, fumée florale/citrus",
+      "exemples": ["Thai Stick"]
+    },
+    "afrique_sativa": {
+      "caracteristiques": "Terpinolène ou caryophyllène dominants, profils uniques",
+      "transformations": "Composés aromatiques cycliques, HAP (si caryophyllène élevé)",
+      "exemples": ["Malawi Gold", "Durban Poison", "Angola Red"]
+    },
+    "ameriques_sativa": {
+      "caracteristiques": "Limonène ou caryophyllène dominants, profils variés",
+      "transformations": "Isoprène, HAP, fumée épicée/citrus",
+      "exemples": ["Colombian Gold", "Panama Red", "Acapulco Gold", "Oaxacan"]
+    },
+    "moyen_orient_hybride": {
+      "caracteristiques": "Myrcène/pinène équilibrés, profils résineux",
+      "transformations": "Méthacroléine, composés terpéniques oxydés, fumée résineuse",
+      "exemples": ["Lebanese Red"]
+    }
+  },
+  
+  "conservation_recommendations": {
+    "priorite_critique": [
+      "Angola Red",
+      "Panama Red",
+      "Lebanese Red",
+      "Thai Stick (forme pure)"
+    ],
+    "priorite_elevee": [
+      "Malawi Gold",
+      "Colombian Gold",
+      "Afghan Kush (forme pure)"
+    ],
+    "actions_necessaires": [
+      "Conservation ex-situ (banques de graines)",
+      "Documentation génétique complète",
+      "Protection des zones de culture traditionnelles",
+      "Programmes de culture conservatoire",
+      "Éducation des cultivateurs locaux"
+    ]
+  },
+  
+  "references": [
+    {
+      "id": "mcpartland2020",
+      "citation": "McPartland et al. (2020) A classification of endangered high-THC cannabis domesticates and their wild relatives. PhytoKeys 144:81-112",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7148385/"
+    },
+    {
+      "id": "meehan2017",
+      "citation": "Meehan-Atrash et al. (2017) Toxicant Formation in Dabbing: The Terpene Story. ACS Omega 2(9):6112-6117",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5623941/"
+    },
+    {
+      "id": "trueterpenes2020",
+      "citation": "True Terpenes (2020) Endangered Strains - Disappearing Terpenes",
+      "url": "https://trueterpenes.com/terpenes-and-education/disappearing-terpenes/"
+    }
+  ]
+}

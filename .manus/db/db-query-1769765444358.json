@@ -1,0 +1,757 @@
+{
+  "query": "SELECT id, variety_id, name, plant_id, variety_type, country_of_origin, \n       CASE WHEN dominant_molecules IS NOT NULL THEN 'OUI' ELSE 'NON' END as has_molecules\nFROM plant_varieties \nORDER BY plant_id, name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, variety_id, name, plant_id, variety_type, country_of_origin, \n       CASE WHEN dominant_molecules IS NOT NULL THEN 'OUI' ELSE 'NON' END as has_molecules\nFROM plant_varieties \nORDER BY plant_id, name;",
+  "rows": [
+    {
+      "id": "30005",
+      "variety_id": "PV-EXT-005",
+      "name": "Cannabis sativa var. indica landrace (Landraces afghanes)",
+      "plant_id": "1",
+      "variety_type": "landrace",
+      "country_of_origin": "Afghanistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "30002",
+      "variety_id": "PV-EXT-002",
+      "name": "Jasminum grandiflorum var. florentinum (Jasmin de Florence)",
+      "plant_id": "1",
+      "variety_type": "cultivar",
+      "country_of_origin": "Italie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "30003",
+      "variety_id": "PV-EXT-003",
+      "name": "Lavandula angustifolia var. delphinensis (Lavande du Dauphiné)",
+      "plant_id": "1",
+      "variety_type": "wild",
+      "country_of_origin": "France",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "30004",
+      "variety_id": "PV-EXT-004",
+      "name": "Nicotiana tabacum var. havanensis (Tabac Havane original)",
+      "plant_id": "1",
+      "variety_type": "landrace",
+      "country_of_origin": "Cuba",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "30001",
+      "variety_id": "PV-EXT-001",
+      "name": "Rosa damascena var. trigintipetala (Kazanlak historique)",
+      "plant_id": "1",
+      "variety_type": "cultivar",
+      "country_of_origin": "Bulgarie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "54",
+      "variety_id": "PV-TAB-012",
+      "name": "Bashi Bagli",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Turquie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "49",
+      "variety_id": "PV-TAB-007",
+      "name": "Basma",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Grèce",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "44",
+      "variety_id": "PV-TAB-002",
+      "name": "Burley (Air-Cured)",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "États-Unis",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "60",
+      "variety_id": "PV-TAB-018",
+      "name": "Dark Fired Kentucky",
+      "plant_id": "7",
+      "variety_type": "landrace",
+      "country_of_origin": "États-Unis",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "56",
+      "variety_id": "PV-TAB-014",
+      "name": "Djebel",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Syrie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "51",
+      "variety_id": "PV-TAB-009",
+      "name": "Drama",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Grèce",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "55",
+      "variety_id": "PV-TAB-013",
+      "name": "Dubek",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Macédoine du Nord",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "58",
+      "variety_id": "PV-TAB-016",
+      "name": "Havana Seed",
+      "plant_id": "7",
+      "variety_type": "landrace",
+      "country_of_origin": "Cuba",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "52",
+      "variety_id": "PV-TAB-010",
+      "name": "Izmir/Smyrna",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Turquie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "50",
+      "variety_id": "PV-TAB-008",
+      "name": "Katerini",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Grèce",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "45",
+      "variety_id": "PV-TAB-003",
+      "name": "Latakia (Fire-Cured)",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Syrie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "59",
+      "variety_id": "PV-TAB-017",
+      "name": "Maryland 609",
+      "plant_id": "7",
+      "variety_type": "landrace",
+      "country_of_origin": "États-Unis",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "57",
+      "variety_id": "PV-TAB-015",
+      "name": "Orinoco",
+      "plant_id": "7",
+      "variety_type": "landrace",
+      "country_of_origin": "États-Unis",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "46",
+      "variety_id": "PV-TAB-004",
+      "name": "Perique (Fermenté)",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "États-Unis",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "48",
+      "variety_id": "PV-TAB-006",
+      "name": "Samsun",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Turquie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "43",
+      "variety_id": "PV-TAB-001",
+      "name": "Virginia (Flue-Cured)",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "États-Unis",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "53",
+      "variety_id": "PV-TAB-011",
+      "name": "Xanthi",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Grèce",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "47",
+      "variety_id": "PV-TAB-005",
+      "name": "Yenidje",
+      "plant_id": "7",
+      "variety_type": "cultivar",
+      "country_of_origin": "Grèce",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "30",
+      "variety_id": "PV-CAN-030",
+      "name": "Acapulco Gold",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Mexique",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "13",
+      "variety_id": "PV-CAN-013",
+      "name": "Afghan Kush",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Afghanistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "18",
+      "variety_id": "PV-CAN-018",
+      "name": "Balkh",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Afghanistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "38",
+      "variety_id": "PV-CAN-038",
+      "name": "Brazilian",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Brésil",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "10",
+      "variety_id": "PV-CAN-010",
+      "name": "Cambodian",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Cambodge",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "16",
+      "variety_id": "PV-CAN-016",
+      "name": "Chitral",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Pakistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "8",
+      "variety_id": "PV-CAN-008",
+      "name": "Chocolate Thai",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Thaïlande",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "36",
+      "variety_id": "PV-CAN-036",
+      "name": "Colombian Gold",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Colombie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "27",
+      "variety_id": "PV-CAN-027",
+      "name": "Congo",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "RD Congo",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "22",
+      "variety_id": "PV-CAN-022",
+      "name": "Durban Poison",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Afrique du Sud",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "26",
+      "variety_id": "PV-CAN-026",
+      "name": "Ethiopian Highland",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Éthiopie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "40",
+      "variety_id": "PV-CAN-040",
+      "name": "Hawaiian",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "États-Unis",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "9",
+      "variety_id": "PV-CAN-009",
+      "name": "Highland Thai",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Thaïlande",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "3",
+      "variety_id": "PV-CAN-003",
+      "name": "Idukki Gold",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Inde",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "15",
+      "variety_id": "PV-CAN-015",
+      "name": "Kandahar",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Afghanistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "1",
+      "variety_id": "PV-CAN-001",
+      "name": "Kerala Gold",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Inde",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "25",
+      "variety_id": "PV-CAN-025",
+      "name": "Kilimanjaro",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Tanzanie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "42",
+      "variety_id": "PV-CAN-042",
+      "name": "Kona Gold",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "États-Unis",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "37",
+      "variety_id": "PV-CAN-037",
+      "name": "Lamb's Bread",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Jamaïque",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "11",
+      "variety_id": "PV-CAN-011",
+      "name": "Laotian",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Laos",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "2",
+      "variety_id": "PV-CAN-002",
+      "name": "Malana Cream",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Inde",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "24",
+      "variety_id": "PV-CAN-024",
+      "name": "Malawi Gold",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Malawi",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "4",
+      "variety_id": "PV-CAN-004",
+      "name": "Manipuri",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Inde",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "41",
+      "variety_id": "PV-CAN-041",
+      "name": "Maui Wowie",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "États-Unis",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "14",
+      "variety_id": "PV-CAN-014",
+      "name": "Mazar-i-Sharif",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Afghanistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "32",
+      "variety_id": "PV-CAN-032",
+      "name": "Michoacán",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Mexique",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "5",
+      "variety_id": "PV-CAN-005",
+      "name": "Naga Sativa",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Inde",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "28",
+      "variety_id": "PV-CAN-028",
+      "name": "Nigerian",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Nigeria",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "31",
+      "variety_id": "PV-CAN-031",
+      "name": "Oaxacan",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Mexique",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "17",
+      "variety_id": "PV-CAN-017",
+      "name": "Pakistani Kush",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Pakistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "35",
+      "variety_id": "PV-CAN-035",
+      "name": "Panama Red",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Panama",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "39",
+      "variety_id": "PV-CAN-039",
+      "name": "Peruvian",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Pérou",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "33",
+      "variety_id": "PV-CAN-033",
+      "name": "Punto Rojo",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Colombie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "34",
+      "variety_id": "PV-CAN-034",
+      "name": "Santa Marta Gold",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Colombie",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "29",
+      "variety_id": "PV-CAN-029",
+      "name": "Senegalese",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Sénégal",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "6",
+      "variety_id": "PV-CAN-006",
+      "name": "Shillong",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Inde",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "23",
+      "variety_id": "PV-CAN-023",
+      "name": "Swazi Gold",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Eswatini",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "20",
+      "variety_id": "PV-CAN-020",
+      "name": "Tajik",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Tadjikistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "7",
+      "variety_id": "PV-CAN-007",
+      "name": "Thai (Thai Stick)",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Thaïlande",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "21",
+      "variety_id": "PV-CAN-021",
+      "name": "Turkmen",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Turkménistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "19",
+      "variety_id": "PV-CAN-019",
+      "name": "Uzbeki",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Ouzbékistan",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "12",
+      "variety_id": "PV-CAN-012",
+      "name": "Vietnamese Black",
+      "plant_id": "10",
+      "variety_type": "landrace",
+      "country_of_origin": "Vietnam",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "90016",
+      "variety_id": "PV-TAB-X02",
+      "name": "Burley Dark",
+      "plant_id": "210029",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "90017",
+      "variety_id": "PV-TAB-X03",
+      "name": "Criollo Dominicano",
+      "plant_id": "210029",
+      "variety_type": "landrace",
+      "country_of_origin": "Dominican Republic",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "90018",
+      "variety_id": "PV-TAB-X04",
+      "name": "Perique",
+      "plant_id": "210029",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "90015",
+      "variety_id": "PV-TAB-X01",
+      "name": "Virginia Gold",
+      "plant_id": "210029",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "90010",
+      "variety_id": "PV-CBD-X01",
+      "name": "CBDRx",
+      "plant_id": "210030",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "90012",
+      "variety_id": "PV-CAN-X03",
+      "name": "Cherry Pie",
+      "plant_id": "210030",
+      "variety_type": "hybrid",
+      "country_of_origin": "USA",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "90013",
+      "variety_id": "PV-CAN-X04",
+      "name": "Lamb's Bread",
+      "plant_id": "210030",
+      "variety_type": "landrace",
+      "country_of_origin": "Jamaica",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "90011",
+      "variety_id": "PV-CAN-X02",
+      "name": "Pink Pepper",
+      "plant_id": "210030",
+      "variety_type": "landrace",
+      "country_of_origin": "Colombia",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "90014",
+      "variety_id": "PV-CAN-X05",
+      "name": "Punto Rojo",
+      "plant_id": "210030",
+      "variety_type": "landrace",
+      "country_of_origin": "Colombia",
+      "has_molecules": "OUI"
+    },
+    {
+      "id": "60001",
+      "variety_id": "PV-SEED-001",
+      "name": "CBDRx",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL",
+      "has_molecules": "NON"
+    },
+    {
+      "id": "60003",
+      "variety_id": "PV-SEED-003",
+      "name": "Cherry Pie",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL",
+      "has_molecules": "NON"
+    },
+    {
+      "id": "60002",
+      "variety_id": "PV-SEED-002",
+      "name": "Pink Pepper",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL",
+      "has_molecules": "NON"
+    },
+    {
+      "id": "60004",
+      "variety_id": "PV-SEED-004",
+      "name": "Punto Rojo",
+      "plant_id": "330001",
+      "variety_type": "landrace",
+      "country_of_origin": "NULL",
+      "has_molecules": "NON"
+    },
+    {
+      "id": "60005",
+      "variety_id": "PV-SEED-005",
+      "name": "Purple Kush",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL",
+      "has_molecules": "NON"
+    },
+    {
+      "id": "60007",
+      "variety_id": "PV-SEED-007",
+      "name": "K326",
+      "plant_id": "330002",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL",
+      "has_molecules": "NON"
+    },
+    {
+      "id": "60006",
+      "variety_id": "PV-SEED-006",
+      "name": "TN90",
+      "plant_id": "330002",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL",
+      "has_molecules": "NON"
+    },
+    {
+      "id": "60008",
+      "variety_id": "PV-SEED-008",
+      "name": "Lab strain",
+      "plant_id": "330003",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL",
+      "has_molecules": "NON"
+    },
+    {
+      "id": "60009",
+      "variety_id": "PV-SEED-009",
+      "name": "Ecotype (wild)",
+      "plant_id": "330004",
+      "variety_type": "wild",
+      "country_of_origin": "NULL",
+      "has_molecules": "NON"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tvariety_id\tname\tplant_id\tvariety_type\tcountry_of_origin\thas_molecules\n30005\tPV-EXT-005\tCannabis sativa var. indica landrace (Landraces afghanes)\t1\tlandrace\tAfghanistan\tOUI\n30002\tPV-EXT-002\tJasminum grandiflorum var. florentinum (Jasmin de Florence)\t1\tcultivar\tItalie\tOUI\n30003\tPV-EXT-003\tLavandula angustifolia var. delphinensis (Lavande du Dauphiné)\t1\twild\tFrance\tOUI\n30004\tPV-EXT-004\tNicotiana tabacum var. havanensis (Tabac Havane original)\t1\tlandrace\tCuba\tOUI\n30001\tPV-EXT-001\tRosa damascena var. trigintipetala (Kazanlak historique)\t1\tcultivar\tBulgarie\tOUI\n54\tPV-TAB-012\tBashi Bagli\t7\tcultivar\tTurquie\tOUI\n49\tPV-TAB-007\tBasma\t7\tcultivar\tGrèce\tOUI\n44\tPV-TAB-002\tBurley (Air-Cured)\t7\tcultivar\tÉtats-Unis\tOUI\n60\tPV-TAB-018\tDark Fired Kentucky\t7\tlandrace\tÉtats-Unis\tOUI\n56\tPV-TAB-014\tDjebel\t7\tcultivar\tSyrie\tOUI\n51\tPV-TAB-009\tDrama\t7\tcultivar\tGrèce\tOUI\n55\tPV-TAB-013\tDubek\t7\tcultivar\tMacédoine du Nord\tOUI\n58\tPV-TAB-016\tHavana Seed\t7\tlandrace\tCuba\tOUI\n52\tPV-TAB-010\tIzmir/Smyrna\t7\tcultivar\tTurquie\tOUI\n50\tPV-TAB-008\tKaterini\t7\tcultivar\tGrèce\tOUI\n45\tPV-TAB-003\tLatakia (Fire-Cured)\t7\tcultivar\tSyrie\tOUI\n59\tPV-TAB-017\tMaryland 609\t7\tlandrace\tÉtats-Unis\tOUI\n57\tPV-TAB-015\tOrinoco\t7\tlandrace\tÉtats-Unis\tOUI\n46\tPV-TAB-004\tPerique (Fermenté)\t7\tcultivar\tÉtats-Unis\tOUI\n48\tPV-TAB-006\tSamsun\t7\tcultivar\tTurquie\tOUI\n43\tPV-TAB-001\tVirginia (Flue-Cured)\t7\tcultivar\tÉtats-Unis\tOUI\n53\tPV-TAB-011\tXanthi\t7\tcultivar\tGrèce\tOUI\n47\tPV-TAB-005\tYenidje\t7\tcultivar\tGrèce\tOUI\n30\tPV-CAN-030\tAcapulco Gold\t10\tlandrace\tMexique\tOUI\n13\tPV-CAN-013\tAfghan Kush\t10\tlandrace\tAfghanistan\tOUI\n18\tPV-CAN-018\tBalkh\t10\tlandrace\tAfghanistan\tOUI\n38\tPV-CAN-038\tBrazilian\t10\tlandrace\tBrésil\tOUI\n10\tPV-CAN-010\tCambodian\t10\tlandrace\tCambodge\tOUI\n16\tPV-CAN-016\tChitral\t10\tlandrace\tPakistan\tOUI\n8\tPV-CAN-008\tChocolate Thai\t10\tlandrace\tThaïlande\tOUI\n36\tPV-CAN-036\tColombian Gold\t10\tlandrace\tColombie\tOUI\n27\tPV-CAN-027\tCongo\t10\tlandrace\tRD Congo\tOUI\n22\tPV-CAN-022\tDurban Poison\t10\tlandrace\tAfrique du Sud\tOUI\n26\tPV-CAN-026\tEthiopian Highland\t10\tlandrace\tÉthiopie\tOUI\n40\tPV-CAN-040\tHawaiian\t10\tlandrace\tÉtats-Unis\tOUI\n9\tPV-CAN-009\tHighland Thai\t10\tlandrace\tThaïlande\tOUI\n3\tPV-CAN-003\tIdukki Gold\t10\tlandrace\tInde\tOUI\n15\tPV-CAN-015\tKandahar\t10\tlandrace\tAfghanistan\tOUI\n1\tPV-CAN-001\tKerala Gold\t10\tlandrace\tInde\tOUI\n25\tPV-CAN-025\tKilimanjaro\t10\tlandrace\tTanzanie\tOUI\n42\tPV-CAN-042\tKona Gold\t10\tlandrace\tÉtats-Unis\tOUI\n37\tPV-CAN-037\tLamb's Bread\t10\tlandrace\tJamaïque\tOUI\n11\tPV-CAN-011\tLaotian\t10\tlandrace\tLaos\tOUI\n2\tPV-CAN-002\tMalana Cream\t10\tlandrace\tInde\tOUI\n24\tPV-CAN-024\tMalawi Gold\t10\tlandrace\tMalawi\tOUI\n4\tPV-CAN-004\tManipuri\t10\tlandrace\tInde\tOUI\n41\tPV-CAN-041\tMaui Wowie\t10\tlandrace\tÉtats-Unis\tOUI\n14\tPV-CAN-014\tMazar-i-Sharif\t10\tlandrace\tAfghanistan\tOUI\n32\tPV-CAN-032\tMichoacán\t10\tlandrace\tMexique\tOUI\n5\tPV-CAN-005\tNaga Sativa\t10\tlandrace\tInde\tOUI\n28\tPV-CAN-028\tNigerian\t10\tlandrace\tNigeria\tOUI\n31\tPV-CAN-031\tOaxacan\t10\tlandrace\tMexique\tOUI\n17\tPV-CAN-017\tPakistani Kush\t10\tlandrace\tPakistan\tOUI\n35\tPV-CAN-035\tPanama Red\t10\tlandrace\tPanama\tOUI\n39\tPV-CAN-039\tPeruvian\t10\tlandrace\tPérou\tOUI\n33\tPV-CAN-033\tPunto Rojo\t10\tlandrace\tColombie\tOUI\n34\tPV-CAN-034\tSanta Marta Gold\t10\tlandrace\tColombie\tOUI\n29\tPV-CAN-029\tSenegalese\t10\tlandrace\tSénégal\tOUI\n6\tPV-CAN-006\tShillong\t10\tlandrace\tInde\tOUI\n23\tPV-CAN-023\tSwazi Gold\t10\tlandrace\tEswatini\tOUI\n20\tPV-CAN-020\tTajik\t10\tlandrace\tTadjikistan\tOUI\n7\tPV-CAN-007\tThai (Thai Stick)\t10\tlandrace\tThaïlande\tOUI\n21\tPV-CAN-021\tTurkmen\t10\tlandrace\tTurkménistan\tOUI\n19\tPV-CAN-019\tUzbeki\t10\tlandrace\tOuzbékistan\tOUI\n12\tPV-CAN-012\tVietnamese Black\t10\tlandrace\tVietnam\tOUI\n90016\tPV-TAB-X02\tBurley Dark\t210029\tcultivar\tUSA\tOUI\n90017\tPV-TAB-X03\tCriollo Dominicano\t210029\tlandrace\tDominican Republic\tOUI\n90018\tPV-TAB-X04\tPerique\t210029\tcultivar\tUSA\tOUI\n90015\tPV-TAB-X01\tVirginia Gold\t210029\tcultivar\tUSA\tOUI\n90010\tPV-CBD-X01\tCBDRx\t210030\tcultivar\tUSA\tOUI\n90012\tPV-CAN-X03\tCherry Pie\t210030\thybrid\tUSA\tOUI\n90013\tPV-CAN-X04\tLamb's Bread\t210030\tlandrace\tJamaica\tOUI\n90011\tPV-CAN-X02\tPink Pepper\t210030\tlandrace\tColombia\tOUI\n90014\tPV-CAN-X05\tPunto Rojo\t210030\tlandrace\tColombia\tOUI\n60001\tPV-SEED-001\tCBDRx\t330001\tcultivar\tNULL\tNON\n60003\tPV-SEED-003\tCherry Pie\t330001\tcultivar\tNULL\tNON\n60002\tPV-SEED-002\tPink Pepper\t330001\tcultivar\tNULL\tNON\n60004\tPV-SEED-004\tPunto Rojo\t330001\tlandrace\tNULL\tNON\n60005\tPV-SEED-005\tPurple Kush\t330001\tcultivar\tNULL\tNON\n60007\tPV-SEED-007\tK326\t330002\tcultivar\tNULL\tNON\n60006\tPV-SEED-006\tTN90\t330002\tcultivar\tNULL\tNON\n60008\tPV-SEED-008\tLab strain\t330003\tcultivar\tNULL\tNON\n60009\tPV-SEED-009\tEcotype (wild)\t330004\twild\tNULL\tNON\n",
+  "stderr": "",
+  "execution_time_ms": 140
+}

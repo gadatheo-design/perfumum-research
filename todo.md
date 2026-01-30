@@ -3342,3 +3342,59 @@
   - Perique: Solanone 0.25%, Nicotine 4.5%, notes figue/pruneau
 - **Résultat: 9 variétés avec profils moléculaires complets (dominant_molecules, molecular_profile, olfactive_notes)**
 
+
+
+---
+
+## 🔄 SESSION 30 Janvier 2026 - Relations généalogiques et profils moléculaires (Phase 7)
+
+### Analyse des variétés existantes
+- [ ] Lister toutes les variétés dans plant_varieties
+- [ ] Identifier les variétés sans profil moléculaire
+- [ ] Vérifier la structure de la table variety_genealogy
+
+### Lignées généalogiques du Cannabis
+- [ ] Documenter les landraces fondatrices (Afghan, Thai, Colombian, Mexican, etc.)
+- [ ] Documenter les hybrides classiques (Skunk #1, Northern Lights, Haze, etc.)
+- [ ] Créer les relations parent-enfant pour les variétés existantes
+- [ ] Ajouter les variétés parentes manquantes
+
+### Lignées généalogiques du Tabac
+- [ ] Documenter les variétés ancestrales (Nicotiana tabacum, N. rustica)
+- [ ] Documenter les cultivars Virginia, Burley, Oriental
+- [ ] Créer les relations généalogiques pour les variétés de tabac
+
+### Lignées des plantes de parfumerie
+- [ ] Identifier les plantes de parfumerie avec variétés multiples (lavande, rose, jasmin)
+- [ ] Documenter les chémotypes et cultivars importants
+- [ ] Créer les relations généalogiques pour les plantes aromatiques
+
+### Enrichissement des profils moléculaires
+- [ ] Compléter les 14 variétés restantes avec dominant_molecules
+- [ ] Compléter les molecular_profile pour chaque variété
+- [ ] Ajouter les olfactive_notes pour chaque variété
+
+
+
+---
+
+## 🔄 SESSION 30 Janvier 2026 - Partie 6 (Généalogie Cannabis)
+
+### Relations généalogiques cannabis
+- [x] Importer les 11 landraces de cannabis avec profils moléculaires (Afghan Kush, Thai Stick, Malawi Gold, Durban Poison, Angola Red, Lebanese Red, Oaxacan Gold, Colombian Gold, Panama Red, Acapulco Gold, Hindu Kush)
+- [x] Créer les relations généalogiques entre landraces et hybrides modernes (9 relations: Cherry Pie←Durban Poison, Pink Pepper←Colombian Gold/Thai Stick, Punto Rojo←Colombian Gold, Lamb's Bread←Malawi Gold)
+- [x] Documenter les lignées parentales entre landraces (Afghan Kush←Hindu Kush, Acapulco Gold←Oaxacan Gold, Panama Red←Colombian Gold, Lebanese Red←Afghan Kush)
+- [x] Importer les 24 gènes TPS (Terpene Synthases) avec leurs produits terpéniques (CsTPS1-CsTPS41)
+- [x] Créer la table gene_terpene_links pour stocker les correspondances gène→terpène
+- **Résultat: 11 landraces, 9 relations généalogiques, 24 gènes TPS importés**
+
+### Données importées depuis les fichiers fournis
+- [x] cannabis_landraces_endangered.json → 11 landraces avec profils moléculaires
+- [x] tps_correspondence_table.csv → 24 gènes TPS (monoterpènes, sesquiterpènes, diterpènes)
+- [x] landraces_research_notes.md → Notes de recherche intégrées
+- [x] Copie des fichiers dans /data/cannabis/ pour référence future
+
+### Prochaines étapes (Relations généalogiques tabac et parfumerie)
+- [ ] Importer les relations généalogiques des variétés de tabac (Virginia, Burley, Oriental, etc.)
+- [ ] Documenter les lignées des plantes importantes en parfumerie (lavandes, roses, jasmin)
+- [ ] Enrichir les profils moléculaires des 14 variétés restantes sans profil
