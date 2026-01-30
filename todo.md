@@ -3106,3 +3106,18 @@
 - [x] Corriger l'affichage et le fonctionnement (ajout parseRefs helper)
 - [x] API testée: 699 molécules, 403 avec CAS, 383 avec IUPAC, 56% complétude
 - [ ] Test UI (en attente reset rate limiting proxy)
+
+
+## 🐛 BUGS (30 Jan 2026 - Session courante)
+
+### Bug page molécules inaccessible
+- [x] Diagnostiquer l'erreur sur la page molécules (erreur SQL dans getTransformationsByMolecule)
+- [x] Identifier la cause: chemicalClass au lieu de chemical_class (snake_case)
+- [x] Corriger le problème dans research.ts
+- [x] Tester la page après correction (API fonctionne)
+
+### Bug barre de recherche transformations moléculaires
+- [x] Diagnostiquer pourquoi la recherche ne trouve aucune molécule (données en tableau imbriqué + métadonnées)
+- [x] Vérifier le filtrage des données (recherche sensible à la casse)
+- [x] Corriger le problème de recherche (flatten + filter metadata + LOWER pour recherche)
+- [x] Tester la recherche après correction (limon -> 4 résultats)

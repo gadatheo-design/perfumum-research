@@ -928,13 +928,21 @@ export const researchRouter = router({
           query += ` AND mt.relevance_context = '${input.relevanceContext}'`;
         }
         if (input.sourceMoleculeName) {
-          query += ` AND mt.source_molecule_name LIKE '%${input.sourceMoleculeName}%'`;
+          // Search in both source and product molecule names, case-insensitive
+          const searchTerm = input.sourceMoleculeName.replace(/'/g, "''");
+          query += ` AND (LOWER(mt.source_molecule_name) LIKE LOWER('%${searchTerm}%') OR LOWER(mt.product_molecule_name) LIKE LOWER('%${searchTerm}%'))`;
         }
 
         query += ` ORDER BY mt.source_molecule_name LIMIT ${input.limit} OFFSET ${input.offset}`;
 
         const result = await db.execute(sql.raw(query));
-        const data = (result as any).rows || (result as any[]) || [];
+        let data = (result as any).rows || (result as any[]) || [];
+        // Flatten if nested array (some DB drivers return [[...]])
+        if (Array.isArray(data) && data.length > 0 && Array.isArray(data[0])) {
+          data = data.flat();
+        }
+        // Filter out metadata objects (they have _buf property)
+        data = data.filter((item: any) => item && typeof item === 'object' && !item._buf && item.id !== undefined);
 
         return { success: true, data };
       } catch (error: any) {
@@ -1578,7 +1586,7 @@ export const researchRouter = router({
             pm.id as product_db_id,
             pm.name as product_db_name,
             pm.family as product_family,
-            pm.chemicalClass as product_chemical_class
+            pm.chemical_class as product_chemical_class
           FROM molecular_transformations mt
           LEFT JOIN molecules pm ON mt.product_molecule_id = pm.id
           WHERE ${sourceCondition}
@@ -1600,7 +1608,7 @@ export const researchRouter = router({
             sm.id as source_db_id,
             sm.name as source_db_name,
             sm.family as source_family,
-            sm.chemicalClass as source_chemical_class
+            sm.chemical_class as source_chemical_class
           FROM molecular_transformations mt
           LEFT JOIN molecules sm ON mt.source_molecule_id = sm.id
           WHERE ${productCondition}
