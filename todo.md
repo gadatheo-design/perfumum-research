@@ -4364,3 +4364,36 @@
 - [x] Compléter les noms IUPAC manquants → Majorité déjà renseignés
 - [x] Documenter les molécules introuvables (8 restantes: 1,8-Cinéole, Terpinène-4-ol, etc.)
 
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 (Suite) — Création Entités Manquantes
+
+### Tâche 51 : Créer les 11 plantes manquantes
+- [x] Réglisse (Glycyrrhiza glabra) - Fabaceae (ID: 570001)
+- [x] Genêt (Spartium junceum) - Fabaceae (ID: 570002)
+- [x] Cassie (Acacia farnesiana) - Fabaceae (ID: 570003)
+- [x] Niaouli (Melaleuca quinquenervia) - Myrtaceae (ID: 570004)
+- [x] Myrte (Myrtus communis) - Myrtaceae (ID: 570005)
+- [x] Curcuma (Curcuma longa) - Zingiberaceae (ID: 570006)
+- [x] Sapin baumier (Abies balsamea) - Pinaceae (ID: 570007)
+- [x] Camphrier (Cinnamomum camphora) - Lauraceae (ID: 570008)
+- [x] Laurier noble (Laurus nobilis) - Lauraceae (ID: 570009)
+- [x] Angélique (Angelica archangelica) - Apiaceae (ID: 570010)
+- [x] Anis vert (Pimpinella anisum) - Apiaceae (ID: 570011)
+
+### Tâche 52 : Créer les 8 molécules manquantes
+- [x] 1,8-Cinéole (Eucalyptol) - CAS 470-82-6 → Déjà existante (ID: 570048)
+- [x] Terpinène-4-ol - CAS 562-74-3 → Déjà existante (ID: 960002)
+- [x] Cuminaldéhyde - CAS 122-03-2 → Déjà existante (ID: 990038)
+- [x] Anisaldéhyde - CAS 123-11-5 → Créée (ID: 1140001)
+- [x] Néral - CAS 106-26-3 → Déjà existante (ID: 810033)
+- [x] Farnésol - CAS 4602-84-0 → Déjà existante (ID: 690001)
+- [x] Acétate de géranyle - CAS 105-87-3 → Déjà existante (ID: 570019)
+- [x] Acétate de benzyle - CAS 140-11-4 → Déjà existante (ID: 210011)
+
+### Tâche 53 : Établir les liaisons molécule-plante
+- [x] Lier les nouvelles molécules aux plantes appropriées (11 liaisons créées)
+- [x] Valider les pourcentages et sources
+- [ ] Tester les nouvelles entités dans l'interface
+
