@@ -4397,3 +4397,28 @@
 - [x] Valider les pourcentages et sources
 - [ ] Tester les nouvelles entités dans l'interface
 
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 (Suite) — Liaisons et Propriétés Thérapeutiques
+
+### Tâche 54 : Créer les liaisons manquantes
+- [x] 1,8-Cinéole → Niaouli (55%), Myrte (25%), Laurier noble (45%), Camphrier (50%)
+- [x] Terpinène-4-ol → Niaouli (8%), Myrte (5%)
+- [x] Néral → Angélique (5%)
+- [x] Farnésol → Cassie (8%), Genêt (5%)
+- [x] Acétate de géranyle → Angélique (3%)
+
+### Tâche 55 : Propriétés thérapeutiques des 11 nouvelles plantes
+- [x] Réglisse - Usage traditionnel et propriétés
+- [x] Genêt - Usage traditionnel et propriétés
+- [x] Cassie - Usage traditionnel et propriétés
+- [x] Niaouli - Usage traditionnel et propriétés
+- [x] Myrte - Usage traditionnel et propriétés
+- [x] Curcuma - Usage traditionnel et propriétés
+- [x] Sapin baumier - Usage traditionnel et propriétés
+- [x] Camphrier - Usage traditionnel et propriétés
+- [x] Laurier noble - Usage traditionnel et propriétés
+- [x] Angélique - Usage traditionnel et propriétés
+- [x] Anis vert - Usage traditionnel et propriétés
+
