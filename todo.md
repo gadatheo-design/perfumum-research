@@ -3702,3 +3702,31 @@
 - [x] Page Terroirs.tsx existante déjà complète avec carte interactive
 - **Résultat**: 9 terroirs total dans la base (7 nouveaux ajoutés)eractive
 - [ ] Ajouter les comparaisons entre régions
+
+
+---
+
+## 🔥 SESSION 30 JANVIER 2026 — Visualisations et données avancées
+
+### Tâche 1 : Page de visualisation des transformations pyrolytiques - TERMINÉ
+- [x] Créer la page PyrolysisVisualization.tsx
+- [x] Implémenter le diagramme D3.js des voies de dégradation thermique
+- [x] Afficher les transformations par molécule source (7 molécules)
+- [x] Ajouter les zones de température interactives (vaporisation, pyrolyse, combustion)
+- [x] Ajouter les routes /pyrolysis, /pyrolyse, /transformations-pyrolytiques
+- [x] Ajouter les profils olfactifs avant/après combustion
+- [x] Ajouter les niveaux de toxicité des produits
+
+### Tâche 2 : Données de fermentation du Perique - TERMINÉ
+- [x] Créer la table perique_fermentation_stages
+- [x] Documenter les 7 stages de fermentation (12 mois total)
+- [x] Importer les transformations enzymatiques (enzymes clés documentées)
+- [x] Documenter les composés formés (lactones, damascénone, indoles, esters)
+- **Résultat**: 7 stages de fermentation avec conditions, enzymes, composés formés/dégradés, changements olfactifs
+
+### Tâche 3 : Profils terpéniques des landraces - TERMINÉ
+- [x] Créer la table landrace_terpene_profiles
+- [x] Importer les données de chromatographie (38 profils pour 12 landraces)
+- [x] Ajouter les concentrations par terpène (ppm et abondance relative)
+- [x] Documenter les contributions olfactives de chaque terpène
+- **Résultat**: 38 profils terpéniques pour Basma, Latakia, Perique, Corojo, Virginia, Izmir, Yenidje, Estelí, Cameroun, Sumatra, Connecticut

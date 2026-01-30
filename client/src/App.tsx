@@ -352,6 +352,7 @@ import MolecularTransformations from "./pages/MolecularTransformations";
 import TobaccoLandraces from "./pages/TobaccoLandraces";
 import SoilAnalysis from "./pages/SoilAnalysis";
 import BiosyntheticPathways from "./pages/BiosyntheticPathways";
+import PyrolysisVisualization from "./pages/PyrolysisVisualization";
 
 
 
@@ -435,6 +436,9 @@ function Router() {
       <Route path="/biosynthetic-pathways" component={BiosyntheticPathways} />
       <Route path="/voies-biosynthetiques" component={BiosyntheticPathways} />
       <Route path="/tps-pathways" component={BiosyntheticPathways} />
+      <Route path="/pyrolysis" component={PyrolysisVisualization} />
+      <Route path="/pyrolyse" component={PyrolysisVisualization} />
+      <Route path="/transformations-pyrolytiques" component={PyrolysisVisualization} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />
