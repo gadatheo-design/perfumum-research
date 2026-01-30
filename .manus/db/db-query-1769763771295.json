@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO plant_molecules (plant_id, molecule_id, percentage, notes, created_at) VALUES \n-- Guaiacol (90021) → Gaïac (bois) (210011)\n(210011, 90021, 5.0, 'Phénol caractéristique du bois de gaïac', NOW()),\n\n-- 4-methyl-guaiacol (120006) → Gaïac (bois) (210011)\n(210011, 120006, 2.0, 'Dérivé méthylé du guaiacol dans le gaïac', NOW()),\n\n-- Syringol (750012) → Gaïac (bois) (210011)\n(210011, 750012, 3.0, 'Phénol fumé présent dans le bois de gaïac', NOW()),\n\n-- Guaiacol Fumé (570009) → Gaïac (bois) (210011)\n(210011, 570009, 0.0, 'Accord guaiacol fumé inspiré du gaïac', NOW()),\n\n-- Crésol Fumé (570010) → Gaïac (bois) (210011)\n(210011, 570010, 0.0, 'Accord crésol fumé inspiré du gaïac', NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO plant_molecules (plant_id, molecule_id, percentage, notes, created_at) VALUES \n-- Guaiacol (90021) → Gaïac (bois) (210011)\n(210011, 90021, 5.0, 'Phénol caractéristique du bois de gaïac', NOW()),\n\n-- 4-methyl-guaiacol (120006) → Gaïac (bois) (210011)\n(210011, 120006, 2.0, 'Dérivé méthylé du guaiacol dans le gaïac', NOW()),\n\n-- Syringol (750012) → Gaïac (bois) (210011)\n(210011, 750012, 3.0, 'Phénol fumé présent dans le bois de gaïac', NOW()),\n\n-- Guaiacol Fumé (570009) → Gaïac (bois) (210011)\n(210011, 570009, 0.0, 'Accord guaiacol fumé inspiré du gaïac', NOW()),\n\n-- Crésol Fumé (570010) → Gaïac (bois) (210011)\n(210011, 570010, 0.0, 'Accord crésol fumé inspiré du gaïac', NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 83
+}

@@ -3240,3 +3240,34 @@
 - [ ] Compléter manuellement les molécules complexes (accords, mélanges)
 - **Résultat: CAS 403→408 (+5), IUPAC 383→388 (+5), Classes chimiques 528→530 (+2)**
 
+
+
+---
+
+## 🔄 SESSION 30 Janvier 2026 - Enrichissement des données (Phase 4)
+
+### Plus de liaisons plante-molécule
+- [x] Identifier les molécules orphelines restantes importantes (450 orphelines)
+- [x] Créer les liaisons plante-molécule pour les terpènes majeurs (+11 terpènes cannabis)
+- [x] Créer les liaisons pour les ionones et composés du tabac (+16 liaisons)
+- [x] Créer les liaisons pour les phénols (+5 liaisons)
+- **Résultat: 650 liaisons (40% couverture, +32 nouvelles)**
+
+### Documentation complétion manuelle des molécules complexes
+- [x] Créer un guide pour compléter les accords et mélanges
+- [x] Documenter les sources de données alternatives (littérature parfumerie)
+- [x] Expliquer comment utiliser l'interface admin pour l'édition manuelle
+- **Résultat: Guide créé dans docs/GUIDE_COMPLETION_MOLECULES.md**
+
+### Synergies de neutralisation
+- [x] Rechercher les synergies de neutralisation documentées
+- [x] Identifier les paires de molécules qui s'annulent
+- [x] Ajouter les synergies de neutralisation dans la base (type: transformation)
+- **Résultat: +7 synergies (Citral→Soufre, Menthol→Cinnamaldéhyde, Eucalyptol→Humus, Thymol→Soufre, Citronellal→Indole, Géraniol→Soufre, Linalool→Métallique)**
+
+### Propriétés thérapeutiques
+- [x] Identifier les molécules sans propriétés thérapeutiques (578 sans)
+- [x] Rechercher les propriétés thérapeutiques documentées
+- [x] Enrichir les fiches molécules avec les données thérapeutiques
+- **Résultat: 137 molécules avec propriétés thérapeutiques (+16 enrichies: Linalool, Carvacrol, Thymol, Citral, Menthol, Eucalyptol, α-Bisabolol, Citronellol, Farnesol, Géraniol, β-Myrcène, α-Pinène, β-Caryophyllène, Camphre, Bornéol)**
+
