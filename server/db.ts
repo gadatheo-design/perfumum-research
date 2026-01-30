@@ -18433,6 +18433,7 @@ export async function getVarietyFullGenealogy(varietyId: number, depth: number =
 import { 
   researchPublications,
   analyticalMethods,
+  moleculeAnalyticalMethods,
   researchers,
   researchInstitutions,
   publicationMethods,
@@ -18442,6 +18443,7 @@ import {
   publicationTransformations,
   ResearchPublication,
   AnalyticalMethod,
+  MoleculeAnalyticalMethod,
   Researcher,
   ResearchInstitution
 } from '../drizzle/schema';
@@ -18541,6 +18543,37 @@ export async function searchAnalyticalMethods(query: string) {
       )
     )
     .orderBy(desc(analyticalMethods.performanceScore));
+}
+
+// Get analytical methods used for a specific molecule
+export async function getAnalyticalMethodsByMoleculeId(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select({
+    id: analyticalMethods.id,
+    code: analyticalMethods.code,
+    name: analyticalMethods.name,
+    fullName: analyticalMethods.fullName,
+    category: analyticalMethods.category,
+    description: analyticalMethods.description,
+    performanceScore: analyticalMethods.performanceScore,
+    resolutionScore: analyticalMethods.resolutionScore,
+    sensitivityScore: analyticalMethods.sensitivityScore,
+    detectionLimit: analyticalMethods.detectionLimit,
+    // Liaison details
+    isPrimary: moleculeAnalyticalMethods.isPrimary,
+    analysisDetectionLimit: moleculeAnalyticalMethods.detectionLimit,
+    detectionUnit: moleculeAnalyticalMethods.detectionUnit,
+    accuracy: moleculeAnalyticalMethods.accuracy,
+    analysisDate: moleculeAnalyticalMethods.analysisDate,
+    laboratoryName: moleculeAnalyticalMethods.laboratoryName,
+    liaisonNotes: moleculeAnalyticalMethods.notes,
+  })
+  .from(moleculeAnalyticalMethods)
+  .innerJoin(analyticalMethods, eq(moleculeAnalyticalMethods.methodId, analyticalMethods.id))
+  .where(eq(moleculeAnalyticalMethods.moleculeId, moleculeId))
+  .orderBy(desc(moleculeAnalyticalMethods.isPrimary), desc(analyticalMethods.performanceScore));
 }
 
 // --- Researchers ---

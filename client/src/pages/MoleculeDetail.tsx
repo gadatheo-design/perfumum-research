@@ -16,6 +16,7 @@ import { Molecule3DViewer } from "@/components/Molecule3DViewer";
 import { LinkedRecettes, SimilarContent } from "@/components/SeeAlso";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import { AIClassificationSuggestion } from "@/components/AIClassificationSuggestion";
+import { MoleculeAnalyticalMethods } from "@/components/MoleculeAnalyticalMethods";
 
 // Mapping des classes chimiques pour l'affichage
 const chemicalClassLabels: Record<string, string> = {
@@ -944,6 +945,9 @@ export default function MoleculeDetail() {
                   </div>
                 </div>
               )}
+
+              {/* Méthodes analytiques utilisées */}
+              <MoleculeAnalyticalMethods moleculeId={id} />
 
               {/* Classification assistée par IA */}
               <AIClassificationSuggestion

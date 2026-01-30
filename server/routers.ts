@@ -3463,6 +3463,11 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.searchAnalyticalMethods(input.query);
       }),
+    getByMoleculeId: publicProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getAnalyticalMethodsByMoleculeId(input.moleculeId);
+      }),
   }),
   
   plantAnalyses: router({
