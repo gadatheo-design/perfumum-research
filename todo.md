@@ -4022,3 +4022,29 @@
 - [x] Permettre l'export du chromatogramme en PNG
 - [x] Légende des composés avec couleurs et pourcentages
 - [x] Statistiques (nombre de pics, composés, pics majeurs)
+
+
+## 📊 SESSION 30 JANVIER 2026 — Visualisation et Pyrolyse
+
+### Tâche 25 : Page de visualisation publication↔molécule - TERMINÉ
+- [x] Créer la page PublicationMoleculeGraph.tsx avec graphe D3.js force-directed
+- [x] Ajouter la procédure tRPC getPublicationMoleculeLinks
+- [x] Implémenter le graphe avec nœuds publications (bleu) et molécules (vert)
+- [x] Ajouter les filtres par type de relation (studies, analyzes, mentions, synthesizes)
+- [x] Ajouter les routes /publication-molecule-graph, /graphe-publications-molecules, /research-graph
+- [x] Export PNG, zoom, recherche, détails au clic
+
+### Tâche 26 : Données de pyrolyse par landrace - DÉJÀ IMPLÉMENTÉ
+- [x] Table landrace_pyrolysis_profiles déjà existante avec 22 profils
+- [x] Données importées pour: Afghan Kush, Hindu Kush, Thai Stick, Malawi Gold, Durban Poison, etc.
+- [x] Colonnes: landrace_name, region, cannabis_type, dominant_terpene, terpene_percentage, pyrolysis_products, smoke_signature, toxicity_level
+- [x] Procédure tRPC existante dans research.ts
+
+### Tâche 27 : Tests responsive - EN ATTENTE (rate limit 429)
+- [ ] Tester InventoryDashboard sur mobile (320px-480px)
+- [ ] Tester AnalysisHub sur mobile
+- [ ] Tester PublicationMoleculeGraph sur mobile
+- **Note**: Rate limit actif, tests à effectuer après réinitialisation
+- [ ] Tester SpectraIdentification sur mobile
+- [ ] Corriger les problèmes d'affichage identifiés
+

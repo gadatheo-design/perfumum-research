@@ -2037,7 +2037,7 @@ export const researchRouter = router({
           query += ` AND (source_molecule_name LIKE '%${searchTerm}%' OR product_molecule_name LIKE '%${searchTerm}%' OR notes LIKE '%${searchTerm}%')`;
         }
         
-        query += ` ORDER BY source_molecule_name ASC`;
+        query += ` ORDER BY id DESC`;
         query += ` LIMIT ${input?.limit || 100} OFFSET ${input?.offset || 0}`;
         
         const result = await db.execute(sql.raw(query));
@@ -2051,6 +2051,94 @@ export const researchRouter = router({
       } catch (error: any) {
         console.error("Error fetching molecular transformations:", error);
         return { success: false, data: [], count: 0, error: error.message };
+      }
+    }),
+
+  /**
+   * Get all publication-molecule links for visualization
+   */
+  getPublicationMoleculeLinks: publicProcedure
+    .input(
+      z.object({
+        publicationId: z.number().optional(),
+        moleculeId: z.number().optional(),
+        relationshipType: z.string().optional(),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, links: [], publications: [], molecules: [], error: "Database connection failed" };
+        }
+        
+        // Get all links with publication and molecule details
+        let query = `
+          SELECT 
+            pml.id,
+            pml.publication_id,
+            pml.molecule_id,
+            pml.relationship_type,
+            pml.notes,
+            rp.title as publication_title,
+            rp.year as publication_year,
+            rp.journal as publication_journal,
+            m.name as molecule_name,
+            m.formula as molecule_formula,
+            m.chemical_class as molecule_class
+          FROM publication_molecule_links pml
+          JOIN research_publications rp ON pml.publication_id = rp.id
+          JOIN molecules m ON pml.molecule_id = m.id
+          WHERE 1=1
+        `;
+        
+        if (input?.publicationId) {
+          query += ` AND pml.publication_id = ${input.publicationId}`;
+        }
+        if (input?.moleculeId) {
+          query += ` AND pml.molecule_id = ${input.moleculeId}`;
+        }
+        if (input?.relationshipType) {
+          query += ` AND pml.relationship_type = '${input.relationshipType.replace(/'/g, "''")}'`;
+        }
+        
+        query += ` ORDER BY rp.year DESC, m.name ASC`;
+        
+        const linksResult = await db.execute(sql.raw(query));
+        const links = Array.isArray(linksResult) && linksResult.length > 0 ? linksResult[0] : linksResult;
+        
+        // Get unique publications
+        const pubsResult = await db.execute(sql.raw(`
+          SELECT DISTINCT rp.id, rp.title, rp.year, rp.journal, rp.doi
+          FROM research_publications rp
+          JOIN publication_molecule_links pml ON rp.id = pml.publication_id
+          ORDER BY rp.year DESC
+        `));
+        const publications = Array.isArray(pubsResult) && pubsResult.length > 0 ? pubsResult[0] : pubsResult;
+        
+        // Get unique molecules
+        const molsResult = await db.execute(sql.raw(`
+          SELECT DISTINCT m.id, m.name, m.formula, m.chemical_class
+          FROM molecules m
+          JOIN publication_molecule_links pml ON m.id = pml.molecule_id
+          ORDER BY m.name ASC
+        `));
+        const molecules = Array.isArray(molsResult) && molsResult.length > 0 ? molsResult[0] : molsResult;
+        
+        return {
+          success: true,
+          links: Array.isArray(links) ? links : [],
+          publications: Array.isArray(publications) ? publications : [],
+          molecules: Array.isArray(molecules) ? molecules : [],
+          stats: {
+            totalLinks: Array.isArray(links) ? links.length : 0,
+            totalPublications: Array.isArray(publications) ? publications.length : 0,
+            totalMolecules: Array.isArray(molecules) ? molecules.length : 0,
+          }
+        };
+      } catch (error: any) {
+        console.error("Error fetching publication-molecule links:", error);
+        return { success: false, links: [], publications: [], molecules: [], error: error.message };
       }
     }),
 });
