@@ -491,4 +491,66 @@ export const tobaccoRouter = router({
         return { success: false, data: null, error: (error as Error).message };
       }
     }),
+
+  // ============================================================================
+  // TERPENE PROFILES
+  // ============================================================================
+
+  /**
+   * Get all terpene profiles for landraces
+   */
+  getTerpeneProfiles: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return [];
+      
+      const result = await db.execute(sql`
+        SELECT * FROM landrace_terpene_profiles ORDER BY landrace_name, relative_abundance DESC
+      `);
+      return result[0] as any[];
+    } catch (error) {
+      console.error("Error fetching terpene profiles:", error);
+      return [];
+    }
+  }),
+
+  /**
+   * Get terpene profiles for a specific landrace
+   */
+  getTerpeneProfilesByLandrace: publicProcedure
+    .input(z.object({ landraceName: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return [];
+        
+        const result = await db.execute(sql`
+          SELECT * FROM landrace_terpene_profiles 
+          WHERE landrace_name = ${input.landraceName}
+          ORDER BY relative_abundance DESC
+        `);
+        return result[0] as any[];
+      } catch (error) {
+        console.error("Error fetching terpene profiles by landrace:", error);
+        return [];
+      }
+    }),
+
+  /**
+   * Get Perique fermentation stages
+   */
+  getPeriqueFermentationStages: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return [];
+      
+      const result = await db.execute(sql`
+        SELECT * FROM perique_fermentation_stages ORDER BY stage_number
+      `);
+      return result[0] as any[];
+    } catch (error) {
+      console.error("Error fetching fermentation stages:", error);
+      return [];
+    }
+  }),
 });

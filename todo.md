@@ -3730,3 +3730,31 @@
 - [x] Ajouter les concentrations par terpène (ppm et abondance relative)
 - [x] Documenter les contributions olfactives de chaque terpène
 - **Résultat**: 38 profils terpéniques pour Basma, Latakia, Perique, Corojo, Virginia, Izmir, Yenidje, Estelí, Cameroun, Sumatra, Connecticut
+
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 — Visualisations avancées (Suite)
+
+### Tâche 1 : Page de visualisation des profils terpéniques - TERMINÉ
+- [x] Créer la page TerpeneProfiles.tsx avec radar charts D3.js
+- [x] Afficher les profils comparatifs par landrace (12 landraces)
+- [x] Ajouter les filtres par famille de terpènes (7 catégories)
+- [x] Ajouter les routes /terpene-profiles, /profils-terpeniques, /terpenes
+- [x] Ajouter le bar chart comparatif par terpène
+- [x] Ajouter le tableau de données détaillées
+
+### Tâche 2 : Timeline interactive de la fermentation du Perique - TERMINÉ
+- [x] Créer la page PeriqueFermentation.tsx avec timeline D3.js
+- [x] Visualiser les 7 stages mois par mois avec animation
+- [x] Afficher les transformations biochimiques à chaque étape
+- [x] Ajouter les routes /perique-fermentation, /fermentation-perique, /perique
+- [x] Ajouter le graphique d'évolution température/pH
+- [x] Ajouter les contrôles de lecture (play/pause/reset)
+
+### Tâche 3 : Lier les données de pyrolyse aux fiches molécules - TERMINÉ
+- [x] Ajouter les fonctions DB pour récupérer les transformations pyrolytiques par molécule
+- [x] Créer les procédures tRPC correspondantes (getPyrolysisTransformations, getPyrolysisProducts)
+- [x] Ajouter l'onglet Pyrolyse dans MoleculeDetail.tsx (8 onglets au total)
+- [x] Afficher les produits de dégradation thermique avec températures et toxicité
+- [x] Créer le composant PyrolysisSection avec profils olfactifs avant/aprèsmpérature

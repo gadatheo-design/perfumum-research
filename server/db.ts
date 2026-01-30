@@ -18917,3 +18917,71 @@ export async function compareSoilAnalyses(terroir1: string, terroir2: string) {
     terroir2: (result2 as any[])[0] || null
   };
 }
+
+
+// --- Pyrolysis Transformations ---
+
+export async function getPyrolysisTransformationsByMolecule(moleculeName: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM pyrolysis_transformations 
+    WHERE source_molecule = ${moleculeName}
+    ORDER BY temperature_min ASC
+  `);
+  return result[0] as any[];
+}
+
+export async function getPyrolysisTransformationsByProduct(productName: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM pyrolysis_transformations 
+    WHERE product_molecule = ${productName}
+    ORDER BY temperature_min ASC
+  `);
+  return result[0] as any[];
+}
+
+export async function getAllPyrolysisTransformations() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM pyrolysis_transformations ORDER BY source_molecule, temperature_min
+  `);
+  return result[0] as any[];
+}
+
+export async function getTemperatureZones() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM temperature_zones ORDER BY temp_min ASC
+  `);
+  return result[0] as any[];
+}
+
+export async function getLandracePyrolysisProfiles() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT * FROM landrace_pyrolysis_profiles ORDER BY landrace_name
+  `);
+  return result[0] as any[];
+}
+
+export async function getLandracePyrolysisProfile(landraceName: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.execute(sql`
+    SELECT * FROM landrace_pyrolysis_profiles WHERE landrace_name = ${landraceName}
+  `);
+  const rows = result[0] as any[];
+  return rows[0] || null;
+}

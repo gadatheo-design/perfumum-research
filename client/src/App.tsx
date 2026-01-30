@@ -353,6 +353,8 @@ import TobaccoLandraces from "./pages/TobaccoLandraces";
 import SoilAnalysis from "./pages/SoilAnalysis";
 import BiosyntheticPathways from "./pages/BiosyntheticPathways";
 import PyrolysisVisualization from "./pages/PyrolysisVisualization";
+import TerpeneProfiles from "./pages/TerpeneProfiles";
+import PeriqueFermentation from "./pages/PeriqueFermentation";
 
 
 
@@ -439,6 +441,12 @@ function Router() {
       <Route path="/pyrolysis" component={PyrolysisVisualization} />
       <Route path="/pyrolyse" component={PyrolysisVisualization} />
       <Route path="/transformations-pyrolytiques" component={PyrolysisVisualization} />
+      <Route path="/terpene-profiles" component={TerpeneProfiles} />
+      <Route path="/profils-terpeniques" component={TerpeneProfiles} />
+      <Route path="/terpenes" component={TerpeneProfiles} />
+      <Route path="/perique-fermentation" component={PeriqueFermentation} />
+      <Route path="/fermentation-perique" component={PeriqueFermentation} />
+      <Route path="/perique" component={PeriqueFermentation} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />

@@ -401,6 +401,20 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getTpsGenesByMolecule(input);
       }),
+    
+    // Transformations pyrolytiques d'une molécule
+    getPyrolysisTransformations: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getPyrolysisTransformationsByMolecule(input);
+      }),
+    
+    // Produits de pyrolyse d'une molécule
+    getPyrolysisProducts: publicProcedure
+      .input(z.string())
+      .query(async ({ input }) => {
+        return await db.getPyrolysisTransformationsByProduct(input);
+      }),
   }),
 
   // Terpene Synergies

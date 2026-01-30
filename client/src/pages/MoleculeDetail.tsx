@@ -69,6 +69,115 @@ const ifraCategoryDescriptions: Record<string, string> = {
   category11b: "Parfums d'ambiance (autres)",
 };
 
+// Composant pour afficher les transformations pyrolytiques d'une molécule
+function PyrolysisSection({ moleculeName }: { moleculeName: string }) {
+  const { data: transformations, isLoading } = trpc.molecules.getPyrolysisTransformations.useQuery(moleculeName, {
+    enabled: !!moleculeName,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="bg-card p-6 rounded-lg border shadow-sm">
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
+
+  const hasTransformations = transformations && transformations.length > 0;
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-card p-6 rounded-lg border shadow-sm">
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <Flame className="h-5 w-5 text-orange-500" />
+          Transformations Pyrolytiques
+        </h2>
+        
+        <p className="text-sm text-muted-foreground mb-6">
+          La pyrolyse est la décomposition thermique des molécules en l'absence d'oxygène. 
+          Cette section présente les produits de dégradation thermique de cette molécule à différentes températures.
+        </p>
+        
+        {hasTransformations ? (
+          <div className="space-y-4">
+            {transformations.map((t: any, idx: number) => (
+              <div key={idx} className="p-4 bg-muted/50 rounded-lg border">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-orange-500/20">
+                      <Thermometer className="h-5 w-5 text-orange-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">{t.source_molecule} → {t.product_molecule}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {t.temperature_min}-{t.temperature_max}°C ({t.zone_name})
+                      </p>
+                    </div>
+                  </div>
+                  {t.toxicity_level && (
+                    <Badge variant="outline" className={`
+                      ${t.toxicity_level === 'high' ? 'bg-red-500/20 text-red-400 border-red-500/30' : ''}
+                      ${t.toxicity_level === 'medium' ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' : ''}
+                      ${t.toxicity_level === 'low' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' : ''}
+                      ${t.toxicity_level === 'none' ? 'bg-green-500/20 text-green-400 border-green-500/30' : ''}
+                    `}>
+                      <AlertTriangle className="h-3 w-3 mr-1" />
+                      Toxicité {t.toxicity_level === 'high' ? 'Élevée' : t.toxicity_level === 'medium' ? 'Moyenne' : t.toxicity_level === 'low' ? 'Faible' : 'Nulle'}
+                    </Badge>
+                  )}
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  {t.olfactory_before && (
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Profil olfactif avant</p>
+                      <p className="italic">{t.olfactory_before}</p>
+                    </div>
+                  )}
+                  {t.olfactory_after && (
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Profil olfactif après</p>
+                      <p className="italic">{t.olfactory_after}</p>
+                    </div>
+                  )}
+                </div>
+                
+                {t.mechanism && (
+                  <div className="mt-3 pt-3 border-t border-border/50">
+                    <p className="text-xs text-muted-foreground mb-1">Mécanisme</p>
+                    <p className="text-sm">{t.mechanism}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8 text-muted-foreground">
+            <Flame className="h-12 w-12 mx-auto mb-3 opacity-50" />
+            <p>Aucune transformation pyrolytique documentée pour cette molécule.</p>
+            <p className="text-sm mt-2">Les données de pyrolyse seront ajoutées progressivement.</p>
+          </div>
+        )}
+      </div>
+      
+      {/* Lien vers la page de pyrolyse */}
+      <div className="bg-muted/50 p-4 rounded-lg border">
+        <p className="text-sm text-muted-foreground">
+          Explorez toutes les transformations pyrolytiques documentées dans notre base de données.
+        </p>
+        <Link href="/pyrolysis">
+          <Button variant="outline" className="mt-2">
+            <Flame className="h-4 w-4 mr-2" />
+            Voir toutes les transformations pyrolytiques
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 // Composant pour afficher les plantes sources d'une molécule
 function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
   const { data: plantSources, isLoading } = trpc.plantMoleculeLinks.getByMolecule.useQuery({ moleculeId });
@@ -518,11 +627,12 @@ export default function MoleculeDetail() {
 
           {/* Tabs pour organiser le contenu */}
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-7">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-8">
               <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
               <TabsTrigger value="scientific">Données scientifiques</TabsTrigger>
               <TabsTrigger value="transformations">Transformations</TabsTrigger>
               <TabsTrigger value="biosynthesis">Biosynthèse</TabsTrigger>
+              <TabsTrigger value="pyrolysis">Pyrolyse</TabsTrigger>
               <TabsTrigger value="plants">Plantes sources</TabsTrigger>
               <TabsTrigger value="origins">Origines géographiques</TabsTrigger>
               <TabsTrigger value="ifra">Réglementation IFRA</TabsTrigger>
@@ -1205,6 +1315,11 @@ export default function MoleculeDetail() {
                   </Link>
                 </div>
               </div>
+            </TabsContent>
+
+            {/* Onglet Pyrolyse - Transformations thermiques */}
+            <TabsContent value="pyrolysis" className="space-y-6 mt-6">
+              <PyrolysisSection moleculeName={molecule?.name || ''} />
             </TabsContent>
 
             {/* Onglet Plantes sources */}
