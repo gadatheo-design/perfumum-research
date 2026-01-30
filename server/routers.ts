@@ -51,6 +51,14 @@ import { koppenRouter } from "./routers/koppen";
 import { tobaccoRouter } from "./routers/tobacco";
 import { researchRouter } from "./routers/research";
 import { rawMaterialsRouter, suppliersRouter } from "./routers/raw-materials";
+import { 
+  withCache, 
+  CACHE_KEYS, 
+  CACHE_TTL, 
+  invalidateMoleculeCache, 
+  invalidatePlantCache, 
+  invalidateRecetteCache 
+} from "./cache";
 
 export const appRouter = router({
   system: systemRouter,
@@ -197,10 +205,14 @@ export const appRouter = router({
       }),
   }),
 
-  // Molecules
+  // Molecules (avec cache pour optimisation)
   molecules: router({
     list: publicProcedure.query(async () => {
-      return await db.getAllMolecules();
+      return await withCache(
+        CACHE_KEYS.MOLECULES_LIST,
+        () => db.getAllMolecules(),
+        CACHE_TTL.MEDIUM
+      );
     }),
     
     getSimilar: publicProcedure
@@ -237,7 +249,9 @@ export const appRouter = router({
         return val as any;
       })
       .mutation(async ({ input }) => {
-        return await db.createMolecule(input);
+        const result = await db.createMolecule(input);
+        invalidateMoleculeCache(); // Invalider le cache après création
+        return result;
       }),
     updateRadar: publicProcedure
       .input(z.object({
@@ -250,7 +264,9 @@ export const appRouter = router({
         radarEarthiness: z.number().min(0).max(100),
       }))
       .mutation(async ({ input }) => {
-        return await db.updateMoleculeRadar(input);
+        const result = await db.updateMoleculeRadar(input);
+        invalidateMoleculeCache(input.id); // Invalider le cache après mise à jour
+        return result;
       }),
     // Recherche de molécules par nom
     search: publicProcedure
@@ -479,7 +495,7 @@ export const appRouter = router({
       }),
   }),
 
-  // Recettes
+  // Recettes (avec cache pour optimisation)
   recettes: router({
     list: publicProcedure
       .input(z.object({
@@ -487,9 +503,18 @@ export const appRouter = router({
       }).optional())
       .query(async ({ input }) => {
         if (input?.category) {
-          return await db.getRecettesByCategory(input.category);
+          // Cache par catégorie
+          return await withCache(
+            `recettes:category:${input.category}`,
+            () => db.getRecettesByCategory(input.category),
+            CACHE_TTL.MEDIUM
+          );
         }
-        return await db.getAllRecettes();
+        return await withCache(
+          CACHE_KEYS.RECETTES_LIST,
+          () => db.getAllRecettes(),
+          CACHE_TTL.MEDIUM
+        );
       }),
     getById: publicProcedure
       .input((val: unknown) => {
@@ -1025,12 +1050,17 @@ export const appRouter = router({
       }),
   }),
 
-  // Global Search
+  // Global Search (avec cache pour optimisation)
   search: router({
     global: publicProcedure
       .input(z.object({ query: z.string(), limit: z.number().optional() }))
       .query(async ({ input }) => {
-        return await db.globalSearch(input.query, input.limit);
+        // Cache les résultats de recherche pendant 1 minute
+        return await withCache(
+          CACHE_KEYS.SEARCH_GLOBAL(input.query),
+          () => db.globalSearch(input.query, input.limit),
+          CACHE_TTL.SHORT
+        );
       }),
     // Synonymes olfactifs - récupère les synonymes d'un terme
     getSynonyms: publicProcedure
@@ -2775,7 +2805,11 @@ export const appRouter = router({
   // ============================================================================
   plants: router({
     list: publicProcedure.query(async () => {
-      return await db.getAllPlants();
+      return await withCache(
+        CACHE_KEYS.PLANTS_LIST,
+        () => db.getAllPlants(),
+        CACHE_TTL.MEDIUM
+      );
     }),
     getById: publicProcedure
       .input(z.number())

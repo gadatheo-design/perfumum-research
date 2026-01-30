@@ -4244,3 +4244,27 @@
 - [x] Helper withCache() pour wrapper les fonctions
 - [x] Tests complets (13 tests passés)
 
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 - INTÉGRATION CACHE & PREFETCHING
+
+### Tâche 37 : Intégrer le cache dans les routers tRPC
+- [x] Cacher getMolecules avec withCache() (CACHE_TTL.MEDIUM)
+- [x] Cacher getPlants avec withCache() (CACHE_TTL.MEDIUM)
+- [x] Cacher globalSearch avec withCache() (CACHE_TTL.SHORT)
+- [x] Cacher getRecettes avec withCache() (CACHE_TTL.MEDIUM + par catégorie)
+- [x] Ajouter invalidation dans les mutations (createMolecule, updateMoleculeRadar)
+
+### Tâche 38 : Endpoint de monitoring du cache
+- [x] Créer procedure system.cacheStats (adminProcedure)
+- [x] Exposer hit rate, size, et statistiques avec descriptions
+- [x] Ajouter system.clearCache pour vider le cache
+- [ ] Ajouter au dashboard admin (UI) → Phase 2
+
+### Tâche 39 : Prefetching des données
+- [x] Créer hook usePrefetch (hooks/usePrefetch.ts)
+- [x] Précharger les données lors du hover sur les liens (délai 150ms)
+- [x] Créer composant PrefetchLink réutilisable
+- [x] Cache des prefetch pour éviter les doublons
+
