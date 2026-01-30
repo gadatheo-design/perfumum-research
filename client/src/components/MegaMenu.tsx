@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import {
   Beaker,
@@ -51,6 +51,80 @@ interface MegaMenuProps {
   sections: MegaMenuSection[];
   highlight?: MenuItem;
 }
+
+// Virtual list for large sections (>10 items)
+const VirtualizedSection: React.FC<{
+  items: MenuItem[];
+  maxHeight: number;
+  onItemClick: () => void;
+}> = ({ items, maxHeight, onItemClick }) => {
+  const [scrollTop, setScrollTop] = useState(0);
+  const itemHeight = 48; // Approximate height of each item
+  const containerHeight = Math.min(items.length * itemHeight, maxHeight);
+  
+  const startIndex = Math.floor(scrollTop / itemHeight);
+  const endIndex = Math.min(
+    Math.ceil((scrollTop + containerHeight) / itemHeight) + 1,
+    items.length
+  );
+  const visibleItems = items.slice(startIndex, endIndex);
+  const offsetY = startIndex * itemHeight;
+
+  return (
+    <div
+      style={{ height: containerHeight, overflow: "auto" }}
+      onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
+      className="scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent"
+    >
+      <div style={{ height: items.length * itemHeight, position: "relative" }}>
+        <div style={{ transform: `translateY(${offsetY}px)` }}>
+          {visibleItems.map((item) => (
+            <Link
+              key={item.path}
+              href={item.path}
+              onClick={onItemClick}
+              className={cn(
+                "flex items-start gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 group",
+                "hover:bg-muted/80 hover:translate-x-0.5",
+                "focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-muted/80"
+              )}
+              role="menuitem"
+              style={{ height: itemHeight }}
+            >
+              {item.icon && (
+                <div className="text-muted-foreground group-hover:text-primary transition-colors mt-0.5 shrink-0">
+                  {item.icon}
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-foreground/90 group-hover:text-foreground">
+                    {item.label}
+                  </span>
+                  {item.badge && (
+                    <span className={cn(
+                      "inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide",
+                      item.badge === "NEW" 
+                        ? "bg-green-500/15 text-green-600 dark:text-green-400"
+                        : "bg-primary/10 text-primary"
+                    )}>
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
+                {item.description && (
+                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                    {item.description}
+                  </p>
+                )}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 function MegaMenuDropdown({ trigger, sections, highlight }: MegaMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -234,74 +308,86 @@ function MegaMenuDropdown({ trigger, sections, highlight }: MegaMenuProps) {
                 >
                   {section.title}
                 </h3>
-                <div className="space-y-0.5">
-                  {section.items.map((item) => {
-                    const currentIndex = itemIndex++;
-                    return (
-                      <Link
-                        key={item.path}
-                        href={item.path}
-                        ref={(el) => { itemsRef.current[currentIndex] = el; }}
-                        onClick={() => {
-                          setIsOpen(false);
-                          setFocusedIndex(-1);
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Escape') {
-                            e.preventDefault();
+                {/* Use virtualization for sections with 10+ items */}
+                {section.items.length > 10 ? (
+                  <VirtualizedSection
+                    items={section.items}
+                    maxHeight={384}
+                    onItemClick={() => {
+                      setIsOpen(false);
+                      setFocusedIndex(-1);
+                    }}
+                  />
+                ) : (
+                  <div className="space-y-0.5">
+                    {section.items.map((item) => {
+                      const currentIndex = itemIndex++;
+                      return (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          ref={(el) => { itemsRef.current[currentIndex] = el; }}
+                          onClick={() => {
                             setIsOpen(false);
                             setFocusedIndex(-1);
-                            triggerRef.current?.focus();
-                          } else if (e.key === 'ArrowDown') {
-                            e.preventDefault();
-                            setFocusedIndex((currentIndex + 1) % allItems.length);
-                          } else if (e.key === 'ArrowUp') {
-                            e.preventDefault();
-                            setFocusedIndex((currentIndex - 1 + allItems.length) % allItems.length);
-                          }
-                        }}
-                        className={cn(
-                          "flex items-start gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 group",
-                          "hover:bg-muted/80 hover:translate-x-0.5",
-                          "focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-muted/80"
-                        )}
-                        role="menuitem"
-                        tabIndex={isOpen ? 0 : -1}
-                      >
-                        {item.icon && (
-                          <div className="text-muted-foreground group-hover:text-primary transition-colors mt-0.5 shrink-0">
-                            {item.icon}
-                          </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium text-foreground/90 group-hover:text-foreground">
-                              {item.label}
-                            </span>
-                            {item.count !== undefined && (
-                              <span className="text-xs text-muted-foreground">({item.count})</span>
-                            )}
-                            {item.badge && (
-                              <span className={cn(
-                                "inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide",
-                                item.badge === "NEW" 
-                                  ? "bg-green-500/15 text-green-600 dark:text-green-400"
-                                  : "bg-primary/10 text-primary"
-                              )}>
-                                {item.badge}
-                              </span>
-                            )}
-                          </div>
-                          {item.description && (
-                            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                              {item.description}
-                            </p>
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Escape') {
+                              e.preventDefault();
+                              setIsOpen(false);
+                              setFocusedIndex(-1);
+                              triggerRef.current?.focus();
+                            } else if (e.key === 'ArrowDown') {
+                              e.preventDefault();
+                              setFocusedIndex((currentIndex + 1) % allItems.length);
+                            } else if (e.key === 'ArrowUp') {
+                              e.preventDefault();
+                              setFocusedIndex((currentIndex - 1 + allItems.length) % allItems.length);
+                            }
+                          }}
+                          className={cn(
+                            "flex items-start gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 group",
+                            "hover:bg-muted/80 hover:translate-x-0.5",
+                            "focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-muted/80"
                           )}
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
+                          role="menuitem"
+                          tabIndex={isOpen ? 0 : -1}
+                        >
+                          {item.icon && (
+                            <div className="text-muted-foreground group-hover:text-primary transition-colors mt-0.5 shrink-0">
+                              {item.icon}
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium text-foreground/90 group-hover:text-foreground">
+                                {item.label}
+                              </span>
+                              {item.count !== undefined && (
+                                <span className="text-xs text-muted-foreground">({item.count})</span>
+                              )}
+                              {item.badge && (
+                                <span className={cn(
+                                  "inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide",
+                                  item.badge === "NEW" 
+                                    ? "bg-green-500/15 text-green-600 dark:text-green-400"
+                                    : "bg-primary/10 text-primary"
+                                )}>
+                                  {item.badge}
+                                </span>
+                              )}
+                            </div>
+                            {item.description && (
+                              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                                {item.description}
+                              </p>
+                            )}
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             ))}
           </div>

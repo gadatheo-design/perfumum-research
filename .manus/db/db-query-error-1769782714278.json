@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, name, latin_name, origin_region FROM plants WHERE koppen_zone IS NULL OR koppen_zone = '' LIMIT 100;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, origin_region FROM plants WHERE koppen_zone IS NULL OR koppen_zone = '' LIMIT 100;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'origin_region' in 'field list'"
+  ]
+}

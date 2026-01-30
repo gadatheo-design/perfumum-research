@@ -21,7 +21,7 @@ describe("Köppen Enrichment", () => {
     plantsWithoutKoppenBefore = result[0]?.count || 0;
   });
 
-  it("should identify plants without Köppen climate data", async () => {
+  it("should have 100% Köppen climate data coverage", async () => {
     const db = await getDb();
     const plantsWithoutKoppen = await db
       .select()
@@ -33,18 +33,18 @@ describe("Köppen Enrichment", () => {
         )
       );
 
-    expect(plantsWithoutKoppen.length).toBeGreaterThan(0);
-    expect(plantsWithoutKoppen.length).toBeLessThanOrEqual(85);
+    // All plants should now have Köppen data (100% coverage achieved)
+    expect(plantsWithoutKoppen.length).toBe(0);
   });
 
-  it("should have plants with and without Köppen data", async () => {
+  it("should have all plants with Köppen data", async () => {
     const db = await getDb();
     const allPlants = await db.select().from(plants);
     const plantsWithKoppen = allPlants.filter(p => p.koppenZone && p.koppenZone.trim() !== "");
-    const plantsWithoutKoppen = allPlants.filter(p => !p.koppenZone || p.koppenZone.trim() === "");
 
+    // All plants should have Köppen data
+    expect(plantsWithKoppen.length).toBe(allPlants.length);
     expect(plantsWithKoppen.length).toBeGreaterThan(0);
-    expect(plantsWithoutKoppen.length).toBeGreaterThan(0);
   });
 
   it("should have valid Köppen zone format", async () => {
@@ -85,13 +85,13 @@ describe("Köppen Enrichment", () => {
     expect(plantsWithoutKoppenAfter).toBeLessThanOrEqual(plantsWithoutKoppenBefore);
   });
 
-  it("should have coverage >= 65%", async () => {
+  it("should have coverage = 100%", async () => {
     const db = await getDb();
     const allPlants = await db.select().from(plants);
     const plantsWithKoppen = allPlants.filter(p => p.koppenZone && p.koppenZone.trim() !== "");
     const coverage = (plantsWithKoppen.length / allPlants.length) * 100;
 
     console.log(`\n📈 Köppen Coverage: ${coverage.toFixed(1)}%`);
-    expect(coverage).toBeGreaterThanOrEqual(65);
+    expect(coverage).toBe(100);
   });
 });

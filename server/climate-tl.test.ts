@@ -7,10 +7,10 @@ describe("Enrichissement des données climatiques des plantes", () => {
     
     expect(plants.length).toBeGreaterThan(0);
     
-    // Vérifier qu'au moins 65% des plantes ont des données Köppen (enrichissement en cours)
-    const plantsWithKoppen = plants.filter((p: any) => p.koppen_zone !== null);
+    // Vérifier que 100% des plantes ont des données Köppen (enrichissement terminé)
+    const plantsWithKoppen = plants.filter((p: any) => p.koppen_zone !== null && p.koppen_zone !== '');
     const coverage = plantsWithKoppen.length / plants.length;
-    expect(coverage).toBeGreaterThanOrEqual(0.65);
+    expect(coverage).toBe(1);
   });
 
   it("devrait avoir des zones Köppen valides", async () => {

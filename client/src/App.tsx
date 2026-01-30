@@ -10,6 +10,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
+import { GoogleAnalytics } from "./components/GoogleAnalytics";
 import { PageTransition } from "./components/PageTransition";
 import { LegacyRedirect, SimpleRedirect } from "./components/LegacyRedirect";
 // Guided navigation
@@ -822,6 +823,7 @@ function App() {
         <GuidedNavigationProvider>
           <TooltipProvider>
             <Toaster />
+            <GoogleAnalytics />
             <GlobalSearch />
             <GuidedNavigationBar />
             <TourSelector />
