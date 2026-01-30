@@ -1,0 +1,110 @@
+{
+  "query": "SELECT id, name, category FROM recettes \nWHERE category IN ('parfum', 'encens') \nORDER BY id DESC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category FROM recettes \nWHERE category IN ('parfum', 'encens') \nORDER BY id DESC LIMIT 20;",
+  "rows": [
+    {
+      "id": "540015",
+      "name": "Floral Aldéhydé",
+      "category": "parfum"
+    },
+    {
+      "id": "540014",
+      "name": "Encens Arabe Bakhoor",
+      "category": "encens"
+    },
+    {
+      "id": "540013",
+      "name": "Boisé Précieux",
+      "category": "parfum"
+    },
+    {
+      "id": "540012",
+      "name": "Encens Grec Livani",
+      "category": "encens"
+    },
+    {
+      "id": "540011",
+      "name": "Cuir Fumé",
+      "category": "parfum"
+    },
+    {
+      "id": "540010",
+      "name": "Encens Indien Dhoop",
+      "category": "encens"
+    },
+    {
+      "id": "540009",
+      "name": "Hespéridé Frais",
+      "category": "parfum"
+    },
+    {
+      "id": "540008",
+      "name": "Encens Égyptien Kyphi",
+      "category": "encens"
+    },
+    {
+      "id": "540007",
+      "name": "Oriental Ambré",
+      "category": "parfum"
+    },
+    {
+      "id": "540006",
+      "name": "Encens Tibétain",
+      "category": "encens"
+    },
+    {
+      "id": "540005",
+      "name": "Fougère Aromatique",
+      "category": "parfum"
+    },
+    {
+      "id": "540004",
+      "name": "Encens Japonais Kyara",
+      "category": "encens"
+    },
+    {
+      "id": "540003",
+      "name": "Chypre Moderne",
+      "category": "parfum"
+    },
+    {
+      "id": "540002",
+      "name": "Encens Pontifical",
+      "category": "encens"
+    },
+    {
+      "id": "540001",
+      "name": "Eau de Cologne Classique",
+      "category": "parfum"
+    },
+    {
+      "id": "510015",
+      "name": "Parfum Activation Synaptique",
+      "category": "encens"
+    },
+    {
+      "id": "510014",
+      "name": "Parfum Tunnel Quantique",
+      "category": "encens"
+    },
+    {
+      "id": "510013",
+      "name": "Parfum Sombra y Luz",
+      "category": "encens"
+    },
+    {
+      "id": "510012",
+      "name": "Parfum Chrono-Évolution",
+      "category": "encens"
+    },
+    {
+      "id": "510011",
+      "name": "Parfum Peau de Cénote",
+      "category": "encens"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n540015\tFloral Aldéhydé\tparfum\n540014\tEncens Arabe Bakhoor\tencens\n540013\tBoisé Précieux\tparfum\n540012\tEncens Grec Livani\tencens\n540011\tCuir Fumé\tparfum\n540010\tEncens Indien Dhoop\tencens\n540009\tHespéridé Frais\tparfum\n540008\tEncens Égyptien Kyphi\tencens\n540007\tOriental Ambré\tparfum\n540006\tEncens Tibétain\tencens\n540005\tFougère Aromatique\tparfum\n540004\tEncens Japonais Kyara\tencens\n540003\tChypre Moderne\tparfum\n540002\tEncens Pontifical\tencens\n540001\tEau de Cologne Classique\tparfum\n510015\tParfum Activation Synaptique\tencens\n510014\tParfum Tunnel Quantique\tencens\n510013\tParfum Sombra y Luz\tencens\n510012\tParfum Chrono-Évolution\tencens\n510011\tParfum Peau de Cénote\tencens\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

@@ -1,0 +1,58 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'transformation_recipe_impacts';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'transformation_recipe_impacts';",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "transformation_id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "recette_id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "impact_type",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "impact_description",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "olfactory_contribution",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "percentage_contribution",
+      "DATA_TYPE": "decimal"
+    },
+    {
+      "COLUMN_NAME": "temperature_range",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "source_reference",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "DATA_TYPE": "timestamp"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\nid\tint\ntransformation_id\tint\nrecette_id\tint\nimpact_type\tenum\nimpact_description\ttext\nolfactory_contribution\ttext\npercentage_contribution\tdecimal\ntemperature_range\tvarchar\nnotes\ttext\nsource_reference\ttext\ncreated_at\ttimestamp\nupdated_at\ttimestamp\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

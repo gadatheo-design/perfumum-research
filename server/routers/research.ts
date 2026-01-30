@@ -1289,4 +1289,246 @@ export const researchRouter = router({
       return { success: false, stats: null, error: error.message };
     }
   }),
+
+  /**
+   * Create a transformation-recipe impact link
+   */
+  createTransformationRecipeImpact: publicProcedure
+    .input(
+      z.object({
+        transformationId: z.number(),
+        recetteId: z.number(),
+        impactType: z.enum(['major', 'moderate', 'minor', 'trace']),
+        impactDescription: z.string().optional(),
+        olfactoryContribution: z.string().optional(),
+        percentageContribution: z.number().optional(),
+        temperatureRange: z.string().optional(),
+        notes: z.string().optional(),
+        sourceReference: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, error: "Database connection failed" };
+        }
+
+        const escapeSql = (str: string) => str.replace(/'/g, "''");
+
+        const result = await db.execute(sql.raw(`
+          INSERT INTO transformation_recipe_impacts (
+            transformation_id, recette_id, impact_type,
+            impact_description, olfactory_contribution,
+            percentage_contribution, temperature_range,
+            notes, source_reference
+          ) VALUES (
+            ${input.transformationId},
+            ${input.recetteId},
+            '${input.impactType}',
+            ${input.impactDescription ? `'${escapeSql(input.impactDescription)}'` : 'NULL'},
+            ${input.olfactoryContribution ? `'${escapeSql(input.olfactoryContribution)}'` : 'NULL'},
+            ${input.percentageContribution || 'NULL'},
+            ${input.temperatureRange ? `'${escapeSql(input.temperatureRange)}'` : 'NULL'},
+            ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'},
+            ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'}
+          )
+        `));
+
+        return { success: true, message: "Impact link created successfully" };
+      } catch (error: any) {
+        if (error.code === 'ER_DUP_ENTRY') {
+          return { success: false, error: "Cette liaison existe déjà" };
+        }
+        console.error("Error creating transformation recipe impact:", error);
+        return { success: false, error: error.message };
+      }
+    }),
+
+  /**
+   * Delete a transformation-recipe impact link
+   */
+  deleteTransformationRecipeImpact: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, error: "Database connection failed" };
+        }
+
+        await db.execute(sql.raw(`DELETE FROM transformation_recipe_impacts WHERE id = ${input.id}`));
+        return { success: true };
+      } catch (error: any) {
+        console.error("Error deleting transformation recipe impact:", error);
+        return { success: false, error: error.message };
+      }
+    }),
+
+  /**
+   * Get transformation chains for D3.js visualization
+   * Returns connected transformation sequences (e.g., limonène → p-cymène → toluène)
+   */
+  getTransformationChains: publicProcedure
+    .input(
+      z.object({
+        startMolecule: z.string().optional(),
+        transformationType: z.string().optional(),
+        maxDepth: z.number().default(5),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, nodes: [], links: [], chains: [], error: "Database connection failed" };
+        }
+
+        // Get all transformations
+        let query = `
+          SELECT 
+            mt.id,
+            mt.source_molecule_name,
+            mt.product_molecule_name,
+            mt.transformation_type,
+            mt.temperature_optimal,
+            mt.olfactory_change_description,
+            mt.source_molecule_id,
+            mt.product_molecule_id
+          FROM molecular_transformations mt
+          WHERE 1=1
+        `;
+
+        if (input?.startMolecule) {
+          query += ` AND (mt.source_molecule_name LIKE '%${input.startMolecule}%' OR mt.product_molecule_name LIKE '%${input.startMolecule}%')`;
+        }
+        if (input?.transformationType && input.transformationType !== 'all') {
+          query += ` AND mt.transformation_type = '${input.transformationType}'`;
+        }
+
+        query += ` ORDER BY mt.source_molecule_name`;
+
+        const result = await db.execute(sql.raw(query));
+        const transformations = (result as any).rows || (result as any[]) || [];
+
+        // Build nodes and links for D3.js force-directed graph
+        const nodesMap = new Map<string, { id: string; name: string; type: 'source' | 'product' | 'both'; moleculeId?: number; transformationCount: number }>();
+        const links: Array<{ source: string; target: string; transformationType: string; temperature?: number; description?: string; id: number }> = [];
+
+        for (const t of transformations) {
+          const sourceKey = t.source_molecule_name.toLowerCase();
+          const productKey = t.product_molecule_name.toLowerCase();
+
+          // Add or update source node
+          if (!nodesMap.has(sourceKey)) {
+            nodesMap.set(sourceKey, {
+              id: sourceKey,
+              name: t.source_molecule_name,
+              type: 'source',
+              moleculeId: t.source_molecule_id,
+              transformationCount: 1,
+            });
+          } else {
+            const node = nodesMap.get(sourceKey)!;
+            node.transformationCount++;
+            if (node.type === 'product') node.type = 'both';
+          }
+
+          // Add or update product node
+          if (!nodesMap.has(productKey)) {
+            nodesMap.set(productKey, {
+              id: productKey,
+              name: t.product_molecule_name,
+              type: 'product',
+              moleculeId: t.product_molecule_id,
+              transformationCount: 1,
+            });
+          } else {
+            const node = nodesMap.get(productKey)!;
+            node.transformationCount++;
+            if (node.type === 'source') node.type = 'both';
+          }
+
+          // Add link
+          links.push({
+            source: sourceKey,
+            target: productKey,
+            transformationType: t.transformation_type,
+            temperature: t.temperature_optimal,
+            description: t.olfactory_change_description,
+            id: t.id,
+          });
+        }
+
+        // Find chains (sequences of transformations)
+        const chains: Array<{ path: string[]; transformations: string[] }> = [];
+        const visited = new Set<string>();
+
+        // Build adjacency list
+        const adjacency = new Map<string, Array<{ target: string; type: string }>>();
+        for (const link of links) {
+          if (!adjacency.has(link.source)) {
+            adjacency.set(link.source, []);
+          }
+          adjacency.get(link.source)!.push({ target: link.target, type: link.transformationType });
+        }
+
+        // Find starting nodes (nodes that are sources but not products of any transformation)
+        const productNodes = new Set(links.map(l => l.target));
+        const startNodes = Array.from(nodesMap.keys()).filter(n => !productNodes.has(n));
+
+        // DFS to find chains
+        function findChains(node: string, path: string[], types: string[], depth: number) {
+          if (depth > (input?.maxDepth || 5)) return;
+          
+          const neighbors = adjacency.get(node) || [];
+          if (neighbors.length === 0) {
+            if (path.length > 1) {
+              chains.push({ path: [...path], transformations: [...types] });
+            }
+            return;
+          }
+
+          for (const neighbor of neighbors) {
+            if (!path.includes(neighbor.target)) {
+              findChains(neighbor.target, [...path, neighbor.target], [...types, neighbor.type], depth + 1);
+            }
+          }
+
+          // Also record current path if it's a valid chain
+          if (path.length > 1) {
+            chains.push({ path: [...path], transformations: [...types] });
+          }
+        }
+
+        for (const startNode of startNodes) {
+          findChains(startNode, [startNode], [], 0);
+        }
+
+        // Remove duplicate chains and keep longest ones
+        const uniqueChains = chains.filter((chain, index) => {
+          const pathStr = chain.path.join(' → ');
+          return !chains.slice(index + 1).some(c => c.path.join(' → ').includes(pathStr));
+        });
+
+        // Sort chains by length (longest first)
+        uniqueChains.sort((a, b) => b.path.length - a.path.length);
+
+        return {
+          success: true,
+          nodes: Array.from(nodesMap.values()),
+          links,
+          chains: uniqueChains.slice(0, 50), // Limit to top 50 chains
+          stats: {
+            totalNodes: nodesMap.size,
+            totalLinks: links.length,
+            totalChains: uniqueChains.length,
+            longestChain: uniqueChains[0]?.path.length || 0,
+          },
+        };
+      } catch (error: any) {
+        console.error("Error getting transformation chains:", error);
+        return { success: false, nodes: [], links: [], chains: [], error: error.message };
+      }
+    }),
 });

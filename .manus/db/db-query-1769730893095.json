@@ -1,0 +1,460 @@
+{
+  "query": "SELECT \n  mt.id as transformation_id, \n  mt.source_molecule_name,\n  mt.product_molecule_name,\n  mt.transformation_type,\n  r.id as recette_id,\n  r.name as recette_name,\n  r.category\nFROM molecular_transformations mt\nCROSS JOIN (\n  SELECT id, name, category FROM recettes \n  WHERE name IN (\n    'Eau de Cologne Classique', 'Encens Pontifical', 'Chypre Moderne', \n    'Encens Japonais Kyara', 'Fougère Aromatique', 'Encens Tibétain',\n    'Oriental Ambré', 'Encens Égyptien Kyphi', 'Hespéridé Frais',\n    'Encens Indien Dhoop', 'Cuir Fumé', 'Encens Grec Livani',\n    'Boisé Précieux', 'Encens Arabe Bakhoor', 'Floral Aldéhydé'\n  )\n) r\nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  mt.id as transformation_id, \n  mt.source_molecule_name,\n  mt.product_molecule_name,\n  mt.transformation_type,\n  r.id as recette_id,\n  r.name as recette_name,\n  r.category\nFROM molecular_transformations mt\nCROSS JOIN (\n  SELECT id, name, category FROM recettes \n  WHERE name IN (\n    'Eau de Cologne Classique', 'Encens Pontifical', 'Chypre Moderne', \n    'Encens Japonais Kyara', 'Fougère Aromatique', 'Encens Tibétain',\n    'Oriental Ambré', 'Encens Égyptien Kyphi', 'Hespéridé Frais',\n    'Encens Indien Dhoop', 'Cuir Fumé', 'Encens Grec Livani',\n    'Boisé Précieux', 'Encens Arabe Bakhoor', 'Floral Aldéhydé'\n  )\n) r\nLIMIT 50;",
+  "rows": [
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540015",
+      "recette_name": "Floral Aldéhydé",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540014",
+      "recette_name": "Encens Arabe Bakhoor",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540013",
+      "recette_name": "Boisé Précieux",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540012",
+      "recette_name": "Encens Grec Livani",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540011",
+      "recette_name": "Cuir Fumé",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540010",
+      "recette_name": "Encens Indien Dhoop",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540009",
+      "recette_name": "Hespéridé Frais",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540008",
+      "recette_name": "Encens Égyptien Kyphi",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540007",
+      "recette_name": "Oriental Ambré",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540006",
+      "recette_name": "Encens Tibétain",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540005",
+      "recette_name": "Fougère Aromatique",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540004",
+      "recette_name": "Encens Japonais Kyara",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540003",
+      "recette_name": "Chypre Moderne",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540002",
+      "recette_name": "Encens Pontifical",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis",
+      "recette_id": "540001",
+      "recette_name": "Eau de Cologne Classique",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540015",
+      "recette_name": "Floral Aldéhydé",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540014",
+      "recette_name": "Encens Arabe Bakhoor",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540013",
+      "recette_name": "Boisé Précieux",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540012",
+      "recette_name": "Encens Grec Livani",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540011",
+      "recette_name": "Cuir Fumé",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540010",
+      "recette_name": "Encens Indien Dhoop",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540009",
+      "recette_name": "Hespéridé Frais",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540008",
+      "recette_name": "Encens Égyptien Kyphi",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540007",
+      "recette_name": "Oriental Ambré",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540006",
+      "recette_name": "Encens Tibétain",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540005",
+      "recette_name": "Fougère Aromatique",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540004",
+      "recette_name": "Encens Japonais Kyara",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540003",
+      "recette_name": "Chypre Moderne",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540002",
+      "recette_name": "Encens Pontifical",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization",
+      "recette_id": "540001",
+      "recette_name": "Eau de Cologne Classique",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540015",
+      "recette_name": "Floral Aldéhydé",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540014",
+      "recette_name": "Encens Arabe Bakhoor",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540013",
+      "recette_name": "Boisé Précieux",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540012",
+      "recette_name": "Encens Grec Livani",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540011",
+      "recette_name": "Cuir Fumé",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540010",
+      "recette_name": "Encens Indien Dhoop",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540009",
+      "recette_name": "Hespéridé Frais",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540008",
+      "recette_name": "Encens Égyptien Kyphi",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540007",
+      "recette_name": "Oriental Ambré",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540006",
+      "recette_name": "Encens Tibétain",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540005",
+      "recette_name": "Fougère Aromatique",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540004",
+      "recette_name": "Encens Japonais Kyara",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540003",
+      "recette_name": "Chypre Moderne",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540002",
+      "recette_name": "Encens Pontifical",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization",
+      "recette_id": "540001",
+      "recette_name": "Eau de Cologne Classique",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "4",
+      "source_molecule_name": "α-Pinène",
+      "product_molecule_name": "Camphène",
+      "transformation_type": "isomerization",
+      "recette_id": "540015",
+      "recette_name": "Floral Aldéhydé",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "4",
+      "source_molecule_name": "α-Pinène",
+      "product_molecule_name": "Camphène",
+      "transformation_type": "isomerization",
+      "recette_id": "540014",
+      "recette_name": "Encens Arabe Bakhoor",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "4",
+      "source_molecule_name": "α-Pinène",
+      "product_molecule_name": "Camphène",
+      "transformation_type": "isomerization",
+      "recette_id": "540013",
+      "recette_name": "Boisé Précieux",
+      "category": "parfum"
+    },
+    {
+      "transformation_id": "4",
+      "source_molecule_name": "α-Pinène",
+      "product_molecule_name": "Camphène",
+      "transformation_type": "isomerization",
+      "recette_id": "540012",
+      "recette_name": "Encens Grec Livani",
+      "category": "encens"
+    },
+    {
+      "transformation_id": "4",
+      "source_molecule_name": "α-Pinène",
+      "product_molecule_name": "Camphène",
+      "transformation_type": "isomerization",
+      "recette_id": "540011",
+      "recette_name": "Cuir Fumé",
+      "category": "parfum"
+    }
+  ],
+  "messages": [],
+  "stdout": "transformation_id\tsource_molecule_name\tproduct_molecule_name\ttransformation_type\trecette_id\trecette_name\tcategory\n1\tLimonène\tp-Cymène\tpyrolysis\t540015\tFloral Aldéhydé\tparfum\n1\tLimonène\tp-Cymène\tpyrolysis\t540014\tEncens Arabe Bakhoor\tencens\n1\tLimonène\tp-Cymène\tpyrolysis\t540013\tBoisé Précieux\tparfum\n1\tLimonène\tp-Cymène\tpyrolysis\t540012\tEncens Grec Livani\tencens\n1\tLimonène\tp-Cymène\tpyrolysis\t540011\tCuir Fumé\tparfum\n1\tLimonène\tp-Cymène\tpyrolysis\t540010\tEncens Indien Dhoop\tencens\n1\tLimonène\tp-Cymène\tpyrolysis\t540009\tHespéridé Frais\tparfum\n1\tLimonène\tp-Cymène\tpyrolysis\t540008\tEncens Égyptien Kyphi\tencens\n1\tLimonène\tp-Cymène\tpyrolysis\t540007\tOriental Ambré\tparfum\n1\tLimonène\tp-Cymène\tpyrolysis\t540006\tEncens Tibétain\tencens\n1\tLimonène\tp-Cymène\tpyrolysis\t540005\tFougère Aromatique\tparfum\n1\tLimonène\tp-Cymène\tpyrolysis\t540004\tEncens Japonais Kyara\tencens\n1\tLimonène\tp-Cymène\tpyrolysis\t540003\tChypre Moderne\tparfum\n1\tLimonène\tp-Cymène\tpyrolysis\t540002\tEncens Pontifical\tencens\n1\tLimonène\tp-Cymène\tpyrolysis\t540001\tEau de Cologne Classique\tparfum\n2\tLimonène\tTerpinolène\tisomerization\t540015\tFloral Aldéhydé\tparfum\n2\tLimonène\tTerpinolène\tisomerization\t540014\tEncens Arabe Bakhoor\tencens\n2\tLimonène\tTerpinolène\tisomerization\t540013\tBoisé Précieux\tparfum\n2\tLimonène\tTerpinolène\tisomerization\t540012\tEncens Grec Livani\tencens\n2\tLimonène\tTerpinolène\tisomerization\t540011\tCuir Fumé\tparfum\n2\tLimonène\tTerpinolène\tisomerization\t540010\tEncens Indien Dhoop\tencens\n2\tLimonène\tTerpinolène\tisomerization\t540009\tHespéridé Frais\tparfum\n2\tLimonène\tTerpinolène\tisomerization\t540008\tEncens Égyptien Kyphi\tencens\n2\tLimonène\tTerpinolène\tisomerization\t540007\tOriental Ambré\tparfum\n2\tLimonène\tTerpinolène\tisomerization\t540006\tEncens Tibétain\tencens\n2\tLimonène\tTerpinolène\tisomerization\t540005\tFougère Aromatique\tparfum\n2\tLimonène\tTerpinolène\tisomerization\t540004\tEncens Japonais Kyara\tencens\n2\tLimonène\tTerpinolène\tisomerization\t540003\tChypre Moderne\tparfum\n2\tLimonène\tTerpinolène\tisomerization\t540002\tEncens Pontifical\tencens\n2\tLimonène\tTerpinolène\tisomerization\t540001\tEau de Cologne Classique\tparfum\n3\tLimonène\tα-Terpinène\tisomerization\t540015\tFloral Aldéhydé\tparfum\n3\tLimonène\tα-Terpinène\tisomerization\t540014\tEncens Arabe Bakhoor\tencens\n3\tLimonène\tα-Terpinène\tisomerization\t540013\tBoisé Précieux\tparfum\n3\tLimonène\tα-Terpinène\tisomerization\t540012\tEncens Grec Livani\tencens\n3\tLimonène\tα-Terpinène\tisomerization\t540011\tCuir Fumé\tparfum\n3\tLimonène\tα-Terpinène\tisomerization\t540010\tEncens Indien Dhoop\tencens\n3\tLimonène\tα-Terpinène\tisomerization\t540009\tHespéridé Frais\tparfum\n3\tLimonène\tα-Terpinène\tisomerization\t540008\tEncens Égyptien Kyphi\tencens\n3\tLimonène\tα-Terpinène\tisomerization\t540007\tOriental Ambré\tparfum\n3\tLimonène\tα-Terpinène\tisomerization\t540006\tEncens Tibétain\tencens\n3\tLimonène\tα-Terpinène\tisomerization\t540005\tFougère Aromatique\tparfum\n3\tLimonène\tα-Terpinène\tisomerization\t540004\tEncens Japonais Kyara\tencens\n3\tLimonène\tα-Terpinène\tisomerization\t540003\tChypre Moderne\tparfum\n3\tLimonène\tα-Terpinène\tisomerization\t540002\tEncens Pontifical\tencens\n3\tLimonène\tα-Terpinène\tisomerization\t540001\tEau de Cologne Classique\tparfum\n4\tα-Pinène\tCamphène\tisomerization\t540015\tFloral Aldéhydé\tparfum\n4\tα-Pinène\tCamphène\tisomerization\t540014\tEncens Arabe Bakhoor\tencens\n4\tα-Pinène\tCamphène\tisomerization\t540013\tBoisé Précieux\tparfum\n4\tα-Pinène\tCamphène\tisomerization\t540012\tEncens Grec Livani\tencens\n4\tα-Pinène\tCamphène\tisomerization\t540011\tCuir Fumé\tparfum\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

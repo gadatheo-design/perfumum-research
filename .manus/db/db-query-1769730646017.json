@@ -1,0 +1,190 @@
+{
+  "query": "SELECT id, name, category, description FROM recettes WHERE category IN ('parfum', 'parfumerie', 'encens', 'incense', 'fragrance', 'eau de parfum', 'eau de toilette', 'cologne') OR name LIKE '%parfum%' OR name LIKE '%encens%' OR name LIKE '%incense%' LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category, description FROM recettes WHERE category IN ('parfum', 'parfumerie', 'encens', 'incense', 'fragrance', 'eau de parfum', 'eau de toilette', 'cologne') OR name LIKE '%parfum%' OR name LIKE '%encens%' OR name LIKE '%incense%' LIMIT 30;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "OS PLUVIEUX",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "2",
+      "name": "FOSSE ANTIQUE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "3",
+      "name": "ARCHÉOLOGIE BRÛLÉE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "4",
+      "name": "ARGILE HUMIDE SACRÉE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "5",
+      "name": "PÉTRICHOR SÉPULCRAL",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "6",
+      "name": "BIBLIOTHÈQUE HUMIDE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "7",
+      "name": "PIERRE NOIRE FENDUE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "8",
+      "name": "FOUILLE HUMIDE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "9",
+      "name": "MURAILLE APRÈS ORAGE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "10",
+      "name": "TEMPLE DE TERRE BLANCHE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "11",
+      "name": "BRUME SUR PIERRE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "12",
+      "name": "JOUR DE PLUIE ANTIQUE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "13",
+      "name": "TERRE HUMIDE SACRÉE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "14",
+      "name": "PLUIE SULFURÉE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "15",
+      "name": "SÉDIMENT ARCHÉOLOGIQUE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "16",
+      "name": "FOSSILE BLANC MINÉRAL",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "17",
+      "name": "SOL NOIR VIVANT",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "18",
+      "name": "PLUIE SUR BITUME SACRÉ",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "19",
+      "name": "ARGILE LUMINEUSE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "20",
+      "name": "OS ROUGE (Mossi)",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "21",
+      "name": "PÉTRICHOR CLAIR / GLACIAIRE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "22",
+      "name": "PÉTRICHOR SOMBRE / HUMIDE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "23",
+      "name": "PÉTRICHOR TROPICAL FOSSILISÉ (Monoï)",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "24",
+      "name": "PÉTRICHOR URBAIN / MÉTAL",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "25",
+      "name": "PÉTRICHOR ARCHIVE HUMIDE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "26",
+      "name": "PLUIE SUR CENDRE FROIDE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "27",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "28",
+      "name": "PÉTRICHOR DE TEMPÊTE (Volcanique)",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "29",
+      "name": "PÉTRICHOR MARIN / ATLANTIDE",
+      "category": "parfum",
+      "description": "NULL"
+    },
+    {
+      "id": "30",
+      "name": "PÉTRICHOR DÉSERTIQUE",
+      "category": "parfum",
+      "description": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tdescription\n1\tOS PLUVIEUX\tparfum\tNULL\n2\tFOSSE ANTIQUE\tparfum\tNULL\n3\tARCHÉOLOGIE BRÛLÉE\tparfum\tNULL\n4\tARGILE HUMIDE SACRÉE\tparfum\tNULL\n5\tPÉTRICHOR SÉPULCRAL\tparfum\tNULL\n6\tBIBLIOTHÈQUE HUMIDE\tparfum\tNULL\n7\tPIERRE NOIRE FENDUE\tparfum\tNULL\n8\tFOUILLE HUMIDE\tparfum\tNULL\n9\tMURAILLE APRÈS ORAGE\tparfum\tNULL\n10\tTEMPLE DE TERRE BLANCHE\tparfum\tNULL\n11\tBRUME SUR PIERRE\tparfum\tNULL\n12\tJOUR DE PLUIE ANTIQUE\tparfum\tNULL\n13\tTERRE HUMIDE SACRÉE\tparfum\tNULL\n14\tPLUIE SULFURÉE\tparfum\tNULL\n15\tSÉDIMENT ARCHÉOLOGIQUE\tparfum\tNULL\n16\tFOSSILE BLANC MINÉRAL\tparfum\tNULL\n17\tSOL NOIR VIVANT\tparfum\tNULL\n18\tPLUIE SUR BITUME SACRÉ\tparfum\tNULL\n19\tARGILE LUMINEUSE\tparfum\tNULL\n20\tOS ROUGE (Mossi)\tparfum\tNULL\n21\tPÉTRICHOR CLAIR / GLACIAIRE\tparfum\tNULL\n22\tPÉTRICHOR SOMBRE / HUMIDE\tparfum\tNULL\n23\tPÉTRICHOR TROPICAL FOSSILISÉ (Monoï)\tparfum\tNULL\n24\tPÉTRICHOR URBAIN / MÉTAL\tparfum\tNULL\n25\tPÉTRICHOR ARCHIVE HUMIDE\tparfum\tNULL\n26\tPLUIE SUR CENDRE FROIDE\tparfum\tNULL\n27\tPÉTRICHOR DE SAVANE (Mossi)\tparfum\tNULL\n28\tPÉTRICHOR DE TEMPÊTE (Volcanique)\tparfum\tNULL\n29\tPÉTRICHOR MARIN / ATLANTIDE\tparfum\tNULL\n30\tPÉTRICHOR DÉSERTIQUE\tparfum\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 70
+}

@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { Flame, ArrowRight, Thermometer, FlaskConical, Plus, Search, BarChart3 } from "lucide-react";
+import TransformationChainGraph from "@/components/TransformationChainGraph";
 
 // Transformation type labels and colors
 const transformationTypes: Record<string, { label: string; color: string; icon: string }> = {
@@ -467,20 +468,7 @@ export default function MolecularTransformations() {
           </TabsContent>
 
           <TabsContent value="graph">
-            <Card>
-              <CardHeader>
-                <CardTitle>Graphe des transformations</CardTitle>
-                <CardDescription>
-                  Visualisation interactive des chaînes de transformation moléculaire
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="h-[600px] flex items-center justify-center text-muted-foreground">
-                <div className="text-center">
-                  <Flame className="mx-auto h-16 w-16 text-orange-500/30" />
-                  <p className="mt-4">Le graphe D3.js sera disponible après l'ajout de transformations</p>
-                </div>
-              </CardContent>
-            </Card>
+            <TransformationChainGraph />
           </TabsContent>
 
           <TabsContent value="impacts">

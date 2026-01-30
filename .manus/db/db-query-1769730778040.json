@@ -1,0 +1,154 @@
+{
+  "query": "DESCRIBE molecular_transformations;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE molecular_transformations;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "source_molecule_id",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "source_molecule_name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "product_molecule_id",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "product_molecule_name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "transformation_type",
+      "Type": "enum('pyrolysis','oxidation','isomerization','dehydration','cyclization','ring_opening','polymerization','degradation','maillard','caramelization','other')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "pyrolysis",
+      "Extra": ""
+    },
+    {
+      "Field": "temperature_min",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "temperature_max",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "temperature_optimal",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "yield_percent",
+      "Type": "decimal(5,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "olfactory_change_description",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "source_olfactory_notes",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "product_olfactory_notes",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "relevance_context",
+      "Type": "enum('tobacco_combustion','tobacco_heating','incense_burning','essential_oil_distillation','perfume_aging','food_cooking','industrial_process','natural_degradation','other')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "tobacco_combustion",
+      "Extra": ""
+    },
+    {
+      "Field": "source_reference",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\nsource_molecule_id\tint(11)\tYES\t\tNULL\t\nsource_molecule_name\tvarchar(255)\tNO\t\tNULL\t\nproduct_molecule_id\tint(11)\tYES\t\tNULL\t\nproduct_molecule_name\tvarchar(255)\tNO\t\tNULL\t\ntransformation_type\tenum('pyrolysis','oxidation','isomerization','dehydration','cyclization','ring_opening','polymerization','degradation','maillard','caramelization','other')\tNO\t\tpyrolysis\t\ntemperature_min\tint(11)\tYES\t\tNULL\t\ntemperature_max\tint(11)\tYES\t\tNULL\t\ntemperature_optimal\tint(11)\tYES\t\tNULL\t\nyield_percent\tdecimal(5,2)\tYES\t\tNULL\t\nolfactory_change_description\ttext\tYES\t\tNULL\t\nsource_olfactory_notes\tvarchar(500)\tYES\t\tNULL\t\nproduct_olfactory_notes\tvarchar(500)\tYES\t\tNULL\t\nrelevance_context\tenum('tobacco_combustion','tobacco_heating','incense_burning','essential_oil_distillation','perfume_aging','food_cooking','industrial_process','natural_degradation','other')\tYES\t\ttobacco_combustion\t\nsource_reference\ttext\tYES\t\tNULL\t\nnotes\ttext\tYES\t\tNULL\t\ncreated_at\ttimestamp\tYES\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tYES\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

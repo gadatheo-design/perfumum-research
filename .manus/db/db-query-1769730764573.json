@@ -1,0 +1,1150 @@
+{
+  "query": "SELECT id, name, category FROM recettes WHERE category IN ('parfum', 'encens') ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category FROM recettes WHERE category IN ('parfum', 'encens') ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "OS PLUVIEUX",
+      "category": "parfum"
+    },
+    {
+      "id": "2",
+      "name": "FOSSE ANTIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "3",
+      "name": "ARCHÉOLOGIE BRÛLÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "4",
+      "name": "ARGILE HUMIDE SACRÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "5",
+      "name": "PÉTRICHOR SÉPULCRAL",
+      "category": "parfum"
+    },
+    {
+      "id": "6",
+      "name": "BIBLIOTHÈQUE HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "7",
+      "name": "PIERRE NOIRE FENDUE",
+      "category": "parfum"
+    },
+    {
+      "id": "8",
+      "name": "FOUILLE HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "9",
+      "name": "MURAILLE APRÈS ORAGE",
+      "category": "parfum"
+    },
+    {
+      "id": "10",
+      "name": "TEMPLE DE TERRE BLANCHE",
+      "category": "parfum"
+    },
+    {
+      "id": "11",
+      "name": "BRUME SUR PIERRE",
+      "category": "parfum"
+    },
+    {
+      "id": "12",
+      "name": "JOUR DE PLUIE ANTIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "13",
+      "name": "TERRE HUMIDE SACRÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "14",
+      "name": "PLUIE SULFURÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "15",
+      "name": "SÉDIMENT ARCHÉOLOGIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "16",
+      "name": "FOSSILE BLANC MINÉRAL",
+      "category": "parfum"
+    },
+    {
+      "id": "17",
+      "name": "SOL NOIR VIVANT",
+      "category": "parfum"
+    },
+    {
+      "id": "18",
+      "name": "PLUIE SUR BITUME SACRÉ",
+      "category": "parfum"
+    },
+    {
+      "id": "19",
+      "name": "ARGILE LUMINEUSE",
+      "category": "parfum"
+    },
+    {
+      "id": "20",
+      "name": "OS ROUGE (Mossi)",
+      "category": "parfum"
+    },
+    {
+      "id": "21",
+      "name": "PÉTRICHOR CLAIR / GLACIAIRE",
+      "category": "parfum"
+    },
+    {
+      "id": "22",
+      "name": "PÉTRICHOR SOMBRE / HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "23",
+      "name": "PÉTRICHOR TROPICAL FOSSILISÉ (Monoï)",
+      "category": "parfum"
+    },
+    {
+      "id": "24",
+      "name": "PÉTRICHOR URBAIN / MÉTAL",
+      "category": "parfum"
+    },
+    {
+      "id": "25",
+      "name": "PÉTRICHOR ARCHIVE HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "26",
+      "name": "PLUIE SUR CENDRE FROIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "27",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)",
+      "category": "parfum"
+    },
+    {
+      "id": "28",
+      "name": "PÉTRICHOR DE TEMPÊTE (Volcanique)",
+      "category": "parfum"
+    },
+    {
+      "id": "29",
+      "name": "PÉTRICHOR MARIN / ATLANTIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "30",
+      "name": "PÉTRICHOR DÉSERTIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "31",
+      "name": "PÉTRICHOR DE RUINES",
+      "category": "parfum"
+    },
+    {
+      "id": "32",
+      "name": "PÉTRICHOR DE TEMPLES (Égypte)",
+      "category": "parfum"
+    },
+    {
+      "id": "33",
+      "name": "PÉTRICHOR SUR BOIS MOISI",
+      "category": "parfum"
+    },
+    {
+      "id": "34",
+      "name": "PÉTRICHOR ANTIQUE / SCROLLS",
+      "category": "parfum"
+    },
+    {
+      "id": "35",
+      "name": "PÉTRICHOR CUIVRÉ",
+      "category": "parfum"
+    },
+    {
+      "id": "36",
+      "name": "PÉTRICHOR ARCHÉOLOGIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "37",
+      "name": "PÉTRICHOR CUIRANT",
+      "category": "parfum"
+    },
+    {
+      "id": "38",
+      "name": "PÉTRICHOR SANCTUAIRE",
+      "category": "parfum"
+    },
+    {
+      "id": "39",
+      "name": "PÉTRICHOR DE L’ORDRE BLANC",
+      "category": "parfum"
+    },
+    {
+      "id": "40",
+      "name": "SHURUPPAK : ARGILE BRÛLÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "41",
+      "name": "AKHET : PIERRE BLANCHE",
+      "category": "parfum"
+    },
+    {
+      "id": "42",
+      "name": "MEROE : RÉSINE NOIRE",
+      "category": "parfum"
+    },
+    {
+      "id": "43",
+      "name": "LYONESSE : PLUIE BLANCHE",
+      "category": "parfum"
+    },
+    {
+      "id": "44",
+      "name": "ATLANTIDE LUMINEUSE : OCÉAN CLAIR",
+      "category": "parfum"
+    },
+    {
+      "id": "45",
+      "name": "LYONESSE SINKING",
+      "category": "parfum"
+    },
+    {
+      "id": "46",
+      "name": "LEMURIA ROOT",
+      "category": "parfum"
+    },
+    {
+      "id": "47",
+      "name": "MU : SOUFFLE ANCESTRAL",
+      "category": "parfum"
+    },
+    {
+      "id": "48",
+      "name": "ATLANTIS LIGHT COLUMN",
+      "category": "parfum"
+    },
+    {
+      "id": "49",
+      "name": "ATLANTIS BLACK LIBRARY",
+      "category": "parfum"
+    },
+    {
+      "id": "50",
+      "name": "OS PLUVIEUX",
+      "category": "parfum"
+    },
+    {
+      "id": "51",
+      "name": "FOSSE ANTIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "52",
+      "name": "ARCHÉOLOGIE BRÛLÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "53",
+      "name": "ARGILE HUMIDE SACRÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "54",
+      "name": "PÉTRICHOR SÉPULCRAL",
+      "category": "parfum"
+    },
+    {
+      "id": "55",
+      "name": "BIBLIOTHÈQUE HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "56",
+      "name": "PIERRE NOIRE FENDUE",
+      "category": "parfum"
+    },
+    {
+      "id": "57",
+      "name": "FOUILLE HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "58",
+      "name": "MURAILLE APRÈS ORAGE",
+      "category": "parfum"
+    },
+    {
+      "id": "59",
+      "name": "TEMPLE DE TERRE BLANCHE",
+      "category": "parfum"
+    },
+    {
+      "id": "60",
+      "name": "BRUME SUR PIERRE",
+      "category": "parfum"
+    },
+    {
+      "id": "61",
+      "name": "JOUR DE PLUIE ANTIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "62",
+      "name": "TERRE HUMIDE SACRÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "63",
+      "name": "PLUIE SULFURÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "64",
+      "name": "SÉDIMENT ARCHÉOLOGIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "65",
+      "name": "FOSSILE BLANC MINÉRAL",
+      "category": "parfum"
+    },
+    {
+      "id": "66",
+      "name": "SOL NOIR VIVANT",
+      "category": "parfum"
+    },
+    {
+      "id": "67",
+      "name": "PLUIE SUR BITUME SACRÉ",
+      "category": "parfum"
+    },
+    {
+      "id": "68",
+      "name": "ARGILE LUMINEUSE",
+      "category": "parfum"
+    },
+    {
+      "id": "69",
+      "name": "OS ROUGE (Mossi)",
+      "category": "parfum"
+    },
+    {
+      "id": "70",
+      "name": "PÉTRICHOR CLAIR / GLACIAIRE",
+      "category": "parfum"
+    },
+    {
+      "id": "71",
+      "name": "PÉTRICHOR SOMBRE / HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "72",
+      "name": "PÉTRICHOR TROPICAL FOSSILISÉ (Monoï)",
+      "category": "parfum"
+    },
+    {
+      "id": "73",
+      "name": "PÉTRICHOR URBAIN / MÉTAL",
+      "category": "parfum"
+    },
+    {
+      "id": "74",
+      "name": "PÉTRICHOR ARCHIVE HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "75",
+      "name": "PLUIE SUR CENDRE FROIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "76",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)",
+      "category": "parfum"
+    },
+    {
+      "id": "77",
+      "name": "PÉTRICHOR DE TEMPÊTE (Volcanique)",
+      "category": "parfum"
+    },
+    {
+      "id": "78",
+      "name": "PÉTRICHOR MARIN / ATLANTIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "79",
+      "name": "PÉTRICHOR DÉSERTIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "80",
+      "name": "PÉTRICHOR DE RUINES",
+      "category": "parfum"
+    },
+    {
+      "id": "81",
+      "name": "PÉTRICHOR DE TEMPLES (Égypte)",
+      "category": "parfum"
+    },
+    {
+      "id": "82",
+      "name": "PÉTRICHOR SUR BOIS MOISI",
+      "category": "parfum"
+    },
+    {
+      "id": "83",
+      "name": "PÉTRICHOR ANTIQUE / SCROLLS",
+      "category": "parfum"
+    },
+    {
+      "id": "84",
+      "name": "PÉTRICHOR CUIVRÉ",
+      "category": "parfum"
+    },
+    {
+      "id": "85",
+      "name": "PÉTRICHOR ARCHÉOLOGIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "86",
+      "name": "PÉTRICHOR CUIRANT",
+      "category": "parfum"
+    },
+    {
+      "id": "87",
+      "name": "PÉTRICHOR SANCTUAIRE",
+      "category": "parfum"
+    },
+    {
+      "id": "88",
+      "name": "PÉTRICHOR DE L’ORDRE BLANC",
+      "category": "parfum"
+    },
+    {
+      "id": "89",
+      "name": "SHURUPPAK : ARGILE BRÛLÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "90",
+      "name": "AKHET : PIERRE BLANCHE",
+      "category": "parfum"
+    },
+    {
+      "id": "91",
+      "name": "MEROE : RÉSINE NOIRE",
+      "category": "parfum"
+    },
+    {
+      "id": "92",
+      "name": "LYONESSE : PLUIE BLANCHE",
+      "category": "parfum"
+    },
+    {
+      "id": "93",
+      "name": "ATLANTIDE LUMINEUSE : OCÉAN CLAIR",
+      "category": "parfum"
+    },
+    {
+      "id": "94",
+      "name": "LYONESSE SINKING",
+      "category": "parfum"
+    },
+    {
+      "id": "95",
+      "name": "LEMURIA ROOT",
+      "category": "parfum"
+    },
+    {
+      "id": "96",
+      "name": "MU : SOUFFLE ANCESTRAL",
+      "category": "parfum"
+    },
+    {
+      "id": "97",
+      "name": "ATLANTIS LIGHT COLUMN",
+      "category": "parfum"
+    },
+    {
+      "id": "98",
+      "name": "ATLANTIS BLACK LIBRARY",
+      "category": "parfum"
+    },
+    {
+      "id": "99",
+      "name": "AVALON MIST",
+      "category": "parfum"
+    },
+    {
+      "id": "100",
+      "name": "HYPERBOREA",
+      "category": "parfum"
+    },
+    {
+      "id": "101",
+      "name": "R’LYEH SUBMERGED",
+      "category": "parfum"
+    },
+    {
+      "id": "102",
+      "name": "SHA’RA CITÉ SABLE",
+      "category": "parfum"
+    },
+    {
+      "id": "103",
+      "name": "KER YS",
+      "category": "parfum"
+    },
+    {
+      "id": "104",
+      "name": "AGARTHA",
+      "category": "parfum"
+    },
+    {
+      "id": "105",
+      "name": "SHAMBHALA",
+      "category": "parfum"
+    },
+    {
+      "id": "106",
+      "name": "PANGAEA",
+      "category": "parfum"
+    },
+    {
+      "id": "107",
+      "name": "BELIZE CAVERN",
+      "category": "parfum"
+    },
+    {
+      "id": "108",
+      "name": "VALLÉE DES ROIS",
+      "category": "parfum"
+    },
+    {
+      "id": "109",
+      "name": "ENCENS VIVANT",
+      "category": "parfum"
+    },
+    {
+      "id": "110",
+      "name": "RITUEL DE ROCHE",
+      "category": "parfum"
+    },
+    {
+      "id": "111",
+      "name": "CODEX MINÉRAL",
+      "category": "parfum"
+    },
+    {
+      "id": "112",
+      "name": "KYFI NOIR",
+      "category": "parfum"
+    },
+    {
+      "id": "113",
+      "name": "ENCENS D’OS",
+      "category": "parfum"
+    },
+    {
+      "id": "114",
+      "name": "CHAIR CÉRÉMONIELLE",
+      "category": "parfum"
+    },
+    {
+      "id": "115",
+      "name": "LITURGIE MINÉRALE",
+      "category": "parfum"
+    },
+    {
+      "id": "116",
+      "name": "TEMPLE SUBTERRAIN",
+      "category": "parfum"
+    },
+    {
+      "id": "117",
+      "name": "GROUPEMENT OSSUAIRE",
+      "category": "parfum"
+    },
+    {
+      "id": "118",
+      "name": "ENCRE SACRÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "119",
+      "name": "RITUEL SEPTENTRIONAL",
+      "category": "parfum"
+    },
+    {
+      "id": "120",
+      "name": "CHEMIN DES ANCÊTRES",
+      "category": "parfum"
+    },
+    {
+      "id": "121",
+      "name": "PARCHEMIN HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "122",
+      "name": "FUMIGATION SOLAIRE",
+      "category": "parfum"
+    },
+    {
+      "id": "123",
+      "name": "ENCENS GLACÉ",
+      "category": "parfum"
+    },
+    {
+      "id": "124",
+      "name": "TABAC PÉTRICHOR ABSOLU",
+      "category": "parfum"
+    },
+    {
+      "id": "125",
+      "name": "TABAC ARCHÉOLOGIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "126",
+      "name": "TABAC GLACIAIRE",
+      "category": "parfum"
+    },
+    {
+      "id": "127",
+      "name": "TABAC VOLCANIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "128",
+      "name": "TABAC RITUEL MONTAGNARD",
+      "category": "parfum"
+    },
+    {
+      "id": "129",
+      "name": "TABAC DES FOSSILES",
+      "category": "parfum"
+    },
+    {
+      "id": "130",
+      "name": "TABAC DU SILENCE",
+      "category": "parfum"
+    },
+    {
+      "id": "131",
+      "name": "TABAC DES CIVILISATIONS PERDUES",
+      "category": "parfum"
+    },
+    {
+      "id": "132",
+      "name": "TABAC KER YS",
+      "category": "parfum"
+    },
+    {
+      "id": "133",
+      "name": "TABAC UMBRIA",
+      "category": "parfum"
+    },
+    {
+      "id": "134",
+      "name": "TABAC ASKJA",
+      "category": "parfum"
+    },
+    {
+      "id": "135",
+      "name": "TABAC SILENCE ABSOLU",
+      "category": "parfum"
+    },
+    {
+      "id": "120001",
+      "name": "Forêt Méditerranéenne",
+      "category": "parfum"
+    },
+    {
+      "id": "120002",
+      "name": "Jardin Japonais",
+      "category": "parfum"
+    },
+    {
+      "id": "120003",
+      "name": "Fleur d'Oranger Tropicale",
+      "category": "parfum"
+    },
+    {
+      "id": "120004",
+      "name": "Soleil de Sicile",
+      "category": "parfum"
+    },
+    {
+      "id": "120005",
+      "name": "Pétrichor Sacré",
+      "category": "parfum"
+    },
+    {
+      "id": "120006",
+      "name": "Ambre Océanique",
+      "category": "parfum"
+    },
+    {
+      "id": "120007",
+      "name": "Rituel d'Assam",
+      "category": "parfum"
+    },
+    {
+      "id": "120008",
+      "name": "Fraîcheur Mentholée",
+      "category": "parfum"
+    },
+    {
+      "id": "180001",
+      "name": "Pheromona Truffle",
+      "category": "parfum"
+    },
+    {
+      "id": "210001",
+      "name": "Pheromona Skin",
+      "category": "parfum"
+    },
+    {
+      "id": "210002",
+      "name": "Pheromona Alpha",
+      "category": "parfum"
+    },
+    {
+      "id": "210003",
+      "name": "Pheromona Cascade",
+      "category": "parfum"
+    },
+    {
+      "id": "240001",
+      "name": "Pheromona Skin-Clean",
+      "category": "parfum"
+    },
+    {
+      "id": "240002",
+      "name": "Pheromona Skin-Warm",
+      "category": "parfum"
+    },
+    {
+      "id": "240003",
+      "name": "Pheromona Alpha-Boisé",
+      "category": "parfum"
+    },
+    {
+      "id": "240004",
+      "name": "Pheromona Alpha-Cuiré",
+      "category": "parfum"
+    },
+    {
+      "id": "240005",
+      "name": "Pheromona Cascade-Rapide",
+      "category": "parfum"
+    },
+    {
+      "id": "240006",
+      "name": "Pheromona Cascade-Lente",
+      "category": "parfum"
+    },
+    {
+      "id": "270001",
+      "name": "Aura Radieuse",
+      "category": "parfum"
+    },
+    {
+      "id": "270002",
+      "name": "Nuit de Tubéreuse",
+      "category": "parfum"
+    },
+    {
+      "id": "270003",
+      "name": "Santal Éternel",
+      "category": "parfum"
+    },
+    {
+      "id": "270004",
+      "name": "Rose Impériale",
+      "category": "parfum"
+    },
+    {
+      "id": "270005",
+      "name": "Paradis Fruité",
+      "category": "parfum"
+    },
+    {
+      "id": "360001",
+      "name": "BRUME MARINE MÉTALLIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "360002",
+      "name": "PIERRE DE LUNE HUMIDE",
+      "category": "parfum"
+    },
+    {
+      "id": "360003",
+      "name": "ORAGE FERREUX",
+      "category": "parfum"
+    },
+    {
+      "id": "360004",
+      "name": "FUMÉE DE TEMPLE ANCIEN",
+      "category": "parfum"
+    },
+    {
+      "id": "360005",
+      "name": "LAVE BALSAMIQUE",
+      "category": "parfum"
+    },
+    {
+      "id": "360006",
+      "name": "CENDRES SACRÉES",
+      "category": "parfum"
+    },
+    {
+      "id": "360007",
+      "name": "JARDIN DE ROSES PERSANES",
+      "category": "parfum"
+    },
+    {
+      "id": "360008",
+      "name": "SOIE ET ÉPICES",
+      "category": "parfum"
+    },
+    {
+      "id": "360009",
+      "name": "BIBLIOTHÈQUE D'ALEXANDRIE",
+      "category": "parfum"
+    },
+    {
+      "id": "360010",
+      "name": "GLACIER DE MENTHE",
+      "category": "parfum"
+    },
+    {
+      "id": "360011",
+      "name": "TOUNDRA CAMPHRÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "360012",
+      "name": "CRISTAL DE GLACE",
+      "category": "parfum"
+    },
+    {
+      "id": "360013",
+      "name": "CAFÉ COLOMBIEN FUMÉ",
+      "category": "parfum"
+    },
+    {
+      "id": "360014",
+      "name": "FLEUR DE CAFÉ",
+      "category": "parfum"
+    },
+    {
+      "id": "360015",
+      "name": "CACAO SACRÉ MAYA",
+      "category": "parfum"
+    },
+    {
+      "id": "360016",
+      "name": "TABAC VERT COLOMBIEN",
+      "category": "parfum"
+    },
+    {
+      "id": "360017",
+      "name": "KARITÉ SACRÉ",
+      "category": "parfum"
+    },
+    {
+      "id": "360018",
+      "name": "TERRE ROUGE MOSSI",
+      "category": "parfum"
+    },
+    {
+      "id": "360019",
+      "name": "Mossi Mossi Clair",
+      "category": "encens"
+    },
+    {
+      "id": "360020",
+      "name": "Mossi Mossi Sombre",
+      "category": "encens"
+    },
+    {
+      "id": "360021",
+      "name": "Mossi Mossi du Feu",
+      "category": "encens"
+    },
+    {
+      "id": "360022",
+      "name": "Mossi Mossi Verger Sacré",
+      "category": "encens"
+    },
+    {
+      "id": "390001",
+      "name": "Mossi Clair",
+      "category": "parfum"
+    },
+    {
+      "id": "390002",
+      "name": "Mossi Sombre",
+      "category": "parfum"
+    },
+    {
+      "id": "390003",
+      "name": "Mossi du Feu",
+      "category": "parfum"
+    },
+    {
+      "id": "390004",
+      "name": "Mossi Verger Sacré",
+      "category": "parfum"
+    },
+    {
+      "id": "390005",
+      "name": "Mossi Solaire",
+      "category": "parfum"
+    },
+    {
+      "id": "420005",
+      "name": "R-15 Living Cannabis Vent",
+      "category": "encens"
+    },
+    {
+      "id": "420006",
+      "name": "R-16 Dry Cannabis Leaf Incense",
+      "category": "encens"
+    },
+    {
+      "id": "420008",
+      "name": "R-18 Leaf Economies / Extreme",
+      "category": "parfum"
+    },
+    {
+      "id": "450001",
+      "name": "TL-01 — Pericón Anisé",
+      "category": "parfum"
+    },
+    {
+      "id": "450002",
+      "name": "TL-02 — Verde Tagetone",
+      "category": "parfum"
+    },
+    {
+      "id": "450003",
+      "name": "TL-03 — Épice Mexicaine",
+      "category": "parfum"
+    },
+    {
+      "id": "450004",
+      "name": "TL-04 — Encens Pericón",
+      "category": "encens"
+    },
+    {
+      "id": "480001",
+      "name": "Aliento de Quetzalcóatl",
+      "category": "encens"
+    },
+    {
+      "id": "480007",
+      "name": "Lágrimas de Ahuehuete",
+      "category": "parfum"
+    },
+    {
+      "id": "480008",
+      "name": "Piel de Jaguar",
+      "category": "parfum"
+    },
+    {
+      "id": "480009",
+      "name": "Biblioteca de Palenque",
+      "category": "parfum"
+    },
+    {
+      "id": "480010",
+      "name": "Ofrenda de Cempasúchil",
+      "category": "parfum"
+    },
+    {
+      "id": "480011",
+      "name": "Xocolatl Negro",
+      "category": "parfum"
+    },
+    {
+      "id": "510001",
+      "name": "Encens Pluie de Désert",
+      "category": "encens"
+    },
+    {
+      "id": "510002",
+      "name": "Encens Rêve Aztèque",
+      "category": "encens"
+    },
+    {
+      "id": "510003",
+      "name": "Encens Synesthésie Auditive",
+      "category": "encens"
+    },
+    {
+      "id": "510004",
+      "name": "Encens Fleur du Cœur",
+      "category": "encens"
+    },
+    {
+      "id": "510005",
+      "name": "Encens Pyrolyse Terpénique",
+      "category": "encens"
+    },
+    {
+      "id": "510006",
+      "name": "Tabac Piciete 2.0",
+      "category": "encens"
+    },
+    {
+      "id": "510007",
+      "name": "Tabac Réaction de Maillard Contrôlée",
+      "category": "encens"
+    },
+    {
+      "id": "510008",
+      "name": "Tabac Fuego Frío",
+      "category": "encens"
+    },
+    {
+      "id": "510009",
+      "name": "Tabac Entourage Nootropique",
+      "category": "encens"
+    },
+    {
+      "id": "510010",
+      "name": "Tabac Mémoire du Sol",
+      "category": "encens"
+    },
+    {
+      "id": "510011",
+      "name": "Parfum Peau de Cénote",
+      "category": "encens"
+    },
+    {
+      "id": "510012",
+      "name": "Parfum Chrono-Évolution",
+      "category": "encens"
+    },
+    {
+      "id": "510013",
+      "name": "Parfum Sombra y Luz",
+      "category": "encens"
+    },
+    {
+      "id": "510014",
+      "name": "Parfum Tunnel Quantique",
+      "category": "encens"
+    },
+    {
+      "id": "510015",
+      "name": "Parfum Activation Synaptique",
+      "category": "encens"
+    },
+    {
+      "id": "540001",
+      "name": "Eau de Cologne Classique",
+      "category": "parfum"
+    },
+    {
+      "id": "540002",
+      "name": "Encens Pontifical",
+      "category": "encens"
+    },
+    {
+      "id": "540003",
+      "name": "Chypre Moderne",
+      "category": "parfum"
+    },
+    {
+      "id": "540004",
+      "name": "Encens Japonais Kyara",
+      "category": "encens"
+    },
+    {
+      "id": "540005",
+      "name": "Fougère Aromatique",
+      "category": "parfum"
+    },
+    {
+      "id": "540006",
+      "name": "Encens Tibétain",
+      "category": "encens"
+    },
+    {
+      "id": "540007",
+      "name": "Oriental Ambré",
+      "category": "parfum"
+    },
+    {
+      "id": "540008",
+      "name": "Encens Égyptien Kyphi",
+      "category": "encens"
+    },
+    {
+      "id": "540009",
+      "name": "Hespéridé Frais",
+      "category": "parfum"
+    },
+    {
+      "id": "540010",
+      "name": "Encens Indien Dhoop",
+      "category": "encens"
+    },
+    {
+      "id": "540011",
+      "name": "Cuir Fumé",
+      "category": "parfum"
+    },
+    {
+      "id": "540012",
+      "name": "Encens Grec Livani",
+      "category": "encens"
+    },
+    {
+      "id": "540013",
+      "name": "Boisé Précieux",
+      "category": "parfum"
+    },
+    {
+      "id": "540014",
+      "name": "Encens Arabe Bakhoor",
+      "category": "encens"
+    },
+    {
+      "id": "540015",
+      "name": "Floral Aldéhydé",
+      "category": "parfum"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n1\tOS PLUVIEUX\tparfum\n2\tFOSSE ANTIQUE\tparfum\n3\tARCHÉOLOGIE BRÛLÉE\tparfum\n4\tARGILE HUMIDE SACRÉE\tparfum\n5\tPÉTRICHOR SÉPULCRAL\tparfum\n6\tBIBLIOTHÈQUE HUMIDE\tparfum\n7\tPIERRE NOIRE FENDUE\tparfum\n8\tFOUILLE HUMIDE\tparfum\n9\tMURAILLE APRÈS ORAGE\tparfum\n10\tTEMPLE DE TERRE BLANCHE\tparfum\n11\tBRUME SUR PIERRE\tparfum\n12\tJOUR DE PLUIE ANTIQUE\tparfum\n13\tTERRE HUMIDE SACRÉE\tparfum\n14\tPLUIE SULFURÉE\tparfum\n15\tSÉDIMENT ARCHÉOLOGIQUE\tparfum\n16\tFOSSILE BLANC MINÉRAL\tparfum\n17\tSOL NOIR VIVANT\tparfum\n18\tPLUIE SUR BITUME SACRÉ\tparfum\n19\tARGILE LUMINEUSE\tparfum\n20\tOS ROUGE (Mossi)\tparfum\n21\tPÉTRICHOR CLAIR / GLACIAIRE\tparfum\n22\tPÉTRICHOR SOMBRE / HUMIDE\tparfum\n23\tPÉTRICHOR TROPICAL FOSSILISÉ (Monoï)\tparfum\n24\tPÉTRICHOR URBAIN / MÉTAL\tparfum\n25\tPÉTRICHOR ARCHIVE HUMIDE\tparfum\n26\tPLUIE SUR CENDRE FROIDE\tparfum\n27\tPÉTRICHOR DE SAVANE (Mossi)\tparfum\n28\tPÉTRICHOR DE TEMPÊTE (Volcanique)\tparfum\n29\tPÉTRICHOR MARIN / ATLANTIDE\tparfum\n30\tPÉTRICHOR DÉSERTIQUE\tparfum\n31\tPÉTRICHOR DE RUINES\tparfum\n32\tPÉTRICHOR DE TEMPLES (Égypte)\tparfum\n33\tPÉTRICHOR SUR BOIS MOISI\tparfum\n34\tPÉTRICHOR ANTIQUE / SCROLLS\tparfum\n35\tPÉTRICHOR CUIVRÉ\tparfum\n36\tPÉTRICHOR ARCHÉOLOGIQUE\tparfum\n37\tPÉTRICHOR CUIRANT\tparfum\n38\tPÉTRICHOR SANCTUAIRE\tparfum\n39\tPÉTRICHOR DE L’ORDRE BLANC\tparfum\n40\tSHURUPPAK : ARGILE BRÛLÉE\tparfum\n41\tAKHET : PIERRE BLANCHE\tparfum\n42\tMEROE : RÉSINE NOIRE\tparfum\n43\tLYONESSE : PLUIE BLANCHE\tparfum\n44\tATLANTIDE LUMINEUSE : OCÉAN CLAIR\tparfum\n45\tLYONESSE SINKING\tparfum\n46\tLEMURIA ROOT\tparfum\n47\tMU : SOUFFLE ANCESTRAL\tparfum\n48\tATLANTIS LIGHT COLUMN\tparfum\n49\tATLANTIS BLACK LIBRARY\tparfum\n50\tOS PLUVIEUX\tparfum\n51\tFOSSE ANTIQUE\tparfum\n52\tARCHÉOLOGIE BRÛLÉE\tparfum\n53\tARGILE HUMIDE SACRÉE\tparfum\n54\tPÉTRICHOR SÉPULCRAL\tparfum\n55\tBIBLIOTHÈQUE HUMIDE\tparfum\n56\tPIERRE NOIRE FENDUE\tparfum\n57\tFOUILLE HUMIDE\tparfum\n58\tMURAILLE APRÈS ORAGE\tparfum\n59\tTEMPLE DE TERRE BLANCHE\tparfum\n60\tBRUME SUR PIERRE\tparfum\n61\tJOUR DE PLUIE ANTIQUE\tparfum\n62\tTERRE HUMIDE SACRÉE\tparfum\n63\tPLUIE SULFURÉE\tparfum\n64\tSÉDIMENT ARCHÉOLOGIQUE\tparfum\n65\tFOSSILE BLANC MINÉRAL\tparfum\n66\tSOL NOIR VIVANT\tparfum\n67\tPLUIE SUR BITUME SACRÉ\tparfum\n68\tARGILE LUMINEUSE\tparfum\n69\tOS ROUGE (Mossi)\tparfum\n70\tPÉTRICHOR CLAIR / GLACIAIRE\tparfum\n71\tPÉTRICHOR SOMBRE / HUMIDE\tparfum\n72\tPÉTRICHOR TROPICAL FOSSILISÉ (Monoï)\tparfum\n73\tPÉTRICHOR URBAIN / MÉTAL\tparfum\n74\tPÉTRICHOR ARCHIVE HUMIDE\tparfum\n75\tPLUIE SUR CENDRE FROIDE\tparfum\n76\tPÉTRICHOR DE SAVANE (Mossi)\tparfum\n77\tPÉTRICHOR DE TEMPÊTE (Volcanique)\tparfum\n78\tPÉTRICHOR MARIN / ATLANTIDE\tparfum\n79\tPÉTRICHOR DÉSERTIQUE\tparfum\n80\tPÉTRICHOR DE RUINES\tparfum\n81\tPÉTRICHOR DE TEMPLES (Égypte)\tparfum\n82\tPÉTRICHOR SUR BOIS MOISI\tparfum\n83\tPÉTRICHOR ANTIQUE / SCROLLS\tparfum\n84\tPÉTRICHOR CUIVRÉ\tparfum\n85\tPÉTRICHOR ARCHÉOLOGIQUE\tparfum\n86\tPÉTRICHOR CUIRANT\tparfum\n87\tPÉTRICHOR SANCTUAIRE\tparfum\n88\tPÉTRICHOR DE L’ORDRE BLANC\tparfum\n89\tSHURUPPAK : ARGILE BRÛLÉE\tparfum\n90\tAKHET : PIERRE BLANCHE\tparfum\n91\tMEROE : RÉSINE NOIRE\tparfum\n92\tLYONESSE : PLUIE BLANCHE\tparfum\n93\tATLANTIDE LUMINEUSE : OCÉAN CLAIR\tparfum\n94\tLYONESSE SINKING\tparfum\n95\tLEMURIA ROOT\tparfum\n96\tMU : SOUFFLE ANCESTRAL\tparfum\n97\tATLANTIS LIGHT COLUMN\tparfum\n98\tATLANTIS BLACK LIBRARY\tparfum\n99\tAVALON MIST\tparfum\n100\tHYPERBOREA\tparfum\n101\tR’LYEH SUBMERGED\tparfum\n102\tSHA’RA CITÉ SABLE\tparfum\n103\tKER YS\tparfum\n104\tAGARTHA\tparfum\n105\tSHAMBHALA\tparfum\n106\tPANGAEA\tparfum\n107\tBELIZE CAVERN\tparfum\n108\tVALLÉE DES ROIS\tparfum\n109\tENCENS VIVANT\tparfum\n110\tRITUEL DE ROCHE\tparfum\n111\tCODEX MINÉRAL\tparfum\n112\tKYFI NOIR\tparfum\n113\tENCENS D’OS\tparfum\n114\tCHAIR CÉRÉMONIELLE\tparfum\n115\tLITURGIE MINÉRALE\tparfum\n116\tTEMPLE SUBTERRAIN\tparfum\n117\tGROUPEMENT OSSUAIRE\tparfum\n118\tENCRE SACRÉE\tparfum\n119\tRITUEL SEPTENTRIONAL\tparfum\n120\tCHEMIN DES ANCÊTRES\tparfum\n121\tPARCHEMIN HUMIDE\tparfum\n122\tFUMIGATION SOLAIRE\tparfum\n123\tENCENS GLACÉ\tparfum\n124\tTABAC PÉTRICHOR ABSOLU\tparfum\n125\tTABAC ARCHÉOLOGIQUE\tparfum\n126\tTABAC GLACIAIRE\tparfum\n127\tTABAC VOLCANIQUE\tparfum\n128\tTABAC RITUEL MONTAGNARD\tparfum\n129\tTABAC DES FOSSILES\tparfum\n130\tTABAC DU SILENCE\tparfum\n131\tTABAC DES CIVILISATIONS PERDUES\tparfum\n132\tTABAC KER YS\tparfum\n133\tTABAC UMBRIA\tparfum\n134\tTABAC ASKJA\tparfum\n135\tTABAC SILENCE ABSOLU\tparfum\n120001\tForêt Méditerranéenne\tparfum\n120002\tJardin Japonais\tparfum\n120003\tFleur d'Oranger Tropicale\tparfum\n120004\tSoleil de Sicile\tparfum\n120005\tPétrichor Sacré\tparfum\n120006\tAmbre Océanique\tparfum\n120007\tRituel d'Assam\tparfum\n120008\tFraîcheur Mentholée\tparfum\n180001\tPheromona Truffle\tparfum\n210001\tPheromona Skin\tparfum\n210002\tPheromona Alpha\tparfum\n210003\tPheromona Cascade\tparfum\n240001\tPheromona Skin-Clean\tparfum\n240002\tPheromona Skin-Warm\tparfum\n240003\tPheromona Alpha-Boisé\tparfum\n240004\tPheromona Alpha-Cuiré\tparfum\n240005\tPheromona Cascade-Rapide\tparfum\n240006\tPheromona Cascade-Lente\tparfum\n270001\tAura Radieuse\tparfum\n270002\tNuit de Tubéreuse\tparfum\n270003\tSantal Éternel\tparfum\n270004\tRose Impériale\tparfum\n270005\tParadis Fruité\tparfum\n360001\tBRUME MARINE MÉTALLIQUE\tparfum\n360002\tPIERRE DE LUNE HUMIDE\tparfum\n360003\tORAGE FERREUX\tparfum\n360004\tFUMÉE DE TEMPLE ANCIEN\tparfum\n360005\tLAVE BALSAMIQUE\tparfum\n360006\tCENDRES SACRÉES\tparfum\n360007\tJARDIN DE ROSES PERSANES\tparfum\n360008\tSOIE ET ÉPICES\tparfum\n360009\tBIBLIOTHÈQUE D'ALEXANDRIE\tparfum\n360010\tGLACIER DE MENTHE\tparfum\n360011\tTOUNDRA CAMPHRÉE\tparfum\n360012\tCRISTAL DE GLACE\tparfum\n360013\tCAFÉ COLOMBIEN FUMÉ\tparfum\n360014\tFLEUR DE CAFÉ\tparfum\n360015\tCACAO SACRÉ MAYA\tparfum\n360016\tTABAC VERT COLOMBIEN\tparfum\n360017\tKARITÉ SACRÉ\tparfum\n360018\tTERRE ROUGE MOSSI\tparfum\n360019\tMossi Mossi Clair\tencens\n360020\tMossi Mossi Sombre\tencens\n360021\tMossi Mossi du Feu\tencens\n360022\tMossi Mossi Verger Sacré\tencens\n390001\tMossi Clair\tparfum\n390002\tMossi Sombre\tparfum\n390003\tMossi du Feu\tparfum\n390004\tMossi Verger Sacré\tparfum\n390005\tMossi Solaire\tparfum\n420005\tR-15 Living Cannabis Vent\tencens\n420006\tR-16 Dry Cannabis Leaf Incense\tencens\n420008\tR-18 Leaf Economies / Extreme\tparfum\n450001\tTL-01 — Pericón Anisé\tparfum\n450002\tTL-02 — Verde Tagetone\tparfum\n450003\tTL-03 — Épice Mexicaine\tparfum\n450004\tTL-04 — Encens Pericón\tencens\n480001\tAliento de Quetzalcóatl\tencens\n480007\tLágrimas de Ahuehuete\tparfum\n480008\tPiel de Jaguar\tparfum\n480009\tBiblioteca de Palenque\tparfum\n480010\tOfrenda de Cempasúchil\tparfum\n480011\tXocolatl Negro\tparfum\n510001\tEncens Pluie de Désert\tencens\n510002\tEncens Rêve Aztèque\tencens\n510003\tEncens Synesthésie Auditive\tencens\n510004\tEncens Fleur du Cœur\tencens\n510005\tEncens Pyrolyse Terpénique\tencens\n510006\tTabac Piciete 2.0\tencens\n510007\tTabac Réaction de Maillard Contrôlée\tencens\n510008\tTabac Fuego Frío\tencens\n510009\tTabac Entourage Nootropique\tencens\n510010\tTabac Mémoire du Sol\tencens\n510011\tParfum Peau de Cénote\tencens\n510012\tParfum Chrono-Évolution\tencens\n510013\tParfum Sombra y Luz\tencens\n510014\tParfum Tunnel Quantique\tencens\n510015\tParfum Activation Synaptique\tencens\n540001\tEau de Cologne Classique\tparfum\n540002\tEncens Pontifical\tencens\n540003\tChypre Moderne\tparfum\n540004\tEncens Japonais Kyara\tencens\n540005\tFougère Aromatique\tparfum\n540006\tEncens Tibétain\tencens\n540007\tOriental Ambré\tparfum\n540008\tEncens Égyptien Kyphi\tencens\n540009\tHespéridé Frais\tparfum\n540010\tEncens Indien Dhoop\tencens\n540011\tCuir Fumé\tparfum\n540012\tEncens Grec Livani\tencens\n540013\tBoisé Précieux\tparfum\n540014\tEncens Arabe Bakhoor\tencens\n540015\tFloral Aldéhydé\tparfum\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}

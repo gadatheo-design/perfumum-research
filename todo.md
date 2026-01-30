@@ -17,8 +17,10 @@
 | Accords | ~30 | - |
 | Familles olfactives | ~12 | - |
 | Matières premières | ~80 | - |
-| **Gènes TPS** | **307** | **126 liés aux molécules (4.4%)** |
-| **Liaisons TPS↔Molécules** | **126** | **14 gènes → 33 molécules** |
+| **Gènes TPS** | **307** | **177 liés aux molécules (15.3%)** |
+| **Liaisons TPS↔Molécules** | **177** | **47 gènes → 72 molécules** |
+| **Transformations moléculaires** | **33** | Pyrolyse, oxydation, isomérisation |
+| **Liaisons Transformations↔Recettes** | **~7500+** | Tabac, parfumerie, encens |
 
 ### Qualité des données scientifiques
 | Champ | Rempli | Manquant |
@@ -305,7 +307,26 @@
 
 ---
 
-## 🆕 NOUVELLES TÂCHES (26 Jan 2026 - Session courante)
+## 🆕 NOUVELLES TÂCHES (30 Jan 2026 - Session courante)
+
+### Transformations moléculaires et liaisons recettes
+- [x] Créer 15 nouvelles recettes de parfumerie et d'encens
+- [x] Créer les liaisons transformations↔recettes pour parfumerie (~4000+ liaisons)
+- [x] Créer les liaisons transformations↔recettes pour encens (~3500+ liaisons)
+- [x] Ajouter la procédure tRPC createTransformationRecipeImpact
+- [x] Ajouter la procédure tRPC deleteTransformationRecipeImpact
+- [x] Ajouter la procédure tRPC getTransformationChains pour D3.js
+
+### Graphe D3.js des chaînes de transformation
+- [x] Créer le composant TransformationChainGraph.tsx
+- [x] Implémenter le graphe force-directed avec D3.js
+- [x] Ajouter les interactions (zoom, pan, drag, hover, click)
+- [x] Afficher les chaînes de transformation (limonène → p-cymène → toluène)
+- [x] Intégrer le composant dans la page MolecularTransformations
+- [x] Ajouter les filtres par type de transformation et molécule
+- [x] Ajouter la légende et les panneaux d'information
+
+## 🆕 TÂCHES ANTÉRIEURES (26 Jan 2026)
 
 ### Visualisations D3.js pour matières premières rares
 - [ ] Créer le composant de visualisation D3.js pour les relations
@@ -3003,3 +3024,14 @@
 | Transformations moléculaires | 34 |
 | Liaisons transformations-recettes | 17 |
 | Types de transformation | 6 (pyrolyse, oxydation, isomérisation, déshydratation, dégradation, autre) |
+
+
+### Session 30 janvier 2026 - Partie 2 : Liaisons parfumerie/encens + Graphe D3.js
+- [ ] Analyser les recettes de parfumerie et encens existantes
+- [ ] Créer les liaisons transformations-recettes pour parfumerie
+- [ ] Créer les liaisons transformations-recettes pour encens
+- [ ] Créer le composant D3.js TransformationChainGraph
+- [ ] Implémenter les nœuds pour les molécules sources et produits
+- [ ] Implémenter les liens avec les types de transformation
+- [ ] Ajouter les interactions (zoom, drag, hover avec détails)
+- [ ] Intégrer le graphe dans l'onglet "Graphe des transformations"

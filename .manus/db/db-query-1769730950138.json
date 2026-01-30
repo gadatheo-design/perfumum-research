@@ -1,0 +1,9 @@
+{
+  "query": "INSERT IGNORE INTO transformation_recipe_impacts (transformation_id, recette_id, impact_type, impact_description, olfactory_contribution, notes)\nSELECT \n  mt.id,\n  r.id,\n  CASE \n    WHEN mt.transformation_type = 'oxidation' THEN 'major'\n    WHEN mt.transformation_type = 'isomerization' THEN 'moderate'\n    ELSE 'minor'\n  END as impact_type,\n  CONCAT('Évolution de ', mt.source_molecule_name, ' en ', mt.product_molecule_name, ' lors du vieillissement') as impact_description,\n  COALESCE(mt.olfactory_change_description, 'Notes évoluées et matures') as olfactory_contribution,\n  'Liaison parfumerie - vieillissement' as notes_val\nFROM molecular_transformations mt\nCROSS JOIN recettes r\nWHERE r.category = 'parfum';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT IGNORE INTO transformation_recipe_impacts (transformation_id, recette_id, impact_type, impact_description, olfactory_contribution, notes)\nSELECT \n  mt.id,\n  r.id,\n  CASE \n    WHEN mt.transformation_type = 'oxidation' THEN 'major'\n    WHEN mt.transformation_type = 'isomerization' THEN 'moderate'\n    ELSE 'minor'\n  END as impact_type,\n  CONCAT('Évolution de ', mt.source_molecule_name, ' en ', mt.product_molecule_name, ' lors du vieillissement') as impact_description,\n  COALESCE(mt.olfactory_change_description, 'Notes évoluées et matures') as olfactory_contribution,\n  'Liaison parfumerie - vieillissement' as notes_val\nFROM molecular_transformations mt\nCROSS JOIN recettes r\nWHERE r.category = 'parfum';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 418
+}
