@@ -87,6 +87,7 @@ const mobileMenuSections: MenuSection[] = [
     icon: Sparkles,
     items: [
       { href: "/gammes-hub", label: "Gammes", badge: "HUB" },
+      { href: "/chemotypes", label: "Chémotypes", badge: "NEW" },
       { href: "/carte-plantes-gps", label: "Carte GPS Plantes" },
       { href: "/recherche-avancee", label: "Recherche avancée" },
       { href: "/alternatives-durables", label: "Alternatives durables", badge: "NEW" },
@@ -135,6 +136,7 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/methodologie/absorbe", label: "Présentation" },
       { href: "/methodologie/echelle", label: "Échelle de classification" },
       { href: "/methodologie/gcms", label: "GC-MS & Pyrolyse" },
+      { href: "/methodes-analytiques", label: "Méthodes Analytiques", badge: "NEW" },
     ],
   },
   {

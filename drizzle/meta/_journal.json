@@ -225,6 +225,13 @@
       "when": 1769779301355,
       "tag": "0031_chilly_calypso",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "5",
+      "when": 1769806735889,
+      "tag": "0032_damp_king_bedlam",
+      "breakpoints": true
     }
   ]
 }

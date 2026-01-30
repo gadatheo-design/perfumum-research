@@ -6748,3 +6748,48 @@ export const inventoryEntriesRelations = relations(inventoryEntries, ({ one }) =
     references: [suppliers.id],
   }),
 }));
+
+
+// ============================================================================
+// MOLECULE ANALYTICAL METHODS - Liaison molécules <-> méthodes analytiques
+// ============================================================================
+
+/**
+ * Links molecules to the analytical methods used to identify/quantify them.
+ * Tracks which techniques were used for each molecule analysis.
+ */
+export const moleculeAnalyticalMethods = mysqlTable("molecule_analytical_methods", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull().references(() => molecules.id, { onDelete: "cascade" }),
+  methodId: int("method_id").notNull().references(() => analyticalMethods.id, { onDelete: "cascade" }),
+  // Analysis details
+  isPrimary: boolean("is_primary").default(false), // Primary method used for identification
+  detectionLimit: decimal("detection_limit", { precision: 10, scale: 6 }), // Detection limit achieved
+  detectionUnit: varchar("detection_unit", { length: 20 }), // ppm, ppb, ng/L, etc.
+  accuracy: decimal("accuracy", { precision: 5, scale: 2 }), // Accuracy percentage
+  // Context
+  analysisDate: timestamp("analysis_date"), // When the analysis was performed
+  laboratoryName: varchar("laboratory_name", { length: 255 }), // Lab that performed the analysis
+  notes: text("notes"), // Additional notes
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  uniqueMoleculeMethod: uniqueIndex("unique_molecule_method").on(table.moleculeId, table.methodId),
+  moleculeIdx: index("mol_method_molecule_idx").on(table.moleculeId),
+  methodIdx: index("mol_method_method_idx").on(table.methodId),
+}));
+
+export type MoleculeAnalyticalMethod = typeof moleculeAnalyticalMethods.$inferSelect;
+export type InsertMoleculeAnalyticalMethod = typeof moleculeAnalyticalMethods.$inferInsert;
+
+// Relations for molecule_analytical_methods
+export const moleculeAnalyticalMethodsRelations = relations(moleculeAnalyticalMethods, ({ one }) => ({
+  molecule: one(molecules, {
+    fields: [moleculeAnalyticalMethods.moleculeId],
+    references: [molecules.id],
+  }),
+  method: one(analyticalMethods, {
+    fields: [moleculeAnalyticalMethods.methodId],
+    references: [analyticalMethods.id],
+  }),
+}));

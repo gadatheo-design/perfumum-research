@@ -4495,3 +4495,24 @@
 - [x] Ajouter ChémotypesExplorer au menu principal (Données > Exploration)
 - [x] Ajouter MéthodesAnalytiques au menu principal (Recherche > Méthode ABSORBE)
 - [ ] Vérifier la cohérence du menu sur mobile
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 - PARTIE 7
+
+### Tâche 62 : Lier les méthodes analytiques aux molécules
+- [x] Créer la table de liaison molecule_analytical_methods
+- [x] Ajouter les relations dans le schéma Drizzle
+- [x] Créer 798 liaisons (619 molécules, 6 méthodes)
+- [ ] Créer les procédures tRPC pour gérer les liaisons
+- [ ] Afficher les méthodes utilisées sur la page MoleculeDetail
+
+### Tâche 63 : Ajouter les liens au MobileMenu
+- [x] Ajouter ChémotypesExplorer au MobileMenu (Exploration)
+- [x] Ajouter MéthodesAnalytiques au MobileMenu (Méthode ABSORBE)
+- [x] Vérifier la cohérence de navigation sur mobile
+
+### Tâche 64 : Vérification complète du todo
+- [x] Extraire toutes les tâches non complétées (571 restantes / 1749 terminées = 75% complétion)
+- [x] Identifier les tâches P0/P1 restantes (aucun bug critique en attente)
+- [x] Mettre à jour le rapport des tâches en attente
