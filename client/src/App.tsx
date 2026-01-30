@@ -238,7 +238,8 @@ import OdeurSitueeDetail from "./pages/OdeurSitueeDetail";
 import Projets from "./pages/Projets";
 import Terrains from "./pages/Terrains";
 import BibliographiePage from "./pages/BibliographiePage";
-import BibliographieGlobale from "./pages/BibliographieGlobale";
+// Lazy-loaded: BibliographieGlobale (1129 lignes)
+const BibliographieGlobale = lazy(() => import("./pages/BibliographieGlobale"));
 import ReferencesV3 from "./pages/ReferencesV3";
 import ReferenceEntityLinkManager from "./pages/ReferenceEntityLinkManager";
 import BulkImportReferences from "./pages/BulkImportReferences";
@@ -251,7 +252,8 @@ import H2LinkingInterface from "./pages/H2LinkingInterface";
 import H3LinkingInterface from "./pages/H3LinkingInterface";
 import GenomicsExplorer from "./pages/GenomicsExplorer";
 import AxesRecherche from "./pages/AxesRecherche";
-import AxeRechercheDetail from "./pages/AxeRechercheDetail";
+// Lazy-loaded: AxeRechercheDetail (1117 lignes)
+const AxeRechercheDetail = lazy(() => import("./pages/AxeRechercheDetail"));
 import ReseauAxes from "./pages/ReseauAxes";
 import RelationsGraph from "./pages/RelationsGraph";
 import GestionPage from "./pages/GestionPage";
@@ -263,7 +265,8 @@ import BotaniqueCritique from "./pages/BotaniqueCritique";
 import VarietesFantomes from "./pages/VarietesFantomes";
 import GhostVarietiesExplorer from "./pages/GhostVarietiesExplorer";
 import GhostVarietyForm from "./pages/GhostVarietyForm";
-import GhostVarietyDetail from "./pages/GhostVarietyDetail";
+// Lazy-loaded: GhostVarietyDetail (1197 lignes)
+const GhostVarietyDetail = lazy(() => import("./pages/GhostVarietyDetail"));
 import GhostVarietyImageUpload from "./pages/GhostVarietyImageUpload";
 import RecettesLeafEconomies from "./pages/RecettesLeafEconomies";
 import TerpProfiles from "./pages/TerpProfiles";
@@ -273,7 +276,8 @@ import PlantVarieties from "./pages/PlantVarieties";
 import PlantsHub from "./pages/PlantsHub";
 import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
-import PlantDetail from "./pages/PlantDetail";
+// Lazy-loaded: PlantDetail (1057 lignes)
+const PlantDetail = lazy(() => import("./pages/PlantDetail"));
 import PlantForm from "./pages/PlantForm";
 import VarietyForm from "./pages/VarietyForm";
 import VarietyDetail from "./pages/VarietyDetail";
@@ -297,7 +301,8 @@ import Contribuer from "./pages/Contribuer";
 import ContributorInterface from "./pages/ContributorInterface";
 import SimplifiedContributorForm from "./pages/SimplifiedContributorForm";
 import CoverageGoalDashboard from "./pages/CoverageGoalDashboard";
-import CSVValidationImport from "./pages/CSVValidationImport";
+// Lazy-loaded: CSVValidationImport (1067 lignes)
+const CSVValidationImport = lazy(() => import("./pages/CSVValidationImport"));
 import PlantMoleculeLinking from "./pages/PlantMoleculeLinking";
 import Manifeste from "./pages/Manifeste";
 import { Timeline } from "./pages/Timeline";
@@ -353,7 +358,8 @@ import GrapheReferencesAxes from "./pages/GrapheReferencesAxes";
 import ReferencesGraph from "./pages/ReferencesGraph";
 import CarteInteractiveTerroirs from "./pages/CarteInteractiveTerroirs";
 import TerroirMapPage from "./pages/TerroirMapPage";
-import ParcoursOlfactif from "./pages/ParcoursOlfactif";
+// Lazy-loaded: ParcoursOlfactif (1294 lignes)
+const ParcoursOlfactif = lazy(() => import("./pages/ParcoursOlfactif"));
 import ParcoursDetail from "./pages/ParcoursDetail";
 import PeriqueCompounds from "./pages/PeriqueCompounds";
 import HistoricCigarettes from "./pages/HistoricCigarettes";
@@ -690,7 +696,13 @@ function Router() {
       <Route path="/projets" component={Projets} />
       <Route path="/terrains" component={Terrains} />
       <Route path="/bibliographie" component={BibliographiePage} />
-      <Route path="/bibliographie-globale" component={BibliographieGlobale} />
+      <Route path="/bibliographie-globale">
+        {() => (
+          <Suspense fallback={<PageLoader />}>
+            <BibliographieGlobale />
+          </Suspense>
+        )}
+      </Route>
       <Route path="/references-v3" component={ReferencesV3} />
       <Route path="/reference-entity-link-manager" component={ReferenceEntityLinkManager} />
       <Route path="/bulk-import-references" component={BulkImportReferences} />
@@ -705,7 +717,13 @@ function Router() {
       <Route path="/tps-genes" component={TpsGenesExplorer} />
       <Route path="/molecular-transformations" component={MolecularTransformations} />
       <Route path="/axes-recherche" component={AxesRecherche} />
-      <Route path="/axes-recherche/:code" component={AxeRechercheDetail} />
+      <Route path="/axes-recherche/:code">
+        {(params) => (
+          <Suspense fallback={<PageLoader />}>
+            <AxeRechercheDetail />
+          </Suspense>
+        )}
+      </Route>
       <Route path="/reseau-axes" component={ReseauAxes} />
       <Route path="/gestion" component={GestionPage} />
       <Route path="/collaborations" component={Collaborations} />
@@ -722,7 +740,13 @@ function Router() {
       <Route path="/contributor/links" component={PlantMoleculeLinking} />
       <Route path="/contributor/simple" component={SimplifiedContributorForm} />
       <Route path="/coverage-goal" component={CoverageGoalDashboard} />
-      <Route path="/csv-validation-import" component={CSVValidationImport} />
+      <Route path="/csv-validation-import">
+        {() => (
+          <Suspense fallback={<PageLoader />}>
+            <CSVValidationImport />
+          </Suspense>
+        )}
+      </Route>
       <Route path="/plant-molecule-linking" component={PlantMoleculeLinking} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/timeline/interactive" component={TimelineInteractive} />
@@ -747,7 +771,13 @@ function Router() {
       <Route path="/varietes-fantomes" component={VarietesFantomes} />
       <Route path="/ghost-varieties-explorer" component={GhostVarietiesExplorer} />
       <Route path="/ghost-variety/new" component={GhostVarietyForm} />
-      <Route path="/ghost-variety/:id" component={GhostVarietyDetail} />
+      <Route path="/ghost-variety/:id">
+        {(params) => (
+          <Suspense fallback={<PageLoader />}>
+            <GhostVarietyDetail />
+          </Suspense>
+        )}
+      </Route>
       <Route path="/ghost-variety/:id/upload-image" component={GhostVarietyImageUpload} />
       <Route path="/recettes-leaf-economies" component={RecettesLeafEconomies} />
       <Route path="/terp-profiles" component={TerpProfiles} />
@@ -769,8 +799,20 @@ function Router() {
       <Route path="/chemotypes" component={Chemotypes} />
       <Route path="/plants/new" component={PlantForm} />
       <Route path="/plants/:id/edit" component={PlantForm} />
-      <Route path="/plants/:id" component={PlantDetail} />
-      <Route path="/plantes/:id" component={PlantDetail} />
+      <Route path="/plants/:id">
+        {(params) => (
+          <Suspense fallback={<PageLoader />}>
+            <PlantDetail />
+          </Suspense>
+        )}
+      </Route>
+      <Route path="/plantes/:id">
+        {(params) => (
+          <Suspense fallback={<PageLoader />}>
+            <PlantDetail />
+          </Suspense>
+        )}
+      </Route>
       <Route path="/final-recipes" component={FinalRecipes} />
       <Route path="/recettes-finales" component={FinalRecipes} />
       <Route path="/terroirs" component={PlantsHub} />
@@ -831,7 +873,13 @@ function Router() {
       <Route path="/references-graph" component={ReferencesGraph} />
       <Route path="/carte-interactive-terroirs" component={CarteInteractiveTerroirs} />
       <Route path="/carte-terroirs" component={TerroirMapPage} />
-      <Route path="/parcours-olfactif" component={ParcoursOlfactif} />
+      <Route path="/parcours-olfactif">
+        {() => (
+          <Suspense fallback={<PageLoader />}>
+            <ParcoursOlfactif />
+          </Suspense>
+        )}
+      </Route>
       <Route path="/parcours/:code" component={ParcoursDetail} />
       <Route path="/bio-mineralis" component={BioMineralis} />
       

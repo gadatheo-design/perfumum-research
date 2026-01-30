@@ -1,0 +1,9 @@
+{
+  "query": "-- Vue pour les synergies moléculaires avec noms des molécules\nCREATE OR REPLACE VIEW molecule_synergies_view AS\nSELECT \n  ms.id,\n  ms.molecule1_id,\n  m1.name as molecule1_name,\n  ms.molecule2_id,\n  m2.name as molecule2_name,\n  ms.type,\n  ms.description,\n  ms.chemical_mechanism,\n  ms.applications,\n  ms.createdAt\nFROM molecule_synergies ms\nJOIN molecules m1 ON m1.id = ms.molecule1_id\nJOIN molecules m2 ON m2.id = ms.molecule2_id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Vue pour les synergies moléculaires avec noms des molécules\nCREATE OR REPLACE VIEW molecule_synergies_view AS\nSELECT \n  ms.id,\n  ms.molecule1_id,\n  m1.name as molecule1_name,\n  ms.molecule2_id,\n  m2.name as molecule2_name,\n  ms.type,\n  ms.description,\n  ms.chemical_mechanism,\n  ms.applications,\n  ms.createdAt\nFROM molecule_synergies ms\nJOIN molecules m1 ON m1.id = ms.molecule1_id\nJOIN molecules m2 ON m2.id = ms.molecule2_id;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 238
+}

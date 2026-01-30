@@ -4209,3 +4209,38 @@
 - [ ] Optimiser les requêtes SQL critiques → Phase 2
 - [ ] Ajouter des index manquants → Phase 2
 
+
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 - OPTIMISATIONS AVANCÉES
+
+### Tâche 34 : Étendre le lazy loading (7 pages volumineuses)
+- [ ] ComponentShowcase.tsx (1437 lignes) → Non importé dans App.tsx
+- [x] ParcoursOlfactif.tsx (1294 lignes)
+- [x] GhostVarietyDetail.tsx (1197 lignes)
+- [x] BibliographieGlobale.tsx (1129 lignes)
+- [x] AxeRechercheDetail.tsx (1117 lignes)
+- [x] CSVValidationImport.tsx (1067 lignes)
+- [x] PlantDetail.tsx (1057 lignes)
+
+### Tâche 35 : Vues SQL pour consolidation tables liaison molécules
+- [x] Créer vue molecule_links_unified (5 types de liaisons)
+- [x] Inclure moleculeAccords dans la vue
+- [x] Inclure moleculeFamilies dans la vue
+- [x] Inclure moleculeChemicalFamilies dans la vue
+- [x] Inclure moleculeOrigins dans la vue (avec métadonnées JSON)
+- [x] Inclure moleculePlantSources dans la vue (avec métadonnées JSON)
+- [x] Créer vue molecule_synergies_view (avec noms molécules)
+- [x] Créer vue molecule_notes_view (avec noms utilisateurs/molécules)
+- [x] Tester la rétrocompatibilité (tables originales préservées)
+
+### Tâche 36 : Cache pour requêtes fréquentes
+- [x] Implémenter un système de cache en mémoire (server/cache.ts)
+- [x] Clés de cache pour molécules (MOLECULES_LIST, MOLECULES_COUNT, MOLECULE_DETAIL)
+- [x] Clés de cache pour recherche globale (SEARCH_GLOBAL)
+- [x] Clés de cache pour plantes et recettes
+- [x] Invalidation automatique sur mutations (invalidateMoleculeCache, etc.)
+- [x] Helper withCache() pour wrapper les fonctions
+- [x] Tests complets (13 tests passés)
+
