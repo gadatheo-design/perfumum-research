@@ -1,0 +1,170 @@
+{
+  "query": "SELECT id, variety_id, name, plant_id, variety_type, country_of_origin FROM plant_varieties ORDER BY id DESC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, variety_id, name, plant_id, variety_type, country_of_origin FROM plant_varieties ORDER BY id DESC LIMIT 20;",
+  "rows": [
+    {
+      "id": "90018",
+      "variety_id": "PV-TAB-X04",
+      "name": "Perique",
+      "plant_id": "210029",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90017",
+      "variety_id": "PV-TAB-X03",
+      "name": "Criollo Dominicano",
+      "plant_id": "210029",
+      "variety_type": "landrace",
+      "country_of_origin": "Dominican Republic"
+    },
+    {
+      "id": "90016",
+      "variety_id": "PV-TAB-X02",
+      "name": "Burley Dark",
+      "plant_id": "210029",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90015",
+      "variety_id": "PV-TAB-X01",
+      "name": "Virginia Gold",
+      "plant_id": "210029",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90014",
+      "variety_id": "PV-CAN-X05",
+      "name": "Punto Rojo",
+      "plant_id": "210030",
+      "variety_type": "landrace",
+      "country_of_origin": "Colombia"
+    },
+    {
+      "id": "90013",
+      "variety_id": "PV-CAN-X04",
+      "name": "Lamb's Bread",
+      "plant_id": "210030",
+      "variety_type": "landrace",
+      "country_of_origin": "Jamaica"
+    },
+    {
+      "id": "90012",
+      "variety_id": "PV-CAN-X03",
+      "name": "Cherry Pie",
+      "plant_id": "210030",
+      "variety_type": "hybrid",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90011",
+      "variety_id": "PV-CAN-X02",
+      "name": "Pink Pepper",
+      "plant_id": "210030",
+      "variety_type": "landrace",
+      "country_of_origin": "Colombia"
+    },
+    {
+      "id": "90010",
+      "variety_id": "PV-CBD-X01",
+      "name": "CBDRx",
+      "plant_id": "210030",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "60009",
+      "variety_id": "PV-SEED-009",
+      "name": "Ecotype (wild)",
+      "plant_id": "330004",
+      "variety_type": "wild",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60008",
+      "variety_id": "PV-SEED-008",
+      "name": "Lab strain",
+      "plant_id": "330003",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60007",
+      "variety_id": "PV-SEED-007",
+      "name": "K326",
+      "plant_id": "330002",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60006",
+      "variety_id": "PV-SEED-006",
+      "name": "TN90",
+      "plant_id": "330002",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60005",
+      "variety_id": "PV-SEED-005",
+      "name": "Purple Kush",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60004",
+      "variety_id": "PV-SEED-004",
+      "name": "Punto Rojo",
+      "plant_id": "330001",
+      "variety_type": "landrace",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60003",
+      "variety_id": "PV-SEED-003",
+      "name": "Cherry Pie",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60002",
+      "variety_id": "PV-SEED-002",
+      "name": "Pink Pepper",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "60001",
+      "variety_id": "PV-SEED-001",
+      "name": "CBDRx",
+      "plant_id": "330001",
+      "variety_type": "cultivar",
+      "country_of_origin": "NULL"
+    },
+    {
+      "id": "30005",
+      "variety_id": "PV-EXT-005",
+      "name": "Cannabis sativa var. indica landrace (Landraces afghanes)",
+      "plant_id": "1",
+      "variety_type": "landrace",
+      "country_of_origin": "Afghanistan"
+    },
+    {
+      "id": "30004",
+      "variety_id": "PV-EXT-004",
+      "name": "Nicotiana tabacum var. havanensis (Tabac Havane original)",
+      "plant_id": "1",
+      "variety_type": "landrace",
+      "country_of_origin": "Cuba"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tvariety_id\tname\tplant_id\tvariety_type\tcountry_of_origin\n90018\tPV-TAB-X04\tPerique\t210029\tcultivar\tUSA\n90017\tPV-TAB-X03\tCriollo Dominicano\t210029\tlandrace\tDominican Republic\n90016\tPV-TAB-X02\tBurley Dark\t210029\tcultivar\tUSA\n90015\tPV-TAB-X01\tVirginia Gold\t210029\tcultivar\tUSA\n90014\tPV-CAN-X05\tPunto Rojo\t210030\tlandrace\tColombia\n90013\tPV-CAN-X04\tLamb's Bread\t210030\tlandrace\tJamaica\n90012\tPV-CAN-X03\tCherry Pie\t210030\thybrid\tUSA\n90011\tPV-CAN-X02\tPink Pepper\t210030\tlandrace\tColombia\n90010\tPV-CBD-X01\tCBDRx\t210030\tcultivar\tUSA\n60009\tPV-SEED-009\tEcotype (wild)\t330004\twild\tNULL\n60008\tPV-SEED-008\tLab strain\t330003\tcultivar\tNULL\n60007\tPV-SEED-007\tK326\t330002\tcultivar\tNULL\n60006\tPV-SEED-006\tTN90\t330002\tcultivar\tNULL\n60005\tPV-SEED-005\tPurple Kush\t330001\tcultivar\tNULL\n60004\tPV-SEED-004\tPunto Rojo\t330001\tlandrace\tNULL\n60003\tPV-SEED-003\tCherry Pie\t330001\tcultivar\tNULL\n60002\tPV-SEED-002\tPink Pepper\t330001\tcultivar\tNULL\n60001\tPV-SEED-001\tCBDRx\t330001\tcultivar\tNULL\n30005\tPV-EXT-005\tCannabis sativa var. indica landrace (Landraces afghanes)\t1\tlandrace\tAfghanistan\n30004\tPV-EXT-004\tNicotiana tabacum var. havanensis (Tabac Havane original)\t1\tlandrace\tCuba\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

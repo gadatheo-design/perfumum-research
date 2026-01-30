@@ -3312,3 +3312,33 @@
 - [x] Relations plantes-molécules déjà importées (650 liaisons)
 - **Résultat: 7 terroirs ajoutés, 9 variétés ajoutées, structure relationnelle complète**
 
+
+
+---
+
+## 🔄 SESSION 30 Janvier 2026 - Relations variétés-terroirs et profils moléculaires (Phase 6)
+
+### Relations variété-terroir
+- [x] Analyser les variétés existantes dans plant_varieties (9 variétés ajoutées)
+- [x] Analyser les terroirs existants (7 terroirs ajoutés: Colombia, San Andrés, Burkina Faso, Jamaica, Trinidad, Global)
+- [x] Utiliser le champ country_of_origin existant pour les liaisons (pas de table supplémentaire nécessaire)
+- [x] Lier CBDRx aux terroirs USA (country_of_origin = 'USA')
+- [x] Lier Pink Pepper et Punto Rojo aux terroirs Colombia (country_of_origin = 'Colombia')
+- [x] Lier Cherry Pie aux terroirs USA (country_of_origin = 'USA')
+- [x] Lier Lamb's Bread aux terroirs Jamaica (country_of_origin = 'Jamaica')
+- [x] Lier Virginia Gold, Burley Dark, Perique aux terroirs USA (country_of_origin = 'USA')
+- [x] Lier Criollo Dominicano aux terroirs Caribbean (country_of_origin = 'Dominican Republic')
+
+### Profils moléculaires des variétés
+- [x] Enrichir le profil moléculaire de CBDRx (CBD 15%, Myrcène 0.8%, β-Caryophyllène 0.5%, Limonène 0.3%)
+- [x] Enrichir le profil moléculaire de Pink Pepper (β-Caryophyllène 1.2%, Limonène 0.6%, Myrcène 0.4%)
+- [x] Enrichir le profil moléculaire de Cherry Pie (Myrcène 1.0%, β-Caryophyllène 0.5%, Limonène 0.4%)
+- [x] Enrichir le profil moléculaire de Lamb's Bread (Limonène 0.8%, β-Caryophyllène 0.6%, α-Pinène 0.4%)
+- [x] Enrichir le profil moléculaire de Punto Rojo (Limonène 0.9%, α-Pinène 0.5%, β-Caryophyllène 0.4%)
+- [x] Enrichir les profils des variétés de tabac:
+  - Virginia Gold: Solanone 0.2%, Nicotine 2.5%, notes miel/foin
+  - Burley Dark: Solanone 0.15%, Nicotine 3.5%, notes noisette/cacao
+  - Criollo Dominicano: Solanone 0.18%, Nicotine 2.8%, notes cèdre/épices
+  - Perique: Solanone 0.25%, Nicotine 4.5%, notes figue/pruneau
+- **Résultat: 9 variétés avec profils moléculaires complets (dominant_molecules, molecular_profile, olfactive_notes)**
+

@@ -1,0 +1,122 @@
+{
+  "query": "SELECT id, variety_id, name, plant_id, variety_type, country_of_origin FROM plant_varieties WHERE variety_id LIKE '%X%' ORDER BY id DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, variety_id, name, plant_id, variety_type, country_of_origin FROM plant_varieties WHERE variety_id LIKE '%X%' ORDER BY id DESC;",
+  "rows": [
+    {
+      "id": "90018",
+      "variety_id": "PV-TAB-X04",
+      "name": "Perique",
+      "plant_id": "210029",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90017",
+      "variety_id": "PV-TAB-X03",
+      "name": "Criollo Dominicano",
+      "plant_id": "210029",
+      "variety_type": "landrace",
+      "country_of_origin": "Dominican Republic"
+    },
+    {
+      "id": "90016",
+      "variety_id": "PV-TAB-X02",
+      "name": "Burley Dark",
+      "plant_id": "210029",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90015",
+      "variety_id": "PV-TAB-X01",
+      "name": "Virginia Gold",
+      "plant_id": "210029",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90014",
+      "variety_id": "PV-CAN-X05",
+      "name": "Punto Rojo",
+      "plant_id": "210030",
+      "variety_type": "landrace",
+      "country_of_origin": "Colombia"
+    },
+    {
+      "id": "90013",
+      "variety_id": "PV-CAN-X04",
+      "name": "Lamb's Bread",
+      "plant_id": "210030",
+      "variety_type": "landrace",
+      "country_of_origin": "Jamaica"
+    },
+    {
+      "id": "90012",
+      "variety_id": "PV-CAN-X03",
+      "name": "Cherry Pie",
+      "plant_id": "210030",
+      "variety_type": "hybrid",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90011",
+      "variety_id": "PV-CAN-X02",
+      "name": "Pink Pepper",
+      "plant_id": "210030",
+      "variety_type": "landrace",
+      "country_of_origin": "Colombia"
+    },
+    {
+      "id": "90010",
+      "variety_id": "PV-CBD-X01",
+      "name": "CBDRx",
+      "plant_id": "210030",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "30005",
+      "variety_id": "PV-EXT-005",
+      "name": "Cannabis sativa var. indica landrace (Landraces afghanes)",
+      "plant_id": "1",
+      "variety_type": "landrace",
+      "country_of_origin": "Afghanistan"
+    },
+    {
+      "id": "30004",
+      "variety_id": "PV-EXT-004",
+      "name": "Nicotiana tabacum var. havanensis (Tabac Havane original)",
+      "plant_id": "1",
+      "variety_type": "landrace",
+      "country_of_origin": "Cuba"
+    },
+    {
+      "id": "30003",
+      "variety_id": "PV-EXT-003",
+      "name": "Lavandula angustifolia var. delphinensis (Lavande du Dauphiné)",
+      "plant_id": "1",
+      "variety_type": "wild",
+      "country_of_origin": "France"
+    },
+    {
+      "id": "30002",
+      "variety_id": "PV-EXT-002",
+      "name": "Jasminum grandiflorum var. florentinum (Jasmin de Florence)",
+      "plant_id": "1",
+      "variety_type": "cultivar",
+      "country_of_origin": "Italie"
+    },
+    {
+      "id": "30001",
+      "variety_id": "PV-EXT-001",
+      "name": "Rosa damascena var. trigintipetala (Kazanlak historique)",
+      "plant_id": "1",
+      "variety_type": "cultivar",
+      "country_of_origin": "Bulgarie"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tvariety_id\tname\tplant_id\tvariety_type\tcountry_of_origin\n90018\tPV-TAB-X04\tPerique\t210029\tcultivar\tUSA\n90017\tPV-TAB-X03\tCriollo Dominicano\t210029\tlandrace\tDominican Republic\n90016\tPV-TAB-X02\tBurley Dark\t210029\tcultivar\tUSA\n90015\tPV-TAB-X01\tVirginia Gold\t210029\tcultivar\tUSA\n90014\tPV-CAN-X05\tPunto Rojo\t210030\tlandrace\tColombia\n90013\tPV-CAN-X04\tLamb's Bread\t210030\tlandrace\tJamaica\n90012\tPV-CAN-X03\tCherry Pie\t210030\thybrid\tUSA\n90011\tPV-CAN-X02\tPink Pepper\t210030\tlandrace\tColombia\n90010\tPV-CBD-X01\tCBDRx\t210030\tcultivar\tUSA\n30005\tPV-EXT-005\tCannabis sativa var. indica landrace (Landraces afghanes)\t1\tlandrace\tAfghanistan\n30004\tPV-EXT-004\tNicotiana tabacum var. havanensis (Tabac Havane original)\t1\tlandrace\tCuba\n30003\tPV-EXT-003\tLavandula angustifolia var. delphinensis (Lavande du Dauphiné)\t1\twild\tFrance\n30002\tPV-EXT-002\tJasminum grandiflorum var. florentinum (Jasmin de Florence)\t1\tcultivar\tItalie\n30001\tPV-EXT-001\tRosa damascena var. trigintipetala (Kazanlak historique)\t1\tcultivar\tBulgarie\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}
