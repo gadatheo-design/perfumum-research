@@ -3172,3 +3172,23 @@
 ### Problème externe identifié
 - [ ] Rate limiting du proxy Manus (erreurs 429) - Problème temporaire, externe au code
 
+
+
+---
+
+## 🔄 SESSION 30 Janvier 2026 - Complétion des données
+
+### Données manquantes à compléter
+- [x] Analyser les molécules sans plantes sources associées
+- [x] Identifier les molécules importantes sans restrictions IFRA
+- [ ] Compléter les liaisons plante-molécule manquantes
+- [x] Ajouter les restrictions IFRA manquantes pour les molécules réglementées (7 ajoutées: Benzyl salicylate, Indole, Guaiacol, Vanilline, Iso E Super, Galaxolide, Ambroxan)
+
+### Visualisations à vérifier
+- [x] Tester la page Heatmap Synergies - API OK (55 synergies)
+- [x] Tester la page Graphe Relations - API OK
+- [x] Tester la page Sankey Flow - API OK (307 recettes)
+- [x] Tester la page Graphe Plante-Molécule - API OK (601 liens)
+- [x] Tester la page Compare Radar - API OK (171 terpènes avec radar)
+- [x] Corriger les problèmes de visualisation identifiés - Toutes les APIs fonctionnent, problème de rate limiting externe
+

@@ -1,0 +1,20 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM plant_molecules) as total_plant_molecules,\n  (SELECT COUNT(*) FROM molecule_plant_sources) as total_molecule_plant_sources,\n  (SELECT COUNT(*) FROM ifra_restrictions) as total_ifra_restrictions,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_with_plants_pm,\n  (SELECT COUNT(DISTINCT molecule_id) FROM molecule_plant_sources) as molecules_with_plants_mps,\n  (SELECT COUNT(DISTINCT molecule_id) FROM ifra_restrictions) as molecules_with_ifra;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM plant_molecules) as total_plant_molecules,\n  (SELECT COUNT(*) FROM molecule_plant_sources) as total_molecule_plant_sources,\n  (SELECT COUNT(*) FROM ifra_restrictions) as total_ifra_restrictions,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_with_plants_pm,\n  (SELECT COUNT(DISTINCT molecule_id) FROM molecule_plant_sources) as molecules_with_plants_mps,\n  (SELECT COUNT(DISTINCT molecule_id) FROM ifra_restrictions) as molecules_with_ifra;",
+  "rows": [
+    {
+      "total_molecules": "699",
+      "total_plants": "247",
+      "total_plant_molecules": "601",
+      "total_molecule_plant_sources": "168",
+      "total_ifra_restrictions": "28",
+      "molecules_with_plants_pm": "232",
+      "molecules_with_plants_mps": "71",
+      "molecules_with_ifra": "28"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\ttotal_plants\ttotal_plant_molecules\ttotal_molecule_plant_sources\ttotal_ifra_restrictions\tmolecules_with_plants_pm\tmolecules_with_plants_mps\tmolecules_with_ifra\n699\t247\t601\t168\t28\t232\t71\t28\n",
+  "stderr": "",
+  "execution_time_ms": 71
+}
