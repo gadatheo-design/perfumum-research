@@ -1,0 +1,310 @@
+{
+  "query": "SELECT id, name, iupac_name, chemical_class FROM molecules WHERE cas_number IS NULL OR cas_number = '' ORDER BY name LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, iupac_name, chemical_class FROM molecules WHERE cas_number IS NULL OR cas_number = '' ORDER BY name LIMIT 50;",
+  "rows": [
+    {
+      "id": "1110014",
+      "name": "4-Éthylguaiacol",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "300002",
+      "name": "Absolue d'Iris (Orris Butter)",
+      "iupac_name": "NULL",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "480024",
+      "name": "Acacia brûlé",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "780015",
+      "name": "Acaciine",
+      "iupac_name": "NULL",
+      "chemical_class": "other"
+    },
+    {
+      "id": "60003",
+      "name": "Acide Décanoïque (C10)",
+      "iupac_name": "NULL",
+      "chemical_class": "aliphatic"
+    },
+    {
+      "id": "990031",
+      "name": "Agarol",
+      "iupac_name": "NULL",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "1080003",
+      "name": "Agarwood / Oud — Aquilaria crassna (CITES, proxy)",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "1080002",
+      "name": "Agarwood / Oud — Aquilaria malaccensis (CITES)",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570028",
+      "name": "Aldéhyde C-11 Undécylénique",
+      "iupac_name": "NULL",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "480032",
+      "name": "Aldéhyde feuille",
+      "iupac_name": "NULL",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "120011",
+      "name": "Aldéhyde métallique",
+      "iupac_name": "NULL",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "480002",
+      "name": "Aldéhydes chauds",
+      "iupac_name": "NULL",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "480022",
+      "name": "Aldéhydes métalliques",
+      "iupac_name": "NULL",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "480013",
+      "name": "Aldéhydes sombres",
+      "iupac_name": "NULL",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "90008",
+      "name": "Aluminium aldehyde",
+      "iupac_name": "NULL",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "480029",
+      "name": "Ambergris",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "1080020",
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "300003",
+      "name": "Ambre Gris (Ambergris)",
+      "iupac_name": "NULL",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "480020",
+      "name": "Ambre profond",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "90060",
+      "name": "Ambrette seed",
+      "iupac_name": "NULL",
+      "chemical_class": "lactone"
+    },
+    {
+      "id": "1080022",
+      "name": "Ambrette — Abelmoschus moschatus (musc végétal)",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "300004",
+      "name": "Ambrox Super",
+      "iupac_name": "NULL",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "90027",
+      "name": "Ammonium-Maillard",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "480006",
+      "name": "Argile blanche",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "780016",
+      "name": "Aristolen-9β-ol",
+      "iupac_name": "NULL",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "180003",
+      "name": "Artisan Peppermint Oil",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "540009",
+      "name": "BENZOIN RESIN",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "420003",
+      "name": "Balsam Fir Essential Oil",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510020",
+      "name": "Baume de Tolú",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510010",
+      "name": "Baume de Tolú (Myroxylon balsamum)",
+      "iupac_name": "NULL",
+      "chemical_class": "ester"
+    },
+    {
+      "id": "90073",
+      "name": "Benzoin Siam",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "420007",
+      "name": "Birch Tar North American",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "90011",
+      "name": "Bitume light",
+      "iupac_name": "NULL",
+      "chemical_class": "aromatic"
+    },
+    {
+      "id": "180017",
+      "name": "Black Emerald",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "420004",
+      "name": "Black Spruce Essential Oil",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "480017",
+      "name": "Bois de brousse",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "1080011",
+      "name": "Bois de rose (lutherie) — Dalbergia nigra (CITES)",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "1080001",
+      "name": "Bois de rose — Aniba rosaeodora (CITES)",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "1080012",
+      "name": "Bois de santal rouge — Pterocarpus santalinus",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "480026",
+      "name": "Bois sec",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "480008",
+      "name": "Bois tendre",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "90039",
+      "name": "Bone-smoke accord",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510011",
+      "name": "Borrachero",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510001",
+      "name": "Borrachero (Brugmansia)",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "600009",
+      "name": "Bronze Note",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570008",
+      "name": "Bronze Note",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "90061",
+      "name": "C14 lactone (γ-Tetradecalactone)",
+      "iupac_name": "NULL",
+      "chemical_class": "lactone"
+    },
+    {
+      "id": "90062",
+      "name": "C18 lactone (γ-Octadecalactone)",
+      "iupac_name": "NULL",
+      "chemical_class": "lactone"
+    },
+    {
+      "id": "540004",
+      "name": "CEDARWOOD OIL",
+      "iupac_name": "NULL",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "510023",
+      "name": "Cacao Colombien",
+      "iupac_name": "NULL",
+      "chemical_class": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tiupac_name\tchemical_class\n1110014\t4-Éthylguaiacol\tNULL\tNULL\n300002\tAbsolue d'Iris (Orris Butter)\tNULL\tketone\n480024\tAcacia brûlé\tNULL\tNULL\n780015\tAcaciine\tNULL\tother\n60003\tAcide Décanoïque (C10)\tNULL\taliphatic\n990031\tAgarol\tNULL\tsesquiterpene\n1080003\tAgarwood / Oud — Aquilaria crassna (CITES, proxy)\tNULL\tNULL\n1080002\tAgarwood / Oud — Aquilaria malaccensis (CITES)\tNULL\tNULL\n570028\tAldéhyde C-11 Undécylénique\tNULL\taldehyde\n480032\tAldéhyde feuille\tNULL\taldehyde\n120011\tAldéhyde métallique\tNULL\taldehyde\n480002\tAldéhydes chauds\tNULL\taldehyde\n480022\tAldéhydes métalliques\tNULL\taldehyde\n480013\tAldéhydes sombres\tNULL\taldehyde\n90008\tAluminium aldehyde\tNULL\taldehyde\n480029\tAmbergris\tNULL\tNULL\n1080020\tAmbergris (patrimoine) — Physeter macrocephalus (échouages)\tNULL\tNULL\n300003\tAmbre Gris (Ambergris)\tNULL\tmonoterpene\n480020\tAmbre profond\tNULL\tNULL\n90060\tAmbrette seed\tNULL\tlactone\n1080022\tAmbrette — Abelmoschus moschatus (musc végétal)\tNULL\tNULL\n300004\tAmbrox Super\tNULL\tether\n90027\tAmmonium-Maillard\tNULL\tNULL\n480006\tArgile blanche\tNULL\tNULL\n780016\tAristolen-9β-ol\tNULL\tsesquiterpene\n180003\tArtisan Peppermint Oil\tNULL\tNULL\n540009\tBENZOIN RESIN\tNULL\tNULL\n420003\tBalsam Fir Essential Oil\tNULL\tNULL\n510020\tBaume de Tolú\tNULL\tNULL\n510010\tBaume de Tolú (Myroxylon balsamum)\tNULL\tester\n90073\tBenzoin Siam\tNULL\tNULL\n420007\tBirch Tar North American\tNULL\tNULL\n90011\tBitume light\tNULL\taromatic\n180017\tBlack Emerald\tNULL\tNULL\n420004\tBlack Spruce Essential Oil\tNULL\tNULL\n480017\tBois de brousse\tNULL\tNULL\n1080011\tBois de rose (lutherie) — Dalbergia nigra (CITES)\tNULL\tNULL\n1080001\tBois de rose — Aniba rosaeodora (CITES)\tNULL\tNULL\n1080012\tBois de santal rouge — Pterocarpus santalinus\tNULL\tNULL\n480026\tBois sec\tNULL\tNULL\n480008\tBois tendre\tNULL\tNULL\n90039\tBone-smoke accord\tNULL\tNULL\n510011\tBorrachero\tNULL\tNULL\n510001\tBorrachero (Brugmansia)\tNULL\tNULL\n600009\tBronze Note\tNULL\tNULL\n570008\tBronze Note\tNULL\tNULL\n90061\tC14 lactone (γ-Tetradecalactone)\tNULL\tlactone\n90062\tC18 lactone (γ-Octadecalactone)\tNULL\tlactone\n540004\tCEDARWOOD OIL\tNULL\tmonoterpene\n510023\tCacao Colombien\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

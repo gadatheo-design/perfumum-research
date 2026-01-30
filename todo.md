@@ -4347,3 +4347,20 @@
 - [x] Vérifier les tests unitaires → 1229 tests passés
 - [x] Valider la compilation TypeScript → OK
 
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 (Suite) — Enrichissement Données
+
+### Tâche 49 : Plantes orphelines - Familles secondaires
+- [x] Identifier les plantes orphelines par famille (Fabaceae, Myrtaceae, Poaceae, etc.)
+- [x] Créer les liaisons molécule-plante pour chaque famille (23 créées, 33 mises à jour)
+- [x] Valider les nouvelles liaisons dans la base de données
+- [x] Mettre à jour les statistiques de couverture
+
+### Tâche 50 : Recherche manuelle CAS/IUPAC
+- [x] Identifier les 235 molécules non trouvées sur PubChem
+- [x] Rechercher manuellement les CAS Numbers (ChemSpider, Sigma-Aldrich) → 2 ajoutés
+- [x] Compléter les noms IUPAC manquants → Majorité déjà renseignés
+- [x] Documenter les molécules introuvables (8 restantes: 1,8-Cinéole, Terpinène-4-ol, etc.)
+

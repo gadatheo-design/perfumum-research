@@ -1,0 +1,90 @@
+{
+  "query": "SELECT \n  p.family,\n  COUNT(*) as count\nFROM plants p\nLEFT JOIN molecule_plant_sources mps ON p.id = mps.plant_id\nWHERE mps.id IS NULL\nGROUP BY p.family\nORDER BY count DESC\nLIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  p.family,\n  COUNT(*) as count\nFROM plants p\nLEFT JOIN molecule_plant_sources mps ON p.id = mps.plant_id\nWHERE mps.id IS NULL\nGROUP BY p.family\nORDER BY count DESC\nLIMIT 20;",
+  "rows": [
+    {
+      "family": "NULL",
+      "count": "39"
+    },
+    {
+      "family": "Solanaceae",
+      "count": "18"
+    },
+    {
+      "family": "Burseraceae",
+      "count": "17"
+    },
+    {
+      "family": "Fabaceae",
+      "count": "15"
+    },
+    {
+      "family": "Lamiaceae",
+      "count": "11"
+    },
+    {
+      "family": "Asteraceae",
+      "count": "9"
+    },
+    {
+      "family": "Cannabaceae",
+      "count": "8"
+    },
+    {
+      "family": "Apiaceae",
+      "count": "8"
+    },
+    {
+      "family": "Malvaceae",
+      "count": "5"
+    },
+    {
+      "family": "Verbenaceae",
+      "count": "5"
+    },
+    {
+      "family": "Zygophyllaceae",
+      "count": "4"
+    },
+    {
+      "family": "Myrtaceae",
+      "count": "3"
+    },
+    {
+      "family": "Testaceae",
+      "count": "3"
+    },
+    {
+      "family": "Poaceae",
+      "count": "3"
+    },
+    {
+      "family": "Piperaceae",
+      "count": "3"
+    },
+    {
+      "family": "Zingiberaceae",
+      "count": "2"
+    },
+    {
+      "family": "Rutaceae",
+      "count": "2"
+    },
+    {
+      "family": "Annonaceae",
+      "count": "2"
+    },
+    {
+      "family": "Rubiaceae",
+      "count": "2"
+    },
+    {
+      "family": "Nymphaeaceae",
+      "count": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "family\tcount\nNULL\t39\nSolanaceae\t18\nBurseraceae\t17\nFabaceae\t15\nLamiaceae\t11\nAsteraceae\t9\nCannabaceae\t8\nApiaceae\t8\nMalvaceae\t5\nVerbenaceae\t5\nZygophyllaceae\t4\nMyrtaceae\t3\nTestaceae\t3\nPoaceae\t3\nPiperaceae\t3\nZingiberaceae\t2\nRutaceae\t2\nAnnonaceae\t2\nRubiaceae\t2\nNymphaeaceae\t2\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}
