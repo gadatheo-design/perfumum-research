@@ -1,0 +1,30 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bibliography_entries' AND DATA_TYPE = 'json';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bibliography_entries' AND DATA_TYPE = 'json';",
+  "rows": [
+    {
+      "COLUMN_NAME": "keywords",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "tags",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "linked_molecule_ids",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "linked_plant_ids",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "linked_recette_ids",
+      "DATA_TYPE": "json"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\nkeywords\tjson\ntags\tjson\nlinked_molecule_ids\tjson\nlinked_plant_ids\tjson\nlinked_recette_ids\tjson\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

@@ -1,0 +1,154 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bibliography_entries' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bibliography_entries' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "entry_key",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "entry_type",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "title",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "authors",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "year",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "journal",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "booktitle",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "publisher",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "volume",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "number",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "pages",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "edition",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "chapter",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "doi",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "isbn",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "issn",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "pmid",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "arxiv_id",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "url",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "abstract",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "keywords",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "language",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "research_domain",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "relevance_score",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "tags",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "annotation",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "pdf_url",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "read_status",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "linked_molecule_ids",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "linked_plant_ids",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "linked_recette_ids",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "added_by",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "DATA_TYPE": "timestamp"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\nid\tint\nentry_key\tvarchar\nentry_type\tenum\ntitle\tvarchar\nauthors\ttext\nyear\tint\njournal\tvarchar\nbooktitle\tvarchar\npublisher\tvarchar\nvolume\tvarchar\nnumber\tvarchar\npages\tvarchar\nedition\tvarchar\nchapter\tvarchar\ndoi\tvarchar\nisbn\tvarchar\nissn\tvarchar\npmid\tvarchar\narxiv_id\tvarchar\nurl\tvarchar\nabstract\ttext\nkeywords\tjson\nlanguage\tvarchar\nresearch_domain\tenum\nrelevance_score\tint\ntags\tjson\nnotes\ttext\nannotation\ttext\npdf_url\tvarchar\nread_status\tenum\nlinked_molecule_ids\tjson\nlinked_plant_ids\tjson\nlinked_recette_ids\tjson\nadded_by\tint\ncreated_at\ttimestamp\nupdated_at\ttimestamp\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

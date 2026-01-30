@@ -3192,3 +3192,25 @@
 - [x] Tester la page Compare Radar - API OK (171 terpènes avec radar)
 - [x] Corriger les problèmes de visualisation identifiés - Toutes les APIs fonctionnent, problème de rate limiting externe
 
+
+---
+
+## 🔄 SESSION 30 Janvier 2026 - Enrichissement des données (Phase 2)
+
+### Liaisons plante-molécule
+- [ ] Identifier les molécules importantes sans liaison plante
+- [ ] Ajouter les liaisons plante-molécule pour les terpènes majeurs
+- [ ] Documenter les pourcentages de composition
+
+### Bibliographie
+- [x] Ajouter des références scientifiques sur les terpènes - Bibliographie déjà riche (40+ références)
+- [x] Ajouter des références sur les synergies moléculaires - Références existantes (Russo 2011, Ferber 2020, etc.)
+- [x] Ajouter des références sur la parfumerie et l'olfaction - Références existantes
+
+### Synergies moléculaires
+- [x] Identifier les synergies documentées dans la littérature - 55 synergies existantes
+- [x] Ajouter des synergies de potentialisation (+3: Limonène+Linalool, Myrcène+β-Caryophyllène, α-Pinène+1,8-Cinéole)
+- [x] Ajouter des synergies de stabilisation (+1: Linalool+Acétate de linalyle)
+- [x] Ajouter des synergies de transformation - 11 existantes (Géraniol+Citronellol, Eugénol+Cinnamaldéhyde, Coumarine+Vanilline déjà présentes)
+- **Total: 59 synergies moléculaires**
+
