@@ -3881,3 +3881,20 @@
 - [x] Guide d'interprétation des résultats (>80%, 60-80%, <60%)
 - [x] Ajouter les routes /identify-spectrum, /identification-spectre, /spectra-identification
 - [x] Tests unitaires: 44 tests passés (ms-spectra.test.ts)
+
+
+## 📊 SESSION 30 JANVIER 2026 — Import de fichiers spectraux
+
+### Tâche 10 : Import de fichiers spectraux - TERMINÉ
+- [x] Créer le parser pour le format .msp (NIST MS Search)
+- [x] Créer le parser pour le format .jdx (JCAMP-DX)
+- [x] Créer le parser pour le format .csv (générique avec détection de séparateur)
+- [x] Créer le fichier spectrumParsers.ts avec toutes les fonctions de parsing
+- [x] Ajouter le mode "Importer un fichier" dans SpectraIdentification.tsx
+- [x] Zone de drag & drop pour l'upload de fichiers
+- [x] Afficher les métadonnées extraites (nom, CAS, formule, masse moléculaire, instrument)
+- [x] Afficher les avertissements de validation (< 3 pics, > 500 pics, pas de pic de base)
+- [x] Normalisation automatique des intensités
+- [x] Détection automatique du format par extension et contenu
+- [x] Tests unitaires: 18 tests passés (spectrum-parsers.test.ts)
+- **Formats supportés**: .msp, .jdx, .dx, .jcamp, .csv, .txt

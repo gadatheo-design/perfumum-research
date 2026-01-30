@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Zap, Search, Target, BarChart3, Info, Plus, X, Trash2, Upload, CheckCircle2 } from 'lucide-react';
+import { Loader2, Zap, Search, Target, BarChart3, Info, Plus, X, Trash2, Upload, CheckCircle2, FileUp, AlertTriangle, FileText } from 'lucide-react';
+import { parseSpectrumFile, validateSpectrum, formatMetadata, type ParsedSpectrum } from '@/lib/spectrumParsers';
 import { Link } from 'wouter';
 import * as d3 from 'd3';
 
@@ -163,7 +164,7 @@ function calculateWeightedSimilarity(unknownPeaks: Peak[], referencePeaks: Peak[
 }
 
 export default function SpectraIdentification() {
-  const [inputMode, setInputMode] = useState<'manual' | 'text'>('manual');
+  const [inputMode, setInputMode] = useState<'manual' | 'text' | 'file'>('manual');
   const [manualPeaks, setManualPeaks] = useState<Peak[]>([]);
   const [newMz, setNewMz] = useState('');
   const [newIntensity, setNewIntensity] = useState('');
@@ -171,6 +172,13 @@ export default function SpectraIdentification() {
   const [tolerance, setTolerance] = useState(1);
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<MatchResult[]>([]);
+  
+  // États pour l'upload de fichiers
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [parsedSpectrum, setParsedSpectrum] = useState<ParsedSpectrum | null>(null);
+  const [parseError, setParseError] = useState<string | null>(null);
+  const [parseWarnings, setParseWarnings] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Récupérer tous les spectres de référence
   const { data: referenceSpectra, isLoading } = trpc.tobacco.getMsSpectra.useQuery();
@@ -223,6 +231,35 @@ export default function SpectraIdentification() {
     }
   };
   
+  // Gérer l'upload de fichier
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    setUploadedFile(file);
+    setParseError(null);
+    setParseWarnings([]);
+    setParsedSpectrum(null);
+    
+    try {
+      const content = await file.text();
+      const result = parseSpectrumFile(content, file.name);
+      
+      if (result.success && result.spectrum) {
+        setParsedSpectrum(result.spectrum);
+        setManualPeaks(result.spectrum.peaks);
+        
+        // Valider le spectre
+        const validation = validateSpectrum(result.spectrum);
+        setParseWarnings(validation.warnings);
+      } else {
+        setParseError(result.error || 'Erreur de parsing inconnue');
+      }
+    } catch (error) {
+      setParseError(`Erreur de lecture du fichier: ${error}`);
+    }
+  };
+  
   // Lancer l'identification
   const runIdentification = () => {
     if (manualPeaks.length === 0 || !referenceSpectra) return;
@@ -261,6 +298,13 @@ export default function SpectraIdentification() {
     setManualPeaks([]);
     setTextInput('');
     setResults([]);
+    setUploadedFile(null);
+    setParsedSpectrum(null);
+    setParseError(null);
+    setParseWarnings([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
   
   return (
@@ -305,7 +349,7 @@ export default function SpectraIdentification() {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Sélection du mode d'entrée */}
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Button
                 variant={inputMode === 'manual' ? 'default' : 'outline'}
                 size="sm"
@@ -320,9 +364,98 @@ export default function SpectraIdentification() {
               >
                 Coller des données
               </Button>
+              <Button
+                variant={inputMode === 'file' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setInputMode('file')}
+              >
+                <FileUp className="h-4 w-4 mr-1" />
+                Importer un fichier
+              </Button>
             </div>
             
-            {inputMode === 'manual' ? (
+            {inputMode === 'file' ? (
+              <div className="space-y-4">
+                {/* Zone d'upload */}
+                <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".msp,.jdx,.dx,.jcamp,.csv,.txt"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                    id="spectrum-file-input"
+                  />
+                  <label htmlFor="spectrum-file-input" className="cursor-pointer">
+                    <FileUp className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                    <p className="text-lg font-medium mb-2">Cliquez pour sélectionner un fichier</p>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Formats supportés: .msp (NIST), .jdx (JCAMP-DX), .csv, .txt
+                    </p>
+                    {uploadedFile && (
+                      <Badge variant="outline" className="bg-primary/10">
+                        <FileText className="h-3 w-3 mr-1" />
+                        {uploadedFile.name}
+                      </Badge>
+                    )}
+                  </label>
+                </div>
+                
+                {/* Erreur de parsing */}
+                {parseError && (
+                  <div className="p-4 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive">
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle className="h-5 w-5 mt-0.5" />
+                      <div>
+                        <p className="font-medium">Erreur de lecture</p>
+                        <p className="text-sm">{parseError}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Avertissements */}
+                {parseWarnings.length > 0 && (
+                  <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle className="h-5 w-5 text-yellow-500 mt-0.5" />
+                      <div>
+                        <p className="font-medium text-yellow-500">Avertissements</p>
+                        <ul className="text-sm text-muted-foreground mt-1 space-y-1">
+                          {parseWarnings.map((w, i) => <li key={i}>• {w}</li>)}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Métadonnées extraites */}
+                {parsedSpectrum && (
+                  <Card className="bg-muted/50">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm flex items-center gap-2">
+                        <Info className="h-4 w-4" />
+                        Métadonnées extraites
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                        {formatMetadata(parsedSpectrum.metadata).map((line, i) => (
+                          <div key={i} className="flex items-center gap-2">
+                            <span className="text-muted-foreground">{line.split(':')[0]}:</span>
+                            <span className="font-medium">{line.split(':').slice(1).join(':')}</span>
+                          </div>
+                        ))}
+                        <div className="flex items-center gap-2">
+                          <span className="text-muted-foreground">Format:</span>
+                          <Badge variant="outline">{parsedSpectrum.format.toUpperCase()}</Badge>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            ) : inputMode === 'manual' ? (
               <div className="space-y-4">
                 {/* Formulaire d'ajout de pic */}
                 <div className="flex gap-2 items-end">
