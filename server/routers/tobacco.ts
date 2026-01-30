@@ -553,4 +553,45 @@ export const tobaccoRouter = router({
       return [];
     }
   }),
+
+  /**
+   * Get all GC-MS chromatograms
+   */
+  getChromatograms: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return [];
+      
+      const result = await db.execute(sql`
+        SELECT * FROM gcms_chromatograms ORDER BY landrace_name
+      `);
+      return result[0] as any[];
+    } catch (error) {
+      console.error("Error fetching chromatograms:", error);
+      return [];
+    }
+  }),
+
+  /**
+   * Get peaks for a specific chromatogram by landrace name
+   */
+  getChromatogramPeaks: publicProcedure
+    .input(z.object({ landraceName: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return [];
+        
+        const result = await db.execute(sql`
+          SELECT p.* FROM gcms_peaks p
+          JOIN gcms_chromatograms c ON p.chromatogram_id = c.id
+          WHERE c.landrace_name = ${input.landraceName}
+          ORDER BY p.retention_time
+        `);
+        return result[0] as any[];
+      } catch (error) {
+        console.error("Error fetching chromatogram peaks:", error);
+        return [];
+      }
+    }),
 });

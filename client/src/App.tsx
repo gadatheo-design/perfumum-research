@@ -355,6 +355,8 @@ import BiosyntheticPathways from "./pages/BiosyntheticPathways";
 import PyrolysisVisualization from "./pages/PyrolysisVisualization";
 import TerpeneProfiles from "./pages/TerpeneProfiles";
 import PeriqueFermentation from "./pages/PeriqueFermentation";
+import LandraceComparator from "./pages/LandraceComparator";
+import GCMSChromatograms from "./pages/GCMSChromatograms";
 
 
 
@@ -447,6 +449,12 @@ function Router() {
       <Route path="/perique-fermentation" component={PeriqueFermentation} />
       <Route path="/fermentation-perique" component={PeriqueFermentation} />
       <Route path="/perique" component={PeriqueFermentation} />
+      <Route path="/landrace-comparator" component={LandraceComparator} />
+      <Route path="/comparateur-landraces" component={LandraceComparator} />
+      <Route path="/compare-landraces" component={LandraceComparator} />
+      <Route path="/gcms-chromatograms" component={GCMSChromatograms} />
+      <Route path="/chromatogrammes-gcms" component={GCMSChromatograms} />
+      <Route path="/chromatograms" component={GCMSChromatograms} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />

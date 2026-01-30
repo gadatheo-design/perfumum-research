@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS gcms_chromatograms (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  landrace_id INT,\n  landrace_name VARCHAR(255) NOT NULL,\n  analysis_date DATE,\n  instrument VARCHAR(255) DEFAULT 'Agilent 7890B GC / 5977B MSD',\n  column_type VARCHAR(255) DEFAULT 'HP-5MS (30m x 0.25mm x 0.25μm)',\n  carrier_gas VARCHAR(50) DEFAULT 'Hélium',\n  flow_rate DECIMAL(5,2) DEFAULT 1.0,\n  injection_volume DECIMAL(5,2) DEFAULT 1.0,\n  split_ratio VARCHAR(50) DEFAULT '50:1',\n  oven_program TEXT,\n  total_peaks INT,\n  identified_peaks INT,\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS gcms_chromatograms (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  landrace_id INT,\n  landrace_name VARCHAR(255) NOT NULL,\n  analysis_date DATE,\n  instrument VARCHAR(255) DEFAULT 'Agilent 7890B GC / 5977B MSD',\n  column_type VARCHAR(255) DEFAULT 'HP-5MS (30m x 0.25mm x 0.25μm)',\n  carrier_gas VARCHAR(50) DEFAULT 'Hélium',\n  flow_rate DECIMAL(5,2) DEFAULT 1.0,\n  injection_volume DECIMAL(5,2) DEFAULT 1.0,\n  split_ratio VARCHAR(50) DEFAULT '50:1',\n  oven_program TEXT,\n  total_peaks INT,\n  identified_peaks INT,\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 238
+}

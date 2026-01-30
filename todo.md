@@ -3758,3 +3758,40 @@
 - [x] Ajouter l'onglet Pyrolyse dans MoleculeDetail.tsx (8 onglets au total)
 - [x] Afficher les produits de dégradation thermique avec températures et toxicité
 - [x] Créer le composant PyrolysisSection avec profils olfactifs avant/aprèsmpérature
+
+
+---
+
+## 🔬 SESSION 30 JANVIER 2026 — Enrichissement et Comparateur
+
+### Tâche 1 : Enrichir les données de pyrolyse - TERMINÉ
+- [x] Ajouter les transformations pyrolytiques du α-pinène (4 transformations)
+- [x] Ajouter les transformations pyrolytiques du β-pinène (2 transformations)
+- [x] Ajouter les transformations pyrolytiques du humulène (3 transformations)
+- [x] Ajouter les transformations pyrolytiques du linalol (4 transformations)
+- [x] Ajouter les transformations pyrolytiques du terpinéol (2 transformations)
+- [x] Ajouter les transformations pyrolytiques du géraniol (3 transformations)
+- [x] Ajouter les transformations pyrolytiques du nérol (2 transformations)
+- [x] Ajouter les transformations pyrolytiques du citronellol (2 transformations)
+- [x] Ajouter les transformations pyrolytiques du farnésène (3 transformations)
+- [x] Ajouter les transformations pyrolytiques du bisabolol (3 transformations)
+- [x] + eucalyptol, camphre, ocimène, terpinolène
+- **Résultat**: 77 transformations pyrolytiques total (contre 42 avant, +35 nouvelles)
+
+##### Tâche 2 : Comparateur de landraces - TERMINÉ
+- [x] Créer la page LandraceComparator.tsx
+- [x] Permettre la sélection de 2-3 landraces avec badges colorés
+- [x] Afficher les profils terpéniques côte à côte (radar chart D3.js)
+- [x] Afficher les profils pyrolytiques côte à côte (tableau comparatif)
+- [x] Afficher les profils olfactifs côte à côte (tableau comparatif)
+- [x] Ajouter les routes /landrace-comparator, /comparateur-landraces, /compare-landracess
+
+### Tâche 3 : Chromatogrammes GC-MS - TERMINÉ
+- [x] Créer la table gcms_chromatograms pour stocker les données
+- [x] Créer la table gcms_peaks pour les pics individuels
+- [x] Générer des chromatogrammes pour 6 landraces (Basma, Latakia, Perique, Virginia, Corojo, Cameroun)
+- [x] Créer la page GCMSChromatograms.tsx avec visualisation D3.js
+- [x] Ajouter les routes /gcms-chromatograms, /chromatogrammes-gcms, /chromatograms
+- **Résultat**: 6 chromatogrammes, 60 pics identifiés avec temps de rétention, concentrations et qualité de match
+- [ ] Intégrer les chromatogrammes dans les fiches landraces
+- [ ] Ajouter une galerie de chromatogrammes dans la page Méthodes Analytiques
