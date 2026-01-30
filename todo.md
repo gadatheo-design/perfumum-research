@@ -3214,3 +3214,29 @@
 - [x] Ajouter des synergies de transformation - 11 existantes (Géraniol+Citronellol, Eugénol+Cinnamaldéhyde, Coumarine+Vanilline déjà présentes)
 - **Total: 59 synergies moléculaires**
 
+
+
+---
+
+## 🔄 SESSION 30 Janvier 2026 - Enrichissement des données (Phase 3)
+
+### Liaisons plante-molécule pour molécules orphelines
+- [x] Identifier les molécules importantes sans liaison plante (467 orphelines identifiées)
+- [x] Rechercher les sources botaniques pour les molécules orphelines
+- [x] Créer les liaisons plante-molécule manquantes (+17 liaisons: Cedarol, Vetiverol, Vétivone, Khusimol, Hedione, etc.)
+- [x] Documenter les pourcentages de composition
+- **Résultat: 618 liaisons (36% couverture, +17 nouvelles)**
+
+### Synergies de masquage
+- [x] Rechercher les synergies de masquage documentées en parfumerie
+- [x] Identifier les molécules qui masquent d'autres odeurs
+- [x] Ajouter les synergies de masquage dans la base de données (+7 synergies)
+- [x] Documenter les mécanismes chimiques
+- **Résultat: 8 synergies de masquage (Vanilline→Skatole, Iso E Super→Benzyl salicylate, Coumarine→α-Pinène, Hedione→Indole, Galaxolide→Skatole, Ambroxan→Géosmin, Benzyl salicylate→Indole)**
+
+### Enrichissement CAS/IUPAC via PubChem
+- [x] Exécuter le script d'enrichissement PubChem existant
+- [x] Vérifier les données enrichies
+- [ ] Compléter manuellement les molécules complexes (accords, mélanges)
+- **Résultat: CAS 403→408 (+5), IUPAC 383→388 (+5), Classes chimiques 528→530 (+2)**
+
