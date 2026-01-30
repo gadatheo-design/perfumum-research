@@ -3939,6 +3939,7 @@
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ### Tâche 16 : Hub Analyse GC-MS - TERMINÉ
 - [x] Créer la page AnalysisHub.tsx avec statistiques dynamiques
 - [x] Afficher le nombre de chromatogrammes, spectres MS, composés, landraces
@@ -3965,6 +3966,8 @@
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### Tâche 16 : Hub Analyse GC-MS
 - [ ] Créer la page AnalysisHub.tsx avec statistiques
 - [ ] Afficher le nombre de chromatogrammes, spectres, composés
@@ -3981,6 +3984,9 @@
 - [ ] Créer la table raw_materials pour les matières premières
 - [ ] Créer la table suppliers pour les fournisseurs
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -3989,6 +3995,7 @@
 - [ ] Lier aux molécules existantes (Mitti Attar → géosmine, etc.)
 - [ ] Créer les pages de visualisation et gestion
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
@@ -4446,3 +4453,5 @@
 - [x] Tests molecule-origins.test.ts → Tous passent
 - [x] Compilation TypeScript → 1229 tests passés
 
+=======
+>>>>>>> Stashed changes
