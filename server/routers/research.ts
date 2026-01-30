@@ -1959,4 +1959,98 @@ export const researchRouter = router({
       return { success: false, data: [], error: error.message };
     }
   }),
+
+  /**
+   * Get all analytical methods with filtering
+   */
+  getMethods: publicProcedure
+    .input(
+      z.object({
+        category: z.string().optional(),
+        search: z.string().optional(),
+        limit: z.number().default(50),
+        offset: z.number().default(0),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, data: [], count: 0, error: "Database connection failed" };
+        }
+        
+        let query = `SELECT * FROM analytical_methods WHERE 1=1`;
+        
+        if (input?.category) {
+          query += ` AND category = '${input.category.replace(/'/g, "''")}'`;
+        }
+        
+        if (input?.search) {
+          const searchTerm = input.search.replace(/'/g, "''");
+          query += ` AND (name LIKE '%${searchTerm}%' OR description LIKE '%${searchTerm}%' OR acronym LIKE '%${searchTerm}%')`;
+        }
+        
+        query += ` ORDER BY name ASC`;
+        query += ` LIMIT ${input?.limit || 50} OFFSET ${input?.offset || 0}`;
+        
+        const result = await db.execute(sql.raw(query));
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        
+        return {
+          success: true,
+          data: Array.isArray(rows) ? rows : [],
+          count: Array.isArray(rows) ? rows.length : 0,
+        };
+      } catch (error: any) {
+        console.error("Error fetching analytical methods:", error);
+        return { success: false, data: [], count: 0, error: error.message };
+      }
+    }),
+
+  /**
+   * Get all molecular transformations (pyrolysis, combustion, etc.)
+   */
+  getTransformations: publicProcedure
+    .input(
+      z.object({
+        type: z.string().optional(),
+        search: z.string().optional(),
+        limit: z.number().default(100),
+        offset: z.number().default(0),
+      }).optional()
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, data: [], count: 0, error: "Database connection failed" };
+        }
+        
+        let query = `SELECT * FROM molecular_transformations WHERE 1=1`;
+        
+        if (input?.type) {
+          query += ` AND transformation_type = '${input.type.replace(/'/g, "''")}'`;
+        }
+        
+        if (input?.search) {
+          const searchTerm = input.search.replace(/'/g, "''");
+          query += ` AND (source_molecule_name LIKE '%${searchTerm}%' OR product_molecule_name LIKE '%${searchTerm}%' OR notes LIKE '%${searchTerm}%')`;
+        }
+        
+        query += ` ORDER BY source_molecule_name ASC`;
+        query += ` LIMIT ${input?.limit || 100} OFFSET ${input?.offset || 0}`;
+        
+        const result = await db.execute(sql.raw(query));
+        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+        
+        return {
+          success: true,
+          data: Array.isArray(rows) ? rows : [],
+          count: Array.isArray(rows) ? rows.length : 0,
+        };
+      } catch (error: any) {
+        console.error("Error fetching molecular transformations:", error);
+        return { success: false, data: [], count: 0, error: error.message };
+      }
+    }),
 });

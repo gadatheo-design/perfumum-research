@@ -1,0 +1,58 @@
+{
+  "query": "SELECT id, title FROM research_publications LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, title FROM research_publications LIMIT 15;",
+  "rows": [
+    {
+      "id": "1",
+      "title": "Toxicant Formation in Dabbing: The Terpene Story"
+    },
+    {
+      "id": "2",
+      "title": "Aerosol Gas-Phase Components from Cannabis E-Cigarettes and Dabbing"
+    },
+    {
+      "id": "3",
+      "title": "The influence of terpenes on the release of volatile organic compounds and active ingredients to cannabis vaping aerosols"
+    },
+    {
+      "id": "4",
+      "title": "Thermal degradation of cannabinoids and cannabis terpenes"
+    },
+    {
+      "id": "5",
+      "title": "Emissions from heated terpenoids present in vaporizable cannabis concentrates"
+    },
+    {
+      "id": "6",
+      "title": "Comprehensive characterization of mainstream marijuana and tobacco smoke"
+    },
+    {
+      "id": "7",
+      "title": "A classification of endangered high-THC cannabis domesticates and their wild relatives"
+    },
+    {
+      "id": "8",
+      "title": "Comprehensive profiling of terpenes and terpenoids in different cannabis strains using GC×GC-TOFMS"
+    },
+    {
+      "id": "9",
+      "title": "Percent Free Base Nicotine in Tobacco Smoke"
+    },
+    {
+      "id": "10",
+      "title": "Gas/Particle Partitioning of Nicotine in E-Cigarettes"
+    },
+    {
+      "id": "11",
+      "title": "Free-Base Nicotine Fraction in E-Cigarettes: Non-Aqueous vs Aqueous"
+    },
+    {
+      "id": "12",
+      "title": "Vaping Cannabinoid Acetates Leads to Ketene Formation"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\n1\tToxicant Formation in Dabbing: The Terpene Story\n2\tAerosol Gas-Phase Components from Cannabis E-Cigarettes and Dabbing\n3\tThe influence of terpenes on the release of volatile organic compounds and active ingredients to cannabis vaping aerosols\n4\tThermal degradation of cannabinoids and cannabis terpenes\n5\tEmissions from heated terpenoids present in vaporizable cannabis concentrates\n6\tComprehensive characterization of mainstream marijuana and tobacco smoke\n7\tA classification of endangered high-THC cannabis domesticates and their wild relatives\n8\tComprehensive profiling of terpenes and terpenoids in different cannabis strains using GC×GC-TOFMS\n9\tPercent Free Base Nicotine in Tobacco Smoke\n10\tGas/Particle Partitioning of Nicotine in E-Cigarettes\n11\tFree-Base Nicotine Fraction in E-Cigarettes: Non-Aqueous vs Aqueous\n12\tVaping Cannabinoid Acetates Leads to Ketene Formation\n",
+  "stderr": "",
+  "execution_time_ms": 140
+}

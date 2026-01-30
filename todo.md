@@ -758,17 +758,17 @@
 - [x] Analyser le fichier de veille scientifique (transformations aromatiques cannabis)
 - [x] Analyser les méthodes analytiques (GC-MS, PTR-MS, SMPS, etc.)
 - [x] Analyser les données des chercheurs et institutions clés
-- [ ] Créer table research_publications pour les publications scientifiques
-- [ ] Créer table analytical_methods pour les méthodes analytiques
-- [ ] Créer table researchers pour les chercheurs clés
-- [ ] Créer table research_institutions pour les institutions de recherche
+- [x] Créer table research_publications pour les publications scientifiques ✅
+- [x] Créer table analytical_methods pour les méthodes analytiques ✅
+- [x] Créer table researchers pour les chercheurs clés ✅
+- [x] Créer table research_institutions pour les institutions de recherche ✅
 
 ### Import des données de recherche
-- [ ] Importer les 8 références scientifiques (Meehan-Atrash, Graves, Tang, etc.)
-- [ ] Importer les méthodes analytiques (GC-MS, PTR-MS, SMPS, HS-SPME, etc.)
-- [ ] Importer les chercheurs clés (Strongin, Meehan-Atrash, Graves, Tang, etc.)
-- [ ] Importer les institutions (Portland State, Cambridge, Alberta, LBNL, UBC)
-- [ ] Lier les publications aux molécules (myrcène, limonène, caryophyllène, etc.)
+- [x] Importer les 12 références scientifiques (Meehan-Atrash, Graves, Tang, Kaur, etc.) ✅
+- [ ] Importer les méthodes analytiques (procédure tRPC getMethods manquante)
+- [x] Importer les 11 chercheurs clés (Strongin, Pankow, Graves, Tang, etc.) ✅
+- [x] Importer les 5 institutions (Portland State, Cambridge, Alberta, LBNL, UBC) ✅
+- [ ] Lier les publications aux molécules (liaisons à compléter)
 
 ### Données de pyrolyse et combustion
 - [ ] Importer les données de transformation à la combustion par landrace
@@ -786,9 +786,9 @@
 - [x] Créer la fonction getTpsGenesByMolecule dans db.ts
 - [x] Ajouter la procédure tRPC molecules.getTpsGenes
 - [x] Ajouter l'onglet Biosynthèse dans MoleculeDetail
-- [x] Créer la page GenealogyGraph.tsx pour l'arbre généalogique D3.js
-- [x] Ajouter les routes /genealogy et /arbre-genealogique
-- [ ] Tester la page de l'arbre généalogique
+- [x] Créer la page GenealogyGraph.tsx pour l'arbre généalogique D3.js ✅
+- [x] Ajouter les routes /genealogy et /arbre-genealogique ✅
+- [x] Page GenealogyGraph fonctionnelle avec D3.js (filtres, zoom, export) ✅
 - [ ] Ajouter la section généalogie aux pages variétés
 - [ ] Compléter les classes chimiques manquantes
 - [ ] Valider les données enrichies
