@@ -3065,3 +3065,15 @@
 - [x] Ajouter un lien vers le mode cascade du graphe (bouton "Voir la cascade")
 - [x] Gérer les paramètres URL pour le mode cascade (?molecule=X&mode=cascade)
 - [x] Passer les props initialMolecule et initialCascadeMode au composant TransformationChainGraph
+
+
+## 🆕 NOUVELLES TÂCHES (30 Jan 2026 - Session 4)
+
+### Liens inverses recettes → transformations
+- [x] Analyser la structure des pages recettes existantes (RecetteDetail.tsx)
+- [x] Utiliser la procédure existante getTransformationsAffectingRecipe
+- [x] Ajouter une section "Transformations Moléculaires" dans les fiches recettes
+- [x] Afficher les transformations qui impactent la recette avec leur type d'impact (majeur, modéré, mineur, trace)
+- [x] Ajouter des liens vers le mode cascade du graphe pour chaque molécule
+- [x] Ajouter un bouton "Voir le graphe des transformations"
+- [x] Créer le composant TransformationCard pour afficher les détails

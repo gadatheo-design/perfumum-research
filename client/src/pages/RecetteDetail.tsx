@@ -3,7 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FlaskConical, Beaker, Download, Clock, DollarSign, Flame, Droplets, CheckCircle2, AlertCircle, TestTube, FileText, FileJson } from "lucide-react";
+import { ArrowLeft, FlaskConical, Beaker, Download, Clock, DollarSign, Flame, Droplets, CheckCircle2, AlertCircle, TestTube, FileText, FileJson, Zap, ArrowRight, Thermometer, Network } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -68,6 +68,12 @@ export default function RecetteDetail() {
 
   // Récupérer les TerpProfiles liés (pour les recettes TL)
   const { data: linkedTerpProfiles } = trpc.recettes.getTerpProfiles.useQuery(id, { enabled: !!data });
+
+  // Récupérer les transformations moléculaires affectant cette recette
+  const { data: transformationsData, isLoading: isLoadingTransformations } = trpc.research.getTransformationsAffectingRecipe.useQuery(
+    id,
+    { enabled: !!data }
+  );
 
   // Track page view
   useEffect(() => {
@@ -883,6 +889,104 @@ export default function RecetteDetail() {
         </Card>
       )}
 
+      {/* Transformations Moléculaires */}
+      {transformationsData?.transformations && transformationsData.transformations.length > 0 && (
+        <Card className="shadow-sm border-orange-200 bg-gradient-to-br from-orange-50/50 to-red-50/50 dark:from-orange-950/20 dark:to-red-950/20">
+          <CardHeader className="pb-2 md:pb-4">
+            <CardTitle className="text-lg md:text-xl flex items-center gap-2">
+              <Flame className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
+              <span className="truncate">Transformations Moléculaires ({transformationsData.transformations.length})</span>
+            </CardTitle>
+            <p className="text-xs md:text-sm text-muted-foreground">
+              Réactions chimiques (pyrolyse, oxydation...) qui impactent cette recette
+            </p>
+          </CardHeader>
+          <CardContent className="pt-0">
+            {/* Bouton vers le graphe */}
+            <div className="mb-4">
+              <Link href="/molecular-transformations?mode=cascade">
+                <Button variant="outline" size="sm" className="gap-2">
+                  <Network className="h-4 w-4" />
+                  Voir le graphe des transformations
+                </Button>
+              </Link>
+            </div>
+            
+            {/* Liste des transformations par type d'impact */}
+            <div className="space-y-4">
+              {/* Impacts majeurs */}
+              {transformationsData.transformations.filter((t: any) => t.impact_type === 'major').length > 0 && (
+                <div className="bg-red-50 dark:bg-red-950/30 p-4 rounded-lg border border-red-200 dark:border-red-800">
+                  <h4 className="text-sm font-semibold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2">
+                    <Zap className="h-4 w-4" />
+                    Impacts Majeurs ({transformationsData.transformations.filter((t: any) => t.impact_type === 'major').length})
+                  </h4>
+                  <div className="space-y-3">
+                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'major').map((t: any) => (
+                      <TransformationCard key={t.id} transformation={t} />
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Impacts modérés */}
+              {transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').length > 0 && (
+                <div className="bg-orange-50 dark:bg-orange-950/30 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
+                  <h4 className="text-sm font-semibold text-orange-800 dark:text-orange-300 mb-3 flex items-center gap-2">
+                    <Flame className="h-4 w-4" />
+                    Impacts Modérés ({transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').length})
+                  </h4>
+                  <div className="space-y-3">
+                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').slice(0, 5).map((t: any) => (
+                      <TransformationCard key={t.id} transformation={t} />
+                    ))}
+                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').length > 5 && (
+                      <p className="text-xs text-muted-foreground text-center">
+                        +{transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').length - 5} autres transformations modérées
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {/* Impacts mineurs */}
+              {transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').length > 0 && (
+                <div className="bg-yellow-50 dark:bg-yellow-950/30 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                  <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-3 flex items-center gap-2">
+                    <Droplets className="h-4 w-4" />
+                    Impacts Mineurs ({transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').length})
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').slice(0, 10).map((t: any) => (
+                      <Badge key={t.id} variant="outline" className="text-xs">
+                        {t.source_molecule_name} → {t.product_molecule_name}
+                      </Badge>
+                    ))}
+                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').length > 10 && (
+                      <Badge variant="secondary" className="text-xs">
+                        +{transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').length - 10} autres
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {/* Traces */}
+              {transformationsData.transformations.filter((t: any) => t.impact_type === 'trace').length > 0 && (
+                <div className="bg-gray-50 dark:bg-gray-950/30 p-4 rounded-lg border border-gray-200 dark:border-gray-800">
+                  <h4 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
+                    Traces ({transformationsData.transformations.filter((t: any) => t.impact_type === 'trace').length})
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'trace').length} transformations à impact négligeable
+                  </p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Recommandations IA */}
       {recommendations && recommendations.length > 0 && (
         <RecommendationsCard
@@ -961,6 +1065,68 @@ export default function RecetteDetail() {
             </div>
           </CardContent>
         </Card>
+      )}
+    </div>
+  );
+}
+
+
+// Composant pour afficher une carte de transformation
+function TransformationCard({ transformation }: { transformation: any }) {
+  const transformationTypeLabels: Record<string, { label: string; color: string }> = {
+    pyrolysis: { label: "Pyrolyse", color: "bg-orange-500" },
+    oxidation: { label: "Oxydation", color: "bg-blue-500" },
+    isomerization: { label: "Isomérisation", color: "bg-purple-500" },
+    dehydration: { label: "Déshydratation", color: "bg-yellow-500" },
+    cyclization: { label: "Cyclisation", color: "bg-green-500" },
+    ring_opening: { label: "Ouverture de cycle", color: "bg-red-500" },
+    polymerization: { label: "Polymérisation", color: "bg-indigo-500" },
+    degradation: { label: "Dégradation", color: "bg-gray-500" },
+    maillard: { label: "Réaction de Maillard", color: "bg-amber-600" },
+    caramelization: { label: "Caramélisation", color: "bg-amber-400" },
+    other: { label: "Autre", color: "bg-slate-500" },
+  };
+
+  const typeInfo = transformationTypeLabels[transformation.transformation_type] || transformationTypeLabels.other;
+
+  return (
+    <div className="bg-white dark:bg-gray-900 p-3 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <Link href={`/molecular-transformations?molecule=${encodeURIComponent(transformation.source_molecule_name)}&mode=cascade`}>
+            <Badge variant="outline" className="cursor-pointer hover:bg-green-50 dark:hover:bg-green-950/50 transition-colors">
+              {transformation.source_molecule_name}
+            </Badge>
+          </Link>
+          <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
+          <Link href={`/molecular-transformations?molecule=${encodeURIComponent(transformation.product_molecule_name)}&mode=cascade`}>
+            <Badge variant="outline" className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors">
+              {transformation.product_molecule_name}
+            </Badge>
+          </Link>
+        </div>
+        <Badge className={`${typeInfo.color} text-white text-xs shrink-0`}>
+          {typeInfo.label}
+        </Badge>
+      </div>
+      
+      {transformation.temperature_optimal && (
+        <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2">
+          <Thermometer className="h-3 w-3" />
+          <span>{transformation.temperature_optimal}°C</span>
+        </div>
+      )}
+      
+      {transformation.olfactory_change_description && (
+        <p className="text-xs text-muted-foreground line-clamp-2">
+          {transformation.olfactory_change_description}
+        </p>
+      )}
+      
+      {transformation.olfactory_contribution && (
+        <p className="text-xs text-primary mt-1 italic">
+          Contribution: {transformation.olfactory_contribution}
+        </p>
       )}
     </div>
   );
