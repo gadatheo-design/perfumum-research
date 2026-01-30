@@ -1,0 +1,15 @@
+{
+  "query": "SELECT id, name, cas_number FROM molecules WHERE name LIKE '%eugénol%' OR name LIKE '%eugenol%' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number FROM molecules WHERE name LIKE '%eugénol%' OR name LIKE '%eugenol%' LIMIT 5;",
+  "rows": [
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol",
+      "cas_number": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\n570061\tAcétate d'isoeugenol\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 1538
+}

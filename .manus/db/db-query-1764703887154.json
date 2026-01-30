@@ -1,0 +1,30 @@
+{
+  "query": "SELECT * FROM prototypes LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT * FROM prototypes LIMIT 1;",
+  "rows": [
+    {
+      "id": "1",
+      "code": "C1",
+      "name": "FERMENTUM",
+      "emoji": "🍂",
+      "conceptualAxis": "Fermentation, Temps, Transformation — Matière vivante, organicité du monde",
+      "sensoryForm": "Terre humide, tabac fermenté, résine sombre",
+      "olfactiveFamily": "Fermentaire / Organique / Animalité noble",
+      "preferredSupport": "Cônes",
+      "keyEmotion": "Intime, troublante, enveloppante",
+      "overview": "C1 — FERMENTUM explore la dimension fermentaire de l'olfaction, articulant matière vivante et organicité du monde. Cette composition lactonique et humide évoque la terre mouillée, le tabac fermenté et les résines sombres.",
+      "composition": "{\"base\":\"Alcool (5 ml)\",\"ingredients\":[{\"name\":\"Vetiver Assam\",\"quantity\":\"0.10 ml\"},{\"name\":\"Ambergris\",\"quantity\":\"0.05 ml\"},{\"name\":\"Makrut\",\"quantity\":\"0.08 ml\"},{\"name\":\"Mitti Attar\",\"quantity\":\"0.05 ml\"},{\"name\":\"Éthanol 95°\",\"quantity\":\"qsp 5 ml\"}],\"protocol\":[\"Mélanger les matières premières dans 0.5 ml d'alcool\",\"Ajouter progressivement le reste d'alcool\",\"Laisser maturer 72h minimum\",\"Réévaluer après maturation\"],\"characteristics\":{\"tactile\":\"lactonique, humide, charnel\",\"stability\":\"Élevée (animalité + terre + acide)\",\"emotional\":\"intime, troublante, enveloppante\"}}",
+      "conceptualReflection": "FERMENTUM interroge la fermentation comme processus de transformation matérielle et temporelle. La composition articule animalité noble (ambergris), terre humide (mitti), acidité végétale (makrut) et profondeur racinaire (vetiver) pour créer une atmosphère organique et charnelle.",
+      "installation": "Installation immersive avec diffusion par cônes. L'odeur se déploie lentement dans l'espace, créant une atmosphère enveloppante qui transforme la perception du lieu.",
+      "technicalDevelopment": "Stabilité élevée grâce à l'équilibre entre notes animales, terreuses et acides. Maturation minimale de 72h nécessaire pour l'harmonisation complète des composants.",
+      "theoreticalScope": "Phénoménologie de la fermentation, temporalité de la transformation, organicité du vivant, mémoire matérielle.",
+      "color": "#4A3F35",
+      "createdAt": "2025-12-02 17:41:47",
+      "updatedAt": "2025-12-02 17:41:47"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tcode\tname\temoji\tconceptualAxis\tsensoryForm\tolfactiveFamily\tpreferredSupport\tkeyEmotion\toverview\tcomposition\tconceptualReflection\tinstallation\ttechnicalDevelopment\ttheoreticalScope\tcolor\tcreatedAt\tupdatedAt\n1\tC1\tFERMENTUM\t🍂\tFermentation, Temps, Transformation — Matière vivante, organicité du monde\tTerre humide, tabac fermenté, résine sombre\tFermentaire / Organique / Animalité noble\tCônes\tIntime, troublante, enveloppante\tC1 — FERMENTUM explore la dimension fermentaire de l'olfaction, articulant matière vivante et organicité du monde. Cette composition lactonique et humide évoque la terre mouillée, le tabac fermenté et les résines sombres.\t{\"base\":\"Alcool (5 ml)\",\"ingredients\":[{\"name\":\"Vetiver Assam\",\"quantity\":\"0.10 ml\"},{\"name\":\"Ambergris\",\"quantity\":\"0.05 ml\"},{\"name\":\"Makrut\",\"quantity\":\"0.08 ml\"},{\"name\":\"Mitti Attar\",\"quantity\":\"0.05 ml\"},{\"name\":\"Éthanol 95°\",\"quantity\":\"qsp 5 ml\"}],\"protocol\":[\"Mélanger les matières premières dans 0.5 ml d'alcool\",\"Ajouter progressivement le reste d'alcool\",\"Laisser maturer 72h minimum\",\"Réévaluer après maturation\"],\"characteristics\":{\"tactile\":\"lactonique, humide, charnel\",\"stability\":\"Élevée (animalité + terre + acide)\",\"emotional\":\"intime, troublante, enveloppante\"}}\tFERMENTUM interroge la fermentation comme processus de transformation matérielle et temporelle. La composition articule animalité noble (ambergris), terre humide (mitti), acidité végétale (makrut) et profondeur racinaire (vetiver) pour créer une atmosphère organique et charnelle.\tInstallation immersive avec diffusion par cônes. L'odeur se déploie lentement dans l'espace, créant une atmosphère enveloppante qui transforme la perception du lieu.\tStabilité élevée grâce à l'équilibre entre notes animales, terreuses et acides. Maturation minimale de 72h nécessaire pour l'harmonisation complète des composants.\tPhénoménologie de la fermentation, temporalité de la transformation, organicité du vivant, mémoire matérielle.\t#4A3F35\t2025-12-02 17:41:47\t2025-12-02 17:41:47\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

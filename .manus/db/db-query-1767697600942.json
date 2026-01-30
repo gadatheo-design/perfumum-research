@@ -1,0 +1,9 @@
+{
+  "query": "CREATE UNIQUE INDEX IF NOT EXISTS idx_research_entries_code ON research_entries(entry_code)",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE UNIQUE INDEX IF NOT EXISTS idx_research_entries_code ON research_entries(entry_code)",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 530
+}

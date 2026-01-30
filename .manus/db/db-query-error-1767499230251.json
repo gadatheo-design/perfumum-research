@@ -1,0 +1,8 @@
+{
+  "query": "SELECT pm.id, p.name as plant_name, m.name as molecule_name, pm.percentage_min, pm.percentage_max, pm.percentage_typical, pm.role FROM plant_molecules pm JOIN plants p ON pm.plant_id = p.id JOIN molecules m ON pm.molecule_id = m.id ORDER BY p.name, pm.role;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT pm.id, p.name as plant_name, m.name as molecule_name, pm.percentage_min, pm.percentage_max, pm.percentage_typical, pm.role FROM plant_molecules pm JOIN plants p ON pm.plant_id = p.id JOIN molecules m ON pm.molecule_id = m.id ORDER BY p.name, pm.role;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'pm.id' in 'field list'"
+  ]
+}

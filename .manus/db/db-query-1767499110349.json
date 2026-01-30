@@ -1,0 +1,138 @@
+{
+  "query": "SELECT id, name, latin_name, family, climatic_axis, category FROM plants WHERE family IS NULL OR family = '' ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, family, climatic_axis, category FROM plants WHERE family IS NULL OR family = '' ORDER BY name;",
+  "rows": [
+    {
+      "id": "30004",
+      "name": "Bergamote",
+      "latin_name": "Citrus bergamia",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30013",
+      "name": "Bois de Santal",
+      "latin_name": "Santalum album",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "bois"
+    },
+    {
+      "id": "30002",
+      "name": "Citron",
+      "latin_name": "Citrus limon",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30015",
+      "name": "Cèdre de l'Atlas",
+      "latin_name": "Cedrus atlantica",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "bois"
+    },
+    {
+      "id": "30014",
+      "name": "Encens / Oliban",
+      "latin_name": "Boswellia carterii",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "resine"
+    },
+    {
+      "id": "30006",
+      "name": "Eucalyptus globulus",
+      "latin_name": "Eucalyptus globulus",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30016",
+      "name": "Géranium rosat",
+      "latin_name": "Pelargonium graveolens",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30011",
+      "name": "Jasmin grandiflorum",
+      "latin_name": "Jasminum grandiflorum",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "fleur"
+    },
+    {
+      "id": "30001",
+      "name": "Lavande vraie",
+      "latin_name": "Lavandula angustifolia",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30005",
+      "name": "Menthe poivrée",
+      "latin_name": "Mentha piperita",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30003",
+      "name": "Orange douce",
+      "latin_name": "Citrus sinensis",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30012",
+      "name": "Patchouli",
+      "latin_name": "Pogostemon cablin",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30007",
+      "name": "Romarin",
+      "latin_name": "Rosmarinus officinalis",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30010",
+      "name": "Rose de Damas",
+      "latin_name": "Rosa damascena",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "fleur"
+    },
+    {
+      "id": "30008",
+      "name": "Vétiver",
+      "latin_name": "Vetiveria zizanioides",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "30009",
+      "name": "Ylang-Ylang",
+      "latin_name": "Cananga odorata",
+      "family": "NULL",
+      "climatic_axis": "NULL",
+      "category": "fleur"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tfamily\tclimatic_axis\tcategory\n30004\tBergamote\tCitrus bergamia\tNULL\tNULL\taromatique\n30013\tBois de Santal\tSantalum album\tNULL\tNULL\tbois\n30002\tCitron\tCitrus limon\tNULL\tNULL\taromatique\n30015\tCèdre de l'Atlas\tCedrus atlantica\tNULL\tNULL\tbois\n30014\tEncens / Oliban\tBoswellia carterii\tNULL\tNULL\tresine\n30006\tEucalyptus globulus\tEucalyptus globulus\tNULL\tNULL\taromatique\n30016\tGéranium rosat\tPelargonium graveolens\tNULL\tNULL\taromatique\n30011\tJasmin grandiflorum\tJasminum grandiflorum\tNULL\tNULL\tfleur\n30001\tLavande vraie\tLavandula angustifolia\tNULL\tNULL\taromatique\n30005\tMenthe poivrée\tMentha piperita\tNULL\tNULL\taromatique\n30003\tOrange douce\tCitrus sinensis\tNULL\tNULL\taromatique\n30012\tPatchouli\tPogostemon cablin\tNULL\tNULL\taromatique\n30007\tRomarin\tRosmarinus officinalis\tNULL\tNULL\taromatique\n30010\tRose de Damas\tRosa damascena\tNULL\tNULL\tfleur\n30008\tVétiver\tVetiveria zizanioides\tNULL\tNULL\taromatique\n30009\tYlang-Ylang\tCananga odorata\tNULL\tNULL\tfleur\n",
+  "stderr": "",
+  "execution_time_ms": 142
+}

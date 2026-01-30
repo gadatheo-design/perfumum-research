@@ -1,0 +1,37 @@
+{
+  "query": "SELECT DISTINCT climate_type FROM terroirs LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT DISTINCT climate_type FROM terroirs LIMIT 10;",
+  "rows": [
+    {
+      "climate_type": "subtropical"
+    },
+    {
+      "climate_type": "equatorial"
+    },
+    {
+      "climate_type": "NULL"
+    },
+    {
+      "climate_type": "continental"
+    },
+    {
+      "climate_type": "tropical"
+    },
+    {
+      "climate_type": "mediterranean"
+    },
+    {
+      "climate_type": "alpine"
+    },
+    {
+      "climate_type": "semi_arid"
+    },
+    {
+      "climate_type": "arid"
+    }
+  ],
+  "messages": [],
+  "stdout": "climate_type\nsubtropical\nequatorial\nNULL\ncontinental\ntropical\nmediterranean\nalpine\nsemi_arid\narid\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

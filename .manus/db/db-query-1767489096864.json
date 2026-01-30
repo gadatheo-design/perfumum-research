@@ -1,0 +1,58 @@
+{
+  "query": "SELECT id, material_id, name, category FROM raw_materials;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, material_id, name, category FROM raw_materials;",
+  "rows": [
+    {
+      "id": "1",
+      "material_id": "HE-LAV-001",
+      "name": "Huile essentielle de Lavande vraie",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "2",
+      "material_id": "HE-ROM-001",
+      "name": "Huile essentielle de Romarin",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "3",
+      "material_id": "HE-MEN-001",
+      "name": "Huile essentielle de Menthe poivrée",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "4",
+      "material_id": "ABS-ROS-001",
+      "name": "Absolue de Rose de Mai",
+      "category": "absolue"
+    },
+    {
+      "id": "5",
+      "material_id": "HE-YLA-001",
+      "name": "Huile essentielle d'Ylang-Ylang",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "6",
+      "material_id": "HE-VET-001",
+      "name": "Huile essentielle de Vétiver",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "7",
+      "material_id": "RES-OLI-001",
+      "name": "Oléorésine d'Encens",
+      "category": "oleoresine"
+    },
+    {
+      "id": "8",
+      "material_id": "HE-BER-001",
+      "name": "Huile essentielle de Bergamote",
+      "category": "huile_essentielle"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tmaterial_id\tname\tcategory\n1\tHE-LAV-001\tHuile essentielle de Lavande vraie\thuile_essentielle\n2\tHE-ROM-001\tHuile essentielle de Romarin\thuile_essentielle\n3\tHE-MEN-001\tHuile essentielle de Menthe poivrée\thuile_essentielle\n4\tABS-ROS-001\tAbsolue de Rose de Mai\tabsolue\n5\tHE-YLA-001\tHuile essentielle d'Ylang-Ylang\thuile_essentielle\n6\tHE-VET-001\tHuile essentielle de Vétiver\thuile_essentielle\n7\tRES-OLI-001\tOléorésine d'Encens\toleoresine\n8\tHE-BER-001\tHuile essentielle de Bergamote\thuile_essentielle\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

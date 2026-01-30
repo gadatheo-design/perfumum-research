@@ -1,0 +1,37 @@
+{
+  "query": "SELECT DISTINCT research_domain FROM bibliography_entries LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT DISTINCT research_domain FROM bibliography_entries LIMIT 20;",
+  "rows": [
+    {
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "research_domain": "histoire_parfumerie"
+    },
+    {
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "research_domain": "extraction"
+    },
+    {
+      "research_domain": "formulation"
+    },
+    {
+      "research_domain": "reglementation"
+    },
+    {
+      "research_domain": "durabilite"
+    },
+    {
+      "research_domain": "tabac_cannabis"
+    }
+  ],
+  "messages": [],
+  "stdout": "research_domain\nchimie_olfactive\nethnobotanique\nhistoire_parfumerie\nneurologie_olfactive\nextraction\nformulation\nreglementation\ndurabilite\ntabac_cannabis\n",
+  "stderr": "",
+  "execution_time_ms": 409
+}

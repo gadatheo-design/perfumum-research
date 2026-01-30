@@ -1,0 +1,60 @@
+{
+  "query": "SELECT id, name, type FROM tabacs WHERE name LIKE '%Perique%' OR name LIKE '%Virginia%' OR name LIKE '%Burley%' OR name LIKE '%Oriental%' OR name LIKE '%Latakia%' OR name LIKE '%Kentucky%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, type FROM tabacs WHERE name LIKE '%Perique%' OR name LIKE '%Virginia%' OR name LIKE '%Burley%' OR name LIKE '%Oriental%' OR name LIKE '%Latakia%' OR name LIKE '%Kentucky%';",
+  "rows": [
+    {
+      "id": "2",
+      "name": "Virginia Orange",
+      "type": "blond"
+    },
+    {
+      "id": "3",
+      "name": "Virginia Deutscher",
+      "type": "blond"
+    },
+    {
+      "id": "4",
+      "name": "Virginia Gold",
+      "type": "blond"
+    },
+    {
+      "id": "5",
+      "name": "Burley",
+      "type": "brun"
+    },
+    {
+      "id": "7",
+      "name": "Virginia Bright",
+      "type": "blond"
+    },
+    {
+      "id": "8",
+      "name": "Virginia Italia",
+      "type": "blond"
+    },
+    {
+      "id": "30011",
+      "name": "Virginia",
+      "type": "blond"
+    },
+    {
+      "id": "30012",
+      "name": "Perique",
+      "type": "experimental"
+    },
+    {
+      "id": "30013",
+      "name": "Latakia",
+      "type": "oriental"
+    },
+    {
+      "id": "30014",
+      "name": "Dark Fired Kentucky",
+      "type": "brun"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttype\n2\tVirginia Orange\tblond\n3\tVirginia Deutscher\tblond\n4\tVirginia Gold\tblond\n5\tBurley\tbrun\n7\tVirginia Bright\tblond\n8\tVirginia Italia\tblond\n30011\tVirginia\tblond\n30012\tPerique\texperimental\n30013\tLatakia\toriental\n30014\tDark Fired Kentucky\tbrun\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

@@ -1,0 +1,130 @@
+{
+  "query": "SELECT * FROM civilisations LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT * FROM civilisations LIMIT 10",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Égypte — Akhet",
+      "region": "Égypte antique",
+      "symbolicMaterials": "[\"pierre blanche\",\"kaolin\",\"myrrhe claire\",\"résine dorée\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Climat solaire sec. Sol de pierre blanche et kaolin. Molécules dominantes: myrrhe claire, résine dorée. Tabacs compatibles: Virginia Gold, Bright. Atmosphère lumineuse et minérale, évoquant les temples de pierre blanche sous le soleil égyptien.",
+      "temporality": "antique",
+      "bibliographicReferences": "Sources archéologiques égyptiennes, textes sur l'encens et la myrrhe dans l'Égypte ancienne",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    },
+    {
+      "id": "2",
+      "name": "Mésopotamie — Shuruppak",
+      "region": "Mésopotamie antique",
+      "symbolicMaterials": "[\"argile rouge\",\"terre ocre\",\"bitume\",\"argile brûlée\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Climat de poussière chaude. Sol d'argile rouge et terre ocre. Molécules: bitume, argile brûlée, poterie brûlée. Tabacs: Burley, Krumovgrad. Atmosphère tellurique et sombre, évoquant les ziggourats et les tablettes d'argile de Sumer.",
+      "temporality": "antique",
+      "bibliographicReferences": "Textes cunéiformes sumériens, archéologie de la Mésopotamie",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    },
+    {
+      "id": "3",
+      "name": "Mycène",
+      "region": "Grèce mycénienne",
+      "symbolicMaterials": "[\"figue sèche\",\"ambre sec\",\"pierre calcaire\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Climat méditerranéen sec. Molécules: ionone, lactones. Tabacs: Italia, Samsoun. Atmosphère de figue sèche et d'ambre, évoquant les palais mycéniens et les tablettes linéaires B.",
+      "temporality": "antique",
+      "bibliographicReferences": "Archéologie mycénienne, Linear B texts",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    },
+    {
+      "id": "4",
+      "name": "Tell Halaf",
+      "region": "Syrie du Nord",
+      "symbolicMaterials": "[\"argile humide\",\"fumée\",\"terre sombre\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Sol d'argile humide. Tabacs: Krumovgrad, Italia. Atmosphère de terre archéologique et humus profond. Site néolithique de Syrie du Nord.",
+      "temporality": "archaic",
+      "bibliographicReferences": "Fouilles archéologiques de Tell Halaf",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    },
+    {
+      "id": "5",
+      "name": "Meroe",
+      "region": "Nubie / Soudan",
+      "symbolicMaterials": "[\"sable ocre\",\"myrrhe noire\",\"résine solaire\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Climat sec et résineux. Sol de sable ocre. Molécules: myrrhe noire, résine solaire. Tabac: Burley. Royaume nubien au sud de l'Égypte, connu pour ses pyramides et son commerce de résines.",
+      "temporality": "antique",
+      "bibliographicReferences": "Archéologie du royaume de Koush, Meroe",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    },
+    {
+      "id": "6",
+      "name": "Lyonesse",
+      "region": "Atlantide celtique (légendaire)",
+      "symbolicMaterials": "[\"pierre blanche immergée\",\"aldéhydes givrés\",\"minéral blanc\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Climat humide avec aldéhydes. Sol de pierre blanche immergée. Molécules: aldéhydes givrés, minéral blanc. Tabac: Bright. Terre légendaire engloutie au large de la Cornouailles, atmosphère marine et aldéhydique.",
+      "temporality": "abyssal",
+      "bibliographicReferences": "Légendes arthuriennes, mythologie celtique",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    },
+    {
+      "id": "7",
+      "name": "Atlantide Lumineuse",
+      "region": "Océan Atlantique (mythologique)",
+      "symbolicMaterials": "[\"calcite\",\"sel blanc\",\"ambrox\",\"ozone\",\"eau minérale\",\"ionics\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Climat froid et océanique profond. Sol de calcite et sel blanc. Molécules: ambrox, ozone, aldéhydes propres. Tabacs: Bright, Italia. Civilisation immergée lumineuse, atmosphère minérale et aquatique.",
+      "temporality": "abyssal",
+      "bibliographicReferences": "Platon - Timée et Critias",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    },
+    {
+      "id": "8",
+      "name": "Atlantide Abyssale",
+      "region": "Océan Atlantique profond (mythologique)",
+      "symbolicMaterials": "[\"algues minérales\",\"terre sombre\",\"ambrette\",\"kelp\",\"corail\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Version sombre et profonde d'Atlantide. Notes marines, kelp, sel, corail, calone naturelle, ambergris. Royaume des civilisations englouties dans les abysses océaniques.",
+      "temporality": "abyssal",
+      "bibliographicReferences": "Mythologie atlantéenne, océanographie profonde",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    },
+    {
+      "id": "9",
+      "name": "Akkad",
+      "region": "Mésopotamie (Empire akkadien)",
+      "symbolicMaterials": "[\"bitume sacré\",\"huile sombre\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Atmosphère de bitume sacré. Tabac: Burley. Empire de Sargon d'Akkad, première entité politique unifiée de Mésopotamie.",
+      "temporality": "antique",
+      "bibliographicReferences": "Histoire de l'Empire akkadien, inscriptions de Sargon",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    },
+    {
+      "id": "10",
+      "name": "Nubie",
+      "region": "Nubie / Haute-Égypte",
+      "symbolicMaterials": "[\"encens solaire\",\"ambre\",\"terre ocre chaude\"]",
+      "signatureAccordId": "NULL",
+      "longDescription": "Climat chaud et résineux. Sol de terre ocre chaude solaire. Molécules: ambre, encens solaire. Tabacs: Gold, Orange. Royaume nubien au sud de l'Égypte.",
+      "temporality": "antique",
+      "bibliographicReferences": "Royaume de Koush, civilisation nubienne",
+      "createdAt": "2025-12-02 18:42:05",
+      "updatedAt": "2025-12-02 18:42:05"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\tsymbolicMaterials\tsignatureAccordId\tlongDescription\ttemporality\tbibliographicReferences\tcreatedAt\tupdatedAt\n1\tÉgypte — Akhet\tÉgypte antique\t[\"pierre blanche\",\"kaolin\",\"myrrhe claire\",\"résine dorée\"]\tNULL\tClimat solaire sec. Sol de pierre blanche et kaolin. Molécules dominantes: myrrhe claire, résine dorée. Tabacs compatibles: Virginia Gold, Bright. Atmosphère lumineuse et minérale, évoquant les temples de pierre blanche sous le soleil égyptien.\tantique\tSources archéologiques égyptiennes, textes sur l'encens et la myrrhe dans l'Égypte ancienne\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n2\tMésopotamie — Shuruppak\tMésopotamie antique\t[\"argile rouge\",\"terre ocre\",\"bitume\",\"argile brûlée\"]\tNULL\tClimat de poussière chaude. Sol d'argile rouge et terre ocre. Molécules: bitume, argile brûlée, poterie brûlée. Tabacs: Burley, Krumovgrad. Atmosphère tellurique et sombre, évoquant les ziggourats et les tablettes d'argile de Sumer.\tantique\tTextes cunéiformes sumériens, archéologie de la Mésopotamie\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n3\tMycène\tGrèce mycénienne\t[\"figue sèche\",\"ambre sec\",\"pierre calcaire\"]\tNULL\tClimat méditerranéen sec. Molécules: ionone, lactones. Tabacs: Italia, Samsoun. Atmosphère de figue sèche et d'ambre, évoquant les palais mycéniens et les tablettes linéaires B.\tantique\tArchéologie mycénienne, Linear B texts\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n4\tTell Halaf\tSyrie du Nord\t[\"argile humide\",\"fumée\",\"terre sombre\"]\tNULL\tSol d'argile humide. Tabacs: Krumovgrad, Italia. Atmosphère de terre archéologique et humus profond. Site néolithique de Syrie du Nord.\tarchaic\tFouilles archéologiques de Tell Halaf\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n5\tMeroe\tNubie / Soudan\t[\"sable ocre\",\"myrrhe noire\",\"résine solaire\"]\tNULL\tClimat sec et résineux. Sol de sable ocre. Molécules: myrrhe noire, résine solaire. Tabac: Burley. Royaume nubien au sud de l'Égypte, connu pour ses pyramides et son commerce de résines.\tantique\tArchéologie du royaume de Koush, Meroe\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n6\tLyonesse\tAtlantide celtique (légendaire)\t[\"pierre blanche immergée\",\"aldéhydes givrés\",\"minéral blanc\"]\tNULL\tClimat humide avec aldéhydes. Sol de pierre blanche immergée. Molécules: aldéhydes givrés, minéral blanc. Tabac: Bright. Terre légendaire engloutie au large de la Cornouailles, atmosphère marine et aldéhydique.\tabyssal\tLégendes arthuriennes, mythologie celtique\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n7\tAtlantide Lumineuse\tOcéan Atlantique (mythologique)\t[\"calcite\",\"sel blanc\",\"ambrox\",\"ozone\",\"eau minérale\",\"ionics\"]\tNULL\tClimat froid et océanique profond. Sol de calcite et sel blanc. Molécules: ambrox, ozone, aldéhydes propres. Tabacs: Bright, Italia. Civilisation immergée lumineuse, atmosphère minérale et aquatique.\tabyssal\tPlaton - Timée et Critias\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n8\tAtlantide Abyssale\tOcéan Atlantique profond (mythologique)\t[\"algues minérales\",\"terre sombre\",\"ambrette\",\"kelp\",\"corail\"]\tNULL\tVersion sombre et profonde d'Atlantide. Notes marines, kelp, sel, corail, calone naturelle, ambergris. Royaume des civilisations englouties dans les abysses océaniques.\tabyssal\tMythologie atlantéenne, océanographie profonde\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n9\tAkkad\tMésopotamie (Empire akkadien)\t[\"bitume sacré\",\"huile sombre\"]\tNULL\tAtmosphère de bitume sacré. Tabac: Burley. Empire de Sargon d'Akkad, première entité politique unifiée de Mésopotamie.\tantique\tHistoire de l'Empire akkadien, inscriptions de Sargon\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n10\tNubie\tNubie / Haute-Égypte\t[\"encens solaire\",\"ambre\",\"terre ocre chaude\"]\tNULL\tClimat chaud et résineux. Sol de terre ocre chaude solaire. Molécules: ambre, encens solaire. Tabacs: Gold, Orange. Royaume nubien au sud de l'Égypte.\tantique\tRoyaume de Koush, civilisation nubienne\t2025-12-02 18:42:05\t2025-12-02 18:42:05\n",
+  "stderr": "",
+  "execution_time_ms": 135
+}

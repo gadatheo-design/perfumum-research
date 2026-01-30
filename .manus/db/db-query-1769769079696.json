@@ -1,0 +1,94 @@
+{
+  "query": "SELECT ref_code, title, lead_author, year, citations FROM research_publications ORDER BY citations DESC LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT ref_code, title, lead_author, year, citations FROM research_publications ORDER BY citations DESC LIMIT 15;",
+  "rows": [
+    {
+      "ref_code": "Ref-N1",
+      "title": "Percent Free Base Nicotine in Tobacco Smoke",
+      "lead_author": "Pankow JF",
+      "year": "2003",
+      "citations": "139"
+    },
+    {
+      "ref_code": "Ref-6",
+      "title": "Comprehensive characterization of mainstream marijuana and tobacco smoke",
+      "lead_author": "Graves BM",
+      "year": "2020",
+      "citations": "136"
+    },
+    {
+      "ref_code": "Ref-7",
+      "title": "A classification of endangered high-THC cannabis domesticates and their wild relatives",
+      "lead_author": "McPartland JM",
+      "year": "2020",
+      "citations": "105"
+    },
+    {
+      "ref_code": "Ref-1",
+      "title": "Toxicant Formation in Dabbing: The Terpene Story",
+      "lead_author": "Meehan-Atrash J",
+      "year": "2017",
+      "citations": "85"
+    },
+    {
+      "ref_code": "Ref-2",
+      "title": "Aerosol Gas-Phase Components from Cannabis E-Cigarettes and Dabbing",
+      "lead_author": "Meehan-Atrash J",
+      "year": "2019",
+      "citations": "64"
+    },
+    {
+      "ref_code": "Ref-N2",
+      "title": "Gas/Particle Partitioning of Nicotine in E-Cigarettes",
+      "lead_author": "Pankow JF",
+      "year": "2018",
+      "citations": "43"
+    },
+    {
+      "ref_code": "Ref-3",
+      "title": "The influence of terpenes on the release of volatile organic compounds and active ingredients to cannabis vaping aerosols",
+      "lead_author": "Meehan-Atrash J",
+      "year": "2021",
+      "citations": "34"
+    },
+    {
+      "ref_code": "Ref-N3",
+      "title": "Free-Base Nicotine Fraction in E-Cigarettes: Non-Aqueous vs Aqueous",
+      "lead_author": "Pankow JF",
+      "year": "2020",
+      "citations": "19"
+    },
+    {
+      "ref_code": "Ref-5",
+      "title": "Emissions from heated terpenoids present in vaporizable cannabis concentrates",
+      "lead_author": "Tang X",
+      "year": "2021",
+      "citations": "16"
+    },
+    {
+      "ref_code": "Ref-8",
+      "title": "Comprehensive profiling of terpenes and terpenoids in different cannabis strains using GC×GC-TOFMS",
+      "lead_author": "Kaur J",
+      "year": "2023",
+      "citations": "13"
+    },
+    {
+      "ref_code": "Ref-4",
+      "title": "Thermal degradation of cannabinoids and cannabis terpenes",
+      "lead_author": "Meehan-Atrash J",
+      "year": "2021",
+      "citations": "8"
+    },
+    {
+      "ref_code": "Ref-A1",
+      "title": "Vaping Cannabinoid Acetates Leads to Ketene Formation",
+      "lead_author": "Munger KR",
+      "year": "2022",
+      "citations": "7"
+    }
+  ],
+  "messages": [],
+  "stdout": "ref_code\ttitle\tlead_author\tyear\tcitations\nRef-N1\tPercent Free Base Nicotine in Tobacco Smoke\tPankow JF\t2003\t139\nRef-6\tComprehensive characterization of mainstream marijuana and tobacco smoke\tGraves BM\t2020\t136\nRef-7\tA classification of endangered high-THC cannabis domesticates and their wild relatives\tMcPartland JM\t2020\t105\nRef-1\tToxicant Formation in Dabbing: The Terpene Story\tMeehan-Atrash J\t2017\t85\nRef-2\tAerosol Gas-Phase Components from Cannabis E-Cigarettes and Dabbing\tMeehan-Atrash J\t2019\t64\nRef-N2\tGas/Particle Partitioning of Nicotine in E-Cigarettes\tPankow JF\t2018\t43\nRef-3\tThe influence of terpenes on the release of volatile organic compounds and active ingredients to cannabis vaping aerosols\tMeehan-Atrash J\t2021\t34\nRef-N3\tFree-Base Nicotine Fraction in E-Cigarettes: Non-Aqueous vs Aqueous\tPankow JF\t2020\t19\nRef-5\tEmissions from heated terpenoids present in vaporizable cannabis concentrates\tTang X\t2021\t16\nRef-8\tComprehensive profiling of terpenes and terpenoids in different cannabis strains using GC×GC-TOFMS\tKaur J\t2023\t13\nRef-4\tThermal degradation of cannabinoids and cannabis terpenes\tMeehan-Atrash J\t2021\t8\nRef-A1\tVaping Cannabinoid Acetates Leads to Ketene Formation\tMunger KR\t2022\t7\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

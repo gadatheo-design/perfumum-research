@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Neroli Bouquetier Reserve', 'C10H18O', 'Floral / Agrumes', 'fleur d''oranger, miel, vert, lumineux, précieux, enivrant', 'mariage, pureté, luxe, Méditerranée, bonheur', 154, 198, 70, 85, 85, 75, 40, 78, 15, 20, 'Quintessence de fleur d''oranger, 100% pure, naturelle et bio. 0.25ml. CHF 14.00. Hermitage Oils.');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, formula, family, olfactiveProfile, emotionalResonance, molecularWeight, boilingPoint, volatility, intensity, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness, notes) VALUES ('Neroli Bouquetier Reserve', 'C10H18O', 'Floral / Agrumes', 'fleur d''oranger, miel, vert, lumineux, précieux, enivrant', 'mariage, pureté, luxe, Méditerranée, bonheur', 154, 198, 70, 85, 85, 75, 40, 78, 15, 20, 'Quintessence de fleur d''oranger, 100% pure, naturelle et bio. 0.25ml. CHF 14.00. Hermitage Oils.');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 59
+}

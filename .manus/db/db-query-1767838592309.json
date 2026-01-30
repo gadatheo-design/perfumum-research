@@ -1,0 +1,20 @@
+{
+  "query": "SELECT id, name, latin_name, family, category, origin, olfactive_signature, dominant_molecules FROM plants WHERE name LIKE '%Protium%' OR latin_name LIKE '%Protium%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, family, category, origin, olfactive_signature, dominant_molecules FROM plants WHERE name LIKE '%Protium%' OR latin_name LIKE '%Protium%';",
+  "rows": [
+    {
+      "id": "210003",
+      "name": "Breu branco (résine)",
+      "latin_name": "Protium heptaphyllum",
+      "family": "Burseraceae",
+      "category": "aromatique",
+      "origin": "Colombie; Amazonie",
+      "olfactive_signature": "encens clair, citronné résineux, sec",
+      "dominant_molecules": "alpha-pinene; limonene; monoterpènes; sesquiterpènes"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tfamily\tcategory\torigin\tolfactive_signature\tdominant_molecules\n210003\tBreu branco (résine)\tProtium heptaphyllum\tBurseraceae\taromatique\tColombie; Amazonie\tencens clair, citronné résineux, sec\talpha-pinene; limonene; monoterpènes; sesquiterpènes\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}

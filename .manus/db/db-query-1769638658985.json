@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire, Bronchodilatateur, Anxiolytique' WHERE name LIKE '%pinene%' OR name LIKE '%pinène%'; UPDATE molecules SET therapeuticProperties = 'Anxiolytique, Sédatif, Anti-inflammatoire, Analgésique' WHERE name LIKE '%linalool%' OR name LIKE '%linalol%'; UPDATE molecules SET therapeuticProperties = 'Antioxydant, Anti-tumoral, Immunostimulant' WHERE name LIKE '%limonene%' OR name LIKE '%limonène%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire, Bronchodilatateur, Anxiolytique' WHERE name LIKE '%pinene%' OR name LIKE '%pinène%'; UPDATE molecules SET therapeuticProperties = 'Anxiolytique, Sédatif, Anti-inflammatoire, Analgésique' WHERE name LIKE '%linalool%' OR name LIKE '%linalol%'; UPDATE molecules SET therapeuticProperties = 'Antioxydant, Anti-tumoral, Immunostimulant' WHERE name LIKE '%limonene%' OR name LIKE '%limonène%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 103
+}

@@ -1,0 +1,25 @@
+{
+  "query": "SELECT id, name, LEFT(therapeuticProperties, 100) as therapeutic_preview FROM molecules WHERE id IN (1, 2, 3, 4, 5, 6, 7) ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, LEFT(therapeuticProperties, 100) as therapeutic_preview FROM molecules WHERE id IN (1, 2, 3, 4, 5, 6, 7) ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Hexanoic acid",
+      "therapeutic_preview": "NULL"
+    },
+    {
+      "id": "2",
+      "name": "Linalol",
+      "therapeutic_preview": "NULL"
+    },
+    {
+      "id": "3",
+      "name": "Ambroxan",
+      "therapeutic_preview": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttherapeutic_preview\n1\tHexanoic acid\tNULL\n2\tLinalol\tNULL\n3\tAmbroxan\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

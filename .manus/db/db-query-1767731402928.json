@@ -1,0 +1,118 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bibliography_entries' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bibliography_entries' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "entry_key"
+    },
+    {
+      "COLUMN_NAME": "entry_type"
+    },
+    {
+      "COLUMN_NAME": "title"
+    },
+    {
+      "COLUMN_NAME": "authors"
+    },
+    {
+      "COLUMN_NAME": "year"
+    },
+    {
+      "COLUMN_NAME": "journal"
+    },
+    {
+      "COLUMN_NAME": "booktitle"
+    },
+    {
+      "COLUMN_NAME": "publisher"
+    },
+    {
+      "COLUMN_NAME": "volume"
+    },
+    {
+      "COLUMN_NAME": "number"
+    },
+    {
+      "COLUMN_NAME": "pages"
+    },
+    {
+      "COLUMN_NAME": "edition"
+    },
+    {
+      "COLUMN_NAME": "chapter"
+    },
+    {
+      "COLUMN_NAME": "doi"
+    },
+    {
+      "COLUMN_NAME": "isbn"
+    },
+    {
+      "COLUMN_NAME": "issn"
+    },
+    {
+      "COLUMN_NAME": "pmid"
+    },
+    {
+      "COLUMN_NAME": "arxiv_id"
+    },
+    {
+      "COLUMN_NAME": "url"
+    },
+    {
+      "COLUMN_NAME": "abstract"
+    },
+    {
+      "COLUMN_NAME": "keywords"
+    },
+    {
+      "COLUMN_NAME": "language"
+    },
+    {
+      "COLUMN_NAME": "research_domain"
+    },
+    {
+      "COLUMN_NAME": "relevance_score"
+    },
+    {
+      "COLUMN_NAME": "tags"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "annotation"
+    },
+    {
+      "COLUMN_NAME": "pdf_url"
+    },
+    {
+      "COLUMN_NAME": "read_status"
+    },
+    {
+      "COLUMN_NAME": "linked_molecule_ids"
+    },
+    {
+      "COLUMN_NAME": "linked_plant_ids"
+    },
+    {
+      "COLUMN_NAME": "linked_recette_ids"
+    },
+    {
+      "COLUMN_NAME": "added_by"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nentry_key\nentry_type\ntitle\nauthors\nyear\njournal\nbooktitle\npublisher\nvolume\nnumber\npages\nedition\nchapter\ndoi\nisbn\nissn\npmid\narxiv_id\nurl\nabstract\nkeywords\nlanguage\nresearch_domain\nrelevance_score\ntags\nnotes\nannotation\npdf_url\nread_status\nlinked_molecule_ids\nlinked_plant_ids\nlinked_recette_ids\nadded_by\ncreated_at\nupdated_at\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

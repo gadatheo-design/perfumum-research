@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET \n  radar_intensity = 65,\n  radar_freshness = 35,\n  radar_warmth = 70,\n  radar_sweetness = 30,\n  radar_spiciness = 35,\n  radar_earthiness = 85\nWHERE (olfactiveProfile LIKE '%bois%' OR olfactiveProfile LIKE '%wood%' OR olfactiveProfile LIKE '%cèdre%' OR olfactiveProfile LIKE '%santal%' OR olfactiveProfile LIKE '%woody%')\n  AND radar_intensity = 50 AND radar_freshness = 50",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET \n  radar_intensity = 65,\n  radar_freshness = 35,\n  radar_warmth = 70,\n  radar_sweetness = 30,\n  radar_spiciness = 35,\n  radar_earthiness = 85\nWHERE (olfactiveProfile LIKE '%bois%' OR olfactiveProfile LIKE '%wood%' OR olfactiveProfile LIKE '%cèdre%' OR olfactiveProfile LIKE '%santal%' OR olfactiveProfile LIKE '%woody%')\n  AND radar_intensity = 50 AND radar_freshness = 50",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 64
+}

@@ -1,0 +1,213 @@
+{
+  "query": "SELECT id, terroir_id, name, country, region FROM terroirs ORDER BY country, name LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, terroir_id, name, country, region FROM terroirs ORDER BY country, name LIMIT 50;",
+  "rows": [
+    {
+      "id": "30001",
+      "terroir_id": "TER-BUL-KAZ",
+      "name": "Vallée des Roses de Kazanlak",
+      "country": "Bulgarie",
+      "region": "Vallée des Roses"
+    },
+    {
+      "id": "60005",
+      "terroir_id": "TER-SEED-BURKINA-FA",
+      "name": "Burkina Faso",
+      "country": "Burkina Faso",
+      "region": "Pays; axe comparatif variétés fantômes / terroirs."
+    },
+    {
+      "id": "30005",
+      "terroir_id": "TER-BUR-OUA",
+      "name": "Région de Ouagadougou",
+      "country": "Burkina Faso",
+      "region": "Centre"
+    },
+    {
+      "id": "60006",
+      "terroir_id": "TER-SEED-CARIBBEAN",
+      "name": "Caribbean (macro)",
+      "country": "Caraïbes",
+      "region": "Macro-région (hors Colombie)."
+    },
+    {
+      "id": "90001",
+      "terroir_id": "TER-COL-AMA",
+      "name": "Amazonie Colombienne",
+      "country": "Colombie",
+      "region": "Amazonie"
+    },
+    {
+      "id": "3",
+      "terroir_id": "TER-COL-CAU",
+      "name": "Cauca Valley",
+      "country": "Colombie",
+      "region": "Valle del Cauca"
+    },
+    {
+      "id": "60001",
+      "terroir_id": "TER-SEED-COLOMBIA",
+      "name": "Colombia",
+      "country": "Colombie",
+      "region": "Pays; focus Andes + Caraïbes."
+    },
+    {
+      "id": "60002",
+      "terroir_id": "TER-SEED-COLOMBIA-A",
+      "name": "Colombia — Andes",
+      "country": "Colombie",
+      "region": "Cundinamarca, Antioquia, etc. (macro-région)."
+    },
+    {
+      "id": "60003",
+      "terroir_id": "TER-SEED-COLOMBIA-C",
+      "name": "Colombia — Caribbean",
+      "country": "Colombie",
+      "region": "Côte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina."
+    },
+    {
+      "id": "90002",
+      "terroir_id": "TER-COL-PUT",
+      "name": "Putumayo",
+      "country": "Colombie",
+      "region": "Amazonie"
+    },
+    {
+      "id": "60004",
+      "terroir_id": "TER-SEED-SAN-ANDRES",
+      "name": "San Andrés (archipel)",
+      "country": "Colombie",
+      "region": "Île / archipel; terrain utilisateur."
+    },
+    {
+      "id": "1",
+      "terroir_id": "TER-COL-SAN",
+      "name": "San Andrés y Providencia",
+      "country": "Colombie",
+      "region": "Caraïbes"
+    },
+    {
+      "id": "2",
+      "terroir_id": "TER-COL-HUI",
+      "name": "Santander & Huila",
+      "country": "Colombie",
+      "region": "Andes"
+    },
+    {
+      "id": "90003",
+      "terroir_id": "TER-COL-VAU",
+      "name": "Vaupés",
+      "country": "Colombie",
+      "region": "Amazonie"
+    },
+    {
+      "id": "30011",
+      "terroir_id": "TER-COM-ANJ",
+      "name": "Anjouan",
+      "country": "Comores",
+      "region": "Anjouan"
+    },
+    {
+      "id": "5",
+      "terroir_id": "TER-FRA-GRA",
+      "name": "Grasse",
+      "country": "France",
+      "region": "PACA"
+    },
+    {
+      "id": "30008",
+      "terroir_id": "TER-PRO-VAL",
+      "name": "Plateau de Valensole",
+      "country": "France",
+      "region": "Provence-Alpes-Côte d'Azur"
+    },
+    {
+      "id": "30012",
+      "terroir_id": "TER-REU-CIL",
+      "name": "Cilaos",
+      "country": "France (Réunion)",
+      "region": "Cilaos"
+    },
+    {
+      "id": "60007",
+      "terroir_id": "TER-SEED-GLOBAL",
+      "name": "Global",
+      "country": "Global",
+      "region": "Pour ressources mondiales (pangenomes, databases)."
+    },
+    {
+      "id": "30003",
+      "terroir_id": "TER-HAI-VET",
+      "name": "Plaine des Cayes",
+      "country": "Haïti",
+      "region": "Sud"
+    },
+    {
+      "id": "6",
+      "terroir_id": "TER-IND-KAN",
+      "name": "Karnataka",
+      "country": "Inde",
+      "region": "Sud"
+    },
+    {
+      "id": "30007",
+      "terroir_id": "TER-IDN-SUM",
+      "name": "Sumatra - Aceh",
+      "country": "Indonésie",
+      "region": "Aceh"
+    },
+    {
+      "id": "30002",
+      "terroir_id": "TER-ITA-CAL",
+      "name": "Calabre",
+      "country": "Italie",
+      "region": "Calabre"
+    },
+    {
+      "id": "4",
+      "terroir_id": "TER-MAD-NOS",
+      "name": "Nossi-Bé",
+      "country": "Madagascar",
+      "region": "Nord-Ouest"
+    },
+    {
+      "id": "30004",
+      "terroir_id": "TER-MAR-FES",
+      "name": "Région de Fès-Meknès",
+      "country": "Maroc",
+      "region": "Fès-Meknès"
+    },
+    {
+      "id": "7",
+      "terroir_id": "TER-SOM-BOS",
+      "name": "Bosaso",
+      "country": "Somalie",
+      "region": "Puntland"
+    },
+    {
+      "id": "30010",
+      "terroir_id": "TER-SRI-KAN",
+      "name": "Kandy",
+      "country": "Sri Lanka",
+      "region": "Province Centrale"
+    },
+    {
+      "id": "30009",
+      "terroir_id": "TER-TUR-ISP",
+      "name": "Isparta",
+      "country": "Turquie",
+      "region": "Isparta"
+    },
+    {
+      "id": "30006",
+      "terroir_id": "TER-EGY-LUX",
+      "name": "Haute-Égypte",
+      "country": "Égypte",
+      "region": "Louxor-Assouan"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tterroir_id\tname\tcountry\tregion\n30001\tTER-BUL-KAZ\tVallée des Roses de Kazanlak\tBulgarie\tVallée des Roses\n60005\tTER-SEED-BURKINA-FA\tBurkina Faso\tBurkina Faso\tPays; axe comparatif variétés fantômes / terroirs.\n30005\tTER-BUR-OUA\tRégion de Ouagadougou\tBurkina Faso\tCentre\n60006\tTER-SEED-CARIBBEAN\tCaribbean (macro)\tCaraïbes\tMacro-région (hors Colombie).\n90001\tTER-COL-AMA\tAmazonie Colombienne\tColombie\tAmazonie\n3\tTER-COL-CAU\tCauca Valley\tColombie\tValle del Cauca\n60001\tTER-SEED-COLOMBIA\tColombia\tColombie\tPays; focus Andes + Caraïbes.\n60002\tTER-SEED-COLOMBIA-A\tColombia — Andes\tColombie\tCundinamarca, Antioquia, etc. (macro-région).\n60003\tTER-SEED-COLOMBIA-C\tColombia — Caribbean\tColombie\tCôte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.\n90002\tTER-COL-PUT\tPutumayo\tColombie\tAmazonie\n60004\tTER-SEED-SAN-ANDRES\tSan Andrés (archipel)\tColombie\tÎle / archipel; terrain utilisateur.\n1\tTER-COL-SAN\tSan Andrés y Providencia\tColombie\tCaraïbes\n2\tTER-COL-HUI\tSantander & Huila\tColombie\tAndes\n90003\tTER-COL-VAU\tVaupés\tColombie\tAmazonie\n30011\tTER-COM-ANJ\tAnjouan\tComores\tAnjouan\n5\tTER-FRA-GRA\tGrasse\tFrance\tPACA\n30008\tTER-PRO-VAL\tPlateau de Valensole\tFrance\tProvence-Alpes-Côte d'Azur\n30012\tTER-REU-CIL\tCilaos\tFrance (Réunion)\tCilaos\n60007\tTER-SEED-GLOBAL\tGlobal\tGlobal\tPour ressources mondiales (pangenomes, databases).\n30003\tTER-HAI-VET\tPlaine des Cayes\tHaïti\tSud\n6\tTER-IND-KAN\tKarnataka\tInde\tSud\n30007\tTER-IDN-SUM\tSumatra - Aceh\tIndonésie\tAceh\n30002\tTER-ITA-CAL\tCalabre\tItalie\tCalabre\n4\tTER-MAD-NOS\tNossi-Bé\tMadagascar\tNord-Ouest\n30004\tTER-MAR-FES\tRégion de Fès-Meknès\tMaroc\tFès-Meknès\n7\tTER-SOM-BOS\tBosaso\tSomalie\tPuntland\n30010\tTER-SRI-KAN\tKandy\tSri Lanka\tProvince Centrale\n30009\tTER-TUR-ISP\tIsparta\tTurquie\tIsparta\n30006\tTER-EGY-LUX\tHaute-Égypte\tÉgypte\tLouxor-Assouan\n",
+  "stderr": "",
+  "execution_time_ms": 242
+}

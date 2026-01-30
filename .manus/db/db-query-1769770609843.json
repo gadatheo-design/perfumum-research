@@ -1,0 +1,58 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tobacco_compounds';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tobacco_compounds';",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "compound_name"
+    },
+    {
+      "COLUMN_NAME": "cas_number"
+    },
+    {
+      "COLUMN_NAME": "chemical_class"
+    },
+    {
+      "COLUMN_NAME": "category"
+    },
+    {
+      "COLUMN_NAME": "landrace_source"
+    },
+    {
+      "COLUMN_NAME": "concentration_ppm"
+    },
+    {
+      "COLUMN_NAME": "concentration_percent"
+    },
+    {
+      "COLUMN_NAME": "is_new_tobacco_isolate"
+    },
+    {
+      "COLUMN_NAME": "aromatic_notes"
+    },
+    {
+      "COLUMN_NAME": "perfumery_relevance"
+    },
+    {
+      "COLUMN_NAME": "biosynthetic_pathway"
+    },
+    {
+      "COLUMN_NAME": "related_molecule_id"
+    },
+    {
+      "COLUMN_NAME": "source_reference"
+    },
+    {
+      "COLUMN_NAME": "data_certainty"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\ncompound_name\ncas_number\nchemical_class\ncategory\nlandrace_source\nconcentration_ppm\nconcentration_percent\nis_new_tobacco_isolate\naromatic_notes\nperfumery_relevance\nbiosynthetic_pathway\nrelated_molecule_id\nsource_reference\ndata_certainty\ncreated_at\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

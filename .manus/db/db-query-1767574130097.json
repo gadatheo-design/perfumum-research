@@ -1,0 +1,14 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM molecules) as total,\n  (SELECT COUNT(*) FROM molecules WHERE radar_intensity = 50 AND radar_freshness = 50 AND radar_warmth = 50 AND radar_sweetness = 50 AND radar_spiciness = 50 AND radar_earthiness = 50) as still_default",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM molecules) as total,\n  (SELECT COUNT(*) FROM molecules WHERE radar_intensity = 50 AND radar_freshness = 50 AND radar_warmth = 50 AND radar_sweetness = 50 AND radar_spiciness = 50 AND radar_earthiness = 50) as still_default",
+  "rows": [
+    {
+      "total": "494",
+      "still_default": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tstill_default\n494\t0\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

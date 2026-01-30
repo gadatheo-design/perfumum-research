@@ -1,0 +1,202 @@
+{
+  "query": "SELECT id, name, type, subcategory FROM chemical_families ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, type, subcategory FROM chemical_families ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Acides Gras",
+      "type": "acides_gras",
+      "subcategory": "NULL"
+    },
+    {
+      "id": "2",
+      "name": "Acides Aromatiques",
+      "type": "acides_aromatiques",
+      "subcategory": "NULL"
+    },
+    {
+      "id": "3",
+      "name": "Esters",
+      "type": "esters",
+      "subcategory": "NULL"
+    },
+    {
+      "id": "4",
+      "name": "Indoles",
+      "type": "indoles",
+      "subcategory": "NULL"
+    },
+    {
+      "id": "30001",
+      "name": "Monoterpènes",
+      "type": "monoterpene",
+      "subcategory": "hydrocarbure"
+    },
+    {
+      "id": "30002",
+      "name": "Sesquiterpènes",
+      "type": "sesquiterpene",
+      "subcategory": "hydrocarbure"
+    },
+    {
+      "id": "30003",
+      "name": "Monoterpénoïdes",
+      "type": "monoterpenoid",
+      "subcategory": "oxygéné"
+    },
+    {
+      "id": "30004",
+      "name": "Sesquiterpénoïdes",
+      "type": "sesquiterpenoid",
+      "subcategory": "oxygéné"
+    },
+    {
+      "id": "30005",
+      "name": "Alcools aliphatiques",
+      "type": "alcohol_aliphatic",
+      "subcategory": "saturé"
+    },
+    {
+      "id": "30006",
+      "name": "Alcools aromatiques",
+      "type": "alcohol_aromatic",
+      "subcategory": "benzénique"
+    },
+    {
+      "id": "30007",
+      "name": "Aldéhydes aliphatiques",
+      "type": "aldehyde_aliphatic",
+      "subcategory": "gras"
+    },
+    {
+      "id": "30008",
+      "name": "Aldéhydes aromatiques",
+      "type": "aldehyde_aromatic",
+      "subcategory": "benzénique"
+    },
+    {
+      "id": "30009",
+      "name": "Aldéhydes terpéniques",
+      "type": "aldehyde_terpenic",
+      "subcategory": "terp"
+    },
+    {
+      "id": "30010",
+      "name": "Cétones terpéniques",
+      "type": "ketone_terpenic",
+      "subcategory": "terp"
+    },
+    {
+      "id": "30011",
+      "name": "Cétones macrocycliques",
+      "type": "ketone_macrocyclic",
+      "subcategory": "macrocycle"
+    },
+    {
+      "id": "30012",
+      "name": "Esters aliphatiques",
+      "type": "ester_aliphatic",
+      "subcategory": "fruité"
+    },
+    {
+      "id": "30013",
+      "name": "Esters terpéniques",
+      "type": "ester_terpenic",
+      "subcategory": "terp"
+    },
+    {
+      "id": "30014",
+      "name": "Esters aromatiques",
+      "type": "ester_aromatic",
+      "subcategory": "benzénique"
+    },
+    {
+      "id": "30015",
+      "name": "Phénols",
+      "type": "phenol",
+      "subcategory": "hydroxybenzène"
+    },
+    {
+      "id": "30016",
+      "name": "Éthers de phénol",
+      "type": "phenol_ether",
+      "subcategory": "méthoxybenzène"
+    },
+    {
+      "id": "30017",
+      "name": "Lactones",
+      "type": "lactone",
+      "subcategory": "cyclique"
+    },
+    {
+      "id": "30018",
+      "name": "Lactones macrocycliques",
+      "type": "lactone_macrocyclic",
+      "subcategory": "macrocycle"
+    },
+    {
+      "id": "30019",
+      "name": "Coumarines",
+      "type": "coumarin",
+      "subcategory": "benzopyrone"
+    },
+    {
+      "id": "30020",
+      "name": "Muscs polycycliques",
+      "type": "musk_polycyclic",
+      "subcategory": "synthétique"
+    },
+    {
+      "id": "30021",
+      "name": "Muscs linéaires",
+      "type": "musk_linear",
+      "subcategory": "synthétique"
+    },
+    {
+      "id": "30022",
+      "name": "Indoles",
+      "type": "indole",
+      "subcategory": "hétérocycle azoté"
+    },
+    {
+      "id": "30023",
+      "name": "Nitriles",
+      "type": "nitrile",
+      "subcategory": "cyano"
+    },
+    {
+      "id": "30024",
+      "name": "Composés soufrés",
+      "type": "sulfur_compound",
+      "subcategory": "thiol/sulfure"
+    },
+    {
+      "id": "30025",
+      "name": "Oxydes",
+      "type": "oxide",
+      "subcategory": "époxyde"
+    },
+    {
+      "id": "30026",
+      "name": "Acétals",
+      "type": "acetals",
+      "subcategory": "diéther"
+    },
+    {
+      "id": "30027",
+      "name": "Furannes",
+      "type": "furan",
+      "subcategory": "hétérocycle oxygéné"
+    },
+    {
+      "id": "30028",
+      "name": "Pyrazines",
+      "type": "pyrazine",
+      "subcategory": "hétérocycle azoté"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttype\tsubcategory\n1\tAcides Gras\tacides_gras\tNULL\n2\tAcides Aromatiques\tacides_aromatiques\tNULL\n3\tEsters\testers\tNULL\n4\tIndoles\tindoles\tNULL\n30001\tMonoterpènes\tmonoterpene\thydrocarbure\n30002\tSesquiterpènes\tsesquiterpene\thydrocarbure\n30003\tMonoterpénoïdes\tmonoterpenoid\toxygéné\n30004\tSesquiterpénoïdes\tsesquiterpenoid\toxygéné\n30005\tAlcools aliphatiques\talcohol_aliphatic\tsaturé\n30006\tAlcools aromatiques\talcohol_aromatic\tbenzénique\n30007\tAldéhydes aliphatiques\taldehyde_aliphatic\tgras\n30008\tAldéhydes aromatiques\taldehyde_aromatic\tbenzénique\n30009\tAldéhydes terpéniques\taldehyde_terpenic\tterp\n30010\tCétones terpéniques\tketone_terpenic\tterp\n30011\tCétones macrocycliques\tketone_macrocyclic\tmacrocycle\n30012\tEsters aliphatiques\tester_aliphatic\tfruité\n30013\tEsters terpéniques\tester_terpenic\tterp\n30014\tEsters aromatiques\tester_aromatic\tbenzénique\n30015\tPhénols\tphenol\thydroxybenzène\n30016\tÉthers de phénol\tphenol_ether\tméthoxybenzène\n30017\tLactones\tlactone\tcyclique\n30018\tLactones macrocycliques\tlactone_macrocyclic\tmacrocycle\n30019\tCoumarines\tcoumarin\tbenzopyrone\n30020\tMuscs polycycliques\tmusk_polycyclic\tsynthétique\n30021\tMuscs linéaires\tmusk_linear\tsynthétique\n30022\tIndoles\tindole\thétérocycle azoté\n30023\tNitriles\tnitrile\tcyano\n30024\tComposés soufrés\tsulfur_compound\tthiol/sulfure\n30025\tOxydes\toxide\tépoxyde\n30026\tAcétals\tacetals\tdiéther\n30027\tFurannes\tfuran\thétérocycle oxygéné\n30028\tPyrazines\tpyrazine\thétérocycle azoté\n",
+  "stderr": "",
+  "execution_time_ms": 75
+}

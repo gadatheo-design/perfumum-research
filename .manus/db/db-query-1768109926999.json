@@ -1,0 +1,120 @@
+{
+  "query": "SELECT id, axis_code, name, subtitle, category, status, progress_percent, parent_axis_id FROM research_axes ORDER BY axis_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, axis_code, name, subtitle, category, status, progress_percent, parent_axis_id FROM research_axes ORDER BY axis_code;",
+  "rows": [
+    {
+      "id": "1",
+      "axis_code": "AX1",
+      "name": "Neurosciences Olfactives et Mémoire",
+      "subtitle": "NULL",
+      "category": "fondamental",
+      "status": "planifie",
+      "progress_percent": "0",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "60001",
+      "axis_code": "AX1",
+      "name": "Variétés Fantômes",
+      "subtitle": "Tabac et cannabis hors taxonomie",
+      "category": "experimental",
+      "status": "en_cours",
+      "progress_percent": "35",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "30005",
+      "axis_code": "AX10",
+      "name": "Méthodologie de recherche",
+      "subtitle": "Outils et protocoles",
+      "category": "technique",
+      "status": "en_cours",
+      "progress_percent": "50",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "2",
+      "axis_code": "AX2",
+      "name": "Biotechnologie et Parfumerie Durable",
+      "subtitle": "NULL",
+      "category": "fondamental",
+      "status": "planifie",
+      "progress_percent": "0",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "3",
+      "axis_code": "AX3",
+      "name": "Régulation Émotionnelle par l'Olfaction",
+      "subtitle": "NULL",
+      "category": "fondamental",
+      "status": "planifie",
+      "progress_percent": "0",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "4",
+      "axis_code": "AX4",
+      "name": "Préservation du Patrimoine Olfactif",
+      "subtitle": "NULL",
+      "category": "fondamental",
+      "status": "planifie",
+      "progress_percent": "0",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "5",
+      "axis_code": "AX5",
+      "name": "Intelligence Artificielle et Création Parfumée",
+      "subtitle": "NULL",
+      "category": "fondamental",
+      "status": "planifie",
+      "progress_percent": "0",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "30001",
+      "axis_code": "AX6",
+      "name": "Neurologie olfactive",
+      "subtitle": "Perception et cognition",
+      "category": "fondamental",
+      "status": "planifie",
+      "progress_percent": "10",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "30002",
+      "axis_code": "AX7",
+      "name": "Durabilité et éthique",
+      "subtitle": "Approvisionnement responsable",
+      "category": "applique",
+      "status": "en_cours",
+      "progress_percent": "15",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "30003",
+      "axis_code": "AX8",
+      "name": "Tabac et Cannabis",
+      "subtitle": "Recherche spécialisée",
+      "category": "experimental",
+      "status": "en_cours",
+      "progress_percent": "45",
+      "parent_axis_id": "NULL"
+    },
+    {
+      "id": "30004",
+      "axis_code": "AX9",
+      "name": "Terroirs et origines",
+      "subtitle": "Géographie olfactive",
+      "category": "applique",
+      "status": "en_cours",
+      "progress_percent": "20",
+      "parent_axis_id": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\taxis_code\tname\tsubtitle\tcategory\tstatus\tprogress_percent\tparent_axis_id\n1\tAX1\tNeurosciences Olfactives et Mémoire\tNULL\tfondamental\tplanifie\t0\tNULL\n60001\tAX1\tVariétés Fantômes\tTabac et cannabis hors taxonomie\texperimental\ten_cours\t35\tNULL\n30005\tAX10\tMéthodologie de recherche\tOutils et protocoles\ttechnique\ten_cours\t50\tNULL\n2\tAX2\tBiotechnologie et Parfumerie Durable\tNULL\tfondamental\tplanifie\t0\tNULL\n3\tAX3\tRégulation Émotionnelle par l'Olfaction\tNULL\tfondamental\tplanifie\t0\tNULL\n4\tAX4\tPréservation du Patrimoine Olfactif\tNULL\tfondamental\tplanifie\t0\tNULL\n5\tAX5\tIntelligence Artificielle et Création Parfumée\tNULL\tfondamental\tplanifie\t0\tNULL\n30001\tAX6\tNeurologie olfactive\tPerception et cognition\tfondamental\tplanifie\t10\tNULL\n30002\tAX7\tDurabilité et éthique\tApprovisionnement responsable\tapplique\ten_cours\t15\tNULL\n30003\tAX8\tTabac et Cannabis\tRecherche spécialisée\texperimental\ten_cours\t45\tNULL\n30004\tAX9\tTerroirs et origines\tGéographie olfactive\tapplique\ten_cours\t20\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 92
+}

@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE plants SET latitude = 15.0, longitude = 45.0 WHERE id = 210039 AND name = 'Commiphora';\nUPDATE plants SET latitude = -3.0, longitude = -60.0 WHERE id = 210040 AND name = 'Aniba';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE plants SET latitude = 15.0, longitude = 45.0 WHERE id = 210039 AND name = 'Commiphora';\nUPDATE plants SET latitude = -3.0, longitude = -60.0 WHERE id = 210040 AND name = 'Aniba';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 65
+}

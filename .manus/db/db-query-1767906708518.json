@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO plant_molecules (plant_id, molecule_id, percentage, notes)\nSELECT p.id, m.id, \n  CASE \n    WHEN m.name = 'Terpinen-4-ol' THEN 40.0\n    WHEN m.name = 'Gamma-terpinene' THEN 20.0\n    WHEN m.name = 'Alpha-terpinene' THEN 10.0\n    WHEN m.name = '1,8-Cineole' THEN 5.0\n  END,\n  CASE \n    WHEN m.name = 'Terpinen-4-ol' THEN 'Composant majeur, propriétés antiseptiques'\n    WHEN m.name = 'Gamma-terpinene' THEN 'Note herbacée citronnée'\n    WHEN m.name = 'Alpha-terpinene' THEN 'Note fraîche'\n    WHEN m.name = '1,8-Cineole' THEN 'Note eucalyptée'\n  END\nFROM plants p, molecules m\nWHERE p.name = 'Tea tree' \nAND m.name IN ('Terpinen-4-ol', 'Gamma-terpinene', 'Alpha-terpinene', '1,8-Cineole');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO plant_molecules (plant_id, molecule_id, percentage, notes)\nSELECT p.id, m.id, \n  CASE \n    WHEN m.name = 'Terpinen-4-ol' THEN 40.0\n    WHEN m.name = 'Gamma-terpinene' THEN 20.0\n    WHEN m.name = 'Alpha-terpinene' THEN 10.0\n    WHEN m.name = '1,8-Cineole' THEN 5.0\n  END,\n  CASE \n    WHEN m.name = 'Terpinen-4-ol' THEN 'Composant majeur, propriétés antiseptiques'\n    WHEN m.name = 'Gamma-terpinene' THEN 'Note herbacée citronnée'\n    WHEN m.name = 'Alpha-terpinene' THEN 'Note fraîche'\n    WHEN m.name = '1,8-Cineole' THEN 'Note eucalyptée'\n  END\nFROM plants p, molecules m\nWHERE p.name = 'Tea tree' \nAND m.name IN ('Terpinen-4-ol', 'Gamma-terpinene', 'Alpha-terpinene', '1,8-Cineole');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 64
+}

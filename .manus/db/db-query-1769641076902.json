@@ -1,0 +1,346 @@
+{
+  "query": "SELECT id, name, country, latitude, longitude FROM terroirs ORDER BY name LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, country, latitude, longitude FROM terroirs ORDER BY name LIMIT 50;",
+  "rows": [
+    {
+      "id": "210007",
+      "name": "Afrique Centrale, Forêt Équatoriale",
+      "country": "Multi-pays",
+      "latitude": "0.0000000",
+      "longitude": "18.0000000"
+    },
+    {
+      "id": "210005",
+      "name": "Afrique de l'Est, Hauts Plateaux",
+      "country": "Multi-pays",
+      "latitude": "-3.0000000",
+      "longitude": "37.0000000"
+    },
+    {
+      "id": "210004",
+      "name": "Afrique de l'Ouest, Sahel",
+      "country": "Multi-pays",
+      "latitude": "14.0000000",
+      "longitude": "0.0000000"
+    },
+    {
+      "id": "90001",
+      "name": "Amazonie Colombienne",
+      "country": "Colombie",
+      "latitude": "-1.0000000",
+      "longitude": "-72.5000000"
+    },
+    {
+      "id": "30011",
+      "name": "Anjouan",
+      "country": "Comores",
+      "latitude": "-12.2200000",
+      "longitude": "44.4300000"
+    },
+    {
+      "id": "7",
+      "name": "Bosaso",
+      "country": "Somalie",
+      "latitude": "11.2842000",
+      "longitude": "49.1817000"
+    },
+    {
+      "id": "60005",
+      "name": "Burkina Faso",
+      "country": "Burkina Faso",
+      "latitude": "12.2383000",
+      "longitude": "-1.5616000"
+    },
+    {
+      "id": "30002",
+      "name": "Calabre",
+      "country": "Italie",
+      "latitude": "38.9000000",
+      "longitude": "16.6000000"
+    },
+    {
+      "id": "60006",
+      "name": "Caribbean (macro)",
+      "country": "Caraïbes",
+      "latitude": "15.5000000",
+      "longitude": "-75.0000000"
+    },
+    {
+      "id": "3",
+      "name": "Cauca Valley",
+      "country": "Colombie",
+      "latitude": "3.4516000",
+      "longitude": "-76.5320000"
+    },
+    {
+      "id": "30012",
+      "name": "Cilaos",
+      "country": "France (Réunion)",
+      "latitude": "-21.1300000",
+      "longitude": "55.4700000"
+    },
+    {
+      "id": "60001",
+      "name": "Colombia",
+      "country": "Colombie",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000"
+    },
+    {
+      "id": "60002",
+      "name": "Colombia — Andes",
+      "country": "Colombie",
+      "latitude": "5.0000000",
+      "longitude": "-75.5000000"
+    },
+    {
+      "id": "60003",
+      "name": "Colombia — Caribbean",
+      "country": "Colombie",
+      "latitude": "10.9639000",
+      "longitude": "-74.7964000"
+    },
+    {
+      "id": "210006",
+      "name": "Corne de l'Afrique, Somalie/Yémen",
+      "country": "Multi-pays",
+      "latitude": "11.0000000",
+      "longitude": "49.0000000"
+    },
+    {
+      "id": "120003",
+      "name": "Côte Dalmate",
+      "country": "Croatie",
+      "latitude": "43.5081000",
+      "longitude": "16.4402000"
+    },
+    {
+      "id": "150001",
+      "name": "Côte Monténégrine",
+      "country": "Monténégro",
+      "latitude": "42.4247000",
+      "longitude": "18.7712000"
+    },
+    {
+      "id": "210001",
+      "name": "Désert de Sonora",
+      "country": "Mexique",
+      "latitude": "31.5000000",
+      "longitude": "-111.0000000"
+    },
+    {
+      "id": "60007",
+      "name": "Global",
+      "country": "Global",
+      "latitude": "0.0000000",
+      "longitude": "0.0000000"
+    },
+    {
+      "id": "5",
+      "name": "Grasse",
+      "country": "France",
+      "latitude": "43.6590000",
+      "longitude": "6.9230000"
+    },
+    {
+      "id": "30006",
+      "name": "Haute-Égypte",
+      "country": "Égypte",
+      "latitude": "25.6900000",
+      "longitude": "32.6400000"
+    },
+    {
+      "id": "210003",
+      "name": "Hawaii, États-Unis",
+      "country": "États-Unis",
+      "latitude": "19.8968000",
+      "longitude": "-155.5828000"
+    },
+    {
+      "id": "210002",
+      "name": "Hindu Kush, Afghanistan/Pakistan",
+      "country": "Afghanistan",
+      "latitude": "35.0000000",
+      "longitude": "71.0000000"
+    },
+    {
+      "id": "30009",
+      "name": "Isparta",
+      "country": "Turquie",
+      "latitude": "37.7600000",
+      "longitude": "30.5500000"
+    },
+    {
+      "id": "240004",
+      "name": "Izmir Region",
+      "country": "Turquie",
+      "latitude": "38.4000000",
+      "longitude": "27.1000000"
+    },
+    {
+      "id": "30010",
+      "name": "Kandy",
+      "country": "Sri Lanka",
+      "latitude": "7.2900000",
+      "longitude": "80.6300000"
+    },
+    {
+      "id": "6",
+      "name": "Karnataka",
+      "country": "Inde",
+      "latitude": "12.2958000",
+      "longitude": "76.6394000"
+    },
+    {
+      "id": "240005",
+      "name": "Latakia Coast",
+      "country": "Syrie",
+      "latitude": "35.5000000",
+      "longitude": "35.8000000"
+    },
+    {
+      "id": "120004",
+      "name": "Littoral Monténégrin",
+      "country": "Monténégro",
+      "latitude": "42.4247000",
+      "longitude": "18.7712000"
+    },
+    {
+      "id": "120002",
+      "name": "Macchia Sarda",
+      "country": "Italie",
+      "latitude": "40.1209000",
+      "longitude": "9.0129000"
+    },
+    {
+      "id": "120001",
+      "name": "Maquis Corse",
+      "country": "France",
+      "latitude": "42.0396000",
+      "longitude": "9.0129000"
+    },
+    {
+      "id": "180001",
+      "name": "Mésoamérique",
+      "country": "Mexique",
+      "latitude": "NULL",
+      "longitude": "NULL"
+    },
+    {
+      "id": "4",
+      "name": "Nossi-Bé",
+      "country": "Madagascar",
+      "latitude": "-13.3167000",
+      "longitude": "48.2667000"
+    },
+    {
+      "id": "240002",
+      "name": "Piedmont Virginia",
+      "country": "USA",
+      "latitude": "37.5000000",
+      "longitude": "-79.0000000"
+    },
+    {
+      "id": "30003",
+      "name": "Plaine des Cayes",
+      "country": "Haïti",
+      "latitude": "18.2000000",
+      "longitude": "-73.7500000"
+    },
+    {
+      "id": "30008",
+      "name": "Plateau de Valensole",
+      "country": "France",
+      "latitude": "43.8300000",
+      "longitude": "6.0000000"
+    },
+    {
+      "id": "90002",
+      "name": "Putumayo",
+      "country": "Colombie",
+      "latitude": "0.5000000",
+      "longitude": "-76.0000000"
+    },
+    {
+      "id": "120005",
+      "name": "Riviera Albanaise",
+      "country": "Albanie",
+      "latitude": "40.4667000",
+      "longitude": "19.4897000"
+    },
+    {
+      "id": "30004",
+      "name": "Région de Fès-Meknès",
+      "country": "Maroc",
+      "latitude": "34.0000000",
+      "longitude": "-5.0000000"
+    },
+    {
+      "id": "30005",
+      "name": "Région de Ouagadougou",
+      "country": "Burkina Faso",
+      "latitude": "12.3700000",
+      "longitude": "-1.5200000"
+    },
+    {
+      "id": "240001",
+      "name": "Saint James Parish",
+      "country": "USA",
+      "latitude": "30.0000000",
+      "longitude": "-90.8000000"
+    },
+    {
+      "id": "60004",
+      "name": "San Andrés (archipel)",
+      "country": "Colombie",
+      "latitude": "12.5847000",
+      "longitude": "-81.7006000"
+    },
+    {
+      "id": "1",
+      "name": "San Andrés y Providencia",
+      "country": "Colombie",
+      "latitude": "12.5847000",
+      "longitude": "-81.7006000"
+    },
+    {
+      "id": "2",
+      "name": "Santander & Huila",
+      "country": "Colombie",
+      "latitude": "6.6437000",
+      "longitude": "-73.6536000"
+    },
+    {
+      "id": "30007",
+      "name": "Sumatra - Aceh",
+      "country": "Indonésie",
+      "latitude": "4.7000000",
+      "longitude": "96.7500000"
+    },
+    {
+      "id": "30001",
+      "name": "Vallée des Roses de Kazanlak",
+      "country": "Bulgarie",
+      "latitude": "42.6194000",
+      "longitude": "25.3930000"
+    },
+    {
+      "id": "90003",
+      "name": "Vaupés",
+      "country": "Colombie",
+      "latitude": "0.5000000",
+      "longitude": "-70.5000000"
+    },
+    {
+      "id": "240003",
+      "name": "Western Kentucky",
+      "country": "USA",
+      "latitude": "37.0000000",
+      "longitude": "-87.5000000"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcountry\tlatitude\tlongitude\n210007\tAfrique Centrale, Forêt Équatoriale\tMulti-pays\t0.0000000\t18.0000000\n210005\tAfrique de l'Est, Hauts Plateaux\tMulti-pays\t-3.0000000\t37.0000000\n210004\tAfrique de l'Ouest, Sahel\tMulti-pays\t14.0000000\t0.0000000\n90001\tAmazonie Colombienne\tColombie\t-1.0000000\t-72.5000000\n30011\tAnjouan\tComores\t-12.2200000\t44.4300000\n7\tBosaso\tSomalie\t11.2842000\t49.1817000\n60005\tBurkina Faso\tBurkina Faso\t12.2383000\t-1.5616000\n30002\tCalabre\tItalie\t38.9000000\t16.6000000\n60006\tCaribbean (macro)\tCaraïbes\t15.5000000\t-75.0000000\n3\tCauca Valley\tColombie\t3.4516000\t-76.5320000\n30012\tCilaos\tFrance (Réunion)\t-21.1300000\t55.4700000\n60001\tColombia\tColombie\t4.5709000\t-74.2973000\n60002\tColombia — Andes\tColombie\t5.0000000\t-75.5000000\n60003\tColombia — Caribbean\tColombie\t10.9639000\t-74.7964000\n210006\tCorne de l'Afrique, Somalie/Yémen\tMulti-pays\t11.0000000\t49.0000000\n120003\tCôte Dalmate\tCroatie\t43.5081000\t16.4402000\n150001\tCôte Monténégrine\tMonténégro\t42.4247000\t18.7712000\n210001\tDésert de Sonora\tMexique\t31.5000000\t-111.0000000\n60007\tGlobal\tGlobal\t0.0000000\t0.0000000\n5\tGrasse\tFrance\t43.6590000\t6.9230000\n30006\tHaute-Égypte\tÉgypte\t25.6900000\t32.6400000\n210003\tHawaii, États-Unis\tÉtats-Unis\t19.8968000\t-155.5828000\n210002\tHindu Kush, Afghanistan/Pakistan\tAfghanistan\t35.0000000\t71.0000000\n30009\tIsparta\tTurquie\t37.7600000\t30.5500000\n240004\tIzmir Region\tTurquie\t38.4000000\t27.1000000\n30010\tKandy\tSri Lanka\t7.2900000\t80.6300000\n6\tKarnataka\tInde\t12.2958000\t76.6394000\n240005\tLatakia Coast\tSyrie\t35.5000000\t35.8000000\n120004\tLittoral Monténégrin\tMonténégro\t42.4247000\t18.7712000\n120002\tMacchia Sarda\tItalie\t40.1209000\t9.0129000\n120001\tMaquis Corse\tFrance\t42.0396000\t9.0129000\n180001\tMésoamérique\tMexique\tNULL\tNULL\n4\tNossi-Bé\tMadagascar\t-13.3167000\t48.2667000\n240002\tPiedmont Virginia\tUSA\t37.5000000\t-79.0000000\n30003\tPlaine des Cayes\tHaïti\t18.2000000\t-73.7500000\n30008\tPlateau de Valensole\tFrance\t43.8300000\t6.0000000\n90002\tPutumayo\tColombie\t0.5000000\t-76.0000000\n120005\tRiviera Albanaise\tAlbanie\t40.4667000\t19.4897000\n30004\tRégion de Fès-Meknès\tMaroc\t34.0000000\t-5.0000000\n30005\tRégion de Ouagadougou\tBurkina Faso\t12.3700000\t-1.5200000\n240001\tSaint James Parish\tUSA\t30.0000000\t-90.8000000\n60004\tSan Andrés (archipel)\tColombie\t12.5847000\t-81.7006000\n1\tSan Andrés y Providencia\tColombie\t12.5847000\t-81.7006000\n2\tSantander & Huila\tColombie\t6.6437000\t-73.6536000\n30007\tSumatra - Aceh\tIndonésie\t4.7000000\t96.7500000\n30001\tVallée des Roses de Kazanlak\tBulgarie\t42.6194000\t25.3930000\n90003\tVaupés\tColombie\t0.5000000\t-70.5000000\n240003\tWestern Kentucky\tUSA\t37.0000000\t-87.5000000\n",
+  "stderr": "",
+  "execution_time_ms": 107
+}

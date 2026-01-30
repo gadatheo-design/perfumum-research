@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM terroirs) as terroirs_count,\n  (SELECT COUNT(*) FROM plants) as plants_count,\n  (SELECT COUNT(*) FROM molecules) as molecules_count,\n  (SELECT COUNT(*) FROM plant_molecules) as plant_molecule_links;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM terroirs) as terroirs_count,\n  (SELECT COUNT(*) FROM plants) as plants_count,\n  (SELECT COUNT(*) FROM molecules) as molecules_count,\n  (SELECT COUNT(*) FROM plant_molecules) as plant_molecule_links;",
+  "rows": [
+    {
+      "terroirs_count": "43",
+      "plants_count": "176",
+      "molecules_count": "648",
+      "plant_molecule_links": "577"
+    }
+  ],
+  "messages": [],
+  "stdout": "terroirs_count\tplants_count\tmolecules_count\tplant_molecule_links\n43\t176\t648\t577\n",
+  "stderr": "",
+  "execution_time_ms": 1496
+}

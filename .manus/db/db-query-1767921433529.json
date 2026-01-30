@@ -1,0 +1,91 @@
+{
+  "query": "SELECT pt.id, pt.plant_id, pt.terroir_id, pt.local_name, pt.quality_notes, p.name as plant_name, t.name as terroir_name FROM plant_terroirs pt JOIN plants p ON pt.plant_id = p.id JOIN terroirs t ON pt.terroir_id = t.id WHERE pt.plant_id IN (420003, 420004, 420011) ORDER BY pt.plant_id, pt.terroir_id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT pt.id, pt.plant_id, pt.terroir_id, pt.local_name, pt.quality_notes, p.name as plant_name, t.name as terroir_name FROM plant_terroirs pt JOIN plants p ON pt.plant_id = p.id JOIN terroirs t ON pt.terroir_id = t.id WHERE pt.plant_id IN (420003, 420004, 420011) ORDER BY pt.plant_id, pt.terroir_id;",
+  "rows": [
+    {
+      "id": "90001",
+      "plant_id": "420003",
+      "terroir_id": "5",
+      "local_name": "Cyprès de Provence",
+      "quality_notes": "Essence emblématique du paysage méditerranéen provençal, utilisée en parfumerie depuis l'Antiquité",
+      "plant_name": "Cyprès",
+      "terroir_name": "Grasse"
+    },
+    {
+      "id": "90002",
+      "plant_id": "420003",
+      "terroir_id": "30002",
+      "local_name": "Cipresso di Calabria",
+      "quality_notes": "Variété italienne au profil olfactif légèrement plus résineux",
+      "plant_name": "Cyprès",
+      "terroir_name": "Calabre"
+    },
+    {
+      "id": "90003",
+      "plant_id": "420003",
+      "terroir_id": "30008",
+      "local_name": "Cyprès de Valensole",
+      "quality_notes": "Présent dans les haies et bosquets du plateau lavandier",
+      "plant_name": "Cyprès",
+      "terroir_name": "Plateau de Valensole"
+    },
+    {
+      "id": "90004",
+      "plant_id": "420004",
+      "terroir_id": "5",
+      "local_name": "Genévrier de Provence",
+      "quality_notes": "Genévrier commun des garrigues provençales, baies aromatiques utilisées en gin et parfumerie",
+      "plant_name": "Genévrier",
+      "terroir_name": "Grasse"
+    },
+    {
+      "id": "90005",
+      "plant_id": "420004",
+      "terroir_id": "30002",
+      "local_name": "Ginepro di Calabria",
+      "quality_notes": "Variété méditerranéenne au profil balsamique prononcé",
+      "plant_name": "Genévrier",
+      "terroir_name": "Calabre"
+    },
+    {
+      "id": "90006",
+      "plant_id": "420004",
+      "terroir_id": "30008",
+      "local_name": "Genévrier de Valensole",
+      "quality_notes": "Présent sur les coteaux secs du plateau, notes résineuses et fraîches",
+      "plant_name": "Genévrier",
+      "terroir_name": "Plateau de Valensole"
+    },
+    {
+      "id": "90007",
+      "plant_id": "420011",
+      "terroir_id": "5",
+      "local_name": "Immortelle de Grasse",
+      "quality_notes": "Helichrysum italicum cultivé dans l'arrière-pays grassois, HE précieuse aux notes curry-miel",
+      "plant_name": "Immortelle",
+      "terroir_name": "Grasse"
+    },
+    {
+      "id": "90008",
+      "plant_id": "420011",
+      "terroir_id": "30002",
+      "local_name": "Elicriso di Calabria",
+      "quality_notes": "Variété sauvage des maquis calabrais, profil olfactif intense et herbacé",
+      "plant_name": "Immortelle",
+      "terroir_name": "Calabre"
+    },
+    {
+      "id": "90009",
+      "plant_id": "420011",
+      "terroir_id": "30008",
+      "local_name": "Immortelle de Valensole",
+      "quality_notes": "Présente sur les sols calcaires du plateau, notes solaires et miellées",
+      "plant_name": "Immortelle",
+      "terroir_name": "Plateau de Valensole"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tplant_id\tterroir_id\tlocal_name\tquality_notes\tplant_name\tterroir_name\n90001\t420003\t5\tCyprès de Provence\tEssence emblématique du paysage méditerranéen provençal, utilisée en parfumerie depuis l'Antiquité\tCyprès\tGrasse\n90002\t420003\t30002\tCipresso di Calabria\tVariété italienne au profil olfactif légèrement plus résineux\tCyprès\tCalabre\n90003\t420003\t30008\tCyprès de Valensole\tPrésent dans les haies et bosquets du plateau lavandier\tCyprès\tPlateau de Valensole\n90004\t420004\t5\tGenévrier de Provence\tGenévrier commun des garrigues provençales, baies aromatiques utilisées en gin et parfumerie\tGenévrier\tGrasse\n90005\t420004\t30002\tGinepro di Calabria\tVariété méditerranéenne au profil balsamique prononcé\tGenévrier\tCalabre\n90006\t420004\t30008\tGenévrier de Valensole\tPrésent sur les coteaux secs du plateau, notes résineuses et fraîches\tGenévrier\tPlateau de Valensole\n90007\t420011\t5\tImmortelle de Grasse\tHelichrysum italicum cultivé dans l'arrière-pays grassois, HE précieuse aux notes curry-miel\tImmortelle\tGrasse\n90008\t420011\t30002\tElicriso di Calabria\tVariété sauvage des maquis calabrais, profil olfactif intense et herbacé\tImmortelle\tCalabre\n90009\t420011\t30008\tImmortelle de Valensole\tPrésente sur les sols calcaires du plateau, notes solaires et miellées\tImmortelle\tPlateau de Valensole\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS petrichor_experimental_accords (\n  petrichorId INT NOT NULL,\n  experimentalAccordId INT NOT NULL,\n  FOREIGN KEY (petrichorId) REFERENCES petrichor(id),\n  FOREIGN KEY (experimentalAccordId) REFERENCES experimental_accords(id)\n)",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS petrichor_experimental_accords (\n  petrichorId INT NOT NULL,\n  experimentalAccordId INT NOT NULL,\n  FOREIGN KEY (petrichorId) REFERENCES petrichor(id),\n  FOREIGN KEY (experimentalAccordId) REFERENCES experimental_accords(id)\n)",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 269
+}

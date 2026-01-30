@@ -1,0 +1,20 @@
+{
+  "query": "SELECT id, name, cas_number FROM molecules WHERE name LIKE '%terpinen%' OR name LIKE '%camphor%' OR name LIKE '%sclareol%' OR name LIKE '%zingiberene%' OR name LIKE '%gingerol%' OR name LIKE '%carene%' OR name LIKE '%germacrene%' OR name LIKE '%bisabolene%' OR name LIKE '%curcumene%' OR name LIKE '%lavandulyl%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number FROM molecules WHERE name LIKE '%terpinen%' OR name LIKE '%camphor%' OR name LIKE '%sclareol%' OR name LIKE '%zingiberene%' OR name LIKE '%gingerol%' OR name LIKE '%carene%' OR name LIKE '%germacrene%' OR name LIKE '%bisabolene%' OR name LIKE '%curcumene%' OR name LIKE '%lavandulyl%';",
+  "rows": [
+    {
+      "id": "810008",
+      "name": "gamma-terpinene",
+      "cas_number": "99-85-4"
+    },
+    {
+      "id": "810020",
+      "name": "zingiberene",
+      "cas_number": "495-60-3"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\n810008\tgamma-terpinene\t99-85-4\n810020\tzingiberene\t495-60-3\n",
+  "stderr": "",
+  "execution_time_ms": 115
+}

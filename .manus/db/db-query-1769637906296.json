@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, name, cas_number, chemicalFormula, molecularWeight, logP FROM molecules WHERE molecularWeight IS NULL OR molecularWeight = 0 LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number, chemicalFormula, molecularWeight, logP FROM molecules WHERE molecularWeight IS NULL OR molecularWeight = 0 LIMIT 15;",
+  "rows": [
+    {
+      "id": "960001",
+      "name": "Lavandulyl acetate",
+      "cas_number": "25905-14-0",
+      "chemicalFormula": "C12H20O2",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960002",
+      "name": "Terpinen-4-ol",
+      "cas_number": "562-74-3",
+      "chemicalFormula": "C10H18O",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960003",
+      "name": "Camphor",
+      "cas_number": "76-22-2",
+      "chemicalFormula": "C10H16O",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960004",
+      "name": "Sclareol",
+      "cas_number": "515-03-7",
+      "chemicalFormula": "C20H36O2",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960005",
+      "name": "Zingiberene",
+      "cas_number": "495-60-3",
+      "chemicalFormula": "C15H24",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960006",
+      "name": "Gingerol",
+      "cas_number": "23513-14-6",
+      "chemicalFormula": "C17H26O4",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960007",
+      "name": "Alpha-terpinyl acetate",
+      "cas_number": "80-26-2",
+      "chemicalFormula": "C12H20O2",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960008",
+      "name": "Gamma-terpinene",
+      "cas_number": "99-85-4",
+      "chemicalFormula": "C10H16",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960009",
+      "name": "Alpha-terpinene",
+      "cas_number": "99-86-5",
+      "chemicalFormula": "C10H16",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960010",
+      "name": "Delta-3-carene",
+      "cas_number": "13466-78-9",
+      "chemicalFormula": "C10H16",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960011",
+      "name": "Germacrene D",
+      "cas_number": "23986-74-5",
+      "chemicalFormula": "C15H24",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960012",
+      "name": "Beta-bisabolene",
+      "cas_number": "495-61-4",
+      "chemicalFormula": "C15H24",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "960013",
+      "name": "Alpha-curcumene",
+      "cas_number": "644-30-4",
+      "chemicalFormula": "C15H22",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "990001",
+      "name": "Linalyl acetate",
+      "cas_number": "115-95-7",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    },
+    {
+      "id": "990003",
+      "name": "Menthyl acetate",
+      "cas_number": "NULL",
+      "chemicalFormula": "NULL",
+      "molecularWeight": "NULL",
+      "logP": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\tchemicalFormula\tmolecularWeight\tlogP\n960001\tLavandulyl acetate\t25905-14-0\tC12H20O2\tNULL\tNULL\n960002\tTerpinen-4-ol\t562-74-3\tC10H18O\tNULL\tNULL\n960003\tCamphor\t76-22-2\tC10H16O\tNULL\tNULL\n960004\tSclareol\t515-03-7\tC20H36O2\tNULL\tNULL\n960005\tZingiberene\t495-60-3\tC15H24\tNULL\tNULL\n960006\tGingerol\t23513-14-6\tC17H26O4\tNULL\tNULL\n960007\tAlpha-terpinyl acetate\t80-26-2\tC12H20O2\tNULL\tNULL\n960008\tGamma-terpinene\t99-85-4\tC10H16\tNULL\tNULL\n960009\tAlpha-terpinene\t99-86-5\tC10H16\tNULL\tNULL\n960010\tDelta-3-carene\t13466-78-9\tC10H16\tNULL\tNULL\n960011\tGermacrene D\t23986-74-5\tC15H24\tNULL\tNULL\n960012\tBeta-bisabolene\t495-61-4\tC15H24\tNULL\tNULL\n960013\tAlpha-curcumene\t644-30-4\tC15H22\tNULL\tNULL\n990001\tLinalyl acetate\t115-95-7\tNULL\tNULL\tNULL\n990003\tMenthyl acetate\tNULL\tNULL\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

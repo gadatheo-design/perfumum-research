@@ -1,0 +1,40 @@
+{
+  "query": "SELECT id, name, category, description FROM recettes WHERE name LIKE '%TL-%' ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category, description FROM recettes WHERE name LIKE '%TL-%' ORDER BY name;",
+  "rows": [
+    {
+      "id": "450001",
+      "name": "TL-01 — Pericón Anisé",
+      "category": "parfum",
+      "description": "Accord anisé-herbacé exploitant le profil phénylpropanoïde dominant de Tagetes lucida. Estragole (86%) comme note principale, modulé par l'anéthole pour une signature réglisse-estragon."
+    },
+    {
+      "id": "450002",
+      "name": "TL-02 — Verde Tagetone",
+      "category": "parfum",
+      "description": "Accord vert-fruité basé sur les cétones caractéristiques de Tagetes. Tagetone comme note distinctive, équilibrée par la carvone mentholée et les facettes herbacées."
+    },
+    {
+      "id": "450003",
+      "name": "TL-03 — Épice Mexicaine",
+      "category": "parfum",
+      "description": "Accord épicé-chaud exploitant les synergies entre méthyl-eugénol et les phénylpropanoïdes de Tagetes lucida. Inspiration: épices mexicaines traditionnelles."
+    },
+    {
+      "id": "450004",
+      "name": "TL-04 — Encens Pericón",
+      "category": "encens",
+      "description": "Encens rituel inspiré de l'usage traditionnel mésoaméricain du Pericón. Combustion lente libérant les phénylpropanoïdes caractéristiques."
+    },
+    {
+      "id": "450005",
+      "name": "TL-05 — Synergie Vent-Herbacé",
+      "category": "extrait",
+      "description": "Extrait concentré exploitant l'axe climatique VENT du système Absorbe. Synergie entre Tagetes lucida et les molécules fraîches-herbacées de San Andrés."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tdescription\n450001\tTL-01 — Pericón Anisé\tparfum\tAccord anisé-herbacé exploitant le profil phénylpropanoïde dominant de Tagetes lucida. Estragole (86%) comme note principale, modulé par l'anéthole pour une signature réglisse-estragon.\n450002\tTL-02 — Verde Tagetone\tparfum\tAccord vert-fruité basé sur les cétones caractéristiques de Tagetes. Tagetone comme note distinctive, équilibrée par la carvone mentholée et les facettes herbacées.\n450003\tTL-03 — Épice Mexicaine\tparfum\tAccord épicé-chaud exploitant les synergies entre méthyl-eugénol et les phénylpropanoïdes de Tagetes lucida. Inspiration: épices mexicaines traditionnelles.\n450004\tTL-04 — Encens Pericón\tencens\tEncens rituel inspiré de l'usage traditionnel mésoaméricain du Pericón. Combustion lente libérant les phénylpropanoïdes caractéristiques.\n450005\tTL-05 — Synergie Vent-Herbacé\textrait\tExtrait concentré exploitant l'axe climatique VENT du système Absorbe. Synergie entre Tagetes lucida et les molécules fraîches-herbacées de San Andrés.\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

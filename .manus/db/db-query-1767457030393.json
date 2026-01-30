@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE molecules \nADD COLUMN IF NOT EXISTS iupac_name VARCHAR(500),\nADD COLUMN IF NOT EXISTS cas_number VARCHAR(20),\nADD COLUMN IF NOT EXISTS chemical_class ENUM('terpene', 'sesquiterpene', 'diterpene', 'monoterpene', 'aldehyde', 'ketone', 'alcohol', 'ester', 'ether', 'phenol', 'lactone', 'coumarin', 'musk', 'nitrile', 'sulfur_compound', 'heterocyclic', 'aromatic', 'aliphatic', 'other');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE molecules \nADD COLUMN IF NOT EXISTS iupac_name VARCHAR(500),\nADD COLUMN IF NOT EXISTS cas_number VARCHAR(20),\nADD COLUMN IF NOT EXISTS chemical_class ENUM('terpene', 'sesquiterpene', 'diterpene', 'monoterpene', 'aldehyde', 'ketone', 'alcohol', 'ester', 'ether', 'phenol', 'lactone', 'coumarin', 'musk', 'nitrile', 'sulfur_compound', 'heterocyclic', 'aromatic', 'aliphatic', 'other');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1033
+}

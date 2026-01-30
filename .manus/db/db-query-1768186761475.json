@@ -1,0 +1,76 @@
+{
+  "query": "SELECT COUNT(*) as total FROM molecule_synergies; SELECT ms.*, m1.name as mol1_name, m2.name as mol2_name FROM molecule_synergies ms LEFT JOIN molecules m1 ON ms.molecule1_id = m1.id LEFT JOIN molecules m2 ON ms.molecule2_id = m2.id LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total FROM molecule_synergies; SELECT ms.*, m1.name as mol1_name, m2.name as mol2_name FROM molecule_synergies ms LEFT JOIN molecules m1 ON ms.molecule1_id = m1.id LEFT JOIN molecules m2 ON ms.molecule2_id = m2.id LIMIT 20;",
+  "rows": [
+    {
+      "total": "25"
+    },
+    {
+      "total": "id\tmolecule1_id\tmolecule2_id\ttype\tdescription\tapplications\tcreatedAt\tmol1_name\tmol2_name"
+    },
+    {
+      "total": "1\t510020\t510024\tpotentialisation\tAmplification de la douceur balsamique vanillée. Les aldéhydes vanillés se combinent avec les esters balsamiques pour créer une profondeur gourmande complexe.\tFonds de parfums, accords gourmands, notes réconfortantes\t2025-12-25 02:06:48\tBaume de Tolú\tVanilla Pompona"
+    },
+    {
+      "total": "2\t510019\t180001\tpotentialisation\tSynergie résineuse sacrée fumée. Les diterpènes du copal renforcent les notes résineuses du palo santo, créant une fumée dense et méditative.\tEncens, rituels, parfums spirituels\t2025-12-25 02:06:48\tCopal Colombien\tPalo Santo"
+    },
+    {
+      "total": "3\t510021\t510022\tpotentialisation\tAmplification florale jasminée. Les alcaloïdes du café amplifient les esters floraux de la fleur, créant une ouverture jasminée intense.\tNotes de tête florales, accords café-floral\t2025-12-25 02:06:48\tCafé Geisha\tFleur de Café"
+    },
+    {
+      "total": "4\t510014\t510015\ttransformation\tComplexité acidulée tropicale multicouche. Les acides organiques se superposent pour créer une acidité vibrante et fruitée.\tNotes de tête tropicales, accords fruités complexes\t2025-12-25 02:06:48\tLulo\tGuanábana"
+    },
+    {
+      "total": "5\t510017\t510018\tpotentialisation\tProfondeur boisée tannique noble. Les sesquiterpènes du cèdre se combinent avec les quinones du noyer pour créer un boisé profond et tannique.\tNotes de cœur et fond boisées, accords nobles\t2025-12-25 02:06:48\tCedro Rosado\tNogal Colombien"
+    },
+    {
+      "total": "6\t510026\t510027\tpotentialisation\tHerbacé médicinal piquant intense. Les phénols aromatiques amplifient les phénylpropanoïdes pour un effet médicinal puissant.\tNotes herbacées, accords médicinaux, résines CBD\t2025-12-25 02:06:48\tLippia Origanoides\tPiper Aduncum"
+    },
+    {
+      "total": "7\t510011\t510012\ttransformation\tNarcotique chamanique visionnaire. Les alcaloïdes tropaniques interagissent avec les β-carbolines pour créer un profil psychoactif complexe. ⚠️ Précautions requises.\tParfums rituels, usage cérémoniel (précautions requises)\t2025-12-25 02:06:48\tBorrachero\tYagé"
+    },
+    {
+      "total": "8\t510013\t510028\tpotentialisation\tFraîcheur mentholée andine intense. Les alcaloïdes de la coca amplifient l'eucalyptol pour une fraîcheur vive et stimulante.\tNotes de tête fraîches, accords mentholés\t2025-12-25 02:06:48\tCoca Décocaïnisée\tCalycolpus Moritzianus"
+    },
+    {
+      "total": "9\t510029\t510024\ttransformation\tAphrodisiaque floral vanillé sensuel. Les glycosides se combinent avec les aldéhydes vanillés pour créer une douceur sensuelle et réconfortante.\tParfums sensuels, accords aphrodisiaques\t2025-12-25 02:06:49\tTurnera Diffusa\tVanilla Pompona"
+    },
+    {
+      "total": "10\t510023\t510020\tpotentialisation\tGourmandise chocolat-caramel intense. Les alcaloïdes du cacao amplifient les notes caramel du baume pour une gourmandise profonde.\tAccords gourmands, fonds balsamiques\t2025-12-25 02:06:49\tCacao Colombien\tBaume de Tolú"
+    },
+    {
+      "total": "11\t510014\t180002\tpotentialisation\tAgrume acidulé complexe tropical-méditerranéen. Les acides organiques du lulo amplifient les monoterpènes de la bergamote pour une fraîcheur multicouche.\tNotes de tête agrumes, accords hespéridés\t2025-12-25 02:06:49\tLulo\tItalian Bergamot Oil"
+    },
+    {
+      "total": "12\t510020\t180006\tpotentialisation\tBalsamique marin profond. Les esters balsamiques du baume se combinent avec l'ambreine pour créer une profondeur marine-vanillée.\tFonds marins-balsamiques, accords ambrés\t2025-12-25 02:06:49\tBaume de Tolú\tGris d'Ambre"
+    },
+    {
+      "total": "30001\t540002\t540006\ttransformation\tLe jasmin et le santal créent ensemble une facette lactée-crémeuse unique, évoquant le lait maternel et la douceur.\tNULL\t2025-12-25 03:25:10\tJASMINE ABSOLUTE\tSANDALWOOD OIL"
+    },
+    {
+      "total": "30002\t540003\t540005\tpotentialisation\tCes deux sesquiterpènes alcools renforcent mutuellement leurs notes terreuses et boisées profondes.\tNULL\t2025-12-25 03:25:10\tVETIVEROL\tPATCHOULI ALCOHOL"
+    },
+    {
+      "total": "30003\t540004\t540007\ttransformation\tLe cèdre et l'encens créent une synergie sacrée, évoquant les temples et rituels spirituels.\tNULL\t2025-12-25 03:25:10\tCEDARWOOD OIL\tFRANKINCENSE OIL"
+    },
+    {
+      "total": "30004\t540008\t540009\tstabilisation\tLa myrrhe stabilise la vanilline du benjoin, prolongeant sa tenue et adoucissant son amertume.\tNULL\t2025-12-25 03:25:10\tMYRRH OIL\tBENZOIN RESIN"
+    },
+    {
+      "total": "30005\t540010\t540011\tpotentialisation\tCes deux résines ambrées s'amplifient mutuellement, créant une profondeur animale et chaleureuse exceptionnelle.\tNULL\t2025-12-25 03:25:10\tLABDANUM ABSOLUTE\tOPOPONAX RESIN"
+    },
+    {
+      "total": "30006\t540012\t540013\tpotentialisation\tLe styrax et la fève tonka renforcent leurs facettes vanillées-balsamiques, créant une douceur gourmande intense.\tNULL\t2025-12-25 03:25:10\tSTYRAX RESIN\tTONKA BEAN ABSOLUTE"
+    },
+    {
+      "total": "30007\t540013\t540003\tmasquage\tLa fève tonka masque les aspects trop terreux du vétiverol, ne laissant que ses facettes boisées nobles.\tNULL\t2025-12-25 03:25:10\tTONKA BEAN ABSOLUTE\tVETIVEROL"
+    },
+    {
+      "total": "30008\t540001\t540005\tpotentialisation\tLa géosmine et le patchouli créent une synergie terreuse intense, évoquant la terre humide après la pluie dans une forêt tropicale.\tNULL\t2025-12-25 03:25:44\tGEOSMIN\tPATCHOULI ALCOHOL"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n25\nid\tmolecule1_id\tmolecule2_id\ttype\tdescription\tapplications\tcreatedAt\tmol1_name\tmol2_name\n1\t510020\t510024\tpotentialisation\tAmplification de la douceur balsamique vanillée. Les aldéhydes vanillés se combinent avec les esters balsamiques pour créer une profondeur gourmande complexe.\tFonds de parfums, accords gourmands, notes réconfortantes\t2025-12-25 02:06:48\tBaume de Tolú\tVanilla Pompona\n2\t510019\t180001\tpotentialisation\tSynergie résineuse sacrée fumée. Les diterpènes du copal renforcent les notes résineuses du palo santo, créant une fumée dense et méditative.\tEncens, rituels, parfums spirituels\t2025-12-25 02:06:48\tCopal Colombien\tPalo Santo\n3\t510021\t510022\tpotentialisation\tAmplification florale jasminée. Les alcaloïdes du café amplifient les esters floraux de la fleur, créant une ouverture jasminée intense.\tNotes de tête florales, accords café-floral\t2025-12-25 02:06:48\tCafé Geisha\tFleur de Café\n4\t510014\t510015\ttransformation\tComplexité acidulée tropicale multicouche. Les acides organiques se superposent pour créer une acidité vibrante et fruitée.\tNotes de tête tropicales, accords fruités complexes\t2025-12-25 02:06:48\tLulo\tGuanábana\n5\t510017\t510018\tpotentialisation\tProfondeur boisée tannique noble. Les sesquiterpènes du cèdre se combinent avec les quinones du noyer pour créer un boisé profond et tannique.\tNotes de cœur et fond boisées, accords nobles\t2025-12-25 02:06:48\tCedro Rosado\tNogal Colombien\n6\t510026\t510027\tpotentialisation\tHerbacé médicinal piquant intense. Les phénols aromatiques amplifient les phénylpropanoïdes pour un effet médicinal puissant.\tNotes herbacées, accords médicinaux, résines CBD\t2025-12-25 02:06:48\tLippia Origanoides\tPiper Aduncum\n7\t510011\t510012\ttransformation\tNarcotique chamanique visionnaire. Les alcaloïdes tropaniques interagissent avec les β-carbolines pour créer un profil psychoactif complexe. ⚠️ Précautions requises.\tParfums rituels, usage cérémoniel (précautions requises)\t2025-12-25 02:06:48\tBorrachero\tYagé\n8\t510013\t510028\tpotentialisation\tFraîcheur mentholée andine intense. Les alcaloïdes de la coca amplifient l'eucalyptol pour une fraîcheur vive et stimulante.\tNotes de tête fraîches, accords mentholés\t2025-12-25 02:06:48\tCoca Décocaïnisée\tCalycolpus Moritzianus\n9\t510029\t510024\ttransformation\tAphrodisiaque floral vanillé sensuel. Les glycosides se combinent avec les aldéhydes vanillés pour créer une douceur sensuelle et réconfortante.\tParfums sensuels, accords aphrodisiaques\t2025-12-25 02:06:49\tTurnera Diffusa\tVanilla Pompona\n10\t510023\t510020\tpotentialisation\tGourmandise chocolat-caramel intense. Les alcaloïdes du cacao amplifient les notes caramel du baume pour une gourmandise profonde.\tAccords gourmands, fonds balsamiques\t2025-12-25 02:06:49\tCacao Colombien\tBaume de Tolú\n11\t510014\t180002\tpotentialisation\tAgrume acidulé complexe tropical-méditerranéen. Les acides organiques du lulo amplifient les monoterpènes de la bergamote pour une fraîcheur multicouche.\tNotes de tête agrumes, accords hespéridés\t2025-12-25 02:06:49\tLulo\tItalian Bergamot Oil\n12\t510020\t180006\tpotentialisation\tBalsamique marin profond. Les esters balsamiques du baume se combinent avec l'ambreine pour créer une profondeur marine-vanillée.\tFonds marins-balsamiques, accords ambrés\t2025-12-25 02:06:49\tBaume de Tolú\tGris d'Ambre\n30001\t540002\t540006\ttransformation\tLe jasmin et le santal créent ensemble une facette lactée-crémeuse unique, évoquant le lait maternel et la douceur.\tNULL\t2025-12-25 03:25:10\tJASMINE ABSOLUTE\tSANDALWOOD OIL\n30002\t540003\t540005\tpotentialisation\tCes deux sesquiterpènes alcools renforcent mutuellement leurs notes terreuses et boisées profondes.\tNULL\t2025-12-25 03:25:10\tVETIVEROL\tPATCHOULI ALCOHOL\n30003\t540004\t540007\ttransformation\tLe cèdre et l'encens créent une synergie sacrée, évoquant les temples et rituels spirituels.\tNULL\t2025-12-25 03:25:10\tCEDARWOOD OIL\tFRANKINCENSE OIL\n30004\t540008\t540009\tstabilisation\tLa myrrhe stabilise la vanilline du benjoin, prolongeant sa tenue et adoucissant son amertume.\tNULL\t2025-12-25 03:25:10\tMYRRH OIL\tBENZOIN RESIN\n30005\t540010\t540011\tpotentialisation\tCes deux résines ambrées s'amplifient mutuellement, créant une profondeur animale et chaleureuse exceptionnelle.\tNULL\t2025-12-25 03:25:10\tLABDANUM ABSOLUTE\tOPOPONAX RESIN\n30006\t540012\t540013\tpotentialisation\tLe styrax et la fève tonka renforcent leurs facettes vanillées-balsamiques, créant une douceur gourmande intense.\tNULL\t2025-12-25 03:25:10\tSTYRAX RESIN\tTONKA BEAN ABSOLUTE\n30007\t540013\t540003\tmasquage\tLa fève tonka masque les aspects trop terreux du vétiverol, ne laissant que ses facettes boisées nobles.\tNULL\t2025-12-25 03:25:10\tTONKA BEAN ABSOLUTE\tVETIVEROL\n30008\t540001\t540005\tpotentialisation\tLa géosmine et le patchouli créent une synergie terreuse intense, évoquant la terre humide après la pluie dans une forêt tropicale.\tNULL\t2025-12-25 03:25:44\tGEOSMIN\tPATCHOULI ALCOHOL\n",
+  "stderr": "",
+  "execution_time_ms": 756
+}

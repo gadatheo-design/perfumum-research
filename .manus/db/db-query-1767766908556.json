@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO bibliography_entries (entry_key, entry_type, title, authors, year, journal, volume, number, pages, doi, research_domain, abstract, keywords, read_status)\nVALUES ('russo2011', 'article', 'Taming THC: potential cannabis synergy and phytocannabinoid-terpenoid entourage effects', 'Russo, E.B.', 2011, 'British Journal of Pharmacology', '163', '7', '1344-1364', '10.1111/j.1476-5381.2011.01238.x', 'tabac_cannabis', 'Étude fondamentale sur l''effet entourage entre cannabinoïdes et terpénoïdes du cannabis.', '[\"cannabis\", \"terpènes\", \"effet entourage\", \"THC\", \"CBD\", \"synergie\"]', 'read')\nON DUPLICATE KEY UPDATE title=VALUES(title), authors=VALUES(authors), year=VALUES(year);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO bibliography_entries (entry_key, entry_type, title, authors, year, journal, volume, number, pages, doi, research_domain, abstract, keywords, read_status)\nVALUES ('russo2011', 'article', 'Taming THC: potential cannabis synergy and phytocannabinoid-terpenoid entourage effects', 'Russo, E.B.', 2011, 'British Journal of Pharmacology', '163', '7', '1344-1364', '10.1111/j.1476-5381.2011.01238.x', 'tabac_cannabis', 'Étude fondamentale sur l''effet entourage entre cannabinoïdes et terpénoïdes du cannabis.', '[\"cannabis\", \"terpènes\", \"effet entourage\", \"THC\", \"CBD\", \"synergie\"]', 'read')\nON DUPLICATE KEY UPDATE title=VALUES(title), authors=VALUES(authors), year=VALUES(year);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 413
+}

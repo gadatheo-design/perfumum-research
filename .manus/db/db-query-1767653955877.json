@@ -1,0 +1,52 @@
+{
+  "query": "SELECT \n  p.id, \n  p.name, \n  p.latin_name, \n  p.conservation_status,\n  COUNT(pgz.zone_id) as zone_count\nFROM plants p\nLEFT JOIN plant_geographic_zones pgz ON p.id = pgz.plant_id\nWHERE p.id IN (240001, 240002, 240003, 240004, 240005, 240006)\nGROUP BY p.id, p.name, p.latin_name, p.conservation_status\nORDER BY p.id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  p.id, \n  p.name, \n  p.latin_name, \n  p.conservation_status,\n  COUNT(pgz.zone_id) as zone_count\nFROM plants p\nLEFT JOIN plant_geographic_zones pgz ON p.id = pgz.plant_id\nWHERE p.id IN (240001, 240002, 240003, 240004, 240005, 240006)\nGROUP BY p.id, p.name, p.latin_name, p.conservation_status\nORDER BY p.id;",
+  "rows": [
+    {
+      "id": "240001",
+      "name": "Sandalwood australien",
+      "latin_name": "Santalum spicatum",
+      "conservation_status": "VU",
+      "zone_count": "1"
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna",
+      "conservation_status": "CR",
+      "zone_count": "1"
+    },
+    {
+      "id": "240003",
+      "name": "Cannelier de Ceylan",
+      "latin_name": "Cinnamomum verum",
+      "conservation_status": "LC",
+      "zone_count": "1"
+    },
+    {
+      "id": "240004",
+      "name": "Giroflier",
+      "latin_name": "Syzygium aromaticum",
+      "conservation_status": "LC",
+      "zone_count": "2"
+    },
+    {
+      "id": "240005",
+      "name": "Styrax liquide",
+      "latin_name": "Liquidambar orientalis",
+      "conservation_status": "VU",
+      "zone_count": "1"
+    },
+    {
+      "id": "240006",
+      "name": "Benjoin",
+      "latin_name": "Styrax benzoin",
+      "conservation_status": "VU",
+      "zone_count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tconservation_status\tzone_count\n240001\tSandalwood australien\tSantalum spicatum\tVU\t1\n240002\tBois d'agar\tAquilaria crassna\tCR\t1\n240003\tCannelier de Ceylan\tCinnamomum verum\tLC\t1\n240004\tGiroflier\tSyzygium aromaticum\tLC\t2\n240005\tStyrax liquide\tLiquidambar orientalis\tVU\t1\n240006\tBenjoin\tStyrax benzoin\tVU\t1\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

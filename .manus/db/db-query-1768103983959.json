@@ -1,0 +1,45 @@
+{
+  "query": "SHOW CREATE TABLE ghost_varieties;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW CREATE TABLE ghost_varieties;",
+  "rows": [
+    {
+      "Table": "ghost_varieties",
+      "Create Table": "CREATE TABLE `ghost_varieties` ("
+    }
+  ],
+  "messages": [
+    "  `id` int(11) NOT NULL AUTO_INCREMENT,",
+    "  `name` varchar(255) NOT NULL,",
+    "  `scientific_name` varchar(255) DEFAULT NULL,",
+    "  `common_names` json DEFAULT NULL,",
+    "  `plant_family` varchar(255) DEFAULT NULL,",
+    "  `genus` varchar(255) DEFAULT NULL,",
+    "  `species` varchar(255) DEFAULT NULL,",
+    "  `cultivar` varchar(255) DEFAULT NULL,",
+    "  `variety_type` enum('rose','jasmine','tobacco','cannabis','lavender','citrus','aromatic_herb','resin_tree','other') NOT NULL,",
+    "  `conservation_status` enum('extinct','extinct_wild','critically_endangered','endangered','vulnerable','near_threatened','reconstructed','unknown') NOT NULL,",
+    "  `last_documented_year` int(11) DEFAULT NULL,",
+    "  `last_documented_location` varchar(255) DEFAULT NULL,",
+    "  `peak_cultivation_period` varchar(255) DEFAULT NULL,",
+    "  `disappearance_causes` json DEFAULT NULL,",
+    "  `olfactive_profile` text DEFAULT NULL,",
+    "  `molecular_profile` json DEFAULT NULL,",
+    "  `reconstruction_attempts` json DEFAULT NULL,",
+    "  `historical_sources` json DEFAULT NULL,",
+    "  `description` text DEFAULT NULL,",
+    "  `historical_significance` text DEFAULT NULL,",
+    "  `notes` text DEFAULT NULL,",
+    "  `image_url` varchar(500) DEFAULT NULL,",
+    "  `created_by` int(11) DEFAULT NULL,",
+    "  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,",
+    "  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,",
+    "  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,",
+    "  KEY `ghost_varieties_type_idx` (`variety_type`),",
+    "  KEY `ghost_varieties_status_idx` (`conservation_status`),",
+    "  KEY `ghost_variety_name_idx` (`name`)",
+    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=30001"
+  ],
+  "stdout": "Table\tCreate Table\nghost_varieties\tCREATE TABLE `ghost_varieties` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `name` varchar(255) NOT NULL,\n  `scientific_name` varchar(255) DEFAULT NULL,\n  `common_names` json DEFAULT NULL,\n  `plant_family` varchar(255) DEFAULT NULL,\n  `genus` varchar(255) DEFAULT NULL,\n  `species` varchar(255) DEFAULT NULL,\n  `cultivar` varchar(255) DEFAULT NULL,\n  `variety_type` enum('rose','jasmine','tobacco','cannabis','lavender','citrus','aromatic_herb','resin_tree','other') NOT NULL,\n  `conservation_status` enum('extinct','extinct_wild','critically_endangered','endangered','vulnerable','near_threatened','reconstructed','unknown') NOT NULL,\n  `last_documented_year` int(11) DEFAULT NULL,\n  `last_documented_location` varchar(255) DEFAULT NULL,\n  `peak_cultivation_period` varchar(255) DEFAULT NULL,\n  `disappearance_causes` json DEFAULT NULL,\n  `olfactive_profile` text DEFAULT NULL,\n  `molecular_profile` json DEFAULT NULL,\n  `reconstruction_attempts` json DEFAULT NULL,\n  `historical_sources` json DEFAULT NULL,\n  `description` text DEFAULT NULL,\n  `historical_significance` text DEFAULT NULL,\n  `notes` text DEFAULT NULL,\n  `image_url` varchar(500) DEFAULT NULL,\n  `created_by` int(11) DEFAULT NULL,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,\n  KEY `ghost_varieties_type_idx` (`variety_type`),\n  KEY `ghost_varieties_status_idx` (`conservation_status`),\n  KEY `ghost_variety_name_idx` (`name`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=30001\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

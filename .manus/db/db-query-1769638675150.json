@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET therapeuticProperties = 'Analgésique local, Décongestionnant, Antiprurigineux, Rafraîchissant' WHERE name LIKE '%menthol%'; UPDATE molecules SET therapeuticProperties = 'Analgésique, Antiseptique, Anti-inflammatoire, Anesthésique local' WHERE name LIKE '%eugenol%' OR name LIKE '%eugénol%'; UPDATE molecules SET therapeuticProperties = 'Antioxydant, Neuroprotecteur, Anti-inflammatoire' WHERE name LIKE '%vanillin%' OR name LIKE '%vanilline%'; UPDATE molecules SET therapeuticProperties = 'Relaxant musculaire, Antispasmodique, Sédatif léger' WHERE name LIKE '%coumarin%' OR name LIKE '%coumarine%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET therapeuticProperties = 'Analgésique local, Décongestionnant, Antiprurigineux, Rafraîchissant' WHERE name LIKE '%menthol%'; UPDATE molecules SET therapeuticProperties = 'Analgésique, Antiseptique, Anti-inflammatoire, Anesthésique local' WHERE name LIKE '%eugenol%' OR name LIKE '%eugénol%'; UPDATE molecules SET therapeuticProperties = 'Antioxydant, Neuroprotecteur, Anti-inflammatoire' WHERE name LIKE '%vanillin%' OR name LIKE '%vanilline%'; UPDATE molecules SET therapeuticProperties = 'Relaxant musculaire, Antispasmodique, Sédatif léger' WHERE name LIKE '%coumarin%' OR name LIKE '%coumarine%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 90
+}

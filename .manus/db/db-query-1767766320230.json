@@ -1,0 +1,280 @@
+{
+  "query": "SELECT id, entry_key, title, authors, year, entry_type, research_domain FROM bibliography_entries ORDER BY year DESC LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, entry_key, title, authors, year, entry_type, research_domain FROM bibliography_entries ORDER BY year DESC LIMIT 30;",
+  "rows": [
+    {
+      "id": "150064",
+      "entry_key": "perfumum_kienou2025",
+      "title": "Plantes aromatiques et leurs huiles essentielles: état des connaissances et utilisation dans la gestion de la chenille légionnaire d'automne à l'ouest du Burkina Faso",
+      "authors": "T. Kienou, S. Ouattara, A. Sawadogo, et al.",
+      "year": "2025",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150056",
+      "entry_key": "perfumum_perafan2024",
+      "title": "Ethnobotanical study of the uses of medicinal plants in the Nasa ethnic group in the Colombian Andes",
+      "authors": "G.M.P. Perafán, M.A. Bastidas-Bacca, et al.",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "180021",
+      "entry_key": "pubchem-database",
+      "title": "PubChem: Open Chemistry Database",
+      "authors": "National Center for Biotechnology Information (NCBI)",
+      "year": "2024",
+      "entry_type": "online",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "180025",
+      "entry_key": "edwards-fragrance-wheel",
+      "title": "Fragrances of the World",
+      "authors": "Michael Edwards",
+      "year": "2024",
+      "entry_type": "book",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "180024",
+      "entry_key": "basenotes-database",
+      "title": "Basenotes: Fragrance Community",
+      "authors": "Basenotes",
+      "year": "2024",
+      "entry_type": "online",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "180020",
+      "entry_key": "ifra-transparency",
+      "title": "IFRA Transparency List",
+      "authors": "International Fragrance Association",
+      "year": "2024",
+      "entry_type": "online",
+      "research_domain": "reglementation"
+    },
+    {
+      "id": "180019",
+      "entry_key": "rifm-database",
+      "title": "RIFM Database: Research Institute for Fragrance Materials",
+      "authors": "RIFM",
+      "year": "2024",
+      "entry_type": "online",
+      "research_domain": "reglementation"
+    },
+    {
+      "id": "180028",
+      "entry_key": "uebt-sourcing",
+      "title": "Union for Ethical BioTrade: Sourcing with Respect",
+      "authors": "UEBT",
+      "year": "2024",
+      "entry_type": "online",
+      "research_domain": "durabilite"
+    },
+    {
+      "id": "150058",
+      "entry_key": "perfumum_ouedraogo2024",
+      "title": "Medicinal Plants of Aromatic Potential from Burkina Faso: a Review",
+      "authors": "W. Jedida Ouedraogo, R. Serge Yerbanga, Roland Meda, Jean Bosco Ouedraogo, Georges A. Ouedraogo",
+      "year": "2024",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "180022",
+      "entry_key": "good-scents-company",
+      "title": "The Good Scents Company Information System",
+      "authors": "The Good Scents Company",
+      "year": "2024",
+      "entry_type": "online",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "180023",
+      "entry_key": "fragrantica-database",
+      "title": "Fragrantica: Perfume Encyclopedia",
+      "authors": "Fragrantica",
+      "year": "2024",
+      "entry_type": "online",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "180026",
+      "entry_key": "el-mernissi-2023",
+      "title": "Indigenous Knowledge of Traditional Aromatic Plants",
+      "authors": "El-Mernissi Y., et al.",
+      "year": "2023",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "180027",
+      "entry_key": "chaachouay-2023",
+      "title": "Ethnobotany, Ethnopharmacology and Traditional Uses of Aromatic Plants",
+      "authors": "Chaachouay N., et al.",
+      "year": "2023",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150039",
+      "entry_key": "perfumum_pubchem2023",
+      "title": "PubChem Compound Database",
+      "authors": "National Center for Biotechnology Information",
+      "year": "2023",
+      "entry_type": "online",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150050",
+      "entry_key": "perfumum_carreno2023",
+      "title": "Essential Oils Distilled from Colombian Aromatic Plants and Their Constituents as Penetration Enhancers for Transdermal Drug Delivery",
+      "authors": "Heider Carreño, Elena E. Stashenko, Patricia Escobar",
+      "year": "2023",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150040",
+      "entry_key": "perfumum_thegoodscents2023",
+      "title": "The Good Scents Company Information System",
+      "authors": "The Good Scents Company",
+      "year": "2023",
+      "entry_type": "online",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "180029",
+      "entry_key": "sharma-2022",
+      "title": "OlfactionBase: A Comprehensive Database for Olfaction Knowledge",
+      "authors": "Sharma A., et al.",
+      "year": "2022",
+      "entry_type": "article",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "150065",
+      "entry_key": "perfumum_popoola2022",
+      "title": "West African medicinal plants and their constituent compounds in antiviral drug discovery",
+      "authors": "T.D. Popoola, O.A. Awodele, A.T. Omisanya, et al.",
+      "year": "2022",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "150060",
+      "entry_key": "perfumum_balbonne2022",
+      "title": "Essential Oils From Five Local Plants: An Alternative Larvicide Against Aedes aegypti in Burkina Faso",
+      "authors": "M. Balboné, A. Sanou, R. Ouédraogo, et al.",
+      "year": "2022",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150059",
+      "entry_key": "perfumum_sounouvou2021",
+      "title": "Antimicrobial potentials of essential oils extracted from aromatic plants of Benin and Burkina Faso",
+      "authors": "H.T. Sounouvou, A. Toukourou, C. Agbangnan, et al.",
+      "year": "2021",
+      "entry_type": "article",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "180017",
+      "entry_key": "m2or-database",
+      "title": "M2OR: Molecule to Olfactory Receptor Database",
+      "authors": "ChemSensim Lab",
+      "year": "2020",
+      "entry_type": "online",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "180012",
+      "entry_key": "verbeek-2020",
+      "title": "Inhaling History: Olfactory Heritage and Museums",
+      "authors": "Caro Verbeek",
+      "year": "2020",
+      "entry_type": "article",
+      "research_domain": "histoire_parfumerie"
+    },
+    {
+      "id": "150037",
+      "entry_key": "perfumum_ifra2020",
+      "title": "IFRA Standards Library - 49th Amendment",
+      "authors": "International Fragrance Association",
+      "year": "2020",
+      "entry_type": "techreport",
+      "research_domain": "reglementation"
+    },
+    {
+      "id": "150010",
+      "entry_key": "perfumum_edwards2019",
+      "title": "Fragrances of the World",
+      "authors": "Michael Edwards",
+      "year": "2019",
+      "entry_type": "book",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "150052",
+      "entry_key": "perfumum_stashenko2019",
+      "title": "Study of Essential Oils Obtained from Tropical Plants Grown in Colombia",
+      "authors": "Elena E. Stashenko",
+      "year": "2019",
+      "entry_type": "inbook",
+      "research_domain": "extraction"
+    },
+    {
+      "id": "180018",
+      "entry_key": "pred-o3-database",
+      "title": "Pred-O3: Odor Prediction Database",
+      "authors": "RPBS - Université Paris Diderot",
+      "year": "2019",
+      "entry_type": "online",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "180016",
+      "entry_key": "aromadb-2018",
+      "title": "AromaDb: A Database of Plant's Aroma Molecules",
+      "authors": "Kumar Y., Prakash O., Tripathi H., Tandon S., Gupta M.M., Rahman L.U., Lal R.K., Semwal M., Darokar M.P., Khan F.",
+      "year": "2018",
+      "entry_type": "online",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "id": "150055",
+      "entry_key": "perfumum_bussmann2018",
+      "title": "Astonishing diversity—the medicinal plant markets of Bogotá",
+      "authors": "Rainer W. Bussmann, Narel Y. Paniagua Zambrana, Sonia Liliana Romero Benavides, Bebelyn Placencia Castillo",
+      "year": "2018",
+      "entry_type": "article",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "id": "180003",
+      "entry_key": "bohme-2017",
+      "title": "Atmospheric Architectures: The Aesthetics of Felt Spaces",
+      "authors": "Gernot Böhme",
+      "year": "2017",
+      "entry_type": "book",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "id": "150042",
+      "entry_key": "perfumum_booth2017",
+      "title": "Terpene synthases from Cannabis sativa",
+      "authors": "Judith K. Booth, Jonathan E. Page, Jörg Bohlmann",
+      "year": "2017",
+      "entry_type": "article",
+      "research_domain": "tabac_cannabis"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentry_key\ttitle\tauthors\tyear\tentry_type\tresearch_domain\n150064\tperfumum_kienou2025\tPlantes aromatiques et leurs huiles essentielles: état des connaissances et utilisation dans la gestion de la chenille légionnaire d'automne à l'ouest du Burkina Faso\tT. Kienou, S. Ouattara, A. Sawadogo, et al.\t2025\tarticle\tethnobotanique\n150056\tperfumum_perafan2024\tEthnobotanical study of the uses of medicinal plants in the Nasa ethnic group in the Colombian Andes\tG.M.P. Perafán, M.A. Bastidas-Bacca, et al.\t2024\tarticle\tethnobotanique\n180021\tpubchem-database\tPubChem: Open Chemistry Database\tNational Center for Biotechnology Information (NCBI)\t2024\tonline\tchimie_olfactive\n180025\tedwards-fragrance-wheel\tFragrances of the World\tMichael Edwards\t2024\tbook\tformulation\n180024\tbasenotes-database\tBasenotes: Fragrance Community\tBasenotes\t2024\tonline\tformulation\n180020\tifra-transparency\tIFRA Transparency List\tInternational Fragrance Association\t2024\tonline\treglementation\n180019\trifm-database\tRIFM Database: Research Institute for Fragrance Materials\tRIFM\t2024\tonline\treglementation\n180028\tuebt-sourcing\tUnion for Ethical BioTrade: Sourcing with Respect\tUEBT\t2024\tonline\tdurabilite\n150058\tperfumum_ouedraogo2024\tMedicinal Plants of Aromatic Potential from Burkina Faso: a Review\tW. Jedida Ouedraogo, R. Serge Yerbanga, Roland Meda, Jean Bosco Ouedraogo, Georges A. Ouedraogo\t2024\tarticle\tethnobotanique\n180022\tgood-scents-company\tThe Good Scents Company Information System\tThe Good Scents Company\t2024\tonline\tchimie_olfactive\n180023\tfragrantica-database\tFragrantica: Perfume Encyclopedia\tFragrantica\t2024\tonline\tformulation\n180026\tel-mernissi-2023\tIndigenous Knowledge of Traditional Aromatic Plants\tEl-Mernissi Y., et al.\t2023\tarticle\tethnobotanique\n180027\tchaachouay-2023\tEthnobotany, Ethnopharmacology and Traditional Uses of Aromatic Plants\tChaachouay N., et al.\t2023\tarticle\tethnobotanique\n150039\tperfumum_pubchem2023\tPubChem Compound Database\tNational Center for Biotechnology Information\t2023\tonline\tchimie_olfactive\n150050\tperfumum_carreno2023\tEssential Oils Distilled from Colombian Aromatic Plants and Their Constituents as Penetration Enhancers for Transdermal Drug Delivery\tHeider Carreño, Elena E. Stashenko, Patricia Escobar\t2023\tarticle\tchimie_olfactive\n150040\tperfumum_thegoodscents2023\tThe Good Scents Company Information System\tThe Good Scents Company\t2023\tonline\tformulation\n180029\tsharma-2022\tOlfactionBase: A Comprehensive Database for Olfaction Knowledge\tSharma A., et al.\t2022\tarticle\tneurologie_olfactive\n150065\tperfumum_popoola2022\tWest African medicinal plants and their constituent compounds in antiviral drug discovery\tT.D. Popoola, O.A. Awodele, A.T. Omisanya, et al.\t2022\tarticle\tethnobotanique\n150060\tperfumum_balbonne2022\tEssential Oils From Five Local Plants: An Alternative Larvicide Against Aedes aegypti in Burkina Faso\tM. Balboné, A. Sanou, R. Ouédraogo, et al.\t2022\tarticle\tchimie_olfactive\n150059\tperfumum_sounouvou2021\tAntimicrobial potentials of essential oils extracted from aromatic plants of Benin and Burkina Faso\tH.T. Sounouvou, A. Toukourou, C. Agbangnan, et al.\t2021\tarticle\tchimie_olfactive\n180017\tm2or-database\tM2OR: Molecule to Olfactory Receptor Database\tChemSensim Lab\t2020\tonline\tneurologie_olfactive\n180012\tverbeek-2020\tInhaling History: Olfactory Heritage and Museums\tCaro Verbeek\t2020\tarticle\thistoire_parfumerie\n150037\tperfumum_ifra2020\tIFRA Standards Library - 49th Amendment\tInternational Fragrance Association\t2020\ttechreport\treglementation\n150010\tperfumum_edwards2019\tFragrances of the World\tMichael Edwards\t2019\tbook\tformulation\n150052\tperfumum_stashenko2019\tStudy of Essential Oils Obtained from Tropical Plants Grown in Colombia\tElena E. Stashenko\t2019\tinbook\textraction\n180018\tpred-o3-database\tPred-O3: Odor Prediction Database\tRPBS - Université Paris Diderot\t2019\tonline\tneurologie_olfactive\n180016\taromadb-2018\tAromaDb: A Database of Plant's Aroma Molecules\tKumar Y., Prakash O., Tripathi H., Tandon S., Gupta M.M., Rahman L.U., Lal R.K., Semwal M., Darokar M.P., Khan F.\t2018\tonline\tchimie_olfactive\n150055\tperfumum_bussmann2018\tAstonishing diversity—the medicinal plant markets of Bogotá\tRainer W. Bussmann, Narel Y. Paniagua Zambrana, Sonia Liliana Romero Benavides, Bebelyn Placencia Castillo\t2018\tarticle\tethnobotanique\n180003\tbohme-2017\tAtmospheric Architectures: The Aesthetics of Felt Spaces\tGernot Böhme\t2017\tbook\tneurologie_olfactive\n150042\tperfumum_booth2017\tTerpene synthases from Cannabis sativa\tJudith K. Booth, Jonathan E. Page, Jörg Bohlmann\t2017\tarticle\ttabac_cannabis\n",
+  "stderr": "",
+  "execution_time_ms": 409
+}

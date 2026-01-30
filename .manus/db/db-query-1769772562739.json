@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS perique_fermentation_stages (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  stage_number INT NOT NULL,\n  stage_name VARCHAR(100) NOT NULL,\n  duration_months INT NOT NULL,\n  start_month INT NOT NULL,\n  end_month INT NOT NULL,\n  temperature_min DECIMAL(5,2),\n  temperature_max DECIMAL(5,2),\n  humidity_percent DECIMAL(5,2),\n  ph_level DECIMAL(4,2),\n  oxygen_level VARCHAR(50),\n  description TEXT,\n  biochemical_processes TEXT,\n  key_enzymes TEXT,\n  compounds_formed TEXT,\n  compounds_degraded TEXT,\n  olfactory_changes TEXT,\n  color_changes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS perique_fermentation_stages (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  stage_number INT NOT NULL,\n  stage_name VARCHAR(100) NOT NULL,\n  duration_months INT NOT NULL,\n  start_month INT NOT NULL,\n  end_month INT NOT NULL,\n  temperature_min DECIMAL(5,2),\n  temperature_max DECIMAL(5,2),\n  humidity_percent DECIMAL(5,2),\n  ph_level DECIMAL(4,2),\n  oxygen_level VARCHAR(50),\n  description TEXT,\n  biochemical_processes TEXT,\n  key_enzymes TEXT,\n  compounds_formed TEXT,\n  compounds_degraded TEXT,\n  olfactory_changes TEXT,\n  color_changes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 2684
+}

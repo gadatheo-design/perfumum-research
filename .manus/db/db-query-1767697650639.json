@@ -1,0 +1,66 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'research_axes' ORDER BY ORDINAL_POSITION",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'research_axes' ORDER BY ORDINAL_POSITION",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "axis_code",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "code",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "name",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "short_name",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "emoji",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "description",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "key_topics",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "color",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "icon_name",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "sort_order",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "is_active",
+      "DATA_TYPE": "tinyint"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "DATA_TYPE": "timestamp"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\nid\tint\naxis_code\tvarchar\ncode\tvarchar\nname\tvarchar\nshort_name\tvarchar\nemoji\tvarchar\ndescription\ttext\nkey_topics\ttext\ncolor\tvarchar\nicon_name\tvarchar\nsort_order\tint\nis_active\ttinyint\ncreated_at\ttimestamp\nupdated_at\ttimestamp\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

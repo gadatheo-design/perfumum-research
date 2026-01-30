@@ -1,0 +1,50 @@
+{
+  "query": "SELECT COUNT(*) as total, entry_type, research_domain FROM bibliography_entries GROUP BY entry_type, research_domain ORDER BY total DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, entry_type, research_domain FROM bibliography_entries GROUP BY entry_type, research_domain ORDER BY total DESC;",
+  "rows": [
+    {
+      "total": "17",
+      "entry_type": "article",
+      "research_domain": "NULL"
+    },
+    {
+      "total": "3",
+      "entry_type": "book",
+      "research_domain": "formulation"
+    },
+    {
+      "total": "3",
+      "entry_type": "book",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "total": "2",
+      "entry_type": "book",
+      "research_domain": "histoire_parfumerie"
+    },
+    {
+      "total": "1",
+      "entry_type": "book",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "total": "1",
+      "entry_type": "book",
+      "research_domain": "reglementation"
+    },
+    {
+      "total": "1",
+      "entry_type": "article",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "total": "1",
+      "entry_type": "book",
+      "research_domain": "extraction"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tentry_type\tresearch_domain\n17\tarticle\tNULL\n3\tbook\tformulation\n3\tbook\tchimie_olfactive\n2\tbook\thistoire_parfumerie\n1\tbook\tneurologie_olfactive\n1\tbook\treglementation\n1\tarticle\tneurologie_olfactive\n1\tbook\textraction\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

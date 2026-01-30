@@ -1,0 +1,594 @@
+{
+  "query": "SELECT p.id, p.name \nFROM plants p \nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id \nWHERE pm.plant_id IS NULL \nORDER BY p.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.id, p.name \nFROM plants p \nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id \nWHERE pm.plant_id IS NULL \nORDER BY p.name;",
+  "rows": [
+    {
+      "id": "120017",
+      "name": "Acapulco Gold"
+    },
+    {
+      "id": "120007",
+      "name": "Afghan Kush"
+    },
+    {
+      "id": "480018",
+      "name": "Aframomum melegueta (grains of paradise)"
+    },
+    {
+      "id": "450011",
+      "name": "Ahuehuete"
+    },
+    {
+      "id": "480025",
+      "name": "Ambergris (matière patrimoniale)"
+    },
+    {
+      "id": "510007",
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)"
+    },
+    {
+      "id": "360003",
+      "name": "Ambil"
+    },
+    {
+      "id": "540004",
+      "name": "Anadenanthera colubrina"
+    },
+    {
+      "id": "540003",
+      "name": "Anadenanthera peregrina"
+    },
+    {
+      "id": "210040",
+      "name": "Aniba"
+    },
+    {
+      "id": "210038",
+      "name": "Aquilaria"
+    },
+    {
+      "id": "540029",
+      "name": "Argemone mexicana"
+    },
+    {
+      "id": "150015",
+      "name": "Armoise"
+    },
+    {
+      "id": "540025",
+      "name": "Attalea speciosa"
+    },
+    {
+      "id": "540007",
+      "name": "Banisteriopsis caapi"
+    },
+    {
+      "id": "240006",
+      "name": "Benjoin"
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar"
+    },
+    {
+      "id": "510003",
+      "name": "Bois de rose (lutherie) — Dalbergia nigra (CITES)"
+    },
+    {
+      "id": "510004",
+      "name": "Bois de santal rouge — Pterocarpus santalinus"
+    },
+    {
+      "id": "540015",
+      "name": "Bursera bipinnata"
+    },
+    {
+      "id": "540014",
+      "name": "Bursera copallifera"
+    },
+    {
+      "id": "540013",
+      "name": "Bursera graveolens"
+    },
+    {
+      "id": "450002",
+      "name": "Cacaloxochitl"
+    },
+    {
+      "id": "150019",
+      "name": "Calamus (Acore)"
+    },
+    {
+      "id": "120006",
+      "name": "Cambodian"
+    },
+    {
+      "id": "210030",
+      "name": "Cannabis feuille sèche #3"
+    },
+    {
+      "id": "480027",
+      "name": "Castoreum (référence historique)"
+    },
+    {
+      "id": "480004",
+      "name": "Cedrón"
+    },
+    {
+      "id": "120010",
+      "name": "Chitral"
+    },
+    {
+      "id": "120005",
+      "name": "Chocolate Thai"
+    },
+    {
+      "id": "480026",
+      "name": "Civet (référence historique)"
+    },
+    {
+      "id": "120019",
+      "name": "Colombian Gold"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora"
+    },
+    {
+      "id": "540018",
+      "name": "Copaifera officinalis"
+    },
+    {
+      "id": "480016",
+      "name": "Copaifera spp. (copaiba)"
+    },
+    {
+      "id": "480005",
+      "name": "Copal Blanco"
+    },
+    {
+      "id": "480006",
+      "name": "Copal Negro"
+    },
+    {
+      "id": "480007",
+      "name": "Copal de Piedra"
+    },
+    {
+      "id": "270005",
+      "name": "Costus"
+    },
+    {
+      "id": "540030",
+      "name": "Croton lechleri"
+    },
+    {
+      "id": "540028",
+      "name": "Cymbopetalum penduliflorum"
+    },
+    {
+      "id": "150012",
+      "name": "Damiana"
+    },
+    {
+      "id": "540012",
+      "name": "Datura stramonium"
+    },
+    {
+      "id": "120012",
+      "name": "Durban Poison"
+    },
+    {
+      "id": "540034",
+      "name": "Dysphania ambrosioides"
+    },
+    {
+      "id": "270002",
+      "name": "Encens d'Éthiopie"
+    },
+    {
+      "id": "270003",
+      "name": "Encens de Rivae"
+    },
+    {
+      "id": "270001",
+      "name": "Encens indien (Shallaki)"
+    },
+    {
+      "id": "270004",
+      "name": "Encens négligé"
+    },
+    {
+      "id": "480003",
+      "name": "Epazote"
+    },
+    {
+      "id": "120016",
+      "name": "Ethiopian Highland"
+    },
+    {
+      "id": "480029",
+      "name": "Ferula galbaniflua (galbanum)"
+    },
+    {
+      "id": "480010",
+      "name": "Flor de Manita"
+    },
+    {
+      "id": "270011",
+      "name": "Galbanum"
+    },
+    {
+      "id": "510002",
+      "name": "Gaïac — Guaiacum sanctum (proxy)"
+    },
+    {
+      "id": "510005",
+      "name": "Gomme arabique — Senegalia senegal (filière fragile)"
+    },
+    {
+      "id": "120021",
+      "name": "Hawaiian"
+    },
+    {
+      "id": "540011",
+      "name": "Heimia salicifolia"
+    },
+    {
+      "id": "150006",
+      "name": "Hindu Kush"
+    },
+    {
+      "id": "450001",
+      "name": "Hoja Santa"
+    },
+    {
+      "id": "450014",
+      "name": "Hule"
+    },
+    {
+      "id": "120003",
+      "name": "Idukki Gold"
+    },
+    {
+      "id": "270006",
+      "name": "Iris de Florence"
+    },
+    {
+      "id": "450009",
+      "name": "Jasmin nocturne"
+    },
+    {
+      "id": "120009",
+      "name": "Kandahar"
+    },
+    {
+      "id": "150016",
+      "name": "Kanna"
+    },
+    {
+      "id": "120001",
+      "name": "Kerala Gold"
+    },
+    {
+      "id": "150007",
+      "name": "Ketama"
+    },
+    {
+      "id": "120015",
+      "name": "Kilimanjaro"
+    },
+    {
+      "id": "150018",
+      "name": "Klip Dagga"
+    },
+    {
+      "id": "150010",
+      "name": "Labdanum"
+    },
+    {
+      "id": "120020",
+      "name": "Lamb's Bread"
+    },
+    {
+      "id": "150002",
+      "name": "Latakia"
+    },
+    {
+      "id": "540032",
+      "name": "Lippia graveolens"
+    },
+    {
+      "id": "540022",
+      "name": "Liquidambar styraciflua"
+    },
+    {
+      "id": "540008",
+      "name": "Lophophora williamsii"
+    },
+    {
+      "id": "150013",
+      "name": "Lotus Bleu"
+    },
+    {
+      "id": "120002",
+      "name": "Malana Cream"
+    },
+    {
+      "id": "120013",
+      "name": "Malawi Gold"
+    },
+    {
+      "id": "150003",
+      "name": "Mapacho"
+    },
+    {
+      "id": "120022",
+      "name": "Maui Wowie"
+    },
+    {
+      "id": "120008",
+      "name": "Mazar-i-Sharif"
+    },
+    {
+      "id": "540002",
+      "name": "Mimosa ophthalmocentra"
+    },
+    {
+      "id": "540001",
+      "name": "Mimosa tenuiflora"
+    },
+    {
+      "id": "510006",
+      "name": "Musk deer (musc naturel) — Moschus moschiferus (CITES)"
+    },
+    {
+      "id": "510008",
+      "name": "Musk mallow (Malva moschata) — note patrimoniale"
+    },
+    {
+      "id": "540017",
+      "name": "Myroxylon balsamum"
+    },
+    {
+      "id": "330003",
+      "name": "Nicotiana benthamiana"
+    },
+    {
+      "id": "330005",
+      "name": "Nicotiana sylvestris"
+    },
+    {
+      "id": "330006",
+      "name": "Nicotiana tomentosiformis"
+    },
+    {
+      "id": "540024",
+      "name": "Nymphaea ampla"
+    },
+    {
+      "id": "480008",
+      "name": "Ocote"
+    },
+    {
+      "id": "150008",
+      "name": "Oliban (Encens)"
+    },
+    {
+      "id": "270010",
+      "name": "Opoponax (Myrrhe douce)"
+    },
+    {
+      "id": "150004",
+      "name": "Oriental Katerini"
+    },
+    {
+      "id": "450008",
+      "name": "Origan Mexicain"
+    },
+    {
+      "id": "120011",
+      "name": "Pakistani Kush"
+    },
+    {
+      "id": "510001",
+      "name": "Palo santo (Gran Chaco) — Bulnesia sarmientoi (CITES)"
+    },
+    {
+      "id": "120018",
+      "name": "Panama Red"
+    },
+    {
+      "id": "480020",
+      "name": "Parkia biglobosa (néré)"
+    },
+    {
+      "id": "150017",
+      "name": "Passiflore"
+    },
+    {
+      "id": "150001",
+      "name": "Perique"
+    },
+    {
+      "id": "540033",
+      "name": "Piper auritum"
+    },
+    {
+      "id": "480012",
+      "name": "Pipiltzintzintli / Salvia divinorum"
+    },
+    {
+      "id": "480021",
+      "name": "Pistacia lentiscus (mastic)"
+    },
+    {
+      "id": "480002",
+      "name": "Poleo"
+    },
+    {
+      "id": "540021",
+      "name": "Polianthes tuberosa"
+    },
+    {
+      "id": "540016",
+      "name": "Protium heptaphyllum"
+    },
+    {
+      "id": "480017",
+      "name": "Protium spp. (copal)"
+    },
+    {
+      "id": "540006",
+      "name": "Psychotria viridis"
+    },
+    {
+      "id": "540027",
+      "name": "Quararibea funebris"
+    },
+    {
+      "id": "480024",
+      "name": "Rosa × damascena (rose de Damas)"
+    },
+    {
+      "id": "480001",
+      "name": "Ruda"
+    },
+    {
+      "id": "540009",
+      "name": "Salvia divinorum"
+    },
+    {
+      "id": "480028",
+      "name": "Salvia officinalis (sauge)"
+    },
+    {
+      "id": "240001",
+      "name": "Sandalwood australien"
+    },
+    {
+      "id": "270008",
+      "name": "Silphium"
+    },
+    {
+      "id": "480023",
+      "name": "Silphium (plante antique disparue)"
+    },
+    {
+      "id": "540023",
+      "name": "Silphium sp."
+    },
+    {
+      "id": "480013",
+      "name": "Sinicuichi"
+    },
+    {
+      "id": "480022",
+      "name": "Styrax benzoin (benjoin)"
+    },
+    {
+      "id": "240005",
+      "name": "Styrax liquide"
+    },
+    {
+      "id": "120014",
+      "name": "Swazi Gold"
+    },
+    {
+      "id": "210029",
+      "name": "Tabac criollo fantôme #2"
+    },
+    {
+      "id": "480015",
+      "name": "Tabac — Nicotiana glauca (tabac arborescent)"
+    },
+    {
+      "id": "540019",
+      "name": "Tagetes lucida"
+    },
+    {
+      "id": "450003",
+      "name": "Tepezcohuite"
+    },
+    {
+      "id": "210031",
+      "name": "Test Plant 1"
+    },
+    {
+      "id": "210032",
+      "name": "Test Resin Plant"
+    },
+    {
+      "id": "210033",
+      "name": "Test Wind Plant"
+    },
+    {
+      "id": "120004",
+      "name": "Thai Stick"
+    },
+    {
+      "id": "540026",
+      "name": "Theobroma bicolor"
+    },
+    {
+      "id": "480011",
+      "name": "Toloache"
+    },
+    {
+      "id": "540010",
+      "name": "Turbina corymbosa"
+    },
+    {
+      "id": "540031",
+      "name": "Uncaria tomentosa"
+    },
+    {
+      "id": "480009",
+      "name": "Vainilla"
+    },
+    {
+      "id": "450004",
+      "name": "Valériane mexicaine"
+    },
+    {
+      "id": "540020",
+      "name": "Vanilla planifolia"
+    },
+    {
+      "id": "540005",
+      "name": "Virola theiodora"
+    },
+    {
+      "id": "480019",
+      "name": "Vitellaria paradoxa (karité)"
+    },
+    {
+      "id": "150014",
+      "name": "Wild Dagga"
+    },
+    {
+      "id": "330004",
+      "name": "Wild tobacco"
+    },
+    {
+      "id": "360002",
+      "name": "Yarumo (Cetico)"
+    },
+    {
+      "id": "150005",
+      "name": "Yenidje"
+    },
+    {
+      "id": "480014",
+      "name": "Yoloxóchitl"
+    },
+    {
+      "id": "270012",
+      "name": "Élémi"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n120017\tAcapulco Gold\n120007\tAfghan Kush\n480018\tAframomum melegueta (grains of paradise)\n450011\tAhuehuete\n480025\tAmbergris (matière patrimoniale)\n510007\tAmbergris (patrimoine) — Physeter macrocephalus (échouages)\n360003\tAmbil\n540004\tAnadenanthera colubrina\n540003\tAnadenanthera peregrina\n210040\tAniba\n210038\tAquilaria\n540029\tArgemone mexicana\n150015\tArmoise\n540025\tAttalea speciosa\n540007\tBanisteriopsis caapi\n240006\tBenjoin\n240002\tBois d'agar\n510003\tBois de rose (lutherie) — Dalbergia nigra (CITES)\n510004\tBois de santal rouge — Pterocarpus santalinus\n540015\tBursera bipinnata\n540014\tBursera copallifera\n540013\tBursera graveolens\n450002\tCacaloxochitl\n150019\tCalamus (Acore)\n120006\tCambodian\n210030\tCannabis feuille sèche #3\n480027\tCastoreum (référence historique)\n480004\tCedrón\n120010\tChitral\n120005\tChocolate Thai\n480026\tCivet (référence historique)\n120019\tColombian Gold\n210039\tCommiphora\n540018\tCopaifera officinalis\n480016\tCopaifera spp. (copaiba)\n480005\tCopal Blanco\n480006\tCopal Negro\n480007\tCopal de Piedra\n270005\tCostus\n540030\tCroton lechleri\n540028\tCymbopetalum penduliflorum\n150012\tDamiana\n540012\tDatura stramonium\n120012\tDurban Poison\n540034\tDysphania ambrosioides\n270002\tEncens d'Éthiopie\n270003\tEncens de Rivae\n270001\tEncens indien (Shallaki)\n270004\tEncens négligé\n480003\tEpazote\n120016\tEthiopian Highland\n480029\tFerula galbaniflua (galbanum)\n480010\tFlor de Manita\n270011\tGalbanum\n510002\tGaïac — Guaiacum sanctum (proxy)\n510005\tGomme arabique — Senegalia senegal (filière fragile)\n120021\tHawaiian\n540011\tHeimia salicifolia\n150006\tHindu Kush\n450001\tHoja Santa\n450014\tHule\n120003\tIdukki Gold\n270006\tIris de Florence\n450009\tJasmin nocturne\n120009\tKandahar\n150016\tKanna\n120001\tKerala Gold\n150007\tKetama\n120015\tKilimanjaro\n150018\tKlip Dagga\n150010\tLabdanum\n120020\tLamb's Bread\n150002\tLatakia\n540032\tLippia graveolens\n540022\tLiquidambar styraciflua\n540008\tLophophora williamsii\n150013\tLotus Bleu\n120002\tMalana Cream\n120013\tMalawi Gold\n150003\tMapacho\n120022\tMaui Wowie\n120008\tMazar-i-Sharif\n540002\tMimosa ophthalmocentra\n540001\tMimosa tenuiflora\n510006\tMusk deer (musc naturel) — Moschus moschiferus (CITES)\n510008\tMusk mallow (Malva moschata) — note patrimoniale\n540017\tMyroxylon balsamum\n330003\tNicotiana benthamiana\n330005\tNicotiana sylvestris\n330006\tNicotiana tomentosiformis\n540024\tNymphaea ampla\n480008\tOcote\n150008\tOliban (Encens)\n270010\tOpoponax (Myrrhe douce)\n150004\tOriental Katerini\n450008\tOrigan Mexicain\n120011\tPakistani Kush\n510001\tPalo santo (Gran Chaco) — Bulnesia sarmientoi (CITES)\n120018\tPanama Red\n480020\tParkia biglobosa (néré)\n150017\tPassiflore\n150001\tPerique\n540033\tPiper auritum\n480012\tPipiltzintzintli / Salvia divinorum\n480021\tPistacia lentiscus (mastic)\n480002\tPoleo\n540021\tPolianthes tuberosa\n540016\tProtium heptaphyllum\n480017\tProtium spp. (copal)\n540006\tPsychotria viridis\n540027\tQuararibea funebris\n480024\tRosa × damascena (rose de Damas)\n480001\tRuda\n540009\tSalvia divinorum\n480028\tSalvia officinalis (sauge)\n240001\tSandalwood australien\n270008\tSilphium\n480023\tSilphium (plante antique disparue)\n540023\tSilphium sp.\n480013\tSinicuichi\n480022\tStyrax benzoin (benjoin)\n240005\tStyrax liquide\n120014\tSwazi Gold\n210029\tTabac criollo fantôme #2\n480015\tTabac — Nicotiana glauca (tabac arborescent)\n540019\tTagetes lucida\n450003\tTepezcohuite\n210031\tTest Plant 1\n210032\tTest Resin Plant\n210033\tTest Wind Plant\n120004\tThai Stick\n540026\tTheobroma bicolor\n480011\tToloache\n540010\tTurbina corymbosa\n540031\tUncaria tomentosa\n480009\tVainilla\n450004\tValériane mexicaine\n540020\tVanilla planifolia\n540005\tVirola theiodora\n480019\tVitellaria paradoxa (karité)\n150014\tWild Dagga\n330004\tWild tobacco\n360002\tYarumo (Cetico)\n150005\tYenidje\n480014\tYoloxóchitl\n270012\tÉlémi\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

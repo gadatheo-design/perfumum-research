@@ -1,0 +1,100 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'recettes' ORDER BY ORDINAL_POSITION",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'recettes' ORDER BY ORDINAL_POSITION",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "category"
+    },
+    {
+      "COLUMN_NAME": "familyId"
+    },
+    {
+      "COLUMN_NAME": "accordId"
+    },
+    {
+      "COLUMN_NAME": "tabacId"
+    },
+    {
+      "COLUMN_NAME": "civilisationId"
+    },
+    {
+      "COLUMN_NAME": "formula"
+    },
+    {
+      "COLUMN_NAME": "protocol"
+    },
+    {
+      "COLUMN_NAME": "intensity"
+    },
+    {
+      "COLUMN_NAME": "stability"
+    },
+    {
+      "COLUMN_NAME": "combustionTemperature"
+    },
+    {
+      "COLUMN_NAME": "maturationTime"
+    },
+    {
+      "COLUMN_NAME": "createdAt"
+    },
+    {
+      "COLUMN_NAME": "updatedAt"
+    },
+    {
+      "COLUMN_NAME": "description"
+    },
+    {
+      "COLUMN_NAME": "ingredients"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "texture"
+    },
+    {
+      "COLUMN_NAME": "costEstimate"
+    },
+    {
+      "COLUMN_NAME": "productionTime"
+    },
+    {
+      "COLUMN_NAME": "status"
+    },
+    {
+      "COLUMN_NAME": "notes_tete"
+    },
+    {
+      "COLUMN_NAME": "notes_coeur"
+    },
+    {
+      "COLUMN_NAME": "notes_fond"
+    },
+    {
+      "COLUMN_NAME": "duree_tete_min"
+    },
+    {
+      "COLUMN_NAME": "duree_coeur_min"
+    },
+    {
+      "COLUMN_NAME": "duree_fond_min"
+    },
+    {
+      "COLUMN_NAME": "parent_recette_id"
+    },
+    {
+      "COLUMN_NAME": "gamme"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nname\ncategory\nfamilyId\naccordId\ntabacId\ncivilisationId\nformula\nprotocol\nintensity\nstability\ncombustionTemperature\nmaturationTime\ncreatedAt\nupdatedAt\ndescription\ningredients\nnotes\ntexture\ncostEstimate\nproductionTime\nstatus\nnotes_tete\nnotes_coeur\nnotes_fond\nduree_tete_min\nduree_coeur_min\nduree_fond_min\nparent_recette_id\ngamme\n",
+  "stderr": "",
+  "execution_time_ms": 1496
+}

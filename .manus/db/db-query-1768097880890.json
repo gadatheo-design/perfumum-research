@@ -1,0 +1,98 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'v3_references' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'v3_references' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "entry_key",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "entry_type",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "title",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "authors",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "year",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "container_title",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "publisher",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "doi",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "isbn",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "url",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "axis_primary_id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "axis_primary_code",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "axes_secondary",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "user_notes",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "tags",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "read_status",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "relevance_score",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "imported_at",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "pack_version",
+      "DATA_TYPE": "varchar"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\nid\tint\nentry_key\tvarchar\nentry_type\tenum\ntitle\tvarchar\nauthors\ttext\nyear\tint\ncontainer_title\tvarchar\npublisher\tvarchar\ndoi\tvarchar\nisbn\tvarchar\nurl\tvarchar\naxis_primary_id\tint\naxis_primary_code\tvarchar\naxes_secondary\tjson\nnotes\ttext\nuser_notes\ttext\ntags\tjson\nread_status\tenum\nrelevance_score\tint\nimported_at\ttimestamp\nupdated_at\ttimestamp\npack_version\tvarchar\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

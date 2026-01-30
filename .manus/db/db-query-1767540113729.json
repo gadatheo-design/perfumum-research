@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, name, iupac_name, family, cas_number FROM molecules WHERE name LIKE '%Farnesol%' OR name LIKE '%Geraniol%' OR name LIKE '%farnesol%' OR name LIKE '%geraniol%' OR name LIKE '%Géraniol%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, iupac_name, family, cas_number FROM molecules WHERE name LIKE '%Farnesol%' OR name LIKE '%Geraniol%' OR name LIKE '%farnesol%' OR name LIKE '%geraniol%' OR name LIKE '%Géraniol%';",
+  "rows": [
+    {
+      "id": "570013",
+      "name": "Géraniol Pur",
+      "iupac_name": "NULL",
+      "family": "Terpènes floraux",
+      "cas_number": "NULL"
+    },
+    {
+      "id": "570050",
+      "name": "Géraniol",
+      "iupac_name": "NULL",
+      "family": "Monoterpénol",
+      "cas_number": "NULL"
+    },
+    {
+      "id": "600014",
+      "name": "Géraniol Pur",
+      "iupac_name": "NULL",
+      "family": "Terpènes floraux",
+      "cas_number": "NULL"
+    },
+    {
+      "id": "660001",
+      "name": "Géraniol",
+      "iupac_name": "NULL",
+      "family": "Terpène",
+      "cas_number": "106-24-1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tiupac_name\tfamily\tcas_number\n570013\tGéraniol Pur\tNULL\tTerpènes floraux\tNULL\n570050\tGéraniol\tNULL\tMonoterpénol\tNULL\n600014\tGéraniol Pur\tNULL\tTerpènes floraux\tNULL\n660001\tGéraniol\tNULL\tTerpène\t106-24-1\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

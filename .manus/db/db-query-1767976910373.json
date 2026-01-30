@@ -1,0 +1,430 @@
+{
+  "query": "\nSELECT id, name, country, region, latitude, longitude, climate_type,\n       (SELECT COUNT(*) FROM plant_terroirs WHERE terroir_id = terroirs.id) as plant_count\nFROM terroirs\nWHERE latitude IS NOT NULL AND longitude IS NOT NULL\nORDER BY name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, country, region, latitude, longitude, climate_type,\n       (SELECT COUNT(*) FROM plant_terroirs WHERE terroir_id = terroirs.id) as plant_count\nFROM terroirs\nWHERE latitude IS NOT NULL AND longitude IS NOT NULL\nORDER BY name;\n",
+  "rows": [
+    {
+      "id": "210007",
+      "name": "Afrique Centrale, Forêt Équatoriale",
+      "country": "Multi-pays",
+      "region": "Bassin du Congo",
+      "latitude": "0.0000000",
+      "longitude": "18.0000000",
+      "climate_type": "equatorial",
+      "plant_count": "2"
+    },
+    {
+      "id": "210005",
+      "name": "Afrique de l'Est, Hauts Plateaux",
+      "country": "Multi-pays",
+      "region": "Hauts Plateaux Est-Africains",
+      "latitude": "-3.0000000",
+      "longitude": "37.0000000",
+      "climate_type": "tropical",
+      "plant_count": "6"
+    },
+    {
+      "id": "210004",
+      "name": "Afrique de l'Ouest, Sahel",
+      "country": "Multi-pays",
+      "region": "Sahel",
+      "latitude": "14.0000000",
+      "longitude": "0.0000000",
+      "climate_type": "semi_arid",
+      "plant_count": "0"
+    },
+    {
+      "id": "90001",
+      "name": "Amazonie Colombienne",
+      "country": "Colombie",
+      "region": "Amazonie",
+      "latitude": "-1.0000000",
+      "longitude": "-72.5000000",
+      "climate_type": "equatorial",
+      "plant_count": "30"
+    },
+    {
+      "id": "30011",
+      "name": "Anjouan",
+      "country": "Comores",
+      "region": "Anjouan",
+      "latitude": "-12.2200000",
+      "longitude": "44.4300000",
+      "climate_type": "tropical",
+      "plant_count": "1"
+    },
+    {
+      "id": "7",
+      "name": "Bosaso",
+      "country": "Somalie",
+      "region": "Puntland",
+      "latitude": "11.2842000",
+      "longitude": "49.1817000",
+      "climate_type": "arid",
+      "plant_count": "8"
+    },
+    {
+      "id": "60005",
+      "name": "Burkina Faso",
+      "country": "Burkina Faso",
+      "region": "Pays; axe comparatif variétés fantômes / terroirs.",
+      "latitude": "12.2383000",
+      "longitude": "-1.5616000",
+      "climate_type": "NULL",
+      "plant_count": "0"
+    },
+    {
+      "id": "30002",
+      "name": "Calabre",
+      "country": "Italie",
+      "region": "Calabre",
+      "latitude": "38.9000000",
+      "longitude": "16.6000000",
+      "climate_type": "mediterranean",
+      "plant_count": "17"
+    },
+    {
+      "id": "60006",
+      "name": "Caribbean (macro)",
+      "country": "Caraïbes",
+      "region": "Macro-région (hors Colombie).",
+      "latitude": "15.5000000",
+      "longitude": "-75.0000000",
+      "climate_type": "NULL",
+      "plant_count": "0"
+    },
+    {
+      "id": "3",
+      "name": "Cauca Valley",
+      "country": "Colombie",
+      "region": "Valle del Cauca",
+      "latitude": "3.4516000",
+      "longitude": "-76.5320000",
+      "climate_type": "tropical",
+      "plant_count": "25"
+    },
+    {
+      "id": "30012",
+      "name": "Cilaos",
+      "country": "France (Réunion)",
+      "region": "Cilaos",
+      "latitude": "-21.1300000",
+      "longitude": "55.4700000",
+      "climate_type": "tropical",
+      "plant_count": "3"
+    },
+    {
+      "id": "60001",
+      "name": "Colombia",
+      "country": "Colombie",
+      "region": "Pays; focus Andes + Caraïbes.",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climate_type": "NULL",
+      "plant_count": "0"
+    },
+    {
+      "id": "60002",
+      "name": "Colombia — Andes",
+      "country": "Colombie",
+      "region": "Cundinamarca, Antioquia, etc. (macro-région).",
+      "latitude": "5.0000000",
+      "longitude": "-75.5000000",
+      "climate_type": "NULL",
+      "plant_count": "0"
+    },
+    {
+      "id": "60003",
+      "name": "Colombia — Caribbean",
+      "country": "Colombie",
+      "region": "Côte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.",
+      "latitude": "10.9639000",
+      "longitude": "-74.7964000",
+      "climate_type": "NULL",
+      "plant_count": "1"
+    },
+    {
+      "id": "210006",
+      "name": "Corne de l'Afrique, Somalie/Yémen",
+      "country": "Multi-pays",
+      "region": "Corne de l'Afrique",
+      "latitude": "11.0000000",
+      "longitude": "49.0000000",
+      "climate_type": "arid",
+      "plant_count": "3"
+    },
+    {
+      "id": "120003",
+      "name": "Côte Dalmate",
+      "country": "Croatie",
+      "region": "Dalmatie",
+      "latitude": "43.5081000",
+      "longitude": "16.4402000",
+      "climate_type": "mediterranean",
+      "plant_count": "3"
+    },
+    {
+      "id": "150001",
+      "name": "Côte Monténégrine",
+      "country": "Monténégro",
+      "region": "Côte Adriatique",
+      "latitude": "42.4247000",
+      "longitude": "18.7712000",
+      "climate_type": "mediterranean",
+      "plant_count": "2"
+    },
+    {
+      "id": "210001",
+      "name": "Désert de Sonora",
+      "country": "Mexique",
+      "region": "Sonora / Arizona",
+      "latitude": "31.5000000",
+      "longitude": "-111.0000000",
+      "climate_type": "arid",
+      "plant_count": "3"
+    },
+    {
+      "id": "60007",
+      "name": "Global",
+      "country": "Global",
+      "region": "Pour ressources mondiales (pangenomes, databases).",
+      "latitude": "0.0000000",
+      "longitude": "0.0000000",
+      "climate_type": "NULL",
+      "plant_count": "3"
+    },
+    {
+      "id": "5",
+      "name": "Grasse",
+      "country": "France",
+      "region": "PACA",
+      "latitude": "43.6590000",
+      "longitude": "6.9230000",
+      "climate_type": "mediterranean",
+      "plant_count": "21"
+    },
+    {
+      "id": "30006",
+      "name": "Haute-Égypte",
+      "country": "Égypte",
+      "region": "Louxor-Assouan",
+      "latitude": "25.6900000",
+      "longitude": "32.6400000",
+      "climate_type": "arid",
+      "plant_count": "4"
+    },
+    {
+      "id": "210003",
+      "name": "Hawaii, États-Unis",
+      "country": "États-Unis",
+      "region": "Hawaii",
+      "latitude": "19.8968000",
+      "longitude": "-155.5828000",
+      "climate_type": "tropical",
+      "plant_count": "2"
+    },
+    {
+      "id": "210002",
+      "name": "Hindu Kush, Afghanistan/Pakistan",
+      "country": "Afghanistan",
+      "region": "Hindu Kush",
+      "latitude": "35.0000000",
+      "longitude": "71.0000000",
+      "climate_type": "alpine",
+      "plant_count": "10"
+    },
+    {
+      "id": "30009",
+      "name": "Isparta",
+      "country": "Turquie",
+      "region": "Isparta",
+      "latitude": "37.7600000",
+      "longitude": "30.5500000",
+      "climate_type": "continental",
+      "plant_count": "5"
+    },
+    {
+      "id": "30010",
+      "name": "Kandy",
+      "country": "Sri Lanka",
+      "region": "Province Centrale",
+      "latitude": "7.2900000",
+      "longitude": "80.6300000",
+      "climate_type": "tropical",
+      "plant_count": "2"
+    },
+    {
+      "id": "6",
+      "name": "Karnataka",
+      "country": "Inde",
+      "region": "Sud",
+      "latitude": "12.2958000",
+      "longitude": "76.6394000",
+      "climate_type": "tropical",
+      "plant_count": "18"
+    },
+    {
+      "id": "120004",
+      "name": "Littoral Monténégrin",
+      "country": "Monténégro",
+      "region": "Côte adriatique",
+      "latitude": "42.4247000",
+      "longitude": "18.7712000",
+      "climate_type": "mediterranean",
+      "plant_count": "1"
+    },
+    {
+      "id": "120002",
+      "name": "Macchia Sarda",
+      "country": "Italie",
+      "region": "Sardaigne",
+      "latitude": "40.1209000",
+      "longitude": "9.0129000",
+      "climate_type": "mediterranean",
+      "plant_count": "3"
+    },
+    {
+      "id": "120001",
+      "name": "Maquis Corse",
+      "country": "France",
+      "region": "Corse",
+      "latitude": "42.0396000",
+      "longitude": "9.0129000",
+      "climate_type": "mediterranean",
+      "plant_count": "3"
+    },
+    {
+      "id": "4",
+      "name": "Nossi-Bé",
+      "country": "Madagascar",
+      "region": "Nord-Ouest",
+      "latitude": "-13.3167000",
+      "longitude": "48.2667000",
+      "climate_type": "tropical",
+      "plant_count": "2"
+    },
+    {
+      "id": "30003",
+      "name": "Plaine des Cayes",
+      "country": "Haïti",
+      "region": "Sud",
+      "latitude": "18.2000000",
+      "longitude": "-73.7500000",
+      "climate_type": "tropical",
+      "plant_count": "2"
+    },
+    {
+      "id": "30008",
+      "name": "Plateau de Valensole",
+      "country": "France",
+      "region": "Provence-Alpes-Côte d'Azur",
+      "latitude": "43.8300000",
+      "longitude": "6.0000000",
+      "climate_type": "mediterranean",
+      "plant_count": "11"
+    },
+    {
+      "id": "90002",
+      "name": "Putumayo",
+      "country": "Colombie",
+      "region": "Amazonie",
+      "latitude": "0.5000000",
+      "longitude": "-76.0000000",
+      "climate_type": "equatorial",
+      "plant_count": "28"
+    },
+    {
+      "id": "120005",
+      "name": "Riviera Albanaise",
+      "country": "Albanie",
+      "region": "Côte ionienne",
+      "latitude": "40.4667000",
+      "longitude": "19.4897000",
+      "climate_type": "mediterranean",
+      "plant_count": "3"
+    },
+    {
+      "id": "30004",
+      "name": "Région de Fès-Meknès",
+      "country": "Maroc",
+      "region": "Fès-Meknès",
+      "latitude": "34.0000000",
+      "longitude": "-5.0000000",
+      "climate_type": "mediterranean",
+      "plant_count": "17"
+    },
+    {
+      "id": "30005",
+      "name": "Région de Ouagadougou",
+      "country": "Burkina Faso",
+      "region": "Centre",
+      "latitude": "12.3700000",
+      "longitude": "-1.5200000",
+      "climate_type": "arid",
+      "plant_count": "14"
+    },
+    {
+      "id": "60004",
+      "name": "San Andrés (archipel)",
+      "country": "Colombie",
+      "region": "Île / archipel; terrain utilisateur.",
+      "latitude": "12.5847000",
+      "longitude": "-81.7006000",
+      "climate_type": "NULL",
+      "plant_count": "0"
+    },
+    {
+      "id": "1",
+      "name": "San Andrés y Providencia",
+      "country": "Colombie",
+      "region": "Caraïbes",
+      "latitude": "12.5847000",
+      "longitude": "-81.7006000",
+      "climate_type": "tropical",
+      "plant_count": "37"
+    },
+    {
+      "id": "2",
+      "name": "Santander & Huila",
+      "country": "Colombie",
+      "region": "Andes",
+      "latitude": "6.6437000",
+      "longitude": "-73.6536000",
+      "climate_type": "subtropical",
+      "plant_count": "28"
+    },
+    {
+      "id": "30007",
+      "name": "Sumatra - Aceh",
+      "country": "Indonésie",
+      "region": "Aceh",
+      "latitude": "4.7000000",
+      "longitude": "96.7500000",
+      "climate_type": "tropical",
+      "plant_count": "13"
+    },
+    {
+      "id": "30001",
+      "name": "Vallée des Roses de Kazanlak",
+      "country": "Bulgarie",
+      "region": "Vallée des Roses",
+      "latitude": "42.6194000",
+      "longitude": "25.3930000",
+      "climate_type": "continental",
+      "plant_count": "4"
+    },
+    {
+      "id": "90003",
+      "name": "Vaupés",
+      "country": "Colombie",
+      "region": "Amazonie",
+      "latitude": "0.5000000",
+      "longitude": "-70.5000000",
+      "climate_type": "equatorial",
+      "plant_count": "28"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcountry\tregion\tlatitude\tlongitude\tclimate_type\tplant_count\n210007\tAfrique Centrale, Forêt Équatoriale\tMulti-pays\tBassin du Congo\t0.0000000\t18.0000000\tequatorial\t2\n210005\tAfrique de l'Est, Hauts Plateaux\tMulti-pays\tHauts Plateaux Est-Africains\t-3.0000000\t37.0000000\ttropical\t6\n210004\tAfrique de l'Ouest, Sahel\tMulti-pays\tSahel\t14.0000000\t0.0000000\tsemi_arid\t0\n90001\tAmazonie Colombienne\tColombie\tAmazonie\t-1.0000000\t-72.5000000\tequatorial\t30\n30011\tAnjouan\tComores\tAnjouan\t-12.2200000\t44.4300000\ttropical\t1\n7\tBosaso\tSomalie\tPuntland\t11.2842000\t49.1817000\tarid\t8\n60005\tBurkina Faso\tBurkina Faso\tPays; axe comparatif variétés fantômes / terroirs.\t12.2383000\t-1.5616000\tNULL\t0\n30002\tCalabre\tItalie\tCalabre\t38.9000000\t16.6000000\tmediterranean\t17\n60006\tCaribbean (macro)\tCaraïbes\tMacro-région (hors Colombie).\t15.5000000\t-75.0000000\tNULL\t0\n3\tCauca Valley\tColombie\tValle del Cauca\t3.4516000\t-76.5320000\ttropical\t25\n30012\tCilaos\tFrance (Réunion)\tCilaos\t-21.1300000\t55.4700000\ttropical\t3\n60001\tColombia\tColombie\tPays; focus Andes + Caraïbes.\t4.5709000\t-74.2973000\tNULL\t0\n60002\tColombia — Andes\tColombie\tCundinamarca, Antioquia, etc. (macro-région).\t5.0000000\t-75.5000000\tNULL\t0\n60003\tColombia — Caribbean\tColombie\tCôte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.\t10.9639000\t-74.7964000\tNULL\t1\n210006\tCorne de l'Afrique, Somalie/Yémen\tMulti-pays\tCorne de l'Afrique\t11.0000000\t49.0000000\tarid\t3\n120003\tCôte Dalmate\tCroatie\tDalmatie\t43.5081000\t16.4402000\tmediterranean\t3\n150001\tCôte Monténégrine\tMonténégro\tCôte Adriatique\t42.4247000\t18.7712000\tmediterranean\t2\n210001\tDésert de Sonora\tMexique\tSonora / Arizona\t31.5000000\t-111.0000000\tarid\t3\n60007\tGlobal\tGlobal\tPour ressources mondiales (pangenomes, databases).\t0.0000000\t0.0000000\tNULL\t3\n5\tGrasse\tFrance\tPACA\t43.6590000\t6.9230000\tmediterranean\t21\n30006\tHaute-Égypte\tÉgypte\tLouxor-Assouan\t25.6900000\t32.6400000\tarid\t4\n210003\tHawaii, États-Unis\tÉtats-Unis\tHawaii\t19.8968000\t-155.5828000\ttropical\t2\n210002\tHindu Kush, Afghanistan/Pakistan\tAfghanistan\tHindu Kush\t35.0000000\t71.0000000\talpine\t10\n30009\tIsparta\tTurquie\tIsparta\t37.7600000\t30.5500000\tcontinental\t5\n30010\tKandy\tSri Lanka\tProvince Centrale\t7.2900000\t80.6300000\ttropical\t2\n6\tKarnataka\tInde\tSud\t12.2958000\t76.6394000\ttropical\t18\n120004\tLittoral Monténégrin\tMonténégro\tCôte adriatique\t42.4247000\t18.7712000\tmediterranean\t1\n120002\tMacchia Sarda\tItalie\tSardaigne\t40.1209000\t9.0129000\tmediterranean\t3\n120001\tMaquis Corse\tFrance\tCorse\t42.0396000\t9.0129000\tmediterranean\t3\n4\tNossi-Bé\tMadagascar\tNord-Ouest\t-13.3167000\t48.2667000\ttropical\t2\n30003\tPlaine des Cayes\tHaïti\tSud\t18.2000000\t-73.7500000\ttropical\t2\n30008\tPlateau de Valensole\tFrance\tProvence-Alpes-Côte d'Azur\t43.8300000\t6.0000000\tmediterranean\t11\n90002\tPutumayo\tColombie\tAmazonie\t0.5000000\t-76.0000000\tequatorial\t28\n120005\tRiviera Albanaise\tAlbanie\tCôte ionienne\t40.4667000\t19.4897000\tmediterranean\t3\n30004\tRégion de Fès-Meknès\tMaroc\tFès-Meknès\t34.0000000\t-5.0000000\tmediterranean\t17\n30005\tRégion de Ouagadougou\tBurkina Faso\tCentre\t12.3700000\t-1.5200000\tarid\t14\n60004\tSan Andrés (archipel)\tColombie\tÎle / archipel; terrain utilisateur.\t12.5847000\t-81.7006000\tNULL\t0\n1\tSan Andrés y Providencia\tColombie\tCaraïbes\t12.5847000\t-81.7006000\ttropical\t37\n2\tSantander & Huila\tColombie\tAndes\t6.6437000\t-73.6536000\tsubtropical\t28\n30007\tSumatra - Aceh\tIndonésie\tAceh\t4.7000000\t96.7500000\ttropical\t13\n30001\tVallée des Roses de Kazanlak\tBulgarie\tVallée des Roses\t42.6194000\t25.3930000\tcontinental\t4\n90003\tVaupés\tColombie\tAmazonie\t0.5000000\t-70.5000000\tequatorial\t28\n",
+  "stderr": "",
+  "execution_time_ms": 1542
+}

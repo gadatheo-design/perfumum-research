@@ -1,0 +1,170 @@
+{
+  "query": "SELECT id, name, latin_name, category, conservation_status, cites_appendix, conservation_notes, last_assessment_year \nFROM plants \nWHERE category = 'resine' \nORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, category, conservation_status, cites_appendix, conservation_notes, last_assessment_year \nFROM plants \nWHERE category = 'resine' \nORDER BY name;",
+  "rows": [
+    {
+      "id": "240006",
+      "name": "Benjoin",
+      "latin_name": "Styrax benzoin",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations sauvages en déclin. Culture traditionnelle en agroforesterie.",
+      "last_assessment_year": "2019"
+    },
+    {
+      "id": "150009",
+      "name": "Copal",
+      "latin_name": "Bursera spp.",
+      "category": "resine",
+      "conservation_status": "NE",
+      "cites_appendix": "NULL",
+      "conservation_notes": "NULL",
+      "last_assessment_year": "NULL"
+    },
+    {
+      "id": "30014",
+      "name": "Encens / Oliban",
+      "latin_name": "Boswellia carterii",
+      "category": "resine",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Pression commerciale importante, gestion durable nécessaire",
+      "last_assessment_year": "2018"
+    },
+    {
+      "id": "270002",
+      "name": "Encens d'Éthiopie",
+      "latin_name": "Boswellia papyrifera",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Déclin significatif des populations, régénération très faible",
+      "last_assessment_year": "2019"
+    },
+    {
+      "id": "270003",
+      "name": "Encens de Rivae",
+      "latin_name": "Boswellia rivae",
+      "category": "resine",
+      "conservation_status": "DD",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Données insuffisantes sur l'état des populations",
+      "last_assessment_year": "2015"
+    },
+    {
+      "id": "270001",
+      "name": "Encens indien (Shallaki)",
+      "latin_name": "Boswellia serrata",
+      "category": "resine",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Demande croissante pour les compléments alimentaires",
+      "last_assessment_year": "2020"
+    },
+    {
+      "id": "270004",
+      "name": "Encens négligé",
+      "latin_name": "Boswellia neglecta",
+      "category": "resine",
+      "conservation_status": "LC",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations relativement stables",
+      "last_assessment_year": "2018"
+    },
+    {
+      "id": "270011",
+      "name": "Galbanum",
+      "latin_name": "Ferula gummosa",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Surexploitation en Iran. Populations sauvages en déclin.",
+      "last_assessment_year": "2017"
+    },
+    {
+      "id": "150010",
+      "name": "Labdanum",
+      "latin_name": "Cistus ladanifer",
+      "category": "resine",
+      "conservation_status": "LC",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations stables. Récolte traditionnelle par les chèvres (résine sur leur pelage).",
+      "last_assessment_year": "2015"
+    },
+    {
+      "id": "150011",
+      "name": "Myrrhe",
+      "latin_name": "Commiphora myrrha",
+      "category": "resine",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations stables mais pression croissante due à la demande mondiale",
+      "last_assessment_year": "2020"
+    },
+    {
+      "id": "150008",
+      "name": "Oliban (Encens)",
+      "latin_name": "Boswellia sacra",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Populations en déclin, surexploitation et changement climatique",
+      "last_assessment_year": "2019"
+    },
+    {
+      "id": "270010",
+      "name": "Opoponax (Myrrhe douce)",
+      "latin_name": "Commiphora guidottii",
+      "category": "resine",
+      "conservation_status": "DD",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Données insuffisantes. Exploitation commerciale croissante.",
+      "last_assessment_year": "2018"
+    },
+    {
+      "id": "270008",
+      "name": "Silphium",
+      "latin_name": "Ferula drudeana (probable)",
+      "category": "resine",
+      "conservation_status": "EX",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Éteint depuis le 1er siècle ap. J.-C. Surexploitation et impossibilité de culture.",
+      "last_assessment_year": "NULL"
+    },
+    {
+      "id": "240005",
+      "name": "Styrax liquide",
+      "latin_name": "Liquidambar orientalis",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "conservation_notes": "NULL",
+      "last_assessment_year": "NULL"
+    },
+    {
+      "id": "210032",
+      "name": "Test Resin Plant",
+      "latin_name": "Testus resinus",
+      "category": "resine",
+      "conservation_status": "NE",
+      "cites_appendix": "NULL",
+      "conservation_notes": "NULL",
+      "last_assessment_year": "NULL"
+    },
+    {
+      "id": "270012",
+      "name": "Élémi",
+      "latin_name": "Canarium luzonicum",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "conservation_notes": "Déforestation aux Philippines. Récolte traditionnelle durable menacée.",
+      "last_assessment_year": "2019"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcategory\tconservation_status\tcites_appendix\tconservation_notes\tlast_assessment_year\n240006\tBenjoin\tStyrax benzoin\tresine\tVU\tNONE\tPopulations sauvages en déclin. Culture traditionnelle en agroforesterie.\t2019\n150009\tCopal\tBursera spp.\tresine\tNE\tNULL\tNULL\tNULL\n30014\tEncens / Oliban\tBoswellia carterii\tresine\tNT\tNONE\tPression commerciale importante, gestion durable nécessaire\t2018\n270002\tEncens d'Éthiopie\tBoswellia papyrifera\tresine\tVU\tNONE\tDéclin significatif des populations, régénération très faible\t2019\n270003\tEncens de Rivae\tBoswellia rivae\tresine\tDD\tNONE\tDonnées insuffisantes sur l'état des populations\t2015\n270001\tEncens indien (Shallaki)\tBoswellia serrata\tresine\tNT\tNONE\tDemande croissante pour les compléments alimentaires\t2020\n270004\tEncens négligé\tBoswellia neglecta\tresine\tLC\tNONE\tPopulations relativement stables\t2018\n270011\tGalbanum\tFerula gummosa\tresine\tVU\tNONE\tSurexploitation en Iran. Populations sauvages en déclin.\t2017\n150010\tLabdanum\tCistus ladanifer\tresine\tLC\tNONE\tPopulations stables. Récolte traditionnelle par les chèvres (résine sur leur pelage).\t2015\n150011\tMyrrhe\tCommiphora myrrha\tresine\tNT\tNONE\tPopulations stables mais pression croissante due à la demande mondiale\t2020\n150008\tOliban (Encens)\tBoswellia sacra\tresine\tVU\tNONE\tPopulations en déclin, surexploitation et changement climatique\t2019\n270010\tOpoponax (Myrrhe douce)\tCommiphora guidottii\tresine\tDD\tNONE\tDonnées insuffisantes. Exploitation commerciale croissante.\t2018\n270008\tSilphium\tFerula drudeana (probable)\tresine\tEX\tNONE\tÉteint depuis le 1er siècle ap. J.-C. Surexploitation et impossibilité de culture.\tNULL\n240005\tStyrax liquide\tLiquidambar orientalis\tresine\tVU\tNULL\tNULL\tNULL\n210032\tTest Resin Plant\tTestus resinus\tresine\tNE\tNULL\tNULL\tNULL\n270012\tÉlémi\tCanarium luzonicum\tresine\tVU\tNONE\tDéforestation aux Philippines. Récolte traditionnelle durable menacée.\t2019\n",
+  "stderr": "",
+  "execution_time_ms": 257
+}

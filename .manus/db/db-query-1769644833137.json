@@ -1,0 +1,14 @@
+{
+  "query": "SELECT COUNT(*) as total, SUM(CASE WHEN is_new_tobacco_isolate = 1 THEN 1 ELSE 0 END) as new_isolates FROM perique_compounds;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, SUM(CASE WHEN is_new_tobacco_isolate = 1 THEN 1 ELSE 0 END) as new_isolates FROM perique_compounds;",
+  "rows": [
+    {
+      "total": "48",
+      "new_isolates": "27"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tnew_isolates\n48\t27\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

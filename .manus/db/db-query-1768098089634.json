@@ -1,0 +1,109 @@
+{
+  "query": "\nSELECT id, axis_code, name, category, status, priority, progress_percent \nFROM research_axes \nORDER BY priority DESC, axis_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, axis_code, name, category, status, priority, progress_percent \nFROM research_axes \nORDER BY priority DESC, axis_code;\n",
+  "rows": [
+    {
+      "id": "1",
+      "axis_code": "AX1",
+      "name": "Neurosciences Olfactives et Mémoire",
+      "category": "fondamental",
+      "status": "planifie",
+      "priority": "moyenne",
+      "progress_percent": "0"
+    },
+    {
+      "id": "30005",
+      "axis_code": "AX10",
+      "name": "Méthodologie de recherche",
+      "category": "technique",
+      "status": "en_cours",
+      "priority": "moyenne",
+      "progress_percent": "50"
+    },
+    {
+      "id": "2",
+      "axis_code": "AX2",
+      "name": "Biotechnologie et Parfumerie Durable",
+      "category": "fondamental",
+      "status": "planifie",
+      "priority": "moyenne",
+      "progress_percent": "0"
+    },
+    {
+      "id": "3",
+      "axis_code": "AX3",
+      "name": "Régulation Émotionnelle par l'Olfaction",
+      "category": "fondamental",
+      "status": "planifie",
+      "priority": "moyenne",
+      "progress_percent": "0"
+    },
+    {
+      "id": "4",
+      "axis_code": "AX4",
+      "name": "Préservation du Patrimoine Olfactif",
+      "category": "fondamental",
+      "status": "planifie",
+      "priority": "moyenne",
+      "progress_percent": "0"
+    },
+    {
+      "id": "5",
+      "axis_code": "AX5",
+      "name": "Intelligence Artificielle et Création Parfumée",
+      "category": "fondamental",
+      "status": "planifie",
+      "priority": "moyenne",
+      "progress_percent": "0"
+    },
+    {
+      "id": "30001",
+      "axis_code": "AX6",
+      "name": "Neurologie olfactive",
+      "category": "fondamental",
+      "status": "planifie",
+      "priority": "moyenne",
+      "progress_percent": "10"
+    },
+    {
+      "id": "30003",
+      "axis_code": "AX8",
+      "name": "Tabac et Cannabis",
+      "category": "experimental",
+      "status": "en_cours",
+      "priority": "moyenne",
+      "progress_percent": "45"
+    },
+    {
+      "id": "30004",
+      "axis_code": "AX9",
+      "name": "Terroirs et origines",
+      "category": "applique",
+      "status": "en_cours",
+      "priority": "moyenne",
+      "progress_percent": "20"
+    },
+    {
+      "id": "60001",
+      "axis_code": "AX1",
+      "name": "Variétés Fantômes",
+      "category": "experimental",
+      "status": "en_cours",
+      "priority": "haute",
+      "progress_percent": "35"
+    },
+    {
+      "id": "30002",
+      "axis_code": "AX7",
+      "name": "Durabilité et éthique",
+      "category": "applique",
+      "status": "en_cours",
+      "priority": "haute",
+      "progress_percent": "15"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\taxis_code\tname\tcategory\tstatus\tpriority\tprogress_percent\n1\tAX1\tNeurosciences Olfactives et Mémoire\tfondamental\tplanifie\tmoyenne\t0\n30005\tAX10\tMéthodologie de recherche\ttechnique\ten_cours\tmoyenne\t50\n2\tAX2\tBiotechnologie et Parfumerie Durable\tfondamental\tplanifie\tmoyenne\t0\n3\tAX3\tRégulation Émotionnelle par l'Olfaction\tfondamental\tplanifie\tmoyenne\t0\n4\tAX4\tPréservation du Patrimoine Olfactif\tfondamental\tplanifie\tmoyenne\t0\n5\tAX5\tIntelligence Artificielle et Création Parfumée\tfondamental\tplanifie\tmoyenne\t0\n30001\tAX6\tNeurologie olfactive\tfondamental\tplanifie\tmoyenne\t10\n30003\tAX8\tTabac et Cannabis\texperimental\ten_cours\tmoyenne\t45\n30004\tAX9\tTerroirs et origines\tapplique\ten_cours\tmoyenne\t20\n60001\tAX1\tVariétés Fantômes\texperimental\ten_cours\thaute\t35\n30002\tAX7\tDurabilité et éthique\tapplique\ten_cours\thaute\t15\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

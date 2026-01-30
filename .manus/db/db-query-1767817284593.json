@@ -1,0 +1,154 @@
+{
+  "query": "SELECT axis_code, name, meta_axis, color FROM thematic_axes ORDER BY axis_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT axis_code, name, meta_axis, color FROM thematic_axes ORDER BY axis_code;",
+  "rows": [
+    {
+      "axis_code": "A1",
+      "name": "Smell studies & critical theory",
+      "meta_axis": "meta_a",
+      "color": "#8B5CF6"
+    },
+    {
+      "axis_code": "B1",
+      "name": "Olfactory art & aesthetics",
+      "meta_axis": "meta_b",
+      "color": "#EC4899"
+    },
+    {
+      "axis_code": "B2",
+      "name": "Smell in space, design & urban smellscapes",
+      "meta_axis": "meta_b",
+      "color": "#F43F5E"
+    },
+    {
+      "axis_code": "C1",
+      "name": "Olfactory heritage & computational humanities",
+      "meta_axis": "meta_c",
+      "color": "#06B6D4"
+    },
+    {
+      "axis_code": "C2",
+      "name": "Material culture & perfumery archives",
+      "meta_axis": "meta_c",
+      "color": "#0EA5E9"
+    },
+    {
+      "axis_code": "C3",
+      "name": "Global scent histories beyond Eurocentrism",
+      "meta_axis": "meta_c",
+      "color": "#3B82F6"
+    },
+    {
+      "axis_code": "D1",
+      "name": "Knowledge graph & datasets",
+      "meta_axis": "meta_c",
+      "color": "#10B981"
+    },
+    {
+      "axis_code": "D2",
+      "name": "Methods (field, mapping, participatory)",
+      "meta_axis": "meta_c",
+      "color": "#14B8A6"
+    },
+    {
+      "axis_code": "E1",
+      "name": "Museum protocols & olfactory museology",
+      "meta_axis": "meta_a",
+      "color": "#F59E0B"
+    },
+    {
+      "axis_code": "E2",
+      "name": "Heritage science: documentation & analysis",
+      "meta_axis": "meta_a",
+      "color": "#EAB308"
+    },
+    {
+      "axis_code": "F1",
+      "name": "Ethics, politics & decolonial smell",
+      "meta_axis": "meta_a",
+      "color": "#EF4444"
+    },
+    {
+      "axis_code": "F2",
+      "name": "Community, education & practice networks",
+      "meta_axis": "meta_a",
+      "color": "#F97316"
+    },
+    {
+      "axis_code": "H1",
+      "name": "Patrimoine Olfactif & Archives",
+      "meta_axis": "meta_a",
+      "color": "#8B4513"
+    },
+    {
+      "axis_code": "H2",
+      "name": "Durabilité & Biodiversité",
+      "meta_axis": "meta_a",
+      "color": "#228B22"
+    },
+    {
+      "axis_code": "H3",
+      "name": "Reconstruction de Parfums Antiques",
+      "meta_axis": "meta_a",
+      "color": "#DAA520"
+    },
+    {
+      "axis_code": "J1",
+      "name": "Performative smell systems / devices",
+      "meta_axis": "meta_b",
+      "color": "#A855F7"
+    },
+    {
+      "axis_code": "J2",
+      "name": "VR olfactive & multisensory interfaces",
+      "meta_axis": "meta_c",
+      "color": "#6366F1"
+    },
+    {
+      "axis_code": "J3",
+      "name": "AI for olfaction / digital smell",
+      "meta_axis": "meta_c",
+      "color": "#4F46E5"
+    },
+    {
+      "axis_code": "M1",
+      "name": "Cannabis: diversité colombienne (chimio/terpènes)",
+      "meta_axis": "other",
+      "color": "#22C55E"
+    },
+    {
+      "axis_code": "M2",
+      "name": "Cannabis: standardisation & nomenclature",
+      "meta_axis": "other",
+      "color": "#16A34A"
+    },
+    {
+      "axis_code": "M3",
+      "name": "Cannabis: phytochemistry & biosynthesis",
+      "meta_axis": "other",
+      "color": "#15803D"
+    },
+    {
+      "axis_code": "N1",
+      "name": "Tabac: ethnobotanique & rituels",
+      "meta_axis": "other",
+      "color": "#92400E"
+    },
+    {
+      "axis_code": "N2",
+      "name": "Tabac: industrie, histoire, pouvoir",
+      "meta_axis": "other",
+      "color": "#78350F"
+    },
+    {
+      "axis_code": "N3",
+      "name": "Psychoactive ethnobotany (context only)",
+      "meta_axis": "other",
+      "color": "#713F12"
+    }
+  ],
+  "messages": [],
+  "stdout": "axis_code\tname\tmeta_axis\tcolor\nA1\tSmell studies & critical theory\tmeta_a\t#8B5CF6\nB1\tOlfactory art & aesthetics\tmeta_b\t#EC4899\nB2\tSmell in space, design & urban smellscapes\tmeta_b\t#F43F5E\nC1\tOlfactory heritage & computational humanities\tmeta_c\t#06B6D4\nC2\tMaterial culture & perfumery archives\tmeta_c\t#0EA5E9\nC3\tGlobal scent histories beyond Eurocentrism\tmeta_c\t#3B82F6\nD1\tKnowledge graph & datasets\tmeta_c\t#10B981\nD2\tMethods (field, mapping, participatory)\tmeta_c\t#14B8A6\nE1\tMuseum protocols & olfactory museology\tmeta_a\t#F59E0B\nE2\tHeritage science: documentation & analysis\tmeta_a\t#EAB308\nF1\tEthics, politics & decolonial smell\tmeta_a\t#EF4444\nF2\tCommunity, education & practice networks\tmeta_a\t#F97316\nH1\tPatrimoine Olfactif & Archives\tmeta_a\t#8B4513\nH2\tDurabilité & Biodiversité\tmeta_a\t#228B22\nH3\tReconstruction de Parfums Antiques\tmeta_a\t#DAA520\nJ1\tPerformative smell systems / devices\tmeta_b\t#A855F7\nJ2\tVR olfactive & multisensory interfaces\tmeta_c\t#6366F1\nJ3\tAI for olfaction / digital smell\tmeta_c\t#4F46E5\nM1\tCannabis: diversité colombienne (chimio/terpènes)\tother\t#22C55E\nM2\tCannabis: standardisation & nomenclature\tother\t#16A34A\nM3\tCannabis: phytochemistry & biosynthesis\tother\t#15803D\nN1\tTabac: ethnobotanique & rituels\tother\t#92400E\nN2\tTabac: industrie, histoire, pouvoir\tother\t#78350F\nN3\tPsychoactive ethnobotany (context only)\tother\t#713F12\n",
+  "stderr": "",
+  "execution_time_ms": 173
+}

@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Créer la table thematic_axes\nCREATE TABLE IF NOT EXISTS `thematic_axes` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `axis_code` varchar(20) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `meta_axis` enum('meta_a','meta_b','meta_c','other') NOT NULL,\n  `description` text,\n  `output_types` text,\n  `color` varchar(20) DEFAULT '#6366f1',\n  `icon` varchar(50),\n  `display_order` int DEFAULT 0,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `thematic_axes_id` PRIMARY KEY(`id`),\n  CONSTRAINT `thematic_axis_code_idx` UNIQUE(`axis_code`)\n);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Créer la table thematic_axes\nCREATE TABLE IF NOT EXISTS `thematic_axes` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `axis_code` varchar(20) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `meta_axis` enum('meta_a','meta_b','meta_c','other') NOT NULL,\n  `description` text,\n  `output_types` text,\n  `color` varchar(20) DEFAULT '#6366f1',\n  `icon` varchar(50),\n  `display_order` int DEFAULT 0,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  CONSTRAINT `thematic_axes_id` PRIMARY KEY(`id`),\n  CONSTRAINT `thematic_axis_code_idx` UNIQUE(`axis_code`)\n);\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 227
+}

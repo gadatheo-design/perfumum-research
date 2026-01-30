@@ -1,0 +1,49 @@
+{
+  "query": "SHOW TABLES LIKE '%molecule%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW TABLES LIKE '%molecule%';",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "laboratoire_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_accords"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_chemical_families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_notes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecules_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "petrichor_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "prototype_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "recette_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "tabac_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "volcanique_molecules"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)\nlaboratoire_molecules\nmolecule_accords\nmolecule_chemical_families\nmolecule_families\nmolecule_notes\nmolecule_recettes\nmolecules\nmolecules_recettes\npetrichor_molecules\nprototype_molecules\nrecette_molecules\ntabac_molecules\nvolcanique_molecules\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COUNT(*) as total, \n  SUM(CASE WHEN research_domain IS NOT NULL THEN 1 ELSE 0 END) as with_domain,\n  SUM(CASE WHEN year IS NOT NULL THEN 1 ELSE 0 END) as with_year\nFROM bibliography_entries;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, \n  SUM(CASE WHEN research_domain IS NOT NULL THEN 1 ELSE 0 END) as with_domain,\n  SUM(CASE WHEN year IS NOT NULL THEN 1 ELSE 0 END) as with_year\nFROM bibliography_entries;",
+  "rows": [
+    {
+      "total": "65",
+      "with_domain": "65",
+      "with_year": "65"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\twith_domain\twith_year\n65\t65\t65\n",
+  "stderr": "",
+  "execution_time_ms": 401
+}

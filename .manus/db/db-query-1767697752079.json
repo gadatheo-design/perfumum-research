@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE research_axes \nADD COLUMN IF NOT EXISTS category ENUM('fondamental', 'applique', 'experimental', 'theorique', 'historique', 'ethnographique', 'technique') DEFAULT 'fondamental',\nADD COLUMN IF NOT EXISTS status ENUM('planifie', 'en_cours', 'pause', 'termine', 'archive') DEFAULT 'planifie',\nADD COLUMN IF NOT EXISTS priority ENUM('haute', 'moyenne', 'basse') DEFAULT 'moyenne'",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE research_axes \nADD COLUMN IF NOT EXISTS category ENUM('fondamental', 'applique', 'experimental', 'theorique', 'historique', 'ethnographique', 'technique') DEFAULT 'fondamental',\nADD COLUMN IF NOT EXISTS status ENUM('planifie', 'en_cours', 'pause', 'termine', 'archive') DEFAULT 'planifie',\nADD COLUMN IF NOT EXISTS priority ENUM('haute', 'moyenne', 'basse') DEFAULT 'moyenne'",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 941
+}

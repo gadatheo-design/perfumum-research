@@ -1,0 +1,34 @@
+{
+  "query": "\nSELECT p.id, p.name, p.latin_name, p.family, p.origin, p.category\nFROM plants p\nLEFT JOIN plant_terroirs pt ON p.id = pt.plant_id\nWHERE pt.id IS NULL\nORDER BY p.name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT p.id, p.name, p.latin_name, p.family, p.origin, p.category\nFROM plants p\nLEFT JOIN plant_terroirs pt ON p.id = pt.plant_id\nWHERE pt.id IS NULL\nORDER BY p.name;\n",
+  "rows": [
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora",
+      "family": "NULL",
+      "origin": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "420012",
+      "name": "Anis étoilé",
+      "latin_name": "Illicium verum",
+      "family": "Schisandraceae",
+      "origin": "Sud de la Chine, Nord du Vietnam",
+      "category": "aromatique"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "latin_name": "Commiphora wightii",
+      "family": "NULL",
+      "origin": "NULL",
+      "category": "aromatique"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tfamily\torigin\tcategory\n210040\tAniba\tAniba rosaeodora\tNULL\tNULL\taromatique\n420012\tAnis étoilé\tIllicium verum\tSchisandraceae\tSud de la Chine, Nord du Vietnam\taromatique\n210039\tCommiphora\tCommiphora wightii\tNULL\tNULL\taromatique\n",
+  "stderr": "",
+  "execution_time_ms": 1535
+}

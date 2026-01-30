@@ -1,0 +1,9 @@
+{
+  "query": "CREATE INDEX `bibliography_year_idx` ON `bibliography_entries` (`year`);\nCREATE INDEX `bibliography_type_idx` ON `bibliography_entries` (`entry_type`);\nCREATE INDEX `bibliography_domain_idx` ON `bibliography_entries` (`research_domain`);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE INDEX `bibliography_year_idx` ON `bibliography_entries` (`year`);\nCREATE INDEX `bibliography_type_idx` ON `bibliography_entries` (`entry_type`);\nCREATE INDEX `bibliography_domain_idx` ON `bibliography_entries` (`research_domain`);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1418
+}

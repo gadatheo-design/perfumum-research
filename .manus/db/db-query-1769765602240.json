@@ -1,0 +1,50 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE, COLUMN_DEFAULT \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE TABLE_NAME = 'plant_varieties' AND DATA_TYPE = 'json';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE, COLUMN_DEFAULT \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE TABLE_NAME = 'plant_varieties' AND DATA_TYPE = 'json';",
+  "rows": [
+    {
+      "COLUMN_NAME": "parent_varieties",
+      "DATA_TYPE": "json",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "morphology",
+      "DATA_TYPE": "json",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "dominant_molecules",
+      "DATA_TYPE": "json",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "molecular_profile",
+      "DATA_TYPE": "json",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "olfactive_notes",
+      "DATA_TYPE": "json",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "suppliers",
+      "DATA_TYPE": "json",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "references",
+      "DATA_TYPE": "json",
+      "COLUMN_DEFAULT": "NULL"
+    },
+    {
+      "COLUMN_NAME": "threat_factors",
+      "DATA_TYPE": "json",
+      "COLUMN_DEFAULT": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\tCOLUMN_DEFAULT\nparent_varieties\tjson\tNULL\nmorphology\tjson\tNULL\ndominant_molecules\tjson\tNULL\nmolecular_profile\tjson\tNULL\nolfactive_notes\tjson\tNULL\nsuppliers\tjson\tNULL\nreferences\tjson\tNULL\nthreat_factors\tjson\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

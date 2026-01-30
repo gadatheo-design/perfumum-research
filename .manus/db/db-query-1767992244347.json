@@ -1,0 +1,17 @@
+{
+  "query": "SELECT \n  COUNT(*) as total_molecules,\n  SUM(CASE WHEN cas_number IS NULL OR cas_number = '' THEN 1 ELSE 0 END) as missing_cas,\n  SUM(CASE WHEN iupac_name IS NULL OR iupac_name = '' THEN 1 ELSE 0 END) as missing_iupac,\n  SUM(CASE WHEN chemical_class IS NULL OR chemical_class = '' THEN 1 ELSE 0 END) as missing_class,\n  SUM(CASE WHEN chemicalFormula IS NULL OR chemicalFormula = '' THEN 1 ELSE 0 END) as missing_formula\nFROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total_molecules,\n  SUM(CASE WHEN cas_number IS NULL OR cas_number = '' THEN 1 ELSE 0 END) as missing_cas,\n  SUM(CASE WHEN iupac_name IS NULL OR iupac_name = '' THEN 1 ELSE 0 END) as missing_iupac,\n  SUM(CASE WHEN chemical_class IS NULL OR chemical_class = '' THEN 1 ELSE 0 END) as missing_class,\n  SUM(CASE WHEN chemicalFormula IS NULL OR chemicalFormula = '' THEN 1 ELSE 0 END) as missing_formula\nFROM molecules;",
+  "rows": [
+    {
+      "total_molecules": "648",
+      "missing_cas": "256",
+      "missing_iupac": "276",
+      "missing_class": "127",
+      "missing_formula": "241"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\tmissing_cas\tmissing_iupac\tmissing_class\tmissing_formula\n648\t256\t276\t127\t241\n",
+  "stderr": "",
+  "execution_time_ms": 1553
+}

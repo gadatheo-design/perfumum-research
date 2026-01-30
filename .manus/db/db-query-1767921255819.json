@@ -1,0 +1,25 @@
+{
+  "query": "SELECT id, name, latin_name FROM plants WHERE LOWER(name) LIKE '%cypr%' OR LOWER(name) LIKE '%genévrier%' OR LOWER(name) LIKE '%genevrier%' OR LOWER(name) LIKE '%juniper%' OR LOWER(name) LIKE '%immortelle%' OR LOWER(name) LIKE '%helichrysum%' OR LOWER(latin_name) LIKE '%cupressus%' OR LOWER(latin_name) LIKE '%juniperus%' OR LOWER(latin_name) LIKE '%helichrysum%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name FROM plants WHERE LOWER(name) LIKE '%cypr%' OR LOWER(name) LIKE '%genévrier%' OR LOWER(name) LIKE '%genevrier%' OR LOWER(name) LIKE '%juniper%' OR LOWER(name) LIKE '%immortelle%' OR LOWER(name) LIKE '%helichrysum%' OR LOWER(latin_name) LIKE '%cupressus%' OR LOWER(latin_name) LIKE '%juniperus%' OR LOWER(latin_name) LIKE '%helichrysum%';",
+  "rows": [
+    {
+      "id": "420003",
+      "name": "Cyprès",
+      "latin_name": "Cupressus sempervirens"
+    },
+    {
+      "id": "420004",
+      "name": "Genévrier",
+      "latin_name": "Juniperus communis"
+    },
+    {
+      "id": "420011",
+      "name": "Immortelle",
+      "latin_name": "Helichrysum italicum"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\n420003\tCyprès\tCupressus sempervirens\n420004\tGenévrier\tJuniperus communis\n420011\tImmortelle\tHelichrysum italicum\n",
+  "stderr": "",
+  "execution_time_ms": 190
+}

@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO bibliography_entries (entry_key, entry_type, title, authors, year, journal, doi, research_domain, abstract, keywords, read_status) VALUES ('russo2011_test', 'article', 'Taming THC: potential cannabis synergy', 'Russo, E.B.', 2011, 'British Journal of Pharmacology', '10.1111/j.1476-5381.2011.01238.x', 'pharmacologie', 'Étude sur effet entourage', '[\"cannabis\", \"terpènes\"]', 'lu');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO bibliography_entries (entry_key, entry_type, title, authors, year, journal, doi, research_domain, abstract, keywords, read_status) VALUES ('russo2011_test', 'article', 'Taming THC: potential cannabis synergy', 'Russo, E.B.', 2011, 'British Journal of Pharmacology', '10.1111/j.1476-5381.2011.01238.x', 'pharmacologie', 'Étude sur effet entourage', '[\"cannabis\", \"terpènes\"]', 'lu');",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1265 (01000) at line 1: Data truncated for column 'research_domain' at row 1"
+  ]
+}

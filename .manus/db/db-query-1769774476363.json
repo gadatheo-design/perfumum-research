@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS ms_spectra (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  compound_name VARCHAR(255) NOT NULL,\n  cas_number VARCHAR(50),\n  molecular_formula VARCHAR(100),\n  molecular_weight DECIMAL(10,4),\n  ionization_mode ENUM('EI', 'CI', 'ESI', 'APCI') DEFAULT 'EI',\n  base_peak_mz DECIMAL(10,4),\n  base_peak_intensity INT DEFAULT 100,\n  spectrum_data JSON,\n  fragmentation_pattern TEXT,\n  source VARCHAR(100) DEFAULT 'NIST',\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS ms_spectra (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  compound_name VARCHAR(255) NOT NULL,\n  cas_number VARCHAR(50),\n  molecular_formula VARCHAR(100),\n  molecular_weight DECIMAL(10,4),\n  ionization_mode ENUM('EI', 'CI', 'ESI', 'APCI') DEFAULT 'EI',\n  base_peak_mz DECIMAL(10,4),\n  base_peak_intensity INT DEFAULT 100,\n  spectrum_data JSON,\n  fragmentation_pattern TEXT,\n  source VARCHAR(100) DEFAULT 'NIST',\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 220
+}

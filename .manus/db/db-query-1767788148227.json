@@ -1,0 +1,18 @@
+{
+  "query": "SELECT pack_version, COUNT(*) as count FROM v3_references GROUP BY pack_version;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT pack_version, COUNT(*) as count FROM v3_references GROUP BY pack_version;",
+  "rows": [
+    {
+      "pack_version": "v4",
+      "count": "29"
+    },
+    {
+      "pack_version": "v3",
+      "count": "69"
+    }
+  ],
+  "messages": [],
+  "stdout": "pack_version\tcount\nv4\t29\nv3\t69\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

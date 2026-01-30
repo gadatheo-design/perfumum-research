@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE plants\n  ADD COLUMN IF NOT EXISTS conservation_status ENUM('EX','EW','CR','EN','VU','NT','LC','DD','NE'),\n  ADD COLUMN IF NOT EXISTS cites_appendix ENUM('I','II','III','NONE','UNKNOWN'),\n  ADD COLUMN IF NOT EXISTS conservation_notes TEXT,\n  ADD COLUMN IF NOT EXISTS threat_factors JSON,\n  ADD COLUMN IF NOT EXISTS sustainable_alternatives TEXT,\n  ADD COLUMN IF NOT EXISTS last_assessment_year INT,\n  ADD COLUMN IF NOT EXISTS historical_status VARCHAR(32);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE plants\n  ADD COLUMN IF NOT EXISTS conservation_status ENUM('EX','EW','CR','EN','VU','NT','LC','DD','NE'),\n  ADD COLUMN IF NOT EXISTS cites_appendix ENUM('I','II','III','NONE','UNKNOWN'),\n  ADD COLUMN IF NOT EXISTS conservation_notes TEXT,\n  ADD COLUMN IF NOT EXISTS threat_factors JSON,\n  ADD COLUMN IF NOT EXISTS sustainable_alternatives TEXT,\n  ADD COLUMN IF NOT EXISTS last_assessment_year INT,\n  ADD COLUMN IF NOT EXISTS historical_status VARCHAR(32);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1865
+}

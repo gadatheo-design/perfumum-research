@@ -1,0 +1,28 @@
+{
+  "query": "SELECT COUNT(*) as total FROM molecule_synergies; SELECT type, COUNT(*) as count FROM molecule_synergies GROUP BY type;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total FROM molecule_synergies; SELECT type, COUNT(*) as count FROM molecule_synergies GROUP BY type;",
+  "rows": [
+    {
+      "total": "55"
+    },
+    {
+      "total": "type\tcount"
+    },
+    {
+      "total": "stabilisation\t7"
+    },
+    {
+      "total": "potentialisation\t36"
+    },
+    {
+      "total": "masquage\t1"
+    },
+    {
+      "total": "transformation\t11"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n55\ntype\tcount\nstabilisation\t7\npotentialisation\t36\nmasquage\t1\ntransformation\t11\n",
+  "stderr": "",
+  "execution_time_ms": 107
+}

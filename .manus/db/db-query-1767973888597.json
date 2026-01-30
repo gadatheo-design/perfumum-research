@@ -1,0 +1,297 @@
+{
+  "query": "SELECT p.id, p.name, p.latin_name, p.origin, p.category\nFROM plants p \nLEFT JOIN plant_terroirs pt ON p.id = pt.plant_id \nWHERE pt.id IS NULL \nORDER BY p.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.id, p.name, p.latin_name, p.origin, p.category\nFROM plants p \nLEFT JOIN plant_terroirs pt ON p.id = pt.plant_id \nWHERE pt.id IS NULL \nORDER BY p.name;",
+  "rows": [
+    {
+      "id": "120007",
+      "name": "Afghan Kush",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Hindu Kush, Afghanistan",
+      "category": "cannabis"
+    },
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora",
+      "origin": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "420012",
+      "name": "Anis étoilé",
+      "latin_name": "Illicium verum",
+      "origin": "Sud de la Chine, Nord du Vietnam",
+      "category": "aromatique"
+    },
+    {
+      "id": "330001",
+      "name": "Cannabis",
+      "latin_name": "Cannabis sativa L.",
+      "origin": "Asie centrale (Hindu Kush, Himalaya)",
+      "category": "cannabis"
+    },
+    {
+      "id": "120010",
+      "name": "Chitral",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Pakistan (KPK)",
+      "category": "cannabis"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "latin_name": "Commiphora wightii",
+      "origin": "NULL",
+      "category": "aromatique"
+    },
+    {
+      "id": "120012",
+      "name": "Durban Poison",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Afrique du Sud",
+      "category": "cannabis"
+    },
+    {
+      "id": "210036",
+      "name": "Encens d’Oman",
+      "latin_name": "Boswellia sacra",
+      "origin": "Oman",
+      "category": "aromatique"
+    },
+    {
+      "id": "270011",
+      "name": "Galbanum",
+      "latin_name": "Ferula gummosa",
+      "origin": "Iran, Afghanistan, Turkménistan",
+      "category": "resine"
+    },
+    {
+      "id": "120021",
+      "name": "Hawaiian",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Hawaï",
+      "category": "cannabis"
+    },
+    {
+      "id": "150006",
+      "name": "Hindu Kush",
+      "latin_name": "Cannabis indica var. Hindu Kush",
+      "origin": "Afghanistan / Pakistan (chaîne Hindu Kush)",
+      "category": "cannabis"
+    },
+    {
+      "id": "120009",
+      "name": "Kandahar",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Sud Afghanistan",
+      "category": "cannabis"
+    },
+    {
+      "id": "150016",
+      "name": "Kanna",
+      "latin_name": "Sceletium tortuosum",
+      "origin": "Afrique du Sud (Cap)",
+      "category": "aromatique"
+    },
+    {
+      "id": "120015",
+      "name": "Kilimanjaro",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Tanzanie",
+      "category": "cannabis"
+    },
+    {
+      "id": "150018",
+      "name": "Klip Dagga",
+      "latin_name": "Leonotis nepetifolia",
+      "origin": "Afrique tropicale",
+      "category": "aromatique"
+    },
+    {
+      "id": "150002",
+      "name": "Latakia",
+      "latin_name": "Nicotiana tabacum var. Latakia",
+      "origin": "Syrie (Lattaquié) / Chypre",
+      "category": "tabac"
+    },
+    {
+      "id": "120013",
+      "name": "Malawi Gold",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Malawi",
+      "category": "cannabis"
+    },
+    {
+      "id": "120022",
+      "name": "Maui Wowie",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Maui, Hawaï",
+      "category": "cannabis"
+    },
+    {
+      "id": "120008",
+      "name": "Mazar-i-Sharif",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Nord Afghanistan",
+      "category": "cannabis"
+    },
+    {
+      "id": "180003",
+      "name": "Nard (Spikenard)",
+      "latin_name": "Nardostachys jatamansi",
+      "origin": "Himalaya (Kumaon, Népal, Sikkim, Bhoutan, Myanmar, Chine)",
+      "category": "racine"
+    },
+    {
+      "id": "330003",
+      "name": "Nicotiana benthamiana",
+      "latin_name": "Nicotiana benthamiana",
+      "origin": "Nord de l'Australie",
+      "category": "tabac"
+    },
+    {
+      "id": "330005",
+      "name": "Nicotiana sylvestris",
+      "latin_name": "Nicotiana sylvestris",
+      "origin": "Nord-ouest de l'Argentine (Andes)",
+      "category": "tabac"
+    },
+    {
+      "id": "330006",
+      "name": "Nicotiana tomentosiformis",
+      "latin_name": "Nicotiana tomentosiformis",
+      "origin": "Bolivie, nord de l'Argentine",
+      "category": "tabac"
+    },
+    {
+      "id": "420002",
+      "name": "Orange amère",
+      "latin_name": "Citrus aurantium var. amara",
+      "origin": "Asie du Sud-Est, cultivé Méditerranée",
+      "category": "aromatique"
+    },
+    {
+      "id": "150004",
+      "name": "Oriental Katerini",
+      "latin_name": "Nicotiana tabacum var. Katerini",
+      "origin": "Grèce (Macédoine, Piérie)",
+      "category": "tabac"
+    },
+    {
+      "id": "120011",
+      "name": "Pakistani Kush",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Vallée de Swat, Pakistan",
+      "category": "cannabis"
+    },
+    {
+      "id": "210004",
+      "name": "Palo santo",
+      "latin_name": "Bursera graveolens",
+      "origin": "Équateur (Guayaquil)",
+      "category": "aromatique"
+    },
+    {
+      "id": "120018",
+      "name": "Panama Red",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Panama",
+      "category": "cannabis"
+    },
+    {
+      "id": "150017",
+      "name": "Passiflore",
+      "latin_name": "Passiflora incarnata",
+      "origin": "Sud-Est des États-Unis, Amérique centrale",
+      "category": "aromatique"
+    },
+    {
+      "id": "150001",
+      "name": "Perique",
+      "latin_name": "Nicotiana tabacum var. Perique",
+      "origin": "Louisiane, USA (St. James Parish)",
+      "category": "tabac"
+    },
+    {
+      "id": "390003",
+      "name": "Pin sylvestre",
+      "latin_name": "Pinus sylvestris",
+      "origin": "Europe du Nord, Sibérie",
+      "category": "bois"
+    },
+    {
+      "id": "270008",
+      "name": "Silphium",
+      "latin_name": "Ferula drudeana (probable)",
+      "origin": "Cyrénaïque (Libye antique)",
+      "category": "resine"
+    },
+    {
+      "id": "210026",
+      "name": "Silphium (disparu)",
+      "latin_name": "Silphium sp.",
+      "origin": "Afrique du Nord antique (disparue)",
+      "category": "aromatique"
+    },
+    {
+      "id": "120014",
+      "name": "Swazi Gold",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "origin": "Eswatini",
+      "category": "cannabis"
+    },
+    {
+      "id": "330002",
+      "name": "Tabac cultivé",
+      "latin_name": "Nicotiana tabacum L.",
+      "origin": "Amérique du Sud tropicale (Andes)",
+      "category": "tabac"
+    },
+    {
+      "id": "210031",
+      "name": "Test Plant 1",
+      "latin_name": "Testus plantus",
+      "origin": "Test Region",
+      "category": "aromatique"
+    },
+    {
+      "id": "210032",
+      "name": "Test Resin Plant",
+      "latin_name": "Testus resinus",
+      "origin": "Test",
+      "category": "resine"
+    },
+    {
+      "id": "210033",
+      "name": "Test Wind Plant",
+      "latin_name": "Testus ventus",
+      "origin": "Test",
+      "category": "aromatique"
+    },
+    {
+      "id": "150014",
+      "name": "Wild Dagga",
+      "latin_name": "Leonotis leonurus",
+      "origin": "Afrique du Sud",
+      "category": "aromatique"
+    },
+    {
+      "id": "150005",
+      "name": "Yenidje",
+      "latin_name": "Nicotiana tabacum var. Yenidje",
+      "origin": "Grèce (Thrace, ancienne Yenidje)",
+      "category": "tabac"
+    },
+    {
+      "id": "270012",
+      "name": "Élémi",
+      "latin_name": "Canarium luzonicum",
+      "origin": "Philippines",
+      "category": "resine"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\torigin\tcategory\n120007\tAfghan Kush\tCannabis sativa subsp. indica\tHindu Kush, Afghanistan\tcannabis\n210040\tAniba\tAniba rosaeodora\tNULL\taromatique\n420012\tAnis étoilé\tIllicium verum\tSud de la Chine, Nord du Vietnam\taromatique\n330001\tCannabis\tCannabis sativa L.\tAsie centrale (Hindu Kush, Himalaya)\tcannabis\n120010\tChitral\tCannabis sativa subsp. indica\tPakistan (KPK)\tcannabis\n210039\tCommiphora\tCommiphora wightii\tNULL\taromatique\n120012\tDurban Poison\tCannabis sativa subsp. indica\tAfrique du Sud\tcannabis\n210036\tEncens d’Oman\tBoswellia sacra\tOman\taromatique\n270011\tGalbanum\tFerula gummosa\tIran, Afghanistan, Turkménistan\tresine\n120021\tHawaiian\tCannabis sativa subsp. indica\tHawaï\tcannabis\n150006\tHindu Kush\tCannabis indica var. Hindu Kush\tAfghanistan / Pakistan (chaîne Hindu Kush)\tcannabis\n120009\tKandahar\tCannabis sativa subsp. indica\tSud Afghanistan\tcannabis\n150016\tKanna\tSceletium tortuosum\tAfrique du Sud (Cap)\taromatique\n120015\tKilimanjaro\tCannabis sativa subsp. indica\tTanzanie\tcannabis\n150018\tKlip Dagga\tLeonotis nepetifolia\tAfrique tropicale\taromatique\n150002\tLatakia\tNicotiana tabacum var. Latakia\tSyrie (Lattaquié) / Chypre\ttabac\n120013\tMalawi Gold\tCannabis sativa subsp. indica\tMalawi\tcannabis\n120022\tMaui Wowie\tCannabis sativa subsp. indica\tMaui, Hawaï\tcannabis\n120008\tMazar-i-Sharif\tCannabis sativa subsp. indica\tNord Afghanistan\tcannabis\n180003\tNard (Spikenard)\tNardostachys jatamansi\tHimalaya (Kumaon, Népal, Sikkim, Bhoutan, Myanmar, Chine)\tracine\n330003\tNicotiana benthamiana\tNicotiana benthamiana\tNord de l'Australie\ttabac\n330005\tNicotiana sylvestris\tNicotiana sylvestris\tNord-ouest de l'Argentine (Andes)\ttabac\n330006\tNicotiana tomentosiformis\tNicotiana tomentosiformis\tBolivie, nord de l'Argentine\ttabac\n420002\tOrange amère\tCitrus aurantium var. amara\tAsie du Sud-Est, cultivé Méditerranée\taromatique\n150004\tOriental Katerini\tNicotiana tabacum var. Katerini\tGrèce (Macédoine, Piérie)\ttabac\n120011\tPakistani Kush\tCannabis sativa subsp. indica\tVallée de Swat, Pakistan\tcannabis\n210004\tPalo santo\tBursera graveolens\tÉquateur (Guayaquil)\taromatique\n120018\tPanama Red\tCannabis sativa subsp. indica\tPanama\tcannabis\n150017\tPassiflore\tPassiflora incarnata\tSud-Est des États-Unis, Amérique centrale\taromatique\n150001\tPerique\tNicotiana tabacum var. Perique\tLouisiane, USA (St. James Parish)\ttabac\n390003\tPin sylvestre\tPinus sylvestris\tEurope du Nord, Sibérie\tbois\n270008\tSilphium\tFerula drudeana (probable)\tCyrénaïque (Libye antique)\tresine\n210026\tSilphium (disparu)\tSilphium sp.\tAfrique du Nord antique (disparue)\taromatique\n120014\tSwazi Gold\tCannabis sativa subsp. indica\tEswatini\tcannabis\n330002\tTabac cultivé\tNicotiana tabacum L.\tAmérique du Sud tropicale (Andes)\ttabac\n210031\tTest Plant 1\tTestus plantus\tTest Region\taromatique\n210032\tTest Resin Plant\tTestus resinus\tTest\tresine\n210033\tTest Wind Plant\tTestus ventus\tTest\taromatique\n150014\tWild Dagga\tLeonotis leonurus\tAfrique du Sud\taromatique\n150005\tYenidje\tNicotiana tabacum var. Yenidje\tGrèce (Thrace, ancienne Yenidje)\ttabac\n270012\tÉlémi\tCanarium luzonicum\tPhilippines\tresine\n",
+  "stderr": "",
+  "execution_time_ms": 1593
+}

@@ -1,0 +1,65 @@
+{
+  "query": "SELECT gene_id, terpene_product, molecule_id FROM gene_terpene_links WHERE molecule_id IS NOT NULL;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT gene_id, terpene_product, molecule_id FROM gene_terpene_links WHERE molecule_id IS NOT NULL;",
+  "rows": [
+    {
+      "gene_id": "CsTPS1",
+      "terpene_product": "Myrcène",
+      "molecule_id": "30006"
+    },
+    {
+      "gene_id": "CsTPS2",
+      "terpene_product": "Limonène",
+      "molecule_id": "30007"
+    },
+    {
+      "gene_id": "CsTPS3",
+      "terpene_product": "α-Pinène",
+      "molecule_id": "30008"
+    },
+    {
+      "gene_id": "CsTPS5",
+      "terpene_product": "Linalool",
+      "molecule_id": "30009"
+    },
+    {
+      "gene_id": "CsTPS8",
+      "terpene_product": "Géraniol",
+      "molecule_id": "660001"
+    },
+    {
+      "gene_id": "CsTPS10",
+      "terpene_product": "Camphre",
+      "molecule_id": "570047"
+    },
+    {
+      "gene_id": "CsTPS11",
+      "terpene_product": "Bornéol",
+      "molecule_id": "570049"
+    },
+    {
+      "gene_id": "CsTPS20",
+      "terpene_product": "β-Caryophyllène",
+      "molecule_id": "30005"
+    },
+    {
+      "gene_id": "CsTPS21",
+      "terpene_product": "α-Humulène",
+      "molecule_id": "90048"
+    },
+    {
+      "gene_id": "CsTPS22",
+      "terpene_product": "Nerolidol",
+      "molecule_id": "690004"
+    },
+    {
+      "gene_id": "CsTPS24",
+      "terpene_product": "Guaiol",
+      "molecule_id": "330006"
+    }
+  ],
+  "messages": [],
+  "stdout": "gene_id\tterpene_product\tmolecule_id\nCsTPS1\tMyrcène\t30006\nCsTPS2\tLimonène\t30007\nCsTPS3\tα-Pinène\t30008\nCsTPS5\tLinalool\t30009\nCsTPS8\tGéraniol\t660001\nCsTPS10\tCamphre\t570047\nCsTPS11\tBornéol\t570049\nCsTPS20\tβ-Caryophyllène\t30005\nCsTPS21\tα-Humulène\t90048\nCsTPS22\tNerolidol\t690004\nCsTPS24\tGuaiol\t330006\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

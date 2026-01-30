@@ -1,0 +1,208 @@
+{
+  "query": "SELECT id, source_molecule_id, product_molecule_id, transformation_type FROM molecular_transformations ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, source_molecule_id, product_molecule_id, transformation_type FROM molecular_transformations ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "2",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "3",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "4",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "5",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "6",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "7",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "8",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "9",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "10",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "11",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "12",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "13",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "14",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "15",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "16",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "17",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "18",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "19",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "20",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "21",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "dehydration"
+    },
+    {
+      "id": "22",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "23",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "degradation"
+    },
+    {
+      "id": "24",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "25",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "26",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "27",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "28",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "29",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "30",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "31",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "32",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "other"
+    },
+    {
+      "id": "33",
+      "source_molecule_id": "NULL",
+      "product_molecule_id": "NULL",
+      "transformation_type": "isomerization"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsource_molecule_id\tproduct_molecule_id\ttransformation_type\n1\tNULL\tNULL\tpyrolysis\n2\tNULL\tNULL\tisomerization\n3\tNULL\tNULL\tisomerization\n4\tNULL\tNULL\tisomerization\n5\tNULL\tNULL\tisomerization\n6\tNULL\tNULL\tpyrolysis\n7\tNULL\tNULL\toxidation\n8\tNULL\tNULL\toxidation\n9\tNULL\tNULL\toxidation\n10\tNULL\tNULL\tisomerization\n11\tNULL\tNULL\toxidation\n12\tNULL\tNULL\tisomerization\n13\tNULL\tNULL\tisomerization\n14\tNULL\tNULL\toxidation\n15\tNULL\tNULL\tisomerization\n16\tNULL\tNULL\toxidation\n17\tNULL\tNULL\toxidation\n18\tNULL\tNULL\toxidation\n19\tNULL\tNULL\tpyrolysis\n20\tNULL\tNULL\tpyrolysis\n21\tNULL\tNULL\tdehydration\n22\tNULL\tNULL\tisomerization\n23\tNULL\tNULL\tdegradation\n24\tNULL\tNULL\toxidation\n25\tNULL\tNULL\toxidation\n26\tNULL\tNULL\tisomerization\n27\tNULL\tNULL\toxidation\n28\tNULL\tNULL\tisomerization\n29\tNULL\tNULL\toxidation\n30\tNULL\tNULL\toxidation\n31\tNULL\tNULL\tisomerization\n32\tNULL\tNULL\tother\n33\tNULL\tNULL\tisomerization\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

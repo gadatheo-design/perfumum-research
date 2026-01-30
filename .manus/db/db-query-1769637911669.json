@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COUNT(*) as total, SUM(CASE WHEN molecularWeight IS NULL OR molecularWeight = 0 THEN 1 ELSE 0 END) as sans_poids, SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as avec_cas FROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, SUM(CASE WHEN molecularWeight IS NULL OR molecularWeight = 0 THEN 1 ELSE 0 END) as sans_poids, SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as avec_cas FROM molecules;",
+  "rows": [
+    {
+      "total": "671",
+      "sans_poids": "96",
+      "avec_cas": "396"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tsans_poids\tavec_cas\n671\t96\t396\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

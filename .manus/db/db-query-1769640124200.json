@@ -1,0 +1,28 @@
+{
+  "query": "SELECT DISTINCT category FROM raw_materials ORDER BY category;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT DISTINCT category FROM raw_materials ORDER BY category;",
+  "rows": [
+    {
+      "category": "huile_essentielle"
+    },
+    {
+      "category": "absolue"
+    },
+    {
+      "category": "concrete"
+    },
+    {
+      "category": "resinoid"
+    },
+    {
+      "category": "co2_extract"
+    },
+    {
+      "category": "oleoresine"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\nhuile_essentielle\nabsolue\nconcrete\nresinoid\nco2_extract\noleoresine\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

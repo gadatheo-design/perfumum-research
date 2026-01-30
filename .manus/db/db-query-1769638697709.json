@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, name, type, origin FROM tabacs ORDER BY name LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, type, origin FROM tabacs ORDER BY name LIMIT 20;",
+  "rows": [
+    {
+      "id": "60015",
+      "name": "Agonya",
+      "type": "oriental",
+      "origin": "Grèce"
+    },
+    {
+      "id": "30008",
+      "name": "Bashi Bagli",
+      "type": "oriental",
+      "origin": "Turquie"
+    },
+    {
+      "id": "60011",
+      "name": "Bashi Bagli",
+      "type": "oriental",
+      "origin": "Grèce/Turquie"
+    },
+    {
+      "id": "60001",
+      "name": "Basma",
+      "type": "oriental",
+      "origin": "Grèce"
+    },
+    {
+      "id": "30003",
+      "name": "Basma",
+      "type": "oriental",
+      "origin": "Grèce"
+    },
+    {
+      "id": "5",
+      "name": "Burley",
+      "type": "brun",
+      "origin": "USA/Kentucky"
+    },
+    {
+      "id": "30014",
+      "name": "Dark Fired Kentucky",
+      "type": "brun",
+      "origin": "Kentucky, États-Unis"
+    },
+    {
+      "id": "30010",
+      "name": "Djebel",
+      "type": "oriental",
+      "origin": "Syrie"
+    },
+    {
+      "id": "60010",
+      "name": "Djebel",
+      "type": "oriental",
+      "origin": "Bulgarie"
+    },
+    {
+      "id": "30005",
+      "name": "Drama",
+      "type": "oriental",
+      "origin": "Grèce"
+    },
+    {
+      "id": "30009",
+      "name": "Dubek",
+      "type": "oriental",
+      "origin": "Macédoine"
+    },
+    {
+      "id": "60017",
+      "name": "Dupnitsa",
+      "type": "oriental",
+      "origin": "Bulgarie"
+    },
+    {
+      "id": "30016",
+      "name": "Havana Seed",
+      "type": "brun",
+      "origin": "Cuba/Connecticut"
+    },
+    {
+      "id": "60004",
+      "name": "Izmir (Ozbas)",
+      "type": "oriental",
+      "origin": "Turquie"
+    },
+    {
+      "id": "30006",
+      "name": "Izmir/Smyrna",
+      "type": "oriental",
+      "origin": "Turquie"
+    },
+    {
+      "id": "30004",
+      "name": "Katerini",
+      "type": "oriental",
+      "origin": "Grèce"
+    },
+    {
+      "id": "60002",
+      "name": "Katerini 53",
+      "type": "oriental",
+      "origin": "Grèce"
+    },
+    {
+      "id": "1",
+      "name": "Krumovgrad",
+      "type": "oriental",
+      "origin": "Bulgarie"
+    },
+    {
+      "id": "30013",
+      "name": "Latakia",
+      "type": "oriental",
+      "origin": "Syrie/Chypre"
+    },
+    {
+      "id": "30015",
+      "name": "Maryland 609",
+      "type": "blond",
+      "origin": "Maryland, États-Unis"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\ttype\torigin\n60015\tAgonya\toriental\tGrèce\n30008\tBashi Bagli\toriental\tTurquie\n60011\tBashi Bagli\toriental\tGrèce/Turquie\n60001\tBasma\toriental\tGrèce\n30003\tBasma\toriental\tGrèce\n5\tBurley\tbrun\tUSA/Kentucky\n30014\tDark Fired Kentucky\tbrun\tKentucky, États-Unis\n30010\tDjebel\toriental\tSyrie\n60010\tDjebel\toriental\tBulgarie\n30005\tDrama\toriental\tGrèce\n30009\tDubek\toriental\tMacédoine\n60017\tDupnitsa\toriental\tBulgarie\n30016\tHavana Seed\tbrun\tCuba/Connecticut\n60004\tIzmir (Ozbas)\toriental\tTurquie\n30006\tIzmir/Smyrna\toriental\tTurquie\n30004\tKaterini\toriental\tGrèce\n60002\tKaterini 53\toriental\tGrèce\n1\tKrumovgrad\toriental\tBulgarie\n30013\tLatakia\toriental\tSyrie/Chypre\n30015\tMaryland 609\tblond\tMaryland, États-Unis\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

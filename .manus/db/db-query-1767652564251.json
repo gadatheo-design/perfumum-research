@@ -1,0 +1,58 @@
+{
+  "query": "SELECT id, name, region, zone_type FROM geographic_zones ORDER BY region",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, zone_type FROM geographic_zones ORDER BY region",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Somalie - Zone critique Boswellia",
+      "region": "Afrique de l'Est",
+      "zone_type": "threatened_concentration"
+    },
+    {
+      "id": "3",
+      "name": "Asie du Sud-Est - Triangle Aquilaria",
+      "region": "Asie du Sud-Est",
+      "zone_type": "threatened_concentration"
+    },
+    {
+      "id": "8",
+      "name": "Indonésie - Kalimantan (Patchouli)",
+      "region": "Asie du Sud-Est",
+      "zone_type": "sustainable_alternatives"
+    },
+    {
+      "id": "6",
+      "name": "Bulgarie - Vallée des Roses",
+      "region": "Europe de l'Est",
+      "zone_type": "sustainable_alternatives"
+    },
+    {
+      "id": "4",
+      "name": "Inde du Sud - Karnataka (Santalum album)",
+      "region": "Inde",
+      "zone_type": "conservation_area"
+    },
+    {
+      "id": "5",
+      "name": "Madagascar - Forêts de Dalbergia",
+      "region": "Madagascar",
+      "zone_type": "threatened_concentration"
+    },
+    {
+      "id": "7",
+      "name": "Comores - Archipel Ylang-Ylang",
+      "region": "Océan Indien",
+      "zone_type": "biodiversity_hotspot"
+    },
+    {
+      "id": "2",
+      "name": "Oman - Dhofar (Boswellia sacra)",
+      "region": "Péninsule arabique",
+      "zone_type": "conservation_area"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\tzone_type\n1\tSomalie - Zone critique Boswellia\tAfrique de l'Est\tthreatened_concentration\n3\tAsie du Sud-Est - Triangle Aquilaria\tAsie du Sud-Est\tthreatened_concentration\n8\tIndonésie - Kalimantan (Patchouli)\tAsie du Sud-Est\tsustainable_alternatives\n6\tBulgarie - Vallée des Roses\tEurope de l'Est\tsustainable_alternatives\n4\tInde du Sud - Karnataka (Santalum album)\tInde\tconservation_area\n5\tMadagascar - Forêts de Dalbergia\tMadagascar\tthreatened_concentration\n7\tComores - Archipel Ylang-Ylang\tOcéan Indien\tbiodiversity_hotspot\n2\tOman - Dhofar (Boswellia sacra)\tPéninsule arabique\tconservation_area\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

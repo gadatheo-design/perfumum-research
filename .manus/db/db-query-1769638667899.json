@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire, Analgésique, Gastroprotecteur, Anxiolytique' WHERE name LIKE '%caryophyllene%' OR name LIKE '%caryophyllène%'; UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire, Antibactérien, Anti-tumoral' WHERE name LIKE '%humulene%' OR name LIKE '%humulène%'; UPDATE molecules SET therapeuticProperties = 'Sédatif, Anxiolytique, Antifongique, Antiparasitaire' WHERE name LIKE '%nerolidol%' OR name LIKE '%nérolidol%'; UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire, Cicatrisant, Antimicrobien' WHERE name LIKE '%bisabolol%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire, Analgésique, Gastroprotecteur, Anxiolytique' WHERE name LIKE '%caryophyllene%' OR name LIKE '%caryophyllène%'; UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire, Antibactérien, Anti-tumoral' WHERE name LIKE '%humulene%' OR name LIKE '%humulène%'; UPDATE molecules SET therapeuticProperties = 'Sédatif, Anxiolytique, Antifongique, Antiparasitaire' WHERE name LIKE '%nerolidol%' OR name LIKE '%nérolidol%'; UPDATE molecules SET therapeuticProperties = 'Anti-inflammatoire, Cicatrisant, Antimicrobien' WHERE name LIKE '%bisabolol%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 82
+}

@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS tps_gene_molecules (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  tps_gene_id INT NOT NULL,\n  molecule_id INT NOT NULL,\n  relationship_type ENUM('produces', 'catalyzes', 'regulates', 'precursor') NOT NULL DEFAULT 'produces',\n  confidence_level ENUM('confirmed', 'predicted', 'inferred') NOT NULL DEFAULT 'inferred',\n  evidence_source VARCHAR(500),\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_gene_molecule (tps_gene_id, molecule_id),\n  FOREIGN KEY (tps_gene_id) REFERENCES tps_genes(id) ON DELETE CASCADE,\n  FOREIGN KEY (molecule_id) REFERENCES molecules(id) ON DELETE CASCADE\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS tps_gene_molecules (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  tps_gene_id INT NOT NULL,\n  molecule_id INT NOT NULL,\n  relationship_type ENUM('produces', 'catalyzes', 'regulates', 'precursor') NOT NULL DEFAULT 'produces',\n  confidence_level ENUM('confirmed', 'predicted', 'inferred') NOT NULL DEFAULT 'inferred',\n  evidence_source VARCHAR(500),\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_gene_molecule (tps_gene_id, molecule_id),\n  FOREIGN KEY (tps_gene_id) REFERENCES tps_genes(id) ON DELETE CASCADE,\n  FOREIGN KEY (molecule_id) REFERENCES molecules(id) ON DELETE CASCADE\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 360
+}

@@ -1,0 +1,62 @@
+{
+  "query": "SELECT COUNT(*) as total, research_domain FROM bibliography_entries GROUP BY research_domain ORDER BY total DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, research_domain FROM bibliography_entries GROUP BY research_domain ORDER BY total DESC;",
+  "rows": [
+    {
+      "total": "131",
+      "research_domain": "chimie_olfactive"
+    },
+    {
+      "total": "52",
+      "research_domain": "botanique"
+    },
+    {
+      "total": "49",
+      "research_domain": "tabac_cannabis"
+    },
+    {
+      "total": "38",
+      "research_domain": ""
+    },
+    {
+      "total": "35",
+      "research_domain": "ethnobotanique"
+    },
+    {
+      "total": "27",
+      "research_domain": "neurologie_olfactive"
+    },
+    {
+      "total": "19",
+      "research_domain": "histoire_parfumerie"
+    },
+    {
+      "total": "18",
+      "research_domain": "formulation"
+    },
+    {
+      "total": "15",
+      "research_domain": "methodologie"
+    },
+    {
+      "total": "8",
+      "research_domain": "extraction"
+    },
+    {
+      "total": "8",
+      "research_domain": "autre"
+    },
+    {
+      "total": "8",
+      "research_domain": "durabilite"
+    },
+    {
+      "total": "7",
+      "research_domain": "reglementation"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tresearch_domain\n131\tchimie_olfactive\n52\tbotanique\n49\ttabac_cannabis\n38\t\n35\tethnobotanique\n27\tneurologie_olfactive\n19\thistoire_parfumerie\n18\tformulation\n15\tmethodologie\n8\textraction\n8\tautre\n8\tdurabilite\n7\treglementation\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

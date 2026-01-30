@@ -1,0 +1,269 @@
+{
+  "query": "SELECT id, name, latin_name, category, dominant_molecules FROM plants ORDER BY name LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, category, dominant_molecules FROM plants ORDER BY name LIMIT 50;",
+  "rows": [
+    {
+      "id": "60007",
+      "name": "Ajowan",
+      "latin_name": "Trachyspermum ammi",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "90001",
+      "name": "Ambrette",
+      "latin_name": "Abelmoschus moschatus",
+      "category": "fleur",
+      "dominant_molecules": "[\"Ambrettolide\",\"Farnesol\",\"Geraniol\",\"Linalool\"]"
+    },
+    {
+      "id": "60004",
+      "name": "Aneth",
+      "latin_name": "Anethum graveolens",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "4",
+      "name": "Basilic",
+      "latin_name": "Ocimum basilicum",
+      "category": "aromatique",
+      "dominant_molecules": "[\"linalool\",\"1,8-cinéole\",\"estragole\",\"eugénol\"]"
+    },
+    {
+      "id": "30004",
+      "name": "Bergamote",
+      "latin_name": "Citrus bergamia",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "30013",
+      "name": "Bois de Santal",
+      "latin_name": "Santalum album",
+      "category": "bois",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "8",
+      "name": "Burley (air-cured)",
+      "latin_name": "Nicotiana tabacum var. Burley",
+      "category": "tabac",
+      "dominant_molecules": "[\"megastigmatrienone\",\"solanone\",\"neophytadiene\"]"
+    },
+    {
+      "id": "60003",
+      "name": "Carvi",
+      "latin_name": "Carum carvi",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "30002",
+      "name": "Citron",
+      "latin_name": "Citrus limon",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "9",
+      "name": "Criollo (sun-cured)",
+      "latin_name": "Nicotiana tabacum var. Criollo",
+      "category": "tabac",
+      "dominant_molecules": "[\"megastigmatrienone\",\"solanone\",\"neophytadiene\",\"β-damascenone\"]"
+    },
+    {
+      "id": "30015",
+      "name": "Cèdre de l'Atlas",
+      "latin_name": "Cedrus atlantica",
+      "category": "bois",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "30014",
+      "name": "Encens / Oliban",
+      "latin_name": "Boswellia carterii",
+      "category": "resine",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "60002",
+      "name": "Estragon",
+      "latin_name": "Artemisia dracunculus",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "30006",
+      "name": "Eucalyptus globulus",
+      "latin_name": "Eucalyptus globulus",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "60005",
+      "name": "Fenouil",
+      "latin_name": "Foeniculum vulgare",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "30016",
+      "name": "Géranium rosat",
+      "latin_name": "Pelargonium graveolens",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "30011",
+      "name": "Jasmin grandiflorum",
+      "latin_name": "Jasminum grandiflorum",
+      "category": "fleur",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "30001",
+      "name": "Lavande vraie",
+      "latin_name": "Lavandula angustifolia",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "2",
+      "name": "Lemongrass / Citronnelle",
+      "latin_name": "Cymbopogon citratus",
+      "category": "aromatique",
+      "dominant_molecules": "[\"citral\",\"géranial\",\"néral\",\"β-caryophyllène\",\"myrcène\"]"
+    },
+    {
+      "id": "3",
+      "name": "Lippia alba",
+      "latin_name": "Lippia alba",
+      "category": "aromatique",
+      "dominant_molecules": "[\"géranial\",\"néral\",\"carvone\",\"limonène\",\"β-caryophyllène\",\"géraniol\"]"
+    },
+    {
+      "id": "30005",
+      "name": "Menthe poivrée",
+      "latin_name": "Mentha piperita",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "5",
+      "name": "Menthe verte",
+      "latin_name": "Mentha spicata",
+      "category": "aromatique",
+      "dominant_molecules": "[\"carvone\",\"limonène\",\"menthone\",\"1,8-cinéole\"]"
+    },
+    {
+      "id": "30003",
+      "name": "Orange douce",
+      "latin_name": "Citrus sinensis",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "6",
+      "name": "Origan",
+      "latin_name": "Origanum vulgare",
+      "category": "aromatique",
+      "dominant_molecules": "[\"carvacrol\",\"thymol\",\"p-cymène\",\"γ-terpinène\"]"
+    },
+    {
+      "id": "30012",
+      "name": "Patchouli",
+      "latin_name": "Pogostemon cablin",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "11",
+      "name": "Profil BOIS / structure",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "category": "cannabis",
+      "dominant_molecules": "[\"β-caryophyllène\",\"humulène\"]"
+    },
+    {
+      "id": "13",
+      "name": "Profil DISPARITION / trace",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "category": "cannabis",
+      "dominant_molecules": "[\"linalool\"]"
+    },
+    {
+      "id": "12",
+      "name": "Profil FEUILLE / vert",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "category": "cannabis",
+      "dominant_molecules": "[\"terpinolène\",\"myrcène\"]"
+    },
+    {
+      "id": "10",
+      "name": "Profil VENT / clair",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "category": "cannabis",
+      "dominant_molecules": "[\"α-pinène\",\"β-pinène\",\"limonène\"]"
+    },
+    {
+      "id": "30007",
+      "name": "Romarin",
+      "latin_name": "Rosmarinus officinalis",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "30010",
+      "name": "Rose de Damas",
+      "latin_name": "Rosa damascena",
+      "category": "fleur",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "60006",
+      "name": "Sarriette",
+      "latin_name": "Satureja montana",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "60001",
+      "name": "Thym",
+      "latin_name": "Thymus vulgaris",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "7",
+      "name": "Virginia (flue-cured)",
+      "latin_name": "Nicotiana tabacum var. Virginia",
+      "category": "tabac",
+      "dominant_molecules": "[\"β-damascenone\",\"megastigmatrienone\",\"solanone\",\"neophytadiene\"]"
+    },
+    {
+      "id": "30008",
+      "name": "Vétiver",
+      "latin_name": "Vetiveria zizanioides",
+      "category": "aromatique",
+      "dominant_molecules": "NULL"
+    },
+    {
+      "id": "1",
+      "name": "West Indian Bay / Bay rum tree",
+      "latin_name": "Pimenta racemosa",
+      "category": "aromatique",
+      "dominant_molecules": "[\"eugénol\",\"myrcène\",\"chavicol\",\"limonène\"]"
+    },
+    {
+      "id": "30009",
+      "name": "Ylang-Ylang",
+      "latin_name": "Cananga odorata",
+      "category": "fleur",
+      "dominant_molecules": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcategory\tdominant_molecules\n60007\tAjowan\tTrachyspermum ammi\taromatique\tNULL\n90001\tAmbrette\tAbelmoschus moschatus\tfleur\t[\"Ambrettolide\",\"Farnesol\",\"Geraniol\",\"Linalool\"]\n60004\tAneth\tAnethum graveolens\taromatique\tNULL\n4\tBasilic\tOcimum basilicum\taromatique\t[\"linalool\",\"1,8-cinéole\",\"estragole\",\"eugénol\"]\n30004\tBergamote\tCitrus bergamia\taromatique\tNULL\n30013\tBois de Santal\tSantalum album\tbois\tNULL\n8\tBurley (air-cured)\tNicotiana tabacum var. Burley\ttabac\t[\"megastigmatrienone\",\"solanone\",\"neophytadiene\"]\n60003\tCarvi\tCarum carvi\taromatique\tNULL\n30002\tCitron\tCitrus limon\taromatique\tNULL\n9\tCriollo (sun-cured)\tNicotiana tabacum var. Criollo\ttabac\t[\"megastigmatrienone\",\"solanone\",\"neophytadiene\",\"β-damascenone\"]\n30015\tCèdre de l'Atlas\tCedrus atlantica\tbois\tNULL\n30014\tEncens / Oliban\tBoswellia carterii\tresine\tNULL\n60002\tEstragon\tArtemisia dracunculus\taromatique\tNULL\n30006\tEucalyptus globulus\tEucalyptus globulus\taromatique\tNULL\n60005\tFenouil\tFoeniculum vulgare\taromatique\tNULL\n30016\tGéranium rosat\tPelargonium graveolens\taromatique\tNULL\n30011\tJasmin grandiflorum\tJasminum grandiflorum\tfleur\tNULL\n30001\tLavande vraie\tLavandula angustifolia\taromatique\tNULL\n2\tLemongrass / Citronnelle\tCymbopogon citratus\taromatique\t[\"citral\",\"géranial\",\"néral\",\"β-caryophyllène\",\"myrcène\"]\n3\tLippia alba\tLippia alba\taromatique\t[\"géranial\",\"néral\",\"carvone\",\"limonène\",\"β-caryophyllène\",\"géraniol\"]\n30005\tMenthe poivrée\tMentha piperita\taromatique\tNULL\n5\tMenthe verte\tMentha spicata\taromatique\t[\"carvone\",\"limonène\",\"menthone\",\"1,8-cinéole\"]\n30003\tOrange douce\tCitrus sinensis\taromatique\tNULL\n6\tOrigan\tOriganum vulgare\taromatique\t[\"carvacrol\",\"thymol\",\"p-cymène\",\"γ-terpinène\"]\n30012\tPatchouli\tPogostemon cablin\taromatique\tNULL\n11\tProfil BOIS / structure\tCannabis sativa (profil terpénique)\tcannabis\t[\"β-caryophyllène\",\"humulène\"]\n13\tProfil DISPARITION / trace\tCannabis sativa (profil terpénique)\tcannabis\t[\"linalool\"]\n12\tProfil FEUILLE / vert\tCannabis sativa (profil terpénique)\tcannabis\t[\"terpinolène\",\"myrcène\"]\n10\tProfil VENT / clair\tCannabis sativa (profil terpénique)\tcannabis\t[\"α-pinène\",\"β-pinène\",\"limonène\"]\n30007\tRomarin\tRosmarinus officinalis\taromatique\tNULL\n30010\tRose de Damas\tRosa damascena\tfleur\tNULL\n60006\tSarriette\tSatureja montana\taromatique\tNULL\n60001\tThym\tThymus vulgaris\taromatique\tNULL\n7\tVirginia (flue-cured)\tNicotiana tabacum var. Virginia\ttabac\t[\"β-damascenone\",\"megastigmatrienone\",\"solanone\",\"neophytadiene\"]\n30008\tVétiver\tVetiveria zizanioides\taromatique\tNULL\n1\tWest Indian Bay / Bay rum tree\tPimenta racemosa\taromatique\t[\"eugénol\",\"myrcène\",\"chavicol\",\"limonène\"]\n30009\tYlang-Ylang\tCananga odorata\tfleur\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 87
+}

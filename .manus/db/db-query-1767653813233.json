@@ -1,0 +1,85 @@
+{
+  "query": "SELECT id, name, region FROM geographic_zones ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region FROM geographic_zones ORDER BY name;",
+  "rows": [
+    {
+      "id": "30002",
+      "name": "Amérique centrale - Zone Myroxylon",
+      "region": "Amérique centrale"
+    },
+    {
+      "id": "3",
+      "name": "Asie du Sud-Est - Triangle Aquilaria",
+      "region": "Asie du Sud-Est"
+    },
+    {
+      "id": "30003",
+      "name": "Australie occidentale - Zone Santalum",
+      "region": "Australie"
+    },
+    {
+      "id": "6",
+      "name": "Bulgarie - Vallée des Roses",
+      "region": "Europe de l'Est"
+    },
+    {
+      "id": "7",
+      "name": "Comores - Archipel Ylang-Ylang",
+      "region": "Océan Indien"
+    },
+    {
+      "id": "4",
+      "name": "Inde du Sud - Karnataka (Santalum album)",
+      "region": "Inde"
+    },
+    {
+      "id": "8",
+      "name": "Indonésie - Kalimantan (Patchouli)",
+      "region": "Asie du Sud-Est"
+    },
+    {
+      "id": "5",
+      "name": "Madagascar - Forêts de Dalbergia",
+      "region": "Madagascar"
+    },
+    {
+      "id": "30001",
+      "name": "Méditerranée occidentale",
+      "region": "Europe du Sud"
+    },
+    {
+      "id": "2",
+      "name": "Oman - Dhofar (Boswellia sacra)",
+      "region": "Péninsule arabique"
+    },
+    {
+      "id": "1",
+      "name": "Somalie - Zone critique Boswellia",
+      "region": "Afrique de l'Est"
+    },
+    {
+      "id": "30005",
+      "name": "Sri Lanka - Zone Cinnamomum",
+      "region": "Asie du Sud"
+    },
+    {
+      "id": "30007",
+      "name": "Sumatra - Zone Styrax",
+      "region": "Asie du Sud-Est"
+    },
+    {
+      "id": "30004",
+      "name": "Turquie - Zone Liquidambar",
+      "region": "Méditerranée orientale"
+    },
+    {
+      "id": "30006",
+      "name": "Zanzibar - Zone Syzygium",
+      "region": "Afrique de l'Est"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\n30002\tAmérique centrale - Zone Myroxylon\tAmérique centrale\n3\tAsie du Sud-Est - Triangle Aquilaria\tAsie du Sud-Est\n30003\tAustralie occidentale - Zone Santalum\tAustralie\n6\tBulgarie - Vallée des Roses\tEurope de l'Est\n7\tComores - Archipel Ylang-Ylang\tOcéan Indien\n4\tInde du Sud - Karnataka (Santalum album)\tInde\n8\tIndonésie - Kalimantan (Patchouli)\tAsie du Sud-Est\n5\tMadagascar - Forêts de Dalbergia\tMadagascar\n30001\tMéditerranée occidentale\tEurope du Sud\n2\tOman - Dhofar (Boswellia sacra)\tPéninsule arabique\n1\tSomalie - Zone critique Boswellia\tAfrique de l'Est\n30005\tSri Lanka - Zone Cinnamomum\tAsie du Sud\n30007\tSumatra - Zone Styrax\tAsie du Sud-Est\n30004\tTurquie - Zone Liquidambar\tMéditerranée orientale\n30006\tZanzibar - Zone Syzygium\tAfrique de l'Est\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

@@ -1,0 +1,18 @@
+{
+  "query": "SELECT COUNT(*) as total,\n       SUM(CASE WHEN subfamily = 'TPS-a' THEN 1 ELSE 0 END) as tps_a,\n       SUM(CASE WHEN subfamily = 'TPS-b' THEN 1 ELSE 0 END) as tps_b,\n       SUM(CASE WHEN subfamily = 'TPS-c' THEN 1 ELSE 0 END) as tps_c,\n       SUM(CASE WHEN subfamily = 'TPS-e/f' THEN 1 ELSE 0 END) as tps_ef,\n       SUM(CASE WHEN subfamily = 'TPS-g' THEN 1 ELSE 0 END) as tps_g\nFROM tps_genes;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total,\n       SUM(CASE WHEN subfamily = 'TPS-a' THEN 1 ELSE 0 END) as tps_a,\n       SUM(CASE WHEN subfamily = 'TPS-b' THEN 1 ELSE 0 END) as tps_b,\n       SUM(CASE WHEN subfamily = 'TPS-c' THEN 1 ELSE 0 END) as tps_c,\n       SUM(CASE WHEN subfamily = 'TPS-e/f' THEN 1 ELSE 0 END) as tps_ef,\n       SUM(CASE WHEN subfamily = 'TPS-g' THEN 1 ELSE 0 END) as tps_g\nFROM tps_genes;",
+  "rows": [
+    {
+      "total": "320",
+      "tps_a": "206",
+      "tps_b": "64",
+      "tps_c": "26",
+      "tps_ef": "21",
+      "tps_g": "3"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\ttps_a\ttps_b\ttps_c\ttps_ef\ttps_g\n320\t206\t64\t26\t21\t3\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}

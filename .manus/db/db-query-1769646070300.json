@@ -1,0 +1,98 @@
+{
+  "query": "SELECT name, region, country, intensity, perfumery_score, tier FROM historic_cigarettes ORDER BY perfumery_score DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT name, region, country, intensity, perfumery_score, tier FROM historic_cigarettes ORDER BY perfumery_score DESC;",
+  "rows": [
+    {
+      "name": "Zhonghua",
+      "region": "Chine",
+      "country": "Chine",
+      "intensity": "4",
+      "perfumery_score": "10.0",
+      "tier": "1"
+    },
+    {
+      "name": "Huang He Lou 1916",
+      "region": "Chine",
+      "country": "Chine",
+      "intensity": "5",
+      "perfumery_score": "10.0",
+      "tier": "1"
+    },
+    {
+      "name": "Belomorkanal",
+      "region": "URSS",
+      "country": "Russie",
+      "intensity": "9",
+      "perfumery_score": "9.5",
+      "tier": "2"
+    },
+    {
+      "name": "Giant Panda",
+      "region": "Chine",
+      "country": "Chine",
+      "intensity": "4",
+      "perfumery_score": "9.5",
+      "tier": "2"
+    },
+    {
+      "name": "Laika",
+      "region": "URSS",
+      "country": "Russie",
+      "intensity": "6",
+      "perfumery_score": "9.0",
+      "tier": "2"
+    },
+    {
+      "name": "Bahman",
+      "region": "Orientale",
+      "country": "Iran",
+      "intensity": "6",
+      "perfumery_score": "9.0",
+      "tier": "2"
+    },
+    {
+      "name": "Homa",
+      "region": "Orientale",
+      "country": "Iran",
+      "intensity": "6",
+      "perfumery_score": "9.0",
+      "tier": "2"
+    },
+    {
+      "name": "Double Happiness",
+      "region": "Chine",
+      "country": "Chine",
+      "intensity": "5",
+      "perfumery_score": "9.0",
+      "tier": "2"
+    },
+    {
+      "name": "Apollo-Soyuz",
+      "region": "URSS",
+      "country": "Russie",
+      "intensity": "5",
+      "perfumery_score": "8.5",
+      "tier": "3"
+    },
+    {
+      "name": "Zhongnanhai",
+      "region": "Chine",
+      "country": "Chine",
+      "intensity": "3",
+      "perfumery_score": "8.5",
+      "tier": "3"
+    },
+    {
+      "name": "Prima",
+      "region": "URSS",
+      "country": "Ukraine",
+      "intensity": "5",
+      "perfumery_score": "7.5",
+      "tier": "3"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tregion\tcountry\tintensity\tperfumery_score\ttier\nZhonghua\tChine\tChine\t4\t10.0\t1\nHuang He Lou 1916\tChine\tChine\t5\t10.0\t1\nBelomorkanal\tURSS\tRussie\t9\t9.5\t2\nGiant Panda\tChine\tChine\t4\t9.5\t2\nLaika\tURSS\tRussie\t6\t9.0\t2\nBahman\tOrientale\tIran\t6\t9.0\t2\nHoma\tOrientale\tIran\t6\t9.0\t2\nDouble Happiness\tChine\tChine\t5\t9.0\t2\nApollo-Soyuz\tURSS\tRussie\t5\t8.5\t3\nZhongnanhai\tChine\tChine\t3\t8.5\t3\nPrima\tURSS\tUkraine\t5\t7.5\t3\n",
+  "stderr": "",
+  "execution_time_ms": 158
+}

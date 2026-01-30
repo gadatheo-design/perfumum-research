@@ -1,0 +1,19 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM landraces) as landraces,\n  (SELECT COUNT(*) FROM pyrazines) as pyrazines,\n  (SELECT COUNT(*) FROM tobacco_additives) as additifs,\n  (SELECT COUNT(*) FROM tobacco_extinct_varieties) as varietes_disparues,\n  (SELECT COUNT(*) FROM tobacco_hybrids) as hybrides,\n  (SELECT COUNT(*) FROM tobacco_blends) as blends,\n  (SELECT COUNT(*) FROM molecules) as molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM landraces) as landraces,\n  (SELECT COUNT(*) FROM pyrazines) as pyrazines,\n  (SELECT COUNT(*) FROM tobacco_additives) as additifs,\n  (SELECT COUNT(*) FROM tobacco_extinct_varieties) as varietes_disparues,\n  (SELECT COUNT(*) FROM tobacco_hybrids) as hybrides,\n  (SELECT COUNT(*) FROM tobacco_blends) as blends,\n  (SELECT COUNT(*) FROM molecules) as molecules;",
+  "rows": [
+    {
+      "landraces": "51",
+      "pyrazines": "19",
+      "additifs": "13",
+      "varietes_disparues": "5",
+      "hybrides": "12",
+      "blends": "15",
+      "molecules": "699"
+    }
+  ],
+  "messages": [],
+  "stdout": "landraces\tpyrazines\tadditifs\tvarietes_disparues\thybrides\tblends\tmolecules\n51\t19\t13\t5\t12\t15\t699\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

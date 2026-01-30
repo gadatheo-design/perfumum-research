@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS tabac_terroir_links (id INT AUTO_INCREMENT PRIMARY KEY, tabac_id INT NOT NULL, terroir_id INT NOT NULL, soil_ph DECIMAL(3,1), soil_type VARCHAR(100), nitrogen_level VARCHAR(50), potassium_level VARCHAR(50), climate_notes TEXT, cultivation_notes TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UNIQUE KEY unique_tabac_terroir (tabac_id, terroir_id));",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS tabac_terroir_links (id INT AUTO_INCREMENT PRIMARY KEY, tabac_id INT NOT NULL, terroir_id INT NOT NULL, soil_ph DECIMAL(3,1), soil_type VARCHAR(100), nitrogen_level VARCHAR(50), potassium_level VARCHAR(50), climate_notes TEXT, cultivation_notes TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UNIQUE KEY unique_tabac_terroir (tabac_id, terroir_id));",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 197
+}

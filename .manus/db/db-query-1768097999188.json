@@ -1,0 +1,231 @@
+{
+  "query": "\nSELECT id, name, region, temporality, symbolicMaterials, longDescription \nFROM traditions_olfactives \nORDER BY temporality, name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, region, temporality, symbolicMaterials, longDescription \nFROM traditions_olfactives \nORDER BY temporality, name;\n",
+  "rows": [
+    {
+      "id": "24",
+      "name": "Sahara Antique",
+      "region": "Sahara (période humide)",
+      "temporality": "archaic",
+      "symbolicMaterials": "[\"sable\",\"terre rouge\",\"acacia\",\"myrrhe du désert\"]",
+      "longDescription": "Sahara durant sa période humide (Sahara vert). Lacs, végétation, civilisations pastorales avant la désertification."
+    },
+    {
+      "id": "4",
+      "name": "Tell Halaf",
+      "region": "Syrie du Nord",
+      "temporality": "archaic",
+      "symbolicMaterials": "[\"argile humide\",\"fumée\",\"terre sombre\"]",
+      "longDescription": "Sol d'argile humide. Tabacs: Krumovgrad, Italia. Atmosphère de terre archéologique et humus profond. Site néolithique de Syrie du Nord."
+    },
+    {
+      "id": "19",
+      "name": "Thulé",
+      "region": "Extrême Nord (légendaire)",
+      "temporality": "archaic",
+      "symbolicMaterials": "[\"glace\",\"pierre nordique\",\"lichen\",\"mousse arctique\"]",
+      "longDescription": "Terre légendaire de l'extrême nord mentionnée par les Grecs anciens. Ultima Thule, limite du monde connu."
+    },
+    {
+      "id": "9",
+      "name": "Akkad",
+      "region": "Mésopotamie (Empire akkadien)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"bitume sacré\",\"huile sombre\"]",
+      "longDescription": "Atmosphère de bitume sacré. Tabac: Burley. Empire de Sargon d'Akkad, première entité politique unifiée de Mésopotamie."
+    },
+    {
+      "id": "23",
+      "name": "Akrotiri",
+      "region": "Santorin / Théra (Grèce)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"cendre volcanique\",\"pierre ponce\",\"fresque\",\"safran\"]",
+      "longDescription": "Cité minoenne engloutie par l'éruption du volcan de Santorin. Pompéi de la Méditerranée, préservée sous les cendres volcaniques."
+    },
+    {
+      "id": "30001",
+      "name": "Colombie",
+      "region": "Amérique du Sud - Colombie",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"Café Geisha\",\"Cacao Colombien\",\"Baume de Tolú\",\"Copal Colombien\",\"Cedro Rosado\",\"Lippia Origanoides\",\"Palo Santo\"]",
+      "longDescription": "La tradition olfactive colombienne puise dans une biodiversité exceptionnelle, fruit de la rencontre entre les Andes, l'Amazonie et la côte caraïbe. Cette gamme célèbre les matières premières endémiques et les plantes médicinales ancestrales utilisées par les peuples indigènes."
+    },
+    {
+      "id": "11",
+      "name": "Dilmun",
+      "region": "Golfe Persique (Bahreïn)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"encens\",\"myrrhe\",\"dattes\",\"eau douce\"]",
+      "longDescription": "Civilisation du commerce des résines dans le Golfe Persique. Mentionnée dans les textes sumériens comme terre d'immortalité et de commerce."
+    },
+    {
+      "id": "16",
+      "name": "Grèce Sombre",
+      "region": "Grèce antique (aspect chthonien)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"terre sombre\",\"résine de pin\",\"myrte\",\"asphodèle\"]",
+      "longDescription": "Aspect chthonien et mystérique de la Grèce antique. Cultes à mystères, descente aux enfers, atmosphère de cavernes et de rituels nocturnes."
+    },
+    {
+      "id": "5",
+      "name": "Meroe",
+      "region": "Nubie / Soudan",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"sable ocre\",\"myrrhe noire\",\"résine solaire\"]",
+      "longDescription": "Climat sec et résineux. Sol de sable ocre. Molécules: myrrhe noire, résine solaire. Tabac: Burley. Royaume nubien au sud de l'Égypte, connu pour ses pyramides et son commerce de résines."
+    },
+    {
+      "id": "3",
+      "name": "Mycène",
+      "region": "Grèce mycénienne",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"figue sèche\",\"ambre sec\",\"pierre calcaire\"]",
+      "longDescription": "Climat méditerranéen sec. Molécules: ionone, lactones. Tabacs: Italia, Samsoun. Atmosphère de figue sèche et d'ambre, évoquant les palais mycéniens et les tablettes linéaires B."
+    },
+    {
+      "id": "2",
+      "name": "Mésopotamie — Shuruppak",
+      "region": "Mésopotamie antique",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"argile rouge\",\"terre ocre\",\"bitume\",\"argile brûlée\"]",
+      "longDescription": "Climat de poussière chaude. Sol d'argile rouge et terre ocre. Molécules: bitume, argile brûlée, poterie brûlée. Tabacs: Burley, Krumovgrad. Atmosphère tellurique et sombre, évoquant les ziggourats et les tablettes d'argile de Sumer."
+    },
+    {
+      "id": "22",
+      "name": "Nag Hammadi",
+      "region": "Haute-Égypte",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"papyrus\",\"encre\",\"terre sèche\",\"résine de copte\"]",
+      "longDescription": "Site de découverte des manuscrits gnostiques. Atmosphère de bibliothèque enfouie, de textes cachés et de sagesse ésotérique."
+    },
+    {
+      "id": "10",
+      "name": "Nubie",
+      "region": "Nubie / Haute-Égypte",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"encens solaire\",\"ambre\",\"terre ocre chaude\"]",
+      "longDescription": "Climat chaud et résineux. Sol de terre ocre chaude solaire. Molécules: ambre, encens solaire. Tabacs: Gold, Orange. Royaume nubien au sud de l'Égypte."
+    },
+    {
+      "id": "20",
+      "name": "Ophir",
+      "region": "Localisation incertaine (biblique)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"or\",\"encens\",\"bois précieux\",\"pierres précieuses\"]",
+      "longDescription": "Terre biblique riche en or et en matières précieuses. Destination des expéditions du roi Salomon."
+    },
+    {
+      "id": "1",
+      "name": "Égypte — Akhet",
+      "region": "Égypte antique",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"pierre blanche\",\"kaolin\",\"myrrhe claire\",\"résine dorée\"]",
+      "longDescription": "Climat solaire sec. Sol de pierre blanche et kaolin. Molécules dominantes: myrrhe claire, résine dorée. Tabacs compatibles: Virginia Gold, Bright. Atmosphère lumineuse et minérale, évoquant les temples de pierre blanche sous le soleil égyptien."
+    },
+    {
+      "id": "25",
+      "name": "Himalaya Rituel",
+      "region": "Chaîne himalayenne",
+      "temporality": "medieval",
+      "symbolicMaterials": "[\"encens tibétain\",\"juniper\",\"rhododendron\",\"pierre de montagne\"]",
+      "longDescription": "Traditions rituelles himalayennes. Encens tibétains, juniper, atmosphère de monastères et de hautes altitudes."
+    },
+    {
+      "id": "21",
+      "name": "Malabar",
+      "region": "Côte sud-ouest de l'Inde",
+      "temporality": "medieval",
+      "symbolicMaterials": "[\"poivre\",\"cardamome\",\"bois de santal\",\"épices\"]",
+      "longDescription": "Région historique du commerce des épices en Inde. Route maritime vers l'Occident, centre du commerce du poivre et des épices."
+    },
+    {
+      "id": "15",
+      "name": "Sogdiane",
+      "region": "Asie Centrale (Route de la Soie)",
+      "temporality": "medieval",
+      "symbolicMaterials": "[\"soie\",\"épices\",\"résines orientales\",\"musc\"]",
+      "longDescription": "Civilisation de la Route de la Soie. Commerce des épices, résines et parfums entre Orient et Occident. Atmosphère de caravansérails et de marchés aux épices."
+    },
+    {
+      "id": "8",
+      "name": "Atlantide Abyssale",
+      "region": "Océan Atlantique profond (mythologique)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"algues minérales\",\"terre sombre\",\"ambrette\",\"kelp\",\"corail\"]",
+      "longDescription": "Version sombre et profonde d'Atlantide. Notes marines, kelp, sel, corail, calone naturelle, ambergris. Royaume des civilisations englouties dans les abysses océaniques."
+    },
+    {
+      "id": "7",
+      "name": "Atlantide Lumineuse",
+      "region": "Océan Atlantique (mythologique)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"calcite\",\"sel blanc\",\"ambrox\",\"ozone\",\"eau minérale\",\"ionics\"]",
+      "longDescription": "Climat froid et océanique profond. Sol de calcite et sel blanc. Molécules: ambrox, ozone, aldéhydes propres. Tabacs: Bright, Italia. Civilisation immergée lumineuse, atmosphère minérale et aquatique."
+    },
+    {
+      "id": "17",
+      "name": "Lemuria",
+      "region": "Océan Indien / Pacifique (légendaire)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"végétation tropicale\",\"pierre volcanique\",\"fleurs exotiques\"]",
+      "longDescription": "Continent légendaire englouti dans l'océan Indien ou Pacifique. Hypothèse du XIXe siècle pour expliquer la distribution des lémuriens."
+    },
+    {
+      "id": "6",
+      "name": "Lyonesse",
+      "region": "Atlantide celtique (légendaire)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"pierre blanche immergée\",\"aldéhydes givrés\",\"minéral blanc\"]",
+      "longDescription": "Climat humide avec aldéhydes. Sol de pierre blanche immergée. Molécules: aldéhydes givrés, minéral blanc. Tabac: Bright. Terre légendaire engloutie au large de la Cornouailles, atmosphère marine et aldéhydique."
+    },
+    {
+      "id": "18",
+      "name": "Mu",
+      "region": "Océan Pacifique (légendaire)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"pierre volcanique\",\"corail\",\"coquillages\",\"sel marin\"]",
+      "longDescription": "Continent légendaire du Pacifique. Civilisation avancée engloutie, mentionnée dans les théories ésotériques du XXe siècle."
+    },
+    {
+      "id": "12",
+      "name": "Umbria Arcana",
+      "region": "Dimension ombrale (conceptuelle)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"ombre\",\"obscurité\",\"voile\",\"matière noire\"]",
+      "longDescription": "Civilisation conceptuelle de l'ombre et de l'obscurité. Atmosphère de voile et d'obscurité, exploration des matières impossibles."
+    },
+    {
+      "id": "26",
+      "name": "Anthropocène",
+      "region": "Ère géologique actuelle",
+      "temporality": "futuristic",
+      "symbolicMaterials": "[\"plastique\",\"béton\",\"pétrole\",\"pollution\",\"synthétique\"]",
+      "longDescription": "Époque géologique de l'impact humain sur la Terre. Matières synthétiques, pollution, transformation radicale des écosystèmes."
+    },
+    {
+      "id": "13",
+      "name": "Cryo-Atlas",
+      "region": "Régions glaciaires (conceptuelle)",
+      "temporality": "futuristic",
+      "symbolicMaterials": "[\"glace\",\"minéral froid\",\"aldéhydes glaciaires\"]",
+      "longDescription": "Civilisation des régions glaciaires. Molécules: minéral froid, aldéhydes. Tabac: Deutscher. Atmosphère de pierre froide et d'aldéhydes givrés."
+    },
+    {
+      "id": "14",
+      "name": "November Humid",
+      "region": "Climat novembre humide (conceptuelle)",
+      "temporality": "futuristic",
+      "symbolicMaterials": "[\"humidité\",\"terre mouillée\",\"feuilles mortes\",\"brume\"]",
+      "longDescription": "Civilisation atmosphérique du mois de novembre. Climat humide, terre mouillée, atmosphère de brume et de décomposition végétale."
+    }
+  ],
+  "messages": [
+    "**Richesse Botanique** : La Colombie abrite des espèces uniques comme le Lippia Origanoides (origan sauvage andin), le Turnera Diffusa (damiana), et des variétés rares de café et cacao reconnus mondialement.",
+    "**Héritage Chamanique** : Les résines sacrées (copal, baume de Tolú) et les plantes rituelles (yagé, borrachero) témoignent d'une tradition spirituelle millénaire où l'olfaction guide les cérémonies de guérison.",
+    "**Terroir Unique** : L'altitude, le climat tropical et les sols volcaniques confèrent aux matières colombiennes une intensité et une complexité aromatique incomparables, des notes vertes acidulées du lulo aux nuances balsamiques du baume de Tolú.",
+    "Cette gamme représente un pont entre tradition ancestrale et innovation contemporaine, honorant le savoir des communautés indigènes tout en explorant de nouvelles compositions olfactives."
+  ],
+  "stdout": "id\tname\tregion\ttemporality\tsymbolicMaterials\tlongDescription\n24\tSahara Antique\tSahara (période humide)\tarchaic\t[\"sable\",\"terre rouge\",\"acacia\",\"myrrhe du désert\"]\tSahara durant sa période humide (Sahara vert). Lacs, végétation, civilisations pastorales avant la désertification.\n4\tTell Halaf\tSyrie du Nord\tarchaic\t[\"argile humide\",\"fumée\",\"terre sombre\"]\tSol d'argile humide. Tabacs: Krumovgrad, Italia. Atmosphère de terre archéologique et humus profond. Site néolithique de Syrie du Nord.\n19\tThulé\tExtrême Nord (légendaire)\tarchaic\t[\"glace\",\"pierre nordique\",\"lichen\",\"mousse arctique\"]\tTerre légendaire de l'extrême nord mentionnée par les Grecs anciens. Ultima Thule, limite du monde connu.\n9\tAkkad\tMésopotamie (Empire akkadien)\tantique\t[\"bitume sacré\",\"huile sombre\"]\tAtmosphère de bitume sacré. Tabac: Burley. Empire de Sargon d'Akkad, première entité politique unifiée de Mésopotamie.\n23\tAkrotiri\tSantorin / Théra (Grèce)\tantique\t[\"cendre volcanique\",\"pierre ponce\",\"fresque\",\"safran\"]\tCité minoenne engloutie par l'éruption du volcan de Santorin. Pompéi de la Méditerranée, préservée sous les cendres volcaniques.\n30001\tColombie\tAmérique du Sud - Colombie\tantique\t[\"Café Geisha\",\"Cacao Colombien\",\"Baume de Tolú\",\"Copal Colombien\",\"Cedro Rosado\",\"Lippia Origanoides\",\"Palo Santo\"]\tLa tradition olfactive colombienne puise dans une biodiversité exceptionnelle, fruit de la rencontre entre les Andes, l'Amazonie et la côte caraïbe. Cette gamme célèbre les matières premières endémiques et les plantes médicinales ancestrales utilisées par les peuples indigènes.\n\n**Richesse Botanique** : La Colombie abrite des espèces uniques comme le Lippia Origanoides (origan sauvage andin), le Turnera Diffusa (damiana), et des variétés rares de café et cacao reconnus mondialement.\n\n**Héritage Chamanique** : Les résines sacrées (copal, baume de Tolú) et les plantes rituelles (yagé, borrachero) témoignent d'une tradition spirituelle millénaire où l'olfaction guide les cérémonies de guérison.\n\n**Terroir Unique** : L'altitude, le climat tropical et les sols volcaniques confèrent aux matières colombiennes une intensité et une complexité aromatique incomparables, des notes vertes acidulées du lulo aux nuances balsamiques du baume de Tolú.\n\nCette gamme représente un pont entre tradition ancestrale et innovation contemporaine, honorant le savoir des communautés indigènes tout en explorant de nouvelles compositions olfactives.\n11\tDilmun\tGolfe Persique (Bahreïn)\tantique\t[\"encens\",\"myrrhe\",\"dattes\",\"eau douce\"]\tCivilisation du commerce des résines dans le Golfe Persique. Mentionnée dans les textes sumériens comme terre d'immortalité et de commerce.\n16\tGrèce Sombre\tGrèce antique (aspect chthonien)\tantique\t[\"terre sombre\",\"résine de pin\",\"myrte\",\"asphodèle\"]\tAspect chthonien et mystérique de la Grèce antique. Cultes à mystères, descente aux enfers, atmosphère de cavernes et de rituels nocturnes.\n5\tMeroe\tNubie / Soudan\tantique\t[\"sable ocre\",\"myrrhe noire\",\"résine solaire\"]\tClimat sec et résineux. Sol de sable ocre. Molécules: myrrhe noire, résine solaire. Tabac: Burley. Royaume nubien au sud de l'Égypte, connu pour ses pyramides et son commerce de résines.\n3\tMycène\tGrèce mycénienne\tantique\t[\"figue sèche\",\"ambre sec\",\"pierre calcaire\"]\tClimat méditerranéen sec. Molécules: ionone, lactones. Tabacs: Italia, Samsoun. Atmosphère de figue sèche et d'ambre, évoquant les palais mycéniens et les tablettes linéaires B.\n2\tMésopotamie — Shuruppak\tMésopotamie antique\tantique\t[\"argile rouge\",\"terre ocre\",\"bitume\",\"argile brûlée\"]\tClimat de poussière chaude. Sol d'argile rouge et terre ocre. Molécules: bitume, argile brûlée, poterie brûlée. Tabacs: Burley, Krumovgrad. Atmosphère tellurique et sombre, évoquant les ziggourats et les tablettes d'argile de Sumer.\n22\tNag Hammadi\tHaute-Égypte\tantique\t[\"papyrus\",\"encre\",\"terre sèche\",\"résine de copte\"]\tSite de découverte des manuscrits gnostiques. Atmosphère de bibliothèque enfouie, de textes cachés et de sagesse ésotérique.\n10\tNubie\tNubie / Haute-Égypte\tantique\t[\"encens solaire\",\"ambre\",\"terre ocre chaude\"]\tClimat chaud et résineux. Sol de terre ocre chaude solaire. Molécules: ambre, encens solaire. Tabacs: Gold, Orange. Royaume nubien au sud de l'Égypte.\n20\tOphir\tLocalisation incertaine (biblique)\tantique\t[\"or\",\"encens\",\"bois précieux\",\"pierres précieuses\"]\tTerre biblique riche en or et en matières précieuses. Destination des expéditions du roi Salomon.\n1\tÉgypte — Akhet\tÉgypte antique\tantique\t[\"pierre blanche\",\"kaolin\",\"myrrhe claire\",\"résine dorée\"]\tClimat solaire sec. Sol de pierre blanche et kaolin. Molécules dominantes: myrrhe claire, résine dorée. Tabacs compatibles: Virginia Gold, Bright. Atmosphère lumineuse et minérale, évoquant les temples de pierre blanche sous le soleil égyptien.\n25\tHimalaya Rituel\tChaîne himalayenne\tmedieval\t[\"encens tibétain\",\"juniper\",\"rhododendron\",\"pierre de montagne\"]\tTraditions rituelles himalayennes. Encens tibétains, juniper, atmosphère de monastères et de hautes altitudes.\n21\tMalabar\tCôte sud-ouest de l'Inde\tmedieval\t[\"poivre\",\"cardamome\",\"bois de santal\",\"épices\"]\tRégion historique du commerce des épices en Inde. Route maritime vers l'Occident, centre du commerce du poivre et des épices.\n15\tSogdiane\tAsie Centrale (Route de la Soie)\tmedieval\t[\"soie\",\"épices\",\"résines orientales\",\"musc\"]\tCivilisation de la Route de la Soie. Commerce des épices, résines et parfums entre Orient et Occident. Atmosphère de caravansérails et de marchés aux épices.\n8\tAtlantide Abyssale\tOcéan Atlantique profond (mythologique)\tabyssal\t[\"algues minérales\",\"terre sombre\",\"ambrette\",\"kelp\",\"corail\"]\tVersion sombre et profonde d'Atlantide. Notes marines, kelp, sel, corail, calone naturelle, ambergris. Royaume des civilisations englouties dans les abysses océaniques.\n7\tAtlantide Lumineuse\tOcéan Atlantique (mythologique)\tabyssal\t[\"calcite\",\"sel blanc\",\"ambrox\",\"ozone\",\"eau minérale\",\"ionics\"]\tClimat froid et océanique profond. Sol de calcite et sel blanc. Molécules: ambrox, ozone, aldéhydes propres. Tabacs: Bright, Italia. Civilisation immergée lumineuse, atmosphère minérale et aquatique.\n17\tLemuria\tOcéan Indien / Pacifique (légendaire)\tabyssal\t[\"végétation tropicale\",\"pierre volcanique\",\"fleurs exotiques\"]\tContinent légendaire englouti dans l'océan Indien ou Pacifique. Hypothèse du XIXe siècle pour expliquer la distribution des lémuriens.\n6\tLyonesse\tAtlantide celtique (légendaire)\tabyssal\t[\"pierre blanche immergée\",\"aldéhydes givrés\",\"minéral blanc\"]\tClimat humide avec aldéhydes. Sol de pierre blanche immergée. Molécules: aldéhydes givrés, minéral blanc. Tabac: Bright. Terre légendaire engloutie au large de la Cornouailles, atmosphère marine et aldéhydique.\n18\tMu\tOcéan Pacifique (légendaire)\tabyssal\t[\"pierre volcanique\",\"corail\",\"coquillages\",\"sel marin\"]\tContinent légendaire du Pacifique. Civilisation avancée engloutie, mentionnée dans les théories ésotériques du XXe siècle.\n12\tUmbria Arcana\tDimension ombrale (conceptuelle)\tabyssal\t[\"ombre\",\"obscurité\",\"voile\",\"matière noire\"]\tCivilisation conceptuelle de l'ombre et de l'obscurité. Atmosphère de voile et d'obscurité, exploration des matières impossibles.\n26\tAnthropocène\tÈre géologique actuelle\tfuturistic\t[\"plastique\",\"béton\",\"pétrole\",\"pollution\",\"synthétique\"]\tÉpoque géologique de l'impact humain sur la Terre. Matières synthétiques, pollution, transformation radicale des écosystèmes.\n13\tCryo-Atlas\tRégions glaciaires (conceptuelle)\tfuturistic\t[\"glace\",\"minéral froid\",\"aldéhydes glaciaires\"]\tCivilisation des régions glaciaires. Molécules: minéral froid, aldéhydes. Tabac: Deutscher. Atmosphère de pierre froide et d'aldéhydes givrés.\n14\tNovember Humid\tClimat novembre humide (conceptuelle)\tfuturistic\t[\"humidité\",\"terre mouillée\",\"feuilles mortes\",\"brume\"]\tCivilisation atmosphérique du mois de novembre. Climat humide, terre mouillée, atmosphère de brume et de décomposition végétale.\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

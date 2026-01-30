@@ -1,0 +1,58 @@
+{
+  "query": "SELECT 'molecules' as tbl, COUNT(*) as cnt FROM molecules\nUNION ALL SELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL SELECT 'accords', COUNT(*) FROM accords\nUNION ALL SELECT 'tabacs', COUNT(*) FROM tabacs\nUNION ALL SELECT 'prototypes', COUNT(*) FROM prototypes\nUNION ALL SELECT 'families', COUNT(*) FROM families\nUNION ALL SELECT 'glossary', COUNT(*) FROM glossary\nUNION ALL SELECT 'plants', COUNT(*) FROM plants\nUNION ALL SELECT 'terp_profiles', COUNT(*) FROM terp_profiles\nUNION ALL SELECT 'final_recipes', COUNT(*) FROM final_recipes\nUNION ALL SELECT 'leaf_economies', COUNT(*) FROM leaf_economies\nUNION ALL SELECT 'terpene_synergies', COUNT(*) FROM terpene_synergies;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'molecules' as tbl, COUNT(*) as cnt FROM molecules\nUNION ALL SELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL SELECT 'accords', COUNT(*) FROM accords\nUNION ALL SELECT 'tabacs', COUNT(*) FROM tabacs\nUNION ALL SELECT 'prototypes', COUNT(*) FROM prototypes\nUNION ALL SELECT 'families', COUNT(*) FROM families\nUNION ALL SELECT 'glossary', COUNT(*) FROM glossary\nUNION ALL SELECT 'plants', COUNT(*) FROM plants\nUNION ALL SELECT 'terp_profiles', COUNT(*) FROM terp_profiles\nUNION ALL SELECT 'final_recipes', COUNT(*) FROM final_recipes\nUNION ALL SELECT 'leaf_economies', COUNT(*) FROM leaf_economies\nUNION ALL SELECT 'terpene_synergies', COUNT(*) FROM terpene_synergies;",
+  "rows": [
+    {
+      "tbl": "accords",
+      "cnt": "26"
+    },
+    {
+      "tbl": "prototypes",
+      "cnt": "4"
+    },
+    {
+      "tbl": "recettes",
+      "cnt": "261"
+    },
+    {
+      "tbl": "molecules",
+      "cnt": "448"
+    },
+    {
+      "tbl": "tabacs",
+      "cnt": "8"
+    },
+    {
+      "tbl": "terp_profiles",
+      "cnt": "10"
+    },
+    {
+      "tbl": "glossary",
+      "cnt": "63"
+    },
+    {
+      "tbl": "families",
+      "cnt": "10"
+    },
+    {
+      "tbl": "final_recipes",
+      "cnt": "9"
+    },
+    {
+      "tbl": "plants",
+      "cnt": "37"
+    },
+    {
+      "tbl": "terpene_synergies",
+      "cnt": "26"
+    },
+    {
+      "tbl": "leaf_economies",
+      "cnt": "10"
+    }
+  ],
+  "messages": [],
+  "stdout": "tbl\tcnt\naccords\t26\nprototypes\t4\nrecettes\t261\nmolecules\t448\ntabacs\t8\nterp_profiles\t10\nglossary\t63\nfamilies\t10\nfinal_recipes\t9\nplants\t37\nterpene_synergies\t26\nleaf_economies\t10\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

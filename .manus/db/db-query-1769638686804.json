@@ -1,0 +1,14 @@
+{
+  "query": "SELECT COUNT(*) as total, SUM(CASE WHEN therapeuticProperties IS NOT NULL AND therapeuticProperties != '' THEN 1 ELSE 0 END) as avec_proprietes FROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, SUM(CASE WHEN therapeuticProperties IS NOT NULL AND therapeuticProperties != '' THEN 1 ELSE 0 END) as avec_proprietes FROM molecules;",
+  "rows": [
+    {
+      "total": "671",
+      "avec_proprietes": "114"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tavec_proprietes\n671\t114\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

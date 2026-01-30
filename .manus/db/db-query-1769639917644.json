@@ -1,0 +1,62 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plant_molecules';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plant_molecules';",
+  "rows": [
+    {
+      "COLUMN_NAME": "plant_id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "molecule_id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "percentage_min",
+      "DATA_TYPE": "decimal"
+    },
+    {
+      "COLUMN_NAME": "percentage_max",
+      "DATA_TYPE": "decimal"
+    },
+    {
+      "COLUMN_NAME": "percentage_typical",
+      "DATA_TYPE": "decimal"
+    },
+    {
+      "COLUMN_NAME": "percentage",
+      "DATA_TYPE": "decimal"
+    },
+    {
+      "COLUMN_NAME": "is_signature",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "role",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "variability_factor",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "source",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "DATA_TYPE": "timestamp"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\nplant_id\tint\nmolecule_id\tint\npercentage_min\tdecimal\npercentage_max\tdecimal\npercentage_typical\tdecimal\npercentage\tdecimal\nis_signature\tint\nrole\tenum\nvariability_factor\tenum\nsource\tvarchar\nnotes\ttext\ncreated_at\ttimestamp\nupdated_at\ttimestamp\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

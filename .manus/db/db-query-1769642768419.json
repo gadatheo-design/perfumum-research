@@ -1,0 +1,58 @@
+{
+  "query": "SELECT rm.id, rm.name, rm.category, COUNT(rmm.id) as mol_count \nFROM raw_materials rm \nLEFT JOIN raw_material_molecules rmm ON rm.id = rmm.raw_material_id\nWHERE rm.category IN ('absolue', 'extrait_co2')\nGROUP BY rm.id, rm.name, rm.category\nHAVING mol_count < 3\nLIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT rm.id, rm.name, rm.category, COUNT(rmm.id) as mol_count \nFROM raw_materials rm \nLEFT JOIN raw_material_molecules rmm ON rm.id = rmm.raw_material_id\nWHERE rm.category IN ('absolue', 'extrait_co2')\nGROUP BY rm.id, rm.name, rm.category\nHAVING mol_count < 3\nLIMIT 20;",
+  "rows": [
+    {
+      "id": "4",
+      "name": "Absolue de Rose de Mai",
+      "category": "absolue",
+      "mol_count": "0"
+    },
+    {
+      "id": "17",
+      "name": "Absolue de Vanille",
+      "category": "absolue",
+      "mol_count": "0"
+    },
+    {
+      "id": "16",
+      "name": "Absolue de Tubéreuse",
+      "category": "absolue",
+      "mol_count": "0"
+    },
+    {
+      "id": "18",
+      "name": "Absolue de Mimosa",
+      "category": "absolue",
+      "mol_count": "0"
+    },
+    {
+      "id": "60028",
+      "name": "Absolue de Mousse de Chêne",
+      "category": "absolue",
+      "mol_count": "2"
+    },
+    {
+      "id": "15",
+      "name": "Absolue de Jasmin grandiflorum",
+      "category": "absolue",
+      "mol_count": "0"
+    },
+    {
+      "id": "60022",
+      "name": "Absolue d'Iris (Beurre d'Iris)",
+      "category": "absolue",
+      "mol_count": "2"
+    },
+    {
+      "id": "30007",
+      "name": "Absolue de Fleur d'Oranger",
+      "category": "absolue",
+      "mol_count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tmol_count\n4\tAbsolue de Rose de Mai\tabsolue\t0\n17\tAbsolue de Vanille\tabsolue\t0\n16\tAbsolue de Tubéreuse\tabsolue\t0\n18\tAbsolue de Mimosa\tabsolue\t0\n60028\tAbsolue de Mousse de Chêne\tabsolue\t2\n15\tAbsolue de Jasmin grandiflorum\tabsolue\t0\n60022\tAbsolue d'Iris (Beurre d'Iris)\tabsolue\t2\n30007\tAbsolue de Fleur d'Oranger\tabsolue\t1\n",
+  "stderr": "",
+  "execution_time_ms": 81
+}

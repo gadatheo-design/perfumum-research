@@ -1,0 +1,43 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tps_genes';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tps_genes';",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "subfamily"
+    },
+    {
+      "COLUMN_NAME": "product_class"
+    },
+    {
+      "COLUMN_NAME": "main_product"
+    },
+    {
+      "COLUMN_NAME": "olfactory_notes"
+    },
+    {
+      "COLUMN_NAME": "pathway"
+    },
+    {
+      "COLUMN_NAME": "regulation_factors"
+    },
+    {
+      "COLUMN_NAME": "expression_conditions"
+    },
+    {
+      "COLUMN_NAME": "source_reference"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nname\nsubfamily\nproduct_class\nmain_product\nolfactory_notes\npathway\nregulation_factors\nexpression_conditions\nsource_reference\ncreated_at\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

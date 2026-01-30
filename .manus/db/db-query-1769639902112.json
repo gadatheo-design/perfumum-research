@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  (SELECT id FROM plants WHERE name LIKE '%Lavande%' LIMIT 1) as lavande_id,\n  (SELECT id FROM molecules WHERE name LIKE '%Linalol%' LIMIT 1) as linalol_id,\n  (SELECT id FROM molecules WHERE name LIKE '%Camphre%' LIMIT 1) as camphre_id,\n  (SELECT id FROM molecules WHERE name LIKE '%Cinéole%' OR name LIKE '%Cineole%' LIMIT 1) as cineole_id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT id FROM plants WHERE name LIKE '%Lavande%' LIMIT 1) as lavande_id,\n  (SELECT id FROM molecules WHERE name LIKE '%Linalol%' LIMIT 1) as linalol_id,\n  (SELECT id FROM molecules WHERE name LIKE '%Camphre%' LIMIT 1) as camphre_id,\n  (SELECT id FROM molecules WHERE name LIKE '%Cinéole%' OR name LIKE '%Cineole%' LIMIT 1) as cineole_id;",
+  "rows": [
+    {
+      "lavande_id": "30001",
+      "linalol_id": "30002",
+      "camphre_id": "570047",
+      "cineole_id": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "lavande_id\tlinalol_id\tcamphre_id\tcineole_id\n30001\t30002\t570047\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 96
+}

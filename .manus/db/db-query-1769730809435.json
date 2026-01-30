@@ -1,0 +1,80 @@
+{
+  "query": "SELECT * FROM transformation_recipe_impacts LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT * FROM transformation_recipe_impacts LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "transformation_id": "1",
+      "recette_id": "3",
+      "impact_type": "major",
+      "impact_description": "La pyrolyse du limonène produit du p-cymène qui contribue aux notes épicées de la fumée",
+      "olfactory_contribution": "Notes épicées, cumin, thym dans la fumée",
+      "percentage_contribution": "NULL",
+      "temperature_range": "NULL",
+      "notes": "Transformation majeure lors de la combustion",
+      "source_reference": "NULL",
+      "created_at": "2026-01-29 23:44:05",
+      "updated_at": "2026-01-29 23:44:05"
+    },
+    {
+      "id": "2",
+      "transformation_id": "1",
+      "recette_id": "7",
+      "impact_type": "moderate",
+      "impact_description": "Contribution aux notes épicées de la pierre noire",
+      "olfactory_contribution": "Épicé, fumé",
+      "percentage_contribution": "NULL",
+      "temperature_range": "NULL",
+      "notes": "Transformation secondaire",
+      "source_reference": "NULL",
+      "created_at": "2026-01-29 23:44:05",
+      "updated_at": "2026-01-29 23:44:05"
+    },
+    {
+      "id": "3",
+      "transformation_id": "4",
+      "recette_id": "3",
+      "impact_type": "moderate",
+      "impact_description": "Le réarrangement du pinène vers le camphène ajoute des notes camphrées",
+      "olfactory_contribution": "Notes camphrées, fraîches dans la fumée",
+      "percentage_contribution": "NULL",
+      "temperature_range": "NULL",
+      "notes": "Réarrangement thermique",
+      "source_reference": "NULL",
+      "created_at": "2026-01-29 23:44:05",
+      "updated_at": "2026-01-29 23:44:05"
+    },
+    {
+      "id": "4",
+      "transformation_id": "4",
+      "recette_id": "8",
+      "impact_type": "minor",
+      "impact_description": "Contribution légère aux notes fraîches",
+      "olfactory_contribution": "Camphré léger",
+      "percentage_contribution": "NULL",
+      "temperature_range": "NULL",
+      "notes": "Transformation mineure",
+      "source_reference": "NULL",
+      "created_at": "2026-01-29 23:44:05",
+      "updated_at": "2026-01-29 23:44:05"
+    },
+    {
+      "id": "5",
+      "transformation_id": "6",
+      "recette_id": "3",
+      "impact_type": "major",
+      "impact_description": "L'ouverture du cycle du β-pinène produit du myrcène herbacé",
+      "olfactory_contribution": "Notes herbacées, houblon dans la fumée",
+      "percentage_contribution": "NULL",
+      "temperature_range": "NULL",
+      "notes": "Transformation importante",
+      "source_reference": "NULL",
+      "created_at": "2026-01-29 23:44:05",
+      "updated_at": "2026-01-29 23:44:05"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttransformation_id\trecette_id\timpact_type\timpact_description\tolfactory_contribution\tpercentage_contribution\ttemperature_range\tnotes\tsource_reference\tcreated_at\tupdated_at\n1\t1\t3\tmajor\tLa pyrolyse du limonène produit du p-cymène qui contribue aux notes épicées de la fumée\tNotes épicées, cumin, thym dans la fumée\tNULL\tNULL\tTransformation majeure lors de la combustion\tNULL\t2026-01-29 23:44:05\t2026-01-29 23:44:05\n2\t1\t7\tmoderate\tContribution aux notes épicées de la pierre noire\tÉpicé, fumé\tNULL\tNULL\tTransformation secondaire\tNULL\t2026-01-29 23:44:05\t2026-01-29 23:44:05\n3\t4\t3\tmoderate\tLe réarrangement du pinène vers le camphène ajoute des notes camphrées\tNotes camphrées, fraîches dans la fumée\tNULL\tNULL\tRéarrangement thermique\tNULL\t2026-01-29 23:44:05\t2026-01-29 23:44:05\n4\t4\t8\tminor\tContribution légère aux notes fraîches\tCamphré léger\tNULL\tNULL\tTransformation mineure\tNULL\t2026-01-29 23:44:05\t2026-01-29 23:44:05\n5\t6\t3\tmajor\tL'ouverture du cycle du β-pinène produit du myrcène herbacé\tNotes herbacées, houblon dans la fumée\tNULL\tNULL\tTransformation importante\tNULL\t2026-01-29 23:44:05\t2026-01-29 23:44:05\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

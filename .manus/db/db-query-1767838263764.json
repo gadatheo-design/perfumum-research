@@ -1,0 +1,58 @@
+{
+  "query": "SELECT pm.plant_id, p.name as plant_name, pm.molecule_id, m.name as molecule_name, pm.percentage, pm.role \nFROM plant_molecules pm \nJOIN plants p ON pm.plant_id = p.id \nJOIN molecules m ON pm.molecule_id = m.id \nWHERE p.latin_name = 'Erythroxylum coca var. ipadu';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT pm.plant_id, p.name as plant_name, pm.molecule_id, m.name as molecule_name, pm.percentage, pm.role \nFROM plant_molecules pm \nJOIN plants p ON pm.plant_id = p.id \nJOIN molecules m ON pm.molecule_id = m.id \nWHERE p.latin_name = 'Erythroxylum coca var. ipadu';",
+  "rows": [
+    {
+      "plant_id": "360001",
+      "plant_name": "Coca amazonienne (Mambe)",
+      "molecule_id": "930001",
+      "molecule_name": "Cocaïne",
+      "percentage": "0.25",
+      "role": "majeur"
+    },
+    {
+      "plant_id": "360001",
+      "plant_name": "Coca amazonienne (Mambe)",
+      "molecule_id": "930002",
+      "molecule_name": "Cinnamoylcocaïne",
+      "percentage": "NULL",
+      "role": "secondaire"
+    },
+    {
+      "plant_id": "360001",
+      "plant_name": "Coca amazonienne (Mambe)",
+      "molecule_id": "930003",
+      "molecule_name": "Ecgonine",
+      "percentage": "NULL",
+      "role": "secondaire"
+    },
+    {
+      "plant_id": "360001",
+      "plant_name": "Coca amazonienne (Mambe)",
+      "molecule_id": "930004",
+      "molecule_name": "2-Méthylpyrazine",
+      "percentage": "NULL",
+      "role": "secondaire"
+    },
+    {
+      "plant_id": "360001",
+      "plant_name": "Coca amazonienne (Mambe)",
+      "molecule_id": "930005",
+      "molecule_name": "2,5-Diméthylpyrazine",
+      "percentage": "NULL",
+      "role": "secondaire"
+    },
+    {
+      "plant_id": "360001",
+      "plant_name": "Coca amazonienne (Mambe)",
+      "molecule_id": "930006",
+      "molecule_name": "Furfural",
+      "percentage": "NULL",
+      "role": "secondaire"
+    }
+  ],
+  "messages": [],
+  "stdout": "plant_id\tplant_name\tmolecule_id\tmolecule_name\tpercentage\trole\n360001\tCoca amazonienne (Mambe)\t930001\tCocaïne\t0.25\tmajeur\n360001\tCoca amazonienne (Mambe)\t930002\tCinnamoylcocaïne\tNULL\tsecondaire\n360001\tCoca amazonienne (Mambe)\t930003\tEcgonine\tNULL\tsecondaire\n360001\tCoca amazonienne (Mambe)\t930004\t2-Méthylpyrazine\tNULL\tsecondaire\n360001\tCoca amazonienne (Mambe)\t930005\t2,5-Diméthylpyrazine\tNULL\tsecondaire\n360001\tCoca amazonienne (Mambe)\t930006\tFurfural\tNULL\tsecondaire\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

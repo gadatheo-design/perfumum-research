@@ -1,0 +1,220 @@
+{
+  "query": "SELECT name, family, chemicalFormula, olfactiveProfile, concentration FROM molecules LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT name, family, chemicalFormula, olfactiveProfile, concentration FROM molecules LIMIT 30;",
+  "rows": [
+    {
+      "name": "Hexanoic acid",
+      "family": "NULL",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "fermentée, laiteuse, charnelle",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Linalol",
+      "family": "NULL",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "doux, lavandé, transparent",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Ambroxan",
+      "family": "NULL",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "chaud, velouté, diffusant",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Hexanoic acid",
+      "family": "Organique / Cheese",
+      "chemicalFormula": "C6H12O2",
+      "olfactiveProfile": "fermentée, laiteuse, charnelle",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Linalol",
+      "family": "Florale",
+      "chemicalFormula": "C10H18O",
+      "olfactiveProfile": "doux, lavandé, transparent",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Ambroxan",
+      "family": "Ambrée / Boisée",
+      "chemicalFormula": "C16H28O",
+      "olfactiveProfile": "chaud, velouté, diffusant",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Géosmine",
+      "family": "Terpène / Terre",
+      "chemicalFormula": "C12H22O",
+      "olfactiveProfile": "Terre humide, pluie, sous-bois, betterave",
+      "concentration": "Détectable à 0.1 ppb"
+    },
+    {
+      "name": "Caryophyllène",
+      "family": "Sesquiterpène",
+      "chemicalFormula": "C15H24",
+      "olfactiveProfile": "Épicé, boisé, poivré, clou de girofle",
+      "concentration": "Variable selon source"
+    },
+    {
+      "name": "Myrcène",
+      "family": "Monoterpène",
+      "chemicalFormula": "C10H16",
+      "olfactiveProfile": "Terreux, musqué, herbacé, clou de girofle",
+      "concentration": "Variable selon source"
+    },
+    {
+      "name": "Limonène",
+      "family": "Monoterpène",
+      "chemicalFormula": "C10H16",
+      "olfactiveProfile": "Agrume, citron, orange",
+      "concentration": "Variable selon source"
+    },
+    {
+      "name": "Pinène (α et β)",
+      "family": "Monoterpène",
+      "chemicalFormula": "C10H16",
+      "olfactiveProfile": "Pin, résine, forêt, frais",
+      "concentration": "Variable selon source"
+    },
+    {
+      "name": "Linalool",
+      "family": "Monoterpène alcool",
+      "chemicalFormula": "C10H18O",
+      "olfactiveProfile": "Floral, lavande, doux, légèrement épicé",
+      "concentration": "Variable selon source"
+    },
+    {
+      "name": "Acide Hexanoïque (C6)",
+      "family": "acides_gras",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Fromage, chèvre, beurre rance",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Acide Octanoïque (C8)",
+      "family": "acides_gras",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Fromage affiné, cuir, sueur",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Acide Décanoïque (C10)",
+      "family": "acides_gras",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Crème, lait caillé, savon",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Acide Linoléique",
+      "family": "acides_gras",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Huile végétale, noix, gras",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Acide Oléique",
+      "family": "acides_gras",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Huile d'olive, gras doux",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Acide Benzoïque",
+      "family": "acides_aromatiques",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Balsamique, vanillé, poudré",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Acide Cinnamique",
+      "family": "acides_aromatiques",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Cannelle, épicé, balsamique",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Acide Caféique",
+      "family": "acides_aromatiques",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Café, torréfié, amer",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Acide Férulique",
+      "family": "acides_aromatiques",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Vanille, foin, miel",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Acide Coumarique",
+      "family": "acides_aromatiques",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Foin coupé, miel, tabac blond",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Éthyl Butyrate",
+      "family": "esters",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Ananas, fruité tropical",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Isoamyl Acetate",
+      "family": "esters",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Banane, poire, fruité",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Benzyl Acetate",
+      "family": "esters",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Jasmin, floral, fruité",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Éthyl Hexanoate",
+      "family": "esters",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Pomme verte, ananas, fruité",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Ethyl Lactate",
+      "family": "esters",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Lait, crème, lactonique",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Indole",
+      "family": "indoles",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Floral (jasmin, tubéreuse), fécal à forte concentration",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Skatole",
+      "family": "indoles",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Fécal, animal, cuir",
+      "concentration": "NULL"
+    },
+    {
+      "name": "Methyl Anthranilate",
+      "family": "indoles",
+      "chemicalFormula": "NULL",
+      "olfactiveProfile": "Raisin, fruité, floral",
+      "concentration": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tfamily\tchemicalFormula\tolfactiveProfile\tconcentration\nHexanoic acid\tNULL\tNULL\tfermentée, laiteuse, charnelle\tNULL\nLinalol\tNULL\tNULL\tdoux, lavandé, transparent\tNULL\nAmbroxan\tNULL\tNULL\tchaud, velouté, diffusant\tNULL\nHexanoic acid\tOrganique / Cheese\tC6H12O2\tfermentée, laiteuse, charnelle\tNULL\nLinalol\tFlorale\tC10H18O\tdoux, lavandé, transparent\tNULL\nAmbroxan\tAmbrée / Boisée\tC16H28O\tchaud, velouté, diffusant\tNULL\nGéosmine\tTerpène / Terre\tC12H22O\tTerre humide, pluie, sous-bois, betterave\tDétectable à 0.1 ppb\nCaryophyllène\tSesquiterpène\tC15H24\tÉpicé, boisé, poivré, clou de girofle\tVariable selon source\nMyrcène\tMonoterpène\tC10H16\tTerreux, musqué, herbacé, clou de girofle\tVariable selon source\nLimonène\tMonoterpène\tC10H16\tAgrume, citron, orange\tVariable selon source\nPinène (α et β)\tMonoterpène\tC10H16\tPin, résine, forêt, frais\tVariable selon source\nLinalool\tMonoterpène alcool\tC10H18O\tFloral, lavande, doux, légèrement épicé\tVariable selon source\nAcide Hexanoïque (C6)\tacides_gras\tNULL\tFromage, chèvre, beurre rance\tNULL\nAcide Octanoïque (C8)\tacides_gras\tNULL\tFromage affiné, cuir, sueur\tNULL\nAcide Décanoïque (C10)\tacides_gras\tNULL\tCrème, lait caillé, savon\tNULL\nAcide Linoléique\tacides_gras\tNULL\tHuile végétale, noix, gras\tNULL\nAcide Oléique\tacides_gras\tNULL\tHuile d'olive, gras doux\tNULL\nAcide Benzoïque\tacides_aromatiques\tNULL\tBalsamique, vanillé, poudré\tNULL\nAcide Cinnamique\tacides_aromatiques\tNULL\tCannelle, épicé, balsamique\tNULL\nAcide Caféique\tacides_aromatiques\tNULL\tCafé, torréfié, amer\tNULL\nAcide Férulique\tacides_aromatiques\tNULL\tVanille, foin, miel\tNULL\nAcide Coumarique\tacides_aromatiques\tNULL\tFoin coupé, miel, tabac blond\tNULL\nÉthyl Butyrate\testers\tNULL\tAnanas, fruité tropical\tNULL\nIsoamyl Acetate\testers\tNULL\tBanane, poire, fruité\tNULL\nBenzyl Acetate\testers\tNULL\tJasmin, floral, fruité\tNULL\nÉthyl Hexanoate\testers\tNULL\tPomme verte, ananas, fruité\tNULL\nEthyl Lactate\testers\tNULL\tLait, crème, lactonique\tNULL\nIndole\tindoles\tNULL\tFloral (jasmin, tubéreuse), fécal à forte concentration\tNULL\nSkatole\tindoles\tNULL\tFécal, animal, cuir\tNULL\nMethyl Anthranilate\tindoles\tNULL\tRaisin, fruité, floral\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

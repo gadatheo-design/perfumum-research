@@ -1,0 +1,46 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'analytical_methods';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'analytical_methods';",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "method_id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "modality"
+    },
+    {
+      "COLUMN_NAME": "sample_types"
+    },
+    {
+      "COLUMN_NAME": "output"
+    },
+    {
+      "COLUMN_NAME": "strengths"
+    },
+    {
+      "COLUMN_NAME": "limitations"
+    },
+    {
+      "COLUMN_NAME": "typical_markers"
+    },
+    {
+      "COLUMN_NAME": "sop_outline"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nmethod_id\nname\nmodality\nsample_types\noutput\nstrengths\nlimitations\ntypical_markers\nsop_outline\ncreated_at\nupdated_at\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

@@ -1,0 +1,83 @@
+{
+  "query": "-- Rechercher les molécules spécifiques\nSELECT id, name, olfactiveProfile FROM molecules \nWHERE name LIKE '%geosmin%' \n   OR name LIKE '%indole%' \n   OR name LIKE '%vanillin%' \n   OR name LIKE '%pyrazine%'\nORDER BY name;\n\n-- Compter les recettes sans molécules liées\nSELECT COUNT(*) as recettes_sans_molecules \nFROM recettes r \nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id \nWHERE mr.id IS NULL;\n\n-- Voir quelques recettes pour comprendre la structure\nSELECT id, name, gamme FROM recettes LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Rechercher les molécules spécifiques\nSELECT id, name, olfactiveProfile FROM molecules \nWHERE name LIKE '%geosmin%' \n   OR name LIKE '%indole%' \n   OR name LIKE '%vanillin%' \n   OR name LIKE '%pyrazine%'\nORDER BY name;\n\n-- Compter les recettes sans molécules liées\nSELECT COUNT(*) as recettes_sans_molecules \nFROM recettes r \nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id \nWHERE mr.id IS NULL;\n\n-- Voir quelques recettes pour comprendre la structure\nSELECT id, name, gamme FROM recettes LIMIT 10;",
+  "rows": [
+    {
+      "id": "930005",
+      "name": "2,5-Diméthylpyrazine",
+      "olfactiveProfile": "Notes de cacao, café torréfié, noisette grillée"
+    },
+    {
+      "id": "930004",
+      "name": "2-Méthylpyrazine",
+      "olfactiveProfile": "Notes torréfiées, grillées, noisette, cacao"
+    },
+    {
+      "id": "90070",
+      "name": "Ethyl vanilline",
+      "olfactiveProfile": "vanille intense, gourmand"
+    },
+    {
+      "id": "id",
+      "name": "name",
+      "olfactiveProfile": "gamme"
+    },
+    {
+      "id": "1",
+      "name": "OS PLUVIEUX",
+      "olfactiveProfile": "NULL"
+    },
+    {
+      "id": "2",
+      "name": "FOSSE ANTIQUE",
+      "olfactiveProfile": "NULL"
+    },
+    {
+      "id": "3",
+      "name": "ARCHÉOLOGIE BRÛLÉE",
+      "olfactiveProfile": "NULL"
+    },
+    {
+      "id": "4",
+      "name": "ARGILE HUMIDE SACRÉE",
+      "olfactiveProfile": "NULL"
+    },
+    {
+      "id": "5",
+      "name": "PÉTRICHOR SÉPULCRAL",
+      "olfactiveProfile": "NULL"
+    },
+    {
+      "id": "6",
+      "name": "BIBLIOTHÈQUE HUMIDE",
+      "olfactiveProfile": "NULL"
+    },
+    {
+      "id": "7",
+      "name": "PIERRE NOIRE FENDUE",
+      "olfactiveProfile": "NULL"
+    },
+    {
+      "id": "8",
+      "name": "FOUILLE HUMIDE",
+      "olfactiveProfile": "NULL"
+    },
+    {
+      "id": "9",
+      "name": "MURAILLE APRÈS ORAGE",
+      "olfactiveProfile": "NULL"
+    },
+    {
+      "id": "10",
+      "name": "TEMPLE DE TERRE BLANCHE",
+      "olfactiveProfile": "NULL"
+    }
+  ],
+  "messages": [
+    "recettes_sans_molecules",
+    "29"
+  ],
+  "stdout": "id\tname\tolfactiveProfile\n930005\t2,5-Diméthylpyrazine\tNotes de cacao, café torréfié, noisette grillée\n930004\t2-Méthylpyrazine\tNotes torréfiées, grillées, noisette, cacao\n90070\tEthyl vanilline\tvanille intense, gourmand\nrecettes_sans_molecules\n29\nid\tname\tgamme\n1\tOS PLUVIEUX\tNULL\n2\tFOSSE ANTIQUE\tNULL\n3\tARCHÉOLOGIE BRÛLÉE\tNULL\n4\tARGILE HUMIDE SACRÉE\tNULL\n5\tPÉTRICHOR SÉPULCRAL\tNULL\n6\tBIBLIOTHÈQUE HUMIDE\tNULL\n7\tPIERRE NOIRE FENDUE\tNULL\n8\tFOUILLE HUMIDE\tNULL\n9\tMURAILLE APRÈS ORAGE\tNULL\n10\tTEMPLE DE TERRE BLANCHE\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 1970
+}

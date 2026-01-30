@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET molecularWeight = 152, chemicalFormula = 'C8H8O3', logP = 120 WHERE name LIKE '%vanillin%' OR name LIKE '%Vanilline%'; UPDATE molecules SET molecularWeight = 146, chemicalFormula = 'C9H6O2', logP = 140 WHERE name LIKE '%coumarin%' OR name LIKE '%Coumarine%'; UPDATE molecules SET molecularWeight = 150, chemicalFormula = 'C10H14O', logP = 240 WHERE name LIKE '%carvone%' OR name LIKE '%Carvone%'; UPDATE molecules SET molecularWeight = 156, chemicalFormula = 'C10H20O', logP = 300 WHERE name LIKE '%menthol%' OR name LIKE '%Menthol%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET molecularWeight = 152, chemicalFormula = 'C8H8O3', logP = 120 WHERE name LIKE '%vanillin%' OR name LIKE '%Vanilline%'; UPDATE molecules SET molecularWeight = 146, chemicalFormula = 'C9H6O2', logP = 140 WHERE name LIKE '%coumarin%' OR name LIKE '%Coumarine%'; UPDATE molecules SET molecularWeight = 150, chemicalFormula = 'C10H14O', logP = 240 WHERE name LIKE '%carvone%' OR name LIKE '%Carvone%'; UPDATE molecules SET molecularWeight = 156, chemicalFormula = 'C10H20O', logP = 300 WHERE name LIKE '%menthol%' OR name LIKE '%Menthol%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 100
+}

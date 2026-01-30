@@ -1,0 +1,45 @@
+{
+  "query": "SELECT id, provisional_name, zone, altitude, status FROM field_archives ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, provisional_name, zone, altitude, status FROM field_archives ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "provisional_name": "Petrichor Andin #001",
+      "zone": "Andes / Altiplano",
+      "altitude": "2640",
+      "status": "completed"
+    },
+    {
+      "id": "2",
+      "provisional_name": "Fumée de Café Torréfié #002",
+      "zone": "Eje Cafetero",
+      "altitude": "1895",
+      "status": "completed"
+    },
+    {
+      "id": "3",
+      "provisional_name": "Brume de Páramo #003",
+      "zone": "Páramo de Sumapaz",
+      "altitude": "3700",
+      "status": "in_progress"
+    },
+    {
+      "id": "4",
+      "provisional_name": "Résine de Copal #004",
+      "zone": "Sierra Nevada de Santa Marta",
+      "altitude": "2000",
+      "status": "completed"
+    },
+    {
+      "id": "5",
+      "provisional_name": "Sel Marin Caraïbe #005",
+      "zone": "Côte Caraïbe",
+      "altitude": "0",
+      "status": "completed"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tprovisional_name\tzone\taltitude\tstatus\n1\tPetrichor Andin #001\tAndes / Altiplano\t2640\tcompleted\n2\tFumée de Café Torréfié #002\tEje Cafetero\t1895\tcompleted\n3\tBrume de Páramo #003\tPáramo de Sumapaz\t3700\tin_progress\n4\tRésine de Copal #004\tSierra Nevada de Santa Marta\t2000\tcompleted\n5\tSel Marin Caraïbe #005\tCôte Caraïbe\t0\tcompleted\n",
+  "stderr": "",
+  "execution_time_ms": 187
+}

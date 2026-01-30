@@ -1,0 +1,66 @@
+{
+  "query": "SELECT id, name, variety_type, conservation_status, last_documented_location FROM ghost_varieties;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, variety_type, conservation_status, last_documented_location FROM ghost_varieties;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Rose de Damas Ancienne",
+      "variety_type": "rose",
+      "conservation_status": "extinct",
+      "last_documented_location": "Vallée de la Bekaa, Liban"
+    },
+    {
+      "id": "2",
+      "name": "Jasmin de Grasse Original",
+      "variety_type": "jasmine",
+      "conservation_status": "critically_endangered",
+      "last_documented_location": "Grasse, France"
+    },
+    {
+      "id": "3",
+      "name": "Tabac de Virginie Colonial",
+      "variety_type": "tobacco",
+      "conservation_status": "extinct",
+      "last_documented_location": "Virginie, États-Unis"
+    },
+    {
+      "id": "4",
+      "name": "Cannabis Indica Afghan Heritage",
+      "variety_type": "cannabis",
+      "conservation_status": "endangered",
+      "last_documented_location": "Hindu Kush, Afghanistan"
+    },
+    {
+      "id": "5",
+      "name": "Lavande Fine de Haute-Provence Sauvage",
+      "variety_type": "lavender",
+      "conservation_status": "vulnerable",
+      "last_documented_location": "Plateau de Valensole, France"
+    },
+    {
+      "id": "6",
+      "name": "Bergamote de Calabre Historique",
+      "variety_type": "citrus",
+      "conservation_status": "extinct_wild",
+      "last_documented_location": "Reggio de Calabre, Italie"
+    },
+    {
+      "id": "7",
+      "name": "Thym Rouge de Provence",
+      "variety_type": "aromatic_herb",
+      "conservation_status": "near_threatened",
+      "last_documented_location": "Garrigues provençales, France"
+    },
+    {
+      "id": "8",
+      "name": "Encens de Dhofar Royal",
+      "variety_type": "resin_tree",
+      "conservation_status": "critically_endangered",
+      "last_documented_location": "Dhofar, Oman"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tvariety_type\tconservation_status\tlast_documented_location\n1\tRose de Damas Ancienne\trose\textinct\tVallée de la Bekaa, Liban\n2\tJasmin de Grasse Original\tjasmine\tcritically_endangered\tGrasse, France\n3\tTabac de Virginie Colonial\ttobacco\textinct\tVirginie, États-Unis\n4\tCannabis Indica Afghan Heritage\tcannabis\tendangered\tHindu Kush, Afghanistan\n5\tLavande Fine de Haute-Provence Sauvage\tlavender\tvulnerable\tPlateau de Valensole, France\n6\tBergamote de Calabre Historique\tcitrus\textinct_wild\tReggio de Calabre, Italie\n7\tThym Rouge de Provence\taromatic_herb\tnear_threatened\tGarrigues provençales, France\n8\tEncens de Dhofar Royal\tresin_tree\tcritically_endangered\tDhofar, Oman\n",
+  "stderr": "",
+  "execution_time_ms": 170
+}

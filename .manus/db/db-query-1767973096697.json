@@ -1,0 +1,76 @@
+{
+  "query": "SELECT COUNT(*) as total FROM raw_materials;\nSELECT id, name, category, plant_id FROM raw_materials LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total FROM raw_materials;\nSELECT id, name, category, plant_id FROM raw_materials LIMIT 20;",
+  "rows": [
+    {
+      "total": "25"
+    },
+    {
+      "total": "id\tname\tcategory\tplant_id"
+    },
+    {
+      "total": "1\tHuile essentielle de Lavande vraie\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "2\tHuile essentielle de Romarin\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "3\tHuile essentielle de Menthe poivrée\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "4\tAbsolue de Rose de Mai\tabsolue\tNULL"
+    },
+    {
+      "total": "5\tHuile essentielle d'Ylang-Ylang\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "6\tHuile essentielle de Vétiver\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "7\tOléorésine d'Encens\toleoresine\tNULL"
+    },
+    {
+      "total": "8\tHuile essentielle de Bergamote\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "9\tHuile essentielle d'Eucalyptus globulus\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "10\tHuile essentielle de Patchouli\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "11\tHuile essentielle de Bois de Santal\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "12\tHuile essentielle de Cèdre de l'Atlas\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "13\tHuile essentielle de Géranium rosat\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "14\tHuile essentielle de Néroli\thuile_essentielle\tNULL"
+    },
+    {
+      "total": "15\tAbsolue de Jasmin grandiflorum\tabsolue\tNULL"
+    },
+    {
+      "total": "16\tAbsolue de Tubéreuse\tabsolue\tNULL"
+    },
+    {
+      "total": "17\tAbsolue de Vanille\tabsolue\tNULL"
+    },
+    {
+      "total": "18\tAbsolue de Mimosa\tabsolue\tNULL"
+    },
+    {
+      "total": "19\tExtrait CO2 de Gingembre\tco2_extract\tNULL"
+    },
+    {
+      "total": "20\tExtrait CO2 de Cardamome\tco2_extract\tNULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n25\nid\tname\tcategory\tplant_id\n1\tHuile essentielle de Lavande vraie\thuile_essentielle\tNULL\n2\tHuile essentielle de Romarin\thuile_essentielle\tNULL\n3\tHuile essentielle de Menthe poivrée\thuile_essentielle\tNULL\n4\tAbsolue de Rose de Mai\tabsolue\tNULL\n5\tHuile essentielle d'Ylang-Ylang\thuile_essentielle\tNULL\n6\tHuile essentielle de Vétiver\thuile_essentielle\tNULL\n7\tOléorésine d'Encens\toleoresine\tNULL\n8\tHuile essentielle de Bergamote\thuile_essentielle\tNULL\n9\tHuile essentielle d'Eucalyptus globulus\thuile_essentielle\tNULL\n10\tHuile essentielle de Patchouli\thuile_essentielle\tNULL\n11\tHuile essentielle de Bois de Santal\thuile_essentielle\tNULL\n12\tHuile essentielle de Cèdre de l'Atlas\thuile_essentielle\tNULL\n13\tHuile essentielle de Géranium rosat\thuile_essentielle\tNULL\n14\tHuile essentielle de Néroli\thuile_essentielle\tNULL\n15\tAbsolue de Jasmin grandiflorum\tabsolue\tNULL\n16\tAbsolue de Tubéreuse\tabsolue\tNULL\n17\tAbsolue de Vanille\tabsolue\tNULL\n18\tAbsolue de Mimosa\tabsolue\tNULL\n19\tExtrait CO2 de Gingembre\tco2_extract\tNULL\n20\tExtrait CO2 de Cardamome\tco2_extract\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 1712
+}

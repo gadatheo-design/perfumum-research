@@ -1,0 +1,130 @@
+{
+  "query": "SELECT category, COUNT(*) as count, \n       SUM(CASE WHEN is_new_tobacco_isolate = true THEN 1 ELSE 0 END) as new_isolates\nFROM perique_compounds \nGROUP BY category \nORDER BY count DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT category, COUNT(*) as count, \n       SUM(CASE WHEN is_new_tobacco_isolate = true THEN 1 ELSE 0 END) as new_isolates\nFROM perique_compounds \nGROUP BY category \nORDER BY count DESC;",
+  "rows": [
+    {
+      "category": "Alcools",
+      "count": "34",
+      "new_isolates": "16"
+    },
+    {
+      "category": "Esters",
+      "count": "32",
+      "new_isolates": "13"
+    },
+    {
+      "category": "Azotés",
+      "count": "20",
+      "new_isolates": "5"
+    },
+    {
+      "category": "Monoterpènes",
+      "count": "19",
+      "new_isolates": "0"
+    },
+    {
+      "category": "Cétones",
+      "count": "18",
+      "new_isolates": "8"
+    },
+    {
+      "category": "Phénols",
+      "count": "18",
+      "new_isolates": "1"
+    },
+    {
+      "category": "Sesquiterpènes",
+      "count": "17",
+      "new_isolates": "4"
+    },
+    {
+      "category": "Aldéhydes",
+      "count": "17",
+      "new_isolates": "2"
+    },
+    {
+      "category": "Acides",
+      "count": "15",
+      "new_isolates": "0"
+    },
+    {
+      "category": "Lactones",
+      "count": "13",
+      "new_isolates": "8"
+    },
+    {
+      "category": "Caroténoïdes",
+      "count": "13",
+      "new_isolates": "8"
+    },
+    {
+      "category": "Soufrés",
+      "count": "12",
+      "new_isolates": "3"
+    },
+    {
+      "category": "Phénylpropanoïdes",
+      "count": "10",
+      "new_isolates": "1"
+    },
+    {
+      "category": "Norisoprénoïdes",
+      "count": "10",
+      "new_isolates": "2"
+    },
+    {
+      "category": "Furannes",
+      "count": "6",
+      "new_isolates": "1"
+    },
+    {
+      "category": "Pyrazines",
+      "count": "6",
+      "new_isolates": "0"
+    },
+    {
+      "category": "Furanones",
+      "count": "4",
+      "new_isolates": "2"
+    },
+    {
+      "category": "Acétals",
+      "count": "4",
+      "new_isolates": "4"
+    },
+    {
+      "category": "Pyranones",
+      "count": "2",
+      "new_isolates": "1"
+    },
+    {
+      "category": "Cyclopentènones",
+      "count": "2",
+      "new_isolates": "1"
+    },
+    {
+      "category": "Indoles",
+      "count": "2",
+      "new_isolates": "0"
+    },
+    {
+      "category": "Pyrroles",
+      "count": "2",
+      "new_isolates": "0"
+    },
+    {
+      "category": "Aromatiques",
+      "count": "1",
+      "new_isolates": "1"
+    },
+    {
+      "category": "Alcaloïdes",
+      "count": "1",
+      "new_isolates": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\tcount\tnew_isolates\nAlcools\t34\t16\nEsters\t32\t13\nAzotés\t20\t5\nMonoterpènes\t19\t0\nCétones\t18\t8\nPhénols\t18\t1\nSesquiterpènes\t17\t4\nAldéhydes\t17\t2\nAcides\t15\t0\nLactones\t13\t8\nCaroténoïdes\t13\t8\nSoufrés\t12\t3\nPhénylpropanoïdes\t10\t1\nNorisoprénoïdes\t10\t2\nFurannes\t6\t1\nPyrazines\t6\t0\nFuranones\t4\t2\nAcétals\t4\t4\nPyranones\t2\t1\nCyclopentènones\t2\t1\nIndoles\t2\t0\nPyrroles\t2\t0\nAromatiques\t1\t1\nAlcaloïdes\t1\t0\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

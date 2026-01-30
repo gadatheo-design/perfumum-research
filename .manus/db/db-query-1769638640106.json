@@ -1,0 +1,14 @@
+{
+  "query": "SELECT COUNT(*) as total, SUM(CASE WHEN molecularWeight IS NOT NULL AND molecularWeight > 0 THEN 1 ELSE 0 END) as enrichies FROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, SUM(CASE WHEN molecularWeight IS NOT NULL AND molecularWeight > 0 THEN 1 ELSE 0 END) as enrichies FROM molecules;",
+  "rows": [
+    {
+      "total": "671",
+      "enrichies": "577"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tenrichies\n671\t577\n",
+  "stderr": "",
+  "execution_time_ms": 68
+}

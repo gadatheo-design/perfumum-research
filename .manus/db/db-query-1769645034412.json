@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COUNT(*) as total, \n       SUM(CASE WHEN is_new_tobacco_isolate = 1 THEN 1 ELSE 0 END) as new_isolates,\n       COUNT(DISTINCT category) as categories\nFROM perique_compounds;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, \n       SUM(CASE WHEN is_new_tobacco_isolate = 1 THEN 1 ELSE 0 END) as new_isolates,\n       COUNT(DISTINCT category) as categories\nFROM perique_compounds;",
+  "rows": [
+    {
+      "total": "78",
+      "new_isolates": "27",
+      "categories": "17"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tnew_isolates\tcategories\n78\t27\t17\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

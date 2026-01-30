@@ -1,0 +1,22 @@
+{
+  "query": "SELECT \n  r.category,\n  COUNT(*) as total_impacts,\n  COUNT(DISTINCT tri.transformation_id) as unique_transformations,\n  COUNT(DISTINCT tri.recette_id) as unique_recipes\nFROM transformation_recipe_impacts tri\nJOIN recettes r ON tri.recette_id = r.id\nGROUP BY r.category\nORDER BY total_impacts DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  r.category,\n  COUNT(*) as total_impacts,\n  COUNT(DISTINCT tri.transformation_id) as unique_transformations,\n  COUNT(DISTINCT tri.recette_id) as unique_recipes\nFROM transformation_recipe_impacts tri\nJOIN recettes r ON tri.recette_id = r.id\nGROUP BY r.category\nORDER BY total_impacts DESC;",
+  "rows": [
+    {
+      "category": "parfum",
+      "total_impacts": "6534",
+      "unique_transformations": "33",
+      "unique_recipes": "198"
+    },
+    {
+      "category": "encens",
+      "total_impacts": "990",
+      "unique_transformations": "33",
+      "unique_recipes": "30"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\ttotal_impacts\tunique_transformations\tunique_recipes\nparfum\t6534\t33\t198\nencens\t990\t33\t30\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

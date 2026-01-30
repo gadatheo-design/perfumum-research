@@ -1,0 +1,160 @@
+{
+  "query": "SELECT id, name, category FROM recettes WHERE category = 'tabac' OR formula LIKE '%pyro%' OR formula LIKE '%fum%' LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category FROM recettes WHERE category = 'tabac' OR formula LIKE '%pyro%' OR formula LIKE '%fum%' LIMIT 30;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "OS PLUVIEUX",
+      "category": "parfum"
+    },
+    {
+      "id": "3",
+      "name": "ARCHÉOLOGIE BRÛLÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "50",
+      "name": "OS PLUVIEUX",
+      "category": "parfum"
+    },
+    {
+      "id": "52",
+      "name": "ARCHÉOLOGIE BRÛLÉE",
+      "category": "parfum"
+    },
+    {
+      "id": "135",
+      "name": "TABAC SILENCE ABSOLU",
+      "category": "parfum"
+    },
+    {
+      "id": "120001",
+      "name": "Forêt Méditerranéenne",
+      "category": "parfum"
+    },
+    {
+      "id": "120002",
+      "name": "Jardin Japonais",
+      "category": "parfum"
+    },
+    {
+      "id": "120003",
+      "name": "Fleur d'Oranger Tropicale",
+      "category": "parfum"
+    },
+    {
+      "id": "120004",
+      "name": "Soleil de Sicile",
+      "category": "parfum"
+    },
+    {
+      "id": "120005",
+      "name": "Pétrichor Sacré",
+      "category": "parfum"
+    },
+    {
+      "id": "120006",
+      "name": "Ambre Océanique",
+      "category": "parfum"
+    },
+    {
+      "id": "120007",
+      "name": "Rituel d'Assam",
+      "category": "parfum"
+    },
+    {
+      "id": "120008",
+      "name": "Fraîcheur Mentholée",
+      "category": "parfum"
+    },
+    {
+      "id": "150009",
+      "name": "Smoky Cheese",
+      "category": "resine_cbd"
+    },
+    {
+      "id": "300001",
+      "name": "Colombie I - Origan Sacré",
+      "category": "tabac"
+    },
+    {
+      "id": "300002",
+      "name": "Colombie II - Damiana Tropicale",
+      "category": "tabac"
+    },
+    {
+      "id": "300003",
+      "name": "Colombie III - Guayabita Citrus",
+      "category": "tabac"
+    },
+    {
+      "id": "300004",
+      "name": "Colombie IV - Café Floral",
+      "category": "tabac"
+    },
+    {
+      "id": "300005",
+      "name": "Colombie V - Poivre Sauvage",
+      "category": "tabac"
+    },
+    {
+      "id": "300006",
+      "name": "Colombie VI - Cacao Sacré",
+      "category": "tabac"
+    },
+    {
+      "id": "300007",
+      "name": "Colombie VII - Endémique Rare",
+      "category": "tabac"
+    },
+    {
+      "id": "300008",
+      "name": "Colombie VIII - Harmonie Complète",
+      "category": "tabac"
+    },
+    {
+      "id": "330017",
+      "name": "CAFÉ DE LOS ANDES",
+      "category": "tabac"
+    },
+    {
+      "id": "330018",
+      "name": "SELVA SAGRADA",
+      "category": "tabac"
+    },
+    {
+      "id": "330019",
+      "name": "FRUTAS ANDINAS",
+      "category": "tabac"
+    },
+    {
+      "id": "330020",
+      "name": "CHAMÁN NOCTURNO",
+      "category": "tabac"
+    },
+    {
+      "id": "330021",
+      "name": "VERDE MEDICINA",
+      "category": "tabac"
+    },
+    {
+      "id": "330022",
+      "name": "BOSQUE DE CEDRO",
+      "category": "tabac"
+    },
+    {
+      "id": "330023",
+      "name": "DULCE TRÓPICO",
+      "category": "tabac"
+    },
+    {
+      "id": "330024",
+      "name": "OFRENDA ANCESTRAL",
+      "category": "tabac"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n1\tOS PLUVIEUX\tparfum\n3\tARCHÉOLOGIE BRÛLÉE\tparfum\n50\tOS PLUVIEUX\tparfum\n52\tARCHÉOLOGIE BRÛLÉE\tparfum\n135\tTABAC SILENCE ABSOLU\tparfum\n120001\tForêt Méditerranéenne\tparfum\n120002\tJardin Japonais\tparfum\n120003\tFleur d'Oranger Tropicale\tparfum\n120004\tSoleil de Sicile\tparfum\n120005\tPétrichor Sacré\tparfum\n120006\tAmbre Océanique\tparfum\n120007\tRituel d'Assam\tparfum\n120008\tFraîcheur Mentholée\tparfum\n150009\tSmoky Cheese\tresine_cbd\n300001\tColombie I - Origan Sacré\ttabac\n300002\tColombie II - Damiana Tropicale\ttabac\n300003\tColombie III - Guayabita Citrus\ttabac\n300004\tColombie IV - Café Floral\ttabac\n300005\tColombie V - Poivre Sauvage\ttabac\n300006\tColombie VI - Cacao Sacré\ttabac\n300007\tColombie VII - Endémique Rare\ttabac\n300008\tColombie VIII - Harmonie Complète\ttabac\n330017\tCAFÉ DE LOS ANDES\ttabac\n330018\tSELVA SAGRADA\ttabac\n330019\tFRUTAS ANDINAS\ttabac\n330020\tCHAMÁN NOCTURNO\ttabac\n330021\tVERDE MEDICINA\ttabac\n330022\tBOSQUE DE CEDRO\ttabac\n330023\tDULCE TRÓPICO\ttabac\n330024\tOFRENDA ANCESTRAL\ttabac\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

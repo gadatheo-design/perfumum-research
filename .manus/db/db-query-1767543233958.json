@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET chemicalFormula = 'C₁₃H₂₀O' WHERE (name LIKE '%Ionone%' OR name LIKE '%Damascone%') AND (chemicalFormula IS NULL OR chemicalFormula = ''); UPDATE molecules SET chemicalFormula = 'C₁₀H₁₆O' WHERE (name LIKE '%Camphre%' OR name LIKE '%Camphor%' OR name LIKE '%Fenchone%' OR name LIKE '%Thujone%' OR name LIKE '%Pulegone%') AND (chemicalFormula IS NULL OR chemicalFormula = ''); UPDATE molecules SET chemicalFormula = 'C₁₀H₁₄O' WHERE name LIKE '%Carvone%' AND (chemicalFormula IS NULL OR chemicalFormula = ''); UPDATE molecules SET chemicalFormula = 'C₁₀H₂₀O' WHERE (name LIKE '%Menthol%' OR name LIKE '%Citronellol%') AND (chemicalFormula IS NULL OR chemicalFormula = '');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET chemicalFormula = 'C₁₃H₂₀O' WHERE (name LIKE '%Ionone%' OR name LIKE '%Damascone%') AND (chemicalFormula IS NULL OR chemicalFormula = ''); UPDATE molecules SET chemicalFormula = 'C₁₀H₁₆O' WHERE (name LIKE '%Camphre%' OR name LIKE '%Camphor%' OR name LIKE '%Fenchone%' OR name LIKE '%Thujone%' OR name LIKE '%Pulegone%') AND (chemicalFormula IS NULL OR chemicalFormula = ''); UPDATE molecules SET chemicalFormula = 'C₁₀H₁₄O' WHERE name LIKE '%Carvone%' AND (chemicalFormula IS NULL OR chemicalFormula = ''); UPDATE molecules SET chemicalFormula = 'C₁₀H₂₀O' WHERE (name LIKE '%Menthol%' OR name LIKE '%Citronellol%') AND (chemicalFormula IS NULL OR chemicalFormula = '');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 102
+}

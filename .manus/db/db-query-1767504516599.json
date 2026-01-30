@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO ifra_restrictions (molecule_id, ifra_amendment, restriction_type, reason_for_restriction, category_1, category_2, category_3, category_4, category_5a, category_5b, category_5c, category_5d, category_7a, category_7b, category_8, category_9, category_10a, category_10b, category_11a, category_11b)\nSELECT id, '49th', 'restricted', 'Allergène cutané - sensibilisation par contact', 5.3, 2.5, 0.5, 5.3, 3.2, 5.3, 5.3, 0.5, 3.2, 5.3, 0.5, 5.3, 5.3, 5.3, 5.3, 5.3\nFROM molecules WHERE cas_number = '106-24-1'\nON DUPLICATE KEY UPDATE restriction_type = 'restricted';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO ifra_restrictions (molecule_id, ifra_amendment, restriction_type, reason_for_restriction, category_1, category_2, category_3, category_4, category_5a, category_5b, category_5c, category_5d, category_7a, category_7b, category_8, category_9, category_10a, category_10b, category_11a, category_11b)\nSELECT id, '49th', 'restricted', 'Allergène cutané - sensibilisation par contact', 5.3, 2.5, 0.5, 5.3, 3.2, 5.3, 5.3, 0.5, 3.2, 5.3, 0.5, 5.3, 5.3, 5.3, 5.3, 5.3\nFROM molecules WHERE cas_number = '106-24-1'\nON DUPLICATE KEY UPDATE restriction_type = 'restricted';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1538
+}

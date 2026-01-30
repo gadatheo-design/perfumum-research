@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS molecule_origins (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  molecule_id INT NOT NULL,\n  origin_id INT NOT NULL,\n  is_primary_origin TINYINT DEFAULT 0,\n  quality_rating INT,\n  production_volume VARCHAR(100),\n  price_range VARCHAR(100),\n  specific_characteristics TEXT,\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_molecule_origin (molecule_id, origin_id),\n  FOREIGN KEY (molecule_id) REFERENCES molecules(id) ON DELETE CASCADE,\n  FOREIGN KEY (origin_id) REFERENCES geographic_origins(id) ON DELETE CASCADE\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS molecule_origins (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  molecule_id INT NOT NULL,\n  origin_id INT NOT NULL,\n  is_primary_origin TINYINT DEFAULT 0,\n  quality_rating INT,\n  production_volume VARCHAR(100),\n  price_range VARCHAR(100),\n  specific_characteristics TEXT,\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  UNIQUE KEY unique_molecule_origin (molecule_id, origin_id),\n  FOREIGN KEY (molecule_id) REFERENCES molecules(id) ON DELETE CASCADE,\n  FOREIGN KEY (origin_id) REFERENCES geographic_origins(id) ON DELETE CASCADE\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 272
+}

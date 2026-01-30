@@ -1,0 +1,58 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'geographic_zones' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'geographic_zones' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "region"
+    },
+    {
+      "COLUMN_NAME": "zone_type"
+    },
+    {
+      "COLUMN_NAME": "coordinates"
+    },
+    {
+      "COLUMN_NAME": "description"
+    },
+    {
+      "COLUMN_NAME": "threat_level"
+    },
+    {
+      "COLUMN_NAME": "species_count"
+    },
+    {
+      "COLUMN_NAME": "conservation_priority"
+    },
+    {
+      "COLUMN_NAME": "overlay_color"
+    },
+    {
+      "COLUMN_NAME": "overlay_opacity"
+    },
+    {
+      "COLUMN_NAME": "sustainable_alternatives"
+    },
+    {
+      "COLUMN_NAME": "conservation_efforts"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nname\nregion\nzone_type\ncoordinates\ndescription\nthreat_level\nspecies_count\nconservation_priority\noverlay_color\noverlay_opacity\nsustainable_alternatives\nconservation_efforts\nnotes\ncreated_at\nupdated_at\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

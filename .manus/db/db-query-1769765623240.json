@@ -1,0 +1,106 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plant_varieties' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'plant_varieties' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "variety_id"
+    },
+    {
+      "COLUMN_NAME": "plant_id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "latin_name"
+    },
+    {
+      "COLUMN_NAME": "variety_type"
+    },
+    {
+      "COLUMN_NAME": "breeder"
+    },
+    {
+      "COLUMN_NAME": "year_registered"
+    },
+    {
+      "COLUMN_NAME": "country_of_origin"
+    },
+    {
+      "COLUMN_NAME": "parent_varieties"
+    },
+    {
+      "COLUMN_NAME": "distinctive_features"
+    },
+    {
+      "COLUMN_NAME": "morphology"
+    },
+    {
+      "COLUMN_NAME": "dominant_molecules"
+    },
+    {
+      "COLUMN_NAME": "molecular_profile"
+    },
+    {
+      "COLUMN_NAME": "olfactive_description"
+    },
+    {
+      "COLUMN_NAME": "olfactive_notes"
+    },
+    {
+      "COLUMN_NAME": "yield_per_hectare"
+    },
+    {
+      "COLUMN_NAME": "essential_oil_yield"
+    },
+    {
+      "COLUMN_NAME": "harvest_period"
+    },
+    {
+      "COLUMN_NAME": "optimal_harvest_stage"
+    },
+    {
+      "COLUMN_NAME": "commercial_availability"
+    },
+    {
+      "COLUMN_NAME": "suppliers"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "references"
+    },
+    {
+      "COLUMN_NAME": "image_url"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    },
+    {
+      "COLUMN_NAME": "conservation_status"
+    },
+    {
+      "COLUMN_NAME": "conservation_notes"
+    },
+    {
+      "COLUMN_NAME": "threat_factors"
+    },
+    {
+      "COLUMN_NAME": "conservation_efforts"
+    },
+    {
+      "COLUMN_NAME": "last_assessment_date"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nvariety_id\nplant_id\nname\nlatin_name\nvariety_type\nbreeder\nyear_registered\ncountry_of_origin\nparent_varieties\ndistinctive_features\nmorphology\ndominant_molecules\nmolecular_profile\nolfactive_description\nolfactive_notes\nyield_per_hectare\nessential_oil_yield\nharvest_period\noptimal_harvest_stage\ncommercial_availability\nsuppliers\nnotes\nreferences\nimage_url\ncreated_at\nupdated_at\nconservation_status\nconservation_notes\nthreat_factors\nconservation_efforts\nlast_assessment_date\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

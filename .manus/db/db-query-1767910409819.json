@@ -1,0 +1,18 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_with_plants,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) as plants_with_molecules,\n  (SELECT COUNT(*) FROM plant_terroirs) as plant_terroir_links,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs) as plants_with_terroirs",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_with_plants,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) as plants_with_molecules,\n  (SELECT COUNT(*) FROM plant_terroirs) as plant_terroir_links,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_terroirs) as plants_with_terroirs",
+  "rows": [
+    {
+      "total_molecules": "569",
+      "molecules_with_plants": "135",
+      "total_plants": "149",
+      "plants_with_molecules": "56",
+      "plant_terroir_links": "41",
+      "plants_with_terroirs": "28"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\tmolecules_with_plants\ttotal_plants\tplants_with_molecules\tplant_terroir_links\tplants_with_terroirs\n569\t135\t149\t56\t41\t28\n",
+  "stderr": "",
+  "execution_time_ms": 104
+}

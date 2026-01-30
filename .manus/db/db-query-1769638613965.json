@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET chemicalFormula = 'C7H6O', molecularWeight = 106.12, logP = 1.5 WHERE name LIKE '%benzaldehyde%' OR name LIKE '%benzaldéhyde%'; UPDATE molecules SET chemicalFormula = 'C9H8O', molecularWeight = 132.16, logP = 1.9 WHERE name LIKE '%cinnamaldehyde%' OR name LIKE '%cinnamaldéhyde%'; UPDATE molecules SET chemicalFormula = 'C8H8O2', molecularWeight = 136.15, logP = 1.8 WHERE name LIKE '%anisaldehyde%' OR name LIKE '%anisaldéhyde%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET chemicalFormula = 'C7H6O', molecularWeight = 106.12, logP = 1.5 WHERE name LIKE '%benzaldehyde%' OR name LIKE '%benzaldéhyde%'; UPDATE molecules SET chemicalFormula = 'C9H8O', molecularWeight = 132.16, logP = 1.9 WHERE name LIKE '%cinnamaldehyde%' OR name LIKE '%cinnamaldéhyde%'; UPDATE molecules SET chemicalFormula = 'C8H8O2', molecularWeight = 136.15, logP = 1.8 WHERE name LIKE '%anisaldehyde%' OR name LIKE '%anisaldéhyde%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 82
+}

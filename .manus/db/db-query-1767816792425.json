@@ -1,0 +1,15 @@
+{
+  "query": "SELECT \n  COUNT(*) as total_references,\n  COUNT(CASE WHEN pack_version = 'hc_v1' THEN 1 END) as heritage_conservation,\n  COUNT(CASE WHEN pack_version = 'v3' OR pack_version IS NULL THEN 1 END) as other_packs\nFROM v3_references;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total_references,\n  COUNT(CASE WHEN pack_version = 'hc_v1' THEN 1 END) as heritage_conservation,\n  COUNT(CASE WHEN pack_version = 'v3' OR pack_version IS NULL THEN 1 END) as other_packs\nFROM v3_references;",
+  "rows": [
+    {
+      "total_references": "181",
+      "heritage_conservation": "34",
+      "other_packs": "118"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_references\theritage_conservation\tother_packs\n181\t34\t118\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

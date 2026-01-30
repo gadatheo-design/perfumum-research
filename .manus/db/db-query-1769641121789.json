@@ -1,0 +1,9 @@
+{
+  "query": "-- Mésoamérique (centre du Mexique/Guatemala)\nUPDATE terroirs SET latitude = '19.4326', longitude = '-99.1332' WHERE id = 180001;\n\n-- Afrique de l'Ouest, Sahel (centre du Sahel - Niger)\nUPDATE terroirs SET latitude = '13.5137', longitude = '2.1098' WHERE id = 210004;\n\n-- Afrique Centrale, Forêt Équatoriale (centre - République du Congo)\nUPDATE terroirs SET latitude = '-0.2280', longitude = '15.8277' WHERE id = 210007;\n\n-- Global (centre du monde - Équateur/Méridien)\nUPDATE terroirs SET latitude = '0.0', longitude = '0.0' WHERE id = 60007;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Mésoamérique (centre du Mexique/Guatemala)\nUPDATE terroirs SET latitude = '19.4326', longitude = '-99.1332' WHERE id = 180001;\n\n-- Afrique de l'Ouest, Sahel (centre du Sahel - Niger)\nUPDATE terroirs SET latitude = '13.5137', longitude = '2.1098' WHERE id = 210004;\n\n-- Afrique Centrale, Forêt Équatoriale (centre - République du Congo)\nUPDATE terroirs SET latitude = '-0.2280', longitude = '15.8277' WHERE id = 210007;\n\n-- Global (centre du monde - Équateur/Méridien)\nUPDATE terroirs SET latitude = '0.0', longitude = '0.0' WHERE id = 60007;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 102
+}

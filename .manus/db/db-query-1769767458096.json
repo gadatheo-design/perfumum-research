@@ -1,0 +1,41 @@
+{
+  "query": "SHOW CREATE TABLE analytical_methods;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW CREATE TABLE analytical_methods;",
+  "rows": [
+    {
+      "Table": "analytical_methods",
+      "Create Table": "CREATE TABLE `analytical_methods` ("
+    }
+  ],
+  "messages": [
+    "  `id` int(11) NOT NULL AUTO_INCREMENT,",
+    "  `code` varchar(50) DEFAULT NULL,",
+    "  `method_id` varchar(30) NOT NULL,",
+    "  `name` varchar(255) NOT NULL,",
+    "  `full_name` varchar(500) DEFAULT NULL,",
+    "  `category` varchar(50) DEFAULT 'other',",
+    "  `performance_score` int(11) DEFAULT NULL,",
+    "  `resolution_score` int(11) DEFAULT NULL,",
+    "  `sensitivity_score` int(11) DEFAULT NULL,",
+    "  `detection_limit` varchar(100) DEFAULT NULL,",
+    "  `capabilities` json DEFAULT NULL,",
+    "  `modality` varchar(255) DEFAULT NULL,",
+    "  `sample_types` text DEFAULT NULL,",
+    "  `output` text DEFAULT NULL,",
+    "  `strengths` text DEFAULT NULL,",
+    "  `limitations` text DEFAULT NULL,",
+    "  `best_suited_for` json DEFAULT NULL,",
+    "  `typical_markers` text DEFAULT NULL,",
+    "  `sop_outline` text DEFAULT NULL,",
+    "  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,",
+    "  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,",
+    "  `description` text DEFAULT NULL,",
+    "  `publication_count` int(11) DEFAULT '0',",
+    "  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,",
+    "  UNIQUE KEY `analytical_methods_method_id_unique` (`method_id`)",
+    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=30001"
+  ],
+  "stdout": "Table\tCreate Table\nanalytical_methods\tCREATE TABLE `analytical_methods` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `code` varchar(50) DEFAULT NULL,\n  `method_id` varchar(30) NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `full_name` varchar(500) DEFAULT NULL,\n  `category` varchar(50) DEFAULT 'other',\n  `performance_score` int(11) DEFAULT NULL,\n  `resolution_score` int(11) DEFAULT NULL,\n  `sensitivity_score` int(11) DEFAULT NULL,\n  `detection_limit` varchar(100) DEFAULT NULL,\n  `capabilities` json DEFAULT NULL,\n  `modality` varchar(255) DEFAULT NULL,\n  `sample_types` text DEFAULT NULL,\n  `output` text DEFAULT NULL,\n  `strengths` text DEFAULT NULL,\n  `limitations` text DEFAULT NULL,\n  `best_suited_for` json DEFAULT NULL,\n  `typical_markers` text DEFAULT NULL,\n  `sop_outline` text DEFAULT NULL,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  `description` text DEFAULT NULL,\n  `publication_count` int(11) DEFAULT '0',\n  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,\n  UNIQUE KEY `analytical_methods_method_id_unique` (`method_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=30001\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

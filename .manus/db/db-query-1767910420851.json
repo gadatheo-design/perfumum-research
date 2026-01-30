@@ -1,0 +1,220 @@
+{
+  "query": "SELECT p.id, p.name, p.latin_name, p.category, p.olfactive_signature\nFROM plants p\nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id\nWHERE pm.plant_id IS NULL\nORDER BY p.name\nLIMIT 30",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.id, p.name, p.latin_name, p.category, p.olfactive_signature\nFROM plants p\nLEFT JOIN plant_molecules pm ON p.id = pm.plant_id\nWHERE pm.plant_id IS NULL\nORDER BY p.name\nLIMIT 30",
+  "rows": [
+    {
+      "id": "120017",
+      "name": "Acapulco Gold",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "category": "cannabis",
+      "olfactive_signature": "Légendaire, dorée"
+    },
+    {
+      "id": "120007",
+      "name": "Afghan Kush",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "category": "cannabis",
+      "olfactive_signature": "Indica pure, résine abondante"
+    },
+    {
+      "id": "360003",
+      "name": "Ambil",
+      "latin_name": "Nicotiana tabacum (préparation)",
+      "category": "tabac",
+      "olfactive_signature": "Fumé intense, terreux profond, mélasse, cendres végétales, notes minérales salines. Arrière-fond de caramel brûlé et de bois carbonisé."
+    },
+    {
+      "id": "210012",
+      "name": "Amyris (bois)",
+      "latin_name": "Amyris balsamifera",
+      "category": "aromatique",
+      "olfactive_signature": "bois doux, sec, légèrement citronné"
+    },
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora",
+      "category": "aromatique",
+      "olfactive_signature": "Floral-boisé, notes de rose et de linalol, frais et légèrement épicé"
+    },
+    {
+      "id": "210038",
+      "name": "Aquilaria",
+      "latin_name": "Aquilaria malaccensis",
+      "category": "aromatique",
+      "olfactive_signature": "Boisé profond, animal, cuiré, fumé, notes de miel et de tabac. L'un des parfums les plus précieux au monde."
+    },
+    {
+      "id": "150015",
+      "name": "Armoise",
+      "latin_name": "Artemisia vulgaris",
+      "category": "aromatique",
+      "olfactive_signature": "Herbacé intense, amer, aromatique, notes de sauge"
+    },
+    {
+      "id": "210005",
+      "name": "Balsamier (baume)",
+      "latin_name": "Myroxylon balsamum",
+      "category": "aromatique",
+      "olfactive_signature": "baume chaud, vanillé-résineux, cuir léger"
+    },
+    {
+      "id": "210021",
+      "name": "Basilic clou de girofle",
+      "latin_name": "Ocimum gratissimum",
+      "category": "aromatique",
+      "olfactive_signature": "épice verte, clou, herbacé"
+    },
+    {
+      "id": "240006",
+      "name": "Benjoin",
+      "latin_name": "Styrax benzoin",
+      "category": "resine",
+      "olfactive_signature": "Balsamique doux, vanillé, notes de chocolat et d'amande"
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna",
+      "category": "bois",
+      "olfactive_signature": "Boisé profond, résineux, animalique, fumé, notes de cuir et de miel"
+    },
+    {
+      "id": "210015",
+      "name": "Bois de mastic caribéen",
+      "latin_name": "Bursera simaruba",
+      "category": "aromatique",
+      "olfactive_signature": "résine claire, bois, citron discret"
+    },
+    {
+      "id": "210001",
+      "name": "Bois de rose colombien",
+      "latin_name": "Aniba perutilis",
+      "category": "aromatique",
+      "olfactive_signature": "bois floral propre, linalool, air humide"
+    },
+    {
+      "id": "210003",
+      "name": "Breu branco (résine)",
+      "latin_name": "Protium heptaphyllum",
+      "category": "aromatique",
+      "olfactive_signature": "encens clair, citronné résineux, sec"
+    },
+    {
+      "id": "150019",
+      "name": "Calamus (Acore)",
+      "latin_name": "Acorus calamus",
+      "category": "racine",
+      "olfactive_signature": "Épicé, boisé, notes de cannelle et gingembre"
+    },
+    {
+      "id": "120006",
+      "name": "Cambodian",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "category": "cannabis",
+      "olfactive_signature": "Sativa équatoriale"
+    },
+    {
+      "id": "210013",
+      "name": "Canella (écorce)",
+      "latin_name": "Canella winterana",
+      "category": "aromatique",
+      "olfactive_signature": "cannelle salée, poivrée, sèche"
+    },
+    {
+      "id": "210030",
+      "name": "Cannabis feuille sèche #3",
+      "latin_name": "Cannabis sativa",
+      "category": "cannabis",
+      "olfactive_signature": "vert sec, piné"
+    },
+    {
+      "id": "120010",
+      "name": "Chitral",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "category": "cannabis",
+      "olfactive_signature": "Couleurs pourpres"
+    },
+    {
+      "id": "120005",
+      "name": "Chocolate Thai",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "category": "cannabis",
+      "olfactive_signature": "Notes chocolatées"
+    },
+    {
+      "id": "210020",
+      "name": "Citronnelle africaine",
+      "latin_name": "Cymbopogon giganteus",
+      "category": "aromatique",
+      "olfactive_signature": "citron sec, camphré léger, aéré"
+    },
+    {
+      "id": "120019",
+      "name": "Colombian Gold",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "category": "cannabis",
+      "olfactive_signature": "Années 70"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "latin_name": "Commiphora wightii",
+      "category": "aromatique",
+      "olfactive_signature": "Balsamique, légèrement amer, notes de myrrhe avec une touche médicinale"
+    },
+    {
+      "id": "150009",
+      "name": "Copal",
+      "latin_name": "Bursera spp.",
+      "category": "resine",
+      "olfactive_signature": "Citronné vif, pin, frais, notes de résine fraîche"
+    },
+    {
+      "id": "210002",
+      "name": "Copaïba (oléorésine)",
+      "latin_name": "Copaifera officinalis",
+      "category": "aromatique",
+      "olfactive_signature": "résine douce, bois clair, huileux"
+    },
+    {
+      "id": "270005",
+      "name": "Costus",
+      "latin_name": "Saussurea costus",
+      "category": "racine",
+      "olfactive_signature": "Animal, cuiré, notes de violette et d'iris avec une facette terreuse"
+    },
+    {
+      "id": "210010",
+      "name": "Culantro (feuille)",
+      "latin_name": "Eryngium foetidum",
+      "category": "aromatique",
+      "olfactive_signature": "vert coriandre, métallique, feuille"
+    },
+    {
+      "id": "150012",
+      "name": "Damiana",
+      "latin_name": "Turnera diffusa",
+      "category": "aromatique",
+      "olfactive_signature": "Sucré, épicé, légèrement amer, notes de figue"
+    },
+    {
+      "id": "120012",
+      "name": "Durban Poison",
+      "latin_name": "Cannabis sativa subsp. indica",
+      "category": "cannabis",
+      "olfactive_signature": "Sativa pure, très aromatique"
+    },
+    {
+      "id": "270002",
+      "name": "Encens d'Éthiopie",
+      "latin_name": "Boswellia papyrifera",
+      "category": "resine",
+      "olfactive_signature": "Encens frais et légèrement citronné, notes vertes et résineuses"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcategory\tolfactive_signature\n120017\tAcapulco Gold\tCannabis sativa subsp. indica\tcannabis\tLégendaire, dorée\n120007\tAfghan Kush\tCannabis sativa subsp. indica\tcannabis\tIndica pure, résine abondante\n360003\tAmbil\tNicotiana tabacum (préparation)\ttabac\tFumé intense, terreux profond, mélasse, cendres végétales, notes minérales salines. Arrière-fond de caramel brûlé et de bois carbonisé.\n210012\tAmyris (bois)\tAmyris balsamifera\taromatique\tbois doux, sec, légèrement citronné\n210040\tAniba\tAniba rosaeodora\taromatique\tFloral-boisé, notes de rose et de linalol, frais et légèrement épicé\n210038\tAquilaria\tAquilaria malaccensis\taromatique\tBoisé profond, animal, cuiré, fumé, notes de miel et de tabac. L'un des parfums les plus précieux au monde.\n150015\tArmoise\tArtemisia vulgaris\taromatique\tHerbacé intense, amer, aromatique, notes de sauge\n210005\tBalsamier (baume)\tMyroxylon balsamum\taromatique\tbaume chaud, vanillé-résineux, cuir léger\n210021\tBasilic clou de girofle\tOcimum gratissimum\taromatique\tépice verte, clou, herbacé\n240006\tBenjoin\tStyrax benzoin\tresine\tBalsamique doux, vanillé, notes de chocolat et d'amande\n240002\tBois d'agar\tAquilaria crassna\tbois\tBoisé profond, résineux, animalique, fumé, notes de cuir et de miel\n210015\tBois de mastic caribéen\tBursera simaruba\taromatique\trésine claire, bois, citron discret\n210001\tBois de rose colombien\tAniba perutilis\taromatique\tbois floral propre, linalool, air humide\n210003\tBreu branco (résine)\tProtium heptaphyllum\taromatique\tencens clair, citronné résineux, sec\n150019\tCalamus (Acore)\tAcorus calamus\tracine\tÉpicé, boisé, notes de cannelle et gingembre\n120006\tCambodian\tCannabis sativa subsp. indica\tcannabis\tSativa équatoriale\n210013\tCanella (écorce)\tCanella winterana\taromatique\tcannelle salée, poivrée, sèche\n210030\tCannabis feuille sèche #3\tCannabis sativa\tcannabis\tvert sec, piné\n120010\tChitral\tCannabis sativa subsp. indica\tcannabis\tCouleurs pourpres\n120005\tChocolate Thai\tCannabis sativa subsp. indica\tcannabis\tNotes chocolatées\n210020\tCitronnelle africaine\tCymbopogon giganteus\taromatique\tcitron sec, camphré léger, aéré\n120019\tColombian Gold\tCannabis sativa subsp. indica\tcannabis\tAnnées 70\n210039\tCommiphora\tCommiphora wightii\taromatique\tBalsamique, légèrement amer, notes de myrrhe avec une touche médicinale\n150009\tCopal\tBursera spp.\tresine\tCitronné vif, pin, frais, notes de résine fraîche\n210002\tCopaïba (oléorésine)\tCopaifera officinalis\taromatique\trésine douce, bois clair, huileux\n270005\tCostus\tSaussurea costus\tracine\tAnimal, cuiré, notes de violette et d'iris avec une facette terreuse\n210010\tCulantro (feuille)\tEryngium foetidum\taromatique\tvert coriandre, métallique, feuille\n150012\tDamiana\tTurnera diffusa\taromatique\tSucré, épicé, légèrement amer, notes de figue\n120012\tDurban Poison\tCannabis sativa subsp. indica\tcannabis\tSativa pure, très aromatique\n270002\tEncens d'Éthiopie\tBoswellia papyrifera\tresine\tEncens frais et légèrement citronné, notes vertes et résineuses\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

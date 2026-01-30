@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, name, chemical_formula FROM molecules WHERE chemical_formula IS NULL OR chemical_formula = '' OR chemical_formula = 'Formule non disponible' ORDER BY name LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, chemical_formula FROM molecules WHERE chemical_formula IS NULL OR chemical_formula = '' OR chemical_formula = 'Formule non disponible' ORDER BY name LIMIT 50;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'chemical_formula' in 'where clause'"
+  ]
+}

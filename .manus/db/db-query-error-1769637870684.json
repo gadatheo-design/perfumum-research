@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, name, cas_number, molecular_weight, log_p, molecular_formula FROM molecules WHERE molecular_weight IS NULL OR molecular_weight = 0 LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number, molecular_weight, log_p, molecular_formula FROM molecules WHERE molecular_weight IS NULL OR molecular_weight = 0 LIMIT 20;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'molecular_weight' in 'where clause'"
+  ]
+}

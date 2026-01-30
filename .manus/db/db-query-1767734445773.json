@@ -1,0 +1,30 @@
+{
+  "query": "SELECT id, name FROM recettes WHERE name LIKE '%TL-%' OR name LIKE '%Tagetes%' ORDER BY name LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM recettes WHERE name LIKE '%TL-%' OR name LIKE '%Tagetes%' ORDER BY name LIMIT 20;",
+  "rows": [
+    {
+      "id": "450001",
+      "name": "TL-01 — Pericón Anisé"
+    },
+    {
+      "id": "450002",
+      "name": "TL-02 — Verde Tagetone"
+    },
+    {
+      "id": "450003",
+      "name": "TL-03 — Épice Mexicaine"
+    },
+    {
+      "id": "450004",
+      "name": "TL-04 — Encens Pericón"
+    },
+    {
+      "id": "450005",
+      "name": "TL-05 — Synergie Vent-Herbacé"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n450001\tTL-01 — Pericón Anisé\n450002\tTL-02 — Verde Tagetone\n450003\tTL-03 — Épice Mexicaine\n450004\tTL-04 — Encens Pericón\n450005\tTL-05 — Synergie Vent-Herbacé\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

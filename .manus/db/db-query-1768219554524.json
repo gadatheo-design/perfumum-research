@@ -1,0 +1,70 @@
+{
+  "query": "SELECT id, type, LEFT(description, 50) as description_preview, LEFT(chemical_mechanism, 80) as mechanism_preview FROM molecule_synergies LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, type, LEFT(description, 50) as description_preview, LEFT(chemical_mechanism, 80) as mechanism_preview FROM molecule_synergies LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "type": "potentialisation",
+      "description_preview": "Amplification de la douceur balsamique vanillée. L",
+      "mechanism_preview": "Interaction moléculaire documentée impliquant des forces intermoléculaires (van "
+    },
+    {
+      "id": "2",
+      "type": "potentialisation",
+      "description_preview": "Synergie résineuse sacrée fumée. Les diterpènes du",
+      "mechanism_preview": "Interaction moléculaire documentée impliquant des forces intermoléculaires (van "
+    },
+    {
+      "id": "3",
+      "type": "potentialisation",
+      "description_preview": "Amplification florale jasminée. Les alcaloïdes du ",
+      "mechanism_preview": "Interaction moléculaire documentée impliquant des forces intermoléculaires (van "
+    },
+    {
+      "id": "4",
+      "type": "transformation",
+      "description_preview": "Complexité acidulée tropicale multicouche. Les aci",
+      "mechanism_preview": "Interaction moléculaire documentée impliquant des forces intermoléculaires (van "
+    },
+    {
+      "id": "5",
+      "type": "potentialisation",
+      "description_preview": "Profondeur boisée tannique noble. Les sesquiterpèn",
+      "mechanism_preview": "Interaction moléculaire documentée impliquant des forces intermoléculaires (van "
+    },
+    {
+      "id": "6",
+      "type": "potentialisation",
+      "description_preview": "Herbacé médicinal piquant intense. Les phénols aro",
+      "mechanism_preview": "Interaction moléculaire documentée impliquant des forces intermoléculaires (van "
+    },
+    {
+      "id": "7",
+      "type": "transformation",
+      "description_preview": "Narcotique chamanique visionnaire. Les alcaloïdes ",
+      "mechanism_preview": "Interaction moléculaire documentée impliquant des forces intermoléculaires (van "
+    },
+    {
+      "id": "8",
+      "type": "potentialisation",
+      "description_preview": "Fraîcheur mentholée andine intense. Les alcaloïdes",
+      "mechanism_preview": "Interaction moléculaire documentée impliquant des forces intermoléculaires (van "
+    },
+    {
+      "id": "9",
+      "type": "transformation",
+      "description_preview": "Aphrodisiaque floral vanillé sensuel. Les glycosid",
+      "mechanism_preview": "Les aldéhydes subissent des réactions de condensation aldolique avec les cétones"
+    },
+    {
+      "id": "10",
+      "type": "potentialisation",
+      "description_preview": "Gourmandise chocolat-caramel intense. Les alcaloïd",
+      "mechanism_preview": "Interaction moléculaire documentée impliquant des forces intermoléculaires (van "
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttype\tdescription_preview\tmechanism_preview\n1\tpotentialisation\tAmplification de la douceur balsamique vanillée. L\tInteraction moléculaire documentée impliquant des forces intermoléculaires (van \n2\tpotentialisation\tSynergie résineuse sacrée fumée. Les diterpènes du\tInteraction moléculaire documentée impliquant des forces intermoléculaires (van \n3\tpotentialisation\tAmplification florale jasminée. Les alcaloïdes du \tInteraction moléculaire documentée impliquant des forces intermoléculaires (van \n4\ttransformation\tComplexité acidulée tropicale multicouche. Les aci\tInteraction moléculaire documentée impliquant des forces intermoléculaires (van \n5\tpotentialisation\tProfondeur boisée tannique noble. Les sesquiterpèn\tInteraction moléculaire documentée impliquant des forces intermoléculaires (van \n6\tpotentialisation\tHerbacé médicinal piquant intense. Les phénols aro\tInteraction moléculaire documentée impliquant des forces intermoléculaires (van \n7\ttransformation\tNarcotique chamanique visionnaire. Les alcaloïdes \tInteraction moléculaire documentée impliquant des forces intermoléculaires (van \n8\tpotentialisation\tFraîcheur mentholée andine intense. Les alcaloïdes\tInteraction moléculaire documentée impliquant des forces intermoléculaires (van \n9\ttransformation\tAphrodisiaque floral vanillé sensuel. Les glycosid\tLes aldéhydes subissent des réactions de condensation aldolique avec les cétones\n10\tpotentialisation\tGourmandise chocolat-caramel intense. Les alcaloïd\tInteraction moléculaire documentée impliquant des forces intermoléculaires (van \n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

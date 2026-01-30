@@ -1,0 +1,28 @@
+{
+  "query": "-- Détails des molécules Geosmin, Indole, Vanilline, Pyrazine\nSELECT id, name, olfactiveProfile, family FROM molecules \nWHERE name LIKE '%geosmin%' \n   OR name LIKE '%indole%' \n   OR name LIKE '%vanillin%' \n   OR name LIKE '%pyrazine%'\nORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Détails des molécules Geosmin, Indole, Vanilline, Pyrazine\nSELECT id, name, olfactiveProfile, family FROM molecules \nWHERE name LIKE '%geosmin%' \n   OR name LIKE '%indole%' \n   OR name LIKE '%vanillin%' \n   OR name LIKE '%pyrazine%'\nORDER BY name;",
+  "rows": [
+    {
+      "id": "930005",
+      "name": "2,5-Diméthylpyrazine",
+      "olfactiveProfile": "Notes de cacao, café torréfié, noisette grillée",
+      "family": "Pyrazine"
+    },
+    {
+      "id": "930004",
+      "name": "2-Méthylpyrazine",
+      "olfactiveProfile": "Notes torréfiées, grillées, noisette, cacao",
+      "family": "Pyrazine"
+    },
+    {
+      "id": "90070",
+      "name": "Ethyl vanilline",
+      "olfactiveProfile": "vanille intense, gourmand",
+      "family": "Aldéhyde"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tolfactiveProfile\tfamily\n930005\t2,5-Diméthylpyrazine\tNotes de cacao, café torréfié, noisette grillée\tPyrazine\n930004\t2-Méthylpyrazine\tNotes torréfiées, grillées, noisette, cacao\tPyrazine\n90070\tEthyl vanilline\tvanille intense, gourmand\tAldéhyde\n",
+  "stderr": "",
+  "execution_time_ms": 1558
+}

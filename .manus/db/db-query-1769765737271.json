@@ -1,0 +1,55 @@
+{
+  "query": "SELECT id, variety_id, name FROM plant_varieties WHERE name LIKE '%Cherry%' OR name LIKE '%Pink%' OR name LIKE '%Punto%' OR name LIKE '%Lamb%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, variety_id, name FROM plant_varieties WHERE name LIKE '%Cherry%' OR name LIKE '%Pink%' OR name LIKE '%Punto%' OR name LIKE '%Lamb%';",
+  "rows": [
+    {
+      "id": "33",
+      "variety_id": "PV-CAN-033",
+      "name": "Punto Rojo"
+    },
+    {
+      "id": "37",
+      "variety_id": "PV-CAN-037",
+      "name": "Lamb's Bread"
+    },
+    {
+      "id": "60002",
+      "variety_id": "PV-SEED-002",
+      "name": "Pink Pepper"
+    },
+    {
+      "id": "60003",
+      "variety_id": "PV-SEED-003",
+      "name": "Cherry Pie"
+    },
+    {
+      "id": "60004",
+      "variety_id": "PV-SEED-004",
+      "name": "Punto Rojo"
+    },
+    {
+      "id": "90011",
+      "variety_id": "PV-CAN-X02",
+      "name": "Pink Pepper"
+    },
+    {
+      "id": "90012",
+      "variety_id": "PV-CAN-X03",
+      "name": "Cherry Pie"
+    },
+    {
+      "id": "90013",
+      "variety_id": "PV-CAN-X04",
+      "name": "Lamb's Bread"
+    },
+    {
+      "id": "90014",
+      "variety_id": "PV-CAN-X05",
+      "name": "Punto Rojo"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tvariety_id\tname\n33\tPV-CAN-033\tPunto Rojo\n37\tPV-CAN-037\tLamb's Bread\n60002\tPV-SEED-002\tPink Pepper\n60003\tPV-SEED-003\tCherry Pie\n60004\tPV-SEED-004\tPunto Rojo\n90011\tPV-CAN-X02\tPink Pepper\n90012\tPV-CAN-X03\tCherry Pie\n90013\tPV-CAN-X04\tLamb's Bread\n90014\tPV-CAN-X05\tPunto Rojo\n",
+  "stderr": "",
+  "execution_time_ms": 95
+}

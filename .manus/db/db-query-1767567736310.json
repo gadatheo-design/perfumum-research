@@ -1,0 +1,30 @@
+{
+  "query": "SELECT 'synergies' as table_name, COUNT(*) as count FROM synergies\nUNION ALL\nSELECT 'molecular_interactions' as table_name, COUNT(*) as count FROM molecular_interactions\nUNION ALL\nSELECT 'entourage_rules' as table_name, COUNT(*) as count FROM entourage_rules\nUNION ALL\nSELECT 'molecule_synergies' as table_name, COUNT(*) as count FROM molecule_synergies\nUNION ALL\nSELECT 'terpene_synergies' as table_name, COUNT(*) as count FROM terpene_synergies;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'synergies' as table_name, COUNT(*) as count FROM synergies\nUNION ALL\nSELECT 'molecular_interactions' as table_name, COUNT(*) as count FROM molecular_interactions\nUNION ALL\nSELECT 'entourage_rules' as table_name, COUNT(*) as count FROM entourage_rules\nUNION ALL\nSELECT 'molecule_synergies' as table_name, COUNT(*) as count FROM molecule_synergies\nUNION ALL\nSELECT 'terpene_synergies' as table_name, COUNT(*) as count FROM terpene_synergies;",
+  "rows": [
+    {
+      "table_name": "terpene_synergies",
+      "count": "26"
+    },
+    {
+      "table_name": "molecule_synergies",
+      "count": "25"
+    },
+    {
+      "table_name": "entourage_rules",
+      "count": "0"
+    },
+    {
+      "table_name": "molecular_interactions",
+      "count": "0"
+    },
+    {
+      "table_name": "synergies",
+      "count": "53"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tcount\nterpene_synergies\t26\nmolecule_synergies\t25\nentourage_rules\t0\nmolecular_interactions\t0\nsynergies\t53\n",
+  "stderr": "",
+  "execution_time_ms": 840
+}

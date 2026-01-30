@@ -1,0 +1,106 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'leaf_economies' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'leaf_economies' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "sample_id"
+    },
+    {
+      "COLUMN_NAME": "date"
+    },
+    {
+      "COLUMN_NAME": "island"
+    },
+    {
+      "COLUMN_NAME": "precise_location"
+    },
+    {
+      "COLUMN_NAME": "source_contact"
+    },
+    {
+      "COLUMN_NAME": "category"
+    },
+    {
+      "COLUMN_NAME": "species"
+    },
+    {
+      "COLUMN_NAME": "claimed_variety"
+    },
+    {
+      "COLUMN_NAME": "used_part"
+    },
+    {
+      "COLUMN_NAME": "state"
+    },
+    {
+      "COLUMN_NAME": "curing_treatment"
+    },
+    {
+      "COLUMN_NAME": "extraction"
+    },
+    {
+      "COLUMN_NAME": "ratio_parameters"
+    },
+    {
+      "COLUMN_NAME": "duration"
+    },
+    {
+      "COLUMN_NAME": "odor_notes"
+    },
+    {
+      "COLUMN_NAME": "climatic_axis"
+    },
+    {
+      "COLUMN_NAME": "usage"
+    },
+    {
+      "COLUMN_NAME": "analysis_available"
+    },
+    {
+      "COLUMN_NAME": "analysis_method"
+    },
+    {
+      "COLUMN_NAME": "top_molecules_list"
+    },
+    {
+      "COLUMN_NAME": "top_molecule_1"
+    },
+    {
+      "COLUMN_NAME": "top_molecule_2"
+    },
+    {
+      "COLUMN_NAME": "top_molecule_3"
+    },
+    {
+      "COLUMN_NAME": "relative_percentages"
+    },
+    {
+      "COLUMN_NAME": "absorbe_interpretation"
+    },
+    {
+      "COLUMN_NAME": "status"
+    },
+    {
+      "COLUMN_NAME": "media_links"
+    },
+    {
+      "COLUMN_NAME": "ethical_notes"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    },
+    {
+      "COLUMN_NAME": "image_url"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nsample_id\ndate\nisland\nprecise_location\nsource_contact\ncategory\nspecies\nclaimed_variety\nused_part\nstate\ncuring_treatment\nextraction\nratio_parameters\nduration\nodor_notes\nclimatic_axis\nusage\nanalysis_available\nanalysis_method\ntop_molecules_list\ntop_molecule_1\ntop_molecule_2\ntop_molecule_3\nrelative_percentages\nabsorbe_interpretation\nstatus\nmedia_links\nethical_notes\ncreated_at\nupdated_at\nimage_url\n",
+  "stderr": "",
+  "execution_time_ms": 78
+}

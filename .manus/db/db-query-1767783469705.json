@@ -1,0 +1,250 @@
+{
+  "query": "SELECT id, entry_key, title, research_domain FROM bibliography_entries ORDER BY id DESC LIMIT 40",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, entry_key, title, research_domain FROM bibliography_entries ORDER BY id DESC LIMIT 40",
+  "rows": [
+    {
+      "id": "210038",
+      "entry_key": "or51e2_structure2023",
+      "title": "Cryo-EM structure of human olfactory receptor OR51E2",
+      "research_domain": ""
+    },
+    {
+      "id": "210037",
+      "entry_key": "colombia_cannabis2024",
+      "title": "Unveiling Colombias medicinal Cannabis sativa treasure trove",
+      "research_domain": ""
+    },
+    {
+      "id": "210036",
+      "entry_key": "wax_melts2025",
+      "title": "Flame-Free Candles Are Not Pollution-Free - Wax Melts Study",
+      "research_domain": ""
+    },
+    {
+      "id": "210035",
+      "entry_key": "ozone_terpenoids2013",
+      "title": "Indoor SOA initiated from ozone + terpenoids",
+      "research_domain": ""
+    },
+    {
+      "id": "210034",
+      "entry_key": "soa_hvac2025",
+      "title": "SOA indoor + HVAC/thermal heterogeneity",
+      "research_domain": ""
+    },
+    {
+      "id": "210033",
+      "entry_key": "indoor_soa2021",
+      "title": "Indoor SOA modeling - uncertainties and partitioning",
+      "research_domain": ""
+    },
+    {
+      "id": "210032",
+      "entry_key": "indoor_cleaning2022",
+      "title": "Indoor exposure impacts from cleaning - monoterpenes and secondary chemistry",
+      "research_domain": ""
+    },
+    {
+      "id": "210031",
+      "entry_key": "inaturalist2025",
+      "title": "iNaturalist as a biodiversity research engine",
+      "research_domain": ""
+    },
+    {
+      "id": "210030",
+      "entry_key": "olfactory_advances2025",
+      "title": "Advances in olfactory displays for multisensory immersion",
+      "research_domain": ""
+    },
+    {
+      "id": "210029",
+      "entry_key": "digital_smell2025",
+      "title": "Digital smell technologies for the built environment",
+      "research_domain": ""
+    },
+    {
+      "id": "210028",
+      "entry_key": "olfactory_vr2024",
+      "title": "A Review of Olfactory Display Designs for Virtual Reality Environments",
+      "research_domain": ""
+    },
+    {
+      "id": "210027",
+      "entry_key": "patchoulol_yeast2021",
+      "title": "Patchoulol production in yeast",
+      "research_domain": ""
+    },
+    {
+      "id": "210026",
+      "entry_key": "yeast_terpenoids2023",
+      "title": "Engineering yeast for plant terpenoids - fragrance focus",
+      "research_domain": ""
+    },
+    {
+      "id": "210025",
+      "entry_key": "csia_review2023",
+      "title": "CSIA applied to foods, essential oils and plant extracts",
+      "research_domain": ""
+    },
+    {
+      "id": "210024",
+      "entry_key": "herbarium_chemistry2024",
+      "title": "Herbarium specimens and plant chemical diversity",
+      "research_domain": ""
+    },
+    {
+      "id": "210023",
+      "entry_key": "nomen2025",
+      "title": "NOMEN - Classification of historical scent reconstruction methods",
+      "research_domain": ""
+    },
+    {
+      "id": "210022",
+      "entry_key": "bronze_age_oils2023",
+      "title": "Organic residue analysis of ancient scented oils (Bronze Age)",
+      "research_domain": ""
+    },
+    {
+      "id": "210021",
+      "entry_key": "unguentaria2025",
+      "title": "Greco-Roman unguentaria residues",
+      "research_domain": ""
+    },
+    {
+      "id": "210020",
+      "entry_key": "roman_perfume2023",
+      "title": "Archaeometric Identification of a Perfume from Roman Times",
+      "research_domain": ""
+    },
+    {
+      "id": "210019",
+      "entry_key": "nlp_ethnobotany2018",
+      "title": "Biomedical NLP for ethnobotany",
+      "research_domain": ""
+    },
+    {
+      "id": "210018",
+      "entry_key": "ethnopharmacology_ai2025",
+      "title": "Reimagining ethnopharmacology with generative AI",
+      "research_domain": ""
+    },
+    {
+      "id": "210017",
+      "entry_key": "ai_knowledge_graphs2025",
+      "title": "Empowering natural product science with AI and knowledge graphs",
+      "research_domain": ""
+    },
+    {
+      "id": "210016",
+      "entry_key": "svalbard2024",
+      "title": "Svalbard Global Seed Vault",
+      "research_domain": ""
+    },
+    {
+      "id": "210015",
+      "entry_key": "meristem_cryo2008",
+      "title": "Cryopreservation of shoot tips and meristems",
+      "research_domain": ""
+    },
+    {
+      "id": "210014",
+      "entry_key": "plant_cryopreservation2024",
+      "title": "Plant Cryopreservation - Annual Review",
+      "research_domain": ""
+    },
+    {
+      "id": "210013",
+      "entry_key": "pollen_barcoding2016",
+      "title": "Pollen DNA barcoding - review",
+      "research_domain": ""
+    },
+    {
+      "id": "210012",
+      "entry_key": "edna_biomonitoring2022",
+      "title": "eDNA for plant biomonitoring - review",
+      "research_domain": ""
+    },
+    {
+      "id": "210011",
+      "entry_key": "tps_dynamics2023",
+      "title": "TPS gene family evolutionary dynamics",
+      "research_domain": ""
+    },
+    {
+      "id": "210010",
+      "entry_key": "tps_evolution2022",
+      "title": "Origin and early evolution of the plant terpene synthase family",
+      "research_domain": ""
+    },
+    {
+      "id": "210009",
+      "entry_key": "terpene_genomics2025",
+      "title": "Genomic mechanism of aroma terpenoids biosynthesis in plants",
+      "research_domain": ""
+    },
+    {
+      "id": "210008",
+      "entry_key": "transkribus2024",
+      "title": "Transkribus - HTR/Handwriting OCR",
+      "research_domain": ""
+    },
+    {
+      "id": "210007",
+      "entry_key": "iiif2024",
+      "title": "IIIF - International Image Interoperability Framework",
+      "research_domain": ""
+    },
+    {
+      "id": "210006",
+      "entry_key": "bhl2024",
+      "title": "Biodiversity Heritage Library (BHL)",
+      "research_domain": ""
+    },
+    {
+      "id": "210005",
+      "entry_key": "gbif2024",
+      "title": "Global Biodiversity Information Facility (GBIF)",
+      "research_domain": ""
+    },
+    {
+      "id": "210004",
+      "entry_key": "cites2024",
+      "title": "CITES Appendices",
+      "research_domain": ""
+    },
+    {
+      "id": "210003",
+      "entry_key": "bgci2024",
+      "title": "BGCI ThreatSearch",
+      "research_domain": ""
+    },
+    {
+      "id": "210002",
+      "entry_key": "iucn2024",
+      "title": "IUCN Red List of Threatened Species",
+      "research_domain": ""
+    },
+    {
+      "id": "210001",
+      "entry_key": "powo2024",
+      "title": "Plants of the World Online (POWO)",
+      "research_domain": ""
+    },
+    {
+      "id": "180060",
+      "entry_key": "fragrance_wheel",
+      "title": "Fragrance Wheel - Michael Edwards Classification",
+      "research_domain": "formulation"
+    },
+    {
+      "id": "180059",
+      "entry_key": "goodscents_database",
+      "title": "The Good Scents Company Information System",
+      "research_domain": "formulation"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentry_key\ttitle\tresearch_domain\n210038\tor51e2_structure2023\tCryo-EM structure of human olfactory receptor OR51E2\t\n210037\tcolombia_cannabis2024\tUnveiling Colombias medicinal Cannabis sativa treasure trove\t\n210036\twax_melts2025\tFlame-Free Candles Are Not Pollution-Free - Wax Melts Study\t\n210035\tozone_terpenoids2013\tIndoor SOA initiated from ozone + terpenoids\t\n210034\tsoa_hvac2025\tSOA indoor + HVAC/thermal heterogeneity\t\n210033\tindoor_soa2021\tIndoor SOA modeling - uncertainties and partitioning\t\n210032\tindoor_cleaning2022\tIndoor exposure impacts from cleaning - monoterpenes and secondary chemistry\t\n210031\tinaturalist2025\tiNaturalist as a biodiversity research engine\t\n210030\tolfactory_advances2025\tAdvances in olfactory displays for multisensory immersion\t\n210029\tdigital_smell2025\tDigital smell technologies for the built environment\t\n210028\tolfactory_vr2024\tA Review of Olfactory Display Designs for Virtual Reality Environments\t\n210027\tpatchoulol_yeast2021\tPatchoulol production in yeast\t\n210026\tyeast_terpenoids2023\tEngineering yeast for plant terpenoids - fragrance focus\t\n210025\tcsia_review2023\tCSIA applied to foods, essential oils and plant extracts\t\n210024\therbarium_chemistry2024\tHerbarium specimens and plant chemical diversity\t\n210023\tnomen2025\tNOMEN - Classification of historical scent reconstruction methods\t\n210022\tbronze_age_oils2023\tOrganic residue analysis of ancient scented oils (Bronze Age)\t\n210021\tunguentaria2025\tGreco-Roman unguentaria residues\t\n210020\troman_perfume2023\tArchaeometric Identification of a Perfume from Roman Times\t\n210019\tnlp_ethnobotany2018\tBiomedical NLP for ethnobotany\t\n210018\tethnopharmacology_ai2025\tReimagining ethnopharmacology with generative AI\t\n210017\tai_knowledge_graphs2025\tEmpowering natural product science with AI and knowledge graphs\t\n210016\tsvalbard2024\tSvalbard Global Seed Vault\t\n210015\tmeristem_cryo2008\tCryopreservation of shoot tips and meristems\t\n210014\tplant_cryopreservation2024\tPlant Cryopreservation - Annual Review\t\n210013\tpollen_barcoding2016\tPollen DNA barcoding - review\t\n210012\tedna_biomonitoring2022\teDNA for plant biomonitoring - review\t\n210011\ttps_dynamics2023\tTPS gene family evolutionary dynamics\t\n210010\ttps_evolution2022\tOrigin and early evolution of the plant terpene synthase family\t\n210009\tterpene_genomics2025\tGenomic mechanism of aroma terpenoids biosynthesis in plants\t\n210008\ttranskribus2024\tTranskribus - HTR/Handwriting OCR\t\n210007\tiiif2024\tIIIF - International Image Interoperability Framework\t\n210006\tbhl2024\tBiodiversity Heritage Library (BHL)\t\n210005\tgbif2024\tGlobal Biodiversity Information Facility (GBIF)\t\n210004\tcites2024\tCITES Appendices\t\n210003\tbgci2024\tBGCI ThreatSearch\t\n210002\tiucn2024\tIUCN Red List of Threatened Species\t\n210001\tpowo2024\tPlants of the World Online (POWO)\t\n180060\tfragrance_wheel\tFragrance Wheel - Michael Edwards Classification\tformulation\n180059\tgoodscents_database\tThe Good Scents Company Information System\tformulation\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

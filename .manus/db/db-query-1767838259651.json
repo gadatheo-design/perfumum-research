@@ -1,0 +1,52 @@
+{
+  "query": "SELECT id, name, cas_number, chemical_class, family FROM molecules WHERE name IN ('Cocaïne', 'Cinnamoylcocaïne', 'Ecgonine', '2-Méthylpyrazine', '2,5-Diméthylpyrazine', 'Furfural');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number, chemical_class, family FROM molecules WHERE name IN ('Cocaïne', 'Cinnamoylcocaïne', 'Ecgonine', '2-Méthylpyrazine', '2,5-Diméthylpyrazine', 'Furfural');",
+  "rows": [
+    {
+      "id": "930001",
+      "name": "Cocaïne",
+      "cas_number": "50-36-2",
+      "chemical_class": "other",
+      "family": "Alcaloïde tropanique"
+    },
+    {
+      "id": "930002",
+      "name": "Cinnamoylcocaïne",
+      "cas_number": "521-67-5",
+      "chemical_class": "other",
+      "family": "Alcaloïde tropanique"
+    },
+    {
+      "id": "930003",
+      "name": "Ecgonine",
+      "cas_number": "481-37-8",
+      "chemical_class": "other",
+      "family": "Alcaloïde tropanique"
+    },
+    {
+      "id": "930004",
+      "name": "2-Méthylpyrazine",
+      "cas_number": "109-08-0",
+      "chemical_class": "heterocyclic",
+      "family": "Pyrazine"
+    },
+    {
+      "id": "930005",
+      "name": "2,5-Diméthylpyrazine",
+      "cas_number": "123-32-0",
+      "chemical_class": "heterocyclic",
+      "family": "Pyrazine"
+    },
+    {
+      "id": "930006",
+      "name": "Furfural",
+      "cas_number": "98-01-1",
+      "chemical_class": "aldehyde",
+      "family": "Furane"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\tchemical_class\tfamily\n930001\tCocaïne\t50-36-2\tother\tAlcaloïde tropanique\n930002\tCinnamoylcocaïne\t521-67-5\tother\tAlcaloïde tropanique\n930003\tEcgonine\t481-37-8\tother\tAlcaloïde tropanique\n930004\t2-Méthylpyrazine\t109-08-0\theterocyclic\tPyrazine\n930005\t2,5-Diméthylpyrazine\t123-32-0\theterocyclic\tPyrazine\n930006\tFurfural\t98-01-1\taldehyde\tFurane\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

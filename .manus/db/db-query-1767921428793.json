@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO plant_terroirs (plant_id, terroir_id, local_name, quality_notes, created_at) VALUES \n(420011, 5, 'Immortelle de Grasse', 'Helichrysum italicum cultivé dans l''arrière-pays grassois, HE précieuse aux notes curry-miel', NOW()),\n(420011, 30002, 'Elicriso di Calabria', 'Variété sauvage des maquis calabrais, profil olfactif intense et herbacé', NOW()),\n(420011, 30008, 'Immortelle de Valensole', 'Présente sur les sols calcaires du plateau, notes solaires et miellées', NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO plant_terroirs (plant_id, terroir_id, local_name, quality_notes, created_at) VALUES \n(420011, 5, 'Immortelle de Grasse', 'Helichrysum italicum cultivé dans l''arrière-pays grassois, HE précieuse aux notes curry-miel', NOW()),\n(420011, 30002, 'Elicriso di Calabria', 'Variété sauvage des maquis calabrais, profil olfactif intense et herbacé', NOW()),\n(420011, 30008, 'Immortelle de Valensole', 'Présente sur les sols calcaires du plateau, notes solaires et miellées', NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 81
+}

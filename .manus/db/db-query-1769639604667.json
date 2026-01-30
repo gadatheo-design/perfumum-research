@@ -1,0 +1,157 @@
+{
+  "query": "SELECT id, brand_name, country_of_origin, year_introduced, year_discontinued FROM historical_cigarettes ORDER BY year_introduced;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, brand_name, country_of_origin, year_introduced, year_discontinued FROM historical_cigarettes ORDER BY year_introduced;",
+  "rows": [
+    {
+      "id": "18",
+      "brand_name": "H. Upmann Cigarettes",
+      "country_of_origin": "Cuba",
+      "year_introduced": "1844",
+      "year_discontinued": "1960"
+    },
+    {
+      "id": "19",
+      "brand_name": "Partagás Cigarettes",
+      "country_of_origin": "Cuba",
+      "year_introduced": "1845",
+      "year_discontinued": "1960"
+    },
+    {
+      "id": "6",
+      "brand_name": "Passing Clouds",
+      "country_of_origin": "Royaume-Uni",
+      "year_introduced": "1874",
+      "year_discontinued": "1999"
+    },
+    {
+      "id": "11",
+      "brand_name": "Boyard Maïs",
+      "country_of_origin": "France",
+      "year_introduced": "1876",
+      "year_discontinued": "1990"
+    },
+    {
+      "id": "15",
+      "brand_name": "Helmar",
+      "country_of_origin": "États-Unis",
+      "year_introduced": "1895",
+      "year_discontinued": "1970"
+    },
+    {
+      "id": "7",
+      "brand_name": "Black Cat",
+      "country_of_origin": "Royaume-Uni",
+      "year_introduced": "1904",
+      "year_discontinued": "1990"
+    },
+    {
+      "id": "14",
+      "brand_name": "Murad",
+      "country_of_origin": "Turquie/États-Unis",
+      "year_introduced": "1906",
+      "year_discontinued": "1960"
+    },
+    {
+      "id": "4",
+      "brand_name": "Fatima",
+      "country_of_origin": "États-Unis",
+      "year_introduced": "1907",
+      "year_discontinued": "1980"
+    },
+    {
+      "id": "9",
+      "brand_name": "Gauloises Caporal",
+      "country_of_origin": "France",
+      "year_introduced": "1910",
+      "year_discontinued": "2005"
+    },
+    {
+      "id": "2",
+      "brand_name": "Chesterfield Unfiltered",
+      "country_of_origin": "États-Unis",
+      "year_introduced": "1912",
+      "year_discontinued": "1999"
+    },
+    {
+      "id": "8",
+      "brand_name": "Craven A",
+      "country_of_origin": "Royaume-Uni",
+      "year_introduced": "1913",
+      "year_discontinued": "1980"
+    },
+    {
+      "id": "1",
+      "brand_name": "Lucky Strike Green",
+      "country_of_origin": "États-Unis",
+      "year_introduced": "1917",
+      "year_discontinued": "1942"
+    },
+    {
+      "id": "12",
+      "brand_name": "Eckstein No. 5",
+      "country_of_origin": "Allemagne",
+      "year_introduced": "1923",
+      "year_discontinued": "1945"
+    },
+    {
+      "id": "3",
+      "brand_name": "Old Gold",
+      "country_of_origin": "États-Unis",
+      "year_introduced": "1926",
+      "year_discontinued": "2001"
+    },
+    {
+      "id": "10",
+      "brand_name": "Gitanes Brunes",
+      "country_of_origin": "France",
+      "year_introduced": "1927",
+      "year_discontinued": "2010"
+    },
+    {
+      "id": "13",
+      "brand_name": "Juno",
+      "country_of_origin": "Allemagne",
+      "year_introduced": "1930",
+      "year_discontinued": "1990"
+    },
+    {
+      "id": "20",
+      "brand_name": "Belomorkanal",
+      "country_of_origin": "URSS",
+      "year_introduced": "1932",
+      "year_discontinued": "1991"
+    },
+    {
+      "id": "21",
+      "brand_name": "Kazbek",
+      "country_of_origin": "URSS",
+      "year_introduced": "1932",
+      "year_discontinued": "2000"
+    },
+    {
+      "id": "16",
+      "brand_name": "Peace",
+      "country_of_origin": "Japon",
+      "year_introduced": "1946",
+      "year_discontinued": "1985"
+    },
+    {
+      "id": "17",
+      "brand_name": "Shinsei",
+      "country_of_origin": "Japon",
+      "year_introduced": "1949",
+      "year_discontinued": "2000"
+    },
+    {
+      "id": "5",
+      "brand_name": "Herbert Tareyton",
+      "country_of_origin": "États-Unis",
+      "year_introduced": "1954",
+      "year_discontinued": "2000"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tbrand_name\tcountry_of_origin\tyear_introduced\tyear_discontinued\n18\tH. Upmann Cigarettes\tCuba\t1844\t1960\n19\tPartagás Cigarettes\tCuba\t1845\t1960\n6\tPassing Clouds\tRoyaume-Uni\t1874\t1999\n11\tBoyard Maïs\tFrance\t1876\t1990\n15\tHelmar\tÉtats-Unis\t1895\t1970\n7\tBlack Cat\tRoyaume-Uni\t1904\t1990\n14\tMurad\tTurquie/États-Unis\t1906\t1960\n4\tFatima\tÉtats-Unis\t1907\t1980\n9\tGauloises Caporal\tFrance\t1910\t2005\n2\tChesterfield Unfiltered\tÉtats-Unis\t1912\t1999\n8\tCraven A\tRoyaume-Uni\t1913\t1980\n1\tLucky Strike Green\tÉtats-Unis\t1917\t1942\n12\tEckstein No. 5\tAllemagne\t1923\t1945\n3\tOld Gold\tÉtats-Unis\t1926\t2001\n10\tGitanes Brunes\tFrance\t1927\t2010\n13\tJuno\tAllemagne\t1930\t1990\n20\tBelomorkanal\tURSS\t1932\t1991\n21\tKazbek\tURSS\t1932\t2000\n16\tPeace\tJapon\t1946\t1985\n17\tShinsei\tJapon\t1949\t2000\n5\tHerbert Tareyton\tÉtats-Unis\t1954\t2000\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

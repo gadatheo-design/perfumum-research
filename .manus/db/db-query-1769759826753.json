@@ -1,0 +1,70 @@
+{
+  "query": "SELECT DISTINCT source_molecule_name FROM molecular_transformations ORDER BY source_molecule_name LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT DISTINCT source_molecule_name FROM molecular_transformations ORDER BY source_molecule_name LIMIT 20;",
+  "rows": [
+    {
+      "source_molecule_name": "Bornéol"
+    },
+    {
+      "source_molecule_name": "Camphre"
+    },
+    {
+      "source_molecule_name": "Citronellol"
+    },
+    {
+      "source_molecule_name": "Eugénol"
+    },
+    {
+      "source_molecule_name": "Germacrène D"
+    },
+    {
+      "source_molecule_name": "Géraniol"
+    },
+    {
+      "source_molecule_name": "Labdane"
+    },
+    {
+      "source_molecule_name": "Limonène"
+    },
+    {
+      "source_molecule_name": "Linalol"
+    },
+    {
+      "source_molecule_name": "Menthol"
+    },
+    {
+      "source_molecule_name": "Myrcène"
+    },
+    {
+      "source_molecule_name": "Phytol"
+    },
+    {
+      "source_molecule_name": "Sclareol"
+    },
+    {
+      "source_molecule_name": "α-Bisabolène"
+    },
+    {
+      "source_molecule_name": "α-Farnésène"
+    },
+    {
+      "source_molecule_name": "α-Humulène"
+    },
+    {
+      "source_molecule_name": "α-Pinène"
+    },
+    {
+      "source_molecule_name": "β-Caryophyllène"
+    },
+    {
+      "source_molecule_name": "β-Farnésène"
+    },
+    {
+      "source_molecule_name": "β-Pinène"
+    }
+  ],
+  "messages": [],
+  "stdout": "source_molecule_name\nBornéol\nCamphre\nCitronellol\nEugénol\nGermacrène D\nGéraniol\nLabdane\nLimonène\nLinalol\nMenthol\nMyrcène\nPhytol\nSclareol\nα-Bisabolène\nα-Farnésène\nα-Humulène\nα-Pinène\nβ-Caryophyllène\nβ-Farnésène\nβ-Pinène\n",
+  "stderr": "",
+  "execution_time_ms": 118
+}

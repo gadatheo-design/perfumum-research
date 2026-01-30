@@ -1,0 +1,75 @@
+{
+  "query": "SELECT * FROM accords LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT * FROM accords LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Os + Pluie",
+      "familyId": "2",
+      "aromaticProfile": "NULL",
+      "texture": "humide",
+      "description": "NULL",
+      "notes": "Premier accord de la série Bio-Mineralis. Articule minéralité osseuse et fraîcheur pluviale.",
+      "createdAt": "2025-12-02 18:21:55",
+      "updatedAt": "2025-12-02 18:21:55",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL"
+    },
+    {
+      "id": "2",
+      "name": "Cuir Fossilisé",
+      "familyId": "2",
+      "aromaticProfile": "NULL",
+      "texture": "sec",
+      "description": "NULL",
+      "notes": "Deuxième accord Bio-Mineralis. Évoque la transformation du vivant en minéral.",
+      "createdAt": "2025-12-02 18:21:55",
+      "updatedAt": "2025-12-02 18:21:55",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL"
+    },
+    {
+      "id": "3",
+      "name": "Pétrichor Anthropique",
+      "familyId": "2",
+      "aromaticProfile": "NULL",
+      "texture": "humide",
+      "description": "NULL",
+      "notes": "Quatrième accord Bio-Mineralis. Dimension anthropologique du pétrichor.",
+      "createdAt": "2025-12-02 18:21:55",
+      "updatedAt": "2025-12-02 18:21:55",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL"
+    },
+    {
+      "id": "4",
+      "name": "Pétrichor Clair",
+      "familyId": "3",
+      "aromaticProfile": "NULL",
+      "texture": "humide",
+      "description": "NULL",
+      "notes": "Variation claire du pétrichor. Géosmine dominante avec notes vertes.",
+      "createdAt": "2025-12-02 18:21:55",
+      "updatedAt": "2025-12-02 18:21:55",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL"
+    },
+    {
+      "id": "5",
+      "name": "Pétrichor Noir",
+      "familyId": "3",
+      "aromaticProfile": "NULL",
+      "texture": "humide",
+      "description": "NULL",
+      "notes": "Variation sombre du pétrichor. Notes de terre noire et champignon.",
+      "createdAt": "2025-12-02 18:21:55",
+      "updatedAt": "2025-12-02 18:21:55",
+      "olfactiveProfile": "NULL",
+      "emotionalResonance": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamilyId\taromaticProfile\ttexture\tdescription\tnotes\tcreatedAt\tupdatedAt\tolfactiveProfile\temotionalResonance\n1\tOs + Pluie\t2\tNULL\thumide\tNULL\tPremier accord de la série Bio-Mineralis. Articule minéralité osseuse et fraîcheur pluviale.\t2025-12-02 18:21:55\t2025-12-02 18:21:55\tNULL\tNULL\n2\tCuir Fossilisé\t2\tNULL\tsec\tNULL\tDeuxième accord Bio-Mineralis. Évoque la transformation du vivant en minéral.\t2025-12-02 18:21:55\t2025-12-02 18:21:55\tNULL\tNULL\n3\tPétrichor Anthropique\t2\tNULL\thumide\tNULL\tQuatrième accord Bio-Mineralis. Dimension anthropologique du pétrichor.\t2025-12-02 18:21:55\t2025-12-02 18:21:55\tNULL\tNULL\n4\tPétrichor Clair\t3\tNULL\thumide\tNULL\tVariation claire du pétrichor. Géosmine dominante avec notes vertes.\t2025-12-02 18:21:55\t2025-12-02 18:21:55\tNULL\tNULL\n5\tPétrichor Noir\t3\tNULL\thumide\tNULL\tVariation sombre du pétrichor. Notes de terre noire et champignon.\t2025-12-02 18:21:55\t2025-12-02 18:21:55\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

@@ -1,0 +1,85 @@
+{
+  "query": "SELECT p.name as plante, m.name as molecule, pm.percentage\nFROM plant_molecules pm\nJOIN plants p ON pm.plant_id = p.id\nJOIN molecules m ON pm.molecule_id = m.id\nWHERE p.name IN ('Gingembre', 'Sauge sclarée', 'Pin sylvestre', 'Tea tree', 'Cardamome')\nORDER BY p.name, pm.percentage DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.name as plante, m.name as molecule, pm.percentage\nFROM plant_molecules pm\nJOIN plants p ON pm.plant_id = p.id\nJOIN molecules m ON pm.molecule_id = m.id\nWHERE p.name IN ('Gingembre', 'Sauge sclarée', 'Pin sylvestre', 'Tea tree', 'Cardamome')\nORDER BY p.name, pm.percentage DESC;",
+  "rows": [
+    {
+      "plante": "Cardamome",
+      "molecule": "Alpha-terpinyl acetate",
+      "percentage": "30.00"
+    },
+    {
+      "plante": "Cardamome",
+      "molecule": "Linalool",
+      "percentage": "5.00"
+    },
+    {
+      "plante": "Cardamome",
+      "molecule": "Linalool",
+      "percentage": "5.00"
+    },
+    {
+      "plante": "Gingembre",
+      "molecule": "Zingiberene",
+      "percentage": "30.00"
+    },
+    {
+      "plante": "Gingembre",
+      "molecule": "Gingerol",
+      "percentage": "15.00"
+    },
+    {
+      "plante": "Gingembre",
+      "molecule": "Beta-bisabolene",
+      "percentage": "8.00"
+    },
+    {
+      "plante": "Gingembre",
+      "molecule": "Alpha-curcumene",
+      "percentage": "5.00"
+    },
+    {
+      "plante": "Pin sylvestre",
+      "molecule": "Delta-3-carene",
+      "percentage": "15.00"
+    },
+    {
+      "plante": "Sauge sclarée",
+      "molecule": "Linalool",
+      "percentage": "15.00"
+    },
+    {
+      "plante": "Sauge sclarée",
+      "molecule": "Linalool",
+      "percentage": "15.00"
+    },
+    {
+      "plante": "Sauge sclarée",
+      "molecule": "Sclareol",
+      "percentage": "5.00"
+    },
+    {
+      "plante": "Sauge sclarée",
+      "molecule": "Germacrene D",
+      "percentage": "3.00"
+    },
+    {
+      "plante": "Tea tree",
+      "molecule": "Terpinen-4-ol",
+      "percentage": "40.00"
+    },
+    {
+      "plante": "Tea tree",
+      "molecule": "Gamma-terpinene",
+      "percentage": "20.00"
+    },
+    {
+      "plante": "Tea tree",
+      "molecule": "Alpha-terpinene",
+      "percentage": "10.00"
+    }
+  ],
+  "messages": [],
+  "stdout": "plante\tmolecule\tpercentage\nCardamome\tAlpha-terpinyl acetate\t30.00\nCardamome\tLinalool\t5.00\nCardamome\tLinalool\t5.00\nGingembre\tZingiberene\t30.00\nGingembre\tGingerol\t15.00\nGingembre\tBeta-bisabolene\t8.00\nGingembre\tAlpha-curcumene\t5.00\nPin sylvestre\tDelta-3-carene\t15.00\nSauge sclarée\tLinalool\t15.00\nSauge sclarée\tLinalool\t15.00\nSauge sclarée\tSclareol\t5.00\nSauge sclarée\tGermacrene D\t3.00\nTea tree\tTerpinen-4-ol\t40.00\nTea tree\tGamma-terpinene\t20.00\nTea tree\tAlpha-terpinene\t10.00\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

@@ -1,0 +1,28 @@
+{
+  "query": "SELECT id, name, iupac_name, cas_number, chemicalFormula, family, olfactiveProfile FROM molecules WHERE name LIKE '%anethole%' OR name LIKE '%anéthole%' OR name LIKE '%methyleugenol%' OR name LIKE '%méthyleugénol%' OR name LIKE '%eugenol%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, iupac_name, cas_number, chemicalFormula, family, olfactiveProfile FROM molecules WHERE name LIKE '%anethole%' OR name LIKE '%anéthole%' OR name LIKE '%methyleugenol%' OR name LIKE '%méthyleugénol%' OR name LIKE '%eugenol%';",
+  "rows": [
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol",
+      "iupac_name": "NULL",
+      "cas_number": "NULL",
+      "chemicalFormula": "NULL",
+      "family": "Ester phénolique",
+      "olfactiveProfile": "Note clou de girofle, épicée, florale"
+    },
+    {
+      "id": "810022",
+      "name": "eugenol",
+      "iupac_name": "NULL",
+      "cas_number": "NULL",
+      "chemicalFormula": "NULL",
+      "family": "phenolic",
+      "olfactiveProfile": "clou sec, épice chaude"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tiupac_name\tcas_number\tchemicalFormula\tfamily\tolfactiveProfile\n570061\tAcétate d'isoeugenol\tNULL\tNULL\tNULL\tEster phénolique\tNote clou de girofle, épicée, florale\n810022\teugenol\tNULL\tNULL\tNULL\tphenolic\tclou sec, épice chaude\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

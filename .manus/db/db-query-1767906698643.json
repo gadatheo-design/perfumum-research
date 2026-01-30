@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO plant_molecules (plant_id, molecule_id, percentage, notes)\nSELECT p.id, m.id, \n  CASE \n    WHEN m.name = 'Alpha-pinene' THEN 45.0\n    WHEN m.name = 'Beta-pinene' THEN 20.0\n    WHEN m.name = 'Delta-3-carene' THEN 15.0\n    WHEN m.name = 'Limonene' THEN 8.0\n  END,\n  CASE \n    WHEN m.name = 'Alpha-pinene' THEN 'Composant majeur, note résineuse'\n    WHEN m.name = 'Beta-pinene' THEN 'Note fraîche de pin'\n    WHEN m.name = 'Delta-3-carene' THEN 'Note douce résineuse'\n    WHEN m.name = 'Limonene' THEN 'Note citronnée légère'\n  END\nFROM plants p, molecules m\nWHERE p.name = 'Pin sylvestre' \nAND m.name IN ('Alpha-pinene', 'Beta-pinene', 'Delta-3-carene', 'Limonene');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO plant_molecules (plant_id, molecule_id, percentage, notes)\nSELECT p.id, m.id, \n  CASE \n    WHEN m.name = 'Alpha-pinene' THEN 45.0\n    WHEN m.name = 'Beta-pinene' THEN 20.0\n    WHEN m.name = 'Delta-3-carene' THEN 15.0\n    WHEN m.name = 'Limonene' THEN 8.0\n  END,\n  CASE \n    WHEN m.name = 'Alpha-pinene' THEN 'Composant majeur, note résineuse'\n    WHEN m.name = 'Beta-pinene' THEN 'Note fraîche de pin'\n    WHEN m.name = 'Delta-3-carene' THEN 'Note douce résineuse'\n    WHEN m.name = 'Limonene' THEN 'Note citronnée légère'\n  END\nFROM plants p, molecules m\nWHERE p.name = 'Pin sylvestre' \nAND m.name IN ('Alpha-pinene', 'Beta-pinene', 'Delta-3-carene', 'Limonene');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 69
+}

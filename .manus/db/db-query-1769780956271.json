@@ -1,0 +1,64 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'molecular_transformations';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'molecular_transformations';",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "source_molecule_id"
+    },
+    {
+      "COLUMN_NAME": "source_molecule_name"
+    },
+    {
+      "COLUMN_NAME": "product_molecule_id"
+    },
+    {
+      "COLUMN_NAME": "product_molecule_name"
+    },
+    {
+      "COLUMN_NAME": "transformation_type"
+    },
+    {
+      "COLUMN_NAME": "temperature_min"
+    },
+    {
+      "COLUMN_NAME": "temperature_max"
+    },
+    {
+      "COLUMN_NAME": "temperature_optimal"
+    },
+    {
+      "COLUMN_NAME": "yield_percent"
+    },
+    {
+      "COLUMN_NAME": "olfactory_change_description"
+    },
+    {
+      "COLUMN_NAME": "source_olfactory_notes"
+    },
+    {
+      "COLUMN_NAME": "product_olfactory_notes"
+    },
+    {
+      "COLUMN_NAME": "relevance_context"
+    },
+    {
+      "COLUMN_NAME": "source_reference"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nsource_molecule_id\nsource_molecule_name\nproduct_molecule_id\nproduct_molecule_name\ntransformation_type\ntemperature_min\ntemperature_max\ntemperature_optimal\nyield_percent\nolfactory_change_description\nsource_olfactory_notes\nproduct_olfactory_notes\nrelevance_context\nsource_reference\nnotes\ncreated_at\nupdated_at\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

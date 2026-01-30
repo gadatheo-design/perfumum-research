@@ -1,0 +1,82 @@
+{
+  "query": "SELECT id, name FROM molecules WHERE name LIKE '%pinene%' OR name LIKE '%limonene%' OR name LIKE '%myrcene%' OR name LIKE '%linalool%' OR name LIKE '%caryophyllene%' OR name LIKE '%humulene%' LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules WHERE name LIKE '%pinene%' OR name LIKE '%limonene%' OR name LIKE '%myrcene%' OR name LIKE '%linalool%' OR name LIKE '%caryophyllene%' OR name LIKE '%humulene%' LIMIT 20;",
+  "rows": [
+    {
+      "id": "810001",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810002",
+      "name": "beta-pinene"
+    },
+    {
+      "id": "810003",
+      "name": "limonene"
+    },
+    {
+      "id": "810004",
+      "name": "myrcene"
+    },
+    {
+      "id": "810005",
+      "name": "linalool"
+    },
+    {
+      "id": "810008",
+      "name": "gamma-terpinene"
+    },
+    {
+      "id": "810013",
+      "name": "beta-caryophyllene"
+    },
+    {
+      "id": "810014",
+      "name": "alpha-humulene"
+    },
+    {
+      "id": "810065",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810066",
+      "name": "beta-caryophyllene"
+    },
+    {
+      "id": "810067",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810068",
+      "name": "beta-caryophyllene"
+    },
+    {
+      "id": "810069",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810070",
+      "name": "limonene"
+    },
+    {
+      "id": "810071",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810072",
+      "name": "limonene"
+    },
+    {
+      "id": "960008",
+      "name": "Gamma-terpinene"
+    },
+    {
+      "id": "960009",
+      "name": "Alpha-terpinene"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n810001\talpha-pinene\n810002\tbeta-pinene\n810003\tlimonene\n810004\tmyrcene\n810005\tlinalool\n810008\tgamma-terpinene\n810013\tbeta-caryophyllene\n810014\talpha-humulene\n810065\talpha-pinene\n810066\tbeta-caryophyllene\n810067\talpha-pinene\n810068\tbeta-caryophyllene\n810069\talpha-pinene\n810070\tlimonene\n810071\talpha-pinene\n810072\tlimonene\n960008\tGamma-terpinene\n960009\tAlpha-terpinene\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO tabac_molecule_links (tabac_id, molecule_id, concentration, notes, created_at) SELECT t.id, m.id, 0.8, 'Terpene majeur du Perique fermente', NOW() FROM tabacs t, molecules m WHERE t.name LIKE '%Perique%' AND m.name LIKE '%linalool%' ON DUPLICATE KEY UPDATE notes = VALUES(notes);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO tabac_molecule_links (tabac_id, molecule_id, concentration, notes, created_at) SELECT t.id, m.id, 0.8, 'Terpene majeur du Perique fermente', NOW() FROM tabacs t, molecules m WHERE t.name LIKE '%Perique%' AND m.name LIKE '%linalool%' ON DUPLICATE KEY UPDATE notes = VALUES(notes);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 65
+}

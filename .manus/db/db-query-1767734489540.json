@@ -1,0 +1,115 @@
+{
+  "query": "SELECT id, profile_id, name, climatic_axis, key_molecules FROM terp_profiles ORDER BY profile_id LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, profile_id, name, climatic_axis, key_molecules FROM terp_profiles ORDER BY profile_id LIMIT 15;",
+  "rows": [
+    {
+      "id": "30003",
+      "profile_id": "REF-CAN-01",
+      "name": "OG Kush",
+      "climatic_axis": "bois",
+      "key_molecules": "[\"Myrcène\",\"Limonène\",\"β-Caryophyllène\",\"Linalol\",\"Humulène\"]"
+    },
+    {
+      "id": "30004",
+      "profile_id": "REF-CAN-02",
+      "name": "Haze",
+      "climatic_axis": "vent",
+      "key_molecules": "[\"Terpinolène\",\"Myrcène\",\"Ocimène\",\"Limonène\",\"α-Pinène\"]"
+    },
+    {
+      "id": "30005",
+      "profile_id": "REF-PAR-01",
+      "name": "Lavande Fine de Provence",
+      "climatic_axis": "vent",
+      "key_molecules": "[\"Linalol\",\"Acétate de linalyle\",\"Lavandulol\",\"Terpinène-4-ol\",\"1,8-Cinéole\"]"
+    },
+    {
+      "id": "30006",
+      "profile_id": "REF-PAR-02",
+      "name": "Vétiver de Haïti",
+      "climatic_axis": "bois",
+      "key_molecules": "[\"Vétivénol\",\"Khusimol\",\"Isovalencénol\",\"β-Vétivène\",\"Zizanoïque (acide)\"]"
+    },
+    {
+      "id": "30001",
+      "profile_id": "REF-TAB-01",
+      "name": "Virginia Flue-Cured",
+      "climatic_axis": "bois",
+      "key_molecules": "[\"Solanone\",\"β-Damascenone\",\"Megastigmatrienone\",\"Linalol\",\"Géraniol\"]"
+    },
+    {
+      "id": "30002",
+      "profile_id": "REF-TAB-02",
+      "name": "Latakia Fumé",
+      "climatic_axis": "bois_disparition",
+      "key_molecules": "[\"Guaiacol\",\"Syringol\",\"4-Vinylguaiacol\",\"Créosol\",\"Eugénol\"]"
+    },
+    {
+      "id": "1",
+      "profile_id": "SA-TP-01",
+      "name": "Wind Cut / Citral Structure",
+      "climatic_axis": "vent",
+      "key_molecules": "[\"Geranial\",\"Neral\",\"Limonene\",\"β-Caryophyllene\"]"
+    },
+    {
+      "id": "2",
+      "profile_id": "SA-TP-02",
+      "name": "Vent Vert / Lippia Alba",
+      "climatic_axis": "vent",
+      "key_molecules": "[\"citral\",\"myrcène\",\"β-caryophyllène\"]"
+    },
+    {
+      "id": "3",
+      "profile_id": "SA-TP-03",
+      "name": "Bois Épicé Sec / Pimenta racemosa",
+      "climatic_axis": "bois",
+      "key_molecules": "[\"eugenol\",\"β-caryophyllène\"]"
+    },
+    {
+      "id": "4",
+      "profile_id": "SA-TP-04",
+      "name": "Tabac Clair / Architecture du Temps",
+      "climatic_axis": "bois_disparition",
+      "key_molecules": "[\"β-damascenone\",\"megastigmatrienones\"]"
+    },
+    {
+      "id": "5",
+      "profile_id": "SA-TP-05",
+      "name": "Cannabis Clair / Modulation",
+      "climatic_axis": "vent_disparition",
+      "key_molecules": "[\"myrcène\",\"limonène\",\"pinènes\"]"
+    },
+    {
+      "id": "6",
+      "profile_id": "SA-TP-06",
+      "name": "Leaf Economy / Tabac + Cannabis",
+      "climatic_axis": "bois_disparition",
+      "key_molecules": "[\"β-damascenone\",\"myrcène\",\"β-caryophyllène\"]"
+    },
+    {
+      "id": "7",
+      "profile_id": "SA-TP-07",
+      "name": "Encens Base / Wind Purge",
+      "climatic_axis": "vent",
+      "key_molecules": "[\"carvone\",\"citral\",\"limonène\"]"
+    },
+    {
+      "id": "8",
+      "profile_id": "SA-TP-08",
+      "name": "Bois Chauffé / Soleil sur Planches",
+      "climatic_axis": "bois",
+      "key_molecules": "[\"eugénol\",\"carvacrol\",\"β-caryophyllène\"]"
+    },
+    {
+      "id": "9",
+      "profile_id": "SA-TP-09",
+      "name": "Disparition / Trace Finale",
+      "climatic_axis": "disparition",
+      "key_molecules": "[\"linalool\",\"carvone\",\"traces terpéniques\"]"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tprofile_id\tname\tclimatic_axis\tkey_molecules\n30003\tREF-CAN-01\tOG Kush\tbois\t[\"Myrcène\",\"Limonène\",\"β-Caryophyllène\",\"Linalol\",\"Humulène\"]\n30004\tREF-CAN-02\tHaze\tvent\t[\"Terpinolène\",\"Myrcène\",\"Ocimène\",\"Limonène\",\"α-Pinène\"]\n30005\tREF-PAR-01\tLavande Fine de Provence\tvent\t[\"Linalol\",\"Acétate de linalyle\",\"Lavandulol\",\"Terpinène-4-ol\",\"1,8-Cinéole\"]\n30006\tREF-PAR-02\tVétiver de Haïti\tbois\t[\"Vétivénol\",\"Khusimol\",\"Isovalencénol\",\"β-Vétivène\",\"Zizanoïque (acide)\"]\n30001\tREF-TAB-01\tVirginia Flue-Cured\tbois\t[\"Solanone\",\"β-Damascenone\",\"Megastigmatrienone\",\"Linalol\",\"Géraniol\"]\n30002\tREF-TAB-02\tLatakia Fumé\tbois_disparition\t[\"Guaiacol\",\"Syringol\",\"4-Vinylguaiacol\",\"Créosol\",\"Eugénol\"]\n1\tSA-TP-01\tWind Cut / Citral Structure\tvent\t[\"Geranial\",\"Neral\",\"Limonene\",\"β-Caryophyllene\"]\n2\tSA-TP-02\tVent Vert / Lippia Alba\tvent\t[\"citral\",\"myrcène\",\"β-caryophyllène\"]\n3\tSA-TP-03\tBois Épicé Sec / Pimenta racemosa\tbois\t[\"eugenol\",\"β-caryophyllène\"]\n4\tSA-TP-04\tTabac Clair / Architecture du Temps\tbois_disparition\t[\"β-damascenone\",\"megastigmatrienones\"]\n5\tSA-TP-05\tCannabis Clair / Modulation\tvent_disparition\t[\"myrcène\",\"limonène\",\"pinènes\"]\n6\tSA-TP-06\tLeaf Economy / Tabac + Cannabis\tbois_disparition\t[\"β-damascenone\",\"myrcène\",\"β-caryophyllène\"]\n7\tSA-TP-07\tEncens Base / Wind Purge\tvent\t[\"carvone\",\"citral\",\"limonène\"]\n8\tSA-TP-08\tBois Chauffé / Soleil sur Planches\tbois\t[\"eugénol\",\"carvacrol\",\"β-caryophyllène\"]\n9\tSA-TP-09\tDisparition / Trace Finale\tdisparition\t[\"linalool\",\"carvone\",\"traces terpéniques\"]\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}

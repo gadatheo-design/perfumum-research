@@ -1,0 +1,230 @@
+{
+  "query": "SELECT id, name, latin_name, origin, habitat, latitude, longitude, climatic_axis, category FROM plants LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, origin, habitat, latitude, longitude, climatic_axis, category FROM plants LIMIT 20;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "West Indian Bay / Bay rum tree",
+      "latin_name": "Pimenta racemosa",
+      "origin": "Caraïbes, San Andrés",
+      "habitat": "Jardins domestiques, zones tropicales",
+      "latitude": "12.5847000",
+      "longitude": "-81.7006000",
+      "climatic_axis": "vent_bois",
+      "category": "aromatique"
+    },
+    {
+      "id": "2",
+      "name": "Lemongrass / Citronnelle",
+      "latin_name": "Cymbopogon citratus",
+      "origin": "Asie tropicale, cultivé Caraïbes",
+      "habitat": "Jardins, zones humides tropicales",
+      "latitude": "12.0000000",
+      "longitude": "-70.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "3",
+      "name": "Lippia alba",
+      "latin_name": "Lippia alba",
+      "origin": "Colombie, Amérique tropicale",
+      "habitat": "Zones tropicales colombiennes",
+      "latitude": "5.0000000",
+      "longitude": "-72.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "4",
+      "name": "Basilic",
+      "latin_name": "Ocimum basilicum",
+      "origin": "Asie, Méditerranée",
+      "habitat": "Jardins domestiques, culture facile",
+      "latitude": "35.0000000",
+      "longitude": "35.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "5",
+      "name": "Menthe verte",
+      "latin_name": "Mentha spicata",
+      "origin": "Europe, Méditerranée",
+      "habitat": "Jardins, zones tempérées à tropicales",
+      "latitude": "45.0000000",
+      "longitude": "10.0000000",
+      "climatic_axis": "disparition",
+      "category": "aromatique"
+    },
+    {
+      "id": "6",
+      "name": "Origan",
+      "latin_name": "Origanum vulgare",
+      "origin": "Méditerranée",
+      "habitat": "Zones sèches, méditerranéennes",
+      "latitude": "35.0000000",
+      "longitude": "18.0000000",
+      "climatic_axis": "bois",
+      "category": "aromatique"
+    },
+    {
+      "id": "7",
+      "name": "Virginia (flue-cured)",
+      "latin_name": "Nicotiana tabacum var. Virginia",
+      "origin": "Colombie (Santander, Huila)",
+      "habitat": "Zones agricoles colombiennes",
+      "latitude": "6.5000000",
+      "longitude": "-73.0000000",
+      "climatic_axis": "vent",
+      "category": "tabac"
+    },
+    {
+      "id": "8",
+      "name": "Burley (air-cured)",
+      "latin_name": "Nicotiana tabacum var. Burley",
+      "origin": "Colombie",
+      "habitat": "Zones agricoles",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "bois",
+      "category": "tabac"
+    },
+    {
+      "id": "9",
+      "name": "Criollo (sun-cured)",
+      "latin_name": "Nicotiana tabacum var. Criollo",
+      "origin": "Colombie, Cuba",
+      "habitat": "Zones tropicales",
+      "latitude": "15.0000000",
+      "longitude": "-76.0000000",
+      "climatic_axis": "bois",
+      "category": "tabac"
+    },
+    {
+      "id": "10",
+      "name": "Profil VENT / clair",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "origin": "Colombie",
+      "habitat": "Variable",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "vent",
+      "category": "cannabis"
+    },
+    {
+      "id": "11",
+      "name": "Profil BOIS / structure",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "origin": "Colombie",
+      "habitat": "Variable",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "bois",
+      "category": "cannabis"
+    },
+    {
+      "id": "12",
+      "name": "Profil FEUILLE / vert",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "origin": "Colombie",
+      "habitat": "Variable",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "bois",
+      "category": "cannabis"
+    },
+    {
+      "id": "13",
+      "name": "Profil DISPARITION / trace",
+      "latin_name": "Cannabis sativa (profil terpénique)",
+      "origin": "Colombie",
+      "habitat": "Variable",
+      "latitude": "4.5709000",
+      "longitude": "-74.2973000",
+      "climatic_axis": "disparition",
+      "category": "cannabis"
+    },
+    {
+      "id": "30001",
+      "name": "Lavande vraie",
+      "latin_name": "Lavandula angustifolia",
+      "origin": "Provence (France), Bulgarie, Espagne, Royaume-Uni",
+      "habitat": "NULL",
+      "latitude": "43.9000000",
+      "longitude": "6.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30002",
+      "name": "Citron",
+      "latin_name": "Citrus limon",
+      "origin": "Sicile (Italie), Espagne, Argentine, Californie (USA)",
+      "habitat": "NULL",
+      "latitude": "37.6000000",
+      "longitude": "14.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30003",
+      "name": "Orange douce",
+      "latin_name": "Citrus sinensis",
+      "origin": "Brésil, Floride (USA), Espagne, Italie (Sicile)",
+      "habitat": "NULL",
+      "latitude": "-15.0000000",
+      "longitude": "-47.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30004",
+      "name": "Bergamote",
+      "latin_name": "Citrus bergamia",
+      "origin": "Calabre (Italie), Côte d'Ivoire, Argentine",
+      "habitat": "NULL",
+      "latitude": "38.9000000",
+      "longitude": "16.6000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30005",
+      "name": "Menthe poivrée",
+      "latin_name": "Mentha piperita",
+      "origin": "États-Unis (Oregon, Washington), Angleterre, France",
+      "habitat": "NULL",
+      "latitude": "45.0000000",
+      "longitude": "-120.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30006",
+      "name": "Eucalyptus globulus",
+      "latin_name": "Eucalyptus globulus",
+      "origin": "Australie, Portugal, Espagne, Chine",
+      "habitat": "NULL",
+      "latitude": "-25.0000000",
+      "longitude": "135.0000000",
+      "climatic_axis": "vent",
+      "category": "aromatique"
+    },
+    {
+      "id": "30007",
+      "name": "Romarin",
+      "latin_name": "Rosmarinus officinalis",
+      "origin": "Espagne, Tunisie, Maroc, France (Provence)",
+      "habitat": "NULL",
+      "latitude": "38.0000000",
+      "longitude": "0.0000000",
+      "climatic_axis": "vent_bois",
+      "category": "aromatique"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\torigin\thabitat\tlatitude\tlongitude\tclimatic_axis\tcategory\n1\tWest Indian Bay / Bay rum tree\tPimenta racemosa\tCaraïbes, San Andrés\tJardins domestiques, zones tropicales\t12.5847000\t-81.7006000\tvent_bois\taromatique\n2\tLemongrass / Citronnelle\tCymbopogon citratus\tAsie tropicale, cultivé Caraïbes\tJardins, zones humides tropicales\t12.0000000\t-70.0000000\tvent\taromatique\n3\tLippia alba\tLippia alba\tColombie, Amérique tropicale\tZones tropicales colombiennes\t5.0000000\t-72.0000000\tvent\taromatique\n4\tBasilic\tOcimum basilicum\tAsie, Méditerranée\tJardins domestiques, culture facile\t35.0000000\t35.0000000\tvent\taromatique\n5\tMenthe verte\tMentha spicata\tEurope, Méditerranée\tJardins, zones tempérées à tropicales\t45.0000000\t10.0000000\tdisparition\taromatique\n6\tOrigan\tOriganum vulgare\tMéditerranée\tZones sèches, méditerranéennes\t35.0000000\t18.0000000\tbois\taromatique\n7\tVirginia (flue-cured)\tNicotiana tabacum var. Virginia\tColombie (Santander, Huila)\tZones agricoles colombiennes\t6.5000000\t-73.0000000\tvent\ttabac\n8\tBurley (air-cured)\tNicotiana tabacum var. Burley\tColombie\tZones agricoles\t4.5709000\t-74.2973000\tbois\ttabac\n9\tCriollo (sun-cured)\tNicotiana tabacum var. Criollo\tColombie, Cuba\tZones tropicales\t15.0000000\t-76.0000000\tbois\ttabac\n10\tProfil VENT / clair\tCannabis sativa (profil terpénique)\tColombie\tVariable\t4.5709000\t-74.2973000\tvent\tcannabis\n11\tProfil BOIS / structure\tCannabis sativa (profil terpénique)\tColombie\tVariable\t4.5709000\t-74.2973000\tbois\tcannabis\n12\tProfil FEUILLE / vert\tCannabis sativa (profil terpénique)\tColombie\tVariable\t4.5709000\t-74.2973000\tbois\tcannabis\n13\tProfil DISPARITION / trace\tCannabis sativa (profil terpénique)\tColombie\tVariable\t4.5709000\t-74.2973000\tdisparition\tcannabis\n30001\tLavande vraie\tLavandula angustifolia\tProvence (France), Bulgarie, Espagne, Royaume-Uni\tNULL\t43.9000000\t6.0000000\tvent\taromatique\n30002\tCitron\tCitrus limon\tSicile (Italie), Espagne, Argentine, Californie (USA)\tNULL\t37.6000000\t14.0000000\tvent\taromatique\n30003\tOrange douce\tCitrus sinensis\tBrésil, Floride (USA), Espagne, Italie (Sicile)\tNULL\t-15.0000000\t-47.0000000\tvent\taromatique\n30004\tBergamote\tCitrus bergamia\tCalabre (Italie), Côte d'Ivoire, Argentine\tNULL\t38.9000000\t16.6000000\tvent\taromatique\n30005\tMenthe poivrée\tMentha piperita\tÉtats-Unis (Oregon, Washington), Angleterre, France\tNULL\t45.0000000\t-120.0000000\tvent\taromatique\n30006\tEucalyptus globulus\tEucalyptus globulus\tAustralie, Portugal, Espagne, Chine\tNULL\t-25.0000000\t135.0000000\tvent\taromatique\n30007\tRomarin\tRosmarinus officinalis\tEspagne, Tunisie, Maroc, France (Provence)\tNULL\t38.0000000\t0.0000000\tvent_bois\taromatique\n",
+  "stderr": "",
+  "execution_time_ms": 242
+}

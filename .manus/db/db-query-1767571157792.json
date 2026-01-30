@@ -1,0 +1,1010 @@
+{
+  "query": "SELECT id, name, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness \nFROM molecules \nWHERE radar_intensity = 50 AND radar_freshness = 50 AND radar_warmth = 50 AND radar_sweetness = 50 AND radar_spiciness = 50 AND radar_earthiness = 50\nORDER BY name\nLIMIT 100",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, radar_intensity, radar_freshness, radar_warmth, radar_sweetness, radar_spiciness, radar_earthiness \nFROM molecules \nWHERE radar_intensity = 50 AND radar_freshness = 50 AND radar_warmth = 50 AND radar_sweetness = 50 AND radar_spiciness = 50 AND radar_earthiness = 50\nORDER BY name\nLIMIT 100",
+  "rows": [
+    {
+      "id": "690002",
+      "name": "2-Phényléthanol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720005",
+      "name": "3-Carène",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720032",
+      "name": "4-Vinylguaiacol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570059",
+      "name": "Acétate de benzyle",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570057",
+      "name": "Acétate de géranyle",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570056",
+      "name": "Acétate de linalyle",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570058",
+      "name": "Acétate de phényléthyle",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720031",
+      "name": "Acétophénone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570055",
+      "name": "Alcool cinnamique",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570054",
+      "name": "Alcool phényléthylique",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750008",
+      "name": "Aporphine",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510020",
+      "name": "Baume de Tolú",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720030",
+      "name": "Benzaldéhyde",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570060",
+      "name": "Benzoate de benzyle",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "660004",
+      "name": "Bergaptène",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570049",
+      "name": "Bornéol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510011",
+      "name": "Borrachero",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510023",
+      "name": "Cacao Colombien",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570071",
+      "name": "Cade",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510021",
+      "name": "Café Geisha",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570067",
+      "name": "Calone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510028",
+      "name": "Calycolpus Moritzianus",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570047",
+      "name": "Camphre",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720003",
+      "name": "Camphène",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570041",
+      "name": "Carvacrol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "630001",
+      "name": "Carvone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720018",
+      "name": "Caryophyllène oxide",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510017",
+      "name": "Cedro Rosado",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720029",
+      "name": "Cembratrienol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570043",
+      "name": "Cinnamaldéhyde",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570045",
+      "name": "Citral",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "690005",
+      "name": "Citronellal",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570051",
+      "name": "Citronellol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "660002",
+      "name": "Citronellol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510013",
+      "name": "Coca Décocaïnisée",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510025",
+      "name": "Copaiba",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510019",
+      "name": "Copal Colombien",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750011",
+      "name": "Créosol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720019",
+      "name": "Cédrol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750002",
+      "name": "Damascenone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750010",
+      "name": "Damianine",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720022",
+      "name": "Dihydro-β-ionone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "630002",
+      "name": "Estragole",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570048",
+      "name": "Eucalyptol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570039",
+      "name": "Eugénol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720013",
+      "name": "Farnésène",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720009",
+      "name": "Fenchol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720010",
+      "name": "Fenchone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510022",
+      "name": "Fleur de Café",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720017",
+      "name": "Guaiol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510015",
+      "name": "Guanábana",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570040",
+      "name": "Guaïacol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570050",
+      "name": "Géraniol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "660001",
+      "name": "Géraniol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750009",
+      "name": "Harmane",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750001",
+      "name": "Hashishene",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570068",
+      "name": "Hélional",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750003",
+      "name": "Incensole",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720008",
+      "name": "Isopulégol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "690011",
+      "name": "Isovalencénol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570070",
+      "name": "Jasmine lactone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750004",
+      "name": "Leonurine",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510026",
+      "name": "Lippia Origanoides",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510014",
+      "name": "Lulo",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720026",
+      "name": "Megastigmatrienone A",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570046",
+      "name": "Menthol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750005",
+      "name": "Mésembrine",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "690007",
+      "name": "Méthyl jasmonate",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "660003",
+      "name": "Méthyl-eugénol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720028",
+      "name": "Neophytadiene",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "690004",
+      "name": "Nerolidol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720033",
+      "name": "Nicotine",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510018",
+      "name": "Nogal Colombien",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "690013",
+      "name": "Nootkatone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720034",
+      "name": "Nornicotine",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750006",
+      "name": "Nuciférine",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "690003",
+      "name": "Oxyde de rose",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570069",
+      "name": "Ozonal",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "690008",
+      "name": "Phytol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510027",
+      "name": "Piper Aduncum",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570074",
+      "name": "Pipérine",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720011",
+      "name": "Pulégone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570073",
+      "name": "Sabinène",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720027",
+      "name": "Solanone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "750012",
+      "name": "Syringol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720001",
+      "name": "Terpinolène",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570053",
+      "name": "Terpinène-4-ol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570065",
+      "name": "Thujopsène",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570042",
+      "name": "Thymol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510029",
+      "name": "Turnera Diffusa",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510016",
+      "name": "Uchuva",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720012",
+      "name": "Valencène",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510024",
+      "name": "Vanilla Pompona",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570062",
+      "name": "Vétivérol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "510012",
+      "name": "Yagé",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "690012",
+      "name": "Zizanol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "690006",
+      "name": "cis-Jasmone",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "720015",
+      "name": "cis-Nérolidol",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    },
+    {
+      "id": "570072",
+      "name": "p-Cymène",
+      "radar_intensity": "50",
+      "radar_freshness": "50",
+      "radar_warmth": "50",
+      "radar_sweetness": "50",
+      "radar_spiciness": "50",
+      "radar_earthiness": "50"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tradar_intensity\tradar_freshness\tradar_warmth\tradar_sweetness\tradar_spiciness\tradar_earthiness\n690002\t2-Phényléthanol\t50\t50\t50\t50\t50\t50\n720005\t3-Carène\t50\t50\t50\t50\t50\t50\n720032\t4-Vinylguaiacol\t50\t50\t50\t50\t50\t50\n570061\tAcétate d'isoeugenol\t50\t50\t50\t50\t50\t50\n570059\tAcétate de benzyle\t50\t50\t50\t50\t50\t50\n570057\tAcétate de géranyle\t50\t50\t50\t50\t50\t50\n570056\tAcétate de linalyle\t50\t50\t50\t50\t50\t50\n570058\tAcétate de phényléthyle\t50\t50\t50\t50\t50\t50\n720031\tAcétophénone\t50\t50\t50\t50\t50\t50\n570055\tAlcool cinnamique\t50\t50\t50\t50\t50\t50\n570054\tAlcool phényléthylique\t50\t50\t50\t50\t50\t50\n750008\tAporphine\t50\t50\t50\t50\t50\t50\n510020\tBaume de Tolú\t50\t50\t50\t50\t50\t50\n720030\tBenzaldéhyde\t50\t50\t50\t50\t50\t50\n570060\tBenzoate de benzyle\t50\t50\t50\t50\t50\t50\n660004\tBergaptène\t50\t50\t50\t50\t50\t50\n570049\tBornéol\t50\t50\t50\t50\t50\t50\n510011\tBorrachero\t50\t50\t50\t50\t50\t50\n510023\tCacao Colombien\t50\t50\t50\t50\t50\t50\n570071\tCade\t50\t50\t50\t50\t50\t50\n510021\tCafé Geisha\t50\t50\t50\t50\t50\t50\n570067\tCalone\t50\t50\t50\t50\t50\t50\n510028\tCalycolpus Moritzianus\t50\t50\t50\t50\t50\t50\n570047\tCamphre\t50\t50\t50\t50\t50\t50\n720003\tCamphène\t50\t50\t50\t50\t50\t50\n570041\tCarvacrol\t50\t50\t50\t50\t50\t50\n630001\tCarvone\t50\t50\t50\t50\t50\t50\n720018\tCaryophyllène oxide\t50\t50\t50\t50\t50\t50\n510017\tCedro Rosado\t50\t50\t50\t50\t50\t50\n720029\tCembratrienol\t50\t50\t50\t50\t50\t50\n570043\tCinnamaldéhyde\t50\t50\t50\t50\t50\t50\n570045\tCitral\t50\t50\t50\t50\t50\t50\n690005\tCitronellal\t50\t50\t50\t50\t50\t50\n570051\tCitronellol\t50\t50\t50\t50\t50\t50\n660002\tCitronellol\t50\t50\t50\t50\t50\t50\n510013\tCoca Décocaïnisée\t50\t50\t50\t50\t50\t50\n510025\tCopaiba\t50\t50\t50\t50\t50\t50\n510019\tCopal Colombien\t50\t50\t50\t50\t50\t50\n750011\tCréosol\t50\t50\t50\t50\t50\t50\n720019\tCédrol\t50\t50\t50\t50\t50\t50\n750002\tDamascenone\t50\t50\t50\t50\t50\t50\n750010\tDamianine\t50\t50\t50\t50\t50\t50\n720022\tDihydro-β-ionone\t50\t50\t50\t50\t50\t50\n630002\tEstragole\t50\t50\t50\t50\t50\t50\n570048\tEucalyptol\t50\t50\t50\t50\t50\t50\n570039\tEugénol\t50\t50\t50\t50\t50\t50\n720013\tFarnésène\t50\t50\t50\t50\t50\t50\n720009\tFenchol\t50\t50\t50\t50\t50\t50\n720010\tFenchone\t50\t50\t50\t50\t50\t50\n510022\tFleur de Café\t50\t50\t50\t50\t50\t50\n720017\tGuaiol\t50\t50\t50\t50\t50\t50\n510015\tGuanábana\t50\t50\t50\t50\t50\t50\n570040\tGuaïacol\t50\t50\t50\t50\t50\t50\n570050\tGéraniol\t50\t50\t50\t50\t50\t50\n660001\tGéraniol\t50\t50\t50\t50\t50\t50\n750009\tHarmane\t50\t50\t50\t50\t50\t50\n750001\tHashishene\t50\t50\t50\t50\t50\t50\n570068\tHélional\t50\t50\t50\t50\t50\t50\n750003\tIncensole\t50\t50\t50\t50\t50\t50\n720008\tIsopulégol\t50\t50\t50\t50\t50\t50\n690011\tIsovalencénol\t50\t50\t50\t50\t50\t50\n570070\tJasmine lactone\t50\t50\t50\t50\t50\t50\n750004\tLeonurine\t50\t50\t50\t50\t50\t50\n510026\tLippia Origanoides\t50\t50\t50\t50\t50\t50\n510014\tLulo\t50\t50\t50\t50\t50\t50\n720026\tMegastigmatrienone A\t50\t50\t50\t50\t50\t50\n570046\tMenthol\t50\t50\t50\t50\t50\t50\n750005\tMésembrine\t50\t50\t50\t50\t50\t50\n690007\tMéthyl jasmonate\t50\t50\t50\t50\t50\t50\n660003\tMéthyl-eugénol\t50\t50\t50\t50\t50\t50\n720028\tNeophytadiene\t50\t50\t50\t50\t50\t50\n690004\tNerolidol\t50\t50\t50\t50\t50\t50\n720033\tNicotine\t50\t50\t50\t50\t50\t50\n510018\tNogal Colombien\t50\t50\t50\t50\t50\t50\n690013\tNootkatone\t50\t50\t50\t50\t50\t50\n720034\tNornicotine\t50\t50\t50\t50\t50\t50\n750006\tNuciférine\t50\t50\t50\t50\t50\t50\n690003\tOxyde de rose\t50\t50\t50\t50\t50\t50\n570069\tOzonal\t50\t50\t50\t50\t50\t50\n690008\tPhytol\t50\t50\t50\t50\t50\t50\n510027\tPiper Aduncum\t50\t50\t50\t50\t50\t50\n570074\tPipérine\t50\t50\t50\t50\t50\t50\n720011\tPulégone\t50\t50\t50\t50\t50\t50\n570073\tSabinène\t50\t50\t50\t50\t50\t50\n720027\tSolanone\t50\t50\t50\t50\t50\t50\n750012\tSyringol\t50\t50\t50\t50\t50\t50\n720001\tTerpinolène\t50\t50\t50\t50\t50\t50\n570053\tTerpinène-4-ol\t50\t50\t50\t50\t50\t50\n570065\tThujopsène\t50\t50\t50\t50\t50\t50\n570042\tThymol\t50\t50\t50\t50\t50\t50\n510029\tTurnera Diffusa\t50\t50\t50\t50\t50\t50\n510016\tUchuva\t50\t50\t50\t50\t50\t50\n720012\tValencène\t50\t50\t50\t50\t50\t50\n510024\tVanilla Pompona\t50\t50\t50\t50\t50\t50\n570062\tVétivérol\t50\t50\t50\t50\t50\t50\n510012\tYagé\t50\t50\t50\t50\t50\t50\n690012\tZizanol\t50\t50\t50\t50\t50\t50\n690006\tcis-Jasmone\t50\t50\t50\t50\t50\t50\n720015\tcis-Nérolidol\t50\t50\t50\t50\t50\t50\n570072\tp-Cymène\t50\t50\t50\t50\t50\t50\n",
+  "stderr": "",
+  "execution_time_ms": 1879
+}

@@ -1,0 +1,52 @@
+{
+  "query": "SELECT COUNT(*) as count FROM ghost_varieties;\nSELECT COUNT(*) as count FROM genomic_molecule_links;\nSELECT COUNT(*) as count FROM genomic_plant_links;\nSELECT id, name, variety_type, conservation_status FROM ghost_varieties LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as count FROM ghost_varieties;\nSELECT COUNT(*) as count FROM genomic_molecule_links;\nSELECT COUNT(*) as count FROM genomic_plant_links;\nSELECT id, name, variety_type, conservation_status FROM ghost_varieties LIMIT 10;",
+  "rows": [
+    {
+      "count": "8"
+    },
+    {
+      "count": "count"
+    },
+    {
+      "count": "0"
+    },
+    {
+      "count": "count"
+    },
+    {
+      "count": "0"
+    },
+    {
+      "count": "id\tname\tvariety_type\tconservation_status"
+    },
+    {
+      "count": "1\tRose de Damas Ancienne\trose\textinct"
+    },
+    {
+      "count": "2\tJasmin de Grasse Original\tjasmine\tcritically_endangered"
+    },
+    {
+      "count": "3\tTabac de Virginie Colonial\ttobacco\textinct"
+    },
+    {
+      "count": "4\tCannabis Indica Afghan Heritage\tcannabis\tendangered"
+    },
+    {
+      "count": "5\tLavande Fine de Haute-Provence Sauvage\tlavender\tvulnerable"
+    },
+    {
+      "count": "6\tBergamote de Calabre Historique\tcitrus\textinct_wild"
+    },
+    {
+      "count": "7\tThym Rouge de Provence\taromatic_herb\tnear_threatened"
+    },
+    {
+      "count": "8\tEncens de Dhofar Royal\tresin_tree\tcritically_endangered"
+    }
+  ],
+  "messages": [],
+  "stdout": "count\n8\ncount\n0\ncount\n0\nid\tname\tvariety_type\tconservation_status\n1\tRose de Damas Ancienne\trose\textinct\n2\tJasmin de Grasse Original\tjasmine\tcritically_endangered\n3\tTabac de Virginie Colonial\ttobacco\textinct\n4\tCannabis Indica Afghan Heritage\tcannabis\tendangered\n5\tLavande Fine de Haute-Provence Sauvage\tlavender\tvulnerable\n6\tBergamote de Calabre Historique\tcitrus\textinct_wild\n7\tThym Rouge de Provence\taromatic_herb\tnear_threatened\n8\tEncens de Dhofar Royal\tresin_tree\tcritically_endangered\n",
+  "stderr": "",
+  "execution_time_ms": 127
+}

@@ -1,0 +1,310 @@
+{
+  "query": "SELECT id, name, category, ingredients FROM recettes WHERE LENGTH(name) < 15 ORDER BY id LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category, ingredients FROM recettes WHERE LENGTH(name) < 15 ORDER BY id LIMIT 50;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "OS PLUVIEUX",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "2",
+      "name": "FOSSE ANTIQUE",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "8",
+      "name": "FOUILLE HUMIDE",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "46",
+      "name": "LEMURIA ROOT",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "50",
+      "name": "OS PLUVIEUX",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "51",
+      "name": "FOSSE ANTIQUE",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "57",
+      "name": "FOUILLE HUMIDE",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "95",
+      "name": "LEMURIA ROOT",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "99",
+      "name": "AVALON MIST",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "100",
+      "name": "HYPERBOREA",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "103",
+      "name": "KER YS",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "104",
+      "name": "AGARTHA",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "105",
+      "name": "SHAMBHALA",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "106",
+      "name": "PANGAEA",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "107",
+      "name": "BELIZE CAVERN",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "109",
+      "name": "ENCENS VIVANT",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "111",
+      "name": "CODEX MINÉRAL",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "112",
+      "name": "KYFI NOIR",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "113",
+      "name": "ENCENS D’OS",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "118",
+      "name": "ENCRE SACRÉE",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "123",
+      "name": "ENCENS GLACÉ",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "132",
+      "name": "TABAC KER YS",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "133",
+      "name": "TABAC UMBRIA",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "134",
+      "name": "TABAC ASKJA",
+      "category": "parfum",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "60001",
+      "name": "Mastiha Brut",
+      "category": "resine_cbd",
+      "ingredients": "Mastiha, citron vert, laurier, cardamome, santal, benjoin"
+    },
+    {
+      "id": "60004",
+      "name": "Noir de Myrrhe",
+      "category": "resine_cbd",
+      "ingredients": "Myrrhe, benjoin, labdanum, cèdre atlas, cardamome noire, citron confit"
+    },
+    {
+      "id": "60005",
+      "name": "Cuir d'Ambre",
+      "category": "resine_cbd",
+      "ingredients": "Labdanum, benjoin, vanille, tonka, mandarine, tabac"
+    },
+    {
+      "id": "60007",
+      "name": "Métal Liquide",
+      "category": "resine_cbd",
+      "ingredients": "Galbanum, pamplemousse, iris, violette, ambrette, poivre blanc, girofle"
+    },
+    {
+      "id": "90002",
+      "name": "Harlequin CBD",
+      "category": "resine_cbd",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "90003",
+      "name": "ACDC CBD",
+      "category": "resine_cbd",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "90005",
+      "name": "Cannatonic CBD",
+      "category": "resine_cbd",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "90007",
+      "name": "Harle-Tsu CBD",
+      "category": "resine_cbd",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "90009",
+      "name": "Remedy CBD",
+      "category": "resine_cbd",
+      "ingredients": "NULL"
+    },
+    {
+      "id": "120007",
+      "name": "Rituel d'Assam",
+      "category": "parfum",
+      "ingredients": "Oud Tea, Black Emerald, Spikenard, Mitti Attar, Omani Black Frankincense"
+    },
+    {
+      "id": "150006",
+      "name": "Classic Cheese",
+      "category": "resine_cbd",
+      "ingredients": "Hexanoic acid (C6) 0.5%, Octanoic acid (C8) 0.3%, Decanoic acid (C10) 0.1%, 2-Heptanone 0.2%, Myrcène 0.3%, β-Caryophyllène 0.2%, CBD Isolate 30%"
+    },
+    {
+      "id": "150008",
+      "name": "Blue Cheese",
+      "category": "resine_cbd",
+      "ingredients": "Hexanoic acid (C6) 0.4%, 3-Methylbutanoic acid 0.1%, Linalol 0.6%, β-Damascone 0.05%, Myrcène 0.3%, Géraniol 0.1%, CBD Isolate 32%"
+    },
+    {
+      "id": "150009",
+      "name": "Smoky Cheese",
+      "category": "resine_cbd",
+      "ingredients": "Hexanoic acid (C6) 0.5%, Octanoic acid (C8) 0.3%, Guaiacol 0.1%, Humulène 0.4%, β-Caryophyllène 0.3%, Cèdre Atlas 0.2%, CBD Isolate 30%"
+    },
+    {
+      "id": "150010",
+      "name": "Sweet Cheese",
+      "category": "resine_cbd",
+      "ingredients": "Hexanoic acid (C6) 0.3%, Decanoic acid (C10) 0.2%, Vanilline 0.3%, Ethyl octanoate 0.2%, Myrcène 0.3%, Linalol 0.2%, CBD Isolate 28%"
+    },
+    {
+      "id": "150011",
+      "name": "Velvet Fruit",
+      "category": "resine_cbd",
+      "ingredients": "Ethyl butyrate 0.6%, Isoamyl acetate 0.3%, Myrcène 0.4%, Limonène 0.3%, Linalol 0.2%, CBD Isolate 30%"
+    },
+    {
+      "id": "150012",
+      "name": "Cassis Blanc",
+      "category": "resine_cbd",
+      "ingredients": "Ethyl 3-methylthiopropionate 0.5%, Myrcène 0.3%, β-Caryophyllène 0.2%, Linalol 0.3%, Géraniol 0.1%, CBD Isolate 28%"
+    },
+    {
+      "id": "150013",
+      "name": "Butter Flower",
+      "category": "resine_cbd",
+      "ingredients": "Ethyl lactate 0.5%, Butyl butyrate 0.3%, Linalol 0.4%, α-Ionone 0.1%, Myrcène 0.2%, CBD Isolate 30%"
+    },
+    {
+      "id": "150014",
+      "name": "Rhum & Pêche",
+      "category": "resine_cbd",
+      "ingredients": "Ethyl decanoate 0.5%, γ-Decalactone 0.4%, Myrcène 0.3%, Limonène 0.2%, Linalol 0.2%, CBD Isolate 28%"
+    },
+    {
+      "id": "150015",
+      "name": "Nectar Noir",
+      "category": "resine_cbd",
+      "ingredients": "Ethyl phenylacetate 0.3%, Methyl salicylate 0.2%, β-Caryophyllène 0.4%, Humulène 0.2%, Vanilline 0.2%, CBD Isolate 30%"
+    },
+    {
+      "id": "150016",
+      "name": "Cuir Poire",
+      "category": "resine_cbd",
+      "ingredients": "Ethyl furan-2-carboxylate 0.4%, Isoamyl acetate 0.2%, β-Caryophyllène 0.3%, Humulène 0.2%, Linalol 0.2%, CBD Isolate 28%"
+    },
+    {
+      "id": "150017",
+      "name": "Black Oud Skin",
+      "category": "resine_cbd",
+      "ingredients": "Indole 0.02%, Skatole 0.01%, Ciste labdanum 3%, Castoréum synthétique 0.5%, Patchouli 2%, Vanilline 0.3%, CBD Isolate 28%"
+    },
+    {
+      "id": "150018",
+      "name": "Noir Tabac",
+      "category": "resine_cbd",
+      "ingredients": "Indole 0.02%, Skatole 0.005%, Absolue tabac 2%, Foin absolu 1%, Coumarine 0.5%, Styrax 1.5%, Isoquinoline 0.1%, CBD Isolate 30%"
+    },
+    {
+      "id": "150020",
+      "name": "Gardenia Night",
+      "category": "resine_cbd",
+      "ingredients": "Indole 0.02%, Skatole 0.01%, Methyl salicylate 0.5%, Vanilline 0.4%, α-Ionone 0.2%, Benzyl benzoate 1%, CBD Isolate 30%"
+    },
+    {
+      "id": "150021",
+      "name": "Ash & Honey",
+      "category": "resine_cbd",
+      "ingredients": "Indole 0.015%, Skatole 0.01%, Miel absolu 1.5%, Benjoin 2%, Cuir synthétique 0.5%, Bois de cade 0.3%, CBD Isolate 28%"
+    },
+    {
+      "id": "150022",
+      "name": "Neon Flesh",
+      "category": "resine_cbd",
+      "ingredients": "Indole 0.015%, Skatole 0.01%, Aldéhyde C-12 0.3%, Vétiverol 0.5%, Muscone 0.2%, Ambrettolide 0.3%, CBD Isolate 28%"
+    },
+    {
+      "id": "150023",
+      "name": "Cuir Marin",
+      "category": "resine_cbd",
+      "ingredients": "Limonène 15%, α-Pinène 10%, Accord Cuivre (calone + sel) 25%, β-Caryophyllène 12%, Absolu Tabac Blond 13%, Ambroxan 15%, Santalol 10%, CBD Isolate 28%"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tingredients\n1\tOS PLUVIEUX\tparfum\tNULL\n2\tFOSSE ANTIQUE\tparfum\tNULL\n8\tFOUILLE HUMIDE\tparfum\tNULL\n46\tLEMURIA ROOT\tparfum\tNULL\n50\tOS PLUVIEUX\tparfum\tNULL\n51\tFOSSE ANTIQUE\tparfum\tNULL\n57\tFOUILLE HUMIDE\tparfum\tNULL\n95\tLEMURIA ROOT\tparfum\tNULL\n99\tAVALON MIST\tparfum\tNULL\n100\tHYPERBOREA\tparfum\tNULL\n103\tKER YS\tparfum\tNULL\n104\tAGARTHA\tparfum\tNULL\n105\tSHAMBHALA\tparfum\tNULL\n106\tPANGAEA\tparfum\tNULL\n107\tBELIZE CAVERN\tparfum\tNULL\n109\tENCENS VIVANT\tparfum\tNULL\n111\tCODEX MINÉRAL\tparfum\tNULL\n112\tKYFI NOIR\tparfum\tNULL\n113\tENCENS D’OS\tparfum\tNULL\n118\tENCRE SACRÉE\tparfum\tNULL\n123\tENCENS GLACÉ\tparfum\tNULL\n132\tTABAC KER YS\tparfum\tNULL\n133\tTABAC UMBRIA\tparfum\tNULL\n134\tTABAC ASKJA\tparfum\tNULL\n60001\tMastiha Brut\tresine_cbd\tMastiha, citron vert, laurier, cardamome, santal, benjoin\n60004\tNoir de Myrrhe\tresine_cbd\tMyrrhe, benjoin, labdanum, cèdre atlas, cardamome noire, citron confit\n60005\tCuir d'Ambre\tresine_cbd\tLabdanum, benjoin, vanille, tonka, mandarine, tabac\n60007\tMétal Liquide\tresine_cbd\tGalbanum, pamplemousse, iris, violette, ambrette, poivre blanc, girofle\n90002\tHarlequin CBD\tresine_cbd\tNULL\n90003\tACDC CBD\tresine_cbd\tNULL\n90005\tCannatonic CBD\tresine_cbd\tNULL\n90007\tHarle-Tsu CBD\tresine_cbd\tNULL\n90009\tRemedy CBD\tresine_cbd\tNULL\n120007\tRituel d'Assam\tparfum\tOud Tea, Black Emerald, Spikenard, Mitti Attar, Omani Black Frankincense\n150006\tClassic Cheese\tresine_cbd\tHexanoic acid (C6) 0.5%, Octanoic acid (C8) 0.3%, Decanoic acid (C10) 0.1%, 2-Heptanone 0.2%, Myrcène 0.3%, β-Caryophyllène 0.2%, CBD Isolate 30%\n150008\tBlue Cheese\tresine_cbd\tHexanoic acid (C6) 0.4%, 3-Methylbutanoic acid 0.1%, Linalol 0.6%, β-Damascone 0.05%, Myrcène 0.3%, Géraniol 0.1%, CBD Isolate 32%\n150009\tSmoky Cheese\tresine_cbd\tHexanoic acid (C6) 0.5%, Octanoic acid (C8) 0.3%, Guaiacol 0.1%, Humulène 0.4%, β-Caryophyllène 0.3%, Cèdre Atlas 0.2%, CBD Isolate 30%\n150010\tSweet Cheese\tresine_cbd\tHexanoic acid (C6) 0.3%, Decanoic acid (C10) 0.2%, Vanilline 0.3%, Ethyl octanoate 0.2%, Myrcène 0.3%, Linalol 0.2%, CBD Isolate 28%\n150011\tVelvet Fruit\tresine_cbd\tEthyl butyrate 0.6%, Isoamyl acetate 0.3%, Myrcène 0.4%, Limonène 0.3%, Linalol 0.2%, CBD Isolate 30%\n150012\tCassis Blanc\tresine_cbd\tEthyl 3-methylthiopropionate 0.5%, Myrcène 0.3%, β-Caryophyllène 0.2%, Linalol 0.3%, Géraniol 0.1%, CBD Isolate 28%\n150013\tButter Flower\tresine_cbd\tEthyl lactate 0.5%, Butyl butyrate 0.3%, Linalol 0.4%, α-Ionone 0.1%, Myrcène 0.2%, CBD Isolate 30%\n150014\tRhum & Pêche\tresine_cbd\tEthyl decanoate 0.5%, γ-Decalactone 0.4%, Myrcène 0.3%, Limonène 0.2%, Linalol 0.2%, CBD Isolate 28%\n150015\tNectar Noir\tresine_cbd\tEthyl phenylacetate 0.3%, Methyl salicylate 0.2%, β-Caryophyllène 0.4%, Humulène 0.2%, Vanilline 0.2%, CBD Isolate 30%\n150016\tCuir Poire\tresine_cbd\tEthyl furan-2-carboxylate 0.4%, Isoamyl acetate 0.2%, β-Caryophyllène 0.3%, Humulène 0.2%, Linalol 0.2%, CBD Isolate 28%\n150017\tBlack Oud Skin\tresine_cbd\tIndole 0.02%, Skatole 0.01%, Ciste labdanum 3%, Castoréum synthétique 0.5%, Patchouli 2%, Vanilline 0.3%, CBD Isolate 28%\n150018\tNoir Tabac\tresine_cbd\tIndole 0.02%, Skatole 0.005%, Absolue tabac 2%, Foin absolu 1%, Coumarine 0.5%, Styrax 1.5%, Isoquinoline 0.1%, CBD Isolate 30%\n150020\tGardenia Night\tresine_cbd\tIndole 0.02%, Skatole 0.01%, Methyl salicylate 0.5%, Vanilline 0.4%, α-Ionone 0.2%, Benzyl benzoate 1%, CBD Isolate 30%\n150021\tAsh & Honey\tresine_cbd\tIndole 0.015%, Skatole 0.01%, Miel absolu 1.5%, Benjoin 2%, Cuir synthétique 0.5%, Bois de cade 0.3%, CBD Isolate 28%\n150022\tNeon Flesh\tresine_cbd\tIndole 0.015%, Skatole 0.01%, Aldéhyde C-12 0.3%, Vétiverol 0.5%, Muscone 0.2%, Ambrettolide 0.3%, CBD Isolate 28%\n150023\tCuir Marin\tresine_cbd\tLimonène 15%, α-Pinène 10%, Accord Cuivre (calone + sel) 25%, β-Caryophyllène 12%, Absolu Tabac Blond 13%, Ambroxan 15%, Santalol 10%, CBD Isolate 28%\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

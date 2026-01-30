@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT p.id, p.name, p.nameLatin, p.family\nFROM plants p\nLEFT JOIN plant_terroir pt ON p.id = pt.plantId\nWHERE pt.id IS NULL\nORDER BY p.name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT p.id, p.name, p.nameLatin, p.family\nFROM plants p\nLEFT JOIN plant_terroir pt ON p.id = pt.plantId\nWHERE pt.id IS NULL\nORDER BY p.name;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 2: Table 'h2pjhhjbh276xmnbncjhcp.plant_terroir' doesn't exist"
+  ]
+}

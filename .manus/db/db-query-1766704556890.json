@@ -1,0 +1,35 @@
+{
+  "query": "SELECT id, name, createdAt FROM recettes WHERE id IN (1, 2, 3, 4, 5) ORDER BY id",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, createdAt FROM recettes WHERE id IN (1, 2, 3, 4, 5) ORDER BY id",
+  "rows": [
+    {
+      "id": "1",
+      "name": "OS PLUVIEUX",
+      "createdAt": "2025-12-25 23:12:18"
+    },
+    {
+      "id": "2",
+      "name": "FOSSE ANTIQUE",
+      "createdAt": "2025-12-25 23:12:18"
+    },
+    {
+      "id": "3",
+      "name": "ARCHÉOLOGIE BRÛLÉE",
+      "createdAt": "2025-12-25 23:12:18"
+    },
+    {
+      "id": "4",
+      "name": "ARGILE HUMIDE SACRÉE",
+      "createdAt": "2025-12-25 23:12:18"
+    },
+    {
+      "id": "5",
+      "name": "PÉTRICHOR SÉPULCRAL",
+      "createdAt": "2025-12-25 23:12:18"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcreatedAt\n1\tOS PLUVIEUX\t2025-12-25 23:12:18\n2\tFOSSE ANTIQUE\t2025-12-25 23:12:18\n3\tARCHÉOLOGIE BRÛLÉE\t2025-12-25 23:12:18\n4\tARGILE HUMIDE SACRÉE\t2025-12-25 23:12:18\n5\tPÉTRICHOR SÉPULCRAL\t2025-12-25 23:12:18\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

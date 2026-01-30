@@ -1,0 +1,120 @@
+{
+  "query": "SELECT id, entry_key, title, authors, year, entry_type, doi, isbn FROM bibliography_entries WHERE (doi IS NULL OR doi = '') AND (isbn IS NULL OR isbn = '') ORDER BY title;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, entry_key, title, authors, year, entry_type, doi, isbn FROM bibliography_entries WHERE (doi IS NULL OR doi = '') AND (isbn IS NULL OR isbn = '') ORDER BY title;",
+  "rows": [
+    {
+      "id": "150034",
+      "entry_key": "perfumum_kraft2000",
+      "title": "Aroma Chemicals IV: Musks",
+      "authors": "Philip Kraft",
+      "year": "2000",
+      "entry_type": "inbook",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150041",
+      "entry_key": "perfumum_flavornet2004",
+      "title": "Flavornet and Human Odor Space",
+      "authors": "Terry E. Acree, Heinrich Arn",
+      "year": "2004",
+      "entry_type": "online",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150010",
+      "entry_key": "perfumum_edwards2019",
+      "title": "Fragrances of the World",
+      "authors": "Michael Edwards",
+      "year": "2019",
+      "entry_type": "book",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150037",
+      "entry_key": "perfumum_ifra2020",
+      "title": "IFRA Standards Library - 49th Amendment",
+      "authors": "International Fragrance Association",
+      "year": "2020",
+      "entry_type": "techreport",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150039",
+      "entry_key": "perfumum_pubchem2023",
+      "title": "PubChem Compound Database",
+      "authors": "National Center for Biotechnology Information",
+      "year": "2023",
+      "entry_type": "online",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150052",
+      "entry_key": "perfumum_stashenko2019",
+      "title": "Study of Essential Oils Obtained from Tropical Plants Grown in Colombia",
+      "authors": "Elena E. Stashenko",
+      "year": "2019",
+      "entry_type": "inbook",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150007",
+      "entry_key": "perfumum_guenther1948",
+      "title": "The Essential Oils (6 volumes)",
+      "authors": "Ernest Guenther",
+      "year": "1948",
+      "entry_type": "book",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150040",
+      "entry_key": "perfumum_thegoodscents2023",
+      "title": "The Good Scents Company Information System",
+      "authors": "The Good Scents Company",
+      "year": "2023",
+      "entry_type": "online",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150049",
+      "entry_key": "perfumum_burkill1985",
+      "title": "The Useful Plants of West Tropical Africa",
+      "authors": "H.M. Burkill",
+      "year": "1985",
+      "entry_type": "book",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150066",
+      "entry_key": "perfumum_waho2013",
+      "title": "West African Herbal Pharmacopoeia",
+      "authors": "West African Health Organisation (WAHO)",
+      "year": "2013",
+      "entry_type": "book",
+      "doi": "NULL",
+      "isbn": "NULL"
+    },
+    {
+      "id": "150063",
+      "entry_key": "perfumum_nebie2002",
+      "title": "Étude des plantes aromatiques du Burkina Faso: Caractérisations chimique et biologique des huiles essentielles de Lippia multiflora",
+      "authors": "R.H.C. Nébié, R.T. Yaméogo, A. Bélanger, C. Sib",
+      "year": "2002",
+      "entry_type": "article",
+      "doi": "NULL",
+      "isbn": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentry_key\ttitle\tauthors\tyear\tentry_type\tdoi\tisbn\n150034\tperfumum_kraft2000\tAroma Chemicals IV: Musks\tPhilip Kraft\t2000\tinbook\tNULL\tNULL\n150041\tperfumum_flavornet2004\tFlavornet and Human Odor Space\tTerry E. Acree, Heinrich Arn\t2004\tonline\tNULL\tNULL\n150010\tperfumum_edwards2019\tFragrances of the World\tMichael Edwards\t2019\tbook\tNULL\tNULL\n150037\tperfumum_ifra2020\tIFRA Standards Library - 49th Amendment\tInternational Fragrance Association\t2020\ttechreport\tNULL\tNULL\n150039\tperfumum_pubchem2023\tPubChem Compound Database\tNational Center for Biotechnology Information\t2023\tonline\tNULL\tNULL\n150052\tperfumum_stashenko2019\tStudy of Essential Oils Obtained from Tropical Plants Grown in Colombia\tElena E. Stashenko\t2019\tinbook\tNULL\tNULL\n150007\tperfumum_guenther1948\tThe Essential Oils (6 volumes)\tErnest Guenther\t1948\tbook\tNULL\tNULL\n150040\tperfumum_thegoodscents2023\tThe Good Scents Company Information System\tThe Good Scents Company\t2023\tonline\tNULL\tNULL\n150049\tperfumum_burkill1985\tThe Useful Plants of West Tropical Africa\tH.M. Burkill\t1985\tbook\tNULL\tNULL\n150066\tperfumum_waho2013\tWest African Herbal Pharmacopoeia\tWest African Health Organisation (WAHO)\t2013\tbook\tNULL\tNULL\n150063\tperfumum_nebie2002\tÉtude des plantes aromatiques du Burkina Faso: Caractérisations chimique et biologique des huiles essentielles de Lippia multiflora\tR.H.C. Nébié, R.T. Yaméogo, A. Bélanger, C. Sib\t2002\tarticle\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

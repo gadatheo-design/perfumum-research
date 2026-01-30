@@ -1,0 +1,30 @@
+{
+  "query": "\nSELECT 'plants' as table_name, id, name FROM plants WHERE name LIKE '%Ambrette%'\nUNION ALL\nSELECT 'molecules' as table_name, id, name FROM molecules WHERE name IN ('Farnesol', 'Géraniol', 'Geraniol');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT 'plants' as table_name, id, name FROM plants WHERE name LIKE '%Ambrette%'\nUNION ALL\nSELECT 'molecules' as table_name, id, name FROM molecules WHERE name IN ('Farnesol', 'Géraniol', 'Geraniol');\n",
+  "rows": [
+    {
+      "table_name": "plants",
+      "id": "90001",
+      "name": "Ambrette"
+    },
+    {
+      "table_name": "molecules",
+      "id": "570050",
+      "name": "Géraniol"
+    },
+    {
+      "table_name": "molecules",
+      "id": "660001",
+      "name": "Géraniol"
+    },
+    {
+      "table_name": "molecules",
+      "id": "690001",
+      "name": "Farnesol"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tid\tname\nplants\t90001\tAmbrette\nmolecules\t570050\tGéraniol\nmolecules\t660001\tGéraniol\nmolecules\t690001\tFarnesol\n",
+  "stderr": "",
+  "execution_time_ms": 90
+}

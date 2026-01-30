@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, code, commonName, scientificName, latitude, longitude FROM plants WHERE latitude IS NULL OR longitude IS NULL ORDER BY commonName;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, code, commonName, scientificName, latitude, longitude FROM plants WHERE latitude IS NULL OR longitude IS NULL ORDER BY commonName;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'code' in 'field list'"
+  ]
+}

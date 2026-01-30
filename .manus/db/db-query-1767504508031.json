@@ -1,0 +1,30 @@
+{
+  "query": "SELECT id, name, cas_number FROM molecules WHERE cas_number IN ('106-24-1', '106-22-9', '93-15-2', '484-20-8');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number FROM molecules WHERE cas_number IN ('106-24-1', '106-22-9', '93-15-2', '484-20-8');",
+  "rows": [
+    {
+      "id": "660001",
+      "name": "Géraniol",
+      "cas_number": "106-24-1"
+    },
+    {
+      "id": "660002",
+      "name": "Citronellol",
+      "cas_number": "106-22-9"
+    },
+    {
+      "id": "660003",
+      "name": "Méthyl-eugénol",
+      "cas_number": "93-15-2"
+    },
+    {
+      "id": "660004",
+      "name": "Bergaptène",
+      "cas_number": "484-20-8"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\n660001\tGéraniol\t106-24-1\n660002\tCitronellol\t106-22-9\n660003\tMéthyl-eugénol\t93-15-2\n660004\tBergaptène\t484-20-8\n",
+  "stderr": "",
+  "execution_time_ms": 1532
+}

@@ -1,0 +1,199 @@
+{
+  "query": "\nSELECT id, name, region, temporality, symbolicMaterials \nFROM traditions_olfactives \nORDER BY id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, region, temporality, symbolicMaterials \nFROM traditions_olfactives \nORDER BY id;\n",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Égypte — Akhet",
+      "region": "Égypte antique",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"pierre blanche\",\"kaolin\",\"myrrhe claire\",\"résine dorée\"]"
+    },
+    {
+      "id": "2",
+      "name": "Mésopotamie — Shuruppak",
+      "region": "Mésopotamie antique",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"argile rouge\",\"terre ocre\",\"bitume\",\"argile brûlée\"]"
+    },
+    {
+      "id": "3",
+      "name": "Mycène",
+      "region": "Grèce mycénienne",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"figue sèche\",\"ambre sec\",\"pierre calcaire\"]"
+    },
+    {
+      "id": "4",
+      "name": "Tell Halaf",
+      "region": "Syrie du Nord",
+      "temporality": "archaic",
+      "symbolicMaterials": "[\"argile humide\",\"fumée\",\"terre sombre\"]"
+    },
+    {
+      "id": "5",
+      "name": "Meroe",
+      "region": "Nubie / Soudan",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"sable ocre\",\"myrrhe noire\",\"résine solaire\"]"
+    },
+    {
+      "id": "6",
+      "name": "Lyonesse",
+      "region": "Atlantide celtique (légendaire)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"pierre blanche immergée\",\"aldéhydes givrés\",\"minéral blanc\"]"
+    },
+    {
+      "id": "7",
+      "name": "Atlantide Lumineuse",
+      "region": "Océan Atlantique (mythologique)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"calcite\",\"sel blanc\",\"ambrox\",\"ozone\",\"eau minérale\",\"ionics\"]"
+    },
+    {
+      "id": "8",
+      "name": "Atlantide Abyssale",
+      "region": "Océan Atlantique profond (mythologique)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"algues minérales\",\"terre sombre\",\"ambrette\",\"kelp\",\"corail\"]"
+    },
+    {
+      "id": "9",
+      "name": "Akkad",
+      "region": "Mésopotamie (Empire akkadien)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"bitume sacré\",\"huile sombre\"]"
+    },
+    {
+      "id": "10",
+      "name": "Nubie",
+      "region": "Nubie / Haute-Égypte",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"encens solaire\",\"ambre\",\"terre ocre chaude\"]"
+    },
+    {
+      "id": "11",
+      "name": "Dilmun",
+      "region": "Golfe Persique (Bahreïn)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"encens\",\"myrrhe\",\"dattes\",\"eau douce\"]"
+    },
+    {
+      "id": "12",
+      "name": "Umbria Arcana",
+      "region": "Dimension ombrale (conceptuelle)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"ombre\",\"obscurité\",\"voile\",\"matière noire\"]"
+    },
+    {
+      "id": "13",
+      "name": "Cryo-Atlas",
+      "region": "Régions glaciaires (conceptuelle)",
+      "temporality": "futuristic",
+      "symbolicMaterials": "[\"glace\",\"minéral froid\",\"aldéhydes glaciaires\"]"
+    },
+    {
+      "id": "14",
+      "name": "November Humid",
+      "region": "Climat novembre humide (conceptuelle)",
+      "temporality": "futuristic",
+      "symbolicMaterials": "[\"humidité\",\"terre mouillée\",\"feuilles mortes\",\"brume\"]"
+    },
+    {
+      "id": "15",
+      "name": "Sogdiane",
+      "region": "Asie Centrale (Route de la Soie)",
+      "temporality": "medieval",
+      "symbolicMaterials": "[\"soie\",\"épices\",\"résines orientales\",\"musc\"]"
+    },
+    {
+      "id": "16",
+      "name": "Grèce Sombre",
+      "region": "Grèce antique (aspect chthonien)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"terre sombre\",\"résine de pin\",\"myrte\",\"asphodèle\"]"
+    },
+    {
+      "id": "17",
+      "name": "Lemuria",
+      "region": "Océan Indien / Pacifique (légendaire)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"végétation tropicale\",\"pierre volcanique\",\"fleurs exotiques\"]"
+    },
+    {
+      "id": "18",
+      "name": "Mu",
+      "region": "Océan Pacifique (légendaire)",
+      "temporality": "abyssal",
+      "symbolicMaterials": "[\"pierre volcanique\",\"corail\",\"coquillages\",\"sel marin\"]"
+    },
+    {
+      "id": "19",
+      "name": "Thulé",
+      "region": "Extrême Nord (légendaire)",
+      "temporality": "archaic",
+      "symbolicMaterials": "[\"glace\",\"pierre nordique\",\"lichen\",\"mousse arctique\"]"
+    },
+    {
+      "id": "20",
+      "name": "Ophir",
+      "region": "Localisation incertaine (biblique)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"or\",\"encens\",\"bois précieux\",\"pierres précieuses\"]"
+    },
+    {
+      "id": "21",
+      "name": "Malabar",
+      "region": "Côte sud-ouest de l'Inde",
+      "temporality": "medieval",
+      "symbolicMaterials": "[\"poivre\",\"cardamome\",\"bois de santal\",\"épices\"]"
+    },
+    {
+      "id": "22",
+      "name": "Nag Hammadi",
+      "region": "Haute-Égypte",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"papyrus\",\"encre\",\"terre sèche\",\"résine de copte\"]"
+    },
+    {
+      "id": "23",
+      "name": "Akrotiri",
+      "region": "Santorin / Théra (Grèce)",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"cendre volcanique\",\"pierre ponce\",\"fresque\",\"safran\"]"
+    },
+    {
+      "id": "24",
+      "name": "Sahara Antique",
+      "region": "Sahara (période humide)",
+      "temporality": "archaic",
+      "symbolicMaterials": "[\"sable\",\"terre rouge\",\"acacia\",\"myrrhe du désert\"]"
+    },
+    {
+      "id": "25",
+      "name": "Himalaya Rituel",
+      "region": "Chaîne himalayenne",
+      "temporality": "medieval",
+      "symbolicMaterials": "[\"encens tibétain\",\"juniper\",\"rhododendron\",\"pierre de montagne\"]"
+    },
+    {
+      "id": "26",
+      "name": "Anthropocène",
+      "region": "Ère géologique actuelle",
+      "temporality": "futuristic",
+      "symbolicMaterials": "[\"plastique\",\"béton\",\"pétrole\",\"pollution\",\"synthétique\"]"
+    },
+    {
+      "id": "30001",
+      "name": "Colombie",
+      "region": "Amérique du Sud - Colombie",
+      "temporality": "antique",
+      "symbolicMaterials": "[\"Café Geisha\",\"Cacao Colombien\",\"Baume de Tolú\",\"Copal Colombien\",\"Cedro Rosado\",\"Lippia Origanoides\",\"Palo Santo\"]"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\ttemporality\tsymbolicMaterials\n1\tÉgypte — Akhet\tÉgypte antique\tantique\t[\"pierre blanche\",\"kaolin\",\"myrrhe claire\",\"résine dorée\"]\n2\tMésopotamie — Shuruppak\tMésopotamie antique\tantique\t[\"argile rouge\",\"terre ocre\",\"bitume\",\"argile brûlée\"]\n3\tMycène\tGrèce mycénienne\tantique\t[\"figue sèche\",\"ambre sec\",\"pierre calcaire\"]\n4\tTell Halaf\tSyrie du Nord\tarchaic\t[\"argile humide\",\"fumée\",\"terre sombre\"]\n5\tMeroe\tNubie / Soudan\tantique\t[\"sable ocre\",\"myrrhe noire\",\"résine solaire\"]\n6\tLyonesse\tAtlantide celtique (légendaire)\tabyssal\t[\"pierre blanche immergée\",\"aldéhydes givrés\",\"minéral blanc\"]\n7\tAtlantide Lumineuse\tOcéan Atlantique (mythologique)\tabyssal\t[\"calcite\",\"sel blanc\",\"ambrox\",\"ozone\",\"eau minérale\",\"ionics\"]\n8\tAtlantide Abyssale\tOcéan Atlantique profond (mythologique)\tabyssal\t[\"algues minérales\",\"terre sombre\",\"ambrette\",\"kelp\",\"corail\"]\n9\tAkkad\tMésopotamie (Empire akkadien)\tantique\t[\"bitume sacré\",\"huile sombre\"]\n10\tNubie\tNubie / Haute-Égypte\tantique\t[\"encens solaire\",\"ambre\",\"terre ocre chaude\"]\n11\tDilmun\tGolfe Persique (Bahreïn)\tantique\t[\"encens\",\"myrrhe\",\"dattes\",\"eau douce\"]\n12\tUmbria Arcana\tDimension ombrale (conceptuelle)\tabyssal\t[\"ombre\",\"obscurité\",\"voile\",\"matière noire\"]\n13\tCryo-Atlas\tRégions glaciaires (conceptuelle)\tfuturistic\t[\"glace\",\"minéral froid\",\"aldéhydes glaciaires\"]\n14\tNovember Humid\tClimat novembre humide (conceptuelle)\tfuturistic\t[\"humidité\",\"terre mouillée\",\"feuilles mortes\",\"brume\"]\n15\tSogdiane\tAsie Centrale (Route de la Soie)\tmedieval\t[\"soie\",\"épices\",\"résines orientales\",\"musc\"]\n16\tGrèce Sombre\tGrèce antique (aspect chthonien)\tantique\t[\"terre sombre\",\"résine de pin\",\"myrte\",\"asphodèle\"]\n17\tLemuria\tOcéan Indien / Pacifique (légendaire)\tabyssal\t[\"végétation tropicale\",\"pierre volcanique\",\"fleurs exotiques\"]\n18\tMu\tOcéan Pacifique (légendaire)\tabyssal\t[\"pierre volcanique\",\"corail\",\"coquillages\",\"sel marin\"]\n19\tThulé\tExtrême Nord (légendaire)\tarchaic\t[\"glace\",\"pierre nordique\",\"lichen\",\"mousse arctique\"]\n20\tOphir\tLocalisation incertaine (biblique)\tantique\t[\"or\",\"encens\",\"bois précieux\",\"pierres précieuses\"]\n21\tMalabar\tCôte sud-ouest de l'Inde\tmedieval\t[\"poivre\",\"cardamome\",\"bois de santal\",\"épices\"]\n22\tNag Hammadi\tHaute-Égypte\tantique\t[\"papyrus\",\"encre\",\"terre sèche\",\"résine de copte\"]\n23\tAkrotiri\tSantorin / Théra (Grèce)\tantique\t[\"cendre volcanique\",\"pierre ponce\",\"fresque\",\"safran\"]\n24\tSahara Antique\tSahara (période humide)\tarchaic\t[\"sable\",\"terre rouge\",\"acacia\",\"myrrhe du désert\"]\n25\tHimalaya Rituel\tChaîne himalayenne\tmedieval\t[\"encens tibétain\",\"juniper\",\"rhododendron\",\"pierre de montagne\"]\n26\tAnthropocène\tÈre géologique actuelle\tfuturistic\t[\"plastique\",\"béton\",\"pétrole\",\"pollution\",\"synthétique\"]\n30001\tColombie\tAmérique du Sud - Colombie\tantique\t[\"Café Geisha\",\"Cacao Colombien\",\"Baume de Tolú\",\"Copal Colombien\",\"Cedro Rosado\",\"Lippia Origanoides\",\"Palo Santo\"]\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

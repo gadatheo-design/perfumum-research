@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, name, region, zone_type, threat_level, species_count, conservation_priority, conservation_efforts, organizations_involved FROM geographic_zones",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, zone_type, threat_level, species_count, conservation_priority, conservation_efforts, organizations_involved FROM geographic_zones",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'organizations_involved' in 'field list'"
+  ]
+}

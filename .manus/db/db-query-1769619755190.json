@@ -1,0 +1,70 @@
+{
+  "query": "SELECT id, name, region, country FROM terroirs WHERE country LIKE '%Colombi%' OR region LIKE '%Andes%' OR region LIKE '%Carib%' LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, country FROM terroirs WHERE country LIKE '%Colombi%' OR region LIKE '%Andes%' OR region LIKE '%Carib%' LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "San Andrés y Providencia",
+      "region": "Caraïbes",
+      "country": "Colombie"
+    },
+    {
+      "id": "2",
+      "name": "Santander & Huila",
+      "region": "Andes",
+      "country": "Colombie"
+    },
+    {
+      "id": "3",
+      "name": "Cauca Valley",
+      "region": "Valle del Cauca",
+      "country": "Colombie"
+    },
+    {
+      "id": "60001",
+      "name": "Colombia",
+      "region": "Pays; focus Andes + Caraïbes.",
+      "country": "Colombie"
+    },
+    {
+      "id": "60002",
+      "name": "Colombia — Andes",
+      "region": "Cundinamarca, Antioquia, etc. (macro-région).",
+      "country": "Colombie"
+    },
+    {
+      "id": "60003",
+      "name": "Colombia — Caribbean",
+      "region": "Côte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.",
+      "country": "Colombie"
+    },
+    {
+      "id": "60004",
+      "name": "San Andrés (archipel)",
+      "region": "Île / archipel; terrain utilisateur.",
+      "country": "Colombie"
+    },
+    {
+      "id": "90001",
+      "name": "Amazonie Colombienne",
+      "region": "Amazonie",
+      "country": "Colombie"
+    },
+    {
+      "id": "90002",
+      "name": "Putumayo",
+      "region": "Amazonie",
+      "country": "Colombie"
+    },
+    {
+      "id": "90003",
+      "name": "Vaupés",
+      "region": "Amazonie",
+      "country": "Colombie"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\tcountry\n1\tSan Andrés y Providencia\tCaraïbes\tColombie\n2\tSantander & Huila\tAndes\tColombie\n3\tCauca Valley\tValle del Cauca\tColombie\n60001\tColombia\tPays; focus Andes + Caraïbes.\tColombie\n60002\tColombia — Andes\tCundinamarca, Antioquia, etc. (macro-région).\tColombie\n60003\tColombia — Caribbean\tCôte Caraïbe; incl. archipel de San Andrés, Providencia y Santa Catalina.\tColombie\n60004\tSan Andrés (archipel)\tÎle / archipel; terrain utilisateur.\tColombie\n90001\tAmazonie Colombienne\tAmazonie\tColombie\n90002\tPutumayo\tAmazonie\tColombie\n90003\tVaupés\tAmazonie\tColombie\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

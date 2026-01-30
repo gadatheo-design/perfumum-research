@@ -1,0 +1,85 @@
+{
+  "query": "SELECT COUNT(*) as total, category, COUNT(*) as count FROM glossary GROUP BY category ORDER BY count DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, category, COUNT(*) as count FROM glossary GROUP BY category ORDER BY count DESC;",
+  "rows": [
+    {
+      "total": "15",
+      "category": "chimie",
+      "count": "15"
+    },
+    {
+      "total": "13",
+      "category": "concept",
+      "count": "13"
+    },
+    {
+      "total": "7",
+      "category": "methodologie",
+      "count": "7"
+    },
+    {
+      "total": "4",
+      "category": "protocole",
+      "count": "4"
+    },
+    {
+      "total": "3",
+      "category": "support",
+      "count": "3"
+    },
+    {
+      "total": "3",
+      "category": "extraction",
+      "count": "3"
+    },
+    {
+      "total": "3",
+      "category": "interaction",
+      "count": "3"
+    },
+    {
+      "total": "3",
+      "category": "reaction",
+      "count": "3"
+    },
+    {
+      "total": "3",
+      "category": "propriete",
+      "count": "3"
+    },
+    {
+      "total": "2",
+      "category": "formulation",
+      "count": "2"
+    },
+    {
+      "total": "2",
+      "category": "molecule",
+      "count": "2"
+    },
+    {
+      "total": "2",
+      "category": "dispositif",
+      "count": "2"
+    },
+    {
+      "total": "1",
+      "category": "technique",
+      "count": "1"
+    },
+    {
+      "total": "1",
+      "category": "application",
+      "count": "1"
+    },
+    {
+      "total": "1",
+      "category": "structure",
+      "count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tcategory\tcount\n15\tchimie\t15\n13\tconcept\t13\n7\tmethodologie\t7\n4\tprotocole\t4\n3\tsupport\t3\n3\textraction\t3\n3\tinteraction\t3\n3\treaction\t3\n3\tpropriete\t3\n2\tformulation\t2\n2\tmolecule\t2\n2\tdispositif\t2\n1\ttechnique\t1\n1\tapplication\t1\n1\tstructure\t1\n",
+  "stderr": "",
+  "execution_time_ms": 133
+}

@@ -1,0 +1,8 @@
+{
+  "query": "SELECT 'molecules' as entity, COUNT(*) as count FROM molecules\nUNION ALL\nSELECT 'plants', COUNT(*) FROM plants\nUNION ALL\nSELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL\nSELECT 'matieres_premieres', COUNT(*) FROM matieres_premieres\nUNION ALL\nSELECT 'geographic_origins', COUNT(*) FROM geographic_origins",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'molecules' as entity, COUNT(*) as count FROM molecules\nUNION ALL\nSELECT 'plants', COUNT(*) FROM plants\nUNION ALL\nSELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL\nSELECT 'matieres_premieres', COUNT(*) FROM matieres_premieres\nUNION ALL\nSELECT 'geographic_origins', COUNT(*) FROM geographic_origins",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 1: Table 'h2pjhhjbh276xmnbncjhcp.matieres_premieres' doesn't exist"
+  ]
+}

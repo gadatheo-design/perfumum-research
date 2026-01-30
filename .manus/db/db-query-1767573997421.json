@@ -1,0 +1,850 @@
+{
+  "query": "SELECT id, name, family, olfactiveProfile, chemical_class FROM molecules WHERE radar_intensity = 50 AND radar_freshness = 50 AND radar_warmth = 50 AND radar_sweetness = 50 AND radar_spiciness = 50 AND radar_earthiness = 50 ORDER BY family, name LIMIT 150",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, family, olfactiveProfile, chemical_class FROM molecules WHERE radar_intensity = 50 AND radar_freshness = 50 AND radar_warmth = 50 AND radar_sweetness = 50 AND radar_spiciness = 50 AND radar_earthiness = 50 ORDER BY family, name LIMIT 150",
+  "rows": [
+    {
+      "id": "750008",
+      "name": "Aporphine",
+      "family": "NULL",
+      "olfactiveProfile": "Inodore",
+      "chemical_class": "other"
+    },
+    {
+      "id": "750011",
+      "name": "Créosol",
+      "family": "NULL",
+      "olfactiveProfile": "Fumé, bacon, bois brûlé",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "750002",
+      "name": "Damascenone",
+      "family": "NULL",
+      "olfactiveProfile": "Rose intense, miel, tabac, fruité complexe",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "750010",
+      "name": "Damianine",
+      "family": "NULL",
+      "olfactiveProfile": "Légèrement amer",
+      "chemical_class": "other"
+    },
+    {
+      "id": "750009",
+      "name": "Harmane",
+      "family": "NULL",
+      "olfactiveProfile": "Inodore",
+      "chemical_class": "heterocyclic"
+    },
+    {
+      "id": "750001",
+      "name": "Hashishene",
+      "family": "NULL",
+      "olfactiveProfile": "Terreux, floral doux, signature unique du hash marocain",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "750003",
+      "name": "Incensole",
+      "family": "NULL",
+      "olfactiveProfile": "Balsamique, encens, boisé sacré",
+      "chemical_class": "diterpene"
+    },
+    {
+      "id": "750004",
+      "name": "Leonurine",
+      "family": "NULL",
+      "olfactiveProfile": "Herbacé léger",
+      "chemical_class": "other"
+    },
+    {
+      "id": "750005",
+      "name": "Mésembrine",
+      "family": "NULL",
+      "olfactiveProfile": "Inodore",
+      "chemical_class": "other"
+    },
+    {
+      "id": "750006",
+      "name": "Nuciférine",
+      "family": "NULL",
+      "olfactiveProfile": "Inodore",
+      "chemical_class": "other"
+    },
+    {
+      "id": "750012",
+      "name": "Syringol",
+      "family": "NULL",
+      "olfactiveProfile": "Fumé doux, bacon, clou de girofle",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "750007",
+      "name": "β-Asarone",
+      "family": "NULL",
+      "olfactiveProfile": "Épicé, boisé, notes de cannelle",
+      "chemical_class": "aromatic"
+    },
+    {
+      "id": "510014",
+      "name": "Lulo",
+      "family": "Agrumes tropicaux",
+      "olfactiveProfile": "Agrume tropical acidulé, notes de citron vert, ananas, passion, rhubarbe",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570074",
+      "name": "Pipérine",
+      "family": "Alcaloïde",
+      "olfactiveProfile": "Note poivre noir, piquante, épicée",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510011",
+      "name": "Borrachero",
+      "family": "Alcaloïdes tropaniques",
+      "olfactiveProfile": "Floral narcotique puissant, notes de jasmin, tubéreuse, datura",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510013",
+      "name": "Coca Décocaïnisée",
+      "family": "Alcaloïdes tropaniques",
+      "olfactiveProfile": "Vert herbacé mentholé, notes de feuille fraîche, thé vert, légèrement anisé",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "690002",
+      "name": "2-Phényléthanol",
+      "family": "Alcool aromatique",
+      "olfactiveProfile": "Rose, miel, floral doux, légèrement épicé",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "570055",
+      "name": "Alcool cinnamique",
+      "family": "Alcool aromatique",
+      "olfactiveProfile": "Note balsamique, jacinthe, sucrée",
+      "chemical_class": "aromatic"
+    },
+    {
+      "id": "570054",
+      "name": "Alcool phényléthylique",
+      "family": "Alcool aromatique",
+      "olfactiveProfile": "Note rose, miel, pain",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570043",
+      "name": "Cinnamaldéhyde",
+      "family": "Aldéhyde aromatique",
+      "olfactiveProfile": "Note cannelle, épicée, sucrée",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570068",
+      "name": "Hélional",
+      "family": "Aldéhyde synthétique",
+      "olfactiveProfile": "Note marine, ozonnée, métallique",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570069",
+      "name": "Ozonal",
+      "family": "Aldéhyde synthétique",
+      "olfactiveProfile": "Note ozone, métallique, fraîche",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570045",
+      "name": "Citral",
+      "family": "Aldéhyde terpénique",
+      "olfactiveProfile": "Note citron, verte, fraîche",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "690005",
+      "name": "Citronellal",
+      "family": "Aldéhyde terpénique",
+      "olfactiveProfile": "Citronné, frais, herbacé, légèrement floral",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "510020",
+      "name": "Baume de Tolú",
+      "family": "Baumes",
+      "olfactiveProfile": "Balsamique vanillé caramel, notes de vanille, benjoin, cannelle, miel",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510025",
+      "name": "Copaiba",
+      "family": "Baumes",
+      "olfactiveProfile": "Baumier résineux doux, notes de bois, miel, légèrement épicé, balsamique",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510017",
+      "name": "Cedro Rosado",
+      "family": "Bois nobles",
+      "olfactiveProfile": "Boisé noble rosé résineux, notes de cèdre, santal, légèrement épicé",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510018",
+      "name": "Nogal Colombien",
+      "family": "Bois nobles",
+      "olfactiveProfile": "Boisé profond tannique, notes de noix, cuir, tabac, terre humide",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510023",
+      "name": "Cacao Colombien",
+      "family": "Cacao",
+      "olfactiveProfile": "Chocolat amer terreux, notes de cacao torréfié, noix, tabac, cuir",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510021",
+      "name": "Café Geisha",
+      "family": "Café",
+      "olfactiveProfile": "Floral jasmin bergamote, notes de fleur blanche, agrume, thé vert, miel",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "720032",
+      "name": "4-Vinylguaiacol",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Fumé, clou de girofle",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "720031",
+      "name": "Acétophénone",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Floral, amande, cerise",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720030",
+      "name": "Benzaldéhyde",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Amande amère, cerise",
+      "chemical_class": "aldehyde"
+    },
+    {
+      "id": "720029",
+      "name": "Cembratrienol",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Ambré, boisé, tabac",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720022",
+      "name": "Dihydro-β-ionone",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Boisé, ambré, tabac",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720026",
+      "name": "Megastigmatrienone A",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Tabac, épicé, boisé",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720028",
+      "name": "Neophytadiene",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Herbacé, vert, tabac",
+      "chemical_class": "diterpene"
+    },
+    {
+      "id": "720033",
+      "name": "Nicotine",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Âcre, tabac (non olfactif)",
+      "chemical_class": "heterocyclic"
+    },
+    {
+      "id": "720034",
+      "name": "Nornicotine",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Âcre (non olfactif)",
+      "chemical_class": "heterocyclic"
+    },
+    {
+      "id": "720027",
+      "name": "Solanone",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Tabac, foin, herbacé, terreux",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720025",
+      "name": "α-Damascone",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Fruité, pomme, rose",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720020",
+      "name": "α-Ionone",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Violette, boisé, fruité, iris",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720023",
+      "name": "β-Damascenone",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Fruité, pomme, rose, prune, thé, tabac",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720024",
+      "name": "β-Damascone",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Tabac, rose, pomme, thé, fruité",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720021",
+      "name": "β-Ionone",
+      "family": "Composé du Tabac",
+      "olfactiveProfile": "Violette, boisé, fruité, cèdre",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "570044",
+      "name": "β-Damascénone",
+      "family": "Cétone",
+      "olfactiveProfile": "Note rose, fruitée, miel",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "690006",
+      "name": "cis-Jasmone",
+      "family": "Cétone cyclique",
+      "olfactiveProfile": "Jasmin, floral herbacé, fruité, céleri",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "570047",
+      "name": "Camphre",
+      "family": "Cétone monoterpénique",
+      "olfactiveProfile": "Note camphrée, médicinale, fraîche",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "690008",
+      "name": "Phytol",
+      "family": "Diterpène alcool",
+      "olfactiveProfile": "Vert, balsamique, floral doux, herbacé",
+      "chemical_class": "diterpene"
+    },
+    {
+      "id": "570059",
+      "name": "Acétate de benzyle",
+      "family": "Ester aromatique",
+      "olfactiveProfile": "Note jasmin, fruitée, florale",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570058",
+      "name": "Acétate de phényléthyle",
+      "family": "Ester aromatique",
+      "olfactiveProfile": "Note rose, miel, fruitée",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570060",
+      "name": "Benzoate de benzyle",
+      "family": "Ester aromatique",
+      "olfactiveProfile": "Note balsamique, amande, sucrée",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "690007",
+      "name": "Méthyl jasmonate",
+      "family": "Ester jasmonique",
+      "olfactiveProfile": "Jasmin intense, fruité, légèrement herbacé",
+      "chemical_class": "ester"
+    },
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol",
+      "family": "Ester phénolique",
+      "olfactiveProfile": "Note clou de girofle, épicée, florale",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570057",
+      "name": "Acétate de géranyle",
+      "family": "Ester terpénique",
+      "olfactiveProfile": "Note fruitée, rose, verte",
+      "chemical_class": "ester"
+    },
+    {
+      "id": "570056",
+      "name": "Acétate de linalyle",
+      "family": "Ester terpénique",
+      "olfactiveProfile": "Note lavande, bergamote, fraîche",
+      "chemical_class": "ester"
+    },
+    {
+      "id": "510022",
+      "name": "Fleur de Café",
+      "family": "Fleurs blanches",
+      "olfactiveProfile": "Jasmin blanc délicat, notes de fleur d'oranger, néroli, miel, légèrement vert",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510015",
+      "name": "Guanábana",
+      "family": "Fruits tropicaux",
+      "olfactiveProfile": "Crémeux tropical fraise-ananas, notes lactées, coco, litchi, doux",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510016",
+      "name": "Uchuva",
+      "family": "Fruits tropicaux",
+      "olfactiveProfile": "Acidulé complexe mangue-groseille, notes de caramel, miel, agrume",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "660004",
+      "name": "Bergaptène",
+      "family": "Furocoumarine",
+      "olfactiveProfile": "Agrume, bergamote, légèrement amer, photosensibilisant",
+      "chemical_class": "coumarin"
+    },
+    {
+      "id": "510028",
+      "name": "Calycolpus Moritzianus",
+      "family": "Herbes aromatiques",
+      "olfactiveProfile": "Eucalyptol frais menthe andine, notes de camphre, romarin, pin",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510026",
+      "name": "Lippia Origanoides",
+      "family": "Herbes aromatiques",
+      "olfactiveProfile": "Phénols aromatiques herbacé médicinal, notes d'origan, thym, camphre",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510029",
+      "name": "Turnera Diffusa",
+      "family": "Herbes aromatiques",
+      "olfactiveProfile": "Aphrodisiaque floral herbacé, notes de camomille, figue, miel, légèrement amer",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570071",
+      "name": "Cade",
+      "family": "Huile empyreumatique",
+      "olfactiveProfile": "Note fumée, cuir, goudron",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570070",
+      "name": "Jasmine lactone",
+      "family": "Lactone",
+      "olfactiveProfile": "Note jasmin, crémeuse, fruitée",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570073",
+      "name": "Sabinène",
+      "family": "Monoterpène",
+      "olfactiveProfile": "Note poivrée, épicée, boisée",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570072",
+      "name": "p-Cymène",
+      "family": "Monoterpène",
+      "olfactiveProfile": "Note cumin, épicée, citronnée",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "630001",
+      "name": "Carvone",
+      "family": "Monoterpène cétonique",
+      "olfactiveProfile": "Menthe verte fraîche et sucrée (L-carvone) ou carvi épicé et chaud (D-carvone). Notes herbacées avec une douceur caractéristique. La L-carvone évoque la menthe verte et les chewing-gums, tandis que la D-carvone rappelle le carvi, l'aneth et le cumin.",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "570049",
+      "name": "Bornéol",
+      "family": "Monoterpénol",
+      "olfactiveProfile": "Note camphrée, boisée, fraîche",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570051",
+      "name": "Citronellol",
+      "family": "Monoterpénol",
+      "olfactiveProfile": "Note rose, citronnée, fraîche",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "570050",
+      "name": "Géraniol",
+      "family": "Monoterpénol",
+      "olfactiveProfile": "Note rose, florale, sucrée",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "570046",
+      "name": "Menthol",
+      "family": "Monoterpénol",
+      "olfactiveProfile": "Note menthe, fraîche, camphrée",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "570053",
+      "name": "Terpinène-4-ol",
+      "family": "Monoterpénol",
+      "olfactiveProfile": "Note boisée, terreuse, épicée",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "570052",
+      "name": "α-Terpinéol",
+      "family": "Monoterpénol",
+      "olfactiveProfile": "Note lilas, pin, fraîche",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570048",
+      "name": "Eucalyptol",
+      "family": "Oxyde terpénique",
+      "olfactiveProfile": "Note eucalyptus, fraîche, médicinale",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "570039",
+      "name": "Eugénol",
+      "family": "Phénol aromatique",
+      "olfactiveProfile": "Note clou de girofle, épicée, chaude",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "570040",
+      "name": "Guaïacol",
+      "family": "Phénol aromatique",
+      "olfactiveProfile": "Note fumée, boisée, balsamique",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570041",
+      "name": "Carvacrol",
+      "family": "Phénol monoterpénique",
+      "olfactiveProfile": "Phénolique épicé et herbacé aux facettes de thym et d'origan. Notes chaudes et piquantes avec une légère amertume. Évoque les herbes méditerranéennes séchées et les pizzas italiennes.",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "570042",
+      "name": "Thymol",
+      "family": "Phénol monoterpénique",
+      "olfactiveProfile": "Phénolique médicinal et herbacé aux facettes de thym frais. Notes chaudes et antiseptiques avec une légère douceur. Évoque les pastilles pour la gorge, les herbes de Provence et la propreté.",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "630002",
+      "name": "Estragole",
+      "family": "Phénylpropanoïde",
+      "olfactiveProfile": "Anisé doux et herbacé avec des facettes vertes et légèrement épicées. Évoque l'estragon frais, le basilic exotique et la réglisse. Notes sucrées et aromatiques avec une fraîcheur caractéristique.",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "660003",
+      "name": "Méthyl-eugénol",
+      "family": "Phénylpropanoïde",
+      "olfactiveProfile": "Clou de girofle, épicé, chaud, légèrement anisé",
+      "chemical_class": "phenol"
+    },
+    {
+      "id": "510027",
+      "name": "Piper Aduncum",
+      "family": "Poivres",
+      "olfactiveProfile": "Poivre vert piquant, notes de feuille, herbe, légèrement anisé, médicinal",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "510019",
+      "name": "Copal Colombien",
+      "family": "Résines sacrées",
+      "olfactiveProfile": "Résine sacrée fumée, notes d'encens, pin, citron, balsamique",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570065",
+      "name": "Thujopsène",
+      "family": "Sesquiterpène",
+      "olfactiveProfile": "Note cèdre, boisée, épicée",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570063",
+      "name": "α-Cédrène",
+      "family": "Sesquiterpène",
+      "olfactiveProfile": "Note cèdre, boisée, sèche",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570066",
+      "name": "α-Humulène",
+      "family": "Sesquiterpène",
+      "olfactiveProfile": "Note boisée, terreuse, houblon",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "690009",
+      "name": "α-Vétivène",
+      "family": "Sesquiterpène",
+      "olfactiveProfile": "Boisé, terreux, fumé, caractère vétiver",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "570064",
+      "name": "β-Cédrène",
+      "family": "Sesquiterpène",
+      "olfactiveProfile": "Note cèdre, boisée, douce",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "690010",
+      "name": "β-Vétivène",
+      "family": "Sesquiterpène",
+      "olfactiveProfile": "Boisé profond, terreux, légèrement fumé",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "690011",
+      "name": "Isovalencénol",
+      "family": "Sesquiterpène alcool",
+      "olfactiveProfile": "Boisé, terreux, légèrement agrumé, vétiver",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "690004",
+      "name": "Nerolidol",
+      "family": "Sesquiterpène alcool",
+      "olfactiveProfile": "Boisé, floral, écorce fraîche, légèrement fruité",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "690012",
+      "name": "Zizanol",
+      "family": "Sesquiterpène alcool",
+      "olfactiveProfile": "Boisé, terreux, humide, racine",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "690013",
+      "name": "Nootkatone",
+      "family": "Sesquiterpène cétone",
+      "olfactiveProfile": "Pamplemousse, boisé, terreux, agrumé",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "570062",
+      "name": "Vétivérol",
+      "family": "Sesquiterpénol",
+      "olfactiveProfile": "Note vétiver, boisée, terreuse",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570075",
+      "name": "α-Androsténol",
+      "family": "Stéroïde",
+      "olfactiveProfile": "Note musquée, boisée, sucrée",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "570067",
+      "name": "Calone",
+      "family": "Synthétique marin",
+      "olfactiveProfile": "Note marine, pastèque, fraîche",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "660002",
+      "name": "Citronellol",
+      "family": "Terpène",
+      "olfactiveProfile": "Rose, citronné, frais, légèrement vert",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "660001",
+      "name": "Géraniol",
+      "family": "Terpène",
+      "olfactiveProfile": "Rose, géranium, citronné, floral doux",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720005",
+      "name": "3-Carène",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Doux, pin, cèdre",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720003",
+      "name": "Camphène",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Camphre, pin, terreux",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720018",
+      "name": "Caryophyllène oxide",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Boisé, épicé, doux",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "720019",
+      "name": "Cédrol",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Cèdre, boisé, ambré",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720013",
+      "name": "Farnésène",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Pomme verte, boisé",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "720009",
+      "name": "Fenchol",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Camphre, citron, terreux",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720010",
+      "name": "Fenchone",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Camphre, menthe",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720017",
+      "name": "Guaiol",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Pin, boisé, rose",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720008",
+      "name": "Isopulégol",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Menthe, fraîcheur",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720011",
+      "name": "Pulégone",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Menthe poivrée, camphre",
+      "chemical_class": "ketone"
+    },
+    {
+      "id": "720001",
+      "name": "Terpinolène",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Floral, herbacé, pin, agrumes légers",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720012",
+      "name": "Valencène",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Agrumes, orange douce",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "720015",
+      "name": "cis-Nérolidol",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Écorce, rose, boisé",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720014",
+      "name": "trans-Nérolidol",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Boisé, écorce, floral",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720016",
+      "name": "α-Bisabolol",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Floral, doux, camomille",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720004",
+      "name": "α-Phellandrène",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Menthe, citrus, poivré",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720006",
+      "name": "α-Terpinène",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Citron, herbacé",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720002",
+      "name": "β-Ocimène",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Doux, herbacé, boisé",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720007",
+      "name": "γ-Terpinène",
+      "family": "Terpène (Cannabis)",
+      "olfactiveProfile": "Citrus, herbacé, doux",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "510024",
+      "name": "Vanilla Pompona",
+      "family": "Vanille",
+      "olfactiveProfile": "Vanille tropicale intense, notes de caramel, pruneaux, tabac blond, miel",
+      "chemical_class": "NULL"
+    },
+    {
+      "id": "690003",
+      "name": "Oxyde de rose",
+      "family": "Éther cyclique",
+      "olfactiveProfile": "Rose fraîche, verte, métallique, géranium",
+      "chemical_class": "ether"
+    },
+    {
+      "id": "510012",
+      "name": "Yagé",
+      "family": "β-Carbolines",
+      "olfactiveProfile": "Boisé amer sacré, notes de liane, écorce, terre humide, chamanique",
+      "chemical_class": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\tolfactiveProfile\tchemical_class\n750008\tAporphine\tNULL\tInodore\tother\n750011\tCréosol\tNULL\tFumé, bacon, bois brûlé\tphenol\n750002\tDamascenone\tNULL\tRose intense, miel, tabac, fruité complexe\tketone\n750010\tDamianine\tNULL\tLégèrement amer\tother\n750009\tHarmane\tNULL\tInodore\theterocyclic\n750001\tHashishene\tNULL\tTerreux, floral doux, signature unique du hash marocain\tmonoterpene\n750003\tIncensole\tNULL\tBalsamique, encens, boisé sacré\tditerpene\n750004\tLeonurine\tNULL\tHerbacé léger\tother\n750005\tMésembrine\tNULL\tInodore\tother\n750006\tNuciférine\tNULL\tInodore\tother\n750012\tSyringol\tNULL\tFumé doux, bacon, clou de girofle\tphenol\n750007\tβ-Asarone\tNULL\tÉpicé, boisé, notes de cannelle\taromatic\n510014\tLulo\tAgrumes tropicaux\tAgrume tropical acidulé, notes de citron vert, ananas, passion, rhubarbe\tNULL\n570074\tPipérine\tAlcaloïde\tNote poivre noir, piquante, épicée\tNULL\n510011\tBorrachero\tAlcaloïdes tropaniques\tFloral narcotique puissant, notes de jasmin, tubéreuse, datura\tNULL\n510013\tCoca Décocaïnisée\tAlcaloïdes tropaniques\tVert herbacé mentholé, notes de feuille fraîche, thé vert, légèrement anisé\tNULL\n690002\t2-Phényléthanol\tAlcool aromatique\tRose, miel, floral doux, légèrement épicé\talcohol\n570055\tAlcool cinnamique\tAlcool aromatique\tNote balsamique, jacinthe, sucrée\taromatic\n570054\tAlcool phényléthylique\tAlcool aromatique\tNote rose, miel, pain\tNULL\n570043\tCinnamaldéhyde\tAldéhyde aromatique\tNote cannelle, épicée, sucrée\tNULL\n570068\tHélional\tAldéhyde synthétique\tNote marine, ozonnée, métallique\tNULL\n570069\tOzonal\tAldéhyde synthétique\tNote ozone, métallique, fraîche\tNULL\n570045\tCitral\tAldéhyde terpénique\tNote citron, verte, fraîche\taldehyde\n690005\tCitronellal\tAldéhyde terpénique\tCitronné, frais, herbacé, légèrement floral\taldehyde\n510020\tBaume de Tolú\tBaumes\tBalsamique vanillé caramel, notes de vanille, benjoin, cannelle, miel\tNULL\n510025\tCopaiba\tBaumes\tBaumier résineux doux, notes de bois, miel, légèrement épicé, balsamique\tNULL\n510017\tCedro Rosado\tBois nobles\tBoisé noble rosé résineux, notes de cèdre, santal, légèrement épicé\tNULL\n510018\tNogal Colombien\tBois nobles\tBoisé profond tannique, notes de noix, cuir, tabac, terre humide\tNULL\n510023\tCacao Colombien\tCacao\tChocolat amer terreux, notes de cacao torréfié, noix, tabac, cuir\tNULL\n510021\tCafé Geisha\tCafé\tFloral jasmin bergamote, notes de fleur blanche, agrume, thé vert, miel\tNULL\n720032\t4-Vinylguaiacol\tComposé du Tabac\tFumé, clou de girofle\tphenol\n720031\tAcétophénone\tComposé du Tabac\tFloral, amande, cerise\tketone\n720030\tBenzaldéhyde\tComposé du Tabac\tAmande amère, cerise\taldehyde\n720029\tCembratrienol\tComposé du Tabac\tAmbré, boisé, tabac\talcohol\n720022\tDihydro-β-ionone\tComposé du Tabac\tBoisé, ambré, tabac\tketone\n720026\tMegastigmatrienone A\tComposé du Tabac\tTabac, épicé, boisé\tketone\n720028\tNeophytadiene\tComposé du Tabac\tHerbacé, vert, tabac\tditerpene\n720033\tNicotine\tComposé du Tabac\tÂcre, tabac (non olfactif)\theterocyclic\n720034\tNornicotine\tComposé du Tabac\tÂcre (non olfactif)\theterocyclic\n720027\tSolanone\tComposé du Tabac\tTabac, foin, herbacé, terreux\tketone\n720025\tα-Damascone\tComposé du Tabac\tFruité, pomme, rose\tketone\n720020\tα-Ionone\tComposé du Tabac\tViolette, boisé, fruité, iris\tketone\n720023\tβ-Damascenone\tComposé du Tabac\tFruité, pomme, rose, prune, thé, tabac\tketone\n720024\tβ-Damascone\tComposé du Tabac\tTabac, rose, pomme, thé, fruité\tketone\n720021\tβ-Ionone\tComposé du Tabac\tViolette, boisé, fruité, cèdre\tketone\n570044\tβ-Damascénone\tCétone\tNote rose, fruitée, miel\tNULL\n690006\tcis-Jasmone\tCétone cyclique\tJasmin, floral herbacé, fruité, céleri\tketone\n570047\tCamphre\tCétone monoterpénique\tNote camphrée, médicinale, fraîche\tNULL\n690008\tPhytol\tDiterpène alcool\tVert, balsamique, floral doux, herbacé\tditerpene\n570059\tAcétate de benzyle\tEster aromatique\tNote jasmin, fruitée, florale\tNULL\n570058\tAcétate de phényléthyle\tEster aromatique\tNote rose, miel, fruitée\tNULL\n570060\tBenzoate de benzyle\tEster aromatique\tNote balsamique, amande, sucrée\tNULL\n690007\tMéthyl jasmonate\tEster jasmonique\tJasmin intense, fruité, légèrement herbacé\tester\n570061\tAcétate d'isoeugenol\tEster phénolique\tNote clou de girofle, épicée, florale\tNULL\n570057\tAcétate de géranyle\tEster terpénique\tNote fruitée, rose, verte\tester\n570056\tAcétate de linalyle\tEster terpénique\tNote lavande, bergamote, fraîche\tester\n510022\tFleur de Café\tFleurs blanches\tJasmin blanc délicat, notes de fleur d'oranger, néroli, miel, légèrement vert\tNULL\n510015\tGuanábana\tFruits tropicaux\tCrémeux tropical fraise-ananas, notes lactées, coco, litchi, doux\tNULL\n510016\tUchuva\tFruits tropicaux\tAcidulé complexe mangue-groseille, notes de caramel, miel, agrume\tNULL\n660004\tBergaptène\tFurocoumarine\tAgrume, bergamote, légèrement amer, photosensibilisant\tcoumarin\n510028\tCalycolpus Moritzianus\tHerbes aromatiques\tEucalyptol frais menthe andine, notes de camphre, romarin, pin\tNULL\n510026\tLippia Origanoides\tHerbes aromatiques\tPhénols aromatiques herbacé médicinal, notes d'origan, thym, camphre\tNULL\n510029\tTurnera Diffusa\tHerbes aromatiques\tAphrodisiaque floral herbacé, notes de camomille, figue, miel, légèrement amer\tNULL\n570071\tCade\tHuile empyreumatique\tNote fumée, cuir, goudron\tNULL\n570070\tJasmine lactone\tLactone\tNote jasmin, crémeuse, fruitée\tNULL\n570073\tSabinène\tMonoterpène\tNote poivrée, épicée, boisée\tNULL\n570072\tp-Cymène\tMonoterpène\tNote cumin, épicée, citronnée\tNULL\n630001\tCarvone\tMonoterpène cétonique\tMenthe verte fraîche et sucrée (L-carvone) ou carvi épicé et chaud (D-carvone). Notes herbacées avec une douceur caractéristique. La L-carvone évoque la menthe verte et les chewing-gums, tandis que la D-carvone rappelle le carvi, l'aneth et le cumin.\tketone\n570049\tBornéol\tMonoterpénol\tNote camphrée, boisée, fraîche\tNULL\n570051\tCitronellol\tMonoterpénol\tNote rose, citronnée, fraîche\talcohol\n570050\tGéraniol\tMonoterpénol\tNote rose, florale, sucrée\talcohol\n570046\tMenthol\tMonoterpénol\tNote menthe, fraîche, camphrée\talcohol\n570053\tTerpinène-4-ol\tMonoterpénol\tNote boisée, terreuse, épicée\tmonoterpene\n570052\tα-Terpinéol\tMonoterpénol\tNote lilas, pin, fraîche\tNULL\n570048\tEucalyptol\tOxyde terpénique\tNote eucalyptus, fraîche, médicinale\tether\n570039\tEugénol\tPhénol aromatique\tNote clou de girofle, épicée, chaude\tphenol\n570040\tGuaïacol\tPhénol aromatique\tNote fumée, boisée, balsamique\tNULL\n570041\tCarvacrol\tPhénol monoterpénique\tPhénolique épicé et herbacé aux facettes de thym et d'origan. Notes chaudes et piquantes avec une légère amertume. Évoque les herbes méditerranéennes séchées et les pizzas italiennes.\tphenol\n570042\tThymol\tPhénol monoterpénique\tPhénolique médicinal et herbacé aux facettes de thym frais. Notes chaudes et antiseptiques avec une légère douceur. Évoque les pastilles pour la gorge, les herbes de Provence et la propreté.\tphenol\n630002\tEstragole\tPhénylpropanoïde\tAnisé doux et herbacé avec des facettes vertes et légèrement épicées. Évoque l'estragon frais, le basilic exotique et la réglisse. Notes sucrées et aromatiques avec une fraîcheur caractéristique.\tether\n660003\tMéthyl-eugénol\tPhénylpropanoïde\tClou de girofle, épicé, chaud, légèrement anisé\tphenol\n510027\tPiper Aduncum\tPoivres\tPoivre vert piquant, notes de feuille, herbe, légèrement anisé, médicinal\tNULL\n510019\tCopal Colombien\tRésines sacrées\tRésine sacrée fumée, notes d'encens, pin, citron, balsamique\tNULL\n570065\tThujopsène\tSesquiterpène\tNote cèdre, boisée, épicée\tNULL\n570063\tα-Cédrène\tSesquiterpène\tNote cèdre, boisée, sèche\tNULL\n570066\tα-Humulène\tSesquiterpène\tNote boisée, terreuse, houblon\tNULL\n690009\tα-Vétivène\tSesquiterpène\tBoisé, terreux, fumé, caractère vétiver\tsesquiterpene\n570064\tβ-Cédrène\tSesquiterpène\tNote cèdre, boisée, douce\tNULL\n690010\tβ-Vétivène\tSesquiterpène\tBoisé profond, terreux, légèrement fumé\tsesquiterpene\n690011\tIsovalencénol\tSesquiterpène alcool\tBoisé, terreux, légèrement agrumé, vétiver\tsesquiterpene\n690004\tNerolidol\tSesquiterpène alcool\tBoisé, floral, écorce fraîche, légèrement fruité\tsesquiterpene\n690012\tZizanol\tSesquiterpène alcool\tBoisé, terreux, humide, racine\tsesquiterpene\n690013\tNootkatone\tSesquiterpène cétone\tPamplemousse, boisé, terreux, agrumé\tsesquiterpene\n570062\tVétivérol\tSesquiterpénol\tNote vétiver, boisée, terreuse\tNULL\n570075\tα-Androsténol\tStéroïde\tNote musquée, boisée, sucrée\tNULL\n570067\tCalone\tSynthétique marin\tNote marine, pastèque, fraîche\tNULL\n660002\tCitronellol\tTerpène\tRose, citronné, frais, légèrement vert\talcohol\n660001\tGéraniol\tTerpène\tRose, géranium, citronné, floral doux\talcohol\n720005\t3-Carène\tTerpène (Cannabis)\tDoux, pin, cèdre\tmonoterpene\n720003\tCamphène\tTerpène (Cannabis)\tCamphre, pin, terreux\tmonoterpene\n720018\tCaryophyllène oxide\tTerpène (Cannabis)\tBoisé, épicé, doux\tether\n720019\tCédrol\tTerpène (Cannabis)\tCèdre, boisé, ambré\talcohol\n720013\tFarnésène\tTerpène (Cannabis)\tPomme verte, boisé\tsesquiterpene\n720009\tFenchol\tTerpène (Cannabis)\tCamphre, citron, terreux\talcohol\n720010\tFenchone\tTerpène (Cannabis)\tCamphre, menthe\tketone\n720017\tGuaiol\tTerpène (Cannabis)\tPin, boisé, rose\talcohol\n720008\tIsopulégol\tTerpène (Cannabis)\tMenthe, fraîcheur\talcohol\n720011\tPulégone\tTerpène (Cannabis)\tMenthe poivrée, camphre\tketone\n720001\tTerpinolène\tTerpène (Cannabis)\tFloral, herbacé, pin, agrumes légers\tmonoterpene\n720012\tValencène\tTerpène (Cannabis)\tAgrumes, orange douce\tsesquiterpene\n720015\tcis-Nérolidol\tTerpène (Cannabis)\tÉcorce, rose, boisé\talcohol\n720014\ttrans-Nérolidol\tTerpène (Cannabis)\tBoisé, écorce, floral\talcohol\n720016\tα-Bisabolol\tTerpène (Cannabis)\tFloral, doux, camomille\talcohol\n720004\tα-Phellandrène\tTerpène (Cannabis)\tMenthe, citrus, poivré\tmonoterpene\n720006\tα-Terpinène\tTerpène (Cannabis)\tCitron, herbacé\tmonoterpene\n720002\tβ-Ocimène\tTerpène (Cannabis)\tDoux, herbacé, boisé\tmonoterpene\n720007\tγ-Terpinène\tTerpène (Cannabis)\tCitrus, herbacé, doux\tmonoterpene\n510024\tVanilla Pompona\tVanille\tVanille tropicale intense, notes de caramel, pruneaux, tabac blond, miel\tNULL\n690003\tOxyde de rose\tÉther cyclique\tRose fraîche, verte, métallique, géranium\tether\n510012\tYagé\tβ-Carbolines\tBoisé amer sacré, notes de liane, écorce, terre humide, chamanique\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 1547
+}

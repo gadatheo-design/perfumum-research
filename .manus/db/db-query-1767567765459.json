@@ -1,0 +1,112 @@
+{
+  "query": "SELECT id, name, family, chemical_class FROM molecules WHERE name IN ('Myrcène', 'Limonène', 'Linalol', 'Caryophyllène', 'Pinène', 'Humulène', 'Terpinolène', 'Ocimène', 'Géraniol', 'Nérol', 'Bisabolol', 'Farnésène') LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, family, chemical_class FROM molecules WHERE name IN ('Myrcène', 'Limonène', 'Linalol', 'Caryophyllène', 'Pinène', 'Humulène', 'Terpinolène', 'Ocimène', 'Géraniol', 'Nérol', 'Bisabolol', 'Farnésène') LIMIT 20;",
+  "rows": [
+    {
+      "id": "2",
+      "name": "Linalol",
+      "family": "Monoterpénol",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol",
+      "family": "Florale",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "30005",
+      "name": "Caryophyllène",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène",
+      "family": "Monoterpène",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène",
+      "family": "Monoterpène",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "90048",
+      "name": "Humulène",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "90056",
+      "name": "Limonène",
+      "family": "Terpène",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "90057",
+      "name": "Linalol",
+      "family": "Alcool",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "150001",
+      "name": "Myrcène",
+      "family": "Monoterpène",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "150002",
+      "name": "Limonène",
+      "family": "Monoterpène",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "150007",
+      "name": "Humulène",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene"
+    },
+    {
+      "id": "570014",
+      "name": "Nérol",
+      "family": "Terpènes floraux",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "570050",
+      "name": "Géraniol",
+      "family": "Monoterpénol",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "600015",
+      "name": "Nérol",
+      "family": "Terpènes floraux",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "660001",
+      "name": "Géraniol",
+      "family": "Terpène",
+      "chemical_class": "alcohol"
+    },
+    {
+      "id": "720001",
+      "name": "Terpinolène",
+      "family": "Terpène (Cannabis)",
+      "chemical_class": "monoterpene"
+    },
+    {
+      "id": "720013",
+      "name": "Farnésène",
+      "family": "Terpène (Cannabis)",
+      "chemical_class": "sesquiterpene"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\tchemical_class\n2\tLinalol\tMonoterpénol\tmonoterpene\n30002\tLinalol\tFlorale\tmonoterpene\n30005\tCaryophyllène\tSesquiterpène\tsesquiterpene\n30006\tMyrcène\tMonoterpène\tmonoterpene\n30007\tLimonène\tMonoterpène\tmonoterpene\n90048\tHumulène\tSesquiterpène\tsesquiterpene\n90056\tLimonène\tTerpène\tmonoterpene\n90057\tLinalol\tAlcool\tmonoterpene\n150001\tMyrcène\tMonoterpène\tmonoterpene\n150002\tLimonène\tMonoterpène\tmonoterpene\n150007\tHumulène\tSesquiterpène\tsesquiterpene\n570014\tNérol\tTerpènes floraux\talcohol\n570050\tGéraniol\tMonoterpénol\talcohol\n600015\tNérol\tTerpènes floraux\talcohol\n660001\tGéraniol\tTerpène\talcohol\n720001\tTerpinolène\tTerpène (Cannabis)\tmonoterpene\n720013\tFarnésène\tTerpène (Cannabis)\tsesquiterpene\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

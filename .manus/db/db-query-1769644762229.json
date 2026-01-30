@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `perique_compounds` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `formula` varchar(100),\n  `concentration_pct` decimal(10,4),\n  `category` varchar(100),\n  `subcategory` varchar(100),\n  `olfactory_notes` text,\n  `perfumery_potential` varchar(50),\n  `dosage_perfumery` varchar(50),\n  `origin` varchar(255),\n  `is_new_tobacco_isolate` boolean DEFAULT false,\n  `source_reference` varchar(500),\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `perique_compounds_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `perique_compounds` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `formula` varchar(100),\n  `concentration_pct` decimal(10,4),\n  `category` varchar(100),\n  `subcategory` varchar(100),\n  `olfactory_notes` text,\n  `perfumery_potential` varchar(50),\n  `dosage_perfumery` varchar(50),\n  `origin` varchar(255),\n  `is_new_tobacco_isolate` boolean DEFAULT false,\n  `source_reference` varchar(500),\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `perique_compounds_id` PRIMARY KEY(`id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 214
+}

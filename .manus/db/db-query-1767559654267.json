@@ -1,0 +1,26 @@
+{
+  "query": "SELECT 'geographic_origins' as table_name, COUNT(*) as cnt FROM geographic_origins\nUNION ALL\nSELECT 'molecule_origins', COUNT(*) FROM molecule_origins\nUNION ALL\nSELECT 'terroirs', COUNT(*) FROM terroirs\nUNION ALL\nSELECT 'molecules', COUNT(*) FROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT 'geographic_origins' as table_name, COUNT(*) as cnt FROM geographic_origins\nUNION ALL\nSELECT 'molecule_origins', COUNT(*) FROM molecule_origins\nUNION ALL\nSELECT 'terroirs', COUNT(*) FROM terroirs\nUNION ALL\nSELECT 'molecules', COUNT(*) FROM molecules;",
+  "rows": [
+    {
+      "table_name": "geographic_origins",
+      "cnt": "20"
+    },
+    {
+      "table_name": "molecule_origins",
+      "cnt": "0"
+    },
+    {
+      "table_name": "terroirs",
+      "cnt": "7"
+    },
+    {
+      "table_name": "molecules",
+      "cnt": "448"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tcnt\ngeographic_origins\t20\nmolecule_origins\t0\nterroirs\t7\nmolecules\t448\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

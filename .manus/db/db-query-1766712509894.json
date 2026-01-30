@@ -1,0 +1,52 @@
+{
+  "query": "SELECT \n  COALESCE(r.gamme, 'Sans gamme') as gamme,\n  COUNT(DISTINCT r.id) as total_recettes,\n  COUNT(DISTINCT mr.recette_id) as recettes_avec_molecules,\n  COUNT(DISTINCT r.id) - COUNT(DISTINCT mr.recette_id) as recettes_orphelines\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nGROUP BY r.gamme\nORDER BY r.gamme;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COALESCE(r.gamme, 'Sans gamme') as gamme,\n  COUNT(DISTINCT r.id) as total_recettes,\n  COUNT(DISTINCT mr.recette_id) as recettes_avec_molecules,\n  COUNT(DISTINCT r.id) - COUNT(DISTINCT mr.recette_id) as recettes_orphelines\nFROM recettes r\nLEFT JOIN molecules_recettes mr ON r.id = mr.recette_id\nGROUP BY r.gamme\nORDER BY r.gamme;",
+  "rows": [
+    {
+      "gamme": "Sans gamme",
+      "total_recettes": "218",
+      "recettes_avec_molecules": "210",
+      "recettes_orphelines": "8"
+    },
+    {
+      "gamme": "Civilisations",
+      "total_recettes": "3",
+      "recettes_avec_molecules": "0",
+      "recettes_orphelines": "3"
+    },
+    {
+      "gamme": "Colombie",
+      "total_recettes": "12",
+      "recettes_avec_molecules": "0",
+      "recettes_orphelines": "12"
+    },
+    {
+      "gamme": "Glaciaire",
+      "total_recettes": "3",
+      "recettes_avec_molecules": "0",
+      "recettes_orphelines": "3"
+    },
+    {
+      "gamme": "Mossi",
+      "total_recettes": "2",
+      "recettes_avec_molecules": "0",
+      "recettes_orphelines": "2"
+    },
+    {
+      "gamme": "Pétrichor",
+      "total_recettes": "3",
+      "recettes_avec_molecules": "0",
+      "recettes_orphelines": "3"
+    },
+    {
+      "gamme": "Volcanique",
+      "total_recettes": "3",
+      "recettes_avec_molecules": "0",
+      "recettes_orphelines": "3"
+    }
+  ],
+  "messages": [],
+  "stdout": "gamme\ttotal_recettes\trecettes_avec_molecules\trecettes_orphelines\nSans gamme\t218\t210\t8\nCivilisations\t3\t0\t3\nColombie\t12\t0\t12\nGlaciaire\t3\t0\t3\nMossi\t2\t0\t2\nPétrichor\t3\t0\t3\nVolcanique\t3\t0\t3\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

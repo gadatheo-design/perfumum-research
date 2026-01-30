@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO molecules (name, cas_number, family, chemical_class, olfactiveProfile) \nVALUES ('Géraniol', '106-24-1', 'Terpène', 'monoterpene', 'Rose, géranium, citronné, floral doux')\nON DUPLICATE KEY UPDATE cas_number = '106-24-1';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO molecules (name, cas_number, family, chemical_class, olfactiveProfile) \nVALUES ('Géraniol', '106-24-1', 'Terpène', 'monoterpene', 'Rose, géranium, citronné, floral doux')\nON DUPLICATE KEY UPDATE cas_number = '106-24-1';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1516
+}

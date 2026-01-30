@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM plants WHERE origin = 'Mexique' OR origin LIKE '%Mésoamérique%' OR origin LIKE '%Sonora%') as plantes_mexicaines,\n  (SELECT COUNT(*) FROM recettes WHERE gamme = 'Mésoamérique') as recettes_mexicaines,\n  (SELECT COUNT(*) FROM curated_journeys WHERE code = 'mesoamerica') as parcours_mesoamerique,\n  (SELECT COUNT(*) FROM journey_items WHERE journey_id = (SELECT id FROM curated_journeys WHERE code = 'mesoamerica')) as items_parcours",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM plants WHERE origin = 'Mexique' OR origin LIKE '%Mésoamérique%' OR origin LIKE '%Sonora%') as plantes_mexicaines,\n  (SELECT COUNT(*) FROM recettes WHERE gamme = 'Mésoamérique') as recettes_mexicaines,\n  (SELECT COUNT(*) FROM curated_journeys WHERE code = 'mesoamerica') as parcours_mesoamerique,\n  (SELECT COUNT(*) FROM journey_items WHERE journey_id = (SELECT id FROM curated_journeys WHERE code = 'mesoamerica')) as items_parcours",
+  "rows": [
+    {
+      "plantes_mexicaines": "11",
+      "recettes_mexicaines": "11",
+      "parcours_mesoamerique": "1",
+      "items_parcours": "7"
+    }
+  ],
+  "messages": [],
+  "stdout": "plantes_mexicaines\trecettes_mexicaines\tparcours_mesoamerique\titems_parcours\n11\t11\t1\t7\n",
+  "stderr": "",
+  "execution_time_ms": 1529
+}

@@ -1,0 +1,50 @@
+{
+  "query": "SELECT id, name FROM recettes LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM recettes LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "OS PLUVIEUX"
+    },
+    {
+      "id": "2",
+      "name": "FOSSE ANTIQUE"
+    },
+    {
+      "id": "3",
+      "name": "ARCHÉOLOGIE BRÛLÉE"
+    },
+    {
+      "id": "4",
+      "name": "ARGILE HUMIDE SACRÉE"
+    },
+    {
+      "id": "5",
+      "name": "PÉTRICHOR SÉPULCRAL"
+    },
+    {
+      "id": "6",
+      "name": "BIBLIOTHÈQUE HUMIDE"
+    },
+    {
+      "id": "7",
+      "name": "PIERRE NOIRE FENDUE"
+    },
+    {
+      "id": "8",
+      "name": "FOUILLE HUMIDE"
+    },
+    {
+      "id": "9",
+      "name": "MURAILLE APRÈS ORAGE"
+    },
+    {
+      "id": "10",
+      "name": "TEMPLE DE TERRE BLANCHE"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1\tOS PLUVIEUX\n2\tFOSSE ANTIQUE\n3\tARCHÉOLOGIE BRÛLÉE\n4\tARGILE HUMIDE SACRÉE\n5\tPÉTRICHOR SÉPULCRAL\n6\tBIBLIOTHÈQUE HUMIDE\n7\tPIERRE NOIRE FENDUE\n8\tFOUILLE HUMIDE\n9\tMURAILLE APRÈS ORAGE\n10\tTEMPLE DE TERRE BLANCHE\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}

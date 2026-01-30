@@ -1,0 +1,37 @@
+{
+  "query": "SELECT id, name, region, country, latitude, longitude, terroir_id FROM terroirs LIMIT 3;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, country, latitude, longitude, terroir_id FROM terroirs LIMIT 3;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "San Andrés y Providencia",
+      "region": "Caraïbes",
+      "country": "Colombie",
+      "latitude": "12.5847000",
+      "longitude": "-81.7006000",
+      "terroir_id": "TER-COL-SAN"
+    },
+    {
+      "id": "2",
+      "name": "Santander & Huila",
+      "region": "Andes",
+      "country": "Colombie",
+      "latitude": "6.6437000",
+      "longitude": "-73.6536000",
+      "terroir_id": "TER-COL-HUI"
+    },
+    {
+      "id": "3",
+      "name": "Cauca Valley",
+      "region": "Valle del Cauca",
+      "country": "Colombie",
+      "latitude": "3.4516000",
+      "longitude": "-76.5320000",
+      "terroir_id": "TER-COL-CAU"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\tcountry\tlatitude\tlongitude\tterroir_id\n1\tSan Andrés y Providencia\tCaraïbes\tColombie\t12.5847000\t-81.7006000\tTER-COL-SAN\n2\tSantander & Huila\tAndes\tColombie\t6.6437000\t-73.6536000\tTER-COL-HUI\n3\tCauca Valley\tValle del Cauca\tColombie\t3.4516000\t-76.5320000\tTER-COL-CAU\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

@@ -1,0 +1,400 @@
+{
+  "query": "SELECT id, entry_key, title, authors, year, journal, doi, entry_type\nFROM bibliography_entries \nWHERE doi IS NULL OR doi = ''\nORDER BY year DESC, title;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, entry_key, title, authors, year, journal, doi, entry_type\nFROM bibliography_entries \nWHERE doi IS NULL OR doi = ''\nORDER BY year DESC, title;",
+  "rows": [
+    {
+      "id": "150064",
+      "entry_key": "perfumum_kienou2025",
+      "title": "Plantes aromatiques et leurs huiles essentielles: état des connaissances et utilisation dans la gestion de la chenille légionnaire d'automne à l'ouest du Burkina Faso",
+      "authors": "T. Kienou, S. Ouattara, A. Sawadogo, et al.",
+      "year": "2025",
+      "journal": "Sciences et Techniques Burkina",
+      "doi": "NULL",
+      "entry_type": "article"
+    },
+    {
+      "id": "150039",
+      "entry_key": "perfumum_pubchem2023",
+      "title": "PubChem Compound Database",
+      "authors": "National Center for Biotechnology Information",
+      "year": "2023",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "online"
+    },
+    {
+      "id": "150040",
+      "entry_key": "perfumum_thegoodscents2023",
+      "title": "The Good Scents Company Information System",
+      "authors": "The Good Scents Company",
+      "year": "2023",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "online"
+    },
+    {
+      "id": "150037",
+      "entry_key": "perfumum_ifra2020",
+      "title": "IFRA Standards Library - 49th Amendment",
+      "authors": "International Fragrance Association",
+      "year": "2020",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "techreport"
+    },
+    {
+      "id": "150010",
+      "entry_key": "perfumum_edwards2019",
+      "title": "Fragrances of the World",
+      "authors": "Michael Edwards",
+      "year": "2019",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150052",
+      "entry_key": "perfumum_stashenko2019",
+      "title": "Study of Essential Oils Obtained from Tropical Plants Grown in Colombia",
+      "authors": "Elena E. Stashenko",
+      "year": "2019",
+      "journal": "IntechOpen",
+      "doi": "NULL",
+      "entry_type": "inbook"
+    },
+    {
+      "id": "150004",
+      "entry_key": "perfumum_tisserand2014",
+      "title": "Essential Oil Safety: A Guide for Health Care Professionals",
+      "authors": "Robert Tisserand, Rodney Young",
+      "year": "2014",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150045",
+      "entry_key": "perfumum_rodgman2013",
+      "title": "The Chemical Components of Tobacco and Tobacco Smoke",
+      "authors": "Alan Rodgman, Thomas A. Perfetti",
+      "year": "2013",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150066",
+      "entry_key": "perfumum_waho2013",
+      "title": "West African Herbal Pharmacopoeia",
+      "authors": "West African Health Organisation (WAHO)",
+      "year": "2013",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150024",
+      "entry_key": "perfumum_baser2010",
+      "title": "Handbook of Essential Oils: Science, Technology, and Applications",
+      "authors": "K. Hüsnü Can Başer, Gerhard Buchbauer",
+      "year": "2010",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150053",
+      "entry_key": "perfumum_buenosanchez2009",
+      "title": "Anti-tubercular activity of eleven aromatic and medicinal plants occurring in Colombia",
+      "authors": "J.G. Bueno-Sánchez, J.R. Martínez-Morales, E.E. Stashenko, W. Ribón",
+      "year": "2009",
+      "journal": "Biomedica",
+      "doi": "NULL",
+      "entry_type": "article"
+    },
+    {
+      "id": "150015",
+      "entry_key": "perfumum_dewick2009",
+      "title": "Medicinal Natural Products: A Biosynthetic Approach",
+      "authors": "Paul M. Dewick",
+      "year": "2009",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150009",
+      "entry_key": "perfumum_ellena2007",
+      "title": "Journal d'un Parfumeur",
+      "authors": "Jean-Claude Ellena",
+      "year": "2007",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150035",
+      "entry_key": "perfumum_surburg2006",
+      "title": "Common Fragrance and Flavor Materials: Preparation, Properties and Uses",
+      "authors": "Horst Surburg, Johannes Panten",
+      "year": "2006",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150014",
+      "entry_key": "perfumum_breitmaier2006",
+      "title": "Terpenes: Flavors, Fragrances, Pharmaca, Pheromones",
+      "authors": "Eberhard Breitmaier",
+      "year": "2006",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150003",
+      "entry_key": "perfumum_sell2006",
+      "title": "The Chemistry of Fragrances: From Perfumer to Consumer",
+      "authors": "Charles Sell",
+      "year": "2006",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150041",
+      "entry_key": "perfumum_flavornet2004",
+      "title": "Flavornet and Human Odor Space",
+      "authors": "Terry E. Acree, Heinrich Arn",
+      "year": "2004",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "online"
+    },
+    {
+      "id": "150013",
+      "entry_key": "perfumum_burr2003",
+      "title": "The Emperor of Scent: A True Story of Perfume and Obsession",
+      "authors": "Chandler Burr",
+      "year": "2003",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150063",
+      "entry_key": "perfumum_nebie2002",
+      "title": "Étude des plantes aromatiques du Burkina Faso: Caractérisations chimique et biologique des huiles essentielles de Lippia multiflora",
+      "authors": "R.H.C. Nébié, R.T. Yaméogo, A. Bélanger, C. Sib",
+      "year": "2002",
+      "journal": "Journal de la Société Ouest-Africaine de Chimie",
+      "doi": "NULL",
+      "entry_type": "article"
+    },
+    {
+      "id": "150031",
+      "entry_key": "perfumum_cunningham2001",
+      "title": "Applied Ethnobotany: People, Wild Plant Use and Conservation",
+      "authors": "Anthony B. Cunningham",
+      "year": "2001",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150012",
+      "entry_key": "perfumum_aftel2001",
+      "title": "Essence and Alchemy: A Natural History of Perfume",
+      "authors": "Mandy Aftel",
+      "year": "2001",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150034",
+      "entry_key": "perfumum_kraft2000",
+      "title": "Aroma Chemicals IV: Musks",
+      "authors": "Philip Kraft",
+      "year": "2000",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "inbook"
+    },
+    {
+      "id": "150017",
+      "entry_key": "perfumum_croteau2000",
+      "title": "Natural Products (Secondary Metabolites)",
+      "authors": "Rodney Croteau, Toni M. Kutchan, Norman G. Lewis",
+      "year": "2000",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "inbook"
+    },
+    {
+      "id": "150036",
+      "entry_key": "perfumum_poucher2000",
+      "title": "Poucher's Perfumes, Cosmetics and Soaps",
+      "authors": "Hilda Butler",
+      "year": "2000",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150044",
+      "entry_key": "perfumum_layten1999",
+      "title": "Tobacco: Production, Chemistry and Technology",
+      "authors": "Davis D. Layten, Mark T. Nielsen",
+      "year": "1999",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150048",
+      "entry_key": "perfumum_neuwinger1996",
+      "title": "African Ethnobotany: Poisons and Drugs",
+      "authors": "Hans Dieter Neuwinger",
+      "year": "1996",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150030",
+      "entry_key": "perfumum_balick1996",
+      "title": "Plants, People, and Culture: The Science of Ethnobotany",
+      "authors": "Michael J. Balick, Paul Alan Cox",
+      "year": "1996",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150006",
+      "entry_key": "perfumum_classen1994",
+      "title": "Aroma: The Cultural History of Smell",
+      "authors": "Constance Classen, David Howes, Anthony Synnott",
+      "year": "1994",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150033",
+      "entry_key": "perfumum_calkin1994",
+      "title": "Perfumery: Practice and Principles",
+      "authors": "Robert R. Calkin, J. Stephan Jellinek",
+      "year": "1994",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150011",
+      "entry_key": "perfumum_ohloff1994",
+      "title": "Scent and Chemistry: The Molecular World of Odors",
+      "authors": "Günther Ohloff, Wilhelm Pickenhagen, Philip Kraft",
+      "year": "1994",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150047",
+      "entry_key": "perfumum_plotkin1993",
+      "title": "Tales of a Shaman's Apprentice",
+      "authors": "Mark J. Plotkin",
+      "year": "1993",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150046",
+      "entry_key": "perfumum_schultes1992",
+      "title": "Plants of the Gods: Their Sacred, Healing, and Hallucinogenic Powers",
+      "authors": "Richard Evans Schultes, Albert Hofmann",
+      "year": "1992",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150008",
+      "entry_key": "perfumum_roudnitska1991",
+      "title": "L'Art de la Parfumerie",
+      "authors": "Edmond Roudnitska",
+      "year": "1991",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150032",
+      "entry_key": "perfumum_stoddart1990",
+      "title": "The Scented Ape: The Biology and Culture of Human Odour",
+      "authors": "David Michael Stoddart",
+      "year": "1990",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150028",
+      "entry_key": "perfumum_le_guerer1988",
+      "title": "Les Pouvoirs de l'Odeur",
+      "authors": "Annick Le Guérer",
+      "year": "1988",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150049",
+      "entry_key": "perfumum_burkill1985",
+      "title": "The Useful Plants of West Tropical Africa",
+      "authors": "H.M. Burkill",
+      "year": "1985",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150029",
+      "entry_key": "perfumum_corbin1982",
+      "title": "Le Miasme et la Jonquille: L'odorat et l'imaginaire social XVIIIe-XIXe siècles",
+      "authors": "Alain Corbin",
+      "year": "1982",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150002",
+      "entry_key": "perfumum_arctander1969",
+      "title": "Perfume and Flavor Materials of Natural Origin",
+      "authors": "Steffen Arctander",
+      "year": "1969",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    },
+    {
+      "id": "150007",
+      "entry_key": "perfumum_guenther1948",
+      "title": "The Essential Oils (6 volumes)",
+      "authors": "Ernest Guenther",
+      "year": "1948",
+      "journal": "NULL",
+      "doi": "NULL",
+      "entry_type": "book"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentry_key\ttitle\tauthors\tyear\tjournal\tdoi\tentry_type\n150064\tperfumum_kienou2025\tPlantes aromatiques et leurs huiles essentielles: état des connaissances et utilisation dans la gestion de la chenille légionnaire d'automne à l'ouest du Burkina Faso\tT. Kienou, S. Ouattara, A. Sawadogo, et al.\t2025\tSciences et Techniques Burkina\tNULL\tarticle\n150039\tperfumum_pubchem2023\tPubChem Compound Database\tNational Center for Biotechnology Information\t2023\tNULL\tNULL\tonline\n150040\tperfumum_thegoodscents2023\tThe Good Scents Company Information System\tThe Good Scents Company\t2023\tNULL\tNULL\tonline\n150037\tperfumum_ifra2020\tIFRA Standards Library - 49th Amendment\tInternational Fragrance Association\t2020\tNULL\tNULL\ttechreport\n150010\tperfumum_edwards2019\tFragrances of the World\tMichael Edwards\t2019\tNULL\tNULL\tbook\n150052\tperfumum_stashenko2019\tStudy of Essential Oils Obtained from Tropical Plants Grown in Colombia\tElena E. Stashenko\t2019\tIntechOpen\tNULL\tinbook\n150004\tperfumum_tisserand2014\tEssential Oil Safety: A Guide for Health Care Professionals\tRobert Tisserand, Rodney Young\t2014\tNULL\tNULL\tbook\n150045\tperfumum_rodgman2013\tThe Chemical Components of Tobacco and Tobacco Smoke\tAlan Rodgman, Thomas A. Perfetti\t2013\tNULL\tNULL\tbook\n150066\tperfumum_waho2013\tWest African Herbal Pharmacopoeia\tWest African Health Organisation (WAHO)\t2013\tNULL\tNULL\tbook\n150024\tperfumum_baser2010\tHandbook of Essential Oils: Science, Technology, and Applications\tK. Hüsnü Can Başer, Gerhard Buchbauer\t2010\tNULL\tNULL\tbook\n150053\tperfumum_buenosanchez2009\tAnti-tubercular activity of eleven aromatic and medicinal plants occurring in Colombia\tJ.G. Bueno-Sánchez, J.R. Martínez-Morales, E.E. Stashenko, W. Ribón\t2009\tBiomedica\tNULL\tarticle\n150015\tperfumum_dewick2009\tMedicinal Natural Products: A Biosynthetic Approach\tPaul M. Dewick\t2009\tNULL\tNULL\tbook\n150009\tperfumum_ellena2007\tJournal d'un Parfumeur\tJean-Claude Ellena\t2007\tNULL\tNULL\tbook\n150035\tperfumum_surburg2006\tCommon Fragrance and Flavor Materials: Preparation, Properties and Uses\tHorst Surburg, Johannes Panten\t2006\tNULL\tNULL\tbook\n150014\tperfumum_breitmaier2006\tTerpenes: Flavors, Fragrances, Pharmaca, Pheromones\tEberhard Breitmaier\t2006\tNULL\tNULL\tbook\n150003\tperfumum_sell2006\tThe Chemistry of Fragrances: From Perfumer to Consumer\tCharles Sell\t2006\tNULL\tNULL\tbook\n150041\tperfumum_flavornet2004\tFlavornet and Human Odor Space\tTerry E. Acree, Heinrich Arn\t2004\tNULL\tNULL\tonline\n150013\tperfumum_burr2003\tThe Emperor of Scent: A True Story of Perfume and Obsession\tChandler Burr\t2003\tNULL\tNULL\tbook\n150063\tperfumum_nebie2002\tÉtude des plantes aromatiques du Burkina Faso: Caractérisations chimique et biologique des huiles essentielles de Lippia multiflora\tR.H.C. Nébié, R.T. Yaméogo, A. Bélanger, C. Sib\t2002\tJournal de la Société Ouest-Africaine de Chimie\tNULL\tarticle\n150031\tperfumum_cunningham2001\tApplied Ethnobotany: People, Wild Plant Use and Conservation\tAnthony B. Cunningham\t2001\tNULL\tNULL\tbook\n150012\tperfumum_aftel2001\tEssence and Alchemy: A Natural History of Perfume\tMandy Aftel\t2001\tNULL\tNULL\tbook\n150034\tperfumum_kraft2000\tAroma Chemicals IV: Musks\tPhilip Kraft\t2000\tNULL\tNULL\tinbook\n150017\tperfumum_croteau2000\tNatural Products (Secondary Metabolites)\tRodney Croteau, Toni M. Kutchan, Norman G. Lewis\t2000\tNULL\tNULL\tinbook\n150036\tperfumum_poucher2000\tPoucher's Perfumes, Cosmetics and Soaps\tHilda Butler\t2000\tNULL\tNULL\tbook\n150044\tperfumum_layten1999\tTobacco: Production, Chemistry and Technology\tDavis D. Layten, Mark T. Nielsen\t1999\tNULL\tNULL\tbook\n150048\tperfumum_neuwinger1996\tAfrican Ethnobotany: Poisons and Drugs\tHans Dieter Neuwinger\t1996\tNULL\tNULL\tbook\n150030\tperfumum_balick1996\tPlants, People, and Culture: The Science of Ethnobotany\tMichael J. Balick, Paul Alan Cox\t1996\tNULL\tNULL\tbook\n150006\tperfumum_classen1994\tAroma: The Cultural History of Smell\tConstance Classen, David Howes, Anthony Synnott\t1994\tNULL\tNULL\tbook\n150033\tperfumum_calkin1994\tPerfumery: Practice and Principles\tRobert R. Calkin, J. Stephan Jellinek\t1994\tNULL\tNULL\tbook\n150011\tperfumum_ohloff1994\tScent and Chemistry: The Molecular World of Odors\tGünther Ohloff, Wilhelm Pickenhagen, Philip Kraft\t1994\tNULL\tNULL\tbook\n150047\tperfumum_plotkin1993\tTales of a Shaman's Apprentice\tMark J. Plotkin\t1993\tNULL\tNULL\tbook\n150046\tperfumum_schultes1992\tPlants of the Gods: Their Sacred, Healing, and Hallucinogenic Powers\tRichard Evans Schultes, Albert Hofmann\t1992\tNULL\tNULL\tbook\n150008\tperfumum_roudnitska1991\tL'Art de la Parfumerie\tEdmond Roudnitska\t1991\tNULL\tNULL\tbook\n150032\tperfumum_stoddart1990\tThe Scented Ape: The Biology and Culture of Human Odour\tDavid Michael Stoddart\t1990\tNULL\tNULL\tbook\n150028\tperfumum_le_guerer1988\tLes Pouvoirs de l'Odeur\tAnnick Le Guérer\t1988\tNULL\tNULL\tbook\n150049\tperfumum_burkill1985\tThe Useful Plants of West Tropical Africa\tH.M. Burkill\t1985\tNULL\tNULL\tbook\n150029\tperfumum_corbin1982\tLe Miasme et la Jonquille: L'odorat et l'imaginaire social XVIIIe-XIXe siècles\tAlain Corbin\t1982\tNULL\tNULL\tbook\n150002\tperfumum_arctander1969\tPerfume and Flavor Materials of Natural Origin\tSteffen Arctander\t1969\tNULL\tNULL\tbook\n150007\tperfumum_guenther1948\tThe Essential Oils (6 volumes)\tErnest Guenther\t1948\tNULL\tNULL\tbook\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

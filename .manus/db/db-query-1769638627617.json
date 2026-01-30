@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules SET chemicalFormula = 'C7H8O2', molecularWeight = 124.14, logP = 1.3 WHERE name LIKE '%guaiacol%'; UPDATE molecules SET chemicalFormula = 'C8H10O2', molecularWeight = 138.16, logP = 1.9 WHERE name LIKE '%creosol%' OR name LIKE '%créosol%'; UPDATE molecules SET chemicalFormula = 'C6H6O', molecularWeight = 94.11, logP = 1.5 WHERE name LIKE '%phenol%' OR name LIKE '%phénol%'; UPDATE molecules SET chemicalFormula = 'C7H8O', molecularWeight = 108.14, logP = 2.0 WHERE name LIKE '%cresol%' OR name LIKE '%crésol%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules SET chemicalFormula = 'C7H8O2', molecularWeight = 124.14, logP = 1.3 WHERE name LIKE '%guaiacol%'; UPDATE molecules SET chemicalFormula = 'C8H10O2', molecularWeight = 138.16, logP = 1.9 WHERE name LIKE '%creosol%' OR name LIKE '%créosol%'; UPDATE molecules SET chemicalFormula = 'C6H6O', molecularWeight = 94.11, logP = 1.5 WHERE name LIKE '%phenol%' OR name LIKE '%phénol%'; UPDATE molecules SET chemicalFormula = 'C7H8O', molecularWeight = 108.14, logP = 2.0 WHERE name LIKE '%cresol%' OR name LIKE '%crésol%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 78
+}

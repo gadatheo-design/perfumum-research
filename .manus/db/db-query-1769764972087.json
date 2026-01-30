@@ -1,0 +1,80 @@
+{
+  "query": "SELECT id, terroir_id, name, country, region FROM terroirs WHERE terroir_id LIKE 'TER-%' ORDER BY id DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, terroir_id, name, country, region FROM terroirs WHERE terroir_id LIKE 'TER-%' ORDER BY id DESC LIMIT 10;",
+  "rows": [
+    {
+      "id": "300007",
+      "terroir_id": "TER-GLO-001",
+      "name": "Global - Synthetic",
+      "country": "Global",
+      "region": "Synthetic"
+    },
+    {
+      "id": "300006",
+      "terroir_id": "TER-TRI-001",
+      "name": "Caribbean - Trinidad",
+      "country": "Trinidad and Tobago",
+      "region": "Caribbean"
+    },
+    {
+      "id": "300005",
+      "terroir_id": "TER-JAM-001",
+      "name": "Caribbean - Jamaica",
+      "country": "Jamaica",
+      "region": "Caribbean"
+    },
+    {
+      "id": "300004",
+      "terroir_id": "TER-BFA-001",
+      "name": "Burkina Faso - Sahel",
+      "country": "Burkina Faso",
+      "region": "Sahel"
+    },
+    {
+      "id": "300003",
+      "terroir_id": "TER-SAN-001",
+      "name": "San Andrés y Providencia",
+      "country": "Colombia",
+      "region": "San Andrés"
+    },
+    {
+      "id": "300002",
+      "terroir_id": "TER-COL-002",
+      "name": "Colombia - Huila",
+      "country": "Colombia",
+      "region": "Huila"
+    },
+    {
+      "id": "300001",
+      "terroir_id": "TER-COL-001",
+      "name": "Colombia - Cauca",
+      "country": "Colombia",
+      "region": "Cauca"
+    },
+    {
+      "id": "270002",
+      "terroir_id": "TER-ESTELI",
+      "name": "Estelí",
+      "country": "Nicaragua",
+      "region": "Estelí"
+    },
+    {
+      "id": "270001",
+      "terroir_id": "TER-VUELTA",
+      "name": "Vuelta Abajo",
+      "country": "Cuba",
+      "region": "Pinar del Río"
+    },
+    {
+      "id": "210007",
+      "terroir_id": "TER-120010",
+      "name": "Afrique Centrale, Forêt Équatoriale",
+      "country": "Multi-pays",
+      "region": "Bassin du Congo"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tterroir_id\tname\tcountry\tregion\n300007\tTER-GLO-001\tGlobal - Synthetic\tGlobal\tSynthetic\n300006\tTER-TRI-001\tCaribbean - Trinidad\tTrinidad and Tobago\tCaribbean\n300005\tTER-JAM-001\tCaribbean - Jamaica\tJamaica\tCaribbean\n300004\tTER-BFA-001\tBurkina Faso - Sahel\tBurkina Faso\tSahel\n300003\tTER-SAN-001\tSan Andrés y Providencia\tColombia\tSan Andrés\n300002\tTER-COL-002\tColombia - Huila\tColombia\tHuila\n300001\tTER-COL-001\tColombia - Cauca\tColombia\tCauca\n270002\tTER-ESTELI\tEstelí\tNicaragua\tEstelí\n270001\tTER-VUELTA\tVuelta Abajo\tCuba\tPinar del Río\n210007\tTER-120010\tAfrique Centrale, Forêt Équatoriale\tMulti-pays\tBassin du Congo\n",
+  "stderr": "",
+  "execution_time_ms": 47
+}

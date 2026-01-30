@@ -1,0 +1,120 @@
+{
+  "query": "SELECT pgz.*, p.name as plant_name, p.latin_name, gz.name as zone_name \nFROM plant_geographic_zones pgz \nJOIN plants p ON pgz.plant_id = p.id \nJOIN geographic_zones gz ON pgz.zone_id = gz.id \nLIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT pgz.*, p.name as plant_name, p.latin_name, gz.name as zone_name \nFROM plant_geographic_zones pgz \nJOIN plants p ON pgz.plant_id = p.id \nJOIN geographic_zones gz ON pgz.zone_id = gz.id \nLIMIT 10",
+  "rows": [
+    {
+      "id": "1",
+      "plant_id": "30014",
+      "zone_id": "1",
+      "is_primary_zone": "1",
+      "population_status": "rare",
+      "notes": "NULL",
+      "plant_name": "Encens / Oliban",
+      "latin_name": "Boswellia carterii",
+      "zone_name": "Somalie - Zone critique Boswellia"
+    },
+    {
+      "id": "2",
+      "plant_id": "150011",
+      "zone_id": "1",
+      "is_primary_zone": "1",
+      "population_status": "rare",
+      "notes": "NULL",
+      "plant_name": "Myrrhe",
+      "latin_name": "Commiphora myrrha",
+      "zone_name": "Somalie - Zone critique Boswellia"
+    },
+    {
+      "id": "3",
+      "plant_id": "30012",
+      "zone_id": "3",
+      "is_primary_zone": "1",
+      "population_status": "common",
+      "notes": "NULL",
+      "plant_name": "Patchouli",
+      "latin_name": "Pogostemon cablin",
+      "zone_name": "Asie du Sud-Est - Triangle Aquilaria"
+    },
+    {
+      "id": "4",
+      "plant_id": "180003",
+      "zone_id": "3",
+      "is_primary_zone": "1",
+      "population_status": "critically_rare",
+      "notes": "NULL",
+      "plant_name": "Nard (Spikenard)",
+      "latin_name": "Nardostachys jatamansi",
+      "zone_name": "Asie du Sud-Est - Triangle Aquilaria"
+    },
+    {
+      "id": "5",
+      "plant_id": "210005",
+      "zone_id": "30002",
+      "is_primary_zone": "1",
+      "population_status": "rare",
+      "notes": "NULL",
+      "plant_name": "Balsamier (baume)",
+      "latin_name": "Myroxylon balsamum",
+      "zone_name": "Amérique centrale - Zone Myroxylon"
+    },
+    {
+      "id": "6",
+      "plant_id": "150010",
+      "zone_id": "30001",
+      "is_primary_zone": "1",
+      "population_status": "common",
+      "notes": "NULL",
+      "plant_name": "Labdanum",
+      "latin_name": "Cistus ladanifer",
+      "zone_name": "Méditerranée occidentale"
+    },
+    {
+      "id": "14",
+      "plant_id": "240001",
+      "zone_id": "30003",
+      "is_primary_zone": "0",
+      "population_status": "common",
+      "notes": "Espèce endémique d'Australie occidentale, régions semi-arides",
+      "plant_name": "Sandalwood australien",
+      "latin_name": "Santalum spicatum",
+      "zone_name": "Australie occidentale - Zone Santalum"
+    },
+    {
+      "id": "15",
+      "plant_id": "240002",
+      "zone_id": "3",
+      "is_primary_zone": "0",
+      "population_status": "common",
+      "notes": "Forêts tropicales du Cambodge, Laos et Vietnam",
+      "plant_name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna",
+      "zone_name": "Asie du Sud-Est - Triangle Aquilaria"
+    },
+    {
+      "id": "16",
+      "plant_id": "240003",
+      "zone_id": "30005",
+      "is_primary_zone": "0",
+      "population_status": "common",
+      "notes": "Endémique du Sri Lanka, forêts tropicales humides",
+      "plant_name": "Cannelier de Ceylan",
+      "latin_name": "Cinnamomum verum",
+      "zone_name": "Sri Lanka - Zone Cinnamomum"
+    },
+    {
+      "id": "17",
+      "plant_id": "240004",
+      "zone_id": "30006",
+      "is_primary_zone": "0",
+      "population_status": "common",
+      "notes": "Zanzibar et Madagascar (production principale)",
+      "plant_name": "Giroflier",
+      "latin_name": "Syzygium aromaticum",
+      "zone_name": "Zanzibar - Zone Syzygium"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tplant_id\tzone_id\tis_primary_zone\tpopulation_status\tnotes\tplant_name\tlatin_name\tzone_name\n1\t30014\t1\t1\trare\tNULL\tEncens / Oliban\tBoswellia carterii\tSomalie - Zone critique Boswellia\n2\t150011\t1\t1\trare\tNULL\tMyrrhe\tCommiphora myrrha\tSomalie - Zone critique Boswellia\n3\t30012\t3\t1\tcommon\tNULL\tPatchouli\tPogostemon cablin\tAsie du Sud-Est - Triangle Aquilaria\n4\t180003\t3\t1\tcritically_rare\tNULL\tNard (Spikenard)\tNardostachys jatamansi\tAsie du Sud-Est - Triangle Aquilaria\n5\t210005\t30002\t1\trare\tNULL\tBalsamier (baume)\tMyroxylon balsamum\tAmérique centrale - Zone Myroxylon\n6\t150010\t30001\t1\tcommon\tNULL\tLabdanum\tCistus ladanifer\tMéditerranée occidentale\n14\t240001\t30003\t0\tcommon\tEspèce endémique d'Australie occidentale, régions semi-arides\tSandalwood australien\tSantalum spicatum\tAustralie occidentale - Zone Santalum\n15\t240002\t3\t0\tcommon\tForêts tropicales du Cambodge, Laos et Vietnam\tBois d'agar\tAquilaria crassna\tAsie du Sud-Est - Triangle Aquilaria\n16\t240003\t30005\t0\tcommon\tEndémique du Sri Lanka, forêts tropicales humides\tCannelier de Ceylan\tCinnamomum verum\tSri Lanka - Zone Cinnamomum\n17\t240004\t30006\t0\tcommon\tZanzibar et Madagascar (production principale)\tGiroflier\tSyzygium aromaticum\tZanzibar - Zone Syzygium\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

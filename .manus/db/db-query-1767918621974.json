@@ -1,0 +1,17 @@
+{
+  "query": "\nSELECT \n  (SELECT COUNT(*) FROM plant_molecules) as total_liaisons,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) as plantes_avec_liaisons,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_avec_liaisons,\n  (SELECT COUNT(*) FROM plants) as total_plantes,\n  (SELECT COUNT(*) FROM molecules) as total_molecules\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  (SELECT COUNT(*) FROM plant_molecules) as total_liaisons,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) as plantes_avec_liaisons,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_avec_liaisons,\n  (SELECT COUNT(*) FROM plants) as total_plantes,\n  (SELECT COUNT(*) FROM molecules) as total_molecules\n",
+  "rows": [
+    {
+      "total_liaisons": "285",
+      "plantes_avec_liaisons": "56",
+      "molecules_avec_liaisons": "135",
+      "total_plantes": "149",
+      "total_molecules": "569"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_liaisons\tplantes_avec_liaisons\tmolecules_avec_liaisons\ttotal_plantes\ttotal_molecules\n285\t56\t135\t149\t569\n",
+  "stderr": "",
+  "execution_time_ms": 159
+}

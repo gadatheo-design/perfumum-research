@@ -1,0 +1,154 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'molecules' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'molecules' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "name",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "formula",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "chemicalFamily",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "olfactiveProfile",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "functionalEffect",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "threshold",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "toxicityRemarks",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "createdAt",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updatedAt",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "family",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "chemicalFormula",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "emotionalResonance",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "sourceOrigin",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "concentration",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "emotion",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "molecularWeight",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "boilingPoint",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "logP",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "volatility",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "intensity",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "complexity",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "botanicalSources",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "extractionMethod",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "therapeuticProperties",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "radar_intensity",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "radar_freshness",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "radar_warmth",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "radar_sweetness",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "radar_spiciness",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "radar_earthiness",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "references",
+      "DATA_TYPE": "json"
+    },
+    {
+      "COLUMN_NAME": "iupac_name",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "cas_number",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "chemical_class",
+      "DATA_TYPE": "enum"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\nid\tint\nname\tvarchar\nformula\tvarchar\nchemicalFamily\ttext\nolfactiveProfile\ttext\nfunctionalEffect\ttext\nthreshold\tvarchar\ntoxicityRemarks\ttext\ncreatedAt\ttimestamp\nupdatedAt\ttimestamp\nfamily\ttext\nchemicalFormula\tvarchar\nemotionalResonance\ttext\nsourceOrigin\ttext\nconcentration\tvarchar\nnotes\ttext\nemotion\ttext\nmolecularWeight\tint\nboilingPoint\tint\nlogP\tint\nvolatility\tint\nintensity\tint\ncomplexity\tint\nbotanicalSources\ttext\nextractionMethod\ttext\ntherapeuticProperties\ttext\nradar_intensity\tint\nradar_freshness\tint\nradar_warmth\tint\nradar_sweetness\tint\nradar_spiciness\tint\nradar_earthiness\tint\nreferences\tjson\niupac_name\tvarchar\ncas_number\tvarchar\nchemical_class\tenum\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

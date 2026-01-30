@@ -1,0 +1,40 @@
+{
+  "query": "SELECT COUNT(*) as total, transformation_type, COUNT(*) as count FROM molecular_transformations GROUP BY transformation_type;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, transformation_type, COUNT(*) as count FROM molecular_transformations GROUP BY transformation_type;",
+  "rows": [
+    {
+      "total": "13",
+      "transformation_type": "oxidation",
+      "count": "13"
+    },
+    {
+      "total": "4",
+      "transformation_type": "pyrolysis",
+      "count": "4"
+    },
+    {
+      "total": "1",
+      "transformation_type": "dehydration",
+      "count": "1"
+    },
+    {
+      "total": "1",
+      "transformation_type": "other",
+      "count": "1"
+    },
+    {
+      "total": "1",
+      "transformation_type": "degradation",
+      "count": "1"
+    },
+    {
+      "total": "13",
+      "transformation_type": "isomerization",
+      "count": "13"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\ttransformation_type\tcount\n13\toxidation\t13\n4\tpyrolysis\t4\n1\tdehydration\t1\n1\tother\t1\n1\tdegradation\t1\n13\tisomerization\t13\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

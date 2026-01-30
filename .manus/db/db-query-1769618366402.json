@@ -1,0 +1,136 @@
+{
+  "query": "SELECT id, date, title, type FROM milestones ORDER BY date;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, date, title, type FROM milestones ORDER BY date;",
+  "rows": [
+    {
+      "id": "1",
+      "date": "2025-01-01 00:00:00",
+      "title": "Lancement du projet PERFUMUM",
+      "type": "other"
+    },
+    {
+      "id": "2",
+      "date": "2025-02-15 00:00:00",
+      "title": "Création du prototype C1 - PETRICHOR SOUTERRAIN",
+      "type": "prototype"
+    },
+    {
+      "id": "3",
+      "date": "2025-03-01 00:00:00",
+      "title": "Expédition ABSORBE·COLOMBIA",
+      "type": "discovery"
+    },
+    {
+      "id": "4",
+      "date": "2025-04-20 00:00:00",
+      "title": "Création du prototype C2 - CLARUS VERDE",
+      "type": "prototype"
+    },
+    {
+      "id": "5",
+      "date": "2025-06-01 00:00:00",
+      "title": "Mise en ligne de la plateforme PERFUMUM",
+      "type": "publication"
+    },
+    {
+      "id": "6",
+      "date": "2025-07-15 00:00:00",
+      "title": "Création du prototype C3 - LACTA SOLIS",
+      "type": "prototype"
+    },
+    {
+      "id": "7",
+      "date": "2025-09-01 00:00:00",
+      "title": "Partenariat avec laboratoire GC-MS",
+      "type": "collaboration"
+    },
+    {
+      "id": "8",
+      "date": "2025-10-20 00:00:00",
+      "title": "Création du prototype C4 - TERRA AMBRA",
+      "type": "prototype"
+    },
+    {
+      "id": "9",
+      "date": "2025-12-01 00:00:00",
+      "title": "Publication du glossaire GC-MS/Pyrolyse",
+      "type": "publication"
+    },
+    {
+      "id": "10",
+      "date": "2026-01-15 00:00:00",
+      "title": "Intégration des données de tabac",
+      "type": "discovery"
+    },
+    {
+      "id": "11",
+      "date": "2026-03-01 00:00:00",
+      "title": "Expédition ABSORBE·SAN ANDRÉS",
+      "type": "discovery"
+    },
+    {
+      "id": "12",
+      "date": "2026-06-01 00:00:00",
+      "title": "Lancement du module Heritage & Conservation",
+      "type": "publication"
+    },
+    {
+      "id": "13",
+      "date": "2026-09-01 00:00:00",
+      "title": "Collaboration avec parfumeurs indépendants",
+      "type": "collaboration"
+    },
+    {
+      "id": "14",
+      "date": "2026-12-01 00:00:00",
+      "title": "Publication du rapport annuel 2026",
+      "type": "publication"
+    },
+    {
+      "id": "15",
+      "date": "2027-06-01 00:00:00",
+      "title": "Lancement de l'application mobile PERFUMUM",
+      "type": "publication"
+    },
+    {
+      "id": "16",
+      "date": "2028-01-01 00:00:00",
+      "title": "Expédition ABSORBE·MADAGASCAR",
+      "type": "discovery"
+    },
+    {
+      "id": "17",
+      "date": "2029-01-01 00:00:00",
+      "title": "Publication du livre \"Méthode ABSORBE\"",
+      "type": "publication"
+    },
+    {
+      "id": "18",
+      "date": "2030-06-01 00:00:00",
+      "title": "Exposition \"PERFUMUM : 5 ans de recherche\"",
+      "type": "other"
+    },
+    {
+      "id": "19",
+      "date": "2031-01-01 00:00:00",
+      "title": "Lancement du programme de formation ABSORBE",
+      "type": "collaboration"
+    },
+    {
+      "id": "20",
+      "date": "2033-01-01 00:00:00",
+      "title": "Création du Centre de Recherche Olfactive ABSORBE",
+      "type": "other"
+    },
+    {
+      "id": "21",
+      "date": "2035-12-31 00:00:00",
+      "title": "Clôture du projet décennal PERFUMUM",
+      "type": "publication"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdate\ttitle\ttype\n1\t2025-01-01 00:00:00\tLancement du projet PERFUMUM\tother\n2\t2025-02-15 00:00:00\tCréation du prototype C1 - PETRICHOR SOUTERRAIN\tprototype\n3\t2025-03-01 00:00:00\tExpédition ABSORBE·COLOMBIA\tdiscovery\n4\t2025-04-20 00:00:00\tCréation du prototype C2 - CLARUS VERDE\tprototype\n5\t2025-06-01 00:00:00\tMise en ligne de la plateforme PERFUMUM\tpublication\n6\t2025-07-15 00:00:00\tCréation du prototype C3 - LACTA SOLIS\tprototype\n7\t2025-09-01 00:00:00\tPartenariat avec laboratoire GC-MS\tcollaboration\n8\t2025-10-20 00:00:00\tCréation du prototype C4 - TERRA AMBRA\tprototype\n9\t2025-12-01 00:00:00\tPublication du glossaire GC-MS/Pyrolyse\tpublication\n10\t2026-01-15 00:00:00\tIntégration des données de tabac\tdiscovery\n11\t2026-03-01 00:00:00\tExpédition ABSORBE·SAN ANDRÉS\tdiscovery\n12\t2026-06-01 00:00:00\tLancement du module Heritage & Conservation\tpublication\n13\t2026-09-01 00:00:00\tCollaboration avec parfumeurs indépendants\tcollaboration\n14\t2026-12-01 00:00:00\tPublication du rapport annuel 2026\tpublication\n15\t2027-06-01 00:00:00\tLancement de l'application mobile PERFUMUM\tpublication\n16\t2028-01-01 00:00:00\tExpédition ABSORBE·MADAGASCAR\tdiscovery\n17\t2029-01-01 00:00:00\tPublication du livre \"Méthode ABSORBE\"\tpublication\n18\t2030-06-01 00:00:00\tExposition \"PERFUMUM : 5 ans de recherche\"\tother\n19\t2031-01-01 00:00:00\tLancement du programme de formation ABSORBE\tcollaboration\n20\t2033-01-01 00:00:00\tCréation du Centre de Recherche Olfactive ABSORBE\tother\n21\t2035-12-31 00:00:00\tClôture du projet décennal PERFUMUM\tpublication\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

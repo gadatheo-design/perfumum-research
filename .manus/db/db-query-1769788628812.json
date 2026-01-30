@@ -1,0 +1,9 @@
+{
+  "query": "-- Vue pour les notes moléculaires avec noms des molécules et utilisateurs\nCREATE OR REPLACE VIEW molecule_notes_view AS\nSELECT \n  mn.id,\n  mn.user_id,\n  u.name as user_name,\n  mn.molecule_id,\n  m.name as molecule_name,\n  mn.note,\n  mn.tags,\n  mn.created_at,\n  mn.updated_at\nFROM molecule_notes mn\nJOIN users u ON u.id = mn.user_id\nJOIN molecules m ON m.id = mn.molecule_id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Vue pour les notes moléculaires avec noms des molécules et utilisateurs\nCREATE OR REPLACE VIEW molecule_notes_view AS\nSELECT \n  mn.id,\n  mn.user_id,\n  u.name as user_name,\n  mn.molecule_id,\n  m.name as molecule_name,\n  mn.note,\n  mn.tags,\n  mn.created_at,\n  mn.updated_at\nFROM molecule_notes mn\nJOIN users u ON u.id = mn.user_id\nJOIN molecules m ON m.id = mn.molecule_id;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 237
+}

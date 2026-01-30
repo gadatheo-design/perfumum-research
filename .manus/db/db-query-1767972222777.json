@@ -1,0 +1,20 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM plant_molecules) as total_liaisons,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) as plants_with_molecules,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_with_plants,\n  (SELECT COUNT(*) FROM raw_materials) as total_raw_materials,\n  (SELECT COUNT(*) FROM terroirs) as total_terroirs,\n  (SELECT COUNT(*) FROM plant_terroirs) as total_plant_terroirs;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM plant_molecules) as total_liaisons,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) as plants_with_molecules,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_with_plants,\n  (SELECT COUNT(*) FROM raw_materials) as total_raw_materials,\n  (SELECT COUNT(*) FROM terroirs) as total_terroirs,\n  (SELECT COUNT(*) FROM plant_terroirs) as total_plant_terroirs;",
+  "rows": [
+    {
+      "total_molecules": "616",
+      "total_plants": "176",
+      "total_liaisons": "491",
+      "plants_with_molecules": "94",
+      "molecules_with_plants": "201",
+      "total_raw_materials": "25",
+      "total_terroirs": "36",
+      "total_plant_terroirs": "321"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\ttotal_plants\ttotal_liaisons\tplants_with_molecules\tmolecules_with_plants\ttotal_raw_materials\ttotal_terroirs\ttotal_plant_terroirs\n616\t176\t491\t94\t201\t25\t36\t321\n",
+  "stderr": "",
+  "execution_time_ms": 1659
+}

@@ -1,0 +1,19 @@
+{
+  "query": "SHOW TABLES LIKE '%material%';\nSHOW TABLES LIKE '%essential%';\nSHOW TABLES LIKE '%oil%';\nSHOW TABLES LIKE '%product%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW TABLES LIKE '%material%';\nSHOW TABLES LIKE '%essential%';\nSHOW TABLES LIKE '%oil%';\nSHOW TABLES LIKE '%product%';",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%material%)": "extended_supplier_materials"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%material%)": "raw_material_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%material%)": "raw_materials"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%material%)\nextended_supplier_materials\nraw_material_molecules\nraw_materials\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

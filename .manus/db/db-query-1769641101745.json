@@ -1,0 +1,42 @@
+{
+  "query": "SELECT id, name, country, region, latitude, longitude \nFROM terroirs \nWHERE latitude IS NULL OR longitude IS NULL OR latitude = '' OR longitude = ''\nORDER BY country, name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, country, region, latitude, longitude \nFROM terroirs \nWHERE latitude IS NULL OR longitude IS NULL OR latitude = '' OR longitude = ''\nORDER BY country, name;",
+  "rows": [
+    {
+      "id": "60007",
+      "name": "Global",
+      "country": "Global",
+      "region": "Pour ressources mondiales (pangenomes, databases).",
+      "latitude": "0.0000000",
+      "longitude": "0.0000000"
+    },
+    {
+      "id": "180001",
+      "name": "Mésoamérique",
+      "country": "Mexique",
+      "region": "Amérique Centrale",
+      "latitude": "NULL",
+      "longitude": "NULL"
+    },
+    {
+      "id": "210007",
+      "name": "Afrique Centrale, Forêt Équatoriale",
+      "country": "Multi-pays",
+      "region": "Bassin du Congo",
+      "latitude": "0.0000000",
+      "longitude": "18.0000000"
+    },
+    {
+      "id": "210004",
+      "name": "Afrique de l'Ouest, Sahel",
+      "country": "Multi-pays",
+      "region": "Sahel",
+      "latitude": "14.0000000",
+      "longitude": "0.0000000"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcountry\tregion\tlatitude\tlongitude\n60007\tGlobal\tGlobal\tPour ressources mondiales (pangenomes, databases).\t0.0000000\t0.0000000\n180001\tMésoamérique\tMexique\tAmérique Centrale\tNULL\tNULL\n210007\tAfrique Centrale, Forêt Équatoriale\tMulti-pays\tBassin du Congo\t0.0000000\t18.0000000\n210004\tAfrique de l'Ouest, Sahel\tMulti-pays\tSahel\t14.0000000\t0.0000000\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

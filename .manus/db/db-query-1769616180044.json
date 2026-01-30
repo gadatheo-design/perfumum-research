@@ -1,0 +1,70 @@
+{
+  "query": "SELECT category, COUNT(*) as count FROM glossary GROUP BY category ORDER BY count DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT category, COUNT(*) as count FROM glossary GROUP BY category ORDER BY count DESC;",
+  "rows": [
+    {
+      "category": "chimie",
+      "count": "17"
+    },
+    {
+      "category": "concept",
+      "count": "13"
+    },
+    {
+      "category": "methodologie",
+      "count": "7"
+    },
+    {
+      "category": "molecule",
+      "count": "7"
+    },
+    {
+      "category": "propriete",
+      "count": "7"
+    },
+    {
+      "category": "interaction",
+      "count": "6"
+    },
+    {
+      "category": "technique",
+      "count": "5"
+    },
+    {
+      "category": "reaction",
+      "count": "5"
+    },
+    {
+      "category": "protocole",
+      "count": "4"
+    },
+    {
+      "category": "extraction",
+      "count": "4"
+    },
+    {
+      "category": "support",
+      "count": "3"
+    },
+    {
+      "category": "formulation",
+      "count": "3"
+    },
+    {
+      "category": "dispositif",
+      "count": "2"
+    },
+    {
+      "category": "structure",
+      "count": "1"
+    },
+    {
+      "category": "application",
+      "count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\tcount\nchimie\t17\nconcept\t13\nmethodologie\t7\nmolecule\t7\npropriete\t7\ninteraction\t6\ntechnique\t5\nreaction\t5\nprotocole\t4\nextraction\t4\nsupport\t3\nformulation\t3\ndispositif\t2\nstructure\t1\napplication\t1\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

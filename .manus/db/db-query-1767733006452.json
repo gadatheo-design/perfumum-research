@@ -1,0 +1,34 @@
+{
+  "query": "SELECT id, name, latin_name, latitude, longitude, origin FROM plants WHERE latitude IS NULL OR longitude IS NULL ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, latitude, longitude, origin FROM plants WHERE latitude IS NULL OR longitude IS NULL ORDER BY name;",
+  "rows": [
+    {
+      "id": "210031",
+      "name": "Test Plant 1",
+      "latin_name": "Testus plantus",
+      "latitude": "NULL",
+      "longitude": "NULL",
+      "origin": "Test Region"
+    },
+    {
+      "id": "210032",
+      "name": "Test Resin Plant",
+      "latin_name": "Testus resinus",
+      "latitude": "NULL",
+      "longitude": "NULL",
+      "origin": "Test"
+    },
+    {
+      "id": "210033",
+      "name": "Test Wind Plant",
+      "latin_name": "Testus ventus",
+      "latitude": "NULL",
+      "longitude": "NULL",
+      "origin": "Test"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tlatitude\tlongitude\torigin\n210031\tTest Plant 1\tTestus plantus\tNULL\tNULL\tTest Region\n210032\tTest Resin Plant\tTestus resinus\tNULL\tNULL\tTest\n210033\tTest Wind Plant\tTestus ventus\tNULL\tNULL\tTest\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

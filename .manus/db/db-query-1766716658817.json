@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `situated_smells` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`poetic_name` varchar(255) NOT NULL,\n\t`location` varchar(255) NOT NULL,\n\t`date` timestamp NOT NULL,\n\t`weather` varchar(255),\n\t`support` text,\n\t`immediate_impression` text,\n\t`triggered_memory` text,\n\t`recreatable` enum('yes','no','maybe') DEFAULT 'maybe',\n\t`linked_field_archive_id` int,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `situated_smells_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `situated_smells` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`poetic_name` varchar(255) NOT NULL,\n\t`location` varchar(255) NOT NULL,\n\t`date` timestamp NOT NULL,\n\t`weather` varchar(255),\n\t`support` text,\n\t`immediate_impression` text,\n\t`triggered_memory` text,\n\t`recreatable` enum('yes','no','maybe') DEFAULT 'maybe',\n\t`linked_field_archive_id` int,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `situated_smells_id` PRIMARY KEY(`id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 207
+}

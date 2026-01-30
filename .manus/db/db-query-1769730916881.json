@@ -1,0 +1,208 @@
+{
+  "query": "SELECT id, source_molecule_name, product_molecule_name, transformation_type FROM molecular_transformations LIMIT 40;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, source_molecule_name, product_molecule_name, transformation_type FROM molecular_transformations LIMIT 40;",
+  "rows": [
+    {
+      "id": "1",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "p-Cymène",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "2",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "Terpinolène",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "3",
+      "source_molecule_name": "Limonène",
+      "product_molecule_name": "α-Terpinène",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "4",
+      "source_molecule_name": "α-Pinène",
+      "product_molecule_name": "Camphène",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "5",
+      "source_molecule_name": "α-Pinène",
+      "product_molecule_name": "Limonène",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "6",
+      "source_molecule_name": "β-Pinène",
+      "product_molecule_name": "Myrcène",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "7",
+      "source_molecule_name": "Myrcène",
+      "product_molecule_name": "Linalol",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "8",
+      "source_molecule_name": "Myrcène",
+      "product_molecule_name": "Géraniol",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "9",
+      "source_molecule_name": "Linalol",
+      "product_molecule_name": "Oxyde de linalol",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "10",
+      "source_molecule_name": "Linalol",
+      "product_molecule_name": "Nérol",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "11",
+      "source_molecule_name": "β-Caryophyllène",
+      "product_molecule_name": "Oxyde de caryophyllène",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "12",
+      "source_molecule_name": "β-Caryophyllène",
+      "product_molecule_name": "Isocaryophyllène",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "13",
+      "source_molecule_name": "β-Caryophyllène",
+      "product_molecule_name": "Humulène",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "14",
+      "source_molecule_name": "α-Humulène",
+      "product_molecule_name": "Oxyde d'humulène",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "15",
+      "source_molecule_name": "α-Humulène",
+      "product_molecule_name": "Caryophyllène",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "16",
+      "source_molecule_name": "α-Farnésène",
+      "product_molecule_name": "Farnésol",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "17",
+      "source_molecule_name": "β-Farnésène",
+      "product_molecule_name": "Nérolidol",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "18",
+      "source_molecule_name": "α-Bisabolène",
+      "product_molecule_name": "Bisabolol",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "19",
+      "source_molecule_name": "Germacrène D",
+      "product_molecule_name": "β-Élémène",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "20",
+      "source_molecule_name": "Germacrène D",
+      "product_molecule_name": "Sélina-4,11-diène",
+      "transformation_type": "pyrolysis"
+    },
+    {
+      "id": "21",
+      "source_molecule_name": "Phytol",
+      "product_molecule_name": "Néophytadiène",
+      "transformation_type": "dehydration"
+    },
+    {
+      "id": "22",
+      "source_molecule_name": "Phytol",
+      "product_molecule_name": "Isophytol",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "23",
+      "source_molecule_name": "Sclareol",
+      "product_molecule_name": "Ambrox",
+      "transformation_type": "degradation"
+    },
+    {
+      "id": "24",
+      "source_molecule_name": "Labdane",
+      "product_molecule_name": "Ambre gris synthétique",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "25",
+      "source_molecule_name": "Géraniol",
+      "product_molecule_name": "Citral",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "26",
+      "source_molecule_name": "Géraniol",
+      "product_molecule_name": "Citronellol",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "27",
+      "source_molecule_name": "Citronellol",
+      "product_molecule_name": "Citronellal",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "28",
+      "source_molecule_name": "Eugénol",
+      "product_molecule_name": "Isoeugénol",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "29",
+      "source_molecule_name": "Eugénol",
+      "product_molecule_name": "Vanilline",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "30",
+      "source_molecule_name": "Menthol",
+      "product_molecule_name": "Menthone",
+      "transformation_type": "oxidation"
+    },
+    {
+      "id": "31",
+      "source_molecule_name": "Menthol",
+      "product_molecule_name": "Isomenthol",
+      "transformation_type": "isomerization"
+    },
+    {
+      "id": "32",
+      "source_molecule_name": "Camphre",
+      "product_molecule_name": "Bornéol",
+      "transformation_type": "other"
+    },
+    {
+      "id": "33",
+      "source_molecule_name": "Bornéol",
+      "product_molecule_name": "Isobornéol",
+      "transformation_type": "isomerization"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsource_molecule_name\tproduct_molecule_name\ttransformation_type\n1\tLimonène\tp-Cymène\tpyrolysis\n2\tLimonène\tTerpinolène\tisomerization\n3\tLimonène\tα-Terpinène\tisomerization\n4\tα-Pinène\tCamphène\tisomerization\n5\tα-Pinène\tLimonène\tisomerization\n6\tβ-Pinène\tMyrcène\tpyrolysis\n7\tMyrcène\tLinalol\toxidation\n8\tMyrcène\tGéraniol\toxidation\n9\tLinalol\tOxyde de linalol\toxidation\n10\tLinalol\tNérol\tisomerization\n11\tβ-Caryophyllène\tOxyde de caryophyllène\toxidation\n12\tβ-Caryophyllène\tIsocaryophyllène\tisomerization\n13\tβ-Caryophyllène\tHumulène\tisomerization\n14\tα-Humulène\tOxyde d'humulène\toxidation\n15\tα-Humulène\tCaryophyllène\tisomerization\n16\tα-Farnésène\tFarnésol\toxidation\n17\tβ-Farnésène\tNérolidol\toxidation\n18\tα-Bisabolène\tBisabolol\toxidation\n19\tGermacrène D\tβ-Élémène\tpyrolysis\n20\tGermacrène D\tSélina-4,11-diène\tpyrolysis\n21\tPhytol\tNéophytadiène\tdehydration\n22\tPhytol\tIsophytol\tisomerization\n23\tSclareol\tAmbrox\tdegradation\n24\tLabdane\tAmbre gris synthétique\toxidation\n25\tGéraniol\tCitral\toxidation\n26\tGéraniol\tCitronellol\tisomerization\n27\tCitronellol\tCitronellal\toxidation\n28\tEugénol\tIsoeugénol\tisomerization\n29\tEugénol\tVanilline\toxidation\n30\tMenthol\tMenthone\toxidation\n31\tMenthol\tIsomenthol\tisomerization\n32\tCamphre\tBornéol\tother\n33\tBornéol\tIsobornéol\tisomerization\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

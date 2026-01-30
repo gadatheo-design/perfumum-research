@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COUNT(*) as total, \n       SUM(CASE WHEN entry_type = 'article' THEN 1 ELSE 0 END) as articles,\n       SUM(CASE WHEN entry_type = 'online' THEN 1 ELSE 0 END) as online_sources\nFROM bibliography_entries;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, \n       SUM(CASE WHEN entry_type = 'article' THEN 1 ELSE 0 END) as articles,\n       SUM(CASE WHEN entry_type = 'online' THEN 1 ELSE 0 END) as online_sources\nFROM bibliography_entries;",
+  "rows": [
+    {
+      "total": "125",
+      "articles": "59",
+      "online_sources": "20"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tarticles\tonline_sources\n125\t59\t20\n",
+  "stderr": "",
+  "execution_time_ms": 411
+}

@@ -1,0 +1,90 @@
+{
+  "query": "SELECT variety_id, name FROM plant_varieties LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT variety_id, name FROM plant_varieties LIMIT 20;",
+  "rows": [
+    {
+      "variety_id": "PV-CAN-001",
+      "name": "Kerala Gold"
+    },
+    {
+      "variety_id": "PV-CAN-002",
+      "name": "Malana Cream"
+    },
+    {
+      "variety_id": "PV-CAN-003",
+      "name": "Idukki Gold"
+    },
+    {
+      "variety_id": "PV-CAN-004",
+      "name": "Manipuri"
+    },
+    {
+      "variety_id": "PV-CAN-005",
+      "name": "Naga Sativa"
+    },
+    {
+      "variety_id": "PV-CAN-006",
+      "name": "Shillong"
+    },
+    {
+      "variety_id": "PV-CAN-007",
+      "name": "Thai (Thai Stick)"
+    },
+    {
+      "variety_id": "PV-CAN-008",
+      "name": "Chocolate Thai"
+    },
+    {
+      "variety_id": "PV-CAN-009",
+      "name": "Highland Thai"
+    },
+    {
+      "variety_id": "PV-CAN-010",
+      "name": "Cambodian"
+    },
+    {
+      "variety_id": "PV-CAN-011",
+      "name": "Laotian"
+    },
+    {
+      "variety_id": "PV-CAN-012",
+      "name": "Vietnamese Black"
+    },
+    {
+      "variety_id": "PV-CAN-013",
+      "name": "Afghan Kush"
+    },
+    {
+      "variety_id": "PV-CAN-014",
+      "name": "Mazar-i-Sharif"
+    },
+    {
+      "variety_id": "PV-CAN-015",
+      "name": "Kandahar"
+    },
+    {
+      "variety_id": "PV-CAN-016",
+      "name": "Chitral"
+    },
+    {
+      "variety_id": "PV-CAN-017",
+      "name": "Pakistani Kush"
+    },
+    {
+      "variety_id": "PV-CAN-018",
+      "name": "Balkh"
+    },
+    {
+      "variety_id": "PV-CAN-019",
+      "name": "Uzbeki"
+    },
+    {
+      "variety_id": "PV-CAN-020",
+      "name": "Tajik"
+    }
+  ],
+  "messages": [],
+  "stdout": "variety_id\tname\nPV-CAN-001\tKerala Gold\nPV-CAN-002\tMalana Cream\nPV-CAN-003\tIdukki Gold\nPV-CAN-004\tManipuri\nPV-CAN-005\tNaga Sativa\nPV-CAN-006\tShillong\nPV-CAN-007\tThai (Thai Stick)\nPV-CAN-008\tChocolate Thai\nPV-CAN-009\tHighland Thai\nPV-CAN-010\tCambodian\nPV-CAN-011\tLaotian\nPV-CAN-012\tVietnamese Black\nPV-CAN-013\tAfghan Kush\nPV-CAN-014\tMazar-i-Sharif\nPV-CAN-015\tKandahar\nPV-CAN-016\tChitral\nPV-CAN-017\tPakistani Kush\nPV-CAN-018\tBalkh\nPV-CAN-019\tUzbeki\nPV-CAN-020\tTajik\n",
+  "stderr": "",
+  "execution_time_ms": 48
+}

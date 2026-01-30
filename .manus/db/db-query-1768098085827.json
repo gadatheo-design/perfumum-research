@@ -1,0 +1,199 @@
+{
+  "query": "\nSELECT id, axis_code, name, meta_axis, description \nFROM thematic_axes \nORDER BY meta_axis, axis_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, axis_code, name, meta_axis, description \nFROM thematic_axes \nORDER BY meta_axis, axis_code;\n",
+  "rows": [
+    {
+      "id": "1",
+      "axis_code": "A1",
+      "name": "Smell studies & critical theory",
+      "meta_axis": "meta_a",
+      "description": "NULL"
+    },
+    {
+      "id": "9",
+      "axis_code": "E1",
+      "name": "Museum protocols & olfactory museology",
+      "meta_axis": "meta_a",
+      "description": "NULL"
+    },
+    {
+      "id": "10",
+      "axis_code": "E2",
+      "name": "Heritage science: documentation & analysis",
+      "meta_axis": "meta_a",
+      "description": "NULL"
+    },
+    {
+      "id": "11",
+      "axis_code": "F1",
+      "name": "Ethics, politics & decolonial smell",
+      "meta_axis": "meta_a",
+      "description": "NULL"
+    },
+    {
+      "id": "12",
+      "axis_code": "F2",
+      "name": "Community, education & practice networks",
+      "meta_axis": "meta_a",
+      "description": "NULL"
+    },
+    {
+      "id": "30001",
+      "axis_code": "H1",
+      "name": "Patrimoine Olfactif & Archives",
+      "meta_axis": "meta_a",
+      "description": "Conservation du patrimoine olfactif, archives sensorielles, musées et pratiques de préservation des odeurs historiques."
+    },
+    {
+      "id": "30002",
+      "axis_code": "H2",
+      "name": "Durabilité & Biodiversité",
+      "meta_axis": "meta_a",
+      "description": "Conservation des matières premières aromatiques, espèces menacées, réglementations CITES, sourcing éthique et biodiversité."
+    },
+    {
+      "id": "30003",
+      "axis_code": "H3",
+      "name": "Reconstruction de Parfums Antiques",
+      "meta_axis": "meta_a",
+      "description": "Reconstitution de parfums historiques (Égypte, Grèce, Rome), archéométrie, analyse chimique de résidus antiques."
+    },
+    {
+      "id": "2",
+      "axis_code": "B1",
+      "name": "Olfactory art & aesthetics",
+      "meta_axis": "meta_b",
+      "description": "NULL"
+    },
+    {
+      "id": "3",
+      "axis_code": "B2",
+      "name": "Smell in space, design & urban smellscapes",
+      "meta_axis": "meta_b",
+      "description": "NULL"
+    },
+    {
+      "id": "13",
+      "axis_code": "J1",
+      "name": "Performative smell systems / devices",
+      "meta_axis": "meta_b",
+      "description": "NULL"
+    },
+    {
+      "id": "4",
+      "axis_code": "C1",
+      "name": "Olfactory heritage & computational humanities",
+      "meta_axis": "meta_c",
+      "description": "NULL"
+    },
+    {
+      "id": "5",
+      "axis_code": "C2",
+      "name": "Material culture & perfumery archives",
+      "meta_axis": "meta_c",
+      "description": "NULL"
+    },
+    {
+      "id": "6",
+      "axis_code": "C3",
+      "name": "Global scent histories beyond Eurocentrism",
+      "meta_axis": "meta_c",
+      "description": "NULL"
+    },
+    {
+      "id": "7",
+      "axis_code": "D1",
+      "name": "Knowledge graph & datasets",
+      "meta_axis": "meta_c",
+      "description": "NULL"
+    },
+    {
+      "id": "8",
+      "axis_code": "D2",
+      "name": "Methods (field, mapping, participatory)",
+      "meta_axis": "meta_c",
+      "description": "NULL"
+    },
+    {
+      "id": "30010",
+      "axis_code": "G1",
+      "name": "Cannabis Genomics",
+      "meta_axis": "meta_c",
+      "description": "Références sur la génomique du cannabis: pangénome, assemblages, variation structurelle, domestication, biosynthèse des cannabinoïdes et terpènes."
+    },
+    {
+      "id": "30011",
+      "axis_code": "G2",
+      "name": "Tobacco Genomics",
+      "meta_axis": "meta_c",
+      "description": "Références sur la génomique du tabac (Nicotiana): assemblages, biosynthèse de la nicotine, évolution, transcriptomique, épigénomique."
+    },
+    {
+      "id": "30012",
+      "axis_code": "G3",
+      "name": "Genomic Databases",
+      "meta_axis": "meta_c",
+      "description": "Bases de données génomiques et portails de ressources pour le cannabis et le tabac."
+    },
+    {
+      "id": "14",
+      "axis_code": "J2",
+      "name": "VR olfactive & multisensory interfaces",
+      "meta_axis": "meta_c",
+      "description": "NULL"
+    },
+    {
+      "id": "15",
+      "axis_code": "J3",
+      "name": "AI for olfaction / digital smell",
+      "meta_axis": "meta_c",
+      "description": "NULL"
+    },
+    {
+      "id": "16",
+      "axis_code": "M1",
+      "name": "Cannabis: diversité colombienne (chimio/terpènes)",
+      "meta_axis": "other",
+      "description": "NULL"
+    },
+    {
+      "id": "17",
+      "axis_code": "M2",
+      "name": "Cannabis: standardisation & nomenclature",
+      "meta_axis": "other",
+      "description": "NULL"
+    },
+    {
+      "id": "18",
+      "axis_code": "M3",
+      "name": "Cannabis: phytochemistry & biosynthesis",
+      "meta_axis": "other",
+      "description": "NULL"
+    },
+    {
+      "id": "19",
+      "axis_code": "N1",
+      "name": "Tabac: ethnobotanique & rituels",
+      "meta_axis": "other",
+      "description": "NULL"
+    },
+    {
+      "id": "20",
+      "axis_code": "N2",
+      "name": "Tabac: industrie, histoire, pouvoir",
+      "meta_axis": "other",
+      "description": "NULL"
+    },
+    {
+      "id": "21",
+      "axis_code": "N3",
+      "name": "Psychoactive ethnobotany (context only)",
+      "meta_axis": "other",
+      "description": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\taxis_code\tname\tmeta_axis\tdescription\n1\tA1\tSmell studies & critical theory\tmeta_a\tNULL\n9\tE1\tMuseum protocols & olfactory museology\tmeta_a\tNULL\n10\tE2\tHeritage science: documentation & analysis\tmeta_a\tNULL\n11\tF1\tEthics, politics & decolonial smell\tmeta_a\tNULL\n12\tF2\tCommunity, education & practice networks\tmeta_a\tNULL\n30001\tH1\tPatrimoine Olfactif & Archives\tmeta_a\tConservation du patrimoine olfactif, archives sensorielles, musées et pratiques de préservation des odeurs historiques.\n30002\tH2\tDurabilité & Biodiversité\tmeta_a\tConservation des matières premières aromatiques, espèces menacées, réglementations CITES, sourcing éthique et biodiversité.\n30003\tH3\tReconstruction de Parfums Antiques\tmeta_a\tReconstitution de parfums historiques (Égypte, Grèce, Rome), archéométrie, analyse chimique de résidus antiques.\n2\tB1\tOlfactory art & aesthetics\tmeta_b\tNULL\n3\tB2\tSmell in space, design & urban smellscapes\tmeta_b\tNULL\n13\tJ1\tPerformative smell systems / devices\tmeta_b\tNULL\n4\tC1\tOlfactory heritage & computational humanities\tmeta_c\tNULL\n5\tC2\tMaterial culture & perfumery archives\tmeta_c\tNULL\n6\tC3\tGlobal scent histories beyond Eurocentrism\tmeta_c\tNULL\n7\tD1\tKnowledge graph & datasets\tmeta_c\tNULL\n8\tD2\tMethods (field, mapping, participatory)\tmeta_c\tNULL\n30010\tG1\tCannabis Genomics\tmeta_c\tRéférences sur la génomique du cannabis: pangénome, assemblages, variation structurelle, domestication, biosynthèse des cannabinoïdes et terpènes.\n30011\tG2\tTobacco Genomics\tmeta_c\tRéférences sur la génomique du tabac (Nicotiana): assemblages, biosynthèse de la nicotine, évolution, transcriptomique, épigénomique.\n30012\tG3\tGenomic Databases\tmeta_c\tBases de données génomiques et portails de ressources pour le cannabis et le tabac.\n14\tJ2\tVR olfactive & multisensory interfaces\tmeta_c\tNULL\n15\tJ3\tAI for olfaction / digital smell\tmeta_c\tNULL\n16\tM1\tCannabis: diversité colombienne (chimio/terpènes)\tother\tNULL\n17\tM2\tCannabis: standardisation & nomenclature\tother\tNULL\n18\tM3\tCannabis: phytochemistry & biosynthesis\tother\tNULL\n19\tN1\tTabac: ethnobotanique & rituels\tother\tNULL\n20\tN2\tTabac: industrie, histoire, pouvoir\tother\tNULL\n21\tN3\tPsychoactive ethnobotany (context only)\tother\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}

@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `pyrazines` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `chemical_formula` varchar(50) NOT NULL,\n  `molecular_weight` decimal(10,2),\n  `structure` text,\n  `odor_profile` text,\n  `odor_threshold` decimal(20,10),\n  `volatility` varchar(100),\n  `boiling_point` decimal(10,2),\n  `melting_point` decimal(10,2),\n  `stability` text,\n  `tobacco_contribution` text,\n  `volcanic_profile` text,\n  `tobacco_varieties_containing` text,\n  `perfumery_potential` text,\n  `pyrolysis_transformations` text,\n  `source_references` text,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `pyrazines_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `pyrazines` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `name` varchar(255) NOT NULL,\n  `chemical_formula` varchar(50) NOT NULL,\n  `molecular_weight` decimal(10,2),\n  `structure` text,\n  `odor_profile` text,\n  `odor_threshold` decimal(20,10),\n  `volatility` varchar(100),\n  `boiling_point` decimal(10,2),\n  `melting_point` decimal(10,2),\n  `stability` text,\n  `tobacco_contribution` text,\n  `volcanic_profile` text,\n  `tobacco_varieties_containing` text,\n  `perfumery_potential` text,\n  `pyrolysis_transformations` text,\n  `source_references` text,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `pyrazines_id` PRIMARY KEY(`id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 192
+}

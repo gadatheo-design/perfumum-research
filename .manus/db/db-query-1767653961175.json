@@ -1,0 +1,59 @@
+{
+  "query": "SELECT \n  id, \n  name, \n  region,\n  LENGTH(conservation_efforts) as conservation_length,\n  LENGTH(sustainable_alternatives) as alternatives_length\nFROM geographic_zones\nWHERE id IN (30003, 3, 30005, 30006, 8, 30004, 30007)\nORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  id, \n  name, \n  region,\n  LENGTH(conservation_efforts) as conservation_length,\n  LENGTH(sustainable_alternatives) as alternatives_length\nFROM geographic_zones\nWHERE id IN (30003, 3, 30005, 30006, 8, 30004, 30007)\nORDER BY id;",
+  "rows": [
+    {
+      "id": "3",
+      "name": "Asie du Sud-Est - Triangle Aquilaria",
+      "region": "Asie du Sud-Est",
+      "conservation_length": "837",
+      "alternatives_length": "435"
+    },
+    {
+      "id": "8",
+      "name": "Indonésie - Kalimantan (Patchouli)",
+      "region": "Asie du Sud-Est",
+      "conservation_length": "646",
+      "alternatives_length": "182"
+    },
+    {
+      "id": "30003",
+      "name": "Australie occidentale - Zone Santalum",
+      "region": "Australie",
+      "conservation_length": "737",
+      "alternatives_length": "399"
+    },
+    {
+      "id": "30004",
+      "name": "Turquie - Zone Liquidambar",
+      "region": "Méditerranée orientale",
+      "conservation_length": "711",
+      "alternatives_length": "373"
+    },
+    {
+      "id": "30005",
+      "name": "Sri Lanka - Zone Cinnamomum",
+      "region": "Asie du Sud",
+      "conservation_length": "702",
+      "alternatives_length": "376"
+    },
+    {
+      "id": "30006",
+      "name": "Zanzibar - Zone Syzygium",
+      "region": "Afrique de l'Est",
+      "conservation_length": "764",
+      "alternatives_length": "323"
+    },
+    {
+      "id": "30007",
+      "name": "Sumatra - Zone Styrax",
+      "region": "Asie du Sud-Est",
+      "conservation_length": "792",
+      "alternatives_length": "377"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\tconservation_length\talternatives_length\n3\tAsie du Sud-Est - Triangle Aquilaria\tAsie du Sud-Est\t837\t435\n8\tIndonésie - Kalimantan (Patchouli)\tAsie du Sud-Est\t646\t182\n30003\tAustralie occidentale - Zone Santalum\tAustralie\t737\t399\n30004\tTurquie - Zone Liquidambar\tMéditerranée orientale\t711\t373\n30005\tSri Lanka - Zone Cinnamomum\tAsie du Sud\t702\t376\n30006\tZanzibar - Zone Syzygium\tAfrique de l'Est\t764\t323\n30007\tSumatra - Zone Styrax\tAsie du Sud-Est\t792\t377\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

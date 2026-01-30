@@ -1,0 +1,15 @@
+{
+  "query": "SELECT \n  COUNT(*) as total_molecules,\n  CAST(SUM(CASE WHEN cas_number IS NULL OR cas_number = '' THEN 1 ELSE 0 END) AS UNSIGNED) as sans_cas,\n  CAST(SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) AS UNSIGNED) as avec_cas\nFROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total_molecules,\n  CAST(SUM(CASE WHEN cas_number IS NULL OR cas_number = '' THEN 1 ELSE 0 END) AS UNSIGNED) as sans_cas,\n  CAST(SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) AS UNSIGNED) as avec_cas\nFROM molecules;",
+  "rows": [
+    {
+      "total_molecules": "556",
+      "sans_cas": "422",
+      "avec_cas": "134"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\tsans_cas\tavec_cas\n556\t422\t134\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

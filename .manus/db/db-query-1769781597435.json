@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS landrace_pyrolysis_profiles (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  landrace_id INT NOT NULL,\n  landrace_name VARCHAR(255) NOT NULL,\n  temperature_zone ENUM('vaporization', 'pyrolysis', 'combustion') NOT NULL,\n  temperature_min INT,\n  temperature_max INT,\n  source_molecule_id INT,\n  source_molecule_name VARCHAR(255),\n  product_molecule_id INT,\n  product_molecule_name VARCHAR(255),\n  yield_percent DECIMAL(5,2),\n  olfactory_impact TEXT,\n  health_notes TEXT,\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  INDEX idx_landrace (landrace_id),\n  INDEX idx_temperature_zone (temperature_zone),\n  INDEX idx_source_molecule (source_molecule_id)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS landrace_pyrolysis_profiles (\n  id INT AUTO_INCREMENT PRIMARY KEY,\n  landrace_id INT NOT NULL,\n  landrace_name VARCHAR(255) NOT NULL,\n  temperature_zone ENUM('vaporization', 'pyrolysis', 'combustion') NOT NULL,\n  temperature_min INT,\n  temperature_max INT,\n  source_molecule_id INT,\n  source_molecule_name VARCHAR(255),\n  product_molecule_id INT,\n  product_molecule_name VARCHAR(255),\n  yield_percent DECIMAL(5,2),\n  olfactory_impact TEXT,\n  health_notes TEXT,\n  notes TEXT,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  INDEX idx_landrace (landrace_id),\n  INDEX idx_temperature_zone (temperature_zone),\n  INDEX idx_source_molecule (source_molecule_id)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 59
+}

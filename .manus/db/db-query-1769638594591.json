@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, name FROM molecules WHERE (molecularWeight IS NULL OR molecularWeight = 0) LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules WHERE (molecularWeight IS NULL OR molecularWeight = 0) LIMIT 30;",
+  "rows": [
+    {
+      "id": "960001",
+      "name": "Lavandulyl acetate"
+    },
+    {
+      "id": "960002",
+      "name": "Terpinen-4-ol"
+    },
+    {
+      "id": "960003",
+      "name": "Camphor"
+    },
+    {
+      "id": "960004",
+      "name": "Sclareol"
+    },
+    {
+      "id": "960005",
+      "name": "Zingiberene"
+    },
+    {
+      "id": "960006",
+      "name": "Gingerol"
+    },
+    {
+      "id": "960007",
+      "name": "Alpha-terpinyl acetate"
+    },
+    {
+      "id": "960010",
+      "name": "Delta-3-carene"
+    },
+    {
+      "id": "960011",
+      "name": "Germacrene D"
+    },
+    {
+      "id": "960012",
+      "name": "Beta-bisabolene"
+    },
+    {
+      "id": "960013",
+      "name": "Alpha-curcumene"
+    },
+    {
+      "id": "990001",
+      "name": "Linalyl acetate"
+    },
+    {
+      "id": "990003",
+      "name": "Menthyl acetate"
+    },
+    {
+      "id": "990004",
+      "name": "Isomenthone"
+    },
+    {
+      "id": "990005",
+      "name": "Pulegone"
+    },
+    {
+      "id": "990006",
+      "name": "Globulol"
+    },
+    {
+      "id": "990008",
+      "name": "Verbenone"
+    },
+    {
+      "id": "990012",
+      "name": "Methyl benzoate"
+    },
+    {
+      "id": "990013",
+      "name": "Geranyl acetate"
+    },
+    {
+      "id": "990015",
+      "name": "Rose oxide"
+    },
+    {
+      "id": "990016",
+      "name": "Phenylethyl alcohol"
+    },
+    {
+      "id": "990017",
+      "name": "Jasmone"
+    },
+    {
+      "id": "990018",
+      "name": "Isovalencenol"
+    },
+    {
+      "id": "990019",
+      "name": "Khusimone"
+    },
+    {
+      "id": "990020",
+      "name": "Vetivone"
+    },
+    {
+      "id": "990022",
+      "name": "Norpatchoulenol"
+    },
+    {
+      "id": "990029",
+      "name": "Thujopsene"
+    },
+    {
+      "id": "990031",
+      "name": "Agarol"
+    },
+    {
+      "id": "990033",
+      "name": "Jinkoh-eremol"
+    },
+    {
+      "id": "990034",
+      "name": "Kusunol"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n960001\tLavandulyl acetate\n960002\tTerpinen-4-ol\n960003\tCamphor\n960004\tSclareol\n960005\tZingiberene\n960006\tGingerol\n960007\tAlpha-terpinyl acetate\n960010\tDelta-3-carene\n960011\tGermacrene D\n960012\tBeta-bisabolene\n960013\tAlpha-curcumene\n990001\tLinalyl acetate\n990003\tMenthyl acetate\n990004\tIsomenthone\n990005\tPulegone\n990006\tGlobulol\n990008\tVerbenone\n990012\tMethyl benzoate\n990013\tGeranyl acetate\n990015\tRose oxide\n990016\tPhenylethyl alcohol\n990017\tJasmone\n990018\tIsovalencenol\n990019\tKhusimone\n990020\tVetivone\n990022\tNorpatchoulenol\n990029\tThujopsene\n990031\tAgarol\n990033\tJinkoh-eremol\n990034\tKusunol\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

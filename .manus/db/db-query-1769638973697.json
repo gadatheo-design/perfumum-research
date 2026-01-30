@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO v3_references (entry_key, title, authors, year, url, tags, notes) VALUES ('schultes1992', 'Plants of the Gods', 'Schultes RE, Hofmann A', 1992, NULL, '[\"ethnobotanique\",\"psychotropes\",\"histoire\",\"rituels\"]', 'Reference classique sur les plantes psychotropes'), ('goodman1993', 'Tobacco in History', 'Goodman J', 1993, NULL, '[\"tabac\",\"histoire\",\"culture\",\"commerce\"]', 'Histoire complete du tabac dans le monde'), ('winter2000', 'Tobacco Use by Native North Americans', 'Winter JC', 2000, NULL, '[\"tabac\",\"amerindiens\",\"rituels\",\"ethnobotanique\"]', 'Etude sur lusage traditionnel du tabac'), ('ratsch2005', 'Encyclopedia of Psychoactive Plants', 'Ratsch C', 2005, NULL, '[\"ethnobotanique\",\"psychotropes\",\"encyclopedie\",\"plantes\"]', 'Encyclopedie des plantes psychoactives');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO v3_references (entry_key, title, authors, year, url, tags, notes) VALUES ('schultes1992', 'Plants of the Gods', 'Schultes RE, Hofmann A', 1992, NULL, '[\"ethnobotanique\",\"psychotropes\",\"histoire\",\"rituels\"]', 'Reference classique sur les plantes psychotropes'), ('goodman1993', 'Tobacco in History', 'Goodman J', 1993, NULL, '[\"tabac\",\"histoire\",\"culture\",\"commerce\"]', 'Histoire complete du tabac dans le monde'), ('winter2000', 'Tobacco Use by Native North Americans', 'Winter JC', 2000, NULL, '[\"tabac\",\"amerindiens\",\"rituels\",\"ethnobotanique\"]', 'Etude sur lusage traditionnel du tabac'), ('ratsch2005', 'Encyclopedia of Psychoactive Plants', 'Ratsch C', 2005, NULL, '[\"ethnobotanique\",\"psychotropes\",\"encyclopedie\",\"plantes\"]', 'Encyclopedie des plantes psychoactives');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 63
+}

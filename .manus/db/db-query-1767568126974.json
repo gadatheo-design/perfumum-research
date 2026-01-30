@@ -1,0 +1,242 @@
+{
+  "query": "DESCRIBE terp_profiles;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE terp_profiles;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "profile_id",
+      "Type": "varchar(20)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "collection",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "San Andrés · Leaf Economies",
+      "Extra": ""
+    },
+    {
+      "Field": "type",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "Formule analytique",
+      "Extra": ""
+    },
+    {
+      "Field": "climatic_axis",
+      "Type": "enum('vent','bois','disparition','vent_bois','bois_disparition','vent_disparition','vent_bois_disparition')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "secondary_axis",
+      "Type": "enum('vent','bois','disparition','none')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "none",
+      "Extra": ""
+    },
+    {
+      "Field": "function",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "usage",
+      "Type": "enum('parfum','encens','espace','parfum_encens','parfum_espace','encens_espace','tous')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "parfum",
+      "Extra": ""
+    },
+    {
+      "Field": "level",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "Recherche",
+      "Extra": ""
+    },
+    {
+      "Field": "plant_sources",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "key_molecules",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "concentrate",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "olfactive_reading",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "temporality",
+      "Type": "enum('rapide','moyenne','longue','tres_courte','variable')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "moyenne",
+      "Extra": ""
+    },
+    {
+      "Field": "temporality_description",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "recommended_usage",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "critical_notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "connections",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "intensity",
+      "Type": "enum('faible','moyenne','structurelle')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "moyenne",
+      "Extra": ""
+    },
+    {
+      "Field": "readability",
+      "Type": "enum('abstrait','lisible','structure')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "lisible",
+      "Extra": ""
+    },
+    {
+      "Field": "non_identifiable",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_vent",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_bois",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_disparition",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_structure",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_diffusion",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\nprofile_id\tvarchar(20)\tNO\tUNI\tNULL\t\nname\tvarchar(255)\tNO\t\tNULL\t\ncollection\tvarchar(100)\tYES\t\tSan Andrés · Leaf Economies\t\ntype\tvarchar(100)\tYES\t\tFormule analytique\t\nclimatic_axis\tenum('vent','bois','disparition','vent_bois','bois_disparition','vent_disparition','vent_bois_disparition')\tNO\t\tNULL\t\nsecondary_axis\tenum('vent','bois','disparition','none')\tYES\t\tnone\t\nfunction\ttext\tYES\t\tNULL\t\nusage\tenum('parfum','encens','espace','parfum_encens','parfum_espace','encens_espace','tous')\tYES\t\tparfum\t\nlevel\tvarchar(50)\tYES\t\tRecherche\t\nplant_sources\ttext\tYES\t\tNULL\t\nkey_molecules\ttext\tYES\t\tNULL\t\nconcentrate\tjson\tYES\t\tNULL\t\nolfactive_reading\ttext\tYES\t\tNULL\t\ntemporality\tenum('rapide','moyenne','longue','tres_courte','variable')\tYES\t\tmoyenne\t\ntemporality_description\ttext\tYES\t\tNULL\t\nrecommended_usage\ttext\tYES\t\tNULL\t\ncritical_notes\ttext\tYES\t\tNULL\t\nconnections\tjson\tYES\t\tNULL\t\nintensity\tenum('faible','moyenne','structurelle')\tYES\t\tmoyenne\t\nreadability\tenum('abstrait','lisible','structure')\tYES\t\tlisible\t\nnon_identifiable\tint(11)\tYES\t\t0\t\nradar_vent\tint(11)\tYES\t\t50\t\nradar_bois\tint(11)\tYES\t\t50\t\nradar_disparition\tint(11)\tYES\t\t50\t\nradar_structure\tint(11)\tYES\t\t50\t\nradar_diffusion\tint(11)\tYES\t\t50\t\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

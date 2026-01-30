@@ -1,0 +1,24 @@
+{
+  "query": "SELECT \n  r.category,\n  COUNT(*) as total_impacts,\n  COUNT(DISTINCT tri.transformation_id) as unique_transformations,\n  COUNT(DISTINCT tri.recette_id) as unique_recipes,\n  GROUP_CONCAT(DISTINCT r.name SEPARATOR ', ') as recipe_names\nFROM transformation_recipe_impacts tri\nJOIN recettes r ON tri.recette_id = r.id\nGROUP BY r.category\nORDER BY total_impacts DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  r.category,\n  COUNT(*) as total_impacts,\n  COUNT(DISTINCT tri.transformation_id) as unique_transformations,\n  COUNT(DISTINCT tri.recette_id) as unique_recipes,\n  GROUP_CONCAT(DISTINCT r.name SEPARATOR ', ') as recipe_names\nFROM transformation_recipe_impacts tri\nJOIN recettes r ON tri.recette_id = r.id\nGROUP BY r.category\nORDER BY total_impacts DESC;",
+  "rows": [
+    {
+      "category": "parfum",
+      "total_impacts": "6534",
+      "unique_transformations": "33",
+      "unique_recipes": "198",
+      "recipe_names": "OS PLUVIEUX, FOSSE ANTIQUE, ARCHÉOLOGIE BRÛLÉE, ARGILE HUMIDE SACRÉE, PÉTRICHOR SÉPULCRAL, BIBLIOTHÈQUE HUMIDE, PIERRE NOIRE FENDUE, FOUILLE HUMIDE, MURAILLE APRÈS ORAGE, TEMPLE DE TERRE BLANCHE, BRUME SUR PIERRE, JOUR DE PLUIE ANTIQUE, TERRE HUMIDE SACRÉE, PLUIE SULFURÉE, SÉDIMENT ARCHÉOLOGIQUE, FOSSILE BLANC MINÉRAL, SOL NOIR VIVANT, PLUIE SUR BITUME SACRÉ, ARGILE LUMINEUSE, OS ROUGE (Mossi), PÉTRICHOR CLAIR / GLACIAIRE, PÉTRICHOR SOMBRE / HUMIDE, PÉTRICHOR TROPICAL FOSSILISÉ (Monoï), PÉTRICHOR URBAIN / MÉTAL, PÉTRICHOR ARCHIVE HUMIDE, PLUIE SUR CENDRE FROIDE, PÉTRICHOR DE SAVANE (Mossi), PÉTRICHOR DE TEMPÊTE (Volcanique), PÉTRICHOR MARIN / ATLANTIDE, PÉTRICHOR DÉSERTIQUE, PÉTRICHOR DE RUINES, PÉTRICHOR DE TEMPLES (Égypte), PÉTRICHOR SUR BOIS MOISI, PÉTRICHOR ANTIQUE / SCROLLS, PÉTRICHOR CUIVRÉ, PÉTRICHOR ARCHÉOLOGIQUE, PÉTRICHOR CUIRANT, PÉTRICHOR SANCTUAIRE, PÉTRICHOR DE L’ORDRE BLANC, SHURUPPAK : ARGILE BRÛLÉE, AKHET : PIERRE BLANCHE, MEROE : RÉSINE NOIRE, LYO"
+    },
+    {
+      "category": "encens",
+      "total_impacts": "990",
+      "unique_transformations": "33",
+      "unique_recipes": "30",
+      "recipe_names": "Mossi Mossi Clair, Mossi Mossi Sombre, Mossi Mossi du Feu, Mossi Mossi Verger Sacré, R-15 Living Cannabis Vent, R-16 Dry Cannabis Leaf Incense, TL-04 — Encens Pericón, Aliento de Quetzalcóatl, Encens Pluie de Désert, Encens Rêve Aztèque, Encens Synesthésie Auditive, Encens Fleur du Cœur, Encens Pyrolyse Terpénique, Tabac Piciete 2.0, Tabac Réaction de Maillard Contrôlée, Tabac Fuego Frío, Tabac Entourage Nootropique, Tabac Mémoire du Sol, Parfum Peau de Cénote, Parfum Chrono-Évolution, Parfum Sombra y Luz, Parfum Tunnel Quantique, Parfum Activation Synaptique, Encens Pontifical, Encens Japonais Kyara, Encens Tibétain, Encens Égyptien Kyphi, Encens Indien Dhoop, Encens Grec Livani, Encens Arabe Bakhoor"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\ttotal_impacts\tunique_transformations\tunique_recipes\trecipe_names\nparfum\t6534\t33\t198\tOS PLUVIEUX, FOSSE ANTIQUE, ARCHÉOLOGIE BRÛLÉE, ARGILE HUMIDE SACRÉE, PÉTRICHOR SÉPULCRAL, BIBLIOTHÈQUE HUMIDE, PIERRE NOIRE FENDUE, FOUILLE HUMIDE, MURAILLE APRÈS ORAGE, TEMPLE DE TERRE BLANCHE, BRUME SUR PIERRE, JOUR DE PLUIE ANTIQUE, TERRE HUMIDE SACRÉE, PLUIE SULFURÉE, SÉDIMENT ARCHÉOLOGIQUE, FOSSILE BLANC MINÉRAL, SOL NOIR VIVANT, PLUIE SUR BITUME SACRÉ, ARGILE LUMINEUSE, OS ROUGE (Mossi), PÉTRICHOR CLAIR / GLACIAIRE, PÉTRICHOR SOMBRE / HUMIDE, PÉTRICHOR TROPICAL FOSSILISÉ (Monoï), PÉTRICHOR URBAIN / MÉTAL, PÉTRICHOR ARCHIVE HUMIDE, PLUIE SUR CENDRE FROIDE, PÉTRICHOR DE SAVANE (Mossi), PÉTRICHOR DE TEMPÊTE (Volcanique), PÉTRICHOR MARIN / ATLANTIDE, PÉTRICHOR DÉSERTIQUE, PÉTRICHOR DE RUINES, PÉTRICHOR DE TEMPLES (Égypte), PÉTRICHOR SUR BOIS MOISI, PÉTRICHOR ANTIQUE / SCROLLS, PÉTRICHOR CUIVRÉ, PÉTRICHOR ARCHÉOLOGIQUE, PÉTRICHOR CUIRANT, PÉTRICHOR SANCTUAIRE, PÉTRICHOR DE L’ORDRE BLANC, SHURUPPAK : ARGILE BRÛLÉE, AKHET : PIERRE BLANCHE, MEROE : RÉSINE NOIRE, LYO\nencens\t990\t33\t30\tMossi Mossi Clair, Mossi Mossi Sombre, Mossi Mossi du Feu, Mossi Mossi Verger Sacré, R-15 Living Cannabis Vent, R-16 Dry Cannabis Leaf Incense, TL-04 — Encens Pericón, Aliento de Quetzalcóatl, Encens Pluie de Désert, Encens Rêve Aztèque, Encens Synesthésie Auditive, Encens Fleur du Cœur, Encens Pyrolyse Terpénique, Tabac Piciete 2.0, Tabac Réaction de Maillard Contrôlée, Tabac Fuego Frío, Tabac Entourage Nootropique, Tabac Mémoire du Sol, Parfum Peau de Cénote, Parfum Chrono-Évolution, Parfum Sombra y Luz, Parfum Tunnel Quantique, Parfum Activation Synaptique, Encens Pontifical, Encens Japonais Kyara, Encens Tibétain, Encens Égyptien Kyphi, Encens Indien Dhoop, Encens Grec Livani, Encens Arabe Bakhoor\n",
+  "stderr": "",
+  "execution_time_ms": 68
+}

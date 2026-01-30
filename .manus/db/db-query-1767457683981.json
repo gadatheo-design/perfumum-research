@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, name, country, region FROM geographic_origins ORDER BY country, name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, country, region FROM geographic_origins ORDER BY country, name;",
+  "rows": [
+    {
+      "id": "3",
+      "name": "Rose de Taïf",
+      "country": "Arabie Saoudite",
+      "region": "Taïf, Province de La Mecque"
+    },
+    {
+      "id": "1",
+      "name": "Rose de Bulgarie",
+      "country": "Bulgarie",
+      "region": "Vallée des Roses (Kazanlak)"
+    },
+    {
+      "id": "18",
+      "name": "Poivre noir de Kampot",
+      "country": "Cambodge",
+      "region": "Kampot"
+    },
+    {
+      "id": "6",
+      "name": "Orange amère de Séville",
+      "country": "Espagne",
+      "region": "Séville, Andalousie"
+    },
+    {
+      "id": "5",
+      "name": "Citron de Menton",
+      "country": "France",
+      "region": "Menton, Alpes-Maritimes"
+    },
+    {
+      "id": "12",
+      "name": "Jasmin de Grasse",
+      "country": "France",
+      "region": "Grasse, Provence-Alpes-Côte d'Azur"
+    },
+    {
+      "id": "19",
+      "name": "Lavande de Provence",
+      "country": "France",
+      "region": "Plateau de Valensole, Alpes-de-Haute-Provence"
+    },
+    {
+      "id": "2",
+      "name": "Rose de Grasse",
+      "country": "France",
+      "region": "Grasse, Provence-Alpes-Côte d'Azur"
+    },
+    {
+      "id": "17",
+      "name": "Cardamome du Guatemala",
+      "country": "Guatemala",
+      "region": "Alta Verapaz"
+    },
+    {
+      "id": "7",
+      "name": "Vétiver d'Haïti",
+      "country": "Haïti",
+      "region": "Les Cayes, Sud d'Haïti"
+    },
+    {
+      "id": "9",
+      "name": "Santal de Mysore",
+      "country": "Inde",
+      "region": "Karnataka (Mysore)"
+    },
+    {
+      "id": "15",
+      "name": "Tubéreuse d'Inde",
+      "country": "Inde",
+      "region": "Tamil Nadu (Madurai)"
+    },
+    {
+      "id": "20",
+      "name": "Patchouli d'Indonésie",
+      "country": "Indonésie",
+      "region": "Sumatra (Aceh)"
+    },
+    {
+      "id": "8",
+      "name": "Vétiver de Java",
+      "country": "Indonésie",
+      "region": "Java occidental"
+    },
+    {
+      "id": "4",
+      "name": "Bergamote de Calabre",
+      "country": "Italie",
+      "region": "Reggio de Calabre, Calabre"
+    },
+    {
+      "id": "16",
+      "name": "Vanille de Madagascar",
+      "country": "Madagascar",
+      "region": "SAVA (Sambava, Antalaha, Vohemar, Andapa)"
+    },
+    {
+      "id": "14",
+      "name": "Ylang-ylang de Madagascar",
+      "country": "Madagascar",
+      "region": "Nosy Be et côte nord-ouest"
+    },
+    {
+      "id": "10",
+      "name": "Cèdre de l'Atlas",
+      "country": "Maroc",
+      "region": "Moyen Atlas"
+    },
+    {
+      "id": "11",
+      "name": "Encens d'Oman",
+      "country": "Oman",
+      "region": "Dhofar"
+    },
+    {
+      "id": "13",
+      "name": "Jasmin d'Égypte",
+      "country": "Égypte",
+      "region": "Haute-Égypte (Louxor, Assouan)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcountry\tregion\n3\tRose de Taïf\tArabie Saoudite\tTaïf, Province de La Mecque\n1\tRose de Bulgarie\tBulgarie\tVallée des Roses (Kazanlak)\n18\tPoivre noir de Kampot\tCambodge\tKampot\n6\tOrange amère de Séville\tEspagne\tSéville, Andalousie\n5\tCitron de Menton\tFrance\tMenton, Alpes-Maritimes\n12\tJasmin de Grasse\tFrance\tGrasse, Provence-Alpes-Côte d'Azur\n19\tLavande de Provence\tFrance\tPlateau de Valensole, Alpes-de-Haute-Provence\n2\tRose de Grasse\tFrance\tGrasse, Provence-Alpes-Côte d'Azur\n17\tCardamome du Guatemala\tGuatemala\tAlta Verapaz\n7\tVétiver d'Haïti\tHaïti\tLes Cayes, Sud d'Haïti\n9\tSantal de Mysore\tInde\tKarnataka (Mysore)\n15\tTubéreuse d'Inde\tInde\tTamil Nadu (Madurai)\n20\tPatchouli d'Indonésie\tIndonésie\tSumatra (Aceh)\n8\tVétiver de Java\tIndonésie\tJava occidental\n4\tBergamote de Calabre\tItalie\tReggio de Calabre, Calabre\n16\tVanille de Madagascar\tMadagascar\tSAVA (Sambava, Antalaha, Vohemar, Andapa)\n14\tYlang-ylang de Madagascar\tMadagascar\tNosy Be et côte nord-ouest\n10\tCèdre de l'Atlas\tMaroc\tMoyen Atlas\n11\tEncens d'Oman\tOman\tDhofar\n13\tJasmin d'Égypte\tÉgypte\tHaute-Égypte (Louxor, Assouan)\n",
+  "stderr": "",
+  "execution_time_ms": 188
+}

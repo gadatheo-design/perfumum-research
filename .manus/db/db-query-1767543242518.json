@@ -1,0 +1,130 @@
+{
+  "query": "SELECT id, name FROM molecules WHERE chemicalFormula IS NULL OR chemicalFormula = '' ORDER BY name LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules WHERE chemicalFormula IS NULL OR chemicalFormula = '' ORDER BY name LIMIT 30;",
+  "rows": [
+    {
+      "id": "480024",
+      "name": "Acacia brûlé"
+    },
+    {
+      "id": "60006",
+      "name": "Acide Benzoïque"
+    },
+    {
+      "id": "60008",
+      "name": "Acide Caféique"
+    },
+    {
+      "id": "60007",
+      "name": "Acide Cinnamique"
+    },
+    {
+      "id": "60010",
+      "name": "Acide Coumarique"
+    },
+    {
+      "id": "60003",
+      "name": "Acide Décanoïque (C10)"
+    },
+    {
+      "id": "60009",
+      "name": "Acide Férulique"
+    },
+    {
+      "id": "60001",
+      "name": "Acide Hexanoïque (C6)"
+    },
+    {
+      "id": "60004",
+      "name": "Acide Linoléique"
+    },
+    {
+      "id": "60002",
+      "name": "Acide Octanoïque (C8)"
+    },
+    {
+      "id": "60005",
+      "name": "Acide Oléique"
+    },
+    {
+      "id": "570061",
+      "name": "Acétate d'isoeugenol"
+    },
+    {
+      "id": "570059",
+      "name": "Acétate de benzyle"
+    },
+    {
+      "id": "570057",
+      "name": "Acétate de géranyle"
+    },
+    {
+      "id": "570056",
+      "name": "Acétate de linalyle"
+    },
+    {
+      "id": "570058",
+      "name": "Acétate de phényléthyle"
+    },
+    {
+      "id": "570055",
+      "name": "Alcool cinnamique"
+    },
+    {
+      "id": "570054",
+      "name": "Alcool phényléthylique"
+    },
+    {
+      "id": "480032",
+      "name": "Aldéhyde feuille"
+    },
+    {
+      "id": "480002",
+      "name": "Aldéhydes chauds"
+    },
+    {
+      "id": "480022",
+      "name": "Aldéhydes métalliques"
+    },
+    {
+      "id": "480013",
+      "name": "Aldéhydes sombres"
+    },
+    {
+      "id": "480029",
+      "name": "Ambergris"
+    },
+    {
+      "id": "480020",
+      "name": "Ambre profond"
+    },
+    {
+      "id": "480006",
+      "name": "Argile blanche"
+    },
+    {
+      "id": "180003",
+      "name": "Artisan Peppermint Oil"
+    },
+    {
+      "id": "510020",
+      "name": "Baume de Tolú"
+    },
+    {
+      "id": "570060",
+      "name": "Benzoate de benzyle"
+    },
+    {
+      "id": "60013",
+      "name": "Benzyl Acetate"
+    },
+    {
+      "id": "660004",
+      "name": "Bergaptène"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n480024\tAcacia brûlé\n60006\tAcide Benzoïque\n60008\tAcide Caféique\n60007\tAcide Cinnamique\n60010\tAcide Coumarique\n60003\tAcide Décanoïque (C10)\n60009\tAcide Férulique\n60001\tAcide Hexanoïque (C6)\n60004\tAcide Linoléique\n60002\tAcide Octanoïque (C8)\n60005\tAcide Oléique\n570061\tAcétate d'isoeugenol\n570059\tAcétate de benzyle\n570057\tAcétate de géranyle\n570056\tAcétate de linalyle\n570058\tAcétate de phényléthyle\n570055\tAlcool cinnamique\n570054\tAlcool phényléthylique\n480032\tAldéhyde feuille\n480002\tAldéhydes chauds\n480022\tAldéhydes métalliques\n480013\tAldéhydes sombres\n480029\tAmbergris\n480020\tAmbre profond\n480006\tArgile blanche\n180003\tArtisan Peppermint Oil\n510020\tBaume de Tolú\n570060\tBenzoate de benzyle\n60013\tBenzyl Acetate\n660004\tBergaptène\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, variety_id, name, variety_type, country_of_origin FROM plant_varieties WHERE plant_id = 210029;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, variety_id, name, variety_type, country_of_origin FROM plant_varieties WHERE plant_id = 210029;",
+  "rows": [
+    {
+      "id": "90015",
+      "variety_id": "PV-TAB-X01",
+      "name": "Virginia Gold",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90016",
+      "variety_id": "PV-TAB-X02",
+      "name": "Burley Dark",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    },
+    {
+      "id": "90017",
+      "variety_id": "PV-TAB-X03",
+      "name": "Criollo Dominicano",
+      "variety_type": "landrace",
+      "country_of_origin": "Dominican Republic"
+    },
+    {
+      "id": "90018",
+      "variety_id": "PV-TAB-X04",
+      "name": "Perique",
+      "variety_type": "cultivar",
+      "country_of_origin": "USA"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tvariety_id\tname\tvariety_type\tcountry_of_origin\n90015\tPV-TAB-X01\tVirginia Gold\tcultivar\tUSA\n90016\tPV-TAB-X02\tBurley Dark\tcultivar\tUSA\n90017\tPV-TAB-X03\tCriollo Dominicano\tlandrace\tDominican Republic\n90018\tPV-TAB-X04\tPerique\tcultivar\tUSA\n",
+  "stderr": "",
+  "execution_time_ms": 74
+}

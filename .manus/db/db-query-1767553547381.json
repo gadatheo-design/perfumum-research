@@ -1,0 +1,70 @@
+{
+  "query": "SELECT \n  'molecules' as table_name, COUNT(*) as count FROM molecules\nUNION ALL SELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL SELECT 'accords', COUNT(*) FROM accords\nUNION ALL SELECT 'tabacs', COUNT(*) FROM tabacs\nUNION ALL SELECT 'prototypes', COUNT(*) FROM prototypes\nUNION ALL SELECT 'families', COUNT(*) FROM families\nUNION ALL SELECT 'glossary', COUNT(*) FROM glossary\nUNION ALL SELECT 'plants', COUNT(*) FROM plants\nUNION ALL SELECT 'terp_profiles', COUNT(*) FROM terp_profiles\nUNION ALL SELECT 'final_recipes', COUNT(*) FROM final_recipes\nUNION ALL SELECT 'leaf_economies', COUNT(*) FROM leaf_economies\nUNION ALL SELECT 'terpene_synergies', COUNT(*) FROM terpene_synergies\nUNION ALL SELECT 'citations', COUNT(*) FROM citations\nUNION ALL SELECT 'ifra_restrictions', COUNT(*) FROM ifra_restrictions\nUNION ALL SELECT 'geographic_origins', COUNT(*) FROM geographic_origins\nORDER BY count DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  'molecules' as table_name, COUNT(*) as count FROM molecules\nUNION ALL SELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL SELECT 'accords', COUNT(*) FROM accords\nUNION ALL SELECT 'tabacs', COUNT(*) FROM tabacs\nUNION ALL SELECT 'prototypes', COUNT(*) FROM prototypes\nUNION ALL SELECT 'families', COUNT(*) FROM families\nUNION ALL SELECT 'glossary', COUNT(*) FROM glossary\nUNION ALL SELECT 'plants', COUNT(*) FROM plants\nUNION ALL SELECT 'terp_profiles', COUNT(*) FROM terp_profiles\nUNION ALL SELECT 'final_recipes', COUNT(*) FROM final_recipes\nUNION ALL SELECT 'leaf_economies', COUNT(*) FROM leaf_economies\nUNION ALL SELECT 'terpene_synergies', COUNT(*) FROM terpene_synergies\nUNION ALL SELECT 'citations', COUNT(*) FROM citations\nUNION ALL SELECT 'ifra_restrictions', COUNT(*) FROM ifra_restrictions\nUNION ALL SELECT 'geographic_origins', COUNT(*) FROM geographic_origins\nORDER BY count DESC;",
+  "rows": [
+    {
+      "table_name": "molecules",
+      "count": "448"
+    },
+    {
+      "table_name": "recettes",
+      "count": "261"
+    },
+    {
+      "table_name": "citations",
+      "count": "161"
+    },
+    {
+      "table_name": "glossary",
+      "count": "63"
+    },
+    {
+      "table_name": "plants",
+      "count": "37"
+    },
+    {
+      "table_name": "ifra_restrictions",
+      "count": "29"
+    },
+    {
+      "table_name": "accords",
+      "count": "26"
+    },
+    {
+      "table_name": "terpene_synergies",
+      "count": "26"
+    },
+    {
+      "table_name": "geographic_origins",
+      "count": "20"
+    },
+    {
+      "table_name": "families",
+      "count": "10"
+    },
+    {
+      "table_name": "terp_profiles",
+      "count": "10"
+    },
+    {
+      "table_name": "leaf_economies",
+      "count": "10"
+    },
+    {
+      "table_name": "final_recipes",
+      "count": "9"
+    },
+    {
+      "table_name": "tabacs",
+      "count": "8"
+    },
+    {
+      "table_name": "prototypes",
+      "count": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\tcount\nmolecules\t448\nrecettes\t261\ncitations\t161\nglossary\t63\nplants\t37\nifra_restrictions\t29\naccords\t26\nterpene_synergies\t26\ngeographic_origins\t20\nfamilies\t10\nterp_profiles\t10\nleaf_economies\t10\nfinal_recipes\t9\ntabacs\t8\nprototypes\t4\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

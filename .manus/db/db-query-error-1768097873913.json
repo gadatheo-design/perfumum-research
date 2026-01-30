@@ -1,0 +1,8 @@
+{
+  "query": "\n-- Voir les références H2 (Durabilité)\nSELECT id, code, title, axis, subaxis FROM v3_references WHERE axis = 'H2' ORDER BY id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Voir les références H2 (Durabilité)\nSELECT id, code, title, axis, subaxis FROM v3_references WHERE axis = 'H2' ORDER BY id;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 'axis' in 'where clause'"
+  ]
+}

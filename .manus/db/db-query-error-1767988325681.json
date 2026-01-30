@@ -1,0 +1,8 @@
+{
+  "query": "SELECT \n  COUNT(*) as total_molecules,\n  SUM(CASE WHEN casNumber IS NOT NULL AND casNumber != '' THEN 1 ELSE 0 END) as with_cas,\n  SUM(CASE WHEN iupacName IS NOT NULL AND iupacName != '' THEN 1 ELSE 0 END) as with_iupac,\n  SUM(CASE WHEN chemicalClass IS NOT NULL AND chemicalClass != '' THEN 1 ELSE 0 END) as with_class,\n  SUM(CASE WHEN formula IS NOT NULL AND formula != '' THEN 1 ELSE 0 END) as with_formula\nFROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total_molecules,\n  SUM(CASE WHEN casNumber IS NOT NULL AND casNumber != '' THEN 1 ELSE 0 END) as with_cas,\n  SUM(CASE WHEN iupacName IS NOT NULL AND iupacName != '' THEN 1 ELSE 0 END) as with_iupac,\n  SUM(CASE WHEN chemicalClass IS NOT NULL AND chemicalClass != '' THEN 1 ELSE 0 END) as with_class,\n  SUM(CASE WHEN formula IS NOT NULL AND formula != '' THEN 1 ELSE 0 END) as with_formula\nFROM molecules;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'casnumber' in ''"
+  ]
+}

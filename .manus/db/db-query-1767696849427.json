@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `bibliography_axis_links` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `bibliography_id` int NOT NULL,\n  `axis_id` int NOT NULL,\n  `relevance` enum('primaire','secondaire','contextuelle') DEFAULT 'secondaire',\n  `notes` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  CONSTRAINT `bibliography_axis_links_id` PRIMARY KEY(`id`),\n  CONSTRAINT `unique_bibliography_axis` UNIQUE(`bibliography_id`, `axis_id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute CREATE TABLE IF NOT EXISTS `bibliography_axis_links` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `bibliography_id` int NOT NULL,\n  `axis_id` int NOT NULL,\n  `relevance` enum('primaire','secondaire','contextuelle') DEFAULT 'secondaire',\n  `notes` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  CONSTRAINT `bibliography_axis_links_id` PRIMARY KEY(`id`),\n  CONSTRAINT `unique_bibliography_axis` UNIQUE(`bibliography_id`, `axis_id`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 177
+}
