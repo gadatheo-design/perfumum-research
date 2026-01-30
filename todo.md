@@ -4268,3 +4268,26 @@
 - [x] Créer composant PrefetchLink réutilisable
 - [x] Cache des prefetch pour éviter les doublons
 
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 - PREFETCH & CACHE AVANCÉ
+
+### Tâche 40 : Intégrer PrefetchLink dans les listes
+- [x] Remplacer les Link par PrefetchLink dans MoleculeListItem
+- [x] Remplacer les Link par PrefetchLink dans RecetteListItem
+- [ ] PlantsList n'utilise pas de composant Link dédié (navigation via tableau)
+- [x] Vérifier le fonctionnement sur mobile (responsive préservé)
+
+### Tâche 41 : Widget cache au dashboard admin
+- [x] Créer composant CacheStatsWidget
+- [x] Afficher hit rate, taille, statistiques (avec Progress bar)
+- [x] Bouton pour vider le cache (avec confirmation toast)
+- [x] Intégrer au dashboard admin (GestionPage.tsx)
+
+### Tâche 42 : Étendre le cache aux getById
+- [x] Cacher molecules.getById (CACHE_TTL.MEDIUM)
+- [x] Cacher plants.getById (CACHE_TTL.MEDIUM)
+- [x] Cacher recettes.getById (CACHE_TTL.MEDIUM)
+- [x] Invalidation spécifique déjà implémentée (invalidateMoleculeCache, etc.)
+

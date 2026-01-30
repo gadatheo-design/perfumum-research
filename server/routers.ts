@@ -241,7 +241,11 @@ export const appRouter = router({
         return val;
       })
       .query(async ({ input }) => {
-        return await db.getMoleculeById(input);
+        return await withCache(
+          CACHE_KEYS.MOLECULE_DETAIL(input),
+          () => db.getMoleculeById(input),
+          CACHE_TTL.MEDIUM
+        );
       }),
     create: publicProcedure
       .input((val: unknown) => {
@@ -522,7 +526,11 @@ export const appRouter = router({
         return val;
       })
       .query(async ({ input }) => {
-        return await db.getRecetteById(input);
+        return await withCache(
+          CACHE_KEYS.RECETTE_DETAIL(input),
+          () => db.getRecetteById(input),
+          CACHE_TTL.MEDIUM
+        );
       }),
     getMolecules: publicProcedure
       .input((val: unknown) => {
@@ -2814,7 +2822,11 @@ export const appRouter = router({
     getById: publicProcedure
       .input(z.number())
       .query(async ({ input }) => {
-        return await db.getPlantById(input);
+        return await withCache(
+          CACHE_KEYS.PLANT_DETAIL(input),
+          () => db.getPlantById(input),
+          CACHE_TTL.MEDIUM
+        );
       }),
     getByCategory: publicProcedure
       .input(z.string())

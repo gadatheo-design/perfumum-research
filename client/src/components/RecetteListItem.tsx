@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { PrefetchLink } from "@/components/PrefetchLink";
 import { Badge } from "@/components/ui/badge";
 import { Check, Beaker, Flame, FlaskConical, Star, StarOff } from "lucide-react";
 import { GammeBadge } from "@/components/GammeBadge";
@@ -52,8 +52,10 @@ export function RecetteListItem({
     : null;
   
   return (
-    <Link 
-      href={`/recette/${recette.id}`}
+    <PrefetchLink 
+      to={`/recette/${recette.id}`}
+      prefetchType="recette"
+      prefetchId={recette.id}
       className="block"
     >
       <div className={cn(
@@ -146,6 +148,6 @@ export function RecetteListItem({
           )}
         </Button>
       </div>
-    </Link>
+    </PrefetchLink>
   );
 }

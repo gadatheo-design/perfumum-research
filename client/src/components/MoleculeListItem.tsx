@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { PrefetchLink } from "@/components/PrefetchLink";
 import { Badge } from "@/components/ui/badge";
 import { Check, Beaker, Droplets, Zap, FlaskConical, ChevronRight } from "lucide-react";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
@@ -57,9 +57,10 @@ export function MoleculeListItem({
   const gamme = getGammeFromOlfactiveProfile(molecule.olfactiveProfile);
   
   return (
-    <Link 
-      href={`/molecule/${molecule.id}`}
-      onClick={onTrackEvent}
+    <PrefetchLink 
+      to={`/molecule/${molecule.id}`}
+      prefetchType="molecule"
+      prefetchId={molecule.id}
       className="block group"
     >
       <div className={cn(
@@ -151,6 +152,6 @@ export function MoleculeListItem({
           <ChevronRight className="h-4 w-4 text-muted-foreground/50 group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" />
         </div>
       </div>
-    </Link>
+    </PrefetchLink>
   );
 }
