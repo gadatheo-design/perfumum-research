@@ -4300,3 +4300,25 @@
 
 =======
 >>>>>>> Stashed changes
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 - MÉTRIQUES & NOTIFICATIONS
+
+### Tâche 43 : Prefetch aux composants restants
+- [x] Ajouter PrefetchLink à RecetteCard (2 liens)
+- [x] Ajouter PrefetchLink à SimilarRecipes
+- [x] Ajouter PrefetchLink à RecentlyViewed (2 liens)
+
+### Tâche 44 : Endpoint de métriques temps de réponse
+- [x] Créer système de collecte des temps de réponse (server/metrics.ts)
+- [x] Créer procedure system.metrics (summary + detailed)
+- [x] Exposer temps moyen, min, max, p50, p95, p99 par endpoint
+- [x] Créer system.metricsDetailed et system.clearMetrics
+
+### Tâche 45 : Notifications hit rate
+- [x] Créer système de surveillance du hit rate (server/cacheMonitor.ts)
+- [x] Déclencher notification si hit rate < 50% (avec cooldown 1h)
+- [x] Intégrer avec notifyOwner
+- [x] Endpoints: cacheMonitorStatus, checkCacheHitRate, toggleCacheMonitor
+

@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Link } from "wouter";
+import { PrefetchLink } from "@/components/PrefetchLink";
 import { FlaskConical, FileDown, GitCompare, GitBranch, Heart, Sparkles, ChevronRight, Droplets } from "lucide-react";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
@@ -235,14 +235,14 @@ export function RecetteCard({
         <CardHeader className={cn("pb-3", variant === "compact" && "p-3 pb-2")}>
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
-              <Link href={`/recette/${recette.id}`}>
+              <PrefetchLink to={`/recette/${recette.id}`} prefetchType="recette" prefetchId={recette.id}>
                 <CardTitle className={cn(
                   "font-bold hover:text-primary transition-colors cursor-pointer line-clamp-2 group-hover:text-primary/90",
                   variant === "compact" ? "text-sm" : "text-base"
                 )}>
                   {recette.name}
                 </CardTitle>
-              </Link>
+              </PrefetchLink>
             </div>
             {hasRadar && variant !== "compact" && (
               <MiniRadar values={{
@@ -371,7 +371,7 @@ export function RecetteCard({
                 )} />
               </Button>
             )}
-            <Link href={`/recette/${recette.id}`} className="ml-auto">
+            <PrefetchLink to={`/recette/${recette.id}`} prefetchType="recette" prefetchId={recette.id} className="ml-auto">
               <Button
                 variant="ghost"
                 size="sm"
@@ -380,7 +380,7 @@ export function RecetteCard({
                 <span className="hidden sm:inline mr-1">Voir</span>
                 <ChevronRight className="h-3.5 w-3.5 group-hover/link:translate-x-0.5 transition-transform duration-200" />
               </Button>
-            </Link>
+            </PrefetchLink>
           </div>
         </CardContent>
       </Card>

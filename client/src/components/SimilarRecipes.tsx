@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
+import { PrefetchLink } from "@/components/PrefetchLink";
 import { Sparkles, TrendingUp } from "lucide-react";
 import { calculateSimilarityScore, getSimilarityLabel, type RadarProfile } from "@/lib/radarSimilarity";
 import { useMemo } from "react";
@@ -80,7 +80,7 @@ export function SimilarRecipes({ targetRecipe, allRecipes, limit = 5 }: SimilarR
       <CardContent>
         <div className="space-y-3">
           {similarRecipes.map((recipe) => (
-            <Link key={recipe.id} href={`/recette/${recipe.id}`}>
+            <PrefetchLink key={recipe.id} to={`/recette/${recipe.id}`} prefetchType="recette" prefetchId={recipe.id}>
               <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
                 <div className="flex-1 min-w-0">
                   <h4 className="font-medium text-sm hover:text-primary transition-colors truncate">
@@ -99,7 +99,7 @@ export function SimilarRecipes({ targetRecipe, allRecipes, limit = 5 }: SimilarR
                 </div>
                 <TrendingUp className="h-4 w-4 text-muted-foreground flex-shrink-0" />
               </div>
-            </Link>
+            </PrefetchLink>
           ))}
         </div>
       </CardContent>

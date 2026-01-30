@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useRecipeHistory } from "@/hooks/useRecipeHistory";
 import { Clock, Trash2, ExternalLink } from "lucide-react";
-import { Link } from "wouter";
+import { PrefetchLink } from "@/components/PrefetchLink";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 
@@ -53,11 +53,11 @@ export function RecentlyViewed() {
               className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors"
             >
               <div className="flex-1 min-w-0">
-                <Link href={`/recette/${item.id}`}>
+                <PrefetchLink to={`/recette/${item.id}`} prefetchType="recette" prefetchId={item.id}>
                   <h4 className="font-medium text-sm hover:text-primary transition-colors cursor-pointer truncate">
                     {item.name}
                   </h4>
-                </Link>
+                </PrefetchLink>
                 <div className="flex items-center gap-2 mt-1">
                   {item.category && (
                     <Badge variant="outline" className="text-xs">
@@ -70,11 +70,11 @@ export function RecentlyViewed() {
                 </div>
               </div>
               <div className="flex items-center gap-1">
-                <Link href={`/recette/${item.id}`}>
+                <PrefetchLink to={`/recette/${item.id}`} prefetchType="recette" prefetchId={item.id}>
                   <Button variant="ghost" size="sm">
                     <ExternalLink className="h-3.5 w-3.5" />
                   </Button>
-                </Link>
+                </PrefetchLink>
                 <Button
                   variant="ghost"
                   size="sm"
