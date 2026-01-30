@@ -3937,6 +3937,7 @@
 - [x] Ajouter les routes matières premières (suppliers, inventory)
 - [x] Version responsive avec collapse automatique sur mobile
 
+<<<<<<< Updated upstream
 ### Tâche 16 : Hub Analyse GC-MS - TERMINÉ
 - [x] Créer la page AnalysisHub.tsx avec statistiques dynamiques
 - [x] Afficher le nombre de chromatogrammes, spectres MS, composés, landraces
@@ -3960,11 +3961,29 @@
 - [x] Importer les 17 matières premières de la commande Eden Botanicals
 - [x] Total: 67 matières premières dans la base de données
 - [x] Molécules clés documentées dans les notes de chaque matière
+=======
+### Tâche 16 : Hub Analyse GC-MS
+- [ ] Créer la page AnalysisHub.tsx avec statistiques
+- [ ] Afficher le nombre de chromatogrammes, spectres, composés
+- [ ] Ajouter des accès rapides vers tous les outils MS
+- [ ] Intégrer des graphiques de synthèse
+
+### Tâche 17 : Temps de rétention (RI) dans l'identification
+- [ ] Ajouter le champ retention_index à la table ms_spectra
+- [ ] Mettre à jour les données avec les RI des composés
+- [ ] Modifier l'algorithme d'identification pour inclure le RI
+- [ ] Ajouter un champ RI dans le formulaire d'identification
+
+### Tâche 18 : Fiches matières premières et inventaire
+- [ ] Créer la table raw_materials pour les matières premières
+- [ ] Créer la table suppliers pour les fournisseurs
+>>>>>>> Stashed changes
 - [ ] Créer la table inventory pour le suivi des achats
 - [ ] Importer les 17 matières de la commande
 - [ ] Lier aux molécules existantes (Mitti Attar → géosmine, etc.)
 - [ ] Créer les pages de visualisation et gestion
 
+<<<<<<< Updated upstream
 
 
 ## 📊 SESSION 30 JANVIER 2025 - PARTIE 4 : FICHES DÉTAILLÉES ET INVENTAIRE
@@ -4048,3 +4067,5 @@
 - [ ] Tester SpectraIdentification sur mobile
 - [ ] Corriger les problèmes d'affichage identifiés
 
+=======
+>>>>>>> Stashed changes
