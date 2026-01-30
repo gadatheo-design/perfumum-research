@@ -3938,6 +3938,7 @@
 - [x] Version responsive avec collapse automatique sur mobile
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ### Tâche 16 : Hub Analyse GC-MS - TERMINÉ
 - [x] Créer la page AnalysisHub.tsx avec statistiques dynamiques
 - [x] Afficher le nombre de chromatogrammes, spectres MS, composés, landraces
@@ -3962,6 +3963,8 @@
 - [x] Total: 67 matières premières dans la base de données
 - [x] Molécules clés documentées dans les notes de chaque matière
 =======
+=======
+>>>>>>> Stashed changes
 ### Tâche 16 : Hub Analyse GC-MS
 - [ ] Créer la page AnalysisHub.tsx avec statistiques
 - [ ] Afficher le nombre de chromatogrammes, spectres, composés
@@ -3977,12 +3980,16 @@
 ### Tâche 18 : Fiches matières premières et inventaire
 - [ ] Créer la table raw_materials pour les matières premières
 - [ ] Créer la table suppliers pour les fournisseurs
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 - [ ] Créer la table inventory pour le suivi des achats
 - [ ] Importer les 17 matières de la commande
 - [ ] Lier aux molécules existantes (Mitti Attar → géosmine, etc.)
 - [ ] Créer les pages de visualisation et gestion
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
 
@@ -4291,3 +4298,5 @@
 - [x] Cacher recettes.getById (CACHE_TTL.MEDIUM)
 - [x] Invalidation spécifique déjà implémentée (invalidateMoleculeCache, etc.)
 
+=======
+>>>>>>> Stashed changes
