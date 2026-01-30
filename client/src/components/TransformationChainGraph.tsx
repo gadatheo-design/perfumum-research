@@ -62,7 +62,12 @@ const NODE_COLORS = {
 
 type ViewMode = "network" | "cascade";
 
-export function TransformationChainGraph() {
+interface TransformationChainGraphProps {
+  initialMolecule?: string;
+  initialCascadeMode?: boolean;
+}
+
+export function TransformationChainGraph({ initialMolecule = "", initialCascadeMode = false }: TransformationChainGraphProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [transformationType, setTransformationType] = useState<string>("all");
@@ -71,10 +76,22 @@ export function TransformationChainGraph() {
   const [selectedLink, setSelectedLink] = useState<Link | null>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
   
-  // CASCADE MODE state
-  const [viewMode, setViewMode] = useState<ViewMode>("network");
-  const [cascadeMolecule, setCascadeMolecule] = useState<string>("");
+  // CASCADE MODE state - initialize from props
+  const [viewMode, setViewMode] = useState<ViewMode>(initialCascadeMode ? "cascade" : "network");
+  const [cascadeMolecule, setCascadeMolecule] = useState<string>(initialMolecule);
   const [cascadeDirection, setCascadeDirection] = useState<"downstream" | "upstream" | "both">("downstream");
+  const [isInitialized, setIsInitialized] = useState(false);
+  
+  // Effect to handle initial props
+  useEffect(() => {
+    if (!isInitialized && initialMolecule) {
+      setCascadeMolecule(initialMolecule);
+      if (initialCascadeMode) {
+        setViewMode("cascade");
+      }
+      setIsInitialized(true);
+    }
+  }, [initialMolecule, initialCascadeMode, isInitialized]);
 
   const { data, isLoading, refetch } = trpc.research.getTransformationChains.useQuery({
     transformationType: transformationType === "all" ? undefined : transformationType,

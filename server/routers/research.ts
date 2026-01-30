@@ -1531,4 +1531,98 @@ export const researchRouter = router({
         return { success: false, nodes: [], links: [], chains: [], error: error.message };
       }
     }),
+
+  /**
+   * Get transformations for a specific molecule (as source or product)
+   * Used for cross-linking in molecule detail pages
+   */
+  getTransformationsByMolecule: publicProcedure
+    .input(
+      z.object({
+        moleculeId: z.number().optional(),
+        moleculeName: z.string().optional(),
+      })
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) {
+          return { success: false, asSource: [], asProduct: [], error: "Database connection failed" };
+        }
+
+        // Build conditions based on input
+        let sourceCondition = "1=0";
+        let productCondition = "1=0";
+
+        if (input.moleculeId) {
+          sourceCondition = `mt.source_molecule_id = ${input.moleculeId}`;
+          productCondition = `mt.product_molecule_id = ${input.moleculeId}`;
+        } else if (input.moleculeName) {
+          const name = input.moleculeName.replace(/'/g, "''");
+          sourceCondition = `LOWER(mt.source_molecule_name) = LOWER('${name}')`;
+          productCondition = `LOWER(mt.product_molecule_name) = LOWER('${name}')`;
+        }
+
+        // Get transformations where molecule is source
+        const asSourceResult = await db.execute(sql.raw(`
+          SELECT 
+            mt.id,
+            mt.source_molecule_name,
+            mt.product_molecule_name,
+            mt.transformation_type,
+            mt.temperature_optimal,
+            mt.olfactory_change_description,
+            mt.source_molecule_id,
+            mt.product_molecule_id,
+            mt.relevance_context,
+            pm.id as product_db_id,
+            pm.name as product_db_name,
+            pm.family as product_family,
+            pm.chemicalClass as product_chemical_class
+          FROM molecular_transformations mt
+          LEFT JOIN molecules pm ON mt.product_molecule_id = pm.id
+          WHERE ${sourceCondition}
+          ORDER BY mt.transformation_type, mt.product_molecule_name
+        `));
+
+        // Get transformations where molecule is product
+        const asProductResult = await db.execute(sql.raw(`
+          SELECT 
+            mt.id,
+            mt.source_molecule_name,
+            mt.product_molecule_name,
+            mt.transformation_type,
+            mt.temperature_optimal,
+            mt.olfactory_change_description,
+            mt.source_molecule_id,
+            mt.product_molecule_id,
+            mt.relevance_context,
+            sm.id as source_db_id,
+            sm.name as source_db_name,
+            sm.family as source_family,
+            sm.chemicalClass as source_chemical_class
+          FROM molecular_transformations mt
+          LEFT JOIN molecules sm ON mt.source_molecule_id = sm.id
+          WHERE ${productCondition}
+          ORDER BY mt.transformation_type, mt.source_molecule_name
+        `));
+
+        const asSource = (asSourceResult as any).rows || (asSourceResult as any[]) || [];
+        const asProduct = (asProductResult as any).rows || (asProductResult as any[]) || [];
+
+        return {
+          success: true,
+          asSource,
+          asProduct,
+          stats: {
+            totalAsSource: asSource.length,
+            totalAsProduct: asProduct.length,
+            total: asSource.length + asProduct.length,
+          },
+        };
+      } catch (error: any) {
+        console.error("Error getting transformations by molecule:", error);
+        return { success: false, asSource: [], asProduct: [], error: error.message };
+      }
+    }),
 });

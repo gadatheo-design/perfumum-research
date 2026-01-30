@@ -3052,3 +3052,16 @@
 - [x] Ajouter la page Transformations Moléculaires dans le header de navigation
 - [x] Intégrer le lien dans le MegaMenu (section Tabacothèque > Transformations)
 - [x] Intégrer le lien dans le menu mobile
+
+
+## 🆕 NOUVELLES TÂCHES (30 Jan 2026 - Session 3)
+
+### Liens croisés molécules ↔ transformations
+- [x] Analyser la structure des pages molécules existantes
+- [x] Créer une procédure tRPC pour récupérer les transformations d'une molécule (getTransformationsByMolecule)
+- [x] Ajouter une section "Transformations" dans les fiches molécules (nouvel onglet)
+- [x] Afficher les transformations où la molécule est source (cartes vertes)
+- [x] Afficher les transformations où la molécule est produit (cartes rouges)
+- [x] Ajouter un lien vers le mode cascade du graphe (bouton "Voir la cascade")
+- [x] Gérer les paramètres URL pour le mode cascade (?molecule=X&mode=cascade)
+- [x] Passer les props initialMolecule et initialCascadeMode au composant TransformationChainGraph

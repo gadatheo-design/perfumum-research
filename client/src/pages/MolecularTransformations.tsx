@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useLocation, useSearch } from "wouter";
+import { useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -42,10 +44,32 @@ const relevanceContexts: Record<string, string> = {
 };
 
 export default function MolecularTransformations() {
+  const searchString = useSearch();
+  const [, setLocation] = useLocation();
+  
+  // Parse URL parameters
+  const urlParams = new URLSearchParams(searchString);
+  const initialMolecule = urlParams.get('molecule') || '';
+  const initialMode = urlParams.get('mode') || '';
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [transformationType, setTransformationType] = useState("all");
   const [relevanceContext, setRelevanceContext] = useState("all");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState(initialMode === 'cascade' ? 'graph' : 'list');
+  const [graphMoleculeFilter, setGraphMoleculeFilter] = useState(initialMolecule);
+  const [cascadeMode, setCascadeMode] = useState(initialMode === 'cascade');
+  
+  // Effect to handle URL parameters on mount
+  useEffect(() => {
+    if (initialMolecule) {
+      setGraphMoleculeFilter(initialMolecule);
+    }
+    if (initialMode === 'cascade') {
+      setActiveTab('graph');
+      setCascadeMode(true);
+    }
+  }, [initialMolecule, initialMode]);
 
   // Form state for new transformation
   const [newTransformation, setNewTransformation] = useState({
@@ -331,10 +355,17 @@ export default function MolecularTransformations() {
         </div>
 
         {/* Main Content */}
-        <Tabs defaultValue="list" className="space-y-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
           <TabsList>
             <TabsTrigger value="list">Liste des transformations</TabsTrigger>
-            <TabsTrigger value="graph">Graphe des transformations</TabsTrigger>
+            <TabsTrigger value="graph">
+              Graphe des transformations
+              {cascadeMode && initialMolecule && (
+                <Badge variant="secondary" className="ml-2 text-xs">
+                  Cascade: {initialMolecule}
+                </Badge>
+              )}
+            </TabsTrigger>
             <TabsTrigger value="impacts">Impacts Recettes</TabsTrigger>
           </TabsList>
 
@@ -468,7 +499,10 @@ export default function MolecularTransformations() {
           </TabsContent>
 
           <TabsContent value="graph">
-            <TransformationChainGraph />
+            <TransformationChainGraph 
+              initialMolecule={graphMoleculeFilter}
+              initialCascadeMode={cascadeMode}
+            />
           </TabsContent>
 
           <TabsContent value="impacts">

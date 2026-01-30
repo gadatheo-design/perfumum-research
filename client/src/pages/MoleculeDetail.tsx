@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
-import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box } from "lucide-react";
+import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch } from "lucide-react";
 import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -219,6 +219,12 @@ export default function MoleculeDetail() {
   // Récupérer les molécules similaires
   const { data: similarMolecules, isLoading: isLoadingSimilar } = trpc.crossLinks.getSimilarMolecules.useQuery(
     { moleculeId: id, limit: 5 },
+    { enabled: !!molecule }
+  );
+
+  // Récupérer les transformations moléculaires liées à cette molécule
+  const { data: moleculeTransformations, isLoading: isLoadingTransformations } = trpc.research.getTransformationsByMolecule.useQuery(
+    { moleculeId: id, moleculeName: molecule?.name },
     { enabled: !!molecule }
   );
 
@@ -507,9 +513,10 @@ export default function MoleculeDetail() {
 
           {/* Tabs pour organiser le contenu */}
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-6">
               <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
               <TabsTrigger value="scientific">Données scientifiques</TabsTrigger>
+              <TabsTrigger value="transformations">Transformations</TabsTrigger>
               <TabsTrigger value="plants">Plantes sources</TabsTrigger>
               <TabsTrigger value="origins">Origines géographiques</TabsTrigger>
               <TabsTrigger value="ifra">Réglementation IFRA</TabsTrigger>
@@ -835,6 +842,189 @@ export default function MoleculeDetail() {
                 currentChemicalClass={molecule.chemicalClass}
                 currentOlfactiveFamily={molecule.family}
               />
+            </TabsContent>
+
+            {/* Onglet Transformations moléculaires */}
+            <TabsContent value="transformations" className="space-y-6 mt-6">
+              <div className="bg-card p-6 rounded-lg border shadow-sm">
+                <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                  <Flame className="h-5 w-5 text-primary" />
+                  Transformations Moléculaires
+                </h2>
+                
+                {isLoadingTransformations ? (
+                  <div className="flex items-center justify-center py-8">
+                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                  </div>
+                ) : moleculeTransformations?.success && (moleculeTransformations.asSource.length > 0 || moleculeTransformations.asProduct.length > 0) ? (
+                  <div className="space-y-6">
+                    {/* Stats */}
+                    {moleculeTransformations.stats && (
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="secondary">
+                          {moleculeTransformations.stats.total} transformation{moleculeTransformations.stats.total > 1 ? 's' : ''}
+                        </Badge>
+                        {moleculeTransformations.stats.totalAsSource > 0 && (
+                          <Badge variant="outline" className="border-green-500 text-green-600">
+                            {moleculeTransformations.stats.totalAsSource} en tant que source
+                          </Badge>
+                        )}
+                        {moleculeTransformations.stats.totalAsProduct > 0 && (
+                          <Badge variant="outline" className="border-red-500 text-red-600">
+                            {moleculeTransformations.stats.totalAsProduct} en tant que produit
+                          </Badge>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Transformations où cette molécule est source */}
+                    {moleculeTransformations.asSource.length > 0 && (
+                      <div>
+                        <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
+                          <ArrowRight className="h-4 w-4 text-green-500" />
+                          Cette molécule se transforme en...
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {moleculeTransformations.asSource.map((t: any) => (
+                            <div key={t.id} className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800">
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-medium text-green-700 dark:text-green-300">
+                                    {t.product_molecule_name}
+                                  </span>
+                                  {t.product_db_id && (
+                                    <Link href={`/molecules/${t.product_db_id}`}>
+                                      <Button variant="ghost" size="sm" className="h-6 px-2">
+                                        <ExternalLink className="h-3 w-3" />
+                                      </Button>
+                                    </Link>
+                                  )}
+                                </div>
+                                <Badge variant="outline" className="text-xs capitalize">
+                                  {t.transformation_type?.replace('_', ' ')}
+                                </Badge>
+                              </div>
+                              {t.temperature_optimal && (
+                                <p className="text-xs text-muted-foreground">
+                                  <Thermometer className="h-3 w-3 inline mr-1" />
+                                  {t.temperature_optimal}°C
+                                </p>
+                              )}
+                              {t.olfactory_change_description && (
+                                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                                  {t.olfactory_change_description}
+                                </p>
+                              )}
+                              {t.relevance_context && (
+                                <Badge variant="secondary" className="text-xs mt-2">
+                                  {t.relevance_context}
+                                </Badge>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Transformations où cette molécule est produit */}
+                    {moleculeTransformations.asProduct.length > 0 && (
+                      <div>
+                        <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
+                          <ArrowLeft className="h-4 w-4 text-red-500" />
+                          Cette molécule est produite à partir de...
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {moleculeTransformations.asProduct.map((t: any) => (
+                            <div key={t.id} className="p-4 bg-red-50 dark:bg-red-950/30 rounded-lg border border-red-200 dark:border-red-800">
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-medium text-red-700 dark:text-red-300">
+                                    {t.source_molecule_name}
+                                  </span>
+                                  {t.source_db_id && (
+                                    <Link href={`/molecules/${t.source_db_id}`}>
+                                      <Button variant="ghost" size="sm" className="h-6 px-2">
+                                        <ExternalLink className="h-3 w-3" />
+                                      </Button>
+                                    </Link>
+                                  )}
+                                </div>
+                                <Badge variant="outline" className="text-xs capitalize">
+                                  {t.transformation_type?.replace('_', ' ')}
+                                </Badge>
+                              </div>
+                              {t.temperature_optimal && (
+                                <p className="text-xs text-muted-foreground">
+                                  <Thermometer className="h-3 w-3 inline mr-1" />
+                                  {t.temperature_optimal}°C
+                                </p>
+                              )}
+                              {t.olfactory_change_description && (
+                                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                                  {t.olfactory_change_description}
+                                </p>
+                              )}
+                              {t.relevance_context && (
+                                <Badge variant="secondary" className="text-xs mt-2">
+                                  {t.relevance_context}
+                                </Badge>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Lien vers le graphe cascade */}
+                    <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                          <GitBranch className="h-5 w-5 text-amber-600" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-medium text-amber-800 dark:text-amber-200">
+                            Visualiser la chaîne de transformation complète
+                          </p>
+                          <p className="text-sm text-amber-600 dark:text-amber-400">
+                            Explorez toutes les transformations en cascade de cette molécule
+                          </p>
+                        </div>
+                        <Link href={`/molecular-transformations?molecule=${encodeURIComponent(molecule.name)}&mode=cascade`}>
+                          <Button variant="outline" className="border-amber-500 text-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900">
+                            <GitBranch className="h-4 w-4 mr-2" />
+                            Voir la cascade
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <Flame className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                    <p>Aucune transformation moléculaire documentée pour cette molécule.</p>
+                    <p className="text-sm mt-2">Les transformations (pyrolyse, oxydation, etc.) seront ajoutées progressivement.</p>
+                    <Link href="/molecular-transformations">
+                      <Button variant="outline" className="mt-4">
+                        <Flame className="h-4 w-4 mr-2" />
+                        Explorer toutes les transformations
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Lien vers la page des transformations */}
+              <div className="bg-muted/50 p-4 rounded-lg border">
+                <p className="text-sm text-muted-foreground">
+                  Explorez toutes les transformations moléculaires documentées dans notre base de données.
+                </p>
+                <Link href="/molecular-transformations">
+                  <Button variant="outline" className="mt-2">
+                    <Flame className="h-4 w-4 mr-2" />
+                    Voir toutes les transformations
+                  </Button>
+                </Link>
+              </div>
             </TabsContent>
 
             {/* Onglet Plantes sources */}
