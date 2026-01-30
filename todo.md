@@ -3098,3 +3098,11 @@
 - [x] Vérifier la procédure tRPC getAll pour les transformations (OK, 33 transformations)
 - [x] Corriger l'affichage des statistiques (accès au premier élément du tableau)
 - [x] Tester la page après correction (HMR appliqué)
+
+
+### Bug page Enrichissement PubChem - affichage 0 et non fonctionnelle
+- [x] Diagnostiquer le problème d'affichage des statistiques (references stocké en string JSON)
+- [x] Vérifier les procédures tRPC pour l'enrichissement (getEnrichmentStats, getAllMoleculesToEnrich)
+- [x] Corriger l'affichage et le fonctionnement (ajout parseRefs helper)
+- [x] API testée: 699 molécules, 403 avec CAS, 383 avec IUPAC, 56% complétude
+- [ ] Test UI (en attente reset rate limiting proxy)

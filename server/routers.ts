@@ -4656,6 +4656,21 @@ export const appRouter = router({
     getEnrichmentStats: publicProcedure.query(async () => {
       const allMolecules = await db.getAllMolecules();
       
+      // Helper pour parser les références (peut être string JSON ou tableau)
+      const parseRefs = (refs: any): any[] => {
+        if (!refs) return [];
+        if (Array.isArray(refs)) return refs;
+        if (typeof refs === 'string') {
+          try {
+            const parsed = JSON.parse(refs);
+            return Array.isArray(parsed) ? parsed : [];
+          } catch {
+            return [];
+          }
+        }
+        return [];
+      };
+      
       const stats = {
         total: allMolecules.length,
         withCAS: allMolecules.filter(m => m.casNumber && m.casNumber !== '').length,
@@ -4663,14 +4678,14 @@ export const appRouter = router({
         withChemicalClass: allMolecules.filter(m => m.chemicalClass).length,
         withMolecularWeight: allMolecules.filter(m => m.molecularWeight).length,
         withBoilingPoint: allMolecules.filter(m => m.boilingPoint).length,
-        withPubChemRef: allMolecules.filter(m => m.references?.some(r => r.type === 'pubchem')).length,
+        withPubChemRef: allMolecules.filter(m => parseRefs(m.references).some((r: any) => r.type === 'pubchem')).length,
       };
       
       return {
         ...stats,
         missingCAS: stats.total - stats.withCAS,
         missingIUPAC: stats.total - stats.withIUPAC,
-        completeness: Math.round((stats.withCAS + stats.withIUPAC) / (stats.total * 2) * 100),
+        completeness: stats.total > 0 ? Math.round((stats.withCAS + stats.withIUPAC) / (stats.total * 2) * 100) : 0,
       };
     }),
     
@@ -4678,9 +4693,24 @@ export const appRouter = router({
     getAllMoleculesToEnrich: publicProcedure.query(async () => {
       const allMolecules = await db.getAllMolecules();
       
+      // Helper pour parser les références (peut être string JSON ou tableau)
+      const parseRefs = (refs: any): any[] => {
+        if (!refs) return [];
+        if (Array.isArray(refs)) return refs;
+        if (typeof refs === 'string') {
+          try {
+            const parsed = JSON.parse(refs);
+            return Array.isArray(parsed) ? parsed : [];
+          } catch {
+            return [];
+          }
+        }
+        return [];
+      };
+      
       // Filtrer les molécules sans CAS ou sans référence PubChem
       const toEnrich = allMolecules.filter(m => 
-        !m.casNumber || m.casNumber === '' || !m.references?.some(r => r.type === 'pubchem')
+        !m.casNumber || m.casNumber === '' || !parseRefs(m.references).some((r: any) => r.type === 'pubchem')
       );
       
       return {
@@ -4690,7 +4720,7 @@ export const appRouter = router({
           name: m.name,
           hasCAS: !!(m.casNumber && m.casNumber !== ''),
           hasIUPAC: !!(m.iupacName && m.iupacName !== ''),
-          hasPubChemRef: !!m.references?.some(r => r.type === 'pubchem'),
+          hasPubChemRef: parseRefs(m.references).some((r: any) => r.type === 'pubchem'),
         })),
       };
     }),

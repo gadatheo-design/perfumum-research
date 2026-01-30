@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COUNT(*) as total, SUM(CASE WHEN cas_number IS NULL OR cas_number = '' THEN 1 ELSE 0 END) as sans_cas, SUM(CASE WHEN iupac_name IS NULL OR iupac_name = '' THEN 1 ELSE 0 END) as sans_iupac FROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total, SUM(CASE WHEN cas_number IS NULL OR cas_number = '' THEN 1 ELSE 0 END) as sans_cas, SUM(CASE WHEN iupac_name IS NULL OR iupac_name = '' THEN 1 ELSE 0 END) as sans_iupac FROM molecules;",
+  "rows": [
+    {
+      "total": "699",
+      "sans_cas": "296",
+      "sans_iupac": "316"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tsans_cas\tsans_iupac\n699\t296\t316\n",
+  "stderr": "",
+  "execution_time_ms": 120
+}
