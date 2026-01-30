@@ -1,0 +1,15 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tps_molecule_links' AND COLUMN_NAME = 'link_type';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, DATA_TYPE, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'tps_molecule_links' AND COLUMN_NAME = 'link_type';",
+  "rows": [
+    {
+      "COLUMN_NAME": "link_type",
+      "DATA_TYPE": "enum",
+      "COLUMN_TYPE": "enum('direct_product','precursor','derivative','related')"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\tCOLUMN_TYPE\nlink_type\tenum\tenum('direct_product','precursor','derivative','related')\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

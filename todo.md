@@ -3674,3 +3674,31 @@
 - [x] Ajouter les routes /biosynthetic-pathways, /voies-biosynthetiques, /tps-pathways
 - [ ] Connecter les gènes TPS aux molécules produites
 - [ ] Ajouter les interactions (zoom, filtres)
+
+
+---
+
+## 🧬 SESSION 30 JANVIER 2026 — Partie 3
+
+### Tâche 1 : Enrichir les liaisons TPS-Molécules - TERMINÉ
+- [x] Analyser les 307 gènes TPS existants et leurs produits
+- [x] Identifier les molécules correspondantes dans la base (699 molécules)
+- [x] Créer les liaisons manquantes dans tps_molecule_links (553 nouvelles)
+- [x] Vérifier la cohérence des données
+- **Résultat**: 682 liaisons TPS-Molécules total (contre 129 avant)
+
+### Tâche 2 : Données de pyrolyse et transformations moléculaires - TERMINÉ
+- [x] Importer les transformations à la combustion par landrace (11 profils)
+- [x] Créer les relations molécule source → produits de pyrolyse (21 transformations)
+- [x] Documenter les zones de température (vaporisation 157-220°C, pyrolyse 340-482°C, combustion 600-900°C)
+- [x] Lier aux données existantes de molecular_transformations (4 liaisons)
+- **Résultat**: 3 nouvelles tables créées (pyrolysis_transformations, landrace_pyrolysis_profiles, temperature_zones)
+
+### Tâche 3 : Page Terroirs étendue - TERMINÉ
+- [x] Ajouter les données pédologiques du Cameroun
+- [x] Ajouter les données pédologiques de Sumatra
+- [x] Ajouter les données pédologiques du Connecticut
+- [x] Ajouter Jalapa Valley, Copán Valley, Cibao Valley, Bahia
+- [x] Page Terroirs.tsx existante déjà complète avec carte interactive
+- **Résultat**: 9 terroirs total dans la base (7 nouveaux ajoutés)eractive
+- [ ] Ajouter les comparaisons entre régions

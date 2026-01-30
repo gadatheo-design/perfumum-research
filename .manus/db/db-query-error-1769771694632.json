@@ -1,0 +1,8 @@
+{
+  "query": "SELECT \n  tg.id, \n  tg.gene_name, \n  tg.product, \n  tg.subfamily,\n  (SELECT COUNT(*) FROM tps_molecule_links WHERE tps_gene_id = tg.id) as existing_links\nFROM tps_genes tg\nWHERE tg.product IS NOT NULL AND tg.product != ''\nORDER BY tg.subfamily, tg.gene_name\nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  tg.id, \n  tg.gene_name, \n  tg.product, \n  tg.subfamily,\n  (SELECT COUNT(*) FROM tps_molecule_links WHERE tps_gene_id = tg.id) as existing_links\nFROM tps_genes tg\nWHERE tg.product IS NOT NULL AND tg.product != ''\nORDER BY tg.subfamily, tg.gene_name\nLIMIT 50;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'tg.gene_name' in 'order clause'"
+  ]
+}
