@@ -3035,3 +3035,20 @@
 - [ ] Implémenter les liens avec les types de transformation
 - [ ] Ajouter les interactions (zoom, drag, hover avec détails)
 - [ ] Intégrer le graphe dans l'onglet "Graphe des transformations"
+
+
+## 🆕 NOUVELLES TÂCHES (30 Jan 2026 - Session 2)
+
+### Mode cascade pour le graphe de transformation
+- [x] Ajouter un mode "cascade" au graphe TransformationChainGraph
+- [x] Permettre de sélectionner une molécule source
+- [x] Afficher uniquement la chaîne de transformation complète de cette molécule
+- [x] Ajouter un bouton pour revenir au mode graphe complet
+- [x] Ajouter direction cascade (aval/amont/les deux)
+- [x] Double-clic sur un nœud pour entrer en mode cascade
+- [x] Bouton "Voir la cascade" dans le panneau d'info du nœud
+
+### Navigation header
+- [x] Ajouter la page Transformations Moléculaires dans le header de navigation
+- [x] Intégrer le lien dans le MegaMenu (section Tabacothèque > Transformations)
+- [x] Intégrer le lien dans le menu mobile

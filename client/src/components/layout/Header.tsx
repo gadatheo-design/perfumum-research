@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Search, Menu, Sun, Moon, Command, Database, Leaf, Compass, BarChart3, Zap, FlaskConical, Microscope, BookOpen, Archive, Globe, Info, FileText, Users, Brain } from "lucide-react";
+import { Search, Menu, Sun, Moon, Command, Database, Leaf, Compass, BarChart3, Zap, FlaskConical, Microscope, BookOpen, Archive, Globe, Info, FileText, Users, Brain, Flame } from "lucide-react";
 import { MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";
 import { MobileMenu } from "@/components/MobileMenu";
 import { SmartSearch } from "@/components/SmartSearch";
@@ -154,6 +154,13 @@ function MegaMenuOptimizedNav() {
       items: [
         { id: "t4", label: "Gènes TPS", href: "/tps-genes", badge: "NEW" },
         { id: "t5", label: "Explorateur Génomique", href: "/genomics-explorer" },
+      ],
+    },
+    {
+      category: "Transformations",
+      icon: <Flame className="h-4 w-4" />,
+      items: [
+        { id: "t6", label: "Transformations Moléculaires", href: "/molecular-transformations", badge: "NEW" },
       ],
     },
   ];

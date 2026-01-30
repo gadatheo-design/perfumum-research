@@ -166,6 +166,7 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/perique-compounds", label: "Composés du Perique" },
       { href: "/tps-genes", label: "Gènes TPS", badge: "NEW" },
       { href: "/genomics-explorer", label: "Explorateur Génomique" },
+      { href: "/molecular-transformations", label: "Transformations Moléculaires", badge: "NEW" },
     ],
   },
   // === PROJET ===
