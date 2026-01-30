@@ -1,4 +1,13 @@
 import { Toaster } from "@/components/ui/sonner";
+import React, { lazy, Suspense } from "react";
+import { Loader2 } from "lucide-react";
+
+// Loading component for lazy-loaded pages
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-[50vh]">
+    <Loader2 className="h-8 w-8 animate-spin text-primary" />
+  </div>
+);
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
 import { useNavigationHistory } from "@/hooks/useNavigationHistory";
@@ -116,9 +125,9 @@ import MatriceInteractive from "@/pages/MatriceInteractive";
 import Statistiques from "@/pages/Statistiques";
 import Inventaire from "./pages/Inventaire";
 
-// === MOLÉCULES ===
+// === MOLÉCULES (Lazy loaded for performance) ===
 import Molecules from "./pages/Molecules";
-import MoleculeDetail from "./pages/MoleculeDetail";
+const MoleculeDetail = lazy(() => import("./pages/MoleculeDetail"));
 import TerpeneDetail from "./pages/TerpeneDetail";
 import Familles from "./pages/Familles";
 import FamillesList from "./pages/FamillesList";
@@ -126,9 +135,9 @@ import { ChemicalFamilies } from "./pages/ChemicalFamilies";
 import MoleculesHub from "./pages/MoleculesHub";
 
 
-// === RECETTES ===
+// === RECETTES (Lazy loaded for performance) ===
 import Recettes from "./pages/Recettes";
-import RecetteDetail from "./pages/RecetteDetail";
+const RecetteDetail = lazy(() => import("./pages/RecetteDetail"));
 import Accords from "./pages/Accords";
 import RecettesHub from "./pages/RecettesHub";
 
@@ -163,7 +172,7 @@ import SankeyFlow from "./pages/SankeyFlow";
 import EnhancedRadarDemo from "./pages/EnhancedRadarDemo";
 import AdvancedSearch from "./pages/AdvancedSearch";
 import CrossSearch from "./pages/CrossSearch";
-import RechercheAvancee from "./pages/RechercheAvancee";
+const RechercheAvancee = lazy(() => import("./pages/RechercheAvancee"));
 import RechercheProfilMoleculaire from "./pages/RechercheProfilMoleculaire";
 import RecipeTimeline from "./pages/RecipeTimeline";
 import FormulesReference from "./pages/FormulesReference";
@@ -371,6 +380,17 @@ import PublicationMoleculeGraph from "./pages/PublicationMoleculeGraph";
 
 
 
+// Wrapper for lazy-loaded components
+const LazyRoute: React.FC<{ path: string; component: React.LazyExoticComponent<React.ComponentType<unknown>> }> = ({ path, component: Component }) => (
+  <Route path={path}>
+    {() => (
+      <Suspense fallback={<PageLoader />}>
+        <Component />
+      </Suspense>
+    )}
+  </Route>
+);
+
 function Router() {
   return (
     <Switch>
@@ -419,7 +439,7 @@ function Router() {
       <Route path="/admin/references" component={AdminReferences} />
       
       {/* === RECHERCHE === */}
-      <Route path="/recherche-avancee" component={RechercheAvancee} />
+      <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />
       <Route path="/recherche-globale" component={RechercheGlobale} />
       
       {/* === PROJET === */}
@@ -541,7 +561,14 @@ function Router() {
       {/* === MOLÉCULES (Consolidé) === */}
       <Route path="/molecules-hub" component={MoleculesHub} />
       <Route path="/molecules" component={Molecules} />
-      <Route path="/molecule/:id" component={MoleculeDetail} />
+      {/* Lazy-loaded detail pages */}
+      <Route path="/molecule/:id">
+        {(params) => (
+          <Suspense fallback={<PageLoader />}>
+            <MoleculeDetail />
+          </Suspense>
+        )}
+      </Route>
       <Route path="/terpene/:id" component={TerpeneDetail} />
       {/* Anciennes routes redirigées vers MoleculesHub */}
       <Route path="/familles" component={Familles} />
@@ -551,7 +578,13 @@ function Router() {
       {/* === RECETTES === */}
       <Route path="/recettes" component={RecettesHub} />
       <Route path="/recettes-tl" component={RecettesTL} />
-      <Route path="/recette/:id" component={RecetteDetail} />
+      <Route path="/recette/:id">
+        {(params) => (
+          <Suspense fallback={<PageLoader />}>
+            <RecetteDetail />
+          </Suspense>
+        )}
+      </Route>
       {/* Anciennes routes redirigées vers RecettesHub */}
       {/* Legacy redirects for accords and formules-reference */}
       <Route path="/accords" component={() => <SimpleRedirect to="/recettes-hub?tab=accords" />} />
@@ -775,7 +808,7 @@ function Router() {
       <Route path="/analytics/advanced" component={AnalyticsDashboardAdvanced} />
       <Route path="/mon-dashboard" component={MonDashboard} />
       <Route path="/statistiques" component={Statistics} />
- <Route path="/recherche" component={RechercheAvancee} />
+ <LazyRoute path="/recherche" component={RechercheAvancee} />
       <Route path="/recherche-profil-moleculaire" component={RechercheProfilMoleculaire} />
       {/* Route /recherche-avancee déjà définie ligne 364 avec RechercheAvancee */}
       <Route path="/recherche-croisee" component={CrossSearch} />

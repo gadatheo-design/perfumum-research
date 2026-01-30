@@ -1,0 +1,310 @@
+{
+  "query": "SELECT \n  table_name,\n  table_rows,\n  ROUND(data_length / 1024 / 1024, 2) AS data_mb,\n  ROUND(index_length / 1024 / 1024, 2) AS index_mb\nFROM information_schema.tables \nWHERE table_schema = DATABASE()\nORDER BY table_rows DESC\nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  table_name,\n  table_rows,\n  ROUND(data_length / 1024 / 1024, 2) AS data_mb,\n  ROUND(index_length / 1024 / 1024, 2) AS index_mb\nFROM information_schema.tables \nWHERE table_schema = DATABASE()\nORDER BY table_rows DESC\nLIMIT 50;",
+  "rows": [
+    {
+      "table_name": "molecules_recettes",
+      "table_rows": "1064",
+      "data_mb": "0.06",
+      "index_mb": "0.03"
+    },
+    {
+      "table_name": "shared_collections",
+      "table_rows": "1013",
+      "data_mb": "0.09",
+      "index_mb": "0.04"
+    },
+    {
+      "table_name": "citations",
+      "table_rows": "741",
+      "data_mb": "0.16",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "bibliography_entries",
+      "table_rows": "715",
+      "data_mb": "0.28",
+      "index_mb": "0.03"
+    },
+    {
+      "table_name": "molecules",
+      "table_rows": "699",
+      "data_mb": "0.36",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "tps_molecule_links",
+      "table_rows": "682",
+      "data_mb": "0.03",
+      "index_mb": "0.01"
+    },
+    {
+      "table_name": "plant_molecules",
+      "table_rows": "650",
+      "data_mb": "0.06",
+      "index_mb": "0.02"
+    },
+    {
+      "table_name": "plant_terroirs",
+      "table_rows": "386",
+      "data_mb": "0.04",
+      "index_mb": "0.01"
+    },
+    {
+      "table_name": "recettes",
+      "table_rows": "312",
+      "data_mb": "0.14",
+      "index_mb": "0.01"
+    },
+    {
+      "table_name": "tps_genes",
+      "table_rows": "307",
+      "data_mb": "0.04",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "perique_compounds",
+      "table_rows": "278",
+      "data_mb": "0.04",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "tobacco_compounds",
+      "table_rows": "252",
+      "data_mb": "0.04",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "reference_entity_links",
+      "table_rows": "250",
+      "data_mb": "0.03",
+      "index_mb": "0.02"
+    },
+    {
+      "table_name": "plants",
+      "table_rows": "247",
+      "data_mb": "0.15",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "recettes_formules_reference",
+      "table_rows": "234",
+      "data_mb": "0.01",
+      "index_mb": "0.01"
+    },
+    {
+      "table_name": "perique_molecule_links",
+      "table_rows": "213",
+      "data_mb": "0.02",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "v3_references",
+      "table_rows": "205",
+      "data_mb": "0.09",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "analytics_events",
+      "table_rows": "177",
+      "data_mb": "0.02",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "tps_gene_molecules",
+      "table_rows": "177",
+      "data_mb": "0.02",
+      "index_mb": "0.01"
+    },
+    {
+      "table_name": "molecule_plant_sources",
+      "table_rows": "168",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "transformation_recipe_impacts",
+      "table_rows": "147",
+      "data_mb": "0.03",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "reference_tags",
+      "table_rows": "137",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "evidence_bibliography_links",
+      "table_rows": "133",
+      "data_mb": "0.02",
+      "index_mb": "0.01"
+    },
+    {
+      "table_name": "bibliography_axis_links",
+      "table_rows": "128",
+      "data_mb": "0.00",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "recette_molecules",
+      "table_rows": "128",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "raw_material_molecules",
+      "table_rows": "124",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "petrichor_experimental_accords",
+      "table_rows": "120",
+      "data_mb": "0.00",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "publication_molecule_links",
+      "table_rows": "113",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "glossary",
+      "table_rows": "108",
+      "data_mb": "0.03",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "raw_materials",
+      "table_rows": "101",
+      "data_mb": "0.03",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "plant_varieties",
+      "table_rows": "94",
+      "data_mb": "0.07",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "molecule_origins",
+      "table_rows": "92",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "pyrolysis_transformations",
+      "table_rows": "77",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "molecule_synergies",
+      "table_rows": "73",
+      "data_mb": "0.03",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "volcanique_experimental_accords",
+      "table_rows": "72",
+      "data_mb": "0.00",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "laboratoire",
+      "table_rows": "69",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "ms_spectra",
+      "table_rows": "67",
+      "data_mb": "0.05",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "molecule_evidence",
+      "table_rows": "64",
+      "data_mb": "0.03",
+      "index_mb": "0.01"
+    },
+    {
+      "table_name": "perfumum_molecules",
+      "table_rows": "62",
+      "data_mb": "0.00",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "petrichor",
+      "table_rows": "60",
+      "data_mb": "0.00",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "gcms_peaks",
+      "table_rows": "60",
+      "data_mb": "0.00",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "terroirs",
+      "table_rows": "57",
+      "data_mb": "0.02",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "landraces",
+      "table_rows": "54",
+      "data_mb": "0.03",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "synergies",
+      "table_rows": "53",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "axis_connections",
+      "table_rows": "48",
+      "data_mb": "0.00",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "experimental_accord_civilisations",
+      "table_rows": "44",
+      "data_mb": "0.00",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "ghost_variety_molecule_links",
+      "table_rows": "43",
+      "data_mb": "0.00",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "research_content",
+      "table_rows": "43",
+      "data_mb": "0.06",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "traditions_olfactives",
+      "table_rows": "42",
+      "data_mb": "0.02",
+      "index_mb": "0.00"
+    },
+    {
+      "table_name": "tabacs",
+      "table_rows": "42",
+      "data_mb": "0.01",
+      "index_mb": "0.00"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\ttable_rows\tdata_mb\tindex_mb\nmolecules_recettes\t1064\t0.06\t0.03\nshared_collections\t1013\t0.09\t0.04\ncitations\t741\t0.16\t0.00\nbibliography_entries\t715\t0.28\t0.03\nmolecules\t699\t0.36\t0.00\ntps_molecule_links\t682\t0.03\t0.01\nplant_molecules\t650\t0.06\t0.02\nplant_terroirs\t386\t0.04\t0.01\nrecettes\t312\t0.14\t0.01\ntps_genes\t307\t0.04\t0.00\nperique_compounds\t278\t0.04\t0.00\ntobacco_compounds\t252\t0.04\t0.00\nreference_entity_links\t250\t0.03\t0.02\nplants\t247\t0.15\t0.00\nrecettes_formules_reference\t234\t0.01\t0.01\nperique_molecule_links\t213\t0.02\t0.00\nv3_references\t205\t0.09\t0.00\nanalytics_events\t177\t0.02\t0.00\ntps_gene_molecules\t177\t0.02\t0.01\nmolecule_plant_sources\t168\t0.01\t0.00\ntransformation_recipe_impacts\t147\t0.03\t0.00\nreference_tags\t137\t0.01\t0.00\nevidence_bibliography_links\t133\t0.02\t0.01\nbibliography_axis_links\t128\t0.00\t0.00\nrecette_molecules\t128\t0.01\t0.00\nraw_material_molecules\t124\t0.01\t0.00\npetrichor_experimental_accords\t120\t0.00\t0.00\npublication_molecule_links\t113\t0.01\t0.00\nglossary\t108\t0.03\t0.00\nraw_materials\t101\t0.03\t0.00\nplant_varieties\t94\t0.07\t0.00\nmolecule_origins\t92\t0.01\t0.00\npyrolysis_transformations\t77\t0.01\t0.00\nmolecule_synergies\t73\t0.03\t0.00\nvolcanique_experimental_accords\t72\t0.00\t0.00\nlaboratoire\t69\t0.01\t0.00\nms_spectra\t67\t0.05\t0.00\nmolecule_evidence\t64\t0.03\t0.01\nperfumum_molecules\t62\t0.00\t0.00\npetrichor\t60\t0.00\t0.00\ngcms_peaks\t60\t0.00\t0.00\nterroirs\t57\t0.02\t0.00\nlandraces\t54\t0.03\t0.00\nsynergies\t53\t0.01\t0.00\naxis_connections\t48\t0.00\t0.00\nexperimental_accord_civilisations\t44\t0.00\t0.00\nghost_variety_molecule_links\t43\t0.00\t0.00\nresearch_content\t43\t0.06\t0.00\ntraditions_olfactives\t42\t0.02\t0.00\ntabacs\t42\t0.01\t0.00\n",
+  "stderr": "",
+  "execution_time_ms": 137
+}
