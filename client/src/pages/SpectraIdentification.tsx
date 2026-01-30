@@ -708,6 +708,35 @@ export default function SpectraIdentification() {
             </div>
           </CardContent>
         </Card>
+        
+        {/* Outils connexes */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">Outils connexes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <Link href="/compare-spectra">
+                <Button variant="outline" className="w-full justify-start">
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  Comparer des spectres
+                </Button>
+              </Link>
+              <Link href="/gcms-chromatograms">
+                <Button variant="outline" className="w-full justify-start">
+                  <Target className="h-4 w-4 mr-2" />
+                  Chromatogrammes GC-MS
+                </Button>
+              </Link>
+              <Link href="/search-compound">
+                <Button variant="outline" className="w-full justify-start">
+                  <Search className="h-4 w-4 mr-2" />
+                  Recherche par composé
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

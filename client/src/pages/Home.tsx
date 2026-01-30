@@ -501,6 +501,100 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Analyse GC-MS Section */}
+        <section className="section-spacing bg-gradient-to-b from-muted/10 to-background">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Analyse GC-MS</h2>
+              <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+                Outils d'analyse chromatographique et spectrométrique pour l'identification des composés volatils.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Chromatogrammes */}
+                <HoverScale scale={1.02}>
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 transition-colors">
+                      <BarChart3 className="h-6 w-6 text-emerald-500" />
+                    </div>
+                    <CardTitle className="text-lg group-hover:text-emerald-500 transition-colors">Chromatogrammes</CardTitle>
+                    <CardDescription>Profils GC-MS des landraces</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button variant="outline" size="sm" className="w-full group-hover:border-emerald-500" asChild>
+                      <Link href="/gcms-chromatograms">
+                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                </HoverScale>
+
+                {/* Spectres de Masse */}
+                <HoverScale scale={1.02}>
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-violet-500/10 flex items-center justify-center mb-4 group-hover:bg-violet-500/20 transition-colors">
+                      <Microscope className="h-6 w-6 text-violet-500" />
+                    </div>
+                    <CardTitle className="text-lg group-hover:text-violet-500 transition-colors">Spectres MS</CardTitle>
+                    <CardDescription>67 spectres de référence</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button variant="outline" size="sm" className="w-full group-hover:border-violet-500" asChild>
+                      <Link href="/ms-spectra">
+                        Consulter <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                </HoverScale>
+
+                {/* Comparaison Spectres */}
+                <HoverScale scale={1.02}>
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-pink-500/10 flex items-center justify-center mb-4 group-hover:bg-pink-500/20 transition-colors">
+                      <Eye className="h-6 w-6 text-pink-500" />
+                    </div>
+                    <CardTitle className="text-lg group-hover:text-pink-500 transition-colors">Comparaison</CardTitle>
+                    <CardDescription>Superposer jusqu'à 3 spectres</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button variant="outline" size="sm" className="w-full group-hover:border-pink-500" asChild>
+                      <Link href="/compare-spectra">
+                        Comparer <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                </HoverScale>
+
+                {/* Identification */}
+                <HoverScale scale={1.02}>
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center mb-4 group-hover:bg-amber-500/20 transition-colors">
+                      <FlaskConical className="h-6 w-6 text-amber-500" />
+                    </div>
+                    <CardTitle className="text-lg group-hover:text-amber-500 transition-colors">Identification</CardTitle>
+                    <CardDescription>Import .msp, .jdx, .csv</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button variant="outline" size="sm" className="w-full group-hover:border-amber-500" asChild>
+                      <Link href="/identify-spectrum">
+                        Identifier <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                </HoverScale>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Research News & Discovery Section */}
         <section className="py-16 bg-muted/30">
           <div className="container">

@@ -10,6 +10,7 @@ import {
   Atom, Beaker, ChevronLeft, ChevronRight, Info, 
   Zap, Scale, FlaskConical, Activity
 } from 'lucide-react';
+import { Link } from 'wouter';
 
 interface MsSpectrum {
   id: number;
@@ -242,6 +243,39 @@ export default function MSSpectraViewer() {
                   Les spectres sont obtenus par ionisation électronique (EI) à 70 eV.
                   Les intensités sont normalisées au pic de base.
                 </p>
+              </CardContent>
+            </Card>
+            
+            {/* Outils connexes */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Outils connexes</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Link href="/compare-spectra">
+                  <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Scale className="h-4 w-4 mr-2" />
+                    Comparer des spectres
+                  </Button>
+                </Link>
+                <Link href="/identify-spectrum">
+                  <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Zap className="h-4 w-4 mr-2" />
+                    Identifier un spectre
+                  </Button>
+                </Link>
+                <Link href="/gcms-chromatograms">
+                  <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Activity className="h-4 w-4 mr-2" />
+                    Chromatogrammes GC-MS
+                  </Button>
+                </Link>
+                <Link href="/search-compound">
+                  <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Beaker className="h-4 w-4 mr-2" />
+                    Recherche par composé
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>

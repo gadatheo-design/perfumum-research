@@ -163,6 +163,17 @@ function MegaMenuOptimizedNav() {
         { id: "t6", label: "Transformations Moléculaires", href: "/molecular-transformations", badge: "NEW" },
       ],
     },
+    {
+      category: "Analyse GC-MS",
+      icon: <Microscope className="h-4 w-4" />,
+      items: [
+        { id: "t7", label: "Chromatogrammes", href: "/gcms-chromatograms", badge: "NEW" },
+        { id: "t8", label: "Spectres de Masse", href: "/ms-spectra", badge: "NEW" },
+        { id: "t9", label: "Comparaison Spectres", href: "/compare-spectra", badge: "NEW" },
+        { id: "t10", label: "Identification", href: "/identify-spectrum", badge: "NEW" },
+        { id: "t11", label: "Recherche Composé", href: "/search-compound" },
+      ],
+    },
   ];
 
   // === PROJET (À propos + Administration) ===

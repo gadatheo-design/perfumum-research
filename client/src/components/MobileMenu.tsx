@@ -169,6 +169,17 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/molecular-transformations", label: "Transformations Moléculaires", badge: "NEW" },
     ],
   },
+  {
+    title: "Analyse GC-MS",
+    icon: TestTube,
+    items: [
+      { href: "/gcms-chromatograms", label: "Chromatogrammes", badge: "NEW" },
+      { href: "/ms-spectra", label: "Spectres de Masse", badge: "NEW" },
+      { href: "/compare-spectra", label: "Comparaison Spectres", badge: "NEW" },
+      { href: "/identify-spectrum", label: "Identification", badge: "NEW" },
+      { href: "/search-compound", label: "Recherche Composé" },
+    ],
+  },
   // === PROJET ===
   {
     title: "Documentation",

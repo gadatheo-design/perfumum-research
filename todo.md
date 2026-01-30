@@ -3898,3 +3898,32 @@
 - [x] Détection automatique du format par extension et contenu
 - [x] Tests unitaires: 18 tests passés (spectrum-parsers.test.ts)
 - **Formats supportés**: .msp, .jdx, .dx, .jcamp, .csv, .txt
+
+
+## 📊 SESSION 30 JANVIER 2026 — Audit complet et navigation
+
+### Tâche 11 : Réorganisation du header et navigation - TERMINÉ
+- [x] Analyser toutes les pages existantes dans App.tsx (300+ routes)
+- [x] Créer une structure de navigation logique par catégories
+- [x] Mettre à jour le header desktop avec section "Analyse GC-MS" dans Tabacothèque
+- [x] Mettre à jour la navigation mobile avec menu hamburger (MobileMenu.tsx)
+- [x] Ajouter les liens vers les nouvelles pages MS (spectres, comparaison, identification)
+
+### Tâche 12 : Mise à jour de la page d'accueil - TERMINÉ
+- [x] Ajouter une section "Analyse GC-MS" avec 4 cartes (Chromatogrammes, Spectres MS, Comparaison, Identification)
+- [x] Design cohérent avec couleurs distinctives (emerald, violet, pink, amber)
+- [x] Liens vers /gcms-chromatograms, /ms-spectra, /compare-spectra, /identify-spectrum
+- [x] Section placée après les Accès Rapides et avant les Actualités
+
+### Tâche 13 : Audit UX/Design - EN COURS
+- [x] Vérifier la cohérence des couleurs et typographies (OK - palette cohérente)
+- [ ] Auditer l'accessibilité (contraste, navigation clavier)
+- [x] Vérifier la responsivité sur mobile (MobileMenu mis à jour)
+- [x] Identifier les pages orphelines - pages MS maintenant liées
+
+### Tâche 14 : Amélioration des liens inter-pages - TERMINÉ
+- [x] Ajouter des liens contextuels dans MSSpectraViewer (outils connexes)
+- [x] Ajouter des liens dans SpectraComparison (3 outils connexes)
+- [x] Ajouter des liens dans SpectraIdentification (3 outils connexes)
+- [x] Liens bidirectionnels entre toutes les pages MS
+- [x] Liens vers chromatogrammes, recherche par composé, comparaison
