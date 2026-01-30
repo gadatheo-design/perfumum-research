@@ -1,0 +1,67 @@
+{
+  "query": "SHOW TABLES LIKE '%region%';\nSHOW TABLES LIKE '%variet%';\nSHOW TABLES LIKE '%terroir%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW TABLES LIKE '%region%';\nSHOW TABLES LIKE '%variet%';\nSHOW TABLES LIKE '%terroir%';",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "regions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%variet%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "ghost_varieties"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "ghost_variety_images"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "ghost_variety_molecule_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "ghost_variety_plant_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "lost_varieties"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "plant_varieties"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "tobacco_extinct_varieties"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "varieties"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "variety_genealogy"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "variety_historical_records"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "variety_molecular_profiles"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "variety_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%terroir%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "plant_terroirs"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "tabac_terroir_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "terroir_specialties"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)": "terroirs"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%region%)\nregions\nTables_in_H2pjHHJbH276XmnbNcJhCp (%variet%)\nghost_varieties\nghost_variety_images\nghost_variety_molecule_links\nghost_variety_plant_links\nlost_varieties\nplant_varieties\ntobacco_extinct_varieties\nvarieties\nvariety_genealogy\nvariety_historical_records\nvariety_molecular_profiles\nvariety_molecules\nTables_in_H2pjHHJbH276XmnbNcJhCp (%terroir%)\nplant_terroirs\ntabac_terroir_links\nterroir_specialties\nterroirs\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

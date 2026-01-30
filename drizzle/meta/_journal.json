@@ -204,6 +204,13 @@
       "when": 1769727758825,
       "tag": "0028_redundant_zodiak",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "5",
+      "when": 1769764199429,
+      "tag": "0029_low_thor",
+      "breakpoints": true
     }
   ]
 }

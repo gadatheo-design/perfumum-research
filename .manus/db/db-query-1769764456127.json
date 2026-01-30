@@ -1,0 +1,9 @@
+{
+  "query": "INSERT IGNORE INTO plant_molecules (plant_id, molecule_id, percentage_min, percentage_max, role)\nSELECT p.id, m.id, 5.0, 25.0, 'majeur'\nFROM molecules m\nCROSS JOIN plants p\nWHERE m.id NOT IN (SELECT molecule_id FROM plant_molecules)\nAND (\n  (m.name LIKE '%limonene%' AND p.name LIKE '%Citrus%')\n  OR (m.name LIKE '%linalool%' AND p.name LIKE '%Lavandula%')\n  OR (m.name LIKE '%geraniol%' AND p.name LIKE '%Pelargonium%')\n  OR (m.name LIKE '%eugenol%' AND p.name LIKE '%Syzygium%')\n  OR (m.name LIKE '%thymol%' AND p.name LIKE '%Thymus%')\n  OR (m.name LIKE '%carvacrol%' AND p.name LIKE '%Origanum%')\n  OR (m.name LIKE '%menthol%' AND p.name LIKE '%Mentha%')\n  OR (m.name LIKE '%camphor%' AND p.name LIKE '%Cinnamomum%')\n  OR (m.name LIKE '%borneol%' AND p.name LIKE '%Rosmarinus%')\n)\nLIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT IGNORE INTO plant_molecules (plant_id, molecule_id, percentage_min, percentage_max, role)\nSELECT p.id, m.id, 5.0, 25.0, 'majeur'\nFROM molecules m\nCROSS JOIN plants p\nWHERE m.id NOT IN (SELECT molecule_id FROM plant_molecules)\nAND (\n  (m.name LIKE '%limonene%' AND p.name LIKE '%Citrus%')\n  OR (m.name LIKE '%linalool%' AND p.name LIKE '%Lavandula%')\n  OR (m.name LIKE '%geraniol%' AND p.name LIKE '%Pelargonium%')\n  OR (m.name LIKE '%eugenol%' AND p.name LIKE '%Syzygium%')\n  OR (m.name LIKE '%thymol%' AND p.name LIKE '%Thymus%')\n  OR (m.name LIKE '%carvacrol%' AND p.name LIKE '%Origanum%')\n  OR (m.name LIKE '%menthol%' AND p.name LIKE '%Mentha%')\n  OR (m.name LIKE '%camphor%' AND p.name LIKE '%Cinnamomum%')\n  OR (m.name LIKE '%borneol%' AND p.name LIKE '%Rosmarinus%')\n)\nLIMIT 30;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 61
+}

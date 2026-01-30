@@ -1017,7 +1017,7 @@ export const synergies = mysqlTable("synergies", {
   tabacId: int("tabac_id").references(() => tabacs.id),
   moleculeId: int("molecule_id").references(() => molecules.id),
   familleId: int("famille_id").references(() => families.id),
-  type: mysqlEnum("type", ["potentialisation", "stabilisation", "transformation", "masquage"]).notNull(),
+  type: mysqlEnum("type", ["potentialisation", "stabilisation", "transformation", "masquage", "neutralisation"]).notNull(),
   effet: text("effet"), // Description de l'effet
   notes: text("notes"), // Notes techniques
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -1031,7 +1031,7 @@ export const moleculeSynergies = mysqlTable("molecule_synergies", {
   id: int("id").autoincrement().primaryKey(),
   molecule1Id: int("molecule1_id").notNull().references(() => molecules.id),
   molecule2Id: int("molecule2_id").notNull().references(() => molecules.id),
-  type: mysqlEnum("type", ["potentialisation", "stabilisation", "transformation", "masquage"]).notNull(),
+  type: mysqlEnum("type", ["potentialisation", "stabilisation", "transformation", "masquage", "neutralisation"]).notNull(),
   description: text("description").notNull(), // Description détaillée de la synergie
   chemicalMechanism: text("chemical_mechanism"), // Explication du mécanisme chimique (liaisons, interactions, etc.)
   applications: text("applications"), // Applications pratiques

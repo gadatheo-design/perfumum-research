@@ -1,0 +1,2 @@
+ALTER TABLE `molecule_synergies` MODIFY COLUMN `type` enum('potentialisation','stabilisation','transformation','masquage','neutralisation') NOT NULL;--> statement-breakpoint
+ALTER TABLE `synergies` MODIFY COLUMN `type` enum('potentialisation','stabilisation','transformation','masquage','neutralisation') NOT NULL;

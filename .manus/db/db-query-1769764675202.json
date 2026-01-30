@@ -1,0 +1,64 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'varieties' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'varieties' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "code"
+    },
+    {
+      "COLUMN_NAME": "plant_id"
+    },
+    {
+      "COLUMN_NAME": "region_id"
+    },
+    {
+      "COLUMN_NAME": "type"
+    },
+    {
+      "COLUMN_NAME": "genetic_lineage"
+    },
+    {
+      "COLUMN_NAME": "chemotype"
+    },
+    {
+      "COLUMN_NAME": "dominant_compounds"
+    },
+    {
+      "COLUMN_NAME": "thc_content"
+    },
+    {
+      "COLUMN_NAME": "cbd_content"
+    },
+    {
+      "COLUMN_NAME": "terpene_profile"
+    },
+    {
+      "COLUMN_NAME": "aromatic_profile"
+    },
+    {
+      "COLUMN_NAME": "conservation_status"
+    },
+    {
+      "COLUMN_NAME": "historical_notes"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nname\ncode\nplant_id\nregion_id\ntype\ngenetic_lineage\nchemotype\ndominant_compounds\nthc_content\ncbd_content\nterpene_profile\naromatic_profile\nconservation_status\nhistorical_notes\nnotes\ncreated_at\nupdated_at\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}
