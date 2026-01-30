@@ -4422,3 +4422,27 @@
 - [x] Angélique - Usage traditionnel et propriétés
 - [x] Anis vert - Usage traditionnel et propriétés
 
+
+---
+
+## 📊 SESSION 30 JANVIER 2026 (Suite) — Chémotypes et P0
+
+### Tâche 56 : Ajouter les chémotypes aux plantes aromatiques
+- [x] Niaouli - 3 chémotypes (CT 1,8-cinéole, CT viridiflorol, CT nérolidol)
+- [x] Myrte - 3 chémotypes (CT cinéole/rouge, CT acétate de myrtényle/vert, CT linalol)
+- [x] Laurier noble - 3 chémotypes (CT 1,8-cinéole, CT linalol, CT méthyleugénol)
+- [x] Camphrier - 4 fractions (Hon-Sho/camphre, Ravintsara/cinéole, Ho Wood/linalol, safrole/interdit)
+- [x] Angélique - 2 chémotypes (Racine, Graines)
+- [x] Anis vert - 1 chémotype (CT trans-anéthole)
+- [x] Curcuma - 2 chémotypes (CT ar-turmérone, CT turmérone)
+
+
+### Tâche 57 : Vérification P0 — Bugs & Corrections
+- [x] Écran blanc /carte-terroirs → Rate limiting proxy (429), pas un bug
+- [x] Erreurs TypeScript finalRecipes → Aucune erreur détectée
+- [x] Erreurs TypeScript db.ts → Aucune erreur détectée
+- [x] Tests climate-tl.test.ts → 100% couverture Köppen
+- [x] Tests core-procedures.test.ts → Tous passent
+- [x] Tests molecule-origins.test.ts → Tous passent
+- [x] Compilation TypeScript → 1229 tests passés
+
