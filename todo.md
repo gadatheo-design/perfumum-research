@@ -3848,3 +3848,36 @@
 - [x] Ajouter les routes /compare-spectra, /comparaison-spectres, /spectra-comparison
 - [x] Ajouter un tableau comparatif des propriétés moléculaires
 - [x] Tests unitaires: 32 tests passés (ms-spectra.test.ts)
+
+
+## 📊 SESSION 30 JANVIER 2026 — Intégration MS avancée
+
+### Tâche 7 : Onglet Spectre MS dans les fiches landraces - TERMINÉ
+- [x] Identifier la page de détail des landraces (TobaccoLandraceDetail.tsx)
+- [x] Ajouter un onglet "Spectre MS" dans le système d'onglets existant
+- [x] Créer le composant MSSpectraTab avec tableau des composés
+- [x] Afficher le nombre de spectres disponibles/manquants
+- [x] Intégrer le composant MSSpectrumPopup pour visualisation rapide
+- [x] Ajouter les liens vers les outils avancés (tous les spectres, comparaison)
+
+### Tâche 8 : Importer les spectres de référence NIST - TERMINÉ
+- [x] Utiliser la table ms_spectra existante avec champ source
+- [x] Créer le script import-nist-spectra.mjs
+- [x] Importer 19 nouveaux spectres NIST + mise à jour de 5 existants
+- [x] Inclure: monoterpènes (α-terpinène, γ-terpinène, sabinène, 3-carène)
+- [x] Inclure: sesquiterpènes (α-copaène, β-bourbonène, valencène, δ-cadinène)
+- [x] Inclure: alcaloïdes (nicotine, nornicotine, anabasine)
+- [x] Inclure: composés aromatiques (eugénol, vanilline, coumarine)
+- **Résultat**: 67 spectres MS au total dans la base
+
+### Tâche 9 : Outil d'identification automatique - TERMINÉ
+- [x] Créer la page SpectraIdentification.tsx avec interface complète
+- [x] Mode entrée manuelle (m/z + intensité) avec ajout/suppression de pics
+- [x] Mode "coller des données" pour import rapide de listes de pics
+- [x] Visualisation D3.js du spectre inconnu
+- [x] Algorithme de similarité pondérée (pics de base plus importants)
+- [x] Paramètre de tolérance m/z ajustable
+- [x] Affichage des 10 meilleures correspondances avec scores
+- [x] Guide d'interprétation des résultats (>80%, 60-80%, <60%)
+- [x] Ajouter les routes /identify-spectrum, /identification-spectre, /spectra-identification
+- [x] Tests unitaires: 44 tests passés (ms-spectra.test.ts)

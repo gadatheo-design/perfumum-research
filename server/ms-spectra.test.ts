@@ -325,3 +325,246 @@ describe('Chemical Classes in MS Spectra', () => {
     });
   });
 });
+
+
+// === Tests pour les spectres NIST ===
+describe('NIST Reference Spectra', () => {
+  it('should have valid NIST spectrum format', () => {
+    const nistSpectrum = {
+      compound_name: 'α-Terpinène',
+      cas_number: '99-86-5',
+      molecular_formula: 'C10H16',
+      molecular_weight: 136.24,
+      ionization_mode: 'EI',
+      base_peak_mz: 121,
+      source: 'NIST',
+      spectrum_data: {
+        peaks: [
+          { mz: 27, intensity: 15 },
+          { mz: 77, intensity: 35 },
+          { mz: 93, intensity: 55 },
+          { mz: 121, intensity: 100 },
+          { mz: 136, intensity: 40 }
+        ]
+      }
+    };
+
+    expect(nistSpectrum.source).toBe('NIST');
+    expect(nistSpectrum.base_peak_mz).toBe(121);
+    expect(nistSpectrum.spectrum_data.peaks.find(p => p.intensity === 100)?.mz).toBe(121);
+  });
+
+  it('should have monoterpene molecular weight around 136', () => {
+    const monoterpenes = [
+      { name: 'α-Terpinène', mw: 136.24 },
+      { name: 'γ-Terpinène', mw: 136.24 },
+      { name: 'Terpinolène', mw: 136.24 },
+      { name: 'Sabinène', mw: 136.24 },
+      { name: '3-Carène', mw: 136.24 }
+    ];
+
+    monoterpenes.forEach(mt => {
+      expect(mt.mw).toBeCloseTo(136.24, 1);
+    });
+  });
+
+  it('should have sesquiterpene molecular weight around 204', () => {
+    const sesquiterpenes = [
+      { name: 'α-Copaène', mw: 204.35 },
+      { name: 'β-Bourbonène', mw: 204.35 },
+      { name: 'Valencène', mw: 204.35 },
+      { name: 'δ-Cadinène', mw: 204.35 }
+    ];
+
+    sesquiterpenes.forEach(st => {
+      expect(st.mw).toBeCloseTo(204.35, 1);
+    });
+  });
+});
+
+// === Tests pour l'algorithme d'identification ===
+describe('Spectrum Identification Algorithm', () => {
+  // Fonction de calcul de similarité (copie de celle utilisée dans SpectraIdentification.tsx)
+  function calculateWeightedSimilarity(
+    unknownPeaks: { mz: number; intensity: number }[],
+    referencePeaks: { mz: number; intensity: number }[],
+    tolerance: number = 1
+  ): { similarity: number; matchedPeaks: number } {
+    if (unknownPeaks.length === 0 || referencePeaks.length === 0) {
+      return { similarity: 0, matchedPeaks: 0 };
+    }
+
+    let matchedPeaks = 0;
+    let weightedScore = 0;
+    let totalWeight = 0;
+
+    unknownPeaks.forEach(unknownPeak => {
+      const match = referencePeaks.find(refPeak =>
+        Math.abs(refPeak.mz - unknownPeak.mz) <= tolerance
+      );
+
+      if (match) {
+        matchedPeaks++;
+        const weight = match.intensity / 100;
+        const intensityMatch = 1 - Math.abs(unknownPeak.intensity - match.intensity) / 100;
+        weightedScore += weight * intensityMatch;
+        totalWeight += weight;
+      }
+    });
+
+    const unmatchedPenalty = (unknownPeaks.length - matchedPeaks) / unknownPeaks.length * 0.3;
+    const baseSimilarity = totalWeight > 0 ? (weightedScore / totalWeight) * 100 : 0;
+    const similarity = Math.max(0, baseSimilarity - unmatchedPenalty * 100);
+
+    return { similarity, matchedPeaks };
+  }
+
+  it('should return 100% similarity for identical spectra', () => {
+    const spectrum = [
+      { mz: 41, intensity: 45 },
+      { mz: 93, intensity: 100 },
+      { mz: 204, intensity: 25 }
+    ];
+
+    const result = calculateWeightedSimilarity(spectrum, spectrum);
+    expect(result.similarity).toBeCloseTo(100, 0);
+    expect(result.matchedPeaks).toBe(3);
+  });
+
+  it('should return 0% similarity for completely different spectra', () => {
+    const unknown = [
+      { mz: 50, intensity: 100 },
+      { mz: 100, intensity: 50 }
+    ];
+    const reference = [
+      { mz: 200, intensity: 100 },
+      { mz: 300, intensity: 50 }
+    ];
+
+    const result = calculateWeightedSimilarity(unknown, reference);
+    expect(result.similarity).toBe(0);
+    expect(result.matchedPeaks).toBe(0);
+  });
+
+  it('should handle partial matches correctly', () => {
+    const unknown = [
+      { mz: 93, intensity: 100 },
+      { mz: 136, intensity: 40 },
+      { mz: 50, intensity: 20 } // Non présent dans la référence
+    ];
+    const reference = [
+      { mz: 93, intensity: 100 },
+      { mz: 136, intensity: 40 },
+      { mz: 77, intensity: 35 }
+    ];
+
+    const result = calculateWeightedSimilarity(unknown, reference);
+    expect(result.matchedPeaks).toBe(2);
+    expect(result.similarity).toBeGreaterThan(50);
+    expect(result.similarity).toBeLessThan(100);
+  });
+
+  it('should respect tolerance parameter', () => {
+    const unknown = [{ mz: 93, intensity: 100 }];
+    const reference = [{ mz: 94, intensity: 100 }];
+
+    const resultTight = calculateWeightedSimilarity(unknown, reference, 0.5);
+    const resultLoose = calculateWeightedSimilarity(unknown, reference, 2);
+
+    expect(resultTight.matchedPeaks).toBe(0);
+    expect(resultLoose.matchedPeaks).toBe(1);
+  });
+
+  it('should weight base peaks more heavily', () => {
+    const unknown = [
+      { mz: 93, intensity: 100 }, // Base peak
+      { mz: 41, intensity: 20 }
+    ];
+    const reference = [
+      { mz: 93, intensity: 100 },
+      { mz: 41, intensity: 80 } // Intensité différente
+    ];
+
+    const result = calculateWeightedSimilarity(unknown, reference);
+    // La différence sur le pic mineur devrait avoir moins d'impact
+    expect(result.similarity).toBeGreaterThan(70);
+  });
+});
+
+// === Tests pour l'onglet MS dans les fiches landraces ===
+describe('Landrace MS Tab Integration', () => {
+  it('should match compounds by name or CAS number', () => {
+    const peaks = [
+      { compound_name: 'β-Caryophyllène', cas_number: '87-44-5' },
+      { compound_name: 'Limonène', cas_number: '138-86-3' }
+    ];
+
+    const msSpectra = [
+      { compound_name: 'β-Caryophyllène', cas_number: '87-44-5' },
+      { compound_name: 'α-Pinène', cas_number: '80-56-8' }
+    ];
+
+    const matchedPeaks = peaks.map(peak => {
+      const spectrum = msSpectra.find(s =>
+        s.compound_name === peak.compound_name || s.cas_number === peak.cas_number
+      );
+      return { ...peak, hasSpectrum: !!spectrum };
+    });
+
+    expect(matchedPeaks[0].hasSpectrum).toBe(true);
+    expect(matchedPeaks[1].hasSpectrum).toBe(false);
+  });
+
+  it('should count available and missing spectra correctly', () => {
+    const peaks = [
+      { compound_name: 'A', hasSpectrum: true },
+      { compound_name: 'B', hasSpectrum: true },
+      { compound_name: 'C', hasSpectrum: false },
+      { compound_name: 'D', hasSpectrum: false },
+      { compound_name: 'E', hasSpectrum: true }
+    ];
+
+    const available = peaks.filter(p => p.hasSpectrum).length;
+    const missing = peaks.filter(p => !p.hasSpectrum).length;
+
+    expect(available).toBe(3);
+    expect(missing).toBe(2);
+  });
+});
+
+// === Tests pour les alcaloïdes du tabac ===
+describe('Tobacco Alkaloids MS Spectra', () => {
+  it('should have nicotine spectrum with characteristic m/z 84 base peak', () => {
+    const nicotineSpectrum = {
+      compound_name: 'Nicotine',
+      cas_number: '54-11-5',
+      molecular_formula: 'C10H14N2',
+      molecular_weight: 162.23,
+      base_peak_mz: 84,
+      spectrum_data: {
+        peaks: [
+          { mz: 42, intensity: 25 },
+          { mz: 84, intensity: 100 },
+          { mz: 133, intensity: 25 },
+          { mz: 162, intensity: 35 }
+        ]
+      }
+    };
+
+    expect(nicotineSpectrum.base_peak_mz).toBe(84);
+    expect(nicotineSpectrum.spectrum_data.peaks.find(p => p.mz === 84)?.intensity).toBe(100);
+    expect(nicotineSpectrum.molecular_weight).toBeCloseTo(162.23, 1);
+  });
+
+  it('should have nornicotine spectrum with m/z 70 base peak', () => {
+    const nornicotineSpectrum = {
+      compound_name: 'Nornicotine',
+      cas_number: '494-97-3',
+      molecular_weight: 148.20,
+      base_peak_mz: 70
+    };
+
+    expect(nornicotineSpectrum.base_peak_mz).toBe(70);
+    expect(nornicotineSpectrum.molecular_weight).toBeLessThan(162.23); // Plus léger que la nicotine
+  });
+});

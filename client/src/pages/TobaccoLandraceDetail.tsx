@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRoute, Link } from 'wouter';
 import { trpc } from '@/lib/trpc';
+import MSSpectrumPopup from '@/components/MSSpectrumPopup';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import { 
   Leaf, MapPin, Beaker, Star, AlertTriangle, Sparkles, 
   Activity, ArrowLeft, Globe, Thermometer, Droplets,
-  FlaskConical, Microscope, ChevronRight
+  FlaskConical, Microscope, ChevronRight, Zap, Layers
 } from 'lucide-react';
 import * as d3 from 'd3';
 
@@ -158,6 +159,153 @@ function ChromatogramChart({ peaks, landraceName }: { peaks: any[]; landraceName
   );
 }
 
+// Composant pour l'onglet Spectres MS
+function MSSpectraTab({ peaks, landraceName }: { peaks: any[]; landraceName: string }) {
+  const [selectedCompound, setSelectedCompound] = useState<{ name: string; cas: string } | null>(null);
+  
+  // Récupérer les spectres MS disponibles
+  const { data: msSpectra, isLoading } = trpc.tobacco.getMsSpectra.useQuery();
+  
+  // Trouver les spectres correspondant aux pics de cette landrace
+  const matchedSpectra = peaks?.map((peak: any) => {
+    const spectrum = msSpectra?.find((s: any) => 
+      s.compound_name === peak.compound_name || s.cas_number === peak.cas_number
+    );
+    return {
+      ...peak,
+      hasSpectrum: !!spectrum,
+      spectrum
+    };
+  }) || [];
+  
+  const spectraAvailable = matchedSpectra.filter((p: any) => p.hasSpectrum);
+  const spectraMissing = matchedSpectra.filter((p: any) => !p.hasSpectrum);
+  
+  if (!peaks || peaks.length === 0) {
+    return (
+      <Card className="bg-muted/50">
+        <CardContent className="py-12 text-center">
+          <Zap className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
+          <h3 className="text-lg font-semibold mb-2">Aucune donnée chromatographique</h3>
+          <p className="text-muted-foreground max-w-md mx-auto">
+            Les spectres de masse ne sont disponibles que pour les landraces ayant des données GC-MS.
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+  
+  return (
+    <div className="space-y-6">
+      {/* Résumé */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Zap className="h-5 w-5 text-cyan-500" />
+            Spectres de masse disponibles
+          </CardTitle>
+          <CardDescription>
+            Spectres MS des composés identifiés dans {landraceName}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center gap-4 text-sm">
+            <Badge variant="outline" className="bg-green-500/10 text-green-400 border-green-500/30">
+              {spectraAvailable.length} spectres disponibles
+            </Badge>
+            {spectraMissing.length > 0 && (
+              <Badge variant="outline" className="bg-yellow-500/10 text-yellow-400 border-yellow-500/30">
+                {spectraMissing.length} spectres manquants
+              </Badge>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+      
+      {/* Liste des composés avec spectres */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Layers className="h-5 w-5 text-purple-500" />
+            Composés identifiés
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-3 px-4 font-semibold">Composé</th>
+                  <th className="text-left py-3 px-4 font-semibold">CAS</th>
+                  <th className="text-right py-3 px-4 font-semibold">Concentration</th>
+                  <th className="text-center py-3 px-4 font-semibold">Spectre MS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {matchedSpectra.sort((a: any, b: any) => b.concentration_ppm - a.concentration_ppm).map((compound: any, idx: number) => (
+                  <tr key={idx} className="border-b border-border/50 hover:bg-muted/50">
+                    <td className="py-3 px-4 font-medium">{compound.compound_name}</td>
+                    <td className="py-3 px-4 text-muted-foreground font-mono text-sm">{compound.cas_number}</td>
+                    <td className="py-3 px-4 text-right">
+                      <Badge variant="outline">{compound.concentration_ppm} ppm</Badge>
+                    </td>
+                    <td className="py-3 px-4 text-center">
+                      {compound.hasSpectrum ? (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedCompound({ name: compound.compound_name, cas: compound.cas_number })}
+                          className="bg-cyan-500/10 text-cyan-400 border-cyan-500/30 hover:bg-cyan-500/20"
+                        >
+                          <Zap className="h-3 w-3 mr-1" />
+                          Voir spectre
+                        </Button>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">Non disponible</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+      
+      {/* Liens vers outils avancés */}
+      <Card>
+        <CardContent className="py-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <p className="text-sm text-muted-foreground">
+              {msSpectra?.length || 0} spectres de référence dans la base de données
+            </p>
+            <div className="flex gap-2">
+              <Link href="/ms-spectra">
+                <Button variant="outline" size="sm">
+                  Tous les spectres
+                </Button>
+              </Link>
+              <Link href="/compare-spectra">
+                <Button variant="outline" size="sm">
+                  <Layers className="h-4 w-4 mr-1" />
+                  Comparer
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      
+      {/* Popup du spectre MS */}
+      <MSSpectrumPopup
+        compoundName={selectedCompound?.name || null}
+        casNumber={selectedCompound?.cas}
+        onClose={() => setSelectedCompound(null)}
+      />
+    </div>
+  );
+}
+
 // Couleurs par profil moléculaire
 const profileColors: Record<string, string> = {
   "cuir-animal": "bg-amber-900 text-amber-100",
@@ -270,6 +418,10 @@ export default function TobaccoLandraceDetail() {
             <TabsTrigger value="chromatography">
               <Activity className="h-4 w-4 mr-1" />
               Chromatographie
+            </TabsTrigger>
+            <TabsTrigger value="ms-spectra">
+              <Zap className="h-4 w-4 mr-1" />
+              Spectres MS
             </TabsTrigger>
             <TabsTrigger value="perfumery">Applications</TabsTrigger>
           </TabsList>
@@ -537,6 +689,11 @@ export default function TobaccoLandraceDetail() {
                 </CardContent>
               </Card>
             )}
+          </TabsContent>
+          
+          {/* Spectres de masse */}
+          <TabsContent value="ms-spectra" className="space-y-6">
+            <MSSpectraTab peaks={peaks} landraceName={landrace.name} />
           </TabsContent>
           
           {/* Applications en parfumerie */}

@@ -361,6 +361,7 @@ import GCMSChromatograms from "./pages/GCMSChromatograms";
 import CompoundSearch from "./pages/CompoundSearch";
 import MSSpectraViewer from "./pages/MSSpectraViewer";
 import SpectraComparison from "./pages/SpectraComparison";
+import SpectraIdentification from "./pages/SpectraIdentification";
 
 
 
@@ -469,6 +470,9 @@ function Router() {
       <Route path="/compare-spectra" component={SpectraComparison} />
       <Route path="/comparaison-spectres" component={SpectraComparison} />
       <Route path="/spectra-comparison" component={SpectraComparison} />
+      <Route path="/identify-spectrum" component={SpectraIdentification} />
+      <Route path="/identification-spectre" component={SpectraIdentification} />
+      <Route path="/spectra-identification" component={SpectraIdentification} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />
