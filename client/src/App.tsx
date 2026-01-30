@@ -350,6 +350,7 @@ import HistoricCigarettes from "./pages/HistoricCigarettes";
 import TpsGenesExplorer from "./pages/TpsGenesExplorer";
 import MolecularTransformations from "./pages/MolecularTransformations";
 import TobaccoLandraces from "./pages/TobaccoLandraces";
+import SoilAnalysis from "./pages/SoilAnalysis";
 
 
 
@@ -428,6 +429,8 @@ function Router() {
       <Route path="/perique-compounds" component={PeriqueCompounds} />
       <Route path="/historic-cigarettes" component={HistoricCigarettes} />
       <Route path="/tobacco-landraces" component={TobaccoLandraces} />
+      <Route path="/soil-analysis" component={SoilAnalysis} />
+      <Route path="/analyses-pedologiques" component={SoilAnalysis} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />

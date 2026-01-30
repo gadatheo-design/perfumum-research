@@ -3594,3 +3594,56 @@
 - [x] Créer page Landraces de Tabac avec profils moléculaires (/tobacco-landraces)
 - [x] Page Archive Olfactive Cigarettes existante (/historic-cigarettes)
 - [ ] Créer page Analyses Pédologiques
+
+
+---
+
+## 🧪 SESSION 30 JANVIER 2026 — Complétion des données
+
+### Tâche 1 : Import des composés du Perique
+- [x] Extraire les composés du fichier JSON perique_334_composes_detailles.json
+- [x] Structurer les données (nom, CAS, famille chimique, concentration)
+- [x] Importer dans la table tobacco_compounds (97 composés importés)
+- [ ] Créer les liens avec les molécules existantes (phase future)
+
+### Tâche 2 : Page Analyses Pédologiques
+- [x] Créer les fonctions DB pour les analyses de sols (déjà existantes)
+- [x] Créer les procédures tRPC pour les sols (déjà existantes)
+- [x] Créer la page SoilAnalysis.tsx avec visualisations interactives
+- [x] Ajouter les routes /soil-analysis et /analyses-pedologiques
+- [ ] Créer la page SoilAnalyses.tsx avec visualisations
+- [ ] Ajouter les graphiques comparatifs (pH, minéraux, etc.)
+
+### Tâche 3 : Liaison gènes TPS
+- [ ] Identifier les correspondances gènes TPS ↔ molécules
+- [ ] Créer la table de liaison tps_gene_molecule_links
+- [ ] Importer les correspondances depuis les fichiers génomiques
+- [ ] Mettre à jour l'onglet Biosynthèse des fiches molécules
+
+
+### Tâche 3 : Liaison gènes TPS - TERMINÉE
+- [x] Analyser les fichiers d'analyse génomique (160 gènes TPS documentés)
+- [x] Créer la table tps_molecule_links pour les liaisons
+- [x] Créer les liaisons entre gènes TPS et molécules (129 liaisons créées)
+- [x] 307 gènes TPS dans la base, 699 molécules disponibles
+
+---
+
+## ✅ RÉSUMÉ SESSION 30 JANVIER 2026
+
+### Données importées
+- 97 composés du Perique (22 familles chimiques, 36 nouveaux isolats)
+- 129 liaisons TPS-Molécules créées
+- Page Analyses Pédologiques créée (/soil-analysis)
+
+### Statistiques finales
+- **research_publications**: 12 publications scientifiques
+- **analytical_methods**: 11 méthodes analytiques
+- **researchers**: 11 chercheurs clés
+- **research_institutions**: 5 institutions
+- **tobacco_landraces**: 13 landraces de tabac
+- **tobacco_cigarettes**: 5 cigarettes historiques
+- **tobacco_compounds**: 97+ composés du Perique
+- **soil_analyses**: 2 analyses pédologiques
+- **tps_genes**: 307 gènes TPS
+- **tps_molecule_links**: 129 liaisons TPS-Molécules
