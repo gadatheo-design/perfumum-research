@@ -19262,3 +19262,101 @@ export async function getUnenrichedMolecules(limit: number = 50): Promise<Array<
   
   return rows as Array<{ id: number; name: string }>;
 }
+
+
+// === ENRICHISSEMENT ChEBI (Alternative à PubChem) ===
+
+import { enrichMoleculeWithTranslationChEBI } from './chebi';
+
+export async function enrichMoleculeFromChEBIWithTranslation(moleculeId: number): Promise<{
+  success: boolean;
+  message: string;
+  data?: {
+    chebiId: string;
+    smiles?: string;
+    inchi?: string;
+    formula?: string;
+    mass?: number;
+  };
+}> {
+  const db = await getDb();
+  if (!db) return { success: false, message: 'Database connection failed' };
+  
+  // Récupérer la molécule
+  const [rows] = await db.execute(
+    'SELECT id, name, pubchem_cid, chebi_id FROM molecules WHERE id = ?',
+    [moleculeId]
+  );
+  
+  const molecules = rows as any[];
+  if (molecules.length === 0) {
+    return { success: false, message: 'Molécule non trouvée' };
+  }
+  
+  const molecule = molecules[0];
+  
+  // Vérifier si déjà enrichie via PubChem ou ChEBI
+  if (molecule.pubchem_cid) {
+    return { success: false, message: 'Cette molécule est déjà enrichie via PubChem' };
+  }
+  
+  if (molecule.chebi_id) {
+    return { success: false, message: 'Cette molécule est déjà enrichie via ChEBI' };
+  }
+  
+  // Enrichir via ChEBI
+  const result = await enrichMoleculeWithTranslationChEBI(molecule.name);
+  
+  if (!result.success || !result.chebiId) {
+    return { 
+      success: false, 
+      message: result.error || 'Molécule non trouvée dans ChEBI'
+    };
+  }
+  
+  // Mettre à jour la base de données
+  await db.execute(`
+    UPDATE molecules SET
+      chebi_id = ?,
+      smiles = COALESCE(smiles, ?),
+      inchi = COALESCE(inchi, ?),
+      inchi_key = COALESCE(inchi_key, ?),
+      chemicalFormula = COALESCE(chemicalFormula, ?),
+      molecularWeight = COALESCE(molecularWeight, ?),
+      updated_at = NOW()
+    WHERE id = ?
+  `, [
+    result.chebiId,
+    result.smiles || null,
+    result.inchi || null,
+    result.inchiKey || null,
+    result.formula || null,
+    result.mass || null,
+    moleculeId
+  ]);
+  
+  return {
+    success: true,
+    message: `Molécule enrichie via ChEBI (ID: ${result.chebiId})`,
+    data: {
+      chebiId: result.chebiId,
+      smiles: result.smiles,
+      inchi: result.inchi,
+      formula: result.formula,
+      mass: result.mass,
+    }
+  };
+}
+
+export async function getUnenrichedMoleculesForChEBI(limit: number = 50): Promise<Array<{ id: number; name: string }>> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  // Molécules sans PubChem ET sans ChEBI
+  const [rows] = await db.execute(
+    'SELECT id, name FROM molecules WHERE pubchem_cid IS NULL AND (chebi_id IS NULL OR chebi_id = "") ORDER BY name LIMIT ?',
+    [limit]
+  );
+  
+  return rows as Array<{ id: number; name: string }>;
+}

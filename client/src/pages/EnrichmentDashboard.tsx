@@ -33,8 +33,16 @@ export default function EnrichmentDashboard() {
   const { data: unenrichedMolecules, isLoading: isLoadingUnenriched, refetch: refetchUnenriched } = 
     trpc.molecules.getUnenriched.useQuery({ limit: 50 });
 
-  // Mutation pour enrichir une molécule
+  // Mutations pour enrichir une molécule
   const enrichMutation = trpc.molecules.enrichFromPubChem.useMutation();
+  const enrichChEBIMutation = trpc.molecules.enrichFromChEBI.useMutation();
+  
+  // Récupérer les molécules non enrichies pour ChEBI (celles qui ont échoué avec PubChem)
+  const { data: unenrichedForChEBI, refetch: refetchChEBI } = 
+    trpc.molecules.getUnenrichedForChEBI.useQuery({ limit: 50 });
+  
+  const [isEnrichingChEBI, setIsEnrichingChEBI] = useState(false);
+  const [chebiProgress, setChebiProgress] = useState({ current: 0, total: 0, success: 0, failed: 0 });
 
   // Fonction pour enrichir par lot
   const handleBatchEnrich = async () => {
@@ -245,6 +253,75 @@ export default function EnrichmentDashboard() {
                       value={(enrichmentProgress.current / enrichmentProgress.total) * 100} 
                       className="h-2" 
                     />
+                  </div>
+                )}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Section ChEBI - Alternative */}
+        <Card className="mb-8 border-blue-200 dark:border-blue-800">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Database className="h-5 w-5 text-blue-500" />
+              Enrichissement ChEBI (Alternative)
+            </CardTitle>
+            <CardDescription>
+              Enrichir les molécules non trouvées dans PubChem via l'API ChEBI de l'EBI
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {!user ? (
+              <div className="text-center py-4">
+                <p className="text-muted-foreground mb-4">Connectez-vous pour lancer l'enrichissement ChEBI</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <Button 
+                    variant="outline"
+                    onClick={async () => {
+                      if (!unenrichedForChEBI || unenrichedForChEBI.length === 0) {
+                        toast({ title: "Aucune molécule à enrichir via ChEBI" });
+                        return;
+                      }
+                      setIsEnrichingChEBI(true);
+                      setChebiProgress({ current: 0, total: unenrichedForChEBI.length, success: 0, failed: 0 });
+                      let success = 0, failed = 0;
+                      for (let i = 0; i < unenrichedForChEBI.length; i++) {
+                        try {
+                          const result = await enrichChEBIMutation.mutateAsync({ moleculeId: unenrichedForChEBI[i].id });
+                          if (result.success) success++; else failed++;
+                        } catch { failed++; }
+                        setChebiProgress({ current: i + 1, total: unenrichedForChEBI.length, success, failed });
+                        await new Promise(r => setTimeout(r, 600));
+                      }
+                      setIsEnrichingChEBI(false);
+                      toast({ title: "Enrichissement ChEBI terminé", description: `${success} réussies, ${failed} échecs` });
+                      refetchStats(); refetchChEBI();
+                    }}
+                    disabled={isEnrichingChEBI || !unenrichedForChEBI?.length}
+                    className="gap-2 border-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950"
+                  >
+                    {isEnrichingChEBI ? (
+                      <><Loader2 className="h-4 w-4 animate-spin" /> ChEBI en cours...</>
+                    ) : (
+                      <><Play className="h-4 w-4" /> Enrichir via ChEBI ({unenrichedForChEBI?.length || 0} molécules)</>
+                    )}
+                  </Button>
+                </div>
+                {isEnrichingChEBI && (
+                  <div className="bg-blue-50 dark:bg-blue-950/50 p-4 rounded-lg">
+                    <div className="flex justify-between mb-2">
+                      <span className="text-sm font-medium">ChEBI: {chebiProgress.current} / {chebiProgress.total}</span>
+                      <span className="text-sm">
+                        <span className="text-green-600">{chebiProgress.success} réussies</span>
+                        {" • "}
+                        <span className="text-red-600">{chebiProgress.failed} échecs</span>
+                      </span>
+                    </div>
+                    <Progress value={(chebiProgress.current / chebiProgress.total) * 100} className="h-2" />
                   </div>
                 )}
               </div>

@@ -4583,3 +4583,8 @@
 - [x] Exécuter l'enrichissement PubChem complet sur les 1000+ molécules restantes (en cours en arrière-plan)
 - [x] Ajouter indicateur visuel PubChem (badge vert/rouge) sur les fiches molécules
 - [x] Créer tableau de bord d'enrichissement avec statistiques et enrichissement par lot (/enrichissement)
+
+
+### MegaMenu et API ChEBI
+- [x] Ajouter lien /enrichissement dans le MegaMenu (section Outils)
+- [x] Intégrer l'API ChEBI pour enrichissement alternatif des molécules non trouvées dans PubChem

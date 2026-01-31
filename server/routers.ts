@@ -525,6 +525,20 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getUnenrichedMolecules(input.limit);
       }),
+    
+    // Enrichissement ChEBI (alternative à PubChem)
+    enrichFromChEBI: protectedProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .mutation(async ({ input }) => {
+        return await db.enrichMoleculeFromChEBIWithTranslation(input.moleculeId);
+      }),
+    
+    // Molécules non enrichies pour ChEBI
+    getUnenrichedForChEBI: publicProcedure
+      .input(z.object({ limit: z.number().optional().default(50) }))
+      .query(async ({ input }) => {
+        return await db.getUnenrichedMoleculesForChEBI(input.limit);
+      }),
   }),
 
   // Terpene Synergies

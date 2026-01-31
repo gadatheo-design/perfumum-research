@@ -621,6 +621,13 @@ export function MegaMenu() {
           icon: <BarChart3 className="h-4 w-4" />,
           description: "Radar comparatif",
         },
+        {
+          label: "Enrichissement PubChem",
+          path: "/enrichissement",
+          icon: <Database className="h-4 w-4" />,
+          description: "Enrichir les données moléculaires",
+          badge: "NEW",
+        },
       ],
     },
   ];
