@@ -58,3 +58,18 @@
   - [x] Créer pages UI (TechnicalProtocols + ProtocolDetail)
   - [x] Routes: /protocoles, /protocoles/:slug
   - [x] Tests unitaires (9 tests passés)
+
+## Session 31 janvier 2026 - Enrichissement et Navigat- [x] Peupler les ingrédients des recettes de cigarillos
+  - [x] Créer script d'import des compositions détaillées
+  - [x] 24 recettes importées avec 74 ingrédients
+  - [ ] Afficher les ingrédients sur RecipeDetail
+
+- [x] Ajouter navigation vers nouvelles sections
+  - [x] Ajouter section "Recherche Spécialisée" sur la page d'accueil
+  - [x] Liens vers Recettes Cigarillos, Landraces, Protocoles, Documentation
+
+- [x] Importer 10 molécules osmothèque historiques
+  - [x] Créer script d'import (import-osmotheque-molecules.mjs)
+  - [x] 8 nouvelles molécules + 2 mises à jour
+  - [x] Notes historiques et statut réglementaire inclus ] Ajouter les données historiques et olfactives
+  - [ ] Lier aux références bibliographiques

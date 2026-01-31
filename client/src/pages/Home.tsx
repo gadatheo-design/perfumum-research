@@ -3,7 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope, Network, Eye } from "lucide-react";
+import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope, Network, Eye, Cigarette, Leaf, BookOpen, Cog } from "lucide-react";
 import { MoleculeOfTheDay } from "@/components/MoleculeOfTheDay";
 import { RecentActivity } from "@/components/RecentActivity";
 import { ResearchNews } from "@/components/ResearchNews";
@@ -493,6 +493,136 @@ export default function Home() {
                     <Link href="/dashboard" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
                       → Dashboard Analytics
                     </Link>
+                  </CardContent>
+                </Card>
+                </HoverScale>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Nouvelles Sections: Cigarillos, Landraces, Protocoles */}
+        <section className="section-spacing bg-gradient-to-b from-background to-muted/20">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Recherche Spécialisée</h2>
+              <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+                Explorez nos collections de recettes de cigarillos, les landraces cannabis ancestrales et les protocoles techniques de fabrication.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Recettes Cigarillos */}
+                <HoverScale scale={1.02}>
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-amber-600/10 flex items-center justify-center mb-4 group-hover:bg-amber-600/20 transition-colors">
+                      <Cigarette className="h-6 w-6 text-amber-600" />
+                    </div>
+                    <CardTitle className="group-hover:text-amber-600 transition-colors">Recettes Cigarillos</CardTitle>
+                    <CardDescription>40+ formulations</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Link href="/recettes-cigarillos" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Archives Vivantes (15)
+                    </Link>
+                    <Link href="/recettes-cigarillos" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Haute Parfumerie Fumée (10)
+                    </Link>
+                    <Link href="/recettes-cigarillos" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Triptyques & Spéciaux
+                    </Link>
+                    <Button variant="outline" size="sm" className="w-full mt-2 group-hover:border-amber-600" asChild>
+                      <Link href="/recettes-cigarillos">
+                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                </HoverScale>
+
+                {/* Landraces Cannabis */}
+                <HoverScale scale={1.02}>
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-green-600/10 flex items-center justify-center mb-4 group-hover:bg-green-600/20 transition-colors">
+                      <Leaf className="h-6 w-6 text-green-600" />
+                    </div>
+                    <CardTitle className="group-hover:text-green-600 transition-colors">Landraces Cannabis</CardTitle>
+                    <CardDescription>14 variétés ancestrales</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Link href="/landraces" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Hindu Kush, Ketama
+                    </Link>
+                    <Link href="/landraces" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Thai Stick, Durban Poison
+                    </Link>
+                    <Link href="/landraces" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Profils terpéniques détaillés
+                    </Link>
+                    <Button variant="outline" size="sm" className="w-full mt-2 group-hover:border-green-600" asChild>
+                      <Link href="/landraces">
+                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                </HoverScale>
+
+                {/* Protocoles Techniques */}
+                <HoverScale scale={1.02}>
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-blue-600/10 flex items-center justify-center mb-4 group-hover:bg-blue-600/20 transition-colors">
+                      <Cog className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <CardTitle className="group-hover:text-blue-600 transition-colors">Protocoles Techniques</CardTitle>
+                    <CardDescription>10 procédures</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Link href="/protocoles" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Cryo-micronisation
+                    </Link>
+                    <Link href="/protocoles" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Nébulisation à froid
+                    </Link>
+                    <Link href="/protocoles" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Maturation anaérobie
+                    </Link>
+                    <Button variant="outline" size="sm" className="w-full mt-2 group-hover:border-blue-600" asChild>
+                      <Link href="/protocoles">
+                        Explorer <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                </HoverScale>
+
+                {/* Documentation */}
+                <HoverScale scale={1.02}>
+                <Card className="brutal-border bg-card hover:shadow-lg transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-purple-600/10 flex items-center justify-center mb-4 group-hover:bg-purple-600/20 transition-colors">
+                      <BookOpen className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <CardTitle className="group-hover:text-purple-600 transition-colors">Documentation</CardTitle>
+                    <CardDescription>Guides & Références</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Link href="/perique" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Tabac Perique (278 molécules)
+                    </Link>
+                    <Link href="/chemotypes" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Explorateur Chémotypes
+                    </Link>
+                    <Link href="/methodes-analytiques" className="block w-full text-sm py-2 px-3 rounded-md hover:bg-accent transition-colors cursor-pointer">
+                      → Méthodes Analytiques
+                    </Link>
+                    <Button variant="outline" size="sm" className="w-full mt-2 group-hover:border-purple-600" asChild>
+                      <Link href="/dashboard">
+                        Accéder <ArrowRight className="h-3 w-3 ml-2" />
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
                 </HoverScale>
