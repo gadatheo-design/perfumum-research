@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN family IS NOT NULL AND family != '' THEN 1 ELSE 0 END) as with_family,\n  SUM(CASE WHEN genus IS NOT NULL AND genus != '' THEN 1 ELSE 0 END) as with_genus,\n  SUM(CASE WHEN latin_name IS NOT NULL AND latin_name != '' THEN 1 ELSE 0 END) as with_latin_name\nFROM plants;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN family IS NOT NULL AND family != '' THEN 1 ELSE 0 END) as with_family,\n  SUM(CASE WHEN genus IS NOT NULL AND genus != '' THEN 1 ELSE 0 END) as with_genus,\n  SUM(CASE WHEN latin_name IS NOT NULL AND latin_name != '' THEN 1 ELSE 0 END) as with_latin_name\nFROM plants;",
+  "rows": [
+    {
+      "total": "258",
+      "with_family": "219",
+      "with_genus": "0",
+      "with_latin_name": "258"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\twith_family\twith_genus\twith_latin_name\n258\t219\t0\t258\n",
+  "stderr": "",
+  "execution_time_ms": 88
+}

@@ -116,3 +116,12 @@
   - [x] Intégrer TerpeneRadarSection dans LandraceDetail.tsx
   - [x] Légende avec pourcentages et couleurs par terpène
   - [x] Tests unitaires (3 tests passés)
+
+## Session 31 janvier 2026 - Migration Trefle.io
+
+- [ ] Créer script de migration Trefle.io pour enrichir toutes les plantes
+  - [ ] Analyser structure table plants et colonnes disponibles
+  - [ ] Créer script avec gestion rate limiting (1 req/sec)
+  - [ ] Ajouter logs détaillés et rapport de progression
+  - [ ] Tester sur échantillon avant migration complète
+  - [ ] Exécuter migration et générer rapport final

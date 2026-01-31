@@ -1,0 +1,324 @@
+{
+  "timestamp": "2026-01-31T13:00:32.947Z",
+  "mode": "test",
+  "total": 30,
+  "successful": 28,
+  "failed": 2,
+  "byFamily": {
+    "Poaceae": 2,
+    "Lamiaceae": 8,
+    "Solanaceae": 3,
+    "Cannabaceae": 4,
+    "Rutaceae": 3,
+    "Myrtaceae": 1,
+    "Annonaceae": 1,
+    "Rosaceae": 1,
+    "Oleaceae": 1,
+    "Santalaceae": 1,
+    "Burseraceae": 1,
+    "Pinaceae": 1,
+    "Geraniaceae": 1
+  },
+  "details": [
+    {
+      "plantId": 1,
+      "plantName": "West Indian Bay / Bay rum tree",
+      "latinName": "Pimenta racemosa",
+      "success": false,
+      "family": null,
+      "familyCommonName": null,
+      "genus": null,
+      "error": "Famille non identifiée"
+    },
+    {
+      "plantId": 2,
+      "plantName": "Lemongrass / Citronnelle",
+      "latinName": "Cymbopogon citratus",
+      "success": true,
+      "family": "Poaceae",
+      "familyCommonName": "Grass family",
+      "genus": "Cymbopogon",
+      "error": null
+    },
+    {
+      "plantId": 3,
+      "plantName": "Lippia alba",
+      "latinName": "Lippia alba",
+      "success": false,
+      "family": null,
+      "familyCommonName": null,
+      "genus": null,
+      "error": "Famille non identifiée"
+    },
+    {
+      "plantId": 4,
+      "plantName": "Basilic",
+      "latinName": "Ocimum basilicum",
+      "success": true,
+      "family": "Lamiaceae",
+      "familyCommonName": "Mint family",
+      "genus": "Ocimum",
+      "error": null
+    },
+    {
+      "plantId": 5,
+      "plantName": "Menthe verte",
+      "latinName": "Mentha spicata",
+      "success": true,
+      "family": "Lamiaceae",
+      "familyCommonName": "Mint family",
+      "genus": "Mentha",
+      "error": null
+    },
+    {
+      "plantId": 6,
+      "plantName": "Origan",
+      "latinName": "Origanum vulgare",
+      "success": true,
+      "family": "Lamiaceae",
+      "familyCommonName": "Mint family",
+      "genus": "Origanum",
+      "error": null
+    },
+    {
+      "plantId": 7,
+      "plantName": "Virginia (flue-cured)",
+      "latinName": "Nicotiana tabacum var. Virginia",
+      "success": true,
+      "family": "Solanaceae",
+      "familyCommonName": "Nightshade family",
+      "genus": "Nicotiana",
+      "error": null
+    },
+    {
+      "plantId": 8,
+      "plantName": "Burley (air-cured)",
+      "latinName": "Nicotiana tabacum var. Burley",
+      "success": true,
+      "family": "Solanaceae",
+      "familyCommonName": "Nightshade family",
+      "genus": "Nicotiana",
+      "error": null
+    },
+    {
+      "plantId": 9,
+      "plantName": "Criollo (sun-cured)",
+      "latinName": "Nicotiana tabacum var. Criollo",
+      "success": true,
+      "family": "Solanaceae",
+      "familyCommonName": "Nightshade family",
+      "genus": "Nicotiana",
+      "error": null
+    },
+    {
+      "plantId": 10,
+      "plantName": "Profil VENT / clair",
+      "latinName": "Cannabis sativa (profil terpénique)",
+      "success": true,
+      "family": "Cannabaceae",
+      "familyCommonName": "Hemp family",
+      "genus": "Cannabis",
+      "error": null
+    },
+    {
+      "plantId": 11,
+      "plantName": "Profil BOIS / structure",
+      "latinName": "Cannabis sativa (profil terpénique)",
+      "success": true,
+      "family": "Cannabaceae",
+      "familyCommonName": "Hemp family",
+      "genus": "Cannabis",
+      "error": null
+    },
+    {
+      "plantId": 12,
+      "plantName": "Profil FEUILLE / vert",
+      "latinName": "Cannabis sativa (profil terpénique)",
+      "success": true,
+      "family": "Cannabaceae",
+      "familyCommonName": "Hemp family",
+      "genus": "Cannabis",
+      "error": null
+    },
+    {
+      "plantId": 13,
+      "plantName": "Profil DISPARITION / trace",
+      "latinName": "Cannabis sativa (profil terpénique)",
+      "success": true,
+      "family": "Cannabaceae",
+      "familyCommonName": "Hemp family",
+      "genus": "Cannabis",
+      "error": null
+    },
+    {
+      "plantId": 30001,
+      "plantName": "Lavande vraie",
+      "latinName": "Lavandula angustifolia",
+      "success": true,
+      "family": "Lamiaceae",
+      "familyCommonName": "Mint family",
+      "genus": "Lavandula",
+      "error": null
+    },
+    {
+      "plantId": 30002,
+      "plantName": "Citron",
+      "latinName": "Citrus limon",
+      "success": true,
+      "family": "Rutaceae",
+      "familyCommonName": "Citrus family",
+      "genus": "Citrus",
+      "error": null
+    },
+    {
+      "plantId": 30003,
+      "plantName": "Orange douce",
+      "latinName": "Citrus sinensis",
+      "success": true,
+      "family": "Rutaceae",
+      "familyCommonName": "Citrus family",
+      "genus": "Citrus",
+      "error": null
+    },
+    {
+      "plantId": 30004,
+      "plantName": "Bergamote",
+      "latinName": "Citrus bergamia",
+      "success": true,
+      "family": "Rutaceae",
+      "familyCommonName": "Citrus family",
+      "genus": "Citrus",
+      "error": null
+    },
+    {
+      "plantId": 30005,
+      "plantName": "Menthe poivrée",
+      "latinName": "Mentha piperita",
+      "success": true,
+      "family": "Lamiaceae",
+      "familyCommonName": "Mint family",
+      "genus": "Mentha",
+      "error": null
+    },
+    {
+      "plantId": 30006,
+      "plantName": "Eucalyptus globulus",
+      "latinName": "Eucalyptus globulus",
+      "success": true,
+      "family": "Myrtaceae",
+      "familyCommonName": "Myrtle family",
+      "genus": "Eucalyptus",
+      "error": null
+    },
+    {
+      "plantId": 30007,
+      "plantName": "Romarin",
+      "latinName": "Rosmarinus officinalis",
+      "success": true,
+      "family": "Lamiaceae",
+      "familyCommonName": "Mint family",
+      "genus": "Rosmarinus",
+      "error": null
+    },
+    {
+      "plantId": 30008,
+      "plantName": "Vétiver",
+      "latinName": "Vetiveria zizanioides",
+      "success": true,
+      "family": "Poaceae",
+      "familyCommonName": "Grass family",
+      "genus": "Vetiveria",
+      "error": null
+    },
+    {
+      "plantId": 30009,
+      "plantName": "Ylang-Ylang",
+      "latinName": "Cananga odorata",
+      "success": true,
+      "family": "Annonaceae",
+      "familyCommonName": "Custard apple family",
+      "genus": "Cananga",
+      "error": null
+    },
+    {
+      "plantId": 30010,
+      "plantName": "Rose de Damas",
+      "latinName": "Rosa damascena",
+      "success": true,
+      "family": "Rosaceae",
+      "familyCommonName": "Rose family",
+      "genus": "Rosa",
+      "error": null
+    },
+    {
+      "plantId": 30011,
+      "plantName": "Jasmin grandiflorum",
+      "latinName": "Jasminum grandiflorum",
+      "success": true,
+      "family": "Oleaceae",
+      "familyCommonName": "Olive family",
+      "genus": "Jasminum",
+      "error": null
+    },
+    {
+      "plantId": 30012,
+      "plantName": "Patchouli",
+      "latinName": "Pogostemon cablin",
+      "success": true,
+      "family": "Lamiaceae",
+      "familyCommonName": "Mint family",
+      "genus": "Pogostemon",
+      "error": null
+    },
+    {
+      "plantId": 30013,
+      "plantName": "Bois de Santal",
+      "latinName": "Santalum album",
+      "success": true,
+      "family": "Santalaceae",
+      "familyCommonName": "Sandalwood family",
+      "genus": "Santalum",
+      "error": null
+    },
+    {
+      "plantId": 30014,
+      "plantName": "Encens / Oliban",
+      "latinName": "Boswellia carterii",
+      "success": true,
+      "family": "Burseraceae",
+      "familyCommonName": "Incense tree family",
+      "genus": "Boswellia",
+      "error": null
+    },
+    {
+      "plantId": 30015,
+      "plantName": "Cèdre de l'Atlas",
+      "latinName": "Cedrus atlantica",
+      "success": true,
+      "family": "Pinaceae",
+      "familyCommonName": "Pine family",
+      "genus": "Cedrus",
+      "error": null
+    },
+    {
+      "plantId": 30016,
+      "plantName": "Géranium rosat",
+      "latinName": "Pelargonium graveolens",
+      "success": true,
+      "family": "Geraniaceae",
+      "familyCommonName": "Geranium family",
+      "genus": "Pelargonium",
+      "error": null
+    },
+    {
+      "plantId": 60001,
+      "plantName": "Thym",
+      "latinName": "Thymus vulgaris",
+      "success": true,
+      "family": "Lamiaceae",
+      "familyCommonName": "Mint family",
+      "genus": "Thymus",
+      "error": null
+    }
+  ]
+}

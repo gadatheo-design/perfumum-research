@@ -4516,3 +4516,23 @@
 - [x] Extraire toutes les tâches non complétées (571 restantes / 1749 terminées = 75% complétion)
 - [x] Identifier les tâches P0/P1 restantes (aucun bug critique en attente)
 - [x] Mettre à jour le rapport des tâches en attente
+
+
+---
+
+## 🌿 SESSION 31 JANVIER 2026 — ENRICHISSEMENT TAXONOMIQUE
+
+### Migration Trefle.io - Enrichissement des familles botaniques
+- [x] Créer le service Trefle.io (`server/trefle.ts`) avec recherche locale et API
+- [x] Créer le script de migration (`scripts/migrate-trefle-enrichment.mjs`)
+- [x] Tester le script sur un échantillon de 30 plantes (93.3% succès)
+- [x] Exécuter la migration complète sur 258 plantes
+- [x] Enrichir manuellement les 4 plantes restantes (Epazote, Flor de Manita, Sinicuichi, Yoloxóchitl)
+- [x] Vérifier que 100% des plantes ont maintenant une famille et un genre
+
+### Statistiques finales de l'enrichissement
+- **258 plantes** enrichies avec famille et genre
+- **63 familles botaniques** uniques identifiées
+- **78 genres** uniques identifiés
+- Top 5 familles : Cannabaceae (30), Burseraceae (25), Lamiaceae (20), Fabaceae (19), Solanaceae (19)
+
