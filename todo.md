@@ -4572,3 +4572,8 @@
 ### Enrichissement PubChem et visualisation SMILES
 - [x] Exécuter l'enrichissement PubChem sur les 1000+ molécules existantes (46 molécules enrichies, batch 1/10)
 - [x] Créer la page de visualisation SMILES 2D pour afficher les structures moléculaires (/smiles)
+
+
+### Amélioration enrichissement PubChem
+- [x] Améliorer le script d'enrichissement avec traduction français→anglais
+- [x] Ajouter un bouton d'enrichissement individuel sur les fiches molécules

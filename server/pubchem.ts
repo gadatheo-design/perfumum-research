@@ -322,3 +322,242 @@ export function inferChemicalClass(iupacName?: string, formula?: string): string
   
   return undefined;
 }
+
+
+// === TRADUCTION FRANÇAIS → ANGLAIS POUR L'ENRICHISSEMENT ===
+
+const FR_TO_EN_MOLECULES: Record<string, string> = {
+  // Terpènes courants
+  'limonène': 'limonene',
+  'alpha-pinène': 'alpha-pinene',
+  'bêta-pinène': 'beta-pinene',
+  'myrcène': 'myrcene',
+  'linalol': 'linalool',
+  'géraniol': 'geraniol',
+  'nérol': 'nerol',
+  'citronellol': 'citronellol',
+  'terpinéol': 'terpineol',
+  'alpha-terpinéol': 'alpha-terpineol',
+  'menthol': 'menthol',
+  'bornéol': 'borneol',
+  'camphre': 'camphor',
+  'eucalyptol': 'eucalyptol',
+  '1,8-cinéole': '1,8-cineole',
+  'caryophyllène': 'caryophyllene',
+  'bêta-caryophyllène': 'beta-caryophyllene',
+  'humulène': 'humulene',
+  'alpha-humulène': 'alpha-humulene',
+  'bisabolol': 'bisabolol',
+  'alpha-bisabolol': 'alpha-bisabolol',
+  'farnésol': 'farnesol',
+  'nérolidol': 'nerolidol',
+  'patchoulol': 'patchoulol',
+  'cédrol': 'cedrol',
+  'santalol': 'santalol',
+  'vétivérol': 'vetiverol',
+  
+  // Aldéhydes
+  'citral': 'citral',
+  'citronellal': 'citronellal',
+  'géranial': 'geranial',
+  'néral': 'neral',
+  'vanilline': 'vanillin',
+  'benzaldéhyde': 'benzaldehyde',
+  'cinnamaldéhyde': 'cinnamaldehyde',
+  'aldéhyde cinnamique': 'cinnamaldehyde',
+  'aldéhyde benzoïque': 'benzaldehyde',
+  'aldéhyde anisique': 'anisaldehyde',
+  'anisaldéhyde': 'anisaldehyde',
+  'héliotropine': 'heliotropin',
+  'pipéronal': 'piperonal',
+  
+  // Cétones
+  'carvone': 'carvone',
+  'menthone': 'menthone',
+  'pulégone': 'pulegone',
+  'fenchone': 'fenchone',
+  'thuyone': 'thujone',
+  'alpha-ionone': 'alpha-ionone',
+  'bêta-ionone': 'beta-ionone',
+  'damascone': 'damascone',
+  'damascénone': 'damascenone',
+  'jasmone': 'jasmone',
+  'cis-jasmone': 'cis-jasmone',
+  
+  // Esters
+  'acétate de linalyle': 'linalyl acetate',
+  'acétate de géranyle': 'geranyl acetate',
+  'acétate de bornyle': 'bornyl acetate',
+  'acétate de néryle': 'neryl acetate',
+  'acétate de citronellyle': 'citronellyl acetate',
+  'acétate de benzyle': 'benzyl acetate',
+  "acétate d'éthyle": 'ethyl acetate',
+  'acétate de méthyle': 'methyl acetate',
+  'benzoate de benzyle': 'benzyl benzoate',
+  'salicylate de benzyle': 'benzyl salicylate',
+  'salicylate de méthyle': 'methyl salicylate',
+  'cinnamate de méthyle': 'methyl cinnamate',
+  "cinnamate d'éthyle": 'ethyl cinnamate',
+  'anthranilate de méthyle': 'methyl anthranilate',
+  
+  // Phénols
+  'eugénol': 'eugenol',
+  'isoeugénol': 'isoeugenol',
+  'chavicol': 'chavicol',
+  'méthylchavicol': 'methylchavicol',
+  'estragole': 'estragole',
+  'anéthole': 'anethole',
+  'trans-anéthole': 'trans-anethole',
+  'thymol': 'thymol',
+  'carvacrol': 'carvacrol',
+  'guaïacol': 'guaiacol',
+  
+  // Lactones et coumarines
+  'coumarine': 'coumarin',
+  'gamma-décalactone': 'gamma-decalactone',
+  'gamma-undécalactone': 'gamma-undecalactone',
+  'delta-décalactone': 'delta-decalactone',
+  'ambroxide': 'ambroxide',
+  'sclareolide': 'sclareolide',
+  
+  // Muscs
+  'galaxolide': 'galaxolide',
+  'muscone': 'muscone',
+  'civétone': 'civetone',
+  'ambrettolide': 'ambrettolide',
+  'exaltolide': 'exaltolide',
+  
+  // Autres
+  'indole': 'indole',
+  'skatole': 'skatole',
+  'safrol': 'safrole',
+  'myristicine': 'myristicin',
+  'élémicine': 'elemicin',
+  'apiole': 'apiole',
+  
+  // Acides
+  'acide benzoïque': 'benzoic acid',
+  'acide cinnamique': 'cinnamic acid',
+  'acide salicylique': 'salicylic acid',
+  'acide phénylacétique': 'phenylacetic acid',
+};
+
+const FR_TO_EN_TERMS: Record<string, string> = {
+  'acide': 'acid',
+  'acétate': 'acetate',
+  'aldéhyde': 'aldehyde',
+  'alcool': 'alcohol',
+  'cétone': 'ketone',
+  'ester': 'ester',
+  'oxyde': 'oxide',
+  'éther': 'ether',
+  'phénol': 'phenol',
+  'lactone': 'lactone',
+  'alpha': 'alpha',
+  'bêta': 'beta',
+  'gamma': 'gamma',
+  'delta': 'delta',
+  'cis': 'cis',
+  'trans': 'trans',
+  'méthyle': 'methyl',
+  'éthyle': 'ethyl',
+  'propyle': 'propyl',
+  'butyle': 'butyl',
+  'benzyle': 'benzyl',
+};
+
+/**
+ * Traduit un nom de molécule du français vers l'anglais
+ */
+export function translateMoleculeName(frenchName: string): string {
+  if (!frenchName) return frenchName;
+  
+  let name = frenchName.toLowerCase().trim();
+  
+  // Vérifier d'abord les traductions directes
+  if (FR_TO_EN_MOLECULES[name]) {
+    return FR_TO_EN_MOLECULES[name];
+  }
+  
+  // Normaliser les accents
+  name = name
+    .replace(/[éèêë]/g, 'e')
+    .replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u')
+    .replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o')
+    .replace(/ç/g, 'c')
+    .replace(/œ/g, 'oe')
+    .replace(/æ/g, 'ae');
+  
+  // Appliquer les traductions terme par terme
+  for (const [fr, en] of Object.entries(FR_TO_EN_TERMS)) {
+    const frNormalized = fr
+      .replace(/[éèêë]/g, 'e')
+      .replace(/[àâä]/g, 'a')
+      .replace(/[ùûü]/g, 'u')
+      .replace(/[îï]/g, 'i')
+      .replace(/[ôö]/g, 'o')
+      .replace(/ç/g, 'c');
+    
+    const regex = new RegExp(`\\b${frNormalized}\\b`, 'gi');
+    name = name.replace(regex, en);
+  }
+  
+  return name.trim();
+}
+
+/**
+ * Enrichit une molécule avec traduction automatique FR→EN
+ */
+export async function enrichMoleculeWithTranslation(moleculeName: string): Promise<EnrichmentResult> {
+  // Essayer d'abord avec le nom original
+  let result = await enrichMolecule(moleculeName);
+  
+  if (result.success) {
+    return result;
+  }
+  
+  // Essayer avec la traduction
+  const translatedName = translateMoleculeName(moleculeName);
+  
+  if (translatedName !== moleculeName.toLowerCase()) {
+    result = await enrichMolecule(translatedName);
+    
+    if (result.success) {
+      // Garder le nom original dans le résultat
+      result.moleculeName = moleculeName;
+      return result;
+    }
+  }
+  
+  // Essayer avec le nom nettoyé (sans parenthèses, etc.)
+  const cleanedName = moleculeName
+    .replace(/\s*\([^)]*\)\s*/g, '')
+    .replace(/\s*\[[^\]]*\]\s*/g, '')
+    .trim();
+  
+  if (cleanedName !== moleculeName) {
+    result = await enrichMolecule(cleanedName);
+    
+    if (result.success) {
+      result.moleculeName = moleculeName;
+      return result;
+    }
+    
+    // Essayer la traduction du nom nettoyé
+    const translatedClean = translateMoleculeName(cleanedName);
+    if (translatedClean !== cleanedName.toLowerCase()) {
+      result = await enrichMolecule(translatedClean);
+      
+      if (result.success) {
+        result.moleculeName = moleculeName;
+        return result;
+      }
+    }
+  }
+  
+  // Retourner le résultat d'échec
+  result.moleculeName = moleculeName;
+  return result;
+}

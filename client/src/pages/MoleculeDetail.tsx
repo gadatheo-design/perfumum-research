@@ -3,7 +3,8 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
-import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna } from "lucide-react";
+import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -17,6 +18,53 @@ import { LinkedRecettes, SimilarContent } from "@/components/SeeAlso";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import { AIClassificationSuggestion } from "@/components/AIClassificationSuggestion";
 import { MoleculeAnalyticalMethods } from "@/components/MoleculeAnalyticalMethods";
+
+// Composant bouton d'enrichissement PubChem
+function PubChemEnrichButton({ moleculeId, moleculeName }: { moleculeId: number; moleculeName: string }) {
+  const { toast } = useToast();
+  const utils = trpc.useUtils();
+  const enrichMutation = trpc.molecules.enrichFromPubChem.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast({
+          title: "Enrichissement réussi",
+          description: data.message,
+        });
+        utils.molecules.getById.invalidate(moleculeId);
+      } else {
+        toast({
+          title: "Enrichissement échoué",
+          description: data.message,
+          variant: "destructive",
+        });
+      }
+    },
+    onError: (error) => {
+      toast({
+        title: "Erreur",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => enrichMutation.mutate({ moleculeId })}
+      disabled={enrichMutation.isPending}
+      className="gap-2"
+    >
+      {enrichMutation.isPending ? (
+        <Loader2 className="h-4 w-4 animate-spin" />
+      ) : (
+        <Download className="h-4 w-4" />
+      )}
+      Enrichir via PubChem
+    </Button>
+  );
+}
 
 // Mapping des classes chimiques pour l'affichage
 const chemicalClassLabels: Record<string, string> = {
@@ -796,10 +844,15 @@ export default function MoleculeDetail() {
             <TabsContent value="scientific" className="space-y-6 mt-6">
               {/* Nomenclature scientifique */}
               <div className="bg-card p-6 rounded-lg border shadow-sm">
-                <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                  <Beaker className="h-5 w-5 text-primary" />
-                  Nomenclature Scientifique
-                </h2>
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold flex items-center gap-2">
+                    <Beaker className="h-5 w-5 text-primary" />
+                    Nomenclature Scientifique
+                  </h2>
+                  {!(molecule as any).pubchem_cid && (
+                    <PubChemEnrichButton moleculeId={id} moleculeName={molecule.name} />
+                  )}
+                </div>
                 <div className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="bg-muted/50 p-4 rounded-lg">

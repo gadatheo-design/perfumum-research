@@ -19140,3 +19140,89 @@ export async function getSmilesStats(): Promise<{
     withInchi: Number(row?.withInchi || 0)
   };
 }
+
+
+// === ENRICHISSEMENT PUBCHEM INDIVIDUEL (avec traduction FR→EN) ===
+
+import { enrichMoleculeWithTranslation } from './pubchem';
+
+export async function enrichMoleculeFromPubChemWithTranslation(moleculeId: number): Promise<{
+  success: boolean;
+  message: string;
+  data?: {
+    pubchemCid: number;
+    smiles?: string;
+    casNumber?: string;
+    iupacName?: string;
+    molecularWeight?: number;
+    molecularFormula?: string;
+  };
+}> {
+  const db = await getDb();
+  if (!db) return { success: false, message: 'Database connection failed' };
+  
+  // Récupérer la molécule
+  const [rows] = await db.execute(
+    'SELECT id, name, pubchem_cid FROM molecules WHERE id = ?',
+    [moleculeId]
+  );
+  
+  const molecules = rows as any[];
+  if (molecules.length === 0) {
+    return { success: false, message: 'Molécule non trouvée' };
+  }
+  
+  const molecule = molecules[0];
+  
+  if (molecule.pubchem_cid) {
+    return { success: false, message: 'Cette molécule est déjà enrichie via PubChem' };
+  }
+  
+  // Enrichir via PubChem avec traduction
+  const result = await enrichMoleculeWithTranslation(molecule.name);
+  
+  if (!result.success || !result.pubchemCID) {
+    return { 
+      success: false, 
+      message: result.error || 'Molécule non trouvée dans PubChem'
+    };
+  }
+  
+  // Mettre à jour la base de données
+  await db.execute(`
+    UPDATE molecules SET
+      pubchem_cid = ?,
+      smiles = COALESCE(smiles, ?),
+      inchi = COALESCE(inchi, ?),
+      inchi_key = COALESCE(inchi_key, ?),
+      cas_number = COALESCE(cas_number, ?),
+      iupac_name = COALESCE(iupac_name, ?),
+      chemicalFormula = COALESCE(chemicalFormula, ?),
+      molecularWeight = COALESCE(molecularWeight, ?),
+      pubchem_enriched_at = NOW()
+    WHERE id = ?
+  `, [
+    result.pubchemCID,
+    result.smiles || null,
+    result.inchi || null,
+    result.inchiKey || null,
+    result.casNumber || null,
+    result.iupacName || null,
+    result.molecularFormula || null,
+    result.molecularWeight || null,
+    moleculeId
+  ]);
+  
+  return {
+    success: true,
+    message: `Molécule enrichie avec succès (CID: ${result.pubchemCID})`,
+    data: {
+      pubchemCid: result.pubchemCID,
+      smiles: result.smiles,
+      casNumber: result.casNumber,
+      iupacName: result.iupacName,
+      molecularWeight: result.molecularWeight,
+      molecularFormula: result.molecularFormula
+    }
+  };
+}

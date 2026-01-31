@@ -504,6 +504,15 @@ export const appRouter = router({
     getSmilesStats: publicProcedure.query(async () => {
       return await db.getSmilesStats();
     }),
+    
+    // Enrichissement individuel via PubChem
+    enrichFromPubChem: protectedProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.enrichMoleculeFromPubChemWithTranslation(input.moleculeId);
+      }),
   }),
 
   // Terpene Synergies
