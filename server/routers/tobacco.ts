@@ -273,7 +273,7 @@ export const tobaccoRouter = router({
         const result = await db.execute(sql`
           SELECT * FROM tobacco_landraces WHERE id = ${input.id}
         `);
-        const rows = result[0] as any[];
+        const rows = result[0] as unknown as any[];
         return { success: true, data: rows[0] || null };
       } catch (error) {
         console.error("Error fetching landrace:", error);
@@ -372,7 +372,7 @@ export const tobaccoRouter = router({
         const result = await db.execute(sql`
           SELECT * FROM tobacco_cigarettes WHERE id = ${input.id}
         `);
-        const rows = result[0] as any[];
+        const rows = result[0] as unknown as any[];
         return { success: true, data: rows[0] || null };
       } catch (error) {
         console.error("Error fetching cigarette:", error);
@@ -666,7 +666,7 @@ export const tobaccoRouter = router({
           WHERE compound_name = ${input.compoundName}
         `);
         
-        const rows = result[0] as any[];
+        const rows = result[0] as unknown as any[];
         if (rows.length === 0) return null;
         
         const row = rows[0];
@@ -697,7 +697,7 @@ export const tobaccoRouter = router({
           WHERE cas_number = ${input.casNumber}
         `);
         
-        const rows = result[0] as any[];
+        const rows = result[0] as unknown as any[];
         if (rows.length === 0) return null;
         
         const row = rows[0];
