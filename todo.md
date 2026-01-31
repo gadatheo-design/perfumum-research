@@ -4599,3 +4599,9 @@
 ### Enrichissement complet et indicateurs
 - [x] Lancer l'enrichissement complet des molécules avec fallback PubChem → ChEBI (en cours en arrière-plan)
 - [x] Ajouter indicateur de source (icône PubChem/ChEBI) dans la liste des molécules
+
+
+### Intégration APIs et corrections (31 Jan 2026)
+- [x] Corriger l'erreur de syntaxe dans server/db.ts (ligne 19318)
+- [x] Implémenter l'intégration COCONUT API pour les molécules
+- [x] Créer le script de scraping IFRA pour la conformité réglementaire (scripts/scrape-ifra-data.mjs)

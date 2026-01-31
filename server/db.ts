@@ -19399,3 +19399,142 @@ export async function getUnenrichedMoleculesForChEBI(limit: number = 50): Promis
   
   return rows as Array<{ id: number; name: string }>;
 }
+
+
+// ============================================
+// COCONUT Enrichment Functions
+// ============================================
+
+import { enrichMoleculeWithTranslationCOCONUT } from './coconut';
+
+/**
+ * Enrichit une molécule via COCONUT avec traduction FR→EN
+ */
+export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: number): Promise<{
+  success: boolean;
+  message: string;
+  data?: {
+    coconutId: string;
+    npLikenessScore?: number;
+    organisms?: { name: string; rank?: string }[];
+  };
+}> {
+  const db = await getDb();
+  if (!db) return { success: false, message: 'Database connection failed' };
+  
+  // Récupérer la molécule
+  const [rows] = await db.execute(
+    'SELECT id, name, coconut_id FROM molecules WHERE id = ?',
+    [moleculeId]
+  );
+  
+  const molecules = rows as any[];
+  if (molecules.length === 0) {
+    return { success: false, message: 'Molécule non trouvée' };
+  }
+  
+  const molecule = molecules[0];
+  
+  // Vérifier si déjà enrichie via COCONUT
+  if (molecule.coconut_id) {
+    return { success: false, message: 'Cette molécule est déjà enrichie via COCONUT' };
+  }
+  
+  // Enrichir via COCONUT
+  const result = await enrichMoleculeWithTranslationCOCONUT(molecule.name);
+  
+  if (!result.success || !result.coconut_id) {
+    return { 
+      success: false, 
+      message: result.error || 'Molécule non trouvée dans COCONUT'
+    };
+  }
+  
+  // Mettre à jour la base de données
+  await db.execute(
+    `UPDATE molecules SET 
+      coconut_id = ?,
+      np_likeness_score = ?,
+      coconut_organisms = ?,
+      coconut_citations = ?,
+      coconut_enriched_at = NOW()
+    WHERE id = ?`,
+    [
+      result.coconut_id,
+      result.np_likeness_score || null,
+      result.organisms ? JSON.stringify(result.organisms) : null,
+      result.citations ? JSON.stringify(result.citations) : null,
+      moleculeId
+    ]
+  );
+  
+  return {
+    success: true,
+    message: 'Molécule enrichie via COCONUT: ' + result.name,
+    data: {
+      coconutId: result.coconut_id,
+      npLikenessScore: result.np_likeness_score,
+      organisms: result.organisms,
+    }
+  };
+}
+
+/**
+ * Récupère les molécules non enrichies pour COCONUT
+ */
+export async function getUnenrichedMoleculesForCOCONUT(limit: number = 50): Promise<{
+  id: number;
+  name: string;
+  hasPubChem: boolean;
+  hasChEBI: boolean;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const [rows] = await db.execute(
+    `SELECT id, name, 
+      pubchem_cid IS NOT NULL as hasPubChem,
+      chebi_id IS NOT NULL as hasChEBI
+    FROM molecules 
+    WHERE coconut_id IS NULL
+    ORDER BY name ASC
+    LIMIT ?`,
+    [limit]
+  );
+  
+  return (rows as any[]).map(r => ({
+    id: r.id,
+    name: r.name,
+    hasPubChem: Boolean(r.hasPubChem),
+    hasChEBI: Boolean(r.hasChEBI),
+  }));
+}
+
+/**
+ * Statistiques d'enrichissement COCONUT
+ */
+export async function getCOCONUTEnrichmentStats(): Promise<{
+  total: number;
+  enriched: number;
+  percentage: number;
+  withOrganisms: number;
+}> {
+  const db = await getDb();
+  if (!db) return { total: 0, enriched: 0, percentage: 0, withOrganisms: 0 };
+  
+  const [rows] = await db.execute(
+    `SELECT 
+      COUNT(*) as total,
+      SUM(CASE WHEN coconut_id IS NOT NULL THEN 1 ELSE 0 END) as enriched,
+      SUM(CASE WHEN coconut_organisms IS NOT NULL AND coconut_organisms != '[]' THEN 1 ELSE 0 END) as withOrganisms
+    FROM molecules`
+  );
+  
+  const stats = (rows as any[])[0];
+  return {
+    total: stats.total || 0,
+    enriched: stats.enriched || 0,
+    percentage: stats.total > 0 ? Math.round((stats.enriched / stats.total) * 100) : 0,
+    withOrganisms: stats.withOrganisms || 0,
+  };
+}

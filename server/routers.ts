@@ -539,6 +539,26 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getUnenrichedMoleculesForChEBI(input.limit);
       }),
+    
+    // Enrichissement COCONUT (produits naturels)
+    enrichFromCOCONUT: protectedProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .mutation(async ({ input }) => {
+        return await db.enrichMoleculeFromCOCONUTWithTranslation(input.moleculeId);
+      }),
+    
+    // Molécules non enrichies pour COCONUT
+    getUnenrichedForCOCONUT: publicProcedure
+      .input(z.object({ limit: z.number().optional().default(50) }))
+      .query(async ({ input }) => {
+        return await db.getUnenrichedMoleculesForCOCONUT(input.limit);
+      }),
+    
+    // Statistiques d'enrichissement COCONUT
+    getCOCONUTEnrichmentStats: publicProcedure
+      .query(async () => {
+        return await db.getCOCONUTEnrichmentStats();
+      }),
   }),
 
   // Terpene Synergies

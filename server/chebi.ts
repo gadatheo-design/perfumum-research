@@ -44,7 +44,6 @@ const FR_TO_EN_DICTIONARY: Record<string, string> = {
   // Cétones
   'carvone': 'carvone',
   'menthone': 'menthone',
-  'camphre': 'camphor',
   'ionone': 'ionone',
   'jasmone': 'jasmone',
   'cétone': 'ketone',

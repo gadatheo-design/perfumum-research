@@ -214,6 +214,24 @@ export const molecules = mysqlTable("molecules", {
   // ChEBI enrichment data (alternative to PubChem)
   chebiId: varchar("chebi_id", { length: 50 }), // ChEBI Compound ID (e.g., "CHEBI:28358")
   chebiEnrichedAt: timestamp("chebi_enriched_at"), // When ChEBI data was fetched
+  // COCONUT enrichment data (natural products database)
+  coconutId: varchar("coconut_id", { length: 100 }), // COCONUT Compound ID
+  npLikenessScore: decimal("np_likeness_score", { precision: 10, scale: 4 }), // Natural Product Likeness Score
+  coconutOrganisms: json("coconut_organisms").$type<{ name: string; rank?: string }[]>(), // Source organisms
+  coconutCitations: json("coconut_citations").$type<{ doi?: string; title?: string }[]>(), // Citations from COCONUT
+  coconutEnrichedAt: timestamp("coconut_enriched_at"), // When COCONUT data was fetched
+  // IFRA regulatory data
+  ifraStatus: mysqlEnum("ifra_status", ['not_regulated', 'banned', 'restricted', 'specification_required']).default('not_regulated'),
+  ifraData: json("ifra_data").$type<{
+    status: string;
+    reason?: string;
+    maxPercent?: number;
+    category?: string;
+    specification?: string;
+    name?: string;
+    casNumber?: string;
+  }>(),
+  ifraEnrichedAt: timestamp("ifra_enriched_at"),
   // Bibliographic references (JSON array)
   references: json("references").$type<{
     author?: string;
