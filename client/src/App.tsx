@@ -277,6 +277,7 @@ import PhylogeneticView from "./pages/PhylogeneticView";
 import FamilyDetail from "./pages/FamilyDetail";
 import SmilesViewer from "./pages/SmilesViewer";
 import EnrichmentDashboard from "./pages/EnrichmentDashboard";
+import IFRACompliance from "./pages/IFRACompliance";
 import PlantsHub from "./pages/PlantsHub";
 import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
@@ -837,6 +838,8 @@ function Router() {
       <Route path="/structures" component={SmilesViewer} />
       <Route path="/enrichissement" component={EnrichmentDashboard} />
       <Route path="/enrichment" component={EnrichmentDashboard} />
+      <Route path="/ifra" component={IFRACompliance} />
+      <Route path="/conformite-ifra" component={IFRACompliance} />
       <Route path="/plants/new" component={PlantForm} />
       <Route path="/plants/:id/edit" component={PlantForm} />
       <Route path="/plants/:id">

@@ -195,11 +195,11 @@ async function enrichMoleculeWithIFRA(db, moleculeId, moleculeName, casNumber) {
   if (ifraData) {
     // Mettre à jour la base de données
     await db.execute(
-      \`UPDATE molecules SET 
+      `UPDATE molecules SET 
         ifra_status = ?,
         ifra_data = ?,
         ifra_enriched_at = NOW()
-      WHERE id = ?\`,
+      WHERE id = ?`,
       [ifraStatus, JSON.stringify(ifraData), moleculeId]
     );
     return { success: true, status: ifraStatus, data: ifraData };
@@ -217,8 +217,8 @@ async function main() {
   console.log('='.repeat(60));
   console.log('IFRA Regulatory Data Enrichment');
   console.log('='.repeat(60));
-  console.log(\`Mode: \${isTest ? 'TEST' : 'PRODUCTION'}\`);
-  console.log(\`Limit: \${limit} molécules\`);
+  console.log(`Mode: ${isTest ? 'TEST' : 'PRODUCTION'}`);
+  console.log(`Limit: ${limit} molécules`);
   console.log('');
   
   const db = await getDbConnection();
@@ -235,26 +235,26 @@ async function main() {
     
     if (columns.length === 0) {
       console.log('Création des colonnes IFRA...');
-      await db.execute(\`
+      await db.execute(`
         ALTER TABLE molecules 
         ADD COLUMN IF NOT EXISTS ifra_status ENUM('not_regulated', 'banned', 'restricted', 'specification_required') DEFAULT 'not_regulated',
         ADD COLUMN IF NOT EXISTS ifra_data JSON NULL,
         ADD COLUMN IF NOT EXISTS ifra_enriched_at DATETIME NULL
-      \`);
+      `);
       console.log('Colonnes IFRA créées.');
     }
     
     // Récupérer les molécules à enrichir
     const [molecules] = await db.execute(
-      \`SELECT id, name, cas_number 
+      `SELECT id, name, cas_number 
        FROM molecules 
        WHERE ifra_enriched_at IS NULL
        ORDER BY name ASC
-       LIMIT ?\`,
+       LIMIT ?`,
       [limit]
     );
     
-    console.log(\`\${molecules.length} molécules à analyser\`);
+    console.log(`${molecules.length} molécules à analyser`);
     console.log('');
     
     let enriched = 0;
@@ -265,7 +265,7 @@ async function main() {
     
     for (let i = 0; i < molecules.length; i++) {
       const mol = molecules[i];
-      const progress = \`[\${i + 1}/\${molecules.length}]\`;
+      const progress = `[${i + 1}/${molecules.length}]`;
       
       // Chercher le CAS dans le dictionnaire français si pas de CAS
       let casNumber = mol.cas_number;
@@ -280,23 +280,23 @@ async function main() {
         enriched++;
         if (result.status === 'banned') {
           banned++;
-          console.log(\`\${progress} ⛔ \${mol.name}: INTERDIT - \${result.data.reason}\`);
+          console.log(`${progress} ⛔ ${mol.name}: INTERDIT - ${result.data.reason}`);
         } else if (result.status === 'restricted') {
           restricted++;
-          console.log(\`\${progress} ⚠️ \${mol.name}: RESTREINT - Max \${result.data.maxPercent}% (\${result.data.category})\`);
+          console.log(`${progress} ⚠️ ${mol.name}: RESTREINT - Max ${result.data.maxPercent}% (${result.data.category})`);
         } else if (result.status === 'specification_required') {
           specRequired++;
-          console.log(\`\${progress} 📋 \${mol.name}: SPÉCIFICATION REQUISE\`);
+          console.log(`${progress} 📋 ${mol.name}: SPÉCIFICATION REQUISE`);
         }
       } else {
         notRegulated++;
         // Marquer comme analysé mais non réglementé
         await db.execute(
-          \`UPDATE molecules SET ifra_status = 'not_regulated', ifra_enriched_at = NOW() WHERE id = ?\`,
+          `UPDATE molecules SET ifra_status = 'not_regulated', ifra_enriched_at = NOW() WHERE id = ?`,
           [mol.id]
         );
         if (i % 50 === 0) {
-          console.log(\`\${progress} ✓ \${mol.name}: Non réglementé IFRA\`);
+          console.log(`${progress} ✓ ${mol.name}: Non réglementé IFRA`);
         }
       }
       
@@ -307,12 +307,12 @@ async function main() {
     console.log('='.repeat(60));
     console.log('RÉSUMÉ');
     console.log('='.repeat(60));
-    console.log(\`Total analysé: \${molecules.length}\`);
-    console.log(\`Réglementés IFRA: \${enriched}\`);
-    console.log(\`  - Interdits: \${banned}\`);
-    console.log(\`  - Restreints: \${restricted}\`);
-    console.log(\`  - Spécification requise: \${specRequired}\`);
-    console.log(\`Non réglementés: \${notRegulated}\`);
+    console.log(`Total analysé: ${molecules.length}`);
+    console.log(`Réglementés IFRA: ${enriched}`);
+    console.log(`  - Interdits: ${banned}`);
+    console.log(`  - Restreints: ${restricted}`);
+    console.log(`  - Spécification requise: ${specRequired}`);
+    console.log(`Non réglementés: ${notRegulated}`);
     
   } finally {
     await db.end();

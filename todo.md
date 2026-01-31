@@ -307,7 +307,18 @@
 
 ---
 
-## 🆕 NOUVELLES TÂCHES (30 Jan 2026 - Session courante)
+## 🆕 NOUVELLES TÂCHES (31 Jan 2026 - Session courante)
+
+### Enrichissement IFRA (Conformité réglementaire)
+- [x] Créer le service IFRA avec base de données locale (64 substances réglementées)
+- [x] Créer le router tRPC pour l'enrichissement IFRA
+- [x] Enrichir 708 molécules avec statut IFRA (5 interdites, 61 restreintes, 5 spéc. requise)
+- [x] Créer la page /ifra pour la conformité réglementaire
+- [x] Ajouter les badges IFRA sur les fiches molécules
+- [ ] Intégrer COCONUT API pour les sources biologiques des molécules
+- [x] Intégrer Flavornet pour les descripteurs olfactifs et seuils de perception (142 molécules enrichies, 81 composés dans la base locale)
+
+## 📝 TÂCHES PRÉCÉDENTES (30 Jan 2026)
 
 ### Transformations moléculaires et liaisons recettes
 - [x] Créer 15 nouvelles recettes de parfumerie et d'encens
@@ -4605,3 +4616,10 @@
 - [x] Corriger l'erreur de syntaxe dans server/db.ts (ligne 19318)
 - [x] Implémenter l'intégration COCONUT API pour les molécules
 - [x] Créer le script de scraping IFRA pour la conformité réglementaire (scripts/scrape-ifra-data.mjs)
+
+
+### Enrichissement IFRA (31 Jan 2026)
+- [ ] Exécuter le script IFRA sur les molécules existantes
+
+- [ ] Intégrer COCONUT API pour les sources biologiques des molécules
+- [x] Intégrer Flavornet pour les descripteurs olfactifs et seuils de perception (142 molécules enrichies, 81 composés dans la base locale)

@@ -19492,14 +19492,7 @@ export async function getUnenrichedMoleculesForCOCONUT(limit: number = 50): Prom
   if (!db) return [];
   
   const [rows] = await db.execute(
-    `SELECT id, name, 
-      pubchem_cid IS NOT NULL as hasPubChem,
-      chebi_id IS NOT NULL as hasChEBI
-    FROM molecules 
-    WHERE coconut_id IS NULL
-    ORDER BY name ASC
-    LIMIT ?`,
-    [limit]
+    'SELECT id, name, pubchem_cid IS NOT NULL as hasPubChem, chebi_id IS NOT NULL as hasChEBI FROM molecules WHERE coconut_id IS NULL ORDER BY name ASC LIMIT ' + limit
   );
   
   return (rows as any[]).map(r => ({
@@ -19536,5 +19529,278 @@ export async function getCOCONUTEnrichmentStats(): Promise<{
     enriched: stats.enriched || 0,
     percentage: stats.total > 0 ? Math.round((stats.enriched / stats.total) * 100) : 0,
     withOrganisms: stats.withOrganisms || 0,
+  };
+}
+
+
+// ============================================================================
+// IFRA ENRICHMENT FUNCTIONS
+// ============================================================================
+
+import type { IFRAData } from './ifra';
+
+/**
+ * Update molecule with IFRA regulatory data
+ */
+export async function updateMoleculeIFRAData(moleculeId: number, ifraData: IFRAData): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  
+  const query = "UPDATE molecules SET ifra_status = '" + ifraData.status + "', ifra_data = '" + JSON.stringify(ifraData).replace(/'/g, "''") + "', ifra_enriched_at = NOW() WHERE id = " + moleculeId;
+  await db.execute(query);
+}
+
+/**
+ * Get molecules by IFRA status
+ */
+export async function getMoleculesByIFRAStatus(
+  status: 'not_regulated' | 'banned' | 'restricted' | 'specification_required',
+  limit: number = 50,
+  offset: number = 0
+): Promise<{
+  id: number;
+  name: string;
+  casNumber: string | null;
+  ifraStatus: string;
+  ifraData: any;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const [rows] = await db.execute(
+    "SELECT id, name, cas_number as casNumber, ifra_status as ifraStatus, ifra_data as ifraData FROM molecules WHERE ifra_status = '" + status + "' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
+  );
+  
+  return (rows as any[]).map(r => ({
+    id: r.id,
+    name: r.name,
+    casNumber: r.casNumber,
+    ifraStatus: r.ifraStatus,
+    ifraData: r.ifraData ? (typeof r.ifraData === 'string' ? JSON.parse(r.ifraData) : r.ifraData) : null,
+  }));
+}
+
+/**
+ * Get molecules that need IFRA enrichment
+ */
+export async function getUnenrichedMoleculesForIFRA(limit: number = 50): Promise<{
+  id: number;
+  name: string;
+  casNumber: string | null;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const [rows] = await db.execute(
+    'SELECT id, name, cas_number as casNumber FROM molecules WHERE ifra_enriched_at IS NULL ORDER BY name ASC LIMIT ' + limit
+  );
+  
+  return (rows as any[]).map(r => ({
+    id: r.id,
+    name: r.name,
+    casNumber: r.casNumber,
+  }));
+}
+
+/**
+ * Get IFRA enrichment statistics
+ */
+export async function getIFRAEnrichmentStats(): Promise<{
+  total: number;
+  enriched: number;
+  percentage: number;
+  banned: number;
+  restricted: number;
+  specRequired: number;
+  notRegulated: number;
+}> {
+  const db = await getDb();
+  if (!db) return { total: 0, enriched: 0, percentage: 0, banned: 0, restricted: 0, specRequired: 0, notRegulated: 0 };
+  
+  const [rows] = await db.execute(
+    `SELECT 
+      COUNT(*) as total,
+      SUM(CASE WHEN ifra_enriched_at IS NOT NULL THEN 1 ELSE 0 END) as enriched,
+      SUM(CASE WHEN ifra_status = 'banned' THEN 1 ELSE 0 END) as banned,
+      SUM(CASE WHEN ifra_status = 'restricted' THEN 1 ELSE 0 END) as restricted,
+      SUM(CASE WHEN ifra_status = 'specification_required' THEN 1 ELSE 0 END) as specRequired,
+      SUM(CASE WHEN ifra_status = 'not_regulated' AND ifra_enriched_at IS NOT NULL THEN 1 ELSE 0 END) as notRegulated
+    FROM molecules`
+  );
+  
+  const stats = (rows as any[])[0];
+  return {
+    total: stats.total || 0,
+    enriched: stats.enriched || 0,
+    percentage: stats.total > 0 ? Math.round((stats.enriched / stats.total) * 100) : 0,
+    banned: stats.banned || 0,
+    restricted: stats.restricted || 0,
+    specRequired: stats.specRequired || 0,
+    notRegulated: stats.notRegulated || 0,
+  };
+}
+
+
+// ============================================================================
+// COCONUT ENRICHMENT FUNCTIONS
+// ============================================================================
+
+/**
+ * Update molecule with COCONUT natural product data
+ */
+export async function updateMoleculeCOCONUTData(moleculeId: number, data: {
+  coconutId: string;
+  npLikenessScore?: number;
+  organisms?: { name: string; rank?: string }[];
+  citations?: { doi?: string; title?: string }[];
+}): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  
+  const organismsJson = data.organisms ? JSON.stringify(data.organisms).replace(/'/g, "''") : null;
+  const citationsJson = data.citations ? JSON.stringify(data.citations).replace(/'/g, "''") : null;
+  
+  const query = "UPDATE molecules SET coconut_id = '" + data.coconutId + "'" +
+    (data.npLikenessScore !== undefined ? ", np_likeness_score = " + data.npLikenessScore : "") +
+    (organismsJson ? ", coconut_organisms = '" + organismsJson + "'" : "") +
+    (citationsJson ? ", coconut_citations = '" + citationsJson + "'" : "") +
+    ", coconut_enriched_at = NOW() WHERE id = " + moleculeId;
+  
+  await db.execute(query);
+}
+
+/**
+ * Get molecules with COCONUT organism data
+ */
+export async function getMoleculesWithCOCONUTOrganisms(
+  limit: number = 50,
+  offset: number = 0
+): Promise<{
+  id: number;
+  name: string;
+  coconutId: string;
+  npLikenessScore: number | null;
+  organisms: { name: string; rank?: string }[];
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const [rows] = await db.execute(
+    "SELECT id, name, coconut_id as coconutId, np_likeness_score as npLikenessScore, coconut_organisms as organisms FROM molecules WHERE coconut_organisms IS NOT NULL AND coconut_organisms != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
+  );
+  
+  return (rows as any[]).map(r => ({
+    id: r.id,
+    name: r.name,
+    coconutId: r.coconutId,
+    npLikenessScore: r.npLikenessScore,
+    organisms: r.organisms ? (typeof r.organisms === 'string' ? JSON.parse(r.organisms) : r.organisms) : [],
+  }));
+}
+
+
+// ============================================================================
+// FLAVORNET ENRICHMENT FUNCTIONS
+// ============================================================================
+
+import type { FlavornetData } from './flavornet';
+
+/**
+ * Update molecule with Flavornet olfactory data
+ */
+export async function updateMoleculeFlavornetData(moleculeId: number, data: FlavornetData): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  
+  const perceptsJson = JSON.stringify(data.percepts).replace(/'/g, "''");
+  const kovatsJson = data.kovatsRI ? JSON.stringify(data.kovatsRI).replace(/'/g, "''") : null;
+  
+  const query = "UPDATE molecules SET flavornet_percepts = '" + perceptsJson + "'" +
+    (kovatsJson ? ", flavornet_kovats_ri = '" + kovatsJson + "'" : "") +
+    ", flavornet_enriched_at = NOW() WHERE id = " + moleculeId;
+  
+  await db.execute(query);
+}
+
+/**
+ * Get molecules that need Flavornet enrichment
+ */
+export async function getUnenrichedMoleculesForFlavornet(limit: number = 100): Promise<{
+  id: number;
+  name: string;
+  casNumber: string | null;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const [rows] = await db.execute(
+    'SELECT id, name, cas_number as casNumber FROM molecules WHERE flavornet_percepts IS NULL ORDER BY name ASC LIMIT ' + limit
+  );
+  
+  return (rows as any[]).map(r => ({
+    id: r.id,
+    name: r.name,
+    casNumber: r.casNumber,
+  }));
+}
+
+/**
+ * Get molecules with Flavornet percepts
+ */
+export async function getMoleculesWithFlavornetPercepts(
+  limit: number = 50,
+  offset: number = 0
+): Promise<{
+  id: number;
+  name: string;
+  percepts: string[];
+  kovatsRI: Record<string, number> | null;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const [rows] = await db.execute(
+    "SELECT id, name, flavornet_percepts as percepts, flavornet_kovats_ri as kovatsRI FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
+  );
+  
+  return (rows as any[]).map(r => ({
+    id: r.id,
+    name: r.name,
+    percepts: r.percepts ? (typeof r.percepts === 'string' ? JSON.parse(r.percepts) : r.percepts) : [],
+    kovatsRI: r.kovatsRI ? (typeof r.kovatsRI === 'string' ? JSON.parse(r.kovatsRI) : r.kovatsRI) : null,
+  }));
+}
+
+/**
+ * Flavornet enrichment statistics
+ */
+export async function getFlavornetEnrichmentStats(): Promise<{
+  total: number;
+  enriched: number;
+  percentage: number;
+  withPercepts: number;
+  withKovatsRI: number;
+}> {
+  const db = await getDb();
+  if (!db) return { total: 0, enriched: 0, percentage: 0, withPercepts: 0, withKovatsRI: 0 };
+  
+  const [totalRows] = await db.execute('SELECT COUNT(*) as count FROM molecules');
+  const total = (totalRows as any[])[0]?.count || 0;
+  
+  const [enrichedRows] = await db.execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL');
+  const enriched = (enrichedRows as any[])[0]?.count || 0;
+  
+  const [perceptsRows] = await db.execute("SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]'");
+  const withPercepts = (perceptsRows as any[])[0]?.count || 0;
+  
+  const [kovatsRows] = await db.execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_kovats_ri IS NOT NULL');
+  const withKovatsRI = (kovatsRows as any[])[0]?.count || 0;
+  
+  return {
+    total,
+    enriched,
+    percentage: total > 0 ? Math.round((enriched / total) * 100) : 0,
+    withPercepts,
+    withKovatsRI,
   };
 }

@@ -54,6 +54,9 @@ import { rawMaterialsRouter, suppliersRouter } from "./routers/raw-materials";
 import { recipesRouter } from "./routers/recipes";
 import { protocolsRouter } from "./routers/protocols";
 import { landracesRouter } from "./routers/landraces";
+import { ifraRouter } from "./routers/ifra";
+import { coconutRouter } from "./routers/coconut";
+import { flavornetRouter } from "./routers/flavornet";
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -10199,6 +10202,12 @@ Familles olfactives disponibles:
   protocols: protocolsRouter,
   // Cannabis Landraces
   landraces: landracesRouter,
+  // IFRA Regulatory Compliance
+  ifra: ifraRouter,
+  // COCONUT Natural Products Database
+  coconut: coconutRouter,
+  // Flavornet Olfactory Descriptors
+  flavornet: flavornetRouter,
 });
 export type AppRouter = typeof appRouter;
 
