@@ -5,6 +5,34 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Leaf, MapPin, Sparkles, Activity, Droplets } from "lucide-react";
+import { TerpeneRadarChart } from "@/components/TerpeneRadarChart";
+
+// Composant pour charger et afficher les terpènes
+function TerpeneRadarSection({ landraceId }: { landraceId: number }) {
+  const { data: terpenes, isLoading } = trpc.landraces.getTerpenes.useQuery({ landraceId });
+  
+  if (isLoading) {
+    return (
+      <div className="mb-6">
+        <Skeleton className="h-[350px] w-full" />
+      </div>
+    );
+  }
+  
+  if (!terpenes || terpenes.length === 0) {
+    return null;
+  }
+  
+  return (
+    <div className="mb-6">
+      <TerpeneRadarChart 
+        terpenes={terpenes} 
+        title="Profil Terpénique"
+        size={320}
+      />
+    </div>
+  );
+}
 
 export default function LandraceDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -169,12 +197,15 @@ export default function LandraceDetail() {
         )}
       </div>
 
+      {/* Graphique radar des terpènes */}
+      <TerpeneRadarSection landraceId={landrace.id} />
+
       {(landrace.dominant_terpenes || landrace.total_terpene_content) && (
         <Card className="bg-card/50 border-border/50 mb-6">
           <CardHeader>
             <div className="flex items-center gap-2">
               <Droplets className="h-5 w-5 text-primary" />
-              <CardTitle>Terpènes</CardTitle>
+              <CardTitle>Terpènes (description)</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">

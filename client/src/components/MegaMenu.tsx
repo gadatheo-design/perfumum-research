@@ -430,6 +430,13 @@ export function MegaMenu() {
           icon: <Map className="h-4 w-4" />,
           description: "Origines géographiques",
         },
+        {
+          label: "Osmothèque",
+          path: "/osmotheque",
+          icon: <Archive className="h-4 w-4" />,
+          description: "Molécules historiques et patrimoine olfactif",
+          badge: "NEW",
+        },
       ],
     },
     {

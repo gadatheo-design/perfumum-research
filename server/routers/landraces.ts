@@ -121,6 +121,33 @@ export const landracesRouter = router({
       return null;
     }),
 
+  // Get terpenes for a landrace
+  getTerpenes: publicProcedure
+    .input(z.object({
+      landraceId: z.number(),
+    }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      
+      const result = await db.execute(`
+        SELECT 
+          id, landrace_id, terpene_name, percentage, notes
+        FROM landrace_terpenes
+        WHERE landrace_id = ?
+        ORDER BY percentage DESC
+      `, [input.landraceId]);
+      
+      const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
+      return rows as Array<{
+        id: number;
+        landrace_id: number;
+        terpene_name: string;
+        percentage: number;
+        notes: string | null;
+      }>;
+    }),
+
   // Get landrace statistics
   getStats: publicProcedure.query(async () => {
     const db = await getDb();

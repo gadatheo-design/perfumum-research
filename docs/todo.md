@@ -96,3 +96,23 @@
   - [x] 6 ingrédients liés à des plantes
   - [x] Boutons "Voir molécule" et "Voir plante" dans RecipeIngredients
   - [ ] Créer liens hypertexte dans les composants
+
+## Session 31 janvier 2026 - Partie 5
+
+- [x] Enrichir les liens croisés avec plus de mappings
+  - [x] Ajouter mappings pour variétés de cannabis spécifiques (CBD, pollens, résines)
+  - [x] Ajouter mappings pour variétés de tabac spécifiques (Samsoun, Krumovgrad, Semois...)
+  - [x] 58 ingrédients liés à des molécules (+52 nouveaux)
+  - [x] 98 ingrédients liés à des plantes (+92 nouveaux)
+
+- [x] Ajouter l'osmothèque au menu principal
+  - [x] Ajouter dans MegaMenu (section Catalogues)
+  - [x] Ajouter dans MobileMenu (section Catalogues)
+  - [x] Badge "NEW" pour visibilité
+
+- [x] Créer page de détail des landraces avec graphique radar
+  - [x] Créer composant TerpeneRadarChart (SVG interactif)
+  - [x] Ajouter procédure getTerpenes dans landraces router
+  - [x] Intégrer TerpeneRadarSection dans LandraceDetail.tsx
+  - [x] Légende avec pourcentages et couleurs par terpène
+  - [x] Tests unitaires (3 tests passés)

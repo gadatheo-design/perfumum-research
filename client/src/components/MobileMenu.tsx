@@ -70,6 +70,7 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/recettes", label: "Recettes", badge: "HUB" },
       { href: "/plants", label: "Plantes & Variétés" },
       { href: "/terroirs", label: "Terroirs" },
+      { href: "/osmotheque", label: "Osmothèque", badge: "NEW" },
     ],
   },
   {
