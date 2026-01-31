@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as pubchem_enriched,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as chebi_enriched,\n  SUM(CASE WHEN pubchem_cid IS NULL AND chebi_id IS NULL THEN 1 ELSE 0 END) as unenriched\nFROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as pubchem_enriched,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as chebi_enriched,\n  SUM(CASE WHEN pubchem_cid IS NULL AND chebi_id IS NULL THEN 1 ELSE 0 END) as unenriched\nFROM molecules;",
+  "rows": [
+    {
+      "total": "708",
+      "pubchem_enriched": "46",
+      "chebi_enriched": "0",
+      "unenriched": "662"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tpubchem_enriched\tchebi_enriched\tunenriched\n708\t46\t0\t662\n",
+  "stderr": "",
+  "execution_time_ms": 745
+}

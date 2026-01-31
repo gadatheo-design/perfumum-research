@@ -4594,3 +4594,8 @@
 - [x] Ajouter la colonne chebi_id à la table molecules via migration SQL
 - [x] Créer le badge ChEBI sur les fiches molécules (similaire au badge PubChem)
 - [x] Implémenter le fallback automatique PubChem → ChEBI
+
+
+### Enrichissement complet et indicateurs
+- [x] Lancer l'enrichissement complet des molécules avec fallback PubChem → ChEBI (en cours en arrière-plan)
+- [x] Ajouter indicateur de source (icône PubChem/ChEBI) dans la liste des molécules

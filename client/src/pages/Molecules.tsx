@@ -761,6 +761,17 @@ export default function Molecules() {
                                   {molecule.family}
                                 </Badge>
                               )}
+                              {/* Indicateurs de source d'enrichissement */}
+                              {(molecule as any).pubchem_cid && (
+                                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-950/50 dark:text-green-400 dark:border-green-800">
+                                  PubChem
+                                </Badge>
+                              )}
+                              {(molecule as any).chebi_id && !(molecule as any).pubchem_cid && (
+                                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/50 dark:text-blue-400 dark:border-blue-800">
+                                  ChEBI
+                                </Badge>
+                              )}
                             </div>
                           </div>
                           {/* Always show chemical formula */}
