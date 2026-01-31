@@ -1,0 +1,19 @@
+{
+  "query": "SELECT COUNT(*) as tobacco_count FROM plants WHERE family LIKE '%Solanaceae%' OR name LIKE '%tabac%' OR name LIKE '%tobacco%' OR name LIKE '%Nicotiana%';\nSELECT COUNT(*) as cannabis_count FROM plants WHERE family LIKE '%Cannabaceae%' OR name LIKE '%cannabis%' OR name LIKE '%chanvre%' OR name LIKE '%Cannabis%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as tobacco_count FROM plants WHERE family LIKE '%Solanaceae%' OR name LIKE '%tabac%' OR name LIKE '%tobacco%' OR name LIKE '%Nicotiana%';\nSELECT COUNT(*) as cannabis_count FROM plants WHERE family LIKE '%Cannabaceae%' OR name LIKE '%cannabis%' OR name LIKE '%chanvre%' OR name LIKE '%Cannabis%';",
+  "rows": [
+    {
+      "tobacco_count": "18"
+    },
+    {
+      "tobacco_count": "cannabis_count"
+    },
+    {
+      "tobacco_count": "8"
+    }
+  ],
+  "messages": [],
+  "stdout": "tobacco_count\n18\ncannabis_count\n8\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

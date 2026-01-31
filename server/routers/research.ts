@@ -237,7 +237,9 @@ export const researchRouter = router({
         sql.raw(`SELECT * FROM perique_compounds ORDER BY category, name`)
       );
       
-      return result as any[];
+      // Flatten the result array (db.execute returns [rows, fields])
+      const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
+      return Array.isArray(rows) ? rows : [];
     } catch (error) {
       console.error("Error fetching Perique compounds:", error);
       return [];
