@@ -385,6 +385,14 @@ import RawMaterialsInventory from "./pages/RawMaterialsInventory";
 import InventoryDashboard from "./pages/InventoryDashboard";
 import PublicationMoleculeGraph from "./pages/PublicationMoleculeGraph";
 
+// === NOUVELLES SECTIONS : RECETTES, PROTOCOLES, LANDRACES ===
+const CigarilloRecipes = lazy(() => import("./pages/CigarilloRecipes"));
+const RecipeDetail = lazy(() => import("./pages/RecipeDetail"));
+const TechnicalProtocols = lazy(() => import("./pages/TechnicalProtocols"));
+const ProtocolDetail = lazy(() => import("./pages/ProtocolDetail"));
+const CannabisLandraces = lazy(() => import("./pages/CannabisLandraces"));
+const LandraceDetail = lazy(() => import("./pages/LandraceDetail"));
+
 
 
 
@@ -519,6 +527,21 @@ function Router() {
       <Route path="/identify-spectrum" component={SpectraIdentification} />
       <Route path="/identification-spectre" component={SpectraIdentification} />
       <Route path="/spectra-identification" component={SpectraIdentification} />
+      
+      {/* === RECETTES DE CIGARILLOS === */}
+      <LazyRoute path="/recettes-cigarillos" component={CigarilloRecipes} />
+      <LazyRoute path="/cigarillo-recipes" component={CigarilloRecipes} />
+      <LazyRoute path="/recettes/:slug" component={RecipeDetail} />
+      
+      {/* === PROTOCOLES TECHNIQUES === */}
+      <LazyRoute path="/protocoles" component={TechnicalProtocols} />
+      <LazyRoute path="/protocols" component={TechnicalProtocols} />
+      <LazyRoute path="/protocoles/:slug" component={ProtocolDetail} />
+      
+      {/* === LANDRACES CANNABIS === */}
+      <LazyRoute path="/landraces" component={CannabisLandraces} />
+      <LazyRoute path="/cannabis-landraces" component={CannabisLandraces} />
+      <LazyRoute path="/landraces/:slug" component={LandraceDetail} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />

@@ -37,3 +37,24 @@
 - 14 landraces cannabis + 8 tabacs anciens
 - 10 molécules osmothèque
 - Recherche sensorielle (Cain 1987, Rees 2025)
+
+## Session 31 janvier 2026 - Nouvelles sections
+
+- [x] Créer section Recettes avec 40+ formulations
+  - [x] Schéma DB pour recettes et ingrédients (cigarillo_recipes, cigarillo_recipe_ingredients)
+  - [x] Importer données depuis Commence.zip (40 recettes)
+  - [x] Créer pages UI (CigarilloRecipes + RecipeDetail)
+  - [x] Routes: /recettes-cigarillos, /recettes/:slug
+
+- [x] Importer 14 landraces cannabis
+  - [x] Schéma DB pour landraces et terpènes (cannabis_landraces, landrace_terpenes)
+  - [x] Script d'import avec profils terpéniques (14 landraces)
+  - [x] Créer pages UI (CannabisLandraces + LandraceDetail)
+  - [x] Routes: /landraces, /landraces/:slug
+
+- [x] Ajouter protocoles techniques
+  - [x] Schéma DB pour protocoles et étapes (technical_protocols, protocol_steps)
+  - [x] Importer protocoles (10 protocoles: cryo, nébulisation, maturation, etc.)
+  - [x] Créer pages UI (TechnicalProtocols + ProtocolDetail)
+  - [x] Routes: /protocoles, /protocoles/:slug
+  - [x] Tests unitaires (9 tests passés)

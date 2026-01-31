@@ -51,6 +51,9 @@ import { koppenRouter } from "./routers/koppen";
 import { tobaccoRouter } from "./routers/tobacco";
 import { researchRouter } from "./routers/research";
 import { rawMaterialsRouter, suppliersRouter } from "./routers/raw-materials";
+import { recipesRouter } from "./routers/recipes";
+import { protocolsRouter } from "./routers/protocols";
+import { landracesRouter } from "./routers/landraces";
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -10066,6 +10069,12 @@ Familles olfactives disponibles:
   // Raw Materials & Suppliers
   rawMaterials: rawMaterialsRouter,
   suppliers: suppliersRouter,
+  // Cigarillo Recipes
+  recipes: recipesRouter,
+  // Technical Protocols
+  protocols: protocolsRouter,
+  // Cannabis Landraces
+  landraces: landracesRouter,
 });
 export type AppRouter = typeof appRouter;
 
