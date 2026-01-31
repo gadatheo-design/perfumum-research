@@ -19045,3 +19045,98 @@ export async function getPlantFamiliesWithCategories(): Promise<{family: string;
     return { family, count, categories: (catResult[0] as any[]).map(r => ({category: r.category as string, count: Number(r.count)})) };
   }));
 }
+
+
+// === SMILES et PubChem ===
+
+export async function getMoleculesWithSmiles(params: {
+  search?: string;
+  chemicalClass?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<{ molecules: any[]; total: number }> {
+  const db = await getDb();
+  if (!db) return { molecules: [], total: 0 };
+  
+  const { search, chemicalClass, limit = 20, offset = 0 } = params;
+  
+  let whereClause = "WHERE (smiles IS NOT NULL AND smiles != '') OR pubchem_cid IS NOT NULL";
+  const queryParams: any[] = [];
+  
+  if (search) {
+    whereClause += " AND (name LIKE ? OR cas_number LIKE ? OR chemicalFormula LIKE ?)";
+    const searchPattern = `%${search}%`;
+    queryParams.push(searchPattern, searchPattern, searchPattern);
+  }
+  
+  if (chemicalClass) {
+    whereClause += " AND chemical_class = ?";
+    queryParams.push(chemicalClass);
+  }
+  
+  // Count total
+  const countQuery = `SELECT COUNT(*) as total FROM molecules ${whereClause}`;
+  const [countResult] = await db.execute(countQuery, queryParams);
+  const total = Number((countResult as any[])[0]?.total || 0);
+  
+  // Get molecules
+  const selectQuery = `
+    SELECT id, name, smiles, pubchem_cid, chemicalFormula, molecularWeight, 
+           cas_number, chemical_class, iupac_name, inchi, inchi_key
+    FROM molecules 
+    ${whereClause}
+    ORDER BY name ASC
+    LIMIT ? OFFSET ?
+  `;
+  const [molecules] = await db.execute(selectQuery, [...queryParams, limit, offset]);
+  
+  return { molecules: molecules as any[], total };
+}
+
+export async function getChemicalClasses(): Promise<{ name: string; count: number }[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db.execute(sql`
+    SELECT chemical_class as name, COUNT(*) as count 
+    FROM molecules 
+    WHERE chemical_class IS NOT NULL AND chemical_class != ''
+    GROUP BY chemical_class 
+    ORDER BY count DESC
+  `);
+  
+  return (result[0] as any[]).map(r => ({
+    name: r.name as string,
+    count: Number(r.count)
+  }));
+}
+
+export async function getSmilesStats(): Promise<{
+  total: number;
+  withSmiles: number;
+  withPubChem: number;
+  withCas: number;
+  withInchi: number;
+}> {
+  const db = await getDb();
+  if (!db) return { total: 0, withSmiles: 0, withPubChem: 0, withCas: 0, withInchi: 0 };
+  
+  const result = await db.execute(sql`
+    SELECT 
+      COUNT(*) as total,
+      SUM(CASE WHEN smiles IS NOT NULL AND smiles != '' THEN 1 ELSE 0 END) as withSmiles,
+      SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as withPubChem,
+      SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as withCas,
+      SUM(CASE WHEN inchi IS NOT NULL AND inchi != '' THEN 1 ELSE 0 END) as withInchi
+    FROM molecules
+  `);
+  
+  const row = (result[0] as any[])[0];
+  return {
+    total: Number(row?.total || 0),
+    withSmiles: Number(row?.withSmiles || 0),
+    withPubChem: Number(row?.withPubChem || 0),
+    withCas: Number(row?.withCas || 0),
+    withInchi: Number(row?.withInchi || 0)
+  };
+}

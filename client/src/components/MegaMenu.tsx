@@ -444,6 +444,13 @@ export function MegaMenu() {
           description: "Molécules historiques et patrimoine olfactif",
           badge: "NEW",
         },
+        {
+          label: "Structures SMILES",
+          path: "/smiles",
+          icon: <Beaker className="h-4 w-4" />,
+          description: "Visualisation moléculaire 2D",
+          badge: "NEW",
+        },
       ],
     },
     {

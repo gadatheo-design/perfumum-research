@@ -275,6 +275,7 @@ import Plants from "./pages/Plants";
 import PlantVarieties from "./pages/PlantVarieties";
 import PhylogeneticView from "./pages/PhylogeneticView";
 import FamilyDetail from "./pages/FamilyDetail";
+import SmilesViewer from "./pages/SmilesViewer";
 import PlantsHub from "./pages/PlantsHub";
 import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
@@ -831,6 +832,8 @@ function Router() {
       <Route path="/phylogenetique" component={PhylogeneticView} />
       <Route path="/phylogenetic" component={PhylogeneticView} />
       <Route path="/famille/:name" component={FamilyDetail} />
+      <Route path="/smiles" component={SmilesViewer} />
+      <Route path="/structures" component={SmilesViewer} />
       <Route path="/plants/new" component={PlantForm} />
       <Route path="/plants/:id/edit" component={PlantForm} />
       <Route path="/plants/:id">

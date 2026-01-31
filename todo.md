@@ -4566,4 +4566,9 @@
 - [x] Ajouter colonnes PubChem à la table molecules (pubchem_cid, smiles, inchi, inchi_key, etc.)
 - [x] Créer le service PubChem (server/pubchem.ts) avec fonctions d'enrichissement
 - [x] Créer le script de migration pour enrichir les molécules (scripts/enrich-molecules-pubchem.mjs)
-- [ ] Exécuter l'enrichissement PubChem sur les 1000+ molécules existantes
+- [x] Exécuter l'enrichissement PubChem sur les 1000+ molécules existantes (46 molécules enrichies, batch 1/10)
+
+
+### Enrichissement PubChem et visualisation SMILES
+- [x] Exécuter l'enrichissement PubChem sur les 1000+ molécules existantes (46 molécules enrichies, batch 1/10)
+- [x] Créer la page de visualisation SMILES 2D pour afficher les structures moléculaires (/smiles)

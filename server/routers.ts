@@ -482,6 +482,28 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getPyrolysisTransformationsByProduct(input);
       }),
+    
+    // Liste des molécules avec SMILES pour visualisation
+    listWithSmiles: publicProcedure
+      .input(z.object({
+        search: z.string().optional(),
+        chemicalClass: z.string().optional(),
+        limit: z.number().min(1).max(100).default(20),
+        offset: z.number().min(0).default(0),
+      }))
+      .query(async ({ input }) => {
+        return await db.getMoleculesWithSmiles(input);
+      }),
+    
+    // Liste des classes chimiques disponibles
+    listChemicalClasses: publicProcedure.query(async () => {
+      return await db.getChemicalClasses();
+    }),
+    
+    // Statistiques SMILES
+    getSmilesStats: publicProcedure.query(async () => {
+      return await db.getSmilesStats();
+    }),
   }),
 
   // Terpene Synergies
