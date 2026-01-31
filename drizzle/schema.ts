@@ -197,6 +197,20 @@ export const molecules = mysqlTable("molecules", {
   radarSweetness: int("radar_sweetness").default(50), // Sweetness (floral, fruity)
   radarSpiciness: int("radar_spiciness").default(50), // Spiciness (pepper, ginger)
   radarEarthiness: int("radar_earthiness").default(50), // Earthiness (moss, soil, wood)
+  // PubChem enrichment data
+  pubchemCid: int("pubchem_cid"), // PubChem Compound ID
+  smiles: text("smiles"), // Canonical SMILES structure
+  inchi: text("inchi"), // InChI identifier
+  inchiKey: varchar("inchi_key", { length: 27 }), // InChIKey (fixed 27 chars)
+  exactMass: decimal("exact_mass", { precision: 12, scale: 6 }), // Exact mass in Da
+  xlogP: decimal("xlogp", { precision: 6, scale: 2 }), // Partition coefficient
+  tpsa: decimal("tpsa", { precision: 8, scale: 2 }), // Topological polar surface area
+  hBondDonorCount: int("h_bond_donor_count"), // Hydrogen bond donors
+  hBondAcceptorCount: int("h_bond_acceptor_count"), // Hydrogen bond acceptors
+  rotatableBondCount: int("rotatable_bond_count"), // Rotatable bonds
+  heavyAtomCount: int("heavy_atom_count"), // Heavy atoms (non-hydrogen)
+  pubchemSynonyms: json("pubchem_synonyms").$type<string[]>(), // Synonyms from PubChem
+  pubchemEnrichedAt: timestamp("pubchem_enriched_at"), // When PubChem data was fetched
   // Bibliographic references (JSON array)
   references: json("references").$type<{
     author?: string;

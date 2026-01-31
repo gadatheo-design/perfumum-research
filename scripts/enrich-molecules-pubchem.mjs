@@ -1,100 +1,32 @@
 /**
  * Script d'enrichissement des données moléculaires via PubChem PUG REST API
  * 
- * Ce script récupère les molécules sans CAS/IUPAC et tente de les enrichir
- * en utilisant l'API PubChem.
+ * Ce script récupère les molécules et les enrichit avec les données PubChem:
+ * - CID, SMILES, InChI, InChIKey
+ * - Propriétés physico-chimiques (MW, XLogP, TPSA, etc.)
+ * - Numéro CAS et synonymes
  */
 
 import mysql from 'mysql2/promise';
 
 const PUBCHEM_BASE = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug';
-const DELAY_MS = 250; // 4 requêtes/seconde max (limite PubChem: 5/s)
+const DELAY_MS = 500; // 2 requêtes/seconde pour être safe
 
-// Fonction pour attendre
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Fonction pour extraire le numéro CAS des synonymes
 function extractCAS(synonyms) {
   if (!synonyms || !Array.isArray(synonyms)) return null;
-  
-  // Pattern CAS: XXX-XX-X ou XXXX-XX-X ou XXXXX-XX-X
   const casPattern = /^\d{2,7}-\d{2}-\d$/;
-  
   for (const syn of synonyms) {
-    if (casPattern.test(syn)) {
-      return syn;
-    }
+    if (casPattern.test(syn)) return syn;
   }
   return null;
 }
 
-// Fonction pour déterminer la classe chimique basée sur le nom IUPAC
-function determineChemicalClass(iupacName, formula) {
-  if (!iupacName) return null;
-  
-  const name = iupacName.toLowerCase();
-  
-  // Terpènes et dérivés
-  if (name.includes('pinene') || name.includes('limonene') || name.includes('myrcene') || 
-      name.includes('terpine') || name.includes('camphene') || name.includes('carene')) {
-    return 'monoterpene';
-  }
-  if (name.includes('caryophyllene') || name.includes('humulene') || name.includes('farnesene') ||
-      name.includes('bisabolene') || name.includes('cadinene') || name.includes('selinene')) {
-    return 'sesquiterpene';
-  }
-  
-  // Aldéhydes
-  if (name.includes('aldehyde') || name.endsWith('al')) {
-    return 'aldehyde';
-  }
-  
-  // Cétones
-  if (name.includes('ketone') || name.endsWith('one') || name.includes('carvone') || name.includes('camphor')) {
-    return 'ketone';
-  }
-  
-  // Alcools
-  if (name.endsWith('ol') || name.includes('alcohol') || name.includes('linalool') || 
-      name.includes('geraniol') || name.includes('menthol')) {
-    return 'alcohol';
-  }
-  
-  // Esters
-  if (name.includes('acetate') || name.includes('ester') || name.endsWith('ate')) {
-    return 'ester';
-  }
-  
-  // Éthers
-  if (name.includes('ether') || name.includes('oxide')) {
-    return 'ether';
-  }
-  
-  // Phénols
-  if (name.includes('phenol') || name.includes('eugenol') || name.includes('thymol') ||
-      name.includes('carvacrol') || name.includes('guaiacol')) {
-    return 'phenol';
-  }
-  
-  // Lactones
-  if (name.includes('lactone') || name.includes('coumarin')) {
-    return 'lactone';
-  }
-  
-  // Composés aromatiques
-  if (name.includes('benzene') || name.includes('toluene') || name.includes('styrene')) {
-    return 'aromatic';
-  }
-  
-  return null;
-}
-
-// Fonction pour rechercher une molécule dans PubChem
 async function searchPubChem(moleculeName) {
   try {
-    // Nettoyer le nom de la molécule
     const cleanName = moleculeName
-      .replace(/\s*\([^)]*\)\s*/g, '') // Enlever les parenthèses et leur contenu
+      .replace(/\s*\([^)]*\)\s*/g, '')
       .replace(/[éèê]/g, 'e')
       .replace(/[àâ]/g, 'a')
       .replace(/[ùû]/g, 'u')
@@ -105,13 +37,11 @@ async function searchPubChem(moleculeName) {
     
     if (!cleanName || cleanName.length < 3) return null;
     
-    // Récupérer les propriétés
-    const propsUrl = `${PUBCHEM_BASE}/compound/name/${encodeURIComponent(cleanName)}/property/IUPACName,MolecularFormula,MolecularWeight/JSON`;
+    // Récupérer le CID et les propriétés
+    const propsUrl = `${PUBCHEM_BASE}/compound/name/${encodeURIComponent(cleanName)}/property/IUPACName,MolecularFormula,MolecularWeight,CanonicalSMILES,InChI,InChIKey,XLogP,ExactMass,TPSA,Complexity,HBondDonorCount,HBondAcceptorCount,RotatableBondCount,HeavyAtomCount/JSON`;
     const propsResponse = await fetch(propsUrl);
     
-    if (!propsResponse.ok) {
-      return null;
-    }
+    if (!propsResponse.ok) return null;
     
     const propsData = await propsResponse.json();
     const props = propsData?.PropertyTable?.Properties?.[0];
@@ -124,19 +54,32 @@ async function searchPubChem(moleculeName) {
     const synsUrl = `${PUBCHEM_BASE}/compound/name/${encodeURIComponent(cleanName)}/synonyms/JSON`;
     const synsResponse = await fetch(synsUrl);
     
+    let synonyms = [];
     let casNumber = null;
     if (synsResponse.ok) {
       const synsData = await synsResponse.json();
-      const synonyms = synsData?.InformationList?.Information?.[0]?.Synonym;
+      synonyms = (synsData?.InformationList?.Information?.[0]?.Synonym || []).slice(0, 10);
       casNumber = extractCAS(synonyms);
     }
     
     return {
+      cid: props.CID,
       iupacName: props.IUPACName || null,
       formula: props.MolecularFormula || null,
       molecularWeight: props.MolecularWeight ? Math.round(props.MolecularWeight) : null,
-      casNumber: casNumber,
-      chemicalClass: determineChemicalClass(props.IUPACName, props.MolecularFormula)
+      smiles: props.CanonicalSMILES || null,
+      inchi: props.InChI || null,
+      inchiKey: props.InChIKey || null,
+      xlogp: props.XLogP || null,
+      exactMass: props.ExactMass || null,
+      tpsa: props.TPSA || null,
+      complexity: props.Complexity || null,
+      hBondDonorCount: props.HBondDonorCount || null,
+      hBondAcceptorCount: props.HBondAcceptorCount || null,
+      rotatableBondCount: props.RotatableBondCount || null,
+      heavyAtomCount: props.HeavyAtomCount || null,
+      casNumber,
+      synonyms
     };
     
   } catch (error) {
@@ -150,11 +93,11 @@ async function main() {
   
   console.log('=== ENRICHISSEMENT DES MOLÉCULES VIA PUBCHEM ===\n');
   
-  // Récupérer les molécules à enrichir (sans CAS ou sans IUPAC)
+  // Récupérer les molécules à enrichir (sans pubchem_cid)
   const [molecules] = await connection.execute(`
-    SELECT id, name, cas_number, iupac_name, chemical_class, chemicalFormula
+    SELECT id, name, cas_number, iupac_name, chemicalFormula
     FROM molecules 
-    WHERE (cas_number IS NULL OR cas_number = '' OR iupac_name IS NULL OR iupac_name = '')
+    WHERE pubchem_cid IS NULL
     AND name NOT LIKE '%accord%'
     AND name NOT LIKE '%blend%'
     AND name NOT LIKE '%complex%'
@@ -170,54 +113,55 @@ async function main() {
   
   let enriched = 0;
   let failed = 0;
-  const results = [];
   
   for (const mol of molecules) {
     process.stdout.write(`Recherche: ${mol.name.substring(0, 40).padEnd(40)} `);
     
     const data = await searchPubChem(mol.name);
     
-    if (data && (data.casNumber || data.iupacName)) {
-      console.log(`✓ CAS: ${data.casNumber || '-'} | IUPAC: ${(data.iupacName || '-').substring(0, 30)}`);
+    if (data && data.cid) {
+      console.log(`✓ CID: ${data.cid} | SMILES: ${(data.smiles || '-').substring(0, 20)}...`);
       
-      // Préparer les mises à jour
-      const updates = [];
-      const values = [];
-      
-      if (data.casNumber && (!mol.cas_number || mol.cas_number === '')) {
-        updates.push('cas_number = ?');
-        values.push(data.casNumber);
-      }
-      
-      if (data.iupacName && (!mol.iupac_name || mol.iupac_name === '')) {
-        updates.push('iupac_name = ?');
-        values.push(data.iupacName);
-      }
-      
-      if (data.chemicalClass && !mol.chemical_class) {
-        updates.push('chemical_class = ?');
-        values.push(data.chemicalClass);
-      }
-      
-      if (data.formula && (!mol.chemicalFormula || mol.chemicalFormula === '')) {
-        updates.push('chemicalFormula = ?');
-        values.push(data.formula);
-      }
-      
-      if (data.molecularWeight) {
-        updates.push('molecularWeight = ?');
-        values.push(data.molecularWeight);
-      }
-      
-      if (updates.length > 0) {
-        values.push(mol.id);
-        await connection.execute(
-          `UPDATE molecules SET ${updates.join(', ')} WHERE id = ?`,
-          values
-        );
-        enriched++;
-        results.push({ name: mol.name, ...data });
-      }
+      await connection.execute(`
+        UPDATE molecules SET
+          pubchem_cid = ?,
+          smiles = ?,
+          inchi = ?,
+          inchi_key = ?,
+          exact_mass = ?,
+          xlogp = ?,
+          tpsa = ?,
+          h_bond_donor_count = ?,
+          h_bond_acceptor_count = ?,
+          rotatable_bond_count = ?,
+          heavy_atom_count = ?,
+          pubchem_synonyms = ?,
+          pubchem_enriched_at = NOW(),
+          cas_number = COALESCE(cas_number, ?),
+          iupac_name = COALESCE(iupac_name, ?),
+          chemicalFormula = COALESCE(chemicalFormula, ?),
+          molecularWeight = COALESCE(molecularWeight, ?)
+        WHERE id = ?
+      `, [
+        data.cid,
+        data.smiles,
+        data.inchi,
+        data.inchiKey,
+        data.exactMass,
+        data.xlogp,
+        data.tpsa,
+        data.hBondDonorCount,
+        data.hBondAcceptorCount,
+        data.rotatableBondCount,
+        data.heavyAtomCount,
+        data.synonyms.length > 0 ? JSON.stringify(data.synonyms) : null,
+        data.casNumber,
+        data.iupacName,
+        data.formula,
+        data.molecularWeight,
+        mol.id
+      ]);
+      enriched++;
     } else {
       console.log('✗ Non trouvé');
       failed++;
@@ -234,17 +178,17 @@ async function main() {
   const [newStats] = await connection.execute(`
     SELECT 
       COUNT(*) as total,
-      SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as cas_filled,
-      SUM(CASE WHEN iupac_name IS NOT NULL AND iupac_name != '' THEN 1 ELSE 0 END) as iupac_filled,
-      SUM(CASE WHEN chemical_class IS NOT NULL THEN 1 ELSE 0 END) as class_filled
+      SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as pubchem_filled,
+      SUM(CASE WHEN smiles IS NOT NULL THEN 1 ELSE 0 END) as smiles_filled,
+      SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as cas_filled
     FROM molecules
   `);
   
   const total = Number(newStats[0].total);
-  console.log('\n=== NOUVELLES STATISTIQUES ===');
+  console.log('\n=== STATISTIQUES ===');
+  console.log(`PubChem CID: ${newStats[0].pubchem_filled}/${total} (${Math.round(Number(newStats[0].pubchem_filled)/total*100)}%)`);
+  console.log(`SMILES: ${newStats[0].smiles_filled}/${total} (${Math.round(Number(newStats[0].smiles_filled)/total*100)}%)`);
   console.log(`CAS: ${newStats[0].cas_filled}/${total} (${Math.round(Number(newStats[0].cas_filled)/total*100)}%)`);
-  console.log(`IUPAC: ${newStats[0].iupac_filled}/${total} (${Math.round(Number(newStats[0].iupac_filled)/total*100)}%)`);
-  console.log(`Classe: ${newStats[0].class_filled}/${total} (${Math.round(Number(newStats[0].class_filled)/total*100)}%)`);
   
   await connection.end();
 }

@@ -21,7 +21,8 @@ import {
   Sparkles,
   Shield,
   Loader2,
-  Image as ImageIcon
+  Image as ImageIcon,
+  GitBranch
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
@@ -195,9 +196,22 @@ export default function PlantDetail() {
               <p className="text-lg text-muted-foreground italic">{plant.latinName}</p>
             )}
             {plant.family && (
-              <p className="text-sm text-muted-foreground mt-1">
-                Famille : {plant.family}
-              </p>
+              <div className="flex items-center gap-2 mt-1">
+                <p className="text-sm text-muted-foreground">
+                  Famille : <span className="font-medium text-foreground">{plant.family}</span>
+                </p>
+                <Link href={`/famille/${encodeURIComponent(plant.family)}`}>
+                  <Button variant="ghost" size="sm" className="h-6 px-2 text-xs">
+                    <GitBranch className="h-3 w-3 mr-1" />
+                    Voir la famille
+                  </Button>
+                </Link>
+                <Link href="/phylogenetique">
+                  <Button variant="ghost" size="sm" className="h-6 px-2 text-xs">
+                    Classification
+                  </Button>
+                </Link>
+              </div>
             )}
           </div>
           {plant.imageUrl && (

@@ -1,0 +1,8 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as with_pubchem,\n  SUM(CASE WHEN smiles IS NOT NULL THEN 1 ELSE 0 END) as with_smiles\nFROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as with_pubchem,\n  SUM(CASE WHEN smiles IS NOT NULL THEN 1 ELSE 0 END) as with_smiles\nFROM molecules;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'pubchem_cid' in ''"
+  ]
+}

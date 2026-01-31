@@ -4542,3 +4542,28 @@
 - [x] Ajouter lien /phylogenetique dans le menu de navigation principal
 - [x] Créer bouton d'enrichissement terpénique sur la page landraces
 - [x] Intégrer filtre par famille sur la page /plantes avec sélecteur déroulant
+
+
+### Fonctionnalités et APIs - Session 31 Jan 2026 (suite)
+- [ ] Ajouter lien vers /phylogenetique depuis les fiches plantes
+- [ ] Créer page de détail par famille botanique (/famille/:name)
+- [ ] Intégrer API PubChem pour enrichissement moléculaire
+- [ ] Créer script de migration pour enrichir les molécules existantes avec PubChem
+
+
+---
+
+## 🆕 SESSION 31 JAN 2026 — Fonctionnalités phylogénétiques et PubChem
+
+### Liens phylogénétiques et familles botaniques
+- [x] Ajouter lien vers /phylogenetique dans le menu de navigation principal (MegaMenu)
+- [x] Créer bouton d'enrichissement terpénique sur la page landraces
+- [x] Intégrer filtre par famille sur la page /plantes avec sélecteur déroulant
+- [x] Ajouter lien vers /phylogenetique depuis les fiches plantes (PlantDetail.tsx)
+- [x] Créer page de détail par famille botanique (/famille/:name) avec FamilyDetail.tsx
+
+### Intégration API PubChem pour enrichissement moléculaire
+- [x] Ajouter colonnes PubChem à la table molecules (pubchem_cid, smiles, inchi, inchi_key, etc.)
+- [x] Créer le service PubChem (server/pubchem.ts) avec fonctions d'enrichissement
+- [x] Créer le script de migration pour enrichir les molécules (scripts/enrich-molecules-pubchem.mjs)
+- [ ] Exécuter l'enrichissement PubChem sur les 1000+ molécules existantes

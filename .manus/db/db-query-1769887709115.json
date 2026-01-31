@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE `molecules` ADD `pubchem_cid` int;\nALTER TABLE `molecules` ADD `smiles` text;\nALTER TABLE `molecules` ADD `inchi` text;\nALTER TABLE `molecules` ADD `inchi_key` varchar(27);\nALTER TABLE `molecules` ADD `exact_mass` decimal(12,6);\nALTER TABLE `molecules` ADD `xlogp` decimal(6,2);\nALTER TABLE `molecules` ADD `tpsa` decimal(8,2);\nALTER TABLE `molecules` ADD `h_bond_donor_count` int;\nALTER TABLE `molecules` ADD `h_bond_acceptor_count` int;\nALTER TABLE `molecules` ADD `rotatable_bond_count` int;\nALTER TABLE `molecules` ADD `heavy_atom_count` int;\nALTER TABLE `molecules` ADD `pubchem_synonyms` json;\nALTER TABLE `molecules` ADD `pubchem_enriched_at` timestamp;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute ALTER TABLE `molecules` ADD `pubchem_cid` int;\nALTER TABLE `molecules` ADD `smiles` text;\nALTER TABLE `molecules` ADD `inchi` text;\nALTER TABLE `molecules` ADD `inchi_key` varchar(27);\nALTER TABLE `molecules` ADD `exact_mass` decimal(12,6);\nALTER TABLE `molecules` ADD `xlogp` decimal(6,2);\nALTER TABLE `molecules` ADD `tpsa` decimal(8,2);\nALTER TABLE `molecules` ADD `h_bond_donor_count` int;\nALTER TABLE `molecules` ADD `h_bond_acceptor_count` int;\nALTER TABLE `molecules` ADD `rotatable_bond_count` int;\nALTER TABLE `molecules` ADD `heavy_atom_count` int;\nALTER TABLE `molecules` ADD `pubchem_synonyms` json;\nALTER TABLE `molecules` ADD `pubchem_enriched_at` timestamp;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 5425
+}
