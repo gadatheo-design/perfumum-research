@@ -392,6 +392,7 @@ const TechnicalProtocols = lazy(() => import("./pages/TechnicalProtocols"));
 const ProtocolDetail = lazy(() => import("./pages/ProtocolDetail"));
 const CannabisLandraces = lazy(() => import("./pages/CannabisLandraces"));
 const LandraceDetail = lazy(() => import("./pages/LandraceDetail"));
+const OsmothequeMolecules = lazy(() => import("./pages/OsmothequeMolecules"));
 
 
 
@@ -542,6 +543,9 @@ function Router() {
       <LazyRoute path="/landraces" component={CannabisLandraces} />
       <LazyRoute path="/cannabis-landraces" component={CannabisLandraces} />
       <LazyRoute path="/landraces/:slug" component={LandraceDetail} />
+      
+      {/* === OSMOTHÈQUE === */}
+      <LazyRoute path="/osmotheque" component={OsmothequeMolecules} />
       
       {/* === CLAIMS & PREUVES === */}
       <Route path="/claims-and-proofs" component={ClaimsAndProofs} />

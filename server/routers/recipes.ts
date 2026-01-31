@@ -127,6 +127,28 @@ export const recipesRouter = router({
     return rows as { collection: string; count: number }[];
   }),
 
+  // Get recipe ingredients
+  getIngredients: publicProcedure
+    .input(z.object({
+      recipeId: z.number(),
+    }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      
+      const result = await db.execute(`
+        SELECT 
+          id, recipe_id, ingredient_name, ingredient_type, percentage,
+          aromatic_profile as role, justification as notes, molecule_id, plant_id
+        FROM cigarillo_recipe_ingredients
+        WHERE recipe_id = ?
+        ORDER BY percentage DESC
+      `, [input.recipeId]);
+      
+      const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
+      return rows as any[];
+    }),
+
   // Get recipe statistics
   getStats: publicProcedure.query(async () => {
     const db = await getDb();

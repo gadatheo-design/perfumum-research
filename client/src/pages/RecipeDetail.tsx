@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Cigarette, Clock, Leaf, FlaskConical, Sparkles } from "lucide-react";
+import { RecipeIngredients } from "@/components/RecipeIngredients";
 
 export default function RecipeDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -167,6 +168,11 @@ export default function RecipeDetail() {
           </CardContent>
         </Card>
       )}
+
+      {/* Composition détaillée des ingrédients */}
+      <div className="mt-6">
+        <RecipeIngredients recipeId={recipe.id} />
+      </div>
     </div>
   );
 }

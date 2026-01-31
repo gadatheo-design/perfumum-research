@@ -73,3 +73,26 @@
   - [x] 8 nouvelles molécules + 2 mises à jour
   - [x] Notes historiques et statut réglementaire inclus ] Ajouter les données historiques et olfactives
   - [ ] Lier aux références bibliographiques
+
+## Session 31 janvier 2026 - Ingrédients, Osmothèque et Liens croisés
+
+- [x] Afficher les ingrédients sur RecipeDetail
+  - [x] Créer composant RecipeIngredients avec visualisation des pourcentages
+  - [x] Afficher rôles (base, modificateur, infusion)
+  - [x] Intégrer dans RecipeDetail.tsx
+  - [x] Ajouter barre de visualisation des proportions
+  - [x] Liens croisés vers molécules et plantes
+
+- [x] Créer page dédiée aux molécules osmothèque
+  - [x] Créer OsmothequeMolecules.tsx avec filtres par statut réglementaire
+  - [x] Ajouter procédure tRPC molecules.getOsmotheque
+  - [x] Ajouter route /osmotheque
+  - [x] Légende des statuts (interdit, restreint, réglementé)
+  - [x] Liens vers fiches molécules complètes
+
+- [x] Ajouter liens croisés entre les données
+  - [x] Script create-ingredient-links.mjs pour lier ingrédients
+  - [x] 6 ingrédients liés à des molécules
+  - [x] 6 ingrédients liés à des plantes
+  - [x] Boutons "Voir molécule" et "Voir plante" dans RecipeIngredients
+  - [ ] Créer liens hypertexte dans les composants

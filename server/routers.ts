@@ -291,6 +291,49 @@ export const appRouter = router({
         ).slice(0, input.limit);
         return { molecules: matches, total: matches.length };
       }),
+    // Molécules osmothèque (historiques avec statut réglementaire)
+    getOsmotheque: publicProcedure
+      .input(z.object({
+        status: z.enum(['all', 'restricted', 'banned', 'regulated']).optional(),
+        limit: z.number().min(1).max(100).default(50),
+        offset: z.number().min(0).default(0),
+      }).optional())
+      .query(async ({ input }) => {
+        const allMolecules = await db.getAllMolecules();
+        // Filtrer les molécules osmothèque (celles avec [OSMOTHÈQUE] dans les notes)
+        let osmoMolecules = allMolecules.filter(m => 
+          m.notes && m.notes.includes('[OSMOTHÈQUE')
+        );
+        
+        // Extraire le statut réglementaire des notes
+        osmoMolecules = osmoMolecules.map(m => {
+          const statusMatch = m.notes?.match(/\[OSMOTHÈQUE - Statut réglementaire: ([^\]]+)\]/);
+          const regulatoryStatus = statusMatch ? statusMatch[1] : 'unknown';
+          return { ...m, regulatoryStatus };
+        });
+        
+        // Filtrer par statut si spécifié
+        const { status, limit = 50, offset = 0 } = input || {};
+        if (status && status !== 'all') {
+          osmoMolecules = osmoMolecules.filter(m => {
+            const rs = (m as any).regulatoryStatus?.toLowerCase() || '';
+            if (status === 'restricted') return rs.includes('restreint') || rs.includes('restricted');
+            if (status === 'banned') return rs.includes('interdit') || rs.includes('banned');
+            if (status === 'regulated') return rs.includes('réglementé') || rs.includes('regulated');
+            return true;
+          });
+        }
+        
+        const total = osmoMolecules.length;
+        const paginatedMolecules = osmoMolecules.slice(offset, offset + limit);
+        
+        return {
+          molecules: paginatedMolecules,
+          total,
+          limit,
+          offset,
+        };
+      }),
     // Suggestions par profil radar
     getSuggestionsByRadar: publicProcedure
       .input(z.object({
