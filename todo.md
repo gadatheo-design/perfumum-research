@@ -4536,3 +4536,9 @@
 - **78 genres** uniques identifiés
 - Top 5 familles : Cannabaceae (30), Burseraceae (25), Lamiaceae (20), Fabaceae (19), Solanaceae (19)
 
+
+
+### Améliorations UI - Session 31 Jan 2026
+- [x] Ajouter lien /phylogenetique dans le menu de navigation principal
+- [x] Créer bouton d'enrichissement terpénique sur la page landraces
+- [x] Intégrer filtre par famille sur la page /plantes avec sélecteur déroulant

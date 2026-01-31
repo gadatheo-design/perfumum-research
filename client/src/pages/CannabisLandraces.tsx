@@ -6,7 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, Leaf, MapPin, Sparkles } from "lucide-react";
+import { Search, Leaf, MapPin, Sparkles, FlaskConical, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export default function CannabisLandraces() {
   const [search, setSearch] = useState("");
@@ -21,6 +23,28 @@ export default function CannabisLandraces() {
   });
 
   const { data: stats } = trpc.landraces.getStats.useQuery();
+  const { data: terpeneStats } = trpc.landraces.getTerpeneStats.useQuery();
+  const enrichMutation = trpc.landraces.enrichTerpenes.useMutation();
+  const { toast } = useToast();
+  const utils = trpc.useUtils();
+
+  const handleEnrichTerpenes = async () => {
+    try {
+      const result = await enrichMutation.mutateAsync();
+      toast({
+        title: "Enrichissement terpénique terminé",
+        description: `${result.enriched} landraces enrichies, ${result.skipped} déjà complètes`,
+      });
+      utils.landraces.getAll.invalidate();
+      utils.landraces.getTerpeneStats.invalidate();
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible d'enrichir les profils terpéniques",
+        variant: "destructive",
+      });
+    }
+  };
 
   const getTypeColor = (t: string) => {
     switch (t) {
@@ -48,6 +72,28 @@ export default function CannabisLandraces() {
         <p className="text-muted-foreground">
           Variétés ancestrales de cannabis avec leurs profils terpéniques uniques
         </p>
+      </div>
+
+      {/* Bouton d'enrichissement terpénique */}
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <Button
+          onClick={handleEnrichTerpenes}
+          disabled={enrichMutation.isPending}
+          variant="outline"
+          className="gap-2"
+        >
+          {enrichMutation.isPending ? (
+            <RefreshCw className="h-4 w-4 animate-spin" />
+          ) : (
+            <FlaskConical className="h-4 w-4" />
+          )}
+          Enrichir profils terpéniques
+        </Button>
+        {terpeneStats && (
+          <div className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">{terpeneStats.withTerpenes}</span>/{terpeneStats.totalLandraces} landraces avec profil terpénique
+          </div>
+        )}
       </div>
 
       {stats && (

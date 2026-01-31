@@ -431,6 +431,13 @@ export function MegaMenu() {
           description: "Origines géographiques",
         },
         {
+          label: "Classification Phylogénétique",
+          path: "/phylogenetique",
+          icon: <GitBranch className="h-4 w-4" />,
+          description: "Familles botaniques et molécules",
+          badge: "NEW",
+        },
+        {
           label: "Osmothèque",
           path: "/osmotheque",
           icon: <Archive className="h-4 w-4" />,

@@ -28,7 +28,8 @@ import {
   Upload,
   ExternalLink,
   Loader2,
-  Tag
+  Tag,
+  GitBranch
 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -193,8 +194,10 @@ export default function Plants() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedAxis, setSelectedAxis] = useState<string>("all");
+  const [selectedFamily, setSelectedFamily] = useState<string>("all");
 
   const { data: plants, isLoading } = trpc.plants.list.useQuery();
+  const { data: families } = trpc.plants.listFamilies.useQuery();
 
   // Filter plants
   const filteredPlants = plants?.filter((plant: any) => {
@@ -206,8 +209,9 @@ export default function Plants() {
     
     const matchesCategory = selectedCategory === "all" || plant.category === selectedCategory;
     const matchesAxis = selectedAxis === "all" || plant.climaticAxis === selectedAxis;
+    const matchesFamily = selectedFamily === "all" || plant.family === selectedFamily;
 
-    return matchesSearch && matchesCategory && matchesAxis;
+    return matchesSearch && matchesCategory && matchesAxis && matchesFamily;
   }) || [];
 
   // Group by category
@@ -293,6 +297,20 @@ export default function Plants() {
                   <SelectItem value="vent">Vent</SelectItem>
                   <SelectItem value="bois">Bois</SelectItem>
                   <SelectItem value="disparition">Disparition</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={selectedFamily} onValueChange={setSelectedFamily}>
+                <SelectTrigger className="w-full md:w-[200px]">
+                  <GitBranch className="w-4 h-4 mr-2" />
+                  <SelectValue placeholder="Famille botanique" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Toutes les familles ({families?.length || 0})</SelectItem>
+                  {families?.map((f: any) => (
+                    <SelectItem key={f.family} value={f.family}>
+                      {f.family} ({f.count})
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
