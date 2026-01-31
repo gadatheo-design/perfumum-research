@@ -19226,3 +19226,39 @@ export async function enrichMoleculeFromPubChemWithTranslation(moleculeId: numbe
     }
   };
 }
+
+
+// === STATISTIQUES ET LISTE DES MOLÉCULES POUR ENRICHISSEMENT ===
+
+export async function getPubChemEnrichmentStats(): Promise<{
+  total: number;
+  enriched: number;
+  unenriched: number;
+}> {
+  const db = await getDb();
+  if (!db) return { total: 0, enriched: 0, unenriched: 0 };
+  
+  const [totalResult] = await db.execute('SELECT COUNT(*) as count FROM molecules');
+  const [enrichedResult] = await db.execute('SELECT COUNT(*) as count FROM molecules WHERE pubchem_cid IS NOT NULL');
+  
+  const total = (totalResult as any)[0]?.count || 0;
+  const enriched = (enrichedResult as any)[0]?.count || 0;
+  
+  return {
+    total,
+    enriched,
+    unenriched: total - enriched
+  };
+}
+
+export async function getUnenrichedMolecules(limit: number = 50): Promise<Array<{ id: number; name: string }>> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const [rows] = await db.execute(
+    'SELECT id, name FROM molecules WHERE pubchem_cid IS NULL ORDER BY name LIMIT ?',
+    [limit]
+  );
+  
+  return rows as Array<{ id: number; name: string }>;
+}

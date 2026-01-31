@@ -19,6 +19,57 @@ import { LinkedReferences } from "@/components/LinkedReferences";
 import { AIClassificationSuggestion } from "@/components/AIClassificationSuggestion";
 import { MoleculeAnalyticalMethods } from "@/components/MoleculeAnalyticalMethods";
 
+// Composant indicateur de statut PubChem
+function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; pubchemCid?: number }) {
+  if (hasPubChem && pubchemCid) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <a 
+              href={`https://pubchem.ncbi.nlm.nih.gov/compound/${pubchemCid}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex"
+            >
+              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-950/50 dark:text-green-400 dark:border-green-800 gap-1 cursor-pointer hover:bg-green-100 dark:hover:bg-green-900/50">
+                <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                PubChem
+              </Badge>
+            </a>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Données validées via PubChem (CID: {pubchemCid})</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+  
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/50 dark:text-amber-400 dark:border-amber-800 gap-1">
+            <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            Non validé
+          </Badge>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Données non encore validées via PubChem</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
 // Composant bouton d'enrichissement PubChem
 function PubChemEnrichButton({ moleculeId, moleculeName }: { moleculeId: number; moleculeName: string }) {
   const { toast } = useToast();
@@ -661,6 +712,11 @@ export default function MoleculeDetail() {
                       </Tooltip>
                     </TooltipProvider>
                   )}
+                  {/* Indicateur de statut PubChem */}
+                  <PubChemStatusBadge 
+                    hasPubChem={!!(molecule as any).pubchem_cid} 
+                    pubchemCid={(molecule as any).pubchem_cid} 
+                  />
                 </div>
               </div>
             </div>

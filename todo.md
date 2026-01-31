@@ -4577,3 +4577,9 @@
 ### Amélioration enrichissement PubChem
 - [x] Améliorer le script d'enrichissement avec traduction français→anglais
 - [x] Ajouter un bouton d'enrichissement individuel sur les fiches molécules
+
+
+### Enrichissement PubChem et Dashboard
+- [x] Exécuter l'enrichissement PubChem complet sur les 1000+ molécules restantes (en cours en arrière-plan)
+- [x] Ajouter indicateur visuel PubChem (badge vert/rouge) sur les fiches molécules
+- [x] Créer tableau de bord d'enrichissement avec statistiques et enrichissement par lot (/enrichissement)

@@ -513,6 +513,18 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return await db.enrichMoleculeFromPubChemWithTranslation(input.moleculeId);
       }),
+    
+    // Statistiques d'enrichissement PubChem
+    getEnrichmentStats: publicProcedure.query(async () => {
+      return await db.getPubChemEnrichmentStats();
+    }),
+    
+    // Molécules non enrichies
+    getUnenriched: publicProcedure
+      .input(z.object({ limit: z.number().optional().default(50) }))
+      .query(async ({ input }) => {
+        return await db.getUnenrichedMolecules(input.limit);
+      }),
   }),
 
   // Terpene Synergies
