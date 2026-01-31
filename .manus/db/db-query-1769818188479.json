@@ -1,0 +1,40 @@
+{
+  "query": "SELECT DISTINCT molecule_id FROM molecule_analytical_methods ORDER BY molecule_id LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT DISTINCT molecule_id FROM molecule_analytical_methods ORDER BY molecule_id LIMIT 10;",
+  "rows": [
+    {
+      "molecule_id": "3"
+    },
+    {
+      "molecule_id": "30002"
+    },
+    {
+      "molecule_id": "30003"
+    },
+    {
+      "molecule_id": "30004"
+    },
+    {
+      "molecule_id": "30005"
+    },
+    {
+      "molecule_id": "30006"
+    },
+    {
+      "molecule_id": "30007"
+    },
+    {
+      "molecule_id": "30008"
+    },
+    {
+      "molecule_id": "30009"
+    },
+    {
+      "molecule_id": "60003"
+    }
+  ],
+  "messages": [],
+  "stdout": "molecule_id\n3\n30002\n30003\n30004\n30005\n30006\n30007\n30008\n30009\n60003\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

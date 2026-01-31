@@ -1,0 +1,31 @@
+{
+  "query": "SELECT COUNT(*) as total FROM molecule_analytical_methods; SELECT * FROM molecule_analytical_methods LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total FROM molecule_analytical_methods; SELECT * FROM molecule_analytical_methods LIMIT 5;",
+  "rows": [
+    {
+      "total": "798"
+    },
+    {
+      "total": "id\tmolecule_id\tmethod_id\tis_primary\tdetection_limit\tdetection_unit\taccuracy\tanalysis_date\tlaboratory_name\tnotes\tcreated_at"
+    },
+    {
+      "total": "1\t330015\t30001\t1\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour Yuzu (Limonene + Linalool)\t2026-01-30 21:01:20"
+    },
+    {
+      "total": "2\t330015\t60002\t0\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour Yuzu (Limonene + Linalool)\t2026-01-30 21:01:20"
+    },
+    {
+      "total": "3\t810003\t30001\t1\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour limonene\t2026-01-30 21:01:20"
+    },
+    {
+      "total": "4\t810003\t60002\t0\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour limonene\t2026-01-30 21:01:20"
+    },
+    {
+      "total": "5\t810070\t30001\t1\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour limonene\t2026-01-30 21:01:21"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n798\nid\tmolecule_id\tmethod_id\tis_primary\tdetection_limit\tdetection_unit\taccuracy\tanalysis_date\tlaboratory_name\tnotes\tcreated_at\n1\t330015\t30001\t1\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour Yuzu (Limonene + Linalool)\t2026-01-30 21:01:20\n2\t330015\t60002\t0\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour Yuzu (Limonene + Linalool)\t2026-01-30 21:01:20\n3\t810003\t30001\t1\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour limonene\t2026-01-30 21:01:20\n4\t810003\t60002\t0\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour limonene\t2026-01-30 21:01:20\n5\t810070\t30001\t1\tNULL\tNULL\tNULL\tNULL\tNULL\tMéthode standard pour limonene\t2026-01-30 21:01:21\n",
+  "stderr": "",
+  "execution_time_ms": 749
+}

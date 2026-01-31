@@ -1,0 +1,85 @@
+{
+  "query": "SELECT COUNT(*) as total_molecules FROM molecules; SELECT COUNT(*) as total_methods FROM analytical_methods; SELECT id, code, name FROM analytical_methods;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total_molecules FROM molecules; SELECT COUNT(*) as total_methods FROM analytical_methods; SELECT id, code, name FROM analytical_methods;",
+  "rows": [
+    {
+      "total_molecules": "700"
+    },
+    {
+      "total_molecules": "total_methods"
+    },
+    {
+      "total_molecules": "21"
+    },
+    {
+      "total_molecules": "id\tcode\tname"
+    },
+    {
+      "total_molecules": "1\tNULL\tGC–MS (Gas Chromatography–Mass Spectrometry)"
+    },
+    {
+      "total_molecules": "2\tNULL\tLC–HRMS (Liquid Chromatography–High Resolution MS)"
+    },
+    {
+      "total_molecules": "3\tNULL\tGC×GC–TOFMS (Comprehensive 2D GC)"
+    },
+    {
+      "total_molecules": "4\tNULL\tHS-SPME (Headspace Solid-Phase Microextraction)"
+    },
+    {
+      "total_molecules": "5\tNULL\tHerbarium aDNA + Target Enrichment / Shotgun"
+    },
+    {
+      "total_molecules": "30001\tGC-MS\tChromatographie en phase gazeuse couplée à la spectrométrie de masse"
+    },
+    {
+      "total_molecules": "30002\tPTR-MS\tSpectrométrie de masse à réaction de transfert de proton"
+    },
+    {
+      "total_molecules": "30003\tSMPS\tScanning Mobility Particle Sizer"
+    },
+    {
+      "total_molecules": "30004\tHS-SPME\tHeadspace Solid-Phase Microextraction"
+    },
+    {
+      "total_molecules": "30005\tGCxGC-TOFMS\tTwo-Dimensional GC Time-of-Flight MS"
+    },
+    {
+      "total_molecules": "30006\tFTIR\tFourier Transform Infrared Spectroscopy"
+    },
+    {
+      "total_molecules": "30007\tNMR\tRésonance magnétique nucléaire"
+    },
+    {
+      "total_molecules": "30008\tTGA\tAnalyse thermogravimétrique"
+    },
+    {
+      "total_molecules": "30009\tDSC\tDifferential Scanning Calorimetry"
+    },
+    {
+      "total_molecules": "30010\tHPLC\tChromatographie liquide haute performance"
+    },
+    {
+      "total_molecules": "30011\tUV-Vis\tUV-Visible Spectroscopy"
+    },
+    {
+      "total_molecules": "60001\tIR\tSpectroscopie infrarouge"
+    },
+    {
+      "total_molecules": "60002\tGC-FID\tChromatographie en phase gazeuse avec détecteur à ionisation de flamme"
+    },
+    {
+      "total_molecules": "60003\tGC-O\tChromatographie en phase gazeuse-olfactométrie"
+    },
+    {
+      "total_molecules": "60004\tSPME\tMicroextraction en phase solide"
+    },
+    {
+      "total_molecules": "60005\tHS-GC\tChromatographie en phase gazeuse de l'espace de tête"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\n700\ntotal_methods\n21\nid\tcode\tname\n1\tNULL\tGC–MS (Gas Chromatography–Mass Spectrometry)\n2\tNULL\tLC–HRMS (Liquid Chromatography–High Resolution MS)\n3\tNULL\tGC×GC–TOFMS (Comprehensive 2D GC)\n4\tNULL\tHS-SPME (Headspace Solid-Phase Microextraction)\n5\tNULL\tHerbarium aDNA + Target Enrichment / Shotgun\n30001\tGC-MS\tChromatographie en phase gazeuse couplée à la spectrométrie de masse\n30002\tPTR-MS\tSpectrométrie de masse à réaction de transfert de proton\n30003\tSMPS\tScanning Mobility Particle Sizer\n30004\tHS-SPME\tHeadspace Solid-Phase Microextraction\n30005\tGCxGC-TOFMS\tTwo-Dimensional GC Time-of-Flight MS\n30006\tFTIR\tFourier Transform Infrared Spectroscopy\n30007\tNMR\tRésonance magnétique nucléaire\n30008\tTGA\tAnalyse thermogravimétrique\n30009\tDSC\tDifferential Scanning Calorimetry\n30010\tHPLC\tChromatographie liquide haute performance\n30011\tUV-Vis\tUV-Visible Spectroscopy\n60001\tIR\tSpectroscopie infrarouge\n60002\tGC-FID\tChromatographie en phase gazeuse avec détecteur à ionisation de flamme\n60003\tGC-O\tChromatographie en phase gazeuse-olfactométrie\n60004\tSPME\tMicroextraction en phase solide\n60005\tHS-GC\tChromatographie en phase gazeuse de l'espace de tête\n",
+  "stderr": "",
+  "execution_time_ms": 159
+}
