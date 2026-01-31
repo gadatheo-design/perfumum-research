@@ -3003,6 +3003,10 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getPlantsWithGPSByCategory(input);
       }),
+    listFamilies: publicProcedure.query(async () => await db.getPlantFamilies()),
+    getByFamily: publicProcedure.input(z.string()).query(async ({ input }) => await db.getPlantsByFamily(input)),
+    getFamilyStats: publicProcedure.query(async () => await db.getPlantFamilyStats()),
+    getFamiliesWithCategories: publicProcedure.query(async () => await db.getPlantFamiliesWithCategories()),
   }),
 
   // ============================================================================

@@ -19034,3 +19034,14 @@ export async function getLandracePyrolysisProfile(landraceName: string) {
   const rows = result[0] as any[];
   return rows[0] || null;
 }
+
+
+export async function getPlantFamiliesWithCategories(): Promise<{family: string; count: number; categories: { category: string; count: number }[]}[]> {
+  const db = await getDb(); if (!db) return [];
+  const familyResult = await db.execute(sql`SELECT family, COUNT(*) as count FROM plants WHERE family IS NOT NULL AND family != '' GROUP BY family ORDER BY count DESC`);
+  const families = (familyResult[0] as any[]).map(r => ({family: r.family as string, count: Number(r.count)}));
+  return await Promise.all(families.map(async ({ family, count }) => {
+    const catResult = await db.execute(sql`SELECT category, COUNT(*) as count FROM plants WHERE family = ${family} GROUP BY category ORDER BY count DESC`);
+    return { family, count, categories: (catResult[0] as any[]).map(r => ({category: r.category as string, count: Number(r.count)})) };
+  }));
+}

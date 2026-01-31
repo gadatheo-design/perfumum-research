@@ -273,6 +273,7 @@ import TerpProfiles from "./pages/TerpProfiles";
 import TerpProfilesCompare from "./pages/TerpProfilesCompare";
 import Plants from "./pages/Plants";
 import PlantVarieties from "./pages/PlantVarieties";
+import PhylogeneticView from "./pages/PhylogeneticView";
 import PlantsHub from "./pages/PlantsHub";
 import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
@@ -826,6 +827,8 @@ function Router() {
       <Route path="/carte-varietes" component={CarteVarietes} />
       <Route path="/carte-origines" component={CarteVarietes} />
       <Route path="/chemotypes" component={Chemotypes} />
+      <Route path="/phylogenetique" component={PhylogeneticView} />
+      <Route path="/phylogenetic" component={PhylogeneticView} />
       <Route path="/plants/new" component={PlantForm} />
       <Route path="/plants/:id/edit" component={PlantForm} />
       <Route path="/plants/:id">

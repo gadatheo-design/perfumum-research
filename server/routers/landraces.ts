@@ -199,4 +199,6 @@ export const landracesRouter = router({
       byCountry: byCountry as { country: string; count: number }[]
     };
   }),
+  enrichTerpenes: publicProcedure.mutation(async () => { const { enrichLandraceTerpenes } = await import('../terpene-enrichment'); return await enrichLandraceTerpenes(); }),
+  getTerpeneStats: publicProcedure.query(async () => { const { getLandraceTerpeneStats } = await import('../terpene-enrichment'); return await getLandraceTerpeneStats(); }),
 });
