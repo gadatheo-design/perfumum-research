@@ -70,6 +70,39 @@ function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; p
   );
 }
 
+// Composant indicateur de statut ChEBI
+function ChEBIStatusBadge({ hasChebi, chebiId }: { hasChebi: boolean; chebiId?: string }) {
+  if (hasChebi && chebiId) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <a 
+              href={`https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${chebiId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex"
+            >
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/50 dark:text-blue-400 dark:border-blue-800 gap-1 cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/50">
+                <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                ChEBI
+              </Badge>
+            </a>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Données validées via ChEBI (ID: {chebiId})</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+  
+  return null; // Pas de badge si pas de données ChEBI
+}
+
 // Composant bouton d'enrichissement PubChem
 function PubChemEnrichButton({ moleculeId, moleculeName }: { moleculeId: number; moleculeName: string }) {
   const { toast } = useToast();
@@ -712,10 +745,14 @@ export default function MoleculeDetail() {
                       </Tooltip>
                     </TooltipProvider>
                   )}
-                  {/* Indicateur de statut PubChem */}
+                  {/* Indicateurs de statut d'enrichissement */}
                   <PubChemStatusBadge 
                     hasPubChem={!!(molecule as any).pubchem_cid} 
                     pubchemCid={(molecule as any).pubchem_cid} 
+                  />
+                  <ChEBIStatusBadge 
+                    hasChebi={!!(molecule as any).chebi_id} 
+                    chebiId={(molecule as any).chebi_id} 
                   />
                 </div>
               </div>

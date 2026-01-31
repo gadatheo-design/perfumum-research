@@ -211,6 +211,9 @@ export const molecules = mysqlTable("molecules", {
   heavyAtomCount: int("heavy_atom_count"), // Heavy atoms (non-hydrogen)
   pubchemSynonyms: json("pubchem_synonyms").$type<string[]>(), // Synonyms from PubChem
   pubchemEnrichedAt: timestamp("pubchem_enriched_at"), // When PubChem data was fetched
+  // ChEBI enrichment data (alternative to PubChem)
+  chebiId: varchar("chebi_id", { length: 50 }), // ChEBI Compound ID (e.g., "CHEBI:28358")
+  chebiEnrichedAt: timestamp("chebi_enriched_at"), // When ChEBI data was fetched
   // Bibliographic references (JSON array)
   references: json("references").$type<{
     author?: string;

@@ -4588,3 +4588,9 @@
 ### MegaMenu et API ChEBI
 - [x] Ajouter lien /enrichissement dans le MegaMenu (section Outils)
 - [x] Intégrer l'API ChEBI pour enrichissement alternatif des molécules non trouvées dans PubChem
+
+
+### Intégration ChEBI complète
+- [x] Ajouter la colonne chebi_id à la table molecules via migration SQL
+- [x] Créer le badge ChEBI sur les fiches molécules (similaire au badge PubChem)
+- [x] Implémenter le fallback automatique PubChem → ChEBI

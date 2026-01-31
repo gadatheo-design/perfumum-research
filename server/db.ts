@@ -19145,6 +19145,7 @@ export async function getSmilesStats(): Promise<{
 // === ENRICHISSEMENT PUBCHEM INDIVIDUEL (avec traduction FR→EN) ===
 
 import { enrichMoleculeWithTranslation } from './pubchem';
+import { enrichMoleculeWithTranslationChEBI } from './chebi';
 
 export async function enrichMoleculeFromPubChemWithTranslation(moleculeId: number): Promise<{
   success: boolean;
@@ -19182,9 +19183,49 @@ export async function enrichMoleculeFromPubChemWithTranslation(moleculeId: numbe
   const result = await enrichMoleculeWithTranslation(molecule.name);
   
   if (!result.success || !result.pubchemCID) {
+    // Fallback vers ChEBI si PubChem échoue
+    console.log(`[PubChem] Échec pour "${molecule.name}", tentative via ChEBI...`);
+    const chebiResult = await enrichMoleculeWithTranslationChEBI(molecule.name);
+    
+    if (chebiResult.success && chebiResult.chebiId) {
+      // Mettre à jour avec les données ChEBI
+      await db.execute(`
+        UPDATE molecules SET
+          chebi_id = ?,
+          smiles = COALESCE(smiles, ?),
+          inchi = COALESCE(inchi, ?),
+          inchi_key = COALESCE(inchi_key, ?),
+          chemicalFormula = COALESCE(chemicalFormula, ?),
+          molecularWeight = COALESCE(molecularWeight, ?),
+          chebi_enriched_at = NOW()
+        WHERE id = ?
+      `, [
+        chebiResult.chebiId,
+        chebiResult.smiles || null,
+        chebiResult.inchi || null,
+        chebiResult.inchiKey || null,
+        chebiResult.formula || null,
+        chebiResult.mass || null,
+        moleculeId
+      ]);
+      
+      return {
+        success: true,
+        message: `Molécule enrichie via ChEBI (fallback) - ID: ${chebiResult.chebiId}`,
+        data: {
+          pubchemCid: 0, // Pas de PubChem CID
+          smiles: chebiResult.smiles,
+          casNumber: undefined,
+          iupacName: undefined,
+          molecularWeight: chebiResult.mass,
+          molecularFormula: chebiResult.formula
+        }
+      };
+    }
+    
     return { 
       success: false, 
-      message: result.error || 'Molécule non trouvée dans PubChem'
+      message: result.error || 'Molécule non trouvée dans PubChem ni ChEBI'
     };
   }
   
@@ -19265,8 +19306,6 @@ export async function getUnenrichedMolecules(limit: number = 50): Promise<Array<
 
 
 // === ENRICHISSEMENT ChEBI (Alternative à PubChem) ===
-
-import { enrichMoleculeWithTranslationChEBI } from './chebi';
 
 export async function enrichMoleculeFromChEBIWithTranslation(moleculeId: number): Promise<{
   success: boolean;
