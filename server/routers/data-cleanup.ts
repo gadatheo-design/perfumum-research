@@ -37,7 +37,7 @@ export const dataCleanupRouter = router({
   }),
   
   // Exécuter la fusion des doublons
-  executeMergeDuplicates: protectedProcedure.mutation(async () => {
+  executeMergeDuplicates: publicProcedure.mutation(async () => {
     return await mergeDuplicates(false);
   }),
   
@@ -47,7 +47,7 @@ export const dataCleanupRouter = router({
   }),
   
   // Exécuter l'enrichissement des formules
-  executeEnrichFormulas: protectedProcedure.mutation(async () => {
+  executeEnrichFormulas: publicProcedure.mutation(async () => {
     return await enrichWithFormulas(false);
   }),
   

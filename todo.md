@@ -4785,3 +4785,25 @@
 - [x] API pour identifier molécules sans plantes (399 identifiées)
 - [x] API pour identifier plantes sans molécules (154 identifiées)
 - [x] Tests unitaires pour le service d'analyse des liaisons (9 tests)
+
+
+---
+
+## Session 1 Février 2026 - Exécution nettoyage et interface admin
+
+### Nettoyage des doublons
+- [x] Exécuter la fusion des molécules dupliquées (9 groupes traités, 5 fusionnés)
+- [x] Vérifier l'intégrité des liaisons après fusion
+- [x] Confirmer la réduction du nombre de molécules (708 → 685)
+
+### Enrichissement des formules
+- [x] Exécuter l'enrichissement automatique des 24 molécules
+- [x] Vérifier les formules et SMILES ajoutés
+- [x] Mettre à jour les statistiques de couverture
+
+### Interface admin /admin/data-quality
+- [x] Créer la page avec statistiques de qualité des données
+- [x] Ajouter les boutons d'exécution du nettoyage
+- [x] Ajouter les boutons d'enrichissement
+- [x] Afficher les lacunes (molécules sans liaisons)
+- [x] Tests de l'interface (19 tests passés)

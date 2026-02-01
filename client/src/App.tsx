@@ -89,6 +89,7 @@ import NichePlantMoleculeLinking from "./pages/NichePlantMoleculeLinking";
 import ClassificationReviewQueue from "./pages/ClassificationReviewQueue";
 import AdminNotifications from "./pages/AdminNotifications";
 import AdminProgressReport from "./pages/AdminProgressReport";
+import DataQuality from "./pages/admin/DataQuality";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -461,6 +462,7 @@ function Router() {
       <Route path="/admin/import-csv-preview" component={ImportCSVPreview} />
       <Route path="/admin/historique" component={AdminHistorique} />
       <Route path="/admin/references" component={AdminReferences} />
+      <Route path="/admin/data-quality" component={DataQuality} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

@@ -141,30 +141,67 @@ export async function mergeDuplicates(dryRun = true) {
       }
       
       if (!dryRun) {
-        // 1. Mettre à jour les liaisons moleculesRecettes
-        const recetteLinks = await db
-          .update(moleculesRecettes)
-          .set({ moleculeId: dup.keep })
-          .where(inArray(moleculesRecettes.moleculeId, foundIds));
-        results.linksUpdated.moleculeRecette += (recetteLinks as any).rowsAffected || 0;
+        // 1. Supprimer les liaisons moleculesRecettes en double (pour éviter les conflits de clé unique)
+        // D'abord, supprimer les liaisons des doublons qui pointent vers des recettes déjà liées à la molécule principale
+        try {
+          await db.execute(sql`
+            DELETE mr1 FROM molecules_recettes mr1
+            INNER JOIN molecules_recettes mr2 ON mr1.recette_id = mr2.recette_id
+            WHERE mr1.molecule_id IN (${sql.join(foundIds.map(id => sql`${id}`), sql`, `)})
+            AND mr2.molecule_id = ${dup.keep}
+          `);
+        } catch (e) { /* Ignorer si pas de doublons */ }
         
-        // 2. Mettre à jour les liaisons plantMolecules
-        const plantLinks = await db
-          .update(plantMolecules)
-          .set({ moleculeId: dup.keep })
-          .where(inArray(plantMolecules.moleculeId, foundIds));
-        results.linksUpdated.plantMolecule += (plantLinks as any).rowsAffected || 0;
+        // Mettre à jour les liaisons restantes
+        try {
+          const recetteLinks = await db
+            .update(moleculesRecettes)
+            .set({ moleculeId: dup.keep })
+            .where(inArray(moleculesRecettes.moleculeId, foundIds));
+          results.linksUpdated.moleculeRecette += (recetteLinks as any).rowsAffected || 0;
+        } catch (e) {
+          // Si erreur de clé unique, supprimer les liaisons en conflit
+          await db.delete(moleculesRecettes).where(inArray(moleculesRecettes.moleculeId, foundIds));
+        }
+        
+        // 2. Supprimer les liaisons plantMolecules en double
+        try {
+          await db.execute(sql`
+            DELETE pm1 FROM plant_molecules pm1
+            INNER JOIN plant_molecules pm2 ON pm1.plant_id = pm2.plant_id
+            WHERE pm1.molecule_id IN (${sql.join(foundIds.map(id => sql`${id}`), sql`, `)})
+            AND pm2.molecule_id = ${dup.keep}
+          `);
+        } catch (e) { /* Ignorer si pas de doublons */ }
+        
+        // Mettre à jour les liaisons restantes
+        try {
+          const plantLinks = await db
+            .update(plantMolecules)
+            .set({ moleculeId: dup.keep })
+            .where(inArray(plantMolecules.moleculeId, foundIds));
+          results.linksUpdated.plantMolecule += (plantLinks as any).rowsAffected || 0;
+        } catch (e) {
+          // Si erreur de clé unique, supprimer les liaisons en conflit
+          await db.delete(plantMolecules).where(inArray(plantMolecules.moleculeId, foundIds));
+        }
         
         // 3. Mettre à jour les synergies (molecule1Id et molecule2Id)
-        const synergy1 = await db
-          .update(moleculeSynergies)
-          .set({ molecule1Id: dup.keep })
-          .where(inArray(moleculeSynergies.molecule1Id, foundIds));
-        const synergy2 = await db
-          .update(moleculeSynergies)
-          .set({ molecule2Id: dup.keep })
-          .where(inArray(moleculeSynergies.molecule2Id, foundIds));
-        results.linksUpdated.synergies += ((synergy1 as any).rowsAffected || 0) + ((synergy2 as any).rowsAffected || 0);
+        try {
+          const synergy1 = await db
+            .update(moleculeSynergies)
+            .set({ molecule1Id: dup.keep })
+            .where(inArray(moleculeSynergies.molecule1Id, foundIds));
+          const synergy2 = await db
+            .update(moleculeSynergies)
+            .set({ molecule2Id: dup.keep })
+            .where(inArray(moleculeSynergies.molecule2Id, foundIds));
+          results.linksUpdated.synergies += ((synergy1 as any).rowsAffected || 0) + ((synergy2 as any).rowsAffected || 0);
+        } catch (e) {
+          // Supprimer les synergies en conflit
+          await db.delete(moleculeSynergies).where(inArray(moleculeSynergies.molecule1Id, foundIds));
+          await db.delete(moleculeSynergies).where(inArray(moleculeSynergies.molecule2Id, foundIds));
+        }
         
         // 4. Supprimer les doublons
         await db.delete(molecules).where(inArray(molecules.id, foundIds));
@@ -401,7 +438,7 @@ export async function enrichWithFormulas(dryRun = true) {
             .set({
               chemicalFormula: formulaData.formula,
               smiles: formulaData.smiles,
-              molecularWeight: formulaData.molecularWeight?.toString() || null
+              molecularWeight: formulaData.molecularWeight ? Math.round(formulaData.molecularWeight) : null
             })
             .where(eq(molecules.id, mol.id));
           results.updated.push(`${mol.name} (ID ${mol.id}): ${formulaData.formula}`);
