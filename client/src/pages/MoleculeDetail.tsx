@@ -18,6 +18,7 @@ import { LinkedRecettes, SimilarContent } from "@/components/SeeAlso";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import { AIClassificationSuggestion } from "@/components/AIClassificationSuggestion";
 import { MoleculeAnalyticalMethods } from "@/components/MoleculeAnalyticalMethods";
+import { IFRAStatusBadge } from "@/components/IFRAStatusBadge";
 
 // Composant indicateur de statut PubChem
 function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; pubchemCid?: number }) {
@@ -753,6 +754,12 @@ export default function MoleculeDetail() {
                   <ChEBIStatusBadge 
                     hasChebi={!!(molecule as any).chebi_id} 
                     chebiId={(molecule as any).chebi_id} 
+                  />
+                  {/* Badge IFRA pour le statut réglementaire */}
+                  <IFRAStatusBadge 
+                    status={(molecule as any).ifra_status} 
+                    maxPercent={(molecule as any).ifra_max_percent}
+                    reason={(molecule as any).ifra_reason}
                   />
                 </div>
               </div>

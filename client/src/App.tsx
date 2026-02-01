@@ -278,6 +278,7 @@ import FamilyDetail from "./pages/FamilyDetail";
 import SmilesViewer from "./pages/SmilesViewer";
 import EnrichmentDashboard from "./pages/EnrichmentDashboard";
 import IFRACompliance from "./pages/IFRACompliance";
+import PerceptSearch from "./pages/PerceptSearch";
 import PlantsHub from "./pages/PlantsHub";
 import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
@@ -840,6 +841,8 @@ function Router() {
       <Route path="/enrichment" component={EnrichmentDashboard} />
       <Route path="/ifra" component={IFRACompliance} />
       <Route path="/conformite-ifra" component={IFRACompliance} />
+      <Route path="/percepts" component={PerceptSearch} />
+      <Route path="/recherche-percepts" component={PerceptSearch} />
       <Route path="/plants/new" component={PlantForm} />
       <Route path="/plants/:id/edit" component={PlantForm} />
       <Route path="/plants/:id">

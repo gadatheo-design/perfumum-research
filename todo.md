@@ -1,6 +1,6 @@
 # PERFUMUM — TODO
 
-> **Dernière mise à jour** : 29 janvier 2026
+> **Dernière mise à jour** : 1 février 2026
 > **Archive des sessions précédentes** : `todo-archive-2026-01-08.md` (116 sessions, 1577 tâches complétées)
 
 ---
@@ -96,6 +96,13 @@
 - [x] Ajouter le méthyl-eugénol aux restrictions IFRA (déjà présent - 49th Amendment, 0.0002%)
 - [x] Ajouter le bergaptène aux restrictions IFRA (déjà présent - 49th Amendment, 0.0015%)
 - [x] Écrire les tests unitaires pour les procédures IFRA (`ifra.test.ts` - 22 tests)
+- [x] Ajouter les badges IFRA sur les fiches molécules individuelles (`IFRAStatusBadge.tsx`)
+
+### Descripteurs olfactifs Flavornet
+- [x] Intégrer le service Flavornet avec base de données locale (81 composés, 92 percepts)
+- [x] Enrichir 209 molécules avec descripteurs olfactifs et indices Kovats (30%)
+- [x] Créer la page de recherche par percept olfactif (`/percepts`)
+- [ ] Enrichir la base Flavornet avec plus de composés (objectif: 200+)
 
 ---
 
