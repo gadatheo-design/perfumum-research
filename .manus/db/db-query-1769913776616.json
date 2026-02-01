@@ -1,0 +1,546 @@
+{
+  "query": "DESCRIBE molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE molecules;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int(11)",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "formula",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "chemicalFamily",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "olfactiveProfile",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "functionalEffect",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "threshold",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "toxicityRemarks",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "createdAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updatedAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "family",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "chemicalFormula",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "emotionalResonance",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "sourceOrigin",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "concentration",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "emotion",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "molecularWeight",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "boilingPoint",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "logP",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "volatility",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "intensity",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "complexity",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "botanicalSources",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "extractionMethod",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "therapeuticProperties",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_intensity",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_freshness",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_warmth",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_sweetness",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_spiciness",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "radar_earthiness",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "references",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "iupac_name",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "cas_number",
+      "Type": "varchar(20)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "chemical_class",
+      "Type": "enum('terpene','sesquiterpene','diterpene','monoterpene','aldehyde','ketone','alcohol','ester','ether','phenol','lactone','coumarin','musk','nitrile','sulfur_compound','heterocyclic','aromatic','aliphatic','other')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "status",
+      "Type": "enum('draft','pending','validated','rejected')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "validated",
+      "Extra": ""
+    },
+    {
+      "Field": "validation_status",
+      "Type": "enum('brouillon','en_revision','valide','rejete')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "valide",
+      "Extra": ""
+    },
+    {
+      "Field": "validated_by",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "validated_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "contributor_id",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pubchem_cid",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "smiles",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "inchi",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "inchi_key",
+      "Type": "varchar(27)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "exact_mass",
+      "Type": "decimal(12,6)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "xlogp",
+      "Type": "decimal(6,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "tpsa",
+      "Type": "decimal(8,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "h_bond_donor_count",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "h_bond_acceptor_count",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "rotatable_bond_count",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "heavy_atom_count",
+      "Type": "int(11)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pubchem_synonyms",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pubchem_enriched_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "chebi_id",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "chebi_enriched_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "coconut_id",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "np_likeness_score",
+      "Type": "decimal(10,4)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "coconut_organisms",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "coconut_citations",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "coconut_enriched_at",
+      "Type": "datetime",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "ifra_status",
+      "Type": "enum('not_regulated','banned','restricted','specification_required')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "not_regulated",
+      "Extra": ""
+    },
+    {
+      "Field": "ifra_data",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "ifra_enriched_at",
+      "Type": "datetime",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "flavornet_percepts",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "flavornet_kovats_ri",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "flavornet_enriched_at",
+      "Type": "datetime",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint(11)\tNO\tPRI\tNULL\tauto_increment\nname\tvarchar(255)\tNO\t\tNULL\t\nformula\tvarchar(100)\tYES\t\tNULL\t\nchemicalFamily\ttext\tYES\t\tNULL\t\nolfactiveProfile\ttext\tYES\t\tNULL\t\nfunctionalEffect\ttext\tYES\t\tNULL\t\nthreshold\tvarchar(50)\tYES\t\tNULL\t\ntoxicityRemarks\ttext\tYES\t\tNULL\t\ncreatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\nfamily\ttext\tYES\t\tNULL\t\nchemicalFormula\tvarchar(100)\tYES\t\tNULL\t\nemotionalResonance\ttext\tYES\t\tNULL\t\nsourceOrigin\ttext\tYES\t\tNULL\t\nconcentration\tvarchar(100)\tYES\t\tNULL\t\nnotes\ttext\tYES\t\tNULL\t\nemotion\ttext\tYES\t\tNULL\t\nmolecularWeight\tint(11)\tYES\t\tNULL\t\nboilingPoint\tint(11)\tYES\t\tNULL\t\nlogP\tint(11)\tYES\t\tNULL\t\nvolatility\tint(11)\tYES\t\tNULL\t\nintensity\tint(11)\tYES\t\tNULL\t\ncomplexity\tint(11)\tYES\t\tNULL\t\nbotanicalSources\ttext\tYES\t\tNULL\t\nextractionMethod\ttext\tYES\t\tNULL\t\ntherapeuticProperties\ttext\tYES\t\tNULL\t\nradar_intensity\tint(11)\tYES\t\t50\t\nradar_freshness\tint(11)\tYES\t\t50\t\nradar_warmth\tint(11)\tYES\t\t50\t\nradar_sweetness\tint(11)\tYES\t\t50\t\nradar_spiciness\tint(11)\tYES\t\t50\t\nradar_earthiness\tint(11)\tYES\t\t50\t\nreferences\tjson\tYES\t\tNULL\t\niupac_name\tvarchar(500)\tYES\t\tNULL\t\ncas_number\tvarchar(20)\tYES\t\tNULL\t\nchemical_class\tenum('terpene','sesquiterpene','diterpene','monoterpene','aldehyde','ketone','alcohol','ester','ether','phenol','lactone','coumarin','musk','nitrile','sulfur_compound','heterocyclic','aromatic','aliphatic','other')\tYES\t\tNULL\t\nstatus\tenum('draft','pending','validated','rejected')\tYES\t\tvalidated\t\nvalidation_status\tenum('brouillon','en_revision','valide','rejete')\tYES\t\tvalide\t\nvalidated_by\tint(11)\tYES\t\tNULL\t\nvalidated_at\ttimestamp\tYES\t\tNULL\t\ncontributor_id\tint(11)\tYES\t\tNULL\t\npubchem_cid\tint(11)\tYES\t\tNULL\t\nsmiles\ttext\tYES\t\tNULL\t\ninchi\ttext\tYES\t\tNULL\t\ninchi_key\tvarchar(27)\tYES\t\tNULL\t\nexact_mass\tdecimal(12,6)\tYES\t\tNULL\t\nxlogp\tdecimal(6,2)\tYES\t\tNULL\t\ntpsa\tdecimal(8,2)\tYES\t\tNULL\t\nh_bond_donor_count\tint(11)\tYES\t\tNULL\t\nh_bond_acceptor_count\tint(11)\tYES\t\tNULL\t\nrotatable_bond_count\tint(11)\tYES\t\tNULL\t\nheavy_atom_count\tint(11)\tYES\t\tNULL\t\npubchem_synonyms\tjson\tYES\t\tNULL\t\npubchem_enriched_at\ttimestamp\tYES\t\tNULL\t\nchebi_id\tvarchar(50)\tYES\t\tNULL\t\nchebi_enriched_at\ttimestamp\tYES\t\tNULL\t\ncoconut_id\tvarchar(100)\tYES\t\tNULL\t\nnp_likeness_score\tdecimal(10,4)\tYES\t\tNULL\t\ncoconut_organisms\tjson\tYES\t\tNULL\t\ncoconut_citations\tjson\tYES\t\tNULL\t\ncoconut_enriched_at\tdatetime\tYES\t\tNULL\t\nifra_status\tenum('not_regulated','banned','restricted','specification_required')\tYES\t\tnot_regulated\t\nifra_data\tjson\tYES\t\tNULL\t\nifra_enriched_at\tdatetime\tYES\t\tNULL\t\nflavornet_percepts\tjson\tYES\t\tNULL\t\nflavornet_kovats_ri\tjson\tYES\t\tNULL\t\nflavornet_enriched_at\tdatetime\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}
