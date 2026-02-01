@@ -12,7 +12,7 @@
 |--------|----------|----------|
 | Molécules | ~699 | 50% liées aux recettes |
 | Recettes | ~266 | 93% avec molécules |
-| Plantes | ~144 | 19.4% liées aux terroirs |
+| Plantes | ~258 | 96.9% liées aux molécules |
 | Terroirs | ~29 | 65.5% avec plantes |
 | Accords | ~30 | - |
 | Familles olfactives | ~12 | - |
@@ -25,10 +25,11 @@
 ### Qualité des données scientifiques
 | Champ | Rempli | Manquant |
 |-------|--------|----------|
-| CAS Number | 25% | 75% |
+| CAS Number | 59.9% | 40.1% |
 | Nom IUPAC | 18% | 82% |
-| Classe chimique | 28% | 72% |
-| Formule | 66% | 34% |
+| Classe chimique | 64% | 36% |
+| Formule | 71.4% | 28.6% |
+| SMILES | 28.3% | 71.7% |
 | Profil olfactif | 94% | 6% |
 
 ---
@@ -4951,4 +4952,48 @@
 - [x] Enrichir les structures SMILES (8.2% → 28.3%, +138 molécules)
 - [x] Compléter les numéros CAS (58% → 59.9%, +13 molécules)
 - [x] Base de référence étendue à 350+ entrées
+
+
+
+---
+
+## 🔧 SESSION 1 Février 2026 - Extension compositions et affichage galerie
+
+### Extension base de compositions chimiques
+- [ ] Identifier les 125 plantes restantes sans liaisons moléculaires
+- [ ] Ajouter les compositions chimiques documentées
+- [ ] Exécuter l'enrichissement automatique
+- [ ] Objectif : atteindre 80%+ de couverture plantes-molécules
+
+### Affichage lien plante sur images galerie
+- [ ] Ajouter l'affichage du nom de la plante associée sur chaque image
+- [ ] Créer un lien cliquable vers la fiche plante
+- [ ] Tester l'affichage dans les vues grille et liste
+
+---
+
+## 📊 SESSION 1er FÉVRIER 2026 — Enrichissement des compositions chimiques
+
+### Enrichissement des plantes (Objectif 80%+ atteint ✅)
+- [x] Étendre la base de compositions chimiques de 22 à 225 plantes documentées
+- [x] Ajouter les compositions des cannabis landraces (18 variétés)
+- [x] Ajouter les compositions des tabacs spéciaux (9 variétés)
+- [x] Ajouter les compositions des plantes ethnobotaniques (15+ plantes)
+- [x] Ajouter les compositions des résines et bois précieux (12+ plantes)
+- [x] Ajouter les compositions des plantes mexicaines et sud-américaines (25+ plantes)
+- [x] Exécuter l'enrichissement automatique : 53 plantes enrichies, 98 liens créés
+- [x] Couverture plantes-molécules : 51.6% → 96.9% (250/258 plantes)
+
+### Amélioration de la galerie botanique
+- [x] Ajouter l'affichage du lien vers la plante associée dans les cartes (vue grille)
+- [x] Ajouter l'affichage du lien vers la plante associée dans les cartes (vue liste)
+- [x] Ajouter l'affichage du lien vers la plante associée dans le lightbox
+
+### Statistiques finales
+| Métrique | Avant | Après | Progression |
+|----------|-------|-------|-------------|
+| Plantes documentées | 22 | 225 | +923% |
+| Plantes avec molécules | 133 | 250 | +88% |
+| Couverture plantes-molécules | 51.6% | 96.9% | +45.3 pts |
+| Liens plantes-molécules créés | - | 98 | - |
 

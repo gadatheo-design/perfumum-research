@@ -1,0 +1,510 @@
+{
+  "query": "SELECT p.name, p.latin_name \nFROM plants p \nWHERE p.id NOT IN (SELECT DISTINCT plant_id FROM plant_molecules) \nORDER BY p.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.name, p.latin_name \nFROM plants p \nWHERE p.id NOT IN (SELECT DISTINCT plant_id FROM plant_molecules) \nORDER BY p.name;",
+  "rows": [
+    {
+      "name": "Aframomum melegueta (grains of paradise)",
+      "latin_name": "Aframomum melegueta"
+    },
+    {
+      "name": "Ahuehuete",
+      "latin_name": "Taxodium mucronatum"
+    },
+    {
+      "name": "Ambergris (matière patrimoniale)",
+      "latin_name": "Physeter macrocephalus (source indirecte)"
+    },
+    {
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)",
+      "latin_name": "Physeter macrocephalus"
+    },
+    {
+      "name": "Ambil",
+      "latin_name": "Nicotiana tabacum (préparation)"
+    },
+    {
+      "name": "Anadenanthera colubrina",
+      "latin_name": "Anadenanthera colubrina (Vell.) Brenan"
+    },
+    {
+      "name": "Anadenanthera peregrina",
+      "latin_name": "Anadenanthera peregrina (L.) Speg."
+    },
+    {
+      "name": "Angélique",
+      "latin_name": "Angelica archangelica"
+    },
+    {
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora"
+    },
+    {
+      "name": "Anis vert",
+      "latin_name": "Pimpinella anisum"
+    },
+    {
+      "name": "Aquilaria",
+      "latin_name": "Aquilaria malaccensis"
+    },
+    {
+      "name": "Argemone mexicana",
+      "latin_name": "Argemone mexicana L."
+    },
+    {
+      "name": "Armoise",
+      "latin_name": "Artemisia vulgaris"
+    },
+    {
+      "name": "Attalea speciosa",
+      "latin_name": "Attalea speciosa Mart. ex Spreng."
+    },
+    {
+      "name": "Banisteriopsis caapi",
+      "latin_name": "Banisteriopsis caapi (Spruce ex Griseb.) C.V.Morton"
+    },
+    {
+      "name": "Benjoin",
+      "latin_name": "Styrax benzoin"
+    },
+    {
+      "name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna"
+    },
+    {
+      "name": "Bois de rose (lutherie) — Dalbergia nigra (CITES)",
+      "latin_name": "Dalbergia nigra"
+    },
+    {
+      "name": "Bursera bipinnata",
+      "latin_name": "Bursera bipinnata (DC.) Engl."
+    },
+    {
+      "name": "Bursera copallifera",
+      "latin_name": "Bursera copallifera (DC.) Bullock"
+    },
+    {
+      "name": "Bursera graveolens",
+      "latin_name": "Bursera graveolens (Kunth) Triana & Planch."
+    },
+    {
+      "name": "Cacaloxochitl",
+      "latin_name": "Plumeria rubra"
+    },
+    {
+      "name": "Calamus (Acore)",
+      "latin_name": "Acorus calamus"
+    },
+    {
+      "name": "Cambodian",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Camphrier",
+      "latin_name": "Cinnamomum camphora"
+    },
+    {
+      "name": "Cassie",
+      "latin_name": "Acacia farnesiana"
+    },
+    {
+      "name": "Costus",
+      "latin_name": "Saussurea costus"
+    },
+    {
+      "name": "Croton lechleri",
+      "latin_name": "Croton lechleri Müll.Arg."
+    },
+    {
+      "name": "Datura stramonium",
+      "latin_name": "Datura stramonium L."
+    },
+    {
+      "name": "Epazote",
+      "latin_name": "Dysphania ambrosioides"
+    },
+    {
+      "name": "Ethiopian Highland",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Ferula galbaniflua (galbanum)",
+      "latin_name": "Ferula galbaniflua"
+    },
+    {
+      "name": "Flor de Manita",
+      "latin_name": "Chiranthodendron pentadactylon"
+    },
+    {
+      "name": "Galbanum",
+      "latin_name": "Ferula gummosa"
+    },
+    {
+      "name": "Gaïac — Guaiacum sanctum (proxy)",
+      "latin_name": "Guaiacum sanctum"
+    },
+    {
+      "name": "Genêt",
+      "latin_name": "Spartium junceum"
+    },
+    {
+      "name": "Gomme arabique — Senegalia senegal (filière fragile)",
+      "latin_name": "Senegalia senegal"
+    },
+    {
+      "name": "Hawaiian",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Heimia salicifolia",
+      "latin_name": "Heimia salicifolia (Kunth) Link"
+    },
+    {
+      "name": "Hindu Kush",
+      "latin_name": "Cannabis indica var. Hindu Kush"
+    },
+    {
+      "name": "Hoja Santa",
+      "latin_name": "Piper auritum"
+    },
+    {
+      "name": "Hule",
+      "latin_name": "Castilla elastica"
+    },
+    {
+      "name": "Idukki Gold",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Kandahar",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Kanna",
+      "latin_name": "Sceletium tortuosum"
+    },
+    {
+      "name": "Kerala Gold",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Ketama",
+      "latin_name": "Cannabis sativa var. Ketama"
+    },
+    {
+      "name": "Kilimanjaro",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Klip Dagga",
+      "latin_name": "Leonotis nepetifolia"
+    },
+    {
+      "name": "Labdanum",
+      "latin_name": "Cistus ladanifer"
+    },
+    {
+      "name": "Lamb's Bread",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Latakia",
+      "latin_name": "Nicotiana tabacum var. Latakia"
+    },
+    {
+      "name": "Laurier noble",
+      "latin_name": "Laurus nobilis"
+    },
+    {
+      "name": "Lippia graveolens",
+      "latin_name": "Lippia graveolens Kunth"
+    },
+    {
+      "name": "Liquidambar styraciflua",
+      "latin_name": "Liquidambar styraciflua L."
+    },
+    {
+      "name": "Lophophora williamsii",
+      "latin_name": "Lophophora williamsii (Lem. ex Salm-Dyck) J.M.Coult."
+    },
+    {
+      "name": "Lotus Bleu",
+      "latin_name": "Nymphaea caerulea"
+    },
+    {
+      "name": "Malana Cream",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Malawi Gold",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Mapacho",
+      "latin_name": "Nicotiana rustica"
+    },
+    {
+      "name": "Maui Wowie",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Mazar-i-Sharif",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Mimosa ophthalmocentra",
+      "latin_name": "Mimosa ophthalmocentra Mart. ex Benth."
+    },
+    {
+      "name": "Mimosa tenuiflora",
+      "latin_name": "Mimosa tenuiflora (Willd.) Poir."
+    },
+    {
+      "name": "Musk deer (musc naturel) — Moschus moschiferus (CITES)",
+      "latin_name": "Moschus moschiferus"
+    },
+    {
+      "name": "Musk mallow (Malva moschata) — note patrimoniale",
+      "latin_name": "Malva moschata"
+    },
+    {
+      "name": "Myroxylon balsamum",
+      "latin_name": "Myroxylon balsamum (L.) Harms"
+    },
+    {
+      "name": "Myrte",
+      "latin_name": "Myrtus communis"
+    },
+    {
+      "name": "Niaouli",
+      "latin_name": "Melaleuca quinquenervia"
+    },
+    {
+      "name": "Nicotiana benthamiana",
+      "latin_name": "Nicotiana benthamiana"
+    },
+    {
+      "name": "Nicotiana sylvestris",
+      "latin_name": "Nicotiana sylvestris"
+    },
+    {
+      "name": "Nicotiana tomentosiformis",
+      "latin_name": "Nicotiana tomentosiformis"
+    },
+    {
+      "name": "Nymphaea ampla",
+      "latin_name": "Nymphaea ampla (Salisb.) DC."
+    },
+    {
+      "name": "Ocote",
+      "latin_name": "Pinus montezumae"
+    },
+    {
+      "name": "Opoponax (Myrrhe douce)",
+      "latin_name": "Commiphora guidottii"
+    },
+    {
+      "name": "Oriental Katerini",
+      "latin_name": "Nicotiana tabacum var. Katerini"
+    },
+    {
+      "name": "Origan Mexicain",
+      "latin_name": "Lippia graveolens"
+    },
+    {
+      "name": "Pakistani Kush",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Palo santo (Gran Chaco) — Bulnesia sarmientoi (CITES)",
+      "latin_name": "Bulnesia sarmientoi"
+    },
+    {
+      "name": "Panama Red",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Parkia biglobosa (néré)",
+      "latin_name": "Parkia biglobosa"
+    },
+    {
+      "name": "Passiflore",
+      "latin_name": "Passiflora incarnata"
+    },
+    {
+      "name": "Perique",
+      "latin_name": "Nicotiana tabacum var. Perique"
+    },
+    {
+      "name": "Piper auritum",
+      "latin_name": "Piper auritum Kunth"
+    },
+    {
+      "name": "Pipiltzintzintli / Salvia divinorum",
+      "latin_name": "Salvia divinorum"
+    },
+    {
+      "name": "Pistacia lentiscus (mastic)",
+      "latin_name": "Pistacia lentiscus"
+    },
+    {
+      "name": "Poleo",
+      "latin_name": "Mentha pulegium"
+    },
+    {
+      "name": "Polianthes tuberosa",
+      "latin_name": "Polianthes tuberosa L."
+    },
+    {
+      "name": "Protium heptaphyllum",
+      "latin_name": "Protium heptaphyllum (Aubl.) Marchand"
+    },
+    {
+      "name": "Protium spp. (copal)",
+      "latin_name": "Protium sp."
+    },
+    {
+      "name": "Psychotria viridis",
+      "latin_name": "Psychotria viridis Ruiz & Pav."
+    },
+    {
+      "name": "Quararibea funebris",
+      "latin_name": "Quararibea funebris (La Llave) Vischer"
+    },
+    {
+      "name": "Ruda",
+      "latin_name": "Ruta graveolens"
+    },
+    {
+      "name": "Réglisse",
+      "latin_name": "Glycyrrhiza glabra"
+    },
+    {
+      "name": "Salvia divinorum",
+      "latin_name": "Salvia divinorum Epling & Játiva"
+    },
+    {
+      "name": "Salvia officinalis (sauge)",
+      "latin_name": "Salvia officinalis"
+    },
+    {
+      "name": "Sandalwood australien",
+      "latin_name": "Santalum spicatum"
+    },
+    {
+      "name": "Sapin baumier",
+      "latin_name": "Abies balsamea"
+    },
+    {
+      "name": "Silphium",
+      "latin_name": "Ferula drudeana (probable)"
+    },
+    {
+      "name": "Silphium (plante antique disparue)",
+      "latin_name": "Silphium sp. (extinct)"
+    },
+    {
+      "name": "Silphium sp.",
+      "latin_name": "Silphium sp."
+    },
+    {
+      "name": "Sinicuichi",
+      "latin_name": "Heimia salicifolia"
+    },
+    {
+      "name": "Styrax benzoin (benjoin)",
+      "latin_name": "Styrax tonkinensis / benzoin"
+    },
+    {
+      "name": "Styrax liquide",
+      "latin_name": "Liquidambar orientalis"
+    },
+    {
+      "name": "Swazi Gold",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Tagetes lucida",
+      "latin_name": "Tagetes lucida Cav."
+    },
+    {
+      "name": "Tepezcohuite",
+      "latin_name": "Mimosa tenuiflora"
+    },
+    {
+      "name": "Test Plant 1",
+      "latin_name": "Testus plantus"
+    },
+    {
+      "name": "Test Resin Plant",
+      "latin_name": "Testus resinus"
+    },
+    {
+      "name": "Test Wind Plant",
+      "latin_name": "Testus ventus"
+    },
+    {
+      "name": "Thai Stick",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "name": "Theobroma bicolor",
+      "latin_name": "Theobroma bicolor Bonpl."
+    },
+    {
+      "name": "Toloache",
+      "latin_name": "Datura stramonium"
+    },
+    {
+      "name": "Turbina corymbosa",
+      "latin_name": "Turbina corymbosa (L.) Raf."
+    },
+    {
+      "name": "Uncaria tomentosa",
+      "latin_name": "Uncaria tomentosa (Willd. ex Schult.) DC."
+    },
+    {
+      "name": "Valériane mexicaine",
+      "latin_name": "Valeriana edulis"
+    },
+    {
+      "name": "Vanilla planifolia",
+      "latin_name": "Vanilla planifolia Jacks. ex Andrews"
+    },
+    {
+      "name": "Virola theiodora",
+      "latin_name": "Virola theiodora (Spruce ex Benth.) Warb."
+    },
+    {
+      "name": "Vitellaria paradoxa (karité)",
+      "latin_name": "Vitellaria paradoxa"
+    },
+    {
+      "name": "Wild Dagga",
+      "latin_name": "Leonotis leonurus"
+    },
+    {
+      "name": "Wild tobacco",
+      "latin_name": "Nicotiana attenuata"
+    },
+    {
+      "name": "Yarumo (Cetico)",
+      "latin_name": "Cecropia peltata"
+    },
+    {
+      "name": "Yenidje",
+      "latin_name": "Nicotiana tabacum var. Yenidje"
+    },
+    {
+      "name": "Yoloxóchitl",
+      "latin_name": "Talauma mexicana"
+    },
+    {
+      "name": "Élémi",
+      "latin_name": "Canarium luzonicum"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tlatin_name\nAframomum melegueta (grains of paradise)\tAframomum melegueta\nAhuehuete\tTaxodium mucronatum\nAmbergris (matière patrimoniale)\tPhyseter macrocephalus (source indirecte)\nAmbergris (patrimoine) — Physeter macrocephalus (échouages)\tPhyseter macrocephalus\nAmbil\tNicotiana tabacum (préparation)\nAnadenanthera colubrina\tAnadenanthera colubrina (Vell.) Brenan\nAnadenanthera peregrina\tAnadenanthera peregrina (L.) Speg.\nAngélique\tAngelica archangelica\nAniba\tAniba rosaeodora\nAnis vert\tPimpinella anisum\nAquilaria\tAquilaria malaccensis\nArgemone mexicana\tArgemone mexicana L.\nArmoise\tArtemisia vulgaris\nAttalea speciosa\tAttalea speciosa Mart. ex Spreng.\nBanisteriopsis caapi\tBanisteriopsis caapi (Spruce ex Griseb.) C.V.Morton\nBenjoin\tStyrax benzoin\nBois d'agar\tAquilaria crassna\nBois de rose (lutherie) — Dalbergia nigra (CITES)\tDalbergia nigra\nBursera bipinnata\tBursera bipinnata (DC.) Engl.\nBursera copallifera\tBursera copallifera (DC.) Bullock\nBursera graveolens\tBursera graveolens (Kunth) Triana & Planch.\nCacaloxochitl\tPlumeria rubra\nCalamus (Acore)\tAcorus calamus\nCambodian\tCannabis sativa subsp. indica\nCamphrier\tCinnamomum camphora\nCassie\tAcacia farnesiana\nCostus\tSaussurea costus\nCroton lechleri\tCroton lechleri Müll.Arg.\nDatura stramonium\tDatura stramonium L.\nEpazote\tDysphania ambrosioides\nEthiopian Highland\tCannabis sativa subsp. indica\nFerula galbaniflua (galbanum)\tFerula galbaniflua\nFlor de Manita\tChiranthodendron pentadactylon\nGalbanum\tFerula gummosa\nGaïac — Guaiacum sanctum (proxy)\tGuaiacum sanctum\nGenêt\tSpartium junceum\nGomme arabique — Senegalia senegal (filière fragile)\tSenegalia senegal\nHawaiian\tCannabis sativa subsp. indica\nHeimia salicifolia\tHeimia salicifolia (Kunth) Link\nHindu Kush\tCannabis indica var. Hindu Kush\nHoja Santa\tPiper auritum\nHule\tCastilla elastica\nIdukki Gold\tCannabis sativa subsp. indica\nKandahar\tCannabis sativa subsp. indica\nKanna\tSceletium tortuosum\nKerala Gold\tCannabis sativa subsp. indica\nKetama\tCannabis sativa var. Ketama\nKilimanjaro\tCannabis sativa subsp. indica\nKlip Dagga\tLeonotis nepetifolia\nLabdanum\tCistus ladanifer\nLamb's Bread\tCannabis sativa subsp. indica\nLatakia\tNicotiana tabacum var. Latakia\nLaurier noble\tLaurus nobilis\nLippia graveolens\tLippia graveolens Kunth\nLiquidambar styraciflua\tLiquidambar styraciflua L.\nLophophora williamsii\tLophophora williamsii (Lem. ex Salm-Dyck) J.M.Coult.\nLotus Bleu\tNymphaea caerulea\nMalana Cream\tCannabis sativa subsp. indica\nMalawi Gold\tCannabis sativa subsp. indica\nMapacho\tNicotiana rustica\nMaui Wowie\tCannabis sativa subsp. indica\nMazar-i-Sharif\tCannabis sativa subsp. indica\nMimosa ophthalmocentra\tMimosa ophthalmocentra Mart. ex Benth.\nMimosa tenuiflora\tMimosa tenuiflora (Willd.) Poir.\nMusk deer (musc naturel) — Moschus moschiferus (CITES)\tMoschus moschiferus\nMusk mallow (Malva moschata) — note patrimoniale\tMalva moschata\nMyroxylon balsamum\tMyroxylon balsamum (L.) Harms\nMyrte\tMyrtus communis\nNiaouli\tMelaleuca quinquenervia\nNicotiana benthamiana\tNicotiana benthamiana\nNicotiana sylvestris\tNicotiana sylvestris\nNicotiana tomentosiformis\tNicotiana tomentosiformis\nNymphaea ampla\tNymphaea ampla (Salisb.) DC.\nOcote\tPinus montezumae\nOpoponax (Myrrhe douce)\tCommiphora guidottii\nOriental Katerini\tNicotiana tabacum var. Katerini\nOrigan Mexicain\tLippia graveolens\nPakistani Kush\tCannabis sativa subsp. indica\nPalo santo (Gran Chaco) — Bulnesia sarmientoi (CITES)\tBulnesia sarmientoi\nPanama Red\tCannabis sativa subsp. indica\nParkia biglobosa (néré)\tParkia biglobosa\nPassiflore\tPassiflora incarnata\nPerique\tNicotiana tabacum var. Perique\nPiper auritum\tPiper auritum Kunth\nPipiltzintzintli / Salvia divinorum\tSalvia divinorum\nPistacia lentiscus (mastic)\tPistacia lentiscus\nPoleo\tMentha pulegium\nPolianthes tuberosa\tPolianthes tuberosa L.\nProtium heptaphyllum\tProtium heptaphyllum (Aubl.) Marchand\nProtium spp. (copal)\tProtium sp.\nPsychotria viridis\tPsychotria viridis Ruiz & Pav.\nQuararibea funebris\tQuararibea funebris (La Llave) Vischer\nRuda\tRuta graveolens\nRéglisse\tGlycyrrhiza glabra\nSalvia divinorum\tSalvia divinorum Epling & Játiva\nSalvia officinalis (sauge)\tSalvia officinalis\nSandalwood australien\tSantalum spicatum\nSapin baumier\tAbies balsamea\nSilphium\tFerula drudeana (probable)\nSilphium (plante antique disparue)\tSilphium sp. (extinct)\nSilphium sp.\tSilphium sp.\nSinicuichi\tHeimia salicifolia\nStyrax benzoin (benjoin)\tStyrax tonkinensis / benzoin\nStyrax liquide\tLiquidambar orientalis\nSwazi Gold\tCannabis sativa subsp. indica\nTagetes lucida\tTagetes lucida Cav.\nTepezcohuite\tMimosa tenuiflora\nTest Plant 1\tTestus plantus\nTest Resin Plant\tTestus resinus\nTest Wind Plant\tTestus ventus\nThai Stick\tCannabis sativa subsp. indica\nTheobroma bicolor\tTheobroma bicolor Bonpl.\nToloache\tDatura stramonium\nTurbina corymbosa\tTurbina corymbosa (L.) Raf.\nUncaria tomentosa\tUncaria tomentosa (Willd. ex Schult.) DC.\nValériane mexicaine\tValeriana edulis\nVanilla planifolia\tVanilla planifolia Jacks. ex Andrews\nVirola theiodora\tVirola theiodora (Spruce ex Benth.) Warb.\nVitellaria paradoxa (karité)\tVitellaria paradoxa\nWild Dagga\tLeonotis leonurus\nWild tobacco\tNicotiana attenuata\nYarumo (Cetico)\tCecropia peltata\nYenidje\tNicotiana tabacum var. Yenidje\nYoloxóchitl\tTalauma mexicana\nÉlémi\tCanarium luzonicum\n",
+  "stderr": "",
+  "execution_time_ms": 363
+}

@@ -535,6 +535,19 @@ export default function Gallery() {
                 </div>
                 <CardContent className="pt-3">
                   <h3 className="font-medium truncate">{image.title || "Sans titre"}</h3>
+                  {image.plantId && plants && (() => {
+                    const plant = plants.find(p => p.id === image.plantId);
+                    return plant ? (
+                      <Link 
+                        href={`/plantes/${plant.id}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 text-xs text-emerald-600 hover:text-emerald-700 hover:underline mt-1"
+                      >
+                        <Leaf className="h-3 w-3" />
+                        {plant.name}
+                      </Link>
+                    ) : null;
+                  })()}
                   {image.location && (
                     <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
                       <MapPin className="h-3 w-3" />
@@ -572,10 +585,25 @@ export default function Gallery() {
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="font-semibold text-lg">{image.title || "Sans titre"}</h3>
-                        <Badge variant="outline" className="mt-1">
-                          <CategoryIcon className="h-3 w-3 mr-1" />
-                          {getCategoryLabel(image.category || "autre")}
-                        </Badge>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge variant="outline">
+                            <CategoryIcon className="h-3 w-3 mr-1" />
+                            {getCategoryLabel(image.category || "autre")}
+                          </Badge>
+                          {image.plantId && plants && (() => {
+                            const plant = plants.find(p => p.id === image.plantId);
+                            return plant ? (
+                              <Link 
+                                href={`/plantes/${plant.id}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700 hover:underline"
+                              >
+                                <Leaf className="h-3 w-3" />
+                                {plant.name}
+                              </Link>
+                            ) : null;
+                          })()}
+                        </div>
                       </div>
                       {user && (
                         <Button
@@ -714,6 +742,18 @@ export default function Gallery() {
                   <Badge variant="outline">
                     {getCategoryLabel(filteredImages[lightboxIndex].category || "autre")}
                   </Badge>
+                  {filteredImages[lightboxIndex].plantId && plants && (() => {
+                    const plant = plants.find(p => p.id === filteredImages[lightboxIndex].plantId);
+                    return plant ? (
+                      <Link 
+                        href={`/plantes/${plant.id}`}
+                        className="inline-flex items-center gap-1 text-emerald-600 hover:text-emerald-700 hover:underline"
+                      >
+                        <Leaf className="h-4 w-4" />
+                        {plant.name}
+                      </Link>
+                    ) : null;
+                  })()}
                   {filteredImages[lightboxIndex].location && (
                     <span className="flex items-center gap-1">
                       <MapPin className="h-4 w-4" />

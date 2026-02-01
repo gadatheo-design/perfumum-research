@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as plants_without_molecules \nFROM plants p \nWHERE p.id NOT IN (SELECT DISTINCT plant_id FROM plant_molecules);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as plants_without_molecules \nFROM plants p \nWHERE p.id NOT IN (SELECT DISTINCT plant_id FROM plant_molecules);",
+  "rows": [
+    {
+      "plants_without_molecules": "125"
+    }
+  ],
+  "messages": [],
+  "stdout": "plants_without_molecules\n125\n",
+  "stderr": "",
+  "execution_time_ms": 351
+}

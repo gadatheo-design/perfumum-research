@@ -1,0 +1,260 @@
+{
+  "query": "SELECT p.id, p.name, p.latin_name \nFROM plants p \nWHERE p.id NOT IN (SELECT DISTINCT plant_id FROM plant_molecules) \nORDER BY p.name \nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.id, p.name, p.latin_name \nFROM plants p \nWHERE p.id NOT IN (SELECT DISTINCT plant_id FROM plant_molecules) \nORDER BY p.name \nLIMIT 50;",
+  "rows": [
+    {
+      "id": "480018",
+      "name": "Aframomum melegueta (grains of paradise)",
+      "latin_name": "Aframomum melegueta"
+    },
+    {
+      "id": "450011",
+      "name": "Ahuehuete",
+      "latin_name": "Taxodium mucronatum"
+    },
+    {
+      "id": "480025",
+      "name": "Ambergris (matière patrimoniale)",
+      "latin_name": "Physeter macrocephalus (source indirecte)"
+    },
+    {
+      "id": "510007",
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)",
+      "latin_name": "Physeter macrocephalus"
+    },
+    {
+      "id": "360003",
+      "name": "Ambil",
+      "latin_name": "Nicotiana tabacum (préparation)"
+    },
+    {
+      "id": "540004",
+      "name": "Anadenanthera colubrina",
+      "latin_name": "Anadenanthera colubrina (Vell.) Brenan"
+    },
+    {
+      "id": "540003",
+      "name": "Anadenanthera peregrina",
+      "latin_name": "Anadenanthera peregrina (L.) Speg."
+    },
+    {
+      "id": "570010",
+      "name": "Angélique",
+      "latin_name": "Angelica archangelica"
+    },
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora"
+    },
+    {
+      "id": "570011",
+      "name": "Anis vert",
+      "latin_name": "Pimpinella anisum"
+    },
+    {
+      "id": "210038",
+      "name": "Aquilaria",
+      "latin_name": "Aquilaria malaccensis"
+    },
+    {
+      "id": "540029",
+      "name": "Argemone mexicana",
+      "latin_name": "Argemone mexicana L."
+    },
+    {
+      "id": "150015",
+      "name": "Armoise",
+      "latin_name": "Artemisia vulgaris"
+    },
+    {
+      "id": "540025",
+      "name": "Attalea speciosa",
+      "latin_name": "Attalea speciosa Mart. ex Spreng."
+    },
+    {
+      "id": "540007",
+      "name": "Banisteriopsis caapi",
+      "latin_name": "Banisteriopsis caapi (Spruce ex Griseb.) C.V.Morton"
+    },
+    {
+      "id": "240006",
+      "name": "Benjoin",
+      "latin_name": "Styrax benzoin"
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna"
+    },
+    {
+      "id": "510003",
+      "name": "Bois de rose (lutherie) — Dalbergia nigra (CITES)",
+      "latin_name": "Dalbergia nigra"
+    },
+    {
+      "id": "540015",
+      "name": "Bursera bipinnata",
+      "latin_name": "Bursera bipinnata (DC.) Engl."
+    },
+    {
+      "id": "540014",
+      "name": "Bursera copallifera",
+      "latin_name": "Bursera copallifera (DC.) Bullock"
+    },
+    {
+      "id": "540013",
+      "name": "Bursera graveolens",
+      "latin_name": "Bursera graveolens (Kunth) Triana & Planch."
+    },
+    {
+      "id": "450002",
+      "name": "Cacaloxochitl",
+      "latin_name": "Plumeria rubra"
+    },
+    {
+      "id": "150019",
+      "name": "Calamus (Acore)",
+      "latin_name": "Acorus calamus"
+    },
+    {
+      "id": "120006",
+      "name": "Cambodian",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "id": "570008",
+      "name": "Camphrier",
+      "latin_name": "Cinnamomum camphora"
+    },
+    {
+      "id": "570003",
+      "name": "Cassie",
+      "latin_name": "Acacia farnesiana"
+    },
+    {
+      "id": "270005",
+      "name": "Costus",
+      "latin_name": "Saussurea costus"
+    },
+    {
+      "id": "540030",
+      "name": "Croton lechleri",
+      "latin_name": "Croton lechleri Müll.Arg."
+    },
+    {
+      "id": "540012",
+      "name": "Datura stramonium",
+      "latin_name": "Datura stramonium L."
+    },
+    {
+      "id": "480003",
+      "name": "Epazote",
+      "latin_name": "Dysphania ambrosioides"
+    },
+    {
+      "id": "120016",
+      "name": "Ethiopian Highland",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "id": "480029",
+      "name": "Ferula galbaniflua (galbanum)",
+      "latin_name": "Ferula galbaniflua"
+    },
+    {
+      "id": "480010",
+      "name": "Flor de Manita",
+      "latin_name": "Chiranthodendron pentadactylon"
+    },
+    {
+      "id": "270011",
+      "name": "Galbanum",
+      "latin_name": "Ferula gummosa"
+    },
+    {
+      "id": "510002",
+      "name": "Gaïac — Guaiacum sanctum (proxy)",
+      "latin_name": "Guaiacum sanctum"
+    },
+    {
+      "id": "570002",
+      "name": "Genêt",
+      "latin_name": "Spartium junceum"
+    },
+    {
+      "id": "510005",
+      "name": "Gomme arabique — Senegalia senegal (filière fragile)",
+      "latin_name": "Senegalia senegal"
+    },
+    {
+      "id": "120021",
+      "name": "Hawaiian",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "id": "540011",
+      "name": "Heimia salicifolia",
+      "latin_name": "Heimia salicifolia (Kunth) Link"
+    },
+    {
+      "id": "150006",
+      "name": "Hindu Kush",
+      "latin_name": "Cannabis indica var. Hindu Kush"
+    },
+    {
+      "id": "450001",
+      "name": "Hoja Santa",
+      "latin_name": "Piper auritum"
+    },
+    {
+      "id": "450014",
+      "name": "Hule",
+      "latin_name": "Castilla elastica"
+    },
+    {
+      "id": "120003",
+      "name": "Idukki Gold",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "id": "120009",
+      "name": "Kandahar",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "id": "150016",
+      "name": "Kanna",
+      "latin_name": "Sceletium tortuosum"
+    },
+    {
+      "id": "120001",
+      "name": "Kerala Gold",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "id": "150007",
+      "name": "Ketama",
+      "latin_name": "Cannabis sativa var. Ketama"
+    },
+    {
+      "id": "120015",
+      "name": "Kilimanjaro",
+      "latin_name": "Cannabis sativa subsp. indica"
+    },
+    {
+      "id": "150018",
+      "name": "Klip Dagga",
+      "latin_name": "Leonotis nepetifolia"
+    },
+    {
+      "id": "150010",
+      "name": "Labdanum",
+      "latin_name": "Cistus ladanifer"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\n480018\tAframomum melegueta (grains of paradise)\tAframomum melegueta\n450011\tAhuehuete\tTaxodium mucronatum\n480025\tAmbergris (matière patrimoniale)\tPhyseter macrocephalus (source indirecte)\n510007\tAmbergris (patrimoine) — Physeter macrocephalus (échouages)\tPhyseter macrocephalus\n360003\tAmbil\tNicotiana tabacum (préparation)\n540004\tAnadenanthera colubrina\tAnadenanthera colubrina (Vell.) Brenan\n540003\tAnadenanthera peregrina\tAnadenanthera peregrina (L.) Speg.\n570010\tAngélique\tAngelica archangelica\n210040\tAniba\tAniba rosaeodora\n570011\tAnis vert\tPimpinella anisum\n210038\tAquilaria\tAquilaria malaccensis\n540029\tArgemone mexicana\tArgemone mexicana L.\n150015\tArmoise\tArtemisia vulgaris\n540025\tAttalea speciosa\tAttalea speciosa Mart. ex Spreng.\n540007\tBanisteriopsis caapi\tBanisteriopsis caapi (Spruce ex Griseb.) C.V.Morton\n240006\tBenjoin\tStyrax benzoin\n240002\tBois d'agar\tAquilaria crassna\n510003\tBois de rose (lutherie) — Dalbergia nigra (CITES)\tDalbergia nigra\n540015\tBursera bipinnata\tBursera bipinnata (DC.) Engl.\n540014\tBursera copallifera\tBursera copallifera (DC.) Bullock\n540013\tBursera graveolens\tBursera graveolens (Kunth) Triana & Planch.\n450002\tCacaloxochitl\tPlumeria rubra\n150019\tCalamus (Acore)\tAcorus calamus\n120006\tCambodian\tCannabis sativa subsp. indica\n570008\tCamphrier\tCinnamomum camphora\n570003\tCassie\tAcacia farnesiana\n270005\tCostus\tSaussurea costus\n540030\tCroton lechleri\tCroton lechleri Müll.Arg.\n540012\tDatura stramonium\tDatura stramonium L.\n480003\tEpazote\tDysphania ambrosioides\n120016\tEthiopian Highland\tCannabis sativa subsp. indica\n480029\tFerula galbaniflua (galbanum)\tFerula galbaniflua\n480010\tFlor de Manita\tChiranthodendron pentadactylon\n270011\tGalbanum\tFerula gummosa\n510002\tGaïac — Guaiacum sanctum (proxy)\tGuaiacum sanctum\n570002\tGenêt\tSpartium junceum\n510005\tGomme arabique — Senegalia senegal (filière fragile)\tSenegalia senegal\n120021\tHawaiian\tCannabis sativa subsp. indica\n540011\tHeimia salicifolia\tHeimia salicifolia (Kunth) Link\n150006\tHindu Kush\tCannabis indica var. Hindu Kush\n450001\tHoja Santa\tPiper auritum\n450014\tHule\tCastilla elastica\n120003\tIdukki Gold\tCannabis sativa subsp. indica\n120009\tKandahar\tCannabis sativa subsp. indica\n150016\tKanna\tSceletium tortuosum\n120001\tKerala Gold\tCannabis sativa subsp. indica\n150007\tKetama\tCannabis sativa var. Ketama\n120015\tKilimanjaro\tCannabis sativa subsp. indica\n150018\tKlip Dagga\tLeonotis nepetifolia\n150010\tLabdanum\tCistus ladanifer\n",
+  "stderr": "",
+  "execution_time_ms": 350
+}
