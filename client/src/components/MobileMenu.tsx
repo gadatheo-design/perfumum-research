@@ -126,6 +126,8 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/synergies", label: "Synergies Moléculaires", badge: "NEW" },
       { href: "/terp-profiles", label: "Profils Terpéniques" },
       { href: "/ifra", label: "Conformité IFRA" },
+      { href: "/stats-olfactives", label: "Statistiques Olfactives", badge: "NEW" },
+      { href: "/percepts", label: "Recherche par Percept" },
       { href: "/terp-profiles/compare", label: "Comparaison Profils" },
     ],
   },

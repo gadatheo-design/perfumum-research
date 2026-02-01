@@ -4638,3 +4638,18 @@
 - [x] Ajouter les badges IFRA dans les cartes molécules de la liste
 - [x] Créer une page de statistiques pour les percepts et statuts IFRA (/stats-olfactives)
 - [x] Enrichir la base Flavornet avec plus de composés (205 composés, 227 molécules enrichies - 32%)
+
+
+## 🆕 NOUVELLES TÂCHES (1 Février 2026 - Session 4)
+
+### Navigation
+- [ ] Ajouter un lien vers /stats-olfactives dans le menu de navigation principal
+
+
+## 🆕 NOUVELLES TÂCHES (1 Février 2026 - Session 4)
+
+### Navigation et Statistiques Olfactives
+- [x] Ajouter un lien vers /stats-olfactives dans le menu de navigation principal (MegaMenu + MobileMenu)
+- [x] Ajouter les badges IFRA dans les cartes molécules de la liste (Molecules.tsx)
+- [x] Créer la page de statistiques olfactives (/stats-olfactives)
+- [x] Enrichir la base Flavornet avec plus de composés (205 composés, 227 molécules enrichies - 32%)

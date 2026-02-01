@@ -616,6 +616,19 @@ export function MegaMenu() {
           description: "Vérification réglementaire",
         },
         {
+          label: "Statistiques Olfactives",
+          path: "/stats-olfactives",
+          icon: <BarChart3 className="h-4 w-4" />,
+          description: "Répartition percepts & IFRA",
+          badge: "NEW",
+        },
+        {
+          label: "Recherche par Percept",
+          path: "/percepts",
+          icon: <Search className="h-4 w-4" />,
+          description: "Explorer par descripteur olfactif",
+        },
+        {
           label: "Comparaison Profils",
           path: "/terp-profiles/compare",
           icon: <BarChart3 className="h-4 w-4" />,
