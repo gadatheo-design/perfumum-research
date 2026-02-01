@@ -221,6 +221,7 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/admin/liaison-recettes-molecules": { label: "Liaison Recettes-Molécules", parent: "/admin" },
   "/admin/molecule-origins": { label: "Origines Molécules", parent: "/admin" },
   "/admin/terroirs-geocode": { label: "Géocodage Terroirs", parent: "/admin" },
+  "/admin/data-quality": { label: "Qualité des données", parent: "/admin" },
 };
 
 // Patterns dynamiques pour les pages de détail

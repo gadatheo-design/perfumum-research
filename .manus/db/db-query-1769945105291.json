@@ -1,0 +1,94 @@
+{
+  "query": "SELECT \n  m.id,\n  m.name,\n  (SELECT COUNT(*) FROM molecules_recettes mr WHERE mr.molecule_id = m.id) as recette_links,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links,\n  (SELECT COUNT(*) FROM molecule_synergies ms WHERE ms.molecule1_id = m.id OR ms.molecule2_id = m.id) as synergy_links\nFROM molecules m\nWHERE m.id IN (90056, 150002, 150003, 150004, 570053, 90049, 150005, 150006, 810005, 570056, 600019, 150001)\nORDER BY m.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  m.id,\n  m.name,\n  (SELECT COUNT(*) FROM molecules_recettes mr WHERE mr.molecule_id = m.id) as recette_links,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links,\n  (SELECT COUNT(*) FROM molecule_synergies ms WHERE ms.molecule1_id = m.id OR ms.molecule2_id = m.id) as synergy_links\nFROM molecules m\nWHERE m.id IN (90056, 150002, 150003, 150004, 570053, 90049, 150005, 150006, 810005, 570056, 600019, 150001)\nORDER BY m.name;",
+  "rows": [
+    {
+      "id": "600019",
+      "name": "Acétate de Linalyle",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "570056",
+      "name": "Acétate de linalyle",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "90056",
+      "name": "Limonène",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "150002",
+      "name": "Limonène",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "150006",
+      "name": "Linalool",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "150001",
+      "name": "Myrcène",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "810005",
+      "name": "linalool",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "150003",
+      "name": "α-Pinène",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "150004",
+      "name": "α-Pinène",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "570053",
+      "name": "α-Pinène",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "90049",
+      "name": "β-Caryophyllène",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    },
+    {
+      "id": "150005",
+      "name": "β-Caryophyllène",
+      "recette_links": "0",
+      "plant_links": "0",
+      "synergy_links": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\trecette_links\tplant_links\tsynergy_links\n600019\tAcétate de Linalyle\t0\t0\t0\n570056\tAcétate de linalyle\t0\t0\t0\n90056\tLimonène\t0\t0\t0\n150002\tLimonène\t0\t0\t0\n150006\tLinalool\t0\t0\t0\n150001\tMyrcène\t0\t0\t0\n810005\tlinalool\t0\t0\t0\n150003\tα-Pinène\t0\t0\t0\n150004\tα-Pinène\t0\t0\t0\n570053\tα-Pinène\t0\t0\t0\n90049\tβ-Caryophyllène\t0\t0\t0\n150005\tβ-Caryophyllène\t0\t0\t0\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

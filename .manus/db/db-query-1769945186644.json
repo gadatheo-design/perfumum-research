@@ -1,0 +1,150 @@
+{
+  "query": "SELECT TABLE_NAME, COLUMN_NAME \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE COLUMN_NAME = 'molecule_id' \nAND TABLE_SCHEMA = DATABASE()\nORDER BY TABLE_NAME;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT TABLE_NAME, COLUMN_NAME \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE COLUMN_NAME = 'molecule_id' \nAND TABLE_SCHEMA = DATABASE()\nORDER BY TABLE_NAME;",
+  "rows": [
+    {
+      "TABLE_NAME": "biotech_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "cigarillo_recipe_ingredients",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "classification_reviews",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "field_archive_molecule_links",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "gene_terpene_links",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "genomic_molecule_links",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "ghost_variety_molecule_links",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "ifra_restrictions",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "journey_items",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "landrace_terpenes",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "leaf_economy_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "lost_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "milestones",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_analytical_methods",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_links_unified",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_notes",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_notes_view",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_origins",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_plant_sources",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecules_recettes",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "olfactory_memories",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "perfumum_plant_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "perique_molecule_links",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "plant_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "publication_molecule_links",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "publication_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "raw_material_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "recette_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "synergies",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "tabac_molecule_links",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "terp_profile_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "tps_gene_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "tps_molecule_links",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "user_favorites",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "variety_molecules",
+      "COLUMN_NAME": "molecule_id"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\tCOLUMN_NAME\nbiotech_molecules\tmolecule_id\ncigarillo_recipe_ingredients\tmolecule_id\nclassification_reviews\tmolecule_id\nfield_archive_molecule_links\tmolecule_id\ngene_terpene_links\tmolecule_id\ngenomic_molecule_links\tmolecule_id\nghost_variety_molecule_links\tmolecule_id\nifra_restrictions\tmolecule_id\njourney_items\tmolecule_id\nlandrace_terpenes\tmolecule_id\nleaf_economy_molecules\tmolecule_id\nlost_molecules\tmolecule_id\nmilestones\tmolecule_id\nmolecule_analytical_methods\tmolecule_id\nmolecule_links_unified\tmolecule_id\nmolecule_notes\tmolecule_id\nmolecule_notes_view\tmolecule_id\nmolecule_origins\tmolecule_id\nmolecule_plant_sources\tmolecule_id\nmolecules_recettes\tmolecule_id\nolfactory_memories\tmolecule_id\nperfumum_plant_molecules\tmolecule_id\nperique_molecule_links\tmolecule_id\nplant_molecules\tmolecule_id\npublication_molecule_links\tmolecule_id\npublication_molecules\tmolecule_id\nraw_material_molecules\tmolecule_id\nrecette_molecules\tmolecule_id\nsynergies\tmolecule_id\ntabac_molecule_links\tmolecule_id\nterp_profile_molecules\tmolecule_id\ntps_gene_molecules\tmolecule_id\ntps_molecule_links\tmolecule_id\nuser_favorites\tmolecule_id\nvariety_molecules\tmolecule_id\n",
+  "stderr": "",
+  "execution_time_ms": 357
+}

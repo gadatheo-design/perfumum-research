@@ -1,0 +1,192 @@
+{
+  "query": "SELECT \n  TABLE_NAME,\n  COLUMN_NAME,\n  CONSTRAINT_NAME,\n  REFERENCED_TABLE_NAME,\n  REFERENCED_COLUMN_NAME\nFROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE\nWHERE REFERENCED_TABLE_NAME = 'molecules'\nLIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  TABLE_NAME,\n  COLUMN_NAME,\n  CONSTRAINT_NAME,\n  REFERENCED_TABLE_NAME,\n  REFERENCED_COLUMN_NAME\nFROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE\nWHERE REFERENCED_TABLE_NAME = 'molecules'\nLIMIT 30;",
+  "rows": [
+    {
+      "TABLE_NAME": "laboratoire_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "laboratoire_molecules_moleculeId_molecules_id_fk",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecule_accords",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "molecule_accords_moleculeId_molecules_id_fk",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecule_families",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "molecule_families_moleculeId_molecules_id_fk",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecule_recettes",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "molecule_recettes_moleculeId_molecules_id_fk",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "petrichor_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "petrichor_molecules_moleculeId_molecules_id_fk",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "prototype_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "prototype_molecules_moleculeId_molecules_id_fk",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "tabac_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "tabac_molecules_moleculeId_molecules_id_fk",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "volcanique_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "volcanique_molecules_moleculeId_molecules_id_fk",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecule_chemical_families",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "fk_1",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "synergies",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecule_notes",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "recette_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "terpene_synergies",
+      "COLUMN_NAME": "terpene1_id",
+      "CONSTRAINT_NAME": "fk_1",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "terpene_synergies",
+      "COLUMN_NAME": "terpene2_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies",
+      "COLUMN_NAME": "molecule1_id",
+      "CONSTRAINT_NAME": "fk_1",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies",
+      "COLUMN_NAME": "molecule2_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "leaf_economy_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "leaf_economy_molecules_molecule_id_molecules_id_fk",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecule_origins",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_1",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "ifra_restrictions",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_1",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "terp_profile_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "plant_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "raw_material_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecule_plant_sources",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_1",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecular_transformations",
+      "COLUMN_NAME": "source_molecule_id",
+      "CONSTRAINT_NAME": "fk_1",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "molecular_transformations",
+      "COLUMN_NAME": "product_molecule_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    },
+    {
+      "TABLE_NAME": "publication_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2",
+      "REFERENCED_TABLE_NAME": "molecules",
+      "REFERENCED_COLUMN_NAME": "id"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\tCOLUMN_NAME\tCONSTRAINT_NAME\tREFERENCED_TABLE_NAME\tREFERENCED_COLUMN_NAME\nlaboratoire_molecules\tmoleculeId\tlaboratoire_molecules_moleculeId_molecules_id_fk\tmolecules\tid\nmolecule_accords\tmoleculeId\tmolecule_accords_moleculeId_molecules_id_fk\tmolecules\tid\nmolecule_families\tmoleculeId\tmolecule_families_moleculeId_molecules_id_fk\tmolecules\tid\nmolecule_recettes\tmoleculeId\tmolecule_recettes_moleculeId_molecules_id_fk\tmolecules\tid\npetrichor_molecules\tmoleculeId\tpetrichor_molecules_moleculeId_molecules_id_fk\tmolecules\tid\nprototype_molecules\tmoleculeId\tprototype_molecules_moleculeId_molecules_id_fk\tmolecules\tid\ntabac_molecules\tmoleculeId\ttabac_molecules_moleculeId_molecules_id_fk\tmolecules\tid\nvolcanique_molecules\tmoleculeId\tvolcanique_molecules_moleculeId_molecules_id_fk\tmolecules\tid\nmolecule_chemical_families\tmoleculeId\tfk_1\tmolecules\tid\nsynergies\tmolecule_id\tfk_2\tmolecules\tid\nmolecule_notes\tmolecule_id\tfk_2\tmolecules\tid\nrecette_molecules\tmolecule_id\tfk_2\tmolecules\tid\nterpene_synergies\tterpene1_id\tfk_1\tmolecules\tid\nterpene_synergies\tterpene2_id\tfk_2\tmolecules\tid\nmolecule_synergies\tmolecule1_id\tfk_1\tmolecules\tid\nmolecule_synergies\tmolecule2_id\tfk_2\tmolecules\tid\nleaf_economy_molecules\tmolecule_id\tleaf_economy_molecules_molecule_id_molecules_id_fk\tmolecules\tid\nmolecule_origins\tmolecule_id\tfk_1\tmolecules\tid\nifra_restrictions\tmolecule_id\tfk_1\tmolecules\tid\nterp_profile_molecules\tmolecule_id\tfk_2\tmolecules\tid\nplant_molecules\tmolecule_id\tfk_2\tmolecules\tid\nraw_material_molecules\tmolecule_id\tfk_2\tmolecules\tid\nmolecule_plant_sources\tmolecule_id\tfk_1\tmolecules\tid\nmolecular_transformations\tsource_molecule_id\tfk_1\tmolecules\tid\nmolecular_transformations\tproduct_molecule_id\tfk_2\tmolecules\tid\npublication_molecules\tmolecule_id\tfk_2\tmolecules\tid\n",
+  "stderr": "",
+  "execution_time_ms": 357
+}

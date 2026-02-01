@@ -4807,3 +4807,64 @@
 - [x] Ajouter les boutons d'enrichissement
 - [x] Afficher les lacunes (molécules sans liaisons)
 - [x] Tests de l'interface (19 tests passés)
+
+
+---
+
+## Session 1 Février 2026 - Extension base formules et résolution doublons
+
+### Extension base de référence des formules
+- [ ] Récupérer la liste des 228 molécules sans formule
+- [ ] Rechercher les formules chimiques et SMILES pour chaque molécule
+- [ ] Ajouter les nouvelles entrées au dictionnaire MOLECULE_FORMULAS
+- [ ] Exécuter l'enrichissement et vérifier les résultats
+
+### Résolution contraintes clés étrangères (6 groupes)
+- [ ] Analyser les dépendances de limonène
+- [ ] Analyser les dépendances de α-pinène
+- [ ] Analyser les dépendances de β-caryophyllène
+- [ ] Analyser les dépendances de linalool
+- [ ] Analyser les dépendances de acétate de linalyle
+- [ ] Analyser les dépendances de myrcène
+- [ ] Résoudre manuellement les conflits de clés
+
+### Lien menu admin
+- [ ] Ajouter le lien /admin/data-quality dans le menu admin
+- [ ] Tester la navigation
+
+
+---
+
+## 🔥 SESSION ACTIVE — 1 Février 2026 (Suite - Extension et Lien Admin)
+
+### Extension base de formules chimiques
+- [x] Analyser les 228 molécules sans formule
+- [x] Identifier les molécules chimiques pures (vs accords/mélanges)
+- [x] Ajouter 120+ formules chimiques au dictionnaire MOLECULE_FORMULAS
+- [x] Exécuter l'enrichissement automatique (32 molécules enrichies)
+- [x] Couverture formules: 0% → 71.4% (489/685 molécules)
+
+### Résolution contraintes clés étrangères
+- [x] Analyser les dépendances des groupes de doublons restants
+- [x] Identifier 35 tables avec clés étrangères vers molecules
+- [x] Améliorer la fonction mergeDuplicates (nettoyage multi-tables)
+- [ ] 30 groupes de doublons restants (contraintes complexes à résoudre manuellement)
+
+### Lien admin vers /admin/data-quality
+- [x] Ajouter le lien dans la page Admin.tsx (section Outils)
+- [x] Ajouter le breadcrumb dans DynamicBreadcrumb.tsx
+- [x] Tester la navigation
+
+### Statistiques de qualité des données actualisées
+| Champ | Couverture | Avant | Après |
+|-------|------------|-------|-------|
+| CAS Number | 58.0% | 59.3% | 58.0% |
+| IUPAC Name | 53.9% | 55.4% | 53.9% |
+| Formule chimique | 71.4% | 0% | 71.4% |
+| Classe chimique | 76.8% | 77.5% | 76.8% |
+| Profil olfactif | 96.2% | 95.2% | 96.2% |
+| SMILES | 8.2% | 0% | 8.2% |
+| Poids moléculaire | 100% | - | 100% |
+| Point d'ébullition | 100% | - | 100% |
+| PubChem CID | 10.8% | - | 10.8% |
+

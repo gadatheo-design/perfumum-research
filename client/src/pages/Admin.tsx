@@ -196,6 +196,14 @@ export default function Admin() {
       color: "text-slate-600",
       bgColor: "bg-slate-50",
     },
+    {
+      title: "Qualité des données",
+      description: "Nettoyer les doublons, enrichir les formules, analyser les liaisons",
+      icon: Sparkles,
+      href: "/admin/data-quality",
+      color: "text-teal-600",
+      bgColor: "bg-teal-50",
+    },
   ];
 
   return (

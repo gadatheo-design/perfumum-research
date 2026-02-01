@@ -1,0 +1,8 @@
+{
+  "query": "-- Analyser les dépendances des molécules problématiques\nSELECT \n  m.id,\n  m.name,\n  (SELECT COUNT(*) FROM molecule_recette mr WHERE mr.molecule_id = m.id) as recette_links,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links,\n  (SELECT COUNT(*) FROM molecule_synergies ms WHERE ms.molecule1_id = m.id OR ms.molecule2_id = m.id) as synergy_links\nFROM molecules m\nWHERE m.id IN (90056, 150002, 150003, 150004, 570053, 90049, 150005, 150006, 810005, 570056, 600019, 150001)\nORDER BY m.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Analyser les dépendances des molécules problématiques\nSELECT \n  m.id,\n  m.name,\n  (SELECT COUNT(*) FROM molecule_recette mr WHERE mr.molecule_id = m.id) as recette_links,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links,\n  (SELECT COUNT(*) FROM molecule_synergies ms WHERE ms.molecule1_id = m.id OR ms.molecule2_id = m.id) as synergy_links\nFROM molecules m\nWHERE m.id IN (90056, 150002, 150003, 150004, 570053, 90049, 150005, 150006, 810005, 570056, 600019, 150001)\nORDER BY m.name;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 2: Table 'h2pjhhjbh276xmnbncjhcp.molecule_recette' doesn't exist"
+  ]
+}

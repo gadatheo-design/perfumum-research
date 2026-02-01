@@ -203,7 +203,28 @@ export async function mergeDuplicates(dryRun = true) {
           await db.delete(moleculeSynergies).where(inArray(moleculeSynergies.molecule2Id, foundIds));
         }
         
-        // 4. Supprimer les doublons
+        // 4. Supprimer toutes les autres références aux molécules dupliquées
+        // Tables avec clés étrangères vers molecules
+        const tablesToClean = [
+          'accord_molecules',
+          'chemical_family_molecules', 
+          'formulation_molecules',
+          'molecule_descriptors',
+          'molecule_origins',
+          'molecule_therapeutic_properties',
+          'prototype_molecules',
+          'tobacco_molecules'
+        ];
+        
+        for (const table of tablesToClean) {
+          try {
+            await db.execute(sql`DELETE FROM ${sql.identifier(table)} WHERE molecule_id IN (${sql.join(foundIds.map(id => sql`${id}`), sql`, `)})`);
+          } catch (e) {
+            // Ignorer si la table n'existe pas ou autre erreur
+          }
+        }
+        
+        // 5. Supprimer les doublons
         await db.delete(molecules).where(inArray(molecules.id, foundIds));
       }
       
@@ -405,6 +426,195 @@ export const MOLECULE_FORMULAS: Record<string, { formula: string; smiles: string
   "ambergris": { formula: "C30H52O", smiles: "CC1(C)CCCC2(C)C1CCC3(C)C2CCC4C(C)(C)CCCC34C", molecularWeight: 428.73 },
   "sclareol": { formula: "C20H36O2", smiles: "CC1(C)CCCC2(C)C1CCC3(C)C(O)C(O)CCC23", molecularWeight: 308.50 },
   "labdanum": { formula: "C20H34O2", smiles: "CC1(C)CCCC2(C)C1CCC3(C)C(O)C=CCC23", molecularWeight: 306.48 },
+  
+  // === NOUVELLES FORMULES - Session Février 2026 ===
+  
+  // Guaiacol et dérivés
+  "guaïacol": { formula: "C7H8O2", smiles: "COC1=CC=CC=C1O", molecularWeight: 124.14 },
+  "cinnamaldéhyde": { formula: "C9H8O", smiles: "O=CC=CC1=CC=CC=C1", molecularWeight: 132.16 },
+  
+  // Damascénone et ionones
+  "β-damascénone": { formula: "C13H18O", smiles: "CC1=C(C(CC=C1)(C)C)C=CC(=O)C", molecularWeight: 190.28 },
+  "beta-damascenone": { formula: "C13H18O", smiles: "CC1=C(C(CC=C1)(C)C)C=CC(=O)C", molecularWeight: 190.28 },
+  "alpha-ionone": { formula: "C13H20O", smiles: "CC1=C(C(CC=C1)(C)C)C=CC(=O)C", molecularWeight: 192.30 },
+  "α-ionone": { formula: "C13H20O", smiles: "CC1=C(C(CC=C1)(C)C)C=CC(=O)C", molecularWeight: 192.30 },
+  "beta-ionone": { formula: "C13H20O", smiles: "CC1=C(C(CC=C1)(C)C)C=CC(=O)C", molecularWeight: 192.30 },
+  "β-ionone": { formula: "C13H20O", smiles: "CC1=C(C(CC=C1)(C)C)C=CC(=O)C", molecularWeight: 192.30 },
+  
+  // Alcools aromatiques
+  "alcool phényléthylique": { formula: "C8H10O", smiles: "OCCC1=CC=CC=C1", molecularWeight: 122.16 },
+  "alcool cinnamique": { formula: "C9H10O", smiles: "OCC=CC1=CC=CC=C1", molecularWeight: 134.18 },
+  
+  // Esters aromatiques
+  "acétate de phényléthyle": { formula: "C10H12O2", smiles: "CC(=O)OCCC1=CC=CC=C1", molecularWeight: 164.20 },
+  
+  // Vétiver
+  "vétivérol": { formula: "C15H24O", smiles: "CC1=C2CCC(C2CCC1O)(C)C", molecularWeight: 220.35 },
+  
+  // Sesquiterpènes
+  "thujopsène": { formula: "C15H24", smiles: "CC1CCC2C(C1)C3(CCCC3(C2)C)C", molecularWeight: 204.35 },
+  
+  // Molécules marines
+  "calone": { formula: "C11H10O3", smiles: "CC1=CC2=C(C=C1)OCC(=O)C2", molecularWeight: 190.20 },
+  "hélional": { formula: "C10H10O3", smiles: "COC1=CC2=C(C=C1)OCO2", molecularWeight: 178.18 },
+  "ozonal": { formula: "C11H14O2", smiles: "CC(C)C1=CC=C(C=C1)C(=O)OC", molecularWeight: 178.23 },
+  
+  // Cade et cypère
+  "cade": { formula: "C7H8O2", smiles: "COC1=CC=CC=C1O", molecularWeight: 124.14 },
+  "p-cymène": { formula: "C10H14", smiles: "CC1=CC=C(C(C)C)C=C1", molecularWeight: 134.22 },
+  
+  // Pipérine
+  "pipérine": { formula: "C17H19NO3", smiles: "O=C(C=CC=CC1=CC2=C(OCO2)C=C1)N3CCCCC3", molecularWeight: 285.34 },
+  
+  // Androsténol
+  "α-androsténol": { formula: "C19H30O", smiles: "CC12CCC3C(CCC4=CC(O)CCC34C)C1CCC2", molecularWeight: 274.44 },
+  "alpha-androstenol": { formula: "C19H30O", smiles: "CC12CCC3C(CCC4=CC(O)CCC34C)C1CCC2", molecularWeight: 274.44 },
+  
+  // Nardosinone et dérivés du nard
+  "nardosinone": { formula: "C15H22O3", smiles: "CC1=C2CCC(C2CCC1=O)(C)C(=O)O", molecularWeight: 250.33 },
+  "aristolen-9β-ol": { formula: "C15H24O", smiles: "CC1=C2CCC(C2CCC1O)(C)C", molecularWeight: 220.35 },
+  "kanshone a": { formula: "C15H20O3", smiles: "CC1=C2CCC(C2CCC1=O)(C)C=O", molecularWeight: 248.32 },
+  
+  // Acaciine
+  "acaciine": { formula: "C21H20O10", smiles: "OC1C(O)C(OC(OC2=CC(O)=C3C(=O)C=C(OC3=C2)C4=CC=C(O)C=C4)C1O)CO", molecularWeight: 432.38 },
+  
+  // Terpènes supplémentaires
+  "camphène": { formula: "C10H16", smiles: "CC1(C)C2CCC(=C)C1C2", molecularWeight: 136.23 },
+  "sabinene": { formula: "C10H16", smiles: "CC(C)C1CCC2(CC1)C2", molecularWeight: 136.23 },
+  "3-carène": { formula: "C10H16", smiles: "CC1=CCC2C(C1)C2(C)C", molecularWeight: 136.23 },
+  "delta-3-carene": { formula: "C10H16", smiles: "CC1=CCC2C(C1)C2(C)C", molecularWeight: 136.23 },
+  "alpha-terpinene": { formula: "C10H16", smiles: "CC1=CC=C(C(C)C)CC1", molecularWeight: 136.23 },
+  "α-terpinène": { formula: "C10H16", smiles: "CC1=CC=C(C(C)C)CC1", molecularWeight: 136.23 },
+  "gamma-terpinene": { formula: "C10H16", smiles: "CC1=CCC(C(C)C)=CC1", molecularWeight: 136.23 },
+  "γ-terpinène": { formula: "C10H16", smiles: "CC1=CCC(C(C)C)=CC1", molecularWeight: 136.23 },
+  "p-cymene": { formula: "C10H14", smiles: "CC1=CC=C(C(C)C)C=C1", molecularWeight: 134.22 },
+  
+  // Oxydes
+  "1,8-cinéole": { formula: "C10H18O", smiles: "CC1(C)C2CCC(C)(O2)CC1", molecularWeight: 154.25 },
+  "eucalyptol": { formula: "C10H18O", smiles: "CC1(C)C2CCC(C)(O2)CC1", molecularWeight: 154.25 },
+  "linalool oxide": { formula: "C10H18O2", smiles: "CC(C)=CCCC1(C)OC1C=C", molecularWeight: 170.25 },
+  "rose oxide": { formula: "C10H18O", smiles: "CC(C)C1CCC(C)(O)CC1", molecularWeight: 154.25 },
+  
+  // Sesquiterpènes supplémentaires
+  "alpha-copaene": { formula: "C15H24", smiles: "CC1CCC2C(C1)C3(CCCC3(C2)C)C", molecularWeight: 204.35 },
+  "α-copaène": { formula: "C15H24", smiles: "CC1CCC2C(C1)C3(CCCC3(C2)C)C", molecularWeight: 204.35 },
+  "alpha-humulene": { formula: "C15H24", smiles: "CC1=CCC(C=CCC(=CCC1)C)(C)C", molecularWeight: 204.35 },
+  "α-humulène": { formula: "C15H24", smiles: "CC1=CCC(C=CCC(=CCC1)C)(C)C", molecularWeight: 204.35 },
+  "germacrene d": { formula: "C15H24", smiles: "CC1=CCCC(=C)C2CC(C(=CC2)C)CC1", molecularWeight: 204.35 },
+  "germacrène d": { formula: "C15H24", smiles: "CC1=CCCC(=C)C2CC(C(=CC2)C)CC1", molecularWeight: 204.35 },
+  "delta-cadinene": { formula: "C15H24", smiles: "CC1=CC2C(CC1)C(C)(C)C=CC2C", molecularWeight: 204.35 },
+  "δ-cadinène": { formula: "C15H24", smiles: "CC1=CC2C(CC1)C(C)(C)C=CC2C", molecularWeight: 204.35 },
+  "alpha-bisabolene": { formula: "C15H24", smiles: "CC(C)=CCCC(C)=CC1=CCC(C)=CC1", molecularWeight: 204.35 },
+  "α-bisabolène": { formula: "C15H24", smiles: "CC(C)=CCCC(C)=CC1=CCC(C)=CC1", molecularWeight: 204.35 },
+  "caryophyllene oxide": { formula: "C15H24O", smiles: "CC1=CCCC2(C)OC2CC1C3CC3(C)C", molecularWeight: 220.35 },
+  "oxyde de caryophyllène": { formula: "C15H24O", smiles: "CC1=CCCC2(C)OC2CC1C3CC3(C)C", molecularWeight: 220.35 },
+  
+  // Alcools sesquiterpéniques
+  "alpha-bisabolol": { formula: "C15H26O", smiles: "CC(C)=CCCC(C)(O)C1CCC(=CC1)C", molecularWeight: 222.37 },
+  "α-bisabolol": { formula: "C15H26O", smiles: "CC(C)=CCCC(C)(O)C1CCC(=CC1)C", molecularWeight: 222.37 },
+  "spathulenol": { formula: "C15H24O", smiles: "CC1CCC2C(C1)C3(CCCC3(C2(C)O)C)C", molecularWeight: 220.35 },
+  "viridiflorol": { formula: "C15H26O", smiles: "CC1CCC2C(C1)C3(CCCC3(C2(C)O)C)C", molecularWeight: 222.37 },
+  "globulol": { formula: "C15H26O", smiles: "CC1CCC2C(C1)C3(CCCC3(C2(C)O)C)C", molecularWeight: 222.37 },
+  "eudesmol": { formula: "C15H26O", smiles: "CC1=CCC2C(C1)C3(CCCC3(C2(C)O)C)C", molecularWeight: 222.37 },
+  
+  // Phénylpropanoïdes
+  "myristicine": { formula: "C11H12O3", smiles: "COC1=CC(CC=C)=CC2=C1OCO2", molecularWeight: 192.21 },
+  "apiole": { formula: "C12H14O4", smiles: "COC1=C(OC)C2=C(OCO2)C=C1CC=C", molecularWeight: 222.24 },
+  "dillapiole": { formula: "C12H14O4", smiles: "COC1=C(OC)C2=C(OCO2)C=C1CC=C", molecularWeight: 222.24 },
+  
+  // Cétones supplémentaires
+  "pinocamphone": { formula: "C10H16O", smiles: "CC1(C)C2CCC1(C)C(=O)C2", molecularWeight: 152.23 },
+  "pinocarvone": { formula: "C10H14O", smiles: "CC1(C)C2CC(=O)C(=C)C1C2", molecularWeight: 150.22 },
+  "verbenone": { formula: "C10H14O", smiles: "CC1=CC(=O)C2CC1C2(C)C", molecularWeight: 150.22 },
+  "fenchone": { formula: "C10H16O", smiles: "CC1(C)C2CCC(C)(C2)C1=O", molecularWeight: 152.23 },
+  "pulégone": { formula: "C10H16O", smiles: "CC(C)=C1CCC(C)CC1=O", molecularWeight: 152.23 },
+  "pulegone": { formula: "C10H16O", smiles: "CC(C)=C1CCC(C)CC1=O", molecularWeight: 152.23 },
+  "isomenthone": { formula: "C10H18O", smiles: "CC(C)C1CCC(C)CC1=O", molecularWeight: 154.25 },
+  
+  // Esters supplémentaires
+  "acétate de bornyle": { formula: "C12H20O2", smiles: "CC(=O)OC1CC2CCC1(C)C2(C)C", molecularWeight: 196.29 },
+  "bornyl acetate": { formula: "C12H20O2", smiles: "CC(=O)OC1CC2CCC1(C)C2(C)C", molecularWeight: 196.29 },
+  "acétate de géranyle": { formula: "C12H20O2", smiles: "CC(=CCCC(=CCOC(=O)C)C)C", molecularWeight: 196.29 },
+  "acétate de néryle": { formula: "C12H20O2", smiles: "CC(=CCCC(=CCOC(=O)C)C)C", molecularWeight: 196.29 },
+  "neryl acetate": { formula: "C12H20O2", smiles: "CC(=CCCC(=CCOC(=O)C)C)C", molecularWeight: 196.29 },
+  "acétate de citronellyle": { formula: "C12H22O2", smiles: "CC(C)=CCCC(C)CCOC(=O)C", molecularWeight: 198.30 },
+  "citronellyl acetate": { formula: "C12H22O2", smiles: "CC(C)=CCCC(C)CCOC(=O)C", molecularWeight: 198.30 },
+  "acétate de menthyle": { formula: "C12H22O2", smiles: "CC(C)C1CCC(C)CC1OC(=O)C", molecularWeight: 198.30 },
+  "menthyl acetate": { formula: "C12H22O2", smiles: "CC(C)C1CCC(C)CC1OC(=O)C", molecularWeight: 198.30 },
+  "acétate de terpényle": { formula: "C12H20O2", smiles: "CC1=CCC(CC1)(C)OC(=O)C", molecularWeight: 196.29 },
+  "terpinyl acetate": { formula: "C12H20O2", smiles: "CC1=CCC(CC1)(C)OC(=O)C", molecularWeight: 196.29 },
+  
+  // Alcools monoterpéniques supplémentaires
+  "alpha-terpineol": { formula: "C10H18O", smiles: "CC1=CCC(CC1)(C)O", molecularWeight: 154.25 },
+  "α-terpinéol": { formula: "C10H18O", smiles: "CC1=CCC(CC1)(C)O", molecularWeight: 154.25 },
+  "terpinène-4-ol": { formula: "C10H18O", smiles: "CC(C)C1=CCC(C)(O)CC1", molecularWeight: 154.25 },
+  "terpinen-4-ol": { formula: "C10H18O", smiles: "CC(C)C1=CCC(C)(O)CC1", molecularWeight: 154.25 },
+  "carvéol": { formula: "C10H16O", smiles: "CC(=C)C1CC=C(C)C(O)C1", molecularWeight: 152.23 },
+  "carveol": { formula: "C10H16O", smiles: "CC(=C)C1CC=C(C)C(O)C1", molecularWeight: 152.23 },
+  "lavandulol": { formula: "C10H18O", smiles: "CC(=C)C(CC=C(C)C)CO", molecularWeight: 154.25 },
+  "myrtenol": { formula: "C10H16O", smiles: "CC1(C)C2CC(CO)=CC1C2", molecularWeight: 152.23 },
+  "trans-pinocarvéol": { formula: "C10H16O", smiles: "CC1(C)C2CC(O)C(=C)C1C2", molecularWeight: 152.23 },
+  "pinocarveol": { formula: "C10H16O", smiles: "CC1(C)C2CC(O)C(=C)C1C2", molecularWeight: 152.23 },
+  
+  // Coumarines et dérivés
+  "herniarine": { formula: "C10H8O3", smiles: "COC1=CC2=C(C=C1)C=CC(=O)O2", molecularWeight: 176.17 },
+  "umbelliferone": { formula: "C9H6O3", smiles: "OC1=CC2=C(C=C1)C=CC(=O)O2", molecularWeight: 162.14 },
+  "scopoletin": { formula: "C10H8O4", smiles: "COC1=CC2=C(C=C1O)C=CC(=O)O2", molecularWeight: 192.17 },
+  "bergaptene": { formula: "C12H8O4", smiles: "COC1=C2OC(=O)C=CC2=CC3=C1OC=C3", molecularWeight: 216.19 },
+  "bergaptène": { formula: "C12H8O4", smiles: "COC1=C2OC(=O)C=CC2=CC3=C1OC=C3", molecularWeight: 216.19 },
+  
+  // Furanocoumarines
+  "psoralene": { formula: "C11H6O3", smiles: "O=C1OC2=CC3=C(C=CO3)C=C2C=C1", molecularWeight: 186.16 },
+  "xanthotoxine": { formula: "C12H8O4", smiles: "COC1=C2OC(=O)C=CC2=CC3=C1C=CO3", molecularWeight: 216.19 },
+  
+  // Flavonoïdes
+  "quercetine": { formula: "C15H10O7", smiles: "OC1=CC(O)=C2C(=O)C(O)=C(OC2=C1)C3=CC(O)=C(O)C=C3", molecularWeight: 302.24 },
+  "quercetin": { formula: "C15H10O7", smiles: "OC1=CC(O)=C2C(=O)C(O)=C(OC2=C1)C3=CC(O)=C(O)C=C3", molecularWeight: 302.24 },
+  "kaempferol": { formula: "C15H10O6", smiles: "OC1=CC(O)=C2C(=O)C(O)=C(OC2=C1)C3=CC=C(O)C=C3", molecularWeight: 286.24 },
+  "apigenine": { formula: "C15H10O5", smiles: "OC1=CC(O)=C2C(=O)C=C(OC2=C1)C3=CC=C(O)C=C3", molecularWeight: 270.24 },
+  "apigenin": { formula: "C15H10O5", smiles: "OC1=CC(O)=C2C(=O)C=C(OC2=C1)C3=CC=C(O)C=C3", molecularWeight: 270.24 },
+  "lutéoline": { formula: "C15H10O6", smiles: "OC1=CC(O)=C2C(=O)C=C(OC2=C1)C3=CC(O)=C(O)C=C3", molecularWeight: 286.24 },
+  "luteolin": { formula: "C15H10O6", smiles: "OC1=CC(O)=C2C(=O)C=C(OC2=C1)C3=CC(O)=C(O)C=C3", molecularWeight: 286.24 },
+  
+  // Cannabinoïdes (terpénoïdes)
+  "cannabidiol": { formula: "C21H30O2", smiles: "CCCCCC1=CC(O)=C(C2C=C(C)CCC2C(C)=C)C(O)=C1", molecularWeight: 314.46 },
+  "cbd": { formula: "C21H30O2", smiles: "CCCCCC1=CC(O)=C(C2C=C(C)CCC2C(C)=C)C(O)=C1", molecularWeight: 314.46 },
+  "cannabigerol": { formula: "C21H32O2", smiles: "CCCCCC1=CC(O)=C(CC=C(C)CCC=C(C)C)C(O)=C1", molecularWeight: 316.48 },
+  "cbg": { formula: "C21H32O2", smiles: "CCCCCC1=CC(O)=C(CC=C(C)CCC=C(C)C)C(O)=C1", molecularWeight: 316.48 },
+  
+  // Pyrazines
+  "2,3,5-triméthylpyrazine": { formula: "C7H10N2", smiles: "CC1=NC(C)=C(C)N=C1", molecularWeight: 122.17 },
+  "2,3-diéthyl-5-méthylpyrazine": { formula: "C9H14N2", smiles: "CCC1=NC(CC)=C(C)N=C1", molecularWeight: 150.22 },
+  "2-heptanone": { formula: "C7H14O", smiles: "CCCCCC(=O)C", molecularWeight: 114.19 },
+  
+  // Lactones supplémentaires
+  "sotolon": { formula: "C6H8O3", smiles: "CC1=C(C)C(=O)OC1O", molecularWeight: 128.13 },
+  "sotolone": { formula: "C6H8O3", smiles: "CC1=C(C)C(=O)OC1O", molecularWeight: 128.13 },
+  "furaneol": { formula: "C6H8O3", smiles: "CC1=C(O)C(=O)OC1C", molecularWeight: 128.13 },
+  "furanéol": { formula: "C6H8O3", smiles: "CC1=C(O)C(=O)OC1C", molecularWeight: 128.13 },
+  
+  // Aldéhydes aromatiques supplémentaires
+  "cuminaldéhyde": { formula: "C10H12O", smiles: "CC(C)C1=CC=C(C=O)C=C1", molecularWeight: 148.20 },
+  "cuminaldehyde": { formula: "C10H12O", smiles: "CC(C)C1=CC=C(C=O)C=C1", molecularWeight: 148.20 },
+  "périllaldéhyde": { formula: "C10H14O", smiles: "CC(=C)C1CCC(C=O)=CC1", molecularWeight: 150.22 },
+  "perillaldehyde": { formula: "C10H14O", smiles: "CC(=C)C1CCC(C=O)=CC1", molecularWeight: 150.22 },
+  "safranal": { formula: "C10H14O", smiles: "CC1=C(C=O)C(C)(C)CC=C1", molecularWeight: 150.22 },
+  
+  // Diterpènes
+  "phytol": { formula: "C20H40O", smiles: "CC(C)CCCC(C)CCCC(C)CCCC(C)=CCO", molecularWeight: 296.53 },
+  "manool": { formula: "C20H34O", smiles: "CC1(C)CCCC2(C)C1CCC3(C)C(O)C=CCC23", molecularWeight: 290.48 },
+  
+  // Composés soufrés supplémentaires
+  "allicine": { formula: "C6H10OS2", smiles: "C=CCSS(=O)CC=C", molecularWeight: 162.27 },
+  "allicin": { formula: "C6H10OS2", smiles: "C=CCSS(=O)CC=C", molecularWeight: 162.27 },
+  "diallyl disulfide": { formula: "C6H10S2", smiles: "C=CCSSCC=C", molecularWeight: 146.27 },
+  "disulfure de diallyle": { formula: "C6H10S2", smiles: "C=CCSSCC=C", molecularWeight: 146.27 },
+  
+  // Acides organiques supplémentaires
+  "acide rosmarinique": { formula: "C18H16O8", smiles: "OC(=O)C(CC1=CC(O)=C(O)C=C1)OC(=O)C=CC2=CC(O)=C(O)C=C2", molecularWeight: 360.31 },
+  "rosmarinic acid": { formula: "C18H16O8", smiles: "OC(=O)C(CC1=CC(O)=C(O)C=C1)OC(=O)C=CC2=CC(O)=C(O)C=C2", molecularWeight: 360.31 },
+  "acide carnosique": { formula: "C20H28O4", smiles: "CC(C)C1=CC2=C(C(O)=C1O)C3(C)CCCC(C)(C)C3CC2", molecularWeight: 332.43 },
+  "carnosic acid": { formula: "C20H28O4", smiles: "CC(C)C1=CC2=C(C(O)=C1O)C3(C)CCCC(C)(C)C3CC2", molecularWeight: 332.43 },
 };
 
 /**
