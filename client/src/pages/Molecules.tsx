@@ -36,7 +36,7 @@ import {
 
 export default function Molecules() {
   const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
-  const { data: chemicalFamiliesData } = trpc.chemicalFamilies.listWithCount.useQuery();
+  const { data: chemicalFamiliesData } = trpc.chemicalFamilies.getAllFamilies.useQuery();
   const trackEvent = trpc.analytics.trackEvent.useMutation();
   const [, setLocation] = useLocation();
   
@@ -134,13 +134,13 @@ export default function Molecules() {
     }));
   }, [molecules]);
 
-  // Extract chemical families from dedicated table
+  // Extract chemical families from classification service
   const chemicalFamilies = useMemo(() => {
     if (!chemicalFamiliesData) return [];
     return chemicalFamiliesData.map(f => ({
-      value: String(f.id),
-      label: `${f.name} (${f.moleculeCount || 0})`,
-      count: f.moleculeCount || 0
+      value: f.id,
+      label: f.nameFr,
+      labelEn: f.name
     }));
   }, [chemicalFamiliesData]);
 
@@ -260,18 +260,18 @@ export default function Molecules() {
       boilingPointRange, molecularWeightRange]);
 
   // Query for molecules in selected chemical family
-  const { data: chemicalFamilyMoleculeIds } = trpc.chemicalFamilies.getMoleculesById.useQuery(
-    { familyId: parseInt(chemicalFamilyFilter) },
+  const { data: chemicalFamilyMoleculesData } = trpc.chemicalFamilies.getMoleculesByFamily.useQuery(
+    { familyId: chemicalFamilyFilter },
     { enabled: chemicalFamilyFilter !== "all" }
   );
 
   // Apply chemical family filter on top of other filters
   const finalFilteredMolecules = useMemo(() => {
     if (chemicalFamilyFilter === "all") return filteredMolecules;
-    if (!chemicalFamilyMoleculeIds) return [];
-    const moleculeIdsInFamily = new Set(chemicalFamilyMoleculeIds.map(m => m.id));
+    if (!chemicalFamilyMoleculesData?.molecules) return [];
+    const moleculeIdsInFamily = new Set(chemicalFamilyMoleculesData.molecules.map(m => m.id));
     return filteredMolecules.filter(m => moleculeIdsInFamily.has(m.id));
-  }, [filteredMolecules, chemicalFamilyFilter, chemicalFamilyMoleculeIds]);
+  }, [filteredMolecules, chemicalFamilyFilter, chemicalFamilyMoleculesData]);
 
   // Reset all filters
   const resetFilters = () => {
@@ -567,7 +567,7 @@ export default function Molecules() {
                       </Select>
                       {chemicalFamilyFilter !== "all" && (
                         <p className="text-xs text-muted-foreground mt-2">
-                          {chemicalFamilyMoleculeIds?.length || 0} molécule(s) dans cette famille
+                          {chemicalFamilyMoleculesData?.total || 0} molécule(s) dans cette famille
                         </p>
                       )}
                     </div>

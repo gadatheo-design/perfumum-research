@@ -58,6 +58,7 @@ import { ifraRouter } from "./routers/ifra";
 import { coconutRouter } from "./routers/coconut";
 import { flavornetRouter } from "./routers/flavornet";
 import { therapeuticRouter } from "./routers/therapeutic";
+import { chemicalFamiliesRouter } from "./routers/chemical-families";
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -10210,6 +10211,8 @@ Familles olfactives disponibles:
   // Flavornet Olfactory Descriptors
   flavornet: flavornetRouter,
   therapeutic: therapeuticRouter,
+  // Chemical Families Classification
+  chemicalFamilies: chemicalFamiliesRouter,
 });
 export type AppRouter = typeof appRouter;
 

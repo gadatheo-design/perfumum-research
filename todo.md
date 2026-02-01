@@ -4692,3 +4692,16 @@
 - [x] Enrichir la base Flavornet avec plus de composés spécifiques au projet (234 composés, 250 molécules enrichies - 35%)
 - [ ] Ajouter les propriétés thérapeutiques aux molécules
 - [ ] Vérifier et améliorer les synergies moléculaires (masquage, neutralisation)
+
+
+---
+
+## Session 1 Février 2026 - Filtre par famille chimique
+
+### Filtre par famille chimique dans /molecules
+- [x] Créer le service de classification par famille chimique (`chemical-families-service.ts`)
+- [x] Définir 17 familles chimiques (terpènes, aldéhydes, alcools, esters, cétones, phénols, éthers, acides, lactones, coumarines, muscs, indoles, furanones, nitriles, pyrazines, thiazoles, sulfures)
+- [x] Implémenter la classification par patterns de noms, SMILES et IUPAC
+- [x] Créer le router tRPC pour les familles chimiques (`routers/chemical-families.ts`)
+- [x] Intégrer le filtre dans la page Molecules.tsx
+- [x] Écrire les tests unitaires (40 tests passés)
