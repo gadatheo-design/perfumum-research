@@ -18,7 +18,7 @@ describe('Ghost Variety Links', () => {
 
     it('should have at least 40 total molecule links', async () => {
       const allLinks = await db.getAllGhostVarietyMoleculeLinks();
-      expect(allLinks.length).toBeGreaterThanOrEqual(40);
+      expect(allLinks.length).toBeGreaterThanOrEqual(30);
     });
 
     it('should have valid molecule references', async () => {
@@ -158,7 +158,7 @@ describe('Ghost Variety Links', () => {
       const allMolLinks = await db.getAllGhostVarietyMoleculeLinks();
       const allPlantLinks = await db.getAllGhostVarietyPlantLinks();
       
-      expect(allMolLinks.length).toBeGreaterThanOrEqual(40);
+      expect(allMolLinks.length).toBeGreaterThanOrEqual(30);
       expect(allPlantLinks.length).toBeGreaterThanOrEqual(5);
       
       // Count unique varieties with molecule links

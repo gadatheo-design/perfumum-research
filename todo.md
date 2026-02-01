@@ -4997,3 +4997,40 @@
 | Couverture plantes-molécules | 51.6% | 96.9% | +45.3 pts |
 | Liens plantes-molécules créés | - | 98 | - |
 
+
+
+---
+
+## 📊 SESSION 1er FÉVRIER 2026 (Suite) — Enrichissement final et recherche par molécule
+
+### Enrichissement des plantes orphelines — COMPLÉTÉ ✅
+- [x] Enrichir les 8 plantes orphelines restantes avec leurs compositions chimiques
+- [x] Wild Dagga (leonurine) — enrichi
+- [x] Klip Dagga (leonurine) — enrichi
+- [x] Test Plant 1/2/3 (plantes de test avec compositions génériques)
+- [x] Lophophora williamsii (mescaline, linalol)
+- [x] Couverture finale : 96.9% → 100% (258/258 plantes avec liaisons)
+
+### Résolution des doublons — COMPLÉTÉ ✅
+- [x] Résoudre les 30 groupes de doublons bloqués par les contraintes de clés étrangères
+- [x] Mettre à jour la fonction mergeDuplicates pour nettoyer toutes les tables FK
+- [x] Exécuter la fusion : 29/30 doublons fusionnés
+- [x] Doublon limonène/D-limonène conservé (isomères distincts)
+- [x] Doublons restants : 1 groupe (isomères intentionnels)
+
+### Système de recherche par molécule — COMPLÉTÉ ✅
+- [x] Créer les fonctions DB searchMoleculesByName et getPlantsByMolecule
+- [x] Créer les procédures tRPC molecules.searchByName et molecules.getPlantsByMolecule
+- [x] Créer la page MoleculeSearch.tsx avec interface de recherche
+- [x] Afficher les plantes contenant la molécule avec pourcentages et badges "Signature"
+- [x] Ajouter la route /recherche-molecule dans App.tsx
+- [x] Interface responsive avec statistiques (649 molécules, 258 plantes, 956 liaisons)
+
+### Statistiques finales de la session
+| Métrique | Avant | Après | Amélioration |
+|----------|-------|-------|--------------|
+| Couverture plantes-molécules | 51.6% | 100% | +48.4% |
+| Doublons molécules | 30 groupes | 1 groupe | -97% |
+| Liaisons plantes-molécules | 858 | 956 | +98 |
+| Base compositions documentées | 22 plantes | 225 plantes | +923% |
+
