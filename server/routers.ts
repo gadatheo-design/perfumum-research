@@ -57,6 +57,7 @@ import { landracesRouter } from "./routers/landraces";
 import { ifraRouter } from "./routers/ifra";
 import { coconutRouter } from "./routers/coconut";
 import { flavornetRouter } from "./routers/flavornet";
+import { therapeuticRouter } from "./routers/therapeutic";
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -10208,6 +10209,7 @@ Familles olfactives disponibles:
   coconut: coconutRouter,
   // Flavornet Olfactory Descriptors
   flavornet: flavornetRouter,
+  therapeutic: therapeuticRouter,
 });
 export type AppRouter = typeof appRouter;
 

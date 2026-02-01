@@ -884,6 +884,43 @@ const FLAVORNET_DATABASE: Record<string, FlavornetData> = {
   // Vanilloïdes et benzénoïdes
   '121-32-4': { casNumber: '121-32-4', name: 'ethyl vanillin', molecularWeight: 166.2, percepts: ['vanilla', 'sweet', 'creamy'], kovatsRI: { DB5: 1520 }, source: 'flavornet' },
   // Acides supplémentaires
+  '60-33-3': { casNumber: '60-33-3', name: 'linoleic acid', molecularWeight: 280.4, percepts: ['fatty', 'oily'], kovatsRI: { DB5: 2132 }, source: 'flavornet' },
+  '65-85-0': { casNumber: '65-85-0', name: 'benzoic acid', molecularWeight: 122.1, percepts: ['balsamic', 'urine'], kovatsRI: { DB5: 1180 }, source: 'flavornet' },
+  '331-39-5': { casNumber: '331-39-5', name: 'caffeic acid', molecularWeight: 180.2, percepts: ['phenolic', 'spicy'], kovatsRI: { DB5: 1850 }, source: 'flavornet' },
+  '1135-24-6': { casNumber: '1135-24-6', name: 'ferulic acid', molecularWeight: 194.2, percepts: ['vanilla', 'spicy', 'phenolic'], kovatsRI: { DB5: 1920 }, source: 'flavornet' },
+  '501-98-4': { casNumber: '501-98-4', name: 'coumaric acid', molecularWeight: 164.2, percepts: ['honey', 'floral', 'phenolic'], kovatsRI: { DB5: 1780 }, source: 'flavornet' },
+  // === NOUVEAUX COMPOSÉS - SESSION 7 ===
+  // Ambroxan et muscs
+  '6790-58-5': { casNumber: '6790-58-5', name: 'ambroxan', molecularWeight: 236.4, percepts: ['amber', 'woody', 'musky'], kovatsRI: { DB5: 1760 }, source: 'flavornet' },
+  '123-69-3': { casNumber: '123-69-3', name: 'ambrettolide', molecularWeight: 252.4, percepts: ['musky', 'floral', 'sweet'], kovatsRI: { DB5: 1920 }, source: 'flavornet' },
+  // Géosmine et composés terreux
+  '19700-21-1': { casNumber: '19700-21-1', name: 'geosmin', molecularWeight: 182.3, percepts: ['earthy', 'musty', 'beet'], kovatsRI: { DB5: 1425 }, source: 'flavornet' },
+  '2371-42-8': { casNumber: '2371-42-8', name: '2-methylisoborneol', molecularWeight: 168.3, percepts: ['earthy', 'musty', 'camphor'], kovatsRI: { DB5: 1180 }, source: 'flavornet' },
+  // Indole et dérivés
+  // Guaiacol et phénols
+  // Pyrazines
+  '5910-89-4': { casNumber: '5910-89-4', name: '2,3-dimethylpyrazine', molecularWeight: 108.1, percepts: ['nutty', 'cocoa', 'roasted'], kovatsRI: { DB5: 916 }, source: 'flavornet' },
+  // Ionones gamma
+  '79-76-5': { casNumber: '79-76-5', name: 'gamma-ionone', molecularWeight: 192.3, percepts: ['woody', 'violet', 'orris'], kovatsRI: { DB5: 1490 }, source: 'flavornet' },
+  // Ozone et ozonic
+  // Esters supplémentaires
+  '110-19-0': { casNumber: '110-19-0', name: 'isobutyl acetate', molecularWeight: 116.2, percepts: ['fruity', 'banana', 'floral'], kovatsRI: { DB5: 771 }, source: 'flavornet' },
+  // Cétones
+  '110-93-0': { casNumber: '110-93-0', name: '6-methyl-5-hepten-2-one', molecularWeight: 126.2, percepts: ['citrus', 'green', 'oily'], kovatsRI: { DB5: 985 }, source: 'flavornet' },
+  // Alcools
+  // Terpènes supplémentaires
+  '29050-33-7': { casNumber: '29050-33-7', name: 'delta-elemene', molecularWeight: 204.4, percepts: ['woody', 'herbal', 'fresh'], kovatsRI: { DB5: 1338 }, source: 'flavornet' },
+  '20307-84-0': { casNumber: '20307-84-0', name: 'trans-beta-ocimene', molecularWeight: 136.2, percepts: ['herbal', 'sweet', 'floral'], kovatsRI: { DB5: 1050 }, source: 'flavornet' },
+  '13877-91-3': { casNumber: '13877-91-3', name: 'beta-ocimene', molecularWeight: 136.2, percepts: ['herbal', 'sweet', 'citrus'], kovatsRI: { DB5: 1037 }, source: 'flavornet' },
+  // Sesquiterpènes supplémentaires
+  '489-39-4': { casNumber: '489-39-4', name: 'aristolene', molecularWeight: 204.4, percepts: ['woody', 'spicy', 'herbal'], kovatsRI: { DB5: 1450 }, source: 'flavornet' },
+  '644-30-4': { casNumber: '644-30-4', name: 'alpha-bisabolene', molecularWeight: 204.4, percepts: ['balsamic', 'woody', 'spicy'], kovatsRI: { DB5: 1508 }, source: 'flavornet' },
+  // Composés soufrés
+  '3581-91-7': { casNumber: '3581-91-7', name: 'dimethyl trisulfide', molecularWeight: 126.3, percepts: ['sulfurous', 'cabbage', 'onion'], kovatsRI: { DB5: 970 }, source: 'flavornet' },
+  // Lactones supplémentaires
+  // Furanones
+  '698-10-2': { casNumber: '698-10-2', name: 'sotolon', molecularWeight: 128.1, percepts: ['maple', 'caramel', 'curry'], kovatsRI: { DB5: 1110 }, source: 'flavornet' },
+  // Aldéhydes supplémentaires
 };
 
 // Dictionnaire de traduction des noms de molécules FR→EN

@@ -1,0 +1,260 @@
+{
+  "query": "SELECT name, cas_number, smiles FROM molecules WHERE flavornet_percepts IS NULL OR flavornet_percepts = '' ORDER BY name LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT name, cas_number, smiles FROM molecules WHERE flavornet_percepts IS NULL OR flavornet_percepts = '' ORDER BY name LIMIT 50;",
+  "rows": [
+    {
+      "name": "3-Carène",
+      "cas_number": "498-15-7",
+      "smiles": "NULL"
+    },
+    {
+      "name": "6-Gingérol",
+      "cas_number": "23513-14-6",
+      "smiles": "NULL"
+    },
+    {
+      "name": "AKBA (Acide 3-O-acétyl-11-céto-β-boswellique)",
+      "cas_number": "67416-61-9",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Absolue d'Iris (Orris Butter)",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acacia brûlé",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acaciine",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide 11-céto-β-boswellique (KBA)",
+      "cas_number": "17019-92-0",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide Benzoïque",
+      "cas_number": "65-85-0",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide Caféique",
+      "cas_number": "331-39-5",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide Coumarique",
+      "cas_number": "501-98-4",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide Décanoïque (C10)",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide Férulique",
+      "cas_number": "1135-24-6",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide Linoléique",
+      "cas_number": "112-80-1",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide oléanolique",
+      "cas_number": "508-02-1",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide palmitoléique",
+      "cas_number": "373-49-9",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide ursolique",
+      "cas_number": "77-52-1",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acide β-boswellique",
+      "cas_number": "631-69-6",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acétate d'incensole",
+      "cas_number": "68480-89-7",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acétate de Bornyle",
+      "cas_number": "5655-61-8",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acétate de Bornyle",
+      "cas_number": "5655-61-8",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Acétylpyrazine",
+      "cas_number": "22047-25-2",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Agarol",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Agarospirol",
+      "cas_number": "1460-73-7",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Agarwood / Oud — Aquilaria crassna (CITES, proxy)",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Agarwood / Oud — Aquilaria malaccensis (CITES)",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Alcool cinnamique",
+      "cas_number": "140-10-3",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Aldéhyde C-11 Undécylénique",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Aldéhyde C-12 MNA",
+      "cas_number": "110-41-8",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Aldéhyde C-14 (Gamma-Undécalactone)",
+      "cas_number": "124-25-4",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Aldéhyde feuille",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Aldéhyde métallique",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Aldéhydes chauds",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Aldéhydes métalliques",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Aldéhydes sombres",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Alpha-bulnesene",
+      "cas_number": "3691-11-0",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Alpha-santalene",
+      "cas_number": "512-61-8",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Aluminium aldehyde",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambergris",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambre Gris (Ambergris)",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambre Gris Naturel",
+      "cas_number": "8038-65-1",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambre profond",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambrette seed",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambrette — Abelmoschus moschatus (musc végétal)",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambrettolide",
+      "cas_number": "123-69-3",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambrox Super",
+      "cas_number": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambroxan",
+      "cas_number": "6790-58-5",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambroxan",
+      "cas_number": "6790-58-5",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambroxan",
+      "cas_number": "6790-58-5",
+      "smiles": "NULL"
+    },
+    {
+      "name": "Ambroxan (Cetalox)",
+      "cas_number": "6790-58-5",
+      "smiles": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tcas_number\tsmiles\n3-Carène\t498-15-7\tNULL\n6-Gingérol\t23513-14-6\tNULL\nAKBA (Acide 3-O-acétyl-11-céto-β-boswellique)\t67416-61-9\tNULL\nAbsolue d'Iris (Orris Butter)\tNULL\tNULL\nAcacia brûlé\tNULL\tNULL\nAcaciine\tNULL\tNULL\nAcide 11-céto-β-boswellique (KBA)\t17019-92-0\tNULL\nAcide Benzoïque\t65-85-0\tNULL\nAcide Caféique\t331-39-5\tNULL\nAcide Coumarique\t501-98-4\tNULL\nAcide Décanoïque (C10)\tNULL\tNULL\nAcide Férulique\t1135-24-6\tNULL\nAcide Linoléique\t112-80-1\tNULL\nAcide oléanolique\t508-02-1\tNULL\nAcide palmitoléique\t373-49-9\tNULL\nAcide ursolique\t77-52-1\tNULL\nAcide β-boswellique\t631-69-6\tNULL\nAcétate d'incensole\t68480-89-7\tNULL\nAcétate de Bornyle\t5655-61-8\tNULL\nAcétate de Bornyle\t5655-61-8\tNULL\nAcétylpyrazine\t22047-25-2\tNULL\nAgarol\tNULL\tNULL\nAgarospirol\t1460-73-7\tNULL\nAgarwood / Oud — Aquilaria crassna (CITES, proxy)\tNULL\tNULL\nAgarwood / Oud — Aquilaria malaccensis (CITES)\tNULL\tNULL\nAlcool cinnamique\t140-10-3\tNULL\nAldéhyde C-11 Undécylénique\tNULL\tNULL\nAldéhyde C-12 MNA\t110-41-8\tNULL\nAldéhyde C-14 (Gamma-Undécalactone)\t124-25-4\tNULL\nAldéhyde feuille\tNULL\tNULL\nAldéhyde métallique\tNULL\tNULL\nAldéhydes chauds\tNULL\tNULL\nAldéhydes métalliques\tNULL\tNULL\nAldéhydes sombres\tNULL\tNULL\nAlpha-bulnesene\t3691-11-0\tNULL\nAlpha-santalene\t512-61-8\tNULL\nAluminium aldehyde\tNULL\tNULL\nAmbergris\tNULL\tNULL\nAmbergris (patrimoine) — Physeter macrocephalus (échouages)\tNULL\tNULL\nAmbre Gris (Ambergris)\tNULL\tNULL\nAmbre Gris Naturel\t8038-65-1\tNULL\nAmbre profond\tNULL\tNULL\nAmbrette seed\tNULL\tNULL\nAmbrette — Abelmoschus moschatus (musc végétal)\tNULL\tNULL\nAmbrettolide\t123-69-3\tNULL\nAmbrox Super\tNULL\tNULL\nAmbroxan\t6790-58-5\tNULL\nAmbroxan\t6790-58-5\tNULL\nAmbroxan\t6790-58-5\tNULL\nAmbroxan (Cetalox)\t6790-58-5\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 172
+}

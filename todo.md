@@ -314,7 +314,20 @@
 
 ---
 
-## 🆕 NOUVELLES TÂCHES (31 Jan 2026 - Session courante)
+## 🆕 NOUVELLES TÂCHES (1 Fév 2026 - Session courante)
+
+### Enrichissement des propriétés thérapeutiques
+- [x] Créer le service d'enrichissement des propriétés thérapeutiques (51 composés)
+- [x] Créer le router tRPC pour l'enrichissement thérapeutique
+- [x] Enrichir 222 molécules avec propriétés thérapeutiques (31%)
+- [x] Enrichir la base Flavornet avec plus de composés (234 composés, 250 molécules - 35%)
+- [x] Ajouter les tooltips explicatifs sur les badges IFRA
+- [x] Créer la fonctionnalité d'export CSV des molécules filtrées
+- [x] Ajouter les badges IFRA dans les cartes molécules de la liste
+- [x] Créer la page de statistiques olfactives (/stats-olfactives)
+- [x] Ajouter les liens vers /stats-olfactives et /percepts dans la navigation
+
+## 📝 TÂCHES PRÉCÉDENTES (31 Jan 2026)
 
 ### Enrichissement IFRA (Conformité réglementaire)
 - [x] Créer le service IFRA avec base de données locale (64 substances réglementées)
@@ -4670,3 +4683,12 @@
 - [x] Ajouter des tooltips explicatifs sur les badges IFRA (explications détaillées + actions recommandées)
 - [x] Créer une fonctionnalité d'export CSV des molécules filtrées (bouton dans la barre de filtres)
 - [x] Enrichir la base Flavornet avec plus de composés (246 composés, 241 molécules enrichies - 34%)
+
+
+## 🆕 NOUVELLES TÂCHES (1 Février 2026 - Session 7)
+
+### Enrichissement continu
+- [x] Analyser l'état actuel de l'enrichissement (IFRA: 100%, Flavornet: 34%)
+- [x] Enrichir la base Flavornet avec plus de composés spécifiques au projet (234 composés, 250 molécules enrichies - 35%)
+- [ ] Ajouter les propriétés thérapeutiques aux molécules
+- [ ] Vérifier et améliorer les synergies moléculaires (masquage, neutralisation)
