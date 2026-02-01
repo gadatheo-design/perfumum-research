@@ -4757,3 +4757,31 @@
 - [x] Boutons de filtre rapide par famille chimique (12 familles affichées)
 - [x] Compteur de molécules par famille chimique
 - [x] Tests unitaires therapeutic service enrichi (24 tests passés)
+
+
+---
+
+## Session 1 Février 2026 - Enrichissement et nettoyage des données
+
+### Analyse et diagnostic
+- [x] Analyser l'état actuel des données (couverture CAS 59.3%, IUPAC 55.4%, formules 0%)
+- [x] Identifier les doublons potentiels dans les molécules (39 groupes identifiés)
+- [x] Identifier les incohérences dans les données existantes
+- [x] Établir les priorités d'enrichissement
+
+### Nettoyage des données
+- [x] Créer service de fusion des doublons (15 groupes prêts à fusionner)
+- [x] Créer API de prévisualisation et exécution du nettoyage
+- [x] Tests unitaires pour le service de nettoyage (13 tests)
+
+### Enrichissement scientifique
+- [x] Créer base de référence de formules chimiques (90+ molécules)
+- [x] Créer API d'enrichissement des formules et SMILES
+- [x] 26 molécules prêtes à être enrichies automatiquement
+
+### Amélioration des liaisons
+- [x] Créer service d'analyse des liaisons entre entités
+- [x] API pour identifier molécules sans recettes (426 identifiées)
+- [x] API pour identifier molécules sans plantes (399 identifiées)
+- [x] API pour identifier plantes sans molécules (154 identifiées)
+- [x] Tests unitaires pour le service d'analyse des liaisons (9 tests)

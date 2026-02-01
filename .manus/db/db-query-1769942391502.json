@@ -1,0 +1,21 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(*) FROM recettes) as total_recettes,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM terroirs) as total_terroirs,\n  (SELECT COUNT(*) FROM molecules_recettes) as molecule_recette_links,\n  (SELECT COUNT(*) FROM plant_molecules) as plant_molecule_links,\n  (SELECT COUNT(DISTINCT molecule_id) FROM molecules_recettes) as molecules_with_recettes,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_with_plants,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) as plants_with_molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(*) FROM recettes) as total_recettes,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM terroirs) as total_terroirs,\n  (SELECT COUNT(*) FROM molecules_recettes) as molecule_recette_links,\n  (SELECT COUNT(*) FROM plant_molecules) as plant_molecule_links,\n  (SELECT COUNT(DISTINCT molecule_id) FROM molecules_recettes) as molecules_with_recettes,\n  (SELECT COUNT(DISTINCT molecule_id) FROM plant_molecules) as molecules_with_plants,\n  (SELECT COUNT(DISTINCT plant_id) FROM plant_molecules) as plants_with_molecules;",
+  "rows": [
+    {
+      "total_molecules": "708",
+      "total_recettes": "312",
+      "total_plants": "258",
+      "total_terroirs": "57",
+      "molecule_recette_links": "1130",
+      "plant_molecule_links": "682",
+      "molecules_with_recettes": "282",
+      "molecules_with_plants": "309",
+      "plants_with_molecules": "104"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\ttotal_recettes\ttotal_plants\ttotal_terroirs\tmolecule_recette_links\tplant_molecule_links\tmolecules_with_recettes\tmolecules_with_plants\tplants_with_molecules\n708\t312\t258\t57\t1130\t682\t282\t309\t104\n",
+  "stderr": "",
+  "execution_time_ms": 381
+}
