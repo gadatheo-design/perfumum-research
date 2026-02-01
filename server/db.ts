@@ -19804,3 +19804,36 @@ export async function getFlavornetEnrichmentStats(): Promise<{
     withKovatsRI,
   };
 }
+
+
+/**
+ * Recherche de molécules par nom (pour la page /recherche-molecule)
+ */
+export async function searchMoleculesByName(name: string): Promise<{
+  id: number;
+  name: string;
+  chemicalFormula: string | null;
+  olfactiveFamily: string | null;
+  chemicalClass: string | null;
+  casNumber: string | null;
+}[]> {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const searchTerm = `%${name.toLowerCase()}%`;
+  
+  const results = await db.select()
+    .from(molecules)
+    .where(sql`LOWER(${molecules.name}) LIKE ${searchTerm}`)
+    .orderBy(molecules.name)
+    .limit(50);
+  
+  return results.map(m => ({
+    id: m.id,
+    name: m.name,
+    chemicalFormula: m.chemicalFormula,
+    olfactiveFamily: m.olfactiveFamily,
+    chemicalClass: m.chemicalClass,
+    casNumber: m.casNumber,
+  }));
+}

@@ -91,6 +91,7 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/chemotypes", label: "Chémotypes", badge: "NEW" },
       { href: "/carte-plantes-gps", label: "Carte GPS Plantes" },
       { href: "/recherche-avancee", label: "Recherche avancée" },
+      { href: "/recherche-molecule", label: "Recherche par Molécule", badge: "NEW" },
       { href: "/alternatives-durables", label: "Alternatives durables", badge: "NEW" },
     ],
   },

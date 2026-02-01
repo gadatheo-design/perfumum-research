@@ -128,6 +128,7 @@ import Inventaire from "./pages/Inventaire";
 
 // === MOLÉCULES (Lazy loaded for performance) ===
 import Molecules from "./pages/Molecules";
+import MoleculeSearch from "./pages/MoleculeSearch";
 const MoleculeDetail = lazy(() => import("./pages/MoleculeDetail"));
 import TerpeneDetail from "./pages/TerpeneDetail";
 import Familles from "./pages/Familles";
@@ -605,6 +606,7 @@ function Router() {
       {/* === MOLÉCULES (Consolidé) === */}
       <Route path="/molecules-hub" component={MoleculesHub} />
       <Route path="/molecules" component={Molecules} />
+      <Route path="/recherche-molecule" component={MoleculeSearch} />
       {/* Lazy-loaded detail pages */}
       <Route path="/molecule/:id">
         {(params) => (

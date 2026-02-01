@@ -428,6 +428,20 @@ export const appRouter = router({
       return await db.getAllMolecules();
     }),
     
+    // Recherche de molécules par nom (pour la page /recherche-molecule)
+    searchByName: publicProcedure
+      .input(z.object({ name: z.string() }))
+      .query(async ({ input }) => {
+        return await db.searchMoleculesByName(input.name);
+      }),
+    
+    // Récupérer les plantes contenant une molécule spécifique
+    getPlantsByMolecule: publicProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getPlantsByMolecule(input.moleculeId);
+      }),
+    
     // Audit des liaisons molécule-recette
     getRecetteAuditStats: publicProcedure.query(async () => {
       return db.getMoleculeRecetteAuditStats();

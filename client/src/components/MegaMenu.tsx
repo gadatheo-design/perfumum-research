@@ -514,6 +514,13 @@ export function MegaMenu() {
           description: "Filtres multi-critères",
         },
         {
+          label: "Recherche par Molécule",
+          path: "/recherche-molecule",
+          icon: <Beaker className="h-4 w-4" />,
+          description: "Trouver les plantes par molécule",
+          badge: "NEW",
+        },
+        {
           label: "Alternatives durables",
           path: "/alternatives-durables",
           icon: <ShieldCheck className="h-4 w-4" />,

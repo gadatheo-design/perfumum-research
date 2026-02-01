@@ -5034,3 +5034,12 @@
 | Liaisons plantes-molécules | 858 | 956 | +98 |
 | Base compositions documentées | 22 plantes | 225 plantes | +923% |
 
+
+---
+
+## 📊 SESSION 1er FÉVRIER 2026 — Navigation
+
+### Ajout lien recherche par molécule au menu
+- [x] Ajouter le lien /recherche-molecule dans MegaMenu section "Exploration"
+- [x] Ajouter le lien /recherche-molecule dans MobileMenu
+
