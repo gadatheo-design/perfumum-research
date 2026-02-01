@@ -254,7 +254,7 @@ export default function RawMaterialsInventory() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              <Link href="/suppliers">
+              <Link href="/fournisseurs">
                 <Button variant="outline" size="sm">
                   <Building2 className="h-4 w-4 mr-2" />
                   Fournisseurs

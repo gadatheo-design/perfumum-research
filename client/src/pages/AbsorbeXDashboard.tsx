@@ -200,7 +200,7 @@ export function AbsorbeXDashboard() {
             </Card>
           </Link>
 
-          <Link href="/absorbe-x/suivi-experiences">
+          <Link href="/absorbe-x/notes-recherche">
             <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
               <div className="flex items-center gap-3 mb-3">
                 <Beaker className="h-6 w-6 text-purple-600" />

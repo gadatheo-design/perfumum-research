@@ -4891,3 +4891,64 @@
 ### Tests
 - [x] Tests unitaires pour le service d'enrichissement (20 tests passés)
 
+
+
+---
+
+## 🔍 SESSION ACTIVE — Audit complet et nettoyage
+
+### Audit et liens morts
+- [ ] Vérifier le fonctionnement de toutes les pages principales
+- [ ] Détecter et corriger les liens morts
+- [ ] Vérifier les routes orphelines dans App.tsx
+
+### Amélioration navigation
+- [ ] Améliorer les breadcrumbs sur toutes les pages
+- [ ] Ajouter des liens de retour cohérents
+- [ ] Vérifier la navigation mobile
+
+### Design et cohérence
+- [ ] Vérifier la cohérence visuelle des pages
+- [ ] Améliorer les états hover et focus
+- [ ] Optimiser le responsive
+
+### Nettoyage code
+- [ ] Identifier et supprimer le code mort
+- [ ] Supprimer les imports inutilisés
+- [ ] Nettoyer les composants non utilisés
+
+
+
+---
+
+## 🔍 SESSION 1 Février 2026 — Audit complet et nettoyage
+
+### Audit des liens morts
+- [x] Analyser toutes les routes définies dans App.tsx (200+ routes)
+- [x] Détecter les liens morts dans les pages (10 liens identifiés)
+- [x] Corriger les liens morts :
+  - [x] /absorbe-x/suivi-experiences → /notes-recherche
+  - [x] /dilution-calculator → /outils/dilution
+  - [x] /suppliers → /fournisseurs
+  - [x] /varieties/new → /plant-varieties (avec toast)
+  - [x] /research → /recherche-scientifique
+  - [x] /research-publications → /bibliographie
+
+### Amélioration de la navigation
+- [x] Ajouter 15 routes admin manquantes dans les breadcrumbs :
+  - /admin/accords, /admin/familles, /admin/matieres
+  - /admin/validation, /admin/orphan-molecules
+  - /admin/ai-classification, /admin/ai-classification-batch
+  - /admin/niche-plant-linking, /admin/classification-review
+  - /admin/notifications, /admin/progress-report
+  - /admin/chemical-family-linking, /admin/import-csv, /admin/import-csv-preview
+
+### Nettoyage du code
+- [x] Corriger les erreurs TypeScript dans tobacco.ts (7 corrections)
+- [x] Identifier les routes orphelines (200 routes non liées)
+
+### Enrichissement des données (session précédente)
+- [x] Enrichir les structures SMILES (8.2% → 28.3%, +138 molécules)
+- [x] Compléter les numéros CAS (58% → 59.9%, +13 molécules)
+- [x] Base de référence étendue à 350+ entrées
+

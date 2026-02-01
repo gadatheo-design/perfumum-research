@@ -222,6 +222,20 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/admin/molecule-origins": { label: "Origines Molécules", parent: "/admin" },
   "/admin/terroirs-geocode": { label: "Géocodage Terroirs", parent: "/admin" },
   "/admin/data-quality": { label: "Qualité des données", parent: "/admin" },
+  "/admin/accords": { label: "Accords", parent: "/admin" },
+  "/admin/familles": { label: "Familles", parent: "/admin" },
+  "/admin/matieres": { label: "Matières Premières", parent: "/admin" },
+  "/admin/validation": { label: "Validation", parent: "/admin" },
+  "/admin/orphan-molecules": { label: "Molécules Orphelines", parent: "/admin" },
+  "/admin/ai-classification": { label: "Classification IA", parent: "/admin" },
+  "/admin/ai-classification-batch": { label: "Classification IA (Batch)", parent: "/admin" },
+  "/admin/niche-plant-linking": { label: "Liaison Plantes Niche", parent: "/admin" },
+  "/admin/classification-review": { label: "Revue Classification", parent: "/admin" },
+  "/admin/notifications": { label: "Notifications", parent: "/admin" },
+  "/admin/progress-report": { label: "Rapport de Progrès", parent: "/admin" },
+  "/admin/chemical-family-linking": { label: "Liaison Familles Chimiques", parent: "/admin" },
+  "/admin/import-csv": { label: "Import CSV", parent: "/admin" },
+  "/admin/import-csv-preview": { label: "Prévisualisation CSV", parent: "/admin" },
 };
 
 // Patterns dynamiques pour les pages de détail

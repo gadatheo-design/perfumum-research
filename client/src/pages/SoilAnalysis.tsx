@@ -158,7 +158,7 @@ export default function SoilAnalysis() {
       {/* En-tête */}
       <div className="space-y-4">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Link href="/research" className="hover:text-foreground">Recherche</Link>
+          <Link href="/recherche-scientifique" className="hover:text-foreground">Recherche</Link>
           <ChevronRight className="h-4 w-4" />
           <span>Analyses Pédologiques</span>
         </div>

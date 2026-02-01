@@ -374,7 +374,7 @@ export function VarietiesContent() {
         <p className="text-sm text-muted-foreground">
           {filteredVarieties.length} résultat{filteredVarieties.length !== 1 ? "s" : ""}
         </p>
-        <Link href="/varieties/new">
+        <Link href="/variety/new">
           <Button size="sm">
             <Plus className="w-4 h-4 mr-2" />
             Nouvelle variété

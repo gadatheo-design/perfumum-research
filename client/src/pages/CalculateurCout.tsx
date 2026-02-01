@@ -981,7 +981,7 @@ Concentration: ${concentration}%
                       <div className="text-sm text-muted-foreground">Suggestions intelligentes</div>
                     </div>
                   </Link>
-                  <Link href="/dilution-calculator">
+                  <Link href="/outils/dilution-calculator">
                     <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer">
                       <div className="font-medium flex items-center gap-2 mb-1 text-foreground">
                         <Scale className="w-4 h-4 text-primary" />

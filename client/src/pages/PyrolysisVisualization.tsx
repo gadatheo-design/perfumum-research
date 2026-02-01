@@ -396,7 +396,7 @@ export default function PyrolysisVisualization() {
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Link href="/" className="hover:text-foreground">Accueil</Link>
           <ChevronRight className="h-4 w-4" />
-          <Link href="/research" className="hover:text-foreground">Recherche</Link>
+          <Link href="/recherche-scientifique" className="hover:text-foreground">Recherche</Link>
           <ChevronRight className="h-4 w-4" />
           <span className="text-foreground">Transformations Pyrolytiques</span>
         </div>
