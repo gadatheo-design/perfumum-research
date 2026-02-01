@@ -405,6 +405,46 @@ export default function Molecules() {
           </div>
         </section>
 
+        {/* Chemical Family Statistics */}
+        {chemicalFamiliesData && chemicalFamiliesData.length > 0 && (
+          <section className="py-6 bg-muted/20 border-b border-border/40">
+            <div className="container">
+              <div className="max-w-5xl mx-auto">
+                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <FlaskConical className="w-5 h-5 text-primary" />
+                  Classification par famille chimique
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {chemicalFamiliesData.slice(0, 12).map((family) => (
+                    <Button
+                      key={family.id}
+                      variant={chemicalFamilyFilter === family.id ? "default" : "outline"}
+                      size="sm"
+                      className="text-xs"
+                      onClick={() => setChemicalFamilyFilter(
+                        chemicalFamilyFilter === family.id ? "all" : family.id
+                      )}
+                    >
+                      {family.nameFr}
+                      <Badge variant="secondary" className="ml-2 text-xs">
+                        {family.count}
+                      </Badge>
+                    </Button>
+                  ))}
+                  {chemicalFamiliesData.length > 12 && (
+                    <span className="text-xs text-muted-foreground self-center ml-2">
+                      +{chemicalFamiliesData.length - 12} familles
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground mt-3">
+                  {chemicalFamiliesData.reduce((acc, f) => acc + f.count, 0)} molécules classées dans {chemicalFamiliesData.length} familles chimiques
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Filters */}
         <section className="py-8 border-b border-border/40">
           <div className="container">

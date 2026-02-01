@@ -59,6 +59,7 @@ import { coconutRouter } from "./routers/coconut";
 import { flavornetRouter } from "./routers/flavornet";
 import { therapeuticRouter } from "./routers/therapeutic";
 import { chemicalFamiliesRouter } from "./routers/chemical-families";
+import { molecularSynergiesRouter } from "./routers/molecular-synergies";
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -10213,6 +10214,8 @@ Familles olfactives disponibles:
   therapeutic: therapeuticRouter,
   // Chemical Families Classification
   chemicalFamilies: chemicalFamiliesRouter,
+  // Molecular Synergies (masquage, neutralisation, etc.)
+  molecularSynergies: molecularSynergiesRouter,
 });
 export type AppRouter = typeof appRouter;
 

@@ -4705,3 +4705,55 @@
 - [x] Créer le router tRPC pour les familles chimiques (`routers/chemical-families.ts`)
 - [x] Intégrer le filtre dans la page Molecules.tsx
 - [x] Écrire les tests unitaires (40 tests passés)
+
+
+---
+
+## Session 1 Février 2026 - Enrichissements majeurs
+
+### 1. Enrichir la base thérapeutique (aromathérapie)
+- [ ] Analyser le taux de couverture actuel des propriétés thérapeutiques
+- [ ] Rechercher et ajouter les composés aromathérapie manquants
+- [ ] Enrichir les molécules existantes avec propriétés thérapeutiques
+- [ ] Objectif: augmenter le taux de couverture de 31% à 50%+
+
+### 2. Synergies moléculaires (masquage/neutralisation)
+- [ ] Créer le schéma de la table molecularSynergies
+- [ ] Implémenter les procédures tRPC pour les synergies
+- [ ] Ajouter les données de synergies (masquage, neutralisation, potentialisation)
+- [ ] Intégrer les synergies dans la heatmap existante
+
+### 3. Statistiques de classification par famille chimique
+- [ ] Créer l'endpoint pour les statistiques de classification
+- [ ] Afficher les compteurs par famille sur la page /molecules
+- [ ] Ajouter une visualisation des familles chimiques
+
+
+---
+
+## Session 1 Février 2026 - Améliorations demandées (Suite)
+
+### Enrichissement base thérapeutique
+- [x] Enrichir la base thérapeutique avec plus de composés aromathérapie (53 → 176 composés, +232%)
+- [x] Ajouter cannabinoïdes (CBD, CBG, CBC, CBN)
+- [x] Ajouter alcaloïdes (nicotine, caféine, théobromine)
+- [x] Ajouter flavonoïdes (quercétine, kaempférol, apigénine, lutéoline)
+- [x] Ajouter sesquiterpènes additionnels (valencène, zingibérène, cédrol, santalol, patchoulol)
+- [x] Ajouter acides organiques (acide rosmarinique, chlorogénique, gallique, férulique)
+- [x] Enrichir le mapping français→anglais avec 100+ nouvelles entrées
+
+### Synergies moléculaires (masquage/neutralisation)
+- [x] Créer le service molecular-synergies-service.ts avec 34 synergies documentées
+- [x] Synergies de masquage (9): soufrées, animales, vertes agressives, médicinales
+- [x] Synergies de neutralisation (5): acide-base olfactive, piquantes, métalliques
+- [x] Synergies de potentialisation (11): effet entourage terpénique, florale, boisée, cannabis-terpènes
+- [x] Synergies de stabilisation (4): notes volatiles, antioxydante
+- [x] Synergies de transformation (5): olfactive, réaction chimique
+- [x] Créer le router tRPC molecular-synergies avec endpoints API
+- [x] Tests unitaires molecular-synergies-service (21 tests passés)
+
+### Statistiques classification par famille chimique
+- [x] Afficher les statistiques de classification sur la page /molecules
+- [x] Boutons de filtre rapide par famille chimique (12 familles affichées)
+- [x] Compteur de molécules par famille chimique
+- [x] Tests unitaires therapeutic service enrichi (24 tests passés)
