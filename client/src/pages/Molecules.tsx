@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Atom, X, Filter, Check } from "lucide-react";
+import { Loader2, Atom, X, Filter, Check, Download } from "lucide-react";
 import { GridSkeleton, FilterBarSkeleton } from "@/components/skeletons";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
@@ -324,6 +324,64 @@ export default function Molecules() {
     boilingPointRange[0] !== 0 || boilingPointRange[1] !== 500 ||
     molecularWeightRange[0] !== 0 || molecularWeightRange[1] !== 500;
 
+  // Export filtered molecules to CSV
+  const exportToCSV = () => {
+    if (!finalFilteredMolecules || finalFilteredMolecules.length === 0) return;
+    
+    // Define CSV headers
+    const headers = [
+      'ID', 'Nom', 'CAS', 'Famille', 'Classe chimique', 'Profil olfactif',
+      'Résonance émotionnelle', 'Concentration', 'Point d\'ébullition (°C)',
+      'Masse moléculaire (g/mol)', 'Statut IFRA', 'IFRA Max %', 'Percepts Flavornet',
+      'Indice Kovats', 'PubChem CID', 'ChEBI ID', 'SMILES'
+    ];
+    
+    // Convert molecules to CSV rows
+    const rows = finalFilteredMolecules.map(m => [
+      m.id,
+      `"${(m.name || '').replace(/"/g, '""')}"`,
+      m.casNumber || '',
+      m.family || '',
+      m.chemicalClass || '',
+      `"${(m.olfactiveProfile || '').replace(/"/g, '""')}"`,
+      `"${(m.emotionalResonance || '').replace(/"/g, '""')}"`,
+      m.concentration || '',
+      m.boilingPoint || '',
+      m.molecularWeight || '',
+      m.ifraStatus || 'not_regulated',
+      m.ifraMaxPercent || '',
+      `"${(m.flavornetPercepts || '').replace(/"/g, '""')}"`,
+      m.flavornetKovatsIndex || '',
+      m.pubchemCid || '',
+      m.chebiId || '',
+      `"${(m.smiles || '').replace(/"/g, '""')}"`
+    ]);
+    
+    // Build CSV content
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.join(','))
+    ].join('\n');
+    
+    // Create and download file
+    const blob = new Blob([`\uFEFF${csvContent}`], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    const timestamp = new Date().toISOString().slice(0, 10);
+    link.download = `perfumum-molecules-${timestamp}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    // Track export event
+    trackEvent.mutate({
+      eventName: 'molecules_export_csv',
+      eventData: { count: finalFilteredMolecules.length, hasFilters: hasActiveFilters }
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -351,17 +409,29 @@ export default function Molecules() {
         <section className="py-8 border-b border-border/40">
           <div className="container">
             <div className="max-w-5xl mx-auto">
-              {/* Filter toggle + View mode */}
+              {/* Filter toggle + Export + View mode */}
               <div className="flex items-center justify-between mb-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="btn-enhanced"
-                  onClick={() => setShowFilters(!showFilters)}
-                >
-                  <Filter className="h-4 w-4 mr-2" />
-                  {showFilters ? "Masquer les filtres" : "Afficher les filtres"}
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="btn-enhanced"
+                    onClick={() => setShowFilters(!showFilters)}
+                  >
+                    <Filter className="h-4 w-4 mr-2" />
+                    {showFilters ? "Masquer les filtres" : "Afficher les filtres"}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="btn-enhanced"
+                    onClick={exportToCSV}
+                    disabled={!finalFilteredMolecules || finalFilteredMolecules.length === 0}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Exporter CSV ({finalFilteredMolecules?.length || 0})
+                  </Button>
+                </div>
                 <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
               </div>
 

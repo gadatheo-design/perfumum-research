@@ -49,6 +49,8 @@ export function IFRAStatusBadge({
           icon: Ban,
           className: 'bg-red-500/10 text-red-700 border-red-500/30',
           tooltipBg: 'bg-red-50 border-red-200',
+          explanation: 'Cette substance est totalement interdite dans les formulations parfumées en raison de risques avérés pour la santé (allergies sévères, toxicité, ou photosensibilisation).',
+          action: 'Ne pas utiliser dans les produits finis.',
         };
       case 'restricted':
         return {
@@ -57,6 +59,10 @@ export function IFRAStatusBadge({
           icon: AlertTriangle,
           className: 'bg-orange-500/10 text-orange-700 border-orange-500/30',
           tooltipBg: 'bg-orange-50 border-orange-200',
+          explanation: maxPercent 
+            ? `Concentration maximale autorisée : ${maxPercent}% dans le produit fini. Dépassement interdit pour éviter les réactions allergiques.`
+            : 'Concentration limitée selon la catégorie de produit. Vérifier les spécifications IFRA.',
+          action: 'Respecter strictement les limites de concentration.',
         };
       case 'specification_required':
         return {
@@ -65,6 +71,8 @@ export function IFRAStatusBadge({
           icon: AlertCircle,
           className: 'bg-yellow-500/10 text-yellow-700 border-yellow-500/30',
           tooltipBg: 'bg-yellow-50 border-yellow-200',
+          explanation: 'Cette substance nécessite des spécifications de qualité particulières (pureté, origine, traitement) pour être conforme.',
+          action: 'Vérifier les spécifications du fournisseur avant utilisation.',
         };
       default:
         return null;
@@ -85,10 +93,15 @@ export function IFRAStatusBadge({
               <Icon className="w-3 h-3" />
             </Badge>
           </TooltipTrigger>
-          <TooltipContent className={config.tooltipBg}>
-            <div className="text-sm">
-              <p className="font-medium">{config.label}</p>
-              {reason && <p className="text-xs mt-1 opacity-80">{reason}</p>}
+          <TooltipContent className={`${config.tooltipBg} max-w-sm`}>
+            <div className="text-sm space-y-2">
+              <p className="font-semibold text-base">{config.label}</p>
+              <p className="text-xs leading-relaxed">{config.explanation}</p>
+              {reason && <p className="text-xs italic border-l-2 border-current/30 pl-2">{reason}</p>}
+              <p className="text-xs font-medium text-current/80">→ {config.action}</p>
+              <p className="text-[10px] text-muted-foreground pt-1 border-t border-current/10">
+                Source: IFRA 51st Amendment (2024)
+              </p>
             </div>
           </TooltipContent>
         </Tooltip>
@@ -105,11 +118,13 @@ export function IFRAStatusBadge({
             {config.shortLabel}
           </Badge>
         </TooltipTrigger>
-        <TooltipContent className={config.tooltipBg}>
-          <div className="text-sm max-w-xs">
-            <p className="font-medium">{config.label}</p>
-            {reason && <p className="text-xs mt-1 opacity-80">{reason}</p>}
-            <p className="text-xs mt-1 text-muted-foreground">
+        <TooltipContent className={`${config.tooltipBg} max-w-sm`}>
+          <div className="text-sm space-y-2">
+            <p className="font-semibold text-base">{config.label}</p>
+            <p className="text-xs leading-relaxed">{config.explanation}</p>
+            {reason && <p className="text-xs italic border-l-2 border-current/30 pl-2">{reason}</p>}
+            <p className="text-xs font-medium text-current/80">→ {config.action}</p>
+            <p className="text-[10px] text-muted-foreground pt-1 border-t border-current/10">
               Source: IFRA 51st Amendment (2024)
             </p>
           </div>

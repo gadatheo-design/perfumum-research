@@ -4662,3 +4662,11 @@
 - [x] Enrichir la base Flavornet avec plus de composés (282 composés, +77)
 - [x] Exécuter l'enrichissement batch Flavornet (241 molécules enrichies - 34%)
 - [x] Vérifier et corriger les données manquantes
+
+
+## 🆕 NOUVELLES TÂCHES (1 Février 2026 - Session 6)
+
+### Améliorations UX et Export
+- [x] Ajouter des tooltips explicatifs sur les badges IFRA (explications détaillées + actions recommandées)
+- [x] Créer une fonctionnalité d'export CSV des molécules filtrées (bouton dans la barre de filtres)
+- [x] Enrichir la base Flavornet avec plus de composés (246 composés, 241 molécules enrichies - 34%)

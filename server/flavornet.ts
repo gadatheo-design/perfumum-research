@@ -850,6 +850,40 @@ const FLAVORNET_DATABASE: Record<string, FlavornetData> = {
   // Acides
   '111-14-8': { casNumber: '111-14-8', name: 'heptanoic acid', molecularWeight: 130.2, percepts: ['cheesy', 'waxy', 'sweaty'], kovatsRI: { DB5: 1090 }, source: 'flavornet' },
   '112-05-0': { casNumber: '112-05-0', name: 'nonanoic acid', molecularWeight: 158.2, percepts: ['waxy', 'cheesy', 'dairy'], kovatsRI: { DB5: 1280 }, source: 'flavornet' },
+  // === NOUVEAUX COMPOSÉS - SESSION 6 ===
+  // Monoterpènes supplémentaires
+  '99-85-4': { casNumber: '99-85-4', name: 'gamma-terpinene', molecularWeight: 136.2, percepts: ['citrus', 'lemon', 'herbal'], kovatsRI: { DB5: 1059 }, source: 'flavornet' },
+  '586-62-9': { casNumber: '586-62-9', name: 'terpinolene', molecularWeight: 136.2, percepts: ['woody', 'citrus', 'floral'], kovatsRI: { DB5: 1088 }, source: 'flavornet' },
+  '555-10-2': { casNumber: '555-10-2', name: 'beta-phellandrene', molecularWeight: 136.2, percepts: ['minty', 'citrus', 'herbal'], kovatsRI: { DB5: 1031 }, source: 'flavornet' },
+  '99-83-2': { casNumber: '99-83-2', name: 'alpha-phellandrene', molecularWeight: 136.2, percepts: ['citrus', 'herbal', 'black pepper'], kovatsRI: { DB5: 1005 }, source: 'flavornet' },
+  // Sesquiterpènes supplémentaires
+  '475-20-7': { casNumber: '475-20-7', name: 'longifolene', molecularWeight: 204.4, percepts: ['woody', 'rose', 'sweet'], kovatsRI: { DB5: 1408 }, source: 'flavornet' },
+  '3856-25-5': { casNumber: '3856-25-5', name: 'alpha-ylangene', molecularWeight: 204.4, percepts: ['woody', 'herbal', 'spicy'], kovatsRI: { DB5: 1375 }, source: 'flavornet' },
+  '118-65-0': { casNumber: '118-65-0', name: 'aromadendrene', molecularWeight: 204.4, percepts: ['woody', 'balsamic', 'herbal'], kovatsRI: { DB5: 1441 }, source: 'flavornet' },
+  '17627-44-0': { casNumber: '17627-44-0', name: 'alpha-selinene', molecularWeight: 204.4, percepts: ['woody', 'amber', 'celery'], kovatsRI: { DB5: 1498 }, source: 'flavornet' },
+  '473-13-2': { casNumber: '473-13-2', name: 'beta-selinene', molecularWeight: 204.4, percepts: ['woody', 'herbal', 'celery'], kovatsRI: { DB5: 1490 }, source: 'flavornet' },
+  // Alcools terpéniques supplémentaires
+  '7785-70-8': { casNumber: '7785-70-8', name: '1R-alpha-pinene', molecularWeight: 136.2, percepts: ['pine', 'turpentine', 'resinous'], kovatsRI: { DB5: 939 }, source: 'flavornet' },
+  '18172-67-3': { casNumber: '18172-67-3', name: 'beta-pinene', molecularWeight: 136.2, percepts: ['pine', 'resinous', 'turpentine'], kovatsRI: { DB5: 980 }, source: 'flavornet' },
+  // Aldéhydes supplémentaires
+  '10486-19-8': { casNumber: '10486-19-8', name: 'tridecanal', molecularWeight: 198.3, percepts: ['waxy', 'citrus', 'grapefruit'], kovatsRI: { DB5: 1510 }, source: 'flavornet' },
+  // Esters supplémentaires
+  '110-38-3': { casNumber: '110-38-3', name: 'ethyl decanoate', molecularWeight: 200.3, percepts: ['fruity', 'grape', 'waxy'], kovatsRI: { DB5: 1395 }, source: 'flavornet' },
+  // Lactones supplémentaires
+  // Composés phénoliques supplémentaires
+  '2785-89-9': { casNumber: '2785-89-9', name: '4-ethylguaiacol', molecularWeight: 152.2, percepts: ['spicy', 'clove', 'smoky'], kovatsRI: { DB5: 1280 }, source: 'flavornet' },
+  // Composés soufrés supplémentaires
+  // Furanones et pyranones
+  '4077-47-8': { casNumber: '4077-47-8', name: '2,5-dimethyl-4-hydroxy-3(2H)-furanone', molecularWeight: 128.1, percepts: ['caramel', 'strawberry', 'sweet'], kovatsRI: { DB5: 1070 }, source: 'flavornet' },
+  '28564-83-2': { casNumber: '28564-83-2', name: '4-hydroxy-2,5-dimethyl-3(2H)-furanone', molecularWeight: 128.1, percepts: ['caramel', 'burnt sugar', 'strawberry'], kovatsRI: { DB5: 1065 }, source: 'flavornet' },
+  // Composés azotés supplémentaires
+  '109-97-7': { casNumber: '109-97-7', name: 'pyrrole', molecularWeight: 67.1, percepts: ['nutty', 'sweet', 'ethereal'], kovatsRI: { DB5: 750 }, source: 'flavornet' },
+  // Ionones et damascones
+  '23726-93-4': { casNumber: '23726-93-4', name: 'beta-damascenone', molecularWeight: 190.3, percepts: ['rose', 'honey', 'tobacco'], kovatsRI: { DB5: 1385 }, source: 'flavornet' },
+  '23696-85-7': { casNumber: '23696-85-7', name: 'alpha-damascone', molecularWeight: 192.3, percepts: ['fruity', 'rose', 'plum'], kovatsRI: { DB5: 1470 }, source: 'flavornet' },
+  // Vanilloïdes et benzénoïdes
+  '121-32-4': { casNumber: '121-32-4', name: 'ethyl vanillin', molecularWeight: 166.2, percepts: ['vanilla', 'sweet', 'creamy'], kovatsRI: { DB5: 1520 }, source: 'flavornet' },
+  // Acides supplémentaires
 };
 
 // Dictionnaire de traduction des noms de molécules FR→EN
