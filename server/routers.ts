@@ -61,6 +61,7 @@ import { therapeuticRouter } from "./routers/therapeutic";
 import { chemicalFamiliesRouter } from "./routers/chemical-families";
 import { molecularSynergiesRouter } from "./routers/molecular-synergies";
 import { dataCleanupRouter } from "./routers/data-cleanup";
+import { smilesEnrichmentRouter } from "./routers/smiles-cas-enrichment";
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -10219,6 +10220,8 @@ Familles olfactives disponibles:
   molecularSynergies: molecularSynergiesRouter,
   // Data Cleanup and Enrichment
   dataCleanup: dataCleanupRouter,
+  // SMILES and CAS Enrichment
+  smilesEnrichment: smilesEnrichmentRouter,
 });
 export type AppRouter = typeof appRouter;
 

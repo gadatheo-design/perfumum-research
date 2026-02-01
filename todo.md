@@ -4868,3 +4868,26 @@
 | Point d'ébullition | 100% | - | 100% |
 | PubChem CID | 10.8% | - | 10.8% |
 
+
+
+---
+
+## 🔥 SESSION ACTIVE — 1 Février 2026 (Enrichissement SMILES et CAS)
+
+### Enrichissement des structures SMILES
+- [x] Analyser les molécules sans SMILES (629 molécules, 8.2% de couverture)
+- [x] Créer le service d'enrichissement avec base de référence SMILES (350+ entrées)
+- [x] Ajouter les SMILES pour les molécules chimiques pures identifiables
+- [x] Exécuter l'enrichissement automatique (+138 molécules)
+- [x] Résultat : 8.2% → 28.3% de couverture SMILES (194/685)
+
+### Complétion des numéros CAS
+- [x] Analyser les molécules sans numéro CAS (288 molécules, 58% de couverture)
+- [x] Créer le service d'enrichissement CAS avec base de référence
+- [x] Ajouter les CAS pour les molécules identifiées (+13 molécules)
+- [x] Exécuter l'enrichissement automatique
+- [x] Résultat : 58% → 59.9% de couverture CAS (410/685)
+
+### Tests
+- [x] Tests unitaires pour le service d'enrichissement (20 tests passés)
+
