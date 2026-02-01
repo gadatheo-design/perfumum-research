@@ -25,6 +25,7 @@ import { useLocation } from "wouter";
 import { MiniRadarChart } from "@/components/MiniRadarChart";
 import { Beaker, Droplets, Zap, FlaskConical } from "lucide-react";
 import { TruncatableBody } from "@/components/TruncatableText";
+import { IFRAStatusBadge } from "@/components/IFRAStatusBadge";
 import {
   Select,
   SelectContent,
@@ -53,6 +54,13 @@ export default function Molecules() {
     return true;
   });
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
+  
+  // Flavornet percept filter
+  const [selectedPercept, setSelectedPercept] = useState<string>("all");
+  const { data: availablePercepts } = trpc.flavornet.getUniquePercepts.useQuery();
+  
+  // IFRA status filter
+  const [ifraStatusFilter, setIfraStatusFilter] = useState<string>("all");
   
   // Radar filters
   const [radarIntensityRange, setRadarIntensityRange] = useState<[number, number]>([0, 100]);
@@ -198,6 +206,16 @@ export default function Molecules() {
       const matchesGamme = 
         !selectedGamme || getGammeFromOlfactiveProfile(molecule.olfactiveProfile) === selectedGamme;
       
+      // Flavornet percept filter
+      const matchesPercept = 
+        selectedPercept === "all" || 
+        (molecule.flavornetPercepts && molecule.flavornetPercepts.toLowerCase().includes(selectedPercept.toLowerCase()));
+      
+      // IFRA status filter
+      const matchesIfraStatus = 
+        ifraStatusFilter === "all" || 
+        molecule.ifraStatus === ifraStatusFilter;
+      
       // Radar filters
       const matchesRadarIntensity = 
         (molecule.radarIntensity || 50) >= radarIntensityRange[0] && 
@@ -230,11 +248,13 @@ export default function Molecules() {
         (mw >= molecularWeightRange[0] && mw <= molecularWeightRange[1]);
       
       return matchesSearch && matchesFamily && matchesChemicalClass && matchesProfile && matchesConcentration && matchesGamme &&
+        matchesPercept && matchesIfraStatus &&
         matchesRadarIntensity && matchesRadarFreshness && matchesRadarWarmth && 
         matchesRadarSweetness && matchesRadarSpiciness && matchesRadarEarthiness &&
         matchesBoilingPoint && matchesMolecularWeight;
     });
   }, [molecules, searchQuery, familyFilter, chemicalClassFilter, selectedProfiles, concentrationRange, selectedGamme,
+      selectedPercept, ifraStatusFilter,
       radarIntensityRange, radarFreshnessRange, radarWarmthRange, 
       radarSweetnessRange, radarSpicinessRange, radarEarthinessRange,
       boilingPointRange, molecularWeightRange]);
@@ -262,6 +282,8 @@ export default function Molecules() {
     setSelectedProfiles([]);
     setConcentrationRange([0.0001, 0.1]);
     setSelectedGamme(null);
+    setSelectedPercept("all");
+    setIfraStatusFilter("all");
     setRadarIntensityRange([0, 100]);
     setRadarFreshnessRange([0, 100]);
     setRadarWarmthRange([0, 100]);
@@ -291,6 +313,8 @@ export default function Molecules() {
     concentrationRange[0] !== 0.0001 || 
     concentrationRange[1] !== 0.1 ||
     selectedGamme !== null ||
+    selectedPercept !== "all" ||
+    ifraStatusFilter !== "all" ||
     radarIntensityRange[0] !== 0 || radarIntensityRange[1] !== 100 ||
     radarFreshnessRange[0] !== 0 || radarFreshnessRange[1] !== 100 ||
     radarWarmthRange[0] !== 0 || radarWarmthRange[1] !== 100 ||
@@ -486,6 +510,52 @@ export default function Molecules() {
                     onToggleProfile={toggleProfile}
                     onClearAll={() => setSelectedProfiles([])}
                   />
+
+                  {/* Flavornet Percept Filter */}
+                  <div className="border-t border-border/40 pt-4 mt-4">
+                    <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
+                      <Droplets className="w-4 h-4" />
+                      Descripteur olfactif (Flavornet)
+                    </h3>
+                    <Select value={selectedPercept} onValueChange={setSelectedPercept}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Tous les percepts" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Tous les percepts</SelectItem>
+                        {availablePercepts?.map((percept) => (
+                          <SelectItem key={percept} value={percept}>
+                            {percept.charAt(0).toUpperCase() + percept.slice(1)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {selectedPercept !== "all" && (
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Filtrage par descripteur: {selectedPercept}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* IFRA Status Filter */}
+                  <div className="border-t border-border/40 pt-4 mt-4">
+                    <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
+                      <Zap className="w-4 h-4" />
+                      Statut réglementaire IFRA
+                    </h3>
+                    <Select value={ifraStatusFilter} onValueChange={setIfraStatusFilter}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Tous les statuts" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Tous les statuts</SelectItem>
+                        <SelectItem value="banned">Interdit</SelectItem>
+                        <SelectItem value="restricted">Restreint</SelectItem>
+                        <SelectItem value="specification_required">Spécification requise</SelectItem>
+                        <SelectItem value="not_regulated">Non réglementé</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
                   {/* Concentration Range */}
                   <div>

@@ -163,4 +163,20 @@ export const flavornetRouter = router({
   getEnrichmentStats: publicProcedure.query(async () => {
     return db.getFlavornetEnrichmentStats();
   }),
+
+  /**
+   * Get unique percepts from enriched molecules in database
+   */
+  getUniquePercepts: publicProcedure.query(async () => {
+    const molecules = await db.getMoleculesWithFlavornetPercepts(1000, 0);
+    const perceptsSet = new Set<string>();
+    
+    for (const molecule of molecules) {
+      if (molecule.percepts && Array.isArray(molecule.percepts)) {
+        molecule.percepts.forEach((p: string) => perceptsSet.add(p.toLowerCase()));
+      }
+    }
+    
+    return Array.from(perceptsSet).sort();
+  }),
 });
