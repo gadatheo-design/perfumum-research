@@ -102,7 +102,7 @@
 - [x] Intégrer le service Flavornet avec base de données locale (81 composés, 92 percepts)
 - [x] Enrichir 209 molécules avec descripteurs olfactifs et indices Kovats (30%)
 - [x] Créer la page de recherche par percept olfactif (`/percepts`)
-- [ ] Enrichir la base Flavornet avec plus de composés (objectif: 200+)
+- [x] Enrichir la base Flavornet avec plus de composés (205 composés, 227 molécules enrichies - 32%) (objectif: 200+)
 
 ---
 
@@ -4630,3 +4630,11 @@
 
 - [ ] Intégrer COCONUT API pour les sources biologiques des molécules
 - [x] Intégrer Flavornet pour les descripteurs olfactifs et seuils de perception (142 molécules enrichies, 81 composés dans la base locale)
+
+
+## 🆕 NOUVELLES TÂCHES (1 Février 2026 - Session 3)
+
+### Améliorations UI et données
+- [x] Ajouter les badges IFRA dans les cartes molécules de la liste
+- [x] Créer une page de statistiques pour les percepts et statuts IFRA (/stats-olfactives)
+- [x] Enrichir la base Flavornet avec plus de composés (205 composés, 227 molécules enrichies - 32%)

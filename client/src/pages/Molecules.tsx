@@ -842,6 +842,12 @@ export default function Molecules() {
                                   ChEBI
                                 </Badge>
                               )}
+                              {/* Badge IFRA */}
+                              <IFRAStatusBadge 
+                                status={(molecule as any).ifraStatus} 
+                                maxPercent={(molecule as any).ifraMaxPercent}
+                                compact={true}
+                              />
                             </div>
                           </div>
                           {/* Always show chemical formula */}

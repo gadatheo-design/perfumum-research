@@ -808,6 +808,46 @@ const FLAVORNET_DATABASE: Record<string, FlavornetData> = {
   '103-09-3': { casNumber: '103-09-3', name: '2-ethylhexyl acetate', molecularWeight: 172.3, percepts: ['fruity', 'green', 'herbal'], kovatsRI: { DB5: 1150 }, source: 'flavornet' },
   '22469-52-9': { casNumber: '22469-52-9', name: 'alpha-muurolene', molecularWeight: 204.4, percepts: ['woody', 'herbal', 'spicy'], kovatsRI: { OV101: 1500, DB5: 1500 }, source: 'flavornet' },
   '10208-80-7': { casNumber: '10208-80-7', name: 'alpha-gurjunene', molecularWeight: 204.4, percepts: ['woody', 'balsamic', 'sweet'], kovatsRI: { OV101: 1410, DB5: 1409 }, source: 'flavornet' },
+  // === NOUVEAUX COMPOSÉS AJOUTÉS ===
+  // Esters floraux
+  '103-54-8': { casNumber: '103-54-8', name: 'cinnamyl acetate', molecularWeight: 176.2, percepts: ['floral', 'balsamic', 'cinnamon'], kovatsRI: { DB5: 1445 }, source: 'flavornet' },
+  '103-26-4': { casNumber: '103-26-4', name: 'methyl cinnamate', molecularWeight: 162.2, percepts: ['balsamic', 'strawberry', 'cherry'], kovatsRI: { DB5: 1380 }, source: 'flavornet' },
+  '103-36-6': { casNumber: '103-36-6', name: 'ethyl cinnamate', molecularWeight: 176.2, percepts: ['balsamic', 'honey', 'fruity'], kovatsRI: { DB5: 1465 }, source: 'flavornet' },
+  '93-89-0': { casNumber: '93-89-0', name: 'ethyl benzoate', molecularWeight: 150.2, percepts: ['fruity', 'wintergreen', 'balsamic'], kovatsRI: { DB5: 1170 }, source: 'flavornet' },
+  '93-58-3': { casNumber: '93-58-3', name: 'methyl benzoate', molecularWeight: 136.1, percepts: ['fruity', 'wintergreen', 'floral'], kovatsRI: { DB5: 1095 }, source: 'flavornet' },
+  // Muscs et ambrettes
+  '83-66-9': { casNumber: '83-66-9', name: 'musk ambrette', molecularWeight: 268.3, percepts: ['musk', 'sweet', 'floral'], kovatsRI: { DB5: 1900 }, source: 'flavornet' },
+  '81-14-1': { casNumber: '81-14-1', name: 'musk ketone', molecularWeight: 294.3, percepts: ['musk', 'sweet', 'powdery'], kovatsRI: { DB5: 1950 }, source: 'flavornet' },
+  // Composés soufrés
+  '2179-58-0': { casNumber: '2179-58-0', name: 'diallyl disulfide', molecularWeight: 146.3, percepts: ['garlic', 'onion', 'sulfurous'], kovatsRI: { DB5: 1080 }, source: 'flavornet' },
+  '592-88-1': { casNumber: '592-88-1', name: 'diallyl sulfide', molecularWeight: 114.2, percepts: ['garlic', 'onion', 'alliaceous'], kovatsRI: { DB5: 850 }, source: 'flavornet' },
+  // Furanocoumarines
+  '66-97-7': { casNumber: '66-97-7', name: 'psoralen', molecularWeight: 186.2, percepts: ['hay', 'coumarin', 'herbal'], kovatsRI: { DB5: 1650 }, source: 'flavornet' },
+  '484-20-8': { casNumber: '484-20-8', name: 'bergapten', molecularWeight: 216.2, percepts: ['bergamot', 'citrus', 'herbal'], kovatsRI: { DB5: 1750 }, source: 'flavornet' },
+  // Composés azotés
+  '91-22-5': { casNumber: '91-22-5', name: 'quinoline', molecularWeight: 129.2, percepts: ['leather', 'smoky', 'tar'], kovatsRI: { DB5: 1240 }, source: 'flavornet' },
+  '119-65-3': { casNumber: '119-65-3', name: 'isoquinoline', molecularWeight: 129.2, percepts: ['leather', 'smoky', 'anise'], kovatsRI: { DB5: 1260 }, source: 'flavornet' },
+  '110-86-1': { casNumber: '110-86-1', name: 'pyridine', molecularWeight: 79.1, percepts: ['fishy', 'sour', 'burnt'], kovatsRI: { DB5: 750 }, source: 'flavornet' },
+  // Lactones supplémentaires
+  '542-28-9': { casNumber: '542-28-9', name: 'delta-valerolactone', molecularWeight: 100.1, percepts: ['sweet', 'coconut', 'creamy'], kovatsRI: { DB5: 950 }, source: 'flavornet' },
+  '502-44-3': { casNumber: '502-44-3', name: 'epsilon-caprolactone', molecularWeight: 114.1, percepts: ['sweet', 'fruity', 'caramel'], kovatsRI: { DB5: 1050 }, source: 'flavornet' },
+  // Terpènes oxygénés
+  '98-55-5': { casNumber: '98-55-5', name: 'alpha-terpineol', molecularWeight: 154.3, percepts: ['floral', 'lilac', 'citrus'], kovatsRI: { DB5: 1190 }, source: 'flavornet' },
+  '7785-70-8': { casNumber: '7785-70-8', name: '1R-alpha-pinene', molecularWeight: 136.2, percepts: ['pine', 'resinous', 'turpentine'], kovatsRI: { DB5: 932 }, source: 'flavornet' },
+  '7785-26-4': { casNumber: '7785-26-4', name: '1S-alpha-pinene', molecularWeight: 136.2, percepts: ['pine', 'turpentine', 'resinous'], kovatsRI: { DB5: 932 }, source: 'flavornet' },
+  // Esters fruitiés
+  '105-54-4': { casNumber: '105-54-4', name: 'ethyl butyrate', molecularWeight: 116.2, percepts: ['fruity', 'pineapple', 'banana'], kovatsRI: { DB5: 802 }, source: 'flavornet' },
+  '123-66-0': { casNumber: '123-66-0', name: 'ethyl hexanoate', molecularWeight: 144.2, percepts: ['fruity', 'pineapple', 'waxy'], kovatsRI: { DB5: 1000 }, source: 'flavornet' },
+  '106-32-1': { casNumber: '106-32-1', name: 'ethyl octanoate', molecularWeight: 172.3, percepts: ['fruity', 'wine', 'waxy'], kovatsRI: { DB5: 1195 }, source: 'flavornet' },
+  '110-38-3': { casNumber: '110-38-3', name: 'ethyl decanoate', molecularWeight: 200.3, percepts: ['fruity', 'grape', 'waxy'], kovatsRI: { DB5: 1395 }, source: 'flavornet' },
+  '123-29-5': { casNumber: '123-29-5', name: 'ethyl nonanoate', molecularWeight: 186.3, percepts: ['fruity', 'rose', 'waxy'], kovatsRI: { DB5: 1295 }, source: 'flavornet' },
+  // Phénols
+  '150-19-6': { casNumber: '150-19-6', name: '3-methoxyphenol', molecularWeight: 124.1, percepts: ['smoky', 'phenolic', 'sweet'], kovatsRI: { DB5: 1150 }, source: 'flavornet' },
+  '93-51-6': { casNumber: '93-51-6', name: 'creosol', molecularWeight: 138.2, percepts: ['smoky', 'spicy', 'clove'], kovatsRI: { DB5: 1195 }, source: 'flavornet' },
+  // Sesquiterpènes
+  '17699-14-8': { casNumber: '17699-14-8', name: 'alpha-copaene', molecularWeight: 204.4, percepts: ['woody', 'spicy', 'honey'], kovatsRI: { DB5: 1376 }, source: 'flavornet' },
+  '3856-25-5': { casNumber: '3856-25-5', name: 'alpha-cubebene', molecularWeight: 204.4, percepts: ['herbal', 'waxy', 'citrus'], kovatsRI: { DB5: 1351 }, source: 'flavornet' },
+  '118-65-0': { casNumber: '118-65-0', name: 'azulene', molecularWeight: 128.2, percepts: ['herbal', 'chamomile', 'sweet'], kovatsRI: { DB5: 1180 }, source: 'flavornet' },
 };
 
 // Dictionnaire de traduction des noms de molécules FR→EN

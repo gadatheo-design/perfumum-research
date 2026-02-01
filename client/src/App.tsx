@@ -279,6 +279,7 @@ import SmilesViewer from "./pages/SmilesViewer";
 import EnrichmentDashboard from "./pages/EnrichmentDashboard";
 import IFRACompliance from "./pages/IFRACompliance";
 import PerceptSearch from "./pages/PerceptSearch";
+import OlfactiveStats from "./pages/OlfactiveStats";
 import PlantsHub from "./pages/PlantsHub";
 import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
@@ -843,6 +844,8 @@ function Router() {
       <Route path="/conformite-ifra" component={IFRACompliance} />
       <Route path="/percepts" component={PerceptSearch} />
       <Route path="/recherche-percepts" component={PerceptSearch} />
+      <Route path="/stats-olfactives" component={OlfactiveStats} />
+      <Route path="/statistiques" component={OlfactiveStats} />
       <Route path="/plants/new" component={PlantForm} />
       <Route path="/plants/:id/edit" component={PlantForm} />
       <Route path="/plants/:id">
