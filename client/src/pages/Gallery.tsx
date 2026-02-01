@@ -35,7 +35,8 @@ import {
   Loader2,
   ChevronLeft,
   ChevronRight,
-  FileUp
+  FileUp,
+  Leaf
 } from "lucide-react";
 import ImageUpload from "@/components/ImageUpload";
 
@@ -52,6 +53,7 @@ export default function Gallery() {
   const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedPlantFilter, setSelectedPlantFilter] = useState<string>("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
@@ -68,6 +70,7 @@ export default function Gallery() {
     imageData: "",
     fileName: "",
     contentType: "",
+    plantId: "",
   });
 
   // Queries
@@ -75,6 +78,7 @@ export default function Gallery() {
     selectedCategory ? { category: selectedCategory } : undefined
   );
   const { data: stats } = trpc.gallery.getStats.useQuery();
+  const { data: plants } = trpc.plants.list.useQuery();
   
   // Mutations
   const uploadMutation = trpc.upload.galleryImage.useMutation({
@@ -91,6 +95,7 @@ export default function Gallery() {
         imageData: "",
         fileName: "",
         contentType: "",
+        plantId: "",
       });
       refetch();
     },
@@ -126,8 +131,14 @@ export default function Gallery() {
       );
     }
     
+    if (selectedPlantFilter) {
+      filtered = filtered.filter(img => 
+        img.plantId?.toString() === selectedPlantFilter
+      );
+    }
+    
     return filtered;
-  }, [images, searchTerm]);
+  }, [images, searchTerm, selectedPlantFilter]);
 
   // Handle file selection for upload
   const handleFileSelect = async (file: File) => {
@@ -164,6 +175,7 @@ export default function Gallery() {
       tags: uploadForm.tags ? uploadForm.tags.split(",").map(t => t.trim()) : undefined,
       location: uploadForm.location || undefined,
       capturedAt: uploadForm.capturedAt || undefined,
+      plantId: uploadForm.plantId ? parseInt(uploadForm.plantId) : undefined,
     });
   };
 
@@ -320,6 +332,27 @@ export default function Gallery() {
                   />
                 </div>
                 
+                <div className="space-y-2">
+                  <Label htmlFor="plantId">Plante associée (optionnel)</Label>
+                  <Select 
+                    value={uploadForm.plantId} 
+                    onValueChange={(value) => setUploadForm(prev => ({ ...prev, plantId: value }))}
+                  >
+                    <SelectTrigger>
+                      <Leaf className="h-4 w-4 mr-2" />
+                      <SelectValue placeholder="Sélectionner une plante" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Aucune plante</SelectItem>
+                      {plants?.map(plant => (
+                        <SelectItem key={plant.id} value={plant.id.toString()}>
+                          {plant.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
                 <Button 
                   onClick={handleUpload} 
                   disabled={uploadMutation.isPending || !uploadForm.imageData}
@@ -397,6 +430,21 @@ export default function Gallery() {
             {CATEGORY_OPTIONS.map(opt => (
               <SelectItem key={opt.value} value={opt.value}>
                 {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        
+        <Select value={selectedPlantFilter} onValueChange={setSelectedPlantFilter}>
+          <SelectTrigger className="w-[180px]">
+            <Leaf className="h-4 w-4 mr-2" />
+            <SelectValue placeholder="Toutes plantes" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="">Toutes plantes</SelectItem>
+            {plants?.map(plant => (
+              <SelectItem key={plant.id} value={plant.id.toString()}>
+                {plant.name}
               </SelectItem>
             ))}
           </SelectContent>
