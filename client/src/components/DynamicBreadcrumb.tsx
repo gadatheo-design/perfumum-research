@@ -131,7 +131,7 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/methode-absorbe": { label: "Méthode ABSORBE" },
   "/methodologie/absorbe": { label: "Méthodologie ABSORBE" },
   "/methodologie-recherche": { label: "Méthodologie de Recherche" },
-  "/generateur-formules": { label: "Générateur de Formules" },
+  "/outils/generateur-formules": { label: "Générateur de Formules" },
   "/historique-formules": { label: "Historique Formules" },
   "/methodologie/echelle-absorbe": { label: "Échelle ABSORBE" },
   "/methodologie/pyrolyse": { label: "Pyrolyse" },

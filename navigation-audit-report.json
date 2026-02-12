@@ -1,358 +1,453 @@
 {
-  "total_routes": 212,
-  "total_unique_links": 95,
+  "total_routes": 386,
+  "total_unique_links": 181,
   "broken_links": [],
   "orphan_routes": [
     [
-      "/test-trpc",
-      "TestTRPC"
-    ],
-    [
-      "/test-simple",
-      "TestSimple"
-    ],
-    [
       "/systeme",
-      "SystemePerfumum"
-    ],
-    [
-      "/admin",
-      "Admin"
+      "Route"
     ],
     [
       "/admin/liaison-recettes-molecules",
-      "LiaisonRecettesMolecules"
+      "Route"
+    ],
+    [
+      "/admin/validation",
+      "Route"
+    ],
+    [
+      "/admin/orphan-molecules",
+      "Route"
+    ],
+    [
+      "/admin/ai-classification",
+      "Route"
+    ],
+    [
+      "/admin/ai-classification-batch",
+      "Route"
+    ],
+    [
+      "/admin/niche-plant-linking",
+      "Route"
+    ],
+    [
+      "/admin/classification-review",
+      "Route"
+    ],
+    [
+      "/admin/progress-report",
+      "Route"
     ],
     [
       "/admin/molecule-origins",
-      "MoleculeOriginsAdmin"
+      "Route"
     ],
     [
       "/admin/terroirs-geocode",
-      "TerroirsGeocode"
+      "Route"
     ],
     [
-      "/admin/test-trpc",
-      "TestTRPC"
+      "/admin/molecules",
+      "Route"
     ],
     [
-      "/admin/test-simple",
-      "TestSimple"
+      "/admin/accords",
+      "Route"
     ],
     [
-      "/test-recette-card",
-      "TestRecetteCard"
+      "/admin/familles",
+      "Route"
+    ],
+    [
+      "/admin/chemical-family-linking",
+      "Route"
+    ],
+    [
+      "/graphe-familles-chimiques",
+      "Route"
+    ],
+    [
+      "/admin/matieres",
+      "Route"
     ],
     [
       "/admin/import-export",
-      "AdminImportExport"
-    ],
-    [
-      "/admin/import-export-plants",
-      "ImportExportPlants"
+      "Route"
     ],
     [
       "/admin/historique",
-      "AdminHistorique"
+      "Route"
     ],
     [
       "/admin/references",
-      "AdminReferences"
+      "Route"
+    ],
+    [
+      "/admin/data-quality",
+      "Route"
+    ],
+    [
+      "/recherche-globale",
+      "Route"
     ],
     [
       "/projet/timeline",
-      "TimelinePerfumum"
+      "Route"
     ],
     [
-      "/prototypes/c1",
-      "C1Fermentum"
+      "/tabacotheque",
+      "Route"
     ],
     [
-      "/prototypes/c2",
-      "C2ClarusVerde"
+      "/soil-analysis",
+      "Route"
     ],
     [
-      "/prototypes/c3",
-      "C3LactaSolis"
+      "/analyses-pedologiques",
+      "Route"
     ],
     [
-      "/prototypes/c4",
-      "C4TerraAmbra"
+      "/voies-biosynthetiques",
+      "Route"
     ],
     [
-      "/sourcing/north-america",
-      "SourcingNorthAmerica"
+      "/tps-pathways",
+      "Route"
     ],
     [
-      "/gammes/glaciaire",
-      "GammesGlaciaire"
+      "/pyrolyse",
+      "Route"
     ],
     [
-      "/gammes/biolab",
-      "GammesBioLab"
-    ],
-    [
-      "/gammes/mossi",
-      "GammesMossi"
-    ],
-    [
-      "/gammes/pheromones",
-      "GammePheromones"
-    ],
-    [
-      "/gammes/raretes",
-      "GammeRaretes"
-    ],
-    [
-      "/laboratoire/recettes",
-      "LaboratoireRecettes"
-    ],
-    [
-      "/laboratoire/statistiques",
-      "Statistiques"
-    ],
-    [
-      "/inventaire",
-      "Inventaire"
-    ],
-    [
-      "/chemical-families",
-      "ChemicalFamilies"
-    ],
-    [
-      "/accords-dedies",
-      "AccordsDedies"
+      "/transformations-pyrolytiques",
+      "Route"
     ]
   ],
   "menu_links_count": 1,
   "routes_not_in_menu": [
     [
-      "/test-trpc",
-      "TestTRPC"
-    ],
-    [
-      "/test-simple",
-      "TestSimple"
-    ],
-    [
       "/systeme",
-      "SystemePerfumum"
+      "Route"
     ],
     [
       "/admin",
-      "Admin"
+      "Route"
     ],
     [
       "/admin/liaison-recettes-molecules",
-      "LiaisonRecettesMolecules"
+      "Route"
+    ],
+    [
+      "/molecule-recette-linking",
+      "Route"
+    ],
+    [
+      "/molecule-recette-audit",
+      "Route"
+    ],
+    [
+      "/molecule-recette-dragdrop",
+      "Route"
+    ],
+    [
+      "/molecule-recette-import-csv",
+      "Route"
+    ],
+    [
+      "/plant-terroir-linking",
+      "Route"
+    ],
+    [
+      "/plant-terroir-audit",
+      "Route"
+    ],
+    [
+      "/plant-terroir-dragdrop",
+      "Route"
+    ],
+    [
+      "/plant-terroir-import-csv",
+      "Route"
+    ],
+    [
+      "/plant-molecule-audit",
+      "Route"
+    ],
+    [
+      "/linking-dashboard",
+      "Route"
+    ],
+    [
+      "/admin/validation",
+      "Route"
+    ],
+    [
+      "/admin/orphan-molecules",
+      "Route"
+    ],
+    [
+      "/admin/ai-classification",
+      "Route"
+    ],
+    [
+      "/admin/ai-classification-batch",
+      "Route"
+    ],
+    [
+      "/admin/niche-plant-linking",
+      "Route"
+    ],
+    [
+      "/admin/classification-review",
+      "Route"
+    ],
+    [
+      "/admin/notifications",
+      "Route"
+    ],
+    [
+      "/admin/progress-report",
+      "Route"
     ],
     [
       "/admin/molecule-origins",
-      "MoleculeOriginsAdmin"
+      "Route"
     ],
     [
       "/admin/terroirs-geocode",
-      "TerroirsGeocode"
+      "Route"
     ],
     [
       "/outils/editeur-formulation",
-      "EditeurFormulation"
+      "Route"
     ],
     [
-      "/admin/test-trpc",
-      "TestTRPC"
-    ],
-    [
-      "/admin/test-simple",
-      "TestSimple"
-    ],
-    [
-      "/test-recette-card",
-      "TestRecetteCard"
+      "/admin/molecules",
+      "Route"
     ],
     [
       "/admin/molecules/new",
-      "AdminMoleculeNew"
+      "Route"
+    ],
+    [
+      "/admin/accords",
+      "Route"
+    ],
+    [
+      "/admin/familles",
+      "Route"
+    ],
+    [
+      "/admin/chemical-family-linking",
+      "Route"
+    ],
+    [
+      "/graphe-familles-chimiques",
+      "Route"
+    ],
+    [
+      "/admin/matieres",
+      "Route"
     ],
     [
       "/admin/recettes",
-      "AdminRecettes"
+      "Route"
     ],
     [
       "/admin/import-export",
-      "AdminImportExport"
+      "Route"
     ],
     [
       "/admin/import-export-plants",
-      "ImportExportPlants"
+      "Route"
+    ],
+    [
+      "/admin/import-csv",
+      "Route"
+    ],
+    [
+      "/admin/import-csv-preview",
+      "Route"
     ],
     [
       "/admin/historique",
-      "AdminHistorique"
+      "Route"
     ],
     [
       "/admin/references",
-      "AdminReferences"
+      "Route"
+    ],
+    [
+      "/admin/data-quality",
+      "Route"
     ],
     [
       "/recherche-avancee",
-      "AdvancedSearch"
+      "Route"
+    ],
+    [
+      "/recherche-globale",
+      "Route"
     ],
     [
       "/le-projet",
-      "LeProjet"
+      "Route"
     ],
     [
       "/manifeste",
-      "Manifeste"
+      "Route"
     ],
     [
       "/a-propos",
-      "APropos"
+      "Route"
     ],
     [
       "/contact",
-      "Contact"
+      "Route"
     ],
     [
       "/nouveautes",
-      "Nouveautes"
+      "Route"
     ],
     [
       "/projet/timeline",
-      "TimelinePerfumum"
+      "Route"
     ],
     [
-      "/prototypes",
-      "Prototypes"
+      "/absorbe-x",
+      "Route"
     ],
     [
-      "/prototypes/c1",
-      "C1Fermentum"
+      "/absorbe-x/manifeste",
+      "Route"
     ],
     [
-      "/prototypes/c2",
-      "C2ClarusVerde"
-    ],
-    [
-      "/prototypes/c3",
-      "C3LactaSolis"
-    ],
-    [
-      "/prototypes/c4",
-      "C4TerraAmbra"
-    ],
-    [
-      "/gammes",
-      "Gammes"
-    ],
-    [
-      "/colombie",
-      "ColombieLine"
-    ],
-    [
-      "/sourcing",
-      "Sourcing"
-    ],
-    [
-      "/sourcing/colombie",
-      "SourcingColombie"
-    ],
-    [
-      "/sourcing/france",
-      "SourcingFrance"
-    ],
-    [
-      "/sourcing/inde",
-      "SourcingInde"
-    ],
-    [
-      "/sourcing/madagascar",
-      "SourcingMadagascar"
-    ],
-    [
-      "/sourcing/north-america",
-      "SourcingNorthAmerica"
-    ],
-    [
-      "/gammes/petrichor",
-      "GammesPetrichor"
-    ],
-    [
-      "/gammes/volcanique",
-      "GammesVolcanique"
-    ],
-    [
-      "/gammes/glaciaire",
-      "GammesGlaciaire"
-    ],
-    [
-      "/gammes/biolab",
-      "GammesBioLab"
-    ],
-    [
-      "/gammes/mossi",
-      "GammesMossi"
-    ],
-    [
-      "/gammes/signatures",
-      "GammeSignatures"
-    ],
-    [
-      "/gammes/pheromones",
-      "GammePheromones"
-    ],
-    [
-      "/gammes/raretes",
-      "GammeRaretes"
-    ],
-    [
-      "/laboratoire",
-      "Laboratoire"
-    ],
-    [
-      "/laboratoire/recettes",
-      "LaboratoireRecettes"
-    ],
-    [
-      "/laboratoire/matrice-interactive",
-      "MatriceInteractive"
-    ],
-    [
-      "/laboratoire/statistiques",
-      "Statistiques"
-    ],
-    [
-      "/inventaire",
-      "Inventaire"
+      "/absorbe-x/notes-recherche",
+      "Route"
     ]
   ],
   "routes": [
-    "/test-trpc",
-    "/test-simple",
     "/",
     "/systeme",
     "/admin",
     "/admin/liaison-recettes-molecules",
+    "/molecule-recette-linking",
+    "/molecule-recette-audit",
+    "/molecule-recette-dragdrop",
+    "/molecule-recette-import-csv",
+    "/plant-terroir-linking",
+    "/plant-terroir-audit",
+    "/plant-terroir-dragdrop",
+    "/plant-terroir-import-csv",
+    "/plant-molecule-audit",
+    "/linking-dashboard",
+    "/admin/validation",
+    "/admin/orphan-molecules",
+    "/admin/ai-classification",
+    "/admin/ai-classification-batch",
+    "/admin/niche-plant-linking",
+    "/admin/classification-review",
+    "/admin/notifications",
+    "/admin/progress-report",
     "/admin/molecule-origins",
     "/admin/terroirs-geocode",
     "/outils/editeur-formulation",
-    "/admin/test-trpc",
-    "/admin/test-simple",
-    "/test-recette-card",
+    "/admin/molecules",
     "/admin/molecules/new",
+    "/admin/accords",
+    "/admin/familles",
+    "/admin/chemical-family-linking",
+    "/graphe-familles-chimiques",
+    "/admin/matieres",
     "/admin/recettes",
     "/admin/import-export",
     "/admin/import-export-plants",
+    "/admin/import-csv",
+    "/admin/import-csv-preview",
     "/admin/historique",
     "/admin/references",
+    "/admin/data-quality",
     "/recherche-avancee",
+    "/recherche-globale",
     "/le-projet",
     "/manifeste",
     "/a-propos",
     "/contact",
     "/nouveautes",
     "/projet/timeline",
+    "/absorbe-x",
+    "/absorbe-x/manifeste",
+    "/absorbe-x/notes-recherche",
+    "/absorbe-x/quantique",
+    "/absorbe-x/patrimoine",
+    "/absorbe-x/neuro-olfaction",
+    "/absorbe-x/odeurs-perdues",
+    "/absorbe-x/guide-laboratoire",
+    "/tabacotheque",
+    "/perique-compounds",
+    "/historic-cigarettes",
+    "/tobacco-landraces",
+    "/tobacco-landrace/:name",
+    "/soil-analysis",
+    "/analyses-pedologiques",
+    "/biosynthetic-pathways",
+    "/voies-biosynthetiques",
+    "/tps-pathways",
+    "/pyrolysis",
+    "/pyrolyse",
+    "/transformations-pyrolytiques",
+    "/terpene-profiles",
+    "/profils-terpeniques",
+    "/terpenes",
+    "/perique-fermentation",
+    "/fermentation-perique",
+    "/perique",
+    "/landrace-comparator",
+    "/comparateur-landraces",
+    "/compare-landraces",
+    "/gcms-chromatograms",
+    "/chromatogrammes-gcms",
+    "/chromatograms",
+    "/compound-search",
+    "/recherche-compose",
+    "/search-compound",
+    "/analysis-hub",
+    "/hub-analyse",
+    "/gcms-hub",
+    "/raw-materials",
+    "/matieres-premieres",
+    "/inventory",
+    "/inventaire",
+    "/inventory-dashboard",
+    "/tableau-inventaire",
+    "/stock-dashboard",
+    "/publication-molecule-graph",
+    "/graphe-publications-molecules",
+    "/research-graph",
+    "/ms-spectra",
+    "/spectres-masse",
+    "/mass-spectrometry",
+    "/compare-spectra",
+    "/comparaison-spectres",
+    "/spectra-comparison",
+    "/identify-spectrum",
+    "/identification-spectre",
+    "/spectra-identification",
+    "/recettes-cigarillos",
+    "/cigarillo-recipes",
+    "/recettes/:slug",
+    "/protocoles",
+    "/protocols",
+    "/protocoles/:slug",
+    "/landraces",
+    "/cannabis-landraces",
+    "/landraces/:slug",
+    "/osmotheque",
+    "/claims-and-proofs",
+    "/aromatic-rarities",
+    "/aromatic-rarities/:id",
+    "/matieres-premieres-rares",
     "/prototypes",
     "/prototypes/c1",
     "/prototypes/c2",
@@ -360,14 +455,7 @@
     "/prototypes/c4",
     "/prototypes/:code",
     "/gammes",
-    "/colombie",
-    "/recette/colombie/:id",
-    "/sourcing",
-    "/sourcing/colombie",
-    "/sourcing/france",
-    "/sourcing/inde",
-    "/sourcing/madagascar",
-    "/sourcing/north-america",
+    "/gammes-hub",
     "/gammes/petrichor",
     "/gammes/volcanique",
     "/gammes/glaciaire",
@@ -376,20 +464,32 @@
     "/gammes/signatures",
     "/gammes/pheromones",
     "/gammes/raretes",
+    "/colombie",
+    "/recette/colombie/:id",
+    "/sourcing",
+    "/sourcing/colombie",
+    "/sourcing/france",
+    "/sourcing/inde",
+    "/sourcing/madagascar",
+    "/sourcing/north-america",
     "/laboratoire",
     "/laboratoire/recettes",
     "/laboratoire/matrice-interactive",
     "/laboratoire/statistiques",
-    "/inventaire",
+    "/molecules-hub",
     "/molecules",
+    "/recherche-molecule",
     "/molecule/:id",
     "/terpene/:id",
     "/familles",
     "/familles/list",
     "/chemical-families",
     "/recettes",
+    "/recettes-tl",
     "/recette/:id",
     "/accords",
+    "/formules-reference",
+    "/accords-legacy",
     "/accords-dedies",
     "/experimental-accords",
     "/recherche-radicale",
@@ -408,21 +508,29 @@
     "/comparateur-avance",
     "/matrice-synergies",
     "/graphe-molecules-recettes",
+    "/graphe-plante-molecule",
     "/graphe-synergies",
     "/synergies",
+    "/graphe-relations",
     "/suggestions-synergies",
     "/synergies-heatmap",
+    "/synergies-graph-visualization",
     "/recipe-network",
     "/sankey-flow",
     "/enhanced-radar",
+    "/outils",
+    "/outils-hub",
     "/outils-formulation",
     "/calculateur",
     "/outils/dilution",
     "/outils/calculateur-cout",
+    "/outils/generateur-formules",
     "/analyses",
     "/absorbe-scale",
     "/outils/enrichissement-pubchem",
     "/outils/carte-origines",
+    "/carte-terroirs-recherche",
+    "/carte-plantes-gps",
     "/outils/visualisations-correlation",
     "/outils/export-bibliographique",
     "/recherche-scientifique",
@@ -431,6 +539,8 @@
     "/recherche-scientifique/courbes-volatilite",
     "/recherche-scientifique/degradation-terpenes",
     "/recherche-scientifique/modeles-analytiques-gcms",
+    "/recherche-scientifique/donnees",
+    "/research-data",
     "/synergies-terpenes-niches",
     "/chimie-tabac",
     "/interactions-tabac-cannabis",
@@ -444,7 +554,6 @@
     "/methode-absorbe",
     "/methodologie/absorbe",
     "/methodologie/recherche",
-    "/outils/generateur-formules",
     "/historique-formules",
     "/methodologie/echelle-absorbe",
     "/methodologie/pyrolyse",
@@ -463,14 +572,42 @@
     "/projets",
     "/terrains",
     "/bibliographie",
+    "/bibliographie-globale",
+    "/references-v3",
+    "/reference-entity-link-manager",
+    "/bulk-import-references",
+    "/reseau-liaisons-references",
+    "/suggest-reference-links",
+    "/visualisations",
+    "/bibliographie-hub",
+    "/heritage-conservation",
+    "/h2-linking",
+    "/h3-linking",
+    "/genomics-explorer",
+    "/tps-genes",
+    "/molecular-transformations",
+    "/axes-recherche",
+    "/axes-recherche/:code",
+    "/reseau-axes",
     "/gestion",
     "/collaborations",
     "/archives",
-    "/outils",
+    "/patrimoine-menace",
+    "/alternatives-durables",
+    "/archives-olfactives",
     "/glossaire",
     "/glossaire-visuel-radar",
     "/contribuer",
+    "/contributor",
+    "/contributor/add",
+    "/contributor/links",
+    "/contributor/simple",
+    "/coverage-goal",
+    "/csv-validation-import",
+    "/plant-molecule-linking",
     "/timeline",
+    "/timeline/interactive",
+    "/comparaison",
     "/galerie-botaniques",
     "/galerie",
     "/gallery",
@@ -487,20 +624,40 @@
     "/timeline-botanique",
     "/botanique-critique",
     "/varietes-fantomes",
+    "/ghost-varieties-explorer",
+    "/ghost-variety/new",
+    "/ghost-variety/:id",
+    "/ghost-variety/:id/upload-image",
     "/recettes-leaf-economies",
     "/terp-profiles",
     "/terp-profiles/compare",
     "/plants",
     "/plantes",
+    "/plants-legacy",
     "/varietes",
     "/plant-varieties",
     "/plantes-varietes",
+    "/varietes-legacy",
     "/varietes/new",
     "/varietes/:id",
+    "/genealogy",
+    "/arbre-genealogique",
     "/plantes-varietes/new",
     "/carte-varietes",
     "/carte-origines",
     "/chemotypes",
+    "/phylogenetique",
+    "/phylogenetic",
+    "/famille/:name",
+    "/smiles",
+    "/structures",
+    "/enrichissement",
+    "/enrichment",
+    "/conformite-ifra",
+    "/percepts",
+    "/recherche-percepts",
+    "/stats-olfactives",
+    "/statistiques",
     "/plants/new",
     "/plants/:id/edit",
     "/plants/:id",
@@ -508,13 +665,17 @@
     "/final-recipes",
     "/recettes-finales",
     "/terroirs",
+    "/terroirs-legacy",
     "/terroirs/:id",
+    "/methodes-analytiques",
+    "/analytical-methods",
     "/origines-geographiques",
     "/extraction-methods",
     "/methodes-extraction",
-    "/matieres-premieres",
+    "/comparaison-extractions",
+    "/he-absolue-co2",
+    "/matieres-premieres/nouvelle",
     "/matieres-premieres/:id",
-    "/raw-materials",
     "/raw-materials/:id",
     "/relations-molecule-plante",
     "/molecule-plant-relations",
@@ -527,18 +688,31 @@
     "/dashboard",
     "/dashboard/recherche",
     "/analytics",
+    "/analytics/advanced",
     "/mon-dashboard",
-    "/statistiques",
     "/recherche",
     "/recherche-profil-moleculaire",
+    "/recherche-croisee",
     "/timeline-recettes",
     "/heatmap-correlations",
-    "/formules-reference",
     "/favoris",
+    "/mes-favoris",
     "/reseau",
     "/reseau-molecules-plantes",
+    "/reseau-plantes-molecules",
+    "/reseau-plantes-terroirs",
+    "/carte-terroirs-plantes",
+    "/graphe-terroir-plante-molecule",
+    "/graphe-molecules-familles-chimiques",
+    "/vue-connexions",
+    "/graphe-axes-thematiques",
+    "/graphe-references-axes",
+    "/references-graph",
+    "/carte-interactive-terroirs",
+    "/carte-terroirs",
+    "/parcours-olfactif",
+    "/parcours/:code",
     "/bio-mineralis",
-    "/test-minimal",
     "/404"
   ]
 }
