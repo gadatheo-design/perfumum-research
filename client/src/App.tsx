@@ -942,6 +942,20 @@ function Router() {
       
       {/* === ERREURS === */}
       <Route path="/404" component={NotFound} />
+      {/* Legacy alias redirects (navigation audit hardening) */}
+      <Route path="/absorbe-x/neuro" component={() => <SimpleRedirect to="/absorbe-x/neuro-olfaction" />} />
+      <Route path="/analysis" component={() => <SimpleRedirect to="/analyses" />} />
+      <Route path="/axes-thematiques" component={() => <SimpleRedirect to="/axes-recherche" />} />
+      <Route path="/calculateur-ifra" component={() => <SimpleRedirect to="/ifra" />} />
+      <Route path="/export-bibliographique" component={() => <SimpleRedirect to="/outils/export-bibliographique" />} />
+      <Route path="/gammes/civilisations/mossi" component={() => <SimpleRedirect to="/gammes-hub?tab=mossi" />} />
+      <Route path="/laboratoire/matieres" component={() => <SimpleRedirect to="/laboratoire" />} />
+      <Route path="/methodologie/echelle" component={() => <SimpleRedirect to="/methodologie/echelle-absorbe" />} />
+      <Route path="/methodologie/gcms" component={() => <SimpleRedirect to="/methodologie/gc-ms" />} />
+      <Route path="/molecule" component={() => <SimpleRedirect to="/molecules" />} />
+      <Route path="/radar-correlation-heatmap" component={() => <SimpleRedirect to="/analyses" />} />
+      <Route path="/recette" component={() => <SimpleRedirect to="/recettes" />} />
+
       <Route component={NotFound} />
     </Switch>
   );
