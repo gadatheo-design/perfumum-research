@@ -29,9 +29,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DuplicateManagementModal } from "@/components/DuplicateManagementModal";
 
 export default function AdminDuplicates() {
   const [activeTab, setActiveTab] = useState<"molecules" | "plants">("molecules");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState<{
+    type: "molecule" | "plant";
+    duplicateType: "name" | "cas" | "smiles" | "scientific" | "common";
+    value: string;
+  } | null>(null);
 
   // Requêtes pour analyser les doublons
   const { 
@@ -52,6 +59,19 @@ export default function AdminDuplicates() {
     } else {
       refetchPlants();
     }
+  };
+
+  const handleManageDuplicate = (type: "molecule" | "plant", duplicateType: string, value: string) => {
+    setModalConfig({
+      type,
+      duplicateType: duplicateType as any,
+      value,
+    });
+    setModalOpen(true);
+  };
+
+  const handleMergeComplete = () => {
+    handleRefresh();
   };
 
   return (
@@ -205,7 +225,11 @@ export default function AdminDuplicates() {
                               {dup.molecules.map(m => m.id).join(", ")}
                             </TableCell>
                             <TableCell>
-                              <Button variant="outline" size="sm">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={() => handleManageDuplicate("molecule", "name", dup.value)}
+                              >
                                 Gérer
                               </Button>
                             </TableCell>
@@ -255,7 +279,11 @@ export default function AdminDuplicates() {
                               {dup.molecules.map(m => m.nom).join(", ")}
                             </TableCell>
                             <TableCell>
-                              <Button variant="outline" size="sm">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={() => handleManageDuplicate("molecule", "cas", dup.value)}
+                              >
                                 Gérer
                               </Button>
                             </TableCell>
@@ -307,7 +335,11 @@ export default function AdminDuplicates() {
                               {dup.molecules.map(m => m.nom).join(", ")}
                             </TableCell>
                             <TableCell>
-                              <Button variant="outline" size="sm">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={() => handleManageDuplicate("molecule", "smiles", dup.value)}
+                              >
                                 Gérer
                               </Button>
                             </TableCell>
@@ -381,7 +413,11 @@ export default function AdminDuplicates() {
                               {dup.plants.map(p => p.common_name || "N/A").join(", ")}
                             </TableCell>
                             <TableCell>
-                              <Button variant="outline" size="sm">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={() => handleManageDuplicate("plant", "scientific", dup.value)}
+                              >
                                 Gérer
                               </Button>
                             </TableCell>
@@ -431,7 +467,11 @@ export default function AdminDuplicates() {
                               {dup.plants.map(p => p.scientific_name).join(", ")}
                             </TableCell>
                             <TableCell>
-                              <Button variant="outline" size="sm">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={() => handleManageDuplicate("plant", "common", dup.value)}
+                              >
                                 Gérer
                               </Button>
                             </TableCell>
@@ -460,6 +500,18 @@ export default function AdminDuplicates() {
           La fusion de doublons est une opération irréversible. Assurez-vous de créer une sauvegarde de la base de données avant toute modification.
         </AlertDescription>
       </Alert>
+
+      {/* Modal de gestion des doublons */}
+      {modalConfig && (
+        <DuplicateManagementModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          type={modalConfig.type}
+          duplicateType={modalConfig.duplicateType}
+          value={modalConfig.value}
+          onMergeComplete={handleMergeComplete}
+        />
+      )}
     </div>
   );
 }
