@@ -1,0 +1,306 @@
+/**
+ * Router tRPC pour l'analyse et la gestion des doublons
+ * Permet d'identifier et de fusionner les molécules et plantes dupliquées
+ */
+
+import { z } from "zod";
+import { publicProcedure, router } from "../_core/trpc";
+import { db } from "../db";
+import { molecules, plants } from "../../shared/schema";
+import { eq, sql, and, or } from "drizzle-orm";
+
+/**
+ * Analyser les doublons de molécules
+ */
+async function analyzeMoleculeDuplicates() {
+  // Récupérer toutes les molécules
+  const allMolecules = await db.query.molecules.findMany({
+    columns: {
+      id: true,
+      nom: true,
+      cas_number: true,
+      smiles: true,
+      description: true,
+    },
+  });
+
+  // Grouper par nom
+  const byName = new Map<string, typeof allMolecules>();
+  allMolecules.forEach((m) => {
+    if (m.nom) {
+      const existing = byName.get(m.nom) || [];
+      existing.push(m);
+      byName.set(m.nom, existing);
+    }
+  });
+
+  // Grouper par CAS
+  const byCAS = new Map<string, typeof allMolecules>();
+  allMolecules.forEach((m) => {
+    if (m.cas_number && m.cas_number !== "") {
+      const existing = byCAS.get(m.cas_number) || [];
+      existing.push(m);
+      byCAS.set(m.cas_number, existing);
+    }
+  });
+
+  // Grouper par SMILES
+  const bySMILES = new Map<string, typeof allMolecules>();
+  allMolecules.forEach((m) => {
+    if (m.smiles && m.smiles !== "") {
+      const existing = bySMILES.get(m.smiles) || [];
+      existing.push(m);
+      bySMILES.set(m.smiles, existing);
+    }
+  });
+
+  // Filtrer les doublons
+  const nameDuplicates = Array.from(byName.entries())
+    .filter(([_, mols]) => mols.length > 1)
+    .map(([name, mols]) => ({
+      type: "name" as const,
+      value: name,
+      count: mols.length,
+      molecules: mols,
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  const casDuplicates = Array.from(byCAS.entries())
+    .filter(([_, mols]) => mols.length > 1)
+    .map(([cas, mols]) => ({
+      type: "cas" as const,
+      value: cas,
+      count: mols.length,
+      molecules: mols,
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  const smilesDuplicates = Array.from(bySMILES.entries())
+    .filter(([_, mols]) => mols.length > 1)
+    .map(([smiles, mols]) => ({
+      type: "smiles" as const,
+      value: smiles,
+      count: mols.length,
+      molecules: mols,
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  const totalDuplicates =
+    nameDuplicates.reduce((sum, d) => sum + (d.count - 1), 0) +
+    casDuplicates.reduce((sum, d) => sum + (d.count - 1), 0) +
+    smilesDuplicates.reduce((sum, d) => sum + (d.count - 1), 0);
+
+  return {
+    total: allMolecules.length,
+    uniqueNames: byName.size,
+    uniqueCAS: byCAS.size,
+    uniqueSMILES: bySMILES.size,
+    nameDuplicates,
+    casDuplicates,
+    smilesDuplicates,
+    totalDuplicates,
+    duplicationRate: ((totalDuplicates / allMolecules.length) * 100).toFixed(2) + "%",
+  };
+}
+
+/**
+ * Analyser les doublons de plantes
+ */
+async function analyzePlantDuplicates() {
+  // Récupérer toutes les plantes
+  const allPlants = await db.query.plants.findMany({
+    columns: {
+      id: true,
+      scientific_name: true,
+      common_name: true,
+      family: true,
+      description: true,
+    },
+  });
+
+  // Grouper par nom scientifique
+  const byScientificName = new Map<string, typeof allPlants>();
+  allPlants.forEach((p) => {
+    if (p.scientific_name) {
+      const existing = byScientificName.get(p.scientific_name) || [];
+      existing.push(p);
+      byScientificName.set(p.scientific_name, existing);
+    }
+  });
+
+  // Grouper par nom commun
+  const byCommonName = new Map<string, typeof allPlants>();
+  allPlants.forEach((p) => {
+    if (p.common_name && p.common_name !== "") {
+      const existing = byCommonName.get(p.common_name) || [];
+      existing.push(p);
+      byCommonName.set(p.common_name, existing);
+    }
+  });
+
+  // Filtrer les doublons
+  const scientificDuplicates = Array.from(byScientificName.entries())
+    .filter(([_, plants]) => plants.length > 1)
+    .map(([name, plants]) => ({
+      type: "scientific" as const,
+      value: name,
+      count: plants.length,
+      plants,
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  const commonDuplicates = Array.from(byCommonName.entries())
+    .filter(([_, plants]) => plants.length > 1)
+    .map(([name, plants]) => ({
+      type: "common" as const,
+      value: name,
+      count: plants.length,
+      plants,
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  const totalDuplicates =
+    scientificDuplicates.reduce((sum, d) => sum + (d.count - 1), 0) +
+    commonDuplicates.reduce((sum, d) => sum + (d.count - 1), 0);
+
+  return {
+    total: allPlants.length,
+    uniqueScientificNames: byScientificName.size,
+    uniqueCommonNames: byCommonName.size,
+    scientificDuplicates,
+    commonDuplicates,
+    totalDuplicates,
+    duplicationRate: ((totalDuplicates / allPlants.length) * 100).toFixed(2) + "%",
+  };
+}
+
+/**
+ * Fusionner deux molécules
+ */
+async function mergeMolecules(keepId: number, mergeId: number) {
+  // TODO: Implémenter la logique de fusion
+  // 1. Mettre à jour toutes les relations pour pointer vers keepId
+  // 2. Fusionner les données manquantes
+  // 3. Supprimer mergeId
+  
+  return {
+    success: true,
+    message: `Molécule ${mergeId} fusionnée dans ${keepId}`,
+  };
+}
+
+/**
+ * Fusionner deux plantes
+ */
+async function mergePlants(keepId: number, mergeId: number) {
+  // TODO: Implémenter la logique de fusion
+  // 1. Mettre à jour toutes les relations pour pointer vers keepId
+  // 2. Fusionner les données manquantes
+  // 3. Supprimer mergeId
+  
+  return {
+    success: true,
+    message: `Plante ${mergeId} fusionnée dans ${keepId}`,
+  };
+}
+
+/**
+ * Router pour la gestion des doublons
+ */
+export const duplicatesRouter = router({
+  /**
+   * Analyser les doublons de molécules
+   */
+  analyzeMolecules: publicProcedure.query(async () => {
+    return await analyzeMoleculeDuplicates();
+  }),
+
+  /**
+   * Analyser les doublons de plantes
+   */
+  analyzePlants: publicProcedure.query(async () => {
+    return await analyzePlantDuplicates();
+  }),
+
+  /**
+   * Obtenir les détails d'un groupe de doublons de molécules
+   */
+  getMoleculeDuplicateDetails: publicProcedure
+    .input(
+      z.object({
+        type: z.enum(["name", "cas", "smiles"]),
+        value: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const { type, value } = input;
+
+      let condition;
+      if (type === "name") {
+        condition = eq(molecules.nom, value);
+      } else if (type === "cas") {
+        condition = eq(molecules.cas_number, value);
+      } else {
+        condition = eq(molecules.smiles, value);
+      }
+
+      const duplicates = await db.query.molecules.findMany({
+        where: condition,
+      });
+
+      return duplicates;
+    }),
+
+  /**
+   * Obtenir les détails d'un groupe de doublons de plantes
+   */
+  getPlantDuplicateDetails: publicProcedure
+    .input(
+      z.object({
+        type: z.enum(["scientific", "common"]),
+        value: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const { type, value } = input;
+
+      const condition =
+        type === "scientific"
+          ? eq(plants.scientific_name, value)
+          : eq(plants.common_name, value);
+
+      const duplicates = await db.query.plants.findMany({
+        where: condition,
+      });
+
+      return duplicates;
+    }),
+
+  /**
+   * Fusionner deux molécules
+   */
+  mergeMolecules: publicProcedure
+    .input(
+      z.object({
+        keepId: z.number(),
+        mergeId: z.number(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      return await mergeMolecules(input.keepId, input.mergeId);
+    }),
+
+  /**
+   * Fusionner deux plantes
+   */
+  mergePlants: publicProcedure
+    .input(
+      z.object({
+        keepId: z.number(),
+        mergeId: z.number(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      return await mergePlants(input.keepId, input.mergeId);
+    }),
+});

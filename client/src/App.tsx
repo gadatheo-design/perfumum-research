@@ -40,6 +40,7 @@ import AromaticRarityDetailPage from '@/pages/AromaticRarityDetailPage';
 import ClaimsAndProofs from '@/pages/ClaimsAndProofs';
 import { Tabacotheque } from '@/pages/Tabacotheque';
 import { ClaimsAndProofsPage } from '@/pages/ClaimsAndProofsPage';
+import AdminDuplicates from '@/pages/AdminDuplicates';
 
 // === PAGES PRINCIPALES ===
 import Home from "./pages/Home";
@@ -938,6 +939,7 @@ function Router() {
       </Route>
       <Route path="/parcours/:code" component={ParcoursDetail} />
       <Route path="/bio-mineralis" component={BioMineralis} />
+      <Route path="/admin/duplicates" component={AdminDuplicates} />
       
       
       {/* === ERREURS === */}
