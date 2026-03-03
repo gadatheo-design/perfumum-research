@@ -19837,3 +19837,9 @@ export async function searchMoleculesByName(name: string): Promise<{
     casNumber: m.casNumber,
   }));
 }
+
+
+/**
+ * Export de l'instance db pour utilisation dans les routers
+ */
+export { getDb as db };

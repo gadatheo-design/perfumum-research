@@ -1488,7 +1488,7 @@ export const researchRouter = router({
         const startNodes = Array.from(nodesMap.keys()).filter(n => !productNodes.has(n));
 
         // DFS to find chains
-        function findChains(node: string, path: string[], types: string[], depth: number) {
+        const findChains = (node: string, path: string[], types: string[], depth: number) => {
           if (depth > (input?.maxDepth || 5)) return;
           
           const neighbors = adjacency.get(node) || [];

@@ -4,7 +4,6 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
-import { visualizer } from "rollup-plugin-visualizer";
 
 /**
  * Configuration Vite optimisée pour PERFUMUM
@@ -23,13 +22,13 @@ const plugins = [
   jsxLocPlugin(),
   vitePluginManusRuntime(),
   // Bundle analyzer - génère stats.html après build
-  visualizer({
-    filename: "./dist/stats.html",
-    open: false,
-    gzipSize: true,
-    brotliSize: true,
-    template: "treemap", // ou "sunburst", "network"
-  }),
+  // visualizer({
+  //   filename: "./dist/stats.html",
+  //   open: false,
+  //   gzipSize: true,
+  //   brotliSize: true,
+  //   template: "treemap", // ou "sunburst", "network"
+  // }),
 ];
 
 export default defineConfig({

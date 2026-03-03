@@ -98,11 +98,13 @@ export const recipesRouter = router({
       
       if (id) {
         sql += `id = ?`;
+        // @ts-ignore
         const result = await db.execute(sql, [id]);
         const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
         return (rows as any[])[0] || null;
       } else if (slug) {
         sql += `slug = ?`;
+        // @ts-ignore
         const result = await db.execute(sql, [slug]);
         const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
         return (rows as any[])[0] || null;

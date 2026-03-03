@@ -5,9 +5,16 @@
 
 import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
-import { db } from "../db";
-import { molecules, plants } from "../../shared/schema";
+import { getDb } from "../db";
+
+const db = { execute: async (sql: string, params?: any[]) => {
+  const database = await getDb();
+  return (database as any).execute(sql, params);
+} };
+
+import { molecules, plants } from "../../drizzle/schema";
 import { eq, sql, and, or } from "drizzle-orm";
+import type { InferSelectModel } from "drizzle-orm";
 
 /**
  * Analyser les doublons de molécules
