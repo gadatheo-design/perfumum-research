@@ -30,6 +30,9 @@ import {
   ChevronDown,
   ChevronUp,
   Info,
+  ShieldCheck,
+  PieChart,
+  ClipboardList,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -565,6 +568,237 @@ function PlantMoleculeRelations() {
   );
 }
 
+// ─── Composant Qualité des données ──────────────────────────────────────────────
+
+function DataQualityPanel() {
+  const { data: stats, isLoading, refetch } = trpc.moleculeManager.getDataQualityStats.useQuery();
+  const { data: malformed, isLoading: loadingMalformed } = trpc.moleculeManager.getMalformedPlants.useQuery();
+  const { data: categories } = trpc.moleculeManager.getCategoryDistribution.useQuery();
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-pulse">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="h-24 bg-muted rounded-lg" />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* En-tête */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold">Qualité des données — Plantes</h2>
+          <p className="text-sm text-muted-foreground">Rapport de l'état de la base de données après nettoyage</p>
+        </div>
+        <Button variant="outline" size="sm" onClick={() => refetch()}>
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Actualiser
+        </Button>
+      </div>
+
+      {/* Statistiques de qualité */}
+      {stats && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Card>
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2 mb-1">
+                <Leaf className="w-4 h-4 text-green-500" />
+                <span className="text-xs text-muted-foreground">Plantes uniques</span>
+              </div>
+              <p className="text-2xl font-bold">{stats.totalPlants}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2 mb-1">
+                <BarChart3 className="w-4 h-4 text-emerald-500" />
+                <span className="text-xs text-muted-foreground">Couverture compositions</span>
+              </div>
+              <p className="text-2xl font-bold">{stats.coveragePercent}%</p>
+              <p className="text-xs text-muted-foreground">{stats.plantsWithCompositions}/{stats.totalPlants} plantes</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2 mb-1">
+                <AlertTriangle className="w-4 h-4 text-amber-500" />
+                <span className="text-xs text-muted-foreground">Sans nom latin</span>
+              </div>
+              <p className="text-2xl font-bold">{stats.plantsWithoutLatinName}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2 mb-1">
+                {stats.duplicatePlantGroups === 0 ? (
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                ) : (
+                  <AlertTriangle className="w-4 h-4 text-orange-500" />
+                )}
+                <span className="text-xs text-muted-foreground">Groupes doublons</span>
+              </div>
+              <p className="text-2xl font-bold">{stats.duplicatePlantGroups}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2 mb-1">
+                {stats.malformedNames === 0 ? (
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                ) : (
+                  <AlertTriangle className="w-4 h-4 text-red-500" />
+                )}
+                <span className="text-xs text-muted-foreground">Noms mal formatés</span>
+              </div>
+              <p className="text-2xl font-bold">{stats.malformedNames}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2 mb-1">
+                {stats.malformedLatinNames === 0 ? (
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                ) : (
+                  <AlertTriangle className="w-4 h-4 text-red-500" />
+                )}
+                <span className="text-xs text-muted-foreground">Noms latins mal formatés</span>
+              </div>
+              <p className="text-2xl font-bold">{stats.malformedLatinNames}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2 mb-1">
+                <FlaskConical className="w-4 h-4 text-blue-500" />
+                <span className="text-xs text-muted-foreground">Molécules</span>
+              </div>
+              <p className="text-2xl font-bold">{stats.totalMolecules}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2 mb-1">
+                <Link2 className="w-4 h-4 text-purple-500" />
+                <span className="text-xs text-muted-foreground">Relations</span>
+              </div>
+              <p className="text-2xl font-bold">{stats.totalLinks}</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Répartition par catégorie */}
+      {categories && categories.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <PieChart className="w-4 h-4" />
+              Répartition par catégorie
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {categories.map((cat) => (
+                <div key={cat.category} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                  <span className="text-sm font-medium capitalize">{cat.category}</span>
+                  <Badge variant="secondary">{cat.count}</Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Plantes mal formatées */}
+      {malformed && malformed.length > 0 ? (
+        <Card className="border-orange-200 dark:border-orange-800">
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2 text-orange-600">
+              <AlertTriangle className="w-4 h-4" />
+              Plantes encore mal formatées ({malformed.length})
+            </CardTitle>
+            <CardDescription>
+              Ces entrées nécessitent une correction manuelle
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b text-muted-foreground">
+                    <th className="text-left py-2 px-3">ID</th>
+                    <th className="text-left py-2 px-3">Nom</th>
+                    <th className="text-left py-2 px-3">Nom latin</th>
+                    <th className="text-left py-2 px-3">Catégorie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {malformed.map((plant) => (
+                    <tr key={plant.id} className="border-b hover:bg-muted/30">
+                      <td className="py-2 px-3 font-mono text-xs text-muted-foreground">{plant.id}</td>
+                      <td className="py-2 px-3 max-w-xs">
+                        <span className="text-orange-600 dark:text-orange-400 font-medium">{plant.name.substring(0, 60)}{plant.name.length > 60 ? '...' : ''}</span>
+                      </td>
+                      <td className="py-2 px-3 text-xs italic text-muted-foreground">{plant.latinName || '—'}</td>
+                      <td className="py-2 px-3">
+                        <Badge variant="outline" className="text-xs">{plant.category}</Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <Alert className="border-green-200 bg-green-50 dark:bg-green-900/20">
+          <CheckCircle2 className="h-4 w-4 text-green-600" />
+          <AlertDescription className="text-green-700 dark:text-green-400">
+            <strong>Base de données propre !</strong> Aucune plante avec un nom mal formaté détectée.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Résumé du nettoyage */}
+      <Card className="bg-muted/30">
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            <ClipboardList className="w-4 h-4" />
+            Journal de nettoyage (session 4 mars 2026)
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center gap-2 text-green-600">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+              <span>157 plantes avec noms CSV mal formatés corrigés (séparateurs ; extraits et remappés)</span>
+            </div>
+            <div className="flex items-center gap-2 text-green-600">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+              <span>509 entrées bibliographiques supprimées (URLs, références importées par erreur comme plantes)</span>
+            </div>
+            <div className="flex items-center gap-2 text-green-600">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+              <span>577 doublons de plantes fusionnés (1 008 → 431 plantes uniques)</span>
+            </div>
+            <div className="flex items-center gap-2 text-green-600">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+              <span>44 latin_name descriptifs nettoyés (déplacés vers olfactive_signature)</span>
+            </div>
+            <div className="flex items-center gap-2 text-green-600">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+              <span>1 ligne d'en-tête CSV supprimée (ID 600001)</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 // ─── Page principale ─────────────────────────────────────────────────────────
 
 export default function MoleculeManager() {
@@ -600,14 +834,18 @@ export default function MoleculeManager() {
 
       {/* Onglets */}
       <Tabs defaultValue="duplicates">
-        <TabsList className="mb-6">
+        <TabsList className="mb-6 flex-wrap h-auto gap-1">
           <TabsTrigger value="duplicates" className="flex items-center gap-2">
             <Merge className="w-4 h-4" />
-            Doublons
+            Doublons molécules
           </TabsTrigger>
           <TabsTrigger value="relations" className="flex items-center gap-2">
             <Link2 className="w-4 h-4" />
-            Relations plantes-molécules
+            Relations
+          </TabsTrigger>
+          <TabsTrigger value="quality" className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4" />
+            Qualité des données
           </TabsTrigger>
         </TabsList>
 
@@ -617,6 +855,10 @@ export default function MoleculeManager() {
 
         <TabsContent value="relations">
           <PlantMoleculeRelations />
+        </TabsContent>
+
+        <TabsContent value="quality">
+          <DataQualityPanel />
         </TabsContent>
       </Tabs>
     </div>

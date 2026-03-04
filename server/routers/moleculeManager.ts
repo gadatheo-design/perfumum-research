@@ -397,4 +397,125 @@ export const moleculeManagerRouter = router({
       await db.execute(sql`DELETE FROM plant_molecules WHERE plant_id = ${plantId} AND molecule_id = ${moleculeId}`);
       return { success: true, message: "Relation supprimée" };
     }),
+
+  // ── Qualité des données ───────────────────────────────────────────────────
+
+  getDataQualityStats: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) throw new Error("Database not available");
+
+    const [totalPlants] = await db.execute(sql`SELECT COUNT(*) as count FROM plants`);
+    const [totalMols] = await db.execute(sql`SELECT COUNT(*) as count FROM molecules`);
+    const [totalLinks] = await db.execute(sql`SELECT COUNT(*) as count FROM plant_molecules`);
+    const [withLinks] = await db.execute(sql`SELECT COUNT(DISTINCT plant_id) as count FROM plant_molecules`);
+    const [noLatin] = await db.execute(sql`SELECT COUNT(*) as count FROM plants WHERE latin_name IS NULL OR latin_name = '' OR latin_name = 'null'`);
+    const [dupPlants] = await db.execute(sql`
+      SELECT COUNT(*) as count FROM (
+        SELECT LOWER(TRIM(name)) FROM plants GROUP BY LOWER(TRIM(name)) HAVING COUNT(*) > 1
+      ) t
+    `);
+    const [badNames] = await db.execute(sql`SELECT COUNT(*) as count FROM plants WHERE name LIKE '%;%'`);
+    const [badLatins] = await db.execute(sql`SELECT COUNT(*) as count FROM plants WHERE latin_name LIKE '%;%'`);
+
+    const tp = (totalPlants as any[])[0];
+    const tm = (totalMols as any[])[0];
+    const tl = (totalLinks as any[])[0];
+    const wl = (withLinks as any[])[0];
+    const nl = (noLatin as any[])[0];
+    const dp = (dupPlants as any[])[0];
+    const bn = (badNames as any[])[0];
+    const bl = (badLatins as any[])[0];
+
+    return {
+      totalPlants: Number(tp.count),
+      totalMolecules: Number(tm.count),
+      totalLinks: Number(tl.count),
+      plantsWithCompositions: Number(wl.count),
+      coveragePercent: Math.round(Number(wl.count) / Number(tp.count) * 100),
+      plantsWithoutLatinName: Number(nl.count),
+      duplicatePlantGroups: Number(dp.count),
+      malformedNames: Number(bn.count),
+      malformedLatinNames: Number(bl.count),
+    };
+  }),
+
+  getPlantDuplicates: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) throw new Error("Database not available");
+
+    const groups = await db.execute(sql`
+      SELECT LOWER(TRIM(name)) as name_lower, COUNT(*) as cnt
+      FROM plants 
+      GROUP BY LOWER(TRIM(name)) 
+      HAVING cnt > 1 
+      ORDER BY cnt DESC
+      LIMIT 50
+    `);
+
+    const result = [];
+    for (const group of (groups as any[])) {
+      const plants = await db.execute(sql`
+        SELECT id, name, latin_name, family, category
+        FROM plants 
+        WHERE LOWER(TRIM(name)) = ${group.name_lower}
+        ORDER BY id ASC
+      `);
+      result.push({
+        nameLower: group.name_lower,
+        count: Number(group.cnt),
+        plants: (plants as any[]).map(p => ({
+          id: Number(p.id),
+          name: p.name,
+          latinName: p.latin_name,
+          family: p.family,
+          category: p.category,
+        })),
+      });
+    }
+    return result;
+  }),
+
+  getMalformedPlants: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) throw new Error("Database not available");
+
+    const rows = await db.execute(sql`
+      SELECT id, name, latin_name, family, category
+      FROM plants 
+      WHERE name LIKE '%;%'
+         OR latin_name LIKE '%;%'
+         OR name LIKE '%References%'
+         OR name LIKE '%World Flora%'
+         OR name LIKE 'EN: %'
+         OR name LIKE 'FR: %'
+         OR name LIKE '• %'
+      ORDER BY id
+      LIMIT 100
+    `);
+
+    return (rows as any[]).map(r => ({
+      id: Number(r.id),
+      name: r.name,
+      latinName: r.latin_name,
+      family: r.family,
+      category: r.category,
+    }));
+  }),
+
+  getCategoryDistribution: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) throw new Error("Database not available");
+
+    const rows = await db.execute(sql`
+      SELECT category, COUNT(*) as cnt 
+      FROM plants 
+      GROUP BY category 
+      ORDER BY cnt DESC
+    `);
+
+    return (rows as any[]).map(r => ({
+      category: r.category || 'null',
+      count: Number(r.cnt),
+    }));
+  }),
 });

@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT id, latin_name, common_name, family \nFROM plants \nWHERE latin_name LIKE '%,%' \n   OR latin_name LIKE '%\"%' \n   OR latin_name LIKE '%;%'\n   OR latin_name LIKE '%|%'\n   OR latin_name LIKE '%\\t%'\n   OR latin_name REGEXP '^[0-9]'\n   OR LENGTH(latin_name) > 100\nORDER BY LENGTH(latin_name) DESC\nLIMIT 50;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, latin_name, common_name, family \nFROM plants \nWHERE latin_name LIKE '%,%' \n   OR latin_name LIKE '%\"%' \n   OR latin_name LIKE '%;%'\n   OR latin_name LIKE '%|%'\n   OR latin_name LIKE '%\\t%'\n   OR latin_name REGEXP '^[0-9]'\n   OR LENGTH(latin_name) > 100\nORDER BY LENGTH(latin_name) DESC\nLIMIT 50;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'common_name' in 'field list'"
+  ]
+}

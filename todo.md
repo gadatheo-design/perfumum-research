@@ -5053,4 +5053,19 @@
 - [x] Améliorer les relations plantes-molécules (1867 relations, API complète)
 - [x] Créer le backend tRPC pour la gestion des doublons et relations (moleculeManager router)
 - [x] Créer la page /admin/molecule-manager avec interface complète (3 onglets : stats, doublons, relations)
-- [ ] Tester et sauvegarder le checkpoint
+- [x] Tester et sauvegarder le checkpoint (v66b07ea1)
+
+---
+
+## 📊 SESSION 4 MARS 2026 — Nettoyage des noms de plantes mal formatés
+
+- [x] Identifier les plantes avec noms contenant des séparateurs CSV (157 plantes + 509 entrées bibliographiques)
+- [x] Analyser et corriger les noms en base de données (1517 → 431 plantes uniques, 0 doublons)
+- [x] Ajouter un outil de nettoyage dans /admin/molecule-manager (onglet "Qualité des données")
+- [x] Tester et sauvegarder le checkpoint
+
+### Résultats du nettoyage (4 mars 2026)
+- **Avant** : 1517 plantes (157 noms CSV bruts, 509 entrées bibliographiques, 577 doublons)
+- **Après** : 431 plantes uniques, 0 nom mal formaté, 0 doublon
+- **Couverture compositions** : 60% (258/431 plantes avec liaisons moléculaires)
+- **Relations préservées** : 1217 liaisons plant_molecules intactes
