@@ -530,7 +530,7 @@ export default function ImportExportPlants() {
                   <p>{importResults.success} entrées valides</p>
                   {importResults.errors.length > 0 && (
                     <ul className="mt-2 list-disc list-inside text-sm">
-                      {importResults.errors.slice(0, 5).map((error, i) => (
+                      {importResults.errors.slice(0, 5).map((error: string, i: number) => (
                         <li key={i}>{error}</li>
                       ))}
                       {importResults.errors.length > 5 && (

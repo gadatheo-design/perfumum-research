@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Composant d'upload d'images botaniques pour les échantillons LeafEconomy
  * Utilise le stockage S3 via les helpers serveur

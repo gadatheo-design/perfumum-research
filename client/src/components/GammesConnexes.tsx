@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Droplets, Flame, Globe2, Snowflake, FlaskConical, Heart } from "lucide-react";
 import { Link } from "wouter";

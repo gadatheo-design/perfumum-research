@@ -3117,6 +3117,37 @@ export const appRouter = router({
       return fwc.map(f => ({ family: f.family, count: f.count }));
     }),
     getFamiliesWithCategories: publicProcedure.query(async () => await db.getPlantFamiliesWithCategories()),
+    getSeasonalVariations: publicProcedure
+      .input(z.number())
+      .query(async ({ input: plantId }) => {
+        const { getDb } = await import('./db');
+        const { sql } = await import('drizzle-orm');
+        const dbConn = await getDb();
+        if (!dbConn) return [];
+        const result = await dbConn.execute(sql`
+          SELECT id, plant_id, season, harvest_period, temperature_range,
+                 humidity_range, notes, key_molecules, yield_modifier,
+                 quality_score, extraction_notes, created_at
+          FROM seasonal_variations
+          WHERE plant_id = ${plantId}
+          ORDER BY FIELD(season, 'printemps', 'ete', 'automne', 'hiver')
+        `);
+        const rows = (Array.isArray(result) ? result[0] : (result as any).rows ?? result) as any[];
+        return rows.map((r: any) => ({
+          id: r.id as number,
+          plantId: r.plant_id as number,
+          season: r.season as 'printemps' | 'ete' | 'automne' | 'hiver',
+          harvestPeriod: r.harvest_period as string | null,
+          temperatureRange: r.temperature_range as string | null,
+          humidityRange: r.humidity_range as string | null,
+          notes: r.notes as string | null,
+          keyMolecules: typeof r.key_molecules === 'string' ? JSON.parse(r.key_molecules) : (r.key_molecules ?? []),
+          yieldModifier: r.yield_modifier ? parseFloat(r.yield_modifier) : null,
+          qualityScore: r.quality_score as number | null,
+          extractionNotes: r.extraction_notes as string | null,
+          createdAt: r.created_at as Date | null,
+        }));
+      }),
   }),
 
   // ============================================================================

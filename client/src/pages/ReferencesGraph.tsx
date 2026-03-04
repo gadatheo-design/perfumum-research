@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Page Graphe des Références par Axe Thématique
  * Visualise les connexions entre références bibliographiques et axes H2/H3

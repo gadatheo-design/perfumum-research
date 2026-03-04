@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { motion } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

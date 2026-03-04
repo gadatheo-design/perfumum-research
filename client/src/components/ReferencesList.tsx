@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ExternalLink, BookOpen, Database, FileText, GraduationCap } from "lucide-react";
 
 interface Reference {

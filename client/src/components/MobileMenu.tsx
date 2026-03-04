@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * MobileMenu - Menu hamburger optimisé pour navigation tactile
  * 

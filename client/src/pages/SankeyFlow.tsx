@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";

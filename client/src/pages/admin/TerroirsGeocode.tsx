@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

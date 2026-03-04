@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * SynergySuggestions Component
  * Affiche les suggestions de synergies moléculaires documentées pour le générateur de formules

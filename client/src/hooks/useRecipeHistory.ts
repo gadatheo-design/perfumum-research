@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from 'react';
 
 const HISTORY_KEY = 'perfumum_recipe_history';

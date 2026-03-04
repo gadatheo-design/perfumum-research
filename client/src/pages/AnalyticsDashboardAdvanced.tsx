@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";

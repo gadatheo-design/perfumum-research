@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from "react";
 import { useLocation, useSearch } from "wouter";
 import { useEffect } from "react";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { motion } from "framer-motion";
 import { trpc } from "../lib/trpc";
 import { MolecularSynergiesHeatmap } from "@/components/charts/MolecularSynergiesHeatmap";

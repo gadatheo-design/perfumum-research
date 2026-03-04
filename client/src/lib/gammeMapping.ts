@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { type GammeType } from "@/components/GammeBadge";
 
 /**

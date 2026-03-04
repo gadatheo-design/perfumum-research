@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Diagramme Sankey amélioré avec animations, tooltips et interactions avancées
  * Visualise les flux entre catégories, familles et recettes

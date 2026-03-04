@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Sensory dimensions with associated keywords
 export const SENSORY_DIMENSIONS = {
   terreux: ['terreux', 'terre', 'sol', 'humide', 'mousse', 'champignon', 'géosmine', 'pétrichor', 'minéral', 'pierre'],

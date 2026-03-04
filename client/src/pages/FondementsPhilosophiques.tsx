@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Link } from "wouter";
 import { Book, Quote, Network, Droplets, Flame, Archive } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

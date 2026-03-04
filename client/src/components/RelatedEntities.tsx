@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Link } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

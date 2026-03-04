@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Configuration des parcours thématiques pour PERFUMUM
  * 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useMemo, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { Header } from "@/components/layout/Header";

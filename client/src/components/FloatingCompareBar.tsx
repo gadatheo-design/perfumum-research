@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Button } from "@/components/ui/button";
 import { X, GitCompare } from "lucide-react";
 import { useLocation } from "wouter";

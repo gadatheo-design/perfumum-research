@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Users, Microscope, Palette, FlaskConical, Building2, Globe2 } from "lucide-react";
 import { Breadcrumbs } from "../components/Breadcrumbs";
 

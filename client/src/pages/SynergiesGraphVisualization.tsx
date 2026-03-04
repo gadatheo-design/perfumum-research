@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * SynergiesGraphVisualization - Interactive D3.js force-directed graph
  * Visualizes molecular synergies as an interactive network

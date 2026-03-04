@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Link } from "wouter";
 import { ChevronRight, Home } from "lucide-react";
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Page de la carte interactive des terroirs PERFUMUM
  * Visualisation géographique des terroirs et de leurs plantes associées

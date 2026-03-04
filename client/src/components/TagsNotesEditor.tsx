@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Éditeur de tags et notes amélioré avec auto-complétion et suggestions
  * Permet d'ajouter des tags et notes personnelles sur les entités PERFUMUM

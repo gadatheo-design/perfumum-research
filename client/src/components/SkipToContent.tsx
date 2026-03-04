@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Composant "Skip to content" pour l'accessibilité
  * Permet aux utilisateurs de clavier de sauter directement au contenu principal

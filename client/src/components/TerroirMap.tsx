@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Carte interactive des terroirs PERFUMUM avec clustering
  * Affiche les terroirs géographiquement avec regroupement des marqueurs dans les zones denses

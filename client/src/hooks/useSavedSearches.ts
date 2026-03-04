@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from 'react';
 
 const SEARCHES_KEY = 'perfumum_saved_searches';

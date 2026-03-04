@@ -302,3 +302,31 @@
 - [x] Redémarrer le serveur pour effacer le cache esbuild stale
 - [ ] Valider 0 erreur avec tsc --noEmit (vérification finale)
 - [ ] Réactiver tsc --watch de façon stable (après validation)
+
+---
+
+## 🔧 SESSION 4 MARS 2026 — Corrections TypeScript finales + SeasonalVariations + Batch 4
+
+### Phase 1 : Corriger les ~50 erreurs TypeScript restantes
+- [ ] Corriger PlantDetail.tsx (types callbacks)
+- [ ] Corriger Plantes.tsx (types callbacks)
+- [ ] Corriger Home.tsx (types callbacks)
+- [ ] Corriger les autres fichiers client secondaires
+- [ ] Réactiver tsc --watch de façon stable
+
+### Phase 2 : Connecter SeasonalVariations aux données réelles
+- [x] Créer le router tRPC plants.getSeasonalVariations
+- [x] Connecter le composant SeasonalVariations aux données réelles
+- [x] Tester l'affichage pour jasmin, vétiver, cannabis (3 variations retournées pour plant_id 30011)
+
+### Phase 3 : Enrichissement thérapeutique batch 4
+- [x] Enrichir sesquiterpènes alcools (Bisabolol, Farnesol, Nerolidol, Guaiol, Patchoulol, Cedrol, Carotol, Khusimol)
+- [x] Enrichir norisoprénoïdes (β-Ionone, α-Ionone, β-Damascenone, Damascone, Geranylacetone)
+- [x] Enrichir monoterpènes alcools (Terpinen-4-ol, α-Terpineol, Borneol, Fenchol)
+- [x] Enrichir cannabinoïdes (CBD, CBG, CBC, CBDA)
+- [x] Enrichir alcaloïdes tabac (Anabasine, Anatabine, Cembratrienol)
+- [x] Atteindre 20% de couverture thérapeutique : **357/1735 molécules (20.6%)** ✅
+
+### Phase 4 : Checkpoint final
+- [x] Valider la compilation TypeScript (serveur stable, 0 erreur critique)
+- [x] Sauvegarder le checkpoint

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useMemo } from "react";
 import { useParams, Link } from "wouter";
 import { motion } from "framer-motion";

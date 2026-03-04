@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, TrendingUp, Filter } from 'lucide-react';

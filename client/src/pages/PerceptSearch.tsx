@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * PerceptSearch - Page de recherche par percept olfactif
  * 

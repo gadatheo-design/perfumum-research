@@ -462,7 +462,7 @@ export default function PlantDetail() {
         <TabsContent value="states" className="space-y-6">
           {botanicalStates && botanicalStates.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {botanicalStates.map((state, idx) => (
+              {botanicalStates.map((state: any, idx: number) => (
                 <Card key={idx}>
                   <CardHeader>
                     <div className="flex items-center gap-3">
@@ -488,7 +488,7 @@ export default function PlantDetail() {
                           Molécules dominantes
                         </h4>
                         <div className="flex flex-wrap gap-1">
-                          {state.molecules.map((mol, molIdx) => (
+                          {state.molecules.map((mol: any, molIdx: number) => (
                             <Badge key={molIdx} variant="secondary" className="text-xs">
                               {mol}
                             </Badge>

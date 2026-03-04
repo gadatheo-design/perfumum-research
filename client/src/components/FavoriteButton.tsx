@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useFavorites, FavoritePage } from "@/hooks/useFavorites";

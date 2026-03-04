@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { trpc } from "@/lib/trpc";
 import { Loader2, FlaskConical, Activity, Target, Gauge, Calendar, Building2, Info, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";

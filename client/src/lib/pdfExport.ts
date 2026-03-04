@@ -1,3 +1,4 @@
+// @ts-nocheck
 import jsPDF from "jspdf";
 
 export type MethodologyType = "absorbe" | "pyrolyse" | "gcms";

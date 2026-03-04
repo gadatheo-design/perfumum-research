@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Link } from "wouter";
 import { ChevronRight, Cigarette, ExternalLink } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

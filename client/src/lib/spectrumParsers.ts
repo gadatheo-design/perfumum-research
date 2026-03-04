@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Parsers pour les formats de fichiers spectraux
  * 

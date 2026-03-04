@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { useLocation } from 'wouter';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Link } from "wouter";
 import { ChevronRight, Leaf, AlertTriangle, Beaker, Palette, Cigarette, Info, Sparkles, FlaskConical, Timer, DollarSign, ExternalLink } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

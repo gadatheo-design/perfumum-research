@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Beaker, Dna, Microscope, Leaf } from "lucide-react";

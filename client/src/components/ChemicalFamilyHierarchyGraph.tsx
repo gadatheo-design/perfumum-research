@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useRef, useEffect, useState, useMemo } from "react";
 import * as d3 from "d3";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";

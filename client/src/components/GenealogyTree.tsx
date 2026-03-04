@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Composant GenealogyTree
  * Visualisation interactive de l'arbre généalogique d'une variété

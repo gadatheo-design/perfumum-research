@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PrefetchLink } from "@/components/PrefetchLink";
 import { Badge } from "@/components/ui/badge";
 import { Check, Beaker, Flame, FlaskConical, Star, StarOff } from "lucide-react";

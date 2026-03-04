@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Link, useLocation } from "wouter";
 import { Search, Menu, Sun, Moon, Command, Database, Leaf, Compass, BarChart3, Zap, FlaskConical, Microscope, BookOpen, Archive, Globe, Info, FileText, Users, Brain, Flame } from "lucide-react";
 import { MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";

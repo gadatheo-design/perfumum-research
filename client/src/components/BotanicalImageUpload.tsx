@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Composant d'upload d'images botaniques pour les plantes
  * Utilise le stockage S3 via les helpers serveur

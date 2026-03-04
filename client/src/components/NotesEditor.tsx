@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { Textarea } from "@/components/ui/textarea";

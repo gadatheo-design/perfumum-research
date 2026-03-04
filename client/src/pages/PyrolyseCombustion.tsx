@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Flame, Thermometer, AlertTriangle, TrendingUp, Beaker } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

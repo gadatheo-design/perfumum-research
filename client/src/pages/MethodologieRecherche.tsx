@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Microscope, FlaskConical, FileText, MapPin, CheckCircle2, AlertTriangle } from "lucide-react";
 

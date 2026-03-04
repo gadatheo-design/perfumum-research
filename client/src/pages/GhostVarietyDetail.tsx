@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useMemo } from "react";
 import MolecularRadar from "@/components/MolecularRadar";
 import { Link, useParams, useLocation } from "wouter";

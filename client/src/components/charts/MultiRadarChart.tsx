@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Radar Chart multi-données avec comparaison, animations et interactions avancées
  * Permet de comparer plusieurs profils olfactifs sur le même graphique

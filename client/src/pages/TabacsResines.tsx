@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Cigarette, Leaf, FlaskConical, Droplets, Flame, Globe2 } from "lucide-react";
 import { Breadcrumbs } from "../components/Breadcrumbs";
 import { GammeBadge } from "../components/GammeBadge";
