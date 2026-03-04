@@ -600,4 +600,13 @@
 - [x] Audit recettes : ratios > 100%, molécules inexistantes, compositions incohérentes
 - [x] Rapport d'audit consolidé avec priorisation des corrections
 - [x] Nettoyage ciblé des entrées problématiques (Phase A : 185 CSV supprimés, 4 doublons fusionnés, 37 formules corrigées)
-- [ ] Checkpoint post-nettoyage
+- [x] Checkpoint post-nettoyage (version 33601e34)
+
+---
+
+## 🔬 SESSION 9 MARS 2026 — PHASE B + PARSING + BATCH 11
+
+- [x] Phase B : 19 doublons fusionnés (orthographiques, préfixes grecs, format HE) → 1 800 molécules nettes
+- [x] Parser les recettes textuelles → 391 liaisons créées, couverture 8% → 44% (135/310 recettes)
+- [x] Batch 11 : 50 molécules enrichies (terpènes oxygénés, alcaloïdes, résines, fruits exotiques) → 65%
+- [ ] Checkpoint final
