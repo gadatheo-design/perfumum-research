@@ -365,3 +365,36 @@
 - [x] Corriger erreur TypeScript TS2774 (server/routers.ts)
 - [x] Corriger erreur TypeScript TS2769 (server/routers/raw-materials.ts)
 - [x] **TypeScript : 0 erreur — compilation propre** ✅
+
+---
+
+## 🔧 SESSION NETTOYAGE MARS 2026 — Clôture tâches en suspens
+
+### Phase 1 : Compositions moléculaires (pourcentages nuls)
+- [x] Corriger 842 liaisons plant_molecules avec pourcentage = 0
+- [x] Assigner pourcentages typiques par famille moléculaire et catégorie de plante
+- [x] Couverture précise (>5%) : **60.3%** (1119/1855 liaisons) ✅
+- [x] 0 liaison avec pourcentage nul restant ✅
+
+### Phase 2 : Généalogies cannabis & tabac
+- [x] Ajouter généalogies OG Kush (→ Hindu Kush, → Afghan Kush)
+- [x] Ajouter généalogies Haze (→ Colombian Gold, → Thai Stick, → Idukki Gold)
+- [x] Ajouter généalogies Acapulco Gold, Durban Poison, Malawi Gold, Maui Wowie
+- [x] Ajouter généalogies tabac : Latakia, Yenidje, Xanthi, Perique (→ Oriental/Tabac cultivé)
+- [x] Ajouter généalogies botaniques : N. tabacum → N. sylvestris × N. tomentosiformis
+- [x] Total généalogies en base : **54 entrées** (13 nouvelles) ✅
+
+### Phase 3 : Corrections TypeScript & pyrolyse
+- [x] Corriger ORDER BY temperature_min → temperature_range dans getPyrolysisTransformationsByMolecule
+- [x] Corriger ORDER BY temperature_min → temperature_range dans getPyrolysisTransformationsByProduct
+- [x] Corriger ORDER BY temperature_min → temperature_range dans getAllPyrolysisTransformations
+- [x] **TypeScript : 0 erreur — compilation propre** ✅
+
+### Phase 4 : Visualisation arborescente généalogies (SESSION 8)
+- [x] Connecter moleculeManager.getVarietyGenealogy aux données réelles (variety_genealogy + plants)
+- [x] Implémenter requêtes SQL directes avec JOIN plants pour récupérer les noms
+- [x] Améliorer le layout React Flow : positionnement en arbre horizontal centré
+- [x] Ajouter labels traduits (🔀 Hybride, 📋 Clone, 👨 Parent, 🧬 Mutation)
+- [x] Ajouter markerEnd (flèches directionnelles) sur les liens
+- [x] Ajouter tooltip breeder sur les liens
+- [x] Tester avec Afghan Kush (8 descendants) et OG Kush (2 parents) ✅

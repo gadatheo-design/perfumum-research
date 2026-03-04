@@ -18991,7 +18991,7 @@ export async function getPyrolysisTransformationsByMolecule(moleculeName: string
   const result = await db.execute(sql`
     SELECT * FROM pyrolysis_transformations 
     WHERE source_molecule = ${moleculeName}
-    ORDER BY temperature_min ASC
+    ORDER BY temperature_range ASC
   `);
   return ((result as any).rows ?? result) as any[];
 }
@@ -19003,7 +19003,7 @@ export async function getPyrolysisTransformationsByProduct(productName: string) 
   const result = await db.execute(sql`
     SELECT * FROM pyrolysis_transformations 
     WHERE product_molecule = ${productName}
-    ORDER BY temperature_min ASC
+    ORDER BY temperature_range ASC
   `);
   return ((result as any).rows ?? result) as any[];
 }
@@ -19013,7 +19013,7 @@ export async function getAllPyrolysisTransformations() {
   if (!db) return [];
   
   const result = await db.execute(sql`
-    SELECT * FROM pyrolysis_transformations ORDER BY source_molecule, temperature_min
+    SELECT * FROM pyrolysis_transformations ORDER BY source_molecule, temperature_range
   `);
   return ((result as any).rows ?? result) as any[];
 }

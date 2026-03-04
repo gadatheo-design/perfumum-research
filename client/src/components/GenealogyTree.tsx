@@ -81,21 +81,32 @@ export const GenealogyTree: React.FC<GenealogyTreeProps> = ({ varietyId, variety
 
     setLoading(true);
     try {
-      // Créer les nœuds avec positions calculées
+      // Calculer les positions avec un layout en arbre horizontal
+      // Compter ancêtres et descendants pour l'espacement vertical
+      const ancestors = genealogyData.nodes.filter((n: any) => n.type === 'ancestor');
+      const descendants = genealogyData.nodes.filter((n: any) => n.type === 'descendant');
+      let ancestorIdx = 0;
+      let descendantIdx = 0;
+
       const flowNodes: Node[] = genealogyData.nodes.map((node: any, idx: number) => {
-        // Calculer la position en fonction du type et de la profondeur
         let x = 0;
         let y = 0;
+        const SPACING_Y = 160;
+        const SPACING_X = 280;
 
         if (node.type === 'root') {
           x = 0;
           y = 0;
         } else if (node.type === 'ancestor') {
-          x = -300 * (node.depth || 1);
-          y = -150 * ((idx % 3) - 1);
+          const total = ancestors.length;
+          x = -SPACING_X;
+          y = (ancestorIdx - (total - 1) / 2) * SPACING_Y;
+          ancestorIdx++;
         } else if (node.type === 'descendant') {
-          x = 300 * (node.depth || 1);
-          y = -150 * ((idx % 3) - 1);
+          const total = descendants.length;
+          x = SPACING_X;
+          y = (descendantIdx - (total - 1) / 2) * SPACING_Y;
+          descendantIdx++;
         }
 
         return {
@@ -116,13 +127,20 @@ export const GenealogyTree: React.FC<GenealogyTreeProps> = ({ varietyId, variety
         };
       });
 
-      // Créer les liens
+      // Créer les liens avec labels traduits et tooltips breeder
+      const typeLabels: Record<string, string> = {
+        hybrid: '🔀 Hybride',
+        clone: '📋 Clone',
+        parent: '👨 Parent',
+        mutation: '🧬 Mutation',
+      };
       const flowEdges: Edge[] = genealogyData.links.map((link: any, idx: number) => ({
         id: `edge-${idx}`,
         source: link.source,
         target: link.target,
-        label: link.type,
-        animated: true,
+        label: typeLabels[link.type] || link.type,
+        animated: link.type === 'hybrid',
+        markerEnd: { type: 'arrowclosed' as any, color: link.type === 'hybrid' ? '#f59e0b' : link.type === 'clone' ? '#8b5cf6' : '#3b82f6' },
         style: {
           stroke: link.type === 'hybrid' ? '#f59e0b' : link.type === 'clone' ? '#8b5cf6' : '#3b82f6',
           strokeWidth: 2,
@@ -130,10 +148,12 @@ export const GenealogyTree: React.FC<GenealogyTreeProps> = ({ varietyId, variety
         labelStyle: {
           background: 'white',
           fontSize: '10px',
-          padding: '2px 4px',
+          padding: '2px 6px',
           borderRadius: '4px',
           border: '1px solid #e5e7eb',
+          fontWeight: 500,
         },
+        title: link.breeder ? `Sélectionneur : ${link.breeder}` : undefined,
       }));
 
       setNodes(flowNodes);

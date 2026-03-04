@@ -63,16 +63,90 @@ export const moleculeManagerRouter = router({
     }));
   }),
 
-  // Get variety genealogy
+  // Get variety genealogy — connecté aux données réelles
   getVarietyGenealogy: publicProcedure
     .input(z.object({ varietyId: z.number() }))
     .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { varietyId: input.varietyId, nodes: [], links: [], ancestorCount: 0, descendantCount: 0 };
+
+      const { varietyId } = input;
+
+      // Récupérer toutes les relations impliquant cette plante (ancêtres et descendants)
+      const [asChild] = await db.execute(sql`
+        SELECT vg.variety_id, vg.parent_variety_id, vg.relationship_type, vg.breeder, vg.notes,
+          p1.name as variety_name, p2.name as parent_name
+        FROM variety_genealogy vg
+        LEFT JOIN plants p1 ON vg.variety_id = p1.id
+        LEFT JOIN plants p2 ON vg.parent_variety_id = p2.id
+        WHERE vg.variety_id = ${varietyId}
+      `) as any;
+
+      const [asParent] = await db.execute(sql`
+        SELECT vg.variety_id, vg.parent_variety_id, vg.relationship_type, vg.breeder, vg.notes,
+          p1.name as variety_name, p2.name as parent_name
+        FROM variety_genealogy vg
+        LEFT JOIN plants p1 ON vg.variety_id = p1.id
+        LEFT JOIN plants p2 ON vg.parent_variety_id = p2.id
+        WHERE vg.parent_variety_id = ${varietyId}
+      `) as any;
+
+      const ancestors = Array.isArray(asChild) ? asChild : [];
+      const descendants = Array.isArray(asParent) ? asParent : [];
+
+      // Construire l'ensemble des IDs uniques impliqués
+      const allIds = new Set<number>([varietyId]);
+      ancestors.forEach((r: any) => { allIds.add(Number(r.parent_variety_id)); allIds.add(Number(r.variety_id)); });
+      descendants.forEach((r: any) => { allIds.add(Number(r.variety_id)); allIds.add(Number(r.parent_variety_id)); });
+
+      // Récupérer les noms de toutes les plantes impliquées
+      const idList = Array.from(allIds).join(',');
+      const [plantRows] = await db.execute(sql`
+        SELECT id, name, category FROM plants WHERE id IN (${sql.raw(idList)})
+      `) as any;
+      const plantMap = new Map<number, { name: string; category: string }>();
+      (Array.isArray(plantRows) ? plantRows : []).forEach((p: any) => {
+        plantMap.set(Number(p.id), { name: p.name, category: p.category });
+      });
+
+      // Construire les nœuds pour React Flow
+      const nodes = Array.from(allIds).map(id => {
+        const plant = plantMap.get(id);
+        let type: 'root' | 'ancestor' | 'descendant' = 'ancestor';
+        if (id === varietyId) type = 'root';
+        else if (descendants.some((r: any) => Number(r.variety_id) === id)) type = 'descendant';
+        return {
+          id: String(id),
+          label: plant?.name || `Plante #${id}`,
+          type,
+          category: plant?.category || '',
+        };
+      });
+
+      // Construire les liens
+      const allRelations = [...ancestors, ...descendants];
+      const seen = new Set<string>();
+      const links = allRelations
+        .filter((r: any) => {
+          const key = `${r.parent_variety_id}-${r.variety_id}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .map((r: any) => ({
+          source: String(r.parent_variety_id),
+          target: String(r.variety_id),
+          type: r.relationship_type || 'parent',
+          breeder: r.breeder || '',
+          notes: r.notes || '',
+        }));
+
       return {
-        varietyId: input.varietyId,
-        nodes: [],
-        links: [],
-        ancestorCount: 0,
-        descendantCount: 0
+        varietyId,
+        nodes,
+        links,
+        ancestorCount: ancestors.length,
+        descendantCount: descendants.length,
       };
     })
 });
