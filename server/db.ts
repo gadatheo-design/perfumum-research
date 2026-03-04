@@ -19936,3 +19936,37 @@ export async function searchMoleculesByName(name: string): Promise<{
 
 
 // Note: utiliser getDb() pour obtenir l'instance drizzle
+
+// ============================================================================
+// MOLECULE PERFUMES — Parfums emblématiques
+// ============================================================================
+
+export async function getMoleculePerfumes(moleculeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  const result = await (db as any).execute(sql.raw(
+    `SELECT
+       mp.id,
+       mp.perfume_name AS perfumeName,
+       mp.perfume_house AS perfumeHouse,
+       mp.perfumer,
+       mp.year,
+       mp.role_in_perfume AS roleInPerfume,
+       mp.concentration,
+       mp.description
+     FROM molecule_perfumes mp
+     WHERE mp.molecule_id = ${moleculeId}
+     ORDER BY mp.year ASC`
+  ));
+  const rows: any[] = (result as any).rows || ((result as any)[0]) || [];
+  return rows.map((r: any) => ({
+    id: r.id as number,
+    perfumeName: r.perfumeName as string,
+    perfumeHouse: r.perfumeHouse as string,
+    perfumer: r.perfumer as string | null,
+    year: r.year as number | null,
+    roleInPerfume: r.roleInPerfume as string,
+    concentration: r.concentration as string | null,
+    description: r.description as string | null,
+  }));
+}

@@ -585,6 +585,13 @@ export const appRouter = router({
       .query(async () => {
         return await db.getCOCONUTEnrichmentStats();
       }),
+
+    // Parfums emblématiques d'une molécule
+    getPerfumes: publicProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getMoleculePerfumes(input.moleculeId);
+      }),
   }),
 
   // Terpene Synergies

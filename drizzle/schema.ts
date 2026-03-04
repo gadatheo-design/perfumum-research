@@ -6828,3 +6828,33 @@ export const moleculeAnalyticalMethodsRelations = relations(moleculeAnalyticalMe
     references: [analyticalMethods.id],
   }),
 }));
+
+// ============================================================================
+// MOLECULE PERFUMES — Parfums emblématiques contenant une molécule
+// ============================================================================
+
+export const moleculePerfumes = mysqlTable("molecule_perfumes", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull(),
+  perfumeName: varchar("perfume_name", { length: 255 }).notNull(),
+  perfumeHouse: varchar("perfume_house", { length: 255 }).notNull(),
+  perfumer: varchar("perfumer", { length: 255 }),
+  year: int("year"),
+  role: mysqlEnum("role_in_perfume", ["accord_principal", "note_coeur", "note_tete", "note_fond", "signature", "ingredient_cle"]).default("ingredient_cle").notNull(),
+  concentration: varchar("concentration", { length: 100 }),
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  moleculeIdx: index("mp_molecule_idx").on(table.moleculeId),
+  uniqueMoleculePerfume: uniqueIndex("unique_molecule_perfume").on(table.moleculeId, table.perfumeName),
+}));
+
+export type MoleculePerfume = typeof moleculePerfumes.$inferSelect;
+export type InsertMoleculePerfume = typeof moleculePerfumes.$inferInsert;
+
+export const moleculePerfumesRelations = relations(moleculePerfumes, ({ one }) => ({
+  molecule: one(molecules, {
+    fields: [moleculePerfumes.moleculeId],
+    references: [molecules.id],
+  }),
+}));

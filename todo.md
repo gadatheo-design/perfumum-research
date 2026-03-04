@@ -647,4 +647,13 @@
 
 - [x] Batch 15 : 9 molécules créées (Hedione HC, Méthyl Ionone, α-Méthyl Ionone, Irone, Dihydromyrcenol, Dihydrojasmone, Cedryl Methyl Ether, Polysantol, Ebanol) + 21 enrichies (Hedione, Linalyl Acetate, Benzyl Acetate, Calone, Cashmeran, Javanol…) — 1045 molécules en base
 - [x] Liaisons plantes : 13 créées (Jasmin, Ylang-Ylang, Géranium, Palmarosa, Rosa damascena) + 2 doublons Linalyl Acetate fusionnés
+- [x] Checkpoint final (version 8d3f17fe)
+
+---
+
+## 💎 SESSION 14 MARS 2026 — ONGLET PARFUMS EMBLÉMATIQUES
+
+- [x] Table molecule_perfumes créée (SQL direct) + 40 liaisons (16 molécules × parfums de référence)
+- [x] Router tRPC molecules.getPerfumes (test API OK : Ambroxan → Molecule 02, Sauvage, Bleu de Chanel)
+- [x] Onglet « Parfums emblématiques » dans MoleculeDetail : cartes groupées par maison, badges de rôle (signature/accord principal/note cœur/fond/tête), parfumeur, année, concentration, description
 - [ ] Checkpoint final
