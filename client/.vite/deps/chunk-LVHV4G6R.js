@@ -91,6 +91,17 @@ function composeContextScopes(...scopes) {
   return createScope;
 }
 
+// node_modules/.pnpm/@radix-ui+primitive@1.1.3/node_modules/@radix-ui/primitive/dist/index.mjs
+var canUseDOM = !!(typeof window !== "undefined" && window.document && window.document.createElement);
+function composeEventHandlers(originalEventHandler, ourEventHandler, { checkForDefaultPrevented = true } = {}) {
+  return function handleEvent(event) {
+    originalEventHandler?.(event);
+    if (checkForDefaultPrevented === false || !event.defaultPrevented) {
+      return ourEventHandler?.(event);
+    }
+  };
+}
+
 // node_modules/.pnpm/@radix-ui+react-slot@1.2.3_@types+react@18.3.27_react@18.3.1/node_modules/@radix-ui/react-slot/dist/index.mjs
 var React2 = __toESM(require_react(), 1);
 var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
@@ -185,17 +196,6 @@ function getElementRef(element) {
   return element.props.ref || element.ref;
 }
 
-// node_modules/.pnpm/@radix-ui+primitive@1.1.3/node_modules/@radix-ui/primitive/dist/index.mjs
-var canUseDOM = !!(typeof window !== "undefined" && window.document && window.document.createElement);
-function composeEventHandlers(originalEventHandler, ourEventHandler, { checkForDefaultPrevented = true } = {}) {
-  return function handleEvent(event) {
-    originalEventHandler?.(event);
-    if (checkForDefaultPrevented === false || !event.defaultPrevented) {
-      return ourEventHandler?.(event);
-    }
-  };
-}
-
 // node_modules/.pnpm/@radix-ui+react-primitive@2.1.3_@types+react-dom@18.3.7_@types+react@18.3.27__@types+re_fcd3de21280e20c51ab14304cef2fe55/node_modules/@radix-ui/react-primitive/dist/index.mjs
 var React3 = __toESM(require_react(), 1);
 var ReactDOM = __toESM(require_react_dom(), 1);
@@ -239,10 +239,10 @@ function dispatchDiscreteCustomEvent(target, event) {
 export {
   createContext2,
   createContextScope,
+  composeEventHandlers,
   createSlot,
   createSlottable,
-  composeEventHandlers,
   Primitive,
   dispatchDiscreteCustomEvent
 };
-//# sourceMappingURL=chunk-IFN633CV.js.map
+//# sourceMappingURL=chunk-LVHV4G6R.js.map

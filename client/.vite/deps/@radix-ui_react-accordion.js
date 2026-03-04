@@ -1,16 +1,16 @@
 "use client";
 import {
+  createCollection
+} from "./chunk-DXTXO2WY.js";
+import {
+  useDirection
+} from "./chunk-VNTOABWP.js";
+import {
   Content,
   Root,
   Trigger,
   createCollapsibleScope
-} from "./chunk-4QXMHOGS.js";
-import {
-  createCollection
-} from "./chunk-RSFAKD7J.js";
-import {
-  useDirection
-} from "./chunk-VNTOABWP.js";
+} from "./chunk-D5HS3CFS.js";
 import {
   useId
 } from "./chunk-UTHGZ5JM.js";
@@ -22,7 +22,7 @@ import {
   Primitive,
   composeEventHandlers,
   createContextScope
-} from "./chunk-IFN633CV.js";
+} from "./chunk-LVHV4G6R.js";
 import "./chunk-AO3N7MRC.js";
 import {
   useComposedRefs

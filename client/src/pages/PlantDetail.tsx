@@ -22,7 +22,8 @@ import {
   Shield,
   Loader2,
   Image as ImageIcon,
-  GitBranch
+  GitBranch,
+  Sun
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
@@ -30,6 +31,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LinkedMolecules, LinkedTerroirs, SimilarContent } from "@/components/SeeAlso";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import { GenealogyTree } from "@/components/GenealogyTree";
+import { SeasonalVariations } from "@/components/SeasonalVariations";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -227,7 +229,7 @@ export default function PlantDetail() {
       
       {/* Onglets principaux */}
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5 md:grid-cols-10">
+        <TabsList className="grid w-full grid-cols-5 md:grid-cols-11">
           <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
           <TabsTrigger value="images">Images</TabsTrigger>
           <TabsTrigger value="varieties">Variétés ({varieties?.length || 0})</TabsTrigger>
@@ -239,6 +241,7 @@ export default function PlantDetail() {
           <TabsTrigger value="regulatory">Réglementation</TabsTrigger>
           <TabsTrigger value="usage">Usage Absorbe</TabsTrigger>
           <TabsTrigger value="genealogy">Généalogie</TabsTrigger>
+          <TabsTrigger value="seasonal">Variations</TabsTrigger>
         </TabsList>
         
         {/* Vue d'ensemble */}
@@ -1054,6 +1057,24 @@ export default function PlantDetail() {
             </CardHeader>
             <CardContent>
               <GenealogyTree varietyId={plant.id} varietyName={plant.name} />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Variations Saisonnières */}
+        <TabsContent value="seasonal" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Sun className="h-5 w-5" />
+                Variations saisonnières
+              </CardTitle>
+              <CardDescription>
+                Évolution de la composition moléculaire selon les saisons, conditions de culture et méthodes de séchage
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SeasonalVariations plantName={plant.name} plantId={plant.id} />
             </CardContent>
           </Card>
         </TabsContent>
