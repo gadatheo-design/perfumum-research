@@ -1,10 +1,14 @@
-// @ts-nocheck
+/**
+ * GlobalSearchAdvanced — Recherche unifiée PERFUMUM
+ * Utilise l'endpoint search.global (côté serveur) pour une recherche
+ * performante sur plantes, molécules, recettes, accords, glossaire et civilisations.
+ * S'ouvre via l'événement custom "open-global-search" ou le raccourci Cmd/Ctrl+K.
+ */
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link, useLocation } from "wouter";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
@@ -12,42 +16,95 @@ import {
   Search,
   Beaker,
   Droplets,
-  FileText,
-  Clock,
-  Loader2,
+  Leaf,
+  Sparkles,
+  BookOpen,
+  Globe,
   Filter,
   X,
+  Loader2,
+  Clock,
 } from "lucide-react";
+
+type ResultType = "molecule" | "plante" | "recette" | "accord" | "glossaire" | "civilisation" | "finalRecipe";
 
 interface SearchResult {
   id: number;
-  type: "molecule" | "recette" | "accord" | "page";
+  type: ResultType;
   title: string;
   subtitle?: string;
   path: string;
   icon: React.ReactNode;
-  gamme?: string;
-  famille?: string;
 }
 
-const STORAGE_KEY = "perfumum_search_history";
-const MAX_HISTORY = 5;
+const STORAGE_KEY = "perfumum_search_history_v3";
+const MAX_HISTORY = 6;
 
-const GAMMES = ["Volcanique", "Glaciaire", "Bio-Lab", "Pétrichor"];
-const FAMILLES = ["Terpènes", "Aldéhydes", "Cétones", "Esters", "Alcools", "Phénols"];
+const TYPE_LABELS: Record<ResultType, string> = {
+  molecule: "Molécule",
+  plante: "Plante",
+  recette: "Recette",
+  accord: "Accord",
+  glossaire: "Glossaire",
+  civilisation: "Civilisation",
+  finalRecipe: "Recette finale",
+};
 
-// Fonction pour mettre en surbrillance le texte recherché
+const TYPE_ICONS: Record<ResultType, React.ReactNode> = {
+  molecule: <Beaker className="h-3.5 w-3.5" />,
+  plante: <Leaf className="h-3.5 w-3.5" />,
+  recette: <Droplets className="h-3.5 w-3.5" />,
+  accord: <Sparkles className="h-3.5 w-3.5" />,
+  glossaire: <BookOpen className="h-3.5 w-3.5" />,
+  civilisation: <Globe className="h-3.5 w-3.5" />,
+  finalRecipe: <Droplets className="h-3.5 w-3.5" />,
+};
+
+const TYPE_COLORS: Record<ResultType, string> = {
+  molecule: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+  plante: "bg-green-500/10 text-green-600 dark:text-green-400",
+  recette: "bg-purple-500/10 text-purple-600 dark:text-purple-400",
+  accord: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
+  glossaire: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+  civilisation: "bg-rose-500/10 text-rose-600 dark:text-rose-400",
+  finalRecipe: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
+};
+
+const TYPE_PATHS: Record<string, (id: number) => string> = {
+  molecule: (id) => `/molecule/${id}`,
+  plant: (id) => `/plant/${id}`,
+  recette: (id) => `/recette/${id}`,
+  accord: (id) => `/accord/${id}`,
+  glossary: (id) => `/glossaire#term-${id}`,
+  civilisation: (id) => `/civilisation/${id}`,
+  finalRecipe: (id) => `/recette-finale/${id}`,
+};
+
+// Normaliser le type retourné par l'API
+function normalizeType(apiType: string): ResultType {
+  const map: Record<string, ResultType> = {
+    molecule: "molecule",
+    plant: "plante",
+    recette: "recette",
+    accord: "accord",
+    glossary: "glossaire",
+    civilisation: "civilisation",
+    finalRecipe: "finalRecipe",
+  };
+  return map[apiType] || "molecule";
+}
+
 function HighlightText({ text, query }: { text: string; query: string }) {
   if (!query.trim()) return <>{text}</>;
-  
-  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
   const parts = text.split(regex);
-  
   return (
     <>
-      {parts.map((part, i) => 
+      {parts.map((part, i) =>
         regex.test(part) ? (
-          <mark key={i} className="bg-primary/20 text-primary rounded px-0.5">{part}</mark>
+          <mark key={i} className="bg-primary/20 text-primary rounded px-0.5">
+            {part}
+          </mark>
         ) : (
           <span key={i}>{part}</span>
         )
@@ -64,390 +121,304 @@ export function GlobalSearchAdvanced() {
   const [, setLocation] = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [debouncedQuery, setDebouncedQuery] = useState("");
-  
-  // Filtres avancés
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedGammes, setSelectedGammes] = useState<string[]>([]);
-  const [selectedFamilles, setSelectedFamilles] = useState<string[]>([]);
-  
-  // Debounce la recherche pour éviter trop de requêtes
+  const [selectedTypes, setSelectedTypes] = useState<ResultType[]>([]);
+
+  // Debounce 200ms
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(query);
-    }, 150);
+    const timer = setTimeout(() => setDebouncedQuery(query), 200);
     return () => clearTimeout(timer);
   }, [query]);
-  
-  // Reset l'index sélectionné quand la query change
-  useEffect(() => {
-    setSelectedIndex(-1);
-  }, [query]);
 
-  // Charger l'historique depuis localStorage
+  useEffect(() => { setSelectedIndex(-1); }, [debouncedQuery]);
+
+  // Historique localStorage
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      try {
-        setSearchHistory(JSON.parse(stored));
-      } catch (e) {
-        console.error("Failed to parse search history", e);
-      }
+      try { setSearchHistory(JSON.parse(stored)); } catch {}
     }
   }, []);
 
-  // Écouter l'événement custom pour ouvrir la recherche
+  // Écouter l'événement d'ouverture
   useEffect(() => {
-    const handleOpen = () => {
-      setIsOpen(true);
-    };
-
+    const handleOpen = () => setIsOpen(true);
     const handleClose = () => {
       setIsOpen(false);
       setQuery("");
       setShowFilters(false);
       setSelectedTypes([]);
-      setSelectedGammes([]);
-      setSelectedFamilles([]);
     };
-
     window.addEventListener("open-global-search", handleOpen);
     window.addEventListener("close-overlays", handleClose);
-
     return () => {
       window.removeEventListener("open-global-search", handleOpen);
       window.removeEventListener("close-overlays", handleClose);
     };
   }, []);
 
-  // Focus input quand le dialog s'ouvre
+  // Focus à l'ouverture
   useEffect(() => {
     if (isOpen && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isOpen]);
 
-  // Recherche dans les molécules
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery(
-    undefined,
-    { enabled: debouncedQuery.length > 0 || selectedTypes.includes("molecule") || selectedGammes.length > 0 || selectedFamilles.length > 0 }
+  // Recherche côté serveur
+  const { data: searchData, isLoading } = trpc.search.global.useQuery(
+    { query: debouncedQuery, limit: 30 },
+    { enabled: debouncedQuery.length >= 2 }
   );
 
-  // Recherche dans les recettes
-  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery(
-    {},
-    { enabled: debouncedQuery.length > 0 || selectedTypes.includes("recette") || selectedGammes.length > 0 }
+  // Construire les résultats à partir des données API
+  const results: SearchResult[] = useMemo(() => {
+    if (!searchData || debouncedQuery.length < 2) return [];
+
+    const allItems: SearchResult[] = [];
+
+    const addItems = (items: any[], apiType: string) => {
+      if (!items) return;
+      const type = normalizeType(apiType);
+      const pathFn = TYPE_PATHS[apiType];
+      if (!pathFn) return;
+
+      items.forEach((item: any) => {
+        allItems.push({
+          id: item.id,
+          type,
+          title: item.name,
+          subtitle: item.description
+            ? item.description.substring(0, 80).replace(/\n/g, " ") + (item.description.length > 80 ? "…" : "")
+            : undefined,
+          path: pathFn(item.id),
+          icon: TYPE_ICONS[type],
+        });
+      });
+    };
+
+    addItems(searchData.molecules || [], "molecule");
+    addItems(searchData.plants || [], "plant");
+    addItems(searchData.recettes || [], "recette");
+    addItems(searchData.accords || [], "accord");
+    addItems(searchData.glossary || [], "glossary");
+    addItems(searchData.civilisations || [], "civilisation");
+    addItems(searchData.finalRecipes || [], "finalRecipe");
+
+    // Filtrer par type si des filtres sont actifs
+    if (selectedTypes.length > 0) {
+      return allItems.filter((r) => selectedTypes.includes(r.type));
+    }
+
+    return allItems;
+  }, [searchData, debouncedQuery, selectedTypes]);
+
+  // Navigation clavier
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (results.length === 0) return;
+      switch (e.key) {
+        case "ArrowDown":
+          e.preventDefault();
+          setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          setSelectedIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
+          break;
+        case "Enter":
+          e.preventDefault();
+          if (selectedIndex >= 0 && selectedIndex < results.length) {
+            handleSelect(results[selectedIndex]);
+          }
+          break;
+        case "Escape":
+          setIsOpen(false);
+          setQuery("");
+          break;
+      }
+    },
+    [results, selectedIndex]
   );
-  
-  // Recherche dans les accords
-  const { data: accords, isLoading: loadingAccords } = trpc.accords.list.useQuery(
-    undefined,
-    { enabled: debouncedQuery.length > 0 || selectedTypes.includes("accord") }
-  );
-
-  // Filtrer les résultats selon la query et les filtres
-  const results: SearchResult[] = [];
-
-  if (query.length > 0 || selectedTypes.length > 0 || selectedGammes.length > 0 || selectedFamilles.length > 0) {
-    // Molécules
-    if (selectedTypes.length === 0 || selectedTypes.includes("molecule")) {
-      const filteredMolecules = molecules?.filter((m) => {
-        const matchQuery = query.length === 0 || 
-          m.name.toLowerCase().includes(query.toLowerCase()) ||
-          m.family?.toLowerCase().includes(query.toLowerCase());
-        
-        const matchGamme = selectedGammes.length === 0; // Champ gamme supprimé
-        
-        const matchFamille = selectedFamilles.length === 0 || 
-          (m.family && selectedFamilles.some(f => m.family?.toLowerCase().includes(f.toLowerCase())));
-        
-        return matchQuery && matchGamme && matchFamille;
-      }) || [];
-
-      filteredMolecules.slice(0, 10).forEach((m) => {
-        results.push({
-          id: m.id,
-          type: "molecule",
-          title: m.name,
-          subtitle: m.family || undefined,
-          path: `/molecule/${m.id}`,
-          icon: <Beaker className="h-4 w-4" />,
-          // gamme supprimé du schéma
-          famille: m.family || undefined,
-        });
-      });
-    }
-
-    // Recettes
-    if (selectedTypes.length === 0 || selectedTypes.includes("recette")) {
-      const filteredRecettes = recettes?.filter((r) => {
-        const matchQuery = query.length === 0 ||
-          r.name.toLowerCase().includes(query.toLowerCase()) ||
-          r.description?.toLowerCase().includes(query.toLowerCase());
-        
-        const matchGamme = selectedGammes.length === 0; // Champ gamme supprimé
-        
-        return matchQuery && matchGamme;
-      }) || [];
-
-      filteredRecettes.slice(0, 10).forEach((r) => {
-        results.push({
-          id: r.id,
-          type: "recette",
-          title: r.name,
-          subtitle: r.category || undefined,
-          path: `/recette/${r.id}`,
-          icon: <Droplets className="h-4 w-4" />,
-          // gamme supprimé du schéma
-        });
-      });
-    }
-
-    // Accords
-    if (selectedTypes.length === 0 || selectedTypes.includes("accord")) {
-      const filteredAccords = accords?.filter((a) => {
-        const matchQuery = query.length === 0 ||
-          a.name.toLowerCase().includes(query.toLowerCase()) ||
-          a.notes?.toLowerCase().includes(query.toLowerCase());
-        
-        return matchQuery;
-      }) || [];
-
-      filteredAccords.slice(0, 10).forEach((a) => {
-        results.push({
-          id: a.id,
-          type: "accord",
-          title: a.name,
-          subtitle: a.notes || undefined,
-          path: `/accord/${a.id}`,
-          icon: <Droplets className="h-4 w-4" />,
-        });
-      });
-    }
-  }
-
-  const isLoading = loadingMolecules || loadingRecettes || loadingAccords;
-  
-  // Liste plate de tous les résultats pour la navigation clavier
-  const allResults = useMemo(() => results, [results]);
-  
-  // Gestion de la navigation clavier
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (allResults.length === 0) return;
-    
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        setSelectedIndex(prev => 
-          prev < allResults.length - 1 ? prev + 1 : 0
-        );
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        setSelectedIndex(prev => 
-          prev > 0 ? prev - 1 : allResults.length - 1
-        );
-        break;
-      case 'Enter':
-        e.preventDefault();
-        if (selectedIndex >= 0 && selectedIndex < allResults.length) {
-          handleSelect(allResults[selectedIndex]);
-        }
-        break;
-      case 'Escape':
-        setIsOpen(false);
-        setQuery("");
-        break;
-    }
-  }, [allResults, selectedIndex]);
 
   const handleSelect = (result: SearchResult) => {
-    // Ajouter à l'historique
-    const newHistory = [result.title, ...searchHistory.filter((h) => h !== result.title)].slice(0, MAX_HISTORY);
+    const newHistory = [
+      result.title,
+      ...searchHistory.filter((h) => h !== result.title),
+    ].slice(0, MAX_HISTORY);
     setSearchHistory(newHistory);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newHistory));
-
-    // Naviguer
     setLocation(result.path);
     setIsOpen(false);
     setQuery("");
   };
 
-  const toggleType = (type: string) => {
-    setSelectedTypes(prev => 
-      prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
+  const toggleType = (type: ResultType) =>
+    setSelectedTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
-  };
 
-  const toggleGamme = (gamme: string) => {
-    setSelectedGammes(prev => 
-      prev.includes(gamme) ? prev.filter(g => g !== gamme) : [...prev, gamme]
-    );
-  };
+  // Grouper les résultats par type
+  const grouped = useMemo(() => {
+    const groups: Record<string, SearchResult[]> = {};
+    for (const r of results) {
+      if (!groups[r.type]) groups[r.type] = [];
+      groups[r.type].push(r);
+    }
+    return groups;
+  }, [results]);
 
-  const toggleFamille = (famille: string) => {
-    setSelectedFamilles(prev => 
-      prev.includes(famille) ? prev.filter(f => f !== famille) : [...prev, famille]
-    );
-  };
-
-  const clearFilters = () => {
-    setSelectedTypes([]);
-    setSelectedGammes([]);
-    setSelectedFamilles([]);
-  };
-
-  const hasActiveFilters = selectedTypes.length > 0 || selectedGammes.length > 0 || selectedFamilles.length > 0;
+  const hasActiveFilters = selectedTypes.length > 0;
+  const showEmpty = debouncedQuery.length >= 2 && !isLoading && results.length === 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-3xl p-0 gap-0">
-        {/* Header avec input */}
+      <DialogContent className="max-w-2xl p-0 gap-0 overflow-hidden">
+        <DialogTitle className="sr-only">Recherche globale PERFUMUM</DialogTitle>
+
+        {/* Header */}
         <div className="flex items-center gap-3 px-4 py-3 border-b">
-          <Search className="h-5 w-5 text-muted-foreground" />
+          <Search className="h-5 w-5 text-muted-foreground flex-shrink-0" />
           <Input
             ref={inputRef}
-            placeholder="Rechercher molécules, recettes, accords..."
+            placeholder="Plantes, molécules, recettes, accords, glossaire…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
           />
-          {isLoading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+          {isLoading && (
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground flex-shrink-0" />
+          )}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setShowFilters(!showFilters)}
-            className={hasActiveFilters ? "text-primary" : ""}
+            className={`flex-shrink-0 ${hasActiveFilters ? "text-primary" : ""}`}
+            aria-label="Filtres"
           >
             <Filter className="h-4 w-4" />
           </Button>
         </div>
 
-        {/* Filtres avancés */}
+        {/* Filtres */}
         {showFilters && (
-          <div className="p-4 border-b bg-muted/30 space-y-3">
-            {/* Types */}
-            <div>
-              <div className="text-xs font-semibold text-muted-foreground mb-2">Type</div>
-              <div className="flex flex-wrap gap-2">
-                {["molecule", "recette", "accord"].map((type) => (
+          <div className="px-4 py-3 border-b bg-muted/30">
+            <div className="text-xs font-semibold text-muted-foreground mb-2">
+              Filtrer par type
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {(["molecule", "plante", "recette", "accord", "glossaire", "civilisation"] as ResultType[]).map(
+                (type) => (
                   <Badge
                     key={type}
                     variant={selectedTypes.includes(type) ? "default" : "outline"}
                     className="cursor-pointer"
                     onClick={() => toggleType(type)}
                   >
-                    {type === "molecule" ? "Molécules" : type === "recette" ? "Recettes" : "Accords"}
+                    {TYPE_LABELS[type]}
                   </Badge>
-                ))}
-              </div>
+                )
+              )}
+              {hasActiveFilters && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSelectedTypes([])}
+                  className="h-6 px-2 text-xs"
+                >
+                  <X className="h-3 w-3 mr-1" />
+                  Effacer
+                </Button>
+              )}
             </div>
-
-            {/* Gammes */}
-            <div>
-              <div className="text-xs font-semibold text-muted-foreground mb-2">Gamme Olfactive</div>
-              <div className="flex flex-wrap gap-2">
-                {GAMMES.map((gamme) => (
-                  <Badge
-                    key={gamme}
-                    variant={selectedGammes.includes(gamme) ? "default" : "outline"}
-                    className="cursor-pointer"
-                    onClick={() => toggleGamme(gamme)}
-                  >
-                    {gamme}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-
-            {/* Familles */}
-            <div>
-              <div className="text-xs font-semibold text-muted-foreground mb-2">Famille Chimique</div>
-              <div className="flex flex-wrap gap-2">
-                {FAMILLES.map((famille) => (
-                  <Badge
-                    key={famille}
-                    variant={selectedFamilles.includes(famille) ? "default" : "outline"}
-                    className="cursor-pointer"
-                    onClick={() => toggleFamille(famille)}
-                  >
-                    {famille}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-
-            {hasActiveFilters && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearFilters}
-                className="w-full"
-              >
-                <X className="h-4 w-4 mr-2" />
-                Effacer les filtres
-              </Button>
-            )}
           </div>
         )}
 
-        {/* Résultats */}
-        <ScrollArea className="max-h-[500px]">
+        <ScrollArea className="max-h-[480px]">
           <div className="p-2">
-            {results.length === 0 && (query.length > 0 || hasActiveFilters) ? (
-              <div className="text-center py-8 text-muted-foreground">
-                <p>Aucun résultat trouvé</p>
-                {hasActiveFilters && (
-                  <Button
-                    variant="link"
-                    size="sm"
-                    onClick={clearFilters}
-                    className="mt-2"
+            {/* Historique (quand pas de query) */}
+            {debouncedQuery.length < 2 && searchHistory.length > 0 && (
+              <div className="mb-2">
+                <div className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                  <Clock className="h-3 w-3" />
+                  Recherches récentes
+                </div>
+                {searchHistory.map((h, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setQuery(h)}
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-muted text-left text-sm"
                   >
-                    Effacer les filtres
-                  </Button>
-                )}
+                    <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                    {h}
+                  </button>
+                ))}
               </div>
-            ) : (
+            )}
+
+            {/* Hint de saisie */}
+            {debouncedQuery.length === 1 && (
+              <div className="text-center py-6 text-muted-foreground text-sm">
+                Continuez à saisir…
+              </div>
+            )}
+
+            {/* Aucun résultat */}
+            {showEmpty && (
+              <div className="text-center py-10 text-muted-foreground text-sm">
+                Aucun résultat pour «&nbsp;{query}&nbsp;»
+              </div>
+            )}
+
+            {/* Résultats groupés */}
+            {results.length > 0 && (
               <div className="space-y-1">
-                {results.map((result, index) => (
-                  <Link key={`${result.type}-${result.id}`} href={result.path}>
-                    <button
-                      onClick={() => handleSelect(result)}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left ${
-                        index === selectedIndex
-                          ? "bg-primary/10 text-primary"
-                          : "hover:bg-muted"
-                      }`}
-                    >
-                      <div className="flex-shrink-0">{result.icon}</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-medium truncate">
-                          <HighlightText text={result.title} query={query} />
-                        </div>
-                        {result.subtitle && (
-                          <div className="text-xs text-muted-foreground truncate">
-                            {result.subtitle}
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex gap-1">
-                        {result.gamme && (
-                          <Badge variant="secondary" className="text-xs">
-                            {result.gamme}
-                          </Badge>
-                        )}
-                      </div>
-                    </button>
-                  </Link>
+                {Object.entries(grouped).map(([type, items]) => (
+                  <div key={type}>
+                    <div className="px-3 py-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      {TYPE_LABELS[type as ResultType]} ({items.length})
+                    </div>
+                    {items.map((result) => {
+                      const globalIndex = results.indexOf(result);
+                      return (
+                        <Link key={`${result.type}-${result.id}`} href={result.path}>
+                          <button
+                            onClick={() => handleSelect(result)}
+                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left ${
+                              globalIndex === selectedIndex
+                                ? "bg-primary/10 text-primary"
+                                : "hover:bg-muted"
+                            }`}
+                          >
+                            <div
+                              className={`flex-shrink-0 p-1.5 rounded-md ${
+                                TYPE_COLORS[result.type as ResultType]
+                              }`}
+                            >
+                              {result.icon}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium truncate text-sm">
+                                <HighlightText text={result.title} query={query} />
+                              </div>
+                              {result.subtitle && (
+                                <div className="text-xs text-muted-foreground truncate">
+                                  {result.subtitle}
+                                </div>
+                              )}
+                            </div>
+                          </button>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 ))}
               </div>
             )}
 
             {results.length > 0 && (
-              <div className="mt-4 pt-4 border-t text-center text-xs text-muted-foreground">
-                {results.length} résultat{results.length > 1 ? "s" : ""} trouvé{results.length > 1 ? "s" : ""}
+              <div className="mt-3 pt-3 border-t text-center text-xs text-muted-foreground">
+                {results.length} résultat{results.length > 1 ? "s" : ""} — ↑↓ naviguer · Entrée ouvrir · Échap fermer
               </div>
             )}
           </div>

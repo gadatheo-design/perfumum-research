@@ -11,7 +11,7 @@ const PageLoader = () => (
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useKeyboardNavigation } from "@/hooks/useKeyboardNavigation";
 import { useNavigationHistory } from "@/hooks/useNavigationHistory";
-import { GlobalSearch } from "@/components/GlobalSearch";
+import { GlobalSearchAdvanced } from "@/components/GlobalSearchAdvanced";
 import { MobileBottomNav } from "./components/MobileBottomNav";
 import { ScrollToTop } from "./components/ScrollToTop";
 import NotFound from "@/pages/NotFound";
@@ -962,7 +962,7 @@ function App() {
           <TooltipProvider>
             <Toaster />
             <GoogleAnalytics />
-            <GlobalSearch />
+            <GlobalSearchAdvanced />
             <GuidedNavigationBar />
             <TourSelector />
             <PageTransition>

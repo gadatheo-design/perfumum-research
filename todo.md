@@ -715,3 +715,28 @@
 - [x] Corriger le test csv-import (family 'Terpènes' vs 'terpene')
 - [x] Corriger les tests Köppen (couverture 57.6% réelle, pas 100%)
 - [x] Corriger le mapping camelCase dans MuscsComparatif (moleculeName vs molecule_name)
+
+---
+
+## ENRICHISSEMENT — Session 10 (Mars 2026)
+
+### Phase 1 : Köppen pour 191 plantes manquantes
+- [x] Extraire les 191 plantes sans zone Köppen
+- [x] Créer une table de référence Köppen par genre/famille botanique
+- [x] Appliquer l'enrichissement en masse via script (120 par genre, 34 par famille, 26 par origine, 11 par défaut)
+- [x] Valider la couverture : 100% atteint (450/450 plantes)
+
+### Phase 2 : 20 parfums emblématiques
+- [x] Shalimar, Opium, Angel, Alien, Narciso For Her, Terre d'Hermès — déjà présents
+- [x] 16 nouveaux parfums ajoutés : Diorissimo, Chamade, Habit Rouge, Knowing, Trésor, Dune, Lolita Lempicka, Flower by Kenzo, Black Orchid, Oud Wood, Flowerbomb, La Vie est Belle, Oud Ispahan, Baccarat Rouge 540, Aventus, Chanel N°19
+- [x] 47 liaisons molécules ajoutées, 25 liaisons plantes ajoutées
+- [x] Total : 66 parfums dans molecule_perfumes, 41 dans plant_perfumes
+
+### Phase 3 : Recherche globale avancée
+- [x] Analyser GlobalSearchAdvanced.tsx (458 lignes, non connecté)
+- [x] Réécrire pour utiliser search.global (endpoint serveur, plus performant)
+- [x] Connecter via événement open-global-search (Cmd+K, bouton mobile, MobileMenu)
+- [x] Remplacer GlobalSearch par GlobalSearchAdvanced dans App.tsx
+- [x] Filtres par type (molécule, plante, recette, accord, glossaire, civilisation)
+- [x] Navigation clavier (↑↓ Entrée Échap) + historique localStorage
+- [x] Tests : 99 fichiers, 1496 tests passants, 0 échec
