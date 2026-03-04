@@ -563,3 +563,31 @@
 - [x] Créer 24 liaisons plant_molecules pour Latakia (id:150002) et Tabac Latakia (id:660005)
 - [x] Profil complet : 26 molécules avec pourcentages précis (phénols fumage, diterpènes, alcaloïdes, norisoprénoïdes)
 - [x] Sources : J.Agric.Food.Chem:2013:61:8592, PMC:8306096, CORESTA:2019 ✅
+
+---
+
+## ✅ SESSION 8 MARS 2026 — Batch 10 (58.3%), GC-MS Oriental+Perique, Page /correlations
+
+### Phase 1 : Batch 10 thérapeutique (45% → 58.3%)
+- [x] Batch 10a : polysaccharides bioactifs (β-glucane, arabinogalactane, pectine), peptides antimicrobiens, acides aminés aromatiques (L-DOPA, L-Tryptophane, Tyrosine) — 37 molécules
+- [x] Batch 10b : flavonoïdes (Myricétine, Fisétine, Génistéine, Daidzéine), acides organiques, sesquiterpènes — 27 molécules
+- [x] Batch 10c : vitamines (Vitamine C, E, K1, K2), terpènes (Linalol oxyde, Cis-3-hexénol, Acide citrique) — 7 molécules
+- [x] Batch 10d : molécules avec noms exacts (Guaïol, Acide carnosique, Néral), alcaloïdes (Morphine, Codéine, Caféine) — 9 molécules
+- [x] Batch 10e : enrichissement en masse par famille (Sesquiterpène, Monoterpène, Musc synthétique, Phénol, Pyrazine, Résinoïde) — 214 mises à jour
+- [x] **Couverture thérapeutique : 1169/2005 molécules (58.3%)** ✅
+
+### Phase 2 : Enrichissement GC-MS tabac Oriental Katerini et Perique
+- [x] Oriental Katerini (id:150003) : 15 molécules avec pourcentages — β-Damascenone, Solanone, Megastigmatrienone, Furfural, Acide lactique, Acide acétique, Solanésol, Cembranolide, Lévoglucosénone, Nicotine, Nornicotine, Anabasine, Myosmine, Scopoletin, 2-Acétyl-5-méthylfurane
+- [x] Perique (id:150004) : 16 molécules avec pourcentages — Acide lactique, Acide acétique, Acide butyrique, Acide hexanoïque, Acide propanoïque, Acide pentanoïque, Acide 2-méthylbutyrique, Furfural, Acétol, Phénylacétaldéhyde, Nicotine, Nornicotine, Anabasine, Myosmine, Solanésol, Lévoglucosénone
+- [x] Sources : CORESTA.Inf.Bull.2019, J.Agric.Food.Chem.2013:61:8592, Leffingwell 2001 ✅
+
+### Phase 3 : Page /correlations parfum-tabac-cannabis
+- [x] Créer le router `correlations` avec 4 procédures (getCrossDomainMolecules, getCorrelationStats, getTopFamilies, getSynergiesForCrossDomain)
+- [x] Enregistrer le router dans routers.ts
+- [x] Créer la page CorrelationsParfumTabacCannabis.tsx avec 4 onglets (Liste, Graphe réseau, Diagramme Venn, Familles)
+- [x] Filtres interactifs : domaine (cannabis/tabac/parfum/tous), nombre de domaines (≥2 ou 3), recherche textuelle
+- [x] Panneau détail molécule avec synergies documentées
+- [x] Statistiques inter-domaines (triple/double, paires)
+- [x] Ajouter la route /correlations dans App.tsx
+- [x] Tests vitest : 22/22 passent ✅
+- [x] Serveur opérationnel ✅

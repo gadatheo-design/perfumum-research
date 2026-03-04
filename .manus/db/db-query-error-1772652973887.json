@@ -1,0 +1,10 @@
+{
+  "query": "SELECT \n  COUNT(DISTINCT m.id) as total_molecules,\n  COUNT(DISTINCT tp.molecule_id) as with_therapeutic,\n  ROUND(COUNT(DISTINCT tp.molecule_id)::numeric / COUNT(DISTINCT m.id) * 100, 1) as coverage_pct\nFROM molecules m\nLEFT JOIN therapeutic_properties tp ON tp.molecule_id = m.id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(DISTINCT m.id) as total_molecules,\n  COUNT(DISTINCT tp.molecule_id) as with_therapeutic,\n  ROUND(COUNT(DISTINCT tp.molecule_id)::numeric / COUNT(DISTINCT m.id) * 100, 1) as coverage_pct\nFROM molecules m\nLEFT JOIN therapeutic_properties tp ON tp.molecule_id = m.id;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 4 column 40 near \"::numeric / COUNT(DISTINCT m.id) * 100, 1) as coverage_pct",
+    "FROM molecules m",
+    "LEFT JOIN therapeutic_properties tp ON tp.molecule_id = m.id\""
+  ]
+}

@@ -65,6 +65,7 @@ import { smilesEnrichmentRouter } from "./routers/smiles-cas-enrichment";
 import { plantCompositionRouter } from "./routers/plant-composition";
 import { duplicatesRouter } from "./routers/duplicates";
 import { moleculeManagerRouter } from "./routers/moleculeManager";
+import { correlationsRouter } from "./routers/correlations";
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -10302,6 +10303,8 @@ Familles olfactives disponibles:
   duplicates: duplicatesRouter,
   // Molecule Manager - Gestion des doublons et relations plantes-molécules
   moleculeManager: moleculeManagerRouter,
+  // Corrélations moléculaires inter-domaines (parfum × tabac × cannabis)
+  correlations: correlationsRouter,
 });
 export type AppRouter = typeof appRouter;
 
