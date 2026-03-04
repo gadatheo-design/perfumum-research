@@ -19970,3 +19970,51 @@ export async function getMoleculePerfumes(moleculeId: number) {
     description: r.description as string | null,
   }));
 }
+
+// Get all molecule-perfume links for the /parfums page (navigation inverse)
+export async function getAllMoleculePerfumeLinks(): Promise<Array<{
+  moleculeId: number;
+  moleculeName: string;
+  perfumeName: string;
+  perfumeHouse: string;
+  perfumer: string | null;
+  year: number | null;
+  roleInPerfume: string;
+  concentration: string | null;
+  description: string | null;
+}>> {
+  try {
+    const db = await getDb();
+    if (!db) return [];
+    const result = await (db as any).execute(sql.raw(
+      `SELECT
+         mp.molecule_id       AS moleculeId,
+         m.name               AS moleculeName,
+         mp.perfume_name      AS perfumeName,
+         mp.perfume_house     AS perfumeHouse,
+         mp.perfumer          AS perfumer,
+         mp.year              AS year,
+         mp.role_in_perfume   AS roleInPerfume,
+         mp.concentration     AS concentration,
+         mp.description       AS description
+       FROM molecule_perfumes mp
+       JOIN molecules m ON m.id = mp.molecule_id
+       ORDER BY mp.perfume_house, mp.perfume_name, mp.role_in_perfume`
+    ));
+    const rows: any[] = (result as any).rows || ((result as any)[0]) || [];
+    return rows.map((r: any) => ({
+      moleculeId: Number(r.moleculeId),
+      moleculeName: r.moleculeName as string,
+      perfumeName: r.perfumeName as string,
+      perfumeHouse: r.perfumeHouse as string,
+      perfumer: r.perfumer as string | null,
+      year: r.year ? Number(r.year) : null,
+      roleInPerfume: r.roleInPerfume as string,
+      concentration: r.concentration as string | null,
+      description: r.description as string | null,
+    }));
+  } catch (error: any) {
+    console.error('Error getting all molecule-perfume links:', error);
+    return [];
+  }
+}

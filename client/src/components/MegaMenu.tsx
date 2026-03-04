@@ -554,6 +554,12 @@ export function MegaMenu() {
           badge: "NEW",
         },
         {
+          label: "Parfums emblématiques",
+          path: "/parfums",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Navigation inverse parfum → molécules",
+        },
+        {
           label: "Graphe Réseau",
           path: "/recipe-network",
           icon: <Network className="h-4 w-4" />,

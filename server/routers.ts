@@ -592,6 +592,11 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getMoleculePerfumes(input.moleculeId);
       }),
+
+    // Toutes les liaisons parfums (navigation inverse)
+    getAllPerfumeLinks: publicProcedure.query(async () => {
+      return await db.getAllMoleculePerfumeLinks();
+    }),
   }),
 
   // Terpene Synergies

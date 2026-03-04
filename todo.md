@@ -656,4 +656,14 @@
 - [x] Table molecule_perfumes créée (SQL direct) + 40 liaisons (16 molécules × parfums de référence)
 - [x] Router tRPC molecules.getPerfumes (test API OK : Ambroxan → Molecule 02, Sauvage, Bleu de Chanel)
 - [x] Onglet « Parfums emblématiques » dans MoleculeDetail : cartes groupées par maison, badges de rôle (signature/accord principal/note cœur/fond/tête), parfumeur, année, concentration, description
+- [x] Checkpoint final (version 7917d5ff)
+
+---
+
+## 🌸 SESSION 15 MARS 2026 — PARFUMS EMBLÉMATIQUES + SYNERGIES + PAGE /PARFUMS
+
+- [x] Enrichir molecule_perfumes : 71 liaisons (30 molécules × 43 parfums) — terpènes, muscs macrocycliques, aldhydes, iris, boisés
+- [x] Synergies Batch 15 : 14 synergies accords industriels (Hedione+Linalool=jasmin, Calone+Dihydromyrcenol=marin, Linalool+Coumarine=fougère…) — 88 synergies total
+- [x] Page /parfums : navigation inverse parfum → molécules (43 parfums, filtres maison/rôle/recherche, cartes groupées, liens vers fiches molécules)
+- [x] MegaMenu + Breadcrumbs : /parfums ajouté dans la navigation
 - [ ] Checkpoint final
