@@ -1,5 +1,5 @@
 import { getDb } from './db';
-import { recettes, molecules, moleculesRecettes } from '../drizzle/schema';
+import { recettes, molecules, moleculesRecettes, recetteMolecules } from '../drizzle/schema';
 import { eq, and, gte, lte } from 'drizzle-orm';
 
 // Interface pour une recette avec son profil radar moyen
@@ -78,6 +78,14 @@ export async function getAllRecettesWithRadar(): Promise<RecetteWithRadar[]> {
       const avgSpiciness = totalWeight > 0 ? Math.round(sumSpiciness / totalWeight) : 50;
       const avgEarthiness = totalWeight > 0 ? Math.round(sumEarthiness / totalWeight) : 50;
       
+      // Compter aussi les liaisons recette_molecules (nouvelle table)
+      const molsV2 = await db
+        .select({ moleculeId: recetteMolecules.moleculeId })
+        .from(recetteMolecules)
+        .where(eq(recetteMolecules.recetteId, recette.id));
+      
+      const totalMoleculeCount = mols.length + molsV2.length;
+      
       return {
         id: recette.id,
         name: recette.name,
@@ -95,7 +103,7 @@ export async function getAllRecettesWithRadar(): Promise<RecetteWithRadar[]> {
         avgSweetness,
         avgSpiciness,
         avgEarthiness,
-        moleculeCount: mols.length,
+        moleculeCount: totalMoleculeCount,
       };
     })
   );

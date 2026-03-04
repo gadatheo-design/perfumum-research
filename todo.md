@@ -618,4 +618,15 @@
 - [x] Mastiha créée comme plante/résine AOP Chios + 5 molécules (Cypriol, Isoquinoline, Megastigmatrienone, Syringaldéhyde, Gotu Kola) + liaisons recettes
 - [x] Batch 12 : 400 molécules enrichies (accords olfactifs, minéraux, non classés) → 87% couverture thérapeutique (1573/1806)
 - [x] Page /recettes : ingrédients liés formellement affichés (fusion recette_molecules + molecules_recettes) — ex: OS Archéologie Olfactive = 28 molécules visibles
+- [x] Checkpoint final (version 1a9cbe26)
+
+---
+
+## 🧪 SESSION 11 MARS 2026 — BATCH 13 + 33 MOLÉCULES + FILTRE RECETTES
+
+- [x] Batch 13 : 100% couverture thérapeutique (1015/1015 molécules) — artefacts supprimés, muscs synthétiques enrichis
+- [x] 18 nouvelles molécules créées (CBD Isolat, Mousse de Chêne, Castoreum, Ambre Gris, Hyraceum, Copal Negro/Blanco, Tagetes lucida, Damiana, Steiractinia Aspera, Tagetone, Mezcal, Kaolin, Résines Pin/Styrax/Élémi/Gobernadora, Huitlacoche)
+- [x] 102 nouvelles liaisons recette_molecules créées (parser amélioré avec gestion des pourcentages)
+- [x] db-recettes-radar.ts : moleculeCount unifié (molecules_recettes + recette_molecules)
+- [x] Page /recettes : filtre « Toutes/Liées/À compléter » + badge couverture (%)
 - [ ] Checkpoint final

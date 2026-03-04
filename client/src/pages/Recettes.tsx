@@ -81,6 +81,7 @@ export default function Recettes() {
   const [showRadarFilter, setShowRadarFilter] = useState(false);
   const [selectedForComparison, setSelectedForComparison] = useState<number[]>([]);
   const [sortBy, setSortBy] = useState<string>("recent");
+  const [linkedFilter, setLinkedFilter] = useState<'all' | 'linked' | 'unlinked'>('all');
   const [location, setLocation] = useLocation();
   
   // View mode (grid/list)
@@ -146,7 +147,8 @@ export default function Recettes() {
       const matchesFamily = !selectedFamily || recette.category === selectedFamily;
       const matchesPrototype = !selectedPrototype || recette.formula?.includes(selectedPrototype);
       const matchesIngredient = !selectedIngredient || recette.ingredients?.toLowerCase().includes(selectedIngredient.toLowerCase());
-      return matchesSearch && matchesGamme && matchesFamily && matchesPrototype && matchesIngredient;
+      const matchesLinked = linkedFilter === 'all' || (linkedFilter === 'linked' && recette.moleculeCount > 0) || (linkedFilter === 'unlinked' && recette.moleculeCount === 0);
+      return matchesSearch && matchesGamme && matchesFamily && matchesPrototype && matchesIngredient && matchesLinked;
     });
 
     // Trier ensuite
@@ -164,7 +166,7 @@ export default function Recettes() {
         // Tri par ID décroissant (les plus récentes en premier)
         return filtered.sort((a, b) => b.id - a.id);
     }
-  }, [recettes, searchTerm, selectedGamme, selectedFamily, selectedPrototype, selectedIngredient, sortBy]);
+  }, [recettes, searchTerm, selectedGamme, selectedFamily, selectedPrototype, selectedIngredient, sortBy, linkedFilter]);
 
   const clearFilters = () => {
     setSearchTerm("");
@@ -172,6 +174,7 @@ export default function Recettes() {
     setSelectedFamily(null);
     setSelectedPrototype(null);
     setSelectedIngredient(null);
+    setLinkedFilter('all');
   };
 
   const clearAllFilters = () => {
@@ -194,7 +197,12 @@ export default function Recettes() {
     });
   };
 
-  const hasActiveFilters = searchTerm || selectedGamme || selectedFamily || selectedPrototype || selectedIngredient;
+  const hasActiveFilters = searchTerm || selectedGamme || selectedFamily || selectedPrototype || selectedIngredient || linkedFilter !== 'all';
+  
+  // Statistiques de couverture
+  const linkedCount = recettes.filter(r => r.moleculeCount > 0).length;
+  const unlinkedCount = recettes.filter(r => r.moleculeCount === 0).length;
+  const coveragePercent = recettes.length > 0 ? Math.round(linkedCount / recettes.length * 100) : 0;
   
   const hasActiveRadarFilters = Object.values(radarFilters).some(
     ([min, max]) => min > 0 || max < 100
@@ -372,6 +380,34 @@ export default function Recettes() {
                   </div>
                 </div>
 
+                {/* Linked Filter */}
+                <div className="flex items-center gap-1 rounded-md border p-1">
+                  <Button
+                    variant={linkedFilter === 'all' ? 'default' : 'ghost'}
+                    size="sm"
+                    className="h-7 px-2 text-xs"
+                    onClick={() => setLinkedFilter('all')}
+                  >
+                    Toutes ({recettes.length})
+                  </Button>
+                  <Button
+                    variant={linkedFilter === 'linked' ? 'default' : 'ghost'}
+                    size="sm"
+                    className="h-7 px-2 text-xs"
+                    onClick={() => setLinkedFilter('linked')}
+                  >
+                    ✓ Liées ({linkedCount})
+                  </Button>
+                  <Button
+                    variant={linkedFilter === 'unlinked' ? 'default' : 'ghost'}
+                    size="sm"
+                    className="h-7 px-2 text-xs"
+                    onClick={() => setLinkedFilter('unlinked')}
+                  >
+                    ○ À compléter ({unlinkedCount})
+                  </Button>
+                </div>
+
                 {/* Ingredient Filter Toggle */}
                 <Button
                   variant={showIngredientFilter ? "default" : "outline"}
@@ -535,15 +571,18 @@ export default function Recettes() {
                 </div>
               )}
 
-              {/* Results count */}
-              <div className="flex items-center gap-2">
+              {/* Results count + Coverage stats */}
+              <div className="flex flex-wrap items-center gap-2">
                 <p className="text-sm text-muted-foreground">
                   {filteredRecettes.length} recette{filteredRecettes.length > 1 ? 's' : ''} trouvée{filteredRecettes.length > 1 ? 's' : ''}
                 </p>
-                {hasActiveRadarFilters && (
-                  <Badge variant="outline" className="text-xs">
-                    <FlaskConical className="h-3 w-3 mr-1" />
-                    {filteredRecettes.filter(r => r.moleculeCount > 0).length} avec molécules
+                <Badge variant="outline" className="text-xs">
+                  <FlaskConical className="h-3 w-3 mr-1" />
+                  Couverture : {coveragePercent}% ({linkedCount}/{recettes.length})
+                </Badge>
+                {linkedFilter === 'unlinked' && (
+                  <Badge variant="secondary" className="text-xs">
+                    {filteredRecettes.length} recette{filteredRecettes.length > 1 ? 's' : ''} à compléter
                   </Badge>
                 )}
               </div>
