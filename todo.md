@@ -120,3 +120,29 @@
 - [ ] Vérifier les liaisons dans l'interface
 - [ ] Valider les statistiques finales
 - [ ] Sauvegarder le checkpoint
+
+
+## SESSION 6 — Normalisation, Terroirs, Compositions
+
+### Phase 1 : Normaliser les liaisons bibliographiques
+- [ ] Analyser le format JSON non standard des liaisons
+- [ ] Normaliser les linked_plant_ids et linked_molecule_ids
+- [ ] Enrichir les 98% de references sans liaisons plantes
+- [ ] Enrichir les 96% de references sans liaisons molecules
+
+### Phase 2 : Completer la couverture terroir
+- [ ] Identifier les 111 plantes orphelines de terroir
+- [ ] Creer les terroirs manquants (Mexique, Afrique, Asie, etc.)
+- [ ] Ameliorer les descriptions d'origine
+- [ ] Atteindre 100% de couverture terroir
+
+### Phase 3 : Valider les compositions moleculaires
+- [ ] Identifier les 536 liaisons avec pourcentages generiques
+- [ ] Rechercher les sources scientifiques pour chaque plante
+- [ ] Mettre a jour les pourcentages avec donnees precises
+- [ ] Ajouter les sources (PubChem, GC-MS, litterature)
+
+### Phase 4 : Checkpoint final
+- [ ] Verifier les liaisons dans l'interface
+- [ ] Valider les statistiques finales
+- [ ] Sauvegarder le checkpoint

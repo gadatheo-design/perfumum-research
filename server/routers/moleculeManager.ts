@@ -9,12 +9,10 @@ import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { sql } from "drizzle-orm";
 
-// ─── Router ─────────────────────────────────────────────────────────────────
-
+// Router
 export const moleculeManagerRouter = router({
 
-  // ── Statistiques globales ─────────────────────────────────────────────────
-
+  // Statistiques globales
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) throw new Error("Database not available");
@@ -70,8 +68,7 @@ export const moleculeManagerRouter = router({
     };
   }),
 
-  // ── Analyse des doublons ──────────────────────────────────────────────────
-
+  // Analyse des doublons
   getDuplicateGroups: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) throw new Error("Database not available");
@@ -133,8 +130,7 @@ export const moleculeManagerRouter = router({
     return result;
   }),
 
-  // ── Fusion des doublons ───────────────────────────────────────────────────
-
+  // Fusion des doublons
   mergeDuplicates: publicProcedure
     .input(z.object({
       keepId: z.number(),
@@ -310,8 +306,7 @@ export const moleculeManagerRouter = router({
       };
     }),
 
-  // ── Relations plantes-molécules ───────────────────────────────────────────
-
+  // Relations plantes-molécules
   getPlantMoleculeRelations: publicProcedure
     .input(z.object({
       page: z.number().default(1),
@@ -398,8 +393,7 @@ export const moleculeManagerRouter = router({
       return { success: true, message: "Relation supprimée" };
     }),
 
-  // ── Qualité des données ───────────────────────────────────────────────────
-
+  // Qualité des données
   getDataQualityStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) throw new Error("Database not available");
