@@ -1,0 +1,46 @@
+{
+  "query": "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND (TABLE_NAME LIKE '%chemical%' OR TABLE_NAME LIKE '%ifra%' OR TABLE_NAME LIKE '%terpene%' OR TABLE_NAME LIKE '%molecule_note%');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND (TABLE_NAME LIKE '%chemical%' OR TABLE_NAME LIKE '%ifra%' OR TABLE_NAME LIKE '%terpene%' OR TABLE_NAME LIKE '%molecule_note%');",
+  "rows": [
+    {
+      "TABLE_NAME": "prototype_chemical_families"
+    },
+    {
+      "TABLE_NAME": "molecule_notes"
+    },
+    {
+      "TABLE_NAME": "molecule_notes_view"
+    },
+    {
+      "TABLE_NAME": "molecule_chemical_families"
+    },
+    {
+      "TABLE_NAME": "ifra_restrictions"
+    },
+    {
+      "TABLE_NAME": "terpene_synergies"
+    },
+    {
+      "TABLE_NAME": "terpene_comparison_profiles"
+    },
+    {
+      "TABLE_NAME": "landrace_terpenes"
+    },
+    {
+      "TABLE_NAME": "chemical_families"
+    },
+    {
+      "TABLE_NAME": "gene_terpene_links"
+    },
+    {
+      "TABLE_NAME": "ifra_categories"
+    },
+    {
+      "TABLE_NAME": "landrace_terpene_profiles"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\nprototype_chemical_families\nmolecule_notes\nmolecule_notes_view\nmolecule_chemical_families\nifra_restrictions\nterpene_synergies\nterpene_comparison_profiles\nlandrace_terpenes\nchemical_families\ngene_terpene_links\nifra_categories\nlandrace_terpene_profiles\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

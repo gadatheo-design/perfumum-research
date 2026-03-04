@@ -5043,3 +5043,14 @@
 - [x] Ajouter le lien /recherche-molecule dans MegaMenu section "Exploration"
 - [x] Ajouter le lien /recherche-molecule dans MobileMenu
 
+
+
+---
+
+## 📊 SESSION 4 MARS 2026 — Gestion des Doublons & Outil Admin
+
+- [x] Analyser l'état actuel des doublons de molécules en base de données (17 groupes, 34 molécules en double)
+- [x] Améliorer les relations plantes-molécules (1867 relations, API complète)
+- [x] Créer le backend tRPC pour la gestion des doublons et relations (moleculeManager router)
+- [x] Créer la page /admin/molecule-manager avec interface complète (3 onglets : stats, doublons, relations)
+- [ ] Tester et sauvegarder le checkpoint

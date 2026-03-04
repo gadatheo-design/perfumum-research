@@ -91,6 +91,7 @@ const ClassificationReviewQueue = lazy(() => import("./pages/ClassificationRevie
 import AdminNotifications from "./pages/AdminNotifications";
 import AdminProgressReport from "./pages/AdminProgressReport";
 import DataQuality from "./pages/admin/DataQuality";
+import MoleculeManager from "./pages/admin/MoleculeManager";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -465,6 +466,7 @@ function Router() {
       <Route path="/admin/historique" component={AdminHistorique} />
       <Route path="/admin/references" component={AdminReferences} />
       <Route path="/admin/data-quality" component={DataQuality} />
+      <Route path="/admin/molecule-manager" component={MoleculeManager} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

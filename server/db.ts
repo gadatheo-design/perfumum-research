@@ -19839,7 +19839,4 @@ export async function searchMoleculesByName(name: string): Promise<{
 }
 
 
-/**
- * Export de l'instance db pour utilisation dans les routers
- */
-export { getDb as db };
+// Note: utiliser getDb() pour obtenir l'instance drizzle

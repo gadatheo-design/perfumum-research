@@ -1,0 +1,19 @@
+{
+  "query": "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME LIKE '%chemical%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME LIKE '%chemical%';",
+  "rows": [
+    {
+      "TABLE_NAME": "chemical_families"
+    },
+    {
+      "TABLE_NAME": "prototype_chemical_families"
+    },
+    {
+      "TABLE_NAME": "molecule_chemical_families"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\nchemical_families\nprototype_chemical_families\nmolecule_chemical_families\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

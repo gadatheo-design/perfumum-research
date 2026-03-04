@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT \n  nom,\n  COUNT(*) as nb_doublons,\n  GROUP_CONCAT(id ORDER BY id SEPARATOR ', ') as ids,\n  GROUP_CONCAT(cas_number ORDER BY id SEPARATOR ' | ') as cas_numbers\nFROM molecules\nGROUP BY LOWER(TRIM(nom))\nHAVING COUNT(*) > 1\nORDER BY nb_doublons DESC, nom\nLIMIT 50;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  nom,\n  COUNT(*) as nb_doublons,\n  GROUP_CONCAT(id ORDER BY id SEPARATOR ', ') as ids,\n  GROUP_CONCAT(cas_number ORDER BY id SEPARATOR ' | ') as cas_numbers\nFROM molecules\nGROUP BY LOWER(TRIM(nom))\nHAVING COUNT(*) > 1\nORDER BY nb_doublons DESC, nom\nLIMIT 50;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'nom' in 'group statement'"
+  ]
+}

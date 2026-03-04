@@ -1,5 +1,5 @@
-import { db } from "./db.ts";
-import { plants } from "../drizzle/schema.ts";
+import { getDb } from "./db";
+import { plants } from "../drizzle/schema";
 import { isNull, or, eq } from "drizzle-orm";
 
 /**
@@ -200,6 +200,7 @@ export async function enrichKoppenData() {
   console.log("🌍 Starting Köppen enrichment for plants without climate data...\n");
 
   // Query plants without Köppen data
+  const db = await getDb();
   const plantsWithoutKoppen = await db
     .select()
     .from(plants)
@@ -260,7 +261,7 @@ export async function enrichKoppenData() {
         .update(plants)
         .set({
           koppenZone: update.zones,
-          koppenDescription: `Enriched: ${update.zones}`
+          koppenDescription: `Enrichi: ${update.zones}`
         })
         .where(eq(plants.id, update.id));
       successCount++;

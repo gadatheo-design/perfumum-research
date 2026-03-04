@@ -1,0 +1,316 @@
+{
+  "query": "\nSELECT \n  m.id,\n  m.name,\n  m.cas_number,\n  m.chemical_class,\n  m.family,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links,\n  (SELECT COUNT(*) FROM molecules_recettes mr WHERE mr.molecule_id = m.id) as recipe_links\nFROM molecules m\nWHERE LOWER(TRIM(m.name)) IN (\n  SELECT LOWER(TRIM(name)) FROM molecules GROUP BY LOWER(TRIM(name)) HAVING COUNT(*) > 1\n)\nORDER BY LOWER(TRIM(m.name)), m.id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  m.id,\n  m.name,\n  m.cas_number,\n  m.chemical_class,\n  m.family,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links,\n  (SELECT COUNT(*) FROM molecules_recettes mr WHERE mr.molecule_id = m.id) as recipe_links\nFROM molecules m\nWHERE LOWER(TRIM(m.name)) IN (\n  SELECT LOWER(TRIM(name)) FROM molecules GROUP BY LOWER(TRIM(name)) HAVING COUNT(*) > 1\n)\nORDER BY LOWER(TRIM(m.name)), m.id;\n",
+  "rows": [
+    {
+      "id": "570021",
+      "name": "Alpha-Ionone",
+      "cas_number": "127-41-3",
+      "chemical_class": "ketone",
+      "family": "Ionone",
+      "plant_links": "2",
+      "recipe_links": "0"
+    },
+    {
+      "id": "1260115",
+      "name": "Alpha-ionone",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "810001",
+      "name": "alpha-pinene",
+      "cas_number": "80-56-8",
+      "chemical_class": "monoterpene",
+      "family": "terpene",
+      "plant_links": "20",
+      "recipe_links": "0"
+    },
+    {
+      "id": "1260183",
+      "name": "Alpha-pinene",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "810026",
+      "name": "benzyl benzoate",
+      "cas_number": "120-51-4",
+      "chemical_class": "ester",
+      "family": "ester",
+      "plant_links": "4",
+      "recipe_links": "0"
+    },
+    {
+      "id": "1260032",
+      "name": "Benzyl benzoate",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "810027",
+      "name": "benzyl cinnamate",
+      "cas_number": "103-41-3",
+      "chemical_class": "ester",
+      "family": "ester",
+      "plant_links": "2",
+      "recipe_links": "0"
+    },
+    {
+      "id": "1260619",
+      "name": "Benzyl cinnamate",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "810002",
+      "name": "beta-pinene",
+      "cas_number": "127-91-3",
+      "chemical_class": "monoterpene",
+      "family": "terpene",
+      "plant_links": "10",
+      "recipe_links": "0"
+    },
+    {
+      "id": "1260200",
+      "name": "Beta-pinene",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "810025",
+      "name": "cinnamaldehyde",
+      "cas_number": "104-55-2",
+      "chemical_class": "aldehyde",
+      "family": "aldehyde",
+      "plant_links": "3",
+      "recipe_links": "0"
+    },
+    {
+      "id": "1260162",
+      "name": "Cinnamaldehyde",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "330003",
+      "name": "Ethylene Brassylate",
+      "cas_number": "105-95-3",
+      "chemical_class": "ketone",
+      "family": "Muscs macrocycliques",
+      "plant_links": "1",
+      "recipe_links": "3"
+    },
+    {
+      "id": "1260583",
+      "name": "Ethylene brassylate",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Musc synthétique",
+      "plant_links": "0",
+      "recipe_links": "1"
+    },
+    {
+      "id": "810022",
+      "name": "eugenol",
+      "cas_number": "97-53-0",
+      "chemical_class": "phenol",
+      "family": "phenolic",
+      "plant_links": "8",
+      "recipe_links": "1"
+    },
+    {
+      "id": "1260211",
+      "name": "Eugenol",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Phénol",
+      "plant_links": "0",
+      "recipe_links": "1"
+    },
+    {
+      "id": "540001",
+      "name": "GEOSMIN",
+      "cas_number": "19700-21-1",
+      "chemical_class": "alcohol",
+      "family": "Sesquiterpène",
+      "plant_links": "1",
+      "recipe_links": "44"
+    },
+    {
+      "id": "1260016",
+      "name": "Geosmin",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "810043",
+      "name": "geraniol",
+      "cas_number": "106-24-1",
+      "chemical_class": "alcohol",
+      "family": "terpene alcohol",
+      "plant_links": "8",
+      "recipe_links": "1"
+    },
+    {
+      "id": "1260092",
+      "name": "Geraniol",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Monoterpénol",
+      "plant_links": "0",
+      "recipe_links": "1"
+    },
+    {
+      "id": "540002",
+      "name": "JASMINE ABSOLUTE",
+      "cas_number": "NULL",
+      "chemical_class": "ester",
+      "family": "floral",
+      "plant_links": "2",
+      "recipe_links": "2"
+    },
+    {
+      "id": "1260302",
+      "name": "Jasmine absolute",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "1"
+    },
+    {
+      "id": "540010",
+      "name": "LABDANUM ABSOLUTE",
+      "cas_number": "NULL",
+      "chemical_class": "monoterpene",
+      "family": "Diterpène",
+      "plant_links": "1",
+      "recipe_links": "21"
+    },
+    {
+      "id": "1260120",
+      "name": "Labdanum absolute",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "810003",
+      "name": "limonene",
+      "cas_number": "138-86-3",
+      "chemical_class": "monoterpene",
+      "family": "terpene",
+      "plant_links": "27",
+      "recipe_links": "0"
+    },
+    {
+      "id": "1260190",
+      "name": "Limonene",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Monoterpène",
+      "plant_links": "0",
+      "recipe_links": "2"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène",
+      "cas_number": "138-86-3",
+      "chemical_class": "monoterpene",
+      "family": "Monoterpène",
+      "plant_links": "54",
+      "recipe_links": "46"
+    },
+    {
+      "id": "930008",
+      "name": "Limonène",
+      "cas_number": "5989-27-5",
+      "chemical_class": "monoterpene",
+      "family": "Monoterpène",
+      "plant_links": "73",
+      "recipe_links": "32"
+    },
+    {
+      "id": "1170001",
+      "name": "Musk Ketone",
+      "cas_number": "81-14-1",
+      "chemical_class": "musk",
+      "family": "musque",
+      "plant_links": "1",
+      "recipe_links": "0"
+    },
+    {
+      "id": "1260478",
+      "name": "Musk ketone",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Musc synthétique",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "810004",
+      "name": "myrcene",
+      "cas_number": "123-35-3",
+      "chemical_class": "monoterpene",
+      "family": "terpene",
+      "plant_links": "11",
+      "recipe_links": "0"
+    },
+    {
+      "id": "1260608",
+      "name": "Myrcene",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    },
+    {
+      "id": "810011",
+      "name": "ocimene",
+      "cas_number": "29714-87-2",
+      "chemical_class": "monoterpene",
+      "family": "terpene",
+      "plant_links": "4",
+      "recipe_links": "1"
+    },
+    {
+      "id": "1260600",
+      "name": "Ocimene",
+      "cas_number": "NULL",
+      "chemical_class": "NULL",
+      "family": "Non classé",
+      "plant_links": "0",
+      "recipe_links": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\tchemical_class\tfamily\tplant_links\trecipe_links\n570021\tAlpha-Ionone\t127-41-3\tketone\tIonone\t2\t0\n1260115\tAlpha-ionone\tNULL\tNULL\tNon classé\t0\t0\n810001\talpha-pinene\t80-56-8\tmonoterpene\tterpene\t20\t0\n1260183\tAlpha-pinene\tNULL\tNULL\tNon classé\t0\t0\n810026\tbenzyl benzoate\t120-51-4\tester\tester\t4\t0\n1260032\tBenzyl benzoate\tNULL\tNULL\tNon classé\t0\t0\n810027\tbenzyl cinnamate\t103-41-3\tester\tester\t2\t0\n1260619\tBenzyl cinnamate\tNULL\tNULL\tNon classé\t0\t0\n810002\tbeta-pinene\t127-91-3\tmonoterpene\tterpene\t10\t0\n1260200\tBeta-pinene\tNULL\tNULL\tNon classé\t0\t0\n810025\tcinnamaldehyde\t104-55-2\taldehyde\taldehyde\t3\t0\n1260162\tCinnamaldehyde\tNULL\tNULL\tNon classé\t0\t0\n330003\tEthylene Brassylate\t105-95-3\tketone\tMuscs macrocycliques\t1\t3\n1260583\tEthylene brassylate\tNULL\tNULL\tMusc synthétique\t0\t1\n810022\teugenol\t97-53-0\tphenol\tphenolic\t8\t1\n1260211\tEugenol\tNULL\tNULL\tPhénol\t0\t1\n540001\tGEOSMIN\t19700-21-1\talcohol\tSesquiterpène\t1\t44\n1260016\tGeosmin\tNULL\tNULL\tNon classé\t0\t0\n810043\tgeraniol\t106-24-1\talcohol\tterpene alcohol\t8\t1\n1260092\tGeraniol\tNULL\tNULL\tMonoterpénol\t0\t1\n540002\tJASMINE ABSOLUTE\tNULL\tester\tfloral\t2\t2\n1260302\tJasmine absolute\tNULL\tNULL\tNon classé\t0\t1\n540010\tLABDANUM ABSOLUTE\tNULL\tmonoterpene\tDiterpène\t1\t21\n1260120\tLabdanum absolute\tNULL\tNULL\tNon classé\t0\t0\n810003\tlimonene\t138-86-3\tmonoterpene\tterpene\t27\t0\n1260190\tLimonene\tNULL\tNULL\tMonoterpène\t0\t2\n30007\tLimonène\t138-86-3\tmonoterpene\tMonoterpène\t54\t46\n930008\tLimonène\t5989-27-5\tmonoterpene\tMonoterpène\t73\t32\n1170001\tMusk Ketone\t81-14-1\tmusk\tmusque\t1\t0\n1260478\tMusk ketone\tNULL\tNULL\tMusc synthétique\t0\t0\n810004\tmyrcene\t123-35-3\tmonoterpene\tterpene\t11\t0\n1260608\tMyrcene\tNULL\tNULL\tNon classé\t0\t0\n810011\tocimene\t29714-87-2\tmonoterpene\tterpene\t4\t1\n1260600\tOcimene\tNULL\tNULL\tNon classé\t0\t0\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

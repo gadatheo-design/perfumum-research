@@ -204,6 +204,14 @@ export default function Admin() {
       color: "text-teal-600",
       bgColor: "bg-teal-50",
     },
+    {
+      title: "Molecule Manager",
+      description: "Fusionner les doublons de molécules, gérer les relations plantes-molécules",
+      icon: FlaskConical,
+      href: "/admin/molecule-manager",
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
+    },
   ];
 
   return (

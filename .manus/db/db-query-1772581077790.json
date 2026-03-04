@@ -1,0 +1,129 @@
+{
+  "query": "\nSELECT \n  LOWER(TRIM(name)) as name_normalized,\n  COUNT(*) as nb_doublons,\n  MIN(id) as id_keep,\n  MAX(id) as id_remove,\n  GROUP_CONCAT(id ORDER BY id SEPARATOR ', ') as all_ids\nFROM molecules\nGROUP BY LOWER(TRIM(name))\nHAVING COUNT(*) > 1\nORDER BY nb_doublons DESC\nLIMIT 50;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  LOWER(TRIM(name)) as name_normalized,\n  COUNT(*) as nb_doublons,\n  MIN(id) as id_keep,\n  MAX(id) as id_remove,\n  GROUP_CONCAT(id ORDER BY id SEPARATOR ', ') as all_ids\nFROM molecules\nGROUP BY LOWER(TRIM(name))\nHAVING COUNT(*) > 1\nORDER BY nb_doublons DESC\nLIMIT 50;\n",
+  "rows": [
+    {
+      "name_normalized": "limonène",
+      "nb_doublons": "2",
+      "id_keep": "30007",
+      "id_remove": "930008",
+      "all_ids": "30007, 930008"
+    },
+    {
+      "name_normalized": "ethylene brassylate",
+      "nb_doublons": "2",
+      "id_keep": "330003",
+      "id_remove": "1260583",
+      "all_ids": "330003, 1260583"
+    },
+    {
+      "name_normalized": "geosmin",
+      "nb_doublons": "2",
+      "id_keep": "540001",
+      "id_remove": "1260016",
+      "all_ids": "540001, 1260016"
+    },
+    {
+      "name_normalized": "jasmine absolute",
+      "nb_doublons": "2",
+      "id_keep": "540002",
+      "id_remove": "1260302",
+      "all_ids": "540002, 1260302"
+    },
+    {
+      "name_normalized": "labdanum absolute",
+      "nb_doublons": "2",
+      "id_keep": "540010",
+      "id_remove": "1260120",
+      "all_ids": "540010, 1260120"
+    },
+    {
+      "name_normalized": "alpha-ionone",
+      "nb_doublons": "2",
+      "id_keep": "570021",
+      "id_remove": "1260115",
+      "all_ids": "570021, 1260115"
+    },
+    {
+      "name_normalized": "alpha-pinene",
+      "nb_doublons": "2",
+      "id_keep": "810001",
+      "id_remove": "1260183",
+      "all_ids": "810001, 1260183"
+    },
+    {
+      "name_normalized": "beta-pinene",
+      "nb_doublons": "2",
+      "id_keep": "810002",
+      "id_remove": "1260200",
+      "all_ids": "810002, 1260200"
+    },
+    {
+      "name_normalized": "limonene",
+      "nb_doublons": "2",
+      "id_keep": "810003",
+      "id_remove": "1260190",
+      "all_ids": "810003, 1260190"
+    },
+    {
+      "name_normalized": "myrcene",
+      "nb_doublons": "2",
+      "id_keep": "810004",
+      "id_remove": "1260608",
+      "all_ids": "810004, 1260608"
+    },
+    {
+      "name_normalized": "ocimene",
+      "nb_doublons": "2",
+      "id_keep": "810011",
+      "id_remove": "1260600",
+      "all_ids": "810011, 1260600"
+    },
+    {
+      "name_normalized": "eugenol",
+      "nb_doublons": "2",
+      "id_keep": "810022",
+      "id_remove": "1260211",
+      "all_ids": "810022, 1260211"
+    },
+    {
+      "name_normalized": "cinnamaldehyde",
+      "nb_doublons": "2",
+      "id_keep": "810025",
+      "id_remove": "1260162",
+      "all_ids": "810025, 1260162"
+    },
+    {
+      "name_normalized": "benzyl benzoate",
+      "nb_doublons": "2",
+      "id_keep": "810026",
+      "id_remove": "1260032",
+      "all_ids": "810026, 1260032"
+    },
+    {
+      "name_normalized": "benzyl cinnamate",
+      "nb_doublons": "2",
+      "id_keep": "810027",
+      "id_remove": "1260619",
+      "all_ids": "810027, 1260619"
+    },
+    {
+      "name_normalized": "geraniol",
+      "nb_doublons": "2",
+      "id_keep": "810043",
+      "id_remove": "1260092",
+      "all_ids": "810043, 1260092"
+    },
+    {
+      "name_normalized": "musk ketone",
+      "nb_doublons": "2",
+      "id_keep": "1170001",
+      "id_remove": "1260478",
+      "all_ids": "1170001, 1260478"
+    }
+  ],
+  "messages": [],
+  "stdout": "name_normalized\tnb_doublons\tid_keep\tid_remove\tall_ids\nlimonène\t2\t30007\t930008\t30007, 930008\nethylene brassylate\t2\t330003\t1260583\t330003, 1260583\ngeosmin\t2\t540001\t1260016\t540001, 1260016\njasmine absolute\t2\t540002\t1260302\t540002, 1260302\nlabdanum absolute\t2\t540010\t1260120\t540010, 1260120\nalpha-ionone\t2\t570021\t1260115\t570021, 1260115\nalpha-pinene\t2\t810001\t1260183\t810001, 1260183\nbeta-pinene\t2\t810002\t1260200\t810002, 1260200\nlimonene\t2\t810003\t1260190\t810003, 1260190\nmyrcene\t2\t810004\t1260608\t810004, 1260608\nocimene\t2\t810011\t1260600\t810011, 1260600\neugenol\t2\t810022\t1260211\t810022, 1260211\ncinnamaldehyde\t2\t810025\t1260162\t810025, 1260162\nbenzyl benzoate\t2\t810026\t1260032\t810026, 1260032\nbenzyl cinnamate\t2\t810027\t1260619\t810027, 1260619\ngeraniol\t2\t810043\t1260092\t810043, 1260092\nmusk ketone\t2\t1170001\t1260478\t1170001, 1260478\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

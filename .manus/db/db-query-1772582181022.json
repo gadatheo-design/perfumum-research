@@ -1,0 +1,187 @@
+{
+  "query": "SHOW TABLES LIKE '%molecule%'; SHOW TABLES LIKE '%molecules%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW TABLES LIKE '%molecule%'; SHOW TABLES LIKE '%molecules%';",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "biotech_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "field_archive_molecule_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "genomic_molecule_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "ghost_variety_molecule_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "laboratoire_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "leaf_economy_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "lost_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_accords"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_analytical_methods"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_chemical_families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_evidence"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_families"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_links_unified"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_notes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_notes_view"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_origins"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_plant_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_synergies"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecule_synergies_view"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecules_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "perfumum_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "perfumum_plant_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "perique_molecule_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "petrichor_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "plant_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "prototype_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "publication_molecule_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "publication_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "raw_material_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "recette_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "tabac_molecule_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "tabac_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "terp_profile_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "tps_gene_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "tps_molecule_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "variety_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "volcanique_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecules%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "biotech_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "laboratoire_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "leaf_economy_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "lost_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "molecules_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "perfumum_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "perfumum_plant_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "petrichor_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "plant_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "prototype_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "publication_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "raw_material_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "recette_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "tabac_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "terp_profile_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "tps_gene_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "variety_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)": "volcanique_molecules"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%molecule%)\nbiotech_molecules\nfield_archive_molecule_links\ngenomic_molecule_links\nghost_variety_molecule_links\nlaboratoire_molecules\nleaf_economy_molecules\nlost_molecules\nmolecule_accords\nmolecule_analytical_methods\nmolecule_chemical_families\nmolecule_evidence\nmolecule_families\nmolecule_links_unified\nmolecule_notes\nmolecule_notes_view\nmolecule_origins\nmolecule_plant_sources\nmolecule_recettes\nmolecule_synergies\nmolecule_synergies_view\nmolecules\nmolecules_recettes\nperfumum_molecules\nperfumum_plant_molecules\nperique_molecule_links\npetrichor_molecules\nplant_molecules\nprototype_molecules\npublication_molecule_links\npublication_molecules\nraw_material_molecules\nrecette_molecules\ntabac_molecule_links\ntabac_molecules\nterp_profile_molecules\ntps_gene_molecules\ntps_molecule_links\nvariety_molecules\nvolcanique_molecules\nTables_in_H2pjHHJbH276XmnbNcJhCp (%molecules%)\nbiotech_molecules\nlaboratoire_molecules\nleaf_economy_molecules\nlost_molecules\nmolecules\nmolecules_recettes\nperfumum_molecules\nperfumum_plant_molecules\npetrichor_molecules\nplant_molecules\nprototype_molecules\npublication_molecules\nraw_material_molecules\nrecette_molecules\ntabac_molecules\nterp_profile_molecules\ntps_gene_molecules\nvariety_molecules\nvolcanique_molecules\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}
