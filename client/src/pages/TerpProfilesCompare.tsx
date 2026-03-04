@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 // Radar Chart Component for comparison
 function ComparisonRadarChart({ profiles }: { profiles: any[] }) {
@@ -276,6 +277,7 @@ export default function TerpProfilesCompare() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <Breadcrumbs />
       <Header />
       <main className="flex-1 container py-8">
         {/* Header */}

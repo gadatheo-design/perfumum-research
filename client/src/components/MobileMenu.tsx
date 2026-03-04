@@ -140,8 +140,8 @@ const mobileMenuSections: MenuSection[] = [
     icon: BookOpen,
     items: [
       { href: "/methodologie/absorbe", label: "Présentation" },
-      { href: "/methodologie/echelle", label: "Échelle de classification" },
-      { href: "/methodologie/gcms", label: "GC-MS & Pyrolyse" },
+      { href: "/methodologie/echelle-absorbe", label: "Échelle de classification" },
+      { href: "/methodologie/gc-ms", label: "GC-MS & Pyrolyse" },
       { href: "/methodes-analytiques", label: "Méthodes Analytiques", badge: "NEW" },
     ],
   },
@@ -151,7 +151,7 @@ const mobileMenuSections: MenuSection[] = [
     items: [
       { href: "/axes-recherche", label: "Vue d'ensemble" },
       { href: "/bibliographie", label: "Bibliographie" },
-      { href: "/export-bibliographique", label: "Export bibliographique" },
+      { href: "/outils/export-bibliographique", label: "Export bibliographique" },
     ],
   },
   {

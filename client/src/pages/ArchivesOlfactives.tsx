@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollText, Search, Calendar, MapPin, CheckCircle2, HelpCircle, AlertCircle } from 'lucide-react';
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function ArchivesOlfactives() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,6 +35,7 @@ export default function ArchivesOlfactives() {
 
   return (
     <div className="container mx-auto py-8 space-y-8">
+      <Breadcrumbs />
       {/* En-tête */}
       <div className="space-y-4">
         <div className="flex items-center gap-3">

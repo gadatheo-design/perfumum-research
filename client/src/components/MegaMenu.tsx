@@ -695,13 +695,13 @@ export function MegaMenu() {
         },
         {
           label: "Échelle de classification",
-          path: "/methodologie/echelle",
+          path: "/methodologie/echelle-absorbe",
           icon: <Layers className="h-4 w-4" />,
           description: "Système de notation",
         },
         {
           label: "GC-MS & Pyrolyse",
-          path: "/methodologie/gcms",
+          path: "/methodologie/gc-ms",
           icon: <Microscope className="h-4 w-4" />,
           description: "Analyses chromatographiques",
         },
@@ -732,7 +732,7 @@ export function MegaMenu() {
         },
         {
           label: "Export bibliographique",
-          path: "/export-bibliographique",
+          path: "/outils/export-bibliographique",
           icon: <Download className="h-4 w-4" />,
           description: "BibTeX, RIS, EndNote",
         },

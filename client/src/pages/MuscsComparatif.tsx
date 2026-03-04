@@ -226,9 +226,9 @@ export default function MuscsComparatif() {
   const perfumsByMolecule: Record<string, string[]> = {};
   if (allLinks) {
     for (const link of allLinks as any[]) {
-      const key = link.molecule_name?.toLowerCase() || "";
+      const key = (link.moleculeName || link.molecule_name || "").toLowerCase();
       if (!perfumsByMolecule[key]) perfumsByMolecule[key] = [];
-      perfumsByMolecule[key].push(link.perfume_name);
+      perfumsByMolecule[key].push(link.perfumeName || link.perfume_name || "");
     }
   }
 

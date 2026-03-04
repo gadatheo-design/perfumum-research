@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 // Recipe Type Icon Component
 function RecipeTypeIcon({ type }: { type: string }) {
@@ -252,6 +253,7 @@ export default function FinalRecipes() {
     <>
       <Header />
       <div className="container py-8 space-y-8">
+      <Breadcrumbs />
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>

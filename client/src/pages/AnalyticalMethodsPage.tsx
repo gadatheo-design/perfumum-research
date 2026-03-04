@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { 
   Search, 
   FlaskConical, 
@@ -96,6 +97,7 @@ export default function AnalyticalMethodsPage() {
   if (isLoading) {
     return (
       <div className="container py-8">
+      <Breadcrumbs />
         <Skeleton className="h-12 w-64 mb-8" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {[1, 2, 3].map(i => <Skeleton key={i} className="h-24" />)}

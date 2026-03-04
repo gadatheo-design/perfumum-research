@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import {
   Accordion,
   AccordionContent,
@@ -382,6 +383,7 @@ export default function RecettesTL() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950/20 dark:to-background">
+      <Breadcrumbs />
         <Header />
         <main className="container py-8">
           <div className="flex items-center justify-center h-64">

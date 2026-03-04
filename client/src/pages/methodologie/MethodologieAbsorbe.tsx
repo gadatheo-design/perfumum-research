@@ -3,10 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { Microscope, FlaskConical, TestTube, FileText } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function MethodologieAbsorbe() {
   return (
     <div className="container mx-auto py-8 space-y-8">
+      <Breadcrumbs />
       {/* Breadcrumb */}
       <Breadcrumb
         items={[

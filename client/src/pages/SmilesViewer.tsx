@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, Atom, Download, ExternalLink, Loader2, Info, FlaskConical } from "lucide-react";
 import { Link } from "wouter";
 import SmilesDrawer from "smiles-drawer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 interface MoleculeWithSmiles {
   id: number;
@@ -124,6 +125,7 @@ export default function SmilesViewer() {
       {/* Header */}
       <div className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container py-6">
+      <Breadcrumbs />
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 bg-primary/10 rounded-lg">
               <Atom className="h-6 w-6 text-primary" />

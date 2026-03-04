@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { FlaskConical, LineChart, Thermometer, Target, Download } from "lucide-react";
 import { Link } from "wouter";
 import { exportMethodologyPDF } from "@/lib/pdfExport";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function GCMS() {
   const handleExportPDF = () => {
@@ -75,6 +76,7 @@ export default function GCMS() {
         {/* Hero */}
         <section className="py-16 bg-gradient-to-b from-blue-50/30 to-background">
           <div className="container">
+      <Breadcrumbs />
             <div className="max-w-4xl mx-auto">
               <Link href="/methode" className="text-sm text-muted-foreground hover:text-foreground mb-4 inline-block">
                   ← Retour à la Méthode ABSORBE

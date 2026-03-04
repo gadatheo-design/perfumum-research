@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "wouter";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { 
   Search, 
   MapPin, 
@@ -129,6 +130,7 @@ export default function ChemotypesExplorer() {
   if (isLoading) {
     return (
       <div className="container py-8">
+      <Breadcrumbs />
         <Skeleton className="h-12 w-64 mb-8" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {[1, 2, 3].map(i => <Skeleton key={i} className="h-24" />)}

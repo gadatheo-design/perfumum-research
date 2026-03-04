@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 // Radar Chart Component for Terp Profile visualization
 function TerpRadarChart({ profile }: { profile: any }) {
@@ -250,6 +251,7 @@ export default function TerpProfiles() {
     <>
       <Header />
       <div className="container py-8 space-y-8">
+      <Breadcrumbs />
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>

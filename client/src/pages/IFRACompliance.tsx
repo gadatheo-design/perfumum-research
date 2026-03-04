@@ -20,6 +20,7 @@ import {
   FlaskConical
 } from "lucide-react";
 import { Link } from "wouter";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function IFRACompliance() {
   const [isEnriching, setIsEnriching] = useState(false);
@@ -84,6 +85,7 @@ export default function IFRACompliance() {
 
   return (
     <div className="container py-8 space-y-8">
+      <Breadcrumbs />
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>

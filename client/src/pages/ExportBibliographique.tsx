@@ -11,6 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { 
   BookOpen, 
   Copy, 
@@ -139,6 +140,7 @@ export default function ExportBibliographique() {
 
   return (
     <div className="container py-8 max-w-7xl">
+      <Breadcrumbs />
       <div className="flex items-center gap-4 mb-8">
         <BookOpen className="h-8 w-8 text-primary" />
         <div>

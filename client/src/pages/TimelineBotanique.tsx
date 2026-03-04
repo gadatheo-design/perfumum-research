@@ -2,6 +2,7 @@
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { 
   Wind, 
   TreeDeciduous, 
@@ -143,6 +144,7 @@ export default function TimelineBotanique() {
       {/* Header */}
       <div className="bg-emerald-900 text-white py-12 px-4">
         <div className="container max-w-6xl">
+      <Breadcrumbs />
           <div className="flex items-center gap-2 text-emerald-300 text-sm mb-4">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-4 w-4" />

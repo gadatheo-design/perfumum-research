@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BookOpen, ArrowLeft, Lightbulb, Target, Layers } from "lucide-react";
 import { Link } from "wouter";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function EchelleAbsorbe() {
   return (
@@ -16,6 +17,7 @@ export default function EchelleAbsorbe() {
         {/* Hero */}
         <section className="section-spacing bg-gradient-to-b from-blue-50/50 to-background dark:from-blue-950/20">
           <div className="container">
+      <Breadcrumbs />
             <div className="max-w-4xl mx-auto">
               <Link href="/methodologie/absorbe">
                 <Button variant="ghost" size="sm" className="mb-6">

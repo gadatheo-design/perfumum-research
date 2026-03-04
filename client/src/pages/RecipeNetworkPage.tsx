@@ -5,6 +5,7 @@ import { RecipeNetworkGraph } from "@/components/charts/RecipeNetworkGraph";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export function RecipeNetworkPage() {
   const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
@@ -81,6 +82,7 @@ export function RecipeNetworkPage() {
   if (isLoading) {
     return (
       <div className="container py-8">
+      <Breadcrumbs />
         <Card>
           <CardHeader>
             <Skeleton className="h-8 w-64" />

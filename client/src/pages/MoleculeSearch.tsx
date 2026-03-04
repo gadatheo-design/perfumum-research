@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Beaker, Leaf, Search, Loader2 } from "lucide-react";
 import { Link } from "wouter";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function MoleculeSearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,6 +29,7 @@ export default function MoleculeSearch() {
 
   return (
     <div className="container py-8 max-w-6xl">
+      <Breadcrumbs />
       {/* Header */}
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold mb-2 flex items-center justify-center gap-3">

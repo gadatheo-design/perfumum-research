@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { 
   FlaskConical, 
   AlertTriangle, 
@@ -66,6 +67,7 @@ export default function OsmothequeMolecules() {
   if (isLoading) {
     return (
       <div className="container py-8">
+      <Breadcrumbs />
         <Skeleton className="h-10 w-64 mb-6" />
         <div className="grid gap-4">
           {[1, 2, 3, 4].map((i) => (

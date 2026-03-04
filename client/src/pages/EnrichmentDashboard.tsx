@@ -20,6 +20,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function EnrichmentDashboard() {
   const { user } = useAuth();
@@ -103,6 +104,7 @@ export default function EnrichmentDashboard() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container max-w-6xl py-8">
+      <Breadcrumbs />
         {/* Navigation */}
         <Link href="/molecules" className="inline-flex items-center gap-2 text-primary hover:underline mb-6">
           <ArrowLeft className="h-4 w-4" />

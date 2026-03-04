@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { 
   Leaf, 
   Wind, 
@@ -103,6 +104,7 @@ export default function LeafEconomies() {
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-gray-900">
       <div className="bg-emerald-900 text-white py-12 px-4">
         <div className="container max-w-6xl">
+      <Breadcrumbs />
           <div className="flex items-center gap-2 text-emerald-300 text-sm mb-4">
             <Link href="/" className="hover:text-white transition-colors">Accueil</Link>
             <ChevronRight className="h-4 w-4" />

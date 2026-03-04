@@ -104,11 +104,6 @@ import C4TerraAmbra from "./pages/prototypes/C4";
 
 // === GAMMES ===
 import Gammes from "./pages/Gammes";
-import GammesPetrichor from "@/pages/GammesPetrichor";
-import GammesVolcanique from "@/pages/GammesVolcanique";
-import GammesGlaciaire from "@/pages/GammesGlaciaire";
-import GammesBioLab from "@/pages/GammesBioLab";
-import GammesMossi from "./pages/GammesMossi";
 import GammesHub from "./pages/GammesHub";
 import GammeSignatures from "./pages/GammeSignatures";
 import GammePheromones from "./pages/GammePheromones";
@@ -175,18 +170,13 @@ const SynergiesHeatmap = lazy(() => import("./pages/SynergiesHeatmap").then(m =>
 const RecipeNetworkPage = lazy(() => import("./pages/RecipeNetworkPage").then(m => ({ default: m.RecipeNetworkPage })));
 const SankeyFlow = lazy(() => import("./pages/SankeyFlow"));
 const EnhancedRadarDemo = lazy(() => import("./pages/EnhancedRadarDemo"));
-import AdvancedSearch from "./pages/AdvancedSearch";
 import CrossSearch from "./pages/CrossSearch";
 const RechercheAvancee = lazy(() => import("./pages/RechercheAvancee"));
 import RechercheProfilMoleculaire from "./pages/RechercheProfilMoleculaire";
 import RecipeTimeline from "./pages/RecipeTimeline";
-import FormulesReference from "./pages/FormulesReference";
 const RadarCorrelationHeatmap = lazy(() => import("./pages/RadarCorrelationHeatmap"));
 
 // === OUTILS ===
-import OutilsFormulation from "./pages/OutilsFormulation";
-import ProportionsCalculator from "./pages/ProportionsCalculator";
-import DilutionCalculator from "./pages/DilutionCalculator";
 import CorrelationAnalysis from "./pages/CorrelationAnalysis";
 import { AbsorbeScale } from "@/pages/AbsorbeScale";
 import EnrichissementPubChem from "./pages/EnrichissementPubChem";
@@ -337,7 +327,6 @@ import Installations from "./pages/Installations";
 import TabacsResines from "./pages/TabacsResines";
 import Associations from "./pages/Associations";
 import Fournisseurs from "./pages/Fournisseurs";
-import CalculateurCout from "./pages/CalculateurCout";
 
 // === DASHBOARDS ===
 import { DashboardMinimal } from "./pages/DashboardMinimal";

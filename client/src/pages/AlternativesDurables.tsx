@@ -24,6 +24,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { Link } from 'wouter';
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import {
   Accordion,
   AccordionContent,
@@ -133,6 +134,7 @@ export default function AlternativesDurables() {
 
   return (
     <div className="container mx-auto py-8 space-y-8">
+      <Breadcrumbs />
       {/* En-tête */}
       <div className="space-y-4">
         <div className="flex items-center gap-3">
