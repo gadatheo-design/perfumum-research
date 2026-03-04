@@ -480,3 +480,38 @@
 - [x] Enrichir saponines (Diosgenin, Glycyrrhizin)
 - [x] Enrichir flavonoïdes (Quercetin, Kaempferol, Luteolin, Naringenin, Apigenin, Catechin, Epicatechin, Rutin, Hesperidin)
 - [x] **Atteindre 35% de couverture thérapeutique : 612/1746 molécules (35.1%)** ✅
+
+
+---
+
+## 🌿 SESSION 6 MARS 2026 — GC-MS plantes à parfum, Batch 8, Page Synergies
+
+### Phase 1 : Enrichissement GC-MS plantes à parfum
+- [x] Enrichir Rosa damascena (2-Phénylethanol 60-70%, Citronellol 15-20%, Géraniol 10-15%) — ISO 9842
+- [x] Enrichir Rosa centifolia (2-Phénylethanol 65%, Citronellol 18%, Nonadecane 8%) — Baser & Buchbauer 2010
+- [x] Enrichir Lavandula angustifolia (Linalool 25-38%, Linalyl acetate 25-45%, Lavandulol 3-6%) — ISO 3515
+- [x] Enrichir Lavandula × intermedia (Linalool 20-35%, Linalyl acetate 20-40%, Camphor 5-12%) — ISO 8902
+- [x] Enrichir Jasminum grandiflorum (Benzyl acetate 15-28%, Linalool 6-15%, Methyl jasmonate 0.5-2%) — ISO 3063
+- [x] Enrichir Jasminum sambac (Benzyl acetate 20-35%, Linalool 8-18%, Indole 2-5%) — Tisserand & Young 2014
+- [x] Enrichir Citrus bergamia (Linalyl acetate 25-40%, Linalool 10-20%, Bergaptène 0.3-0.5%) — ISO 3520
+- [x] Enrichir Cananga odorata (Benzyl acetate 15-25%, Linalool 8-15%, β-Caryophyllene 10-18%) — ISO 9843
+- [x] 6 nouvelles molécules créées (2-Phénylethanol, Bergaptène, Nonadecane, Methyl jasmonate, p-Crésyl méthyl éther, β-Ocimène)
+- [x] 34 liaisons créées + 15 mises à jour avec données GC-MS précises
+
+### Phase 2 : Batch 8 thérapeutique (35% → 40%)
+- [x] Enrichir polyphénols (Acide tannique, Procyanidines, Anthocyanines, Acide gallique, Acide chlorogénique)
+- [x] Enrichir alcaloïdes xanthiques (Caféine, Théobromine, Théophylline, Paraxanthine)
+- [x] Enrichir glucosinolates (Sinigrine, Glucoraphanine, Gluconapin, Glucobrassicine, Glucoerucine)
+- [x] Enrichir caroténoïdes (β-Carotène, Lycopène, Lutéine, Zéaxanthine, Astaxanthine, Fucoxanthine)
+- [x] Enrichir phytostérols (β-Sitostérol, Stigmastérol, Campéstérol)
+- [x] Enrichir vitamines (Acide ascorbique, α-Tocophérol, Riboflavine)
+- [x] Enrichir sesquiterpènes lactones (Artémisinine, Parthénolide, Costunolide, Alantolactone)
+- [x] **Atteindre 40% de couverture thérapeutique : 754/1886 molécules (40.0%)** ✅
+
+### Phase 3 : Synergies moléculaires
+- [x] Corriger getAllMoleculeSynergies (chemicalClass → family, chemical_class → family)
+- [x] Ajouter 5 synergies de masquage (Vanilline/soufre, Linalol/vert, Géraniol/indole, Benzyl acetate/acide, Eugénol/gaïacol)
+- [x] Ajouter 3 synergies de neutralisation (Linalol/Limonène, Camphre/Menthol, Indole/Rose oxide)
+- [x] Créer 5 molécules manquantes (Dimethyl sulfide, cis-3-Hexenol, Geraniol, Acetic acid, Eugenol)
+- [x] Distribution finale : potentialisation 38, transformation 16, masquage 15, stabilisation 8, neutralisation 6 (total : 83)
+- [x] TypeScript : 0 erreur ✅

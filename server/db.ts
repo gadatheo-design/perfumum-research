@@ -4044,9 +4044,9 @@ export async function getAllMoleculeSynergies() {
       description: moleculeSynergies.description,
       applications: moleculeSynergies.applications,
       molecule1Name: molecules.name,
-      molecule1Family: molecules.chemicalClass,
+      molecule1Family: molecules.family,
       molecule2Name: sql<string>`m2.name`,
-      molecule2Family: sql<string>`m2.chemical_class`,
+      molecule2Family: sql<string>`m2.family`,
     })
     .from(moleculeSynergies)
     .leftJoin(molecules, eq(moleculeSynergies.molecule1Id, molecules.id))
