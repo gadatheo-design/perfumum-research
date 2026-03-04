@@ -762,6 +762,41 @@ export default function MoleculeDetail() {
                     maxPercent={(molecule as any).ifra_max_percent}
                     reason={(molecule as any).ifra_reason}
                   />
+                  {/* Badge CITES — matières animales protégées */}
+                  {(() => {
+                    const citesKeywords = ['Ambre Gris', 'Castoreum', 'Hyraceum', 'Civette', 'Civettone', 'Muscone', 'Musc de Daim', 'Musc de Chevrotain'];
+                    const synthAlternatives: Record<string, string> = {
+                      'Ambre Gris': 'Ambroxan (dérivé de Sclareol)',
+                      'Castoreum': 'Castoréum synthétique — mélange Birch Tar + Phenols',
+                      'Hyraceum': 'Ambroxan + Civettone synthétique',
+                      'Civette': 'Civettone synthétique (Ruzicka 1926)',
+                      'Civettone': 'Civettone synthétique (Ruzicka 1926)',
+                      'Muscone': 'Muscone synthétique / Habanolide / Exaltolide',
+                    };
+                    const matchedKey = citesKeywords.find(k => molecule.name?.toLowerCase().includes(k.toLowerCase()));
+                    if (!matchedKey) return null;
+                    const altText = Object.keys(synthAlternatives).find(k => molecule.name?.includes(k));
+                    return (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Badge className="text-sm bg-red-600 text-white border-red-700 gap-1 cursor-help">
+                              <AlertTriangle className="h-3 w-3" />
+                              CITES
+                            </Badge>
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs">
+                            <p className="font-semibold text-red-600 mb-1">⚠️ Matière animale protégée (CITES)</p>
+                            <p className="text-xs mb-2">Cette substance est issue d’une espèce protégée par la Convention sur le commerce international des espèces sauvages menacées d’extinction. Son utilisation en parfumerie nécessite des alternatives synthétiques.</p>
+                            {altText && (
+                              <p className="text-xs font-medium text-green-700">✨ Alternative recommandée : {synthAlternatives[altText]}</p>
+                            )}
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    );
+                  })()}
+
                   {/* Badge inter-domaines : lien vers la page /correlations */}
                   <Link href={`/correlations?q=${encodeURIComponent(molecule.name)}`}>
                     <Badge
