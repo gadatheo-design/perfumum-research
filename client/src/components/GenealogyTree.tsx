@@ -65,6 +65,7 @@ export const GenealogyTree: React.FC<GenealogyTreeProps> = ({ varietyId, variety
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [relationshipFilter, setRelationshipFilter] = useState<string | null>(null);
   const { fitView } = useReactFlow();
 
   // Récupérer les données généalogiques
@@ -98,7 +99,7 @@ export const GenealogyTree: React.FC<GenealogyTreeProps> = ({ varietyId, variety
 
         return {
           id: node.id,
-          data: { label: node.label, type: node.type },
+          data: { label: node.label, type: node.type, depth: node.depth || 0 },
           position: { x, y },
           type: 'variety',
           style: {
@@ -149,6 +150,25 @@ export const GenealogyTree: React.FC<GenealogyTreeProps> = ({ varietyId, variety
     }
   }, [genealogyData, setNodes, setEdges, fitView]);
 
+  // Filtrer les nœuds et liens selon les critères
+  const filteredNodes = nodes.filter(node => {
+    if (!relationshipFilter) return true;
+    if (relationshipFilter === 'root') return node.data.type === 'root';
+    if (relationshipFilter === 'ancestors') return node.data.type === 'ancestor' || node.data.type === 'root';
+    if (relationshipFilter === 'descendants') return node.data.type === 'descendant' || node.data.type === 'root';
+    return true;
+  });
+
+  const filteredEdges = edges.filter(edge => {
+    const sourceNode = nodes.find(n => n.id === edge.source);
+    const targetNode = nodes.find(n => n.id === edge.target);
+    if (!sourceNode || !targetNode) return false;
+    if (!relationshipFilter) return true;
+    if (relationshipFilter === 'ancestors') return filteredNodes.some(n => n.id === sourceNode.id) && filteredNodes.some(n => n.id === targetNode.id);
+    if (relationshipFilter === 'descendants') return filteredNodes.some(n => n.id === sourceNode.id) && filteredNodes.some(n => n.id === targetNode.id);
+    return true;
+  });
+
   if (isLoading || loading) {
     return (
       <div className="w-full h-96 flex items-center justify-center bg-gray-50 rounded border border-gray-200">
@@ -179,65 +199,91 @@ export const GenealogyTree: React.FC<GenealogyTreeProps> = ({ varietyId, variety
     );
   }
 
-  return (
-    <div className="w-full h-96 bg-white rounded border border-gray-200 overflow-hidden">
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        nodeTypes={nodeTypes}
-        fitView
-      >
-        <Background color="#aaa" gap={16} />
-        <Controls />
-        <MiniMap />
-      </ReactFlow>
+  const maxDepth = Math.max(...nodes.map(n => n.data.depth || 0), 0);
 
-      {/* Légende */}
-      <div className="absolute bottom-4 left-4 bg-white rounded border border-gray-200 shadow-md p-3 text-xs">
-        <div className="font-semibold mb-2">Légende</div>
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-blue-100 border border-blue-500 rounded"></div>
-            <span>Variété actuelle</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-purple-100 border border-purple-500 rounded"></div>
-            <span>Ancêtre</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-green-100 border border-green-500 rounded"></div>
-            <span>Descendant</span>
-          </div>
-        </div>
-        <div className="mt-2 border-t pt-2 flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-0.5 bg-orange-400"></div>
-            <span>Hybride</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-0.5 bg-purple-500"></div>
-            <span>Clone</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-0.5 bg-blue-500"></div>
-            <span>Parent</span>
-          </div>
+  return (
+    <div className="w-full space-y-3">
+      {/* Filtres */}
+      <div className="bg-gray-50 p-3 rounded border border-gray-200 space-y-2">
+        <div className="text-xs font-semibold text-gray-700">Filtres généalogiques</div>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setRelationshipFilter(null)}
+            className={`px-3 py-1 rounded text-xs font-medium transition ${
+              relationshipFilter === null
+                ? 'bg-blue-500 text-white'
+                : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            Tous
+          </button>
+          <button
+            onClick={() => setRelationshipFilter('ancestors')}
+            className={`px-3 py-1 rounded text-xs font-medium transition ${
+              relationshipFilter === 'ancestors'
+                ? 'bg-purple-500 text-white'
+                : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            ↑ Ancêtres
+          </button>
+          <button
+            onClick={() => setRelationshipFilter('descendants')}
+            className={`px-3 py-1 rounded text-xs font-medium transition ${
+              relationshipFilter === 'descendants'
+                ? 'bg-green-500 text-white'
+                : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            ↓ Descendants
+          </button>
         </div>
       </div>
 
       {/* Statistiques */}
-      <div className="absolute top-4 right-4 bg-white rounded border border-gray-200 shadow-md p-3 text-xs">
-        <div className="font-semibold mb-2">{varietyName}</div>
-        <div className="flex flex-col gap-1 text-gray-600">
-          <div>Ancêtres : {genealogyData.ancestorCount}</div>
-          <div>Descendants : {genealogyData.descendantCount}</div>
-          <div>Total : {genealogyData.nodes.length} variétés</div>
+      <div className="bg-blue-50 p-3 rounded border border-blue-200 text-xs text-blue-800">
+        <div className="font-semibold mb-1">Statistiques</div>
+        <div className="grid grid-cols-3 gap-2">
+          <div>Nœuds : <span className="font-bold">{filteredNodes.length}</span></div>
+          <div>Liens : <span className="font-bold">{filteredEdges.length}</span></div>
+          <div>Générations : <span className="font-bold">{maxDepth + 1}</span></div>
         </div>
+      </div>
+
+      {/* Arbre généalogique */}
+      <div className="w-full h-96 bg-white rounded border border-gray-200 overflow-hidden">
+        <ReactFlow
+          nodes={filteredNodes}
+          edges={filteredEdges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          nodeTypes={nodeTypes}
+          fitView
+        >
+          <Background color="#aaa" gap={16} />
+          <Controls />
+          <MiniMap />
+
+          {/* Légende */}
+          <div className="absolute bottom-4 left-4 bg-white rounded border border-gray-200 shadow-md p-3 text-xs">
+            <div className="font-semibold mb-2">Légende</div>
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-blue-100 border border-blue-500 rounded"></div>
+                <span>Variété actuelle</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-purple-100 border border-purple-500 rounded"></div>
+                <span>Ancêtre</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-green-100 border border-green-500 rounded"></div>
+                <span>Descendant</span>
+              </div>
+            </div>
+          </div>
+        </ReactFlow>
       </div>
     </div>
   );
-};
-
-export default GenealogyTree;
+}

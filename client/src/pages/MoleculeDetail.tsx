@@ -776,7 +776,7 @@ export default function MoleculeDetail() {
 
           {/* Tabs pour organiser le contenu */}
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-8">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-9">
               <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
               <TabsTrigger value="scientific">Données scientifiques</TabsTrigger>
               <TabsTrigger value="transformations">Transformations</TabsTrigger>
@@ -784,6 +784,7 @@ export default function MoleculeDetail() {
               <TabsTrigger value="pyrolysis">Pyrolyse</TabsTrigger>
               <TabsTrigger value="plants">Plantes sources</TabsTrigger>
               <TabsTrigger value="origins">Origines géographiques</TabsTrigger>
+              <TabsTrigger value="therapeutic">Propriétés</TabsTrigger>
               <TabsTrigger value="ifra">Réglementation IFRA</TabsTrigger>
             </TabsList>
 
@@ -1738,6 +1739,80 @@ export default function MoleculeDetail() {
                   Consulter les standards IFRA <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
+            </TabsContent>
+
+            {/* Onglet Propriétés thérapeutiques */}
+            <TabsContent value="therapeutic" className="space-y-6 mt-6">
+              {molecule.therapeuticProperties ? (
+                <div className="space-y-4">
+                  <div className="bg-green-50 dark:bg-green-950/30 p-6 rounded-lg border border-green-200 dark:border-green-800">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Shield className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      <h3 className="text-lg font-semibold text-green-900 dark:text-green-100">Propriétés thérapeutiques</h3>
+                    </div>
+                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                      <p className="whitespace-pre-wrap text-green-800 dark:text-green-200">{molecule.therapeuticProperties}</p>
+                    </div>
+                  </div>
+
+                  {/* Badges de propriétés */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {molecule.therapeuticProperties && (
+                      <>
+                        {molecule.therapeuticProperties.includes('antioxydant') && (
+                          <div className="p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-800">
+                            <h4 className="font-medium text-amber-900 dark:text-amber-100 mb-2 flex items-center gap-2">
+                              <Zap className="h-4 w-4" />
+                              Antioxydant
+                            </h4>
+                            <p className="text-sm text-amber-800 dark:text-amber-200">Aide à neutraliser les radicaux libres et protéger les cellules du stress oxydatif.</p>
+                          </div>
+                        )}
+                        {molecule.therapeuticProperties.includes('anti-inflammatoire') && (
+                          <div className="p-4 bg-red-50 dark:bg-red-950/30 rounded-lg border border-red-200 dark:border-red-800">
+                            <h4 className="font-medium text-red-900 dark:text-red-100 mb-2 flex items-center gap-2">
+                              <Shield className="h-4 w-4" />
+                              Anti-inflammatoire
+                            </h4>
+                            <p className="text-sm text-red-800 dark:text-red-200">Aide à réduire l'inflammation et les réactions inflammatoires.</p>
+                          </div>
+                        )}
+                        {molecule.therapeuticProperties.includes('antimicrobien') && (
+                          <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
+                            <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2 flex items-center gap-2">
+                              <Beaker className="h-4 w-4" />
+                              Antimicrobien
+                            </h4>
+                            <p className="text-sm text-blue-800 dark:text-blue-200">Possède des propriétés antibactériennes et antivirales.</p>
+                          </div>
+                        )}
+                        {molecule.therapeuticProperties.includes('analgésique') && (
+                          <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg border border-purple-200 dark:border-purple-800">
+                            <h4 className="font-medium text-purple-900 dark:text-purple-100 mb-2 flex items-center gap-2">
+                              <Thermometer className="h-4 w-4" />
+                              Analgésique
+                            </h4>
+                            <p className="text-sm text-purple-800 dark:text-purple-200">Aide à soulager la douleur et l'inconvénient.</p>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+
+                  {/* Note de source */}
+                  <div className="p-4 bg-slate-50 dark:bg-slate-950/30 rounded-lg border border-slate-200 dark:border-slate-800">
+                    <p className="text-xs text-slate-600 dark:text-slate-400">
+                      <strong>Sources :</strong> Les propriétés thérapeutiques sont basées sur la littérature scientifique (PMC, EFSA, ISO) et les études ethnobotaniques. Ces informations sont à titre informatif et ne constituent pas un avis médical.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-12 text-muted-foreground">
+                  <Shield className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                  <p>Aucune propriété thérapeutique documentée pour cette molécule.</p>
+                  <p className="text-sm mt-2">Les données thérapeutiques seront ajoutées progressivement.</p>
+                </div>
+              )}
             </TabsContent>
           </Tabs>
         </div>

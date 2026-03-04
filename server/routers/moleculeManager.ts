@@ -117,14 +117,14 @@ export const moleculeManagerRouter = router({
           recipe_links: (rlResult as any[])[0]?.c ?? 0,
           family_links: (flResult as any[])[0]?.c ?? 0,
           ifra_links: (ilResult as any[])[0]?.c ?? 0,
-        });
+        })
       }
 
       result.push({
         nameNormalized: group.name_normalized,
         count: group.count,
         molecules,
-      });
+      })
     }
 
     return result;
@@ -290,7 +290,7 @@ export const moleculeManagerRouter = router({
           keepId,
           removeIds,
           count: group.count,
-        });
+        })
       }
 
       return {
@@ -464,7 +464,7 @@ export const moleculeManagerRouter = router({
           family: p.family,
           category: p.category,
         })),
-      });
+      })
     }
     return result;
   }),
@@ -597,7 +597,7 @@ export const moleculeManagerRouter = router({
           label: a.parent_name,
           type: 'ancestor',
           depth: a.depth,
-        });
+        })
       }
       links.push({
         source: String(a.parent_variety_id),
@@ -605,8 +605,8 @@ export const moleculeManagerRouter = router({
         type: a.relationship_type,
         breeder: a.breeder,
         notes: a.notes,
-      });
-    });
+      })
+    })
 
     // Ajouter les descendants
     (descendants as any[]).forEach(d => {
@@ -616,7 +616,7 @@ export const moleculeManagerRouter = router({
           label: d.variety_name,
           type: 'descendant',
           depth: d.depth,
-        });
+        })
       }
       links.push({
         source: String(d.parent_variety_id),
@@ -624,8 +624,8 @@ export const moleculeManagerRouter = router({
         type: d.relationship_type,
         breeder: d.breeder,
         notes: d.notes,
-      });
-    });
+      })
+    })
 
     return {
       variety: {
@@ -638,7 +638,7 @@ export const moleculeManagerRouter = router({
       ancestorCount: (ancestors as any[]).length,
       descendantCount: (descendants as any[]).length,
     };
-      }),
+  }),
 
 
 });
