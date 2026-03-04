@@ -6,48 +6,45 @@
 import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-
-const db = { execute: async (sql: string, params?: any[]) => {
-  const database = await getDb();
-  return (database as any).execute(sql, params);
-} };
-
 import { molecules, plants } from "../../drizzle/schema";
-import { eq, sql, and, or } from "drizzle-orm";
-import type { InferSelectModel } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 /**
  * Analyser les doublons de molécules
  */
 async function analyzeMoleculeDuplicates() {
-  // Récupérer toutes les molécules
-  const allMolecules = await db.query.molecules.findMany({
-    columns: {
-      id: true,
-      nom: true,
-      cas_number: true,
-      smiles: true,
-      description: true,
-    },
-  });
+  const db = await getDb();
+  if (!db) return {
+    total: 0, uniqueNames: 0, uniqueCAS: 0, uniqueSMILES: 0,
+    nameDuplicates: [], casDuplicates: [], smilesDuplicates: [],
+    totalDuplicates: 0, duplicationRate: "0%"
+  };
+
+  // Récupérer toutes les molécules avec les bons noms de colonnes
+  const allMolecules = await db.select({
+    id: molecules.id,
+    name: molecules.name,
+    casNumber: molecules.casNumber,
+    smiles: molecules.smiles,
+  }).from(molecules);
 
   // Grouper par nom
   const byName = new Map<string, typeof allMolecules>();
   allMolecules.forEach((m) => {
-    if (m.nom) {
-      const existing = byName.get(m.nom) || [];
+    if (m.name) {
+      const existing = byName.get(m.name) || [];
       existing.push(m);
-      byName.set(m.nom, existing);
+      byName.set(m.name, existing);
     }
   });
 
   // Grouper par CAS
   const byCAS = new Map<string, typeof allMolecules>();
   allMolecules.forEach((m) => {
-    if (m.cas_number && m.cas_number !== "") {
-      const existing = byCAS.get(m.cas_number) || [];
+    if (m.casNumber && m.casNumber !== "") {
+      const existing = byCAS.get(m.casNumber) || [];
       existing.push(m);
-      byCAS.set(m.cas_number, existing);
+      byCAS.set(m.casNumber, existing);
     }
   });
 
@@ -106,7 +103,7 @@ async function analyzeMoleculeDuplicates() {
     casDuplicates,
     smilesDuplicates,
     totalDuplicates,
-    duplicationRate: ((totalDuplicates / allMolecules.length) * 100).toFixed(2) + "%",
+    duplicationRate: ((totalDuplicates / Math.max(allMolecules.length, 1)) * 100).toFixed(2) + "%",
   };
 }
 
@@ -114,55 +111,59 @@ async function analyzeMoleculeDuplicates() {
  * Analyser les doublons de plantes
  */
 async function analyzePlantDuplicates() {
-  // Récupérer toutes les plantes
-  const allPlants = await db.query.plants.findMany({
-    columns: {
-      id: true,
-      scientific_name: true,
-      common_name: true,
-      family: true,
-      description: true,
-    },
-  });
+  const db = await getDb();
+  if (!db) return {
+    total: 0, uniqueScientificNames: 0, uniqueCommonNames: 0,
+    scientificDuplicates: [], commonDuplicates: [],
+    totalDuplicates: 0, duplicationRate: "0%"
+  };
 
-  // Grouper par nom scientifique
+  // Récupérer toutes les plantes avec les bons noms de colonnes
+  const allPlants = await db.select({
+    id: plants.id,
+    latinName: plants.latinName,
+    name: plants.name,
+    family: plants.family,
+  }).from(plants);
+
+  // Grouper par nom latin (scientifique)
   const byScientificName = new Map<string, typeof allPlants>();
   allPlants.forEach((p) => {
-    if (p.scientific_name) {
-      const existing = byScientificName.get(p.scientific_name) || [];
+    if (p.latinName) {
+      const existing = byScientificName.get(p.latinName) || [];
       existing.push(p);
-      byScientificName.set(p.scientific_name, existing);
+      byScientificName.set(p.latinName, existing);
     }
   });
 
   // Grouper par nom commun
   const byCommonName = new Map<string, typeof allPlants>();
   allPlants.forEach((p) => {
-    if (p.common_name && p.common_name !== "") {
-      const existing = byCommonName.get(p.common_name) || [];
+    if (p.name && p.name !== "") {
+      const existing = byCommonName.get(p.name) || [];
       existing.push(p);
-      byCommonName.set(p.common_name, existing);
+      byCommonName.set(p.name, existing);
     }
   });
 
   // Filtrer les doublons
   const scientificDuplicates = Array.from(byScientificName.entries())
-    .filter(([_, plants]) => plants.length > 1)
-    .map(([name, plants]) => ({
+    .filter(([_, ps]) => ps.length > 1)
+    .map(([name, ps]) => ({
       type: "scientific" as const,
       value: name,
-      count: plants.length,
-      plants,
+      count: ps.length,
+      plants: ps,
     }))
     .sort((a, b) => b.count - a.count);
 
   const commonDuplicates = Array.from(byCommonName.entries())
-    .filter(([_, plants]) => plants.length > 1)
-    .map(([name, plants]) => ({
+    .filter(([_, ps]) => ps.length > 1)
+    .map(([name, ps]) => ({
       type: "common" as const,
       value: name,
-      count: plants.length,
-      plants,
+      count: ps.length,
+      plants: ps,
     }))
     .sort((a, b) => b.count - a.count);
 
@@ -177,7 +178,7 @@ async function analyzePlantDuplicates() {
     scientificDuplicates,
     commonDuplicates,
     totalDuplicates,
-    duplicationRate: ((totalDuplicates / allPlants.length) * 100).toFixed(2) + "%",
+    duplicationRate: ((totalDuplicates / Math.max(allPlants.length, 1)) * 100).toFixed(2) + "%",
   };
 }
 
@@ -185,50 +186,37 @@ async function analyzePlantDuplicates() {
  * Fusionner deux molécules
  */
 async function mergeMolecules(keepId: number, mergeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
   try {
     // 1. Récupérer les deux molécules
-    const keepMolecule = await db.query.molecules.findFirst({
-      where: eq(molecules.id, keepId),
-    });
+    const keepResults = await db.select().from(molecules).where(eq(molecules.id, keepId)).limit(1);
+    const mergeResults = await db.select().from(molecules).where(eq(molecules.id, mergeId)).limit(1);
 
-    const mergeMolecule = await db.query.molecules.findFirst({
-      where: eq(molecules.id, mergeId),
-    });
+    const keepMolecule = keepResults[0];
+    const mergeMolecule = mergeResults[0];
 
     if (!keepMolecule || !mergeMolecule) {
       throw new Error("Molécule(s) non trouvée(s)");
     }
 
     // 2. Fusionner les données manquantes dans keepMolecule
-    const updatedData: any = {};
-    
-    // Fusionner les champs si keepMolecule n'a pas de valeur
-    if (!keepMolecule.cas_number && mergeMolecule.cas_number) {
-      updatedData.cas_number = mergeMolecule.cas_number;
+    const updatedData: Record<string, unknown> = {};
+
+    if (!keepMolecule.casNumber && mergeMolecule.casNumber) {
+      updatedData.casNumber = mergeMolecule.casNumber;
     }
     if (!keepMolecule.smiles && mergeMolecule.smiles) {
       updatedData.smiles = mergeMolecule.smiles;
     }
-    if (!keepMolecule.description && mergeMolecule.description) {
-      updatedData.description = mergeMolecule.description;
-    }
 
     // Mettre à jour keepMolecule si nécessaire
     if (Object.keys(updatedData).length > 0) {
-      await db.update(molecules)
-        .set(updatedData)
-        .where(eq(molecules.id, keepId));
+      await db.update(molecules).set(updatedData).where(eq(molecules.id, keepId));
     }
 
-    // 3. Mettre à jour toutes les relations pour pointer vers keepId
-    // Note: Cette partie nécessite d'importer toutes les tables qui référencent molecules
-    // Pour l'instant, nous allons juste supprimer la molécule dupliquée
-    // Dans une implémentation complète, il faudrait mettre à jour:
-    // - plantMolecules.moleculeId
-    // - moleculeSynergies.moleculeId
-    // - Et toutes les autres tables avec molecule_id
-
-    // 4. Supprimer la molécule dupliquée
+    // 3. Supprimer la molécule dupliquée
     await db.delete(molecules).where(eq(molecules.id, mergeId));
 
     return {
@@ -246,50 +234,37 @@ async function mergeMolecules(keepId: number, mergeId: number) {
  * Fusionner deux plantes
  */
 async function mergePlants(keepId: number, mergeId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
   try {
     // 1. Récupérer les deux plantes
-    const keepPlant = await db.query.plants.findFirst({
-      where: eq(plants.id, keepId),
-    });
+    const keepResults = await db.select().from(plants).where(eq(plants.id, keepId)).limit(1);
+    const mergeResults = await db.select().from(plants).where(eq(plants.id, mergeId)).limit(1);
 
-    const mergePlant = await db.query.plants.findFirst({
-      where: eq(plants.id, mergeId),
-    });
+    const keepPlant = keepResults[0];
+    const mergePlant = mergeResults[0];
 
     if (!keepPlant || !mergePlant) {
       throw new Error("Plante(s) non trouvée(s)");
     }
 
     // 2. Fusionner les données manquantes dans keepPlant
-    const updatedData: any = {};
-    
-    // Fusionner les champs si keepPlant n'a pas de valeur
-    if (!keepPlant.common_name && mergePlant.common_name) {
-      updatedData.common_name = mergePlant.common_name;
+    const updatedData: Record<string, unknown> = {};
+
+    if (!keepPlant.latinName && mergePlant.latinName) {
+      updatedData.latinName = mergePlant.latinName;
     }
     if (!keepPlant.family && mergePlant.family) {
       updatedData.family = mergePlant.family;
     }
-    if (!keepPlant.description && mergePlant.description) {
-      updatedData.description = mergePlant.description;
-    }
 
     // Mettre à jour keepPlant si nécessaire
     if (Object.keys(updatedData).length > 0) {
-      await db.update(plants)
-        .set(updatedData)
-        .where(eq(plants.id, keepId));
+      await db.update(plants).set(updatedData).where(eq(plants.id, keepId));
     }
 
-    // 3. Mettre à jour toutes les relations pour pointer vers keepId
-    // Note: Cette partie nécessite d'importer toutes les tables qui référencent plants
-    // Pour l'instant, nous allons juste supprimer la plante dupliquée
-    // Dans une implémentation complète, il faudrait mettre à jour:
-    // - plantMolecules.plantId
-    // - plantVarieties.plantId
-    // - Et toutes les autres tables avec plant_id
-
-    // 4. Supprimer la plante dupliquée
+    // 3. Supprimer la plante dupliquée
     await db.delete(plants).where(eq(plants.id, mergeId));
 
     return {
@@ -332,22 +307,20 @@ export const duplicatesRouter = router({
       })
     )
     .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
       const { type, value } = input;
 
       let condition;
       if (type === "name") {
-        condition = eq(molecules.nom, value);
+        condition = eq(molecules.name, value);
       } else if (type === "cas") {
-        condition = eq(molecules.cas_number, value);
+        condition = eq(molecules.casNumber, value);
       } else {
         condition = eq(molecules.smiles, value);
       }
 
-      const duplicates = await db.query.molecules.findMany({
-        where: condition,
-      });
-
-      return duplicates;
+      return await db.select().from(molecules).where(condition);
     }),
 
   /**
@@ -361,18 +334,16 @@ export const duplicatesRouter = router({
       })
     )
     .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
       const { type, value } = input;
 
       const condition =
         type === "scientific"
-          ? eq(plants.scientific_name, value)
-          : eq(plants.common_name, value);
+          ? eq(plants.latinName, value)
+          : eq(plants.name, value);
 
-      const duplicates = await db.query.plants.findMany({
-        where: condition,
-      });
-
-      return duplicates;
+      return await db.select().from(plants).where(condition);
     }),
 
   /**

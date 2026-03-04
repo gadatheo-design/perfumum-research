@@ -124,10 +124,9 @@ export const chemicalFamiliesRouter = router({
         name: molecules.name,
         smiles: molecules.smiles,
         iupacName: molecules.iupacName,
-        molecularFormula: molecules.molecularFormula,
+        chemicalFormula: molecules.chemicalFormula,
         molecularWeight: molecules.molecularWeight,
         ifraStatus: molecules.ifraStatus,
-        flavornetPercepts: molecules.flavornetPercepts
       }).from(molecules);
 
       // Filter by family
@@ -178,15 +177,12 @@ export const chemicalFamiliesRouter = router({
         name: molecules.name,
         smiles: molecules.smiles,
         iupacName: molecules.iupacName,
-        molecularFormula: molecules.molecularFormula,
+        chemicalFormula: molecules.chemicalFormula,
         molecularWeight: molecules.molecularWeight,
         ifraStatus: molecules.ifraStatus,
-        ifraRestrictions: molecules.ifraRestrictions,
-        flavornetPercepts: molecules.flavornetPercepts,
-        flavornetKovatsIndex: molecules.flavornetKovatsIndex,
         therapeuticProperties: molecules.therapeuticProperties,
-        description: molecules.description,
-        category: molecules.category
+        olfactiveProfile: molecules.olfactiveProfile,
+        chemicalClass: molecules.chemicalClass,
       }).from(molecules);
 
       // Apply filters
@@ -198,7 +194,7 @@ export const chemicalFamiliesRouter = router({
         filtered = filtered.filter(mol => 
           mol.name.toLowerCase().includes(term) ||
           (mol.iupacName && mol.iupacName.toLowerCase().includes(term)) ||
-          (mol.molecularFormula && mol.molecularFormula.toLowerCase().includes(term))
+          (mol.chemicalFormula && mol.chemicalFormula.toLowerCase().includes(term))
         );
       }
 
@@ -211,8 +207,8 @@ export const chemicalFamiliesRouter = router({
       if (input.percept) {
         const perceptLower = input.percept.toLowerCase();
         filtered = filtered.filter(mol => {
-          if (!mol.flavornetPercepts) return false;
-          const percepts = mol.flavornetPercepts.split(',').map(p => p.trim().toLowerCase());
+          if (!mol.olfactiveProfile) return false;
+          const percepts = mol.olfactiveProfile.split(',').map((p: string) => p.trim().toLowerCase());
           return percepts.includes(perceptLower);
         });
       }

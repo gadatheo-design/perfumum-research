@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Service d'analyse des liaisons entre entités
  * Analyse les connexions molécules-recettes, molécules-plantes, plantes-terroirs

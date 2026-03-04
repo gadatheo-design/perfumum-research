@@ -82,9 +82,9 @@ class MetricsCollector {
 
     // Calculer les stats pour chaque endpoint
     const stats: EndpointStats[] = [];
-    for (const [endpoint, entries] of byEndpoint) {
-      const durations = entries.map((e) => e.duration).sort((a, b) => a - b);
-      const successCount = entries.filter((e) => e.success).length;
+    for (const [endpoint, entries] of Array.from(byEndpoint.entries())) {
+      const durations = entries.map((e: MetricEntry) => e.duration).sort((a: number, b: number) => a - b);
+      const successCount = entries.filter((e: MetricEntry) => e.success).length;
 
       stats.push({
         endpoint,
@@ -116,8 +116,8 @@ class MetricsCollector {
     timestamp: string;
   } {
     const stats = this.getStats();
-    const allDurations = this.metrics.map((m) => m.duration);
-    const successCount = this.metrics.filter((m) => m.success).length;
+    const allDurations = this.metrics.map((m: MetricEntry) => m.duration);
+    const successCount = this.metrics.filter((m: MetricEntry) => m.success).length;
 
     return {
       totalRequests: this.metrics.length,

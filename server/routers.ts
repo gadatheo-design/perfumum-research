@@ -658,7 +658,7 @@ export const appRouter = router({
           // Cache par catégorie
           return await withCache(
             `recettes:category:${input.category}`,
-            () => db.getRecettesByCategory(input.category),
+            () => db.getRecettesByCategory(input.category!),
             CACHE_TTL.MEDIUM
           );
         }
@@ -3105,9 +3105,17 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getPlantsWithGPSByCategory(input);
       }),
-    listFamilies: publicProcedure.query(async () => await db.getPlantFamilies()),
-    getByFamily: publicProcedure.input(z.string()).query(async ({ input }) => await db.getPlantsByFamily(input)),
-    getFamilyStats: publicProcedure.query(async () => await db.getPlantFamilyStats()),
+    listFamilies: publicProcedure.query(async () => {
+      const fwc = await db.getPlantFamiliesWithCategories();
+      return fwc.map(f => ({ name: f.family, count: f.count }));
+    }),
+    getByFamily: publicProcedure.input(z.string()).query(async ({ input }) => {
+      return db.getAllPlants ? (await (db as any).getAllPlants()).filter((p: any) => p.family === input) : [];
+    }),
+    getFamilyStats: publicProcedure.query(async () => {
+      const fwc = await db.getPlantFamiliesWithCategories();
+      return fwc.map(f => ({ family: f.family, count: f.count }));
+    }),
     getFamiliesWithCategories: publicProcedure.query(async () => await db.getPlantFamiliesWithCategories()),
   }),
 
@@ -10215,8 +10223,7 @@ Familles olfactives disponibles:
   tobacco: tobaccoRouter,
   // Research Data
   research: researchRouter,
-  // Raw Materials & Suppliers
-  rawMaterials: rawMaterialsRouter,
+  // Raw Materials & Suppliers (rawMaterials inline above, suppliersRouter imported)
   suppliers: suppliersRouter,
   // Cigarillo Recipes
   recipes: recipesRouter,
@@ -10231,8 +10238,7 @@ Familles olfactives disponibles:
   // Flavornet Olfactory Descriptors
   flavornet: flavornetRouter,
   therapeutic: therapeuticRouter,
-  // Chemical Families Classification
-  chemicalFamilies: chemicalFamiliesRouter,
+  // Chemical Families Classification (inline definition above, imported router not added again)
   // Molecular Synergies (masquage, neutralisation, etc.)
   molecularSynergies: molecularSynergiesRouter,
   // Data Cleanup and Enrichment

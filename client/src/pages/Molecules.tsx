@@ -36,7 +36,7 @@ import {
 
 export default function Molecules() {
   const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
-  const { data: chemicalFamiliesData } = trpc.chemicalFamilies.getAllFamilies.useQuery();
+  const { data: chemicalFamiliesData } = trpc.chemicalFamilies.listAll.useQuery();
   const trackEvent = trpc.analytics.trackEvent.useMutation();
   const [, setLocation] = useLocation();
   
@@ -137,7 +137,7 @@ export default function Molecules() {
   // Extract chemical families from classification service
   const chemicalFamilies = useMemo(() => {
     if (!chemicalFamiliesData) return [];
-    return chemicalFamiliesData.map(f => ({
+    return chemicalFamiliesData.map((f: any) => ({
       value: f.id,
       label: f.nameFr,
       labelEn: f.name
@@ -209,7 +209,7 @@ export default function Molecules() {
       // Flavornet percept filter
       const matchesPercept = 
         selectedPercept === "all" || 
-        (molecule.flavornetPercepts && molecule.flavornetPercepts.toLowerCase().includes(selectedPercept.toLowerCase()));
+        ((molecule as any).flavornetPercepts && (molecule as any).flavornetPercepts.toLowerCase().includes(selectedPercept.toLowerCase()));
       
       // IFRA status filter
       const matchesIfraStatus = 
@@ -260,16 +260,16 @@ export default function Molecules() {
       boilingPointRange, molecularWeightRange]);
 
   // Query for molecules in selected chemical family
-  const { data: chemicalFamilyMoleculesData } = trpc.chemicalFamilies.getMoleculesByFamily.useQuery(
-    { familyId: chemicalFamilyFilter },
-    { enabled: chemicalFamilyFilter !== "all" }
+  const { data: chemicalFamilyMoleculesData } = trpc.chemicalFamilies.getMoleculesById.useQuery(
+    { id: parseInt(chemicalFamilyFilter) || 0 },
+    { enabled: chemicalFamilyFilter !== "all" && !isNaN(parseInt(chemicalFamilyFilter)) }
   );
 
   // Apply chemical family filter on top of other filters
   const finalFilteredMolecules = useMemo(() => {
     if (chemicalFamilyFilter === "all") return filteredMolecules;
     if (!chemicalFamilyMoleculesData?.molecules) return [];
-    const moleculeIdsInFamily = new Set(chemicalFamilyMoleculesData.molecules.map(m => m.id));
+    const moleculeIdsInFamily = new Set((chemicalFamilyMoleculesData as any).molecules?.map((m: any) => m.id) || []);
     return filteredMolecules.filter(m => moleculeIdsInFamily.has(m.id));
   }, [filteredMolecules, chemicalFamilyFilter, chemicalFamilyMoleculesData]);
 
@@ -349,9 +349,9 @@ export default function Molecules() {
       m.boilingPoint || '',
       m.molecularWeight || '',
       m.ifraStatus || 'not_regulated',
-      m.ifraMaxPercent || '',
-      `"${(m.flavornetPercepts || '').replace(/"/g, '""')}"`,
-      m.flavornetKovatsIndex || '',
+      (m as any).ifraMaxPercent || '',
+      `"${((m as any).flavornetPercepts || '').replace(/"/g, '""')}"`,
+      (m as any).flavornetKovatsIndex || '',
       m.pubchemCid || '',
       m.chebiId || '',
       `"${(m.smiles || '').replace(/"/g, '""')}"`
@@ -377,8 +377,8 @@ export default function Molecules() {
     
     // Track export event
     trackEvent.mutate({
-      eventName: 'molecules_export_csv',
-      eventData: { count: finalFilteredMolecules.length, hasFilters: hasActiveFilters }
+      eventType: 'pdf_export',
+      metadata: { action: 'molecules_export_csv', count: finalFilteredMolecules.length, hasFilters: hasActiveFilters }
     });
   };
 
@@ -415,7 +415,7 @@ export default function Molecules() {
                   Classification par famille chimique
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  {chemicalFamiliesData.slice(0, 12).map((family) => (
+                  {chemicalFamiliesData.slice(0, 12).map((family: any) => (
                     <Button
                       key={family.id}
                       variant={chemicalFamilyFilter === family.id ? "default" : "outline"}
@@ -438,7 +438,7 @@ export default function Molecules() {
                   )}
                 </div>
                 <p className="text-xs text-muted-foreground mt-3">
-                  {chemicalFamiliesData.reduce((acc, f) => acc + f.count, 0)} molécules classées dans {chemicalFamiliesData.length} familles chimiques
+                  {chemicalFamiliesData.reduce((acc: number, f: any) => acc + (f.count || 0), 0)} molécules classées dans {chemicalFamiliesData.length} familles chimiques
                 </p>
               </div>
             </div>

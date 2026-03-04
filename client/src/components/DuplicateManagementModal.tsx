@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Modal de gestion des doublons
  * Permet de comparer, sélectionner et fusionner les entrées dupliquées

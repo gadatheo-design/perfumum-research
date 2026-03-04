@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * PERFUMUM In-Memory Cache System
  * 

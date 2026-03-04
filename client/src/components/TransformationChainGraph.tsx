@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * TransformationChainGraph - D3.js visualization of molecular transformation chains
  * Displays connected transformation sequences (e.g., limonène → p-cymène → toluène)

@@ -1166,6 +1166,7 @@ export function findPlantComposition(plantName: string): Array<{ molecule: strin
 
 export async function getPlantsWithoutMolecules(): Promise<Array<{ id: number; name: string; latinName: string | null }>> {
   const db = await getDb();
+  if (!db) return [];
   const plantsWithMolecules = await db
     .select({ plantId: plantMolecules.plantId })
     .from(plantMolecules)
@@ -1187,6 +1188,7 @@ export async function previewEnrichment(): Promise<{
 }> {
   const plantsWithout = await getPlantsWithoutMolecules();
   const db = await getDb();
+  if (!db) return { plantsWithoutMolecules: plantsWithout.length, plantsCanBeEnriched: [], totalLinksToCreate: 0 };
   const allMolecules = await db.select({ id: molecules.id, name: molecules.name }).from(molecules);
   const moleculeMap = new Map(allMolecules.map(m => [m.name.toLowerCase(), m.id]));
   const plantsCanBeEnriched: Array<{ id: number; name: string; moleculesCount: number }> = [];
@@ -1213,6 +1215,7 @@ export async function executeEnrichment(): Promise<{
   errors: string[];
 }> {
   const db = await getDb();
+  if (!db) return { plantsEnriched: 0, linksCreated: 0, errors: ['Database not available'] };
   const errors: string[] = [];
   let plantsEnriched = 0;
   let linksCreated = 0;
@@ -1258,6 +1261,7 @@ export async function getCompositionStats(): Promise<{
   documentedPlants: number;
 }> {
   const db = await getDb();
+  if (!db) return { totalPlants: 0, plantsWithMolecules: 0, plantsWithoutMolecules: 0, coveragePercentage: 0, documentedPlants: 0 };
   const [totalResult] = await db.select({ count: sql<number>`count(*)` }).from(plants);
   const totalPlants = totalResult.count;
   const plantsWithout = await getPlantsWithoutMolecules();
