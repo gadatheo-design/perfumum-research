@@ -227,6 +227,10 @@ import {
   axisReferenceLinks,
   AxisReferenceLink,
   InsertAxisReferenceLink,
+  // Recette <-> Molecule (table recette_molecules)
+  recetteMolecules,
+  RecetteMolecule,
+  InsertRecetteMolecule,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../shared/olfactiveSynonyms';
@@ -1544,11 +1548,45 @@ export async function getRecetteWithRelations(id: number) {
       proportion: moleculesRecettes.proportion,
       role: moleculesRecettes.role,
       linkNotes: moleculesRecettes.notes,
+      linkSource: sql<string>`'molecules_recettes'`,
     })
     .from(moleculesRecettes)
     .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
     .where(eq(moleculesRecettes.recetteId, id))
     .orderBy(desc(moleculesRecettes.proportion));
+
+  // Get ALSO molecules linked via recette_molecules (from parsing)
+  const linkedMolecules = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      chemicalFormula: molecules.chemicalFormula,
+      family: molecules.family,
+      olfactiveProfile: molecules.olfactiveProfile,
+      chemicalClass: molecules.chemicalClass,
+      casNumber: molecules.casNumber,
+      radarIntensity: molecules.radarIntensity,
+      radarFreshness: molecules.radarFreshness,
+      radarWarmth: molecules.radarWarmth,
+      radarSweetness: molecules.radarSweetness,
+      radarSpiciness: molecules.radarSpiciness,
+      radarEarthiness: molecules.radarEarthiness,
+      proportion: recetteMolecules.proportion,
+      role: recetteMolecules.role,
+      linkNotes: sql<string>`NULL`,
+      linkSource: sql<string>`'recette_molecules'`,
+    })
+    .from(recetteMolecules)
+    .innerJoin(molecules, eq(recetteMolecules.moleculeId, molecules.id))
+    .where(eq(recetteMolecules.recetteId, id))
+    .orderBy(desc(recetteMolecules.proportion));
+
+  // Merge: avoid duplicates (prefer moleculesRecettes if same molecule appears in both)
+  const existingIds = new Set(relatedMolecules.map(m => m.id));
+  const mergedMolecules = [
+    ...relatedMolecules,
+    ...linkedMolecules.filter(m => !existingIds.has(m.id)),
+  ].sort((a, b) => (b.proportion ?? 0) - (a.proportion ?? 0));
   
   // Get family if familyId exists
   let family = null;
@@ -1570,7 +1608,7 @@ export async function getRecetteWithRelations(id: number) {
   
   return {
     recette,
-    molecules: relatedMolecules,
+    molecules: mergedMolecules,
     family,
     accord,
   };

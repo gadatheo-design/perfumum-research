@@ -609,4 +609,13 @@
 - [x] Phase B : 19 doublons fusionnés (orthographiques, préfixes grecs, format HE) → 1 800 molécules nettes
 - [x] Parser les recettes textuelles → 391 liaisons créées, couverture 8% → 44% (135/310 recettes)
 - [x] Batch 11 : 50 molécules enrichies (terpènes oxygénés, alcaloïdes, résines, fruits exotiques) → 65%
+- [x] Checkpoint final (version a3bbf448)
+
+---
+
+## 🌿 SESSION 10 MARS 2026 — MASTIHA + BATCH 12 + UI RECETTES
+
+- [x] Mastiha créée comme plante/résine AOP Chios + 5 molécules (Cypriol, Isoquinoline, Megastigmatrienone, Syringaldéhyde, Gotu Kola) + liaisons recettes
+- [x] Batch 12 : 400 molécules enrichies (accords olfactifs, minéraux, non classés) → 87% couverture thérapeutique (1573/1806)
+- [x] Page /recettes : ingrédients liés formellement affichés (fusion recette_molecules + molecules_recettes) — ex: OS Archéologie Olfactive = 28 molécules visibles
 - [ ] Checkpoint final

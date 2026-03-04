@@ -385,13 +385,39 @@ export default function RecetteDetail() {
             </div>
           )}
 
-          {/* Ingrédients */}
-          {recette.ingredients && (
-            <div>
-              <h3 className="text-sm font-semibold text-muted-foreground mb-2">Ingrédients Clés</h3>
-              <p className="text-base whitespace-pre-wrap">{recette.ingredients}</p>
-            </div>
-          )}
+          {/* Ingrédients textuels + liaisons formelles */}
+          <div className="space-y-3">
+            {recette.ingredients && (
+              <div>
+                <h3 className="text-sm font-semibold text-muted-foreground mb-2">Ingrédients Clés</h3>
+                <p className="text-base whitespace-pre-wrap">{recette.ingredients}</p>
+              </div>
+            )}
+            {molecules.length > 0 && (
+              <div>
+                <h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-1.5">
+                  <span>Molécules Liées</span>
+                  <Badge variant="secondary" className="text-xs">{molecules.length}</Badge>
+                </h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {molecules.slice(0, 12).map((m: any) => (
+                    <Link key={m.id} href={`/molecule/${m.id}`}>
+                      <Badge
+                        variant="outline"
+                        className="text-xs cursor-pointer hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-colors"
+                      >
+                        {m.name}
+                        {m.proportion ? <span className="ml-1 opacity-60">{Number(m.proportion).toFixed(0)}%</span> : null}
+                      </Badge>
+                    </Link>
+                  ))}
+                  {molecules.length > 12 && (
+                    <Badge variant="secondary" className="text-xs">+{molecules.length - 12} autres</Badge>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Propriétés Principales */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
