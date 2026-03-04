@@ -515,3 +515,51 @@
 - [x] Créer 5 molécules manquantes (Dimethyl sulfide, cis-3-Hexenol, Geraniol, Acetic acid, Eugenol)
 - [x] Distribution finale : potentialisation 38, transformation 16, masquage 15, stabilisation 8, neutralisation 6 (total : 83)
 - [x] TypeScript : 0 erreur ✅
+
+---
+
+## 🌿 SESSION 7 MARS 2026 — Page Synergies, Batch 9, GC-MS Latakia
+
+### Phase 1 : Page /synergies frontend
+- [ ] Créer la page SynergiesPage.tsx avec heatmap D3.js
+- [ ] Filtres par type (masquage/neutralisation/potentialisation/transformation)
+- [ ] Filtres par famille chimique
+- [ ] Affichage des détails de synergie au clic
+- [ ] Ajouter route /synergies dans App.tsx + navigation sidebar
+
+### Phase 2 : Batch 9 thérapeutique (40% → 45%)
+- [ ] Enrichir terpènes triterpéniques (acide ursolique, acide oléanolique, bétuline, acide bétulinique)
+- [ ] Enrichir iridoïdes (loganine, sécoiridoïdes, aucubine, catalpol)
+- [ ] Enrichir lignanes (sésamine, schisandrine, podophyllotoxine, silymarine)
+- [ ] Atteindre 45% de couverture thérapeutique (~850/1886 molécules)
+
+### Phase 3 : GC-MS tabac Latakia
+- [ ] Enrichir Latakia avec molécules de fumage (Guaiacol, Syringol, 4-Méthylguaiacol, Créosol, Furfural)
+- [ ] Ajouter les 10 molécules de fermentation spécifiques au Latakia
+- [ ] Mettre à jour les sources (CORESTA, J.Agric.Food.Chem)
+
+
+---
+
+## ✅ SESSION 7 MARS 2026 — Synergies heatmap, Batch 9 (45.1%), GC-MS Latakia
+
+### Phase 1 : Page /synergies heatmap
+- [x] Ajouter "neutralisation" aux types dans SynergiesHeatmap
+- [x] Ajouter filtres interactifs par type et famille chimique dans SynergiesHeatmap
+- [x] Réécrire SynergiesHeatmap avec filtres actifs (6 types : potentialisation, transformation, masquage, stabilisation, neutralisation, compétition)
+- [x] TypeScript : 0 erreur ✅
+
+### Phase 2 : Batch 9 thérapeutique (40% → 45%)
+- [x] Enrichir triterpènes (Acide ursolique, Acide oléanolique, Bétuline, Acide bétulinique, Acide maslinique)
+- [x] Enrichir iridoïdes (Loganine, Aucubine, Catalpol, Geniposidic acid, Oleuropéine)
+- [x] Enrichir lignanes (Sésamine, Schisandrine, Podophyllotoxine, Silymarine, Pinorésine)
+- [x] Enrichir alcaloïdes indoliques (Vincristine, Vinblastine, Ajmaline, Yohimbine, Harmine)
+- [x] Enrichir molécules existantes sans thérapeutique (Boswellia, Cacao, Cardamome, Cannelle, Cannabis, etc.)
+- [x] **Atteindre 45% de couverture thérapeutique : 865/1917 molécules (45.1%)** ✅
+
+### Phase 3 : Enrichissement GC-MS tabac Latakia
+- [x] Corriger les 11 pourcentages nuls (Guaiacol 12%, Syringol 8%, Neophytadiene 4%, Nicotine 2.5%)
+- [x] Créer 8 nouvelles molécules de fumage (Phénol, Méthyl syringol, Acétosyringone, Diméthylsulfure, Acétol, Lévoglucosénone, 2-Méthoxyphénol, Solanésol)
+- [x] Créer 24 liaisons plant_molecules pour Latakia (id:150002) et Tabac Latakia (id:660005)
+- [x] Profil complet : 26 molécules avec pourcentages précis (phénols fumage, diterpènes, alcaloïdes, norisoprénoïdes)
+- [x] Sources : J.Agric.Food.Chem:2013:61:8592, PMC:8306096, CORESTA:2019 ✅
