@@ -666,4 +666,45 @@
 - [x] Synergies Batch 15 : 14 synergies accords industriels (Hedione+Linalool=jasmin, Calone+Dihydromyrcenol=marin, Linalool+Coumarine=fougère…) — 88 synergies total
 - [x] Page /parfums : navigation inverse parfum → molécules (43 parfums, filtres maison/rôle/recherche, cartes groupées, liens vers fiches molécules)
 - [x] MegaMenu + Breadcrumbs : /parfums ajouté dans la navigation
+- [x] Checkpoint final (version 38d58aca)
+
+---
+
+## 🌹 SESSION 16 MARS 2026 — 20 PARFUMS + PLANTES + PAGE /MUSCS
+
+- [ ] 20 parfums supplémentaires dans molecule_perfumes (Shalimar, Opium, Angel, Alien, Terre d'Hermès, Narciso Rodriguez For Her, Poison, Fahrenheit, Drakkar Noir, Arpège, Joy, Mitsouko, Fracas, Rive Gauche, Pleasures, Eternity, Obsession, Kouros, Jicky, Vol de Nuit)
+- [ ] Liaisons plantes-parfums : onglet "Parfums emblématiques" dans les fiches plantes (Rosa damascena → Chanel N°5, Jasmin → Joy de Patou, Vétiver → Guerlain Vétiver, Iris → Chanel N°19, Patchouli → Angel)
+- [ ] Page /muscs : tableau comparatif CITES/IFRA/biodégradabilité des 8 muscs (naturels, nitrés, polycycliques, macrocycliques)
 - [ ] Checkpoint final
+
+---
+
+## 🔍 AUDIT COMPLET — Mars 2026
+
+### Phase 1 : Checkpoint session en cours
+- [x] Page /muscs — Guide comparatif CITES/IFRA/biodégradabilité
+- [x] Onglet "Parfums emblématiques" dans PlantDetail (plants.getPerfumes)
+- [x] Route /muscs ajoutée dans App.tsx et MegaMenu
+- [ ] Checkpoint sauvegardé
+
+### Phase 2 : Audit routes et pages
+- [ ] Vérifier le fonctionnement de toutes les pages principales
+- [ ] Détecter les routes orphelines dans App.tsx (imports sans routes)
+- [ ] Identifier les pages vides ou non fonctionnelles
+- [ ] Supprimer les imports inutilisés dans App.tsx
+
+### Phase 3 : Liens morts et navigation
+- [ ] Détecter et corriger les liens morts dans MegaMenu
+- [ ] Vérifier les liens dans MobileMenu
+- [ ] Corriger les liens de retour incohérents
+- [ ] Vérifier les breadcrumbs sur toutes les pages principales
+
+### Phase 4 : Cohérence visuelle
+- [ ] Vérifier la cohérence visuelle des pages principales
+- [ ] Améliorer les états hover et focus
+- [ ] Optimiser le responsive mobile
+
+### Phase 5 : Nettoyage code
+- [ ] Identifier et supprimer le code mort
+- [ ] Supprimer les imports inutilisés
+- [ ] Nettoyer les composants non utilisés

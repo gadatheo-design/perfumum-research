@@ -112,6 +112,12 @@ export default function PlantDetail() {
     { plantId, limit: 5 },
     { enabled: plantId > 0 }
   );
+
+  // Récupérer les parfums emblématiques liés à cette plante
+  const { data: plantPerfumes } = trpc.plants.getPerfumes.useQuery(
+    plantId,
+    { enabled: plantId > 0 }
+  );
   
   if (isLoading) {
     return (
@@ -242,6 +248,9 @@ export default function PlantDetail() {
           <TabsTrigger value="usage">Usage Absorbe</TabsTrigger>
           <TabsTrigger value="genealogy">Généalogie</TabsTrigger>
           <TabsTrigger value="seasonal">Variations</TabsTrigger>
+          {plantPerfumes && plantPerfumes.length > 0 && (
+            <TabsTrigger value="perfumes">Parfums ({plantPerfumes.length})</TabsTrigger>
+          )}
         </TabsList>
         
         {/* Vue d'ensemble */}
@@ -1078,6 +1087,70 @@ export default function PlantDetail() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        {/* Parfums Emblématiques */}
+        {plantPerfumes && plantPerfumes.length > 0 && (
+          <TabsContent value="perfumes" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Sparkles className="h-5 w-5 text-amber-500" />
+                  Parfums emblématiques
+                </CardTitle>
+                <CardDescription>
+                  Créations parfumées emblématiques utilisant {plant.name} comme ingrédient clé
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {/* Grouper par maison */}
+                {(() => {
+                  const byHouse: Record<string, typeof plantPerfumes> = {};
+                  for (const p of plantPerfumes) {
+                    const h = p.perfume_house || 'Indépendant';
+                    if (!byHouse[h]) byHouse[h] = [];
+                    byHouse[h].push(p);
+                  }
+                  return Object.entries(byHouse).map(([house, perfumes]) => (
+                    <div key={house} className="mb-6">
+                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3 border-b pb-2">
+                        {house}
+                      </h3>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                        {perfumes.map((p: any) => (
+                          <div key={p.id} className="rounded-lg border bg-card p-4 space-y-2">
+                            <div className="flex items-start justify-between gap-2">
+                              <span className="font-medium text-sm leading-tight">{p.perfume_name}</span>
+                              {p.year && (
+                                <Badge variant="outline" className="text-xs shrink-0">{p.year}</Badge>
+                              )}
+                            </div>
+                            {p.role_in_perfume && (
+                              <Badge className={`text-xs ${
+                                p.role_in_perfume === 'signature' ? 'bg-amber-500/15 text-amber-700 border-amber-500/30' :
+                                p.role_in_perfume === 'accord_principal' ? 'bg-violet-500/15 text-violet-700 border-violet-500/30' :
+                                p.role_in_perfume === 'note_coeur' ? 'bg-rose-500/15 text-rose-700 border-rose-500/30' :
+                                p.role_in_perfume === 'note_fond' ? 'bg-amber-900/15 text-amber-900 border-amber-900/30' :
+                                'bg-muted text-muted-foreground'
+                              } border`}>
+                                {p.role_in_perfume.replace(/_/g, ' ')}
+                              </Badge>
+                            )}
+                            {p.perfumer && (
+                              <p className="text-xs text-muted-foreground">✦ {p.perfumer}</p>
+                            )}
+                            {p.description && (
+                              <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{p.description}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ));
+                })()}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
       </Tabs>
 
       {/* Références Bibliographiques Liées (V3) */}

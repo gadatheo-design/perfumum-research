@@ -398,6 +398,7 @@ import InventoryDashboard from "./pages/InventoryDashboard";
 import PublicationMoleculeGraph from "./pages/PublicationMoleculeGraph";
 import CorrelationsParfumTabacCannabis from "./pages/CorrelationsParfumTabacCannabis";
 import ParfumsEmblematiques from "./pages/ParfumsEmblematiques";
+import MuscsComparatif from "./pages/MuscsComparatif";
 
 // === NOUVELLES SECTIONS : RECETTES, PROTOCOLES, LANDRACES ===
 const CigarilloRecipes = lazy(() => import("./pages/CigarilloRecipes"));
@@ -674,6 +675,7 @@ function Router() {
       <Route path="/synergies-graph-visualization" component={SynergiesGraphVisualization} />
       <Route path="/correlations" component={CorrelationsParfumTabacCannabis} />
       <Route path="/parfums" component={ParfumsEmblematiques} />
+      <Route path="/muscs" component={MuscsComparatif} />
       <Route path="/recipe-network" component={RecipeNetworkPage} />
       <Route path="/sankey-flow" component={SankeyFlow} />
       <Route path="/enhanced-radar" component={EnhancedRadarDemo} />

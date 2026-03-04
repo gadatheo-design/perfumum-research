@@ -79,6 +79,7 @@ const labelMap: Record<string, string> = {
   "matrice-synergies": "Matrice Synergies",
   "correlations": "Corrélations Parfum × Tabac × Cannabis",
   "parfums": "Parfums emblématiques",
+  "muscs": "Muscs — Guide comparatif",
   "graphe-molecules-recettes": "Graphe Molécules-Recettes",
   "graphe-synergies": "Graphe Synergies",
   "suggestions-synergies": "Suggestions Synergies",

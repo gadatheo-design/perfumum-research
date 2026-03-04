@@ -560,6 +560,13 @@ export function MegaMenu() {
           description: "Navigation inverse parfum → molécules",
         },
         {
+          label: "Muscs — Guide comparatif",
+          path: "/muscs",
+          icon: <FlaskConical className="h-4 w-4" />,
+          description: "CITES, IFRA, biodégradabilité des 8 muscs",
+          badge: "NEW",
+        },
+        {
           label: "Graphe Réseau",
           path: "/recipe-network",
           icon: <Network className="h-4 w-4" />,

@@ -3161,6 +3161,12 @@ export const appRouter = router({
           createdAt: r.created_at as Date | null,
         }));
       }),
+    // Parfums emblématiques d'une plante
+    getPerfumes: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getPlantPerfumes(input);
+      }),
   }),
 
   // ============================================================================
@@ -3394,6 +3400,12 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         await db.deleteFinalRecipe(input);
         return { success: true };
+      }),
+    // Parfums emblématiques d'une plante
+    getPlantPerfumes: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return await db.getPlantPerfumes(input);
       }),
   }),
 

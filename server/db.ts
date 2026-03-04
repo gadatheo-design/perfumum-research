@@ -20018,3 +20018,26 @@ export async function getAllMoleculePerfumeLinks(): Promise<Array<{
     return [];
   }
 }
+
+// ─── Parfums emblématiques d'une plante ──────────────────────────────────────
+export async function getPlantPerfumes(plantId: number) {
+  try {
+    const dbConn = await getDb();
+    if (!dbConn) return [];
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const [rows] = await conn.execute(
+      `SELECT id, plant_id, perfume_name, perfume_house, perfumer, year,
+              role_in_perfume, ingredient_type, description, created_at
+       FROM plant_perfumes
+       WHERE plant_id = ?
+       ORDER BY year ASC, perfume_name ASC`,
+      [plantId]
+    );
+    await conn.end();
+    return rows as any[];
+  } catch (error: any) {
+    console.error('Error getting plant perfumes:', error);
+    return [];
+  }
+}
