@@ -1,9 +1,9 @@
 import { z } from "zod";
+import { sql } from "drizzle-orm";
 import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 
 export const landracesRouter = router({
-  // Get all landraces with optional filtering
   getAll: publicProcedure
     .input(z.object({
       type: z.enum(["indica", "sativa", "hybrid"]).optional(),
@@ -16,181 +16,86 @@ export const landracesRouter = router({
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return { landraces: [], total: 0, limit: 50, offset: 0 };
-      
       const { type, conservationStatus, effectType, search, limit = 50, offset = 0 } = input || {};
-      
-      let sql = `
-        SELECT 
-          id, name, slug, alternate_names, type, origin, region, country,
+      const conditions: ReturnType<typeof sql>[] = [sql`1=1`];
+      if (type) conditions.push(sql`type = ${type}`);
+      if (conservationStatus) conditions.push(sql`conservation_status = ${conservationStatus}`);
+      if (effectType) conditions.push(sql`effect_type = ${effectType}`);
+      if (search) {
+        const p = `%${search}%`;
+        conditions.push(sql`(name LIKE ${p} OR alternate_names LIKE ${p} OR origin LIKE ${p} OR aromatic_profile LIKE ${p})`);
+      }
+      const whereClause = sql.join(conditions, sql` AND `);
+      const result = await db.execute(sql`
+        SELECT id, name, slug, alternate_names, type, origin, region, country,
           aromatic_profile, head_notes, heart_notes, base_notes,
           effect_type, thc_range, cbd_range, total_terpene_content,
-          dominant_terpenes, conservation_status, cigarillo_potential,
-          created_at
-        FROM cannabis_landraces
-        WHERE 1=1
-      `;
-      const params: any[] = [];
-      
-      if (type) {
-        sql += ` AND type = ?`;
-        params.push(type);
-      }
-      
-      if (conservationStatus) {
-        sql += ` AND conservation_status = ?`;
-        params.push(conservationStatus);
-      }
-      
-      if (effectType) {
-        sql += ` AND effect_type = ?`;
-        params.push(effectType);
-      }
-      
-      if (search) {
-        sql += ` AND (name LIKE ? OR alternate_names LIKE ? OR origin LIKE ? OR aromatic_profile LIKE ?)`;
-        const searchPattern = `%${search}%`;
-        params.push(searchPattern, searchPattern, searchPattern, searchPattern);
-      }
-      
-      sql += ` ORDER BY name ASC LIMIT ? OFFSET ?`;
-      params.push(limit, offset);
-      
-      const result = await db.execute(sql, params);
-      const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
-      
-      // Get total count
-      let countSql = `SELECT COUNT(*) as total FROM cannabis_landraces WHERE 1=1`;
-      const countParams: any[] = [];
-      
-      if (type) {
-        countSql += ` AND type = ?`;
-        countParams.push(type);
-      }
-      if (conservationStatus) {
-        countSql += ` AND conservation_status = ?`;
-        countParams.push(conservationStatus);
-      }
-      if (effectType) {
-        countSql += ` AND effect_type = ?`;
-        countParams.push(effectType);
-      }
-      if (search) {
-        countSql += ` AND (name LIKE ? OR alternate_names LIKE ? OR origin LIKE ? OR aromatic_profile LIKE ?)`;
-        const searchPattern = `%${search}%`;
-        countParams.push(searchPattern, searchPattern, searchPattern, searchPattern);
-      }
-      
-      const countResult = await db.execute(countSql, countParams);
-      const countRows = Array.isArray(countResult) && Array.isArray(countResult[0]) ? countResult[0] : [];
+          dominant_terpenes, conservation_status, cigarillo_potential, created_at
+        FROM cannabis_landraces WHERE ${whereClause}
+        ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
+      `);
+      const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
+      const countResult = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces WHERE ${whereClause}`);
+      const countRows = (countResult as any).rows ?? (Array.isArray(countResult) ? countResult : []);
       const total = (countRows as any[])[0]?.total || 0;
-      
-      return {
-        landraces: rows as any[],
-        total,
-        limit,
-        offset
-      };
+      return { landraces: rows as any[], total, limit, offset };
     }),
 
-  // Get landrace by ID or slug
   getById: publicProcedure
-    .input(z.object({
-      id: z.number().optional(),
-      slug: z.string().optional(),
-    }))
+    .input(z.object({ id: z.number().optional(), slug: z.string().optional() }))
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return null;
-      
       const { id, slug } = input;
-      
-      let sql = `SELECT * FROM cannabis_landraces WHERE `;
-      
       if (id) {
-        sql += `id = ?`;
-        const result = await db.execute(sql, [id]);
-        const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
+        const result = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE id = ${id}`);
+        const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
         return (rows as any[])[0] || null;
       } else if (slug) {
-        sql += `slug = ?`;
-        const result = await db.execute(sql, [slug]);
-        const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
+        const result = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE slug = ${slug}`);
+        const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
         return (rows as any[])[0] || null;
       }
-      
       return null;
     }),
 
-  // Get terpenes for a landrace
   getTerpenes: publicProcedure
-    .input(z.object({
-      landraceId: z.number(),
-    }))
+    .input(z.object({ landraceId: z.number() }))
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return [];
-      
-      const result = await db.execute(`
-        SELECT 
-          id, landrace_id, terpene_name, percentage, notes
-        FROM landrace_terpenes
-        WHERE landrace_id = ?
+      const result = await db.execute(sql`
+        SELECT id, landrace_id, terpene_name, percentage, notes
+        FROM landrace_terpenes WHERE landrace_id = ${input.landraceId}
         ORDER BY percentage DESC
-      `, [input.landraceId]);
-      
-      const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
-      return rows as Array<{
-        id: number;
-        landrace_id: number;
-        terpene_name: string;
-        percentage: number;
-        notes: string | null;
-      }>;
+      `);
+      const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
+      return rows as any[];
     }),
 
-  // Get landrace statistics
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return { total: 0, byType: [], byConservation: [], byEffect: [], byCountry: [] };
-    
-    const totalResult = await db.execute(`SELECT COUNT(*) as total FROM cannabis_landraces`);
-    const totalRows = Array.isArray(totalResult) && Array.isArray(totalResult[0]) ? totalResult[0] : [];
+    const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces`);
+    const totalRows = (totalResult as any).rows ?? (Array.isArray(totalResult) ? totalResult : []);
     const total = (totalRows as any[])[0]?.total || 0;
-    
-    const typeResult = await db.execute(`
-      SELECT type, COUNT(*) as count
-      FROM cannabis_landraces
-      GROUP BY type
-      ORDER BY count DESC
+    const typeResult = await db.execute(sql`SELECT type, COUNT(*) as count FROM cannabis_landraces GROUP BY type ORDER BY count DESC`);
+    const byType = (typeResult as any).rows ?? (Array.isArray(typeResult) ? typeResult : []);
+    const conservationResult = await db.execute(sql`
+      SELECT conservation_status, COUNT(*) as count FROM cannabis_landraces
+      GROUP BY conservation_status ORDER BY count DESC
     `);
-    const byType = Array.isArray(typeResult) && Array.isArray(typeResult[0]) ? typeResult[0] : [];
-    
-    const conservationResult = await db.execute(`
-      SELECT conservation_status, COUNT(*) as count
-      FROM cannabis_landraces
-      GROUP BY conservation_status
-      ORDER BY FIELD(conservation_status, 'commun', 'rare', 'menacé', 'en danger', 'disparu')
+    const byConservation = (conservationResult as any).rows ?? (Array.isArray(conservationResult) ? conservationResult : []);
+    const effectResult = await db.execute(sql`
+      SELECT effect_type, COUNT(*) as count FROM cannabis_landraces
+      WHERE effect_type IS NOT NULL GROUP BY effect_type ORDER BY count DESC
     `);
-    const byConservation = Array.isArray(conservationResult) && Array.isArray(conservationResult[0]) ? conservationResult[0] : [];
-    
-    const effectResult = await db.execute(`
-      SELECT effect_type, COUNT(*) as count
-      FROM cannabis_landraces
-      WHERE effect_type IS NOT NULL
-      GROUP BY effect_type
-      ORDER BY count DESC
+    const byEffect = (effectResult as any).rows ?? (Array.isArray(effectResult) ? effectResult : []);
+    const countryResult = await db.execute(sql`
+      SELECT country, COUNT(*) as count FROM cannabis_landraces
+      WHERE country IS NOT NULL GROUP BY country ORDER BY count DESC
     `);
-    const byEffect = Array.isArray(effectResult) && Array.isArray(effectResult[0]) ? effectResult[0] : [];
-    
-    const countryResult = await db.execute(`
-      SELECT country, COUNT(*) as count
-      FROM cannabis_landraces
-      WHERE country IS NOT NULL
-      GROUP BY country
-      ORDER BY count DESC
-    `);
-    const byCountry = Array.isArray(countryResult) && Array.isArray(countryResult[0]) ? countryResult[0] : [];
-    
+    const byCountry = (countryResult as any).rows ?? (Array.isArray(countryResult) ? countryResult : []);
     return {
       total,
       byType: byType as { type: string; count: number }[],
@@ -199,6 +104,14 @@ export const landracesRouter = router({
       byCountry: byCountry as { country: string; count: number }[]
     };
   }),
-  enrichTerpenes: publicProcedure.mutation(async () => { const { enrichLandraceTerpenes } = await import('../terpene-enrichment'); return await enrichLandraceTerpenes(); }),
-  getTerpeneStats: publicProcedure.query(async () => { const { getLandraceTerpeneStats } = await import('../terpene-enrichment'); return await getLandraceTerpeneStats(); }),
+
+  enrichTerpenes: publicProcedure.mutation(async () => {
+    const { enrichLandraceTerpenes } = await import('../terpene-enrichment');
+    return await enrichLandraceTerpenes();
+  }),
+
+  getTerpeneStats: publicProcedure.query(async () => {
+    const { getLandraceTerpeneStats } = await import('../terpene-enrichment');
+    return await getLandraceTerpeneStats();
+  }),
 });

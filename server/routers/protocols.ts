@@ -1,9 +1,9 @@
 import { z } from "zod";
+import { sql } from "drizzle-orm";
 import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 
 export const protocolsRouter = router({
-  // Get all protocols with optional filtering
   getAll: publicProcedure
     .input(z.object({
       category: z.string().optional(),
@@ -15,142 +15,73 @@ export const protocolsRouter = router({
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return { protocols: [], total: 0, limit: 50, offset: 0 };
-      
       const { category, difficultyLevel, search, limit = 50, offset = 0 } = input || {};
-      
-      let sql = `
-        SELECT 
-          id, name, slug, category, objective, summary,
-          estimated_cost, duration, difficulty_level,
-          equipment_required, created_at
-        FROM technical_protocols
-        WHERE 1=1
-      `;
-      const params: any[] = [];
-      
-      if (category) {
-        sql += ` AND category = ?`;
-        params.push(category);
-      }
-      
-      if (difficultyLevel) {
-        sql += ` AND difficulty_level = ?`;
-        params.push(difficultyLevel);
-      }
-      
+      const conditions: ReturnType<typeof sql>[] = [sql`1=1`];
+      if (category) conditions.push(sql`category = ${category}`);
+      if (difficultyLevel) conditions.push(sql`difficulty_level = ${difficultyLevel}`);
       if (search) {
-        sql += ` AND (name LIKE ? OR objective LIKE ? OR summary LIKE ?)`;
-        const searchPattern = `%${search}%`;
-        params.push(searchPattern, searchPattern, searchPattern);
+        const p = `%${search}%`;
+        conditions.push(sql`(name LIKE ${p} OR objective LIKE ${p} OR summary LIKE ${p})`);
       }
-      
-      sql += ` ORDER BY name ASC LIMIT ? OFFSET ?`;
-      params.push(limit, offset);
-      
-      const result = await db.execute(sql, params);
-      const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
-      
-      // Get total count
-      let countSql = `SELECT COUNT(*) as total FROM technical_protocols WHERE 1=1`;
-      const countParams: any[] = [];
-      
-      if (category) {
-        countSql += ` AND category = ?`;
-        countParams.push(category);
-      }
-      if (difficultyLevel) {
-        countSql += ` AND difficulty_level = ?`;
-        countParams.push(difficultyLevel);
-      }
-      if (search) {
-        countSql += ` AND (name LIKE ? OR objective LIKE ? OR summary LIKE ?)`;
-        const searchPattern = `%${search}%`;
-        countParams.push(searchPattern, searchPattern, searchPattern);
-      }
-      
-      const countResult = await db.execute(countSql, countParams);
-      const countRows = Array.isArray(countResult) && Array.isArray(countResult[0]) ? countResult[0] : [];
+      const whereClause = sql.join(conditions, sql` AND `);
+      const result = await db.execute(sql`
+        SELECT id, name, slug, category, objective, summary,
+          estimated_cost, duration, difficulty_level, equipment_required, created_at
+        FROM technical_protocols WHERE ${whereClause}
+        ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
+      `);
+      const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
+      const countResult = await db.execute(sql`SELECT COUNT(*) as total FROM technical_protocols WHERE ${whereClause}`);
+      const countRows = (countResult as any).rows ?? (Array.isArray(countResult) ? countResult : []);
       const total = (countRows as any[])[0]?.total || 0;
-      
-      return {
-        protocols: rows as any[],
-        total,
-        limit,
-        offset
-      };
+      return { protocols: rows as any[], total, limit, offset };
     }),
 
-  // Get protocol by ID or slug
   getById: publicProcedure
-    .input(z.object({
-      id: z.number().optional(),
-      slug: z.string().optional(),
-    }))
+    .input(z.object({ id: z.number().optional(), slug: z.string().optional() }))
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return null;
-      
       const { id, slug } = input;
-      
-      let sql = `SELECT * FROM technical_protocols WHERE `;
-      
       if (id) {
-        sql += `id = ?`;
-        const result = await db.execute(sql, [id]);
-        const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
+        const result = await db.execute(sql`SELECT * FROM technical_protocols WHERE id = ${id}`);
+        const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
         return (rows as any[])[0] || null;
       } else if (slug) {
-        sql += `slug = ?`;
-        const result = await db.execute(sql, [slug]);
-        const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
+        const result = await db.execute(sql`SELECT * FROM technical_protocols WHERE slug = ${slug}`);
+        const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
         return (rows as any[])[0] || null;
       }
-      
       return null;
     }),
 
-  // Get categories list
   getCategories: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return [];
-    
-    const result = await db.execute(`
-      SELECT category, COUNT(*) as count
-      FROM technical_protocols
-      WHERE category IS NOT NULL
-      GROUP BY category
-      ORDER BY count DESC
+    const result = await db.execute(sql`
+      SELECT category, COUNT(*) as count FROM technical_protocols
+      WHERE category IS NOT NULL GROUP BY category ORDER BY count DESC
     `);
-    const rows = Array.isArray(result) && Array.isArray(result[0]) ? result[0] : [];
+    const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
     return rows as { category: string; count: number }[];
   }),
 
-  // Get protocol statistics
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return { total: 0, byDifficulty: [], byCategory: [] };
-    
-    const totalResult = await db.execute(`SELECT COUNT(*) as total FROM technical_protocols`);
-    const totalRows = Array.isArray(totalResult) && Array.isArray(totalResult[0]) ? totalResult[0] : [];
+    const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM technical_protocols`);
+    const totalRows = (totalResult as any).rows ?? (Array.isArray(totalResult) ? totalResult : []);
     const total = (totalRows as any[])[0]?.total || 0;
-    
-    const diffResult = await db.execute(`
-      SELECT difficulty_level, COUNT(*) as count
-      FROM technical_protocols
-      GROUP BY difficulty_level
-      ORDER BY FIELD(difficulty_level, 'débutant', 'intermédiaire', 'avancé', 'expert')
+    const diffResult = await db.execute(sql`
+      SELECT difficulty_level, COUNT(*) as count FROM technical_protocols
+      GROUP BY difficulty_level ORDER BY count DESC
     `);
-    const byDifficulty = Array.isArray(diffResult) && Array.isArray(diffResult[0]) ? diffResult[0] : [];
-    
-    const catResult = await db.execute(`
-      SELECT category, COUNT(*) as count
-      FROM technical_protocols
-      WHERE category IS NOT NULL
-      GROUP BY category
-      ORDER BY count DESC
+    const byDifficulty = (diffResult as any).rows ?? (Array.isArray(diffResult) ? diffResult : []);
+    const catResult = await db.execute(sql`
+      SELECT category, COUNT(*) as count FROM technical_protocols
+      WHERE category IS NOT NULL GROUP BY category ORDER BY count DESC
     `);
-    const byCategory = Array.isArray(catResult) && Array.isArray(catResult[0]) ? catResult[0] : [];
-    
+    const byCategory = (catResult as any).rows ?? (Array.isArray(catResult) ? catResult : []);
     return {
       total,
       byDifficulty: byDifficulty as { difficulty_level: string; count: number }[],
