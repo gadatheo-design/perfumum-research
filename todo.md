@@ -639,4 +639,12 @@
 - [x] Batch 14 : 8 muscs synthétiques (Galaxolide, Habanolide, Iso E Super, Ambroxan, Ethylene Brassylate, Muscone, Exaltolide, Civettone) + 7 molécules manquantes (Perillaldéhyde, Méthyl Chavicol, Nardol, Benzyl Benzoate, Galbanum, Cis-3-Hexénol, CBN) — 15 molécules enrichies, 3 liaisons recettes créées
 - [x] Couverture recettes : 94% (291/310) — total molécules : 1038
 - [x] Badge CITES rouge dans les fiches molécules (Ambre Gris, Castoreum, Hyraceum, Civettone, Muscone) avec tooltip alternatives synthétiques
+- [x] Checkpoint final (version ef710dc5)
+
+---
+
+## 🧪 SESSION 13 MARS 2026 — BATCH 15 SYNTHÈSE INDUSTRIELLE
+
+- [x] Batch 15 : 9 molécules créées (Hedione HC, Méthyl Ionone, α-Méthyl Ionone, Irone, Dihydromyrcenol, Dihydrojasmone, Cedryl Methyl Ether, Polysantol, Ebanol) + 21 enrichies (Hedione, Linalyl Acetate, Benzyl Acetate, Calone, Cashmeran, Javanol…) — 1045 molécules en base
+- [x] Liaisons plantes : 13 créées (Jasmin, Ylang-Ylang, Géranium, Palmarosa, Rosa damascena) + 2 doublons Linalyl Acetate fusionnés
 - [ ] Checkpoint final
