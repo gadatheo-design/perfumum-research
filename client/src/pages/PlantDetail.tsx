@@ -29,6 +29,7 @@ import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUplo
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LinkedMolecules, LinkedTerroirs, SimilarContent } from "@/components/SeeAlso";
 import { LinkedReferences } from "@/components/LinkedReferences";
+import { GenealogyTree } from "@/components/GenealogyTree";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -237,6 +238,7 @@ export default function PlantDetail() {
           <TabsTrigger value="conservation">Conservation</TabsTrigger>
           <TabsTrigger value="regulatory">Réglementation</TabsTrigger>
           <TabsTrigger value="usage">Usage Absorbe</TabsTrigger>
+          <TabsTrigger value="genealogy">Généalogie</TabsTrigger>
         </TabsList>
         
         {/* Vue d'ensemble */}
@@ -1034,6 +1036,24 @@ export default function PlantDetail() {
                   </Button>
                 </Link>
               </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Généalogie */}
+        <TabsContent value="genealogy" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <GitBranch className="h-5 w-5" />
+                Arbre généalogique
+              </CardTitle>
+              <CardDescription>
+                Visualisation interactive des relations parentales et des croisements
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <GenealogyTree varietyId={plant.id} varietyName={plant.name} />
             </CardContent>
           </Card>
         </TabsContent>

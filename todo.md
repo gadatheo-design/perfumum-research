@@ -172,3 +172,36 @@
 ### Phase 4 : Checkpoint final
 - [ ] Vérifier les données dans l'interface
 - [ ] Sauvegarder le checkpoint
+
+
+## SESSION 8 — Visualisation, Thérapeutique, Pyrolyse
+
+### Phase 1 : Visualisation arborescente des généalogies
+- [ ] Analyser la structure variety_genealogy pour extraire les arbres
+- [ ] Créer une API tRPC pour récupérer l'arbre généalogique d'une variété
+- [ ] Choisir entre D3.js et React Flow (évaluer pros/cons)
+- [ ] Implémenter le composant de visualisation interactive
+- [ ] Intégrer dans la fiche variété (PlantDetail)
+- [ ] Tester sur cannabis et tabac
+- [ ] Adapter pour mobile
+
+### Phase 2 : Affichage propriétés thérapeutiques
+- [ ] Créer un onglet "Propriétés" dans MoleculeDetail
+- [ ] Afficher therapeuticProperties avec formatage riche
+- [ ] Afficher olfactiveProfile avec séparation claire
+- [ ] Ajouter les sources scientifiques (PMC, EFSA, ISO)
+- [ ] Formatter les propriétés en listes lisibles
+- [ ] Adapter pour mobile
+
+### Phase 3 : Transformations par pyrolyse
+- [ ] Rechercher les transformations documentées (Latakia, Perique, Virginia, cannabis)
+- [ ] Analyser la table pyrolysis_transformations
+- [ ] Créer les liaisons molécule source → molécule transformée
+- [ ] Documenter les conditions (température, durée, catalyseurs)
+- [ ] Ajouter les sources scientifiques
+- [ ] Créer une visualisation des transformations
+
+### Phase 4 : Checkpoint final
+- [ ] Tester toutes les trois implémentations
+- [ ] Vérifier la compatibilité mobile
+- [ ] Sauvegarder le checkpoint
