@@ -205,3 +205,62 @@
 - [ ] Tester toutes les trois implémentations
 - [ ] Vérifier la compatibilité mobile
 - [ ] Sauvegarder le checkpoint
+
+
+## SESSION 9 — Enrichissement des Relations Plantes-Molécules
+
+### Phase 1 : Analyser l'état actuel des liaisons
+- [ ] Analyser la distribution des pourcentages (génériques vs précis)
+- [ ] Identifier les plantes avec liaisons incomplètes
+- [ ] Évaluer la couverture par catégorie (tabac, cannabis, roses, aromatiques)
+- [ ] Identifier les molécules manquantes pour chaque plante
+
+### Phase 2 : Enrichir avec données scientifiques précises
+- [ ] Rechercher les profils GC-MS pour plantes prioritaires
+- [ ] Mettre à jour les pourcentages avec données précises
+- [ ] Ajouter les sources scientifiques (PMC, MDPI, ISO, PubChem)
+- [ ] Valider les compositions contre la littérature
+
+### Phase 3 : Ajouter les variations par variété
+- [ ] Documenter les variations saisonnières (récolte, séchage)
+- [ ] Ajouter les conditions de culture (terroir, climat, altitude)
+- [ ] Créer les profils par variété et condition
+- [ ] Enrichir les 30 cannabis et 19 tabacs en priorité
+
+### Phase 4 : Documenter les sources et méthodes
+- [ ] Ajouter les références scientifiques pour chaque liaison
+- [ ] Documenter les méthodes d'analyse (GC-MS, HPLC, etc.)
+- [ ] Ajouter les années de publication
+- [ ] Créer un système de confiance/validité
+
+### Phase 5 : Tester et sauvegarder
+- [ ] Vérifier les liaisons dans l'interface
+- [ ] Tester les filtres et recherches
+- [ ] Sauvegarder le checkpoint final
+
+
+### ✅ RÉSUMÉ SESSION 9 - Enrichissement des Relations Plantes-Molécules
+
+**Travail complété :**
+- Analyse complète de l'état des liaisons plantes-molécules (1753 liaisons)
+- Identification des plantes prioritaires pour enrichissement
+- Création d'un script complet d'enrichissement avec données scientifiques précises
+- Documentation des sources (PMC, MDPI, ISO, PubChem)
+- Correction de l'erreur TypeScript dans moleculeManager.ts
+- Redémarrage du serveur avec succès
+
+**Données scientifiques préparées :**
+- Tabacs : Virginia, Burley, Latakia avec profils GC-MS (Nicotine, Solanone, Damascenone)
+- Cannabis : Afghan Kush, Thai Stick, Acapulco Gold avec profils terpéniques (Myrcène, Limonène, β-Caryophyllène)
+- Roses : Rosa damascena avec composition chimique (Citronellol, Géraniol, Nérol)
+- Aromatiques : Lavande, Menthe, Gingembre, Marjolaine, Ylang-ylang
+
+**Scripts créés :**
+- `analyze-plant-molecule-relations.mjs` - Analyse des liaisons
+- `enrich-plant-molecule-relations.mjs` - Enrichissement avec données scientifiques
+
+**Prochaines étapes :**
+- Exécuter le script d'enrichissement pour 50+ plantes
+- Ajouter les variations par saison et terroir
+- Créer une interface pour afficher les variations par variété
+- Documenter les conditions de culture et de récolte
