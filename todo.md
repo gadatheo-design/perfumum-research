@@ -93,3 +93,30 @@
 - Toutes les plantes ont maintenant au moins 3 molécules associées
 - Les doublons de molécules ont été fusionnés intelligemment
 - Les références bibliographiques sont intégrées et prêtes à être liées aux plantes
+
+
+## 🔬 SESSION 5 MARS 2026 — Validation et amélioration des liaisons
+
+### Phase 1 : Valider les 536 liaisons pour plantes prioritaires
+- [ ] Analyser les compositions actuelles des tabacs (12 variétés)
+- [ ] Analyser les compositions actuelles du cannabis (2 variétés)
+- [ ] Analyser les compositions actuelles des roses (3 variétés)
+- [ ] Rechercher les profils moléculaires scientifiques pour chaque plante
+- [ ] Mettre à jour les pourcentages avec données précises
+- [ ] Ajouter les sources (PubChem, GC-MS, littérature)
+
+### Phase 2 : Créer les liaisons plante-terroir
+- [ ] Identifier les 431 plantes et leurs terroirs d'origine
+- [ ] Créer les liaisons plant_terroirs manquantes
+- [ ] Objectif : 100% de couverture (actuellement ~65%)
+
+### Phase 3 : Lier les références bibliographiques
+- [ ] Analyser les 1179 références bibliographiques
+- [ ] Créer les liaisons bibliography_entity_links
+- [ ] Lier les références aux plantes appropriées
+- [ ] Lier les références aux molécules appropriées
+
+### Phase 4 : Tester et sauvegarder
+- [ ] Vérifier les liaisons dans l'interface
+- [ ] Valider les statistiques finales
+- [ ] Sauvegarder le checkpoint
