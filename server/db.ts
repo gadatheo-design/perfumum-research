@@ -7429,8 +7429,11 @@ export async function listThreatenedPlants(filters: {
   let query = db.select().from(plants);
   
   const conditions = [];
+  // Par défaut : filtrer sur les statuts menacés (EX, EW, CR, EN, VU, NT, DD)
   if (iucn) {
     conditions.push(eq(plants.conservationStatus, iucn as any));
+  } else {
+    conditions.push(inArray(plants.conservationStatus, ['EX', 'EW', 'CR', 'EN', 'VU', 'NT', 'DD'] as any[]));
   }
   if (cites) {
     conditions.push(eq(plants.citesAppendix, cites as any));
@@ -7439,9 +7442,7 @@ export async function listThreatenedPlants(filters: {
     conditions.push(like(plants.origin, `%${region}%`));
   }
   
-  if (conditions.length > 0) {
-    query = query.where(and(...conditions)) as any;
-  }
+  query = query.where(and(...conditions)) as any;
   
   return await query;
 }
