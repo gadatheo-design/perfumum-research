@@ -3110,7 +3110,7 @@ export const appRouter = router({
       return fwc.map(f => ({ name: f.family, count: f.count }));
     }),
     getByFamily: publicProcedure.input(z.string()).query(async ({ input }) => {
-      return db.getAllPlants ? (await (db as any).getAllPlants()).filter((p: any) => p.family === input) : [];
+      const allPlants = await (db as any).getAllPlants(); return allPlants.filter((p: any) => p.family === input);
     }),
     getFamilyStats: publicProcedure.query(async () => {
       const fwc = await db.getPlantFamiliesWithCategories();

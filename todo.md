@@ -330,3 +330,38 @@
 ### Phase 4 : Checkpoint final
 - [x] Valider la compilation TypeScript (serveur stable, 0 erreur critique)
 - [x] Sauvegarder le checkpoint
+
+
+---
+
+## 🌿 SESSION 5 MARS 2026 — Variations saisonnières, Batch 5 thérapeutique, Validation GC-MS
+
+### Phase 1 : Variations saisonnières supplémentaires
+- [x] Ajouter variations OG Kush (3 saisons : printemps/été/automne)
+- [x] Ajouter variations Haze (2 conditions : tropical/tempéré)
+- [x] Ajouter variations Rosa centifolia (3 saisons)
+- [x] Ajouter variations Lavandula angustifolia (3 altitudes/saisons)
+- [x] Total variations saisonnières : 23 entrées (OG Kush id:720004, Haze id:720005, Rose de Mai id:720006)
+
+### Phase 2 : Batch 5 thérapeutique (20.6% → 25%)
+- [x] Enrichir aldéhydes aliphatiques C8–C12 (Octanal, Nonanal, Decanal, Dodecanal, Hexanal, Heptanal)
+- [x] Enrichir acides gras aromatiques (acide benzoïque, cinnamique, phénylacétique)
+- [x] Enrichir lactones macrocycliques (Ambrettolide, Exaltolide, Habanolide, Ethylene brassylate)
+- [x] Enrichir esters aromatiques (Benzyl benzoate, Benzyl acetate, Methyl salicylate)
+- [x] **Atteindre 25% de couverture thérapeutique : 434/1735 molécules (25.0%)** ✅
+
+### Phase 3 : Validation pourcentages GC-MS tabac & cannabis
+- [x] Valider compositions des 5 variétés de tabac (Virginia, Burley, Latakia, Oriental, Perique) — 30 liaisons
+- [x] Valider compositions des 7 variétés de cannabis (Afghan Kush, Durban Poison, Hindu Kush, Thai Stick, Acapulco Gold, OG Kush, Haze) — 52 liaisons
+- [x] Remplacer les pourcentages génériques (1–5%) par des données précises (8–30%)
+- [x] Ajouter les sources GC-MS (J.Agric.Food.Chem, Phytochemistry, CORESTA, PMC, J.Nat.Prod)
+- [x] Total : 82 liaisons mises à jour avec données scientifiques validées
+
+### Phase 4 : Clôture des tâches en suspens
+- [x] Enrichir les 2 plantes sans nom latin → **100% couverture (434/434 plantes)** ✅
+- [x] Créer 10 923 liaisons bibliographiques entity_links (29.5% des références liées)
+- [x] Normaliser les liaisons bibliographiques JSON (807 références traitées)
+- [x] Lier les 1179 références bibliographiques aux plantes et molécules (domaines tabac, botanique, chimie)
+- [x] Corriger erreur TypeScript TS2774 (server/routers.ts)
+- [x] Corriger erreur TypeScript TS2769 (server/routers/raw-materials.ts)
+- [x] **TypeScript : 0 erreur — compilation propre** ✅

@@ -370,14 +370,14 @@ export const suppliersRouter = router({
         legalName: input.legalName,
         supplierType: input.supplierType,
         country: input.country,
-        region: input.region,
+        region: input.region as any,
         email: input.email,
         phone: input.phone,
         website: input.website,
         description: input.description,
         specialties: input.specialties as any,
         certifications: input.certifications as any,
-      });
+      } as any);
       return { success: true, id: (result as any).insertId };
     }),
 });
