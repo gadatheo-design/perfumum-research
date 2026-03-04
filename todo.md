@@ -146,3 +146,29 @@
 - [ ] Verifier les liaisons dans l'interface
 - [ ] Valider les statistiques finales
 - [ ] Sauvegarder le checkpoint
+
+
+## SESSION 7 — Bibliographie, Thérapeutique, Généalogies
+
+### Phase 1 : Liaisons bibliographiques par domaine
+- [ ] Analyser les domaines de recherche des 1179 références
+- [ ] Lier les références "Tabac & Cannabis" aux plantes tabac/cannabis
+- [ ] Lier les références "Botanique" aux plantes par famille
+- [ ] Lier les références "Chimie olfactive" aux molécules
+- [ ] Objectif : 40-50% de couverture
+
+### Phase 2 : Propriétés thérapeutiques des molécules
+- [ ] Identifier les 50 molécules les plus fréquentes
+- [ ] Rechercher les propriétés thérapeutiques documentées
+- [ ] Enrichir les fiches moléculaires (anti-inflammatoire, anxiolytique, etc.)
+- [ ] Ajouter les sources scientifiques
+
+### Phase 3 : Généalogies cannabis et tabac
+- [ ] Documenter les 30 variétés cannabis avec parents
+- [ ] Documenter les 19 variétés tabac avec origines
+- [ ] Créer les liaisons de croisement dans la base
+- [ ] Vérifier la structure DB pour les relations parentales
+
+### Phase 4 : Checkpoint final
+- [ ] Vérifier les données dans l'interface
+- [ ] Sauvegarder le checkpoint
