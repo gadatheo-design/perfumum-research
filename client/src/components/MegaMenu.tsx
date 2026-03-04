@@ -547,6 +547,13 @@ export function MegaMenu() {
           description: "Matrice de compatibilité",
         },
         {
+          label: "Corrélations Parfum × Tabac × Cannabis",
+          path: "/correlations",
+          icon: <GitBranch className="h-4 w-4" />,
+          description: "Molécules communes inter-domaines",
+          badge: "NEW",
+        },
+        {
           label: "Graphe Réseau",
           path: "/recipe-network",
           icon: <Network className="h-4 w-4" />,

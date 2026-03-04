@@ -171,6 +171,7 @@ export function GlobalSearch() {
     const staticPages = [
       { title: "Graphe Molécules-Recettes", path: "/graphe-molecules-recettes", keywords: ["graphe", "visualisation", "d3"] },
       { title: "Matrice Synergies", path: "/matrice-synergies", keywords: ["synergie", "combinaison", "matrice"] },
+      { title: "Corrélations Parfum × Tabac × Cannabis", path: "/correlations", keywords: ["corrélation", "inter-domaine", "cannabis", "tabac", "parfum", "molécule commune", "triple"] },
       { title: "Comparaison Terpènes", path: "/compare-terpenes", keywords: ["comparer", "comparaison", "terpène"] },
       { title: "Comparaison Radar", path: "/compare-radar", keywords: ["radar", "profil", "olfactif"] },
       { title: "Galerie Botaniques", path: "/galerie-botaniques", keywords: ["galerie", "image", "botanique"] },

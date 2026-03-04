@@ -762,6 +762,17 @@ export default function MoleculeDetail() {
                     maxPercent={(molecule as any).ifra_max_percent}
                     reason={(molecule as any).ifra_reason}
                   />
+                  {/* Badge inter-domaines : lien vers la page /correlations */}
+                  <Link href={`/correlations?q=${encodeURIComponent(molecule.name)}`}>
+                    <Badge
+                      variant="outline"
+                      className="text-sm bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-violet-500/10 border-violet-500/30 text-violet-600 dark:text-violet-400 hover:border-violet-500/60 cursor-pointer transition-colors"
+                      title="Voir les corrélations inter-domaines pour cette molécule"
+                    >
+                      <GitBranch className="h-3 w-3 mr-1" />
+                      Corrélations
+                    </Badge>
+                  </Link>
                 </div>
               </div>
             </div>

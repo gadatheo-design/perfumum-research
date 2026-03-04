@@ -591,3 +591,13 @@
 - [x] Ajouter la route /correlations dans App.tsx
 - [x] Tests vitest : 22/22 passent ✅
 - [x] Serveur opérationnel ✅
+
+---
+
+## 🔬 AUDIT QUALITÉ SCIENTIFIQUE — SESSION 9 MARS 2026
+
+- [x] Audit molécules : formules chimiques incohérentes, noms fantaisistes, doublons, propriétés hors-normes
+- [x] Audit recettes : ratios > 100%, molécules inexistantes, compositions incohérentes
+- [x] Rapport d'audit consolidé avec priorisation des corrections
+- [x] Nettoyage ciblé des entrées problématiques (Phase A : 185 CSV supprimés, 4 doublons fusionnés, 37 formules corrigées)
+- [ ] Checkpoint post-nettoyage

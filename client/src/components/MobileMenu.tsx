@@ -102,6 +102,7 @@ const mobileMenuSections: MenuSection[] = [
     items: [
       { href: "/visualisations", label: "Hub Visualisations", badge: "HUB" },
       { href: "/synergies-heatmap", label: "Synergies Heatmap" },
+      { href: "/correlations", label: "Corrélations Parfum × Tabac × Cannabis", badge: "NEW" },
       { href: "/recipe-network", label: "Graphe Réseau" },
       { href: "/sankey-flow", label: "Diagramme Sankey" },
     ],
