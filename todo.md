@@ -264,3 +264,21 @@
 - Ajouter les variations par saison et terroir
 - Créer une interface pour afficher les variations par variété
 - Documenter les conditions de culture et de récolte
+
+
+## SESSION 10 — Exécution de l'enrichissement et variations saisonnières
+
+### Phase 1 : Exécuter le script d'enrichissement
+- [ ] Exécuter enrich-plant-molecule-relations.mjs
+- [ ] Vérifier les liaisons créées/mises à jour
+- [ ] Valider les pourcentages et sources
+
+### Phase 2 : Ajouter les variations saisonnières
+- [ ] Documenter les variations pour tabacs (récolte, séchage)
+- [ ] Documenter les variations pour cannabis (phénotype, terroir)
+- [ ] Documenter les variations pour roses (saison, altitude)
+- [ ] Documenter les variations pour aromatiques (printemps vs été)
+
+### Phase 3 : Tester et sauvegarder
+- [ ] Vérifier les liaisons dans l'interface
+- [ ] Sauvegarder le checkpoint final
