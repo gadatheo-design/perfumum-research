@@ -92,6 +92,7 @@ import AdminNotifications from "./pages/AdminNotifications";
 import AdminProgressReport from "./pages/AdminProgressReport";
 import DataQuality from "./pages/admin/DataQuality";
 import MoleculeManager from "./pages/admin/MoleculeManager";
+import AdminPlantMolecules from "./pages/admin/AdminPlantMolecules";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -467,6 +468,7 @@ function Router() {
       <Route path="/admin/references" component={AdminReferences} />
       <Route path="/admin/data-quality" component={DataQuality} />
       <Route path="/admin/molecule-manager" component={MoleculeManager} />
+      <Route path="/admin/plant-molecules" component={AdminPlantMolecules} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

@@ -6607,6 +6607,43 @@ export async function deletePlantMoleculeLink(plantId: number, moleculeId: numbe
 }
 
 /**
+ * Met à jour une liaison plante-molécule (pourcentages, rôle, signature)
+ */
+export async function updatePlantMoleculeLink(
+  plantId: number,
+  moleculeId: number,
+  data: {
+    percentageMin?: number | null;
+    percentageMax?: number | null;
+    percentageTypical?: number | null;
+    isSignature?: number;
+    role?: string;
+    source?: string;
+  }
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(plantMolecules)
+    .set({
+      ...(data.percentageMin !== undefined && { percentageMin: data.percentageMin?.toString() ?? null }),
+      ...(data.percentageMax !== undefined && { percentageMax: data.percentageMax?.toString() ?? null }),
+      ...(data.percentageTypical !== undefined && { percentageTypical: data.percentageTypical?.toString() ?? null }),
+      ...(data.isSignature !== undefined && { isSignature: data.isSignature }),
+      ...(data.role !== undefined && { role: data.role as any }),
+      ...(data.source !== undefined && { source: data.source }),
+    })
+    .where(
+      and(
+        eq(plantMolecules.plantId, plantId),
+        eq(plantMolecules.moleculeId, moleculeId)
+      )
+    );
+
+  return { plantId, moleculeId, ...data };
+}
+
+/**
  * Met à jour le statut de conservation d'une variété
  */
 export async function updateVarietyConservationStatus(

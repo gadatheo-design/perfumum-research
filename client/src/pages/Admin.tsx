@@ -213,6 +213,14 @@ export default function Admin() {
       color: "text-blue-600",
       bgColor: "bg-blue-50",
     },
+    {
+      title: "Liaisons Plantes — Molécules",
+      description: "Gérer les liaisons bidirectionnelles plante/molécule : pourcentages GC-MS, rôles, signatures. Distingue molécules pures, extraits et mélanges.",
+      icon: Leaf,
+      href: "/admin/plant-molecules",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+    },
   ];
 
   return (

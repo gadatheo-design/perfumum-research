@@ -398,3 +398,59 @@
 - [x] Ajouter markerEnd (flèches directionnelles) sur les liens
 - [x] Ajouter tooltip breeder sur les liens
 - [x] Tester avec Afghan Kush (8 descendants) et OG Kush (2 parents) ✅
+
+---
+
+## 🌿 SESSION 4 MARS 2026 (après-midi) — Batch 6, Généalogies parfum, Patrimoine olfactif
+
+### Phase 1 : Batch 6 thérapeutique (25% → 30%)
+- [x] Enrichir phénylpropanoïdes (Méthylchavicol, Anéthol, Estragole, Safrole, Apiole)
+- [x] Enrichir coumarines (Bergaptène, Xanthotoxine, Osthole, Psoralène, Herniarine)
+- [x] Enrichir diterpènes (Carnosol, Rosmanol, Abietol, Carnosique, Manool)
+- [x] Enrichir autres familles cibles (flavonoïdes, alcaloïdes médicinaux, lactones, aldéhydes)
+- [x] **Atteindre 30% de couverture thérapeutique : 533/1765 molécules (30.2%)** ✅
+
+### Phase 2 : Généalogies plantes à parfum
+- [ ] Ajouter généalogies roses (Rosa × damascena, R. centifolia, R. gallica, R. alba) — en cours
+- [ ] Ajouter généalogies lavandes (L. angustifolia, L. latifolia, L. × intermedia, L. stoechas)
+- [ ] Ajouter généalogies jasmin (J. sambac, J. grandiflorum, J. officinale)
+- [ ] Ajouter généalogies autres plantes à parfum (Neroli, Ylang-ylang, Vétiver)
+
+### Phase 3 : Page /patrimoine-olfactif
+- [ ] Créer la page PatrimoineOlfactif.tsx avec liste des plantes menacées/disparues
+- [ ] Connecter aux données IUCN (statut conservation dans la table plants)
+- [ ] Afficher profils moléculaires + liens vers archives olfactives
+- [ ] Ajouter route /patrimoine-olfactif dans App.tsx
+- [ ] Intégrer dans la navigation principale (sidebar)
+
+> ⚠️ Phase 3 (patrimoine olfactif) reportée — à implémenter lors de la prochaine session
+
+
+---
+
+## 🔧 CORRECTION PLANTES/MOLÉCULES — SESSION 4 MARS 2026
+
+### Phase 1 : Audit confusion plantes/molécules
+- [x] Identifier les plantes classées comme molécules (282 entrées identifiées)
+- [x] Identifier les molécules classées comme plantes (0 cas)
+- [x] Lister toutes les entrées ambiguës dans les deux tables
+
+### Phase 2 : Correction des données
+- [x] Supprimer Combava (3 fausses molécules) + Rose de Damas (3 doublons)
+- [x] Renommer 12 extraits plante avec préfixe [EXTRAIT PLANTE]
+- [x] Renommer 10 mélanges avec préfixe [MÉLANGE]
+- [x] Supprimer 81 entrées CSV brutes sans valeur chimique
+- [x] Résultat : 1678 molécules nettes (−87), 434 plantes inchangées
+
+### Phase 3 : Interface admin plante-molécule
+- [x] Créer la page admin /admin/plant-molecules (AdminPlantMolecules.tsx)
+- [x] Recherche plante avec autocomplete + sélection
+- [x] Liste des molécules avec badges de type (pure/extrait/mélange/variété)
+- [x] Édition inline des pourcentages (min/typ/max), rôle, source
+- [x] Ajout de liaison via dialog avec recherche molécule
+- [x] Suppression de liaison avec confirmation
+- [x] Filtre par type de molécule
+- [x] Indicateur molécule signature (⭐)
+- [x] Lien ajouté dans la page Admin principale
+- [x] Route /admin/plant-molecules enregistrée dans App.tsx
+- [x] TypeScript : 0 erreur ✅

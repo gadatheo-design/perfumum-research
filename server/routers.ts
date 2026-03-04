@@ -3605,6 +3605,26 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return db.deletePlantMoleculeLink(input.plantId, input.moleculeId);
       }),
+    update: publicProcedure
+      .input(z.object({
+        plantId: z.number(),
+        moleculeId: z.number(),
+        percentageMin: z.number().nullable().optional(),
+        percentageMax: z.number().nullable().optional(),
+        percentageTypical: z.number().nullable().optional(),
+        isSignature: z.number().optional(),
+        role: z.string().optional(),
+        source: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { plantId, moleculeId, ...data } = input;
+        return db.updatePlantMoleculeLink(plantId, moleculeId, data);
+      }),
+    getByPlantWithDetails: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        return db.getPlantMoleculesWithPercentages(input.plantId);
+      }),
   }),
   
   terroirs: router({
