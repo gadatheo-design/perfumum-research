@@ -31,6 +31,10 @@ import {
   Clock,
   ChevronRight,
   Palette,
+  Cigarette,
+  Package,
+  Truck,
+  Building2,
 } from "lucide-react";
 
 interface MenuItem {
@@ -451,6 +455,68 @@ export function MegaMenu() {
           icon: <Beaker className="h-4 w-4" />,
           description: "Visualisation moléculaire 2D",
           badge: "NEW",
+        },
+      ],
+    },
+    {
+      title: "Tabac & Cannabis",
+      items: [
+        {
+          label: "Tabacs Niche",
+          path: "/tabacs-niche",
+          icon: <Cigarette className="h-4 w-4" />,
+          description: "Variétés rares et précieuses",
+        },
+        {
+          label: "Tabacs Résines",
+          path: "/tabacs-resines",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Résines et extraits tabac",
+        },
+        {
+          label: "Tabacs Naturels",
+          path: "/tabacs-naturels",
+          icon: <Leaf className="h-4 w-4" />,
+          description: "Variétés naturelles et terroir",
+          badge: "NEW",
+        },
+        {
+          label: "Tabacs Originaux",
+          path: "/tabacs-originaux",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Variétés exotiques et rares",
+          badge: "NEW",
+        },
+        {
+          label: "Cigarettes Historiques",
+          path: "/historic-cigarettes",
+          icon: <Archive className="h-4 w-4" />,
+          description: "Archives olfactives tabac",
+        },
+        {
+          label: "Recettes Cigarillos",
+          path: "/recettes-cigarillos",
+          icon: <Beaker className="h-4 w-4" />,
+          description: "Formulations cigarillos",
+        },
+        {
+          label: "Hub Sourcing",
+          path: "/sourcing-hub",
+          icon: <Building2 className="h-4 w-4" />,
+          description: "Tous les fournisseurs",
+          badge: "NEW",
+        },
+        {
+          label: "Sourcing Tabac",
+          path: "/sourcing/tabac",
+          icon: <Truck className="h-4 w-4" />,
+          description: "Fournisseurs spécialisés",
+        },
+        {
+          label: "Sourcing Cannabis",
+          path: "/sourcing/cannabis",
+          icon: <Package className="h-4 w-4" />,
+          description: "Fournisseurs cannabis",
         },
       ],
     },

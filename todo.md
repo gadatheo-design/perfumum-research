@@ -968,3 +968,25 @@
 - [x] URL déterministe : pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{CID}/PNG (pas de stockage nécessaire)
 - [x] Fallback silencieux si l'image n'est pas disponible (onError)
 - [x] Affichage conditionnel (seulement si pubchem_cid disponible)
+
+---
+
+## 🌿 SESSION 5 MARS 2026 — PARTIE 5
+
+### Synergies terpènes cannabis
+- [ ] Identifier les molécules cannabis (Myrcène, Limonène, β-Caryophyllène, Linalol, α-Pinène, etc.) dans la DB
+- [ ] Créer 50-100 synergies documentées scientifiquement (mécanisme, application, ratio)
+- [ ] Couvrir les types : potentialisation, stabilisation, transformation, masquage
+- [ ] Lier aux molécules existantes par ID
+
+### Navigation TabacsNaturels et TabacsOriginaux
+- [ ] Localiser les entrées tabac dans le MegaMenu
+- [ ] Ajouter /tabacs-naturels et /tabacs-originaux dans le MegaMenu
+- [ ] Ajouter les liens dans la sidebar tabac si elle existe
+
+### Hub /sourcing centralisé
+- [ ] Analyser les pages sourcing géographiques existantes
+- [ ] Créer la page SourcingHub.tsx avec filtres (spécialité, certification, zone géo)
+- [ ] Agréger tous les fournisseurs (tabac, cannabis, parfum, botanique)
+- [ ] Ajouter la route /sourcing dans App.tsx
+- [ ] Lier depuis le MegaMenu
