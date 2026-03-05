@@ -3786,6 +3786,22 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return getExtendedSupplierById(input.id);
       }),
+    getTabacSuppliers: publicProcedure.query(async () => {
+      const all = await getAllExtendedSuppliers();
+      return all.filter((s: any) => s.supplierId?.startsWith('TABAC'));
+    }),
+    getCannabisSuppliers: publicProcedure.query(async () => {
+      const all = await getAllExtendedSuppliers();
+      return all.filter((s: any) => s.supplierId?.startsWith('CANNA'));
+    }),
+    getByCategory: publicProcedure
+      .input(z.object({ category: z.enum(['tabac', 'cannabis', 'all']) }))
+      .query(async ({ input }) => {
+        const all = await getAllExtendedSuppliers();
+        if (input.category === 'tabac') return all.filter((s: any) => s.supplierId?.startsWith('TABAC'));
+        if (input.category === 'cannabis') return all.filter((s: any) => s.supplierId?.startsWith('CANNA'));
+        return all;
+      }),
   }),
   
   plantStatistics: router({

@@ -116,6 +116,8 @@ import SourcingFrance from '@/pages/SourcingFrance';
 import SourcingInde from '@/pages/SourcingInde';
 import SourcingMadagascar from '@/pages/SourcingMadagascar';
 import SourcingNorthAmerica from '@/pages/SourcingNorthAmerica';
+import SourcingTabac from '@/pages/SourcingTabac';
+import SourcingCannabis from '@/pages/SourcingCannabis';
 
 // === LABORATOIRE ===
 import Laboratoire from "./pages/Laboratoire";
@@ -595,6 +597,8 @@ function Router() {
       <Route path="/sourcing/inde" component={SourcingInde} />
       <Route path="/sourcing/madagascar" component={SourcingMadagascar} />
       <Route path="/sourcing/north-america" component={SourcingNorthAmerica} />
+      <Route path="/sourcing/tabac" component={SourcingTabac} />
+      <Route path="/sourcing/cannabis" component={SourcingCannabis} />
       
       {/* === LABORATOIRE === */}
       <Route path="/laboratoire" component={Laboratoire} />

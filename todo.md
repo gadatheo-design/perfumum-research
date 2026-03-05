@@ -943,3 +943,28 @@
 - [x] Bascule entre viewer Canvas et iframe PubChem
 - [x] Liens vers PubChem, ChemSpider, ChemicalBook
 - [x] Affichage SMILES, formule, CID dans l'en-tête de l'onglet
+
+---
+
+## 🔗 SESSION 5 MARS 2026 — PARTIE 4
+
+### Connexion Sourcing à la DB
+- [x] Analyser SourcingTabac.tsx et SourcingCannabis.tsx (n'existaient pas, créées)
+- [x] Peupler la table extended_suppliers : 11 fournisseurs (6 tabac + 5 cannabis)
+- [x] Créer les endpoints tRPC (extendedSuppliers.getTabacSuppliers, getCannabisSuppliers, getByCategory)
+- [x] Créer SourcingTabac.tsx connecté à la DB (route /sourcing/tabac)
+- [x] Créer SourcingCannabis.tsx connecté à la DB (route /sourcing/cannabis)
+- [x] Ajouter les routes /sourcing/tabac et /sourcing/cannabis dans App.tsx
+
+### Onglet Synergies dans MoleculeDetail.tsx
+- [x] Onglet "⚗️ Synergies" ajouté dans MoleculeDetail.tsx (12e onglet)
+- [x] Composant SynergiesTab créé avec filtres par type (5 types : potentialisation, stabilisation, transformation, masquage, neutralisation)
+- [x] Utiliser trpc.molecularSynergies.getForMolecule + trpc.synergies.getAllMoleculeSynergies
+- [x] Afficher mécanisme chimique, application olfactive, ratio optimal, intensité
+- [x] Lien vers /synergies-moleculaires
+
+### Images 2D PubChem
+- [x] Images 2D PubChem ajoutées dans les cartes molécules de Molecules.tsx
+- [x] URL déterministe : pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{CID}/PNG (pas de stockage nécessaire)
+- [x] Fallback silencieux si l'image n'est pas disponible (onError)
+- [x] Affichage conditionnel (seulement si pubchem_cid disponible)

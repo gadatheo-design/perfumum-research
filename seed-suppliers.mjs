@@ -1,0 +1,293 @@
+/**
+ * Seed des fournisseurs tabac et cannabis dans extended_suppliers
+ */
+import mysql from 'mysql2/promise';
+
+const conn = await mysql.createConnection(process.env.DATABASE_URL);
+
+const suppliers = [
+  // ===== FOURNISSEURS TABAC =====
+  {
+    supplier_id: 'TABAC-001',
+    name: 'Standard Commercial Corporation',
+    legal_name: 'Standard Commercial Corporation LLC',
+    supplier_type: 'trader',
+    country: 'USA',
+    address: 'Wilson, North Carolina, USA',
+    website: 'https://www.standardcommercial.com',
+    contact_person: 'John Williamson',
+    specialties: JSON.stringify(['Virginia Bright Leaf', 'Burley', 'Oriental']),
+    main_products: JSON.stringify(['Virginia Orange', 'Virginia Deutscher', 'Burley Kentucky']),
+    certifications: JSON.stringify(['ISO 9001', 'GlobalG.A.P.']),
+    minimum_order: '500 kg',
+    lead_time: '4-6 semaines',
+    payment_terms: 'Net 30',
+    shipping_methods: JSON.stringify(['Maritime', 'Aérien']),
+    quality_rating: 'excellent',
+    reliability_rating: 'excellent',
+    price_rating: 'standard',
+    status: 'active',
+    notes: 'Principal fournisseur de tabacs blonds américains. Virginia Orange et Burley de haute qualité.',
+    internal_notes: 'Tabac type: blond, oriental. Spécialité: Virginia Bright Leaf. Idéal pour mélanges anglais.'
+  },
+  {
+    supplier_id: 'TABAC-002',
+    name: 'Latakia Tobacco Co.',
+    legal_name: 'Latakia Tobacco Company Ltd',
+    supplier_type: 'producer',
+    country: 'Chypre',
+    address: 'Nicosie, Chypre',
+    website: null,
+    contact_person: 'Nikos Papadopoulos',
+    specialties: JSON.stringify(['Latakia', 'Tabacs orientaux fumés', 'Basma']),
+    main_products: JSON.stringify(['Latakia Chypre', 'Basma Xanthi', 'Samsoun']),
+    certifications: JSON.stringify(['Artisanal']),
+    minimum_order: '100 kg',
+    lead_time: '6-8 semaines',
+    payment_terms: 'Avance 50%',
+    shipping_methods: JSON.stringify(['Maritime']),
+    quality_rating: 'excellent',
+    reliability_rating: 'good',
+    price_rating: 'premium',
+    status: 'active',
+    notes: 'Producteur artisanal de Latakia chypriote. Fumage au bois de chêne et genévrier. Profil fumé intense.',
+    internal_notes: 'Tabac type: oriental fumé. Spécialité: Latakia. Pyrolyse au bois de chêne → Solanone, Phénols.'
+  },
+  {
+    supplier_id: 'TABAC-003',
+    name: 'Perique Cooperative of St. James Parish',
+    legal_name: 'Cooperative Agricole de St. James Parish',
+    supplier_type: 'cooperative',
+    country: 'USA',
+    address: 'St. James Parish, Louisiana, USA',
+    website: null,
+    contact_person: 'Mark Cresswell',
+    specialties: JSON.stringify(['Perique', 'Tabac fermenté', 'Mélanges Louisiane']),
+    main_products: JSON.stringify(['Perique Louisiana', 'Perique Vieilli']),
+    certifications: JSON.stringify(['Appellation d\'Origine Contrôlée']),
+    minimum_order: '50 kg',
+    lead_time: '8-12 semaines',
+    payment_terms: 'Net 60',
+    shipping_methods: JSON.stringify(['Aérien', 'Maritime']),
+    quality_rating: 'excellent',
+    reliability_rating: 'excellent',
+    price_rating: 'premium',
+    status: 'active',
+    notes: 'Seul producteur mondial de Perique. Fermentation anaérobie unique en fûts de chêne bourbon. AOC.',
+    internal_notes: 'Tabac type: fermenté. Spécialité: Perique. Fermentation → Acides gras, Esters fruités, Composés soufrés.'
+  },
+  {
+    supplier_id: 'TABAC-004',
+    name: 'Krumovgrad Tobacco Cooperative',
+    legal_name: 'Kooperativa Krumovgrad',
+    supplier_type: 'cooperative',
+    country: 'Bulgarie',
+    address: 'Krumovgrad, Région de Kardzhali, Bulgarie',
+    website: null,
+    contact_person: 'Ivan Petrov',
+    specialties: JSON.stringify(['Oriental Bulgare', 'Basma', 'Djebel']),
+    main_products: JSON.stringify(['Krumovgrad Oriental', 'Djebel Basma']),
+    certifications: JSON.stringify(['EU Organic', 'GlobalG.A.P.']),
+    minimum_order: '200 kg',
+    lead_time: '6-8 semaines',
+    payment_terms: 'Net 30',
+    shipping_methods: JSON.stringify(['Maritime', 'Routier']),
+    quality_rating: 'excellent',
+    reliability_rating: 'excellent',
+    price_rating: 'competitive',
+    status: 'active',
+    notes: 'Tabac oriental bulgare de haute qualité. Profil floral et miellé avec notes d\'épices douces.',
+    internal_notes: 'Tabac type: oriental. Spécialité: Krumovgrad. Riche en ionones (violet, iris) et terpènes floraux.'
+  },
+  {
+    supplier_id: 'TABAC-005',
+    name: 'Havana Leaf Tobacco Company',
+    legal_name: 'Havana Leaf Tobacco Co.',
+    supplier_type: 'trader',
+    country: 'USA',
+    address: 'Tampa, Florida, USA',
+    website: 'https://www.havanaleaf.com',
+    contact_person: 'Carlos Rodriguez',
+    specialties: JSON.stringify(['Habano', 'Ligero', 'Seco', 'Volado']),
+    main_products: JSON.stringify(['Habano Ecuador', 'Habano Nicaragua', 'Criollo Dominicain']),
+    certifications: JSON.stringify(['ISO 9001']),
+    minimum_order: '300 kg',
+    lead_time: '4-6 semaines',
+    payment_terms: 'Net 45',
+    shipping_methods: JSON.stringify(['Maritime', 'Aérien']),
+    quality_rating: 'excellent',
+    reliability_rating: 'good',
+    price_rating: 'premium',
+    status: 'active',
+    notes: 'Spécialiste des tabacs de type Habano pour cigares et cigarillos. Ligero de haute résistance.',
+    internal_notes: 'Tabac type: habano. Spécialité: cigares premium. Riche en nicotine, cembranolide, solanone.'
+  },
+  {
+    supplier_id: 'TABAC-006',
+    name: 'Mysore Tobacco Company',
+    legal_name: 'Mysore Tobacco Company Pvt. Ltd.',
+    supplier_type: 'producer',
+    country: 'Inde',
+    address: 'Mysore, Karnataka, Inde',
+    website: null,
+    contact_person: 'Rajesh Kumar',
+    specialties: JSON.stringify(['Tabac indien', 'Natu', 'Flue-cured Karnataka']),
+    main_products: JSON.stringify(['Natu Indien', 'Karnataka Flue-Cured', 'Bidi Tobacco']),
+    certifications: JSON.stringify(['ISO 9001', 'APEDA']),
+    minimum_order: '500 kg',
+    lead_time: '6-8 semaines',
+    payment_terms: 'Net 30',
+    shipping_methods: JSON.stringify(['Maritime']),
+    quality_rating: 'good',
+    reliability_rating: 'good',
+    price_rating: 'budget',
+    status: 'active',
+    notes: 'Tabac indien de qualité. Profil épicé et terreux caractéristique. Utilisé dans les mélanges orientaux.',
+    internal_notes: 'Tabac type: oriental indien. Spécialité: Natu. Riche en alcaloïdes et composés épicés.'
+  },
+
+  // ===== FOURNISSEURS CANNABIS =====
+  {
+    supplier_id: 'CANNA-001',
+    name: 'Bedrocan International',
+    legal_name: 'Bedrocan International BV',
+    supplier_type: 'laboratory',
+    country: 'Pays-Bas',
+    address: 'Groningue, Pays-Bas',
+    website: 'https://www.bedrocan.com',
+    contact_person: 'Dr. Arno Hazekamp',
+    specialties: JSON.stringify(['Cannabis médical standardisé', 'Profils terpéniques certifiés', 'GMP pharmaceutique']),
+    main_products: JSON.stringify(['Bedrocan (THC 22%)', 'Bediol (CBD 9%)', 'Bedrobinol (THC 13.5%)', 'Bedrolite (CBD 9%)']),
+    certifications: JSON.stringify(['GMP', 'ISO 9001', 'GACP']),
+    minimum_order: '1 kg',
+    lead_time: '2-4 semaines',
+    payment_terms: 'Net 30',
+    shipping_methods: JSON.stringify(['Aérien (réglementé)']),
+    quality_rating: 'excellent',
+    reliability_rating: 'excellent',
+    price_rating: 'premium',
+    status: 'active',
+    notes: 'Leader mondial du cannabis médical standardisé. Profils terpéniques certifiés et reproductibles. GMP pharmaceutique.',
+    internal_notes: 'Cannabis type: médical. Spécialité: standardisation. Profils terpéniques: Myrcène, Limonène, β-Caryophyllène certifiés.'
+  },
+  {
+    supplier_id: 'CANNA-002',
+    name: 'Sensi Seeds Research',
+    legal_name: 'Sensi Seeds BV',
+    supplier_type: 'laboratory',
+    country: 'Pays-Bas',
+    address: 'Amsterdam, Pays-Bas',
+    website: 'https://www.sensiseeds.com',
+    contact_person: 'Ben Dronkers',
+    specialties: JSON.stringify(['Landraces génétiques', 'Cannabis Indica/Sativa', 'Génétiques historiques']),
+    main_products: JSON.stringify(['Afghan Kush Original', 'Hindu Kush', 'Acapulco Gold', 'Thai Stick']),
+    certifications: JSON.stringify(['Artisanal', 'Collection génétique']),
+    minimum_order: 'Graines (pack)',
+    lead_time: '1-2 semaines',
+    payment_terms: 'Prépaiement',
+    shipping_methods: JSON.stringify(['Postal', 'Aérien']),
+    quality_rating: 'excellent',
+    reliability_rating: 'excellent',
+    price_rating: 'premium',
+    status: 'active',
+    notes: 'La plus grande banque de génétiques cannabis au monde. Landraces originales Afghan Kush, Hindu Kush, Thai.',
+    internal_notes: 'Cannabis type: landraces. Spécialité: génétiques historiques. Afghan Kush: Myrcène dominant, β-Caryophyllène, Humulène.'
+  },
+  {
+    supplier_id: 'CANNA-003',
+    name: 'Tikun Olam',
+    legal_name: 'Tikun Olam Ltd',
+    supplier_type: 'laboratory',
+    country: 'Israël',
+    address: 'Tel Aviv, Israël',
+    website: 'https://www.tikunolam.com',
+    contact_person: 'Dr. Zack Klein',
+    specialties: JSON.stringify(['Cannabis médical', 'Recherche thérapeutique', 'Profils cannabinoïdes']),
+    main_products: JSON.stringify(['Avidekel (CBD dominant)', 'Midnight (THC:CBD 1:1)', 'Alaska (THC élevé)']),
+    certifications: JSON.stringify(['GMP', 'Ministère de la Santé Israélien']),
+    minimum_order: '500 g',
+    lead_time: '4-6 semaines',
+    payment_terms: 'Net 30',
+    shipping_methods: JSON.stringify(['Aérien (réglementé)']),
+    quality_rating: 'excellent',
+    reliability_rating: 'excellent',
+    price_rating: 'premium',
+    status: 'active',
+    notes: 'Pionnier de la recherche cannabis médical. Profils cannabinoïdes et terpéniques documentés scientifiquement.',
+    internal_notes: 'Cannabis type: médical. Spécialité: thérapeutique. Profils terpéniques: Linalol, α-Pinène, Terpinolène.'
+  },
+  {
+    supplier_id: 'CANNA-004',
+    name: 'Himalayan Landrace Exchange',
+    legal_name: 'Himalayan Landrace Exchange',
+    supplier_type: 'other',
+    country: 'Népal',
+    address: 'Katmandou, Népal',
+    website: null,
+    contact_person: 'Roshan Shrestha',
+    specialties: JSON.stringify(['Landraces himalayens', 'Charas artisanal', 'Cannabis sauvage']),
+    main_products: JSON.stringify(['Malana Cream', 'Nepalese Temple Ball', 'Hindu Kush Landrace']),
+    certifications: JSON.stringify(['Artisanal', 'Patrimoine culturel']),
+    minimum_order: '100 g',
+    lead_time: '8-12 semaines',
+    payment_terms: 'Avance 100%',
+    shipping_methods: JSON.stringify(['Postal (réglementé)']),
+    quality_rating: 'excellent',
+    reliability_rating: 'good',
+    price_rating: 'premium',
+    status: 'prospect',
+    notes: 'Source rare de landraces himalayens authentiques. Charas artisanal de Malana. Profils terpéniques uniques.',
+    internal_notes: 'Cannabis type: landrace himalayen. Spécialité: Charas. Profils: Myrcène, Humulène, Ocimène, Terpinolène.'
+  },
+  {
+    supplier_id: 'CANNA-005',
+    name: 'Canopy Growth Corporation',
+    legal_name: 'Canopy Growth Corporation',
+    supplier_type: 'laboratory',
+    country: 'Canada',
+    address: 'Smiths Falls, Ontario, Canada',
+    website: 'https://www.canopygrowth.com',
+    contact_person: 'Research Department',
+    specialties: JSON.stringify(['Cannabis de recherche', 'Extraits standardisés', 'Isolats terpéniques']),
+    main_products: JSON.stringify(['Tweed (Sativa)', 'Spectrum Therapeutics', 'Isolats CBD/THC']),
+    certifications: JSON.stringify(['GMP', 'Health Canada', 'ISO 9001']),
+    minimum_order: '1 kg',
+    lead_time: '2-4 semaines',
+    payment_terms: 'Net 30',
+    shipping_methods: JSON.stringify(['Aérien', 'Maritime (réglementé)']),
+    quality_rating: 'excellent',
+    reliability_rating: 'excellent',
+    price_rating: 'competitive',
+    status: 'active',
+    notes: 'Leader canadien du cannabis légal. Extraits standardisés pour la recherche. Isolats terpéniques purs.',
+    internal_notes: 'Cannabis type: commercial/recherche. Spécialité: isolats. Profils terpéniques certifiés GC-MS.'
+  }
+];
+
+console.log(`Insertion de ${suppliers.length} fournisseurs...`);
+
+let inserted = 0;
+for (const s of suppliers) {
+  try {
+    await conn.execute(`
+      INSERT INTO extended_suppliers (
+        supplier_id, name, legal_name, supplier_type, country, address, website,
+        contact_person, specialties, main_products, certifications, minimum_order,
+        lead_time, payment_terms, shipping_methods, quality_rating, reliability_rating,
+        price_rating, status, notes, internal_notes
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [
+      s.supplier_id, s.name, s.legal_name, s.supplier_type, s.country, s.address, s.website || null,
+      s.contact_person, s.specialties, s.main_products, s.certifications, s.minimum_order,
+      s.lead_time, s.payment_terms, s.shipping_methods, s.quality_rating, s.reliability_rating,
+      s.price_rating, s.status, s.notes, s.internal_notes
+    ]);
+    inserted++;
+    console.log(`✅ ${s.name} (${s.supplier_id})`);
+  } catch (e) {
+    console.error(`❌ ${s.name}:`, e.message);
+  }
+}
+
+console.log(`\n📊 Résumé: ${inserted}/${suppliers.length} fournisseurs insérés`);
+await conn.end();

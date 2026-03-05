@@ -903,6 +903,18 @@ export default function Molecules() {
                         selectedMolecules.includes(molecule.id) ? 'ring-2 ring-primary' : ''
                       }`}>
                         <CardHeader>
+                          {/* Image 2D PubChem */}
+                          {(molecule as any).pubchem_cid && (
+                            <div className="w-full h-28 mb-3 rounded-lg overflow-hidden bg-white/5 border border-border flex items-center justify-center">
+                              <img
+                                src={`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${(molecule as any).pubchem_cid}/PNG?image_size=200x150`}
+                                alt={`Structure 2D de ${molecule.name}`}
+                                className="max-h-full max-w-full object-contain p-1"
+                                loading="lazy"
+                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                              />
+                            </div>
+                          )}
                           <div className="flex items-start justify-between gap-2 mb-2">
                             <div className="flex items-center gap-2 flex-1">
                               {/* Selection checkbox */}
