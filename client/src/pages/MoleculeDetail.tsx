@@ -640,6 +640,20 @@ export default function MoleculeDetail() {
       toast({ title: "Erreur", description: error.message, variant: "destructive" });
     },
   });
+  const applyAINotesMutation = trpc.molecules.applyAINotes.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast({
+          title: "Notes appliquées",
+          description: "Les notes du chercheur IA ont été enregistrées.",
+        });
+        utils.molecules.getById.invalidate(id);
+      }
+    },
+    onError: (error) => {
+      toast({ title: "Erreur", description: error.message, variant: "destructive" });
+    },
+  });
 
   // Récupérer les origines géographiques de la molécule
   const { data: moleculeOrigins, isLoading: isLoadingOrigins } = trpc.moleculeOrigins.getByMolecule.useQuery(id, {
@@ -1378,6 +1392,8 @@ export default function MoleculeDetail() {
                 onAcceptChemicalClass={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, chemicalClass: value })}
                 onAcceptOlfactiveFamily={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, olfactiveFamily: value })}
                 onAcceptOlfactiveProfile={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, olfactiveProfile: value })}
+                onAcceptResearcherNotes={(value, appendMode) => applyAINotesMutation.mutate({ moleculeId: id, researcherNotes: value, appendMode })}
+                currentNotes={molecule.notes}
               />
             </TabsContent>
 

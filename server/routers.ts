@@ -429,6 +429,32 @@ export const appRouter = router({
         return { success: true, updatedFields: Object.keys(updateData) };
       }),
 
+    // Appliquer les notes du chercheur IA
+    applyAINotes: protectedProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        researcherNotes: z.string(),
+        appendMode: z.boolean().default(false),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        const { moleculeId, researcherNotes, appendMode } = input;
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Database not available' });
+        const { molecules: moleculesTable } = await import('../drizzle/schema');
+        const { eq } = await import('drizzle-orm');
+        let finalNotes = researcherNotes;
+        if (appendMode) {
+          const [existing] = await dbConn.select({ notes: moleculesTable.notes }).from(moleculesTable).where(eq(moleculesTable.id, moleculeId));
+          if (existing?.notes) {
+            finalNotes = existing.notes + '\n\n--- Notes IA ---\n' + researcherNotes;
+          }
+        }
+        await dbConn.update(moleculesTable).set({ notes: finalNotes }).where(eq(moleculesTable.id, moleculeId));
+        invalidateMoleculeCache(moleculeId);
+        return { success: true, notes: finalNotes };
+      }),
+
     // Liaison molécules-recettes
     linkToRecette: publicProcedure
       .input(z.object({

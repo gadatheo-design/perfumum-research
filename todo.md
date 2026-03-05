@@ -1297,3 +1297,19 @@
 - [ ] Ajouter un bouton "Appliquer les notes du chercheur IA" dans les notes de la molécule — à faire
 - [x] Créer la procédure tRPC applyAiClassification (admin uniquement)
 - [x] Ajouter une confirmation avant application (diff actuel → suggéré)
+
+---
+
+## 🔍 SESSION 5 MARS 2026 (suite 3) — Dry-run GC-MS + Notes IA
+
+### Phase K : Mode dry-run pour l'import GC-MS
+- [x] Procédure tRPC `gcmsImport.preview` (analyse sans écriture en base)
+- [x] Tableau de prévisualisation (molécule, action : créer/lier/doublon, badges colorés)
+- [x] Bouton "Confirmer l'import" contextuel sous la prévisualisation (résumé + action)
+- [x] Désactivation du bouton si 0 nouveaux liens à créer
+
+### Phase L : Bouton "Appliquer les notes du chercheur IA"
+- [x] Procédure tRPC `molecules.applyAINotes` (mode remplacer ou ajouter)
+- [x] Boutons "Remplacer" et "Ajouter" dans la section Notes du chercheur IA
+- [x] Diff visuel : affichage des notes actuelles avant confirmation
+- [x] Câblage dans MoleculeDetail avec invalidation du cache

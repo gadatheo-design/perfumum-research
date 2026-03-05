@@ -553,7 +553,29 @@ export default function AdminGcmsImport() {
             </div>
 
             {/* Résultats prévisualisation */}
-            {previewData && <ImportReport data={previewData} mode="preview" />}
+            {previewData && (
+              <>
+                <ImportReport data={previewData} mode="preview" />
+                {/* Bouton de confirmation après dry-run */}
+                <div className="flex items-center justify-between p-4 bg-emerald-950/30 border border-emerald-500/30 rounded-lg">
+                  <div>
+                    <p className="text-sm font-medium text-emerald-400">Prévisualisation terminée</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {previewData.summary?.newLinks ?? 0} nouveau(x) lien(s) à créer,{' '}
+                      {previewData.summary?.skipped ?? 0} doublon(s) ignoré(s)
+                    </p>
+                  </div>
+                  <Button
+                    onClick={handleImportBatch}
+                    disabled={isLoading || (previewData.summary?.newLinks ?? 0) === 0}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                  >
+                    {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
+                    Confirmer l'import
+                  </Button>
+                </div>
+              </>
+            )}
             {importResult && <ImportReport data={importResult} mode="result" />}
           </TabsContent>
 

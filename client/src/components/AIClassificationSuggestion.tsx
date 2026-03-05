@@ -83,6 +83,8 @@ interface AIClassificationSuggestionProps {
   onAcceptChemicalClass?: (value: string) => void;
   onAcceptOlfactiveFamily?: (value: string) => void;
   onAcceptOlfactiveProfile?: (value: string) => void;
+  onAcceptResearcherNotes?: (value: string, appendMode: boolean) => void;
+  currentNotes?: string | null;
   compact?: boolean;
   autoClassify?: boolean;
 }
@@ -94,6 +96,8 @@ export function AIClassificationSuggestion({
   onAcceptChemicalClass,
   onAcceptOlfactiveFamily,
   onAcceptOlfactiveProfile,
+  onAcceptResearcherNotes,
+  currentNotes,
   compact = false,
   autoClassify = false,
 }: AIClassificationSuggestionProps) {
@@ -418,7 +422,58 @@ export function AIClassificationSuggestion({
             {/* Notes additionnelles */}
             {result.additionalNotes && (
               <div className="space-y-2">
-                <span className="text-sm font-medium">Notes du chercheur IA</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Notes du chercheur IA</span>
+                  {onAcceptResearcherNotes && (
+                    <div className="flex gap-1">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="h-6 text-xs px-2 border-primary/40 text-primary hover:bg-primary/10"
+                              onClick={() => onAcceptResearcherNotes(result.additionalNotes!, false)}
+                            >
+                              <Check className="h-3 w-3 mr-1" />
+                              Remplacer
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="text-xs">Remplace les notes actuelles par celles de l'IA</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      {currentNotes && (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="h-6 text-xs px-2 border-emerald-500/40 text-emerald-600 hover:bg-emerald-500/10"
+                                onClick={() => onAcceptResearcherNotes(result.additionalNotes!, true)}
+                              >
+                                <Check className="h-3 w-3 mr-1" />
+                                Ajouter
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="text-xs">Ajoute les notes IA à la suite des notes existantes</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      )}
+                    </div>
+                  )}
+                </div>
+                {/* Diff visuel si notes existantes */}
+                {currentNotes && (
+                  <div className="text-xs bg-muted/20 rounded-md p-2 border border-muted space-y-1">
+                    <p className="text-muted-foreground font-medium">Actuellement :</p>
+                    <p className="text-muted-foreground italic line-clamp-3">{currentNotes}</p>
+                  </div>
+                )}
                 <p className="text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg border-l-2 border-primary/30">
                   {result.additionalNotes}
                 </p>
