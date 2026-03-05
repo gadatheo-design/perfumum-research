@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useParams, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -23,7 +24,8 @@ import {
   Loader2,
   Image as ImageIcon,
   GitBranch,
-  Sun
+  Sun,
+  PlusCircle
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
@@ -61,6 +63,8 @@ export default function PlantDetail() {
   const params = useParams<{ id: string }>();
   const plantId = parseInt(params.id || "0");
   const { user } = useAuth();
+  const [contribModalOpen, setContribModalOpen] = React.useState(false);
+  const [contribDefaultType, setContribDefaultType] = React.useState<string | undefined>(undefined);
   
   // Récupérer les détails complets de la plante
   const { data: plantDetails, isLoading } = trpc.plantStatistics.getPlantWithDetails.useQuery(
@@ -709,8 +713,9 @@ export default function PlantDetail() {
                 <p className="text-muted-foreground mb-4">
                   Les analyses GC-MS et profils moléculaires seront enregistrés ici.
                 </p>
-                <Button variant="outline">
-                  Ajouter une analyse
+                <Button variant="outline" className="gap-1.5" onClick={() => { setContribDefaultType('gcms_analysis'); setContribModalOpen(true); }}>
+                  <PlusCircle className="w-4 h-4" />
+                  Proposer une analyse GC-MS
                 </Button>
               </CardContent>
             </Card>
@@ -825,10 +830,14 @@ export default function PlantDetail() {
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
                   <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                  <p>Aucun marqueur civilisationnel documenté pour cette plante.</p>
+                  <p>Aucune tradition olfactive documentée pour cette plante.</p>
                   <p className="text-sm mt-2">
-                    Les marqueurs civilisationnels permettent de retracer l'histoire de l'usage de cette plante.
+                    Les traditions olfactives permettent de retracer l'histoire de l'usage de cette plante.
                   </p>
+                  <Button variant="outline" className="mt-4 gap-1.5" onClick={() => { setContribDefaultType('tradition_olfactive'); setContribModalOpen(true); }}>
+                    <PlusCircle className="w-4 h-4" />
+                    Proposer une tradition olfactive
+                  </Button>
                 </div>
               )}
             </CardContent>
@@ -1174,6 +1183,12 @@ export default function PlantDetail() {
 
       {/* Références Bibliographiques Liées (V3) */}
       <div className="mt-8">
+        <div className="flex justify-end mb-2">
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={() => { setContribDefaultType('bibliography'); setContribModalOpen(true); }}>
+            <PlusCircle className="w-3.5 h-3.5" />
+            Proposer une référence bibliographique
+          </Button>
+        </div>
         <LinkedReferences 
           entityType="plant" 
           entityId={plantId} 
@@ -1181,6 +1196,17 @@ export default function PlantDetail() {
           maxItems={5}
         />
       </div>
+
+      {/* Modal de contribution contextuel */}
+      {plantDetails && (
+        <PlantContributionModal
+          open={contribModalOpen}
+          onClose={() => { setContribModalOpen(false); setContribDefaultType(undefined); }}
+          plantId={plantId}
+          plantName={plantDetails.name}
+          defaultType={contribDefaultType as any}
+        />
+      )}
 
       {/* Section Voir aussi */}
       <div className="mt-8 grid md:grid-cols-2 gap-6">

@@ -91,6 +91,7 @@ const ClassificationReviewQueue = lazy(() => import("./pages/ClassificationRevie
 import AdminNotifications from "./pages/AdminNotifications";
 import AdminProgressReport from "./pages/AdminProgressReport";
 import AdminContributions from "./pages/AdminContributions";
+import AdminGcmsImport from "./pages/AdminGcmsImport";
 import DataQuality from "./pages/admin/DataQuality";
 import MoleculeManager from "./pages/admin/MoleculeManager";
 import AdminPlantMolecules from "./pages/admin/AdminPlantMolecules";
@@ -468,6 +469,7 @@ function Router() {
       <Route path="/admin/references" component={AdminReferences} />
       <Route path="/admin/data-quality" component={DataQuality} />
       <Route path="/admin/contributions" component={AdminContributions} />
+      <Route path="/admin/gcms-import" component={AdminGcmsImport} />
       <Route path="/admin/molecule-manager" component={MoleculeManager} />
       <Route path="/admin/plant-molecules" component={AdminPlantMolecules} />
       

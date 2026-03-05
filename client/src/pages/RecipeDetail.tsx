@@ -7,6 +7,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Cigarette, Clock, Leaf, FlaskConical, Sparkles } from "lucide-react";
 import { RecipeIngredients } from "@/components/RecipeIngredients";
+import { RecipeContributionModal } from "@/components/RecipeContributionModal";
+import { PlusCircle } from "lucide-react";
 
 export default function RecipeDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -77,6 +79,18 @@ export default function RecipeDetail() {
         {recipe.concept && (
           <p className="text-lg text-muted-foreground">{recipe.concept}</p>
         )}
+        <div className="mt-4">
+          <RecipeContributionModal
+            recipeId={recipe.id}
+            recipeName={recipe.name}
+            trigger={
+              <Button variant="outline" size="sm" className="gap-2 border-amber-500/50 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30">
+                <PlusCircle className="h-4 w-4" />
+                Contribuer à cette recette
+              </Button>
+            }
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

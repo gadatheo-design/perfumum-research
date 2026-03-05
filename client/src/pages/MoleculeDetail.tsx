@@ -624,6 +624,22 @@ export default function MoleculeDetail() {
   const { data: molecule, isLoading } = trpc.molecules.getById.useQuery(id);
   const trackEvent = trpc.analytics.trackEvent.useMutation();
   const [isExporting, setIsExporting] = useState(false);
+  const { toast } = useToast();
+  const utils = trpc.useUtils();
+  const applyAIClassificationMutation = trpc.molecules.applyAIClassification.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast({
+          title: "Classification appliquée",
+          description: `Champs mis à jour : ${data.updatedFields?.join(', ')}`,
+        });
+        utils.molecules.getById.invalidate(id);
+      }
+    },
+    onError: (error) => {
+      toast({ title: "Erreur", description: error.message, variant: "destructive" });
+    },
+  });
 
   // Récupérer les origines géographiques de la molécule
   const { data: moleculeOrigins, isLoading: isLoadingOrigins } = trpc.moleculeOrigins.getByMolecule.useQuery(id, {
@@ -1359,6 +1375,9 @@ export default function MoleculeDetail() {
                 }}
                 currentChemicalClass={molecule.chemicalClass}
                 currentOlfactiveFamily={molecule.family}
+                onAcceptChemicalClass={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, chemicalClass: value })}
+                onAcceptOlfactiveFamily={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, olfactiveFamily: value })}
+                onAcceptOlfactiveProfile={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, olfactiveProfile: value })}
               />
             </TabsContent>
 

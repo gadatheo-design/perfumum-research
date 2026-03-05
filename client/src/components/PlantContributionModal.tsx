@@ -38,21 +38,45 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+type ContribTab = "image" | "molecule" | "terroir" | "note";
+
 interface PlantContributionModalProps {
   plantId: number;
   plantName: string;
-  defaultTab?: "image" | "molecule" | "terroir" | "note";
+  defaultTab?: ContribTab;
+  // Mode contrôlé : si open est fourni, le composant ne gère plus son propre état
+  open?: boolean;
+  onClose?: () => void;
+  // Type de contribution pré-sélectionné depuis l'extérieur
+  defaultType?: string;
 }
 
 export function PlantContributionModal({
   plantId,
   plantName,
   defaultTab = "image",
+  open: controlledOpen,
+  onClose,
+  defaultType,
 }: PlantContributionModalProps) {
   const { user, isAuthenticated } = useAuth();
   const { toast } = useToast();
-  const [open, setOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<"image" | "molecule" | "terroir" | "note">(defaultTab);
+  const [internalOpen, setInternalOpen] = useState(false);
+  // Mapper defaultType vers un onglet connu
+  const resolveTab = (t?: string): ContribTab => {
+    if (t === 'gcms_analysis' || t === 'tradition_olfactive' || t === 'bibliography') return 'note';
+    if (t === 'molecule') return 'molecule';
+    if (t === 'terroir') return 'terroir';
+    if (t === 'image') return 'image';
+    return defaultTab;
+  };
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = (v: boolean) => {
+    if (isControlled) { if (!v && onClose) onClose(); }
+    else setInternalOpen(v);
+  };
+  const [activeTab, setActiveTab] = useState<ContribTab>(resolveTab(defaultType));
 
   // Form states
   const [imageUrl, setImageUrl] = useState("");

@@ -66,51 +66,82 @@ const typeColors: Record<string, string> = {
 export default function AdminContributions() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const [entityTab, setEntityTab] = useState<"plants" | "molecules" | "terroirs" | "recipes">("plants");
   const [statusFilter, setStatusFilter] = useState<"pending" | "approved" | "rejected" | undefined>("pending");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [reviewContribution, setReviewContribution] = useState<any>(null);
   const [adminNotes, setAdminNotes] = useState("");
   const [reviewAction, setReviewAction] = useState<"approved" | "rejected">("approved");
 
+  // Contributions plantes
   const { data: contributions, isLoading, refetch } = trpc.plantContributions.getAll.useQuery(
     { status: statusFilter },
-    { enabled: user?.role === 'admin' }
+    { enabled: user?.role === 'admin' && entityTab === 'plants' }
   );
-
   const { data: stats } = trpc.plantContributions.getStats.useQuery();
-
   const approveMutation = trpc.plantContributions.approve.useMutation({
-    onSuccess: () => {
-      toast({ title: "Contribution approuvée", description: "La contribution a été approuvée et intégrée." });
-      setReviewContribution(null);
-      setAdminNotes("");
-      refetch();
-    },
+    onSuccess: () => { toast({ title: "Contribution approuvée", description: "Intégrée avec succès." }); setReviewContribution(null); setAdminNotes(""); refetch(); },
+    onError: (e) => toast({ title: "Erreur", description: e.message, variant: "destructive" }),
+  });
+  const rejectMutation = trpc.plantContributions.reject.useMutation({
+    onSuccess: () => { toast({ title: "Contribution rejetée" }); setReviewContribution(null); setAdminNotes(""); refetch(); },
     onError: (e) => toast({ title: "Erreur", description: e.message, variant: "destructive" }),
   });
 
-  const rejectMutation = trpc.plantContributions.reject.useMutation({
-    onSuccess: () => {
-      toast({ title: "Contribution rejetée", description: "La contribution a été rejetée." });
-      setReviewContribution(null);
-      setAdminNotes("");
-      refetch();
-    },
+  // Contributions molécules
+  const { data: molContribs, isLoading: isLoadingMol, refetch: refetchMol } = trpc.moleculeContributions.getAll.useQuery(
+    { status: statusFilter },
+    { enabled: user?.role === 'admin' && entityTab === 'molecules' }
+  );
+  const reviewMolMutation = trpc.moleculeContributions.review.useMutation({
+    onSuccess: () => { toast({ title: "Contribution molécule traitée" }); setReviewContribution(null); setAdminNotes(""); refetchMol(); },
+    onError: (e) => toast({ title: "Erreur", description: e.message, variant: "destructive" }),
+  });
+
+  // Contributions terroirs
+  const { data: terContribs, isLoading: isLoadingTer, refetch: refetchTer } = trpc.terroirContributions.getAll.useQuery(
+    { status: statusFilter },
+    { enabled: user?.role === 'admin' && entityTab === 'terroirs' }
+  );
+  const reviewTerMutation = trpc.terroirContributions.review.useMutation({
+    onSuccess: () => { toast({ title: "Contribution terroir traitée" }); setReviewContribution(null); setAdminNotes(""); refetchTer(); },
+    onError: (e) => toast({ title: "Erreur", description: e.message, variant: "destructive" }),
+  });
+
+  // Contributions recettes
+  const { data: recContribs, isLoading: isLoadingRec, refetch: refetchRec } = trpc.recipeContributions.getAll.useQuery(
+    { status: statusFilter },
+    { enabled: user?.role === 'admin' && entityTab === 'recipes' }
+  );
+  const reviewRecMutation = trpc.recipeContributions.review.useMutation({
+    onSuccess: () => { toast({ title: "Contribution recette traitée" }); setReviewContribution(null); setAdminNotes(""); refetchRec(); },
     onError: (e) => toast({ title: "Erreur", description: e.message, variant: "destructive" }),
   });
 
   const handleReview = () => {
     if (!reviewContribution) return;
-    if (reviewAction === "approved") {
-      approveMutation.mutate({ contributionId: reviewContribution.id, adminNotes: adminNotes || undefined });
-    } else {
-      rejectMutation.mutate({ contributionId: reviewContribution.id, adminNotes: adminNotes || undefined });
+    const action = reviewAction;
+    const notes = adminNotes || undefined;
+    if (entityTab === 'plants') {
+      if (action === 'approved') approveMutation.mutate({ contributionId: reviewContribution.id, adminNotes: notes });
+      else rejectMutation.mutate({ contributionId: reviewContribution.id, adminNotes: notes });
+    } else if (entityTab === 'molecules') {
+      reviewMolMutation.mutate({ id: reviewContribution.id, status: action, adminNotes: notes });
+    } else if (entityTab === 'terroirs') {
+      reviewTerMutation.mutate({ id: reviewContribution.id, status: action, adminNotes: notes });
+    } else if (entityTab === 'recipes') {
+      reviewRecMutation.mutate({ id: reviewContribution.id, status: action, adminNotes: notes });
     }
   };
 
-  const filteredContributions = contributions?.filter((c: any) =>
+  const activeContribs = entityTab === 'plants' ? contributions
+    : entityTab === 'molecules' ? molContribs
+    : entityTab === 'terroirs' ? terContribs
+    : recContribs;
+
+  const filteredContributions = (activeContribs as any[] || []).filter((c: any) =>
     typeFilter === "all" || c.contribution_type === typeFilter
-  ) || [];
+  );
 
   if (user?.role !== 'admin') {
     return (
@@ -140,20 +171,41 @@ export default function AdminContributions() {
         </Link>
       </div>
 
-      <div className="flex items-start justify-between mb-8">
+      <div className="flex items-start justify-between mb-6">
         <div>
           <h1 className="text-3xl font-bold mb-1 flex items-center gap-3">
             <Leaf className="h-8 w-8 text-primary" />
-            Contributions Plantes
+            Contributions utilisateurs
           </h1>
           <p className="text-muted-foreground">
-            Validation des contributions utilisateurs pour les fiches plantes
+            Validation des contributions pour toutes les fiches du projet
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => refetch()} className="gap-2">
+        <Button variant="outline" size="sm" onClick={() => { refetch(); refetchMol(); refetchTer(); refetchRec(); }} className="gap-2">
           <RefreshCw className="h-4 w-4" />
           Actualiser
         </Button>
+      </div>
+
+      {/* Onglets par type d'entité */}
+      <div className="flex flex-wrap gap-2 mb-6 border-b border-border/50 pb-4">
+        {[
+          { id: 'plants' as const, label: 'Plantes', icon: <Leaf className="h-4 w-4" /> },
+          { id: 'molecules' as const, label: 'Molécules', icon: <FlaskConical className="h-4 w-4" /> },
+          { id: 'terroirs' as const, label: 'Terroirs', icon: <MapPin className="h-4 w-4" /> },
+          { id: 'recipes' as const, label: 'Recettes', icon: <FileText className="h-4 w-4" /> },
+        ].map((tab) => (
+          <Button
+            key={tab.id}
+            variant={entityTab === tab.id ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => { setEntityTab(tab.id); setTypeFilter('all'); setReviewContribution(null); }}
+            className="gap-2"
+          >
+            {tab.icon}
+            {tab.label}
+          </Button>
+        ))}
       </div>
 
       {/* Statistiques */}
@@ -211,22 +263,46 @@ export default function AdminContributions() {
         <div className="flex items-center gap-2 ml-4">
           <span className="text-sm font-medium">Type :</span>
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger className="w-36 h-8">
+            <SelectTrigger className="w-40 h-8">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Tous les types</SelectItem>
-              <SelectItem value="image">Images</SelectItem>
-              <SelectItem value="molecule">Molécules</SelectItem>
-              <SelectItem value="terroir">Terroirs</SelectItem>
-              <SelectItem value="note">Notes</SelectItem>
+              {entityTab === 'plants' && <>
+                <SelectItem value="image">Images</SelectItem>
+                <SelectItem value="molecule">Molécules</SelectItem>
+                <SelectItem value="terroir">Terroirs</SelectItem>
+                <SelectItem value="gcms_analysis">Analyses GC-MS</SelectItem>
+                <SelectItem value="bibliography">Bibliographie</SelectItem>
+                <SelectItem value="civilisational_marker">Marqueurs civilisationnels</SelectItem>
+                <SelectItem value="note">Notes</SelectItem>
+              </>}
+              {entityTab === 'molecules' && <>
+                <SelectItem value="source">Sources</SelectItem>
+                <SelectItem value="therapeutic">Propriétés thérapeutiques</SelectItem>
+                <SelectItem value="usage">Usages</SelectItem>
+                <SelectItem value="image">Images</SelectItem>
+                <SelectItem value="note">Notes</SelectItem>
+              </>}
+              {entityTab === 'terroirs' && <>
+                <SelectItem value="image">Images</SelectItem>
+                <SelectItem value="plant_link">Lien plante</SelectItem>
+                <SelectItem value="production_data">Données production</SelectItem>
+                <SelectItem value="history">Histoire</SelectItem>
+                <SelectItem value="note">Notes</SelectItem>
+              </>}
+              {entityTab === 'recipes' && <>
+                <SelectItem value="ingredient">Ingrédients</SelectItem>
+                <SelectItem value="variant">Variantes</SelectItem>
+                <SelectItem value="note">Notes</SelectItem>
+              </>}
             </SelectContent>
           </Select>
         </div>
       </div>
 
       {/* Liste des contributions */}
-      {isLoading ? (
+      {(isLoading || isLoadingMol || isLoadingTer || isLoadingRec) && entityTab !== undefined ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
             <div key={i} className="h-24 bg-muted animate-pulse rounded-lg" />

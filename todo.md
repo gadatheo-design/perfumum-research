@@ -1220,3 +1220,80 @@
 - [x] Ajouter 11 transformations pour cannabis (CBG, CBDA, CBD, valencène, guaïol, phytol)
 - [x] Total transformations pyrolyse : 123 → 161 (+38)
 
+
+---
+
+## 🔬 SESSION 5 MARS 2026 (suite) — Intégration contributions + Profils GC-MS
+
+### Phase A : Intégration automatique des contributions approuvées
+- [x] Modifier `approve` dans `plantContributions` pour créer `plant_molecules` si type=molecule
+- [x] Modifier `approve` pour mettre à jour `imageUrl` de la plante si type=image (première image)
+- [x] Modifier `approve` pour créer un lien `plant_terroir` si type=terroir
+- [x] Modifier `approve` pour enregistrer la note dans un champ dédié si type=note
+
+### Phase B : Enrichissement GC-MS tabacs (12 variétés)
+- [ ] Virginia Gold — profil terpénique et alcaloïdes (données GC-MS)
+- [ ] Burley — profil alcaloïdes et composés de Maillard
+- [ ] Latakia — phénols, gaïacol, eugénol (fumage laurier/chêne)
+- [ ] Perique — acides gras de fermentation, pyrazines
+- [ ] Turkish/Oriental (Samsoun, Basma) — terpènes et phénylpropanoïdes
+- [ ] Maryland — profil léger, faible nicotine
+- [ ] Cavendish — sucres, vanilline (aromatisation)
+- [ ] Flue-cured Virginia — sucres réducteurs, acides organiques
+- [ ] Dark-fired Kentucky — phénols fumés, nicotine élevée
+- [ ] Rustica — nornicotine, anabasine
+- [ ] Cigar leaf (Habano) — huiles essentielles, cédrol
+- [ ] Perique fermenté — acides gras C4-C6, proline
+
+### Phase C : Enrichissement GC-MS cannabis (2 variétés)
+- [ ] Cannabis sativa (variété sativa dominante) — terpinolène, myrcène, limonène
+- [ ] Cannabis indica (variété indica dominante) — myrcène, caryophyllène, linalool
+
+
+### Phase D : Interface d'import GC-MS (saisie manuelle par l'utilisateur)
+- [x] Créer la page `/admin/gcms-import` avec formulaire manuel molécule par molécule
+- [x] Ajouter l'import par lot CSV (template téléchargeable)
+- [x] Ajouter l'import par lot JSON
+- [x] Créer les procédures tRPC : `gcmsImport.importBatch`, `gcmsImport.getTemplate`
+- [x] Ajouter un lien vers la page dans le menu admin
+- [ ] Prévisualisation des données avant import (dry-run) — à faire
+- [x] Rapport d'import (molécules créées, liens créés, erreurs)
+
+
+---
+
+## 🤝 SESSION 5 MARS 2026 (suite 2) — Contributions étendues à toutes les fiches
+
+### Phase E : Extension des contributions sur les fiches plantes
+- [x] Ajouter les types `bibliography`, `gcms_analysis`, `civilisation_marker` dans plant_contributions
+- [x] Ajouter bouton Contribuer dans la section Références Bibliographiques (PlantDetail)
+- [x] Ajouter bouton Contribuer dans la section Analyses GC-MS / Variations (PlantDetail)
+- [x] Ajouter bouton Contribuer dans la section Histoire et marqueurs civilisationnels (PlantDetail)
+- [x] Mettre à jour PlantContributionModal pour gérer les 3 nouveaux types
+
+### Phase F : Contributions sur fiches molécules
+- [x] Créer la table `molecule_contributions`
+- [x] Créer les procédures tRPC pour molecule_contributions
+- [x] Ajouter bouton Contribuer dans MoleculeDetail (sources, propriétés thérapeutiques, usages)
+- [x] Créer le composant MoleculeContributionModal
+
+### Phase G : Contributions sur fiches terroirs / matières premières
+- [x] Créer la table `terroir_contributions`
+- [x] Ajouter bouton Contribuer dans TerroirDetail (images, plantes associées, notes)
+
+### Phase H : Contributions sur fiches recettes
+- [x] Créer la table `recipe_contributions`
+- [x] Ajouter bouton Contribuer dans RecipeDetail (ingrédients, variantes, notes)
+
+### Phase I : Admin — validation unifiée de toutes les contributions
+- [x] Mettre à jour AdminContributions pour afficher les contributions molécules, terroirs, recettes
+- [x] Ajouter les onglets par type d'entité dans la page admin
+
+
+### Phase J : Application directe des résultats Classification IA
+- [x] Ajouter un bouton "Appliquer" à côté de la suggestion Classe chimique IA
+- [x] Ajouter un bouton "Appliquer" à côté de la suggestion Famille olfactive IA
+- [x] Ajouter un bouton "Appliquer" pour le Profil olfactif suggéré
+- [ ] Ajouter un bouton "Appliquer les notes du chercheur IA" dans les notes de la molécule — à faire
+- [x] Créer la procédure tRPC applyAiClassification (admin uniquement)
+- [x] Ajouter une confirmation avant application (diff actuel → suggéré)

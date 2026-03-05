@@ -17,6 +17,8 @@ import {
   Beaker, FlaskConical
 } from "lucide-react";
 import { TruncatableTitle, TruncatableDescription } from "@/components/TruncatableText";
+import { TerroirContributionModal } from "@/components/TerroirContributionModal";
+import { PlusCircle } from "lucide-react";
 
 export default function TerroirDetail() {
   const { id } = useParams<{ id: string }>();
@@ -128,8 +130,21 @@ export default function TerroirDetail() {
                 </p>
               )}
               
+              {/* Bouton Contribuer */}
+              <div className="mt-6 mb-2">
+                <TerroirContributionModal
+                  terroirId={terroirId}
+                  terroirName={terroir.name}
+                  trigger={
+                    <Button variant="outline" size="sm" className="gap-2 border-amber-500/50 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30">
+                      <PlusCircle className="h-4 w-4" />
+                      Contribuer à ce terroir
+                    </Button>
+                  }
+                />
+              </div>
               {/* Stats rapides */}
-              <div className="flex flex-wrap gap-3 mt-6">
+              <div className="flex flex-wrap gap-3 mt-3">
                 <Badge variant="secondary" className="text-sm">
                   <Leaf className="w-3.5 h-3.5 mr-1.5" />
                   {plants.length} plantes

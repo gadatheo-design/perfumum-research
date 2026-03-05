@@ -20209,7 +20209,7 @@ export async function submitPlantContribution(data: {
   plantId: number;
   userId: string;
   userName?: string;
-  contributionType: 'image' | 'molecule' | 'terroir' | 'note';
+  contributionType: 'image' | 'molecule' | 'terroir' | 'note' | 'bibliography' | 'gcms_analysis' | 'tradition_olfactive';
   imageUrl?: string;
   imageCaption?: string;
   imageSource?: string;
@@ -20225,6 +20225,23 @@ export async function submitPlantContribution(data: {
   noteCategory?: string;
   description?: string;
   references?: string;
+  // Bibliographie
+  bibTitle?: string;
+  bibAuthors?: string;
+  bibYear?: number;
+  bibJournal?: string;
+  bibDoi?: string;
+  bibUrl?: string;
+  bibType?: string;
+  // GC-MS
+  gcmsMethod?: string;
+  gcmsMolecules?: any;
+  gcmsConditions?: string;
+  // Tradition olfactive
+  traditionPeriod?: string;
+  traditionCulture?: string;
+  traditionUsage?: string;
+  traditionSources?: string;
 }) {
   try {
     const mysql = await import('mysql2/promise');
@@ -20236,15 +20253,23 @@ export async function submitPlantContribution(data: {
          molecule_id, molecule_name, molecule_concentration, molecule_source,
          terroir, region, country, terroir_notes,
          note_content, note_category,
-         description, \`references\`, status)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+         description, \`references\`,
+         bib_title, bib_authors, bib_year, bib_journal, bib_doi, bib_url, bib_type,
+         gcms_method, gcms_molecules, gcms_conditions,
+         tradition_period, tradition_culture, tradition_usage, tradition_sources,
+         status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
     `, [
       data.plantId, data.userId, data.userName || null, data.contributionType,
       data.imageUrl || null, data.imageCaption || null, data.imageSource || null,
       data.moleculeId || null, data.moleculeName || null, data.moleculeConcentration || null, data.moleculeSource || null,
       data.terroir || null, data.region || null, data.country || null, data.terroirNotes || null,
       data.noteContent || null, data.noteCategory || null,
-      data.description || null, data.references || null
+      data.description || null, data.references || null,
+      data.bibTitle || null, data.bibAuthors || null, data.bibYear || null, data.bibJournal || null,
+      data.bibDoi || null, data.bibUrl || null, data.bibType || null,
+      data.gcmsMethod || null, data.gcmsMolecules ? JSON.stringify(data.gcmsMolecules) : null, data.gcmsConditions || null,
+      data.traditionPeriod || null, data.traditionCulture || null, data.traditionUsage || null, data.traditionSources || null,
     ]);
     await conn.end();
     return { success: true, id: (result as any).insertId };
@@ -20263,36 +20288,184 @@ export async function reviewPlantContribution(
   try {
     const mysql = await import('mysql2/promise');
     const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+
+    // Récupérer la contribution AVANT de la mettre à jour
+    const [rows] = await conn.execute(
+      `SELECT * FROM plant_contributions WHERE id = ?`,
+      [contributionId]
+    ) as any[];
+    const contribution = (rows as any[])[0];
+    if (!contribution) {
+      await conn.end();
+      throw new Error(`Contribution #${contributionId} not found`);
+    }
+
+    // Mettre à jour le statut
     await conn.execute(`
       UPDATE plant_contributions
-      SET status = ?, reviewed_by = ?, reviewed_at = NOW(), admin_notes = ?
+      SET status = ?, reviewed_by = ?, reviewed_at = NOW(), admin_notes = ?, updated_at = NOW()
       WHERE id = ?
     `, [action, reviewedBy, adminNotes || null, contributionId]);
 
-    // Si approuvé et type "molecule", créer automatiquement le lien plant_molecule_links
+    const integrationResults: string[] = [];
+
+    // ====================================================
+    // INTÉGRATION AUTOMATIQUE LORS DE L'APPROBATION
+    // ====================================================
     if (action === 'approved') {
-      const [rows] = await conn.execute(
-        `SELECT * FROM plant_contributions WHERE id = ?`,
-        [contributionId]
-      ) as any[];
-      const contribution = (rows as any[])[0];
-      if (contribution && contribution.contribution_type === 'molecule' && contribution.molecule_id) {
-        // Vérifier si le lien n'existe pas déjà
-        const [existing] = await conn.execute(
-          `SELECT id FROM plant_molecule_links WHERE plant_id = ? AND molecule_id = ?`,
-          [contribution.plant_id, contribution.molecule_id]
+
+      // --- TYPE IMAGE : mettre à jour image_url de la plante ou créer une entrée galerie ---
+      if (contribution.contribution_type === 'image' && contribution.image_url) {
+        // Vérifier si la plante a déjà une image principale
+        const [plantRows] = await conn.execute(
+          `SELECT id, image_url FROM plants WHERE id = ?`,
+          [contribution.plant_id]
         ) as any[];
-        if ((existing as any[]).length === 0) {
-          await conn.execute(`
-            INSERT INTO plant_molecule_links (plant_id, molecule_id, source, notes)
-            VALUES (?, ?, 'contribution', ?)
-          `, [contribution.plant_id, contribution.molecule_id, contribution.description || null]);
+        const plant = (plantRows as any[])[0];
+        if (plant && !plant.image_url) {
+          // Pas d'image principale : définir cette image comme image principale
+          await conn.execute(
+            `UPDATE plants SET image_url = ?, updated_at = NOW() WHERE id = ?`,
+            [contribution.image_url, contribution.plant_id]
+          );
+          integrationResults.push(`Image définie comme image principale de la plante #${contribution.plant_id}`);
+        } else {
+          // La plante a déjà une image : enregistrer dans les notes botaniques
+          const caption = contribution.image_caption ? ` — ${contribution.image_caption}` : '';
+          const source = contribution.image_source ? ` (Source: ${contribution.image_source})` : '';
+          await conn.execute(
+            `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?) WHERE id = ?`,
+            [`\n[Image contributée] ${contribution.image_url}${caption}${source}`, contribution.plant_id]
+          );
+          integrationResults.push(`Image ajoutée aux notes de la plante #${contribution.plant_id}`);
+        }
+      }
+
+      // --- TYPE MOLECULE : créer le lien plant_molecules ---
+      if (contribution.contribution_type === 'molecule') {
+        if (contribution.molecule_id) {
+          // Molécule existante en base : créer le lien plant_molecules
+          const [existing] = await conn.execute(
+            `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+            [contribution.plant_id, contribution.molecule_id]
+          ) as any[];
+          if ((existing as any[]).length === 0) {
+            await conn.execute(`
+              INSERT INTO plant_molecules
+                (plant_id, molecule_id, source, notes, role, created_at, updated_at)
+              VALUES (?, ?, 'contribution_utilisateur', ?, 'secondaire', NOW(), NOW())
+            `, [
+              contribution.plant_id,
+              contribution.molecule_id,
+              [contribution.molecule_source, contribution.description].filter(Boolean).join(' — ') || null
+            ]);
+            integrationResults.push(`Lien plant_molecules créé : plante #${contribution.plant_id} ↔ molécule #${contribution.molecule_id}`);
+          } else {
+            integrationResults.push(`Lien plant_molecules déjà existant pour molécule #${contribution.molecule_id}`);
+          }
+        } else if (contribution.molecule_name) {
+          // Molécule non trouvée en base : chercher par nom exact
+          const [molRows] = await conn.execute(
+            `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
+            [contribution.molecule_name]
+          ) as any[];
+          const mol = (molRows as any[])[0];
+          if (mol) {
+            const [existing] = await conn.execute(
+              `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+              [contribution.plant_id, mol.id]
+            ) as any[];
+            if ((existing as any[]).length === 0) {
+              await conn.execute(`
+                INSERT INTO plant_molecules
+                  (plant_id, molecule_id, source, notes, role, created_at, updated_at)
+                VALUES (?, ?, 'contribution_utilisateur', ?, 'secondaire', NOW(), NOW())
+              `, [
+                contribution.plant_id,
+                mol.id,
+                [contribution.molecule_source, contribution.description].filter(Boolean).join(' — ') || null
+              ]);
+              integrationResults.push(`Lien plant_molecules créé via nom : plante #${contribution.plant_id} ↔ molécule #${mol.id} (${contribution.molecule_name})`);
+            }
+          } else {
+            // Molécule inconnue : enregistrer dans les notes de la plante
+            await conn.execute(
+              `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?) WHERE id = ?`,
+              [`\n[Molécule contributée, non trouvée en base] ${contribution.molecule_name}${contribution.molecule_concentration ? ' (' + contribution.molecule_concentration + ')' : ''}${contribution.molecule_source ? ' — Source: ' + contribution.molecule_source : ''}`, contribution.plant_id]
+            );
+            integrationResults.push(`Molécule "${contribution.molecule_name}" non trouvée en base — enregistrée dans les notes`);
+          }
+        }
+      }
+
+      // --- TYPE TERROIR : créer le lien plant_terroirs ---
+      if (contribution.contribution_type === 'terroir') {
+        const terroirName = [contribution.terroir, contribution.region, contribution.country].filter(Boolean).join(', ');
+        if (terroirName) {
+          // Chercher un terroir correspondant par nom ou région
+          const [terroirRows] = await conn.execute(
+            `SELECT id FROM terroirs WHERE LOWER(name) LIKE LOWER(?) OR LOWER(region) LIKE LOWER(?) LIMIT 1`,
+            [`%${contribution.terroir || contribution.region}%`, `%${contribution.region || contribution.terroir}%`]
+          ) as any[];
+          const terroir = (terroirRows as any[])[0];
+          if (terroir) {
+            // Vérifier si le lien n'existe pas déjà
+            const [existingLink] = await conn.execute(
+              `SELECT id FROM plant_terroirs WHERE plant_id = ? AND terroir_id = ?`,
+              [contribution.plant_id, terroir.id]
+            ) as any[];
+            if ((existingLink as any[]).length === 0) {
+              await conn.execute(`
+                INSERT INTO plant_terroirs (plant_id, terroir_id, quality_notes, notes, created_at)
+                VALUES (?, ?, ?, 'Lien créé via contribution utilisateur', NOW())
+              `, [contribution.plant_id, terroir.id, contribution.terroir_notes || null]);
+              integrationResults.push(`Lien plant_terroirs créé : plante #${contribution.plant_id} ↔ terroir #${terroir.id} (${terroirName})`);
+            } else {
+              integrationResults.push(`Lien plant_terroirs déjà existant pour terroir #${terroir.id}`);
+            }
+          } else {
+            // Terroir non trouvé : enregistrer dans les notes de la plante
+            await conn.execute(
+              `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?) WHERE id = ?`,
+              [`\n[Terroir contribué, non trouvé en base] ${terroirName}${contribution.terroir_notes ? ' — ' + contribution.terroir_notes : ''}`, contribution.plant_id]
+            );
+            integrationResults.push(`Terroir "${terroirName}" non trouvé en base — enregistré dans les notes`);
+          }
+        }
+      }
+
+      // --- TYPE NOTE : ajouter dans les notes ou propriétés ethnobotaniques de la plante ---
+      if (contribution.contribution_type === 'note' && contribution.note_content) {
+        const category = contribution.note_category || 'observation';
+        const noteText = `\n[Note ${category} — ${new Date().toISOString().split('T')[0]}] ${contribution.note_content}${contribution.references ? ' (Réf: ' + contribution.references + ')' : ''}`;
+        if (category === 'ethnobotanique') {
+          // Ajouter aux usages ethnobotaniques (champ JSON)
+          const [plantRows] = await conn.execute(
+            `SELECT ethnobotanical_uses FROM plants WHERE id = ?`,
+            [contribution.plant_id]
+          ) as any[];
+          const plant = (plantRows as any[])[0];
+          let uses: any[] = [];
+          try { uses = JSON.parse(plant?.ethnobotanical_uses || '[]'); } catch { uses = []; }
+          uses.push({ source: 'contribution', date: new Date().toISOString().split('T')[0], content: contribution.note_content, references: contribution.references || null });
+          await conn.execute(
+            `UPDATE plants SET ethnobotanical_uses = ?, updated_at = NOW() WHERE id = ?`,
+            [JSON.stringify(uses), contribution.plant_id]
+          );
+          integrationResults.push(`Note ethnobotanique intégrée dans ethnobotanical_uses de la plante #${contribution.plant_id}`);
+        } else {
+          // Ajouter dans les notes textuelles
+          await conn.execute(
+            `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?), updated_at = NOW() WHERE id = ?`,
+            [noteText, contribution.plant_id]
+          );
+          integrationResults.push(`Note (${category}) intégrée dans les notes de la plante #${contribution.plant_id}`);
         }
       }
     }
 
     await conn.end();
-    return { success: true };
+    return { success: true, integrationResults };
   } catch (error: any) {
     console.error('Error reviewing plant contribution:', error);
     throw error;
@@ -20321,4 +20494,316 @@ export async function getContributionStats() {
     console.error('Error getting contribution stats:', error);
     return { total: 0, pending: 0, approved: 0, rejected: 0 };
   }
+}
+
+// ============================================================
+// GC-MS IMPORT HELPERS
+// ============================================================
+
+export async function searchPlantsForGcms(query: string) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const [rows] = await conn.execute(
+      `SELECT id, name, latin_name, category FROM plants
+       WHERE name LIKE ? OR latin_name LIKE ?
+       ORDER BY category, name LIMIT 20`,
+      [`%${query}%`, `%${query}%`]
+    );
+    await conn.end();
+    return rows as any[];
+  } catch (e: any) { console.error(e); return []; }
+}
+
+export async function searchMoleculesForGcms(query: string) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const [rows] = await conn.execute(
+      `SELECT id, name, cas_number, olfactive_family FROM molecules
+       WHERE name LIKE ? OR cas_number LIKE ?
+       ORDER BY name LIMIT 20`,
+      [`%${query}%`, `%${query}%`]
+    );
+    await conn.end();
+    return rows as any[];
+  } catch (e: any) { console.error(e); return []; }
+}
+
+export async function getGcmsProfile(plantId: number) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const [rows] = await conn.execute(
+      `SELECT pm.*, m.name as molecule_name, m.cas_number, m.olfactive_family
+       FROM plant_molecules pm
+       JOIN molecules m ON pm.molecule_id = m.id
+       WHERE pm.plant_id = ?
+       ORDER BY COALESCE(pm.percentage_typical, pm.percentage_max, pm.percentage_min, 0) DESC`,
+      [plantId]
+    );
+    await conn.end();
+    return rows as any[];
+  } catch (e: any) { console.error(e); return []; }
+}
+
+type GcmsMoleculeInput = {
+  moleculeId?: number;
+  moleculeName: string;
+  percentageMin?: number;
+  percentageMax?: number;
+  percentageTypical?: number;
+  role?: string;
+  isSignature?: boolean;
+  source?: string;
+  notes?: string;
+};
+
+export async function previewGcmsImport(
+  plantId: number,
+  molecules: GcmsMoleculeInput[],
+  overwriteExisting: boolean
+) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+
+    const results: any[] = [];
+    for (const mol of molecules) {
+      let moleculeId = mol.moleculeId;
+      let moleculeDbName = mol.moleculeName;
+      let status = 'new_link';
+
+      // Résoudre l'ID si non fourni
+      if (!moleculeId) {
+        const [found] = await conn.execute(
+          `SELECT id, name FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
+          [mol.moleculeName]
+        ) as any[];
+        if ((found as any[]).length > 0) {
+          moleculeId = (found as any[])[0].id;
+          moleculeDbName = (found as any[])[0].name;
+        } else {
+          status = 'molecule_not_found';
+        }
+      }
+
+      if (moleculeId) {
+        const [existing] = await conn.execute(
+          `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+          [plantId, moleculeId]
+        ) as any[];
+        if ((existing as any[]).length > 0) {
+          status = overwriteExisting ? 'will_update' : 'already_exists_skip';
+        }
+      }
+
+      results.push({
+        moleculeName: mol.moleculeName,
+        moleculeDbName,
+        moleculeId,
+        percentageTypical: mol.percentageTypical,
+        percentageMin: mol.percentageMin,
+        percentageMax: mol.percentageMax,
+        role: mol.role || 'secondaire',
+        isSignature: mol.isSignature || false,
+        source: mol.source,
+        status,
+      });
+    }
+
+    await conn.end();
+    return {
+      plantId,
+      totalMolecules: molecules.length,
+      newLinks: results.filter(r => r.status === 'new_link').length,
+      updates: results.filter(r => r.status === 'will_update').length,
+      skipped: results.filter(r => r.status === 'already_exists_skip').length,
+      notFound: results.filter(r => r.status === 'molecule_not_found').length,
+      rows: results,
+    };
+  } catch (e: any) { console.error(e); throw e; }
+}
+
+export async function importGcmsBatch(
+  plantId: number,
+  molecules: GcmsMoleculeInput[],
+  overwriteExisting: boolean,
+  bibliography?: string[]
+) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+
+    let created = 0, updated = 0, skipped = 0, notFound = 0;
+    const errors: string[] = [];
+
+    for (const mol of molecules) {
+      try {
+        let moleculeId = mol.moleculeId;
+
+        if (!moleculeId) {
+          const [found] = await conn.execute(
+            `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
+            [mol.moleculeName]
+          ) as any[];
+          if ((found as any[]).length > 0) {
+            moleculeId = (found as any[])[0].id;
+          } else {
+            notFound++;
+            errors.push(`Molécule non trouvée : "${mol.moleculeName}"`);
+            continue;
+          }
+        }
+
+        const [existing] = await conn.execute(
+          `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+          [plantId, moleculeId]
+        ) as any[];
+
+        if ((existing as any[]).length > 0) {
+          if (overwriteExisting) {
+            await conn.execute(`
+              UPDATE plant_molecules SET
+                percentage_min = ?, percentage_max = ?, percentage_typical = ?,
+                role = ?, is_signature = ?, source = ?, notes = ?, updated_at = NOW()
+              WHERE plant_id = ? AND molecule_id = ?
+            `, [
+              mol.percentageMin ?? null, mol.percentageMax ?? null, mol.percentageTypical ?? null,
+              mol.role || 'secondaire', mol.isSignature ? 1 : 0,
+              mol.source || 'GC-MS', mol.notes || null,
+              plantId, moleculeId
+            ]);
+            updated++;
+          } else {
+            skipped++;
+          }
+        } else {
+          await conn.execute(`
+            INSERT INTO plant_molecules
+              (plant_id, molecule_id, percentage_min, percentage_max, percentage_typical,
+               role, is_signature, source, notes, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+          `, [
+            plantId, moleculeId,
+            mol.percentageMin ?? null, mol.percentageMax ?? null, mol.percentageTypical ?? null,
+            mol.role || 'secondaire', mol.isSignature ? 1 : 0,
+            mol.source || 'GC-MS', mol.notes || null
+          ]);
+          created++;
+        }
+      } catch (rowErr: any) {
+        errors.push(`Erreur pour "${mol.moleculeName}": ${rowErr.message}`);
+      }
+    }
+
+    // Enregistrer la bibliographie dans les notes de la plante si fournie
+    if (bibliography && bibliography.length > 0) {
+      const bibText = '\n[Sources GC-MS] ' + bibliography.join(' | ');
+      await conn.execute(
+        `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?), updated_at = NOW() WHERE id = ?`,
+        [bibText, plantId]
+      );
+    }
+
+    await conn.end();
+    return { success: true, created, updated, skipped, notFound, errors };
+  } catch (e: any) { console.error(e); throw e; }
+}
+
+export async function importGcmsFromCsv(
+  rows: Array<{
+    plantName: string;
+    moleculeName: string;
+    percentageMin?: number;
+    percentageMax?: number;
+    percentageTypical?: number;
+    role?: string;
+    isSignature?: boolean;
+    source?: string;
+    notes?: string;
+  }>,
+  overwriteExisting: boolean
+) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+
+    let created = 0, updated = 0, skipped = 0, notFound = 0;
+    const errors: string[] = [];
+    const plantCache: Record<string, number | null> = {};
+
+    for (const row of rows) {
+      try {
+        // Résoudre la plante
+        if (!(row.plantName in plantCache)) {
+          const [plants] = await conn.execute(
+            `SELECT id FROM plants WHERE LOWER(name) = LOWER(?) OR LOWER(latin_name) = LOWER(?) LIMIT 1`,
+            [row.plantName, row.plantName]
+          ) as any[];
+          plantCache[row.plantName] = (plants as any[]).length > 0 ? (plants as any[])[0].id : null;
+        }
+        const plantId = plantCache[row.plantName];
+        if (!plantId) {
+          notFound++;
+          errors.push(`Plante non trouvée : "${row.plantName}"`);
+          continue;
+        }
+
+        // Résoudre la molécule
+        const [mols] = await conn.execute(
+          `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
+          [row.moleculeName]
+        ) as any[];
+        if ((mols as any[]).length === 0) {
+          notFound++;
+          errors.push(`Molécule non trouvée : "${row.moleculeName}"`);
+          continue;
+        }
+        const moleculeId = (mols as any[])[0].id;
+
+        const [existing] = await conn.execute(
+          `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+          [plantId, moleculeId]
+        ) as any[];
+
+        if ((existing as any[]).length > 0) {
+          if (overwriteExisting) {
+            await conn.execute(`
+              UPDATE plant_molecules SET
+                percentage_min = ?, percentage_max = ?, percentage_typical = ?,
+                role = ?, is_signature = ?, source = ?, notes = ?, updated_at = NOW()
+              WHERE plant_id = ? AND molecule_id = ?
+            `, [
+              row.percentageMin ?? null, row.percentageMax ?? null, row.percentageTypical ?? null,
+              row.role || 'secondaire', row.isSignature ? 1 : 0,
+              row.source || 'GC-MS', row.notes || null,
+              plantId, moleculeId
+            ]);
+            updated++;
+          } else {
+            skipped++;
+          }
+        } else {
+          await conn.execute(`
+            INSERT INTO plant_molecules
+              (plant_id, molecule_id, percentage_min, percentage_max, percentage_typical,
+               role, is_signature, source, notes, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+          `, [
+            plantId, moleculeId,
+            row.percentageMin ?? null, row.percentageMax ?? null, row.percentageTypical ?? null,
+            row.role || 'secondaire', row.isSignature ? 1 : 0,
+            row.source || 'GC-MS', row.notes || null
+          ]);
+          created++;
+        }
+      } catch (rowErr: any) {
+        errors.push(`Erreur ligne "${row.plantName}/${row.moleculeName}": ${rowErr.message}`);
+      }
+    }
+
+    await conn.end();
+    return { success: true, created, updated, skipped, notFound, errors };
+  } catch (e: any) { console.error(e); throw e; }
 }

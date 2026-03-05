@@ -405,6 +405,30 @@ export const appRouter = router({
         return await db.updateMoleculeReferences(input.id, input.references);
       }),
     
+    // Appliquer la classification IA directement en base
+    applyAIClassification: protectedProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        chemicalClass: z.string().optional(),
+        olfactiveFamily: z.string().optional(),
+        olfactiveProfile: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { moleculeId, chemicalClass, olfactiveFamily, olfactiveProfile } = input;
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Database not available' });
+        const { molecules: moleculesTable } = await import('../drizzle/schema');
+        const { eq } = await import('drizzle-orm');
+        const updateData: Record<string, string> = {};
+        if (chemicalClass !== undefined) updateData.chemicalClass = chemicalClass;
+        if (olfactiveFamily !== undefined) updateData.family = olfactiveFamily;
+        if (olfactiveProfile !== undefined) updateData.olfactiveProfile = olfactiveProfile;
+        if (Object.keys(updateData).length === 0) return { success: false, message: 'Aucun champ à mettre à jour' };
+        await dbConn.update(moleculesTable).set(updateData).where(eq(moleculesTable.id, moleculeId));
+        invalidateMoleculeCache(moleculeId);
+        return { success: true, updatedFields: Object.keys(updateData) };
+      }),
+
     // Liaison molécules-recettes
     linkToRecette: publicProcedure
       .input(z.object({
@@ -10692,7 +10716,7 @@ Familles olfactives disponibles:
     submit: protectedProcedure
       .input(z.object({
         plantId: z.number(),
-        contributionType: z.enum(['image', 'molecule', 'terroir', 'note']),
+        contributionType: z.enum(['image', 'molecule', 'terroir', 'note', 'bibliography', 'gcms_analysis', 'tradition_olfactive']),
         imageUrl: z.string().optional(),
         imageCaption: z.string().optional(),
         imageSource: z.string().optional(),
@@ -10708,6 +10732,23 @@ Familles olfactives disponibles:
         noteCategory: z.string().optional(),
         description: z.string().optional(),
         references: z.string().optional(),
+        // Bibliographie
+        bibTitle: z.string().optional(),
+        bibAuthors: z.string().optional(),
+        bibYear: z.number().optional(),
+        bibJournal: z.string().optional(),
+        bibDoi: z.string().optional(),
+        bibUrl: z.string().optional(),
+        bibType: z.string().optional(),
+        // GC-MS
+        gcmsMethod: z.string().optional(),
+        gcmsMolecules: z.any().optional(),
+        gcmsConditions: z.string().optional(),
+        // Tradition olfactive
+        traditionPeriod: z.string().optional(),
+        traditionCulture: z.string().optional(),
+        traditionUsage: z.string().optional(),
+        traditionSources: z.string().optional(),
       }))
       .mutation(async ({ input, ctx }) => {
         return db.submitPlantContribution({
@@ -10778,6 +10819,351 @@ Familles olfactives disponibles:
     getStats: publicProcedure
       .query(async () => {
         return db.getContributionStats();
+      }),
+  }),
+
+  // ============================================================
+  // MOLECULE CONTRIBUTIONS
+  // ============================================================
+  moleculeContributions: router({
+    submit: protectedProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        contributionType: z.enum(['source','therapeutic','usage','synonym','image','note']),
+        sourceTitle: z.string().optional(),
+        sourceAuthors: z.string().optional(),
+        sourceYear: z.number().optional(),
+        sourceDoi: z.string().optional(),
+        sourceUrl: z.string().optional(),
+        therapeuticProperty: z.string().optional(),
+        therapeuticEvidence: z.string().optional(),
+        therapeuticNotes: z.string().optional(),
+        usageContext: z.string().optional(),
+        usageDescription: z.string().optional(),
+        synonymName: z.string().optional(),
+        synonymLanguage: z.string().optional(),
+        imageUrl: z.string().optional(),
+        imageCaption: z.string().optional(),
+        noteContent: z.string().optional(),
+        noteCategory: z.string().optional(),
+        description: z.string().optional(),
+        bibliographyRefs: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        await conn.execute(`
+          INSERT INTO molecule_contributions
+            (molecule_id, user_id, user_name, contribution_type,
+             source_title, source_authors, source_year, source_doi, source_url,
+             therapeutic_property, therapeutic_evidence, therapeutic_notes,
+             usage_context, usage_description,
+             synonym_name, synonym_language,
+             image_url, image_caption,
+             note_content, note_category,
+             description, bibliography_refs)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        `, [
+          input.moleculeId, ctx.user.openId, ctx.user.name || null, input.contributionType,
+          input.sourceTitle || null, input.sourceAuthors || null, input.sourceYear || null,
+          input.sourceDoi || null, input.sourceUrl || null,
+          input.therapeuticProperty || null, input.therapeuticEvidence || null, input.therapeuticNotes || null,
+          input.usageContext || null, input.usageDescription || null,
+          input.synonymName || null, input.synonymLanguage || null,
+          input.imageUrl || null, input.imageCaption || null,
+          input.noteContent || null, input.noteCategory || null,
+          input.description || null, input.bibliographyRefs || null,
+        ]);
+        await conn.end();
+        return { success: true };
+      }),
+    getByMolecule: publicProcedure
+      .input(z.object({ moleculeId: z.number(), status: z.enum(['pending','approved','rejected']).optional() }))
+      .query(async ({ input }) => {
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        const [rows] = await conn.execute(
+          `SELECT * FROM molecule_contributions WHERE molecule_id = ?${input.status ? ' AND status = ?' : ''} ORDER BY created_at DESC`,
+          input.status ? [input.moleculeId, input.status] : [input.moleculeId]
+        );
+        await conn.end();
+        return rows as any[];
+      }),
+    getAll: protectedProcedure
+      .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
+      .query(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        const [rows] = await conn.execute(
+          `SELECT mc.*, m.name as molecule_name FROM molecule_contributions mc
+           LEFT JOIN molecules m ON mc.molecule_id = m.id
+           ${input?.status ? 'WHERE mc.status = ?' : ''}
+           ORDER BY mc.created_at DESC`,
+          input?.status ? [input.status] : []
+        );
+        await conn.end();
+        return rows as any[];
+      }),
+    review: protectedProcedure
+      .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        await conn.execute(
+          `UPDATE molecule_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
+          [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
+        );
+        await conn.end();
+        return { success: true };
+      }),
+  }),
+
+  // ============================================================
+  // TERROIR CONTRIBUTIONS
+  // ============================================================
+  terroirContributions: router({
+    submit: protectedProcedure
+      .input(z.object({
+        terroirId: z.number(),
+        contributionType: z.enum(['image','plant_link','note','production_data','history']),
+        imageUrl: z.string().optional(),
+        imageCaption: z.string().optional(),
+        plantName: z.string().optional(),
+        plantId: z.number().optional(),
+        plantNotes: z.string().optional(),
+        productionYear: z.number().optional(),
+        productionQuantity: z.string().optional(),
+        productionQuality: z.string().optional(),
+        historyPeriod: z.string().optional(),
+        historyContent: z.string().optional(),
+        noteContent: z.string().optional(),
+        noteCategory: z.string().optional(),
+        description: z.string().optional(),
+        bibliographyRefs: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        await conn.execute(`
+          INSERT INTO terroir_contributions
+            (terroir_id, user_id, user_name, contribution_type,
+             image_url, image_caption, plant_name, plant_id, plant_notes,
+             production_year, production_quantity, production_quality,
+             history_period, history_content,
+             note_content, note_category, description, bibliography_refs)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        `, [
+          input.terroirId, ctx.user.openId, ctx.user.name || null, input.contributionType,
+          input.imageUrl || null, input.imageCaption || null,
+          input.plantName || null, input.plantId || null, input.plantNotes || null,
+          input.productionYear || null, input.productionQuantity || null, input.productionQuality || null,
+          input.historyPeriod || null, input.historyContent || null,
+          input.noteContent || null, input.noteCategory || null,
+          input.description || null, input.bibliographyRefs || null,
+        ]);
+        await conn.end();
+        return { success: true };
+      }),
+    getAll: protectedProcedure
+      .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
+      .query(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        const [rows] = await conn.execute(
+          `SELECT tc.*, t.name as terroir_name FROM terroir_contributions tc
+           LEFT JOIN terroirs t ON tc.terroir_id = t.id
+           ${input?.status ? 'WHERE tc.status = ?' : ''}
+           ORDER BY tc.created_at DESC`,
+          input?.status ? [input.status] : []
+        );
+        await conn.end();
+        return rows as any[];
+      }),
+    review: protectedProcedure
+      .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        await conn.execute(
+          `UPDATE terroir_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
+          [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
+        );
+        await conn.end();
+        return { success: true };
+      }),
+  }),
+
+  // ============================================================
+  // RECIPE CONTRIBUTIONS
+  // ============================================================
+  recipeContributions: router({
+    submit: protectedProcedure
+      .input(z.object({
+        recipeId: z.number(),
+        contributionType: z.enum(['ingredient','variant','note','image','correction']),
+        ingredientName: z.string().optional(),
+        ingredientQuantity: z.string().optional(),
+        ingredientUnit: z.string().optional(),
+        ingredientNotes: z.string().optional(),
+        variantName: z.string().optional(),
+        variantDescription: z.string().optional(),
+        imageUrl: z.string().optional(),
+        imageCaption: z.string().optional(),
+        noteContent: z.string().optional(),
+        noteCategory: z.string().optional(),
+        description: z.string().optional(),
+        bibliographyRefs: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        await conn.execute(`
+          INSERT INTO recipe_contributions
+            (recipe_id, user_id, user_name, contribution_type,
+             ingredient_name, ingredient_quantity, ingredient_unit, ingredient_notes,
+             variant_name, variant_description,
+             image_url, image_caption,
+             note_content, note_category, description, bibliography_refs)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        `, [
+          input.recipeId, ctx.user.openId, ctx.user.name || null, input.contributionType,
+          input.ingredientName || null, input.ingredientQuantity || null,
+          input.ingredientUnit || null, input.ingredientNotes || null,
+          input.variantName || null, input.variantDescription || null,
+          input.imageUrl || null, input.imageCaption || null,
+          input.noteContent || null, input.noteCategory || null,
+          input.description || null, input.bibliographyRefs || null,
+        ]);
+        await conn.end();
+        return { success: true };
+      }),
+    getAll: protectedProcedure
+      .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
+      .query(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        const [rows] = await conn.execute(
+          `SELECT rc.* FROM recipe_contributions rc
+           ${input?.status ? 'WHERE rc.status = ?' : ''}
+           ORDER BY rc.created_at DESC`,
+          input?.status ? [input.status] : []
+        );
+        await conn.end();
+        return rows as any[];
+      }),
+    review: protectedProcedure
+      .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        await conn.execute(
+          `UPDATE recipe_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
+          [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
+        );
+        await conn.end();
+        return { success: true };
+      }),
+  }),
+
+  // ============================================================
+  // GC-MS IMPORT — Import de profils moléculaires GC-MS
+  // ============================================================
+  gcmsImport: router({
+
+    // Rechercher une plante par nom pour l'import GC-MS
+    searchPlant: protectedProcedure
+      .input(z.object({ query: z.string().min(1) }))
+      .query(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        return db.searchPlantsForGcms(input.query);
+      }),
+
+    // Rechercher une molécule existante par nom
+    searchMolecule: protectedProcedure
+      .input(z.object({ query: z.string().min(1) }))
+      .query(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        return db.searchMoleculesForGcms(input.query);
+      }),
+
+    // Prévisualiser un import (dry-run) sans écrire en base
+    preview: protectedProcedure
+      .input(z.object({
+        plantId: z.number(),
+        molecules: z.array(z.object({
+          moleculeId: z.number().optional(),
+          moleculeName: z.string(),
+          percentageMin: z.number().min(0).max(100).optional(),
+          percentageMax: z.number().min(0).max(100).optional(),
+          percentageTypical: z.number().min(0).max(100).optional(),
+          role: z.enum(['majeur', 'secondaire', 'trace', 'variable']).default('secondaire'),
+          isSignature: z.boolean().default(false),
+          source: z.string().optional(),
+          notes: z.string().optional(),
+        })),
+        overwriteExisting: z.boolean().default(false),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        return db.previewGcmsImport(input.plantId, input.molecules, input.overwriteExisting);
+      }),
+
+    // Importer un lot de molécules GC-MS pour une plante
+    importBatch: protectedProcedure
+      .input(z.object({
+        plantId: z.number(),
+        molecules: z.array(z.object({
+          moleculeId: z.number().optional(),
+          moleculeName: z.string(),
+          percentageMin: z.number().min(0).max(100).optional(),
+          percentageMax: z.number().min(0).max(100).optional(),
+          percentageTypical: z.number().min(0).max(100).optional(),
+          role: z.enum(['majeur', 'secondaire', 'trace', 'variable']).default('secondaire'),
+          isSignature: z.boolean().default(false),
+          source: z.string().optional(),
+          notes: z.string().optional(),
+        })),
+        overwriteExisting: z.boolean().default(false),
+        bibliography: z.array(z.string()).optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        return db.importGcmsBatch(input.plantId, input.molecules, input.overwriteExisting, input.bibliography);
+      }),
+
+    // Importer depuis un CSV parsé côté client
+    importFromCsv: protectedProcedure
+      .input(z.object({
+        rows: z.array(z.object({
+          plantName: z.string(),
+          moleculeName: z.string(),
+          percentageMin: z.number().optional(),
+          percentageMax: z.number().optional(),
+          percentageTypical: z.number().optional(),
+          role: z.string().optional(),
+          isSignature: z.boolean().optional(),
+          source: z.string().optional(),
+          notes: z.string().optional(),
+        })),
+        overwriteExisting: z.boolean().default(false),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        return db.importGcmsFromCsv(input.rows, input.overwriteExisting);
+      }),
+
+    // Récupérer les profils GC-MS existants pour une plante
+    getProfile: protectedProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input, ctx }) => {
+        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
+        return db.getGcmsProfile(input.plantId);
       }),
   }),
 });
