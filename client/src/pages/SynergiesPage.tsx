@@ -14,7 +14,7 @@ import {
   Sparkles, Search, Zap, Atom, 
   FlaskConical, TrendingUp, ArrowRight, Layers, Grid3X3, BarChart3,
   Network, Filter, Eye, Info, ChevronDown, ChevronUp,
-  Maximize2, Minimize2, Download, RefreshCw, Target, Link2
+  Maximize2, Minimize2, Download, RefreshCw, Target, Link2, Ban
 } from 'lucide-react';
 import { Link } from 'wouter';
 import { AnimatedCard, HoverScale, FadeInSection } from '@/components/PageTransition';
@@ -424,6 +424,7 @@ export default function Synergies() {
       'stabilisation': 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30',
       'transformation': 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30',
       'masquage': 'bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/30',
+      'neutralisation': 'bg-slate-500/10 text-slate-700 dark:text-slate-400 border-slate-500/30',
     };
     return colors[type?.toLowerCase()] || 'bg-muted text-muted-foreground border-border';
   };
@@ -434,6 +435,7 @@ export default function Synergies() {
       'stabilisation': <Target className="w-4 h-4" />,
       'transformation': <TrendingUp className="w-4 h-4" />,
       'masquage': <Eye className="w-4 h-4" />,
+      'neutralisation': <Ban className="w-4 h-4" />,
     };
     return icons[type?.toLowerCase()] || <Sparkles className="w-4 h-4" />;
   };
@@ -444,6 +446,7 @@ export default function Synergies() {
       'stabilisation': 'Fixation et prolongation de la tenue',
       'transformation': 'Modification du profil olfactif',
       'masquage': 'Atténuation ou dissimulation de notes',
+      'neutralisation': 'Annulation mutuelle des perceptions olfactives',
     };
     return descriptions[type?.toLowerCase()] || 'Interaction moléculaire';
   };
@@ -551,12 +554,13 @@ export default function Synergies() {
               <Layers className="w-5 h-5 text-primary" />
               Types de Synergies
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
               {[
                 { type: 'potentialisation', icon: Zap, color: 'violet', count: statsData.byType['potentialisation'] || 0 },
                 { type: 'stabilisation', icon: Target, color: 'emerald', count: statsData.byType['stabilisation'] || 0 },
                 { type: 'transformation', icon: TrendingUp, color: 'amber', count: statsData.byType['transformation'] || 0 },
                 { type: 'masquage', icon: Eye, color: 'rose', count: statsData.byType['masquage'] || 0 },
+                { type: 'neutralisation', icon: Ban, color: 'slate', count: statsData.byType['neutralisation'] || 0 },
               ].map((item) => {
                 const Icon = item.icon;
                 return (

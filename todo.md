@@ -1097,3 +1097,23 @@
 ### Résultats
 - 0 erreur TypeScript
 - 99/99 tests passants
+
+---
+
+## 🌿 SESSION 5 MARS 2026 (nuit) — Herbier des Disparus, Généalogie, Synergies
+
+### Axe 1 : Page Herbier des Disparus
+- [x] Analyser la table ghost_varieties (8 variétés dispar. : rose, jasmin, tabac colonial, cannabis afghan, lavande, bergamote, thym, encens)
+- [x] GhostVarietiesExplorer déjà existant (594 lignes, Map.tsx, filtres, onglets) — doublon supprimé
+- [x] Ajouter "Herbier des Disparus" dans le MegaMenu (section Plantes & Variétés) → /ghost-varieties-explorer
+
+### Axe 2 : Visualisation généalogique interactive
+- [x] Analyser la table variety_genealogy (86 liaisons cannabis)
+- [x] GenealogyGraph.tsx déjà existant (530 lignes, D3.js, trpc.varietyGenealogy) — routes /genealogy et /arbre-genealogique
+- [x] Ajouter "Arbre Généalogique" dans le MegaMenu (section Plantes & Variétés) → /genealogy
+
+### Axe 3 : Synergies de masquage et neutralisation
+- [x] Analyser la structure actuelle de la table synergies (4 masquage existants, 0 neutralisation)
+- [x] Seeder 27 synergies : 15 masquage + 12 neutralisation (script seed-synergies-masquage-neutralisation.mjs)
+- [x] Mettre à jour SynergiesPage : couleur slate + icône Ban + description pour neutralisation
+- [x] Grille types de synergies : 4 colonnes → 5 colonnes (ajout neutralisation)

@@ -35,6 +35,7 @@ import {
   Package,
   Truck,
   Building2,
+  Skull,
 } from "lucide-react";
 
 interface MenuItem {
@@ -454,6 +455,20 @@ export function MegaMenu() {
           path: "/smiles",
           icon: <Beaker className="h-4 w-4" />,
           description: "Visualisation moléculaire 2D",
+          badge: "NEW",
+        },
+        {
+          label: "Herbier des Disparus",
+          path: "/ghost-varieties-explorer",
+          icon: <Skull className="h-4 w-4" />,
+          description: "Variétés éteintes et menacées",
+          badge: "NEW",
+        },
+        {
+          label: "Arbre Généalogique",
+          path: "/genealogy",
+          icon: <GitBranch className="h-4 w-4" />,
+          description: "Lignées et croisements interactifs",
           badge: "NEW",
         },
       ],
