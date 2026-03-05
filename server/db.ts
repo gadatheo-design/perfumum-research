@@ -1649,7 +1649,7 @@ export async function getRecetteWithRelations(id: number) {
   const mergedMolecules = [
     ...relatedMolecules,
     ...linkedMolecules.filter(m => !existingIds.has(m.id)),
-  ].sort((a, b) => (b.proportion ?? 0) - (a.proportion ?? 0));
+  ].sort((a, b) => (Number(b.proportion) || 0) - (Number(a.proportion) || 0));
   
   // Get family if familyId exists
   let family = null;

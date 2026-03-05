@@ -918,4 +918,6 @@
 - [x] Identifier les 437 molécules sans CAS ni SMILES
 - [x] Script enrich-pubchem-batch.mjs créé et lancé en arrière-plan
 - [x] Mettre à jour validation_status après enrichissement (brouillon → en_revision)
-- [ ] Attendre la fin du batch et vérifier les résultats (en cours...)
+- [x] Batch terminé : 172 molécules enrichies (CAS, SMILES, InChI, masse exacte), 160 passées en "en_revision"
+  - Avant : 574 CAS, 202 SMILES, 68 PubChem | Après : 734 CAS (+160), 240 PubChem (+172)
+  - 277 brouillons restants = accords olfactifs complexes sans CID PubChem (normal)

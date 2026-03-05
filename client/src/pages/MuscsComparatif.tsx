@@ -15,7 +15,7 @@ interface Musc {
   nom: string;
   nomScientifique?: string;
   type: MuscType;
-  cites: "Annexe I" | "Annexe II" | "Non listé" | "Interdit";
+  cites: "Annexe I" | "Annexe II" | "Annexe III" | "Non listé" | "Interdit";
   ifraStatut: "Autorisé" | "Restreint" | "Interdit" | "Non évalué";
   ifraLimite?: string;
   biodegradabilite: "Excellente" | "Bonne" | "Moyenne" | "Faible" | "Très faible";

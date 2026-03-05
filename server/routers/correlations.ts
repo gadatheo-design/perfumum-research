@@ -209,7 +209,7 @@ export const correlationsRouter = router({
     }
 
     return Object.entries(familyMap)
-      .map(([family, data]) => ({ family, count: data.count, examples: [...new Set(data.examples)].slice(0, 5) }))
+      .map(([family, data]) => ({ family, count: data.count, examples: Array.from(new Set(data.examples)).slice(0, 5) }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 15);
   }),

@@ -76,11 +76,12 @@ async function fetchPubChemByName(name) {
 async function main() {
   const conn = await mysql.createConnection(process.env.DATABASE_URL);
   
-  // Récupérer toutes les molécules brouillon sans CAS
+  // Récupérer toutes les molécules brouillon sans CAS ET sans pubchem_cid (non encore traitées)
   const [molecules] = await conn.execute(`
     SELECT id, name FROM molecules
     WHERE validation_status = 'brouillon'
     AND (cas_number IS NULL OR cas_number = '')
+    AND pubchem_cid IS NULL
     ORDER BY name
   `);
   

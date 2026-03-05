@@ -7321,8 +7321,9 @@ export const appRouter = router({
 
             const content = llmResponse.choices?.[0]?.message?.content;
             if (!content) continue;
+            const contentStr = typeof content === 'string' ? content : JSON.stringify(content);
 
-            const extracted = JSON.parse(content);
+            const extracted = JSON.parse(contentStr);
             let refLinked = 0;
 
             // Lier les plantes trouvées

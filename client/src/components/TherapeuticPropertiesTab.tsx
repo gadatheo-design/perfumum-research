@@ -162,7 +162,7 @@ function extractMechanisms(text: string): string[] {
       mechanisms.push(content);
     }
   }
-  return [...new Set(mechanisms)].slice(0, 6); // Max 6 mécanismes uniques
+  return Array.from(new Set(mechanisms)).slice(0, 6); // Max 6 mécanismes uniques
 }
 
 function extractContraindications(text: string): string[] {
