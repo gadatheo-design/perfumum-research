@@ -3795,12 +3795,20 @@ export const appRouter = router({
       return all.filter((s: any) => s.supplierId?.startsWith('CANNA'));
     }),
     getByCategory: publicProcedure
-      .input(z.object({ category: z.enum(['tabac', 'cannabis', 'all']) }))
+      .input(z.object({ category: z.enum(['tabac', 'cannabis', 'parfum', 'botanique', 'all']) }))
       .query(async ({ input }) => {
         const all = await getAllExtendedSuppliers();
         if (input.category === 'tabac') return all.filter((s: any) => s.supplierId?.startsWith('TABAC'));
         if (input.category === 'cannabis') return all.filter((s: any) => s.supplierId?.startsWith('CANNA'));
+        if (input.category === 'parfum') return all.filter((s: any) => s.supplierId?.startsWith('PARF'));
+        if (input.category === 'botanique') return all.filter((s: any) => s.supplierId?.startsWith('BOTA'));
         return all;
+      }),
+    getByCountry: publicProcedure
+      .input(z.object({ country: z.string() }))
+      .query(async ({ input }) => {
+        const all = await getAllExtendedSuppliers();
+        return all.filter((s: any) => s.country === input.country);
       }),
   }),
   

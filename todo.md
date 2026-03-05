@@ -990,3 +990,37 @@
 - [ ] Agréger tous les fournisseurs (tabac, cannabis, parfum, botanique)
 - [ ] Ajouter la route /sourcing dans App.tsx
 - [ ] Lier depuis le MegaMenu
+
+---
+
+## 🗺️ SESSION 5 MARS 2026 — Hub Sourcing, fournisseurs parfum/botanique, audit qualité
+
+### ✅ Axe 1 : Seeder 15 fournisseurs parfum/botanique
+- [x] Insérer 9 fournisseurs parfumerie (Givaudan, Firmenich, Robertet, Biolandes, Charabot, Sozio, Symrise, IFF, Mane)
+- [x] Insérer 6 fournisseurs botanique (Herbes & Traditions, Labo Monique Rémy, Florihana, Amphora, Tisserand, Aura Cacia)
+- [x] Total extended_suppliers : 26 fournisseurs (11 TABAC/CANNA + 15 PARF/BOTA)
+
+### ✅ Axe 2 : Hub Sourcing centralisé /sourcing-hub
+- [x] Créer SourcingHub.tsx avec filtres dynamiques (catégorie, type, pays, tri)
+- [x] Ajouter statistiques globales (total, répartition, pays couverts)
+- [x] Ajouter toggle vue liste / vue groupée par catégorie
+- [x] Ajouter entrée "Hub Sourcing" dans MegaMenu (badge NEW)
+- [x] Ajouter endpoint tRPC getByCountry et getByCategory étendu (PARF/BOTA)
+
+### ✅ Axe 3 : Connecter les pages sourcing géographiques à la DB
+- [x] Créer composant VerifiedSuppliersPanel réutilisable
+- [x] Intégrer dans SourcingFrance (6 fournisseurs DB)
+- [x] Intégrer dans SourcingInde (1 fournisseur DB)
+- [x] Intégrer dans SourcingNorthAmerica (USA 7 + Canada 1)
+- [x] Intégrer dans SourcingMadagascar (0 DB, panel masqué automatiquement)
+- [x] Intégrer dans SourcingColombie (0 DB, panel masqué automatiquement)
+
+### ✅ Audit qualité données
+- [x] Normalisation familles chimiques (205 molécules corrigées)
+- [x] Rapport audit comparatif généré (docs/audit-qualite-mars-2026.md)
+
+### 🔜 Prochaines étapes
+- [ ] Ajouter fournisseurs Madagascar et Colombie en DB
+- [ ] Intégrer carte géographique Map.tsx dans SourcingHub (toggle carte/liste)
+- [ ] Valider les pourcentages des 536 liaisons plante-molécule
+- [ ] Créer les liaisons plante-terroir (couverture actuelle ~65%)

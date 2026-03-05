@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { VerifiedSuppliersPanel } from "@/components/VerifiedSuppliersPanel";
 import { CertificationFilter, CertificationBadge, type CertificationType } from "@/components/CertificationFilter";
 import { 
   TreePine, 
@@ -790,6 +791,10 @@ export default function SourcingNorthAmerica() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Fournisseurs vérifiés DB */}
+        <VerifiedSuppliersPanel country="USA" className="mt-4" />
+        <VerifiedSuppliersPanel country="Canada" className="mt-2" />
 
         {/* Footer */}
         <div className="mt-8 text-center text-sm text-muted-foreground">

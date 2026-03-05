@@ -1,6 +1,7 @@
 // @ts-nocheck
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useCallback } from "react";
 import { Link } from "wouter";
+import { MapView } from "@/components/Map";
 import { trpc } from "@/lib/trpc";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,8 @@ import {
   FlaskConical,
   Building2,
   ChevronRight,
+  Map as MapIcon,
+  List,
 } from "lucide-react";
 
 const SUPPLIER_TYPE_LABELS: Record<string, string> = {
@@ -42,6 +45,8 @@ const SUPPLIER_TYPE_LABELS: Record<string, string> = {
   manufacturer: "Fabricant",
   cooperative: "Coopérative",
   laboratory: "Laboratoire",
+  distiller: "Distillateur",
+  other: "Fabricant / Autre",
 };
 
 const SUPPLIER_TYPE_COLORS: Record<string, string> = {
@@ -61,32 +66,49 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   botanique: <Package className="h-4 w-4" />,
 };
 
-function StarRating({ rating }: { rating: number | null }) {
-  if (!rating) return <span className="text-muted-foreground text-xs">N/A</span>;
+const CATEGORY_CONFIG: Record<string, { label: string; bg: string; badge: string }> = {
+  tabac: { label: "Tabac", bg: "bg-amber-500/10 text-amber-600", badge: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" },
+  cannabis: { label: "Cannabis", bg: "bg-green-500/10 text-green-600", badge: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" },
+  parfum: { label: "Parfumerie", bg: "bg-rose-500/10 text-rose-600", badge: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400" },
+  botanique: { label: "Botanique", bg: "bg-violet-500/10 text-violet-600", badge: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400" },
+  autre: { label: "Autre", bg: "bg-muted text-muted-foreground", badge: "bg-muted text-muted-foreground" },
+};
+
+function getCategory(supplierId: string): string {
+  if (supplierId?.startsWith("TABAC")) return "tabac";
+  if (supplierId?.startsWith("CANNA")) return "cannabis";
+  if (supplierId?.startsWith("PARF")) return "parfum";
+  if (supplierId?.startsWith("BOTA")) return "botanique";
+  return "autre";
+}
+
+function ratingScore(r: string | null): number {
+  return { excellent: 5, good: 4, acceptable: 3, poor: 2, not_rated: 0, premium: 5, competitive: 4, standard: 3, budget: 2 }[r || ""] || 0;
+}
+
+function StarRating({ rating }: { rating: string | null }) {
+  const num = ratingScore(rating);
+  if (!num) return <span className="text-muted-foreground text-xs">N/A</span>;
   return (
     <div className="flex items-center gap-0.5">
       {[1, 2, 3, 4, 5].map((star) => (
         <Star
           key={star}
           className={`h-3 w-3 ${
-            star <= rating
+            star <= num
               ? "fill-amber-400 text-amber-400"
               : "fill-muted text-muted"
           }`}
         />
       ))}
-      <span className="text-xs text-muted-foreground ml-1">{rating}/5</span>
     </div>
   );
 }
 
 function SupplierCard({ supplier }: { supplier: any }) {
   const [expanded, setExpanded] = useState(false);
-  const category = supplier.supplierId?.startsWith("TABAC")
-    ? "tabac"
-    : supplier.supplierId?.startsWith("CANNA")
-    ? "cannabis"
-    : "autre";
+  const category = getCategory(supplier.supplierId);
+  const catConfig = CATEGORY_CONFIG[category] || CATEGORY_CONFIG.autre;
 
   const specialties = Array.isArray(supplier.specialties)
     ? supplier.specialties
@@ -111,15 +133,7 @@ function SupplierCard({ supplier }: { supplier: any }) {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3 flex-1 min-w-0">
-            <div
-              className={`p-2 rounded-lg shrink-0 ${
-                category === "tabac"
-                  ? "bg-amber-500/10 text-amber-600"
-                  : category === "cannabis"
-                  ? "bg-green-500/10 text-green-600"
-                  : "bg-primary/10 text-primary"
-              }`}
-            >
+            <div className={`p-2 rounded-lg shrink-0 ${catConfig.bg}`}>
               {CATEGORY_ICONS[category] || <Building2 className="h-4 w-4" />}
             </div>
             <div className="flex-1 min-w-0">
@@ -134,9 +148,12 @@ function SupplierCard({ supplier }: { supplier: any }) {
             </div>
           </div>
           <div className="flex flex-col items-end gap-1.5 shrink-0">
+            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide ${catConfig.badge}`}>
+              {catConfig.label}
+            </span>
             {supplier.supplierType && (
               <span
-                className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide ${
+                className={`text-[9px] font-medium px-1.5 py-0.5 rounded-full ${
                   SUPPLIER_TYPE_COLORS[supplier.supplierType] ||
                   "bg-muted text-muted-foreground"
                 }`}
@@ -322,8 +339,7 @@ export default function SourcingHub() {
     let result = [...suppliers];
 
     if (filterCategory !== "all") {
-      if (filterCategory === "tabac") result = result.filter((s: any) => s.supplierId?.startsWith("TABAC"));
-      else if (filterCategory === "cannabis") result = result.filter((s: any) => s.supplierId?.startsWith("CANNA"));
+      result = result.filter((s: any) => getCategory(s.supplierId) === filterCategory);
     }
 
     if (filterType !== "all") {
@@ -345,8 +361,8 @@ export default function SourcingHub() {
     }
 
     result.sort((a: any, b: any) => {
-      if (sortBy === "quality") return (b.qualityRating || 0) - (a.qualityRating || 0);
-      if (sortBy === "reliability") return (b.reliabilityRating || 0) - (a.reliabilityRating || 0);
+      if (sortBy === "quality") return ratingScore(b.qualityRating) - ratingScore(a.qualityRating);
+      if (sortBy === "reliability") return ratingScore(b.reliabilityRating) - ratingScore(a.reliabilityRating);
       if (sortBy === "name") return a.name.localeCompare(b.name);
       if (sortBy === "country") return (a.country || "").localeCompare(b.country || "");
       return 0;
@@ -355,10 +371,92 @@ export default function SourcingHub() {
     return result;
   }, [suppliers, filterCategory, filterType, filterCountry, search, sortBy]);
 
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
+  const mapRef = useRef<any>(null);
+  const markersRef = useRef<any[]>([]);
+
+  // Coordonnées par pays pour la carte
+  const COUNTRY_COORDS: Record<string, { lat: number; lng: number }> = {
+    "Suisse": { lat: 46.8182, lng: 8.2275 },
+    "France": { lat: 46.2276, lng: 2.2137 },
+    "Allemagne": { lat: 51.1657, lng: 10.4515 },
+    "USA": { lat: 37.0902, lng: -95.7129 },
+    "Belgique": { lat: 50.5039, lng: 4.4699 },
+    "Royaume-Uni": { lat: 55.3781, lng: -3.4360 },
+    "Pays-Bas": { lat: 52.1326, lng: 5.2913 },
+    "Espagne": { lat: 40.4637, lng: -3.7492 },
+    "Italie": { lat: 41.8719, lng: 12.5674 },
+    "Inde": { lat: 20.5937, lng: 78.9629 },
+    "Brésil": { lat: -14.2350, lng: -51.9253 },
+    "Maroc": { lat: 31.7917, lng: -7.0926 },
+    "Turquie": { lat: 38.9637, lng: 35.2433 },
+    "Bulgarie": { lat: 42.7339, lng: 25.4858 },
+    "Grèce": { lat: 39.0742, lng: 21.8243 },
+    "Égypte": { lat: 26.8206, lng: 30.8025 },
+    "Madagascar": { lat: -18.7669, lng: 46.8691 },
+    "Indonésie": { lat: -0.7893, lng: 113.9213 },
+    "Sri Lanka": { lat: 7.8731, lng: 80.7718 },
+    "Chine": { lat: 35.8617, lng: 104.1954 },
+    "Japon": { lat: 36.2048, lng: 138.2529 },
+    "Canada": { lat: 56.1304, lng: -106.3468 },
+    "Australie": { lat: -25.2744, lng: 133.7751 },
+    "Afrique du Sud": { lat: -30.5595, lng: 22.9375 },
+  };
+
+  const handleMapReady = useCallback((map: any) => {
+    mapRef.current = map;
+    // Placer les épingles pour chaque fournisseur
+    const suppliersByCountry: Record<string, any[]> = {};
+    suppliers.forEach((s: any) => {
+      if (s.country) {
+        if (!suppliersByCountry[s.country]) suppliersByCountry[s.country] = [];
+        suppliersByCountry[s.country].push(s);
+      }
+    });
+
+    Object.entries(suppliersByCountry).forEach(([country, countrySuppliers]) => {
+      const coords = COUNTRY_COORDS[country];
+      if (!coords) return;
+
+      const catCounts = { tabac: 0, cannabis: 0, parfum: 0, botanique: 0 };
+      countrySuppliers.forEach((s: any) => {
+        const cat = getCategory(s.supplierId);
+        if (cat in catCounts) catCounts[cat as keyof typeof catCounts]++;
+      });
+
+      const pinEl = document.createElement('div');
+      pinEl.style.cssText = 'background:#1e293b;color:white;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:600;white-space:nowrap;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);';
+      pinEl.innerHTML = `<div style="font-size:12px;margin-bottom:2px;">${country}</div><div style="font-size:10px;opacity:0.8;">${countrySuppliers.length} fournisseur${countrySuppliers.length > 1 ? 's' : ''}</div>`;
+
+      const marker = new window.google.maps.marker.AdvancedMarkerElement({
+        map,
+        position: coords,
+        title: country,
+        content: pinEl,
+      });
+
+      // InfoWindow au clic
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: `<div style="font-family:sans-serif;min-width:180px;">
+          <h3 style="margin:0 0 8px;font-size:14px;font-weight:700;">${country}</h3>
+          ${countrySuppliers.map(s => `<div style="margin:4px 0;font-size:12px;"><strong>${s.name}</strong><br/><span style="color:#64748b;">${SUPPLIER_TYPE_LABELS[s.supplierType] || s.supplierType}</span></div>`).join('')}
+        </div>`,
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+      });
+
+      markersRef.current.push(marker);
+    });
+  }, [suppliers]);
+
   const stats = useMemo(() => ({
     total: suppliers.length,
-    tabac: suppliers.filter((s: any) => s.supplierId?.startsWith("TABAC")).length,
-    cannabis: suppliers.filter((s: any) => s.supplierId?.startsWith("CANNA")).length,
+    tabac: suppliers.filter((s: any) => getCategory(s.supplierId) === "tabac").length,
+    cannabis: suppliers.filter((s: any) => getCategory(s.supplierId) === "cannabis").length,
+    parfum: suppliers.filter((s: any) => getCategory(s.supplierId) === "parfum").length,
+    botanique: suppliers.filter((s: any) => getCategory(s.supplierId) === "botanique").length,
     countries: new Set(suppliers.map((s: any) => s.country).filter(Boolean)).size,
   }), [suppliers]);
 
@@ -399,19 +497,21 @@ export default function SourcingHub() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-4 mt-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-6">
             {[
-              { label: "Fournisseurs", value: stats.total, icon: <Building2 className="h-4 w-4" /> },
-              { label: "Spécialistes tabac", value: stats.tabac, icon: <Cigarette className="h-4 w-4" /> },
-              { label: "Spécialistes cannabis", value: stats.cannabis, icon: <Leaf className="h-4 w-4" /> },
-              { label: "Pays couverts", value: stats.countries, icon: <Globe className="h-4 w-4" /> },
+              { label: "Total", value: stats.total, icon: <Building2 className="h-3.5 w-3.5" />, color: "text-foreground" },
+              { label: "Tabac", value: stats.tabac, icon: <Cigarette className="h-3.5 w-3.5" />, color: "text-amber-600" },
+              { label: "Cannabis", value: stats.cannabis, icon: <Leaf className="h-3.5 w-3.5" />, color: "text-green-600" },
+              { label: "Parfumerie", value: stats.parfum, icon: <FlaskConical className="h-3.5 w-3.5" />, color: "text-rose-600" },
+              { label: "Botanique", value: stats.botanique, icon: <Package className="h-3.5 w-3.5" />, color: "text-violet-600" },
+              { label: "Pays", value: stats.countries, icon: <Globe className="h-3.5 w-3.5" />, color: "text-blue-600" },
             ].map((stat, i) => (
-              <div key={i} className="bg-muted/30 rounded-lg p-4 border border-border/30">
-                <div className="flex items-center gap-2 text-muted-foreground mb-1">
+              <div key={i} className="bg-muted/30 rounded-lg p-3 border border-border/30">
+                <div className={`flex items-center gap-1.5 mb-1 ${stat.color}`}>
                   {stat.icon}
-                  <span className="text-xs uppercase tracking-wide">{stat.label}</span>
+                  <span className="text-[10px] uppercase tracking-wide text-muted-foreground">{stat.label}</span>
                 </div>
-                <p className="text-2xl font-bold">{stat.value}</p>
+                <p className="text-xl font-bold">{stat.value}</p>
               </div>
             ))}
           </div>
@@ -431,15 +531,16 @@ export default function SourcingHub() {
                 className="pl-9 h-9"
               />
             </div>
-
             <Select value={filterCategory} onValueChange={setFilterCategory}>
               <SelectTrigger className="w-[150px] h-9">
                 <SelectValue placeholder="Catégorie" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Toutes catégories</SelectItem>
+                <SelectItem value="all">Toutes</SelectItem>
                 <SelectItem value="tabac">Tabac</SelectItem>
                 <SelectItem value="cannabis">Cannabis</SelectItem>
+                <SelectItem value="parfum">Parfumerie</SelectItem>
+                <SelectItem value="botanique">Botanique</SelectItem>
               </SelectContent>
             </Select>
 
@@ -489,8 +590,47 @@ export default function SourcingHub() {
         </div>
       </div>
 
+      {/* View Toggle */}
+      <div className="max-w-7xl mx-auto px-4 pt-4 pb-0 flex items-center justify-end gap-2">
+        <Button
+          variant={viewMode === "list" ? "default" : "outline"}
+          size="sm"
+          className="gap-1.5 text-xs h-8"
+          onClick={() => setViewMode("list")}
+        >
+          <List className="h-3.5 w-3.5" />
+          Liste
+        </Button>
+        <Button
+          variant={viewMode === "map" ? "default" : "outline"}
+          size="sm"
+          className="gap-1.5 text-xs h-8"
+          onClick={() => setViewMode("map")}
+        >
+          <MapIcon className="h-3.5 w-3.5" />
+          Carte
+        </Button>
+      </div>
+
+      {/* Map View */}
+      {viewMode === "map" && (
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="rounded-xl overflow-hidden border border-border/50 shadow-sm">
+            <MapView
+              initialCenter={{ lat: 30, lng: 10 }}
+              initialZoom={2}
+              onMapReady={handleMapReady}
+              className="h-[500px]"
+            />
+          </div>
+          <p className="text-xs text-muted-foreground mt-2 text-center">
+            Cliquez sur une épingle pour voir les fournisseurs du pays. Basculez en vue liste pour filtrer.
+          </p>
+        </div>
+      )}
+
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className={`max-w-7xl mx-auto px-4 py-8 ${viewMode === "map" ? "hidden" : ""}`}>
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[...Array(6)].map((_, i) => (
@@ -521,32 +661,31 @@ export default function SourcingHub() {
         ) : (
           <>
             {/* Group by category */}
-            {filterCategory === "all" && (
+            {filterCategory === "all" ? (
               <div className="space-y-8">
-                {["tabac", "cannabis"].map((cat) => {
-                  const catSuppliers = filtered.filter((s: any) =>
-                    cat === "tabac"
-                      ? s.supplierId?.startsWith("TABAC")
-                      : s.supplierId?.startsWith("CANNA")
-                  );
+                {["tabac", "cannabis", "parfum", "botanique"].map((cat) => {
+                  const catSuppliers = filtered.filter((s: any) => getCategory(s.supplierId) === cat);
                   if (catSuppliers.length === 0) return null;
+                  const cfg = CATEGORY_CONFIG[cat];
                   return (
                     <div key={cat}>
                       <div className="flex items-center gap-3 mb-4">
-                        <div className={`p-1.5 rounded-lg ${cat === "tabac" ? "bg-amber-500/10 text-amber-600" : "bg-green-500/10 text-green-600"}`}>
+                        <div className={`p-1.5 rounded-lg ${cfg.bg}`}>
                           {CATEGORY_ICONS[cat]}
                         </div>
-                        <h2 className="text-lg font-semibold capitalize">
-                          Fournisseurs {cat === "tabac" ? "Tabac" : "Cannabis"}
+                        <h2 className="text-lg font-semibold">
+                          Fournisseurs {cfg.label}
                         </h2>
                         <Badge variant="secondary">{catSuppliers.length}</Badge>
-                        <Link
-                          href={`/sourcing/${cat}`}
-                          className="ml-auto text-xs text-primary hover:underline flex items-center gap-1"
-                        >
-                          Page dédiée
-                          <ChevronRight className="h-3 w-3" />
-                        </Link>
+                        {(cat === "tabac" || cat === "cannabis") && (
+                          <Link
+                            href={`/sourcing/${cat}`}
+                            className="ml-auto text-xs text-primary hover:underline flex items-center gap-1"
+                          >
+                            Page dédiée
+                            <ChevronRight className="h-3 w-3" />
+                          </Link>
+                        )}
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {catSuppliers.map((supplier: any) => (
@@ -557,9 +696,7 @@ export default function SourcingHub() {
                   );
                 })}
               </div>
-            )}
-
-            {filterCategory !== "all" && (
+            ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filtered.map((supplier: any) => (
                   <SupplierCard key={supplier.id} supplier={supplier} />

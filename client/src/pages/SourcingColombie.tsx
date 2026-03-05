@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState } from "react";
+import { VerifiedSuppliersPanel } from "@/components/VerifiedSuppliersPanel";
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -444,6 +445,9 @@ export default function SourcingColombie() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Fournisseurs vérifiés DB */}
+      <VerifiedSuppliersPanel country="Colombie" className="mt-2" />
 
       {/* Lien retour */}
       <div className="flex justify-center pt-4">

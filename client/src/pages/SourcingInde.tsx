@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useState } from "react";
 import { Link } from "wouter";
+import { VerifiedSuppliersPanel } from "@/components/VerifiedSuppliersPanel";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -552,6 +553,9 @@ export default function SourcingInde() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Fournisseurs vérifiés DB */}
+      <VerifiedSuppliersPanel country="Inde" className="mt-2" />
 
       {/* Footer */}
       <div className="text-center text-sm text-muted-foreground pt-8 border-t">
