@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect, useRef, useMemo } from "react";
+import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -370,6 +371,160 @@ function MoleculeCard({ molecule, isSelected, onClick }: {
   );
 }
 
+// Composant tableau des transformations réelles depuis la base de données
+function DynamicPyrolysisDB() {
+  const [search, setSearch] = useState("");
+  const [mechFilter, setMechFilter] = useState("all");
+  const [toxFilter, setToxFilter] = useState("all");
+  
+  const { data: allTransformations, isLoading } = trpc.molecules.listAllPyrolysis.useQuery({ limit: 200 });
+  
+  const toxicityColors: Record<string, string> = {
+    low: "#22c55e",
+    moderate: "#eab308",
+    high: "#f97316",
+    very_high: "#ef4444"
+  };
+  const toxicityLabels: Record<string, string> = {
+    low: "Faible",
+    moderate: "Modérée",
+    high: "Élevée",
+    very_high: "Très élevée"
+  };
+  
+  const mechanisms = useMemo(() => {
+    if (!allTransformations) return [];
+    const mechs = new Set(allTransformations.map((t: any) => t.mechanism).filter(Boolean));
+    return Array.from(mechs).sort() as string[];
+  }, [allTransformations]);
+  
+  const filtered = useMemo(() => {
+    if (!allTransformations) return [];
+    return allTransformations.filter((t: any) => {
+      const matchSearch = !search || 
+        t.source_molecule?.toLowerCase().includes(search.toLowerCase()) ||
+        t.product_molecule?.toLowerCase().includes(search.toLowerCase()) ||
+        t.notes?.toLowerCase().includes(search.toLowerCase());
+      const matchMech = mechFilter === "all" || t.mechanism === mechFilter;
+      const matchTox = toxFilter === "all" || t.toxicity_level === toxFilter;
+      return matchSearch && matchMech && matchTox;
+    });
+  }, [allTransformations, search, mechFilter, toxFilter]);
+  
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <FlaskConical className="h-5 w-5 text-orange-500" />
+          Base de données — 123 transformations documentées
+        </CardTitle>
+        <CardDescription>
+          Données réelles issues de la recherche : pyrolyse thermique, fermentation, fumage, oxydation enzymatique
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* Filtres */}
+        <div className="flex flex-wrap gap-3">
+          <Input
+            placeholder="Rechercher molécule, mécanisme..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="max-w-xs"
+          />
+          <Select value={mechFilter} onValueChange={setMechFilter}>
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Mécanisme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tous les mécanismes</SelectItem>
+              {mechanisms.slice(0, 15).map(m => (
+                <SelectItem key={m} value={m}>{m.length > 35 ? m.slice(0, 35) + '…' : m}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={toxFilter} onValueChange={setToxFilter}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Toxicité" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Toutes</SelectItem>
+              <SelectItem value="low">Faible</SelectItem>
+              <SelectItem value="moderate">Modérée</SelectItem>
+              <SelectItem value="high">Élevée</SelectItem>
+              <SelectItem value="very_high">Très élevée</SelectItem>
+            </SelectContent>
+          </Select>
+          {(search || mechFilter !== "all" || toxFilter !== "all") && (
+            <Button variant="ghost" size="sm" onClick={() => { setSearch(""); setMechFilter("all"); setToxFilter("all"); }}>
+              Réinitialiser
+            </Button>
+          )}
+        </div>
+        
+        {/* Compteur */}
+        <p className="text-sm text-muted-foreground">
+          {isLoading ? "Chargement..." : `${filtered.length} transformation${filtered.length > 1 ? 's' : ''} affichée${filtered.length > 1 ? 's' : ''}`}
+        </p>
+        
+        {/* Tableau */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b">
+                <th className="text-left py-2 pr-4 font-medium">Molécule source</th>
+                <th className="text-left py-2 pr-4 font-medium">Produit</th>
+                <th className="text-left py-2 pr-4 font-medium hidden md:table-cell">Mécanisme</th>
+                <th className="text-left py-2 pr-4 font-medium hidden md:table-cell">Température</th>
+                <th className="text-left py-2 font-medium">Toxicité</th>
+              </tr>
+            </thead>
+            <tbody>
+              {isLoading ? (
+                <tr><td colSpan={5} className="py-8 text-center text-muted-foreground">Chargement des données...</td></tr>
+              ) : filtered.length === 0 ? (
+                <tr><td colSpan={5} className="py-8 text-center text-muted-foreground">Aucune transformation trouvée</td></tr>
+              ) : (
+                filtered.slice(0, 50).map((t: any) => (
+                  <tr key={t.id} className="border-b hover:bg-muted/30 transition-colors">
+                    <td className="py-2 pr-4">
+                      <span className="font-medium text-orange-600 dark:text-orange-400">{t.source_molecule}</span>
+                    </td>
+                    <td className="py-2 pr-4">
+                      <span className="flex items-center gap-1">
+                        <ArrowRight className="h-3 w-3 text-muted-foreground shrink-0" />
+                        {t.product_molecule}
+                      </span>
+                    </td>
+                    <td className="py-2 pr-4 hidden md:table-cell">
+                      <span className="text-xs text-muted-foreground">{t.mechanism?.length > 40 ? t.mechanism.slice(0, 40) + '…' : t.mechanism}</span>
+                    </td>
+                    <td className="py-2 pr-4 hidden md:table-cell">
+                      <Badge variant="outline" className="text-xs">{t.temperature_range}</Badge>
+                    </td>
+                    <td className="py-2">
+                      <Badge 
+                        className="text-xs text-white"
+                        style={{ backgroundColor: toxicityColors[t.toxicity_level] || '#94a3b8' }}
+                      >
+                        {toxicityLabels[t.toxicity_level] || t.toxicity_level}
+                      </Badge>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+          {filtered.length > 50 && (
+            <p className="text-sm text-muted-foreground text-center mt-3">
+              Affichage des 50 premières sur {filtered.length} — affinez les filtres pour voir plus
+            </p>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function PyrolysisVisualization() {
   const [selectedMolecule, setSelectedMolecule] = useState(pyrolysisData.molecules[0]);
   const [temperature, setTemperature] = useState(400);
@@ -659,6 +814,9 @@ export default function PyrolysisVisualization() {
           </div>
         </CardContent>
       </Card>
+      
+      {/* Base de données réelle — données dynamiques */}
+      <DynamicPyrolysisDB />
       
       {/* Liens vers d'autres pages */}
       <div className="flex flex-wrap gap-4 justify-center">

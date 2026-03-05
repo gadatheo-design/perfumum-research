@@ -844,3 +844,28 @@
 ### Phase 4 : Tests et checkpoint
 - [x] Tests : 99 fichiers, 1496 passants, 2 ignorés, 0 échec
 - [x] Checkpoint final sauvegardé
+
+---
+
+## SESSION 14 — Pyrolyse dynamique + Interactions tabac × parfum
+
+### Phase 1 : PyrolysisVisualization dynamique
+- [x] Section "Base de données réelles" ajoutée dans PyrolysisVisualization
+- [x] Endpoint molecules.listAllPyrolysis corrigé (result[0] pour mysql2)
+- [x] Filtres par mécanisme et molécule source
+- [x] 123 transformations affichées dynamiquement (Latakia, Perique, cannabis)
+
+### Phase 2 : Données interactions tabac × parfum
+- [x] 12 synergies tabac×parfum ajoutées dans molecule_synergies
+- [x] Solanone×Iso E Super, Cembranolide×Ambroxan, β-Damascénone×Linalol, etc.
+- [x] Total : 100 synergies moléculaires en base
+
+### Phase 3 : Onglet Synergies Tabac×Parfum
+- [x] Onglet "Synergies Tabac×Parfum" ajouté dans CorrelationsParfumTabacCannabis
+- [x] Filtres par type (potentialisation, transformation, masquage, stabilisation)
+- [x] Affichage expandable avec mécanisme chimique et applications
+- [x] Utilise trpc.synergies.getAllMoleculeSynergies (100 synergies, 12 tabac×parfum)
+
+### Phase 4 : Tests et checkpoint
+- [x] Tests : 99 fichiers, 1496 passants, 2 ignorés, 0 échec
+- [x] Checkpoint sauvegardé

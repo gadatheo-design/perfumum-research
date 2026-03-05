@@ -23,6 +23,8 @@ import {
   ChevronDown,
   ChevronUp,
   Download,
+  Zap,
+  ArrowRight,
 } from "lucide-react";
 
 // ─── Couleurs domaines ───────────────────────────────────────────────────────
@@ -328,7 +330,10 @@ export default function CorrelationsParfumTabacCannabis() {
               Diagramme Venn
             </TabsTrigger>
             <TabsTrigger value="familles" className="data-[state=active]:bg-violet-500/30">
-              Familles
+              Familles chimiques
+            </TabsTrigger>
+            <TabsTrigger value="synergies-tabac" className="data-[state=active]:bg-amber-500/30 text-xs">
+              <Zap className="w-3 h-3 mr-1" />Synergies Tabac×Parfum
             </TabsTrigger>
           </TabsList>
 
@@ -661,7 +666,170 @@ export default function CorrelationsParfumTabacCannabis() {
               </CardContent>
             </Card>
           </TabsContent>
+          {/* ─── Onglet Synergies Tabac×Parfum ─── */}
+          <TabsContent value="synergies-tabac">
+            <SynergiesTabacParfumTab />
+          </TabsContent>
         </Tabs>
+      </div>
+    </div>
+  );
+}
+
+// ─── Composant : Onglet Synergies Tabac×Parfum ──────────────────────────────
+function SynergiesTabacParfumTab() {
+  const { data: allSynergies, isLoading } = trpc.synergies.getAllMoleculeSynergies.useQuery();
+  const [filterType, setFilterType] = useState<string>('all');
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  // Molécules tabac connues (IDs)
+  const TABAC_MOLECULE_IDS = new Set([720027, 1350115, 570044, 930006, 720023, 720024, 720025, 750002, 570032]);
+  // Molécules parfum connues (IDs)
+  const PARFUM_MOLECULE_IDS = new Set([90078, 3, 30002, 90069, 330017, 300004]);
+
+  const tabacParfumSynergies = useMemo(() => {
+    if (!allSynergies) return [];
+    return allSynergies.filter(s => {
+      const m1 = s.molecule1Id;
+      const m2 = s.molecule2Id;
+      if (!m1 || !m2) return false;
+      // Synergie tabac × parfum (dans les deux sens)
+      return (TABAC_MOLECULE_IDS.has(m1) && PARFUM_MOLECULE_IDS.has(m2)) ||
+             (PARFUM_MOLECULE_IDS.has(m1) && TABAC_MOLECULE_IDS.has(m2));
+    });
+  }, [allSynergies]);
+
+  const filtered = useMemo(() => {
+    if (filterType === 'all') return tabacParfumSynergies;
+    return tabacParfumSynergies.filter(s => s.type === filterType);
+  }, [tabacParfumSynergies, filterType]);
+
+  const TABAC_NAMES: Record<number, string> = {
+    720027: 'Solanone', 1350115: 'Cembranolide', 570044: 'β-Damascénone',
+    930006: 'Furfural', 720023: 'β-Damascenone', 720024: 'β-Damascone',
+    720025: 'α-Damascone', 750002: 'Damascenone', 570032: 'Damascone Beta'
+  };
+  const PARFUM_NAMES: Record<number, string> = {
+    90078: 'Iso E Super', 3: 'Ambroxan', 30002: 'Linalol',
+    90069: 'Vanilline', 330017: 'Ambroxan (Cetalox)', 300004: 'Ambrox Super'
+  };
+
+  const getMolName = (id: number) => TABAC_NAMES[id] || PARFUM_NAMES[id] || `Mol. ${id}`;
+  const isMolTabac = (id: number) => TABAC_MOLECULE_IDS.has(id);
+
+  const TYPES = ['all', 'potentialisation', 'transformation', 'masquage', 'stabilisation'];
+  const TYPE_LABELS: Record<string, string> = {
+    all: 'Toutes', potentialisation: 'Potentialisation', transformation: 'Transformation',
+    masquage: 'Masquage', stabilisation: 'Stabilisation'
+  };
+
+  if (isLoading) return <div className="space-y-3">{Array.from({length: 6}).map((_,i) => <div key={i} className="h-20 rounded bg-white/5 animate-pulse" />)}</div>;
+
+  return (
+    <div className="space-y-4">
+      {/* Header */}
+      <Card className="bg-amber-500/5 border-amber-500/20">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-3">
+            <Zap className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" />
+            <div>
+              <h3 className="text-sm font-semibold text-amber-300 mb-1">Interactions Tabac × Parfum</h3>
+              <p className="text-xs text-white/50">
+                {tabacParfumSynergies.length} synergies documentées entre les molécules caractéristiques du tabac
+                (Solanone, Cembranolide, β-Damascénone, Furfural) et les molécules de parfumerie
+                (Iso E Super, Ambroxan, Linalol, Vanilline). Sources : GC-MS, Rodgman & Perfetti 2013.
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Filtres */}
+      <div className="flex flex-wrap gap-2">
+        {TYPES.map(t => (
+          <button
+            key={t}
+            onClick={() => setFilterType(t)}
+            className={`px-3 py-1 rounded-full text-xs font-medium border transition-all ${
+              filterType === t
+                ? SYNERGY_COLORS[t] || 'bg-white/20 text-white border-white/40'
+                : 'bg-white/5 text-white/50 border-white/10 hover:border-white/30'
+            }`}
+          >
+            {TYPE_LABELS[t]} {t === 'all' ? `(${tabacParfumSynergies.length})` : `(${tabacParfumSynergies.filter(s => s.type === t).length})`}
+          </button>
+        ))}
+      </div>
+
+      {/* Liste des synergies */}
+      <div className="space-y-3">
+        {filtered.length === 0 ? (
+          <div className="text-center py-8 text-white/30 text-sm">Aucune synergie pour ce filtre</div>
+        ) : (
+          filtered.map(s => {
+            const m1 = s.molecule1Id;
+            const m2 = s.molecule2Id;
+            const isExpanded = expandedId === s.id;
+            return (
+              <Card key={s.id} className="bg-white/5 border-white/10 hover:border-white/20 transition-all">
+                <CardContent className="p-4">
+                  <div
+                    className="flex items-center justify-between cursor-pointer"
+                    onClick={() => setExpandedId(isExpanded ? null : s.id)}
+                  >
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      {/* Molécule 1 */}
+                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                        isMolTabac(m1) ? 'bg-amber-500/20 text-amber-300' : 'bg-violet-500/20 text-violet-300'
+                      }`}>
+                        {isMolTabac(m1) ? '🚬' : '🌸'} {getMolName(m1)}
+                      </span>
+                      <ArrowRight className="w-3 h-3 text-white/30 flex-shrink-0" />
+                      {/* Molécule 2 */}
+                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                        isMolTabac(m2) ? 'bg-amber-500/20 text-amber-300' : 'bg-violet-500/20 text-violet-300'
+                      }`}>
+                        {isMolTabac(m2) ? '🚬' : '🌸'} {getMolName(m2)}
+                      </span>
+                      {/* Type */}
+                      <span className={`px-2 py-0.5 rounded-full text-xs border ml-auto flex-shrink-0 ${
+                        SYNERGY_COLORS[s.type] || 'bg-gray-500/20 text-gray-400 border-gray-500/40'
+                      }`}>
+                        {s.type}
+                      </span>
+                    </div>
+                    <ChevronDown className={`w-4 h-4 text-white/30 ml-2 flex-shrink-0 transition-transform ${
+                      isExpanded ? 'rotate-180' : ''
+                    }`} />
+                  </div>
+
+                  {isExpanded && (
+                    <div className="mt-3 pt-3 border-t border-white/10 space-y-3">
+                      {s.description && (
+                        <div>
+                          <div className="text-xs font-medium text-white/60 mb-1">Description</div>
+                          <p className="text-xs text-white/70 leading-relaxed">{s.description}</p>
+                        </div>
+                      )}
+                      {(s as any).chemicalMechanism && (
+                        <div>
+                          <div className="text-xs font-medium text-amber-400/80 mb-1">Mécanisme chimique</div>
+                          <p className="text-xs text-white/60 leading-relaxed font-mono">{(s as any).chemicalMechanism}</p>
+                        </div>
+                      )}
+                      {s.applications && (
+                        <div>
+                          <div className="text-xs font-medium text-violet-400/80 mb-1">Applications</div>
+                          <p className="text-xs text-white/60 leading-relaxed">{s.applications}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })
+        )}
       </div>
     </div>
   );
