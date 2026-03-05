@@ -1160,3 +1160,63 @@
 ### Résultats
 - 0 erreur TypeScript
 - 99/99 tests passants (1496 tests, 2 skipped)
+
+---
+
+## 🔥 SESSION 5 MARS 2026 (NUIT) — Pyrolyse, Latin Names, Bibliographie
+
+### Axe 1 : Transformations par pyrolyse
+- [ ] Analyser la structure de la table pyrolysis_transformations
+- [ ] Seeder les transformations Latakia (Nicotine→Pyridine, Solanone→Damascenone)
+- [ ] Seeder les transformations Perique (fermentation anaérobie)
+- [ ] Seeder les transformations Virginia flue-cured (caramélisation sucres → Furfural, HMF)
+- [ ] Seeder les transformations cannabis (décarboxylation THCA→THC, CBDA→CBD)
+- [ ] Vérifier que la page Pyrolyse affiche les nouvelles données
+
+### Axe 2 : Compléter les 2 plantes sans nom latin
+- [ ] Identifier Citron zeste → Citrus limon
+- [ ] Identifier Nénuphar blanc → Nymphaea alba
+- [ ] Mettre à jour les 2 enregistrements en DB
+
+### Axe 3 : Liaison automatique bibliographie → entités
+- [ ] Analyser la structure bibliography_entity_links
+- [ ] Créer le script de liaison par mots-clés (titre/abstract → plante/molécule)
+- [ ] Objectif : 40-50% de couverture (actuellement ~4% plantes, ~2% molécules)
+- [ ] Vérifier les liaisons dans l'interface bibliographie
+
+---
+
+## 🤝 SESSION 5 MARS 2026 — Système de Contribution Utilisateur
+
+### Axe : Contributions depuis les fiches plantes
+- [ ] Analyser PlantDetail.tsx et le système d'auth (role admin/user)
+- [ ] Créer la table plant_contributions en DB (type, data JSON, status, plant_id, user_id)
+- [ ] Ajouter les procédures tRPC : contributions.submit, contributions.list, contributions.approve, contributions.reject
+- [ ] Ajouter les boutons "Proposer une image", "Proposer une molécule", "Proposer un terroir" dans PlantDetail
+- [ ] Créer les modals de soumission (upload image S3, sélection molécule, sélection terroir)
+- [ ] Créer la page admin /admin/contributions avec liste et actions approve/reject
+- [ ] Notification owner lors d'une nouvelle contribution
+- [ ] Appliquer les contributions approuvées en DB automatiquement
+
+---
+
+## 🌿 SESSION 5 MARS 2026 — Contributions utilisateurs + Pyrolyse
+
+### ✅ Système de contributions utilisateurs (fiches plantes)
+- [x] Créer la table `plant_contributions` en base de données
+- [x] Créer les procédures tRPC : `submit`, `getByPlant`, `getAll`, `approve`, `reject`, `getStats`
+- [x] Créer le composant `PlantContributionModal` (4 types : image, molécule, terroir, note)
+- [x] Intégrer le bouton "Contribuer" dans la page `PlantDetail`
+- [x] Afficher le banner admin pour les contributions en attente (admin seulement)
+- [x] Créer la page `/admin/contributions` pour la validation admin
+- [x] Ajouter le lien vers les contributions dans `AdminValidation`
+- [x] Flux complet : soumission → validation admin → approbation/rejet
+
+### ✅ Enrichissement des transformations pyrolyse
+- [x] Ajouter 38 transformations pour Latakia (gaïacol, eugénol, syringol, laurier)
+- [x] Ajouter 7 transformations pour Perique (acides gras de fermentation, proline)
+- [x] Ajouter 6 transformations pour Virginia Gold (amidon, asparagine, acide citrique)
+- [x] Ajouter 4 transformations pour tabacs orientaux (nornicotine, phénylpropanoïdes)
+- [x] Ajouter 11 transformations pour cannabis (CBG, CBDA, CBD, valencène, guaïol, phytol)
+- [x] Total transformations pyrolyse : 123 → 161 (+38)
+

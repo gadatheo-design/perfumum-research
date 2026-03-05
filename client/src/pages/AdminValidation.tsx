@@ -251,6 +251,23 @@ export default function AdminValidation() {
                 </div>
               )}
 
+              {/* Lien vers les contributions plantes */}
+              <div className="flex items-center justify-between p-4 bg-amber-500/5 border border-amber-500/20 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Leaf className="h-5 w-5 text-amber-600" />
+                  <div>
+                    <p className="font-medium text-sm">Contributions utilisateurs (fiches plantes)</p>
+                    <p className="text-xs text-muted-foreground">Images, molécules, terroirs et notes soumis par les utilisateurs</p>
+                  </div>
+                </div>
+                <a href="/admin/contributions">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Leaf className="h-4 w-4" />
+                    Gérer les contributions
+                  </Button>
+                </a>
+              </div>
+
               {/* Tabs */}
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-2">

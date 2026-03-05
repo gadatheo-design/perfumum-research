@@ -6858,3 +6858,50 @@ export const moleculePerfumesRelations = relations(moleculePerfumes, ({ one }) =
     references: [molecules.id],
   }),
 }));
+
+// ============================================================================
+// PLANT CONTRIBUTIONS — Système de contributions utilisateur pour les plantes
+// ============================================================================
+export const plantContributions = mysqlTable("plant_contributions", {
+  id: int("id").autoincrement().primaryKey(),
+  plantId: int("plant_id").notNull(),
+  userId: varchar("user_id", { length: 255 }).notNull(),
+  userName: varchar("user_name", { length: 255 }),
+  contributionType: mysqlEnum("contribution_type", ["image", "molecule", "terroir", "note"]).notNull(),
+  status: mysqlEnum("status", ["pending", "approved", "rejected"]).default("pending").notNull(),
+  imageUrl: text("image_url"),
+  imageCaption: varchar("image_caption", { length: 500 }),
+  imageSource: varchar("image_source", { length: 500 }),
+  moleculeId: int("molecule_id"),
+  moleculeName: varchar("molecule_name", { length: 255 }),
+  moleculeConcentration: varchar("molecule_concentration", { length: 100 }),
+  moleculeSource: varchar("molecule_source", { length: 500 }),
+  terroir: varchar("terroir", { length: 255 }),
+  region: varchar("region", { length: 255 }),
+  country: varchar("country", { length: 255 }),
+  terroirNotes: text("terroir_notes"),
+  noteContent: text("note_content"),
+  noteCategory: varchar("note_category", { length: 100 }),
+  description: text("description"),
+  references: text("references"),
+  adminNotes: text("admin_notes"),
+  reviewedBy: varchar("reviewed_by", { length: 255 }),
+  reviewedAt: timestamp("reviewed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  plantIdx: index("pc_plant_idx").on(table.plantId),
+  userIdx: index("pc_user_idx").on(table.userId),
+  statusIdx: index("pc_status_idx").on(table.status),
+  typeIdx: index("pc_type_idx").on(table.contributionType),
+}));
+
+export type PlantContribution = typeof plantContributions.$inferSelect;
+export type InsertPlantContribution = typeof plantContributions.$inferInsert;
+
+export const plantContributionsRelations = relations(plantContributions, ({ one }) => ({
+  plant: one(plants, {
+    fields: [plantContributions.plantId],
+    references: [plants.id],
+  }),
+}));

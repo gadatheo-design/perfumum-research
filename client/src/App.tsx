@@ -90,6 +90,7 @@ import NichePlantMoleculeLinking from "./pages/NichePlantMoleculeLinking";
 const ClassificationReviewQueue = lazy(() => import("./pages/ClassificationReviewQueue"));
 import AdminNotifications from "./pages/AdminNotifications";
 import AdminProgressReport from "./pages/AdminProgressReport";
+import AdminContributions from "./pages/AdminContributions";
 import DataQuality from "./pages/admin/DataQuality";
 import MoleculeManager from "./pages/admin/MoleculeManager";
 import AdminPlantMolecules from "./pages/admin/AdminPlantMolecules";
@@ -466,6 +467,7 @@ function Router() {
       <Route path="/admin/historique" component={AdminHistorique} />
       <Route path="/admin/references" component={AdminReferences} />
       <Route path="/admin/data-quality" component={DataQuality} />
+      <Route path="/admin/contributions" component={AdminContributions} />
       <Route path="/admin/molecule-manager" component={MoleculeManager} />
       <Route path="/admin/plant-molecules" component={AdminPlantMolecules} />
       

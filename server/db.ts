@@ -20136,3 +20136,189 @@ export async function getPlantPerfumes(plantId: number) {
     return [];
   }
 }
+
+// ============================================================================
+// PLANT CONTRIBUTIONS — Helpers pour le système de contributions utilisateur
+// ============================================================================
+
+export async function getPlantContributions(plantId: number, status?: string) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    let query = `SELECT * FROM plant_contributions WHERE plant_id = ?`;
+    const params: any[] = [plantId];
+    if (status) {
+      query += ` AND status = ?`;
+      params.push(status);
+    }
+    query += ` ORDER BY created_at DESC`;
+    const [rows] = await conn.execute(query, params);
+    await conn.end();
+    return rows as any[];
+  } catch (error: any) {
+    console.error('Error getting plant contributions:', error);
+    return [];
+  }
+}
+
+export async function getAllPendingContributionsForAdmin() {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const [rows] = await conn.execute(`
+      SELECT pc.*, p.name as plant_name, p.latin_name as plant_latin_name,
+             p.family as plant_family
+      FROM plant_contributions pc
+      LEFT JOIN plants p ON pc.plant_id = p.id
+      WHERE pc.status = 'pending'
+      ORDER BY pc.created_at DESC
+    `);
+    await conn.end();
+    return rows as any[];
+  } catch (error: any) {
+    console.error('Error getting pending contributions:', error);
+    return [];
+  }
+}
+
+export async function getAllContributionsForAdmin(status?: string) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    let query = `
+      SELECT pc.*, p.name as plant_name, p.latin_name as plant_latin_name
+      FROM plant_contributions pc
+      LEFT JOIN plants p ON pc.plant_id = p.id
+    `;
+    const params: any[] = [];
+    if (status) {
+      query += ` WHERE pc.status = ?`;
+      params.push(status);
+    }
+    query += ` ORDER BY pc.created_at DESC LIMIT 200`;
+    const [rows] = await conn.execute(query, params);
+    await conn.end();
+    return rows as any[];
+  } catch (error: any) {
+    console.error('Error getting contributions:', error);
+    return [];
+  }
+}
+
+export async function submitPlantContribution(data: {
+  plantId: number;
+  userId: string;
+  userName?: string;
+  contributionType: 'image' | 'molecule' | 'terroir' | 'note';
+  imageUrl?: string;
+  imageCaption?: string;
+  imageSource?: string;
+  moleculeId?: number;
+  moleculeName?: string;
+  moleculeConcentration?: string;
+  moleculeSource?: string;
+  terroir?: string;
+  region?: string;
+  country?: string;
+  terroirNotes?: string;
+  noteContent?: string;
+  noteCategory?: string;
+  description?: string;
+  references?: string;
+}) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const [result] = await conn.execute(`
+      INSERT INTO plant_contributions
+        (plant_id, user_id, user_name, contribution_type,
+         image_url, image_caption, image_source,
+         molecule_id, molecule_name, molecule_concentration, molecule_source,
+         terroir, region, country, terroir_notes,
+         note_content, note_category,
+         description, \`references\`, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+    `, [
+      data.plantId, data.userId, data.userName || null, data.contributionType,
+      data.imageUrl || null, data.imageCaption || null, data.imageSource || null,
+      data.moleculeId || null, data.moleculeName || null, data.moleculeConcentration || null, data.moleculeSource || null,
+      data.terroir || null, data.region || null, data.country || null, data.terroirNotes || null,
+      data.noteContent || null, data.noteCategory || null,
+      data.description || null, data.references || null
+    ]);
+    await conn.end();
+    return { success: true, id: (result as any).insertId };
+  } catch (error: any) {
+    console.error('Error submitting plant contribution:', error);
+    throw error;
+  }
+}
+
+export async function reviewPlantContribution(
+  contributionId: number,
+  action: 'approved' | 'rejected',
+  reviewedBy: string,
+  adminNotes?: string
+) {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    await conn.execute(`
+      UPDATE plant_contributions
+      SET status = ?, reviewed_by = ?, reviewed_at = NOW(), admin_notes = ?
+      WHERE id = ?
+    `, [action, reviewedBy, adminNotes || null, contributionId]);
+
+    // Si approuvé et type "molecule", créer automatiquement le lien plant_molecule_links
+    if (action === 'approved') {
+      const [rows] = await conn.execute(
+        `SELECT * FROM plant_contributions WHERE id = ?`,
+        [contributionId]
+      ) as any[];
+      const contribution = (rows as any[])[0];
+      if (contribution && contribution.contribution_type === 'molecule' && contribution.molecule_id) {
+        // Vérifier si le lien n'existe pas déjà
+        const [existing] = await conn.execute(
+          `SELECT id FROM plant_molecule_links WHERE plant_id = ? AND molecule_id = ?`,
+          [contribution.plant_id, contribution.molecule_id]
+        ) as any[];
+        if ((existing as any[]).length === 0) {
+          await conn.execute(`
+            INSERT INTO plant_molecule_links (plant_id, molecule_id, source, notes)
+            VALUES (?, ?, 'contribution', ?)
+          `, [contribution.plant_id, contribution.molecule_id, contribution.description || null]);
+        }
+      }
+    }
+
+    await conn.end();
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error reviewing plant contribution:', error);
+    throw error;
+  }
+}
+
+export async function getContributionStats() {
+  try {
+    const mysql = await import('mysql2/promise');
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const [rows] = await conn.execute(`
+      SELECT
+        COUNT(*) as total,
+        SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+        SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
+        SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected,
+        SUM(CASE WHEN contribution_type = 'image' THEN 1 ELSE 0 END) as images,
+        SUM(CASE WHEN contribution_type = 'molecule' THEN 1 ELSE 0 END) as molecules,
+        SUM(CASE WHEN contribution_type = 'terroir' THEN 1 ELSE 0 END) as terroirs,
+        SUM(CASE WHEN contribution_type = 'note' THEN 1 ELSE 0 END) as notes
+      FROM plant_contributions
+    `);
+    await conn.end();
+    return (rows as any[])[0] || { total: 0, pending: 0, approved: 0, rejected: 0 };
+  } catch (error: any) {
+    console.error('Error getting contribution stats:', error);
+    return { total: 0, pending: 0, approved: 0, rejected: 0 };
+  }
+}

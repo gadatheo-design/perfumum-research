@@ -32,6 +32,8 @@ import { LinkedMolecules, LinkedTerroirs, SimilarContent } from "@/components/Se
 import { LinkedReferences } from "@/components/LinkedReferences";
 import { GenealogyTree } from "@/components/GenealogyTree";
 import { SeasonalVariations } from "@/components/SeasonalVariations";
+import { PlantContributionModal, PlantContributionsBanner } from "@/components/PlantContributionModal";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -58,6 +60,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
 export default function PlantDetail() {
   const params = useParams<{ id: string }>();
   const plantId = parseInt(params.id || "0");
+  const { user } = useAuth();
   
   // Récupérer les détails complets de la plante
   const { data: plantDetails, isLoading } = trpc.plantStatistics.getPlantWithDetails.useQuery(
@@ -185,6 +188,9 @@ export default function PlantDetail() {
         </Link>
       </div>
       
+      {/* Banner contributions en attente (admin seulement) */}
+      <PlantContributionsBanner plantId={plantId} isAdmin={user?.role === 'admin'} />
+
       {/* En-tête de la plante */}
       <div className="mb-8">
         <div className="flex items-start justify-between">
@@ -223,13 +229,19 @@ export default function PlantDetail() {
               </div>
             )}
           </div>
-          {plant.imageUrl && (
-            <img 
-              src={plant.imageUrl} 
-              alt={plant.name}
-              className="w-32 h-32 object-cover rounded-lg border"
+          <div className="flex flex-col items-end gap-3">
+            {plant.imageUrl && (
+              <img 
+                src={plant.imageUrl} 
+                alt={plant.name}
+                className="w-32 h-32 object-cover rounded-lg border"
+              />
+            )}
+            <PlantContributionModal
+              plantId={plantId}
+              plantName={plant.name}
             />
-          )}
+          </div>
         </div>
       </div>
       
@@ -377,9 +389,16 @@ export default function PlantDetail() {
                   plantName={plant.name}
                 />
               </div>
-            </CardHeader>
+              </CardHeader>
             <CardContent>
               <PlantImageGallery plantId={plantId} />
+              <div className="mt-4 pt-4 border-t">
+                <PlantContributionModal
+                  plantId={plantId}
+                  plantName={plant.name}
+                  defaultTab="image"
+                />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
