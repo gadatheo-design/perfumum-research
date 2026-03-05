@@ -629,6 +629,69 @@ export async function getTabacsByProfile(olfactiveProfile: string): Promise<Taba
 }
 
 
+export async function getTabacsWithTerroir(): Promise<any[]> {
+  const db = await getDb();
+  if (!db) return [];
+  const { sql } = await import("drizzle-orm");
+  const result = await db.execute(sql`
+    SELECT t.id, t.name, t.type, t.origin, t.intensity, t.aromaticProfile, t.internalNotes,
+           te.name as terroir_name, te.country as terroir_country, te.region as terroir_region,
+           te.climate_type as terroir_climate, te.soil_type as terroir_soil, te.quality_rating as terroir_quality
+    FROM tabacs t
+    LEFT JOIN tabac_terroir_links ttl ON ttl.tabac_id = t.id
+    LEFT JOIN terroirs te ON te.id = ttl.terroir_id
+    ORDER BY t.type, t.name
+  `);
+  return (result as any)[0] as any[];
+}
+
+export async function getTabacsByType(type: string): Promise<any[]> {
+  const db = await getDb();
+  if (!db) return [];
+  const { sql } = await import("drizzle-orm");
+  const result = await db.execute(sql`
+    SELECT t.id, t.name, t.type, t.origin, t.intensity, t.aromaticProfile, t.internalNotes,
+           te.name as terroir_name, te.country as terroir_country, te.region as terroir_region,
+           te.climate_type as terroir_climate, te.quality_rating as terroir_quality
+    FROM tabacs t
+    LEFT JOIN tabac_terroir_links ttl ON ttl.tabac_id = t.id
+    LEFT JOIN terroirs te ON te.id = ttl.terroir_id
+    WHERE t.type = ${type}
+    ORDER BY t.name
+  `);
+  return (result as any)[0] as any[];
+}
+
+export async function getTabacWithMolecules(tabacId: number): Promise<any> {
+  const db = await getDb();
+  if (!db) return null;
+  const { sql } = await import("drizzle-orm");
+  // Get tabac info
+  const tabacResult = await db.execute(sql`
+    SELECT t.*, te.name as terroir_name, te.country as terroir_country, te.region as terroir_region
+    FROM tabacs t
+    LEFT JOIN tabac_terroir_links ttl ON ttl.tabac_id = t.id
+    LEFT JOIN terroirs te ON te.id = ttl.terroir_id
+    WHERE t.id = ${tabacId}
+    LIMIT 1
+  `);
+  const tabacRows = (tabacResult as any)[0] as any[];
+  if (!tabacRows.length) return null;
+  const tabac = tabacRows[0];
+  // Get molecules via plants (match by name)
+  const molResult = await db.execute(sql`
+    SELECT m.id, m.name, m.family, pm.percentage_typical, pm.percentage_min, pm.percentage_max, pm.role, pm.source
+    FROM plant_molecules pm
+    JOIN plants p ON p.id = pm.plant_id
+    JOIN molecules m ON m.id = pm.molecule_id
+    WHERE p.name LIKE ${tabac.name + '%'} AND p.category = 'tabac'
+    ORDER BY pm.percentage_typical DESC
+    LIMIT 20
+  `);
+  const molecules = (molResult as any)[0] as any[];
+  return { ...tabac, molecules };
+}
+
 // ============================================================================
 // ADMIN FUNCTIONS
 // ============================================================================

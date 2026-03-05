@@ -895,3 +895,27 @@
 - [ ] Connecter les pages Sourcing*.tsx à la table suppliers
 - [ ] Nettoyer les 12 console.log dans les pages de production
 - [ ] Documenter/archiver les 93 fichiers de pages non importés dans App.tsx
+
+---
+
+## 🔧 SESSION 5 MARS 2026 (suite) — Connexion DB, Dashboard Qualité, PubChem
+
+### Priorité 3 — Connexion pages tabac à la DB
+- [x] Analyser TabacsNiche.tsx et TabacsResines.tsx (données hardcodées)
+- [x] Créer les endpoints tRPC nécessaires (tabacs.getTabacsWithTerroir, tabacs.getTabacsByType, tabacs.getTabacWithDetails)
+- [x] Connecter TabacsNiche.tsx à la table `tabacs` avec filtres par type
+- [x] Connecter TabacsResines.tsx à la table `tabacs` avec profils aromatiques et terroirs
+- [x] Vérifier les liens croisés vers les molécules et recettes
+
+### Dashboard qualité /admin/data-quality
+- [x] Créer les endpoints tRPC pour les métriques de qualité (dataQuality.getMetrics)
+- [x] Intégrer le tableau de bord dans admin/DataQuality.tsx (onglet Métriques)
+- [x] Métriques : % molécules validées/révision/brouillon, % recettes avec profil, % tabacs liés, etc.
+- [x] Score global calculé sur 8 métriques clés, alertes qualité, recommandations
+- [x] Route /admin/data-quality existante dans App.tsx (vérifiée)
+
+### Enrichissement PubChem molécules brouillon
+- [x] Identifier les 437 molécules sans CAS ni SMILES
+- [x] Script enrich-pubchem-batch.mjs créé et lancé en arrière-plan
+- [x] Mettre à jour validation_status après enrichissement (brouillon → en_revision)
+- [ ] Attendre la fin du batch et vérifier les résultats (en cours...)
