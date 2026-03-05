@@ -483,6 +483,8 @@ export default function BibliographiePage() {
   const [selectedDomain, setSelectedDomain] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [selectedAxis, setSelectedAxis] = useState<string>("all");
+  const [selectedEntityType, setSelectedEntityType] = useState<string>("all");
+  const [selectedHasLinks, setSelectedHasLinks] = useState<string>("all"); // 'all' | 'yes' | 'no'
   const [activeTab, setActiveTab] = useState("overview");
   
   // Récupérer les axes de recherche
@@ -502,6 +504,8 @@ export default function BibliographiePage() {
     researchDomain: selectedDomain !== "all" ? selectedDomain : undefined,
     readStatus: selectedStatus !== "all" ? selectedStatus : undefined,
     axisId: selectedAxisId,
+    entityType: selectedEntityType !== "all" ? selectedEntityType : undefined,
+    hasLinks: selectedHasLinks === "yes" ? true : selectedHasLinks === "no" ? false : undefined,
   });
   
   const { data: stats } = trpc.bibliography.getStats.useQuery();
@@ -533,6 +537,31 @@ export default function BibliographiePage() {
     }
   }, []);
   
+  // Liaison LLM
+  const [llmOffset, setLlmOffset] = useState(0);
+  const [llmResults, setLlmResults] = useState<any>(null);
+  const [llmRunning, setLlmRunning] = useState(false);
+  const autoLinkMutation = trpc.bibliography.autoLinkByLLM.useMutation({
+    onSuccess: (data) => {
+      setLlmResults(data);
+      setLlmOffset(prev => prev + data.processed);
+      setLlmRunning(false);
+      if (data.linked > 0) {
+        toast.success(`${data.linked} liaison(s) créée(s) pour ${data.processed} référence(s)`);
+      } else {
+        toast.info(`Batch traité : ${data.processed} référence(s), aucune liaison trouvée`);
+      }
+    },
+    onError: (err) => {
+      setLlmRunning(false);
+      toast.error('Erreur LLM : ' + err.message);
+    },
+  });
+  const handleAutoLink = () => {
+    setLlmRunning(true);
+    autoLinkMutation.mutate({ batchSize: 10, offset: llmOffset });
+  };
+
   // Export BibTeX
   const utils = trpc.useUtils();
   const handleExportBibTeX = async () => {
@@ -613,7 +642,7 @@ export default function BibliographiePage() {
                 </TabsTrigger>
               </TabsList>
               
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <Link href="/reseau-axes">
                   <Button variant="outline" size="sm">
                     <Network className="h-4 w-4 mr-2" />
@@ -624,6 +653,18 @@ export default function BibliographiePage() {
                   <Download className="h-4 w-4 mr-2" />
                   Export BibTeX
                 </Button>
+                {user && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleAutoLink}
+                    disabled={llmRunning}
+                    className="border-violet-500/30 text-violet-600 hover:bg-violet-50 dark:hover:bg-violet-950/20"
+                  >
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    {llmRunning ? 'Analyse en cours...' : `Enrichir par IA (offset: ${llmOffset})`}
+                  </Button>
+                )}
                 <Link href="/bibliographie-globale">
                   <Button size="sm">
                     Gestion avancée
@@ -768,6 +809,28 @@ export default function BibliographiePage() {
                         {Object.entries(readStatusConfig).map(([key, { label }]) => (
                           <SelectItem key={key} value={key}>{label}</SelectItem>
                         ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={selectedEntityType} onValueChange={setSelectedEntityType}>
+                      <SelectTrigger className="w-full md:w-[150px]">
+                        <SelectValue placeholder="Entité liée" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Toutes entités</SelectItem>
+                        <SelectItem value="plant">🌿 Plantes</SelectItem>
+                        <SelectItem value="molecule">🔬 Molécules</SelectItem>
+                        <SelectItem value="variety">🌱 Variétés</SelectItem>
+                        <SelectItem value="recette">🧪 Recettes</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select value={selectedHasLinks} onValueChange={setSelectedHasLinks}>
+                      <SelectTrigger className="w-full md:w-[140px]">
+                        <SelectValue placeholder="Liaisons" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Toutes refs</SelectItem>
+                        <SelectItem value="yes">✅ Avec liaisons</SelectItem>
+                        <SelectItem value="no">⚠️ Sans liaisons</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

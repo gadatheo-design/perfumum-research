@@ -7922,6 +7922,8 @@ export async function getAllBibliographyEntries(filters?: {
   readStatus?: string;
   search?: string;
   axisId?: number;
+  entityType?: string; // 'plant' | 'molecule' | 'variety' | 'any'
+  hasLinks?: boolean; // true = avec liaisons, false = sans liaisons
   limit?: number;
   offset?: number;
 }) {
@@ -7958,6 +7960,31 @@ export async function getAllBibliographyEntries(filters?: {
     );
   }
   
+  // Filtre par type d'entité liée
+  if (filters?.entityType && filters.entityType !== 'any') {
+    const entityLinks = await db
+      .select({ bibliographyId: sql<number>`bibliography_id` })
+      .from(sql`bibliography_entity_links`)
+      .where(sql`entity_type = ${filters.entityType}`);
+    const bibIds = entityLinks.map((l: any) => l.bibliographyId);
+    if (bibIds.length > 0) {
+      conditions.push(inArray(bibliographyEntries.id, bibIds));
+    } else {
+      return { entries: [], total: 0 };
+    }
+  }
+
+  // Filtre par présence de liaisons
+  if (filters?.hasLinks === true) {
+    conditions.push(
+      sql`EXISTS (SELECT 1 FROM bibliography_entity_links bel WHERE bel.bibliography_id = ${bibliographyEntries.id})`
+    );
+  } else if (filters?.hasLinks === false) {
+    conditions.push(
+      sql`NOT EXISTS (SELECT 1 FROM bibliography_entity_links bel WHERE bel.bibliography_id = ${bibliographyEntries.id})`
+    );
+  }
+
   // Filtre par axe de recherche
   if (filters?.axisId) {
     const axisLinks = await db

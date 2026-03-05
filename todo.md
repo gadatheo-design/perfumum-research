@@ -769,3 +769,31 @@
 - [x] Serveur compile sans erreurs TypeScript
 - [x] Tests : 99 fichiers, 1496 passants, 2 ignorés, 0 échec
 - [x] Checkpoint sauvegarderé
+
+---
+
+## SESSION 12 — Bibliographie, Généalogies, LLM (Mars 2026)
+
+### Phase 1 : Page /bibliographie dédiée
+- [x] Endpoint bibliography.list avec filtres (domaine, entity_type, search)
+- [x] Page BibliographiePage.tsx existante enrichie avec filtres entityType et hasLinks
+- [x] Filtres par domaine de recherche (12 domaines) — déjà présents
+- [x] Filtres par type d'entité liée (plante, molécule, variété) — ajoutés
+- [x] Filtre hasLinks (avec/sans liaisons) — ajouté
+- [x] Backend getAllBibliographyEntries mis à jour avec les nouveaux filtres
+
+### Phase 2 : Enrichissement généalogies
+- [x] Lavande : Lavandin Abrial, Maillette, Super créés avec liaisons généalogiques
+- [x] Rose : Rosa centifolia, gallica officinalis, alba maxima créées
+- [x] Cannabis : Skunk #1, Northern Lights #5, OG Kush, White Widow, Original Haze créés
+- [x] Total : 5 nouvelles variétés, 10 liaisons généalogiques — 105 variétés, 86 généalogies en base
+
+### Phase 3 : Liaison bibliographique par LLM
+- [x] Endpoint tRPC bibliography.autoLinkByLLM créé (batches de 10, JSON schema strict)
+- [x] Prompt LLM pour extraction d'entités nommées (plantes, molécules) avec listes de référence
+- [x] Bouton "Enrichir par IA" dans BibliographiePage (visible pour utilisateurs connectés)
+- [x] Offset progressif pour traiter les références par batch
+
+### Phase 4 : Tests et checkpoint
+- [x] Tests : 99 fichiers, 1496 passants, 2 ignorés, 0 échec
+- [x] Checkpoint final sauvegardé

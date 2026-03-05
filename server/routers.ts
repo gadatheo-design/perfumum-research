@@ -6974,6 +6974,8 @@ export const appRouter = router({
         readStatus: z.string().optional(),
         search: z.string().optional(),
         axisId: z.number().optional(),
+        entityType: z.string().optional(), // 'plant' | 'molecule' | 'variety' | 'any'
+        hasLinks: z.boolean().optional(), // true = avec liaisons, false = sans liaisons
         limit: z.number().optional(),
         offset: z.number().optional(),
       }).optional())
@@ -7203,6 +7205,132 @@ export const appRouter = router({
         ));
         // MySQL2 execute returns [rows, fields]
         return Array.isArray(result) ? result[0] as any[] : [];
+      }),
+
+    // Liaison automatique par LLM — traite un batch de références non liées
+    autoLinkByLLM: protectedProcedure
+      .input(z.object({
+        batchSize: z.number().min(1).max(20).default(10),
+        offset: z.number().default(0),
+      }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new Error('DB non disponible');
+        const { sql } = await import('drizzle-orm');
+
+        // 1. Récupérer les références sans liaisons
+        const unlinkedResult = await (dbConn as any).execute(sql.raw(
+          `SELECT id, title, abstract, research_domain, keywords
+           FROM bibliography_entries
+           WHERE NOT EXISTS (
+             SELECT 1 FROM bibliography_entity_links bel WHERE bel.bibliography_id = bibliography_entries.id
+           )
+           ORDER BY id
+           LIMIT ${input.batchSize} OFFSET ${input.offset}`
+        ));
+        const unlinked: any[] = Array.isArray(unlinkedResult) ? unlinkedResult[0] as any[] : [];
+        if (unlinked.length === 0) return { processed: 0, linked: 0, message: 'Aucune référence non liée trouvée' };
+
+        // 2. Récupérer les noms de plantes et molécules pour le matching
+        const plantsResult = await (dbConn as any).execute(sql.raw(
+          'SELECT id, name, latin_name FROM plants ORDER BY name LIMIT 500'
+        ));
+        const molsResult = await (dbConn as any).execute(sql.raw(
+          'SELECT id, name, iupac_name FROM molecules ORDER BY name LIMIT 500'
+        ));
+        const plants: any[] = Array.isArray(plantsResult) ? plantsResult[0] as any[] : [];
+        const molecules: any[] = Array.isArray(molsResult) ? molsResult[0] as any[] : [];
+
+        // 3. Appel LLM pour extraire les entités de chaque référence
+        let totalLinked = 0;
+        const results: any[] = [];
+
+        for (const ref of unlinked) {
+          try {
+            const plantNames = plants.slice(0, 200).map((p: any) => p.name + (p.latin_name ? ` (${p.latin_name})` : '')).join(', ');
+            const molNames = molecules.slice(0, 200).map((m: any) => m.name).join(', ');
+
+            const llmResponse = await invokeLLM({
+              messages: [
+                {
+                  role: 'system',
+                  content: `Tu es un expert en botanique et chimie olfactive. Analyse le titre et l'abstract d'une référence bibliographique et identifie les entités (plantes, molécules) mentionnées parmi les listes fournies. Retourne uniquement du JSON valide.`
+                },
+                {
+                  role: 'user',
+                  content: `Titre: "${ref.title}"\nAbstract: "${ref.abstract || ''}"\nDomaine: ${ref.research_domain || ''}\n\nPlantes disponibles (extrait): ${plantNames.substring(0, 1000)}\nMolécules disponibles (extrait): ${molNames.substring(0, 1000)}\n\nIdentifie les entités mentionnées. Retourne: {"plants": ["nom exact"], "molecules": ["nom exact"]}`
+                }
+              ],
+              response_format: {
+                type: 'json_schema',
+                json_schema: {
+                  name: 'entity_extraction',
+                  strict: true,
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      plants: { type: 'array', items: { type: 'string' } },
+                      molecules: { type: 'array', items: { type: 'string' } },
+                    },
+                    required: ['plants', 'molecules'],
+                    additionalProperties: false,
+                  }
+                }
+              }
+            });
+
+            const content = llmResponse.choices?.[0]?.message?.content;
+            if (!content) continue;
+
+            const extracted = JSON.parse(content);
+            let refLinked = 0;
+
+            // Lier les plantes trouvées
+            for (const plantName of (extracted.plants || [])) {
+              const plant = plants.find((p: any) =>
+                p.name.toLowerCase() === plantName.toLowerCase() ||
+                (p.latin_name && p.latin_name.toLowerCase().includes(plantName.toLowerCase()))
+              );
+              if (plant) {
+                try {
+                  await (dbConn as any).execute(sql.raw(
+                    `INSERT IGNORE INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_at)
+                     VALUES (${ref.id}, 'plant', ${plant.id}, 'primary_source', 75, 'Lié automatiquement par LLM', NOW())`
+                  ));
+                  refLinked++;
+                } catch {}
+              }
+            }
+
+            // Lier les molécules trouvées
+            for (const molName of (extracted.molecules || [])) {
+              const mol = molecules.find((m: any) =>
+                m.name.toLowerCase() === molName.toLowerCase()
+              );
+              if (mol) {
+                try {
+                  await (dbConn as any).execute(sql.raw(
+                    `INSERT IGNORE INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_at)
+                     VALUES (${ref.id}, 'molecule', ${mol.id}, 'chemical', 75, 'Lié automatiquement par LLM', NOW())`
+                  ));
+                  refLinked++;
+                } catch {}
+              }
+            }
+
+            totalLinked += refLinked;
+            results.push({ id: ref.id, title: ref.title.substring(0, 60), plants: extracted.plants, molecules: extracted.molecules, linked: refLinked });
+          } catch (err: any) {
+            results.push({ id: ref.id, title: ref.title?.substring(0, 60), error: err.message });
+          }
+        }
+
+        return {
+          processed: unlinked.length,
+          linked: totalLinked,
+          results,
+        };
       }),
   }),
 
