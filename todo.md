@@ -1065,3 +1065,35 @@
 - [ ] Nettoyer les 12 console.log en production
 - [ ] Connecter TabacsNiche.tsx et TabacsResines.tsx à la DB
 - [ ] Documenter/archiver les 93 fichiers de pages non importés dans App.tsx
+
+---
+
+## 🎨 SESSION 5 MARS 2026 (après-midi) — Accords, Cigarillos, Tabacs statiques
+
+- [ ] Renseigner les descriptions olfactives des 32 accords (champ description vide à 100%)
+- [ ] Compléter les terpene_profile des 24 recettes cigarillos (profils Myrcène/Limonène/β-Caryophyllène)
+- [ ] Connecter TabacsNiche.tsx à la DB via trpc.tabacs.getByCategory
+- [ ] Connecter TabacsResines.tsx à la DB via trpc.tabacs.getByCategory
+
+---
+
+## 🎨 SESSION 5 MARS 2026 (soir) — Accords, Cigarillos, Pages Tabac
+
+### Axe 1 : Enrichissement des profils aromatiques des 32 accords
+- [x] Analyser les 32 accords (description OK, aromaticProfile/olfactiveProfile/emotionalResonance vides)
+- [x] Rédiger les 3 profils pour chaque accord (script enrich-accords-profiles.mjs)
+- [x] 32/32 accords enrichis — aromaticProfile, olfactiveProfile, emotionalResonance renseignés
+
+### Axe 2 : Complétion des composants des 24 recettes cigarillos
+- [x] Analyser les 24 recettes cigarillos (30001-30024) sans cannabis_component/tobacco_component
+- [x] Compléter les composants cannabis et tabac pour chaque recette (script complete-cigarillo-components.mjs)
+- [x] 24/24 recettes complétées — 32/32 recettes ont maintenant des composants complets
+
+### Axe 3 : Vérification TabacsNiche.tsx et TabacsResines.tsx
+- [x] Vérifier TabacsNiche.tsx — déjà connectée à la DB via trpc.tabacs.listWithTerroir
+- [x] Vérifier TabacsResines.tsx — déjà connectée à la DB via trpc.tabacs.listWithTerroir
+- [x] Données statiques restantes (resinesStatic, methodologies) = contenu éditorial fixe (correct)
+
+### Résultats
+- 0 erreur TypeScript
+- 99/99 tests passants
