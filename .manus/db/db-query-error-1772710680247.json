@@ -1,0 +1,8 @@
+{
+  "query": "\nCREATE INDEX IF NOT EXISTS idx_molecules_chemical_class ON molecules(chemical_class);\nCREATE INDEX IF NOT EXISTS idx_molecules_validation_status ON molecules(validation_status);\nCREATE INDEX IF NOT EXISTS idx_molecules_name ON molecules(name);\nCREATE INDEX IF NOT EXISTS idx_tabac_molecule_links_tabac_id ON tabac_molecule_links(tabac_id);\nCREATE INDEX IF NOT EXISTS idx_tabac_molecule_links_molecule_id ON tabac_molecule_links(molecule_id);\nCREATE INDEX IF NOT EXISTS idx_synergies_tabac_id ON synergies(tabac_id);\nCREATE INDEX IF NOT EXISTS idx_synergies_type ON synergies(type(50));\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nCREATE INDEX IF NOT EXISTS idx_molecules_chemical_class ON molecules(chemical_class);\nCREATE INDEX IF NOT EXISTS idx_molecules_validation_status ON molecules(validation_status);\nCREATE INDEX IF NOT EXISTS idx_molecules_name ON molecules(name);\nCREATE INDEX IF NOT EXISTS idx_tabac_molecule_links_tabac_id ON tabac_molecule_links(tabac_id);\nCREATE INDEX IF NOT EXISTS idx_tabac_molecule_links_molecule_id ON tabac_molecule_links(molecule_id);\nCREATE INDEX IF NOT EXISTS idx_synergies_tabac_id ON synergies(tabac_id);\nCREATE INDEX IF NOT EXISTS idx_synergies_type ON synergies(type(50));\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1089 (HY000) at line 8: Incorrect prefix key; the used key part isn't a string, the used length is longer than the key part, or the storage engine doesn't support unique prefix keys"
+  ]
+}

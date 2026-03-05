@@ -1041,3 +1041,27 @@
 - [x] Corriger 15 associations tabac_id incorrects en DB (script fix-synergies-tabac-ids.mjs)
 - [x] Transformer le pictogramme tabac en hyperlien vers la fiche tabac (/tabac/:id)
 - [x] Créer page TabacDetail.tsx avec route /tabac/:id (fiche complète avec molécules et synergies)
+
+
+---
+
+## 🔬 SESSION 5 MARS 2026 (audit) — Priorités 1 & 2
+
+### Priorité 1 — Critique
+- [x] Normaliser le champ `family` des molécules (69 valeurs → 27 classes canoniques, 311 mol. mises à jour)
+- [ ] Activer le système de validation des molécules (différencier brouillon/validé)
+- [ ] Corriger les namespaces tRPC manquants : trpc.importMolecules et trpc.importPlants
+
+### Priorité 2 — Haute
+- [x] Enrichir profils GC-MS Virginia Gold (15 mol.), Burley (15), Samsoun (16) dans tabac_molecule_links
+- [x] Vérifier synergies cannabis — pas de cannabis_id, structure correcte (terpènes purs)
+- [ ] Compléter les terpene_profile des 24 recettes cigarillos manquantes
+- [ ] Renseigner les descriptions des 32 accords (champ vide à 100%)
+- [x] Connecter tabacs aux terroirs — déjà 42/42 tabacs liés (0 manquant)
+- [x] Corriger liens MegaMenu gammes — déjà fonctionnels (GammesHub gère tab=petrichor/volcanique)
+
+### Priorité 3 — Moyenne (dette technique)
+- [x] Ajouter index DB : idx_molecules_chemical_class, idx_molecules_validation_status, idx_molecules_name, idx_tabac_molecule_links_tabac_id/molecule_id, idx_synergies_type
+- [ ] Nettoyer les 12 console.log en production
+- [ ] Connecter TabacsNiche.tsx et TabacsResines.tsx à la DB
+- [ ] Documenter/archiver les 93 fichiers de pages non importés dans App.tsx

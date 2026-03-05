@@ -1,0 +1,9 @@
+{
+  "query": "\nCREATE INDEX IF NOT EXISTS idx_molecules_chemical_class ON molecules(chemical_class);\nCREATE INDEX IF NOT EXISTS idx_molecules_validation_status ON molecules(validation_status);\nCREATE INDEX IF NOT EXISTS idx_molecules_name ON molecules(name);\nCREATE INDEX IF NOT EXISTS idx_tabac_molecule_links_tabac_id ON tabac_molecule_links(tabac_id);\nCREATE INDEX IF NOT EXISTS idx_tabac_molecule_links_molecule_id ON tabac_molecule_links(molecule_id);\nCREATE INDEX IF NOT EXISTS idx_synergies_type ON synergies(type);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nCREATE INDEX IF NOT EXISTS idx_molecules_chemical_class ON molecules(chemical_class);\nCREATE INDEX IF NOT EXISTS idx_molecules_validation_status ON molecules(validation_status);\nCREATE INDEX IF NOT EXISTS idx_molecules_name ON molecules(name);\nCREATE INDEX IF NOT EXISTS idx_tabac_molecule_links_tabac_id ON tabac_molecule_links(tabac_id);\nCREATE INDEX IF NOT EXISTS idx_tabac_molecule_links_molecule_id ON tabac_molecule_links(molecule_id);\nCREATE INDEX IF NOT EXISTS idx_synergies_type ON synergies(type);\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 316
+}
