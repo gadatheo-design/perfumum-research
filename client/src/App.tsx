@@ -331,6 +331,7 @@ import Installations from "./pages/Installations";
 import TabacsResines from "./pages/TabacsResines";
 import TabacsNaturels from "./pages/TabacsNaturels";
 import TabacsOriginaux from "./pages/TabacsOriginaux";
+import TabacDetail from "./pages/TabacDetail";
 import Associations from "./pages/Associations";
 import Fournisseurs from "./pages/Fournisseurs";
 
@@ -496,6 +497,7 @@ function Router() {
       <Route path="/historic-cigarettes" component={HistoricCigarettes} />
       <Route path="/tobacco-landraces" component={TobaccoLandraces} />
       <Route path="/tobacco-landrace/:name" component={TobaccoLandraceDetail} />
+      <Route path="/tabac/:id" component={TabacDetail} />
       <Route path="/soil-analysis" component={SoilAnalysis} />
       <Route path="/analyses-pedologiques" component={SoilAnalysis} />
       <Route path="/biosynthetic-pathways" component={BiosyntheticPathways} />

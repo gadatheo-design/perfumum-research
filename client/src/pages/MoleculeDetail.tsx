@@ -4,7 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
-import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine } from "lucide-react";
+import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,9 @@ import { AIClassificationSuggestion } from "@/components/AIClassificationSuggest
 import { MoleculeAnalyticalMethods } from "@/components/MoleculeAnalyticalMethods";
 import { IFRAStatusBadge } from "@/components/IFRAStatusBadge";
 import { TherapeuticPropertiesTab } from "@/components/TherapeuticPropertiesTab";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Composant indicateur de statut PubChem
 function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; pubchemCid?: number }) {
@@ -314,9 +317,180 @@ function PyrolysisSection({ moleculeName }: { moleculeName: string }) {
   );
 }
 
+// Modal d'ajout d'une plante source
+function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; onSuccess: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedPlant, setSelectedPlant] = useState<any>(null);
+  const [role, setRole] = useState('secondaire');
+  const [percentageTypical, setPercentageTypical] = useState('');
+  const [isSignature, setIsSignature] = useState(false);
+  const { toast } = useToast();
+  const utils = trpc.useUtils();
+
+  const { data: searchResults, isLoading: searching } = trpc.plants.search.useQuery(
+    { query: searchQuery },
+    { enabled: searchQuery.length >= 2 }
+  );
+
+  const addLink = trpc.plantMoleculeLinks.create.useMutation({
+    onSuccess: () => {
+      toast({ title: 'Plante source ajoutée', description: `${selectedPlant?.name} liée à cette molécule.` });
+      utils.plantMoleculeLinks.getByMolecule.invalidate({ moleculeId });
+      setOpen(false);
+      setSearchQuery('');
+      setSelectedPlant(null);
+      setPercentageTypical('');
+      setRole('secondaire');
+      setIsSignature(false);
+      onSuccess();
+    },
+    onError: (err: any) => {
+      toast({ title: 'Erreur', description: err.message, variant: 'destructive' });
+    },
+  });
+
+  const handleAdd = () => {
+    if (!selectedPlant) return;
+    addLink.mutate({
+      plantId: selectedPlant.id,
+      moleculeId,
+      role,
+      percentageTypical: percentageTypical ? parseFloat(percentageTypical) : undefined,
+      isSignature: isSignature ? 1 : 0,
+    });
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button size="sm" variant="outline" className="gap-1">
+          <Plus className="h-4 w-4" />
+          Ajouter une plante source
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Leaf className="h-5 w-5 text-emerald-500" />
+            Lier une plante source
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          {/* Recherche de plante */}
+          <div>
+            <label className="text-sm font-medium mb-1 block">Rechercher une plante</label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Nom commun ou latin (min. 2 caractères)..."
+                value={searchQuery}
+                onChange={(e: any) => { setSearchQuery(e.target.value); setSelectedPlant(null); }}
+                className="pl-9"
+              />
+            </div>
+            {searching && <p className="text-xs text-muted-foreground mt-1">Recherche...</p>}
+            {searchResults && searchResults.length > 0 && !selectedPlant && (
+              <div className="mt-1 border rounded-md bg-popover shadow-md max-h-48 overflow-y-auto">
+                {searchResults.map((plant: any) => (
+                  <button
+                    key={plant.id}
+                    className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-sm"
+                    onClick={() => { setSelectedPlant(plant); setSearchQuery(plant.name); }}
+                  >
+                    <span className="font-medium">{plant.name}</span>
+                    {(plant.latinName || plant.latin_name) && (
+                      <span className="ml-2 text-xs italic text-muted-foreground">{plant.latinName || plant.latin_name}</span>
+                    )}
+                    <span className="ml-2 text-xs text-muted-foreground capitalize">[{plant.category}]</span>
+                  </button>
+                ))}
+              </div>
+            )}
+            {selectedPlant && (
+              <div className="mt-1 p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-md flex items-center justify-between">
+                <span className="text-sm font-medium text-emerald-400">{selectedPlant.name}</span>
+                <button onClick={() => { setSelectedPlant(null); setSearchQuery(''); }} className="text-muted-foreground hover:text-foreground">
+                  <Trash2 className="h-3 w-3" />
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Rôle */}
+          <div>
+            <label className="text-sm font-medium mb-1 block">Rôle dans la plante</label>
+            <Select value={role} onValueChange={setRole}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="majeur">Majeur</SelectItem>
+                <SelectItem value="secondaire">Secondaire</SelectItem>
+                <SelectItem value="trace">Trace</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Pourcentage */}
+          <div>
+            <label className="text-sm font-medium mb-1 block">Pourcentage typique (optionnel)</label>
+            <div className="relative">
+              <Input
+                type="number"
+                placeholder="ex: 2.5"
+                value={percentageTypical}
+                onChange={(e: any) => setPercentageTypical(e.target.value)}
+                min="0" max="100" step="0.1"
+              />
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">%</span>
+            </div>
+          </div>
+
+          {/* Signature */}
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="isSignature"
+              checked={isSignature}
+              onChange={(e: any) => setIsSignature(e.target.checked)}
+              className="rounded"
+            />
+            <label htmlFor="isSignature" className="text-sm">Molécule signature de cette plante</label>
+          </div>
+
+          <div className="flex justify-end gap-2 pt-2">
+            <Button variant="outline" onClick={() => setOpen(false)}>Annuler</Button>
+            <Button
+              onClick={handleAdd}
+              disabled={!selectedPlant || addLink.isPending}
+              className="gap-1"
+            >
+              {addLink.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+              Lier la plante
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // Composant pour afficher les plantes sources d'une molécule
 function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
-  const { data: plantSources, isLoading } = trpc.plantMoleculeLinks.getByMolecule.useQuery({ moleculeId });
+  const { data: plantSources, isLoading, refetch } = trpc.plantMoleculeLinks.getByMolecule.useQuery({ moleculeId });
+  const { toast } = useToast();
+  const utils = trpc.useUtils();
+
+  const removeLink = trpc.plantMoleculeLinks.delete.useMutation({
+    onSuccess: () => {
+      toast({ title: 'Liaison supprimée' });
+      utils.plantMoleculeLinks.getByMolecule.invalidate({ moleculeId });
+    },
+    onError: (err: any) => {
+      toast({ title: 'Erreur', description: err.message, variant: 'destructive' });
+    },
+  });
 
   if (isLoading) {
     return (
@@ -331,69 +505,83 @@ function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
   return (
     <div className="space-y-6">
       <div className="bg-card p-6 rounded-lg border shadow-sm">
-        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-          <Leaf className="h-5 w-5 text-primary" />
-          Plantes Sources
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <Leaf className="h-5 w-5 text-primary" />
+            Plantes Sources
+            {plantSources && plantSources.length > 0 && (
+              <Badge variant="secondary">{plantSources.length}</Badge>
+            )}
+          </h2>
+          <AddPlantSourceModal moleculeId={moleculeId} onSuccess={() => {}} />
+        </div>
         
         {plantSources && plantSources.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {plantSources.map((source: any) => (
-              <Link key={source.plant.id} href={`/plants/${source.plant.id}`}>
-                <div className="p-4 bg-muted/50 rounded-lg border hover:border-primary/50 transition-colors cursor-pointer">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="font-semibold text-primary">{source.plant.name}</h3>
-                      {source.plant.latinName && (
-                        <p className="text-sm italic text-muted-foreground">{source.plant.latinName}</p>
-                      )}
-                    </div>
-                    {source.isSignature === 1 && (
-                      <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">
-                        Signature
-                      </Badge>
-                    )}
-                  </div>
-                  
-                  <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
-                    {source.percentageTypical && (
+              <div key={source.plant.id} className="relative group">
+                <Link href={`/plants/${source.plant.id}`}>
+                  <div className="p-4 bg-muted/50 rounded-lg border hover:border-primary/50 transition-colors cursor-pointer">
+                    <div className="flex items-start justify-between">
                       <div>
-                        <p className="text-xs text-muted-foreground">Typique</p>
-                        <p className="font-mono font-semibold">{source.percentageTypical}%</p>
+                        <h3 className="font-semibold text-primary">{source.plant.name}</h3>
+                        {source.plant.latinName && (
+                          <p className="text-sm italic text-muted-foreground">{source.plant.latinName}</p>
+                        )}
                       </div>
-                    )}
-                    {source.percentageMin && source.percentageMax && (
-                      <div>
-                        <p className="text-xs text-muted-foreground">Plage</p>
-                        <p className="font-mono">{source.percentageMin}-{source.percentageMax}%</p>
-                      </div>
-                    )}
-                    {source.role && (
-                      <div>
-                        <p className="text-xs text-muted-foreground">Rôle</p>
-                        <Badge variant="outline" className="text-xs">
-                          {source.role === 'majeur' ? 'Majeur' : 
-                           source.role === 'secondaire' ? 'Secondaire' : 
-                           source.role === 'trace' ? 'Trace' : source.role}
+                      {source.isSignature === 1 && (
+                        <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">
+                          Signature
                         </Badge>
+                      )}
+                    </div>
+                    <div className="mt-3 grid grid-cols-3 gap-2 text-sm">
+                      {source.percentageTypical && (
+                        <div>
+                          <p className="text-xs text-muted-foreground">Typique</p>
+                          <p className="font-mono font-semibold">{source.percentageTypical}%</p>
+                        </div>
+                      )}
+                      {source.percentageMin && source.percentageMax && (
+                        <div>
+                          <p className="text-xs text-muted-foreground">Plage</p>
+                          <p className="font-mono">{source.percentageMin}-{source.percentageMax}%</p>
+                        </div>
+                      )}
+                      {source.role && (
+                        <div>
+                          <p className="text-xs text-muted-foreground">Rôle</p>
+                          <Badge variant="outline" className="text-xs">
+                            {source.role === 'majeur' ? 'Majeur' :
+                             source.role === 'secondaire' ? 'Secondaire' :
+                             source.role === 'trace' ? 'Trace' : source.role}
+                          </Badge>
+                        </div>
+                      )}
+                    </div>
+                    {source.plant.category && (
+                      <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
+                        <span className="capitalize">{source.plant.category}</span>
+                        {source.plant.origin && (
+                          <>
+                            <span>•</span>
+                            <MapPin className="h-3 w-3" />
+                            <span>{source.plant.origin}</span>
+                          </>
+                        )}
                       </div>
                     )}
                   </div>
-                  
-                  {source.plant.category && (
-                    <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
-                      <span className="capitalize">{source.plant.category}</span>
-                      {source.plant.origin && (
-                        <>
-                          <span>•</span>
-                          <MapPin className="h-3 w-3" />
-                          <span>{source.plant.origin}</span>
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </Link>
+                </Link>
+                {/* Bouton de suppression */}
+                <button
+                  onClick={(e) => { e.preventDefault(); removeLink.mutate({ plantId: source.plant.id, moleculeId }); }}
+                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded bg-destructive/10 hover:bg-destructive/20 text-destructive"
+                  title="Supprimer cette liaison"
+                >
+                  <Trash2 className="h-3 w-3" />
+                </button>
+              </div>
             ))}
           </div>
         ) : (

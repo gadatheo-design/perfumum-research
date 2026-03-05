@@ -777,11 +777,13 @@ export default function Synergies() {
                                 </div>
                               )}
                               {synergy.tabacName && (
-                                <div className="text-center p-3 bg-amber-500/5 rounded-lg border border-amber-500/20">
-                                  <FlaskConical className="w-6 h-6 text-amber-500 mx-auto mb-2" />
-                                  <div className="text-sm font-medium">{synergy.tabacName}</div>
-                                  <div className="text-xs text-muted-foreground">Tabac</div>
-                                </div>
+                                <Link href={synergy.tabacId ? `/tabac/${synergy.tabacId}` : '/tabacotheque'}>
+                                  <div className="text-center p-3 bg-amber-500/5 rounded-lg border border-amber-500/20 hover:border-amber-500/50 hover:bg-amber-500/10 transition-colors cursor-pointer">
+                                    <FlaskConical className="w-6 h-6 text-amber-500 mx-auto mb-2" />
+                                    <div className="text-sm font-medium">{synergy.tabacName}</div>
+                                    <div className="text-xs text-muted-foreground">Tabac → fiche</div>
+                                  </div>
+                                </Link>
                               )}
                               {synergy.familleName && (
                                 <div className="text-center p-3 bg-emerald-500/5 rounded-lg border border-emerald-500/20">

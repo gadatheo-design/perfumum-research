@@ -3831,6 +3831,19 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return searchPlantsByTerroir(input.terroirId);
       }),
+    search: publicProcedure
+      .input(z.object({ query: z.string().min(1) }))
+      .query(async ({ input }) => {
+        const allPlants = await db.getAllPlants();
+        const q = input.query.toLowerCase();
+        return allPlants
+          .filter((p: any) =>
+            p.name?.toLowerCase().includes(q) ||
+            p.latinName?.toLowerCase().includes(q) ||
+            p.latin_name?.toLowerCase().includes(q)
+          )
+          .slice(0, 20);
+      }),
     getPlantMoleculesWithIfra: publicProcedure
       .input(z.object({ plantId: z.number() }))
       .query(async ({ input }) => {

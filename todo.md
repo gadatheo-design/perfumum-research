@@ -1024,3 +1024,20 @@
 - [ ] Intégrer carte géographique Map.tsx dans SourcingHub (toggle carte/liste)
 - [ ] Valider les pourcentages des 536 liaisons plante-molécule
 - [ ] Créer les liaisons plante-terroir (couverture actuelle ~65%)
+
+---
+
+## 🔧 SESSION 5 MARS 2026 (suite) — Corrections fiches molécules & synergies
+
+### Axe 1 : Ajout manuel de plantes sources dans les fiches molécules
+- [x] Analyser le composant MoleculeDetail (onglet Plantes Sources)
+- [x] Ajouter procédure tRPC `plants.search` pour la recherche de plantes
+- [x] Créer le bouton "Ajouter une plante source" avec modal de recherche/sélection
+- [x] Permettre la suppression d'une liaison plante-molécule manuelle (bouton hover)
+- [x] Utiliser plantMoleculeLinks.create / delete (procédures existantes)
+
+### Axe 2 : Correction associations tabac dans les synergies
+- [x] Analyser le composant Synergies (carte + modal détail)
+- [x] Corriger 15 associations tabac_id incorrects en DB (script fix-synergies-tabac-ids.mjs)
+- [x] Transformer le pictogramme tabac en hyperlien vers la fiche tabac (/tabac/:id)
+- [x] Créer page TabacDetail.tsx avec route /tabac/:id (fiche complète avec molécules et synergies)
