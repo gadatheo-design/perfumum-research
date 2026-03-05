@@ -921,3 +921,25 @@
 - [x] Batch terminé : 172 molécules enrichies (CAS, SMILES, InChI, masse exacte), 160 passées en "en_revision"
   - Avant : 574 CAS, 202 SMILES, 68 PubChem | Après : 734 CAS (+160), 240 PubChem (+172)
   - 277 brouillons restants = accords olfactifs complexes sans CID PubChem (normal)
+
+---
+
+## 🔬 SESSION 5 MARS 2026 — PARTIE 3
+
+### Enrichissement PubChem avec synonymes alternatifs
+- [x] Script enrich-pubchem-synonyms.mjs : traduction fr→en (110+ termes) + 100+ synonymes
+- [x] Correction erreur molecular_weight → molecularWeight
+- [x] Batch lancé sur 277 molécules brouillon (en cours)
+
+### Connexion pages tabac à la DB (suite)
+- [x] TabacsNaturels.tsx créé et connecté à la DB (route /tabacs-naturels)
+- [x] TabacsOriginaux.tsx créé et connecté à la DB (route /tabacs-originaux)
+- [x] HistoricCigarettes.tsx déjà connectée via trpc.research.getHistoricCigarettes (vérifié)
+
+### Viewer structure moléculaire 3D sur /molecules/[id]
+- [x] Onglet dédié "Structure 3D" ajouté dans MoleculeDetail.tsx (11e onglet)
+- [x] Iframe PubChem 3D Conformer intégré quand CID disponible
+- [x] Viewer Canvas interactif (existant) conservé en mode par défaut
+- [x] Bascule entre viewer Canvas et iframe PubChem
+- [x] Liens vers PubChem, ChemSpider, ChemicalBook
+- [x] Affichage SMILES, formule, CID dans l'en-tête de l'onglet

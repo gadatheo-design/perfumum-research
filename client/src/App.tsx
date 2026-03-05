@@ -326,6 +326,8 @@ import Installations from "./pages/Installations";
 
 // === TABACS & ASSOCIATIONS ===
 import TabacsResines from "./pages/TabacsResines";
+import TabacsNaturels from "./pages/TabacsNaturels";
+import TabacsOriginaux from "./pages/TabacsOriginaux";
 import Associations from "./pages/Associations";
 import Fournisseurs from "./pages/Fournisseurs";
 
@@ -898,6 +900,8 @@ function Router() {
       
       {/* === TABACS & ASSOCIATIONS === */}
       <Route path="/tabacs-resines" component={TabacsResines} />
+      <Route path="/tabacs-naturels" component={TabacsNaturels} />
+      <Route path="/tabacs-originaux" component={TabacsOriginaux} />
       <Route path="/associations" component={Associations} />
       <Route path="/fournisseurs" component={Fournisseurs} />
       
