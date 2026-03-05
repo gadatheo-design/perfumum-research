@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { PrefetchLink } from "@/components/PrefetchLink";
 import { Badge } from "@/components/ui/badge";
-import { Check, Beaker, Droplets, Zap, FlaskConical, ChevronRight } from "lucide-react";
+import { Check, Beaker, Droplets, Zap, FlaskConical, ChevronRight, ShieldCheck, Clock, FileText, XCircle } from "lucide-react";
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
 import { FavoriteButton } from "@/components/FavoriteButton";
@@ -27,6 +27,7 @@ interface MoleculeListItemProps {
     radarEarthiness: number | null;
     pubchem_cid?: number | null;
     chebi_id?: string | null;
+    validationStatus?: string | null;
   };
   isSelected: boolean;
   onToggleSelection: (id: number) => void;
@@ -110,6 +111,25 @@ export function MoleculeListItem({
             {molecule.chebi_id && !molecule.pubchem_cid && (
               <Badge variant="outline" className="shrink-0 text-xs bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/50 dark:text-blue-400 dark:border-blue-800">
                 ChEBI
+              </Badge>
+            )}
+            {/* Validation status badge */}
+            {molecule.validationStatus === "brouillon" && (
+              <Badge variant="outline" className="shrink-0 text-xs bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/50 dark:text-amber-400 dark:border-amber-800" title="Brouillon">
+                <FileText className="h-2.5 w-2.5 mr-1" />
+                Brouillon
+              </Badge>
+            )}
+            {molecule.validationStatus === "en_revision" && (
+              <Badge variant="outline" className="shrink-0 text-xs bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/50 dark:text-blue-400 dark:border-blue-800" title="En révision">
+                <Clock className="h-2.5 w-2.5 mr-1" />
+                Révision
+              </Badge>
+            )}
+            {molecule.validationStatus === "rejete" && (
+              <Badge variant="outline" className="shrink-0 text-xs bg-red-50 text-red-700 border-red-200 dark:bg-red-950/50 dark:text-red-400 dark:border-red-800" title="Rejeté">
+                <XCircle className="h-2.5 w-2.5 mr-1" />
+                Rejeté
               </Badge>
             )}
           </div>

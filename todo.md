@@ -1117,3 +1117,46 @@
 - [x] Seeder 27 synergies : 15 masquage + 12 neutralisation (script seed-synergies-masquage-neutralisation.mjs)
 - [x] Mettre à jour SynergiesPage : couleur slate + icône Ban + description pour neutralisation
 - [x] Grille types de synergies : 4 colonnes → 5 colonnes (ajout neutralisation)
+
+---
+
+## 🔬 SESSION 5 MARS 2026 (nuit 2) — Ghost Varieties, Validation, Thérapeutique
+
+### Axe 1 : Enrichissement des 8 fiches ghost_varieties
+- [ ] Analyser ghost_variety_molecule_links et les variétés disparues existantes
+- [ ] Seeder les molécules perdues pour chaque variété (Rosa centifolia, Lavandula stoechas, etc.)
+- [ ] Vérifier l'affichage dans GhostVarietiesExplorer
+
+### Axe 2 : Système de validation des molécules
+- [ ] Analyser le champ validation_status dans molecules (valeurs distinctes)
+- [ ] Ajouter badge coloré validation_status dans MoleculeDetail
+- [ ] Ajouter filtre validation_status dans MoleculeExplorer
+
+### Axe 3 : Propriétés thérapeutiques des 50 molécules principales
+- [ ] Identifier les 50 molécules les plus fréquentes en DB
+- [ ] Enrichir therapeuticProperties avec données PMC/EFSA documentées
+- [ ] Afficher les propriétés thérapeutiques dans les fiches molécules
+
+---
+
+## ✅ SESSION 5 MARS 2026 (SOIR) — Ghost Varieties, Validation, Thérapeutique
+
+### Axe 1 : Enrichissement ghost_varieties
+- [x] Analyser les liaisons moléculaires existantes (32 liaisons préexistantes)
+- [x] Ajouter 24 liaisons moléculaires supplémentaires (6-9 mol. par variété)
+- [x] GhostVarietiesExplorer affiche les molécules via trpc.ghostVarieties
+- [x] "Herbier des Disparus" + "Arbre Généalogique" ajoutés dans le MegaMenu
+
+### Axe 2 : Système de validation des molécules
+- [x] Analyser le champ validation_status en DB (500 validé, 261 brouillon, 284 révision)
+- [x] Ajouter le filtre validation_status dans Molecules.tsx
+- [x] Ajouter le badge de validation dans MoleculeListItem.tsx (amber=brouillon, bleu=révision, rouge=rejeté)
+
+### Axe 3 : Propriétés thérapeutiques
+- [x] Exécuter le script enrich-therapeutic-properties.mjs : 23 mol. enrichies
+- [x] 1045/1045 molécules (100%) avec propriétés thérapeutiques
+- [x] MoleculeDetail affiche les propriétés thérapeutiques dans l'onglet 'Propriétés'
+
+### Résultats
+- 0 erreur TypeScript
+- 99/99 tests passants (1496 tests, 2 skipped)

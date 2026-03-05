@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { trpc } from "@/lib/trpc";
-import { Loader2, Atom, X, Filter, Check, Download } from "lucide-react";
+import { Loader2, Atom, X, Filter, Check, Download, ShieldCheck } from "lucide-react";
 import { GridSkeleton, FilterBarSkeleton } from "@/components/skeletons";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
@@ -62,6 +62,9 @@ export default function Molecules() {
   
   // IFRA status filter
   const [ifraStatusFilter, setIfraStatusFilter] = useState<string>("all");
+  
+  // Validation status filter
+  const [validationFilter, setValidationFilter] = useState<string>("all");
   
   // Radar filters
   const [radarIntensityRange, setRadarIntensityRange] = useState<[number, number]>([0, 100]);
@@ -217,6 +220,12 @@ export default function Molecules() {
         ifraStatusFilter === "all" || 
         molecule.ifraStatus === ifraStatusFilter;
       
+      // Validation status filter
+      const matchesValidation =
+        validationFilter === "all" ||
+        (validationFilter === "valide" && (molecule.validationStatus === "valide" || !molecule.validationStatus)) ||
+        (validationFilter !== "valide" && molecule.validationStatus === validationFilter);
+      
       // Radar filters
       const matchesRadarIntensity = 
         (molecule.radarIntensity || 50) >= radarIntensityRange[0] && 
@@ -249,13 +258,13 @@ export default function Molecules() {
         (mw >= molecularWeightRange[0] && mw <= molecularWeightRange[1]);
       
       return matchesSearch && matchesFamily && matchesChemicalClass && matchesProfile && matchesConcentration && matchesGamme &&
-        matchesPercept && matchesIfraStatus &&
+        matchesPercept && matchesIfraStatus && matchesValidation &&
         matchesRadarIntensity && matchesRadarFreshness && matchesRadarWarmth && 
         matchesRadarSweetness && matchesRadarSpiciness && matchesRadarEarthiness &&
         matchesBoilingPoint && matchesMolecularWeight;
     });
   }, [molecules, searchQuery, familyFilter, chemicalClassFilter, selectedProfiles, concentrationRange, selectedGamme,
-      selectedPercept, ifraStatusFilter,
+      selectedPercept, ifraStatusFilter, validationFilter,
       radarIntensityRange, radarFreshnessRange, radarWarmthRange, 
       radarSweetnessRange, radarSpicinessRange, radarEarthinessRange,
       boilingPointRange, molecularWeightRange]);
@@ -285,6 +294,7 @@ export default function Molecules() {
     setSelectedGamme(null);
     setSelectedPercept("all");
     setIfraStatusFilter("all");
+    setValidationFilter("all");
     setRadarIntensityRange([0, 100]);
     setRadarFreshnessRange([0, 100]);
     setRadarWarmthRange([0, 100]);
@@ -316,6 +326,7 @@ export default function Molecules() {
     selectedGamme !== null ||
     selectedPercept !== "all" ||
     ifraStatusFilter !== "all" ||
+    validationFilter !== "all" ||
     radarIntensityRange[0] !== 0 || radarIntensityRange[1] !== 100 ||
     radarFreshnessRange[0] !== 0 || radarFreshnessRange[1] !== 100 ||
     radarWarmthRange[0] !== 0 || radarWarmthRange[1] !== 100 ||
@@ -644,6 +655,31 @@ export default function Molecules() {
                     {selectedPercept !== "all" && (
                       <p className="text-xs text-muted-foreground mt-2">
                         Filtrage par descripteur: {selectedPercept}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Validation Status Filter */}
+                  <div className="border-t border-border/40 pt-4 mt-4">
+                    <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                      Statut de validation
+                    </h3>
+                    <Select value={validationFilter} onValueChange={setValidationFilter}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Tous les statuts" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Tous les statuts</SelectItem>
+                        <SelectItem value="valide">✅ Validé</SelectItem>
+                        <SelectItem value="en_revision">🔄 En révision</SelectItem>
+                        <SelectItem value="brouillon">📝 Brouillon</SelectItem>
+                        <SelectItem value="rejete">❌ Rejeté</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {validationFilter !== "all" && (
+                      <p className="text-xs text-muted-foreground mt-2">
+                        {finalFilteredMolecules?.length || 0} molécule(s) avec ce statut
                       </p>
                     )}
                   </div>
