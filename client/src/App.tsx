@@ -311,6 +311,7 @@ import PlantMoleculeLinking from "./pages/PlantMoleculeLinking";
 import Manifeste from "./pages/Manifeste";
 import { Timeline } from "./pages/Timeline";
 import TimelineInteractive from "./pages/TimelineInteractive";
+import FormulesReference from "./pages/FormulesReference";
 import ComparaisonAvancee from "./pages/ComparaisonAvancee";
 import TimelinePerfumum from "./pages/TimelinePerfumum";
 // import GalerieBotaniques from "./pages/GalerieBotaniques"; // Maintenant intégré dans Plants.tsx
@@ -790,6 +791,7 @@ function Router() {
       <Route path="/plant-molecule-linking" component={PlantMoleculeLinking} />
       <Route path="/timeline" component={Timeline} />
       <Route path="/timeline/interactive" component={TimelineInteractive} />
+      <Route path="/formules-reference" component={FormulesReference} />
       <Route path="/comparaison" component={ComparaisonAvancee} />
       {/* <Route path="/galerie-botaniques" component={GalerieBotaniques} /> */} {/* Intégré dans /plants?tab=gallery */}
       <Route path="/galerie" component={Gallery} />

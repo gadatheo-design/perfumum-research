@@ -12,7 +12,7 @@ export const getVarietyGenealogy = publicProcedure
     const varietyResult = await db.execute(sql`
       SELECT id, name, category FROM plants WHERE id = ${input.varietyId}
     `);
-    const varietyRows = (varietyResult as any).rows ?? (Array.isArray(varietyResult) ? varietyResult : []);
+    const varietyRows = (varietyResult[0] as unknown) as any[];
     if ((varietyRows as any[]).length === 0) throw new Error(`Variété non trouvée : ${input.varietyId}`);
     const v = (varietyRows as any[])[0];
 
@@ -36,7 +36,7 @@ export const getVarietyGenealogy = publicProcedure
       SELECT variety_id, parent_variety_id, variety_name, parent_name, relationship_type, breeder, notes, depth
       FROM ancestor_tree ORDER BY depth, variety_name
     `);
-    const ancestors = (ancestorsResult as any).rows ?? (Array.isArray(ancestorsResult) ? ancestorsResult : []);
+    const ancestors = (ancestorsResult[0] as unknown) as any[];
 
     const descendantsResult = await db.execute(sql`
       WITH RECURSIVE descendant_tree AS (
@@ -58,7 +58,7 @@ export const getVarietyGenealogy = publicProcedure
       SELECT variety_id, parent_variety_id, variety_name, parent_name, relationship_type, breeder, notes, depth
       FROM descendant_tree ORDER BY depth, variety_name
     `);
-    const descendants = (descendantsResult as any).rows ?? (Array.isArray(descendantsResult) ? descendantsResult : []);
+    const descendants = (descendantsResult[0] as unknown) as any[];
 
     const nodes: any[] = [{ id: String(input.varietyId), label: v.name, type: 'root', category: v.category }];
     const links: any[] = [];

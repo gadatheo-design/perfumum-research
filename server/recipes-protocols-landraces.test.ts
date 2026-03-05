@@ -7,6 +7,9 @@ vi.mock('./db', () => ({
 
 import { getDb } from './db';
 
+// Helper: mysql2 retourne [rows, fields] — on simule avec un tableau à 2 éléments
+const mockResult = (rows: any[]) => [rows, []];
+
 describe('Recipes Router', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -31,8 +34,8 @@ describe('Recipes Router', () => {
     
     const mockDb = {
       execute: vi.fn()
-        .mockResolvedValueOnce({ rows: mockRecipes }) // First call for recipes
-        .mockResolvedValueOnce({ rows: [{ total: 1 }] }), // Second call for count
+        .mockResolvedValueOnce(mockResult(mockRecipes)) // First call for recipes
+        .mockResolvedValueOnce(mockResult([{ total: 1 }])), // Second call for count
     };
     
     (getDb as any).mockResolvedValue(mockDb);
@@ -48,8 +51,8 @@ describe('Recipes Router', () => {
   it('should filter recipes by collection', async () => {
     const mockDb = {
       execute: vi.fn()
-        .mockResolvedValueOnce({ rows: [] })
-        .mockResolvedValueOnce({ rows: [{ total: 0 }] }),
+        .mockResolvedValueOnce(mockResult([]))
+        .mockResolvedValueOnce(mockResult([{ total: 0 }])),
     };
     
     (getDb as any).mockResolvedValue(mockDb);
@@ -87,8 +90,8 @@ describe('Protocols Router', () => {
     
     const mockDb = {
       execute: vi.fn()
-        .mockResolvedValueOnce({ rows: mockProtocols })
-        .mockResolvedValueOnce({ rows: [{ total: 1 }] }),
+        .mockResolvedValueOnce(mockResult(mockProtocols))
+        .mockResolvedValueOnce(mockResult([{ total: 1 }])),
     };
     
     (getDb as any).mockResolvedValue(mockDb);
@@ -125,8 +128,8 @@ describe('Landraces Router', () => {
     
     const mockDb = {
       execute: vi.fn()
-        .mockResolvedValueOnce({ rows: mockLandraces })
-        .mockResolvedValueOnce({ rows: [{ total: 1 }] }),
+        .mockResolvedValueOnce(mockResult(mockLandraces))
+        .mockResolvedValueOnce(mockResult([{ total: 1 }])),
     };
     
     (getDb as any).mockResolvedValue(mockDb);
@@ -142,8 +145,8 @@ describe('Landraces Router', () => {
   it('should filter landraces by type', async () => {
     const mockDb = {
       execute: vi.fn()
-        .mockResolvedValueOnce({ rows: [] })
-        .mockResolvedValueOnce({ rows: [{ total: 0 }] }),
+        .mockResolvedValueOnce(mockResult([]))
+        .mockResolvedValueOnce(mockResult([{ total: 0 }])),
     };
     
     (getDb as any).mockResolvedValue(mockDb);
@@ -160,11 +163,11 @@ describe('Landraces Router', () => {
   it('should return stats when db is available', async () => {
     const mockDb = {
       execute: vi.fn()
-        .mockResolvedValueOnce({ rows: [{ total: 14 }] })
-        .mockResolvedValueOnce({ rows: [{ type: 'indica', count: 8 }] })
-        .mockResolvedValueOnce({ rows: [{ conservation_status: 'rare', count: 5 }] })
-        .mockResolvedValueOnce({ rows: [{ effect_type: 'relaxant', count: 10 }] })
-        .mockResolvedValueOnce({ rows: [{ country: 'Afghanistan', count: 3 }] }),
+        .mockResolvedValueOnce(mockResult([{ total: 14 }]))
+        .mockResolvedValueOnce(mockResult([{ type: 'indica', count: 8 }]))
+        .mockResolvedValueOnce(mockResult([{ conservation_status: 'rare', count: 5 }]))
+        .mockResolvedValueOnce(mockResult([{ effect_type: 'relaxant', count: 10 }]))
+        .mockResolvedValueOnce(mockResult([{ country: 'Afghanistan', count: 3 }])),
     };
     
     (getDb as any).mockResolvedValue(mockDb);

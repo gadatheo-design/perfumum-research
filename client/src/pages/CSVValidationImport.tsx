@@ -223,8 +223,8 @@ export default function CSVValidationImport() {
   });
 
   // Mutations
-  const importMoleculesMutation = trpc.importMolecules.useMutation();
-  const importPlantsMutation = trpc.importPlants.useMutation();
+  const importMoleculesMutation = trpc.batchImport.importMolecules.useMutation();
+  const importPlantsMutation = trpc.batchImport.importPlants.useMutation();
 
   const fields = activeTab === "molecules" ? moleculeFields : activeTab === "plants" ? plantFields : linkFields;
 

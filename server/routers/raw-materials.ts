@@ -274,11 +274,11 @@ export const rawMaterialsRouter = router({
         let spectraRows: any[] = [];
         if (mol.casNumber) {
           const r = await db.execute(sql`SELECT * FROM ms_spectra WHERE cas_number = ${mol.casNumber} LIMIT 1`);
-          spectraRows = (r as any).rows ?? (Array.isArray(r) ? r : []);
+          spectraRows = (r[0] as unknown) as any[];
         }
         if (spectraRows.length === 0 && mol.moleculeName) {
           const r = await db.execute(sql`SELECT * FROM ms_spectra WHERE compound_name LIKE ${`%${mol.moleculeName}%`} LIMIT 1`);
-          spectraRows = (r as any).rows ?? (Array.isArray(r) ? r : []);
+          spectraRows = (r[0] as unknown) as any[];
         }
         if (spectraRows.length > 0) {
           spectraResults.push({ ...spectraRows[0], moleculeName: mol.moleculeName, percentage: mol.percentage });

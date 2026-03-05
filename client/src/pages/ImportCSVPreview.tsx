@@ -114,8 +114,8 @@ export default function ImportCSVPreview() {
   const [editDialogRowIndex, setEditDialogRowIndex] = useState<number | null>(null);
   const [editDialogData, setEditDialogData] = useState<Record<string, string>>({});
 
-  const importMoleculesMutation = trpc.importMolecules.useMutation();
-  const importPlantsMutation = trpc.importPlants.useMutation();
+  const importMoleculesMutation = trpc.batchImport.importMolecules.useMutation();
+  const importPlantsMutation = trpc.batchImport.importPlants.useMutation();
 
   const fields = activeTab === "molecules" ? moleculeFields : plantFields;
 

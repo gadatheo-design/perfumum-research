@@ -33,11 +33,11 @@ export const recipesRouter = router({
         FROM cigarillo_recipes WHERE ${whereClause}
         ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
       `);
-      const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
+      const rows = (result[0] as unknown) as any[];
       const countResult = await db.execute(sql`SELECT COUNT(*) as total FROM cigarillo_recipes WHERE ${whereClause}`);
-      const countRows = (countResult as any).rows ?? (Array.isArray(countResult) ? countResult : []);
-      const total = (countRows as any[])[0]?.total || 0;
-      return { recipes: rows as any[], total, limit, offset };
+      const countRows = (countResult[0] as unknown) as any[];
+      const total = countRows[0]?.total || 0;
+      return { recipes: rows, total, limit, offset };
     }),
 
   getById: publicProcedure
@@ -48,12 +48,12 @@ export const recipesRouter = router({
       const { id, slug } = input;
       if (id) {
         const result = await db.execute(sql`SELECT * FROM cigarillo_recipes WHERE id = ${id}`);
-        const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
-        return (rows as any[])[0] || null;
+        const rows = (result[0] as unknown) as any[];
+        return rows[0] || null;
       } else if (slug) {
         const result = await db.execute(sql`SELECT * FROM cigarillo_recipes WHERE slug = ${slug}`);
-        const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
-        return (rows as any[])[0] || null;
+        const rows = (result[0] as unknown) as any[];
+        return rows[0] || null;
       }
       return null;
     }),
@@ -65,8 +65,8 @@ export const recipesRouter = router({
       SELECT collection, COUNT(*) as count FROM cigarillo_recipes
       WHERE collection IS NOT NULL GROUP BY collection ORDER BY count DESC
     `);
-    const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
-    return rows as { collection: string; count: number }[];
+    const rows = (result[0] as unknown) as { collection: string; count: number }[];
+    return rows;
   }),
 
   getIngredients: publicProcedure
@@ -80,35 +80,35 @@ export const recipesRouter = router({
         FROM cigarillo_recipe_ingredients WHERE recipe_id = ${input.recipeId}
         ORDER BY percentage DESC
       `);
-      const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
-      return rows as any[];
+      const rows = (result[0] as unknown) as any[];
+      return rows;
     }),
 
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return { total: 0, byDifficulty: [], byCollection: [], avgMaturationDays: 0 };
     const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM cigarillo_recipes`);
-    const totalRows = (totalResult as any).rows ?? (Array.isArray(totalResult) ? totalResult : []);
-    const total = (totalRows as any[])[0]?.total || 0;
+    const totalRows = (totalResult[0] as unknown) as any[];
+    const total = totalRows[0]?.total || 0;
     const diffResult = await db.execute(sql`
       SELECT difficulty_level, COUNT(*) as count FROM cigarillo_recipes
       GROUP BY difficulty_level ORDER BY FIELD(difficulty_level, 'débutant', 'intermédiaire', 'avancé', 'expert')
     `);
-    const byDifficulty = (diffResult as any).rows ?? (Array.isArray(diffResult) ? diffResult : []);
+    const byDifficulty = (diffResult[0] as unknown) as { difficulty_level: string; count: number }[];
     const collResult = await db.execute(sql`
       SELECT collection, COUNT(*) as count FROM cigarillo_recipes
       WHERE collection IS NOT NULL GROUP BY collection ORDER BY count DESC
     `);
-    const byCollection = (collResult as any).rows ?? (Array.isArray(collResult) ? collResult : []);
+    const byCollection = (collResult[0] as unknown) as { collection: string; count: number }[];
     const avgResult = await db.execute(sql`
       SELECT AVG(maturation_days) as avg_days FROM cigarillo_recipes WHERE maturation_days IS NOT NULL
     `);
-    const avgRows = (avgResult as any).rows ?? (Array.isArray(avgResult) ? avgResult : []);
+    const avgRows = (avgResult[0] as unknown) as any[];
     return {
       total,
-      byDifficulty: byDifficulty as { difficulty_level: string; count: number }[],
-      byCollection: byCollection as { collection: string; count: number }[],
-      avgMaturationDays: Math.round((avgRows as any[])[0]?.avg_days || 0)
+      byDifficulty,
+      byCollection,
+      avgMaturationDays: Math.round(avgRows[0]?.avg_days || 0)
     };
   }),
 });

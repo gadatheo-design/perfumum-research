@@ -869,3 +869,29 @@
 ### Phase 4 : Tests et checkpoint
 - [x] Tests : 99 fichiers, 1496 passants, 2 ignorés, 0 échec
 - [x] Checkpoint sauvegardé
+
+---
+
+## 🔍 SESSION 5 MARS 2026 — Progression sur l'audit qualité
+
+### Priorité 1 — Critique
+
+- [x] Normaliser le champ `family` des molécules (120+ valeurs → 69 familles normalisées, 590 molécules mises à jour)
+- [x] Corriger les doublons sémantiques : "Sesquiterpènes" vs "Sesquiterpène", minuscules non normalisées
+- [x] Activer le système de validation : 500 validées / 108 en révision / 437 brouillon
+- [x] Corriger les namespaces tRPC manquants : `importMolecules` et `importPlants` → `batchImport.importMolecules`
+
+### Priorité 2 — Haute
+
+- [x] Compléter les terpene_profile des 24 recettes cigarillos manquantes (24/24 complétées)
+- [x] Renseigner les descriptions des 32 accords (32/32 renseignées)
+- [x] Connecter 33 tabacs aux terroirs via tabac_terroir_links (42/42 tabacs liés, 100% couverture)
+- [x] Vérifier les liens MegaMenu (/gammes-hub?tab=petrichor et ?tab=volcanique) — fonctionnels, pas cassés
+- [x] Ajouter route /formules-reference dans App.tsx (page FormulesReference.tsx)
+
+### Priorité 3 — Moyenne (dette technique)
+
+- [ ] Connecter TabacsNiche.tsx et TabacsResines.tsx à la DB
+- [ ] Connecter les pages Sourcing*.tsx à la table suppliers
+- [ ] Nettoyer les 12 console.log dans les pages de production
+- [ ] Documenter/archiver les 93 fichiers de pages non importés dans App.tsx

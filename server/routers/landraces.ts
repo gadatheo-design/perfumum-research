@@ -34,11 +34,11 @@ export const landracesRouter = router({
         FROM cannabis_landraces WHERE ${whereClause}
         ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
       `);
-      const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
+      const rows = (result[0] as unknown) as any[];
       const countResult = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces WHERE ${whereClause}`);
-      const countRows = (countResult as any).rows ?? (Array.isArray(countResult) ? countResult : []);
-      const total = (countRows as any[])[0]?.total || 0;
-      return { landraces: rows as any[], total, limit, offset };
+      const countRows = (countResult[0] as unknown) as any[];
+      const total = countRows[0]?.total || 0;
+      return { landraces: rows, total, limit, offset };
     }),
 
   getById: publicProcedure
@@ -49,12 +49,12 @@ export const landracesRouter = router({
       const { id, slug } = input;
       if (id) {
         const result = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE id = ${id}`);
-        const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
-        return (rows as any[])[0] || null;
+        const rows = (result[0] as unknown) as any[];
+        return rows[0] || null;
       } else if (slug) {
         const result = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE slug = ${slug}`);
-        const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
-        return (rows as any[])[0] || null;
+        const rows = (result[0] as unknown) as any[];
+        return rows[0] || null;
       }
       return null;
     }),
@@ -69,39 +69,39 @@ export const landracesRouter = router({
         FROM landrace_terpenes WHERE landrace_id = ${input.landraceId}
         ORDER BY percentage DESC
       `);
-      const rows = (result as any).rows ?? (Array.isArray(result) ? result : []);
-      return rows as any[];
+      const rows = (result[0] as unknown) as any[];
+      return rows;
     }),
 
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return { total: 0, byType: [], byConservation: [], byEffect: [], byCountry: [] };
     const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces`);
-    const totalRows = (totalResult as any).rows ?? (Array.isArray(totalResult) ? totalResult : []);
-    const total = (totalRows as any[])[0]?.total || 0;
+    const totalRows = (totalResult[0] as unknown) as any[];
+    const total = totalRows[0]?.total || 0;
     const typeResult = await db.execute(sql`SELECT type, COUNT(*) as count FROM cannabis_landraces GROUP BY type ORDER BY count DESC`);
-    const byType = (typeResult as any).rows ?? (Array.isArray(typeResult) ? typeResult : []);
+    const byType = (typeResult[0] as unknown) as { type: string; count: number }[];
     const conservationResult = await db.execute(sql`
       SELECT conservation_status, COUNT(*) as count FROM cannabis_landraces
       GROUP BY conservation_status ORDER BY count DESC
     `);
-    const byConservation = (conservationResult as any).rows ?? (Array.isArray(conservationResult) ? conservationResult : []);
+    const byConservation = (conservationResult[0] as unknown) as { conservation_status: string; count: number }[];
     const effectResult = await db.execute(sql`
       SELECT effect_type, COUNT(*) as count FROM cannabis_landraces
       WHERE effect_type IS NOT NULL GROUP BY effect_type ORDER BY count DESC
     `);
-    const byEffect = (effectResult as any).rows ?? (Array.isArray(effectResult) ? effectResult : []);
+    const byEffect = (effectResult[0] as unknown) as { effect_type: string; count: number }[];
     const countryResult = await db.execute(sql`
       SELECT country, COUNT(*) as count FROM cannabis_landraces
       WHERE country IS NOT NULL GROUP BY country ORDER BY count DESC
     `);
-    const byCountry = (countryResult as any).rows ?? (Array.isArray(countryResult) ? countryResult : []);
+    const byCountry = (countryResult[0] as unknown) as { country: string; count: number }[];
     return {
       total,
-      byType: byType as { type: string; count: number }[],
-      byConservation: byConservation as { conservation_status: string; count: number }[],
-      byEffect: byEffect as { effect_type: string; count: number }[],
-      byCountry: byCountry as { country: string; count: number }[]
+      byType,
+      byConservation,
+      byEffect,
+      byCountry
     };
   }),
 
