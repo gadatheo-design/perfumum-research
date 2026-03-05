@@ -597,6 +597,32 @@ export const appRouter = router({
     getAllPerfumeLinks: publicProcedure.query(async () => {
       return await db.getAllMoleculePerfumeLinks();
     }),
+
+    // Toutes les transformations pyrolytiques avec filtre optionnel
+    listAllPyrolysis: publicProcedure
+      .input(z.object({
+        mechanism: z.string().optional(),
+        search: z.string().optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        const all = await db.getAllPyrolysisTransformations();
+        if (!input) return all;
+        let result = all as any[];
+        if (input.mechanism) {
+          result = result.filter((t: any) =>
+            t.mechanism?.toLowerCase().includes(input.mechanism!.toLowerCase())
+          );
+        }
+        if (input.search) {
+          const q = input.search.toLowerCase();
+          result = result.filter((t: any) =>
+            t.source_molecule?.toLowerCase().includes(q) ||
+            t.product_molecule?.toLowerCase().includes(q) ||
+            t.notes?.toLowerCase().includes(q)
+          );
+        }
+        return result;
+      }),
   }),
 
   // Terpene Synergies

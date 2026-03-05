@@ -19118,7 +19118,11 @@ export async function getAllPyrolysisTransformations() {
   const result = await db.execute(sql`
     SELECT * FROM pyrolysis_transformations ORDER BY source_molecule, temperature_range
   `);
-  return ((result as any).rows ?? result) as any[];
+  // mysql2 retourne [rows, fields] — on prend result[0] pour les lignes
+  const rows = Array.isArray(result) && Array.isArray((result as any)[0])
+    ? (result as any)[0]
+    : ((result as any).rows ?? result);
+  return rows as any[];
 }
 
 export async function getTemperatureZones() {

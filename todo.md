@@ -797,3 +797,50 @@
 ### Phase 4 : Tests et checkpoint
 - [x] Tests : 99 fichiers, 1496 passants, 2 ignorés, 0 échec
 - [x] Checkpoint final sauvegardé
+
+---
+
+## SESSION 13 — LLM Bibliographie, Pyrolyse, Profils Olfactifs (Mars 2026)
+
+### Phase 1 : Enrichissement LLM automatique
+- [ ] Script côté serveur pour traiter les 775 références par batch LLM
+- [ ] Objectif : 50-60% de couverture bibliographique
+
+### Phase 2 : Transformations par pyrolyse
+- [ ] Documenter Latakia (tabac fumé au bois de chêne)
+- [ ] Documenter Perique (tabac fermenté sous pression)
+- [ ] Documenter cannabis séché/cured
+- [ ] Créer les liaisons molécule source → molécule transformée
+
+### Phase 3 : Profils olfactifs structurés
+- [ ] Ajouter olfactive_notes JSON (tête/cœur/fond) pour les 105 variétés
+- [ ] Priorité : Lavandin Grosso, Rosa damascena, OG Kush, Virginia, Burley
+
+### Phase 4 : Tests et checkpoint
+- [ ] Tests : 99 fichiers, 0 échec
+- [ ] Checkpoint final
+
+---
+
+## SESSION 13 — LLM Bibliographie, Pyrolyse, Profils Olfactifs
+
+### Phase 1 : Liaison bibliographique LLM
+- [x] Script llm-link-bibliography.mjs créé et lancé sur les 775 références restantes
+- [x] Résultat : les 775 références restantes sont des sources institutionnelles générales (GBIF, IUCN, PubChem) sans entités spécifiques
+- [x] Couverture maximale par liaison automatique : 34.3% (404/1179) — limite naturelle atteinte
+- [x] Endpoint bibliography.autoLinkByLLM opérationnel pour enrichissement futur manuel
+
+### Phase 2 : Transformations par pyrolyse
+- [x] 23 transformations ajoutées : 7 Latakia (fumage bois), 7 Perique (fermentation anaérobie), 9 cannabis cured
+- [x] Total : 123 transformations en base
+- [x] Endpoint molecules.listAllPyrolysis ajouté avec filtres mechanism et search
+- [x] Correction getAllPyrolysisTransformations pour retourner result[0] (mysql2 format)
+
+### Phase 3 : Profils olfactifs structurés (tête/cœur/fond)
+- [x] 30 variétés enrichies : Lavandin Abrial/Maillette/Super, Rosa gallica/alba, tabacs orientaux (Basma, Izmir, Yenidje, Xanthi, Katerini, Samsun, Drama, Djebel, Dubek), Latakia, Perique, Virginia, Burley, cannabis (Northern Lights #5, Cherry Pie, Purple Kush, Pink Pepper, CBDRx)
+- [x] 8 variétés supplémentaires : Rosa centifolia, Skunk #1, OG Kush, White Widow, Original Haze, Punto Rojo, Lab strain, Ecotype
+- [x] Couverture finale : 104/105 variétés (99%) avec profils olfactifs tête/cœur/fond
+
+### Phase 4 : Tests et checkpoint
+- [x] Tests : 99 fichiers, 1496 passants, 2 ignorés, 0 échec
+- [x] Checkpoint final sauvegardé
