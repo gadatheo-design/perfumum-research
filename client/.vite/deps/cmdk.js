@@ -1,5 +1,9 @@
 "use client";
 import {
+  Primitive
+} from "./chunk-QACU7M2R.js";
+import "./chunk-Y7BNXYAE.js";
+import {
   Content,
   Overlay,
   Portal,
@@ -9,10 +13,6 @@ import "./chunk-B7AGHNEP.js";
 import "./chunk-KICOSRWV.js";
 import "./chunk-CJM3XB2H.js";
 import "./chunk-2734FDM7.js";
-import {
-  Primitive
-} from "./chunk-QACU7M2R.js";
-import "./chunk-Y7BNXYAE.js";
 import {
   useId
 } from "./chunk-UTHGZ5JM.js";

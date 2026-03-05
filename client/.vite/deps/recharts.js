@@ -2,9 +2,9 @@ import {
   Symbol as Symbol2,
   area_default,
   band,
-  basisClosed_default2 as basisClosed_default,
+  basisClosed_default,
   basisOpen_default,
-  basis_default2 as basis_default,
+  basis_default,
   bumpX,
   bumpY,
   circle_default,
@@ -56,13 +56,14 @@ import {
   utcTime,
   wiggle_default,
   wye_default
-} from "./chunk-MBUOTQ66.js";
+} from "./chunk-6TQSQCNJ.js";
 import {
   clsx_default
 } from "./chunk-IUWOTXVG.js";
 import {
   deepEqual
 } from "./chunk-M5X5MHIQ.js";
+import "./chunk-XTSRIIAZ.js";
 import {
   require_react_dom
 } from "./chunk-Q5RSFHXU.js";

@@ -6607,6 +6607,33 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getVarietyFullGenealogy(input.varietyId, input.depth);
       }),
+
+    // Arbre généalogique enrichi avec les noms des plantes
+    getTreeWithNames: publicProcedure
+      .input(z.object({ varietyId: z.number().int().min(1) }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return { parents: [], children: [] };
+        const { sql } = await import('drizzle-orm');
+        const [parents] = await (dbConn as any).execute(sql.raw(
+          `SELECT vg.id, vg.variety_id, vg.parent_variety_id, vg.relationship_type, vg.cross_date, vg.breeder, vg.notes,
+                  p.name as parent_name, p.latin_name as parent_latin_name, p.category as parent_category
+           FROM variety_genealogy vg
+           JOIN plants p ON vg.parent_variety_id = p.id
+           WHERE vg.variety_id = ${input.varietyId}`
+        ));
+        const [children] = await (dbConn as any).execute(sql.raw(
+          `SELECT vg.id, vg.variety_id, vg.parent_variety_id, vg.relationship_type, vg.cross_date, vg.breeder, vg.notes,
+                  p.name as child_name, p.latin_name as child_latin_name, p.category as child_category
+           FROM variety_genealogy vg
+           JOIN plants p ON vg.variety_id = p.id
+           WHERE vg.parent_variety_id = ${input.varietyId}`
+        ));
+        return {
+          parents: Array.isArray(parents) ? parents : [],
+          children: Array.isArray(children) ? children : [],
+        };
+      }),
   }),
 
   // ============================================================================
@@ -7140,6 +7167,42 @@ export const appRouter = router({
       .input(z.number())
       .query(async ({ input }) => {
         return db.getAxesByBibliography(input);
+      }),
+
+    // Obtenir les références liées à une molécule
+    getByMolecule: publicProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const { sql } = await import('drizzle-orm');
+        const result = await (dbConn as any).execute(sql.raw(
+          `SELECT be.id, be.entry_key, be.title, be.authors, be.year, be.journal, be.doi, be.url, be.abstract, be.research_domain as researchDomain, be.relevance_score as relevanceScore
+           FROM bibliography_entries be
+           INNER JOIN bibliography_entity_links bel ON bel.bibliography_id = be.id
+           WHERE bel.entity_type = 'molecule' AND bel.entity_id = ${input.moleculeId}
+           LIMIT 20`
+        ));
+        // MySQL2 execute returns [rows, fields]
+        return Array.isArray(result) ? result[0] as any[] : [];
+      }),
+
+    // Obtenir les références liées à une plante
+    getByPlant: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const { sql } = await import('drizzle-orm');
+        const result = await (dbConn as any).execute(sql.raw(
+          `SELECT be.id, be.entry_key, be.title, be.authors, be.year, be.journal, be.doi, be.url, be.abstract, be.research_domain as researchDomain, be.relevance_score as relevanceScore
+           FROM bibliography_entries be
+           INNER JOIN bibliography_entity_links bel ON bel.bibliography_id = be.id
+           WHERE bel.entity_type = 'plant' AND bel.entity_id = ${input.plantId}
+           LIMIT 20`
+        ));
+        // MySQL2 execute returns [rows, fields]
+        return Array.isArray(result) ? result[0] as any[] : [];
       }),
   }),
 

@@ -1,3 +1,10 @@
+import {
+  number_default,
+  piecewise,
+  round_default,
+  value_default
+} from "./chunk-XTSRIIAZ.js";
+
 // node_modules/.pnpm/d3-array@3.2.4/node_modules/d3-array/src/ascending.js
 function ascending(a2, b) {
   return a2 == null || b == null ? NaN : a2 < b ? -1 : a2 > b ? 1 : a2 >= b ? 0 : NaN;
@@ -1257,949 +1264,6 @@ function union(...others) {
   return set2;
 }
 
-// node_modules/.pnpm/d3-color@3.1.0/node_modules/d3-color/src/define.js
-function define_default(constructor, factory, prototype) {
-  constructor.prototype = factory.prototype = prototype;
-  prototype.constructor = constructor;
-}
-function extend(parent, definition) {
-  var prototype = Object.create(parent.prototype);
-  for (var key in definition) prototype[key] = definition[key];
-  return prototype;
-}
-
-// node_modules/.pnpm/d3-color@3.1.0/node_modules/d3-color/src/color.js
-function Color() {
-}
-var darker = 0.7;
-var brighter = 1 / darker;
-var reI = "\\s*([+-]?\\d+)\\s*";
-var reN = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*";
-var reP = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*";
-var reHex = /^#([0-9a-f]{3,8})$/;
-var reRgbInteger = new RegExp(`^rgb\\(${reI},${reI},${reI}\\)$`);
-var reRgbPercent = new RegExp(`^rgb\\(${reP},${reP},${reP}\\)$`);
-var reRgbaInteger = new RegExp(`^rgba\\(${reI},${reI},${reI},${reN}\\)$`);
-var reRgbaPercent = new RegExp(`^rgba\\(${reP},${reP},${reP},${reN}\\)$`);
-var reHslPercent = new RegExp(`^hsl\\(${reN},${reP},${reP}\\)$`);
-var reHslaPercent = new RegExp(`^hsla\\(${reN},${reP},${reP},${reN}\\)$`);
-var named = {
-  aliceblue: 15792383,
-  antiquewhite: 16444375,
-  aqua: 65535,
-  aquamarine: 8388564,
-  azure: 15794175,
-  beige: 16119260,
-  bisque: 16770244,
-  black: 0,
-  blanchedalmond: 16772045,
-  blue: 255,
-  blueviolet: 9055202,
-  brown: 10824234,
-  burlywood: 14596231,
-  cadetblue: 6266528,
-  chartreuse: 8388352,
-  chocolate: 13789470,
-  coral: 16744272,
-  cornflowerblue: 6591981,
-  cornsilk: 16775388,
-  crimson: 14423100,
-  cyan: 65535,
-  darkblue: 139,
-  darkcyan: 35723,
-  darkgoldenrod: 12092939,
-  darkgray: 11119017,
-  darkgreen: 25600,
-  darkgrey: 11119017,
-  darkkhaki: 12433259,
-  darkmagenta: 9109643,
-  darkolivegreen: 5597999,
-  darkorange: 16747520,
-  darkorchid: 10040012,
-  darkred: 9109504,
-  darksalmon: 15308410,
-  darkseagreen: 9419919,
-  darkslateblue: 4734347,
-  darkslategray: 3100495,
-  darkslategrey: 3100495,
-  darkturquoise: 52945,
-  darkviolet: 9699539,
-  deeppink: 16716947,
-  deepskyblue: 49151,
-  dimgray: 6908265,
-  dimgrey: 6908265,
-  dodgerblue: 2003199,
-  firebrick: 11674146,
-  floralwhite: 16775920,
-  forestgreen: 2263842,
-  fuchsia: 16711935,
-  gainsboro: 14474460,
-  ghostwhite: 16316671,
-  gold: 16766720,
-  goldenrod: 14329120,
-  gray: 8421504,
-  green: 32768,
-  greenyellow: 11403055,
-  grey: 8421504,
-  honeydew: 15794160,
-  hotpink: 16738740,
-  indianred: 13458524,
-  indigo: 4915330,
-  ivory: 16777200,
-  khaki: 15787660,
-  lavender: 15132410,
-  lavenderblush: 16773365,
-  lawngreen: 8190976,
-  lemonchiffon: 16775885,
-  lightblue: 11393254,
-  lightcoral: 15761536,
-  lightcyan: 14745599,
-  lightgoldenrodyellow: 16448210,
-  lightgray: 13882323,
-  lightgreen: 9498256,
-  lightgrey: 13882323,
-  lightpink: 16758465,
-  lightsalmon: 16752762,
-  lightseagreen: 2142890,
-  lightskyblue: 8900346,
-  lightslategray: 7833753,
-  lightslategrey: 7833753,
-  lightsteelblue: 11584734,
-  lightyellow: 16777184,
-  lime: 65280,
-  limegreen: 3329330,
-  linen: 16445670,
-  magenta: 16711935,
-  maroon: 8388608,
-  mediumaquamarine: 6737322,
-  mediumblue: 205,
-  mediumorchid: 12211667,
-  mediumpurple: 9662683,
-  mediumseagreen: 3978097,
-  mediumslateblue: 8087790,
-  mediumspringgreen: 64154,
-  mediumturquoise: 4772300,
-  mediumvioletred: 13047173,
-  midnightblue: 1644912,
-  mintcream: 16121850,
-  mistyrose: 16770273,
-  moccasin: 16770229,
-  navajowhite: 16768685,
-  navy: 128,
-  oldlace: 16643558,
-  olive: 8421376,
-  olivedrab: 7048739,
-  orange: 16753920,
-  orangered: 16729344,
-  orchid: 14315734,
-  palegoldenrod: 15657130,
-  palegreen: 10025880,
-  paleturquoise: 11529966,
-  palevioletred: 14381203,
-  papayawhip: 16773077,
-  peachpuff: 16767673,
-  peru: 13468991,
-  pink: 16761035,
-  plum: 14524637,
-  powderblue: 11591910,
-  purple: 8388736,
-  rebeccapurple: 6697881,
-  red: 16711680,
-  rosybrown: 12357519,
-  royalblue: 4286945,
-  saddlebrown: 9127187,
-  salmon: 16416882,
-  sandybrown: 16032864,
-  seagreen: 3050327,
-  seashell: 16774638,
-  sienna: 10506797,
-  silver: 12632256,
-  skyblue: 8900331,
-  slateblue: 6970061,
-  slategray: 7372944,
-  slategrey: 7372944,
-  snow: 16775930,
-  springgreen: 65407,
-  steelblue: 4620980,
-  tan: 13808780,
-  teal: 32896,
-  thistle: 14204888,
-  tomato: 16737095,
-  turquoise: 4251856,
-  violet: 15631086,
-  wheat: 16113331,
-  white: 16777215,
-  whitesmoke: 16119285,
-  yellow: 16776960,
-  yellowgreen: 10145074
-};
-define_default(Color, color, {
-  copy(channels) {
-    return Object.assign(new this.constructor(), this, channels);
-  },
-  displayable() {
-    return this.rgb().displayable();
-  },
-  hex: color_formatHex,
-  // Deprecated! Use color.formatHex.
-  formatHex: color_formatHex,
-  formatHex8: color_formatHex8,
-  formatHsl: color_formatHsl,
-  formatRgb: color_formatRgb,
-  toString: color_formatRgb
-});
-function color_formatHex() {
-  return this.rgb().formatHex();
-}
-function color_formatHex8() {
-  return this.rgb().formatHex8();
-}
-function color_formatHsl() {
-  return hslConvert(this).formatHsl();
-}
-function color_formatRgb() {
-  return this.rgb().formatRgb();
-}
-function color(format2) {
-  var m, l;
-  format2 = (format2 + "").trim().toLowerCase();
-  return (m = reHex.exec(format2)) ? (l = m[1].length, m = parseInt(m[1], 16), l === 6 ? rgbn(m) : l === 3 ? new Rgb(m >> 8 & 15 | m >> 4 & 240, m >> 4 & 15 | m & 240, (m & 15) << 4 | m & 15, 1) : l === 8 ? rgba(m >> 24 & 255, m >> 16 & 255, m >> 8 & 255, (m & 255) / 255) : l === 4 ? rgba(m >> 12 & 15 | m >> 8 & 240, m >> 8 & 15 | m >> 4 & 240, m >> 4 & 15 | m & 240, ((m & 15) << 4 | m & 15) / 255) : null) : (m = reRgbInteger.exec(format2)) ? new Rgb(m[1], m[2], m[3], 1) : (m = reRgbPercent.exec(format2)) ? new Rgb(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, 1) : (m = reRgbaInteger.exec(format2)) ? rgba(m[1], m[2], m[3], m[4]) : (m = reRgbaPercent.exec(format2)) ? rgba(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, m[4]) : (m = reHslPercent.exec(format2)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) : (m = reHslaPercent.exec(format2)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) : named.hasOwnProperty(format2) ? rgbn(named[format2]) : format2 === "transparent" ? new Rgb(NaN, NaN, NaN, 0) : null;
-}
-function rgbn(n) {
-  return new Rgb(n >> 16 & 255, n >> 8 & 255, n & 255, 1);
-}
-function rgba(r, g, b, a2) {
-  if (a2 <= 0) r = g = b = NaN;
-  return new Rgb(r, g, b, a2);
-}
-function rgbConvert(o) {
-  if (!(o instanceof Color)) o = color(o);
-  if (!o) return new Rgb();
-  o = o.rgb();
-  return new Rgb(o.r, o.g, o.b, o.opacity);
-}
-function rgb(r, g, b, opacity) {
-  return arguments.length === 1 ? rgbConvert(r) : new Rgb(r, g, b, opacity == null ? 1 : opacity);
-}
-function Rgb(r, g, b, opacity) {
-  this.r = +r;
-  this.g = +g;
-  this.b = +b;
-  this.opacity = +opacity;
-}
-define_default(Rgb, rgb, extend(Color, {
-  brighter(k2) {
-    k2 = k2 == null ? brighter : Math.pow(brighter, k2);
-    return new Rgb(this.r * k2, this.g * k2, this.b * k2, this.opacity);
-  },
-  darker(k2) {
-    k2 = k2 == null ? darker : Math.pow(darker, k2);
-    return new Rgb(this.r * k2, this.g * k2, this.b * k2, this.opacity);
-  },
-  rgb() {
-    return this;
-  },
-  clamp() {
-    return new Rgb(clampi(this.r), clampi(this.g), clampi(this.b), clampa(this.opacity));
-  },
-  displayable() {
-    return -0.5 <= this.r && this.r < 255.5 && (-0.5 <= this.g && this.g < 255.5) && (-0.5 <= this.b && this.b < 255.5) && (0 <= this.opacity && this.opacity <= 1);
-  },
-  hex: rgb_formatHex,
-  // Deprecated! Use color.formatHex.
-  formatHex: rgb_formatHex,
-  formatHex8: rgb_formatHex8,
-  formatRgb: rgb_formatRgb,
-  toString: rgb_formatRgb
-}));
-function rgb_formatHex() {
-  return `#${hex(this.r)}${hex(this.g)}${hex(this.b)}`;
-}
-function rgb_formatHex8() {
-  return `#${hex(this.r)}${hex(this.g)}${hex(this.b)}${hex((isNaN(this.opacity) ? 1 : this.opacity) * 255)}`;
-}
-function rgb_formatRgb() {
-  const a2 = clampa(this.opacity);
-  return `${a2 === 1 ? "rgb(" : "rgba("}${clampi(this.r)}, ${clampi(this.g)}, ${clampi(this.b)}${a2 === 1 ? ")" : `, ${a2})`}`;
-}
-function clampa(opacity) {
-  return isNaN(opacity) ? 1 : Math.max(0, Math.min(1, opacity));
-}
-function clampi(value) {
-  return Math.max(0, Math.min(255, Math.round(value) || 0));
-}
-function hex(value) {
-  value = clampi(value);
-  return (value < 16 ? "0" : "") + value.toString(16);
-}
-function hsla(h, s2, l, a2) {
-  if (a2 <= 0) h = s2 = l = NaN;
-  else if (l <= 0 || l >= 1) h = s2 = NaN;
-  else if (s2 <= 0) h = NaN;
-  return new Hsl(h, s2, l, a2);
-}
-function hslConvert(o) {
-  if (o instanceof Hsl) return new Hsl(o.h, o.s, o.l, o.opacity);
-  if (!(o instanceof Color)) o = color(o);
-  if (!o) return new Hsl();
-  if (o instanceof Hsl) return o;
-  o = o.rgb();
-  var r = o.r / 255, g = o.g / 255, b = o.b / 255, min3 = Math.min(r, g, b), max3 = Math.max(r, g, b), h = NaN, s2 = max3 - min3, l = (max3 + min3) / 2;
-  if (s2) {
-    if (r === max3) h = (g - b) / s2 + (g < b) * 6;
-    else if (g === max3) h = (b - r) / s2 + 2;
-    else h = (r - g) / s2 + 4;
-    s2 /= l < 0.5 ? max3 + min3 : 2 - max3 - min3;
-    h *= 60;
-  } else {
-    s2 = l > 0 && l < 1 ? 0 : h;
-  }
-  return new Hsl(h, s2, l, o.opacity);
-}
-function hsl(h, s2, l, opacity) {
-  return arguments.length === 1 ? hslConvert(h) : new Hsl(h, s2, l, opacity == null ? 1 : opacity);
-}
-function Hsl(h, s2, l, opacity) {
-  this.h = +h;
-  this.s = +s2;
-  this.l = +l;
-  this.opacity = +opacity;
-}
-define_default(Hsl, hsl, extend(Color, {
-  brighter(k2) {
-    k2 = k2 == null ? brighter : Math.pow(brighter, k2);
-    return new Hsl(this.h, this.s, this.l * k2, this.opacity);
-  },
-  darker(k2) {
-    k2 = k2 == null ? darker : Math.pow(darker, k2);
-    return new Hsl(this.h, this.s, this.l * k2, this.opacity);
-  },
-  rgb() {
-    var h = this.h % 360 + (this.h < 0) * 360, s2 = isNaN(h) || isNaN(this.s) ? 0 : this.s, l = this.l, m2 = l + (l < 0.5 ? l : 1 - l) * s2, m1 = 2 * l - m2;
-    return new Rgb(
-      hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2),
-      hsl2rgb(h, m1, m2),
-      hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2),
-      this.opacity
-    );
-  },
-  clamp() {
-    return new Hsl(clamph(this.h), clampt(this.s), clampt(this.l), clampa(this.opacity));
-  },
-  displayable() {
-    return (0 <= this.s && this.s <= 1 || isNaN(this.s)) && (0 <= this.l && this.l <= 1) && (0 <= this.opacity && this.opacity <= 1);
-  },
-  formatHsl() {
-    const a2 = clampa(this.opacity);
-    return `${a2 === 1 ? "hsl(" : "hsla("}${clamph(this.h)}, ${clampt(this.s) * 100}%, ${clampt(this.l) * 100}%${a2 === 1 ? ")" : `, ${a2})`}`;
-  }
-}));
-function clamph(value) {
-  value = (value || 0) % 360;
-  return value < 0 ? value + 360 : value;
-}
-function clampt(value) {
-  return Math.max(0, Math.min(1, value || 0));
-}
-function hsl2rgb(h, m1, m2) {
-  return (h < 60 ? m1 + (m2 - m1) * h / 60 : h < 180 ? m2 : h < 240 ? m1 + (m2 - m1) * (240 - h) / 60 : m1) * 255;
-}
-
-// node_modules/.pnpm/d3-color@3.1.0/node_modules/d3-color/src/math.js
-var radians = Math.PI / 180;
-var degrees = 180 / Math.PI;
-
-// node_modules/.pnpm/d3-color@3.1.0/node_modules/d3-color/src/lab.js
-var K = 18;
-var Xn = 0.96422;
-var Yn = 1;
-var Zn = 0.82521;
-var t0 = 4 / 29;
-var t1 = 6 / 29;
-var t2 = 3 * t1 * t1;
-var t3 = t1 * t1 * t1;
-function labConvert(o) {
-  if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
-  if (o instanceof Hcl) return hcl2lab(o);
-  if (!(o instanceof Rgb)) o = rgbConvert(o);
-  var r = rgb2lrgb(o.r), g = rgb2lrgb(o.g), b = rgb2lrgb(o.b), y2 = xyz2lab((0.2225045 * r + 0.7168786 * g + 0.0606169 * b) / Yn), x2, z;
-  if (r === g && g === b) x2 = z = y2;
-  else {
-    x2 = xyz2lab((0.4360747 * r + 0.3850649 * g + 0.1430804 * b) / Xn);
-    z = xyz2lab((0.0139322 * r + 0.0971045 * g + 0.7141733 * b) / Zn);
-  }
-  return new Lab(116 * y2 - 16, 500 * (x2 - y2), 200 * (y2 - z), o.opacity);
-}
-function gray(l, opacity) {
-  return new Lab(l, 0, 0, opacity == null ? 1 : opacity);
-}
-function lab(l, a2, b, opacity) {
-  return arguments.length === 1 ? labConvert(l) : new Lab(l, a2, b, opacity == null ? 1 : opacity);
-}
-function Lab(l, a2, b, opacity) {
-  this.l = +l;
-  this.a = +a2;
-  this.b = +b;
-  this.opacity = +opacity;
-}
-define_default(Lab, lab, extend(Color, {
-  brighter(k2) {
-    return new Lab(this.l + K * (k2 == null ? 1 : k2), this.a, this.b, this.opacity);
-  },
-  darker(k2) {
-    return new Lab(this.l - K * (k2 == null ? 1 : k2), this.a, this.b, this.opacity);
-  },
-  rgb() {
-    var y2 = (this.l + 16) / 116, x2 = isNaN(this.a) ? y2 : y2 + this.a / 500, z = isNaN(this.b) ? y2 : y2 - this.b / 200;
-    x2 = Xn * lab2xyz(x2);
-    y2 = Yn * lab2xyz(y2);
-    z = Zn * lab2xyz(z);
-    return new Rgb(
-      lrgb2rgb(3.1338561 * x2 - 1.6168667 * y2 - 0.4906146 * z),
-      lrgb2rgb(-0.9787684 * x2 + 1.9161415 * y2 + 0.033454 * z),
-      lrgb2rgb(0.0719453 * x2 - 0.2289914 * y2 + 1.4052427 * z),
-      this.opacity
-    );
-  }
-}));
-function xyz2lab(t) {
-  return t > t3 ? Math.pow(t, 1 / 3) : t / t2 + t0;
-}
-function lab2xyz(t) {
-  return t > t1 ? t * t * t : t2 * (t - t0);
-}
-function lrgb2rgb(x2) {
-  return 255 * (x2 <= 31308e-7 ? 12.92 * x2 : 1.055 * Math.pow(x2, 1 / 2.4) - 0.055);
-}
-function rgb2lrgb(x2) {
-  return (x2 /= 255) <= 0.04045 ? x2 / 12.92 : Math.pow((x2 + 0.055) / 1.055, 2.4);
-}
-function hclConvert(o) {
-  if (o instanceof Hcl) return new Hcl(o.h, o.c, o.l, o.opacity);
-  if (!(o instanceof Lab)) o = labConvert(o);
-  if (o.a === 0 && o.b === 0) return new Hcl(NaN, 0 < o.l && o.l < 100 ? 0 : NaN, o.l, o.opacity);
-  var h = Math.atan2(o.b, o.a) * degrees;
-  return new Hcl(h < 0 ? h + 360 : h, Math.sqrt(o.a * o.a + o.b * o.b), o.l, o.opacity);
-}
-function lch(l, c2, h, opacity) {
-  return arguments.length === 1 ? hclConvert(l) : new Hcl(h, c2, l, opacity == null ? 1 : opacity);
-}
-function hcl(h, c2, l, opacity) {
-  return arguments.length === 1 ? hclConvert(h) : new Hcl(h, c2, l, opacity == null ? 1 : opacity);
-}
-function Hcl(h, c2, l, opacity) {
-  this.h = +h;
-  this.c = +c2;
-  this.l = +l;
-  this.opacity = +opacity;
-}
-function hcl2lab(o) {
-  if (isNaN(o.h)) return new Lab(o.l, 0, 0, o.opacity);
-  var h = o.h * radians;
-  return new Lab(o.l, Math.cos(h) * o.c, Math.sin(h) * o.c, o.opacity);
-}
-define_default(Hcl, hcl, extend(Color, {
-  brighter(k2) {
-    return new Hcl(this.h, this.c, this.l + K * (k2 == null ? 1 : k2), this.opacity);
-  },
-  darker(k2) {
-    return new Hcl(this.h, this.c, this.l - K * (k2 == null ? 1 : k2), this.opacity);
-  },
-  rgb() {
-    return hcl2lab(this).rgb();
-  }
-}));
-
-// node_modules/.pnpm/d3-color@3.1.0/node_modules/d3-color/src/cubehelix.js
-var A = -0.14861;
-var B = 1.78277;
-var C = -0.29227;
-var D = -0.90649;
-var E = 1.97294;
-var ED = E * D;
-var EB = E * B;
-var BC_DA = B * C - D * A;
-function cubehelixConvert(o) {
-  if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
-  if (!(o instanceof Rgb)) o = rgbConvert(o);
-  var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + ED * r - EB * g) / (BC_DA + ED - EB), bl = b - l, k2 = (E * (g - l) - C * bl) / D, s2 = Math.sqrt(k2 * k2 + bl * bl) / (E * l * (1 - l)), h = s2 ? Math.atan2(k2, bl) * degrees - 120 : NaN;
-  return new Cubehelix(h < 0 ? h + 360 : h, s2, l, o.opacity);
-}
-function cubehelix(h, s2, l, opacity) {
-  return arguments.length === 1 ? cubehelixConvert(h) : new Cubehelix(h, s2, l, opacity == null ? 1 : opacity);
-}
-function Cubehelix(h, s2, l, opacity) {
-  this.h = +h;
-  this.s = +s2;
-  this.l = +l;
-  this.opacity = +opacity;
-}
-define_default(Cubehelix, cubehelix, extend(Color, {
-  brighter(k2) {
-    k2 = k2 == null ? brighter : Math.pow(brighter, k2);
-    return new Cubehelix(this.h, this.s, this.l * k2, this.opacity);
-  },
-  darker(k2) {
-    k2 = k2 == null ? darker : Math.pow(darker, k2);
-    return new Cubehelix(this.h, this.s, this.l * k2, this.opacity);
-  },
-  rgb() {
-    var h = isNaN(this.h) ? 0 : (this.h + 120) * radians, l = +this.l, a2 = isNaN(this.s) ? 0 : this.s * l * (1 - l), cosh2 = Math.cos(h), sinh2 = Math.sin(h);
-    return new Rgb(
-      255 * (l + a2 * (A * cosh2 + B * sinh2)),
-      255 * (l + a2 * (C * cosh2 + D * sinh2)),
-      255 * (l + a2 * (E * cosh2)),
-      this.opacity
-    );
-  }
-}));
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/basis.js
-function basis(t13, v0, v1, v2, v3) {
-  var t22 = t13 * t13, t32 = t22 * t13;
-  return ((1 - 3 * t13 + 3 * t22 - t32) * v0 + (4 - 6 * t22 + 3 * t32) * v1 + (1 + 3 * t13 + 3 * t22 - 3 * t32) * v2 + t32 * v3) / 6;
-}
-function basis_default(values) {
-  var n = values.length - 1;
-  return function(t) {
-    var i = t <= 0 ? t = 0 : t >= 1 ? (t = 1, n - 1) : Math.floor(t * n), v1 = values[i], v2 = values[i + 1], v0 = i > 0 ? values[i - 1] : 2 * v1 - v2, v3 = i < n - 1 ? values[i + 2] : 2 * v2 - v1;
-    return basis((t - i / n) * n, v0, v1, v2, v3);
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/basisClosed.js
-function basisClosed_default(values) {
-  var n = values.length;
-  return function(t) {
-    var i = Math.floor(((t %= 1) < 0 ? ++t : t) * n), v0 = values[(i + n - 1) % n], v1 = values[i % n], v2 = values[(i + 1) % n], v3 = values[(i + 2) % n];
-    return basis((t - i / n) * n, v0, v1, v2, v3);
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/constant.js
-var constant_default = (x2) => () => x2;
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/color.js
-function linear(a2, d) {
-  return function(t) {
-    return a2 + t * d;
-  };
-}
-function exponential(a2, b, y2) {
-  return a2 = Math.pow(a2, y2), b = Math.pow(b, y2) - a2, y2 = 1 / y2, function(t) {
-    return Math.pow(a2 + t * b, y2);
-  };
-}
-function hue(a2, b) {
-  var d = b - a2;
-  return d ? linear(a2, d > 180 || d < -180 ? d - 360 * Math.round(d / 360) : d) : constant_default(isNaN(a2) ? b : a2);
-}
-function gamma(y2) {
-  return (y2 = +y2) === 1 ? nogamma : function(a2, b) {
-    return b - a2 ? exponential(a2, b, y2) : constant_default(isNaN(a2) ? b : a2);
-  };
-}
-function nogamma(a2, b) {
-  var d = b - a2;
-  return d ? linear(a2, d) : constant_default(isNaN(a2) ? b : a2);
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/rgb.js
-var rgb_default = (function rgbGamma(y2) {
-  var color2 = gamma(y2);
-  function rgb2(start, end) {
-    var r = color2((start = rgb(start)).r, (end = rgb(end)).r), g = color2(start.g, end.g), b = color2(start.b, end.b), opacity = nogamma(start.opacity, end.opacity);
-    return function(t) {
-      start.r = r(t);
-      start.g = g(t);
-      start.b = b(t);
-      start.opacity = opacity(t);
-      return start + "";
-    };
-  }
-  rgb2.gamma = rgbGamma;
-  return rgb2;
-})(1);
-function rgbSpline(spline) {
-  return function(colors) {
-    var n = colors.length, r = new Array(n), g = new Array(n), b = new Array(n), i, color2;
-    for (i = 0; i < n; ++i) {
-      color2 = rgb(colors[i]);
-      r[i] = color2.r || 0;
-      g[i] = color2.g || 0;
-      b[i] = color2.b || 0;
-    }
-    r = spline(r);
-    g = spline(g);
-    b = spline(b);
-    color2.opacity = 1;
-    return function(t) {
-      color2.r = r(t);
-      color2.g = g(t);
-      color2.b = b(t);
-      return color2 + "";
-    };
-  };
-}
-var rgbBasis = rgbSpline(basis_default);
-var rgbBasisClosed = rgbSpline(basisClosed_default);
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/numberArray.js
-function numberArray_default(a2, b) {
-  if (!b) b = [];
-  var n = a2 ? Math.min(b.length, a2.length) : 0, c2 = b.slice(), i;
-  return function(t) {
-    for (i = 0; i < n; ++i) c2[i] = a2[i] * (1 - t) + b[i] * t;
-    return c2;
-  };
-}
-function isNumberArray(x2) {
-  return ArrayBuffer.isView(x2) && !(x2 instanceof DataView);
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/date.js
-function date_default(a2, b) {
-  var d = /* @__PURE__ */ new Date();
-  return a2 = +a2, b = +b, function(t) {
-    return d.setTime(a2 * (1 - t) + b * t), d;
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/number.js
-function number_default(a2, b) {
-  return a2 = +a2, b = +b, function(t) {
-    return a2 * (1 - t) + b * t;
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/object.js
-function object_default(a2, b) {
-  var i = {}, c2 = {}, k2;
-  if (a2 === null || typeof a2 !== "object") a2 = {};
-  if (b === null || typeof b !== "object") b = {};
-  for (k2 in b) {
-    if (k2 in a2) {
-      i[k2] = value_default(a2[k2], b[k2]);
-    } else {
-      c2[k2] = b[k2];
-    }
-  }
-  return function(t) {
-    for (k2 in i) c2[k2] = i[k2](t);
-    return c2;
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/string.js
-var reA = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g;
-var reB = new RegExp(reA.source, "g");
-function zero2(b) {
-  return function() {
-    return b;
-  };
-}
-function one(b) {
-  return function(t) {
-    return b(t) + "";
-  };
-}
-function string_default(a2, b) {
-  var bi = reA.lastIndex = reB.lastIndex = 0, am, bm, bs, i = -1, s2 = [], q = [];
-  a2 = a2 + "", b = b + "";
-  while ((am = reA.exec(a2)) && (bm = reB.exec(b))) {
-    if ((bs = bm.index) > bi) {
-      bs = b.slice(bi, bs);
-      if (s2[i]) s2[i] += bs;
-      else s2[++i] = bs;
-    }
-    if ((am = am[0]) === (bm = bm[0])) {
-      if (s2[i]) s2[i] += bm;
-      else s2[++i] = bm;
-    } else {
-      s2[++i] = null;
-      q.push({ i, x: number_default(am, bm) });
-    }
-    bi = reB.lastIndex;
-  }
-  if (bi < b.length) {
-    bs = b.slice(bi);
-    if (s2[i]) s2[i] += bs;
-    else s2[++i] = bs;
-  }
-  return s2.length < 2 ? q[0] ? one(q[0].x) : zero2(b) : (b = q.length, function(t) {
-    for (var i2 = 0, o; i2 < b; ++i2) s2[(o = q[i2]).i] = o.x(t);
-    return s2.join("");
-  });
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/value.js
-function value_default(a2, b) {
-  var t = typeof b, c2;
-  return b == null || t === "boolean" ? constant_default(b) : (t === "number" ? number_default : t === "string" ? (c2 = color(b)) ? (b = c2, rgb_default) : string_default : b instanceof color ? rgb_default : b instanceof Date ? date_default : isNumberArray(b) ? numberArray_default : Array.isArray(b) ? genericArray : typeof b.valueOf !== "function" && typeof b.toString !== "function" || isNaN(b) ? object_default : number_default)(a2, b);
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/array.js
-function array_default(a2, b) {
-  return (isNumberArray(b) ? numberArray_default : genericArray)(a2, b);
-}
-function genericArray(a2, b) {
-  var nb = b ? b.length : 0, na = a2 ? Math.min(nb, a2.length) : 0, x2 = new Array(na), c2 = new Array(nb), i;
-  for (i = 0; i < na; ++i) x2[i] = value_default(a2[i], b[i]);
-  for (; i < nb; ++i) c2[i] = b[i];
-  return function(t) {
-    for (i = 0; i < na; ++i) c2[i] = x2[i](t);
-    return c2;
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/discrete.js
-function discrete_default(range2) {
-  var n = range2.length;
-  return function(t) {
-    return range2[Math.max(0, Math.min(n - 1, Math.floor(t * n)))];
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/hue.js
-function hue_default(a2, b) {
-  var i = hue(+a2, +b);
-  return function(t) {
-    var x2 = i(t);
-    return x2 - 360 * Math.floor(x2 / 360);
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/round.js
-function round_default(a2, b) {
-  return a2 = +a2, b = +b, function(t) {
-    return Math.round(a2 * (1 - t) + b * t);
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/transform/decompose.js
-var degrees2 = 180 / Math.PI;
-var identity2 = {
-  translateX: 0,
-  translateY: 0,
-  rotate: 0,
-  skewX: 0,
-  scaleX: 1,
-  scaleY: 1
-};
-function decompose_default(a2, b, c2, d, e, f) {
-  var scaleX, scaleY, skewX;
-  if (scaleX = Math.sqrt(a2 * a2 + b * b)) a2 /= scaleX, b /= scaleX;
-  if (skewX = a2 * c2 + b * d) c2 -= a2 * skewX, d -= b * skewX;
-  if (scaleY = Math.sqrt(c2 * c2 + d * d)) c2 /= scaleY, d /= scaleY, skewX /= scaleY;
-  if (a2 * d < b * c2) a2 = -a2, b = -b, skewX = -skewX, scaleX = -scaleX;
-  return {
-    translateX: e,
-    translateY: f,
-    rotate: Math.atan2(b, a2) * degrees2,
-    skewX: Math.atan(skewX) * degrees2,
-    scaleX,
-    scaleY
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/transform/parse.js
-var svgNode;
-function parseCss(value) {
-  const m = new (typeof DOMMatrix === "function" ? DOMMatrix : WebKitCSSMatrix)(value + "");
-  return m.isIdentity ? identity2 : decompose_default(m.a, m.b, m.c, m.d, m.e, m.f);
-}
-function parseSvg(value) {
-  if (value == null) return identity2;
-  if (!svgNode) svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g");
-  svgNode.setAttribute("transform", value);
-  if (!(value = svgNode.transform.baseVal.consolidate())) return identity2;
-  value = value.matrix;
-  return decompose_default(value.a, value.b, value.c, value.d, value.e, value.f);
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/transform/index.js
-function interpolateTransform(parse, pxComma, pxParen, degParen) {
-  function pop(s2) {
-    return s2.length ? s2.pop() + " " : "";
-  }
-  function translate(xa, ya, xb, yb, s2, q) {
-    if (xa !== xb || ya !== yb) {
-      var i = s2.push("translate(", null, pxComma, null, pxParen);
-      q.push({ i: i - 4, x: number_default(xa, xb) }, { i: i - 2, x: number_default(ya, yb) });
-    } else if (xb || yb) {
-      s2.push("translate(" + xb + pxComma + yb + pxParen);
-    }
-  }
-  function rotate(a2, b, s2, q) {
-    if (a2 !== b) {
-      if (a2 - b > 180) b += 360;
-      else if (b - a2 > 180) a2 += 360;
-      q.push({ i: s2.push(pop(s2) + "rotate(", null, degParen) - 2, x: number_default(a2, b) });
-    } else if (b) {
-      s2.push(pop(s2) + "rotate(" + b + degParen);
-    }
-  }
-  function skewX(a2, b, s2, q) {
-    if (a2 !== b) {
-      q.push({ i: s2.push(pop(s2) + "skewX(", null, degParen) - 2, x: number_default(a2, b) });
-    } else if (b) {
-      s2.push(pop(s2) + "skewX(" + b + degParen);
-    }
-  }
-  function scale(xa, ya, xb, yb, s2, q) {
-    if (xa !== xb || ya !== yb) {
-      var i = s2.push(pop(s2) + "scale(", null, ",", null, ")");
-      q.push({ i: i - 4, x: number_default(xa, xb) }, { i: i - 2, x: number_default(ya, yb) });
-    } else if (xb !== 1 || yb !== 1) {
-      s2.push(pop(s2) + "scale(" + xb + "," + yb + ")");
-    }
-  }
-  return function(a2, b) {
-    var s2 = [], q = [];
-    a2 = parse(a2), b = parse(b);
-    translate(a2.translateX, a2.translateY, b.translateX, b.translateY, s2, q);
-    rotate(a2.rotate, b.rotate, s2, q);
-    skewX(a2.skewX, b.skewX, s2, q);
-    scale(a2.scaleX, a2.scaleY, b.scaleX, b.scaleY, s2, q);
-    a2 = b = null;
-    return function(t) {
-      var i = -1, n = q.length, o;
-      while (++i < n) s2[(o = q[i]).i] = o.x(t);
-      return s2.join("");
-    };
-  };
-}
-var interpolateTransformCss = interpolateTransform(parseCss, "px, ", "px)", "deg)");
-var interpolateTransformSvg = interpolateTransform(parseSvg, ", ", ")", ")");
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/zoom.js
-var epsilon2 = 1e-12;
-function cosh(x2) {
-  return ((x2 = Math.exp(x2)) + 1 / x2) / 2;
-}
-function sinh(x2) {
-  return ((x2 = Math.exp(x2)) - 1 / x2) / 2;
-}
-function tanh(x2) {
-  return ((x2 = Math.exp(2 * x2)) - 1) / (x2 + 1);
-}
-var zoom_default = (function zoomRho(rho, rho2, rho4) {
-  function zoom(p0, p1) {
-    var ux0 = p0[0], uy0 = p0[1], w0 = p0[2], ux1 = p1[0], uy1 = p1[1], w1 = p1[2], dx = ux1 - ux0, dy = uy1 - uy0, d2 = dx * dx + dy * dy, i, S;
-    if (d2 < epsilon2) {
-      S = Math.log(w1 / w0) / rho;
-      i = function(t) {
-        return [
-          ux0 + t * dx,
-          uy0 + t * dy,
-          w0 * Math.exp(rho * t * S)
-        ];
-      };
-    } else {
-      var d1 = Math.sqrt(d2), b0 = (w1 * w1 - w0 * w0 + rho4 * d2) / (2 * w0 * rho2 * d1), b1 = (w1 * w1 - w0 * w0 - rho4 * d2) / (2 * w1 * rho2 * d1), r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0), r1 = Math.log(Math.sqrt(b1 * b1 + 1) - b1);
-      S = (r1 - r0) / rho;
-      i = function(t) {
-        var s2 = t * S, coshr0 = cosh(r0), u = w0 / (rho2 * d1) * (coshr0 * tanh(rho * s2 + r0) - sinh(r0));
-        return [
-          ux0 + u * dx,
-          uy0 + u * dy,
-          w0 * coshr0 / cosh(rho * s2 + r0)
-        ];
-      };
-    }
-    i.duration = S * 1e3 * rho / Math.SQRT2;
-    return i;
-  }
-  zoom.rho = function(_) {
-    var _1 = Math.max(1e-3, +_), _2 = _1 * _1, _4 = _2 * _2;
-    return zoomRho(_1, _2, _4);
-  };
-  return zoom;
-})(Math.SQRT2, 2, 4);
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/hsl.js
-function hsl2(hue2) {
-  return function(start, end) {
-    var h = hue2((start = hsl(start)).h, (end = hsl(end)).h), s2 = nogamma(start.s, end.s), l = nogamma(start.l, end.l), opacity = nogamma(start.opacity, end.opacity);
-    return function(t) {
-      start.h = h(t);
-      start.s = s2(t);
-      start.l = l(t);
-      start.opacity = opacity(t);
-      return start + "";
-    };
-  };
-}
-var hsl_default = hsl2(hue);
-var hslLong = hsl2(nogamma);
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/lab.js
-function lab2(start, end) {
-  var l = nogamma((start = lab(start)).l, (end = lab(end)).l), a2 = nogamma(start.a, end.a), b = nogamma(start.b, end.b), opacity = nogamma(start.opacity, end.opacity);
-  return function(t) {
-    start.l = l(t);
-    start.a = a2(t);
-    start.b = b(t);
-    start.opacity = opacity(t);
-    return start + "";
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/hcl.js
-function hcl2(hue2) {
-  return function(start, end) {
-    var h = hue2((start = hcl(start)).h, (end = hcl(end)).h), c2 = nogamma(start.c, end.c), l = nogamma(start.l, end.l), opacity = nogamma(start.opacity, end.opacity);
-    return function(t) {
-      start.h = h(t);
-      start.c = c2(t);
-      start.l = l(t);
-      start.opacity = opacity(t);
-      return start + "";
-    };
-  };
-}
-var hcl_default = hcl2(hue);
-var hclLong = hcl2(nogamma);
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/cubehelix.js
-function cubehelix2(hue2) {
-  return (function cubehelixGamma(y2) {
-    y2 = +y2;
-    function cubehelix3(start, end) {
-      var h = hue2((start = cubehelix(start)).h, (end = cubehelix(end)).h), s2 = nogamma(start.s, end.s), l = nogamma(start.l, end.l), opacity = nogamma(start.opacity, end.opacity);
-      return function(t) {
-        start.h = h(t);
-        start.s = s2(t);
-        start.l = l(Math.pow(t, y2));
-        start.opacity = opacity(t);
-        return start + "";
-      };
-    }
-    cubehelix3.gamma = cubehelixGamma;
-    return cubehelix3;
-  })(1);
-}
-var cubehelix_default = cubehelix2(hue);
-var cubehelixLong = cubehelix2(nogamma);
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/piecewise.js
-function piecewise(interpolate, values) {
-  if (values === void 0) values = interpolate, interpolate = value_default;
-  var i = 0, n = values.length - 1, v = values[0], I = new Array(n < 0 ? 0 : n);
-  while (i < n) I[i] = interpolate(v, v = values[++i]);
-  return function(t) {
-    var i2 = Math.max(0, Math.min(n - 1, Math.floor(t *= n)));
-    return I[i2](t - i2);
-  };
-}
-
-// node_modules/.pnpm/d3-interpolate@3.0.1/node_modules/d3-interpolate/src/quantize.js
-function quantize_default(interpolator, n) {
-  var samples = new Array(n);
-  for (var i = 0; i < n; ++i) samples[i] = interpolator(i / (n - 1));
-  return samples;
-}
-
 // node_modules/.pnpm/d3-path@3.1.0/node_modules/d3-path/src/path.js
 var pi = Math.PI;
 var tau = 2 * pi;
@@ -2439,10 +1503,10 @@ function locale_default(locale3) {
   var group2 = locale3.grouping === void 0 || locale3.thousands === void 0 ? identity_default : formatGroup_default(map3.call(locale3.grouping, Number), locale3.thousands + ""), currencyPrefix = locale3.currency === void 0 ? "" : locale3.currency[0] + "", currencySuffix = locale3.currency === void 0 ? "" : locale3.currency[1] + "", decimal = locale3.decimal === void 0 ? "." : locale3.decimal + "", numerals = locale3.numerals === void 0 ? identity_default : formatNumerals_default(map3.call(locale3.numerals, String)), percent = locale3.percent === void 0 ? "%" : locale3.percent + "", minus = locale3.minus === void 0 ? "−" : locale3.minus + "", nan = locale3.nan === void 0 ? "NaN" : locale3.nan + "";
   function newFormat(specifier) {
     specifier = formatSpecifier(specifier);
-    var fill = specifier.fill, align = specifier.align, sign2 = specifier.sign, symbol = specifier.symbol, zero3 = specifier.zero, width = specifier.width, comma = specifier.comma, precision = specifier.precision, trim = specifier.trim, type = specifier.type;
+    var fill = specifier.fill, align = specifier.align, sign2 = specifier.sign, symbol = specifier.symbol, zero2 = specifier.zero, width = specifier.width, comma = specifier.comma, precision = specifier.precision, trim = specifier.trim, type = specifier.type;
     if (type === "n") comma = true, type = "g";
     else if (!formatTypes_default[type]) precision === void 0 && (precision = 12), trim = true, type = "g";
-    if (zero3 || fill === "0" && align === "=") zero3 = true, fill = "0", align = "=";
+    if (zero2 || fill === "0" && align === "=") zero2 = true, fill = "0", align = "=";
     var prefix = symbol === "$" ? currencyPrefix : symbol === "#" && /[boxX]/.test(type) ? "0" + type.toLowerCase() : "", suffix = symbol === "$" ? currencySuffix : /[%p]/.test(type) ? percent : "";
     var formatType = formatTypes_default[type], maybeSuffix = /[defgprs%]/.test(type);
     precision = precision === void 0 ? 6 : /[gprs]/.test(type) ? Math.max(1, Math.min(21, precision)) : Math.max(0, Math.min(20, precision));
@@ -2470,9 +1534,9 @@ function locale_default(locale3) {
           }
         }
       }
-      if (comma && !zero3) value = group2(value, Infinity);
+      if (comma && !zero2) value = group2(value, Infinity);
       var length3 = valuePrefix.length + value.length + valueSuffix.length, padding = length3 < width ? new Array(width - length3 + 1).join(fill) : "";
-      if (comma && zero3) value = group2(padding + value, padding.length ? width - valueSuffix.length : Infinity), padding = "";
+      if (comma && zero2) value = group2(padding + value, padding.length ? width - valueSuffix.length : Infinity), padding = "";
       switch (align) {
         case "<":
           value = valuePrefix + value + valueSuffix + padding;
@@ -2711,7 +1775,7 @@ function number2(x2) {
 
 // node_modules/.pnpm/d3-scale@4.0.2/node_modules/d3-scale/src/continuous.js
 var unit = [0, 1];
-function identity3(x2) {
+function identity2(x2) {
   return x2;
 }
 function normalize(a2, b) {
@@ -2753,10 +1817,10 @@ function copy(source, target) {
   return target.domain(source.domain()).range(source.range()).interpolate(source.interpolate()).clamp(source.clamp()).unknown(source.unknown());
 }
 function transformer() {
-  var domain = unit, range2 = unit, interpolate = value_default, transform, untransform, unknown, clamp = identity3, piecewise2, output, input;
+  var domain = unit, range2 = unit, interpolate = value_default, transform, untransform, unknown, clamp = identity2, piecewise2, output, input;
   function rescale() {
     var n = Math.min(domain.length, range2.length);
-    if (clamp !== identity3) clamp = clamper(domain[0], domain[n - 1]);
+    if (clamp !== identity2) clamp = clamper(domain[0], domain[n - 1]);
     piecewise2 = n > 2 ? polymap : bimap;
     output = input = null;
     return scale;
@@ -2777,7 +1841,7 @@ function transformer() {
     return range2 = Array.from(_), interpolate = round_default, rescale();
   };
   scale.clamp = function(_) {
-    return arguments.length ? (clamp = _ ? true : identity3, rescale()) : clamp !== identity3;
+    return arguments.length ? (clamp = _ ? true : identity2, rescale()) : clamp !== identity2;
   };
   scale.interpolate = function(_) {
     return arguments.length ? (interpolate = _, rescale()) : interpolate;
@@ -2791,7 +1855,7 @@ function transformer() {
   };
 }
 function continuous() {
-  return transformer()(identity3, identity3);
+  return transformer()(identity2, identity2);
 }
 
 // node_modules/.pnpm/d3-scale@4.0.2/node_modules/d3-scale/src/linear.js
@@ -2840,17 +1904,17 @@ function linearish(scale) {
   };
   return scale;
 }
-function linear2() {
+function linear() {
   var scale = continuous();
   scale.copy = function() {
-    return copy(scale, linear2());
+    return copy(scale, linear());
   };
   initRange.apply(scale, arguments);
   return linearish(scale);
 }
 
 // node_modules/.pnpm/d3-scale@4.0.2/node_modules/d3-scale/src/identity.js
-function identity4(domain) {
+function identity3(domain) {
   var unknown;
   function scale(x2) {
     return x2 == null || isNaN(x2 = +x2) ? unknown : x2;
@@ -2863,7 +1927,7 @@ function identity4(domain) {
     return arguments.length ? (unknown = _, scale) : unknown;
   };
   scale.copy = function() {
-    return identity4(domain).unknown(unknown);
+    return identity3(domain).unknown(unknown);
   };
   domain = arguments.length ? Array.from(domain, number2) : [0, 1];
   return linearish(scale);
@@ -3034,9 +2098,9 @@ function transformSquare(x2) {
   return x2 < 0 ? -x2 * x2 : x2 * x2;
 }
 function powish(transform) {
-  var scale = transform(identity3, identity3), exponent = 1;
+  var scale = transform(identity2, identity2), exponent = 1;
   function rescale() {
-    return exponent === 1 ? transform(identity3, identity3) : exponent === 0.5 ? transform(transformSqrt, transformSquare) : transform(transformPow(exponent), transformPow(1 / exponent));
+    return exponent === 1 ? transform(identity2, identity2) : exponent === 0.5 ? transform(transformSqrt, transformSquare) : transform(transformPow(exponent), transformPow(1 / exponent));
   }
   scale.exponent = function(_) {
     return arguments.length ? (exponent = +_, rescale()) : exponent;
@@ -3197,8 +2261,8 @@ function threshold() {
 }
 
 // node_modules/.pnpm/d3-time@3.1.0/node_modules/d3-time/src/interval.js
-var t02 = /* @__PURE__ */ new Date();
-var t12 = /* @__PURE__ */ new Date();
+var t0 = /* @__PURE__ */ new Date();
+var t1 = /* @__PURE__ */ new Date();
 function timeInterval(floori, offseti, count2, field) {
   function interval(date2) {
     return floori(date2 = arguments.length === 0 ? /* @__PURE__ */ new Date() : /* @__PURE__ */ new Date(+date2)), date2;
@@ -3245,9 +2309,9 @@ function timeInterval(floori, offseti, count2, field) {
   };
   if (count2) {
     interval.count = (start, end) => {
-      t02.setTime(+start), t12.setTime(+end);
-      floori(t02), floori(t12);
-      return Math.floor(count2(t02, t12));
+      t0.setTime(+start), t1.setTime(+end);
+      floori(t0), floori(t1);
+      return Math.floor(count2(t0, t1));
     };
     interval.every = (step) => {
       step = Math.floor(step);
@@ -4159,12 +3223,12 @@ function utcTime() {
 
 // node_modules/.pnpm/d3-scale@4.0.2/node_modules/d3-scale/src/sequential.js
 function transformer2() {
-  var x0 = 0, x1 = 1, t03, t13, k10, transform, interpolator = identity3, clamp = false, unknown;
+  var x0 = 0, x1 = 1, t02, t12, k10, transform, interpolator = identity2, clamp = false, unknown;
   function scale(x2) {
-    return x2 == null || isNaN(x2 = +x2) ? unknown : interpolator(k10 === 0 ? 0.5 : (x2 = (transform(x2) - t03) * k10, clamp ? Math.max(0, Math.min(1, x2)) : x2));
+    return x2 == null || isNaN(x2 = +x2) ? unknown : interpolator(k10 === 0 ? 0.5 : (x2 = (transform(x2) - t02) * k10, clamp ? Math.max(0, Math.min(1, x2)) : x2));
   }
   scale.domain = function(_) {
-    return arguments.length ? ([x0, x1] = _, t03 = transform(x0 = +x0), t13 = transform(x1 = +x1), k10 = t03 === t13 ? 0 : 1 / (t13 - t03), scale) : [x0, x1];
+    return arguments.length ? ([x0, x1] = _, t02 = transform(x0 = +x0), t12 = transform(x1 = +x1), k10 = t02 === t12 ? 0 : 1 / (t12 - t02), scale) : [x0, x1];
   };
   scale.clamp = function(_) {
     return arguments.length ? (clamp = !!_, scale) : clamp;
@@ -4184,7 +3248,7 @@ function transformer2() {
     return arguments.length ? (unknown = _, scale) : unknown;
   };
   return function(t) {
-    transform = t, t03 = t(x0), t13 = t(x1), k10 = t03 === t13 ? 0 : 1 / (t13 - t03);
+    transform = t, t02 = t(x0), t12 = t(x1), k10 = t02 === t12 ? 0 : 1 / (t12 - t02);
     return scale;
   };
 }
@@ -4192,7 +3256,7 @@ function copy2(source, target) {
   return target.domain(source.domain()).interpolator(source.interpolator()).clamp(source.clamp()).unknown(source.unknown());
 }
 function sequential() {
-  var scale = linearish(transformer2()(identity3));
+  var scale = linearish(transformer2()(identity2));
   scale.copy = function() {
     return copy2(scale, sequential());
   };
@@ -4225,7 +3289,7 @@ function sequentialSqrt() {
 
 // node_modules/.pnpm/d3-scale@4.0.2/node_modules/d3-scale/src/sequentialQuantile.js
 function sequentialQuantile() {
-  var domain = [], interpolator = identity3;
+  var domain = [], interpolator = identity2;
   function scale(x2) {
     if (x2 != null && !isNaN(x2 = +x2)) return interpolator((bisect_default(domain, x2, 1) - 1) / (domain.length - 1));
   }
@@ -4253,12 +3317,12 @@ function sequentialQuantile() {
 
 // node_modules/.pnpm/d3-scale@4.0.2/node_modules/d3-scale/src/diverging.js
 function transformer3() {
-  var x0 = 0, x1 = 0.5, x2 = 1, s2 = 1, t03, t13, t22, k10, k21, interpolator = identity3, transform, clamp = false, unknown;
+  var x0 = 0, x1 = 0.5, x2 = 1, s2 = 1, t02, t12, t2, k10, k21, interpolator = identity2, transform, clamp = false, unknown;
   function scale(x3) {
-    return isNaN(x3 = +x3) ? unknown : (x3 = 0.5 + ((x3 = +transform(x3)) - t13) * (s2 * x3 < s2 * t13 ? k10 : k21), interpolator(clamp ? Math.max(0, Math.min(1, x3)) : x3));
+    return isNaN(x3 = +x3) ? unknown : (x3 = 0.5 + ((x3 = +transform(x3)) - t12) * (s2 * x3 < s2 * t12 ? k10 : k21), interpolator(clamp ? Math.max(0, Math.min(1, x3)) : x3));
   }
   scale.domain = function(_) {
-    return arguments.length ? ([x0, x1, x2] = _, t03 = transform(x0 = +x0), t13 = transform(x1 = +x1), t22 = transform(x2 = +x2), k10 = t03 === t13 ? 0 : 0.5 / (t13 - t03), k21 = t13 === t22 ? 0 : 0.5 / (t22 - t13), s2 = t13 < t03 ? -1 : 1, scale) : [x0, x1, x2];
+    return arguments.length ? ([x0, x1, x2] = _, t02 = transform(x0 = +x0), t12 = transform(x1 = +x1), t2 = transform(x2 = +x2), k10 = t02 === t12 ? 0 : 0.5 / (t12 - t02), k21 = t12 === t2 ? 0 : 0.5 / (t2 - t12), s2 = t12 < t02 ? -1 : 1, scale) : [x0, x1, x2];
   };
   scale.clamp = function(_) {
     return arguments.length ? (clamp = !!_, scale) : clamp;
@@ -4278,12 +3342,12 @@ function transformer3() {
     return arguments.length ? (unknown = _, scale) : unknown;
   };
   return function(t) {
-    transform = t, t03 = t(x0), t13 = t(x1), t22 = t(x2), k10 = t03 === t13 ? 0 : 0.5 / (t13 - t03), k21 = t13 === t22 ? 0 : 0.5 / (t22 - t13), s2 = t13 < t03 ? -1 : 1;
+    transform = t, t02 = t(x0), t12 = t(x1), t2 = t(x2), k10 = t02 === t12 ? 0 : 0.5 / (t12 - t02), k21 = t12 === t2 ? 0 : 0.5 / (t2 - t12), s2 = t12 < t02 ? -1 : 1;
     return scale;
   };
 }
 function diverging() {
-  var scale = linearish(transformer3()(identity3));
+  var scale = linearish(transformer3()(identity2));
   scale.copy = function() {
     return copy2(scale, diverging());
   };
@@ -4315,7 +3379,7 @@ function divergingSqrt() {
 }
 
 // node_modules/.pnpm/d3-shape@3.2.0/node_modules/d3-shape/src/constant.js
-function constant_default2(x2) {
+function constant_default(x2) {
   return function constant2() {
     return x2;
   };
@@ -4329,7 +3393,7 @@ var max2 = Math.max;
 var min2 = Math.min;
 var sin = Math.sin;
 var sqrt2 = Math.sqrt;
-var epsilon3 = 1e-12;
+var epsilon2 = 1e-12;
 var pi2 = Math.PI;
 var halfPi = pi2 / 2;
 var tau2 = 2 * pi2;
@@ -4375,12 +3439,12 @@ function arcPadAngle(d) {
 }
 function intersect(x0, y0, x1, y1, x2, y2, x3, y3) {
   var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
-  if (t * t < epsilon3) return;
+  if (t * t < epsilon2) return;
   t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t;
   return [x0 + t * x10, y0 + t * y10];
 }
 function cornerTangents(x0, y0, x1, y1, r1, rc, cw) {
-  var x01 = x0 - x1, y01 = y0 - y1, lo = (cw ? rc : -rc) / sqrt2(x01 * x01 + y01 * y01), ox = lo * y01, oy = -lo * x01, x11 = x0 + ox, y11 = y0 + oy, x10 = x1 + ox, y10 = y1 + oy, x00 = (x11 + x10) / 2, y00 = (y11 + y10) / 2, dx = x10 - x11, dy = y10 - y11, d2 = dx * dx + dy * dy, r = r1 - rc, D2 = x11 * y10 - x10 * y11, d = (dy < 0 ? -1 : 1) * sqrt2(max2(0, r * r * d2 - D2 * D2)), cx0 = (D2 * dy - dx * d) / d2, cy0 = (-D2 * dx - dy * d) / d2, cx1 = (D2 * dy + dx * d) / d2, cy1 = (-D2 * dx + dy * d) / d2, dx0 = cx0 - x00, dy0 = cy0 - y00, dx1 = cx1 - x00, dy1 = cy1 - y00;
+  var x01 = x0 - x1, y01 = y0 - y1, lo = (cw ? rc : -rc) / sqrt2(x01 * x01 + y01 * y01), ox = lo * y01, oy = -lo * x01, x11 = x0 + ox, y11 = y0 + oy, x10 = x1 + ox, y10 = y1 + oy, x00 = (x11 + x10) / 2, y00 = (y11 + y10) / 2, dx = x10 - x11, dy = y10 - y11, d2 = dx * dx + dy * dy, r = r1 - rc, D = x11 * y10 - x10 * y11, d = (dy < 0 ? -1 : 1) * sqrt2(max2(0, r * r * d2 - D * D)), cx0 = (D * dy - dx * d) / d2, cy0 = (-D * dx - dy * d) / d2, cx1 = (D * dy + dx * d) / d2, cy1 = (-D * dx + dy * d) / d2, dx0 = cx0 - x00, dy0 = cy0 - y00, dx1 = cx1 - x00, dy1 = cy1 - y00;
   if (dx0 * dx0 + dy0 * dy0 > dx1 * dx1 + dy1 * dy1) cx0 = cx1, cy0 = cy1;
   return {
     cx: cx0,
@@ -4392,30 +3456,30 @@ function cornerTangents(x0, y0, x1, y1, r1, rc, cw) {
   };
 }
 function arc_default() {
-  var innerRadius = arcInnerRadius, outerRadius = arcOuterRadius, cornerRadius = constant_default2(0), padRadius = null, startAngle = arcStartAngle, endAngle = arcEndAngle, padAngle = arcPadAngle, context = null, path2 = withPath(arc);
+  var innerRadius = arcInnerRadius, outerRadius = arcOuterRadius, cornerRadius = constant_default(0), padRadius = null, startAngle = arcStartAngle, endAngle = arcEndAngle, padAngle = arcPadAngle, context = null, path2 = withPath(arc);
   function arc() {
     var buffer, r, r0 = +innerRadius.apply(this, arguments), r1 = +outerRadius.apply(this, arguments), a0 = startAngle.apply(this, arguments) - halfPi, a1 = endAngle.apply(this, arguments) - halfPi, da = abs(a1 - a0), cw = a1 > a0;
     if (!context) context = buffer = path2();
     if (r1 < r0) r = r1, r1 = r0, r0 = r;
-    if (!(r1 > epsilon3)) context.moveTo(0, 0);
-    else if (da > tau2 - epsilon3) {
+    if (!(r1 > epsilon2)) context.moveTo(0, 0);
+    else if (da > tau2 - epsilon2) {
       context.moveTo(r1 * cos(a0), r1 * sin(a0));
       context.arc(0, 0, r1, a0, a1, !cw);
-      if (r0 > epsilon3) {
+      if (r0 > epsilon2) {
         context.moveTo(r0 * cos(a1), r0 * sin(a1));
         context.arc(0, 0, r0, a1, a0, cw);
       }
     } else {
-      var a01 = a0, a11 = a1, a00 = a0, a10 = a1, da0 = da, da1 = da, ap = padAngle.apply(this, arguments) / 2, rp = ap > epsilon3 && (padRadius ? +padRadius.apply(this, arguments) : sqrt2(r0 * r0 + r1 * r1)), rc = min2(abs(r1 - r0) / 2, +cornerRadius.apply(this, arguments)), rc0 = rc, rc1 = rc, t03, t13;
-      if (rp > epsilon3) {
+      var a01 = a0, a11 = a1, a00 = a0, a10 = a1, da0 = da, da1 = da, ap = padAngle.apply(this, arguments) / 2, rp = ap > epsilon2 && (padRadius ? +padRadius.apply(this, arguments) : sqrt2(r0 * r0 + r1 * r1)), rc = min2(abs(r1 - r0) / 2, +cornerRadius.apply(this, arguments)), rc0 = rc, rc1 = rc, t02, t12;
+      if (rp > epsilon2) {
         var p0 = asin(rp / r0 * sin(ap)), p1 = asin(rp / r1 * sin(ap));
-        if ((da0 -= p0 * 2) > epsilon3) p0 *= cw ? 1 : -1, a00 += p0, a10 -= p0;
+        if ((da0 -= p0 * 2) > epsilon2) p0 *= cw ? 1 : -1, a00 += p0, a10 -= p0;
         else da0 = 0, a00 = a10 = (a0 + a1) / 2;
-        if ((da1 -= p1 * 2) > epsilon3) p1 *= cw ? 1 : -1, a01 += p1, a11 -= p1;
+        if ((da1 -= p1 * 2) > epsilon2) p1 *= cw ? 1 : -1, a01 += p1, a11 -= p1;
         else da1 = 0, a01 = a11 = (a0 + a1) / 2;
       }
       var x01 = r1 * cos(a01), y01 = r1 * sin(a01), x10 = r0 * cos(a10), y10 = r0 * sin(a10);
-      if (rc > epsilon3) {
+      if (rc > epsilon2) {
         var x11 = r1 * cos(a11), y11 = r1 * sin(a11), x00 = r0 * cos(a00), y00 = r0 * sin(a00), oc;
         if (da < pi2) {
           if (oc = intersect(x01, y01, x00, y00, x11, y11, x10, y10)) {
@@ -4427,28 +3491,28 @@ function arc_default() {
           }
         }
       }
-      if (!(da1 > epsilon3)) context.moveTo(x01, y01);
-      else if (rc1 > epsilon3) {
-        t03 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw);
-        t13 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw);
-        context.moveTo(t03.cx + t03.x01, t03.cy + t03.y01);
-        if (rc1 < rc) context.arc(t03.cx, t03.cy, rc1, atan2(t03.y01, t03.x01), atan2(t13.y01, t13.x01), !cw);
+      if (!(da1 > epsilon2)) context.moveTo(x01, y01);
+      else if (rc1 > epsilon2) {
+        t02 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw);
+        t12 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw);
+        context.moveTo(t02.cx + t02.x01, t02.cy + t02.y01);
+        if (rc1 < rc) context.arc(t02.cx, t02.cy, rc1, atan2(t02.y01, t02.x01), atan2(t12.y01, t12.x01), !cw);
         else {
-          context.arc(t03.cx, t03.cy, rc1, atan2(t03.y01, t03.x01), atan2(t03.y11, t03.x11), !cw);
-          context.arc(0, 0, r1, atan2(t03.cy + t03.y11, t03.cx + t03.x11), atan2(t13.cy + t13.y11, t13.cx + t13.x11), !cw);
-          context.arc(t13.cx, t13.cy, rc1, atan2(t13.y11, t13.x11), atan2(t13.y01, t13.x01), !cw);
+          context.arc(t02.cx, t02.cy, rc1, atan2(t02.y01, t02.x01), atan2(t02.y11, t02.x11), !cw);
+          context.arc(0, 0, r1, atan2(t02.cy + t02.y11, t02.cx + t02.x11), atan2(t12.cy + t12.y11, t12.cx + t12.x11), !cw);
+          context.arc(t12.cx, t12.cy, rc1, atan2(t12.y11, t12.x11), atan2(t12.y01, t12.x01), !cw);
         }
       } else context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw);
-      if (!(r0 > epsilon3) || !(da0 > epsilon3)) context.lineTo(x10, y10);
-      else if (rc0 > epsilon3) {
-        t03 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw);
-        t13 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw);
-        context.lineTo(t03.cx + t03.x01, t03.cy + t03.y01);
-        if (rc0 < rc) context.arc(t03.cx, t03.cy, rc0, atan2(t03.y01, t03.x01), atan2(t13.y01, t13.x01), !cw);
+      if (!(r0 > epsilon2) || !(da0 > epsilon2)) context.lineTo(x10, y10);
+      else if (rc0 > epsilon2) {
+        t02 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw);
+        t12 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw);
+        context.lineTo(t02.cx + t02.x01, t02.cy + t02.y01);
+        if (rc0 < rc) context.arc(t02.cx, t02.cy, rc0, atan2(t02.y01, t02.x01), atan2(t12.y01, t12.x01), !cw);
         else {
-          context.arc(t03.cx, t03.cy, rc0, atan2(t03.y01, t03.x01), atan2(t03.y11, t03.x11), !cw);
-          context.arc(0, 0, r0, atan2(t03.cy + t03.y11, t03.cx + t03.x11), atan2(t13.cy + t13.y11, t13.cx + t13.x11), cw);
-          context.arc(t13.cx, t13.cy, rc0, atan2(t13.y11, t13.x11), atan2(t13.y01, t13.x01), !cw);
+          context.arc(t02.cx, t02.cy, rc0, atan2(t02.y01, t02.x01), atan2(t02.y11, t02.x11), !cw);
+          context.arc(0, 0, r0, atan2(t02.cy + t02.y11, t02.cx + t02.x11), atan2(t12.cy + t12.y11, t12.cx + t12.x11), cw);
+          context.arc(t12.cx, t12.cy, rc0, atan2(t12.y11, t12.x11), atan2(t12.y01, t12.x01), !cw);
         }
       } else context.arc(0, 0, r0, a10, a00, cw);
     }
@@ -4460,25 +3524,25 @@ function arc_default() {
     return [cos(a2) * r, sin(a2) * r];
   };
   arc.innerRadius = function(_) {
-    return arguments.length ? (innerRadius = typeof _ === "function" ? _ : constant_default2(+_), arc) : innerRadius;
+    return arguments.length ? (innerRadius = typeof _ === "function" ? _ : constant_default(+_), arc) : innerRadius;
   };
   arc.outerRadius = function(_) {
-    return arguments.length ? (outerRadius = typeof _ === "function" ? _ : constant_default2(+_), arc) : outerRadius;
+    return arguments.length ? (outerRadius = typeof _ === "function" ? _ : constant_default(+_), arc) : outerRadius;
   };
   arc.cornerRadius = function(_) {
-    return arguments.length ? (cornerRadius = typeof _ === "function" ? _ : constant_default2(+_), arc) : cornerRadius;
+    return arguments.length ? (cornerRadius = typeof _ === "function" ? _ : constant_default(+_), arc) : cornerRadius;
   };
   arc.padRadius = function(_) {
-    return arguments.length ? (padRadius = _ == null ? null : typeof _ === "function" ? _ : constant_default2(+_), arc) : padRadius;
+    return arguments.length ? (padRadius = _ == null ? null : typeof _ === "function" ? _ : constant_default(+_), arc) : padRadius;
   };
   arc.startAngle = function(_) {
-    return arguments.length ? (startAngle = typeof _ === "function" ? _ : constant_default2(+_), arc) : startAngle;
+    return arguments.length ? (startAngle = typeof _ === "function" ? _ : constant_default(+_), arc) : startAngle;
   };
   arc.endAngle = function(_) {
-    return arguments.length ? (endAngle = typeof _ === "function" ? _ : constant_default2(+_), arc) : endAngle;
+    return arguments.length ? (endAngle = typeof _ === "function" ? _ : constant_default(+_), arc) : endAngle;
   };
   arc.padAngle = function(_) {
-    return arguments.length ? (padAngle = typeof _ === "function" ? _ : constant_default2(+_), arc) : padAngle;
+    return arguments.length ? (padAngle = typeof _ === "function" ? _ : constant_default(+_), arc) : padAngle;
   };
   arc.context = function(_) {
     return arguments.length ? (context = _ == null ? null : _, arc) : context;
@@ -4526,7 +3590,7 @@ function linear_default(context) {
 
 // node_modules/.pnpm/d3-shape@3.2.0/node_modules/d3-shape/src/array.js
 var slice2 = Array.prototype.slice;
-function array_default2(x2) {
+function array_default(x2) {
   return typeof x2 === "object" && "length" in x2 ? x2 : Array.from(x2);
 }
 
@@ -4540,11 +3604,11 @@ function y(p) {
 
 // node_modules/.pnpm/d3-shape@3.2.0/node_modules/d3-shape/src/line.js
 function line_default(x2, y2) {
-  var defined = constant_default2(true), context = null, curve = linear_default, output = null, path2 = withPath(line);
-  x2 = typeof x2 === "function" ? x2 : x2 === void 0 ? x : constant_default2(x2);
-  y2 = typeof y2 === "function" ? y2 : y2 === void 0 ? y : constant_default2(y2);
+  var defined = constant_default(true), context = null, curve = linear_default, output = null, path2 = withPath(line);
+  x2 = typeof x2 === "function" ? x2 : x2 === void 0 ? x : constant_default(x2);
+  y2 = typeof y2 === "function" ? y2 : y2 === void 0 ? y : constant_default(y2);
   function line(data) {
-    var i, n = (data = array_default2(data)).length, d, defined0 = false, buffer;
+    var i, n = (data = array_default(data)).length, d, defined0 = false, buffer;
     if (context == null) output = curve(buffer = path2());
     for (i = 0; i <= n; ++i) {
       if (!(i < n && defined(d = data[i], i, data)) === defined0) {
@@ -4556,13 +3620,13 @@ function line_default(x2, y2) {
     if (buffer) return output = null, buffer + "" || null;
   }
   line.x = function(_) {
-    return arguments.length ? (x2 = typeof _ === "function" ? _ : constant_default2(+_), line) : x2;
+    return arguments.length ? (x2 = typeof _ === "function" ? _ : constant_default(+_), line) : x2;
   };
   line.y = function(_) {
-    return arguments.length ? (y2 = typeof _ === "function" ? _ : constant_default2(+_), line) : y2;
+    return arguments.length ? (y2 = typeof _ === "function" ? _ : constant_default(+_), line) : y2;
   };
   line.defined = function(_) {
-    return arguments.length ? (defined = typeof _ === "function" ? _ : constant_default2(!!_), line) : defined;
+    return arguments.length ? (defined = typeof _ === "function" ? _ : constant_default(!!_), line) : defined;
   };
   line.curve = function(_) {
     return arguments.length ? (curve = _, context != null && (output = curve(context)), line) : curve;
@@ -4575,12 +3639,12 @@ function line_default(x2, y2) {
 
 // node_modules/.pnpm/d3-shape@3.2.0/node_modules/d3-shape/src/area.js
 function area_default(x0, y0, y1) {
-  var x1 = null, defined = constant_default2(true), context = null, curve = linear_default, output = null, path2 = withPath(area);
-  x0 = typeof x0 === "function" ? x0 : x0 === void 0 ? x : constant_default2(+x0);
-  y0 = typeof y0 === "function" ? y0 : y0 === void 0 ? constant_default2(0) : constant_default2(+y0);
-  y1 = typeof y1 === "function" ? y1 : y1 === void 0 ? y : constant_default2(+y1);
+  var x1 = null, defined = constant_default(true), context = null, curve = linear_default, output = null, path2 = withPath(area);
+  x0 = typeof x0 === "function" ? x0 : x0 === void 0 ? x : constant_default(+x0);
+  y0 = typeof y0 === "function" ? y0 : y0 === void 0 ? constant_default(0) : constant_default(+y0);
+  y1 = typeof y1 === "function" ? y1 : y1 === void 0 ? y : constant_default(+y1);
   function area(data) {
-    var i, j, k2, n = (data = array_default2(data)).length, d, defined0 = false, buffer, x0z = new Array(n), y0z = new Array(n);
+    var i, j, k2, n = (data = array_default(data)).length, d, defined0 = false, buffer, x0z = new Array(n), y0z = new Array(n);
     if (context == null) output = curve(buffer = path2());
     for (i = 0; i <= n; ++i) {
       if (!(i < n && defined(d = data[i], i, data)) === defined0) {
@@ -4609,22 +3673,22 @@ function area_default(x0, y0, y1) {
     return line_default().defined(defined).curve(curve).context(context);
   }
   area.x = function(_) {
-    return arguments.length ? (x0 = typeof _ === "function" ? _ : constant_default2(+_), x1 = null, area) : x0;
+    return arguments.length ? (x0 = typeof _ === "function" ? _ : constant_default(+_), x1 = null, area) : x0;
   };
   area.x0 = function(_) {
-    return arguments.length ? (x0 = typeof _ === "function" ? _ : constant_default2(+_), area) : x0;
+    return arguments.length ? (x0 = typeof _ === "function" ? _ : constant_default(+_), area) : x0;
   };
   area.x1 = function(_) {
-    return arguments.length ? (x1 = _ == null ? null : typeof _ === "function" ? _ : constant_default2(+_), area) : x1;
+    return arguments.length ? (x1 = _ == null ? null : typeof _ === "function" ? _ : constant_default(+_), area) : x1;
   };
   area.y = function(_) {
-    return arguments.length ? (y0 = typeof _ === "function" ? _ : constant_default2(+_), y1 = null, area) : y0;
+    return arguments.length ? (y0 = typeof _ === "function" ? _ : constant_default(+_), y1 = null, area) : y0;
   };
   area.y0 = function(_) {
-    return arguments.length ? (y0 = typeof _ === "function" ? _ : constant_default2(+_), area) : y0;
+    return arguments.length ? (y0 = typeof _ === "function" ? _ : constant_default(+_), area) : y0;
   };
   area.y1 = function(_) {
-    return arguments.length ? (y1 = _ == null ? null : typeof _ === "function" ? _ : constant_default2(+_), area) : y1;
+    return arguments.length ? (y1 = _ == null ? null : typeof _ === "function" ? _ : constant_default(+_), area) : y1;
   };
   area.lineX0 = area.lineY0 = function() {
     return arealine().x(x0).y(y0);
@@ -4636,7 +3700,7 @@ function area_default(x0, y0, y1) {
     return arealine().x(x1).y(y0);
   };
   area.defined = function(_) {
-    return arguments.length ? (defined = typeof _ === "function" ? _ : constant_default2(!!_), area) : defined;
+    return arguments.length ? (defined = typeof _ === "function" ? _ : constant_default(!!_), area) : defined;
   };
   area.curve = function(_) {
     return arguments.length ? (curve = _, context != null && (output = curve(context)), area) : curve;
@@ -4659,9 +3723,9 @@ function identity_default2(d) {
 
 // node_modules/.pnpm/d3-shape@3.2.0/node_modules/d3-shape/src/pie.js
 function pie_default() {
-  var value = identity_default2, sortValues = descending_default, sort2 = null, startAngle = constant_default2(0), endAngle = constant_default2(tau2), padAngle = constant_default2(0);
+  var value = identity_default2, sortValues = descending_default, sort2 = null, startAngle = constant_default(0), endAngle = constant_default(tau2), padAngle = constant_default(0);
   function pie(data) {
-    var i, n = (data = array_default2(data)).length, j, k2, sum3 = 0, index2 = new Array(n), arcs = new Array(n), a0 = +startAngle.apply(this, arguments), da = Math.min(tau2, Math.max(-tau2, endAngle.apply(this, arguments) - a0)), a1, p = Math.min(Math.abs(da) / n, padAngle.apply(this, arguments)), pa = p * (da < 0 ? -1 : 1), v;
+    var i, n = (data = array_default(data)).length, j, k2, sum3 = 0, index2 = new Array(n), arcs = new Array(n), a0 = +startAngle.apply(this, arguments), da = Math.min(tau2, Math.max(-tau2, endAngle.apply(this, arguments) - a0)), a1, p = Math.min(Math.abs(da) / n, padAngle.apply(this, arguments)), pa = p * (da < 0 ? -1 : 1), v;
     for (i = 0; i < n; ++i) {
       if ((v = arcs[index2[i] = i] = +value(data[i], i, data)) > 0) {
         sum3 += v;
@@ -4686,7 +3750,7 @@ function pie_default() {
     return arcs;
   }
   pie.value = function(_) {
-    return arguments.length ? (value = typeof _ === "function" ? _ : constant_default2(+_), pie) : value;
+    return arguments.length ? (value = typeof _ === "function" ? _ : constant_default(+_), pie) : value;
   };
   pie.sortValues = function(_) {
     return arguments.length ? (sortValues = _, sort2 = null, pie) : sortValues;
@@ -4695,13 +3759,13 @@ function pie_default() {
     return arguments.length ? (sort2 = _, sortValues = null, pie) : sort2;
   };
   pie.startAngle = function(_) {
-    return arguments.length ? (startAngle = typeof _ === "function" ? _ : constant_default2(+_), pie) : startAngle;
+    return arguments.length ? (startAngle = typeof _ === "function" ? _ : constant_default(+_), pie) : startAngle;
   };
   pie.endAngle = function(_) {
-    return arguments.length ? (endAngle = typeof _ === "function" ? _ : constant_default2(+_), pie) : endAngle;
+    return arguments.length ? (endAngle = typeof _ === "function" ? _ : constant_default(+_), pie) : endAngle;
   };
   pie.padAngle = function(_) {
-    return arguments.length ? (padAngle = typeof _ === "function" ? _ : constant_default2(+_), pie) : padAngle;
+    return arguments.length ? (padAngle = typeof _ === "function" ? _ : constant_default(+_), pie) : padAngle;
   };
   return pie;
 }
@@ -4884,10 +3948,10 @@ function link(curve) {
     return arguments.length ? (target = _, link2) : target;
   };
   link2.x = function(_) {
-    return arguments.length ? (x2 = typeof _ === "function" ? _ : constant_default2(+_), link2) : x2;
+    return arguments.length ? (x2 = typeof _ === "function" ? _ : constant_default(+_), link2) : x2;
   };
   link2.y = function(_) {
-    return arguments.length ? (y2 = typeof _ === "function" ? _ : constant_default2(+_), link2) : y2;
+    return arguments.length ? (y2 = typeof _ === "function" ? _ : constant_default(+_), link2) : y2;
   };
   link2.context = function(_) {
     return arguments.length ? (_ == null ? context = output = null : output = curve(context = _), link2) : context;
@@ -5116,8 +4180,8 @@ var symbolsStroke = [
 ];
 function Symbol2(type, size) {
   let context = null, path2 = withPath(symbol);
-  type = typeof type === "function" ? type : constant_default2(type || circle_default);
-  size = typeof size === "function" ? size : constant_default2(size === void 0 ? 64 : +size);
+  type = typeof type === "function" ? type : constant_default(type || circle_default);
+  size = typeof size === "function" ? size : constant_default(size === void 0 ? 64 : +size);
   function symbol() {
     let buffer;
     if (!context) context = buffer = path2();
@@ -5125,10 +4189,10 @@ function Symbol2(type, size) {
     if (buffer) return context = null, buffer + "" || null;
   }
   symbol.type = function(_) {
-    return arguments.length ? (type = typeof _ === "function" ? _ : constant_default2(_), symbol) : type;
+    return arguments.length ? (type = typeof _ === "function" ? _ : constant_default(_), symbol) : type;
   };
   symbol.size = function(_) {
-    return arguments.length ? (size = typeof _ === "function" ? _ : constant_default2(+_), symbol) : size;
+    return arguments.length ? (size = typeof _ === "function" ? _ : constant_default(+_), symbol) : size;
   };
   symbol.context = function(_) {
     return arguments.length ? (context = _ == null ? null : _, symbol) : context;
@@ -5195,7 +4259,7 @@ Basis.prototype = {
     this._y0 = this._y1, this._y1 = y2;
   }
 };
-function basis_default2(context) {
+function basis_default(context) {
   return new Basis(context);
 }
 
@@ -5259,7 +4323,7 @@ BasisClosed.prototype = {
     this._y0 = this._y1, this._y1 = y2;
   }
 };
-function basisClosed_default2(context) {
+function basisClosed_default(context) {
   return new BasisClosed(context);
 }
 
@@ -5544,12 +4608,12 @@ var cardinalOpen_default = (function custom4(tension) {
 // node_modules/.pnpm/d3-shape@3.2.0/node_modules/d3-shape/src/curve/catmullRom.js
 function point4(that, x2, y2) {
   var x1 = that._x1, y1 = that._y1, x22 = that._x2, y22 = that._y2;
-  if (that._l01_a > epsilon3) {
+  if (that._l01_a > epsilon2) {
     var a2 = 2 * that._l01_2a + 3 * that._l01_a * that._l12_a + that._l12_2a, n = 3 * that._l01_a * (that._l01_a + that._l12_a);
     x1 = (x1 * a2 - that._x0 * that._l12_2a + that._x2 * that._l01_2a) / n;
     y1 = (y1 * a2 - that._y0 * that._l12_2a + that._y2 * that._l01_2a) / n;
   }
-  if (that._l23_a > epsilon3) {
+  if (that._l23_a > epsilon2) {
     var b = 2 * that._l23_2a + 3 * that._l23_a * that._l12_a + that._l12_2a, m = 3 * that._l23_a * (that._l23_a + that._l12_a);
     x22 = (x22 * b + that._x1 * that._l23_2a - x2 * that._l12_2a) / m;
     y22 = (y22 * b + that._y1 * that._l23_2a - y2 * that._l12_2a) / m;
@@ -5786,9 +4850,9 @@ function slope2(that, t) {
   var h = that._x1 - that._x0;
   return h ? (3 * (that._y1 - that._y0) / h - t) / 2 : t;
 }
-function point5(that, t03, t13) {
+function point5(that, t02, t12) {
   var x0 = that._x0, y0 = that._y0, x1 = that._x1, y1 = that._y1, dx = (x1 - x0) / 3;
-  that._context.bezierCurveTo(x0 + dx, y0 + dx * t03, x1 - dx, y1 - dx * t13, x1, y1);
+  that._context.bezierCurveTo(x0 + dx, y0 + dx * t02, x1 - dx, y1 - dx * t12, x1, y1);
 }
 function MonotoneX(context) {
   this._context = context;
@@ -5817,7 +4881,7 @@ MonotoneX.prototype = {
     this._line = 1 - this._line;
   },
   point: function(x2, y2) {
-    var t13 = NaN;
+    var t12 = NaN;
     x2 = +x2, y2 = +y2;
     if (x2 === this._x1 && y2 === this._y1) return;
     switch (this._point) {
@@ -5830,15 +4894,15 @@ MonotoneX.prototype = {
         break;
       case 2:
         this._point = 3;
-        point5(this, slope2(this, t13 = slope3(this, x2, y2)), t13);
+        point5(this, slope2(this, t12 = slope3(this, x2, y2)), t12);
         break;
       default:
-        point5(this, this._t0, t13 = slope3(this, x2, y2));
+        point5(this, this._t0, t12 = slope3(this, x2, y2));
         break;
     }
     this._x0 = this._x1, this._x1 = x2;
     this._y0 = this._y1, this._y1 = y2;
-    this._t0 = t13;
+    this._t0 = t12;
   }
 };
 function MonotoneY(context) {
@@ -6008,7 +5072,7 @@ function stackSeries(key) {
   return series;
 }
 function stack_default() {
-  var keys = constant_default2([]), order = none_default2, offset = none_default, value = stackValue;
+  var keys = constant_default([]), order = none_default2, offset = none_default, value = stackValue;
   function stack(data) {
     var sz = Array.from(keys.apply(this, arguments), stackSeries), i, n = sz.length, j = -1, oz;
     for (const d of data) {
@@ -6016,20 +5080,20 @@ function stack_default() {
         (sz[i][j] = [0, +value(d, sz[i].key, j, data)]).data = d;
       }
     }
-    for (i = 0, oz = array_default2(order(sz)); i < n; ++i) {
+    for (i = 0, oz = array_default(order(sz)); i < n; ++i) {
       sz[oz[i]].index = i;
     }
     offset(sz, oz);
     return sz;
   }
   stack.keys = function(_) {
-    return arguments.length ? (keys = typeof _ === "function" ? _ : constant_default2(Array.from(_)), stack) : keys;
+    return arguments.length ? (keys = typeof _ === "function" ? _ : constant_default(Array.from(_)), stack) : keys;
   };
   stack.value = function(_) {
-    return arguments.length ? (value = typeof _ === "function" ? _ : constant_default2(+_), stack) : value;
+    return arguments.length ? (value = typeof _ === "function" ? _ : constant_default(+_), stack) : value;
   };
   stack.order = function(_) {
-    return arguments.length ? (order = _ == null ? none_default2 : typeof _ === "function" ? _ : constant_default2(Array.from(_)), stack) : order;
+    return arguments.length ? (order = _ == null ? none_default2 : typeof _ === "function" ? _ : constant_default(Array.from(_)), stack) : order;
   };
   stack.offset = function(_) {
     return arguments.length ? (offset = _ == null ? none_default : _, stack) : offset;
@@ -6223,41 +5287,6 @@ export {
   superset,
   subset,
   union,
-  color,
-  rgb,
-  hsl,
-  gray,
-  lab,
-  lch,
-  hcl,
-  cubehelix,
-  basis_default,
-  basisClosed_default,
-  rgb_default,
-  rgbBasis,
-  rgbBasisClosed,
-  numberArray_default,
-  array_default,
-  date_default,
-  number_default,
-  object_default,
-  string_default,
-  value_default,
-  discrete_default,
-  hue_default,
-  round_default,
-  interpolateTransformCss,
-  interpolateTransformSvg,
-  zoom_default,
-  hsl_default,
-  hslLong,
-  lab2,
-  hcl_default,
-  hclLong,
-  cubehelix_default,
-  cubehelixLong,
-  piecewise,
-  quantize_default,
   Path,
   path,
   pathRound,
@@ -6275,8 +5304,8 @@ export {
   band,
   point,
   tickFormat,
-  linear2 as linear,
-  identity4 as identity,
+  linear,
+  identity3 as identity,
   log,
   symlog,
   pow,
@@ -6395,8 +5424,8 @@ export {
   symbolsFill,
   symbolsStroke,
   Symbol2 as Symbol,
-  basis_default2,
-  basisClosed_default2,
+  basis_default,
+  basisClosed_default,
   basisOpen_default,
   bundle_default,
   cardinal_default,
@@ -6425,4 +5454,4 @@ export {
   insideOut_default,
   reverse_default
 };
-//# sourceMappingURL=chunk-MBUOTQ66.js.map
+//# sourceMappingURL=chunk-6TQSQCNJ.js.map

@@ -23,11 +23,13 @@ import {
   Info,
   Sparkles,
   Clock,
-  Package
+  Package,
+  GitBranch
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { VarietyGenealogyTree } from "@/components/VarietyGenealogyTree";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Chart as ChartJS,
@@ -374,11 +376,15 @@ export default function VarietyDetail() {
 
             {/* Tabs for detailed info */}
             <Tabs defaultValue="molecules" className="space-y-4">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="molecules">Molécules</TabsTrigger>
                 <TabsTrigger value="olfactive">Olfactif</TabsTrigger>
                 <TabsTrigger value="agronomy">Agronomie</TabsTrigger>
                 <TabsTrigger value="conservation">Conservation</TabsTrigger>
+                <TabsTrigger value="genealogy" className="flex items-center gap-1">
+                  <GitBranch className="h-3.5 w-3.5" />
+                  Généalogie
+                </TabsTrigger>
               </TabsList>
 
               {/* Molecules Tab */}
@@ -690,6 +696,29 @@ export default function VarietyDetail() {
                     </CardContent>
                   </Card>
                 )}
+              </TabsContent>
+
+              {/* Genealogy Tab */}
+              <TabsContent value="genealogy" className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <GitBranch className="h-5 w-5 text-violet-500" />
+                      Arbre généalogique
+                    </CardTitle>
+                    <p className="text-sm text-muted-foreground">
+                      Relations de parenté et d'hybridation de cette variété.
+                      Cliquez sur un nœud pour accéder à la fiche de la variété.
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <VarietyGenealogyTree
+                      varietyId={variety.id}
+                      varietyName={variety.name}
+                      latinName={variety.latinName}
+                    />
+                  </CardContent>
+                </Card>
               </TabsContent>
             </Tabs>
           </div>

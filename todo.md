@@ -740,3 +740,32 @@
 - [x] Filtres par type (molécule, plante, recette, accord, glossaire, civilisation)
 - [x] Navigation clavier (↑↓ Entrée Échap) + historique localStorage
 - [x] Tests : 99 fichiers, 1496 tests passants, 0 échec
+
+---
+
+## SESSION 11 — Propriétés thérapeutiques, Généalogie, Bibliographie (Mars 2026)
+
+### Phase 1 : Onglet Propriétés thérapeutiques dans MoleculeDetail
+- [x] Auditer : 1045/1719 molécules ont des données therapeutic_properties
+- [x] Endpoint bibliography.getByMolecule et bibliography.getByPlant ajoutés
+- [x] Composant TherapeuticPropertiesTab créé avec parsing intelligent du texte
+- [x] Onglet "Propriétés" intégré dans MoleculeDetail avec badges et liaisons bibliographiques
+
+### Phase 2 : Visualisation généalogique interactive
+- [x] Audit : 76 liaisons généalogiques couvrant 10 variétés (Bigaradier, Lavandin, Haze, etc.)
+- [x] React Flow installé (@xyflow/react)
+- [x] Endpoint genealogy.getTreeWithNames ajouté (parents + enfants avec noms)
+- [x] Composant VarietyGenealogyTree créé (nœuds colorés par type, MiniMap, Controls)
+- [x] Onglet "Généalogie" ajouté dans VarietyDetail (5ème onglet)
+
+### Phase 3 : Liaisons bibliographiques automatiques
+- [x] Analyse : 831 références sans liaisons sur 1179 (29.5% de couverture initiale)
+- [x] Script v1 : 47 références liées, 54 liaisons créées (33.5%)
+- [x] Script v2 : 9 références supplémentaires liées (34.3%)
+- [x] Couverture finale : 404/1179 (34.3%), 10987 liaisons totales
+- [x] Note : les 775 références restantes sont institutionnelles/latines, nécessitent LLM pour aller plus loin
+
+### Phase 4 : Tests et checkpoint
+- [x] Serveur compile sans erreurs TypeScript
+- [x] Tests : 99 fichiers, 1496 passants, 2 ignorés, 0 échec
+- [x] Checkpoint sauvegarderé
