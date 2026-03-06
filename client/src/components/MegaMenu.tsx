@@ -424,6 +424,12 @@ export function MegaMenu() {
           badge: "HUB",
         },
         {
+          label: "Recettes Cigarillos",
+          path: "/recettes-cigarillos",
+          icon: <Cigarette className="h-4 w-4" />,
+          description: "32 formulations cigarillos (Archives Vivantes, Haute Parfumerie Fumée)",
+        },
+        {
           label: "Plantes & Variétés",
           path: "/plants",
           icon: <Leaf className="h-4 w-4" />,

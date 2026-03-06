@@ -469,13 +469,13 @@ export default function MoleculeRecetteLinking() {
                           Toutes les recettes ont des molécules associées !
                         </p>
                       ) : (
-                        <div className="rounded-md border">
+                        <div className="rounded-md border overflow-x-auto">
                           <Table>
                             <TableHeader>
                               <TableRow>
                                 <TableHead>Nom</TableHead>
-                                <TableHead>Gamme</TableHead>
-                                <TableHead>Catégorie</TableHead>
+                                <TableHead className="hidden sm:table-cell">Gamme</TableHead>
+                                <TableHead className="hidden md:table-cell">Catégorie</TableHead>
                                 <TableHead className="text-right">Action</TableHead>
                               </TableRow>
                             </TableHeader>
@@ -523,13 +523,13 @@ export default function MoleculeRecetteLinking() {
                           Toutes les molécules sont utilisées !
                         </p>
                       ) : (
-                        <div className="rounded-md border">
+                        <div className="rounded-md border overflow-x-auto">
                           <Table>
                             <TableHeader>
                               <TableRow>
                                 <TableHead>Nom</TableHead>
-                                <TableHead>Famille</TableHead>
-                                <TableHead>Formule</TableHead>
+                                <TableHead className="hidden sm:table-cell">Famille</TableHead>
+                                <TableHead className="hidden md:table-cell">Formule</TableHead>
                                 <TableHead className="text-right">Action</TableHead>
                               </TableRow>
                             </TableHeader>
@@ -802,13 +802,13 @@ export default function MoleculeRecetteLinking() {
                       </div>
 
                       {rechercheMolecule && moleculesFiltrees.length > 0 && (
-                        <div className="rounded-md border">
+                        <div className="rounded-md border overflow-x-auto">
                           <Table>
                             <TableHeader>
                               <TableRow>
                                 <TableHead>Molécule</TableHead>
-                                <TableHead>Famille</TableHead>
-                                <TableHead>Formule</TableHead>
+                                <TableHead className="hidden sm:table-cell">Famille</TableHead>
+                                <TableHead className="hidden md:table-cell">Formule</TableHead>
                                 <TableHead className="text-right">Action</TableHead>
                               </TableRow>
                             </TableHeader>
@@ -859,13 +859,13 @@ export default function MoleculeRecetteLinking() {
                       </div>
 
                       {rechercheRecette && recettesFiltrees.length > 0 && (
-                        <div className="rounded-md border">
+                        <div className="rounded-md border overflow-x-auto">
                           <Table>
                             <TableHeader>
                               <TableRow>
                                 <TableHead>Recette</TableHead>
-                                <TableHead>Gamme</TableHead>
-                                <TableHead>Catégorie</TableHead>
+                                <TableHead className="hidden sm:table-cell">Gamme</TableHead>
+                                <TableHead className="hidden md:table-cell">Catégorie</TableHead>
                                 <TableHead className="text-right">Action</TableHead>
                               </TableRow>
                             </TableHeader>

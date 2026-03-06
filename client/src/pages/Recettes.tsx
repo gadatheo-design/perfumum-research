@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp, FlaskConical, ArrowUpDown, Info, Atom } from "lucide-react";
+import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp, FlaskConical, ArrowUpDown, Info, Atom, Cigarette, ArrowRight } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { PageHeaderSkeleton, FilterBarSkeleton } from "@/components/skeletons";
@@ -276,6 +276,26 @@ export default function Recettes() {
               <p className="text-lg text-muted-foreground">
                 Formules olfactives développées dans le cadre de PERFUMUM. Explorez les {recettes.length} recettes par famille, prototype ou profil radar.
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Bandeau Cigarillos */}
+        <section className="py-4 border-b bg-amber-950/20 border-amber-800/30">
+          <div className="container">
+            <div className="max-w-6xl mx-auto flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-3">
+                <Cigarette className="h-5 w-5 text-amber-500 shrink-0" />
+                <div>
+                  <span className="font-semibold text-amber-400">Recettes Cigarillos</span>
+                  <span className="text-muted-foreground text-sm ml-2">— 32 formulations (Archives Vivantes, Haute Parfumerie Fumée, Recettes Signature)</span>
+                </div>
+              </div>
+              <Link href="/recettes-cigarillos">
+                <Button variant="outline" size="sm" className="border-amber-700 text-amber-400 hover:bg-amber-900/30 shrink-0">
+                  Explorer les cigarillos <ArrowRight className="h-3 w-3 ml-2" />
+                </Button>
+              </Link>
             </div>
           </div>
         </section>

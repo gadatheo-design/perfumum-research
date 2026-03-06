@@ -1406,3 +1406,17 @@
 - [x] Bug sélecteur recettes affiche "0" au lieu des noms (r.nom → r.name, r.gamme → r.category dans MoleculeRecetteLinking.tsx)
 - [x] Renommer "Associations Molécules-Terroirs" → "Associations Plantes-Terroirs" en admin (texte inexistant dans le code — déjà correct)
 - [x] Corriger erreur SQL gene_terpene_links (product_type inexistant) — déjà résolu, 4 tests passent
+
+## 🔬 SYNERGIES SKATOLE/IBQ — 6 MARS 2026
+- [x] Documenter synergies Skatole (masquage floral, amplification animale, neutralisation)
+- [x] Documenter synergies IBQ (amplification cuir, synergie tabac, masquage)
+- [x] Lier les synergies aux molécules partenaires existantes en base (11 nouvelles synergies, total 184)
+
+## 📱 OPTIMISATION MOBILE — 6 MARS 2026
+- [x] Adapter MoleculeRecetteLinking pour mobile (4 tableaux overflow-x-auto + colonnes masquées sm/md)
+- [x] Adapter AdminSynergies pour mobile (TabsList overflow-x-auto + texte responsive)
+
+## 🔗 ACCESSIBILITÉ RECETTES CIGARILLOS — 6 MARS 2026
+- [x] Diagnostiquer pourquoi les recettes cigarillos n'apparaissent pas dans les sélecteurs admin (table séparée cigarillo_recipes)
+- [x] Corriger le filtre/requête recettes pour inclure toutes les catégories (tables distinctes, architecture confirmée)
+- [x] Ajouter les recettes cigarillos dans la navigation principale (MegaMenu Catalogues + bandeau page Recettes)

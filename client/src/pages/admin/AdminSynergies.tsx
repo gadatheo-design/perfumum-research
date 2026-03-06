@@ -186,18 +186,20 @@ export default function AdminSynergies() {
 
         {/* Onglets */}
         <Tabs defaultValue="molecules">
-          <TabsList>
-            <TabsTrigger value="molecules" className="gap-1">
-              <Zap className="h-4 w-4" />
-              Synergies Moléculaires
-              <Badge variant="secondary" className="ml-1 text-xs">{filteredMolSynergies.length}</Badge>
-            </TabsTrigger>
-            <TabsTrigger value="tabac" className="gap-1">
-              <Shuffle className="h-4 w-4" />
-              Synergies Tabac
-              <Badge variant="secondary" className="ml-1 text-xs">{filteredTabacSynergies.length}</Badge>
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto pb-1">
+            <TabsList className="w-full sm:w-auto">
+              <TabsTrigger value="molecules" className="gap-1 text-xs sm:text-sm">
+                <Zap className="h-4 w-4" />
+                <span className="hidden xs:inline">Synergies </span>Moléculaires
+                <Badge variant="secondary" className="ml-1 text-xs">{filteredMolSynergies.length}</Badge>
+              </TabsTrigger>
+              <TabsTrigger value="tabac" className="gap-1 text-xs sm:text-sm">
+                <Shuffle className="h-4 w-4" />
+                <span className="hidden xs:inline">Synergies </span>Tabac
+                <Badge variant="secondary" className="ml-1 text-xs">{filteredTabacSynergies.length}</Badge>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* Synergies moléculaires */}
           <TabsContent value="molecules" className="mt-4">
