@@ -472,10 +472,63 @@ export async function updateMatiereStock(id: number, stock: number, status?: "en
 // MOLECULES
 // ============================================================================
 
+/**
+ * Parse tous les champs JSON d'une molécule qui peuvent être stockés comme strings
+ * par MySQL/TiDB (comportement natif : les colonnes json() reviennent parfois en string).
+ *
+ * SOURCE UNIQUE DE VÉRITÉ pour le parsing JSON des molécules.
+ * AJOUTER ICI tout nouveau champ JSON ajouté au schema molecules.
+ *
+ * Champs couverts :
+ *   - json() dans Drizzle : references, pubchemSynonyms, coconutOrganisms, coconutCitations, ifraData
+ *   - text() contenant parfois du JSON : therapeuticProperties, olfactiveProfile
+ */
+export function parseMoleculeJsonFields(mol: Record<string, any>): Record<string, any> {
+  const jsonArrayFields = ['references', 'pubchemSynonyms', 'coconutOrganisms', 'coconutCitations'];
+  const jsonObjectFields = ['ifraData'];
+  const textJsonArrayFields = ['therapeuticProperties', 'olfactiveProfile'];
+
+  for (const field of jsonArrayFields) {
+    const val = mol[field];
+    if (val !== null && val !== undefined && typeof val === 'string') {
+      const trimmed = val.trim();
+      if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+        try { mol[field] = JSON.parse(trimmed); } catch { mol[field] = []; }
+      }
+    }
+  }
+
+  for (const field of jsonObjectFields) {
+    const val = mol[field];
+    if (val !== null && val !== undefined && typeof val === 'string') {
+      const trimmed = val.trim();
+      if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+        try { mol[field] = JSON.parse(trimmed); } catch { mol[field] = null; }
+      }
+    }
+  }
+
+  for (const field of textJsonArrayFields) {
+    const val = mol[field];
+    if (val !== null && val !== undefined && typeof val === 'string') {
+      const trimmed = val.trim();
+      if (trimmed.startsWith('[')) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (Array.isArray(parsed)) mol[field] = parsed;
+        } catch { /* garder la string originale */ }
+      }
+    }
+  }
+
+  return mol;
+}
+
 export async function getAllMolecules(): Promise<Molecule[]> {
   const db = await getDb();
   if (!db) return [];
-  return await db.select().from(molecules);
+  const rows = await db.select().from(molecules);
+  return rows.map(r => parseMoleculeJsonFields(r as any)) as Molecule[];
 }
 
 export async function getMoleculeById(id: number): Promise<Molecule | undefined> {
@@ -484,14 +537,7 @@ export async function getMoleculeById(id: number): Promise<Molecule | undefined>
   const result = await db.select().from(molecules).where(eq(molecules.id, id)).limit(1);
   const mol = result[0];
   if (!mol) return undefined;
-  // Ensure JSON fields are parsed (MySQL may return them as strings)
-  if (mol.references && typeof mol.references === 'string') {
-    try { (mol as any).references = JSON.parse(mol.references as any); } catch { (mol as any).references = []; }
-  }
-  if (mol.ifraData && typeof mol.ifraData === 'string') {
-    try { (mol as any).ifraData = JSON.parse(mol.ifraData as any); } catch { (mol as any).ifraData = null; }
-  }
-  return mol;
+  return parseMoleculeJsonFields(mol as any) as Molecule;
 }
 
 // ============================================================================
@@ -1566,7 +1612,7 @@ export async function getMoleculeWithRelations(id: number) {
   const moleculesList = await db.select().from(molecules).where(eq(molecules.id, id));
   if (moleculesList.length === 0) return null;
   
-  const mol = moleculesList[0];
+  const mol = parseMoleculeJsonFields(moleculesList[0] as any);
   
   // Get related recettes via molecule_recettes
   const relatedRecettes = await db
@@ -2735,7 +2781,7 @@ export async function getSimilarMolecules(moleculeId: number, limit: number = 3)
   const withSimilarity = allMolecules
     .filter((mol) => mol.id !== moleculeId)
     .map((mol) => ({
-      ...mol,
+      ...parseMoleculeJsonFields(mol as any),
       similarityScore: calculateRadarSimilarity(reference[0], mol),
     }))
     .sort((a, b) => b.similarityScore - a.similarityScore)
