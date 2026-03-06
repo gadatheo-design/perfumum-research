@@ -6905,3 +6905,22 @@ export const plantContributionsRelations = relations(plantContributions, ({ one 
     references: [plants.id],
   }),
 }));
+
+// ============================================================================
+// CIGARILLO MOLECULE LINKS — Liaisons entre recettes cigarillos et molécules
+// ============================================================================
+export const cigarilloMoleculeLinks = mysqlTable("cigarillo_molecule_links", {
+  id: int("id").autoincrement().primaryKey(),
+  cigarilloRecipeId: int("cigarillo_recipe_id").notNull(),
+  moleculeId: int("molecule_id").notNull(),
+  role: varchar("role", { length: 100 }),
+  percentage: decimal("percentage", { precision: 5, scale: 2 }),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  cigarilloIdx: index("cml_cigarillo_idx").on(table.cigarilloRecipeId),
+  moleculeIdx: index("cml_molecule_idx").on(table.moleculeId),
+  uniqueLink: uniqueIndex("cml_unique_link").on(table.cigarilloRecipeId, table.moleculeId),
+}));
+export type CigarilloMoleculeLink = typeof cigarilloMoleculeLinks.$inferSelect;
+export type InsertCigarilloMoleculeLink = typeof cigarilloMoleculeLinks.$inferInsert;

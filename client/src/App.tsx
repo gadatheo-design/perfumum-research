@@ -96,6 +96,7 @@ import DataQuality from "./pages/admin/DataQuality";
 import MoleculeManager from "./pages/admin/MoleculeManager";
 import AdminPlantMolecules from "./pages/admin/AdminPlantMolecules";
 import AdminSynergies from "./pages/admin/AdminSynergies";
+import CigarilloMoleculeLinking from "./pages/admin/CigarilloMoleculeLinking";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -476,6 +477,7 @@ function Router() {
       <Route path="/admin/molecule-manager" component={MoleculeManager} />
       <Route path="/admin/plant-molecules" component={AdminPlantMolecules} />
       <Route path="/admin/synergies" component={AdminSynergies} />
+      <Route path="/admin/liaison-cigarillos-molecules" component={CigarilloMoleculeLinking} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

@@ -66,6 +66,7 @@ import { plantCompositionRouter } from "./routers/plant-composition";
 import { duplicatesRouter } from "./routers/duplicates";
 import { moleculeManagerRouter } from "./routers/moleculeManager";
 import { correlationsRouter } from "./routers/correlations";
+import { cigarilloMoleculeLinksRouter } from "./routers/cigarilloMoleculeLinks";
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -10691,6 +10692,8 @@ Familles olfactives disponibles:
   moleculeManager: moleculeManagerRouter,
   // Corrélations moléculaires inter-domaines (parfum × tabac × cannabis)
   correlations: correlationsRouter,
+  // Cigarillo-Molecule Links
+  cigarilloMoleculeLinks: cigarilloMoleculeLinksRouter,
   // Data Quality Dashboard
   dataQuality: router({
     getMetrics: publicProcedure.query(async () => {

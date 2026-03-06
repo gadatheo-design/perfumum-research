@@ -267,6 +267,13 @@
       "when": 1772720555171,
       "tag": "0037_solid_venom",
       "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "5",
+      "when": 1772808431242,
+      "tag": "0038_short_korvac",
+      "breakpoints": true
     }
   ]
 }

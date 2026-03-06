@@ -221,6 +221,14 @@ export default function Admin() {
       color: "text-emerald-600",
       bgColor: "bg-emerald-50",
     },
+    {
+      title: "Cigarillos ↔ Molécules",
+      description: "Associer les molécules aromatiques aux 32 recettes cigarillos (rôle, pourcentage, notes).",
+      icon: Layers,
+      href: "/admin/liaison-cigarillos-molecules",
+      color: "text-amber-600",
+      bgColor: "bg-amber-50",
+    },
   ];
 
   return (

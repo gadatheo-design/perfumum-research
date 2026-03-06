@@ -977,9 +977,9 @@ export default function MoleculeDetail() {
                   />
                   {/* Badge IFRA pour le statut réglementaire */}
                   <IFRAStatusBadge 
-                    status={(molecule as any).ifra_status} 
-                    maxPercent={(molecule as any).ifra_max_percent}
-                    reason={(molecule as any).ifra_reason}
+                    status={(molecule as any).ifraStatus} 
+                    maxPercent={(molecule as any).ifraData?.maxPercent}
+                    reason={(molecule as any).ifraData?.reason}
                   />
                   {/* Badge CITES — matières animales protégées */}
                   {(() => {

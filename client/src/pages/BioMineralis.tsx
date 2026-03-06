@@ -106,7 +106,7 @@ export default function BioMineralis() {
   ) || [];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background text-foreground">
       <Breadcrumbs />
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white py-24 px-4">
@@ -155,14 +155,14 @@ export default function BioMineralis() {
             <p className="text-xl leading-relaxed mb-4">
               <strong>BIO-MINERALIS</strong> n'est pas une simple gamme de molécules. C'est une <em>pensée olfactive</em> qui interroge la transformation de la matière vivante en matière minérale, la mémoire chimique du vivant dans la pierre, l'odeur de la fossilisation.
             </p>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               Chaque accord est une <strong>hypothèse olfactive</strong> : que sent un os mouillé par la pluie ? Comment formuler l'odeur d'un cuir pétrifié ? Quelle est la signature moléculaire de la décomposition sacrée ?
             </p>
           </div>
 
-          <div className="bg-gray-50 border-3 border-black p-8 mb-16">
+          <div className="bg-muted border-3 border-border p-8 mb-16">
             <h2 className="text-2xl font-bold uppercase tracking-tight mb-4">Méthodologie</h2>
-            <div className="space-y-3 text-gray-700">
+            <div className="space-y-3 text-foreground">
               <p><strong>Pyrolyse contrôlée</strong> : 180°C - 220°C pour transformer le collagène en molécules volatiles</p>
               <p><strong>Macération longue</strong> : 72h - 6 mois pour extraire les composés minéraux</p>
               <p><strong>Fusion à froid</strong> : 80°C pour préserver les molécules fragiles</p>
@@ -173,7 +173,7 @@ export default function BioMineralis() {
       </div>
 
       {/* Accords Grid */}
-      <div className="bg-gray-50 py-16">
+      <div className="bg-muted/50 py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold uppercase tracking-tight mb-12 text-center">
             Les 6 Accords Révolutionnaires
@@ -184,9 +184,9 @@ export default function BioMineralis() {
               <Loader2 className="h-12 w-12 animate-spin text-purple-600" />
             </div>
           ) : bioMineralisAccords.length === 0 ? (
-            <div className="text-center py-12 border-3 border-black bg-white">
+            <div className="text-center py-12 border-3 border-border bg-card">
               <p className="text-xl font-bold uppercase tracking-tight mb-2">Données en cours d'import</p>
-              <p className="text-gray-600">Les accords BIO-MINERALIS seront bientôt disponibles</p>
+              <p className="text-muted-foreground">Les accords BIO-MINERALIS seront bientôt disponibles</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
@@ -203,7 +203,7 @@ export default function BioMineralis() {
                 return (
                   <div 
                     key={accord.id}
-                    className="border-3 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] bg-white overflow-hidden"
+                    className="border-3 border-border shadow-[6px_6px_0px_0px_rgba(0,0,0,0.3)] bg-card overflow-hidden"
                   >
                     {/* Header with Roman numeral */}
                     <div className={`${bgColor} text-white p-6`}>
@@ -226,7 +226,7 @@ export default function BioMineralis() {
                     <div className="p-6 space-y-4">
                       {accord.olfactiveProfile && (
                         <div>
-                          <h4 className="text-sm font-bold uppercase tracking-wide text-gray-500 mb-2">
+                          <h4 className="text-sm font-bold uppercase tracking-wide text-muted-foreground mb-2">
                             Profil Olfactif
                           </h4>
                           <p className="text-base leading-relaxed italic">
@@ -237,21 +237,21 @@ export default function BioMineralis() {
 
                       {accord.emotionalResonance && (
                         <div>
-                          <h4 className="text-sm font-bold uppercase tracking-wide text-gray-500 mb-2">
+                          <h4 className="text-sm font-bold uppercase tracking-wide text-muted-foreground mb-2">
                             Résonance Émotionnelle
                           </h4>
-                          <p className="text-sm leading-relaxed text-gray-700">
+                          <p className="text-sm leading-relaxed text-foreground">
                             {accord.emotionalResonance}
                           </p>
                         </div>
                       )}
 
                       {accord.notes && (
-                        <div className="border-t-2 border-gray-200 pt-4">
-                          <h4 className="text-sm font-bold uppercase tracking-wide text-gray-500 mb-2">
+                          <div className="border-t-2 border-border pt-4">
+                          <h4 className="text-sm font-bold uppercase tracking-wide text-muted-foreground mb-2">
                             Protocole
                           </h4>
-                          <p className="text-sm leading-relaxed text-gray-700 font-mono">
+                          <p className="text-sm leading-relaxed text-foreground font-mono">
                             {accord.notes}
                           </p>
                         </div>
@@ -272,7 +272,7 @@ export default function BioMineralis() {
             Les 12 Molécules-Piliers
           </h2>
           
-          <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+          <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
             La famille BIO-MINERALIS repose sur 12 molécules fondamentales qui incarnent la fusion du vivant et du minéral :
           </p>
 
@@ -293,23 +293,23 @@ export default function BioMineralis() {
             ].map((molecule, i) => (
               molecule.id ? (
                 <Link key={i} href={`/molecules/${molecule.id}`}>
-                  <div className="border-2 border-gray-300 p-4 hover:border-purple-600 hover:shadow-md transition-all cursor-pointer group">
+                  <div className="border-2 border-border p-4 hover:border-purple-600 hover:shadow-md transition-all cursor-pointer group">
                     <div className="flex items-start justify-between mb-1">
                       <div className="font-bold text-lg group-hover:text-purple-700 transition-colors">{molecule.name}</div>
-                      <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-purple-600 flex-shrink-0 mt-1" />
+                      <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-purple-600 flex-shrink-0 mt-1" />
                     </div>
                     <div className="font-mono text-sm text-purple-600 mb-2">{molecule.formula}</div>
-                    <div className="text-sm text-gray-600">{molecule.role}</div>
+                    <div className="text-sm text-muted-foreground">{molecule.role}</div>
                   </div>
                 </Link>
               ) : (
-                <div key={i} className="border-2 border-gray-200 p-4 opacity-70">
+                <div key={i} className="border-2 border-border p-4 opacity-70">
                   <div className="flex items-start justify-between mb-1">
                     <div className="font-bold text-lg">{molecule.name}</div>
-                    <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded mt-1">Non indexée</span>
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded mt-1">Non indexée</span>
                   </div>
                   <div className="font-mono text-sm text-purple-600 mb-2">{molecule.formula}</div>
-                  <div className="text-sm text-gray-600">{molecule.role}</div>
+                  <div className="text-sm text-muted-foreground">{molecule.role}</div>
                 </div>
               )
             ))}
@@ -365,7 +365,7 @@ export default function BioMineralis() {
       {/* Footer Section */}
       <footer className="border-t-2 border-black py-8">
         <div className="container mx-auto px-4">
-          <div className="text-center text-sm text-gray-600">
+          <div className="text-center text-sm text-muted-foreground">
             <p>© 2025 PERFUMUM — Recherche Olfactive</p>
             <p className="mt-2">Famille BIO-MINERALIS • 6 Accords Révolutionnaires • 12 Molécules-Piliers</p>
           </div>

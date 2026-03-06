@@ -1386,10 +1386,10 @@
 
 ## 🐛 BUGS — 6 MARS 2026 (Partie 3)
 
-- [ ] Crash "An unexpected error occurred" sur /molecule/30005 (MoleculeDetail)
-- [ ] Vérifier si d'autres IDs de molécules provoquent le même crash
-- [ ] Améliorer lisibilité et hyperliens sur /bio-mineralis
-- [ ] Corriger 404 sur /axes-thematiques
+- [x] Crash "An unexpected error occurred" sur /molecule/30005 (MoleculeDetail) — fix ifraStatus + ifraData dans MoleculeDetail.tsx
+- [x] Vérifier si d'autres IDs de molécules provoquent le même crash — même fix JSON.parse que 510005
+- [x] Améliorer lisibilité et hyperliens sur /bio-mineralis — dark mode fix (20 classes hardcodées remplacées)
+- [x] Corriger 404 sur /axes-thematiques — route déjà présente dans App.tsx (pas de 404 réel)
 
 ## 🐛 BUGS — 6 MARS 2026 (Partie 4)
 
@@ -1420,3 +1420,11 @@
 - [x] Diagnostiquer pourquoi les recettes cigarillos n'apparaissent pas dans les sélecteurs admin (table séparée cigarillo_recipes)
 - [x] Corriger le filtre/requête recettes pour inclure toutes les catégories (tables distinctes, architecture confirmée)
 - [x] Ajouter les recettes cigarillos dans la navigation principale (MegaMenu Catalogues + bandeau page Recettes)
+
+## 🔗 CIGARILLOS ↔ MOLÉCULES — 6 MARS 2026
+
+- [x] Créer table `cigarillo_molecule_links` (id, cigarillo_recipe_id, molecule_id, role, percentage, notes)
+- [x] Créer router tRPC `cigarilloMoleculeLinks` (list, create, delete, stats)
+- [x] Créer page admin `/admin/liaison-cigarillos-molecules` (CigarilloMoleculeLinking.tsx)
+- [x] Ajouter route dans App.tsx
+- [x] Ajouter lien dans page Admin.tsx
