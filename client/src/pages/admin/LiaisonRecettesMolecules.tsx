@@ -23,6 +23,8 @@ export default function LiaisonRecettesMolecules() {
   const [recetteSelectionnee, setRecetteSelectionnee] = useState<number | null>(null);
   const [rechercheMolecule, setRechercheMolecule] = useState("");
   const [formule, setFormule] = useState<MoleculeFormule[]>([]);
+  const [filtreCategorie, setFiltreCategorie] = useState<string | null>(null);
+  const [rechercheRecette, setRechercheRecette] = useState("");
 
   // Queries
   const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
@@ -77,6 +79,29 @@ export default function LiaisonRecettesMolecules() {
 
     return profil;
   }, [formule, molecules]);
+
+  // Filtrer recettes par catégorie et recherche
+  const recettesFiltrees = useMemo(() => {
+    if (!recettes) return [];
+    return recettes.filter((r: any) => {
+      const matchCat = !filtreCategorie || r.category === filtreCategorie;
+      const matchSearch = !rechercheRecette || (r.nom || r.name || '').toLowerCase().includes(rechercheRecette.toLowerCase());
+      return matchCat && matchSearch;
+    });
+  }, [recettes, filtreCategorie, rechercheRecette]);
+
+  // Stats de couverture par catégorie
+  const statsCategories = useMemo(() => {
+    if (!recettes) return {};
+    const cats: Record<string, { total: number; linked: number }> = {};
+    recettes.forEach((r: any) => {
+      const cat = r.category || 'unknown';
+      if (!cats[cat]) cats[cat] = { total: 0, linked: 0 };
+      cats[cat].total++;
+      if ((r.moleculeCount || 0) > 0) cats[cat].linked++;
+    });
+    return cats;
+  }, [recettes]);
 
   // Filtrer molécules
   const moleculesFiltrees = useMemo(() => {
@@ -174,11 +199,59 @@ export default function LiaisonRecettesMolecules() {
       <Card>
         <CardHeader>
           <CardTitle>1. Sélectionner une recette</CardTitle>
-          <CardDescription>Choisissez la recette à enrichir</CardDescription>
+          <CardDescription>Filtrez par catégorie pour cibler les recettes cigarillos / tabac non encore liées</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Filtres rapides par catégorie */}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant={filtreCategorie === null ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setFiltreCategorie(null)}
+            >
+              Toutes ({recettes?.length || 0})
+            </Button>
+            {Object.entries(statsCategories)
+              .sort((a, b) => b[1].total - a[1].total)
+              .map(([cat, stats]) => (
+                <Button
+                  key={cat}
+                  variant={filtreCategorie === cat ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFiltreCategorie(filtreCategorie === cat ? null : cat)}
+                  className="gap-1.5"
+                >
+                  {cat}
+                  <Badge
+                    variant="secondary"
+                    className={`text-xs px-1.5 py-0 ${
+                      stats.linked === stats.total
+                        ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-400'
+                        : stats.linked === 0
+                        ? 'bg-red-500/20 text-red-700 dark:text-red-400'
+                        : 'bg-amber-500/20 text-amber-700 dark:text-amber-400'
+                    }`}
+                  >
+                    {stats.linked}/{stats.total}
+                  </Badge>
+                </Button>
+              ))
+            }
+          </div>
+
+          {/* Recherche dans la catégorie */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Rechercher une recette par nom..."
+              value={rechercheRecette}
+              onChange={(e) => setRechercheRecette(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+
           <div className="space-y-2">
-            <Label>Recette</Label>
+            <Label>Recette ({recettesFiltrees.length} résultat{recettesFiltrees.length !== 1 ? 's' : ''})</Label>
             <Select
               value={recetteSelectionnee?.toString() || ""}
               onValueChange={(value) => {
@@ -190,9 +263,13 @@ export default function LiaisonRecettesMolecules() {
                 <SelectValue placeholder="Choisir une recette..." />
               </SelectTrigger>
               <SelectContent>
-                {recettes?.map((r: any) => (
+                {recettesFiltrees.map((r: any) => (
                   <SelectItem key={r.id} value={r.id.toString()}>
-                    {r.nom} ({r.gamme})
+                    <span className="flex items-center gap-2">
+                      {(r.moleculeCount || 0) > 0 ? '✅' : '⬜'}
+                      {r.nom || r.name}
+                      {r.category && <span className="text-muted-foreground text-xs">({r.category})</span>}
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>

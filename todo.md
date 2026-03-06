@@ -1372,3 +1372,14 @@
 ### ✅ Phase 4 : Tests et validation
 - [x] Tests vitest recettes-by-molecule.test.ts (5 tests)
 - [x] 101 fichiers de tests, 1512 tests passés, 0 erreur
+
+## SESSION 6 MARS 2026 — Partie 2 : Filtres, Synergies, Liaisons Admin
+
+- [x] Filtre molécule sur la page Recettes (?molecule= depuis popover)
+- [x] Tableau des synergies (masquage/neutralisation) dans MoleculeDetail + correction mapping type
+- [x] Interface admin de liaison recettes-molécules : filtres catégorie + progression (tabac 25 recettes)
+
+## 🐛 BUG — 6 MARS 2026
+
+- [x] Corriger le 404 sur /final-recipes/:id (FinalRecipeDetail.tsx + route App.tsx)
+- [x] Corriger le 404 sur /methodologie/gcms (alias route ajouté dans App.tsx)

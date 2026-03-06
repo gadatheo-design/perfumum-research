@@ -283,6 +283,7 @@ import OlfactiveStats from "./pages/OlfactiveStats";
 import PlantsHub from "./pages/PlantsHub";
 import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
+import FinalRecipeDetail from "./pages/FinalRecipeDetail";
 // Lazy-loaded: PlantDetail (1057 lignes)
 const PlantDetail = lazy(() => import("./pages/PlantDetail"));
 const PlantsByMolecule = lazy(() => import("./pages/PlantsByMolecule"));
@@ -736,6 +737,7 @@ function Router() {
       <Route path="/methodologie/echelle-absorbe" component={EchelleAbsorbe} />
       <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
       <Route path="/methodologie/gc-ms" component={GCMS} />
+      <Route path="/methodologie/gcms" component={GCMS} />
       
       {/* === CONTENU ÉDITORIAL === */}
       <Route path="/etudes" component={Etudes} />
@@ -899,6 +901,8 @@ function Router() {
       </Route>
       <Route path="/final-recipes" component={FinalRecipes} />
       <Route path="/recettes-finales" component={FinalRecipes} />
+      <Route path="/final-recipes/:id" component={FinalRecipeDetail} />
+      <Route path="/recettes-finales/:id" component={FinalRecipeDetail} />
       <Route path="/terroirs" component={PlantsHub} />
       <Route path="/terroirs-legacy" component={Terroirs} />
       <Route path="/terroirs/:id" component={TerroirDetail} />

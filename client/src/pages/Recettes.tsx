@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp, FlaskConical, ArrowUpDown, Info } from "lucide-react";
+import { Search, Beaker, Filter, X, Radar, ChevronDown, ChevronUp, FlaskConical, ArrowUpDown, Info, Atom } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { PageHeaderSkeleton, FilterBarSkeleton } from "@/components/skeletons";
@@ -84,6 +84,25 @@ export default function Recettes() {
   const [linkedFilter, setLinkedFilter] = useState<'all' | 'linked' | 'unlinked'>('all');
   const [location, setLocation] = useLocation();
   
+  // Filtre molécule depuis ?molecule= dans l'URL
+  const [selectedMolecule, setSelectedMolecule] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('molecule') || null;
+    }
+    return null;
+  });
+
+  // Recettes liées à la molécule sélectionnée (IDs)
+  const { data: moleculeRecetteIds } = trpc.recettes.getByMoleculeName.useQuery(
+    selectedMolecule ?? '',
+    { enabled: !!selectedMolecule }
+  );
+  const moleculeRecetteIdSet = useMemo(
+    () => new Set((moleculeRecetteIds ?? []).map((r: { id: number }) => r.id)),
+    [moleculeRecetteIds]
+  );
+
   // View mode (grid/list)
   const [viewMode, setViewMode] = useViewMode("recettes-view-mode", "grid");
   
@@ -148,7 +167,8 @@ export default function Recettes() {
       const matchesPrototype = !selectedPrototype || recette.formula?.includes(selectedPrototype);
       const matchesIngredient = !selectedIngredient || recette.ingredients?.toLowerCase().includes(selectedIngredient.toLowerCase());
       const matchesLinked = linkedFilter === 'all' || (linkedFilter === 'linked' && recette.moleculeCount > 0) || (linkedFilter === 'unlinked' && recette.moleculeCount === 0);
-      return matchesSearch && matchesGamme && matchesFamily && matchesPrototype && matchesIngredient && matchesLinked;
+      const matchesMolecule = !selectedMolecule || moleculeRecetteIdSet.has(recette.id);
+      return matchesSearch && matchesGamme && matchesFamily && matchesPrototype && matchesIngredient && matchesLinked && matchesMolecule;
     });
 
     // Trier ensuite
@@ -166,7 +186,7 @@ export default function Recettes() {
         // Tri par ID décroissant (les plus récentes en premier)
         return filtered.sort((a, b) => b.id - a.id);
     }
-  }, [recettes, searchTerm, selectedGamme, selectedFamily, selectedPrototype, selectedIngredient, sortBy, linkedFilter]);
+  }, [recettes, searchTerm, selectedGamme, selectedFamily, selectedPrototype, selectedIngredient, sortBy, linkedFilter, selectedMolecule, moleculeRecetteIdSet]);
 
   const clearFilters = () => {
     setSearchTerm("");
@@ -175,6 +195,7 @@ export default function Recettes() {
     setSelectedPrototype(null);
     setSelectedIngredient(null);
     setLinkedFilter('all');
+    setSelectedMolecule(null);
   };
 
   const clearAllFilters = () => {
@@ -197,7 +218,7 @@ export default function Recettes() {
     });
   };
 
-  const hasActiveFilters = searchTerm || selectedGamme || selectedFamily || selectedPrototype || selectedIngredient || linkedFilter !== 'all';
+  const hasActiveFilters = searchTerm || selectedGamme || selectedFamily || selectedPrototype || selectedIngredient || linkedFilter !== 'all' || selectedMolecule;
   
   // Statistiques de couverture
   const linkedCount = recettes.filter(r => r.moleculeCount > 0).length;
@@ -273,6 +294,27 @@ export default function Recettes() {
                   className="pl-10"
                 />
               </div>
+
+              {/* Filtre molécule actif (depuis ?molecule= ou popover) */}
+              {selectedMolecule && (
+                <div className="flex items-center gap-2 p-2.5 rounded-lg bg-primary/10 border border-primary/30 animate-in slide-in-from-top-2 duration-200">
+                  <Atom className="h-4 w-4 text-primary shrink-0" />
+                  <span className="text-sm font-medium text-primary">
+                    Recettes contenant <strong>{selectedMolecule}</strong>
+                  </span>
+                  <Badge variant="secondary" className="text-xs">
+                    {filteredRecettes.length} résultat{filteredRecettes.length !== 1 ? 's' : ''}
+                  </Badge>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0 ml-auto text-primary hover:text-primary hover:bg-primary/20"
+                    onClick={() => setSelectedMolecule(null)}
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </Button>
+                </div>
+              )}
 
               {/* Gamme Filters */}
               <div className="flex flex-wrap gap-2 items-center">

@@ -2453,14 +2453,14 @@ function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; mole
     })),
     ...filteredDbSynergies.map((s: any) => ({
       id: `db-${s.id}`,
-      type: s.synergyType || "potentialisation",
+      type: s.type || s.synergyType || "potentialisation",
       molecule1: s.molecule1Name || `Molécule #${s.molecule1Id}`,
       molecule2: s.molecule2Name || `Molécule #${s.molecule2Id}`,
       description: s.description,
       intensity: s.intensity,
       source: s.source,
       mechanism: s.chemicalMechanism,
-      application: s.olfactiveApplication,
+      application: s.applications || s.olfactiveApplication,
       ratio: s.optimalRatio,
     })),
   ];
@@ -2521,6 +2521,51 @@ function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; mole
           ))}
         </div>
       </div>
+
+      {/* Tableau récapitulatif masquage / neutralisation */}
+      {(typeCount['masquage'] || 0) + (typeCount['neutralisation'] || 0) > 0 && (
+        <div className="rounded-lg border bg-card overflow-hidden">
+          <div className="px-5 py-3 border-b bg-muted/30 flex items-center gap-2">
+            <span className="text-base">🎭</span>
+            <h3 className="font-semibold text-sm">Interactions de masquage &amp; neutralisation</h3>
+            <Badge variant="secondary" className="ml-auto text-xs">
+              {(typeCount['masquage'] || 0) + (typeCount['neutralisation'] || 0)} interaction{(typeCount['masquage'] || 0) + (typeCount['neutralisation'] || 0) > 1 ? 's' : ''}
+            </Badge>
+          </div>
+          <div className="divide-y divide-border/50">
+            {uniqueSynergies
+              .filter(s => s.type === 'masquage' || s.type === 'neutralisation')
+              .map(s => {
+                const config = SYNERGY_TYPE_CONFIG[s.type];
+                const partner = s.molecule1 === moleculeName ? s.molecule2 : s.molecule1;
+                const isMasker = s.type === 'masquage' && s.molecule1 === moleculeName;
+                return (
+                  <div key={s.id} className="px-5 py-3 flex items-start gap-4 hover:bg-muted/20 transition-colors">
+                    <span className="text-lg shrink-0 mt-0.5">{config.icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <Link href={`/molecules?search=${encodeURIComponent(partner || '')}`}>
+                          <span className={`font-semibold text-sm cursor-pointer hover:underline ${config.color}`}>
+                            {partner}
+                          </span>
+                        </Link>
+                        <Badge variant="outline" className={`text-xs ${config.bg} ${config.color}`}>
+                          {s.type === 'masquage'
+                            ? (isMasker ? `${moleculeName} masque ${partner}` : `${partner} masque ${moleculeName}`)
+                            : 'Neutralisation mutuelle'}
+                        </Badge>
+                      </div>
+                      {s.description && (
+                        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{s.description}</p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            }
+          </div>
+        </div>
+      )}
 
       {/* Filtres */}
       <div className="flex flex-wrap gap-2">
