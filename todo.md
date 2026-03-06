@@ -1334,3 +1334,15 @@
 - [x] Auditer et corriger les JSON.parse dans les composants
 - [x] 0 JSON.parse non protégé restant dans le projet
 - [x] 0 erreur TypeScript après toutes les corrections
+
+---
+
+## 🧹 NETTOYAGE JSON — 6 MARS 2026
+
+### Script de diagnostic et correction des champs JSON malformés
+- [x] Inventorier tous les champs JSON/text dans le schéma Drizzle
+- [x] Créer le script de diagnostic (détection des valeurs malformées)
+- [x] Créer le script de correction (stratégie text_to_array pour dominant_molecules)
+- [x] Exécuter le diagnostic : 227 problèmes détectés dans plants.dominant_molecules
+- [x] Appliquer les corrections : 227/227 valeurs converties en JSON valide
+- [x] Vérification finale : 0 problème détecté sur 540 valeurs analysées
