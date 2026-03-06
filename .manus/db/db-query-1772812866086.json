@@ -1,0 +1,52 @@
+{
+  "query": "SELECT \n  name,\n  JSON_TYPE(olfactiveProfile) as op_type,\n  JSON_TYPE(therapeuticProperties) as tp_type,\n  LEFT(olfactiveProfile, 80) as op_preview,\n  LEFT(therapeuticProperties, 80) as tp_preview\nFROM molecules \nWHERE name IN ('Ambroxan', 'Linalol', 'Géosmine', 'Bétuline', 'Acide Benzoïque', 'Vanilline')\nLIMIT 6;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  name,\n  JSON_TYPE(olfactiveProfile) as op_type,\n  JSON_TYPE(therapeuticProperties) as tp_type,\n  LEFT(olfactiveProfile, 80) as op_preview,\n  LEFT(therapeuticProperties, 80) as tp_preview\nFROM molecules \nWHERE name IN ('Ambroxan', 'Linalol', 'Géosmine', 'Bétuline', 'Acide Benzoïque', 'Vanilline')\nLIMIT 6;",
+  "rows": [
+    {
+      "name": "Ambroxan",
+      "op_type": "ARRAY",
+      "tp_type": "ARRAY",
+      "op_preview": "[\"chaud\",\"velouté\",\"diffusant\"]",
+      "tp_preview": "[\"Pas de propriétés thérapeutiques documentées. Utilisé comme fixateur en parfum"
+    },
+    {
+      "name": "Linalol",
+      "op_type": "ARRAY",
+      "tp_type": "ARRAY",
+      "op_preview": "[\"Floral doux, lavande, légèrement boisé et citronné. Note de cœur polyvalente e",
+      "tp_preview": "[\"Anxiolytique (modulation récepteurs GABA-A, similaire benzodiazépines), sédati"
+    },
+    {
+      "name": "Géosmine",
+      "op_type": "ARRAY",
+      "tp_type": "ARRAY",
+      "op_preview": "[\"Terre humide\",\"pluie\",\"sous-bois\",\"betterave\"]",
+      "tp_preview": "[\"Aucune propriété thérapeutique documentée\"]"
+    },
+    {
+      "name": "Acide Benzoïque",
+      "op_type": "ARRAY",
+      "tp_type": "ARRAY",
+      "op_preview": "[\"Balsamique\",\"vanillé\",\"poudré\"]",
+      "tp_preview": "[\"Conservateur\",\"Antifongique\"]"
+    },
+    {
+      "name": "Vanilline",
+      "op_type": "ARRAY",
+      "tp_type": "ARRAY",
+      "op_preview": "[\"vanille naturelle\"]",
+      "tp_preview": "[\"Antioxydant\",\"Antidépresseur\",\"Analgésique\"]"
+    },
+    {
+      "name": "Bétuline",
+      "op_type": "ARRAY",
+      "tp_type": "ARRAY",
+      "op_preview": "[\"neutre\",\"légèrement boisé\"]",
+      "tp_preview": "[\"Antitumoral (apoptose mélanome, cancer du poumon), anti-inflammatoire, antivir"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\top_type\ttp_type\top_preview\ttp_preview\nAmbroxan\tARRAY\tARRAY\t[\"chaud\",\"velouté\",\"diffusant\"]\t[\"Pas de propriétés thérapeutiques documentées. Utilisé comme fixateur en parfum\nLinalol\tARRAY\tARRAY\t[\"Floral doux, lavande, légèrement boisé et citronné. Note de cœur polyvalente e\t[\"Anxiolytique (modulation récepteurs GABA-A, similaire benzodiazépines), sédati\nGéosmine\tARRAY\tARRAY\t[\"Terre humide\",\"pluie\",\"sous-bois\",\"betterave\"]\t[\"Aucune propriété thérapeutique documentée\"]\nAcide Benzoïque\tARRAY\tARRAY\t[\"Balsamique\",\"vanillé\",\"poudré\"]\t[\"Conservateur\",\"Antifongique\"]\nVanilline\tARRAY\tARRAY\t[\"vanille naturelle\"]\t[\"Antioxydant\",\"Antidépresseur\",\"Analgésique\"]\nBétuline\tARRAY\tARRAY\t[\"neutre\",\"légèrement boisé\"]\t[\"Antitumoral (apoptose mélanome, cancer du poumon), anti-inflammatoire, antivir\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

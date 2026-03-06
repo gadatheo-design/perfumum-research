@@ -1,0 +1,40 @@
+{
+  "query": "SELECT \n  name,\n  olfactiveProfile,\n  therapeuticProperties\nFROM molecules \nWHERE name IN ('Ambroxan', 'Linalol', 'Géosmine', 'β-Caryophyllène', 'Bétuline', 'Acide Benzoïque')\nLIMIT 6;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  name,\n  olfactiveProfile,\n  therapeuticProperties\nFROM molecules \nWHERE name IN ('Ambroxan', 'Linalol', 'Géosmine', 'β-Caryophyllène', 'Bétuline', 'Acide Benzoïque')\nLIMIT 6;",
+  "rows": [
+    {
+      "name": "Ambroxan",
+      "olfactiveProfile": "[\"chaud\",\"velouté\",\"diffusant\"]",
+      "therapeuticProperties": "[\"Pas de propriétés thérapeutiques documentées. Utilisé comme fixateur en parfumerie.\"]"
+    },
+    {
+      "name": "Linalol",
+      "olfactiveProfile": "[\"Floral doux, lavande, légèrement boisé et citronné. Note de cœur polyvalente en parfumerie.\"]",
+      "therapeuticProperties": "[\"Anxiolytique (modulation récepteurs GABA-A, similaire benzodiazépines), sédatif léger, analgésique (inhibition canaux voltage-dépendants), anti-inflammatoire (inhibition NF-κB), antimicrobien (large spectre), anticonvulsivant. Utilisé en aromathérapie pour l'insomnie et l'anxiété. Composant principal de la lavande (Lavandula angustifolia). GRAS (FDA). DL50 orale rat : 2790 mg/kg.\"]"
+    },
+    {
+      "name": "Géosmine",
+      "olfactiveProfile": "[\"Terre humide\",\"pluie\",\"sous-bois\",\"betterave\"]",
+      "therapeuticProperties": "[\"Aucune propriété thérapeutique documentée\"]"
+    },
+    {
+      "name": "β-Caryophyllène",
+      "olfactiveProfile": "[\"Épicé, poivré, boisé, légèrement terreux. Note de fond caractéristique du poivre noir et du clou de girofle.\"]",
+      "therapeuticProperties": "[\"Agoniste sélectif CB2 (seul terpène alimentaire connu activant les récepteurs cannabinoïdes), anti-inflammatoire puissant (inhibition NF-κB, TNF-α), analgésique, anxiolytique, antidépresseur, gastroprotecteur, neuroprotecteur. Potentiel thérapeutique dans maladies inflammatoires chroniques, douleurs neuropathiques, anxiété. Approuvé comme additif alimentaire (FEMA). DL50 orale rat : 5000 mg/kg.\"]"
+    },
+    {
+      "name": "Acide Benzoïque",
+      "olfactiveProfile": "[\"Balsamique\",\"vanillé\",\"poudré\"]",
+      "therapeuticProperties": "[\"Conservateur\",\"Antifongique\"]"
+    },
+    {
+      "name": "Bétuline",
+      "olfactiveProfile": "[\"neutre\",\"légèrement boisé\"]",
+      "therapeuticProperties": "[\"Antitumoral (apoptose mélanome, cancer du poumon), anti-inflammatoire, antiviral (VIH, HSV), antifongique (Candida albicans CMI 16 μg/mL), hépatoprotecteur. Extrait principal de l'écorce de bouleau (Betula spp.).\"]"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tolfactiveProfile\ttherapeuticProperties\nAmbroxan\t[\"chaud\",\"velouté\",\"diffusant\"]\t[\"Pas de propriétés thérapeutiques documentées. Utilisé comme fixateur en parfumerie.\"]\nLinalol\t[\"Floral doux, lavande, légèrement boisé et citronné. Note de cœur polyvalente en parfumerie.\"]\t[\"Anxiolytique (modulation récepteurs GABA-A, similaire benzodiazépines), sédatif léger, analgésique (inhibition canaux voltage-dépendants), anti-inflammatoire (inhibition NF-κB), antimicrobien (large spectre), anticonvulsivant. Utilisé en aromathérapie pour l'insomnie et l'anxiété. Composant principal de la lavande (Lavandula angustifolia). GRAS (FDA). DL50 orale rat : 2790 mg/kg.\"]\nGéosmine\t[\"Terre humide\",\"pluie\",\"sous-bois\",\"betterave\"]\t[\"Aucune propriété thérapeutique documentée\"]\nβ-Caryophyllène\t[\"Épicé, poivré, boisé, légèrement terreux. Note de fond caractéristique du poivre noir et du clou de girofle.\"]\t[\"Agoniste sélectif CB2 (seul terpène alimentaire connu activant les récepteurs cannabinoïdes), anti-inflammatoire puissant (inhibition NF-κB, TNF-α), analgésique, anxiolytique, antidépresseur, gastroprotecteur, neuroprotecteur. Potentiel thérapeutique dans maladies inflammatoires chroniques, douleurs neuropathiques, anxiété. Approuvé comme additif alimentaire (FEMA). DL50 orale rat : 5000 mg/kg.\"]\nAcide Benzoïque\t[\"Balsamique\",\"vanillé\",\"poudré\"]\t[\"Conservateur\",\"Antifongique\"]\nBétuline\t[\"neutre\",\"légèrement boisé\"]\t[\"Antitumoral (apoptose mélanome, cancer du poumon), anti-inflammatoire, antiviral (VIH, HSV), antifongique (Candida albicans CMI 16 μg/mL), hépatoprotecteur. Extrait principal de l'écorce de bouleau (Betula spp.).\"]\n",
+  "stderr": "",
+  "execution_time_ms": 230
+}

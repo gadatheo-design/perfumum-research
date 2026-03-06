@@ -1,0 +1,30 @@
+{
+  "query": "SELECT name, LEFT(olfactiveProfile, 100) as op, LEFT(therapeuticProperties, 100) as tp FROM molecules WHERE name IN ('Ambroxan', 'Géosmine', 'Bétuline', 'Acide Benzoïque') LIMIT 4;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT name, LEFT(olfactiveProfile, 100) as op, LEFT(therapeuticProperties, 100) as tp FROM molecules WHERE name IN ('Ambroxan', 'Géosmine', 'Bétuline', 'Acide Benzoïque') LIMIT 4;",
+  "rows": [
+    {
+      "name": "Ambroxan",
+      "op": "[\"chaud\",\"velouté\",\"diffusant\"]",
+      "tp": "[\"Pas de propriétés thérapeutiques documentées. Utilisé comme fixateur en parfumerie.\"]"
+    },
+    {
+      "name": "Géosmine",
+      "op": "[\"Terre humide\",\"pluie\",\"sous-bois\",\"betterave\"]",
+      "tp": "[\"Aucune propriété thérapeutique documentée\"]"
+    },
+    {
+      "name": "Acide Benzoïque",
+      "op": "[\"Balsamique\",\"vanillé\",\"poudré\"]",
+      "tp": "[\"Conservateur\",\"Antifongique\"]"
+    },
+    {
+      "name": "Bétuline",
+      "op": "[\"neutre\",\"légèrement boisé\"]",
+      "tp": "[\"Antitumoral (apoptose mélanome, cancer du poumon), anti-inflammatoire, antiviral (VIH, HSV), antif"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\top\ttp\nAmbroxan\t[\"chaud\",\"velouté\",\"diffusant\"]\t[\"Pas de propriétés thérapeutiques documentées. Utilisé comme fixateur en parfumerie.\"]\nGéosmine\t[\"Terre humide\",\"pluie\",\"sous-bois\",\"betterave\"]\t[\"Aucune propriété thérapeutique documentée\"]\nAcide Benzoïque\t[\"Balsamique\",\"vanillé\",\"poudré\"]\t[\"Conservateur\",\"Antifongique\"]\nBétuline\t[\"neutre\",\"légèrement boisé\"]\t[\"Antitumoral (apoptose mélanome, cancer du poumon), anti-inflammatoire, antiviral (VIH, HSV), antif\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

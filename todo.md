@@ -1428,3 +1428,11 @@
 - [x] Créer page admin `/admin/liaison-cigarillos-molecules` (CigarilloMoleculeLinking.tsx)
 - [x] Ajouter route dans App.tsx
 - [x] Ajouter lien dans page Admin.tsx
+
+## 🔧 STANDARDISATION — olfactiveProfile & therapeuticProperties (6 mars 2026)
+
+- [x] Auditer la distribution des formats en base — 910 strings op, 839 strings tp sur 1045 molécules
+- [x] Standardiser olfactiveProfile : convertir toutes les strings en tableaux JSON — 1045 molécules mises à jour
+- [x] Standardiser therapeuticProperties : convertir toutes les strings en tableaux JSON — 1045 molécules mises à jour
+- [x] Adapter le frontend pour afficher les tableaux correctement — tags badges dans MoleculeDetail.tsx + Molecules.tsx
+- [x] parseMoleculeJsonFields couvre déjà les deux champs (op, tp) — aucune modification nécessaire

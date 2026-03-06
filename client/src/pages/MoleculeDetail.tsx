@@ -1072,7 +1072,21 @@ export default function MoleculeDetail() {
                       <Sparkles className="h-5 w-5 text-primary" />
                       <h2 className="text-lg font-semibold">Profil Olfactif</h2>
                     </div>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule.olfactiveProfile}</p>
+                    {Array.isArray(molecule.olfactiveProfile) ? (
+                      molecule.olfactiveProfile.length === 1 ? (
+                        <p className="whitespace-pre-wrap text-muted-foreground">{molecule.olfactiveProfile[0]}</p>
+                      ) : (
+                        <div className="flex flex-wrap gap-2">
+                          {molecule.olfactiveProfile.map((tag: string, i: number) => (
+                            <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )
+                    ) : (
+                      <p className="whitespace-pre-wrap text-muted-foreground">{molecule.olfactiveProfile as string}</p>
+                    )}
                   </div>
                 )}
 
@@ -1150,7 +1164,21 @@ export default function MoleculeDetail() {
                 {molecule.therapeuticProperties && (
                   <div className="bg-card p-6 rounded-lg border shadow-sm">
                     <h2 className="text-lg font-semibold mb-3">Propriétés Thérapeutiques</h2>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule.therapeuticProperties}</p>
+                    {Array.isArray(molecule.therapeuticProperties) ? (
+                      molecule.therapeuticProperties.length === 1 ? (
+                        <p className="whitespace-pre-wrap text-muted-foreground">{molecule.therapeuticProperties[0]}</p>
+                      ) : (
+                        <div className="flex flex-wrap gap-2">
+                          {molecule.therapeuticProperties.map((tag: string, i: number) => (
+                            <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )
+                    ) : (
+                      <p className="whitespace-pre-wrap text-muted-foreground">{molecule.therapeuticProperties as string}</p>
+                    )}
                   </div>
                 )}
 

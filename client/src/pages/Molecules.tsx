@@ -148,18 +148,26 @@ export default function Molecules() {
     }));
   }, [chemicalFamiliesData]);
 
+  // Helper : obtenir les tags olfactifs d'une molécule (tableau ou string)
+  const getOlfactiveTags = (profile: string | string[] | null | undefined): string[] => {
+    if (!profile) return [];
+    if (Array.isArray(profile)) return profile;
+    return profile.split(/[,;\n]/).map(p => p.trim()).filter(Boolean);
+  };
+
+  // Helper : obtenir la représentation texte d'un profil olfactif
+  const getOlfactiveText = (profile: string | string[] | null | undefined): string => {
+    if (!profile) return '';
+    if (Array.isArray(profile)) return profile.join(', ');
+    return profile;
+  };
+
   // Extract unique olfactive profiles
   const olfactiveProfiles = useMemo(() => {
     if (!molecules) return [];
     const profileSet = new Set<string>();
     molecules.forEach(m => {
-      if (m.olfactiveProfile) {
-        // Split by comma, semicolon, or newline
-        m.olfactiveProfile.split(/[,;\n]/).forEach(p => {
-          const trimmed = p.trim();
-          if (trimmed) profileSet.add(trimmed);
-        });
-      }
+      getOlfactiveTags(m.olfactiveProfile as any).forEach(tag => profileSet.add(tag));
     });
     return Array.from(profileSet).sort();
   }, [molecules]);
@@ -179,7 +187,7 @@ export default function Molecules() {
       // Search filter
       const matchesSearch = 
         molecule.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        molecule.olfactiveProfile?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        getOlfactiveText(molecule.olfactiveProfile as any).toLowerCase().includes(searchQuery.toLowerCase()) ||
         molecule.emotionalResonance?.toLowerCase().includes(searchQuery.toLowerCase());
       
       // Family filter
@@ -196,9 +204,11 @@ export default function Molecules() {
       // Olfactive profile filter
       const matchesProfile = 
         selectedProfiles.length === 0 ||
-        (molecule.olfactiveProfile && selectedProfiles.some(profile => 
-          molecule.olfactiveProfile!.toLowerCase().includes(profile.toLowerCase())
-        ));
+        selectedProfiles.some(profile =>
+          getOlfactiveTags(molecule.olfactiveProfile as any).some(tag =>
+            tag.toLowerCase().includes(profile.toLowerCase())
+          )
+        );
       
       // Concentration filter
       const conc = parseConcentration(molecule.concentration);
@@ -208,7 +218,7 @@ export default function Molecules() {
       
       // Gamme filter
       const matchesGamme = 
-        !selectedGamme || getGammeFromOlfactiveProfile(molecule.olfactiveProfile) === selectedGamme;
+        !selectedGamme || getGammeFromOlfactiveProfile(getOlfactiveText(molecule.olfactiveProfile as any)) === selectedGamme;
       
       // Flavornet percept filter
       const matchesPercept = 
@@ -355,7 +365,7 @@ export default function Molecules() {
       m.casNumber || '',
       m.family || '',
       m.chemicalClass || '',
-      `"${(m.olfactiveProfile || '').replace(/"/g, '""')}"`,
+      `"${(getOlfactiveText(m.olfactiveProfile as any) || '').replace(/"/g, '""')}"`,
       `"${(m.emotionalResonance || '').replace(/"/g, '""')}"`,
       m.concentration || '',
       m.boilingPoint || '',
@@ -978,9 +988,9 @@ export default function Molecules() {
                               <div onClick={(e) => e.preventDefault()}>
                                 <FavoriteButton moleculeId={molecule.id} moleculeName={molecule.name} variant="icon" />
                               </div>
-                              {getGammeFromOlfactiveProfile(molecule.olfactiveProfile) && (
+                              {getGammeFromOlfactiveProfile(getOlfactiveText(molecule.olfactiveProfile as any)) && (
                                 <GammeBadge 
-                                  gamme={getGammeFromOlfactiveProfile(molecule.olfactiveProfile)!} 
+                                  gamme={getGammeFromOlfactiveProfile(getOlfactiveText(molecule.olfactiveProfile as any))!} 
                                   size="sm" 
                                   showIcon={false}
                                 />
@@ -1092,9 +1102,19 @@ export default function Molecules() {
                         {molecule.olfactiveProfile && (
                           <div>
                             <h4 className="text-sm font-semibold mb-2">Profil Olfactif</h4>
-                            <p className="text-sm text-muted-foreground">
-                              {molecule.olfactiveProfile}
-                            </p>
+                            {Array.isArray(molecule.olfactiveProfile) && molecule.olfactiveProfile.length > 1 ? (
+                              <div className="flex flex-wrap gap-1">
+                                {(molecule.olfactiveProfile as string[]).map((tag, i) => (
+                                  <span key={i} className="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-primary/10 text-primary border border-primary/20">
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="text-sm text-muted-foreground">
+                                {getOlfactiveText(molecule.olfactiveProfile as any)}
+                              </p>
+                            )}
                           </div>
                         )}
                         
