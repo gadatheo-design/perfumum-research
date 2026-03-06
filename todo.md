@@ -1346,3 +1346,29 @@
 - [x] Exécuter le diagnostic : 227 problèmes détectés dans plants.dominant_molecules
 - [x] Appliquer les corrections : 227/227 valeurs converties en JSON valide
 - [x] Vérification finale : 0 problème détecté sur 540 valeurs analysées
+
+
+## SESSION 6 MARS 2026 — Badges Molécules Dominantes & Navigation Narrative
+
+### ✅ Phase 1 : Nettoyage JSON dominant_molecules
+- [x] Script de diagnostic JSON malformé (227/227 valeurs corrigées)
+- [x] Conversion chaînes brutes → tableaux JSON valides
+- [x] 0 problème sur 540 valeurs après correction
+
+### ✅ Phase 2 : Badges cliquables avec popover
+- [x] Composant DominantMoleculeBadge avec popover 3 onglets (Info / Plantes / Recettes)
+- [x] Route tRPC molecules.getByName
+- [x] Route tRPC plants.getByDominantMolecule
+- [x] Route tRPC recettes.getByMoleculeName (avec proportion et statut)
+- [x] Intégration dans PlantDetail (remplacement des badges simples)
+- [x] Fonction db.getRecettesByMoleculeName ajoutée dans db.ts
+
+### ✅ Phase 3 : Page de filtrage par molécule
+- [x] Page PlantsByMolecule (/plantes/par-molecule)
+- [x] Filtrage multi-molécules en mode ET
+- [x] Auto-complétion des noms de molécules
+- [x] Lien dans le MegaMenu (section Exploration)
+
+### ✅ Phase 4 : Tests et validation
+- [x] Tests vitest recettes-by-molecule.test.ts (5 tests)
+- [x] 101 fichiers de tests, 1512 tests passés, 0 erreur

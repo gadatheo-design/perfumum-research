@@ -20807,3 +20807,40 @@ export async function importGcmsFromCsv(
     return { success: true, created, updated, skipped, notFound, errors };
   } catch (e: any) { console.error(e); throw e; }
 }
+
+/**
+ * Récupère les recettes qui contiennent une molécule donnée (par nom).
+ * Recherche d'abord la molécule par son nom exact, puis retourne les recettes associées.
+ */
+export async function getRecettesByMoleculeName(moleculeName: string, limit: number = 8) {
+  const db = await getDb();
+  if (!db) return [];
+
+  // Trouver la molécule par son nom (insensible à la casse)
+  const mol = await db
+    .select({ id: molecules.id, name: molecules.name })
+    .from(molecules)
+    .where(sql`LOWER(${molecules.name}) = LOWER(${moleculeName})`)
+    .limit(1);
+
+  if (!mol[0]) return [];
+
+  // Récupérer les recettes associées via la table de jonction
+  const result = await db
+    .select({
+      id: recettes.id,
+      name: recettes.name,
+      category: recettes.category,
+      description: recettes.description,
+      status: recettes.status,
+      proportion: moleculesRecettes.proportion,
+      role: moleculesRecettes.role,
+    })
+    .from(moleculesRecettes)
+    .innerJoin(recettes, eq(moleculesRecettes.recetteId, recettes.id))
+    .where(eq(moleculesRecettes.moleculeId, mol[0].id))
+    .orderBy(desc(moleculesRecettes.proportion))
+    .limit(limit);
+
+  return result;
+}

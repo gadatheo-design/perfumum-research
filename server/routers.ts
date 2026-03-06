@@ -933,6 +933,16 @@ export const appRouter = router({
         return await db.getRecettesTLWithTerpProfiles();
       }),
     
+    // Récupérer les recettes contenant une molécule donnée (par nom)
+    getByMoleculeName: publicProcedure
+      .input(z.object({
+        moleculeName: z.string().min(1),
+        limit: z.number().optional().default(8),
+      }))
+      .query(async ({ input }) => {
+        return await db.getRecettesByMoleculeName(input.moleculeName, input.limit);
+      }),
+
     // Liste des recettes avec profil radar moyen calculé
     listWithRadar: publicProcedure
       .input(z.object({
