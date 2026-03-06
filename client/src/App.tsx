@@ -285,6 +285,7 @@ import Chemotypes from "./pages/Chemotypes";
 import FinalRecipes from "./pages/FinalRecipes";
 // Lazy-loaded: PlantDetail (1057 lignes)
 const PlantDetail = lazy(() => import("./pages/PlantDetail"));
+const PlantsByMolecule = lazy(() => import("./pages/PlantsByMolecule"));
 import PlantForm from "./pages/PlantForm";
 import VarietyForm from "./pages/VarietyForm";
 import VarietyDetail from "./pages/VarietyDetail";
@@ -868,6 +869,20 @@ function Router() {
       <Route path="/statistiques" component={OlfactiveStats} />
       <Route path="/plants/new" component={PlantForm} />
       <Route path="/plants/:id/edit" component={PlantForm} />
+      <Route path="/plantes/par-molecule">
+        {() => (
+          <Suspense fallback={<PageLoader />}>
+            <PlantsByMolecule />
+          </Suspense>
+        )}
+      </Route>
+      <Route path="/plants/by-molecule">
+        {() => (
+          <Suspense fallback={<PageLoader />}>
+            <PlantsByMolecule />
+          </Suspense>
+        )}
+      </Route>
       <Route path="/plants/:id">
         {(params) => (
           <Suspense fallback={<PageLoader />}>

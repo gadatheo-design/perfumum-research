@@ -488,6 +488,13 @@ export const appRouter = router({
         return await db.searchMoleculesByName(input.name);
       }),
     
+    // Récupérer une molécule par son nom exact (pour les badges dominant_molecules)
+    getByName: publicProcedure
+      .input(z.object({ name: z.string().min(1) }))
+      .query(async ({ input }) => {
+        return await db.getMoleculeByName(input.name);
+      }),
+    
     // Récupérer les plantes contenant une molécule spécifique
     getPlantsByMolecule: publicProcedure
       .input(z.object({ moleculeId: z.number() }))
@@ -3255,6 +3262,33 @@ export const appRouter = router({
       .input(z.number())
       .query(async ({ input }) => {
         return await db.getPlantPerfumes(input);
+      }),
+    // Plantes contenant une molécule dominante spécifique (pour les badges)
+    getByDominantMolecule: publicProcedure
+      .input(z.object({
+        moleculeName: z.string().min(1),
+        excludePlantId: z.number().optional(),
+        limit: z.number().min(1).max(100).default(50),
+      }))
+      .query(async ({ input }) => {
+        const { getDb } = await import('./db');
+        const { sql } = await import('drizzle-orm');
+        const dbConn = await getDb();
+        if (!dbConn) return [];
+        const searchTerm = `%${input.moleculeName}%`;
+        const result = await dbConn.execute(
+          input.excludePlantId
+            ? sql`SELECT id, name, latin_name, category, image_url FROM plants WHERE dominant_molecules LIKE ${searchTerm} AND id != ${input.excludePlantId} ORDER BY name LIMIT ${input.limit}`
+            : sql`SELECT id, name, latin_name, category, image_url FROM plants WHERE dominant_molecules LIKE ${searchTerm} ORDER BY name LIMIT ${input.limit}`
+        );
+        const rows = (Array.isArray(result) ? result[0] : (result as any).rows ?? result) as any[];
+        return rows.map((r: any) => ({
+          id: r.id as number,
+          name: r.name as string,
+          latinName: r.latin_name as string | null,
+          category: r.category as string,
+          imageUrl: r.image_url as string | null,
+        }));
       }),
   }),
 

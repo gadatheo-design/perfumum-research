@@ -36,6 +36,7 @@ import { LinkedReferences } from "@/components/LinkedReferences";
 import { GenealogyTree } from "@/components/GenealogyTree";
 import { SeasonalVariations } from "@/components/SeasonalVariations";
 import { PlantContributionModal, PlantContributionsBanner } from "@/components/PlantContributionModal";
+import { DominantMoleculeBadgeList } from "@/components/DominantMoleculeBadge";
 import { useAuth } from "@/_core/hooks/useAuth";
 
 // Mapping des axes climatiques vers des couleurs
@@ -295,13 +296,11 @@ export default function PlantDetail() {
                     <h4 className="text-sm font-medium text-muted-foreground mb-2">
                       Molécules dominantes
                     </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {dominantMolecules.map((mol: string, idx: number) => (
-                        <Badge key={idx} variant="secondary">
-                          {mol}
-                        </Badge>
-                      ))}
-                    </div>
+                    <DominantMoleculeBadgeList
+                      molecules={dominantMolecules}
+                      currentPlantId={plantId}
+                      maxVisible={12}
+                    />
                   </div>
                 )}
                 {plant.chemotypes && (

@@ -46,6 +46,7 @@ function MegaMenuOptimizedNav() {
         { id: "10", label: "Carte GPS Plantes", href: "/carte-plantes-gps" },
         { id: "11", label: "Recherche avancée", href: "/recherche-avancee" },
         { id: "12", label: "Alternatives durables", href: "/alternatives-durables", badge: "NEW" },
+        { id: "12b", label: "Plantes par molécule", href: "/plantes/par-molecule", badge: "NEW" },
       ],
     },
     {
