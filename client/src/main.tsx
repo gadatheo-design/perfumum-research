@@ -76,7 +76,7 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('/sw.js')
       .then((registration) => {
-        console.log('[PWA] Service Worker v2 registered:', registration.scope);
+        if (import.meta.env.DEV) console.debug('[PWA] Service Worker v2 registered:', registration.scope);
         
         // Vérifier les mises à jour toutes les 30 minutes
         setInterval(() => {
@@ -90,7 +90,7 @@ if ('serviceWorker' in navigator) {
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                 // Nouvelle version disponible
-                console.log('[PWA] New version available. Refresh to update.');
+                if (import.meta.env.DEV) console.debug('[PWA] New version available. Refresh to update.');
                 // Optionnel : afficher une notification à l'utilisateur
                 if (confirm('Une nouvelle version de PERFUMUM est disponible. Voulez-vous actualiser ?')) {
                   newWorker.postMessage({ type: 'SKIP_WAITING' });

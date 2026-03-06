@@ -1016,6 +1016,33 @@ export default function MoleculeDetail() {
                     );
                   })()}
 
+                  {/* Badge validation_status */}
+                  {(() => {
+                    const vs = (molecule as any).validationStatus;
+                    if (!vs || vs === 'valide') return null;
+                    const cfg: Record<string, { label: string; icon: string; cls: string }> = {
+                      brouillon: { label: 'Brouillon', icon: '📝', cls: 'bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600' },
+                      en_revision: { label: 'En révision', icon: '🔍', cls: 'bg-amber-50 text-amber-700 border-amber-300 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-700' },
+                      rejete: { label: 'Rejeté', icon: '⚠️', cls: 'bg-red-50 text-red-700 border-red-300 dark:bg-red-950/50 dark:text-red-300 dark:border-red-700' },
+                    };
+                    const c = cfg[vs];
+                    if (!c) return null;
+                    return (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Badge variant="outline" className={`text-sm ${c.cls}`}>
+                              {c.icon} {c.label}
+                            </Badge>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Statut de validation : {c.label}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    );
+                  })()}
+
                   {/* Badge inter-domaines : lien vers la page /correlations */}
                   <Link href={`/correlations?q=${encodeURIComponent(molecule.name)}`}>
                     <Badge

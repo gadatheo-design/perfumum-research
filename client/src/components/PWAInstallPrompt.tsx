@@ -38,7 +38,7 @@ export function PWAInstallPrompt() {
 
     // Listen for app installed event
     const handleAppInstalled = () => {
-      console.log('[PWA] App installed successfully');
+      if (import.meta.env.DEV) console.debug('[PWA] App installed successfully');
       setIsInstalled(true);
       setShowPrompt(false);
       setDeferredPrompt(null);
@@ -61,12 +61,12 @@ export function PWAInstallPrompt() {
 
     // Wait for the user's response
     const { outcome } = await deferredPrompt.userChoice;
-    console.log('[PWA] User response:', outcome);
+    if (import.meta.env.DEV) console.debug('[PWA] User response:', outcome);
 
     if (outcome === 'accepted') {
-      console.log('[PWA] User accepted the install prompt');
+      if (import.meta.env.DEV) console.debug('[PWA] User accepted the install prompt');
     } else {
-      console.log('[PWA] User dismissed the install prompt');
+      if (import.meta.env.DEV) console.debug('[PWA] User dismissed the install prompt');
     }
 
     // Clear the deferredPrompt

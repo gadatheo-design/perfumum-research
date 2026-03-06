@@ -150,7 +150,7 @@ export default function Favoris() {
     try {
       const data = prepareExportData();
       exportToPDF(data);
-      console.log(`Export PDF réussi: ${data.length} molécule(s)`);
+      // Export PDF réussi;
     } catch (error) {
       console.error("Erreur d'export PDF:", error);
       alert("Erreur lors de l'export PDF");
@@ -161,7 +161,7 @@ export default function Favoris() {
     try {
       const data = prepareExportData();
       exportToCSV(data);
-      console.log(`Export CSV réussi: ${data.length} molécule(s)`);
+      // Export CSV réussi;
     } catch (error) {
       console.error("Erreur d'export CSV:", error);
       alert("Erreur lors de l'export CSV");

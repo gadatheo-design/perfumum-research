@@ -1514,3 +1514,21 @@
 - [x] Correction erreur TypeScript Breadcrumbs (items → currentLabel)
 - [x] Correction erreur TypeScript chebiId dans db.ts (type de retour enrichMoleculeFromChEBIWithTranslation)
 - [x] TypeScript : 0 erreur
+
+## ✅ AUDIT ET COMPLÉTION DES TÂCHES NON VALIDÉES (6 mars 2026)
+
+### Résultats de l'audit — tâches déjà complètes
+- [x] 2 plantes sans nom latin → DÉJÀ FAIT (0 plante sans latin_name en base)
+- [x] Seeder transformations pyrolytiques → DÉJÀ FAIT (161 transformations : Latakia, Perique, Virginia, cannabis)
+- [x] Onglet Propriétés thérapeutiques dans MoleculeDetail → DÉJÀ FAIT (TherapeuticPropertiesTab.tsx 358 lignes)
+- [x] Descriptions olfactives des 32 accords → DÉJÀ FAIT (0 accord sans description)
+- [x] Connecter TabacsNiche/TabacsResines à la DB → DÉJÀ FAIT (trpc.tabacs.listWithTerroir.useQuery())
+- [x] Visualisation arborescente généalogies → DÉJÀ FAIT (GenealogyGraph.tsx + onglets PlantDetail/VarietyDetail)
+- [x] Système de contributions utilisateur → DÉJÀ FAIT (tables + AdminContributions.tsx)
+- [x] Ghost varieties (8 fiches) → DÉJÀ FAIT (8 variétés + 56 liaisons moléculaires)
+- [x] Filtre validation_status dans MoleculeExplorer → DÉJÀ FAIT (validationFilter dans Molecules.tsx)
+
+### Tâches réellement manquantes — complétées maintenant
+- [x] Badge validation_status dans MoleculeDetail → IMPLÉMENTÉ (brouillon/en_revision/rejeté avec tooltip)
+- [x] Nettoyer 17 console.log en production → NETTOYÉ (0 console.log restant, remplacés par console.debug conditionnels)
+- [x] TypeScript : 0 erreur confirmé

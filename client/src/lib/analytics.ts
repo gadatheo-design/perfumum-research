@@ -1,6 +1,8 @@
 // @ts-nocheck
 import ReactGA from "react-ga4";
 
+const isDev = import.meta.env.DEV;
+
 /**
  * Initialize Google Analytics
  * Call this function once on app startup
@@ -13,7 +15,7 @@ export const initializeAnalytics = (measurementId: string) => {
 
   try {
     ReactGA.initialize(measurementId);
-    console.log("[Analytics] Google Analytics initialized with ID:", measurementId);
+    if (isDev) console.debug("[Analytics] Google Analytics initialized with ID:", measurementId);
   } catch (error) {
     console.error("[Analytics] Failed to initialize Google Analytics:", error);
   }
@@ -30,7 +32,7 @@ export const trackPageView = (path: string, title?: string) => {
       page: path,
       title: title || document.title,
     });
-    console.log("[Analytics] Page view tracked:", path);
+    if (isDev) console.debug("[Analytics] Page view tracked:", path);
   } catch (error) {
     console.error("[Analytics] Failed to track page view:", error);
   }
@@ -48,7 +50,7 @@ export const trackRedirect = (fromUrl: string, toUrl: string, reason?: string) =
       label: `${fromUrl} → ${toUrl}`,
       value: reason ? `reason: ${reason}` : undefined,
     });
-    console.log("[Analytics] Redirect tracked:", { fromUrl, toUrl, reason });
+    if (isDev) console.debug("[Analytics] Redirect tracked:", { fromUrl, toUrl, reason });
   } catch (error) {
     console.error("[Analytics] Failed to track redirect:", error);
   }
@@ -70,7 +72,7 @@ export const trackEvent = (
       label,
       value,
     });
-    console.log("[Analytics] Event tracked:", { category, action, label, value });
+    if (isDev) console.debug("[Analytics] Event tracked:", { category, action, label, value });
   } catch (error) {
     console.error("[Analytics] Failed to track event:", error);
   }

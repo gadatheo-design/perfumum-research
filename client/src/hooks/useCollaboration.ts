@@ -219,7 +219,7 @@ export function useCollaboration(options: UseCollaborationOptions = {}) {
       wsRef.current = ws;
 
       ws.onopen = () => {
-        console.log("[Collaboration] Connected to WebSocket");
+        if (import.meta.env.DEV) console.debug("[Collaboration] Connected to WebSocket");
         setIsConnected(true);
         setConnectionError(null);
         reconnectAttemptsRef.current = 0;
@@ -231,7 +231,7 @@ export function useCollaboration(options: UseCollaborationOptions = {}) {
       ws.onmessage = handleMessage;
 
       ws.onclose = () => {
-        console.log("[Collaboration] Disconnected from WebSocket");
+        if (import.meta.env.DEV) console.debug("[Collaboration] Disconnected from WebSocket");
         setIsConnected(false);
         wsRef.current = null;
 
@@ -239,7 +239,7 @@ export function useCollaboration(options: UseCollaborationOptions = {}) {
         if (reconnectAttemptsRef.current < maxReconnectAttempts) {
           reconnectAttemptsRef.current++;
           reconnectTimeoutRef.current = setTimeout(() => {
-            console.log(`[Collaboration] Reconnecting... (attempt ${reconnectAttemptsRef.current})`);
+            if (import.meta.env.DEV) console.debug(`[Collaboration] Reconnecting... (attempt ${reconnectAttemptsRef.current})`);
             connect();
           }, reconnectInterval);
         } else {
