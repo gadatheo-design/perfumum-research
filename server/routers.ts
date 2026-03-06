@@ -3153,6 +3153,18 @@ export const appRouter = router({
           })).optional(),
           notes: z.string().optional(),
           imageUrl: z.string().optional(),
+          // Nomenclature étendue
+          synonyms: z.array(z.string()).optional(),
+          authorCitation: z.string().optional(),
+          gbifId: z.string().optional(),
+          itisId: z.string().optional(),
+          powId: z.string().optional(),
+          genus: z.string().optional(),
+          species: z.string().optional(),
+          kingdom: z.string().optional(),
+          division: z.string().optional(),
+          class: z.string().optional(),
+          orderName: z.string().optional(),
         }),
       }))
       .mutation(async ({ input }) => {

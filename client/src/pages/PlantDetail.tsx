@@ -1253,13 +1253,26 @@ function NomenclatureTab({ plant }: { plant: any }) {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  // Générer les liens externes depuis le nom latin
+  // Générer les liens externes — priorité aux IDs directs, sinon recherche par nom
   const latinEncoded = plant.latinName ? encodeURIComponent(plant.latinName) : null;
-  const gbifUrl = latinEncoded ? `https://www.gbif.org/species/search?q=${latinEncoded}` : null;
-  const itisUrl = latinEncoded ? `https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=Scientific_Name&search_value=${latinEncoded}` : null;
-  const powUrl = latinEncoded ? `https://powo.science.kew.org/results?q=${latinEncoded}` : null;
+  const gbifUrl = plant.gbifId
+    ? `https://www.gbif.org/species/${plant.gbifId}`
+    : latinEncoded ? `https://www.gbif.org/species/search?q=${latinEncoded}` : null;
+  const itisUrl = plant.itisId
+    ? `https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=${plant.itisId}`
+    : latinEncoded ? `https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=Scientific_Name&search_value=${latinEncoded}` : null;
+  const powUrl = plant.powId
+    ? `https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:${plant.powId}`
+    : latinEncoded ? `https://powo.science.kew.org/results?q=${latinEncoded}` : null;
   const wikiUrl = latinEncoded ? `https://fr.wikipedia.org/wiki/${latinEncoded.replace(/%20/g, '_')}` : null;
   const tplUrl = latinEncoded ? `https://www.theplantlist.org/tpl1.1/search?q=${latinEncoded}` : null;
+
+  // Synonymes
+  const synonymsList: string[] = Array.isArray(plant.synonyms)
+    ? plant.synonyms
+    : (typeof plant.synonyms === 'string' && plant.synonyms)
+      ? (() => { try { return JSON.parse(plant.synonyms); } catch { return [plant.synonyms]; } })()
+      : [];
 
   return (
     <div className="space-y-6">
@@ -1326,6 +1339,35 @@ function NomenclatureTab({ plant }: { plant: any }) {
               </div>
             )}
 
+            {/* Genre */}
+            {plant.genus && (
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Genre</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-medium italic">{plant.genus}</p>
+                  <button onClick={() => copyToClipboard(plant.genus, 'genus')} className="text-muted-foreground hover:text-foreground transition-colors">
+                    {copied === 'genus' ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Espèce */}
+            {plant.species && (
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Espèce</p>
+                <p className="text-sm italic">{plant.species}</p>
+              </div>
+            )}
+
+            {/* Auteur de la description */}
+            {plant.authorCitation && (
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Auteur (citation)</p>
+                <p className="text-sm text-muted-foreground">{plant.authorCitation}</p>
+              </div>
+            )}
+
             {/* Origine */}
             {plant.origin && (
               <div className="space-y-1">
@@ -1333,9 +1375,72 @@ function NomenclatureTab({ plant }: { plant: any }) {
                 <p className="text-sm">{plant.origin}</p>
               </div>
             )}
+
+            {/* Classification systématique */}
+            {(plant.kingdom || plant.division || plant.class || plant.orderName) && (
+              <div className="space-y-2 col-span-full">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Classification systématique</p>
+                <div className="flex flex-wrap gap-2">
+                  {plant.kingdom && (
+                    <Badge variant="outline" className="text-xs">
+                      <span className="text-muted-foreground mr-1">Règne :</span>{plant.kingdom}
+                    </Badge>
+                  )}
+                  {plant.division && (
+                    <Badge variant="outline" className="text-xs">
+                      <span className="text-muted-foreground mr-1">Division :</span>{plant.division}
+                    </Badge>
+                  )}
+                  {plant.class && (
+                    <Badge variant="outline" className="text-xs">
+                      <span className="text-muted-foreground mr-1">Classe :</span>{plant.class}
+                    </Badge>
+                  )}
+                  {plant.orderName && (
+                    <Badge variant="outline" className="text-xs">
+                      <span className="text-muted-foreground mr-1">Ordre :</span>{plant.orderName}
+                    </Badge>
+                  )}
+                  {plant.family && (
+                    <Link href={`/famille/${encodeURIComponent(plant.family)}`}>
+                      <Badge variant="outline" className="text-xs cursor-pointer hover:bg-accent">
+                        <span className="text-muted-foreground mr-1">Famille :</span>{plant.family}
+                      </Badge>
+                    </Link>
+                  )}
+                  {plant.genus && (
+                    <Badge variant="outline" className="text-xs">
+                      <span className="text-muted-foreground mr-1">Genre :</span><span className="italic">{plant.genus}</span>
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
+
+      {/* Synonymes */}
+      {synonymsList.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <GitBranch className="h-5 w-5 text-amber-500" />
+              Synonymes botaniques
+            </CardTitle>
+            <CardDescription>{synonymsList.length} synonyme(s) référencé(s)</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2">
+              {synonymsList.map((syn: string, i: number) => (
+                <Badge key={i} variant="secondary" className="text-sm italic font-normal">
+                  {syn}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Liens externes */}
       {plant.latinName && (

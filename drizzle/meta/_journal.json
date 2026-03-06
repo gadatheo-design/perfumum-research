@@ -274,6 +274,13 @@
       "when": 1772808431242,
       "tag": "0038_short_korvac",
       "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "5",
+      "when": 1772819572887,
+      "tag": "0039_striped_christian_walker",
+      "breakpoints": true
     }
   ]
 }

@@ -1532,3 +1532,12 @@
 - [x] Badge validation_status dans MoleculeDetail → IMPLÉMENTÉ (brouillon/en_revision/rejeté avec tooltip)
 - [x] Nettoyer 17 console.log en production → NETTOYÉ (0 console.log restant, remplacés par console.debug conditionnels)
 - [x] TypeScript : 0 erreur confirmé
+
+## ✅ SESSION 2026-03-06 — Audit complet des tâches non validées
+
+- [x] Onglet Nomenclature dans /plante/:slug — ajout colonnes synonyms/authorCitation/gbifId/itisId/powId + enrichissement NomenclatureTab
+- [x] Batch PubChem 100 molécules — 50 nouvelles enrichies (299→349/1045, 33%)
+- [x] Audit 12 pages non importées dans App.tsx — toutes gérées via redirects ou doublons
+- [x] Badge validation_status dans MoleculeDetail — ajouté avec tooltip
+- [x] Nettoyage console.log en production — 17 remplacés par console.debug conditionnels
+- [x] Rapport d'audit créé dans docs/audit-pages-non-importees.md

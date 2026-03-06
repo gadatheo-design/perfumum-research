@@ -1978,6 +1978,12 @@ export const plants = mysqlTable("plants", {
   sustainableAlternatives: text("sustainable_alternatives"), // Alternatives durables
   lastAssessmentYear: int("last_assessment_year"), // Année de la dernière évaluation IUCN
   historicalStatus: varchar("historical_status", { length: 32 }), // Statut historique si changé
+  // Nomenclature étendue
+  synonyms: json("synonyms").$type<string[]>(), // Synonymes botaniques (ex: ["Pimenta acris", "Myrcia acris"])
+  authorCitation: varchar("author_citation", { length: 255 }), // Auteur de la description (ex: "(Mill.) Kosterm.")
+  gbifId: varchar("gbif_id", { length: 50 }), // Identifiant GBIF pour lien direct
+  itisId: varchar("itis_id", { length: 50 }), // Identifiant ITIS pour lien direct
+  powId: varchar("pow_id", { length: 50 }), // Identifiant Plants of the World (POWO)
   // Métadonnées
   notes: text("notes"),
   imageUrl: varchar("image_url", { length: 500 }),
