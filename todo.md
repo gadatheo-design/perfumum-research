@@ -1401,3 +1401,8 @@
 - [x] 404 sur /admin/synergies (route manquante — créer page admin synergies)
 - [x] Crash MoleculeDetail sur /molecule/510005 (references retourné comme string JSON au lieu d'un tableau)
 - [x] Recherche texte non fonctionnelle dans Liaison Recettes-Molécules (filtre "ciga" → 0 résultats — aucune recette cigarillo en base, filtre corrigé + message explicite)
+
+## 🔧 CORRECTIONS — 6 MARS 2026 (Partie 4 — reprise)
+- [x] Bug sélecteur recettes affiche "0" au lieu des noms (r.nom → r.name, r.gamme → r.category dans MoleculeRecetteLinking.tsx)
+- [x] Renommer "Associations Molécules-Terroirs" → "Associations Plantes-Terroirs" en admin (texte inexistant dans le code — déjà correct)
+- [x] Corriger erreur SQL gene_terpene_links (product_type inexistant) — déjà résolu, 4 tests passent

@@ -198,8 +198,8 @@ export default function MoleculeRecetteLinking() {
   const recettesFiltrees = useMemo(() => {
     if (!recettes) return [];
     return recettes.filter((r: any) =>
-      r.nom?.toLowerCase().includes(rechercheRecette.toLowerCase()) ||
-      r.gamme?.toLowerCase().includes(rechercheRecette.toLowerCase())
+      r.name?.toLowerCase().includes(rechercheRecette.toLowerCase()) ||
+      r.category?.toLowerCase().includes(rechercheRecette.toLowerCase())
     );
   }, [recettes, rechercheRecette]);
 
@@ -482,9 +482,9 @@ export default function MoleculeRecetteLinking() {
                             <TableBody>
                               {stats.recettesSansMolecules.map((r: any) => (
                                 <TableRow key={r.id}>
-                                  <TableCell className="font-medium">{r.nom}</TableCell>
+                                  <TableCell className="font-medium">{r.name}</TableCell>
                                   <TableCell>
-                                    <Badge variant="outline">{r.gamme}</Badge>
+                                    <Badge variant="outline">{r.category}</Badge>
                                   </TableCell>
                                   <TableCell>{r.category || "-"}</TableCell>
                                   <TableCell className="text-right">
@@ -588,7 +588,7 @@ export default function MoleculeRecetteLinking() {
                             <SelectItem value="none">Sélectionner...</SelectItem>
                             {recettes?.map((r: any) => (
                               <SelectItem key={r.id} value={r.id.toString()}>
-                                {r.nom} ({r.gamme})
+                                {r.name} ({r.category})
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -872,9 +872,9 @@ export default function MoleculeRecetteLinking() {
                             <TableBody>
                               {recettesFiltrees.slice(0, 15).map((r: any) => (
                                 <TableRow key={r.id}>
-                                  <TableCell className="font-medium">{r.nom}</TableCell>
+                                  <TableCell className="font-medium">{r.name}</TableCell>
                                   <TableCell>
-                                    <Badge variant="outline">{r.gamme}</Badge>
+                                    <Badge variant="outline">{r.category}</Badge>
                                   </TableCell>
                                   <TableCell>{r.category || "-"}</TableCell>
                                   <TableCell className="text-right">
@@ -924,7 +924,7 @@ export default function MoleculeRecetteLinking() {
                 <SelectContent>
                   {recettes?.map((r: any) => (
                     <SelectItem key={r.id} value={r.id.toString()}>
-                      {r.nom} ({r.gamme})
+                      {r.name} ({r.category})
                     </SelectItem>
                   ))}
                 </SelectContent>
