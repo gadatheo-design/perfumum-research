@@ -1436,3 +1436,11 @@
 - [x] Standardiser therapeuticProperties : convertir toutes les strings en tableaux JSON — 1045 molécules mises à jour
 - [x] Adapter le frontend pour afficher les tableaux correctement — tags badges dans MoleculeDetail.tsx + Molecules.tsx
 - [x] parseMoleculeJsonFields couvre déjà les deux champs (op, tp) — aucune modification nécessaire
+
+## 📱 VALIDATION MOBILE + STANDARDISATION JSON — 6 mars 2026
+
+- [x] Valider l'affichage des badges olfactifs/thérapeutiques sur mobile — audit code OK, flex flex-wrap gap-2 correct
+- [x] Corriger les problèmes responsive si nécessaire — aucun problème détecté
+- [x] Standardiser `references` en base — 271 strings converties en tableaux JSON natifs
+- [x] Standardiser `pubchemSynonyms` en base — déjà standardisé (68 tableaux natifs, 0 string)
+- [x] Adapter le frontend pour references et pubchemSynonyms — synonymes affichés comme badges mono dans MoleculeDetail (max 12 + compteur)

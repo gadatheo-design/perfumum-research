@@ -1038,6 +1038,25 @@ export default function MoleculeDetail() {
                 <p className="text-sm font-mono text-amber-800 dark:text-amber-200">{molecule.iupacName}</p>
               </div>
             )}
+
+            {/* Synonymes PubChem */}
+            {Array.isArray((molecule as any).pubchemSynonyms) && (molecule as any).pubchemSynonyms.length > 0 && (
+              <div className="mt-4 p-3 bg-muted/40 rounded-lg border border-border">
+                <p className="text-xs text-muted-foreground font-medium mb-2">Synonymes (PubChem)</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {((molecule as any).pubchemSynonyms as string[]).slice(0, 12).map((syn: string, i: number) => (
+                    <span key={i} className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-secondary text-secondary-foreground border border-border font-mono">
+                      {syn}
+                    </span>
+                  ))}
+                  {((molecule as any).pubchemSynonyms as string[]).length > 12 && (
+                    <span className="text-xs text-muted-foreground italic self-center">
+                      +{((molecule as any).pubchemSynonyms as string[]).length - 12} autres
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Tabs pour organiser le contenu */}
