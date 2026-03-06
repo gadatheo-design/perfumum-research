@@ -1458,3 +1458,16 @@
 - [x] Créer page admin /admin/pubchem-batch avec start/pause/stop et barre de progression — PubChemBatch.tsx créé
 - [x] Ajouter le lien dans la page Admin.tsx — carte violette "Enrichissement PubChem — Batch"
 - [x] Tester l'API getEnrichmentStats — 794 molécules sans CID confirmées
+
+## 🏷️ ONGLET NOMENCLATURE — MoleculeDetail (6 mars 2026)
+
+- [x] Analyser la structure actuelle des onglets dans MoleculeDetail — onglet scientific contenait la nomenclature
+- [x] Créer l'onglet "Nomenclature" regroupant IUPAC, CAS, synonymes PubChem, formule, poids — + liens externes PubChem/CAS/ChemSpider/ChEBI
+- [x] Nettoyer l'en-tête de la fiche (retirer IUPAC + synonymes dupliqués) et l'onglet scientific (section Nomenclature Scientifique supprimée)
+- [x] Valider le responsive mobile — grid md:grid-cols-2 correct
+
+## 🌿 ENRICHISSEMENT ChEBI EN MASSE — Admin (6 mars 2026)
+
+- [x] Analyser la procédure enrichFromChEBI existante — enrichMoleculeFromChEBIWithTranslation + getUnenrichedMoleculesForChEBI présents
+- [x] Créer page admin /admin/chebi-batch (start/pause/stop, progression, journal) — ChEBIBatch.tsx créé
+- [x] Ajouter le lien dans Admin.tsx — carte teal "Enrichissement ChEBI — Batch"

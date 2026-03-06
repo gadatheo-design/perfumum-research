@@ -237,6 +237,14 @@ export default function Admin() {
       color: "text-violet-600",
       bgColor: "bg-violet-50",
     },
+    {
+      title: "Enrichissement ChEBI — Batch",
+      description: "Enrichir en masse les molécules naturelles sans PubChem CID via ChEBI (terpènes, alcaloïdes, phénols, acides gras).",
+      icon: Database,
+      href: "/admin/chebi-batch",
+      color: "text-teal-600",
+      bgColor: "bg-teal-50",
+    },
   ];
 
   return (

@@ -4,7 +4,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
-import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search } from "lucide-react";
+import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search, BookOpen, Copy, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
@@ -1031,38 +1031,16 @@ export default function MoleculeDetail() {
               </div>
             </div>
             
-            {/* Nom IUPAC */}
-            {molecule.iupacName && (
-              <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-800">
-                <p className="text-xs text-amber-600 dark:text-amber-400 font-medium mb-1">Nom IUPAC</p>
-                <p className="text-sm font-mono text-amber-800 dark:text-amber-200">{molecule.iupacName}</p>
-              </div>
-            )}
-
-            {/* Synonymes PubChem */}
-            {Array.isArray((molecule as any).pubchemSynonyms) && (molecule as any).pubchemSynonyms.length > 0 && (
-              <div className="mt-4 p-3 bg-muted/40 rounded-lg border border-border">
-                <p className="text-xs text-muted-foreground font-medium mb-2">Synonymes (PubChem)</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {((molecule as any).pubchemSynonyms as string[]).slice(0, 12).map((syn: string, i: number) => (
-                    <span key={i} className="inline-flex items-center px-2 py-0.5 rounded text-xs bg-secondary text-secondary-foreground border border-border font-mono">
-                      {syn}
-                    </span>
-                  ))}
-                  {((molecule as any).pubchemSynonyms as string[]).length > 12 && (
-                    <span className="text-xs text-muted-foreground italic self-center">
-                      +{((molecule as any).pubchemSynonyms as string[]).length - 12} autres
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Tabs pour organiser le contenu */}
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-2 md:grid-cols-10">
               <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
+              <TabsTrigger value="nomenclature" className="flex items-center gap-1">
+                <BookOpen className="h-3.5 w-3.5" />
+                Nomenclature
+              </TabsTrigger>
               <TabsTrigger value="scientific">Données scientifiques</TabsTrigger>
               <TabsTrigger value="structure3d" className="flex items-center gap-1">
                 <Box className="h-3.5 w-3.5" />
@@ -1080,6 +1058,174 @@ export default function MoleculeDetail() {
                 ⚗️ Synergies
               </TabsTrigger>
             </TabsList>
+
+            {/* Onglet Nomenclature */}
+            <TabsContent value="nomenclature" className="space-y-6 mt-6">
+              {/* Identités principales */}
+              <div className="bg-card p-6 rounded-lg border shadow-sm">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-semibold flex items-center gap-2">
+                    <BookOpen className="h-5 w-5 text-primary" />
+                    Identité Chimique
+                  </h2>
+                  {!(molecule as any).pubchem_cid && (
+                    <PubChemEnrichButton moleculeId={id} moleculeName={molecule.name} />
+                  )}
+                </div>
+
+                <div className="space-y-4">
+                  {/* Nom commun + formule */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-muted/50 p-4 rounded-lg">
+                      <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Nom commun</p>
+                      <p className="text-xl font-bold">{molecule.name}</p>
+                    </div>
+                    {molecule.chemicalFormula && (
+                      <div className="bg-muted/50 p-4 rounded-lg">
+                        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Formule moléculaire</p>
+                        <p className="text-xl font-mono font-bold">{molecule.chemicalFormula}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Nom IUPAC */}
+                  {molecule.iupacName && (
+                    <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+                      <p className="text-xs text-amber-600 dark:text-amber-400 uppercase tracking-wide font-medium mb-2">Nom IUPAC (nomenclature systématique)</p>
+                      <p className="font-mono text-amber-800 dark:text-amber-200 leading-relaxed">{molecule.iupacName}</p>
+                    </div>
+                  )}
+
+                  {/* CAS + Poids moléculaire */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {molecule.casNumber && (
+                      <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+                        <p className="text-xs text-blue-600 dark:text-blue-400 uppercase tracking-wide font-medium mb-2">Numéro CAS</p>
+                        <p className="text-2xl font-mono font-bold text-blue-800 dark:text-blue-200 mb-2">{molecule.casNumber}</p>
+                        <div className="flex gap-2">
+                          <a
+                            href={`https://commonchemistry.cas.org/detail?cas_rn=${molecule.casNumber}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-blue-600 hover:underline flex items-center gap-1"
+                          >
+                            CAS Common Chemistry <ExternalLink className="h-3 w-3" />
+                          </a>
+                          <a
+                            href={`https://www.chemspider.com/Search.aspx?q=${molecule.casNumber}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-blue-600 hover:underline flex items-center gap-1"
+                          >
+                            ChemSpider <ExternalLink className="h-3 w-3" />
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                    {molecule.molecularWeight && (
+                      <div className="bg-muted/50 p-4 rounded-lg">
+                        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">Masse moléculaire</p>
+                        <p className="text-2xl font-bold">{molecule.molecularWeight} <span className="text-sm font-normal text-muted-foreground">g/mol</span></p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Classe chimique + Famille */}
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {molecule.chemicalClass && (
+                      <div className="bg-purple-50 dark:bg-purple-950/30 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+                        <p className="text-xs text-purple-600 dark:text-purple-400 uppercase tracking-wide font-medium mb-2">Classe chimique</p>
+                        <p className="text-lg font-semibold text-purple-800 dark:text-purple-200">
+                          {chemicalClassLabels[molecule.chemicalClass] || molecule.chemicalClass}
+                        </p>
+                      </div>
+                    )}
+                    {molecule.family && (
+                      <div className="bg-primary/5 p-4 rounded-lg border border-primary/20">
+                        <p className="text-xs text-primary/70 uppercase tracking-wide font-medium mb-2">Famille olfactive</p>
+                        <p className="text-lg font-semibold text-primary">{molecule.family}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Liens externes */}
+              {((molecule as any).pubchem_cid || molecule.casNumber || molecule.chemicalFormula) && (
+                <div className="bg-card p-6 rounded-lg border shadow-sm">
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <Globe className="h-5 w-5 text-primary" />
+                    Bases de données externes
+                  </h2>
+                  <div className="flex flex-wrap gap-3">
+                    {(molecule as any).pubchem_cid && (
+                      <a
+                        href={`https://pubchem.ncbi.nlm.nih.gov/compound/${(molecule as any).pubchem_cid}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors text-sm font-medium"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        PubChem CID {(molecule as any).pubchem_cid}
+                      </a>
+                    )}
+                    {molecule.casNumber && (
+                      <a
+                        href={`https://commonchemistry.cas.org/detail?cas_rn=${molecule.casNumber}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors text-sm font-medium"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        CAS Registry
+                      </a>
+                    )}
+                    {molecule.chemicalFormula && (
+                      <a
+                        href={`https://www.chemspider.com/Search.aspx?q=${encodeURIComponent(molecule.chemicalFormula)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors text-sm font-medium"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        ChemSpider
+                      </a>
+                    )}
+                    {molecule.name && (
+                      <a
+                        href={`https://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString=${encodeURIComponent(molecule.name)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors text-sm font-medium"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        ChEBI
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Synonymes PubChem */}
+              {Array.isArray((molecule as any).pubchemSynonyms) && (molecule as any).pubchemSynonyms.length > 0 && (
+                <div className="bg-card p-6 rounded-lg border shadow-sm">
+                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <Atom className="h-5 w-5 text-primary" />
+                    Synonymes PubChem
+                    <span className="ml-auto text-sm font-normal text-muted-foreground">
+                      {((molecule as any).pubchemSynonyms as string[]).length} synonymes
+                    </span>
+                  </h2>
+                  <div className="flex flex-wrap gap-2">
+                    {((molecule as any).pubchemSynonyms as string[]).map((syn: string, i: number) => (
+                      <span key={i} className="inline-flex items-center px-2.5 py-1 rounded text-xs bg-secondary text-secondary-foreground border border-border font-mono hover:bg-secondary/80 transition-colors">
+                        {syn}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </TabsContent>
 
             {/* Onglet Vue d'ensemble */}
             <TabsContent value="overview" className="space-y-6 mt-6">
@@ -1264,66 +1410,7 @@ export default function MoleculeDetail() {
 
             {/* Onglet Données scientifiques */}
             <TabsContent value="scientific" className="space-y-6 mt-6">
-              {/* Nomenclature scientifique */}
-              <div className="bg-card p-6 rounded-lg border shadow-sm">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-semibold flex items-center gap-2">
-                    <Beaker className="h-5 w-5 text-primary" />
-                    Nomenclature Scientifique
-                  </h2>
-                  {!(molecule as any).pubchem_cid && (
-                    <PubChemEnrichButton moleculeId={id} moleculeName={molecule.name} />
-                  )}
-                </div>
-                <div className="space-y-4">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="bg-muted/50 p-4 rounded-lg">
-                      <p className="text-sm text-muted-foreground mb-1">Nom commun</p>
-                      <p className="text-lg font-semibold">{molecule.name}</p>
-                    </div>
-                    {molecule.chemicalFormula && (
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-1">Formule chimique</p>
-                        <p className="text-lg font-mono font-semibold">{molecule.chemicalFormula}</p>
-                      </div>
-                    )}
-                  </div>
-                  
-                  {molecule.iupacName && (
-                    <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
-                      <p className="text-sm text-amber-600 dark:text-amber-400 font-medium mb-1">Nom IUPAC (nomenclature systématique)</p>
-                      <p className="font-mono text-amber-800 dark:text-amber-200">{molecule.iupacName}</p>
-                    </div>
-                  )}
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {molecule.casNumber && (
-                      <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <p className="text-sm text-blue-600 dark:text-blue-400 font-medium mb-1">Numéro CAS</p>
-                        <p className="text-lg font-mono font-semibold text-blue-800 dark:text-blue-200">{molecule.casNumber}</p>
-                        <a 
-                          href={`https://commonchemistry.cas.org/detail?cas_rn=${molecule.casNumber}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-blue-600 hover:underline flex items-center gap-1 mt-2"
-                        >
-                          Voir sur CAS Common Chemistry <ExternalLink className="h-3 w-3" />
-                        </a>
-                      </div>
-                    )}
-                    {molecule.chemicalClass && (
-                      <div className="bg-purple-50 dark:bg-purple-950/30 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
-                        <p className="text-sm text-purple-600 dark:text-purple-400 font-medium mb-1">Classe chimique</p>
-                        <p className="text-lg font-semibold text-purple-800 dark:text-purple-200">
-                          {chemicalClassLabels[molecule.chemicalClass] || molecule.chemicalClass}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Propriétés Scientifiques */}
+              {/* Propriétés Scientifiques — voir l'onglet Nomenclature pour IUPAC, CAS, formule, poids */}
               {(molecule.molecularWeight || molecule.boilingPoint || molecule.logP || molecule.volatility || molecule.intensity || molecule.complexity) && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
