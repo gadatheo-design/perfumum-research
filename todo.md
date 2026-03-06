@@ -1444,3 +1444,17 @@
 - [x] Standardiser `references` en base — 271 strings converties en tableaux JSON natifs
 - [x] Standardiser `pubchemSynonyms` en base — déjà standardisé (68 tableaux natifs, 0 string)
 - [x] Adapter le frontend pour references et pubchemSynonyms — synonymes affichés comme badges mono dans MoleculeDetail (max 12 + compteur)
+
+## 🏷️ ONGLET NOMENCLATURE — MoleculeDetail (6 mars 2026)
+
+- [ ] Créer onglet "Nomenclature" dans MoleculeDetail (nom IUPAC, CAS, synonymes PubChem, formule, poids)
+- [ ] Déplacer ces champs depuis l'en-tête vers l'onglet dédié
+- [ ] Nettoyer l'en-tête (garder seulement nom, famille, gamme, badges essentiels)
+- [ ] Adapter pour mobile (responsive)
+
+## ⚗️ ENRICHISSEMENT PUBCHEM EN MASSE — Admin (6 mars 2026)
+
+- [x] Analyser la procédure enrichFromPubChem existante — enrichMoleculeFromPubChemWithTranslation + getUnenrichedMolecules déjà présents
+- [x] Créer page admin /admin/pubchem-batch avec start/pause/stop et barre de progression — PubChemBatch.tsx créé
+- [x] Ajouter le lien dans la page Admin.tsx — carte violette "Enrichissement PubChem — Batch"
+- [x] Tester l'API getEnrichmentStats — 794 molécules sans CID confirmées

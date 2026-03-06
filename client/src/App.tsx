@@ -97,6 +97,7 @@ import MoleculeManager from "./pages/admin/MoleculeManager";
 import AdminPlantMolecules from "./pages/admin/AdminPlantMolecules";
 import AdminSynergies from "./pages/admin/AdminSynergies";
 import CigarilloMoleculeLinking from "./pages/admin/CigarilloMoleculeLinking";
+import PubChemBatch from "./pages/admin/PubChemBatch";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -478,6 +479,7 @@ function Router() {
       <Route path="/admin/plant-molecules" component={AdminPlantMolecules} />
       <Route path="/admin/synergies" component={AdminSynergies} />
       <Route path="/admin/liaison-cigarillos-molecules" component={CigarilloMoleculeLinking} />
+      <Route path="/admin/pubchem-batch" component={PubChemBatch} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

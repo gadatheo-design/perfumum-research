@@ -229,6 +229,14 @@ export default function Admin() {
       color: "text-amber-600",
       bgColor: "bg-amber-50",
     },
+    {
+      title: "Enrichissement PubChem — Batch",
+      description: "Enrichir en masse les molécules sans CID PubChem (IUPAC, CAS, formule, poids, SMILES, synonymes).",
+      icon: Database,
+      href: "/admin/pubchem-batch",
+      color: "text-violet-600",
+      bgColor: "bg-violet-50",
+    },
   ];
 
   return (
