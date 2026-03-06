@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { NoteBadge, StatusBadge, FamilyBadge } from "@/components/ui/badge-custom";
 import { ChevronRight, MapPin, Leaf } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn , safeJsonParse} from "@/lib/utils";
 
 interface MatiereCardProps {
   id: number;
@@ -54,7 +54,7 @@ export function MatiereCard({
   };
 
   const colors = typeColors[type] || typeColors.autre;
-  const families = olfactiveFamily ? JSON.parse(olfactiveFamily as any) : [];
+  const families = safeJsonParse(olfactiveFamily, []);
 
   return (
     <Link href={`/laboratoire/matieres/${id}`} className="block h-full group">

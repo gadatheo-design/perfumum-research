@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -68,7 +69,7 @@ export default function ProportionsCalculator() {
   useEffect(() => {
     const saved = localStorage.getItem("perfumum-saved-formulas");
     if (saved) {
-      setSavedFormulas(JSON.parse(saved));
+      setSavedFormulas(safeJsonParse(saved, []));
     }
   }, []);
 

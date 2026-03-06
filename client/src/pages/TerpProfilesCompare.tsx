@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -154,7 +155,7 @@ function MoleculeBarChart({ profiles }: { profiles: any[] }) {
     profiles.forEach(profile => {
       try {
         const concentrate = typeof profile.concentrate === 'string' 
-          ? JSON.parse(profile.concentrate) 
+          ? safeJsonParse(profile.concentrate, null) 
           : profile.concentrate;
         if (Array.isArray(concentrate)) {
           concentrate.forEach((item: any) => {
@@ -178,7 +179,7 @@ function MoleculeBarChart({ profiles }: { profiles: any[] }) {
   const getPercentage = (profile: any, molecule: string) => {
     try {
       const concentrate = typeof profile.concentrate === 'string' 
-        ? JSON.parse(profile.concentrate) 
+        ? safeJsonParse(profile.concentrate, null) 
         : profile.concentrate;
       if (Array.isArray(concentrate)) {
         const item = concentrate.find((c: any) => c.ingredient === molecule);

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -45,7 +46,7 @@ export default function DilutionCalculator() {
     const saved = localStorage.getItem("dilution-history");
     if (saved) {
       try {
-        setHistory(JSON.parse(saved));
+        setHistory(safeJsonParse(saved, []));
       } catch (e) {
         console.error("Failed to parse history", e);
       }

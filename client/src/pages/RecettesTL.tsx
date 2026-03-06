@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -180,7 +181,7 @@ function CategoryBadge({ category }: { category: string }) {
 // Formula Display Component
 function FormulaDisplay({ formula }: { formula: string }) {
   try {
-    const parsed = JSON.parse(formula);
+    const parsed = safeJsonParse(formula, null);
     const entries = Object.entries(parsed);
     
     return (
@@ -292,7 +293,7 @@ function TLRecipeCard({ recipe, expanded, onToggle }: { recipe: any; expanded: b
 function ComparisonTable({ recipes }: { recipes: any[] }) {
   const parseFormula = (formula: string) => {
     try {
-      return JSON.parse(formula);
+      return safeJsonParse(formula, null);
     } catch {
       return {};
     }

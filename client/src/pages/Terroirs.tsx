@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { TerroirsMap } from "@/components/TerroirsMap";
@@ -472,7 +473,7 @@ function TerroirCardWithPlants({ terroir, plantTerroirs, plants }: {
           {terroir.mainCrops && (
             <div className="flex flex-wrap gap-1">
               {(typeof terroir.mainCrops === 'string' 
-                ? JSON.parse(terroir.mainCrops) 
+                ? safeJsonParse(terroir.mainCrops, []) 
                 : terroir.mainCrops
               ).slice(0, 3).map((crop: string, idx: number) => (
                 <Badge key={idx} variant="secondary" className="text-xs">
@@ -790,7 +791,7 @@ export default function Terroirs() {
                         altitude: t.altitude,
                         qualityRating: t.qualityRating,
                         reputation: t.reputation,
-                        mainCrops: typeof t.mainCrops === 'string' ? JSON.parse(t.mainCrops) : t.mainCrops,
+                        mainCrops: safeJsonParse(t.mainCrops, []),
                       }))}
                       className="rounded-lg"
                     />

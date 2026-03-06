@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, name, description, ingredients, formula, protocol, notes, category, difficulty, gamme, notesTete, notesCoeur, notesFond FROM recettes WHERE name LIKE '%tiver%' OR name LIKE '%Vetiver%' OR name LIKE '%Vétiver%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, description, ingredients, formula, protocol, notes, category, difficulty, gamme, notesTete, notesCoeur, notesFond FROM recettes WHERE name LIKE '%tiver%' OR name LIKE '%Vetiver%' OR name LIKE '%Vétiver%';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'difficulty' in 'field list'"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "query": "SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE() AND (table_name LIKE '%recip%' OR table_name LIKE '%formula%' OR table_name LIKE '%blend%');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE() AND (table_name LIKE '%recip%' OR table_name LIKE '%formula%' OR table_name LIKE '%blend%');",
+  "rows": [
+    {
+      "table_name": "tobacco_blends"
+    },
+    {
+      "table_name": "cigarillo_recipes"
+    },
+    {
+      "table_name": "tobacco_formulas"
+    },
+    {
+      "table_name": "final_recipes"
+    },
+    {
+      "table_name": "formulation_suggestions"
+    },
+    {
+      "table_name": "final_recipe_terp_profiles"
+    },
+    {
+      "table_name": "recipe_contributions"
+    },
+    {
+      "table_name": "tobacco_formula_installations"
+    },
+    {
+      "table_name": "saved_formulas"
+    },
+    {
+      "table_name": "cigarillo_recipe_ingredients"
+    },
+    {
+      "table_name": "recipe_versions"
+    },
+    {
+      "table_name": "scent_blends"
+    },
+    {
+      "table_name": "transformation_recipe_impacts"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\ntobacco_blends\ncigarillo_recipes\ntobacco_formulas\nfinal_recipes\nformulation_suggestions\nfinal_recipe_terp_profiles\nrecipe_contributions\ntobacco_formula_installations\nsaved_formulas\ncigarillo_recipe_ingredients\nrecipe_versions\nscent_blends\ntransformation_recipe_impacts\n",
+  "stderr": "",
+  "execution_time_ms": 360
+}

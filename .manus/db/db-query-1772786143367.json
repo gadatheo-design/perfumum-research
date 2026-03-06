@@ -1,0 +1,76 @@
+{
+  "query": "SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name LIKE '%recip%' OR table_name LIKE '%recette%' OR table_name LIKE '%formula%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name LIKE '%recip%' OR table_name LIKE '%recette%' OR table_name LIKE '%formula%';",
+  "rows": [
+    {
+      "table_name": "tobacco_cannabis_accord_recettes"
+    },
+    {
+      "table_name": "transformation_recipe_impacts"
+    },
+    {
+      "table_name": "molecules_recettes"
+    },
+    {
+      "table_name": "cigarillo_recipes"
+    },
+    {
+      "table_name": "tobacco_formulas"
+    },
+    {
+      "table_name": "final_recipes"
+    },
+    {
+      "table_name": "installation_recettes"
+    },
+    {
+      "table_name": "formulation_suggestions"
+    },
+    {
+      "table_name": "final_recipe_terp_profiles"
+    },
+    {
+      "table_name": "recette_tabac_associations"
+    },
+    {
+      "table_name": "recettes_formules_reference"
+    },
+    {
+      "table_name": "recipe_contributions"
+    },
+    {
+      "table_name": "recette_molecules"
+    },
+    {
+      "table_name": "tobacco_formula_installations"
+    },
+    {
+      "table_name": "molecule_recettes"
+    },
+    {
+      "table_name": "saved_formulas"
+    },
+    {
+      "table_name": "petrichor_recettes"
+    },
+    {
+      "table_name": "volcanique_recettes"
+    },
+    {
+      "table_name": "recettes"
+    },
+    {
+      "table_name": "laboratoire_recettes"
+    },
+    {
+      "table_name": "cigarillo_recipe_ingredients"
+    },
+    {
+      "table_name": "recipe_versions"
+    }
+  ],
+  "messages": [],
+  "stdout": "table_name\ntobacco_cannabis_accord_recettes\ntransformation_recipe_impacts\nmolecules_recettes\ncigarillo_recipes\ntobacco_formulas\nfinal_recipes\ninstallation_recettes\nformulation_suggestions\nfinal_recipe_terp_profiles\nrecette_tabac_associations\nrecettes_formules_reference\nrecipe_contributions\nrecette_molecules\ntobacco_formula_installations\nmolecule_recettes\nsaved_formulas\npetrichor_recettes\nvolcanique_recettes\nrecettes\nlaboratoire_recettes\ncigarillo_recipe_ingredients\nrecipe_versions\n",
+  "stderr": "",
+  "execution_time_ms": 366
+}

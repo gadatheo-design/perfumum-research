@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { safeJsonParse } from "@/lib/utils";
 import { useParams, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -173,7 +174,7 @@ export default function PlantDetail() {
   
   const dominantMolecules = plant.dominantMolecules 
     ? (typeof plant.dominantMolecules === 'string' 
-        ? JSON.parse(plant.dominantMolecules) 
+        ? safeJsonParse(plant.dominantMolecules, []) 
         : plant.dominantMolecules)
     : [];
   

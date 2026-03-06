@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -144,7 +145,7 @@ function VarietyTypeBadge({ type }: { type: string }) {
 // Variety Card Component
 function VarietyCard({ variety, plant }: { variety: any; plant: any }) {
   const dominantMolecules = variety.dominantMolecules ? 
-    (typeof variety.dominantMolecules === 'string' ? JSON.parse(variety.dominantMolecules) : variety.dominantMolecules) 
+    safeJsonParse(variety.dominantMolecules, []) 
     : [];
 
   const isCritical = variety.conservationStatus === 'critical' || variety.conservationStatus === 'endangered';

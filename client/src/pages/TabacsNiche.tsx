@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { safeJsonParse } from "@/lib/utils";
 import { Link } from "wouter";
 import { ChevronRight, Cigarette, ExternalLink, Loader2, MapPin, Wind, Search } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -295,7 +296,7 @@ function VarietyCard({ variety, dbTabac }: { variety: any; dbTabac: any }) {
   const parseProfile = (raw: any): string[] => {
     if (!raw) return [];
     try {
-      const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+      const parsed = safeJsonParse(raw, null);
       return Array.isArray(parsed) ? parsed : [String(parsed)];
     } catch {
       return [String(raw)];

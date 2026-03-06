@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState } from "react";
 import { Link, useParams } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -106,7 +107,7 @@ export default function FamilyDetail() {
   const uniqueMolecules = plants?.reduce((acc: Set<string>, plant: any) => {
     if (plant.dominantMolecules) {
       const molecules = typeof plant.dominantMolecules === 'string' 
-        ? JSON.parse(plant.dominantMolecules) 
+        ? safeJsonParse(plant.dominantMolecules, []) 
         : plant.dominantMolecules;
       molecules.forEach((m: string) => acc.add(m));
     }

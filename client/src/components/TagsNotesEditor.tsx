@@ -29,7 +29,7 @@ import {
   Search
 } from "lucide-react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn , safeJsonParse} from "@/lib/utils";
 
 interface TagsNotesEditorProps {
   entityType: 'molecule' | 'recette' | 'accord' | 'prototype' | 'plant' | 'terroir';
@@ -126,7 +126,7 @@ export function TagsNotesEditor({
       if (existingMoleculeNote.tags) {
         try {
           const parsedTags = typeof existingMoleculeNote.tags === 'string' 
-            ? JSON.parse(existingMoleculeNote.tags) 
+            ? safeJsonParse(existingMoleculeNote.tags, []) 
             : existingMoleculeNote.tags;
           setTags(Array.isArray(parsedTags) ? parsedTags : []);
         } catch {

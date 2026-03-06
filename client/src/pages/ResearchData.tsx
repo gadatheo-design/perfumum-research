@@ -6,6 +6,7 @@
  * from the scientific literature on cannabis and tobacco pyrolysis/vaporization.
  */
 
+import { safeJsonParse } from "@/lib/utils";
 import { useState } from 'react';
 import { Link } from 'wouter';
 import { trpc } from '@/lib/trpc';
@@ -446,7 +447,7 @@ export default function ResearchData() {
                   )}
                   {researcher.awards && (
                     <div className="mt-3">
-                      {JSON.parse(researcher.awards || '[]').map((award: any, i: number) => (
+                      {safeJsonParse(researcher.awards, []).map((award: any, i: number) => (
                         <Badge key={i} variant="secondary" className="mr-1">
                           {award.name} ({award.year})
                         </Badge>

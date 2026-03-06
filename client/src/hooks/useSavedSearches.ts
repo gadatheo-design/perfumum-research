@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useEffect } from 'react';
 
 const SEARCHES_KEY = 'perfumum_saved_searches';
@@ -33,7 +34,7 @@ export function useSavedSearches() {
     try {
       const stored = localStorage.getItem(SEARCHES_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored);
+        const parsed = safeJsonParse(stored, null);
         setSearches(parsed);
       }
     } catch (error) {

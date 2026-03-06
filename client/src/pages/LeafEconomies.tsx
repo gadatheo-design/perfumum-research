@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -44,7 +45,7 @@ const statusConfig: Record<string, { label: string; color: string }> = {
 function parseJsonArray(value: string | null | undefined): string[] {
   if (!value) return [];
   try {
-    return JSON.parse(value);
+    return safeJsonParse(value, null);
   } catch {
     return value.split(";").map(s => s.trim()).filter(Boolean);
   }

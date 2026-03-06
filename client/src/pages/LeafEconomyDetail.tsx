@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useRoute, Link } from "wouter";
@@ -104,7 +105,7 @@ const curingConfig: Record<string, { label: string; description: string }> = {
 function parseJsonArray(value: string | null | undefined): string[] {
   if (!value) return [];
   try {
-    return JSON.parse(value);
+    return safeJsonParse(value, null);
   } catch {
     return value.split(";").map(s => s.trim()).filter(Boolean);
   }

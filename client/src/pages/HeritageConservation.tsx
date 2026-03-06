@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -156,7 +157,7 @@ function ReferenceCard({
     if (!tagsInput) return [];
     if (Array.isArray(tagsInput)) return tagsInput;
     try {
-      const parsed = JSON.parse(tagsInput);
+      const parsed = safeJsonParse(tagsInput, null);
       return Array.isArray(parsed) ? parsed : [tagsInput];
     } catch {
       return tagsInput.split(',').map(t => t.trim());
@@ -256,7 +257,7 @@ function ReferenceDetailDialog({
     if (!tagsInput) return [];
     if (Array.isArray(tagsInput)) return tagsInput;
     try {
-      const parsed = JSON.parse(tagsInput);
+      const parsed = safeJsonParse(tagsInput, null);
       return Array.isArray(parsed) ? parsed : [tagsInput];
     } catch {
       return tagsInput.split(',').map(t => t.trim());

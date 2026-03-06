@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { Link, useParams } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -47,8 +48,7 @@ export default function RecipeDetail() {
     );
   }
 
-  const terpeneProfile = recipe.terpene_profile ? 
-    (typeof recipe.terpene_profile === 'string' ? JSON.parse(recipe.terpene_profile) : recipe.terpene_profile) : null;
+  const terpeneProfile = safeJsonParse(recipe.terpene_profile, null);
 
   return (
     <div className="container py-8">

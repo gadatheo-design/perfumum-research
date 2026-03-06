@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { trpc } from '@/lib/trpc';
 import { AlertTriangle, Beaker, Sparkles } from 'lucide-react';
 
@@ -28,7 +29,7 @@ export default function RechercheRadicale() {
 
   // Parse themes conceptuels from first accord
   const themesConceptuels = accords[0]?.themesConceptuels 
-    ? JSON.parse(accords[0].themesConceptuels as string) 
+    ? safeJsonParse(accords[0].themesConceptuels, []) 
     : [];
 
   return (
@@ -70,7 +71,7 @@ export default function RechercheRadicale() {
       <div className="container py-12">
         <div className="grid gap-8 max-w-5xl mx-auto">
           {accords.map((accord) => {
-            const architecture = JSON.parse(accord.architecture as string);
+            const architecture = safeJsonParse(accord.architecture, null);
             
             return (
               <div

@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { safeJsonParse } from "@/lib/utils";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -255,7 +256,7 @@ export default function ImportExportPlants() {
 
     try {
       if (importFormat === "json") {
-        const data = JSON.parse(importData);
+        const data = safeJsonParse<any[] | null>(importData, null);
         if (!Array.isArray(data)) {
           errors.push("Le JSON doit être un tableau d'objets");
           return { data: [], errors };

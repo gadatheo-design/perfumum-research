@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
@@ -84,8 +85,7 @@ export default function AdminReferences() {
     const molecule = molecules?.find(m => m.id === selectedMoleculeId);
     if (!molecule) return;
 
-    const existingRefs = molecule.references ? 
-      (typeof molecule.references === 'string' ? JSON.parse(molecule.references) : molecule.references) : [];
+    const existingRefs = safeJsonParse(molecule.references, []);
     
     const updatedRefs = [...existingRefs, newRef];
 
@@ -99,8 +99,7 @@ export default function AdminReferences() {
     const molecule = molecules?.find(m => m.id === moleculeId);
     if (!molecule) return;
 
-    const existingRefs = molecule.references ? 
-      (typeof molecule.references === 'string' ? JSON.parse(molecule.references) : molecule.references) : [];
+    const existingRefs = safeJsonParse(molecule.references, []);
     
     const updatedRefs = existingRefs.filter((_: any, i: number) => i !== refIndex);
 
@@ -116,8 +115,7 @@ export default function AdminReferences() {
     const molecule = molecules?.find(m => m.id === editingRef.moleculeId);
     if (!molecule) return;
 
-    const existingRefs = molecule.references ? 
-      (typeof molecule.references === 'string' ? JSON.parse(molecule.references) : molecule.references) : [];
+    const existingRefs = safeJsonParse(molecule.references, []);
     
     existingRefs[editingRef.refIndex] = editingRef.ref;
 
@@ -133,8 +131,7 @@ export default function AdminReferences() {
 
     if (filterType === 'all') return true;
 
-    const refs = m.references ? 
-      (typeof m.references === 'string' ? JSON.parse(m.references) : m.references) : [];
+    const refs = safeJsonParse(m.references, []);
     
     return refs.some((r: Reference) => r.type === filterType);
   });
@@ -375,8 +372,7 @@ export default function AdminReferences() {
         </h2>
 
         {filteredMolecules?.map(molecule => {
-          const refs = molecule.references ? 
-            (typeof molecule.references === 'string' ? JSON.parse(molecule.references) : molecule.references) : [];
+          const refs = safeJsonParse(molecule.references, []);
           
           if (refs.length === 0) return null;
 

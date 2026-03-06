@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { motion, AnimatePresence } from "framer-motion";
@@ -310,7 +311,7 @@ export default function RechercheAvancee() {
   const [searchHistory, setSearchHistory] = useState<string[]>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('perfumum-search-history');
-      return saved ? JSON.parse(saved) : [];
+      return saved ? safeJsonParse(saved, []) : [];
     }
     return [];
   });

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -57,7 +58,7 @@ export default function ChemotypesExplorer() {
         let chemotypes: Chemotype[] = [];
         try {
           chemotypes = typeof plant.chemotypes === 'string' 
-            ? JSON.parse(plant.chemotypes) 
+            ? safeJsonParse(plant.chemotypes, []) 
             : plant.chemotypes;
         } catch {
           chemotypes = [];

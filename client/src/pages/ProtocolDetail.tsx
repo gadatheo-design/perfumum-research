@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { Link, useParams } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -44,8 +45,7 @@ export default function ProtocolDetail() {
     );
   }
 
-  const equipmentList = protocol.equipment_required ? 
-    (typeof protocol.equipment_required === 'string' ? JSON.parse(protocol.equipment_required) : protocol.equipment_required) : null;
+  const equipmentList = safeJsonParse(protocol.equipment_required, null);
 
   return (
     <div className="container py-8">

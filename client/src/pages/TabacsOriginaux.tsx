@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import DashboardLayout from "@/components/DashboardLayout";
@@ -27,7 +28,7 @@ interface TabacWithTerroir {
 function parseProfile(raw: string | null) {
   if (!raw) return null;
   try {
-    const p = JSON.parse(raw);
+    const p = safeJsonParse(raw, null);
     if (p && typeof p === "object" && p.famille) return p;
     return null;
   } catch {

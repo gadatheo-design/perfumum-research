@@ -1294,7 +1294,7 @@
 - [x] Ajouter un bouton "Appliquer" à côté de la suggestion Classe chimique IA
 - [x] Ajouter un bouton "Appliquer" à côté de la suggestion Famille olfactive IA
 - [x] Ajouter un bouton "Appliquer" pour le Profil olfactif suggéré
-- [ ] Ajouter un bouton "Appliquer les notes du chercheur IA" dans les notes de la molécule — à faire
+- [x] Ajouter un bouton "Appliquer les notes du chercheur IA" dans les notes de la molécule
 - [x] Créer la procédure tRPC applyAiClassification (admin uniquement)
 - [x] Ajouter une confirmation avant application (diff actuel → suggéré)
 
@@ -1313,3 +1313,24 @@
 - [x] Boutons "Remplacer" et "Ajouter" dans la section Notes du chercheur IA
 - [x] Diff visuel : affichage des notes actuelles avant confirmation
 - [x] Câblage dans MoleculeDetail avec invalidation du cache
+
+---
+
+## 🐛 BUG — 6 MARS 2026
+
+### Bug : Crash RecipeDetail sur "Vétiver Double Origine"
+- [x] Diagnostiquer la cause du crash (terpene_profile JSON.parse non protégé)
+- [x] Corriger le bug dans RecipeDetail
+- [x] Vérifier que toutes les autres recettes s'ouvrent sans erreur
+
+---
+
+## 🛡️ SÉCURISATION — 6 MARS 2026
+
+### Audit et correction des JSON.parse non protégés
+- [x] Corriger le crash RecipeDetail (terpene_profile JSON.parse sans try/catch)
+- [x] Créer un helper utilitaire `safeJsonParse<T>(str, fallback)` dans `client/src/lib/utils.ts`
+- [x] Auditer et corriger tous les JSON.parse non protégés dans les pages frontend (42 occurrences, 25+ fichiers)
+- [x] Auditer et corriger les JSON.parse dans les composants
+- [x] 0 JSON.parse non protégé restant dans le projet
+- [x] 0 erreur TypeScript après toutes les corrections

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -343,7 +344,7 @@ export function Timeline() {
                                   Livrables
                                 </h4>
                                 <ul className="space-y-1 text-sm">
-                                  {JSON.parse(milestone.deliverables).map(
+                                  {safeJsonParse(milestone.deliverables, []).map(
                                     (deliverable: string, i: number) => (
                                       <li key={i} className="flex items-start gap-2">
                                         <ArrowRight className="w-3 h-3 mt-1 text-primary flex-shrink-0" />

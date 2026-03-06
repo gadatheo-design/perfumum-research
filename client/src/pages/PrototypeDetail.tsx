@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useRoute } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -45,7 +46,7 @@ export default function PrototypeDetail() {
     );
   }
 
-  const composition = prototype.composition ? JSON.parse(prototype.composition) : null;
+  const composition = safeJsonParse(prototype.composition, null);
 
   return (
     <div className="min-h-screen flex flex-col">

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo, useRef, useCallback } from "react";
 import { Link } from "wouter";
 import { MapView } from "@/components/Map";
@@ -113,19 +114,19 @@ function SupplierCard({ supplier }: { supplier: any }) {
   const specialties = Array.isArray(supplier.specialties)
     ? supplier.specialties
     : typeof supplier.specialties === "string"
-    ? JSON.parse(supplier.specialties || "[]")
+    ? safeJsonParse(supplier.specialties, [])
     : [];
 
   const mainProducts = Array.isArray(supplier.mainProducts)
     ? supplier.mainProducts
     : typeof supplier.mainProducts === "string"
-    ? JSON.parse(supplier.mainProducts || "[]")
+    ? safeJsonParse(supplier.mainProducts, [])
     : [];
 
   const certifications = Array.isArray(supplier.certifications)
     ? supplier.certifications
     : typeof supplier.certifications === "string"
-    ? JSON.parse(supplier.certifications || "[]")
+    ? safeJsonParse(supplier.certifications, [])
     : [];
 
   return (

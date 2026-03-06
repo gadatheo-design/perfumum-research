@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useEffect } from 'react';
 
 const HISTORY_KEY = 'perfumum_recipe_history';
@@ -19,7 +20,7 @@ export function useRecipeHistory() {
     try {
       const stored = localStorage.getItem(HISTORY_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored);
+        const parsed = safeJsonParse(stored, null);
         setHistory(parsed);
       }
     } catch (error) {

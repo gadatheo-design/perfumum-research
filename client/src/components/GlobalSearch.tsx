@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link, useLocation } from "wouter";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -77,7 +78,7 @@ export function GlobalSearch() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
-        setSearchHistory(JSON.parse(stored));
+        setSearchHistory(safeJsonParse(stored, []));
       } catch (e) {
         console.error("Failed to parse search history", e);
       }

@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, name, description, ingredients, formula, protocol, notes, category, gamme, notes_tete, notes_coeur, notes_fond FROM recettes WHERE name LIKE '%tiver%' OR name LIKE '%Vetiver%' OR name LIKE '%Vétiver%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, description, ingredients, formula, protocol, notes, category, gamme, notes_tete, notes_coeur, notes_fond FROM recettes WHERE name LIKE '%tiver%' OR name LIKE '%Vetiver%' OR name LIKE '%Vétiver%';",
+  "rows": [
+    {
+      "id": "60002",
+      "name": "Vétiver Labdanum",
+      "description": "Ambré, cuiré, terreux. Fumé sec avec douceur vanillée.",
+      "ingredients": "Labdanum, vétiver, patchouli, orange amère, poivre rose, vanille",
+      "formula": "Tête: Orange amère (zeste) 0.3%, Poivre rose 0.1% | Cœur: Labdanum 0.8%, Patchouli 0.2% | Fond: Vétiver 0.5%, Vanille 0.3%",
+      "protocol": "Infuser les zestes et poivre dans huile MCT 24 h ; fondre labdanum + patchouli ; combiner, filtrer, incorporer lentement. Cure 10 jours.",
+      "notes": "Collection Classique - Résines du Levant. Hash brun dense/terreux recommandé. Profond, méditatif.",
+      "category": "resine_cbd",
+      "gamme": "NULL",
+      "notes_tete": "NULL",
+      "notes_coeur": "NULL",
+      "notes_fond": "NULL"
+    },
+    {
+      "id": "90009",
+      "name": "CBD Vétiver Serein",
+      "description": "Profil sédatif profond, sommeil réparateur garanti.",
+      "ingredients": "CBD Isolat, Vétiver, Patchouli, Mousse",
+      "formula": "NULL",
+      "protocol": "NULL",
+      "notes": "NULL",
+      "category": "resine_cbd",
+      "gamme": "NULL",
+      "notes_tete": "NULL",
+      "notes_coeur": "NULL",
+      "notes_fond": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tdescription\tingredients\tformula\tprotocol\tnotes\tcategory\tgamme\tnotes_tete\tnotes_coeur\tnotes_fond\n60002\tVétiver Labdanum\tAmbré, cuiré, terreux. Fumé sec avec douceur vanillée.\tLabdanum, vétiver, patchouli, orange amère, poivre rose, vanille\tTête: Orange amère (zeste) 0.3%, Poivre rose 0.1% | Cœur: Labdanum 0.8%, Patchouli 0.2% | Fond: Vétiver 0.5%, Vanille 0.3%\tInfuser les zestes et poivre dans huile MCT 24 h ; fondre labdanum + patchouli ; combiner, filtrer, incorporer lentement. Cure 10 jours.\tCollection Classique - Résines du Levant. Hash brun dense/terreux recommandé. Profond, méditatif.\tresine_cbd\tNULL\tNULL\tNULL\tNULL\n90009\tCBD Vétiver Serein\tProfil sédatif profond, sommeil réparateur garanti.\tCBD Isolat, Vétiver, Patchouli, Mousse\tNULL\tNULL\tNULL\tresine_cbd\tNULL\tNULL\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 355
+}

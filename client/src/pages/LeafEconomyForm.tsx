@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useEffect, useCallback } from "react";
 import { useRoute, useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -156,12 +157,12 @@ export default function LeafEconomyForm() {
     if (existingSample && !isNew) {
       const axes = existingSample.climaticAxis 
         ? (typeof existingSample.climaticAxis === 'string' 
-            ? JSON.parse(existingSample.climaticAxis) 
+            ? safeJsonParse(existingSample.climaticAxis, null) 
             : existingSample.climaticAxis)
         : [];
       const usages = existingSample.usage 
         ? (typeof existingSample.usage === 'string' 
-            ? JSON.parse(existingSample.usage) 
+            ? safeJsonParse(existingSample.usage, null) 
             : existingSample.usage)
         : [];
 

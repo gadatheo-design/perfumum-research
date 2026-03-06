@@ -1,0 +1,67 @@
+{
+  "query": "SHOW TABLES LIKE '%recipe%'; SHOW TABLES LIKE '%recette%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW TABLES LIKE '%recipe%'; SHOW TABLES LIKE '%recette%';",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "cigarillo_recipe_ingredients"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "cigarillo_recipes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "final_recipe_terp_profiles"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "final_recipes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "recipe_contributions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "recipe_versions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "transformation_recipe_impacts"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "installation_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "laboratoire_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "molecule_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "molecules_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "petrichor_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "recette_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "recette_tabac_associations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "recettes_formules_reference"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "tobacco_cannabis_accord_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)": "volcanique_recettes"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recipe%)\ncigarillo_recipe_ingredients\ncigarillo_recipes\nfinal_recipe_terp_profiles\nfinal_recipes\nrecipe_contributions\nrecipe_versions\ntransformation_recipe_impacts\nTables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)\ninstallation_recettes\nlaboratoire_recettes\nmolecule_recettes\nmolecules_recettes\npetrichor_recettes\nrecette_molecules\nrecette_tabac_associations\nrecettes\nrecettes_formules_reference\ntobacco_cannabis_accord_recettes\nvolcanique_recettes\n",
+  "stderr": "",
+  "execution_time_ms": 463
+}

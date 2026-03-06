@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { useLocation } from 'wouter';
 
@@ -533,7 +534,7 @@ export function GuidedNavigationProvider({ children }: GuidedNavigationProviderP
     const saved = localStorage.getItem('perfumum_guided_mode');
     if (saved) {
       try {
-        const { isActive, currentIndex, tourType } = JSON.parse(saved);
+        const parsed = safeJsonParse(saved, null); if (!parsed) return; const { isActive, currentIndex, tourType } = parsed;
         if (isActive) {
           setIsGuidedMode(true);
           setCurrentStepIndex(currentIndex || 0);

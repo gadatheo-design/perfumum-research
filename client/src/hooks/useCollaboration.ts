@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation } from "wouter";
 
@@ -131,7 +132,7 @@ export function useCollaboration(options: UseCollaborationOptions = {}) {
   // Gérer les messages entrants
   const handleMessage = useCallback((event: MessageEvent) => {
     try {
-      const message: CollaborationMessage = JSON.parse(event.data);
+      const message: CollaborationMessage = safeJsonParse(event.data, null); if (!message) return;
 
       switch (message.type) {
         case "presence":

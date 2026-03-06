@@ -4,6 +4,7 @@
  * Hub central des références bibliographiques avec connexions vers les autres entités
  */
 
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -139,7 +140,7 @@ function parseTags(tags: string[] | string | null): string[] {
   if (!tags) return [];
   if (Array.isArray(tags)) return tags;
   try {
-    const parsed = JSON.parse(tags);
+    const parsed = safeJsonParse(tags, []);
     return Array.isArray(parsed) ? parsed : [];
   } catch {
     return tags.split(",").map(t => t.trim()).filter(Boolean);

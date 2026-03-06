@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,20 +28,20 @@ export default function MonDashboard() {
   const favoriteMolecules = useMemo(() => {
     if (typeof window === "undefined") return [];
     const stored = localStorage.getItem("favoriteMolecules");
-    return stored ? JSON.parse(stored) : [];
+    return stored ? safeJsonParse(stored, []) : [];
   }, []);
 
   const favoriteRecettes = useMemo(() => {
     if (typeof window === "undefined") return [];
     const stored = localStorage.getItem("favoriteRecettes");
-    return stored ? JSON.parse(stored) : [];
+    return stored ? safeJsonParse(stored, []) : [];
   }, []);
 
   // Récupérer l'historique de consultation
   const recentlyViewed = useMemo(() => {
     if (typeof window === "undefined") return [];
     const stored = localStorage.getItem("recentlyViewedRecipes");
-    return stored ? JSON.parse(stored).slice(0, 5) : [];
+    return stored ? safeJsonParse<any[]>(stored, []).slice(0, 5) : [];
   }, []);
 
   // Récupérer les recommandations basées sur les favoris

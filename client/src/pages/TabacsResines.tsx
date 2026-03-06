@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { safeJsonParse } from "@/lib/utils";
 import { Link } from "wouter";
 import { Cigarette, Leaf, FlaskConical, Droplets, Flame, Globe2, ChevronRight, ExternalLink, Loader2, MapPin, Thermometer, Wind } from "lucide-react";
 import { Breadcrumbs } from "../components/Breadcrumbs";
@@ -115,7 +116,7 @@ export default function TabacsResines() {
   const parseAromaticProfile = (raw: any): string[] => {
     if (!raw) return [];
     try {
-      const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+      const parsed = safeJsonParse(raw, null);
       return Array.isArray(parsed) ? parsed : [String(parsed)];
     } catch {
       return [String(raw)];

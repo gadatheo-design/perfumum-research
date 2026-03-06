@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -91,7 +92,7 @@ function ClimaticAxisBadge({ axis }: { axis: string | null }) {
 // Plant Card Component
 function PlantCard({ plant }: { plant: any }) {
   const botanicalStates = plant.botanicalStates ? 
-    (typeof plant.botanicalStates === 'string' ? JSON.parse(plant.botanicalStates) : plant.botanicalStates) 
+    safeJsonParse(plant.botanicalStates, []) 
     : [];
 
   return (

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -282,7 +283,7 @@ export default function ExtractionMethods() {
                       </h4>
                       <ul className="text-xs text-muted-foreground space-y-1">
                         {(typeof method.advantages === 'string' 
-                          ? JSON.parse(method.advantages) 
+                          ? safeJsonParse(method.advantages, []) 
                           : method.advantages
                         ).slice(0, 3).map((adv: string, idx: number) => (
                           <li key={idx}>• {adv}</li>
@@ -298,7 +299,7 @@ export default function ExtractionMethods() {
                       </h4>
                       <ul className="text-xs text-muted-foreground space-y-1">
                         {(typeof method.disadvantages === 'string' 
-                          ? JSON.parse(method.disadvantages) 
+                          ? safeJsonParse(method.disadvantages, []) 
                           : method.disadvantages
                         ).slice(0, 3).map((dis: string, idx: number) => (
                           <li key={idx}>• {dis}</li>
@@ -314,7 +315,7 @@ export default function ExtractionMethods() {
                     <h4 className="text-sm font-medium mb-2">Recommandé pour</h4>
                     <div className="flex flex-wrap gap-1">
                       {(typeof method.bestFor === 'string' 
-                        ? JSON.parse(method.bestFor) 
+                        ? safeJsonParse(method.bestFor, []) 
                         : method.bestFor
                       ).map((item: string, idx: number) => (
                         <Badge key={idx} variant="secondary" className="text-xs">

@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight, Layers, Wind, Droplets, Mountain, Sparkles, Cloud } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn , safeJsonParse} from "@/lib/utils";
 
 interface AccordCardProps {
   id: number;
@@ -43,7 +43,7 @@ export function AccordCard({
 
   const config = texture ? textureConfig[texture] : null;
   const TextureIcon = config?.icon || Layers;
-  const profiles = aromaticProfile ? JSON.parse(aromaticProfile as any) : [];
+  const profiles = safeJsonParse(aromaticProfile, []);
 
   return (
     <Link href={`/laboratoire/accords/${id}`} className="block h-full group">

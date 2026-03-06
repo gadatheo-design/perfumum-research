@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 
@@ -20,7 +21,7 @@ export function useNavigationHistory() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
-        setHistory(JSON.parse(stored));
+        setHistory(safeJsonParse(stored, []));
       } catch (e) {
         console.error("Failed to parse navigation history", e);
       }

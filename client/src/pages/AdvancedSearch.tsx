@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Filter, History, X, TrendingUp, Sparkles } from 'lucide-react';
@@ -53,7 +54,7 @@ export default function AdvancedSearch() {
   useEffect(() => {
     const saved = localStorage.getItem('perfumum_search_history');
     if (saved) {
-      setSearchHistory(JSON.parse(saved));
+      setSearchHistory(safeJsonParse(saved, []));
     }
   }, []);
 

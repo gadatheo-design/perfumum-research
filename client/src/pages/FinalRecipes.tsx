@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -96,7 +97,7 @@ function ClimaticAxisBadge({ axis }: { axis: string }) {
 function ConcentrateDisplay({ concentrate }: { concentrate: any }) {
   if (!concentrate) return null;
   
-  const items = typeof concentrate === 'string' ? JSON.parse(concentrate) : concentrate;
+  const items = safeJsonParse(concentrate, []);
   if (!Array.isArray(items) || items.length === 0) return null;
 
   return (

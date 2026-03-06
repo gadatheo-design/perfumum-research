@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
@@ -28,7 +29,7 @@ export default function CompareTerpenes() {
   const [selectedIds, setSelectedIds] = useState<number[]>(() => {
     // Charger la sélection depuis localStorage au montage
     const stored = localStorage.getItem("compare-terpenes");
-    return stored ? JSON.parse(stored) : [];
+    return stored ? safeJsonParse(stored, []) : [];
   });
   
   // Charger tous les terpènes

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { useState, useEffect, useCallback } from "react";
 
 const FAVORITES_KEY = "perfumum_favorites";
@@ -27,7 +28,7 @@ export function useFavorites() {
   const [favorites, setFavorites] = useState<FavoritePage[]>(() => {
     try {
       const stored = localStorage.getItem(FAVORITES_KEY);
-      return stored ? JSON.parse(stored) : [];
+      return stored ? safeJsonParse(stored, []) : [];
     } catch {
       return [];
     }
@@ -43,7 +44,7 @@ export function useFavorites() {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === FAVORITES_KEY && e.newValue) {
         try {
-          setFavorites(JSON.parse(e.newValue));
+          setFavorites(safeJsonParse(e.newValue, []));
         } catch {
           // Ignorer les erreurs de parsing
         }

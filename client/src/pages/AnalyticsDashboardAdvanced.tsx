@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { safeJsonParse } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -400,7 +401,7 @@ function RecentActivityList({ activities }: { activities: any[] }) {
               {getActivityLabel(activity.eventType)}
             </p>
             <p className="text-xs text-muted-foreground">
-              {activity.metadata ? JSON.parse(activity.metadata).moleculeName || JSON.parse(activity.metadata).recipeName || "—" : "—"}
+              {activity.metadata ? (safeJsonParse(activity.metadata, {}) as any).moleculeName || (safeJsonParse(activity.metadata, {}) as any).recipeName || "—" : "—"}
             </p>
           </div>
           <div className="text-xs text-muted-foreground">
