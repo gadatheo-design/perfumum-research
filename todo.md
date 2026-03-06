@@ -1548,3 +1548,10 @@
 - [x] Supprimer DataQualityDashboard.tsx (567L) — doublon de DataQuality
 - [x] Supprimer AccordDetail.tsx (248L) — ancienne version avec données JSON statiques
 - [x] Supprimer Projet.tsx (175L) — doublon de LeProjet
+
+## ✅ SESSION 2026-03-06 — Enrichissement botanique et PubChem (après reset)
+
+- [x] Enrichissement GBIF 30 plantes prioritaires (29/30 enrichies : synonymes, GBIF ID, ITIS ID)
+- [x] Batch PubChem CAS ciblé 100 molécules (90/100 enrichies, total 439/1045 = 42%)
+- [x] ComponentShowcase.tsx archivé dans pages/_dev/ (hors production)
+- [x] Scripts enrich-plants-gbif.mjs et pubchem-batch-cas.mjs recréés après reset
