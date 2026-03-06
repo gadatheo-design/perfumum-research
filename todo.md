@@ -1541,3 +1541,10 @@
 - [x] Badge validation_status dans MoleculeDetail — ajouté avec tooltip
 - [x] Nettoyage console.log en production — 17 remplacés par console.debug conditionnels
 - [x] Rapport d'audit créé dans docs/audit-pages-non-importees.md
+
+## ✅ Suppression des doublons (2026-03-06)
+
+- [x] Supprimer Dashboard.tsx (298L) — doublon de MonDashboard/DashboardMinimal
+- [x] Supprimer DataQualityDashboard.tsx (567L) — doublon de DataQuality
+- [x] Supprimer AccordDetail.tsx (248L) — ancienne version avec données JSON statiques
+- [x] Supprimer Projet.tsx (175L) — doublon de LeProjet
