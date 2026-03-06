@@ -1396,3 +1396,8 @@
 - [ ] Bug sélecteur recettes affiche "0" au lieu des noms dans Liaison Recettes-Molécules
 - [ ] Remplacer "Associations Molécules-Terroirs" par "Associations Plantes-Terroirs" en admin
 - [ ] Erreur SQL gene_terpene_links (product_type inexistant) — correction en cours
+
+## 🐛 BUGS — 6 MARS 2026 (Partie 5 — signalés par l'utilisateur)
+- [x] 404 sur /admin/synergies (route manquante — créer page admin synergies)
+- [x] Crash MoleculeDetail sur /molecule/510005 (references retourné comme string JSON au lieu d'un tableau)
+- [x] Recherche texte non fonctionnelle dans Liaison Recettes-Molécules (filtre "ciga" → 0 résultats — aucune recette cigarillo en base, filtre corrigé + message explicite)

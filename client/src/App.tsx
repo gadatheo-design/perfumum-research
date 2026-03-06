@@ -95,6 +95,7 @@ import AdminGcmsImport from "./pages/AdminGcmsImport";
 import DataQuality from "./pages/admin/DataQuality";
 import MoleculeManager from "./pages/admin/MoleculeManager";
 import AdminPlantMolecules from "./pages/admin/AdminPlantMolecules";
+import AdminSynergies from "./pages/admin/AdminSynergies";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -474,6 +475,7 @@ function Router() {
       <Route path="/admin/gcms-import" component={AdminGcmsImport} />
       <Route path="/admin/molecule-manager" component={MoleculeManager} />
       <Route path="/admin/plant-molecules" component={AdminPlantMolecules} />
+      <Route path="/admin/synergies" component={AdminSynergies} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

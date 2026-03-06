@@ -85,7 +85,7 @@ export default function LiaisonRecettesMolecules() {
     if (!recettes) return [];
     return recettes.filter((r: any) => {
       const matchCat = !filtreCategorie || r.category === filtreCategorie;
-      const matchSearch = !rechercheRecette || (r.nom || r.name || '').toLowerCase().includes(rechercheRecette.toLowerCase());
+      const matchSearch = !rechercheRecette || (r.name || '').toLowerCase().includes(rechercheRecette.toLowerCase());
       return matchCat && matchSearch;
     });
   }, [recettes, filtreCategorie, rechercheRecette]);
@@ -263,11 +263,19 @@ export default function LiaisonRecettesMolecules() {
                 <SelectValue placeholder="Choisir une recette..." />
               </SelectTrigger>
               <SelectContent>
-                {recettesFiltrees.map((r: any) => (
-                  <SelectItem key={r.id} value={r.id.toString()}>
-                    {(r.moleculeCount || 0) > 0 ? '\u2705 ' : '\u2b1c '}{r.name}{r.category ? ` (${r.category})` : ''}
-                  </SelectItem>
-                ))}
+                {recettesFiltrees.length === 0 ? (
+                  <div className="py-4 px-3 text-sm text-muted-foreground text-center">
+                    {rechercheRecette
+                      ? `Aucune recette contenant "${rechercheRecette}"`
+                      : 'Aucune recette dans cette catégorie'}
+                  </div>
+                ) : (
+                  recettesFiltrees.map((r: any) => (
+                    <SelectItem key={r.id} value={r.id.toString()}>
+                      {(r.moleculeCount || 0) > 0 ? '\u2705 ' : '\u2b1c '}{r.name}{r.category ? ` (${r.category})` : ''}
+                    </SelectItem>
+                  ))
+                )}
               </SelectContent>
             </Select>
           </div>

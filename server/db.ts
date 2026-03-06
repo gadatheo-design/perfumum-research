@@ -482,7 +482,16 @@ export async function getMoleculeById(id: number): Promise<Molecule | undefined>
   const db = await getDb();
   if (!db) return undefined;
   const result = await db.select().from(molecules).where(eq(molecules.id, id)).limit(1);
-  return result[0];
+  const mol = result[0];
+  if (!mol) return undefined;
+  // Ensure JSON fields are parsed (MySQL may return them as strings)
+  if (mol.references && typeof mol.references === 'string') {
+    try { (mol as any).references = JSON.parse(mol.references as any); } catch { (mol as any).references = []; }
+  }
+  if (mol.ifraData && typeof mol.ifraData === 'string') {
+    try { (mol as any).ifraData = JSON.parse(mol.ifraData as any); } catch { (mol as any).ifraData = null; }
+  }
+  return mol;
 }
 
 // ============================================================================
