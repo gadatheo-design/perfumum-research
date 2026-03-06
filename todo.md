@@ -1484,3 +1484,33 @@
 - [ ] Créer l'onglet "Nomenclature" (nom botanique, famille, genre, synonymes, liens GBIF/ITIS/Plants of the World)
 - [ ] Nettoyer l'en-tête de la fiche plante (retirer les champs déplacés)
 - [ ] Valider le responsive mobile
+
+## 🌿 ONGLET NOMENCLATURE — Fiches Plantes (6 mars 2026)
+
+- [ ] Analyser la structure actuelle des fiches plantes (PlantDetail.tsx)
+- [ ] Créer l'onglet "Nomenclature" (nom botanique, famille, genre, synonymes, liens GBIF/ITIS/Plants of the World)
+- [ ] Nettoyer l'en-tête de la fiche plante (retirer les champs déplacés)
+- [ ] Valider le responsive mobile
+
+## ⚗️ BATCH PUBCHEM 100 MOLÉCULES (6 mars 2026)
+
+- [ ] Lancer batch PubChem 100 molécules via script tsx
+- [ ] Analyser les résultats (taux de succès, erreurs, nouvelles traductions nécessaires)
+- [ ] Mettre à jour le compteur d'enrichissement
+
+## 🔥 PAGE PYROLYSE — Visualisation des transformations (6 mars 2026)
+
+- [ ] Analyser la table pyrolysis_transformations en base
+- [ ] Créer le router tRPC pyrolysis (list, getByMolecule, getByPlant)
+- [ ] Créer la page /pyrolyse avec graphe molécule source → molécule transformée
+- [ ] Intégrer les données Latakia, Perique, Virginia
+- [ ] Ajouter les liens croisés vers les fiches molécules
+- [ ] Valider le responsive mobile
+
+## ✅ PAGE PYROLYSE — Corrections et finalisation (6 mars 2026)
+- [x] Page /pyrolyse existante (PyrolysisVisualization.tsx) — 844 lignes avec D3.js + données dynamiques DB
+- [x] Correction appel listAllPyrolysis (suppression paramètre limit non supporté)
+- [x] Création page /methodologie/pyrolyse (Pyrolyse.tsx) — graphe SVG concentrique + liste groupée + stats
+- [x] Correction erreur TypeScript Breadcrumbs (items → currentLabel)
+- [x] Correction erreur TypeScript chebiId dans db.ts (type de retour enrichMoleculeFromChEBIWithTranslation)
+- [x] TypeScript : 0 erreur

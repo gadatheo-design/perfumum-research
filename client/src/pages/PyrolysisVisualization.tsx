@@ -377,7 +377,7 @@ function DynamicPyrolysisDB() {
   const [mechFilter, setMechFilter] = useState("all");
   const [toxFilter, setToxFilter] = useState("all");
   
-  const { data: allTransformations, isLoading } = trpc.molecules.listAllPyrolysis.useQuery({ limit: 200 });
+  const { data: allTransformations, isLoading } = trpc.molecules.listAllPyrolysis.useQuery({});
   
   const toxicityColors: Record<string, string> = {
     low: "#22c55e",

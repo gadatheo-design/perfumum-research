@@ -26,7 +26,11 @@ import {
   Image as ImageIcon,
   GitBranch,
   Sun,
-  PlusCircle
+  PlusCircle,
+  BookOpen,
+  ExternalLink,
+  Copy,
+  Check
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
@@ -253,7 +257,11 @@ export default function PlantDetail() {
       
       {/* Onglets principaux */}
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5 md:grid-cols-11">
+        <TabsList className="grid w-full grid-cols-5 md:grid-cols-12">
+          <TabsTrigger value="nomenclature" className="flex items-center gap-1">
+            <BookOpen className="h-3 w-3" />
+            <span className="hidden sm:inline">Nomenclature</span>
+          </TabsTrigger>
           <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
           <TabsTrigger value="images">Images</TabsTrigger>
           <TabsTrigger value="varieties">Variétés ({varieties?.length || 0})</TabsTrigger>
@@ -271,6 +279,11 @@ export default function PlantDetail() {
           )}
         </TabsList>
         
+        {/* Nomenclature */}
+        <TabsContent value="nomenclature" className="space-y-6">
+          <NomenclatureTab plant={plant} />
+        </TabsContent>
+
         {/* Vue d'ensemble */}
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1208,7 +1221,7 @@ export default function PlantDetail() {
         />
       )}
 
-      {/* Section Voir aussi */}
+       {/* Section Voir aussi */}
       <div className="mt-8 grid md:grid-cols-2 gap-6">
         {/* Terroirs où cette plante est cultivée */}
         <LinkedTerroirs
@@ -1216,7 +1229,6 @@ export default function PlantDetail() {
           isLoading={isLoadingTerroirs}
           title="Terroirs de culture"
         />
-
         {/* Plantes similaires */}
         <SimilarContent
           items={similarPlants || []}
@@ -1225,6 +1237,203 @@ export default function PlantDetail() {
           getSubtitle={(p) => p.latinName || p.family || undefined}
         />
       </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// COMPOSANT ONGLET NOMENCLATURE
+// ============================================================================
+function NomenclatureTab({ plant }: { plant: any }) {
+  const [copied, setCopied] = React.useState<string | null>(null);
+
+  const copyToClipboard = (text: string, key: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(key);
+    setTimeout(() => setCopied(null), 2000);
+  };
+
+  // Générer les liens externes depuis le nom latin
+  const latinEncoded = plant.latinName ? encodeURIComponent(plant.latinName) : null;
+  const gbifUrl = latinEncoded ? `https://www.gbif.org/species/search?q=${latinEncoded}` : null;
+  const itisUrl = latinEncoded ? `https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=Scientific_Name&search_value=${latinEncoded}` : null;
+  const powUrl = latinEncoded ? `https://powo.science.kew.org/results?q=${latinEncoded}` : null;
+  const wikiUrl = latinEncoded ? `https://fr.wikipedia.org/wiki/${latinEncoded.replace(/%20/g, '_')}` : null;
+  const tplUrl = latinEncoded ? `https://www.theplantlist.org/tpl1.1/search?q=${latinEncoded}` : null;
+
+  return (
+    <div className="space-y-6">
+      {/* Identité nomenclaturale */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BookOpen className="h-5 w-5 text-emerald-500" />
+            Identité nomenclaturale
+          </CardTitle>
+          <CardDescription>Noms officiels et classification botanique</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Nom commun */}
+            <div className="space-y-1">
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Nom commun</p>
+              <div className="flex items-center gap-2">
+                <p className="text-lg font-semibold">{plant.name}</p>
+                <button onClick={() => copyToClipboard(plant.name, 'name')} className="text-muted-foreground hover:text-foreground transition-colors">
+                  {copied === 'name' ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Nom latin */}
+            {plant.latinName && (
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Nom latin (binomial)</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-lg font-semibold italic text-emerald-600 dark:text-emerald-400">{plant.latinName}</p>
+                  <button onClick={() => copyToClipboard(plant.latinName, 'latin')} className="text-muted-foreground hover:text-foreground transition-colors">
+                    {copied === 'latin' ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Famille */}
+            {plant.family && (
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Famille botanique</p>
+                <div className="flex items-center gap-2">
+                  <Link href={`/famille/${encodeURIComponent(plant.family)}`}>
+                    <Badge variant="outline" className="text-sm font-medium cursor-pointer hover:bg-accent">
+                      {plant.family}
+                    </Badge>
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* Catégorie */}
+            <div className="space-y-1">
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Catégorie PERFUMUM</p>
+              <Badge variant="secondary" className="capitalize text-sm">{plant.category}</Badge>
+            </div>
+
+            {/* Axe climatique */}
+            {plant.climaticAxis && (
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Axe climatique Absorbe</p>
+                <Badge className="capitalize">{plant.climaticAxis.replace(/_/g, ' + ')}</Badge>
+              </div>
+            )}
+
+            {/* Origine */}
+            {plant.origin && (
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Origine géographique</p>
+                <p className="text-sm">{plant.origin}</p>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Liens externes */}
+      {plant.latinName && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ExternalLink className="h-5 w-5 text-blue-500" />
+              Bases de données botaniques
+            </CardTitle>
+            <CardDescription>Liens vers les références nomenclaturales internationales</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {gbifUrl && (
+                <a href={gbifUrl} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                  <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                    <Leaf className="h-4 w-4 text-emerald-600" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium group-hover:text-primary">GBIF</p>
+                    <p className="text-xs text-muted-foreground truncate">Global Biodiversity Information Facility</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                </a>
+              )}
+              {powUrl && (
+                <a href={powUrl} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                  <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                    <TreeDeciduous className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium group-hover:text-primary">Plants of the World</p>
+                    <p className="text-xs text-muted-foreground truncate">Kew Gardens — POWO</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                </a>
+              )}
+              {itisUrl && (
+                <a href={itisUrl} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                    <Dna className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium group-hover:text-primary">ITIS</p>
+                    <p className="text-xs text-muted-foreground truncate">Integrated Taxonomic Information System</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                </a>
+              )}
+              {wikiUrl && (
+                <a href={wikiUrl} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                  <div className="w-8 h-8 rounded-full bg-gray-500/10 flex items-center justify-center flex-shrink-0">
+                    <FileText className="h-4 w-4 text-gray-600" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium group-hover:text-primary">Wikipédia</p>
+                    <p className="text-xs text-muted-foreground truncate">Encyclopédie libre</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                </a>
+              )}
+              {tplUrl && (
+                <a href={tplUrl} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                  <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                    <BookOpen className="h-4 w-4 text-amber-600" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium group-hover:text-primary">The Plant List</p>
+                    <p className="text-xs text-muted-foreground truncate">Nomenclature de référence</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                </a>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Chiméotypes si disponibles */}
+      {plant.chemotypes && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FlaskConical className="h-5 w-5 text-purple-500" />
+              Chémotypes connus
+            </CardTitle>
+            <CardDescription>Variations chimiques intraspécifiques</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm leading-relaxed">{plant.chemotypes}</p>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

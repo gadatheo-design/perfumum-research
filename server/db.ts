@@ -19550,6 +19550,7 @@ export async function getUnenrichedMolecules(limit: number = 50): Promise<Array<
 export async function enrichMoleculeFromChEBIWithTranslation(moleculeId: number): Promise<{
   success: boolean;
   message: string;
+  chebiId?: string;
   data?: {
     chebiId: string;
     smiles?: string;
