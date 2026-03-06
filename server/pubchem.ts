@@ -440,6 +440,24 @@ const FR_TO_EN_MOLECULES: Record<string, string> = {
   'acide cinnamique': 'cinnamic acid',
   'acide salicylique': 'salicylic acid',
   'acide phénylacétique': 'phenylacetic acid',
+  'acide caféique': 'caffeic acid',
+  'acide coumarique': 'coumaric acid',
+  'acide p-coumarique': 'p-coumaric acid',
+  'acide décanoïque (c10)': 'decanoic acid',
+  'acide décanoïque': 'decanoic acid',
+  'acide 2-méthylbutyrique': '2-methylbutyric acid',
+  'acide 11-céto-β-boswellique (kba)': '11-keto-beta-boswellic acid',
+  'acide 11-céto-bêta-boswellique': '11-keto-beta-boswellic acid',
+  'acide 11-céto-boswellique': '11-keto-boswellic acid',
+  '2-acétyl-5-méthylfurane': '2-acetyl-5-methylfuran',
+  '2-mib (2-methylisoborneol)': '2-methylisoborneol',
+  '4-methyl-guaiacol': '4-methylguaiacol',
+  'acaciine': 'acaciin',
+  // Absolues et mélanges complexes (noms descriptifs — pas de CID unique)
+  "absolue d'iris (orris butter)": 'orris butter',
+  'absolue de jasmin (indole)': 'jasmine absolute',
+  'absolue de rose (citronellol)': 'rose absolute',
+  'acacia brülé': 'acacia',
 };
 
 const FR_TO_EN_TERMS: Record<string, string> = {

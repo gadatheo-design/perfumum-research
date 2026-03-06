@@ -19422,20 +19422,20 @@ export async function enrichMoleculeFromPubChemWithTranslation(moleculeId: numbe
   const db = await getDb();
   if (!db) return { success: false, message: 'Database connection failed' };
   
-  // Récupérer la molécule
-  const [rows] = await (db as any).execute(
-    'SELECT id, name, pubchem_cid FROM molecules WHERE id = ?',
-    [moleculeId]
-  );
+  // Récupérer la molécule via Drizzle ORM
+  const molRows = await db.select({
+    id: molecules.id,
+    name: molecules.name,
+    pubchemCid: molecules.pubchemCid,
+  }).from(molecules).where(eq(molecules.id, moleculeId)).limit(1);
   
-  const molecules = rows as any[];
-  if (molecules.length === 0) {
+  if (molRows.length === 0) {
     return { success: false, message: 'Molécule non trouvée' };
   }
   
-  const molecule = molecules[0];
+  const molecule = molRows[0];
   
-  if (molecule.pubchem_cid) {
+  if (molecule.pubchemCid) {
     return { success: false, message: 'Cette molécule est déjà enrichie via PubChem' };
   }
   
@@ -19448,32 +19448,22 @@ export async function enrichMoleculeFromPubChemWithTranslation(moleculeId: numbe
     const chebiResult = await enrichMoleculeWithTranslationChEBI(molecule.name);
     
     if (chebiResult.success && chebiResult.chebiId) {
-      // Mettre à jour avec les données ChEBI
-      await (db as any).execute(`
-        UPDATE molecules SET
-          chebi_id = ?,
-          smiles = COALESCE(smiles, ?),
-          inchi = COALESCE(inchi, ?),
-          inchi_key = COALESCE(inchi_key, ?),
-          chemicalFormula = COALESCE(chemicalFormula, ?),
-          molecularWeight = COALESCE(molecularWeight, ?),
-          chebi_enriched_at = NOW()
-        WHERE id = ?
-      `, [
-        chebiResult.chebiId,
-        chebiResult.smiles || null,
-        chebiResult.inchi || null,
-        chebiResult.inchiKey || null,
-        chebiResult.formula || null,
-        chebiResult.mass || null,
-        moleculeId
-      ]);
+      // Mettre à jour avec les données ChEBI via Drizzle
+      await db.update(molecules).set({
+        chebiId: chebiResult.chebiId,
+        smiles: chebiResult.smiles || undefined,
+        inchi: chebiResult.inchi || undefined,
+        inchiKey: chebiResult.inchiKey || undefined,
+        chemicalFormula: chebiResult.formula || undefined,
+        molecularWeight: chebiResult.mass ? Math.round(chebiResult.mass) : undefined,
+        chebiEnrichedAt: new Date(),
+      }).where(eq(molecules.id, moleculeId));
       
       return {
         success: true,
         message: `Molécule enrichie via ChEBI (fallback) - ID: ${chebiResult.chebiId}`,
         data: {
-          pubchemCid: 0, // Pas de PubChem CID
+          pubchemCid: 0,
           smiles: chebiResult.smiles,
           casNumber: undefined,
           iupacName: undefined,
@@ -19489,30 +19479,18 @@ export async function enrichMoleculeFromPubChemWithTranslation(moleculeId: numbe
     };
   }
   
-  // Mettre à jour la base de données
-  await (db as any).execute(`
-    UPDATE molecules SET
-      pubchem_cid = ?,
-      smiles = COALESCE(smiles, ?),
-      inchi = COALESCE(inchi, ?),
-      inchi_key = COALESCE(inchi_key, ?),
-      cas_number = COALESCE(cas_number, ?),
-      iupac_name = COALESCE(iupac_name, ?),
-      chemicalFormula = COALESCE(chemicalFormula, ?),
-      molecularWeight = COALESCE(molecularWeight, ?),
-      pubchem_enriched_at = NOW()
-    WHERE id = ?
-  `, [
-    result.pubchemCID,
-    result.smiles || null,
-    result.inchi || null,
-    result.inchiKey || null,
-    result.casNumber || null,
-    result.iupacName || null,
-    result.molecularFormula || null,
-    result.molecularWeight || null,
-    moleculeId
-  ]);
+  // Mettre à jour la base de données via Drizzle
+  await db.update(molecules).set({
+    pubchemCid: result.pubchemCID,
+    smiles: result.smiles || undefined,
+    inchi: result.inchi || undefined,
+    inchiKey: result.inchiKey || undefined,
+    casNumber: result.casNumber || undefined,
+    iupacName: result.iupacName || undefined,
+    chemicalFormula: result.molecularFormula || undefined,
+    molecularWeight: result.molecularWeight ? Math.round(result.molecularWeight) : undefined,
+    pubchemEnrichedAt: new Date(),
+  }).where(eq(molecules.id, moleculeId));
   
   return {
     success: true,
@@ -19539,11 +19517,11 @@ export async function getPubChemEnrichmentStats(): Promise<{
   const db = await getDb();
   if (!db) return { total: 0, enriched: 0, unenriched: 0 };
   
-  const [totalResult] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules');
-  const [enrichedResult] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules WHERE pubchem_cid IS NOT NULL');
+  const totalResult = await db.select({ count: count() }).from(molecules);
+  const enrichedResult = await db.select({ count: count() }).from(molecules).where(isNotNull(molecules.pubchemCid));
   
-  const total = (totalResult as any)[0]?.count || 0;
-  const enriched = (enrichedResult as any)[0]?.count || 0;
+  const total = totalResult[0]?.count || 0;
+  const enriched = enrichedResult[0]?.count || 0;
   
   return {
     total,
@@ -19556,12 +19534,14 @@ export async function getUnenrichedMolecules(limit: number = 50): Promise<Array<
   const db = await getDb();
   if (!db) return [];
   
-  const [rows] = await (db as any).execute(
-    'SELECT id, name FROM molecules WHERE pubchem_cid IS NULL ORDER BY name LIMIT ?',
-    [limit]
-  );
+  const rows = await db
+    .select({ id: molecules.id, name: molecules.name })
+    .from(molecules)
+    .where(isNull(molecules.pubchemCid))
+    .orderBy(asc(molecules.name))
+    .limit(limit);
   
-  return rows as Array<{ id: number; name: string }>;
+  return rows;
 }
 
 
@@ -19581,25 +19561,26 @@ export async function enrichMoleculeFromChEBIWithTranslation(moleculeId: number)
   const db = await getDb();
   if (!db) return { success: false, message: 'Database connection failed' };
   
-  // Récupérer la molécule
-  const [rows] = await (db as any).execute(
-    'SELECT id, name, pubchem_cid, chebi_id FROM molecules WHERE id = ?',
-    [moleculeId]
-  );
+  // Récupérer la molécule via Drizzle ORM
+  const molRows = await db.select({
+    id: molecules.id,
+    name: molecules.name,
+    pubchemCid: molecules.pubchemCid,
+    chebiId: molecules.chebiId,
+  }).from(molecules).where(eq(molecules.id, moleculeId)).limit(1);
   
-  const molecules = rows as any[];
-  if (molecules.length === 0) {
+  if (molRows.length === 0) {
     return { success: false, message: 'Molécule non trouvée' };
   }
   
-  const molecule = molecules[0];
+  const molecule = molRows[0];
   
   // Vérifier si déjà enrichie via PubChem ou ChEBI
-  if (molecule.pubchem_cid) {
+  if (molecule.pubchemCid) {
     return { success: false, message: 'Cette molécule est déjà enrichie via PubChem' };
   }
   
-  if (molecule.chebi_id) {
+  if (molecule.chebiId) {
     return { success: false, message: 'Cette molécule est déjà enrichie via ChEBI' };
   }
   
@@ -19613,30 +19594,21 @@ export async function enrichMoleculeFromChEBIWithTranslation(moleculeId: number)
     };
   }
   
-  // Mettre à jour la base de données
-  await (db as any).execute(`
-    UPDATE molecules SET
-      chebi_id = ?,
-      smiles = COALESCE(smiles, ?),
-      inchi = COALESCE(inchi, ?),
-      inchi_key = COALESCE(inchi_key, ?),
-      chemicalFormula = COALESCE(chemicalFormula, ?),
-      molecularWeight = COALESCE(molecularWeight, ?),
-      updated_at = NOW()
-    WHERE id = ?
-  `, [
-    result.chebiId,
-    result.smiles || null,
-    result.inchi || null,
-    result.inchiKey || null,
-    result.formula || null,
-    result.mass || null,
-    moleculeId
-  ]);
+  // Mettre à jour la base de données via Drizzle
+  await db.update(molecules).set({
+    chebiId: result.chebiId,
+    smiles: result.smiles || undefined,
+    inchi: result.inchi || undefined,
+    inchiKey: result.inchiKey || undefined,
+    chemicalFormula: result.formula || undefined,
+    molecularWeight: result.mass ? Math.round(result.mass) : undefined,
+    chebiEnrichedAt: new Date(),
+  }).where(eq(molecules.id, moleculeId));
   
   return {
     success: true,
     message: `Molécule enrichie via ChEBI (ID: ${result.chebiId})`,
+    chebiId: result.chebiId,
     data: {
       chebiId: result.chebiId,
       smiles: result.smiles,
@@ -19652,12 +19624,22 @@ export async function getUnenrichedMoleculesForChEBI(limit: number = 50): Promis
   if (!db) return [];
   
   // Molécules sans PubChem ET sans ChEBI
-  const [rows] = await (db as any).execute(
-    'SELECT id, name FROM molecules WHERE pubchem_cid IS NULL AND (chebi_id IS NULL OR chebi_id = "") ORDER BY name LIMIT ?',
-    [limit]
-  );
+  const rows = await db
+    .select({ id: molecules.id, name: molecules.name })
+    .from(molecules)
+    .where(
+      and(
+        isNull(molecules.pubchemCid),
+        or(
+          isNull(molecules.chebiId),
+          sql`${molecules.chebiId} = ''`
+        )
+      )
+    )
+    .orderBy(asc(molecules.name))
+    .limit(limit);
   
-  return rows as Array<{ id: number; name: string }>;
+  return rows;
 }
 
 

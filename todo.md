@@ -1447,10 +1447,10 @@
 
 ## 🏷️ ONGLET NOMENCLATURE — MoleculeDetail (6 mars 2026)
 
-- [ ] Créer onglet "Nomenclature" dans MoleculeDetail (nom IUPAC, CAS, synonymes PubChem, formule, poids)
-- [ ] Déplacer ces champs depuis l'en-tête vers l'onglet dédié
-- [ ] Nettoyer l'en-tête (garder seulement nom, famille, gamme, badges essentiels)
-- [ ] Adapter pour mobile (responsive)
+- [x] Créer onglet "Nomenclature" dans MoleculeDetail (nom IUPAC, CAS, synonymes PubChem, formule, poids) — créé avec liens PubChem/CAS/ChemSpider/ChEBI
+- [x] Déplacer ces champs depuis l'en-tête vers l'onglet dédié — IUPAC + synonymes retirés de l'en-tête
+- [x] Nettoyer l'en-tête (garder seulement nom, famille, gamme, badges essentiels) — fait
+- [x] Adapter pour mobile (responsive) — grid md:grid-cols-2 correct
 
 ## ⚗️ ENRICHISSEMENT PUBCHEM EN MASSE — Admin (6 mars 2026)
 
@@ -1471,3 +1471,16 @@
 - [x] Analyser la procédure enrichFromChEBI existante — enrichMoleculeFromChEBIWithTranslation + getUnenrichedMoleculesForChEBI présents
 - [x] Créer page admin /admin/chebi-batch (start/pause/stop, progression, journal) — ChEBIBatch.tsx créé
 - [x] Ajouter le lien dans Admin.tsx — carte teal "Enrichissement ChEBI — Batch"
+
+## 🧪 VALIDATION BATCHES ChEBI + PubChem (6 mars 2026)
+
+- [x] Lancer batch ChEBI 25 molécules via API — API EBI retourne 500 (indisponible depuis sandbox), batch non fonctionnel
+- [x] Lancer batch PubChem 25 molécules via API — 12/25 succès (1er), puis 20+/25 après corrections traductions FR→EN
+- [x] Analyser les taux de succès et erreurs — fix Drizzle ORM + 15 traductions ajoutées dans pubchem.ts. Total enrichies: 251 → 277
+
+## 🌿 ONGLET NOMENCLATURE — Fiches Plantes (6 mars 2026)
+
+- [ ] Analyser la structure actuelle des fiches plantes (PlantDetail.tsx)
+- [ ] Créer l'onglet "Nomenclature" (nom botanique, famille, genre, synonymes, liens GBIF/ITIS/Plants of the World)
+- [ ] Nettoyer l'en-tête de la fiche plante (retirer les champs déplacés)
+- [ ] Valider le responsive mobile
