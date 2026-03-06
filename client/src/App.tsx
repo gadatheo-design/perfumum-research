@@ -629,6 +629,14 @@ function Router() {
           </Suspense>
         )}
       </Route>
+      {/* Alias /molecules/:id → MoleculeDetail (les liens dans l'app utilisent les deux formes) */}
+      <Route path="/molecules/:id">
+        {(params) => (
+          <Suspense fallback={<PageLoader />}>
+            <MoleculeDetail />
+          </Suspense>
+        )}
+      </Route>
       <Route path="/terpene/:id" component={TerpeneDetail} />
       {/* Anciennes routes redirigées vers MoleculesHub */}
       <Route path="/familles" component={Familles} />
@@ -962,6 +970,8 @@ function Router() {
       <Route path="/graphe-molecules-familles-chimiques" component={GrapheMoleculesFamillesChimiques} />
       <Route path="/vue-connexions" component={VueDetailConnexions} />
       <Route path="/graphe-axes-thematiques" component={GrapheAxesThematiques} />
+      {/* Alias court */}
+      <Route path="/axes-thematiques" component={GrapheAxesThematiques} />
       <Route path="/graphe-references-axes" component={GrapheReferencesAxes} />
       <Route path="/references-graph" component={ReferencesGraph} />
       <Route path="/carte-interactive-terroirs" component={CarteInteractiveTerroirs} />

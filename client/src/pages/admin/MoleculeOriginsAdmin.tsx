@@ -142,17 +142,17 @@ export default function MoleculeOriginsAdmin() {
       <div className="container max-w-7xl">
         <Breadcrumbs customItems={[
           { label: "Administration", path: "/admin" },
-          { label: "Associations Molécules-Terroirs" }
+          { label: "Origines Géographiques des Molécules" }
         ]} />
         
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <LinkIcon className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold">Associations Molécules-Terroirs</h1>
+            <h1 className="text-3xl font-bold">Origines Géographiques des Molécules</h1>
           </div>
           <p className="text-muted-foreground">
-            Gérez les associations entre les molécules et leurs origines géographiques.
+            Associez des molécules à leurs origines géographiques (pays, région). Pour lier des <strong>plantes à des terroirs</strong>, utilisez la page <a href="/plant-terroir-linking" className="underline text-primary">Plante ↔ Terroir</a>.
           </p>
         </div>
 

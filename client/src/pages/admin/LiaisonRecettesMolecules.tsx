@@ -265,11 +265,7 @@ export default function LiaisonRecettesMolecules() {
               <SelectContent>
                 {recettesFiltrees.map((r: any) => (
                   <SelectItem key={r.id} value={r.id.toString()}>
-                    <span className="flex items-center gap-2">
-                      {(r.moleculeCount || 0) > 0 ? '✅' : '⬜'}
-                      {r.nom || r.name}
-                      {r.category && <span className="text-muted-foreground text-xs">({r.category})</span>}
-                    </span>
+                    {(r.moleculeCount || 0) > 0 ? '\u2705 ' : '\u2b1c '}{r.name}{r.category ? ` (${r.category})` : ''}
                   </SelectItem>
                 ))}
               </SelectContent>

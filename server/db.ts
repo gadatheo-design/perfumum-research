@@ -18251,20 +18251,20 @@ export async function getTpsGenesByMolecule(moleculeId: number) {
         gtl.gene_name,
         gtl.gene_id,
         gtl.terpene_product,
-        gtl.product_type,
-        gtl.enzyme_class,
-        gtl.species,
-        gtl.chromosome,
-        gtl.pathway,
-        gtl.expression_tissue,
-        gtl.regulation_notes,
-        gtl.reference_source,
-        gtl.ncbi_gene_id,
-        gtl.uniprot_id,
+        gtl.terpene_class as product_type,
+        gtl.subfamily as enzyme_class,
+        NULL as species,
+        NULL as chromosome,
+        NULL as pathway,
+        gtl.olfactive_notes as expression_tissue,
+        NULL as regulation_notes,
+        NULL as reference_source,
+        NULL as ncbi_gene_id,
+        NULL as uniprot_id,
         gtl.created_at
       FROM gene_terpene_links gtl
       WHERE LOWER(gtl.terpene_product) LIKE '%${moleculeName.replace(/'/g, "''")}%'
-         OR LOWER(gtl.terpene_product) LIKE '%${moleculeName.replace(/'/g, "''").replace(/[αβγδ-]/g, '%')}%'
+         OR LOWER(gtl.terpene_product) LIKE '%${moleculeName.replace(/'/g, "''").replace(/[\u03b1\u03b2\u03b3\u03b4-]/g, '%')}%'
       ORDER BY gtl.gene_name
     `));
     
@@ -18303,7 +18303,21 @@ export async function getAllTpsGenes() {
   try {
     const result = await (db as any).execute(sql.raw(`
       SELECT 
-        gtl.*,
+        gtl.id,
+        gtl.gene_name,
+        gtl.gene_id,
+        gtl.terpene_product,
+        gtl.terpene_class as product_type,
+        gtl.subfamily as enzyme_class,
+        NULL as species,
+        NULL as chromosome,
+        NULL as pathway,
+        gtl.olfactive_notes as expression_tissue,
+        NULL as regulation_notes,
+        NULL as reference_source,
+        NULL as ncbi_gene_id,
+        NULL as uniprot_id,
+        gtl.created_at,
         m.id as molecule_id,
         m.name as molecule_name
       FROM gene_terpene_links gtl
@@ -18348,10 +18362,10 @@ export async function getTpsGeneStats() {
     const result = await (db as any).execute(sql.raw(`
       SELECT 
         COUNT(*) as total_genes,
-        COUNT(DISTINCT species) as unique_species,
-        COUNT(DISTINCT enzyme_class) as enzyme_classes,
-        COUNT(DISTINCT product_type) as product_types,
-        COUNT(DISTINCT pathway) as pathways
+        COUNT(DISTINCT plant_id) as unique_species,
+        COUNT(DISTINCT subfamily) as enzyme_classes,
+        COUNT(DISTINCT terpene_class) as product_types,
+        COUNT(DISTINCT terpene_class) as pathways
       FROM gene_terpene_links
     `));
     
@@ -18359,19 +18373,19 @@ export async function getTpsGeneStats() {
     
     // Get genes by species
     const speciesResult = await (db as any).execute(sql.raw(`
-      SELECT species, COUNT(*) as count
+      SELECT plant_id as species, COUNT(*) as count
       FROM gene_terpene_links
-      WHERE species IS NOT NULL
-      GROUP BY species
+      WHERE plant_id IS NOT NULL
+      GROUP BY plant_id
       ORDER BY count DESC
     `));
     
-    // Get genes by product type
+    // Get genes by product type (terpene_class)
     const productTypeResult = await (db as any).execute(sql.raw(`
-      SELECT product_type, COUNT(*) as count
+      SELECT terpene_class as product_type, COUNT(*) as count
       FROM gene_terpene_links
-      WHERE product_type IS NOT NULL
-      GROUP BY product_type
+      WHERE terpene_class IS NOT NULL
+      GROUP BY terpene_class
       ORDER BY count DESC
     `));
     

@@ -1,0 +1,46 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'gene_terpene_links' AND TABLE_SCHEMA = DATABASE() ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'gene_terpene_links' AND TABLE_SCHEMA = DATABASE() ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "gene_id"
+    },
+    {
+      "COLUMN_NAME": "gene_name"
+    },
+    {
+      "COLUMN_NAME": "subfamily"
+    },
+    {
+      "COLUMN_NAME": "terpene_class"
+    },
+    {
+      "COLUMN_NAME": "substrate"
+    },
+    {
+      "COLUMN_NAME": "terpene_product"
+    },
+    {
+      "COLUMN_NAME": "olfactive_notes"
+    },
+    {
+      "COLUMN_NAME": "plant_id"
+    },
+    {
+      "COLUMN_NAME": "created_at"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    },
+    {
+      "COLUMN_NAME": "molecule_id"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\ngene_id\ngene_name\nsubfamily\nterpene_class\nsubstrate\nterpene_product\nolfactive_notes\nplant_id\ncreated_at\nupdated_at\nmolecule_id\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

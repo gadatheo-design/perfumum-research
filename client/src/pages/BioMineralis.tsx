@@ -1,6 +1,7 @@
 // @ts-nocheck
+import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { Loader2 } from "lucide-react";
+import { Loader2, ExternalLink } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { MolecularGraph, MoleculeNode, MoleculeSynergy } from "@/components/MolecularGraph";
 
@@ -277,24 +278,40 @@ export default function BioMineralis() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
-              { name: "Géosmine", formula: "C12H22O", role: "Terre humide, mémoire de la pluie" },
-              { name: "Hydroxyproline pyrolysée", formula: "C5H9NO3", role: "Collagène brûlé, os blanchis" },
-              { name: "Glycine pyrolysée", formula: "C2H5NO2", role: "Os carbonisé, bouillon sec" },
-              { name: "Skatole", formula: "C9H9N", role: "Animalité profonde, terre sacrée" },
-              { name: "Indole", formula: "C8H7N", role: "Fleur pourrie, jasmin noir" },
-              { name: "IBQ (Isobutyl quinoléine)", formula: "C13H15N", role: "Cuir sombre, cuir Mossi" },
-              { name: "Calcite", formula: "CaCO3", role: "Pierre froide, calcaire" },
-              { name: "Ozone", formula: "O3", role: "Pluie électrique, orage" },
-              { name: "Olibanum", formula: "C20H32O2", role: "Encens clair, frankincense" },
-              { name: "Myrrhe noire", formula: "C15H20O", role: "Résine sombre, amère" },
-              { name: "Bitume light", formula: "Complex", role: "Matière antique mésopotamienne" },
-              { name: "Fossile absolute", formula: "Complex", role: "Fossile blanc, os ancien" }
+              { name: "Géosmine", formula: "C12H22O", role: "Terre humide, mémoire de la pluie", id: 30004 },
+              { name: "Hydroxyproline pyrolysée", formula: "C5H9NO3", role: "Collagène brûlé, os blanchis", id: 90026 },
+              { name: "Glycine pyrolysée", formula: "C2H5NO2", role: "Os carbonisé, bouillon sec", id: 90025 },
+              { name: "Skatole", formula: "C9H9N", role: "Animalité profonde, terre sacrée", id: 210002 },
+              { name: "Indole", formula: "C8H7N", role: "Fleur pourrie, jasmin noir", id: 60016 },
+              { name: "IBQ (Isobutyl quinoléine)", formula: "C13H15N", role: "Cuir sombre, cuir Mossi", id: 90028 },
+              { name: "Calcite", formula: "CaCO3", role: "Pierre froide, calcaire", id: 90013 },
+              { name: "Ozone", formula: "O3", role: "Pluie électrique, orage", id: 90017 },
+              { name: "Olibanum", formula: "C20H32O2", role: "Encens clair, frankincense", id: 90041 },
+              { name: "Myrrhe noire", formula: "C15H20O", role: "Résine sombre, amère", id: 90042 },
+              { name: "Bitume light", formula: "Complex", role: "Matière antique mésopotamienne", id: 90011 },
+              { name: "Fossile absolute", formula: "Complex", role: "Fossile blanc, os ancien", id: 90018 }
             ].map((molecule, i) => (
-              <div key={i} className="border-2 border-gray-300 p-4 hover:border-black transition-colors">
-                <div className="font-bold text-lg mb-1">{molecule.name}</div>
-                <div className="font-mono text-sm text-purple-600 mb-2">{molecule.formula}</div>
-                <div className="text-sm text-gray-600">{molecule.role}</div>
-              </div>
+              molecule.id ? (
+                <Link key={i} href={`/molecules/${molecule.id}`}>
+                  <div className="border-2 border-gray-300 p-4 hover:border-purple-600 hover:shadow-md transition-all cursor-pointer group">
+                    <div className="flex items-start justify-between mb-1">
+                      <div className="font-bold text-lg group-hover:text-purple-700 transition-colors">{molecule.name}</div>
+                      <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-purple-600 flex-shrink-0 mt-1" />
+                    </div>
+                    <div className="font-mono text-sm text-purple-600 mb-2">{molecule.formula}</div>
+                    <div className="text-sm text-gray-600">{molecule.role}</div>
+                  </div>
+                </Link>
+              ) : (
+                <div key={i} className="border-2 border-gray-200 p-4 opacity-70">
+                  <div className="flex items-start justify-between mb-1">
+                    <div className="font-bold text-lg">{molecule.name}</div>
+                    <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded mt-1">Non indexée</span>
+                  </div>
+                  <div className="font-mono text-sm text-purple-600 mb-2">{molecule.formula}</div>
+                  <div className="text-sm text-gray-600">{molecule.role}</div>
+                </div>
+              )
             ))}
           </div>
         </div>
@@ -337,7 +354,7 @@ export default function BioMineralis() {
             <h3 className="text-3xl font-bold uppercase tracking-tight mb-6">
               Graphe de Relations Moléculaires
             </h3>
-            <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+            <p className="text-lg text-white/80 mb-8 leading-relaxed">
               Visualisation interactive des synergies entre les 12 molécules-piliers, les 6 accords révolutionnaires, et les processus de transformation (pyrolyse, macération, fusion, oxydation).
             </p>
             <BioMineralisGraph />
@@ -345,7 +362,8 @@ export default function BioMineralis() {
         </div>
       </div>
 
-      {/* Footer Section */}  <footer className="border-t-3 border-black py-8">
+      {/* Footer Section */}
+      <footer className="border-t-2 border-black py-8">
         <div className="container mx-auto px-4">
           <div className="text-center text-sm text-gray-600">
             <p>© 2025 PERFUMUM — Recherche Olfactive</p>

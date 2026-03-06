@@ -1383,3 +1383,16 @@
 
 - [x] Corriger le 404 sur /final-recipes/:id (FinalRecipeDetail.tsx + route App.tsx)
 - [x] Corriger le 404 sur /methodologie/gcms (alias route ajouté dans App.tsx)
+
+## 🐛 BUGS — 6 MARS 2026 (Partie 3)
+
+- [ ] Crash "An unexpected error occurred" sur /molecule/30005 (MoleculeDetail)
+- [ ] Vérifier si d'autres IDs de molécules provoquent le même crash
+- [ ] Améliorer lisibilité et hyperliens sur /bio-mineralis
+- [ ] Corriger 404 sur /axes-thematiques
+
+## 🐛 BUGS — 6 MARS 2026 (Partie 4)
+
+- [ ] Bug sélecteur recettes affiche "0" au lieu des noms dans Liaison Recettes-Molécules
+- [ ] Remplacer "Associations Molécules-Terroirs" par "Associations Plantes-Terroirs" en admin
+- [ ] Erreur SQL gene_terpene_links (product_type inexistant) — correction en cours
