@@ -5,6 +5,7 @@ import { Sparkles, Beaker } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { MiniRadarChart } from "./MiniRadarChart";
+import { normalizeOlfactiveProfile } from "@/lib/utils";
 
 export function MoleculeOfTheDay() {
   const { data: molecule, isLoading } = trpc.home.getMoleculeOfTheDay.useQuery();
@@ -68,10 +69,10 @@ export function MoleculeOfTheDay() {
             </div>
           )}
 
-          {molecule.olfactiveProfile && (
+          {normalizeOlfactiveProfile(molecule.olfactiveProfile) && (
             <div>
               <p className="text-sm font-semibold mb-1">Profil olfactif</p>
-              <p className="text-sm text-muted-foreground line-clamp-2">{molecule.olfactiveProfile}</p>
+              <p className="text-sm text-muted-foreground line-clamp-2">{normalizeOlfactiveProfile(molecule.olfactiveProfile)}</p>
             </div>
           )}
 

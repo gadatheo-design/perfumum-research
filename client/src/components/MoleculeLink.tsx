@@ -8,6 +8,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { normalizeOlfactiveProfile } from "@/lib/utils";
 
 interface MoleculeLinkProps {
   /** Nom de la molécule à afficher et rechercher */
@@ -127,8 +128,8 @@ export function MoleculeLink({
                 <Badge variant="outline" className="text-xs">{molecule.family}</Badge>
               )}
             </div>
-            {molecule.olfactiveProfile && (
-              <p className="text-sm text-muted-foreground line-clamp-2">{molecule.olfactiveProfile}</p>
+            {normalizeOlfactiveProfile(molecule.olfactiveProfile) && (
+              <p className="text-sm text-muted-foreground line-clamp-2">{normalizeOlfactiveProfile(molecule.olfactiveProfile)}</p>
             )}
             <div className="flex gap-2 text-xs text-muted-foreground">
               {molecule.volatility && (

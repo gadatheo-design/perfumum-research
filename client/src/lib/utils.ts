@@ -24,3 +24,24 @@ export function safeJsonParse<T = unknown>(value: unknown, fallback: T = null as
     return fallback;
   }
 }
+
+/**
+ * Normalise un champ olfactiveProfile qui peut être une string, un array JSON,
+ * ou null/undefined. Retourne toujours une string lisible ou null.
+ *
+ * Usage:
+ *   normalizeOlfactiveProfile(molecule.olfactiveProfile)
+ *   normalizeOlfactiveProfile(molecule.olfactiveProfile, ', ')  // séparateur personnalisé
+ */
+export function normalizeOlfactiveProfile(
+  value: unknown,
+  separator = '. '
+): string | null {
+  if (!value) return null;
+  if (Array.isArray(value)) {
+    const str = (value as string[]).filter(Boolean).join(separator);
+    return str || null;
+  }
+  if (typeof value === 'string') return value || null;
+  return String(value) || null;
+}

@@ -5,7 +5,7 @@ import { Check, Beaker, Droplets, Zap, FlaskConical, ChevronRight, ShieldCheck, 
 import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromOlfactiveProfile } from "@/lib/gammeMapping";
 import { FavoriteButton } from "@/components/FavoriteButton";
-import { cn } from "@/lib/utils";
+import { cn, normalizeOlfactiveProfile } from "@/lib/utils";
 
 interface MoleculeListItemProps {
   molecule: {
@@ -168,9 +168,9 @@ export function MoleculeListItem({
         
         {/* Olfactive profile - truncated */}
         <div className="hidden lg:block w-48 shrink-0">
-          {molecule.olfactiveProfile && (
+          {normalizeOlfactiveProfile(molecule.olfactiveProfile) && (
             <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-              {molecule.olfactiveProfile}
+              {normalizeOlfactiveProfile(molecule.olfactiveProfile)}
             </p>
           )}
         </div>

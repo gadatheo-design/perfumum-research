@@ -119,6 +119,14 @@ export function AIClassificationSuggestion({
     },
   });
 
+  // Convertit olfactiveProfile en string quelle que soit sa forme (string | array | null)
+  const toProfileString = (val: unknown): string | undefined => {
+    if (!val) return undefined;
+    if (Array.isArray(val)) return (val as string[]).join('. ') || undefined;
+    if (typeof val === 'string') return val || undefined;
+    return String(val) || undefined;
+  };
+
   const handleClassify = () => {
     setResult(null);
     setError(null);
@@ -128,8 +136,8 @@ export function AIClassificationSuggestion({
       iupacName: molecule.iupacName || undefined,
       casNumber: molecule.casNumber || undefined,
       chemicalFormula: molecule.chemicalFormula || undefined,
-      olfactiveProfile: molecule.olfactiveProfile || undefined,
-      botanicalSources: molecule.botanicalSources || undefined,
+      olfactiveProfile: toProfileString(molecule.olfactiveProfile),
+      botanicalSources: toProfileString(molecule.botanicalSources),
     });
   };
 

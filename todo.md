@@ -1710,3 +1710,10 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Dialog d'édition inline (survol → crayon) pour modifier une liaison existante
 - [x] Correction mutations addRecette→add et removeRecette→remove
 - [x] Validation TypeScript sans erreur
+
+---
+## 🐛 BUGS SESSION 2 — 7 mars 2026 (soir)
+
+- [x] Bug arbre généalogique : corrigé dans GenealogyGraph.tsx — types GraphNode mis à jour (dominantMolecules: DominantMolecule[] | string | null, olfactiveNotes: OlfactiveNotes | string | null), rendu conditionnel Array.isArray pour afficher les molécules dominantes et notes olfactives structurées
+- [x] Bug enrichissement IA molécules : corrigé dans AIClassificationSuggestion.tsx — helper toProfileString() défensif qui convertit array/string/null en string avant envoi à la procédure tRPC
+- [x] Correction généralisée olfactiveProfile : helper normalizeOlfactiveProfile() ajouté dans utils.ts, appliqué dans MoleculeLink, MoleculeListItem, MoleculeOfTheDay, DominantMoleculeBadge

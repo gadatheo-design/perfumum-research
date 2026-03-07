@@ -13,6 +13,18 @@ import { Label } from "@/components/ui/label";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import * as d3 from "d3";
 
+interface DominantMolecule {
+  molecule: string;
+  percentage: number;
+  role: string;
+}
+
+interface OlfactiveNotes {
+  base?: string[];
+  heart?: string[];
+  top?: string[];
+}
+
 interface GraphNode {
   id: number;
   name: string;
@@ -21,9 +33,9 @@ interface GraphNode {
   plantName: string;
   plantCategory: string;
   country: string | null;
-  dominantMolecules: string | null;
-  molecularProfile: string | null;
-  olfactiveNotes: string | null;
+  dominantMolecules: DominantMolecule[] | string | null;
+  molecularProfile: Record<string, unknown> | string | null;
+  olfactiveNotes: OlfactiveNotes | string | null;
   // D3 simulation properties
   x?: number;
   y?: number;
@@ -456,13 +468,38 @@ export default function GenealogyGraph() {
                   {selectedNode.dominantMolecules && (
                     <div>
                       <p className="text-xs text-muted-foreground mb-1">Molécules dominantes</p>
-                      <p>{selectedNode.dominantMolecules}</p>
+                      {Array.isArray(selectedNode.dominantMolecules) ? (
+                        <div className="space-y-1">
+                          {(selectedNode.dominantMolecules as DominantMolecule[]).map((m, i) => (
+                            <div key={i} className="flex items-center justify-between text-xs">
+                              <span className="font-medium">{m.molecule}</span>
+                              <span className="text-muted-foreground">{m.percentage}%</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-xs">{String(selectedNode.dominantMolecules)}</p>
+                      )}
                     </div>
                   )}
                   {selectedNode.olfactiveNotes && (
                     <div>
                       <p className="text-xs text-muted-foreground mb-1">Notes olfactives</p>
-                      <p>{selectedNode.olfactiveNotes}</p>
+                      {typeof selectedNode.olfactiveNotes === 'object' && selectedNode.olfactiveNotes !== null ? (
+                        <div className="space-y-1 text-xs">
+                          {(selectedNode.olfactiveNotes as OlfactiveNotes).top && (
+                            <div><span className="text-muted-foreground">Tête : </span>{(selectedNode.olfactiveNotes as OlfactiveNotes).top!.join(', ')}</div>
+                          )}
+                          {(selectedNode.olfactiveNotes as OlfactiveNotes).heart && (
+                            <div><span className="text-muted-foreground">Cœur : </span>{(selectedNode.olfactiveNotes as OlfactiveNotes).heart!.join(', ')}</div>
+                          )}
+                          {(selectedNode.olfactiveNotes as OlfactiveNotes).base && (
+                            <div><span className="text-muted-foreground">Base : </span>{(selectedNode.olfactiveNotes as OlfactiveNotes).base!.join(', ')}</div>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-xs">{String(selectedNode.olfactiveNotes)}</p>
+                      )}
                     </div>
                   )}
 

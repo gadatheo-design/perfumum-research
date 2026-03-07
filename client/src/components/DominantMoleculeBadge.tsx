@@ -159,9 +159,12 @@ export function DominantMoleculeBadge({
                   className="text-xs bg-amber-50 border-amber-200 text-amber-700 dark:bg-amber-950/30 dark:border-amber-800 dark:text-amber-400"
                 >
                   <Wind className="h-2.5 w-2.5 mr-1" />
-                  {moleculeData.olfactiveProfile.length > 40
-                    ? moleculeData.olfactiveProfile.substring(0, 40) + "…"
-                    : moleculeData.olfactiveProfile}
+                  {(() => {
+                    const p = Array.isArray(moleculeData.olfactiveProfile)
+                      ? (moleculeData.olfactiveProfile as string[]).join(', ')
+                      : String(moleculeData.olfactiveProfile);
+                    return p.length > 40 ? p.substring(0, 40) + '…' : p;
+                  })()}
                 </Badge>
               )}
             </div>
