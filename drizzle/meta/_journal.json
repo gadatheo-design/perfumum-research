@@ -295,6 +295,13 @@
       "when": 1772882799637,
       "tag": "0041_groovy_true_believers",
       "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "5",
+      "when": 1772889079003,
+      "tag": "0042_legal_obadiah_stane",
+      "breakpoints": true
     }
   ]
 }

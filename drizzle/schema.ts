@@ -6959,3 +6959,30 @@ export const cigarilloMoleculeLinks = mysqlTable("cigarillo_molecule_links", {
 }));
 export type CigarilloMoleculeLink = typeof cigarilloMoleculeLinks.$inferSelect;
 export type InsertCigarilloMoleculeLink = typeof cigarilloMoleculeLinks.$inferInsert;
+
+// ============================================================================
+// RECETTE RAW MATERIALS — Liaison directe entre recettes et matières premières
+// ============================================================================
+export const recetteRawMaterials = mysqlTable("recette_raw_materials", {
+  id: int("id").autoincrement().primaryKey(),
+  recetteId: int("recette_id").notNull(),
+  rawMaterialId: int("raw_material_id").notNull(),
+  // Rôle de la matière dans la recette
+  role: mysqlEnum("role", ["base", "coeur", "tete", "fixateur", "modificateur", "autre"]).default("autre"),
+  // Quantité / dosage
+  dosage: decimal("dosage", { precision: 8, scale: 3 }),
+  dosageUnit: varchar("dosage_unit", { length: 20 }).default("g"),
+  percentage: decimal("percentage", { precision: 5, scale: 2 }),
+  // Notes spécifiques à cette utilisation
+  notes: text("notes"),
+  // Ordre d'ajout dans la recette
+  sortOrder: int("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
+}, (table) => ({
+  recetteIdx: index("rrm_recette_idx").on(table.recetteId),
+  rawMaterialIdx: index("rrm_raw_material_idx").on(table.rawMaterialId),
+  uniqueLink: uniqueIndex("rrm_unique_link").on(table.recetteId, table.rawMaterialId),
+}));
+export type RecetteRawMaterial = typeof recetteRawMaterials.$inferSelect;
+export type InsertRecetteRawMaterial = typeof recetteRawMaterials.$inferInsert;

@@ -1647,3 +1647,12 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Bouton "Modifier la fiche" visible uniquement pour les utilisateurs connectés
 - [x] TypeScript : 0 erreur
 - [x] Tests vitest : 105 fichiers passés, 1540 tests réussis
+
+---
+
+## 🔬 SESSION 7 MARS 2026 — Complétude et liaison recettes
+
+- [ ] Indicateur de complétude (badge rouge/orange/vert) sur les cartes de la page liste /matieres-premieres
+- [ ] Table recette_raw_materials dans le schéma Drizzle (migration SQL directe)
+- [ ] Procédures tRPC pour recette_raw_materials (add, remove, getByRawMaterial, getByRecette)
+- [ ] Interface de liaison recettes sur la page de détail /matieres-premieres/:id

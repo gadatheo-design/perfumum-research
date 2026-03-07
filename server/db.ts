@@ -231,6 +231,10 @@ import {
   recetteMolecules,
   RecetteMolecule,
   InsertRecetteMolecule,
+  // Recette <-> Raw Materials (liaison directe)
+  recetteRawMaterials,
+  RecetteRawMaterial,
+  InsertRecetteRawMaterial,
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../shared/olfactiveSynonyms';
@@ -20962,6 +20966,8 @@ export async function getRawMaterialsFiltered(params: {
       topNotes: rawMaterials.topNotes,
       heartNotes: rawMaterials.heartNotes,
       baseNotes: rawMaterials.baseNotes,
+      plantId: rawMaterials.plantId,
+      terroirId: rawMaterials.terroirId,
     })
     .from(rawMaterials)
     .where(whereExpr)
@@ -21085,4 +21091,85 @@ export async function getRawMaterialDetail(id: number) {
     terroir: terroirData,
     recipes: recipesData,
   };
+}
+
+// ============================================================================
+// RECETTE RAW MATERIALS — Fonctions CRUD
+// ============================================================================
+
+/** Récupère toutes les liaisons matières premières pour une recette */
+export async function getRecetteRawMaterials(recetteId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      id: recetteRawMaterials.id,
+      recetteId: recetteRawMaterials.recetteId,
+      rawMaterialId: recetteRawMaterials.rawMaterialId,
+      role: recetteRawMaterials.role,
+      dosage: recetteRawMaterials.dosage,
+      dosageUnit: recetteRawMaterials.dosageUnit,
+      percentage: recetteRawMaterials.percentage,
+      notes: recetteRawMaterials.notes,
+      sortOrder: recetteRawMaterials.sortOrder,
+      // Infos de la matière première
+      materialName: rawMaterials.name,
+      materialLatinName: rawMaterials.latinName,
+      materialCategory: rawMaterials.category,
+      materialOlfactiveFamily: rawMaterials.olfactiveFamily,
+      materialOlfactiveProfile: rawMaterials.olfactiveProfile,
+    })
+    .from(recetteRawMaterials)
+    .innerJoin(rawMaterials, eq(recetteRawMaterials.rawMaterialId, rawMaterials.id))
+    .where(eq(recetteRawMaterials.recetteId, recetteId))
+    .orderBy(asc(recetteRawMaterials.sortOrder), asc(rawMaterials.name));
+}
+
+/** Récupère toutes les recettes qui utilisent une matière première */
+export async function getRecettesForRawMaterial(rawMaterialId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db
+    .select({
+      id: recetteRawMaterials.id,
+      rawMaterialId: recetteRawMaterials.rawMaterialId,
+      recetteId: recetteRawMaterials.recetteId,
+      role: recetteRawMaterials.role,
+      dosage: recetteRawMaterials.dosage,
+      dosageUnit: recetteRawMaterials.dosageUnit,
+      percentage: recetteRawMaterials.percentage,
+      notes: recetteRawMaterials.notes,
+      // Infos de la recette
+      recetteName: recettes.name,
+      recetteCategory: recettes.category,
+      recetteDescription: recettes.description,
+    })
+    .from(recetteRawMaterials)
+    .innerJoin(recettes, eq(recetteRawMaterials.recetteId, recettes.id))
+    .where(eq(recetteRawMaterials.rawMaterialId, rawMaterialId))
+    .orderBy(asc(recettes.name));
+}
+
+/** Ajoute une liaison recette <-> matière première */
+export async function addRecetteRawMaterial(data: InsertRecetteRawMaterial) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const result = await db.insert(recetteRawMaterials).values(data);
+  return result;
+}
+
+/** Met à jour une liaison recette <-> matière première */
+export async function updateRecetteRawMaterial(id: number, data: Partial<InsertRecetteRawMaterial>) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.update(recetteRawMaterials).set(data).where(eq(recetteRawMaterials.id, id));
+  return { success: true };
+}
+
+/** Supprime une liaison recette <-> matière première */
+export async function removeRecetteRawMaterial(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.delete(recetteRawMaterials).where(eq(recetteRawMaterials.id, id));
+  return { success: true };
 }

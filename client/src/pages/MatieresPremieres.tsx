@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "wouter";
 import {
   Search, Filter, FlaskConical, Leaf, Droplets, TreePine,
   Flower2, Wind, Package, ChevronLeft, ChevronRight,
-  BarChart3, Grid3X3, List
+  BarChart3, Grid3X3, List, CheckCircle2, AlertCircle, XCircle
 } from "lucide-react";
 
 // ─── Constantes ──────────────────────────────────────────────────────────────
@@ -320,43 +321,68 @@ export default function MatieresPremieres() {
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
 
+// ─── Indicateur de complétude ────────────────────────────────────────────────
+function CompletenessIndicator({ plantId, terroirId }: { plantId?: number | null; terroirId?: number | null }) {
+  const score = (plantId ? 1 : 0) + (terroirId ? 1 : 0);
+  if (score === 2) return (
+    <span title="Fiche complète : plante + terroir renseignés" className="flex items-center gap-0.5 text-emerald-600">
+      <CheckCircle2 className="w-3.5 h-3.5" />
+    </span>
+  );
+  if (score === 1) return (
+    <span title={plantId ? "Plante renseignée — terroir manquant" : "Terroir renseigné — plante manquante"} className="flex items-center gap-0.5 text-amber-500">
+      <AlertCircle className="w-3.5 h-3.5" />
+    </span>
+  );
+  return (
+    <span title="Fiche incomplète : plante et terroir manquants" className="flex items-center gap-0.5 text-red-400">
+      <XCircle className="w-3.5 h-3.5" />
+    </span>
+  );
+}
+
 function RawMaterialCard({ item }: { item: any }) {
   const cat = CATEGORY_LABELS[item.category] ?? CATEGORY_LABELS.autre;
   return (
-    <Card className="hover:shadow-md transition-shadow group">
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-2 mb-2">
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm text-foreground truncate group-hover:text-amber-700 transition-colors">{item.name}</h3>
-            {item.latinName && <p className="text-xs text-muted-foreground italic truncate mt-0.5">{item.latinName}</p>}
-          </div>
-          <Badge className={`text-xs shrink-0 border ${cat.color} flex items-center gap-1`}>
-            {cat.icon}{cat.label}
-          </Badge>
-        </div>
-        {item.olfactiveProfile && (
-          <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{item.olfactiveProfile}</p>
-        )}
-        <div className="flex flex-wrap gap-1 mt-2">
-          {item.olfactiveFamily && (
-            <Badge variant="outline" className="text-xs">{OLFACTIVE_LABELS[item.olfactiveFamily] ?? item.olfactiveFamily}</Badge>
-          )}
-          {item.quality && (
-            <Badge variant="outline" className="text-xs">{QUALITY_LABELS[item.quality] ?? item.quality}</Badge>
-          )}
-          {item.availability && item.availability !== "disponible" && (
-            <Badge variant="outline" className={`text-xs ${item.availability === "rare" ? "text-amber-600 border-amber-300" : item.availability === "en_rupture" ? "text-red-600 border-red-300" : ""}`}>
-              {AVAILABILITY_LABELS[item.availability] ?? item.availability}
+    <Link href={`/matieres-premieres/${item.id}`}>
+      <Card className="hover:shadow-md transition-shadow group cursor-pointer">
+        <CardContent className="p-4">
+          <div className="flex items-start justify-between gap-2 mb-2">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5">
+                <h3 className="font-semibold text-sm text-foreground truncate group-hover:text-amber-700 transition-colors">{item.name}</h3>
+                <CompletenessIndicator plantId={item.plantId} terroirId={item.terroirId} />
+              </div>
+              {item.latinName && <p className="text-xs text-muted-foreground italic truncate mt-0.5">{item.latinName}</p>}
+            </div>
+            <Badge className={`text-xs shrink-0 border ${cat.color} flex items-center gap-1`}>
+              {cat.icon}{cat.label}
             </Badge>
+          </div>
+          {item.olfactiveProfile && (
+            <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{item.olfactiveProfile}</p>
           )}
-        </div>
-        {item.originCountry && (
-          <p className="text-xs text-muted-foreground mt-2">
-            <span className="opacity-60">Origine : </span>{item.originCountry}{item.originRegion ? ` — ${item.originRegion}` : ""}
-          </p>
-        )}
-      </CardContent>
-    </Card>
+          <div className="flex flex-wrap gap-1 mt-2">
+            {item.olfactiveFamily && (
+              <Badge variant="outline" className="text-xs">{OLFACTIVE_LABELS[item.olfactiveFamily] ?? item.olfactiveFamily}</Badge>
+            )}
+            {item.quality && (
+              <Badge variant="outline" className="text-xs">{QUALITY_LABELS[item.quality] ?? item.quality}</Badge>
+            )}
+            {item.availability && item.availability !== "disponible" && (
+              <Badge variant="outline" className={`text-xs ${item.availability === "rare" ? "text-amber-600 border-amber-300" : item.availability === "en_rupture" ? "text-red-600 border-red-300" : ""}`}>
+                {AVAILABILITY_LABELS[item.availability] ?? item.availability}
+              </Badge>
+            )}
+          </div>
+          {item.originCountry && (
+            <p className="text-xs text-muted-foreground mt-2">
+              <span className="opacity-60">Origine : </span>{item.originCountry}{item.originRegion ? ` — ${item.originRegion}` : ""}
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
 
@@ -365,19 +391,22 @@ function RawMaterialCard({ item }: { item: any }) {
 function RawMaterialRow({ item }: { item: any }) {
   const cat = CATEGORY_LABELS[item.category] ?? CATEGORY_LABELS.autre;
   return (
-    <div className="flex items-center gap-3 p-3 rounded-lg border bg-card hover:bg-muted/30 transition-colors">
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-medium text-sm text-foreground">{item.name}</span>
-          {item.latinName && <span className="text-xs text-muted-foreground italic">({item.latinName})</span>}
+    <Link href={`/matieres-premieres/${item.id}`}>
+      <div className="flex items-center gap-3 p-3 rounded-lg border bg-card hover:bg-muted/30 transition-colors cursor-pointer">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-medium text-sm text-foreground">{item.name}</span>
+            {item.latinName && <span className="text-xs text-muted-foreground italic">({item.latinName})</span>}
+            <CompletenessIndicator plantId={item.plantId} terroirId={item.terroirId} />
+          </div>
+          {item.olfactiveProfile && <p className="text-xs text-muted-foreground truncate mt-0.5">{item.olfactiveProfile}</p>}
         </div>
-        {item.olfactiveProfile && <p className="text-xs text-muted-foreground truncate mt-0.5">{item.olfactiveProfile}</p>}
+        <div className="flex items-center gap-2 shrink-0">
+          {item.originCountry && <span className="text-xs text-muted-foreground hidden md:block">{item.originCountry}</span>}
+          {item.quality && <Badge variant="outline" className="text-xs hidden sm:flex">{QUALITY_LABELS[item.quality] ?? item.quality}</Badge>}
+          <Badge className={`text-xs border ${cat.color} flex items-center gap-1`}>{cat.icon}{cat.label}</Badge>
+        </div>
       </div>
-      <div className="flex items-center gap-2 shrink-0">
-        {item.originCountry && <span className="text-xs text-muted-foreground hidden md:block">{item.originCountry}</span>}
-        {item.quality && <Badge variant="outline" className="text-xs hidden sm:flex">{QUALITY_LABELS[item.quality] ?? item.quality}</Badge>}
-        <Badge className={`text-xs border ${cat.color} flex items-center gap-1`}>{cat.icon}{cat.label}</Badge>
-      </div>
-    </div>
+    </Link>
   );
 }

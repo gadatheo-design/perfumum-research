@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ArrowLeft, Leaf, MapPin, FlaskConical, BookOpen, AlertTriangle, ExternalLink, Pencil, Check } from "lucide-react";
+import { Loader2, ArrowLeft, Leaf, MapPin, FlaskConical, BookOpen, AlertTriangle, ExternalLink, Pencil, Check, Plus, Trash2, Link2 } from "lucide-react";
 
 // ── Labels ──────────────────────────────────────────────────────────────────
 const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
@@ -82,6 +82,53 @@ export default function MatierePremierePage() {
   const { data: terroirs } = trpc.terroirs.getAll.useQuery();
 
   const utils = trpc.useUtils();
+
+  // Liaisons directes recette <-> matière première
+  const [linkDialogOpen, setLinkDialogOpen] = useState(false);
+  const [linkForm, setLinkForm] = useState({ recetteId: "", role: "autre", dosage: "", dosageUnit: "g", percentage: "", notes: "" });
+
+  const { data: directRecettes, refetch: refetchLinks } = trpc.rawMaterials.getRecettes.useQuery(
+    id ?? 0,
+    { enabled: !!id && !isNaN(id as number) }
+  );
+
+  const { data: allRecettes } = trpc.recettes.list.useQuery();
+
+  const addLinkMutation = trpc.rawMaterials.addRecette.useMutation({
+    onSuccess: () => {
+      toast({ title: "Liaison ajoutée", description: "La recette a été liée à cette matière première." });
+      setLinkDialogOpen(false);
+      setLinkForm({ recetteId: "", role: "autre", dosage: "", dosageUnit: "g", percentage: "", notes: "" });
+      refetchLinks();
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
+
+  const removeLinkMutation = trpc.rawMaterials.removeRecette.useMutation({
+    onSuccess: () => {
+      toast({ title: "Liaison supprimée" });
+      refetchLinks();
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
+
+  const handleAddLink = () => {
+    if (!id || !linkForm.recetteId) return;
+    addLinkMutation.mutate({
+      recetteId: parseInt(linkForm.recetteId, 10),
+      rawMaterialId: id,
+      role: linkForm.role as any,
+      dosage: linkForm.dosage || undefined,
+      dosageUnit: linkForm.dosageUnit || "g",
+      percentage: linkForm.percentage || undefined,
+      notes: linkForm.notes || undefined,
+    });
+  };
+
   const updateMutation = trpc.rawMaterials.update.useMutation({
     onSuccess: () => {
       toast({ title: "Modifications enregistrées", description: "La fiche a été mise à jour." });
@@ -481,13 +528,13 @@ export default function MatierePremierePage() {
               </Card>
             )}
 
-            {/* Recettes associées */}
+            {/* Recettes associées (via molécules) */}
             {material.recipes && material.recipes.length > 0 && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider flex items-center gap-2">
                     <BookOpen className="h-4 w-4" />
-                    Recettes associées
+                    Recettes associées (via molécules)
                     <span className="text-zinc-600 font-normal">({material.recipes.length})</span>
                   </CardTitle>
                 </CardHeader>
@@ -507,6 +554,149 @@ export default function MatierePremierePage() {
                 </CardContent>
               </Card>
             )}
+
+            {/* Liaisons directes recette <-> matière première */}
+            <Card className="bg-[#16161a] border-zinc-800">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider flex items-center gap-2">
+                    <Link2 className="h-4 w-4" />
+                    Liaisons directes recettes
+                    {directRecettes && directRecettes.length > 0 && (
+                      <span className="text-zinc-600 font-normal">({directRecettes.length})</span>
+                    )}
+                  </CardTitle>
+                  {user && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setLinkDialogOpen(true)}
+                      className="text-zinc-500 hover:text-amber-400 h-7 px-2 gap-1"
+                    >
+                      <Plus className="h-3.5 w-3.5" /> Lier une recette
+                    </Button>
+                  )}
+                </div>
+              </CardHeader>
+              <CardContent>
+                {(!directRecettes || directRecettes.length === 0) ? (
+                  <p className="text-zinc-600 text-sm italic">Aucune liaison directe. Utilisez le bouton ci-dessus pour lier cette matière première à une recette.</p>
+                ) : (
+                  <div className="space-y-2">
+                    {directRecettes.map((r) => (
+                      <div key={r.id} className="flex items-center justify-between py-2 border-b border-zinc-800/60 last:border-0">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <Link href={`/recettes/${r.recetteId}`}>
+                            <span className="text-amber-400 hover:text-amber-300 text-sm font-medium cursor-pointer truncate">
+                              {r.recetteName}
+                            </span>
+                          </Link>
+                          {r.role && r.role !== 'autre' && (
+                            <Badge variant="outline" className="text-xs border-zinc-700 text-zinc-400 capitalize">{r.role}</Badge>
+                          )}
+                          {r.percentage && (
+                            <span className="text-zinc-300 text-xs font-mono">{r.percentage}%</span>
+                          )}
+                          {r.dosage && (
+                            <span className="text-zinc-500 text-xs">{r.dosage} {r.dosageUnit}</span>
+                          )}
+                        </div>
+                        {user && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeLinkMutation.mutate(r.id)}
+                            className="text-zinc-600 hover:text-red-400 h-7 w-7 p-0 shrink-0"
+                            disabled={removeLinkMutation.isPending}
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Dialog : Lier une recette */}
+            <Dialog open={linkDialogOpen} onOpenChange={setLinkDialogOpen}>
+              <DialogContent className="max-w-md bg-[#111113] border-zinc-800 text-zinc-100">
+                <DialogHeader>
+                  <DialogTitle className="text-zinc-100">Lier une recette</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 py-2">
+                  <div>
+                    <Label className="text-zinc-400 text-xs">Recette</Label>
+                    <Select value={linkForm.recetteId} onValueChange={v => setLinkForm(f => ({ ...f, recetteId: v }))}>
+                      <SelectTrigger className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1">
+                        <SelectValue placeholder="Sélectionner une recette..." />
+                      </SelectTrigger>
+                      <SelectContent className="bg-zinc-900 border-zinc-700">
+                        {(allRecettes ?? []).map((r: any) => (
+                          <SelectItem key={r.id} value={String(r.id)} className="text-zinc-200">{r.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label className="text-zinc-400 text-xs">Rôle dans la recette</Label>
+                    <Select value={linkForm.role} onValueChange={v => setLinkForm(f => ({ ...f, role: v }))}>
+                      <SelectTrigger className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-zinc-900 border-zinc-700">
+                        {[['base','Base'],['coeur','Cœur'],['tete','Tête'],['fixateur','Fixateur'],['modificateur','Modificateur'],['autre','Autre']].map(([v,l]) => (
+                          <SelectItem key={v} value={v} className="text-zinc-200">{l}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-zinc-400 text-xs">Dosage</Label>
+                      <Input value={linkForm.dosage} onChange={e => setLinkForm(f => ({ ...f, dosage: e.target.value }))}
+                        placeholder="ex: 2.5" className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" />
+                    </div>
+                    <div>
+                      <Label className="text-zinc-400 text-xs">Unité</Label>
+                      <Select value={linkForm.dosageUnit} onValueChange={v => setLinkForm(f => ({ ...f, dosageUnit: v }))}>
+                        <SelectTrigger className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-zinc-900 border-zinc-700">
+                          {['g','ml','%','gouttes'].map(u => (
+                            <SelectItem key={u} value={u} className="text-zinc-200">{u}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-zinc-400 text-xs">Pourcentage (%)</Label>
+                    <Input value={linkForm.percentage} onChange={e => setLinkForm(f => ({ ...f, percentage: e.target.value }))}
+                      placeholder="ex: 5.2" className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" />
+                  </div>
+                  <div>
+                    <Label className="text-zinc-400 text-xs">Notes</Label>
+                    <Textarea value={linkForm.notes} onChange={e => setLinkForm(f => ({ ...f, notes: e.target.value }))}
+                      placeholder="Notes sur l'utilisation dans cette recette..." rows={2}
+                      className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1 resize-none" />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="ghost" onClick={() => setLinkDialogOpen(false)} className="text-zinc-400">Annuler</Button>
+                  <Button
+                    onClick={handleAddLink}
+                    disabled={!linkForm.recetteId || addLinkMutation.isPending}
+                    className="bg-amber-600 hover:bg-amber-700 text-white"
+                  >
+                    {addLinkMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                    Lier
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
 
             {/* Notes & description */}
             {material.notes && (
