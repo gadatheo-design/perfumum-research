@@ -1555,3 +1555,17 @@
 - [x] Batch PubChem CAS ciblé 100 molécules (90/100 enrichies, total 439/1045 = 42%)
 - [x] ComponentShowcase.tsx archivé dans pages/_dev/ (hors production)
 - [x] Scripts enrich-plants-gbif.mjs et pubchem-batch-cas.mjs recréés après reset
+
+## ✅ SESSION 2026-03-07 — Batchs GBIF et PubChem
+
+- [x] GBIF batch 2 : 29/30 plantes enrichies (total 58/450 avec GBIF ID)
+- [x] PubChem batch 3 (sans CAS) : 9/100 enrichies (total 448/1045 = 43%)
+- [x] Scripts pubchem-batch-nocas.mjs et enrich-plants-gbif.mjs sauvegardés dans Git
+
+## 📋 À FAIRE MANUELLEMENT — Accords et mélanges complexes sans CID PubChem
+
+Les entités suivantes ne sont pas des molécules chimiques pures et ne peuvent pas être enrichies automatiquement.
+Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur composition :
+- Absolue d'Iris (Orris Butter), Agarwood/Oud, Aldéhydes métalliques, Ambergris
+- Bois de brousse, Benzoin Siam, Cedro Rosado, Clearwood, Coca Décocaïnisée
+- Elemi, Encens HE, Fer Olfactif, Clay smoke, Charcoal africain, etc.
