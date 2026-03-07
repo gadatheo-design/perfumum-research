@@ -1700,3 +1700,13 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 - [x] Bug enrichissement IA molécules : "olfactiveProfile: expected string, received array" — corrigé dans MoleculeDetail.tsx (Array.isArray → join('.'))
 - [x] Bug page arbre généalogique : corrigé dans db.ts (retrait des champs thcContent/cbdContent inexistants dans le schéma Drizzle, remplacement du select manuel par leftJoin)
+
+---
+## 🔗 FEATURE — Liaisons Recettes ↔ Matières Premières (7 mars 2026 soir)
+
+- [x] Procédures tRPC : getByRecette, add, remove, update pour recetteRawMaterials (déjà en place)
+- [x] Interface dans RecetteDetail.tsx : liste des liaisons avec badges de rôle colorés (base/coeur/tête/fixateur/modificateur)
+- [x] Dialog d'ajout avec recherche en temps réel, rôle, dosage, unité, pourcentage, notes
+- [x] Dialog d'édition inline (survol → crayon) pour modifier une liaison existante
+- [x] Correction mutations addRecette→add et removeRecette→remove
+- [x] Validation TypeScript sans erreur

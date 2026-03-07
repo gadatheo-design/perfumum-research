@@ -43,6 +43,13 @@ export default function RecetteDetail() {
   const [rmDosageUnit, setRmDosageUnit] = useState("g");
   const [rmPercentage, setRmPercentage] = useState("");
   const [rmNotes, setRmNotes] = useState("");
+  // Dialog d'édition d'une liaison existante
+  const [editingRm, setEditingRm] = useState<any | null>(null);
+  const [editRmRole, setEditRmRole] = useState("autre");
+  const [editRmDosage, setEditRmDosage] = useState("");
+  const [editRmDosageUnit, setEditRmDosageUnit] = useState("g");
+  const [editRmPercentage, setEditRmPercentage] = useState("");
+  const [editRmNotes, setEditRmNotes] = useState("");
 
   const { data, isLoading } = trpc.recette.getById.useQuery({ id });
   const { data: variations } = trpc.recettes.getVariations.useQuery(id);
@@ -106,7 +113,7 @@ export default function RecetteDetail() {
   );
 
   // Mutation pour ajouter une liaison
-  const addRmMutation = trpc.recetteRawMaterials.addRecette.useMutation({
+  const addRmMutation = trpc.recetteRawMaterials.add.useMutation({
     onSuccess: () => {
       utils.recetteRawMaterials.getByRecette.invalidate(id);
       setShowAddRmDialog(false);
@@ -124,10 +131,22 @@ export default function RecetteDetail() {
   });
 
   // Mutation pour supprimer une liaison
-  const removeRmMutation = trpc.recetteRawMaterials.removeRecette.useMutation({
+  const removeRmMutation = trpc.recetteRawMaterials.remove.useMutation({
     onSuccess: () => {
       utils.recetteRawMaterials.getByRecette.invalidate(id);
       toast({ title: "Liaison supprimée" });
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
+
+  // Mutation pour modifier une liaison existante
+  const updateRmMutation = trpc.recetteRawMaterials.update.useMutation({
+    onSuccess: () => {
+      utils.recetteRawMaterials.getByRecette.invalidate(id);
+      setEditingRm(null);
+      toast({ title: "Liaison mise à jour" });
     },
     onError: (err) => {
       toast({ title: "Erreur", description: err.message, variant: "destructive" });
@@ -878,48 +897,76 @@ export default function RecetteDetail() {
         <CardContent>
           {rawMaterialsLinked && rawMaterialsLinked.length > 0 ? (
             <div className="space-y-2">
-              {rawMaterialsLinked.map((rm: any) => (
-                <div key={rm.id} className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 hover:border-amber-300 dark:hover:border-amber-700 transition-colors group">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <Link href={`/matieres-premieres/${rm.rawMaterialId}`}>
-                      <span className="text-amber-700 dark:text-amber-400 font-medium text-sm hover:underline cursor-pointer truncate">
-                        {rm.materialName}
-                      </span>
-                    </Link>
-                    {rm.materialCategory && (
-                      <Badge variant="outline" className="text-xs border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-400 hidden sm:inline-flex">
-                        {rm.materialCategory.replace(/_/g, ' ')}
-                      </Badge>
-                    )}
-                    {rm.role && rm.role !== 'autre' && (
-                      <Badge className="text-xs bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 border-0">
-                        {rm.role}
-                      </Badge>
-                    )}
+              {rawMaterialsLinked.map((rm: any) => {
+                const roleColors: Record<string, string> = {
+                  base: 'bg-stone-100 text-stone-700 dark:bg-stone-900/50 dark:text-stone-300',
+                  coeur: 'bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-300',
+                  tete: 'bg-sky-100 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300',
+                  fixateur: 'bg-violet-100 text-violet-700 dark:bg-violet-900/50 dark:text-violet-300',
+                  modificateur: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300',
+                  autre: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
+                };
+                const roleColor = roleColors[rm.role] || roleColors.autre;
+                return (
+                  <div key={rm.id} className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 hover:border-amber-300 dark:hover:border-amber-700 transition-colors group">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <Link href={`/matieres-premieres/${rm.rawMaterialId}`}>
+                        <span className="text-amber-700 dark:text-amber-400 font-medium text-sm hover:underline cursor-pointer truncate">
+                          {rm.materialName}
+                        </span>
+                      </Link>
+                      {rm.materialCategory && (
+                        <Badge variant="outline" className="text-xs border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-400 hidden sm:inline-flex">
+                          {rm.materialCategory.replace(/_/g, ' ')}
+                        </Badge>
+                      )}
+                      {rm.role && (
+                        <Badge className={`text-xs border-0 ${roleColor}`}>
+                          {rm.role}
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 text-xs text-muted-foreground">
+                      {rm.percentage && (
+                        <span className="font-mono font-semibold text-amber-700 dark:text-amber-400">{rm.percentage}%</span>
+                      )}
+                      {rm.dosage && (
+                        <span>{rm.dosage} {rm.dosageUnit}</span>
+                      )}
+                      {user && (
+                        <>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-6 w-6 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground hover:bg-muted"
+                            onClick={() => {
+                              setEditingRm(rm);
+                              setEditRmRole(rm.role || 'autre');
+                              setEditRmDosage(rm.dosage || '');
+                              setEditRmDosageUnit(rm.dosageUnit || 'g');
+                              setEditRmPercentage(rm.percentage || '');
+                              setEditRmNotes(rm.notes || '');
+                            }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-6 w-6 opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+                            onClick={() => removeRmMutation.mutate(rm.id)}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 shrink-0 text-xs text-muted-foreground">
-                    {rm.percentage && (
-                      <span className="font-mono font-semibold text-amber-700 dark:text-amber-400">{rm.percentage}%</span>
-                    )}
-                    {rm.dosage && (
-                      <span>{rm.dosage} {rm.dosageUnit}</span>
-                    )}
-                    {user && (
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="h-6 w-6 opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
-                        onClick={() => removeRmMutation.mutate({ id: rm.id })}
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
               <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
                 <Link2 className="h-3 w-3" />
-                Liaisons créées manuellement. Cliquez sur un nom pour accéder à la fiche.
+                Cliquez sur un nom pour accéder à la fiche. {user && 'Survolez pour éditer ou supprimer.'}
               </p>
             </div>
           ) : (
@@ -1056,14 +1103,109 @@ export default function RecetteDetail() {
                   recetteId: id,
                   rawMaterialId: selectedRmId,
                   role: rmRole as any,
-                  dosage: rmDosage ? parseFloat(rmDosage) : undefined,
+                  dosage: rmDosage || undefined,
                   dosageUnit: rmDosageUnit,
-                  percentage: rmPercentage ? parseFloat(rmPercentage) : undefined,
+                  percentage: rmPercentage || undefined,
                   notes: rmNotes || undefined,
                 });
               }}
             >
               {addRmMutation.isPending ? "Ajout..." : "Lier la matière première"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog d'édition d'une liaison existante */}
+      <Dialog open={!!editingRm} onOpenChange={(open) => { if (!open) setEditingRm(null); }}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Package className="h-5 w-5 text-amber-600" />
+              Modifier la liaison — {editingRm?.materialName}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            {/* Rôle */}
+            <div className="space-y-1.5">
+              <Label>Rôle dans la formulation</Label>
+              <Select value={editRmRole} onValueChange={setEditRmRole}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="base">Base</SelectItem>
+                  <SelectItem value="coeur">Cœur</SelectItem>
+                  <SelectItem value="tete">Tête</SelectItem>
+                  <SelectItem value="fixateur">Fixateur</SelectItem>
+                  <SelectItem value="modificateur">Modificateur</SelectItem>
+                  <SelectItem value="autre">Autre</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {/* Dosage et pourcentage */}
+            <div className="grid grid-cols-3 gap-3">
+              <div className="space-y-1.5">
+                <Label>Dosage</Label>
+                <Input
+                  placeholder="0.5"
+                  value={editRmDosage}
+                  onChange={(e) => setEditRmDosage(e.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Unité</Label>
+                <Select value={editRmDosageUnit} onValueChange={setEditRmDosageUnit}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="g">g</SelectItem>
+                    <SelectItem value="ml">ml</SelectItem>
+                    <SelectItem value="drops">gouttes</SelectItem>
+                    <SelectItem value="mg">mg</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label>% dans la formule</Label>
+                <Input
+                  placeholder="5.0"
+                  value={editRmPercentage}
+                  onChange={(e) => setEditRmPercentage(e.target.value)}
+                />
+              </div>
+            </div>
+            {/* Notes */}
+            <div className="space-y-1.5">
+              <Label>Notes (optionnel)</Label>
+              <Input
+                placeholder="Observations, rôle spécifique..."
+                value={editRmNotes}
+                onChange={(e) => setEditRmNotes(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditingRm(null)}>Annuler</Button>
+            <Button
+              className="bg-amber-600 hover:bg-amber-700 text-white"
+              disabled={updateRmMutation.isPending}
+              onClick={() => {
+                if (!editingRm) return;
+                updateRmMutation.mutate({
+                  id: editingRm.id,
+                  data: {
+                    role: editRmRole as any,
+                    dosage: editRmDosage || undefined,
+                    dosageUnit: editRmDosageUnit,
+                    percentage: editRmPercentage || undefined,
+                    notes: editRmNotes || undefined,
+                  },
+                });
+              }}
+            >
+              {updateRmMutation.isPending ? "Enregistrement..." : "Enregistrer"}
             </Button>
           </DialogFooter>
         </DialogContent>
