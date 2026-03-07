@@ -1777,3 +1777,7 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 ### ✅ Phase 8 : Document collaborateurs
 - [x] Créer PERFUMUM_Guide_Implementations_Collaborateurs.md
 - [x] Convertir en PDF pour partage
+
+## BUG — MegaMenu desktop désynchronisé avec le menu mobile
+- [x] Diagnostiquer la source des données du MegaMenu desktop vs MobileMenu
+- [x] Synchroniser les entrées de navigation desktop avec le menu mobile
