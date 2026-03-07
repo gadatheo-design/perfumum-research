@@ -1331,6 +1331,16 @@ function NomenclatureTab({ plant }: { plant: any }) {
               <Badge variant="secondary" className="capitalize text-sm">{plant.category}</Badge>
             </div>
 
+            {/* Type de matière — architecture refonte 2026-03 */}
+            {plant.materialType && (
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Type de matière</p>
+                <Badge variant="outline" className="capitalize text-sm bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950 dark:text-amber-200 dark:border-amber-800">
+                  {plant.materialType.replace(/_/g, ' ')}
+                </Badge>
+              </div>
+            )}
+
             {/* Axe climatique */}
             {plant.climaticAxis && (
               <div className="space-y-1">

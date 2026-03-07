@@ -1583,3 +1583,15 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Créer table material_sources (liaison matière ↔ source botanique)
 - [ ] Adapter PlantDetail.tsx pour distinguer organisme vs matière
 - [ ] Reclassifier les 185 entrées "autre" via interface admin
+
+## ✅ MIGRATION ARCHITECTURALE — Refonte section plantes (2026-03-07)
+- [x] Ajout colonne material_type à la table plants (23 valeurs enum)
+- [x] Ajout colonnes synonyms, authorCitation, gbifId, itisId, powId à plants
+- [x] Création table material_sources (liaisons matière ↔ source botanique)
+- [x] Classification automatique des 450 plantes vers material_type
+- [x] Badge material_type affiché dans PlantDetail.tsx (onglet Vue d'ensemble)
+- [x] Enrichissement GBIF : 112+ plantes avec synonymes et identifiants externes
+- [x] Batch PubChem CAS : 439/1045 molécules enrichies (42%)
+- [ ] Affiner manuellement les 136 plantes classifiées "par défaut" (plante_vasculaire)
+- [ ] Créer page /matieres-premieres avec filtres par material_type
+- [ ] Migrer les 91 molécules non-PubChem (accords/extraits) vers raw_materials

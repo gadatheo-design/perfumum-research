@@ -1997,6 +1997,32 @@ export const plants = mysqlTable("plants", {
   validatedBy: int("validated_by"),      // ID de l'admin qui a validé
   validatedAt: timestamp("validated_at"), // Date de validation
   contributorId: int("contributor_id"),   // ID du contributeur original
+  // --- Architecture refonte 2026-03 : type de matière ---
+  materialType: mysqlEnum("material_type", [
+    "plante_vasculaire",   // Plante à fleurs, féugères, conifères
+    "mousse_lichen",       // Mousses, lichens
+    "algue",               // Algues marines ou d'eau douce
+    "champignon",          // Champignons, levures
+    "huile_essentielle",   // HE distillée
+    "absolue",             // Absolue par extraction solvant
+    "concrete",            // Concrète
+    "resinoid",            // Résinoïde
+    "co2_extract",         // Extrait CO2 supercritique
+    "hydrolat",            // Eau florale / hydrolat
+    "teinture",            // Teinture alcoolique
+    "infusion",            // Infusion / macération
+    "beurre_vegetal",      // Beurre végétal
+    "cire_vegetale",       // Cire végétale
+    "resine_brute",        // Résine brute (gomme, baume, oleo-résine)
+    "graine_seche",        // Graine sèche
+    "fruit_sec",           // Fruit sec ou zéste
+    "racine_rhizome",      // Racine, rhizome, bulbe
+    "ecorce",              // Écorce
+    "bois_copeaux",        // Bois, copeaux, poudre
+    "secretion_animale",   // Sécrétion animale (musc, ambre gris, castoreum)
+    "accord_olfactif",     // Accord olfactif composé
+    "synthese_chimique"    // Molécule de synthèse
+  ]),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });
