@@ -1656,3 +1656,13 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Table recette_raw_materials dans le schéma Drizzle (migration SQL directe)
 - [ ] Procédures tRPC pour recette_raw_materials (add, remove, getByRawMaterial, getByRecette)
 - [ ] Interface de liaison recettes sur la page de détail /matieres-premieres/:id
+
+---
+
+## 🔬 SESSION 7 MARS 2026 — Partie 4 : Réseau de liaisons et workflow recettes
+
+- [ ] Ajouter bouton "Ajouter une matière première" sur /recettes/:id avec dialog de liaison
+- [ ] Créer la page /reseau-liaisons avec graphe interactif D3.js (force-directed)
+- [ ] Ajouter procédure tRPC completude.getNetworkData pour les données du réseau
+- [ ] Lien de navigation vers /reseau-liaisons dans le menu principal
+- [ ] Tests vitest pour les nouvelles procédures

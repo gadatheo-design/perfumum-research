@@ -11397,6 +11397,16 @@ Familles olfactives disponibles:
         if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
         return db.getCompletudeTerroirs(input);
       }),
+    getNetworkData: publicProcedure
+      .input(z.object({
+        limit: z.number().min(10).max(200).default(50),
+        includeRecettes: z.boolean().default(true),
+        includeRawMaterials: z.boolean().default(true),
+        includeMolecules: z.boolean().default(true),
+      }))
+      .query(async ({ input }) => {
+        return db.getNetworkData(input);
+      }),
   }),
 });
 export type AppRouter = typeof appRouter;

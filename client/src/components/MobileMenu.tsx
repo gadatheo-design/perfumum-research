@@ -105,6 +105,7 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/synergies-heatmap", label: "Synergies Heatmap" },
       { href: "/correlations", label: "Corrélations Parfum × Tabac × Cannabis", badge: "NEW" },
       { href: "/recipe-network", label: "Graphe Réseau" },
+      { href: "/reseau-liaisons", label: "Réseau de Liaisons", badge: "NEW" },
       { href: "/sankey-flow", label: "Diagramme Sankey" },
     ],
   },

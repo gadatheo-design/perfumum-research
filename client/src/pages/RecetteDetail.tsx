@@ -4,7 +4,11 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FlaskConical, Beaker, Download, Clock, DollarSign, Flame, Droplets, CheckCircle2, AlertCircle, TestTube, FileText, FileJson, Zap, ArrowRight, Thermometer, Network } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { ArrowLeft, FlaskConical, Beaker, Download, Clock, DollarSign, Flame, Droplets, CheckCircle2, AlertCircle, TestTube, FileText, FileJson, Zap, ArrowRight, Thermometer, Network, Plus, Trash2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -20,13 +24,25 @@ import { RecommendationsCard } from "@/components/RecommendationsCard";
 import { LinkedMolecules, SimilarContent } from "@/components/SeeAlso";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import "reactflow/dist/style.css";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles, Package, Link2 } from "lucide-react";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function RecetteDetail() {
   const { toast } = useToast();
+  const { user } = useAuth();
   const params = useParams();
   const id = parseInt(params.id || "0");
+
+  // État du dialog d'ajout de matière première
+  const [showAddRmDialog, setShowAddRmDialog] = useState(false);
+  const [rmSearch, setRmSearch] = useState("");
+  const [selectedRmId, setSelectedRmId] = useState<number | null>(null);
+  const [rmRole, setRmRole] = useState("autre");
+  const [rmDosage, setRmDosage] = useState("");
+  const [rmDosageUnit, setRmDosageUnit] = useState("g");
+  const [rmPercentage, setRmPercentage] = useState("");
+  const [rmNotes, setRmNotes] = useState("");
 
   const { data, isLoading } = trpc.recette.getById.useQuery({ id });
   const { data: variations } = trpc.recettes.getVariations.useQuery(id);
@@ -77,10 +93,46 @@ export default function RecetteDetail() {
   );
 
   // Récupérer les matières premières directement liées à cette recette
+  const utils = trpc.useUtils();
   const { data: rawMaterialsLinked } = trpc.recetteRawMaterials.getByRecette.useQuery(
     id,
     { enabled: !!id && id > 0 }
   );
+
+  // Recherche de matières premières pour le dialog d'ajout
+  const { data: rawMaterialsSearch } = trpc.rawMaterials.getFiltered.useQuery(
+    { search: rmSearch, limit: 20, offset: 0 },
+    { enabled: showAddRmDialog }
+  );
+
+  // Mutation pour ajouter une liaison
+  const addRmMutation = trpc.recetteRawMaterials.addRecette.useMutation({
+    onSuccess: () => {
+      utils.recetteRawMaterials.getByRecette.invalidate(id);
+      setShowAddRmDialog(false);
+      setSelectedRmId(null);
+      setRmSearch("");
+      setRmRole("autre");
+      setRmDosage("");
+      setRmPercentage("");
+      setRmNotes("");
+      toast({ title: "Matière première liée", description: "La liaison a été créée avec succès." });
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
+
+  // Mutation pour supprimer une liaison
+  const removeRmMutation = trpc.recetteRawMaterials.removeRecette.useMutation({
+    onSuccess: () => {
+      utils.recetteRawMaterials.getByRecette.invalidate(id);
+      toast({ title: "Liaison supprimée" });
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
 
   // Track page view
   useEffect(() => {
@@ -798,21 +850,36 @@ export default function RecetteDetail() {
       )}
 
       {/* Matières Premières Directement Liées */}
-      {rawMaterialsLinked && rawMaterialsLinked.length > 0 && (
-        <Card className="shadow-sm border-amber-200 dark:border-amber-800">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Package className="h-5 w-5 text-amber-600" />
-              Matières Premières ({rawMaterialsLinked.length})
-            </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">
-              Matières premières directement liées à cette formulation
-            </p>
-          </CardHeader>
-          <CardContent>
+      <Card className="shadow-sm border-amber-200 dark:border-amber-800">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <Package className="h-5 w-5 text-amber-600" />
+                Matières Premières {rawMaterialsLinked && rawMaterialsLinked.length > 0 && `(${rawMaterialsLinked.length})`}
+              </CardTitle>
+              <p className="text-sm text-muted-foreground mt-1">
+                Matières premières directement liées à cette formulation
+              </p>
+            </div>
+            {user && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-amber-300 text-amber-700 hover:bg-amber-50 dark:border-amber-700 dark:text-amber-400 dark:hover:bg-amber-950/30"
+                onClick={() => setShowAddRmDialog(true)}
+              >
+                <Plus className="h-4 w-4 mr-1" />
+                Ajouter
+              </Button>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          {rawMaterialsLinked && rawMaterialsLinked.length > 0 ? (
             <div className="space-y-2">
               {rawMaterialsLinked.map((rm: any) => (
-                <div key={rm.id} className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 hover:border-amber-300 dark:hover:border-amber-700 transition-colors">
+                <div key={rm.id} className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 hover:border-amber-300 dark:hover:border-amber-700 transition-colors group">
                   <div className="flex items-center gap-3 min-w-0">
                     <Link href={`/matieres-premieres/${rm.rawMaterialId}`}>
                       <span className="text-amber-700 dark:text-amber-400 font-medium text-sm hover:underline cursor-pointer truncate">
@@ -837,19 +904,170 @@ export default function RecetteDetail() {
                     {rm.dosage && (
                       <span>{rm.dosage} {rm.dosageUnit}</span>
                     )}
+                    {user && (
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-6 w-6 opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
+                        onClick={() => removeRmMutation.mutate({ id: rm.id })}
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    )}
                   </div>
                 </div>
               ))}
-            </div>
-            {rawMaterialsLinked.length > 0 && (
               <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
                 <Link2 className="h-3 w-3" />
-                Ces liaisons ont été créées manuellement depuis les fiches de matières premières.
+                Liaisons créées manuellement. Cliquez sur un nom pour accéder à la fiche.
               </p>
-            )}
-          </CardContent>
-        </Card>
-      )}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-muted-foreground">
+              <Package className="h-8 w-8 mx-auto mb-2 opacity-30" />
+              <p className="text-sm">Aucune matière première liée directement.</p>
+              {user && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="mt-3 border-amber-300 text-amber-700 hover:bg-amber-50 dark:border-amber-700 dark:text-amber-400"
+                  onClick={() => setShowAddRmDialog(true)}
+                >
+                  <Plus className="h-4 w-4 mr-1" />
+                  Ajouter une matière première
+                </Button>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Dialog d'ajout de matière première */}
+      <Dialog open={showAddRmDialog} onOpenChange={setShowAddRmDialog}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Package className="h-5 w-5 text-amber-600" />
+              Lier une matière première
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            {/* Recherche */}
+            <div className="space-y-1.5">
+              <Label>Rechercher une matière première</Label>
+              <Input
+                placeholder="Nom, famille olfactive..."
+                value={rmSearch}
+                onChange={(e) => { setRmSearch(e.target.value); setSelectedRmId(null); }}
+                autoFocus
+              />
+              {rawMaterialsSearch && rawMaterialsSearch.items && rawMaterialsSearch.items.length > 0 && !selectedRmId && (
+                <div className="border rounded-lg max-h-40 overflow-y-auto bg-background shadow-sm">
+                  {rawMaterialsSearch.items.map((rm: any) => (
+                    <button
+                      key={rm.id}
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-amber-50 dark:hover:bg-amber-950/30 flex items-center justify-between border-b last:border-0"
+                      onClick={() => { setSelectedRmId(rm.id); setRmSearch(rm.name); }}
+                    >
+                      <span className="font-medium">{rm.name}</span>
+                      <Badge variant="outline" className="text-xs ml-2 shrink-0">{rm.category?.replace(/_/g, ' ')}</Badge>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {selectedRmId && (
+                <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+                  <CheckCircle2 className="h-3 w-3" />
+                  Sélectionné : {rmSearch}
+                </p>
+              )}
+            </div>
+
+            {/* Rôle */}
+            <div className="space-y-1.5">
+              <Label>Rôle dans la formulation</Label>
+              <Select value={rmRole} onValueChange={setRmRole}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="base">Base</SelectItem>
+                  <SelectItem value="coeur">Cœur</SelectItem>
+                  <SelectItem value="tete">Tête</SelectItem>
+                  <SelectItem value="fixateur">Fixateur</SelectItem>
+                  <SelectItem value="modificateur">Modificateur</SelectItem>
+                  <SelectItem value="autre">Autre</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Dosage et pourcentage */}
+            <div className="grid grid-cols-3 gap-3">
+              <div className="space-y-1.5">
+                <Label>Dosage</Label>
+                <Input
+                  placeholder="0.5"
+                  value={rmDosage}
+                  onChange={(e) => setRmDosage(e.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Unité</Label>
+                <Select value={rmDosageUnit} onValueChange={setRmDosageUnit}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="g">g</SelectItem>
+                    <SelectItem value="ml">ml</SelectItem>
+                    <SelectItem value="drops">gouttes</SelectItem>
+                    <SelectItem value="mg">mg</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label>% dans la formule</Label>
+                <Input
+                  placeholder="5.0"
+                  value={rmPercentage}
+                  onChange={(e) => setRmPercentage(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Notes */}
+            <div className="space-y-1.5">
+              <Label>Notes (optionnel)</Label>
+              <Input
+                placeholder="Observations, rôle spécifique..."
+                value={rmNotes}
+                onChange={(e) => setRmNotes(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowAddRmDialog(false)}>Annuler</Button>
+            <Button
+              className="bg-amber-600 hover:bg-amber-700 text-white"
+              disabled={!selectedRmId || addRmMutation.isPending}
+              onClick={() => {
+                if (!selectedRmId) return;
+                addRmMutation.mutate({
+                  recetteId: id,
+                  rawMaterialId: selectedRmId,
+                  role: rmRole as any,
+                  dosage: rmDosage ? parseFloat(rmDosage) : undefined,
+                  dosageUnit: rmDosageUnit,
+                  percentage: rmPercentage ? parseFloat(rmPercentage) : undefined,
+                  notes: rmNotes || undefined,
+                });
+              }}
+            >
+              {addRmMutation.isPending ? "Ajout..." : "Lier la matière première"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Recette Parente */}
       {parentRecette && (

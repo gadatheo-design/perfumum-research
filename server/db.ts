@@ -21445,3 +21445,93 @@ export async function getCompletudeGlobalStats() {
     },
   };
 }
+
+// ============================================================
+// RÉSEAU DE LIAISONS — Données pour le graphe interactif
+// ============================================================
+
+export async function getNetworkData(params: {
+  limit?: number;
+  includeRecettes?: boolean;
+  includeRawMaterials?: boolean;
+  includeMolecules?: boolean;
+}) {
+  const db = await getDb();
+  const limit = params.limit ?? 50;
+
+  // Nœuds recettes (les plus récentes / importantes)
+  const recettesData = params.includeRecettes !== false
+    ? await db.select({
+        id: recettes.id,
+        name: recettes.name,
+        family: recettes.family,
+      }).from(recettes).limit(limit)
+    : [];
+
+  // Nœuds matières premières
+  const rawMaterialsData = params.includeRawMaterials !== false
+    ? await db.select({
+        id: rawMaterials.id,
+        name: rawMaterials.name,
+        category: rawMaterials.category,
+      }).from(rawMaterials).limit(limit)
+    : [];
+
+  // Nœuds molécules (top 50 les plus utilisées)
+  const moleculesData = params.includeMolecules !== false
+    ? await db.select({
+        id: molecules.id,
+        name: molecules.name,
+        family: molecules.family,
+      }).from(molecules).limit(50)
+    : [];
+
+  // Liaisons recette ↔ matière première (via recette_raw_materials)
+  const rmLinks = params.includeRawMaterials !== false && params.includeRecettes !== false
+    ? await db.select({
+        recetteId: recetteRawMaterials.recetteId,
+        rawMaterialId: recetteRawMaterials.rawMaterialId,
+        role: recetteRawMaterials.role,
+        percentage: recetteRawMaterials.percentage,
+      }).from(recetteRawMaterials).limit(500)
+    : [];
+
+  // Liaisons recette ↔ molécule (via molecules_recettes)
+  const molLinks = params.includeMolecules !== false && params.includeRecettes !== false
+    ? await db.select({
+        recetteId: moleculesRecettes.recetteId,
+        moleculeId: moleculesRecettes.moleculeId,
+        proportion: moleculesRecettes.proportion,
+        role: moleculesRecettes.role,
+      }).from(moleculesRecettes).limit(500)
+    : [];
+
+  // Liaisons matière première ↔ molécule (via raw_material_molecules si elle existe)
+  // Pour l'instant, on utilise les liaisons plante-molécule comme proxy
+  const plantMolLinks = params.includeRawMaterials !== false && params.includeMolecules !== false
+    ? await db.select({
+        plantId: plantMolecules.plantId,
+        moleculeId: plantMolecules.moleculeId,
+        percentage: plantMolecules.percentage,
+      }).from(plantMolecules).limit(200)
+    : [];
+
+  return {
+    nodes: {
+      recettes: recettesData,
+      rawMaterials: rawMaterialsData,
+      molecules: moleculesData,
+    },
+    edges: {
+      recetteRawMaterials: rmLinks,
+      recetteMolecules: molLinks,
+      plantMolecules: plantMolLinks,
+    },
+    stats: {
+      totalRecettes: recettesData.length,
+      totalRawMaterials: rawMaterialsData.length,
+      totalMolecules: moleculesData.length,
+      totalEdges: rmLinks.length + molLinks.length + plantMolLinks.length,
+    },
+  };
+}

@@ -667,6 +667,13 @@ export function MegaMenu() {
           description: "Connexions moléculaires",
         },
         {
+          label: "Réseau de Liaisons",
+          path: "/reseau-liaisons",
+          icon: <Network className="h-4 w-4" />,
+          description: "Recettes ↔ Matières ↔ Molécules",
+          badge: "NEW",
+        },
+        {
           label: "Diagramme Sankey",
           path: "/sankey-flow",
           icon: <Layers className="h-4 w-4" />,
