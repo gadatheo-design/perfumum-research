@@ -56,10 +56,10 @@ async function main() {
     SELECT p.id, p.latin_name, p.family, COUNT(DISTINCT pm.molecule_id) as mol_count
     FROM plants p
     LEFT JOIN plant_molecules pm ON p.id = pm.plant_id
-    WHERE p.latin_name IS NOT NULL AND p.latin_name != '' AND p.synonyms IS NULL
+    WHERE p.latin_name IS NOT NULL AND p.latin_name != '' AND p.gbif_id IS NULL
     GROUP BY p.id, p.latin_name, p.family
     ORDER BY mol_count DESC
-    LIMIT 30
+    LIMIT 50
   `);
   console.log(`\n🌿 Enrichissement botanique GBIF — ${plants.length} plantes\n`);
   let success = 0, failed = 0;
@@ -87,7 +87,7 @@ async function main() {
   await conn.end();
   console.log(`\n${'='.repeat(60)}\n✅ Enrichies: ${success} | ❌ Non trouvées: ${failed}`);
   const conn2 = await mysql2.createConnection(DATABASE_URL);
-  const [[{ withGbif }]] = await conn2.execute('SELECT COUNT(*) as cnt FROM plants WHERE gbif_id IS NOT NULL');
+  const [[{ withGbif }]] = await conn2.execute('SELECT COUNT(*) as withGbif FROM plants WHERE gbif_id IS NOT NULL');
   const [[{ total }]] = await conn2.execute('SELECT COUNT(*) as total FROM plants');
   console.log(`🌿 Plantes avec GBIF ID: ${withGbif}/${total}`);
   await conn2.end();

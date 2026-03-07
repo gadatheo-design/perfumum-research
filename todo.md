@@ -1569,3 +1569,17 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - Absolue d'Iris (Orris Butter), Agarwood/Oud, Aldéhydes métalliques, Ambergris
 - Bois de brousse, Benzoin Siam, Cedro Rosado, Clearwood, Coca Décocaïnisée
 - Elemi, Encens HE, Fer Olfactif, Clay smoke, Charcoal africain, etc.
+
+## ✅ GBIF Batches 3-9 — Enrichissement nomenclature plantes (2026-03-07)
+- [x] Batch GBIF 3 : 49/50 plantes enrichies (total : 112/450)
+- [x] Batches GBIF 4-9 lancés en séquence (en cours)
+- [x] Script audit-db.mjs créé pour audit automatique de la base
+- [x] Document contributions-manuelles.md généré
+- [x] Document architecture-section-plantes.md rédigé
+
+## 🔴 TODO — Refonte architecture section plantes
+- [ ] Ajouter colonne material_type à la table plants (migration non destructive)
+- [ ] Créer table raw_materials avec enum material_type complet
+- [ ] Créer table material_sources (liaison matière ↔ source botanique)
+- [ ] Adapter PlantDetail.tsx pour distinguer organisme vs matière
+- [ ] Reclassifier les 185 entrées "autre" via interface admin
