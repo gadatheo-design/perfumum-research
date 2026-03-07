@@ -89,6 +89,7 @@ const AIClassificationBatch = lazy(() => import("./pages/AIClassificationBatch")
 import NichePlantMoleculeLinking from "./pages/NichePlantMoleculeLinking";
 const ClassificationReviewQueue = lazy(() => import("./pages/ClassificationReviewQueue"));
 import AdminNotifications from "./pages/AdminNotifications";
+import AdminCompletude from "./pages/AdminCompletude";
 import AdminProgressReport from "./pages/AdminProgressReport";
 import AdminContributions from "./pages/AdminContributions";
 import AdminGcmsImport from "./pages/AdminGcmsImport";
@@ -456,6 +457,7 @@ function Router() {
       <Route path="/admin/niche-plant-linking" component={NichePlantMoleculeLinking} />
       <Route path="/admin/classification-review" component={ClassificationReviewQueue} />
       <Route path="/admin/notifications" component={AdminNotifications} />
+      <Route path="/admin/completude" component={AdminCompletude} />
       <Route path="/admin/progress-report" component={AdminProgressReport} />
       <Route path="/admin/molecule-origins" component={MoleculeOriginsAdmin} />
       <Route path="/admin/terroirs-geocode" component={TerroirsGeocode} />

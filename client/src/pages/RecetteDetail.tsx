@@ -21,7 +21,7 @@ import { LinkedMolecules, SimilarContent } from "@/components/SeeAlso";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect } from "react";
-import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles } from "lucide-react";
+import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles, Package, Link2 } from "lucide-react";
 
 export default function RecetteDetail() {
   const { toast } = useToast();
@@ -74,6 +74,12 @@ export default function RecetteDetail() {
   const { data: transformationsData, isLoading: isLoadingTransformations } = trpc.research.getTransformationsAffectingRecipe.useQuery(
     id,
     { enabled: !!data }
+  );
+
+  // Récupérer les matières premières directement liées à cette recette
+  const { data: rawMaterialsLinked } = trpc.recetteRawMaterials.getByRecette.useQuery(
+    id,
+    { enabled: !!id && id > 0 }
   );
 
   // Track page view
@@ -787,6 +793,60 @@ export default function RecetteDetail() {
                 ))}
               </div>
             </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Matières Premières Directement Liées */}
+      {rawMaterialsLinked && rawMaterialsLinked.length > 0 && (
+        <Card className="shadow-sm border-amber-200 dark:border-amber-800">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Package className="h-5 w-5 text-amber-600" />
+              Matières Premières ({rawMaterialsLinked.length})
+            </CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">
+              Matières premières directement liées à cette formulation
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {rawMaterialsLinked.map((rm: any) => (
+                <div key={rm.id} className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 hover:border-amber-300 dark:hover:border-amber-700 transition-colors">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <Link href={`/matieres-premieres/${rm.rawMaterialId}`}>
+                      <span className="text-amber-700 dark:text-amber-400 font-medium text-sm hover:underline cursor-pointer truncate">
+                        {rm.materialName}
+                      </span>
+                    </Link>
+                    {rm.materialCategory && (
+                      <Badge variant="outline" className="text-xs border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-400 hidden sm:inline-flex">
+                        {rm.materialCategory.replace(/_/g, ' ')}
+                      </Badge>
+                    )}
+                    {rm.role && rm.role !== 'autre' && (
+                      <Badge className="text-xs bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 border-0">
+                        {rm.role}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0 text-xs text-muted-foreground">
+                    {rm.percentage && (
+                      <span className="font-mono font-semibold text-amber-700 dark:text-amber-400">{rm.percentage}%</span>
+                    )}
+                    {rm.dosage && (
+                      <span>{rm.dosage} {rm.dosageUnit}</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {rawMaterialsLinked.length > 0 && (
+              <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
+                <Link2 className="h-3 w-3" />
+                Ces liaisons ont été créées manuellement depuis les fiches de matières premières.
+              </p>
+            )}
           </CardContent>
         </Card>
       )}

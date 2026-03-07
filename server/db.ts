@@ -21173,3 +21173,275 @@ export async function removeRecetteRawMaterial(id: number) {
   await db.delete(recetteRawMaterials).where(eq(recetteRawMaterials.id, id));
   return { success: true };
 }
+
+// ── Tableau de bord de complétude ─────────────────────────────────────────────
+
+export async function getCompletudeRawMaterials(params: {
+  limit?: number;
+  offset?: number;
+  sortBy?: 'score_asc' | 'score_desc' | 'name';
+  minScore?: number;
+  maxScore?: number;
+  category?: string;
+}) {
+  const { limit = 50, offset = 0, sortBy = 'score_asc', minScore, maxScore, category } = params;
+  const db = await getDb();
+
+  const allMaterials = await db
+    .select({
+      id: rawMaterials.id,
+      name: rawMaterials.name,
+      category: rawMaterials.category,
+      latinName: rawMaterials.latinName,
+      olfactiveFamily: rawMaterials.olfactiveFamily,
+      olfactiveProfile: rawMaterials.olfactiveProfile,
+      quality: rawMaterials.quality,
+      availability: rawMaterials.availability,
+      priceRange: rawMaterials.priceRange,
+      originCountry: rawMaterials.originCountry,
+      originRegion: rawMaterials.originRegion,
+      plantId: rawMaterials.plantId,
+      terroirId: rawMaterials.terroirId,
+      notes: rawMaterials.notes,
+      topNotes: rawMaterials.topNotes,
+      heartNotes: rawMaterials.heartNotes,
+      baseNotes: rawMaterials.baseNotes,
+      plantPart: rawMaterials.plantPart,
+      extractionYield: rawMaterials.extractionYield,
+    })
+    .from(rawMaterials)
+    .where(category ? eq(rawMaterials.category, category as any) : undefined);
+
+  // Calculer le score de complétude pour chaque matière première
+  const scored = allMaterials.map((m) => {
+    const fields = [
+      { key: 'latinName', weight: 1, value: m.latinName },
+      { key: 'olfactiveFamily', weight: 2, value: m.olfactiveFamily },
+      { key: 'olfactiveProfile', weight: 2, value: m.olfactiveProfile },
+      { key: 'quality', weight: 1, value: m.quality },
+      { key: 'availability', weight: 1, value: m.availability },
+      { key: 'priceRange', weight: 1, value: m.priceRange },
+      { key: 'originCountry', weight: 2, value: m.originCountry },
+      { key: 'plantId', weight: 3, value: m.plantId },
+      { key: 'terroirId', weight: 3, value: m.terroirId },
+      { key: 'notes', weight: 1, value: m.notes },
+      { key: 'topNotes', weight: 1, value: m.topNotes },
+      { key: 'heartNotes', weight: 1, value: m.heartNotes },
+      { key: 'baseNotes', weight: 1, value: m.baseNotes },
+      { key: 'plantPart', weight: 1, value: m.plantPart },
+    ];
+    const totalWeight = fields.reduce((s, f) => s + f.weight, 0);
+    const filledWeight = fields.reduce((s, f) => s + (f.value !== null && f.value !== undefined && f.value !== '' ? f.weight : 0), 0);
+    const score = Math.round((filledWeight / totalWeight) * 100);
+
+    const missing = fields
+      .filter(f => f.value === null || f.value === undefined || f.value === '')
+      .map(f => f.key);
+
+    return { ...m, score, missing };
+  });
+
+  // Filtrer par score
+  const filtered = scored.filter(m => {
+    if (minScore !== undefined && m.score < minScore) return false;
+    if (maxScore !== undefined && m.score > maxScore) return false;
+    return true;
+  });
+
+  // Trier
+  if (sortBy === 'score_asc') filtered.sort((a, b) => a.score - b.score);
+  else if (sortBy === 'score_desc') filtered.sort((a, b) => b.score - a.score);
+  else filtered.sort((a, b) => a.name.localeCompare(b.name));
+
+  const total = filtered.length;
+  const paginated = filtered.slice(offset, offset + limit);
+
+  // Stats globales
+  const avgScore = Math.round(scored.reduce((s, m) => s + m.score, 0) / scored.length);
+  const distribution = {
+    rouge: scored.filter(m => m.score < 33).length,
+    orange: scored.filter(m => m.score >= 33 && m.score < 66).length,
+    vert: scored.filter(m => m.score >= 66).length,
+  };
+
+  return { items: paginated, total, avgScore, distribution };
+}
+
+export async function getCompletudePlants(params: {
+  limit?: number;
+  offset?: number;
+  sortBy?: 'score_asc' | 'score_desc' | 'name';
+  minScore?: number;
+  maxScore?: number;
+}) {
+  const { limit = 50, offset = 0, sortBy = 'score_asc', minScore, maxScore } = params;
+  const db = await getDb();
+
+  const allPlants = await db
+    .select({
+      id: plants.id,
+      name: plants.name,
+      latinName: plants.latinName,
+      family: plants.family,
+      habitat: plants.habitat,
+      conservationStatus: plants.conservationStatus,
+      olfactiveSignature: plants.olfactiveSignature,
+      origin: plants.origin,
+      notes: plants.notes,
+      imageUrl: plants.imageUrl,
+    })
+    .from(plants);
+
+  const scored = allPlants.map((p) => {
+    const fields = [
+      { key: 'latinName', weight: 3, value: p.latinName },
+      { key: 'family', weight: 2, value: p.family },
+      { key: 'habitat', weight: 2, value: p.habitat },
+      { key: 'conservationStatus', weight: 1, value: p.conservationStatus },
+      { key: 'olfactiveSignature', weight: 2, value: p.olfactiveSignature },
+      { key: 'origin', weight: 2, value: p.origin },
+      { key: 'notes', weight: 1, value: p.notes },
+      { key: 'imageUrl', weight: 2, value: p.imageUrl },
+    ];
+    const totalWeight = fields.reduce((s, f) => s + f.weight, 0);
+    const filledWeight = fields.reduce((s, f) => s + (f.value !== null && f.value !== undefined && f.value !== '' ? f.weight : 0), 0);
+    const score = Math.round((filledWeight / totalWeight) * 100);
+    const missing = fields.filter(f => f.value === null || f.value === undefined || f.value === '').map(f => f.key);
+    return { ...p, score, missing };
+  });
+
+  const filtered = scored.filter(m => {
+    if (minScore !== undefined && m.score < minScore) return false;
+    if (maxScore !== undefined && m.score > maxScore) return false;
+    return true;
+  });
+
+  if (sortBy === 'score_asc') filtered.sort((a, b) => a.score - b.score);
+  else if (sortBy === 'score_desc') filtered.sort((a, b) => b.score - a.score);
+  else filtered.sort((a, b) => a.name.localeCompare(b.name));
+
+  const total = filtered.length;
+  const paginated = filtered.slice(offset, offset + limit);
+  const avgScore = Math.round(scored.reduce((s, m) => s + m.score, 0) / scored.length);
+  const distribution = {
+    rouge: scored.filter(m => m.score < 33).length,
+    orange: scored.filter(m => m.score >= 33 && m.score < 66).length,
+    vert: scored.filter(m => m.score >= 66).length,
+  };
+
+  return { items: paginated, total, avgScore, distribution };
+}
+
+export async function getCompletudeTerroirs(params: {
+  limit?: number;
+  offset?: number;
+  sortBy?: 'score_asc' | 'score_desc' | 'name';
+  minScore?: number;
+  maxScore?: number;
+}) {
+  const { limit = 50, offset = 0, sortBy = 'score_asc', minScore, maxScore } = params;
+  const db = await getDb();
+
+  const allTerroirs = await db
+    .select({
+      id: terroirs.id,
+      name: terroirs.name,
+      country: terroirs.country,
+      region: terroirs.region,
+      climateType: terroirs.climateType,
+      altitude: terroirs.altitude,
+      soilType: terroirs.soilType,
+      reputation: terroirs.reputation,
+      notes: terroirs.notes,
+      imageUrl: terroirs.imageUrl,
+      latitude: terroirs.latitude,
+      longitude: terroirs.longitude,
+    })
+    .from(terroirs);
+
+  const scored = allTerroirs.map((t) => {
+    const fields = [
+      { key: 'country', weight: 2, value: t.country },
+      { key: 'region', weight: 2, value: t.region },
+      { key: 'climateType', weight: 2, value: t.climateType },
+      { key: 'altitude', weight: 1, value: t.altitude },
+      { key: 'soilType', weight: 2, value: t.soilType },
+      { key: 'reputation', weight: 2, value: t.reputation },
+      { key: 'notes', weight: 1, value: t.notes },
+      { key: 'imageUrl', weight: 1, value: t.imageUrl },
+      { key: 'latitude', weight: 2, value: t.latitude },
+    ];
+    const totalWeight = fields.reduce((s, f) => s + f.weight, 0);
+    const filledWeight = fields.reduce((s, f) => s + (f.value !== null && f.value !== undefined && f.value !== '' ? f.weight : 0), 0);
+    const score = Math.round((filledWeight / totalWeight) * 100);
+    const missing = fields.filter(f => f.value === null || f.value === undefined || f.value === '').map(f => f.key);
+    return { ...t, score, missing };
+  });
+
+  const filtered = scored.filter(m => {
+    if (minScore !== undefined && m.score < minScore) return false;
+    if (maxScore !== undefined && m.score > maxScore) return false;
+    return true;
+  });
+
+  if (sortBy === 'score_asc') filtered.sort((a, b) => a.score - b.score);
+  else if (sortBy === 'score_desc') filtered.sort((a, b) => b.score - a.score);
+  else filtered.sort((a, b) => a.name.localeCompare(b.name));
+
+  const total = filtered.length;
+  const paginated = filtered.slice(offset, offset + limit);
+  const avgScore = Math.round(scored.reduce((s, m) => s + m.score, 0) / scored.length);
+  const distribution = {
+    rouge: scored.filter(m => m.score < 33).length,
+    orange: scored.filter(m => m.score >= 33 && m.score < 66).length,
+    vert: scored.filter(m => m.score >= 66).length,
+  };
+
+  return { items: paginated, total, avgScore, distribution };
+}
+
+export async function getCompletudeGlobalStats() {
+  const db = await getDb();
+
+  const [totalRawMaterials] = await db.select({ count: sql<number>`COUNT(*)` }).from(rawMaterials);
+  const [totalPlants] = await db.select({ count: sql<number>`COUNT(*)` }).from(plants);
+  const [totalTerroirs] = await db.select({ count: sql<number>`COUNT(*)` }).from(terroirs);
+
+  // Matières premières avec plantId renseigné
+  const [rmWithPlant] = await db.select({ count: sql<number>`COUNT(*)` }).from(rawMaterials).where(sql`plant_id IS NOT NULL`);
+  const [rmWithTerroir] = await db.select({ count: sql<number>`COUNT(*)` }).from(rawMaterials).where(sql`terroir_id IS NOT NULL`);
+  const [rmWithBoth] = await db.select({ count: sql<number>`COUNT(*)` }).from(rawMaterials).where(sql`plant_id IS NOT NULL AND terroir_id IS NOT NULL`);
+  const [rmWithOlfFamily] = await db.select({ count: sql<number>`COUNT(*)` }).from(rawMaterials).where(sql`olfactive_family IS NOT NULL AND olfactive_family != ''`);
+  const [rmWithOrigin] = await db.select({ count: sql<number>`COUNT(*)` }).from(rawMaterials).where(sql`origin_country IS NOT NULL AND origin_country != ''`);
+
+  // Plantes avec latinName
+  const [plantsWithLatin] = await db.select({ count: sql<number>`COUNT(*)` }).from(plants).where(sql`latin_name IS NOT NULL AND latin_name != ''`);
+  const [plantsWithHabitat] = await db.select({ count: sql<number>`COUNT(*)` }).from(plants).where(sql`habitat IS NOT NULL AND habitat != ''`);
+  const [plantsWithImage] = await db.select({ count: sql<number>`COUNT(*)` }).from(plants).where(sql`image_url IS NOT NULL AND image_url != ''`);
+
+  // Terroirs avec reputation
+  const [terroirsWithReputation] = await db.select({ count: sql<number>`COUNT(*)` }).from(terroirs).where(sql`reputation IS NOT NULL AND reputation != ''`);
+  const [terroirsWithCoords] = await db.select({ count: sql<number>`COUNT(*)` }).from(terroirs).where(sql`latitude IS NOT NULL`);
+
+  return {
+    rawMaterials: {
+      total: Number(totalRawMaterials.count),
+      withPlant: Number(rmWithPlant.count),
+      withTerroir: Number(rmWithTerroir.count),
+      withBoth: Number(rmWithBoth.count),
+      withOlfFamily: Number(rmWithOlfFamily.count),
+      withOrigin: Number(rmWithOrigin.count),
+    },
+    plants: {
+      total: Number(totalPlants.count),
+      withLatin: Number(plantsWithLatin.count),
+      withDescription: Number(plantsWithHabitat.count),
+      withImage: Number(plantsWithImage.count),
+    },
+    terroirs: {
+      total: Number(totalTerroirs.count),
+      withDescription: Number(terroirsWithReputation.count),
+      withCoords: Number(terroirsWithCoords.count),
+    },
+  };
+}

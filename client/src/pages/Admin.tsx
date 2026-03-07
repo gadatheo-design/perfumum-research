@@ -245,6 +245,14 @@ export default function Admin() {
       color: "text-teal-600",
       bgColor: "bg-teal-50",
     },
+    {
+      title: "Tableau de Bord de Complétude",
+      description: "Suivre l'enrichissement des données — matières premières, plantes et terroirs classés par score de complétude.",
+      icon: BarChart3,
+      href: "/admin/completude",
+      color: "text-amber-600",
+      bgColor: "bg-amber-50",
+    },
   ];
 
   return (
