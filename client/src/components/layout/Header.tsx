@@ -1,11 +1,26 @@
 // @ts-nocheck
+/**
+ * Header.tsx
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Les données de navigation proviennent exclusivement de :
+ *   client/src/config/navigationConfig.ts
+ *
+ * Pour ajouter / modifier une entrée de menu, éditer UNIQUEMENT navigationConfig.ts.
+ * Ce fichier ne contient que la logique d'affichage.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
 import { Link, useLocation } from "wouter";
-import { Search, Menu, Sun, Moon, Command, Database, Leaf, Compass, BarChart3, Zap, FlaskConical, Microscope, BookOpen, Archive, Globe, Info, FileText, Users, Brain, Flame, Layers, TestTube, Sparkles, BarChart2 } from "lucide-react";
+import {
+  Search, Menu, Sun, Moon, Command,
+  Database, Leaf, Compass, BarChart3, Zap, FlaskConical,
+  Microscope, BookOpen, Archive, Globe, Info, FileText,
+  Brain, Flame, Layers, TestTube, Sparkles, BarChart2, Atom,
+} from "lucide-react";
 import { MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";
 import { MobileMenu } from "@/components/MobileMenu";
 import { SmartSearch } from "@/components/SmartSearch";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
@@ -14,252 +29,67 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { NAV_GROUPS, NavSection } from "@/config/navigationConfig";
 
-// Composant MegaMenuOptimizedNav pour remplacer l'ancien MegaMenu
+// ── Résolution des icônes (string → ReactNode) ────────────────────────────────
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  Database, Leaf, Compass, BarChart3, Zap, FlaskConical,
+  Microscope, BookOpen, Archive, Globe, Info, FileText,
+  Brain, Flame, Layers, TestTube, Sparkles, BarChart2, Atom,
+};
+
+function resolveIcon(name: string) {
+  const Icon = ICON_MAP[name];
+  return Icon ? <Icon className="h-4 w-4" /> : null;
+}
+
+/**
+ * Convertit les sections d'un groupe navigationConfig en format attendu
+ * par useMegaMenuSections (category + icon ReactNode + items avec id).
+ */
+function useNavGroup(trigger: string) {
+  const group = useMemo(
+    () => NAV_GROUPS.find((g) => g.trigger === trigger),
+    [trigger]
+  );
+
+  const rawSections = useMemo(() => {
+    if (!group) return [];
+    return group.sections.map((section: NavSection, si: number) => ({
+      category: section.title,
+      icon: resolveIcon(section.icon),
+      items: (section.items ?? []).map((item, ii) => ({
+        id: `${trigger}-${si}-${ii}`,
+        label: item.label,
+        href: item.href,
+        badge: item.badge,
+      })),
+    }));
+  }, [group, trigger]);
+
+  return useMegaMenuSections(rawSections);
+}
+
+// ── MegaMenuOptimizedNav ──────────────────────────────────────────────────────
 function MegaMenuOptimizedNav() {
-  // === DONNÉES (Catalogues + Botanique + Tabac) ===
-  const donneesSections = [
-    {
-      category: "Catalogues principaux",
-      icon: <Database className="h-4 w-4" />,
-      items: [
-        { id: "1", label: "Molécules", href: "/molecules", badge: "HUB" },
-        { id: "2", label: "Recettes", href: "/recettes", badge: "HUB" },
-        { id: "2b", label: "Matières Premières", href: "/matieres-premieres", badge: "NEW" },
-        { id: "3", label: "Plantes & Variétés", href: "/plants" },
-        { id: "4", label: "Terroirs", href: "/terroirs" },
-        { id: "9", label: "Gammes", href: "/gammes-hub", badge: "HUB" },
-      ],
-    },
-    {
-      category: "Botanique & Patrimoine",
-      icon: <Leaf className="h-4 w-4" />,
-      items: [
-        { id: "b1", label: "Classification Phylogénétique", href: "/phylogenetique", badge: "NEW" },
-        { id: "b2", label: "Arbre Généalogique", href: "/genealogy", badge: "NEW" },
-        { id: "b3", label: "Herbier des Disparus", href: "/ghost-varieties-explorer", badge: "NEW" },
-        { id: "b4", label: "Osmothèque", href: "/osmotheque", badge: "NEW" },
-        { id: "b5", label: "Structures SMILES", href: "/smiles", badge: "NEW" },
-        { id: "5", label: "Leaf Economies", href: "/leaf-economies", badge: "NEW" },
-        { id: "6", label: "Timeline botanique", href: "/timeline-botanique" },
-      ],
-    },
-    {
-      category: "Tabac & Cannabis",
-      icon: <Layers className="h-4 w-4" />,
-      items: [
-        { id: "tc1", label: "Tabacs Niche", href: "/tabacs-niche" },
-        { id: "tc2", label: "Tabacs Naturels", href: "/tabacs-naturels", badge: "NEW" },
-        { id: "tc3", label: "Cigarettes Historiques", href: "/historic-cigarettes" },
-        { id: "tc4", label: "Recettes Cigarillos", href: "/recettes-cigarillos" },
-        { id: "tc5", label: "Chémotypes", href: "/chemotypes", badge: "NEW" },
-      ],
-    },
-    {
-      category: "Exploration",
-      icon: <Compass className="h-4 w-4" />,
-      items: [
-        { id: "10", label: "Carte GPS Plantes", href: "/carte-plantes-gps" },
-        { id: "11", label: "Recherche avancée", href: "/recherche-avancee" },
-        { id: "11b", label: "Recherche par Molécule", href: "/recherche-molecule", badge: "NEW" },
-        { id: "12", label: "Alternatives durables", href: "/alternatives-durables", badge: "NEW" },
-        { id: "12b", label: "Plantes par molécule", href: "/plantes/par-molecule", badge: "NEW" },
-      ],
-    },
-  ];
-
-  // === OUTILS (Création + Analyse + Sourcing) ===
-  const outilsSections = [
-    {
-      category: "Accès rapide",
-      icon: <Zap className="h-4 w-4" />,
-      items: [
-        { id: "17", label: "Hub Outils", href: "/outils-hub", badge: "HUB" },
-      ],
-    },
-    {
-      category: "Création",
-      icon: <FlaskConical className="h-4 w-4" />,
-      items: [
-        { id: "18", label: "Éditeur de Formulation", href: "/outils/editeur-formulation", badge: "NEW" },
-        { id: "19", label: "Générateur IA", href: "/outils/generateur-formules" },
-        { id: "20", label: "Calculateur", href: "/calculateur" },
-        { id: "7", label: "Recettes finales", href: "/final-recipes" },
-        { id: "8", label: "Recettes TL", href: "/recettes-tl", badge: "NEW" },
-      ],
-    },
-    {
-      category: "Analyse",
-      icon: <TestTube className="h-4 w-4" />,
-      items: [
-        { id: "21", label: "Synergies Moléculaires", href: "/synergies", badge: "NEW" },
-        { id: "22", label: "Profils Terpéniques", href: "/terp-profiles" },
-        { id: "23", label: "Conformité IFRA", href: "/ifra" },
-        { id: "24", label: "Comparaison Profils", href: "/terp-profiles/compare" },
-        { id: "24b", label: "Statistiques Olfactives", href: "/stats-olfactives", badge: "NEW" },
-        { id: "24c", label: "Recherche par Percept", href: "/percepts" },
-        { id: "24d", label: "Enrichissement PubChem", href: "/enrichissement", badge: "NEW" },
-      ],
-    },
-    {
-      category: "Sourcing",
-      icon: <Sparkles className="h-4 w-4" />,
-      items: [
-        { id: "s1", label: "Hub Sourcing", href: "/sourcing-hub", badge: "NEW" },
-        { id: "s2", label: "Sourcing Tabac", href: "/sourcing/tabac" },
-        { id: "s3", label: "Sourcing Cannabis", href: "/sourcing/cannabis" },
-      ],
-    },
-  ];
-
-  // === RECHERCHE (Méthodologie + Archives + Axes) ===
-  const rechercheSections = [
-    {
-      category: "Méthode ABSORBE",
-      icon: <BookOpen className="h-4 w-4" />,
-      items: [
-        { id: "25", label: "Présentation", href: "/methodologie/absorbe" },
-        { id: "26", label: "Échelle de classification", href: "/methodologie/echelle-absorbe" },
-        { id: "27", label: "GC-MS & Pyrolyse", href: "/methodologie/gc-ms" },
-        { id: "27b", label: "Méthodes Analytiques", href: "/methodes-analytiques", badge: "NEW" },
-      ],
-    },
-    {
-      category: "Axes de Recherche",
-      icon: <Globe className="h-4 w-4" />,
-      items: [
-        { id: "28", label: "Vue d'ensemble", href: "/axes-recherche", badge: "11 axes" },
-        { id: "29", label: "Bibliographie", href: "/bibliographie" },
-        { id: "30", label: "Export bibliographique", href: "/outils/export-bibliographique" },
-      ],
-    },
-    {
-      category: "Archives & Traditions",
-      icon: <Archive className="h-4 w-4" />,
-      items: [
-        { id: "31", label: "Archives de Terrain", href: "/archives-terrain" },
-        { id: "32", label: "Archives Olfactives", href: "/archives-olfactives" },
-        { id: "33", label: "Traditions Olfactives", href: "/civilisations" },
-        { id: "34", label: "Timeline", href: "/timeline" },
-      ],
-    },
-    {
-      category: "Réseaux & Graphes",
-      icon: <BarChart3 className="h-4 w-4" />,
-      items: [
-        { id: "13", label: "Hub Visualisations", href: "/visualisations", badge: "HUB" },
-        { id: "13b", label: "Réseau de Liaisons", href: "/reseau-liaisons", badge: "NEW" },
-        { id: "15", label: "Graphe Réseau", href: "/recipe-network" },
-        { id: "15b", label: "Corrélations", href: "/correlations", badge: "NEW" },
-        { id: "16", label: "Diagramme Sankey", href: "/sankey-flow" },
-      ],
-    },
-    {
-      category: "Analyses Visuelles",
-      icon: <BarChart2 className="h-4 w-4" />,
-      items: [
-        { id: "14", label: "Synergies Heatmap", href: "/synergies-heatmap" },
-        { id: "v1", label: "Parfums emblématiques", href: "/parfums" },
-        { id: "v2", label: "Muscs — Guide comparatif", href: "/muscs", badge: "NEW" },
-        { id: "v3", label: "Timeline botanique", href: "/timeline-botanique" },
-      ],
-    },
-    {
-      category: "ABSORBE X - Recherche Avancee",
-      icon: <Brain className="h-4 w-4" />,
-      items: [
-        { id: "40", label: "Dashboard", href: "/absorbe-x", badge: "NEW" },
-        { id: "41", label: "Manifeste", href: "/absorbe-x/manifeste" },
-        { id: "42", label: "Notes de Recherche", href: "/absorbe-x/notes-recherche" },
-        { id: "43", label: "Olfaction Quantique", href: "/absorbe-x/quantique" },
-        { id: "44", label: "Patrimoine Olfactif", href: "/absorbe-x/patrimoine" },
-        { id: "45", label: "Neuro-Olfaction", href: "/absorbe-x/neuro-olfaction", badge: "NEW" },
-        { id: "46", label: "Odeurs Perdues", href: "/absorbe-x/odeurs-perdues", badge: "NEW" },
-        { id: "47", label: "Guide de Laboratoire", href: "/absorbe-x/guide-laboratoire", badge: "NEW" },
-        { id: "48", label: "Matieres Premieres Rares", href: "/aromatic-rarities", badge: "NEW" },
-        { id: "49", label: "Claims & Preuves", href: "/claims-and-proofs", badge: "NEW" },
-      ],
-    },
-  ];
-
-  // === TABACOTHÈQUE ===
-  const tabacothequeSections = [
-    {
-      category: "Tabacothèque",
-      icon: <Leaf className="h-4 w-4" />,
-      items: [
-        { id: "t1", label: "Vue d'ensemble", href: "/tabacotheque", badge: "HUB" },
-        { id: "t2", label: "Cigarettes Historiques", href: "/historic-cigarettes", badge: "NEW" },
-        { id: "t3", label: "Composés du Perique", href: "/perique-compounds" },
-      ],
-    },
-    {
-      category: "Génomique du Tabac",
-      icon: <Database className="h-4 w-4" />,
-      items: [
-        { id: "t4", label: "Gènes TPS", href: "/tps-genes", badge: "NEW" },
-        { id: "t5", label: "Explorateur Génomique", href: "/genomics-explorer" },
-      ],
-    },
-    {
-      category: "Transformations",
-      icon: <Flame className="h-4 w-4" />,
-      items: [
-        { id: "t6", label: "Transformations Moléculaires", href: "/molecular-transformations", badge: "NEW" },
-      ],
-    },
-    {
-      category: "Analyse GC-MS",
-      icon: <Microscope className="h-4 w-4" />,
-      items: [
-        { id: "t7", label: "Chromatogrammes", href: "/gcms-chromatograms", badge: "NEW" },
-        { id: "t8", label: "Spectres de Masse", href: "/ms-spectra", badge: "NEW" },
-        { id: "t9", label: "Comparaison Spectres", href: "/compare-spectra", badge: "NEW" },
-        { id: "t10", label: "Identification", href: "/identify-spectrum", badge: "NEW" },
-        { id: "t11", label: "Recherche Composé", href: "/search-compound" },
-      ],
-    },
-  ];
-
-  // === PROJET (À propos + Administration) ===
-  const projetSections = [
-    {
-      category: "Documentation",
-      icon: <FileText className="h-4 w-4" />,
-      items: [
-        { id: "35", label: "Glossaire", href: "/glossaire" },
-        { id: "37", label: "Manifeste", href: "/manifeste" },
-      ],
-    },
-    {
-      category: "Le Projet",
-      icon: <Info className="h-4 w-4" />,
-      items: [
-        { id: "36", label: "À propos", href: "/a-propos" },
-        { id: "38", label: "Contribuer", href: "/contribuer" },
-        { id: "39c", label: "Tableau de complétude", href: "/admin/completude", badge: "NEW" },
-        { id: "39", label: "Administration", href: "/admin" },
-      ],
-    },
-  ];
-
-  const menuSections = useMegaMenuSections(donneesSections);
-  const outilsMenuSections = useMegaMenuSections(outilsSections);
-  const rechercheMenuSections = useMegaMenuSections(rechercheSections);
-  const projetMenuSections = useMegaMenuSections(projetSections);
-  const tabacothequeMenuSections = useMegaMenuSections(tabacothequeSections);
+  const donneesSections     = useNavGroup("Données");
+  const outilsSections      = useNavGroup("Outils");
+  const rechercheSections   = useNavGroup("Recherche");
+  const tabacothequeSections = useNavGroup("Tabacothèque");
+  const projetSections      = useNavGroup("Projet");
 
   return (
     <nav className="hidden lg:flex items-center gap-8" role="navigation" aria-label="Menu principal">
-      <MegaMenuOptimized sections={menuSections} trigger="Données" />
-      <MegaMenuOptimized sections={outilsMenuSections} trigger="Outils" />
-      <MegaMenuOptimized sections={rechercheMenuSections} trigger="Recherche" />
-      <MegaMenuOptimized sections={tabacothequeMenuSections} trigger="Tabacothèque" />
-      <MegaMenuOptimized sections={projetMenuSections} trigger="Projet" />
+      <MegaMenuOptimized sections={donneesSections}      trigger="Données" />
+      <MegaMenuOptimized sections={outilsSections}       trigger="Outils" />
+      <MegaMenuOptimized sections={rechercheSections}    trigger="Recherche" />
+      <MegaMenuOptimized sections={tabacothequeSections} trigger="Tabacothèque" />
+      <MegaMenuOptimized sections={projetSections}       trigger="Projet" />
     </nav>
   );
 }
 
+// ── Header principal ──────────────────────────────────────────────────────────
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -303,10 +133,10 @@ export function Header() {
           </span>
         </Link>
 
-        {/* Desktop Navigation - Mega Menu Optimized */}
+        {/* Desktop Navigation */}
         <MegaMenuOptimizedNav />
 
-        {/* Search Button & Theme Toggle */}
+        {/* Search Button & Theme Toggle — desktop */}
         <div className="hidden lg:flex items-center gap-4">
           <Button
             variant="outline"
@@ -339,7 +169,6 @@ export function Header() {
 
         {/* Mobile: Search + Theme + Menu */}
         <div className="lg:hidden flex items-center gap-2">
-          {/* Bouton de recherche visible sur mobile */}
           <Button
             variant="ghost"
             size="icon"
@@ -349,7 +178,6 @@ export function Header() {
           >
             <Search className="h-5 w-5" />
           </Button>
-          {/* Toggle thème sur mobile */}
           <Button
             variant="ghost"
             size="icon"
@@ -363,7 +191,6 @@ export function Header() {
               <Moon className="h-5 w-5" />
             )}
           </Button>
-          {/* Menu hamburger */}
           <Button
             variant="ghost"
             size="icon"
@@ -376,18 +203,18 @@ export function Header() {
         </div>
       </div>
     </header>
-    
-    {/* Breadcrumb sous le header - sticky sur mobile pour navigation dans les pages profondes */}
+
+    {/* Breadcrumb sous le header */}
     <div className="sticky top-14 lg:top-[72px] z-40 border-b border-border/50 bg-background/95 backdrop-blur-md shadow-sm">
       <div className="container py-1.5 sm:py-2 px-4 lg:px-6">
         <DynamicBreadcrumb />
       </div>
     </div>
 
-    {/* Mobile Menu Component */}
-    <MobileMenu 
-      isOpen={mobileMenuOpen} 
-      onClose={() => setMobileMenuOpen(false)} 
+    {/* Mobile Menu */}
+    <MobileMenu
+      isOpen={mobileMenuOpen}
+      onClose={() => setMobileMenuOpen(false)}
     />
 
     {/* Dialog de recherche SmartSearch */}

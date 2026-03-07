@@ -1,16 +1,22 @@
 // @ts-nocheck
 /**
- * MobileMenu - Menu hamburger optimisé pour navigation tactile
- * 
- * Fonctionnalités:
+ * MobileMenu.tsx
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Les données de navigation proviennent exclusivement de :
+ *   client/src/config/navigationConfig.ts
+ *
+ * Pour ajouter / modifier une entrée de menu, éditer UNIQUEMENT navigationConfig.ts.
+ * Ce fichier ne contient que la logique d'affichage mobile.
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Fonctionnalités :
  * - Animations fluides avec framer-motion
  * - Gestes tactiles (swipe pour fermer)
- * - Organisation en accordéons avec icônes
+ * - Organisation en accordéons avec icônes par groupe
  * - Support du thème clair/sombre
  * - Recherche intégrée
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence, useDragControls, PanInfo } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -18,211 +24,66 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  X,
-  Search,
-  ChevronRight,
-  ChevronDown,
-  Home,
-  Beaker,
-  FlaskConical,
-  Atom,
-  Sparkles,
-  BookOpen,
-  TestTube,
-  BarChart3,
-  Database,
-  Info,
-  Leaf,
-  FileText,
-  Layers,
-  Command,
-  Sun,
-  Moon,
+  X, Search, ChevronRight, ChevronDown, Home,
+  FlaskConical, Atom, Sparkles, BookOpen, TestTube,
+  BarChart3, BarChart2, Database, Info, Leaf, FileText,
+  Layers, Command, Sun, Moon, Compass, Zap, Microscope,
+  Archive, Globe, Brain, Flame,
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { NAV_GROUPS, NavSection, NavItem } from "@/config/navigationConfig";
 
-// Types
-interface MenuItem {
-  href: string;
-  label: string;
-  badge?: string;
+// ── Résolution des icônes ─────────────────────────────────────────────────────
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  Database, Leaf, Compass, BarChart3, BarChart2, Zap, FlaskConical,
+  Microscope, BookOpen, Archive, Globe, Info, FileText,
+  Brain, Flame, Layers, TestTube, Sparkles, Atom, Home,
+};
+
+function resolveIcon(name: string): React.ComponentType<{ className?: string }> {
+  return ICON_MAP[name] ?? Database;
 }
 
-interface MenuSection {
+// ── Types internes ────────────────────────────────────────────────────────────
+interface FlatSection {
   title: string;
-  href?: string;
   icon: React.ComponentType<{ className?: string }>;
-  items?: MenuItem[];
+  href?: string;
+  items?: NavItem[];
+  groupTrigger: string;
 }
 
-// Structure du menu mobile — synchronisée avec MegaMenu.tsx
-const mobileMenuSections: MenuSection[] = [
-  {
+// ── Conversion navigationConfig → liste plate pour le mobile ─────────────────
+function buildMobileSections(): FlatSection[] {
+  const sections: FlatSection[] = [];
+
+  // Lien Accueil en tête
+  sections.push({
     title: "Accueil",
-    href: "/",
     icon: Home,
-  },
+    href: "/",
+    groupTrigger: "Accueil",
+  });
 
-  // ── DONNÉES ──────────────────────────────────────────
-  {
-    title: "Catalogues principaux",
-    icon: Database,
-    items: [
-      { href: "/molecules", label: "Molécules", badge: "HUB" },
-      { href: "/recettes", label: "Recettes", badge: "HUB" },
-      { href: "/matieres-premieres", label: "Matières Premières", badge: "NEW" },
-      { href: "/plants", label: "Plantes & Variétés" },
-      { href: "/terroirs", label: "Terroirs" },
-      { href: "/gammes-hub", label: "Gammes", badge: "HUB" },
-    ],
-  },
-  {
-    title: "Botanique & Patrimoine",
-    icon: Leaf,
-    items: [
-      { href: "/phylogenetique", label: "Classification Phylogénétique", badge: "NEW" },
-      { href: "/genealogy", label: "Arbre Généalogique", badge: "NEW" },
-      { href: "/ghost-varieties-explorer", label: "Herbier des Disparus", badge: "NEW" },
-      { href: "/osmotheque", label: "Osmothèque", badge: "NEW" },
-      { href: "/smiles", label: "Structures SMILES", badge: "NEW" },
-    ],
-  },
-  {
-    title: "Tabac & Cannabis",
-    icon: Layers,
-    items: [
-      { href: "/tabacs-niche", label: "Tabacs Niche" },
-      { href: "/tabacs-naturels", label: "Tabacs Naturels", badge: "NEW" },
-      { href: "/historic-cigarettes", label: "Cigarettes Historiques" },
-      { href: "/recettes-cigarillos", label: "Recettes Cigarillos" },
-      { href: "/chemotypes", label: "Chémotypes", badge: "NEW" },
-    ],
-  },
-  {
-    title: "Exploration",
-    icon: Sparkles,
-    items: [
-      { href: "/recherche-avancee", label: "Recherche avancée" },
-      { href: "/recherche-molecule", label: "Recherche par Molécule", badge: "NEW" },
-      { href: "/carte-plantes-gps", label: "Carte GPS Plantes" },
-      { href: "/alternatives-durables", label: "Alternatives durables", badge: "NEW" },
-      { href: "/leaf-economies", label: "Leaf Economies", badge: "NEW" },
-    ],
-  },
+  for (const group of NAV_GROUPS) {
+    for (const section of group.sections) {
+      // Si une section n'a qu'un seul item qui est un "hub" direct, on peut
+      // l'afficher comme lien direct ; sinon accordéon.
+      const isDirectLink = !section.items || section.items.length === 0;
+      sections.push({
+        title: section.title,
+        icon: resolveIcon(section.icon),
+        href: isDirectLink ? section.href : undefined,
+        items: isDirectLink ? undefined : section.items,
+        groupTrigger: group.trigger,
+      });
+    }
+  }
 
-  // ── OUTILS ───────────────────────────────────────────
-  {
-    title: "Hub Outils",
-    href: "/outils-hub",
-    icon: FlaskConical,
-  },
-  {
-    title: "Création",
-    icon: FlaskConical,
-    items: [
-      { href: "/outils/editeur-formulation", label: "Éditeur de Formulation", badge: "NEW" },
-      { href: "/outils/generateur-formules", label: "Générateur IA" },
-      { href: "/calculateur", label: "Calculateur" },
-    ],
-  },
-  {
-    title: "Analyse",
-    icon: TestTube,
-    items: [
-      { href: "/synergies", label: "Synergies Moléculaires", badge: "NEW" },
-      { href: "/terp-profiles", label: "Profils Terpéniques" },
-      { href: "/ifra", label: "Conformité IFRA" },
-      { href: "/stats-olfactives", label: "Statistiques Olfactives", badge: "NEW" },
-      { href: "/percepts", label: "Recherche par Percept" },
-      { href: "/enrichissement", label: "Enrichissement PubChem", badge: "NEW" },
-    ],
-  },
-  {
-    title: "Sourcing",
-    icon: Database,
-    items: [
-      { href: "/sourcing-hub", label: "Hub Sourcing", badge: "NEW" },
-      { href: "/sourcing/tabac", label: "Sourcing Tabac" },
-      { href: "/sourcing/cannabis", label: "Sourcing Cannabis" },
-    ],
-  },
+  return sections;
+}
 
-  // ── VISUALISATIONS ───────────────────────────────────
-  {
-    title: "Réseaux & Graphes",
-    icon: BarChart3,
-    items: [
-      { href: "/visualisations", label: "Hub Visualisations", badge: "HUB" },
-      { href: "/reseau-liaisons", label: "Réseau de Liaisons", badge: "NEW" },
-      { href: "/recipe-network", label: "Graphe Réseau" },
-      { href: "/correlations", label: "Corrélations", badge: "NEW" },
-      { href: "/sankey-flow", label: "Diagramme Sankey" },
-    ],
-  },
-  {
-    title: "Analyses Visuelles",
-    icon: BarChart3,
-    items: [
-      { href: "/synergies-heatmap", label: "Synergies Heatmap" },
-      { href: "/parfums", label: "Parfums emblématiques" },
-      { href: "/muscs", label: "Muscs — Guide comparatif", badge: "NEW" },
-      { href: "/timeline-botanique", label: "Timeline botanique" },
-    ],
-  },
-
-  // ── RECHERCHE ────────────────────────────────────────
-  {
-    title: "Méthode ABSORBE",
-    icon: BookOpen,
-    items: [
-      { href: "/methodologie/absorbe", label: "Présentation" },
-      { href: "/methodologie/echelle-absorbe", label: "Échelle de classification" },
-      { href: "/methodologie/gc-ms", label: "GC-MS & Pyrolyse" },
-      { href: "/methodes-analytiques", label: "Méthodes Analytiques", badge: "NEW" },
-    ],
-  },
-  {
-    title: "Axes de Recherche",
-    icon: Atom,
-    items: [
-      { href: "/axes-recherche", label: "Vue d'ensemble", badge: "11 axes" },
-      { href: "/bibliographie", label: "Bibliographie" },
-      { href: "/outils/export-bibliographique", label: "Export bibliographique" },
-    ],
-  },
-  {
-    title: "Archives & Traditions",
-    icon: Database,
-    items: [
-      { href: "/archives-terrain", label: "Archives de Terrain" },
-      { href: "/archives-olfactives", label: "Archives Olfactives" },
-      { href: "/civilisations", label: "Traditions Olfactives" },
-      { href: "/timeline", label: "Timeline" },
-    ],
-  },
-
-  // ── PROJET ───────────────────────────────────────────
-  {
-    title: "Documentation",
-    icon: FileText,
-    items: [
-      { href: "/glossaire", label: "Glossaire" },
-      { href: "/manifeste", label: "Manifeste" },
-    ],
-  },
-  {
-    title: "Le Projet",
-    icon: Info,
-    items: [
-      { href: "/a-propos", label: "À propos" },
-      { href: "/contribuer", label: "Contribuer" },
-      { href: "/admin/completude", label: "Tableau de complétude", badge: "NEW" },
-      { href: "/admin", label: "Administration", badge: "ADMIN" },
-    ],
-  },
-];
-
-// Composant AccordionSection pour les sections avec sous-menus
+// ── Composant AccordionSection ────────────────────────────────────────────────
 function AccordionSection({
   section,
   isExpanded,
@@ -230,14 +91,14 @@ function AccordionSection({
   onNavigate,
   currentPath,
 }: {
-  section: MenuSection;
+  section: FlatSection;
   isExpanded: boolean;
   onToggle: () => void;
   onNavigate: () => void;
   currentPath: string;
 }) {
   const Icon = section.icon;
-  const hasActiveChild = section.items?.some(item => currentPath === item.href);
+  const hasActiveChild = section.items?.some((item) => currentPath === item.href);
 
   return (
     <div className="border-b border-border/50 last:border-b-0">
@@ -251,23 +112,21 @@ function AccordionSection({
         aria-expanded={isExpanded}
       >
         <div className="flex items-center gap-3">
-          <div className={cn(
-            "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-            hasActiveChild ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
-          )}>
+          <div
+            className={cn(
+              "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+              hasActiveChild
+                ? "bg-primary/10 text-primary"
+                : "bg-muted text-muted-foreground"
+            )}
+          >
             <Icon className="h-5 w-5" />
           </div>
-          <span className={cn(
-            "font-medium text-base",
-            hasActiveChild && "text-primary"
-          )}>
+          <span className={cn("font-medium text-base", hasActiveChild && "text-primary")}>
             {section.title}
           </span>
         </div>
-        <motion.div
-          animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-        >
+        <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
           <ChevronDown className="h-5 w-5 text-muted-foreground" />
         </motion.div>
       </button>
@@ -288,8 +147,7 @@ function AccordionSection({
                   href={item.href}
                   onClick={onNavigate}
                   className={cn(
-                    "flex items-center justify-between py-2.5 px-3 rounded-lg transition-all",
-                    "text-sm",
+                    "flex items-center justify-between py-2.5 px-3 rounded-lg transition-all text-sm",
                     currentPath === item.href
                       ? "bg-primary/10 text-primary font-medium"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50 active:bg-muted"
@@ -298,7 +156,9 @@ function AccordionSection({
                   <span>{item.label}</span>
                   {item.badge && (
                     <Badge
-                      variant={item.badge === "NEW" || item.badge === "ADMIN" ? "default" : "secondary"}
+                      variant={
+                        item.badge === "NEW" || item.badge === "ADMIN" ? "default" : "secondary"
+                      }
                       className={cn(
                         "text-xs ml-2",
                         item.badge === "NEW" && "bg-amber-500 text-white",
@@ -318,13 +178,13 @@ function AccordionSection({
   );
 }
 
-// Composant SimpleLink pour les liens directs
+// ── Composant SimpleLink ──────────────────────────────────────────────────────
 function SimpleLink({
   section,
   onNavigate,
   currentPath,
 }: {
-  section: MenuSection;
+  section: FlatSection;
   onNavigate: () => void;
   currentPath: string;
 }) {
@@ -341,16 +201,15 @@ function SimpleLink({
         isActive && "bg-primary/5"
       )}
     >
-      <div className={cn(
-        "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-        isActive ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
-      )}>
+      <div
+        className={cn(
+          "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+          isActive ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"
+        )}
+      >
         <Icon className="h-5 w-5" />
       </div>
-      <span className={cn(
-        "font-medium text-base",
-        isActive && "text-primary"
-      )}>
+      <span className={cn("font-medium text-base", isActive && "text-primary")}>
         {section.title}
       </span>
       <ChevronRight className="h-5 w-5 text-muted-foreground ml-auto" />
@@ -358,7 +217,7 @@ function SimpleLink({
   );
 }
 
-// Composant principal MobileMenu
+// ── Composant principal MobileMenu ────────────────────────────────────────────
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
@@ -370,51 +229,34 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set());
   const dragControls = useDragControls();
 
-  // Note: Le menu se ferme automatiquement via onNavigate dans les liens
+  // Construire la liste des sections une seule fois
+  const mobileSections = useMemo(() => buildMobileSections(), []);
 
   // Empêcher le scroll du body quand le menu est ouvert
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
   // Gestion du swipe pour fermer
   const handleDragEnd = useCallback(
     (_: any, info: PanInfo) => {
-      // Si le swipe est vers la droite avec assez de vélocité ou de distance
-      if (info.velocity.x > 500 || info.offset.x > 150) {
-        onClose();
-      }
+      if (info.velocity.x > 500 || info.offset.x > 150) onClose();
     },
     [onClose]
   );
 
-  // Toggle une section
   const toggleSection = (index: number) => {
-    setExpandedSections(prev => {
+    setExpandedSections((prev) => {
       const next = new Set(prev);
-      if (next.has(index)) {
-        next.delete(index);
-      } else {
-        next.add(index);
-      }
+      next.has(index) ? next.delete(index) : next.add(index);
       return next;
     });
   };
 
-  // Ouvrir la recherche
   const openSearch = () => {
     onClose();
-    setTimeout(() => {
-      const event = new CustomEvent("open-global-search");
-      window.dispatchEvent(event);
-    }, 150);
+    setTimeout(() => window.dispatchEvent(new CustomEvent("open-global-search")), 150);
   };
 
   return (
@@ -452,9 +294,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <div className="flex items-center justify-between h-14 px-4 border-b bg-background/95 backdrop-blur-sm">
               <div className="flex items-center gap-3">
                 <span className="text-lg font-bold tracking-tight">PERFUMUM</span>
-                <Badge variant="outline" className="text-xs">
-                  Menu
-                </Badge>
+                <Badge variant="outline" className="text-xs">Menu</Badge>
               </div>
               <div className="flex items-center gap-2">
                 <Button
@@ -462,13 +302,9 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   size="icon"
                   onClick={toggleTheme}
                   className="h-10 w-10 rounded-xl"
-                  aria-label={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+                  aria-label={theme === "dark" ? "Mode clair" : "Mode sombre"}
                 >
-                  {theme === 'dark' ? (
-                    <Sun className="h-5 w-5" />
-                  ) : (
-                    <Moon className="h-5 w-5" />
-                  )}
+                  {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                 </Button>
                 <Button
                   variant="ghost"
@@ -505,7 +341,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             {/* Menu Content */}
             <ScrollArea className="flex-1">
               <nav className="pb-safe">
-                {mobileMenuSections.map((section, index) => {
+                {mobileSections.map((section, index) => {
                   if (!section.items) {
                     return (
                       <SimpleLink
@@ -516,7 +352,6 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       />
                     );
                   }
-
                   return (
                     <AccordionSection
                       key={index}
@@ -536,38 +371,38 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               <button
                 onClick={toggleTheme}
                 className="w-full flex items-center justify-between p-3 rounded-xl bg-background/50 border border-border/50 hover:bg-muted/50 transition-colors"
-                aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+                aria-label={theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
               >
                 <div className="flex items-center gap-3">
-                  <div className={cn(
-                    "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-                    theme === 'dark' ? "bg-amber-500/20 text-amber-400" : "bg-indigo-500/20 text-indigo-500"
-                  )}>
-                    {theme === 'dark' ? (
-                      <Moon className="h-5 w-5" />
-                    ) : (
-                      <Sun className="h-5 w-5" />
+                  <div
+                    className={cn(
+                      "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                      theme === "dark"
+                        ? "bg-amber-500/20 text-amber-400"
+                        : "bg-indigo-500/20 text-indigo-500"
                     )}
+                  >
+                    {theme === "dark" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
                   </div>
                   <div className="text-left">
                     <p className="font-medium text-sm">
-                      {theme === 'dark' ? 'Mode sombre' : 'Mode clair'}
+                      {theme === "dark" ? "Mode sombre" : "Mode clair"}
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                      Appuyez pour changer
-                    </p>
+                    <p className="text-xs text-muted-foreground">Appuyez pour changer</p>
                   </div>
                 </div>
-                <div className={cn(
-                  "w-12 h-6 rounded-full p-1 transition-colors",
-                  theme === 'dark' ? "bg-amber-500/30" : "bg-indigo-500/30"
-                )}>
+                <div
+                  className={cn(
+                    "w-12 h-6 rounded-full p-1 transition-colors",
+                    theme === "dark" ? "bg-amber-500/30" : "bg-indigo-500/30"
+                  )}
+                >
                   <motion.div
                     className={cn(
                       "w-4 h-4 rounded-full",
-                      theme === 'dark' ? "bg-amber-400" : "bg-indigo-500"
+                      theme === "dark" ? "bg-amber-400" : "bg-indigo-500"
                     )}
-                    animate={{ x: theme === 'dark' ? 24 : 0 }}
+                    animate={{ x: theme === "dark" ? 24 : 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
                 </div>

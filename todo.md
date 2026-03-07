@@ -1781,3 +1781,8 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 ## BUG — MegaMenu desktop désynchronisé avec le menu mobile
 - [x] Diagnostiquer la source des données du MegaMenu desktop vs MobileMenu
 - [x] Synchroniser les entrées de navigation desktop avec le menu mobile
+
+## REFACTO — Source unique de navigation (navigationConfig.ts)
+- [x] Créer client/src/config/navigationConfig.ts avec toutes les entrées
+- [x] Refactoriser Header.tsx pour consommer navigationConfig
+- [x] Refactoriser MobileMenu.tsx pour consommer navigationConfig
