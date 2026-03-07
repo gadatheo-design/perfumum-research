@@ -1,8 +1,7 @@
 /**
- * GlobalSearchAdvanced — Recherche unifiée PERFUMUM
- * Utilise l'endpoint search.global (côté serveur) pour une recherche
- * performante sur plantes, molécules, recettes, accords, glossaire et civilisations.
- * S'ouvre via l'événement custom "open-global-search" ou le raccourci Cmd/Ctrl+K.
+ * GlobalSearchAdvanced — Palette de recherche unifiée PERFUMUM
+ * Raccourcis : Cmd+K (Mac) / Ctrl+K (Windows/Linux)
+ * Couvre : molécules, plantes, recettes, accords, matières premières, terroirs, glossaire, civilisations
  */
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link, useLocation } from "wouter";
@@ -24,9 +23,11 @@ import {
   X,
   Loader2,
   Clock,
+  FlaskConical,
+  MapPin,
 } from "lucide-react";
 
-type ResultType = "molecule" | "plante" | "recette" | "accord" | "glossaire" | "civilisation" | "finalRecipe";
+type ResultType = "molecule" | "plante" | "recette" | "accord" | "glossaire" | "civilisation" | "finalRecipe" | "rawMaterial" | "terroir";
 
 interface SearchResult {
   id: number;
@@ -48,6 +49,8 @@ const TYPE_LABELS: Record<ResultType, string> = {
   glossaire: "Glossaire",
   civilisation: "Civilisation",
   finalRecipe: "Recette finale",
+  rawMaterial: "Matière première",
+  terroir: "Terroir",
 };
 
 const TYPE_ICONS: Record<ResultType, React.ReactNode> = {
@@ -58,6 +61,8 @@ const TYPE_ICONS: Record<ResultType, React.ReactNode> = {
   glossaire: <BookOpen className="h-3.5 w-3.5" />,
   civilisation: <Globe className="h-3.5 w-3.5" />,
   finalRecipe: <Droplets className="h-3.5 w-3.5" />,
+  rawMaterial: <FlaskConical className="h-3.5 w-3.5" />,
+  terroir: <MapPin className="h-3.5 w-3.5" />,
 };
 
 const TYPE_COLORS: Record<ResultType, string> = {
@@ -68,28 +73,36 @@ const TYPE_COLORS: Record<ResultType, string> = {
   glossaire: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
   civilisation: "bg-rose-500/10 text-rose-600 dark:text-rose-400",
   finalRecipe: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
+  rawMaterial: "bg-teal-500/10 text-teal-600 dark:text-teal-400",
+  terroir: "bg-stone-500/10 text-stone-600 dark:text-stone-400",
 };
 
 const TYPE_PATHS: Record<string, (id: number) => string> = {
   molecule: (id) => `/molecule/${id}`,
   plant: (id) => `/plant/${id}`,
+  plantVariety: (id) => `/plant/${id}`,
   recette: (id) => `/recette/${id}`,
   accord: (id) => `/accord/${id}`,
   glossary: (id) => `/glossaire#term-${id}`,
   civilisation: (id) => `/civilisation/${id}`,
   finalRecipe: (id) => `/recette-finale/${id}`,
+  rawMaterial: (id) => `/matieres-premieres/${id}`,
+  terroir: (id) => `/terroirs/${id}`,
 };
 
-// Normaliser le type retourné par l'API
+// Normaliser le type retourné par l'API vers le type interne
 function normalizeType(apiType: string): ResultType {
   const map: Record<string, ResultType> = {
     molecule: "molecule",
     plant: "plante",
+    plantVariety: "plante",
     recette: "recette",
     accord: "accord",
     glossary: "glossaire",
     civilisation: "civilisation",
     finalRecipe: "finalRecipe",
+    rawMaterial: "rawMaterial",
+    terroir: "terroir",
   };
   return map[apiType] || "molecule";
 }
@@ -140,7 +153,27 @@ export function GlobalSearchAdvanced() {
     }
   }, []);
 
-  // Écouter l'événement d'ouverture
+  // Raccourci clavier global Cmd+K / Ctrl+K
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setIsOpen((prev) => {
+          if (prev) {
+            setQuery("");
+            setShowFilters(false);
+            setSelectedTypes([]);
+            return false;
+          }
+          return true;
+        });
+      }
+    };
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, []);
+
+  // Écouter l'événement custom d'ouverture
   useEffect(() => {
     const handleOpen = () => setIsOpen(true);
     const handleClose = () => {
@@ -203,6 +236,8 @@ export function GlobalSearchAdvanced() {
     addItems(searchData.glossary || [], "glossary");
     addItems(searchData.civilisations || [], "civilisation");
     addItems(searchData.finalRecipes || [], "finalRecipe");
+    addItems((searchData as any).rawMaterials || [], "rawMaterial");
+    addItems((searchData as any).terroirs || [], "terroir");
 
     // Filtrer par type si des filtres sont actifs
     if (selectedTypes.length > 0) {
@@ -280,7 +315,7 @@ export function GlobalSearchAdvanced() {
           <Search className="h-5 w-5 text-muted-foreground flex-shrink-0" />
           <Input
             ref={inputRef}
-            placeholder="Plantes, molécules, recettes, accords, glossaire…"
+            placeholder="Molécules, plantes, matières premières, terroirs, recettes…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -307,7 +342,7 @@ export function GlobalSearchAdvanced() {
               Filtrer par type
             </div>
             <div className="flex flex-wrap gap-2">
-              {(["molecule", "plante", "recette", "accord", "glossaire", "civilisation"] as ResultType[]).map(
+              {(["molecule", "plante", "recette", "accord", "rawMaterial", "terroir", "glossaire", "civilisation"] as ResultType[]).map(
                 (type) => (
                   <Badge
                     key={type}

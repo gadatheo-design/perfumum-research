@@ -1666,3 +1666,31 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Ajouter procédure tRPC completude.getNetworkData pour les données du réseau
 - [ ] Lien de navigation vers /reseau-liaisons dans le menu principal
 - [ ] Tests vitest pour les nouvelles procédures
+
+---
+
+## 🔍 RECHERCHE GLOBALE & FEATURED ITEMS — 7 MARS 2026
+
+- [ ] Créer globalSearch dans db.ts (molécules, recettes, matières premières, plantes, terroirs)
+- [ ] Créer la procédure tRPC search.global dans routers.ts
+- [ ] Créer le composant GlobalSearch.tsx (palette Cmd+K)
+- [ ] Créer la procédure tRPC search.featuredItems pour les items dynamiques
+- [ ] Mettre à jour MegaMenu.tsx avec les featured items dynamiques
+- [ ] Intégrer GlobalSearch dans le header (Navigation.tsx ou App.tsx)
+- [ ] Tests vitest pour globalSearch et featuredItems
+
+---
+## ✅ SESSION 7 MARS 2026 — Recherche globale Cmd+K + Featured items dynamiques
+
+- [x] Créer globalSearch dans db.ts (molécules, recettes, matières premières, plantes, terroirs, accords, glossaire, civilisations, prototypes)
+- [x] Ajouter rawMaterials et terroirs dans le type de retour de globalSearch
+- [x] Créer la procédure tRPC search.global dans routers.ts
+- [x] Créer le composant GlobalSearchAdvanced.tsx (palette Cmd+K) avec filtres par type
+- [x] Support des types rawMaterial et terroir dans GlobalSearchAdvanced.tsx
+- [x] Créer la procédure tRPC navigation.getFeaturedItems (dernière recette, molécule la plus liée, dernière matière première, dernière plante, dernier terroir, stats globales)
+- [x] Créer getMegaMenuFeaturedItems dans db.ts
+- [x] Mettre à jour MegaMenu.tsx avec les featured items dynamiques (3 featured cards)
+- [x] Créer les fonctions getCompletudeRawMaterials, getCompletudePlants, getCompletudeTerroirs dans db.ts
+- [x] Créer getCompletudeGlobalStats et getNetworkData dans db.ts
+- [x] Corriger les erreurs TypeScript (db null guards, rawMaterials.origin → originCountry, recettes.family → category)
+- [x] TypeScript : 0 erreur

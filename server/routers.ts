@@ -11354,6 +11354,16 @@ Familles olfactives disponibles:
       }),
   }),
 
+  navigation: router({
+    getFeaturedItems: publicProcedure.query(async () => {
+      return await withCache(
+        'navigation:featured_items',
+        () => db.getMegaMenuFeaturedItems(),
+        CACHE_TTL.MEDIUM
+      );
+    }),
+  }),
+
   completude: router({
     globalStats: protectedProcedure
       .query(async ({ ctx }) => {

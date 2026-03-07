@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "wouter";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import { trpc } from "@/lib/trpc";
 import {
   Beaker,
   FlaskConical,
@@ -369,6 +370,11 @@ function MegaMenuDropdown({ trigger, triggerIcon, sections, featured, accentColo
 // ─── Main export ──────────────────────────────────────────────────────────────
 
 export function MegaMenu() {
+  // Données dynamiques pour les featured cards
+  const { data: featuredData } = trpc.navigation.getFeaturedItems.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false,
+  });
 
   // ══════════════════════════════════════════════════
   // DONNÉES — Catalogues & Exploration
@@ -536,7 +542,14 @@ export function MegaMenu() {
     },
   ];
 
-  const donneesFeatured: MenuItem = {
+  // Featured card dynamique pour Données : dernière recette modifiée
+  const donneesFeatured: MenuItem = featuredData?.latestRecette ? {
+    label: featuredData.latestRecette.name,
+    path: `/recettes/${featuredData.latestRecette.id}`,
+    icon: <FlaskConical className="h-5 w-5" />,
+    description: `Dernière recette modifiée — ${featuredData.latestRecette.category}`,
+    badge: "RÉCENT",
+  } : {
     label: "Hub Visualisations",
     path: "/visualisations",
     icon: <Network className="h-5 w-5" />,
@@ -648,7 +661,14 @@ export function MegaMenu() {
     },
   ];
 
-  const outilsFeatured: MenuItem = {
+  // Featured card dynamique pour Outils : molécule la plus liée
+  const outilsFeatured: MenuItem = featuredData?.mostLinkedMolecule ? {
+    label: featuredData.mostLinkedMolecule.name,
+    path: `/molecules/${featuredData.mostLinkedMolecule.id}`,
+    icon: <Atom className="h-5 w-5" />,
+    description: `Molécule la plus utilisée — ${featuredData.mostLinkedMolecule.linkCount} recettes`,
+    badge: featuredData.mostLinkedMolecule.family || undefined,
+  } : {
     label: "Hub Outils",
     path: "/outils-hub",
     icon: <LayoutGrid className="h-5 w-5" />,
@@ -723,7 +743,14 @@ export function MegaMenu() {
     },
   ];
 
-  const visualisationsFeatured: MenuItem = {
+  // Featured card dynamique pour Visualisations : matière première la plus récente
+  const visualisationsFeatured: MenuItem = featuredData?.latestRawMaterial ? {
+    label: featuredData.latestRawMaterial.name,
+    path: `/matieres-premieres/${featuredData.latestRawMaterial.id}`,
+    icon: <Beaker className="h-5 w-5" />,
+    description: `Dernière matière première — ${featuredData.latestRawMaterial.category?.replace(/_/g, ' ')}`,
+    badge: "RÉCENT",
+  } : {
     label: "Hub Visualisations",
     path: "/visualisations",
     icon: <Network className="h-5 w-5" />,

@@ -1233,7 +1233,7 @@ export async function getAbsorbeProfileByPrototypeId(prototypeId: number) {
 // ============================================================================
 
 export interface GlobalSearchResult {
-  type: 'molecule' | 'recette' | 'plant' | 'accord' | 'terpProfile' | 'finalRecipe' | 'civilisation' | 'prototype' | 'glossary' | 'timeline';
+  type: 'molecule' | 'recette' | 'plant' | 'accord' | 'terpProfile' | 'finalRecipe' | 'civilisation' | 'prototype' | 'glossary' | 'timeline' | 'rawMaterial' | 'terroir';
   id: number;
   name: string;
   description?: string | null;
@@ -1256,6 +1256,8 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
   civilisations: GlobalSearchResult[];
   prototypes: GlobalSearchResult[];
   glossary: GlobalSearchResult[];
+  rawMaterials: GlobalSearchResult[];
+  terroirs: GlobalSearchResult[];
   total: number;
   searchEnrichment?: {
     originalQuery: string;
@@ -1282,6 +1284,8 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
       civilisations: [],
       prototypes: [],
       glossary: [],
+      rawMaterials: [],
+      terroirs: [],
       total: 0
     };
   }
@@ -1389,8 +1393,19 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     .from(glossary)
     .where(buildEnrichedSearchCondition([glossary.term, glossary.definition]))
     .limit(perCategoryLimit);
-
-  // Fonction pour calculer le score de pertinence et le type de correspondance
+  // Search in raw materials
+  const rawMaterialResults = await db
+    .select()
+    .from(rawMaterials)
+    .where(buildEnrichedSearchCondition([rawMaterials.name, rawMaterials.olfactiveFamily, rawMaterials.originCountry]))
+    .limit(perCategoryLimit);
+  // Search in terroirs
+  const terroirResults = await db
+    .select()
+    .from(terroirs)
+    .where(buildEnrichedSearchCondition([terroirs.name, terroirs.country, terroirs.region]))
+    .limit(perCategoryLimit);
+  // Fonction pour calculer le score de pertinencee et le type de correspondance
   const calculateRelevance = (itemName: string, itemDescription?: string | null, additionalFields?: string[]): {
     score: number;
     matchType: 'exact' | 'synonym' | 'latin' | 'cas' | 'partial';
@@ -1561,6 +1576,32 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     };
   });
 
+  const transformedRawMaterials: GlobalSearchResult[] = rawMaterialResults.map(r => {
+    const relevance = calculateRelevance(r.name, r.olfactiveFamily, [r.originCountry || '', r.category || '']);
+    return {
+      type: 'rawMaterial' as const,
+      id: r.id,
+      name: r.name,
+      description: r.olfactiveFamily || r.category || undefined,
+      metadata: { category: r.category, origin: r.originCountry, materialId: r.materialId },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
+  const transformedTerroirs: GlobalSearchResult[] = terroirResults.map(t => {
+    const relevance = calculateRelevance(t.name, t.country, [t.region || '', t.reputation || '']);
+    return {
+      type: 'terroir' as const,
+      id: t.id,
+      name: t.name,
+      description: [t.country, t.region].filter(Boolean).join(', ') || undefined,
+      metadata: { country: t.country, region: t.region },
+      relevanceScore: relevance.score,
+      matchType: relevance.matchType,
+      matchedTerm: relevance.matchedTerm,
+    };
+  });
   const total = 
     transformedPrototypes.length +
     transformedMolecules.length +
@@ -1570,7 +1611,9 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     transformedTerpProfiles.length +
     transformedFinalRecipes.length +
     transformedCivilisations.length +
-    transformedGlossary.length;
+    transformedGlossary.length +
+    transformedRawMaterials.length +
+    transformedTerroirs.length;
 
   // Trier chaque catégorie par score de pertinence (décroissant)
   const sortByRelevance = (a: GlobalSearchResult, b: GlobalSearchResult) => 
@@ -1586,6 +1629,8 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
     finalRecipes: transformedFinalRecipes.sort(sortByRelevance),
     civilisations: transformedCivilisations.sort(sortByRelevance),
     glossary: transformedGlossary.sort(sortByRelevance),
+    rawMaterials: transformedRawMaterials.sort(sortByRelevance),
+    terroirs: transformedTerroirs.sort(sortByRelevance),
     total,
     // Métadonnées d'enrichissement de la recherche
     searchEnrichment: {
@@ -21185,7 +21230,9 @@ export async function getCompletudeRawMaterials(params: {
   category?: string;
 }) {
   const { limit = 50, offset = 0, sortBy = 'score_asc', minScore, maxScore, category } = params;
-  const db = await getDb();
+  const dbRaw = await getDb();
+  if (!dbRaw) return { items: [], total: 0, avgScore: 0, distribution: {} };
+  const db = dbRaw;
 
   const allMaterials = await db
     .select({
@@ -21275,8 +21322,9 @@ export async function getCompletudePlants(params: {
   maxScore?: number;
 }) {
   const { limit = 50, offset = 0, sortBy = 'score_asc', minScore, maxScore } = params;
-  const db = await getDb();
-
+  const dbRaw = await getDb();
+  if (!dbRaw) return { items: [], total: 0, avgScore: 0, distribution: {} };
+  const db = dbRaw;
   const allPlants = await db
     .select({
       id: plants.id,
@@ -21340,8 +21388,9 @@ export async function getCompletudeTerroirs(params: {
   maxScore?: number;
 }) {
   const { limit = 50, offset = 0, sortBy = 'score_asc', minScore, maxScore } = params;
-  const db = await getDb();
-
+  const dbRaw = await getDb();
+  if (!dbRaw) return { items: [], total: 0, avgScore: 0, distribution: {} };
+  const db = dbRaw;
   const allTerroirs = await db
     .select({
       id: terroirs.id,
@@ -21401,7 +21450,9 @@ export async function getCompletudeTerroirs(params: {
 }
 
 export async function getCompletudeGlobalStats() {
-  const db = await getDb();
+  const dbRaw = await getDb();
+  if (!dbRaw) return { rawMaterials: { total: 0, withPlant: 0, withTerroir: 0, withBoth: 0, withOlfFamily: 0, withOrigin: 0 }, plants: { total: 0, withLatin: 0, withDescription: 0, withImage: 0 }, terroirs: { total: 0, withDescription: 0, withCoords: 0 } };
+  const db = dbRaw;
 
   const [totalRawMaterials] = await db.select({ count: sql<number>`COUNT(*)` }).from(rawMaterials);
   const [totalPlants] = await db.select({ count: sql<number>`COUNT(*)` }).from(plants);
@@ -21456,7 +21507,9 @@ export async function getNetworkData(params: {
   includeRawMaterials?: boolean;
   includeMolecules?: boolean;
 }) {
-  const db = await getDb();
+  const dbRaw = await getDb();
+  if (!dbRaw) return { nodes: { recettes: [], rawMaterials: [], molecules: [] }, edges: { recetteRawMaterials: [], recetteMolecules: [], plantMolecules: [] }, stats: { totalRecettes: 0, totalRawMaterials: 0, totalMolecules: 0, totalEdges: 0 } };
+  const db = dbRaw;
   const limit = params.limit ?? 50;
 
   // Nœuds recettes (les plus récentes / importantes)
@@ -21464,7 +21517,7 @@ export async function getNetworkData(params: {
     ? await db.select({
         id: recettes.id,
         name: recettes.name,
-        family: recettes.family,
+        category: recettes.category,
       }).from(recettes).limit(limit)
     : [];
 
@@ -21532,6 +21585,107 @@ export async function getNetworkData(params: {
       totalRawMaterials: rawMaterialsData.length,
       totalMolecules: moleculesData.length,
       totalEdges: rmLinks.length + molLinks.length + plantMolLinks.length,
+    },
+  };
+}
+
+
+// ============================================================================
+// NAVIGATION FEATURED ITEMS — Données dynamiques pour le MegaMenu
+// ============================================================================
+
+/**
+ * Retourne les données dynamiques pour les featured items du MegaMenu :
+ * - Dernière recette modifiée (section Données)
+ * - Molécule la plus liée (section Données)
+ * - Matière première la plus récente (section Données)
+ * - Dernière plante ajoutée (section Données)
+ * - Terroir le plus récent (section Données)
+ * - Statistiques globales (pour les compteurs)
+ */
+export async function getMegaMenuFeaturedItems() {
+  const db = await getDb();
+  if (!db) {
+    return {
+      latestRecette: null,
+      mostLinkedMolecule: null,
+      latestRawMaterial: null,
+      latestPlant: null,
+      latestTerroir: null,
+      stats: { molecules: 0, recettes: 0, plants: 0, rawMaterials: 0, terroirs: 0 },
+    };
+  }
+
+  // Dernière recette modifiée
+  const [latestRecette] = await db
+    .select({ id: recettes.id, name: recettes.name, category: recettes.category, updatedAt: recettes.updatedAt })
+    .from(recettes)
+    .orderBy(desc(recettes.updatedAt))
+    .limit(1);
+
+  // Molécule la plus liée (dans molecules_recettes)
+  const topMoleculeLinks = await db
+    .select({
+      moleculeId: moleculesRecettes.moleculeId,
+      linkCount: sql<number>`COUNT(*) AS link_count`,
+    })
+    .from(moleculesRecettes)
+    .groupBy(moleculesRecettes.moleculeId)
+    .orderBy(desc(sql`link_count`))
+    .limit(1);
+
+  let mostLinkedMolecule: { id: number; name: string; family: string | null; linkCount: number } | null = null;
+  if (topMoleculeLinks.length > 0) {
+    const [mol] = await db
+      .select({ id: molecules.id, name: molecules.name, family: molecules.family })
+      .from(molecules)
+      .where(eq(molecules.id, topMoleculeLinks[0].moleculeId))
+      .limit(1);
+    if (mol) {
+      mostLinkedMolecule = { ...mol, linkCount: topMoleculeLinks[0].linkCount };
+    }
+  }
+
+  // Matière première la plus récente
+  const [latestRawMaterial] = await db
+    .select({ id: rawMaterials.id, name: rawMaterials.name, category: rawMaterials.category, updatedAt: rawMaterials.updatedAt })
+    .from(rawMaterials)
+    .orderBy(desc(rawMaterials.updatedAt))
+    .limit(1);
+
+  // Dernière plante ajoutée
+  const [latestPlant] = await db
+    .select({ id: plants.id, name: plants.name, latinName: plants.latinName, createdAt: plants.createdAt })
+    .from(plants)
+    .orderBy(desc(plants.createdAt))
+    .limit(1);
+
+  // Terroir le plus récent
+  const [latestTerroir] = await db
+    .select({ id: terroirs.id, name: terroirs.name, country: terroirs.country, createdAt: terroirs.createdAt })
+    .from(terroirs)
+    .orderBy(desc(terroirs.createdAt))
+    .limit(1);
+
+  // Statistiques globales (compteurs)
+  const [molCount] = await db.select({ count: sql<number>`COUNT(*)` }).from(molecules);
+  const [recCount] = await db.select({ count: sql<number>`COUNT(*)` }).from(recettes);
+  const [plantCount] = await db.select({ count: sql<number>`COUNT(*)` }).from(plants);
+  const [rmCount] = await db.select({ count: sql<number>`COUNT(*)` }).from(rawMaterials);
+  const [terCount] = await db.select({ count: sql<number>`COUNT(*)` }).from(terroirs);
+
+  return {
+    latestRecette: latestRecette || null,
+    mostLinkedMolecule,
+    latestRawMaterial: latestRawMaterial || null,
+    latestPlant: latestPlant || null,
+    latestTerroir: latestTerroir || null,
+    stats: {
+      molecules: molCount?.count || 0,
+      recettes: recCount?.count || 0,
+      plants: plantCount?.count || 0,
+      rawMaterials: rmCount?.count || 0,
+      terroirs: terCount?.count || 0,
     },
   };
 }

@@ -469,7 +469,7 @@ export default function AdminCompletude() {
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium">Distribution des scores — {rmData.total} entrées · Score moyen : {rmData.avgScore}%</span>
                 </div>
-                <DistributionBar distribution={rmData.distribution} total={rmData.total} />
+                <DistributionBar distribution={rmData.distribution as { rouge: number; orange: number; vert: number }} total={rmData.total} />
               </Card>
             )}
             {activeTab === "plants" && plantsData && (
@@ -477,7 +477,7 @@ export default function AdminCompletude() {
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium">Distribution des scores — {plantsData.total} entrées · Score moyen : {plantsData.avgScore}%</span>
                 </div>
-                <DistributionBar distribution={plantsData.distribution} total={plantsData.total} />
+                <DistributionBar distribution={plantsData.distribution as { rouge: number; orange: number; vert: number }} total={plantsData.total} />
               </Card>
             )}
             {activeTab === "terroirs" && terroirsData && (
@@ -485,7 +485,7 @@ export default function AdminCompletude() {
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium">Distribution des scores — {terroirsData.total} entrées · Score moyen : {terroirsData.avgScore}%</span>
                 </div>
-                <DistributionBar distribution={terroirsData.distribution} total={terroirsData.total} />
+                <DistributionBar distribution={terroirsData.distribution as { rouge: number; orange: number; vert: number }} total={terroirsData.total} />
               </Card>
             )}
 
