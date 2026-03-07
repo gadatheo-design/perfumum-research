@@ -1,0 +1,60 @@
+{
+  "query": "SELECT pv.plant_id, p.name, p.category FROM plant_varieties pv LEFT JOIN plants p ON pv.plant_id = p.id GROUP BY pv.plant_id, p.name, p.category ORDER BY pv.plant_id LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT pv.plant_id, p.name, p.category FROM plant_varieties pv LEFT JOIN plants p ON pv.plant_id = p.id GROUP BY pv.plant_id, p.name, p.category ORDER BY pv.plant_id LIMIT 10;",
+  "rows": [
+    {
+      "plant_id": "1",
+      "name": "West Indian Bay / Bay rum tree",
+      "category": "aromatique"
+    },
+    {
+      "plant_id": "7",
+      "name": "Virginia (flue-cured)",
+      "category": "tabac"
+    },
+    {
+      "plant_id": "10",
+      "name": "Profil VENT / clair",
+      "category": "cannabis"
+    },
+    {
+      "plant_id": "210029",
+      "name": "Tabac criollo fantôme #2",
+      "category": "tabac"
+    },
+    {
+      "plant_id": "210030",
+      "name": "Cannabis feuille sèche #3",
+      "category": "cannabis"
+    },
+    {
+      "plant_id": "330001",
+      "name": "Cannabis",
+      "category": "cannabis"
+    },
+    {
+      "plant_id": "330002",
+      "name": "Tabac cultivé",
+      "category": "tabac"
+    },
+    {
+      "plant_id": "330003",
+      "name": "Nicotiana benthamiana",
+      "category": "tabac"
+    },
+    {
+      "plant_id": "330004",
+      "name": "Wild tobacco",
+      "category": "tabac"
+    },
+    {
+      "plant_id": "660907",
+      "name": "Lavandin",
+      "category": "autre"
+    }
+  ],
+  "messages": [],
+  "stdout": "plant_id\tname\tcategory\n1\tWest Indian Bay / Bay rum tree\taromatique\n7\tVirginia (flue-cured)\ttabac\n10\tProfil VENT / clair\tcannabis\n210029\tTabac criollo fantôme #2\ttabac\n210030\tCannabis feuille sèche #3\tcannabis\n330001\tCannabis\tcannabis\n330002\tTabac cultivé\ttabac\n330003\tNicotiana benthamiana\ttabac\n330004\tWild tobacco\ttabac\n660907\tLavandin\tautre\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

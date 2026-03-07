@@ -24,8 +24,6 @@ interface GraphNode {
   dominantMolecules: string | null;
   molecularProfile: string | null;
   olfactiveNotes: string | null;
-  thcContent: string | null;
-  cbdContent: string | null;
   // D3 simulation properties
   x?: number;
   y?: number;
@@ -467,22 +465,7 @@ export default function GenealogyGraph() {
                       <p>{selectedNode.olfactiveNotes}</p>
                     </div>
                   )}
-                  {(selectedNode.thcContent || selectedNode.cbdContent) && (
-                    <div className="flex gap-4">
-                      {selectedNode.thcContent && (
-                        <div>
-                          <p className="text-xs text-muted-foreground">THC</p>
-                          <p className="font-mono">{selectedNode.thcContent}</p>
-                        </div>
-                      )}
-                      {selectedNode.cbdContent && (
-                        <div>
-                          <p className="text-xs text-muted-foreground">CBD</p>
-                          <p className="font-mono">{selectedNode.cbdContent}</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
+
                   <Link href={`/varietes/${selectedNode.id}`}>
                     <Button variant="outline" size="sm" className="w-full mt-2">
                       Voir la fiche complète

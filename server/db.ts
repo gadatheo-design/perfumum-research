@@ -18532,49 +18532,38 @@ export async function getGenealogyGraphData(filters?: {
   if (!db) return { nodes: [], links: [], stats: null };
   
   try {
-    // Get all varieties
-    let varietiesQuery = db.select({
+    // Build the base query with join to get plant info
+    const baseQuery = db.select({
       id: plantVarieties.id,
       name: plantVarieties.name,
       plantId: plantVarieties.plantId,
       varietyType: plantVarieties.varietyType,
-      isLandrace: sql<boolean>`(${plantVarieties.varietyType} = 'landrace')`,
       countryOfOrigin: plantVarieties.countryOfOrigin,
       dominantMolecules: plantVarieties.dominantMolecules,
       molecularProfile: plantVarieties.molecularProfile,
       olfactiveNotes: plantVarieties.olfactiveNotes,
-      thcContent: (plantVarieties as any).thcContent,
-      cbdContent: (plantVarieties as any).cbdContent,
-    }).from(plantVarieties);
-    
-    const allVarieties = await varietiesQuery;
+      plantName: plants.name,
+      plantCategory: plants.category,
+    })
+    .from(plantVarieties)
+    .leftJoin(plants, eq(plantVarieties.plantId, plants.id));
+
+    let allVarietiesRaw = await baseQuery;
     
     // Get all genealogy relationships
     const allRelationships = await db.select().from(varietyGenealogy);
     
-    // Get plant info for categorization
-    const allPlants = await db.select({
-      id: plants.id,
-      name: plants.name,
-      category: plants.category,
-    }).from(plants);
-    
-    const plantMap = new Map(allPlants.map(p => [p.id, p]));
-    
     // Filter varieties based on plant type
-    let filteredVarieties = allVarieties;
+    let filteredVarieties = allVarietiesRaw;
     if (filters?.plantType && filters.plantType !== 'all') {
-      filteredVarieties = allVarieties.filter(v => {
-        const plant = plantMap.get(v.plantId);
-        if (!plant) return false;
+      filteredVarieties = allVarietiesRaw.filter(v => {
+        const plantName = (v.plantName || '').toLowerCase();
+        const plantCategory = (v.plantCategory || '').toLowerCase();
         if (filters.plantType === 'cannabis') {
-          return plant.name.toLowerCase().includes('cannabis') || 
-                 plant.category === 'cannabis';
+          return plantName.includes('cannabis') || plantCategory === 'cannabis';
         }
         if (filters.plantType === 'tobacco') {
-          return plant.name.toLowerCase().includes('tabac') || 
-                 plant.name.toLowerCase().includes('tobacco') ||
-                 plant.category === 'tabac';
+          return plantName.includes('tabac') || plantName.includes('tobacco') || plantCategory === 'tabac';
         }
         return true;
       });
@@ -18591,23 +18580,18 @@ export async function getGenealogyGraphData(filters?: {
     const varietyIds = new Set(filteredVarieties.map(v => v.id));
     
     // Build nodes
-    const nodes = filteredVarieties.map(v => {
-      const plant = plantMap.get(v.plantId);
-      return {
-        id: v.id,
-        name: v.name,
-        type: v.varietyType === 'landrace' ? 'landrace' : 'modern',
-        varietyType: v.varietyType,
-        plantName: plant?.name || 'Unknown',
-        plantCategory: plant?.category || 'unknown',
-        country: v.countryOfOrigin,
-        dominantMolecules: v.dominantMolecules,
-        molecularProfile: v.molecularProfile,
-        olfactiveNotes: v.olfactiveNotes,
-        thcContent: v.thcContent,
-        cbdContent: v.cbdContent,
-      };
-    });
+    const nodes = filteredVarieties.map(v => ({
+      id: v.id,
+      name: v.name,
+      type: v.varietyType === 'landrace' ? 'landrace' : 'modern',
+      varietyType: v.varietyType,
+      plantName: v.plantName || 'Unknown',
+      plantCategory: v.plantCategory || 'unknown',
+      country: v.countryOfOrigin,
+      dominantMolecules: v.dominantMolecules,
+      molecularProfile: v.molecularProfile,
+      olfactiveNotes: v.olfactiveNotes,
+    }));
     
     // Build links (only include links where both nodes exist in filtered set)
     const links = allRelationships

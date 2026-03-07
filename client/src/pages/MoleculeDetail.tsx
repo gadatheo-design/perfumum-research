@@ -1545,8 +1545,12 @@ export default function MoleculeDetail() {
                   iupacName: molecule.iupacName,
                   casNumber: molecule.casNumber,
                   chemicalFormula: molecule.chemicalFormula,
-                  olfactiveProfile: molecule.olfactiveProfile,
-                  botanicalSources: molecule.botanicalSources,
+                  olfactiveProfile: Array.isArray(molecule.olfactiveProfile)
+                    ? (molecule.olfactiveProfile as string[]).join('. ')
+                    : (molecule.olfactiveProfile as string | null | undefined),
+                  botanicalSources: Array.isArray(molecule.botanicalSources)
+                    ? (molecule.botanicalSources as string[]).join(', ')
+                    : (molecule.botanicalSources as string | null | undefined),
                 }}
                 currentChemicalClass={molecule.chemicalClass}
                 currentOlfactiveFamily={molecule.family}

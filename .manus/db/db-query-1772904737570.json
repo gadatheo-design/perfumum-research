@@ -1,0 +1,75 @@
+{
+  "query": "SELECT p.category, p.name, COUNT(pv.id) as variety_count FROM plant_varieties pv JOIN plants p ON pv.plant_id = p.id GROUP BY p.category, p.name ORDER BY variety_count DESC LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.category, p.name, COUNT(pv.id) as variety_count FROM plant_varieties pv JOIN plants p ON pv.plant_id = p.id GROUP BY p.category, p.name ORDER BY variety_count DESC LIMIT 15;",
+  "rows": [
+    {
+      "category": "cannabis",
+      "name": "Profil VENT / clair",
+      "variety_count": "42"
+    },
+    {
+      "category": "tabac",
+      "name": "Virginia (flue-cured)",
+      "variety_count": "18"
+    },
+    {
+      "category": "cannabis",
+      "name": "Cannabis feuille sèche #3",
+      "variety_count": "16"
+    },
+    {
+      "category": "cannabis",
+      "name": "Cannabis",
+      "variety_count": "10"
+    },
+    {
+      "category": "aromatique",
+      "name": "West Indian Bay / Bay rum tree",
+      "variety_count": "5"
+    },
+    {
+      "category": "tabac",
+      "name": "Tabac criollo fantôme #2",
+      "variety_count": "4"
+    },
+    {
+      "category": "autre",
+      "name": "Lavandin",
+      "variety_count": "3"
+    },
+    {
+      "category": "tabac",
+      "name": "Tabac cultivé",
+      "variety_count": "2"
+    },
+    {
+      "category": "tabac",
+      "name": "Wild tobacco",
+      "variety_count": "1"
+    },
+    {
+      "category": "fleur",
+      "name": "Rose blanche",
+      "variety_count": "1"
+    },
+    {
+      "category": "fleur",
+      "name": "Rose de Provins",
+      "variety_count": "1"
+    },
+    {
+      "category": "tabac",
+      "name": "Nicotiana benthamiana",
+      "variety_count": "1"
+    },
+    {
+      "category": "fleur",
+      "name": "Rose de Mai",
+      "variety_count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\tname\tvariety_count\ncannabis\tProfil VENT / clair\t42\ntabac\tVirginia (flue-cured)\t18\ncannabis\tCannabis feuille sèche #3\t16\ncannabis\tCannabis\t10\naromatique\tWest Indian Bay / Bay rum tree\t5\ntabac\tTabac criollo fantôme #2\t4\nautre\tLavandin\t3\ntabac\tTabac cultivé\t2\ntabac\tWild tobacco\t1\nfleur\tRose blanche\t1\nfleur\tRose de Provins\t1\ntabac\tNicotiana benthamiana\t1\nfleur\tRose de Mai\t1\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

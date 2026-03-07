@@ -1,0 +1,25 @@
+{
+  "query": "SELECT p.id, p.name, p.category FROM plants p WHERE p.id IN (1, 7, 10) LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT p.id, p.name, p.category FROM plants p WHERE p.id IN (1, 7, 10) LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "West Indian Bay / Bay rum tree",
+      "category": "aromatique"
+    },
+    {
+      "id": "7",
+      "name": "Virginia (flue-cured)",
+      "category": "tabac"
+    },
+    {
+      "id": "10",
+      "name": "Profil VENT / clair",
+      "category": "cannabis"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n1\tWest Indian Bay / Bay rum tree\taromatique\n7\tVirginia (flue-cured)\ttabac\n10\tProfil VENT / clair\tcannabis\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

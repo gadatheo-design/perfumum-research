@@ -1694,3 +1694,9 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Créer getCompletudeGlobalStats et getNetworkData dans db.ts
 - [x] Corriger les erreurs TypeScript (db null guards, rawMaterials.origin → originCountry, recettes.family → category)
 - [x] TypeScript : 0 erreur
+
+---
+## 🐛 BUGS — 7 MARS 2026 (session soir)
+
+- [x] Bug enrichissement IA molécules : "olfactiveProfile: expected string, received array" — corrigé dans MoleculeDetail.tsx (Array.isArray → join('.'))
+- [x] Bug page arbre généalogique : corrigé dans db.ts (retrait des champs thcContent/cbdContent inexistants dans le schéma Drizzle, remplacement du select manuel par leftJoin)

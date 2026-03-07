@@ -1,0 +1,30 @@
+{
+  "query": "SELECT DISTINCT p.category, COUNT(*) as cnt FROM plant_varieties pv JOIN plants p ON pv.plant_id = p.id GROUP BY p.category ORDER BY cnt DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT DISTINCT p.category, COUNT(*) as cnt FROM plant_varieties pv JOIN plants p ON pv.plant_id = p.id GROUP BY p.category ORDER BY cnt DESC LIMIT 10;",
+  "rows": [
+    {
+      "category": "cannabis",
+      "cnt": "68"
+    },
+    {
+      "category": "tabac",
+      "cnt": "26"
+    },
+    {
+      "category": "aromatique",
+      "cnt": "5"
+    },
+    {
+      "category": "fleur",
+      "cnt": "3"
+    },
+    {
+      "category": "autre",
+      "cnt": "3"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\tcnt\ncannabis\t68\ntabac\t26\naromatique\t5\nfleur\t3\nautre\t3\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}
