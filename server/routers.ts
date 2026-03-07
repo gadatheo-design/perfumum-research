@@ -6872,6 +6872,14 @@ export const appRouter = router({
         return await db.updateVarietyRelationship(id, data as any);
       }),
     
+    removeRelationship: protectedProcedure
+      .input(z.object({
+        id: z.number().int().min(1),
+      }))
+      .mutation(async ({ input }) => {
+        return await db.removeVarietyRelationship(input.id);
+      }),
+    
     // Données du graphe généalogique pour D3.js
     getGraphData: publicProcedure
       .input(z.object({

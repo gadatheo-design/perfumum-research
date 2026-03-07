@@ -24,12 +24,35 @@ import {
   Sparkles,
   Clock,
   Package,
-  GitBranch
+  GitBranch,
+  Plus,
+  Trash2,
+  ChevronDown
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { VarietyGenealogyTree } from "@/components/VarietyGenealogyTree";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/_core/hooks/useAuth";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Chart as ChartJS,
@@ -95,12 +118,65 @@ const availabilityLabels: Record<string, string> = {
 export default function VarietyDetail() {
   const params = useParams<{ id: string }>();
   const varietyId = parseInt(params.id || "0", 10);
+  const { toast } = useToast();
+  const { user } = useAuth();
+
+  // Genealogy state
+  const [addGenealogyOpen, setAddGenealogyOpen] = useState(false);
+  const [genealogyForm, setGenealogyForm] = useState({
+    parentVarietyId: "",
+    relationshipType: "parent" as "parent" | "hybrid" | "clone" | "mutation",
+    crossDate: "",
+    breeder: "",
+    notes: "",
+  });
+  const [varietySearch, setVarietySearch] = useState("");
 
   // Fetch variety with molecules
   const { data: varietyData, isLoading } = trpc.plantVarieties.getWithMolecules.useQuery(
     { varietyId },
     { enabled: varietyId > 0 }
   );
+
+  // Genealogy queries & mutations
+  const { data: genealogyData, refetch: refetchGenealogy } = trpc.genealogy.getTreeWithNames.useQuery(
+    { varietyId },
+    { enabled: varietyId > 0 }
+  );
+  const { data: allVarieties } = trpc.plantVarieties.getAll.useQuery(
+    { page: 1, limit: 500 },
+    { enabled: addGenealogyOpen }
+  );
+  const addRelationshipMutation = trpc.genealogy.addRelationship.useMutation({
+    onSuccess: () => {
+      toast({ title: "Liaison ajoutée", description: "La relation généalogique a été enregistrée." });
+      setAddGenealogyOpen(false);
+      setGenealogyForm({ parentVarietyId: "", relationshipType: "parent", crossDate: "", breeder: "", notes: "" });
+      refetchGenealogy();
+    },
+    onError: (err) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
+  });
+  const removeRelationshipMutation = trpc.genealogy.removeRelationship.useMutation({
+    onSuccess: () => {
+      toast({ title: "Liaison supprimée" });
+      refetchGenealogy();
+    },
+    onError: (err) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
+  });
+
+  const filteredVarieties = (allVarieties?.items ?? []).filter((v: any) =>
+    v.id !== varietyId &&
+    (varietySearch === "" ||
+      v.name?.toLowerCase().includes(varietySearch.toLowerCase()) ||
+      v.latinName?.toLowerCase().includes(varietySearch.toLowerCase()))
+  );
+
+  const relationshipTypeLabels: Record<string, string> = {
+    parent: "Parent direct",
+    hybrid: "Hybride",
+    clone: "Clone",
+    mutation: "Mutation",
+  };
 
   // Process molecular profile for radar chart
   const radarData = useMemo(() => {
@@ -700,6 +776,7 @@ export default function VarietyDetail() {
 
               {/* Genealogy Tab */}
               <TabsContent value="genealogy" className="space-y-4">
+                {/* Visualisation D3 */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2">
@@ -708,7 +785,6 @@ export default function VarietyDetail() {
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">
                       Relations de parenté et d'hybridation de cette variété.
-                      Cliquez sur un nœud pour accéder à la fiche de la variété.
                     </p>
                   </CardHeader>
                   <CardContent>
@@ -717,6 +793,216 @@ export default function VarietyDetail() {
                       varietyName={variety.name}
                       latinName={variety.latinName}
                     />
+                  </CardContent>
+                </Card>
+
+                {/* Panel de saisie des liaisons */}
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <div>
+                      <CardTitle className="text-base flex items-center gap-2">
+                        <GitBranch className="h-4 w-4 text-muted-foreground" />
+                        Liaisons généalogiques
+                      </CardTitle>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Parents ({(genealogyData?.parents ?? []).length}) &bull; Descendants ({(genealogyData?.children ?? []).length})
+                      </p>
+                    </div>
+                    {user?.role === 'admin' && (
+                      <Dialog open={addGenealogyOpen} onOpenChange={setAddGenealogyOpen}>
+                        <DialogTrigger asChild>
+                          <Button size="sm" className="gap-1.5">
+                            <Plus className="h-3.5 w-3.5" />
+                            Ajouter
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>Ajouter une liaison généalogique</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4 pt-2">
+                            <div className="space-y-1.5">
+                              <Label>Variété parente *</Label>
+                              <Input
+                                placeholder="Rechercher une variété..."
+                                value={varietySearch}
+                                onChange={(e) => setVarietySearch(e.target.value)}
+                                className="mb-2"
+                              />
+                              <Select
+                                value={genealogyForm.parentVarietyId}
+                                onValueChange={(v) => setGenealogyForm(f => ({ ...f, parentVarietyId: v }))}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Sélectionner la variété parente" />
+                                </SelectTrigger>
+                                <SelectContent className="max-h-60">
+                                  {filteredVarieties.slice(0, 50).map((v: any) => (
+                                    <SelectItem key={v.id} value={String(v.id)}>
+                                      {v.name}{v.latinName ? ` — ${v.latinName}` : ""}
+                                    </SelectItem>
+                                  ))}
+                                  {filteredVarieties.length === 0 && (
+                                    <div className="px-3 py-2 text-sm text-muted-foreground">Aucune variété trouvée</div>
+                                  )}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="space-y-1.5">
+                              <Label>Type de relation</Label>
+                              <Select
+                                value={genealogyForm.relationshipType}
+                                onValueChange={(v) => setGenealogyForm(f => ({ ...f, relationshipType: v as any }))}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="parent">Parent direct</SelectItem>
+                                  <SelectItem value="hybrid">Hybride</SelectItem>
+                                  <SelectItem value="clone">Clone</SelectItem>
+                                  <SelectItem value="mutation">Mutation</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className="space-y-1.5">
+                                <Label>Année de croisement</Label>
+                                <Input
+                                  type="number"
+                                  placeholder="ex: 1998"
+                                  value={genealogyForm.crossDate}
+                                  onChange={(e) => setGenealogyForm(f => ({ ...f, crossDate: e.target.value }))}
+                                />
+                              </div>
+                              <div className="space-y-1.5">
+                                <Label>Obtenteur</Label>
+                                <Input
+                                  placeholder="ex: Sensi Seeds"
+                                  value={genealogyForm.breeder}
+                                  onChange={(e) => setGenealogyForm(f => ({ ...f, breeder: e.target.value }))}
+                                />
+                              </div>
+                            </div>
+                            <div className="space-y-1.5">
+                              <Label>Notes</Label>
+                              <Textarea
+                                placeholder="Informations complémentaires..."
+                                value={genealogyForm.notes}
+                                onChange={(e) => setGenealogyForm(f => ({ ...f, notes: e.target.value }))}
+                                rows={2}
+                              />
+                            </div>
+                            <div className="flex justify-end gap-2 pt-2">
+                              <Button variant="outline" onClick={() => setAddGenealogyOpen(false)}>Annuler</Button>
+                              <Button
+                                disabled={!genealogyForm.parentVarietyId || addRelationshipMutation.isPending}
+                                onClick={() => addRelationshipMutation.mutate({
+                                  varietyId: variety.id,
+                                  parentVarietyId: parseInt(genealogyForm.parentVarietyId),
+                                  relationshipType: genealogyForm.relationshipType,
+                                  crossDate: genealogyForm.crossDate ? parseInt(genealogyForm.crossDate) : undefined,
+                                  breeder: genealogyForm.breeder || undefined,
+                                  notes: genealogyForm.notes || undefined,
+                                })}
+                              >
+                                {addRelationshipMutation.isPending ? "Enregistrement..." : "Enregistrer"}
+                              </Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    )}
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {/* Parents */}
+                    {(genealogyData?.parents ?? []).length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Parents</h4>
+                        <div className="space-y-2">
+                          {(genealogyData!.parents as any[]).map((rel: any) => (
+                            <div key={rel.id} className="flex items-center justify-between p-3 rounded-lg border bg-muted/30">
+                              <div className="flex items-center gap-3">
+                                <div className="p-1.5 rounded-md bg-violet-500/10">
+                                  <GitBranch className="h-3.5 w-3.5 text-violet-500" />
+                                </div>
+                                <div>
+                                  <Link href={`/varietes/${rel.parent_variety_id}`} className="font-medium text-sm hover:underline">
+                                    {rel.parent_name || `Variété #${rel.parent_variety_id}`}
+                                  </Link>
+                                  <div className="flex items-center gap-2 mt-0.5">
+                                    <Badge variant="outline" className="text-xs">
+                                      {relationshipTypeLabels[rel.relationship_type] || rel.relationship_type}
+                                    </Badge>
+                                    {rel.cross_date && <span className="text-xs text-muted-foreground">{rel.cross_date}</span>}
+                                    {rel.breeder && <span className="text-xs text-muted-foreground">par {rel.breeder}</span>}
+                                  </div>
+                                </div>
+                              </div>
+                              {user?.role === 'admin' && (
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                                  onClick={() => removeRelationshipMutation.mutate({ id: rel.id })}
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </Button>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Descendants */}
+                    {(genealogyData?.children ?? []).length > 0 && (
+                      <div>
+                        <h4 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Descendants</h4>
+                        <div className="space-y-2">
+                          {(genealogyData!.children as any[]).map((rel: any) => (
+                            <div key={rel.id} className="flex items-center justify-between p-3 rounded-lg border bg-muted/30">
+                              <div className="flex items-center gap-3">
+                                <div className="p-1.5 rounded-md bg-emerald-500/10">
+                                  <GitBranch className="h-3.5 w-3.5 text-emerald-500" />
+                                </div>
+                                <div>
+                                  <Link href={`/varietes/${rel.variety_id}`} className="font-medium text-sm hover:underline">
+                                    {rel.child_name || `Variété #${rel.variety_id}`}
+                                  </Link>
+                                  <div className="flex items-center gap-2 mt-0.5">
+                                    <Badge variant="outline" className="text-xs">
+                                      {relationshipTypeLabels[rel.relationship_type] || rel.relationship_type}
+                                    </Badge>
+                                    {rel.cross_date && <span className="text-xs text-muted-foreground">{rel.cross_date}</span>}
+                                  </div>
+                                </div>
+                              </div>
+                              {user?.role === 'admin' && (
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                                  onClick={() => removeRelationshipMutation.mutate({ id: rel.id })}
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </Button>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {(genealogyData?.parents ?? []).length === 0 && (genealogyData?.children ?? []).length === 0 && (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <GitBranch className="h-8 w-8 mx-auto mb-2 opacity-30" />
+                        <p className="text-sm">Aucune liaison généalogique enregistrée.</p>
+                        {user?.role === 'admin' && (
+                          <p className="text-xs mt-1">Cliquez sur "Ajouter" pour créer la première liaison.</p>
+                        )}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>

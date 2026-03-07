@@ -1717,3 +1717,12 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Bug arbre généalogique : corrigé dans GenealogyGraph.tsx — types GraphNode mis à jour (dominantMolecules: DominantMolecule[] | string | null, olfactiveNotes: OlfactiveNotes | string | null), rendu conditionnel Array.isArray pour afficher les molécules dominantes et notes olfactives structurées
 - [x] Bug enrichissement IA molécules : corrigé dans AIClassificationSuggestion.tsx — helper toProfileString() défensif qui convertit array/string/null en string avant envoi à la procédure tRPC
 - [x] Correction généralisée olfactiveProfile : helper normalizeOlfactiveProfile() ajouté dans utils.ts, appliqué dans MoleculeLink, MoleculeListItem, MoleculeOfTheDay, DominantMoleculeBadge
+
+---
+## 🌿 FEATURE — Liaisons généalogiques + Réseau + Migration olfactiveProfile
+
+- [x] Interface saisie liaisons généalogiques parent/enfant dans VarietyDetail (onglet Généalogie enrichi avec dialog d'ajout parent/enfant + liste des liaisons existantes avec suppression)
+- [x] Procédures tRPC : genealogy.addRelationship, removeRelationship, getTreeWithNames (en place) + fonction db removeVarietyRelationship ajoutée
+- [x] Page /reseau-liaisons : fonctionnelle avec ReactFlow, recettes + matières premières + molécules, filtres dynamiques, nœuds colorés par type
+- [x] Audit olfactiveProfile : 1021/1045 molécules déjà en JSON array, 24 NULL — base propre, aucune migration nécessaire
+- [x] Script de migration scripts/migrate-olfactive-profile.mjs créé pour usage futur

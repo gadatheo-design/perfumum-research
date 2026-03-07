@@ -7619,6 +7619,13 @@ export async function updateVarietyRelationship(id: number, data: Partial<Insert
   return relationship;
 }
 
+export async function removeVarietyRelationship(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  await db.delete(varietyGenealogy).where(eq(varietyGenealogy.id, id));
+  return { success: true, id };
+}
+
 // ============================================================================
 // PLANTS CONSERVATION HELPERS
 // ============================================================================

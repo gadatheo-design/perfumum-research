@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN olfactiveProfile IS NULL THEN 1 ELSE 0 END) as null_count,\n  SUM(CASE WHEN olfactiveProfile LIKE '[%' THEN 1 ELSE 0 END) as json_array_count,\n  SUM(CASE WHEN olfactiveProfile IS NOT NULL AND olfactiveProfile NOT LIKE '[%' THEN 1 ELSE 0 END) as plain_string_count\nFROM molecules;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN olfactiveProfile IS NULL THEN 1 ELSE 0 END) as null_count,\n  SUM(CASE WHEN olfactiveProfile LIKE '[%' THEN 1 ELSE 0 END) as json_array_count,\n  SUM(CASE WHEN olfactiveProfile IS NOT NULL AND olfactiveProfile NOT LIKE '[%' THEN 1 ELSE 0 END) as plain_string_count\nFROM molecules;",
+  "rows": [
+    {
+      "total": "1045",
+      "null_count": "24",
+      "json_array_count": "1021",
+      "plain_string_count": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tnull_count\tjson_array_count\tplain_string_count\n1045\t24\t1021\t0\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}
