@@ -6,6 +6,7 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { SmartSearch } from "@/components/SmartSearch";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
 import {
@@ -246,9 +247,17 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 transition-all duration-300 shadow-sm">
       <div className="container flex h-14 lg:h-[72px] items-center justify-between px-4 lg:px-6">
         {/* Logo */}
-        <Link href="/" className="flex flex-col transition-opacity hover:opacity-80">
-          <span className="text-xl lg:text-2xl font-bold tracking-tight">PERFUMUM</span>
-          <span className="hidden md:block text-[10px] text-muted-foreground/70 tracking-wide font-light -mt-1">Recherche olfactive expérimentale</span>
+        <Link href="/" className="flex flex-col group">
+          <motion.span
+            className="text-xl lg:text-2xl font-bold tracking-tight"
+            whileHover={{ letterSpacing: "0.06em" }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            PERFUMUM
+          </motion.span>
+          <span className="hidden md:block text-[10px] text-muted-foreground/70 tracking-wide font-light -mt-1 transition-opacity group-hover:opacity-100 opacity-70">
+            Recherche olfactive expérimentale
+          </span>
         </Link>
 
         {/* Desktop Navigation - Mega Menu Optimized */}

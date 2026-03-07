@@ -36,12 +36,14 @@ import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfi
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LinkedMolecules, LinkedTerroirs, SimilarContent } from "@/components/SeeAlso";
+import { SeeAlsoSection } from "@/components/SeeAlsoSection";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import { GenealogyTree } from "@/components/GenealogyTree";
 import { SeasonalVariations } from "@/components/SeasonalVariations";
 import { PlantContributionModal, PlantContributionsBanner } from "@/components/PlantContributionModal";
 import { DominantMoleculeBadgeList } from "@/components/DominantMoleculeBadge";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { EntityConnectionBar } from "@/components/EntityConnectionBar";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -1237,6 +1239,52 @@ export default function PlantDetail() {
           getSubtitle={(p) => p.latinName || p.family || undefined}
         />
       </div>
+
+      {/* Section Voir aussi — Navigation contextuelle enrichie */}
+      <SeeAlsoSection
+        title="Explorer les connexions de cette plante"
+        groups={[
+          {
+            label: "Molécules identifiées",
+            type: "molecule",
+            items: (plantMolecules || []).slice(0, 10).map((pm: any) => ({
+              id: pm.moleculeId,
+              label: pm.molecule?.name || `Molécule #${pm.moleculeId}`,
+              sublabel: pm.molecule?.family || pm.molecule?.chemicalClass || undefined,
+              href: `/molecules/${pm.moleculeId}`,
+              type: "molecule" as const,
+            })),
+            viewAllHref: "/molecules",
+            viewAllLabel: "Toutes les molécules",
+          },
+          {
+            label: "Terroirs d'origine",
+            type: "terroir",
+            items: (linkedTerroirs || []).map((t: any) => ({
+              id: t.id,
+              label: t.name,
+              sublabel: t.region || t.country || undefined,
+              href: `/terroirs/${t.id}`,
+              type: "terroir" as const,
+            })),
+            viewAllHref: "/plantes?tab=terroirs",
+            viewAllLabel: "Tous les terroirs",
+          },
+          {
+            label: "Variétés & cultivars",
+            type: "variety",
+            items: (varieties || []).map((v: any) => ({
+              id: v.id,
+              label: v.name,
+              sublabel: v.type || undefined,
+              href: `/varieties/${v.id}`,
+              type: "variety" as const,
+            })),
+            viewAllHref: "/plantes?tab=varietes",
+            viewAllLabel: "Toutes les variétés",
+          },
+        ]}
+      />
     </div>
   );
 }
@@ -1549,6 +1597,7 @@ function NomenclatureTab({ plant }: { plant: any }) {
           </CardContent>
         </Card>
       )}
+
     </div>
   );
 }

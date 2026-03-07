@@ -19,6 +19,7 @@ import {
 import { TruncatableTitle, TruncatableDescription } from "@/components/TruncatableText";
 import { TerroirContributionModal } from "@/components/TerroirContributionModal";
 import { PlusCircle } from "lucide-react";
+import { EntityConnectionBar } from "@/components/EntityConnectionBar";
 
 export default function TerroirDetail() {
   const { id } = useParams<{ id: string }>();
@@ -33,9 +34,31 @@ export default function TerroirDetail() {
     terroirId,
     { enabled: terroirId > 0 }
   );
+
+  // Matières premières liées via les plantes
+  const { data: rawMaterialsByTerroir = [] } = trpc.crossLinks.getRawMaterialsByTerroir?.useQuery?.(
+    terroirId,
+    { enabled: terroirId > 0 }
+  ) ?? { data: [] };
   
   // Terroirs similaires - désactivé pour l'instant
   const similarTerroirs: any[] = [];
+
+  // Connexions inter-entités pour EntityConnectionBar
+  const connections = [
+    ...(plants as any[]).map((p: any) => ({
+      id: p.id,
+      name: p.name,
+      type: "plant" as const,
+      subtitle: p.latinName || p.family,
+    })),
+    ...(rawMaterialsByTerroir as any[]).map((rm: any) => ({
+      id: rm.id,
+      name: rm.name,
+      type: "rawMaterial" as const,
+      subtitle: rm.category,
+    })),
+  ];
 
   if (isLoading) {
     return (
@@ -370,6 +393,17 @@ export default function TerroirDetail() {
             </TabsContent>
           </Tabs>
         </section>
+
+        {/* Barre de connexions inter-entités */}
+        {connections.length > 0 && (
+          <div className="container pb-10">
+            <EntityConnectionBar
+              connections={connections}
+              title="Entités liées à ce terroir"
+              variant="chips"
+            />
+          </div>
+        )}
       </main>
       
       <Footer />

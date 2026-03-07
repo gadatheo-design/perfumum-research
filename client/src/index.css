@@ -2881,3 +2881,226 @@ img[loading="lazy"] {
     padding: 0;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NAVIGATION & INTERNAVIGABILITÉ — Améliorations graphiques
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Transitions de page fluides */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes page-slide-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.page-enter {
+  animation: page-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-slide-in {
+  animation: page-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Scroll reveal */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal-up {
+  animation: reveal-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reveal-up-delay-1 { animation-delay: 0.1s; }
+.reveal-up-delay-2 { animation-delay: 0.2s; }
+.reveal-up-delay-3 { animation-delay: 0.3s; }
+.reveal-up-delay-4 { animation-delay: 0.4s; }
+.reveal-up-delay-5 { animation-delay: 0.5s; }
+
+/* Connexion inter-entités — fil de liaison animé */
+@keyframes connection-pulse {
+  0%, 100% { opacity: 0.4; transform: scaleX(1); }
+  50%       { opacity: 0.9; transform: scaleX(1.02); }
+}
+
+.connection-line {
+  animation: connection-pulse 2.5s ease-in-out infinite;
+}
+
+/* EntityConnectionBar — carte de liaison */
+.entity-connection-card {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid oklch(var(--border));
+}
+
+.entity-connection-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 12px 32px -8px oklch(var(--primary) / 0.2);
+  border-color: oklch(var(--primary) / 0.4);
+}
+
+/* Breadcrumb amélioré */
+.breadcrumb-item {
+  transition: color 0.15s ease;
+  position: relative;
+}
+
+.breadcrumb-item::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: oklch(var(--primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.breadcrumb-item:hover::after {
+  transform: scaleX(1);
+}
+
+/* Liens contextuels — style "fil narratif" */
+.narrative-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+.narrative-link:hover {
+  background: oklch(var(--primary) / 0.08);
+  border-color: oklch(var(--primary) / 0.25);
+  transform: translateX(2px);
+}
+
+/* Cartes de liste — indicateur de connexion */
+.connection-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: connection-pulse 2s ease-in-out infinite;
+}
+
+.connection-indicator.connected {
+  background: oklch(0.7 0.15 142);
+}
+
+.connection-indicator.partial {
+  background: oklch(0.75 0.15 60);
+}
+
+.connection-indicator.isolated {
+  background: oklch(0.6 0.05 0);
+}
+
+/* Section "carte des connexions" — nœuds visuels */
+@keyframes node-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+
+.entity-node {
+  animation: node-float 4s ease-in-out infinite;
+}
+
+.entity-node:nth-child(2) { animation-delay: 0.5s; }
+.entity-node:nth-child(3) { animation-delay: 1s; }
+.entity-node:nth-child(4) { animation-delay: 1.5s; }
+.entity-node:nth-child(5) { animation-delay: 2s; }
+.entity-node:nth-child(6) { animation-delay: 2.5s; }
+
+/* Ligne de connexion SVG animée */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -20; }
+}
+
+.connection-svg-line {
+  stroke-dasharray: 6 4;
+  animation: dash-flow 1.2s linear infinite;
+}
+
+/* Navigation mobile — swipe indicator */
+.swipe-hint {
+  position: relative;
+  overflow: hidden;
+}
+
+.swipe-hint::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 32px;
+  background: linear-gradient(to right, transparent, oklch(var(--background) / 0.9));
+  pointer-events: none;
+}
+
+/* Focus ring amélioré pour l'accessibilité */
+:focus-visible {
+  outline: 2px solid oklch(var(--primary));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Transition globale des liens */
+a {
+  transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+/* Skeleton amélioré avec shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    oklch(var(--muted) / 0.5) 25%,
+    oklch(var(--muted) / 0.8) 50%,
+    oklch(var(--muted) / 0.5) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+/* Tooltip de navigation contextuelle */
+.nav-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: oklch(var(--popover));
+  border: 1px solid oklch(var(--border));
+  color: oklch(var(--popover-foreground));
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  transform: translateX(-50%) translateY(4px);
+  box-shadow: 0 4px 12px oklch(0 0 0 / 0.15);
+  z-index: 50;
+}
+
+.nav-tooltip-trigger:hover .nav-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

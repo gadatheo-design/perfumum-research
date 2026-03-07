@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Molecule3DViewer } from "@/components/Molecule3DViewer";
 import { LinkedRecettes, SimilarContent } from "@/components/SeeAlso";
+import { SeeAlsoSection } from "@/components/SeeAlsoSection";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import { AIClassificationSuggestion } from "@/components/AIClassificationSuggestion";
 import { MoleculeAnalyticalMethods } from "@/components/MoleculeAnalyticalMethods";
@@ -2218,6 +2219,41 @@ export default function MoleculeDetail() {
 
           </Tabs>
         </div>
+
+        {/* Section Voir aussi — Navigation contextuelle inter-entités */}
+        {(linkedRecettes?.length || similarMolecules?.length) ? (
+          <SeeAlsoSection
+            title="Connexions de cette molécule"
+            groups={[
+              {
+                label: "Recettes utilisant cette molécule",
+                type: "recette",
+                items: (linkedRecettes || []).map((r: any) => ({
+                  id: r.id,
+                  label: r.name,
+                  sublabel: r.family || r.category || undefined,
+                  href: `/recettes/${r.id}`,
+                  type: "recette" as const,
+                })),
+                viewAllHref: "/recettes",
+                viewAllLabel: "Toutes les recettes",
+              },
+              {
+                label: "Molécules similaires",
+                type: "molecule",
+                items: (similarMolecules || []).map((m: any) => ({
+                  id: m.id,
+                  label: m.name,
+                  sublabel: m.family || m.chemicalClass || undefined,
+                  href: `/molecules/${m.id}`,
+                  type: "molecule" as const,
+                })),
+                viewAllHref: "/molecules",
+                viewAllLabel: "Toutes les molécules",
+              },
+            ]}
+          />
+        ) : null}
       </div>
     </div>
   );

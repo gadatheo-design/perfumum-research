@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useMemo, useCallback, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ArrowRight } from "lucide-react";
+import { useLocation } from "wouter";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -69,29 +70,41 @@ interface MenuItemProps {
   badge?: string;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ label, href, icon, badge }) => (
-  <a
-    href={href}
-    className={cn(
-      "block px-4 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground",
-      "rounded-sm transition-colors duration-150 ease-in-out",
-      "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-      "whitespace-nowrap min-w-[180px]"
-    )}
-  >
-    <div className="flex items-center justify-between gap-2">
-      <div className="flex items-center gap-2">
-        {icon && <span className="text-xs">{icon}</span>}
-        <span>{label}</span>
-      </div>
-      {badge && (
-        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
-          {badge}
-        </span>
+const MenuItem: React.FC<MenuItemProps> = ({ label, href, icon, badge }) => {
+  const [location] = useLocation();
+  const isActive = location === href || (href !== '/' && location.startsWith(href));
+  return (
+    <a
+      href={href}
+      className={cn(
+        "group block px-4 py-2 text-sm rounded-sm transition-all duration-150 ease-in-out",
+        "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+        "whitespace-nowrap min-w-[180px] relative",
+        isActive
+          ? "bg-primary/10 text-primary font-semibold"
+          : "text-foreground hover:bg-accent hover:text-accent-foreground"
       )}
-    </div>
-  </a>
-);
+    >
+      {isActive && (
+        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 bg-primary rounded-r-full" />
+      )}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          {icon && <span className="text-xs">{icon}</span>}
+          <span>{label}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          {badge && (
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-primary text-primary-foreground">
+              {badge}
+            </span>
+          )}
+          <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-40 transition-opacity -translate-x-1 group-hover:translate-x-0 transition-transform duration-150" />
+        </div>
+      </div>
+    </a>
+  );
+};
 
 /**
  * Optimized MegaMenu Component with Virtualization

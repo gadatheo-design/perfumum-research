@@ -1726,3 +1726,54 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Page /reseau-liaisons : fonctionnelle avec ReactFlow, recettes + matières premières + molécules, filtres dynamiques, nœuds colorés par type
 - [x] Audit olfactiveProfile : 1021/1045 molécules déjà en JSON array, 24 NULL — base propre, aucune migration nécessaire
 - [x] Script de migration scripts/migrate-olfactive-profile.mjs créé pour usage futur
+
+---
+## 🧭 NAVIGATION & GRAPHISME — 7 MARS 2026 (session finale)
+- [ ] Audit complet des routes et liens inter-pages manquants
+- [ ] Document collaborateur : guide d'implémentation des données depuis le site
+- [ ] Navigation globale : breadcrumbs enrichis, liens contextuels, back buttons, relations entre entités
+- [ ] Graphisme : cohérence visuelle, micro-interactions, états vides, typographie, densité
+- [ ] Checkpoint final
+
+
+## SESSION — 7 MARS 2026 — Navigation & Graphisme
+
+### ✅ Phase 1 : Composant SeeAlsoSection réutilisable
+- [x] Créer SeeAlsoSection avec support des groupes par type d'entité
+- [x] Rétrocompatibilité avec l'ancienne interface (liste plate)
+- [x] Micro-interactions framer-motion (hover, animation d'entrée)
+- [x] Indicateurs visuels par type (molécule, plante, recette, terroir, matière première)
+
+### ✅ Phase 2 : Intégration SeeAlsoSection dans les pages de détail
+- [x] MoleculeDetail — plantes sources, recettes liées, molécules similaires
+- [x] RecetteDetail — matières premières, molécules, recettes similaires
+- [x] PlantDetail — molécules produites, terroirs, variétés
+- [x] MatierePremierePage — molécule source, plante, terroir, recettes
+- [x] VarietyDetail — molécules, plante parente, généalogie
+
+### ✅ Phase 3 : Amélioration graphique du DynamicBreadcrumb
+- [x] Animations framer-motion sur les segments (entrée/sortie)
+- [x] Barre de progression de lecture (scroll progress indicator)
+- [x] Indicateur actif renforcé sur le segment courant
+- [x] Soulignement au survol des liens intermédiaires
+
+### ✅ Phase 4 : Amélioration du MegaMenu
+- [x] Indicateur de page active (fond coloré + barre latérale)
+- [x] Flèche directionnelle au survol des items
+- [x] Badges redimensionnés pour meilleure lisibilité
+
+### ✅ Phase 5 : Amélioration MobileBottomNav
+- [x] Animations framer-motion (whileTap, spring)
+- [x] Indicateur actif — barre supérieure animée
+- [x] Icône active avec translation verticale subtile
+
+### ✅ Phase 6 : Amélioration Header
+- [x] Logo avec animation letterSpacing au survol
+- [x] Sous-titre avec transition d'opacité au hover
+
+### ✅ Phase 7 : Correction getDashboardStats
+- [x] Ajouter compteurs plants, terroirs, rawMaterials dans getDashboardStats
+
+### ✅ Phase 8 : Document collaborateurs
+- [x] Créer PERFUMUM_Guide_Implementations_Collaborateurs.md
+- [x] Convertir en PDF pour partage

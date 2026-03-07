@@ -13,6 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, ArrowLeft, Leaf, MapPin, FlaskConical, BookOpen, AlertTriangle, ExternalLink, Pencil, Check, Plus, Trash2, Link2 } from "lucide-react";
+import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
+import { SeeAlsoSection } from "@/components/SeeAlsoSection";
 
 // ── Labels ──────────────────────────────────────────────────────────────────
 const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
@@ -213,6 +215,9 @@ export default function MatierePremierePage() {
     <div className="min-h-screen bg-[#0d0d0f] text-zinc-100">
       {/* ── Header ── */}
       <div className="border-b border-zinc-800 bg-[#111113]">
+        <div className="max-w-5xl mx-auto px-4 pt-3 pb-1">
+          <DynamicBreadcrumb className="text-zinc-500" />
+        </div>
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
           <Link href="/matieres-premieres">
             <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-zinc-100 -ml-2">
@@ -818,6 +823,65 @@ export default function MatierePremierePage() {
           </div>
         </div>
       </div>
+
+      {/* Section Voir aussi — Navigation contextuelle inter-entités */}
+      <SeeAlsoSection
+        title="Connexions de cette matière première"
+        groups={[
+          {
+            label: "Molécules identifiées",
+            type: "molecule",
+            items: (material.molecules || []).map((mol: any) => ({
+              id: mol.id,
+              label: mol.name,
+              sublabel: mol.family || mol.chemicalClass || undefined,
+              href: `/molecules/${mol.id}`,
+              type: "molecule" as const,
+            })),
+            viewAllHref: "/molecules",
+            viewAllLabel: "Toutes les molécules",
+          },
+          {
+            label: "Recettes utilisant cette MP",
+            type: "recette",
+            items: (directRecettes || []).map((r: any) => ({
+              id: r.id,
+              label: r.name,
+              sublabel: r.family || r.category || undefined,
+              href: `/recettes/${r.id}`,
+              type: "recette" as const,
+            })),
+            viewAllHref: "/recettes",
+            viewAllLabel: "Toutes les recettes",
+          },
+          ...(material.plant ? [{
+            label: "Plante source",
+            type: "plant" as const,
+            items: [{
+              id: material.plant.id,
+              label: material.plant.name,
+              sublabel: material.plant.latinName || undefined,
+              href: `/plantes/${material.plant.id}`,
+              type: "plant" as const,
+            }],
+            viewAllHref: "/plantes",
+            viewAllLabel: "Toutes les plantes",
+          }] : []),
+          ...(material.terroir ? [{
+            label: "Terroir d'origine",
+            type: "terroir" as const,
+            items: [{
+              id: material.terroir.id,
+              label: material.terroir.name,
+              sublabel: material.terroir.country || undefined,
+              href: `/terroirs/${material.terroir.id}`,
+              type: "terroir" as const,
+            }],
+            viewAllHref: "/plantes?tab=terroirs",
+            viewAllLabel: "Tous les terroirs",
+          }] : []),
+        ]}
+      />
     </div>
   );
 }

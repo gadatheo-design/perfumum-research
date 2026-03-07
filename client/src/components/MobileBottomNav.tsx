@@ -2,6 +2,7 @@
 import { Link, useLocation } from "wouter";
 import { Home, Beaker, Search, FlaskConical, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface NavItem {
   icon: React.ReactNode;
@@ -71,7 +72,6 @@ export function MobileBottomNav() {
                 aria-label="Ouvrir la recherche"
               >
                 <div className="relative">
-                  <div className="absolute inset-0 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="relative p-2 rounded-full bg-primary/10 text-primary">
                     {item.icon}
                   </div>
@@ -85,32 +85,48 @@ export function MobileBottomNav() {
 
           return (
             <Link key={item.label} href={item.path}>
-              <div
+              <motion.div
+                whileTap={{ scale: 0.88 }}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-0.5 min-w-[64px] py-2 rounded-xl transition-all duration-200 cursor-pointer",
-                  "hover:bg-muted/50 active:scale-95",
+                  "flex flex-col items-center justify-center gap-0.5 min-w-[64px] py-2 rounded-xl transition-all duration-200 cursor-pointer relative",
+                  "hover:bg-muted/50",
                   isActive && "bg-primary/5"
                 )}
               >
-                <div
+                {/* Indicateur actif — point lumineux en haut */}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.span
+                      key="dot"
+                      initial={{ opacity: 0, scaleX: 0 }}
+                      animate={{ opacity: 1, scaleX: 1 }}
+                      exit={{ opacity: 0, scaleX: 0 }}
+                      className="absolute top-1 left-1/2 -translate-x-1/2 w-5 h-[3px] rounded-full bg-primary"
+                    />
+                  )}
+                </AnimatePresence>
+
+                <motion.div
+                  animate={isActive ? { y: -1 } : { y: 0 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   className={cn(
                     "p-1.5 rounded-lg transition-all duration-200",
-                    isActive 
-                      ? "text-primary bg-primary/10" 
+                    isActive
+                      ? "text-primary bg-primary/10"
                       : "text-muted-foreground"
                   )}
                 >
                   {item.icon}
-                </div>
+                </motion.div>
                 <span
                   className={cn(
                     "text-[10px] font-medium transition-colors",
-                    isActive ? "text-primary" : "text-muted-foreground"
+                    isActive ? "text-primary font-semibold" : "text-muted-foreground"
                   )}
                 >
                   {item.label}
                 </span>
-              </div>
+              </motion.div>
             </Link>
           );
         })}

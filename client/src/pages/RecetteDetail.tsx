@@ -22,6 +22,7 @@ import { RecipeOlfactiveProfile } from "@/components/RecipeRadarChart";
 import { RecetteDetailSkeleton } from "@/components/RecetteDetailSkeleton";
 import { RecommendationsCard } from "@/components/RecommendationsCard";
 import { LinkedMolecules, SimilarContent } from "@/components/SeeAlso";
+import { SeeAlsoSection } from "@/components/SeeAlsoSection";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import "reactflow/dist/style.css";
 import { useMemo, useEffect, useState } from "react";
@@ -1513,6 +1514,54 @@ export default function RecetteDetail() {
           </CardContent>
         </Card>
       )}
+
+      {/* Section Voir aussi — Navigation contextuelle inter-entités */}
+      {(rawMaterialsLinked?.length || similarRecettes?.length || molecules?.length) ? (
+        <SeeAlsoSection
+          title="Connexions de cette recette"
+          groups={[
+            {
+              label: "Matières premières utilisées",
+              type: "rawMaterial",
+              items: (rawMaterialsLinked || []).map((rm: any) => ({
+                id: rm.rawMaterialId,
+                label: rm.rawMaterial?.name || `MP #${rm.rawMaterialId}`,
+                sublabel: rm.role ? `Rôle : ${rm.role}` : (rm.rawMaterial?.category || undefined),
+                href: `/matieres-premieres/${rm.rawMaterialId}`,
+                type: "rawMaterial" as const,
+              })),
+              viewAllHref: "/matieres-premieres",
+              viewAllLabel: "Toutes les matières premières",
+            },
+            {
+              label: "Molécules de la formule",
+              type: "molecule",
+              items: (molecules || []).slice(0, 10).map((m: any) => ({
+                id: m.id,
+                label: m.name,
+                sublabel: m.family || m.chemicalClass || undefined,
+                href: `/molecules/${m.id}`,
+                type: "molecule" as const,
+              })),
+              viewAllHref: "/molecules",
+              viewAllLabel: "Toutes les molécules",
+            },
+            {
+              label: "Recettes similaires",
+              type: "recette",
+              items: (similarRecettes || []).map((r: any) => ({
+                id: r.id,
+                label: r.name,
+                sublabel: r.family || r.category || undefined,
+                href: `/recettes/${r.id}`,
+                type: "recette" as const,
+              })),
+              viewAllHref: "/recettes",
+              viewAllLabel: "Toutes les recettes",
+            },
+          ]}
+        />
+      ) : null}
     </div>
   );
 }

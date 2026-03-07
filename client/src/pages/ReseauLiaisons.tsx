@@ -11,6 +11,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Network, FlaskConical, Package, Leaf, Loader2, Info, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
 import ReactFlow, {
   Background,
   Controls,
@@ -198,11 +199,7 @@ export default function ReseauLiaisons() {
       <main className="flex-1 container py-6 max-w-[1600px]">
         {/* Header */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-            <Link href="/">Accueil</Link>
-            <span>/</span>
-            <span>Réseau de Liaisons</span>
-          </div>
+          <DynamicBreadcrumb className="mb-2" />
           <div className="flex items-start justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">

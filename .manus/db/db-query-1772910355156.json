@@ -1,0 +1,62 @@
+{
+  "query": "\nSELECT 'molecules' as entite, COUNT(*) as total FROM molecules\nUNION ALL SELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL SELECT 'plants', COUNT(*) FROM plants\nUNION ALL SELECT 'plant_varieties', COUNT(*) FROM plant_varieties\nUNION ALL SELECT 'terroirs', COUNT(*) FROM terroirs\nUNION ALL SELECT 'raw_materials', COUNT(*) FROM raw_materials\nUNION ALL SELECT 'accords', COUNT(*) FROM accords\nUNION ALL SELECT 'chemical_families', COUNT(*) FROM chemical_families\nUNION ALL SELECT 'bibliography_entries', COUNT(*) FROM bibliography_entries\nUNION ALL SELECT 'plant_molecules', COUNT(*) FROM plant_molecules\nUNION ALL SELECT 'plant_terroirs', COUNT(*) FROM plant_terroirs\nUNION ALL SELECT 'recette_raw_materials', COUNT(*) FROM recette_raw_materials\nUNION ALL SELECT 'variety_genealogy', COUNT(*) FROM variety_genealogy;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT 'molecules' as entite, COUNT(*) as total FROM molecules\nUNION ALL SELECT 'recettes', COUNT(*) FROM recettes\nUNION ALL SELECT 'plants', COUNT(*) FROM plants\nUNION ALL SELECT 'plant_varieties', COUNT(*) FROM plant_varieties\nUNION ALL SELECT 'terroirs', COUNT(*) FROM terroirs\nUNION ALL SELECT 'raw_materials', COUNT(*) FROM raw_materials\nUNION ALL SELECT 'accords', COUNT(*) FROM accords\nUNION ALL SELECT 'chemical_families', COUNT(*) FROM chemical_families\nUNION ALL SELECT 'bibliography_entries', COUNT(*) FROM bibliography_entries\nUNION ALL SELECT 'plant_molecules', COUNT(*) FROM plant_molecules\nUNION ALL SELECT 'plant_terroirs', COUNT(*) FROM plant_terroirs\nUNION ALL SELECT 'recette_raw_materials', COUNT(*) FROM recette_raw_materials\nUNION ALL SELECT 'variety_genealogy', COUNT(*) FROM variety_genealogy;\n",
+  "rows": [
+    {
+      "entite": "recettes",
+      "total": "310"
+    },
+    {
+      "entite": "plants",
+      "total": "450"
+    },
+    {
+      "entite": "plant_varieties",
+      "total": "105"
+    },
+    {
+      "entite": "terroirs",
+      "total": "93"
+    },
+    {
+      "entite": "molecules",
+      "total": "1045"
+    },
+    {
+      "entite": "raw_materials",
+      "total": "372"
+    },
+    {
+      "entite": "accords",
+      "total": "32"
+    },
+    {
+      "entite": "chemical_families",
+      "total": "32"
+    },
+    {
+      "entite": "bibliography_entries",
+      "total": "1179"
+    },
+    {
+      "entite": "recette_raw_materials",
+      "total": "0"
+    },
+    {
+      "entite": "plant_molecules",
+      "total": "1903"
+    },
+    {
+      "entite": "variety_genealogy",
+      "total": "86"
+    },
+    {
+      "entite": "plant_terroirs",
+      "total": "1378"
+    }
+  ],
+  "messages": [],
+  "stdout": "entite\ttotal\nrecettes\t310\nplants\t450\nplant_varieties\t105\nterroirs\t93\nmolecules\t1045\nraw_materials\t372\naccords\t32\nchemical_families\t32\nbibliography_entries\t1179\nrecette_raw_materials\t0\nplant_molecules\t1903\nvariety_genealogy\t86\nplant_terroirs\t1378\n",
+  "stderr": "",
+  "execution_time_ms": 79
+}

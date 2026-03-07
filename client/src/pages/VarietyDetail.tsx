@@ -32,6 +32,7 @@ import {
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { SeeAlsoSection } from "@/components/SeeAlsoSection";
 import { VarietyGenealogyTree } from "@/components/VarietyGenealogyTree";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -1151,6 +1152,65 @@ export default function VarietyDetail() {
           </div>
         </div>
       </main>
+
+      {/* Section Voir aussi — Navigation contextuelle inter-entités */}
+      {(molecules?.length || plant || genealogyData?.parents?.length || genealogyData?.children?.length) ? (
+        <div className="container pb-8">
+          <SeeAlsoSection
+            title="Connexions de cette variété"
+            groups={[
+              {
+                label: "Molécules identifiées",
+                type: "molecule",
+                items: (molecules || []).map((mol: any) => ({
+                  id: mol.molecule.id,
+                  label: mol.molecule.name,
+                  sublabel: mol.molecule.family || mol.molecule.chemicalClass || undefined,
+                  href: `/molecules/${mol.molecule.id}`,
+                  type: "molecule" as const,
+                })),
+                viewAllHref: "/molecules",
+                viewAllLabel: "Toutes les molécules",
+              },
+              ...(plant ? [{
+                label: "Plante parente",
+                type: "plant" as const,
+                items: [{
+                  id: plant.id,
+                  label: plant.name,
+                  sublabel: plant.latinName || undefined,
+                  href: `/plantes/${plant.id}`,
+                  type: "plant" as const,
+                }],
+                viewAllHref: "/plantes",
+                viewAllLabel: "Toutes les plantes",
+              }] : []),
+              {
+                label: "Variétés liées (généalogie)",
+                type: "variety",
+                items: [
+                  ...(genealogyData?.parents || []).map((p: any) => ({
+                    id: p.id,
+                    label: p.name,
+                    sublabel: "Parent",
+                    href: `/varieties/${p.id}`,
+                    type: "variety" as const,
+                  })),
+                  ...(genealogyData?.children || []).map((c: any) => ({
+                    id: c.id,
+                    label: c.name,
+                    sublabel: "Descendant",
+                    href: `/varieties/${c.id}`,
+                    type: "variety" as const,
+                  })),
+                ],
+                viewAllHref: "/plantes?tab=varietes",
+                viewAllLabel: "Toutes les variétés",
+              },
+            ]}
+          />
+        </div>
+      ) : null}
 
       <Footer />
     </div>

@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { EntityConnectionMap } from "@/components/EntityConnectionMap";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope, Network, Eye, Cigarette, Leaf, BookOpen, Cog } from "lucide-react";
@@ -738,6 +739,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Carte des connexions inter-entités */}
+        <EntityConnectionMap />
 
         {/* Statistics */}
         <section className="py-16 molecular-bg">

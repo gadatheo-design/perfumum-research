@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { Link, useLocation } from "wouter";
 import { ChevronRight, Home } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -359,6 +361,32 @@ function buildBreadcrumbChain(path: string): BreadcrumbSegment[] {
   return segments;
 }
 
+// ─── Scroll Progress Indicator ──────────────────────────────────────────────
+function ScrollProgressBar() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      setProgress(Math.min(100, Math.max(0, pct)));
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  if (progress <= 1) return null;
+  return (
+    <motion.div
+      className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-violet-500 via-emerald-400 to-amber-400 origin-left pointer-events-none"
+      style={{ width: `${progress}%` }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.15 }}
+    />
+  );
+}
+
 export function DynamicBreadcrumb({ segments, className = "" }: DynamicBreadcrumbProps) {
   const [location] = useLocation();
 
@@ -376,48 +404,70 @@ export function DynamicBreadcrumb({ segments, className = "" }: DynamicBreadcrum
   }
 
   return (
-    <nav className={`flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground overflow-x-auto scrollbar-hide ${className}`}>
+    <nav className={`relative flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground overflow-x-auto scrollbar-hide ${className}`}>
+      {/* Barre de progression de lecture */}
+      <ScrollProgressBar />
+
       {/* Home */}
-      <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1 flex-shrink-0">
-        <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-        <span className="hidden sm:inline">Accueil</span>
-      </Link>
+      <motion.div
+        initial={{ opacity: 0, x: -8 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="flex-shrink-0"
+      >
+        <Link href="/" className="hover:text-foreground transition-colors flex items-center gap-1">
+          <Home className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span className="hidden sm:inline">Accueil</span>
+        </Link>
+      </motion.div>
 
-      {breadcrumbSegments.map((segment, index) => {
-        const isLast = index === breadcrumbSegments.length - 1;
+      <AnimatePresence mode="popLayout">
+        {breadcrumbSegments.map((segment, index) => {
+          const isLast = index === breadcrumbSegments.length - 1;
 
-        return (
-          <div key={segment.path} className="flex items-center gap-2">
-            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-            
-            {segment.dropdown && segment.dropdown.length > 0 ? (
-              // Segment avec dropdown
-              <DropdownMenu>
-                <DropdownMenuTrigger className="hover:text-foreground transition-colors font-medium">
+          return (
+            <motion.div
+              key={`${location}-${segment.path}`}
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 6 }}
+              transition={{ duration: 0.25, delay: index * 0.05, ease: "easeOut" }}
+              className="flex items-center gap-1.5 sm:gap-2"
+            >
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 text-muted-foreground/50" />
+              
+              {segment.dropdown && segment.dropdown.length > 0 ? (
+                // Segment avec dropdown
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="hover:text-foreground transition-colors font-medium">
+                    {segment.label}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    {segment.dropdown.map((item) => (
+                      <DropdownMenuItem key={item.path} asChild>
+                        <Link href={item.path} className="w-full cursor-pointer">
+                          {item.label}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : isLast ? (
+                // Dernier segment (actuel, non cliquable) — accent visuel
+                <span className="font-semibold text-foreground">{segment.label}</span>
+              ) : (
+                // Segment intermédiaire cliquable
+                <Link
+                  href={segment.path}
+                  className="hover:text-foreground transition-colors font-medium hover:underline underline-offset-2"
+                >
                   {segment.label}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
-                  {segment.dropdown.map((item) => (
-                    <DropdownMenuItem key={item.path} asChild>
-                      <Link href={item.path} className="w-full cursor-pointer">
-                        {item.label}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : isLast ? (
-              // Dernier segment (actuel, non cliquable)
-              <span className="font-medium text-foreground">{segment.label}</span>
-            ) : (
-              // Segment intermédiaire cliquable
-              <Link href={segment.path} className="hover:text-foreground transition-colors font-medium">
-                {segment.label}
-              </Link>
-            )}
-          </div>
-        );
-      })}
+                </Link>
+              )}
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </nav>
   );
 }

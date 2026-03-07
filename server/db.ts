@@ -1971,13 +1971,16 @@ export async function getNetworkRelationships() {
 
 export async function getDashboardStats() {
   const db = await getDb();
-  if (!db) return { molecules: 0, recettes: 0, accords: 0, prototypes: 0, civilisations: 0 };
+  if (!db) return { molecules: 0, recettes: 0, accords: 0, prototypes: 0, civilisations: 0, plants: 0, terroirs: 0, rawMaterials: 0 };
   
   const [moleculesCount] = await db.select({ count: sql<number>`count(*)` }).from(molecules);
   const [recettesCount] = await db.select({ count: sql<number>`count(*)` }).from(recettes);
   const [accordsCount] = await db.select({ count: sql<number>`count(*)` }).from(accords);
   const [prototypesCount] = await db.select({ count: sql<number>`count(*)` }).from(prototypes);
   const [civilisationsCount] = await db.select({ count: sql<number>`count(*)` }).from(civilisations);
+  const [plantsCount] = await db.select({ count: sql<number>`count(*)` }).from(plants);
+  const [terroirsCount] = await db.select({ count: sql<number>`count(*)` }).from(terroirs);
+  const [rawMaterialsCount] = await db.select({ count: sql<number>`count(*)` }).from(rawMaterials);
   
   return {
     molecules: moleculesCount?.count || 0,
@@ -1985,6 +1988,9 @@ export async function getDashboardStats() {
     accords: accordsCount?.count || 0,
     prototypes: prototypesCount?.count || 0,
     civilisations: civilisationsCount?.count || 0,
+    plants: plantsCount?.count || 0,
+    terroirs: terroirsCount?.count || 0,
+    rawMaterials: rawMaterialsCount?.count || 0,
   };
 }
 
