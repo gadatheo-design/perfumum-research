@@ -1,0 +1,510 @@
+{
+  "query": "\nSELECT \n  rm.name,\n  rm.latin_name,\n  rm.olfactive_profile,\n  rm.origin_country,\n  rm.top_notes,\n  rm.heart_notes,\n  rm.base_notes,\n  rm.quality\nFROM raw_materials rm\nWHERE rm.category = 'autre'\nORDER BY rm.name\nLIMIT 50;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  rm.name,\n  rm.latin_name,\n  rm.olfactive_profile,\n  rm.origin_country,\n  rm.top_notes,\n  rm.heart_notes,\n  rm.base_notes,\n  rm.quality\nFROM raw_materials rm\nWHERE rm.category = 'autre'\nORDER BY rm.name\nLIMIT 50;\n",
+  "rows": [
+    {
+      "name": "Acacia brûlé",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Agarwood / Oud — Aquilaria malaccensis (CITES)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Aldéhyde feuille",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Aldéhyde métallique",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Aldéhydes chauds",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Aldéhydes métalliques",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Aldéhydes sombres",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Aluminium aldehyde",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Ambre Gris (Ambergris)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Ambrette seed",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Ambrette — Abelmoschus moschatus (musc végétal)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Ambrox Super",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Ammonium-Maillard",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Argile blanche",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Aristolen-9β-ol",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Artisan Peppermint Oil",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Asarone alpha",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Beta-glucane",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Betulinine",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Birch Tar North American",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Bitume light",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Black Emerald",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Bois de brousse",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Bois de rose (lutherie) — Dalbergia nigra (CITES)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Bois de rose — Aniba rosaeodora (CITES)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Bois de santal rouge — Pterocarpus santalinus",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Bois sec",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Bois tendre",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Bone-smoke accord",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Borrachero",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Borrachero (Brugmansia)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Bronze Note",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "C14 lactone (γ-Tetradecalactone)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "C18 lactone (γ-Octadecalactone)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Cacao Colombien",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Cacao Colombien - Fèves Fermentées",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Café Geisha",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Café Geisha - Grains Verts",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Calcaire Olfactif",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Calycolpus Moritzianus",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Calycolpus Moritzianus (Guayabita)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Cardamome (α-Terpinyl Acetate)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Cedarol",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Cedro Rosado",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Cedro Rosado (Cedrela odorata)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Charcoal africain",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Citron sec",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Citrus sec",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    },
+    {
+      "name": "Clay smoke",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL",
+      "origin_country": "NULL",
+      "top_notes": "NULL",
+      "heart_notes": "NULL",
+      "base_notes": "NULL",
+      "quality": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tlatin_name\tolfactive_profile\torigin_country\ttop_notes\theart_notes\tbase_notes\tquality\nAcacia brûlé\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAgarwood / Oud — Aquilaria malaccensis (CITES)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAldéhyde feuille\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAldéhyde métallique\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAldéhydes chauds\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAldéhydes métalliques\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAldéhydes sombres\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAluminium aldehyde\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAmbergris (patrimoine) — Physeter macrocephalus (échouages)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAmbre Gris (Ambergris)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAmbrette seed\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAmbrette — Abelmoschus moschatus (musc végétal)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAmbrox Super\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAmmonium-Maillard\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nArgile blanche\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAristolen-9β-ol\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nArtisan Peppermint Oil\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nAsarone alpha\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBeta-glucane\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBetulinine\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBirch Tar North American\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBitume light\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBlack Emerald\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBois de brousse\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBois de rose (lutherie) — Dalbergia nigra (CITES)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBois de rose — Aniba rosaeodora (CITES)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBois de santal rouge — Pterocarpus santalinus\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBois sec\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBois tendre\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBone-smoke accord\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBorrachero\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBorrachero (Brugmansia)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nBronze Note\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nC14 lactone (γ-Tetradecalactone)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nC18 lactone (γ-Octadecalactone)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCacao Colombien\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCacao Colombien - Fèves Fermentées\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCafé Geisha\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCafé Geisha - Grains Verts\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCalcaire Olfactif\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCalycolpus Moritzianus\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCalycolpus Moritzianus (Guayabita)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCardamome (α-Terpinyl Acetate)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCedarol\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCedro Rosado\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCedro Rosado (Cedrela odorata)\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCharcoal africain\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCitron sec\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nCitrus sec\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\nClay smoke\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 831
+}

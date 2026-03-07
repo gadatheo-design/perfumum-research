@@ -3112,6 +3112,9 @@ export const rawMaterials = mysqlTable("raw_materials", {
     "infusion",
     "maceration",
     "distillat",
+    "accord_olfactif",
+    "molecule_isolee",
+    "matiere_animale",
     "autre"
   ]).notNull(),
   // Source botanique

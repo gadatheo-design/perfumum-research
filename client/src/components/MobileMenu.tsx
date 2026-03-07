@@ -69,6 +69,7 @@ const mobileMenuSections: MenuSection[] = [
     items: [
       { href: "/molecules", label: "Molécules", badge: "HUB" },
       { href: "/recettes", label: "Recettes", badge: "HUB" },
+      { href: "/matieres-premieres", label: "Matières Premières", badge: "NEW" },
       { href: "/plants", label: "Plantes & Variétés" },
       { href: "/terroirs", label: "Terroirs" },
       { href: "/osmotheque", label: "Osmothèque", badge: "NEW" },

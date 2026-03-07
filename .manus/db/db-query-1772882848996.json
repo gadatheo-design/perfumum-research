@@ -1,0 +1,54 @@
+{
+  "query": "\nSELECT category, COUNT(*) as count \nFROM raw_materials \nGROUP BY category \nORDER BY count DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT category, COUNT(*) as count \nFROM raw_materials \nGROUP BY category \nORDER BY count DESC;\n",
+  "rows": [
+    {
+      "category": "molecule_isolee",
+      "count": "87"
+    },
+    {
+      "category": "huile_essentielle",
+      "count": "73"
+    },
+    {
+      "category": "resinoid",
+      "count": "59"
+    },
+    {
+      "category": "accord_olfactif",
+      "count": "48"
+    },
+    {
+      "category": "absolue",
+      "count": "41"
+    },
+    {
+      "category": "infusion",
+      "count": "27"
+    },
+    {
+      "category": "co2_extract",
+      "count": "26"
+    },
+    {
+      "category": "matiere_animale",
+      "count": "5"
+    },
+    {
+      "category": "oleoresine",
+      "count": "3"
+    },
+    {
+      "category": "concrete",
+      "count": "2"
+    },
+    {
+      "category": "teinture",
+      "count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "category\tcount\nmolecule_isolee\t87\nhuile_essentielle\t73\nresinoid\t59\naccord_olfactif\t48\nabsolue\t41\ninfusion\t27\nco2_extract\t26\nmatiere_animale\t5\noleoresine\t3\nconcrete\t2\nteinture\t1\n",
+  "stderr": "",
+  "execution_time_ms": 152
+}

@@ -20996,3 +20996,87 @@ export async function getRawMaterialsStats() {
 
   return { byCategory, byOlfFamily, byQuality, byAvailability };
 }
+
+// ============================================================================
+// RAW MATERIAL DETAIL — Fiche complète avec interconnexions
+// ============================================================================
+
+export async function getRawMaterialDetail(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  // 1. Matière première de base
+  const [material] = await db.select().from(rawMaterials).where(eq(rawMaterials.id, id));
+  if (!material) return null;
+
+  // 2. Molécules associées
+  const moleculesData = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      casNumber: molecules.casNumber,
+      chemicalFamily: molecules.family,
+      olfactiveFamily: molecules.olfactiveProfile,
+      percentage: rawMaterialMolecules.percentage,
+      isSignature: rawMaterialMolecules.isSignature,
+      variability: rawMaterialMolecules.variability,
+      notes: rawMaterialMolecules.notes,
+    })
+    .from(rawMaterialMolecules)
+    .innerJoin(molecules, eq(rawMaterialMolecules.moleculeId, molecules.id))
+    .where(eq(rawMaterialMolecules.rawMaterialId, id))
+    .orderBy(desc(rawMaterialMolecules.percentage));
+
+  // 3. Plante source (si liée)
+  let plantData = null;
+  if (material.plantId) {
+    const [plant] = await db.select({
+      id: plants.id,
+      name: plants.name,
+      latinName: plants.latinName,
+      family: plants.family,
+      origin: plants.origin,
+      conservationStatus: plants.conservationStatus,
+    }).from(plants).where(eq(plants.id, material.plantId));
+    plantData = plant || null;
+  }
+
+  // 4. Terroir source (si lié)
+  let terroirData = null;
+  if (material.terroirId) {
+    const [terroir] = await db.select({
+      id: terroirs.id,
+      name: terroirs.name,
+      country: terroirs.country,
+      region: terroirs.region,
+    }).from(terroirs).where(eq(terroirs.id, material.terroirId));
+    terroirData = terroir || null;
+  }
+
+  // 5. Recettes qui utilisent les molécules de cette matière première (via molécules communes)
+  let recipesData: Array<{ id: number; name: string; category: string }> = [];
+  if (moleculesData.length > 0) {
+    const moleculeIds = moleculesData.map(m => m.id);
+    const recetteRows = await db
+      .select({
+        id: recettes.id,
+        name: recettes.name,
+        category: recettes.category,
+      })
+      .from(moleculesRecettes)
+      .innerJoin(recettes, eq(moleculesRecettes.recetteId, recettes.id))
+      .where(inArray(moleculesRecettes.moleculeId, moleculeIds))
+      .groupBy(recettes.id, recettes.name, recettes.category)
+      .orderBy(asc(recettes.name))
+      .limit(20);
+    recipesData = recetteRows as Array<{ id: number; name: string; category: string }>;
+  }
+
+  return {
+    ...material,
+    molecules: moleculesData,
+    plant: plantData,
+    terroir: terroirData,
+    recipes: recipesData,
+  };
+}

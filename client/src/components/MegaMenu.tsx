@@ -424,6 +424,13 @@ export function MegaMenu() {
           badge: "HUB",
         },
         {
+          label: "Matières Premières",
+          path: "/matieres-premieres",
+          icon: <Beaker className="h-4 w-4" />,
+          description: "HE, absolues, résinoïdes, accords, molécules isolées (372 entrées)",
+          badge: "NEW",
+        },
+        {
           label: "Recettes Cigarillos",
           path: "/recettes-cigarillos",
           icon: <Cigarette className="h-4 w-4" />,

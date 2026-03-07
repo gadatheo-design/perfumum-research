@@ -1,0 +1,9 @@
+{
+  "query": "\nALTER TABLE raw_materials \nMODIFY COLUMN category ENUM(\n  'huile_essentielle',\n  'absolue',\n  'concrete',\n  'resinoid',\n  'teinture',\n  'co2_extract',\n  'hydrolat',\n  'beurre',\n  'cire',\n  'oleoresine',\n  'infusion',\n  'maceration',\n  'distillat',\n  'accord_olfactif',\n  'molecule_isolee',\n  'matiere_animale',\n  'autre'\n) NOT NULL;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nALTER TABLE raw_materials \nMODIFY COLUMN category ENUM(\n  'huile_essentielle',\n  'absolue',\n  'concrete',\n  'resinoid',\n  'teinture',\n  'co2_extract',\n  'hydrolat',\n  'beurre',\n  'cire',\n  'oleoresine',\n  'infusion',\n  'maceration',\n  'distillat',\n  'accord_olfactif',\n  'molecule_isolee',\n  'matiere_animale',\n  'autre'\n) NOT NULL;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 436
+}

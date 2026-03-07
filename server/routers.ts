@@ -4016,12 +4016,17 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return db.getRawMaterialMolecules(input);
       }),
+    getDetail: publicProcedure
+      .input(z.number())
+      .query(async ({ input }) => {
+        return db.getRawMaterialDetail(input);
+      }),
     create: protectedProcedure
       .input(z.object({
         materialId: z.string().min(1),
         name: z.string().min(1),
         latinName: z.string().optional(),
-        category: z.enum(['huile_essentielle', 'absolue', 'concrete', 'resinoid', 'teinture', 'co2_extract', 'hydrolat', 'beurre', 'cire', 'oleoresine', 'infusion', 'maceration', 'distillat', 'autre']),
+        category: z.enum(['huile_essentielle', 'absolue', 'concrete', 'resinoid', 'teinture', 'co2_extract', 'hydrolat', 'beurre', 'cire', 'oleoresine', 'infusion', 'maceration', 'distillat', 'accord_olfactif', 'molecule_isolee', 'matiere_animale', 'autre']),
         plantId: z.number().optional(),
         plantPart: z.enum(['fleur', 'feuille', 'tige', 'racine', 'ecorce', 'bois', 'resine', 'graine', 'fruit', 'zeste', 'plante_entiere', 'bourgeon', 'autre']).optional(),
         terroirId: z.number().optional(),
@@ -4053,7 +4058,7 @@ export const appRouter = router({
         data: z.object({
           name: z.string().optional(),
           latinName: z.string().optional(),
-          category: z.enum(['huile_essentielle', 'absolue', 'concrete', 'resinoid', 'teinture', 'co2_extract', 'hydrolat', 'beurre', 'cire', 'oleoresine', 'infusion', 'maceration', 'distillat', 'autre']).optional(),
+          category: z.enum(['huile_essentielle', 'absolue', 'concrete', 'resinoid', 'teinture', 'co2_extract', 'hydrolat', 'beurre', 'cire', 'oleoresine', 'infusion', 'maceration', 'distillat', 'accord_olfactif', 'molecule_isolee', 'matiere_animale', 'autre']).optional(),
           plantId: z.number().optional(),
           plantPart: z.enum(['fleur', 'feuille', 'tige', 'racine', 'ecorce', 'bois', 'resine', 'graine', 'fruit', 'zeste', 'plante_entiere', 'bourgeon', 'autre']).optional(),
           terroirId: z.number().optional(),

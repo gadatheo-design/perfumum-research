@@ -1603,3 +1603,25 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] TypeScript : 0 erreur
 - [x] Tests vitest : 103 fichiers passés, 1526 tests réussis
 - [x] API testée : 372 matières premières, 8 catégories
+
+---
+
+## 🔬 SESSION 7 MARS 2026 (suite) — Améliorations Matières Premières
+
+- [ ] Recatégoriser les 219 entrées "autre" via interface admin + LLM
+- [ ] Créer la page de détail /matieres-premieres/:id (molécules, origines, recettes)
+- [ ] Ajouter lien /matieres-premieres dans le menu principal et la sidebar
+
+---
+
+## ✅ SESSION 7 MARS 2026 — Matières Premières (3 améliorations)
+
+- [x] Étendre l'enum category de raw_materials : accord_olfactif, molecule_isolee, matiere_animale
+- [x] Recatégoriser les 219 entrées "autre" via script automatique (207/219 auto + 12 manuels)
+- [x] 0 entrée "autre" restante — distribution : 87 mol. isolées, 73 HE, 59 résinoïdes, 48 accords, 41 absolues
+- [x] Créer getRawMaterialDetail() dans db.ts (matière + molécules + plante + terroir + recettes)
+- [x] Ajouter procédure rawMaterials.getDetail dans routers.ts
+- [x] Créer la page de détail /matieres-premieres/:id (MatierePremierePage.tsx)
+- [x] Ajouter lien /matieres-premieres dans MegaMenu.tsx (section Catalogues, desktop)
+- [x] Ajouter lien /matieres-premieres dans MobileMenu.tsx (section Catalogues, mobile)
+- [x] 104 fichiers de tests passés, 1532 tests réussis (6 nouveaux tests rawMaterialDetail)

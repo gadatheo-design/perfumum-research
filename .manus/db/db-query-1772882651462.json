@@ -1,0 +1,510 @@
+{
+  "query": "\nSELECT name, latin_name, olfactive_profile\nFROM raw_materials\nWHERE category = 'autre'\nORDER BY name\nLIMIT 100;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT name, latin_name, olfactive_profile\nFROM raw_materials\nWHERE category = 'autre'\nORDER BY name\nLIMIT 100;\n",
+  "rows": [
+    {
+      "name": "Acacia brûlé",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Agarwood / Oud — Aquilaria malaccensis (CITES)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Aldéhyde feuille",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Aldéhyde métallique",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Aldéhydes chauds",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Aldéhydes métalliques",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Aldéhydes sombres",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Aluminium aldehyde",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Ambre Gris (Ambergris)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Ambrette seed",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Ambrette — Abelmoschus moschatus (musc végétal)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Ambrox Super",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Ammonium-Maillard",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Argile blanche",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Aristolen-9β-ol",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Artisan Peppermint Oil",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Asarone alpha",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Beta-glucane",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Betulinine",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Birch Tar North American",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Bitume light",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Black Emerald",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Bois de brousse",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Bois de rose (lutherie) — Dalbergia nigra (CITES)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Bois de rose — Aniba rosaeodora (CITES)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Bois de santal rouge — Pterocarpus santalinus",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Bois sec",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Bois tendre",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Bone-smoke accord",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Borrachero",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Borrachero (Brugmansia)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Bronze Note",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "C14 lactone (γ-Tetradecalactone)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "C18 lactone (γ-Octadecalactone)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cacao Colombien",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cacao Colombien - Fèves Fermentées",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Café Geisha",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Café Geisha - Grains Verts",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Calcaire Olfactif",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Calycolpus Moritzianus",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Calycolpus Moritzianus (Guayabita)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cardamome (α-Terpinyl Acetate)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cedarol",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cedro Rosado",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cedro Rosado (Cedrela odorata)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Charcoal africain",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Citron sec",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Citrus sec",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Clay smoke",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Clearwood (Patchouli Synthétique)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Coca Décocaïnisée",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Coca Décocaïnisée (Erythroxylum coca)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Comino (Colombie) — Aniba perutilis (menacé)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Complexes terre minérale",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Copal Colombien (Protium spp.)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Costus root — Saussurea costus (CITES)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Crème de Citronnelle",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Créosote light",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Crésol",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Crésol Fumé",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cuir fumé",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cuivre Olfactif",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cèdre beige",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Cèdre clair",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Damascone Beta",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Damiana",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Damianine",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Dust-burn accord",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "E-2-dodecenal",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Eudesmol alpha",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Eudesmol beta",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Fer Olfactif",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Fer chaud",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Fer volatil",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Feuille d'oranger sèche",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Feuille verte",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Fleur de Café",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Foin chaud",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Frangipani (Plumeria)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Fumée douce",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Fumée légère",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Gaïac — Guaiacum officinale",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Gaïac — Guaiacum sanctum (proxy)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Georgywood",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Glucoerucine",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Glucoraphanine",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Glycine pyrolysée",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Glycyrrhizine",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Guaiacol Fumé",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Guanábana",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Guanábana (Annona muricata)",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Haitian Vetiver",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Herbes sèches",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Hinoki oil",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Huitlacoche",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Hydroxyproline pyrolysée",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Hyraceum",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Ionone blanche",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    },
+    {
+      "name": "Ionone β",
+      "latin_name": "NULL",
+      "olfactive_profile": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tlatin_name\tolfactive_profile\nAcacia brûlé\tNULL\tNULL\nAgarwood / Oud — Aquilaria malaccensis (CITES)\tNULL\tNULL\nAldéhyde feuille\tNULL\tNULL\nAldéhyde métallique\tNULL\tNULL\nAldéhydes chauds\tNULL\tNULL\nAldéhydes métalliques\tNULL\tNULL\nAldéhydes sombres\tNULL\tNULL\nAluminium aldehyde\tNULL\tNULL\nAmbergris (patrimoine) — Physeter macrocephalus (échouages)\tNULL\tNULL\nAmbre Gris (Ambergris)\tNULL\tNULL\nAmbrette seed\tNULL\tNULL\nAmbrette — Abelmoschus moschatus (musc végétal)\tNULL\tNULL\nAmbrox Super\tNULL\tNULL\nAmmonium-Maillard\tNULL\tNULL\nArgile blanche\tNULL\tNULL\nAristolen-9β-ol\tNULL\tNULL\nArtisan Peppermint Oil\tNULL\tNULL\nAsarone alpha\tNULL\tNULL\nBeta-glucane\tNULL\tNULL\nBetulinine\tNULL\tNULL\nBirch Tar North American\tNULL\tNULL\nBitume light\tNULL\tNULL\nBlack Emerald\tNULL\tNULL\nBois de brousse\tNULL\tNULL\nBois de rose (lutherie) — Dalbergia nigra (CITES)\tNULL\tNULL\nBois de rose — Aniba rosaeodora (CITES)\tNULL\tNULL\nBois de santal rouge — Pterocarpus santalinus\tNULL\tNULL\nBois sec\tNULL\tNULL\nBois tendre\tNULL\tNULL\nBone-smoke accord\tNULL\tNULL\nBorrachero\tNULL\tNULL\nBorrachero (Brugmansia)\tNULL\tNULL\nBronze Note\tNULL\tNULL\nC14 lactone (γ-Tetradecalactone)\tNULL\tNULL\nC18 lactone (γ-Octadecalactone)\tNULL\tNULL\nCacao Colombien\tNULL\tNULL\nCacao Colombien - Fèves Fermentées\tNULL\tNULL\nCafé Geisha\tNULL\tNULL\nCafé Geisha - Grains Verts\tNULL\tNULL\nCalcaire Olfactif\tNULL\tNULL\nCalycolpus Moritzianus\tNULL\tNULL\nCalycolpus Moritzianus (Guayabita)\tNULL\tNULL\nCardamome (α-Terpinyl Acetate)\tNULL\tNULL\nCedarol\tNULL\tNULL\nCedro Rosado\tNULL\tNULL\nCedro Rosado (Cedrela odorata)\tNULL\tNULL\nCharcoal africain\tNULL\tNULL\nCitron sec\tNULL\tNULL\nCitrus sec\tNULL\tNULL\nClay smoke\tNULL\tNULL\nClearwood (Patchouli Synthétique)\tNULL\tNULL\nCoca Décocaïnisée\tNULL\tNULL\nCoca Décocaïnisée (Erythroxylum coca)\tNULL\tNULL\nComino (Colombie) — Aniba perutilis (menacé)\tNULL\tNULL\nComplexes terre minérale\tNULL\tNULL\nCopal Colombien (Protium spp.)\tNULL\tNULL\nCostus root — Saussurea costus (CITES)\tNULL\tNULL\nCrème de Citronnelle\tNULL\tNULL\nCréosote light\tNULL\tNULL\nCrésol\tNULL\tNULL\nCrésol Fumé\tNULL\tNULL\nCuir fumé\tNULL\tNULL\nCuivre Olfactif\tNULL\tNULL\nCèdre beige\tNULL\tNULL\nCèdre clair\tNULL\tNULL\nDamascone Beta\tNULL\tNULL\nDamiana\tNULL\tNULL\nDamianine\tNULL\tNULL\nDust-burn accord\tNULL\tNULL\nE-2-dodecenal\tNULL\tNULL\nEudesmol alpha\tNULL\tNULL\nEudesmol beta\tNULL\tNULL\nFer Olfactif\tNULL\tNULL\nFer chaud\tNULL\tNULL\nFer volatil\tNULL\tNULL\nFeuille d'oranger sèche\tNULL\tNULL\nFeuille verte\tNULL\tNULL\nFleur de Café\tNULL\tNULL\nFoin chaud\tNULL\tNULL\nFrangipani (Plumeria)\tNULL\tNULL\nFumée douce\tNULL\tNULL\nFumée légère\tNULL\tNULL\nGaïac — Guaiacum officinale\tNULL\tNULL\nGaïac — Guaiacum sanctum (proxy)\tNULL\tNULL\nGeorgywood\tNULL\tNULL\nGlucoerucine\tNULL\tNULL\nGlucoraphanine\tNULL\tNULL\nGlycine pyrolysée\tNULL\tNULL\nGlycyrrhizine\tNULL\tNULL\nGuaiacol Fumé\tNULL\tNULL\nGuanábana\tNULL\tNULL\nGuanábana (Annona muricata)\tNULL\tNULL\nHaitian Vetiver\tNULL\tNULL\nHerbes sèches\tNULL\tNULL\nHinoki oil\tNULL\tNULL\nHuitlacoche\tNULL\tNULL\nHydroxyproline pyrolysée\tNULL\tNULL\nHyraceum\tNULL\tNULL\nIonone blanche\tNULL\tNULL\nIonone β\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 189
+}

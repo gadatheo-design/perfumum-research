@@ -1,0 +1,1 @@
+ALTER TABLE `raw_materials` MODIFY COLUMN `category` enum('huile_essentielle','absolue','concrete','resinoid','teinture','co2_extract','hydrolat','beurre','cire','oleoresine','infusion','maceration','distillat','accord_olfactif','molecule_isolee','matiere_animale','autre') NOT NULL;
