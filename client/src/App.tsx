@@ -362,6 +362,7 @@ import PlantMoleculeNetwork from "./pages/PlantMoleculeNetwork";
 import BioMineralis from "./pages/BioMineralis";
 
 // === MATIÈRES PREMIÈRES & RELATIONS ===
+import MatieresPremieres from "./pages/MatieresPremieres";
 import RawMaterials from "./pages/RawMaterials";
 import RawMaterialDetail from "./pages/RawMaterialDetail";
 import RawMaterialForm from "./pages/RawMaterialForm";
@@ -932,7 +933,7 @@ function Router() {
       <Route path="/he-absolue-co2" component={ComparaisonExtractions} />
       
       {/* === MATIÈRES PREMIÈRES & RELATIONS === */}
-      <Route path="/matieres-premieres" component={RawMaterials} />
+      <Route path="/matieres-premieres" component={MatieresPremieres} />
       <Route path="/matieres-premieres/nouvelle" component={RawMaterialForm} />
       <Route path="/matieres-premieres/:id" component={RawMaterialDetail} />
       <Route path="/raw-materials" component={RawMaterials} />

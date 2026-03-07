@@ -1595,3 +1595,11 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Affiner manuellement les 136 plantes classifiées "par défaut" (plante_vasculaire)
 - [ ] Créer page /matieres-premieres avec filtres par material_type
 - [ ] Migrer les 91 molécules non-PubChem (accords/extraits) vers raw_materials
+
+### ✅ Restauration post-reset sandbox (7 mars 2026 — 11h)
+- [x] Réappliquer MatieresPremieres.tsx (filtres, pagination, vue grille/liste, stats)
+- [x] Réappliquer getRawMaterialsFiltered et getRawMaterialsStats dans db.ts
+- [x] Réappliquer getFiltered et getStats dans le router rawMaterials
+- [x] TypeScript : 0 erreur
+- [x] Tests vitest : 103 fichiers passés, 1526 tests réussis
+- [x] API testée : 372 matières premières, 8 catégories

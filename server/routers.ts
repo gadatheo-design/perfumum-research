@@ -4093,8 +4093,25 @@ export const appRouter = router({
         await db.removeMoleculeFromRawMaterial(input.rawMaterialId, input.moleculeId);
         return { success: true };
       }),
+    getFiltered: publicProcedure
+      .input(z.object({
+        search: z.string().optional(),
+        category: z.string().optional(),
+        olfactiveFamily: z.string().optional(),
+        quality: z.string().optional(),
+        availability: z.string().optional(),
+        priceRange: z.string().optional(),
+        page: z.number().default(1),
+        limit: z.number().default(24),
+      }))
+      .query(async ({ input }) => {
+        return db.getRawMaterialsFiltered(input);
+      }),
+    getStats: publicProcedure
+      .query(async () => {
+        return db.getRawMaterialsStats();
+      }),
   }),
-
   moleculePlantSources: router({
     getByMolecule: publicProcedure
       .input(z.number())

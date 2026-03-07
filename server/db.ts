@@ -20896,3 +20896,103 @@ export async function getRecettesByMoleculeName(moleculeName: string, limit: num
 
   return result;
 }
+
+// ============================================================================
+// RAW MATERIALS — Filtrage et statistiques
+// ============================================================================
+
+export async function getRawMaterialsFiltered(params: {
+  search?: string;
+  category?: string;
+  olfactiveFamily?: string;
+  quality?: string;
+  availability?: string;
+  priceRange?: string;
+  page?: number;
+  limit?: number;
+}) {
+  const db = await getDb();
+  if (!db) return { items: [], total: 0, page: 1, totalPages: 0 };
+
+  const { search, category, olfactiveFamily, quality, availability, priceRange } = params;
+  const page = params.page ?? 1;
+  const limit = params.limit ?? 24;
+  const offset = (page - 1) * limit;
+
+  const conditions: SQL[] = [];
+  if (search) {
+    const s = `%${search}%`;
+    conditions.push(
+      or(
+        like(rawMaterials.name, s),
+        like(rawMaterials.latinName, s),
+        like(rawMaterials.olfactiveProfile, s)
+      ) as SQL
+    );
+  }
+  if (category) conditions.push(eq(rawMaterials.category, category as any));
+  if (olfactiveFamily) conditions.push(eq(rawMaterials.olfactiveFamily, olfactiveFamily as any));
+  if (quality) conditions.push(eq(rawMaterials.quality, quality as any));
+  if (availability) conditions.push(eq(rawMaterials.availability, availability as any));
+  if (priceRange) conditions.push(eq(rawMaterials.priceRange, priceRange as any));
+
+  const whereExpr = conditions.length > 0 ? and(...conditions) : undefined;
+
+  const [totalResult, items] = await Promise.all([
+    db.select({ count: count() }).from(rawMaterials).where(whereExpr),
+    db.select({
+      id: rawMaterials.id,
+      materialId: rawMaterials.materialId,
+      name: rawMaterials.name,
+      latinName: rawMaterials.latinName,
+      category: rawMaterials.category,
+      olfactiveFamily: rawMaterials.olfactiveFamily,
+      olfactiveProfile: rawMaterials.olfactiveProfile,
+      quality: rawMaterials.quality,
+      priceRange: rawMaterials.priceRange,
+      availability: rawMaterials.availability,
+      originCountry: rawMaterials.originCountry,
+      originRegion: rawMaterials.originRegion,
+      topNotes: rawMaterials.topNotes,
+      heartNotes: rawMaterials.heartNotes,
+      baseNotes: rawMaterials.baseNotes,
+    })
+    .from(rawMaterials)
+    .where(whereExpr)
+    .orderBy(asc(rawMaterials.name))
+    .limit(limit)
+    .offset(offset),
+  ]);
+
+  const total = Number(totalResult[0]?.count ?? 0);
+  return { items, total, page, totalPages: Math.ceil(total / limit) };
+}
+
+export async function getRawMaterialsStats() {
+  const db = await getDb();
+  if (!db) return { byCategory: [], byOlfFamily: [], byQuality: [], byAvailability: [] };
+
+  const [byCategory, byOlfFamily, byQuality, byAvailability] = await Promise.all([
+    db.select({ category: rawMaterials.category, count: count() })
+      .from(rawMaterials)
+      .groupBy(rawMaterials.category)
+      .orderBy(desc(count())),
+    db.select({ olfactiveFamily: rawMaterials.olfactiveFamily, count: count() })
+      .from(rawMaterials)
+      .where(isNotNull(rawMaterials.olfactiveFamily))
+      .groupBy(rawMaterials.olfactiveFamily)
+      .orderBy(desc(count())),
+    db.select({ quality: rawMaterials.quality, count: count() })
+      .from(rawMaterials)
+      .where(isNotNull(rawMaterials.quality))
+      .groupBy(rawMaterials.quality)
+      .orderBy(desc(count())),
+    db.select({ availability: rawMaterials.availability, count: count() })
+      .from(rawMaterials)
+      .where(isNotNull(rawMaterials.availability))
+      .groupBy(rawMaterials.availability)
+      .orderBy(desc(count())),
+  ]);
+
+  return { byCategory, byOlfFamily, byQuality, byAvailability };
+}
