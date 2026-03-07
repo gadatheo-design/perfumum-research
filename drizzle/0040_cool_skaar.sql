@@ -1,0 +1,1 @@
+ALTER TABLE `plants` ADD `material_type` enum('plante_vasculaire','mousse_lichen','algue','champignon','huile_essentielle','absolue','concrete','resinoid','co2_extract','hydrolat','teinture','infusion','beurre_vegetal','cire_vegetale','resine_brute','graine_seche','fruit_sec','racine_rhizome','ecorce','bois_copeaux','secretion_animale','accord_olfactif','synthese_chimique');

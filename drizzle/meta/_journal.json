@@ -281,6 +281,13 @@
       "when": 1772819572887,
       "tag": "0039_striped_christian_walker",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "5",
+      "when": 1772877674432,
+      "tag": "0040_cool_skaar",
+      "breakpoints": true
     }
   ]
 }
