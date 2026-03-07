@@ -1,10 +1,18 @@
 import { useRoute, Link } from "wouter";
+import { useState } from "react";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, ArrowLeft, Leaf, MapPin, FlaskConical, BookOpen, AlertTriangle, ExternalLink } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2, ArrowLeft, Leaf, MapPin, FlaskConical, BookOpen, AlertTriangle, ExternalLink, Pencil, Check } from "lucide-react";
 
 // ── Labels ──────────────────────────────────────────────────────────────────
 const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
@@ -44,15 +52,82 @@ const AVAILABILITY_LABELS: Record<string, { label: string; color: string }> = {
   discontinue: { label: "Discontinué", color: "text-red-500" },
 };
 
+const CATEGORY_OPTIONS = [
+  "huile_essentielle","absolue","concrete","resinoid","teinture","co2_extract",
+  "hydrolat","beurre","cire","oleoresine","infusion","maceration","distillat",
+  "accord_olfactif","molecule_isolee","matiere_animale","autre",
+];
+
+const OLFACTIVE_OPTIONS = [
+  "floral","boise","agrume","epice","herbace","balsamique",
+  "musque","animal","vert","fruite","marin","terreux","fume","gourmand","aromatique",
+];
+
 // ── Composant principal ──────────────────────────────────────────────────────
 export default function MatierePremierePage() {
   const [, params] = useRoute("/matieres-premieres/:id");
   const id = params?.id ? parseInt(params.id, 10) : null;
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [editOpen, setEditOpen] = useState(false);
+  const [editForm, setEditForm] = useState<Record<string, any>>({});
 
-  const { data: material, isLoading, error } = trpc.rawMaterials.getDetail.useQuery(
+  const { data: material, isLoading, error, refetch } = trpc.rawMaterials.getDetail.useQuery(
     id ?? 0,
     { enabled: !!id && !isNaN(id as number) }
   );
+
+  // Listes pour les selects
+  const { data: plants } = trpc.plantVarieties.getPlants.useQuery();
+  const { data: terroirs } = trpc.terroirs.getAll.useQuery();
+
+  const utils = trpc.useUtils();
+  const updateMutation = trpc.rawMaterials.update.useMutation({
+    onSuccess: () => {
+      toast({ title: "Modifications enregistrées", description: "La fiche a été mise à jour." });
+      setEditOpen(false);
+      refetch();
+      utils.rawMaterials.getFiltered.invalidate();
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
+
+  const openEdit = () => {
+    if (!material) return;
+    setEditForm({
+      name: material.name ?? "",
+      latinName: material.latinName ?? "",
+      category: material.category ?? "",
+      olfactiveFamily: material.olfactiveFamily ?? "",
+      olfactiveProfile: material.olfactiveProfile ?? "",
+      quality: material.quality ?? "",
+      availability: material.availability ?? "",
+      priceRange: material.priceRange ?? "",
+      originCountry: material.originCountry ?? "",
+      originRegion: material.originRegion ?? "",
+      plantId: material.plant?.id ?? null,
+      terroirId: material.terroir?.id ?? null,
+      notes: material.notes ?? "",
+      topNotes: material.topNotes ?? "",
+      heartNotes: material.heartNotes ?? "",
+      baseNotes: material.baseNotes ?? "",
+      plantPart: material.plantPart ?? "",
+      extractionYield: material.extractionYield ?? "",
+    });
+    setEditOpen(true);
+  };
+
+  const handleSave = () => {
+    if (!id) return;
+    const data: Record<string, any> = {};
+    Object.entries(editForm).forEach(([k, v]) => {
+      if (v !== "" && v !== null && v !== undefined) data[k] = v;
+      else if (k === "plantId" || k === "terroirId") data[k] = null; // permettre de délier
+    });
+    updateMutation.mutate({ id, data });
+  };
 
   if (!id || isNaN(id)) {
     return (
@@ -91,14 +166,191 @@ export default function MatierePremierePage() {
     <div className="min-h-screen bg-[#0d0d0f] text-zinc-100">
       {/* ── Header ── */}
       <div className="border-b border-zinc-800 bg-[#111113]">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center gap-3">
+        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
           <Link href="/matieres-premieres">
             <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-zinc-100 -ml-2">
               <ArrowLeft className="h-4 w-4 mr-1" /> Matières premières
             </Button>
           </Link>
+          {user && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={openEdit}
+              className="border-zinc-700 text-zinc-300 hover:border-amber-500 hover:text-amber-300 gap-1.5"
+            >
+              <Pencil className="h-3.5 w-3.5" /> Modifier la fiche
+            </Button>
+          )}
         </div>
       </div>
+
+      {/* ── Dialog d'édition rapide ── */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-2xl bg-[#111113] border-zinc-800 text-zinc-100 max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-zinc-100">Modifier la fiche</DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2">
+
+            {/* Nom */}
+            <div className="sm:col-span-2">
+              <Label className="text-zinc-400 text-xs">Nom</Label>
+              <Input value={editForm.name ?? ""} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" />
+            </div>
+
+            {/* Nom latin */}
+            <div className="sm:col-span-2">
+              <Label className="text-zinc-400 text-xs">Nom latin</Label>
+              <Input value={editForm.latinName ?? ""} onChange={e => setEditForm(f => ({ ...f, latinName: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" />
+            </div>
+
+            {/* Catégorie */}
+            <div>
+              <Label className="text-zinc-400 text-xs">Catégorie</Label>
+              <Select value={editForm.category ?? ""} onValueChange={v => setEditForm(f => ({ ...f, category: v }))}>
+                <SelectTrigger className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1">
+                  <SelectValue placeholder="Sélectionner" />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-900 border-zinc-700">
+                  {CATEGORY_OPTIONS.map(c => (
+                    <SelectItem key={c} value={c} className="text-zinc-200">
+                      {CATEGORY_LABELS[c]?.label ?? c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Famille olfactive */}
+            <div>
+              <Label className="text-zinc-400 text-xs">Famille olfactive</Label>
+              <Select value={editForm.olfactiveFamily ?? ""} onValueChange={v => setEditForm(f => ({ ...f, olfactiveFamily: v }))}>
+                <SelectTrigger className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1">
+                  <SelectValue placeholder="Sélectionner" />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-900 border-zinc-700">
+                  {OLFACTIVE_OPTIONS.map(o => (
+                    <SelectItem key={o} value={o} className="text-zinc-200 capitalize">{o}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Plante source */}
+            <div>
+              <Label className="text-zinc-400 text-xs">Plante source</Label>
+              <Select
+                value={editForm.plantId ? String(editForm.plantId) : "none"}
+                onValueChange={v => setEditForm(f => ({ ...f, plantId: v === "none" ? null : parseInt(v) }))}
+              >
+                <SelectTrigger className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1">
+                  <SelectValue placeholder="Aucune" />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-900 border-zinc-700 max-h-60">
+                  <SelectItem value="none" className="text-zinc-400">Aucune</SelectItem>
+                  {(plants as any[])?.map((p: any) => (
+                    <SelectItem key={p.id} value={String(p.id)} className="text-zinc-200">
+                      {p.name}{p.latinName ? ` (${p.latinName})` : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Terroir */}
+            <div>
+              <Label className="text-zinc-400 text-xs">Terroir</Label>
+              <Select
+                value={editForm.terroirId ? String(editForm.terroirId) : "none"}
+                onValueChange={v => setEditForm(f => ({ ...f, terroirId: v === "none" ? null : parseInt(v) }))}
+              >
+                <SelectTrigger className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1">
+                  <SelectValue placeholder="Aucun" />
+                </SelectTrigger>
+                <SelectContent className="bg-zinc-900 border-zinc-700 max-h-60">
+                  <SelectItem value="none" className="text-zinc-400">Aucun</SelectItem>
+                  {(terroirs as any[])?.map((t: any) => (
+                    <SelectItem key={t.id} value={String(t.id)} className="text-zinc-200">
+                      {t.name}{t.country ? ` — ${t.country}` : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Origine */}
+            <div>
+              <Label className="text-zinc-400 text-xs">Pays d'origine</Label>
+              <Input value={editForm.originCountry ?? ""} onChange={e => setEditForm(f => ({ ...f, originCountry: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" placeholder="ex: France" />
+            </div>
+            <div>
+              <Label className="text-zinc-400 text-xs">Région</Label>
+              <Input value={editForm.originRegion ?? ""} onChange={e => setEditForm(f => ({ ...f, originRegion: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" placeholder="ex: Provence" />
+            </div>
+
+            {/* Partie utilisée & rendement */}
+            <div>
+              <Label className="text-zinc-400 text-xs">Partie utilisée</Label>
+              <Input value={editForm.plantPart ?? ""} onChange={e => setEditForm(f => ({ ...f, plantPart: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" placeholder="ex: fleur, écorce" />
+            </div>
+            <div>
+              <Label className="text-zinc-400 text-xs">Rendement d'extraction</Label>
+              <Input value={editForm.extractionYield ?? ""} onChange={e => setEditForm(f => ({ ...f, extractionYield: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" placeholder="ex: 0.5%" />
+            </div>
+
+            {/* Profil olfactif */}
+            <div className="sm:col-span-2">
+              <Label className="text-zinc-400 text-xs">Profil olfactif</Label>
+              <Textarea value={editForm.olfactiveProfile ?? ""} onChange={e => setEditForm(f => ({ ...f, olfactiveProfile: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1 resize-none" rows={3} />
+            </div>
+
+            {/* Notes de tête / cœur / fond */}
+            <div>
+              <Label className="text-zinc-400 text-xs">Notes de tête</Label>
+              <Input value={editForm.topNotes ?? ""} onChange={e => setEditForm(f => ({ ...f, topNotes: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" />
+            </div>
+            <div>
+              <Label className="text-zinc-400 text-xs">Notes de cœur</Label>
+              <Input value={editForm.heartNotes ?? ""} onChange={e => setEditForm(f => ({ ...f, heartNotes: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" />
+            </div>
+            <div className="sm:col-span-2">
+              <Label className="text-zinc-400 text-xs">Notes de fond</Label>
+              <Input value={editForm.baseNotes ?? ""} onChange={e => setEditForm(f => ({ ...f, baseNotes: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1" />
+            </div>
+
+            {/* Notes chercheur */}
+            <div className="sm:col-span-2">
+              <Label className="text-zinc-400 text-xs">Notes du chercheur</Label>
+              <Textarea value={editForm.notes ?? ""} onChange={e => setEditForm(f => ({ ...f, notes: e.target.value }))}
+                className="bg-zinc-900 border-zinc-700 text-zinc-100 mt-1 resize-none" rows={4} />
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="ghost" onClick={() => setEditOpen(false)} className="text-zinc-400 hover:text-zinc-100">
+              Annuler
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={updateMutation.isPending}
+              className="bg-amber-600 hover:bg-amber-500 text-white gap-1.5"
+            >
+              {updateMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+              Enregistrer
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
 
@@ -335,7 +587,7 @@ export default function MatierePremierePage() {
                   {material.plant.family && (
                     <p className="text-zinc-500 text-xs">Famille : {material.plant.family}</p>
                   )}
-                  {material.plant.conservationStatus && material.plant.conservationStatus !== "non_evalue" && (
+                  {material.plant.conservationStatus && !(["NE", "DD"].includes(material.plant.conservationStatus)) && (
                     <Badge className="bg-red-900/40 text-red-300 border-red-700 border text-xs mt-1">
                       {material.plant.conservationStatus.toUpperCase()}
                     </Badge>

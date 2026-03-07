@@ -20904,6 +20904,7 @@ export async function getRecettesByMoleculeName(moleculeName: string, limit: num
 export async function getRawMaterialsFiltered(params: {
   search?: string;
   category?: string;
+  categories?: string[];
   olfactiveFamily?: string;
   quality?: string;
   availability?: string;
@@ -20914,7 +20915,7 @@ export async function getRawMaterialsFiltered(params: {
   const db = await getDb();
   if (!db) return { items: [], total: 0, page: 1, totalPages: 0 };
 
-  const { search, category, olfactiveFamily, quality, availability, priceRange } = params;
+  const { search, category, categories, olfactiveFamily, quality, availability, priceRange } = params;
   const page = params.page ?? 1;
   const limit = params.limit ?? 24;
   const offset = (page - 1) * limit;
@@ -20930,7 +20931,12 @@ export async function getRawMaterialsFiltered(params: {
       ) as SQL
     );
   }
-  if (category) conditions.push(eq(rawMaterials.category, category as any));
+  // Filtrage par liste de catégories (pour les groupes multi-catégories)
+  if (categories && categories.length > 0) {
+    conditions.push(inArray(rawMaterials.category, categories as any[]));
+  } else if (category) {
+    conditions.push(eq(rawMaterials.category, category as any));
+  }
   if (olfactiveFamily) conditions.push(eq(rawMaterials.olfactiveFamily, olfactiveFamily as any));
   if (quality) conditions.push(eq(rawMaterials.quality, quality as any));
   if (availability) conditions.push(eq(rawMaterials.availability, availability as any));

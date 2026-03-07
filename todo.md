@@ -1625,3 +1625,25 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Ajouter lien /matieres-premieres dans MegaMenu.tsx (section Catalogues, desktop)
 - [x] Ajouter lien /matieres-premieres dans MobileMenu.tsx (section Catalogues, mobile)
 - [x] 104 fichiers de tests passés, 1532 tests réussis (6 nouveaux tests rawMaterialDetail)
+
+---
+
+## 🔬 SESSION 7 MARS 2026 — Améliorations Matières Premières (suite)
+
+- [ ] Ajouter boutons-onglets de filtrage par type (HE / Absolues / Résinoïdes / Accords / Molécules isolées) sur /matieres-premieres
+- [ ] Créer interface d'édition rapide sur /matieres-premieres/:id (plantId, terroirId, liaisons molécules)
+- [ ] Ajouter procédure tRPC rawMaterials.update pour les liaisons
+- [ ] Tests vitest pour les nouvelles procédures
+
+---
+
+## ✅ SESSION 7 MARS 2026 — Améliorations Matières Premières (partie 2)
+
+- [x] Onglets de filtrage par type (HE / Absolues / Résines / CO₂ / Accords / Molécules / Animales) sur la page /matieres-premieres
+- [x] Filtrage multi-catégories via categories[] dans getRawMaterialsFiltered
+- [x] Interface d'édition rapide sur la page de détail /matieres-premieres/:id
+- [x] Champs éditables : nom, nom latin, catégorie, famille olfactive, plante source, terroir, origine, partie utilisée, rendement, profil olfactif, notes de tête/cœur/fond, notes chercheur
+- [x] Procédure tRPC rawMaterials.update ajoutée (protectedProcedure)
+- [x] Bouton "Modifier la fiche" visible uniquement pour les utilisateurs connectés
+- [x] TypeScript : 0 erreur
+- [x] Tests vitest : 105 fichiers passés, 1540 tests réussis

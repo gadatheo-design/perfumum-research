@@ -16,20 +16,35 @@ import {
 
 const CATEGORY_LABELS: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
   huile_essentielle: { label: "Huile essentielle", color: "bg-amber-100 text-amber-800 border-amber-200", icon: <Droplets className="w-3 h-3" /> },
-  absolue:          { label: "Absolue",            color: "bg-rose-100 text-rose-800 border-rose-200",   icon: <Flower2 className="w-3 h-3" /> },
-  concrete:         { label: "Concrète",            color: "bg-orange-100 text-orange-800 border-orange-200", icon: <Package className="w-3 h-3" /> },
-  resinoid:         { label: "Résinoïde",           color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: <TreePine className="w-3 h-3" /> },
-  teinture:         { label: "Teinture",            color: "bg-purple-100 text-purple-800 border-purple-200", icon: <FlaskConical className="w-3 h-3" /> },
-  co2_extract:      { label: "Extrait CO₂",         color: "bg-cyan-100 text-cyan-800 border-cyan-200",   icon: <Wind className="w-3 h-3" /> },
-  hydrolat:         { label: "Hydrolat",            color: "bg-blue-100 text-blue-800 border-blue-200",   icon: <Droplets className="w-3 h-3" /> },
-  beurre:           { label: "Beurre végétal",      color: "bg-yellow-50 text-yellow-700 border-yellow-200", icon: <Leaf className="w-3 h-3" /> },
-  cire:             { label: "Cire",                color: "bg-stone-100 text-stone-700 border-stone-200", icon: <Package className="w-3 h-3" /> },
-  oleoresine:       { label: "Oléorésine",          color: "bg-lime-100 text-lime-800 border-lime-200",   icon: <TreePine className="w-3 h-3" /> },
-  infusion:         { label: "Infusion",            color: "bg-green-100 text-green-800 border-green-200", icon: <Leaf className="w-3 h-3" /> },
-  maceration:       { label: "Macération",          color: "bg-teal-100 text-teal-800 border-teal-200",   icon: <FlaskConical className="w-3 h-3" /> },
-  distillat:        { label: "Distillat",           color: "bg-indigo-100 text-indigo-800 border-indigo-200", icon: <Droplets className="w-3 h-3" /> },
-  autre:            { label: "Autre",               color: "bg-gray-100 text-gray-700 border-gray-200",   icon: <Package className="w-3 h-3" /> },
+  absolue:           { label: "Absolue",            color: "bg-rose-100 text-rose-800 border-rose-200",   icon: <Flower2 className="w-3 h-3" /> },
+  concrete:          { label: "Concrète",            color: "bg-orange-100 text-orange-800 border-orange-200", icon: <Package className="w-3 h-3" /> },
+  resinoid:          { label: "Résinoïde",           color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: <TreePine className="w-3 h-3" /> },
+  teinture:          { label: "Teinture",            color: "bg-purple-100 text-purple-800 border-purple-200", icon: <FlaskConical className="w-3 h-3" /> },
+  co2_extract:       { label: "Extrait CO₂",         color: "bg-cyan-100 text-cyan-800 border-cyan-200",   icon: <Wind className="w-3 h-3" /> },
+  hydrolat:          { label: "Hydrolat",            color: "bg-blue-100 text-blue-800 border-blue-200",   icon: <Droplets className="w-3 h-3" /> },
+  beurre:            { label: "Beurre végétal",      color: "bg-yellow-50 text-yellow-700 border-yellow-200", icon: <Leaf className="w-3 h-3" /> },
+  cire:              { label: "Cire",                color: "bg-stone-100 text-stone-700 border-stone-200", icon: <Package className="w-3 h-3" /> },
+  oleoresine:        { label: "Oléorésine",          color: "bg-lime-100 text-lime-800 border-lime-200",   icon: <TreePine className="w-3 h-3" /> },
+  infusion:          { label: "Infusion",            color: "bg-green-100 text-green-800 border-green-200", icon: <Leaf className="w-3 h-3" /> },
+  maceration:        { label: "Macération",          color: "bg-teal-100 text-teal-800 border-teal-200",   icon: <FlaskConical className="w-3 h-3" /> },
+  distillat:         { label: "Distillat",           color: "bg-indigo-100 text-indigo-800 border-indigo-200", icon: <Droplets className="w-3 h-3" /> },
+  accord_olfactif:   { label: "Accord olfactif",     color: "bg-violet-100 text-violet-800 border-violet-200", icon: <FlaskConical className="w-3 h-3" /> },
+  molecule_isolee:   { label: "Molécule isolée",     color: "bg-indigo-50 text-indigo-700 border-indigo-200", icon: <Wind className="w-3 h-3" /> },
+  matiere_animale:   { label: "Matière animale",     color: "bg-stone-100 text-stone-700 border-stone-300", icon: <Leaf className="w-3 h-3" /> },
+  autre:             { label: "Autre",               color: "bg-gray-100 text-gray-700 border-gray-200",   icon: <Package className="w-3 h-3" /> },
 };
+
+// Groupes de types pour les onglets rapides
+const TYPE_GROUPS = [
+  { key: "all",             label: "Tout",              categories: [] },
+  { key: "huile_essentielle", label: "HE",              categories: ["huile_essentielle"] },
+  { key: "absolue",         label: "Absolues",          categories: ["absolue", "concrete"] },
+  { key: "resinoid",        label: "Résines",           categories: ["resinoid", "oleoresine", "infusion", "maceration", "teinture"] },
+  { key: "co2_extract",     label: "CO₂ / Distillats", categories: ["co2_extract", "distillat", "hydrolat"] },
+  { key: "accord_olfactif", label: "Accords",           categories: ["accord_olfactif"] },
+  { key: "molecule_isolee", label: "Molécules isolées", categories: ["molecule_isolee"] },
+  { key: "matiere_animale", label: "Animales",          categories: ["matiere_animale"] },
+];
 
 const OLFACTIVE_FAMILIES = [
   "floral","boise","agrume","epice","herbace","balsamique",
@@ -65,16 +80,27 @@ export default function MatieresPremieres() {
   const [page, setPage]                   = useState(1);
   const [viewMode, setViewMode]           = useState<"grid"|"list">("grid");
   const [showStats, setShowStats]         = useState(false);
+  const [activeTypeGroup, setActiveTypeGroup] = useState("all");
+
+  // Dériver les catégories effectives depuis le groupe actif ou le filtre individuel
+  const { effectiveCategory, effectiveCategories } = useMemo(() => {
+    if (category !== "all") return { effectiveCategory: category, effectiveCategories: undefined };
+    const group = TYPE_GROUPS.find(g => g.key === activeTypeGroup);
+    if (!group || group.categories.length === 0) return { effectiveCategory: undefined, effectiveCategories: undefined };
+    if (group.categories.length === 1) return { effectiveCategory: group.categories[0], effectiveCategories: undefined };
+    return { effectiveCategory: undefined, effectiveCategories: group.categories };
+  }, [category, activeTypeGroup]);
 
   const queryInput = useMemo(() => ({
-    category:        category !== "all" ? category : undefined,
+    category:        effectiveCategory,
+    categories:      effectiveCategories,
     olfactiveFamily: olfactiveFamily !== "all" ? olfactiveFamily : undefined,
     quality:         quality !== "all" ? quality : undefined,
     availability:    availability !== "all" ? availability : undefined,
     priceRange:      priceRange !== "all" ? priceRange : undefined,
     search:          search.trim() || undefined,
     page, limit: 24,
-  }), [category, olfactiveFamily, quality, availability, priceRange, search, page]);
+  }), [effectiveCategory, effectiveCategories, olfactiveFamily, quality, availability, priceRange, search, page]);
 
   const { data, isLoading } = trpc.rawMaterials.getFiltered.useQuery(queryInput);
   const { data: stats }     = trpc.rawMaterials.getStats.useQuery();
@@ -82,10 +108,17 @@ export default function MatieresPremieres() {
   const resetFilters = () => {
     setCategory("all"); setOlfFamily("all"); setQuality("all");
     setAvailability("all"); setPriceRange("all"); setPage(1);
+    setActiveTypeGroup("all");
+  };
+
+  const handleTypeGroupClick = (groupKey: string) => {
+    setActiveTypeGroup(groupKey);
+    setCategory("all"); // réinitialise le filtre catégorie individuel
+    setPage(1);
   };
 
   const activeFiltersCount = [category, olfactiveFamily, quality, availability, priceRange]
-    .filter(v => v !== "all").length;
+    .filter(v => v !== "all").length + (activeTypeGroup !== "all" ? 1 : 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -122,6 +155,36 @@ export default function MatieresPremieres() {
               onChange={e => { setSearch(e.target.value); setPage(1); }}
               className="pl-9"
             />
+          </div>
+
+          {/* Onglets de type rapide */}
+          <div className="mt-3 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+            {TYPE_GROUPS.map(group => {
+              const isActive = activeTypeGroup === group.key;
+              // Compter les items par groupe via stats
+              const groupCount = group.categories.length === 0
+                ? (stats?.byCategory as any[])?.reduce((s: number, c: any) => s + Number(c.count), 0) ?? null
+                : (stats?.byCategory as any[])?.filter((c: any) => group.categories.includes(c.category))
+                    .reduce((s: number, c: any) => s + Number(c.count), 0) ?? null;
+              return (
+                <button
+                  key={group.key}
+                  onClick={() => handleTypeGroupClick(group.key)}
+                  className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                    isActive
+                      ? "bg-amber-600 text-white border-amber-600 shadow-sm"
+                      : "bg-background text-muted-foreground border-border hover:border-amber-400 hover:text-amber-700"
+                  }`}
+                >
+                  {group.label}
+                  {groupCount !== null && (
+                    <span className={`text-xs ${
+                      isActive ? "text-amber-100" : "text-muted-foreground/60"
+                    }`}>{groupCount}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
