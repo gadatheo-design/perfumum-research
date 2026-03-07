@@ -55,16 +55,17 @@ interface MenuSection {
   items?: MenuItem[];
 }
 
-// Structure du menu mobile - Synchronisée avec le menu desktop
+// Structure du menu mobile — synchronisée avec MegaMenu.tsx
 const mobileMenuSections: MenuSection[] = [
   {
     title: "Accueil",
     href: "/",
     icon: Home,
   },
-  // === DONNÉES ===
+
+  // ── DONNÉES ──────────────────────────────────────────
   {
-    title: "Catalogues",
+    title: "Catalogues principaux",
     icon: Database,
     items: [
       { href: "/molecules", label: "Molécules", badge: "HUB" },
@@ -72,48 +73,48 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/matieres-premieres", label: "Matières Premières", badge: "NEW" },
       { href: "/plants", label: "Plantes & Variétés" },
       { href: "/terroirs", label: "Terroirs" },
-      { href: "/osmotheque", label: "Osmothèque", badge: "NEW" },
+      { href: "/gammes-hub", label: "Gammes", badge: "HUB" },
     ],
   },
   {
-    title: "Leaf Economies",
+    title: "Botanique & Patrimoine",
     icon: Leaf,
     items: [
-      { href: "/leaf-economies", label: "Échantillons botaniques", badge: "NEW" },
-      { href: "/timeline-botanique", label: "Timeline botanique" },
-      { href: "/final-recipes", label: "Recettes finales" },
-      { href: "/recettes-tl", label: "Recettes TL", badge: "NEW" },
+      { href: "/phylogenetique", label: "Classification Phylogénétique", badge: "NEW" },
+      { href: "/genealogy", label: "Arbre Généalogique", badge: "NEW" },
+      { href: "/ghost-varieties-explorer", label: "Herbier des Disparus", badge: "NEW" },
+      { href: "/osmotheque", label: "Osmothèque", badge: "NEW" },
+      { href: "/smiles", label: "Structures SMILES", badge: "NEW" },
+    ],
+  },
+  {
+    title: "Tabac & Cannabis",
+    icon: Layers,
+    items: [
+      { href: "/tabacs-niche", label: "Tabacs Niche" },
+      { href: "/tabacs-naturels", label: "Tabacs Naturels", badge: "NEW" },
+      { href: "/historic-cigarettes", label: "Cigarettes Historiques" },
+      { href: "/recettes-cigarillos", label: "Recettes Cigarillos" },
+      { href: "/chemotypes", label: "Chémotypes", badge: "NEW" },
     ],
   },
   {
     title: "Exploration",
     icon: Sparkles,
     items: [
-      { href: "/gammes-hub", label: "Gammes", badge: "HUB" },
-      { href: "/chemotypes", label: "Chémotypes", badge: "NEW" },
-      { href: "/carte-plantes-gps", label: "Carte GPS Plantes" },
       { href: "/recherche-avancee", label: "Recherche avancée" },
       { href: "/recherche-molecule", label: "Recherche par Molécule", badge: "NEW" },
+      { href: "/carte-plantes-gps", label: "Carte GPS Plantes" },
       { href: "/alternatives-durables", label: "Alternatives durables", badge: "NEW" },
+      { href: "/leaf-economies", label: "Leaf Economies", badge: "NEW" },
     ],
   },
+
+  // ── OUTILS ───────────────────────────────────────────
   {
-    title: "Visualisations",
-    icon: BarChart3,
-    items: [
-      { href: "/visualisations", label: "Hub Visualisations", badge: "HUB" },
-      { href: "/synergies-heatmap", label: "Synergies Heatmap" },
-      { href: "/correlations", label: "Corrélations Parfum × Tabac × Cannabis", badge: "NEW" },
-      { href: "/recipe-network", label: "Graphe Réseau" },
-      { href: "/reseau-liaisons", label: "Réseau de Liaisons", badge: "NEW" },
-      { href: "/sankey-flow", label: "Diagramme Sankey" },
-    ],
-  },
-  // === OUTILS ===
-  {
-    title: "Outils - Accès rapide",
+    title: "Hub Outils",
     href: "/outils-hub",
-    icon: Layers,
+    icon: FlaskConical,
   },
   {
     title: "Création",
@@ -133,10 +134,43 @@ const mobileMenuSections: MenuSection[] = [
       { href: "/ifra", label: "Conformité IFRA" },
       { href: "/stats-olfactives", label: "Statistiques Olfactives", badge: "NEW" },
       { href: "/percepts", label: "Recherche par Percept" },
-      { href: "/terp-profiles/compare", label: "Comparaison Profils" },
+      { href: "/enrichissement", label: "Enrichissement PubChem", badge: "NEW" },
     ],
   },
-  // === RECHERCHE ===
+  {
+    title: "Sourcing",
+    icon: Database,
+    items: [
+      { href: "/sourcing-hub", label: "Hub Sourcing", badge: "NEW" },
+      { href: "/sourcing/tabac", label: "Sourcing Tabac" },
+      { href: "/sourcing/cannabis", label: "Sourcing Cannabis" },
+    ],
+  },
+
+  // ── VISUALISATIONS ───────────────────────────────────
+  {
+    title: "Réseaux & Graphes",
+    icon: BarChart3,
+    items: [
+      { href: "/visualisations", label: "Hub Visualisations", badge: "HUB" },
+      { href: "/reseau-liaisons", label: "Réseau de Liaisons", badge: "NEW" },
+      { href: "/recipe-network", label: "Graphe Réseau" },
+      { href: "/correlations", label: "Corrélations", badge: "NEW" },
+      { href: "/sankey-flow", label: "Diagramme Sankey" },
+    ],
+  },
+  {
+    title: "Analyses Visuelles",
+    icon: BarChart3,
+    items: [
+      { href: "/synergies-heatmap", label: "Synergies Heatmap" },
+      { href: "/parfums", label: "Parfums emblématiques" },
+      { href: "/muscs", label: "Muscs — Guide comparatif", badge: "NEW" },
+      { href: "/timeline-botanique", label: "Timeline botanique" },
+    ],
+  },
+
+  // ── RECHERCHE ────────────────────────────────────────
   {
     title: "Méthode ABSORBE",
     icon: BookOpen,
@@ -151,51 +185,29 @@ const mobileMenuSections: MenuSection[] = [
     title: "Axes de Recherche",
     icon: Atom,
     items: [
-      { href: "/axes-recherche", label: "Vue d'ensemble" },
+      { href: "/axes-recherche", label: "Vue d'ensemble", badge: "11 axes" },
       { href: "/bibliographie", label: "Bibliographie" },
       { href: "/outils/export-bibliographique", label: "Export bibliographique" },
     ],
   },
   {
-    title: "Archives & Terrain",
+    title: "Archives & Traditions",
     icon: Database,
     items: [
       { href: "/archives-terrain", label: "Archives de Terrain" },
       { href: "/archives-olfactives", label: "Archives Olfactives" },
-      { href: "/civilisations", label: "Civilisations" },
+      { href: "/civilisations", label: "Traditions Olfactives" },
       { href: "/timeline", label: "Timeline" },
     ],
   },
-  // === TABACOTHÈQUE ===
-  {
-    title: "Tabacothèque",
-    icon: Leaf,
-    items: [
-      { href: "/tabacotheque", label: "Vue d'ensemble", badge: "HUB" },
-      { href: "/historic-cigarettes", label: "Cigarettes Historiques", badge: "NEW" },
-      { href: "/perique-compounds", label: "Composés du Perique" },
-      { href: "/tps-genes", label: "Gènes TPS", badge: "NEW" },
-      { href: "/genomics-explorer", label: "Explorateur Génomique" },
-      { href: "/molecular-transformations", label: "Transformations Moléculaires", badge: "NEW" },
-    ],
-  },
-  {
-    title: "Analyse GC-MS",
-    icon: TestTube,
-    items: [
-      { href: "/gcms-chromatograms", label: "Chromatogrammes", badge: "NEW" },
-      { href: "/ms-spectra", label: "Spectres de Masse", badge: "NEW" },
-      { href: "/compare-spectra", label: "Comparaison Spectres", badge: "NEW" },
-      { href: "/identify-spectrum", label: "Identification", badge: "NEW" },
-      { href: "/search-compound", label: "Recherche Composé" },
-    ],
-  },
-  // === PROJET ===
+
+  // ── PROJET ───────────────────────────────────────────
   {
     title: "Documentation",
     icon: FileText,
     items: [
       { href: "/glossaire", label: "Glossaire" },
+      { href: "/manifeste", label: "Manifeste" },
     ],
   },
   {
@@ -203,8 +215,8 @@ const mobileMenuSections: MenuSection[] = [
     icon: Info,
     items: [
       { href: "/a-propos", label: "À propos" },
-      { href: "/manifeste", label: "Manifeste" },
       { href: "/contribuer", label: "Contribuer" },
+      { href: "/admin/completude", label: "Tableau de complétude", badge: "NEW" },
       { href: "/admin", label: "Administration", badge: "ADMIN" },
     ],
   },

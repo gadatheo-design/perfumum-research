@@ -1,6 +1,6 @@
-// @ts-nocheck
+import React from "react";
 import { Link } from "wouter";
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import {
   Beaker,
@@ -21,7 +21,6 @@ import {
   Database,
   FileText,
   Map,
-  Image,
   Archive,
   Globe,
   Calculator,
@@ -36,7 +35,20 @@ import {
   Truck,
   Building2,
   Skull,
+  Atom,
+  TreePine,
+  Flame,
+  Waves,
+  ScanLine,
+  Dna,
+  ScrollText,
+  PenLine,
+  Zap,
+  LayoutGrid,
+  ExternalLink,
 } from "lucide-react";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface MenuItem {
   label: string;
@@ -44,356 +56,307 @@ interface MenuItem {
   icon?: React.ReactNode;
   description?: string;
   count?: number;
-  badge?: string;
+  badge?: "HUB" | "NEW" | string;
+  featured?: boolean;
 }
 
 interface MegaMenuSection {
   title: string;
+  color?: string; // accent color class for section header
   items: MenuItem[];
 }
 
 interface MegaMenuProps {
   trigger: string;
+  triggerIcon?: React.ReactNode;
   sections: MegaMenuSection[];
-  highlight?: MenuItem;
+  featured?: MenuItem; // top featured card
+  accentColor?: string; // e.g. "violet" | "amber" | "emerald" | "sky"
 }
 
-// Virtual list for large sections (>10 items)
-const VirtualizedSection: React.FC<{
-  items: MenuItem[];
-  maxHeight: number;
-  onItemClick: () => void;
-}> = ({ items, maxHeight, onItemClick }) => {
-  const [scrollTop, setScrollTop] = useState(0);
-  const itemHeight = 48; // Approximate height of each item
-  const containerHeight = Math.min(items.length * itemHeight, maxHeight);
-  
-  const startIndex = Math.floor(scrollTop / itemHeight);
-  const endIndex = Math.min(
-    Math.ceil((scrollTop + containerHeight) / itemHeight) + 1,
-    items.length
+// ─── Badge ────────────────────────────────────────────────────────────────────
+
+function ItemBadge({ badge }: { badge: string }) {
+  if (badge === "HUB") {
+    return (
+      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest bg-primary/15 text-primary">
+        HUB
+      </span>
+    );
+  }
+  if (badge === "NEW") {
+    return (
+      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+        NEW
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-semibold bg-muted text-muted-foreground">
+      {badge}
+    </span>
   );
-  const visibleItems = items.slice(startIndex, endIndex);
-  const offsetY = startIndex * itemHeight;
+}
+
+// ─── Single menu item ─────────────────────────────────────────────────────────
+
+const NavItem = React.forwardRef<
+  HTMLAnchorElement,
+  {
+    item: MenuItem;
+    onClose: () => void;
+    tabIndex?: number;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLAnchorElement>) => void;
+  }
+>(({ item, onClose, tabIndex, onKeyDown }, ref) => (
+  <Link
+    href={item.path}
+    ref={ref}
+    onClick={onClose}
+    onKeyDown={onKeyDown}
+    tabIndex={tabIndex}
+    role="menuitem"
+    className={cn(
+      "group flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-150",
+      "hover:bg-muted/70 focus:outline-none focus:bg-muted/70",
+      "focus-visible:ring-2 focus-visible:ring-primary/40"
+    )}
+  >
+    {item.icon && (
+      <span className="shrink-0 text-muted-foreground/70 group-hover:text-primary transition-colors duration-150">
+        {item.icon}
+      </span>
+    )}
+    <span className="flex-1 min-w-0">
+      <span className="flex items-center gap-1.5 flex-wrap">
+        <span className="text-[13px] font-medium text-foreground/85 group-hover:text-foreground leading-tight">
+          {item.label}
+        </span>
+        {item.badge && <ItemBadge badge={item.badge} />}
+      </span>
+      {item.description && (
+        <span className="block text-[11px] text-muted-foreground/70 mt-0.5 leading-tight line-clamp-1">
+          {item.description}
+        </span>
+      )}
+    </span>
+  </Link>
+));
+NavItem.displayName = "NavItem";
+
+// ─── Featured card ────────────────────────────────────────────────────────────
+
+function FeaturedCard({ item, onClose, accentColor }: { item: MenuItem; onClose: () => void; accentColor?: string }) {
+  const colorMap: Record<string, string> = {
+    violet: "from-violet-500/10 to-purple-500/5 border-violet-500/20 hover:border-violet-500/40",
+    amber: "from-amber-500/10 to-orange-500/5 border-amber-500/20 hover:border-amber-500/40",
+    emerald: "from-emerald-500/10 to-teal-500/5 border-emerald-500/20 hover:border-emerald-500/40",
+    sky: "from-sky-500/10 to-blue-500/5 border-sky-500/20 hover:border-sky-500/40",
+    rose: "from-rose-500/10 to-pink-500/5 border-rose-500/20 hover:border-rose-500/40",
+  };
+  const iconColorMap: Record<string, string> = {
+    violet: "bg-violet-500/15 text-violet-600 dark:text-violet-400",
+    amber: "bg-amber-500/15 text-amber-600 dark:text-amber-400",
+    emerald: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
+    sky: "bg-sky-500/15 text-sky-600 dark:text-sky-400",
+    rose: "bg-rose-500/15 text-rose-600 dark:text-rose-400",
+  };
+  const accent = accentColor || "violet";
 
   return (
-    <div
-      style={{ height: containerHeight, overflow: "auto" }}
-      onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
-      className="scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent"
+    <Link
+      href={item.path}
+      onClick={onClose}
+      className={cn(
+        "flex items-center gap-3 px-4 py-3 mb-4 rounded-xl border bg-gradient-to-r transition-all duration-200 group",
+        colorMap[accent] || colorMap.violet
+      )}
     >
-      <div style={{ height: items.length * itemHeight, position: "relative" }}>
-        <div style={{ transform: `translateY(${offsetY}px)` }}>
-          {visibleItems.map((item) => (
-            <Link
-              key={item.path}
-              href={item.path}
-              onClick={onItemClick}
-              className={cn(
-                "flex items-start gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 group",
-                "hover:bg-muted/80 hover:translate-x-0.5",
-                "focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-muted/80"
-              )}
-              role="menuitem"
-              style={{ height: itemHeight }}
-            >
-              {item.icon && (
-                <div className="text-muted-foreground group-hover:text-primary transition-colors mt-0.5 shrink-0">
-                  {item.icon}
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-foreground/90 group-hover:text-foreground">
-                    {item.label}
-                  </span>
-                  {item.badge && (
-                    <span className={cn(
-                      "inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide",
-                      item.badge === "NEW" 
-                        ? "bg-green-500/15 text-green-600 dark:text-green-400"
-                        : "bg-primary/10 text-primary"
-                    )}>
-                      {item.badge}
-                    </span>
-                  )}
-                </div>
-                {item.description && (
-                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                    {item.description}
-                  </p>
-                )}
-              </div>
-            </Link>
-          ))}
+      {item.icon && (
+        <div className={cn("p-2 rounded-lg shrink-0 transition-transform group-hover:scale-105", iconColorMap[accent] || iconColorMap.violet)}>
+          {item.icon}
         </div>
+      )}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold text-foreground">{item.label}</span>
+          {item.badge && <ItemBadge badge={item.badge} />}
+        </div>
+        {item.description && (
+          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{item.description}</p>
+        )}
       </div>
-    </div>
+      <ChevronRight className="h-4 w-4 text-muted-foreground/50 group-hover:text-foreground/70 group-hover:translate-x-0.5 transition-all shrink-0" />
+    </Link>
   );
-};
+}
 
-function MegaMenuDropdown({ trigger, sections, highlight }: MegaMenuProps) {
+// ─── Dropdown ─────────────────────────────────────────────────────────────────
+
+function MegaMenuDropdown({ trigger, triggerIcon, sections, featured, accentColor }: MegaMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Flatten all items for keyboard navigation
-  const allItems = sections.flatMap(section => section.items);
+  const allItems = sections.flatMap((s) => s.items);
 
-  // Handle keyboard navigation
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    switch (e.key) {
-      case 'Enter':
-      case ' ':
-        if (!isOpen) {
-          e.preventDefault();
-          setIsOpen(true);
-          setFocusedIndex(0);
-        }
-        break;
-      case 'Escape':
-        e.preventDefault();
-        setIsOpen(false);
-        setFocusedIndex(-1);
-        triggerRef.current?.focus();
-        break;
-      case 'ArrowDown':
-        e.preventDefault();
-        if (!isOpen) {
-          setIsOpen(true);
-          setFocusedIndex(0);
-        } else {
-          setFocusedIndex(prev => (prev + 1) % allItems.length);
-        }
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        if (isOpen) {
-          setFocusedIndex(prev => (prev - 1 + allItems.length) % allItems.length);
-        }
-        break;
-      case 'Tab':
-        if (isOpen) {
-          setIsOpen(false);
-          setFocusedIndex(-1);
-        }
-        break;
-    }
-  }, [isOpen, allItems.length]);
+  const close = useCallback(() => {
+    setIsOpen(false);
+    setFocusedIndex(-1);
+  }, []);
 
-  // Focus item when focusedIndex changes
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        if (!isOpen) { e.preventDefault(); setIsOpen(true); setFocusedIndex(0); }
+      } else if (e.key === "Escape") {
+        e.preventDefault(); close(); triggerRef.current?.focus();
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (!isOpen) { setIsOpen(true); setFocusedIndex(0); }
+        else setFocusedIndex((p) => (p + 1) % allItems.length);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (isOpen) setFocusedIndex((p) => (p - 1 + allItems.length) % allItems.length);
+      } else if (e.key === "Tab" && isOpen) {
+        close();
+      }
+    },
+    [isOpen, allItems.length, close]
+  );
+
   useEffect(() => {
-    if (isOpen && focusedIndex >= 0 && itemsRef.current[focusedIndex]) {
-      itemsRef.current[focusedIndex]?.focus();
-    }
+    if (isOpen && focusedIndex >= 0) itemsRef.current[focusedIndex]?.focus();
   }, [focusedIndex, isOpen]);
 
-  // Close menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    if (!isOpen) return;
+    const handler = (e: MouseEvent) => {
       if (
-        menuRef.current &&
-        !menuRef.current.contains(e.target as Node) &&
-        triggerRef.current &&
-        !triggerRef.current.contains(e.target as Node)
-      ) {
-        setIsOpen(false);
-        setFocusedIndex(-1);
-      }
+        menuRef.current && !menuRef.current.contains(e.target as Node) &&
+        triggerRef.current && !triggerRef.current.contains(e.target as Node)
+      ) close();
     };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [isOpen, close]);
 
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [isOpen]);
-
-  // Delayed close for better UX
   const handleMouseEnter = () => {
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
-    }
+    if (closeTimeoutRef.current) { clearTimeout(closeTimeoutRef.current); closeTimeoutRef.current = null; }
     setIsOpen(true);
   };
-
   const handleMouseLeave = () => {
-    closeTimeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-      setFocusedIndex(-1);
-    }, 150);
+    closeTimeoutRef.current = setTimeout(close, 180);
   };
 
-  // Track item index across sections
+  // Grid layout: 1-2 sections → 2 cols, 3 → 3 cols, 4+ → 4 cols
+  const cols = sections.length <= 2 ? "grid-cols-2" : sections.length === 3 ? "grid-cols-3" : "grid-cols-4";
+  const minW = sections.length <= 2 ? "min-w-[480px]" : sections.length === 3 ? "min-w-[680px]" : "min-w-[880px]";
+
   let itemIndex = 0;
 
-  // Determine grid columns based on number of sections
-  const gridCols = sections.length <= 2 ? "grid-cols-2" : sections.length === 3 ? "grid-cols-3" : "grid-cols-4";
-  const minWidth = sections.length <= 2 ? "min-w-[520px]" : sections.length === 3 ? "min-w-[720px]" : "min-w-[920px]";
+  // Accent color for trigger underline
+  const underlineMap: Record<string, string> = {
+    violet: "after:bg-violet-500",
+    amber: "after:bg-amber-500",
+    emerald: "after:bg-emerald-500",
+    sky: "after:bg-sky-500",
+    rose: "after:bg-rose-500",
+  };
+  const underlineClass = underlineMap[accentColor || "violet"] || underlineMap.violet;
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Trigger */}
+    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      {/* Trigger button */}
       <button
         ref={triggerRef}
-        className={cn(
-          "px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md",
-          "text-foreground/70 hover:text-foreground hover:bg-muted/50",
-          isOpen && "text-foreground bg-muted/50"
-        )}
         onClick={() => setIsOpen(!isOpen)}
         onKeyDown={handleKeyDown}
         aria-expanded={isOpen}
         aria-haspopup="menu"
+        className={cn(
+          "relative flex items-center gap-1.5 px-3 py-2 text-[13px] font-medium rounded-md transition-all duration-200",
+          "text-foreground/65 hover:text-foreground",
+          "after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:rounded-full after:transition-all after:duration-200",
+          isOpen
+            ? cn("text-foreground bg-muted/40", underlineClass, "after:opacity-100 after:scale-x-100")
+            : "after:opacity-0 after:scale-x-0",
+          `hover:${underlineClass} hover:after:opacity-60 hover:after:scale-x-100`
+        )}
       >
+        {triggerIcon && <span className="opacity-60">{triggerIcon}</span>}
         {trigger}
+        <ChevronRight
+          className={cn(
+            "h-3.5 w-3.5 opacity-40 transition-transform duration-200",
+            isOpen ? "rotate-90" : "rotate-0"
+          )}
+        />
       </button>
 
-      {/* Dropdown with animation */}
-      <div 
+      {/* Dropdown panel */}
+      <div
         ref={menuRef}
         className={cn(
-          "absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50",
-          "transition-all duration-200 ease-out",
-          isOpen 
-            ? "opacity-100 translate-y-0 pointer-events-auto" 
-            : "opacity-0 -translate-y-2 pointer-events-none"
+          "absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50",
+          "transition-all duration-200 ease-out origin-top",
+          isOpen
+            ? "opacity-100 scale-y-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 scale-y-95 -translate-y-1 pointer-events-none"
         )}
         role="menu"
         aria-label={trigger}
       >
-        <div className={cn(
-          "bg-background/95 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl p-5",
-          minWidth
-        )}>
-          {/* Highlight section if provided */}
-          {highlight && (
-            <Link
-              href={highlight.path}
-              onClick={() => {
-                setIsOpen(false);
-                setFocusedIndex(-1);
-              }}
-              className="flex items-center gap-4 p-4 mb-4 rounded-lg bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 hover:border-primary/40 transition-all group"
-            >
-              {highlight.icon && (
-                <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:scale-110 transition-transform">
-                  {highlight.icon}
-                </div>
-              )}
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-foreground">{highlight.label}</span>
-                  {highlight.badge && (
-                    <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-primary text-primary-foreground">
-                      {highlight.badge}
-                    </span>
-                  )}
-                </div>
-                {highlight.description && (
-                  <p className="text-sm text-muted-foreground mt-0.5">{highlight.description}</p>
-                )}
-              </div>
-              <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-            </Link>
-          )}
+        {/* Arrow */}
+        <div className="absolute top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-background border-l border-t border-border/40 z-10" />
 
-          <div className={cn("grid gap-6", gridCols)}>
-            {sections.map((section, sectionIndex) => (
-              <div key={sectionIndex} role="group" aria-labelledby={`section-${sectionIndex}`}>
-                <h3 
-                  id={`section-${sectionIndex}`}
-                  className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-3"
-                >
-                  {section.title}
-                </h3>
-                {/* Use virtualization for sections with 10+ items */}
-                {section.items.length > 10 ? (
-                  <VirtualizedSection
-                    items={section.items}
-                    maxHeight={384}
-                    onItemClick={() => {
-                      setIsOpen(false);
-                      setFocusedIndex(-1);
-                    }}
-                  />
-                ) : (
-                  <div className="space-y-0.5">
-                    {section.items.map((item) => {
-                      const currentIndex = itemIndex++;
-                      return (
-                        <Link
-                          key={item.path}
-                          href={item.path}
-                          ref={(el) => { itemsRef.current[currentIndex] = el; }}
-                          onClick={() => {
-                            setIsOpen(false);
-                            setFocusedIndex(-1);
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Escape') {
-                              e.preventDefault();
-                              setIsOpen(false);
-                              setFocusedIndex(-1);
-                              triggerRef.current?.focus();
-                            } else if (e.key === 'ArrowDown') {
-                              e.preventDefault();
-                              setFocusedIndex((currentIndex + 1) % allItems.length);
-                            } else if (e.key === 'ArrowUp') {
-                              e.preventDefault();
-                              setFocusedIndex((currentIndex - 1 + allItems.length) % allItems.length);
-                            }
-                          }}
-                          className={cn(
-                            "flex items-start gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 group",
-                            "hover:bg-muted/80 hover:translate-x-0.5",
-                            "focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-muted/80"
-                          )}
-                          role="menuitem"
-                          tabIndex={isOpen ? 0 : -1}
-                        >
-                          {item.icon && (
-                            <div className="text-muted-foreground group-hover:text-primary transition-colors mt-0.5 shrink-0">
-                              {item.icon}
-                            </div>
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium text-foreground/90 group-hover:text-foreground">
-                                {item.label}
-                              </span>
-                              {item.count !== undefined && (
-                                <span className="text-xs text-muted-foreground">({item.count})</span>
-                              )}
-                              {item.badge && (
-                                <span className={cn(
-                                  "inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide",
-                                  item.badge === "NEW" 
-                                    ? "bg-green-500/15 text-green-600 dark:text-green-400"
-                                    : "bg-primary/10 text-primary"
-                                )}>
-                                  {item.badge}
-                                </span>
-                              )}
-                            </div>
-                            {item.description && (
-                              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                                {item.description}
-                              </p>
-                            )}
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
+        <div
+          className={cn(
+            "relative bg-background/97 backdrop-blur-2xl border border-border/40 rounded-2xl shadow-xl shadow-black/10 p-5",
+            minW
+          )}
+        >
+          {/* Featured card */}
+          {featured && <FeaturedCard item={featured} onClose={close} accentColor={accentColor} />}
+
+          {/* Sections grid */}
+          <div className={cn("grid gap-x-6 gap-y-1", cols)}>
+            {sections.map((section, si) => (
+              <div key={si} role="group" aria-labelledby={`mm-section-${si}`}>
+                {/* Section header */}
+                <div className="flex items-center gap-2 mb-2 px-3">
+                  <span
+                    id={`mm-section-${si}`}
+                    className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-[0.12em]"
+                  >
+                    {section.title}
+                  </span>
+                  <div className="flex-1 h-px bg-border/40" />
+                </div>
+
+                {/* Items */}
+                <div className="space-y-0.5">
+                  {section.items.map((item) => {
+                    const idx = itemIndex++;
+                    return (
+                      <NavItem
+                        key={item.path}
+                        item={item}
+                        ref={(el) => { itemsRef.current[idx] = el; }}
+                        onClose={close}
+                        tabIndex={isOpen ? 0 : -1}
+                        onKeyDown={(e) => {
+                          if (e.key === "Escape") { e.preventDefault(); close(); triggerRef.current?.focus(); }
+                          else if (e.key === "ArrowDown") { e.preventDefault(); setFocusedIndex((idx + 1) % allItems.length); }
+                          else if (e.key === "ArrowUp") { e.preventDefault(); setFocusedIndex((idx - 1 + allItems.length) % allItems.length); }
+                        }}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             ))}
           </div>
@@ -403,46 +366,44 @@ function MegaMenuDropdown({ trigger, sections, highlight }: MegaMenuProps) {
   );
 }
 
+// ─── Main export ──────────────────────────────────────────────────────────────
+
 export function MegaMenu() {
-  // === DONNÉES (Catalogues + Recherche) ===
+
+  // ══════════════════════════════════════════════════
+  // DONNÉES — Catalogues & Exploration
+  // ══════════════════════════════════════════════════
   const donneesSections: MegaMenuSection[] = [
     {
-      title: "Catalogues",
+      title: "Catalogues principaux",
       items: [
         {
           label: "Molécules",
           path: "/molecules",
-          icon: <Beaker className="h-4 w-4" />,
-          description: "Molécules, familles olfactives et chimiques",
+          icon: <Atom className="h-4 w-4" />,
+          description: "1 719 molécules olfactives",
           badge: "HUB",
         },
         {
           label: "Recettes",
           path: "/recettes",
           icon: <FlaskConical className="h-4 w-4" />,
-          description: "Recettes, accords et formules de référence",
+          description: "Formules & accords",
           badge: "HUB",
         },
         {
           label: "Matières Premières",
           path: "/matieres-premieres",
           icon: <Beaker className="h-4 w-4" />,
-          description: "HE, absolues, résinoïdes, accords, molécules isolées (372 entrées)",
+          description: "372 entrées — HE, absolues, résines…",
           badge: "NEW",
-        },
-        {
-          label: "Recettes Cigarillos",
-          path: "/recettes-cigarillos",
-          icon: <Cigarette className="h-4 w-4" />,
-          description: "32 formulations cigarillos (Archives Vivantes, Haute Parfumerie Fumée)",
         },
         {
           label: "Plantes & Variétés",
           path: "/plants",
           icon: <Leaf className="h-4 w-4" />,
-          description: "Botanique et terroirs",
+          description: "431 espèces botaniques",
         },
-
         {
           label: "Terroirs",
           path: "/terroirs",
@@ -450,38 +411,50 @@ export function MegaMenu() {
           description: "Origines géographiques",
         },
         {
+          label: "Gammes",
+          path: "/gammes-hub",
+          icon: <Palette className="h-4 w-4" />,
+          description: "Collections thématiques",
+          badge: "HUB",
+        },
+      ],
+    },
+    {
+      title: "Botanique & Patrimoine",
+      items: [
+        {
           label: "Classification Phylogénétique",
           path: "/phylogenetique",
-          icon: <GitBranch className="h-4 w-4" />,
-          description: "Familles botaniques et molécules",
-          badge: "NEW",
-        },
-        {
-          label: "Osmothèque",
-          path: "/osmotheque",
-          icon: <Archive className="h-4 w-4" />,
-          description: "Molécules historiques et patrimoine olfactif",
-          badge: "NEW",
-        },
-        {
-          label: "Structures SMILES",
-          path: "/smiles",
-          icon: <Beaker className="h-4 w-4" />,
-          description: "Visualisation moléculaire 2D",
-          badge: "NEW",
-        },
-        {
-          label: "Herbier des Disparus",
-          path: "/ghost-varieties-explorer",
-          icon: <Skull className="h-4 w-4" />,
-          description: "Variétés éteintes et menacées",
+          icon: <Dna className="h-4 w-4" />,
+          description: "Familles botaniques",
           badge: "NEW",
         },
         {
           label: "Arbre Généalogique",
           path: "/genealogy",
           icon: <GitBranch className="h-4 w-4" />,
-          description: "Lignées et croisements interactifs",
+          description: "Lignées & croisements",
+          badge: "NEW",
+        },
+        {
+          label: "Herbier des Disparus",
+          path: "/ghost-varieties-explorer",
+          icon: <Skull className="h-4 w-4" />,
+          description: "Variétés éteintes & menacées",
+          badge: "NEW",
+        },
+        {
+          label: "Osmothèque",
+          path: "/osmotheque",
+          icon: <Archive className="h-4 w-4" />,
+          description: "Patrimoine olfactif historique",
+          badge: "NEW",
+        },
+        {
+          label: "Structures SMILES",
+          path: "/smiles",
+          icon: <ScanLine className="h-4 w-4" />,
+          description: "Visualisation moléculaire 2D",
           badge: "NEW",
         },
       ],
@@ -493,26 +466,13 @@ export function MegaMenu() {
           label: "Tabacs Niche",
           path: "/tabacs-niche",
           icon: <Cigarette className="h-4 w-4" />,
-          description: "Variétés rares et précieuses",
-        },
-        {
-          label: "Tabacs Résines",
-          path: "/tabacs-resines",
-          icon: <Leaf className="h-4 w-4" />,
-          description: "Résines et extraits tabac",
+          description: "Variétés rares & précieuses",
         },
         {
           label: "Tabacs Naturels",
           path: "/tabacs-naturels",
           icon: <Leaf className="h-4 w-4" />,
-          description: "Variétés naturelles et terroir",
-          badge: "NEW",
-        },
-        {
-          label: "Tabacs Originaux",
-          path: "/tabacs-originaux",
-          icon: <Sparkles className="h-4 w-4" />,
-          description: "Variétés exotiques et rares",
+          description: "Variétés naturelles & terroir",
           badge: "NEW",
         },
         {
@@ -524,84 +484,21 @@ export function MegaMenu() {
         {
           label: "Recettes Cigarillos",
           path: "/recettes-cigarillos",
-          icon: <Beaker className="h-4 w-4" />,
-          description: "Formulations cigarillos",
-        },
-        {
-          label: "Hub Sourcing",
-          path: "/sourcing-hub",
-          icon: <Building2 className="h-4 w-4" />,
-          description: "Tous les fournisseurs",
-          badge: "NEW",
-        },
-        {
-          label: "Sourcing Tabac",
-          path: "/sourcing/tabac",
-          icon: <Truck className="h-4 w-4" />,
-          description: "Fournisseurs spécialisés",
-        },
-        {
-          label: "Sourcing Cannabis",
-          path: "/sourcing/cannabis",
-          icon: <Package className="h-4 w-4" />,
-          description: "Fournisseurs cannabis",
-        },
-      ],
-    },
-    {
-      title: "Leaf Economies",
-      items: [
-        {
-          label: "Échantillons botaniques",
-          path: "/leaf-economies",
-          icon: <Leaf className="h-4 w-4" />,
-          description: "Programme San Andrés",
-          badge: "NEW",
-        },
-        {
-          label: "Timeline botanique",
-          path: "/timeline-botanique",
-          icon: <Clock className="h-4 w-4" />,
-          description: "Chronologie T0-T4",
-        },
-        {
-          label: "Recettes finales",
-          path: "/final-recipes",
-          icon: <Beaker className="h-4 w-4" />,
-          description: "Parfum, encens, espace",
-        },
-        {
-          label: "Recettes TL",
-          path: "/recettes-tl",
-          icon: <Leaf className="h-4 w-4" />,
-          description: "Tagetes lucida",
-          badge: "NEW",
-        },
-      ],
-    },
-    {
-      title: "Exploration",
-      items: [
-        {
-          label: "Gammes",
-          path: "/gammes-hub",
-          icon: <Palette className="h-4 w-4" />,
-          description: "Collections thématiques",
-          badge: "HUB",
+          icon: <FlaskConical className="h-4 w-4" />,
+          description: "32 formulations cigarillos",
         },
         {
           label: "Chémotypes",
           path: "/chemotypes",
-          icon: <Leaf className="h-4 w-4" />,
+          icon: <Dna className="h-4 w-4" />,
           description: "Variations chimiques par origine",
           badge: "NEW",
         },
-        {
-          label: "Carte GPS Plantes",
-          path: "/carte-plantes-gps",
-          icon: <Compass className="h-4 w-4" />,
-          description: "Localisation géographique",
-        },
+      ],
+    },
+    {
+      title: "Exploration & Recherche",
+      items: [
         {
           label: "Recherche avancée",
           path: "/recherche-avancee",
@@ -611,9 +508,15 @@ export function MegaMenu() {
         {
           label: "Recherche par Molécule",
           path: "/recherche-molecule",
-          icon: <Beaker className="h-4 w-4" />,
-          description: "Trouver les plantes par molécule",
+          icon: <Atom className="h-4 w-4" />,
+          description: "Plantes → molécule",
           badge: "NEW",
+        },
+        {
+          label: "Carte GPS Plantes",
+          path: "/carte-plantes-gps",
+          icon: <Compass className="h-4 w-4" />,
+          description: "Localisation géographique",
         },
         {
           label: "Alternatives durables",
@@ -622,90 +525,37 @@ export function MegaMenu() {
           description: "Substituts écologiques",
           badge: "NEW",
         },
-      ],
-    },
-    {
-      title: "Visualisations",
-      items: [
         {
-          label: "Hub Visualisations",
-          path: "/visualisations",
-          icon: <Network className="h-4 w-4" />,
-          description: "Toutes les visualisations",
-          badge: "HUB",
-        },
-        {
-          label: "Synergies Heatmap",
-          path: "/synergies-heatmap",
-          icon: <BarChart3 className="h-4 w-4" />,
-          description: "Matrice de compatibilité",
-        },
-        {
-          label: "Corrélations Parfum × Tabac × Cannabis",
-          path: "/correlations",
-          icon: <GitBranch className="h-4 w-4" />,
-          description: "Molécules communes inter-domaines",
+          label: "Leaf Economies",
+          path: "/leaf-economies",
+          icon: <TreePine className="h-4 w-4" />,
+          description: "Programme San Andrés",
           badge: "NEW",
         },
-        {
-          label: "Parfums emblématiques",
-          path: "/parfums",
-          icon: <Sparkles className="h-4 w-4" />,
-          description: "Navigation inverse parfum → molécules",
-        },
-        {
-          label: "Muscs — Guide comparatif",
-          path: "/muscs",
-          icon: <FlaskConical className="h-4 w-4" />,
-          description: "CITES, IFRA, biodégradabilité des 8 muscs",
-          badge: "NEW",
-        },
-        {
-          label: "Graphe Réseau",
-          path: "/recipe-network",
-          icon: <Network className="h-4 w-4" />,
-          description: "Connexions moléculaires",
-        },
-        {
-          label: "Réseau de Liaisons",
-          path: "/reseau-liaisons",
-          icon: <Network className="h-4 w-4" />,
-          description: "Recettes ↔ Matières ↔ Molécules",
-          badge: "NEW",
-        },
-        {
-          label: "Diagramme Sankey",
-          path: "/sankey-flow",
-          icon: <Layers className="h-4 w-4" />,
-          description: "Flux catégories → recettes",
-        },
-
       ],
     },
   ];
 
-  // === OUTILS (Création + Analyse) ===
+  const donneesFeatured: MenuItem = {
+    label: "Hub Visualisations",
+    path: "/visualisations",
+    icon: <Network className="h-5 w-5" />,
+    description: "Graphes, heatmaps, Sankey, réseaux de liaisons — toutes les visualisations",
+    badge: "HUB",
+  };
+
+  // ══════════════════════════════════════════════════
+  // OUTILS — Création & Analyse
+  // ══════════════════════════════════════════════════
   const outilsSections: MegaMenuSection[] = [
-    {
-      title: "Accès rapide",
-      items: [
-        {
-          label: "Hub Outils",
-          path: "/outils-hub",
-          icon: <Sparkles className="h-4 w-4" />,
-          description: "Tous les outils en un seul endroit",
-          badge: "HUB",
-        },
-      ],
-    },
     {
       title: "Création",
       items: [
         {
           label: "Éditeur de Formulation",
           path: "/outils/editeur-formulation",
-          icon: <FlaskConical className="h-4 w-4" />,
-          description: "Création formules interactives",
+          icon: <PenLine className="h-4 w-4" />,
+          description: "Formules interactives",
           badge: "NEW",
         },
         {
@@ -728,21 +578,21 @@ export function MegaMenu() {
         {
           label: "Synergies Moléculaires",
           path: "/synergies",
-          icon: <Network className="h-4 w-4" />,
+          icon: <Zap className="h-4 w-4" />,
           description: "Effet entourage",
           badge: "NEW",
         },
         {
           label: "Profils Terpéniques",
           path: "/terp-profiles",
-          icon: <Leaf className="h-4 w-4" />,
+          icon: <BarChart3 className="h-4 w-4" />,
           description: "Références analytiques",
         },
         {
-          label: "Conformité IFRA",
-          path: "/ifra",
-          icon: <ShieldCheck className="h-4 w-4" />,
-          description: "Vérification réglementaire",
+          label: "Comparaison Profils",
+          path: "/terp-profiles/compare",
+          icon: <Layers className="h-4 w-4" />,
+          description: "Radar comparatif",
         },
         {
           label: "Statistiques Olfactives",
@@ -752,38 +602,138 @@ export function MegaMenu() {
           badge: "NEW",
         },
         {
-          label: "Recherche par Percept",
-          path: "/percepts",
-          icon: <Search className="h-4 w-4" />,
-          description: "Explorer par descripteur olfactif",
+          label: "Conformité IFRA",
+          path: "/ifra",
+          icon: <ShieldCheck className="h-4 w-4" />,
+          description: "Vérification réglementaire",
         },
         {
-          label: "Comparaison Profils",
-          path: "/terp-profiles/compare",
-          icon: <BarChart3 className="h-4 w-4" />,
-          description: "Radar comparatif",
+          label: "Recherche par Percept",
+          path: "/percepts",
+          icon: <Waves className="h-4 w-4" />,
+          description: "Explorer par descripteur",
         },
         {
           label: "Enrichissement PubChem",
           path: "/enrichissement",
           icon: <Database className="h-4 w-4" />,
-          description: "Enrichir les données moléculaires",
+          description: "Données moléculaires",
           badge: "NEW",
+        },
+      ],
+    },
+    {
+      title: "Sourcing",
+      items: [
+        {
+          label: "Hub Sourcing",
+          path: "/sourcing-hub",
+          icon: <Building2 className="h-4 w-4" />,
+          description: "Tous les fournisseurs",
+          badge: "NEW",
+        },
+        {
+          label: "Sourcing Tabac",
+          path: "/sourcing/tabac",
+          icon: <Truck className="h-4 w-4" />,
+          description: "Fournisseurs spécialisés",
+        },
+        {
+          label: "Sourcing Cannabis",
+          path: "/sourcing/cannabis",
+          icon: <Package className="h-4 w-4" />,
+          description: "Fournisseurs cannabis",
         },
       ],
     },
   ];
 
-  // Highlight pour Outils
-  const outilsHighlight: MenuItem = {
+  const outilsFeatured: MenuItem = {
     label: "Hub Outils",
     path: "/outils-hub",
-    icon: <Sparkles className="h-5 w-5" />,
-    description: "Accédez à tous les outils de formulation, analyse et calcul en un seul endroit",
-    badge: "Nouveau",
+    icon: <LayoutGrid className="h-5 w-5" />,
+    description: "Tous les outils de formulation, analyse et calcul",
+    badge: "HUB",
   };
 
-  // === RECHERCHE (Méthodologie + Archives + Axes) ===
+  // ══════════════════════════════════════════════════
+  // VISUALISATIONS — Graphes & Cartes
+  // ══════════════════════════════════════════════════
+  const visualisationsSections: MegaMenuSection[] = [
+    {
+      title: "Réseaux & Graphes",
+      items: [
+        {
+          label: "Réseau de Liaisons",
+          path: "/reseau-liaisons",
+          icon: <Network className="h-4 w-4" />,
+          description: "Recettes ↔ Matières ↔ Molécules",
+          badge: "NEW",
+        },
+        {
+          label: "Graphe Réseau",
+          path: "/recipe-network",
+          icon: <GitBranch className="h-4 w-4" />,
+          description: "Connexions moléculaires",
+        },
+        {
+          label: "Corrélations",
+          path: "/correlations",
+          icon: <Layers className="h-4 w-4" />,
+          description: "Parfum × Tabac × Cannabis",
+          badge: "NEW",
+        },
+        {
+          label: "Diagramme Sankey",
+          path: "/sankey-flow",
+          icon: <Waves className="h-4 w-4" />,
+          description: "Flux catégories → recettes",
+        },
+      ],
+    },
+    {
+      title: "Analyses Visuelles",
+      items: [
+        {
+          label: "Synergies Heatmap",
+          path: "/synergies-heatmap",
+          icon: <Flame className="h-4 w-4" />,
+          description: "Matrice de compatibilité",
+        },
+        {
+          label: "Parfums emblématiques",
+          path: "/parfums",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Parfum → molécules",
+        },
+        {
+          label: "Muscs — Guide comparatif",
+          path: "/muscs",
+          icon: <Microscope className="h-4 w-4" />,
+          description: "CITES, IFRA, biodégradabilité",
+          badge: "NEW",
+        },
+        {
+          label: "Timeline botanique",
+          path: "/timeline-botanique",
+          icon: <Clock className="h-4 w-4" />,
+          description: "Chronologie T0–T4",
+        },
+      ],
+    },
+  ];
+
+  const visualisationsFeatured: MenuItem = {
+    label: "Hub Visualisations",
+    path: "/visualisations",
+    icon: <Network className="h-5 w-5" />,
+    description: "Toutes les visualisations interactives du projet",
+    badge: "HUB",
+  };
+
+  // ══════════════════════════════════════════════════
+  // RECHERCHE — Méthode, Archives, Bibliographie
+  // ══════════════════════════════════════════════════
   const rechercheSections: MegaMenuSection[] = [
     {
       title: "Méthode ABSORBE",
@@ -809,7 +759,7 @@ export function MegaMenu() {
         {
           label: "Méthodes Analytiques",
           path: "/methodes-analytiques",
-          icon: <Microscope className="h-4 w-4" />,
+          icon: <ScanLine className="h-4 w-4" />,
           description: "GC-MS, PTR-MS, HPLC, IR, RMN",
           badge: "NEW",
         },
@@ -822,14 +772,14 @@ export function MegaMenu() {
           label: "Vue d'ensemble",
           path: "/axes-recherche",
           icon: <GitBranch className="h-4 w-4" />,
-          description: "Tous les programmes",
+          description: "11 programmes actifs",
           badge: "11 axes",
         },
         {
           label: "Bibliographie",
           path: "/bibliographie",
           icon: <Library className="h-4 w-4" />,
-          description: "Références scientifiques",
+          description: "1 179 références scientifiques",
         },
         {
           label: "Export bibliographique",
@@ -840,7 +790,7 @@ export function MegaMenu() {
       ],
     },
     {
-      title: "Archives & Terrain",
+      title: "Archives & Traditions",
       items: [
         {
           label: "Archives de Terrain",
@@ -852,25 +802,27 @@ export function MegaMenu() {
           label: "Archives Olfactives",
           path: "/archives-olfactives",
           icon: <Archive className="h-4 w-4" />,
-          description: "Manuscrits et formules historiques",
+          description: "Manuscrits & formules historiques",
         },
         {
-          label: "Civilisations",
+          label: "Traditions Olfactives",
           path: "/civilisations",
           icon: <Globe className="h-4 w-4" />,
-          description: "Traditions olfactives mondiales",
+          description: "Héritages olfactifs mondiaux",
         },
         {
           label: "Timeline",
           path: "/timeline",
-          icon: <FileText className="h-4 w-4" />,
-          description: "Chronologie recherche",
+          icon: <Clock className="h-4 w-4" />,
+          description: "Chronologie de la recherche",
         },
       ],
     },
   ];
 
-  // === PROJET (À propos + Administration) ===
+  // ══════════════════════════════════════════════════
+  // PROJET — Documentation & Administration
+  // ══════════════════════════════════════════════════
   const projetSections: MegaMenuSection[] = [
     {
       title: "Documentation",
@@ -878,10 +830,15 @@ export function MegaMenu() {
         {
           label: "Glossaire",
           path: "/glossaire",
-          icon: <BookOpen className="h-4 w-4" />,
+          icon: <ScrollText className="h-4 w-4" />,
           description: "Terminologie olfactive",
         },
-
+        {
+          label: "Manifeste",
+          path: "/manifeste",
+          icon: <FileText className="h-4 w-4" />,
+          description: "Vision 2025–2035",
+        },
       ],
     },
     {
@@ -891,19 +848,20 @@ export function MegaMenu() {
           label: "À propos",
           path: "/a-propos",
           icon: <Users className="h-4 w-4" />,
-          description: "Histoire et équipe",
-        },
-        {
-          label: "Manifeste",
-          path: "/manifeste",
-          icon: <Target className="h-4 w-4" />,
-          description: "Vision 2025-2035",
+          description: "Histoire & équipe",
         },
         {
           label: "Contribuer",
           path: "/contribuer",
           icon: <Target className="h-4 w-4" />,
           description: "Rejoindre le projet",
+        },
+        {
+          label: "Tableau de complétude",
+          path: "/admin/completude",
+          icon: <BarChart3 className="h-4 w-4" />,
+          description: "Scores d'enrichissement",
+          badge: "NEW",
         },
         {
           label: "Administration",
@@ -916,11 +874,44 @@ export function MegaMenu() {
   ];
 
   return (
-    <nav className="hidden lg:flex items-center gap-0.5" role="navigation" aria-label="Menu principal">
-      <MegaMenuDropdown trigger="Données" sections={donneesSections} />
-      <MegaMenuDropdown trigger="Outils" sections={outilsSections} highlight={outilsHighlight} />
-      <MegaMenuDropdown trigger="Recherche" sections={rechercheSections} />
-      <MegaMenuDropdown trigger="Projet" sections={projetSections} />
+    <nav
+      className="hidden lg:flex items-center gap-0.5"
+      role="navigation"
+      aria-label="Menu principal"
+    >
+      <MegaMenuDropdown
+        trigger="Données"
+        triggerIcon={<Database className="h-3.5 w-3.5" />}
+        sections={donneesSections}
+        featured={donneesFeatured}
+        accentColor="violet"
+      />
+      <MegaMenuDropdown
+        trigger="Outils"
+        triggerIcon={<FlaskConical className="h-3.5 w-3.5" />}
+        sections={outilsSections}
+        featured={outilsFeatured}
+        accentColor="amber"
+      />
+      <MegaMenuDropdown
+        trigger="Visualisations"
+        triggerIcon={<Network className="h-3.5 w-3.5" />}
+        sections={visualisationsSections}
+        featured={visualisationsFeatured}
+        accentColor="sky"
+      />
+      <MegaMenuDropdown
+        trigger="Recherche"
+        triggerIcon={<Microscope className="h-3.5 w-3.5" />}
+        sections={rechercheSections}
+        accentColor="emerald"
+      />
+      <MegaMenuDropdown
+        trigger="Projet"
+        triggerIcon={<Target className="h-3.5 w-3.5" />}
+        sections={projetSections}
+        accentColor="rose"
+      />
     </nav>
   );
 }
