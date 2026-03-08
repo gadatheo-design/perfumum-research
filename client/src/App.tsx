@@ -34,6 +34,7 @@ import { AbsorbeXQuantique } from "./pages/AbsorbeXQuantique";
 import { AbsorbeXPatrimoine } from "./pages/AbsorbeXPatrimoine";
 import { AbsorbeXNeuroOlfaction } from "./pages/AbsorbeXNeuroOlfaction";
 import { AbsorbeXOdeursPerdues } from "./pages/AbsorbeXOdeursPerdues";
+import { MoleculesDisparues } from "./pages/MoleculesDisparues";
 import { AbsorbeXGuideLaboratoire } from '@/pages/AbsorbeXGuideLaboratoire';
 import AromaticRarities from '@/pages/AromaticRarities';
 import AromaticRarityDetailPage from '@/pages/AromaticRarityDetailPage';
@@ -509,6 +510,7 @@ function Router() {
       <Route path="/absorbe-x/patrimoine" component={AbsorbeXPatrimoine} />
       <Route path="/absorbe-x/neuro-olfaction" component={AbsorbeXNeuroOlfaction} />
       <Route path="/absorbe-x/odeurs-perdues" component={AbsorbeXOdeursPerdues} />
+      <Route path="/molecules-disparues" component={MoleculesDisparues} />
       <Route path="/absorbe-x/guide-laboratoire" component={AbsorbeXGuideLaboratoire} />
       
       {/* === TABACOTHÈQUE === */}

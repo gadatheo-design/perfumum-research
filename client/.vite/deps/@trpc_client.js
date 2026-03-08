@@ -24,8 +24,8 @@ import {
   unstable_httpSubscriptionLink,
   unstable_localLink,
   wsLink
-} from "./chunk-POUGY4WK.js";
-import "./chunk-G3PMV62Z.js";
+} from "./chunk-4Z5FUQBW.js";
+import "./chunk-IKZWERSR.js";
 export {
   TRPCClientError,
   TRPCUntypedClient,

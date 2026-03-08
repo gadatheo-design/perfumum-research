@@ -1,6 +1,6 @@
 import {
   __commonJS
-} from "./chunk-G3PMV62Z.js";
+} from "./chunk-IKZWERSR.js";
 
 // node_modules/.pnpm/react-ga4@2.1.0/node_modules/react-ga4/dist/gtag.js
 var require_gtag = __commonJS({
