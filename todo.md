@@ -1835,3 +1835,21 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 ### Navigation
 - [x] navigationConfig.ts — source unique de vérité pour desktop + mobile
 - [x] MegaMenu desktop synchronisé avec le menu mobile
+
+## IMPORT 4 — Bases Notion Recettes, Terroirs, Plantes (8 mars 2026)
+- [ ] Récupérer la base Notion "Recettes" via MCP
+- [ ] Récupérer la base Notion "Terroirs" via MCP
+- [ ] Récupérer la base Notion "Plantes" via MCP
+- [ ] Analyser les données et créer le script d'import
+- [ ] Importer en base et sauvegarder le checkpoint
+
+## ✅ SESSION 8 MARS 2026 — Import Bibliographies Notion
+- [x] Récupérer bases Notion Recettes, Terroirs, Plantes via MCP
+- [x] Analyser les données et créer les scripts d'import
+- [x] Importer 25 références bibliographiques (Resources & Archive + Tabac Ancien)
+- [x] Total bibliographie: 1228 → 1241 entrées (+25 nouvelles)
+  - B-OH-001 à B-OH-007 : Patrimoine olfactif (Bembibre, Kaiser, OMS, Odeuropa...)
+  - B-TC-001 à B-TC-006 : Tabac & Cannabis (Clarke, Russo, Ren, Popova, Nahas...)
+  - C-CM, C-TD, C-AA, C-RLT : Cannabis culturel (Dioscoride, Avicenne, Route de la Soie...)
+  - T-CM, T-TD, T-AA, T-RLT : Tabac historique (Codex Badianus, Monardes...)
+  - 5 références Tabac Ancien (Lock 1886, Manuscrit Alsace 1750, Thèse Montréal 2020...)
