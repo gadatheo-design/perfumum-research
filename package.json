@@ -143,7 +143,8 @@
     "overrides": {
       "tailwindcss>nanoid": "3.3.7",
       "vite-plugin-manus-runtime>react": "18.3.1",
-      "vite-plugin-manus-runtime>react-dom": "18.3.1"
+      "vite-plugin-manus-runtime>react-dom": "18.3.1",
+      "classcat": "5.0.5"
     },
     "onlyBuiltDependencies": [
       "better-sqlite3"

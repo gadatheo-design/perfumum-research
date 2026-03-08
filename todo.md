@@ -1802,3 +1802,36 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Vérifier MCP Notion — désactivé dans cette session (à réactiver depuis paramètres Manus)
 - [x] Lier recettes Petrichor aux molécules/matières premières en base (25 MP + 23 mol)
 - [x] Analyser les données Notion supplémentaires — 82 termes glossaire, 16 formules référence, données Mexique olfactif disponibles
+
+## IMPORT 3 — MCP Notion actif (8 mars 2026)
+- [ ] Identifier toutes les bases Notion disponibles
+- [ ] Récupérer molécules restantes (page 2+ via vues filtrées)
+- [ ] Récupérer bibliographie complète Notion
+- [ ] Récupérer plantes et terroirs Notion
+- [ ] Importer toutes les données en base
+
+
+## ✅ SESSION 8 MARS 2026 — Import Notion MCP actif
+
+### Données récupérées et importées
+- [x] MCP Notion réactivé et opérationnel
+- [x] 97 matières premières récupérées depuis Notion (48 nouvelles, 49 déjà en base)
+- [x] 64 molécules supplémentaires récupérées par famille (23 nouvelles, 41 déjà en base)
+- [x] 36 plantes enrichissement récupérées (toutes déjà en base)
+- [x] 3 références bibliographiques Notion importées
+
+### Totaux finaux après session
+| Entité | Quantité |
+|--------|----------|
+| Molécules | 1 139 |
+| Matières premières | 516 |
+| Plantes | 450 |
+| Bibliographie | 1 211 |
+
+### Liaisons Petrichor complètes
+- [x] 25 liaisons recette ↔ matières premières (4 recettes Petrichor)
+- [x] 23 liaisons recette ↔ molécules (4 recettes Petrichor)
+
+### Navigation
+- [x] navigationConfig.ts — source unique de vérité pour desktop + mobile
+- [x] MegaMenu desktop synchronisé avec le menu mobile
