@@ -71,7 +71,7 @@ import {
   group,
   groupSort,
   groups,
-  identity as identity2,
+  identity,
   implicit,
   index,
   indexes,
@@ -269,7 +269,7 @@ import {
   expIn,
   expInOut,
   expOut,
-  identity,
+  identity as identity2,
   interrupt_default,
   interval_default,
   linear,
@@ -8494,7 +8494,7 @@ export {
   divergingPow as scaleDivergingPow,
   divergingSqrt as scaleDivergingSqrt,
   divergingSymlog as scaleDivergingSymlog,
-  identity2 as scaleIdentity,
+  identity as scaleIdentity,
   implicit as scaleImplicit,
   linear2 as scaleLinear,
   log as scaleLog,
@@ -8707,7 +8707,7 @@ export {
   xml_default as xml,
   zip,
   zoom_default2 as zoom,
-  identity as zoomIdentity,
+  identity2 as zoomIdentity,
   transform as zoomTransform
 };
 //# sourceMappingURL=d3.js.map

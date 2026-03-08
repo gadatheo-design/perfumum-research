@@ -12,11 +12,11 @@ import {
   zoom_default
 } from "./chunk-XTSRIIAZ.js";
 import {
-  require_shim
-} from "./chunk-LCHHJRZX.js";
-import {
   require_react_dom
 } from "./chunk-Q5RSFHXU.js";
+import {
+  require_shim
+} from "./chunk-LCHHJRZX.js";
 import {
   require_jsx_runtime
 } from "./chunk-DGDLWPZF.js";

@@ -14,6 +14,9 @@ import {
   useSuspenseQuery
 } from "./chunk-NTQ2OQOT.js";
 import {
+  require_jsx_runtime
+} from "./chunk-DGDLWPZF.js";
+import {
   TRPCClientError,
   TRPCUntypedClient,
   clientCallTypeToProcedureType,
@@ -44,9 +47,6 @@ import {
   unstable_localLink,
   wsLink
 } from "./chunk-POUGY4WK.js";
-import {
-  require_jsx_runtime
-} from "./chunk-DGDLWPZF.js";
 import {
   require_react
 } from "./chunk-PZKFATAE.js";
