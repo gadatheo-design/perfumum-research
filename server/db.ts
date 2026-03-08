@@ -737,17 +737,32 @@ export async function getTabacWithMolecules(tabacId: number): Promise<any> {
   const tabacRows = (tabacResult as any)[0] as any[];
   if (!tabacRows.length) return null;
   const tabac = tabacRows[0];
-  // Get molecules via plants (match by name)
+  // Get molecules via tabac_molecule_links (direct links, preferred)
   const molResult = await db.execute(sql`
-    SELECT m.id, m.name, m.family, pm.percentage_typical, pm.percentage_min, pm.percentage_max, pm.role, pm.source
-    FROM plant_molecules pm
-    JOIN plants p ON p.id = pm.plant_id
-    JOIN molecules m ON m.id = pm.molecule_id
-    WHERE p.name LIKE ${tabac.name + '%'} AND p.category = 'tabac'
-    ORDER BY pm.percentage_typical DESC
-    LIMIT 20
+    SELECT m.id, m.name, m.family, m.olfactiveProfile as odor_description,
+           m.cas_number, tml.notes as link_notes
+    FROM tabac_molecule_links tml
+    JOIN molecules m ON m.id = tml.molecule_id
+    WHERE tml.tabac_id = ${tabacId}
+    ORDER BY m.name
   `);
-  const molecules = (molResult as any)[0] as any[];
+  let molecules = (molResult as any)[0] as any[];
+
+  // Fallback: search via plants if no direct links
+  if (molecules.length === 0) {
+    const plantMolResult = await db.execute(sql`
+      SELECT m.id, m.name, m.family, m.olfactiveProfile as odor_description,
+             pm.percentage_typical, pm.role, pm.source
+      FROM plant_molecules pm
+      JOIN plants p ON p.id = pm.plant_id
+      JOIN molecules m ON m.id = pm.molecule_id
+      WHERE p.name LIKE ${tabac.name + '%'} AND p.category = 'tabac'
+      ORDER BY pm.percentage_typical DESC
+      LIMIT 20
+    `);
+    molecules = (plantMolResult as any)[0] as any[];
+  }
+
   return { ...tabac, molecules };
 }
 

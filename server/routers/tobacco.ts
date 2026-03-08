@@ -712,4 +712,50 @@ export const tobaccoRouter = router({
         return null;
       }
     }),
+
+  /**
+   * Get molecules linked to a tobacco variety (tabac_molecule_links)
+   */
+  getVarietyMolecules: publicProcedure
+    .input(z.object({ tabacId: z.number() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return { success: false, data: [], error: "Database not available" };
+        const result = await db.execute(sql`
+          SELECT m.id, m.name, m.family, m.olfactiveProfile as odor_description,
+                 m.cas_number, tml.notes as link_notes
+          FROM tabac_molecule_links tml
+          JOIN molecules m ON m.id = tml.molecule_id
+          WHERE tml.tabac_id = ${input.tabacId}
+          ORDER BY m.name
+        `);
+        return { success: true, data: (result[0] as unknown) as any[] };
+      } catch (error) {
+        console.error("Error fetching variety molecules:", error);
+        return { success: false, data: [], error: (error as Error).message };
+      }
+    }),
+
+  /**
+   * Get all tabacs with their molecule count
+   */
+  getVarietiesWithMoleculeCount: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) return { success: false, data: [], error: "Database not available" };
+      const result = await db.execute(sql`
+        SELECT t.id, t.name, t.type, t.origin, t.aromaticProfile, t.intensity, t.internalNotes,
+               COUNT(tml.molecule_id) as molecule_count
+        FROM tabacs t
+        LEFT JOIN tabac_molecule_links tml ON t.id = tml.tabac_id
+        GROUP BY t.id, t.name, t.type, t.origin, t.aromaticProfile, t.intensity, t.internalNotes
+        ORDER BY t.type, t.name
+      `);
+      return { success: true, data: (result[0] as unknown) as any[] };
+    } catch (error) {
+      console.error("Error fetching varieties with molecule count:", error);
+      return { success: false, data: [], error: (error as Error).message };
+    }
+  }),
 });
