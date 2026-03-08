@@ -41,6 +41,7 @@ import { LinkedReferences } from "@/components/LinkedReferences";
 import { GenealogyTree } from "@/components/GenealogyTree";
 import { SeasonalVariations } from "@/components/SeasonalVariations";
 import { PlantContributionModal, PlantContributionsBanner } from "@/components/PlantContributionModal";
+import { AIEnrichButton } from "@/components/AIEnrichButton";
 import { DominantMoleculeBadgeList } from "@/components/DominantMoleculeBadge";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { EntityConnectionBar } from "@/components/EntityConnectionBar";

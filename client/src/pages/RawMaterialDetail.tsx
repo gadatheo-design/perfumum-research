@@ -36,6 +36,7 @@ import {
   X
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
+import { AIEnrichButton } from "@/components/AIEnrichButton";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LinkedMolecules, SimilarContent } from "@/components/SeeAlso";
@@ -166,7 +167,14 @@ export default function RawMaterialDetail() {
               {categoryInfo.icon}
             </div>
             <div className="flex-1">
-              <h1 className="text-4xl font-bold mb-1">{material.name}</h1>
+              <div className="flex items-start justify-between gap-4 mb-1">
+                <h1 className="text-4xl font-bold">{material.name}</h1>
+                <AIEnrichButton
+                  entityType="rawMaterial"
+                  entityId={material.id}
+                  entityName={material.name}
+                />
+              </div>
               {material.latinName && (
                 <p className="text-xl text-muted-foreground italic">{material.latinName}</p>
               )}

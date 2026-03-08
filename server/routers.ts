@@ -3868,6 +3868,612 @@ export const appRouter = router({
       }),
   }),
   
+  // ============================================================
+  // ENRICHISSEMENT IA — Plantes
+  // ============================================================
+  aiEnrichPlant: router({
+    enrich: protectedProcedure
+      .input(z.object({ plantId: z.number() }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const plant = await db.getPlantById(input.plantId);
+        if (!plant) throw new Error('Plante non trouvée');
+
+        const prompt = `Tu es un expert en botanique, chimie olfactive et phytothérapie. Enrichis la fiche de cette plante avec des données scientifiques précises.
+
+Plante : ${plant.name}
+Nom latin : ${plant.latinName || 'inconnu'}
+Famille : ${plant.family || 'inconnue'}
+Catégorie : ${plant.category || 'inconnue'}
+Origine : ${plant.origin || 'inconnue'}
+Profil olfactif actuel : ${plant.olfactiveSignature || 'non renseigné'}
+
+Génère un objet JSON avec les champs suivants (uniquement les champs que tu peux enrichir avec certitude scientifique) :
+{
+  "olfactiveProfile": ["note1", "note2", "note3"],
+  "therapeuticProperties": ["propriété1", "propriété2", "propriété3"],
+  "dominantMolecules": ["molécule1", "molécule2", "molécule3"],
+  "traditionalUse": "description de l'usage traditionnel",
+  "habitat": "description de l'habitat naturel",
+  "description": "description scientifique enrichie (2-3 phrases)"
+}
+
+Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en botanique et chimie olfactive. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'plant_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  olfactiveProfile: { type: 'array', items: { type: 'string' }, description: 'Notes olfactives principales' },
+                  therapeuticProperties: { type: 'array', items: { type: 'string' }, description: 'Propriétés thérapeutiques documentées' },
+                  dominantMolecules: { type: 'array', items: { type: 'string' }, description: 'Molécules dominantes' },
+                  traditionalUse: { type: 'string', description: 'Usage traditionnel' },
+                  habitat: { type: 'string', description: 'Habitat naturel' },
+                  description: { type: 'string', description: 'Description scientifique' },
+                },
+                required: ['olfactiveProfile', 'therapeuticProperties', 'dominantMolecules', 'traditionalUse', 'habitat', 'description'],
+                additionalProperties: false,
+              },
+            },
+          },
+        });
+
+        const raw = response?.choices?.[0]?.message?.content;
+        if (!raw) throw new Error('Réponse LLM vide');
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+        const db2 = await db.getDb();
+        if (!db2) throw new Error('Base de données non disponible');
+
+        const updates: string[] = [];
+        const params: any[] = [];
+
+        if (enriched.olfactiveProfile?.length) {
+          updates.push('olfactive_signature = ?');
+          params.push(JSON.stringify(enriched.olfactiveProfile));
+        }
+        if (enriched.therapeuticProperties?.length) {
+          updates.push('therapeutic_properties = ?');
+          params.push(JSON.stringify(enriched.therapeuticProperties));
+        }
+        if (enriched.dominantMolecules?.length) {
+          updates.push('dominant_molecules = ?');
+          params.push(JSON.stringify(enriched.dominantMolecules));
+        }
+        if (enriched.traditionalUse) {
+          updates.push('traditional_use = ?');
+          params.push(enriched.traditionalUse);
+        }
+        if (enriched.habitat) {
+          updates.push('habitat = ?');
+          params.push(enriched.habitat);
+        }
+        if (enriched.description) {
+          updates.push('description = ?');
+          params.push(enriched.description);
+        }
+
+        if (updates.length > 0) {
+          params.push(input.plantId);
+          await (db2 as any).execute(`UPDATE plants SET ${updates.join(', ')} WHERE id = ?`, params);
+        }
+
+        return { success: true, enriched, updatedFields: updates.map(u => u.split(' = ')[0]) };
+      }),
+
+    preview: protectedProcedure
+      .input(z.object({ plantId: z.number() }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const plant = await db.getPlantById(input.plantId);
+        if (!plant) throw new Error('Plante non trouvée');
+
+        const prompt = `Tu es un expert en botanique, chimie olfactive et phytothérapie. Enrichis la fiche de cette plante avec des données scientifiques précises.
+
+Plante : ${plant.name}
+Nom latin : ${plant.latinName || 'inconnu'}
+Famille : ${plant.family || 'inconnue'}
+Catégorie : ${plant.category || 'inconnue'}
+Origine : ${plant.origin || 'inconnue'}
+Profil olfactif actuel : ${plant.olfactiveSignature || 'non renseigné'}
+
+Génère un objet JSON avec les champs suivants :
+{
+  "olfactiveProfile": ["note1", "note2", "note3"],
+  "therapeuticProperties": ["propriété1", "propriété2", "propriété3"],
+  "dominantMolecules": ["molécule1", "molécule2", "molécule3"],
+  "traditionalUse": "description de l'usage traditionnel",
+  "habitat": "description de l'habitat naturel",
+  "description": "description scientifique enrichie (2-3 phrases)"
+}
+
+Réponds UNIQUEMENT avec le JSON.`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en botanique et chimie olfactive. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'plant_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  olfactiveProfile: { type: 'array', items: { type: 'string' } },
+                  therapeuticProperties: { type: 'array', items: { type: 'string' } },
+                  dominantMolecules: { type: 'array', items: { type: 'string' } },
+                  traditionalUse: { type: 'string' },
+                  habitat: { type: 'string' },
+                  description: { type: 'string' },
+                },
+                required: ['olfactiveProfile', 'therapeuticProperties', 'dominantMolecules', 'traditionalUse', 'habitat', 'description'],
+                additionalProperties: false,
+              },
+            },
+          },
+        });
+
+        const raw = response?.choices?.[0]?.message?.content;
+        if (!raw) throw new Error('Réponse LLM vide');
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        return { success: true, enriched, plantName: plant.name };
+      }),
+  }),
+
+  // ============================================================
+  // ENRICHISSEMENT IA — Matières Premières
+  // ============================================================
+  aiEnrichRawMaterial: router({
+    enrich: protectedProcedure
+      .input(z.object({ rawMaterialId: z.number() }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const db2 = await db.getDb();
+        if (!db2) throw new Error('Base de données non disponible');
+
+        const [rows] = await (db2 as any).execute(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
+        const rm = (rows as any[])[0];
+        if (!rm) throw new Error('Matière première non trouvée');
+
+        const prompt = `Tu es un expert en parfumerie, chimie olfactive et matières premières naturelles. Enrichis la fiche de cette matière première.
+
+Matière première : ${rm.name}
+Catégorie : ${rm.category || 'inconnue'}
+Plante source : ${rm.plant_source || 'inconnue'}
+Famille olfactive : ${rm.olfactive_family || 'inconnue'}
+Description actuelle : ${rm.description || 'non renseignée'}
+Méthode d'extraction : ${rm.extraction_method || 'inconnue'}
+
+Génère un objet JSON avec les champs suivants :
+{
+  "description": "description scientifique et sensorielle enrichie (3-4 phrases)",
+  "olfactiveNotes": ["note de tête", "note de cœur", "note de fond"],
+  "keyMolecules": ["molécule1", "molécule2", "molécule3"],
+  "usagesInPerfumery": "description des usages en parfumerie",
+  "extractionDetails": "détails sur le procédé d'extraction",
+  "qualityMarkers": ["marqueur1", "marqueur2"]
+}
+
+Réponds UNIQUEMENT avec le JSON.`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en parfumerie et chimie olfactive. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'raw_material_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  description: { type: 'string' },
+                  olfactiveNotes: { type: 'array', items: { type: 'string' } },
+                  keyMolecules: { type: 'array', items: { type: 'string' } },
+                  usagesInPerfumery: { type: 'string' },
+                  extractionDetails: { type: 'string' },
+                  qualityMarkers: { type: 'array', items: { type: 'string' } },
+                },
+                required: ['description', 'olfactiveNotes', 'keyMolecules', 'usagesInPerfumery', 'extractionDetails', 'qualityMarkers'],
+                additionalProperties: false,
+              },
+            },
+          },
+        });
+
+        const raw = response?.choices?.[0]?.message?.content;
+        if (!raw) throw new Error('Réponse LLM vide');
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+        if (enriched.description) {
+          await (db2 as any).execute(
+            `UPDATE raw_materials SET description = ?, ai_enriched_notes = ? WHERE id = ?`,
+            [enriched.description, JSON.stringify({ olfactiveNotes: enriched.olfactiveNotes, keyMolecules: enriched.keyMolecules, usagesInPerfumery: enriched.usagesInPerfumery, extractionDetails: enriched.extractionDetails, qualityMarkers: enriched.qualityMarkers }), input.rawMaterialId]
+          );
+        }
+
+        return { success: true, enriched, materialName: rm.name };
+      }),
+
+    preview: protectedProcedure
+      .input(z.object({ rawMaterialId: z.number() }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const db2 = await db.getDb();
+        if (!db2) throw new Error('Base de données non disponible');
+
+        const [rows] = await (db2 as any).execute(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
+        const rm = (rows as any[])[0];
+        if (!rm) throw new Error('Matière première non trouvée');
+
+        const prompt = `Tu es un expert en parfumerie et matières premières naturelles. Enrichis la fiche de cette matière première.
+
+Matière première : ${rm.name}
+Catégorie : ${rm.category || 'inconnue'}
+Plante source : ${rm.plant_source || 'inconnue'}
+Famille olfactive : ${rm.olfactive_family || 'inconnue'}
+
+Génère un objet JSON :
+{
+  "description": "description scientifique enrichie",
+  "olfactiveNotes": ["note1", "note2", "note3"],
+  "keyMolecules": ["molécule1", "molécule2", "molécule3"],
+  "usagesInPerfumery": "usages en parfumerie",
+  "extractionDetails": "détails extraction",
+  "qualityMarkers": ["marqueur1", "marqueur2"]
+}`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en parfumerie. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'raw_material_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  description: { type: 'string' },
+                  olfactiveNotes: { type: 'array', items: { type: 'string' } },
+                  keyMolecules: { type: 'array', items: { type: 'string' } },
+                  usagesInPerfumery: { type: 'string' },
+                  extractionDetails: { type: 'string' },
+                  qualityMarkers: { type: 'array', items: { type: 'string' } },
+                },
+                required: ['description', 'olfactiveNotes', 'keyMolecules', 'usagesInPerfumery', 'extractionDetails', 'qualityMarkers'],
+                additionalProperties: false,
+              },
+            },
+          },
+        });
+
+        const raw = response?.choices?.[0]?.message?.content;
+        if (!raw) throw new Error('Réponse LLM vide');
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        return { success: true, enriched, materialName: rm.name };
+      }),
+  }),
+
+  // ============================================================
+  // ENRICHISSEMENT IA — Plantes
+  // ============================================================
+  aiEnrichPlant: router({
+    enrich: protectedProcedure
+      .input(z.object({ plantId: z.number() }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const plant = await db.getPlantById(input.plantId);
+        if (!plant) throw new Error('Plante non trouvée');
+
+        const prompt = `Tu es un expert en botanique, chimie olfactive et phytothérapie. Enrichis la fiche de cette plante avec des données scientifiques précises.
+
+Plante : ${plant.name}
+Nom latin : ${plant.latinName || 'inconnu'}
+Famille : ${plant.family || 'inconnue'}
+Catégorie : ${plant.category || 'inconnue'}
+Origine : ${plant.origin || 'inconnue'}
+Profil olfactif actuel : ${plant.olfactiveSignature || 'non renseigné'}
+
+Génère un objet JSON avec les champs suivants (uniquement les champs que tu peux enrichir avec certitude scientifique) :
+{
+  "olfactiveProfile": ["note1", "note2", "note3"],
+  "therapeuticProperties": ["propriété1", "propriété2", "propriété3"],
+  "dominantMolecules": ["molécule1", "molécule2", "molécule3"],
+  "traditionalUse": "description de l'usage traditionnel",
+  "habitat": "description de l'habitat naturel",
+  "description": "description scientifique enrichie (2-3 phrases)"
+}
+
+Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en botanique et chimie olfactive. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'plant_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  olfactiveProfile: { type: 'array', items: { type: 'string' }, description: 'Notes olfactives principales' },
+                  therapeuticProperties: { type: 'array', items: { type: 'string' }, description: 'Propriétés thérapeutiques documentées' },
+                  dominantMolecules: { type: 'array', items: { type: 'string' }, description: 'Molécules dominantes' },
+                  traditionalUse: { type: 'string', description: 'Usage traditionnel' },
+                  habitat: { type: 'string', description: 'Habitat naturel' },
+                  description: { type: 'string', description: 'Description scientifique' },
+                },
+                required: ['olfactiveProfile', 'therapeuticProperties', 'dominantMolecules', 'traditionalUse', 'habitat', 'description'],
+                additionalProperties: false,
+              },
+            },
+          },
+        });
+
+        const raw = response?.choices?.[0]?.message?.content;
+        if (!raw) throw new Error('Réponse LLM vide');
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+        const db2 = await db.getDb();
+        if (!db2) throw new Error('Base de données non disponible');
+
+        const updates: string[] = [];
+        const params: any[] = [];
+
+        if (enriched.olfactiveProfile?.length) {
+          updates.push('olfactive_signature = ?');
+          params.push(JSON.stringify(enriched.olfactiveProfile));
+        }
+        if (enriched.therapeuticProperties?.length) {
+          updates.push('therapeutic_properties = ?');
+          params.push(JSON.stringify(enriched.therapeuticProperties));
+        }
+        if (enriched.dominantMolecules?.length) {
+          updates.push('dominant_molecules = ?');
+          params.push(JSON.stringify(enriched.dominantMolecules));
+        }
+        if (enriched.traditionalUse) {
+          updates.push('traditional_use = ?');
+          params.push(enriched.traditionalUse);
+        }
+        if (enriched.habitat) {
+          updates.push('habitat = ?');
+          params.push(enriched.habitat);
+        }
+        if (enriched.description) {
+          updates.push('description = ?');
+          params.push(enriched.description);
+        }
+
+        if (updates.length > 0) {
+          params.push(input.plantId);
+          await (db2 as any).execute(`UPDATE plants SET ${updates.join(', ')} WHERE id = ?`, params);
+        }
+
+        return { success: true, enriched, updatedFields: updates.map(u => u.split(' = ')[0]) };
+      }),
+
+    preview: protectedProcedure
+      .input(z.object({ plantId: z.number() }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const plant = await db.getPlantById(input.plantId);
+        if (!plant) throw new Error('Plante non trouvée');
+
+        const prompt = `Tu es un expert en botanique, chimie olfactive et phytothérapie. Enrichis la fiche de cette plante avec des données scientifiques précises.
+
+Plante : ${plant.name}
+Nom latin : ${plant.latinName || 'inconnu'}
+Famille : ${plant.family || 'inconnue'}
+Catégorie : ${plant.category || 'inconnue'}
+Origine : ${plant.origin || 'inconnue'}
+Profil olfactif actuel : ${plant.olfactiveSignature || 'non renseigné'}
+
+Génère un objet JSON avec les champs suivants :
+{
+  "olfactiveProfile": ["note1", "note2", "note3"],
+  "therapeuticProperties": ["propriété1", "propriété2", "propriété3"],
+  "dominantMolecules": ["molécule1", "molécule2", "molécule3"],
+  "traditionalUse": "description de l'usage traditionnel",
+  "habitat": "description de l'habitat naturel",
+  "description": "description scientifique enrichie (2-3 phrases)"
+}
+
+Réponds UNIQUEMENT avec le JSON.`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en botanique et chimie olfactive. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'plant_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  olfactiveProfile: { type: 'array', items: { type: 'string' } },
+                  therapeuticProperties: { type: 'array', items: { type: 'string' } },
+                  dominantMolecules: { type: 'array', items: { type: 'string' } },
+                  traditionalUse: { type: 'string' },
+                  habitat: { type: 'string' },
+                  description: { type: 'string' },
+                },
+                required: ['olfactiveProfile', 'therapeuticProperties', 'dominantMolecules', 'traditionalUse', 'habitat', 'description'],
+                additionalProperties: false,
+              },
+            },
+          },
+        });
+
+        const raw = response?.choices?.[0]?.message?.content;
+        if (!raw) throw new Error('Réponse LLM vide');
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        return { success: true, enriched, plantName: plant.name };
+      }),
+  }),
+
+  // ============================================================
+  // ENRICHISSEMENT IA — Matières Premières
+  // ============================================================
+  aiEnrichRawMaterial: router({
+    enrich: protectedProcedure
+      .input(z.object({ rawMaterialId: z.number() }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const db2 = await db.getDb();
+        if (!db2) throw new Error('Base de données non disponible');
+
+        const [rows] = await (db2 as any).execute(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
+        const rm = (rows as any[])[0];
+        if (!rm) throw new Error('Matière première non trouvée');
+
+        const prompt = `Tu es un expert en parfumerie, chimie olfactive et matières premières naturelles. Enrichis la fiche de cette matière première.
+
+Matière première : ${rm.name}
+Catégorie : ${rm.category || 'inconnue'}
+Plante source : ${rm.plant_source || 'inconnue'}
+Famille olfactive : ${rm.olfactive_family || 'inconnue'}
+Description actuelle : ${rm.description || 'non renseignée'}
+Méthode d'extraction : ${rm.extraction_method || 'inconnue'}
+
+Génère un objet JSON avec les champs suivants :
+{
+  "description": "description scientifique et sensorielle enrichie (3-4 phrases)",
+  "olfactiveNotes": ["note de tête", "note de cœur", "note de fond"],
+  "keyMolecules": ["molécule1", "molécule2", "molécule3"],
+  "usagesInPerfumery": "description des usages en parfumerie",
+  "extractionDetails": "détails sur le procédé d'extraction",
+  "qualityMarkers": ["marqueur1", "marqueur2"]
+}
+
+Réponds UNIQUEMENT avec le JSON.`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en parfumerie et chimie olfactive. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'raw_material_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  description: { type: 'string' },
+                  olfactiveNotes: { type: 'array', items: { type: 'string' } },
+                  keyMolecules: { type: 'array', items: { type: 'string' } },
+                  usagesInPerfumery: { type: 'string' },
+                  extractionDetails: { type: 'string' },
+                  qualityMarkers: { type: 'array', items: { type: 'string' } },
+                },
+                required: ['description', 'olfactiveNotes', 'keyMolecules', 'usagesInPerfumery', 'extractionDetails', 'qualityMarkers'],
+                additionalProperties: false,
+              },
+            },
+          },
+        });
+
+        const raw = response?.choices?.[0]?.message?.content;
+        if (!raw) throw new Error('Réponse LLM vide');
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+        if (enriched.description) {
+          await (db2 as any).execute(
+            `UPDATE raw_materials SET description = ?, ai_enriched_notes = ? WHERE id = ?`,
+            [enriched.description, JSON.stringify({ olfactiveNotes: enriched.olfactiveNotes, keyMolecules: enriched.keyMolecules, usagesInPerfumery: enriched.usagesInPerfumery, extractionDetails: enriched.extractionDetails, qualityMarkers: enriched.qualityMarkers }), input.rawMaterialId]
+          );
+        }
+
+        return { success: true, enriched, materialName: rm.name };
+      }),
+
+    preview: protectedProcedure
+      .input(z.object({ rawMaterialId: z.number() }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const db2 = await db.getDb();
+        if (!db2) throw new Error('Base de données non disponible');
+
+        const [rows] = await (db2 as any).execute(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
+        const rm = (rows as any[])[0];
+        if (!rm) throw new Error('Matière première non trouvée');
+
+        const prompt = `Tu es un expert en parfumerie et matières premières naturelles. Enrichis la fiche de cette matière première.
+
+Matière première : ${rm.name}
+Catégorie : ${rm.category || 'inconnue'}
+Plante source : ${rm.plant_source || 'inconnue'}
+Famille olfactive : ${rm.olfactive_family || 'inconnue'}
+
+Génère un objet JSON :
+{
+  "description": "description scientifique enrichie",
+  "olfactiveNotes": ["note1", "note2", "note3"],
+  "keyMolecules": ["molécule1", "molécule2", "molécule3"],
+  "usagesInPerfumery": "usages en parfumerie",
+  "extractionDetails": "détails extraction",
+  "qualityMarkers": ["marqueur1", "marqueur2"]
+}`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en parfumerie. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'raw_material_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  description: { type: 'string' },
+                  olfactiveNotes: { type: 'array', items: { type: 'string' } },
+                  keyMolecules: { type: 'array', items: { type: 'string' } },
+                  usagesInPerfumery: { type: 'string' },
+                  extractionDetails: { type: 'string' },
+                  qualityMarkers: { type: 'array', items: { type: 'string' } },
+                },
+                required: ['description', 'olfactiveNotes', 'keyMolecules', 'usagesInPerfumery', 'extractionDetails', 'qualityMarkers'],
+                additionalProperties: false,
+              },
+            },
+          },
+        });
+
+        const raw = response?.choices?.[0]?.message?.content;
+        if (!raw) throw new Error('Réponse LLM vide');
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        return { success: true, enriched, materialName: rm.name };
+      }),
+  }),
+
   plantSamples: router({
     getAll: publicProcedure.query(async () => {
       return getAllPlantSamples();
