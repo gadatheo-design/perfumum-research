@@ -1797,3 +1797,8 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Récupérer toutes les molécules Notion via vues filtrées par famille (MCP désactivé — import depuis fichiers locaux)
 - [x] Récupérer et analyser la base Bibliographie Notion (89 références locales)
 - [x] Importer bibliographie (29 nouvelles) et recettes Petrichor (4 nouvelles) en base
+
+## SESSION 8 MARS 2026
+- [x] Vérifier MCP Notion — désactivé dans cette session (à réactiver depuis paramètres Manus)
+- [x] Lier recettes Petrichor aux molécules/matières premières en base (25 MP + 23 mol)
+- [x] Analyser les données Notion supplémentaires — 82 termes glossaire, 16 formules référence, données Mexique olfactif disponibles
