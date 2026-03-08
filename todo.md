@@ -1792,3 +1792,8 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Extraire et normaliser molécules, recettes, plantes, terroirs
 - [x] Créer et exécuter les scripts d'import en base de données
 - [x] Vérifier les données importées et sauvegarder le checkpoint
+
+## IMPORT 2 — Molécules restantes + Bibliographie Notion
+- [x] Récupérer toutes les molécules Notion via vues filtrées par famille (MCP désactivé — import depuis fichiers locaux)
+- [x] Récupérer et analyser la base Bibliographie Notion (89 références locales)
+- [x] Importer bibliographie (29 nouvelles) et recettes Petrichor (4 nouvelles) en base
