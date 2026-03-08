@@ -1786,3 +1786,9 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Créer client/src/config/navigationConfig.ts avec toutes les entrées
 - [x] Refactoriser Header.tsx pour consommer navigationConfig
 - [x] Refactoriser MobileMenu.tsx pour consommer navigationConfig
+
+## IMPORT — Données Notion vers base de données
+- [x] Inventorier et analyser tous les fichiers Notion disponibles
+- [x] Extraire et normaliser molécules, recettes, plantes, terroirs
+- [x] Créer et exécuter les scripts d'import en base de données
+- [x] Vérifier les données importées et sauvegarder le checkpoint
