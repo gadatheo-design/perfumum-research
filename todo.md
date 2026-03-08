@@ -236,7 +236,7 @@
 ### Phase 5 : Tester et sauvegarder
 - [ ] Vérifier les liaisons dans l'interface
 - [ ] Tester les filtres et recherches
-- [ ] Sauvegarder le checkpoint final
+- [x] Sauvegarder le checkpoint final
 
 
 ### ✅ RÉSUMÉ SESSION 9 - Enrichissement des Relations Plantes-Molécules
@@ -281,7 +281,7 @@
 
 ### Phase 3 : Tester et sauvegarder
 - [ ] Vérifier les liaisons dans l'interface
-- [ ] Sauvegarder le checkpoint final
+- [x] Sauvegarder le checkpoint final
 
 ---
 
@@ -1853,3 +1853,11 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
   - C-CM, C-TD, C-AA, C-RLT : Cannabis culturel (Dioscoride, Avicenne, Route de la Soie...)
   - T-CM, T-TD, T-AA, T-RLT : Tabac historique (Codex Badianus, Monardes...)
   - 5 références Tabac Ancien (Lock 1886, Manuscrit Alsace 1750, Thèse Montréal 2020...)
+
+## IMPORT 5 — ABSORBE Recettes + Liaisons Bibliographiques (8 mars 2026)
+- [x] Récupérer la base ABSORBE Recettes depuis Notion MCP — 14 recettes Archives Vivantes + 5 PF-15 importées
+- [x] Lier références Bembibre/Kaiser/Odeuropa aux plantes disparues/menacées
+- [x] Lier références Clarke/Russo/Ren aux molécules et plantes cannabis
+- [x] Lier références Dioscoride/Avicenne/Monardes aux plantes médicinales
+- [x] Importer les recettes ABSORBE en base (14 Archives Vivantes + 5 PF-15 = 328 recettes total)
+- [x] Sauvegarder le checkpoint final
