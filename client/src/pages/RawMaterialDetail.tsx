@@ -82,6 +82,7 @@ const olfactiveFamilyConfig: Record<string, { label: string; color: string }> = 
 export default function RawMaterialDetail() {
   const params = useParams();
   const id = parseInt(params.id || "0");
+  const utils = trpc.useUtils();
 
   const { data: material, isLoading } = trpc.rawMaterials.getById.useQuery(id);
   const { data: molecules } = trpc.rawMaterials.getMolecules.useQuery(id);
@@ -173,7 +174,10 @@ export default function RawMaterialDetail() {
                   entityType="rawMaterial"
                   entityId={material.id}
                   entityName={material.name}
-                  onEnrichSuccess={() => window.location.reload()}
+                  onEnrichSuccess={() => {
+                    utils.rawMaterials.getById.invalidate(id);
+                    utils.rawMaterials.getMolecules.invalidate(id);
+                  }}
                 />
               </div>
               {material.latinName && (

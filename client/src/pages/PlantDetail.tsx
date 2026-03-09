@@ -72,6 +72,7 @@ export default function PlantDetail() {
   const params = useParams<{ id: string }>();
   const plantId = parseInt(params.id || "0");
   const { user } = useAuth();
+  const utils = trpc.useUtils();
   const [contribModalOpen, setContribModalOpen] = React.useState(false);
   const [contribDefaultType, setContribDefaultType] = React.useState<string | undefined>(undefined);
   
@@ -256,8 +257,8 @@ export default function PlantDetail() {
                 entityId={plantId}
                 entityName={plant.name}
                 onEnrichSuccess={() => {
-                  // Invalider le cache pour recharger les données enrichies
-                  window.location.reload();
+                  utils.plantStatistics.getPlantWithDetails.invalidate({ plantId });
+                  utils.plantStatistics.getPlantMoleculesWithIfra.invalidate({ plantId });
                 }}
               />
               <PlantContributionModal
