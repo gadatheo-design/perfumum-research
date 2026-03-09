@@ -4089,8 +4089,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         if (!raw) throw new Error('Réponse LLM vide');
         const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
 
-        const db2 = await db.getDb();
-        if (!db2) throw new Error('Base de données non disponible');
+        const { createConnection: _ccPlantUpd } = await import('mysql2/promise');
+        const _connPlant = await _ccPlantUpd(process.env.DATABASE_URL!);
 
         const updates: string[] = [];
         const params: any[] = [];
@@ -4122,7 +4122,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
         if (updates.length > 0) {
           params.push(input.plantId);
-          await (db2 as any).execute(`UPDATE plants SET ${updates.join(', ')} WHERE id = ?`, params);
+          await _connPlant.query(`UPDATE plants SET ${updates.join(', ')} WHERE id = ?`, params);
+          await _connPlant.end();
         }
 
         return { success: true, enriched, updatedFields: updates.map(u => u.split(' = ')[0]) };
@@ -4198,10 +4199,11 @@ Réponds UNIQUEMENT avec le JSON.`;
       .input(z.object({ rawMaterialId: z.number() }))
       .mutation(async ({ input }) => {
         const { invokeLLM } = await import('./_core/llm');
-        const db2 = await db.getDb();
-        if (!db2) throw new Error('Base de données non disponible');
 
-        const [rows] = await (db2 as any).execute(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
+        const { createConnection } = await import('mysql2/promise');
+        const _conn = await createConnection(process.env.DATABASE_URL!);
+        const [rows] = await _conn.query(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
+        await _conn.end();
         const rm = (rows as any[])[0];
         if (!rm) throw new Error('Matière première non trouvée');
 
@@ -4258,7 +4260,9 @@ Réponds UNIQUEMENT avec le JSON.`;
         const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
 
         if (enriched.description) {
-          await (db2 as any).execute(
+          const { createConnection: _cc } = await import('mysql2/promise');
+          const _connUpd = await _cc(process.env.DATABASE_URL!);
+          await _connUpd.query(
             `UPDATE raw_materials SET description = ?, ai_enriched_notes = ? WHERE id = ?`,
             [enriched.description, JSON.stringify({ olfactiveNotes: enriched.olfactiveNotes, keyMolecules: enriched.keyMolecules, usagesInPerfumery: enriched.usagesInPerfumery, extractionDetails: enriched.extractionDetails, qualityMarkers: enriched.qualityMarkers }), input.rawMaterialId]
           );
@@ -4271,10 +4275,11 @@ Réponds UNIQUEMENT avec le JSON.`;
       .input(z.object({ rawMaterialId: z.number() }))
       .mutation(async ({ input }) => {
         const { invokeLLM } = await import('./_core/llm');
-        const db2 = await db.getDb();
-        if (!db2) throw new Error('Base de données non disponible');
 
-        const [rows] = await (db2 as any).execute(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
+        const { createConnection } = await import('mysql2/promise');
+        const _conn = await createConnection(process.env.DATABASE_URL!);
+        const [rows] = await _conn.query(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
+        await _conn.end();
         const rm = (rows as any[])[0];
         if (!rm) throw new Error('Matière première non trouvée');
 
@@ -4334,8 +4339,10 @@ Génère un objet JSON :
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => {
         const { invokeLLM } = await import('./_core/llm');
-        const db2 = await db.getDb();
-        const [rows] = await (db2 as any).execute(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
+        const { createConnection: _ccMol } = await import('mysql2/promise');
+        const _connMol = await _ccMol(process.env.DATABASE_URL!);
+        const [rows] = await _connMol.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
+        await _connMol.end();
         const mol = (rows as any[])[0];
         if (!mol) throw new Error('Molécule non trouvée');
         const prompt = `Tu es un expert en chimie olfactive et phytochimie. Enrichis la fiche de cette molécule avec des données scientifiques précises.
@@ -4389,8 +4396,10 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         const { invokeLLM } = await import('./_core/llm');
-        const db2 = await db.getDb();
-        const [rows] = await (db2 as any).execute(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
+        const { createConnection: _ccMol } = await import('mysql2/promise');
+        const _connMol = await _ccMol(process.env.DATABASE_URL!);
+        const [rows] = await _connMol.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
+        await _connMol.end();
         const mol = (rows as any[])[0];
         if (!mol) throw new Error('Molécule non trouvée');
         const prompt = `Tu es un expert en chimie olfactive et phytochimie. Enrichis la fiche de cette molécule avec des données scientifiques précises.
@@ -4446,7 +4455,10 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         if (enriched.notes && !mol.notes) { updates.push("notes = ?"); params.push(enriched.notes); }
         if (updates.length > 0) {
           params.push(input.id);
-          await (db2 as any).execute(`UPDATE molecules SET ${updates.join(', ')} WHERE id = ?`, params);
+          const { createConnection: _ccMolUpd } = await import('mysql2/promise');
+          const _connMolUpd = await _ccMolUpd(process.env.DATABASE_URL!);
+          await _connMolUpd.query(`UPDATE molecules SET ${updates.join(', ')} WHERE id = ?`, params);
+          await _connMolUpd.end();
         }
         return { success: true, fieldsUpdated: updates.length, enriched };
       }),
@@ -4739,15 +4751,12 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
     // ---- Enrichissement IA par lot ----
     getBatchEnrichStats: publicProcedure.query(async () => {
-      const db2 = await db.getDb();
-      const [rows] = await (db2 as any).execute(
-        `SELECT
-          COUNT(*) as total,
-          SUM(CASE WHEN (notes IS NULL OR notes = '') THEN 1 ELSE 0 END) as missingDescription,
-          SUM(CASE WHEN (olfactive_profile IS NULL OR olfactive_profile = '') THEN 1 ELSE 0 END) as missingOlfactiveNotes,
-          SUM(CASE WHEN (usage_notes IS NULL OR usage_notes = '') THEN 1 ELSE 0 END) as missingUsages
-        FROM raw_materials`
+      const { createConnection: _ccRmStats } = await import('mysql2/promise');
+      const _connRmStats = await _ccRmStats(process.env.DATABASE_URL!);
+      const [rows] = await _connRmStats.query(
+        `SELECT COUNT(*) as total, SUM(CASE WHEN (notes IS NULL OR notes = '') THEN 1 ELSE 0 END) as missingDescription, SUM(CASE WHEN (olfactive_profile IS NULL OR olfactive_profile = '') THEN 1 ELSE 0 END) as missingOlfactiveNotes, SUM(CASE WHEN (usage_notes IS NULL OR usage_notes = '') THEN 1 ELSE 0 END) as missingUsages FROM raw_materials`
       );
+      await _connRmStats.end();
       const r = (rows as any[])[0];
       return {
         total: Number(r.total),
@@ -4764,7 +4773,6 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         offset: z.number().default(0),
       }))
       .query(async ({ input }) => {
-        const db2 = await db.getDb();
         let where = '1=1';
         if (input.filter === 'missingDescription') where = "(notes IS NULL OR notes = '')";
         if (input.filter === 'missingOlfactiveNotes') where = "(olfactive_profile IS NULL OR olfactive_profile = '')";
