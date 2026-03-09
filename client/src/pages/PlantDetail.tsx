@@ -45,6 +45,7 @@ import { AIEnrichButton } from "@/components/AIEnrichButton";
 import { DominantMoleculeBadgeList } from "@/components/DominantMoleculeBadge";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { EntityConnectionBar } from "@/components/EntityConnectionBar";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -318,11 +319,12 @@ export default function PlantDetail() {
         
         {/* Nomenclature */}
         <TabsContent value="nomenclature" className="space-y-6">
-          <NomenclatureTab plant={plant} />
+          <TabErrorBoundary tabLabel="Nomenclature"><NomenclatureTab plant={plant} /></TabErrorBoundary>
         </TabsContent>
 
         {/* Vue d'ensemble */}
         <TabsContent value="overview" className="space-y-6">
+          <TabErrorBoundary tabLabel="Vue d'ensemble">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Profil olfactif */}
             <Card>
@@ -422,10 +424,12 @@ export default function PlantDetail() {
               </Card>
             )}
           </div>
+          </TabErrorBoundary>
         </TabsContent>
         
         {/* Images */}
         <TabsContent value="images" className="space-y-6">
+          <TabErrorBoundary tabLabel="Images">
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -455,10 +459,12 @@ export default function PlantDetail() {
               </div>
             </CardContent>
           </Card>
+          </TabErrorBoundary>
         </TabsContent>
         
         {/* Variétés */}
         <TabsContent value="varieties" className="space-y-6">
+          <TabErrorBoundary tabLabel="Variétés">
           {varieties && varieties.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {varieties.map((variety: any) => (
@@ -538,10 +544,12 @@ export default function PlantDetail() {
               </CardContent>
             </Card>
           )}
+          </TabErrorBoundary>
         </TabsContent>
         
         {/* États botaniques */}
         <TabsContent value="states" className="space-y-6">
+          <TabErrorBoundary tabLabel="États botaniques">
           {botanicalStates && botanicalStates.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {botanicalStates.map((state: any, idx: number) => (
@@ -599,10 +607,12 @@ export default function PlantDetail() {
               </CardContent>
             </Card>
           )}
+          </TabErrorBoundary>
         </TabsContent>
         
         {/* Échantillons */}
         <TabsContent value="samples" className="space-y-6">
+          <TabErrorBoundary tabLabel="Échantillons">
           {samples && samples.length > 0 ? (
             <div className="space-y-4">
               {samples.map((sample: any) => (
@@ -683,10 +693,12 @@ export default function PlantDetail() {
               </CardContent>
             </Card>
           )}
+          </TabErrorBoundary>
         </TabsContent>
         
         {/* Analyses */}
         <TabsContent value="analyses" className="space-y-6">
+          <TabErrorBoundary tabLabel="Analyses">
           {analyses && analyses.length > 0 ? (
             <div className="space-y-4">
               {analyses.map((analysis: any) => (
@@ -770,10 +782,12 @@ export default function PlantDetail() {
               </CardContent>
             </Card>
           )}
+          </TabErrorBoundary>
         </TabsContent>
         
         {/* Usage Absorbe */}
         <TabsContent value="usage" className="space-y-6">
+          <TabErrorBoundary tabLabel="Usage Absorbe">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -810,10 +824,12 @@ export default function PlantDetail() {
               )}
             </CardContent>
           </Card>
+          </TabErrorBoundary>
         </TabsContent>
         
         {/* Onglet Histoire */}
         <TabsContent value="history" className="space-y-6">
+          <TabErrorBoundary tabLabel="Histoire">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -892,10 +908,12 @@ export default function PlantDetail() {
               )}
             </CardContent>
           </Card>
+          </TabErrorBoundary>
         </TabsContent>
         
         {/* Onglet Conservation */}
         <TabsContent value="conservation" className="space-y-6">
+          <TabErrorBoundary tabLabel="Conservation">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1010,10 +1028,12 @@ export default function PlantDetail() {
               </div>
             </CardContent>
           </Card>
+          </TabErrorBoundary>
         </TabsContent>
         
         {/* Onglet Réglementation */}
         <TabsContent value="regulatory" className="space-y-6">
+          <TabErrorBoundary tabLabel="Réglementation">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1128,10 +1148,12 @@ export default function PlantDetail() {
               </div>
             </CardContent>
           </Card>
+          </TabErrorBoundary>
         </TabsContent>
 
         {/* Généalogie */}
         <TabsContent value="genealogy" className="space-y-6">
+          <TabErrorBoundary tabLabel="Généalogie">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1146,10 +1168,12 @@ export default function PlantDetail() {
               <GenealogyTree varietyId={plant.id} varietyName={plant.name} />
             </CardContent>
           </Card>
+          </TabErrorBoundary>
         </TabsContent>
 
         {/* Variations Saisonnières */}
         <TabsContent value="seasonal" className="space-y-6">
+          <TabErrorBoundary tabLabel="Variations saisonnières">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1164,11 +1188,13 @@ export default function PlantDetail() {
               <SeasonalVariations plantName={plant.name} plantId={plant.id} />
             </CardContent>
           </Card>
+          </TabErrorBoundary>
         </TabsContent>
 
         {/* Parfums Emblématiques */}
         {plantPerfumes && plantPerfumes.length > 0 && (
           <TabsContent value="perfumes" className="space-y-6">
+            <TabErrorBoundary tabLabel="Parfums">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -1227,6 +1253,7 @@ export default function PlantDetail() {
                 })()}
               </CardContent>
             </Card>
+          </TabErrorBoundary>
           </TabsContent>
         )}
       </Tabs>
