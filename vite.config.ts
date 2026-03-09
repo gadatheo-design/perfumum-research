@@ -88,15 +88,34 @@ export default defineConfig({
           ],
           
           // Visualisations lourdes (lazy-loaded)
-          "viz-reactflow": ["reactflow"],
+          "viz-reactflow": ["reactflow", "@xyflow/react"],
           "viz-charts": ["chart.js", "react-chartjs-2"],
           "viz-recharts": ["recharts"],
-          "viz-d3": ["d3"],
+          "viz-d3": ["d3", "d3-sankey"],
+          "viz-force-graph": ["react-force-graph"],
+          
+          // Cartographie
+          "maps-leaflet": ["leaflet", "react-leaflet"],
+          
+          // Chimie / Molécules
+          "chem-smiles": ["smiles-drawer"],
+          
+          // Export / Documents
+          "export-pdf": ["jspdf", "jspdf-autotable", "html2canvas"],
+          "export-zip": ["jszip"],
+          "export-csv": ["papaparse"],
+          
+          // Animations
+          "animation": ["framer-motion"],
           
           // Utilitaires
-          "utils": ["clsx", "tailwind-merge", "date-fns"],
+          "utils": ["clsx", "tailwind-merge", "date-fns", "nanoid"],
           "forms": ["react-hook-form", "@hookform/resolvers", "zod"],
           "icons": ["lucide-react"],
+          "qr": ["qrcode"],
+          "markdown": ["streamdown"],
+          "carousel": ["embla-carousel-react"],
+          "window": ["react-window"],
         },
         
         // Nommage des chunks pour un meilleur debugging
