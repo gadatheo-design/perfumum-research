@@ -250,10 +250,21 @@ export default function PlantDetail() {
                 className="w-32 h-32 object-cover rounded-lg border"
               />
             )}
-            <PlantContributionModal
-              plantId={plantId}
-              plantName={plant.name}
-            />
+            <div className="flex items-center gap-2">
+              <AIEnrichButton
+                entityType="plant"
+                entityId={plantId}
+                entityName={plant.name}
+                onEnrichSuccess={() => {
+                  // Invalider le cache pour recharger les données enrichies
+                  window.location.reload();
+                }}
+              />
+              <PlantContributionModal
+                plantId={plantId}
+                plantName={plant.name}
+              />
+            </div>
           </div>
         </div>
       </div>

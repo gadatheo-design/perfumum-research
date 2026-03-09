@@ -173,6 +173,7 @@ export default function RawMaterialDetail() {
                   entityType="rawMaterial"
                   entityId={material.id}
                   entityName={material.name}
+                  onEnrichSuccess={() => window.location.reload()}
                 />
               </div>
               {material.latinName && (
