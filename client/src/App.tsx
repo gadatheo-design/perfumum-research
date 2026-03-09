@@ -107,6 +107,7 @@ import ChEBIBatch from "./pages/admin/ChEBIBatch";
 import PubChemIupacBatch from "./pages/admin/PubChemIupacBatch";
 import GBIFBatch from "./pages/admin/GBIFBatch";
 import LOTUSBatch from "./pages/admin/LOTUSBatch";
+import KNApSAcKBatch from "./pages/admin/KNApSAcKBatch";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -499,6 +500,7 @@ function Router() {
       <Route path="/admin/chebi-batch" component={ChEBIBatch} />
       <Route path="/admin/gbif-batch" component={GBIFBatch} />
       <Route path="/admin/lotus-batch" component={LOTUSBatch} />
+      <Route path="/admin/knapsack-batch" component={KNApSAcKBatch} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

@@ -58,6 +58,7 @@ import { ifraRouter } from "./routers/ifra";
 import { coconutRouter } from "./routers/coconut";
 import { gbifRouter } from "./routers/gbif";
 import { lotusRouter } from "./routers/lotus";
+import { knapsackRouter } from "./routers/knapsack";
 import { flavornetRouter } from "./routers/flavornet";
 import { therapeuticRouter } from "./routers/therapeutic";
 import { chemicalFamiliesRouter } from "./routers/chemical-families";
@@ -11451,6 +11452,7 @@ Familles olfactives disponibles:
   coconut: coconutRouter,
   gbif: gbifRouter,
   lotus: lotusRouter,
+  knapsack: knapsackRouter,
   // Flavornet Olfactory Descriptors
   flavornet: flavornetRouter,
   therapeutic: therapeuticRouter,

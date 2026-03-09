@@ -280,6 +280,14 @@ export default function Admin() {
       bgColor: "bg-teal-50",
     },
     {
+      title: "KNApSAcK — Liaisons Plante-Molécule",
+      description: "Enrichir les liaisons plante-molécule via KNApSAcK (101 500+ paires espèce-molécule) — matching CAS/nom, sans crédits IA.",
+      icon: Database,
+      href: "/admin/knapsack-batch",
+      color: "text-orange-600",
+      bgColor: "bg-orange-50",
+    },
+    {
       title: "Complétion IUPAC via PubChem",
       description: "Compléter automatiquement les noms IUPAC manquants des molécules via l'API publique PubChem (CAS → IUPAC). 135 molécules récupérables.",
       icon: Database,
