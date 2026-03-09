@@ -40,6 +40,7 @@ import { AIEnrichButton } from "@/components/AIEnrichButton";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LinkedMolecules, SimilarContent } from "@/components/SeeAlso";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Category configuration
 const categoryConfig: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
@@ -230,6 +231,7 @@ export default function RawMaterialDetail() {
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
+            <TabErrorBoundary tabLabel="Vue d'ensemble">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Origin Card */}
               <Card>
@@ -401,10 +403,12 @@ export default function RawMaterialDetail() {
                 </CardContent>
               </Card>
             </div>
+            </TabErrorBoundary>
           </TabsContent>
 
           {/* Molecules Tab */}
           <TabsContent value="molecules">
+            <TabErrorBoundary tabLabel="Composition moléculaire">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -468,10 +472,12 @@ export default function RawMaterialDetail() {
                 )}
               </CardContent>
             </Card>
+            </TabErrorBoundary>
           </TabsContent>
 
           {/* Inventory Tab */}
           <TabsContent value="inventory" className="space-y-6">
+            <TabErrorBoundary tabLabel="Inventaire">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -538,10 +544,12 @@ export default function RawMaterialDetail() {
                 </CardContent>
               </Card>
             </div>
+            </TabErrorBoundary>
           </TabsContent>
 
           {/* Spectra Tab */}
           <TabsContent value="spectra" className="space-y-6">
+            <TabErrorBoundary tabLabel="Spectres MS">
             {/* Chromatogramme combiné */}
             <CombinedChromatogram
               spectra={msSpectraData?.spectra || []}
@@ -638,10 +646,12 @@ export default function RawMaterialDetail() {
                 </Link>
               </CardContent>
             </Card>
+            </TabErrorBoundary>
           </TabsContent>
 
           {/* Usage Tab */}
           <TabsContent value="usage">
+            <TabErrorBoundary tabLabel="Usage">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
@@ -700,6 +710,7 @@ export default function RawMaterialDetail() {
                 </Card>
               )}
             </div>
+            </TabErrorBoundary>
           </TabsContent>
         </Tabs>
 

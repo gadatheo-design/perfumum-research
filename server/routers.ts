@@ -4449,8 +4449,19 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
         const updates: string[] = [];
         const params: any[] = [];
-        if (enriched.olfactiveProfile?.length) { updates.push("olfactiveProfile = ?"); params.push(enriched.olfactiveProfile.join(', ')); }
-        if (enriched.therapeuticProperties?.length) { updates.push("therapeuticProperties = ?"); params.push(enriched.therapeuticProperties.join(', ')); }
+        // Écrire dans les colonnes JSON standardisées (priorité) ET dans les colonnes text legacy (rétrocompatibilité)
+        if (enriched.olfactiveProfile?.length) {
+          updates.push("olfactiveProfileJson = ?");
+          params.push(JSON.stringify(enriched.olfactiveProfile));
+          updates.push("olfactiveProfile = ?");
+          params.push(enriched.olfactiveProfile.join(', '));
+        }
+        if (enriched.therapeuticProperties?.length) {
+          updates.push("therapeuticPropertiesJson = ?");
+          params.push(JSON.stringify(enriched.therapeuticProperties));
+          updates.push("therapeuticProperties = ?");
+          params.push(enriched.therapeuticProperties.join(', '));
+        }
         if (enriched.family && !mol.family) { updates.push("family = ?"); params.push(enriched.family); }
         if (enriched.iupac_name && !mol.iupac_name) { updates.push("iupac_name = ?"); params.push(enriched.iupac_name); }
         if (enriched.notes && !mol.notes) { updates.push("notes = ?"); params.push(enriched.notes); }
