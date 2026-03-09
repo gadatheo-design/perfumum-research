@@ -877,6 +877,63 @@ export default function MoleculeDetail() {
     );
   }
 
+  // ============================================================================
+  // NORMALISATION DES CHAMPS JSON — évite les crashes sur .map/.toLowerCase()
+  // ============================================================================
+
+  /** Convertit un champ DB (null | string | string[] | JSON string) en string propre */
+  const asString = (val: unknown): string => {
+    if (!val) return "";
+    if (typeof val === "string") {
+      // Tenter de parser si ça ressemble à du JSON
+      const trimmed = val.trim();
+      if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (Array.isArray(parsed)) return parsed.join(", ");
+          if (typeof parsed === "object") return JSON.stringify(parsed);
+        } catch { /* ignore */ }
+      }
+      return val;
+    }
+    if (Array.isArray(val)) return (val as string[]).filter(Boolean).join(", ");
+    return String(val);
+  };
+
+  /** Convertit un champ DB (null | string | string[] | JSON string) en string[] */
+  const asArray = (val: unknown): string[] => {
+    if (!val) return [];
+    if (Array.isArray(val)) return (val as unknown[]).map(String).filter(Boolean);
+    if (typeof val === "string") {
+      const trimmed = val.trim();
+      if (trimmed.startsWith("[")) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (Array.isArray(parsed)) return parsed.map(String).filter(Boolean);
+        } catch { /* ignore */ }
+      }
+      return trimmed ? [trimmed] : [];
+    }
+    return [String(val)];
+  };
+
+  /** Normalise references — toujours un tableau d'objets valides */
+  const safeReferences = (() => {
+    const refs = (molecule as any).references;
+    if (!refs) return [];
+    if (Array.isArray(refs)) return refs;
+    if (typeof refs === "string") {
+      try { const p = JSON.parse(refs); return Array.isArray(p) ? p : []; } catch { return []; }
+    }
+    return [];
+  })();
+
+  // Champs normalisés
+  const normOlfactiveProfile = asArray(molecule.olfactiveProfile);
+  const normTherapeuticProperties = asString(molecule.therapeuticProperties);
+  const normBotanicalSources = asString(molecule.botanicalSources);
+  const normOlfactiveProfileStr = normOlfactiveProfile.join(". ");
+
   // Préparer les données pour le radar chart
   const radarData = [
     { axis: "Intensité", value: molecule.radarIntensity || 50 },
@@ -1259,26 +1316,22 @@ export default function MoleculeDetail() {
             <TabsContent value="overview" className="space-y-6 mt-6">
               {/* Profil Olfactif Section */}
               <div className="grid md:grid-cols-2 gap-6">
-                {molecule.olfactiveProfile && (
+                {normOlfactiveProfile.length > 0 && (
                   <div className="bg-card p-6 rounded-lg border shadow-sm">
                     <div className="flex items-center gap-2 mb-3">
                       <Sparkles className="h-5 w-5 text-primary" />
                       <h2 className="text-lg font-semibold">Profil Olfactif</h2>
                     </div>
-                    {Array.isArray(molecule.olfactiveProfile) ? (
-                      molecule.olfactiveProfile.length === 1 ? (
-                        <p className="whitespace-pre-wrap text-muted-foreground">{molecule.olfactiveProfile[0]}</p>
-                      ) : (
-                        <div className="flex flex-wrap gap-2">
-                          {molecule.olfactiveProfile.map((tag: string, i: number) => (
-                            <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )
+                    {normOlfactiveProfile.length === 1 ? (
+                      <p className="whitespace-pre-wrap text-muted-foreground">{normOlfactiveProfile[0]}</p>
                     ) : (
-                      <p className="whitespace-pre-wrap text-muted-foreground">{molecule.olfactiveProfile as string}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {normOlfactiveProfile.map((tag: string, i: number) => (
+                          <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     )}
                   </div>
                 )}
@@ -1340,10 +1393,10 @@ export default function MoleculeDetail() {
 
               {/* Informations Botaniques et Extraction */}
               <div className="grid md:grid-cols-2 gap-6">
-                {molecule.botanicalSources && (
+                {normBotanicalSources && (
                   <div className="bg-card p-6 rounded-lg border shadow-sm">
                     <h2 className="text-lg font-semibold mb-3">Sources Botaniques</h2>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule.botanicalSources}</p>
+                    <p className="whitespace-pre-wrap text-muted-foreground">{normBotanicalSources}</p>
                   </div>
                 )}
 
@@ -1354,24 +1407,10 @@ export default function MoleculeDetail() {
                   </div>
                 )}
 
-                {molecule.therapeuticProperties && (
+                {normTherapeuticProperties && (
                   <div className="bg-card p-6 rounded-lg border shadow-sm">
                     <h2 className="text-lg font-semibold mb-3">Propriétés Thérapeutiques</h2>
-                    {Array.isArray(molecule.therapeuticProperties) ? (
-                      molecule.therapeuticProperties.length === 1 ? (
-                        <p className="whitespace-pre-wrap text-muted-foreground">{molecule.therapeuticProperties[0]}</p>
-                      ) : (
-                        <div className="flex flex-wrap gap-2">
-                          {molecule.therapeuticProperties.map((tag: string, i: number) => (
-                            <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )
-                    ) : (
-                      <p className="whitespace-pre-wrap text-muted-foreground">{molecule.therapeuticProperties as string}</p>
-                    )}
+                    <p className="whitespace-pre-wrap text-muted-foreground">{normTherapeuticProperties}</p>
                   </div>
                 )}
 
@@ -1406,7 +1445,7 @@ export default function MoleculeDetail() {
               {/* Références Bibliographiques (PubChem, etc.) */}
               <div className="bg-card p-6 rounded-lg border shadow-sm">
                 <h2 className="text-lg font-semibold mb-4">Références PubChem</h2>
-                <ReferencesList references={molecule.references as any} />
+                <ReferencesList references={safeReferences} />
               </div>
 
               {/* Références Bibliographiques Liées (V3) */}
@@ -1546,12 +1585,8 @@ export default function MoleculeDetail() {
                   iupacName: molecule.iupacName,
                   casNumber: molecule.casNumber,
                   chemicalFormula: molecule.chemicalFormula,
-                  olfactiveProfile: Array.isArray(molecule.olfactiveProfile)
-                    ? (molecule.olfactiveProfile as string[]).join('. ')
-                    : (molecule.olfactiveProfile as string | null | undefined),
-                  botanicalSources: Array.isArray(molecule.botanicalSources)
-                    ? (molecule.botanicalSources as string[]).join(', ')
-                    : (molecule.botanicalSources as string | null | undefined),
+                  olfactiveProfile: normOlfactiveProfileStr || undefined,
+                  botanicalSources: normBotanicalSources || undefined,
                 }}
                 currentChemicalClass={molecule.chemicalClass}
                 currentOlfactiveFamily={molecule.family}
@@ -2191,8 +2226,8 @@ export default function MoleculeDetail() {
               <TherapeuticPropertiesTab
                 moleculeId={molecule.id}
                 moleculeName={molecule.name}
-                therapeuticProperties={molecule.therapeuticProperties}
-                olfactiveProfile={molecule.olfactiveProfile}
+                therapeuticProperties={normTherapeuticProperties || undefined}
+                olfactiveProfile={normOlfactiveProfileStr || undefined}
               />
             </TabsContent>
 
