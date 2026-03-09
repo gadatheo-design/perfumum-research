@@ -20,6 +20,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 type EntityType = "molecules" | "recettes" | "accords" | "familles" | "matieres" | "plants" | "terroirs" | "liaisons";
 type ExportFormat = "csv" | "json";
@@ -450,6 +451,7 @@ export default function AdminImportExport() {
                 </TabsList>
 
                 {/* Individual Export */}
+                <TabErrorBoundary>
                 <TabsContent value="individual" className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {exportConfigs.map((config) => (
@@ -487,8 +489,10 @@ export default function AdminImportExport() {
                     ))}
                   </div>
                 </TabsContent>
+                </TabErrorBoundary>
 
                 {/* Batch Export */}
+                <TabErrorBoundary>
                 <TabsContent value="batch" className="space-y-6">
                   <Card>
                     <CardHeader>
@@ -582,8 +586,10 @@ export default function AdminImportExport() {
                     </Button>
                   </div>
                 </TabsContent>
+                </TabErrorBoundary>
 
                 {/* Liaisons Export */}
+                <TabErrorBoundary>
                 <TabsContent value="liaisons" className="space-y-6">
                   <Card>
                     <CardHeader>
@@ -646,6 +652,7 @@ export default function AdminImportExport() {
                     </Button>
                   </div>
                 </TabsContent>
+                </TabErrorBoundary>
               </Tabs>
 
               {/* Info Section */}

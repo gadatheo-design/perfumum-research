@@ -30,6 +30,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import useDebounce from "@/hooks/useDebounce";
 import { AIClassificationSuggestion } from "@/components/AIClassificationSuggestion";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Types pour les formulaires
 interface MoleculeFormData {
@@ -375,6 +376,7 @@ export default function ContributorInterface() {
                 </TabsList>
                 
                 {/* Formulaire Molécule */}
+                <TabErrorBoundary>
                 <TabsContent value="molecule">
                   <Card>
                     <CardHeader>
@@ -553,8 +555,10 @@ export default function ContributorInterface() {
                     </CardContent>
                   </Card>
                 </TabsContent>
+                </TabErrorBoundary>
                 
                 {/* Formulaire Plante */}
+                <TabErrorBoundary>
                 <TabsContent value="plant">
                   <Card>
                     <CardHeader>
@@ -733,6 +737,7 @@ export default function ContributorInterface() {
                     </CardContent>
                   </Card>
                 </TabsContent>
+                </TabErrorBoundary>
               </Tabs>
             </div>
           </div>

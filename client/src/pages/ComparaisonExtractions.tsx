@@ -38,6 +38,7 @@ import {
   YAxis,
   CartesianGrid
 } from "recharts";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Types d'extraction
 const extractionTypes = {
@@ -202,6 +203,7 @@ export default function ComparaisonExtractions() {
         </TabsList>
         
         {/* Vue d'ensemble */}
+        <TabErrorBoundary>
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {Object.entries(extractionTypes).map(([key, type]) => {
@@ -379,8 +381,10 @@ export default function ComparaisonExtractions() {
             </CardContent>
           </Card>
         </TabsContent>
+        </TabErrorBoundary>
         
         {/* Comparaison radar */}
+        <TabErrorBoundary>
         <TabsContent value="comparison" className="space-y-6">
           <Card>
             <CardHeader>
@@ -447,8 +451,10 @@ export default function ComparaisonExtractions() {
             </CardContent>
           </Card>
         </TabsContent>
+        </TabErrorBoundary>
         
         {/* Compositions moléculaires */}
+        <TabErrorBoundary>
         <TabsContent value="molecules" className="space-y-6">
           <Card>
             <CardHeader>
@@ -593,8 +599,10 @@ export default function ComparaisonExtractions() {
             </CardContent>
           </Card>
         </TabsContent>
+        </TabErrorBoundary>
         
         {/* Exemples par plante */}
+        <TabErrorBoundary>
         <TabsContent value="examples" className="space-y-6">
           <Card>
             <CardHeader>
@@ -673,6 +681,7 @@ export default function ComparaisonExtractions() {
             </CardContent>
           </Card>
         </TabsContent>
+        </TabErrorBoundary>
       </Tabs>
     </div>
   );

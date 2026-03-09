@@ -62,6 +62,7 @@ import {
 } from "recharts";
 import { AnimatedCounter, ProgressIndicator, PulseDot, StatusBadge } from "@/components/ui/feedback";
 import { DashboardSkeleton } from "@/components/skeletons";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Couleurs pour les graphiques
 const COLORS = [
@@ -563,6 +564,7 @@ export default function AnalyticsDashboardAdvanced() {
             </TabsList>
 
             {/* Onglet Vue d'ensemble */}
+            <TabErrorBoundary>
             <TabsContent value="overview" className="space-y-6">
               <div className="grid lg:grid-cols-2 gap-6">
                 {/* Graphique radar moyen */}
@@ -666,8 +668,10 @@ export default function AnalyticsDashboardAdvanced() {
                 </CardContent>
               </Card>
             </TabsContent>
+            </TabErrorBoundary>
 
             {/* Onglet Molécules */}
+            <TabErrorBoundary>
             <TabsContent value="molecules" className="space-y-6">
               <div className="grid lg:grid-cols-2 gap-6">
                 <Card>
@@ -722,8 +726,10 @@ export default function AnalyticsDashboardAdvanced() {
                 </CardContent>
               </Card>
             </TabsContent>
+            </TabErrorBoundary>
 
             {/* Onglet Recettes */}
+            <TabErrorBoundary>
             <TabsContent value="recettes" className="space-y-6">
               <div className="grid lg:grid-cols-2 gap-6">
                 <Card>
@@ -768,8 +774,10 @@ export default function AnalyticsDashboardAdvanced() {
                 </Card>
               </div>
             </TabsContent>
+            </TabErrorBoundary>
 
             {/* Onglet Activité */}
+            <TabErrorBoundary>
             <TabsContent value="activity" className="space-y-6">
               <div className="grid lg:grid-cols-2 gap-6">
                 <Card>
@@ -810,6 +818,7 @@ export default function AnalyticsDashboardAdvanced() {
                 </Card>
               </div>
             </TabsContent>
+            </TabErrorBoundary>
           </Tabs>
 
           {/* Voir aussi */}

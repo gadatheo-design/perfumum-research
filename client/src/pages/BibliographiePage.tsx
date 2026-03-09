@@ -67,6 +67,7 @@ import {
   Home as HomeIcon,
 } from "lucide-react";
 import { toast } from "sonner";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Types
 type EntryType = 'article' | 'book' | 'inbook' | 'incollection' | 'inproceedings' | 'conference' | 'thesis' | 'mastersthesis' | 'phdthesis' | 'techreport' | 'manual' | 'unpublished' | 'misc' | 'online' | 'patent' | 'standard' | 'dataset' | 'software';
@@ -675,6 +676,7 @@ export default function BibliographiePage() {
             </div>
             
             {/* Vue d'ensemble */}
+            <TabErrorBoundary>
             <TabsContent value="overview" className="space-y-8">
               {/* Statistiques */}
               <StatsOverview stats={stats} />
@@ -743,8 +745,10 @@ export default function BibliographiePage() {
                 </CardContent>
               </Card>
             </TabsContent>
+            </TabErrorBoundary>
             
             {/* Parcourir */}
+            <TabErrorBoundary>
             <TabsContent value="browse" className="space-y-6">
               {/* Filtres */}
               <Card>
@@ -908,8 +912,10 @@ export default function BibliographiePage() {
                 </Card>
               )}
             </TabsContent>
+            </TabErrorBoundary>
             
             {/* Par domaine */}
+            <TabErrorBoundary>
             <TabsContent value="domains" className="space-y-6">
               {Object.entries(entriesByDomain).map(([domain, domainEntries]) => {
                 const d = domain as ResearchDomain;
@@ -967,8 +973,10 @@ export default function BibliographiePage() {
                 </Card>
               )}
             </TabsContent>
+            </TabErrorBoundary>
             
             {/* Chronologie */}
+            <TabErrorBoundary>
             <TabsContent value="timeline" className="space-y-6">
               <Card>
                 <CardHeader>
@@ -1021,6 +1029,7 @@ export default function BibliographiePage() {
                 </CardContent>
               </Card>
             </TabsContent>
+            </TabErrorBoundary>
           </Tabs>
         </div>
       </main>

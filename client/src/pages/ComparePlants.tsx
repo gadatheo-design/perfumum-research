@@ -26,6 +26,7 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 const COLORS = ["#8b5cf6", "#10b981", "#f59e0b", "#ef4444", "#3b82f6"];
 
@@ -183,6 +184,7 @@ export default function ComparePlants() {
             </TabsList>
 
             {/* Vue d'ensemble */}
+            <TabErrorBoundary>
             <TabsContent value="overview" className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Radar des axes climatiques */}
@@ -320,8 +322,10 @@ export default function ComparePlants() {
                 ))}
               </div>
             </TabsContent>
+            </TabErrorBoundary>
 
             {/* Profils moléculaires */}
+            <TabErrorBoundary>
             <TabsContent value="molecules" className="space-y-6">
               <Card>
                 <CardHeader>
@@ -350,8 +354,10 @@ export default function ComparePlants() {
                 </CardContent>
               </Card>
             </TabsContent>
+            </TabErrorBoundary>
 
             {/* Terroirs */}
+            <TabErrorBoundary>
             <TabsContent value="terroirs" className="space-y-6">
               <Card>
                 <CardHeader>
@@ -386,8 +392,10 @@ export default function ComparePlants() {
                 </CardContent>
               </Card>
             </TabsContent>
+            </TabErrorBoundary>
 
             {/* Usage ABSORBE */}
+            <TabErrorBoundary>
             <TabsContent value="usage" className="space-y-6">
               <Card>
                 <CardHeader>
@@ -425,6 +433,7 @@ export default function ComparePlants() {
                 </CardContent>
               </Card>
             </TabsContent>
+            </TabErrorBoundary>
           </Tabs>
         ) : (
           <Card className="text-center py-12">

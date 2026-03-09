@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import * as d3 from "d3";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Données des voies biosynthétiques
 const pathwayData = {
@@ -395,6 +396,7 @@ export default function BiosyntheticPathways() {
         </TabsList>
 
         {/* Onglet Voies Métaboliques */}
+        <TabErrorBoundary>
         <TabsContent value="pathways" className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             {/* Voie MEP */}
@@ -494,8 +496,10 @@ export default function BiosyntheticPathways() {
             </CardContent>
           </Card>
         </TabsContent>
+        </TabErrorBoundary>
 
         {/* Onglet Réseau TPS */}
+        <TabErrorBoundary>
         <TabsContent value="network" className="space-y-6">
           <Card>
             <CardHeader>
@@ -547,8 +551,10 @@ export default function BiosyntheticPathways() {
             </CardContent>
           </Card>
         </TabsContent>
+        </TabErrorBoundary>
 
         {/* Onglet Explorateur */}
+        <TabErrorBoundary>
         <TabsContent value="genes" className="space-y-6">
           {/* Filtres */}
           <Card>
@@ -678,6 +684,7 @@ export default function BiosyntheticPathways() {
             </Card>
           )}
         </TabsContent>
+        </TabErrorBoundary>
       </Tabs>
     </div>
   );

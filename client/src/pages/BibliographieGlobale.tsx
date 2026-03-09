@@ -70,6 +70,7 @@ import { AxisSelector } from "@/components/AxisSelector";
 import { CitationManager } from "@/components/CitationManager";
 import { DateRangeFilter } from "@/components/DateRangeFilter";
 import { EntityLinker } from "@/components/EntityLinker";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Types pour les entrées bibliographiques
 type EntryType = 'article' | 'book' | 'inbook' | 'incollection' | 'inproceedings' | 'conference' | 'thesis' | 'mastersthesis' | 'phdthesis' | 'techreport' | 'manual' | 'unpublished' | 'misc' | 'online' | 'patent' | 'standard' | 'dataset' | 'software';
@@ -817,6 +818,7 @@ export default function BibliographieGlobale() {
               </TabsTrigger>
             </TabsList>
 
+            <TabErrorBoundary>
             <TabsContent value="list" className="mt-6">
               {/* Filtres */}
               <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -1045,7 +1047,9 @@ export default function BibliographieGlobale() {
                 </Card>
               )}
             </TabsContent>
+            </TabErrorBoundary>
 
+            <TabErrorBoundary>
             <TabsContent value="graph" className="mt-6">
               {/* Statistiques du graphe */}
               {citationStats && (
@@ -1120,6 +1124,7 @@ export default function BibliographieGlobale() {
                 </Card>
               )}
             </TabsContent>
+            </TabErrorBoundary>
           </Tabs>
         </div>
       </main>

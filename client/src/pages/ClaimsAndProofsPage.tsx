@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, Search, BookOpen, FileText } from 'lucide-react';
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 export function ClaimsAndProofsPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -129,6 +130,7 @@ export function ClaimsAndProofsPage() {
           </TabsList>
 
           {/* Claims Tab */}
+          <TabErrorBoundary>
           <TabsContent value="claims">
             {isLoadingClaims ? (
               <div className="flex justify-center items-center py-12">
@@ -180,8 +182,10 @@ export function ClaimsAndProofsPage() {
               </div>
             )}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Sources Tab */}
+          <TabErrorBoundary>
           <TabsContent value="sources">
             {isLoadingSources ? (
               <div className="flex justify-center items-center py-12">
@@ -233,6 +237,7 @@ export function ClaimsAndProofsPage() {
               </div>
             )}
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
 
         {/* Results Count */}

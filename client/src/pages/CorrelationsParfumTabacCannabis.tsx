@@ -26,6 +26,7 @@ import {
   Zap,
   ArrowRight,
 } from "lucide-react";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // ─── Couleurs domaines ───────────────────────────────────────────────────────
 const DOMAIN_COLORS = {
@@ -338,6 +339,7 @@ export default function CorrelationsParfumTabacCannabis() {
           </TabsList>
 
           {/* ─── Onglet Liste ─── */}
+          <TabErrorBoundary>
           <TabsContent value="liste">
             <div className="flex flex-col md:flex-row gap-4 mb-4">
               <div className="relative flex-1">
@@ -501,8 +503,10 @@ export default function CorrelationsParfumTabacCannabis() {
               )}
             </div>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* ─── Onglet Graphe ─── */}
+          <TabErrorBoundary>
           <TabsContent value="graphe">
             <Card className="bg-white/5 border-white/10">
               <CardHeader>
@@ -543,8 +547,10 @@ export default function CorrelationsParfumTabacCannabis() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* ─── Onglet Venn ─── */}
+          <TabErrorBoundary>
           <TabsContent value="venn">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card className="bg-white/5 border-white/10">
@@ -617,8 +623,10 @@ export default function CorrelationsParfumTabacCannabis() {
               </Card>
             </div>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* ─── Onglet Familles ─── */}
+          <TabErrorBoundary>
           <TabsContent value="familles">
             <Card className="bg-white/5 border-white/10">
               <CardHeader>
@@ -666,10 +674,13 @@ export default function CorrelationsParfumTabacCannabis() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
           {/* ─── Onglet Synergies Tabac×Parfum ─── */}
+          <TabErrorBoundary>
           <TabsContent value="synergies-tabac">
             <SynergiesTabacParfumTab />
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
       </div>
     </div>

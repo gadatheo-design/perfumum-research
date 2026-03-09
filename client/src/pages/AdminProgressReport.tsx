@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 function ProgressIndicator({ start, end, change, changePercent, label }: {
   start: number;
@@ -196,6 +197,7 @@ export default function AdminProgressReport() {
           </TabsList>
 
           {/* Progress Tab */}
+          <TabErrorBoundary>
           <TabsContent value="progress" className="space-y-4">
             {reportLoading ? (
               <div className="flex items-center justify-center py-12">
@@ -290,8 +292,10 @@ export default function AdminProgressReport() {
               </div>
             )}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Projection Tab */}
+          <TabErrorBoundary>
           <TabsContent value="projection" className="space-y-4">
             {report?.projection ? (
               <div className="grid gap-4 md:grid-cols-2">
@@ -410,8 +414,10 @@ export default function AdminProgressReport() {
               </Card>
             )}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* History Tab */}
+          <TabErrorBoundary>
           <TabsContent value="history" className="space-y-4">
             <Card>
               <CardHeader>
@@ -499,6 +505,7 @@ export default function AdminProgressReport() {
               </Card>
             )}
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
       </div>
     </DashboardLayout>

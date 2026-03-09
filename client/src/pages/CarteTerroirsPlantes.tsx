@@ -35,6 +35,7 @@ import {
   Flower2,
   Info
 } from "lucide-react";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 interface Terroir {
   id: number;
@@ -434,6 +435,7 @@ export default function CarteTerroirsPlantes() {
               </TabsList>
 
               {/* Vue Carte */}
+              <TabErrorBoundary>
               <TabsContent value="carte">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   {/* Carte */}
@@ -634,8 +636,10 @@ export default function CarteTerroirsPlantes() {
                   </div>
                 </div>
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Vue Liste */}
+              <TabErrorBoundary>
               <TabsContent value="liste">
                 {isLoading ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -705,8 +709,10 @@ export default function CarteTerroirsPlantes() {
                   </div>
                 )}
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Vue par pays */}
+              <TabErrorBoundary>
               <TabsContent value="pays">
                 <div className="space-y-8">
                   {Object.entries(terroirsByCountry)
@@ -772,6 +778,7 @@ export default function CarteTerroirsPlantes() {
                   ))}
                 </div>
               </TabsContent>
+              </TabErrorBoundary>
             </Tabs>
           </div>
         </section>

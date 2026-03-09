@@ -22,6 +22,7 @@ import {
   Info,
   ExternalLink
 } from "lucide-react";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Définition des terroirs de recherche avec leurs coordonnées
 const RESEARCH_TERROIRS = [
@@ -316,6 +317,7 @@ export default function CarteTerroirsRecherche() {
               </TabsList>
 
               {/* Onglet Carte */}
+              <TabErrorBoundary>
               <TabsContent value="carte" className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                   {/* Carte */}
@@ -383,8 +385,10 @@ export default function CarteTerroirsRecherche() {
                   </div>
                 </div>
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Onglet Terroirs */}
+              <TabErrorBoundary>
               <TabsContent value="terroirs" className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {RESEARCH_TERROIRS.map(terroir => (
@@ -457,8 +461,10 @@ export default function CarteTerroirsRecherche() {
                   ))}
                 </div>
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Onglet Détails des plantes */}
+              <TabErrorBoundary>
               <TabsContent value="details" className="space-y-6">
                 {isLoadingPlants ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -613,6 +619,7 @@ export default function CarteTerroirsRecherche() {
                   </Card>
                 )}
               </TabsContent>
+              </TabErrorBoundary>
             </Tabs>
           </div>
         </section>

@@ -42,6 +42,7 @@ import {
   Bell,
   Send
 } from "lucide-react";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 export default function AdminValidation() {
   const { user } = useAuth();
@@ -281,6 +282,7 @@ export default function AdminValidation() {
                   </TabsTrigger>
                 </TabsList>
 
+                <TabErrorBoundary>
                 <TabsContent value="molecules">
                   <Card>
                     <CardHeader>
@@ -354,7 +356,9 @@ export default function AdminValidation() {
                     </CardContent>
                   </Card>
                 </TabsContent>
+                </TabErrorBoundary>
 
+                <TabErrorBoundary>
                 <TabsContent value="plants">
                   <Card>
                     <CardHeader>
@@ -428,6 +432,7 @@ export default function AdminValidation() {
                     </CardContent>
                   </Card>
                 </TabsContent>
+                </TabErrorBoundary>
               </Tabs>
             </div>
           </div>

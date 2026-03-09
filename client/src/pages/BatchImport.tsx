@@ -34,6 +34,7 @@ import {
   Check,
 } from "lucide-react";
 import { toast } from "sonner";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 export default function BatchImport() {
   const { user, loading: authLoading } = useAuth();
@@ -235,6 +236,7 @@ export default function BatchImport() {
           </TabsList>
 
           {/* Upload Tab */}
+          <TabErrorBoundary>
           <TabsContent value="upload" className="space-y-6">
             <Alert>
               <Info className="h-4 w-4" />
@@ -437,8 +439,10 @@ export default function BatchImport() {
               </Button>
             </div>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Preview Tab */}
+          <TabErrorBoundary>
           <TabsContent value="preview" className="space-y-6">
             {validationResult && (
               <>
@@ -530,8 +534,10 @@ export default function BatchImport() {
               </>
             )}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Results Tab */}
+          <TabErrorBoundary>
           <TabsContent value="results" className="space-y-6">
             {importResult && (
               <>
@@ -646,6 +652,7 @@ export default function BatchImport() {
               </>
             )}
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
       </div>
     </div>

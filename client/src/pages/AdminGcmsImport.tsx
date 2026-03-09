@@ -16,6 +16,7 @@ import {
   FlaskConical, Upload, Download, Plus, Trash2, CheckCircle2,
   AlertCircle, Search, ArrowLeft, FileText, Loader2, Info
 } from "lucide-react";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -321,6 +322,7 @@ export default function AdminGcmsImport() {
           </TabsList>
 
           {/* ─── ONGLET SAISIE MANUELLE ─────────────────────────────────── */}
+          <TabErrorBoundary>
           <TabsContent value="manual" className="space-y-5 mt-5">
 
             {/* Sélection plante */}
@@ -578,8 +580,10 @@ export default function AdminGcmsImport() {
             )}
             {importResult && <ImportReport data={importResult} mode="result" />}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* ─── ONGLET IMPORT CSV/JSON ─────────────────────────────────── */}
+          <TabErrorBoundary>
           <TabsContent value="bulk" className="space-y-5 mt-5">
             <Card>
               <CardHeader className="pb-3">
@@ -665,6 +669,7 @@ export default function AdminGcmsImport() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
       </div>
     </div>

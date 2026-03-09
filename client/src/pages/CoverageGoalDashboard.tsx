@@ -60,6 +60,7 @@ import {
   Info,
   ChevronRight
 } from "lucide-react";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 export default function CoverageGoalDashboard() {
   const { user } = useAuth();
@@ -300,6 +301,7 @@ export default function CoverageGoalDashboard() {
                   </TabsTrigger>
                 </TabsList>
 
+                <TabErrorBoundary>
                 <TabsContent value="overview" className="space-y-6">
                   {isGoalReached ? (
                     <Alert className="border-green-500/50 bg-green-500/10">
@@ -403,7 +405,9 @@ export default function CoverageGoalDashboard() {
                     </Card>
                   </div>
                 </TabsContent>
+                </TabErrorBoundary>
 
+                <TabErrorBoundary>
                 <TabsContent value="quick-link" className="space-y-6">
                   <Alert>
                     <Plus className="h-4 w-4" />
@@ -609,7 +613,9 @@ export default function CoverageGoalDashboard() {
                     </Card>
                   )}
                 </TabsContent>
+                </TabErrorBoundary>
 
+                <TabErrorBoundary>
                 <TabsContent value="orphans" className="space-y-6">
                   <Card>
                     <CardHeader>
@@ -678,6 +684,7 @@ export default function CoverageGoalDashboard() {
                     </CardContent>
                   </Card>
                 </TabsContent>
+                </TabErrorBoundary>
               </Tabs>
             </div>
           </div>

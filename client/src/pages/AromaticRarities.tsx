@@ -21,6 +21,7 @@ import {
 import aromaticRaritiesData from '@/data/aromatic_rarities.json';
 import { AromaticRaritiesGraph } from '@/components/AromaticRaritiesGraph';
 import { useLocation } from 'wouter';
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 interface AromaticRarity {
   id: string;
@@ -377,6 +378,7 @@ export default function AromaticRarities() {
             <TabsTrigger value="geography">Géographies</TabsTrigger>
           </TabsList>
 
+          <TabErrorBoundary>
           <TabsContent value="categories" className="mt-4">
             <Card>
               <CardHeader>
@@ -404,7 +406,9 @@ export default function AromaticRarities() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
+          <TabErrorBoundary>
           <TabsContent value="rarity" className="mt-4">
             <Card>
               <CardHeader>
@@ -432,7 +436,9 @@ export default function AromaticRarities() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
+          <TabErrorBoundary>
           <TabsContent value="geography" className="mt-4">
             <Card>
               <CardHeader>
@@ -449,6 +455,7 @@ export default function AromaticRarities() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
       </main>
 

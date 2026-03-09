@@ -36,6 +36,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 export default function AlternativesDurables() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -199,6 +200,7 @@ export default function AlternativesDurables() {
         </TabsList>
 
         {/* Onglet Recherche */}
+        <TabErrorBoundary>
         <TabsContent value="search" className="space-y-6">
           {/* Filtres */}
           <Card>
@@ -428,8 +430,10 @@ export default function AlternativesDurables() {
             </Card>
           )}
         </TabsContent>
+        </TabErrorBoundary>
 
         {/* Onglet Par espèce */}
+        <TabErrorBoundary>
         <TabsContent value="species" className="space-y-6">
           <Card>
             <CardHeader>
@@ -571,6 +575,7 @@ export default function AlternativesDurables() {
             </CardContent>
           </Card>
         </TabsContent>
+        </TabErrorBoundary>
       </Tabs>
 
       {/* Guide des types d'alternatives */}

@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DuplicateManagementModal } from "@/components/DuplicateManagementModal";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 export default function AdminDuplicates() {
   const [activeTab, setActiveTab] = useState<"molecules" | "plants">("molecules");
@@ -173,6 +174,7 @@ export default function AdminDuplicates() {
         </TabsList>
 
         {/* Contenu Molécules */}
+        <TabErrorBoundary>
         <TabsContent value="molecules" className="space-y-4">
           {moleculeLoading ? (
             <Card>
@@ -359,8 +361,10 @@ export default function AdminDuplicates() {
             </>
           )}
         </TabsContent>
+        </TabErrorBoundary>
 
         {/* Contenu Plantes */}
+        <TabErrorBoundary>
         <TabsContent value="plants" className="space-y-4">
           {plantLoading ? (
             <Card>
@@ -491,6 +495,7 @@ export default function AdminDuplicates() {
             </>
           )}
         </TabsContent>
+        </TabErrorBoundary>
       </Tabs>
 
       {/* Avertissement */}

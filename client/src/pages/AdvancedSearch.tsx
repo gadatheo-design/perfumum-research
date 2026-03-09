@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { trpc } from '@/lib/trpc';
 import { Link } from 'wouter';
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 interface SearchHistory {
   query: string;
@@ -388,6 +389,7 @@ export default function AdvancedSearch() {
               </TabsTrigger>
             </TabsList>
 
+            <TabErrorBoundary>
             <TabsContent value="recettes" className="mt-6">
               {filteredRecettes.length === 0 ? (
                 <Card>
@@ -418,7 +420,9 @@ export default function AdvancedSearch() {
                 </div>
               )}
             </TabsContent>
+            </TabErrorBoundary>
 
+            <TabErrorBoundary>
             <TabsContent value="molecules" className="mt-6">
               {filteredMolecules.length === 0 ? (
                 <Card>
@@ -446,7 +450,9 @@ export default function AdvancedSearch() {
                 </div>
               )}
             </TabsContent>
+            </TabErrorBoundary>
 
+            <TabErrorBoundary>
             <TabsContent value="accords" className="mt-6">
               {filteredAccords.length === 0 ? (
                 <Card>
@@ -471,6 +477,7 @@ export default function AdvancedSearch() {
                 </div>
               )}
             </TabsContent>
+            </TabErrorBoundary>
           </Tabs>
         </motion.div>
       </div>

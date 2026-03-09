@@ -42,6 +42,7 @@ import {
   Wind,
   BarChart3
 } from "lucide-react";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 interface Terroir {
   id: number;
@@ -607,6 +608,7 @@ export default function CarteInteractiveTerroirs() {
             </TabsTrigger>
           </TabsList>
           
+          <TabErrorBoundary>
           <TabsContent value="carte" className="mt-6">
             <div className="grid lg:grid-cols-4 gap-6">
               {/* Carte */}
@@ -725,7 +727,9 @@ export default function CarteInteractiveTerroirs() {
               </div>
             </div>
           </TabsContent>
+          </TabErrorBoundary>
           
+          <TabErrorBoundary>
           <TabsContent value="liste" className="mt-6">
             <Card>
               <CardHeader className="pb-3">
@@ -820,7 +824,9 @@ export default function CarteInteractiveTerroirs() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
           
+          <TabErrorBoundary>
           <TabsContent value="stats" className="mt-6">
             <div className="grid md:grid-cols-2 gap-6">
               {/* Répartition par climat */}
@@ -918,6 +924,7 @@ export default function CarteInteractiveTerroirs() {
               )}
             </div>
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
       </div>
     </DashboardLayout>

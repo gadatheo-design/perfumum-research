@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import perfumumData from '@/data/PERFUMUM_FINAL_DATA.json';
 import { useState, useMemo } from 'react';
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 interface Claim {
   'ID court': string;
@@ -141,6 +142,7 @@ export default function ClaimsAndProofs() {
           </TabsList>
 
           {/* Claims Tab */}
+          <TabErrorBoundary>
           <TabsContent value="claims" className="space-y-6">
             {/* Filtres */}
             <div className="bg-card p-4 rounded-lg border border-border space-y-4">
@@ -265,8 +267,10 @@ export default function ClaimsAndProofs() {
               </div>
             )}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Sources Tab */}
+          <TabErrorBoundary>
           <TabsContent value="sources" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {sources.map((source) => (
@@ -306,8 +310,10 @@ export default function ClaimsAndProofs() {
               ))}
             </div>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Statistics Tab */}
+          <TabErrorBoundary>
           <TabsContent value="statistics" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card>
@@ -376,6 +382,7 @@ export default function ClaimsAndProofs() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
       </main>
 

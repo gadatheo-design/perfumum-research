@@ -56,6 +56,7 @@ import {
   Network,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Types
 interface FilterState {
@@ -580,6 +581,7 @@ export default function CrossSearch() {
                 </div>
               ) : (
                 <>
+                  <TabErrorBoundary>
                   <TabsContent value="all" className="mt-4 space-y-6">
                     {/* Terroirs */}
                     {searchResults && searchResults.terroirs.length > 0 && (
@@ -705,7 +707,9 @@ export default function CrossSearch() {
                       </div>
                     )}
                   </TabsContent>
+                  </TabErrorBoundary>
 
+                  <TabErrorBoundary>
                   <TabsContent value="terroirs" className="mt-4">
                     <ScrollArea className="h-[600px]">
                       <div className="grid gap-3 sm:grid-cols-2 pr-4">
@@ -725,7 +729,9 @@ export default function CrossSearch() {
                       </div>
                     </ScrollArea>
                   </TabsContent>
+                  </TabErrorBoundary>
 
+                  <TabErrorBoundary>
                   <TabsContent value="plants" className="mt-4">
                     <ScrollArea className="h-[600px]">
                       <div className="grid gap-3 sm:grid-cols-2 pr-4">
@@ -745,7 +751,9 @@ export default function CrossSearch() {
                       </div>
                     </ScrollArea>
                   </TabsContent>
+                  </TabErrorBoundary>
 
+                  <TabErrorBoundary>
                   <TabsContent value="molecules" className="mt-4">
                     <ScrollArea className="h-[600px]">
                       <div className="grid gap-3 sm:grid-cols-2 pr-4">
@@ -764,6 +772,7 @@ export default function CrossSearch() {
                       </div>
                     </ScrollArea>
                   </TabsContent>
+                  </TabErrorBoundary>
                 </>
               )}
             </Tabs>
