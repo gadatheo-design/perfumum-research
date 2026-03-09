@@ -9,14 +9,14 @@ import { Heart, MapPin, Leaf, Coffee, Droplet, ExternalLink, ArrowRight } from '
 import { Link } from 'wouter';
 
 const moleculeImages: Record<string, string> = {
-  'Lippia Origanoides': '/colombian-botanicals/lippia-origanoides.svg',
-  'Turnera Diffusa': '/colombian-botanicals/turnera-diffusa.svg',
-  'Calycolpus Moritzianus': '/colombian-botanicals/calycolpus-moritzianus.svg',
-  'Piper Aduncum': '/colombian-botanicals/piper-aduncum.svg',
-  'Steiractinia Aspera': '/colombian-botanicals/steiractinia-aspera.svg',
-  'Coffea arabica var. Geisha': '/colombian-botanicals/cafe-geisha.svg',
-  'Coffea arabica flowers': '/colombian-botanicals/fleur-cafe.svg',
-  'Theobroma cacao': '/colombian-botanicals/cacao-colombien.svg',
+  'Lippia Origanoides': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/lippia-origanoides_11468d3c.svg',
+  'Turnera Diffusa': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/turnera-diffusa_4e53c0cc.svg',
+  'Calycolpus Moritzianus': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/calycolpus-moritzianus_24c03479.svg',
+  'Piper Aduncum': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/piper-aduncum_52adaab3.svg',
+  'Steiractinia Aspera': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/steiractinia-aspera_868c0fb3.svg',
+  'Coffea arabica var. Geisha': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/cafe-geisha_44cf0d72.svg',
+  'Coffea arabica flowers': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/fleur-cafe_85a32f13.svg',
+  'Theobroma cacao': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/cacao-colombien_751ffe66.svg',
 };
 
 export default function ColombieLine() {

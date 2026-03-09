@@ -6,16 +6,16 @@
  * de cache obsolète, tout en offrant un mode offline fonctionnel.
  */
 
-const CACHE_VERSION = 'perfumum-v2'; // Incrémenter pour forcer le rafraîchissement
-const RUNTIME_CACHE = 'perfumum-runtime-v2';
+const CACHE_VERSION = 'perfumum-v3'; // Incrémenter pour forcer le rafraîchissement
+const RUNTIME_CACHE = 'perfumum-runtime-v3';
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 heures en millisecondes
 
 // Assets critiques à mettre en cache (minimal)
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
+  'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/icon-192x192_0a243a0b.png',
+  'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/icon-512x512_85c7de29.png',
 ];
 
 // Install event - cache minimal des assets critiques

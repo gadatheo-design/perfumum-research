@@ -83,7 +83,7 @@ function parseKnapsackHtml(html: string): KnapsackMolecule[] {
 // ─── Matching molécule en DB ──────────────────────────────────────────────────
 
 async function findMoleculeInDb(
-  db: Awaited<ReturnType<typeof getDb>>,
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
   km: KnapsackMolecule
 ): Promise<{ id: number; name: string } | null> {
   // 1. Match par CAS (prioritaire)
@@ -115,7 +115,7 @@ async function findMoleculeInDb(
         .from(molecules)
         .where(
           and(
-            eq(molecules.molecularFormula, km.formula),
+            sql`molecular_formula = ${km.formula}`,
             sql`ABS(CAST(${molecules.molecularWeight} AS DECIMAL) - ${massNum}) < 0.01`
           )
         )
@@ -134,6 +134,8 @@ export const knapsackRouter = router({
   // Statistiques globales
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
+    
+    if (!db) throw new Error("Base de données indisponible");
     
     const [totalPlantsResult] = await db
       .select({ count: sql<number>`COUNT(*)` })
@@ -161,6 +163,8 @@ export const knapsackRouter = router({
     .input(z.object({ plantId: z.number() }))
     .mutation(async ({ input }) => {
       const db = await getDb();
+      
+      if (!db) throw new Error("Base de données indisponible");
       
       const [plant] = await db
         .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
@@ -220,6 +224,8 @@ export const knapsackRouter = router({
     }))
     .mutation(async ({ input }) => {
       const db = await getDb();
+      
+      if (!db) throw new Error("Base de données indisponible");
       
       const [plant] = await db
         .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
@@ -306,6 +312,8 @@ export const knapsackRouter = router({
     }))
     .mutation(async ({ input }) => {
       const db = await getDb();
+      
+      if (!db) throw new Error("Base de données indisponible");
       
       // Récupérer les plantes à traiter
       let query = db
@@ -422,6 +430,8 @@ export const knapsackRouter = router({
     }))
     .query(async ({ input }) => {
       const db = await getDb();
+      
+      if (!db) throw new Error("Base de données indisponible");
       
       const allPlants = await db
         .select({ id: plants.id, name: plants.name, latinName: plants.latinName })

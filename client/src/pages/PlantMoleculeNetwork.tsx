@@ -67,7 +67,7 @@ export default function PlantMoleculeNetwork() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative py-16 bg-gradient-to-br from-green-950 via-emerald-900 to-teal-900 overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+          <div className="absolute inset-0 bg-[url('https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/grid_02c43ba1.svg')] opacity-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
           
           <div className="container relative z-10">

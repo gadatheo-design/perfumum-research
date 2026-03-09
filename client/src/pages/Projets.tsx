@@ -176,7 +176,7 @@ export default function Projets() {
                 {/* Musée 1 */}
                 <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
                   <img
-                    src="/terrain-musee-1.webp"
+                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/terrain-musee-1_ccbd158a.webp"
                     alt="Musée - Galerie blanche minimaliste avec béton ciré. Atmosphère stérile et neutre."
                     loading="lazy"
                     className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
@@ -193,7 +193,7 @@ export default function Projets() {
                 {/* Musée 2 */}
                 <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
                   <img
-                    src="/terrain-musee-2.webp"
+                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/terrain-musee-1_ccbd158a.webp"
                     alt="Musée - Archives avec documents anciens, étagères en bois, poussière en suspension."
                     loading="lazy"
                     className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"

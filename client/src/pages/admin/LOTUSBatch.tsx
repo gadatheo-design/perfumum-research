@@ -50,19 +50,23 @@ export default function LOTUSBatch() {
     enrichMutation.mutate({ plantId, dryRun });
   };
 
-  const handleBatch = async () => {
-    setBatchRunning(true);
-    setBatchResults(null);
-    try {
-      const result = await trpc.lotus.enrichBatch.mutate({ limit: 10, onlyWithoutLinks: true });
+  const batchMutation = trpc.lotus.enrichBatch.useMutation({
+    onSuccess: (result) => {
       setBatchResults(result);
+      setBatchRunning(false);
       refetchStats();
       toast.success(`Batch terminé : ${result.totalCreated} liaisons créées sur ${result.processed} plantes`);
-    } catch (err: any) {
-      toast.error(`Erreur batch : ${err.message}`);
-    } finally {
+    },
+    onError: (err) => {
       setBatchRunning(false);
-    }
+      toast.error(`Erreur batch : ${err.message}`);
+    },
+  });
+
+  const handleBatch = () => {
+    setBatchRunning(true);
+    setBatchResults(null);
+    batchMutation.mutate({ limit: 10, onlyWithoutLinks: true });
   };
 
   const filteredPlants = plantsData?.filter(p =>
@@ -74,8 +78,8 @@ export default function LOTUSBatch() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
-      <Breadcrumbs items={[
-        { label: "Admin", href: "/admin" },
+      <Breadcrumbs customItems={[
+        { label: "Admin", path: "/admin" },
         { label: "LOTUS — Liaisons Plante-Molécule" },
       ]} />
 
