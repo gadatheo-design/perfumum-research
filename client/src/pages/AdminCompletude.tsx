@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useLocation } from "wouter";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,7 +13,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import {
   BarChart3, Package, Leaf, MapPin, TrendingUp, AlertCircle,
   CheckCircle2, Circle, Search, ArrowUpDown, ChevronLeft, ChevronRight,
-  RefreshCw, ExternalLink
+  RefreshCw, ExternalLink, Atom, Sparkles
 } from "lucide-react";
 
 type TabType = "overview" | "rawMaterials" | "plants" | "terroirs";
@@ -113,6 +114,9 @@ export default function AdminCompletude() {
     },
     { enabled: activeTab === "plants" && !!user && user.role === 'admin' }
   );
+
+  const [, navigate] = useLocation();
+  const molStats = trpc.molecules.getBatchEnrichStats.useQuery(undefined, { enabled: !!user && user.role === 'admin' });
 
   const { data: terroirsData, isLoading: isLoadingTerroirs } = trpc.completude.terroirs.useQuery(
     {
@@ -357,6 +361,53 @@ export default function AdminCompletude() {
                       </div>
                       <Button variant="outline" size="sm" className="w-full mt-2" onClick={() => setActiveTab("terroirs")}>
                         Voir le détail →
+                      </Button>
+                    </CardContent>
+                  </Card>
+
+                  {/* Molécules */}
+                  <Card className="border-violet-200 dark:border-violet-800">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base flex items-center gap-2">
+                        <Atom className="h-5 w-5 text-violet-600" />
+                        Molécules
+                        <Badge variant="secondary">{molStats.data?.total ?? '…'}</Badge>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {molStats.data ? (
+                        <>
+                          <div className="space-y-1.5">
+                            <div className="flex justify-between text-sm">
+                              <span className="text-muted-foreground">Sans profil olfactif</span>
+                              <Badge variant="outline" className="text-orange-600">{molStats.data.missingOlfactive}</Badge>
+                            </div>
+                            <div className="w-full bg-muted rounded-full h-1.5">
+                              <div className="bg-violet-500 h-1.5 rounded-full" style={{ width: `${Math.round((molStats.data.total - molStats.data.missingOlfactive) / molStats.data.total * 100)}%` }} />
+                            </div>
+                          </div>
+                          <div className="space-y-1.5">
+                            <div className="flex justify-between text-sm">
+                              <span className="text-muted-foreground">Sans propriétés thérap.</span>
+                              <Badge variant="outline" className="text-red-600">{molStats.data.missingTherapeutic}</Badge>
+                            </div>
+                            <div className="w-full bg-muted rounded-full h-1.5">
+                              <div className="bg-violet-400 h-1.5 rounded-full" style={{ width: `${Math.round((molStats.data.total - molStats.data.missingTherapeutic) / molStats.data.total * 100)}%` }} />
+                            </div>
+                          </div>
+                          <div className="space-y-1.5">
+                            <div className="flex justify-between text-sm">
+                              <span className="text-muted-foreground">Sans IUPAC</span>
+                              <Badge variant="outline" className="text-amber-600">{molStats.data.missingIupac}</Badge>
+                            </div>
+                            <div className="w-full bg-muted rounded-full h-1.5">
+                              <div className="bg-violet-300 h-1.5 rounded-full" style={{ width: `${Math.round((molStats.data.total - molStats.data.missingIupac) / molStats.data.total * 100)}%` }} />
+                            </div>
+                          </div>
+                        </>
+                      ) : <div className="text-sm text-muted-foreground">Chargement…</div>}
+                      <Button variant="outline" size="sm" className="w-full mt-2 gap-2" onClick={() => navigate('/admin/ai-batch-enrich-molecules')}>
+                        <Sparkles className="w-3.5 h-3.5 text-violet-500" /> Enrichir les lacunes →
                       </Button>
                     </CardContent>
                   </Card>

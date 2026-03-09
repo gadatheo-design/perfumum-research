@@ -681,6 +681,28 @@ export const appRouter = router({
         }
         return result;
       }),
+
+    // ---- Enrichissement IA par lot ----
+    getBatchEnrichStats: publicProcedure.query(async () => {
+      const db2 = await db.getDb();
+      const [rows] = await (db2 as any).execute(
+        `SELECT COUNT(*) as total, SUM(CASE WHEN (iupac_name IS NULL OR iupac_name = '') THEN 1 ELSE 0 END) as missingIupac, SUM(CASE WHEN (olfactiveProfile IS NULL OR olfactiveProfile = '') THEN 1 ELSE 0 END) as missingOlfactive, SUM(CASE WHEN (therapeuticProperties IS NULL OR therapeuticProperties = '') THEN 1 ELSE 0 END) as missingTherapeutic, SUM(CASE WHEN (family IS NULL OR family = '') THEN 1 ELSE 0 END) as missingFamily FROM molecules`
+      );
+      const row = rows[0] as any;
+      return { total: Number(row.total), missingIupac: Number(row.missingIupac), missingOlfactive: Number(row.missingOlfactive), missingTherapeutic: Number(row.missingTherapeutic), missingFamily: Number(row.missingFamily) };
+    }),
+
+    getForBatchEnrich: publicProcedure.input(z.object({ filter: z.enum(["missingIupac","missingOlfactive","missingTherapeutic","missingFamily","all"]), limit: z.number().min(1).max(50).default(10), offset: z.number().min(0).default(0) })).query(async ({ input }) => {
+      const db2 = await db.getDb();
+      let where = '1=1';
+      if (input.filter === 'missingIupac') where = "(iupac_name IS NULL OR iupac_name = '')";
+      if (input.filter === 'missingOlfactive') where = "(olfactiveProfile IS NULL OR olfactiveProfile = '')";
+      if (input.filter === 'missingTherapeutic') where = "(therapeuticProperties IS NULL OR therapeuticProperties = '')";
+      if (input.filter === 'missingFamily') where = "(family IS NULL OR family = '')";
+      const [rows] = await (db2 as any).execute(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties FROM molecules WHERE ${where} ORDER BY name LIMIT ${input.limit} OFFSET ${input.offset}`);
+      return rows as any[];
+    }),
+
   }),
 
   // Terpene Synergies
@@ -4214,6 +4236,130 @@ Génère un objet JSON :
         return { success: true, enriched, materialName: rm.name };
       }),
   }),
+
+  aiEnrichMolecule: router({
+    preview: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const db2 = await db.getDb();
+        const [rows] = await (db2 as any).execute(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
+        const mol = (rows as any[])[0];
+        if (!mol) throw new Error('Molécule non trouvée');
+        const prompt = `Tu es un expert en chimie olfactive et phytochimie. Enrichis la fiche de cette molécule avec des données scientifiques précises.
+Molécule : ${mol.name}
+Formule : ${mol.formula || 'inconnue'}
+Famille chimique : ${mol.family || 'inconnue'}
+IUPAC : ${mol.iupac_name || 'non renseigné'}
+CAS : ${mol.cas_number || 'non renseigné'}
+Profil olfactif actuel : ${mol.olfactiveProfile || 'non renseigné'}
+Propriétés thérapeutiques actuelles : ${mol.therapeuticProperties || 'non renseigné'}
+Génère un objet JSON avec les champs suivants (uniquement ceux que tu peux enrichir avec certitude scientifique) :
+{
+  "olfactiveProfile": ["note1", "note2", "note3"],
+  "therapeuticProperties": ["propriété1", "propriété2", "propriété3"],
+  "family": "famille chimique précise",
+  "iupac_name": "nom IUPAC si connu",
+  "notes": "description scientifique enrichie (2-3 phrases)"
+}
+Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en chimie olfactive. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'molecule_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  olfactiveProfile: { type: 'array', items: { type: 'string' } },
+                  therapeuticProperties: { type: 'array', items: { type: 'string' } },
+                  family: { type: 'string' },
+                  iupac_name: { type: 'string' },
+                  notes: { type: 'string' }
+                },
+                required: ['olfactiveProfile', 'therapeuticProperties', 'family', 'iupac_name', 'notes'],
+                additionalProperties: false
+              }
+            }
+          }
+        });
+        const raw = response.choices[0].message.content;
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        return { molecule: mol, enriched };
+      }),
+
+    enrich: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        const db2 = await db.getDb();
+        const [rows] = await (db2 as any).execute(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
+        const mol = (rows as any[])[0];
+        if (!mol) throw new Error('Molécule non trouvée');
+        const prompt = `Tu es un expert en chimie olfactive et phytochimie. Enrichis la fiche de cette molécule avec des données scientifiques précises.
+Molécule : ${mol.name}
+Formule : ${mol.formula || 'inconnue'}
+Famille chimique : ${mol.family || 'inconnue'}
+IUPAC : ${mol.iupac_name || 'non renseigné'}
+CAS : ${mol.cas_number || 'non renseigné'}
+Profil olfactif actuel : ${mol.olfactiveProfile || 'non renseigné'}
+Propriétés thérapeutiques actuelles : ${mol.therapeuticProperties || 'non renseigné'}
+Génère un objet JSON avec les champs suivants :
+{
+  "olfactiveProfile": ["note1", "note2", "note3"],
+  "therapeuticProperties": ["propriété1", "propriété2", "propriété3"],
+  "family": "famille chimique précise",
+  "iupac_name": "nom IUPAC si connu",
+  "notes": "description scientifique enrichie (2-3 phrases)"
+}
+Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: 'Tu es un expert en chimie olfactive. Réponds uniquement en JSON valide.' },
+            { role: 'user', content: prompt }
+          ],
+          response_format: {
+            type: 'json_schema',
+            json_schema: {
+              name: 'molecule_enrichment',
+              strict: true,
+              schema: {
+                type: 'object',
+                properties: {
+                  olfactiveProfile: { type: 'array', items: { type: 'string' } },
+                  therapeuticProperties: { type: 'array', items: { type: 'string' } },
+                  family: { type: 'string' },
+                  iupac_name: { type: 'string' },
+                  notes: { type: 'string' }
+                },
+                required: ['olfactiveProfile', 'therapeuticProperties', 'family', 'iupac_name', 'notes'],
+                additionalProperties: false
+              }
+            }
+          }
+        });
+        const raw = response.choices[0].message.content;
+        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        const updates: string[] = [];
+        const params: any[] = [];
+        if (enriched.olfactiveProfile?.length) { updates.push("olfactiveProfile = ?"); params.push(JSON.stringify(enriched.olfactiveProfile)); }
+        if (enriched.therapeuticProperties?.length) { updates.push("therapeuticProperties = ?"); params.push(JSON.stringify(enriched.therapeuticProperties)); }
+        if (enriched.family && !mol.family) { updates.push("family = ?"); params.push(enriched.family); }
+        if (enriched.iupac_name && !mol.iupac_name) { updates.push("iupac_name = ?"); params.push(enriched.iupac_name); }
+        if (enriched.notes && !mol.notes) { updates.push("notes = ?"); params.push(enriched.notes); }
+        if (updates.length > 0) {
+          params.push(input.id);
+          await (db2 as any).execute(`UPDATE molecules SET ${updates.join(', ')} WHERE id = ?`, params);
+        }
+        return { success: true, fieldsUpdated: updates.length, enriched };
+      }),
+  }),
+
 
   plantSamples: router({
     getAll: publicProcedure.query(async () => {

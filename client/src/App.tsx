@@ -102,6 +102,7 @@ import AdminSynergies from "./pages/admin/AdminSynergies";
 import CigarilloMoleculeLinking from "./pages/admin/CigarilloMoleculeLinking";
 import PubChemBatch from "./pages/admin/PubChemBatch";
 import AIBatchEnrich from "./pages/admin/AIBatchEnrich";
+import AIBatchEnrichMolecules from "./pages/admin/AIBatchEnrichMolecules";
 import ChEBIBatch from "./pages/admin/ChEBIBatch";
 
 // === PROTOTYPES ===
@@ -458,6 +459,7 @@ function Router() {
       <Route path="/admin/ai-classification" component={AdminAIClassification} />
       <Route path="/admin/ai-classification-batch" component={AIClassificationBatch} />
       <Route path="/admin/ai-batch-enrich" component={AIBatchEnrich} />
+      <Route path="/admin/ai-batch-enrich-molecules" component={AIBatchEnrichMolecules} />
       <Route path="/admin/niche-plant-linking" component={NichePlantMoleculeLinking} />
       <Route path="/admin/classification-review" component={ClassificationReviewQueue} />
       <Route path="/admin/notifications" component={AdminNotifications} />

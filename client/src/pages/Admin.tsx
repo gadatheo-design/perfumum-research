@@ -254,6 +254,14 @@ export default function Admin() {
       bgColor: "bg-amber-50",
     },
     {
+      title: "Enrichissement IA — Lot Molécules",
+      description: "Enrichir en masse les molécules sans profil olfactif, propriétés thérapeutiques ou IUPAC via l'IA.",
+      icon: Sparkles,
+      href: "/admin/ai-batch-enrich-molecules",
+      color: "text-violet-600",
+      bgColor: "bg-violet-50",
+    },
+    {
       title: "Tableau de Bord de Complétude",
       description: "Suivre l'enrichissement des données — matières premières, plantes et terroirs classés par score de complétude.",
       icon: BarChart3,
