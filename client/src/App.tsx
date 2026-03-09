@@ -104,6 +104,7 @@ import PubChemBatch from "./pages/admin/PubChemBatch";
 import AIBatchEnrich from "./pages/admin/AIBatchEnrich";
 import AIBatchEnrichMolecules from "./pages/admin/AIBatchEnrichMolecules";
 import ChEBIBatch from "./pages/admin/ChEBIBatch";
+import PubChemIupacBatch from "./pages/admin/PubChemIupacBatch";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
