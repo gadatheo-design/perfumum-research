@@ -63,59 +63,80 @@ export default defineConfig({
     // Code splitting agressif
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Vendor chunks séparés pour un meilleur caching
-          "react-vendor": ["react", "react-dom", "react/jsx-runtime"],
-          "router": ["wouter"],
-          "query": ["@tanstack/react-query"],
-          "trpc": ["@trpc/client", "@trpc/react-query"],
+        manualChunks: (id) => {
+          // === VENDOR CHUNKS ===
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('react/jsx-runtime')) return 'react-vendor';
+          if (id.includes('node_modules/wouter')) return 'router';
+          if (id.includes('node_modules/@tanstack/react-query')) return 'query';
+          if (id.includes('node_modules/@trpc/')) return 'trpc';
+          if (id.includes('node_modules/@radix-ui/')) return 'ui-radix';
+          if (id.includes('node_modules/lucide-react')) return 'icons';
+          if (id.includes('node_modules/framer-motion')) return 'animation';
+          if (id.includes('node_modules/reactflow') || id.includes('node_modules/@xyflow/')) return 'viz-reactflow';
+          if (id.includes('node_modules/chart.js') || id.includes('node_modules/react-chartjs-2')) return 'viz-charts';
+          if (id.includes('node_modules/recharts')) return 'viz-recharts';
+          if (id.includes('node_modules/d3') || id.includes('node_modules/d3-sankey')) return 'viz-d3';
+          if (id.includes('node_modules/react-force-graph')) return 'viz-force-graph';
+          if (id.includes('node_modules/leaflet') || id.includes('node_modules/react-leaflet')) return 'maps-leaflet';
+          if (id.includes('node_modules/smiles-drawer')) return 'chem-smiles';
+          if (id.includes('node_modules/jspdf') || id.includes('node_modules/html2canvas')) return 'export-pdf';
+          if (id.includes('node_modules/jszip')) return 'export-zip';
+          if (id.includes('node_modules/papaparse')) return 'export-csv';
+          if (id.includes('node_modules/react-hook-form') || id.includes('node_modules/@hookform/') || id.includes('node_modules/zod')) return 'forms';
+          if (id.includes('node_modules/streamdown') || id.includes('node_modules/shiki')) return 'markdown';
+          if (id.includes('node_modules/embla-carousel')) return 'carousel';
+          if (id.includes('node_modules/react-window')) return 'window';
+          if (id.includes('node_modules/qrcode')) return 'qr';
+          if (id.includes('node_modules/')) return 'vendor-misc';
           
-          // Composants UI lourds - Radix UI
-          "ui-radix-core": [
-            "@radix-ui/react-dialog",
-            "@radix-ui/react-dropdown-menu",
-            "@radix-ui/react-select",
-            "@radix-ui/react-tabs",
-            "@radix-ui/react-tooltip",
-            "@radix-ui/react-popover",
-            "@radix-ui/react-accordion",
-          ],
-          "ui-radix-forms": [
-            "@radix-ui/react-checkbox",
-            "@radix-ui/react-radio-group",
-            "@radix-ui/react-slider",
-            "@radix-ui/react-switch",
-          ],
+          // === PAGE CHUNKS PAR CATÉGORIE ===
+          // Regrouper toutes les pages en ~15 chunks thématiques
+          const src = id.replace(/\\/g, '/');
           
-          // Visualisations lourdes (lazy-loaded)
-          "viz-reactflow": ["reactflow", "@xyflow/react"],
-          "viz-charts": ["chart.js", "react-chartjs-2"],
-          "viz-recharts": ["recharts"],
-          "viz-d3": ["d3", "d3-sankey"],
-          "viz-force-graph": ["react-force-graph"],
+          // Admin
+          if (src.includes('/pages/admin/') || src.includes('/pages/Admin')) return 'pages-admin';
           
-          // Cartographie
-          "maps-leaflet": ["leaflet", "react-leaflet"],
+          // Molécules & Chimie
+          if (src.match(/\/pages\/(Molecule|Molecules|MoleculesHub|MoleculeDetail|MoleculeSearch|MoleculeRecette|MoleculePlant|Familles|FamillesList|FamilyDetail|SmilesViewer|ChemicalFamily|Osmoth)/)) return 'pages-molecules';
           
-          // Chimie / Molécules
-          "chem-smiles": ["smiles-drawer"],
+          // Plantes & Botanique
+          if (src.match(/\/pages\/(Plant|Plants|PlantsHub|PlantDetail|PlantForm|PlantVarieties|PlantsByMolecule|PlantMolecule|PlantTerroir|GalerieBotaniques|TimelineBotanique|PhylogeneticView|TpsGenes|GenomicsExplorer|LeafEconom)/)) return 'pages-plants';
           
-          // Export / Documents
-          "export-pdf": ["jspdf", "jspdf-autotable", "html2canvas"],
-          "export-zip": ["jszip"],
-          "export-csv": ["papaparse"],
+          // Tabac & Cannabis
+          if (src.match(/\/pages\/(Tabac|Tabacotheque|Tabacs|Tobacco|Cannabis|Perique|Pyrolyse|Pyrolysis|SourcingTabac|SourcingCannabis|InteractionsTabac|HistoricCigarettes|ResinesCBD|RecetteCBD|LandraceDetail|LandraceComparator|TobaccoLandrace|VarietesFantomes|GhostVariet|TerpProfiles|TerpeneDetail|TerpeneProfiles|DegradationTerpenes|MolecularTransformations|ProtocolesMaturation|ProtocoleMoleculaire)/)) return 'pages-tabac';
           
-          // Animations
-          "animation": ["framer-motion"],
+          // Recettes & Formulation
+          if (src.match(/\/pages\/(Recette|Recettes|RecettesHub|RecipeDetail|RecipeNetwork|RecipeTimeline|FinalRecipe|FormulesReference|GenerateurFormules|OutilFormulation|OutilsFormulation|ProportionsCalculator|DilutionCalculator|LaboratoireRecettes|Laboratoire|Prototypes|PrototypeDetail|AccordsDedies|Accords|ExperimentalAccords)/)) return 'pages-recettes';
           
-          // Utilitaires
-          "utils": ["clsx", "tailwind-merge", "date-fns", "nanoid"],
-          "forms": ["react-hook-form", "@hookform/resolvers", "zod"],
-          "icons": ["lucide-react"],
-          "qr": ["qrcode"],
-          "markdown": ["streamdown"],
-          "carousel": ["embla-carousel-react"],
-          "window": ["react-window"],
+          // Gammes & Collections
+          if (src.match(/\/pages\/(Gamme|GammesHub|GammesBioLab|GammesGlaciaire|GammesMossi|GammesPetrichor|GammesVolcanique|GammeSignatures|GammeRaretes|GammePheromones|ColombieLine|SourcingColombie|SourcingFrance|SourcingInde|SourcingMadagascar|SourcingNorthAmerica|SourcingHub|Sourcing|AromaticRar)/)) return 'pages-gammes';
+          
+          // Recherche & Méthode ABSORBE
+          if (src.match(/\/pages\/(Absorbe|AbsorbeX|MethodeAbsorbe|MethodologieRecherche|AxesRecherche|AxeRechercheDetail|ProgrammesRecherche|Recherche|RechercheAvancee|RechercheGlobale|RechercheRadicale|RechercheScientifique|RechercheProfilMoleculaire|AdvancedSearch|CrossSearch|PerceptSearch|ResearchData)/)) return 'pages-recherche';
+          
+          // Graphes & Visualisations
+          if (src.match(/\/pages\/(Graphe|Reseau|ReseauAxes|ReseauLiaisons|ReseauMolecule|SankeyFlow|RelationsGraph|GenealogyGraph|GrapheAxes|GrapheMolecules|GraphePlante|GrapheReferences|GrapheTerroir|PublicationMolecule|RecipeNetwork|PlantMoleculeNetwork|PlantTerroirNetwork|SynergiesGraph|SynergiesHeatmap|RadarCorrelation|PyrolysisVisualization|MatriceInteractive|MatriceSynergies|VisualisationsCorrelation|Visualisations|EnhancedRadar)/)) return 'pages-graphes';
+          
+          // Terroirs & Géographie
+          if (src.match(/\/pages\/(Terroir|Terroirs|TerroirDetail|TerroirMapPage|OriginesGeographiques|SoilAnalysis|EtudesClimatiques|EtudeClimatiqueDetail|Etudes|ArchivesTerrain|ArchiveTerrainDetail|Archives|ArchivesOlfactives|HeritageConservation|PatrimoineMenace|AlternativesDurables)/)) return 'pages-terroirs';
+          
+          // Matières Premières & Extraction
+          if (src.match(/\/pages\/(MatierePremiere|MatieresPremieres|RawMaterial|RawMaterials|ExtractionMethods|TestsExtraction|TestExtractionDetail|GCMSChromatograms|MSSpectraViewer|SpectraComparison|SpectraIdentification|ModelesAnalytiques|AnalyticalMethods|AnalysisHub|TechnicalProtocols|ProtocolDetail|Fournisseurs|Inventaire|InventoryDashboard)/)) return 'pages-matieres';
+          
+          // Bibliographie & Références
+          if (src.match(/\/pages\/(Bibliographie|BibliographieGlobale|BibliographiePage|ExportBibliographique|References|ReferencesGraph|ReferencesV3|ReferenceLinkNetwork|ReferenceEntityLink|SuggestReferenceLinks|Glossaire|GlossaireVisuel)/)) return 'pages-references';
+          
+          // Dashboard & Analytics
+          if (src.match(/\/pages\/(Dashboard|DashboardMinimal|DashboardRecherche|MonDashboard|GoalDashboard|AnalyticsDashboard|OlfactiveStats|Statistics|Statistiques|EnrichmentDashboard|LinkingDashboard|Timeline|TimelineInteractive|TimelinePerfumum|Journal|Nouveautes|Favoris|MyFavorites)/)) return 'pages-dashboard';
+          
+          // Projet & Documentation
+          if (src.match(/\/pages\/(LeProjet|APropos|Manifeste|FondementsPhilosophiques|SystemePerfumum|Projets|ParcoursOlfactif|ParcoursDetail|Installations|OdeursSituees|OdeurSitueeDetail|Gallery|Outils|OutilsHub|GestionPage|Ifra|IFRACompliance|SimplifiedContributor|Associations|SynergiesMoleculaires|SynergiesPage|SynergiesTerpenes|SuggestionsSynergies|MuscsComparatif|BioMineralis|MoleculesDisparues|Benefices|FormulesReference|Historique|Favoris)/)) return 'pages-projet';
+          
+          // Liaison & Import
+          if (src.match(/\/pages\/(Linking|Import|Batch|Audit|Drag|CSV|Linking|H2Linking|H3Linking|NichePlant|PlantMoleculeLinking|PlantTerroirLinking|MoleculeRecetteLinking|VueDetailConnexions|AdminMolecule|AdminRecettes|AdminImport|AdminGcms|AdminDuplicates|AdminOrphan|AdminCompletude|AdminValidation|AdminContributions|AdminHistorique|AdminProgressReport|AdminChemical|AdminNotifications|AdminAI|AIClassification|EnrichissementPubChem)/)) return 'pages-admin';
+          
+          // Reste des pages non catégorisées
+          if (src.includes('/pages/')) return 'pages-misc';
         },
         
         // Nommage des chunks pour un meilleur debugging
