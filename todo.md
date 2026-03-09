@@ -1861,3 +1861,20 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Lier références Dioscoride/Avicenne/Monardes aux plantes médicinales
 - [x] Importer les recettes ABSORBE en base (14 Archives Vivantes + 5 PF-15 = 328 recettes total)
 - [x] Sauvegarder le checkpoint final
+
+---
+
+## 🌐 APIs alternatives — Enrichissement sans crédits IA (9 mars 2026)
+
+### Niveau 1 — GBIF + Open-Meteo + CITES
+- [ ] Procédure tRPC : gbifEnrichPlant (taxonomie + synonymes + UICN via GBIF Species API)
+- [ ] Procédure tRPC : gbifDistributionEnrich (coordonnées GPS + altitude via GBIF Occurrence API)
+- [ ] Procédure tRPC : openMeteoEnrich (température + précipitations + Köppen via Open-Meteo)
+- [ ] Procédure tRPC : citesEnrich (annexe CITES via Species+ API)
+- [ ] Page admin /admin/gbif-batch : enrichissement batch GBIF sur toutes les plantes
+
+### Niveau 2 — COCONUT + KNApSAcK
+- [ ] Procédure tRPC : coconutEnrich (molécules par plante via COCONUT API)
+- [ ] Page admin /admin/coconut-batch : enrichissement batch COCONUT
+- [ ] Script import KNApSAcK CSV (101 500 paires espèce-molécule)
+- [ ] Page admin /admin/knapsack-import : interface d'import du CSV KNApSAcK

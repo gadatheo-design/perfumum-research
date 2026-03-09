@@ -105,6 +105,8 @@ import AIBatchEnrich from "./pages/admin/AIBatchEnrich";
 import AIBatchEnrichMolecules from "./pages/admin/AIBatchEnrichMolecules";
 import ChEBIBatch from "./pages/admin/ChEBIBatch";
 import PubChemIupacBatch from "./pages/admin/PubChemIupacBatch";
+import GBIFBatch from "./pages/admin/GBIFBatch";
+import LOTUSBatch from "./pages/admin/LOTUSBatch";
 
 // === PROTOTYPES ===
 import Prototypes from "./pages/Prototypes";
@@ -495,6 +497,8 @@ function Router() {
       <Route path="/admin/liaison-cigarillos-molecules" component={CigarilloMoleculeLinking} />
       <Route path="/admin/pubchem-batch" component={PubChemBatch} />
       <Route path="/admin/chebi-batch" component={ChEBIBatch} />
+      <Route path="/admin/gbif-batch" component={GBIFBatch} />
+      <Route path="/admin/lotus-batch" component={LOTUSBatch} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

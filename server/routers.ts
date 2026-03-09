@@ -56,6 +56,8 @@ import { protocolsRouter } from "./routers/protocols";
 import { landracesRouter } from "./routers/landraces";
 import { ifraRouter } from "./routers/ifra";
 import { coconutRouter } from "./routers/coconut";
+import { gbifRouter } from "./routers/gbif";
+import { lotusRouter } from "./routers/lotus";
 import { flavornetRouter } from "./routers/flavornet";
 import { therapeuticRouter } from "./routers/therapeutic";
 import { chemicalFamiliesRouter } from "./routers/chemical-families";
@@ -11447,6 +11449,8 @@ Familles olfactives disponibles:
   ifra: ifraRouter,
   // COCONUT Natural Products Database
   coconut: coconutRouter,
+  gbif: gbifRouter,
+  lotus: lotusRouter,
   // Flavornet Olfactory Descriptors
   flavornet: flavornetRouter,
   therapeutic: therapeuticRouter,

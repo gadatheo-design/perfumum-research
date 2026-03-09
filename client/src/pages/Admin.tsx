@@ -22,7 +22,9 @@ import {
   Snowflake,
   Leaf,
   Droplets,
-  Upload
+  Upload,
+  Globe,
+  Link2
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -260,6 +262,22 @@ export default function Admin() {
       href: "/admin/ai-batch-enrich-molecules",
       color: "text-violet-600",
       bgColor: "bg-violet-50",
+    },
+    {
+      title: "Enrichissement GBIF — Batch Plantes",
+      description: "Enrichir en masse les plantes via GBIF (taxonomie, UICN), Open-Meteo (climat, Köppen) et CITES — sans crédits IA.",
+      icon: Globe,
+      href: "/admin/gbif-batch",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+    },
+    {
+      title: "LOTUS — Liaisons Plante-Molécule",
+      description: "Enrichir automatiquement les liaisons plante-molécule via LOTUS/Wikidata (220 000+ paires espèce-molécule) — sans crédits IA.",
+      icon: Link2,
+      href: "/admin/lotus-batch",
+      color: "text-teal-600",
+      bgColor: "bg-teal-50",
     },
     {
       title: "Complétion IUPAC via PubChem",
