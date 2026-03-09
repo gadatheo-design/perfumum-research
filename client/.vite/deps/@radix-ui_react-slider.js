@@ -3,14 +3,14 @@ import {
   clamp
 } from "./chunk-CBDJRC7V.js";
 import {
+  usePrevious
+} from "./chunk-3GUFMUPA.js";
+import {
   createCollection
-} from "./chunk-XIAUK2HQ.js";
+} from "./chunk-FQWCUAZX.js";
 import {
   useDirection
 } from "./chunk-3BEWAOPM.js";
-import {
-  usePrevious
-} from "./chunk-3GUFMUPA.js";
 import {
   useSize
 } from "./chunk-AOKVCU26.js";
@@ -21,7 +21,7 @@ import {
   Primitive,
   composeEventHandlers,
   createContextScope
-} from "./chunk-RU2BU2A6.js";
+} from "./chunk-CO6567L6.js";
 import "./chunk-ABLNYG34.js";
 import {
   useComposedRefs

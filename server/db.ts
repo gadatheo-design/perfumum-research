@@ -14875,7 +14875,25 @@ export async function batchClassifyMolecules(updates: Array<{
     const updateData: Record<string, unknown> = {};
     if (update.family !== undefined) updateData.family = update.family;
     if (update.chemicalClass !== undefined) updateData.chemicalClass = update.chemicalClass;
-    if (update.olfactiveProfile !== undefined) updateData.olfactiveProfile = update.olfactiveProfile;
+    if (update.olfactiveProfile !== undefined) {
+      // Écrire dans la colonne text legacy (rétrocompatibilité)
+      updateData.olfactiveProfile = update.olfactiveProfile;
+      // Écrire aussi dans la colonne JSON standardisée
+      // Si la valeur est déjà un tableau JSON, on la parse ; sinon on la convertit en tableau
+      try {
+        const parsed = JSON.parse(update.olfactiveProfile);
+        if (Array.isArray(parsed)) {
+          updateData.olfactiveProfileJson = JSON.stringify(parsed);
+        } else {
+          // Valeur scalaire JSON : la mettre dans un tableau
+          updateData.olfactiveProfileJson = JSON.stringify([String(parsed)]);
+        }
+      } catch {
+        // Valeur texte brute (ex: "floral, boisé") : découper par virgule
+        const arr = update.olfactiveProfile.split(',').map(s => s.trim()).filter(Boolean);
+        updateData.olfactiveProfileJson = JSON.stringify(arr);
+      }
+    }
 
     if (Object.keys(updateData).length > 0) {
       await db.update(molecules).set(updateData).where(eq(molecules.id, update.moleculeId));
@@ -15412,7 +15430,19 @@ export async function approveReview(reviewId: number, userId?: number): Promise<
   const updateData: Record<string, unknown> = {};
   if (review.aiChemicalClass) updateData.chemicalClass = review.aiChemicalClass;
   if (review.aiOlfactiveFamily) updateData.family = review.aiOlfactiveFamily;
-  if (review.aiSuggestedOlfactiveProfile) updateData.olfactiveProfile = review.aiSuggestedOlfactiveProfile;
+  if (review.aiSuggestedOlfactiveProfile) {
+    updateData.olfactiveProfile = review.aiSuggestedOlfactiveProfile;
+    // Synchroniser avec la colonne JSON standardisée
+    try {
+      const parsed = JSON.parse(review.aiSuggestedOlfactiveProfile);
+      updateData.olfactiveProfileJson = Array.isArray(parsed)
+        ? JSON.stringify(parsed)
+        : JSON.stringify([String(parsed)]);
+    } catch {
+      const arr = review.aiSuggestedOlfactiveProfile.split(',').map((s: string) => s.trim()).filter(Boolean);
+      updateData.olfactiveProfileJson = JSON.stringify(arr);
+    }
+  }
 
   if (Object.keys(updateData).length > 0) {
     await db.update(molecules).set(updateData).where(eq(molecules.id, review.moleculeId));
@@ -15474,7 +15504,19 @@ export async function modifyAndApplyReview(
   const updateData: Record<string, unknown> = {};
   if (modifications.chemicalClass) updateData.chemicalClass = modifications.chemicalClass;
   if ((modifications as any).olfactiveFamily) updateData.family = (modifications as any).olfactiveFamily;
-  if (modifications.olfactiveProfile) updateData.olfactiveProfile = modifications.olfactiveProfile;
+  if (modifications.olfactiveProfile) {
+    updateData.olfactiveProfile = modifications.olfactiveProfile;
+    // Synchroniser avec la colonne JSON standardisée
+    try {
+      const parsed = JSON.parse(modifications.olfactiveProfile);
+      updateData.olfactiveProfileJson = Array.isArray(parsed)
+        ? JSON.stringify(parsed)
+        : JSON.stringify([String(parsed)]);
+    } catch {
+      const arr = modifications.olfactiveProfile.split(',').map((s: string) => s.trim()).filter(Boolean);
+      updateData.olfactiveProfileJson = JSON.stringify(arr);
+    }
+  }
 
   if (Object.keys(updateData).length > 0) {
     await db.update(molecules).set(updateData).where(eq(molecules.id, review.moleculeId));

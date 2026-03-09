@@ -7,9 +7,6 @@ import {
 } from "./chunk-N7N6WU7J.js";
 import "./chunk-X7QO65U3.js";
 import {
-  require_shim
-} from "./chunk-5DEMUFDJ.js";
-import {
   useCallbackRef
 } from "./chunk-XWTU7EK7.js";
 import {
@@ -17,6 +14,9 @@ import {
 } from "./chunk-ABLNYG34.js";
 import "./chunk-7RH2SFI4.js";
 import "./chunk-H7GTUFBN.js";
+import {
+  require_shim
+} from "./chunk-5DEMUFDJ.js";
 import {
   require_jsx_runtime
 } from "./chunk-C7IBZWIG.js";
