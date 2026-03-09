@@ -246,6 +246,14 @@ export default function Admin() {
       bgColor: "bg-teal-50",
     },
     {
+      title: "Enrichissement IA — Lot Plantes & Matières",
+      description: "Enrichir en masse les plantes et matières premières sans description, profil olfactif ou propriétés thérapeutiques via l'IA.",
+      icon: Sparkles,
+      href: "/admin/ai-batch-enrich",
+      color: "text-amber-600",
+      bgColor: "bg-amber-50",
+    },
+    {
       title: "Tableau de Bord de Complétude",
       description: "Suivre l'enrichissement des données — matières premières, plantes et terroirs classés par score de complétude.",
       icon: BarChart3,

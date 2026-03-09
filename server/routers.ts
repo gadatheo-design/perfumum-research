@@ -3313,6 +3313,50 @@ export const appRouter = router({
           imageUrl: r.image_url as string | null,
         }));
       }),
+    // ---- Enrichissement IA par lot ----
+    getBatchEnrichStats: publicProcedure.query(async () => {
+      const db2 = await db.getDb();
+      const [rows] = await (db2 as any).execute(
+        `SELECT
+          COUNT(*) as total,
+          SUM(CASE WHEN (notes IS NULL OR notes = '') THEN 1 ELSE 0 END) as missingDescription,
+          SUM(CASE WHEN (olfactive_signature IS NULL OR olfactive_signature = '') THEN 1 ELSE 0 END) as missingOlfactiveProfile,
+          SUM(CASE WHEN (traditional_use IS NULL OR traditional_use = '') THEN 1 ELSE 0 END) as missingTherapeutic
+        FROM plants`
+      );
+      const r = (rows as any[])[0];
+      return {
+        total: Number(r.total),
+        missingDescription: Number(r.missingDescription),
+        missingOlfactiveProfile: Number(r.missingOlfactiveProfile),
+        missingTherapeutic: Number(r.missingTherapeutic),
+      };
+    }),
+
+    getForBatchEnrich: publicProcedure
+      .input(z.object({
+        filter: z.enum(['all', 'missingDescription', 'missingOlfactiveProfile', 'missingTherapeutic']).default('missingDescription'),
+        limit: z.number().default(50),
+        offset: z.number().default(0),
+      }))
+      .query(async ({ input }) => {
+        const db2 = await db.getDb();
+        let where = '1=1';
+        if (input.filter === 'missingDescription') where = "(notes IS NULL OR notes = '')";
+        if (input.filter === 'missingOlfactiveProfile') where = "(olfactive_signature IS NULL OR olfactive_signature = '')";
+        if (input.filter === 'missingTherapeutic') where = "(traditional_use IS NULL OR traditional_use = '')";
+        const [rows] = await (db2 as any).execute(
+          `SELECT id, name, latin_name, family FROM plants WHERE ${where} ORDER BY name LIMIT ? OFFSET ?`,
+          [input.limit, input.offset]
+        );
+        const [countRows] = await (db2 as any).execute(
+          `SELECT COUNT(*) as total FROM plants WHERE ${where}`
+        );
+        return {
+          plants: rows as Array<{ id: number; name: string; latin_name: string; family: string }>,
+          total: Number((countRows as any[])[0].total),
+        };
+      }),
   }),
 
   // ============================================================================
@@ -4279,6 +4323,7 @@ Génère un objet JSON :
         
         return moleculesWithIfra;
       }),
+
   }),
 
   // ============================================================================
@@ -4452,6 +4497,51 @@ Génère un objet JSON :
       .input(z.number())
       .mutation(async ({ input }) => {
         return db.removeRecetteRawMaterial(input);
+      }),
+
+    // ---- Enrichissement IA par lot ----
+    getBatchEnrichStats: publicProcedure.query(async () => {
+      const db2 = await db.getDb();
+      const [rows] = await (db2 as any).execute(
+        `SELECT
+          COUNT(*) as total,
+          SUM(CASE WHEN (notes IS NULL OR notes = '') THEN 1 ELSE 0 END) as missingDescription,
+          SUM(CASE WHEN (olfactive_profile IS NULL OR olfactive_profile = '') THEN 1 ELSE 0 END) as missingOlfactiveNotes,
+          SUM(CASE WHEN (usage_notes IS NULL OR usage_notes = '') THEN 1 ELSE 0 END) as missingUsages
+        FROM raw_materials`
+      );
+      const r = (rows as any[])[0];
+      return {
+        total: Number(r.total),
+        missingDescription: Number(r.missingDescription),
+        missingOlfactiveNotes: Number(r.missingOlfactiveNotes),
+        missingUsages: Number(r.missingUsages),
+      };
+    }),
+
+    getForBatchEnrich: publicProcedure
+      .input(z.object({
+        filter: z.enum(['all', 'missingDescription', 'missingOlfactiveNotes', 'missingUsages']).default('missingDescription'),
+        limit: z.number().default(50),
+        offset: z.number().default(0),
+      }))
+      .query(async ({ input }) => {
+        const db2 = await db.getDb();
+        let where = '1=1';
+        if (input.filter === 'missingDescription') where = "(notes IS NULL OR notes = '')";
+        if (input.filter === 'missingOlfactiveNotes') where = "(olfactive_profile IS NULL OR olfactive_profile = '')";
+        if (input.filter === 'missingUsages') where = "(usage_notes IS NULL OR usage_notes = '')";
+        const [rows] = await (db2 as any).execute(
+          `SELECT id, name, category, extraction_method FROM raw_materials WHERE ${where} ORDER BY name LIMIT ? OFFSET ?`,
+          [input.limit, input.offset]
+        );
+        const [countRows] = await (db2 as any).execute(
+          `SELECT COUNT(*) as total FROM raw_materials WHERE ${where}`
+        );
+        return {
+          materials: rows as Array<{ id: number; name: string; category: string; extraction_method: string }>,
+          total: Number((countRows as any[])[0].total),
+        };
       }),
   }),
   recetteRawMaterials: router({
