@@ -14,6 +14,7 @@ import {
   FlaskConical, Microscope, ChevronRight, Zap, Layers
 } from 'lucide-react';
 import * as d3 from 'd3';
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Composant de visualisation du chromatogramme D3.js
 function ChromatogramChart({ peaks, landraceName }: { peaks: any[]; landraceName: string }) {
@@ -428,6 +429,7 @@ export default function TobaccoLandraceDetail() {
           </TabsList>
           
           {/* Vue d'ensemble */}
+          <TabErrorBoundary>
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Profil aromatique */}
@@ -497,8 +499,10 @@ export default function TobaccoLandraceDetail() {
               </Card>
             </div>
           </TabsContent>
+          </TabErrorBoundary>
           
           {/* Profil moléculaire */}
+          <TabErrorBoundary>
           <TabsContent value="molecular" className="space-y-6">
             <Card>
               <CardHeader>
@@ -525,8 +529,10 @@ export default function TobaccoLandraceDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
           
           {/* Terpènes */}
+          <TabErrorBoundary>
           <TabsContent value="terpenes" className="space-y-6">
             <Card>
               <CardHeader>
@@ -576,8 +582,10 @@ export default function TobaccoLandraceDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
           
           {/* Chromatographie */}
+          <TabErrorBoundary>
           <TabsContent value="chromatography" className="space-y-6">
             {chromatogram && peaks && peaks.length > 0 ? (
               <>
@@ -691,13 +699,17 @@ export default function TobaccoLandraceDetail() {
               </Card>
             )}
           </TabsContent>
+          </TabErrorBoundary>
           
           {/* Spectres de masse */}
+          <TabErrorBoundary>
           <TabsContent value="ms-spectra" className="space-y-6">
             <MSSpectraTab peaks={peaks} landraceName={landrace.name} />
           </TabsContent>
+          </TabErrorBoundary>
           
           {/* Applications en parfumerie */}
+          <TabErrorBoundary>
           <TabsContent value="perfumery" className="space-y-6">
             <Card>
               <CardHeader>
@@ -721,6 +733,7 @@ export default function TobaccoLandraceDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
       </div>
     </div>

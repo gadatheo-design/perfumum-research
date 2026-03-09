@@ -65,6 +65,7 @@ import {
   Legend,
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Register Chart.js components
 ChartJS.register(
@@ -465,6 +466,7 @@ export default function VarietyDetail() {
               </TabsList>
 
               {/* Molecules Tab */}
+              <TabErrorBoundary>
               <TabsContent value="molecules" className="space-y-4">
                 {/* Dominant Molecules */}
                 {dominantMolecules && dominantMolecules.length > 0 && (
@@ -546,8 +548,10 @@ export default function VarietyDetail() {
                   </Card>
                 )}
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Olfactive Tab */}
+              <TabErrorBoundary>
               <TabsContent value="olfactive" className="space-y-4">
                 {variety.olfactiveDescription && (
                   <Card>
@@ -619,8 +623,10 @@ export default function VarietyDetail() {
                   </Card>
                 )}
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Agronomy Tab */}
+              <TabErrorBoundary>
               <TabsContent value="agronomy" className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {variety.yieldPerHectare && (
@@ -721,8 +727,10 @@ export default function VarietyDetail() {
                   </Card>
                 )}
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Conservation Tab */}
+              <TabErrorBoundary>
               <TabsContent value="conservation" className="space-y-4">
                 <Card className={`${conservationStyle.bg} ${conservationStyle.border} border`}>
                   <CardHeader>
@@ -774,8 +782,10 @@ export default function VarietyDetail() {
                   </Card>
                 )}
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Genealogy Tab */}
+              <TabErrorBoundary>
               <TabsContent value="genealogy" className="space-y-4">
                 {/* Visualisation D3 */}
                 <Card>
@@ -1007,6 +1017,7 @@ export default function VarietyDetail() {
                   </CardContent>
                 </Card>
               </TabsContent>
+              </TabErrorBoundary>
             </Tabs>
           </div>
 

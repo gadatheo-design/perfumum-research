@@ -20,6 +20,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import aromaticRaritiesData from '@/data/aromatic_rarities.json';
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 export default function AromaticRarityDetailPage() {
   const [match, params] = useRoute('/aromatic-rarities/:id');
@@ -192,6 +193,7 @@ export default function AromaticRarityDetailPage() {
           </TabsList>
 
           {/* Vue d'ensemble */}
+          <TabErrorBoundary>
           <TabsContent value="overview" className="space-y-4">
             <Card>
               <CardHeader>
@@ -241,8 +243,10 @@ export default function AromaticRarityDetailPage() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Extraction */}
+          <TabErrorBoundary>
           <TabsContent value="extraction" className="space-y-4">
             {extractionProtocols.map((protocol, idx) => (
               <Card key={idx}>
@@ -298,8 +302,10 @@ export default function AromaticRarityDetailPage() {
               </Card>
             ))}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Molécules */}
+          <TabErrorBoundary>
           <TabsContent value="molecules" className="space-y-4">
             <Card>
               <CardHeader>
@@ -327,8 +333,10 @@ export default function AromaticRarityDetailPage() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Résurrection */}
+          <TabErrorBoundary>
           <TabsContent value="resurrection" className="space-y-4">
             {resurrectionAttempts.map((attempt, idx) => (
               <Card key={idx}>
@@ -378,8 +386,10 @@ export default function AromaticRarityDetailPage() {
               </Card>
             ))}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Références */}
+          <TabErrorBoundary>
           <TabsContent value="references" className="space-y-4">
             <Card>
               <CardHeader>
@@ -401,6 +411,7 @@ export default function AromaticRarityDetailPage() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
 
         {/* Boutons d'action */}

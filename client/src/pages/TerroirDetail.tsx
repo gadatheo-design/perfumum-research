@@ -20,6 +20,7 @@ import { TruncatableTitle, TruncatableDescription } from "@/components/Truncatab
 import { TerroirContributionModal } from "@/components/TerroirContributionModal";
 import { PlusCircle } from "lucide-react";
 import { EntityConnectionBar } from "@/components/EntityConnectionBar";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 export default function TerroirDetail() {
   const { id } = useParams<{ id: string }>();
@@ -208,6 +209,7 @@ export default function TerroirDetail() {
             </TabsList>
 
             {/* Onglet Plantes */}
+            <TabErrorBoundary>
             <TabsContent value="plants" className="space-y-4">
               {plants.length === 0 ? (
                 <Card className="border-border/50">
@@ -265,8 +267,10 @@ export default function TerroirDetail() {
                 </div>
               )}
             </TabsContent>
+            </TabErrorBoundary>
 
             {/* Onglet Caractéristiques */}
+            <TabErrorBoundary>
             <TabsContent value="characteristics" className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {terroir.climateType && (
@@ -342,8 +346,10 @@ export default function TerroirDetail() {
                 </Card>
               )}
             </TabsContent>
+            </TabErrorBoundary>
 
             {/* Onglet Terroirs similaires */}
+            <TabErrorBoundary>
             <TabsContent value="similar" className="space-y-4">
               {similarTerroirs.length === 0 ? (
                 <Card className="border-border/50">
@@ -391,6 +397,7 @@ export default function TerroirDetail() {
                 </div>
               )}
             </TabsContent>
+            </TabErrorBoundary>
           </Tabs>
         </section>
 

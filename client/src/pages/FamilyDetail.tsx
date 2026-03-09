@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Super-familles botaniques pour classification
 const SUPER_FAMILIES: Record<string, { name: string; color: string; families: string[] }> = {
@@ -248,6 +249,7 @@ export default function FamilyDetail() {
           </TabsList>
 
           {/* Liste des plantes */}
+          <TabErrorBoundary>
           <TabsContent value="plants" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {plants.map((plant: any) => (
@@ -285,8 +287,10 @@ export default function FamilyDetail() {
               ))}
             </div>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Liste des molécules */}
+          <TabErrorBoundary>
           <TabsContent value="molecules" className="space-y-4">
             <Card>
               <CardHeader>
@@ -314,8 +318,10 @@ export default function FamilyDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Liste des origines */}
+          <TabErrorBoundary>
           <TabsContent value="origins" className="space-y-4">
             <Card>
               <CardHeader>
@@ -344,6 +350,7 @@ export default function FamilyDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
 
         {/* Familles apparentées */}

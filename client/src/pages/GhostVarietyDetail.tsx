@@ -37,6 +37,7 @@ import {
   ExternalLink,
   Info,
 } from "lucide-react";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Couleurs par type de variété
 const VARIETY_TYPE_COLORS: Record<string, string> = {
@@ -434,6 +435,7 @@ export default function GhostVarietyDetail() {
           </TabsList>
 
           {/* Overview Tab */}
+          <TabErrorBoundary>
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Description */}
@@ -581,8 +583,10 @@ export default function GhostVarietyDetail() {
               </Card>
             )}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Molecules Tab */}
+          <TabErrorBoundary>
           <TabsContent value="molecules" className="space-y-6">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
@@ -818,8 +822,10 @@ export default function GhostVarietyDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Plants Tab */}
+          <TabErrorBoundary>
           <TabsContent value="plants" className="space-y-6">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
@@ -1041,8 +1047,10 @@ export default function GhostVarietyDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Images Tab */}
+          <TabErrorBoundary>
           <TabsContent value="images" className="space-y-6">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
@@ -1105,8 +1113,10 @@ export default function GhostVarietyDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Sources Tab */}
+          <TabErrorBoundary>
           <TabsContent value="sources" className="space-y-6">
             {/* Historical Sources */}
             <Card>
@@ -1191,6 +1201,7 @@ export default function GhostVarietyDetail() {
               </Card>
             )}
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
       </div>
     </div>

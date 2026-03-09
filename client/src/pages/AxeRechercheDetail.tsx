@@ -68,6 +68,7 @@ import {
   Beaker,
   Unlink,
 } from "lucide-react";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Types
 type EntryType = 'note' | 'observation' | 'hypothese' | 'resultat' | 'conclusion' | 'question' | 'idee' | 'protocole' | 'donnees' | 'analyse' | 'reference' | 'citation' | 'media' | 'lien' | 'autre';
@@ -433,6 +434,7 @@ export default function AxeRechercheDetail() {
               <TabsTrigger value="info">Informations</TabsTrigger>
             </TabsList>
 
+            <TabErrorBoundary>
             <TabsContent value="entries">
               {/* Actions et filtres */}
               <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -694,9 +696,11 @@ export default function AxeRechercheDetail() {
                 </Card>
               )}
             </TabsContent>
+            </TabErrorBoundary>
 
             {/* Sous-axes */}
             {subAxes && subAxes.length > 0 && (
+              <TabErrorBoundary>
               <TabsContent value="subaxes">
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {subAxes.map((subAxis: any) => (
@@ -746,8 +750,10 @@ export default function AxeRechercheDetail() {
                   ))}
                 </div>
               </TabsContent>
+              </TabErrorBoundary>
             )}
 
+            <TabErrorBoundary>
             <TabsContent value="bibliography">
               {/* Actions pour lier des références */}
               {user && (
@@ -907,7 +913,9 @@ export default function AxeRechercheDetail() {
                 </Card>
               )}
             </TabsContent>
+            </TabErrorBoundary>
 
+            <TabErrorBoundary>
             <TabsContent value="info">
               {/* Bouton d'édition */}
               {user && (
@@ -1052,6 +1060,7 @@ export default function AxeRechercheDetail() {
                 </DialogContent>
               </Dialog>
             </TabsContent>
+            </TabErrorBoundary>
           </Tabs>
 
           {/* Dialog de visualisation d'entrée */}

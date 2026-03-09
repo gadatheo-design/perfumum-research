@@ -29,6 +29,7 @@ import {
   ImageIcon
 } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 const climaticAxisConfig: Record<string, { label: string; icon: React.ReactNode; color: string; description: string }> = {
   vent: { 
@@ -284,6 +285,7 @@ export default function LeafEconomyDetail() {
           </TabsList>
 
           {/* Overview Tab */}
+          <TabErrorBoundary>
           <TabsContent value="overview" className="space-y-6">
             {/* Climatic Axes */}
             <Card>
@@ -385,8 +387,10 @@ export default function LeafEconomyDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Analysis Tab */}
+          <TabErrorBoundary>
           <TabsContent value="analysis" className="space-y-6">
             <Card>
               <CardHeader>
@@ -476,8 +480,10 @@ export default function LeafEconomyDetail() {
               </Card>
             )}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Absorbe Tab */}
+          <TabErrorBoundary>
           <TabsContent value="absorbe" className="space-y-6">
             <Card className="border-emerald-200 dark:border-emerald-800">
               <CardHeader>
@@ -537,8 +543,10 @@ export default function LeafEconomyDetail() {
               </Card>
             )}
           </TabsContent>
+          </TabErrorBoundary>
 
           {/* Metadata Tab */}
+          <TabErrorBoundary>
           <TabsContent value="metadata" className="space-y-6">
             <Card>
               <CardHeader>
@@ -608,6 +616,7 @@ export default function LeafEconomyDetail() {
               </CardContent>
             </Card>
           </TabsContent>
+          </TabErrorBoundary>
         </Tabs>
 
         {/* Actions */}

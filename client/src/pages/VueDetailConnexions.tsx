@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { AnimatedCard, HoverScale, FadeInSection } from "@/components/PageTransition";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Types pour les connexions
 interface ConnectionNode {
@@ -354,6 +355,7 @@ export default function VueDetailConnexions() {
               </div>
 
               {/* Overview Tab */}
+              <TabErrorBoundary>
               <TabsContent value="overview" className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <AnimatedCard hoverScale={1.02} hoverY={-4}>
@@ -500,8 +502,10 @@ export default function VueDetailConnexions() {
                   </CardContent>
                 </Card>
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Browse Tab */}
+              <TabErrorBoundary>
               <TabsContent value="browse" className="space-y-6">
                 {/* Filters */}
                 <Card className="border-border/50">
@@ -676,8 +680,10 @@ export default function VueDetailConnexions() {
                   </Card>
                 </div>
               </TabsContent>
+              </TabErrorBoundary>
 
               {/* Graph Tab */}
+              <TabErrorBoundary>
               <TabsContent value="graph" className="space-y-6">
                 <Card className="border-border/50">
                   <CardHeader>
@@ -778,6 +784,7 @@ export default function VueDetailConnexions() {
                   </CardContent>
                 </Card>
               </TabsContent>
+              </TabErrorBoundary>
             </Tabs>
           </div>
         </section>
