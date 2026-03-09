@@ -44,7 +44,7 @@ export default function AIBatchEnrichMolecules() {
     { filter, limit: batchSize, offset: 0 },
     { enabled: false }
   );
-  const enrichMol = trpc.molecules.aiEnrich.useMutation();
+  const enrichMol = trpc.aiEnrichMolecule.enrich.useMutation();
 
   const addLog = useCallback((entry: Omit<LogEntry, "timestamp">) => {
     setLogs(prev => [{ ...entry, timestamp: new Date() }, ...prev].slice(0, 300));
