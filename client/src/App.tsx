@@ -460,6 +460,7 @@ function Router() {
       <Route path="/admin/ai-classification-batch" component={AIClassificationBatch} />
       <Route path="/admin/ai-batch-enrich" component={AIBatchEnrich} />
       <Route path="/admin/ai-batch-enrich-molecules" component={AIBatchEnrichMolecules} />
+          <Route path="/admin/pubchem-iupac-batch" component={PubChemIupacBatch} />
       <Route path="/admin/niche-plant-linking" component={NichePlantMoleculeLinking} />
       <Route path="/admin/classification-review" component={ClassificationReviewQueue} />
       <Route path="/admin/notifications" component={AdminNotifications} />

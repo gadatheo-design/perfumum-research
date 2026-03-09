@@ -262,6 +262,14 @@ export default function Admin() {
       bgColor: "bg-violet-50",
     },
     {
+      title: "Complétion IUPAC via PubChem",
+      description: "Compléter automatiquement les noms IUPAC manquants des molécules via l'API publique PubChem (CAS → IUPAC). 135 molécules récupérables.",
+      icon: Database,
+      href: "/admin/pubchem-iupac-batch",
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
+    },
+    {
       title: "Tableau de Bord de Complétude",
       description: "Suivre l'enrichissement des données — matières premières, plantes et terroirs classés par score de complétude.",
       icon: BarChart3,
