@@ -137,6 +137,22 @@ export default function RawMaterialDetail() {
     ? olfactiveFamilyConfig[material.olfactiveFamily] || olfactiveFamilyConfig.autre
     : null;
 
+  // Helpers de normalisation des champs JSON polymorphes
+  const asArrayRM = (val: unknown): string[] => {
+    if (!val) return [];
+    if (Array.isArray(val)) return (val as unknown[]).map(String).filter(Boolean);
+    if (typeof val === "string") {
+      const t = val.trim();
+      if (t.startsWith("[")) { try { const p = JSON.parse(t); if (Array.isArray(p)) return p.map(String).filter(Boolean); } catch { /* ignore */ } }
+      return t ? [t] : [];
+    }
+    return [String(val)];
+  };
+
+  // Champs normalisés
+  const normAllergens = asArrayRM(material.allergens);
+  const normSynergies = asArrayRM((material as any).synergies);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -370,11 +386,11 @@ export default function RawMaterialDetail() {
                       <p className="text-sm">{material.restrictions}</p>
                     </div>
                   )}
-                  {material.allergens && Array.isArray(material.allergens) && material.allergens.length > 0 && (
+                  {normAllergens.length > 0 && (
                     <div>
                       <span className="text-sm text-muted-foreground">Allergènes</span>
                       <div className="flex flex-wrap gap-1 mt-1">
-                        {material.allergens.map((allergen: string, i: number) => (
+                        {normAllergens.map((allergen: string, i: number) => (
                           <Badge key={i} variant="outline" className="text-xs bg-red-500/10 text-red-400">
                             {allergen}
                           </Badge>
@@ -653,7 +669,7 @@ export default function RawMaterialDetail() {
                 </CardContent>
               </Card>
 
-              {material.synergies && Array.isArray(material.synergies) && material.synergies.length > 0 && (
+              {normSynergies.length > 0 && (
                 <Card className="lg:col-span-2">
                   <CardHeader>
                     <CardTitle>Synergies recommandées</CardTitle>
@@ -663,7 +679,7 @@ export default function RawMaterialDetail() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {material.synergies.map((synergy: string, i: number) => (
+                      {normSynergies.map((synergy: string, i: number) => (
                         <Badge key={i} variant="outline" className="text-sm">
                           {synergy}
                         </Badge>

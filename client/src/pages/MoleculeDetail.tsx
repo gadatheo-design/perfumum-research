@@ -25,6 +25,7 @@ import { TherapeuticPropertiesTab } from "@/components/TherapeuticPropertiesTab"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 // Composant indicateur de statut PubChem
 function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; pubchemCid?: number }) {
@@ -928,9 +929,13 @@ export default function MoleculeDetail() {
     return [];
   })();
 
-  // Champs normalisés
-  const normOlfactiveProfile = asArray(molecule.olfactiveProfile);
-  const normTherapeuticProperties = asString(molecule.therapeuticProperties);
+  // Champs normalisés — priorité aux colonnes JSON standardisées
+  const normOlfactiveProfile = asArray((molecule as any).olfactiveProfileJson ?? molecule.olfactiveProfile);
+  const normTherapeuticProperties = (() => {
+    const jsonArr = (molecule as any).therapeuticPropertiesJson;
+    if (Array.isArray(jsonArr) && jsonArr.length > 0) return jsonArr.join(", ");
+    return asString(molecule.therapeuticProperties);
+  })();
   const normBotanicalSources = asString(molecule.botanicalSources);
   const normOlfactiveProfileStr = normOlfactiveProfile.join(". ");
 
@@ -1146,6 +1151,7 @@ export default function MoleculeDetail() {
 
             {/* Onglet Nomenclature */}
             <TabsContent value="nomenclature" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Nomenclature">
               {/* Identités principales */}
               <div className="bg-card p-6 rounded-lg border shadow-sm">
                 <div className="flex items-center justify-between mb-6">
@@ -1310,10 +1316,12 @@ export default function MoleculeDetail() {
                   </div>
                 </div>
               )}
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Vue d'ensemble */}
             <TabsContent value="overview" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Vue d'ensemble">
               {/* Profil Olfactif Section */}
               <div className="grid md:grid-cols-2 gap-6">
                 {normOlfactiveProfile.length > 0 && (
@@ -1473,10 +1481,12 @@ export default function MoleculeDetail() {
                   getSubtitle={(m) => m.family || m.chemicalClass || undefined}
                 />
               </div>
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Données scientifiques */}
             <TabsContent value="scientific" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Données scientifiques">
               {/* Propriétés Scientifiques — voir l'onglet Nomenclature pour IUPAC, CAS, formule, poids */}
               {(molecule.molecularWeight || molecule.boilingPoint || molecule.logP || molecule.volatility || molecule.intensity || molecule.complexity) && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
@@ -1596,10 +1606,12 @@ export default function MoleculeDetail() {
                 onAcceptResearcherNotes={(value, appendMode) => applyAINotesMutation.mutate({ moleculeId: id, researcherNotes: value, appendMode })}
                 currentNotes={molecule.notes}
               />
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Transformations moléculaires */}
             <TabsContent value="transformations" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Transformations">
               <div className="bg-card p-6 rounded-lg border shadow-sm">
                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <Flame className="h-5 w-5 text-primary" />
@@ -1779,10 +1791,12 @@ export default function MoleculeDetail() {
                   </Button>
                 </Link>
               </div>
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Biosynthèse - Gènes TPS */}
             <TabsContent value="biosynthesis" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Biosynthèse">
               <div className="bg-card p-6 rounded-lg border shadow-sm">
                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <Dna className="h-5 w-5 text-primary" />
@@ -1953,20 +1967,26 @@ export default function MoleculeDetail() {
                   </Link>
                 </div>
               </div>
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Pyrolyse - Transformations thermiques */}
             <TabsContent value="pyrolysis" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Pyrolyse">
               <PyrolysisSection moleculeName={molecule?.name || ''} />
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Plantes sources */}
             <TabsContent value="plants" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Plantes sources">
               <PlantSourcesSection moleculeId={id} />
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Origines géographiques */}
             <TabsContent value="origins" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Origines">
               <div className="bg-card p-6 rounded-lg border shadow-sm">
                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <Globe className="h-5 w-5 text-primary" />
@@ -2079,10 +2099,12 @@ export default function MoleculeDetail() {
                   </Button>
                 </Link>
               </div>
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Réglementation IFRA */}
             <TabsContent value="ifra" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="IFRA">
               <div className="bg-card p-6 rounded-lg border shadow-sm">
                 <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <Shield className="h-5 w-5 text-primary" />
@@ -2219,20 +2241,24 @@ export default function MoleculeDetail() {
                   Consulter les standards IFRA <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Propriétés thérapeutiques */}
             <TabsContent value="therapeutic" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Propriétés thérapeutiques">
               <TherapeuticPropertiesTab
                 moleculeId={molecule.id}
                 moleculeName={molecule.name}
                 therapeuticProperties={normTherapeuticProperties || undefined}
                 olfactiveProfile={normOlfactiveProfileStr || undefined}
               />
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Structure 3D */}
             <TabsContent value="structure3d" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Structure 3D">
               <Structure3DTab
                 moleculeId={molecule.id}
                 moleculeName={molecule.name}
@@ -2240,16 +2266,21 @@ export default function MoleculeDetail() {
                 smiles={(molecule as any).smiles}
                 pubchemCid={(molecule as any).pubchem_cid}
               />
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Parfums emblématiques */}
             <TabsContent value="perfumes" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Parfums">
               <PerfumesTab moleculeId={molecule.id} moleculeName={molecule.name} />
+              </TabErrorBoundary>
             </TabsContent>
 
             {/* Onglet Synergies moléculaires */}
             <TabsContent value="synergies" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="Synergies">
               <SynergiesTab moleculeName={molecule.name} moleculeId={molecule.id} />
+              </TabErrorBoundary>
             </TabsContent>
 
           </Tabs>

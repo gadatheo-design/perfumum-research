@@ -173,19 +173,41 @@ export default function PlantDetail() {
   }
   
   const plant = plantDetails;
-  const botanicalStates = plant.botanicalStates as Array<{
-    state: string;
-    name: string;
-    odor: string;
-    molecules: string[];
-    usage: string;
-  }> | null;
+  // Helpers de normalisation des champs JSON polymorphes
+  const asStringPlant = (val: unknown): string => {
+    if (!val) return "";
+    if (typeof val === "string") {
+      const t = val.trim();
+      if (t.startsWith("[") || t.startsWith("{")) {
+        try { const p = JSON.parse(t); if (Array.isArray(p)) return p.join(", "); } catch { /* ignore */ }
+      }
+      return val;
+    }
+    if (Array.isArray(val)) return (val as string[]).filter(Boolean).join(", ");
+    return String(val);
+  };
+  const asArrayPlant = (val: unknown): string[] => {
+    if (!val) return [];
+    if (Array.isArray(val)) return (val as unknown[]).map(String).filter(Boolean);
+    if (typeof val === "string") {
+      const t = val.trim();
+      if (t.startsWith("[")) { try { const p = JSON.parse(t); if (Array.isArray(p)) return p.map(String).filter(Boolean); } catch { /* ignore */ } }
+      return t ? [t] : [];
+    }
+    return [String(val)];
+  };
+
+  const botanicalStates = (() => {
+    const raw = plant.botanicalStates;
+    if (!raw) return null;
+    if (Array.isArray(raw)) return raw as Array<{ state: string; name: string; odor: string; molecules: string[]; usage: string; }>;
+    if (typeof raw === "string") {
+      try { const p = JSON.parse(raw); return Array.isArray(p) ? p : null; } catch { return null; }
+    }
+    return null;
+  })();
   
-  const dominantMolecules = plant.dominantMolecules 
-    ? (typeof plant.dominantMolecules === 'string' 
-        ? safeJsonParse(plant.dominantMolecules, []) 
-        : plant.dominantMolecules)
-    : [];
+  const dominantMolecules = asArrayPlant(plant.dominantMolecules);
   
   return (
     <div className="container py-8 max-w-6xl">
@@ -1314,6 +1336,18 @@ function NomenclatureTab({ plant }: { plant: any }) {
     setTimeout(() => setCopied(null), 2000);
   };
 
+  // Helper local pour normaliser les champs JSON polymorphes
+  const asArrayPlant = (val: unknown): string[] => {
+    if (!val) return [];
+    if (Array.isArray(val)) return (val as unknown[]).map(String).filter(Boolean);
+    if (typeof val === "string") {
+      const t = val.trim();
+      if (t.startsWith("[")) { try { const p = JSON.parse(t); if (Array.isArray(p)) return p.map(String).filter(Boolean); } catch { /* ignore */ } }
+      return t ? [t] : [];
+    }
+    return [String(val)];
+  };
+
   // Générer les liens externes — priorité aux IDs directs, sinon recherche par nom
   const latinEncoded = plant.latinName ? encodeURIComponent(plant.latinName) : null;
   const gbifUrl = plant.gbifId
@@ -1329,11 +1363,7 @@ function NomenclatureTab({ plant }: { plant: any }) {
   const tplUrl = latinEncoded ? `https://www.theplantlist.org/tpl1.1/search?q=${latinEncoded}` : null;
 
   // Synonymes
-  const synonymsList: string[] = Array.isArray(plant.synonyms)
-    ? plant.synonyms
-    : (typeof plant.synonyms === 'string' && plant.synonyms)
-      ? (() => { try { return JSON.parse(plant.synonyms); } catch { return [plant.synonyms]; } })()
-      : [];
+  const synonymsList: string[] = asArrayPlant(plant.synonyms);
 
   return (
     <div className="space-y-6">

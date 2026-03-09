@@ -174,6 +174,7 @@ export const molecules = mysqlTable("molecules", {
   family: text("family"), // Flexible: Terpène, Sesquiterpène, Aldéhyde, etc.
   chemicalFormula: varchar("chemicalFormula", { length: 100 }), // e.g., C10H16
   olfactiveProfile: text("olfactiveProfile"),
+  olfactiveProfileJson: json("olfactive_profile_json").$type<string[]>(), // Standardized JSON array (preferred over text)
   emotionalResonance: text("emotionalResonance"),
   functionalEffect: text("functionalEffect"), // Flexible: cold, humidity, sun, etc.
   sourceOrigin: text("sourceOrigin"), // Where it comes from
@@ -190,6 +191,7 @@ export const molecules = mysqlTable("molecules", {
   botanicalSources: text("botanicalSources"), // Plant sources (e.g., "Lavande, Menthe, Eucalyptus")
   extractionMethod: text("extractionMethod"), // Extraction method (e.g., "Hydrodistillation, CO₂ supercritique")
   therapeuticProperties: text("therapeuticProperties"), // Therapeutic properties (e.g., "Calmant, Anti-inflammatoire")
+  therapeuticPropertiesJson: json("therapeutic_properties_json").$type<string[]>(), // Standardized JSON array (preferred over text)
   // Radar olfactive profile (0-100 scale)
   radarIntensity: int("radar_intensity").default(50), // Olfactive intensity
   radarFreshness: int("radar_freshness").default(50), // Freshness (citrus, mint)
