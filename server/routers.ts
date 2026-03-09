@@ -4116,7 +4116,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           params.push(enriched.habitat);
         }
         if (enriched.description) {
-          updates.push('description = ?');
+          updates.push('notes = ?');
           params.push(enriched.description);
         }
 
@@ -4263,9 +4263,10 @@ Réponds UNIQUEMENT avec le JSON.`;
           const { createConnection: _cc } = await import('mysql2/promise');
           const _connUpd = await _cc(process.env.DATABASE_URL!);
           await _connUpd.query(
-            `UPDATE raw_materials SET description = ?, ai_enriched_notes = ? WHERE id = ?`,
-            [enriched.description, JSON.stringify({ olfactiveNotes: enriched.olfactiveNotes, keyMolecules: enriched.keyMolecules, usagesInPerfumery: enriched.usagesInPerfumery, extractionDetails: enriched.extractionDetails, qualityMarkers: enriched.qualityMarkers }), input.rawMaterialId]
+            `UPDATE raw_materials SET notes = ?, olfactive_profile = ?, usage_notes = ? WHERE id = ?`,
+            [enriched.description, enriched.olfactiveNotes ? enriched.olfactiveNotes.join(', ') : null, enriched.usagesInPerfumery || null, input.rawMaterialId]
           );
+          await _connUpd.end();
         }
 
         return { success: true, enriched, materialName: rm.name };
@@ -4448,8 +4449,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
         const updates: string[] = [];
         const params: any[] = [];
-        if (enriched.olfactiveProfile?.length) { updates.push("olfactiveProfile = ?"); params.push(JSON.stringify(enriched.olfactiveProfile)); }
-        if (enriched.therapeuticProperties?.length) { updates.push("therapeuticProperties = ?"); params.push(JSON.stringify(enriched.therapeuticProperties)); }
+        if (enriched.olfactiveProfile?.length) { updates.push("olfactiveProfile = ?"); params.push(enriched.olfactiveProfile.join(', ')); }
+        if (enriched.therapeuticProperties?.length) { updates.push("therapeuticProperties = ?"); params.push(enriched.therapeuticProperties.join(', ')); }
         if (enriched.family && !mol.family) { updates.push("family = ?"); params.push(enriched.family); }
         if (enriched.iupac_name && !mol.iupac_name) { updates.push("iupac_name = ?"); params.push(enriched.iupac_name); }
         if (enriched.notes && !mol.notes) { updates.push("notes = ?"); params.push(enriched.notes); }
