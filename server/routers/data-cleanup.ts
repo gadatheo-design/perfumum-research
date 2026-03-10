@@ -226,7 +226,7 @@ export const dataCleanupRouter = router({
       id: molecules.id,
       name: molecules.name,
       family: molecules.family,
-      chemicalFamily: molecules.chemicalFamily,
+      chemicalClass: molecules.chemicalClass,
       casNumber: molecules.casNumber,
       pubchemCid: molecules.pubchemCid,
       notes: molecules.notes,

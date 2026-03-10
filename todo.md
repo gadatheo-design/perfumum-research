@@ -1887,3 +1887,5 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Audit SQL des molécules mal classées (matières premières dans molecules)
 - [x] Créer la page /admin/reclassify-molecules pour déplacer les matières premières vers raw_materials
 - [x] Ajouter les procédures getMisclassifiedMolecules, reclassifyToRawMaterial, deleteMisclassified dans data-cleanup router
+- [x] Corriger AdminDuplicates : m.nom → m.name, p.common_name → commonName, p.scientific_name → latinName
+- [x] Corriger getMisclassifiedMolecules : chemicalFamily → chemicalClass (champ inexistant dans schema)

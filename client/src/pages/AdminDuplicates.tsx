@@ -279,7 +279,7 @@ export default function AdminDuplicates() {
                               <Badge variant="destructive">{dup.count}</Badge>
                             </TableCell>
                             <TableCell className="text-sm text-muted-foreground">
-                              {dup.molecules.map(m => m.nom).join(", ")}
+                              {dup.molecules.map(m => m.name).join(", ")}
                             </TableCell>
                             <TableCell>
                               <Button 
@@ -335,7 +335,7 @@ export default function AdminDuplicates() {
                               <Badge variant="destructive">{dup.count}</Badge>
                             </TableCell>
                             <TableCell className="text-sm text-muted-foreground">
-                              {dup.molecules.map(m => m.nom).join(", ")}
+                              {dup.molecules.map(m => m.name).join(", ")}
                             </TableCell>
                             <TableCell>
                               <Button 
@@ -415,7 +415,7 @@ export default function AdminDuplicates() {
                               <Badge variant="destructive">{dup.count}</Badge>
                             </TableCell>
                             <TableCell className="text-sm text-muted-foreground">
-                              {dup.plants.map(p => p.common_name || "N/A").join(", ")}
+                              {dup.plants.map(p => (p as any).commonName || (p as any).common_name || "N/A").join(", ")}
                             </TableCell>
                             <TableCell>
                               <Button 
@@ -469,7 +469,7 @@ export default function AdminDuplicates() {
                               <Badge variant="destructive">{dup.count}</Badge>
                             </TableCell>
                             <TableCell className="text-sm text-muted-foreground italic">
-                              {dup.plants.map(p => p.scientific_name).join(", ")}
+                              {dup.plants.map(p => (p as any).latinName || (p as any).scientific_name || "N/A").join(", ")}
                             </TableCell>
                             <TableCell>
                               <Button 
