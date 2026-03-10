@@ -50,18 +50,19 @@ type MoleculeItem = {
   id: number;
   name: string | null;
   family: string | null;
-  chemicalFamily: string | null;
+  chemicalFamily?: string | null;
+  chemicalClass?: string | null;
   casNumber: string | null;
-  pubchemCid: string | null;
+  pubchemCid?: number | string | null;
   notes: string | null;
-  sourceOrigin: string | null;
+  sourceOrigin?: string | null;
 };
 
 export default function AdminReclassifyMolecules() {
   const [search, setSearch] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<Record<number, string>>({});
   const [processing, setProcessing] = useState<Record<number, boolean>>({});
-  const [done, setDone] = useState<Set<number>>(new Set());
+  const [done, setDone] = useState<number[]>([]);
 
   const { data: misclassified = [], isLoading, refetch } = trpc.dataCleanup.getMisclassifiedMolecules.useQuery();
 
@@ -69,7 +70,7 @@ export default function AdminReclassifyMolecules() {
     onSuccess: (result, variables) => {
       if (result.success) {
         toast.success(`"${result.molecule?.name}" déplacée vers Matières Premières`);
-        setDone(prev => new Set([...prev, variables.moleculeId]));
+        setDone(prev => [...prev, variables.moleculeId]);
       } else {
         toast.error("Erreur : " + (result as any).error);
       }
@@ -84,14 +85,14 @@ export default function AdminReclassifyMolecules() {
     onSuccess: (result, variables) => {
       if (result.success) {
         toast.success("Entrée supprimée");
-        setDone(prev => new Set([...prev, variables.id]));
+        setDone(prev => [...prev, variables.id]);
       }
     },
     onError: (err) => toast.error("Erreur : " + err.message),
   });
 
-  const filtered = (misclassified as MoleculeItem[]).filter(m => {
-    if (done.has(m.id)) return false;
+  const filtered = (misclassified as unknown as MoleculeItem[]).filter(m => {
+    if (done.includes(m.id)) return false;
     if (!search) return true;
     return (m.name || "").toLowerCase().includes(search.toLowerCase());
   });
@@ -110,7 +111,7 @@ export default function AdminReclassifyMolecules() {
           toast.warning(`${result.errors.length} erreur(s) : ${result.errors.slice(0, 3).join(', ')}`);
         }
         refetch();
-        setDone(new Set());
+        setDone([]);
       }
     },
     onError: (err) => toast.error("Erreur batch : " + err.message),
@@ -121,7 +122,7 @@ export default function AdminReclassifyMolecules() {
   };
 
   const remaining = filtered.length;
-  const totalProcessed = done.size;
+  const totalProcessed = done.length;
 
   return (
     <div className="min-h-screen bg-background p-6">
