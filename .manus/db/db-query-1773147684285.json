@@ -1,0 +1,20 @@
+{
+  "query": "SELECT id, name, LEFT(olfactiveProfile, 200) as olfactive_profile_preview FROM molecules WHERE name LIKE '%Iris%' OR name LIKE '%Orris%' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, LEFT(olfactiveProfile, 200) as olfactive_profile_preview FROM molecules WHERE name LIKE '%Iris%' OR name LIKE '%Orris%' LIMIT 5;",
+  "rows": [
+    {
+      "id": "300002",
+      "name": "Absolue d'Iris (Orris Butter)",
+      "olfactive_profile_preview": "[\"Poudré délicat\",\"floral violette\",\"terreux racine\",\"beurré\",\"carotte\"]"
+    },
+    {
+      "id": "1080015",
+      "name": "Orris ‘Florentina’ (filière fragile)",
+      "olfactive_profile_preview": "[\"L'Orris 'Florentina' offre un profil olfactif complexe, poudré et élégant, avec des nuances florales délicates rappelant la violette. Son cœur révèle des facettes boisées, terreuses et racinaires pr"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tolfactive_profile_preview\n300002\tAbsolue d'Iris (Orris Butter)\t[\"Poudré délicat\",\"floral violette\",\"terreux racine\",\"beurré\",\"carotte\"]\n1080015\tOrris ‘Florentina’ (filière fragile)\t[\"L'Orris 'Florentina' offre un profil olfactif complexe, poudré et élégant, avec des nuances florales délicates rappelant la violette. Son cœur révèle des facettes boisées, terreuses et racinaires pr\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

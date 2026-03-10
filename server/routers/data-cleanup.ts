@@ -279,7 +279,19 @@ export const dataCleanupRouter = router({
         materialId,
         name: mol.name || 'Sans nom',
         category: input.category as any,
-        olfactiveProfile: typeof mol.olfactiveProfile === 'string' ? mol.olfactiveProfile : null,
+        olfactiveProfile: (() => {
+          const op = mol.olfactiveProfile;
+          if (!op) return null;
+          if (typeof op === 'string') {
+            // Peut être un JSON stringifié d'un tableau
+            try {
+              const parsed = JSON.parse(op);
+              return Array.isArray(parsed) ? parsed.join(', ') : op;
+            } catch { return op; }
+          }
+          if (Array.isArray(op)) return (op as string[]).join(', ');
+          return String(op);
+        })(),
         notes: mol.notes || null,
       });
 
