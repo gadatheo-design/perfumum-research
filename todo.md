@@ -1878,8 +1878,3 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Page admin /admin/coconut-batch : enrichissement batch COCONUT
 - [ ] Script import KNApSAcK CSV (101 500 paires espèce-molécule)
 - [ ] Page admin /admin/knapsack-import : interface d'import du CSV KNApSAcK
-
----
-## 🔧 SESSION 10 MARS 2026 — Code splitting sûr + Visualisation des dépendances
-- [x] Réactiver le code splitting par catégories de pages dans vite.config.ts (sans cycles vendor)
-- [x] Ajouter un outil de visualisation des dépendances du bundle (rollup-plugin-visualizer) accessible dans l'interface admin

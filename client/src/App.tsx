@@ -67,7 +67,6 @@ const LiaisonRecettesMolecules = React.lazy(() => import('./pages/admin/LiaisonR
 const MoleculeOriginsAdmin = React.lazy(() => import('./pages/admin/MoleculeOriginsAdmin'));
 const TerroirsGeocode = React.lazy(() => import('./pages/admin/TerroirsGeocode'));
 const AdminMoleculesIndex = React.lazy(() => import('./pages/admin/AdminMoleculesIndex'));
-const BundleVisualizer = React.lazy(() => import('./pages/admin/BundleVisualizer'));
 const AdminAccords = React.lazy(() => import('./pages/admin/AdminAccords'));
 const AdminFamilles = React.lazy(() => import('./pages/admin/AdminFamilles'));
 const AdminMatieres = React.lazy(() => import('./pages/admin/AdminMatieres'));
@@ -503,7 +502,6 @@ function Router() {
       <Route path="/admin/gbif-batch" component={GBIFBatch} />
       <Route path="/admin/lotus-batch" component={LOTUSBatch} />
       <Route path="/admin/knapsack-batch" component={KNApSAcKBatch} />
-      <Route path="/admin/bundle-visualizer" component={BundleVisualizer} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />
