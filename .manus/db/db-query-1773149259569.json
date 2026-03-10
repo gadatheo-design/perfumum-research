@@ -1,0 +1,710 @@
+{
+  "query": "SELECT plant_id, molecule_id FROM plant_molecules WHERE molecule_id IN (30005, 810013, 900009, 1110027) ORDER BY plant_id, molecule_id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT plant_id, molecule_id FROM plant_molecules WHERE molecule_id IN (30005, 810013, 900009, 1110027) ORDER BY plant_id, molecule_id;",
+  "rows": [
+    {
+      "plant_id": "1",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "2",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "3",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "4",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "4",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "5",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "6",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "6",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "10",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "10",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "11",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "11",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "12",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "12",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "13",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "13",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "30001",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "30001",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "30005",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "30007",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "30009",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "30009",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "30009",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "30010",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "30012",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "30015",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "60001",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "60002",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "60003",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "60004",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "60006",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120001",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120001",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120002",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120002",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120003",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120003",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120004",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120004",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120005",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120005",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120006",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120006",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120007",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120007",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120008",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120008",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120009",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120009",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120010",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120010",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "120010",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120011",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120011",
+      "molecule_id": "1110027"
+    },
+    {
+      "plant_id": "120012",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120012",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "120013",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120016",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120017",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120017",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "120018",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120019",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "120019",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "120020",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "150006",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "150007",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "150008",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "150011",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "150011",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "150012",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "150014",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "150015",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "150019",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210002",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "210003",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210007",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210008",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210008",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "210009",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210013",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210014",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210017",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210018",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210019",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210021",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210022",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210027",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210028",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210030",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "210036",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "240003",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "240003",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "240004",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "240004",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "270005",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "270012",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "300001",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "330001",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "330001",
+      "molecule_id": "900009"
+    },
+    {
+      "plant_id": "390002",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "390003",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "390004",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "420003",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "420004",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "420005",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "420007",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "420007",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "420008",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "420010",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "420011",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "420011",
+      "molecule_id": "900009"
+    },
+    {
+      "plant_id": "420012",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "450001",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "450005",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "450008",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "450010",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "480001",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "480002",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "480003",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "480004",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "480005",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "480006",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "480016",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "480018",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "540005",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "540007",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "540008",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "540016",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "540018",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "540028",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "570004",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "570005",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "570006",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "570010",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "600015",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "630012",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "630016",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "630017",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660023",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660070",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660075",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660717",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660755",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660772",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660814",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660832",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660845",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660846",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660888",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660900",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "660905",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690021",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690042",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690095",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690117",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690128",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690158",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690161",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690169",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690180",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690213",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690239",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "690239",
+      "molecule_id": "810013"
+    },
+    {
+      "plant_id": "690293",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "720004",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "720005",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "750012",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "780002",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "810009",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "930001",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "960004",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "960005",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "960009",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "960012",
+      "molecule_id": "30005"
+    },
+    {
+      "plant_id": "960015",
+      "molecule_id": "30005"
+    }
+  ],
+  "messages": [],
+  "stdout": "plant_id\tmolecule_id\n1\t30005\n2\t810013\n3\t30005\n4\t30005\n4\t810013\n5\t30005\n6\t30005\n6\t810013\n10\t30005\n10\t1110027\n11\t30005\n11\t1110027\n12\t30005\n12\t1110027\n13\t30005\n13\t1110027\n30001\t30005\n30001\t810013\n30005\t30005\n30007\t30005\n30009\t30005\n30009\t810013\n30009\t1110027\n30010\t30005\n30012\t30005\n30015\t30005\n60001\t30005\n60002\t30005\n60003\t30005\n60004\t30005\n60006\t30005\n120001\t30005\n120001\t1110027\n120002\t30005\n120002\t1110027\n120003\t30005\n120003\t1110027\n120004\t30005\n120004\t1110027\n120005\t30005\n120005\t1110027\n120006\t30005\n120006\t1110027\n120007\t30005\n120007\t1110027\n120008\t30005\n120008\t1110027\n120009\t30005\n120009\t1110027\n120010\t30005\n120010\t810013\n120010\t1110027\n120011\t30005\n120011\t1110027\n120012\t30005\n120012\t810013\n120013\t30005\n120016\t30005\n120017\t30005\n120017\t810013\n120018\t30005\n120019\t30005\n120019\t810013\n120020\t30005\n150006\t30005\n150007\t30005\n150008\t30005\n150011\t30005\n150011\t810013\n150012\t30005\n150014\t30005\n150015\t30005\n150019\t30005\n210002\t810013\n210003\t30005\n210007\t30005\n210008\t30005\n210008\t810013\n210009\t30005\n210013\t30005\n210014\t30005\n210017\t30005\n210018\t30005\n210019\t30005\n210021\t30005\n210022\t30005\n210027\t30005\n210028\t30005\n210030\t30005\n210036\t30005\n240003\t30005\n240003\t810013\n240004\t30005\n240004\t810013\n270005\t30005\n270012\t30005\n300001\t30005\n330001\t30005\n330001\t900009\n390002\t30005\n390003\t30005\n390004\t30005\n420003\t30005\n420004\t30005\n420005\t810013\n420007\t30005\n420007\t810013\n420008\t30005\n420010\t30005\n420011\t30005\n420011\t900009\n420012\t30005\n450001\t30005\n450005\t30005\n450008\t30005\n450010\t30005\n480001\t30005\n480002\t30005\n480003\t30005\n480004\t30005\n480005\t30005\n480006\t30005\n480016\t30005\n480018\t30005\n540005\t30005\n540007\t30005\n540008\t30005\n540016\t30005\n540018\t30005\n540028\t30005\n570004\t30005\n570005\t30005\n570006\t30005\n570010\t30005\n600015\t30005\n630012\t30005\n630016\t30005\n630017\t30005\n660023\t30005\n660070\t30005\n660075\t30005\n660717\t30005\n660755\t30005\n660772\t30005\n660814\t30005\n660832\t30005\n660845\t30005\n660846\t30005\n660888\t30005\n660900\t30005\n660905\t30005\n690021\t30005\n690042\t30005\n690095\t30005\n690117\t30005\n690128\t30005\n690158\t30005\n690161\t30005\n690169\t30005\n690180\t30005\n690213\t30005\n690239\t30005\n690239\t810013\n690293\t30005\n720004\t30005\n720005\t30005\n750012\t30005\n780002\t30005\n810009\t30005\n930001\t30005\n960004\t30005\n960005\t30005\n960009\t30005\n960012\t30005\n960015\t30005\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

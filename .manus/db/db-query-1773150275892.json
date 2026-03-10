@@ -1,0 +1,9 @@
+{
+  "query": "SELECT id, material_id, name FROM raw_materials WHERE name IN ('Javanol', 'Mousse de Chêne (Oakmoss)', 'Huile de Bois de Rose');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, material_id, name FROM raw_materials WHERE name IN ('Javanol', 'Mousse de Chêne (Oakmoss)', 'Huile de Bois de Rose');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 57
+}

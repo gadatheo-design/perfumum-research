@@ -1,0 +1,9 @@
+{
+  "query": "\nDELETE FROM molecule_synergies \nWHERE molecule1_id = 1110027 \nAND molecule2_id IN (\n  SELECT molecule2_id FROM (\n    SELECT molecule2_id FROM molecule_synergies WHERE molecule1_id = 30005\n  ) AS tmp\n);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nDELETE FROM molecule_synergies \nWHERE molecule1_id = 1110027 \nAND molecule2_id IN (\n  SELECT molecule2_id FROM (\n    SELECT molecule2_id FROM molecule_synergies WHERE molecule1_id = 30005\n  ) AS tmp\n);\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 60
+}

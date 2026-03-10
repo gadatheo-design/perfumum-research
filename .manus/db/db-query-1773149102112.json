@@ -1,0 +1,145 @@
+{
+  "query": "SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'molecules' AND TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'molecules' AND TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME;",
+  "rows": [
+    {
+      "TABLE_NAME": "ifra_restrictions",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_1"
+    },
+    {
+      "TABLE_NAME": "laboratoire_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "laboratoire_molecules_moleculeId_molecules_id_fk"
+    },
+    {
+      "TABLE_NAME": "leaf_economy_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "leaf_economy_molecules_molecule_id_molecules_id_fk"
+    },
+    {
+      "TABLE_NAME": "molecular_transformations",
+      "COLUMN_NAME": "product_molecule_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "molecular_transformations",
+      "COLUMN_NAME": "source_molecule_id",
+      "CONSTRAINT_NAME": "fk_1"
+    },
+    {
+      "TABLE_NAME": "molecule_accords",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "molecule_accords_moleculeId_molecules_id_fk"
+    },
+    {
+      "TABLE_NAME": "molecule_chemical_families",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "fk_1"
+    },
+    {
+      "TABLE_NAME": "molecule_families",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "molecule_families_moleculeId_molecules_id_fk"
+    },
+    {
+      "TABLE_NAME": "molecule_notes",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "molecule_origins",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_1"
+    },
+    {
+      "TABLE_NAME": "molecule_perfumes",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_1"
+    },
+    {
+      "TABLE_NAME": "molecule_plant_sources",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_1"
+    },
+    {
+      "TABLE_NAME": "molecule_recettes",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "molecule_recettes_moleculeId_molecules_id_fk"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies",
+      "COLUMN_NAME": "molecule2_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies",
+      "COLUMN_NAME": "molecule1_id",
+      "CONSTRAINT_NAME": "fk_1"
+    },
+    {
+      "TABLE_NAME": "petrichor_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "petrichor_molecules_moleculeId_molecules_id_fk"
+    },
+    {
+      "TABLE_NAME": "plant_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "prototype_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "prototype_molecules_moleculeId_molecules_id_fk"
+    },
+    {
+      "TABLE_NAME": "publication_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "raw_material_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "recette_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "synergies",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "tabac_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "tabac_molecules_moleculeId_molecules_id_fk"
+    },
+    {
+      "TABLE_NAME": "terp_profile_molecules",
+      "COLUMN_NAME": "molecule_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "terpene_synergies",
+      "COLUMN_NAME": "terpene2_id",
+      "CONSTRAINT_NAME": "fk_2"
+    },
+    {
+      "TABLE_NAME": "terpene_synergies",
+      "COLUMN_NAME": "terpene1_id",
+      "CONSTRAINT_NAME": "fk_1"
+    },
+    {
+      "TABLE_NAME": "volcanique_molecules",
+      "COLUMN_NAME": "moleculeId",
+      "CONSTRAINT_NAME": "volcanique_molecules_moleculeId_molecules_id_fk"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\tCOLUMN_NAME\tCONSTRAINT_NAME\nifra_restrictions\tmolecule_id\tfk_1\nlaboratoire_molecules\tmoleculeId\tlaboratoire_molecules_moleculeId_molecules_id_fk\nleaf_economy_molecules\tmolecule_id\tleaf_economy_molecules_molecule_id_molecules_id_fk\nmolecular_transformations\tproduct_molecule_id\tfk_2\nmolecular_transformations\tsource_molecule_id\tfk_1\nmolecule_accords\tmoleculeId\tmolecule_accords_moleculeId_molecules_id_fk\nmolecule_chemical_families\tmoleculeId\tfk_1\nmolecule_families\tmoleculeId\tmolecule_families_moleculeId_molecules_id_fk\nmolecule_notes\tmolecule_id\tfk_2\nmolecule_origins\tmolecule_id\tfk_1\nmolecule_perfumes\tmolecule_id\tfk_1\nmolecule_plant_sources\tmolecule_id\tfk_1\nmolecule_recettes\tmoleculeId\tmolecule_recettes_moleculeId_molecules_id_fk\nmolecule_synergies\tmolecule2_id\tfk_2\nmolecule_synergies\tmolecule1_id\tfk_1\npetrichor_molecules\tmoleculeId\tpetrichor_molecules_moleculeId_molecules_id_fk\nplant_molecules\tmolecule_id\tfk_2\nprototype_molecules\tmoleculeId\tprototype_molecules_moleculeId_molecules_id_fk\npublication_molecules\tmolecule_id\tfk_2\nraw_material_molecules\tmolecule_id\tfk_2\nrecette_molecules\tmolecule_id\tfk_2\nsynergies\tmolecule_id\tfk_2\ntabac_molecules\tmoleculeId\ttabac_molecules_moleculeId_molecules_id_fk\nterp_profile_molecules\tmolecule_id\tfk_2\nterpene_synergies\tterpene2_id\tfk_2\nterpene_synergies\tterpene1_id\tfk_1\nvolcanique_molecules\tmoleculeId\tvolcanique_molecules_moleculeId_molecules_id_fk\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

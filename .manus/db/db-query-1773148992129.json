@@ -1,0 +1,38 @@
+{
+  "query": "SELECT id, name, cas_number, pubchem_cid, smiles FROM molecules WHERE name LIKE '%ph%nyl%thanol%' OR name LIKE '%phenylethanol%' OR name LIKE '%Phényléthanol%' OR cas_number = '60-12-8' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number, pubchem_cid, smiles FROM molecules WHERE name LIKE '%ph%nyl%thanol%' OR name LIKE '%phenylethanol%' OR name LIKE '%Phényléthanol%' OR cas_number = '60-12-8' ORDER BY id;",
+  "rows": [
+    {
+      "id": "570054",
+      "name": "Alcool phényléthylique",
+      "cas_number": "60-12-8",
+      "pubchem_cid": "6054",
+      "smiles": "OCCC1=CC=CC=C1"
+    },
+    {
+      "id": "690002",
+      "name": "2-Phényléthanol",
+      "cas_number": "60-12-8",
+      "pubchem_cid": "6054",
+      "smiles": "OCCC1=CC=CC=C1"
+    },
+    {
+      "id": "990016",
+      "name": "Phenylethyl alcohol",
+      "cas_number": "60-12-8",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1320069",
+      "name": "2-Phénylethanol",
+      "cas_number": "60-12-8",
+      "pubchem_cid": "6054",
+      "smiles": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\tpubchem_cid\tsmiles\n570054\tAlcool phényléthylique\t60-12-8\t6054\tOCCC1=CC=CC=C1\n690002\t2-Phényléthanol\t60-12-8\t6054\tOCCC1=CC=CC=C1\n990016\tPhenylethyl alcohol\t60-12-8\tNULL\tNULL\n1320069\t2-Phénylethanol\t60-12-8\t6054\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

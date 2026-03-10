@@ -1,0 +1,106 @@
+{
+  "query": "SELECT id, molecule1_id, molecule2_id, type FROM molecule_synergies WHERE molecule1_id IN (30005, 1110027) OR molecule2_id IN (30005, 1110027) ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, molecule1_id, molecule2_id, type FROM molecule_synergies WHERE molecule1_id IN (30005, 1110027) OR molecule2_id IN (30005, 1110027) ORDER BY id;",
+  "rows": [
+    {
+      "id": "60006",
+      "molecule1_id": "30009",
+      "molecule2_id": "30005",
+      "type": "potentialisation"
+    },
+    {
+      "id": "90016",
+      "molecule1_id": "30006",
+      "molecule2_id": "30005",
+      "type": "potentialisation"
+    },
+    {
+      "id": "310011",
+      "molecule1_id": "30007",
+      "molecule2_id": "30005",
+      "type": "potentialisation"
+    },
+    {
+      "id": "310016",
+      "molecule1_id": "30005",
+      "molecule2_id": "30002",
+      "type": "potentialisation"
+    },
+    {
+      "id": "310017",
+      "molecule1_id": "30005",
+      "molecule2_id": "30008",
+      "type": "transformation"
+    },
+    {
+      "id": "310019",
+      "molecule1_id": "30005",
+      "molecule2_id": "690004",
+      "type": "stabilisation"
+    },
+    {
+      "id": "310020",
+      "molecule1_id": "30005",
+      "molecule2_id": "720017",
+      "type": "potentialisation"
+    },
+    {
+      "id": "310021",
+      "molecule1_id": "30005",
+      "molecule2_id": "1320037",
+      "type": "potentialisation"
+    },
+    {
+      "id": "310022",
+      "molecule1_id": "30005",
+      "molecule2_id": "720012",
+      "type": "transformation"
+    },
+    {
+      "id": "310045",
+      "molecule1_id": "1110027",
+      "molecule2_id": "30002",
+      "type": "potentialisation"
+    },
+    {
+      "id": "310046",
+      "molecule1_id": "1110027",
+      "molecule2_id": "30006",
+      "type": "potentialisation"
+    },
+    {
+      "id": "310059",
+      "molecule1_id": "30005",
+      "molecule2_id": "720001",
+      "type": "transformation"
+    },
+    {
+      "id": "310064",
+      "molecule1_id": "30005",
+      "molecule2_id": "1320031",
+      "type": "transformation"
+    },
+    {
+      "id": "310069",
+      "molecule1_id": "30005",
+      "molecule2_id": "660002",
+      "type": "transformation"
+    },
+    {
+      "id": "310073",
+      "molecule1_id": "30005",
+      "molecule2_id": "690008",
+      "type": "stabilisation"
+    },
+    {
+      "id": "340008",
+      "molecule1_id": "90028",
+      "molecule2_id": "30005",
+      "type": "potentialisation"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tmolecule1_id\tmolecule2_id\ttype\n60006\t30009\t30005\tpotentialisation\n90016\t30006\t30005\tpotentialisation\n310011\t30007\t30005\tpotentialisation\n310016\t30005\t30002\tpotentialisation\n310017\t30005\t30008\ttransformation\n310019\t30005\t690004\tstabilisation\n310020\t30005\t720017\tpotentialisation\n310021\t30005\t1320037\tpotentialisation\n310022\t30005\t720012\ttransformation\n310045\t1110027\t30002\tpotentialisation\n310046\t1110027\t30006\tpotentialisation\n310059\t30005\t720001\ttransformation\n310064\t30005\t1320031\ttransformation\n310069\t30005\t660002\ttransformation\n310073\t30005\t690008\tstabilisation\n340008\t90028\t30005\tpotentialisation\n",
+  "stderr": "",
+  "execution_time_ms": 95
+}

@@ -1,0 +1,52 @@
+{
+  "query": "SELECT id, name, cas_number, pubchem_cid, smiles FROM molecules WHERE name LIKE '%caryophyll%' OR name LIKE '%Caryophyll%' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number, pubchem_cid, smiles FROM molecules WHERE name LIKE '%caryophyll%' OR name LIKE '%Caryophyll%' ORDER BY id;",
+  "rows": [
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène",
+      "cas_number": "87-44-5",
+      "pubchem_cid": "NULL",
+      "smiles": "CC1=CCCC(=C)C2CC(C2CC1)(C)C"
+    },
+    {
+      "id": "720018",
+      "name": "Caryophyllène oxide",
+      "cas_number": "1139-30-6",
+      "pubchem_cid": "1742210",
+      "smiles": "NULL"
+    },
+    {
+      "id": "810013",
+      "name": "beta-caryophyllene",
+      "cas_number": "87-44-5",
+      "pubchem_cid": "NULL",
+      "smiles": "CC1=CCCC(=C)C2CC(C2CC1)(C)C"
+    },
+    {
+      "id": "900009",
+      "name": "β-Caryophyllene",
+      "cas_number": "87-44-5",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1110027",
+      "name": "Caryophyllène",
+      "cas_number": "87-44-5",
+      "pubchem_cid": "5281515",
+      "smiles": "CC1=CCCC(=C)C2CC(C2CC1)(C)C"
+    },
+    {
+      "id": "1320002",
+      "name": "Caryophyllene oxide",
+      "cas_number": "NULL",
+      "pubchem_cid": "1742210",
+      "smiles": "CC1=CCCC2(C)OC2CC1C3CC3(C)C"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\tpubchem_cid\tsmiles\n30005\tβ-Caryophyllène\t87-44-5\tNULL\tCC1=CCCC(=C)C2CC(C2CC1)(C)C\n720018\tCaryophyllène oxide\t1139-30-6\t1742210\tNULL\n810013\tbeta-caryophyllene\t87-44-5\tNULL\tCC1=CCCC(=C)C2CC(C2CC1)(C)C\n900009\tβ-Caryophyllene\t87-44-5\tNULL\tNULL\n1110027\tCaryophyllène\t87-44-5\t5281515\tCC1=CCCC(=C)C2CC(C2CC1)(C)C\n1320002\tCaryophyllene oxide\tNULL\t1742210\tCC1=CCCC2(C)OC2CC1C3CC3(C)C\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

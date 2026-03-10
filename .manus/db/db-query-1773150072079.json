@@ -1,0 +1,50 @@
+{
+  "query": "SELECT material_id, name FROM raw_materials WHERE material_id LIKE 'RM_%' ORDER BY created_at DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT material_id, name FROM raw_materials WHERE material_id LIKE 'RM_%' ORDER BY created_at DESC LIMIT 10;",
+  "rows": [
+    {
+      "material_id": "RM_KAOLIN_ACCORD_MMKNQR66",
+      "name": "Kaolin accord"
+    },
+    {
+      "material_id": "RM_OUD_ACCORD_MMKNQRC0",
+      "name": "Oud accord"
+    },
+    {
+      "material_id": "RM_LABDANUM_ABSOLUTE_MMKNPE88",
+      "name": "LABDANUM ABSOLUTE"
+    },
+    {
+      "material_id": "RM_MYRRHE_CHAUDE_MMKNPE27",
+      "name": "Myrrhe chaude"
+    },
+    {
+      "material_id": "RM_TONKA_ABSOLUTE_MMKNPDP0",
+      "name": "Tonka absolute"
+    },
+    {
+      "material_id": "RM_MYRRHE_NOIRE_MMKNPDJA",
+      "name": "Myrrhe noire"
+    },
+    {
+      "material_id": "RM_MYRRHE__CURZERENE__MMKNPDW2",
+      "name": "Myrrhe (Curzerene)"
+    },
+    {
+      "material_id": "RM_HUMUS_ABSOLUTE_MMKNPDDP",
+      "name": "Humus absolute"
+    },
+    {
+      "material_id": "RM_THYMOL_MMKMX4UV",
+      "name": "Thymol"
+    },
+    {
+      "material_id": "RM_TONKA_ABSOLUTE_MMKMX40R",
+      "name": "Tonka absolute"
+    }
+  ],
+  "messages": [],
+  "stdout": "material_id\tname\nRM_KAOLIN_ACCORD_MMKNQR66\tKaolin accord\nRM_OUD_ACCORD_MMKNQRC0\tOud accord\nRM_LABDANUM_ABSOLUTE_MMKNPE88\tLABDANUM ABSOLUTE\nRM_MYRRHE_CHAUDE_MMKNPE27\tMyrrhe chaude\nRM_TONKA_ABSOLUTE_MMKNPDP0\tTonka absolute\nRM_MYRRHE_NOIRE_MMKNPDJA\tMyrrhe noire\nRM_MYRRHE__CURZERENE__MMKNPDW2\tMyrrhe (Curzerene)\nRM_HUMUS_ABSOLUTE_MMKNPDDP\tHumus absolute\nRM_THYMOL_MMKMX4UV\tThymol\nRM_TONKA_ABSOLUTE_MMKMX40R\tTonka absolute\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

@@ -1,0 +1,34 @@
+{
+  "query": "SELECT material_id, name FROM raw_materials WHERE material_id LIKE 'RM_ABSOLUE%' OR name LIKE '%Iris%' OR name LIKE '%Ambre Gris%' OR name LIKE '%Javanol%' LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT material_id, name FROM raw_materials WHERE material_id LIKE 'RM_ABSOLUE%' OR name LIKE '%Iris%' OR name LIKE '%Ambre Gris%' OR name LIKE '%Javanol%' LIMIT 20;",
+  "rows": [
+    {
+      "material_id": "RM-ABS-007",
+      "name": "Absolue d'Iris (Beurre d'Iris)"
+    },
+    {
+      "material_id": "RM-300002-mmg62532",
+      "name": "Absolue d'Iris (Orris Butter)"
+    },
+    {
+      "material_id": "RM-300003-mmg6255r",
+      "name": "Ambre Gris (Ambergris)"
+    },
+    {
+      "material_id": "ABS-ORRI-491",
+      "name": "Orris Absolute Italy (Iris Pallida) 1% in EtOH"
+    },
+    {
+      "material_id": "RM_AMBRE_GRIS_MMKM8M5M",
+      "name": "Ambre Gris"
+    },
+    {
+      "material_id": "RM_AMBRE_GRIS_NATUREL_MMKM8MMD",
+      "name": "Ambre Gris Naturel"
+    }
+  ],
+  "messages": [],
+  "stdout": "material_id\tname\nRM-ABS-007\tAbsolue d'Iris (Beurre d'Iris)\nRM-300002-mmg62532\tAbsolue d'Iris (Orris Butter)\nRM-300003-mmg6255r\tAmbre Gris (Ambergris)\nABS-ORRI-491\tOrris Absolute Italy (Iris Pallida) 1% in EtOH\nRM_AMBRE_GRIS_MMKM8M5M\tAmbre Gris\nRM_AMBRE_GRIS_NATUREL_MMKM8MMD\tAmbre Gris Naturel\n",
+  "stderr": "",
+  "execution_time_ms": 68
+}

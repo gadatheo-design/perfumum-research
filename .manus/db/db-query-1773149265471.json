@@ -1,0 +1,52 @@
+{
+  "query": "SELECT pm810.plant_id FROM plant_molecules pm810 INNER JOIN plant_molecules pm30 ON pm810.plant_id = pm30.plant_id WHERE pm810.molecule_id = 810013 AND pm30.molecule_id = 30005;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT pm810.plant_id FROM plant_molecules pm810 INNER JOIN plant_molecules pm30 ON pm810.plant_id = pm30.plant_id WHERE pm810.molecule_id = 810013 AND pm30.molecule_id = 30005;",
+  "rows": [
+    {
+      "plant_id": "150011"
+    },
+    {
+      "plant_id": "30001"
+    },
+    {
+      "plant_id": "30009"
+    },
+    {
+      "plant_id": "240003"
+    },
+    {
+      "plant_id": "240004"
+    },
+    {
+      "plant_id": "6"
+    },
+    {
+      "plant_id": "4"
+    },
+    {
+      "plant_id": "210008"
+    },
+    {
+      "plant_id": "420007"
+    },
+    {
+      "plant_id": "120017"
+    },
+    {
+      "plant_id": "120010"
+    },
+    {
+      "plant_id": "120019"
+    },
+    {
+      "plant_id": "120012"
+    },
+    {
+      "plant_id": "690239"
+    }
+  ],
+  "messages": [],
+  "stdout": "plant_id\n150011\n30001\n30009\n240003\n240004\n6\n4\n210008\n420007\n120017\n120010\n120019\n120012\n690239\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

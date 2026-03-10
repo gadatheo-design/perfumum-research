@@ -1,0 +1,19 @@
+{
+  "query": "SELECT COUNT(*) as total_molecules FROM molecules;\nSELECT COUNT(*) as total_raw_materials FROM raw_materials;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total_molecules FROM molecules;\nSELECT COUNT(*) as total_raw_materials FROM raw_materials;",
+  "rows": [
+    {
+      "total_molecules": "1055"
+    },
+    {
+      "total_molecules": "total_raw_materials"
+    },
+    {
+      "total_molecules": "641"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\n1055\ntotal_raw_materials\n641\n",
+  "stderr": "",
+  "execution_time_ms": 103
+}

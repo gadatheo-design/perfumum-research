@@ -1,0 +1,118 @@
+{
+  "query": "SELECT TABLE_NAME, COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'molecules' AND TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT TABLE_NAME, COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'molecules' AND TABLE_SCHEMA = DATABASE() ORDER BY TABLE_NAME;",
+  "rows": [
+    {
+      "TABLE_NAME": "ifra_restrictions",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "laboratoire_molecules",
+      "COLUMN_NAME": "moleculeId"
+    },
+    {
+      "TABLE_NAME": "leaf_economy_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecular_transformations",
+      "COLUMN_NAME": "product_molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecular_transformations",
+      "COLUMN_NAME": "source_molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_accords",
+      "COLUMN_NAME": "moleculeId"
+    },
+    {
+      "TABLE_NAME": "molecule_chemical_families",
+      "COLUMN_NAME": "moleculeId"
+    },
+    {
+      "TABLE_NAME": "molecule_families",
+      "COLUMN_NAME": "moleculeId"
+    },
+    {
+      "TABLE_NAME": "molecule_notes",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_origins",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_perfumes",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_plant_sources",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "molecule_recettes",
+      "COLUMN_NAME": "moleculeId"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies",
+      "COLUMN_NAME": "molecule2_id"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies",
+      "COLUMN_NAME": "molecule1_id"
+    },
+    {
+      "TABLE_NAME": "petrichor_molecules",
+      "COLUMN_NAME": "moleculeId"
+    },
+    {
+      "TABLE_NAME": "plant_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "prototype_molecules",
+      "COLUMN_NAME": "moleculeId"
+    },
+    {
+      "TABLE_NAME": "publication_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "raw_material_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "recette_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "synergies",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "tabac_molecules",
+      "COLUMN_NAME": "moleculeId"
+    },
+    {
+      "TABLE_NAME": "terp_profile_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "terpene_synergies",
+      "COLUMN_NAME": "terpene2_id"
+    },
+    {
+      "TABLE_NAME": "terpene_synergies",
+      "COLUMN_NAME": "terpene1_id"
+    },
+    {
+      "TABLE_NAME": "volcanique_molecules",
+      "COLUMN_NAME": "moleculeId"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\tCOLUMN_NAME\nifra_restrictions\tmolecule_id\nlaboratoire_molecules\tmoleculeId\nleaf_economy_molecules\tmolecule_id\nmolecular_transformations\tproduct_molecule_id\nmolecular_transformations\tsource_molecule_id\nmolecule_accords\tmoleculeId\nmolecule_chemical_families\tmoleculeId\nmolecule_families\tmoleculeId\nmolecule_notes\tmolecule_id\nmolecule_origins\tmolecule_id\nmolecule_perfumes\tmolecule_id\nmolecule_plant_sources\tmolecule_id\nmolecule_recettes\tmoleculeId\nmolecule_synergies\tmolecule2_id\nmolecule_synergies\tmolecule1_id\npetrichor_molecules\tmoleculeId\nplant_molecules\tmolecule_id\nprototype_molecules\tmoleculeId\npublication_molecules\tmolecule_id\nraw_material_molecules\tmolecule_id\nrecette_molecules\tmolecule_id\nsynergies\tmolecule_id\ntabac_molecules\tmoleculeId\nterp_profile_molecules\tmolecule_id\nterpene_synergies\tterpene2_id\nterpene_synergies\tterpene1_id\nvolcanique_molecules\tmoleculeId\n",
+  "stderr": "",
+  "execution_time_ms": 106
+}

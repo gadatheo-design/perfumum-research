@@ -1891,3 +1891,32 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Corriger getMisclassifiedMolecules : chemicalFamily → chemicalClass (champ inexistant dans schema)
 - [x] Corriger reclassifyToRawMaterial : olfactiveProfile tableau JSON → string
 - [x] Corriger fusion doublons plantes : FK constraint sur delete plants id=840005
+- [ ] Corriger mergeMolecules : réassigner les FK avant suppression
+- [ ] Reclassification en lot des 91 matières premières vers raw_materials
+- [ ] Fusionner doublons β-Caryophyllène (5 versions) et 2-Phényléthanol (5 versions)
+
+
+## SESSION 10 MARS 2026 — Fusion des doublons et reclassification des matières premières
+
+### ✅ Phase 1 : Correction de la procédure mergeMolecules
+- [x] Identifier toutes les tables FK vers molecules (27 tables)
+- [x] Corriger la gestion des doublons dans plant_molecules (clé unique composite)
+- [x] Ajouter molecule_synergies dans la liste des FK
+- [x] Corriger la gestion des conflits lors de la réassignation
+
+### ✅ Phase 2 : Fusion des doublons β-Caryophyllène et 2-Phényléthanol
+- [x] Fusionner les doublons β-Caryophyllène (IDs 900009, 1110027 → 30005)
+- [x] Fusionner les doublons 2-Phényléthanol (IDs 690002, 990016, 1320069 → 570054)
+- [x] Corriger les synergies en doublon dans molecule_synergies
+- [x] Résultat : 0 doublon restant pour ces deux molécules
+
+### ✅ Phase 3 : Reclassification des matières premières mal classées
+- [x] Corriger la procédure reclassifyAllBatch (categoryMap, materialId, recette_molecules)
+- [x] Reclassifier 18 matières premières (absolues, résines, accords, HE, etc.)
+- [x] Traitement manuel de Javanol, Mousse de Chêne, Huile de Bois de Rose
+- [x] Résultat : 0 matière première mal classée restante
+
+### ✅ Phase 4 : Checkpoint et publication
+- [x] Remettre reclassifyAllBatch en mode protégé
+- [x] Nettoyer les fichiers temporaires de debug
+- [x] Sauvegarder le checkpoint

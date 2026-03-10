@@ -1,0 +1,9 @@
+{
+  "query": "\nSELECT 'recette_molecules' as tbl, molecule_id as mid, COUNT(*) as cnt FROM recette_molecules WHERE molecule_id IN (810013, 900009, 1110027) GROUP BY molecule_id\nUNION ALL\nSELECT 'ifra_restrictions', molecule_id, COUNT(*) FROM ifra_restrictions WHERE molecule_id IN (810013, 900009, 1110027) GROUP BY molecule_id\nUNION ALL\nSELECT 'molecule_origins', molecule_id, COUNT(*) FROM molecule_origins WHERE molecule_id IN (810013, 900009, 1110027) GROUP BY molecule_id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT 'recette_molecules' as tbl, molecule_id as mid, COUNT(*) as cnt FROM recette_molecules WHERE molecule_id IN (810013, 900009, 1110027) GROUP BY molecule_id\nUNION ALL\nSELECT 'ifra_restrictions', molecule_id, COUNT(*) FROM ifra_restrictions WHERE molecule_id IN (810013, 900009, 1110027) GROUP BY molecule_id\nUNION ALL\nSELECT 'molecule_origins', molecule_id, COUNT(*) FROM molecule_origins WHERE molecule_id IN (810013, 900009, 1110027) GROUP BY molecule_id;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 56
+}

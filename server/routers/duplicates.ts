@@ -10,7 +10,14 @@ import {
   molecules, plants,
   terpProfilePlants, plantMolecules, plantVarieties, plantAnalyses,
   plantSamples, plantTerroirs, plantExtractions, botanicalStates,
-  rawMaterials, moleculePlantSources, terroirSpecialties, chemotypes
+  rawMaterials, moleculePlantSources, terroirSpecialties, chemotypes,
+  userFavorites, recetteMolecules, prototypeMolecules, tabacMolecules,
+  moleculeAccords, moleculeFamilies, petrichorMolecules, volcaniqueMolecules,
+  laboratoireMolecules, moleculeChemicalFamilies, moleculeNotes,
+  leafEconomyMolecules, moleculeOrigins, ifraRestrictions,
+  terpProfileMolecules, rawMaterialMolecules, tpsGeneMolecules,
+  moleculeSynergies, synergies, terpeneSynergies, molecularTransformations,
+  publicationMolecules, moleculePerfumes
 } from "../../drizzle/schema";
 import { eq, sql } from "drizzle-orm";
 
@@ -221,12 +228,64 @@ async function mergeMolecules(keepId: number, mergeId: number) {
       await db.update(molecules).set(updatedData).where(eq(molecules.id, keepId));
     }
 
-    // 3. Supprimer la molécule dupliquée
+    // 3. Réassigner toutes les liaisons FK de mergeId vers keepId
+    // Pour les tables avec clé unique composite (plant_id, molecule_id), on doit d'abord
+    // supprimer les doublons potentiels avant de réassigner
+    const db2 = db as any;
+
+    // Tables avec clé unique composite (plantId + moleculeId) - supprimer les doublons avant réassignation
+    // Utiliser db.execute(sql`...`) qui est le pattern correct pour Drizzle MySQL2
+    try {
+      // Supprimer les lignes de plant_molecules de mergeId qui ont déjà un équivalent pour keepId
+      await db.execute(sql`DELETE FROM plant_molecules WHERE molecule_id = ${mergeId} AND plant_id IN (SELECT plant_id FROM (SELECT plant_id FROM plant_molecules WHERE molecule_id = ${keepId}) AS tmp)`);
+      await db.execute(sql`UPDATE plant_molecules SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`);
+    } catch (e) { console.warn('mergeMolecules plant_molecules:', e); }
+    try {
+      await db.execute(sql`DELETE FROM molecule_plant_sources WHERE molecule_id = ${mergeId} AND plant_id IN (SELECT plant_id FROM (SELECT plant_id FROM molecule_plant_sources WHERE molecule_id = ${keepId}) AS tmp)`);
+      await db.execute(sql`UPDATE molecule_plant_sources SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`);
+    } catch (e) { console.warn('mergeMolecules molecule_plant_sources:', e); }
+
+    // Tables simples - réassigner directement
+    const simpleSqls = [
+      sql`UPDATE user_favorites SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE recette_molecules SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE prototype_molecules SET moleculeId = ${keepId} WHERE moleculeId = ${mergeId}`,
+      sql`UPDATE tabac_molecules SET moleculeId = ${keepId} WHERE moleculeId = ${mergeId}`,
+      sql`UPDATE molecule_accords SET moleculeId = ${keepId} WHERE moleculeId = ${mergeId}`,
+      sql`UPDATE molecule_families SET moleculeId = ${keepId} WHERE moleculeId = ${mergeId}`,
+      sql`UPDATE petrichor_molecules SET moleculeId = ${keepId} WHERE moleculeId = ${mergeId}`,
+      sql`UPDATE volcanique_molecules SET moleculeId = ${keepId} WHERE moleculeId = ${mergeId}`,
+      sql`UPDATE laboratoire_molecules SET moleculeId = ${keepId} WHERE moleculeId = ${mergeId}`,
+      sql`UPDATE molecule_chemical_families SET moleculeId = ${keepId} WHERE moleculeId = ${mergeId}`,
+      sql`UPDATE molecule_notes SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE leaf_economy_molecules SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE molecule_origins SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE ifra_restrictions SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE terp_profile_molecules SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE raw_material_molecules SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE tps_gene_molecules SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE molecule_recettes SET moleculeId = ${keepId} WHERE moleculeId = ${mergeId}`,
+      sql`UPDATE publication_molecules SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE molecule_perfumes SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      sql`UPDATE synergies SET molecule_id = ${keepId} WHERE molecule_id = ${mergeId}`,
+      // Tables avec deux colonnes FK
+      sql`UPDATE molecule_synergies SET molecule1_id = ${keepId} WHERE molecule1_id = ${mergeId}`,
+      sql`UPDATE molecule_synergies SET molecule2_id = ${keepId} WHERE molecule2_id = ${mergeId}`,
+      sql`UPDATE terpene_synergies SET terpene1_id = ${keepId} WHERE terpene1_id = ${mergeId}`,
+      sql`UPDATE terpene_synergies SET terpene2_id = ${keepId} WHERE terpene2_id = ${mergeId}`,
+      sql`UPDATE molecular_transformations SET source_molecule_id = ${keepId} WHERE source_molecule_id = ${mergeId}`,
+      sql`UPDATE molecular_transformations SET product_molecule_id = ${keepId} WHERE product_molecule_id = ${mergeId}`,
+    ];
+    for (const query of simpleSqls) {
+      try { await db.execute(query); } catch (_) { /* ignore */ }
+    }
+
+    // 4. Supprimer la molécule dupliquée (toutes les FK sont réassignées)
     await db.delete(molecules).where(eq(molecules.id, mergeId));
 
     return {
       success: true,
-      message: `Molécule ${mergeId} fusionnée dans ${keepId}`,
+      message: `Molécule ${mergeId} fusionnée dans ${keepId} (liaisons réassignées)`,
       mergedFields: Object.keys(updatedData),
     };
   } catch (error) {

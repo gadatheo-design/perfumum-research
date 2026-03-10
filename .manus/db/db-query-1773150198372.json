@@ -1,0 +1,35 @@
+{
+  "query": "SELECT id, name, pubchem_cid FROM molecules WHERE name IN ('Javanol', 'Tubéreuse Absolue (extrait)', 'Mousse de Chêne (Oakmoss)', 'Huile de Bois de Rose', \"Mu'assel (accord tabac hookah)\");",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, pubchem_cid FROM molecules WHERE name IN ('Javanol', 'Tubéreuse Absolue (extrait)', 'Mousse de Chêne (Oakmoss)', 'Huile de Bois de Rose', \"Mu'assel (accord tabac hookah)\");",
+  "rows": [
+    {
+      "id": "300007",
+      "name": "Javanol",
+      "pubchem_cid": "NULL"
+    },
+    {
+      "id": "330009",
+      "name": "Tubéreuse Absolue (extrait)",
+      "pubchem_cid": "NULL"
+    },
+    {
+      "id": "1170004",
+      "name": "Mousse de Chêne (Oakmoss)",
+      "pubchem_cid": "NULL"
+    },
+    {
+      "id": "1170006",
+      "name": "Huile de Bois de Rose",
+      "pubchem_cid": "NULL"
+    },
+    {
+      "id": "1620003",
+      "name": "Mu'assel (accord tabac hookah)",
+      "pubchem_cid": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tpubchem_cid\n300007\tJavanol\tNULL\n330009\tTubéreuse Absolue (extrait)\tNULL\n1170004\tMousse de Chêne (Oakmoss)\tNULL\n1170006\tHuile de Bois de Rose\tNULL\n1620003\tMu'assel (accord tabac hookah)\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

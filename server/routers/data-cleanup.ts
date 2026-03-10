@@ -305,6 +305,126 @@ export const dataCleanupRouter = router({
       };
     }),
 
+  // Reclassifier toutes les molécules mal classées en lot
+  reclassifyAllBatch: protectedProcedure
+    .mutation(async () => {
+      const db = await getDb();
+      if (!db) return { success: false as const, error: "DB non disponible", processed: 0, errors: [] };
+
+      // Critères d'identification des matières premières
+      const rawMaterialKeywords = [
+        'mousse de chêne', 'oakmoss', 'kaolin', 'javanole', 'javanol', 'huile de bois de rose',
+        'galbanum', 'cembratrienol', 'ambre gris', 'ambre gris naturel', 'orris butter', 'absolue d\'iris',
+        'absolue', 'résinoide', 'oleoresine', 'huile essentielle', 'he de', 'he ', 'accord',
+        'extrait de', 'teinture de', 'baume de', 'résine de', 'gomme de', 'concrète de',
+        'absolu', 'infusion', 'macerat', 'macerat', 'beurre de', 'cire de',
+      ];
+
+      const categoryMap: Record<string, string> = {
+        'absolue': 'absolue', 'absolu': 'absolue', 'concrète': 'concrete',
+        'huile essentielle': 'huile_essentielle', 'he de': 'huile_essentielle', 'he ': 'huile_essentielle',
+        'résinoide': 'resinoid', 'oleoresine': 'oleoresine',
+        'résine': 'resinoid', 'gomme': 'resinoid', 'baume': 'resinoid',
+        'accord': 'accord_olfactif',
+        'kaolin': 'autre', 'argile': 'autre',
+        'beurre': 'beurre', 'cire': 'cire',
+        'extrait': 'co2_extract', 'teinture': 'teinture',
+        'macerat': 'maceration', 'infusion': 'infusion',
+      };
+
+      const allMols = await db.select().from(molecules);
+      const toReclassify = allMols.filter(mol => {
+        if (mol.pubchemCid) return false; // A un CID = vraie molécule
+        const nameLower = (mol.name || '').toLowerCase();
+        return rawMaterialKeywords.some(kw => nameLower.includes(kw));
+      });
+
+      const processed: string[] = [];
+      const errors: string[] = [];
+
+      // Helper pour supprimer toutes les FK d'une molécule avant de la supprimer
+      const deleteAllFKs = async (molId: number) => {
+        const fkDeleteSqls = [
+          sql`DELETE FROM plant_molecules WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM molecule_plant_sources WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM molecule_synergies WHERE molecule1_id = ${molId} OR molecule2_id = ${molId}`,
+          sql`DELETE FROM terpene_synergies WHERE terpene1_id = ${molId} OR terpene2_id = ${molId}`,
+          sql`DELETE FROM molecular_transformations WHERE source_molecule_id = ${molId} OR product_molecule_id = ${molId}`,
+          sql`DELETE FROM user_favorites WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM recette_molecules WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM prototype_molecules WHERE moleculeId = ${molId}`,
+          sql`DELETE FROM tabac_molecules WHERE moleculeId = ${molId}`,
+          sql`DELETE FROM molecule_accords WHERE moleculeId = ${molId}`,
+          sql`DELETE FROM molecule_families WHERE moleculeId = ${molId}`,
+          sql`DELETE FROM petrichor_molecules WHERE moleculeId = ${molId}`,
+          sql`DELETE FROM volcanique_molecules WHERE moleculeId = ${molId}`,
+          sql`DELETE FROM laboratoire_molecules WHERE moleculeId = ${molId}`,
+          sql`DELETE FROM molecule_chemical_families WHERE moleculeId = ${molId}`,
+          sql`DELETE FROM molecule_notes WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM leaf_economy_molecules WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM molecule_origins WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM ifra_restrictions WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM terp_profile_molecules WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM raw_material_molecules WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM tps_gene_molecules WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM molecule_recettes WHERE moleculeId = ${molId}`,
+          sql`DELETE FROM publication_molecules WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM molecule_perfumes WHERE molecule_id = ${molId}`,
+          sql`DELETE FROM synergies WHERE molecule_id = ${molId}`,
+        ];
+        for (const q of fkDeleteSqls) {
+          try { await db.execute(q); } catch (_) { /* ignore */ }
+        }
+      };
+
+      for (const mol of toReclassify) {
+        try {
+          const nameLower = (mol.name || '').toLowerCase();
+          let category = 'autre';
+          for (const [kw, cat] of Object.entries(categoryMap)) {
+            if (nameLower.includes(kw)) { category = cat; break; }
+          }
+          const suffix = Date.now().toString(36).toUpperCase().slice(-5); // 5 chars
+          const prefix = (mol.name || '').replace(/[^a-zA-Z0-9]/g, '_').toUpperCase().slice(0, 21); // max 21 chars
+          const materialId = `RM_${prefix}_${suffix}`.slice(0, 30); // total max 30 chars
+          const olfactiveProfileStr = (() => {
+            const op = mol.olfactiveProfile;
+            if (!op) return null;
+            if (typeof op === 'string') {
+              try { const p = JSON.parse(op); return Array.isArray(p) ? p.join(', ') : op; } catch { return op; }
+            }
+            if (Array.isArray(op)) return (op as string[]).join(', ');
+            return String(op);
+          })();
+          // Vérifier si un équivalent existe déjà dans raw_materials (par nom)
+          const existing = await db.select({ id: rawMaterials.id })
+            .from(rawMaterials)
+            .where(sql`LOWER(name) = LOWER(${mol.name || ''})`)
+            .limit(1);
+          if (existing.length === 0) {
+            try {
+              await db.insert(rawMaterials).values({
+                materialId, name: mol.name || 'Sans nom', category: category as any,
+                olfactiveProfile: olfactiveProfileStr, notes: mol.notes || null,
+              });
+            } catch (insertErr: any) {
+              // Log détaillé pour déboguer
+              console.error(`INSERT FAIL for ${mol.name}:`, insertErr?.cause?.message || insertErr?.message || insertErr);
+              throw insertErr;
+            }
+          }
+          // Supprimer toutes les FK avant de supprimer la molécule
+          await deleteAllFKs(mol.id);
+          await db.delete(molecules).where(eq(molecules.id, mol.id));
+          processed.push(mol.name || `#${mol.id}`);
+        } catch (e) {
+          errors.push(`${mol.name}: ${(e as Error).message.slice(0, 300)}`);
+        }
+      }
+
+      return { success: true as const, processed: processed.length, processedNames: processed, errors };
+    }),
+
   // Supprimer une molécule mal classée (doublon ou entrée invalide)
   deleteMisclassified: protectedProcedure
     .input(z.object({ id: z.number() }))

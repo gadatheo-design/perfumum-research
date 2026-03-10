@@ -1,0 +1,130 @@
+{
+  "query": "SELECT cas_number, COUNT(*) as cnt, GROUP_CONCAT(id ORDER BY id) as ids, GROUP_CONCAT(name ORDER BY id SEPARATOR ' | ') as names FROM molecules WHERE cas_number IS NOT NULL AND cas_number != '' GROUP BY cas_number HAVING cnt > 1 ORDER BY cnt DESC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT cas_number, COUNT(*) as cnt, GROUP_CONCAT(id ORDER BY id) as ids, GROUP_CONCAT(name ORDER BY id SEPARATOR ' | ') as names FROM molecules WHERE cas_number IS NOT NULL AND cas_number != '' GROUP BY cas_number HAVING cnt > 1 ORDER BY cnt DESC LIMIT 20;",
+  "rows": [
+    {
+      "cas_number": "90-05-1",
+      "cnt": "4",
+      "ids": "90021,570040,1290002,1350031",
+      "names": "Guaiacol | Guaïacol | Gaïacol | 2-Méthoxyphénol"
+    },
+    {
+      "cas_number": "23726-93-4",
+      "cnt": "4",
+      "ids": "570044,720023,810037,1530002",
+      "names": "β-Damascénone | β-Damascenone | beta-damascenone | Bêta-damascénone"
+    },
+    {
+      "cas_number": "1135-24-6",
+      "cnt": "4",
+      "ids": "1320026,1320078,1350061,1590002",
+      "names": "Ferulic acid | Acide ferulique | Acide férulique | Acide Férulique"
+    },
+    {
+      "cas_number": "2371-42-8",
+      "cnt": "3",
+      "ids": "90002,1290004,1410014",
+      "names": "2-MIB (2-Methylisoborneol) | 2-Méthylisobornéol | 2-Methylisoborneol"
+    },
+    {
+      "cas_number": "64-19-7",
+      "cnt": "3",
+      "ids": "1050025,1320212,1680001",
+      "names": "Acide acétique | Acetic acid | Acide Acétique"
+    },
+    {
+      "cas_number": "83-46-5",
+      "cnt": "3",
+      "ids": "780013,1300023,1320048",
+      "names": "β-sitostérol | β-Sitostérol | Beta-sitosterol"
+    },
+    {
+      "cas_number": "472-15-1",
+      "cnt": "3",
+      "ids": "1300025,1320011,1320111",
+      "names": "Acide bétulinique | Betulinic acid | Acide betulinique"
+    },
+    {
+      "cas_number": "489-86-1",
+      "cnt": "3",
+      "ids": "330006,720017,1350106",
+      "names": "Gaïac (Guaiol) | Guaiol | Guaïol"
+    },
+    {
+      "cas_number": "106-24-1",
+      "cnt": "3",
+      "ids": "570013,660001,810043",
+      "names": "Géraniol Pur | Géraniol | geraniol"
+    },
+    {
+      "cas_number": "140-67-0",
+      "cnt": "3",
+      "ids": "630002,990036,1350090",
+      "names": "Estragole | Methyl chavicol | Méthylchavicol (Estragole)"
+    },
+    {
+      "cas_number": "989-51-5",
+      "cnt": "3",
+      "ids": "1320081,1350020,1350071",
+      "names": "Epigallocatechin gallate | Épigallocatéchine gallate | Épigallocatéchine gallate (EGCG)"
+    },
+    {
+      "cas_number": "5655-61-8",
+      "cnt": "3",
+      "ids": "570020,1350109,1410007",
+      "names": "Acétate de Bornyle | Acétate de bornyle | Bornyl acetate"
+    },
+    {
+      "cas_number": "484-20-8",
+      "cnt": "3",
+      "ids": "660004,990011,1320070",
+      "names": "Bergaptène | Bergaptene | Bergapten"
+    },
+    {
+      "cas_number": "24683-00-9",
+      "cnt": "3",
+      "ids": "1110011,1290010,1410039",
+      "names": "IBMP (2-Isobutyl-3-méthoxypyrazine) | 2-Isobutyl-3-méthoxypyrazine | 2-isobutyl-3-methoxypyrazine"
+    },
+    {
+      "cas_number": "327-97-9",
+      "cnt": "3",
+      "ids": "1300016,1320024,1320077",
+      "names": "Acide chlorogénique | Chlorogenic acid | Acide chlorogenique"
+    },
+    {
+      "cas_number": "123-35-3",
+      "cnt": "3",
+      "ids": "30006,810004,900007",
+      "names": "Myrcène | myrcene | β-Myrcene"
+    },
+    {
+      "cas_number": "78-70-6",
+      "cnt": "3",
+      "ids": "30002,30009,570012",
+      "names": "Linalol | Linalool | Linalol Synthétique"
+    },
+    {
+      "cas_number": "501-98-4",
+      "cnt": "3",
+      "ids": "60010,1320027,1350062",
+      "names": "Acide Coumarique | p-Coumaric acid | Acide p-coumarique"
+    },
+    {
+      "cas_number": "93-51-6",
+      "cnt": "3",
+      "ids": "120006,750011,1290021",
+      "names": "4-methyl-guaiacol | Créosol | 4-Méthylguaiacol"
+    },
+    {
+      "cas_number": "508-02-1",
+      "cnt": "3",
+      "ids": "780012,1320013,1320110",
+      "names": "Acide oléanolique | Oleanolic acid | Acide oleanolique"
+    }
+  ],
+  "messages": [],
+  "stdout": "cas_number\tcnt\tids\tnames\n90-05-1\t4\t90021,570040,1290002,1350031\tGuaiacol | Guaïacol | Gaïacol | 2-Méthoxyphénol\n23726-93-4\t4\t570044,720023,810037,1530002\tβ-Damascénone | β-Damascenone | beta-damascenone | Bêta-damascénone\n1135-24-6\t4\t1320026,1320078,1350061,1590002\tFerulic acid | Acide ferulique | Acide férulique | Acide Férulique\n2371-42-8\t3\t90002,1290004,1410014\t2-MIB (2-Methylisoborneol) | 2-Méthylisobornéol | 2-Methylisoborneol\n64-19-7\t3\t1050025,1320212,1680001\tAcide acétique | Acetic acid | Acide Acétique\n83-46-5\t3\t780013,1300023,1320048\tβ-sitostérol | β-Sitostérol | Beta-sitosterol\n472-15-1\t3\t1300025,1320011,1320111\tAcide bétulinique | Betulinic acid | Acide betulinique\n489-86-1\t3\t330006,720017,1350106\tGaïac (Guaiol) | Guaiol | Guaïol\n106-24-1\t3\t570013,660001,810043\tGéraniol Pur | Géraniol | geraniol\n140-67-0\t3\t630002,990036,1350090\tEstragole | Methyl chavicol | Méthylchavicol (Estragole)\n989-51-5\t3\t1320081,1350020,1350071\tEpigallocatechin gallate | Épigallocatéchine gallate | Épigallocatéchine gallate (EGCG)\n5655-61-8\t3\t570020,1350109,1410007\tAcétate de Bornyle | Acétate de bornyle | Bornyl acetate\n484-20-8\t3\t660004,990011,1320070\tBergaptène | Bergaptene | Bergapten\n24683-00-9\t3\t1110011,1290010,1410039\tIBMP (2-Isobutyl-3-méthoxypyrazine) | 2-Isobutyl-3-méthoxypyrazine | 2-isobutyl-3-methoxypyrazine\n327-97-9\t3\t1300016,1320024,1320077\tAcide chlorogénique | Chlorogenic acid | Acide chlorogenique\n123-35-3\t3\t30006,810004,900007\tMyrcène | myrcene | β-Myrcene\n78-70-6\t3\t30002,30009,570012\tLinalol | Linalool | Linalol Synthétique\n501-98-4\t3\t60010,1320027,1350062\tAcide Coumarique | p-Coumaric acid | Acide p-coumarique\n93-51-6\t3\t120006,750011,1290021\t4-methyl-guaiacol | Créosol | 4-Méthylguaiacol\n508-02-1\t3\t780012,1320013,1320110\tAcide oléanolique | Oleanolic acid | Acide oleanolique\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

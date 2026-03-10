@@ -102,15 +102,22 @@ export default function AdminReclassifyMolecules() {
     reclassify.mutate({ moleculeId: mol.id, category: category as any, dryRun: false });
   };
 
+  const reclassifyAllBatch = trpc.dataCleanup.reclassifyAllBatch.useMutation({
+    onSuccess: (result) => {
+      if (result.success) {
+        toast.success(`${result.processed} matières premières reclassifiées avec succès !`);
+        if (result.errors && result.errors.length > 0) {
+          toast.warning(`${result.errors.length} erreur(s) : ${result.errors.slice(0, 3).join(', ')}`);
+        }
+        refetch();
+        setDone(new Set());
+      }
+    },
+    onError: (err) => toast.error("Erreur batch : " + err.message),
+  });
+
   const handleReclassifyAll = () => {
-    const toProcess = filtered.slice(0, 50); // sécurité : max 50 à la fois
-    toProcess.forEach(mol => {
-      const category = selectedCategories[mol.id] || guessCategory(mol.name || "");
-      setProcessing(prev => ({ ...prev, [mol.id]: true }));
-      setTimeout(() => {
-        reclassify.mutate({ moleculeId: mol.id, category: category as any, dryRun: false });
-      }, toProcess.indexOf(mol) * 150); // délai pour éviter la surcharge
-    });
+    reclassifyAllBatch.mutate();
   };
 
   const remaining = filtered.length;
