@@ -20,7 +20,7 @@ const plugins = [
   react(),
   tailwindcss(),
   jsxLocPlugin(),
-  vitePluginManusRuntime(),
+  vitePluginManusRuntime({ injectTo: "body" }),
   // Bundle analyzer - génère stats.html après build
   // visualizer({
   //   filename: "./dist/stats.html",
