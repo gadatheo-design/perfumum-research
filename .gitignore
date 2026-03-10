@@ -111,8 +111,8 @@ drizzle/meta/
 
 # Development scripts and temporary data files
 scripts/
-data/
-data-import/
+/data/
+/data-import/
 
 # Documentation archive
 docs/
