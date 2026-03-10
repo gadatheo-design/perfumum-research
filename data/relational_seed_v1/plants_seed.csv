@@ -1,7 +1,0 @@
-plant_id,common_name,scientific_name,family,category,notes,primary_regions
-pl-cannabis-sativa,Cannabis,Cannabis sativa L.,Cannabaceae,plant,Espèce ; inclut hemp & marijuana; trichomes glandulaires = biofactories.,reg-global;reg-colombia
-pl-nicotiana-tabacum,Tabac cultivé,Nicotiana tabacum L.,Solanaceae,plant,Allotétraploïde (N. sylvestris x N. tomentosiformis).,reg-global
-pl-nicotiana-benthamiana,Nicotiana benthamiana,Nicotiana benthamiana,Solanaceae,plant,"Espèce modèle (virologie, défense).",reg-global
-pl-nicotiana-attenuata,Wild tobacco,Nicotiana attenuata,Solanaceae,plant,Modèle écologie chimique; scent biology + interaction pollinisateurs.,reg-global
-pl-nicotiana-sylvestris,Nicotiana sylvestris,Nicotiana sylvestris,Solanaceae,plant,Progeniteur de N. tabacum (subgénome S).,reg-global
-pl-nicotiana-tomentosiformis,Nicotiana tomentosiformis,Nicotiana tomentosiformis,Solanaceae,plant,Progeniteur de N. tabacum (subgénome T).,reg-global

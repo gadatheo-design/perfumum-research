@@ -1,8 +1,0 @@
-molecule_id,reference_id,role
-mol-terpinolene,can-2020-plphys-tps,mention
-mol-cbd,can-2021-nph-cbdrx,mention
-mol-cbd,db-ncbi-cannabis-cs10,mention
-mol-nicotine,tob-2017-pnas-wildgenomes,mention
-mol-nicotine,tob-2024-pmc-nicotine-review,mention
-mol-nicotine,tob-2013-genetics-alkaloids,mention
-mol-nicotine,db-kegg-attenuata,mention
