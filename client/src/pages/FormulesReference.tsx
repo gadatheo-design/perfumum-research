@@ -12,7 +12,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ViewToggle, type ViewMode } from "@/components/ViewToggle";
-import formulesData from "../../../data/FORMULES_REFERENCE_16.json";
+import formulesData from "../data/FORMULES_REFERENCE_16.json";
 
 interface Molecule {
   name: string;

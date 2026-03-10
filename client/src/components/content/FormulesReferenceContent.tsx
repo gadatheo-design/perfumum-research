@@ -11,7 +11,7 @@ import { ViewToggle, type ViewMode } from "@/components/ViewToggle";
 import { SearchBar } from "@/components/filters/SearchBar";
 import { FilterSelect } from "@/components/filters/FilterSelect";
 import { GridSkeleton, FilterBarSkeleton } from "@/components/skeletons";
-import formulesData from "../../../../data/FORMULES_REFERENCE_16.json";
+import formulesData from "../../data/FORMULES_REFERENCE_16.json";
 
 interface Molecule {
   name: string;
