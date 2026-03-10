@@ -6,7 +6,12 @@
 import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { molecules, plants } from "../../drizzle/schema";
+import {
+  molecules, plants,
+  terpProfilePlants, plantMolecules, plantVarieties, plantAnalyses,
+  plantSamples, plantTerroirs, plantExtractions, botanicalStates,
+  rawMaterials, moleculePlantSources, terroirSpecialties, chemotypes
+} from "../../drizzle/schema";
 import { eq, sql } from "drizzle-orm";
 
 /**
@@ -264,12 +269,33 @@ async function mergePlants(keepId: number, mergeId: number) {
       await db.update(plants).set(updatedData).where(eq(plants.id, keepId));
     }
 
-    // 3. Supprimer la plante dupliquée
+    // 3. Réassigner toutes les liaisons FK de mergeId vers keepId
+    const plantFkTables = [
+      { table: terpProfilePlants, col: terpProfilePlants.plantId },
+      { table: plantMolecules, col: plantMolecules.plantId },
+      { table: plantVarieties, col: plantVarieties.plantId },
+      { table: plantAnalyses, col: plantAnalyses.plantId },
+      { table: plantSamples, col: plantSamples.plantId },
+      { table: plantTerroirs, col: plantTerroirs.plantId },
+      { table: plantExtractions, col: plantExtractions.plantId },
+      { table: botanicalStates, col: botanicalStates.plantId },
+      { table: rawMaterials, col: rawMaterials.plantId },
+      { table: moleculePlantSources, col: moleculePlantSources.plantId },
+      { table: terroirSpecialties, col: terroirSpecialties.plantId },
+      { table: chemotypes, col: chemotypes.plantId },
+    ];
+    for (const { table, col } of plantFkTables) {
+      try {
+        await (db.update(table) as any).set({ plantId: keepId }).where(eq(col as any, mergeId));
+      } catch (_) { /* ignore si la table n'a pas de ligne pour cette plante */ }
+    }
+
+    // 4. Supprimer la plante dupliquée (toutes les FK sont réassignées)
     await db.delete(plants).where(eq(plants.id, mergeId));
 
     return {
       success: true,
-      message: `Plante ${mergeId} fusionnée dans ${keepId}`,
+      message: `Plante ${mergeId} fusionnée dans ${keepId} (liaisons réassignées)`,
       mergedFields: Object.keys(updatedData),
     };
   } catch (error) {
