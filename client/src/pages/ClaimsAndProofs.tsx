@@ -18,7 +18,7 @@ import {
   MapPin,
   Tag
 } from 'lucide-react';
-import perfumumData from '@/data/PERFUMUM_FINAL_DATA.json';
+import { trpc } from '@/lib/trpc';
 import { useState, useMemo } from 'react';
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
@@ -51,8 +51,22 @@ export default function ClaimsAndProofs() {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
 
-  const claims = (perfumumData.claims || []) as Claim[];
-  const sources = (perfumumData.sources || []) as Source[];
+  // Récupérer les claims via tRPC
+  const { data: claimsData } = trpc.research.getClaims.useQuery({ limit: 200 });
+  const claims: Claim[] = (claimsData?.data || []).map((c: any) => ({
+    'ID court': c.claimId || c.id,
+    Claim: c.claim || '',
+    Région: c.region || '',
+    Type: c.claimType || '',
+    Source: c.sourceId || null,
+    Statut: c.status || '',
+    Preuve: c.evidence || '',
+    Citation: c.citation || null,
+    Notes: c.notes || '',
+    'Créé le': c.createdAt ? new Date(c.createdAt).toLocaleDateString('fr-FR') : '',
+  }));
+  // Sources statiques (pas encore en base)
+  const sources: Source[] = [];
 
   // Extraire les régions uniques
   const regions = useMemo(() => {

@@ -1932,3 +1932,9 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Supprimer 20 doublons créés lors des tentatives précédentes
 - [ ] Vérifier les données dans l'interface
 - [ ] Sauvegarder le checkpoint
+
+## SESSION 10 MARS 2026 — Maintenance et enrichissement
+
+- [ ] Remplacer PERFUMUM_FINAL_DATA.json et aromatic_rarities.json par des appels tRPC
+- [ ] Ajouter Evernia prunastri dans la table plants et lier la Mousse de Chêne
+- [ ] Lancer l'audit des doublons et corriger les groupes identifiés

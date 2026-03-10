@@ -6988,3 +6988,32 @@ export const recetteRawMaterials = mysqlTable("recette_raw_materials", {
 }));
 export type RecetteRawMaterial = typeof recetteRawMaterials.$inferSelect;
 export type InsertRecetteRawMaterial = typeof recetteRawMaterials.$inferInsert;
+
+// ============================================================================
+// AROMATIC RARITIES — Raretés olfactives (ex JSON statique)
+// ============================================================================
+export const aromaticRarities = mysqlTable("aromatic_rarities", {
+  id: int("id").autoincrement().primaryKey(),
+  rarityId: varchar("rarity_id", { length: 20 }).notNull().unique(),
+  name: varchar("name", { length: 255 }).notNull(),
+  category: varchar("category", { length: 100 }),
+  geography: text("geography"),
+  rarityRegime: varchar("rarity_regime", { length: 100 }),
+  culturalStatus: varchar("cultural_status", { length: 100 }),
+  sourceType: varchar("source_type", { length: 100 }),
+  extractability: varchar("extractability", { length: 50 }),
+  keyMolecules: text("key_molecules"),
+  absorbePotential: text("absorbe_potential"),
+  notes: text("notes"),
+  references: text("references"),
+  temporalBehavior: varchar("temporal_behavior", { length: 50 }),
+  industrialProducts: text("industrial_products"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
+}, (table) => ({
+  rarityIdIdx: index("aromatic_rarities_rarity_id_idx").on(table.rarityId),
+  categoryIdx: index("aromatic_rarities_category_idx").on(table.category),
+}));
+
+export type AromaticRarity = typeof aromaticRarities.$inferSelect;
+export type InsertAromaticRarity = typeof aromaticRarities.$inferInsert;

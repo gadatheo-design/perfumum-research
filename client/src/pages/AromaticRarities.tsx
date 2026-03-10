@@ -18,7 +18,7 @@ import {
   ChevronRight,
   Filter
 } from 'lucide-react';
-import aromaticRaritiesData from '@/data/aromatic_rarities.json';
+import { trpc } from '@/lib/trpc';
 import { AromaticRaritiesGraph } from '@/components/AromaticRaritiesGraph';
 import { useLocation } from 'wouter';
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
@@ -45,8 +45,24 @@ export default function AromaticRarities() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedRarity, setSelectedRarity] = useState('all');
 
-  // Récupérer les données
-  const materials: AromaticRarity[] = aromaticRaritiesData.materials || [];
+  // Récupérer les données via tRPC
+  const { data: raritiesData, isLoading } = trpc.research.getAromaticRarities.useQuery({ limit: 200 });
+  const materials: AromaticRarity[] = (raritiesData?.data || []).map((r: any) => ({
+    id: r.rarity_id,
+    name: r.name,
+    category: r.category || '',
+    geography: r.geography || '',
+    rarity_regime: r.rarity_regime || '',
+    cultural_status: r.cultural_status || '',
+    source_type: r.source_type || '',
+    extractability: r.extractability || '',
+    key_molecules: r.key_molecules || '',
+    absorbe_potential: r.absorbe_potential || '',
+    notes: r.notes || '',
+    references: r.references || '',
+    temporal_behavior: r.temporal_behavior || '',
+    industrial_products: r.industrial_products || '',
+  }));
 
   // Extraire les catégories et rareté uniques
   const categories = useMemo(() => {

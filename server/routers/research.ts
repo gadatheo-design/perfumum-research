@@ -2143,4 +2143,84 @@ export const researchRouter = router({
         return { success: false, links: [], publications: [], molecules: [], error: error.message };
       }
     }),
+
+  /**
+   * Get all aromatic rarities with optional filtering
+   */
+  getAromaticRarities: publicProcedure
+    .input(
+      z.object({
+        search: z.string().optional(),
+        category: z.string().optional(),
+        rarityRegime: z.string().optional(),
+        limit: z.number().default(100),
+        offset: z.number().default(0),
+      })
+    )
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return { success: false, data: [], count: 0, error: "DB connection failed" };
+
+        let whereClause = 'WHERE 1=1';
+        const params: any[] = [];
+
+        if (input.search) {
+          whereClause += ' AND (name LIKE ? OR notes LIKE ? OR key_molecules LIKE ?)';
+          const s = `%${input.search}%`;
+          params.push(s, s, s);
+        }
+        if (input.category) {
+          whereClause += ' AND category = ?';
+          params.push(input.category);
+        }
+        if (input.rarityRegime) {
+          whereClause += ' AND rarity_regime = ?';
+          params.push(input.rarityRegime);
+        }
+
+        const [rows] = await (db as any).$client.execute(
+          `SELECT * FROM aromatic_rarities ${whereClause} ORDER BY rarity_id LIMIT ? OFFSET ?`,
+          [...params, input.limit, input.offset]
+        );
+        const [countRows] = await (db as any).$client.execute(
+          `SELECT COUNT(*) as total FROM aromatic_rarities ${whereClause}`,
+          params
+        );
+
+        return {
+          success: true,
+          data: Array.isArray(rows) ? rows : [],
+          count: countRows[0]?.total || 0,
+        };
+      } catch (error: any) {
+        console.error("Error fetching aromatic rarities:", error);
+        return { success: false, data: [], count: 0, error: error.message };
+      }
+    }),
+
+  /**
+   * Get a single aromatic rarity by ID
+   */
+  getAromaticRarityById: publicProcedure
+    .input(z.object({ rarityId: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const db = await getDb();
+        if (!db) return { success: false, data: null, error: "DB connection failed" };
+
+        const [rows] = await (db as any).$client.execute(
+          `SELECT * FROM aromatic_rarities WHERE rarity_id = ? LIMIT 1`,
+          [input.rarityId]
+        );
+
+        return {
+          success: true,
+          data: Array.isArray(rows) && rows.length > 0 ? rows[0] : null,
+        };
+      } catch (error: any) {
+        console.error("Error fetching aromatic rarity:", error);
+        return { success: false, data: null, error: error.message };
+      }
+    }),
 });

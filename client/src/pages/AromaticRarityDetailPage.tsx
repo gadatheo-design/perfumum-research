@@ -19,16 +19,45 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import aromaticRaritiesData from '@/data/aromatic_rarities.json';
+import { trpc } from '@/lib/trpc';
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 
 export default function AromaticRarityDetailPage() {
   const [match, params] = useRoute('/aromatic-rarities/:id');
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
 
+  const { data: rarityData, isLoading } = trpc.research.getAromaticRarityById.useQuery(
+    { rarityId: params?.id || '' },
+    { enabled: !!params?.id }
+  );
+
   if (!match) return null;
 
-  const material = aromaticRaritiesData.find(m => m.id === params?.id);
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8 flex items-center justify-center">
+        <div className="text-slate-500">Chargement...</div>
+      </div>
+    );
+  }
+
+  const raw = rarityData?.data;
+  const material = raw ? {
+    id: raw.rarity_id,
+    name: raw.name,
+    category: raw.category || '',
+    geography: raw.geography || '',
+    rarity_regime: raw.rarity_regime || '',
+    cultural_status: raw.cultural_status || '',
+    source_type: raw.source_type || '',
+    extractability: raw.extractability || '',
+    key_molecules: raw.key_molecules || '',
+    absorbe_potential: raw.absorbe_potential || '',
+    notes: raw.notes || '',
+    references: raw.references || '',
+    temporal_behavior: raw.temporal_behavior || '',
+    industrial_products: raw.industrial_products || '',
+  } : null;
 
   if (!material) {
     return (
