@@ -24,7 +24,8 @@ import {
   Droplets,
   Upload,
   Globe,
-  Link2
+  Link2,
+  PackageOpen
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -302,6 +303,14 @@ export default function Admin() {
       href: "/admin/completude",
       color: "text-amber-600",
       bgColor: "bg-amber-50",
+    },
+    {
+      title: "Visualisation du Bundle",
+      description: "Analyser les chunks JavaScript du build de production — tailles, répartition, chunks critiques.",
+      icon: PackageOpen,
+      href: "/admin/bundle-visualizer",
+      color: "text-slate-600",
+      bgColor: "bg-slate-50",
     },
   ];
 

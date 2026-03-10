@@ -108,6 +108,7 @@ const PubChemIupacBatch = React.lazy(() => import('./pages/admin/PubChemIupacBat
 const GBIFBatch = React.lazy(() => import('./pages/admin/GBIFBatch'));
 const LOTUSBatch = React.lazy(() => import('./pages/admin/LOTUSBatch'));
 const KNApSAcKBatch = React.lazy(() => import('./pages/admin/KNApSAcKBatch'));
+const AdminBundleVisualizer = React.lazy(() => import('./pages/AdminBundleVisualizer'));
 
 // === PROTOTYPES ===
 const Prototypes = React.lazy(() => import('./pages/Prototypes'));
@@ -502,6 +503,7 @@ function Router() {
       <Route path="/admin/gbif-batch" component={GBIFBatch} />
       <Route path="/admin/lotus-batch" component={LOTUSBatch} />
       <Route path="/admin/knapsack-batch" component={KNApSAcKBatch} />
+      <Route path="/admin/bundle-visualizer" component={AdminBundleVisualizer} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

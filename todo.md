@@ -1878,3 +1878,4 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Page admin /admin/coconut-batch : enrichissement batch COCONUT
 - [ ] Script import KNApSAcK CSV (101 500 paires espèce-molécule)
 - [ ] Page admin /admin/knapsack-import : interface d'import du CSV KNApSAcK
+- [x] Page /admin/bundle-visualizer : visualisation des chunks JS du build (tailles, treemap, liste complète)
