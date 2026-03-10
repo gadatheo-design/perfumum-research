@@ -1880,3 +1880,10 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Page admin /admin/knapsack-import : interface d'import du CSV KNApSAcK
 - [x] Page /admin/bundle-visualizer : visualisation des chunks JS du build (tailles, treemap, liste complète)
 - [x] Filtres de tri sur /admin/bundle-visualizer (par taille, par nom, croissant/décroissant)
+- [ ] Corriger pagination /admin/lotus-batch pour afficher toutes les plantes (pas seulement ~50)
+- [ ] Déplacer matières premières mal classées dans molecules vers table plants (Mousse de Chêne, Kaolin, Javanole, Huile de Bois de Rose, Galbanum, Cembratrienol, Ambre Gris)
+- [ ] Audit général doublons et données mal placées dans la base
+- [x] Corriger la pagination /admin/lotus-batch pour afficher toutes les plantes (546 au lieu de 50)
+- [x] Audit SQL des molécules mal classées (matières premières dans molecules)
+- [x] Créer la page /admin/reclassify-molecules pour déplacer les matières premières vers raw_materials
+- [x] Ajouter les procédures getMisclassifiedMolecules, reclassifyToRawMaterial, deleteMisclassified dans data-cleanup router

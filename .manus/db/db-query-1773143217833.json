@@ -1,0 +1,16 @@
+{
+  "query": "\nSELECT \n  COUNT(*) as total_plants,\n  SUM(CASE WHEN latin_name IS NOT NULL AND latin_name != '' THEN 1 ELSE 0 END) as with_latin_name,\n  SUM(CASE WHEN gbif_id IS NULL AND latin_name IS NOT NULL AND latin_name != '' THEN 1 ELSE 0 END) as without_gbif,\n  SUM(CASE WHEN family IS NULL AND latin_name IS NOT NULL AND latin_name != '' THEN 1 ELSE 0 END) as without_family\nFROM plants;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  COUNT(*) as total_plants,\n  SUM(CASE WHEN latin_name IS NOT NULL AND latin_name != '' THEN 1 ELSE 0 END) as with_latin_name,\n  SUM(CASE WHEN gbif_id IS NULL AND latin_name IS NOT NULL AND latin_name != '' THEN 1 ELSE 0 END) as without_gbif,\n  SUM(CASE WHEN family IS NULL AND latin_name IS NOT NULL AND latin_name != '' THEN 1 ELSE 0 END) as without_family\nFROM plants;\n",
+  "rows": [
+    {
+      "total_plants": "558",
+      "with_latin_name": "546",
+      "without_gbif": "13",
+      "without_family": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_plants\twith_latin_name\twithout_gbif\twithout_family\n558\t546\t13\t1\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

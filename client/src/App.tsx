@@ -109,6 +109,7 @@ const GBIFBatch = React.lazy(() => import('./pages/admin/GBIFBatch'));
 const LOTUSBatch = React.lazy(() => import('./pages/admin/LOTUSBatch'));
 const KNApSAcKBatch = React.lazy(() => import('./pages/admin/KNApSAcKBatch'));
 const AdminBundleVisualizer = React.lazy(() => import('./pages/AdminBundleVisualizer'));
+const AdminReclassifyMolecules = React.lazy(() => import('./pages/AdminReclassifyMolecules'));
 
 // === PROTOTYPES ===
 const Prototypes = React.lazy(() => import('./pages/Prototypes'));
@@ -504,6 +505,7 @@ function Router() {
       <Route path="/admin/lotus-batch" component={LOTUSBatch} />
       <Route path="/admin/knapsack-batch" component={KNApSAcKBatch} />
       <Route path="/admin/bundle-visualizer" component={AdminBundleVisualizer} />
+      <Route path="/admin/reclassify-molecules" component={AdminReclassifyMolecules} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

@@ -17,7 +17,7 @@ import {
   getPlantsWithoutMolecules
 } from "../link-analysis";
 import { getDb } from "../db";
-import { molecules } from "../../drizzle/schema";
+import { molecules, rawMaterials } from "../../drizzle/schema";
 import { sql, eq } from "drizzle-orm";
 
 export const dataCleanupRouter = router({
@@ -203,5 +203,103 @@ export const dataCleanupRouter = router({
     .input(z.object({ limit: z.number().optional().default(50) }).optional())
     .query(async ({ input }) => {
       return await getPlantsWithoutMolecules(input?.limit || 50);
-    })
+    }),
+
+  // Identifier les molécules mal classées (matières premières dans la table molecules)
+  getMisclassifiedMolecules: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return [];
+
+    const rawKeywords = [
+      'huile', 'extrait', 'absolu', 'r\u00e9sine', 'baume', 'teinture',
+      'mousse', 'kaolin', 'accord', 'm\u00e9lange', 'absolute', 'resin',
+      'extract', 'oil ', 'concrete', 'attar', 'oleoresine', 'infusion',
+      'hydrolat', 'co2', 'oleoresin', 'opoponax', 'styrax resin',
+      'tonka bean', 'santal blanc he', 'n\u00e9roli bouquetier',
+      'palo santo', 'spikenard', 'mitti', 'oud tea', 'wild juniper',
+      'miyazaki', 'plumeria', 'omani', 'tangerine dream', 'makrut lime',
+      'javanole', 'ambre gris', 'ambergris', 'galbanum', 'cembratrienol',
+      'profil r\u00e9sineux', 'r\u00e9sines aromatiques', 'monoterpenes (resin', 'sesquiterpenes (resin',
+    ];
+
+    const allMolecules = await db.select({
+      id: molecules.id,
+      name: molecules.name,
+      family: molecules.family,
+      chemicalFamily: molecules.chemicalFamily,
+      casNumber: molecules.casNumber,
+      pubchemCid: molecules.pubchemCid,
+      notes: molecules.notes,
+      sourceOrigin: molecules.sourceOrigin,
+    }).from(molecules).where(sql`pubchem_cid IS NULL`).orderBy(molecules.name);
+
+    return allMolecules.filter(m => {
+      const nameLower = (m.name || '').toLowerCase();
+      const notesLower = (m.notes || '').toLowerCase();
+      const sourceLower = (m.sourceOrigin || '').toLowerCase();
+      return rawKeywords.some(kw =>
+        nameLower.includes(kw) ||
+        notesLower.includes(kw) ||
+        sourceLower.includes(kw)
+      );
+    });
+  }),
+
+  // Reclassifier une molécule vers raw_materials
+  reclassifyToRawMaterial: protectedProcedure
+    .input(z.object({
+      moleculeId: z.number(),
+      category: z.enum([
+        'huile_essentielle', 'absolue', 'concrete', 'resinoid', 'teinture',
+        'co2_extract', 'hydrolat', 'beurre', 'cire', 'oleoresine',
+        'infusion', 'maceration', 'distillat', 'accord_olfactif',
+        'molecule_isolee', 'matiere_animale', 'autre'
+      ]),
+      dryRun: z.boolean().default(false),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { success: false as const, error: "DB non disponible" };
+
+      const [mol] = await db.select().from(molecules).where(eq(molecules.id, input.moleculeId)).limit(1);
+      if (!mol) return { success: false as const, error: `Mol\u00e9cule #${input.moleculeId} non trouv\u00e9e` };
+
+      if (input.dryRun) {
+        return {
+          success: true as const,
+          dryRun: true,
+          molecule: { id: mol.id, name: mol.name },
+          wouldCreate: { name: mol.name, category: input.category },
+        };
+      }
+
+      const materialId = `RM_${(mol.name || '').replace(/[^a-zA-Z0-9]/g, '_').toUpperCase().slice(0, 20)}_${Date.now().toString(36).toUpperCase()}`;
+
+      await db.insert(rawMaterials).values({
+        materialId,
+        name: mol.name || 'Sans nom',
+        category: input.category as any,
+        olfactiveProfile: typeof mol.olfactiveProfile === 'string' ? mol.olfactiveProfile : null,
+        notes: mol.notes || null,
+      });
+
+      await db.delete(molecules).where(eq(molecules.id, input.moleculeId));
+
+      return {
+        success: true as const,
+        dryRun: false,
+        molecule: { id: mol.id, name: mol.name },
+        created: { materialId, category: input.category },
+      };
+    }),
+
+  // Supprimer une molécule mal classée (doublon ou entrée invalide)
+  deleteMisclassified: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return { success: false as const };
+      await db.delete(molecules).where(eq(molecules.id, input.id));
+      return { success: true as const, deletedId: input.id };
+    }),
 });

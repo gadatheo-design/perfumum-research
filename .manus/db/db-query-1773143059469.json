@@ -1,0 +1,5581 @@
+{
+  "query": "\nSELECT id, name, family, cas_number, pubchem_cid, sourceOrigin, botanicalSources\nFROM molecules\nWHERE pubchem_cid IS NULL\nORDER BY name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, family, cas_number, pubchem_cid, sourceOrigin, botanicalSources\nFROM molecules\nWHERE pubchem_cid IS NULL\nORDER BY name;\n",
+  "rows": [
+    {
+      "id": "1410062",
+      "name": "(E,E)-α-Farnesene",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/f8066d27a0704bc6903c4c0cd651944a",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410047",
+      "name": "(Z)-Nuciferol",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/1c797e6310a8418ca4d9d6b1ec7dec40",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410052",
+      "name": "(Z)-α-Santalol",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/b25d2db5494e4f38ada39515043a2c89",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410046",
+      "name": "(Z)-β-Santalol",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/033559b03aa449e9a2c3bdb6802e54a5",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "300002",
+      "name": "Absolue d'Iris (Orris Butter)",
+      "family": "Cétone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Iris pallida (Italie, Maroc) - 3-6 ans de séchage",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480024",
+      "name": "Acacia brûlé",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1680001",
+      "name": "Acide Acétique",
+      "family": "Non classé",
+      "cas_number": "64-19-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Fermentation et combustion du tabac",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1590002",
+      "name": "Acide Férulique",
+      "family": "balsamique",
+      "cas_number": "1135-24-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1590001",
+      "name": "Acide Hexanoïque",
+      "family": "fruite",
+      "cas_number": "142-62-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410089",
+      "name": "Acide fulvique (fulvic acid)",
+      "family": "terreux",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350040",
+      "name": "Acide hyaluronique",
+      "family": "Polysaccharide",
+      "cas_number": "9004-61-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410094",
+      "name": "Acides humiques (humic acids)",
+      "family": "terreux",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1650009",
+      "name": "Acétate de thymyle",
+      "family": "herbace",
+      "cas_number": "6379-73-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080002",
+      "name": "Agarwood / Oud — Aquilaria malaccensis (CITES)",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410008",
+      "name": "Aldambre",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/7c3d325966d24d28b7b9a75a447f1d51",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410010",
+      "name": "Aldehyde C-11 MOA",
+      "family": "floral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/c5b512fac7a74bb7b503612d26935b4d",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480032",
+      "name": "Aldéhyde feuille",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "120011",
+      "name": "Aldéhyde métallique",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthèse",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480002",
+      "name": "Aldéhydes chauds",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480022",
+      "name": "Aldéhydes métalliques",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480013",
+      "name": "Aldéhydes sombres",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350042",
+      "name": "Alginat de sodium",
+      "family": "Polysaccharide",
+      "cas_number": "9005-38-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90008",
+      "name": "Aluminium aldehyde",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080020",
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)",
+      "family": "Composé animal",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380010",
+      "name": "Ambre Gris",
+      "family": "musque",
+      "cas_number": "8023-85-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "300003",
+      "name": "Ambre Gris (Ambergris)",
+      "family": "Triterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cachalot (Physeter macrocephalus) - trouvé en mer",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1170008",
+      "name": "Ambre Gris Naturel",
+      "family": "Composé animal",
+      "cas_number": "8038-65-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350036",
+      "name": "Arabinogalactane",
+      "family": "Polysaccharide",
+      "cas_number": "9036-66-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "780016",
+      "name": "Aristolen-9β-ol",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nardostachys jatamansi",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320169",
+      "name": "Asarone alpha",
+      "family": "epice",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Acorus calamus"
+    },
+    {
+      "id": "1320136",
+      "name": "Beta-glucane",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Avena sativa, Saccharomyces cerevisiae, Ganoderma lucidum"
+    },
+    {
+      "id": "1320112",
+      "name": "Betulinine",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Betula spp."
+    },
+    {
+      "id": "1650011",
+      "name": "Bisabolone",
+      "family": "Sesquiterpène",
+      "cas_number": "532-91-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1530001",
+      "name": "Butyrate d'éthyle",
+      "family": "fruite",
+      "cas_number": "105-54-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90061",
+      "name": "C14 lactone (γ-Tetradecalactone)",
+      "family": "Lactone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90062",
+      "name": "C18 lactone (γ-Octadecalactone)",
+      "family": "Lactone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90047",
+      "name": "Cedarol",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720029",
+      "name": "Cembratrienol",
+      "family": "Composé du tabac",
+      "cas_number": "28266-68-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350039",
+      "name": "Chitosane",
+      "family": "Polysaccharide",
+      "cas_number": "9012-76-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110016",
+      "name": "Crésol",
+      "family": "Non classé",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570032",
+      "name": "Damascone Beta",
+      "family": "Cétone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Rose, Miel, Tabac",
+      "botanicalSources": "Rose de Damas, Miel"
+    },
+    {
+      "id": "750010",
+      "name": "Damianine",
+      "family": "Non classé",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Turnera diffusa (Damiana)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1500002",
+      "name": "Diacétyle",
+      "family": "gourmand",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810029",
+      "name": "E-2-dodecenal",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90045",
+      "name": "Elemi",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540007",
+      "name": "Encens HE (extrait)",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480041",
+      "name": "Encens doré",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410035",
+      "name": "Ethanethiol",
+      "family": "animal",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/03ef9468abb54ca89a0429568b727c1d",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410036",
+      "name": "Ethyl 2-methylbutanoate",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/25ee4950c0a142869e2d4dd8b638d4bd",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410079",
+      "name": "Ethyl acetate",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410060",
+      "name": "Ethyl butanoate",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/a8d6efa65b0e49ff9ee6bba3d3d737d7",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320201",
+      "name": "Eudesmol alpha",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Eucalyptus spp., Atractylodes macrocephala"
+    },
+    {
+      "id": "1320202",
+      "name": "Eudesmol beta",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Eucalyptus spp."
+    },
+    {
+      "id": "570006",
+      "name": "Fer Olfactif",
+      "family": "Non classé",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480021",
+      "name": "Fer chaud",
+      "family": "Non classé",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90007",
+      "name": "Fer volatil",
+      "family": "Composé marin",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480003",
+      "name": "Feuille d'oranger sèche",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480031",
+      "name": "Feuille verte",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510022",
+      "name": "Fleur de Café",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "390007",
+      "name": "Fleur de Café - Absolue",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Armenia, Quindío, Colombie",
+      "botanicalSources": "Fleurs fraîches de Coffea arabica"
+    },
+    {
+      "id": "480037",
+      "name": "Foin chaud",
+      "family": "Phénylpropanoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410074",
+      "name": "Formaldehyde",
+      "family": "aromatique",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350078",
+      "name": "Formonétine",
+      "family": "Flavonoïde",
+      "cas_number": "485-72-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90018",
+      "name": "Fossile absolute",
+      "family": "Lactone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "360002",
+      "name": "Frangipani (Plumeria)",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Fleurs de Plumeria (diverses espèces)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570035",
+      "name": "Fructone",
+      "family": "Lactone",
+      "cas_number": "6413-10-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Ananas, Fraise",
+      "botanicalSources": "Synthétique"
+    },
+    {
+      "id": "1350041",
+      "name": "Fucoïdane",
+      "family": "Polysaccharide",
+      "cas_number": "9072-19-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480012",
+      "name": "Fumée douce",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480023",
+      "name": "Fumée légère",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110024",
+      "name": "Furaneol",
+      "family": "Ester",
+      "cas_number": "3658-77-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410061",
+      "name": "Furaneol (HDMF)",
+      "family": "gourmand",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/c6fb34a218c44754ba9b6144809f9c5d",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "840003",
+      "name": "Furanodienone",
+      "family": "Sesquiterpène",
+      "cas_number": "24268-41-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Commiphora myrrha (résine)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "840001",
+      "name": "Furanoeudesma-1,3-diène",
+      "family": "Sesquiterpène",
+      "cas_number": "87605-93-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Commiphora myrrha (résine)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "120013",
+      "name": "Furanoeudesmanes",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Myrrhe",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "120012",
+      "name": "Furanosesquiterpenes",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Myrrhe, Oliban",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "930006",
+      "name": "Furfural",
+      "family": "Hétérocycle",
+      "cas_number": "98-01-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Dégradation thermique des sucres végétaux",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350051",
+      "name": "GABA",
+      "family": "Acide organique",
+      "cas_number": "56-12-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540001",
+      "name": "GEOSMIN",
+      "family": "Sesquiterpène",
+      "cas_number": "19700-21-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90080",
+      "name": "Galaxolide",
+      "family": "Lactone",
+      "cas_number": "1222-05-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410002",
+      "name": "Galbanolene",
+      "family": "vert",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/3acfcb86ca13455e8aadd0fb44e16d97",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380028",
+      "name": "Galbanum",
+      "family": "vert",
+      "cas_number": "8023-91-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410003",
+      "name": "Galbanum (EO)",
+      "family": "vert",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/3f658361db984dd78c83202d2a65e02f",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "210021",
+      "name": "Gamma-decalactone",
+      "family": "Lactone",
+      "cas_number": "706-14-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthétique ou naturel (pêche)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1500006",
+      "name": "Gamma-décalactone",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1530003",
+      "name": "Gamma-undécalactone",
+      "family": "fruite",
+      "cas_number": "104-67-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "330006",
+      "name": "Gaïac (Guaiol)",
+      "family": "Sesquiterpène",
+      "cas_number": "489-86-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Bulnesia sarmientoi (Argentine, Paraguay)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080009",
+      "name": "Gaïac — Guaiacum officinale",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080010",
+      "name": "Gaïac — Guaiacum sanctum (proxy)",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1290002",
+      "name": "Gaïacol",
+      "family": "fume",
+      "cas_number": "90-05-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570036",
+      "name": "Georgywood",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthèse chimique",
+      "botanicalSources": "Synthétique"
+    },
+    {
+      "id": "990013",
+      "name": "Geranyl acetate",
+      "family": "Monoterpène",
+      "cas_number": "105-87-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410080",
+      "name": "Geranyl acetone",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "960011",
+      "name": "Germacrene D",
+      "family": "Sesquiterpène",
+      "cas_number": "23986-74-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Sauge sclarée, Ylang-ylang, Géranium",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "840006",
+      "name": "Germacrène B",
+      "family": "Sesquiterpène",
+      "cas_number": "15423-57-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Commiphora myrrha, nombreuses plantes",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1650006",
+      "name": "Germacrène D",
+      "family": "Sesquiterpène",
+      "cas_number": "23986-74-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "960006",
+      "name": "Gingerol",
+      "family": "Phénylpropanoïde",
+      "cas_number": "23513-14-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Gingembre frais",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300027",
+      "name": "Ginkgolide A",
+      "family": "autre",
+      "cas_number": "15291-75-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300028",
+      "name": "Ginkgolide B",
+      "family": "autre",
+      "cas_number": "15291-77-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "990006",
+      "name": "Globulol",
+      "family": "Sesquiterpène",
+      "cas_number": "489-41-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320094",
+      "name": "Glucoerucine",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Eruca vesicaria (roquette), Raphanus sativus"
+    },
+    {
+      "id": "1320091",
+      "name": "Glucoraphanine",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Brassica oleracea (brocoli), Raphanus sativus"
+    },
+    {
+      "id": "90025",
+      "name": "Glycine pyrolysée",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320116",
+      "name": "Glycyrrhizine",
+      "family": "gourmand",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Glycyrrhiza glabra"
+    },
+    {
+      "id": "1080018",
+      "name": "Gomme arabique — Senegalia senegal (filière fragile)",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380006",
+      "name": "Gotu Kola (Centella asiatica) — extrait",
+      "family": "herbace",
+      "cas_number": "16830-15-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180006",
+      "name": "Gris d'Ambre",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90021",
+      "name": "Guaiacol",
+      "family": "Phénol",
+      "cas_number": "90-05-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570009",
+      "name": "Guaiacol Fumé",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720017",
+      "name": "Guaiol",
+      "family": "Cannabinoïde",
+      "cas_number": "489-86-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510015",
+      "name": "Guanábana",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510005",
+      "name": "Guanábana (Annona muricata)",
+      "family": "Lactone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Côte caraïbe colombienne, climat tropical",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570040",
+      "name": "Guaïacol",
+      "family": "Phénol",
+      "cas_number": "90-05-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350106",
+      "name": "Guaïol",
+      "family": "Sesquiterpène",
+      "cas_number": "489-86-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080004",
+      "name": "Guggul — Commiphora wightii (résine menacée)",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350076",
+      "name": "Génistéine",
+      "family": "Flavonoïde",
+      "cas_number": "446-72-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "30004",
+      "name": "Géosmine",
+      "family": "Monoterpène",
+      "cas_number": "19700-21-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Actinomycètes du sol",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050020",
+      "name": "Géranial",
+      "family": "Monoterpène",
+      "cas_number": "141-27-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "660001",
+      "name": "Géraniol",
+      "family": "Monoterpène",
+      "cas_number": "106-24-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570013",
+      "name": "Géraniol Pur",
+      "family": "Monoterpène",
+      "cas_number": "106-24-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300026",
+      "name": "Géranylgéraniol",
+      "family": "floral",
+      "cas_number": "699-14-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570037",
+      "name": "Habanolide",
+      "family": "Lactone",
+      "cas_number": "111879-80-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthèse chimique",
+      "botanicalSources": "Synthétique"
+    },
+    {
+      "id": "180016",
+      "name": "Haitian Vetiver",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "750009",
+      "name": "Harmane",
+      "family": "Non classé",
+      "cas_number": "486-84-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Passiflora incarnata, Peganum harmala",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "750001",
+      "name": "Hashishene",
+      "family": "Monoterpène",
+      "cas_number": "16626-39-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Photo-oxydation du β-myrcène dans le hashish marocain",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1620001",
+      "name": "Hashishène",
+      "family": "terreux",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "330016",
+      "name": "Hedione",
+      "family": "Ester",
+      "cas_number": "24851-98-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthèse (Firmenich, 1962) - Révolution Eau Sauvage",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380030",
+      "name": "Hedione HC",
+      "family": "floral",
+      "cas_number": "1000343-69-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410017",
+      "name": "Helional",
+      "family": "marin",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/2687054ed7674793965ca3d802c43bef",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90071",
+      "name": "Heliotropine (Piperonal)",
+      "family": "Aldéhyde",
+      "cas_number": "120-57-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480036",
+      "name": "Herbes sèches",
+      "family": "Phénylpropanoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300006",
+      "name": "Herniarine",
+      "family": "aromatique",
+      "cas_number": "531-59-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410001",
+      "name": "Hexanoic acid",
+      "family": "animal",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/2a4dbb3d5e6c808b90e1f01b3e62a577",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410066",
+      "name": "Hexyl acetate",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/2ab3c490268d4e6c8d8f88e98c74aa62",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90052",
+      "name": "Hinoki oil",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410050",
+      "name": "Hinokitiol",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/8bd691c8b74f4dde95d28c573687e558",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1170006",
+      "name": "Huile de Bois de Rose",
+      "family": "Monoterpène",
+      "cas_number": "8015-77-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380024",
+      "name": "Huitlacoche",
+      "family": "terreux",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410073",
+      "name": "Humulène",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90006",
+      "name": "Humus absolute",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410042",
+      "name": "Hydrogen sulfide",
+      "family": "animal",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/f51aa7a5021b485fa8cba05808949f85",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90026",
+      "name": "Hydroxyproline pyrolysée",
+      "family": "fume",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380011",
+      "name": "Hyraceum",
+      "family": "animal",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570068",
+      "name": "Hélional",
+      "family": "Aldéhyde",
+      "cas_number": "1205-17-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570023",
+      "name": "Héliotropine",
+      "family": "Aldéhyde",
+      "cas_number": "120-57-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Héliotrope, Vanille, Cerise",
+      "botanicalSources": "Héliotrope, Sassafras"
+    },
+    {
+      "id": "90028",
+      "name": "IBQ (Isobutyl quinoléine)",
+      "family": "Quinoléine",
+      "cas_number": "93-19-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Synthèse chimique principalement (Doebner-Miller). Traces naturelles dans le goudron de bouleau (Betula pendula), le tabac fermenté (Nicotiana tabacum), certains cuirs naturels"
+    },
+    {
+      "id": "750003",
+      "name": "Incensole",
+      "family": "Sesquiterpène",
+      "cas_number": "22427-39-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Boswellia sacra (oliban/encens)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410054",
+      "name": "Incensole acetate",
+      "family": "balsamique",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/c3ac0e5b29b04aa9a8ad0368d5a82665",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "60016",
+      "name": "Indole",
+      "family": "Alcaloïde",
+      "cas_number": "120-72-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "60019",
+      "name": "Indoline",
+      "family": "Alcaloïde",
+      "cas_number": "496-15-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350038",
+      "name": "Inuline",
+      "family": "Polysaccharide",
+      "cas_number": "9005-80-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480007",
+      "name": "Ionone blanche",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90019",
+      "name": "Ionone β",
+      "family": "Norisoprénoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90020",
+      "name": "Ionone γ",
+      "family": "Norisoprénoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380033",
+      "name": "Irone",
+      "family": "floral",
+      "cas_number": "79-69-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90078",
+      "name": "Iso E Super",
+      "family": "Sesquiterpène",
+      "cas_number": "54464-57-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90029",
+      "name": "IsoButyrate",
+      "family": "Ester",
+      "cas_number": "5711-69-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "210010",
+      "name": "Isoamyl acetate",
+      "family": "Ester",
+      "cas_number": "123-92-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthétique ou naturel (banane)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1500003",
+      "name": "Isoamyl acétate",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410092",
+      "name": "Isobutyric acid",
+      "family": "animal",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "840008",
+      "name": "Isocericenine",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Commiphora myrrha",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350089",
+      "name": "Isoeugénol",
+      "family": "Phénylpropanoïde",
+      "cas_number": "97-54-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "990004",
+      "name": "Isomenthone",
+      "family": "Monoterpène",
+      "cas_number": "491-07-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1500001",
+      "name": "Isoprène",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720008",
+      "name": "Isopulégol",
+      "family": "Cannabinoïde",
+      "cas_number": "89-79-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380003",
+      "name": "Isoquinoline",
+      "family": "fume",
+      "cas_number": "119-65-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "690011",
+      "name": "Isovalencénol",
+      "family": "Sesquiterpène",
+      "cas_number": "22451-73-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Vétiver, Pamplemousse"
+    },
+    {
+      "id": "1410093",
+      "name": "Isovaleric acid",
+      "family": "animal",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1020001",
+      "name": "Italidione I",
+      "family": "Cétone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Helichrysum italicum (Immortelle)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1020002",
+      "name": "Italidione II",
+      "family": "Cétone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Helichrysum italicum (Immortelle)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1020003",
+      "name": "Italidione III",
+      "family": "Cétone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Helichrysum italicum (Immortelle)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540002",
+      "name": "Jasmin Absolue (extrait)",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080013",
+      "name": "Jasmin de Grasse (forme patrimoniale)",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570070",
+      "name": "Jasmine lactone",
+      "family": "Lactone",
+      "cas_number": "25524-95-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90058",
+      "name": "Jasmonal",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "990017",
+      "name": "Jasmone",
+      "family": "Cétone",
+      "cas_number": "488-10-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "300007",
+      "name": "Javanol",
+      "family": "Aldéhyde",
+      "cas_number": "160294-85-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthèse (Givaudan, 1990s) - Meilleure reconstitution santal",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1650003",
+      "name": "Jinkoh-Eudesmol",
+      "family": "Sesquiterpènes",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "[\"Aquilaria spp.\"]"
+    },
+    {
+      "id": "360003",
+      "name": "Juniper (Genièvre)",
+      "family": "Phénylpropanoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Baies et rameaux de Juniperus communis",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320040",
+      "name": "Kaempferol",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Camellia sinensis, Brassica oleracea, Rosa canina"
+    },
+    {
+      "id": "1300011",
+      "name": "Kaempférol",
+      "family": "autre",
+      "cas_number": "520-18-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "780017",
+      "name": "Kanshone A",
+      "family": "Sesquiterpène",
+      "cas_number": "115356-18-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nardostachys jatamansi",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380019",
+      "name": "Kaolin",
+      "family": "terreux",
+      "cas_number": "1332-58-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90004",
+      "name": "Kaolin accord",
+      "family": "Non classé",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480009",
+      "name": "Karité clair",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480018",
+      "name": "Karité fumé sombre",
+      "family": "fume",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480035",
+      "name": "Karité vert",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "120003",
+      "name": "Khusimol",
+      "family": "Sesquiterpène",
+      "cas_number": "16223-63-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Vétiver",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350053",
+      "name": "L-Arginine",
+      "family": "Acide organique",
+      "cas_number": "74-79-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350052",
+      "name": "L-Glutamine",
+      "family": "Acide organique",
+      "cas_number": "56-85-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350046",
+      "name": "L-Histidine",
+      "family": "Acide organique",
+      "cas_number": "71-00-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350045",
+      "name": "L-Phénylalanine",
+      "family": "Acide organique",
+      "cas_number": "63-91-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350043",
+      "name": "L-Tryptophane",
+      "family": "Acide organique",
+      "cas_number": "73-22-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350044",
+      "name": "L-Tyrosine",
+      "family": "Acide organique",
+      "cas_number": "60-18-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540010",
+      "name": "LABDANUM ABSOLUTE",
+      "family": "Diterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90044",
+      "name": "Labdanum",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "120020",
+      "name": "Labdanum diterpenes",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Labdanum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "420008",
+      "name": "Labrador Tea Essential Oil",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Québec, Labrador, Alaska",
+      "botanicalSources": "Rhododendron groenlandicum - Tourbières boréales"
+    },
+    {
+      "id": "1050013",
+      "name": "Lavandulol",
+      "family": "Monoterpène",
+      "cas_number": "498-16-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "960001",
+      "name": "Lavandulyl acetate",
+      "family": "Monoterpène",
+      "cas_number": "25905-14-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Lavande vraie (Lavandula angustifolia)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "750004",
+      "name": "Leonurine",
+      "family": "Non classé",
+      "cas_number": "24697-74-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Leonotis leonurus (Wild Dagga), Leonurus cardiaca",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90037",
+      "name": "Lignine pyrolysée",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570038",
+      "name": "Lilial",
+      "family": "Aldéhyde",
+      "cas_number": "80-54-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Muguet (synthétique)",
+      "botanicalSources": "Synthétique (accord muguet)"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène",
+      "family": "Monoterpène",
+      "cas_number": "138-86-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Agrumes, menthe, genévrier",
+      "botanicalSources": "Citron (Citrus limon), Orange (Citrus sinensis), Pamplemousse (Citrus paradisi), Menthe poivrée (Mentha piperita), Genévrier (Juniperus communis), Pin (Pinus spp.)"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol",
+      "family": "Monoterpène",
+      "cas_number": "78-70-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570012",
+      "name": "Linalol Synthétique",
+      "family": "Monoterpène",
+      "cas_number": "78-70-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350099",
+      "name": "Linalol oxyde",
+      "family": "Monoterpène",
+      "cas_number": "1365-19-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "30009",
+      "name": "Linalool",
+      "family": "Monoterpène",
+      "cas_number": "78-70-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Lavande, coriandre, cannabis",
+      "botanicalSources": "Lavande (Lavandula angustifolia), Coriandre (Coriandrum sativum), Bois de rose (Aniba rosaeodora), Basilic (Ocimum basilicum), Menthe (Mentha spp.), Cannabis sativa"
+    },
+    {
+      "id": "1320192",
+      "name": "Linalool oxide",
+      "family": "floral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Lavandula spp., Coriandrum sativum, Hops"
+    },
+    {
+      "id": "1410043",
+      "name": "Linalyl acetate",
+      "family": "floral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/4f6250b2ff3f4b26a5ea0f124ff7ef26",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "840004",
+      "name": "Lindestrène",
+      "family": "Sesquiterpène",
+      "cas_number": "5765-38-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Commiphora myrrha, Lindera",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510026",
+      "name": "Lippia Origanoides",
+      "family": "Phénylpropanoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "390001",
+      "name": "Lippia Origanoides (Origan Sauvage)",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cali, Vallée du Cauca, Colombie",
+      "botanicalSources": "Feuilles fraîches et séchées de Lippia origanoides"
+    },
+    {
+      "id": "1350003",
+      "name": "Loganine",
+      "family": "Phénylpropanoïde",
+      "cas_number": "18524-94-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510014",
+      "name": "Lulo",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510004",
+      "name": "Lulo (Solanum quitoense)",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Vallées andines colombiennes, 1500-2500m",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300024",
+      "name": "Lupéol",
+      "family": "autre",
+      "cas_number": "545-47-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320041",
+      "name": "Luteolin",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Matricaria chamomilla, Thymus vulgaris, Rosmarinus officinalis"
+    },
+    {
+      "id": "1350069",
+      "name": "Lutéine",
+      "family": "Norisoprénoïde",
+      "cas_number": "127-40-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300013",
+      "name": "Lutéoline",
+      "family": "autre",
+      "cas_number": "491-70-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350033",
+      "name": "Lévoglucosénone",
+      "family": "Cétone",
+      "cas_number": "37112-31-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540008",
+      "name": "MYRRH OIL",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180014",
+      "name": "Makrut Lime",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350011",
+      "name": "Mangiférine",
+      "family": "Phénol",
+      "cas_number": "4773-96-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570001",
+      "name": "Maritima",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90038",
+      "name": "Marrow accord",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90043",
+      "name": "Mastic",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380001",
+      "name": "Mastiha (résine absolue)",
+      "family": "balsamique",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "120016",
+      "name": "Mechoulim",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Résines Mandé",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380004",
+      "name": "Megastigmatrienone",
+      "family": "boise",
+      "cas_number": "38818-55-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720026",
+      "name": "Megastigmatrienone A",
+      "family": "Composé du tabac",
+      "cas_number": "38818-55-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410024",
+      "name": "Melonal",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/6903e08a1da3446f99fb6e44976fdf57",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1650002",
+      "name": "Menthofurane",
+      "family": "Monoterpènes",
+      "cas_number": "494-90-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "[\"Bursera graveolens\",\"Mentha pulegium\"]"
+    },
+    {
+      "id": "570046",
+      "name": "Menthol",
+      "family": "Monoterpène",
+      "cas_number": "89-78-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570016",
+      "name": "Menthone",
+      "family": "Monoterpène",
+      "cas_number": "89-80-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "990003",
+      "name": "Menthyl acetate",
+      "family": "Monoterpène",
+      "cas_number": "89-48-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410059",
+      "name": "Mesifurane",
+      "family": "gourmand",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/47e2ae39c4db4748a328141569da435f",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410077",
+      "name": "Methacrolein",
+      "family": "aromatique",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570027",
+      "name": "Methyl Dihydrojasmonate",
+      "family": "Ester",
+      "cas_number": "24851-98-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Jasmin (synthétique)",
+      "botanicalSources": "Synthétique (accord jasmin)"
+    },
+    {
+      "id": "1200001",
+      "name": "Methyl Ethylpyrazine 2,3 ",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "synthetique",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "210013",
+      "name": "Methyl anthranilate",
+      "family": "Ester",
+      "cas_number": "134-20-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthétique ou naturel (néroli)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410037",
+      "name": "Methyl butanoate",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/3ed05c6a962543d09e1eee372a2b005d",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410041",
+      "name": "Methyl hexanoate",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/cf85eb60cdfe43d9a874766b3aa0541e",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "210017",
+      "name": "Methyl salicylate",
+      "family": "Ester",
+      "cas_number": "119-36-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthétique ou naturel (gaulthérie)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410045",
+      "name": "Methyleugenol",
+      "family": "epice",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/7bede2d508184b5498dffc2b4f8d86c2",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410086",
+      "name": "Methylpyrazine",
+      "family": "gourmand",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380018",
+      "name": "Mezcal",
+      "family": "fume",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480042",
+      "name": "Millet chaud",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180005",
+      "name": "Mitti Attar",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180009",
+      "name": "Miyazaki Citrus",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350074",
+      "name": "Morine",
+      "family": "Flavonoïde",
+      "cas_number": "480-16-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350112",
+      "name": "Morphine",
+      "family": "Alcaloïde",
+      "cas_number": "57-27-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380008",
+      "name": "Mousse de Chêne",
+      "family": "boise",
+      "cas_number": "90028-68-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1170004",
+      "name": "Mousse de Chêne (Oakmoss)",
+      "family": "Sesquiterpène",
+      "cas_number": "90028-68-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1620003",
+      "name": "Mu'assel (accord tabac hookah)",
+      "family": "gourmand",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "330001",
+      "name": "Muscone",
+      "family": "Musc",
+      "cas_number": "10403-00-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cerf porte-musc (Moschus) - Synthèse préférée",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1170003",
+      "name": "Musk Ambrette",
+      "family": "Musc",
+      "cas_number": "83-66-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1170001",
+      "name": "Musk Ketone",
+      "family": "Musc",
+      "cas_number": "81-14-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1170002",
+      "name": "Musk Xylene",
+      "family": "Musc",
+      "cas_number": "81-15-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080019",
+      "name": "Musk deer (musc naturel) — Moschus moschiferus (CITES)",
+      "family": "Musc",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080023",
+      "name": "Musk mallow (Malva moschata) — note patrimoniale",
+      "family": "Musc",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène",
+      "family": "Monoterpène",
+      "cas_number": "123-35-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis, houblon, thym, citronnelle",
+      "botanicalSources": "Houblon (Humulus lupulus), Mangue (Mangifera indica), Citronnelle (Cymbopogon citratus), Cannabis sativa, Thym (Thymus vulgaris), Laurier (Laurus nobilis)"
+    },
+    {
+      "id": "840009",
+      "name": "Myrcénol",
+      "family": "Monoterpène",
+      "cas_number": "543-39-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Commiphora myrrha, Lavande",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350072",
+      "name": "Myricétine",
+      "family": "Flavonoïde",
+      "cas_number": "529-44-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1560001",
+      "name": "Myristicine",
+      "family": "epice",
+      "cas_number": "607-91-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "330013",
+      "name": "Myrrhe (Curzerene)",
+      "family": "Sesquiterpène",
+      "cas_number": "17910-09-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Commiphora myrrha (Somalie, Éthiopie, Yémen)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480028",
+      "name": "Myrrhe chaude",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90042",
+      "name": "Myrrhe noire",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080017",
+      "name": "Myrrhe sahélienne — Boswellia dalzielii (pression locale)",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90010",
+      "name": "Myrrhone",
+      "family": "Résinoïde",
+      "cas_number": "183551-83-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320197",
+      "name": "Myrtenol",
+      "family": "herbace",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Myrtus communis, Pinus spp."
+    },
+    {
+      "id": "1650008",
+      "name": "Myrtenyl acetate",
+      "family": "Monoterpénol",
+      "cas_number": "1079-01-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350048",
+      "name": "Mélatonine",
+      "family": "Alcaloïde",
+      "cas_number": "73-31-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350105",
+      "name": "Ménaquinone (Vitamine K2)",
+      "family": "Vitamine",
+      "cas_number": "2124-57-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "750005",
+      "name": "Mésembrine",
+      "family": "Non classé",
+      "cas_number": "468-56-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Sceletium tortuosum (Kanna)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1470001",
+      "name": "Méthacroléine",
+      "family": "aromatique",
+      "cas_number": "78-85-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350066",
+      "name": "Méthionine",
+      "family": "Acide organique",
+      "cas_number": "63-68-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380031",
+      "name": "Méthyl Ionone",
+      "family": "floral",
+      "cas_number": "1335-46-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570022",
+      "name": "Méthyl Ionone Gamma",
+      "family": "Norisoprénoïde",
+      "cas_number": "79-68-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1500004",
+      "name": "Méthyl anthranilate",
+      "family": "floral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "690007",
+      "name": "Méthyl jasmonate",
+      "family": "Ester",
+      "cas_number": "1211-29-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Jasmin, nombreuses plantes (hormone végétale)"
+    },
+    {
+      "id": "1290006",
+      "name": "Méthyl mercaptan",
+      "family": "animal",
+      "cas_number": "74-93-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350028",
+      "name": "Méthyl syringol",
+      "family": "Phénol",
+      "cas_number": "6638-05-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "660003",
+      "name": "Méthyl-eugénol",
+      "family": "Phénylpropanoïde",
+      "cas_number": "93-15-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Basilic (Ocimum basilicum), Laurier (Laurus nobilis), Tagetes lucida (Yauhtli), Piment de la Jamaïque",
+      "botanicalSources": "Ocimum basilicum (basilic), Laurus nobilis (laurier), Tagetes lucida (Yauhtli mexicain), Pimenta dioica (piment de la Jamaïque)"
+    },
+    {
+      "id": "1350090",
+      "name": "Méthylchavicol (Estragole)",
+      "family": "Phénylpropanoïde",
+      "cas_number": "140-67-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350065",
+      "name": "N-Acétylcystéine",
+      "family": "Acide organique",
+      "cas_number": "616-91-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050023",
+      "name": "NDGA",
+      "family": "Phénylpropanoïde",
+      "cas_number": "500-38-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "900014",
+      "name": "NNK (4-(Methylnitrosamino)-1-(3-pyridyl)-1-butanone)",
+      "family": "Composé du tabac",
+      "cas_number": "64091-91-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "900013",
+      "name": "NNN (N'-Nitrosonornicotine)",
+      "family": "Composé du tabac",
+      "cas_number": "80508-23-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380027",
+      "name": "Nardol",
+      "family": "terreux",
+      "cas_number": "4756-19-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "780010",
+      "name": "Nardosinone",
+      "family": "Sesquiterpène",
+      "cas_number": "23720-80-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nardostachys jatamansi (rhizomes)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "780018",
+      "name": "Nardosinonediol",
+      "family": "terreux",
+      "cas_number": "20489-11-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nardostachys jatamansi",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350012",
+      "name": "Naringénine",
+      "family": "Flavonoïde",
+      "cas_number": "480-41-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480034",
+      "name": "Neem",
+      "family": "Phénylpropanoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720028",
+      "name": "Neophytadiene",
+      "family": "Composé du tabac",
+      "cas_number": "504-96-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90059",
+      "name": "Nerol",
+      "family": "Alcool",
+      "cas_number": "106-25-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "690004",
+      "name": "Nerolidol",
+      "family": "Sesquiterpène",
+      "cas_number": "7212-44-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Néroli, Jasmin, Gingembre, Cannabis"
+    },
+    {
+      "id": "1320184",
+      "name": "Neryl acetate",
+      "family": "floral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Rosa spp., Citrus aurantium"
+    },
+    {
+      "id": "1350057",
+      "name": "Niacine (Vitamine B3)",
+      "family": "Vitamine",
+      "cas_number": "59-67-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720033",
+      "name": "Nicotine",
+      "family": "Composé du tabac",
+      "cas_number": "54-11-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510018",
+      "name": "Nogal Colombien",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510008",
+      "name": "Nogal Colombien (Juglans neotropica)",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Andes colombiennes, forêts de montagne",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410012",
+      "name": "Nonanal",
+      "family": "agrume",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/21f72672883246d28534cec5f5952b66",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "690013",
+      "name": "Nootkatone",
+      "family": "Sesquiterpène",
+      "cas_number": "4674-50-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Vétiver, Pamplemousse, Cèdre d'Alaska"
+    },
+    {
+      "id": "330018",
+      "name": "Norlimbanol",
+      "family": "Sesquiterpène",
+      "cas_number": "70788-30-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthèse (Firmenich) - Alternative durable santal",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720034",
+      "name": "Nornicotine",
+      "family": "Composé du tabac",
+      "cas_number": "494-97-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050008",
+      "name": "Norpatchoulénol",
+      "family": "Sesquiterpène",
+      "cas_number": "41429-52-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "750006",
+      "name": "Nuciférine",
+      "family": "Non classé",
+      "cas_number": "475-83-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nymphaea caerulea (Lotus Bleu), Nelumbo nucifera",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050017",
+      "name": "Nuciférol",
+      "family": "Sesquiterpène",
+      "cas_number": "28400-11-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350108",
+      "name": "Néral",
+      "family": "Monoterpène",
+      "cas_number": "106-26-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570014",
+      "name": "Nérol",
+      "family": "floral",
+      "cas_number": "106-25-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180013",
+      "name": "Néroli Bouquetier Réserve (extrait)",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110026",
+      "name": "Nérolidol",
+      "family": "Monoterpène",
+      "cas_number": "7212-44-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540011",
+      "name": "OPOPONAX RESIN",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320031",
+      "name": "Ocimene",
+      "family": "herbace",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Ocimum basilicum, Cannabis sativa, Mentha spicata"
+    },
+    {
+      "id": "780014",
+      "name": "Octacosanol",
+      "family": "autre",
+      "cas_number": "557-61-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nardostachys jatamansi, canne à sucre, son de riz",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350005",
+      "name": "Oleuropéine",
+      "family": "Phénylpropanoïde",
+      "cas_number": "32619-42-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480015",
+      "name": "Oliban brûlé",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480005",
+      "name": "Oliban clair",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "840014",
+      "name": "Olibanol",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Boswellia spp.",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90041",
+      "name": "Olibanum",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180012",
+      "name": "Omani Black Frankincense",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300007",
+      "name": "Ombelliférone",
+      "family": "balsamique",
+      "cas_number": "93-35-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90046",
+      "name": "Opoponax",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080015",
+      "name": "Orris ‘Florentina’ (filière fragile)",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "300001",
+      "name": "Oud (Agarwood)",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Aquilaria (Asie du Sud-Est, Cambodge, Vietnam, Inde)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180008",
+      "name": "Oud Tea",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90075",
+      "name": "Oud accord",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "690003",
+      "name": "Oxyde de rose",
+      "family": "Hétérocycle",
+      "cas_number": "16409-43-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Rose de Damas, Rose de Mai, Géranium rosat"
+    },
+    {
+      "id": "120017",
+      "name": "Oxydes de fer volatils",
+      "family": "Composé minéral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Terre rouge Sahel",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570069",
+      "name": "Ozonal",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90017",
+      "name": "Ozone",
+      "family": "Aldéhyde",
+      "cas_number": "10028-15-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480033",
+      "name": "Ozone clair",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480004",
+      "name": "Ozone minéral clair",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540005",
+      "name": "PATCHOULI ALCOHOL",
+      "family": "Sesquiterpène",
+      "cas_number": "5986-55-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180001",
+      "name": "Palo Santo",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "390009",
+      "name": "Palo Santo Colombien",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cauca, Colombie",
+      "botanicalSources": "Bois de cœur de Bulnesia sarmientoi"
+    },
+    {
+      "id": "90053",
+      "name": "Palo Santo lactone",
+      "family": "Lactone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080008",
+      "name": "Palo santo (Gran Chaco) — Bulnesia sarmientoi (CITES)",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "330020",
+      "name": "Paradisone",
+      "family": "Lactone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthèse (Firmenich, 2007) - Jasmin du futur",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350017",
+      "name": "Parthénolide",
+      "family": "Sesquiterpène",
+      "cas_number": "20554-84-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90054",
+      "name": "Patchoulol",
+      "family": "Sesquiterpène",
+      "cas_number": "5986-55-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350037",
+      "name": "Pectine",
+      "family": "Polysaccharide",
+      "cas_number": "9000-69-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320187",
+      "name": "Perillaldehyde",
+      "family": "aromatique",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Perilla frutescens, Cuminum cyminum"
+    },
+    {
+      "id": "1380026",
+      "name": "Perillaldéhyde",
+      "family": "herbace",
+      "cas_number": "2111-75-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1650010",
+      "name": "Perillyl alcohol",
+      "family": "Monoterpénol",
+      "cas_number": "536-59-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "990016",
+      "name": "Phenylethyl alcohol",
+      "family": "Phénylpropanoïde",
+      "cas_number": "60-12-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350104",
+      "name": "Phylloquinone (Vitamine K1)",
+      "family": "Vitamine",
+      "cas_number": "84-80-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "690008",
+      "name": "Phytol",
+      "family": "vert",
+      "cas_number": "150-86-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Jasmin, Thé vert, Chlorophylle (toutes plantes)"
+    },
+    {
+      "id": "1350027",
+      "name": "Phénol",
+      "family": "Phénol",
+      "cas_number": "108-95-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570011",
+      "name": "Phénol Pyrogéné Doux",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "120007",
+      "name": "Phénol boisé",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Pyrolyse",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90023",
+      "name": "Phénols oxydés",
+      "family": "Phénol",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110028",
+      "name": "Phénylacétaldéhyde",
+      "family": "Monoterpène",
+      "cas_number": "122-78-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570017",
+      "name": "Pinocamphone",
+      "family": "Monoterpène",
+      "cas_number": "547-60-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320198",
+      "name": "Pinocarveol",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Pinus spp., Eucalyptus spp."
+    },
+    {
+      "id": "1320196",
+      "name": "Pinocarvone",
+      "family": "aromatique",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Pinus spp., Eucalyptus spp."
+    },
+    {
+      "id": "510027",
+      "name": "Piper Aduncum",
+      "family": "Phénylpropanoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "390004",
+      "name": "Piper Aduncum (Poivre Sauvage)",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cali, Vallée du Cauca, Colombie",
+      "botanicalSources": "Feuilles fraîches et séchées de Piper aduncum"
+    },
+    {
+      "id": "570074",
+      "name": "Pipérine",
+      "family": "Alcaloïde",
+      "cas_number": "94-62-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1290013",
+      "name": "Pipéritone",
+      "family": "aromatique",
+      "cas_number": "89-81-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180011",
+      "name": "Plumeria Light",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350009",
+      "name": "Podophyllotoxine",
+      "family": "Phénylpropanoïde",
+      "cas_number": "518-28-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380037",
+      "name": "Polysantol",
+      "family": "boise",
+      "cas_number": "65113-99-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "420005",
+      "name": "Ponderosa Pine",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Colorado, Montana, Wyoming",
+      "botanicalSources": "Pinus ponderosa - Montagnes Rocheuses"
+    },
+    {
+      "id": "480011",
+      "name": "Poussière blanche du Sahel",
+      "family": "terreux",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350021",
+      "name": "Procyanidine B2",
+      "family": "autre",
+      "cas_number": "29106-49-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410091",
+      "name": "Propionic acid",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350019",
+      "name": "Protocatéchualdéhyde",
+      "family": "Phénol",
+      "cas_number": "139-85-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300005",
+      "name": "Psoralène",
+      "family": "aromatique",
+      "cas_number": "66-97-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350098",
+      "name": "Ptérostilbène",
+      "family": "Phénol",
+      "cas_number": "537-42-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "990005",
+      "name": "Pulegone",
+      "family": "Monoterpène",
+      "cas_number": "89-82-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720011",
+      "name": "Pulégone",
+      "family": "Cannabinoïde",
+      "cas_number": "89-82-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350087",
+      "name": "Putrescine",
+      "family": "Alcaloïde",
+      "cas_number": "110-60-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410081",
+      "name": "Pyrazine",
+      "family": "aromatique",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90024",
+      "name": "Pyrazines",
+      "family": "Alcaloïde",
+      "cas_number": "290-37-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410082",
+      "name": "Pyrazines brunes",
+      "family": "fume",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1620005",
+      "name": "Pyridine",
+      "family": "fume",
+      "cas_number": "110-86-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320039",
+      "name": "Quercetin",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Allium cepa, Camellia sinensis, Quercus robur"
+    },
+    {
+      "id": "1300010",
+      "name": "Quercétine",
+      "family": "autre",
+      "cas_number": "117-39-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300018",
+      "name": "Quinine",
+      "family": "autre",
+      "cas_number": "130-95-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "120019",
+      "name": "Quinoléine",
+      "family": "Hétérocycle",
+      "cas_number": "86-80-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthèse",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300014",
+      "name": "Resvératrol",
+      "family": "autre",
+      "cas_number": "501-36-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "420006",
+      "name": "Rocky Mountain Juniper",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Colorado, Utah, Nouveau-Mexique",
+      "botanicalSources": "Juniperus scopulorum - Montagnes Rocheuses"
+    },
+    {
+      "id": "1080014",
+      "name": "Rose de Kazanlık (Trigintipetala) — cultivar patrimonial",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "990015",
+      "name": "Rose oxide",
+      "family": "Monoterpène",
+      "cas_number": "16409-43-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300003",
+      "name": "Rosmanol",
+      "family": "herbace",
+      "cas_number": "76006-35-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320023",
+      "name": "Rosmarinic acid",
+      "family": "herbace",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Rosmarinus officinalis, Salvia officinalis, Melissa officinalis"
+    },
+    {
+      "id": "1380022",
+      "name": "Résine d'Élémi",
+      "family": "balsamique",
+      "cas_number": "8023-89-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380023",
+      "name": "Résine de Gobernadora",
+      "family": "balsamique",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380020",
+      "name": "Résine de Pin",
+      "family": "boise",
+      "cas_number": "8050-09-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380021",
+      "name": "Résine de Styrax",
+      "family": "balsamique",
+      "cas_number": "8046-19-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480039",
+      "name": "Résine douce",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540012",
+      "name": "STYRAX RESIN",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570073",
+      "name": "Sabinène",
+      "family": "Monoterpène",
+      "cas_number": "3387-41-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "330010",
+      "name": "Safranal",
+      "family": "Monoterpène",
+      "cas_number": "116-26-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Crocus sativus (Iran, Cachemire, Espagne)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1170005",
+      "name": "Safrole",
+      "family": "Phénylpropanoïde",
+      "cas_number": "94-59-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350094",
+      "name": "Salicine",
+      "family": "Flavonoïde",
+      "cas_number": "138-52-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90036",
+      "name": "Sandalore pyrolysé",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90012",
+      "name": "Sandstone accord",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "330004",
+      "name": "Santal Mysore (α-Santalol)",
+      "family": "Sesquiterpène",
+      "cas_number": "115-71-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Santalum album (Mysore, Inde) - CITES protégé",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540006",
+      "name": "Santal blanc HE (extrait)",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080007",
+      "name": "Santal — Santalum album",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90076",
+      "name": "Santalol (α+β)",
+      "family": "Sesquiterpène",
+      "cas_number": "73890-74-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050010",
+      "name": "Santalène",
+      "family": "Sesquiterpène",
+      "cas_number": "512-61-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350008",
+      "name": "Schisandrine",
+      "family": "Phénylpropanoïde",
+      "cas_number": "7432-28-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570005",
+      "name": "Schiste Olfactif",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "960004",
+      "name": "Sclareol",
+      "family": "Diterpène",
+      "cas_number": "515-03-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Sauge sclarée",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90003",
+      "name": "Sclerene",
+      "family": "Composé minéral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320182",
+      "name": "Scopoletin",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Scopolia carniolica, Convolvulus scammonia"
+    },
+    {
+      "id": "1300008",
+      "name": "Scopolétine",
+      "family": "aromatique",
+      "cas_number": "92-61-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320038",
+      "name": "Selinene",
+      "family": "herbace",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Apium graveolens, Carum carvi"
+    },
+    {
+      "id": "570003",
+      "name": "Silicate Note",
+      "family": "Non classé",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90014",
+      "name": "Silicate aldehyde",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "210002",
+      "name": "Skatole",
+      "family": "Alcaloïde indolique",
+      "cas_number": "83-34-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthétique ou naturel (matières fécales, fleurs de jasmin)",
+      "botanicalSources": "Jasminum grandiflorum (fleur absolue), Jasminum sambac, Narcissus poeticus, Gardenia jasminoides, Fèces mammifères (source endogène), Tabac fermenté (Nicotiana tabacum)"
+    },
+    {
+      "id": "720027",
+      "name": "Solanone",
+      "family": "Composé du tabac",
+      "cas_number": "1937-54-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350034",
+      "name": "Solanésol",
+      "family": "Diterpène",
+      "cas_number": "13190-97-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410029",
+      "name": "Sotolon",
+      "family": "gourmand",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/da2fd156a2804a9aac1c0f82f2e4b79d",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320006",
+      "name": "Spathulenol",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Eucalyptus globulus, Melaleuca alternifolia, Rosmarinus officinalis"
+    },
+    {
+      "id": "1350086",
+      "name": "Spermidine",
+      "family": "Alcaloïde",
+      "cas_number": "124-20-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180015",
+      "name": "Spikenard",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1080006",
+      "name": "Spikenard — Nardostachys jatamansi",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350064",
+      "name": "Squalène",
+      "family": "Triterpène",
+      "cas_number": "111-02-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380016",
+      "name": "Steiractinia Aspera",
+      "family": "terreux",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "390005",
+      "name": "Steiractinia Aspera (Endémique Rare)",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Armenia, Quindío, Colombie",
+      "botanicalSources": "Feuilles fraîches et séchées de Steiractinia aspera"
+    },
+    {
+      "id": "90074",
+      "name": "Styrax",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90009",
+      "name": "Sulfur base",
+      "family": "Composé minéral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380005",
+      "name": "Syringaldéhyde",
+      "family": "fume",
+      "cas_number": "134-96-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "750012",
+      "name": "Syringol",
+      "family": "Phénol",
+      "cas_number": "91-10-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Fumée de bois dur, tabac fumé",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350004",
+      "name": "Sécologanine",
+      "family": "Phénylpropanoïde",
+      "cas_number": "19351-63-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350049",
+      "name": "Sérotonine",
+      "family": "Alcaloïde",
+      "cas_number": "50-67-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350007",
+      "name": "Sésamine",
+      "family": "Phénylpropanoïde",
+      "cas_number": "607-80-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050005",
+      "name": "Séychellène",
+      "family": "Sesquiterpène",
+      "cas_number": "20085-93-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "900002",
+      "name": "THCA",
+      "family": "Cannabinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "540013",
+      "name": "TONKA BEAN ABSOLUTE",
+      "family": "Lactone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1620002",
+      "name": "TTMP (2,3,5-Triméthyl-2-cyclopentènone)",
+      "family": "gourmand",
+      "cas_number": "3168-90-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380014",
+      "name": "Tagetes lucida",
+      "family": "aromatique",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380017",
+      "name": "Tagetone",
+      "family": "herbace",
+      "cas_number": "18794-84-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180010",
+      "name": "Tangerine Dream (variété)",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90055",
+      "name": "Tangerinol",
+      "family": "Alcool",
+      "cas_number": "91482-37-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350070",
+      "name": "Tanin (acide tannique)",
+      "family": "Phénol",
+      "cas_number": "1401-55-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300017",
+      "name": "Taxol (Paclitaxel)",
+      "family": "autre",
+      "cas_number": "33069-62-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "960002",
+      "name": "Terpinen-4-ol",
+      "family": "Monoterpène",
+      "cas_number": "562-74-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Tea tree, Marjolaine, Noix de muscade",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720001",
+      "name": "Terpinolène",
+      "family": "Cannabinoïde",
+      "cas_number": "586-62-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480043",
+      "name": "Terre claire",
+      "family": "terreux",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480027",
+      "name": "Terre ferrique",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480016",
+      "name": "Terre noire",
+      "family": "terreux",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810063",
+      "name": "Test Molecule 1",
+      "family": "vert",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810064",
+      "name": "Test Molecule 2",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410033",
+      "name": "Tetramethylpyrazine",
+      "family": "gourmand",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/d5f839fd9f3a4e3aaff28e3560169d26",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410032",
+      "name": "Theobromine",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/8b60d483022b4e4e83c4ad9f6cec5a75",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320089",
+      "name": "Theobromine methyl",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Theobroma cacao"
+    },
+    {
+      "id": "570065",
+      "name": "Thujopsène",
+      "family": "Sesquiterpène",
+      "cas_number": "470-40-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1290012",
+      "name": "Thuyone",
+      "family": "aromatique",
+      "cas_number": "546-80-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570042",
+      "name": "Thymol",
+      "family": "epice",
+      "cas_number": "89-83-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Thym à thymol (30-50%), Origan (trace-5%), Ajowan (35-50%)"
+    },
+    {
+      "id": "1350114",
+      "name": "Théine",
+      "family": "Alcaloïde",
+      "cas_number": "58-08-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050024",
+      "name": "Théobromine",
+      "family": "Alcaloïde",
+      "cas_number": "83-67-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300020",
+      "name": "Théophylline",
+      "family": "autre",
+      "cas_number": "58-55-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350103",
+      "name": "Tocophérol (Vitamine E)",
+      "family": "Vitamine",
+      "cas_number": "59-02-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90072",
+      "name": "Tonka absolute",
+      "family": "Lactone",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300029",
+      "name": "Totarol",
+      "family": "boise",
+      "cas_number": "511-15-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410030",
+      "name": "Trimethylamine",
+      "family": "animal",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/6321448a6b12415cb58986b1d4c93b67",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570002",
+      "name": "Triplal",
+      "family": "Aldéhyde",
+      "cas_number": "68039-49-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "330009",
+      "name": "Tubéreuse Absolue (extrait)",
+      "family": "Ester",
+      "cas_number": "93-58-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Polianthes tuberosa (Inde, Égypte)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510029",
+      "name": "Turnera Diffusa",
+      "family": "floral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "390002",
+      "name": "Turnera Diffusa (Damiana)",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cali, Vallée du Cauca, Colombie",
+      "botanicalSources": "Feuilles fraîches et séchées de Turnera diffusa"
+    },
+    {
+      "id": "1110010",
+      "name": "Tétraméthylpyrazine",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510016",
+      "name": "Uchuva",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510006",
+      "name": "Uchuva (Physalis peruviana)",
+      "family": "Aldéhyde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Hauts plateaux colombiens, Boyacá",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320180",
+      "name": "Umbelliferone",
+      "family": "autre",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Umbelliferae (nombreuses espèces)"
+    },
+    {
+      "id": "1410072",
+      "name": "Valencene",
+      "family": "agrume",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720012",
+      "name": "Valencène",
+      "family": "Cannabinoïde",
+      "cas_number": "4630-07-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510024",
+      "name": "Vanilla Pompona",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410049",
+      "name": "Vanillin",
+      "family": "gourmand",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/87c1292d04eb48dc89674eacc56a2fe6",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90069",
+      "name": "Vanilline",
+      "family": "Aldéhyde",
+      "cas_number": "121-33-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "990008",
+      "name": "Verbenone",
+      "family": "Monoterpène",
+      "cas_number": "80-57-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480019",
+      "name": "Vetiver Assam",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "480030",
+      "name": "Vetiver fumé",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90050",
+      "name": "Vetiverol",
+      "family": "Sesquiterpène",
+      "cas_number": "68129-81-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90051",
+      "name": "Vetiveryl acetate",
+      "family": "Ester",
+      "cas_number": "117-98-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "990020",
+      "name": "Vetivone",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300021",
+      "name": "Vincristine",
+      "family": "autre",
+      "cas_number": "57-22-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1320007",
+      "name": "Viridiflorol",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Melaleuca viridiflora, Leptospermum scoparium"
+    },
+    {
+      "id": "1050014",
+      "name": "Vétisélénène",
+      "family": "Sesquiterpène",
+      "cas_number": "28624-23-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "120001",
+      "name": "Vétivénol",
+      "family": "Sesquiterpène",
+      "cas_number": "89-88-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Vétiver",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570062",
+      "name": "Vétivérol",
+      "family": "Sesquiterpène",
+      "cas_number": "68129-81-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "420002",
+      "name": "Western Red Cedar",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Colombie-Britannique, Oregon",
+      "botanicalSources": "Thuja plicata - Côte Pacifique du Canada et USA"
+    },
+    {
+      "id": "1440001",
+      "name": "Whiskey Lactone",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110023",
+      "name": "Whiskey lactone",
+      "family": "Sesquiterpène",
+      "cas_number": "39212-23-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "180004",
+      "name": "Wild Juniper",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300004",
+      "name": "Xanthotoxine",
+      "family": "aromatique",
+      "cas_number": "298-81-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510012",
+      "name": "Yagé",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "510002",
+      "name": "Yagé (Banisteriopsis caapi)",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Amazonie colombienne, Putumayo",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "330015",
+      "name": "Yuzu (Limonene + Linalool)",
+      "family": "Monoterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Citrus junos (Japon, Corée)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410065",
+      "name": "Yuzu lactone",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/013157811f60475ea15ca06759d5b6b7",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110001",
+      "name": "Zingibérène",
+      "family": "Sesquiterpène",
+      "cas_number": "495-60-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Zingiber officinale (Gingembre)"
+    },
+    {
+      "id": "690012",
+      "name": "Zizanol",
+      "family": "Sesquiterpène",
+      "cas_number": "41060-17-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Vétiver (Vetiveria zizanioides)"
+    },
+    {
+      "id": "1350068",
+      "name": "Zéaxanthine",
+      "family": "Norisoprénoïde",
+      "cas_number": "144-68-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810050",
+      "name": "acide cinnamique",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810052",
+      "name": "aldéhydes c10–c12",
+      "family": "Non classé",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810014",
+      "name": "alpha-humulene",
+      "family": "Sesquiterpène",
+      "cas_number": "6753-98-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810047",
+      "name": "alpha-phellandrene",
+      "family": "Monoterpène",
+      "cas_number": "99-83-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810001",
+      "name": "alpha-pinene",
+      "family": "Monoterpène",
+      "cas_number": "80-56-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810006",
+      "name": "alpha-terpineol",
+      "family": "Monoterpène",
+      "cas_number": "98-55-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810046",
+      "name": "alpha-terpinyl acetate",
+      "family": "Ester",
+      "cas_number": "80-26-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810044",
+      "name": "ar-turmerone",
+      "family": "Sesquiterpène",
+      "cas_number": "532-65-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810026",
+      "name": "benzyl benzoate",
+      "family": "Ester",
+      "cas_number": "120-51-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810027",
+      "name": "benzyl cinnamate",
+      "family": "Ester",
+      "cas_number": "103-41-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810013",
+      "name": "beta-caryophyllene",
+      "family": "Sesquiterpène",
+      "cas_number": "87-44-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810037",
+      "name": "beta-damascenone",
+      "family": "Norisoprénoïde",
+      "cas_number": "23726-93-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810002",
+      "name": "beta-pinene",
+      "family": "Monoterpène",
+      "cas_number": "127-91-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810021",
+      "name": "beta-sesquiphellandrene",
+      "family": "Sesquiterpène",
+      "cas_number": "20307-83-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810053",
+      "name": "chavicol",
+      "family": "Non classé",
+      "cas_number": "501-92-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810025",
+      "name": "cinnamaldehyde",
+      "family": "Aldéhyde",
+      "cas_number": "104-55-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410070",
+      "name": "cis-3-Hexenal",
+      "family": "vert",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/fb21d4c7db0d4b6690ddc077f230dfc6",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410028",
+      "name": "cis-3-Hexenyl acetate",
+      "family": "vert",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/d5131f7582394224ab969658a0a54443",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810030",
+      "name": "cis-3-hexenol",
+      "family": "Monoterpène",
+      "cas_number": "928-96-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "690006",
+      "name": "cis-Jasmone",
+      "family": "Cétone",
+      "cas_number": "488-10-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Jasmin, Néroli, Bergamote"
+    },
+    {
+      "id": "720015",
+      "name": "cis-Nérolidol",
+      "family": "Cannabinoïde",
+      "cas_number": "3790-78-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810045",
+      "name": "curlone",
+      "family": "Sesquiterpène",
+      "cas_number": "82508-14-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810036",
+      "name": "dihydrotagetone",
+      "family": "Cétone",
+      "cas_number": "1879-00-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810055",
+      "name": "dillapiole",
+      "family": "Non classé",
+      "cas_number": "484-31-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810015",
+      "name": "elemol",
+      "family": "Sesquiterpène",
+      "cas_number": "639-99-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410051",
+      "name": "epi-β-Santalol",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/affc41d1c7034fa4a8c0c3726d5d8e33",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810022",
+      "name": "eugenol",
+      "family": "Phénol",
+      "cas_number": "97-53-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810008",
+      "name": "gamma-terpinene",
+      "family": "Monoterpène",
+      "cas_number": "99-85-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810032",
+      "name": "geranial",
+      "family": "Monoterpène",
+      "cas_number": "5392-40-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810043",
+      "name": "geraniol",
+      "family": "Monoterpène",
+      "cas_number": "106-24-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810031",
+      "name": "hexenal",
+      "family": "Aldéhyde",
+      "cas_number": "1335-39-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810003",
+      "name": "limonene",
+      "family": "Monoterpène",
+      "cas_number": "138-86-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810038",
+      "name": "megastigmatrienone",
+      "family": "Norisoprénoïde",
+      "cas_number": "5896-02-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810049",
+      "name": "monoterpenes (resin mix)",
+      "family": "Phénylpropanoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810004",
+      "name": "myrcene",
+      "family": "Monoterpène",
+      "cas_number": "123-35-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810033",
+      "name": "neral",
+      "family": "Monoterpène",
+      "cas_number": "106-26-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810011",
+      "name": "ocimene",
+      "family": "Monoterpène",
+      "cas_number": "29714-87-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410023",
+      "name": "p-Cresol",
+      "family": "animal",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/63860818c5b441f1bd3e735585eeec52",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050022",
+      "name": "p-Crésyl méthyl éther",
+      "family": "Hétérocycle",
+      "cas_number": "104-93-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570072",
+      "name": "p-Cymène",
+      "family": "Monoterpène",
+      "cas_number": "99-87-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810009",
+      "name": "p-cymene",
+      "family": "Monoterpène",
+      "cas_number": "99-87-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810057",
+      "name": "profil résineux supposé",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810058",
+      "name": "résines",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810059",
+      "name": "résines aromatiques",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810010",
+      "name": "sabinene",
+      "family": "Monoterpène",
+      "cas_number": "3387-41-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810048",
+      "name": "sesquiterpenes (resin mix)",
+      "family": "Non classé",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810035",
+      "name": "tagetone",
+      "family": "Cétone",
+      "cas_number": "23985-25-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810060",
+      "name": "terpenes",
+      "family": "Phénylpropanoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810012",
+      "name": "terpinolene",
+      "family": "Monoterpène",
+      "cas_number": "586-62-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810061",
+      "name": "traces aromatiques",
+      "family": "Résinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810062",
+      "name": "traces terpéniques",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410067",
+      "name": "trans-2-Hexenal",
+      "family": "vert",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/2f1591c772f743b3ae8365e46cb8b2c6",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410021",
+      "name": "trans-2-Hexenol",
+      "family": "vert",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/3f268099dd68408e8a786a72dd6480c3",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410026",
+      "name": "trans-2-Nonenal",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/afaa45548ba94667b423ea1ea4226164",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720014",
+      "name": "trans-Nérolidol",
+      "family": "Cannabinoïde",
+      "cas_number": "40716-66-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810016",
+      "name": "valerianol",
+      "family": "Sesquiterpène",
+      "cas_number": "20489-45-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "810020",
+      "name": "zingiberene",
+      "family": "Sesquiterpène",
+      "cas_number": "495-60-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350020",
+      "name": "Épigallocatéchine gallate",
+      "family": "Flavonoïde",
+      "cas_number": "989-51-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350071",
+      "name": "Épigallocatéchine gallate (EGCG)",
+      "family": "Flavonoïde",
+      "cas_number": "989-51-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "60014",
+      "name": "Éthyl Hexanoate",
+      "family": "Ester",
+      "cas_number": "123-66-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "210009",
+      "name": "Éthyl butyrate",
+      "family": "Ester",
+      "cas_number": "105-54-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthétique ou naturel (ananas, pomme)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1500005",
+      "name": "Éthyl décanoate",
+      "family": "fruite",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1500007",
+      "name": "Éthyl phénylacétate",
+      "family": "floral",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "900001",
+      "name": "Δ9-THC",
+      "family": "Cannabinoïde",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050009",
+      "name": "α-Bergamotène",
+      "family": "Sesquiterpène",
+      "cas_number": "17699-05-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720016",
+      "name": "α-Bisabolol",
+      "family": "Cannabinoïde",
+      "cas_number": "23089-26-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050003",
+      "name": "α-Bulnésène",
+      "family": "Sesquiterpène",
+      "cas_number": "3691-11-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410048",
+      "name": "α-Cadinol",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/222bb73124a54953bd8ede1e6d123eff",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1650005",
+      "name": "α-Copaène",
+      "family": "Sesquiterpène",
+      "cas_number": "3856-25-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570063",
+      "name": "α-Cédrène",
+      "family": "Sesquiterpène",
+      "cas_number": "469-61-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720025",
+      "name": "α-Damascone",
+      "family": "Composé du tabac",
+      "cas_number": "43052-87-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050004",
+      "name": "α-Guaiène",
+      "family": "Sesquiterpène",
+      "cas_number": "3691-12-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570066",
+      "name": "α-Humulène",
+      "family": "Sesquiterpène",
+      "cas_number": "6753-98-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1380032",
+      "name": "α-Méthyl Ionone",
+      "family": "floral",
+      "cas_number": "127-51-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050006",
+      "name": "α-Patchoulène",
+      "family": "Sesquiterpène",
+      "cas_number": "560-32-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720004",
+      "name": "α-Phellandrène",
+      "family": "Cannabinoïde",
+      "cas_number": "99-83-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "30008",
+      "name": "α-Pinène",
+      "family": "Monoterpène",
+      "cas_number": "80-56-8",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Pin, sapin, romarin, cannabis",
+      "botanicalSources": "Protium heptaphyllum, Pin, Romarin, Eucalyptus, Sauge"
+    },
+    {
+      "id": "720006",
+      "name": "α-Terpinène",
+      "family": "Cannabinoïde",
+      "cas_number": "99-86-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570052",
+      "name": "α-Terpinéol",
+      "family": "Monoterpène",
+      "cas_number": "98-55-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410055",
+      "name": "α-Thujene",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/d25bd189b3274dc3b149ce5e587e6719",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050012",
+      "name": "α-Thujène",
+      "family": "Monoterpène",
+      "cas_number": "2867-05-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110004",
+      "name": "α-Turmérone",
+      "family": "Sesquiterpène",
+      "cas_number": "532-65-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Curcuma longa"
+    },
+    {
+      "id": "1050002",
+      "name": "α-Vétivone",
+      "family": "Sesquiterpène",
+      "cas_number": "15764-04-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "690009",
+      "name": "α-Vétivène",
+      "family": "Sesquiterpène",
+      "cas_number": "5765-27-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Vétiver (Vetiveria zizanioides)"
+    },
+    {
+      "id": "750007",
+      "name": "β-Asarone",
+      "family": "Sesquiterpène",
+      "cas_number": "5273-86-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Acorus calamus (Calamus/Acore)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "900009",
+      "name": "β-Caryophyllene",
+      "family": "Sesquiterpène",
+      "cas_number": "87-44-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène",
+      "family": "Sesquiterpène",
+      "cas_number": "87-44-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis, poivre noir, clou de girofle",
+      "botanicalSources": "Protium heptaphyllum, Poivre noir, Clou de girofle, Houblon, Cannabis"
+    },
+    {
+      "id": "1290019",
+      "name": "β-Cyclocitral",
+      "family": "fruite",
+      "cas_number": "432-25-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "PMC:8306096",
+      "botanicalSources": "tabac,Virginia,flue-cured,caroténoïdes"
+    },
+    {
+      "id": "570064",
+      "name": "β-Cédrène",
+      "family": "Sesquiterpène",
+      "cas_number": "546-28-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720023",
+      "name": "β-Damascenone",
+      "family": "Composé du tabac",
+      "cas_number": "23726-93-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720024",
+      "name": "β-Damascone",
+      "family": "Composé du tabac",
+      "cas_number": "23726-92-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "570044",
+      "name": "β-Damascénone",
+      "family": "Cétone",
+      "cas_number": "23726-93-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1350035",
+      "name": "β-Glucane",
+      "family": "Polysaccharide",
+      "cas_number": "9041-22-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720021",
+      "name": "β-Ionone",
+      "family": "Composé du tabac",
+      "cas_number": "14901-07-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nicotiana tabacum",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "900007",
+      "name": "β-Myrcene",
+      "family": "Monoterpène",
+      "cas_number": "123-35-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720002",
+      "name": "β-Ocimène",
+      "family": "Cannabinoïde",
+      "cas_number": "3779-61-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050007",
+      "name": "β-Patchoulène",
+      "family": "Sesquiterpène",
+      "cas_number": "514-51-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050011",
+      "name": "β-Phellandrène",
+      "family": "Monoterpène",
+      "cas_number": "555-10-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "930007",
+      "name": "β-Pinène",
+      "family": "boise",
+      "cas_number": "127-91-3",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Protium heptaphyllum, Pin, Persil, Romarin, Basilic"
+    },
+    {
+      "id": "1050001",
+      "name": "β-Santalol",
+      "family": "Sesquiterpène",
+      "cas_number": "77-42-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1650012",
+      "name": "β-Sesquiphellandrène",
+      "family": "Sesquiterpène",
+      "cas_number": "20307-83-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1300023",
+      "name": "β-Sitostérol",
+      "family": "autre",
+      "cas_number": "83-46-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "840007",
+      "name": "β-Sélinène",
+      "family": "Sesquiterpène",
+      "cas_number": "17066-67-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Commiphora myrrha, Céleri",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1050015",
+      "name": "β-Vétispirène",
+      "family": "Sesquiterpène",
+      "cas_number": "63837-33-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "690010",
+      "name": "β-Vétivène",
+      "family": "Sesquiterpène",
+      "cas_number": "18444-79-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "Vétiver (Vetiveria zizanioides)"
+    },
+    {
+      "id": "120004",
+      "name": "β-guaïène",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Bois de gaïac",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "780013",
+      "name": "β-sitostérol",
+      "family": "autre",
+      "cas_number": "83-46-5",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Nardostachys jatamansi, huiles végétales, graines",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "840005",
+      "name": "β-Élémène",
+      "family": "Sesquiterpène",
+      "cas_number": "515-13-9",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Commiphora myrrha, Curcuma, Gingembre",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410068",
+      "name": "γ-Curcumene",
+      "family": "epice",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/569d50ddec7c4fc287251111680499f2",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1020005",
+      "name": "γ-Curcumène",
+      "family": "Sesquiterpène",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Helichrysum italicum, Curcuma",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110020",
+      "name": "γ-Decalactone",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110019",
+      "name": "γ-Nonalactone",
+      "family": "Ester",
+      "cas_number": "104-61-0",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410069",
+      "name": "γ-Terpinene",
+      "family": "agrume",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/7f3b3e9cb3874c2482cc214f8177a16f",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "720007",
+      "name": "γ-Terpinène",
+      "family": "Cannabinoïde",
+      "cas_number": "99-85-4",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Cannabis sativa",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110022",
+      "name": "γ-Undecalactone",
+      "family": "Ester",
+      "cas_number": "104-67-6",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90063",
+      "name": "γ-dodecalactone",
+      "family": "Lactone",
+      "cas_number": "2305-05-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1650004",
+      "name": "δ-2-Carène",
+      "family": "Non classé",
+      "cas_number": "3725-43-7",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1410057",
+      "name": "δ-3-Carene",
+      "family": "boise",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "https://www.notion.so/088e8274de914b4189a910db5e122bc9",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1650007",
+      "name": "δ-Cadinène",
+      "family": "Sesquiterpène",
+      "cas_number": "483-76-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "1110021",
+      "name": "δ-Decalactone",
+      "family": "Ester",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "210008",
+      "name": "δ-Décalactone",
+      "family": "Lactone",
+      "cas_number": "705-86-2",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "Synthétique ou naturel (pêche, abricot)",
+      "botanicalSources": "NULL"
+    },
+    {
+      "id": "90064",
+      "name": "δ-dodecalactone",
+      "family": "Lactone",
+      "cas_number": "713-95-1",
+      "pubchem_cid": "NULL",
+      "sourceOrigin": "NULL",
+      "botanicalSources": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\tcas_number\tpubchem_cid\tsourceOrigin\tbotanicalSources\n1410062\t(E,E)-α-Farnesene\tfruite\tNULL\tNULL\thttps://www.notion.so/f8066d27a0704bc6903c4c0cd651944a\tNULL\n1410047\t(Z)-Nuciferol\tboise\tNULL\tNULL\thttps://www.notion.so/1c797e6310a8418ca4d9d6b1ec7dec40\tNULL\n1410052\t(Z)-α-Santalol\tboise\tNULL\tNULL\thttps://www.notion.so/b25d2db5494e4f38ada39515043a2c89\tNULL\n1410046\t(Z)-β-Santalol\tboise\tNULL\tNULL\thttps://www.notion.so/033559b03aa449e9a2c3bdb6802e54a5\tNULL\n300002\tAbsolue d'Iris (Orris Butter)\tCétone\tNULL\tNULL\tIris pallida (Italie, Maroc) - 3-6 ans de séchage\tNULL\n480024\tAcacia brûlé\tPhénol\tNULL\tNULL\tNULL\tNULL\n1680001\tAcide Acétique\tNon classé\t64-19-7\tNULL\tFermentation et combustion du tabac\tNULL\n1590002\tAcide Férulique\tbalsamique\t1135-24-6\tNULL\tNULL\tNULL\n1590001\tAcide Hexanoïque\tfruite\t142-62-1\tNULL\tNULL\tNULL\n1410089\tAcide fulvique (fulvic acid)\tterreux\tNULL\tNULL\tNULL\tNULL\n1350040\tAcide hyaluronique\tPolysaccharide\t9004-61-9\tNULL\tNULL\tNULL\n1410094\tAcides humiques (humic acids)\tterreux\tNULL\tNULL\tNULL\tNULL\n1650009\tAcétate de thymyle\therbace\t6379-73-3\tNULL\tNULL\tNULL\n1080002\tAgarwood / Oud — Aquilaria malaccensis (CITES)\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1410008\tAldambre\tboise\tNULL\tNULL\thttps://www.notion.so/7c3d325966d24d28b7b9a75a447f1d51\tNULL\n1410010\tAldehyde C-11 MOA\tfloral\tNULL\tNULL\thttps://www.notion.so/c5b512fac7a74bb7b503612d26935b4d\tNULL\n480032\tAldéhyde feuille\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n120011\tAldéhyde métallique\tAldéhyde\tNULL\tNULL\tSynthèse\tNULL\n480002\tAldéhydes chauds\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n480022\tAldéhydes métalliques\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n480013\tAldéhydes sombres\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n1350042\tAlginat de sodium\tPolysaccharide\t9005-38-3\tNULL\tNULL\tNULL\n90008\tAluminium aldehyde\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n1080020\tAmbergris (patrimoine) — Physeter macrocephalus (échouages)\tComposé animal\tNULL\tNULL\tNULL\tNULL\n1380010\tAmbre Gris\tmusque\t8023-85-6\tNULL\tNULL\tNULL\n300003\tAmbre Gris (Ambergris)\tTriterpène\tNULL\tNULL\tCachalot (Physeter macrocephalus) - trouvé en mer\tNULL\n1170008\tAmbre Gris Naturel\tComposé animal\t8038-65-1\tNULL\tNULL\tNULL\n1350036\tArabinogalactane\tPolysaccharide\t9036-66-2\tNULL\tNULL\tNULL\n780016\tAristolen-9β-ol\tSesquiterpène\tNULL\tNULL\tNardostachys jatamansi\tNULL\n1320169\tAsarone alpha\tepice\tNULL\tNULL\tNULL\tAcorus calamus\n1320136\tBeta-glucane\tautre\tNULL\tNULL\tNULL\tAvena sativa, Saccharomyces cerevisiae, Ganoderma lucidum\n1320112\tBetulinine\tautre\tNULL\tNULL\tNULL\tBetula spp.\n1650011\tBisabolone\tSesquiterpène\t532-91-2\tNULL\tNULL\tNULL\n1530001\tButyrate d'éthyle\tfruite\t105-54-4\tNULL\tNULL\tNULL\n90061\tC14 lactone (γ-Tetradecalactone)\tLactone\tNULL\tNULL\tNULL\tNULL\n90062\tC18 lactone (γ-Octadecalactone)\tLactone\tNULL\tNULL\tNULL\tNULL\n90047\tCedarol\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n720029\tCembratrienol\tComposé du tabac\t28266-68-2\tNULL\tNicotiana tabacum\tNULL\n1350039\tChitosane\tPolysaccharide\t9012-76-4\tNULL\tNULL\tNULL\n1110016\tCrésol\tNon classé\tNULL\tNULL\tNULL\tNULL\n570032\tDamascone Beta\tCétone\tNULL\tNULL\tRose, Miel, Tabac\tRose de Damas, Miel\n750010\tDamianine\tNon classé\tNULL\tNULL\tTurnera diffusa (Damiana)\tNULL\n1500002\tDiacétyle\tgourmand\tNULL\tNULL\tNULL\tNULL\n810029\tE-2-dodecenal\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n90045\tElemi\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n540007\tEncens HE (extrait)\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n480041\tEncens doré\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n1410035\tEthanethiol\tanimal\tNULL\tNULL\thttps://www.notion.so/03ef9468abb54ca89a0429568b727c1d\tNULL\n1410036\tEthyl 2-methylbutanoate\tfruite\tNULL\tNULL\thttps://www.notion.so/25ee4950c0a142869e2d4dd8b638d4bd\tNULL\n1410079\tEthyl acetate\tfruite\tNULL\tNULL\tNULL\tNULL\n1410060\tEthyl butanoate\tfruite\tNULL\tNULL\thttps://www.notion.so/a8d6efa65b0e49ff9ee6bba3d3d737d7\tNULL\n1320201\tEudesmol alpha\tboise\tNULL\tNULL\tNULL\tEucalyptus spp., Atractylodes macrocephala\n1320202\tEudesmol beta\tboise\tNULL\tNULL\tNULL\tEucalyptus spp.\n570006\tFer Olfactif\tNon classé\tNULL\tNULL\tNULL\tNULL\n480021\tFer chaud\tNon classé\tNULL\tNULL\tNULL\tNULL\n90007\tFer volatil\tComposé marin\tNULL\tNULL\tNULL\tNULL\n480003\tFeuille d'oranger sèche\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n480031\tFeuille verte\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n510022\tFleur de Café\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n390007\tFleur de Café - Absolue\tMonoterpène\tNULL\tNULL\tArmenia, Quindío, Colombie\tFleurs fraîches de Coffea arabica\n480037\tFoin chaud\tPhénylpropanoïde\tNULL\tNULL\tNULL\tNULL\n1410074\tFormaldehyde\taromatique\tNULL\tNULL\tNULL\tNULL\n1350078\tFormonétine\tFlavonoïde\t485-72-3\tNULL\tNULL\tNULL\n90018\tFossile absolute\tLactone\tNULL\tNULL\tNULL\tNULL\n360002\tFrangipani (Plumeria)\tMonoterpène\tNULL\tNULL\tFleurs de Plumeria (diverses espèces)\tNULL\n570035\tFructone\tLactone\t6413-10-1\tNULL\tAnanas, Fraise\tSynthétique\n1350041\tFucoïdane\tPolysaccharide\t9072-19-9\tNULL\tNULL\tNULL\n480012\tFumée douce\tPhénol\tNULL\tNULL\tNULL\tNULL\n480023\tFumée légère\tPhénol\tNULL\tNULL\tNULL\tNULL\n1110024\tFuraneol\tEster\t3658-77-3\tNULL\tNULL\tNULL\n1410061\tFuraneol (HDMF)\tgourmand\tNULL\tNULL\thttps://www.notion.so/c6fb34a218c44754ba9b6144809f9c5d\tNULL\n840003\tFuranodienone\tSesquiterpène\t24268-41-5\tNULL\tCommiphora myrrha (résine)\tNULL\n840001\tFuranoeudesma-1,3-diène\tSesquiterpène\t87605-93-4\tNULL\tCommiphora myrrha (résine)\tNULL\n120013\tFuranoeudesmanes\tRésinoïde\tNULL\tNULL\tMyrrhe\tNULL\n120012\tFuranosesquiterpenes\tRésinoïde\tNULL\tNULL\tMyrrhe, Oliban\tNULL\n930006\tFurfural\tHétérocycle\t98-01-1\tNULL\tDégradation thermique des sucres végétaux\tNULL\n1350051\tGABA\tAcide organique\t56-12-2\tNULL\tNULL\tNULL\n540001\tGEOSMIN\tSesquiterpène\t19700-21-1\tNULL\tNULL\tNULL\n90080\tGalaxolide\tLactone\t1222-05-5\tNULL\tNULL\tNULL\n1410002\tGalbanolene\tvert\tNULL\tNULL\thttps://www.notion.so/3acfcb86ca13455e8aadd0fb44e16d97\tNULL\n1380028\tGalbanum\tvert\t8023-91-4\tNULL\tNULL\tNULL\n1410003\tGalbanum (EO)\tvert\tNULL\tNULL\thttps://www.notion.so/3f658361db984dd78c83202d2a65e02f\tNULL\n210021\tGamma-decalactone\tLactone\t706-14-9\tNULL\tSynthétique ou naturel (pêche)\tNULL\n1500006\tGamma-décalactone\tfruite\tNULL\tNULL\tNULL\tNULL\n1530003\tGamma-undécalactone\tfruite\t104-67-6\tNULL\tNULL\tNULL\n330006\tGaïac (Guaiol)\tSesquiterpène\t489-86-1\tNULL\tBulnesia sarmientoi (Argentine, Paraguay)\tNULL\n1080009\tGaïac — Guaiacum officinale\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1080010\tGaïac — Guaiacum sanctum (proxy)\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1290002\tGaïacol\tfume\t90-05-1\tNULL\tNULL\tNULL\n570036\tGeorgywood\tSesquiterpène\tNULL\tNULL\tSynthèse chimique\tSynthétique\n990013\tGeranyl acetate\tMonoterpène\t105-87-3\tNULL\tNULL\tNULL\n1410080\tGeranyl acetone\tfruite\tNULL\tNULL\tNULL\tNULL\n960011\tGermacrene D\tSesquiterpène\t23986-74-5\tNULL\tSauge sclarée, Ylang-ylang, Géranium\tNULL\n840006\tGermacrène B\tSesquiterpène\t15423-57-1\tNULL\tCommiphora myrrha, nombreuses plantes\tNULL\n1650006\tGermacrène D\tSesquiterpène\t23986-74-5\tNULL\tNULL\tNULL\n960006\tGingerol\tPhénylpropanoïde\t23513-14-6\tNULL\tGingembre frais\tNULL\n1300027\tGinkgolide A\tautre\t15291-75-5\tNULL\tNULL\tNULL\n1300028\tGinkgolide B\tautre\t15291-77-7\tNULL\tNULL\tNULL\n990006\tGlobulol\tSesquiterpène\t489-41-8\tNULL\tNULL\tNULL\n1320094\tGlucoerucine\tautre\tNULL\tNULL\tNULL\tEruca vesicaria (roquette), Raphanus sativus\n1320091\tGlucoraphanine\tautre\tNULL\tNULL\tNULL\tBrassica oleracea (brocoli), Raphanus sativus\n90025\tGlycine pyrolysée\tPhénol\tNULL\tNULL\tNULL\tNULL\n1320116\tGlycyrrhizine\tgourmand\tNULL\tNULL\tNULL\tGlycyrrhiza glabra\n1080018\tGomme arabique — Senegalia senegal (filière fragile)\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n1380006\tGotu Kola (Centella asiatica) — extrait\therbace\t16830-15-2\tNULL\tNULL\tNULL\n180006\tGris d'Ambre\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n90021\tGuaiacol\tPhénol\t90-05-1\tNULL\tNULL\tNULL\n570009\tGuaiacol Fumé\tPhénol\tNULL\tNULL\tNULL\tNULL\n720017\tGuaiol\tCannabinoïde\t489-86-1\tNULL\tCannabis sativa\tNULL\n510015\tGuanábana\tEster\tNULL\tNULL\tNULL\tNULL\n510005\tGuanábana (Annona muricata)\tLactone\tNULL\tNULL\tCôte caraïbe colombienne, climat tropical\tNULL\n570040\tGuaïacol\tPhénol\t90-05-1\tNULL\tNULL\tNULL\n1350106\tGuaïol\tSesquiterpène\t489-86-1\tNULL\tNULL\tNULL\n1080004\tGuggul — Commiphora wightii (résine menacée)\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n1350076\tGénistéine\tFlavonoïde\t446-72-0\tNULL\tNULL\tNULL\n30004\tGéosmine\tMonoterpène\t19700-21-1\tNULL\tActinomycètes du sol\tNULL\n1050020\tGéranial\tMonoterpène\t141-27-5\tNULL\tNULL\tNULL\n660001\tGéraniol\tMonoterpène\t106-24-1\tNULL\tNULL\tNULL\n570013\tGéraniol Pur\tMonoterpène\t106-24-1\tNULL\tNULL\tNULL\n1300026\tGéranylgéraniol\tfloral\t699-14-9\tNULL\tNULL\tNULL\n570037\tHabanolide\tLactone\t111879-80-2\tNULL\tSynthèse chimique\tSynthétique\n180016\tHaitian Vetiver\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n750009\tHarmane\tNon classé\t486-84-0\tNULL\tPassiflora incarnata, Peganum harmala\tNULL\n750001\tHashishene\tMonoterpène\t16626-39-4\tNULL\tPhoto-oxydation du β-myrcène dans le hashish marocain\tNULL\n1620001\tHashishène\tterreux\tNULL\tNULL\tNULL\tNULL\n330016\tHedione\tEster\t24851-98-7\tNULL\tSynthèse (Firmenich, 1962) - Révolution Eau Sauvage\tNULL\n1380030\tHedione HC\tfloral\t1000343-69-0\tNULL\tNULL\tNULL\n1410017\tHelional\tmarin\tNULL\tNULL\thttps://www.notion.so/2687054ed7674793965ca3d802c43bef\tNULL\n90071\tHeliotropine (Piperonal)\tAldéhyde\t120-57-0\tNULL\tNULL\tNULL\n480036\tHerbes sèches\tPhénylpropanoïde\tNULL\tNULL\tNULL\tNULL\n1300006\tHerniarine\taromatique\t531-59-9\tNULL\tNULL\tNULL\n1410001\tHexanoic acid\tanimal\tNULL\tNULL\thttps://www.notion.so/2a4dbb3d5e6c808b90e1f01b3e62a577\tNULL\n1410066\tHexyl acetate\tfruite\tNULL\tNULL\thttps://www.notion.so/2ab3c490268d4e6c8d8f88e98c74aa62\tNULL\n90052\tHinoki oil\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n1410050\tHinokitiol\tboise\tNULL\tNULL\thttps://www.notion.so/8bd691c8b74f4dde95d28c573687e558\tNULL\n1170006\tHuile de Bois de Rose\tMonoterpène\t8015-77-8\tNULL\tNULL\tNULL\n1380024\tHuitlacoche\tterreux\tNULL\tNULL\tNULL\tNULL\n1410073\tHumulène\tboise\tNULL\tNULL\tNULL\tNULL\n90006\tHumus absolute\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1410042\tHydrogen sulfide\tanimal\tNULL\tNULL\thttps://www.notion.so/f51aa7a5021b485fa8cba05808949f85\tNULL\n90026\tHydroxyproline pyrolysée\tfume\tNULL\tNULL\tNULL\tNULL\n1380011\tHyraceum\tanimal\tNULL\tNULL\tNULL\tNULL\n570068\tHélional\tAldéhyde\t1205-17-0\tNULL\tNULL\tNULL\n570023\tHéliotropine\tAldéhyde\t120-57-0\tNULL\tHéliotrope, Vanille, Cerise\tHéliotrope, Sassafras\n90028\tIBQ (Isobutyl quinoléine)\tQuinoléine\t93-19-6\tNULL\tNULL\tSynthèse chimique principalement (Doebner-Miller). Traces naturelles dans le goudron de bouleau (Betula pendula), le tabac fermenté (Nicotiana tabacum), certains cuirs naturels\n750003\tIncensole\tSesquiterpène\t22427-39-0\tNULL\tBoswellia sacra (oliban/encens)\tNULL\n1410054\tIncensole acetate\tbalsamique\tNULL\tNULL\thttps://www.notion.so/c3ac0e5b29b04aa9a8ad0368d5a82665\tNULL\n60016\tIndole\tAlcaloïde\t120-72-9\tNULL\tNULL\tNULL\n60019\tIndoline\tAlcaloïde\t496-15-1\tNULL\tNULL\tNULL\n1350038\tInuline\tPolysaccharide\t9005-80-5\tNULL\tNULL\tNULL\n480007\tIonone blanche\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n90019\tIonone β\tNorisoprénoïde\tNULL\tNULL\tNULL\tNULL\n90020\tIonone γ\tNorisoprénoïde\tNULL\tNULL\tNULL\tNULL\n1380033\tIrone\tfloral\t79-69-6\tNULL\tNULL\tNULL\n90078\tIso E Super\tSesquiterpène\t54464-57-2\tNULL\tNULL\tNULL\n90029\tIsoButyrate\tEster\t5711-69-3\tNULL\tNULL\tNULL\n210010\tIsoamyl acetate\tEster\t123-92-2\tNULL\tSynthétique ou naturel (banane)\tNULL\n1500003\tIsoamyl acétate\tfruite\tNULL\tNULL\tNULL\tNULL\n1410092\tIsobutyric acid\tanimal\tNULL\tNULL\tNULL\tNULL\n840008\tIsocericenine\tSesquiterpène\tNULL\tNULL\tCommiphora myrrha\tNULL\n1350089\tIsoeugénol\tPhénylpropanoïde\t97-54-1\tNULL\tNULL\tNULL\n990004\tIsomenthone\tMonoterpène\t491-07-6\tNULL\tNULL\tNULL\n1500001\tIsoprène\tboise\tNULL\tNULL\tNULL\tNULL\n720008\tIsopulégol\tCannabinoïde\t89-79-2\tNULL\tCannabis sativa\tNULL\n1380003\tIsoquinoline\tfume\t119-65-3\tNULL\tNULL\tNULL\n690011\tIsovalencénol\tSesquiterpène\t22451-73-6\tNULL\tNULL\tVétiver, Pamplemousse\n1410093\tIsovaleric acid\tanimal\tNULL\tNULL\tNULL\tNULL\n1020001\tItalidione I\tCétone\tNULL\tNULL\tHelichrysum italicum (Immortelle)\tNULL\n1020002\tItalidione II\tCétone\tNULL\tNULL\tHelichrysum italicum (Immortelle)\tNULL\n1020003\tItalidione III\tCétone\tNULL\tNULL\tHelichrysum italicum (Immortelle)\tNULL\n540002\tJasmin Absolue (extrait)\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n1080013\tJasmin de Grasse (forme patrimoniale)\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n570070\tJasmine lactone\tLactone\t25524-95-2\tNULL\tNULL\tNULL\n90058\tJasmonal\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n990017\tJasmone\tCétone\t488-10-8\tNULL\tNULL\tNULL\n300007\tJavanol\tAldéhyde\t160294-85-9\tNULL\tSynthèse (Givaudan, 1990s) - Meilleure reconstitution santal\tNULL\n1650003\tJinkoh-Eudesmol\tSesquiterpènes\tNULL\tNULL\tNULL\t[\"Aquilaria spp.\"]\n360003\tJuniper (Genièvre)\tPhénylpropanoïde\tNULL\tNULL\tBaies et rameaux de Juniperus communis\tNULL\n1320040\tKaempferol\tautre\tNULL\tNULL\tNULL\tCamellia sinensis, Brassica oleracea, Rosa canina\n1300011\tKaempférol\tautre\t520-18-3\tNULL\tNULL\tNULL\n780017\tKanshone A\tSesquiterpène\t115356-18-8\tNULL\tNardostachys jatamansi\tNULL\n1380019\tKaolin\tterreux\t1332-58-7\tNULL\tNULL\tNULL\n90004\tKaolin accord\tNon classé\tNULL\tNULL\tNULL\tNULL\n480009\tKarité clair\tEster\tNULL\tNULL\tNULL\tNULL\n480018\tKarité fumé sombre\tfume\tNULL\tNULL\tNULL\tNULL\n480035\tKarité vert\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n120003\tKhusimol\tSesquiterpène\t16223-63-5\tNULL\tVétiver\tNULL\n1350053\tL-Arginine\tAcide organique\t74-79-3\tNULL\tNULL\tNULL\n1350052\tL-Glutamine\tAcide organique\t56-85-9\tNULL\tNULL\tNULL\n1350046\tL-Histidine\tAcide organique\t71-00-1\tNULL\tNULL\tNULL\n1350045\tL-Phénylalanine\tAcide organique\t63-91-2\tNULL\tNULL\tNULL\n1350043\tL-Tryptophane\tAcide organique\t73-22-3\tNULL\tNULL\tNULL\n1350044\tL-Tyrosine\tAcide organique\t60-18-4\tNULL\tNULL\tNULL\n540010\tLABDANUM ABSOLUTE\tDiterpène\tNULL\tNULL\tNULL\tNULL\n90044\tLabdanum\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n120020\tLabdanum diterpenes\tRésinoïde\tNULL\tNULL\tLabdanum\tNULL\n420008\tLabrador Tea Essential Oil\tMonoterpène\tNULL\tNULL\tQuébec, Labrador, Alaska\tRhododendron groenlandicum - Tourbières boréales\n1050013\tLavandulol\tMonoterpène\t498-16-8\tNULL\tNULL\tNULL\n960001\tLavandulyl acetate\tMonoterpène\t25905-14-0\tNULL\tLavande vraie (Lavandula angustifolia)\tNULL\n750004\tLeonurine\tNon classé\t24697-74-3\tNULL\tLeonotis leonurus (Wild Dagga), Leonurus cardiaca\tNULL\n90037\tLignine pyrolysée\tPhénol\tNULL\tNULL\tNULL\tNULL\n570038\tLilial\tAldéhyde\t80-54-6\tNULL\tMuguet (synthétique)\tSynthétique (accord muguet)\n30007\tLimonène\tMonoterpène\t138-86-3\tNULL\tAgrumes, menthe, genévrier\tCitron (Citrus limon), Orange (Citrus sinensis), Pamplemousse (Citrus paradisi), Menthe poivrée (Mentha piperita), Genévrier (Juniperus communis), Pin (Pinus spp.)\n30002\tLinalol\tMonoterpène\t78-70-6\tNULL\tNULL\tNULL\n570012\tLinalol Synthétique\tMonoterpène\t78-70-6\tNULL\tNULL\tNULL\n1350099\tLinalol oxyde\tMonoterpène\t1365-19-1\tNULL\tNULL\tNULL\n30009\tLinalool\tMonoterpène\t78-70-6\tNULL\tLavande, coriandre, cannabis\tLavande (Lavandula angustifolia), Coriandre (Coriandrum sativum), Bois de rose (Aniba rosaeodora), Basilic (Ocimum basilicum), Menthe (Mentha spp.), Cannabis sativa\n1320192\tLinalool oxide\tfloral\tNULL\tNULL\tNULL\tLavandula spp., Coriandrum sativum, Hops\n1410043\tLinalyl acetate\tfloral\tNULL\tNULL\thttps://www.notion.so/4f6250b2ff3f4b26a5ea0f124ff7ef26\tNULL\n840004\tLindestrène\tSesquiterpène\t5765-38-8\tNULL\tCommiphora myrrha, Lindera\tNULL\n510026\tLippia Origanoides\tPhénylpropanoïde\tNULL\tNULL\tNULL\tNULL\n390001\tLippia Origanoides (Origan Sauvage)\tPhénol\tNULL\tNULL\tCali, Vallée du Cauca, Colombie\tFeuilles fraîches et séchées de Lippia origanoides\n1350003\tLoganine\tPhénylpropanoïde\t18524-94-2\tNULL\tNULL\tNULL\n510014\tLulo\tEster\tNULL\tNULL\tNULL\tNULL\n510004\tLulo (Solanum quitoense)\tEster\tNULL\tNULL\tVallées andines colombiennes, 1500-2500m\tNULL\n1300024\tLupéol\tautre\t545-47-1\tNULL\tNULL\tNULL\n1320041\tLuteolin\tautre\tNULL\tNULL\tNULL\tMatricaria chamomilla, Thymus vulgaris, Rosmarinus officinalis\n1350069\tLutéine\tNorisoprénoïde\t127-40-2\tNULL\tNULL\tNULL\n1300013\tLutéoline\tautre\t491-70-3\tNULL\tNULL\tNULL\n1350033\tLévoglucosénone\tCétone\t37112-31-5\tNULL\tNULL\tNULL\n540008\tMYRRH OIL\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n180014\tMakrut Lime\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n1350011\tMangiférine\tPhénol\t4773-96-0\tNULL\tNULL\tNULL\n570001\tMaritima\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n90038\tMarrow accord\tPhénol\tNULL\tNULL\tNULL\tNULL\n90043\tMastic\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n1380001\tMastiha (résine absolue)\tbalsamique\tNULL\tNULL\tNULL\tNULL\n120016\tMechoulim\tRésinoïde\tNULL\tNULL\tRésines Mandé\tNULL\n1380004\tMegastigmatrienone\tboise\t38818-55-2\tNULL\tNULL\tNULL\n720026\tMegastigmatrienone A\tComposé du tabac\t38818-55-2\tNULL\tNicotiana tabacum\tNULL\n1410024\tMelonal\tfruite\tNULL\tNULL\thttps://www.notion.so/6903e08a1da3446f99fb6e44976fdf57\tNULL\n1650002\tMenthofurane\tMonoterpènes\t494-90-6\tNULL\tNULL\t[\"Bursera graveolens\",\"Mentha pulegium\"]\n570046\tMenthol\tMonoterpène\t89-78-1\tNULL\tNULL\tNULL\n570016\tMenthone\tMonoterpène\t89-80-5\tNULL\tNULL\tNULL\n990003\tMenthyl acetate\tMonoterpène\t89-48-5\tNULL\tNULL\tNULL\n1410059\tMesifurane\tgourmand\tNULL\tNULL\thttps://www.notion.so/47e2ae39c4db4748a328141569da435f\tNULL\n1410077\tMethacrolein\taromatique\tNULL\tNULL\tNULL\tNULL\n570027\tMethyl Dihydrojasmonate\tEster\t24851-98-7\tNULL\tJasmin (synthétique)\tSynthétique (accord jasmin)\n1200001\tMethyl Ethylpyrazine 2,3 \tEster\tNULL\tNULL\tsynthetique\tNULL\n210013\tMethyl anthranilate\tEster\t134-20-3\tNULL\tSynthétique ou naturel (néroli)\tNULL\n1410037\tMethyl butanoate\tfruite\tNULL\tNULL\thttps://www.notion.so/3ed05c6a962543d09e1eee372a2b005d\tNULL\n1410041\tMethyl hexanoate\tfruite\tNULL\tNULL\thttps://www.notion.so/cf85eb60cdfe43d9a874766b3aa0541e\tNULL\n210017\tMethyl salicylate\tEster\t119-36-8\tNULL\tSynthétique ou naturel (gaulthérie)\tNULL\n1410045\tMethyleugenol\tepice\tNULL\tNULL\thttps://www.notion.so/7bede2d508184b5498dffc2b4f8d86c2\tNULL\n1410086\tMethylpyrazine\tgourmand\tNULL\tNULL\tNULL\tNULL\n1380018\tMezcal\tfume\tNULL\tNULL\tNULL\tNULL\n480042\tMillet chaud\tEster\tNULL\tNULL\tNULL\tNULL\n180005\tMitti Attar\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n180009\tMiyazaki Citrus\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n1350074\tMorine\tFlavonoïde\t480-16-0\tNULL\tNULL\tNULL\n1350112\tMorphine\tAlcaloïde\t57-27-2\tNULL\tNULL\tNULL\n1380008\tMousse de Chêne\tboise\t90028-68-5\tNULL\tNULL\tNULL\n1170004\tMousse de Chêne (Oakmoss)\tSesquiterpène\t90028-68-5\tNULL\tNULL\tNULL\n1620003\tMu'assel (accord tabac hookah)\tgourmand\tNULL\tNULL\tNULL\tNULL\n330001\tMuscone\tMusc\t10403-00-6\tNULL\tCerf porte-musc (Moschus) - Synthèse préférée\tNULL\n1170003\tMusk Ambrette\tMusc\t83-66-9\tNULL\tNULL\tNULL\n1170001\tMusk Ketone\tMusc\t81-14-1\tNULL\tNULL\tNULL\n1170002\tMusk Xylene\tMusc\t81-15-2\tNULL\tNULL\tNULL\n1080019\tMusk deer (musc naturel) — Moschus moschiferus (CITES)\tMusc\tNULL\tNULL\tNULL\tNULL\n1080023\tMusk mallow (Malva moschata) — note patrimoniale\tMusc\tNULL\tNULL\tNULL\tNULL\n30006\tMyrcène\tMonoterpène\t123-35-3\tNULL\tCannabis, houblon, thym, citronnelle\tHoublon (Humulus lupulus), Mangue (Mangifera indica), Citronnelle (Cymbopogon citratus), Cannabis sativa, Thym (Thymus vulgaris), Laurier (Laurus nobilis)\n840009\tMyrcénol\tMonoterpène\t543-39-5\tNULL\tCommiphora myrrha, Lavande\tNULL\n1350072\tMyricétine\tFlavonoïde\t529-44-2\tNULL\tNULL\tNULL\n1560001\tMyristicine\tepice\t607-91-0\tNULL\tNULL\tNULL\n330013\tMyrrhe (Curzerene)\tSesquiterpène\t17910-09-7\tNULL\tCommiphora myrrha (Somalie, Éthiopie, Yémen)\tNULL\n480028\tMyrrhe chaude\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n90042\tMyrrhe noire\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n1080017\tMyrrhe sahélienne — Boswellia dalzielii (pression locale)\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n90010\tMyrrhone\tRésinoïde\t183551-83-9\tNULL\tNULL\tNULL\n1320197\tMyrtenol\therbace\tNULL\tNULL\tNULL\tMyrtus communis, Pinus spp.\n1650008\tMyrtenyl acetate\tMonoterpénol\t1079-01-2\tNULL\tNULL\tNULL\n1350048\tMélatonine\tAlcaloïde\t73-31-4\tNULL\tNULL\tNULL\n1350105\tMénaquinone (Vitamine K2)\tVitamine\t2124-57-4\tNULL\tNULL\tNULL\n750005\tMésembrine\tNon classé\t468-56-4\tNULL\tSceletium tortuosum (Kanna)\tNULL\n1470001\tMéthacroléine\taromatique\t78-85-3\tNULL\tNULL\tNULL\n1350066\tMéthionine\tAcide organique\t63-68-3\tNULL\tNULL\tNULL\n1380031\tMéthyl Ionone\tfloral\t1335-46-2\tNULL\tNULL\tNULL\n570022\tMéthyl Ionone Gamma\tNorisoprénoïde\t79-68-5\tNULL\tNULL\tNULL\n1500004\tMéthyl anthranilate\tfloral\tNULL\tNULL\tNULL\tNULL\n690007\tMéthyl jasmonate\tEster\t1211-29-6\tNULL\tNULL\tJasmin, nombreuses plantes (hormone végétale)\n1290006\tMéthyl mercaptan\tanimal\t74-93-1\tNULL\tNULL\tNULL\n1350028\tMéthyl syringol\tPhénol\t6638-05-7\tNULL\tNULL\tNULL\n660003\tMéthyl-eugénol\tPhénylpropanoïde\t93-15-2\tNULL\tBasilic (Ocimum basilicum), Laurier (Laurus nobilis), Tagetes lucida (Yauhtli), Piment de la Jamaïque\tOcimum basilicum (basilic), Laurus nobilis (laurier), Tagetes lucida (Yauhtli mexicain), Pimenta dioica (piment de la Jamaïque)\n1350090\tMéthylchavicol (Estragole)\tPhénylpropanoïde\t140-67-0\tNULL\tNULL\tNULL\n1350065\tN-Acétylcystéine\tAcide organique\t616-91-1\tNULL\tNULL\tNULL\n1050023\tNDGA\tPhénylpropanoïde\t500-38-9\tNULL\tNULL\tNULL\n900014\tNNK (4-(Methylnitrosamino)-1-(3-pyridyl)-1-butanone)\tComposé du tabac\t64091-91-4\tNULL\tNULL\tNULL\n900013\tNNN (N'-Nitrosonornicotine)\tComposé du tabac\t80508-23-2\tNULL\tNULL\tNULL\n1380027\tNardol\tterreux\t4756-19-8\tNULL\tNULL\tNULL\n780010\tNardosinone\tSesquiterpène\t23720-80-1\tNULL\tNardostachys jatamansi (rhizomes)\tNULL\n780018\tNardosinonediol\tterreux\t20489-11-6\tNULL\tNardostachys jatamansi\tNULL\n1350012\tNaringénine\tFlavonoïde\t480-41-1\tNULL\tNULL\tNULL\n480034\tNeem\tPhénylpropanoïde\tNULL\tNULL\tNULL\tNULL\n720028\tNeophytadiene\tComposé du tabac\t504-96-1\tNULL\tNicotiana tabacum\tNULL\n90059\tNerol\tAlcool\t106-25-2\tNULL\tNULL\tNULL\n690004\tNerolidol\tSesquiterpène\t7212-44-4\tNULL\tNULL\tNéroli, Jasmin, Gingembre, Cannabis\n1320184\tNeryl acetate\tfloral\tNULL\tNULL\tNULL\tRosa spp., Citrus aurantium\n1350057\tNiacine (Vitamine B3)\tVitamine\t59-67-6\tNULL\tNULL\tNULL\n720033\tNicotine\tComposé du tabac\t54-11-5\tNULL\tNicotiana tabacum\tNULL\n510018\tNogal Colombien\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n510008\tNogal Colombien (Juglans neotropica)\tPhénol\tNULL\tNULL\tAndes colombiennes, forêts de montagne\tNULL\n1410012\tNonanal\tagrume\tNULL\tNULL\thttps://www.notion.so/21f72672883246d28534cec5f5952b66\tNULL\n690013\tNootkatone\tSesquiterpène\t4674-50-4\tNULL\tNULL\tVétiver, Pamplemousse, Cèdre d'Alaska\n330018\tNorlimbanol\tSesquiterpène\t70788-30-6\tNULL\tSynthèse (Firmenich) - Alternative durable santal\tNULL\n720034\tNornicotine\tComposé du tabac\t494-97-3\tNULL\tNicotiana tabacum\tNULL\n1050008\tNorpatchoulénol\tSesquiterpène\t41429-52-1\tNULL\tNULL\tNULL\n750006\tNuciférine\tNon classé\t475-83-2\tNULL\tNymphaea caerulea (Lotus Bleu), Nelumbo nucifera\tNULL\n1050017\tNuciférol\tSesquiterpène\t28400-11-5\tNULL\tNULL\tNULL\n1350108\tNéral\tMonoterpène\t106-26-3\tNULL\tNULL\tNULL\n570014\tNérol\tfloral\t106-25-2\tNULL\tNULL\tNULL\n180013\tNéroli Bouquetier Réserve (extrait)\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n1110026\tNérolidol\tMonoterpène\t7212-44-4\tNULL\tNULL\tNULL\n540011\tOPOPONAX RESIN\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1320031\tOcimene\therbace\tNULL\tNULL\tNULL\tOcimum basilicum, Cannabis sativa, Mentha spicata\n780014\tOctacosanol\tautre\t557-61-9\tNULL\tNardostachys jatamansi, canne à sucre, son de riz\tNULL\n1350005\tOleuropéine\tPhénylpropanoïde\t32619-42-4\tNULL\tNULL\tNULL\n480015\tOliban brûlé\tPhénol\tNULL\tNULL\tNULL\tNULL\n480005\tOliban clair\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n840014\tOlibanol\tMonoterpène\tNULL\tNULL\tBoswellia spp.\tNULL\n90041\tOlibanum\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n180012\tOmani Black Frankincense\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n1300007\tOmbelliférone\tbalsamique\t93-35-6\tNULL\tNULL\tNULL\n90046\tOpoponax\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n1080015\tOrris ‘Florentina’ (filière fragile)\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n300001\tOud (Agarwood)\tSesquiterpène\tNULL\tNULL\tAquilaria (Asie du Sud-Est, Cambodge, Vietnam, Inde)\tNULL\n180008\tOud Tea\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n90075\tOud accord\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n690003\tOxyde de rose\tHétérocycle\t16409-43-1\tNULL\tNULL\tRose de Damas, Rose de Mai, Géranium rosat\n120017\tOxydes de fer volatils\tComposé minéral\tNULL\tNULL\tTerre rouge Sahel\tNULL\n570069\tOzonal\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n90017\tOzone\tAldéhyde\t10028-15-6\tNULL\tNULL\tNULL\n480033\tOzone clair\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n480004\tOzone minéral clair\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n540005\tPATCHOULI ALCOHOL\tSesquiterpène\t5986-55-0\tNULL\tNULL\tNULL\n180001\tPalo Santo\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n390009\tPalo Santo Colombien\tSesquiterpène\tNULL\tNULL\tCauca, Colombie\tBois de cœur de Bulnesia sarmientoi\n90053\tPalo Santo lactone\tLactone\tNULL\tNULL\tNULL\tNULL\n1080008\tPalo santo (Gran Chaco) — Bulnesia sarmientoi (CITES)\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n330020\tParadisone\tLactone\tNULL\tNULL\tSynthèse (Firmenich, 2007) - Jasmin du futur\tNULL\n1350017\tParthénolide\tSesquiterpène\t20554-84-1\tNULL\tNULL\tNULL\n90054\tPatchoulol\tSesquiterpène\t5986-55-0\tNULL\tNULL\tNULL\n1350037\tPectine\tPolysaccharide\t9000-69-5\tNULL\tNULL\tNULL\n1320187\tPerillaldehyde\taromatique\tNULL\tNULL\tNULL\tPerilla frutescens, Cuminum cyminum\n1380026\tPerillaldéhyde\therbace\t2111-75-3\tNULL\tNULL\tNULL\n1650010\tPerillyl alcohol\tMonoterpénol\t536-59-4\tNULL\tNULL\tNULL\n990016\tPhenylethyl alcohol\tPhénylpropanoïde\t60-12-8\tNULL\tNULL\tNULL\n1350104\tPhylloquinone (Vitamine K1)\tVitamine\t84-80-0\tNULL\tNULL\tNULL\n690008\tPhytol\tvert\t150-86-7\tNULL\tNULL\tJasmin, Thé vert, Chlorophylle (toutes plantes)\n1350027\tPhénol\tPhénol\t108-95-2\tNULL\tNULL\tNULL\n570011\tPhénol Pyrogéné Doux\tPhénol\tNULL\tNULL\tNULL\tNULL\n120007\tPhénol boisé\tPhénol\tNULL\tNULL\tPyrolyse\tNULL\n90023\tPhénols oxydés\tPhénol\tNULL\tNULL\tNULL\tNULL\n1110028\tPhénylacétaldéhyde\tMonoterpène\t122-78-1\tNULL\tNULL\tNULL\n570017\tPinocamphone\tMonoterpène\t547-60-4\tNULL\tNULL\tNULL\n1320198\tPinocarveol\tboise\tNULL\tNULL\tNULL\tPinus spp., Eucalyptus spp.\n1320196\tPinocarvone\taromatique\tNULL\tNULL\tNULL\tPinus spp., Eucalyptus spp.\n510027\tPiper Aduncum\tPhénylpropanoïde\tNULL\tNULL\tNULL\tNULL\n390004\tPiper Aduncum (Poivre Sauvage)\tSesquiterpène\tNULL\tNULL\tCali, Vallée du Cauca, Colombie\tFeuilles fraîches et séchées de Piper aduncum\n570074\tPipérine\tAlcaloïde\t94-62-2\tNULL\tNULL\tNULL\n1290013\tPipéritone\taromatique\t89-81-6\tNULL\tNULL\tNULL\n180011\tPlumeria Light\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n1350009\tPodophyllotoxine\tPhénylpropanoïde\t518-28-5\tNULL\tNULL\tNULL\n1380037\tPolysantol\tboise\t65113-99-7\tNULL\tNULL\tNULL\n420005\tPonderosa Pine\tSesquiterpène\tNULL\tNULL\tColorado, Montana, Wyoming\tPinus ponderosa - Montagnes Rocheuses\n480011\tPoussière blanche du Sahel\tterreux\tNULL\tNULL\tNULL\tNULL\n1350021\tProcyanidine B2\tautre\t29106-49-8\tNULL\tNULL\tNULL\n1410091\tPropionic acid\tautre\tNULL\tNULL\tNULL\tNULL\n1350019\tProtocatéchualdéhyde\tPhénol\t139-85-5\tNULL\tNULL\tNULL\n1300005\tPsoralène\taromatique\t66-97-7\tNULL\tNULL\tNULL\n1350098\tPtérostilbène\tPhénol\t537-42-8\tNULL\tNULL\tNULL\n990005\tPulegone\tMonoterpène\t89-82-7\tNULL\tNULL\tNULL\n720011\tPulégone\tCannabinoïde\t89-82-7\tNULL\tCannabis sativa\tNULL\n1350087\tPutrescine\tAlcaloïde\t110-60-1\tNULL\tNULL\tNULL\n1410081\tPyrazine\taromatique\tNULL\tNULL\tNULL\tNULL\n90024\tPyrazines\tAlcaloïde\t290-37-9\tNULL\tNULL\tNULL\n1410082\tPyrazines brunes\tfume\tNULL\tNULL\tNULL\tNULL\n1620005\tPyridine\tfume\t110-86-1\tNULL\tNULL\tNULL\n1320039\tQuercetin\tautre\tNULL\tNULL\tNULL\tAllium cepa, Camellia sinensis, Quercus robur\n1300010\tQuercétine\tautre\t117-39-5\tNULL\tNULL\tNULL\n1300018\tQuinine\tautre\t130-95-0\tNULL\tNULL\tNULL\n120019\tQuinoléine\tHétérocycle\t86-80-6\tNULL\tSynthèse\tNULL\n1300014\tResvératrol\tautre\t501-36-0\tNULL\tNULL\tNULL\n420006\tRocky Mountain Juniper\tSesquiterpène\tNULL\tNULL\tColorado, Utah, Nouveau-Mexique\tJuniperus scopulorum - Montagnes Rocheuses\n1080014\tRose de Kazanlık (Trigintipetala) — cultivar patrimonial\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n990015\tRose oxide\tMonoterpène\t16409-43-1\tNULL\tNULL\tNULL\n1300003\tRosmanol\therbace\t76006-35-4\tNULL\tNULL\tNULL\n1320023\tRosmarinic acid\therbace\tNULL\tNULL\tNULL\tRosmarinus officinalis, Salvia officinalis, Melissa officinalis\n1380022\tRésine d'Élémi\tbalsamique\t8023-89-0\tNULL\tNULL\tNULL\n1380023\tRésine de Gobernadora\tbalsamique\tNULL\tNULL\tNULL\tNULL\n1380020\tRésine de Pin\tboise\t8050-09-7\tNULL\tNULL\tNULL\n1380021\tRésine de Styrax\tbalsamique\t8046-19-3\tNULL\tNULL\tNULL\n480039\tRésine douce\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n540012\tSTYRAX RESIN\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n570073\tSabinène\tMonoterpène\t3387-41-5\tNULL\tNULL\tNULL\n330010\tSafranal\tMonoterpène\t116-26-7\tNULL\tCrocus sativus (Iran, Cachemire, Espagne)\tNULL\n1170005\tSafrole\tPhénylpropanoïde\t94-59-7\tNULL\tNULL\tNULL\n1350094\tSalicine\tFlavonoïde\t138-52-3\tNULL\tNULL\tNULL\n90036\tSandalore pyrolysé\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n90012\tSandstone accord\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n330004\tSantal Mysore (α-Santalol)\tSesquiterpène\t115-71-9\tNULL\tSantalum album (Mysore, Inde) - CITES protégé\tNULL\n540006\tSantal blanc HE (extrait)\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1080007\tSantal — Santalum album\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n90076\tSantalol (α+β)\tSesquiterpène\t73890-74-1\tNULL\tNULL\tNULL\n1050010\tSantalène\tSesquiterpène\t512-61-8\tNULL\tNULL\tNULL\n1350008\tSchisandrine\tPhénylpropanoïde\t7432-28-2\tNULL\tNULL\tNULL\n570005\tSchiste Olfactif\tautre\tNULL\tNULL\tNULL\tNULL\n960004\tSclareol\tDiterpène\t515-03-7\tNULL\tSauge sclarée\tNULL\n90003\tSclerene\tComposé minéral\tNULL\tNULL\tNULL\tNULL\n1320182\tScopoletin\tautre\tNULL\tNULL\tNULL\tScopolia carniolica, Convolvulus scammonia\n1300008\tScopolétine\taromatique\t92-61-5\tNULL\tNULL\tNULL\n1320038\tSelinene\therbace\tNULL\tNULL\tNULL\tApium graveolens, Carum carvi\n570003\tSilicate Note\tNon classé\tNULL\tNULL\tNULL\tNULL\n90014\tSilicate aldehyde\tautre\tNULL\tNULL\tNULL\tNULL\n210002\tSkatole\tAlcaloïde indolique\t83-34-1\tNULL\tSynthétique ou naturel (matières fécales, fleurs de jasmin)\tJasminum grandiflorum (fleur absolue), Jasminum sambac, Narcissus poeticus, Gardenia jasminoides, Fèces mammifères (source endogène), Tabac fermenté (Nicotiana tabacum)\n720027\tSolanone\tComposé du tabac\t1937-54-8\tNULL\tNicotiana tabacum\tNULL\n1350034\tSolanésol\tDiterpène\t13190-97-1\tNULL\tNULL\tNULL\n1410029\tSotolon\tgourmand\tNULL\tNULL\thttps://www.notion.so/da2fd156a2804a9aac1c0f82f2e4b79d\tNULL\n1320006\tSpathulenol\tboise\tNULL\tNULL\tNULL\tEucalyptus globulus, Melaleuca alternifolia, Rosmarinus officinalis\n1350086\tSpermidine\tAlcaloïde\t124-20-9\tNULL\tNULL\tNULL\n180015\tSpikenard\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1080006\tSpikenard — Nardostachys jatamansi\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1350064\tSqualène\tTriterpène\t111-02-4\tNULL\tNULL\tNULL\n1380016\tSteiractinia Aspera\tterreux\tNULL\tNULL\tNULL\tNULL\n390005\tSteiractinia Aspera (Endémique Rare)\tSesquiterpène\tNULL\tNULL\tArmenia, Quindío, Colombie\tFeuilles fraîches et séchées de Steiractinia aspera\n90074\tStyrax\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n90009\tSulfur base\tComposé minéral\tNULL\tNULL\tNULL\tNULL\n1380005\tSyringaldéhyde\tfume\t134-96-3\tNULL\tNULL\tNULL\n750012\tSyringol\tPhénol\t91-10-1\tNULL\tFumée de bois dur, tabac fumé\tNULL\n1350004\tSécologanine\tPhénylpropanoïde\t19351-63-4\tNULL\tNULL\tNULL\n1350049\tSérotonine\tAlcaloïde\t50-67-9\tNULL\tNULL\tNULL\n1350007\tSésamine\tPhénylpropanoïde\t607-80-7\tNULL\tNULL\tNULL\n1050005\tSéychellène\tSesquiterpène\t20085-93-2\tNULL\tNULL\tNULL\n900002\tTHCA\tCannabinoïde\tNULL\tNULL\tNULL\tNULL\n540013\tTONKA BEAN ABSOLUTE\tLactone\tNULL\tNULL\tNULL\tNULL\n1620002\tTTMP (2,3,5-Triméthyl-2-cyclopentènone)\tgourmand\t3168-90-9\tNULL\tNULL\tNULL\n1380014\tTagetes lucida\taromatique\tNULL\tNULL\tNULL\tNULL\n1380017\tTagetone\therbace\t18794-84-8\tNULL\tNULL\tNULL\n180010\tTangerine Dream (variété)\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n90055\tTangerinol\tAlcool\t91482-37-0\tNULL\tNULL\tNULL\n1350070\tTanin (acide tannique)\tPhénol\t1401-55-4\tNULL\tNULL\tNULL\n1300017\tTaxol (Paclitaxel)\tautre\t33069-62-4\tNULL\tNULL\tNULL\n960002\tTerpinen-4-ol\tMonoterpène\t562-74-3\tNULL\tTea tree, Marjolaine, Noix de muscade\tNULL\n720001\tTerpinolène\tCannabinoïde\t586-62-9\tNULL\tCannabis sativa\tNULL\n480043\tTerre claire\tterreux\tNULL\tNULL\tNULL\tNULL\n480027\tTerre ferrique\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n480016\tTerre noire\tterreux\tNULL\tNULL\tNULL\tNULL\n810063\tTest Molecule 1\tvert\tNULL\tNULL\tNULL\tNULL\n810064\tTest Molecule 2\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n1410033\tTetramethylpyrazine\tgourmand\tNULL\tNULL\thttps://www.notion.so/d5f839fd9f3a4e3aaff28e3560169d26\tNULL\n1410032\tTheobromine\tautre\tNULL\tNULL\thttps://www.notion.so/8b60d483022b4e4e83c4ad9f6cec5a75\tNULL\n1320089\tTheobromine methyl\tautre\tNULL\tNULL\tNULL\tTheobroma cacao\n570065\tThujopsène\tSesquiterpène\t470-40-6\tNULL\tNULL\tNULL\n1290012\tThuyone\taromatique\t546-80-5\tNULL\tNULL\tNULL\n570042\tThymol\tepice\t89-83-8\tNULL\tNULL\tThym à thymol (30-50%), Origan (trace-5%), Ajowan (35-50%)\n1350114\tThéine\tAlcaloïde\t58-08-2\tNULL\tNULL\tNULL\n1050024\tThéobromine\tAlcaloïde\t83-67-0\tNULL\tNULL\tNULL\n1300020\tThéophylline\tautre\t58-55-9\tNULL\tNULL\tNULL\n1350103\tTocophérol (Vitamine E)\tVitamine\t59-02-9\tNULL\tNULL\tNULL\n90072\tTonka absolute\tLactone\tNULL\tNULL\tNULL\tNULL\n1300029\tTotarol\tboise\t511-15-9\tNULL\tNULL\tNULL\n1410030\tTrimethylamine\tanimal\tNULL\tNULL\thttps://www.notion.so/6321448a6b12415cb58986b1d4c93b67\tNULL\n570002\tTriplal\tAldéhyde\t68039-49-6\tNULL\tNULL\tNULL\n330009\tTubéreuse Absolue (extrait)\tEster\t93-58-3\tNULL\tPolianthes tuberosa (Inde, Égypte)\tNULL\n510029\tTurnera Diffusa\tfloral\tNULL\tNULL\tNULL\tNULL\n390002\tTurnera Diffusa (Damiana)\tMonoterpène\tNULL\tNULL\tCali, Vallée du Cauca, Colombie\tFeuilles fraîches et séchées de Turnera diffusa\n1110010\tTétraméthylpyrazine\tEster\tNULL\tNULL\tNULL\tNULL\n510016\tUchuva\tEster\tNULL\tNULL\tNULL\tNULL\n510006\tUchuva (Physalis peruviana)\tAldéhyde\tNULL\tNULL\tHauts plateaux colombiens, Boyacá\tNULL\n1320180\tUmbelliferone\tautre\tNULL\tNULL\tNULL\tUmbelliferae (nombreuses espèces)\n1410072\tValencene\tagrume\tNULL\tNULL\tNULL\tNULL\n720012\tValencène\tCannabinoïde\t4630-07-3\tNULL\tCannabis sativa\tNULL\n510024\tVanilla Pompona\tEster\tNULL\tNULL\tNULL\tNULL\n1410049\tVanillin\tgourmand\tNULL\tNULL\thttps://www.notion.so/87c1292d04eb48dc89674eacc56a2fe6\tNULL\n90069\tVanilline\tAldéhyde\t121-33-5\tNULL\tNULL\tNULL\n990008\tVerbenone\tMonoterpène\t80-57-9\tNULL\tNULL\tNULL\n480019\tVetiver Assam\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n480030\tVetiver fumé\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n90050\tVetiverol\tSesquiterpène\t68129-81-7\tNULL\tNULL\tNULL\n90051\tVetiveryl acetate\tEster\t117-98-6\tNULL\tNULL\tNULL\n990020\tVetivone\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1300021\tVincristine\tautre\t57-22-7\tNULL\tNULL\tNULL\n1320007\tViridiflorol\tboise\tNULL\tNULL\tNULL\tMelaleuca viridiflora, Leptospermum scoparium\n1050014\tVétisélénène\tSesquiterpène\t28624-23-9\tNULL\tNULL\tNULL\n120001\tVétivénol\tSesquiterpène\t89-88-3\tNULL\tVétiver\tNULL\n570062\tVétivérol\tSesquiterpène\t68129-81-7\tNULL\tNULL\tNULL\n420002\tWestern Red Cedar\tSesquiterpène\tNULL\tNULL\tColombie-Britannique, Oregon\tThuja plicata - Côte Pacifique du Canada et USA\n1440001\tWhiskey Lactone\tboise\tNULL\tNULL\tNULL\tNULL\n1110023\tWhiskey lactone\tSesquiterpène\t39212-23-2\tNULL\tNULL\tNULL\n180004\tWild Juniper\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1300004\tXanthotoxine\taromatique\t298-81-7\tNULL\tNULL\tNULL\n510012\tYagé\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n510002\tYagé (Banisteriopsis caapi)\tSesquiterpène\tNULL\tNULL\tAmazonie colombienne, Putumayo\tNULL\n330015\tYuzu (Limonene + Linalool)\tMonoterpène\tNULL\tNULL\tCitrus junos (Japon, Corée)\tNULL\n1410065\tYuzu lactone\tfruite\tNULL\tNULL\thttps://www.notion.so/013157811f60475ea15ca06759d5b6b7\tNULL\n1110001\tZingibérène\tSesquiterpène\t495-60-3\tNULL\tNULL\tZingiber officinale (Gingembre)\n690012\tZizanol\tSesquiterpène\t41060-17-1\tNULL\tNULL\tVétiver (Vetiveria zizanioides)\n1350068\tZéaxanthine\tNorisoprénoïde\t144-68-3\tNULL\tNULL\tNULL\n810050\tacide cinnamique\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n810052\taldéhydes c10–c12\tNon classé\tNULL\tNULL\tNULL\tNULL\n810014\talpha-humulene\tSesquiterpène\t6753-98-6\tNULL\tNULL\tNULL\n810047\talpha-phellandrene\tMonoterpène\t99-83-2\tNULL\tNULL\tNULL\n810001\talpha-pinene\tMonoterpène\t80-56-8\tNULL\tNULL\tNULL\n810006\talpha-terpineol\tMonoterpène\t98-55-5\tNULL\tNULL\tNULL\n810046\talpha-terpinyl acetate\tEster\t80-26-2\tNULL\tNULL\tNULL\n810044\tar-turmerone\tSesquiterpène\t532-65-0\tNULL\tNULL\tNULL\n810026\tbenzyl benzoate\tEster\t120-51-4\tNULL\tNULL\tNULL\n810027\tbenzyl cinnamate\tEster\t103-41-3\tNULL\tNULL\tNULL\n810013\tbeta-caryophyllene\tSesquiterpène\t87-44-5\tNULL\tNULL\tNULL\n810037\tbeta-damascenone\tNorisoprénoïde\t23726-93-4\tNULL\tNULL\tNULL\n810002\tbeta-pinene\tMonoterpène\t127-91-3\tNULL\tNULL\tNULL\n810021\tbeta-sesquiphellandrene\tSesquiterpène\t20307-83-9\tNULL\tNULL\tNULL\n810053\tchavicol\tNon classé\t501-92-8\tNULL\tNULL\tNULL\n810025\tcinnamaldehyde\tAldéhyde\t104-55-2\tNULL\tNULL\tNULL\n1410070\tcis-3-Hexenal\tvert\tNULL\tNULL\thttps://www.notion.so/fb21d4c7db0d4b6690ddc077f230dfc6\tNULL\n1410028\tcis-3-Hexenyl acetate\tvert\tNULL\tNULL\thttps://www.notion.so/d5131f7582394224ab969658a0a54443\tNULL\n810030\tcis-3-hexenol\tMonoterpène\t928-96-1\tNULL\tNULL\tNULL\n690006\tcis-Jasmone\tCétone\t488-10-8\tNULL\tNULL\tJasmin, Néroli, Bergamote\n720015\tcis-Nérolidol\tCannabinoïde\t3790-78-1\tNULL\tCannabis sativa\tNULL\n810045\tcurlone\tSesquiterpène\t82508-14-3\tNULL\tNULL\tNULL\n810036\tdihydrotagetone\tCétone\t1879-00-1\tNULL\tNULL\tNULL\n810055\tdillapiole\tNon classé\t484-31-1\tNULL\tNULL\tNULL\n810015\telemol\tSesquiterpène\t639-99-6\tNULL\tNULL\tNULL\n1410051\tepi-β-Santalol\tboise\tNULL\tNULL\thttps://www.notion.so/affc41d1c7034fa4a8c0c3726d5d8e33\tNULL\n810022\teugenol\tPhénol\t97-53-0\tNULL\tNULL\tNULL\n810008\tgamma-terpinene\tMonoterpène\t99-85-4\tNULL\tNULL\tNULL\n810032\tgeranial\tMonoterpène\t5392-40-5\tNULL\tNULL\tNULL\n810043\tgeraniol\tMonoterpène\t106-24-1\tNULL\tNULL\tNULL\n810031\thexenal\tAldéhyde\t1335-39-3\tNULL\tNULL\tNULL\n810003\tlimonene\tMonoterpène\t138-86-3\tNULL\tNULL\tNULL\n810038\tmegastigmatrienone\tNorisoprénoïde\t5896-02-6\tNULL\tNULL\tNULL\n810049\tmonoterpenes (resin mix)\tPhénylpropanoïde\tNULL\tNULL\tNULL\tNULL\n810004\tmyrcene\tMonoterpène\t123-35-3\tNULL\tNULL\tNULL\n810033\tneral\tMonoterpène\t106-26-3\tNULL\tNULL\tNULL\n810011\tocimene\tMonoterpène\t29714-87-2\tNULL\tNULL\tNULL\n1410023\tp-Cresol\tanimal\tNULL\tNULL\thttps://www.notion.so/63860818c5b441f1bd3e735585eeec52\tNULL\n1050022\tp-Crésyl méthyl éther\tHétérocycle\t104-93-8\tNULL\tNULL\tNULL\n570072\tp-Cymène\tMonoterpène\t99-87-6\tNULL\tNULL\tNULL\n810009\tp-cymene\tMonoterpène\t99-87-6\tNULL\tNULL\tNULL\n810057\tprofil résineux supposé\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n810058\trésines\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n810059\trésines aromatiques\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n810010\tsabinene\tMonoterpène\t3387-41-5\tNULL\tNULL\tNULL\n810048\tsesquiterpenes (resin mix)\tNon classé\tNULL\tNULL\tNULL\tNULL\n810035\ttagetone\tCétone\t23985-25-3\tNULL\tNULL\tNULL\n810060\tterpenes\tPhénylpropanoïde\tNULL\tNULL\tNULL\tNULL\n810012\tterpinolene\tMonoterpène\t586-62-9\tNULL\tNULL\tNULL\n810061\ttraces aromatiques\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n810062\ttraces terpéniques\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1410067\ttrans-2-Hexenal\tvert\tNULL\tNULL\thttps://www.notion.so/2f1591c772f743b3ae8365e46cb8b2c6\tNULL\n1410021\ttrans-2-Hexenol\tvert\tNULL\tNULL\thttps://www.notion.so/3f268099dd68408e8a786a72dd6480c3\tNULL\n1410026\ttrans-2-Nonenal\tfruite\tNULL\tNULL\thttps://www.notion.so/afaa45548ba94667b423ea1ea4226164\tNULL\n720014\ttrans-Nérolidol\tCannabinoïde\t40716-66-3\tNULL\tCannabis sativa\tNULL\n810016\tvalerianol\tSesquiterpène\t20489-45-6\tNULL\tNULL\tNULL\n810020\tzingiberene\tSesquiterpène\t495-60-3\tNULL\tNULL\tNULL\n1350020\tÉpigallocatéchine gallate\tFlavonoïde\t989-51-5\tNULL\tNULL\tNULL\n1350071\tÉpigallocatéchine gallate (EGCG)\tFlavonoïde\t989-51-5\tNULL\tNULL\tNULL\n60014\tÉthyl Hexanoate\tEster\t123-66-0\tNULL\tNULL\tNULL\n210009\tÉthyl butyrate\tEster\t105-54-4\tNULL\tSynthétique ou naturel (ananas, pomme)\tNULL\n1500005\tÉthyl décanoate\tfruite\tNULL\tNULL\tNULL\tNULL\n1500007\tÉthyl phénylacétate\tfloral\tNULL\tNULL\tNULL\tNULL\n900001\tΔ9-THC\tCannabinoïde\tNULL\tNULL\tNULL\tNULL\n1050009\tα-Bergamotène\tSesquiterpène\t17699-05-7\tNULL\tNULL\tNULL\n720016\tα-Bisabolol\tCannabinoïde\t23089-26-1\tNULL\tCannabis sativa\tNULL\n1050003\tα-Bulnésène\tSesquiterpène\t3691-11-0\tNULL\tNULL\tNULL\n1410048\tα-Cadinol\tboise\tNULL\tNULL\thttps://www.notion.so/222bb73124a54953bd8ede1e6d123eff\tNULL\n1650005\tα-Copaène\tSesquiterpène\t3856-25-5\tNULL\tNULL\tNULL\n570063\tα-Cédrène\tSesquiterpène\t469-61-4\tNULL\tNULL\tNULL\n720025\tα-Damascone\tComposé du tabac\t43052-87-5\tNULL\tNicotiana tabacum\tNULL\n1050004\tα-Guaiène\tSesquiterpène\t3691-12-1\tNULL\tNULL\tNULL\n570066\tα-Humulène\tSesquiterpène\t6753-98-6\tNULL\tNULL\tNULL\n1380032\tα-Méthyl Ionone\tfloral\t127-51-5\tNULL\tNULL\tNULL\n1050006\tα-Patchoulène\tSesquiterpène\t560-32-7\tNULL\tNULL\tNULL\n720004\tα-Phellandrène\tCannabinoïde\t99-83-2\tNULL\tCannabis sativa\tNULL\n30008\tα-Pinène\tMonoterpène\t80-56-8\tNULL\tPin, sapin, romarin, cannabis\tProtium heptaphyllum, Pin, Romarin, Eucalyptus, Sauge\n720006\tα-Terpinène\tCannabinoïde\t99-86-5\tNULL\tCannabis sativa\tNULL\n570052\tα-Terpinéol\tMonoterpène\t98-55-5\tNULL\tNULL\tNULL\n1410055\tα-Thujene\tboise\tNULL\tNULL\thttps://www.notion.so/d25bd189b3274dc3b149ce5e587e6719\tNULL\n1050012\tα-Thujène\tMonoterpène\t2867-05-2\tNULL\tNULL\tNULL\n1110004\tα-Turmérone\tSesquiterpène\t532-65-0\tNULL\tNULL\tCurcuma longa\n1050002\tα-Vétivone\tSesquiterpène\t15764-04-2\tNULL\tNULL\tNULL\n690009\tα-Vétivène\tSesquiterpène\t5765-27-5\tNULL\tNULL\tVétiver (Vetiveria zizanioides)\n750007\tβ-Asarone\tSesquiterpène\t5273-86-9\tNULL\tAcorus calamus (Calamus/Acore)\tNULL\n900009\tβ-Caryophyllene\tSesquiterpène\t87-44-5\tNULL\tNULL\tNULL\n30005\tβ-Caryophyllène\tSesquiterpène\t87-44-5\tNULL\tCannabis, poivre noir, clou de girofle\tProtium heptaphyllum, Poivre noir, Clou de girofle, Houblon, Cannabis\n1290019\tβ-Cyclocitral\tfruite\t432-25-7\tNULL\tPMC:8306096\ttabac,Virginia,flue-cured,caroténoïdes\n570064\tβ-Cédrène\tSesquiterpène\t546-28-1\tNULL\tNULL\tNULL\n720023\tβ-Damascenone\tComposé du tabac\t23726-93-4\tNULL\tNicotiana tabacum\tNULL\n720024\tβ-Damascone\tComposé du tabac\t23726-92-3\tNULL\tNicotiana tabacum\tNULL\n570044\tβ-Damascénone\tCétone\t23726-93-4\tNULL\tNULL\tNULL\n1350035\tβ-Glucane\tPolysaccharide\t9041-22-9\tNULL\tNULL\tNULL\n720021\tβ-Ionone\tComposé du tabac\t14901-07-6\tNULL\tNicotiana tabacum\tNULL\n900007\tβ-Myrcene\tMonoterpène\t123-35-3\tNULL\tNULL\tNULL\n720002\tβ-Ocimène\tCannabinoïde\t3779-61-1\tNULL\tCannabis sativa\tNULL\n1050007\tβ-Patchoulène\tSesquiterpène\t514-51-2\tNULL\tNULL\tNULL\n1050011\tβ-Phellandrène\tMonoterpène\t555-10-2\tNULL\tNULL\tNULL\n930007\tβ-Pinène\tboise\t127-91-3\tNULL\tNULL\tProtium heptaphyllum, Pin, Persil, Romarin, Basilic\n1050001\tβ-Santalol\tSesquiterpène\t77-42-9\tNULL\tNULL\tNULL\n1650012\tβ-Sesquiphellandrène\tSesquiterpène\t20307-83-9\tNULL\tNULL\tNULL\n1300023\tβ-Sitostérol\tautre\t83-46-5\tNULL\tNULL\tNULL\n840007\tβ-Sélinène\tSesquiterpène\t17066-67-0\tNULL\tCommiphora myrrha, Céleri\tNULL\n1050015\tβ-Vétispirène\tSesquiterpène\t63837-33-2\tNULL\tNULL\tNULL\n690010\tβ-Vétivène\tSesquiterpène\t18444-79-6\tNULL\tNULL\tVétiver (Vetiveria zizanioides)\n120004\tβ-guaïène\tSesquiterpène\tNULL\tNULL\tBois de gaïac\tNULL\n780013\tβ-sitostérol\tautre\t83-46-5\tNULL\tNardostachys jatamansi, huiles végétales, graines\tNULL\n840005\tβ-Élémène\tSesquiterpène\t515-13-9\tNULL\tCommiphora myrrha, Curcuma, Gingembre\tNULL\n1410068\tγ-Curcumene\tepice\tNULL\tNULL\thttps://www.notion.so/569d50ddec7c4fc287251111680499f2\tNULL\n1020005\tγ-Curcumène\tSesquiterpène\tNULL\tNULL\tHelichrysum italicum, Curcuma\tNULL\n1110020\tγ-Decalactone\tEster\tNULL\tNULL\tNULL\tNULL\n1110019\tγ-Nonalactone\tEster\t104-61-0\tNULL\tNULL\tNULL\n1410069\tγ-Terpinene\tagrume\tNULL\tNULL\thttps://www.notion.so/7f3b3e9cb3874c2482cc214f8177a16f\tNULL\n720007\tγ-Terpinène\tCannabinoïde\t99-85-4\tNULL\tCannabis sativa\tNULL\n1110022\tγ-Undecalactone\tEster\t104-67-6\tNULL\tNULL\tNULL\n90063\tγ-dodecalactone\tLactone\t2305-05-7\tNULL\tNULL\tNULL\n1650004\tδ-2-Carène\tNon classé\t3725-43-7\tNULL\tNULL\tNULL\n1410057\tδ-3-Carene\tboise\tNULL\tNULL\thttps://www.notion.so/088e8274de914b4189a910db5e122bc9\tNULL\n1650007\tδ-Cadinène\tSesquiterpène\t483-76-1\tNULL\tNULL\tNULL\n1110021\tδ-Decalactone\tEster\tNULL\tNULL\tNULL\tNULL\n210008\tδ-Décalactone\tLactone\t705-86-2\tNULL\tSynthétique ou naturel (pêche, abricot)\tNULL\n90064\tδ-dodecalactone\tLactone\t713-95-1\tNULL\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

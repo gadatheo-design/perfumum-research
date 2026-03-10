@@ -1,27 +1,35 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { toast } from "sonner";
-import { Link2, Leaf, Database, Play, Eye, CheckCircle, XCircle, AlertCircle, ExternalLink } from "lucide-react";
+import {
+  Link2, Leaf, Play, Eye, CheckCircle, XCircle, AlertCircle,
+  ExternalLink, ChevronLeft, ChevronRight, Filter,
+} from "lucide-react";
+
+const PAGE_SIZE = 30;
+
+type FilterMode = "all" | "missing" | "enriched";
 
 export default function LOTUSBatch() {
-  const [selectedPlantId, setSelectedPlantId] = useState<number | null>(null);
   const [batchRunning, setBatchRunning] = useState(false);
   const [batchResults, setBatchResults] = useState<any>(null);
-  const [previewResults, setPreviewResults] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterMode, setFilterMode] = useState<FilterMode>("all");
+  const [page, setPage] = useState(1);
 
   const { data: stats, refetch: refetchStats } = trpc.lotus.getStats.useQuery();
 
-  const { data: plantsData } = trpc.gbif.getPlantsToEnrich.useQuery({
-    limit: 100,
+  // Charger TOUTES les plantes avec nom latin (pas de limite artificielle)
+  const { data: plantsData, isLoading: plantsLoading } = trpc.gbif.getPlantsToEnrich.useQuery({
+    limit: 9999,
     onlyMissing: false,
   });
 
@@ -29,26 +37,9 @@ export default function LOTUSBatch() {
     onSuccess: (data) => {
       toast.success(`${data.plant} : ${data.created} liaison(s) créée(s)`);
       refetchStats();
-      setPreviewResults(null);
     },
     onError: (err) => toast.error(`Erreur : ${err.message}`),
   });
-
-  const previewMutation = trpc.lotus.previewPlant.useQuery(
-    { plantId: selectedPlantId! },
-    {
-      enabled: false,
-    }
-  );
-
-  const handlePreview = async (plantId: number) => {
-    setSelectedPlantId(plantId);
-    // Déclencher manuellement via refetch
-  };
-
-  const handleEnrich = async (plantId: number, dryRun = false) => {
-    enrichMutation.mutate({ plantId, dryRun });
-  };
 
   const batchMutation = trpc.lotus.enrichBatch.useMutation({
     onSuccess: (result) => {
@@ -69,11 +60,53 @@ export default function LOTUSBatch() {
     batchMutation.mutate({ limit: 10, onlyWithoutLinks: true });
   };
 
-  const filteredPlants = plantsData?.filter(p =>
-    !searchQuery ||
-    p.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.latinName?.toLowerCase().includes(searchQuery.toLowerCase())
-  ) || [];
+  const handleEnrich = (plantId: number, dryRun = false) => {
+    enrichMutation.mutate({ plantId, dryRun });
+  };
+
+  // Filtrage et recherche
+  const filteredPlants = useMemo(() => {
+    if (!plantsData) return [];
+    let list = plantsData;
+
+    // Filtre par mode
+    if (filterMode === "missing") {
+      list = list.filter(p => !p.gbifId || !p.family || !p.conservationStatus);
+    } else if (filterMode === "enriched") {
+      list = list.filter(p => p.gbifId && p.family);
+    }
+
+    // Filtre par recherche
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(p =>
+        p.name?.toLowerCase().includes(q) ||
+        p.latinName?.toLowerCase().includes(q) ||
+        p.family?.toLowerCase().includes(q)
+      );
+    }
+
+    return list;
+  }, [plantsData, filterMode, searchQuery]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredPlants.length / PAGE_SIZE);
+  const currentPage = Math.min(page, Math.max(1, totalPages));
+  const paginatedPlants = filteredPlants.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  // Réinitialiser la page quand le filtre change
+  const handleFilterChange = (mode: FilterMode) => {
+    setFilterMode(mode);
+    setPage(1);
+  };
+  const handleSearch = (q: string) => {
+    setSearchQuery(q);
+    setPage(1);
+  };
+
+  const totalPlants = plantsData?.length ?? 0;
+  const missingCount = plantsData?.filter(p => !p.gbifId || !p.family || !p.conservationStatus).length ?? 0;
+  const enrichedCount = plantsData?.filter(p => p.gbifId && p.family).length ?? 0;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -84,6 +117,7 @@ export default function LOTUSBatch() {
       ]} />
 
       <main className="flex-1 container py-8 space-y-6">
+        {/* En-tête */}
         <div className="flex items-center gap-3">
           <div className="p-2 bg-emerald-100 rounded-lg">
             <Link2 className="h-6 w-6 text-emerald-600" />
@@ -177,53 +211,171 @@ export default function LOTUSBatch() {
           </CardContent>
         </Card>
 
-        {/* Liste des plantes */}
+        {/* Liste des plantes — toutes */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Leaf className="h-4 w-4" />
-              Enrichissement par plante
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <input
-              type="text"
-              placeholder="Rechercher une plante..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="w-full px-3 py-2 text-sm border rounded-md bg-background"
-            />
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <CardTitle className="text-base flex items-center gap-2 shrink-0">
+                <Leaf className="h-4 w-4" />
+                Enrichissement par plante
+                {!plantsLoading && (
+                  <Badge variant="secondary" className="ml-1 font-mono">
+                    {filteredPlants.length} / {totalPlants}
+                  </Badge>
+                )}
+              </CardTitle>
 
-            <div className="space-y-2 max-h-[500px] overflow-y-auto">
-              {filteredPlants.slice(0, 50).map((plant) => (
-                <div key={plant.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50">
-                  <div>
-                    <div className="font-medium text-sm">{plant.name}</div>
-                    <div className="text-xs text-muted-foreground italic">{plant.latinName}</div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleEnrich(plant.id, true)}
-                      disabled={enrichMutation.isPending}
+              <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+                {/* Filtres */}
+                <div className="flex items-center gap-1 text-xs">
+                  <Filter className="h-3 w-3 text-muted-foreground" />
+                  {(["all", "missing", "enriched"] as FilterMode[]).map((mode) => (
+                    <button
+                      key={mode}
+                      onClick={() => handleFilterChange(mode)}
+                      className={`px-2 py-1 rounded text-xs border transition-colors ${
+                        filterMode === mode
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-background border-border hover:bg-muted"
+                      }`}
                     >
-                      <Eye className="h-3 w-3 mr-1" />
-                      Dry-run
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => handleEnrich(plant.id, false)}
-                      disabled={enrichMutation.isPending}
-                      className="bg-emerald-600 hover:bg-emerald-700"
-                    >
-                      <Link2 className="h-3 w-3 mr-1" />
-                      Enrichir
-                    </Button>
-                  </div>
+                      {mode === "all" && `Toutes (${totalPlants})`}
+                      {mode === "missing" && `À enrichir (${missingCount})`}
+                      {mode === "enriched" && `Enrichies (${enrichedCount})`}
+                    </button>
+                  ))}
                 </div>
-              ))}
+
+                {/* Recherche */}
+                <Input
+                  type="text"
+                  placeholder="Rechercher (nom, latin, famille)…"
+                  value={searchQuery}
+                  onChange={e => handleSearch(e.target.value)}
+                  className="h-8 text-xs w-52"
+                />
+              </div>
             </div>
+          </CardHeader>
+
+          <CardContent className="space-y-3">
+            {plantsLoading ? (
+              <div className="text-center py-8 text-muted-foreground text-sm">Chargement des plantes…</div>
+            ) : filteredPlants.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground text-sm">
+                Aucune plante ne correspond aux critères sélectionnés.
+              </div>
+            ) : (
+              <>
+                {/* Liste paginée */}
+                <div className="space-y-1.5">
+                  {paginatedPlants.map((plant) => (
+                    <div
+                      key={plant.id}
+                      className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 gap-3"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="font-medium text-sm truncate">{plant.name}</div>
+                        <div className="text-xs text-muted-foreground italic truncate">{plant.latinName}</div>
+                        {plant.family && (
+                          <div className="text-xs text-muted-foreground truncate">{plant.family}</div>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        {/* Statut GBIF */}
+                        {plant.gbifId ? (
+                          <Badge variant="outline" className="text-xs text-emerald-600 border-emerald-200 bg-emerald-50 hidden sm:flex">
+                            <CheckCircle className="h-2.5 w-2.5 mr-1" />
+                            GBIF
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline" className="text-xs text-amber-600 border-amber-200 bg-amber-50 hidden sm:flex">
+                            <AlertCircle className="h-2.5 w-2.5 mr-1" />
+                            Sans GBIF
+                          </Badge>
+                        )}
+
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleEnrich(plant.id, true)}
+                          disabled={enrichMutation.isPending}
+                          className="h-7 text-xs px-2"
+                        >
+                          <Eye className="h-3 w-3 mr-1" />
+                          Dry-run
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => handleEnrich(plant.id, false)}
+                          disabled={enrichMutation.isPending}
+                          className="bg-emerald-600 hover:bg-emerald-700 h-7 text-xs px-2"
+                        >
+                          <Link2 className="h-3 w-3 mr-1" />
+                          Enrichir
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-between pt-2 border-t">
+                    <span className="text-xs text-muted-foreground">
+                      Page {currentPage} / {totalPages} — {filteredPlants.length} plantes
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 w-7 p-0"
+                        onClick={() => setPage(p => Math.max(1, p - 1))}
+                        disabled={currentPage === 1}
+                      >
+                        <ChevronLeft className="h-3.5 w-3.5" />
+                      </Button>
+
+                      {/* Pages numérotées (max 7 visibles) */}
+                      {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {
+                        let pageNum: number;
+                        if (totalPages <= 7) {
+                          pageNum = i + 1;
+                        } else if (currentPage <= 4) {
+                          pageNum = i + 1;
+                        } else if (currentPage >= totalPages - 3) {
+                          pageNum = totalPages - 6 + i;
+                        } else {
+                          pageNum = currentPage - 3 + i;
+                        }
+                        return (
+                          <Button
+                            key={pageNum}
+                            variant={currentPage === pageNum ? "default" : "outline"}
+                            size="sm"
+                            className="h-7 w-7 p-0 text-xs"
+                            onClick={() => setPage(pageNum)}
+                          >
+                            {pageNum}
+                          </Button>
+                        );
+                      })}
+
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-7 w-7 p-0"
+                        onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                        disabled={currentPage === totalPages}
+                      >
+                        <ChevronRight className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
           </CardContent>
         </Card>
       </main>

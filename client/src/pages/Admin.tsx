@@ -25,7 +25,8 @@ import {
   Upload,
   Globe,
   Link2,
-  PackageOpen
+  PackageOpen,
+  ArrowRightLeft
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -311,6 +312,14 @@ export default function Admin() {
       href: "/admin/bundle-visualizer",
       color: "text-slate-600",
       bgColor: "bg-slate-50",
+    },
+    {
+      title: "Reclassifier les Matières Premières",
+      description: "Déplacer les extraits, résines, huiles et accords mal classés dans molecules vers raw_materials.",
+      icon: ArrowRightLeft,
+      href: "/admin/reclassify-molecules",
+      color: "text-amber-600",
+      bgColor: "bg-amber-50",
     },
   ];
 

@@ -170,8 +170,8 @@ export const gbifRouter = router({
    */
   getPlantsToEnrich: publicProcedure
     .input(z.object({
-      limit: z.number().default(50),
-      onlyMissing: z.boolean().default(true),
+      limit: z.number().default(9999), // 9999 = toutes les plantes
+      onlyMissing: z.boolean().default(false), // false = afficher toutes par défaut
     }))
     .query(async ({ input }) => {
       const db = await getDb();
@@ -188,7 +188,7 @@ export const gbifRouter = router({
         input.onlyMissing
           ? sql`${plants.latinName} IS NOT NULL AND ${plants.latinName} != '' AND (${plants.gbifId} IS NULL OR ${plants.family} IS NULL OR ${plants.conservationStatus} IS NULL)`
           : sql`${plants.latinName} IS NOT NULL AND ${plants.latinName} != ''`
-      ).limit(input.limit);
+      ).orderBy(plants.name).limit(input.limit);
 
       return query;
     }),

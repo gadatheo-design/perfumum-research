@@ -1,0 +1,13 @@
+{
+  "query": "\n-- Total molécules\nSELECT COUNT(*) as total_molecules FROM molecules;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Total molécules\nSELECT COUNT(*) as total_molecules FROM molecules;\n",
+  "rows": [
+    {
+      "total_molecules": "1109"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\n1109\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

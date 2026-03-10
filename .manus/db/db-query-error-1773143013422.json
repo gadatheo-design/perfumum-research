@@ -1,0 +1,8 @@
+{
+  "query": "\n-- 1. Molécules sans CID PubChem (candidates à être des matières premières)\nSELECT id, name, chemical_family, olfactive_family, cas_number, pubchem_cid, source\nFROM molecules\nWHERE pubchem_cid IS NULL OR pubchem_cid = ''\nORDER BY name\nLIMIT 100;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- 1. Molécules sans CID PubChem (candidates à être des matières premières)\nSELECT id, name, chemical_family, olfactive_family, cas_number, pubchem_cid, source\nFROM molecules\nWHERE pubchem_cid IS NULL OR pubchem_cid = ''\nORDER BY name\nLIMIT 100;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 'chemical_family' in 'field list'"
+  ]
+}
