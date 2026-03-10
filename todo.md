@@ -1938,3 +1938,12 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Remplacer PERFUMUM_FINAL_DATA.json et aromatic_rarities.json par des appels tRPC
 - [ ] Ajouter Evernia prunastri dans la table plants et lier la Mousse de Chêne
 - [ ] Lancer l'audit des doublons et corriger les groupes identifiés
+
+## SESSION 10 MARS 2026 — FK Orphelines & Doublons Plantes
+
+- [x] Auditer les colonnes réelles de molecule_accords (moleculeId camelCase) et plant_molecules (0 orpheline)
+- [x] Corriger les FK orphelines : aucune trouvée (6669 liaisons plant_molecules intactes)
+- [x] Analyser 47 groupes de doublons de plantes (bien plus que les 10 estimés)
+- [x] Conserver les variantes d'organes avec note (Muscade/Macis, Combava/Feuille, Bigaradier/Néroli)
+- [x] Fusionner 61 doublons de plantes (524 → 486 plantes, 6 groupes légitimes restants)
+- [ ] Sauvegarder le checkpoint
