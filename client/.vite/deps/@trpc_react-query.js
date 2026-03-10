@@ -12,10 +12,10 @@ import {
   useSuspenseInfiniteQuery,
   useSuspenseQueries,
   useSuspenseQuery
-} from "./chunk-JV64C2MB.js";
+} from "./chunk-NTQ2OQOT.js";
 import {
   require_jsx_runtime
-} from "./chunk-C7IBZWIG.js";
+} from "./chunk-DGDLWPZF.js";
 import {
   TRPCClientError,
   TRPCUntypedClient,
@@ -49,10 +49,10 @@ import {
 } from "./chunk-POUGY4WK.js";
 import {
   require_react
-} from "./chunk-W565UGJ3.js";
+} from "./chunk-PZKFATAE.js";
 import {
   __toESM
-} from "./chunk-IKZWERSR.js";
+} from "./chunk-G3PMV62Z.js";
 
 // node_modules/.pnpm/@trpc+react-query@11.8.1_@tanstack+react-query@5.90.12_react@18.3.1__@trpc+client@11.8._7e3d44fdf6711941d7d72aac7ffb9295/node_modules/@trpc/react-query/dist/getQueryKey-BY58RNzP.mjs
 var __create = Object.create;

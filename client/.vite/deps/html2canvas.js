@@ -1,4 +1,4 @@
-import "./chunk-IKZWERSR.js";
+import "./chunk-G3PMV62Z.js";
 
 // node_modules/.pnpm/html2canvas@1.4.1/node_modules/html2canvas/dist/html2canvas.esm.js
 var extendStatics = function(d, b) {

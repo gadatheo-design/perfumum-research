@@ -1,7 +1,7 @@
 import {
   _typeof
 } from "./chunk-BQQDHCBN.js";
-import "./chunk-IKZWERSR.js";
+import "./chunk-G3PMV62Z.js";
 
 // node_modules/.pnpm/fflate@0.8.2/node_modules/fflate/esm/browser.js
 var ch2 = {};
@@ -13263,7 +13263,7 @@ function le(t2) {
     });
   }
   function r() {
-    return (i.DOMPurify ? Promise.resolve(i.DOMPurify) : import("./purify.es-QC4CZ2IF.js")).catch(function(t2) {
+    return (i.DOMPurify ? Promise.resolve(i.DOMPurify) : import("./purify.es-ZBI6PZ2H.js")).catch(function(t2) {
       return Promise.reject(new Error("Could not load dompurify: " + t2));
     }).then(function(t2) {
       return t2.default ? t2.default : t2;
@@ -13953,7 +13953,7 @@ function le(t2) {
   var h2 = l2.getContext("2d");
   h2.fillStyle = "#fff", h2.fillRect(0, 0, l2.width, l2.height);
   var f2 = { ignoreMouse: true, ignoreAnimation: true, ignoreDimensions: true }, d2 = this;
-  return (i.canvg ? Promise.resolve(i.canvg) : import("./index.es-JWPGDXNJ.js")).catch(function(t3) {
+  return (i.canvg ? Promise.resolve(i.canvg) : import("./index.es-VWJ4XZVY.js")).catch(function(t3) {
     return Promise.reject(new Error("Could not load canvg: " + t3));
   }).then(function(t3) {
     return t3.default ? t3.default : t3;
