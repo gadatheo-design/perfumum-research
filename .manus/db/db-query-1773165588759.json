@@ -1,0 +1,118 @@
+{
+  "query": "-- Citrus hystrix : Combava (fruit zeste) vs Combava Feuille\nUPDATE plants SET plant_part = 'zeste' WHERE id = 660755 AND name LIKE '%Combava%' AND notes LIKE '%fruit%';\nUPDATE plants SET plant_part = 'feuille' WHERE id = 690117 AND notes LIKE '%feuille%';\n\n-- Citrus aurantium : Bigaradier (fruit/écorce) vs Néroli (fleur)\nUPDATE plants SET plant_part = 'zeste' WHERE id = 420001 AND notes LIKE '%fruit%';\nUPDATE plants SET plant_part = 'fleur' WHERE id = 690175 AND notes LIKE '%fleur%';\n\n-- Myristica fragrans : Muscade (graine) vs Macis (arille)\nUPDATE plants SET plant_part = 'graine' WHERE latin_name = 'Myristica fragrans' AND (name LIKE '%Muscade%' OR name LIKE '%Noix%');\nUPDATE plants SET plant_part = 'arille' WHERE latin_name = 'Myristica fragrans' AND name LIKE '%Macis%';\n\n-- Vetiveria zizanioides : racine\nUPDATE plants SET plant_part = 'racine' WHERE latin_name LIKE '%Vetiveria%' OR latin_name LIKE '%Chrysopogon zizanioides%';\n\n-- Syzygium aromaticum : clou (bouton floral) vs feuille\nUPDATE plants SET plant_part = 'fleur' WHERE latin_name = 'Syzygium aromaticum' AND (name LIKE '%Clou%' OR name LIKE '%Girofle%') AND name NOT LIKE '%feuille%' AND name NOT LIKE '%tige%';\nUPDATE plants SET plant_part = 'feuille' WHERE latin_name = 'Syzygium aromaticum' AND name LIKE '%feuille%';\nUPDATE plants SET plant_part = 'feuille_tige' WHERE latin_name = 'Syzygium aromaticum' AND name LIKE '%tige%';\n\n-- Evernia prunastri : thalle (lichen)\nUPDATE plants SET plant_part = 'thalle' WHERE latin_name = 'Evernia prunastri';\n\n-- Boswellia sacra : résine\nUPDATE plants SET plant_part = 'resine' WHERE latin_name LIKE 'Boswellia%';\n\n-- Cinnamomum : écorce vs feuille\nUPDATE plants SET plant_part = 'ecorce' WHERE latin_name LIKE 'Cinnamomum%' AND (name LIKE '%Cannelle%' OR name LIKE '%Cannelier%') AND name NOT LIKE '%feuille%';\nUPDATE plants SET plant_part = 'feuille' WHERE latin_name LIKE 'Cinnamomum%' AND name LIKE '%feuille%';\n\nSELECT id, name, latin_name, plant_part FROM plants WHERE plant_part IS NOT NULL ORDER BY latin_name LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Citrus hystrix : Combava (fruit zeste) vs Combava Feuille\nUPDATE plants SET plant_part = 'zeste' WHERE id = 660755 AND name LIKE '%Combava%' AND notes LIKE '%fruit%';\nUPDATE plants SET plant_part = 'feuille' WHERE id = 690117 AND notes LIKE '%feuille%';\n\n-- Citrus aurantium : Bigaradier (fruit/écorce) vs Néroli (fleur)\nUPDATE plants SET plant_part = 'zeste' WHERE id = 420001 AND notes LIKE '%fruit%';\nUPDATE plants SET plant_part = 'fleur' WHERE id = 690175 AND notes LIKE '%fleur%';\n\n-- Myristica fragrans : Muscade (graine) vs Macis (arille)\nUPDATE plants SET plant_part = 'graine' WHERE latin_name = 'Myristica fragrans' AND (name LIKE '%Muscade%' OR name LIKE '%Noix%');\nUPDATE plants SET plant_part = 'arille' WHERE latin_name = 'Myristica fragrans' AND name LIKE '%Macis%';\n\n-- Vetiveria zizanioides : racine\nUPDATE plants SET plant_part = 'racine' WHERE latin_name LIKE '%Vetiveria%' OR latin_name LIKE '%Chrysopogon zizanioides%';\n\n-- Syzygium aromaticum : clou (bouton floral) vs feuille\nUPDATE plants SET plant_part = 'fleur' WHERE latin_name = 'Syzygium aromaticum' AND (name LIKE '%Clou%' OR name LIKE '%Girofle%') AND name NOT LIKE '%feuille%' AND name NOT LIKE '%tige%';\nUPDATE plants SET plant_part = 'feuille' WHERE latin_name = 'Syzygium aromaticum' AND name LIKE '%feuille%';\nUPDATE plants SET plant_part = 'feuille_tige' WHERE latin_name = 'Syzygium aromaticum' AND name LIKE '%tige%';\n\n-- Evernia prunastri : thalle (lichen)\nUPDATE plants SET plant_part = 'thalle' WHERE latin_name = 'Evernia prunastri';\n\n-- Boswellia sacra : résine\nUPDATE plants SET plant_part = 'resine' WHERE latin_name LIKE 'Boswellia%';\n\n-- Cinnamomum : écorce vs feuille\nUPDATE plants SET plant_part = 'ecorce' WHERE latin_name LIKE 'Cinnamomum%' AND (name LIKE '%Cannelle%' OR name LIKE '%Cannelier%') AND name NOT LIKE '%feuille%';\nUPDATE plants SET plant_part = 'feuille' WHERE latin_name LIKE 'Cinnamomum%' AND name LIKE '%feuille%';\n\nSELECT id, name, latin_name, plant_part FROM plants WHERE plant_part IS NOT NULL ORDER BY latin_name LIMIT 30;",
+  "rows": [
+    {
+      "id": "30014",
+      "name": "Encens / Oliban",
+      "latin_name": "Boswellia carterii",
+      "plant_part": "resine"
+    },
+    {
+      "id": "210016",
+      "name": "Encens ouest-africain",
+      "latin_name": "Boswellia dalzielii",
+      "plant_part": "resine"
+    },
+    {
+      "id": "270004",
+      "name": "Encens négligé",
+      "latin_name": "Boswellia neglecta",
+      "plant_part": "resine"
+    },
+    {
+      "id": "270002",
+      "name": "Encens d'Éthiopie",
+      "latin_name": "Boswellia papyrifera",
+      "plant_part": "resine"
+    },
+    {
+      "id": "270003",
+      "name": "Encens de Rivae",
+      "latin_name": "Boswellia rivae",
+      "plant_part": "resine"
+    },
+    {
+      "id": "150008",
+      "name": "Oliban (Encens)",
+      "latin_name": "Boswellia sacra",
+      "plant_part": "resine"
+    },
+    {
+      "id": "690259",
+      "name": "Oliban (Boswellia serrata)",
+      "latin_name": "Boswellia serrata",
+      "plant_part": "resine"
+    },
+    {
+      "id": "270007",
+      "name": "Vétiver d'Haïti",
+      "latin_name": "Chrysopogon zizanioides",
+      "plant_part": "racine"
+    },
+    {
+      "id": "750014",
+      "name": "Vétiver de Haïti",
+      "latin_name": "Chrysopogon zizanioides (écotype Haïti)",
+      "plant_part": "racine"
+    },
+    {
+      "id": "240003",
+      "name": "Cannelier de Ceylan",
+      "latin_name": "Cinnamomum verum",
+      "plant_part": "ecorce"
+    },
+    {
+      "id": "690175",
+      "name": "Néroli (Oranger amer)",
+      "latin_name": "Citrus aurantium",
+      "plant_part": "fleur"
+    },
+    {
+      "id": "420001",
+      "name": "Bigaradier",
+      "latin_name": "Citrus aurantium",
+      "plant_part": "zeste"
+    },
+    {
+      "id": "660755",
+      "name": "Combava",
+      "latin_name": "Citrus hystrix",
+      "plant_part": "zeste"
+    },
+    {
+      "id": "690117",
+      "name": "Combava (Feuille)",
+      "latin_name": "Citrus hystrix",
+      "plant_part": "feuille"
+    },
+    {
+      "id": "1050001",
+      "name": "Mousse de Chêne (Oakmoss)",
+      "latin_name": "Evernia prunastri",
+      "plant_part": "thalle"
+    },
+    {
+      "id": "690213",
+      "name": "Macis",
+      "latin_name": "Myristica fragrans",
+      "plant_part": "arille"
+    },
+    {
+      "id": "420008",
+      "name": "Muscade",
+      "latin_name": "Myristica fragrans",
+      "plant_part": "graine"
+    },
+    {
+      "id": "30008",
+      "name": "Vétiver",
+      "latin_name": "Vetiveria zizanioides",
+      "plant_part": "racine"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tplant_part\n30014\tEncens / Oliban\tBoswellia carterii\tresine\n210016\tEncens ouest-africain\tBoswellia dalzielii\tresine\n270004\tEncens négligé\tBoswellia neglecta\tresine\n270002\tEncens d'Éthiopie\tBoswellia papyrifera\tresine\n270003\tEncens de Rivae\tBoswellia rivae\tresine\n150008\tOliban (Encens)\tBoswellia sacra\tresine\n690259\tOliban (Boswellia serrata)\tBoswellia serrata\tresine\n270007\tVétiver d'Haïti\tChrysopogon zizanioides\tracine\n750014\tVétiver de Haïti\tChrysopogon zizanioides (écotype Haïti)\tracine\n240003\tCannelier de Ceylan\tCinnamomum verum\tecorce\n690175\tNéroli (Oranger amer)\tCitrus aurantium\tfleur\n420001\tBigaradier\tCitrus aurantium\tzeste\n660755\tCombava\tCitrus hystrix\tzeste\n690117\tCombava (Feuille)\tCitrus hystrix\tfeuille\n1050001\tMousse de Chêne (Oakmoss)\tEvernia prunastri\tthalle\n690213\tMacis\tMyristica fragrans\tarille\n420008\tMuscade\tMyristica fragrans\tgraine\n30008\tVétiver\tVetiveria zizanioides\tracine\n",
+  "stderr": "",
+  "execution_time_ms": 196
+}

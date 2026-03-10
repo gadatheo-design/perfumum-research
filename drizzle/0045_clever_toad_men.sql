@@ -1,0 +1,1 @@
+ALTER TABLE `plants` ADD `plant_part` enum('fleur','feuille','fruit','zeste','graine','arille','ecorce','bois','racine','rhizome','bulbe','resine','feuille_tige','plante_entiere','thalle','champignon','autre');

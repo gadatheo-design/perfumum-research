@@ -57,6 +57,7 @@ export default function PlantForm() {
     latinName: "",
     family: "",
     category: "aromatique",
+    plantPart: "",
     origin: "",
     habitat: "",
     olfactiveSignature: "",
@@ -134,6 +135,7 @@ export default function PlantForm() {
         latinName: existingPlant.latinName || "",
         family: existingPlant.family || "",
         category: existingPlant.category || "aromatique",
+        plantPart: existingPlant.plantPart || "",
         origin: existingPlant.origin || "",
         habitat: existingPlant.habitat || "",
         olfactiveSignature: existingPlant.olfactiveSignature || "",
@@ -291,6 +293,36 @@ export default function PlantForm() {
                               {cat.label}
                             </SelectItem>
                           ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="plantPart">Organe végétal</Label>
+                      <Select 
+                        value={formData.plantPart || ""} 
+                        onValueChange={(v) => handleChange("plantPart", v)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Organe source..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="fleur">🌸 Fleur</SelectItem>
+                          <SelectItem value="feuille">🌿 Feuille</SelectItem>
+                          <SelectItem value="fruit">🍊 Fruit</SelectItem>
+                          <SelectItem value="zeste">🍋 Zeste / Écorce de fruit</SelectItem>
+                          <SelectItem value="graine">🌰 Graine</SelectItem>
+                          <SelectItem value="arille">🌱 Arille (ex: Macis)</SelectItem>
+                          <SelectItem value="ecorce">🌳 Écorce de tige</SelectItem>
+                          <SelectItem value="bois">🪵 Bois / Copeaux</SelectItem>
+                          <SelectItem value="racine">🪴 Racine</SelectItem>
+                          <SelectItem value="rhizome">🪴 Rhizome</SelectItem>
+                          <SelectItem value="bulbe">🪴 Bulbe</SelectItem>
+                          <SelectItem value="resine">🪵 Résine / Exsudat</SelectItem>
+                          <SelectItem value="feuille_tige">🌿 Feuille + Tige</SelectItem>
+                          <SelectItem value="plante_entiere">🌾 Plante entière</SelectItem>
+                          <SelectItem value="thalle">🪴 Thalle (lichen/algue)</SelectItem>
+                          <SelectItem value="champignon">🍄 Corps fructifère</SelectItem>
+                          <SelectItem value="autre">• Autre</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

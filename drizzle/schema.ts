@@ -2025,6 +2025,26 @@ export const plants = mysqlTable("plants", {
     "accord_olfactif",     // Accord olfactif composé
     "synthese_chimique"    // Molécule de synthèse
   ]),
+  // Organe végétal source (pour distinguer les variantes d'une même espèce)
+  plantPart: mysqlEnum("plant_part", [
+    "fleur",          // Fleur entière ou pétales
+    "feuille",        // Feuille
+    "fruit",          // Fruit entier
+    "zeste",          // Zeste / écorce de fruit
+    "graine",         // Graine / pépin
+    "arille",         // Arille (ex: macis du muscadier)
+    "ecorce",         // Écorce de tige ou de branche
+    "bois",           // Bois / copeaux
+    "racine",         // Racine
+    "rhizome",        // Rhizome
+    "bulbe",          // Bulbe
+    "resine",         // Résine / exsudat
+    "feuille_tige",   // Feuille + tige (parties aériennes)
+    "plante_entiere", // Plante entière
+    "thalle",         // Thalle (lichens, algues)
+    "champignon",     // Corps fructifère (champignons)
+    "autre"           // Autre organe
+  ]),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });

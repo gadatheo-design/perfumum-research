@@ -3261,6 +3261,7 @@ export const appRouter = router({
         })).optional(),
         notes: z.string().optional(),
         imageUrl: z.string().optional(),
+        plantPart: z.enum(['fleur','feuille','fruit','zeste','graine','arille','ecorce','bois','racine','rhizome','bulbe','resine','feuille_tige','plante_entiere','thalle','champignon','autre']).optional(),
       }))
       .mutation(async ({ input }) => {
         return await db.createPlant(input as any);
@@ -3302,6 +3303,7 @@ export const appRouter = router({
           division: z.string().optional(),
           class: z.string().optional(),
           orderName: z.string().optional(),
+          plantPart: z.enum(['fleur','feuille','fruit','zeste','graine','arille','ecorce','bois','racine','rhizome','bulbe','resine','feuille_tige','plante_entiere','thalle','champignon','autre']).optional().nullable(),
         }),
       }))
       .mutation(async ({ input }) => {

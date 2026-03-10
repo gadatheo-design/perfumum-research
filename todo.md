@@ -1947,3 +1947,13 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Conserver les variantes d'organes avec note (Muscade/Macis, Combava/Feuille, Bigaradier/Néroli)
 - [x] Fusionner 61 doublons de plantes (524 → 486 plantes, 6 groupes légitimes restants)
 - [ ] Sauvegarder le checkpoint
+
+## SESSION 10 MARS 2026 — plant_part & Liaisons Botaniques
+
+- [ ] Ajouter champ plant_part (enum) dans le schéma Drizzle (plants)
+- [ ] Migrer la base avec pnpm db:push
+- [ ] Convertir les notes d'organe textuelles en valeurs plant_part structurées
+- [ ] Mettre à jour l'interface admin pour afficher/éditer plant_part
+- [ ] Auditer les 541 raw_materials sans plant_id
+- [ ] Enrichir les liaisons plante-matière première via script
+- [ ] Sauvegarder le checkpoint
