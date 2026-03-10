@@ -303,6 +303,14 @@ export default function Admin() {
       color: "text-amber-600",
       bgColor: "bg-amber-50",
     },
+    {
+      title: "Visualisation du Bundle",
+      description: "Analyser la structure des dépendances JavaScript — taille des chunks, catégories de pages, ratio de compression.",
+      icon: BarChart3,
+      href: "/admin/bundle-visualizer",
+      color: "text-slate-600",
+      bgColor: "bg-slate-50",
+    },
   ];
 
   return (

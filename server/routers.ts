@@ -1252,6 +1252,29 @@ export const appRouter = router({
     enrichMoleculeData: publicProcedure.mutation(async () => {
       return await db.enrichMoleculeData();
     }),
+    getBundleStats: publicProcedure.query(async () => {
+      // Lire les stats du bundle depuis dist/public/assets/
+      const fs = await import("fs");
+      const path = await import("path");
+      const assetsDir = path.join(process.cwd(), "dist", "public", "assets");
+      try {
+        const files = fs.readdirSync(assetsDir).filter((f: string) => f.endsWith(".js"));
+        const chunks = files.map((file: string) => {
+          const stat = fs.statSync(path.join(assetsDir, file));
+          const name = file.replace(/-[A-Za-z0-9_-]{8}\.js$/, "");
+          // Estimation gzip : ~25% de la taille originale
+          return {
+            name,
+            size: stat.size,
+            gzipSize: Math.round(stat.size * 0.25),
+            category: name.split("-")[0] + (name.includes("-") ? "-" + name.split("-")[1] : ""),
+          };
+        });
+        return chunks;
+      } catch {
+        return [];
+      }
+    }),
   }),
 
   // Glossary
