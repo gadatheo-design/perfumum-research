@@ -1920,3 +1920,15 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Remettre reclassifyAllBatch en mode protégé
 - [x] Nettoyer les fichiers temporaires de debug
 - [x] Sauvegarder le checkpoint
+
+
+## SESSION 10 MARS 2026 (suite) — Enrichissement des 18 matières premières reclassifiées
+
+- [x] Identifier les 18 matières premières reclassifiées récemment (58 au total après déduplication)
+- [x] Rechercher les données botaniques (plante d'origine, nom latin, partie de plante)
+- [x] Rechercher les méthodes d'extraction appropriées pour chaque matière
+- [x] Enrichir les fiches avec famille olfactive et profil olfactif (58/58 profils, 53/58 familles)
+- [x] Lier chaque matière première à sa plante dans la table plants (20/58 avec plante, les autres sont synthétiques ou accords)
+- [x] Supprimer 20 doublons créés lors des tentatives précédentes
+- [ ] Vérifier les données dans l'interface
+- [ ] Sauvegarder le checkpoint

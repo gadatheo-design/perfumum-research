@@ -1,0 +1,17 @@
+{
+  "query": "-- Enrichir Méthyl mercaptan\nUPDATE raw_materials \nSET olfactive_family = 'animal',\n    olfactive_profile = '[\"soufré\",\"animal\",\"ail\",\"chou\",\"putride\",\"très faible dose: truffe\"]',\n    notes = 'Composé organosulfuré (méthanethiol). CAS : 74-93-1. Odeur de soufre, d\\'ail et de chou à forte concentration. À très faible dose (ppb) : contribue à la complexité olfactive de la truffe et de certains fromages. Produit naturellement par la dégradation de la méthionine. Utilisé en parfumerie à doses infimes pour les accords animaliques.'\nWHERE name = 'Méthyl mercaptan' AND material_id LIKE 'RM_%';\n\n-- Enrichir Résine douce  \nUPDATE raw_materials \nSET olfactive_family = 'balsamique',\n    olfactive_profile = '[\"balsamique\",\"doux\",\"vanille\",\"boisé\",\"résine\",\"chaud\"]',\n    notes = 'Terme générique pour les résines végétales à profil doux et balsamique. Peut désigner le benjoin (Styrax benzoin), l\\'élémi ou d\\'autres résines douces. À préciser avec la source botanique exacte.'\nWHERE name = 'Résine douce' AND material_id LIKE 'RM_%';\n\n-- Vérifier le résultat final\nSELECT COUNT(*) as total_enrichies,\n       COUNT(plant_id) as avec_plante,\n       COUNT(extraction_method_id) as avec_methode,\n       COUNT(olfactive_family) as avec_famille,\n       COUNT(olfactive_profile) as avec_profil\nFROM raw_materials \nWHERE material_id LIKE 'RM_%'\nAND created_at >= '2026-03-10 13:00:00';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute -- Enrichir Méthyl mercaptan\nUPDATE raw_materials \nSET olfactive_family = 'animal',\n    olfactive_profile = '[\"soufré\",\"animal\",\"ail\",\"chou\",\"putride\",\"très faible dose: truffe\"]',\n    notes = 'Composé organosulfuré (méthanethiol). CAS : 74-93-1. Odeur de soufre, d\\'ail et de chou à forte concentration. À très faible dose (ppb) : contribue à la complexité olfactive de la truffe et de certains fromages. Produit naturellement par la dégradation de la méthionine. Utilisé en parfumerie à doses infimes pour les accords animaliques.'\nWHERE name = 'Méthyl mercaptan' AND material_id LIKE 'RM_%';\n\n-- Enrichir Résine douce  \nUPDATE raw_materials \nSET olfactive_family = 'balsamique',\n    olfactive_profile = '[\"balsamique\",\"doux\",\"vanille\",\"boisé\",\"résine\",\"chaud\"]',\n    notes = 'Terme générique pour les résines végétales à profil doux et balsamique. Peut désigner le benjoin (Styrax benzoin), l\\'élémi ou d\\'autres résines douces. À préciser avec la source botanique exacte.'\nWHERE name = 'Résine douce' AND material_id LIKE 'RM_%';\n\n-- Vérifier le résultat final\nSELECT COUNT(*) as total_enrichies,\n       COUNT(plant_id) as avec_plante,\n       COUNT(extraction_method_id) as avec_methode,\n       COUNT(olfactive_family) as avec_famille,\n       COUNT(olfactive_profile) as avec_profil\nFROM raw_materials \nWHERE material_id LIKE 'RM_%'\nAND created_at >= '2026-03-10 13:00:00';",
+  "rows": [
+    {
+      "total_enrichies": "58",
+      "avec_plante": "20",
+      "avec_methode": "34",
+      "avec_famille": "53",
+      "avec_profil": "58"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_enrichies\tavec_plante\tavec_methode\tavec_famille\tavec_profil\n58\t20\t34\t53\t58\n",
+  "stderr": "",
+  "execution_time_ms": 75
+}

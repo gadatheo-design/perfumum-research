@@ -1,0 +1,325 @@
+{
+  "query": "SELECT id, name, category \nFROM raw_materials \nWHERE material_id LIKE 'RM_%'\nAND created_at >= '2026-03-10 13:00:00'\nORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category \nFROM raw_materials \nWHERE material_id LIKE 'RM_%'\nAND created_at >= '2026-03-10 13:00:00'\nORDER BY id;",
+  "rows": [
+    {
+      "id": "210061",
+      "name": "Acétate de thymyle",
+      "category": "autre"
+    },
+    {
+      "id": "210062",
+      "name": "Furanodienone",
+      "category": "autre"
+    },
+    {
+      "id": "210063",
+      "name": "Galbanum",
+      "category": "autre"
+    },
+    {
+      "id": "210064",
+      "name": "Cembratrienol",
+      "category": "autre"
+    },
+    {
+      "id": "210065",
+      "name": "Diacétyle",
+      "category": "autre"
+    },
+    {
+      "id": "210066",
+      "name": "Gamma-décalactone",
+      "category": "autre"
+    },
+    {
+      "id": "210067",
+      "name": "Gris d'Ambre",
+      "category": "matiere_animale"
+    },
+    {
+      "id": "210068",
+      "name": "Humus absolute",
+      "category": "absolue"
+    },
+    {
+      "id": "210069",
+      "name": "Iso E Super",
+      "category": "autre"
+    },
+    {
+      "id": "210070",
+      "name": "Isoamyl acétate",
+      "category": "autre"
+    },
+    {
+      "id": "210071",
+      "name": "Italidione I",
+      "category": "autre"
+    },
+    {
+      "id": "210072",
+      "name": "Kaolin accord",
+      "category": "accord_olfactif"
+    },
+    {
+      "id": "210073",
+      "name": "LABDANUM ABSOLUTE",
+      "category": "absolue"
+    },
+    {
+      "id": "210074",
+      "name": "Menthofurane",
+      "category": "autre"
+    },
+    {
+      "id": "210075",
+      "name": "Makrut Lime",
+      "category": "autre"
+    },
+    {
+      "id": "210076",
+      "name": "Mitti Attar",
+      "category": "absolue"
+    },
+    {
+      "id": "210077",
+      "name": "Miyazaki Citrus",
+      "category": "autre"
+    },
+    {
+      "id": "210078",
+      "name": "Méthyl Ionone",
+      "category": "autre"
+    },
+    {
+      "id": "210079",
+      "name": "Méthyl mercaptan",
+      "category": "autre"
+    },
+    {
+      "id": "210080",
+      "name": "Nardosinone",
+      "category": "autre"
+    },
+    {
+      "id": "210081",
+      "name": "Nootkatone",
+      "category": "autre"
+    },
+    {
+      "id": "210082",
+      "name": "Nérol",
+      "category": "autre"
+    },
+    {
+      "id": "210083",
+      "name": "OPOPONAX RESIN",
+      "category": "resinoid"
+    },
+    {
+      "id": "210084",
+      "name": "Oud Tea",
+      "category": "autre"
+    },
+    {
+      "id": "210085",
+      "name": "Oud accord",
+      "category": "accord_olfactif"
+    },
+    {
+      "id": "210086",
+      "name": "Palo Santo",
+      "category": "autre"
+    },
+    {
+      "id": "210087",
+      "name": "Palo Santo lactone",
+      "category": "autre"
+    },
+    {
+      "id": "210088",
+      "name": "Sandstone accord",
+      "category": "accord_olfactif"
+    },
+    {
+      "id": "210089",
+      "name": "Safrole",
+      "category": "autre"
+    },
+    {
+      "id": "210090",
+      "name": "STYRAX RESIN",
+      "category": "resinoid"
+    },
+    {
+      "id": "210091",
+      "name": "Résine douce",
+      "category": "resinoid"
+    },
+    {
+      "id": "210092",
+      "name": "Skatole",
+      "category": "autre"
+    },
+    {
+      "id": "210093",
+      "name": "Spikenard",
+      "category": "autre"
+    },
+    {
+      "id": "210094",
+      "name": "Thymol",
+      "category": "autre"
+    },
+    {
+      "id": "210095",
+      "name": "Tonka absolute",
+      "category": "absolue"
+    },
+    {
+      "id": "210096",
+      "name": "Wild Juniper",
+      "category": "autre"
+    },
+    {
+      "id": "210097",
+      "name": "résines",
+      "category": "resinoid"
+    },
+    {
+      "id": "210098",
+      "name": "Éthyl décanoate",
+      "category": "autre"
+    },
+    {
+      "id": "210099",
+      "name": "β-Pinène",
+      "category": "autre"
+    },
+    {
+      "id": "210100",
+      "name": "β-sitostérol",
+      "category": "autre"
+    },
+    {
+      "id": "210101",
+      "name": "Plumeria Light",
+      "category": "autre"
+    },
+    {
+      "id": "210102",
+      "name": "Résine d'Élémi",
+      "category": "resinoid"
+    },
+    {
+      "id": "210103",
+      "name": "Résine de Pin",
+      "category": "resinoid"
+    },
+    {
+      "id": "210104",
+      "name": "Résine de Styrax",
+      "category": "resinoid"
+    },
+    {
+      "id": "210105",
+      "name": "β-sitostérol",
+      "category": "autre"
+    },
+    {
+      "id": "210106",
+      "name": "β-Pinène",
+      "category": "autre"
+    },
+    {
+      "id": "210107",
+      "name": "résines",
+      "category": "resinoid"
+    },
+    {
+      "id": "210108",
+      "name": "Wild Juniper",
+      "category": "autre"
+    },
+    {
+      "id": "210109",
+      "name": "Tonka absolute",
+      "category": "absolue"
+    },
+    {
+      "id": "210110",
+      "name": "Thymol",
+      "category": "autre"
+    },
+    {
+      "id": "210111",
+      "name": "Humus absolute",
+      "category": "absolue"
+    },
+    {
+      "id": "210112",
+      "name": "Myrrhe noire",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "210113",
+      "name": "Tonka absolute",
+      "category": "absolue"
+    },
+    {
+      "id": "210114",
+      "name": "Myrrhe (Curzerene)",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "210115",
+      "name": "Myrrhe chaude",
+      "category": "huile_essentielle"
+    },
+    {
+      "id": "210116",
+      "name": "LABDANUM ABSOLUTE",
+      "category": "absolue"
+    },
+    {
+      "id": "210117",
+      "name": "Kaolin accord",
+      "category": "accord_olfactif"
+    },
+    {
+      "id": "210118",
+      "name": "Oud accord",
+      "category": "accord_olfactif"
+    },
+    {
+      "id": "210121",
+      "name": "Tubéreuse Absolue (extrait)",
+      "category": "absolue"
+    },
+    {
+      "id": "210122",
+      "name": "Mu'assel (accord tabac hookah)",
+      "category": "accord_olfactif"
+    },
+    {
+      "id": "210127",
+      "name": "Javanol",
+      "category": "molecule_isolee"
+    },
+    {
+      "id": "210128",
+      "name": "Mousse de Chêne (Oakmoss)",
+      "category": "absolue"
+    },
+    {
+      "id": "210129",
+      "name": "Huile de Bois de Rose",
+      "category": "huile_essentielle"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\n210061\tAcétate de thymyle\tautre\n210062\tFuranodienone\tautre\n210063\tGalbanum\tautre\n210064\tCembratrienol\tautre\n210065\tDiacétyle\tautre\n210066\tGamma-décalactone\tautre\n210067\tGris d'Ambre\tmatiere_animale\n210068\tHumus absolute\tabsolue\n210069\tIso E Super\tautre\n210070\tIsoamyl acétate\tautre\n210071\tItalidione I\tautre\n210072\tKaolin accord\taccord_olfactif\n210073\tLABDANUM ABSOLUTE\tabsolue\n210074\tMenthofurane\tautre\n210075\tMakrut Lime\tautre\n210076\tMitti Attar\tabsolue\n210077\tMiyazaki Citrus\tautre\n210078\tMéthyl Ionone\tautre\n210079\tMéthyl mercaptan\tautre\n210080\tNardosinone\tautre\n210081\tNootkatone\tautre\n210082\tNérol\tautre\n210083\tOPOPONAX RESIN\tresinoid\n210084\tOud Tea\tautre\n210085\tOud accord\taccord_olfactif\n210086\tPalo Santo\tautre\n210087\tPalo Santo lactone\tautre\n210088\tSandstone accord\taccord_olfactif\n210089\tSafrole\tautre\n210090\tSTYRAX RESIN\tresinoid\n210091\tRésine douce\tresinoid\n210092\tSkatole\tautre\n210093\tSpikenard\tautre\n210094\tThymol\tautre\n210095\tTonka absolute\tabsolue\n210096\tWild Juniper\tautre\n210097\trésines\tresinoid\n210098\tÉthyl décanoate\tautre\n210099\tβ-Pinène\tautre\n210100\tβ-sitostérol\tautre\n210101\tPlumeria Light\tautre\n210102\tRésine d'Élémi\tresinoid\n210103\tRésine de Pin\tresinoid\n210104\tRésine de Styrax\tresinoid\n210105\tβ-sitostérol\tautre\n210106\tβ-Pinène\tautre\n210107\trésines\tresinoid\n210108\tWild Juniper\tautre\n210109\tTonka absolute\tabsolue\n210110\tThymol\tautre\n210111\tHumus absolute\tabsolue\n210112\tMyrrhe noire\thuile_essentielle\n210113\tTonka absolute\tabsolue\n210114\tMyrrhe (Curzerene)\thuile_essentielle\n210115\tMyrrhe chaude\thuile_essentielle\n210116\tLABDANUM ABSOLUTE\tabsolue\n210117\tKaolin accord\taccord_olfactif\n210118\tOud accord\taccord_olfactif\n210121\tTubéreuse Absolue (extrait)\tabsolue\n210122\tMu'assel (accord tabac hookah)\taccord_olfactif\n210127\tJavanol\tmolecule_isolee\n210128\tMousse de Chêne (Oakmoss)\tabsolue\n210129\tHuile de Bois de Rose\thuile_essentielle\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

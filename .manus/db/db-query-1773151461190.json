@@ -1,0 +1,994 @@
+{
+  "query": "SELECT id, name, category, plant_id, extraction_method_id, olfactive_family \nFROM raw_materials \nWHERE plant_id IS NULL AND material_id LIKE 'RM_%'\nAND created_at >= '2026-03-10 12:00:00'\nORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category, plant_id, extraction_method_id, olfactive_family \nFROM raw_materials \nWHERE plant_id IS NULL AND material_id LIKE 'RM_%'\nAND created_at >= '2026-03-10 12:00:00'\nORDER BY id;",
+  "rows": [
+    {
+      "id": "210001",
+      "name": "Acétate de thymyle",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210002",
+      "name": "Ambre Gris",
+      "category": "matiere_animale",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210003",
+      "name": "Ambre Gris Naturel",
+      "category": "matiere_animale",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210004",
+      "name": "Diacétyle",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210005",
+      "name": "Cembratrienol",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210006",
+      "name": "Fossile absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210007",
+      "name": "Fructone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210008",
+      "name": "Furanodienone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210009",
+      "name": "Furanoeudesmanes",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210010",
+      "name": "Galbanum",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210011",
+      "name": "Galbanum (EO)",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210012",
+      "name": "Gamma-décalactone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210013",
+      "name": "Gris d'Ambre",
+      "category": "matiere_animale",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210014",
+      "name": "Humus absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210015",
+      "name": "Héliotropine",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210016",
+      "name": "Irone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210017",
+      "name": "Iso E Super",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210018",
+      "name": "Isoamyl acétate",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210019",
+      "name": "Italidione I",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210020",
+      "name": "Kaolin",
+      "category": "matiere_animale",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210021",
+      "name": "Kaolin accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210022",
+      "name": "LABDANUM ABSOLUTE",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210023",
+      "name": "Makrut Lime",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210024",
+      "name": "Marrow accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210025",
+      "name": "Mechoulim",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210026",
+      "name": "Menthofurane",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210027",
+      "name": "Mitti Attar",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210028",
+      "name": "Miyazaki Citrus",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210029",
+      "name": "Mousse de Chêne",
+      "category": "matiere_animale",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210030",
+      "name": "Méthyl Ionone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210031",
+      "name": "Méthyl mercaptan",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210032",
+      "name": "Nardosinone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210033",
+      "name": "Acétate de thymyle",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210034",
+      "name": "Cembratrienol",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210035",
+      "name": "Diacétyle",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210036",
+      "name": "Furanodienone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210037",
+      "name": "Galbanum",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210038",
+      "name": "Gamma-décalactone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210039",
+      "name": "Gris d'Ambre",
+      "category": "matiere_animale",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210040",
+      "name": "Humus absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210041",
+      "name": "Iso E Super",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210042",
+      "name": "Isoamyl acétate",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210043",
+      "name": "Italidione I",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210044",
+      "name": "Kaolin accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210045",
+      "name": "LABDANUM ABSOLUTE",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210046",
+      "name": "Makrut Lime",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210047",
+      "name": "Menthofurane",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210048",
+      "name": "Mitti Attar",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210049",
+      "name": "Miyazaki Citrus",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210050",
+      "name": "Méthyl Ionone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210051",
+      "name": "Méthyl mercaptan",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210052",
+      "name": "Nardosinone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210053",
+      "name": "Nootkatone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210054",
+      "name": "Nérol",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210055",
+      "name": "OPOPONAX RESIN",
+      "category": "resinoid",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210056",
+      "name": "Opoponax",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210057",
+      "name": "Oud Tea",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210058",
+      "name": "Oud accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210059",
+      "name": "Palo Santo",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210060",
+      "name": "Palo Santo lactone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210061",
+      "name": "Acétate de thymyle",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210062",
+      "name": "Furanodienone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210063",
+      "name": "Galbanum",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210064",
+      "name": "Cembratrienol",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210065",
+      "name": "Diacétyle",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210066",
+      "name": "Gamma-décalactone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210067",
+      "name": "Gris d'Ambre",
+      "category": "matiere_animale",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210068",
+      "name": "Humus absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210069",
+      "name": "Iso E Super",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210070",
+      "name": "Isoamyl acétate",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210071",
+      "name": "Italidione I",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210072",
+      "name": "Kaolin accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210073",
+      "name": "LABDANUM ABSOLUTE",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210074",
+      "name": "Menthofurane",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210075",
+      "name": "Makrut Lime",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210076",
+      "name": "Mitti Attar",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210077",
+      "name": "Miyazaki Citrus",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210078",
+      "name": "Méthyl Ionone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210079",
+      "name": "Méthyl mercaptan",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210080",
+      "name": "Nardosinone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210081",
+      "name": "Nootkatone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210082",
+      "name": "Nérol",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210083",
+      "name": "OPOPONAX RESIN",
+      "category": "resinoid",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210084",
+      "name": "Oud Tea",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210085",
+      "name": "Oud accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210086",
+      "name": "Palo Santo",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210087",
+      "name": "Palo Santo lactone",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210088",
+      "name": "Sandstone accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210089",
+      "name": "Safrole",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210090",
+      "name": "STYRAX RESIN",
+      "category": "resinoid",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210091",
+      "name": "Résine douce",
+      "category": "resinoid",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210092",
+      "name": "Skatole",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210093",
+      "name": "Spikenard",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210094",
+      "name": "Thymol",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210095",
+      "name": "Tonka absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210096",
+      "name": "Wild Juniper",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210097",
+      "name": "résines",
+      "category": "resinoid",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210098",
+      "name": "Éthyl décanoate",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210099",
+      "name": "β-Pinène",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210100",
+      "name": "β-sitostérol",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210101",
+      "name": "Plumeria Light",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210102",
+      "name": "Résine d'Élémi",
+      "category": "resinoid",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210103",
+      "name": "Résine de Pin",
+      "category": "resinoid",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210104",
+      "name": "Résine de Styrax",
+      "category": "resinoid",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210105",
+      "name": "β-sitostérol",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210106",
+      "name": "β-Pinène",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210107",
+      "name": "résines",
+      "category": "resinoid",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210108",
+      "name": "Wild Juniper",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210109",
+      "name": "Tonka absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210110",
+      "name": "Thymol",
+      "category": "autre",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210111",
+      "name": "Humus absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210112",
+      "name": "Myrrhe noire",
+      "category": "huile_essentielle",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210113",
+      "name": "Tonka absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210114",
+      "name": "Myrrhe (Curzerene)",
+      "category": "huile_essentielle",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210115",
+      "name": "Myrrhe chaude",
+      "category": "huile_essentielle",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210116",
+      "name": "LABDANUM ABSOLUTE",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210117",
+      "name": "Kaolin accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210118",
+      "name": "Oud accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210121",
+      "name": "Tubéreuse Absolue (extrait)",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210122",
+      "name": "Mu'assel (accord tabac hookah)",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210127",
+      "name": "Javanol",
+      "category": "molecule_isolee",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210128",
+      "name": "Mousse de Chêne (Oakmoss)",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210129",
+      "name": "Huile de Bois de Rose",
+      "category": "huile_essentielle",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tplant_id\textraction_method_id\tolfactive_family\n210001\tAcétate de thymyle\tautre\tNULL\tNULL\tNULL\n210002\tAmbre Gris\tmatiere_animale\tNULL\tNULL\tNULL\n210003\tAmbre Gris Naturel\tmatiere_animale\tNULL\tNULL\tNULL\n210004\tDiacétyle\tautre\tNULL\tNULL\tNULL\n210005\tCembratrienol\tautre\tNULL\tNULL\tNULL\n210006\tFossile absolute\tabsolue\tNULL\tNULL\tNULL\n210007\tFructone\tautre\tNULL\tNULL\tNULL\n210008\tFuranodienone\tautre\tNULL\tNULL\tNULL\n210009\tFuranoeudesmanes\tautre\tNULL\tNULL\tNULL\n210010\tGalbanum\tautre\tNULL\tNULL\tNULL\n210011\tGalbanum (EO)\tautre\tNULL\tNULL\tNULL\n210012\tGamma-décalactone\tautre\tNULL\tNULL\tNULL\n210013\tGris d'Ambre\tmatiere_animale\tNULL\tNULL\tNULL\n210014\tHumus absolute\tabsolue\tNULL\tNULL\tNULL\n210015\tHéliotropine\tautre\tNULL\tNULL\tNULL\n210016\tIrone\tautre\tNULL\tNULL\tNULL\n210017\tIso E Super\tautre\tNULL\tNULL\tNULL\n210018\tIsoamyl acétate\tautre\tNULL\tNULL\tNULL\n210019\tItalidione I\tautre\tNULL\tNULL\tNULL\n210020\tKaolin\tmatiere_animale\tNULL\tNULL\tNULL\n210021\tKaolin accord\taccord_olfactif\tNULL\tNULL\tNULL\n210022\tLABDANUM ABSOLUTE\tabsolue\tNULL\tNULL\tNULL\n210023\tMakrut Lime\tautre\tNULL\tNULL\tNULL\n210024\tMarrow accord\taccord_olfactif\tNULL\tNULL\tNULL\n210025\tMechoulim\tautre\tNULL\tNULL\tNULL\n210026\tMenthofurane\tautre\tNULL\tNULL\tNULL\n210027\tMitti Attar\tabsolue\tNULL\tNULL\tNULL\n210028\tMiyazaki Citrus\tautre\tNULL\tNULL\tNULL\n210029\tMousse de Chêne\tmatiere_animale\tNULL\tNULL\tNULL\n210030\tMéthyl Ionone\tautre\tNULL\tNULL\tNULL\n210031\tMéthyl mercaptan\tautre\tNULL\tNULL\tNULL\n210032\tNardosinone\tautre\tNULL\tNULL\tNULL\n210033\tAcétate de thymyle\tautre\tNULL\tNULL\tNULL\n210034\tCembratrienol\tautre\tNULL\tNULL\tNULL\n210035\tDiacétyle\tautre\tNULL\tNULL\tNULL\n210036\tFuranodienone\tautre\tNULL\tNULL\tNULL\n210037\tGalbanum\tautre\tNULL\tNULL\tNULL\n210038\tGamma-décalactone\tautre\tNULL\tNULL\tNULL\n210039\tGris d'Ambre\tmatiere_animale\tNULL\tNULL\tNULL\n210040\tHumus absolute\tabsolue\tNULL\tNULL\tNULL\n210041\tIso E Super\tautre\tNULL\tNULL\tNULL\n210042\tIsoamyl acétate\tautre\tNULL\tNULL\tNULL\n210043\tItalidione I\tautre\tNULL\tNULL\tNULL\n210044\tKaolin accord\taccord_olfactif\tNULL\tNULL\tNULL\n210045\tLABDANUM ABSOLUTE\tabsolue\tNULL\tNULL\tNULL\n210046\tMakrut Lime\tautre\tNULL\tNULL\tNULL\n210047\tMenthofurane\tautre\tNULL\tNULL\tNULL\n210048\tMitti Attar\tabsolue\tNULL\tNULL\tNULL\n210049\tMiyazaki Citrus\tautre\tNULL\tNULL\tNULL\n210050\tMéthyl Ionone\tautre\tNULL\tNULL\tNULL\n210051\tMéthyl mercaptan\tautre\tNULL\tNULL\tNULL\n210052\tNardosinone\tautre\tNULL\tNULL\tNULL\n210053\tNootkatone\tautre\tNULL\tNULL\tNULL\n210054\tNérol\tautre\tNULL\tNULL\tNULL\n210055\tOPOPONAX RESIN\tresinoid\tNULL\tNULL\tNULL\n210056\tOpoponax\tautre\tNULL\tNULL\tNULL\n210057\tOud Tea\tautre\tNULL\tNULL\tNULL\n210058\tOud accord\taccord_olfactif\tNULL\tNULL\tNULL\n210059\tPalo Santo\tautre\tNULL\tNULL\tNULL\n210060\tPalo Santo lactone\tautre\tNULL\tNULL\tNULL\n210061\tAcétate de thymyle\tautre\tNULL\tNULL\tNULL\n210062\tFuranodienone\tautre\tNULL\tNULL\tNULL\n210063\tGalbanum\tautre\tNULL\tNULL\tNULL\n210064\tCembratrienol\tautre\tNULL\tNULL\tNULL\n210065\tDiacétyle\tautre\tNULL\tNULL\tNULL\n210066\tGamma-décalactone\tautre\tNULL\tNULL\tNULL\n210067\tGris d'Ambre\tmatiere_animale\tNULL\tNULL\tNULL\n210068\tHumus absolute\tabsolue\tNULL\tNULL\tNULL\n210069\tIso E Super\tautre\tNULL\tNULL\tNULL\n210070\tIsoamyl acétate\tautre\tNULL\tNULL\tNULL\n210071\tItalidione I\tautre\tNULL\tNULL\tNULL\n210072\tKaolin accord\taccord_olfactif\tNULL\tNULL\tNULL\n210073\tLABDANUM ABSOLUTE\tabsolue\tNULL\tNULL\tNULL\n210074\tMenthofurane\tautre\tNULL\tNULL\tNULL\n210075\tMakrut Lime\tautre\tNULL\tNULL\tNULL\n210076\tMitti Attar\tabsolue\tNULL\tNULL\tNULL\n210077\tMiyazaki Citrus\tautre\tNULL\tNULL\tNULL\n210078\tMéthyl Ionone\tautre\tNULL\tNULL\tNULL\n210079\tMéthyl mercaptan\tautre\tNULL\tNULL\tNULL\n210080\tNardosinone\tautre\tNULL\tNULL\tNULL\n210081\tNootkatone\tautre\tNULL\tNULL\tNULL\n210082\tNérol\tautre\tNULL\tNULL\tNULL\n210083\tOPOPONAX RESIN\tresinoid\tNULL\tNULL\tNULL\n210084\tOud Tea\tautre\tNULL\tNULL\tNULL\n210085\tOud accord\taccord_olfactif\tNULL\tNULL\tNULL\n210086\tPalo Santo\tautre\tNULL\tNULL\tNULL\n210087\tPalo Santo lactone\tautre\tNULL\tNULL\tNULL\n210088\tSandstone accord\taccord_olfactif\tNULL\tNULL\tNULL\n210089\tSafrole\tautre\tNULL\tNULL\tNULL\n210090\tSTYRAX RESIN\tresinoid\tNULL\tNULL\tNULL\n210091\tRésine douce\tresinoid\tNULL\tNULL\tNULL\n210092\tSkatole\tautre\tNULL\tNULL\tNULL\n210093\tSpikenard\tautre\tNULL\tNULL\tNULL\n210094\tThymol\tautre\tNULL\tNULL\tNULL\n210095\tTonka absolute\tabsolue\tNULL\tNULL\tNULL\n210096\tWild Juniper\tautre\tNULL\tNULL\tNULL\n210097\trésines\tresinoid\tNULL\tNULL\tNULL\n210098\tÉthyl décanoate\tautre\tNULL\tNULL\tNULL\n210099\tβ-Pinène\tautre\tNULL\tNULL\tNULL\n210100\tβ-sitostérol\tautre\tNULL\tNULL\tNULL\n210101\tPlumeria Light\tautre\tNULL\tNULL\tNULL\n210102\tRésine d'Élémi\tresinoid\tNULL\tNULL\tNULL\n210103\tRésine de Pin\tresinoid\tNULL\tNULL\tNULL\n210104\tRésine de Styrax\tresinoid\tNULL\tNULL\tNULL\n210105\tβ-sitostérol\tautre\tNULL\tNULL\tNULL\n210106\tβ-Pinène\tautre\tNULL\tNULL\tNULL\n210107\trésines\tresinoid\tNULL\tNULL\tNULL\n210108\tWild Juniper\tautre\tNULL\tNULL\tNULL\n210109\tTonka absolute\tabsolue\tNULL\tNULL\tNULL\n210110\tThymol\tautre\tNULL\tNULL\tNULL\n210111\tHumus absolute\tabsolue\tNULL\tNULL\tNULL\n210112\tMyrrhe noire\thuile_essentielle\tNULL\tNULL\tNULL\n210113\tTonka absolute\tabsolue\tNULL\tNULL\tNULL\n210114\tMyrrhe (Curzerene)\thuile_essentielle\tNULL\tNULL\tNULL\n210115\tMyrrhe chaude\thuile_essentielle\tNULL\tNULL\tNULL\n210116\tLABDANUM ABSOLUTE\tabsolue\tNULL\tNULL\tNULL\n210117\tKaolin accord\taccord_olfactif\tNULL\tNULL\tNULL\n210118\tOud accord\taccord_olfactif\tNULL\tNULL\tNULL\n210121\tTubéreuse Absolue (extrait)\tabsolue\tNULL\tNULL\tNULL\n210122\tMu'assel (accord tabac hookah)\taccord_olfactif\tNULL\tNULL\tNULL\n210127\tJavanol\tmolecule_isolee\tNULL\tNULL\tNULL\n210128\tMousse de Chêne (Oakmoss)\tabsolue\tNULL\tNULL\tNULL\n210129\tHuile de Bois de Rose\thuile_essentielle\tNULL\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

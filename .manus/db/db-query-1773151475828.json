@@ -1,0 +1,114 @@
+{
+  "query": "SELECT id, name, category, plant_id, extraction_method_id, olfactive_family \nFROM raw_materials \nWHERE material_id LIKE 'RM_%'\nAND created_at >= '2026-03-10 13:30:00'\nORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, category, plant_id, extraction_method_id, olfactive_family \nFROM raw_materials \nWHERE material_id LIKE 'RM_%'\nAND created_at >= '2026-03-10 13:30:00'\nORDER BY id;",
+  "rows": [
+    {
+      "id": "210111",
+      "name": "Humus absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210112",
+      "name": "Myrrhe noire",
+      "category": "huile_essentielle",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210113",
+      "name": "Tonka absolute",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210114",
+      "name": "Myrrhe (Curzerene)",
+      "category": "huile_essentielle",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210115",
+      "name": "Myrrhe chaude",
+      "category": "huile_essentielle",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210116",
+      "name": "LABDANUM ABSOLUTE",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210117",
+      "name": "Kaolin accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210118",
+      "name": "Oud accord",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210121",
+      "name": "Tubéreuse Absolue (extrait)",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210122",
+      "name": "Mu'assel (accord tabac hookah)",
+      "category": "accord_olfactif",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210127",
+      "name": "Javanol",
+      "category": "molecule_isolee",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210128",
+      "name": "Mousse de Chêne (Oakmoss)",
+      "category": "absolue",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    },
+    {
+      "id": "210129",
+      "name": "Huile de Bois de Rose",
+      "category": "huile_essentielle",
+      "plant_id": "NULL",
+      "extraction_method_id": "NULL",
+      "olfactive_family": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcategory\tplant_id\textraction_method_id\tolfactive_family\n210111\tHumus absolute\tabsolue\tNULL\tNULL\tNULL\n210112\tMyrrhe noire\thuile_essentielle\tNULL\tNULL\tNULL\n210113\tTonka absolute\tabsolue\tNULL\tNULL\tNULL\n210114\tMyrrhe (Curzerene)\thuile_essentielle\tNULL\tNULL\tNULL\n210115\tMyrrhe chaude\thuile_essentielle\tNULL\tNULL\tNULL\n210116\tLABDANUM ABSOLUTE\tabsolue\tNULL\tNULL\tNULL\n210117\tKaolin accord\taccord_olfactif\tNULL\tNULL\tNULL\n210118\tOud accord\taccord_olfactif\tNULL\tNULL\tNULL\n210121\tTubéreuse Absolue (extrait)\tabsolue\tNULL\tNULL\tNULL\n210122\tMu'assel (accord tabac hookah)\taccord_olfactif\tNULL\tNULL\tNULL\n210127\tJavanol\tmolecule_isolee\tNULL\tNULL\tNULL\n210128\tMousse de Chêne (Oakmoss)\tabsolue\tNULL\tNULL\tNULL\n210129\tHuile de Bois de Rose\thuile_essentielle\tNULL\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}
