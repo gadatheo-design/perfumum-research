@@ -83,10 +83,23 @@ export default defineConfig({
           if (id.includes('node_modules/jszip')) return 'export-zip';
           if (id.includes('node_modules/papaparse')) return 'export-csv';
           if (id.includes('node_modules/react-hook-form') || id.includes('node_modules/@hookform/') || id.includes('node_modules/zod')) return 'forms';
-          if (id.includes('node_modules/streamdown') || id.includes('node_modules/shiki')) return 'markdown';
+          if (id.includes('node_modules/streamdown') || id.includes('node_modules/react-markdown') || id.includes('node_modules/remark') || id.includes('node_modules/rehype') || id.includes('node_modules/unified') || id.includes('node_modules/micromark') || id.includes('node_modules/mdast') || id.includes('node_modules/hast') || id.includes('node_modules/vfile')) return 'markdown';
+          // Shiki (syntax highlighting) - très lourd, extraire séparément
+          if (id.includes('node_modules/shiki') || id.includes('node_modules/@shikijs/')) return 'vendor-shiki';
+          // Katex (formules mathématiques) - lourd
+          if (id.includes('node_modules/katex') || id.includes('node_modules/rehype-katex') || id.includes('node_modules/remark-math')) return 'vendor-katex';
+          // Lodash
+          if (id.includes('node_modules/lodash')) return 'vendor-lodash';
+          // Date utilities
+          if (id.includes('node_modules/dayjs') || id.includes('node_modules/date-fns')) return 'vendor-dates';
+          // Validation
+          if (id.includes('node_modules/validator')) return 'vendor-validator';
+          // UI utilities
           if (id.includes('node_modules/embla-carousel')) return 'carousel';
           if (id.includes('node_modules/react-window')) return 'window';
           if (id.includes('node_modules/qrcode')) return 'qr';
+          if (id.includes('node_modules/sonner')) return 'vendor-sonner';
+          if (id.includes('node_modules/vaul') || id.includes('node_modules/cmdk')) return 'vendor-ui-misc';
           if (id.includes('node_modules/')) return 'vendor-misc';
           
           // === PAGE CHUNKS PAR CATÉGORIE ===

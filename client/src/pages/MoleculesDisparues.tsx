@@ -21,7 +21,7 @@ import {
   Shield,
   Search,
 } from "lucide-react";
-import { Streamdown } from "streamdown";
+import ReactMarkdown from "react-markdown";
 
 // Timeline des vagues IFRA
 const ifraWaves = [
@@ -591,7 +591,7 @@ export function MoleculesDisparues() {
                         <p className="text-xs text-muted-foreground mb-3">{entry.summary}</p>
                         {entry.content && (
                           <div className="prose prose-sm max-w-none dark:prose-invert text-xs border-t pt-3">
-                            <Streamdown>{entry.content.substring(0, 800) + (entry.content.length > 800 ? '...' : '')}</Streamdown>
+                            <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none">{entry.content.substring(0, 800) + (entry.content.length > 800 ? '...' : '')}</ReactMarkdown>
                           </div>
                         )}
                         <Link href={`/axes-recherche/${entry.id}`}>
