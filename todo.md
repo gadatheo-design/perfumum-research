@@ -1879,3 +1879,4 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Script import KNApSAcK CSV (101 500 paires espèce-molécule)
 - [ ] Page admin /admin/knapsack-import : interface d'import du CSV KNApSAcK
 - [x] Page /admin/bundle-visualizer : visualisation des chunks JS du build (tailles, treemap, liste complète)
+- [x] Filtres de tri sur /admin/bundle-visualizer (par taille, par nom, croissant/décroissant)
