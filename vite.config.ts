@@ -183,23 +183,14 @@ export default defineConfig({
   // Configuration du serveur de développement
   server: {
     host: true,
-    allowedHosts: [
-      ".manuspre.computer",
-      ".manus.computer",
-      ".manus-asia.computer",
-      ".manuscomputer.ai",
-      ".manusvm.computer",
-      "localhost",
-      "127.0.0.1",
-    ],
+    allowedHosts: "all",
     hmr: {
       clientPort: 443,
       protocol: "wss",
-      overlay: true,
+      overlay: false,
     },
     fs: {
-      strict: true,
-      deny: ["**/.*"],
+      strict: false,
     },
   },
   
