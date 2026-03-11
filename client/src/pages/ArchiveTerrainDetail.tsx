@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useParams, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { MapPin, Calendar, Mountain, Thermometer, TestTube, ArrowLeft, Leaf, Eye, Clock, Flame } from "lucide-react";

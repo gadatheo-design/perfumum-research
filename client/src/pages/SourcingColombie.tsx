@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from "react";
 import { VerifiedSuppliersPanel } from "@/components/VerifiedSuppliersPanel";
 import { Link } from "wouter";

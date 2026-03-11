@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocation, useSearch } from "wouter";
 import { useEffect, useState, ReactNode, Suspense, lazy, ComponentType } from "react";

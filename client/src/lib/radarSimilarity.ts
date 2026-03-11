@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * PERFUMUM — Radar Similarity Utilities
  * 

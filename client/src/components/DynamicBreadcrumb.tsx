@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link, useLocation } from "wouter";
 import { ChevronRight, Home } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";

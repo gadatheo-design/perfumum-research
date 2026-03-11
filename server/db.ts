@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * FICHIER DE COMPATIBILITÉ
  * Ce fichier réexporte tout depuis server/db/ (modules thématiques).

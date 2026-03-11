@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link, useLocation } from "wouter";
 import { Home, Beaker, Search, FlaskConical, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";

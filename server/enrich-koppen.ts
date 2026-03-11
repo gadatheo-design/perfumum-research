@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getDb } from "./db";
 import { plants } from "../drizzle/schema";
 import { isNull, or, eq } from "drizzle-orm";

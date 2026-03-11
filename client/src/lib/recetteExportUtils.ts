@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Utilitaires d'export pour les recettes
  * 

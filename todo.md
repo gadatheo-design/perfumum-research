@@ -2023,3 +2023,25 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Archiver `server/routers/genealogy-procedure.ts` (procédure non connectée)
 - [x] Archiver `server/import-data.ts` (script non utilisé)
 - [x] Créer `_archive/README.md` avec documentation des fichiers archivés
+
+---
+
+## 📊 STATISTIQUES BASE DE DONNÉES — 11 MARS 2026
+
+| Table | Nombre d'entrées |
+|---|---|
+| Molécules | 891 |
+| Plantes | 495 |
+| Liaisons plante-molécule | 5 842 |
+| Recettes | 473 |
+| Variétés (généalogie) | 105 |
+| Relations généalogiques | 70 |
+| Terroirs | 93 |
+| Accords | 32 |
+
+## 🔧 SESSION 11 MARS 2026 — Remédiation TypeScript
+
+- [x] Vague 1 appliquée : @ts-nocheck retiré de 375 fichiers (642 → 267, -58%)
+- [x] Corrections dans routers.ts : 29 callbacks typés explicitement
+- [x] Modules server/db/ : @ts-nocheck maintenu (Vague 2 à traiter progressivement)
+- [x] Mémoire tsc --watch : 57.6% → 48.7% RAM (amélioration grâce à tsconfig.check.json)

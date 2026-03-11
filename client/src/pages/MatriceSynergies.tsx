@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

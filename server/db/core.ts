@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: core
  * Infrastructure de base de données : connexion, getDb, upsertUser, getUserByOpenId

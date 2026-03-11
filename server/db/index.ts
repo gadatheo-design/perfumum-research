@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Index du module server/db/
  * Réexporte toutes les fonctions de tous les modules thématiques.

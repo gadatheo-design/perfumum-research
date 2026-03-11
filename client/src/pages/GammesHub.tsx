@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { lazy, Suspense, useState } from "react";
 import { useSearch, useLocation } from "wouter";
 import { Header } from "@/components/layout/Header";

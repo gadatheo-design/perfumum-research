@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Graphe de force D3.js pour visualiser les connexions entre entités PERFUMUM
  * Supporte les nœuds de différents types (molécules, recettes, accords, etc.)

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * TerpeneRadarChart - Graphique radar pour visualiser les profils terpéniques
  * 

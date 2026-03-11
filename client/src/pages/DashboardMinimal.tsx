@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export function DashboardMinimal() {

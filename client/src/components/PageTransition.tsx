@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useEffect, useState, useRef, ReactNode } from 'react';
 import { useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';

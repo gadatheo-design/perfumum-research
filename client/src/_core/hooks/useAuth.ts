@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { TRPCClientError } from "@trpc/client";

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: chemical_families
  * Généré automatiquement depuis server/db.ts

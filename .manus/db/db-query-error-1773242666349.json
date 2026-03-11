@@ -1,0 +1,13 @@
+{
+  "query": "\nSELECT \n  (SELECT COUNT(*) FROM molecules) as molecules,\n  (SELECT COUNT(*) FROM plants) as plants,\n  (SELECT COUNT(*) FROM plant_molecules) as plant_molecules,\n  (SELECT COUNT(*) FROM references_bib) as references,\n  (SELECT COUNT(*) FROM recettes) as recettes,\n  (SELECT COUNT(*) FROM plant_varieties) as varieties,\n  (SELECT COUNT(*) FROM variety_genealogy) as genealogy_links,\n  (SELECT COUNT(*) FROM terroirs) as terroirs,\n  (SELECT COUNT(*) FROM accords) as accords;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  (SELECT COUNT(*) FROM molecules) as molecules,\n  (SELECT COUNT(*) FROM plants) as plants,\n  (SELECT COUNT(*) FROM plant_molecules) as plant_molecules,\n  (SELECT COUNT(*) FROM references_bib) as references,\n  (SELECT COUNT(*) FROM recettes) as recettes,\n  (SELECT COUNT(*) FROM plant_varieties) as varieties,\n  (SELECT COUNT(*) FROM variety_genealogy) as genealogy_links,\n  (SELECT COUNT(*) FROM terroirs) as terroirs,\n  (SELECT COUNT(*) FROM accords) as accords;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1064 (42000) at line 2: You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 5 column 54 near \"references,",
+    "  (SELECT COUNT(*) FROM recettes) as recettes,",
+    "  (SELECT COUNT(*) FROM plant_varieties) as varieties,",
+    "  (SELECT COUNT(*) FROM variety_genealogy) as genealogy_links,",
+    "  (SELECT COUNT(*) FROM terroirs) as terroirs,",
+    "  (SELECT COUNT(*) FROM accords) as accords\""
+  ]
+}

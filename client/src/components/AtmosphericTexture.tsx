@@ -1,4 +1,3 @@
-// @ts-nocheck
 interface AtmosphericTextureProps {
   type: "petrichor" | "volcanique" | "glaciaire" | "biolab";
   className?: string;

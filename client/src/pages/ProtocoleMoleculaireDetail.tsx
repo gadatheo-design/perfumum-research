@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useParams, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { FlaskConical, ArrowLeft, Layers, Target, Beaker, AlertTriangle } from "lucide-react";

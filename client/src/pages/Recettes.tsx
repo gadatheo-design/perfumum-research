@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo } from "react";
 import { ViewToggle, useViewMode } from "@/components/ViewToggle";
 import { RecetteListItem } from "@/components/RecetteListItem";

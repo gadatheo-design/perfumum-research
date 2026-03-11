@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useMemo, useCallback, useState } from "react";
 import { ChevronDown, ArrowRight } from "lucide-react";
 import { useLocation } from "wouter";

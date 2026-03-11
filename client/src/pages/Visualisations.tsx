@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Page Visualisations — Hub central de toutes les visualisations PERFUMUM
  * Organise les graphes, cartes, timelines et diagrammes par catégorie

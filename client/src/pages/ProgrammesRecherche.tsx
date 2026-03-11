@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link } from "wouter";
 import { ChevronRight, Leaf, Cigarette } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

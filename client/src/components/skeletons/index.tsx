@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 import { cn } from "@/lib/utils";

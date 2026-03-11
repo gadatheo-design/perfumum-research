@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Fichier d'export centralisé pour tous les composants skeleton
  * 

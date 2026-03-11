@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: installations
  * Généré automatiquement depuis server/db.ts

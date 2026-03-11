@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useRef, useCallback, useState } from "react";
 import { MapView } from "@/components/Map";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import ReactGA from "react-ga4";
 
 const isDev = import.meta.env.DEV;

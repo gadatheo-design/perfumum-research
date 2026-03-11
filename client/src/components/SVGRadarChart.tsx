@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useMemo } from "react";
 
 export interface RadarDataPoint {

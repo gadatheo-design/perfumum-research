@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link } from "wouter";
 import { BookOpen, Beaker, Compass, Calendar, Target, Users } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * IFRAStatusBadge - Composant pour afficher le statut réglementaire IFRA
  * 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";

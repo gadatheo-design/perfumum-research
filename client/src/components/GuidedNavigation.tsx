@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo } from 'framer-motion';
 import { useGuidedNavigation, GuidedStep, TourType, TOUR_CONFIGS } from '@/contexts/GuidedNavigationContext';

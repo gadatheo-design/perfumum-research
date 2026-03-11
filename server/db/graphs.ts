@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: graphs
  * Généré automatiquement depuis server/db.ts

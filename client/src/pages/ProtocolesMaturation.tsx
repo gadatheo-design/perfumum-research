@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { VoirAussi } from "@/components/VoirAussi";

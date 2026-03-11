@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: prototypes
  * Généré automatiquement depuis server/db.ts

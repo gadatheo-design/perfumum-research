@@ -5386,7 +5386,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const column = categoryMap[input.categoryCode.toUpperCase()];
         
         for (const ingredient of input.ingredients) {
-          const restriction = restrictions.find(r => r.molecule.id === ingredient.moleculeId);
+          const restriction = restrictions.find((r) => r.molecule.id === ingredient.moleculeId);
           
           if (!restriction) {
             // Pas de restriction connue
@@ -5465,14 +5465,14 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         
         const column = categoryMap[input.toUpperCase()];
         
-        return restrictions.map(r => ({
+        return restrictions.map((r) => ({
           moleculeId: r.molecule.id,
           moleculeName: r.molecule.name,
           casNumber: r.molecule.casNumber,
           limit: column ? (r.restriction as any)[column] : null,
           restrictionType: r.restriction.restrictionType,
           reason: r.restriction.reasonForRestriction,
-        })).filter(r => r.limit !== null || r.restrictionType === 'prohibited');
+        })).filter((r) => r.limit !== null || r.restrictionType === 'prohibited');
       }),
   }),
 
@@ -7138,7 +7138,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       
       // Récupérer les plantes
       const plants = await db.getAllPlants();
-      plants.forEach(plant => {
+      plants.forEach((plant) => {
         nodes.push({
           id: `plant-${plant.id}`,
           name: plant.name,
@@ -7149,7 +7149,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       
       // Récupérer les terroirs
       const terroirs = await db.getAllTerroirs();
-      terroirs.forEach(terroir => {
+      terroirs.forEach((terroir) => {
         nodes.push({
           id: `terroir-${terroir.id}`,
           name: terroir.name,
@@ -7216,7 +7216,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       
       // Récupérer les matières premières
       const rawMaterials = await db.getAllRawMaterials();
-      rawMaterials.forEach(rm => {
+      rawMaterials.forEach((rm) => {
         nodes.push({
           id: `rawMaterial-${rm.id}`,
           name: rm.name,
@@ -7278,10 +7278,10 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         if (input.showPlants) {
           const plants = await db.getAllPlants();
           const filteredPlants = input.categoryFilter 
-            ? plants.filter(p => p.category === input.categoryFilter)
+            ? plants.filter((p) => p.category === input.categoryFilter)
             : plants;
           
-          filteredPlants.forEach(plant => {
+          filteredPlants.forEach((plant) => {
             nodes.push({
               id: `plant-${plant.id}`,
               name: plant.name,
@@ -7295,10 +7295,10 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         if (input.showTerroirs) {
           const terroirs = await db.getAllTerroirs();
           const filteredTerroirs = input.countryFilter
-            ? terroirs.filter(t => t.country === input.countryFilter)
+            ? terroirs.filter((t) => t.country === input.countryFilter)
             : terroirs;
           
-          filteredTerroirs.forEach(terroir => {
+          filteredTerroirs.forEach((terroir) => {
             nodes.push({
               id: `terroir-${terroir.id}`,
               name: terroir.name,
@@ -7901,7 +7901,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
     // Obtenir les civilisations distinctes
     getCivilizations: publicProcedure.query(async () => {
       const archives = await db.listOlfactiveArchives({ limit: 1000 });
-      const civilizationsSet = new Set(archives.map(a => a.civilization).filter(Boolean));
+      const civilizationsSet = new Set(archives.map((a) => a.civilization).filter(Boolean));
       const civilizations = Array.from(civilizationsSet) as string[];
       return civilizations.sort();
     }),
@@ -7913,7 +7913,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       const byCivilization: Record<string, number> = {};
       const byAuthenticity: Record<string, number> = {};
       
-      archives.forEach(a => {
+      archives.forEach((a) => {
         byType[a.type] = (byType[a.type] || 0) + 1;
         if (a.civilization) {
           byCivilization[a.civilization] = (byCivilization[a.civilization] || 0) + 1;
@@ -9547,14 +9547,14 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         let filtered = allTerroirs;
         
         if (input.climate) {
-          filtered = filtered.filter(t => t.climateType === input.climate);
+          filtered = filtered.filter((t) => t.climateType === input.climate);
         }
         if (input.country) {
-          filtered = filtered.filter(t => t.country === input.country);
+          filtered = filtered.filter((t) => t.country === input.country);
         }
         if (input.search) {
           const search = input.search.toLowerCase();
-          filtered = filtered.filter(t => 
+          filtered = filtered.filter((t) => 
             t.name.toLowerCase().includes(search) ||
             (t.productionHistory && t.productionHistory.toLowerCase().includes(search)) ||
             (t.region && t.region.toLowerCase().includes(search))
@@ -9575,14 +9575,14 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         let filtered = allPlants;
         
         if (input.category) {
-          filtered = filtered.filter(p => p.category === input.category);
+          filtered = filtered.filter((p) => p.category === input.category);
         }
         if (input.family) {
-          filtered = filtered.filter(p => p.family === input.family);
+          filtered = filtered.filter((p) => p.family === input.family);
         }
         if (input.search) {
           const search = input.search.toLowerCase();
-          filtered = filtered.filter(p => 
+          filtered = filtered.filter((p) => 
             p.name.toLowerCase().includes(search) ||
             (p.latinName && p.latinName.toLowerCase().includes(search)) ||
             (p.olfactiveSignature && p.olfactiveSignature.toLowerCase().includes(search))
@@ -9626,10 +9626,10 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       const molecules = await db.getAllMolecules();
 
       // Extraire les valeurs uniques pour les filtres
-      const climates = Array.from(new Set(terroirs.map(t => t.climateType).filter(Boolean))) as string[];
-      const countries = Array.from(new Set(terroirs.map(t => t.country).filter(Boolean))) as string[];
-      const plantCategories = Array.from(new Set(plants.map(p => p.category).filter(Boolean))) as string[];
-      const olfactiveFamilies = Array.from(new Set(plants.map(p => p.family).filter(Boolean))) as string[];
+      const climates = Array.from(new Set(terroirs.map((t) => t.climateType).filter(Boolean))) as string[];
+      const countries = Array.from(new Set(terroirs.map((t) => t.country).filter(Boolean))) as string[];
+      const plantCategories = Array.from(new Set(plants.map((p) => p.category).filter(Boolean))) as string[];
+      const olfactiveFamilies = Array.from(new Set(plants.map((p) => p.family).filter(Boolean))) as string[];
       const moleculeFamilies = Array.from(new Set(molecules.map(m => m.family).filter(Boolean))) as string[];
       const gammes = Array.from(new Set(molecules.map(m => m.chemicalClass).filter(Boolean))) as string[];
 
@@ -9794,7 +9794,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       })))
       .mutation(async ({ input, ctx }) => {
         return db.batchCreateEntityLinks(
-          input.map(link => ({ ...link, createdBy: ctx.user?.id }))
+          input.map((link) => ({ ...link, createdBy: ctx.user?.id }))
         );
       }),
   }),
@@ -10260,7 +10260,7 @@ Réponds avec un JSON contenant:
         const moleculesWithPlants = await Promise.all(
           unclassifiedMolecules.map(async (molecule) => {
             const plantLinks = await db.getPlantsByMolecule(molecule.id);
-            const plantSources = plantLinks.map(link => ({
+            const plantSources = plantLinks.map((link) => ({
               id: link.plant.id,
               name: link.plant.name,
               latinName: link.plant.latinName,
@@ -10330,7 +10330,7 @@ Réponds avec un JSON contenant:
             const plantLinks = await db.getPlantsByMolecule(id);
             return {
               molecule,
-              plantSources: plantLinks.map(link => ({
+              plantSources: plantLinks.map((link) => ({
                 name: link.plant.name,
                 latinName: link.plant.latinName,
                 family: link.plant.family,
@@ -10559,7 +10559,7 @@ Familles olfactives disponibles:
               const plantLinks = await db.getPlantsByMolecule(molecule.id);
               return {
                 molecule,
-                plantSources: plantLinks.map(link => ({
+                plantSources: plantLinks.map((link) => ({
                   name: link.plant.name,
                   latinName: link.plant.latinName,
                   family: link.plant.family,
@@ -10572,9 +10572,10 @@ Familles olfactives disponibles:
           );
 
           // Classifier chaque molécule du lot
-          const batchPromises = batchWithPlants.map(async ({ molecule, plantSources }) => {
+          const batchPromises = batchWithPlants.map(async (item) => {
+            const { molecule, plantSources } = item;
             const botanicalContext = plantSources.length > 0
-              ? `\nSources botaniques: ${plantSources.map(p => `${p.name} (${p.family || 'famille inconnue'})`).join(', ')}`
+              ? `\nSources botaniques: ${plantSources.map((p) => `${p.name} (${p.family || 'famille inconnue'})`).join(', ')}`
               : '';
 
             const context = [
@@ -11427,7 +11428,7 @@ Familles olfactives disponibles:
         notes: z.string().optional(),
       })))
       .mutation(async ({ input, ctx }) => {
-        const links = input.map(link => ({
+        const links = input.map((link) => ({
           ...link,
           createdBy: ctx.user?.id,
         }));

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
 import { Link, useParams } from "wouter";
 import { trpc } from "@/lib/trpc";

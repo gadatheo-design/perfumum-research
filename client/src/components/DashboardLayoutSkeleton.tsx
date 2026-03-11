@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Skeleton } from './ui/skeleton';
 
 export function DashboardLayoutSkeleton() {

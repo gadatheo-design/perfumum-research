@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link } from "wouter";
 import { TestTube, ChevronRight, AlertCircle, Beaker, LineChart as LineChartIcon, Settings } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
